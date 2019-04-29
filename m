@@ -2,112 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87358EB8D
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 22:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4719BEBFC
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 23:15:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729212AbfD2UVx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Apr 2019 16:21:53 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39894 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728928AbfD2UVx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Apr 2019 16:21:53 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 097BF8064C; Mon, 29 Apr 2019 22:21:41 +0200 (CEST)
-Date:   Mon, 29 Apr 2019 22:21:49 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: [PATCH leds/for-next v1 2/2] leds: turris-omnia: Add support for
- 256 brightness values
-Message-ID: <20190429202149.GE24658@amd>
-References: <20190429194433.29760-1-marek.behun@nic.cz>
- <20190429194433.29760-2-marek.behun@nic.cz>
+        id S1728784AbfD2VPp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Apr 2019 17:15:45 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:40725 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728928AbfD2VPp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Apr 2019 17:15:45 -0400
+Received: by mail-oi1-f196.google.com with SMTP id y64so4010898oia.7;
+        Mon, 29 Apr 2019 14:15:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=koMqFVq+sZtTFE9lQzOVI0CiiGelX/b7gktI+eHUpmg=;
+        b=PEOQQ8GZBjzkgi252/hzzp7aa9ZVl8honj6FKMl0FBHbv4bM+sMVSLSskMdfXp9ZC+
+         wUI00YNVevAakayykq/qJ6md6IglnYkeEcA3jKj9g31PzXxlTNk53GrEkDtFKUNYWWqJ
+         tEuh2XTm/mMawEJMjlPvK3e/IXHVGX/Bs5TJCcZaXs0Zjx4KiuuHcYvtXKBym0edTsoo
+         1gw5gmrOdzgzX43rkC01ncrGYU7jCZxwfPkodmod66PxTQu+rAUsKjv/PPXryFedrOES
+         UveO1/9VRBm+OQhvvwmvrscD2J8dizofx9LFYonp/IcD0W9dgFL/ERTRjLPaTSelpcWx
+         7RBw==
+X-Gm-Message-State: APjAAAWqK/0A/N6N2s46r6L4cgZ8/ygBwiLDRoIjQ7XM5Ppe1QfYrk/Y
+        l8eAsGwB6l7lh3y9d3hWyA==
+X-Google-Smtp-Source: APXvYqz2TEK23uu2UtgA9T+1nPA3Aim10UWLnbz8RQmwt+Rwp7nNsetW4zP+Fj0IQs/Sa89YglGUrQ==
+X-Received: by 2002:aca:c7c5:: with SMTP id x188mr806556oif.48.1556572543997;
+        Mon, 29 Apr 2019 14:15:43 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id g25sm13852036otl.7.2019.04.29.14.15.42
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 29 Apr 2019 14:15:43 -0700 (PDT)
+Date:   Mon, 29 Apr 2019 16:15:42 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+        marek.behun@nic.cz, rdunlap@infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
+Subject: Re: [PATCH v2 6/7] dt: bindings: lp50xx: Introduce the lp50xx family
+ of RGB drivers
+Message-ID: <20190429211542.GA28956@bogus>
+References: <20190411193848.23140-1-dmurphy@ti.com>
+ <20190411193848.23140-7-dmurphy@ti.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ey/N+yb7u/X9mFhi"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190429194433.29760-2-marek.behun@nic.cz>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190411193848.23140-7-dmurphy@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Thu, 11 Apr 2019 14:38:47 -0500, Dan Murphy wrote:
+> Introduce the bindings for the Texas Instruments LP5036, LP5030, LP5024 and the LP5018
+> RGB LED device driver.  The LP5036/3024/18 can control RGB LEDs individually
+> or as part of a control bank group.  These devices have the ability
+> to adjust the mixing control for the RGB LEDs to obtain different colors
+> independent of the overall brightness of the LED grouping.
+> 
+> Datasheet:
+> http://www.ti.com/lit/ds/symlink/lp5024.pdf
+> http://www.ti.com/lit/ds/symlink/lp5036.pdf
+> 
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>  .../devicetree/bindings/leds/leds-lp50xx.txt  | 142 ++++++++++++++++++
+>  1 file changed, 142 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-lp50xx.txt
+> 
 
---ey/N+yb7u/X9mFhi
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon 2019-04-29 21:44:33, Marek Beh=FAn wrote:
-> The controller supports setting brightness of each channel of the RGB
-> LEDs to values 0-255. We do not support RGB LED class yet, but we can
-> use this to be able to have 256 brightness levels for each LED, instead
-> of just on/off state.
->=20
-> Signed-off-by: Marek Beh=FAn <marek.behun@nic.cz>
-
-Have you tested this?
-
-> diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-=
-omnia.c
-> index dc9fac56b13a..0097e62e25d8 100644
-> --- a/drivers/leds/leds-turris-omnia.c
-> +++ b/drivers/leds/leds-turris-omnia.c
-> @@ -54,7 +54,7 @@ static int omnia_led_brightness_set_blocking(struct led=
-_classdev *led,
->  	struct omnia_leds *leds =3D dev_get_drvdata(led->dev->parent);
->  	int idx =3D omnia_led_idx(leds, led);
->  	int ret;
-> -	u8 state;
-> +	u8 buf[5], state;
-> =20
->  	if (idx < 0)
->  		return idx;
-> @@ -63,8 +63,16 @@ static int omnia_led_brightness_set_blocking(struct le=
-d_classdev *led,
->  	if (brightness)
->  		state |=3D CMD_LED_STATE_ON;
-> =20
-> +	buf[0] =3D CMD_LED_COLOR;
-> +	buf[1] =3D idx;
-> +	buf[2] =3D buf[3] =3D buf[4] =3D brightness;
-> +
->  	mutex_lock(&leds->lock);
-> +
->  	ret =3D i2c_smbus_write_byte_data(leds->client, CMD_LED_STATE, state);
-> +	if (ret >=3D 0)
-
-&& brightness
-
-?
-
-> +		ret =3D i2c_master_send(leds->client, buf, 5);
-> +
->  	mutex_unlock(&leds->lock);
-
-But more importantly,
-
-        led->cdev.max_brightness =3D 1;
-
-needs to be changed... right?
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---ey/N+yb7u/X9mFhi
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlzHXN0ACgkQMOfwapXb+vJ12wCggxunYfQLU+adIAXjVzzxdjY3
-kZ4AoLZmVK9gT0cO/aEqAc6dgc9mONpA
-=xJbF
------END PGP SIGNATURE-----
-
---ey/N+yb7u/X9mFhi--
+Reviewed-by: Rob Herring <robh@kernel.org>
