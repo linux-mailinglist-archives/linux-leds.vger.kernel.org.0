@@ -2,83 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2346EA96
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 21:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 152AEEAA4
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 21:10:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729015AbfD2TCY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Apr 2019 15:02:24 -0400
-Received: from mail.nic.cz ([217.31.204.67]:49418 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726725AbfD2TCX (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 29 Apr 2019 15:02:23 -0400
-Received: from localhost (unknown [172.20.6.125])
-        by mail.nic.cz (Postfix) with ESMTPS id BD1006362B;
-        Mon, 29 Apr 2019 21:02:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1556564541; bh=fplkcg5APpopU88tbHaqV1JakGpbhFa508n7lAyI+DE=;
-        h=Date:From:To;
-        b=POn4fho1mCx22bK9klQdhgRoCx/mnwlgrjM+5Ezh+cprgMH8Fy3Mv4LMxzlk0S6lT
-         HE5sazz4Ym/F9cwdnikTdHqw3eZcVP8I7m3IEcPcQxv4W+wrzSYFMR7AWdQrCd1JII
-         ELYbSWj+0ahArbC97b7J9iSUr9HBX4BeVHG0+1GY=
-Date:   Mon, 29 Apr 2019 21:02:21 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Pavel Machek <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S1729015AbfD2TKb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Apr 2019 15:10:31 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:33035 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729044AbfD2TKb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Apr 2019 15:10:31 -0400
+Received: by mail-wm1-f66.google.com with SMTP id z6so618305wmi.0
+        for <linux-leds@vger.kernel.org>; Mon, 29 Apr 2019 12:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=MAWq2a4HGBmrJm0PxO318bCeMG86hbh09Rp7ieHtLqs=;
+        b=YcZVcf9d0BVmDmXIkltQMriC9JW/KxsddvDIfH8jN3A+LoPhv6kYyjogOtC3OYQXkO
+         oDRuJ4PnV0Dg1WTYQ3SFGBXxzLHDMKDBVw3oD9JR/4Jl+aXbFJ1EGIS0Le976LVJ6URq
+         08C3y9clCrG7CuBtUli2YL3cKWB45cmGw0iDCDGy+oGvlkRGjVmKzj7iu4VpaXapKlIs
+         vKuplxBM1bFbL+XXsRiw2vqewQekGdU4XXBeSazDr7AlHC2GiVlC8zphQIEha3iH++un
+         1NrP2aCzYQODOqmpNhVwBvYKTqlj+9Oswt2GvmQOG69GVw1HY0ZXk9zjMWPtMvOO4mm9
+         h0kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=MAWq2a4HGBmrJm0PxO318bCeMG86hbh09Rp7ieHtLqs=;
+        b=cG8/dxbFHFq6tOMUpXEOaByU/BIjLr41PXhg9T3vW/BEbC8iSYzdJzK0o57BJZe9b1
+         G9GXKAdf56coHtwpTFQ9eJEZ1vsyfUWoN9ZgLw/8T0H5RKmgnIZhPbEjMM1E/KocvG2t
+         +XZqc1j/vX8F7Vn+CftJaaRXWueiJuAENcIKpGvpSO+IFzif+ebiW4fkuJpwcnzV1L+P
+         zeKq/N++vey2/e2S+mtC683YEHYoOIXOsdNMSS+RV2+xORYmO33ubHFYtWK7NAgck/PQ
+         onaIMcZgf2EVGlTjY8SkUP3c1Feuri8fMJEerBP86iug3/AU762oV0N+ihqHvBAQFwRG
+         H0tw==
+X-Gm-Message-State: APjAAAVfOEQObOOJGCDzXTMDPllpjKTYlTHRoTkWgA8X/8P1CXidLlj1
+        DHkgUHC7Rd7p4W2Cee2HaI8=
+X-Google-Smtp-Source: APXvYqzyFUbco2yPp75t8Sx8wi5faPZ5wR2FkqyB1QSh1xCEGk02ToGI2MpV6MG6JaFpQg1Cu/CvRA==
+X-Received: by 2002:a1c:b48a:: with SMTP id d132mr425765wmf.92.1556565029505;
+        Mon, 29 Apr 2019 12:10:29 -0700 (PDT)
+Received: from [192.168.1.19] (ckl137.neoplus.adsl.tpnet.pl. [83.31.87.137])
+        by smtp.gmail.com with ESMTPSA id 11sm229145wmk.17.2019.04.29.12.10.28
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Apr 2019 12:10:28 -0700 (PDT)
+Subject: Re: [PATCH leds/for-next v3 1/1] leds: turris_omnia: add I2C and
+ MACH_ARMADA_38X dependencies
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
         linux-leds@vger.kernel.org
-Subject: Re: linux-next: Tree for Apr 29 (drivers/leds/leds-turris-omnia)
-Message-ID: <20190429210221.6e6c207e@nic.cz>
-In-Reply-To: <ccf6596b-e645-a9b3-dfab-96ff14e8b70d@metux.net>
-References: <20190429190354.0d5e2e93@canb.auug.org.au>
-        <d3822785-0683-28df-ffa6-ab679aa27c73@infradead.org>
-        <20190429153200.GA11761@amd>
-        <20190429173842.06f02852@nic.cz>
-        <20190429163753.GA16782@amd>
-        <20190429184439.68049050@nic.cz>
-        <20190429165319.GB16782@amd>
-        <c045db7f-2147-1a58-8d65-8b52fddd932c@metux.net>
-        <20190429181245.GA24658@amd>
-        <ccf6596b-e645-a9b3-dfab-96ff14e8b70d@metux.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Cc:     Pavel Machek <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>
+References: <20190429183226.14078-1-marek.behun@nic.cz>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <90580b7b-fc6d-b422-8c36-9ed435509898@gmail.com>
+Date:   Mon, 29 Apr 2019 21:10:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.99.2 at mail
-X-Virus-Status: Clean
+In-Reply-To: <20190429183226.14078-1-marek.behun@nic.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 29 Apr 2019 20:49:59 +0200
-"Enrico Weigelt, metux IT consult" <lkml@metux.net> wrote:
+Hi Marek.
 
-> On 29.04.19 20:12, Pavel Machek wrote:
+Thank you for the patch.
+
+On 4/29/19 8:32 PM, Marek Behún wrote:
+> This driver depends on I2C. There are linking problems otherwise, if for
+> example CONFIG_LEDS_TURRIS_OMNIA=y and CONFIG_I2C=m.
 > 
-> >> Is that controller only built-in into some SoCs, or also available
-> >> as a separate chip ?  
-> > 
-> > AFAIU.. separate chip, but runs firmware not likely to be available
-> > outside Turris routers.  
+> Also add MACH_ARMADA_38X dependency, since it is unlikely that some
+> other device will ever have a microcontroller with software compatible
+> to that of Turris Omnia microcontroller.
 > 
-> hmm, if it's a separate chip, IMHO it should be selectable, so that
-> anybody who puts that chip on his board can directly use it.
+> Signed-off-by: Marek Behún <marek.behun@nic.cz>
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+>   drivers/leds/Kconfig | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> --mtx
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index d5b31a71a112..6b555d31c1be 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -131,6 +131,8 @@ config LEDS_CR0014114
+>   config LEDS_TURRIS_OMNIA
+>   	tristate "LED support for CZ.NIC's Turris Omnia"
+>   	depends on LEDS_CLASS
+> +	depends on I2C
+> +	depends on MACH_ARMADA_38X
+>   	depends on OF
+>   	help
+>   	  This option enables basic support for the LEDs found on the front
 > 
 
-The chip is a cortex-m3 or something like that. What makes the LEDs
-work in this specific way this driver uses is the firmware on the chip,
-and that firmware is specific for Omnia.
+Applied.
 
-It is possible that in the future someone makes a I2C controller
-compatible with the API the Omnia firmware provides, but very unlikely.
-
-I think it is reasonable to make the driver depend on MACH_ARMADA_38X
-and in the unlikely scenario that someone makes a compatible
-controller, the dependency can always be removed.
-
-Marek
-situation it is possible to 
+-- 
+Best regards,
+Jacek Anaszewski
