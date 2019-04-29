@@ -2,77 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FB36E5AF
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 17:03:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E70CE618
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 17:21:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728445AbfD2PDG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Apr 2019 11:03:06 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:53906 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728414AbfD2PDG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Apr 2019 11:03:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=EYiXfmLoKHxAWfC8uD0fsXaQI31Edasjuth75pr3LrU=; b=jzMvSG4lmb2GY7MPD59DhR6dZ+
-        P4jP3hKdbGO699/PlRcA5XBFsJ2QCmYj9TVnXL12Rs1x7gcwbyE/Jn9U/LzFpkeKZ2gQuooGkHjZB
-        Q8VMHRr2T0S/FPe5vzJyAdtOVe0L4B5ieCKdFQI03GEdfBYvBwU5a3dkiB8q5ludpQuM+O91CR1XU
-        Rpwq7dufPJ7hcJYLknVKM6HRWhZCv6p8irwXuUpWOcki+SufX8zHls9U57TcWiXCZAvsAI6dxD73/
-        jIhtNeajBJ02UbLR6NGgt7FlO6Z4Di6bZIehRt266pPlYn0AHgJAI2s6O+o57Z3uQEj73ILsmmrg3
-        G1Oi1+Vg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hL7o7-0000cH-QD; Mon, 29 Apr 2019 15:03:04 +0000
-Subject: Re: linux-next: Tree for Apr 29 (drivers/leds/leds-turris-omnia)
-To:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Marek Behun <marek.behun@nic.cz>, linux-leds@vger.kernel.org
-References: <20190429190354.0d5e2e93@canb.auug.org.au>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <d3822785-0683-28df-ffa6-ab679aa27c73@infradead.org>
-Date:   Mon, 29 Apr 2019 08:03:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1728376AbfD2PVu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Apr 2019 11:21:50 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:41928 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728253AbfD2PVu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Apr 2019 11:21:50 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 6A18380237; Mon, 29 Apr 2019 17:21:39 +0200 (CEST)
+Date:   Mon, 29 Apr 2019 17:21:48 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-leds@vger.kernel.org, ibm-acpi@hmh.eng.br,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] leds: tpacpi: cleanup for Thinkpad ACPI led
+Message-ID: <20190429152148.GA10501@amd>
+References: <20190426123513.GA18172@amd>
+ <20190426214246.GA24966@amd>
+ <84fac57d-1121-a1da-fb45-16a2521bdef9@gmail.com>
+ <20190427193411.GA9709@amd>
+ <2578a614-beb9-1c9d-9f74-208a8a7ab64f@gmail.com>
+ <20190427223207.GA3585@amd>
+ <d2373c8b-5c66-c875-16c7-0c5a93470793@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190429190354.0d5e2e93@canb.auug.org.au>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
+Content-Disposition: inline
+In-Reply-To: <d2373c8b-5c66-c875-16c7-0c5a93470793@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 4/29/19 2:03 AM, Stephen Rothwell wrote:
-> Hi all,
-> 
-> Changes since 20190426:
-> 
 
-on i386:
-
-when CONFIG_LEDS_TURRIS_OMNIA=y and CONFIG_I2C=m:
-
-Probably should also depend on I2C.
+--EeQfGwPcQSOJBaQU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
-ld: drivers/leds/leds-turris-omnia.o: in function `omnia_leds_remove':
-leds-turris-omnia.c:(.text+0xb): undefined reference to `i2c_smbus_write_byte_data'
-ld: drivers/leds/leds-turris-omnia.o: in function `omnia_led_brightness_set_blocking':
-leds-turris-omnia.c:(.text+0x62): undefined reference to `i2c_smbus_write_byte_data'
-ld: drivers/leds/leds-turris-omnia.o: in function `omnia_leds_probe':
-leds-turris-omnia.c:(.text+0x1d8): undefined reference to `i2c_smbus_write_byte_data'
-ld: leds-turris-omnia.c:(.text+0x1f6): undefined reference to `i2c_smbus_write_byte_data'
-ld: drivers/leds/leds-turris-omnia.o: in function `omnia_leds_driver_init':
-leds-turris-omnia.c:(.init.text+0x8): undefined reference to `i2c_register_driver'
-ld: drivers/leds/leds-turris-omnia.o: in function `omnia_leds_driver_exit':
-leds-turris-omnia.c:(.exit.text+0x6): undefined reference to `i2c_del_driver'
+Make error returns more consistent... no behaviour change intended.
+   =20
+Signed-off-by: Pavel Machek <pavel@ucw.cz>
 
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/th=
+inkpad_acpi.c
+index 726341f..7008a7f 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -5808,7 +5808,7 @@ static int led_set_status(const unsigned int led,
+ 			return -EPERM;
+ 		if (!acpi_evalf(led_handle, NULL, NULL, "vdd",
+ 				(1 << led), led_sled_arg1[ledstatus]))
+-			rc =3D -EIO;
++			return -EIO;
+ 		break;
+ 	case TPACPI_LED_OLD:
+ 		/* 600e/x, 770e, 770x, A21e, A2xm/p, T20-22, X20 */
+@@ -5832,10 +5832,10 @@ static int led_set_status(const unsigned int led,
+ 			return -EPERM;
+ 		if (!acpi_evalf(led_handle, NULL, NULL, "vdd",
+ 				led, led_led_arg1[ledstatus]))
+-			rc =3D -EIO;
++			return -EIO;
+ 		break;
+ 	default:
+-		rc =3D -ENXIO;
++		return -ENXIO;
+ 	}
+=20
+ 	if (!rc)
 
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
--- 
-~Randy
+--EeQfGwPcQSOJBaQU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlzHFowACgkQMOfwapXb+vIdRQCgiGtLJhHVOZRshPe06zUPt0y9
+w5EAmwQV9tPYgs8+2yh78fYHkUIlrzHy
+=Z/s3
+-----END PGP SIGNATURE-----
+
+--EeQfGwPcQSOJBaQU--
