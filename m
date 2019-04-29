@@ -2,80 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C658E930
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 19:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B343E986
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 19:51:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728839AbfD2ReX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Apr 2019 13:34:23 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:44078 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728861AbfD2ReW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Apr 2019 13:34:22 -0400
-Received: by mail-ot1-f67.google.com with SMTP id d24so9349717otl.11;
-        Mon, 29 Apr 2019 10:34:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0XjhLzz/Sv+9Eags0QObjYlexjOysZAe8RyevUE1lSI=;
-        b=i3g4LXgGxu4vk5i/RoA2J6OjlFbdIKNzSbVTgJAiWzA8go8oZfAHpuYAb4W9+Ybehq
-         YIUx4u4usFXp4DP3OF8Y1SHEKw3Vr9IEv+TSQNUGP4r9IocswS1vrNtNgWSHT+F3y39s
-         AqmGa6/2T7w79y8iL7KzT/STA0z2eU/EOIPLAeoCZKFcMbZW5xADjpj/YXtVQuoiHdb0
-         WUU8HsB1Kt4YErGh3Uq9Y1BTkaEGlFhLJ7PhCHWjY4vJQhX8mr28UX2DhKwJp4o5ehfD
-         9GSyprpjIZgmSBGme5xNzu5zbAi1RUxiFsdgmWFdztU6lRynrvWZpWDQVdMfVEufzjeI
-         RPrw==
-X-Gm-Message-State: APjAAAVENUhH5DbXMacLp3fCuNDoAp545kRcHKO8ZyjQCh3babOEFgea
-        OkXZMQms853yLK46GH0K/Q==
-X-Google-Smtp-Source: APXvYqwKvzlwTuoEiQya1QujR0i/jv49H1pSYu4XaeHD7fxP5JxXLR1+czGJq3AcZGkp/ZZIiw2RMg==
-X-Received: by 2002:a9d:7e99:: with SMTP id m25mr1130215otp.7.1556559261978;
-        Mon, 29 Apr 2019 10:34:21 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id k65sm14497146oia.16.2019.04.29.10.34.21
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Apr 2019 10:34:21 -0700 (PDT)
-Date:   Mon, 29 Apr 2019 12:34:20 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        lee.jones@linaro.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH v2 4/6] dt-bindings: ti-lmu: Modify dt bindings for the
- LM3697
-Message-ID: <20190429173420.GA1273@bogus>
-References: <20190405142855.3969-1-dmurphy@ti.com>
- <20190405142855.3969-4-dmurphy@ti.com>
+        id S1728893AbfD2Rv6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Apr 2019 13:51:58 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:60255 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728877AbfD2Rv6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Apr 2019 13:51:58 -0400
+Received: from [192.168.1.110] ([77.9.18.117]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MKbXu-1h4jWO3fyu-00Kxe6; Mon, 29 Apr 2019 19:51:44 +0200
+Subject: Re: linux-next: Tree for Apr 29 (drivers/leds/leds-turris-omnia)
+To:     Pavel Machek <pavel@ucw.cz>, Marek Behun <marek.behun@nic.cz>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-leds@vger.kernel.org
+References: <20190429190354.0d5e2e93@canb.auug.org.au>
+ <d3822785-0683-28df-ffa6-ab679aa27c73@infradead.org>
+ <20190429153200.GA11761@amd> <20190429173842.06f02852@nic.cz>
+ <20190429163753.GA16782@amd> <20190429184439.68049050@nic.cz>
+ <20190429165319.GB16782@amd>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <c045db7f-2147-1a58-8d65-8b52fddd932c@metux.net>
+Date:   Mon, 29 Apr 2019 19:51:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190405142855.3969-4-dmurphy@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190429165319.GB16782@amd>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:g+r0ZhlbwROpeWoU6iGoaXxinnfCyiPF0qlNNExijXz02hsryGK
+ faUPZl9mJ+r6hiIt6z8DuwE/pIFjHKplJD5LSyOqL8BoCeklQg39uimKMjXhzXWE9ye39Lm
+ +akXtpFesXmnuTj2GCWRNtJMemhEpgY4F/P5rAWlm0/eL0PMxzDSbs0riKjA7fUaIblipQi
+ KTEhWu0u3XXILISzelPmg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:W5zUZ1YphWI=:xM28DrNPgTERo4NJdBAdHC
+ loEfzVq5Oq2/x2KjsZGFjd2fDDluxaQ0abqE1u1vPfonJYleXxTqcME3pYB4/ZG8e/H6a8mpV
+ ut6nxYUKXiI4rFsc0PtnIbYIYpZn6gG765/fhiWcwYdgDYGZaSjwBmb05kwt62jeegOS5hqK1
+ kq2W1vWM/py5cFuCpta9fq03g5Bmej8MEWIPvTh1XbHkAWMm1nlM0/4Mlvr5jOnLU9hX7HVRB
+ i39Gj0IBgIozkAGMu39Um5axvwSP5AaiNOl7Wrv2/H7lYX5nLklJylgn0XHYhQNnEP5c8S1AW
+ uWx95IWwbjPzUnOaol6XWMOZBCfvtk/+zn+R9PXSX15GTm6tgneNetwT33kjmdsECF1/xsz+e
+ V4bhv6BQRxBZmtIJAm9l7IoJ+ZithAHLQ1ISz+Be+OQ16fAslX+NPKQ5GIwbPh8O6Bpj4YtqJ
+ pAysGb8JysKrFC//Hf82eHUmjcWN4BNhwNG4VZA3Wqh3qJ5UeIaB+wMFdPMUbD9pbfDBYWHVl
+ d+OYVJH4E/g6LOAHhMAcrw26bzJY5ToIAzYfAdM9J0qv23lrADTh/QXZA8NypZtZXOKno3bkP
+ WFG/6UH+TmVATU2u2agyeMJ7/uE6NIPu4mkVe6qnNQaaRtPQYE3SqxryT94Yq2ZrLX0UP/s2I
+ I8lIb6tn74qTiWHWmg+pp/tnLfjMebFPEk7Fr4zAR9qHfDpxaWUUHLOXBMk0rr7DkDxNLvtAF
+ dzEudi+TUdMQhitpI5bI6R0t5TYSSCBRURYiIF16kl2CwE3cYcNkO/hhJlkyFWqjVcsdoEiPV
+ uM0XfQkTnrSycl1L1mrdOhX+DZCoAgfN4VImGfqwh8BVLw2ULF+i8rEXvIZCP51wyAWSjDc
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 5 Apr 2019 09:28:53 -0500, Dan Murphy wrote:
-> The LM3697 is a single function LED driver. The single function LED
-> driver needs to reside in the LED directory as a dedicated LED driver
-> and not as a MFD device.  The device does have common brightness and ramp
-> features and those can be accomodated by a TI LMU framework.
+On 29.04.19 18:53, Pavel Machek wrote:
+>>> Theoretically. But we both now that probability of that is very low,
+>>> and that likely driver would need other updates, too... right?
+>>
+>> What would be the benefit to add ARM dependency? So that distro
+>> compilations don't ship the turris_omnia driver unnecesarily?
 > 
-> The LM3697 dt binding needs to be moved from the ti-lmu.txt and a dedicated
-> LED dt binding needs to be added.  The new LM3697 LED dt binding will then
-> reside in the Documentation/devicetree/bindings/leds directory and follow the
-> current LED and general bindings guidelines.
-> 
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
-> 
-> v2 - Made changes to reference ti,brightness-resolution to the ti-lmu.txt -
-> https://lore.kernel.org/patchwork/patch/1054501/
-> 
->  .../devicetree/bindings/leds/leds-lm3697.txt  | 73 +++++++++++++++++++
->  .../devicetree/bindings/mfd/ti-lmu.txt        | 27 +------
->  2 files changed, 74 insertions(+), 26 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm3697.txt
-> 
+> That, and so that people are not asked "do you want to enable omnia
+> LEDs?" when they update their kernel on i386.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Is that controller only built-in into some SoCs, or also available
+as a separate chip ?
+
+--mtx
+
+-- 
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
