@@ -2,86 +2,69 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3F18E9C6
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 20:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3948EA1D
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 20:29:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728903AbfD2SMt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Apr 2019 14:12:49 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:57111 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728748AbfD2SMt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Apr 2019 14:12:49 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 5A24880683; Mon, 29 Apr 2019 20:12:37 +0200 (CEST)
-Date:   Mon, 29 Apr 2019 20:12:45 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Marek Behun <marek.behun@nic.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-leds@vger.kernel.org
-Subject: Re: linux-next: Tree for Apr 29 (drivers/leds/leds-turris-omnia)
-Message-ID: <20190429181245.GA24658@amd>
-References: <20190429190354.0d5e2e93@canb.auug.org.au>
- <d3822785-0683-28df-ffa6-ab679aa27c73@infradead.org>
- <20190429153200.GA11761@amd>
- <20190429173842.06f02852@nic.cz>
- <20190429163753.GA16782@amd>
- <20190429184439.68049050@nic.cz>
- <20190429165319.GB16782@amd>
- <c045db7f-2147-1a58-8d65-8b52fddd932c@metux.net>
+        id S1728949AbfD2S3L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Apr 2019 14:29:11 -0400
+Received: from mail.nic.cz ([217.31.204.67]:48531 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728908AbfD2S3L (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 29 Apr 2019 14:29:11 -0400
+Received: from dellmb.labs.office.nic.cz (unknown [172.20.6.125])
+        by mail.nic.cz (Postfix) with ESMTP id 178ED630D2;
+        Mon, 29 Apr 2019 20:29:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1556562549; bh=L9ZfIwZt+QtsKqYlRRiWGjkgA7beCzb9YHzNaOyxS4U=;
+        h=From:To:Date;
+        b=e9xQJGaRJ1MTr+yfwXUM7MA7zS7Edk5gXZqbfcn0iAiQtHyNIBZvOiGqtbRamAbid
+         YrDLB44+c/VcPRYzaHJT8YQb1QBL19oYfcTtSSQgdD3RPUyEirK82tFOzvpP4YaSHS
+         EdwuzTvkukcT1NeFHseaqq/ol2zhtRsDQ8BYOny8=
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+To:     linux-leds@vger.kernel.org
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH leds/for-next v2 1/1] leds: turris_omnia: add I2C and MACH_ARMADA_38X dependencies
+Date:   Mon, 29 Apr 2019 20:29:06 +0200
+Message-Id: <20190429182906.13422-1-marek.behun@nic.cz>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="CE+1k2dSO48ffgeK"
-Content-Disposition: inline
-In-Reply-To: <c045db7f-2147-1a58-8d65-8b52fddd932c@metux.net>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.99.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+This driver depends on I2C. There are linking problems otherwise, if for
+example CONFIG_LEDS_TURRIS_OMNIA=y and CONFIG_I2C=m.
 
---CE+1k2dSO48ffgeK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Also add MACH_ARMADA_38X dependency, since it is unlikely that some
+other device will ever have a microcontroller with software compatible
+to that of Turris Omnia microcontroller.
 
-On Mon 2019-04-29 19:51:40, Enrico Weigelt, metux IT consult wrote:
-> On 29.04.19 18:53, Pavel Machek wrote:
-> >>> Theoretically. But we both now that probability of that is very low,
-> >>> and that likely driver would need other updates, too... right?
-> >>
-> >> What would be the benefit to add ARM dependency? So that distro
-> >> compilations don't ship the turris_omnia driver unnecesarily?
-> >=20
-> > That, and so that people are not asked "do you want to enable omnia
-> > LEDs?" when they update their kernel on i386.
->=20
-> Is that controller only built-in into some SoCs, or also available
-> as a separate chip ?
+Signed-off-by: Marek Behún <marek.behun@nic.cz>
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+---
+ drivers/leds/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-AFAIU.. separate chip, but runs firmware not likely to be available
-outside Turris routers.
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index d5b31a71a112..6a2bb35ae682 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -131,6 +131,7 @@ config LEDS_CR0014114
+ config LEDS_TURRIS_OMNIA
+ 	tristate "LED support for CZ.NIC's Turris Omnia"
+ 	depends on LEDS_CLASS
++	depends on I2C
+ 	depends on OF
+ 	help
+ 	  This option enables basic support for the LEDs found on the front
+-- 
+2.21.0
 
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---CE+1k2dSO48ffgeK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlzHPpwACgkQMOfwapXb+vIcBQCgtBmnpmXzcHNXsdDgB5Gwe2ws
-iSQAnj9N+Ez+Ex9vtroCNqCGYUal3/AG
-=mzAP
------END PGP SIGNATURE-----
-
---CE+1k2dSO48ffgeK--
