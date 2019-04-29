@@ -2,70 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB933E9A5
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 20:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3F18E9C6
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Apr 2019 20:12:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728926AbfD2SBK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Apr 2019 14:01:10 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:39063 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728748AbfD2SBJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Apr 2019 14:01:09 -0400
-Received: by mail-ot1-f68.google.com with SMTP id o39so9477858ota.6;
-        Mon, 29 Apr 2019 11:01:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=6fbPzXnXB6Vp6WncMpX55LkZOuYphLh5OWRciNnocpU=;
-        b=IPhybX4Ck1wZPe4/c62v56+yOrmrTxFlT/ErcoMmx54VWg6KLxRGMCPF+xIcJC+ab7
-         eTP88l45KawRnt1dhkg07QQqThsmG01G2yUCEpgnPorSgPEcSvl1F6GYG1XrxZpN+iyl
-         REZcftiz0uHNhl4/8F6uw76VVUu/woqlxqmm7UpY2L43FtfQgt+nhJOBW6V0JHQWREYQ
-         WtAA87qOxolKcQti3gGj6GahAN+D59fS0oKuxtAhifQXoSO+7QNXArJIyloV/5Qiwbuy
-         yrlFZwCFVvhAk76Gp/Wh+M54XMUab2jL+9Z2WIHd3EWIvTnjzxYz3Yogy7gLvpiIlxYi
-         jl/g==
-X-Gm-Message-State: APjAAAU/yMTq0QQtyLXeP2SZzpULaSeqeB47JsvBR/LXMAcSFIxesLFk
-        LnRf+vJUhI7XOhKBsMj2gQ==
-X-Google-Smtp-Source: APXvYqw8Bnd8vDhZrz8kuIMOll3IKLa84f7Ce34xWmKRu91IjyzdfsMKmHcH9Jlcn5bRqbMwe+ALKA==
-X-Received: by 2002:a9d:77d6:: with SMTP id w22mr19483523otl.154.1556560868635;
-        Mon, 29 Apr 2019 11:01:08 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id h129sm5378076oia.12.2019.04.29.11.01.07
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Apr 2019 11:01:07 -0700 (PDT)
-Date:   Mon, 29 Apr 2019 13:01:07 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        lee.jones@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH v2 5/6] dt-bindings: leds: Add LED bindings for the
- LM36274
-Message-ID: <20190429180107.GA16969@bogus>
-References: <20190410133833.28859-1-dmurphy@ti.com>
- <20190410133833.28859-5-dmurphy@ti.com>
+        id S1728903AbfD2SMt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Apr 2019 14:12:49 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:57111 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728748AbfD2SMt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Apr 2019 14:12:49 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 5A24880683; Mon, 29 Apr 2019 20:12:37 +0200 (CEST)
+Date:   Mon, 29 Apr 2019 20:12:45 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Marek Behun <marek.behun@nic.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-leds@vger.kernel.org
+Subject: Re: linux-next: Tree for Apr 29 (drivers/leds/leds-turris-omnia)
+Message-ID: <20190429181245.GA24658@amd>
+References: <20190429190354.0d5e2e93@canb.auug.org.au>
+ <d3822785-0683-28df-ffa6-ab679aa27c73@infradead.org>
+ <20190429153200.GA11761@amd>
+ <20190429173842.06f02852@nic.cz>
+ <20190429163753.GA16782@amd>
+ <20190429184439.68049050@nic.cz>
+ <20190429165319.GB16782@amd>
+ <c045db7f-2147-1a58-8d65-8b52fddd932c@metux.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="CE+1k2dSO48ffgeK"
 Content-Disposition: inline
-In-Reply-To: <20190410133833.28859-5-dmurphy@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <c045db7f-2147-1a58-8d65-8b52fddd932c@metux.net>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 10 Apr 2019 08:38:32 -0500, Dan Murphy wrote:
-> Add the LM36274 LED specific bindings.
-> 
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
-> 
-> v2 - Changed 29-V to 29V - https://lore.kernel.org/patchwork/patch/1058779/
-> 
->  .../devicetree/bindings/leds/leds-lm36274.txt | 82 +++++++++++++++++++
->  1 file changed, 82 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.txt
-> 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+--CE+1k2dSO48ffgeK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon 2019-04-29 19:51:40, Enrico Weigelt, metux IT consult wrote:
+> On 29.04.19 18:53, Pavel Machek wrote:
+> >>> Theoretically. But we both now that probability of that is very low,
+> >>> and that likely driver would need other updates, too... right?
+> >>
+> >> What would be the benefit to add ARM dependency? So that distro
+> >> compilations don't ship the turris_omnia driver unnecesarily?
+> >=20
+> > That, and so that people are not asked "do you want to enable omnia
+> > LEDs?" when they update their kernel on i386.
+>=20
+> Is that controller only built-in into some SoCs, or also available
+> as a separate chip ?
+
+AFAIU.. separate chip, but runs firmware not likely to be available
+outside Turris routers.
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--CE+1k2dSO48ffgeK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlzHPpwACgkQMOfwapXb+vIcBQCgtBmnpmXzcHNXsdDgB5Gwe2ws
+iSQAnj9N+Ez+Ex9vtroCNqCGYUal3/AG
+=mzAP
+-----END PGP SIGNATURE-----
+
+--CE+1k2dSO48ffgeK--
