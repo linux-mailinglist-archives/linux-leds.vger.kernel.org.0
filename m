@@ -2,104 +2,121 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D41110237
-	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 00:08:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B606E10238
+	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 00:08:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726123AbfD3WIg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 Apr 2019 18:08:36 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55907 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726048AbfD3WIg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 Apr 2019 18:08:36 -0400
-Received: by mail-wm1-f65.google.com with SMTP id o25so5433529wmf.5
-        for <linux-leds@vger.kernel.org>; Tue, 30 Apr 2019 15:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=wZ21DOxmU6ztScrJpp2lRGtIcEK3ni6N/EVAdMR0zws=;
-        b=ZVgJNEwq/nV3bqezkGtrrtWOLyW3RbzlNB3KlNdaaq83PGVWUxRvd0vOmYPd3I4l72
-         4ggaSvMOxPxZFYvkuU28e5GHavKhxL7SrFOBSMK3ttf8i4W+CQQorX03MnZb36Q6t9GZ
-         3wOyr8gloMk7n1tedMUK1ibiybA+eqgpUwjXzEXQyUcT82JAuBUeas7z7QwcyD+1nkjg
-         HvOrkSaIwpOPpqt5Xw67byW+zVgbPCT/J2SuOZKuxfhkIlHY5lb3PwXRA9++aY1X4sjw
-         dmbz5uaMrkdfLhKhNMEf+8LKkqbDPowAc091Q2szZXv8NgtIEcvZYpw09K8/R/auJFUq
-         +27w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=wZ21DOxmU6ztScrJpp2lRGtIcEK3ni6N/EVAdMR0zws=;
-        b=BlwKAQvov7bE7Z6p2gC41gITYRdJzyvRrhcyLxLy3mULhzWcvh6GLoBxnfzHA8D59w
-         te4WryRMaE8GJwGtLZhDmLnIfldwdYkCbGbM5HGJMVO3Qvx9w6y6XqDQTbEr8OpymAH5
-         7msy8aRTzasf/cNCktxonCCEh/AQ+x2L5uaTogetC9OunEmwfuptBoXrav20ZXnBv9Go
-         7TP5XAKyT58JS8P1WKbWwr5iMpsxzn05c7EMQDu2dSSeksjhu7AY/+SrOpCizG7dtUxM
-         d8igtkfaIrm6SUw4i4vI2GSc2dE+Smo2MF50qr3TRiFnfFqKhN0jFeaqPzTLNql3UO9D
-         7+gQ==
-X-Gm-Message-State: APjAAAXR8KWc34RMbjA18fjFrOZBXHsVu+uft1hHmBED8HH18J8RpALK
-        nEokEQO/5cIYbUYOl8bMulqQo16T
-X-Google-Smtp-Source: APXvYqwM45bzAYn/ztIU3oKaQewfUoalnn/hLAs8MEdzKu5bHO24sYwcvoQ9GFpftJgciRCcty6ZyA==
-X-Received: by 2002:a1c:6704:: with SMTP id b4mr2954151wmc.108.1556662115151;
-        Tue, 30 Apr 2019 15:08:35 -0700 (PDT)
-Received: from [192.168.1.19] (chf176.neoplus.adsl.tpnet.pl. [83.31.3.176])
-        by smtp.gmail.com with ESMTPSA id b10sm6538861wrh.59.2019.04.30.15.08.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Apr 2019 15:08:34 -0700 (PDT)
-Subject: Re: [PATCH leds/for-next v2 1/2] leds: turris_omnia: build if
- CONFIG_COMPILE_TEST=y
-To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
-        linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>
-References: <20190429212944.15643-1-marek.behun@nic.cz>
- <20190429212944.15643-2-marek.behun@nic.cz>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <40c94567-5114-afe5-735b-cd6021725ef5@gmail.com>
-Date:   Wed, 1 May 2019 00:08:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726220AbfD3WI5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 30 Apr 2019 18:08:57 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:54569 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726048AbfD3WI5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 Apr 2019 18:08:57 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id DDF6C8085B; Wed,  1 May 2019 00:08:46 +0200 (CEST)
+Date:   Wed, 1 May 2019 00:08:56 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 5/7] dt-bindings: ti-lmu: Modify dt bindings for the
+ LM3697
+Message-ID: <20190430220855.GD20410@amd>
+References: <20190430191730.19450-1-dmurphy@ti.com>
+ <20190430191730.19450-6-dmurphy@ti.com>
+ <20190430220527.GC20410@amd>
+ <34f72f44-9385-a42a-4e44-94ae6a04fe98@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20190429212944.15643-2-marek.behun@nic.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="6Nae48J/T25AfBN4"
+Content-Disposition: inline
+In-Reply-To: <34f72f44-9385-a42a-4e44-94ae6a04fe98@ti.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Marek,
 
-Thank you for the patch set.
+--6Nae48J/T25AfBN4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 4/29/19 11:29 PM, Marek Behún wrote:
-> As Pavel pointed out, this driver should build if COMPILE_TEST is
-> enabled.
-> 
-> Signed-off-by: Marek Behún <marek.behun@nic.cz>
-> ---
->   drivers/leds/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 52de996e2262..3747cbd0de2c 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -132,7 +132,7 @@ config LEDS_TURRIS_OMNIA
->   	tristate "LED support for CZ.NIC's Turris Omnia"
->   	depends on LEDS_CLASS
->   	depends on I2C
-> -	depends on MACH_ARMADA_38X
-> +	depends on MACH_ARMADA_38X || COMPILE_TEST
->   	depends on OF
->   	help
->   	  This option enables basic support for the LEDs found on the front
-> 
+On Tue 2019-04-30 17:07:32, Dan Murphy wrote:
+>=20
+>=20
+> On 4/30/19 5:05 PM, Pavel Machek wrote:
+> > On Tue 2019-04-30 14:17:28, Dan Murphy wrote:
+> >> The LM3697 is a single function LED driver. The single function LED
+> >> driver needs to reside in the LED directory as a dedicated LED driver
+> >> and not as a MFD device.  The device does have common brightness and r=
+amp
+> >> features and those can be accomodated by a TI LMU framework.
+> >>
+> >> The LM3697 dt binding needs to be moved from the ti-lmu.txt and a dedi=
+cated
+> >> LED dt binding needs to be added.  The new LM3697 LED dt binding will =
+then
+> >> reside in the Documentation/devicetree/bindings/leds directory and fol=
+low the
+> >> current LED and general bindings guidelines.
+> >>
+> >> Reviewed-by: Rob Herring <robh@kernel.org>
+> >> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> >> ---
+> >>
+> >> v3 - No changes added Reviewed-by Rob - https://lore.kernel.org/patchw=
+ork/patch/1058762/
+> >>
+> >> v2 - Made changes to reference ti,brightness-resolution to the ti-lmu.=
+txt -
+> >> https://lore.kernel.org/patchwork/patch/1054501/
+> >>
+> >>  .../devicetree/bindings/leds/leds-lm3697.txt  | 73 +++++++++++++++++++
+> >>  .../devicetree/bindings/mfd/ti-lmu.txt        | 27 +------
+> >>  2 files changed, 74 insertions(+), 26 deletions(-)
+> >>  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm3697=
+=2Etxt
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/leds/leds-lm3697.txt b/=
+Documentation/devicetree/bindings/leds/leds-lm3697.txt
+> >> new file mode 100644
+> >> index 000000000000..02378f33c9ab
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/leds/leds-lm3697.txt
+> >> @@ -0,0 +1,73 @@
+> >> +* Texas Instruments - LM3697 Highly Efficient White LED Driver
+> >> +
+> >> +The LM3697 11-bit LED driver provides high-
+> >> +performance backlight dimming for 1, 2, or 3 series
+> >> +LED strings while delivering up to 90% efficiency.
+> >> +
+> >> +This device is suitable for display and keypad Lighting
+> >=20
+> > "lightning."
+>=20
+> Heh.  Don't think you meant lightning but I get what you are saying
+>=20
+> s/Lighting/lighting
 
-Fixed up the patch "leds: turris_omnia: add I2C and MACH_ARMADA_38X 
-dependencies".
+Yep. Sorry :-). Plus I'd add a dot (".") at the end of sentence.
 
-I'm skipping for now 2/2 until Dan's remarks are addressed.
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
--- 
-Best regards,
-Jacek Anaszewski
+--6Nae48J/T25AfBN4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlzIx3cACgkQMOfwapXb+vIXwACgojs3hh1JSW3TwopZNKqVtCfI
+Pb4Anj8CVBzVheWZyoaalsSvGtnILLTd
+=tNRY
+-----END PGP SIGNATURE-----
+
+--6Nae48J/T25AfBN4--
