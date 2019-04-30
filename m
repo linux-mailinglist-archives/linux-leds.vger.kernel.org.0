@@ -2,112 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FD0C10234
-	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 00:07:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D41110237
+	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 00:08:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727323AbfD3WHe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 Apr 2019 18:07:34 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:42136 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726048AbfD3WHe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 Apr 2019 18:07:34 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x3UM7Ta5067873;
-        Tue, 30 Apr 2019 17:07:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1556662049;
-        bh=mwbS/adT545mom+gOLUqux+4lUqX0AcC/k+8N/4142k=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=YYYJMqJpXzh+HcRr2G4U7J46/+Uw1Joo1VViTA53a3jdQL6vVmxUcGXjQlgbdDRuP
-         iDyMLDDvdPVddzbWbI8+wGUGrCfPHRHKeMaj6zIMdxosg+MmYOt3AneqiJrM/gWLI3
-         EOdK87DRDcbygPOGxIKyXun/6Rhn27ziL+kg66J0=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x3UM7TBu072741
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 30 Apr 2019 17:07:29 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 30
- Apr 2019 17:07:29 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 30 Apr 2019 17:07:29 -0500
-Received: from [10.250.90.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x3UM7SOr028915;
-        Tue, 30 Apr 2019 17:07:28 -0500
-Subject: Re: [PATCH v3 5/7] dt-bindings: ti-lmu: Modify dt bindings for the
- LM3697
-To:     Pavel Machek <pavel@ucw.cz>
-CC:     <jacek.anaszewski@gmail.com>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Rob Herring <robh@kernel.org>
-References: <20190430191730.19450-1-dmurphy@ti.com>
- <20190430191730.19450-6-dmurphy@ti.com> <20190430220527.GC20410@amd>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <34f72f44-9385-a42a-4e44-94ae6a04fe98@ti.com>
-Date:   Tue, 30 Apr 2019 17:07:32 -0500
+        id S1726123AbfD3WIg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 30 Apr 2019 18:08:36 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55907 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726048AbfD3WIg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 Apr 2019 18:08:36 -0400
+Received: by mail-wm1-f65.google.com with SMTP id o25so5433529wmf.5
+        for <linux-leds@vger.kernel.org>; Tue, 30 Apr 2019 15:08:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wZ21DOxmU6ztScrJpp2lRGtIcEK3ni6N/EVAdMR0zws=;
+        b=ZVgJNEwq/nV3bqezkGtrrtWOLyW3RbzlNB3KlNdaaq83PGVWUxRvd0vOmYPd3I4l72
+         4ggaSvMOxPxZFYvkuU28e5GHavKhxL7SrFOBSMK3ttf8i4W+CQQorX03MnZb36Q6t9GZ
+         3wOyr8gloMk7n1tedMUK1ibiybA+eqgpUwjXzEXQyUcT82JAuBUeas7z7QwcyD+1nkjg
+         HvOrkSaIwpOPpqt5Xw67byW+zVgbPCT/J2SuOZKuxfhkIlHY5lb3PwXRA9++aY1X4sjw
+         dmbz5uaMrkdfLhKhNMEf+8LKkqbDPowAc091Q2szZXv8NgtIEcvZYpw09K8/R/auJFUq
+         +27w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wZ21DOxmU6ztScrJpp2lRGtIcEK3ni6N/EVAdMR0zws=;
+        b=BlwKAQvov7bE7Z6p2gC41gITYRdJzyvRrhcyLxLy3mULhzWcvh6GLoBxnfzHA8D59w
+         te4WryRMaE8GJwGtLZhDmLnIfldwdYkCbGbM5HGJMVO3Qvx9w6y6XqDQTbEr8OpymAH5
+         7msy8aRTzasf/cNCktxonCCEh/AQ+x2L5uaTogetC9OunEmwfuptBoXrav20ZXnBv9Go
+         7TP5XAKyT58JS8P1WKbWwr5iMpsxzn05c7EMQDu2dSSeksjhu7AY/+SrOpCizG7dtUxM
+         d8igtkfaIrm6SUw4i4vI2GSc2dE+Smo2MF50qr3TRiFnfFqKhN0jFeaqPzTLNql3UO9D
+         7+gQ==
+X-Gm-Message-State: APjAAAXR8KWc34RMbjA18fjFrOZBXHsVu+uft1hHmBED8HH18J8RpALK
+        nEokEQO/5cIYbUYOl8bMulqQo16T
+X-Google-Smtp-Source: APXvYqwM45bzAYn/ztIU3oKaQewfUoalnn/hLAs8MEdzKu5bHO24sYwcvoQ9GFpftJgciRCcty6ZyA==
+X-Received: by 2002:a1c:6704:: with SMTP id b4mr2954151wmc.108.1556662115151;
+        Tue, 30 Apr 2019 15:08:35 -0700 (PDT)
+Received: from [192.168.1.19] (chf176.neoplus.adsl.tpnet.pl. [83.31.3.176])
+        by smtp.gmail.com with ESMTPSA id b10sm6538861wrh.59.2019.04.30.15.08.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 30 Apr 2019 15:08:34 -0700 (PDT)
+Subject: Re: [PATCH leds/for-next v2 1/2] leds: turris_omnia: build if
+ CONFIG_COMPILE_TEST=y
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
+        linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>
+References: <20190429212944.15643-1-marek.behun@nic.cz>
+ <20190429212944.15643-2-marek.behun@nic.cz>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <40c94567-5114-afe5-735b-cd6021725ef5@gmail.com>
+Date:   Wed, 1 May 2019 00:08:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190430220527.GC20410@amd>
-Content-Type: text/plain; charset="windows-1252"
+In-Reply-To: <20190429212944.15643-2-marek.behun@nic.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Marek,
 
+Thank you for the patch set.
 
-On 4/30/19 5:05 PM, Pavel Machek wrote:
-> On Tue 2019-04-30 14:17:28, Dan Murphy wrote:
->> The LM3697 is a single function LED driver. The single function LED
->> driver needs to reside in the LED directory as a dedicated LED driver
->> and not as a MFD device.  The device does have common brightness and ramp
->> features and those can be accomodated by a TI LMU framework.
->>
->> The LM3697 dt binding needs to be moved from the ti-lmu.txt and a dedicated
->> LED dt binding needs to be added.  The new LM3697 LED dt binding will then
->> reside in the Documentation/devicetree/bindings/leds directory and follow the
->> current LED and general bindings guidelines.
->>
->> Reviewed-by: Rob Herring <robh@kernel.org>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->> ---
->>
->> v3 - No changes added Reviewed-by Rob - https://lore.kernel.org/patchwork/patch/1058762/
->>
->> v2 - Made changes to reference ti,brightness-resolution to the ti-lmu.txt -
->> https://lore.kernel.org/patchwork/patch/1054501/
->>
->>  .../devicetree/bindings/leds/leds-lm3697.txt  | 73 +++++++++++++++++++
->>  .../devicetree/bindings/mfd/ti-lmu.txt        | 27 +------
->>  2 files changed, 74 insertions(+), 26 deletions(-)
->>  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm3697.txt
->>
->> diff --git a/Documentation/devicetree/bindings/leds/leds-lm3697.txt b/Documentation/devicetree/bindings/leds/leds-lm3697.txt
->> new file mode 100644
->> index 000000000000..02378f33c9ab
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/leds/leds-lm3697.txt
->> @@ -0,0 +1,73 @@
->> +* Texas Instruments - LM3697 Highly Efficient White LED Driver
->> +
->> +The LM3697 11-bit LED driver provides high-
->> +performance backlight dimming for 1, 2, or 3 series
->> +LED strings while delivering up to 90% efficiency.
->> +
->> +This device is suitable for display and keypad Lighting
+On 4/29/19 11:29 PM, Marek Behún wrote:
+> As Pavel pointed out, this driver should build if COMPILE_TEST is
+> enabled.
 > 
-> "lightning."
-
-Heh.  Don't think you meant lightning but I get what you are saying
-
-s/Lighting/lighting
-
-Dan
-
-> 									Pavel
+> Signed-off-by: Marek Behún <marek.behun@nic.cz>
+> ---
+>   drivers/leds/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index 52de996e2262..3747cbd0de2c 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -132,7 +132,7 @@ config LEDS_TURRIS_OMNIA
+>   	tristate "LED support for CZ.NIC's Turris Omnia"
+>   	depends on LEDS_CLASS
+>   	depends on I2C
+> -	depends on MACH_ARMADA_38X
+> +	depends on MACH_ARMADA_38X || COMPILE_TEST
+>   	depends on OF
+>   	help
+>   	  This option enables basic support for the LEDs found on the front
+> 
+
+Fixed up the patch "leds: turris_omnia: add I2C and MACH_ARMADA_38X 
+dependencies".
+
+I'm skipping for now 2/2 until Dan's remarks are addressed.
+
+-- 
+Best regards,
+Jacek Anaszewski
