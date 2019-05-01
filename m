@@ -2,95 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 019B110388
-	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 02:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6431A10616
+	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 10:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726123AbfEAAl4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 Apr 2019 20:41:56 -0400
-Received: from mail.nic.cz ([217.31.204.67]:40997 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726115AbfEAAl4 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 30 Apr 2019 20:41:56 -0400
-Received: from localhost (unknown [172.20.6.125])
-        by mail.nic.cz (Postfix) with ESMTPS id 1E9D1632C9;
-        Wed,  1 May 2019 02:41:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1556671314; bh=Nkawm0KEuZfN5h0piClklPBjQSZrsu8awGHf3+VBEMM=;
-        h=Date:From:To;
-        b=qmjoHGqGLEEgOWgLFrCRSbd9H6nWC17cCmB30KTivBrDdwN2sxUylSbXZIIPz+vMj
-         cRInBLN7cK2PnppG+1Q5GQmuBClYstEAeVAyipI2QqEEcD7HBRkWH6QO0bPZQzHU+Y
-         8q2KXJB3hjsWG+hf1kOGgWPRmNIGBtxYtvyY/qvU=
-Date:   Wed, 1 May 2019 02:41:53 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH leds/for-next v2 2/2] leds: turris-omnia: Add support
- for 256 brightness values
-Message-ID: <20190501024153.643f86f9@nic.cz>
-In-Reply-To: <20190430230215.GF20410@amd>
-References: <20190429212944.15643-1-marek.behun@nic.cz>
-        <20190429212944.15643-3-marek.behun@nic.cz>
-        <d2a11183-896c-679f-27c9-4abbba1cb087@gmail.com>
-        <20190430230215.GF20410@amd>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726090AbfEAI0a (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 May 2019 04:26:30 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:44174 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726014AbfEAI03 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 May 2019 04:26:29 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 5CE3A80555; Wed,  1 May 2019 10:26:18 +0200 (CEST)
+Date:   Wed, 1 May 2019 10:26:27 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     Brian Masney <masneyb@onstation.org>, lee.jones@linaro.org,
+        daniel.thompson@linaro.org, jingoohan1@gmail.com,
+        robh+dt@kernel.org, jacek.anaszewski@gmail.com,
+        mark.rutland@arm.com, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, jonathan@marek.ca
+Subject: Re: [PATCH v3 3/3] backlight: lm3630a: add firmware node support
+Message-ID: <20190501082627.GA2971@amd>
+References: <20190415072905.2861-1-masneyb@onstation.org>
+ <20190415072905.2861-4-masneyb@onstation.org>
+ <0e5e26ba-cf98-913e-8e76-e988a86dc0d1@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.99.2 at mail
-X-Virus-Status: Clean
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
+Content-Disposition: inline
+In-Reply-To: <0e5e26ba-cf98-913e-8e76-e988a86dc0d1@ti.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 1 May 2019 01:02:15 +0200
-Pavel Machek <pavel@ucw.cz> wrote:
 
-> Hi!
-> 
-> > >@@ -166,10 +174,19 @@ static int omnia_leds_probe(struct i2c_client *client,
-> > >  static int omnia_leds_remove(struct i2c_client *client)
-> > >  {
-> > >+	u8 buf[5];
-> > >+
-> > >  	/* put all LEDs into default (HW triggered) mode */
-> > >  	i2c_smbus_write_byte_data(client, CMD_LED_MODE,
-> > >  				  CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
-> > >+	/* set all LEDs color to [255, 255, 255] */
-> > >+	buf[0] = CMD_LED_COLOR;
-> > >+	buf[1] = OMNIA_BOARD_LEDS;
-> > >+	buf[2] = buf[3] = buf[4] = 255;
-> > >+
-> > >+	i2c_master_send(client, buf, 5);
-> > >+
-> > >  	return 0;
-> > >  }  
-> > 
-> > I wonder if we're doing right merging this driver in this form.
-> > We break the rule one-led-class-device-per-one-channel.
-> > We don't have LED multi color support yet, so this should support
-> > RGB LEDs in the old manner. Or switch to using LED multi color
-> >  class.  
-> 
-> Fair point.
-> 
-> We treat it as a white LED instead of RGB LED at this
-> point. One-led-per-channel would be problematic, as hardware
-> "triggers" are common for all three channels.
-> 
-> So I thought we could go from "white" led to multicolor, when it
-> becomes available, without going through One-led-per-channel...
-> 
-> I agree this is not quite standard.
-> 
-> 									Pavel
+--6TrnltStXW4iwmi0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-I am aware of this issue. I plan to change the driver to multicolor led
-class as soon as it is available. But from the discussions I have read
-it does not seem it will be available in the next kernel release. I
-would like at least full brigthness for the next release and maybe hw
-triggering, for which the first version I plan to send this week...
+Hi!
 
-Marek
+> > @@ -396,13 +506,20 @@ static int lm3630a_probe(struct i2c_client *clien=
+t,
+> >  				     GFP_KERNEL);
+> >  		if (pdata =3D=3D NULL)
+> >  			return -ENOMEM;
+> > +
+> >  		/* default values */
+> > -		pdata->leda_ctrl =3D LM3630A_LEDA_ENABLE;
+> > -		pdata->ledb_ctrl =3D LM3630A_LEDB_ENABLE;
+> > +		pdata->leda_ctrl =3D LM3630A_LEDA_DISABLE;
+> > +		pdata->ledb_ctrl =3D LM3630A_LEDB_DISABLE;
+>=20
+> This is not needed since default is disabled and kzalloc will set these t=
+o 0
+
+Let compiler do this kind of optimalizations. Code makes sense as-is.
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--6TrnltStXW4iwmi0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlzJWDMACgkQMOfwapXb+vK/6QCguYAgoaGIpYPAGtybTC9vIfZi
+p4UAn2Haq8zwV7EpVgAkDZlkZ4x+gZWb
+=7kTY
+-----END PGP SIGNATURE-----
+
+--6TrnltStXW4iwmi0--
