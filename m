@@ -2,64 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D702106CE
-	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 12:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42CEE106D1
+	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 12:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726052AbfEAKIH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 1 May 2019 06:08:07 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:36425 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725959AbfEAKIH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 May 2019 06:08:07 -0400
-Received: by mail-lj1-f195.google.com with SMTP id y8so8727036ljd.3
-        for <linux-leds@vger.kernel.org>; Wed, 01 May 2019 03:08:06 -0700 (PDT)
+        id S1726124AbfEAKMi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 May 2019 06:12:38 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:33310 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725959AbfEAKMi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 May 2019 06:12:38 -0400
+Received: by mail-lf1-f65.google.com with SMTP id j11so12856690lfm.0
+        for <linux-leds@vger.kernel.org>; Wed, 01 May 2019 03:12:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=x8bCsYtKP2EdkNBC24NcfJGziXNg5kvfWEO8aBKHXvg=;
-        b=RwM8PdTFrLpfySgz8Mum+SwVuZG4JA1dnSkKIHT71UTPmeJz82X3CHCOviwqFVfKKC
-         F+caN2NopE5WiCIbvc2PbeDHWpJrZt3nwGu8U6D20790tJhIr+czkC7HN3LcHg5bYMyc
-         JK2nuimR4JbD31KbAT0qxREpT1/P2xD1R/sGAPmH5Cyya1+BBDcS2zcCpvcMQVK2cBxt
-         gGv4jhWVFs73ua9oWeSrZdcsJ0iLYB86LPaz64uV8MttdPk+cYL8wI8UHKkzw8YX+mds
-         oqHccJ9UKLLYYeDUWGdS43zp5I0jqSA8BgAZ9KN8gZwHT9GUXedFD0o/Trs20X8lUp/6
-         yJlQ==
+        bh=ZLRQXFqnSHgERdYtPAD334b352Bd9spB6EnItZfR5z8=;
+        b=almM/YUdwIr/alfrdRfac0ro90Xn0cmaW2eeTgcG0oBVl2EM4NMqr/0AkvFVziOPFG
+         lmHV0CKyek9zm9nlNbdlPhnxBYBeKY2d51uO4Up8gKrrvzNjYH4zkCZxOkH/S+AHG0hb
+         P7x1MG9Sir9HZRoCIdvYeOoH33g2bdGoDOkhLLEMWUs7GS79mrMjOvuGRI/Rr1Vc6Q98
+         zMiblAeZnsAr9CE5loenupxpFMYJOa+t2gUPn19SpmWSmn3yVtHTJ9l7+yXcHp4sX3LL
+         xpKQSVNkicjT5bII+OXISHUu3AXFZEeWQc2bhUMcVf4t+Nz4oNmTgGmSife3gXx4QyU4
+         jXew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=x8bCsYtKP2EdkNBC24NcfJGziXNg5kvfWEO8aBKHXvg=;
-        b=Z6bKbIR2ucq+LiirdUH01Mv2UFpWEFqo7WI3xA7sfvPjwSfyOdg1mzgg/hnKzyMCKr
-         OgsdDQ7MF6DRCyBSxqxCPRlNCTTPMvcdUI2jYDnG0YWZnSmq/z/94PRmKwjUgekNFvlz
-         b2Ve1uO9d7a5bBTWlRqrcRHDLOyEyu1bFSOjLbNtLE65GD6kw/6vesbuLpI00DUFXo7f
-         pUXf9Rrl+uYdSAfO5aOYcvV73RgwOUVBciQ3I4Kq7fdyytgMz7aZL2cWK23f1mq40hXE
-         qNr1AligasaI0JxKQT/Lw51clGdlwTidhIjZB0701P+/RvXLTXFZizX8xZ/K0tniMY9N
-         NZUg==
-X-Gm-Message-State: APjAAAWktnkXDGaxNOw0Vde3jb3mM34Ihxp6K+IeZzjEl6tUpuuHXck3
-        xJ8N6EcBdWtV/iWQCMo7McA=
-X-Google-Smtp-Source: APXvYqxknAKdmruPJvk6Goi6Whai57MNeknIMrWU+u451sIfW80VcOKt09YZLqqgUHAcVnjmk2f4kQ==
-X-Received: by 2002:a2e:9ac8:: with SMTP id p8mr34828478ljj.79.1556705285410;
-        Wed, 01 May 2019 03:08:05 -0700 (PDT)
+        bh=ZLRQXFqnSHgERdYtPAD334b352Bd9spB6EnItZfR5z8=;
+        b=gElXkOZgfkLEyVsuFU/I7zoUtOjtqbtAiex56Rlhk03Q90tN81oRZ1aW9IP58v/HTD
+         Uxka/Z+h8tbjsBTVDDiLKgCYhr47i2NvLQfhFyuNqHTnZ2zbysBs9Tw9pD5wv42DBFoy
+         LERVO27a8fzpCWs/drQqVLgGNE7G9eQa3mzfGOttp9YMp0bYkKBIXw0YeWQyLA96wiky
+         l2u8G9k7eAboAzgFZehsVswEwds+rpuHgnnLSVQB9INaAgEDzwMD2L8ZwVHgX3NAtmr3
+         Ur1WusgGWIaj32Yo1RzCnAbykjDW8pxjF6jlJ0zgls2N8xWO1snM8KwKtEs5g8YtDfMq
+         bUJw==
+X-Gm-Message-State: APjAAAXYZPPdDkvLtv13fmA0am7qeN33OZqutijocln0UgOlCFgDRBXf
+        JTeLevzjbNkvgg72J19Wg7QJxhvk
+X-Google-Smtp-Source: APXvYqzJFnTZS90pODL5nOQjIUBByj8ZPUwrdWhBCrP8bTIzY06CVf0FXhVmGirdClHmW5cCHGLYzw==
+X-Received: by 2002:ac2:518b:: with SMTP id u11mr6734740lfi.46.1556705556358;
+        Wed, 01 May 2019 03:12:36 -0700 (PDT)
 Received: from [192.168.1.19] (chf176.neoplus.adsl.tpnet.pl. [83.31.3.176])
-        by smtp.gmail.com with ESMTPSA id t14sm7839036lji.33.2019.05.01.03.08.03
+        by smtp.gmail.com with ESMTPSA id v26sm8023910lja.60.2019.05.01.03.12.34
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 01 May 2019 03:08:04 -0700 (PDT)
+        Wed, 01 May 2019 03:12:35 -0700 (PDT)
 Subject: Re: [PATCH leds/for-next v2 2/2] leds: turris-omnia: Add support for
  256 brightness values
-To:     Marek Behun <marek.behun@nic.cz>, Dan Murphy <dmurphy@ti.com>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
+To:     Marek Behun <marek.behun@nic.cz>, Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org
 References: <20190429212944.15643-1-marek.behun@nic.cz>
  <20190429212944.15643-3-marek.behun@nic.cz>
- <87eafec0-b074-689d-20b6-171a866745ea@ti.com>
- <20190501023802.41f733ec@nic.cz>
+ <d2a11183-896c-679f-27c9-4abbba1cb087@gmail.com> <20190430230215.GF20410@amd>
+ <20190501024153.643f86f9@nic.cz>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <24afe765-3a63-d16c-7bfc-b5188b629a69@gmail.com>
-Date:   Wed, 1 May 2019 12:08:01 +0200
+Message-ID: <6e22f510-c105-35af-d424-a641714318b8@gmail.com>
+Date:   Wed, 1 May 2019 12:12:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190501023802.41f733ec@nic.cz>
+In-Reply-To: <20190501024153.643f86f9@nic.cz>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -70,87 +70,59 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi Marek,
 
-On 5/1/19 2:38 AM, Marek Behun wrote:
-> Hi Dan,
+On 5/1/19 2:41 AM, Marek Behun wrote:
+> On Wed, 1 May 2019 01:02:15 +0200
+> Pavel Machek <pavel@ucw.cz> wrote:
 > 
-> On Tue, 30 Apr 2019 14:46:09 -0500
-> Dan Murphy <dmurphy@ti.com> wrote:
-> 
->> I am not seeing where or how this is done in the driver on probe.
-> 
-> In function omnia_led_register
-> https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/tree/drivers/leds/leds-turris-omnia.c?h=for-next#n107
-> 
->>> +	u8 buf[5], state;
-> ...
->>> +	buf[0] = CMD_LED_COLOR;
->>> +	buf[1] = idx;
->>> +	buf[2] = buf[3] = buf[4] = brightness;
+>> Hi!
 >>
->> Magic numbers
-
-Ideally would be to add also namespacing prefix,
-to make it clear that these are driver specific macros.
-
-> Hmm. Would these names be okay?
->    CMD_LED_COLOR_LENGTH
-
-OMNIA_CMD_LED_COLOR_LEN
-
->    CMD_LED_COLOR_CMD
-
-OMNIA_CMD_LED_COLOR
-
->    CMD_LED_COLOR_LED_ID
-
-OMNIA_CMD_LED_COLOR_ID
-
->    CMD_LED_COLOR_RED
-
-If LED color identifiers are not varying between
-commands we can skip "CMD" part.
-
-OMNIA_LED_COLOR_RED
-
->    CMD_LED_COLOR_GREEN
-
-OMNIA_LED_COLOR_GREEN
-
->    CMD_LED_COLOR_BLUE
-
-OMNIA_LED_COLOR_BLUE
-
-
-> If constants are used they have to indicate which command they apply to.
-> Or maybe a
->    struct cmd_led_color {
->      u8 cmd;
->      u8 id;
->      u8 red, green, blue;
->    }
-> could be defined, but I think that this is used very sporadically in
-> the kernel.
-> 
->> What happens if the LEDs are in HW triggered mode already?
->> Should this not be checked especially if the driver is removed and re-installed the uP has
->> this configured as HW mode.  Unless you reset the uP as well.
-> 
-> In current version of this driver on driver probe all LEDs are put into
-> SW mode. On driver remove they are put to HW mode. It is not possible
-> to read from the microcontroller in which mode they are.
-> 
->>> +	led->cdev.max_brightness = 255;
+>>>> @@ -166,10 +174,19 @@ static int omnia_leds_probe(struct i2c_client *client,
+>>>>   static int omnia_leds_remove(struct i2c_client *client)
+>>>>   {
+>>>> +	u8 buf[5];
+>>>> +
+>>>>   	/* put all LEDs into default (HW triggered) mode */
+>>>>   	i2c_smbus_write_byte_data(client, CMD_LED_MODE,
+>>>>   				  CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
+>>>> +	/* set all LEDs color to [255, 255, 255] */
+>>>> +	buf[0] = CMD_LED_COLOR;
+>>>> +	buf[1] = OMNIA_BOARD_LEDS;
+>>>> +	buf[2] = buf[3] = buf[4] = 255;
+>>>> +
+>>>> +	i2c_master_send(client, buf, 5);
+>>>> +
+>>>>   	return 0;
+>>>>   }
+>>>
+>>> I wonder if we're doing right merging this driver in this form.
+>>> We break the rule one-led-class-device-per-one-channel.
+>>> We don't have LED multi color support yet, so this should support
+>>> RGB LEDs in the old manner. Or switch to using LED multi color
+>>>   class.
 >>
->> How about LED_FULL?
+>> Fair point.
+>>
+>> We treat it as a white LED instead of RGB LED at this
+>> point. One-led-per-channel would be problematic, as hardware
+>> "triggers" are common for all three channels.
+>>
+>> So I thought we could go from "white" led to multicolor, when it
+>> becomes available, without going through One-led-per-channel...
+>>
+>> I agree this is not quite standard.
+>>
+>> 									Pavel
 > 
-> I thought about this but was not sure, for the same reason Pavel
-> mentioned: I wanted to indicate that this microcontroller supports 8bit
-> per channel. LED_FULL is a kernel specific macro and although it will
-> never change and is equal, it makes less (fewer?) sense to me to use it.
-> But I will change it in the next version per your request.
+> Hi,
+> I am aware of this issue. I plan to change the driver to multicolor led
+> class as soon as it is available. But from the discussions I have read
+> it does not seem it will be available in the next kernel release. I
+> would like at least full brigthness for the next release and maybe hw
+> triggering, for which the first version I plan to send this week...
 
-Actually, thinking more of it - all in all this is legacy enum,
-superseded by, yes, max_brightness property. So, I'd say 255 can stay.
+If you used led-sources property in your DT bindings it would be all
+fine. It will justify having three channels controlled by single LED
+class device.
 
 -- 
 Best regards,
