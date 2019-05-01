@@ -2,154 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E9E10675
-	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 11:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CD681067A
+	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 11:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbfEAJmw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 1 May 2019 05:42:52 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33474 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726052AbfEAJmv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 May 2019 05:42:51 -0400
-Received: by mail-wr1-f68.google.com with SMTP id e28so974229wra.0
-        for <linux-leds@vger.kernel.org>; Wed, 01 May 2019 02:42:50 -0700 (PDT)
+        id S1726124AbfEAJpp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 May 2019 05:45:45 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:52080 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725959AbfEAJpp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 May 2019 05:45:45 -0400
+Received: by mail-wm1-f68.google.com with SMTP id t76so2759029wmt.1;
+        Wed, 01 May 2019 02:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hVL7opI45UhQdD1zibQ+T2BNLcv3wmTWuC3oIItB/ME=;
-        b=pFE2iJ9O8FRJxq5BEqK5qXgJwyVQlSg+EeEwTuCzv8rZ2P3f2B+r9iH7L/wWRS4ek1
-         V3oLFTKi8BXA5VzOOr4vIVxOEfrSnDQXSTzj7nYyAX63kZxie5Kufpd3cZJ7ptwpoIr6
-         fxb58cHi9CSeMpdB2K2WjeK+KGX3xhI5KDgOFEvtB09CuW0Uhb8r7+5ousg0g55FUIgJ
-         qWMcDdEhz9k6AnVN9nUSI27KkUF36eub4VhJddIQcKoz/eq+j5RBuGv2TbZVLTXz8mSB
-         jMLek2cS1G5EeGqSqAkhQcJnGTBQf3CKlIPrRvZkmefmVkejHQcOUeBXk9jsC3p3mU56
-         v29w==
+        bh=xUDmUA+ta1A8+ZzMN2QQ5gPy8NIraQiuCwNXfvnc3LU=;
+        b=EIcjNNDrIAAlYhvhmHymJLhL+XLLnJY1aBq0L0DvAaxpUfIhRnILNAzyf276LJyLGj
+         D3xOO9ZlOCaFbCYzLT0u9hWY+RDMfe5mUhj3iBmxbJds2O+og07K/tewFZr2r5PoveHB
+         TY646FY/E3s9al13kNvogIzxx+chLkCCSLa9C8r5qlx0876VwaOL1oUrUS8Gki8/1u8o
+         UVHgulvV2ExDgbKxGzTjAHhMzqgSIKDoaPfzCa/Z5m0xZXHogMtyAV+ejWk48Y2ng/b5
+         508DTd81QDQX7O3PT+Xw6yPs+XK+CuG5Ks+0UPNoQWtiSRc3nwiACILVCt0Hnv/gowrG
+         nqJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=hVL7opI45UhQdD1zibQ+T2BNLcv3wmTWuC3oIItB/ME=;
-        b=Zr/juJbqxykrV8BqaO6TWT5rwCBlHkklN9gONWiwYjJAYXGBPYL7vGrbh7E1wSg7Gl
-         15dI1zw5EEXFJCxPYXBAdPb6F3ardzei5pU0rlhgDUSLEY0TM6WEKWnCo9ucmhmFPePj
-         NXD66p/23vT168klM74EE/pR2A505k7gUSNhdHxUJXIovYicj1epjJCajAilzzTymFJ5
-         ameGCv2BO2N9mGe3CckfuXPCzRvRJMIBLjJSftsN5+so1st4/YMECTSp8H8EDM4RzJrO
-         FdN+rKD8G6vgOc4GwkR0Lo2m3zCFi7xxPrksQmyGjL7GRnWBVvCnyhMrRSLAwzLJEczP
-         3CjQ==
-X-Gm-Message-State: APjAAAU7A6uqfUf7HmEeiT5A825CE04CHd/3VCLOM6As0HM6yVajRe1U
-        RJ+nzxxy1DG461VbV+kwo1dpTzN1
-X-Google-Smtp-Source: APXvYqz5ZmDsmMZkaxoUPyeUffnh2VqIxIjeoFaxQqBgwpT0WXUibrJ41HvtLkL6p+quFceYZR3xFw==
-X-Received: by 2002:a5d:69ce:: with SMTP id s14mr5904803wrw.223.1556703769683;
-        Wed, 01 May 2019 02:42:49 -0700 (PDT)
+        bh=xUDmUA+ta1A8+ZzMN2QQ5gPy8NIraQiuCwNXfvnc3LU=;
+        b=DA2zs1g5chGjTv1vHV/K/do3pKN3hH556jPkP/gYRWwPqIufCD7hWu4uG5AhVcxcUF
+         PHEItcU5xRECGeIga/f4/qQKi3r9TtRaZJzox4xYjNof5FZnfQGNgzTeUBR7FfuKaixl
+         LiuKhL9ljQBv78ReDQPA/00mXdaAKQXasdqaWWzvj+OvbTwMcZejRMRzXsKa2qKCA/Tm
+         S/jy6/KjeLNDFsFBW6LHE0wz7rz+NFgQ1sd7ujpaUi525eHry7RhUzqJKw3daig32ASv
+         HumSABftuIjIWnJEQThWL8R7UCrJ+k5MOY0Pnv5RUlARTbx4ob9fiZG2zPo5odza7Ys3
+         LQGw==
+X-Gm-Message-State: APjAAAVAQA/Ww9Vw5PaIfWk9x/B+QPznD3LkuvLA+dGOMh7ffC9pEvGK
+        SgVDRJ5WwQhCZkE+BIU99Qif9UaJ
+X-Google-Smtp-Source: APXvYqx0kSkYbFSFBuSRwlNKOJIivQ2x22eh3PljcjtDR78OCSwKn00bZUOPJwu09jPtlBD3ljmlvg==
+X-Received: by 2002:a05:600c:1191:: with SMTP id i17mr2598746wmf.84.1556703943200;
+        Wed, 01 May 2019 02:45:43 -0700 (PDT)
 Received: from [192.168.1.19] (chf176.neoplus.adsl.tpnet.pl. [83.31.3.176])
-        by smtp.gmail.com with ESMTPSA id u8sm3777371wmc.14.2019.05.01.02.42.48
+        by smtp.gmail.com with ESMTPSA id d11sm4542656wmb.39.2019.05.01.02.45.41
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 01 May 2019 02:42:48 -0700 (PDT)
-Subject: Re: [PATCH leds/for-next v2 2/2] leds: turris-omnia: Add support for
- 256 brightness values
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
-        linux-leds@vger.kernel.org
-References: <20190429212944.15643-1-marek.behun@nic.cz>
- <20190429212944.15643-3-marek.behun@nic.cz>
- <87eafec0-b074-689d-20b6-171a866745ea@ti.com> <20190430204625.GA20410@amd>
- <eb5f9ce0-914e-57dc-5e58-65c1f2ef52db@gmail.com> <20190430224332.GE20410@amd>
+        Wed, 01 May 2019 02:45:42 -0700 (PDT)
+Subject: Re: [PATCH v3 0/7] LMU Common code intro
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <d8dadafe-7f98-7097-a905-fe8ebba0fe4c@gmail.com>
-Date:   Wed, 1 May 2019 11:42:47 +0200
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190430191730.19450-1-dmurphy@ti.com>
+ <34088323-9b40-7dea-5449-6a01bb721c00@gmail.com>
+Message-ID: <8166c0c1-facf-14da-7c71-5bc5a3cc23f7@gmail.com>
+Date:   Wed, 1 May 2019 11:45:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190430224332.GE20410@amd>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <34088323-9b40-7dea-5449-6a01bb721c00@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 5/1/19 12:43 AM, Pavel Machek wrote:
-> On Tue 2019-04-30 22:52:36, Jacek Anaszewski wrote:
->> On 4/30/19 10:46 PM, Pavel Machek wrote:
->>> Hi!
->>>
->>>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->>>>> index 3747cbd0de2c..62d17c2f4878 100644
->>>>> --- a/drivers/leds/Kconfig
->>>>> +++ b/drivers/leds/Kconfig
->>>>> @@ -139,8 +139,8 @@ config LEDS_TURRIS_OMNIA
->>>>>   	  side of CZ.NIC's Turris Omnia router. There are 12 RGB LEDs on the
->>>>>   	  front panel.
->>>>>   	  This driver does not currently support setting LED colors, only
->>>>> -	  on/off state. Also HW triggering is disabled when the controller
->>>>> -	  is probed by this driver.
->>>>> +	  brightness. Also HW triggering is disabled when the controller is
->>>>> +	  probed by this driver.
->>>>
->>>> I am not seeing where or how this is done in the driver on probe.
->>>
->>> I checked, and I believe it was ok.
->>>
->>>>>   config LEDS_LM3530
->>>>>   	tristate "LCD Backlight driver for LM3530"
->>>>> diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
->>>>> index dc9fac56b13a..0e805d94f298 100644
->>>>> --- a/drivers/leds/leds-turris-omnia.c
->>>>> +++ b/drivers/leds/leds-turris-omnia.c
->>>>> @@ -54,7 +54,7 @@ static int omnia_led_brightness_set_blocking(struct led_classdev *led,
->>>>>   	struct omnia_leds *leds = dev_get_drvdata(led->dev->parent);
->>>>>   	int idx = omnia_led_idx(leds, led);
->>>>>   	int ret;
->>>>> -	u8 state;
->>>>> +	u8 buf[5], state;
->>>>
->>>> Magic numbers
->>>
->>> Nothing wrong with magic "5" when you have 0, 1, 2, 3 and 4
->>> below. Constants are useful when they make code easier to read, not in
->>> this case.
->>>
->>>>>   	mutex_unlock(&leds->lock);
->>>>>   	return ret;
->>>>> @@ -97,7 +105,7 @@ static int omnia_led_register(struct omnia_leds *leds,
->>>>>   	ret = fwnode_property_read_string(node, "label", &str);
->>>>>   	snprintf(led->name, sizeof(led->name), "omnia::%s", ret ? "" : str);
->>>>> -	led->cdev.max_brightness = 1;
->>>>> +	led->cdev.max_brightness = 255;
->>>>
->>>> How about LED_FULL?
->>>
->>> Please don't.
->>>
->>>>> +	/* set all LEDs color to [255, 255, 255] */
->>>>> +	buf[0] = CMD_LED_COLOR;
->>>>> +	buf[1] = OMNIA_BOARD_LEDS;
->>>>> +	buf[2] = buf[3] = buf[4] = 255;
->>>>> +
->>>>
->>>> LED_FULL for this as above.
->>>
->>> I'd actually prefer 255 here; due to the way hardware is designed,
->>> it has brightness in byte. No need to put LED_FULL here, and force
->>> reader to check the headers to see what value LED_FULL has.
->>
->> Let's be consistent. Please add constants for both 5 and 255.
->> The conventions are established for a reason.
+Ekhm, I forgot to add the main recipient.
+
+Adding Lee.
+
+On 5/1/19 12:05 AM, Jacek Anaszewski wrote:
+> Hi Lee,
 > 
-> I don't believe such convention exists for kernel, and it certainly
-> makes code harder to read in case of "5"... That code is currently
-> simple and easy to read, lets keep it that way.
-
-I don't see how a constant with informative name can be harder
-to read than bare number.
-
-> (You can try  grep -ri '\<5\>' net/ :-) ]
-
-I have something more informative:
-
-grep -r "^#define [_A-Za-z0-9]*\(SIZE\|LEN\)\s*[0-9]$" net/
+> This patch set has dependency on the previous one for lm3532, which
+> also touches ti-lmu.txt bindings, and for which I already created
+> immutable branch. Now if I created another immutable branch for
+> this patch set we would have to resolve conflicts between the two,
+> as they would both be based on 5.1-rc1. Adds much overhead and
+> is error prone. Therefore I propose to apply this patch set on
+> top of my merge of LED tree with the immutable branch for lm3532.
+> 
+> Please let me know if you see it differently. I'll wait for your
+> response until Friday, and then proceed with the above as I think
+> it should be harmless for MFD.
+> 
+> Best regards,
+> Jacek Anaszewski
+> 
+> On 4/30/19 9:17 PM, Dan Murphy wrote:
+>> Hello
+>>
+>> I have added the Reviewed-by for dt bindings as well as made the 
+>> Kconfig change
+>> pointed out for the common code flag
+>>
+>> Dan
+>>
+>> Dan Murphy (7):
+>>    dt-bindings: mfd: LMU: Fix lm3632 dt binding example
+>>    dt-bindings: mfd: LMU: Add the ramp up/down property
+>>    dt-bindings: mfd: LMU: Add ti,brightness-resolution
+>>    leds: TI LMU: Add common code for TI LMU devices
+>>    dt-bindings: ti-lmu: Modify dt bindings for the LM3697
+>>    mfd: ti-lmu: Remove support for LM3697
+>>    leds: lm3697: Introduce the lm3697 driver
+>>
+>>   .../devicetree/bindings/leds/leds-lm3697.txt  |  73 ++++
+>>   .../devicetree/bindings/mfd/ti-lmu.txt        |  56 ++-
+>>   drivers/leds/Kconfig                          |  15 +
+>>   drivers/leds/Makefile                         |   2 +
+>>   drivers/leds/leds-lm3697.c                    | 395 ++++++++++++++++++
+>>   drivers/leds/ti-lmu-led-common.c              | 155 +++++++
+>>   drivers/mfd/Kconfig                           |   2 +-
+>>   drivers/mfd/ti-lmu.c                          |  17 -
+>>   include/linux/mfd/ti-lmu-register.h           |  44 --
+>>   include/linux/mfd/ti-lmu.h                    |   1 -
+>>   include/linux/ti-lmu-led-common.h             |  47 +++
+>>   11 files changed, 712 insertions(+), 95 deletions(-)
+>>   create mode 100644 
+>> Documentation/devicetree/bindings/leds/leds-lm3697.txt
+>>   create mode 100644 drivers/leds/leds-lm3697.c
+>>   create mode 100644 drivers/leds/ti-lmu-led-common.c
+>>   create mode 100644 include/linux/ti-lmu-led-common.h
+>>
+> 
+> 
 
 -- 
 Best regards,
