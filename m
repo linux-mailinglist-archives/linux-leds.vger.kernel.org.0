@@ -2,99 +2,99 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E16EF102F8
-	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 01:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59B4F10386
+	for <lists+linux-leds@lfdr.de>; Wed,  1 May 2019 02:38:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726123AbfD3XCS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 Apr 2019 19:02:18 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:58655 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726105AbfD3XCS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 Apr 2019 19:02:18 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id D8070803F5; Wed,  1 May 2019 01:02:06 +0200 (CEST)
-Date:   Wed, 1 May 2019 01:02:15 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH leds/for-next v2 2/2] leds: turris-omnia: Add support for
- 256 brightness values
-Message-ID: <20190430230215.GF20410@amd>
+        id S1727368AbfEAAiF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 30 Apr 2019 20:38:05 -0400
+Received: from mail.nic.cz ([217.31.204.67]:40950 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726115AbfEAAiF (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 30 Apr 2019 20:38:05 -0400
+Received: from localhost (unknown [172.20.6.125])
+        by mail.nic.cz (Postfix) with ESMTPS id 2069263157;
+        Wed,  1 May 2019 02:38:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1556671083; bh=bewKT9KNebvX/ElR/ZHqxN4ZEldQgV+UjQiJ6PxU8EQ=;
+        h=Date:From:To;
+        b=C4mEGbxLmjwMVzXqWnS2JWdgeMljUyaSn8B/pCD4UrRcoJUEcQ7abOrQsb1Lokbbw
+         2+SyrzjXZVjOJJgyX71nxQQrjZHnL3k/r53Q06PUNH2WM5jy5rAyJdcHCjvoRAJgv0
+         KtsWXhr7mHp13z0W0Y+qGUiYapTmOedGm7DrG+O4=
+Date:   Wed, 1 May 2019 02:38:02 +0200
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     <linux-leds@vger.kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH leds/for-next v2 2/2] leds: turris-omnia: Add support
+ for 256 brightness values
+Message-ID: <20190501023802.41f733ec@nic.cz>
+In-Reply-To: <87eafec0-b074-689d-20b6-171a866745ea@ti.com>
 References: <20190429212944.15643-1-marek.behun@nic.cz>
- <20190429212944.15643-3-marek.behun@nic.cz>
- <d2a11183-896c-679f-27c9-4abbba1cb087@gmail.com>
+        <20190429212944.15643-3-marek.behun@nic.cz>
+        <87eafec0-b074-689d-20b6-171a866745ea@ti.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="twz1s1Hj1O0rHoT0"
-Content-Disposition: inline
-In-Reply-To: <d2a11183-896c-679f-27c9-4abbba1cb087@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.99.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Dan,
 
---twz1s1Hj1O0rHoT0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 30 Apr 2019 14:46:09 -0500
+Dan Murphy <dmurphy@ti.com> wrote:
 
-Hi!
+> I am not seeing where or how this is done in the driver on probe.
 
-> >@@ -166,10 +174,19 @@ static int omnia_leds_probe(struct i2c_client *cli=
-ent,
-> >  static int omnia_leds_remove(struct i2c_client *client)
-> >  {
-> >+	u8 buf[5];
-> >+
-> >  	/* put all LEDs into default (HW triggered) mode */
-> >  	i2c_smbus_write_byte_data(client, CMD_LED_MODE,
-> >  				  CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
-> >+	/* set all LEDs color to [255, 255, 255] */
-> >+	buf[0] =3D CMD_LED_COLOR;
-> >+	buf[1] =3D OMNIA_BOARD_LEDS;
-> >+	buf[2] =3D buf[3] =3D buf[4] =3D 255;
-> >+
-> >+	i2c_master_send(client, buf, 5);
-> >+
-> >  	return 0;
-> >  }
->=20
-> I wonder if we're doing right merging this driver in this form.
-> We break the rule one-led-class-device-per-one-channel.
-> We don't have LED multi color support yet, so this should support
-> RGB LEDs in the old manner. Or switch to using LED multi color
->  class.
+In function omnia_led_register
+https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/tree/drivers/leds/leds-turris-omnia.c?h=for-next#n107
 
-Fair point.
+> > +	u8 buf[5], state;  
+...
+> > +	buf[0] = CMD_LED_COLOR;
+> > +	buf[1] = idx;
+> > +	buf[2] = buf[3] = buf[4] = brightness;
+> 
+> Magic numbers
 
-We treat it as a white LED instead of RGB LED at this
-point. One-led-per-channel would be problematic, as hardware
-"triggers" are common for all three channels.
+Hmm. Would these names be okay?
+  CMD_LED_COLOR_LENGTH
+  CMD_LED_COLOR_CMD
+  CMD_LED_COLOR_LED_ID
+  CMD_LED_COLOR_RED
+  CMD_LED_COLOR_GREEN
+  CMD_LED_COLOR_BLUE
+If constants are used they have to indicate which command they apply to.
+Or maybe a
+  struct cmd_led_color {
+    u8 cmd;
+    u8 id;
+    u8 red, green, blue;
+  }
+could be defined, but I think that this is used very sporadically in
+the kernel.
 
-So I thought we could go from "white" led to multicolor, when it
-becomes available, without going through One-led-per-channel...
+> What happens if the LEDs are in HW triggered mode already?
+> Should this not be checked especially if the driver is removed and re-installed the uP has
+> this configured as HW mode.  Unless you reset the uP as well.
 
-I agree this is not quite standard.
+In current version of this driver on driver probe all LEDs are put into
+SW mode. On driver remove they are put to HW mode. It is not possible
+to read from the microcontroller in which mode they are.
 
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+> > +	led->cdev.max_brightness = 255;  
+> 
+> How about LED_FULL?
 
---twz1s1Hj1O0rHoT0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+I thought about this but was not sure, for the same reason Pavel
+mentioned: I wanted to indicate that this microcontroller supports 8bit
+per channel. LED_FULL is a kernel specific macro and although it will
+never change and is equal, it makes less (fewer?) sense to me to use it.
+But I will change it in the next version per your request.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlzI0/cACgkQMOfwapXb+vJsqQCfYnIvooIzllx9+UvX3Wif6G44
-f0kAni64+fqZTFehpUEzYGQZjCh/9fuv
-=Inww
------END PGP SIGNATURE-----
-
---twz1s1Hj1O0rHoT0--
+Marek
