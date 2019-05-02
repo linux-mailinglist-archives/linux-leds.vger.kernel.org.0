@@ -2,107 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5D611178D
-	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2019 12:46:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1987A121DE
+	for <lists+linux-leds@lfdr.de>; Thu,  2 May 2019 20:29:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726283AbfEBKqs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 2 May 2019 06:46:48 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:35994 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726266AbfEBKqs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 May 2019 06:46:48 -0400
-Received: by mail-wm1-f68.google.com with SMTP id p16so1982800wma.1
-        for <linux-leds@vger.kernel.org>; Thu, 02 May 2019 03:46:47 -0700 (PDT)
+        id S1726114AbfEBS3Z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 2 May 2019 14:29:25 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39359 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725962AbfEBS3Z (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 May 2019 14:29:25 -0400
+Received: by mail-wm1-f66.google.com with SMTP id n25so3890181wmk.4;
+        Thu, 02 May 2019 11:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=upr4s3UIqgMfOrxzX8hhRFt6bzy1u9Hfi57/Qn9/txc=;
-        b=ONa1Kh3MkmzE3M+vKHgiL4PwCW7ge1VCjQn6DkjkKRFwkrOiHF5j2fYLMdPH4Rztwh
-         frXJi5Ac0BfSXIcwW2euSoiS1uDBKY0IJpY7Jyd3aX5ErqYvHEWT3Eu3eFzN3hSy+fWJ
-         xELWO3+47dApN8Evpzl5hFryTd4WopsbAivnKmbX8r7oiEXlaO6rVfvEsn81LBtm5WE4
-         l38NRQQUPmeOTieKupNNQ0ztW+qbYYsO+0PZ3v2w1nP5hqpfkzqLWBVzAS7D7iKsx2fe
-         h4gicOY03ITDlRaXt2umQf4RCP3fAPxpJZEBUxcaisPKIAho8tEnpPa2GfyFTvT7p4wx
-         miew==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=SsplXKAeRkabPuKAwfI1OVTxmW/W7nsVKsv/rEGcfJ8=;
+        b=hes5MEZMSiLSn8wlFgwFU7LyEwEGOu64ZzxzvMX/5Tqru9ohzXahF7TtZ9B/i79GMv
+         UOgqAqVcU8A2PIyxr9DAHsx9l5tIBjGmliVIq//TkFdFpntBE1VeWj+B0YbPO4aALQxW
+         CrSH3b8V/9BSv7HwHrmCb80Sdngspj+CpB1/q3OKqG2Qe1+xzgVvXuLWpo7Qh4vHAOYh
+         D3OIvbcFXhy/Zks40WUSWse9t8fcK1SVT7+uFgQI1kaecHV8+MebkJIT99gvTUZyCi4p
+         Q8wZ5aKswzJ9e8MuD9RLQzlTukFikxYUsesEODIklOVQ+I70fraeESpHSAUJi3yng/Me
+         gNGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=upr4s3UIqgMfOrxzX8hhRFt6bzy1u9Hfi57/Qn9/txc=;
-        b=eLAMO11MjQwzlHjh/qs0Ui9Dn4MTqN+zg+SaB9g/Llm4+JApCC6Y25TtWpITM0MQb3
-         aWKkHSB5esQlEXzKwVnERfv0LRJC+Dz/Ee11LOB0V+cgaUypc86zIYICBpORYF7XFDFL
-         QBAd+Go/yuz4mCu17wS/FmATzheG78jt+xZKu2C1zvtmiZUBiS0ddZCuP0S/4+7F58n7
-         F0Vup/JHhMUQD5oj6x8ac8mszsmQETcOIGBG53vSUGFCuHRNAf5P1ko13jR+XM/1FPXo
-         WyN3zY+bfo4T/AsNfB4BuqZOVXLJ4rDPozBjRuMoMpSHCE4nTy10iqgKTkf1X8D/+F8L
-         B6Zg==
-X-Gm-Message-State: APjAAAXOeFr94RqvCVYcJi1Rl5ILp6++Euh6TYB3WD59qj8yWPPAkWTj
-        nQBNTgfPgsHg8nSdijHmDmedAQ==
-X-Google-Smtp-Source: APXvYqz8ljUpeAkWeR0JjC3hksspS6xNuZxWwhyiG3PhQ+JauGvsPlF8u6dmrVg+yH7KYtohRo/pYg==
-X-Received: by 2002:a1c:e708:: with SMTP id e8mr1866607wmh.73.1556794006806;
-        Thu, 02 May 2019 03:46:46 -0700 (PDT)
-Received: from holly.lan (static-84-9-17-116.vodafonexdsl.co.uk. [84.9.17.116])
-        by smtp.gmail.com with ESMTPSA id z16sm23205477wrt.26.2019.05.02.03.46.45
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 02 May 2019 03:46:46 -0700 (PDT)
-Date:   Thu, 2 May 2019 11:46:44 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Brian Masney <masneyb@onstation.org>
-Cc:     lee.jones@linaro.org, jingoohan1@gmail.com, robh+dt@kernel.org,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, mark.rutland@arm.com,
-        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dmurphy@ti.com, jonathan@marek.ca,
-        Daniel Thompson <daniel@redfelineninja.org.uk>
-Subject: Re: [PATCH v6 1/3] backlight: lm3630a: return 0 on success in
- update_status functions
-Message-ID: <20190502104644.e3eth2cdebuz2mpk@holly.lan>
-References: <20190424092505.6578-1-masneyb@onstation.org>
- <20190424092505.6578-2-masneyb@onstation.org>
- <864c1ddc-1008-0041-1559-e491ca0186ef@linaro.org>
- <20190502104239.GA24563@basecamp>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=SsplXKAeRkabPuKAwfI1OVTxmW/W7nsVKsv/rEGcfJ8=;
+        b=eZWmVzpcYc/Es5wv05CGLxetbC142DZFMK3cFXjWeh5+tojAMTjuRjCYKBWJKZUS8i
+         dIlLyeWt1DfX3PdRBU7+g0PsuyoT8NBHkqV9j/od5vA3Feq5LCjMvWgS5e2RvvyQTOLs
+         17MutjvUeIleYt2n354DllovVefmGFxIHyNDu3cZTKe4TjEFzhaVfpueq3l/Mucgf9WP
+         ph1K9Kbqa82OfdH/6RoXqxT7kDnvnmuarhARGpaWUm5ek8kQ7iZo+Fk4ahSzxcR0bNi6
+         1rngTBsM5yxv286hC/+rISB4DddXGIgr8Amvehmz2DOTGXoyKskJlLVpYlkyOdK8fCkp
+         WJ0g==
+X-Gm-Message-State: APjAAAVj6iY2QRhOVI1rPiZ89SZYZkAgok8TPsr76nNkHSvG4uDxe+rC
+        IMXWcP3f9LIoNQ+zpiIO2RBh7c1Q
+X-Google-Smtp-Source: APXvYqyUm1udY1J+ei2wQ5foIOqhf/1cNbveQuHxmKk0zpIE6dhTUKZGeXsOP8KD0qQe0CB/zILZEQ==
+X-Received: by 2002:a7b:c3da:: with SMTP id t26mr3560824wmj.40.1556821763141;
+        Thu, 02 May 2019 11:29:23 -0700 (PDT)
+Received: from [192.168.1.19] (chq152.neoplus.adsl.tpnet.pl. [83.31.14.152])
+        by smtp.gmail.com with ESMTPSA id v192sm10070534wme.24.2019.05.02.11.29.21
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 02 May 2019 11:29:22 -0700 (PDT)
+Subject: Re: [PATCH] leds: avoid races with workqueue
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, ibm-acpi@hmh.eng.br,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+References: <20190426123513.GA18172@amd> <20190426214246.GA24966@amd>
+ <84fac57d-1121-a1da-fb45-16a2521bdef9@gmail.com> <20190427193411.GA9709@amd>
+ <2578a614-beb9-1c9d-9f74-208a8a7ab64f@gmail.com> <20190427223207.GA3585@amd>
+ <d2373c8b-5c66-c875-16c7-0c5a93470793@gmail.com> <20190429152259.GB10501@amd>
+ <36e1fdd7-a220-4b0d-d558-829f522b0841@gmail.com> <20190501183600.GA20452@amd>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <9337b5fb-0ff8-9925-29e6-a781884af861@gmail.com>
+Date:   Thu, 2 May 2019 20:29:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190502104239.GA24563@basecamp>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190501183600.GA20452@amd>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, May 02, 2019 at 06:42:39AM -0400, Brian Masney wrote:
-> On Thu, May 02, 2019 at 11:07:51AM +0100, Daniel Thompson wrote:
-> > On 24/04/2019 10:25, Brian Masney wrote:
-> > > lm3630a_bank_a_update_status() and lm3630a_bank_b_update_status()
-> > > both return the brightness value if the brightness was successfully
-> > > updated. Writing to these attributes via sysfs would cause a 'Bad
-> > > address' error to be returned. These functions should return 0 on
-> > > success, so let's change it to correct that error.
-> > > 
-> > > Signed-off-by: Brian Masney <masneyb@onstation.org>
-> > > Fixes: 28e64a68a2ef ("backlight: lm3630: apply chip revision")
-> > > Acked-by: Pavel Machek <pavel@ucw.cz>
-> > 
-> > Hi Brian, sorry for the delay. For some reason your mails are being dumped
-> > before they reach me so I only discovered these patches when I paid proper
-> > attention to the replies and fetched them from patchwork.
-> > 
-> > Hi Lee, is the same thing happening for you? ;-)
-> 
-> Huh, that's odd. I haven't ran into that issue when working with people
-> from Linaro in other subsystems.
-> 
-> As a sanity check, I used 'git send-email' to send this patch to
-> check-auth@verifier.port25.com and it verified that I still have SPF,
-> DKIM, reverse DNS, etc. all setup properly on this domain.
-> 
-> hotmail.com addresses are the only ones I've had issues with in the
-> past, but I doubt you're forwarding your email there. :)
+Hi Pavel,
 
-No... and strangely enough your recent e-mail sailed through just fine.
-Let's wait and see what is happening for Lee (which I suspect may not be
-until well into next week).
+On 5/1/19 8:36 PM, Pavel Machek wrote:
+> Hi!
+> 
+>>> There are races between "main" thread and workqueue. They manifest
+>>> themselves on Thinkpad X60:
+>>> This should result in LED blinking, but it turns it off instead:
+>>>      root@amd:/data/pavel# cd /sys/class/leds/tpacpi\:\:power
+>>>      root@amd:/sys/class/leds/tpacpi::power# echo timer > trigger
+>>>      root@amd:/sys/class/leds/tpacpi::power# echo timer > trigger
+>>>      root@amd:/sys/class/leds/tpacpi::power#
 
+I believe this line is redundant, so I removed it.
 
-Daniel.
+>>> It should be possible to transition from blinking to solid on by echo
+>>> 0 > brightness; echo 1 > brightness... but that does not work, either,
+>>> if done too quickly.
+>>> Synchronization of the workqueue fixes both.
+>>> Signed-off-by: Pavel Machek <pavel@ucw.cz>
+>>>
+>>> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+>>> index 68aa923..dcb59c8 100644
+>>> --- a/drivers/leds/led-class.c
+>>> +++ b/drivers/leds/led-class.c
+>>> @@ -57,6 +57,7 @@ static ssize_t brightness_store(struct device *dev,
+>>>   	if (state == LED_OFF)
+>>>   		led_trigger_remove(led_cdev);
+>>>   	led_set_brightness(led_cdev, state);
+>>> +	flush_work(&led_cdev->set_brightness_work);
+>>
+>> Is this really required here? It creates non-uniform brightness
+>> setting behavior depending on whether it is set from sysfs or
+>> by in-kernel call to led_set_brightness().
+> 
+> This fixes the echo 0 > brightness; echo 1 > brightness. It has to be
+> at a place where we can sleep.
+> 
+> If you have better idea, it is welcome, but it would be good to fix
+> the bug.
+
+Currently not, so I applied the patch in this shape.
+
+-- 
+Best regards,
+Jacek Anaszewski
