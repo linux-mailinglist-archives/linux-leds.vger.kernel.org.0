@@ -2,142 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C21213B38
-	for <lists+linux-leds@lfdr.de>; Sat,  4 May 2019 18:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED12813B3B
+	for <lists+linux-leds@lfdr.de>; Sat,  4 May 2019 18:47:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726217AbfEDQnT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 4 May 2019 12:43:19 -0400
-Received: from hamsrv800.servertools24.de ([213.238.32.28]:50959 "EHLO
+        id S1726258AbfEDQrB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 4 May 2019 12:47:01 -0400
+Received: from hamsrv800.servertools24.de ([213.238.32.28]:42105 "EHLO
         hamsrv800.servertools24.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726693AbfEDQnT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 4 May 2019 12:43:19 -0400
+        by vger.kernel.org with ESMTP id S1726217AbfEDQrB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 4 May 2019 12:47:01 -0400
 Received: from christian-pc.localdomain (p54A59A9B.dip0.t-ipconnect.de [84.165.154.155])
-        by hamsrv800.servertools24.de (Postfix) with ESMTPSA id A213B23804FC;
-        Sat,  4 May 2019 18:43:15 +0200 (CEST)
+        by hamsrv800.servertools24.de (Postfix) with ESMTPSA id 6BECC238135D;
+        Sat,  4 May 2019 18:46:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-mauderer.de;
-        s=default; t=1556988196;
-        bh=p+7MD0mV/tAfYYuRVHPnBCLjDr/VWTODNM1sZtewOJ8=; l=3191;
+        s=default; t=1556988418;
+        bh=xFTrBrSJ/vkfc63624dRFpbEzeAvHVLYC82YJkgdtIA=; l=2530;
         h=Subject:To:From;
-        b=QYi34igu8lNduokaxyEKhKDDo6mswx/bd/NcRYIv+va/6Nl9gUtGVkfzTlcxNLB8X
-         fZqyZWKzbGhrKGc3RbN58zlB9eiC2VAkc169/goSsTBcTGqWkC5W8wnztdD3M5yMRk
-         X8MXlBsaIAx2HWwRepnwx1sYgJH62txLjenTFJKw=
+        b=v0K84MgfSeBBDKf/wV/A8ft0bh9hRmDuBswyBAeJEI+U75b5dVoIn+Klck4i79aRd
+         2ntJnbhTHDubc4hzPS+u8TL4kezbRYc+a1K+PHct+PqLyLi7AZj9gy4FWaMVErxR/1
+         /FDs95rc18bKpCIrhQmpmE3tqDL9UbhNui3cIzvA=
 Authentication-Results: hamsrv800.servertools24.de;
         spf=pass (sender IP is 84.165.154.155) smtp.mailfrom=list@c-mauderer.de smtp.helo=christian-pc.localdomain
 Received-SPF: pass (hamsrv800.servertools24.de: connection is authenticated)
-Subject: Re: [PATCH 2/2] leds: ubnt-spi: Add Ubnt AirCube ISP LED driver
+Subject: Re: [PATCH 1/2] dt-bindings: leds: Add binding for ubnt-spi LED.
 To:     Pavel Machek <pavel@ucw.cz>, oss@c-mauderer.de
 Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>
 References: <20190504122825.11883-1-list@c-mauderer.de>
- <20190504122825.11883-2-list@c-mauderer.de> <20190504162009.GB24060@amd>
+ <20190504161237.GA24060@amd>
 From:   Christian Mauderer <list@c-mauderer.de>
-Message-ID: <111a3461-d784-021b-d6d6-9a74d5bb3a42@c-mauderer.de>
-Date:   Sat, 4 May 2019 18:43:14 +0200
+Message-ID: <b63ce0cf-ea71-2e4b-c9d9-55d6f62bbb96@c-mauderer.de>
+Date:   Sat, 4 May 2019 18:46:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190504162009.GB24060@amd>
+In-Reply-To: <20190504161237.GA24060@amd>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-PPP-Message-ID: <155698819602.107047.5306819289567206432@hamsrv800.servertools24.de>
+X-PPP-Message-ID: <155698841809.107382.127907439122714836@hamsrv800.servertools24.de>
 X-PPP-Vhost: c-mauderer.de
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-First: Thanks for the quick review. I haven't expected an answer for
-some days.
-
-On 04/05/2019 18:20, Pavel Machek wrote:
-> On Sat 2019-05-04 14:28:25, list@c-mauderer.de wrote:
+On 04/05/2019 18:12, Pavel Machek wrote:
+> On Sat 2019-05-04 14:28:24, list@c-mauderer.de wrote:
 >> From: Christian Mauderer <oss@c-mauderer.de>
 >>
->> This driver adds support for the custom LED controller used in Ubiquity
->> airCube ISP devices and most likely some other simmilar Ubiquity
->> products.
+>> This patch adds the binding documentation for the LED controller found
+>> in Ubiquity airCube ISP devices.
+>>
+>> Signed-off-by: Christian Mauderer <oss@c-mauderer.de>
+>> ---
+>>
+>> I tested the patches with a 4.14 and a 4.19 kernel on the current OpenWRT.
+>> Although I didn't get the kernel running due to file system problems they build
+>> fine with a 5.1-rc7.
+>>
+>> I shortly described the protocol of the controller in a comment in the driver
+>> file in the second patch.
+>>
+>> Checkpatch gives the following warning for both patches:
+>>
+>>   WARNING: added, moved or deleted file(s), does MAINTAINERS need
+>> updating?
 > 
-> similar.
+> Ignore that :-).
 
-I'll change that. And I noted another typo too: The company is called
-Ubiquiti ...
-
-> 
->> +config LEDS_UBNT_SPI
->> +	tristate "LED support for Ubnt aircube ISP custom SPI LED controller"
->> +	depends on LEDS_CLASS
->> +	depends on SPI
->> +	depends on OF
->> +	help
->> +	  This option enables basic support for the LED controller used in
->> +	  Ubiquity airCube ISP devices. The controller is microcontroller based
->> +	  and uses a single byte on the SPI to set brightness or blink patterns.
-> 
->> +/*
->> + *  Custom controller based LED controller used in Ubiquity airCube ISP.
->> + *
->> + *  Reverse engineered protocol:
->> + *  - The device uses only a single byte sent via SPI.
->> + *  - The SPI input doesn't contain any relevant information.
->> + *  - Higher two bits set a mode. Lower six bits are a parameter.
->> + *  - Mode: 00 -> set brightness between 0x00 (min) and 0x3F (max)
->> + *  - Mode: 01 -> pulsing pattern (min -> max -> min) with an interval. From
->> + *    some tests, the period is about (50ms + 102ms * parameter). There is a
->> + *    slightly different pattern starting from 0x100 (longer gap between the
->> + *    pulses) but the time still follows that calculation.
->> + *  - Mode: 10 -> same as 01 but with only a ramp from min to max. Again a
->> + *    slight jump in the pattern at 0x100.
->> + *  - Mode: 11 -> blinking (off -> 25% -> off -> 25% -> ...) with a period of
->> + *    (105ms * parameter)
->> + *
->> + *  NOTE: This driver currently only implements mode 00 (brightness).
->> + */
-> 
-> Aha, so this is not as simple as I thought.
-
-Yes, right. But maybe implementing a generic driver would be a good idea
-anyway. I don't think that it is useful to support more than the
-brightness in the near future. Currently the only application I know of
-would be to port OpenWRT to the device. OpenWRT only switches the LED to
-max or min.
-
-If you don't object, I'll use the generic approach (including the name
-change to led-spi-byte).
+OK. Thanks.
 
 > 
-> "Slightly different pattern starting from 0x100"? What does 0x100 mean
-> here.
+>> diff --git a/Documentation/devicetree/bindings/leds/leds-ubnt-spi.txt b/Documentation/devicetree/bindings/leds/leds-ubnt-spi.txt
+>> new file mode 100644
+>> index 000000000000..ab1478cdc139
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/leds/leds-ubnt-spi.txt
+>> @@ -0,0 +1,49 @@
+>> +Binding for the controller based LED found in Ubiquity airCube ISP and most
+>> +likely some other Ubiquity devices.
+> 
+> It would be good to know what chip it is.. and name the binding
+> accordingly.
 
-That should be 0x10 instead of 0x100. So for example the jump from 0x4f
-to 0x50. But if I use the generic approach, that text will change anyway.
+The chip they use is a SONiX 8F26E611LA which is a generic 8-Bit
+microcontroller. Ubiquiti seems to have programmed it to be a LED
+controller. But it could do something completely different in another
+hardware too. Therefore I didn't use the name.
 
 > 
->> +	mutex_init(&led->mutex);
->> +	led->ldev.name = led->name;
->> +	led->ldev.brightness = LED_OFF;
->> +	led->ldev.max_brightness = led->max_bright - led->off_bright;
-> 
-> What happens when DTS has off_bright > max_bright? :-).
+> Alternatively, call its led-spi-byte, or something, as it is really
+> trivial protocol. Maybe other chips will have same interface?
 
-That slipped me. I'll create a check for that.
+See my other mail: I'll use the generic approach with that name.
 
 > 
+>> +Example for the airCube ISP (with SPI controller matching that device):
 >> +
->> +static int ubnt_spi_remove(struct spi_device *spi)
->> +{
->> +	struct ubnt_spi_led	*led = spi_get_drvdata(spi);
+>> +led_spi {
+>> +	compatible = "spi-gpio";
+>> +	#address-cells = <1>;
+>> +	#size-cells = <0>;
 >> +
->> +	led_classdev_unregister(&led->ldev);
+>> +	gpio-sck = <&gpio 3 GPIO_ACTIVE_HIGH>;
+>> +	gpio-mosi = <&gpio 2 GPIO_ACTIVE_HIGH>;
+>> +	cs-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
+>> +	num-chipselects = <1>;
 >> +
->> +	return 0;
->> +}
+>> +	led_ubnt@0 {
+>> +		compatible = "ubnt,spi-led";
+>> +		reg = <0>;
+>> +		spi-max-frequency = <100000>;
+>> +
+>> +		led {
+>> +			label = "system";
+>> +			/* keep the LED slightly on to show powered device */
+>> +			ubnt-spi,off_bright = /bits/ 8 <4>;
+>> +		};
+>> +	};
+>> +};
 > 
-> Do you need to do mutex_destroy?
-
-Yes. I'll add it.
-
-> 									Pavel
+> Otherwise looks good to me,
+> 
+> Acked-by: Pavel Machek <pavel@ucw.cz>
 > 
