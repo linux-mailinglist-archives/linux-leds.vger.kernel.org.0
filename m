@@ -2,258 +2,151 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7985314231
-	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2019 22:00:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02A4E1423A
+	for <lists+linux-leds@lfdr.de>; Sun,  5 May 2019 22:09:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbfEEUAu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 5 May 2019 16:00:50 -0400
-Received: from hamsrv800.servertools24.de ([213.238.32.28]:47545 "EHLO
-        hamsrv800.servertools24.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726905AbfEEUAu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 5 May 2019 16:00:50 -0400
-Received: from christian-pc.localdomain (p54A59A9B.dip0.t-ipconnect.de [84.165.154.155])
-        by hamsrv800.servertools24.de (Postfix) with ESMTPSA id B80E22382AB9;
-        Sun,  5 May 2019 22:00:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-mauderer.de;
-        s=default; t=1557086446;
-        bh=lvJFZ2NoIxo1klcGnowQW6MVuilOSnnR4MWWDkdY2wA=; l=6296;
-        h=From:To:Subject;
-        b=ZFDlKTvwFwmuGySdijGgjPhSHNSZn+soWgB1ZSQJewzBv5RtfsF+/BOAZ3EefdvC9
-         d5Y2Gc8IM5oSZretIgZW9e+/sQOaWdqSX5DQEiG9/STVp9Qw3qrOye0EK06nk+1ANR
-         4ga9raHrO/BCVSfMF5uiC8/Ax373M+UN3ocS6ePY=
-Authentication-Results: hamsrv800.servertools24.de;
-        spf=pass (sender IP is 84.165.154.155) smtp.mailfrom=oss@c-mauderer.de smtp.helo=christian-pc.localdomain
-Received-SPF: pass (hamsrv800.servertools24.de: connection is authenticated)
-From:   oss@c-mauderer.de
-To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
+        id S1727325AbfEEUJG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 5 May 2019 16:09:06 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39394 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727593AbfEEUJG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 5 May 2019 16:09:06 -0400
+Received: by mail-lj1-f195.google.com with SMTP id q10so9339747ljc.6;
+        Sun, 05 May 2019 13:09:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=yIbbSlhMTQrOZJfjeGycfkdqYYDq+6JCh5QHCIaafjU=;
+        b=RdSO59fgdfAdxKnlTJYcCaJV7HVKp6d7BzKgtLXLBd4af4h8vK7dsu6jhMOYmMRa5v
+         4JnGG5eTukvkDXDbrNVU5YMUqSGEzY71abIwChoiLg4x8evspH/fqdehf64AFUSL7d7x
+         Lvespe1gIK3q+HqmSoXQi/ta+KcjpOWAscgi0n0or0jlC6JLeOKnMbs0ncB7hsorF4kx
+         XBEgeddw+f+YmApyq5ECTObIT5sgJ4IkNZqIzOHeawEokLpdd0H1sWoRYDetnwXogZ6a
+         d3VZQY8RL65Oo7C1lokr0ZBkJEwLkHbs9tVgpTK03vlXxF6s1YBM3Kf7FjsTk0JGbtwa
+         +2EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yIbbSlhMTQrOZJfjeGycfkdqYYDq+6JCh5QHCIaafjU=;
+        b=de95Je3XWu3eeG/8S3/uEpI6hVZJ41oZ/+juaI5KatUf1xOozKmcPxN2f4mYNAVMFW
+         zDswgGLHfS5ZaC45lX+ETR1pDDp5+4lpD8wvfT7/+kJJ4nZYBYP7KjqfK0KUDttaThqs
+         rpG9F2JCnPe1qlrpLIxRnYWoyVbPVK24xqyMtVrR5Qqo8ZBvY8fYugDfG8RIuR0XrKxT
+         Odlrn9Q3UCmRoYRBPZ4DRLaHm89J4c962mSr6q40LLtdNO5AgfzEYdRhuvT6zQIF986+
+         ScsQwcWsBqXneQtBo5sRNh3iBgoQgE31eWChVGdguJ/nCkNBM7r64ucFsFGSLLIz+IY5
+         9mbg==
+X-Gm-Message-State: APjAAAWEdj2EGjbB4TJ2QWhgkFnZ7nq3Gls7becTY/qWnRya4pgVL/Y6
+        SR+6RJbtIllgX/nzUkUkenxTyNtB
+X-Google-Smtp-Source: APXvYqx/0YzyxDC1XO9vR0KE/XJL/k9jFwPgkuZmV7cPCfKiBSRwpR6NEHME7ID6Gb5ZjBCnTae2yQ==
+X-Received: by 2002:a2e:8787:: with SMTP id n7mr11565851lji.31.1557086944323;
+        Sun, 05 May 2019 13:09:04 -0700 (PDT)
+Received: from [192.168.1.19] (dnn153.neoplus.adsl.tpnet.pl. [83.24.95.153])
+        by smtp.gmail.com with ESMTPSA id q29sm1694241ljc.8.2019.05.05.13.09.02
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 05 May 2019 13:09:03 -0700 (PDT)
+Subject: Re: [PATCH v3 2/2] leds: spi-byte: add single byte SPI LED driver
+To:     oss@c-mauderer.de, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
 Cc:     Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Christian Mauderer <oss@c-mauderer.de>
-Subject: [PATCH v3 2/2] leds: spi-byte: add single byte SPI LED driver
-Date:   Sun,  5 May 2019 22:00:22 +0200
-Message-Id: <20190505200022.32209-2-oss@c-mauderer.de>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190505200022.32209-1-oss@c-mauderer.de>
+        Mark Rutland <mark.rutland@arm.com>
 References: <20190505200022.32209-1-oss@c-mauderer.de>
+ <20190505200022.32209-2-oss@c-mauderer.de>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <a473e4ec-10f7-6261-1fc3-8164677ac36b@gmail.com>
+Date:   Sun, 5 May 2019 22:09:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <155708644610.6878.9529459792338082439@hamsrv800.servertools24.de>
-X-PPP-Vhost: c-mauderer.de
+In-Reply-To: <20190505200022.32209-2-oss@c-mauderer.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Christian Mauderer <oss@c-mauderer.de>
+Christian,
 
-This driver adds support for simple SPI based LED controller which use
-only one byte for setting the brightness.
+Thank you for the update. One thing left after switching
+to devm API. Please refer below to the remove op.
 
-Signed-off-by: Christian Mauderer <oss@c-mauderer.de>
----
+On 5/5/19 10:00 PM, oss@c-mauderer.de wrote:
+> From: Christian Mauderer <oss@c-mauderer.de>
+> 
+> This driver adds support for simple SPI based LED controller which use
+> only one byte for setting the brightness.
+> 
+> Signed-off-by: Christian Mauderer <oss@c-mauderer.de>
+> ---
+> 
+> Changes compared to v2:
+> - use "if (ret)" instead of "if (ret != 0)"
+> - don't initialize ldev-fields with zero
+> - use devm_led_classdev_register instead of led_classdev_register
+> - check for error instead of good case with the last if in spi_byte_probe
+> 
+> Changes compared to v1:
+> - rename ubnt-spi to leds-spi-byte
+> - rework probe to get all parameters before allocating anything -> error checks
+>    all collected together and initializing all fields of the device structure is
+>    more obvious
+> - fix some unsteady indentations during variable declaration
+> - rework comment with protocol explanation
+> - handle case of off_bright > max_bright
+> - fix spelling in commit message
+> - mutex_destroy in remove
+> - change label to use either use the given one without a prefix or a default one
+> 
+> 
+>   drivers/leds/Kconfig         |  12 ++++
+>   drivers/leds/Makefile        |   1 +
+>   drivers/leds/leds-spi-byte.c | 134 +++++++++++++++++++++++++++++++++++
+>   3 files changed, 147 insertions(+)
+>   create mode 100644 drivers/leds/leds-spi-byte.c
 
-Changes compared to v2:
-- use "if (ret)" instead of "if (ret != 0)"
-- don't initialize ldev-fields with zero
-- use devm_led_classdev_register instead of led_classdev_register
-- check for error instead of good case with the last if in spi_byte_probe
+[...]
+> +
+> +static int spi_byte_remove(struct spi_device *spi)
+> +{
+> +	struct spi_byte_led	*led = spi_get_drvdata(spi);
+> +
+> +	led_classdev_unregister(&led->ldev);
 
-Changes compared to v1:
-- rename ubnt-spi to leds-spi-byte
-- rework probe to get all parameters before allocating anything -> error checks
-  all collected together and initializing all fields of the device structure is
-  more obvious
-- fix some unsteady indentations during variable declaration
-- rework comment with protocol explanation
-- handle case of off_bright > max_bright
-- fix spelling in commit message
-- mutex_destroy in remove
-- change label to use either use the given one without a prefix or a default one
+This is now not needed - devm, means "device managed", i.e.
+all resources claimed with it will be automatically reclaimed
+on device destruction.
 
+> +	mutex_destroy(&led->mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id spi_byte_dt_ids[] = {
+> +	{ .compatible = "leds-spi-byte", },
+> +	{},
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, spi_byte_dt_ids);
+> +
+> +static struct spi_driver spi_byte_driver = {
+> +	.probe		= spi_byte_probe,
+> +	.remove		= spi_byte_remove,
+> +	.driver = {
+> +		.name		= KBUILD_MODNAME,
+> +		.of_match_table	= spi_byte_dt_ids,
+> +	},
+> +};
+> +
+> +module_spi_driver(spi_byte_driver);
+> +
+> +MODULE_AUTHOR("Christian Mauderer <oss@c-mauderer.de>");
+> +MODULE_DESCRIPTION("single byte SPI LED driver");
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_ALIAS("spi:leds-spi-byte");
+> 
 
- drivers/leds/Kconfig         |  12 ++++
- drivers/leds/Makefile        |   1 +
- drivers/leds/leds-spi-byte.c | 134 +++++++++++++++++++++++++++++++++++
- 3 files changed, 147 insertions(+)
- create mode 100644 drivers/leds/leds-spi-byte.c
-
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index a72f97fca57b..0866c55e8004 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -766,6 +766,18 @@ config LEDS_NIC78BX
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called leds-nic78bx.
- 
-+config LEDS_SPI_BYTE
-+	tristate "LED support for SPI LED controller with a single byte"
-+	depends on LEDS_CLASS
-+	depends on SPI
-+	depends on OF
-+	help
-+	  This option enables support for LED controller which use a single byte
-+	  for controlling the brightness. The minimum and maximum value of the
-+	  byte can be configured via a device tree. The driver can be used for
-+	  example for the microcontroller based LED controller in the Ubiquiti
-+	  airCube ISP devices.
-+
- comment "LED Triggers"
- source "drivers/leds/trigger/Kconfig"
- 
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 4c1b0054f379..1786d7e2c236 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -75,6 +75,7 @@ obj-$(CONFIG_LEDS_PM8058)		+= leds-pm8058.o
- obj-$(CONFIG_LEDS_MLXCPLD)		+= leds-mlxcpld.o
- obj-$(CONFIG_LEDS_MLXREG)		+= leds-mlxreg.o
- obj-$(CONFIG_LEDS_NIC78BX)		+= leds-nic78bx.o
-+obj-$(CONFIG_LEDS_SPI_BYTE)		+= leds-spi-byte.o
- obj-$(CONFIG_LEDS_MT6323)		+= leds-mt6323.o
- obj-$(CONFIG_LEDS_LM3692X)		+= leds-lm3692x.o
- obj-$(CONFIG_LEDS_SC27XX_BLTC)		+= leds-sc27xx-bltc.o
-diff --git a/drivers/leds/leds-spi-byte.c b/drivers/leds/leds-spi-byte.c
-new file mode 100644
-index 000000000000..8170b2da497a
---- /dev/null
-+++ b/drivers/leds/leds-spi-byte.c
-@@ -0,0 +1,134 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2019 Christian Mauderer <oss@c-mauderer.de>
-+
-+/*
-+ * The driver can be used for controllers with a very simple SPI protocol: Only
-+ * one byte between an off and a max value (defined by devicetree) will be sent.
-+ */
-+
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/spi/spi.h>
-+#include <linux/mutex.h>
-+#include <uapi/linux/uleds.h>
-+
-+struct spi_byte_led {
-+	struct led_classdev	ldev;
-+	struct spi_device	*spi;
-+	char			name[LED_MAX_NAME_SIZE];
-+	struct mutex		mutex;
-+	u8			off_value;
-+	u8			max_value;
-+};
-+
-+static int spi_byte_brightness_set_blocking(struct led_classdev *dev,
-+					    enum led_brightness brightness)
-+{
-+	struct spi_byte_led *led = container_of(dev, struct spi_byte_led, ldev);
-+	u8 value;
-+	int ret;
-+
-+	value = (u8) brightness + led->off_value;
-+
-+	mutex_lock(&led->mutex);
-+	ret = spi_write(led->spi, &value, sizeof(value));
-+	mutex_unlock(&led->mutex);
-+
-+	return ret;
-+}
-+
-+static int spi_byte_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct device_node *child;
-+	struct spi_byte_led *led;
-+	int ret;
-+	const char *default_name = "leds-spi-byte::";
-+	const char *name;
-+	u8 off_value;
-+	u8 max_value;
-+
-+	if (!dev->of_node)
-+		return -ENODEV;
-+
-+	if (of_get_child_count(dev->of_node) != 1) {
-+		dev_err(dev, "Device must have exactly one LED sub-node.");
-+		return -EINVAL;
-+	}
-+	child = of_get_next_child(dev->of_node, NULL);
-+
-+	ret = of_property_read_string(child, "label", &name);
-+	if (ret)
-+		name = default_name;
-+
-+	ret = of_property_read_u8(child, "leds-spi-byte,off-value", &off_value);
-+	if (ret) {
-+		dev_err(dev, "LED node needs a leds-spi-byte,off-value.");
-+		return -EINVAL;
-+	}
-+
-+	ret = of_property_read_u8(child, "leds-spi-byte,max-value", &max_value);
-+	if (ret) {
-+		dev_err(dev, "LED node needs a leds-spi-byte,max-value.");
-+		return -EINVAL;
-+	}
-+
-+	if (off_value >= max_value) {
-+		dev_err(dev, "off-value has to be smaller than max-value.");
-+		return -EINVAL;
-+	}
-+
-+	led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
-+	if (!led)
-+		return -ENOMEM;
-+
-+	led->spi = spi;
-+	strlcpy(led->name, name, sizeof(led->name));
-+	mutex_init(&led->mutex);
-+	led->off_value = off_value;
-+	led->max_value = max_value;
-+	led->ldev.name = led->name;
-+	led->ldev.max_brightness = led->max_value - led->off_value;
-+	led->ldev.brightness_set_blocking = spi_byte_brightness_set_blocking;
-+	ret = devm_led_classdev_register(&spi->dev, &led->ldev);
-+	if (ret)
-+		return ret;
-+
-+	spi_set_drvdata(spi, led);
-+
-+	return 0;
-+}
-+
-+static int spi_byte_remove(struct spi_device *spi)
-+{
-+	struct spi_byte_led	*led = spi_get_drvdata(spi);
-+
-+	led_classdev_unregister(&led->ldev);
-+	mutex_destroy(&led->mutex);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id spi_byte_dt_ids[] = {
-+	{ .compatible = "leds-spi-byte", },
-+	{},
-+};
-+
-+MODULE_DEVICE_TABLE(of, spi_byte_dt_ids);
-+
-+static struct spi_driver spi_byte_driver = {
-+	.probe		= spi_byte_probe,
-+	.remove		= spi_byte_remove,
-+	.driver = {
-+		.name		= KBUILD_MODNAME,
-+		.of_match_table	= spi_byte_dt_ids,
-+	},
-+};
-+
-+module_spi_driver(spi_byte_driver);
-+
-+MODULE_AUTHOR("Christian Mauderer <oss@c-mauderer.de>");
-+MODULE_DESCRIPTION("single byte SPI LED driver");
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("spi:leds-spi-byte");
 -- 
-2.21.0
-
+Best regards,
+Jacek Anaszewski
