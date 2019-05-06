@@ -2,112 +2,183 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7614C15319
-	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 19:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11A5415338
+	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 19:59:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726821AbfEFRxY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 May 2019 13:53:24 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:43054 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726063AbfEFRxY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 May 2019 13:53:24 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x46HrJMZ056191;
-        Mon, 6 May 2019 12:53:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1557165199;
-        bh=CaNopjjkKRCvRZjxlcGvzB6zVq2/clvaGGd6ocsNFa4=;
-        h=From:Subject:To:CC:References:Date:In-Reply-To;
-        b=ReHS99coaRenvoGCmrDPgktftCx5kM5fNoN/Q+7uc9yEfRRpi0FYAlFqwZuE2kAqe
-         kiisYUCq0mOuhB9CE5es6TInrQtgYg9XWsHU4K0rHKOKg6Not+YdaKNnBgTiJebMRn
-         J6yRcwTK+nlirlWE875XnjDmeiMAujaSYAlrPGb0=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x46HrJjU007670
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 6 May 2019 12:53:19 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 6 May
- 2019 12:53:19 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 6 May 2019 12:53:19 -0500
-Received: from [10.250.90.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x46HrJsb031096;
-        Mon, 6 May 2019 12:53:19 -0500
-From:   Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH v3 2/7] dt-bindings: mfd: LMU: Add the ramp up/down
- property
-To:     Pavel Machek <pavel@ucw.cz>
-CC:     <jacek.anaszewski@gmail.com>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Rob Herring <robh@kernel.org>
-References: <20190430191730.19450-1-dmurphy@ti.com>
- <20190430191730.19450-3-dmurphy@ti.com> <20190430220140.GB20410@amd>
-Message-ID: <7712d911-7ef3-e273-2cdc-89c5b56369cb@ti.com>
-Date:   Mon, 6 May 2019 12:53:25 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726496AbfEFR7Z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 May 2019 13:59:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726437AbfEFR7Z (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 6 May 2019 13:59:25 -0400
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 58D9320C01;
+        Mon,  6 May 2019 17:59:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557165563;
+        bh=M3A35/Iynxv2BZiGtto3GB3IdL+AuYWt31SikluuKo8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=aNJGwQBwZoFY+vxMblff7iOtjy2jozqtaL4JsO3+tIm01GEkcmJsSDyIR+rn8HNs1
+         3CTXFciAjNa9Ck2R9K4mLcu/hQzWGFvtmSYrUNs+y1lZ1aG6UX/8DAQ/NDOGUN8i+f
+         WP9V8kk6xmPqNNYxHFX4SmZ3s+x1IvWfAid6I++o=
+Received: by mail-qk1-f175.google.com with SMTP id k189so1215848qkc.0;
+        Mon, 06 May 2019 10:59:23 -0700 (PDT)
+X-Gm-Message-State: APjAAAWdukoVtEpslYHAuSyjgDnHQjKJ8g9JAEGbDC55w75iFtfJypVj
+        +ZHurNiOBDvTQ3j1VaG1R37NnZ1UftWyRV/9ng==
+X-Google-Smtp-Source: APXvYqwP73+D7JbR03CG7GsStZCm936MHP7fY/mRy3H1sJgDvUg3rcfBgJiLwjZ7+t2264vRkVati9lQdcwcrQdnGsI=
+X-Received: by 2002:a37:4b92:: with SMTP id y140mr21286108qka.79.1557165562544;
+ Mon, 06 May 2019 10:59:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190430220140.GB20410@amd>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20190505200022.32209-1-oss@c-mauderer.de> <CAL_JsqKmKzSw2-mfmBbhpyY=Ku6H7cE2KZrgkcPD7kAS_GqbFw@mail.gmail.com>
+ <4e91d5e7-a583-58d5-9c14-ad86029ed9e7@c-mauderer.de>
+In-Reply-To: <4e91d5e7-a583-58d5-9c14-ad86029ed9e7@c-mauderer.de>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 6 May 2019 12:59:10 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKGhTkdMj2Vx1U6UshGFb=iv4Rwvk5Hu-Y6vErNTw6+Ug@mail.gmail.com>
+Message-ID: <CAL_JsqKGhTkdMj2Vx1U6UshGFb=iv4Rwvk5Hu-Y6vErNTw6+Ug@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add binding for spi-byte LED.
+To:     Christian Mauderer <oss@c-mauderer.de>
+Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Mark Rutland <mark.rutland@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel
+On Mon, May 6, 2019 at 12:03 PM Christian Mauderer <oss@c-mauderer.de> wrote:
+>
+> On 06/05/2019 18:21, Rob Herring wrote:
+> > On Sun, May 5, 2019 at 3:00 PM <oss@c-mauderer.de> wrote:
+> >>
+> >> From: Christian Mauderer <oss@c-mauderer.de>
+> >>
+> >> This patch adds the binding documentation for a simple SPI based LED
+> >> controller which use only one byte for setting the brightness.
+> >>
+> >> Signed-off-by: Christian Mauderer <oss@c-mauderer.de>
+> >> ---
+> >>
+> >> Changes compared to v2:
+> >> - None
+> >>
+> >> Changes compared to v1:
+> >> - rename ubnt-spi to leds-spi-byte
+> >> - rename "ubnt-spi,off_bright" and "ubnt-spi,max_bright" to
+> >>   "leds-spi-byte,off-value" and "leds-spi-byte,max-value" and mark them required
+> >> - rename led-controller node to "led-controller"
+> >> - extend description
+> >> - remove SPI controller
+> >> - use "white:status" for the example label
+> >>
+> >>
+> >>  .../bindings/leds/leds-spi-byte.txt           | 47 +++++++++++++++++++
+> >>  1 file changed, 47 insertions(+)
+> >>  create mode 100644 Documentation/devicetree/bindings/leds/leds-spi-byte.txt
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/leds/leds-spi-byte.txt b/Documentation/devicetree/bindings/leds/leds-spi-byte.txt
+> >> new file mode 100644
+> >> index 000000000000..1dd6ab03a56d
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/leds/leds-spi-byte.txt
+> >> @@ -0,0 +1,47 @@
+> >> +* Single Byte SPI LED Device Driver.
+> >> +
+> >> +The driver can be used for controllers with a very simple SPI protocol: Only one
+> >> +byte will be sent. The value of the byte can be any value between the off-value
+> >> +and max-value defined in the properties.
+> >> +
+> >> +One example where the driver can be used is the controller in Ubiquiti airCube
+> >> +ISP devices. That LED controller is based on a 8 bit microcontroller (SONiX
+> >> +8F26E611LA) that has been programmed to control the single LED of the device.
+> >
+> > What about power control of the uC?
+>
+> You mean if the uC receives a reset or power cycle independent of the
+> main controller? I don't think that this can happen on that board. But I
+> don't have any schematics to prove that.
 
-On 4/30/19 5:01 PM, Pavel Machek wrote:
-> On Tue 2019-04-30 14:17:25, Dan Murphy wrote:
->> Document the ramp-up and ramp-down property in the binding.
->> Removing the "sec" from the property definition as seconds is
->> implied.
->>
->> Reviewed-by: Rob Herring <robh@kernel.org>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->> ---
->>
->> v3 - No changes added Reviewed-by Rob - https://lore.kernel.org/patchwork/patch/1058759/
->>
->> v2 - Fixed commit message as this was not just a modification but adding documentation
->> https://lore.kernel.org/patchwork/patch/1054504/
->>
->>  .../devicetree/bindings/mfd/ti-lmu.txt        | 20 ++++++++++++-------
->>  1 file changed, 13 insertions(+), 7 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/mfd/ti-lmu.txt b/Documentation/devicetree/bindings/mfd/ti-lmu.txt
->> index 86ca786d54fc..adae96c79d39 100644
->> --- a/Documentation/devicetree/bindings/mfd/ti-lmu.txt
->> +++ b/Documentation/devicetree/bindings/mfd/ti-lmu.txt
->> @@ -25,6 +25,12 @@ Required properties:
->>  
->>  Optional property:
-> 
-> "properties".
-> 
+I was really only pointing out potential issues around "generic"
+bindings. The protocol interface is not the only thing.
 
-Ack
+> >> +The controller supports four modes depending on the highest two bits in a byte:
+> >> +One setting for brightness, the other three provide different blink patterns.
+> >
+> > This part seems in no way generic.
+> >
+> > How does one support the blink patterns?
+>
+> You are correct that this part is not generic. But a multi-purpose
+> driver like the one I proposed could deliver a basic support for the
+> device by controlling the brightness.
+>
+> It's only a basic support so the blink patterns are not supported.
 
->>    - enable-gpios: A GPIO specifier for hardware enable pin.
->> +  - ramp-up-ms: Current ramping from one brightness level to
->> +		the a higher brightness level.
->> +		Range from 2048 us - 117.44 s
->> +  - ramp-down-ms: Current ramping from one brightness level to
->> +		  the a lower brightness level.
->> +		  Range from 2048 us - 117.44 s
-> 
-> Can you use ramp-up/down-us for consistency?
+Then you would have to change/extend the binding when you want to
+support that. With a specific compatible, you only need a driver
+change.
 
-Sure I can change it to ramp-up/down-us.
-I just converted it ramp-up/down-msec to ramp-ramp-up/down-ms.
+> I had a look at the functions in "struct led_classdev". There is a
+> blink_set(..) function that expects that delay_on and delay_off can be
+> set independent. That's not possible for hardware supported blinking on
+> this device. The other function pattern_set(..) would allow an even more
+> universal interface. All possible patterns of the LED could be covered
+> in that but I don't think that this is true the other way round.
+>
+> So in my opinion the only thing that can be implemented in a useful way
+> for that controller is the brightness.
 
-Probably makes more sense anyway with the range actually given is in us.
+What the OS can support evolves and should be independent of the binding.
 
-Dan
+> >
+> >> +With the leds-spi-byte driver a basic support for the brightness mode of that
+> >> +controller can be easily achieved by setting the minimum and maximum to the
+> >> +brightness modes minimum and maximum byte value.
+> >> +
+> >> +Required properties:
+> >> +- compatible:          Should be "leds-spi-byte".
+> >
+> > Generally, we don't do "generic" bindings like this. The exceptions
+> > are either we have confidence they really can be generic or they where
+> > created before we knew better. A sample size of 1 doesn't convince me
+> > the former is true.
+>
+> I could construct another sample (some SPI-based digital potentiometer
+> where you set values between 17 and 213) but I doubt that it would be a
+> good idea to fight for the name.
+>
+> My original target device is a quite special one: I don't have a chip
+> number. The controller Ubiquiti built here is based on a microcontroller
+> that could be anything. The general device is named "Ubiquiti airCube
+> ISP" or (a short form that I found at some locations) ubnt-acb-isp. I
+> assume that they used the same controller in the non-ISP-version but I
+> haven't checked that. So how about one of these:
+>
+> - ubnt,spi-byte-led
+> - ubnt,spi-acb-led
+> - ubnt,acb-isp-led
 
-> 								Pavel
-> 
+ubnt,acb-spi-led perhaps as the order is usually <product|soc>-<sub device>.
+
+Or the last one if you wanted to keep 'isp'.
+
+>
+> Most likely I'll get the off-value and max-value based on the binding
+> name then (0 and 63 for that device). So I'll just remove the two
+> parameters then.
+>
+> >
+> > This comment *only* applies to the binding, not the driver. Specific
+> > bindings can easily be bound to generic drivers.
+> >
+>
+> So the driver should still be called spi-byte (or something similar)?
+
+Yes, whatever the LED maintainers want there.
+
+Rob
