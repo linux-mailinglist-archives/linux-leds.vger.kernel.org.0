@@ -2,111 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CDE314FF2
-	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 17:20:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0838115040
+	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 17:30:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726415AbfEFPUd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 May 2019 11:20:33 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:38090 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726340AbfEFPUd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 May 2019 11:20:33 -0400
-Received: by mail-pf1-f195.google.com with SMTP id 10so6951968pfo.5;
-        Mon, 06 May 2019 08:20:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WSqwoJIq83LdnLBResj/Lpi0ldlfcksK6t8+FIatPzg=;
-        b=OcndmoKNv0NFLtL4ikMqDqmABuIX+D+rhPYJgsE28n4dGOnawEW3FUVqmYyGpBzue3
-         Y6gB/WowJsFcQs1i8dVvaVpALLSBdX+Ochn84u3Ype82MxrNyMFyS/IEgbQ74MOWOc8Q
-         3g0j07rTPVV1o0wbPhB4QIKoHWvWFYfujHGriY8LuaAGUe9dFMQvDvWMRXtbwrQLink+
-         O2wV5ONK5rmsNPFCRyl/vrJub01aIP3PluBg1v0t3V2HXvKlZ0/vC8bVz46wlCJNK5bW
-         l6G9e8dBp9eM1q06OOaKlz3u5vAMwNZON2R/+oQ7W+vpVE0/Vp3tf5FICHjCpzs9FARY
-         CUeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WSqwoJIq83LdnLBResj/Lpi0ldlfcksK6t8+FIatPzg=;
-        b=SDzrIGjnIHPmLmWCE/qq3pmN+iUPtPypFzNvGjmoxfoeKU5jIkZRAmDhTJ5CUw4erD
-         GCbeDgRQusFqqwV5ggB4xuP1vzDh02Ux4EtsXYTfWjVfdaruu+yC4vpm2UIkjisRAQ5u
-         zTrEGOHqqJqifAOhFFxzWYpvDKWQCfQsrT+ZCJfxgiEfDR7c73KaoSAMVS83X0d4/eXe
-         VLhhnjymJSy3gfNTAagzBaJ8ihBHwXhzjLAF8aKOl0vqzWw70KJzMPNsiRJLEXk1P/RU
-         Vh8cDT1UFp1SREItEy39BQBWqw2Z3BG6EoQEI0bemd0HZYCNzSn00mN02HmpuGFhEqn2
-         KTYQ==
-X-Gm-Message-State: APjAAAV3ftcbnv2ql9AfU88eoBwmTWDJtN26Jb9JCNFIgjh3L2X1/jmR
-        T9yDjQAZs4UgAZKBp4Fstjpl37AjI/v25UpS7AzBxFImbn9Wvg==
-X-Google-Smtp-Source: APXvYqxgJM/cnaqBuMcnSztrB/6cmvkX2dOKEIvfShui1WA4ljvvmJO77aalM5I862t/cNyaRU4OI14tb0/zeuiYDJs=
-X-Received: by 2002:a62:ee04:: with SMTP id e4mr7269562pfi.232.1557156032819;
- Mon, 06 May 2019 08:20:32 -0700 (PDT)
+        id S1726801AbfEFPaE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 May 2019 11:30:04 -0400
+Received: from hamsrv800.servertools24.de ([213.238.32.28]:51497 "EHLO
+        hamsrv800.servertools24.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726520AbfEFPaE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 May 2019 11:30:04 -0400
+Received: from christian-pc.localdomain (p54A59A9B.dip0.t-ipconnect.de [84.165.154.155])
+        by hamsrv800.servertools24.de (Postfix) with ESMTPSA id 89797238321C;
+        Mon,  6 May 2019 17:29:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-mauderer.de;
+        s=default; t=1557156600;
+        bh=Apm5Pqo7KzNBmbTUtI4907tXkIKI5APU0UQP18XhlBY=; l=1197;
+        h=Subject:To:From;
+        b=v4I2x86mAZrVJ/DDAQdN3vpS6C95X6EWkvWfls1SJDz1nGxGss0zJiDuIO8fJn5ll
+         iz/gAivvYVbz1zS8rN5dbbG4gRwSlIiO6iiP5DRZTuGpDNiBRkCQK+HoKZq3Tl/4BS
+         nkah0Fp0W6eclkmnw9uhYDy6wtQTKxW9BTapFWl4=
+Authentication-Results: hamsrv800.servertools24.de;
+        spf=pass (sender IP is 84.165.154.155) smtp.mailfrom=oss@c-mauderer.de smtp.helo=christian-pc.localdomain
+Received-SPF: pass (hamsrv800.servertools24.de: connection is authenticated)
+Subject: Re: [PATCH v3 2/2] leds: spi-byte: add single byte SPI LED driver
+To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+References: <20190505200022.32209-1-oss@c-mauderer.de>
+ <20190505200022.32209-2-oss@c-mauderer.de>
+ <8c150278-4bf6-4202-998e-4d82a2a3cd3c@ti.com>
+ <3f0d7a10-a67e-a2c2-98fe-a487493b8f2c@c-mauderer.de>
+ <fb0bc2a0-1311-3a45-04db-5cddcba48392@ti.com> <20190506151500.GA6221@amd>
+From:   Christian Mauderer <oss@c-mauderer.de>
+Message-ID: <3de252f0-de98-bec2-b233-8be1d38a4671@c-mauderer.de>
+Date:   Mon, 6 May 2019 17:29:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190426123513.GA18172@amd> <20190426214246.GA24966@amd>
- <84fac57d-1121-a1da-fb45-16a2521bdef9@gmail.com> <20190427193411.GA9709@amd>
- <2578a614-beb9-1c9d-9f74-208a8a7ab64f@gmail.com> <20190427223207.GA3585@amd>
- <d2373c8b-5c66-c875-16c7-0c5a93470793@gmail.com> <20190429152148.GA10501@amd>
-In-Reply-To: <20190429152148.GA10501@amd>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 6 May 2019 18:20:22 +0300
-Message-ID: <CAHp75VcrW_9pyiG6N75CWkxc1S7mKknfDT_W87vSQNnzjf2uRw@mail.gmail.com>
-Subject: Re: [PATCH] leds: tpacpi: cleanup for Thinkpad ACPI led
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190506151500.GA6221@amd>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: <155715659987.131028.8572111890407710116@hamsrv800.servertools24.de>
+X-PPP-Vhost: c-mauderer.de
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 6:22 PM Pavel Machek <pavel@ucw.cz> wrote:
->
->
-> Make error returns more consistent... no behaviour change intended.
->
+On 06/05/2019 17:15, Pavel Machek wrote:
+> Hi!
+> 
+>>> Of course it would have been possible to make it a lot more universal by
+>>> for example adding a prefix, a bit mask or other word lengths. But that
+>>> would have added a lot of complexity without any actual application.
+>>>
+>>
+>> I have to disagree here.  If this is supposed to be a universal SPI byte driver that
+>> needs special handling then it is either needs to be created in a universal way or needs to be made
+>> target specific.
+>>
+> 
+> Let him be. The driver is good.
+> 
+> If some hardware needs more flexibility, we add it.
+> 
+> No need to have 1000 releases of everything.
+> 
+> 									Pavel
+> 
 
-Pushed to my review and testing queue, thanks!
+Hello Pavel,
 
-P.S. I fixed prefix accordingly.
+thanks for the support.
 
-> Signed-off-by: Pavel Machek <pavel@ucw.cz>
->
-> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> index 726341f..7008a7f 100644
-> --- a/drivers/platform/x86/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/thinkpad_acpi.c
-> @@ -5808,7 +5808,7 @@ static int led_set_status(const unsigned int led,
->                         return -EPERM;
->                 if (!acpi_evalf(led_handle, NULL, NULL, "vdd",
->                                 (1 << led), led_sled_arg1[ledstatus]))
-> -                       rc = -EIO;
-> +                       return -EIO;
->                 break;
->         case TPACPI_LED_OLD:
->                 /* 600e/x, 770e, 770x, A21e, A2xm/p, T20-22, X20 */
-> @@ -5832,10 +5832,10 @@ static int led_set_status(const unsigned int led,
->                         return -EPERM;
->                 if (!acpi_evalf(led_handle, NULL, NULL, "vdd",
->                                 led, led_led_arg1[ledstatus]))
-> -                       rc = -EIO;
-> +                       return -EIO;
->                 break;
->         default:
-> -               rc = -ENXIO;
-> +               return -ENXIO;
->         }
->
->         if (!rc)
->
-> --
-> (english) http://www.livejournal.com/~pavelmachek
-> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+It's a pure hobby project so I have the time to add useful features or
+to improve the description to make it clear what the drivers intention
+is. So if we find a more useful set of features it's a good idea to
+discuss it.
 
+By the way: Although I haven't written a Linux driver yet it's not my
+first open source project. So I know that there can be a lot of
+different opinions and sometimes a lot of revisions. So no big risk of
+scaring me away.
 
+Best regards
 
--- 
-With Best Regards,
-Andy Shevchenko
+Christian
