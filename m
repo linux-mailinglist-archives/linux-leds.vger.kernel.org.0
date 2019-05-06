@@ -2,65 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2019B1538B
-	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 20:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 436A7153B8
+	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 20:34:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726486AbfEFSTu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 May 2019 14:19:50 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:36743 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726175AbfEFSTu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 May 2019 14:19:50 -0400
-Received: by mail-lf1-f68.google.com with SMTP id y10so3179085lfl.3;
-        Mon, 06 May 2019 11:19:49 -0700 (PDT)
+        id S1726277AbfEFSeT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 May 2019 14:34:19 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:42541 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726218AbfEFSeT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 May 2019 14:34:19 -0400
+Received: by mail-lj1-f195.google.com with SMTP id y10so5461284lji.9;
+        Mon, 06 May 2019 11:34:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8G8ndb9h4ZJX+UJoD1fO38tftAw2ymzbcdoUwjJjvJk=;
-        b=TY0YX9/cmGWriP4/hG1VfwH1V5yenPgRAizrkKh3mfJ/H5JYX4F+JtlXUlub/2MBDk
-         FU4OcMNy9WTm06KIzDt82BWUcesGXRhz9BP38rETJniI93vgxWuXjxh75phTLilBGLzt
-         hB4Qq/C0SrrU9tXpanqsGc3tS6b3sgtLAw/Oy6zxVk0VsjfLl8O/ziQna7j0s5R9Sv1e
-         TuLlJ2BS4GiJuct5CDvj4ieniv0g5oNMaAvNDI33MvXgDqp+SU+P0LDY59W6liMk/1+b
-         5QLe0Wf1oJ7DnG9oAsDJHTHukSI66+xS+seSqFpAYd8Luey+X88JEBpK+ap8iGwMTLiL
-         egcA==
+        bh=9dr2t70HqoErcc6AIpx/L947AGG3Wuq83IlK9OTfe4M=;
+        b=I+8EtU+x/wZ64yCcz+n1HABkgUojO1695Aj6BiDt16itoEG6tyZgD7+2FanrxXDgWQ
+         4YhwaOKOXQOvjRguxtZb4QmeWYEI7qoS5Sb+nPzXP5ayjJMPJXCP0z/npEIf+CObnQam
+         qXxjuTeFp1vKTcX+AFuuhoeAZgHTbYrBzE5XreyblnvIpEefm/RuYyyNxoUtCV3gyiMJ
+         nYSbxaCLQeQT6ymc5Q8wX/13ZyGhoMiaOjQOQkuBACkJLVijcPVCjuZssb5veAYGKCvN
+         37Elxliqag8qmEzPaJ7aFOin9Ksfml4RcuBWHLidPh8M4rDGP77AKzwWxj6dnldwLfsw
+         y1wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=8G8ndb9h4ZJX+UJoD1fO38tftAw2ymzbcdoUwjJjvJk=;
-        b=raj4srlkaoaaRinoo0PMAdiNfUkdEyaDKQw2TV6SsjeMsAvOH9OXusOzO9+geK2IQt
-         iuQZ0fgpGRXqaBcq4bVPJ8cMQRdPWxpK262Cw0CZ0PAgU3emTlIi/wBAKGx+HD1BNGJq
-         Dve4a4GpQq6ZRkVj/glXtBODelz1OCE7p6cqkpKslGAWevookxpR6JR/7JemZciF8fuG
-         UlWgYkAz5wWzhgDuZjf10w6ExRO3QQVLgJs8Vfru9ZerW4SorJaE6vmpz3v58uzrDz57
-         SVVYcw91q9U6eD978unprQfCrzwXzafRHL4ovzE82FghKFSJlgYtMTf2h7V9HaV+zbzm
-         a7Vg==
-X-Gm-Message-State: APjAAAVd2hETZT22aBkNNJu2kwCCJlD3VrUTixt2hU/9mh7IGhKs80E9
-        nEIeawIRN1qbMblkzpaI+jY=
-X-Google-Smtp-Source: APXvYqzRuD+p0kVcszbb4/aQfzBQghmk1XSDu21F8p8SGCrQHxM0Ryxgik92+Ef/TM94c1WgJXTWSQ==
-X-Received: by 2002:a05:6512:309:: with SMTP id t9mr13580342lfp.103.1557166788574;
-        Mon, 06 May 2019 11:19:48 -0700 (PDT)
+        bh=9dr2t70HqoErcc6AIpx/L947AGG3Wuq83IlK9OTfe4M=;
+        b=NGoCkm3YqFdidp6IZO27LVVNkX0n+5VdGyhtHM0gC+bOMt6QOxLzVwxkcxnLo9NChc
+         J39U3KwtIm5A7I1oSsLik47JlONiFkWXfNI7DKPdYCKlJ/YOkpEIWmQPsFOkv4ydPu1p
+         UkK0Plc9fC4WEcNEyosbwqS021ZdqWMnu4j7msOqn///q244froH3PCogiq8SWgxOb1r
+         9CtaUB4JDTlClxz8Nvp0uwkz1ID9YMY60R5QVA8TlDb2ZagjdsuKW0QUHGIZ2pz1E2ft
+         oe5445rjUHdFJU0U2wPF7rAqVMBagVifjMVrPQw7whvNLzsSdZjVbcrPNGIVeeuntC6r
+         STlw==
+X-Gm-Message-State: APjAAAUZgK6F4V18VNl4BQNBre/iyhP/a3fyc/16Hk27Yjkl1G/c2jIp
+        uFK2vmrPNdcmMaUt86ic868=
+X-Google-Smtp-Source: APXvYqxHsTfseI10v12uh7c3tXqU4nXRPIG+cQ+2XEhMBnaONwRDOjQIAGgqh3FZ2iOANcHw/zPh3g==
+X-Received: by 2002:a2e:99d2:: with SMTP id l18mr14051374ljj.27.1557167657195;
+        Mon, 06 May 2019 11:34:17 -0700 (PDT)
 Received: from [192.168.1.19] (chs110.neoplus.adsl.tpnet.pl. [83.31.16.110])
-        by smtp.gmail.com with ESMTPSA id p25sm2911981ljg.9.2019.05.06.11.19.47
+        by smtp.gmail.com with ESMTPSA id k10sm2486563ljh.86.2019.05.06.11.34.15
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 06 May 2019 11:19:47 -0700 (PDT)
+        Mon, 06 May 2019 11:34:16 -0700 (PDT)
 Subject: Re: [PATCH v2 2/2] leds: spi-byte: add single byte SPI LED driver
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     oss@c-mauderer.de, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Christian Mauderer <oss@c-mauderer.de>, Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>
 References: <20190505125242.10298-1-oss@c-mauderer.de>
  <20190505125242.10298-2-oss@c-mauderer.de>
  <da311a7e-0d3b-5c60-5bed-06446e71e5ff@gmail.com> <20190505201218.GA21957@amd>
+ <911128ec-1327-5895-d101-97801e9c777a@c-mauderer.de>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <1c318194-f57f-4807-5f94-8cca8e1c4b9e@gmail.com>
-Date:   Mon, 6 May 2019 20:19:45 +0200
+Message-ID: <cf99d1f1-4cb2-4e60-3ce1-d123f28536bc@gmail.com>
+Date:   Mon, 6 May 2019 20:34:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190505201218.GA21957@amd>
+In-Reply-To: <911128ec-1327-5895-d101-97801e9c777a@c-mauderer.de>
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -69,31 +69,45 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 5/5/19 10:12 PM, Pavel Machek wrote:
-> Hi!
-> 
->>> +	led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
->>> +	if (!led)
->>> +		return -ENOMEM;
->>> +
->>> +	led->spi = spi;
->>> +	strlcpy(led->name, name, sizeof(led->name));
->>> +	mutex_init(&led->mutex);
->>> +	led->off_value = off_value;
->>> +	led->max_value = max_value;
->>> +	led->ldev.name = led->name;
->>> +	led->ldev.brightness = LED_OFF;
->>
->> This line is redundant - already zeroed by kzalloc.
-> 
-> Actually I'd prefer to leave it in. Yes, LED_OFF == 0, and will
-> probably stay == 0 in future, but...
+Hi Christian,
 
-but what? I don't really see a sufficient justification for
-leaving it. Just redundant line. In other place in my LED naming
-patch set you wondered if it wouldn't have been better to initialize
-a struct partly using initialization list, I suspect to save few
-LOC. So here you seem to be inconsistent :-)
+On 5/6/19 10:48 AM, Christian Mauderer wrote:
+> On 05/05/2019 22:12, Pavel Machek wrote:
+>> Hi!
+>>
+>>>> +	led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
+>>>> +	if (!led)
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	led->spi = spi;
+>>>> +	strlcpy(led->name, name, sizeof(led->name));
+>>>> +	mutex_init(&led->mutex);
+>>>> +	led->off_value = off_value;
+>>>> +	led->max_value = max_value;
+>>>> +	led->ldev.name = led->name;
+>>>> +	led->ldev.brightness = LED_OFF;
+>>>
+>>> This line is redundant - already zeroed by kzalloc.
+>>
+>> Actually I'd prefer to leave it in. Yes, LED_OFF == 0, and will
+>> probably stay == 0 in future, but...
+>> 									Pavel
+>>
+> 
+> Before I send v4: Currently the initial value isn't written to the LED
+> anywhere. The state that is set by U-Boot is just kept till the first
+> write to the brightness file.
+> 
+> I didn't implement "default-state" because the OpenWRT user space sets
+> the LED anyway a few seconds later (which is still my use case for that
+> driver). But now I noted that there is a remark in the documentation of
+> the option "default-state" in devicetree/bindings/leds/common.txt: "The
+> default is off if this property is not present."
+> 
+> Should I send an initial value to the device during initialization or is
+> it OK to just keep the original state?
+
+Yes, I would make use of default-state in this case.
 
 -- 
 Best regards,
