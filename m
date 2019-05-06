@@ -2,48 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53B0F1544F
-	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 21:17:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E210215441
+	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 21:16:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726369AbfEFTQY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 May 2019 15:16:24 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:44440 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726175AbfEFTQX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 May 2019 15:16:23 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x46JG9Aj115527;
+        id S1726564AbfEFTQ1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 May 2019 15:16:27 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:45156 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726560AbfEFTQ0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 May 2019 15:16:26 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x46JG9sb023385;
         Mon, 6 May 2019 14:16:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
         s=ti-com-17Q1; t=1557170169;
-        bh=Zu+lGjPwb6boNQ4Zw8fC+i/x30a+FXOodEjX1XT5Cuo=;
+        bh=UEEu6EW5RKCMxXIvwGPUXJedNiwF4BNlTRlApjnyOo0=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=WE/hjPxzaxGJ9L6p9ZMbL/WM0Qza8R8W3tk1/iM3vFkePtHOnT0uNc2zJFTNJZ3BL
-         FsUKxHoZOxFZhV1Ec/N+1bb7cA8b4v98i1OwEzztlnwC0JkAxK6gKckMuxYRb8V0QS
-         hdXwKCqX/i1Ms01K+r7Ev9NPO2p+/aZKtIkcREUk=
-Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x46JG9gO074949
+        b=zR9YyaRARunEBzIGpN27QGOe6JJHXtji4e6efOfNhTMyqdgk+hLti6PSXtdU3ZuLu
+         MjD8MNHTYhRaTH90kG1lUbx52aJwmKdtpt9mVfJMjaalTToOTvyrkw+8Qbc+pVjfOW
+         QhBXIbPA/VPcIQL7zeIuCFUTp1ojq0EF5iOhGgiM=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x46JG94L099373
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
         Mon, 6 May 2019 14:16:09 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 6 May
- 2019 14:16:08 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ 2019 14:16:09 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 6 May 2019 14:16:08 -0500
+ Frontend Transport; Mon, 6 May 2019 14:16:09 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x46JG8KT077954;
-        Mon, 6 May 2019 14:16:08 -0500
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x46JG9LI090692;
+        Mon, 6 May 2019 14:16:09 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
 CC:     <lee.jones@linaro.org>, <rdunlap@infradead.org>,
         <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 1/7] dt-bindings: mfd: LMU: Fix lm3632 dt binding example
-Date:   Mon, 6 May 2019 14:16:08 -0500
-Message-ID: <20190506191614.25051-2-dmurphy@ti.com>
+Subject: [PATCH v4 2/7] dt-bindings: mfd: LMU: Add the ramp up/down property
+Date:   Mon, 6 May 2019 14:16:09 -0500
+Message-ID: <20190506191614.25051-3-dmurphy@ti.com>
 X-Mailer: git-send-email 2.21.0.5.gaeb582a983
 In-Reply-To: <20190506191614.25051-1-dmurphy@ti.com>
 References: <20190506191614.25051-1-dmurphy@ti.com>
@@ -56,37 +56,84 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Fix the lm3632 dt binding examples as the LCM enable GPIOs
-are defined as enable GPIOs per the regulator/lm363x-regulator.txt
-bindings document.
+Document the ramp-up and ramp-down property in the binding.
+Removing the "sec" from the property definition as seconds is
+implied.
 
 Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dan Murphy <dmurphy@ti.com>
 ---
 
-v4 - No changes - https://lore.kernel.org/patchwork/patch/1068613/
+v4 - Change property->properties, changed ramp-up/down-ms to ramp-up/down-us -
+https://lore.kernel.org/patchwork/patch/1068614/
 
-v3 - No changes added Reviewed-by Rob - https://lore.kernel.org/patchwork/patch/1058757/
-v2 - There was no v2 I add this patch on top of this series
+v3 - No changes added Reviewed-by Rob - https://lore.kernel.org/patchwork/patch/1058759/
+v2 - Fixed commit message as this was not just a modification but adding documentation
+https://lore.kernel.org/patchwork/patch/1054504/
 
- Documentation/devicetree/bindings/mfd/ti-lmu.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/mfd/ti-lmu.txt        | 22 ++++++++++++-------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/mfd/ti-lmu.txt b/Documentation/devicetree/bindings/mfd/ti-lmu.txt
-index 980394d701a7..86ca786d54fc 100644
+index 86ca786d54fc..160eb0a5e21a 100644
 --- a/Documentation/devicetree/bindings/mfd/ti-lmu.txt
 +++ b/Documentation/devicetree/bindings/mfd/ti-lmu.txt
-@@ -104,8 +104,8 @@ lm3632@11 {
- 	regulators {
- 		compatible = "ti,lm363x-regulator";
+@@ -23,8 +23,14 @@ Required properties:
+          0x36 for LM3633, LM3697
+          0x63 for LM3695
  
--		ti,lcm-en1-gpio = <&pioC 0 GPIO_ACTIVE_HIGH>; /* PC0 */
--		ti,lcm-en2-gpio = <&pioC 1 GPIO_ACTIVE_HIGH>; /* PC1 */
-+		enable-gpios = <&pioC 0 GPIO_ACTIVE_HIGH>,
-+			       <&pioC 1 GPIO_ACTIVE_HIGH>;
+-Optional property:
++Optional properties:
+   - enable-gpios: A GPIO specifier for hardware enable pin.
++  - ramp-up-us: Current ramping from one brightness level to
++		the a higher brightness level.
++		Range from 2048 us - 117.44 s
++  - ramp-down-us: Current ramping from one brightness level to
++		  the a lower brightness level.
++		  Range from 2048 us - 117.44 s
  
- 		vboost {
- 			regulator-name = "lcd_boost";
+ Required node:
+   - backlight: All LMU devices have backlight child nodes.
+@@ -90,7 +96,7 @@ lm3631@29 {
+ 
+ 		lcd_bl {
+ 			led-sources = <0 1>;
+-			ramp-up-msec = <300>;
++			ramp-up-us = <300000>;
+ 		};
+ 	};
+ };
+@@ -152,15 +158,15 @@ lm3633@36 {
+ 		main {
+ 			label = "main_lcd";
+ 			led-sources = <1 2>;
+-			ramp-up-msec = <500>;
+-			ramp-down-msec = <500>;
++			ramp-up-us = <500000>;
++			ramp-down-us = <500000>;
+ 		};
+ 
+ 		front {
+ 			label = "front_lcd";
+ 			led-sources = <0>;
+-			ramp-up-msec = <1000>;
+-			ramp-down-msec = <0>;
++			ramp-up-us = <1000000>;
++			ramp-down-us = <0>;
+ 		};
+ 	};
+ 
+@@ -212,8 +218,8 @@ lm3697@36 {
+ 
+ 		lcd {
+ 			led-sources = <0 1 2>;
+-			ramp-up-msec = <200>;
+-			ramp-down-msec = <200>;
++			ramp-up-us = <200000>;
++			ramp-down-us = <200000>;
+ 		};
+ 	};
+ 
 -- 
 2.21.0.5.gaeb582a983
 
