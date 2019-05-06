@@ -2,99 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32BBA152FE
-	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 19:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7614C15319
+	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 19:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbfEFRob (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 May 2019 13:44:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45276 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725883AbfEFRob (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 6 May 2019 13:44:31 -0400
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B7BE320B7C;
-        Mon,  6 May 2019 17:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557164670;
-        bh=FjPHioywBD1RQcEUs+vkS7eFM6aRa/+LWtdHsHtItOA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JG/BNZsRQv4furmZwUj/buubC8bARd1+lRZtO983CWusJclOgnlHNNRENOBo4TJqw
-         huxEgf0Tnd1xv9VUiVJ+bkxNpVGRbXX5MWaXJ9CEbNjiBS9jq9N/1hO87o3jhgn3O3
-         X+qsHJ9Nm1TjqTJqKinNSHBjVfrYvUGMs/f1NXdM=
-Received: by mail-qt1-f180.google.com with SMTP id t1so15035479qtc.12;
-        Mon, 06 May 2019 10:44:30 -0700 (PDT)
-X-Gm-Message-State: APjAAAUFcTMuKsjRKA84fBzvhRPJanbj3WhVkkj3+bTnZvy687J3lY1Z
-        wg7gjE4cQO/cf31FlrKAqMI3F8ESk73vyZ7T1A==
-X-Google-Smtp-Source: APXvYqxnbA+v6YC6RhzdoizzdiGEQT8tfZkHtrk/yG7J31NEHra2ZTqL73ZyJzQWmj6OgDUyPySPck8yaFObjYeyXjQ=
-X-Received: by 2002:a0c:d2f2:: with SMTP id x47mr21844351qvh.90.1557164669966;
- Mon, 06 May 2019 10:44:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190505200022.32209-1-oss@c-mauderer.de> <CAL_JsqKmKzSw2-mfmBbhpyY=Ku6H7cE2KZrgkcPD7kAS_GqbFw@mail.gmail.com>
- <20190506162848.GA9522@amd>
-In-Reply-To: <20190506162848.GA9522@amd>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Mon, 6 May 2019 12:44:18 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJerwvjghnuiwndE9Kp_qX5ef-aSa5JcdUAoE6R6YYuYA@mail.gmail.com>
-Message-ID: <CAL_JsqJerwvjghnuiwndE9Kp_qX5ef-aSa5JcdUAoE6R6YYuYA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add binding for spi-byte LED.
+        id S1726821AbfEFRxY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 May 2019 13:53:24 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:43054 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726063AbfEFRxY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 May 2019 13:53:24 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x46HrJMZ056191;
+        Mon, 6 May 2019 12:53:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1557165199;
+        bh=CaNopjjkKRCvRZjxlcGvzB6zVq2/clvaGGd6ocsNFa4=;
+        h=From:Subject:To:CC:References:Date:In-Reply-To;
+        b=ReHS99coaRenvoGCmrDPgktftCx5kM5fNoN/Q+7uc9yEfRRpi0FYAlFqwZuE2kAqe
+         kiisYUCq0mOuhB9CE5es6TInrQtgYg9XWsHU4K0rHKOKg6Not+YdaKNnBgTiJebMRn
+         J6yRcwTK+nlirlWE875XnjDmeiMAujaSYAlrPGb0=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x46HrJjU007670
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 6 May 2019 12:53:19 -0500
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 6 May
+ 2019 12:53:19 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 6 May 2019 12:53:19 -0500
+Received: from [10.250.90.63] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x46HrJsb031096;
+        Mon, 6 May 2019 12:53:19 -0500
+From:   Dan Murphy <dmurphy@ti.com>
+Subject: Re: [PATCH v3 2/7] dt-bindings: mfd: LMU: Add the ramp up/down
+ property
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     oss@c-mauderer.de,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+CC:     <jacek.anaszewski@gmail.com>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Rob Herring <robh@kernel.org>
+References: <20190430191730.19450-1-dmurphy@ti.com>
+ <20190430191730.19450-3-dmurphy@ti.com> <20190430220140.GB20410@amd>
+Message-ID: <7712d911-7ef3-e273-2cdc-89c5b56369cb@ti.com>
+Date:   Mon, 6 May 2019 12:53:25 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190430220140.GB20410@amd>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, May 6, 2019 at 11:28 AM Pavel Machek <pavel@ucw.cz> wrote:
->
-> Hi!
->
-> > > +* Single Byte SPI LED Device Driver.
-> > > +
-> > > +The driver can be used for controllers with a very simple SPI protocol: Only one
-> > > +byte will be sent. The value of the byte can be any value between the off-value
-> > > +and max-value defined in the properties.
-> > > +
-> > > +One example where the driver can be used is the controller in Ubiquiti airCube
-> > > +ISP devices. That LED controller is based on a 8 bit microcontroller (SONiX
-> > > +8F26E611LA) that has been programmed to control the single LED of the device.
-> >
-> > What about power control of the uC?
-> >
-> > > +The controller supports four modes depending on the highest two bits in a byte:
-> > > +One setting for brightness, the other three provide different blink patterns.
-> >
-> > This part seems in no way generic.
-> >
-> > How does one support the blink patterns?
-> >
-> > > +With the leds-spi-byte driver a basic support for the brightness mode of that
-> > > +controller can be easily achieved by setting the minimum and maximum to the
-> > > +brightness modes minimum and maximum byte value.
-> > > +
-> > > +Required properties:
-> > > +- compatible:          Should be "leds-spi-byte".
-> >
-> > Generally, we don't do "generic" bindings like this. The exceptions
-> > are either we have confidence they really can be generic or they where
-> > created before we knew better. A sample size of 1 doesn't convince me
-> > the former is true.
-> >
-> > This comment *only* applies to the binding, not the driver. Specific
-> > bindings can easily be bound to generic drivers.
->
-> Ok, I'm afraid I caused this. What should the compatible be, then?
+Pavel
 
-Knowing nothing about the h/w other than the above description:
-ubiquiti,aircube-leds
+On 4/30/19 5:01 PM, Pavel Machek wrote:
+> On Tue 2019-04-30 14:17:25, Dan Murphy wrote:
+>> Document the ramp-up and ramp-down property in the binding.
+>> Removing the "sec" from the property definition as seconds is
+>> implied.
+>>
+>> Reviewed-by: Rob Herring <robh@kernel.org>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>> ---
+>>
+>> v3 - No changes added Reviewed-by Rob - https://lore.kernel.org/patchwork/patch/1058759/
+>>
+>> v2 - Fixed commit message as this was not just a modification but adding documentation
+>> https://lore.kernel.org/patchwork/patch/1054504/
+>>
+>>  .../devicetree/bindings/mfd/ti-lmu.txt        | 20 ++++++++++++-------
+>>  1 file changed, 13 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/mfd/ti-lmu.txt b/Documentation/devicetree/bindings/mfd/ti-lmu.txt
+>> index 86ca786d54fc..adae96c79d39 100644
+>> --- a/Documentation/devicetree/bindings/mfd/ti-lmu.txt
+>> +++ b/Documentation/devicetree/bindings/mfd/ti-lmu.txt
+>> @@ -25,6 +25,12 @@ Required properties:
+>>  
+>>  Optional property:
+> 
+> "properties".
+> 
 
-Not sure if that's a registered or correct vendor prefix though.
+Ack
 
-Rob
+>>    - enable-gpios: A GPIO specifier for hardware enable pin.
+>> +  - ramp-up-ms: Current ramping from one brightness level to
+>> +		the a higher brightness level.
+>> +		Range from 2048 us - 117.44 s
+>> +  - ramp-down-ms: Current ramping from one brightness level to
+>> +		  the a lower brightness level.
+>> +		  Range from 2048 us - 117.44 s
+> 
+> Can you use ramp-up/down-us for consistency?
+
+Sure I can change it to ramp-up/down-us.
+I just converted it ramp-up/down-msec to ramp-ramp-up/down-ms.
+
+Probably makes more sense anyway with the range actually given is in us.
+
+Dan
+
+> 								Pavel
+> 
