@@ -2,94 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3D34154DD
-	for <lists+linux-leds@lfdr.de>; Mon,  6 May 2019 22:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE535159D8
+	for <lists+linux-leds@lfdr.de>; Tue,  7 May 2019 07:41:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726379AbfEFUZN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 May 2019 16:25:13 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:54693 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726370AbfEFUZN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 May 2019 16:25:13 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id E080F801A3; Mon,  6 May 2019 22:25:00 +0200 (CEST)
-Date:   Mon, 6 May 2019 22:25:12 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Christian Mauderer <oss@c-mauderer.de>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree@vger.kernel.org,
+        id S1729120AbfEGFka (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 May 2019 01:40:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59986 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728313AbfEGFk3 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 7 May 2019 01:40:29 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F12FB20675;
+        Tue,  7 May 2019 05:40:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557207628;
+        bh=VRtGhhfvENSk8MY3OOpOVHVA92UpWAu95L5vA/T4aGE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=EfCLMjBfimSrl+6hRlsICl8+sTs8uGacnlQdSRvhKdM+kULeMJPYCeSKk9B/mrneO
+         58eD0ZUs6jH6A1HILb2cd0797yM9+lNvWmyQzGmdMusVQSMUtD2TcxREZWKy2WgWVB
+         fwbeSCFremyK7eijYM+Y4RbYeOLLhoocs8CAcMA0=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Jerome Brunet <jbrunet@baylibre.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add binding for spi-byte LED.
-Message-ID: <20190506202511.GA4979@amd>
-References: <20190505200022.32209-1-oss@c-mauderer.de>
- <CAL_JsqKmKzSw2-mfmBbhpyY=Ku6H7cE2KZrgkcPD7kAS_GqbFw@mail.gmail.com>
- <20190506162848.GA9522@amd>
- <CAL_JsqJerwvjghnuiwndE9Kp_qX5ef-aSa5JcdUAoE6R6YYuYA@mail.gmail.com>
- <54199d69-67a9-eb9d-e46d-b3ea43e2e7a3@c-mauderer.de>
+        Sasha Levin <alexander.levin@microsoft.com>,
+        linux-leds@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 66/95] leds: pwm: silently error out on EPROBE_DEFER
+Date:   Tue,  7 May 2019 01:37:55 -0400
+Message-Id: <20190507053826.31622-66-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190507053826.31622-1-sashal@kernel.org>
+References: <20190507053826.31622-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
-Content-Disposition: inline
-In-Reply-To: <54199d69-67a9-eb9d-e46d-b3ea43e2e7a3@c-mauderer.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+From: Jerome Brunet <jbrunet@baylibre.com>
 
---vkogqOf2sHV7VnPd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[ Upstream commit 9aec30371fb095a0c9415f3f0146ae269c3713d8 ]
 
-Hi!
+When probing, if we fail to get the pwm due to probe deferal, we shouldn't
+print an error message. Just be silent in this case.
 
-> >> Ok, I'm afraid I caused this. What should the compatible be, then?
-> >=20
-> > Knowing nothing about the h/w other than the above description:
-> > ubiquiti,aircube-leds
-> >=20
-> > Not sure if that's a registered or correct vendor prefix though.
-> >=20
-> > Rob
-> >=20
->=20
-> Where would such a vendor prefix be registered? Does that mean that only
-> the vendor is allowed to use it? In that case: How would a reverse
-> engineered prefix look like?
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Signed-off-by: Sasha Levin <alexander.levin@microsoft.com>
+---
+ drivers/leds/leds-pwm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-You can use it, too. It is in
-Documentation/devicetree/bindings/vendor-prefixes.txt :
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index 8d456dc6c5bf..83f9bbe57e02 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -101,8 +101,9 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+ 		led_data->pwm = devm_pwm_get(dev, led->name);
+ 	if (IS_ERR(led_data->pwm)) {
+ 		ret = PTR_ERR(led_data->pwm);
+-		dev_err(dev, "unable to request PWM for %s: %d\n",
+-			led->name, ret);
++		if (ret != -EPROBE_DEFER)
++			dev_err(dev, "unable to request PWM for %s: %d\n",
++				led->name, ret);
+ 		return ret;
+ 	}
+ 
+-- 
+2.20.1
 
-ubnt    Ubiquiti Networks
-
-So you can probably use ubnt, prefix.
-
-> (still with some missing parts like U-Boot) about two weeks later. I had
-> a look at it and they are not using a device tree. So there is no
-> "official" string that I could deduce from that archive.
-
-Mainline is the master. You are more "official" than them ;-).
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---vkogqOf2sHV7VnPd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlzQmCcACgkQMOfwapXb+vIwOACfS3OKSH61uc/BSiQliPVPMyxZ
-dt8An0E2c7R4KbBbjNVsOXcyf561MQtw
-=xg07
------END PGP SIGNATURE-----
-
---vkogqOf2sHV7VnPd--
