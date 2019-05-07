@@ -2,120 +2,188 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36FCB16184
-	for <lists+linux-leds@lfdr.de>; Tue,  7 May 2019 11:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8938916A97
+	for <lists+linux-leds@lfdr.de>; Tue,  7 May 2019 20:42:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbfEGJxL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 May 2019 05:53:11 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39198 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726473AbfEGJxL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 May 2019 05:53:11 -0400
-Received: by mail-wr1-f67.google.com with SMTP id v10so9119898wrt.6
-        for <linux-leds@vger.kernel.org>; Tue, 07 May 2019 02:53:10 -0700 (PDT)
+        id S1727419AbfEGSme (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 May 2019 14:42:34 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:39063 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727425AbfEGSme (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 May 2019 14:42:34 -0400
+Received: by mail-lf1-f68.google.com with SMTP id z124so6470675lfd.6;
+        Tue, 07 May 2019 11:42:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=tcxS/2hWpXskjofGSRtseVQHc72BiZ0p45vo0Vdka28=;
-        b=jQqWVK1unu7T2kZOE+gg87wq3FaLBBLlf79ijlqE53cIvYRlBTOVpLHtKmzgG75Uaz
-         qUGpykrKD76+xOMdprElOVqPIa03BD97ytwIq+mwM+TGIkPSdwAwZ1uahhv//mR+X23W
-         Kn5toaEsASuWW9khg23mJ3aXmivkbYcSxPH49QsSeNjur0i3t72nwda3GHlL2N+/9Yyo
-         A/dxuHpJ/VAh9F5sxGxlLyMKoFOpfJTgnYenmbAw4NQeGwteCCBUiLdJSt2WeDZMeT+7
-         sI35QOEHso5oe2aQHXF/3m9iCI4corsq29MMd0hNv4SHtAUwaNo9TFi4uSNjOd5xdvG+
-         qj9A==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=l+0Pt9QcE8cQteNSHBBiNf32UMkhjCszFRdNxebMlOc=;
+        b=nlkziPOHnatMrgjcwWMr2S1NWq3IRuFWTxzD+xZCyXnNguFCXY4vtTyuFKASElRNY6
+         U/t2q1ENiF9ADOVYGonQP5Dq20SDYOG34D0R+793XiQtoDslO3LajsPwj1MIX4AaRkja
+         yY2Qqvu6ueUu/TxOPioandCy1hH+0ZRctylQncwMBoIs41uHVrIdTW+3ox9/WaTaDUKq
+         7N5laNr59vmyd139E4JnxNQAdJ36y6T+n5pHOi6ax5SatGvxPQau7lQaKNj1I2WPaEZe
+         IuOzA9fK+5DWwixuSWnW91eLEp2A8TCd0O7jJsu3VQGPjpbDNIzmayhoI9TV4fN+9+dr
+         p2gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=tcxS/2hWpXskjofGSRtseVQHc72BiZ0p45vo0Vdka28=;
-        b=JRC10MtTBwRN89EX5IQpKuYjXQ8cySLt3bvGFv0vqQX8yOEeuzCgcpNtEpwapPnHY8
-         RbGDK85y5h288G0VfYDGjJt1itgqZfXeOv2atDbnSsG0KRjsJkwVJndAUtk8BZGOh9iB
-         Z6QiQO/ebBFYW9hn3rbeBzxZPTzyd8FQXYPIlKfIDQqARBd3JROoyO5Sk/7vq47Wzwom
-         Ap9s/VVVRZPd8bq5O0fyY/IWJ8KH7xkStN6ZnXADMBQ55BFffvMdr/fJernclckUtHwg
-         nAlgkPnk6lN/0Wwe0UvV5FL19LwSATS24WZZzBvqp/LM0Hc1tkSZS49bwI/x1vT/bwDA
-         3qrw==
-X-Gm-Message-State: APjAAAUANMdWo/68RTc3NFeeunk+wyPBqhaGfSdYcWCusOaX27FPPdAO
-        e2o13JunDQhuAOAsUMJEDPrhRg==
-X-Google-Smtp-Source: APXvYqwo3mM58fkGHxIdzaZEGdBCoVtchbx0EHRZjuaTTSmrlX26j60GrA4koYEVJwZOeYXfzyNWBg==
-X-Received: by 2002:adf:f7d0:: with SMTP id a16mr21241175wrq.211.1557222789633;
-        Tue, 07 May 2019 02:53:09 -0700 (PDT)
-Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id p67sm11911297wmp.22.2019.05.07.02.53.08
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 07 May 2019 02:53:09 -0700 (PDT)
-Date:   Tue, 7 May 2019 10:53:07 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Daniel Thompson <daniel.thompson@linaro.org>
-Cc:     Brian Masney <masneyb@onstation.org>, jingoohan1@gmail.com,
-        robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        mark.rutland@arm.com, b.zolnierkie@samsung.com,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dmurphy@ti.com, jonathan@marek.ca,
-        Daniel Thompson <daniel@redfelineninja.org.uk>
-Subject: Re: [PATCH v6 1/3] backlight: lm3630a: return 0 on success in
- update_status functions
-Message-ID: <20190507095307.GE4529@dell>
-References: <20190424092505.6578-1-masneyb@onstation.org>
- <20190424092505.6578-2-masneyb@onstation.org>
- <864c1ddc-1008-0041-1559-e491ca0186ef@linaro.org>
- <20190502104239.GA24563@basecamp>
- <20190502104644.e3eth2cdebuz2mpk@holly.lan>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190502104644.e3eth2cdebuz2mpk@holly.lan>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=l+0Pt9QcE8cQteNSHBBiNf32UMkhjCszFRdNxebMlOc=;
+        b=Q3WE9K0Z20iCiKSi1PoszqCcTHmPfrbnfCZc5FWLhaQ7FMfyPtU3YYPqtdkPjjQoQi
+         migatZ3pw6MXkBcskuQSxxE+HA/qeq1YIS1YmXI9oEgB9A4NVWCJEWRxqW8PxJ4GwRH2
+         5DdTTFho2aIs/DY/DjAQGlS4quLkzG9rRFr8sFUs45riwxo3hhYKg+6S6XySCliRLC9V
+         /hp1hXcesTybN/zY5lbr8iD+tZoJe7q/o0gi7DRHiikPAdduuyviOYfrpt8xlQItGFi9
+         If3PZr2ANd8iUUKpnBGzk0M7BMZCkVRQvvpnyPllaAtiV18sHBPAd73osZBB3ccztrud
+         sIvQ==
+X-Gm-Message-State: APjAAAWJsoDFJXOmmG99+VuvX1aodeIxDwca8WltkRRnFmN4XdjWmDc0
+        KRCK3mAoY6KbILg/JZdSxPk=
+X-Google-Smtp-Source: APXvYqxR79+zmld/+zt66xNJYQ+2Y/sOgCEBJi2Iz0RT9F8XqCw12yCbzsgv/6Y+x6z9j5eEtdn8BQ==
+X-Received: by 2002:ac2:5621:: with SMTP id b1mr7465050lff.27.1557254551581;
+        Tue, 07 May 2019 11:42:31 -0700 (PDT)
+Received: from myhost.home (bgw158.neoplus.adsl.tpnet.pl. [83.28.86.158])
+        by smtp.gmail.com with ESMTPSA id 9sm1262852ljc.93.2019.05.07.11.42.29
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 May 2019 11:42:30 -0700 (PDT)
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+To:     torvalds@linux-foundation.org
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        andriy.shevchenko@linux.intel.com, colin.king@canonical.com,
+        daniel@zonque.org, dmurphy@ti.com, info@metux.net,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz,
+        sakari.ailus@linux.intel.com, yuehaibing@huawei.com
+Subject: [GIT PULL] LED updates for 5.2-rc1
+Date:   Tue,  7 May 2019 20:42:25 +0200
+Message-Id: <20190507184225.5309-1-jacek.anaszewski@gmail.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 02 May 2019, Daniel Thompson wrote:
+Hi Linus,
 
-> On Thu, May 02, 2019 at 06:42:39AM -0400, Brian Masney wrote:
-> > On Thu, May 02, 2019 at 11:07:51AM +0100, Daniel Thompson wrote:
-> > > On 24/04/2019 10:25, Brian Masney wrote:
-> > > > lm3630a_bank_a_update_status() and lm3630a_bank_b_update_status()
-> > > > both return the brightness value if the brightness was successfully
-> > > > updated. Writing to these attributes via sysfs would cause a 'Bad
-> > > > address' error to be returned. These functions should return 0 on
-> > > > success, so let's change it to correct that error.
-> > > > 
-> > > > Signed-off-by: Brian Masney <masneyb@onstation.org>
-> > > > Fixes: 28e64a68a2ef ("backlight: lm3630: apply chip revision")
-> > > > Acked-by: Pavel Machek <pavel@ucw.cz>
-> > > 
-> > > Hi Brian, sorry for the delay. For some reason your mails are being dumped
-> > > before they reach me so I only discovered these patches when I paid proper
-> > > attention to the replies and fetched them from patchwork.
-> > > 
-> > > Hi Lee, is the same thing happening for you? ;-)
-> > 
-> > Huh, that's odd. I haven't ran into that issue when working with people
-> > from Linaro in other subsystems.
-> > 
-> > As a sanity check, I used 'git send-email' to send this patch to
-> > check-auth@verifier.port25.com and it verified that I still have SPF,
-> > DKIM, reverse DNS, etc. all setup properly on this domain.
-> > 
-> > hotmail.com addresses are the only ones I've had issues with in the
-> > past, but I doubt you're forwarding your email there. :)
-> 
-> No... and strangely enough your recent e-mail sailed through just fine.
-> Let's wait and see what is happening for Lee (which I suspect may not be
-> until well into next week).
+Please pull LED updates for 5.2-rc1.
 
-Just catching up now.  On first pass - only ~800 mails to go!
+At first, the things touching other subsystems:
 
-Looks like I do have Brian's mails though.
+Merge of immutable branch between LED, MFD and OMAP Device Tree:
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+lm3532 driver relocation from MFD to LED subsystem,
+accompanied by various improvements and optimizations;
+it entails also a change in omap4-droid4-xt894.dts:
+
+	- leds: lm3532: Introduce the lm3532 LED driver
+	- mfd: ti-lmu: Remove LM3532 backlight driver references
+	- ARM: dts: omap4-droid4: Update backlight dt properties
+	- dt: lm3532: Add lm3532 dt doc and update ti_lmu doc
+
+LED related addition to ACPI documentation:
+
+	- document how to refer to LEDs from remote nodes
+
+LED related fix to ALSA line6/toneport driver:
+
+	- avoid polluting led_* namespace
+
+Besides that there are regular LED updates:
+
+LED core fixes and improvements:
+
+	- avoid races with workqueue
+	- Kconfig: pedantic cleanup
+	- small fixes for Flash class description
+
+leds-lt3593:
+
+	- remove unneeded assignment in lt3593_led_probe
+	- drop pdata handling code
+
+leds-blinkm:
+
+	- clean up double assignment to data->i2c_addr
+
+leds-pca955x, leds-pca963x:
+
+	- revert ACPI support, as it turned out that there is no evidence
+	  of officially registered ACPI IDs for these devices.
+	- make use of device property API
+
+leds-as3645a:
+
+	- switch to fwnode property API
+
+
+The following changes since commit 9e98c678c2d6ae3a17cb2de55d17f69dddaa231b:
+
+  Linux 5.1-rc1 (2019-03-17 14:22:26 -0700)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git tags/leds-for-5.2-rc1
+
+for you to fetch changes up to 0db37915d912e8dc6588f25da76d3ed36718d92f:
+
+  leds: avoid races with workqueue (2019-05-02 22:54:51 +0200)
+
+Thanks,
+Jacek Anaszewski
+
+----------------------------------------------------------------
+LED updates for 5.2-rc1.
+----------------------------------------------------------------
+Andy Shevchenko (4):
+      leds: pca963x: Revert "Add ACPI support"
+      leds: pca955x: Revert "Add ACPI support"
+      leds: pca955x: Make use of device property API
+      leds: pca963x: Make use of device property API
+
+Colin Ian King (1):
+      leds: blinkm: clean up double assignment to data->i2c_addr
+
+Dan Murphy (5):
+      leds: Small fixes for Flash class description
+      dt: lm3532: Add lm3532 dt doc and update ti_lmu doc
+      ARM: dts: omap4-droid4: Update backlight dt properties
+      mfd: ti-lmu: Remove LM3532 backlight driver references
+      leds: lm3532: Introduce the lm3532 LED driver
+
+Daniel Mack (1):
+      leds: lt3593: drop pdata handling code
+
+Enrico Weigelt, metux IT consult (1):
+      drivers: leds: Kconfig: pedantic cleanups
+
+Jacek Anaszewski (2):
+      Merge tag 'lm3532-driver-improvements' into for-next
+      ALSA: line6: Avoid polluting led_* namespace
+
+Pavel Machek (1):
+      leds: avoid races with workqueue
+
+Sakari Ailus (2):
+      leds: as3645a: Switch to fwnode property API
+      ACPI: Document how to refer to LEDs from remote nodes
+
+YueHaibing (1):
+      leds: lt3593: Remove unneeded assignment in lt3593_led_probe
+
+ Documentation/acpi/dsd/leds.txt                    |  99 +++
+ .../devicetree/bindings/leds/leds-lm3532.txt       | 101 +++
+ Documentation/devicetree/bindings/mfd/ti-lmu.txt   |  20 -
+ arch/arm/boot/dts/omap4-droid4-xt894.dts           |  27 +-
+ drivers/leds/Kconfig                               |  33 +-
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/led-class.c                           |   1 +
+ drivers/leds/led-core.c                            |   5 +
+ drivers/leds/leds-as3645a.c                        |  93 +--
+ drivers/leds/leds-blinkm.c                         |   1 -
+ drivers/leds/leds-lm3532.c                         | 683 +++++++++++++++++++++
+ drivers/leds/leds-lt3593.c                         |  64 +-
+ drivers/leds/leds-pca955x.c                        |  57 +-
+ drivers/leds/leds-pca963x.c                        |  66 +-
+ drivers/mfd/ti-lmu.c                               |  11 -
+ include/linux/mfd/ti-lmu-register.h                |  44 --
+ include/linux/mfd/ti-lmu.h                         |   1 -
+ sound/usb/line6/toneport.c                         |   8 +-
+ 18 files changed, 1023 insertions(+), 292 deletions(-)
+ create mode 100644 Documentation/acpi/dsd/leds.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lm3532.txt
+ create mode 100644 drivers/leds/leds-lm3532.c
