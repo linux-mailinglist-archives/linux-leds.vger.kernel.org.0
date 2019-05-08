@@ -2,81 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D94D41764F
-	for <lists+linux-leds@lfdr.de>; Wed,  8 May 2019 12:53:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D1E21765F
+	for <lists+linux-leds@lfdr.de>; Wed,  8 May 2019 13:01:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726986AbfEHKxn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 May 2019 06:53:43 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:44723 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726281AbfEHKxn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 May 2019 06:53:43 -0400
-Received: by mail-wr1-f68.google.com with SMTP id c5so1345022wrs.11
-        for <linux-leds@vger.kernel.org>; Wed, 08 May 2019 03:53:42 -0700 (PDT)
+        id S1726684AbfEHLBl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 8 May 2019 07:01:41 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:52118 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726513AbfEHLBl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 May 2019 07:01:41 -0400
+Received: by mail-wm1-f66.google.com with SMTP id o189so2732386wmb.1
+        for <linux-leds@vger.kernel.org>; Wed, 08 May 2019 04:01:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=JKIh0OlhwogoLb2gFyisL8SYZblJ6QPDpG/wRuDQA24=;
-        b=mFTppKxWA4GeHfy4yFj5epQB5aB96Y+vW6eCsgWlUQuqcLEh+9LwYIFeZA2ImEO0jk
-         DhlXwKXhcqQQOEcbfLvglZtWb1CHB/CVlKNID+KGJkfKLZjvwuufkyAhCOs2CElWSqhc
-         DH0w5P+Ka+ee9+xjmx/uy2aVvjd0YGli9fHjM4TwIzLS/d3HO44zy4JgrxOmHB02hEV4
-         OfdZl4PfvUpZKTMHCapmyD6XHsbWfnFO5a3Bo9yCPQNEuEm3kfMjo7dsC8OryU6e+/JM
-         pgXpDOmguZrm4X83TulKDQzPmxdVGGZQGz+07HfTdXm5whns+Mgr7EyE5TVWy5arX/Gu
-         e6SA==
+        bh=bqSOd5NdwH2sBo5UJZZvv7ez5x168vj6NoDWWxf39h8=;
+        b=vLr9lpNr81dJnJ4ki7Ofpz8YeDdWr5J7E+WbnN/TNKj2AV3rmoRX4bKe2x+R9pq/e6
+         rPwD07ephFcN39P8gkmRM8gmn9BylEndxfZ4ksrIRTw5ZW/qREgIVkccuqVGdZnOC8UO
+         R2CBVpx7dR8q4ZZSV0NxML8KhRgqyivdUNVwS5hIbb54TJ3/5cE6d1tIDK0o/wEkv8iz
+         8Ui+O+TZ3TcY+61yvIhzB1f5KHXZmSrWfMNdge130ZNe+k6xaZlxKDA0/sodnyn9u2wK
+         fotiY/BcQTzEs4psCyDrmZ/FJsiwdKE34X03fM56OH9BWd/Qhv6ezXJUVgz9MLzXnBha
+         rc9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=JKIh0OlhwogoLb2gFyisL8SYZblJ6QPDpG/wRuDQA24=;
-        b=WkWmvqsVegjSY932QcUwXIhE/R8oIsx8dFCcj8rPWMVUmdPiilUmzVtojHzQ0iprd8
-         aI6d4aMRngWE4aVwG8riC665x4hzy9IMa9sKCK6nytyEH6N6uFEgW68O66JMeIytZH9b
-         ZN4F8/0DWSS8VWtRQVFVrwoRV/XxBZb7IaXxuAHJD4oWgC0blhb39GX3ukFZHyhUapwb
-         kolTA50yroj7DKcrkzpz+u8GP1I7qxLBlWVz4zcGj9VY3VNVtNCO4AQakn3NlwakoNSh
-         xq6rhIm4/rw99fO9J04xmNrxXAGF0MJi5r74l94cDEVjiyDsGeVgvqgzSHbawktasqvt
-         TMEw==
-X-Gm-Message-State: APjAAAVJco7xHP1maO73J3hCoDPnU9xMUuvNKCljEVqwXqiTjgzUUZb/
-        zuco/2bXUr6IDKFGIFraReTOOQ==
-X-Google-Smtp-Source: APXvYqwlZiLdXlAEfznjHpk8nEAvN3fWmgxnXEvPPeJPbdOBuNx4TYP/ubkjdyqBdKeqCDOr/OLFRA==
-X-Received: by 2002:adf:c6c3:: with SMTP id c3mr27422586wrh.267.1557312821690;
-        Wed, 08 May 2019 03:53:41 -0700 (PDT)
+        bh=bqSOd5NdwH2sBo5UJZZvv7ez5x168vj6NoDWWxf39h8=;
+        b=CfhRXGBJfN7TSYjWj3qUZfospOxCHXpauHUwkBiCkTjH5wu3FSzbaiYhevE4INrFUk
+         GUyVXpYV7SMN/qlBrIOt9VBoHX/4DGVkCNS0659K9J2Hg2WCOpw5QJbvsBOjkNTUA1N0
+         YUGH8SztK8EEyIeOSBorpQGYtvuGSemGEX3Lk9aRWJWkBkUDEcsez6Xl75eCUzNVaoRX
+         to1k6yj55k/sy6FFcYtuHA94Yhh0iXNZERfI8vteGrMYzQaIYsDNVqeDbsGtVGFnxcDW
+         DyRx7P0X5nmg6k92+xEz8vbUh+Cjrb+yGkZ9pw1ZizWzRjArJxP3/uVedJs2Yri58wGd
+         CzEA==
+X-Gm-Message-State: APjAAAWu3rDZ+9F8ojyaIQQvYxKDoavLM/H/ow+Z8RMAnho0eyW/u5A5
+        /YOC99Z2wr/nT6trXbYK2jYvPw==
+X-Google-Smtp-Source: APXvYqw1fiLxjnK9R324L7VjjDByPPrSiZVo/OEiG702CWo1hF7gtinHSZSWaINQaniIOrY5HwsZVw==
+X-Received: by 2002:a1c:48d7:: with SMTP id v206mr1187312wma.38.1557313299959;
+        Wed, 08 May 2019 04:01:39 -0700 (PDT)
 Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id j46sm5210579wre.54.2019.05.08.03.53.40
+        by smtp.gmail.com with ESMTPSA id a125sm3243927wmc.47.2019.05.08.04.01.38
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 08 May 2019 03:53:40 -0700 (PDT)
-Date:   Wed, 8 May 2019 11:53:39 +0100
+        Wed, 08 May 2019 04:01:39 -0700 (PDT)
+Date:   Wed, 8 May 2019 12:01:37 +0100
 From:   Lee Jones <lee.jones@linaro.org>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     robh+dt@kernel.org, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: mfd: LMU: Fix lm3632 dt binding example
-Message-ID: <20190508105339.GP3995@dell>
-References: <20190405141907.3348-1-dmurphy@ti.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v10 06/11] mfd: max77650: new core mfd driver
+Message-ID: <20190508110137.GQ3995@dell>
+References: <20190423090451.23711-1-brgl@bgdev.pl>
+ <20190423090451.23711-7-brgl@bgdev.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190405141907.3348-1-dmurphy@ti.com>
+In-Reply-To: <20190423090451.23711-7-brgl@bgdev.pl>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 05 Apr 2019, Dan Murphy wrote:
+On Tue, 23 Apr 2019, Bartosz Golaszewski wrote:
 
-> Fix the lm3632 dt binding examples as the LCM enable GPIOs
-> are defined as enable GPIOs per the regulator/lm363x-regulator.txt
-> bindings document.
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> Add the core mfd driver for max77650 PMIC. We define five sub-devices
+> for which the drivers will be added in subsequent patches.
+> 
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > ---
->  Documentation/devicetree/bindings/mfd/ti-lmu.txt | 4 ++--
+>  drivers/mfd/Kconfig          |  14 +++
+>  drivers/mfd/Makefile         |   1 +
+>  drivers/mfd/max77650.c       | 232 +++++++++++++++++++++++++++++++++++
+>  include/linux/mfd/max77650.h |  59 +++++++++
+>  4 files changed, 306 insertions(+)
+>  create mode 100644 drivers/mfd/max77650.c
+>  create mode 100644 include/linux/mfd/max77650.h
 
-Applied, thanks.
+For my own reference:
+  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 
 -- 
 Lee Jones [李琼斯]
