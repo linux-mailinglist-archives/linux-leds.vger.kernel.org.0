@@ -2,145 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 692EF17673
-	for <lists+linux-leds@lfdr.de>; Wed,  8 May 2019 13:11:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A79231785D
+	for <lists+linux-leds@lfdr.de>; Wed,  8 May 2019 13:35:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727283AbfEHLLX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 May 2019 07:11:23 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39501 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727207AbfEHLLW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 May 2019 07:11:22 -0400
-Received: by mail-wm1-f65.google.com with SMTP id n25so2717297wmk.4
-        for <linux-leds@vger.kernel.org>; Wed, 08 May 2019 04:11:21 -0700 (PDT)
+        id S1727743AbfEHLfP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 8 May 2019 07:35:15 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51915 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726254AbfEHLfP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 May 2019 07:35:15 -0400
+Received: by mail-wm1-f66.google.com with SMTP id o189so2861251wmb.1
+        for <linux-leds@vger.kernel.org>; Wed, 08 May 2019 04:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=CudbcozzaeKUq3DWNZdG3otz0fZIRmL0q4NFD8op3gI=;
-        b=LdfpPzMpiacfFiok1ZAPTSkSm9gekwnzSeXjerAyeO0EAl44atgySrwVK/1S3+uCov
-         T3QeYquOu1rc/U7S9MyQJYcbrOO+VAzuk8rA+/3lW9nb2alaY5LzfobBRWzJiAmXZkKu
-         hTJIlBO231WRZs79AjSvRUfx0OpsNqkEYL513MG0J0KhdOQst9BdM7T6zzUyK8R0OhKL
-         xChXW/vqzCZ4GTacIH9O6Px/opCR1VpAVwMZ2wxfC3E57mhtY4e8S2URnK7gsH6SLUeN
-         /QQ1uD7lJ+M5tN9U8/o7lGBSZgf824SiapzizJ7sMNwq/H03OAWfztRuzAdZo/m/+mJs
-         Ircg==
+        bh=HXeOrT3youkkGlJIREGe1d+8JaSnzpTXLtcFxjjLlUY=;
+        b=LliSzz7pVx0hjhCRfi+t9+LqV4Ah8haHdit5fv0NgcDm/ODp589aw2xPWnbKMLrekF
+         Rv6P/MsoNN+69PGk+3WmM08UPq/pQbupbjOhSH56cJviz1J/IYisYdfZgkMc6FkxpD9G
+         TldD+G8t2K7r6oq4TYB69Q4OZTkowf2l8R+dLOqWYpNZFWxUBb6YBkCayqd6M1qWtwgR
+         wWp+/42MzAWZBBLPfzxvQdftRl3w6XIt8Wh6Zfo6aJ+Bhiwi3iZxhTorxcoR5OwrFZcp
+         Jt8yia6x/rVZ6WihXYcNaL5dHTFSyfd7CdHOjy7B/yP5f3SdEPRkJGZsZbNnEiVh1OCR
+         uYow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=CudbcozzaeKUq3DWNZdG3otz0fZIRmL0q4NFD8op3gI=;
-        b=gNEwcRH2Pl2tgdb7YnYy+TVix0CRlOeiePhElrRX0YVj/zU0i0RamIar+34/OgbRIE
-         ydHJK3hrcjvGtE5UgdUBTqO1yjCHFbyBJ/3ozS/DCSsKppSe6u6nLJcfzFzJOlx+Unrk
-         6sCT2Ofu/ISQRW3k6iHo1AboqK1ozvqYqGDHztgMjXZTIioeBzcIOZxMYcc2ujygP/Gh
-         FyjH1kBsaEIDsX0/PbshKpU8tq3sHsi3ugRjPYkI/eJH5ZxM5ZlXn9BcFgnrVbwN/BLq
-         1nCGw/8u3cVtpUEh4hA3kCOI6wiVISGvQMP2d/47xq4H1+KKri+eF8ne0tsZYK5HUUqh
-         TojA==
-X-Gm-Message-State: APjAAAX084cryLdsZedyfNdS6ppsBtCIeSvxAwKGLh4iPaXZXg2YvjeH
-        0sFYad1lg7XAWn8I0tXq9Gk+XA==
-X-Google-Smtp-Source: APXvYqwHxHzg+VsUu59uDR7g3sMlAR+jrJYJ2RFcO1V8dYuCtcSCuVY9lJnp+qeleM4eFH7vIfajHw==
-X-Received: by 2002:a1c:9942:: with SMTP id b63mr2739095wme.116.1557313880609;
-        Wed, 08 May 2019 04:11:20 -0700 (PDT)
+        bh=HXeOrT3youkkGlJIREGe1d+8JaSnzpTXLtcFxjjLlUY=;
+        b=tm3UQ8Ed2DChT9eX6xAw6BlKqDzJFgQGT/tKRRmKydUwzqnjUZF1QQNtCe3IjDQpS0
+         cmncl34gBUd2Snz6kxw1SBJKf2faOHNmWnszEwJSBdOUGQniZc/yzT3Vi57JRndSYGiV
+         rFvsBr2CnOQ6IAyUk/HT6ZH0Raps5BoRyUxzPoQ8gihtO2vZPF++vzuYUGLVn4wbdw8T
+         J8ddrGnuPTRYdIG9uVoZ4PZMzP15i0Ar2EF3msEDwhPpWoHZnELM/nDPaO+5FrqGrK+H
+         N9L7sOyCIVgf98RJ0ZRzn3ut35PCFsIPXQe12lE6oSvdqpD0iy1M0hISpUwDdCfuIIyr
+         179w==
+X-Gm-Message-State: APjAAAXCCgTMXhERZE5w+6bY065aaZtWdg/daJ3BWVPN80okArlR06t3
+        eWgudbye7S9fYXoOyIvVQO90YQ==
+X-Google-Smtp-Source: APXvYqwNFOAfUkxBrSyIDhXFkjVCnIQEKaQPvZER01gSPTdvNyQBaKHpBzlgxc/hpy319B6Un5JkPA==
+X-Received: by 2002:a1c:e912:: with SMTP id q18mr2669949wmc.137.1557315313220;
+        Wed, 08 May 2019 04:35:13 -0700 (PDT)
 Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id n4sm2944764wmk.24.2019.05.08.04.11.19
+        by smtp.gmail.com with ESMTPSA id v184sm2645597wma.6.2019.05.08.04.35.11
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 08 May 2019 04:11:20 -0700 (PDT)
-Date:   Wed, 8 May 2019 12:11:18 +0100
+        Wed, 08 May 2019 04:35:12 -0700 (PDT)
+Date:   Wed, 8 May 2019 12:35:10 +0100
 From:   Lee Jones <lee.jones@linaro.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [GIT PULL] Immutable branch between MFD, GPIO, Input, LEDs and Power
- due for the v5.2 merge window
-Message-ID: <20190508111118.GR3995@dell>
-References: <20190423090451.23711-1-brgl@bgdev.pl>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, rdunlap@infradead.org,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v4 1/7] dt-bindings: mfd: LMU: Fix lm3632 dt binding
+ example
+Message-ID: <20190508113510.GA31645@dell>
+References: <20190506191614.25051-1-dmurphy@ti.com>
+ <20190506191614.25051-2-dmurphy@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190423090451.23711-1-brgl@bgdev.pl>
+In-Reply-To: <20190506191614.25051-2-dmurphy@ti.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Enjoy!
+On Mon, 06 May 2019, Dan Murphy wrote:
 
-The following changes since commit e93c9c99a629c61837d5a7fc2120cd2b6c70dbdd:
+> Fix the lm3632 dt binding examples as the LCM enable GPIOs
+> are defined as enable GPIOs per the regulator/lm363x-regulator.txt
+> bindings document.
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
 
-  Linux 5.1 (2019-05-05 17:42:58 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-gpio-input-leds-power-v5.2
-
-for you to fetch changes up to 796fad0101d370567c2968bd933b865aa57efaa3:
-
-  MAINTAINERS: Add an entry for MAX77650 PMIC driver (2019-05-08 12:07:12 +0100)
-
-----------------------------------------------------------------
-Immutable branch between MFD, GPIO, Input, LEDs and Power due for the v5.2 merge window
-
-----------------------------------------------------------------
-Bartosz Golaszewski (11):
-      dt-bindings: mfd: Add DT bindings for max77650
-      dt-bindings: power: supply: Add DT bindings for max77650
-      dt-bindings: leds: Add DT bindings for max77650
-      dt-bindings: input: Add DT bindings for max77650
-      mfd: mfd-core: Document mfd_add_devices()
-      mfd: Add new driver for MAX77650 PMIC
-      power: supply: max77650: Add support for battery charger
-      gpio: max77650: Add GPIO support
-      leds: max77650: Add LEDs support
-      input: max77650: Add onkey support
-      MAINTAINERS: Add an entry for MAX77650 PMIC driver
-
- .../devicetree/bindings/input/max77650-onkey.txt   |  26 ++
- .../devicetree/bindings/leds/leds-max77650.txt     |  57 ++++
- Documentation/devicetree/bindings/mfd/max77650.txt |  46 +++
- .../bindings/power/supply/max77650-charger.txt     |  28 ++
- MAINTAINERS                                        |  14 +
- drivers/gpio/Kconfig                               |   7 +
- drivers/gpio/Makefile                              |   1 +
- drivers/gpio/gpio-max77650.c                       | 190 +++++++++++
- drivers/input/misc/Kconfig                         |   9 +
- drivers/input/misc/Makefile                        |   1 +
- drivers/input/misc/max77650-onkey.c                | 121 +++++++
- drivers/leds/Kconfig                               |   6 +
- drivers/leds/Makefile                              |   1 +
- drivers/leds/leds-max77650.c                       | 147 ++++++++
- drivers/mfd/Kconfig                                |  14 +
- drivers/mfd/Makefile                               |   1 +
- drivers/mfd/max77650.c                             | 232 +++++++++++++
- drivers/mfd/mfd-core.c                             |  13 +
- drivers/power/supply/Kconfig                       |   7 +
- drivers/power/supply/Makefile                      |   1 +
- drivers/power/supply/max77650-charger.c            | 368 +++++++++++++++++++++
- include/linux/mfd/max77650.h                       |  59 ++++
- 22 files changed, 1349 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/max77650-onkey.txt
- create mode 100644 Documentation/devicetree/bindings/leds/leds-max77650.txt
- create mode 100644 Documentation/devicetree/bindings/mfd/max77650.txt
- create mode 100644 Documentation/devicetree/bindings/power/supply/max77650-charger.txt
- create mode 100644 drivers/gpio/gpio-max77650.c
- create mode 100644 drivers/input/misc/max77650-onkey.c
- create mode 100644 drivers/leds/leds-max77650.c
- create mode 100644 drivers/mfd/max77650.c
- create mode 100644 drivers/power/supply/max77650-charger.c
- create mode 100644 include/linux/mfd/max77650.h
+For my own reference:
+  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 
 -- 
 Lee Jones [李琼斯]
