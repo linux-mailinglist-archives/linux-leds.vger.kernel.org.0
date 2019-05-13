@@ -2,197 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 515651A740
-	for <lists+linux-leds@lfdr.de>; Sat, 11 May 2019 11:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7A3E1BE0D
+	for <lists+linux-leds@lfdr.de>; Mon, 13 May 2019 21:33:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728446AbfEKJLh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 11 May 2019 05:11:37 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38779 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728424AbfEKJLh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 11 May 2019 05:11:37 -0400
-Received: by mail-lj1-f196.google.com with SMTP id 14so7026493ljj.5;
-        Sat, 11 May 2019 02:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Bcd3U09lxVpjtPKMEHtfsohkvWYbDLt3u8qyneHgOVo=;
-        b=tjCx9VEsEUGEOAvlwxqkB8z4SvOjoqbR+lnsJkGabWmPIYCRvukNFVWD+lNmrr1Ofh
-         2kflmCedQRNkVgqIjOO30sEqp6v8GuzLHqCpPTVh+6DsND+kYd+KDhw10KR7WV2eqo6+
-         Nq1dn0NK8Mv0MkvEN/33G7OK1ymW4BDhR4V3HwaKdiQIo+pE4/vO5gdY4NQPd2lvW/5C
-         zF70lSm/vSmo1FnApwSEUT47JypeWsfRU4bdeqFR8qw50ug9pkYgcwLKgtcEDib7UMI+
-         0h8NC9EeFduDel/Yzt2pyQKJ8pOmnb9YQF0WUZO+AwfJ5jQ+wG+6FE6l4KNvlW5TB0sn
-         Xx8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Bcd3U09lxVpjtPKMEHtfsohkvWYbDLt3u8qyneHgOVo=;
-        b=Vvin7GZavMURTlwWL/hQ5Q+NF7nHnBthVQJcSRlScNigCdJ/nOpEkQjQupcCJ2qHdO
-         gVIB1YXRd75922exoy2gqMBj+BqeVgNSJuiPOUMTV9/xOsieIwasy+DLJJRid+hiLCjn
-         VCbBP7n0RDaXkfeZ9rprX0QmOrhas/0WgbMnH886Dsq3nGGhxccbipyoGCJxJWhCF0Om
-         ffTfZ60DSEVDtAyvP6+sItkf+AcrF6UMihCo+XM4C0TUtPI3/erougjILbpw1UxR39TD
-         dBtlUUCfLgXHUvMA3gqEgDY4R0F2HJ/3jyXCjobxU1jNjoEvxRcizSickvtwjNDjuhkW
-         t+vA==
-X-Gm-Message-State: APjAAAVSS94N2Sgf7jJduuKZziqSB2HisRQV76q+QZh2dAPkaBiFB4hA
-        Rwe+aLgaNDQh6ibPPSMr6ZY=
-X-Google-Smtp-Source: APXvYqy9tWHOKh/wuYYSBxOBq5+VTB6QCoEBPRLOVeXEdA8o/v22BmvpTrvmnTTDZQa57LQtDfUbxw==
-X-Received: by 2002:a2e:9546:: with SMTP id t6mr8264359ljh.51.1557565894489;
-        Sat, 11 May 2019 02:11:34 -0700 (PDT)
-Received: from [192.168.1.19] (bgp193.neoplus.adsl.tpnet.pl. [83.28.79.193])
-        by smtp.gmail.com with ESMTPSA id b7sm1171421ljb.93.2019.05.11.02.11.32
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 11 May 2019 02:11:33 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add binding for spi-byte LED.
-To:     Christian Mauderer <oss@c-mauderer.de>, Pavel Machek <pavel@ucw.cz>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        Mark Rutland <mark.rutland@arm.com>
-References: <20190505200022.32209-1-oss@c-mauderer.de>
- <CAL_JsqKmKzSw2-mfmBbhpyY=Ku6H7cE2KZrgkcPD7kAS_GqbFw@mail.gmail.com>
- <20190506162848.GA9522@amd>
- <CAL_JsqJerwvjghnuiwndE9Kp_qX5ef-aSa5JcdUAoE6R6YYuYA@mail.gmail.com>
- <54199d69-67a9-eb9d-e46d-b3ea43e2e7a3@c-mauderer.de>
- <20190506202511.GA4979@amd>
- <faba9d62-c650-5be8-a9c2-645be10dab6d@c-mauderer.de>
- <c10de8fe-5955-da5f-d197-cda9a0d5452f@c-mauderer.de>
- <ccddfde6-e60c-605c-beb4-9b89e8b81be9@gmail.com>
- <82b27718-3a58-6692-02e4-41b45c16b81e@c-mauderer.de>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <6fd9c537-1d89-0c8e-d3a9-f0e1f2ae1fdd@gmail.com>
-Date:   Sat, 11 May 2019 11:11:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726769AbfEMTd2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 May 2019 15:33:28 -0400
+Received: from hamsrv800.servertools24.de ([213.238.32.28]:41969 "EHLO
+        hamsrv800.servertools24.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726709AbfEMTd2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 13 May 2019 15:33:28 -0400
+Received: from christian-pc.localdomain (p54A59A9B.dip0.t-ipconnect.de [84.165.154.155])
+        by hamsrv800.servertools24.de (Postfix) with ESMTPSA id E2BDC23813EC;
+        Mon, 13 May 2019 21:33:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-mauderer.de;
+        s=default; t=1557776004;
+        bh=OyjVHh04pfCo+DbD/d+lv30rOK89OWjhifClJJWvIJg=; l=2677;
+        h=From:To:Subject;
+        b=MZQmocQnmvTfgtm5SLhYZ/40NnkXXZvydM78gfGiuqAYCwKbJLxM83idJd2Hyn0E6
+         EeFH2kuKCIG1pNUZzZDd4n23nNV+gutz2m3/zOz1jnEZR/+vWCdKqknTRyKhKa+4Is
+         WyX1akDO8rNtVOYkPNS9nWZuVkqhEHQeouWA+Ynk=
+Authentication-Results: hamsrv800.servertools24.de;
+        spf=pass (sender IP is 84.165.154.155) smtp.mailfrom=oss@c-mauderer.de smtp.helo=christian-pc.localdomain
+Received-SPF: pass (hamsrv800.servertools24.de: connection is authenticated)
+From:   oss@c-mauderer.de
+To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Christian Mauderer <oss@c-mauderer.de>
+Subject: [PATCH v4 1/2] dt-bindings: leds: Add binding for spi-byte LED.
+Date:   Mon, 13 May 2019 21:33:06 +0200
+Message-Id: <20190513193307.11591-1-oss@c-mauderer.de>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <82b27718-3a58-6692-02e4-41b45c16b81e@c-mauderer.de>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <155777600428.126815.1465931990581991995@hamsrv800.servertools24.de>
+X-PPP-Vhost: c-mauderer.de
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 5/11/19 8:56 AM, Christian Mauderer wrote:
-> Hello Jacek,
-> 
-> On 10/05/2019 22:42, Jacek Anaszewski wrote:
->> Hi Christian,
->>
->> On 5/10/19 9:50 PM, Christian Mauderer wrote:
->>> On 07/05/2019 11:52, Christian Mauderer wrote:
->>>> On 06/05/2019 22:25, Pavel Machek wrote:
->>>>> Hi!
->>>>>
->>>>>>>> Ok, I'm afraid I caused this. What should the compatible be, then?
->>>>>>>
->>>>>>> Knowing nothing about the h/w other than the above description:
->>>>>>> ubiquiti,aircube-leds
->>>>>>>
->>>>>>> Not sure if that's a registered or correct vendor prefix though.
->>>>>>>
->>>>>>> Rob
->>>>>>>
->>>>>>
->>>>>> Where would such a vendor prefix be registered? Does that mean that
->>>>>> only
->>>>>> the vendor is allowed to use it? In that case: How would a reverse
->>>>>> engineered prefix look like?
->>>>>
->>>>> You can use it, too. It is in
->>>>> Documentation/devicetree/bindings/vendor-prefixes.txt :
->>>>>
->>>>> ubnt    Ubiquiti Networks
->>>>>
->>>>> So you can probably use ubnt, prefix.
->>>>>
->>>>>> (still with some missing parts like U-Boot) about two weeks later.
->>>>>> I had
->>>>>> a look at it and they are not using a device tree. So there is no
->>>>>> "official" string that I could deduce from that archive.
->>>>>
->>>>> Mainline is the master. You are more "official" than them ;-).
->>>>>                                      Pavel
->>>>>
->>>>
->>>> Hello
->>>>
->>>> let me summarize the direction before I create a v4:
->>>>
->>>> Rob Herring suggested "ubnt,acb-spi-led" for the binding name in his
->>>> Mail from 06.05.2019 17:59 UTC. If no one objects, I'll use that.
->>>>
->>>> With the more specific name I'll remove the off-value and max-value from
->>>> the device tree. Instead I'll create some look up table in the driver.
->>>> based on the name or go back to the defines like in the v1 patch. What
->>>> kind of solution would be preferable depends on the next question:
->>>>
->>>> How should I name the driver? Should I use a device specific name like
->>>> in v1 again (most likely now acb-spi-led)? That would allow to
->>>> potentially add a hardware supported blinking in that driver. The
->>>> alternative would be the more generic name that it has now
->>>> (leds-spi-byte) without any plans to add the blinking but it could be
->>>> potentially used for example for a digital potentiometer based
->>>> brightness setting.
->>>>
->>>> Note that I didn't really had planned to implement the blinking support
->>>> because I don't have a use case for it. So it would be either a feature
->>>> that I would add because someone insists. Or it could be added in the
->>>> future by a user who wants that feature (maybe Ubiquiti when they
->>>> upgrade their kernel?).
->>>>
->>>> If it is a required feature for that driver: Please note that although
->>>> of course I would do some basic tests during development it would be a
->>>> mostly unused and therefore untested feature.
->>>>
->>>> Best regards
->>>>
->>>> Christian
->>>>
->>>
->>> Hello,
->>>
->>> sorry for repeating my question. I assume I wrote to much text hiding
->>> it: How should I name the driver?
->>>
->>> The name for the binding is clear (ubnt,acb-spi-led). Only the driver is
->>> left (keep leds-spi-byte or rename to leds-ubnt-acb-spi or something
->>> else).
->>
->> Why leds-spi-byte name would prevent addition of blink support? It can
->> be always added basing on OF compatible. If it is to be generic SPI
->> byte driver, then I'd use leds-spi-byte. Actually also the things
->> like allowed brightness levels could be determined basing on that,
->> and not in device tree, but in the driver.
->>
->> Please compare how e.g. drivers/leds/leds-is31fl32xx.c accomplishes
->> that.
->>
-> 
-> I would have expected that adding a lot of device specific code (in that
-> case blinking) to a multi-purpose driver would be bad style.
+From: Christian Mauderer <oss@c-mauderer.de>
 
-This is a matter of how much customizable the driver is going to be.
-It can serve as a nice code base for other devices with simple
-SPI-based protocol.
+This patch adds the binding documentation for a simple SPI based LED
+controller which use only one byte for setting the brightness.
 
-> But I'll go
-> for the generic name if that is the accepted way. I already mentioned
-> multiple times that my target is currently only the brightness. So the
-> device specific code maybe is added quite a bit in the future anyway in
-> which case it would still be possible to rename a part (if it isn't used
-> otherwise) or at least split it into it's own c-file.
-> 
-> I'll prepare a v4 in the near future and send it to the list. I only
-> learned that it would be a good idea to wait for at least a day for some
-> other opinions before doing that ;-)
+Signed-off-by: Christian Mauderer <oss@c-mauderer.de>
+---
 
-Sure thing. The fact that I'm replying to your message doesn't mean
-I'm expecting your immediate reaction :-)
+Changes compared to v3:
+- rename binding to ubnt,acb-spi-led
+- rewrite description to fit the new binding
+- remove off-value and max-value - now determined depending on the compatible
+  string
+- add 'default-state'
 
+Changes compared to v2:
+- None
+
+Changes compared to v1:
+- rename ubnt-spi to leds-spi-byte
+- rename "ubnt-spi,off_bright" and "ubnt-spi,max_bright" to
+  "leds-spi-byte,off-value" and "leds-spi-byte,max-value" and mark them required
+- rename led-controller node to "led-controller"
+- extend description
+- remove SPI controller
+- use "white:status" for the example label
+
+ .../bindings/leds/leds-spi-byte.txt           | 44 +++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-spi-byte.txt
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-spi-byte.txt b/Documentation/devicetree/bindings/leds/leds-spi-byte.txt
+new file mode 100644
+index 000000000000..28b6b2d9091e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-spi-byte.txt
+@@ -0,0 +1,44 @@
++* Single Byte SPI LED Device Driver.
++
++The driver can be used for controllers with a very simple SPI protocol:
++- one LED is controlled by a single byte on MOSI
++- the value of the byte gives the brightness between two values (lowest to
++  highest)
++- no return value is necessary (no MISO signal)
++
++The value for lowest and highest brightness is dependent on the device and
++therefore on the compatible string.
++
++Depending on the compatible string some special functions (like hardware
++accelerated blinking) might can be supported too.
++
++The driver currently only supports one LED. The properties of the LED are
++configured in a sub-node in the device node.
++
++Required properties:
++- compatible: should be one of
++   * "ubnt,acb-spi-led"		microcontroller (SONiX 8F26E611LA) based device
++				used for example in Ubiquiti airCube ISP
++
++Property rules described in Documentation/devicetree/bindings/spi/spi-bus.txt
++apply.
++
++LED sub-node properties:
++- label:
++	see Documentation/devicetree/bindings/leds/common.txt
++- default-state:
++	see Documentation/devicetree/bindings/leds/common.txt
++	Only "on" and "off" are supported.
++
++Example:
++
++led-controller@0 {
++	compatible = "ubnt,acb-spi-led";
++	reg = <0>;
++	spi-max-frequency = <100000>;
++
++	led {
++		label = "white:status";
++		default-state = "on";
++	};
++};
 -- 
-Best regards,
-Jacek Anaszewski
+2.21.0
+
