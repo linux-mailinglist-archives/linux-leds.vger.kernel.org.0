@@ -2,121 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 555E5213B4
-	for <lists+linux-leds@lfdr.de>; Fri, 17 May 2019 08:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6829021C0D
+	for <lists+linux-leds@lfdr.de>; Fri, 17 May 2019 18:56:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727189AbfEQG1l (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 May 2019 02:27:41 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:57385 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727184AbfEQG1l (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 May 2019 02:27:41 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1hRWLB-0002VC-4N; Fri, 17 May 2019 08:27:37 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1hRWLA-0002Gi-RW; Fri, 17 May 2019 08:27:36 +0200
-Date:   Fri, 17 May 2019 08:27:36 +0200
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Kun Yi <kunyi@google.com>
-Cc:     linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
-        pavel@ucw.cz, dmurphy@ti.com, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 2/2] ledtrig-gpio: 0 is a valid GPIO number
-Message-ID: <20190517062736.bh46ozfiux7xvnox@pengutronix.de>
+        id S1726891AbfEQQ4W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 May 2019 12:56:22 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:41354 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726519AbfEQQ4W (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 May 2019 12:56:22 -0400
+Received: by mail-lf1-f68.google.com with SMTP id d8so5812927lfb.8;
+        Fri, 17 May 2019 09:56:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=9KNE3fFrhBMbpw6CB84d/cuOTgsPDrXbc4lzxvxznkQ=;
+        b=hquZa7JtJMvlCdHRojaV+TZVDrxlzn4Gc8M13v9S64cRsCeonc0VNddiPYeGptvhTf
+         QXdYsjuc5cONkunjjC/PvQT800vdS52RIn32F89g/pzucWHQhnNmVKIF6h+SQp/ROXI/
+         Dp66tBncI/qoRP1G3f4swX2glflObf+PCQlQ7v/QiX5rH9tjfibZmYC4mMUCjDlDpfCO
+         QmChoJ1/4Tqg7AqGrbaOL3KUy689OgPvcK8/hI31SzrZhxwNingnd8OXp0no2aoa4KLC
+         kj7n95mqIHA28/DcM4cBlAE/n2WQ2RxciBP5Fe+yifG4oWz8CdKQkx7kQzxzpe4YQOhv
+         qd0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9KNE3fFrhBMbpw6CB84d/cuOTgsPDrXbc4lzxvxznkQ=;
+        b=TbtXssbegEC4fjbCmyI1+C1YaSE/3ou6UtKSXN0N6K3cJWDR95VOKtDL2OUUF6CSjj
+         bgh73q8gDrCbSll1BVFNrPdPX/RhT+SQ7OTt8mBKaz4SJTXv2xr0NA5YDcFNwLLG2Uts
+         hJFkhgGFDFSRgIl4N55Mza2hyrVX7xZ2Lgx9ZggEdzxDWs33f2Dl3SRYxScVVOehLQJy
+         /R85UQhigbgmEfhH7YsxXLMXCAimfcFCVzN2O5AhqsDB7tCNSvj3jnHQlno+SmUibEa0
+         ZOJNEcAKMJ/fJVk3xvh7WpMwBNFveDalqLjre9KJU9LxXtkgf4WFVkv/cAnKbrXdedeV
+         54Gw==
+X-Gm-Message-State: APjAAAVmFxln+XlYeHClC4lxQwFF25U+1E0UH7LSmzhfJA40JKRf8Ofv
+        zdozq59NjPcNt9svWREeEnitRcBv
+X-Google-Smtp-Source: APXvYqw86J0vbCPBjCkeEeQmSKdfzU+5b6cIvEchr7LpbgK6813mL6a0JVbDAMDfDVrqpa0+VU3bCw==
+X-Received: by 2002:ac2:494b:: with SMTP id o11mr28503290lfi.9.1558112180247;
+        Fri, 17 May 2019 09:56:20 -0700 (PDT)
+Received: from [192.168.1.16] (blb109.neoplus.adsl.tpnet.pl. [83.28.195.109])
+        by smtp.gmail.com with ESMTPSA id d18sm1685107lfl.95.2019.05.17.09.56.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 17 May 2019 09:56:19 -0700 (PDT)
+Subject: Re: [PATCH 0/2] Fix LED GPIO trigger behavior
+To:     Kun Yi <kunyi@google.com>, linux-leds@vger.kernel.org
+Cc:     pavel@ucw.cz, dmurphy@ti.com, u.kleine-koenig@pengutronix.de,
+        linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>
 References: <20190516214209.139726-1-kunyi@google.com>
- <20190516214209.139726-3-kunyi@google.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <87d5d4a6-857b-b362-baaf-3a004ee51d49@gmail.com>
+Date:   Fri, 17 May 2019 18:56:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190516214209.139726-3-kunyi@google.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+In-Reply-To: <20190516214209.139726-1-kunyi@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, May 16, 2019 at 02:42:09PM -0700, Kun Yi wrote:
-> GPIO number 0 is a valid case to handle. Use -1 as initial value
-> and use gpio_is_valid() to determine validity of the GPIO
-> number.
+Cc Linus Walleij and leds-gpio@vger.kernel.org.
 
-I think it's more sensible to convert to gpiod instead.
-
-Best regards
-Uwe
-
-> Signed-off-by: Kun Yi <kunyi@google.com>
-> Change-Id: I4a29f98b237fd0d8ba4dd2a28219d4429f2ccfff
-> ---
->  drivers/leds/trigger/ledtrig-gpio.c | 16 +++++-----------
->  1 file changed, 5 insertions(+), 11 deletions(-)
+On 5/16/19 11:42 PM, Kun Yi wrote:
+> *** BLURB HERE ***
+> Hello there,
 > 
-> diff --git a/drivers/leds/trigger/ledtrig-gpio.c b/drivers/leds/trigger/ledtrig-gpio.c
-> index f6d50e031492..48d8ef8538bd 100644
-> --- a/drivers/leds/trigger/ledtrig-gpio.c
-> +++ b/drivers/leds/trigger/ledtrig-gpio.c
-> @@ -22,7 +22,7 @@ struct gpio_trig_data {
->  
->  	unsigned desired_brightness;	/* desired brightness when led is on */
->  	unsigned inverted;		/* true when gpio is inverted */
-> -	unsigned gpio;			/* gpio that triggers the leds */
-> +	int gpio;			/* gpio that triggers the leds */
->  };
->  
->  static irqreturn_t gpio_trig_irq(int irq, void *_led)
-> @@ -114,13 +114,12 @@ static ssize_t gpio_trig_gpio_show(struct device *dev,
->  {
->  	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
->  
-> -	return sprintf(buf, "%u\n", gpio_data->gpio);
-> +	return sprintf(buf, "%d\n", gpio_data->gpio);
->  }
->  
-> -static inline void free_used_gpio_if_valid(unsigned int gpio,
-> -					   struct led_classdev *led)
-> +static inline void free_used_gpio_if_valid(int gpio, struct led_classdev *led)
->  {
-> -	if (gpio == 0)
-> +	if (!gpio_is_valid(gpio))
->  		return;
->  
->  	free_irq(gpio_to_irq(gpio), led);
-> @@ -144,12 +143,6 @@ static ssize_t gpio_trig_gpio_store(struct device *dev,
->  	if (gpio_data->gpio == gpio)
->  		return n;
->  
-> -	if (!gpio) {
-> -		free_used_gpio_if_valid(gpio_data->gpio, led);
-> -		gpio_data->gpio = 0;
-> -		return n;
-> -	}
-> -
->  	ret = gpio_request(gpio, "ledtrig-gpio");
->  	if (ret) {
->  		dev_err(dev, "gpio_request failed with error %d\n", ret);
-> @@ -195,6 +188,7 @@ static int gpio_trig_activate(struct led_classdev *led)
->  		return -ENOMEM;
->  
->  	gpio_data->led = led;
-> +	gpio_data->gpio = -1;
->  	led_set_trigger_data(led, gpio_data);
->  
->  	return 0;
-> -- 
-> 2.21.0.1020.gf2820cf01a-goog
+> I recently tested ledtrig-gpio on an embedded controller and one of the
+> issues I had involve not requesting the user input pin as GPIO.
 > 
+> In many embedded systems, a pin could be muxed as several functions, and
+> requesting the pin as GPIO is necessary to let pinmux select the pin as
+> a GPIO instead of, say an I2C pin. I'd like to learn whether it is appropriate
+> to assume user of ledtrig-gpio really intends to use GPIOs and not some
+> weird pins that are used as other functions.
+> 
+> Kun Yi (2):
+>    ledtrig-gpio: Request user input pin as GPIO
+>    ledtrig-gpio: 0 is a valid GPIO number
+> 
+>   drivers/leds/trigger/ledtrig-gpio.c | 35 ++++++++++++++++++++---------
+>   1 file changed, 24 insertions(+), 11 deletions(-)
 > 
 
 -- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Best regards,
+Jacek Anaszewski
