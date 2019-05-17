@@ -2,94 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6829021C0D
-	for <lists+linux-leds@lfdr.de>; Fri, 17 May 2019 18:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CE3721F6A
+	for <lists+linux-leds@lfdr.de>; Fri, 17 May 2019 23:12:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726891AbfEQQ4W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 May 2019 12:56:22 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41354 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726519AbfEQQ4W (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 May 2019 12:56:22 -0400
-Received: by mail-lf1-f68.google.com with SMTP id d8so5812927lfb.8;
-        Fri, 17 May 2019 09:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=9KNE3fFrhBMbpw6CB84d/cuOTgsPDrXbc4lzxvxznkQ=;
-        b=hquZa7JtJMvlCdHRojaV+TZVDrxlzn4Gc8M13v9S64cRsCeonc0VNddiPYeGptvhTf
-         QXdYsjuc5cONkunjjC/PvQT800vdS52RIn32F89g/pzucWHQhnNmVKIF6h+SQp/ROXI/
-         Dp66tBncI/qoRP1G3f4swX2glflObf+PCQlQ7v/QiX5rH9tjfibZmYC4mMUCjDlDpfCO
-         QmChoJ1/4Tqg7AqGrbaOL3KUy689OgPvcK8/hI31SzrZhxwNingnd8OXp0no2aoa4KLC
-         kj7n95mqIHA28/DcM4cBlAE/n2WQ2RxciBP5Fe+yifG4oWz8CdKQkx7kQzxzpe4YQOhv
-         qd0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=9KNE3fFrhBMbpw6CB84d/cuOTgsPDrXbc4lzxvxznkQ=;
-        b=TbtXssbegEC4fjbCmyI1+C1YaSE/3ou6UtKSXN0N6K3cJWDR95VOKtDL2OUUF6CSjj
-         bgh73q8gDrCbSll1BVFNrPdPX/RhT+SQ7OTt8mBKaz4SJTXv2xr0NA5YDcFNwLLG2Uts
-         hJFkhgGFDFSRgIl4N55Mza2hyrVX7xZ2Lgx9ZggEdzxDWs33f2Dl3SRYxScVVOehLQJy
-         /R85UQhigbgmEfhH7YsxXLMXCAimfcFCVzN2O5AhqsDB7tCNSvj3jnHQlno+SmUibEa0
-         ZOJNEcAKMJ/fJVk3xvh7WpMwBNFveDalqLjre9KJU9LxXtkgf4WFVkv/cAnKbrXdedeV
-         54Gw==
-X-Gm-Message-State: APjAAAVmFxln+XlYeHClC4lxQwFF25U+1E0UH7LSmzhfJA40JKRf8Ofv
-        zdozq59NjPcNt9svWREeEnitRcBv
-X-Google-Smtp-Source: APXvYqw86J0vbCPBjCkeEeQmSKdfzU+5b6cIvEchr7LpbgK6813mL6a0JVbDAMDfDVrqpa0+VU3bCw==
-X-Received: by 2002:ac2:494b:: with SMTP id o11mr28503290lfi.9.1558112180247;
-        Fri, 17 May 2019 09:56:20 -0700 (PDT)
-Received: from [192.168.1.16] (blb109.neoplus.adsl.tpnet.pl. [83.28.195.109])
-        by smtp.gmail.com with ESMTPSA id d18sm1685107lfl.95.2019.05.17.09.56.18
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 17 May 2019 09:56:19 -0700 (PDT)
-Subject: Re: [PATCH 0/2] Fix LED GPIO trigger behavior
-To:     Kun Yi <kunyi@google.com>, linux-leds@vger.kernel.org
-Cc:     pavel@ucw.cz, dmurphy@ti.com, u.kleine-koenig@pengutronix.de,
-        linux-kernel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>
-References: <20190516214209.139726-1-kunyi@google.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <87d5d4a6-857b-b362-baaf-3a004ee51d49@gmail.com>
-Date:   Fri, 17 May 2019 18:56:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726888AbfEQVMC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 May 2019 17:12:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59958 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726771AbfEQVMC (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 17 May 2019 17:12:02 -0400
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E6F762166E;
+        Fri, 17 May 2019 21:12:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558127521;
+        bh=Cr5kb3G7RGw3ztcggbHW6k8d8aqqY2Qosw+W4yl+edE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RVRGkAgCXj67cHasiMUZLXRu3M2Kh4X4/vTVb89qs8DinBil4+Da07NiNdjKUdeLK
+         aGSnp46JC6AY0I6VZhc4Vbbsb3vb4bskHFwO5oSfH+mBG33XwYktUW9GiFJVR9TEnE
+         GcSTKqn2no2O+tAuRzygt+Jwd0AXGMVeSqe/zaNU=
+Received: by mail-qt1-f171.google.com with SMTP id a17so9695780qth.3;
+        Fri, 17 May 2019 14:12:00 -0700 (PDT)
+X-Gm-Message-State: APjAAAXnLwDXCnLTwfJgAtVZVwlJSiqi5ESclrQ0g3oF8htsAeJ3+yWk
+        qzTpceGVa/24YYPC4S4aqlsvoRhCbMLUOBG9lQ==
+X-Google-Smtp-Source: APXvYqzPeJBGMQo9MUCbEz0jHdsw9NOoM2DjetgzWmPgzzxGJ8qADKNKR9tBGIvkgVO70RL7qVN1xMcR/sOzQTUX2sg=
+X-Received: by 2002:a0c:8aad:: with SMTP id 42mr48279852qvv.200.1558127520194;
+ Fri, 17 May 2019 14:12:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190516214209.139726-1-kunyi@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190424092505.6578-1-masneyb@onstation.org> <20190424092505.6578-3-masneyb@onstation.org>
+In-Reply-To: <20190424092505.6578-3-masneyb@onstation.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 17 May 2019 16:11:48 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLdS2SDd-dczZmqDTN3XMY7fwDjdkX5OibXbrksd7qQYA@mail.gmail.com>
+Message-ID: <CAL_JsqLdS2SDd-dczZmqDTN3XMY7fwDjdkX5OibXbrksd7qQYA@mail.gmail.com>
+Subject: Re: [PATCH v6 2/3] dt-bindings: backlight: add lm3630a bindings
+To:     Brian Masney <masneyb@onstation.org>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        Dan Murphy <dmurphy@ti.com>, Jonathan Marek <jonathan@marek.ca>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Cc Linus Walleij and leds-gpio@vger.kernel.org.
+On Wed, Apr 24, 2019 at 4:25 AM Brian Masney <masneyb@onstation.org> wrote:
+>
+> Add new backlight bindings for the TI LM3630A dual-string white LED.
+>
+> Signed-off-by: Brian Masney <masneyb@onstation.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> Changes since v5:
+> - Change 'lm3630a_bl@38' in examples to 'led-controller@38'
+>
+> Changes since v4:
+> - Drop $ref from led-sources
+> - Drop description from reg of i2c address
+> - Expand description of reg for the control bank
+> - Drop status from examples
+>
+> Changes since v3:
+> - Add label. I didn't add a description for it since that'll come from
+>   the common properties once its converted.
+>
+> Changes since v2:
+> - Update description of max-brightness
+> - Add description for reg
+> - Correct typo: s/tranisiton/transition
+> - add reg to control banks
+> - add additionalProperties
+>
+>  .../leds/backlight/lm3630a-backlight.yaml     | 129 ++++++++++++++++++
+>  1 file changed, 129 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
 
-On 5/16/19 11:42 PM, Kun Yi wrote:
-> *** BLURB HERE ***
-> Hello there,
-> 
-> I recently tested ledtrig-gpio on an embedded controller and one of the
-> issues I had involve not requesting the user input pin as GPIO.
-> 
-> In many embedded systems, a pin could be muxed as several functions, and
-> requesting the pin as GPIO is necessary to let pinmux select the pin as
-> a GPIO instead of, say an I2C pin. I'd like to learn whether it is appropriate
-> to assume user of ledtrig-gpio really intends to use GPIOs and not some
-> weird pins that are used as other functions.
-> 
-> Kun Yi (2):
->    ledtrig-gpio: Request user input pin as GPIO
->    ledtrig-gpio: 0 is a valid GPIO number
-> 
->   drivers/leds/trigger/ledtrig-gpio.c | 35 ++++++++++++++++++++---------
->   1 file changed, 24 insertions(+), 11 deletions(-)
-> 
+I'm working on getting the examples to be validated by the schema (in
+addition to just building with dtc) and there's a couple of errors:
 
--- 
-Best regards,
-Jacek Anaszewski
+Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
+'#address-cells', '#size-cells' do not match any of the regexes:
+'^led@[01]$', 'pinctrl-[0-9]+'
+Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
+'#address-cells', '#size-cells' do not match any of the regexes:
+'^led@[01]$', 'pinctrl-[0-9]+'
+
+You didn't list '#address-cells' and '#size-cells'.
+
+Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
+led@0: 'ti,linear-mapping-mode' does not match any of the regexes:
+'pinctrl-[0-9]+'
+Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
+led@1: 'ti,linear-mapping-mode' does not match any of the regexes:
+'pinctrl-[0-9]+'
+
+'ti,linear-mapping-mode' is not defined in the child nodes.
+
+Rob
