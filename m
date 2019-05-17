@@ -2,124 +2,153 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B172621038
-	for <lists+linux-leds@lfdr.de>; Thu, 16 May 2019 23:42:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88F44213B1
+	for <lists+linux-leds@lfdr.de>; Fri, 17 May 2019 08:26:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728820AbfEPVmg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 16 May 2019 17:42:36 -0400
-Received: from mail-oi1-f202.google.com ([209.85.167.202]:49481 "EHLO
-        mail-oi1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726732AbfEPVmf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 16 May 2019 17:42:35 -0400
-Received: by mail-oi1-f202.google.com with SMTP id d9so2039968oia.16
-        for <linux-leds@vger.kernel.org>; Thu, 16 May 2019 14:42:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=9bgH5ddVtCLjQIU2Q7/Cyhth48wZAFNpISOX0pGwTj8=;
-        b=uIB9HLyqlIkDQpDDHN7iA1Zy9AFgPFTWgf8H4VfTEOnVMBmcsUvgBm23XCDsmQ6FVi
-         T+Qa/wMIn0MAMTaaFvSu/9INMeroOP5Q3HATux072BRRqoEqgjtzGUQbk0T/HkjsVYxt
-         UHOFmW8T+dEsN0TggqHI5R6I5JDRz6J685ecazye0TpS2RSX9pvhZ71MWiLGbzUIuvqQ
-         eGXQ6x2R4VT+a+xKuO93JiskvjnJnojPkiCuKgnoyQ5gHpqsPm7Ce9E9xiGO2fhPcU0m
-         k5MLgAZya5yi9GSGmavy0RvHuIu5zO5we1CczznoKIulzYH08hOEZd9dZ9GmiaKdrB4Y
-         eVlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=9bgH5ddVtCLjQIU2Q7/Cyhth48wZAFNpISOX0pGwTj8=;
-        b=N3CuFtV6MNuIXhG8WPCF8E66MKEZfmuRBlOw+DGiH5Qt+vsUzFx8oLDMMmreAPaH3S
-         HOxiUx1nrqckX7Iy36hqsD02Md8/hohdZ06IK1ff7clWcgu96vqsGoWCOXJRxuMFR5s4
-         ymdgd8qxmP6Kwxv+ICUGgcVRolH54VRflhESJph3Mw6NYtHzRgWu0MS3EdXqXvKBKH2I
-         YXIKNfdWIjzD+kxkNtkYRPLyGTeDkkiX+FpKhL24MzibvqOKjc0+xMF6+r24btHBOtPW
-         nyikPhU/BkJOfpgFpXrW9daw+bDT9/TzNjeE1O9XQ4lR8TXEWzg7ZlN1rrESHGE1KHJO
-         2ojQ==
-X-Gm-Message-State: APjAAAXwVikfNxKpJMS9mmwdFRst0BRb+3Mq4VFC9XM3Maf2T25IdMbb
-        PpRBRxZDGz+4wFY/YyF2KCTEK8YQF5+mxO3xUBwuamhwEBDRzxynO78ISXV/VF8LgSTdO8P8NmL
-        yVWpuWn0iuUinsFG0/pZgyPPI/qKsUvyqNKS/ArbY7QeD2NDmzKTy8q1iDKGLNkRr
-X-Google-Smtp-Source: APXvYqwAwfcX72HV/mN5/TwK+IT7YLRRhD64nNPUwBATF23Kdc7MZNwITwETXRiSBsZsHnqE2mRJzK3Tug==
-X-Received: by 2002:aca:f007:: with SMTP id o7mr11981585oih.59.1558042955083;
- Thu, 16 May 2019 14:42:35 -0700 (PDT)
-Date:   Thu, 16 May 2019 14:42:09 -0700
-In-Reply-To: <20190516214209.139726-1-kunyi@google.com>
-Message-Id: <20190516214209.139726-3-kunyi@google.com>
-Mime-Version: 1.0
+        id S1727467AbfEQG0h (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 May 2019 02:26:37 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:34031 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727184AbfEQG0h (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 May 2019 02:26:37 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1hRWK9-0002UD-5k; Fri, 17 May 2019 08:26:33 +0200
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1hRWK7-0002GN-G5; Fri, 17 May 2019 08:26:31 +0200
+Date:   Fri, 17 May 2019 08:26:31 +0200
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Kun Yi <kunyi@google.com>
+Cc:     linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
+        pavel@ucw.cz, dmurphy@ti.com, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 1/2] ledtrig-gpio: Request user input pin as GPIO
+Message-ID: <20190517062631.ceffzog4tutyc5kk@pengutronix.de>
 References: <20190516214209.139726-1-kunyi@google.com>
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
-Subject: [PATCH 2/2] ledtrig-gpio: 0 is a valid GPIO number
-From:   Kun Yi <kunyi@google.com>
-To:     linux-leds@vger.kernel.org
-Cc:     Kun Yi <kunyi@google.com>, jacek.anaszewski@gmail.com,
-        pavel@ucw.cz, dmurphy@ti.com, u.kleine-koenig@pengutronix.de,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ <20190516214209.139726-2-kunyi@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190516214209.139726-2-kunyi@google.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-GPIO number 0 is a valid case to handle. Use -1 as initial value
-and use gpio_is_valid() to determine validity of the GPIO
-number.
+Cc: += linux-gpio@vger.kernel.org
 
-Signed-off-by: Kun Yi <kunyi@google.com>
-Change-Id: I4a29f98b237fd0d8ba4dd2a28219d4429f2ccfff
----
- drivers/leds/trigger/ledtrig-gpio.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+On Thu, May 16, 2019 at 02:42:08PM -0700, Kun Yi wrote:
+> The ledtrig-gpio logic assumes the input pin can be directly converted
+> to IRQ using gpio_to_irq. This is problematic since there is no
+> guarantee on the pinmux function nor the direction of the pin. Request
+> the pin as an input GPIO before requesting it as an IRQ.
 
-diff --git a/drivers/leds/trigger/ledtrig-gpio.c b/drivers/leds/trigger/ledtrig-gpio.c
-index f6d50e031492..48d8ef8538bd 100644
---- a/drivers/leds/trigger/ledtrig-gpio.c
-+++ b/drivers/leds/trigger/ledtrig-gpio.c
-@@ -22,7 +22,7 @@ struct gpio_trig_data {
- 
- 	unsigned desired_brightness;	/* desired brightness when led is on */
- 	unsigned inverted;		/* true when gpio is inverted */
--	unsigned gpio;			/* gpio that triggers the leds */
-+	int gpio;			/* gpio that triggers the leds */
- };
- 
- static irqreturn_t gpio_trig_irq(int irq, void *_led)
-@@ -114,13 +114,12 @@ static ssize_t gpio_trig_gpio_show(struct device *dev,
- {
- 	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
- 
--	return sprintf(buf, "%u\n", gpio_data->gpio);
-+	return sprintf(buf, "%d\n", gpio_data->gpio);
- }
- 
--static inline void free_used_gpio_if_valid(unsigned int gpio,
--					   struct led_classdev *led)
-+static inline void free_used_gpio_if_valid(int gpio, struct led_classdev *led)
- {
--	if (gpio == 0)
-+	if (!gpio_is_valid(gpio))
- 		return;
- 
- 	free_irq(gpio_to_irq(gpio), led);
-@@ -144,12 +143,6 @@ static ssize_t gpio_trig_gpio_store(struct device *dev,
- 	if (gpio_data->gpio == gpio)
- 		return n;
- 
--	if (!gpio) {
--		free_used_gpio_if_valid(gpio_data->gpio, led);
--		gpio_data->gpio = 0;
--		return n;
--	}
--
- 	ret = gpio_request(gpio, "ledtrig-gpio");
- 	if (ret) {
- 		dev_err(dev, "gpio_request failed with error %d\n", ret);
-@@ -195,6 +188,7 @@ static int gpio_trig_activate(struct led_classdev *led)
- 		return -ENOMEM;
- 
- 	gpio_data->led = led;
-+	gpio_data->gpio = -1;
- 	led_set_trigger_data(led, gpio_data);
- 
- 	return 0;
+When reading this I thought the driver requested the gpio only after
+converting to an irq. But in fact it didn't request and set the
+direction at all.
+
+> Tested: a free pin can be correctly requested as GPIO
+
+This doesn't belong into the signed-off-area.
+
+> Signed-off-by: Kun Yi <kunyi@google.com>
+> Change-Id: I657e3e108552612506775cc348a8b4b35d40cac5
+
+This doesn't belong into the linux history either.
+
+> ---
+>  drivers/leds/trigger/ledtrig-gpio.c | 31 +++++++++++++++++++++++------
+>  1 file changed, 25 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-gpio.c b/drivers/leds/trigger/ledtrig-gpio.c
+> index ed0db8ed825f..f6d50e031492 100644
+> --- a/drivers/leds/trigger/ledtrig-gpio.c
+> +++ b/drivers/leds/trigger/ledtrig-gpio.c
+> @@ -117,6 +117,16 @@ static ssize_t gpio_trig_gpio_show(struct device *dev,
+>  	return sprintf(buf, "%u\n", gpio_data->gpio);
+>  }
+>  
+> +static inline void free_used_gpio_if_valid(unsigned int gpio,
+> +					   struct led_classdev *led)
+
+Please stick to the function prefix used in this driver. I'd call this
+function gpio_trig_free_gpio and not put "if_valid" into the name.
+
+> +{
+> +	if (gpio == 0)
+> +		return;
+> +
+> +	free_irq(gpio_to_irq(gpio), led);
+> +	gpio_free(gpio);
+> +}
+> +
+>  static ssize_t gpio_trig_gpio_store(struct device *dev,
+>  		struct device_attribute *attr, const char *buf, size_t n)
+>  {
+> @@ -135,20 +145,30 @@ static ssize_t gpio_trig_gpio_store(struct device *dev,
+>  		return n;
+>  
+>  	if (!gpio) {
+> -		if (gpio_data->gpio != 0)
+> -			free_irq(gpio_to_irq(gpio_data->gpio), led);
+> +		free_used_gpio_if_valid(gpio_data->gpio, led);
+>  		gpio_data->gpio = 0;
+>  		return n;
+>  	}
+>  
+> +	ret = gpio_request(gpio, "ledtrig-gpio");
+> +	if (ret) {
+> +		dev_err(dev, "gpio_request failed with error %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = gpio_direction_input(gpio);
+> +	if (ret) {
+> +		dev_err(dev, "gpio_direction_input failed with err %d\n", ret);
+> +		return ret;
+> +	}
+
+Please use gpio_request_one which implements both gpio_request() and
+gpio_direction_*(). This also fixes the missing gpio_free() in the error
+path of gpio_direction_input().
+
+> +
+>  	ret = request_threaded_irq(gpio_to_irq(gpio), NULL, gpio_trig_irq,
+>  			IRQF_ONESHOT | IRQF_SHARED | IRQF_TRIGGER_RISING
+>  			| IRQF_TRIGGER_FALLING, "ledtrig-gpio", led);
+>  	if (ret) {
+>  		dev_err(dev, "request_irq failed with error %d\n", ret);
+>  	} else {
+> -		if (gpio_data->gpio != 0)
+> -			free_irq(gpio_to_irq(gpio_data->gpio), led);
+> +		free_used_gpio_if_valid(gpio_data->gpio, led);
+>  		gpio_data->gpio = gpio;
+>  		/* After changing the GPIO, we need to update the LED. */
+>  		gpio_trig_irq(0, led);
+> @@ -184,8 +204,7 @@ static void gpio_trig_deactivate(struct led_classdev *led)
+>  {
+>  	struct gpio_trig_data *gpio_data = led_get_trigger_data(led);
+>  
+> -	if (gpio_data->gpio != 0)
+> -		free_irq(gpio_to_irq(gpio_data->gpio), led);
+> +	free_used_gpio_if_valid(gpio_data->gpio, led);
+>  	kfree(gpio_data);
+>  }
+>  
+
+Best regards
+Uwe
+
 -- 
-2.21.0.1020.gf2820cf01a-goog
-
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
