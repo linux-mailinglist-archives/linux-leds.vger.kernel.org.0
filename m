@@ -2,112 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5BF423CF4
-	for <lists+linux-leds@lfdr.de>; Mon, 20 May 2019 18:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0981123E47
+	for <lists+linux-leds@lfdr.de>; Mon, 20 May 2019 19:19:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389285AbfETQOD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 May 2019 12:14:03 -0400
-Received: from casper.infradead.org ([85.118.1.10]:58884 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387964AbfETQOC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 May 2019 12:14:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=iKK9YhMh6ANbKPoYCjZ4LLgT9iYyIw5BQddMDFPQDH0=; b=jF+2/XoezBZrle4Eh5yah9/wnE
-        C4c8y+O3Fn97DP1KUcRH5ZP+qIxqnDqRM5Br5iOnaTWbelA38NTwrbHc4cmqKaj5QvxqS7Ko2D9cY
-        15Wp+kQaiyoZ7bMTEfhSPCKecDOWREcw/Js9QqsEQ3Z3IvhrABtZSYfrPk6UDcO1d05m9s6enuCcV
-        GJXQ2x26lZm1PxmDaeqYYkxExfZ3zod361KDqnRf78Ao27eOThZjnopUMeQdLw+1RugcQmi0F/I3M
-        yo2tZtfXOrctpaeXjO1TauKV2zkmGocTFasf2kw8fDu7rOtjn0oj3aB2z+XA7OJ5a/vrRLE1q/57m
-        iFz2dMnQ==;
-Received: from 179.176.119.151.dynamic.adsl.gvt.net.br ([179.176.119.151] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hSkvB-0000iC-61; Mon, 20 May 2019 16:13:53 +0000
-Date:   Mon, 20 May 2019 13:13:44 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
+        id S2390154AbfETRTH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 May 2019 13:19:07 -0400
+Received: from hamsrv800.servertools24.de ([213.238.32.28]:43473 "EHLO
+        hamsrv800.servertools24.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1733201AbfETRTH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 20 May 2019 13:19:07 -0400
+Received: from christian-pc.localdomain (p54A59A9B.dip0.t-ipconnect.de [84.165.154.155])
+        by hamsrv800.servertools24.de (Postfix) with ESMTPSA id C23A0238276A;
+        Mon, 20 May 2019 19:19:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-mauderer.de;
+        s=default; t=1558372744;
+        bh=kxIJG27u7eVKtYS4db3xT3wLRcFHn7Lvz4p6qFUlz+I=; l=1593;
+        h=Subject:To:From;
+        b=wDxdv7u4l7MyCgkBom+hx+EOAgwngc3f+IEhC+oFKOCFiDrViMV44j0uJs2TAO/Wr
+         K5/zGrMyMpCjLghNlFZYrF6qz7KmxxvjnDbAdrsaSpzIYzQxbZZJwlpxYRj6NQGIp1
+         JLEwqFsGfkJ7lEVd+eTScYOtuGnd1uopjj2LoDfA=
+Authentication-Results: hamsrv800.servertools24.de;
+        spf=pass (sender IP is 84.165.154.155) smtp.mailfrom=oss@c-mauderer.de smtp.helo=christian-pc.localdomain
+Received-SPF: pass (hamsrv800.servertools24.de: connection is authenticated)
+Subject: Re: [PATCH v4 1/2] dt-bindings: leds: Add binding for spi-byte LED.
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        devicetree@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH 08/10] dt: fix refs that were renamed to json with the
- same file name
-Message-ID: <20190520131344.39635733@coco.lan>
-In-Reply-To: <CAL_JsqKGzNBjxhvY2Vq9v8SXiND+7sjmsOwKkeu+gEM=2Y-n_A@mail.gmail.com>
-References: <cover.1558362030.git.mchehab+samsung@kernel.org>
-        <66231286de0f11b45075292216a939858de8c3e5.1558362030.git.mchehab+samsung@kernel.org>
-        <CAL_JsqKGzNBjxhvY2Vq9v8SXiND+7sjmsOwKkeu+gEM=2Y-n_A@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+References: <20190513193307.11591-1-oss@c-mauderer.de>
+ <20190519212501.GC31403@amd>
+From:   Christian Mauderer <oss@c-mauderer.de>
+Message-ID: <1850ba07-2c0c-2624-4ff3-fd507e49439f@c-mauderer.de>
+Date:   Mon, 20 May 2019 19:19:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20190519212501.GC31403@amd>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: <155837274415.37172.7452360277010363700@hamsrv800.servertools24.de>
+X-PPP-Vhost: c-mauderer.de
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Em Mon, 20 May 2019 10:57:47 -0500
-Rob Herring <robh+dt@kernel.org> escreveu:
-
-> On Mon, May 20, 2019 at 9:48 AM Mauro Carvalho Chehab
-> <mchehab+samsung@kernel.org> wrote:
-> >
-> > This file was converted to json, but the references weren't  
+On 19/05/2019 23:25, Pavel Machek wrote:
+> Hi!
 > 
-> Technically, converted to json-schema (the language) or yaml (the format).
-
-Ok. Do you want me to change it at the patch and resend?
-
+>> From: Christian Mauderer <oss@c-mauderer.de>
+>>
+>> This patch adds the binding documentation for a simple SPI based LED
+>> controller which use only one byte for setting the brightness.
+>>
+>> Signed-off-by: Christian Mauderer <oss@c-mauderer.de>
+>> ---
 > 
-> > renamed.
-> >
-> > Fixes: 66ed144f147a ("dt-bindings: interrupt-controller: Convert ARM GIC to json-schema")
-> > (and other similar commits)
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  Documentation/devicetree/bindings/arm/omap/crossbar.txt       | 2 +-
-> >  .../devicetree/bindings/clock/samsung,s5pv210-clock.txt       | 2 +-
-> >  .../bindings/interrupt-controller/marvell,odmi-controller.txt | 2 +-
-> >  Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt   | 2 +-
-> >  MAINTAINERS                                                   | 4 ++--
-> >  5 files changed, 6 insertions(+), 6 deletions(-)  
+>> diff --git a/Documentation/devicetree/bindings/leds/leds-spi-byte.txt b/Documentation/devicetree/bindings/leds/leds-spi-byte.txt
+>> new file mode 100644
+>> index 000000000000..28b6b2d9091e
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/leds/leds-spi-byte.txt
+>> @@ -0,0 +1,44 @@
+>> +* Single Byte SPI LED Device Driver.
 > 
-> FYI, I'm actively looking for this in conversions now as we've had a
-> few of these. For cases where we have a lot of references, I'm fixing
-> this by keeping the .txt file with a reference to the .yaml file.
+>> +The driver can be used for controllers with a very simple SPI protocol:
+>> +- one LED is controlled by a single byte on MOSI
+>> +- the value of the byte gives the brightness between two values (lowest to
+>> +  highest)
+>> +- no return value is necessary (no MISO signal)
+> 
+> I'd expect this file to be named acb-spi-led.txt, or something, and
+> talk about that u-controller, not its device driver -- as devicetree
+> binding describes hardware, not driver.
+> 
+> But you already have an ack from rob, so...
+> 									Pavel
+> 									
 
-If the file name remains with the same name, except for the .txt -> .yaml,
-you can just run the "scripts/documentation-file-ref-check --fix"
-after this patch:
+So basically it would have been better to move the description that I
+added to the c-file as "supported devices" in the device tree file?
 
-	Subject: [PATCH 04/10] scripts/documentation-file-ref-check: teach about .txt -> .yaml renames
+With both commits already acked: Rob and Pavel: Should I change that?
 
-and it should detect and automatically fix all the references. As any
-auto-hint script, you need to double-check the results.
+If you both say yes, I would rename the file in the binding like
+suggested and move the detailed protocol description from the driver to
+the binding.
 
-> I'll pick up the DT patches in the series.
+Best regards
 
-OK. There are a few such fixes inside patch 10/10. Do you want me
-to split it or can it go through Jonathan's doc tree?
+Christian
 
-Thanks,
-Mauro
+
+
+
+
