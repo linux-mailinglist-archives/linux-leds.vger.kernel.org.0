@@ -2,104 +2,125 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AECB242A4
-	for <lists+linux-leds@lfdr.de>; Mon, 20 May 2019 23:19:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF36A243D7
+	for <lists+linux-leds@lfdr.de>; Tue, 21 May 2019 01:00:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726833AbfETVTb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 May 2019 17:19:31 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:38088 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726814AbfETVTb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 May 2019 17:19:31 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x4KLJGvR098218;
-        Mon, 20 May 2019 16:19:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1558387156;
-        bh=5KQWvFfE5qVNkLN90w84u0hBO49O6BvLTGp8FoqxAU4=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=o0zTjoajMbo0iwJ7IMQncJT1xAKBJk/WaHj2H8BIWoZqBLnkCEdylePdHod73z2Xw
-         S/3hi8s3r3Sgtq5hCM+o5ZsvpcBM1tAbfwixDOVAGKXIIaQs58lsoGSworBcs/EPZD
-         /w6PBqKG258UNQfrSLqJRF46yGdRJ4IRBFgBzvSU=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x4KLJGvT045333
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 20 May 2019 16:19:16 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 20
- May 2019 16:19:16 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 20 May 2019 16:19:16 -0500
-Received: from [10.250.90.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x4KLJG9w105948;
-        Mon, 20 May 2019 16:19:16 -0500
-Subject: Re: [PATCH v4 6/6] leds: lm36274: Introduce the TI LM36274 LED driver
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <lee.jones@linaro.org>, <rdunlap@infradead.org>,
-        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20190507201159.13940-1-dmurphy@ti.com>
- <20190507201159.13940-7-dmurphy@ti.com>
- <77f1ed5b-bfd2-510c-edd5-1b702f2d1d45@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <8d126925-9e71-dba4-eb88-50fd6e6c06d8@ti.com>
-Date:   Mon, 20 May 2019 16:19:15 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726931AbfETXAU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 May 2019 19:00:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38740 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725978AbfETXAU (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 20 May 2019 19:00:20 -0400
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2F67D2173C;
+        Mon, 20 May 2019 23:00:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558393219;
+        bh=WiH+/OCfcfe+4Xbn3UUb9ykwnCBy4RLUJO0aKNlzOhU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=eNYEvQaZCFxftor73AUBaBuvs5kQxBD6kNSJX0w/p30iCErC49wIk5tve4buk62JW
+         X+mRVN5Ly+zFH885gRKdBahnunIl6D9H4QxHvqw1shAB8LH5e42oiB/Gf/4NC4b8VJ
+         RKYb7FakZ5o5C5tzUQmOIMU5YxkVvlDHOKTwfGhY=
+Received: by mail-qk1-f175.google.com with SMTP id a64so9915823qkg.5;
+        Mon, 20 May 2019 16:00:19 -0700 (PDT)
+X-Gm-Message-State: APjAAAXQe9clEUbIzvQrzIhScEILDFtIRb/XyEthj0DiIVj/ZxUfIkKu
+        cyEHDC+mmcc2omeKnTM+dhhHy4v09hp5KOumbA==
+X-Google-Smtp-Source: APXvYqw0yA7/JAtvhaZQmdZCHhku9PQPnak0hyEwUTGW5yiBYyusX64Ru1hOe3bgicIVg6fnC6z7c+ozU5sQvG2tn7Q=
+X-Received: by 2002:a37:b8c:: with SMTP id 134mr61102400qkl.121.1558393218412;
+ Mon, 20 May 2019 16:00:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <77f1ed5b-bfd2-510c-edd5-1b702f2d1d45@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <cover.1558362030.git.mchehab+samsung@kernel.org>
+ <66231286de0f11b45075292216a939858de8c3e5.1558362030.git.mchehab+samsung@kernel.org>
+ <CAL_JsqKGzNBjxhvY2Vq9v8SXiND+7sjmsOwKkeu+gEM=2Y-n_A@mail.gmail.com> <20190520131344.39635733@coco.lan>
+In-Reply-To: <20190520131344.39635733@coco.lan>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 20 May 2019 18:00:06 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJj42BR42NNFj2xkY_EF_6nQnU_D-onV4GZvortv8ptvQ@mail.gmail.com>
+Message-ID: <CAL_JsqJj42BR42NNFj2xkY_EF_6nQnU_D-onV4GZvortv8ptvQ@mail.gmail.com>
+Subject: Re: [PATCH 08/10] dt: fix refs that were renamed to json with the
+ same file name
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        devicetree@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek
+On Mon, May 20, 2019 at 11:14 AM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Em Mon, 20 May 2019 10:57:47 -0500
+> Rob Herring <robh+dt@kernel.org> escreveu:
+>
+> > On Mon, May 20, 2019 at 9:48 AM Mauro Carvalho Chehab
+> > <mchehab+samsung@kernel.org> wrote:
+> > >
+> > > This file was converted to json, but the references weren't
+> >
+> > Technically, converted to json-schema (the language) or yaml (the format).
+>
+> Ok. Do you want me to change it at the patch and resend?
 
-On 5/20/19 2:54 PM, Jacek Anaszewski wrote:
-> Hi Dan,
-> 
-> On 5/7/19 10:11 PM, Dan Murphy wrote:
->> Introduce the LM36274 LED driver.  This driver uses the ti-lmu
->> MFD driver to probe this LED driver.  The driver configures only the
->> LED registers and enables the outputs according to the config file.
->>
->> The driver utilizes the TI LMU (Lighting Management Unit) LED common
->> framework to set the brightness bits.
->>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->> ---
->>   drivers/leds/Kconfig        |   7 ++
->>   drivers/leds/Makefile       |   1 +
->>   drivers/leds/leds-lm36274.c | 174 ++++++++++++++++++++++++++++++++++++
->>   3 files changed, 182 insertions(+)
->>   create mode 100644 drivers/leds/leds-lm36274.c
->>
->> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->> index 255fdd5e8491..db83a3feca01 100644
->> --- a/drivers/leds/Kconfig
->> +++ b/drivers/leds/Kconfig
->> @@ -791,6 +791,13 @@ config LEDS_LM3697
->>         Say Y to enable the LM3697 LED driver for TI LMU devices.
->>         This supports the LED device LM3697.
->>   +config LEDS_LM36274
->> +    tristate "LED driver for LM36274"
->> +    depends on LEDS_TI_LMU_COMMON
-> 
-> Shouldn't we have "depends on MFD_TI_LMU" as well here?
-> 
+No, I can fixup.
 
-Actually the LEDS_TI_LMU_COMMON flag should depend on MFD_TI_LMU.
-Then it would inherit that dependency.
+>
+> >
+> > > renamed.
+> > >
+> > > Fixes: 66ed144f147a ("dt-bindings: interrupt-controller: Convert ARM GIC to json-schema")
+> > > (and other similar commits)
+> > >
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > > ---
+> > >  Documentation/devicetree/bindings/arm/omap/crossbar.txt       | 2 +-
+> > >  .../devicetree/bindings/clock/samsung,s5pv210-clock.txt       | 2 +-
+> > >  .../bindings/interrupt-controller/marvell,odmi-controller.txt | 2 +-
+> > >  Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt   | 2 +-
+> > >  MAINTAINERS                                                   | 4 ++--
+> > >  5 files changed, 6 insertions(+), 6 deletions(-)
+> >
+> > FYI, I'm actively looking for this in conversions now as we've had a
+> > few of these. For cases where we have a lot of references, I'm fixing
+> > this by keeping the .txt file with a reference to the .yaml file.
+>
+> If the file name remains with the same name, except for the .txt -> .yaml,
+> you can just run the "scripts/documentation-file-ref-check --fix"
+> after this patch:
+>
+>         Subject: [PATCH 04/10] scripts/documentation-file-ref-check: teach about .txt -> .yaml renames
+>
+> and it should detect and automatically fix all the references. As any
+> auto-hint script, you need to double-check the results.
 
-Dan
+Nice!
 
->> +    help
->> +      Say Y to enable the LM36274 LED driver for TI LMU devices.
->> +      This supports the LED device LM36274.
-> 
+>
+> > I'll pick up the DT patches in the series.
+>
+> OK. There are a few such fixes inside patch 10/10. Do you want me
+> to split it or can it go through Jonathan's doc tree?
+
+Jon's tree is fine.
+
+Rob
