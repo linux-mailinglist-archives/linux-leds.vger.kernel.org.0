@@ -2,44 +2,33 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61B5F23CBE
-	for <lists+linux-leds@lfdr.de>; Mon, 20 May 2019 17:58:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5BF423CF4
+	for <lists+linux-leds@lfdr.de>; Mon, 20 May 2019 18:14:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389416AbfETP6B (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 May 2019 11:58:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35330 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388657AbfETP6B (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 20 May 2019 11:58:01 -0400
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A839F2177B;
-        Mon, 20 May 2019 15:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558367880;
-        bh=nVZuwAchej3cX/jxaYPaCpxQLGe12Ikr7j7t0ajgtX4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=In/s90sCuJU2/LDfbSq/ltM7BfsjqY+JC5P2+zcho3XSeY3kl5p1Yn3dN/yqSzmu7
-         tSPr8LQB+T3vkyBSwKzWnc94WQUbQgrYEEBui8kDu+PZKCnpIJz09DTB4R9zADWXvm
-         q0axqoDMtcASUYKeiulDpEZMnuXbabQ/R2lAX+40=
-Received: by mail-qt1-f178.google.com with SMTP id z19so16814705qtz.13;
-        Mon, 20 May 2019 08:58:00 -0700 (PDT)
-X-Gm-Message-State: APjAAAXlZPlk803hMmoRBMGPOYZihMLfFDN6G6E8m6fHQRWUDyc0PuCM
-        vh/Wi0vTTVgNZLy+QZ27ktv+rCmTQmYPkRt1ug==
-X-Google-Smtp-Source: APXvYqwjPogqJnNMzhVG/Dty4EXEP0hrNsUGqneE2/2Dsx/rQulk+faBwMb9O26bpFgnUShEIqJNS7TiLLwC6XChE1Y=
-X-Received: by 2002:ac8:2d48:: with SMTP id o8mr64152978qta.136.1558367879826;
- Mon, 20 May 2019 08:57:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1558362030.git.mchehab+samsung@kernel.org> <66231286de0f11b45075292216a939858de8c3e5.1558362030.git.mchehab+samsung@kernel.org>
-In-Reply-To: <66231286de0f11b45075292216a939858de8c3e5.1558362030.git.mchehab+samsung@kernel.org>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Mon, 20 May 2019 10:57:47 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKGzNBjxhvY2Vq9v8SXiND+7sjmsOwKkeu+gEM=2Y-n_A@mail.gmail.com>
-Message-ID: <CAL_JsqKGzNBjxhvY2Vq9v8SXiND+7sjmsOwKkeu+gEM=2Y-n_A@mail.gmail.com>
-Subject: Re: [PATCH 08/10] dt: fix refs that were renamed to json with the
- same file name
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+        id S2389285AbfETQOD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 May 2019 12:14:03 -0400
+Received: from casper.infradead.org ([85.118.1.10]:58884 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387964AbfETQOC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 May 2019 12:14:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=iKK9YhMh6ANbKPoYCjZ4LLgT9iYyIw5BQddMDFPQDH0=; b=jF+2/XoezBZrle4Eh5yah9/wnE
+        C4c8y+O3Fn97DP1KUcRH5ZP+qIxqnDqRM5Br5iOnaTWbelA38NTwrbHc4cmqKaj5QvxqS7Ko2D9cY
+        15Wp+kQaiyoZ7bMTEfhSPCKecDOWREcw/Js9QqsEQ3Z3IvhrABtZSYfrPk6UDcO1d05m9s6enuCcV
+        GJXQ2x26lZm1PxmDaeqYYkxExfZ3zod361KDqnRf78Ao27eOThZjnopUMeQdLw+1RugcQmi0F/I3M
+        yo2tZtfXOrctpaeXjO1TauKV2zkmGocTFasf2kw8fDu7rOtjn0oj3aB2z+XA7OJ5a/vrRLE1q/57m
+        iFz2dMnQ==;
+Received: from 179.176.119.151.dynamic.adsl.gvt.net.br ([179.176.119.151] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hSkvB-0000iC-61; Mon, 20 May 2019 16:13:53 +0000
+Date:   Mon, 20 May 2019 13:13:44 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -59,37 +48,66 @@ Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
         devicetree@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 08/10] dt: fix refs that were renamed to json with the
+ same file name
+Message-ID: <20190520131344.39635733@coco.lan>
+In-Reply-To: <CAL_JsqKGzNBjxhvY2Vq9v8SXiND+7sjmsOwKkeu+gEM=2Y-n_A@mail.gmail.com>
+References: <cover.1558362030.git.mchehab+samsung@kernel.org>
+        <66231286de0f11b45075292216a939858de8c3e5.1558362030.git.mchehab+samsung@kernel.org>
+        <CAL_JsqKGzNBjxhvY2Vq9v8SXiND+7sjmsOwKkeu+gEM=2Y-n_A@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, May 20, 2019 at 9:48 AM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
->
-> This file was converted to json, but the references weren't
+Em Mon, 20 May 2019 10:57:47 -0500
+Rob Herring <robh+dt@kernel.org> escreveu:
 
-Technically, converted to json-schema (the language) or yaml (the format).
+> On Mon, May 20, 2019 at 9:48 AM Mauro Carvalho Chehab
+> <mchehab+samsung@kernel.org> wrote:
+> >
+> > This file was converted to json, but the references weren't  
+> 
+> Technically, converted to json-schema (the language) or yaml (the format).
 
-> renamed.
->
-> Fixes: 66ed144f147a ("dt-bindings: interrupt-controller: Convert ARM GIC to json-schema")
-> (and other similar commits)
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/devicetree/bindings/arm/omap/crossbar.txt       | 2 +-
->  .../devicetree/bindings/clock/samsung,s5pv210-clock.txt       | 2 +-
->  .../bindings/interrupt-controller/marvell,odmi-controller.txt | 2 +-
->  Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt   | 2 +-
->  MAINTAINERS                                                   | 4 ++--
->  5 files changed, 6 insertions(+), 6 deletions(-)
+Ok. Do you want me to change it at the patch and resend?
 
-FYI, I'm actively looking for this in conversions now as we've had a
-few of these. For cases where we have a lot of references, I'm fixing
-this by keeping the .txt file with a reference to the .yaml file.
+> 
+> > renamed.
+> >
+> > Fixes: 66ed144f147a ("dt-bindings: interrupt-controller: Convert ARM GIC to json-schema")
+> > (and other similar commits)
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > ---
+> >  Documentation/devicetree/bindings/arm/omap/crossbar.txt       | 2 +-
+> >  .../devicetree/bindings/clock/samsung,s5pv210-clock.txt       | 2 +-
+> >  .../bindings/interrupt-controller/marvell,odmi-controller.txt | 2 +-
+> >  Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt   | 2 +-
+> >  MAINTAINERS                                                   | 4 ++--
+> >  5 files changed, 6 insertions(+), 6 deletions(-)  
+> 
+> FYI, I'm actively looking for this in conversions now as we've had a
+> few of these. For cases where we have a lot of references, I'm fixing
+> this by keeping the .txt file with a reference to the .yaml file.
 
-I'll pick up the DT patches in the series.
+If the file name remains with the same name, except for the .txt -> .yaml,
+you can just run the "scripts/documentation-file-ref-check --fix"
+after this patch:
 
-Rob
+	Subject: [PATCH 04/10] scripts/documentation-file-ref-check: teach about .txt -> .yaml renames
+
+and it should detect and automatically fix all the references. As any
+auto-hint script, you need to double-check the results.
+
+> I'll pick up the DT patches in the series.
+
+OK. There are a few such fixes inside patch 10/10. Do you want me
+to split it or can it go through Jonathan's doc tree?
+
+Thanks,
+Mauro
