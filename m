@@ -2,101 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0981123E47
-	for <lists+linux-leds@lfdr.de>; Mon, 20 May 2019 19:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ED5424190
+	for <lists+linux-leds@lfdr.de>; Mon, 20 May 2019 21:54:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390154AbfETRTH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 May 2019 13:19:07 -0400
-Received: from hamsrv800.servertools24.de ([213.238.32.28]:43473 "EHLO
-        hamsrv800.servertools24.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1733201AbfETRTH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 20 May 2019 13:19:07 -0400
-Received: from christian-pc.localdomain (p54A59A9B.dip0.t-ipconnect.de [84.165.154.155])
-        by hamsrv800.servertools24.de (Postfix) with ESMTPSA id C23A0238276A;
-        Mon, 20 May 2019 19:19:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-mauderer.de;
-        s=default; t=1558372744;
-        bh=kxIJG27u7eVKtYS4db3xT3wLRcFHn7Lvz4p6qFUlz+I=; l=1593;
-        h=Subject:To:From;
-        b=wDxdv7u4l7MyCgkBom+hx+EOAgwngc3f+IEhC+oFKOCFiDrViMV44j0uJs2TAO/Wr
-         K5/zGrMyMpCjLghNlFZYrF6qz7KmxxvjnDbAdrsaSpzIYzQxbZZJwlpxYRj6NQGIp1
-         JLEwqFsGfkJ7lEVd+eTScYOtuGnd1uopjj2LoDfA=
-Authentication-Results: hamsrv800.servertools24.de;
-        spf=pass (sender IP is 84.165.154.155) smtp.mailfrom=oss@c-mauderer.de smtp.helo=christian-pc.localdomain
-Received-SPF: pass (hamsrv800.servertools24.de: connection is authenticated)
-Subject: Re: [PATCH v4 1/2] dt-bindings: leds: Add binding for spi-byte LED.
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-References: <20190513193307.11591-1-oss@c-mauderer.de>
- <20190519212501.GC31403@amd>
-From:   Christian Mauderer <oss@c-mauderer.de>
-Message-ID: <1850ba07-2c0c-2624-4ff3-fd507e49439f@c-mauderer.de>
-Date:   Mon, 20 May 2019 19:19:03 +0200
+        id S1726151AbfETTyo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 May 2019 15:54:44 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:34370 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725971AbfETTyo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 May 2019 15:54:44 -0400
+Received: by mail-lf1-f68.google.com with SMTP id v18so11265678lfi.1;
+        Mon, 20 May 2019 12:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=UESajbzwoIV7sMA5C+7AZ1ywo1ID3f49/T5tv1zMMAc=;
+        b=U35XLBS+00Wp11dB0WmdlhX5fC7qQvVBmRcS2pQJdolUFVu24/piOp7c5W+QifiaUJ
+         ljWpZeqTyfdbW6piVzuHJDRp6r0B/9KiHjzN8EEzKbgheriznbg0MqxYYrBXdbfbJUNa
+         vR5xEqwiz9XmOfFvcaVD7cbmS9/I0nucT2HReKRKs6i00rncUcm6m9VgoSkQzjpd6tX6
+         UoFjquGdgWqxF93uboybTBb5FVxXeNPPYGk/JdY+74HRGm/W3Wf7Xo0nQxMsSEKijmNo
+         HUbMN7Pj6OqMFxNoCE1fQl+T8L7Cg9qpXWdujqoGTOyfSwEyif5MJh9SeSL/yHzU3bwC
+         0FDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UESajbzwoIV7sMA5C+7AZ1ywo1ID3f49/T5tv1zMMAc=;
+        b=jX392KzhWwdofnEfae2SV/uvayE6R40kqWmsaJPIH5w6U1cXJUqvcVqpKq1ckNArn+
+         clPO3GiapLbh4Gw8Lasa/G0Qci8C6JLzxK/SAWLanfx7Rboe6oRHklYZco20sXV7Aji3
+         Gs7KKL1WVS2bhJZU6GoFUX2/U0bRArlTEnaRWTHFqxKCIVTiDOfAZpH7c8xV8gZInJac
+         1f9kCLOFnIoPjvKKFNJZnvcHXGURGscQzPX/fR1MC5ySctvK0gtce16CC4afFCUXEbI2
+         JxtlDI1Wt3DQGhDuhyib+KEDo6WzvOO87StTxFEr6DPU6aNqJaV7nTmvj7/uMCpqzasZ
+         pLlQ==
+X-Gm-Message-State: APjAAAXoTt2517KT8SGS+H9hqRaqYTeA/d4mQvo2GLDiXoA8OAXzrf39
+        ZeT5wA33pfNi6dPH4k91piMDDRty
+X-Google-Smtp-Source: APXvYqwq7Wq+zz3PIo2nZE5pLqXdDJVRF4BkRjASGcq2JMc05sk/lkEnhebCoil4YFLtTDCZYqCCIg==
+X-Received: by 2002:a19:6b04:: with SMTP id d4mr9128012lfa.57.1558382082112;
+        Mon, 20 May 2019 12:54:42 -0700 (PDT)
+Received: from [192.168.1.17] (blc206.neoplus.adsl.tpnet.pl. [83.28.196.206])
+        by smtp.gmail.com with ESMTPSA id n196sm2903868lfn.18.2019.05.20.12.54.40
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 May 2019 12:54:41 -0700 (PDT)
+Subject: Re: [PATCH v4 6/6] leds: lm36274: Introduce the TI LM36274 LED driver
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     lee.jones@linaro.org, rdunlap@infradead.org,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190507201159.13940-1-dmurphy@ti.com>
+ <20190507201159.13940-7-dmurphy@ti.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <77f1ed5b-bfd2-510c-edd5-1b702f2d1d45@gmail.com>
+Date:   Mon, 20 May 2019 21:54:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190519212501.GC31403@amd>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-GB
+In-Reply-To: <20190507201159.13940-7-dmurphy@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-PPP-Message-ID: <155837274415.37172.7452360277010363700@hamsrv800.servertools24.de>
-X-PPP-Vhost: c-mauderer.de
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 19/05/2019 23:25, Pavel Machek wrote:
-> Hi!
+Hi Dan,
+
+On 5/7/19 10:11 PM, Dan Murphy wrote:
+> Introduce the LM36274 LED driver.  This driver uses the ti-lmu
+> MFD driver to probe this LED driver.  The driver configures only the
+> LED registers and enables the outputs according to the config file.
 > 
->> From: Christian Mauderer <oss@c-mauderer.de>
->>
->> This patch adds the binding documentation for a simple SPI based LED
->> controller which use only one byte for setting the brightness.
->>
->> Signed-off-by: Christian Mauderer <oss@c-mauderer.de>
->> ---
+> The driver utilizes the TI LMU (Lighting Management Unit) LED common
+> framework to set the brightness bits.
 > 
->> diff --git a/Documentation/devicetree/bindings/leds/leds-spi-byte.txt b/Documentation/devicetree/bindings/leds/leds-spi-byte.txt
->> new file mode 100644
->> index 000000000000..28b6b2d9091e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/leds/leds-spi-byte.txt
->> @@ -0,0 +1,44 @@
->> +* Single Byte SPI LED Device Driver.
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>   drivers/leds/Kconfig        |   7 ++
+>   drivers/leds/Makefile       |   1 +
+>   drivers/leds/leds-lm36274.c | 174 ++++++++++++++++++++++++++++++++++++
+>   3 files changed, 182 insertions(+)
+>   create mode 100644 drivers/leds/leds-lm36274.c
 > 
->> +The driver can be used for controllers with a very simple SPI protocol:
->> +- one LED is controlled by a single byte on MOSI
->> +- the value of the byte gives the brightness between two values (lowest to
->> +  highest)
->> +- no return value is necessary (no MISO signal)
-> 
-> I'd expect this file to be named acb-spi-led.txt, or something, and
-> talk about that u-controller, not its device driver -- as devicetree
-> binding describes hardware, not driver.
-> 
-> But you already have an ack from rob, so...
-> 									Pavel
-> 									
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index 255fdd5e8491..db83a3feca01 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -791,6 +791,13 @@ config LEDS_LM3697
+>   	  Say Y to enable the LM3697 LED driver for TI LMU devices.
+>   	  This supports the LED device LM3697.
+>   
+> +config LEDS_LM36274
+> +	tristate "LED driver for LM36274"
+> +	depends on LEDS_TI_LMU_COMMON
 
-So basically it would have been better to move the description that I
-added to the c-file as "supported devices" in the device tree file?
+Shouldn't we have "depends on MFD_TI_LMU" as well here?
 
-With both commits already acked: Rob and Pavel: Should I change that?
+> +	help
+> +	  Say Y to enable the LM36274 LED driver for TI LMU devices.
+> +	  This supports the LED device LM36274.
 
-If you both say yes, I would rename the file in the binding like
-suggested and move the detailed protocol description from the driver to
-the binding.
-
-Best regards
-
-Christian
-
-
-
-
-
+-- 
+Best regards,
+Jacek Anaszewski
