@@ -2,137 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EAD32586C
-	for <lists+linux-leds@lfdr.de>; Tue, 21 May 2019 21:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8109C258DF
+	for <lists+linux-leds@lfdr.de>; Tue, 21 May 2019 22:30:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726771AbfEUTll (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 21 May 2019 15:41:41 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:45346 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726525AbfEUTll (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 May 2019 15:41:41 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x4LJfURx030004;
-        Tue, 21 May 2019 14:41:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1558467690;
-        bh=PM4L/D9FpKZ0tK5lsvnI3Q3CMgTLS/K4k7JDMM7uGss=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=mHVKvikDrWIG4uUrkIMU0HwH/RUGaNzKckcW+9yE7apqfHK1nHEfAAF9jhTGaWeVD
-         O1Zlk+8v66NN+Y3IMPrmECilUThwtooGEXjJ8W//CUJyWlBaGtvVijIVm+0rRY9Jik
-         MhhJyS5c/D0wpS2D9GCQK1KScvbyc2zYmUwzBczQ=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x4LJfUZU107622
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 21 May 2019 14:41:30 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 21
- May 2019 14:41:30 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 21 May 2019 14:41:30 -0500
-Received: from [10.250.90.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x4LJfUqt115545;
-        Tue, 21 May 2019 14:41:30 -0500
-Subject: Re: [PATCH v4 6/6] leds: lm36274: Introduce the TI LM36274 LED driver
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <lee.jones@linaro.org>, <rdunlap@infradead.org>,
-        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20190507201159.13940-1-dmurphy@ti.com>
- <20190507201159.13940-7-dmurphy@ti.com>
- <77f1ed5b-bfd2-510c-edd5-1b702f2d1d45@gmail.com>
- <8d126925-9e71-dba4-eb88-50fd6e6c06d8@ti.com>
- <a7cb6628-e501-b580-f714-0e5de78ea39c@gmail.com>
- <d0c49197-984d-5cd8-032a-27d9c5ca6d29@ti.com>
- <97ff2f48-9ec0-06f1-b667-56fcdef8bf03@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <65c656cd-1b16-0960-fbeb-8172087b88f2@ti.com>
-Date:   Tue, 21 May 2019 14:41:24 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <97ff2f48-9ec0-06f1-b667-56fcdef8bf03@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        id S1727174AbfEUUav (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 21 May 2019 16:30:51 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:44944 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726766AbfEUUau (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 May 2019 16:30:50 -0400
+Received: by mail-lj1-f193.google.com with SMTP id e13so17060781ljl.11;
+        Tue, 21 May 2019 13:30:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=WUawgPLf+Rw313N868wKNOBERFRKEk29xam6dcs6XGA=;
+        b=ZtuX9+qh9EUc5+ieexcQA9lBop9ZPpbPq7fQH2JUz3ARKiG+MKJ9zHhmouZgHcFUcJ
+         koFYoNeZE2ptHlEfSMph8riQ8HrYmtevLiZBFFG8hJeW0am5nxiQGVg0B+MzV6umYr4b
+         9cj16D9gLZ8YC0hEy21TAoBYrgyeUKYquslokOvTqBya5tz4xBNNizcPH6hZBQpk4h6t
+         XAyXv+xk+Eg/GkUTaPVvdsrFfP36C9ihQz79N26N5Nbl0EkPmAR/+6xuyrEfnPCqCZ5E
+         /PmTFGtXLIjprV2XA8luINkTzLD6WMVZkUT7NgPzz1gkcDlWBEV+3gCezuMd1o/q8OBJ
+         7+gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=WUawgPLf+Rw313N868wKNOBERFRKEk29xam6dcs6XGA=;
+        b=mcELEasgDKiFwy3Te/Rtk2pW7WwmwYoOm3Rc+ejtsrJueJE7+VVLay4RDPIDOkfp8y
+         rkU5uToGDMJtaiWlzzJ5W4MuHZdUNBPKHahCn/3HX8vqS3YOixuhEHKg2Ztrn3r7l/q0
+         krInKILy5qob8B6+ACLXDv0wYjqxFxQgyEoW1J4tGvzvtlvnY/BSkN3GZxZ+jWtW8wxP
+         hgTnfP1zQz38IFRiFZ4LQlGq9lhonV1D4q3CYwZ/tUjWRcuI/Hhns1kWEkmeXmfoQrCK
+         V0Q2a4c4H1z/2czqNunB/pfC/SuguXjQtzX8jroL0MfNhZyFkvy+mgcP+5rkfSh3+LJh
+         uasg==
+X-Gm-Message-State: APjAAAXTRC6AdaIfNAkOE/HWWim3OFLbY2f6lExEsnWktKMEIlVd7i5X
+        edNVQtyBVud9fLmMTlos4gDHzSw8
+X-Google-Smtp-Source: APXvYqzz6BSeUu7RfnEGgWCGg1P9u4nAxBewICLvzMqN00zxdzwPjLRoXdzOTPizYVLyZFkMFN9LGw==
+X-Received: by 2002:a2e:7d02:: with SMTP id y2mr15822012ljc.62.1558470648765;
+        Tue, 21 May 2019 13:30:48 -0700 (PDT)
+Received: from myhost.home (dkv215.neoplus.adsl.tpnet.pl. [83.24.25.215])
+        by smtp.gmail.com with ESMTPSA id y25sm4911170lfy.59.2019.05.21.13.30.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 May 2019 13:30:48 -0700 (PDT)
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+To:     linux-leds@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, lee.jones@linaro.org,
+        lgirdwood@gmail.com, broonie@kernel.org, jacek.anaszewski@gmail.com
+Subject: [GIT PULL] Immutable branch between LEDs, MFD and REGULATOR
+Date:   Tue, 21 May 2019 22:30:38 +0200
+Message-Id: <20190521203038.31946-1-jacek.anaszewski@gmail.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek
+The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
 
-On 5/21/19 1:46 PM, Jacek Anaszewski wrote:
-> Dan,
-> 
-> On 5/21/19 8:25 PM, Dan Murphy wrote:
->> Jacek
->>
->> On 5/21/19 12:40 PM, Jacek Anaszewski wrote:
->>> On 5/20/19 11:19 PM, Dan Murphy wrote:
->>>> Jacek
->>>>
->>>> On 5/20/19 2:54 PM, Jacek Anaszewski wrote:
->>>>> Hi Dan,
->>>>>
->>>>> On 5/7/19 10:11 PM, Dan Murphy wrote:
->>>>>> Introduce the LM36274 LED driver.  This driver uses the ti-lmu
->>>>>> MFD driver to probe this LED driver.  The driver configures only the
->>>>>> LED registers and enables the outputs according to the config file.
->>>>>>
->>>>>> The driver utilizes the TI LMU (Lighting Management Unit) LED common
->>>>>> framework to set the brightness bits.
->>>>>>
->>>>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->>>>>> ---
->>>>>>     drivers/leds/Kconfig        |   7 ++
->>>>>>     drivers/leds/Makefile       |   1 +
->>>>>>     drivers/leds/leds-lm36274.c | 174 ++++++++++++++++++++++++++++++++++++
->>>>>>     3 files changed, 182 insertions(+)
->>>>>>     create mode 100644 drivers/leds/leds-lm36274.c
->>>>>>
->>>>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->>>>>> index 255fdd5e8491..db83a3feca01 100644
->>>>>> --- a/drivers/leds/Kconfig
->>>>>> +++ b/drivers/leds/Kconfig
->>>>>> @@ -791,6 +791,13 @@ config LEDS_LM3697
->>>>>>           Say Y to enable the LM3697 LED driver for TI LMU devices.
->>>>>>           This supports the LED device LM3697.
->>>>>>     +config LEDS_LM36274
->>>>>> +    tristate "LED driver for LM36274"
->>>>>> +    depends on LEDS_TI_LMU_COMMON
->>>>>
->>>>> Shouldn't we have "depends on MFD_TI_LMU" as well here?
->>>>>
->>>>
->>>> Actually the LEDS_TI_LMU_COMMON flag should depend on MFD_TI_LMU.
->>>> Then it would inherit that dependency.
->>>
->>> LEDS_TI_LMU_COMMON does not seem too have any dependency on MFD_TI_LMU,
->>> and it would be incorrect to require enabling MFD_TI_LMU for all drivers
->>> depending on TI_LMU_COMMON, that can be probed on their own, like
->>> leds-lm3697.c .
->>>
->>
->> Correct.
->>
->> I can update the Kconfigs unless you want to ammend the commits.
-> 
-> I added "depends on MFD_TI_LMU" to "config LEDS_LM36274".
-> Please verify your patch sets pushed to [0].
-> 
+  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
 
-Pulled
-Built
-tested
-verified
+are available in the git repository at:
 
-Good to go
+  git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git tags/ti-lmu-led-drivers
 
-Dan
+for you to fetch changes up to 13f5750a60b923d8f3f0e23902f2ece46dd733d7:
 
-> [0] https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/log/?h=ib-leds-mfd-regulator
-> 
+  leds: lm36274: Introduce the TI LM36274 LED driver (2019-05-21 20:34:19 +0200)
+
+----------------------------------------------------------------
+TI LMU LED support rework and introduction of two new drivers
+with DT bindings:
+
+- leds-lm3697 (entails additions to lm363x-regulator.c)
+- leds-lm36274
+----------------------------------------------------------------
+Dan Murphy (12):
+      dt-bindings: mfd: LMU: Add the ramp up/down property
+      dt-bindings: mfd: LMU: Add ti,brightness-resolution
+      leds: TI LMU: Add common code for TI LMU devices
+      dt-bindings: ti-lmu: Modify dt bindings for the LM3697
+      mfd: ti-lmu: Remove support for LM3697
+      leds: lm3697: Introduce the lm3697 driver
+      regulator: lm363x: Make the gpio register enable flexible
+      dt-bindings: mfd: Add lm36274 bindings to ti-lmu
+      mfd: ti-lmu: Add LM36274 support to the ti-lmu
+      regulator: lm363x: Add support for LM36274
+      dt-bindings: leds: Add LED bindings for the LM36274
+      leds: lm36274: Introduce the TI LM36274 LED driver
+
+ .../devicetree/bindings/leds/leds-lm36274.txt      |  82 +++++
+ .../devicetree/bindings/leds/leds-lm3697.txt       |  73 ++++
+ Documentation/devicetree/bindings/mfd/ti-lmu.txt   |  88 +++--
+ drivers/leds/Kconfig                               |  23 ++
+ drivers/leds/Makefile                              |   3 +
+ drivers/leds/leds-lm36274.c                        | 174 +++++++++
+ drivers/leds/leds-lm3697.c                         | 395 +++++++++++++++++++++
+ drivers/leds/leds-ti-lmu-common.c                  | 156 ++++++++
+ drivers/mfd/Kconfig                                |   5 +-
+ drivers/mfd/ti-lmu.c                               |  23 +-
+ drivers/regulator/Kconfig                          |   2 +-
+ drivers/regulator/lm363x-regulator.c               |  56 ++-
+ include/linux/leds-ti-lmu-common.h                 |  47 +++
+ include/linux/mfd/ti-lmu-register.h                |  63 ++--
+ include/linux/mfd/ti-lmu.h                         |   5 +-
+ 15 files changed, 1112 insertions(+), 83 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lm3697.txt
+ create mode 100644 drivers/leds/leds-lm36274.c
+ create mode 100644 drivers/leds/leds-lm3697.c
+ create mode 100644 drivers/leds/leds-ti-lmu-common.c
+ create mode 100644 include/linux/leds-ti-lmu-common.h
