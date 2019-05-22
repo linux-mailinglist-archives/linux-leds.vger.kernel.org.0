@@ -2,109 +2,138 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C93625B62
-	for <lists+linux-leds@lfdr.de>; Wed, 22 May 2019 02:54:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A346925DBF
+	for <lists+linux-leds@lfdr.de>; Wed, 22 May 2019 07:43:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727976AbfEVAyJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 21 May 2019 20:54:09 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:51918 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726466AbfEVAyJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 May 2019 20:54:09 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x4M0rrNi104919;
-        Tue, 21 May 2019 19:53:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1558486433;
-        bh=64tMQrAiwm3hei2eRN/7GchhSAwDNydo9l0KJu+r9+U=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=dF1ZqMn2aoGlrvNL4lHcpk79UeWJYebjo1j/YywbCyhukwMNBLotx+PDPNVeUNxzb
-         mwM6HTEJZsHDJ2O8aXSG5G2tdmpfH2l5QcC6QDKbNzQJBDV8oX8BcHxZwL3Jf3duAn
-         Ufi2WPfcCaskqh9SCCAiSNLL+j0OQvP3CCjaB9VY=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x4M0rr6i049645
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 21 May 2019 19:53:53 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 21
- May 2019 19:53:53 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 21 May 2019 19:53:53 -0500
-Received: from [10.250.90.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x4M0rq2m075698;
-        Tue, 21 May 2019 19:53:52 -0500
-Subject: Re: [PATCH] dt-bindings: backlight: lm3630a: correct schema
- validation
-To:     Daniel Thompson <daniel.thompson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-CC:     Brian Masney <masneyb@onstation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        Jonathan Marek <jonathan@marek.ca>
-References: <20190520085846.22320-1-masneyb@onstation.org>
- <CAL_JsqLcycH5e=YT-4AQFo-8O0bosjU7oagCRS5CMTfQNBLrcg@mail.gmail.com>
- <20190520133007.gymbonmq635gp73b@holly.lan>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <6bc54c69-0c7b-69e5-6dce-aef631e20247@ti.com>
-Date:   Tue, 21 May 2019 19:53:45 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726278AbfEVFnC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 May 2019 01:43:02 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:33272 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726214AbfEVFnB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 May 2019 01:43:01 -0400
+Received: by mail-wm1-f65.google.com with SMTP id c66so3832273wme.0
+        for <linux-leds@vger.kernel.org>; Tue, 21 May 2019 22:43:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=UV86+9faBPyxG3LMeaUxCHb1Y1cnH/FV7fOPtgG5S98=;
+        b=DsZP4LP2cJulyBy4GynzLKTHzyJoCoCR+MG+Z+gHUf7P1+KlPTqh4MZlQ7dWkHBh1B
+         8iggThqkjVvRIhwpfIRB8fpHfRS7GEWqv8mxWIWY0uSi8D+dXMP3g5QjDJV5gUwDXHVG
+         MkR2NAAvUo3zXH4PatvV5weAw+f8j8XGfuUTyu9kkecLb5pJ93Zt+0vKqvhPzaFAegJH
+         qItzRiDiWbTKGma/Qlw+i6uhs2NosSoFdC725fNRNWHUMe1tKyhj/kZlZeoRFassCZLo
+         Bb/kdKZZXVy1sRbybIYU3prXHhmpf5XnffKDZCImKEFh+F77yid5QUrVMA21O8u2miet
+         O1fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=UV86+9faBPyxG3LMeaUxCHb1Y1cnH/FV7fOPtgG5S98=;
+        b=BDiXYTEGGwrLMM19t1MdA7ZOYCZDer4X4B0ByQzmrN4Xtl6sNjsx+eSe3QGqBDwAMh
+         LIOOU1GwxfmxCPVmcFzBikk0AFkQ04nyTwKquIYfTXVCGn8Z59urvXEvsb7/bXoaAfIv
+         G7+V5mL7vE78NkRhq5J7HblfMUzXdEHOZKJQxaYd1Hr0pQSAY+4EEkxtG6nYLyENhEAz
+         /mQIOZ6oxCP/ofJWblvmK18N9bgyAC1hEikljRV5Rttp+6zqbYWssNX61sSQ30oNy1dM
+         TXnM4NfzdPZQpMiJZqd5lPGxC2+xk86hfV+0rKjdnZrejELkNDx3Ih5xOKRL0EJDZxdS
+         BCkQ==
+X-Gm-Message-State: APjAAAWXiBUVObI8acyKTyftxli3Lj7U+kl3sgdPc4Ha2dSEW1eJAq43
+        OusFdAaCDeHjJNBsOXMUORFI/A==
+X-Google-Smtp-Source: APXvYqx3ytJTwrdokltodLpxK93jWrnPf+fMI1jolPsXgHoB5MtfXMSEAoN/yUl4y3UJqS1NcpWM8A==
+X-Received: by 2002:a1c:f910:: with SMTP id x16mr6258184wmh.132.1558503779936;
+        Tue, 21 May 2019 22:42:59 -0700 (PDT)
+Received: from dell ([2.27.167.43])
+        by smtp.gmail.com with ESMTPSA id j17sm23295196wrs.77.2019.05.21.22.42.58
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 21 May 2019 22:42:59 -0700 (PDT)
+Date:   Wed, 22 May 2019 06:42:56 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lgirdwood@gmail.com, broonie@kernel.org
+Subject: Re: [GIT PULL] Immutable branch between LEDs, MFD and REGULATOR
+Message-ID: <20190522054256.GA4574@dell>
+References: <20190521203038.31946-1-jacek.anaszewski@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190520133007.gymbonmq635gp73b@holly.lan>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190521203038.31946-1-jacek.anaszewski@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Tue, 21 May 2019, Jacek Anaszewski wrote:
 
-
-On 5/20/19 8:30 AM, Daniel Thompson wrote:
-> On Mon, May 20, 2019 at 08:14:03AM -0500, Rob Herring wrote:
->> On Mon, May 20, 2019 at 3:59 AM Brian Masney <masneyb@onstation.org> wrote:
->>>
->>> The '#address-cells' and '#size-cells' properties were not defined in
->>> the lm3630a bindings and would cause the following error when
->>> attempting to validate the examples against the schema:
->>>
->>> Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
->>> '#address-cells', '#size-cells' do not match any of the regexes:
->>> '^led@[01]$', 'pinctrl-[0-9]+'
->>>
->>> Correct this by adding those two properties.
->>>
->>> While we're here, move the ti,linear-mapping-mode property to the
->>> led@[01] child nodes to correct the following validation error:
->>>
->>> Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
->>> led@0: 'ti,linear-mapping-mode' does not match any of the regexes:
->>> 'pinctrl-[0-9]+'
->>>
->>> Fixes: 32fcb75c66a0 ("dt-bindings: backlight: Add lm3630a bindings")
->>> Signed-off-by: Brian Masney <masneyb@onstation.org>
->>> Reported-by: Rob Herring <robh+dt@kernel.org>
->>> ---
->>>  .../leds/backlight/lm3630a-backlight.yaml     | 20 +++++++++++++------
->>>  1 file changed, 14 insertions(+), 6 deletions(-)
->>
->> Reviewed-by: Rob Herring <robh@kernel.org>
+> The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
 > 
-> Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+>   Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
 > 
+> are available in the git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git tags/ti-lmu-led-drivers
+> 
+> for you to fetch changes up to 13f5750a60b923d8f3f0e23902f2ece46dd733d7:
+> 
+>   leds: lm36274: Introduce the TI LM36274 LED driver (2019-05-21 20:34:19 +0200)
+> 
+> ----------------------------------------------------------------
+> TI LMU LED support rework and introduction of two new drivers
+> with DT bindings:
+> 
+> - leds-lm3697 (entails additions to lm363x-regulator.c)
+> - leds-lm36274
+> ----------------------------------------------------------------
+> Dan Murphy (12):
 
-Acked-by: Dan Murphy <dmurphy@ti.com>
+>       dt-bindings: mfd: LMU: Add the ramp up/down property
+>       dt-bindings: mfd: LMU: Add ti,brightness-resolution
+>       mfd: ti-lmu: Remove support for LM3697
+>       mfd: ti-lmu: Add LM36274 support to the ti-lmu
+
+These patches were Acked "for my own reference", which means I'd
+at least expect a discussion on how/where they would be applied.
+
+It's fine for them to go in via the LED tree in this instance and I do
+thank you for sending a PR.  Next time can we at least agree on the
+route-in though please?
+
+>       leds: TI LMU: Add common code for TI LMU devices
+>       dt-bindings: ti-lmu: Modify dt bindings for the LM3697
+>       leds: lm3697: Introduce the lm3697 driver
+>       regulator: lm363x: Make the gpio register enable flexible
+>       dt-bindings: mfd: Add lm36274 bindings to ti-lmu
+>       regulator: lm363x: Add support for LM36274
+>       dt-bindings: leds: Add LED bindings for the LM36274
+>       leds: lm36274: Introduce the TI LM36274 LED driver
+> 
+>  .../devicetree/bindings/leds/leds-lm36274.txt      |  82 +++++
+>  .../devicetree/bindings/leds/leds-lm3697.txt       |  73 ++++
+>  Documentation/devicetree/bindings/mfd/ti-lmu.txt   |  88 +++--
+>  drivers/leds/Kconfig                               |  23 ++
+>  drivers/leds/Makefile                              |   3 +
+>  drivers/leds/leds-lm36274.c                        | 174 +++++++++
+>  drivers/leds/leds-lm3697.c                         | 395 +++++++++++++++++++++
+>  drivers/leds/leds-ti-lmu-common.c                  | 156 ++++++++
+>  drivers/mfd/Kconfig                                |   5 +-
+>  drivers/mfd/ti-lmu.c                               |  23 +-
+>  drivers/regulator/Kconfig                          |   2 +-
+>  drivers/regulator/lm363x-regulator.c               |  56 ++-
+>  include/linux/leds-ti-lmu-common.h                 |  47 +++
+>  include/linux/mfd/ti-lmu-register.h                |  63 ++--
+>  include/linux/mfd/ti-lmu.h                         |   5 +-
+>  15 files changed, 1112 insertions(+), 83 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm3697.txt
+>  create mode 100644 drivers/leds/leds-lm36274.c
+>  create mode 100644 drivers/leds/leds-lm3697.c
+>  create mode 100644 drivers/leds/leds-ti-lmu-common.c
+>  create mode 100644 include/linux/leds-ti-lmu-common.h
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
