@@ -2,38 +2,38 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FCB626B81
-	for <lists+linux-leds@lfdr.de>; Wed, 22 May 2019 21:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF17B26D5B
+	for <lists+linux-leds@lfdr.de>; Wed, 22 May 2019 21:41:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731540AbfEVT1C (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 May 2019 15:27:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48790 "EHLO mail.kernel.org"
+        id S1732329AbfEVTlW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 May 2019 15:41:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51878 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732215AbfEVT1C (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 22 May 2019 15:27:02 -0400
+        id S1732721AbfEVT3C (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 22 May 2019 15:29:02 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7288621841;
-        Wed, 22 May 2019 19:27:00 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AEA0F21841;
+        Wed, 22 May 2019 19:29:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558553221;
-        bh=olLlbsdVvG3O0pmW/Xs7F+gvHtWBPuONA/cLfOxDLcQ=;
+        s=default; t=1558553341;
+        bh=nbohXr6h3h8OSKBnDnEzE/1GdOue9o7EuLF85wUA6qs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UBqF1TuQRPTvJuHV2y/ToLYPrU0Yg8qedkRNrEW1bBclLlGaTd5yujfivJhlyTUXl
-         IA3IYz6GWyJKAYzDxxZKl9pbKjFG7SLjYRpG26u79CUuO7uJ1Y0KEHYtn/XFej+YxD
-         OpZV88S9UfBc74an5q4Q1i3MQOqJAesKoD3kYBmM=
+        b=h/m1zPYc4xxNrkcnuURCwLM2hm5oqLHsCsMQS6+xid6216JcIs5BbONt/t4hlg6ra
+         dGPO5u8fq0Mw7DD9oUg4g3t3W0IfYYGeA4LC84iCmrDhdx/lEAGHOsTwsQqAziY1q5
+         e7iWt27NfZv+X5Pr/PAGG3Q/lG7XPD3B3j7ZPOFY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Pavel Machek <pavel@ucw.cz>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 021/244] leds: avoid races with workqueue
-Date:   Wed, 22 May 2019 15:22:47 -0400
-Message-Id: <20190522192630.24917-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 013/167] leds: avoid races with workqueue
+Date:   Wed, 22 May 2019 15:26:08 -0400
+Message-Id: <20190522192842.25858-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190522192630.24917-1-sashal@kernel.org>
-References: <20190522192630.24917-1-sashal@kernel.org>
+In-Reply-To: <20190522192842.25858-1-sashal@kernel.org>
+References: <20190522192842.25858-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -72,7 +72,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 6 insertions(+)
 
 diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 3c7e3487b373b..85848c5da705f 100644
+index b0e2d55acbd6f..80374c6c943ad 100644
 --- a/drivers/leds/led-class.c
 +++ b/drivers/leds/led-class.c
 @@ -57,6 +57,7 @@ static ssize_t brightness_store(struct device *dev,
@@ -84,7 +84,7 @@ index 3c7e3487b373b..85848c5da705f 100644
  	ret = size;
  unlock:
 diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-index ede4fa0ac2cce..55dec67023599 100644
+index 9ce6b32f52a19..cb84c35d64f97 100644
 --- a/drivers/leds/led-core.c
 +++ b/drivers/leds/led-core.c
 @@ -162,6 +162,11 @@ static void led_blink_setup(struct led_classdev *led_cdev,
