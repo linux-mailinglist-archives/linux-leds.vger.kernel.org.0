@@ -2,127 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F14FE26A67
-	for <lists+linux-leds@lfdr.de>; Wed, 22 May 2019 21:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89ED726A6D
+	for <lists+linux-leds@lfdr.de>; Wed, 22 May 2019 21:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729372AbfEVTBz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 May 2019 15:01:55 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:39434 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728615AbfEVTBz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 May 2019 15:01:55 -0400
-Received: by mail-lf1-f68.google.com with SMTP id f1so2503567lfl.6;
-        Wed, 22 May 2019 12:01:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uEoVEnOgoQIOVsUijdbKY5vuM1nX7A0dv6I/3RSy7ew=;
-        b=Q8GR7AyCgLLiDA4J1oHptuCGq2386/u829OxE/F/wSmCPL7tuT77T50TsbIMepsZ+l
-         9hIIEur2w3pOEFSEVkPD15+TtcHkjbT/x78AsgnQhTxkMXy6sB/Wc4DHXgS4kc3XmG77
-         9+zNnpQrQBWfzUnjSoUIem/ToLjKK8XmPdfRM7JCSE/XT4vVlcSdhaVnVJwvV//McFyH
-         o1/eVZiruvm5/Ykfqj1CHN9Sn9v3IBflAmOCFxtJPCWLvhv7pQOehlmk0hkerIUED4XF
-         v6LoxtTxm+Wteg5gyDwhhq6b9ngi0XAKvF7XI29EaDxslo4q5jKlO0IfAamH8hhbAzNc
-         mMhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uEoVEnOgoQIOVsUijdbKY5vuM1nX7A0dv6I/3RSy7ew=;
-        b=cYgN5nSa5fZKT1IuJi2agCe2jpt7oLxWTEvsYIX46I6Jv/7xLYaA0o+qaPabJBgVNp
-         SPA+bmCE+eQ1dGo500VssdNHi7u0aqGmeq0t8Rze6Bz/VMkuQ92A+8N2SYn5nDZYb6o9
-         HZhuBLTaAoA3wW3Gd2Wy7jC3yzOsI/gYW0LCeiHzGUlPLDK4IhGqmE7mA0V+/JtnruOS
-         PFvoiaVBzRFq0HT89hB0cHLhRpaGctcRp40iRtT2Fd1UemG6XlfoxPmmgo7bwqOlXl+/
-         n8ub0Jjs9Vm1VlrsNTOe/JfZIRGEDCKGA7TGSfUTbF/8Scv6GHAcM29ZKS2lsskrkeEG
-         7c4Q==
-X-Gm-Message-State: APjAAAUo9b63psenJjNEMUQzwCTnNwI1oRljhjRRIVI5dpc/LapTXfvm
-        p1Ut3oJR+B0tJBzmSTI26hI=
-X-Google-Smtp-Source: APXvYqxBYdLOI2//w1W2gCTjZiE/KSvb+hglt6yWk7FOw9OymtOdhrugJi7UsI1c3vjk9A1WiZQ38A==
-X-Received: by 2002:a05:6512:507:: with SMTP id o7mr24052117lfb.137.1558551712814;
-        Wed, 22 May 2019 12:01:52 -0700 (PDT)
-Received: from [192.168.1.17] (dma4.neoplus.adsl.tpnet.pl. [83.24.56.4])
-        by smtp.gmail.com with ESMTPSA id d2sm4266204ljc.84.2019.05.22.12.01.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 May 2019 12:01:52 -0700 (PDT)
-Subject: Re: [GIT PULL] Immutable branch between LEDs, MFD and REGULATOR
-To:     Lee Jones <lee.jones@linaro.org>
+        id S1729753AbfEVTCd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 May 2019 15:02:33 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:44832 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728615AbfEVTCd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 May 2019 15:02:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=9B8U3iqfxSIvyPWHXlqH8b3N5v5U2m5E4u+F+RrSRvo=; b=bnz2FssI+h0Va04qsA8s8eWL9
+        oDiga0Y1Y5PSIXQ4wdHLpzsEv/sDm9u/S8PFuh6H2s7FX6hJranqYP8hGGPcI1lIBzibbBWa6IwgT
+        zqBDjeGJ8vyZ7dKZSyNDiV5X9WsiThtnuEKkyhuqvulFc2i5Xrrm7tXACJ0pTgQm4SVMU=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=debutante.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpa (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hTWVR-00053O-LA; Wed, 22 May 2019 19:02:29 +0000
+Received: by debutante.sirena.org.uk (Postfix, from userid 1000)
+        id A2E0C11226BC; Wed, 22 May 2019 20:02:25 +0100 (BST)
+Date:   Wed, 22 May 2019 20:02:25 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lgirdwood@gmail.com, broonie@kernel.org
+        lee.jones@linaro.org, lgirdwood@gmail.com
+Subject: Re: [GIT PULL] Immutable branch between LEDs, MFD and REGULATOR
+Message-ID: <20190522190225.GH8582@sirena.org.uk>
 References: <20190521203038.31946-1-jacek.anaszewski@gmail.com>
- <20190522054256.GA4574@dell>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <3492171a-bcdc-bee2-684c-e1029653a811@gmail.com>
-Date:   Wed, 22 May 2019 21:01:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ <20190521211504.GD1580@sirena.org.uk>
+ <0340dce2-87fb-938d-615e-376e29f37b54@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190522054256.GA4574@dell>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="r5lq+205vWdkqwtk"
+Content-Disposition: inline
+In-Reply-To: <0340dce2-87fb-938d-615e-376e29f37b54@gmail.com>
+X-Cookie: Does the name Pavlov ring a bell?
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 5/22/19 7:42 AM, Lee Jones wrote:
-> On Tue, 21 May 2019, Jacek Anaszewski wrote:
-> 
->> The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
->>
->>    Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
->>
->> are available in the git repository at:
->>
->>    git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git tags/ti-lmu-led-drivers
->>
->> for you to fetch changes up to 13f5750a60b923d8f3f0e23902f2ece46dd733d7:
->>
->>    leds: lm36274: Introduce the TI LM36274 LED driver (2019-05-21 20:34:19 +0200)
->>
->> ----------------------------------------------------------------
->> TI LMU LED support rework and introduction of two new drivers
->> with DT bindings:
->>
->> - leds-lm3697 (entails additions to lm363x-regulator.c)
->> - leds-lm36274
->> ----------------------------------------------------------------
->> Dan Murphy (12):
-> 
->>        dt-bindings: mfd: LMU: Add the ramp up/down property
->>        dt-bindings: mfd: LMU: Add ti,brightness-resolution
->>        mfd: ti-lmu: Remove support for LM3697
->>        mfd: ti-lmu: Add LM36274 support to the ti-lmu
-> 
-> These patches were Acked "for my own reference", which means I'd
-> at least expect a discussion on how/where they would be applied.
-> 
-> It's fine for them to go in via the LED tree in this instance and I do
-> thank you for sending a PR.  Next time can we at least agree on the
-> route-in though please?
 
-Usually ack from the colliding subsystem maintainer means he
-acknowledges the patch and gives silent approval for merging
-it via the other tree.
+--r5lq+205vWdkqwtk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This is the usual workflow e.g. in case of massive reworks
-of commonly shared kernel APIs.
+On Wed, May 22, 2019 at 08:27:32PM +0200, Jacek Anaszewski wrote:
+> On 5/21/19 11:15 PM, Mark Brown wrote:
+> > On Tue, May 21, 2019 at 10:30:38PM +0200, Jacek Anaszewski wrote:
 
-Your Acked-for-MFD-by tag is not documented anywhere and I've just
-found out about its exact meaning :-) Note also that it percolated
-to the mainline git history probably because people mistakenly assumed
-it was some new convention (despite that checkpatch.pl complains about
-it). So far there are 12 occurrences thereof in git. I must admit that
-I once unduly made my contribution to that mess.
+> > >        regulator: lm363x: Make the gpio register enable flexible
+> > >        regulator: lm363x: Add support for LM36274
 
-Of course, now being taught about the exact meaning of the tag,
-I will proceed accordingly.
+> > Why have these been applied, I haven't reviewed them?  As far as I can
+> > tell they were sent before the merge window so I'd expect a resend at
+> > this point...
 
-Regarding this one - please hold on for a while with pulling
-the stuff, since we may have some updates from REGULATOR maintainers
-(hopefully Acked-by).
+> The patch set have been floating around for some time and besides
 
--- 
-Best regards,
-Jacek Anaszewski
+Most of that time as far as I can tell they weren't being posted to
+subsystem maintainers, you can't expect people to be aware of patches
+that they are not being sent and single postings get missed or dropped
+for all sorts of reasons.
+
+> the v2 you were cc'ed by Dan, I also poked you a week ago for v4 [1].
+
+That post from a week ago was you copying me into a thread I wasn't CCed
+on saying I should have been sent the patches.  My expectation would
+therefore be that someone would send me the patches, I'm obviously going
+to prioritize patches that actually get sent to me over ones where I
+have to go searching to try to turn up copies.
+
+> Don't be surprised that I assumed you simply don't care.
+
+You have unreasonable expectations here.  At the very least I would have
+expected something along the lines of "hey, you don't seem to have
+looked at these" before you just applied things, and ideally ensuring
+that the patches had actually been sent to everyone with a reasonable
+lead time so there was a good chance that review could happen.
+
+> Still, we're awaiting your comments
+
+If someone sends me the patches...
+
+> [0] https://lkml.org/lkml/2019/4/10/547
+> [1] https://lkml.org/lkml/2019/5/14/717
+
+--r5lq+205vWdkqwtk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzlnMAACgkQJNaLcl1U
+h9A7/Af7BW6/ntmrX58R5eFypYlE09SLmBNBg+a4IISELqaWA0OV3d5EmEWxL013
+UtOTyvz1JbEfYkXUIOl+jlSScl639zYNnFZKw4UzqUTMevABc21Qq6uAA6kzhX2q
+X30wiQmtjq2ytsooyk1I+1gIhPJ9kUnlQ4UsdGqAx3oE9f51jV0BCAvCApiSijLw
+WDUNmuRBmdoIw3qOHcX9U0dAqrpWgLyJT1TOOBrOpO3YGFgeWbBZY99ERGw+lUNA
+jHHEdKYnXaZm4pjFs263gUHlqx7+UYhH+2TTqNOmfdtltWmkECHXCXlAiB8Q/2u2
+8hnzlwtfFXQIJRfLIQSUIdEWRXYmGg==
+=5wSb
+-----END PGP SIGNATURE-----
+
+--r5lq+205vWdkqwtk--
