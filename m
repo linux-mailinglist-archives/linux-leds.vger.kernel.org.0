@@ -2,138 +2,115 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A346925DBF
-	for <lists+linux-leds@lfdr.de>; Wed, 22 May 2019 07:43:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F93B25E49
+	for <lists+linux-leds@lfdr.de>; Wed, 22 May 2019 08:47:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726278AbfEVFnC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 May 2019 01:43:02 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:33272 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726214AbfEVFnB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 May 2019 01:43:01 -0400
-Received: by mail-wm1-f65.google.com with SMTP id c66so3832273wme.0
-        for <linux-leds@vger.kernel.org>; Tue, 21 May 2019 22:43:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=UV86+9faBPyxG3LMeaUxCHb1Y1cnH/FV7fOPtgG5S98=;
-        b=DsZP4LP2cJulyBy4GynzLKTHzyJoCoCR+MG+Z+gHUf7P1+KlPTqh4MZlQ7dWkHBh1B
-         8iggThqkjVvRIhwpfIRB8fpHfRS7GEWqv8mxWIWY0uSi8D+dXMP3g5QjDJV5gUwDXHVG
-         MkR2NAAvUo3zXH4PatvV5weAw+f8j8XGfuUTyu9kkecLb5pJ93Zt+0vKqvhPzaFAegJH
-         qItzRiDiWbTKGma/Qlw+i6uhs2NosSoFdC725fNRNWHUMe1tKyhj/kZlZeoRFassCZLo
-         Bb/kdKZZXVy1sRbybIYU3prXHhmpf5XnffKDZCImKEFh+F77yid5QUrVMA21O8u2miet
-         O1fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=UV86+9faBPyxG3LMeaUxCHb1Y1cnH/FV7fOPtgG5S98=;
-        b=BDiXYTEGGwrLMM19t1MdA7ZOYCZDer4X4B0ByQzmrN4Xtl6sNjsx+eSe3QGqBDwAMh
-         LIOOU1GwxfmxCPVmcFzBikk0AFkQ04nyTwKquIYfTXVCGn8Z59urvXEvsb7/bXoaAfIv
-         G7+V5mL7vE78NkRhq5J7HblfMUzXdEHOZKJQxaYd1Hr0pQSAY+4EEkxtG6nYLyENhEAz
-         /mQIOZ6oxCP/ofJWblvmK18N9bgyAC1hEikljRV5Rttp+6zqbYWssNX61sSQ30oNy1dM
-         TXnM4NfzdPZQpMiJZqd5lPGxC2+xk86hfV+0rKjdnZrejELkNDx3Ih5xOKRL0EJDZxdS
-         BCkQ==
-X-Gm-Message-State: APjAAAWXiBUVObI8acyKTyftxli3Lj7U+kl3sgdPc4Ha2dSEW1eJAq43
-        OusFdAaCDeHjJNBsOXMUORFI/A==
-X-Google-Smtp-Source: APXvYqx3ytJTwrdokltodLpxK93jWrnPf+fMI1jolPsXgHoB5MtfXMSEAoN/yUl4y3UJqS1NcpWM8A==
-X-Received: by 2002:a1c:f910:: with SMTP id x16mr6258184wmh.132.1558503779936;
-        Tue, 21 May 2019 22:42:59 -0700 (PDT)
-Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id j17sm23295196wrs.77.2019.05.21.22.42.58
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 21 May 2019 22:42:59 -0700 (PDT)
-Date:   Wed, 22 May 2019 06:42:56 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lgirdwood@gmail.com, broonie@kernel.org
-Subject: Re: [GIT PULL] Immutable branch between LEDs, MFD and REGULATOR
-Message-ID: <20190522054256.GA4574@dell>
-References: <20190521203038.31946-1-jacek.anaszewski@gmail.com>
+        id S1725801AbfEVGry (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 May 2019 02:47:54 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:34216 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725796AbfEVGrx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 May 2019 02:47:53 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4M6hXdb020629;
+        Wed, 22 May 2019 06:47:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2018-07-02;
+ bh=0TJtYNpaw4550+QkEZLSfCXNpCUpqhYJNA3RgqnlBio=;
+ b=lr9nYeOYWDUN42HBXSbghdd5k1YkAx2ieWDi8h7/EX1p3riK+8jseLubgzbCV57mnDSX
+ ndr1Qp1fAdnYFMWEYyb1guOz75/9BwAh/JsYRnuBHyNoFCb2bsQmxhHB3CVjAjUyb+z4
+ MiLfqst6uKRcI7gk5N72Rc1agqnpvrbizN7UXL07i7H0q0uNV2IaiQLkW+IpbWdUykLY
+ zXyEz3jJK6yctJYqoz0aEigdhq1Hyfs8dDTpd894Dwf3MTnykAGnkhJnqWv9m4SwG5dp
+ DOU+dZJgEo1/iDtLuAGkttdVC+h7CfLnGGWGo+SQVbYYoYbS7LIgGF0FH+qkCn5SGSkY oQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 2smsk59j1e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 May 2019 06:47:45 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4M6k4qR003967;
+        Wed, 22 May 2019 06:47:44 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 2smsh1e35n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 May 2019 06:47:44 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x4M6lhjd026607;
+        Wed, 22 May 2019 06:47:43 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 22 May 2019 06:47:42 +0000
+Date:   Wed, 22 May 2019 09:47:35 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     kbuild@01.org, Dan Murphy <dmurphy@ti.com>
+Cc:     kbuild-all@01.org, linux-leds@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Subject: [j.anaszewski-leds:for-next 3/14]
+ drivers/leds/leds-ti-lmu-common.c:97 ti_lmu_common_set_ramp() warn:
+ impossible condition '(ramp_up < 0) => (0-255 < 0)'
+Message-ID: <20190522064735.GK19380@kadam>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190521203038.31946-1-jacek.anaszewski@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9264 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905220050
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9264 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905220050
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 21 May 2019, Jacek Anaszewski wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git for-next
+head:   413874ce52afa3310433e6dd73d775fd05bf92e7
+commit: 9a8e66ebeaa20a4f3eba12f0eba6835e8db16ded [3/14] leds: TI LMU: Add common code for TI LMU devices
 
-> The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
-> 
->   Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git tags/ti-lmu-led-drivers
-> 
-> for you to fetch changes up to 13f5750a60b923d8f3f0e23902f2ece46dd733d7:
-> 
->   leds: lm36274: Introduce the TI LM36274 LED driver (2019-05-21 20:34:19 +0200)
-> 
-> ----------------------------------------------------------------
-> TI LMU LED support rework and introduction of two new drivers
-> with DT bindings:
-> 
-> - leds-lm3697 (entails additions to lm363x-regulator.c)
-> - leds-lm36274
-> ----------------------------------------------------------------
-> Dan Murphy (12):
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
->       dt-bindings: mfd: LMU: Add the ramp up/down property
->       dt-bindings: mfd: LMU: Add ti,brightness-resolution
->       mfd: ti-lmu: Remove support for LM3697
->       mfd: ti-lmu: Add LM36274 support to the ti-lmu
+smatch warnings:
+drivers/leds/leds-ti-lmu-common.c:97 ti_lmu_common_set_ramp() warn: impossible condition '(ramp_up < 0) => (0-255 < 0)'
+drivers/leds/leds-ti-lmu-common.c:97 ti_lmu_common_set_ramp() warn: impossible condition '(ramp_down < 0) => (0-255 < 0)'
 
-These patches were Acked "for my own reference", which means I'd
-at least expect a discussion on how/where they would be applied.
+# https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/commit/?id=9a8e66ebeaa20a4f3eba12f0eba6835e8db16ded
+git remote add j.anaszewski-leds https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git
+git remote update j.anaszewski-leds
+git checkout 9a8e66ebeaa20a4f3eba12f0eba6835e8db16ded
+vim +97 drivers/leds/leds-ti-lmu-common.c
 
-It's fine for them to go in via the LED tree in this instance and I do
-thank you for sending a PR.  Next time can we at least agree on the
-route-in though please?
+9a8e66eb Dan Murphy 2019-05-06   83  
+9a8e66eb Dan Murphy 2019-05-06   84  int ti_lmu_common_set_ramp(struct ti_lmu_bank *lmu_bank)
+9a8e66eb Dan Murphy 2019-05-06   85  {
+9a8e66eb Dan Murphy 2019-05-06   86  	struct regmap *regmap = lmu_bank->regmap;
+9a8e66eb Dan Murphy 2019-05-06   87  	u8 ramp, ramp_up, ramp_down;
+9a8e66eb Dan Murphy 2019-05-06   88  
+9a8e66eb Dan Murphy 2019-05-06   89  	if (lmu_bank->ramp_up_usec == 0 && lmu_bank->ramp_down_usec == 0) {
+9a8e66eb Dan Murphy 2019-05-06   90  		ramp_up = 0;
+9a8e66eb Dan Murphy 2019-05-06   91  		ramp_down = 0;
+9a8e66eb Dan Murphy 2019-05-06   92  	} else {
+9a8e66eb Dan Murphy 2019-05-06   93  		ramp_up = ti_lmu_common_convert_ramp_to_index(lmu_bank->ramp_up_usec);
+9a8e66eb Dan Murphy 2019-05-06   94  		ramp_down = ti_lmu_common_convert_ramp_to_index(lmu_bank->ramp_down_usec);
+9a8e66eb Dan Murphy 2019-05-06   95  	}
+9a8e66eb Dan Murphy 2019-05-06   96  
+9a8e66eb Dan Murphy 2019-05-06  @97  	if (ramp_up < 0 || ramp_down < 0)
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Utterly unpossible!
 
->       leds: TI LMU: Add common code for TI LMU devices
->       dt-bindings: ti-lmu: Modify dt bindings for the LM3697
->       leds: lm3697: Introduce the lm3697 driver
->       regulator: lm363x: Make the gpio register enable flexible
->       dt-bindings: mfd: Add lm36274 bindings to ti-lmu
->       regulator: lm363x: Add support for LM36274
->       dt-bindings: leds: Add LED bindings for the LM36274
->       leds: lm36274: Introduce the TI LM36274 LED driver
-> 
->  .../devicetree/bindings/leds/leds-lm36274.txt      |  82 +++++
->  .../devicetree/bindings/leds/leds-lm3697.txt       |  73 ++++
->  Documentation/devicetree/bindings/mfd/ti-lmu.txt   |  88 +++--
->  drivers/leds/Kconfig                               |  23 ++
->  drivers/leds/Makefile                              |   3 +
->  drivers/leds/leds-lm36274.c                        | 174 +++++++++
->  drivers/leds/leds-lm3697.c                         | 395 +++++++++++++++++++++
->  drivers/leds/leds-ti-lmu-common.c                  | 156 ++++++++
->  drivers/mfd/Kconfig                                |   5 +-
->  drivers/mfd/ti-lmu.c                               |  23 +-
->  drivers/regulator/Kconfig                          |   2 +-
->  drivers/regulator/lm363x-regulator.c               |  56 ++-
->  include/linux/leds-ti-lmu-common.h                 |  47 +++
->  include/linux/mfd/ti-lmu-register.h                |  63 ++--
->  include/linux/mfd/ti-lmu.h                         |   5 +-
->  15 files changed, 1112 insertions(+), 83 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm3697.txt
->  create mode 100644 drivers/leds/leds-lm36274.c
->  create mode 100644 drivers/leds/leds-lm3697.c
->  create mode 100644 drivers/leds/leds-ti-lmu-common.c
->  create mode 100644 include/linux/leds-ti-lmu-common.h
+9a8e66eb Dan Murphy 2019-05-06   98  		return -EINVAL;
+9a8e66eb Dan Murphy 2019-05-06   99  
+9a8e66eb Dan Murphy 2019-05-06  100  	ramp = (ramp_up << 4) | ramp_down;
+9a8e66eb Dan Murphy 2019-05-06  101  
+9a8e66eb Dan Murphy 2019-05-06  102  	return regmap_write(regmap, lmu_bank->runtime_ramp_reg, ramp);
+9a8e66eb Dan Murphy 2019-05-06  103  
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
