@@ -2,63 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0F6625F71
-	for <lists+linux-leds@lfdr.de>; Wed, 22 May 2019 10:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A9DA260C7
+	for <lists+linux-leds@lfdr.de>; Wed, 22 May 2019 11:53:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728710AbfEVI1H (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 May 2019 04:27:07 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:44254 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728406AbfEVI1H (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 May 2019 04:27:07 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1hTMZv-0008N0-E9; Wed, 22 May 2019 08:26:27 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Dan Murphy <dmurphy@ti.com>,
+        id S1728827AbfEVJxh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 May 2019 05:53:37 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:52154 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728424AbfEVJxh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 May 2019 05:53:37 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4M9iIZU177954;
+        Wed, 22 May 2019 09:53:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2018-07-02;
+ bh=YxZ3tZX4jC6l1SWgXVpj2Fbsst/0f0ut8YRqRLSUgBc=;
+ b=xl62eqhoOOnkSTnDnT6oLbeC7rV+7cT5gGtglfoVcGnF35fuefrEkwI2UAKOrdXaY+Gj
+ ACn440G0hKR0ZaoJvtPNt8HX7ql/srPtxwR+oARmxjwxPE+HvJ2tjM7+7cEFRArL5B+e
+ C/ePm+izVgA3Y29awNzXysD7PkZRbPaxY1piCe2kcKjRWNiqRfQrMsn0OrrqnAQwFvwH
+ 8oi6oqklE2rkTuysp6RNfEOH3gCx/FbriOB7jsXBA2ZLvXiJ9ge2vOpOJzeGe7jT+1tY
+ dR4VgQXsgs6buga9s4kqVaoQXfwfd3iEyHfv4YA4Z19DcmO/0HI8b3g6SUF9WkcRBzAV 6Q== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2smsk5ak6m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 May 2019 09:53:27 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4M9rR4a038365;
+        Wed, 22 May 2019 09:53:27 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 2smsgsgmgn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 May 2019 09:53:27 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x4M9rPFX004323;
+        Wed, 22 May 2019 09:53:25 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 22 May 2019 09:53:24 +0000
+Date:   Wed, 22 May 2019 12:53:17 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Colin King <colin.king@canonical.com>
+Cc:     Dan Murphy <dmurphy@ti.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH][next] leds: TI LMU: remove redundant u8 comparisons with less than zero
-Date:   Wed, 22 May 2019 09:26:27 +0100
-Message-Id: <20190522082627.18354-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] leds: TI LMU: remove redundant u8 comparisons with
+ less than zero
+Message-ID: <20190522095317.GT31203@kadam>
+References: <20190522082627.18354-1-colin.king@canonical.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190522082627.18354-1-colin.king@canonical.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9264 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=884
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905220072
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9264 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=930 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905220071
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+No.  This isn't the right fix.  We should declare them as int instead.
 
-The u8 variables ramp_up and ramp_down are being compared to less
-than zero, this will always be false. Code is redundant so remove
-it.
-
-Addresses-Coverity: ("Unsigned compared against 0")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/leds/leds-ti-lmu-common.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/drivers/leds/leds-ti-lmu-common.c b/drivers/leds/leds-ti-lmu-common.c
-index adc7293004f1..6db47accfe62 100644
---- a/drivers/leds/leds-ti-lmu-common.c
-+++ b/drivers/leds/leds-ti-lmu-common.c
-@@ -94,9 +94,6 @@ int ti_lmu_common_set_ramp(struct ti_lmu_bank *lmu_bank)
- 		ramp_down = ti_lmu_common_convert_ramp_to_index(lmu_bank->ramp_down_usec);
- 	}
- 
--	if (ramp_up < 0 || ramp_down < 0)
--		return -EINVAL;
--
- 	ramp = (ramp_up << 4) | ramp_down;
- 
- 	return regmap_write(regmap, lmu_bank->runtime_ramp_reg, ramp);
--- 
-2.20.1
+regards,
+dan carpenter
 
