@@ -2,114 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C25EE297B8
-	for <lists+linux-leds@lfdr.de>; Fri, 24 May 2019 13:57:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9221929B5D
+	for <lists+linux-leds@lfdr.de>; Fri, 24 May 2019 17:42:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391371AbfEXL5O (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 24 May 2019 07:57:14 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:45226 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391195AbfEXL5O (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 May 2019 07:57:14 -0400
+        id S2390243AbfEXPmt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 May 2019 11:42:49 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:51138 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389206AbfEXPms (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 May 2019 11:42:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=UUh+8+/lF5nObSY6PMVsFDBwtwtanNqftEqtZfrQEdA=; b=fdEgooYjTAmXswwglf48pIJR6
-        ZQ7B7c4QM1ozuwpsECe0pIi71lEJ/8A0C2Yb47VHfeuEn8OVA0/c6IBZ07CHXx+lMEUENPzV87h39
-        I470Cf8gXp3CxeKnbTNJ2GMcv3bPm5y3JLu8I0s1enm9saaivtXRhCcFYf5cHxq5XC/tc=;
-Received: from [176.12.107.140] (helo=finisterre.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hU8om-0003BY-U5; Fri, 24 May 2019 11:57:01 +0000
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-        id E912B440046; Fri, 24 May 2019 12:56:59 +0100 (BST)
-Date:   Fri, 24 May 2019 12:56:59 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lgirdwood@gmail.com
-Subject: Re: [GIT PULL] Immutable branch between LEDs, MFD and REGULATOR
-Message-ID: <20190524115659.GC2456@sirena.org.uk>
-References: <20190521203038.31946-1-jacek.anaszewski@gmail.com>
- <20190522054256.GA4574@dell>
- <3492171a-bcdc-bee2-684c-e1029653a811@gmail.com>
- <20190523083129.GH4574@dell>
- <e7f332a3-ce4b-a058-74b3-3dfd8bccfbc8@gmail.com>
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=6LF1uAQ2oica475Ehbh+NoOEhdE3ZAb3FjLSENrt/0M=; b=1n9ifoFQv+/PqlphLj4Vv6dDg+
+        xNMyEWYx+A3Ha1qhWKM+L70RJ+VUo3PyXic61tvYA7CDuTtHwHSYq0QATSQm8nzSxYJSF5dG88hfu
+        NyhAQrSDcEjH9g2Kdbrqo28eic5i8xh5iBRjdfeGsxWRZmR41wa17P3ot1TZNTj7WciXGJlJaks0m
+        2TzQD+aEPzjZ1OjsQzhWViqZn+3v5I1UkJE3AA+P/4GUXaw446wKIhcn1a/K3rhsAzw20QU7VjRN3
+        5x81GgJ2pFBRr2+f62aWiLHngaItcqct0GnBgLf1nIgaRjhoPJU8rsSqJqligy3TOG5jVECTZsEjb
+        HYGQBvxw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hUCLF-00017C-Vi; Fri, 24 May 2019 15:42:46 +0000
+Subject: Re: linux-next: Tree for May 24 (leds-lm3697)
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
+References: <20190524140727.19d1e349@canb.auug.org.au>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f8300d14-972d-1c03-3266-836b94c1ec9a@infradead.org>
+Date:   Fri, 24 May 2019 08:42:42 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Izn7cH1Com+I3R9J"
-Content-Disposition: inline
-In-Reply-To: <e7f332a3-ce4b-a058-74b3-3dfd8bccfbc8@gmail.com>
-X-Cookie: The other line moves faster.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190524140727.19d1e349@canb.auug.org.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 5/23/19 9:07 PM, Stephen Rothwell wrote:
+> Hi all,
+> 
+> News: there will be no linux-next release on Monday.
+> 
+> Changes since 20190523:
+> 
+> The input-current tree gained a build failure so I reverted a commit.
+> 
+> The drm-fixes tree gained a build failure so I reverted a commit.
+> 
+> The v4l-dvb tree gained a conflict against Linus' tree.
+> 
+> Non-merge commits (relative to Linus' tree): 1814
+>  1870 files changed, 61172 insertions(+), 32723 deletions(-)
+> 
+> ----------------------------------------------------------------------------
+> 
+> I have created today's linux-next tree at
+> git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> (patches at http://www.kernel.org/pub/linux/kernel/next/ ).  If you
+> are tracking the linux-next tree using git, you should not use "git pull"
+> to do so as that will try to merge the new linux-next release with the
+> old one.  You should use "git fetch" and checkout or reset to the new
+> master.
+> 
+> You can see which trees have been included by looking in the Next/Trees
+> file in the source.  There are also quilt-import.log and merge.log
+> files in the Next directory.  Between each merge, the tree was built
+> with a ppc64_defconfig for powerpc, an allmodconfig for x86_64, a
+> multi_v7_defconfig for arm and a native build of tools/perf. After
+> the final fixups (if any), I do an x86_64 modules_install followed by
+> builds for x86_64 allnoconfig, powerpc allnoconfig (32 and 64 bit),
+> ppc44x_defconfig, allyesconfig and pseries_le_defconfig and i386, sparc
+> and sparc64 defconfig. And finally, a simple boot test of the powerpc
+> pseries_le_defconfig kernel in qemu (with and without kvm enabled).
+> 
+> Below is a summary of the state of the merge.
+> 
+> I am currently merging 290 trees (counting Linus' and 70 trees of bug
+> fix patches pending for the current merge release).
+> 
+> Stats about the size of the tree over time can be seen at
+> http://neuling.org/linux-next-size.html .
+> 
+> Status of my local build tests will be at
+> http://kisskb.ellerman.id.au/linux-next .  If maintainers want to give
+> advice about cross compilers/configs that work, we are always open to add
+> more builds.
+> 
+> Thanks to Randy Dunlap for doing many randconfig builds.  And to Paul
+> Gortmaker for triage and bug fixes.
+> 
 
---Izn7cH1Com+I3R9J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+seen on i386:
 
-On Thu, May 23, 2019 at 10:07:35PM +0200, Jacek Anaszewski wrote:
-> On 5/23/19 10:31 AM, Lee Jones wrote:
+ld: drivers/leds/leds-lm3697.o: in function `lm3697_probe':
+leds-lm3697.c:(.text+0x451): undefined reference to `devm_of_led_classdev_register'
 
-> > Once an immutable branch is created, it should never, ever change.  I
-> > think this is the second pull-request I've had from you [0] and the
-> > second one you've wanted to retract.  That should not happen!
+CONFIG_LEDS_CLASS=m
+CONFIG_LEDS_TI_LMU_COMMON=y
+CONFIG_LEDS_LM3697=y
 
-> This is life - it is always possible that some problems will be
-> detected in linux-next later in the cycle, either by bots or by other
-> people.
 
-If you've created an immutable branch that other people might have
-merged you should be doing incremental fixes on top of it and not
-changing it unless you've confirmed that nobody else merged it, that's
-the whole immutable thing.  If you rebase the commits are still going to
-be in other people's trees and will still end up getting merged which
-makes a mess.
+It looks to me like this is needed:
 
-> Some time ago I referred to Linus' message from 2017 discouraging
-> maintainers from cross-merging their trees, which you didn't find
-> applicable to existing MFD workflow.
+	depends on LEDS_CLASS && I2C && OF
+?
 
-> Recently Linus put stress on that again [0].
-
-There's a difference between just grabbing someone's whole tree and
-pulling in a targetted topic branch with only specific overlapping
-stuff.  There's also no requirement on people to immediately merge=20
-such a topic branch, they can always just keep it on file until it=20
-does become important for dependencies.  A lot of the MFD cross tree
-merges are happening because constants introduced in the MFD tree
-become build dependencies for other trees.
-
-Historically there were maintainers who just randomly merged people's
-entire trees which does cause lots of problems, this isn't that.
-
-> So please, if you find it reasonable to proceed with these immutable
-> branches workflow, I would first prefer to see Linus' approval for that.
-
-This is nothing new.
-
---Izn7cH1Com+I3R9J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzn3AsACgkQJNaLcl1U
-h9CzPQf/XQWXb/SlOinfwRA5a0iVYS+aE687fICb19kdMNAglAUAXsOe9FQTLaqU
-Jd48YIZ2UyPm4Noa1d3p+dnReu/WBqtq+7m5tjIXIblan+0r39xmpuwIm+t/zh71
-fSjUCaYXW/4T/0mXxWr0G4pXOR57O30TgmR9Lr0NVg5jOVxpyzz9Ein/wfeOpPq/
-HUAujAljW4pIYcJzQS3LO7svmUwtVakxzfWLIgqI27UfaMto6ANJpW/Ib0fpJYnR
-ruErQB2EtDvZz4KqH/MxuzAOIYPhy/InAx3UkOg9nO1hMGGgfntaWB3Eu4H5GC9Z
-+ep3ZXv7fhqamBL/Y0tk0RynfarR5g==
-=EqwU
------END PGP SIGNATURE-----
-
---Izn7cH1Com+I3R9J--
+-- 
+~Randy
