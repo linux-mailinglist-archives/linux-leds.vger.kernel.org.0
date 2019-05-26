@@ -2,111 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A4BC2AB52
-	for <lists+linux-leds@lfdr.de>; Sun, 26 May 2019 19:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4EFC2AB57
+	for <lists+linux-leds@lfdr.de>; Sun, 26 May 2019 19:20:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726875AbfEZRLj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 26 May 2019 13:11:39 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38718 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726622AbfEZRLj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 26 May 2019 13:11:39 -0400
-Received: by mail-wr1-f65.google.com with SMTP id d18so14563018wrs.5;
-        Sun, 26 May 2019 10:11:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=VngFnjA4I4U+hR5vVA1V+FR99S/7mW1ulvqMkxupRbI=;
-        b=GaSfJOyt+7qw6hYvN64VIrzBsznUACz44yH+Oy28DcChFwBL7LYSo4PjEO36sBGIpn
-         d7K9/49IUewk0bztOM9JWzUYo0lLDwC3jqLyOQ11OdI4hJCMKUNi3+pO6RfBjMt3LmKV
-         V0eHbhynMlSSnHVtQHJn4o/6IjPagkWRoxhIuPj/jy/5Me92S/q+QMxoqi100NP4AP8D
-         X8aKkissPhykWUVdfYO3jo8dmW3KepFjpuzJT3OiZNNJO3tT4dGE7PWHkT8KzhK0ba2M
-         qi7UBzjoYwlov/aciwBc/9Inh8lNXoNxAtUEz6EebLNVzZhY6I79kN0tQGSOVGcOX+AJ
-         ZcEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=VngFnjA4I4U+hR5vVA1V+FR99S/7mW1ulvqMkxupRbI=;
-        b=ep1bWQLsX88LOyT3P5A1A9BkYBMTVimIEFnIo0bcYt97FvL2SX09rd3yS+sk3MWYOZ
-         lj+JNubpvwHUunqxX2ey4NyAw4vHL5mLuNhKHy3guuSEUhLJ0gUYOXUOq9aTTw0Qquwa
-         FRpnoZwQ0dvRZ4zpt5SeCgIGE2IHH/KCMeLssGacMp+BLhtnTH9uXsLdXFXRbVw45xtU
-         AEpmc7KUHtlhTRHruBUcxD/3X4ki8sMrwGCy1JGqZu+9pdIwB0XKfyxaQYdVJOIKVjG1
-         F6RW+uJ1KIztuoPAFtwZRvllZFMUPGfXOstORU0iXyMzxUKFQBDxK4u6PIyp4hcg2T00
-         vqJg==
-X-Gm-Message-State: APjAAAU7MQzsXUeNVSINlPxWEQ7ZkSbZdu+64TPz1K+8Z6+Av2pMxyjB
-        Hb2qoRbtRzBGK0U785+8PWKUpB3+
-X-Google-Smtp-Source: APXvYqx2eE/N+5VbL1d/FsoGbWkSsuScJSYNiuMOiFBX9WEbS6yjguY5wdetGkEni0qw4Rb1GWYueQ==
-X-Received: by 2002:a5d:5702:: with SMTP id a2mr1368214wrv.89.1558890697582;
-        Sun, 26 May 2019 10:11:37 -0700 (PDT)
-Received: from [192.168.1.17] (dnl167.neoplus.adsl.tpnet.pl. [83.24.93.167])
-        by smtp.gmail.com with ESMTPSA id h90sm16365184wrh.15.2019.05.26.10.11.35
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 26 May 2019 10:11:36 -0700 (PDT)
-Subject: Re: [PATCH -next] leds: max77650: Remove set but not used variable
- 'parent'
-To:     YueHaibing <yuehaibing@huawei.com>, bgolaszewski@baylibre.com,
-        pavel@ucw.cz, dmurphy@ti.com
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20190525141941.16088-1-yuehaibing@huawei.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <06cdba20-4bce-6739-7db9-dcf3a3c7b6bf@gmail.com>
-Date:   Sun, 26 May 2019 19:11:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727935AbfEZRUm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 26 May 2019 13:20:42 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:53467 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727926AbfEZRUm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 26 May 2019 13:20:42 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id E829280404; Sun, 26 May 2019 19:20:29 +0200 (CEST)
+Date:   Sun, 26 May 2019 19:20:02 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Hugh Dickins <hughd@google.com>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Revert "leds: avoid races with workqueue"?
+Message-ID: <20190526172002.GB1282@xo-6d-61-c0.localdomain>
+References: <alpine.LSU.2.11.1905241540080.1674@eggly.anvils>
+ <20190525093759.GA17767@amd>
+ <alpine.LSU.2.11.1905251025300.1112@eggly.anvils>
 MIME-Version: 1.0
-In-Reply-To: <20190525141941.16088-1-yuehaibing@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.LSU.2.11.1905251025300.1112@eggly.anvils>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi YueHaibing,
+On Sat 2019-05-25 10:32:31, Hugh Dickins wrote:
+> On Sat, 25 May 2019, Pavel Machek wrote:
+> 
+> > Hi!
+> > 
+> > > I'm having to revert 0db37915d912 ("leds: avoid races with workqueue")
+> > > from my 5.2-rc testing tree, because lockdep and other debug options
+> > > don't like it: net/mac80211/led.c arranges for led_blink_setup() to be
+> > > called at softirq time, and flush_work() is not good for calling
+> > > then.
+> > 
+> > This should keep X60 working (as well as it is now; X60 will still
+> > have problems with lost events in setup like yours).
+> > 
+> > Can you test this instead of the revert?
+> 
+> Thanks, Pavel: yes, that works fine for me on the T420s, no debug
+> complaints, good and silent; and the wifi LED is blinking as before.
 
-Thank you for the patch.
+I'd like to prevent recurrence of similar problem, and I wonder if you
+can give me a hint.
 
-On 5/25/19 4:19 PM, YueHaibing wrote:
-> Fixes gcc '-Wunused-but-set-variable' warning:
-> 
-> drivers/leds/leds-max77650.c: In function max77650_led_probe:
-> drivers/leds/leds-max77650.c:67:17: warning: variable parent set but not used [-Wunused-but-set-variable]
-> 
-> It is never used and can be removed.
-> 
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
->   drivers/leds/leds-max77650.c | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-max77650.c b/drivers/leds/leds-max77650.c
-> index 6b74ce9cac12..8a8e5c65b157 100644
-> --- a/drivers/leds/leds-max77650.c
-> +++ b/drivers/leds/leds-max77650.c
-> @@ -64,7 +64,6 @@ static int max77650_led_probe(struct platform_device *pdev)
->   {
->   	struct device_node *of_node, *child;
->   	struct max77650_led *leds, *led;
-> -	struct device *parent;
->   	struct device *dev;
->   	struct regmap *map;
->   	const char *label;
-> @@ -72,7 +71,6 @@ static int max77650_led_probe(struct platform_device *pdev)
->   	u32 reg;
->   
->   	dev = &pdev->dev;
-> -	parent = dev->parent;
->   	of_node = dev->of_node;
->   
->   	if (!of_node)
-> 
+I can annotate code that can sleep with might_sleep().
 
-Applied.
+How can I annotate code that can not sleep? I might do 
 
--- 
-Best regards,
-Jacek Anaszewski
+spin_lock(&dummy);
+this_should_not_sleep();
+spin_unlock(&dummy);
+
+But I don't really need extra serialization. I just want annotations for
+lockdep. Any ideas?
+
+								Pavel
