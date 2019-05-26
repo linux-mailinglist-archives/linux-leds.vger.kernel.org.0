@@ -2,68 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4EFC2AB57
-	for <lists+linux-leds@lfdr.de>; Sun, 26 May 2019 19:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D1B92AB75
+	for <lists+linux-leds@lfdr.de>; Sun, 26 May 2019 19:37:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727935AbfEZRUm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 26 May 2019 13:20:42 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:53467 "EHLO
+        id S1727974AbfEZRhr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 26 May 2019 13:37:47 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:53895 "EHLO
         atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727926AbfEZRUm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 26 May 2019 13:20:42 -0400
+        with ESMTP id S1727959AbfEZRhr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 26 May 2019 13:37:47 -0400
 Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id E829280404; Sun, 26 May 2019 19:20:29 +0200 (CEST)
-Date:   Sun, 26 May 2019 19:20:02 +0200
+        id BF479802BE; Sun, 26 May 2019 19:37:35 +0200 (CEST)
+Date:   Sun, 26 May 2019 19:37:00 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Hugh Dickins <hughd@google.com>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Revert "leds: avoid races with workqueue"?
-Message-ID: <20190526172002.GB1282@xo-6d-61-c0.localdomain>
-References: <alpine.LSU.2.11.1905241540080.1674@eggly.anvils>
- <20190525093759.GA17767@amd>
- <alpine.LSU.2.11.1905251025300.1112@eggly.anvils>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     hughd@google.com, linux-leds@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>
+Subject: Re: leds: avoid flush_work in atomic context
+Message-ID: <20190526173700.GD1282@xo-6d-61-c0.localdomain>
+References: <20190526073854.GA13681@amd>
+ <5a741b3c-cf45-3577-9b6c-653f083ca96b@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.LSU.2.11.1905251025300.1112@eggly.anvils>
+In-Reply-To: <5a741b3c-cf45-3577-9b6c-653f083ca96b@gmail.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat 2019-05-25 10:32:31, Hugh Dickins wrote:
-> On Sat, 25 May 2019, Pavel Machek wrote:
+Hi!
+
+> Thank you for the patch.
 > 
-> > Hi!
-> > 
-> > > I'm having to revert 0db37915d912 ("leds: avoid races with workqueue")
-> > > from my 5.2-rc testing tree, because lockdep and other debug options
-> > > don't like it: net/mac80211/led.c arranges for led_blink_setup() to be
-> > > called at softirq time, and flush_work() is not good for calling
-> > > then.
-> > 
-> > This should keep X60 working (as well as it is now; X60 will still
-> > have problems with lost events in setup like yours).
-> > 
-> > Can you test this instead of the revert?
+> I've applied it however I'm not sure if it is an official
+> submission, since it doesn't look like (no [PATCH] tag
+> in the subject).
+
+It was official submission :-).
+
+> Beside that 'Fixes' tag is somewhat incomplete - it should be
+> generated using following git command:
 > 
-> Thanks, Pavel: yes, that works fine for me on the T420s, no debug
-> complaints, good and silent; and the wifi LED is blinking as before.
+> git log -1 0db37915d912 --format='Fixes: %h ("%s")'
+> 
+> Fixed that and applied to the for-next branch and will push
+> it upstream after a bit of testing for rc3 or rc4.
 
-I'd like to prevent recurrence of similar problem, and I wonder if you
-can give me a hint.
+Ok. Note that this did not crash Hugh's machine but it may crash
+someone else's, and probably crashed mine already.
 
-I can annotate code that can sleep with might_sleep().
+So... it makes sense to push it to Linus "soon".
 
-How can I annotate code that can not sleep? I might do 
-
-spin_lock(&dummy);
-this_should_not_sleep();
-spin_unlock(&dummy);
-
-But I don't really need extra serialization. I just want annotations for
-lockdep. Any ideas?
-
+Thanks,
 								Pavel
