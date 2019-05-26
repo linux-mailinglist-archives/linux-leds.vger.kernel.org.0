@@ -2,96 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ABCE22A9C6
-	for <lists+linux-leds@lfdr.de>; Sun, 26 May 2019 14:48:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C0592AB4E
+	for <lists+linux-leds@lfdr.de>; Sun, 26 May 2019 18:57:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727724AbfEZMsw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 26 May 2019 08:48:52 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:54792 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727666AbfEZMsv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 26 May 2019 08:48:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=6zgWbrZCatruS6U0cRn/mz67ZNTBDqWHlZXO65j6CD0=; b=lX0gb4WieEikt7XGVfntiny+o
-        Fb0KjWM/GhznWZLrMfA5KfGgg984tOM5zGE/C+VaZI6dvmeRDpMUbmV71Offh8t/AKqIjDwF/80F+
-        buPt0N44elY+JQKZFeIzV+t7RMdRLRCAvXF16nz3eUiF2oW/vKX3tqnXuJfdRQVz5QzuE=;
-Received: from 92.40.249.190.threembb.co.uk ([92.40.249.190] helo=finisterre.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hUsZw-0002cN-Mp; Sun, 26 May 2019 12:48:45 +0000
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-        id 83189440046; Sun, 26 May 2019 13:48:38 +0100 (BST)
-Date:   Sun, 26 May 2019 13:48:38 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, lgirdwood@gmail.com,
-        lee.jones@linaro.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH v4 1/6] regulator: lm363x: Make the gpio register
- enable flexible
-Message-ID: <20190526124838.GH2456@sirena.org.uk>
-References: <20190522192733.13422-1-dmurphy@ti.com>
- <20190522192733.13422-2-dmurphy@ti.com>
- <20190523130311.GA17245@sirena.org.uk>
- <d4673abc-442c-83eb-1830-7f7ed9d8419e@ti.com>
+        id S1727937AbfEZQ5q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 26 May 2019 12:57:46 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:33428 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727880AbfEZQ5q (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 26 May 2019 12:57:46 -0400
+Received: by mail-wm1-f67.google.com with SMTP id v19so4730664wmh.0;
+        Sun, 26 May 2019 09:57:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=n2hs+YvjV76ctUXsqlZjlfSiFrqgNxOOpQSUXQbPvxA=;
+        b=cXwvb/ufIpMdbl6aRjMUZNsyECgC+w+b6uijRG8qPVfSeWY5WWzITURLHF2foryWPN
+         tcMo2c2hpjVN27h6/dm8vTBQda2znayvIEwElBRG5q/U6yRrh+w6Icahv+mPuUCmUJgj
+         NbuXxLxnUf2l5GjdVlLrVEtGsd/JKABqatBehafYoOF4rCS1hoJdrgyaLwVQkLnWb0jw
+         PCYkcthZazrz958JM8eOft5uHJzXnJ1gb0fn+VbEFJ/zE9hEG4QCsRZWv1JkOLSl385S
+         3MXXTkllLpEDwPQWloLGF8GsKLWo4y4y7dvybZsU+P+5vgjFzHZHOJlAiaFb43faBwOS
+         V/gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=n2hs+YvjV76ctUXsqlZjlfSiFrqgNxOOpQSUXQbPvxA=;
+        b=ubMOMPx8SJ2zQvONZeH3nGBhMTk8eon/XCu3Fj3VR6QDd+HjB8iN9j+wesUGWJkH32
+         hTG1hzewMVFJvfz7dXy5fEpZwaeTy+wj3GNNTfwboFJDrmZIiqELyjLHZOYG8wYJlR4D
+         vgUlAWCIH5ZjXCgN69rVluifsqBcjuw6l7UCBysT/otVjgAIrZnYCZ1pF+CchRhVeplx
+         aqoYzHeSpgefD10odSSmJdANtjpbcLOrA8ILrAHyBdxLmHJNz4eaPvepqaITY1NqIBOX
+         pyHcRfMr0dzKcyjMlnD/+7RKgQqcZDSJqwVI/AGUxOshFiNYBVOgFw24MAANOAJumzCh
+         ka7w==
+X-Gm-Message-State: APjAAAXl3qKUxzc+JdzTZDs0+nxY/KuNAYwOHgItmAFABygWqRZanE3C
+        i0lBOpOJOIZqfePj+xa95+8cgHpp
+X-Google-Smtp-Source: APXvYqxQ5moE9eS/Rn0QwMhETpg6hTy8BxNprOyIzjwrdLJpL8eYixPHWlsBZbUIEVaTxrpKuHyINg==
+X-Received: by 2002:a1c:a50e:: with SMTP id o14mr9967998wme.77.1558889864526;
+        Sun, 26 May 2019 09:57:44 -0700 (PDT)
+Received: from [192.168.1.17] (dnl167.neoplus.adsl.tpnet.pl. [83.24.93.167])
+        by smtp.gmail.com with ESMTPSA id e14sm8480763wma.41.2019.05.26.09.57.42
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 26 May 2019 09:57:43 -0700 (PDT)
+Subject: Re: leds: avoid flush_work in atomic context
+To:     Pavel Machek <pavel@ucw.cz>, hughd@google.com,
+        linux-leds@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>
+References: <20190526073854.GA13681@amd>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <5a741b3c-cf45-3577-9b6c-653f083ca96b@gmail.com>
+Date:   Sun, 26 May 2019 18:57:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="8/pVXlBMPtxfSuJG"
-Content-Disposition: inline
-In-Reply-To: <d4673abc-442c-83eb-1830-7f7ed9d8419e@ti.com>
-X-Cookie: The other line moves faster.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190526073854.GA13681@amd>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Pavel,
 
---8/pVXlBMPtxfSuJG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thank you for the patch.
 
-On Thu, May 23, 2019 at 08:50:20AM -0500, Dan Murphy wrote:
-> On 5/23/19 8:03 AM, Mark Brown wrote:
-> > On Wed, May 22, 2019 at 02:27:28PM -0500, Dan Murphy wrote:
+I've applied it however I'm not sure if it is an official
+submission, since it doesn't look like (no [PATCH] tag
+in the subject).
 
-> > Is it guaranteed that the bitmask for enabling the use of the GPIO is
-> > going to be the same for all regulators?  The bitmasks for the regulator
-> > enable look to be different, and it also looks like this setting might
-> > affect multiple regulators since it seems there are multiple enable bits
-> > in the same register.  If this affects multiple regulators then how's
-> > that working at the minute?
+Beside that 'Fixes' tag is somewhat incomplete - it should be
+generated using following git command:
 
-> Yes for the 3632 and 36274 bit0 is the EXT_EN for LCM on these chips.
-> LM3631 does not have LCM GPIO control so there is no setting and this should not be called.
-> If it is then the developer implemented the DT wrong.
+git log -1 0db37915d912 --format='Fixes: %h ("%s")'
 
-This feels fragile - it works for the current users but it's just
-assuming that the placement of this bit will always be in the same
-position in the same register as the enable and will silently fail if a
-new chip variant does things differently.  Either storing the data
-separately somewhere driver specific or just having explicit switch
-statements would be more robust.
+Fixed that and applied to the for-next branch and will push
+it upstream after a bit of testing for rc3 or rc4.
 
---8/pVXlBMPtxfSuJG
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+Jacek Anaszewski
 
------BEGIN PGP SIGNATURE-----
+On 5/26/19 9:38 AM, Pavel Machek wrote:
+> 
+> It turns out that various triggers use led_blink_setup() from atomic
+> context, so we can't do a flush_work there. Flush is still needed for
+> slow LEDs, but we can move it to sysfs code where it is safe.
+>      
+>      WARNING: inconsistent lock state
+>      5.2.0-rc1 #1 Tainted: G        W
+>      --------------------------------
+>      inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} usage.
+>      swapper/1/0 [HC0[0]:SC1[1]:HE1:SE0] takes:
+>      000000006e30541b
+>      ((work_completion)(&led_cdev->set_brightness_work)){+.?.}, at:
+>      +__flush_work+0x3b/0x38a
+>      {SOFTIRQ-ON-W} state was registered at:
+>        lock_acquire+0x146/0x1a1
+>       __flush_work+0x5b/0x38a
+>       flush_work+0xb/0xd
+>       led_blink_setup+0x1e/0xd3
+>       led_blink_set+0x3f/0x44
+>       tpt_trig_timer+0xdb/0x106
+>       ieee80211_mod_tpt_led_trig+0xed/0x112
+>      
+> Fixes: 0db37915d912
+> Signed-off-by: Pavel Machek <pavel@ucw.cz>
+> Tested-by: Hugh Dickins <hughd@google.com>
+>      
+> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+> index aefac4d..9f8da39 100644
+> --- a/drivers/leds/led-core.c
+> +++ b/drivers/leds/led-core.c
+> @@ -166,11 +166,6 @@ static void led_blink_setup(struct led_classdev *led_cdev,
+>   		     unsigned long *delay_on,
+>   		     unsigned long *delay_off)
+>   {
+> -	/*
+> -	 * If "set brightness to 0" is pending in workqueue, we don't
+> -	 * want that to be reordered after blink_set()
+> -	 */
+> -	flush_work(&led_cdev->set_brightness_work);
+>   	if (!test_bit(LED_BLINK_ONESHOT, &led_cdev->work_flags) &&
+>   	    led_cdev->blink_set &&
+>   	    !led_cdev->blink_set(led_cdev, delay_on, delay_off))
+> diff --git a/drivers/leds/trigger/ledtrig-timer.c b/drivers/leds/trigger/ledtrig-timer.c
+> index ca898c1..427fc3c 100644
+> --- a/drivers/leds/trigger/ledtrig-timer.c
+> +++ b/drivers/leds/trigger/ledtrig-timer.c
+> @@ -113,6 +113,11 @@ static int timer_trig_activate(struct led_classdev *led_cdev)
+>   		led_cdev->flags &= ~LED_INIT_DEFAULT_TRIGGER;
+>   	}
+>   
+> +	/*
+> +	 * If "set brightness to 0" is pending in workqueue, we don't
+> +	 * want that to be reordered after blink_set()
+> +	 */
+> +	flush_work(&led_cdev->set_brightness_work);
+>   	led_blink_set(led_cdev, &led_cdev->blink_delay_on,
+>   		      &led_cdev->blink_delay_off);
+>   
+> 
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzqiyUACgkQJNaLcl1U
-h9DtKwgAgwYVujK+ai00tAc8vMnYP77hZtQP9CqqTq6PKk5xDoaPXdedWl0j84c6
-4cf103WBzETd4ECf09dnm5ssZQBw/KQCjspYm20+oQdMqVytCdxRzq3nhC3YBbpy
-Wg2Bg550H8KDNNvHLwoFn7H1FdMtpD98mdJJ7vTXuLFx14vdKZ4Ya5oDEqHXAI4u
-ed5a4UPMTW7ptNb2jk2Mo5vDYP+9K7Z1+pLaCBo7EWUMlYkTKfHk1gnXea/6zCKa
-A6AZtafNbxcsToTsVoWBML7bw3FLH8oyWkm79NFIUZuGB+Zw0Ms98pR63gJXihLf
-rm1njloC7RIodeEOcKIzPVqSKwsjcg==
-=wc2b
------END PGP SIGNATURE-----
-
---8/pVXlBMPtxfSuJG--
