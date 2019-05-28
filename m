@@ -2,154 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78E072BB01
-	for <lists+linux-leds@lfdr.de>; Mon, 27 May 2019 22:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BCC92BC81
+	for <lists+linux-leds@lfdr.de>; Tue, 28 May 2019 02:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726931AbfE0UAs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 May 2019 16:00:48 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52556 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726801AbfE0UAs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 May 2019 16:00:48 -0400
-Received: by mail-wm1-f67.google.com with SMTP id y3so511343wmm.2;
-        Mon, 27 May 2019 13:00:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qs0hduG7r9ZuCuorXfKiLxTX7AgEzf0fkdnIQ/+Us5w=;
-        b=jKp6Tj6GYHwtJkdSEmERhGmELlQG2xE1zCTdm+gWm+2McCGc1YmqNpVm2267/kbzuW
-         aWASqvy/KZMFsUCuBfchpe1yePkV4rp523HBnDvumPq+iojYq9eEteeTkjCA+AV96l8D
-         M//QMSC2goAgc9eI2Dd9ckCuzyIUe9pVvsKjioyp9tWmogB4Pjb6Ea1ifo0e6sflOvJm
-         AbyLOwRV1wcngpJfSXYKu0NpHTWJZ6cx+Odz4iDqCYzKob5JlaMmDBfYUJ0Iui3Cp2/D
-         54iJbnjZP3nRdJRvbPLUKvuitGKwQaoOUv5dwiKmTtvo1uJnR7PaLXjOn7HeDZnxR7mS
-         9M1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qs0hduG7r9ZuCuorXfKiLxTX7AgEzf0fkdnIQ/+Us5w=;
-        b=VRvEwuA4094KnoIyJIWXp/b5T92+aSiNScBIb8Mz+yFYOK2f5Zk/fYnT0NiYS0Lr5U
-         A9Hp8ezDZwYCYsUvygW+vR8hEH9SWamcFeLUENyLMz0RJPFFN/4zM3BEXjuTFOb5cwwR
-         4ycShLp4a8e7V6KzOlgNZxE8gLr64Lb0UxBRw2JpthO9DXXTkD54/8dvgayW5REImtQf
-         hchev6t/pI9mD1e2QobvJjW2SuG+5xVVi5rjlEJSCrz2nE1tAYHiCUyMWDi3p0ffLqWc
-         VxxaHERBE+cKVqIUO2ZngGOkiusiVqaBrNIvi+zxVaZk+cBL/YHMEAYfcp+DSw4nTZ2k
-         7YUg==
-X-Gm-Message-State: APjAAAUGdn8Zr8Jp4FQgiyDPon1FRgq9KitDWmSXSob/UGziaFD0Mtny
-        t5FiZmdmrN5wQfwq1Mp9CTohdBeM
-X-Google-Smtp-Source: APXvYqwdr28CqJsor9aafRQ5eOruKDuW6LisxlprBS+CBeHT/FESW9Rvn4qI8ioQhs8rwwgYlqEoNA==
-X-Received: by 2002:a1c:c00b:: with SMTP id q11mr456498wmf.4.1558987245546;
-        Mon, 27 May 2019 13:00:45 -0700 (PDT)
-Received: from [192.168.1.17] (bkn17.neoplus.adsl.tpnet.pl. [83.28.181.17])
-        by smtp.gmail.com with ESMTPSA id l190sm636252wml.25.2019.05.27.13.00.43
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 27 May 2019 13:00:44 -0700 (PDT)
+        id S1727128AbfE1Apm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 May 2019 20:45:42 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:34284 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726979AbfE1Apm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 May 2019 20:45:42 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x4S0jaiX058237;
+        Mon, 27 May 2019 19:45:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1559004336;
+        bh=1JnGHZvHyL2VOmJQfXsquvMDTMdCkBKneNCnKVBEnjo=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=nso+2l6CVVL2pmQd0wDtsjoc63heTFxs8fkPdAhYcKGPkzK3MKjpCn4ODoS9a+tuE
+         xfCWJv8AVjI5SPcIVG/bpYZHMFKgbhuY31e2mh6Z2gFo2awLVBGTNHVJn33mi5qGsW
+         Gnwa/gWy8Ev0Bmot+JdTfSUBlaAqxFIvQhwZQxFg=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x4S0jaDH110968
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 27 May 2019 19:45:36 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 27
+ May 2019 19:45:35 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 27 May 2019 19:45:36 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x4S0jZuM037366;
+        Mon, 27 May 2019 19:45:35 -0500
 Subject: Re: [PATCH v3 1/9] leds: multicolor: Add sysfs interface definition
-To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz, robh+dt@kernel.org
-Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+To:     Pavel Machek <pavel@ucw.cz>
+CC:     <jacek.anaszewski@gmail.com>, <robh+dt@kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
 References: <20190523190820.29375-1-dmurphy@ti.com>
- <20190523190820.29375-2-dmurphy@ti.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <f01ac400-efda-80a8-4d63-1e2add5e054a@gmail.com>
-Date:   Mon, 27 May 2019 22:00:42 +0200
+ <20190523190820.29375-2-dmurphy@ti.com> <20190527103355.GA5287@amd>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <522728b0-147b-3708-fea1-88a895491e05@ti.com>
+Date:   Mon, 27 May 2019 19:45:34 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190523190820.29375-2-dmurphy@ti.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <20190527103355.GA5287@amd>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Dan,
+Pavel
 
-Thank you for the update.
+On 5/27/19 5:33 AM, Pavel Machek wrote:
+> On Thu 2019-05-23 14:08:12, Dan Murphy wrote:
+>> Add a documentation of LED Multicolor LED class specific
+>> sysfs attributes.
+>>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>> ---
+>>   .../ABI/testing/sysfs-class-led-multicolor    | 57 +++++++++++++++++++
+>>   1 file changed, 57 insertions(+)
+>>   create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>> new file mode 100644
+>> index 000000000000..2f102ede258b
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>> @@ -0,0 +1,57 @@
+>> +What:		/sys/class/leds/<led>/colors/sync_enable
+>> +Date:		April 2019
+> I believe I suggested more reasonable interface. Why not use that?
+>
 
-One thing is missing here - we need to document how legacy brightness
-levels map to the sub-LED color levels, i.e. what you do in
-multicolor_set_brightness().
+Can you please provide the reference to your interface?
 
-Best regards,
-Jacek Anaszewski
+These patchsets have been around for a while (Decemeber 2018) and I 
+cannot seem to find the reference to your suggestion.
 
-On 5/23/19 9:08 PM, Dan Murphy wrote:
-> Add a documentation of LED Multicolor LED class specific
-> sysfs attributes.
-> 
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
->   .../ABI/testing/sysfs-class-led-multicolor    | 57 +++++++++++++++++++
->   1 file changed, 57 insertions(+)
->   create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> new file mode 100644
-> index 000000000000..2f102ede258b
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> @@ -0,0 +1,57 @@
-> +What:		/sys/class/leds/<led>/colors/sync_enable
-> +Date:		April 2019
-> +KernelVersion:	5.2
-> +Contact:	Dan Murphy <dmurphy@ti.com>
-> +Description:	read/write
-> +		Writing a 1 to this file will enable the synchronization of all
-> +		the defined color LEDs within the LED node.  Brightness values
-> +		for each LED will be stored and written when sync is set to 1.
-> +		Writing a 0 to this file will disable syncing and allow
-> +		individual control of the LEDs brightness settings.
-> +
-> +What:		/sys/class/leds/<led>/colors/sync
-> +Date:		April 2019
-> +KernelVersion:	5.2
-> +Contact:	Dan Murphy <dmurphy@ti.com>
-> +Description:	write only
-> +		Writing a 1 to this file while sync_enable is set to 1 will
-> +		write the current brightness values to all defined LEDs within
-> +		the LED node.  All LEDs defined will be configured based
-> +		on the brightness that has been requested.
-> +
-> +		If sync_enable is set to 0 then writing a 1 to sync has no
-> +		affect on the LEDs.
-> +
-> +What:		/sys/class/leds/<led>/colors/<led_color>/brightness
-> +Date:		April 2019
-> +KernelVersion:	5.2
-> +Contact:	Dan Murphy <dmurphy@ti.com>
-> +Description:	read/write
-> +		The led_color directory is dynamically created based on the
-> +		colors defined by the registrar of the class.
-> +		The led_color can be but not limited to red, green, blue,
-> +		white, amber, yellow and violet.  Drivers can also declare a
-> +		LED color for presentation.  There is one directory per color
-> +		presented.  The brightness file is created under each
-> +		led_color directory and controls the individual LED color
-> +		setting.
-> +
-> +		If sync is enabled then	writing the brightness value of the LED
-> +		is deferred until a 1 is written to
-> +		/sys/class/leds/<led>/color/sync.  If syncing is
-> +		disabled then the LED brightness value will be written
-> +		immediately to the LED driver.
-> +
-> +		The value of the color is from 0 to
-> +		/sys/class/leds/<led>/colors/<led_color>/max_brightness.
-> +
-> +What:		/sys/class/leds/<led>/colors/<led_color>/max_brightness
-> +Date:		April 2019
-> +KernelVersion:	5.2
-> +Contact:	Dan Murphy <dmurphy@ti.com>
-> +Description:	read only
-> +		Maximum brightness level for the LED color, default is
-> +		255 (LED_FULL).
-> +
-> +		If the LED does not support different brightness levels, this
-> +		should be 1.
-> 
+The suggestion may have been mired in the brightness model discussions.
 
+So I don't want to over look what you suggested as it may be more 
+reasonable then what I have implemented.
+
+Dan
 
