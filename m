@@ -2,142 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82DA92DEFF
-	for <lists+linux-leds@lfdr.de>; Wed, 29 May 2019 15:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 079332E09C
+	for <lists+linux-leds@lfdr.de>; Wed, 29 May 2019 17:10:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727220AbfE2N6Z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 29 May 2019 09:58:25 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:37492 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727014AbfE2N6Z (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 May 2019 09:58:25 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 7so1692810wmo.2
-        for <linux-leds@vger.kernel.org>; Wed, 29 May 2019 06:58:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=qk0HGBnrffxH0SszLcEFWuIbH/VkDg7vULoFZ+xx0Kc=;
-        b=QdxMexFkAlzFN+PfB1ElJBUUAAqH94q9YgBqRg3iwX2qMor9To0i2ro6IzOHJ5q0bR
-         lVQCV4jJJbW2ayh/SGGzAb8zFE8i8fS0Ta/sBgsfayq+7MS8EWeflIjpIGPpCd88J3Lr
-         gi74EMKfustUw7SYsrSrlzOB3uXKKlobtbDHfkHpwkuEF7P5NLmj/C18ll4IfqvQrSeU
-         5L5O0kvAkgy3IyumQGsb/iCDlL3QgdKoNsuQUgvxSDq/1l+O1LglTe2H/nXRudsjk0JU
-         uzBIVVqMRZPR6DxOkGvrJFejCrvJgRMgvPdgQrzGLZLh4gVXQVCxUaklGk1sqZSzHbV1
-         gluA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=qk0HGBnrffxH0SszLcEFWuIbH/VkDg7vULoFZ+xx0Kc=;
-        b=oypxXvxbzYigETVFQr565gM0Bs+u0RAZHN1G2c25/GZWcEo+Uhtkr9kbcglRoytxHT
-         u0nKW7pIFOoJEX1J5UYPoQq0Svt4W9HNX4Q9xStQ6JezvXeD+WqsAu5/uZsgNznMoBOa
-         R1WWa/NcKDHZW8vNDMoSegvxIzO3L0VQFrJdhFeHKHgFR836g452xyP+8q653ezqSRlv
-         TV99czsYrmDLbuDbtTsJ6wTyDcVgwojhPiyfesvKeeE9qOl4qhcK8i5qjvmAOxBIpG5l
-         n9bAzOSklHxJLYCav7F7C9j8NBbZ0U9cPFIiqE/ywKFHTDOVoBOwa2qF3NNLLCnRDjh3
-         pT+Q==
-X-Gm-Message-State: APjAAAWYz+Oq13PzL+WY+D1PKFjqX+4yh98BMdZUhwO/0LRgIC6lSNTX
-        erNK8c99Omu3yUnWW2tP2ykJCA==
-X-Google-Smtp-Source: APXvYqze12mMzt5a2klvAWdo6ZVb9KQXiqj6wF4yVUfnsNbjdM8VvzW17UUMXRJjnqARdqK9wvKZcw==
-X-Received: by 2002:a7b:ce9a:: with SMTP id q26mr2105006wmj.11.1559138303516;
-        Wed, 29 May 2019 06:58:23 -0700 (PDT)
-Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id d11sm17124712wrv.72.2019.05.29.06.58.22
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 29 May 2019 06:58:22 -0700 (PDT)
-Date:   Wed, 29 May 2019 14:58:21 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
-        broonie@kernel.org, lgirdwood@gmail.com,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH v4 6/6] leds: lm36274: Introduce the TI LM36274
- LED driver
-Message-ID: <20190529135821.GK4574@dell>
+        id S1726498AbfE2PKN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 29 May 2019 11:10:13 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:38516 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725914AbfE2PKM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 May 2019 11:10:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=EmV3+mm8xVIYULNsB7o8Zl6HJvO8Q8TYrCH6IuDaJa4=; b=abwNwYqwKkqxBhuv7lSPID6gB
+        W73kiZ0C3uC2yF5dXGapSIT0+mmfFVulFxtchgCujf/vCo6X2RD5SeUA/o6J40UK1OKTJhNyl35vn
+        7XpnR9HfppDgEaa7c83zO4/AZnzktGD11wk2BNAPVvTPfxU+WQP/OYifv+iOvgrhE/Xpw=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=finisterre.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hW0DK-00050l-9k; Wed, 29 May 2019 15:10:02 +0000
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+        id E417A440046; Wed, 29 May 2019 16:10:00 +0100 (BST)
+Date:   Wed, 29 May 2019 16:10:00 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, lgirdwood@gmail.com,
+        lee.jones@linaro.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH v4 1/6] regulator: lm363x: Make the gpio register
+ enable flexible
+Message-ID: <20190529151000.GP2456@sirena.org.uk>
 References: <20190522192733.13422-1-dmurphy@ti.com>
- <20190522192733.13422-7-dmurphy@ti.com>
- <20190523125012.GB20354@amd>
- <0c2bd6af-92c5-2458-dc41-1ea413545347@ti.com>
- <89a80aa8-66ee-d0ec-fa54-c55ca8de06af@gmail.com>
+ <20190522192733.13422-2-dmurphy@ti.com>
+ <20190523130311.GA17245@sirena.org.uk>
+ <d4673abc-442c-83eb-1830-7f7ed9d8419e@ti.com>
+ <20190526124838.GH2456@sirena.org.uk>
+ <2398099b-16e6-f155-5852-45ba3dbc21ef@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="MmQIYbZiCoQ2kDro"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <89a80aa8-66ee-d0ec-fa54-c55ca8de06af@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <2398099b-16e6-f155-5852-45ba3dbc21ef@ti.com>
+X-Cookie: The other line moves faster.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 24 May 2019, Jacek Anaszewski wrote:
 
-> Hi,
-> 
-> On 5/23/19 9:09 PM, Dan Murphy wrote:
-> > Pavel
-> > 
-> > Thanks for the review
-> > 
-> > On 5/23/19 7:50 AM, Pavel Machek wrote:
-> > > Hi!
-> > > 
-> > > > +++ b/drivers/leds/leds-lm36274.c
-> > > 
-> > > > +static int lm36274_parse_dt(struct lm36274 *lm36274_data)
-> > > > +{
-> > > > +	struct fwnode_handle *child = NULL;
-> > > > +	char label[LED_MAX_NAME_SIZE];
-> > > > +	struct device *dev = &lm36274_data->pdev->dev;
-> > > > +	const char *name;
-> > > > +	int child_cnt;
-> > > > +	int ret = -EINVAL;
-> > > > +
-> > > > +	/* There should only be 1 node */
-> > > > +	child_cnt = device_get_child_node_count(dev);
-> > > > +	if (child_cnt != 1)
-> > > > +		return ret;
-> > > 
-> > > I'd do explicit "return -EINVAL" here.
-> > > 
-> > 
-> > ACK
-> > 
-> > > > +static int lm36274_probe(struct platform_device *pdev)
-> > > > +{
-> > > > +	struct ti_lmu *lmu = dev_get_drvdata(pdev->dev.parent);
-> > > > +	struct lm36274 *lm36274_data;
-> > > > +	int ret;
-> > > > +
-> > > > +	lm36274_data = devm_kzalloc(&pdev->dev, sizeof(*lm36274_data),
-> > > > +				    GFP_KERNEL);
-> > > > +	if (!lm36274_data) {
-> > > > +		ret = -ENOMEM;
-> > > > +		return ret;
-> > > > +	}
-> > > 
-> > > And certainly do "return -ENOMEM" explicitly here.
-> > > 
-> > 
-> > ACK
-> > 
-> > > Acked-by: Pavel Machek <pavel@ucw.cz>
-> 
-> I've done all amendments requested by Pavel and updated branch
-> ib-leds-mfd-regulator on linux-leds.git, but in the same time
+--MmQIYbZiCoQ2kDro
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What do you mean by updated?  You cannot update an 'ib' (immutable
-branch).  Immutable means that it cannot change, by definition.
+On Wed, May 29, 2019 at 06:51:32AM -0500, Dan Murphy wrote:
 
-> dropped the merge from the for-next.
-> 
-> We will proceed further once we clarify the issue of cross-merging
-> recently raised again by Linus.
-> 
+> Although I don't disagree with you I don't see how the interface is fragi=
+le
+> with only these 3 regulators defined.
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> Would it not be prudent to amend this driver if/when a new regulator is
+> needed that has a different enable bit/register combination?=A0=A0 And if=
+ that
+
+The fragility I'm worried about is someone forgetting to make suitable
+updates, especially if they don't use the feature in their own system.
+
+> was the case I would almost expect a different driver completely if the
+> regmap did not line up correctly.=A0 I only reused this driver because the
+> registers and bits lined up and did not think it was necessary to create a
+> whole new driver.
+
+This is a single register bit which is set once on startup isn't it?  It
+seems like exactly the sort of thing that a hardware designer might
+change incompatibly, perhaps even for good reasons like adding more
+flexibility over which pins can be used to control the enable and far
+=66rom something that would require a totally new driver if it was handled
+differently.
+
+--MmQIYbZiCoQ2kDro
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzuoMMACgkQJNaLcl1U
+h9CHOwf/UTUIOVotY6+NILgR0Cw+Y05M6AKN4cKcbuwRRwmm1J5pa51uu354zrST
+lHS9DeCOTICl1VOZ4foUZ2puX0m/dClezj0InMSDzh8QYhqPJDpG8l+RBRtG1Uuo
+oX+BePc+pB59jJsTM7MJixZ295Z/x5hCOMrlofwAVgN7N8a4ROG4JNki6abmidEA
+FX4nfqRQICbLPYrXpMCoVqMwh8Qi0E7pD5YBrRlJ9RnG5VbVVZiKjieRUj5x4edV
+aOdFllk8NGf1A6fp5q/DALioeamKiuad6Eyx8CUbxgHo6In8DnfCBKbf23cUZakA
+qmg5QUork2WSm5tWHSU11Ami190r+g==
+=dJBD
+-----END PGP SIGNATURE-----
+
+--MmQIYbZiCoQ2kDro--
