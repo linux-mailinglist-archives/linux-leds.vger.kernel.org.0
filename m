@@ -2,152 +2,113 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44AB72F7F9
-	for <lists+linux-leds@lfdr.de>; Thu, 30 May 2019 09:38:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B6482FDCA
+	for <lists+linux-leds@lfdr.de>; Thu, 30 May 2019 16:31:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbfE3Hic (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 May 2019 03:38:32 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:41008 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726027AbfE3Hib (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 May 2019 03:38:31 -0400
-Received: by mail-wr1-f66.google.com with SMTP id c2so3439654wrm.8
-        for <linux-leds@vger.kernel.org>; Thu, 30 May 2019 00:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=7nvQSt9u8hnEYp0RlBDRlIGBODePoq9QbKJNU2Z6R6I=;
-        b=tYfDxhjHwopW10j/LxPwT+r0xzailTUFARfEDHBcC2xcwtT5AONzXsv/P+4QFLJDxQ
-         extfmqu0pOByaM1XGJssrrcyVS0NsezxhOF+qaSlvoEtV/8rXBMoVlWtpYDGpRMVcrfQ
-         6ljwDf4tDjC5ALOcHnrNFMK4O5yRdq3OfkxOSG/Hvl4A5W4QgXo9Teo8v1L6h81ThGZQ
-         x34p3Ls/t5EQbukEgfFyaaS85GIqnPDEh7qyS4kcgBsl1d8yOi5Rd1osThsexsDcaMNT
-         SumZ64jZ0dXTlozznClUyrp/hPGXPo2CvP1xyCCBIEpNnRnaUxJ0RvqhtcBv60pPBDu4
-         e2Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=7nvQSt9u8hnEYp0RlBDRlIGBODePoq9QbKJNU2Z6R6I=;
-        b=M8yxYVOnp+5zLlf4fa+PjNgr1a/aMnzqOv126GJfLAP2DxDw5OnF97H8onJxtVBV5X
-         cipTQjpbBZV0Z8s3YySwPkOsI6ceFD076hBOIOJ3LIWByGVQrHrpWLaJYxb2Im5b/ZWc
-         YiNW6cBar95XiFr9fNIumEyrNGn2dc4fxhsXaZqppXg019g87Lx/CV8sEILyssVJKWKQ
-         TU8bNxVj/uIIRnZytNxC5kmUkYqCiapjwbXyBZ/k4DDh3Y0+uquj53eKXmaKTUNi03ak
-         coSoA1A7R5g6yrXFtuiIll6h/8XN8cVepPeQwYQ+N8aDkJ3niVqRWgWx0LfFeRtnp1zy
-         1vNw==
-X-Gm-Message-State: APjAAAXzF881Bl9fAjDfTGLRXe8+0rpE7HcEqHga9qtH1wjP89163ZoW
-        qNxg6X4NpPotS1kI5fRJV9TFkQ==
-X-Google-Smtp-Source: APXvYqxhYpfaz8l4WfpxnWUASoy2MMApP6r2fgfNYHBXRruCpq9yut686jx+JIorQaP5E7LHF2WUrw==
-X-Received: by 2002:a5d:694c:: with SMTP id r12mr1589045wrw.214.1559201909288;
-        Thu, 30 May 2019 00:38:29 -0700 (PDT)
-Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id 32sm4553425wra.35.2019.05.30.00.38.28
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 30 May 2019 00:38:28 -0700 (PDT)
-Date:   Thu, 30 May 2019 08:38:27 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
-        broonie@kernel.org, lgirdwood@gmail.com,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH v4 6/6] leds: lm36274: Introduce the TI LM36274
- LED driver
-Message-ID: <20190530073827.GL4574@dell>
-References: <20190522192733.13422-1-dmurphy@ti.com>
- <20190522192733.13422-7-dmurphy@ti.com>
- <20190523125012.GB20354@amd>
- <0c2bd6af-92c5-2458-dc41-1ea413545347@ti.com>
- <89a80aa8-66ee-d0ec-fa54-c55ca8de06af@gmail.com>
- <20190529135821.GK4574@dell>
- <afff7c24-bb68-e9dc-295e-4449f9729cc9@gmail.com>
+        id S1726461AbfE3ObA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 30 May 2019 10:31:00 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:57960 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725440AbfE3Oa7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 May 2019 10:30:59 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x4UEUqEa063847;
+        Thu, 30 May 2019 09:30:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1559226652;
+        bh=Cg30MeZA99CqmwGHpSCXMESG3MfaMxR7+LwVQ+Gg4Uo=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=vqlNLopfA8qkd2o5CEXM8oA8SZd2A64ck04yKT09X0fpUzrQ60JaBUuH7AKhWkXqI
+         lgtye+vVpoZ/o6EXhtL7TktSyIhnBJts9Xyt1vCIL6dDSBAMFV06Ge9clwdOXmr3y0
+         mVmjvKCNgz+8g58Qxs7HTTp+JjgKqgK4gDb730FQ=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x4UEUqx7095739
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 30 May 2019 09:30:52 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 30
+ May 2019 09:30:50 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 30 May 2019 09:30:49 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x4UEUnRo039151;
+        Thu, 30 May 2019 09:30:49 -0500
+Subject: Re: [PATCH v3 1/9] leds: multicolor: Add sysfs interface definition
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
+        <robh+dt@kernel.org>
+CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20190523190820.29375-1-dmurphy@ti.com>
+ <20190523190820.29375-2-dmurphy@ti.com>
+ <f01ac400-efda-80a8-4d63-1e2add5e054a@gmail.com>
+ <185abdd6-100c-0a71-2da9-8f556d8ea701@ti.com>
+ <333167d0-4615-2fbe-e933-cbca623998ef@gmail.com>
+ <e54d9d29-5daa-fd3a-a5a9-ebd2450882ee@ti.com>
+ <c947d07c-2a8d-b9a8-b2ac-6c249ac54bca@gmail.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <ee675df2-9097-8e1b-b9db-a42017ac06b6@ti.com>
+Date:   Thu, 30 May 2019 09:30:48 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <c947d07c-2a8d-b9a8-b2ac-6c249ac54bca@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <afff7c24-bb68-e9dc-295e-4449f9729cc9@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 29 May 2019, Jacek Anaszewski wrote:
+Jacek
 
-> On 5/29/19 3:58 PM, Lee Jones wrote:
-> > On Fri, 24 May 2019, Jacek Anaszewski wrote:
-> > 
-> > > Hi,
-> > > 
-> > > On 5/23/19 9:09 PM, Dan Murphy wrote:
-> > > > Pavel
-> > > > 
-> > > > Thanks for the review
-> > > > 
-> > > > On 5/23/19 7:50 AM, Pavel Machek wrote:
-> > > > > Hi!
-> > > > > 
-> > > > > > +++ b/drivers/leds/leds-lm36274.c
-> > > > > 
-> > > > > > +static int lm36274_parse_dt(struct lm36274 *lm36274_data)
-> > > > > > +{
-> > > > > > +	struct fwnode_handle *child = NULL;
-> > > > > > +	char label[LED_MAX_NAME_SIZE];
-> > > > > > +	struct device *dev = &lm36274_data->pdev->dev;
-> > > > > > +	const char *name;
-> > > > > > +	int child_cnt;
-> > > > > > +	int ret = -EINVAL;
-> > > > > > +
-> > > > > > +	/* There should only be 1 node */
-> > > > > > +	child_cnt = device_get_child_node_count(dev);
-> > > > > > +	if (child_cnt != 1)
-> > > > > > +		return ret;
-> > > > > 
-> > > > > I'd do explicit "return -EINVAL" here.
-> > > > > 
-> > > > 
-> > > > ACK
-> > > > 
-> > > > > > +static int lm36274_probe(struct platform_device *pdev)
-> > > > > > +{
-> > > > > > +	struct ti_lmu *lmu = dev_get_drvdata(pdev->dev.parent);
-> > > > > > +	struct lm36274 *lm36274_data;
-> > > > > > +	int ret;
-> > > > > > +
-> > > > > > +	lm36274_data = devm_kzalloc(&pdev->dev, sizeof(*lm36274_data),
-> > > > > > +				    GFP_KERNEL);
-> > > > > > +	if (!lm36274_data) {
-> > > > > > +		ret = -ENOMEM;
-> > > > > > +		return ret;
-> > > > > > +	}
-> > > > > 
-> > > > > And certainly do "return -ENOMEM" explicitly here.
-> > > > > 
-> > > > 
-> > > > ACK
-> > > > 
-> > > > > Acked-by: Pavel Machek <pavel@ucw.cz>
-> > > 
-> > > I've done all amendments requested by Pavel and updated branch
-> > > ib-leds-mfd-regulator on linux-leds.git, but in the same time
-> > 
-> > What do you mean by updated?  You cannot update an 'ib' (immutable
-> > branch).  Immutable means that it cannot change, by definition.
-> 
-> We have already talked about that. Nobody has pulled so the branch
-> could have been safely updated.
+On 5/28/19 1:29 PM, Jacek Anaszewski wrote:
+> On 5/28/19 8:19 PM, Dan Murphy wrote:
+>> Jacek
+>>
+>> On 5/28/19 12:44 PM, Jacek Anaszewski wrote:
+>>> Dan,
+>>>
+>>> On 5/28/19 7:32 PM, Dan Murphy wrote:
+>>>> Jacek
+>>>>
+>>>> On 5/27/19 3:00 PM, Jacek Anaszewski wrote:
+>>>>> Hi Dan,
+>>>>>
+>>>>> Thank you for the update.
+>>>>>
+>>>>> One thing is missing here - we need to document how legacy brightness
+>>>>> levels map to the sub-LED color levels, i.e. what you do in
+>>>>> multicolor_set_brightness().
+>>>>
+>>>>
+>>>> Ok so i will need to document the algorithm that is used to 
+>>>> determine the color LED brightness.
+>>>
+>>> Right, and please send just an update of that single patch.
+>>>
+>>
+>> So you are asking for v4 with only this patch updated.
+>
+> Not exactly - I am asking for v4 of this patch. We don't need
+> to spam the lists with the rest of unaltered patches from the series.
+>
+> The interface seems to be the most vital part of this patch set,
+> and it is possible that it will undergo at least slight modifications.
+>
+> We will move to discussing the code once we achieve a total consensus.
+>
 
-You have no sure way to know that.  And since I have no way to know,
-or faith that you won't update it again, pulling it now/at all would
-seem like a foolish thing to do.
+Sorry for the late reply.  OK I have updated the sysfs documentation but 
+in doing so I am also going to send in v4 of the sysfs documentation as 
+it explains the interfaces in more detail. Also I will be adding more 
+technical information into that sysfs doc on what is done and what to 
+expect and it's usage.
 
-Until you can provide me with an assurance that you will not keep
-updating/changing the supposedly immutable pull-requests you send out,
-I won't be pulling any more in.
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Dan
+
