@@ -2,210 +2,141 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B40312FF22
-	for <lists+linux-leds@lfdr.de>; Thu, 30 May 2019 17:14:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B12392FF62
+	for <lists+linux-leds@lfdr.de>; Thu, 30 May 2019 17:26:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726439AbfE3POs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 May 2019 11:14:48 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:44372 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725961AbfE3POr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 May 2019 11:14:47 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x4UFEXeY070295;
-        Thu, 30 May 2019 10:14:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1559229273;
-        bh=ija2CP43k/HJ3UFzMPN6ji2dFsdMVgUAdQ28mpdCZSI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=dZiT56ALKGxAUt4LMVTjbpfFl82LBXrROu/AttXlObJIQuVjD0SLgnato957Ydx8c
-         0b0gLty+XWKu/gjYgdt/UEGjdidC4IjIrkIInK35xSIrPuU0vOdEyPHU5IxtM6yBxJ
-         OgKa6l/6F8xtTig6o3GyOuZ7n3m4D4036zmAmIwg=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x4UFEXe0089410
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 30 May 2019 10:14:33 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 30
- May 2019 10:14:32 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Thu, 30 May 2019 10:14:32 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x4UFEWj1069622;
-        Thu, 30 May 2019 10:14:32 -0500
-Subject: Re: [PATCH 3/3] leds-pwm.c: support ACPI via firmware-node framework
-To:     Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Schmauss <erik.schmauss@intel.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     <linux-acpi@vger.kernel.org>, <devel@acpica.org>,
-        <linux-leds@vger.kernel.org>, <linux-pwm@vger.kernel.org>
-References: <cover.1559127603.git.nikolaus.voss@loewensteinmedical.de>
- <4f89c4b91cc918302a9d5a7eedfa39259a5583bb.1559127603.git.nikolaus.voss@loewensteinmedical.de>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <3c763c8f-985e-a292-1bd6-af20caab5239@ti.com>
-Date:   Thu, 30 May 2019 10:14:32 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726106AbfE3P0x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 30 May 2019 11:26:53 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:55694 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726015AbfE3P0w (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 May 2019 11:26:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=7YOWsXfFzweIku3jD63e4rNWMo98E82Y/eEZ5KmcvTs=; b=wm9ORVQauA+udQ1bRNQoT5u7p
+        rS5Wr2PqKXLr1/4B/ISzOs+vvM7IqQCb/wyClotz15pATQKjPYMREZWHbn6xOT+dGPYkWKGjfXfU6
+        jQZmtW/tJ36f/GFpHfRiX8NRaebarpJ6xEtufg1yG6ojE3IDZT/clv83eU9iSF1fkDWwc=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=finisterre.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hWMx2-0007Ap-Nj; Thu, 30 May 2019 15:26:44 +0000
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+        id BC2D0440046; Thu, 30 May 2019 16:26:43 +0100 (BST)
+Date:   Thu, 30 May 2019 16:26:43 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, lgirdwood@gmail.com,
+        lee.jones@linaro.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH v4 1/6] regulator: lm363x: Make the gpio register
+ enable flexible
+Message-ID: <20190530152643.GS2456@sirena.org.uk>
+References: <20190522192733.13422-1-dmurphy@ti.com>
+ <20190522192733.13422-2-dmurphy@ti.com>
+ <20190523130311.GA17245@sirena.org.uk>
+ <d4673abc-442c-83eb-1830-7f7ed9d8419e@ti.com>
+ <20190526124838.GH2456@sirena.org.uk>
+ <2398099b-16e6-f155-5852-45ba3dbc21ef@ti.com>
+ <20190529151000.GP2456@sirena.org.uk>
+ <afd2e445-09a9-a07f-f020-ede6870dce6e@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <4f89c4b91cc918302a9d5a7eedfa39259a5583bb.1559127603.git.nikolaus.voss@loewensteinmedical.de>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="l8yJEXo8J9fv7OFY"
+Content-Disposition: inline
+In-Reply-To: <afd2e445-09a9-a07f-f020-ede6870dce6e@ti.com>
+X-Cookie: The other line moves faster.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
-On 5/29/19 7:18 AM, Nikolaus Voss wrote:
-> DT specific handling is replaced by firmware-node abstration to support
-> ACPI specification of PWM LEDS.
->
-> Example ASL:
-> Device (PWML)
-> {
->      Name (_HID, "PRP0001")
->      Name (_DSD, Package () {
->            ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
->            Package () { Package () {"compatible",
->                                      Package () {"pwm-leds"}}}})
->
->      Device (PWL0)
->      {
->          Name (_HID, "PRP0001")
->          Name (_DSD, Package () {
->                ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
->                Package () {
->                             Package () {"label", "alarm-led"},
->                             Package () {"pwms", Package ()
->                                         {\_SB_.PCI0.PWM, 0, 600000, 0}},
->                             Package () {"linux,default-state", "off"}}})
->      }
-> }
->
-> Signed-off-by: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
-> ---
->   drivers/leds/leds-pwm.c | 44 ++++++++++++++++++++++++-----------------
->   1 file changed, 26 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-> index af08bcdc4fd8..cc717dd6a12c 100644
-> --- a/drivers/leds/leds-pwm.c
-> +++ b/drivers/leds/leds-pwm.c
-> @@ -75,7 +75,7 @@ static inline size_t sizeof_pwm_leds_priv(int num_leds)
->   }
->   
->   static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
-> -		       struct led_pwm *led, struct device_node *child)
-> +		       struct led_pwm *led, struct fwnode_handle *fwnode)
->   {
->   	struct led_pwm_data *led_data = &priv->leds[priv->num_leds];
->   	struct pwm_args pargs;
-> @@ -88,8 +88,8 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
->   	led_data->cdev.max_brightness = led->max_brightness;
->   	led_data->cdev.flags = LED_CORE_SUSPENDRESUME;
->   
-> -	if (child)
-> -		led_data->pwm = devm_of_pwm_get(dev, child, NULL);
-> +	if (fwnode)
-> +		led_data->pwm = devm_fwnode_pwm_get(dev, fwnode, NULL);
->   	else
->   		led_data->pwm = devm_pwm_get(dev, led->name);
->   	if (IS_ERR(led_data->pwm)) {
-> @@ -114,7 +114,8 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
->   	if (!led_data->period && (led->pwm_period_ns > 0))
->   		led_data->period = led->pwm_period_ns;
->   
-> -	ret = devm_of_led_classdev_register(dev, child, &led_data->cdev);
-> +	ret = devm_of_led_classdev_register(dev, to_of_node(fwnode),
-> +					    &led_data->cdev);
->   	if (ret == 0) {
->   		priv->num_leds++;
->   		led_pwm_set(&led_data->cdev, led_data->cdev.brightness);
-> @@ -126,27 +127,34 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
->   	return ret;
->   }
->   
-> -static int led_pwm_create_of(struct device *dev, struct led_pwm_priv *priv)
-> +static int led_pwm_create_fwnode(struct device *dev, struct led_pwm_priv *priv)
->   {
-> -	struct device_node *child;
-> +	struct fwnode_handle *fwnode;
->   	struct led_pwm led;
->   	int ret = 0;
->   
->   	memset(&led, 0, sizeof(led));
->   
-> -	for_each_child_of_node(dev->of_node, child) {
-> -		led.name = of_get_property(child, "label", NULL) ? :
-> -			   child->name;
-> +	device_for_each_child_node(dev, fwnode) {
-> +		ret = fwnode_property_read_string(fwnode, "label", &led.name);
-> +		if (ret && is_of_node(fwnode))
-> +			led.name = to_of_node(fwnode)->name;
+--l8yJEXo8J9fv7OFY
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-new line
+On Wed, May 29, 2019 at 03:47:08PM -0500, Dan Murphy wrote:
+> On 5/29/19 10:10 AM, Mark Brown wrote:
+> > On Wed, May 29, 2019 at 06:51:32AM -0500, Dan Murphy wrote:
 
+> > > Although I don't disagree with you I don't see how the interface is f=
+ragile
+> > > with only these 3 regulators defined.
+> > > Would it not be prudent to amend this driver if/when a new regulator =
+is
+> > > needed that has a different enable bit/register combination?=A0=A0 An=
+d if that
 
-> +		if (!led.name) {
-> +			fwnode_handle_put(fwnode);
-> +			return -EINVAL;
-> +		}
+> > The fragility I'm worried about is someone forgetting to make suitable
+> > updates, especially if they don't use the feature in their own system.
 
-'label' is an optional parameter for device tree returning here makes it 
-required.
+> If they don't define the enable GPIO in the device tree then the gpio
+> descriptor pointer is NULL and the register write does not occur.
 
-Maybe derive a default name.  There is a patch series which is going to 
-modify how labels are created for LED class devices.
+> The documentation indicates that this is only applicable for 3632 I need =
+to
+> add the LM36274.
 
-https://lore.kernel.org/patchwork/project/lkml/list/?series=391005
+This isn't so much about people's DTs (though that's a definite concern
+as well) as it is about support for any future devices in the driver, a
+user might see that the driver supports GPIO enables, correctly set up
+their device tree and have things fall over because the driver silently
+tries to configure the registers incorrectly.
 
->   
-> -		led.default_trigger = of_get_property(child,
-> -						"linux,default-trigger", NULL);
-> -		led.active_low = of_property_read_bool(child, "active-low");
-> -		of_property_read_u32(child, "max-brightness",
-> -				     &led.max_brightness);
-> +		fwnode_property_read_string(fwnode, "linux,default-trigger",
-> +					    &led.default_trigger);
->   
-> -		ret = led_pwm_add(dev, priv, &led, child);
-> +		led.active_low = fwnode_property_read_bool(fwnode,
-> +							   "active-low");
-> +		fwnode_property_read_u32(fwnode, "max-brightness",
-> +					 &led.max_brightness);
-> +
-> +		ret = led_pwm_add(dev, priv, &led, fwnode);
->   		if (ret) {
-> -			of_node_put(child);
-> +			fwnode_handle_put(fwnode);
->   			break;
->   		}
->   	}
-> @@ -164,7 +172,7 @@ static int led_pwm_probe(struct platform_device *pdev)
->   	if (pdata)
->   		count = pdata->num_leds;
->   	else
-> -		count = of_get_child_count(pdev->dev.of_node);
-> +		count = device_get_child_node_count(&pdev->dev);
->   
->   	if (!count)
->   		return -EINVAL;
-> @@ -182,7 +190,7 @@ static int led_pwm_probe(struct platform_device *pdev)
->   				break;
->   		}
->   	} else {
-> -		ret = led_pwm_create_of(&pdev->dev, priv);
-> +		ret = led_pwm_create_fwnode(&pdev->dev, priv);
->   	}
->   
->   	if (ret)
+> Currently I don't have a device in this family that requires this level of
+> flexibility for this pin or configuration.
+
+> So if a need should arise should we not implement that flexibility at that
+> point?
+
+This isn't about implementing support for some theoretical thing, this
+is about making the implementation of the current support more robust
+and making the driver more maintainable going forwards.
+
+> Not only this but the gpio descriptor is protected in
+> lm363x_regulator_of_get_enable_gpio due to checking of the regulator ID.=
+=A0 As
+> in patch #4 of this series if LM3632 or LM36274 check for enable definiti=
+on
+> in the DT and create the descriptor if found.=A0 If it is any other regul=
+ator
+> then don't do anything.
+
+> If the HW designer changes these bits we end up with a new part and then =
+at
+> that point we could add code to redefine the bit mask as well.
+
+That code is rather far away from the code you're changing and it's
+really not clear that this will do the right thing for new devices, it
+already appears that we're handling two devices without obvious code for
+that (the regulator IDs get reused AFAICT).  If there were a switch
+statement right there it'd be clearer.
+
+Part of this is a reviewability thing - I initially stopped on the patch
+because it looked like it was using the enable field for something other
+than the intended purpose and now there's all this chasing around to see
+if the code is OK.
+
+--l8yJEXo8J9fv7OFY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzv9jAACgkQJNaLcl1U
+h9Coxwf/eJTeUUiLevK6jVmMW/DPxH+hiCsuGV40/Osbq3h1ZtqjTvKWzZKnxuxU
+3G8p1GFNL4Wfwu3eY+qtvgphGUHDvRmCqCQy7hnS7fu/8stbrKh9THxDNxVCHLPO
+JG8Ad2THpo2KK9vG2vh/rlUKSpgRL+3omZMaN+bvTIAa4VxOkpe83vyB3Z5UXghj
+qVl5E5bUtj/HbA7M9q3aBkNd58uWKzPvNCpTQqPS0JiCsCpYxwnX3YAXxzrgVdDa
+5UzL0buh6OUQMS4md18P3ktyM4lCUJ+5bARs0cY40OSoc/6LxjIWjcf0sP36BCCz
+56jXejLh8o+ZbcGM5hf3pBRpFVN+Qw==
+=ruZM
+-----END PGP SIGNATURE-----
+
+--l8yJEXo8J9fv7OFY--
