@@ -2,118 +2,113 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDAB5324E0
-	for <lists+linux-leds@lfdr.de>; Sun,  2 Jun 2019 23:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D24832C54
+	for <lists+linux-leds@lfdr.de>; Mon,  3 Jun 2019 11:17:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726485AbfFBVFM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 2 Jun 2019 17:05:12 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:41543 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726270AbfFBVFM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 2 Jun 2019 17:05:12 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 780C58032A; Sun,  2 Jun 2019 23:04:58 +0200 (CEST)
-Date:   Sun, 2 Jun 2019 23:05:08 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH] leds: core: Support blocking HW blink operations
-Message-ID: <20190602210507.GA14071@amd>
-References: <20181127150106.20213-1-linus.walleij@linaro.org>
- <20190601203747.GA13060@amd>
- <CACRpkdYUJURZB1+yTL0psc1qMhdV=UHmjtOY7UrGg7x-2tvJXQ@mail.gmail.com>
- <abb42645-87e3-619d-c8d7-2d67814409cf@gmail.com>
+        id S1728749AbfFCJNE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 Jun 2019 05:13:04 -0400
+Received: from mail.steuer-voss.de ([85.183.69.95]:35866 "EHLO
+        mail.steuer-voss.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728291AbfFCJND (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Jun 2019 05:13:03 -0400
+X-Virus-Scanned: Debian amavisd-new at mail.steuer-voss.de
+Received: by mail.steuer-voss.de (Postfix, from userid 1000)
+        id 0393B472C1; Mon,  3 Jun 2019 11:13:00 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.steuer-voss.de (Postfix) with ESMTP id 01EA74544D;
+        Mon,  3 Jun 2019 11:12:59 +0200 (CEST)
+Date:   Mon, 3 Jun 2019 11:12:59 +0200 (CEST)
+From:   Nikolaus Voss <nv@vosn.de>
+X-X-Sender: nv@fox.voss.local
+To:     Dan Murphy <dmurphy@ti.com>
+cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Schmauss <erik.schmauss@intel.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "devel@acpica.org" <devel@acpica.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
+Subject: Re: [PATCH 1/3] ACPI: Resolve objects on host-directed table loads
+In-Reply-To: <e5ed5715-2fc0-be77-0cb2-2cae57de4b98@ti.com>
+Message-ID: <alpine.DEB.2.20.1906031111420.62985@fox.voss.local>
+References: <cover.1559127603.git.nikolaus.voss@loewensteinmedical.de> <8704391ae3004a6b4dd17975dbcc9e88bd28cf4b.1559127603.git.nikolaus.voss@loewensteinmedical.de> <2944848d-d004-6750-b95d-825b1758ff22@ti.com> <e5ed5715-2fc0-be77-0cb2-2cae57de4b98@ti.com>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="BXVAT5kNtrzKuDFl"
-Content-Disposition: inline
-In-Reply-To: <abb42645-87e3-619d-c8d7-2d67814409cf@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: multipart/mixed; BOUNDARY="8323329-975137946-1559553180=:62985"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
---BXVAT5kNtrzKuDFl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--8323329-975137946-1559553180=:62985
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-On Sun 2019-06-02 13:20:20, Jacek Anaszewski wrote:
-> On 6/1/19 11:47 PM, Linus Walleij wrote:
-> >On Sat, Jun 1, 2019 at 10:37 PM Pavel Machek <pavel@ucw.cz> wrote:
-> >>On Tue 2018-11-27 16:01:06, Linus Walleij wrote:
-> >
-> >>>I ran into this when working on a keyboard driver for
-> >>>the Razer family: the .blink_set() callback for setting
-> >>>hardware blinking on a LED only exist in a non-blocking
-> >>>(fastpath) variant, such as when blinking can be enabled
-> >>>by simply writing a memory-mapped register and protected
-> >>>by spinlocks.
-> >>>
-> >>>On USB keyboards with blinkable LEDs controlled with USB
-> >>>out-of-band commands this will of course not work: these
-> >>>calls need to come from process context.
-> >>>
-> >>>To support this: add a new .blink_set_blocking() callback
-> >>>in the same vein as .brightness_set_blocking() and add
-> >>>a flag and some code to the delayed work so that this
-> >>>will be able to fire the .blink_set_blocking() call.
-> >>>
-> >>>ALl of this will be handled transparently from the
-> >>>led_blink_set() call so all current users can keep
-> >>>using that.
-> >>>
-> >>>Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> >>
-> >>Fun. I just realized thinkpad x60 needs something similar...
-> >
-> >Hm yeah. The discussion with Jacek came to the conclusion that he
-> >thinks (if I understand correctly!) that the LED core is too helpful and
-> >client drivers should create process contexts instead (like workers
-> >I suppose) and use the opaque interfaces from there, whether they
-> >are blocking or not, and that it was a mistake from the beginning
-> >to create a helper thread inside the LED core.
-> >
-> >I like APIs that are narrow and deep so I would prefer to do it my
-> >way (i.e. this patch) but arguably it is a matter of taste.
-> >
-> >I hope to get back to this patch set at some point.
->=20
-> Well, yes, I missed the fact that we already had the use case
-> in mainline where blink_set is called from atomic context,
-> which is led_trigger_blink{_oneshot}().
+Dan,
 
-Yep.
+On Fri, 31 May 2019, Dan Murphy wrote:
+> Nikolaus
+>
+> On 5/30/19 9:42 AM, Dan Murphy wrote:
+>> Nikolaus
+>>
+>> On 5/29/19 7:18 AM, Nikolaus Voss wrote:
+>>> If an ACPI SSDT overlay is loaded after built-in tables
+>>> have been loaded e.g. via configfs or efivar_ssdt_load()
+>>> it is necessary to rewalk the namespace to resolve
+>>> references. Without this, relative and absolute paths
+>>> like ^PCI0.SBUS or \_SB.PCI0.SBUS are not resolved
+>>> correctly.
+>>>
+>>> Make configfs load use the same method as efivar_ssdt_load().
+>>>
+>>> Signed-off-by: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
+>>> ---
+>>>   drivers/acpi/acpi_configfs.c   |  6 +-----
+>>>   drivers/acpi/acpica/tbxfload.c | 11 +++++++++++
+>>>   2 files changed, 12 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/acpi/acpi_configfs.c b/drivers/acpi/acpi_configfs.c
+>>> index f92033661239..663f0d88f912 100644
+>>> --- a/drivers/acpi/acpi_configfs.c
+>>> +++ b/drivers/acpi/acpi_configfs.c
+>>> @@ -56,11 +56,7 @@ static ssize_t acpi_table_aml_write(struct
+>>> config_item *cfg,
+>>>       if (!table->header)
+>>>           return -ENOMEM;
+>>>   -    ACPI_INFO(("Host-directed Dynamic ACPI Table Load:"));
+>>> -    ret = acpi_tb_install_and_load_table(
+>>> -            ACPI_PTR_TO_PHYSADDR(table->header),
+>>> -            ACPI_TABLE_ORIGIN_EXTERNAL_VIRTUAL, FALSE,
+>>> -            &table->index);
+>>> +    ret = acpi_load_table(table->header);
+>>>       if (ret) {
+>>>           kfree(table->header);
+>>>           table->header = NULL;
+>>> diff --git a/drivers/acpi/acpica/tbxfload.c
+>>> b/drivers/acpi/acpica/tbxfload.c
+>>> index 4f30f06a6f78..61f2d46e52ba 100644
+>>> --- a/drivers/acpi/acpica/tbxfload.c
+>>> +++ b/drivers/acpi/acpica/tbxfload.c
+>>> @@ -297,6 +297,17 @@ acpi_status acpi_load_table(struct
+>>> acpi_table_header *table)
+>>>       status =
+>>> acpi_tb_install_and_load_table(ACPI_PTR_TO_PHYSADDR(table),
+>>>                           ACPI_TABLE_ORIGIN_EXTERNAL_VIRTUAL,
+>>>                           FALSE, &table_index);
+>>> +
+>>> +    if (!ACPI_FAILURE(status)) {
+>> Checkpatch should complain about putting brackets around single
+>> statement if's.
+>
+> Would ACPI_SUCCESS make more sense here?
 
-> So, Pavel, you seem to have good setup for testing this Linus'
-> patch.
-
-OTOH that is _not_ passed down to drivers, as they can blink, but not
-do oneshot, and blinking on X60 is limited to single frequency so
-likely not useful for triggers.
-
-But we probably want to annotate can/can not sleep and use lockdep to
-catch the bugs.
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---BXVAT5kNtrzKuDFl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlz0OgMACgkQMOfwapXb+vK2wgCgsfAqkMZwVUJ8pARjNlnsShDC
-A+oAoIjHX3GvTQni+37UJQzt2emZlZM3
-=BCmC
------END PGP SIGNATURE-----
-
---BXVAT5kNtrzKuDFl--
+yes, changed.
+--8323329-975137946-1559553180=:62985--
