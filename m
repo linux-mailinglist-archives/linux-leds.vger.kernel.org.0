@@ -2,77 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD6EB333F1
-	for <lists+linux-leds@lfdr.de>; Mon,  3 Jun 2019 17:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 906D933511
+	for <lists+linux-leds@lfdr.de>; Mon,  3 Jun 2019 18:36:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729282AbfFCPvp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 Jun 2019 11:51:45 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:53836 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729369AbfFCPvp (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 3 Jun 2019 11:51:45 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 352DC1A25;
-        Mon,  3 Jun 2019 08:51:45 -0700 (PDT)
-Received: from en101.cambridge.arm.com (en101.cambridge.arm.com [10.1.196.93])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A6C423F246;
-        Mon,  3 Jun 2019 08:51:43 -0700 (PDT)
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
-        suzuki.poulose@arm.com,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org
-Subject: [RFC PATCH 30/57] drivers: leds: Use class_find_device_by_name() helper
-Date:   Mon,  3 Jun 2019 16:49:56 +0100
-Message-Id: <1559577023-558-31-git-send-email-suzuki.poulose@arm.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559577023-558-1-git-send-email-suzuki.poulose@arm.com>
-References: <1559577023-558-1-git-send-email-suzuki.poulose@arm.com>
+        id S1726741AbfFCQgE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 Jun 2019 12:36:04 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35154 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726463AbfFCQgE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Jun 2019 12:36:04 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id BABD02603CB
+Subject: Re: [PATCH v6] platform/chrome: Add Wilco EC keyboard backlight LEDs
+ support
+To:     Pavel Machek <pavel@ucw.cz>, Nick Crews <ncrews@chromium.org>
+Cc:     bleung@chromium.org, linux-leds@vger.kernel.org,
+        jacek.anaszewski@gmail.com, linux-kernel@vger.kernel.org,
+        dlaurie@chromium.org, sjg@google.com, groeck@google.com,
+        dtor@google.com
+References: <20190409001642.249197-1-ncrews@chromium.org>
+ <20190409095503.GB32344@atrey.karlin.mff.cuni.cz>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <66bafd50-1599-db70-99da-e7f5877281c2@collabora.com>
+Date:   Mon, 3 Jun 2019 18:35:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190409095503.GB32344@atrey.karlin.mff.cuni.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Use the new class_find_device_by_name() helper.
+Hi Pavel,
 
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Dan Murphy <dmurphy@ti.com>
-Cc: linux-leds@vger.kernel.org
-Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
----
- drivers/leds/led-class.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+On 9/4/19 11:55, Pavel Machek wrote:
+>> The EC is in charge of controlling the keyboard backlight on
+>> the Wilco platform. We expose a standard LED class device at
+>> /sys/class/leds/chromeos::kbd_backlight. This driver is modeled
+> 
+> As discussed, please use platform::.
+> 
 
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 85848c5..ee052aa 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -216,13 +216,6 @@ static int led_resume(struct device *dev)
- 
- static SIMPLE_DEV_PM_OPS(leds_class_dev_pm_ops, led_suspend, led_resume);
- 
--static int match_name(struct device *dev, const void *data)
--{
--	if (!dev_name(dev))
--		return 0;
--	return !strcmp(dev_name(dev), (char *)data);
--}
--
- static int led_classdev_next_name(const char *init_name, char *name,
- 				  size_t len)
- {
-@@ -233,7 +226,7 @@ static int led_classdev_next_name(const char *init_name, char *name,
- 	strlcpy(name, init_name, len);
- 
- 	while ((ret < len) &&
--	       (dev = class_find_device(leds_class, NULL, name, match_name))) {
-+	       (dev = class_find_device_by_name(leds_class, NULL, name))) {
- 		put_device(dev);
- 		ret = snprintf(name, len, "%s_%u", init_name, ++i);
- 	}
--- 
-2.7.4
+Last time I looked at this patch there were some work and discussion ongoing
+about led naming in led ML, did the discussion end? I'm not able to find if
+there is a final agreement.
 
+Thanks,
+ Enric
+
+> 								Pavel
+> 
