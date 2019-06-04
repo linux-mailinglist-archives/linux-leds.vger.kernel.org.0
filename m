@@ -2,94 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDE8934C52
-	for <lists+linux-leds@lfdr.de>; Tue,  4 Jun 2019 17:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE91A34F40
+	for <lists+linux-leds@lfdr.de>; Tue,  4 Jun 2019 19:44:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728092AbfFDPdN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 4 Jun 2019 11:33:13 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:49456 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727972AbfFDPdM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 4 Jun 2019 11:33:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=lDhEtQ5urTIN82cju7KPD+FlP735c86tqDddhdSuQH8=; b=O1PgNVxGadUWGHVQq1LTcdbe2
-        Z3KdWU7T1Z6qeJk5u5q9XqeDlxOgbITNeeCh6amfH9Up43elj71uLCDt95u3HBJErYfeCeeo8gKX/
-        EiFYKxiwsbyxU7O8ypFMe/XOugG0OtJvcXNIaO1L7CuIMcBE9uatLWipKOfEOs9vaMK4s=;
-Received: from [2001:470:1f1d:6b5:7e7a:91ff:fede:4a45] (helo=finisterre.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hYBQy-0006Jg-LB; Tue, 04 Jun 2019 15:33:08 +0000
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-        id B7636440046; Tue,  4 Jun 2019 16:33:07 +0100 (BST)
-Date:   Tue, 4 Jun 2019 16:33:07 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, lgirdwood@gmail.com,
-        lee.jones@linaro.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH v4 1/6] regulator: lm363x: Make the gpio register
- enable flexible
-Message-ID: <20190604153307.GG2456@sirena.org.uk>
-References: <20190522192733.13422-1-dmurphy@ti.com>
- <20190522192733.13422-2-dmurphy@ti.com>
- <20190523130311.GA17245@sirena.org.uk>
- <d4673abc-442c-83eb-1830-7f7ed9d8419e@ti.com>
- <20190526124838.GH2456@sirena.org.uk>
- <2398099b-16e6-f155-5852-45ba3dbc21ef@ti.com>
- <20190529151000.GP2456@sirena.org.uk>
- <afd2e445-09a9-a07f-f020-ede6870dce6e@ti.com>
- <20190530152643.GS2456@sirena.org.uk>
- <f9ad6600-3060-65c5-6f87-8a167c75f8b0@ti.com>
+        id S1726605AbfFDRoT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 4 Jun 2019 13:44:19 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:44320 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726460AbfFDRny (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 4 Jun 2019 13:43:54 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x54HhlH4058566;
+        Tue, 4 Jun 2019 12:43:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1559670228;
+        bh=HtfMt2uOW+klYRskuwW/3O5vVBGnGwm8wRY2nAEaw3I=;
+        h=From:To:CC:Subject:Date;
+        b=Xd+W/Ugd8scVYteI97TYB1W+ZW/PCqDr6rotKP0wrB+q40QfaEnIkqkN6viWJg7dP
+         Xm1/zlB/bh3Z2gbJg/lYU42drisKZ/Rfiv69iWJFeI4dSklqg/9OZgq00yjlV8Rq54
+         FS5fzMKlceTyIsdSplGNtlveVstTCBEEXrUV4zqg=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x54Hhlc8064375
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 4 Jun 2019 12:43:47 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 4 Jun
+ 2019 12:43:47 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 4 Jun 2019 12:43:47 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x54Hhlti110641;
+        Tue, 4 Jun 2019 12:43:47 -0500
+From:   Dan Murphy <dmurphy@ti.com>
+To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>
+CC:     <lee.jones@linaro.org>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
+Subject: [PATCH v5 0/6] LM36274 Introduction
+Date:   Tue, 4 Jun 2019 12:43:39 -0500
+Message-ID: <20190604174345.14841-1-dmurphy@ti.com>
+X-Mailer: git-send-email 2.21.0.5.gaeb582a983
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="oSWi0jal9INzEBQ4"
-Content-Disposition: inline
-In-Reply-To: <f9ad6600-3060-65c5-6f87-8a167c75f8b0@ti.com>
-X-Cookie: The other line moves faster.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hello
 
---oSWi0jal9INzEBQ4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is v5 of the patchset.  There is only one patch that has changed in the
+series and that is the regulator: lm363x: Add support for LM36274 patch.  This
+patch was updated to add flexibility in setting the bit to enable GPIO regulator
+control.
 
-On Tue, Jun 04, 2019 at 10:14:42AM -0500, Dan Murphy wrote:
+This change was made on top of the branch
 
-> I am going to introduce this update in patch 4 of this series when the
-> LM36274 is introduced to the regulator driver.
+repo: https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git
+branch: ti-lmu-led-drivers
 
-> It makes more sense to add it there as in patch 1 there is not really a n=
-eed
-> to extend the value or mask as it only supports the LM3632 device.=A0 It =
-makes
-> sense to add the condition when adding another device to support
+Dan
 
-Sure, add it along with the rest of the support for the new device.
+Dan Murphy (6):
+  regulator: lm363x: Make the gpio register enable flexible
+  dt-bindings: mfd: Add lm36274 bindings to ti-lmu
+  mfd: ti-lmu: Add LM36274 support to the ti-lmu
+  regulator: lm363x: Add support for LM36274
+  dt-bindings: leds: Add LED bindings for the LM36274
+  leds: lm36274: Introduce the TI LM36274 LED driver
 
---oSWi0jal9INzEBQ4
-Content-Type: application/pgp-signature; name="signature.asc"
+ .../devicetree/bindings/leds/leds-lm36274.txt |  82 +++++++++
+ .../devicetree/bindings/mfd/ti-lmu.txt        |  54 ++++++
+ drivers/leds/Kconfig                          |   8 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-lm36274.c                   | 174 ++++++++++++++++++
+ drivers/mfd/Kconfig                           |   5 +-
+ drivers/mfd/ti-lmu.c                          |  14 ++
+ drivers/regulator/Kconfig                     |   2 +-
+ drivers/regulator/lm363x-regulator.c          |  56 +++++-
+ include/linux/mfd/ti-lmu-register.h           |  23 +++
+ include/linux/mfd/ti-lmu.h                    |   4 +
+ 11 files changed, 417 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.txt
+ create mode 100644 drivers/leds/leds-lm36274.c
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.21.0.5.gaeb582a983
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlz2jzIACgkQJNaLcl1U
-h9BepAf+LfzMTtI0Fzd0fRSTevF4dwL9HwaAjcw3MnuMeqfJOtp4p9UJn98FfEKo
-TN5y7zHRbObnaEZHniSsoyLj1SFw6SmVPcj4QjFezETEEugYpPu3LHSK2NT96a90
-oZqa1rrD43ned4XfwMdNzhupU1mD2233V/J43B37eoLfovfxeqoVlRWOWZGRR+5M
-o89QlDLRAVwQwjyxkvl+BO84joYEKkZEpjdUIZ0qhkFjwjo4ZnxvEO2V7pa0Y6EZ
-lPHN1+8BQ4BdIF2aihTu8MC4EyqjQ/UslkWqBw0Pwbl1TJMiWmxY1Ito8AjRzBed
-DDlHyaKNeV4B+d4gUugodeJxw2eu7w==
-=z7wn
------END PGP SIGNATURE-----
-
---oSWi0jal9INzEBQ4--
