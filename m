@@ -2,46 +2,40 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 89E5034BB5
-	for <lists+linux-leds@lfdr.de>; Tue,  4 Jun 2019 17:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDE8934C52
+	for <lists+linux-leds@lfdr.de>; Tue,  4 Jun 2019 17:33:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727947AbfFDPOv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 4 Jun 2019 11:14:51 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:55804 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727976AbfFDPOu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 4 Jun 2019 11:14:50 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x54FEibt022139;
-        Tue, 4 Jun 2019 10:14:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1559661284;
-        bh=Sl5OBcsT70V82QK3ubUuQgvQHwkd1HO9ZqCFNycFHNU=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=fIzt6mvrmu7C92OZ5lEXYzJwHk5/WxmY/o+l+4iuXfCKHhcae7HmJ5TI4oHvMR8J4
-         c5jTn+giscmdXCIOZt1af8SZG4Fge2VMN7evJIA1f4jxnYErj/ukfI/ravAlyvDsqq
-         8EDdTCqPcvM9TkDq1odziB+H6x5x9NUwydc+mJto=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x54FEiMT013864
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 4 Jun 2019 10:14:44 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 4 Jun
- 2019 10:14:43 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 4 Jun 2019 10:14:43 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x54FEhtF014871;
-        Tue, 4 Jun 2019 10:14:43 -0500
+        id S1728092AbfFDPdN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 4 Jun 2019 11:33:13 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:49456 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727972AbfFDPdM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 4 Jun 2019 11:33:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=lDhEtQ5urTIN82cju7KPD+FlP735c86tqDddhdSuQH8=; b=O1PgNVxGadUWGHVQq1LTcdbe2
+        Z3KdWU7T1Z6qeJk5u5q9XqeDlxOgbITNeeCh6amfH9Up43elj71uLCDt95u3HBJErYfeCeeo8gKX/
+        EiFYKxiwsbyxU7O8ypFMe/XOugG0OtJvcXNIaO1L7CuIMcBE9uatLWipKOfEOs9vaMK4s=;
+Received: from [2001:470:1f1d:6b5:7e7a:91ff:fede:4a45] (helo=finisterre.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hYBQy-0006Jg-LB; Tue, 04 Jun 2019 15:33:08 +0000
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+        id B7636440046; Tue,  4 Jun 2019 16:33:07 +0100 (BST)
+Date:   Tue, 4 Jun 2019 16:33:07 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, lgirdwood@gmail.com,
+        lee.jones@linaro.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: [RESEND PATCH v4 1/6] regulator: lm363x: Make the gpio register
  enable flexible
-To:     Mark Brown <broonie@kernel.org>
-CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        <lgirdwood@gmail.com>, <lee.jones@linaro.org>,
-        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Message-ID: <20190604153307.GG2456@sirena.org.uk>
 References: <20190522192733.13422-1-dmurphy@ti.com>
  <20190522192733.13422-2-dmurphy@ti.com>
  <20190523130311.GA17245@sirena.org.uk>
@@ -51,45 +45,51 @@ References: <20190522192733.13422-1-dmurphy@ti.com>
  <20190529151000.GP2456@sirena.org.uk>
  <afd2e445-09a9-a07f-f020-ede6870dce6e@ti.com>
  <20190530152643.GS2456@sirena.org.uk>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <f9ad6600-3060-65c5-6f87-8a167c75f8b0@ti.com>
-Date:   Tue, 4 Jun 2019 10:14:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ <f9ad6600-3060-65c5-6f87-8a167c75f8b0@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20190530152643.GS2456@sirena.org.uk>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="oSWi0jal9INzEBQ4"
+Content-Disposition: inline
+In-Reply-To: <f9ad6600-3060-65c5-6f87-8a167c75f8b0@ti.com>
+X-Cookie: The other line moves faster.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Mark
 
-On 5/30/19 10:26 AM, Mark Brown wrote:
->
-> That code is rather far away from the code you're changing and it's
-> really not clear that this will do the right thing for new devices, it
-> already appears that we're handling two devices without obvious code for
-> that (the regulator IDs get reused AFAICT).  If there were a switch
-> statement right there it'd be clearer.
->
-> Part of this is a reviewability thing - I initially stopped on the patch
-> because it looked like it was using the enable field for something other
-> than the intended purpose and now there's all this chasing around to see
-> if the code is OK.
+--oSWi0jal9INzEBQ4
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I am going to introduce this update in patch 4 of this series when the 
-LM36274 is introduced to the regulator driver.
+On Tue, Jun 04, 2019 at 10:14:42AM -0500, Dan Murphy wrote:
 
-It makes more sense to add it there as in patch 1 there is not really a 
-need to extend the value or mask as it only supports the LM3632 device.  
-It makes sense to add the condition when adding another device to support
+> I am going to introduce this update in patch 4 of this series when the
+> LM36274 is introduced to the regulator driver.
 
-Thoughts?
+> It makes more sense to add it there as in patch 1 there is not really a n=
+eed
+> to extend the value or mask as it only supports the LM3632 device.=A0 It =
+makes
+> sense to add the condition when adding another device to support
 
-Dan
+Sure, add it along with the rest of the support for the new device.
 
+--oSWi0jal9INzEBQ4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlz2jzIACgkQJNaLcl1U
+h9BepAf+LfzMTtI0Fzd0fRSTevF4dwL9HwaAjcw3MnuMeqfJOtp4p9UJn98FfEKo
+TN5y7zHRbObnaEZHniSsoyLj1SFw6SmVPcj4QjFezETEEugYpPu3LHSK2NT96a90
+oZqa1rrD43ned4XfwMdNzhupU1mD2233V/J43B37eoLfovfxeqoVlRWOWZGRR+5M
+o89QlDLRAVwQwjyxkvl+BO84joYEKkZEpjdUIZ0qhkFjwjo4ZnxvEO2V7pa0Y6EZ
+lPHN1+8BQ4BdIF2aihTu8MC4EyqjQ/UslkWqBw0Pwbl1TJMiWmxY1Ito8AjRzBed
+DDlHyaKNeV4B+d4gUugodeJxw2eu7w==
+=z7wn
+-----END PGP SIGNATURE-----
+
+--oSWi0jal9INzEBQ4--
