@@ -2,88 +2,81 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A9AA36154
-	for <lists+linux-leds@lfdr.de>; Wed,  5 Jun 2019 18:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A30A536159
+	for <lists+linux-leds@lfdr.de>; Wed,  5 Jun 2019 18:32:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728724AbfFEQbZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 5 Jun 2019 12:31:25 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:52354 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728574AbfFEQbZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 5 Jun 2019 12:31:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=0gkwr/F7+Rrmms8V/ILU7byci3uqX6ktmxQ4kbGefNU=; b=GwINskzBFe5/BFRa7R9Im1GXK
-        Ehxf1W4hvXZQBy0lDPUgVF7rHRrXjX2+jlVIUm6i4aD3eqzBsRUfHnpuTF3ONQCi6DYTGITDUsW6+
-        Gepa/EE3TovjkAeYyzaNtzTwHQ7JwiQYGeW8dv7Vrlj336J45UxGyO4f64URlKRqFjJYU=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=finisterre.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hYYos-0000xK-4z; Wed, 05 Jun 2019 16:31:22 +0000
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-        id D0DFC440046; Wed,  5 Jun 2019 17:31:20 +0100 (BST)
-Date:   Wed, 5 Jun 2019 17:31:20 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, lgirdwood@gmail.com,
-        lee.jones@linaro.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        id S1728771AbfFEQcJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 5 Jun 2019 12:32:09 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:60800 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728581AbfFEQcJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 5 Jun 2019 12:32:09 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x55GW4UZ023032;
+        Wed, 5 Jun 2019 11:32:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1559752324;
+        bh=qIDUYTxE6wv44Y20SI9fIey5LVY7ECHQwKd7D9Y/+m0=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=wq8tGL5n45RFAD1NADQqY/YSJnLPPUvSZBkclCZRk12mcNMFoPh6+SvXFYcBFIvgk
+         t4If8qUyiWtxCUVb655m1Fu5sPrymI2XeLclwINtRWaMzo12hFeTbv/27R0or646l0
+         qus4XywF9srz3/+UfAp3BeSCjsOzDFs1wu1UPzHE=
+Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x55GW3eL078024
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 5 Jun 2019 11:32:04 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 5 Jun
+ 2019 11:32:03 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Wed, 5 Jun 2019 11:32:03 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x55GW2gX094600;
+        Wed, 5 Jun 2019 11:32:03 -0500
 Subject: Re: [PATCH v5 1/6] regulator: lm363x: Make the gpio register enable
  flexible
-Message-ID: <20190605163120.GR2456@sirena.org.uk>
+To:     Mark Brown <broonie@kernel.org>
+CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
+        <lgirdwood@gmail.com>, <lee.jones@linaro.org>,
+        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20190604174345.14841-1-dmurphy@ti.com>
- <20190604174345.14841-2-dmurphy@ti.com>
- <20190605100132.GL2456@sirena.org.uk>
+ <20190604174345.14841-2-dmurphy@ti.com> <20190605100132.GL2456@sirena.org.uk>
  <7ba7a633-1a39-adcc-e942-12c0eb7c3b16@ti.com>
  <054c3715-e85f-e052-faf1-057bf3a67d45@ti.com>
+ <20190605163120.GR2456@sirena.org.uk>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <c01c0177-6f28-dc2a-bae7-a5d18c30ce5d@ti.com>
+Date:   Wed, 5 Jun 2019 11:32:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="8+74qwmUvVX309i6"
-Content-Disposition: inline
-In-Reply-To: <054c3715-e85f-e052-faf1-057bf3a67d45@ti.com>
-X-Cookie: The other line moves faster.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190605163120.GR2456@sirena.org.uk>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Mark
 
---8+74qwmUvVX309i6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 6/5/19 11:31 AM, Mark Brown wrote:
+> On Wed, Jun 05, 2019 at 07:47:50AM -0500, Dan Murphy wrote:
+>> On 6/5/19 7:02 AM, Dan Murphy wrote:
+>>> I can squash patch 1 into 4.
+>>> Also not sure what you mean by new validation.
+>> Disregard I understand.  The patch is missing the validation code.
+> Ah, some git add issues I guess :)  Squashing would help but it's not
+> essential I think.
 
-On Wed, Jun 05, 2019 at 07:47:50AM -0500, Dan Murphy wrote:
-> On 6/5/19 7:02 AM, Dan Murphy wrote:
 
-> > I can squash patch 1 into 4.
+More like PEBKAC on this one
 
-> > Also not sure what you mean by new validation.
 
-> Disregard I understand.=A0 The patch is missing the validation code.
+Dan
 
-Ah, some git add issues I guess :)  Squashing would help but it's not
-essential I think.
-
---8+74qwmUvVX309i6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlz37lYACgkQJNaLcl1U
-h9D24Qf+LRTcByTN28sK2Y77cBUVbJQhwJeOJMTaOFPF2SDpJRBmU2oQZncg72xA
-iMwJgZcDDd1gjQuyDsxRL23e8guALeRL3rQ/MyHT22BhFEGUFJd7Ka0hyOgOpxwv
-R9Y7Gn8jo+Qt3AEcxn4HvHvq6zF/3FjUxUDbSquNchsjrv/flOp0uTbCuc1RQrcZ
-d7I/uj3KhYIWmzN8w/E3wLzLYqfVFoZZ/9/FuSXMXS6BdTsaOwzoQ/VJmQ0IxEhe
-FhFF2TWmvf84nAxKD6rYesFiuMXpM0Ok+v+5E2aI9/odBwHir8mcrMBWdOn3TDBT
-eEUXC5JLELCEeXJdm8Ep+dsNdaSOEw==
-=9Dl3
------END PGP SIGNATURE-----
-
---8+74qwmUvVX309i6--
