@@ -2,85 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F0AF36324
-	for <lists+linux-leds@lfdr.de>; Wed,  5 Jun 2019 20:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0335D3633B
+	for <lists+linux-leds@lfdr.de>; Wed,  5 Jun 2019 20:17:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbfFESKo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 5 Jun 2019 14:10:44 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:35778 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726421AbfFESKo (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 5 Jun 2019 14:10:44 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80482374;
-        Wed,  5 Jun 2019 11:10:43 -0700 (PDT)
-Received: from [10.37.8.36] (unknown [10.37.8.36])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9984F3F5AF;
-        Wed,  5 Jun 2019 11:10:37 -0700 (PDT)
-Subject: Re: [PATCH 10/13] drivers: Introduce variants of class_find_device()
-To:     gregkh@linuxfoundation.org
-Cc:     linux-kernel@vger.kernel.org, rafael@kernel.org,
-        a.zummo@towertech.it, alex.aring@gmail.com,
-        alexander.shishkin@linux.intel.com, alexandre.belloni@bootlin.com,
-        andrew@lunn.ch, arnd@arndb.de, dmurphy@ti.com, davem@davemloft.net,
-        f.fainelli@gmail.com, freude@linux.ibm.com,
-        heikki.krogerus@linux.intel.com, heiko.carstens@de.ibm.com,
-        hkallweit1@gmail.com, jacek.anaszewski@gmail.com, jslaby@suse.com,
-        lgirdwood@gmail.com, linux-leds@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wpan@vger.kernel.org, broonie@kernel.org,
-        mcoquelin.stm32@gmail.com, pavel@ucw.cz, peda@axentia.se,
-        stefan@datenfreihafen.org, tomas.winkler@intel.com,
-        rafael.j.wysocki@intel.com
-References: <1559747630-28065-1-git-send-email-suzuki.poulose@arm.com>
- <1559747630-28065-11-git-send-email-suzuki.poulose@arm.com>
- <20190605161439.GB17272@kroah.com>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <24e8617f-2e15-bb6c-a6bb-bc9e6b32aa56@arm.com>
-Date:   Wed, 5 Jun 2019 19:13:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1726532AbfFESRU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 5 Jun 2019 14:17:20 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:60672 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726280AbfFESRU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 5 Jun 2019 14:17:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=oQSDbPM28eexxs4+IqmMDN5zUHY3oU/4zuE5cja3U8I=; b=kpCHFfCHyPKs8Bdkxzte5DcVB
+        CKuX9zqYkt2wTz2wLN7dnS3n81wGHNtrkQF+wLxv205sQeoHQFSqleTnUEF8h9XA91ASkP9gn4YSP
+        pzB6x+RnsKE47xle3IjAVmiPLuzKTM419tIPtxgkDqo58SrfXJsgqaKUrcIr7iz/odrfY=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=finisterre.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hYaTN-00019y-PJ; Wed, 05 Jun 2019 18:17:17 +0000
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+        id 00293440046; Wed,  5 Jun 2019 19:17:16 +0100 (BST)
+Date:   Wed, 5 Jun 2019 19:17:16 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, lgirdwood@gmail.com,
+        lee.jones@linaro.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 3/5] regulator: lm363x: Add support for LM36274
+Message-ID: <20190605181716.GU2456@sirena.org.uk>
+References: <20190605125634.7042-1-dmurphy@ti.com>
+ <20190605125634.7042-4-dmurphy@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20190605161439.GB17272@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="7ufiXnXZuEWu9ktD"
+Content-Disposition: inline
+In-Reply-To: <20190605125634.7042-4-dmurphy@ti.com>
+X-Cookie: The other line moves faster.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Greg,
 
-On 06/05/2019 05:14 PM, Greg KH wrote:
-> On Wed, Jun 05, 2019 at 04:13:47PM +0100, Suzuki K Poulose wrote:
->> +/**
->> + * class_find_device_by_devt : device iterator for locating a particular device
->> + * matching the device type.
->> + * @class: class type
->> + * @start: device to start search from
->> + * @devt: device type of the device to match.
->> + */
->> +static inline struct device *class_find_device_by_devt(struct class *class,
->> +						       struct device *start,
->> +						       dev_t devt)
->> +{
->> +	return class_find_device(class, start, &devt, device_match_devt);
->> +}
-> 
-> Still has the start parameter, despite the changelog saying it would not
-> :(
-> 
+--7ufiXnXZuEWu9ktD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Well, I kept the start parameter just for the _devt variants, as
-mentioned in the changelog:
+On Wed, Jun 05, 2019 at 07:56:32AM -0500, Dan Murphy wrote:
+> Adding regulator support for the LM36274 backlight driver.
+> This device can leverage this existing code as the functionality
+> and registers are common enough between the LM36274 and the LM363x
+> series of devices.
 
-" The new wrappers except the lookup by devt, drops the "start" device 
-pointer as none of the existing users need it and the attributes are 
-usually unique. The idea is to stop the proliferation of custom match.."
+Acked-by: Mark Brown <broonie@kernel.org>
 
-Somehow I thought the dev_t may be duplicate for devices, which is why
-I didn't change that alone. But that was silly of me to ignore the minor
-number part. I will respin it fixing that.
+--7ufiXnXZuEWu9ktD
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Suzuki
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlz4BysACgkQJNaLcl1U
+h9DoDgf/V2YC33j5Ud0esBDnPNRS3+xH3Zlc2kDXFTiDgjx06hmzU/n0qd1r9683
+6rsudqA2fn5Em4kP85w6xlwQFYJNYBq9D5C0wOm+OMTSy5Q2OuCjutVZNEPILUds
+dOGi9PL6v9MtvgpOrB0HaUaABqwHZ2AQMIXCHIpPDQceulf3dohTO03dFjwHHd88
+ZUUsnDr3zWlK7lbA86ud5tutOc5mxq/23W47hdu9C4nAXnQkU7iuHLCNTcbjOHhg
+mB6ba7BCxUCXKLpN5ZpROEBkcclPpZHN3efh0OKGc8rlkJ9/yORL5rnI5rnDQr+C
+Azr2Sw57XsTCbxqsbYSEIhzjQVcCNw==
+=TvzC
+-----END PGP SIGNATURE-----
+
+--7ufiXnXZuEWu9ktD--
