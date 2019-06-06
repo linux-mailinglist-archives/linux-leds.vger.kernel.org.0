@@ -2,34 +2,32 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9999137124
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Jun 2019 12:01:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB03937142
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Jun 2019 12:07:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727846AbfFFKBk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 6 Jun 2019 06:01:40 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:45752 "EHLO
+        id S1727848AbfFFKHK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 6 Jun 2019 06:07:10 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:45861 "EHLO
         atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726972AbfFFKBj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Jun 2019 06:01:39 -0400
+        with ESMTP id S1726972AbfFFKHK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Jun 2019 06:07:10 -0400
 Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 4A078803EE; Thu,  6 Jun 2019 12:01:27 +0200 (CEST)
-Date:   Thu, 6 Jun 2019 12:01:37 +0200
+        id B88B4803EB; Thu,  6 Jun 2019 12:06:56 +0200 (CEST)
+Date:   Thu, 6 Jun 2019 12:07:06 +0200
 From:   Pavel Machek <pavel@ucw.cz>
 To:     Dan Murphy <dmurphy@ti.com>
 Cc:     jacek.anaszewski@gmail.com, broonie@kernel.org,
         lgirdwood@gmail.com, lee.jones@linaro.org,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 4/5] dt-bindings: leds: Add LED bindings for the
- LM36274
-Message-ID: <20190606100136.GF975@amd>
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 5/5] leds: lm36274: Introduce the TI LM36274 LED driver
+Message-ID: <20190606100706.GA1825@amd>
 References: <20190605125634.7042-1-dmurphy@ti.com>
- <20190605125634.7042-5-dmurphy@ti.com>
+ <20190605125634.7042-6-dmurphy@ti.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="JcvBIhDvR6w3jUPA"
+        protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
 Content-Disposition: inline
-In-Reply-To: <20190605125634.7042-5-dmurphy@ti.com>
+In-Reply-To: <20190605125634.7042-6-dmurphy@ti.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -37,46 +35,99 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---JcvBIhDvR6w3jUPA
-Content-Type: text/plain; charset=utf-8
+--bp/iNruPH9dso1Pn
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
->  .../devicetree/bindings/leds/leds-lm36274.txt | 82 +++++++++++++++++++
->  1 file changed, 82 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.t=
-xt
+> Introduce the LM36274 LED driver.  This driver uses the ti-lmu
+> MFD driver to probe this LED driver.  The driver configures only the
+> LED registers and enables the outputs according to the config file.
 >=20
-> diff --git a/Documentation/devicetree/bindings/leds/leds-lm36274.txt b/Do=
-cumentation/devicetree/bindings/leds/leds-lm36274.txt
-> new file mode 100644
-> index 000000000000..329393700191
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-lm36274.txt
-> @@ -0,0 +1,82 @@
-> +* Texas Instruments LM36274 4-Channel LCD Backlight Driver w/Integrated =
-Bias
+> The driver utilizes the TI LMU (Lighting Management Unit) LED common
+> framework to set the brightness bits.
+
+Nothing too bad, but...
+
+> +static int lm36274_parse_dt(struct lm36274 *lm36274_data)
+> +{
+> +	struct fwnode_handle *child =3D NULL;
+> +	char label[LED_MAX_NAME_SIZE];
+> +	struct device *dev =3D &lm36274_data->pdev->dev;
+> +	const char *name;
+> +	int child_cnt;
+> +	int ret =3D -EINVAL;
 > +
-> +The LM36274 is an integrated four-channel WLED driver and LCD bias suppl=
-y.
-> +The backlight boost provides the power to bias four parallel LED strings=
- with
-> +up to 29V total output voltage. The 11-bit LED current is programmable v=
-ia
-> +the I2C bus and/or controlled via a logic level PWM input from 60 =CE=BC=
-A to 30 mA.
+> +	/* There should only be 1 node */
+> +	child_cnt =3D device_get_child_node_count(dev);
+> +	if (child_cnt !=3D 1)
+> +		return ret;
+
+I'd do direct "return -EINVAL" here.
+
+> +	device_for_each_child_node(dev, child) {
+> +		ret =3D fwnode_property_read_string(child, "label", &name);
+> +		if (ret)
+> +			snprintf(label, sizeof(label),
+> +				"%s::", lm36274_data->pdev->name);
+> +		else
+> +			snprintf(label, sizeof(label),
+> +				 "%s:%s", lm36274_data->pdev->name, name);
 > +
-> +Parent device properties are documented in ../mfd/ti_lmu.txt
-> +Regulator properties are documented in ../regulator/lm363x-regulator.txt
+> +		lm36274_data->num_leds =3D fwnode_property_read_u32_array(child,
+> +							  "led-sources",
+> +							  NULL, 0);
+> +		if (lm36274_data->num_leds <=3D 0)
+> +			return -ENODEV;
+> +
+> +		ret =3D fwnode_property_read_u32_array(child, "led-sources",
+> +						     lm36274_data->led_sources,
+> +						     lm36274_data->num_leds);
+> +		if (ret) {
+> +			dev_err(dev, "led-sources property missing\n");
+> +			return -EINVAL;
 
-Should these paths follow the same format as below
-(Documentation/devicetree/bindings)
+Should it return ret here? If read array failed with -ENOMEM, we may
+want to propagate that.
 
-?
+> +		}
+> +
+> +		fwnode_property_read_string(child, "linux,default-trigger",
+> +					&lm36274_data->led_dev.default_trigger);
+> +
+> +	}
+> +
+> +	lm36274_data->lmu_data.regmap =3D lm36274_data->regmap;
+> +	lm36274_data->lmu_data.max_brightness =3D MAX_BRIGHTNESS_11BIT;
+> +	lm36274_data->lmu_data.msb_brightness_reg =3D LM36274_REG_BRT_MSB;
+> +	lm36274_data->lmu_data.lsb_brightness_reg =3D LM36274_REG_BRT_LSB;
+> +
+> +	lm36274_data->led_dev.name =3D label;
+> +	lm36274_data->led_dev.max_brightness =3D MAX_BRIGHTNESS_11BIT;
+> +	lm36274_data->led_dev.brightness_set_blocking =3D lm36274_brightness_se=
+t;
+> +
+> +	return ret;
 
-Otherwise looks good.
+I'd do "return 0" here. It is success. Yes, ret will always have that
+value at this moment, but...
+
+> +static int lm36274_probe(struct platform_device *pdev)
+> +{
+> +	struct ti_lmu *lmu =3D dev_get_drvdata(pdev->dev.parent);
+> +	struct lm36274 *lm36274_data;
+> +	int ret;
+> +
+> +	lm36274_data =3D devm_kzalloc(&pdev->dev, sizeof(*lm36274_data),
+> +				    GFP_KERNEL);
+> +	if (!lm36274_data) {
+> +		ret =3D -ENOMEM;
+> +		return ret;
+> +	}
+
+Just do return -ENOMEM;
 
 Acked-by: Pavel Machek <pavel@ucw.cz>
 									Pavel
@@ -85,16 +136,16 @@ Acked-by: Pavel Machek <pavel@ucw.cz>
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---JcvBIhDvR6w3jUPA
+--bp/iNruPH9dso1Pn
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAlz45IAACgkQMOfwapXb+vIJUwCeLojs/AGqWQF2DQiuVlw1Xz1P
-GqYAni4oAYbSvZ9Ki4SlbbOWLhRVDGHT
-=q2SH
+iEYEARECAAYFAlz45coACgkQMOfwapXb+vJpUQCglh9YImf4M842218a0pSSEMiW
+hhUAmwQ5kL54IV8eBFctVi6Aelt85+0u
+=5jN6
 -----END PGP SIGNATURE-----
 
---JcvBIhDvR6w3jUPA--
+--bp/iNruPH9dso1Pn--
