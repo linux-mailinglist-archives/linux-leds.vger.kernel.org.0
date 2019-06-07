@@ -2,109 +2,222 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DDA6397B3
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2019 23:26:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2402E397CE
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2019 23:33:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729676AbfFGV0q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Jun 2019 17:26:46 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:47618 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729125AbfFGV0q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Jun 2019 17:26:46 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x57LQgpR009525;
-        Fri, 7 Jun 2019 16:26:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1559942802;
-        bh=nHPsm2nmCWWAIBSZDOcvYScUIPyjPWV+nTtHwcEmS4g=;
-        h=Subject:To:References:From:Date:In-Reply-To;
-        b=k4qqkONAPDmTx1F2cruzmpdOlFZ3jlocX0ucw2raWcXEa0VsQtOfA018ACGutiMxW
-         u8p4Y/6DutT1PuDNeDvVpwTxFao/m4V14X/w1q0NTMD6woDE0LWEljNJcrPsxftbDb
-         uZ9U2cN0flb+dr2TuFjIgcevxhI51WsSzBO1T3/8=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x57LQgQu101864
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 7 Jun 2019 16:26:42 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 7 Jun
- 2019 16:26:42 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 7 Jun 2019 16:26:42 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x57LQfCE091727;
-        Fri, 7 Jun 2019 16:26:41 -0500
-Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, <devicetree@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>
-References: <20190607184022.13793-1-oleg@kaa.org.ua>
- <b1f0eaf6-e91c-2095-5928-179ad8695b33@ti.com>
- <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
- <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
- <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <361ecc6a-b0b6-1bc9-a52b-e3531340deeb@ti.com>
-Date:   Fri, 7 Jun 2019 16:26:41 -0500
+        id S1730206AbfFGVdQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 7 Jun 2019 17:33:16 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:51645 "EHLO smtp.220.in.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730145AbfFGVdQ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 7 Jun 2019 17:33:16 -0400
+Received: from [192.168.202.100] (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 006BB1A20B58;
+        Sat,  8 Jun 2019 00:33:12 +0300 (EEST)
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+Subject: Re: [PATCH v2 2/2] leds: add LED driver for EL15203000 board
+To:     Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org
+References: <20190607190351.14092-2-oleg@kaa.org.ua>
+ <50e38b87-a7ab-d83b-c4d4-7db9760cfdd6@ti.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
+ mQINBFoN/ysBEAC8JmIsjbpgHCXhOuuRtHQrpFhrrs5bNNSRztXxnVYtyR5sbsEgh8dFt9ZZ
+ TZ3qWFSDPHY/9AHUxoKIvonRFTiluSuLVKwM5mxgqzvPaqnekoYRafzW3hYgPcjXp+JEw4At
+ vIPKGpKDn+J03c1L/vYlXT9FASQdL7fhtc0FK5wMn3biS1d9D5PnurTLKvLWmwYjWxNduW8/
+ g15g4NhoDQf3syruPMSyCCXmH2CpzJXs+8VWSvySHG9wE/9QXAfskb9wFx+NSYyNdou5JxPn
+ dt9XnI0MjXoc0X3IH6eBjxgIpYkVydmQnbajgxWopz4Hi6uCsJSj5z26m803cyel1XgwLXin
+ uKGdWi8W/TFJy6rbbEwfeUDHr4btCPU5hZS/PFV1rsDoOxMRYlgaI8U4AKnzFZSiDvjX9t6s
+ 8NbjYpfYhWwSnLzJYCmi7/XmRJdJZEVWH7ZbfvOpuI39nQIuSMFJiu1jw3MMCliM0HgvuQKT
+ nGUTTXk9BZfT6s53sBajFBCkIWsOK3AIzLhaCBXxWxqxE7UaewazlfB42DBm0RluvEpp4f57
+ 9hBW7G5HHOd7RilYobmgQ+eNQI6A9ccaeDQKonGw0V47kNROfybvT6B+XqE/s1yXQGvmZ6Cp
+ QwdTL/6u57tZZdxJtHHCNfBBFoC6by2ctMBJ9JPV+1ejW9ve6wARAQABtCFPbGVoIEtyYXZj
+ aGVua28gPG9sZWdAa2FhLm9yZy51YT6JAk4EEwEIADgCGwMCHgECF4AWIQTta/21JmmlO+9Y
+ CVrbZRmDXXTCZgUCWg4CUgULCQgHAwUVCgkICwUWAgMBAAAKCRDbZRmDXXTCZrzkD/wPVUAx
+ UudmBgLvYhBLuL0QCslD9rQ7+TSqs2FP79CHSNgBy7cXOrV0j9KNdAUmFyQqMRk8Pqrn3h8H
+ RdbMNKfWfi5RsPEKBGjj01QNPuAk0L2q8noT59Rr8GkZLaSe4Toncvk+3biNjI3n/W/BkRuV
+ PbMFC1F86wBuspQ/1HFht3DM+pCc1bp6RtBTSpgoGWiQSGblbnpYc0+CHsrkJwCP0ZXoi3Mg
+ xAkM11H6m6az+eCPIrakdhBZJaAu2BW6X7E+IqFACKfhgg8SiuZxAmdxEC/meXn4xZECUN+5
+ txjvdZWtnNWMVAhH9WbSSnRz6zUGZaxUjjuzTQ72AQEod8OGF69ZZKmWab8U1o1MbFYdGtHL
+ qDrhL62Op34T8AvT9KQ+zLVF2s5NeuajnwnMsQHjnOSNvyo0GwIDYzHCI36rfEUNhAIxE7CL
+ jaNOYajB3HZGYMclrrQy8ROHFQyl/Rd0V32M4rP46w0YTh6zQjr4Tb+lgMPjzlc2Ikp1MIZg
+ JHTTA8MLwPrBkmZutbQ6tu1x6DydgLHGYocgvFTav/2089Y8LAmGqsHiOrTBjFmtedrfrw3d
+ KnQghZnGBlRx3mL0bqsS0xG52NCYR/2fsGOma/HwqZ9yojkeBS46Uur+md0jiDahgzpJIR2g
+ SkR/KZHDX+2IRzcraO0NJIykqseEbbkCDQRaDf8rARAAxwLWUCG1LxPEMHKguRtNoV2uOZe/
+ 8IjfbfxtVdrqfX/rKXqIYB2qJ1GcQdeDwHgzf8TVqnP3LOd2m/HkoUmps0Kb0Xi8EnUvn5dD
+ ESxvlP1jwPZowq+Va9X9jziOwNUF5PhXMrM8I2xhpkqk0ZYJFke/zT0uXi6JJeZDd0VB419U
+ 9NmJIlwGenBUR8647gmyOp3MGG3/vFp6vkTbGedmcVWTX2107N0EsES+vb32DyvlNhtRSbSw
+ 5VDFwH8o9pzc3cBRs+UScRzvKJux+6RU6SY3U+VYQEsis8eVqKTQJJftwtX7O2p9gp3rNLq3
+ 3rt8Si4pt193VEgDSvayCocWiHy4FrXAYVv+T6avnztSC2rwtCUWZCcXh5Z4ChWgTwP7zsCj
+ NeEn2ImAyQZem+Zq5Ng1dneCRfeAiaKKOQgEKMOfZYqVfqQCwIMY+iWThWSFlQ1v9cfIb8g3
+ XjfdPaGQKzc5c2Bk0DIxDIx+Moa6YyYSIbw73f/8QL48ruNk32Y/REcsLEEY19GWVdBmnazF
+ xG/ZqCTse/sD6URKJEVp0MLg2qSEBdt2W2gKPH6iunpUdCn8qzPklxamwu4N2EqSzv1aPmZM
+ hLgH9oylg1n8IVcKrzjGvrb6aDAnlfUTCWG0fJENbB/9HhMADKejQuPA+8rNiB0BMaexovFW
+ 3Ved1OMAEQEAAYkCNgQYAQgAIBYhBO1r/bUmaaU771gJWttlGYNddMJmBQJaDf8rAhsMAAoJ
+ ENtlGYNddMJmxgIP/RNSV/9mCoZoruMfOvLIXz1oSUAbI+gqD5PjW2ua8HRr4apCxj/MRF1T
+ Lvkfea0pBZ7kwXmZlmxzCjIxvfrr6QsrF1zDaViPwaZFWQ3xkxoC5Qwr+/BurHmcIHHvAeXX
+ T/5ewTLJn2/Y0TSpAsJF8Phh++Xkb5SVvRULCeX5bHS4UDlbz+gbGAoK3UKf218LgS2Pr6L6
+ VfsnRcAz4jJ/+b764F+JiltEBTO4MG67DbjsW6sOg90BtPDUbtx1PcnnpD0a4L6yXpZj8mcO
+ 7LqbcKoL05FDa/vTV83qm3GatDoLdCiW3RE87qVeEofSpeJeh2+PYQh6f2pm7CDVmcFnmywF
+ 8rFXGMec7+RCbroIB+2k0LPAdAoHx99aAfHb9gKLCiYghjZbNYjQ/htdwAXOTDpcQrsiho+h
+ ZEk+rkhLriLxt00N3DbwWbqTuDGVhGzS2lLmHX5lpFmkRlPIA9PUmhx2pdoOpZD2CGB0pYgj
+ WySUnT8v1LQ7GLLj5iW+kqLCHEUjRjJ+Zhca4aVPZ0rjES/TYUVCB2QA+5PXTearrDWPQPM1
+ 74HJEvhLabxz1ovD5L7VEF0CsP4YsgJ2bNpsSZnzAQlU37POt2QUzs6FQqaftoPls9e8c2Te
+ u3OCPtorpY4e3/P7kC297p4uWnvoG3MVZQfSMwzm596mdvmJXmeVuQINBFoOAmIBEADqrHRm
+ 5JPBPDkWuV6Encf0C2yqtX64AuMJPHMr2uLLaQpmk2z2E5AwSLnzae/u1HFhF7m2NBJYqOg1
+ nMsn3mormzlhHABeL7LhT5EpfoEk6Xd8B6NZPIMzmAz5Tai1/JHj3CzxomEaK56B7EAzktPh
+ QGDST6wzH3LlV90bghHbFrCGWs5wGZWqI+bzNBODFUqhL15aHUqYhECfv0q7Lh8DVYpUuTDZ
+ JrPkmexlz5uV9kBnOowDkuBavGyqgbLlycWE5GxS8JveCQlO926doQ//B9mCHiF81iptM2Kf
+ k7kdwLD/idt1JNdfz9Jhr0UpLlDvUj4JkZC1zLcP/dkUTcOhxD/Cwb7/wPpXnaepH5J8t8qr
+ 7TSgearN+8idFtNZ6br4TKA95qsile8jeQqYjNoczv6ibpgipS/wN2huUTkiORy5Darihpv5
+ uYEajdvjHhxXI1G4FOpFzAd0hc6GNXt6ZfPbVSkgj01pXyfQKLTvR/4LHtfMtrr7KUWJAn7D
+ HFFSr8y+wVAQ+NYnMVkKn/K1iMtZpWz7o4W6EKvTdO36sPE6z8m9tidbTQT32jJmnHrrPi6i
+ US/TnN6czXaeCUgGqag2G8+kNETuvczeQ1fuzEz7ae2PWfpxnWM1wQfY0rg1NavhxK5bILxY
+ 2p6lo3pDncmsOEibW7cLCuHDLnGpgwARAQABiQRsBBgBCAAgFiEE7Wv9tSZppTvvWAla22UZ
+ g110wmYFAloOAmICGwICQAkQ22UZg110wmbBdCAEGQEIAB0WIQQL9Mzm37Y16cWFbRDTE0mb
+ bSmXjAUCWg4CYgAKCRDTE0mbbSmXjFH5D/4vb/MdT1BZ7R8NFhT4UpVrzhNKnRS941dqY+Z7
+ KaSvtwv4aBXtSSowZk6hrVpccxQDIOoAbAKDIwXZnfPaFSQSgnAlE/gARY1m3VhQZRrcOcqD
+ /y2UYmiLoSmCbBhRdUmhYuZSQJmGOhVQTuFP4NWqS9kOiWtoGgreqcru/YYLicfgUc9vD00D
+ DiLSUodO3xBc+40caWNGK79FWhTQKjyh7IvIvpEQEVeZ1suJrH6LSPT+zlNfHVBHCY/W8UTe
+ yamvY0vezXTnfgaHY1gnX2/GU6IpCbvFo8heqD0pq63t7i9HnJEu+0mfCmV3FUJzXnBwQ+6z
+ UXGJI17r4r/tFgB6JQZwnU9slwLqix4KiV2rSDVu+mLRjfMXUSdbyz+VP1ea0E9/8JlnglR6
+ e1fvjwpDTup56RtD3lB8sGM5xWNbTNyzjyMGj/pvuCNQWI9YqdrT8+EGbZ56lzAgy7Oecgeq
+ 7vJwYnVHCnPIfqcb4lScugc7zI5XcBVFIaJi9apNbK3uInkRhQMxInHCah1YdyzpTO7JHWHX
+ LBWj0jA1zn56O7y13XYIeb8Tlyh4JkVvFID9Cx69VeanMephQwy7mH8E2llPBgqv/CsXIiCV
+ mGJX7TUVZ6Yl2qvX8fhtQGaq+me3/QX0I8W3q8c6XtrMIf5J1IlrytiZ+1hs+K4tE932BfG4
+ D/91mJ6CxLuXzbys4npafrxKcYUPHBnSXHHW8c3Y7oxAbgFT2XLV9T9tkZ1Gff8Pdnbna5us
+ MUXUvulS0BykXySdPZPc4w+WzY+U5jDLQsw+D/FHohIJEHKVse6hWc4uTeW819PfNDMeTWyG
+ 46KXvg5492W4SsWPegKu1yAWajuQtXKBIJKbks3GG0Tt3J05XQwVEUvVIRCLmhWGwuwyO3T4
+ x037kl5kBwnMlse+cg6+/3Fjf2bpAZWAFl1c6yqRDByqafPtezG87H+TFWIsObcR3iJ/5mlB
+ A6BvRjHpsYCfGbVm2Z2p8pxAS8k8tJAT+JzH1wMsIyvL2UdZ9vaR+xMh4C9cGiSv3WKnVy0m
+ 1Vtj257XZJd451MFMZ5b1sNGlucGD1JSrDuBUZATQXBosrpp0vqYQ/JfiFWUTuZIolgz/C5v
+ okh3TZo/FR5Oh9HdB4aok4nq8Ot9JAei7SZhHHtAB3R+aXRDl0v/KZ+sKi9euGvT0D9skFBp
+ LAfjDKzc9y0J1q0aDQljQpgdi+CC3RzskpCK+D3RG/vKbZCASLlnk5SWWiRiCt33BfoDC2h6
+ u0q8t+6HIP1VWw73qZ233By1VCEohLVJV1+cZ0/kUgkocr7aZuyNLLN/awZc0g+pj42u2BDC
+ WVdfrwbus0lVCELNSvCIW2IktSytUxjQfmjBMw==
+Message-ID: <cf0e62c5-2502-19d2-5956-f262eee2255d@kaa.org.ua>
+Date:   Sat, 8 Jun 2019 00:33:05 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <50e38b87-a7ab-d83b-c4d4-7db9760cfdd6@ti.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="xeAuN3uWWp73B2XzPbWuG2fCdZ85VurYC"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Oleh
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--xeAuN3uWWp73B2XzPbWuG2fCdZ85VurYC
+Content-Type: multipart/mixed; boundary="IDkWvxBMhmxR6oGTVuyCQ9GITmaDGO55e";
+ protected-headers="v1"
+From: Oleh Kravchenko <oleg@kaa.org.ua>
+To: Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
+ linux-leds@vger.kernel.org
+Message-ID: <cf0e62c5-2502-19d2-5956-f262eee2255d@kaa.org.ua>
+Subject: Re: [PATCH v2 2/2] leds: add LED driver for EL15203000 board
+References: <20190607190351.14092-2-oleg@kaa.org.ua>
+ <50e38b87-a7ab-d83b-c4d4-7db9760cfdd6@ti.com>
+In-Reply-To: <50e38b87-a7ab-d83b-c4d4-7db9760cfdd6@ti.com>
 
-On 6/7/19 4:17 PM, Oleh Kravchenko wrote:
-> Dan,
->
-> On 08.06.19 00:04, Dan Murphy wrote:
->> Oleh
->> But this is not really max_brightness now this is a feature and now
->> does not make sense in this context
->>>> You may need to use something different for this property or expose
->>>> a file in the driver.
->>>>
->>>>
->>> Protocol for this board define 0x32 as brightness level.
->>> This behaviur needed to keep backward compatibity.
->>>
->>>
->> Backwards compatibility to what?
-> With old/new boards.
+--IDkWvxBMhmxR6oGTVuyCQ9GITmaDGO55e
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+Content-Language: uk-UA
 
-This does not make sense.
+RGFuLAoKT24gMDcuMDYuMTkgMjM6MTMsIERhbiBNdXJwaHkgd3JvdGU6Cj4gT2xlaAo+Cj4g
+T24gNi83LzE5IDI6MDMgUE0sIE9sZWggS3JhdmNoZW5rbyB3cm90ZToKPj4gKwo+PiArc3Rh
+dGljIGludCBlbDE1MjAzMDAwX3NldF9zeW5jKHN0cnVjdCBsZWRfY2xhc3NkZXYgKmxkZXYs
+Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVudW0gbGVkX2JyaWdo
+dG5lc3MgYnJpZ2h0bmVzcykKPj4gK3sKPj4gK8KgwqDCoCBpbnTCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIHJldDsKPj4gK8KgwqDCoCB1OMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY21kWzJd
+Owo+Cj4gSSBhbSB3b25kZXJpbmcgaWYgeW91IHNob3VsZCAjZGVmaW5lIHRoaXMgYXMgd2Vs
+bC4KSXQncyB1c2VkIG9ubHkgaW4gb25lIHBsYWNlLCBzaG91bGQgSSByZWFsbHkgd3JhcCBp
+dCB0byBkZWZpbmU/Cj4KPiBUaGVuIHRoZSAjZGVmaW5lIGNhbiBiZSB1c2VkIGhlcmUgYW5k
+IHRoZW4gaW4gdGhlIGZvciBsb29wLgo+Cj4gVGhlcmUgaXMgbm8gcmVhc29uIHRvIGRvIEFS
+UkFZX1NJWkUgaWYgaXQgd2lsbCBhbHdheXMgYmUgMi4KClJlc3VsdCBvZiBBUlJBWV9TSVpF
+KCkgd2lsbCBiZSBhbHdheXMgY29uc3RhbnQgYW5kIGFjdHVhbGx5IGl0wqAgY2FuIGJlIGF2
+b2lkZWQgYnkgZGVmaW5lLgoKQnV0IEkgcHJlZmVyIEFSUkFZX1NJWkUoKSA6LSkKCj4KPj4K
+Pj4gK8KgwqDCoCBkZXZpY2VfZm9yX2VhY2hfY2hpbGRfbm9kZShwcml2LT5kZXYsIGNoaWxk
+KSB7Cj4+ICvCoMKgwqDCoMKgwqDCoCBsZWQgPSAmcHJpdi0+bGVkc1tpXTsKPj4gKwo+PiAr
+wqDCoMKgwqDCoMKgwqAgcmV0ID0gZndub2RlX3Byb3BlcnR5X3JlYWRfdTMyKGNoaWxkLCAi
+cmVnIiwgJnJlZyk7Cj4KPiBXaHkgZGlkbid0IHlvdSB1c2UgZndub2RlX3Byb3BlcnR5X3Jl
+YWRfdTggdGhlbiB5b3UgZG9uJ3QgbmVlZCB0byBjaGVjayB0aGUgc2l6ZSBvZiB0aGUgdmFs
+dWUKQmVjYXVzZSBmd25vZGVfcHJvcGVydHlfcmVhZF91OCgpIHJldHVybiAwIGZvciAicmVn
+IiBwcm9wZXJ0eSBhbmQgYnkgRFQgc3RhbmRhcmQgcmVnIGhhcyB1MzIgdHlwZS4KPgo+IGJl
+bG93IGFuZCB5b3UgY2FuIHJlbW92ZSB0aGUgaGVhZGVyPwo+Cj4gQW5kIHRoZW4geW91IGNh
+biBzdG9yZSB0aGUgdmFsdWUgb2YgcmVnIHJpZ2h0IGludG8gbGVkLT5yZWcgYXMgdGhhdCBp
+cyBhIHU4Cj4KPj4gK8KgwqDCoMKgwqDCoMKgIGlmIChyZXQpIHsKPj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgZGV2X2Vycihwcml2LT5kZXYsICJMRUQgd2l0aG91dCBJRCBudW1iZXIi
+KTsKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZndub2RlX2hhbmRsZV9wdXQoY2hpbGQp
+Owo+PiArCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiByZXQ7Cj4+ICvCoMKg
+wqDCoMKgwqDCoCB9Cj4gTmV3IGxpbmUKRG9uZQo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKHJl
+ZyA+IFU4X01BWCkgewo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkZXZfZXJyKHByaXYt
+PmRldiwgIkxFRCB2YWx1ZSAlZCBpcyBpbnZhbGlkIiwgcmVnKTsKPj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgZndub2RlX2hhbmRsZV9wdXQoY2hpbGQpOwo+PiArCj4+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIHJldHVybiAtRUlOVkFMOwo+PiArwqDCoMKgwqDCoMKgwqAgfQo+
+IE5ldyBsaW5lCkRvbmUKPj4gK8KgwqDCoMKgwqDCoMKgIGxlZC0+cmVnID0gcmVnOwo+PiAr
+Cj4+ICvCoMKgwqDCoMKgwqDCoCByZXQgPSBmd25vZGVfcHJvcGVydHlfcmVhZF9zdHJpbmco
+Y2hpbGQsICJsYWJlbCIsICZzdHIpOwo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKHJldCkKPj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc25wcmludGYobGVkLT5uYW1lLCBzaXplb2YobGVk
+LT5uYW1lKSwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJlbDE1MjAz
+MDAwOjoiKTsKPj4gK8KgwqDCoMKgwqDCoMKgIGVsc2UKPj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgc25wcmludGYobGVkLT5uYW1lLCBzaXplb2YobGVkLT5uYW1lKSwKPj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJlbDE1MjAzMDAwOiVzIiwgc3RyKTsKPj4g
+Kwo+PiArwqDCoMKgwqDCoMKgwqAgZndub2RlX3Byb3BlcnR5X3JlYWRfc3RyaW5nKGNoaWxk
+LCAibGludXgsZGVmYXVsdC10cmlnZ2VyIiwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJmxlZC0+bGRldi5kZWZhdWx0X3RyaWdnZXIpOwo+
+PiArCj4+ICvCoMKgwqDCoMKgwqDCoCBsZWQtPnByaXbCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCA9IHByaXY7Cj4+ICvCoMKgwqDCoMKgwqDCoCBsZWQtPmxkZXYubmFtZcKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgID0gbGVkLT5uYW1lOwo+PiArwqDCoMKgwqDCoMKgwqAgbGVk
+LT5sZGV2Lm1heF9icmlnaHRuZXNzwqDCoMKgwqDCoCA9IExFRF9PTjsKPj4gK8KgwqDCoMKg
+wqDCoMKgIGxlZC0+bGRldi5icmlnaHRuZXNzX3NldF9ibG9ja2luZyA9IGVsMTUyMDMwMDBf
+c2V0X3N5bmM7Cj4+ICsKPj4gK8KgwqDCoMKgwqDCoMKgIHJldCA9IGZ3bm9kZV9wcm9wZXJ0
+eV9yZWFkX3UzMihjaGlsZCwgIm1heC1icmlnaHRuZXNzIiwKPj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJmxlZC0+bGRldi5tYXhf
+YnJpZ2h0bmVzcyk7Cj4KPiBUaGUgdmFsdWUgbGVkLT5sZGV2Lm1heF9icmlnaHRuZXNzIHdp
+bGwgYmUgb3ZlciB3cml0dGVuIGhlcmUgYnkgdGhpcyBjYWxsLgo+Cj4gU28gc2V0dGluZyBp
+dCBhYm92ZSB3aWxsIGhhdmUgbm8gYWZmZWN0Ckl0IHdpbGwgaGF2ZSBlZmZlY3QsIGJlY2F1
+c2UgaXQgaW5pdGlhbGl6ZWQgdmFsdWUgd2hpY2ggY2FuIGJlIG92ZXIgd3JpdHRlbiBieSBm
+d25vZGVfcHJvcGVydHlfcmVhZF91MzIKPiBZb3Ugc2hvdWxkIG1vdmUgdGhlIGxlZC0+bGRl
+di5tYXhfYnJpZ2h0bmVzcyA9IExFRF9PTiBpbnRvIGEgcmV0IGNoZWNrIGFzIHRoaXMgaXMg
+YW4gb3B0aW9uYWwgcHJvcGVydHkKPgo+IGlmIChyZXQpCj4KPiDCoMKgwqAgbGVkLT5sZGV2
+Lm1heF9icmlnaHRuZXNzID0gTEVEX09OOwpHb29kIHBvaW50LCB0aGFuayB5b3UKPgo+IFRo
+ZW4geW91IGNhbiBjaGVjayB0aGUgYm91bmRzIGJlbG93Lgo+Cj4gQXMgcG9pbnRlZCBvdXQg
+eW91ciBtYXhfYnJpZ2h0bmVzcyBpcyBhIGJpbmFyeSBhbmQgdGhlIDB4MzIgaXMgYW4gZWZm
+ZWN0IHlvdSB0ZWNobmljYWxseSBkb24ndCBldmVuIG5lZWQgbWF4X2JyaWdodG5lc3MgaWYg
+eW91Cj4KPiBleHBvc2UgdGhlIGVmZmVjdHMgYXMgYSBmaWxlLgo+Cj4gRG9lcyAweDMyIHR1
+cm4gdGhlIExFRCBvbiBvciBvZmY/wqAgT3IgZG9lcyBpdCBibGluayB0aGUgTEVEPwoKSXQg
+ZGVwZW5kcyBvbiBMRUQgYm9hcmQsCgppdCBjYW4gYmxpbmsuCkl0IGNhbiBwbGF5IHNjZW5l
+IG9uIExFRCBhcnJheS4KSXQgY2FuIGJsaW5rIHNtb290aGx5LgoKQnV0IGl0IGRlcGVuZCBv
+biB0aGUgYm9hcmQsIG5vdCBhIHByb3RvY29sLgoKPgo+IERhbgo+Cgo=
 
-How would a device tree entry or a file that controls the blinking have 
-to deal with the hardware?
+--IDkWvxBMhmxR6oGTVuyCQ9GITmaDGO55e--
 
-If it allows feature setting then you should create a bool in the device 
-tree.
+--xeAuN3uWWp73B2XzPbWuG2fCdZ85VurYC
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-el15203000-blink;
+-----BEGIN PGP SIGNATURE-----
 
-If the board supports the feature you set this and create a file to 
-dis/enable the feature.
+iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAlz62BEACgkQ0xNJm20p
+l4wGYRAAogh0eetmvSOBXrj/zBhQ91VR7ndL4iRmZ1txVEmSEtjAdNjXZaVTmRvF
+M007nazfKJ/YABNj5isit3f2gtLOeD2RuvonGGINZ/3h/02HIYmE0RreJiQaE6Ca
+gPajak9roCiRhsVmuncBNH4CTyyNO1cBGSQvXNfTATHQOHOFuD0B53JIE9xJ/hhA
+VodLKuyjRMyrSU9wTn++z4bP8SngFTsAgNNGAk7fDXaju6LqRCXBnork497RWGyl
+cdsp5iRX9nooZCQQWUAKHez8OfE12QefUuqpInZafNk5JKEBEh4tg3uCnQRlnfHX
+/sTkqn9WgYrx4XlMhT8KG5KTbfq/PhQUCIBRUhBjFTMmsTan9w3iFvF+saHWk+s/
+rjR7xA9xQ+W/zvoT7pUPdXj+0+/PmbddW8lQFcbLvM11VonOGXLCGn6Pnlo9Olsl
+mE8+pDcOrOJ8JHk3hWPS641BF5ju5THAoj18fvKy2xOquDztYzaT+5R5IbWdx9Cf
+m8hMzYE8pc9RI2AC0E8uYDpjfPGtDYyFLmcnNG2VLxE79LRjLBELepZVQaKRKcj3
+Jm++4T+1Ud+8/wkrBTftCc/lDg5Yz3OClx1J3wnkabhbpkmTmubwx1Cye+RKX4+1
+dPUAjcgI8gdg0o8VC8PJppGbrG672QF/Jscp6GUw42nhlRl+RII=
+=SzOV
+-----END PGP SIGNATURE-----
 
-If the board does not support it then no file is created.
-
-max_brightness for this device appears to be 1.
-
-Dan
-
-
->> This is a new driver there should be no DT that has this compatible or
->> definition.
->>
->> I will let Rob ack or nack this node.
->>
->> Dan
->>
->
+--xeAuN3uWWp73B2XzPbWuG2fCdZ85VurYC--
