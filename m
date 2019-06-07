@@ -2,26 +2,31 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2402E397CE
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2019 23:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAE333980C
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Jun 2019 23:48:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730206AbfFGVdQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Jun 2019 17:33:16 -0400
-Received: from smtp.220.in.ua ([89.184.67.205]:51645 "EHLO smtp.220.in.ua"
+        id S1731225AbfFGVsP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 7 Jun 2019 17:48:15 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:52654 "EHLO smtp.220.in.ua"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730145AbfFGVdQ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 7 Jun 2019 17:33:16 -0400
+        id S1731142AbfFGVsP (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 7 Jun 2019 17:48:15 -0400
 Received: from [192.168.202.100] (unknown [95.67.115.55])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by smtp.220.in.ua (Postfix) with ESMTPSA id 006BB1A20B58;
-        Sat,  8 Jun 2019 00:33:12 +0300 (EEST)
-From:   Oleh Kravchenko <oleg@kaa.org.ua>
-Subject: Re: [PATCH v2 2/2] leds: add LED driver for EL15203000 board
-To:     Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 250FB1A20B58;
+        Sat,  8 Jun 2019 00:48:11 +0300 (EEST)
+Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
         linux-leds@vger.kernel.org
-References: <20190607190351.14092-2-oleg@kaa.org.ua>
- <50e38b87-a7ab-d83b-c4d4-7db9760cfdd6@ti.com>
+References: <20190607184022.13793-1-oleg@kaa.org.ua>
+ <b1f0eaf6-e91c-2095-5928-179ad8695b33@ti.com>
+ <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
+ <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
+ <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
+ <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
 Openpgp: preference=signencrypt
 Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
  mQINBFoN/ysBEAC8JmIsjbpgHCXhOuuRtHQrpFhrrs5bNNSRztXxnVYtyR5sbsEgh8dFt9ZZ
@@ -97,127 +102,137 @@ Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
  LAfjDKzc9y0J1q0aDQljQpgdi+CC3RzskpCK+D3RG/vKbZCASLlnk5SWWiRiCt33BfoDC2h6
  u0q8t+6HIP1VWw73qZ233By1VCEohLVJV1+cZ0/kUgkocr7aZuyNLLN/awZc0g+pj42u2BDC
  WVdfrwbus0lVCELNSvCIW2IktSytUxjQfmjBMw==
-Message-ID: <cf0e62c5-2502-19d2-5956-f262eee2255d@kaa.org.ua>
-Date:   Sat, 8 Jun 2019 00:33:05 +0300
+Message-ID: <7e787498-537b-390d-589a-577f34ffbc3f@kaa.org.ua>
+Date:   Sat, 8 Jun 2019 00:48:03 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <50e38b87-a7ab-d83b-c4d4-7db9760cfdd6@ti.com>
+In-Reply-To: <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="xeAuN3uWWp73B2XzPbWuG2fCdZ85VurYC"
+ boundary="RYWAu1ML0zaqebF05WhOieeoq2a3whEb6"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xeAuN3uWWp73B2XzPbWuG2fCdZ85VurYC
-Content-Type: multipart/mixed; boundary="IDkWvxBMhmxR6oGTVuyCQ9GITmaDGO55e";
+--RYWAu1ML0zaqebF05WhOieeoq2a3whEb6
+Content-Type: multipart/mixed; boundary="hRclynZB9Rsqj0k0M9FjUXiYCcdZQ1zE4";
  protected-headers="v1"
 From: Oleh Kravchenko <oleg@kaa.org.ua>
-To: Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
- linux-leds@vger.kernel.org
-Message-ID: <cf0e62c5-2502-19d2-5956-f262eee2255d@kaa.org.ua>
-Subject: Re: [PATCH v2 2/2] leds: add LED driver for EL15203000 board
-References: <20190607190351.14092-2-oleg@kaa.org.ua>
- <50e38b87-a7ab-d83b-c4d4-7db9760cfdd6@ti.com>
-In-Reply-To: <50e38b87-a7ab-d83b-c4d4-7db9760cfdd6@ti.com>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>, Dan Murphy
+ <dmurphy@ti.com>, devicetree@vger.kernel.org, linux-leds@vger.kernel.org
+Message-ID: <7e787498-537b-390d-589a-577f34ffbc3f@kaa.org.ua>
+Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
+References: <20190607184022.13793-1-oleg@kaa.org.ua>
+ <b1f0eaf6-e91c-2095-5928-179ad8695b33@ti.com>
+ <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
+ <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
+ <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
+ <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
+In-Reply-To: <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
 
---IDkWvxBMhmxR6oGTVuyCQ9GITmaDGO55e
+--hRclynZB9Rsqj0k0M9FjUXiYCcdZQ1zE4
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
 Content-Language: uk-UA
+Content-Transfer-Encoding: quoted-printable
 
-RGFuLAoKT24gMDcuMDYuMTkgMjM6MTMsIERhbiBNdXJwaHkgd3JvdGU6Cj4gT2xlaAo+Cj4g
-T24gNi83LzE5IDI6MDMgUE0sIE9sZWggS3JhdmNoZW5rbyB3cm90ZToKPj4gKwo+PiArc3Rh
-dGljIGludCBlbDE1MjAzMDAwX3NldF9zeW5jKHN0cnVjdCBsZWRfY2xhc3NkZXYgKmxkZXYs
-Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVudW0gbGVkX2JyaWdo
-dG5lc3MgYnJpZ2h0bmVzcykKPj4gK3sKPj4gK8KgwqDCoCBpbnTCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHJldDsKPj4gK8KgwqDCoCB1OMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY21kWzJd
-Owo+Cj4gSSBhbSB3b25kZXJpbmcgaWYgeW91IHNob3VsZCAjZGVmaW5lIHRoaXMgYXMgd2Vs
-bC4KSXQncyB1c2VkIG9ubHkgaW4gb25lIHBsYWNlLCBzaG91bGQgSSByZWFsbHkgd3JhcCBp
-dCB0byBkZWZpbmU/Cj4KPiBUaGVuIHRoZSAjZGVmaW5lIGNhbiBiZSB1c2VkIGhlcmUgYW5k
-IHRoZW4gaW4gdGhlIGZvciBsb29wLgo+Cj4gVGhlcmUgaXMgbm8gcmVhc29uIHRvIGRvIEFS
-UkFZX1NJWkUgaWYgaXQgd2lsbCBhbHdheXMgYmUgMi4KClJlc3VsdCBvZiBBUlJBWV9TSVpF
-KCkgd2lsbCBiZSBhbHdheXMgY29uc3RhbnQgYW5kIGFjdHVhbGx5IGl0wqAgY2FuIGJlIGF2
-b2lkZWQgYnkgZGVmaW5lLgoKQnV0IEkgcHJlZmVyIEFSUkFZX1NJWkUoKSA6LSkKCj4KPj4K
-Pj4gK8KgwqDCoCBkZXZpY2VfZm9yX2VhY2hfY2hpbGRfbm9kZShwcml2LT5kZXYsIGNoaWxk
-KSB7Cj4+ICvCoMKgwqDCoMKgwqDCoCBsZWQgPSAmcHJpdi0+bGVkc1tpXTsKPj4gKwo+PiAr
-wqDCoMKgwqDCoMKgwqAgcmV0ID0gZndub2RlX3Byb3BlcnR5X3JlYWRfdTMyKGNoaWxkLCAi
-cmVnIiwgJnJlZyk7Cj4KPiBXaHkgZGlkbid0IHlvdSB1c2UgZndub2RlX3Byb3BlcnR5X3Jl
-YWRfdTggdGhlbiB5b3UgZG9uJ3QgbmVlZCB0byBjaGVjayB0aGUgc2l6ZSBvZiB0aGUgdmFs
-dWUKQmVjYXVzZSBmd25vZGVfcHJvcGVydHlfcmVhZF91OCgpIHJldHVybiAwIGZvciAicmVn
-IiBwcm9wZXJ0eSBhbmQgYnkgRFQgc3RhbmRhcmQgcmVnIGhhcyB1MzIgdHlwZS4KPgo+IGJl
-bG93IGFuZCB5b3UgY2FuIHJlbW92ZSB0aGUgaGVhZGVyPwo+Cj4gQW5kIHRoZW4geW91IGNh
-biBzdG9yZSB0aGUgdmFsdWUgb2YgcmVnIHJpZ2h0IGludG8gbGVkLT5yZWcgYXMgdGhhdCBp
-cyBhIHU4Cj4KPj4gK8KgwqDCoMKgwqDCoMKgIGlmIChyZXQpIHsKPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgZGV2X2Vycihwcml2LT5kZXYsICJMRUQgd2l0aG91dCBJRCBudW1iZXIi
-KTsKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZndub2RlX2hhbmRsZV9wdXQoY2hpbGQp
-Owo+PiArCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiByZXQ7Cj4+ICvCoMKg
-wqDCoMKgwqDCoCB9Cj4gTmV3IGxpbmUKRG9uZQo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKHJl
-ZyA+IFU4X01BWCkgewo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkZXZfZXJyKHByaXYt
-PmRldiwgIkxFRCB2YWx1ZSAlZCBpcyBpbnZhbGlkIiwgcmVnKTsKPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgZndub2RlX2hhbmRsZV9wdXQoY2hpbGQpOwo+PiArCj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHJldHVybiAtRUlOVkFMOwo+PiArwqDCoMKgwqDCoMKgwqAgfQo+
-IE5ldyBsaW5lCkRvbmUKPj4gK8KgwqDCoMKgwqDCoMKgIGxlZC0+cmVnID0gcmVnOwo+PiAr
-Cj4+ICvCoMKgwqDCoMKgwqDCoCByZXQgPSBmd25vZGVfcHJvcGVydHlfcmVhZF9zdHJpbmco
-Y2hpbGQsICJsYWJlbCIsICZzdHIpOwo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKHJldCkKPj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc25wcmludGYobGVkLT5uYW1lLCBzaXplb2YobGVk
-LT5uYW1lKSwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJlbDE1MjAz
-MDAwOjoiKTsKPj4gK8KgwqDCoMKgwqDCoMKgIGVsc2UKPj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgc25wcmludGYobGVkLT5uYW1lLCBzaXplb2YobGVkLT5uYW1lKSwKPj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJlbDE1MjAzMDAwOiVzIiwgc3RyKTsKPj4g
-Kwo+PiArwqDCoMKgwqDCoMKgwqAgZndub2RlX3Byb3BlcnR5X3JlYWRfc3RyaW5nKGNoaWxk
-LCAibGludXgsZGVmYXVsdC10cmlnZ2VyIiwKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJmxlZC0+bGRldi5kZWZhdWx0X3RyaWdnZXIpOwo+
-PiArCj4+ICvCoMKgwqDCoMKgwqDCoCBsZWQtPnByaXbCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCA9IHByaXY7Cj4+ICvCoMKgwqDCoMKgwqDCoCBsZWQtPmxkZXYubmFtZcKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgID0gbGVkLT5uYW1lOwo+PiArwqDCoMKgwqDCoMKgwqAgbGVk
-LT5sZGV2Lm1heF9icmlnaHRuZXNzwqDCoMKgwqDCoCA9IExFRF9PTjsKPj4gK8KgwqDCoMKg
-wqDCoMKgIGxlZC0+bGRldi5icmlnaHRuZXNzX3NldF9ibG9ja2luZyA9IGVsMTUyMDMwMDBf
-c2V0X3N5bmM7Cj4+ICsKPj4gK8KgwqDCoMKgwqDCoMKgIHJldCA9IGZ3bm9kZV9wcm9wZXJ0
-eV9yZWFkX3UzMihjaGlsZCwgIm1heC1icmlnaHRuZXNzIiwKPj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJmxlZC0+bGRldi5tYXhf
-YnJpZ2h0bmVzcyk7Cj4KPiBUaGUgdmFsdWUgbGVkLT5sZGV2Lm1heF9icmlnaHRuZXNzIHdp
-bGwgYmUgb3ZlciB3cml0dGVuIGhlcmUgYnkgdGhpcyBjYWxsLgo+Cj4gU28gc2V0dGluZyBp
-dCBhYm92ZSB3aWxsIGhhdmUgbm8gYWZmZWN0Ckl0IHdpbGwgaGF2ZSBlZmZlY3QsIGJlY2F1
-c2UgaXQgaW5pdGlhbGl6ZWQgdmFsdWUgd2hpY2ggY2FuIGJlIG92ZXIgd3JpdHRlbiBieSBm
-d25vZGVfcHJvcGVydHlfcmVhZF91MzIKPiBZb3Ugc2hvdWxkIG1vdmUgdGhlIGxlZC0+bGRl
-di5tYXhfYnJpZ2h0bmVzcyA9IExFRF9PTiBpbnRvIGEgcmV0IGNoZWNrIGFzIHRoaXMgaXMg
-YW4gb3B0aW9uYWwgcHJvcGVydHkKPgo+IGlmIChyZXQpCj4KPiDCoMKgwqAgbGVkLT5sZGV2
-Lm1heF9icmlnaHRuZXNzID0gTEVEX09OOwpHb29kIHBvaW50LCB0aGFuayB5b3UKPgo+IFRo
-ZW4geW91IGNhbiBjaGVjayB0aGUgYm91bmRzIGJlbG93Lgo+Cj4gQXMgcG9pbnRlZCBvdXQg
-eW91ciBtYXhfYnJpZ2h0bmVzcyBpcyBhIGJpbmFyeSBhbmQgdGhlIDB4MzIgaXMgYW4gZWZm
-ZWN0IHlvdSB0ZWNobmljYWxseSBkb24ndCBldmVuIG5lZWQgbWF4X2JyaWdodG5lc3MgaWYg
-eW91Cj4KPiBleHBvc2UgdGhlIGVmZmVjdHMgYXMgYSBmaWxlLgo+Cj4gRG9lcyAweDMyIHR1
-cm4gdGhlIExFRCBvbiBvciBvZmY/wqAgT3IgZG9lcyBpdCBibGluayB0aGUgTEVEPwoKSXQg
-ZGVwZW5kcyBvbiBMRUQgYm9hcmQsCgppdCBjYW4gYmxpbmsuCkl0IGNhbiBwbGF5IHNjZW5l
-IG9uIExFRCBhcnJheS4KSXQgY2FuIGJsaW5rIHNtb290aGx5LgoKQnV0IGl0IGRlcGVuZCBv
-biB0aGUgYm9hcmQsIG5vdCBhIHByb3RvY29sLgoKPgo+IERhbgo+Cgo=
+Jacek,
 
---IDkWvxBMhmxR6oGTVuyCQ9GITmaDGO55e--
+08.06.19 00:23, Jacek Anaszewski =D0=BF=D0=B8=D1=88=D0=B5:
+> Hi Oleh.
+>=20
+> On 6/7/19 11:17 PM, Oleh Kravchenko wrote:
+>> Dan,
+>>
+>> On 08.06.19 00:04, Dan Murphy wrote:
+>>> Oleh
+>>> But this is not really max_brightness now this is a feature and now
+>>> does not make sense in this context
+>>>>>
+>>>>> You may need to use something different for this property or expose=
 
---xeAuN3uWWp73B2XzPbWuG2fCdZ85VurYC
+>>>>> a file in the driver.
+>>>>>
+>>>>>
+>>>> Protocol for this board define 0x32 as brightness level.
+>>>> This behaviur needed to keep backward compatibity.
+>>>>
+>>>>
+>>> Backwards compatibility to what?
+>> With old/new boards.
+>=20
+> You have in your driver the following:
+>=20
+> + * BRIGHTNESS=C2=A0=C2=A0=C2=A0 Can be 0x30 (OFF), 0x31 (ON).
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x32 (Effect) can b=
+e used for 0x50 (leaking) and
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for 0x53 (blinking)=
+
+>=20
+> If your max-brightness DT property is to be used for controlling this,
+> then I don't see how it would be backward compatible with anything.
+>=20
+> Clearly, you don't need max-brightness DT property at all.
+
+What I should do with board which accept brightness in range 0x30 - 0x3a?=
+
+Where 0x3a means special effect.
+
+>=20
+> For blinking you can use blink_set op. To be able to recommend
+> you anoptimal solution for the effect we would need more
+> details regarding its nature.
+
+Thanks, I will do that.
+But how to properly handle other effects? Not only blinking?
+
+And how to define it by device tree?
+Driver can't get this information about what is really supported.
+I don't want define effect code inside DT.
+
+=20
+>>> This is a new driver there should be no DT that has this compatible o=
+r
+>>> definition.
+>>>
+>>> I will let Rob ack or nack this node.
+>>>
+>>> Dan
+>>>
+>>
+>>
+>=20
+
+--=20
+Best regards,
+Oleh Kravchenko
+Phone: +380972763224 | oleg@kaa.org.ua | Skype: oleg_krava
+
+
+--hRclynZB9Rsqj0k0M9FjUXiYCcdZQ1zE4--
+
+--RYWAu1ML0zaqebF05WhOieeoq2a3whEb6
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAlz62BEACgkQ0xNJm20p
-l4wGYRAAogh0eetmvSOBXrj/zBhQ91VR7ndL4iRmZ1txVEmSEtjAdNjXZaVTmRvF
-M007nazfKJ/YABNj5isit3f2gtLOeD2RuvonGGINZ/3h/02HIYmE0RreJiQaE6Ca
-gPajak9roCiRhsVmuncBNH4CTyyNO1cBGSQvXNfTATHQOHOFuD0B53JIE9xJ/hhA
-VodLKuyjRMyrSU9wTn++z4bP8SngFTsAgNNGAk7fDXaju6LqRCXBnork497RWGyl
-cdsp5iRX9nooZCQQWUAKHez8OfE12QefUuqpInZafNk5JKEBEh4tg3uCnQRlnfHX
-/sTkqn9WgYrx4XlMhT8KG5KTbfq/PhQUCIBRUhBjFTMmsTan9w3iFvF+saHWk+s/
-rjR7xA9xQ+W/zvoT7pUPdXj+0+/PmbddW8lQFcbLvM11VonOGXLCGn6Pnlo9Olsl
-mE8+pDcOrOJ8JHk3hWPS641BF5ju5THAoj18fvKy2xOquDztYzaT+5R5IbWdx9Cf
-m8hMzYE8pc9RI2AC0E8uYDpjfPGtDYyFLmcnNG2VLxE79LRjLBELepZVQaKRKcj3
-Jm++4T+1Ud+8/wkrBTftCc/lDg5Yz3OClx1J3wnkabhbpkmTmubwx1Cye+RKX4+1
-dPUAjcgI8gdg0o8VC8PJppGbrG672QF/Jscp6GUw42nhlRl+RII=
-=SzOV
+iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAlz625MACgkQ0xNJm20p
+l4wEXQ/8CFjkbCKFh8BQOKmMKvQjxbbm6xGCG6bmsgi/qQQkWjlifUgmV5/oh6a+
+D9KKolQTqNgOCx4uSB3nLsivDswxLUuaCqrqmh/BnQkM2ufRYJrGSCC5eOD8BHL+
+4Rn99dv+j6yjQiGUedmIkVmENxWabsD7HU6hpAwDf3WPaUygYgBnylIWmopLxBzu
+RTZJ320i2LocviV59ldWriUMFTF8Ilnlu9ycsXWFUuQwcE+riID7eqdUrZvMAcce
+O0HbAlt6/55TuBJwFwXV2xn7X1bP+ZuU4G9VO4rLyA/yHc5J+D1jKugO3wywt7v+
+sQaj0rOzfeedM7wDTG0aszZRvQiKK3UUHHsQo9zWsN/AB+d9WbXhkkFddW9RSjBw
+iAoXilP9mpwfDi6NuaKpzt0k9XHrLOfd2BheW2dorxaYYcnIkxAZ9SLlVzzkKHzC
+MOUQig1fsk4e7O4X+E3nc9NMh5/z7M+EfIiUKU8FenCaZ2oGqnL5ZA/bLF5FSVtu
+Q8aK5QnyNK8ujEloswBUjcW1AlFYC/0UzCADiNzAItHcyulkldKms3zF7CuUbe3C
+dB4+nwDEtKZAo2twJc7uDhdRSj3ajAhNiouY1mjOfMMlMkamCt4H3J1gEZvoobCy
+9u2oLi8N9WaiWR1+sCtyrMXiwT1d5KVLp80ThzhDzXT9VwNDdac=
+=uuWK
 -----END PGP SIGNATURE-----
 
---xeAuN3uWWp73B2XzPbWuG2fCdZ85VurYC--
+--RYWAu1ML0zaqebF05WhOieeoq2a3whEb6--
