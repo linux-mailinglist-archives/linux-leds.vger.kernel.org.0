@@ -2,26 +2,24 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B96723A047
-	for <lists+linux-leds@lfdr.de>; Sat,  8 Jun 2019 16:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F8663A048
+	for <lists+linux-leds@lfdr.de>; Sat,  8 Jun 2019 16:32:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbfFHObf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 8 Jun 2019 10:31:35 -0400
-Received: from smtp.220.in.ua ([89.184.67.205]:36383 "EHLO smtp.220.in.ua"
+        id S1726989AbfFHOcJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 8 Jun 2019 10:32:09 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:36427 "EHLO smtp.220.in.ua"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726227AbfFHObe (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 8 Jun 2019 10:31:34 -0400
+        id S1726227AbfFHOcJ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 8 Jun 2019 10:32:09 -0400
 Received: from [192.168.202.100] (unknown [95.67.115.55])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by smtp.220.in.ua (Postfix) with ESMTPSA id AAD5E1A20425;
-        Sat,  8 Jun 2019 17:31:31 +0300 (EEST)
-Subject: Re: [PATCH 2/2] Simplify LED registeration by
- devm_led_classdev_register()
+        by smtp.220.in.ua (Postfix) with ESMTPSA id E98951A20425;
+        Sat,  8 Jun 2019 17:32:05 +0300 (EEST)
+Subject: Re: [PATCH 1/2] Use usleep_range() for better precision timings
 To:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
 References: <20190608121312.11056-1-oleg@kaa.org.ua>
- <20190608121312.11056-2-oleg@kaa.org.ua>
- <f3e24a0a-15be-6c36-de35-231ce931f770@ti.com>
+ <dee01f3f-3963-7755-a6fa-a4ab38bafeed@ti.com>
 From:   Oleh Kravchenko <oleg@kaa.org.ua>
 Openpgp: preference=signencrypt
 Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
@@ -98,51 +96,48 @@ Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
  LAfjDKzc9y0J1q0aDQljQpgdi+CC3RzskpCK+D3RG/vKbZCASLlnk5SWWiRiCt33BfoDC2h6
  u0q8t+6HIP1VWw73qZ233By1VCEohLVJV1+cZ0/kUgkocr7aZuyNLLN/awZc0g+pj42u2BDC
  WVdfrwbus0lVCELNSvCIW2IktSytUxjQfmjBMw==
-Message-ID: <ab58c627-78c9-4130-bad3-179bad8218b5@kaa.org.ua>
-Date:   Sat, 8 Jun 2019 17:31:24 +0300
+Message-ID: <13172393-dbc6-5bca-a88f-401223e144e0@kaa.org.ua>
+Date:   Sat, 8 Jun 2019 17:31:59 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <f3e24a0a-15be-6c36-de35-231ce931f770@ti.com>
+In-Reply-To: <dee01f3f-3963-7755-a6fa-a4ab38bafeed@ti.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="ZSByEJ73kdNKa2A0DmuMEmFTHjmvrUTlM"
+ boundary="4hjUtw2KrUT46Kc9leRAEKm8HHmp01lCF"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ZSByEJ73kdNKa2A0DmuMEmFTHjmvrUTlM
-Content-Type: multipart/mixed; boundary="KuOlgC87l31RDLJgxuAp4N7jj4iwiOHWX";
+--4hjUtw2KrUT46Kc9leRAEKm8HHmp01lCF
+Content-Type: multipart/mixed; boundary="mUyXFUH1S3bKY8hD2GdjZFwk2E7fzNoQk";
  protected-headers="v1"
 From: Oleh Kravchenko <oleg@kaa.org.ua>
 To: Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-Message-ID: <ab58c627-78c9-4130-bad3-179bad8218b5@kaa.org.ua>
-Subject: Re: [PATCH 2/2] Simplify LED registeration by
- devm_led_classdev_register()
+Message-ID: <13172393-dbc6-5bca-a88f-401223e144e0@kaa.org.ua>
+Subject: Re: [PATCH 1/2] Use usleep_range() for better precision timings
 References: <20190608121312.11056-1-oleg@kaa.org.ua>
- <20190608121312.11056-2-oleg@kaa.org.ua>
- <f3e24a0a-15be-6c36-de35-231ce931f770@ti.com>
-In-Reply-To: <f3e24a0a-15be-6c36-de35-231ce931f770@ti.com>
+ <dee01f3f-3963-7755-a6fa-a4ab38bafeed@ti.com>
+In-Reply-To: <dee01f3f-3963-7755-a6fa-a4ab38bafeed@ti.com>
 
---KuOlgC87l31RDLJgxuAp4N7jj4iwiOHWX
+--mUyXFUH1S3bKY8hD2GdjZFwk2E7fzNoQk
 Content-Type: text/plain; charset=utf-8
 Content-Language: uk-UA
 Content-Transfer-Encoding: quoted-printable
 
-Hello Dan,
+Dan,
 
-08.06.19 16:56, Dan Murphy =D0=BF=D0=B8=D1=88=D0=B5:
+08.06.19 16:57, Dan Murphy =D0=BF=D0=B8=D1=88=D0=B5:
 > Oleh
 >=20
 > On 6/8/19 7:13 AM, Oleh Kravchenko wrote:
 >=20
-> Missing a commit log.
+> Commit log
 
-Thanks, my fault.
-
->=20
+Fixed
+=20
 > Dan
 
 --=20
@@ -151,28 +146,28 @@ Oleh Kravchenko
 
 
 
---KuOlgC87l31RDLJgxuAp4N7jj4iwiOHWX--
+--mUyXFUH1S3bKY8hD2GdjZFwk2E7fzNoQk--
 
---ZSByEJ73kdNKa2A0DmuMEmFTHjmvrUTlM
+--4hjUtw2KrUT46Kc9leRAEKm8HHmp01lCF
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAlz7xrwACgkQ0xNJm20p
-l4wOjBAArqWeua8GgER62sE54MtLLwoHXy+iJUu2liysq01EpyDixr+6kCv8vvMj
-bKM2Ns4yBekzMobi0hbWKK+9hYwXDNwvM6zHL3HoszwhXgKzxb3lVniNYXfbYmHH
-focuBB5smaOpbTpwqMTJgeZgYWcwxQVkWxSLQaPcJOnzwHsI4tIj5hwrqCky1q4r
-JwybZVYaA1vem47IvhZiZUSFtjatEtM1R32kGiFkBf218E5Aj0BhrPKJSb/jcE8g
-acO6GTB9E4sjspTj6cjcLl+8dD97rPnuPpbtF4h2VCr5/SBU7oo8EZ4LQrOOrWDf
-kchIZHzckTrXfMXVZ7TJKTnMxkWlIrkGrDAyAXRjM/LyRkElf4GNfhcaxhHI6eLw
-3MnmvbxU/SfSNp5o0w5VEXVa1iwFG8pmuImkxLEq4nxnFe60JGyvSzQEDv9X5zKB
-nP1d2tGSd7lGLCXbDkiKSexRkrdx6NIumGxzkFAspmSM5qbgCfTZ7LV6PCEap8Tg
-R5C2dr768yNIG85ChB+xiAzQPrqEYfzcr0NaDfOoCW+2dYrEWEOx0ejVrQfsISGy
-TRi7vcfgMWXEhCYSq9+j9fUOxBvudAjXBkPoRTQbVa3wQuUUqCpDlOjo4uuZaUIK
-S0cM79R0jQrw97adRH7AT968+42Wu09HMrzrYKPA6FrRK/5DwSs=
-=Wo1o
+iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAlz7xt8ACgkQ0xNJm20p
+l4wcfRAAp0ev9ubwOFWtqEt2ZO9qiU9FF0Gat3QUsz5ZoqyNXMuIiYeUbMRMjcsY
+dGy/sYToMNPZZ5qaoLO5hp5dDwHCp/YLoDcMSwYUDc8MBEbDmSty1bEAUgnMrPh+
+G49/3+fESoM5QG90d8h1vlKXaTIFu0yeLSdhaXTZSFzYPyAr0WVUtg9/IjJ0jUAd
+3llQ62mQKF23pPPH4d97toyq+XAmpxtbejuikv8pX2jXl+qPrLlHW9o3lsgPu419
+YHjFhS7fJa/mm6pix2+t/u7guJ+GaBnhAEvYt1Bbnlh7int2m0D6pi6iz+A3AslD
+ekF+OwTA5mHOdOLNzuS+m/AlYaulBVXd6AlwAF9OR9Ks9cVNUV0UpTSDzHvFYBfR
+lad65nwuvQchUfp5IDitZzQEk/lYM2kZ6Sk9vA39CRQx2/zAywKiFsm0m/DIjHJD
+frG08rvVJ6TuSkgXV4aOS18xwGpwtYHgpXC0TlSo00CqFfh22/Tz8TvVT7B7wN/F
+g6pykCYTwEdS5Ll8oYVODtpSoF64sWyCZNTXacaQc9J8K2Nz2Y3YA4ak/3jqr4ph
+eNJZf3l/sh5YUZyNLfGCiaNkprqGSCIY28zHTVpubWYU9RCstpZm1dcs8t/dHmUM
+Y00DRxwEiDD1IXOIRcxyL7d0Meyhv0ArZMVSYs6GrL1DQtBZAb8=
+=wg3r
 -----END PGP SIGNATURE-----
 
---ZSByEJ73kdNKa2A0DmuMEmFTHjmvrUTlM--
+--4hjUtw2KrUT46Kc9leRAEKm8HHmp01lCF--
