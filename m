@@ -2,89 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 651923A218
-	for <lists+linux-leds@lfdr.de>; Sat,  8 Jun 2019 23:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E88813A21C
+	for <lists+linux-leds@lfdr.de>; Sat,  8 Jun 2019 23:13:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727456AbfFHVCk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 8 Jun 2019 17:02:40 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:38457 "EHLO
+        id S1727477AbfFHVNj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 8 Jun 2019 17:13:39 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:38649 "EHLO
         atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727372AbfFHVCk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 8 Jun 2019 17:02:40 -0400
+        with ESMTP id S1727456AbfFHVNj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 8 Jun 2019 17:13:39 -0400
 Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 7551880257; Sat,  8 Jun 2019 23:02:27 +0200 (CEST)
-Date:   Sat, 8 Jun 2019 23:02:26 +0200
+        id 63F458030F; Sat,  8 Jun 2019 23:13:26 +0200 (CEST)
+Date:   Sat, 8 Jun 2019 23:13:18 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Matthias Kaehlcke <mka@chromium.org>
-Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Doug Anderson <dianders@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Richard Purdie <rpurdie@rpsys.net>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Brian Norris <briannorris@google.com>,
-        Guenter Roeck <groeck@google.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Alexandru Stan <amstan@google.com>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-Subject: Re: [PATCH v3 3/4] backlight: pwm_bl: compute brightness of LED
- linearly to human eye.
-Message-ID: <20190608210226.GB2359@xo-6d-61-c0.localdomain>
-References: <20180208113032.27810-1-enric.balletbo@collabora.com>
- <20180208113032.27810-4-enric.balletbo@collabora.com>
- <20190607220947.GR40515@google.com>
+To:     Oleh Kravchenko <oleg@kaa.org.ua>
+Cc:     linux-leds@vger.kernel.org
+Subject: Re: [PATCH 1/2] Use usleep_range() for better precision timings
+Message-ID: <20190608211318.GC2359@xo-6d-61-c0.localdomain>
+References: <20190608121312.11056-1-oleg@kaa.org.ua>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190607220947.GR40515@google.com>
+In-Reply-To: <20190608121312.11056-1-oleg@kaa.org.ua>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi!
+On Sat 2019-06-08 15:13:11, Oleh Kravchenko wrote:
+> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+> ---
+>  drivers/leds/leds-cr0014114.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-cr0014114.c b/drivers/leds/leds-cr0014114.c
+> index 0e4262462cb9..91deb40db307 100644
+> --- a/drivers/leds/leds-cr0014114.c
+> +++ b/drivers/leds/leds-cr0014114.c
+> @@ -37,7 +37,7 @@
+>  
+>  /* CR0014114 default settings */
+>  #define CR_MAX_BRIGHTNESS	GENMASK(6, 0)
+> -#define CR_FW_DELAY_MSEC	10
+> +#define CR_FW_DELAY_USEC	10000
+>  #define CR_RECOUNT_DELAY	(HZ * 3600)
+>  
+>  struct cr0014114_led {
+> @@ -92,7 +92,7 @@ static int cr0014114_recount(struct cr0014114 *priv)
+>  
+>  	cmd = CR_NEXT_REENUMERATE;
+>  	for (i = 0; i < priv->count; i++) {
+> -		msleep(CR_FW_DELAY_MSEC);
+> +		usleep_range(CR_FW_DELAY_USEC, CR_FW_DELAY_USEC + 1);
+>  
+>  		ret = spi_write(priv->spi, &cmd, sizeof(cmd));
 
-> > +	 * Note that this method is based on empirical testing on different
-> > +	 * devices with PWM of 8 and 16 bits of resolution.
-> > +	 */
-> > +	n = period;
-> > +	while (n) {
-> > +		counter += n % 2;
-> > +		n >>= 1;
-> > +	}
-> 
-> I don't quite follow the heuristics above. Are you sure the number of
-> PWM bits can be infered from the period? What if the period value (in
-> ns) doesn't directly correspond to a register value? And even if it
-> did, counting the number of set bits (the above loops is a
-> re-implementation of ffs()) doesn't really result in the dividers
-> mentioned in the comment. E.g. a period of 32768 ns (0x8000) results
-> in a divider of 1, i.e. 32768 brighness levels.
-> 
-> On veyron minnie the period is 1000000 ns, which results in 142858
-> levels (1000000 / 7)!
-> 
-> Not sure if there is a clean solution using heuristics, a DT property
-> specifying the number of levels could be an alternative. This could
-> also be useful to limit the number of (mostly) redundant levels, even
-> the intended max of 4096 seems pretty high.
-> 
-> Another (not directly related) observation is that on minnie the
-> actual brightness at a nominal 50% is close to 0 (duty cycle ~3%). I
-> haven't tested with other devices, but I wonder if it would make
-> sense to have an option to drop the bottom N% of levels, since the
-> near 0 brightness in the lower 50% probably isn't very useful in most
-> use cases, but maybe it looks different on other devices.
+Is added precision actually needed/benefical here?
 
-Eye percieves logarithm(duty cycle), mostly, and I find very low brightness
-levels quite useful when trying to use machine in dark room.
-
-But yes, specifying if brightness is linear or exponential would be quite
-useful.
 									Pavel
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
