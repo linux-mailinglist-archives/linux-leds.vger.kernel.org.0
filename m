@@ -2,214 +2,236 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 430B93AB16
-	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 20:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C59EB3AB46
+	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 21:08:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729402AbfFISOe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 9 Jun 2019 14:14:34 -0400
-Received: from smtp.220.in.ua ([89.184.67.205]:39926 "EHLO smtp.220.in.ua"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729396AbfFISOe (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 9 Jun 2019 14:14:34 -0400
-Received: from [192.168.202.100] (unknown [95.67.115.55])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by smtp.220.in.ua (Postfix) with ESMTPSA id ED32E1A207C9;
-        Sun,  9 Jun 2019 21:14:30 +0300 (EEST)
-Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-References: <20190607184022.13793-1-oleg@kaa.org.ua>
- <b1f0eaf6-e91c-2095-5928-179ad8695b33@ti.com>
- <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
- <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
- <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
- <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
- <7e787498-537b-390d-589a-577f34ffbc3f@kaa.org.ua>
- <94968b55-a9cc-277e-ac25-bf765f9db138@kaa.org.ua>
- <e1fc84a1-75e4-6c56-d2ea-f6ade28087ac@kaa.org.ua>
- <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
-From:   Oleh Kravchenko <oleg@kaa.org.ua>
-Openpgp: preference=signencrypt
-Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
- 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
- WVdfrwbus0lVCELNSvCIW2IktSytUxjQfmjBMw==
-Message-ID: <38050529-5730-6e88-fe1a-909492711dd0@kaa.org.ua>
-Date:   Sun, 9 Jun 2019 21:13:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="AS3qgodgQFYJgavznlP6LC86IYBTZXPtV"
+        id S1729199AbfFITI2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 9 Jun 2019 15:08:28 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39051 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729082AbfFITI1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Jun 2019 15:08:27 -0400
+Received: by mail-wm1-f68.google.com with SMTP id z23so6171812wma.4;
+        Sun, 09 Jun 2019 12:08:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=QAjK2NW6UzyuGmQY2jA13HwAwuGrKIWYNWL+Kra1FPQ=;
+        b=DII9gk+KGOqp9l6U1tBR7x85bW+1Ym82HaqVmaPWrekUKjI0kENpD7BlFku3m+KYBr
+         NQMSjv1JfDWcXqmvIPIlDHYfmW1jEKcpABidbOocsjUm0TbaCWVaOgmFlJCbK28/SukQ
+         +/lqlP2uDmw1oME7RMNG9Af99OjEQofkB/1QmLG6a4WinX4JDBu9u7ix4QKhaV0dRp5Y
+         NvzOr1A2VyK92O8wIfUS4ynXq8+tFX64QJ+fEGI6sRWB9PqHX/eX7ZxB8MEHIBcYH9aF
+         Ex3LRyFOOGswJdl1AWOnH0DQ1S+JZMjzFJmngR7yEqSVDD5O7VZCWltgESQwVrXe2EwR
+         61tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=QAjK2NW6UzyuGmQY2jA13HwAwuGrKIWYNWL+Kra1FPQ=;
+        b=shCu/Rvi+mXF3m5cBUM5nhi1Vnr35zBfjmO6GNxnYPQxoqHCQ5t+kP5mxeIV9vZeLU
+         sljevt1DBDJU9cZmRS9k0yJjHqIsIJuWXs4UetLCEq25IVvORd68dD8Lsn9z1uYTEro0
+         kFXyZQBiT076WDfhidAXzDAuLCIUOCIJpWimaf+201IQm9jlfwrLhGoRQIhSqY5dwl5K
+         Loet/rIxJraHTVJzmU7ZklTDKNi8jTbdQN3cHcDBIeh8nSZhaTvtKkjKWIkJpw/PfUeQ
+         7svjVoPBc2mIewgLTIpMeYJqnbY+Y68KnlcGTJzObIY6CAa88l/IJNAOMJ0OtFG7Iton
+         x5eg==
+X-Gm-Message-State: APjAAAUwq8lRKqiBidd+fIot89zvfJbaw+RRCkbOrn3jCQDa/nka2oHl
+        L/N6s+QMbaiMpDOrrgh4kPoe4H9y
+X-Google-Smtp-Source: APXvYqxYxI0Vm+18zNqcerSt8RO18OyT86cwuI82LtVpbPYQsUzMoISp9H6+SMclZqmLt+gbQESAYw==
+X-Received: by 2002:a1c:7ec8:: with SMTP id z191mr10626519wmc.66.1560107303909;
+        Sun, 09 Jun 2019 12:08:23 -0700 (PDT)
+Received: from myhost.home (ckm12.neoplus.adsl.tpnet.pl. [83.31.88.12])
+        by smtp.gmail.com with ESMTPSA id y38sm14725041wrd.41.2019.06.09.12.08.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 09 Jun 2019 12:08:23 -0700 (PDT)
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+To:     linux-leds@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        pavel@ucw.cz, robh@kernel.org, dtor@google.com, linux@roeck-us.net,
+        dmurphy@ti.com, jacek.anaszewski@gmail.com
+Subject: [PATCH v5 00/26] Add generic support for composing LED class device name
+Date:   Sun,  9 Jun 2019 21:07:37 +0200
+Message-Id: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---AS3qgodgQFYJgavznlP6LC86IYBTZXPtV
-Content-Type: multipart/mixed; boundary="ybV6p8JmWILAksIIoDGJjWhU8uNOdU8yv";
- protected-headers="v1"
-From: Oleh Kravchenko <oleg@kaa.org.ua>
-To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-Message-ID: <38050529-5730-6e88-fe1a-909492711dd0@kaa.org.ua>
-Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
-References: <20190607184022.13793-1-oleg@kaa.org.ua>
- <b1f0eaf6-e91c-2095-5928-179ad8695b33@ti.com>
- <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
- <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
- <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
- <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
- <7e787498-537b-390d-589a-577f34ffbc3f@kaa.org.ua>
- <94968b55-a9cc-277e-ac25-bf765f9db138@kaa.org.ua>
- <e1fc84a1-75e4-6c56-d2ea-f6ade28087ac@kaa.org.ua>
- <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
-In-Reply-To: <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
+Changes from v4:
 
---ybV6p8JmWILAksIIoDGJjWhU8uNOdU8yv
-Content-Type: text/plain; charset=utf-8
-Content-Language: uk-UA
-Content-Transfer-Encoding: quoted-printable
+- switched "charge" function name to "charging"
+- added "cpu", "mute", "micmute", "disk-activity", "panic", "mtd" LED functions
+  to cover all existing triggers and removed now redundant "nand" and "mmc"
+- added "capslock", "scrollock", "numlock" LED functions
+- removed now redundant "keyboard" and "keypad" since there is "kbd_backlight"
+  already available
+- removed "tv" LED function as depreciated
+- switched LED_COLOR_ID_COUNT to LED_COLOR_ID_MAX
+- fixed led_classdev_register_ext() to not leave struct led_classdev's
+  name pointing to no longer existing composed_name stack variable
+- fixed leds-as3645 and leds-aat1290 to no longer rely on struct led_classdev's
+  name property
+- added basic LED class device name validation to get_led_device_info.sh
+- tweaked LED naming section in leds_class.txt to allow devicename section
+  also for non hot-pluggable devices
+- always initialize all fields of struct led_init_data to zero on declaration
+  in drivers
+- fix leds-gpio to avoid overwriting the LED name coming from platform_data
+- add description of LED function names with regard to whether devicename
+  section is initialized or not
 
-Jacek,
+Changes from v3:
 
-09.06.19 15:24, Jacek Anaszewski =D0=BF=D0=B8=D1=88=D0=B5:
-> Hi Oleh,
->=20
-> On 6/8/19 12:42 AM, Oleh Kravchenko wrote:
->=20
-> You want to set timer trigger (first turn it on in the config):
->=20
-> echo "timer" > trigger
->=20
-> After that two files appear: delay_on and delay_off.
->=20
-> ledtrig-timer uses blink_set op for setting up the hw blinking.
+- allow for devicename section for hot-pluggable devices
+- move led_colors array to led-core.c to avoid build break
+  due to Kconfig dependency issue
+- add a patch fixing led_colors array name clash with ALSA driver
+- change led-enumerator DT property name to more meaningful function-enumerator
+- add LED_FUNCTION_KBD_BACKLIGHT
+- change naming and add new proprties to struct led_init_data
+  and struct led_properties
 
-Thank you for explanation.
+Changes from v2:
 
-I just want to clerify - for now LEDs board has 2 from 3 LEDs with effect=
- function.
+- removed from drivers the responsibility of calling led_compose_name()
+- added struct device* argument to led_compose_name() to allow using
+  dev_<level> logging functions for more informative logs
+- adjusted the list of LED_FUNCTION definitions according to the v2 review
+  remarks
+- renamed default_desc to default_label in the struct led_init_data
+- added led-enumerator DT property to the common LED bindings
+- removed LED_COLOR_NAME definitions from include/dt-bindings/leds/common.h
+- change DT color property type from string to integer
+- change struct initialization list to explicit property assignment in leds-sc27xx-bltc.c
+- use led->client->name for led_hw_name in leds-lm3692x.c
+- few other minor improvements to docs etc.
 
-1. Screen frame led is just blinking, so blink_set() is fit well to this.=
+Changes from v1:
 
-2. Pipe led actually consist from 3 leds and when effect is enabled next =
-pattern is used:
+- improved led_parse_properties() to parse label property at first
+  and return immediately after parsing succeeds
+- added tool get_led_device_info.sh for retrieving LED class device's
+  parent device related information
+- extended LED naming section of Documentation/leds/leds-class.txt
+- adjusted the list of LED_FUNCTION definitions according to the v1 review
+  remarks
+- added standard LED_COLOR_NAME definitions
+- removed functions.h and moved both LED_FUNCTION and LED_COLOR_NAME
+  definitions to include/dt-bindings/common.h
+- rebased leds-as3645a changes on top of the patch switching to fwnode
+  property API
+- updated DT bindings to use new LED_COLOR_NAME definitions
+- improved common LED bindings to not use address unit for sub-nodes
+  without reg property
 
-      ^
-      |
-LED1  >   OFF  ON   ON   ON
-      |                              =20
-LED2  >   OFF  OFF  ON   ON
-      |                              =20
-LED3  >   OFF  OFF  OFF  ON
-      |
-      +----^----^----^----^----> time
+Generally I still insist on deprecating label property and devicename
+section of LED name. The tool I added for obtaining LED device name
+proves availability of the related information in other places in
+the sysfs. Other discussed use cases are covered in the updated
+Documentation/leds/leds-class.txt.
 
-Could you please recommend how to implement it?
+Beside that, I tried also to create macros for automatic composition
+of "-N" suffixed LED functions, so that it would not be necessary
+to pollute common.h with plenty repetitions of the same function,
+differing only with the postfix. Unfortunately, the preprocessor
+of the dtc compiler seems not to accept string concatenetation.
+I.e. it is not possible to to the following assighment:
 
---=20
-Best regards,
-Oleh Kravchenko
+function = "hdd""-1"
 
+If anyone knows how to obviate this shortocoming please let me know.
 
+Original cover letter:
 
---ybV6p8JmWILAksIIoDGJjWhU8uNOdU8yv--
+LED class device naming pattern included devicename section, which had
+unpleasant effect of varying userspace interface dependent on underlaying
+hardware. Moreover, this information was redundant in the LED name, since
+the LED controller name could have been obtained from sysfs device group
 
---AS3qgodgQFYJgavznlP6LC86IYBTZXPtV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+This patch set introduces a led_compose_name() function in the LED core,
+which unifies and simplifies LED class device name composition. This
+change is accompanied by the improvements in the common LED DT bindings
+where two new properties are introduced: "function" and "color" . The two
+deprecate the old "label" property which was leaving too much room for
+interpretation, leading to inconsistent LED naming.
 
------BEGIN PGP SIGNATURE-----
+There are also changes in LED DT node naming, which are in line with
+DT maintainer's request from [0].
 
-iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAlz9TGIACgkQ0xNJm20p
-l4yRFxAApszbWBxoAp3ChTK6A51O5YvpBtzrZrkGQQ5Mf8huVokIorpDSZ1p3z0z
-FSd6QLA2A+Eh2VVySWEvYUe8VLO/mPfORnYYuC6zO69O5lNp7aFi+vqKsiEuE+vZ
-HziiQKgE7a220NxjgwH57dQfSE62LeYgZ3/6hdXOlVzbfVWqnHQfCAE4BplIwZ1V
-YAyVwc8ueNoC3/e33zP/4/SG8hbWyrmfONn23qeMVPJQqA6nWmhsaRhlfx8KGrmL
-vZ4DUO02RhCG7X7TFJ2SBEuQD7jlPdD4GU/fWaElBjMtS1GU+xZZjMEY624DTbMV
-v4G5oEFuyK94bEXlB8PCtLXI+2esKgP31z9yxvUszKbSS2baPV+0Jfpw10EzRjBt
-i02e5NCWsMBpbhQm4iA11tPhx4c0U67SDUseHpkgLfwsFMuw1mwcHTMqxV8NdfDU
-t0jqwosXPQM8Mxu8MPwD5Sxo5uaQstFVoBLlC1I7Ck+VZYL3YeiwWr7HalEqwqWZ
-zJNvN1/W50JIZzlppij5MBst5n/WVeWUOBgZYRPxtVz3R9rtbr4lIFNUQZYFsgD4
-jAuVPDIdqbkdrqNsk6GoVjEq0CC7Hdg5DHOm1+bMIIl9V6Onqa58J9kCcJHTr9JZ
-K30joMGf64EOhnjjjFi+CRUTL4N/Sjc9EKrqcvp+oZdr3zFSqTA=
-=dbev
------END PGP SIGNATURE-----
+Since some DT LED naming unification, related to not including devicename
+section in "label" DT property, is being requested during reviews of new
+LED class drivers for almost a year now, then those drivers are the first
+candidates for optimalization and the first users of the new
+led_compose_name() API. The modifications were tested with Qemu,
+by stubbing the driver internals where hardware interaction was needed
+for proper probing.
 
---AS3qgodgQFYJgavznlP6LC86IYBTZXPtV--
+Thanks,
+Jacek Anaszewski
+
+Jacek Anaszewski (26):
+  leds: class: Improve LED and LED flash class registration API
+  dt-bindings: leds: Add LED_COLOR_ID definitions
+  dt-bindings: leds: Add LED_FUNCTION definitions
+  dt-bindings: leds: Add properties for LED name construction
+  leds: core: Add support for composing LED class device names
+  dt-bindings: sc27xx-blt: Add function and color properties
+  leds: sc27xx-blt: Use generic support for composing LED names
+  dt-bindings: lt3593: Add function and color properties
+  leds: lt3593: Use generic support for composing LED names
+  dt-bindings: lp8860: Add function and color properties
+  leds: lp8860: Use generic support for composing LED names
+  dt-bindings: lm3692x: Add function and color properties
+  leds: lm3692x: Use generic support for composing LED names
+  dt-bindings: lm36010: Add function and color properties
+  leds: lm3601x: Use generic support for composing LED names
+  dt-bindings: cr0014114: Add function and color properties
+  leds: cr0014114: Use generic support for composing LED names
+  dt-bindings: aat1290: Add function and color properties
+  leds: aat1290: Use generic support for composing LED names
+  dt-bindings: as3645a: Add function and color properties
+  leds: as3645a: Use generic support for composing LED names
+  dt-bindings: leds-gpio: Add function and color properties
+  leds: gpio: Use generic support for composing LED names
+  dt-bindings: an30259a: Add function and color properties
+  leds: an30259a: Use generic support for composing LED names
+  leds: Document standard LED functions
+
+ .../devicetree/bindings/leds/ams,as3645a.txt       |  22 +-
+ Documentation/devicetree/bindings/leds/common.txt  |  62 +++++-
+ .../devicetree/bindings/leds/leds-aat1290.txt      |  12 +-
+ .../devicetree/bindings/leds/leds-an30259a.txt     |  22 +-
+ .../devicetree/bindings/leds/leds-cr0014114.txt    |  26 ++-
+ .../devicetree/bindings/leds/leds-gpio.txt         |  23 ++-
+ .../devicetree/bindings/leds/leds-lm3601x.txt      |  10 +-
+ .../devicetree/bindings/leds/leds-lm3692x.txt      |   9 +-
+ .../devicetree/bindings/leds/leds-lp8860.txt       |   9 +-
+ .../devicetree/bindings/leds/leds-lt3593.txt       |  11 +-
+ .../devicetree/bindings/leds/leds-sc27xx-bltc.txt  |  10 +-
+ Documentation/leds/led-functions.txt               | 223 +++++++++++++++++++++
+ Documentation/leds/leds-class.txt                  |  70 ++++++-
+ drivers/leds/led-class-flash.c                     |   9 +-
+ drivers/leds/led-class.c                           |  49 +++--
+ drivers/leds/led-core.c                            | 127 ++++++++++++
+ drivers/leds/leds-aat1290.c                        |  16 +-
+ drivers/leds/leds-an30259a.c                       |  25 +--
+ drivers/leds/leds-as3645a.c                        |  74 +++----
+ drivers/leds/leds-cr0014114.c                      |  33 +--
+ drivers/leds/leds-gpio.c                           |  26 +--
+ drivers/leds/leds-lm3601x.c                        |  38 ++--
+ drivers/leds/leds-lm3692x.c                        |  22 +-
+ drivers/leds/leds-lp8860.c                         |  35 ++--
+ drivers/leds/leds-lt3593.c                         |  20 +-
+ drivers/leds/leds-pwm.c                            |   2 +-
+ drivers/leds/leds-sc27xx-bltc.c                    |  22 +-
+ drivers/leds/leds.h                                |   1 +
+ include/dt-bindings/leds/common.h                  |  55 ++++-
+ include/linux/led-class-flash.h                    |  15 +-
+ include/linux/leds.h                               |  79 +++++++-
+ tools/leds/get_led_device_info.sh                  | 201 +++++++++++++++++++
+ 32 files changed, 1086 insertions(+), 272 deletions(-)
+ create mode 100644 Documentation/leds/led-functions.txt
+ create mode 100755 tools/leds/get_led_device_info.sh
+
+-- 
+2.11.0
+
