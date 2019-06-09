@@ -2,55 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CED063AB52
-	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 21:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 437853AB55
+	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 21:09:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730176AbfFITIr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 9 Jun 2019 15:08:47 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38760 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729776AbfFITIr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Jun 2019 15:08:47 -0400
-Received: by mail-wr1-f65.google.com with SMTP id d18so6975915wrs.5;
-        Sun, 09 Jun 2019 12:08:45 -0700 (PDT)
+        id S1730353AbfFITIt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 9 Jun 2019 15:08:49 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40610 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730121AbfFITIt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Jun 2019 15:08:49 -0400
+Received: by mail-wr1-f68.google.com with SMTP id p11so6975358wre.7;
+        Sun, 09 Jun 2019 12:08:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=dTlh5qePS5SClnGZawHQ38y8XHKIBj+B7pxOigaHFYY=;
-        b=a8CuYfRtVT1iU3APdY1+UCjXWgMNDXV7OLFmDl/+yVg9RG26lirUjDe673rXy51uu4
-         XB/ahOc2BJXwoGfkCVJ913THDDLJCifzeD9X4iLEivppALoXXFpJbBQ5sp671gvQcXl+
-         vtIr+NFF4mZfXOvrPJygXgu6dSrOFpnQ0Aq+ap5pBFG3XgA04JNL51t8xipU2q7/vRzD
-         xwVYTtvMeZNN9FImlnWAxAiynUKIETPRn3rppZScSVDCzo6a550YneKZog70JMoHoL8K
-         VmpSle3JeAvL1Ol6+II+Ifg3+yZpYx7z0u+p72xdb8pvJeGx0heln0gOqo1XXHOumAVb
-         Aurg==
+        bh=dO5o0aICCdFSSOf14DSqWo2uCOCH5kCpOWfHNkQ6e24=;
+        b=dTW2KQY3g3bKk8XXN3o6jqGpvSb69oaqy7Ns91HVZUsMxMEGOSllnhYLau4xlgarBg
+         VjeST1V5SjMMt7KA8bY1HJfTLpyNNFch0AZ1k3fBP0AmsFo47t9FESkiAOjViIL/JDTD
+         S9Ho6VpT2gZ2pWeMTzhn/oWJ7qCrFchk7pS4ha65Ta+Xb2d6ye5/SDfdfHctrn05XSq+
+         jNyGBcmY5vlv9gKbair2PLDEoUvL3Qr2kqJzGAJOr59oLb7fHQI3df9aNt9+2yrs/VLA
+         2+jtlCgNqPNZ/0RpiGlko2A/LO7+qjfKEKOHMkgHcRblMoQA7xhoyViL62WX0GvnAh//
+         htlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=dTlh5qePS5SClnGZawHQ38y8XHKIBj+B7pxOigaHFYY=;
-        b=JuNVR3ato9xkHkaGbIBWD1mYjjA2JgRJLycLwRIxUBbtJjEa2U0LLtRwj3nx59H1nS
-         1Z0bFKwp/vQrvjwliSIzxMrXHloEjCGOk9HRNdmnJc0dY4LRRATleuAs5s6YpK8JbcHN
-         LxElF9UMfKT3/fXa/JdAGjYenX9UbazHzzT/AO+ZKAUFRiDIqgw/VZoZtbxdHeGkI+Eq
-         Vh+shu9hE2/BCcKGO5lVh6OwKDEyIIjBxCZBVs20TELphuy3Uw+ob5DZ+/oVrCOVB60/
-         RsegUwmgSEhPn1MwbWEH+UvdLC1cjdg9Pq4hE8CG+jVCiIcv0zM7z+VJ6Hf4LF0dyMVA
-         RZVg==
-X-Gm-Message-State: APjAAAVAM63bcRTasiZWNNNKb1HuBFa3BKn/o3+XKnSbO4hvQtEAHSgO
-        cOfncw/NOeVAr5V+r+gjyLclRFw2
-X-Google-Smtp-Source: APXvYqwvy6VauZ5pUiRrjwlGDMH2ncgq5SIsOHdoxV8cXYgzP0rgSfdqsFjYRjyL+baMfaqXb61WoA==
-X-Received: by 2002:adf:e2c3:: with SMTP id d3mr14797877wrj.314.1560107324956;
-        Sun, 09 Jun 2019 12:08:44 -0700 (PDT)
+        bh=dO5o0aICCdFSSOf14DSqWo2uCOCH5kCpOWfHNkQ6e24=;
+        b=MBuVkcZ1KzEYMmkRxYqLOp9VnLTtFLVAb6d9047HLmHYDq1URWQtEBcBhw9XBzde+c
+         iFQP8TQyntLOZqMkAdcjw6f2xyl1+8NfbBbE6mAfse7JeAr9soZK8/4aQv5oebECnOuo
+         XQS9Bj0YCpDdU1lRzYXW2fBdMxB3Vx/3FUUlvGMqjRNWxdfBdnNgx0k/fLLXDBkSbkSK
+         spxG1wzxJGxsCVEJ+aoQvaskEHEUltz2clQ3/l+VUaN6EntMU6SBhNSji1IY5hJa/Wmu
+         nCFyPHuNLLa5p1Tt+6AiDvyu50d2BE9f3AG9GRmJWBo/kts/RfH4+tOU7FJ3BaYJ+6eT
+         6eCw==
+X-Gm-Message-State: APjAAAU7ZWjZyPHJDSbla0LVdVEtiRXrv9O+GUXm+NbvsLUxV5zSTVwM
+        Zyug8LV5CjEz7Fx97VxDSsuJDknh
+X-Google-Smtp-Source: APXvYqzMJkvuy1WSyl3eVa/cB3zsL5JpHnoQ/tBzW7Fs4yT5mLXwiNsufSWZooX9Ng5uzOdPllN8hQ==
+X-Received: by 2002:adf:fd8d:: with SMTP id d13mr7963697wrr.8.1560107326649;
+        Sun, 09 Jun 2019 12:08:46 -0700 (PDT)
 Received: from myhost.home (ckm12.neoplus.adsl.tpnet.pl. [83.31.88.12])
-        by smtp.gmail.com with ESMTPSA id y38sm14725041wrd.41.2019.06.09.12.08.42
+        by smtp.gmail.com with ESMTPSA id y38sm14725041wrd.41.2019.06.09.12.08.45
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 09 Jun 2019 12:08:44 -0700 (PDT)
+        Sun, 09 Jun 2019 12:08:46 -0700 (PDT)
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 To:     linux-leds@vger.kernel.org
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         pavel@ucw.cz, robh@kernel.org, dtor@google.com, linux@roeck-us.net,
         dmurphy@ti.com, jacek.anaszewski@gmail.com
-Subject: [PATCH v5 10/26] dt-bindings: lp8860: Add function and color properties
-Date:   Sun,  9 Jun 2019 21:07:47 +0200
-Message-Id: <20190609190803.14815-11-jacek.anaszewski@gmail.com>
+Subject: [PATCH v5 11/26] leds: lp8860: Use generic support for composing LED names
+Date:   Sun,  9 Jun 2019 21:07:48 +0200
+Message-Id: <20190609190803.14815-12-jacek.anaszewski@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
 References: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
@@ -59,48 +59,113 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Refer to new "function" and "color" properties and mark "label"
-as deprecated.
+Switch to using generic LED support for composing LED class
+device name.
+
+While at it, avoid iterating through available child of nodes
+in favor of obtaining single expected child node using single
+call to of_get_next_available_child().
 
 Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Dan Murphy <dmurphy@ti.com>
+Acked-by: Pavel Machek <pavel@ucw.cz>
+Tested-by: Dan Murphy <dmurphy@ti.com>
 ---
- Documentation/devicetree/bindings/leds/leds-lp8860.txt | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/leds/leds-lp8860.c | 35 ++++++++++++++++-------------------
+ 1 file changed, 16 insertions(+), 19 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-lp8860.txt b/Documentation/devicetree/bindings/leds/leds-lp8860.txt
-index 5f0e892ad759..9863220db4ba 100644
---- a/Documentation/devicetree/bindings/leds/leds-lp8860.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lp8860.txt
-@@ -20,12 +20,16 @@ Required child properties:
- 	- reg : 0
+diff --git a/drivers/leds/leds-lp8860.c b/drivers/leds/leds-lp8860.c
+index 39c72a908f3b..e1587210c783 100644
+--- a/drivers/leds/leds-lp8860.c
++++ b/drivers/leds/leds-lp8860.c
+@@ -22,7 +22,6 @@
+ #include <linux/of_gpio.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/slab.h>
+-#include <uapi/linux/uleds.h>
  
- Optional child properties:
--	- label : see Documentation/devicetree/bindings/leds/common.txt
-+	- function : see Documentation/devicetree/bindings/leds/common.txt
-+	- color : see Documentation/devicetree/bindings/leds/common.txt
-+	- label : see Documentation/devicetree/bindings/leds/common.txt (deprecated)
- 	- linux,default-trigger :
- 	   see Documentation/devicetree/bindings/leds/common.txt
+ #define LP8860_DISP_CL1_BRT_MSB		0x00
+ #define LP8860_DISP_CL1_BRT_LSB		0x01
+@@ -87,6 +86,8 @@
  
- Example:
+ #define LP8860_CLEAR_FAULTS		0x01
  
-+#include <dt-bindings/leds/common.h>
++#define LP8860_NAME			"lp8860"
 +
- led-controller@2d {
- 	compatible = "ti,lp8860";
- 	#address-cells = <1>;
-@@ -36,7 +40,8 @@ led-controller@2d {
+ /**
+  * struct lp8860_led -
+  * @lock - Lock for reading/writing the device
+@@ -96,7 +97,6 @@
+  * @eeprom_regmap - EEPROM register map
+  * @enable_gpio - VDDIO/EN gpio to enable communication interface
+  * @regulator - LED supply regulator pointer
+- * @label - LED label
+  */
+ struct lp8860_led {
+ 	struct mutex lock;
+@@ -106,7 +106,6 @@ struct lp8860_led {
+ 	struct regmap *eeprom_regmap;
+ 	struct gpio_desc *enable_gpio;
+ 	struct regulator *regulator;
+-	char label[LED_MAX_NAME_SIZE];
+ };
  
- 	led@0 {
- 		reg = <0>;
--		label = "white:backlight";
-+		function = LED_FUNCTION_BACKLIGHT;
-+		color = <LED_COLOR_ID_WHITE>;
- 		linux,default-trigger = "backlight";
- 	};
- }
+ struct lp8860_eeprom_reg {
+@@ -387,25 +386,19 @@ static int lp8860_probe(struct i2c_client *client,
+ 	struct lp8860_led *led;
+ 	struct device_node *np = client->dev.of_node;
+ 	struct device_node *child_node;
+-	const char *name;
++	struct led_init_data init_data = {};
+ 
+ 	led = devm_kzalloc(&client->dev, sizeof(*led), GFP_KERNEL);
+ 	if (!led)
+ 		return -ENOMEM;
+ 
+-	for_each_available_child_of_node(np, child_node) {
+-		led->led_dev.default_trigger = of_get_property(child_node,
+-						    "linux,default-trigger",
+-						    NULL);
+-
+-		ret = of_property_read_string(child_node, "label", &name);
+-		if (!ret)
+-			snprintf(led->label, sizeof(led->label), "%s:%s",
+-				 id->name, name);
+-		else
+-			snprintf(led->label, sizeof(led->label),
+-				"%s::display_cluster", id->name);
+-	}
++	child_node = of_get_next_available_child(np, NULL);
++	if (!child_node)
++		return -EINVAL;
++
++	led->led_dev.default_trigger = of_get_property(child_node,
++					    "linux,default-trigger",
++					    NULL);
+ 
+ 	led->enable_gpio = devm_gpiod_get_optional(&client->dev,
+ 						   "enable", GPIOD_OUT_LOW);
+@@ -420,7 +413,6 @@ static int lp8860_probe(struct i2c_client *client,
+ 		led->regulator = NULL;
+ 
+ 	led->client = client;
+-	led->led_dev.name = led->label;
+ 	led->led_dev.brightness_set_blocking = lp8860_brightness_set;
+ 
+ 	mutex_init(&led->lock);
+@@ -447,7 +439,12 @@ static int lp8860_probe(struct i2c_client *client,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = devm_led_classdev_register(&client->dev, &led->led_dev);
++	init_data.fwnode = of_fwnode_handle(child_node);
++	init_data.devicename = LP8860_NAME;
++	init_data.default_label = ":display_cluster";
++
++	ret = devm_led_classdev_register_ext(&client->dev, &led->led_dev,
++					     &init_data);
+ 	if (ret) {
+ 		dev_err(&client->dev, "led register err: %d\n", ret);
+ 		return ret;
 -- 
 2.11.0
 
