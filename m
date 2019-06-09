@@ -2,121 +2,214 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73AB93A6D2
-	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 18:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 430B93AB16
+	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 20:14:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728931AbfFIQiB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 9 Jun 2019 12:38:01 -0400
-Received: from mail-eopbgr30121.outbound.protection.outlook.com ([40.107.3.121]:35491
-        "EHLO EUR03-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728678AbfFIQiB (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 9 Jun 2019 12:38:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EngMpKounZPzZ32Ch+Ck4ZFFgS/evJSip8KYe1nOlZw=;
- b=Tg5EmUYE64TeuLXo+AMqNPdL8tewMD6bxc/CKftnk4Ir1b1i61r3udvbesw5bdfeVYeEvQS9GkmKDny0J0emAhdL0XZr2pfzjU/szQ50AZYbSyV2gq57Q/lXAGSQWKw3Wcj2NqgOI76g5BZgAnth80wCm0cQKIODEYrxXTJqo0E=
-Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com (52.134.66.158) by
- DB3PR0202MB3466.eurprd02.prod.outlook.com (52.134.72.29) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.12; Sun, 9 Jun 2019 16:37:53 +0000
-Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com
- ([fe80::49ac:3a71:a3ec:d6bf]) by DB3PR0202MB3434.eurprd02.prod.outlook.com
- ([fe80::49ac:3a71:a3ec:d6bf%5]) with mapi id 15.20.1965.017; Sun, 9 Jun 2019
- 16:37:53 +0000
-From:   Peter Rosin <peda@axentia.se>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 00/34] treewide: simplify getting the adapter of an I2C
- client
-Thread-Topic: [PATCH 00/34] treewide: simplify getting the adapter of an I2C
- client
-Thread-Index: AQHVHelLRUjwurRB7Uaj1nj2qmlQFKaTh4UA
-Date:   Sun, 9 Jun 2019 16:37:52 +0000
-Message-ID: <661f1084-da4e-75f0-e632-335134932801@axentia.se>
-References: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-x-originating-ip: [213.112.138.100]
-x-clientproxiedby: HE1PR0902CA0028.eurprd09.prod.outlook.com
- (2603:10a6:7:15::17) To DB3PR0202MB3434.eurprd02.prod.outlook.com
- (2603:10a6:8:5::30)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=peda@axentia.se; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: de20f092-15a7-4702-8fc2-08d6ecf8d141
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:DB3PR0202MB3466;
-x-ms-traffictypediagnostic: DB3PR0202MB3466:
-x-microsoft-antispam-prvs: <DB3PR0202MB34662F819F80F0C79EA26E7CBC120@DB3PR0202MB3466.eurprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 006339698F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(136003)(366004)(376002)(39830400003)(396003)(189003)(199004)(6246003)(65806001)(2501003)(66066001)(71200400001)(86362001)(6116002)(3846002)(31696002)(65826007)(71190400001)(5660300002)(4326008)(65956001)(66556008)(7416002)(64756008)(66446008)(256004)(66476007)(66946007)(73956011)(26005)(36756003)(25786009)(476003)(2616005)(14454004)(53936002)(6436002)(186003)(229853002)(8936002)(99286004)(52116002)(6512007)(6486002)(68736007)(53546011)(6506007)(386003)(11346002)(31686004)(446003)(64126003)(81166006)(81156014)(76176011)(110136005)(316002)(8676002)(7736002)(508600001)(74482002)(102836004)(2906002)(486006)(54906003)(58126008)(305945005);DIR:OUT;SFP:1102;SCL:1;SRVR:DB3PR0202MB3466;H:DB3PR0202MB3434.eurprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: axentia.se does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: b5PbBXdfDmrxCUpaoqEeP2qIdv9epeSARFxp+Ctrw7uz8w0o/3OyFrDay2wEG0IkjivZIlW321ahRt3eTE1i9pomhJehCDP9vbTXa+1u7oAna0reWVUunYsM+PDK1jsxv8bVvTPfv0ICQHS1Y6GzIzOtBkUmsEBk8wVUiE4MmQ12KD8eD5IlPOo2Tc3H5wp9mS3zh3+1sor8Pjo86ZUKURBhUA3+LweyRO9UHQd30L9DZD6CbSLxtQRwP2WscT6Il6mG6V3FXQTnbDh3PGheCVZbdDVw+g2HZKemwzZ9JfFlArver5OvyyKXQay5CJ5CVglaNXjWGG+ThF/PWtn82KSdt+AKwv2Ood1U/sdTvUS5/6xTQkn5AF2vsHM04RBTIjPb3p/3yFAtK1f1vlQZdoZOcHO7Y+YO05XitWSJwc4=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C55F5D15CFF4704BB7913C0E714412B0@eurprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1729402AbfFISOe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 9 Jun 2019 14:14:34 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:39926 "EHLO smtp.220.in.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729396AbfFISOe (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 9 Jun 2019 14:14:34 -0400
+Received: from [192.168.202.100] (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id ED32E1A207C9;
+        Sun,  9 Jun 2019 21:14:30 +0300 (EEST)
+Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
+References: <20190607184022.13793-1-oleg@kaa.org.ua>
+ <b1f0eaf6-e91c-2095-5928-179ad8695b33@ti.com>
+ <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
+ <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
+ <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
+ <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
+ <7e787498-537b-390d-589a-577f34ffbc3f@kaa.org.ua>
+ <94968b55-a9cc-277e-ac25-bf765f9db138@kaa.org.ua>
+ <e1fc84a1-75e4-6c56-d2ea-f6ade28087ac@kaa.org.ua>
+ <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+Openpgp: preference=signencrypt
+Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
+ mQINBFoN/ysBEAC8JmIsjbpgHCXhOuuRtHQrpFhrrs5bNNSRztXxnVYtyR5sbsEgh8dFt9ZZ
+ TZ3qWFSDPHY/9AHUxoKIvonRFTiluSuLVKwM5mxgqzvPaqnekoYRafzW3hYgPcjXp+JEw4At
+ vIPKGpKDn+J03c1L/vYlXT9FASQdL7fhtc0FK5wMn3biS1d9D5PnurTLKvLWmwYjWxNduW8/
+ g15g4NhoDQf3syruPMSyCCXmH2CpzJXs+8VWSvySHG9wE/9QXAfskb9wFx+NSYyNdou5JxPn
+ dt9XnI0MjXoc0X3IH6eBjxgIpYkVydmQnbajgxWopz4Hi6uCsJSj5z26m803cyel1XgwLXin
+ uKGdWi8W/TFJy6rbbEwfeUDHr4btCPU5hZS/PFV1rsDoOxMRYlgaI8U4AKnzFZSiDvjX9t6s
+ 8NbjYpfYhWwSnLzJYCmi7/XmRJdJZEVWH7ZbfvOpuI39nQIuSMFJiu1jw3MMCliM0HgvuQKT
+ nGUTTXk9BZfT6s53sBajFBCkIWsOK3AIzLhaCBXxWxqxE7UaewazlfB42DBm0RluvEpp4f57
+ 9hBW7G5HHOd7RilYobmgQ+eNQI6A9ccaeDQKonGw0V47kNROfybvT6B+XqE/s1yXQGvmZ6Cp
+ QwdTL/6u57tZZdxJtHHCNfBBFoC6by2ctMBJ9JPV+1ejW9ve6wARAQABtCFPbGVoIEtyYXZj
+ aGVua28gPG9sZWdAa2FhLm9yZy51YT6JAk4EEwEIADgCGwMCHgECF4AWIQTta/21JmmlO+9Y
+ CVrbZRmDXXTCZgUCWg4CUgULCQgHAwUVCgkICwUWAgMBAAAKCRDbZRmDXXTCZrzkD/wPVUAx
+ UudmBgLvYhBLuL0QCslD9rQ7+TSqs2FP79CHSNgBy7cXOrV0j9KNdAUmFyQqMRk8Pqrn3h8H
+ RdbMNKfWfi5RsPEKBGjj01QNPuAk0L2q8noT59Rr8GkZLaSe4Toncvk+3biNjI3n/W/BkRuV
+ PbMFC1F86wBuspQ/1HFht3DM+pCc1bp6RtBTSpgoGWiQSGblbnpYc0+CHsrkJwCP0ZXoi3Mg
+ xAkM11H6m6az+eCPIrakdhBZJaAu2BW6X7E+IqFACKfhgg8SiuZxAmdxEC/meXn4xZECUN+5
+ txjvdZWtnNWMVAhH9WbSSnRz6zUGZaxUjjuzTQ72AQEod8OGF69ZZKmWab8U1o1MbFYdGtHL
+ qDrhL62Op34T8AvT9KQ+zLVF2s5NeuajnwnMsQHjnOSNvyo0GwIDYzHCI36rfEUNhAIxE7CL
+ jaNOYajB3HZGYMclrrQy8ROHFQyl/Rd0V32M4rP46w0YTh6zQjr4Tb+lgMPjzlc2Ikp1MIZg
+ JHTTA8MLwPrBkmZutbQ6tu1x6DydgLHGYocgvFTav/2089Y8LAmGqsHiOrTBjFmtedrfrw3d
+ KnQghZnGBlRx3mL0bqsS0xG52NCYR/2fsGOma/HwqZ9yojkeBS46Uur+md0jiDahgzpJIR2g
+ SkR/KZHDX+2IRzcraO0NJIykqseEbbkCDQRaDf8rARAAxwLWUCG1LxPEMHKguRtNoV2uOZe/
+ 8IjfbfxtVdrqfX/rKXqIYB2qJ1GcQdeDwHgzf8TVqnP3LOd2m/HkoUmps0Kb0Xi8EnUvn5dD
+ ESxvlP1jwPZowq+Va9X9jziOwNUF5PhXMrM8I2xhpkqk0ZYJFke/zT0uXi6JJeZDd0VB419U
+ 9NmJIlwGenBUR8647gmyOp3MGG3/vFp6vkTbGedmcVWTX2107N0EsES+vb32DyvlNhtRSbSw
+ 5VDFwH8o9pzc3cBRs+UScRzvKJux+6RU6SY3U+VYQEsis8eVqKTQJJftwtX7O2p9gp3rNLq3
+ 3rt8Si4pt193VEgDSvayCocWiHy4FrXAYVv+T6avnztSC2rwtCUWZCcXh5Z4ChWgTwP7zsCj
+ NeEn2ImAyQZem+Zq5Ng1dneCRfeAiaKKOQgEKMOfZYqVfqQCwIMY+iWThWSFlQ1v9cfIb8g3
+ XjfdPaGQKzc5c2Bk0DIxDIx+Moa6YyYSIbw73f/8QL48ruNk32Y/REcsLEEY19GWVdBmnazF
+ xG/ZqCTse/sD6URKJEVp0MLg2qSEBdt2W2gKPH6iunpUdCn8qzPklxamwu4N2EqSzv1aPmZM
+ hLgH9oylg1n8IVcKrzjGvrb6aDAnlfUTCWG0fJENbB/9HhMADKejQuPA+8rNiB0BMaexovFW
+ 3Ved1OMAEQEAAYkCNgQYAQgAIBYhBO1r/bUmaaU771gJWttlGYNddMJmBQJaDf8rAhsMAAoJ
+ ENtlGYNddMJmxgIP/RNSV/9mCoZoruMfOvLIXz1oSUAbI+gqD5PjW2ua8HRr4apCxj/MRF1T
+ Lvkfea0pBZ7kwXmZlmxzCjIxvfrr6QsrF1zDaViPwaZFWQ3xkxoC5Qwr+/BurHmcIHHvAeXX
+ T/5ewTLJn2/Y0TSpAsJF8Phh++Xkb5SVvRULCeX5bHS4UDlbz+gbGAoK3UKf218LgS2Pr6L6
+ VfsnRcAz4jJ/+b764F+JiltEBTO4MG67DbjsW6sOg90BtPDUbtx1PcnnpD0a4L6yXpZj8mcO
+ 7LqbcKoL05FDa/vTV83qm3GatDoLdCiW3RE87qVeEofSpeJeh2+PYQh6f2pm7CDVmcFnmywF
+ 8rFXGMec7+RCbroIB+2k0LPAdAoHx99aAfHb9gKLCiYghjZbNYjQ/htdwAXOTDpcQrsiho+h
+ ZEk+rkhLriLxt00N3DbwWbqTuDGVhGzS2lLmHX5lpFmkRlPIA9PUmhx2pdoOpZD2CGB0pYgj
+ WySUnT8v1LQ7GLLj5iW+kqLCHEUjRjJ+Zhca4aVPZ0rjES/TYUVCB2QA+5PXTearrDWPQPM1
+ 74HJEvhLabxz1ovD5L7VEF0CsP4YsgJ2bNpsSZnzAQlU37POt2QUzs6FQqaftoPls9e8c2Te
+ u3OCPtorpY4e3/P7kC297p4uWnvoG3MVZQfSMwzm596mdvmJXmeVuQINBFoOAmIBEADqrHRm
+ 5JPBPDkWuV6Encf0C2yqtX64AuMJPHMr2uLLaQpmk2z2E5AwSLnzae/u1HFhF7m2NBJYqOg1
+ nMsn3mormzlhHABeL7LhT5EpfoEk6Xd8B6NZPIMzmAz5Tai1/JHj3CzxomEaK56B7EAzktPh
+ QGDST6wzH3LlV90bghHbFrCGWs5wGZWqI+bzNBODFUqhL15aHUqYhECfv0q7Lh8DVYpUuTDZ
+ JrPkmexlz5uV9kBnOowDkuBavGyqgbLlycWE5GxS8JveCQlO926doQ//B9mCHiF81iptM2Kf
+ k7kdwLD/idt1JNdfz9Jhr0UpLlDvUj4JkZC1zLcP/dkUTcOhxD/Cwb7/wPpXnaepH5J8t8qr
+ 7TSgearN+8idFtNZ6br4TKA95qsile8jeQqYjNoczv6ibpgipS/wN2huUTkiORy5Darihpv5
+ uYEajdvjHhxXI1G4FOpFzAd0hc6GNXt6ZfPbVSkgj01pXyfQKLTvR/4LHtfMtrr7KUWJAn7D
+ HFFSr8y+wVAQ+NYnMVkKn/K1iMtZpWz7o4W6EKvTdO36sPE6z8m9tidbTQT32jJmnHrrPi6i
+ US/TnN6czXaeCUgGqag2G8+kNETuvczeQ1fuzEz7ae2PWfpxnWM1wQfY0rg1NavhxK5bILxY
+ 2p6lo3pDncmsOEibW7cLCuHDLnGpgwARAQABiQRsBBgBCAAgFiEE7Wv9tSZppTvvWAla22UZ
+ g110wmYFAloOAmICGwICQAkQ22UZg110wmbBdCAEGQEIAB0WIQQL9Mzm37Y16cWFbRDTE0mb
+ bSmXjAUCWg4CYgAKCRDTE0mbbSmXjFH5D/4vb/MdT1BZ7R8NFhT4UpVrzhNKnRS941dqY+Z7
+ KaSvtwv4aBXtSSowZk6hrVpccxQDIOoAbAKDIwXZnfPaFSQSgnAlE/gARY1m3VhQZRrcOcqD
+ /y2UYmiLoSmCbBhRdUmhYuZSQJmGOhVQTuFP4NWqS9kOiWtoGgreqcru/YYLicfgUc9vD00D
+ DiLSUodO3xBc+40caWNGK79FWhTQKjyh7IvIvpEQEVeZ1suJrH6LSPT+zlNfHVBHCY/W8UTe
+ yamvY0vezXTnfgaHY1gnX2/GU6IpCbvFo8heqD0pq63t7i9HnJEu+0mfCmV3FUJzXnBwQ+6z
+ UXGJI17r4r/tFgB6JQZwnU9slwLqix4KiV2rSDVu+mLRjfMXUSdbyz+VP1ea0E9/8JlnglR6
+ e1fvjwpDTup56RtD3lB8sGM5xWNbTNyzjyMGj/pvuCNQWI9YqdrT8+EGbZ56lzAgy7Oecgeq
+ 7vJwYnVHCnPIfqcb4lScugc7zI5XcBVFIaJi9apNbK3uInkRhQMxInHCah1YdyzpTO7JHWHX
+ LBWj0jA1zn56O7y13XYIeb8Tlyh4JkVvFID9Cx69VeanMephQwy7mH8E2llPBgqv/CsXIiCV
+ mGJX7TUVZ6Yl2qvX8fhtQGaq+me3/QX0I8W3q8c6XtrMIf5J1IlrytiZ+1hs+K4tE932BfG4
+ D/91mJ6CxLuXzbys4npafrxKcYUPHBnSXHHW8c3Y7oxAbgFT2XLV9T9tkZ1Gff8Pdnbna5us
+ MUXUvulS0BykXySdPZPc4w+WzY+U5jDLQsw+D/FHohIJEHKVse6hWc4uTeW819PfNDMeTWyG
+ 46KXvg5492W4SsWPegKu1yAWajuQtXKBIJKbks3GG0Tt3J05XQwVEUvVIRCLmhWGwuwyO3T4
+ x037kl5kBwnMlse+cg6+/3Fjf2bpAZWAFl1c6yqRDByqafPtezG87H+TFWIsObcR3iJ/5mlB
+ A6BvRjHpsYCfGbVm2Z2p8pxAS8k8tJAT+JzH1wMsIyvL2UdZ9vaR+xMh4C9cGiSv3WKnVy0m
+ 1Vtj257XZJd451MFMZ5b1sNGlucGD1JSrDuBUZATQXBosrpp0vqYQ/JfiFWUTuZIolgz/C5v
+ okh3TZo/FR5Oh9HdB4aok4nq8Ot9JAei7SZhHHtAB3R+aXRDl0v/KZ+sKi9euGvT0D9skFBp
+ LAfjDKzc9y0J1q0aDQljQpgdi+CC3RzskpCK+D3RG/vKbZCASLlnk5SWWiRiCt33BfoDC2h6
+ u0q8t+6HIP1VWw73qZ233By1VCEohLVJV1+cZ0/kUgkocr7aZuyNLLN/awZc0g+pj42u2BDC
+ WVdfrwbus0lVCELNSvCIW2IktSytUxjQfmjBMw==
+Message-ID: <38050529-5730-6e88-fe1a-909492711dd0@kaa.org.ua>
+Date:   Sun, 9 Jun 2019 21:13:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: de20f092-15a7-4702-8fc2-08d6ecf8d141
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2019 16:37:52.9651
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: peda@axentia.se
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0202MB3466
+In-Reply-To: <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="AS3qgodgQFYJgavznlP6LC86IYBTZXPtV"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-T24gMjAxOS0wNi0wOCAxMjo1NSwgV29sZnJhbSBTYW5nIHdyb3RlOg0KPiBXaGlsZSBwcmVwYXJp
-bmcgYSByZWZhY3RvcmluZyBzZXJpZXMsIEkgbm90aWNlZCB0aGF0IHNvbWUgZHJpdmVycyB1c2Ug
-YQ0KPiBjb21wbGljYXRlZCB3YXkgb2YgZGV0ZXJtaW5pbmcgdGhlIGFkYXB0ZXIgb2YgYSBjbGll
-bnQuIFRoZSBlYXN5IHdheSBpcw0KPiB0byB1c2UgdGhlIGludGVuZGVkIHBvaW50ZXI6IGNsaWVu
-dC0+YWRhcHRlcg0KPiANCj4gVGhlc2UgZHJpdmVycyBkbzoNCj4gCXRvX2kyY19hZGFwdGVyKGNs
-aWVudC0+ZGV2LnBhcmVudCk7DQo+IA0KPiBUaGUgSTJDIGNvcmUgcG9wdWxhdGVzIHRoZSBwYXJl
-bnQgcG9pbnRlciBhczoNCj4gCWNsaWVudC0+ZGV2LnBhcmVudCA9ICZjbGllbnQtPmFkYXB0ZXIt
-PmRldjsNCj4gDQo+IE5vdyB0YWtlIGludG8gY29uc2lkZXJhdGlvbiB0aGF0DQo+IAl0b19pMmNf
-YWRhcHRlcigmYWRhcHRlci0+ZGV2KTsNCj4gDQo+IGlzIGEgY29tcGxpY2F0ZWQgd2F5IG9mIHNh
-eWluZyAnYWRhcHRlcicsIHRoZW4gd2UgY2FuIGV2ZW4gZm9ybWFsbHkNCj4gcHJvdmUgdGhhdCB0
-aGUgY29tcGxpY2F0ZWQgZXhwcmVzc2lvbiBjYW4gYmUgc2ltcGxpZmllZCBieSB1c2luZw0KPiBj
-bGllbnQtPmFkYXB0ZXIuDQo+IA0KPiBUaGUgY29udmVyc2lvbiB3YXMgZG9uZSB1c2luZyBhIGNv
-Y2NpbmVsbGUgc2NyaXB0IHdpdGggc29tZSBtYW51YWwNCj4gaW5kZW50YXRpb24gZml4ZXMgYXBw
-bGllZCBvbiB0b3AuDQo+IA0KPiBUbyBhdm9pZCBhIGJyb3duIHBhcGVyIGJhZyBtaXN0YWtlLCBJ
-IGRvdWJsZSBjaGVja2VkIHRoaXMgb24gYSBSZW5lc2FzDQo+IFNhbHZhdG9yLVhTIGJvYXJkIChS
-LUNhciBNM04pIGFuZCB2ZXJpZmllZCBib3RoIGV4cHJlc3Npb24gcmVzdWx0IGluIHRoZQ0KPiBz
-YW1lIHBvaW50ZXIuIE90aGVyIHRoYW4gdGhhdCwgdGhlIHNlcmllcyBpcyBvbmx5IGJ1aWxkIHRl
-c3RlZC4NCg0KU2ltaWxhciB0aGluZ3MgZ28gb24gaW46DQoNCmRyaXZlcnMvaHdtb24vbG05MC5j
-DQpkcml2ZXJzL2xlZHMvbGVkcy1pczMxZmwzMTl4LmMNCmRyaXZlcnMvb2YvdW5pdHRlc3QuYw0K
-DQpUaG9zZSBoYXZlIHRoaXMgcGF0dGVybjoNCg0KCXN0cnVjdCBkZXZpY2UgKmRldiA9ICZjbGll
-bnQtPmRldjsNCglzdHJ1Y3QgaTJjX2FkYXB0ZXIgKmFkYXB0ZXIgPSB0b19pMmNfYWRhcHRlcihk
-ZXYtPnBhcmVudCk7DQoNCkFuZCBkcml2ZXJzL3J0Yy9ydGMtZm0zMTMwLmMgaGFzIGEgY291cGxl
-IG9mIHRoZXNlOg0KDQoJdG1wID0gaTJjX3RyYW5zZmVyKHRvX2kyY19hZGFwdGVyKGZtMzEzMC0+
-Y2xpZW50LT5kZXYucGFyZW50KSwNCgkJCS4uLik7DQoNCndoZXJlIGZtMzEzMC0+Y2xpZW50IGlz
-IG9mIHR5cGUgInN0cnVjdCBpMmNfY2xpZW50ICoiDQoNCkNoZWVycywNClBldGVyDQo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--AS3qgodgQFYJgavznlP6LC86IYBTZXPtV
+Content-Type: multipart/mixed; boundary="ybV6p8JmWILAksIIoDGJjWhU8uNOdU8yv";
+ protected-headers="v1"
+From: Oleh Kravchenko <oleg@kaa.org.ua>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
+Message-ID: <38050529-5730-6e88-fe1a-909492711dd0@kaa.org.ua>
+Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
+References: <20190607184022.13793-1-oleg@kaa.org.ua>
+ <b1f0eaf6-e91c-2095-5928-179ad8695b33@ti.com>
+ <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
+ <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
+ <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
+ <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
+ <7e787498-537b-390d-589a-577f34ffbc3f@kaa.org.ua>
+ <94968b55-a9cc-277e-ac25-bf765f9db138@kaa.org.ua>
+ <e1fc84a1-75e4-6c56-d2ea-f6ade28087ac@kaa.org.ua>
+ <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
+In-Reply-To: <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
+
+--ybV6p8JmWILAksIIoDGJjWhU8uNOdU8yv
+Content-Type: text/plain; charset=utf-8
+Content-Language: uk-UA
+Content-Transfer-Encoding: quoted-printable
+
+Jacek,
+
+09.06.19 15:24, Jacek Anaszewski =D0=BF=D0=B8=D1=88=D0=B5:
+> Hi Oleh,
+>=20
+> On 6/8/19 12:42 AM, Oleh Kravchenko wrote:
+>=20
+> You want to set timer trigger (first turn it on in the config):
+>=20
+> echo "timer" > trigger
+>=20
+> After that two files appear: delay_on and delay_off.
+>=20
+> ledtrig-timer uses blink_set op for setting up the hw blinking.
+
+Thank you for explanation.
+
+I just want to clerify - for now LEDs board has 2 from 3 LEDs with effect=
+ function.
+
+1. Screen frame led is just blinking, so blink_set() is fit well to this.=
+
+2. Pipe led actually consist from 3 leds and when effect is enabled next =
+pattern is used:
+
+      ^
+      |
+LED1  >   OFF  ON   ON   ON
+      |                              =20
+LED2  >   OFF  OFF  ON   ON
+      |                              =20
+LED3  >   OFF  OFF  OFF  ON
+      |
+      +----^----^----^----^----> time
+
+Could you please recommend how to implement it?
+
+--=20
+Best regards,
+Oleh Kravchenko
+
+
+
+--ybV6p8JmWILAksIIoDGJjWhU8uNOdU8yv--
+
+--AS3qgodgQFYJgavznlP6LC86IYBTZXPtV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAlz9TGIACgkQ0xNJm20p
+l4yRFxAApszbWBxoAp3ChTK6A51O5YvpBtzrZrkGQQ5Mf8huVokIorpDSZ1p3z0z
+FSd6QLA2A+Eh2VVySWEvYUe8VLO/mPfORnYYuC6zO69O5lNp7aFi+vqKsiEuE+vZ
+HziiQKgE7a220NxjgwH57dQfSE62LeYgZ3/6hdXOlVzbfVWqnHQfCAE4BplIwZ1V
+YAyVwc8ueNoC3/e33zP/4/SG8hbWyrmfONn23qeMVPJQqA6nWmhsaRhlfx8KGrmL
+vZ4DUO02RhCG7X7TFJ2SBEuQD7jlPdD4GU/fWaElBjMtS1GU+xZZjMEY624DTbMV
+v4G5oEFuyK94bEXlB8PCtLXI+2esKgP31z9yxvUszKbSS2baPV+0Jfpw10EzRjBt
+i02e5NCWsMBpbhQm4iA11tPhx4c0U67SDUseHpkgLfwsFMuw1mwcHTMqxV8NdfDU
+t0jqwosXPQM8Mxu8MPwD5Sxo5uaQstFVoBLlC1I7Ck+VZYL3YeiwWr7HalEqwqWZ
+zJNvN1/W50JIZzlppij5MBst5n/WVeWUOBgZYRPxtVz3R9rtbr4lIFNUQZYFsgD4
+jAuVPDIdqbkdrqNsk6GoVjEq0CC7Hdg5DHOm1+bMIIl9V6Onqa58J9kCcJHTr9JZ
+K30joMGf64EOhnjjjFi+CRUTL4N/Sjc9EKrqcvp+oZdr3zFSqTA=
+=dbev
+-----END PGP SIGNATURE-----
+
+--AS3qgodgQFYJgavznlP6LC86IYBTZXPtV--
