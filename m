@@ -2,56 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80FA93AB79
-	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 21:10:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A00483AB77
+	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 21:10:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730054AbfFITJ3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 9 Jun 2019 15:09:29 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33285 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730809AbfFITJN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Jun 2019 15:09:13 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n9so7019137wru.0;
-        Sun, 09 Jun 2019 12:09:11 -0700 (PDT)
+        id S1730944AbfFITJP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 9 Jun 2019 15:09:15 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:54548 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730883AbfFITJP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Jun 2019 15:09:15 -0400
+Received: by mail-wm1-f68.google.com with SMTP id g135so6488727wme.4;
+        Sun, 09 Jun 2019 12:09:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=bLCSRColGizNu31TK3UQpaPLxmeS9gz/psiGlsjJuZw=;
-        b=KgDW3yUAqGBg8E4HIS/0FqGIc2tIlR4hQc51nyjnoMdi/JXG8bVGKHCIN2sYaMrcRE
-         w6roAUbEviGjT2VXDawakDImkN+HXOuPGCUyAz0YC8GXZkAofFJIZbUDf2sFPKsD00iL
-         YoryMiuGP43Dc0B3tBzsJX35ynUdyXPoIzHW+M6Bx4FEQ3X8f5GUz8lpFmjcIlH7ryyQ
-         hhdK/o7D0pEBbQ9g8+rcHPIIsQ98lKSQ1Ru6Bbr5dFzLHBJATO+Sq5UO6P05GKe9oDu6
-         7syWo5tw4uJEjbpLkITS7XI43L6KcGa/bmpbxFkFJzVHeXTvynTBNrKEGAu14J6z2J2a
-         WEvw==
+        bh=0j3GNwLEKjidPPM+BOUfFd0nez6NDh9+FVvWkEWVf/o=;
+        b=glQaEpT300nLlHbbw3csPutgxZcPBGfJepX5/VNCYhmObweGI78GGRX7y0igfs0JmJ
+         vhtyIapF9qDB1v372lQwv55+ptCHk7uS7ipUMF41CsLnz/arTbxmcJ2+luZUX5cJOd7S
+         ziIZFhMYA2ytpnisvbJGlB2j2pLt279AdNTI3li/2hgBHK/6yfYMmpGLRXIiln1sfW7o
+         6RwM65pVx1TYntUSI25DC+PKM9nArvYpV0vc+5awUyv4wPglqWcqHkXPhwapbDsSu5us
+         kNAKAnqSWCwucW2u7zi/xP7fnVjtmrviPi3BIphHsxO9P7KJMOn5n88whTdXiosqJjoh
+         QRKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=bLCSRColGizNu31TK3UQpaPLxmeS9gz/psiGlsjJuZw=;
-        b=LvVbnf3fc5p9vQhOSrAnaVhX0gWmWGbdMjX12mevP+CgsHKnRDPPTbhWSphx1j/Vj1
-         613sZQ+iqcura1Y2niLyUkGq9uEbKg62vNNn7/zJaTBIgXTJcawhu7JEJaXdC/FaAo1L
-         vKznstBVhhNapE24oUwC01WVFd0GLdjHSgH8/UFG2tQ4km4sO6u75mbOVNrQalHVzGMW
-         Znlw13iTrE2TR+GkVtNe+VcJRsjMtMoFAs6SHpHRy0ZU48eZiNSS0Fk0rQ7QWu/4i9nm
-         5ObgW9FXpptRlK66kkwWETsch/Tn2lDUZc1RZxUTWJBnmOhWaoB0NtXrwXvLYuDpdNqC
-         +JzQ==
-X-Gm-Message-State: APjAAAU11NgWtSSSyWirBGlIvhHm8V+Ji2y9yy9gTf3Y/nRvEtJrmmP2
-        xeNlqF2gW69zvtEoI5Dg+MktTu//
-X-Google-Smtp-Source: APXvYqyMuUk9eFZnvPmQJXo1jsdK1s4Lkz4cG1e6mV0cl99hB0CqCR2yn/dnCKPr6A62PSIOnH06kA==
-X-Received: by 2002:adf:eb09:: with SMTP id s9mr40930236wrn.127.1560107350802;
-        Sun, 09 Jun 2019 12:09:10 -0700 (PDT)
+        bh=0j3GNwLEKjidPPM+BOUfFd0nez6NDh9+FVvWkEWVf/o=;
+        b=fzT9M56Mp75TgmqU1kLLfHw4JxCCSb1XTVGLqgpTlxeV4Yan3zCHaUDyBJ1DTLKYHU
+         dZYd50q4eC8uiq6YYqfN+gNmlUWdO8gD0LWbQ49W1y/RcqRvRz1njMPJlxlVXHVLFH2H
+         s9wNzehEKfINFhZqm86BLAvfoCqUw7jlIOEAiDTJuxt4yDLBTFyRNiNnEz0H2Tlo1Obp
+         896AxcLbTCNRRg2g43TcuNLgZYKP1UhQYpdxeG9j63PuUOPgjDjzj7lzbV3qNBE4NdAK
+         a7j3M3NPOqPLW/pKbGRnJEfnzFNAB1hwbYHo5AsX8xM860X8whUBtOMcNFqU2xuMpnDX
+         MELA==
+X-Gm-Message-State: APjAAAVxBJRsQLlLzaSnlgQ0CjaHykG1xycae8q2AXg+UKJEFbpreRuH
+        ilM9xe+5Xkkn+SYmSKP8NC6LD9KA
+X-Google-Smtp-Source: APXvYqytoX6daNdqiy8RQrRIyNKEkvIoHKecT6VZfrkw/F3EStq0PN8573SYT+8p1jE4Bqv0ZChIFg==
+X-Received: by 2002:a05:600c:291:: with SMTP id 17mr10596516wmk.32.1560107352702;
+        Sun, 09 Jun 2019 12:09:12 -0700 (PDT)
 Received: from myhost.home (ckm12.neoplus.adsl.tpnet.pl. [83.31.88.12])
-        by smtp.gmail.com with ESMTPSA id y38sm14725041wrd.41.2019.06.09.12.09.08
+        by smtp.gmail.com with ESMTPSA id y38sm14725041wrd.41.2019.06.09.12.09.10
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 09 Jun 2019 12:09:10 -0700 (PDT)
+        Sun, 09 Jun 2019 12:09:12 -0700 (PDT)
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 To:     linux-leds@vger.kernel.org
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         pavel@ucw.cz, robh@kernel.org, dtor@google.com, linux@roeck-us.net,
         dmurphy@ti.com, jacek.anaszewski@gmail.com,
         Simon Shields <simon@lineageos.org>
-Subject: [PATCH v5 24/26] dt-bindings: an30259a: Add function and color properties
-Date:   Sun,  9 Jun 2019 21:08:01 +0200
-Message-Id: <20190609190803.14815-25-jacek.anaszewski@gmail.com>
+Subject: [PATCH v5 25/26] leds: an30259a: Use generic support for composing LED names
+Date:   Sun,  9 Jun 2019 21:08:02 +0200
+Message-Id: <20190609190803.14815-26-jacek.anaszewski@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
 References: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
@@ -60,65 +60,88 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Refer to new "function" and "color" properties and mark "label"
-as deprecated.
+Switch to using generic LED support for composing LED class
+device name.
 
 Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Cc: Simon Shields <simon@lineageos.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../devicetree/bindings/leds/leds-an30259a.txt     | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ drivers/leds/leds-an30259a.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-an30259a.txt b/Documentation/devicetree/bindings/leds/leds-an30259a.txt
-index 6ffb861083c0..cbd833906b2b 100644
---- a/Documentation/devicetree/bindings/leds/leds-an30259a.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-an30259a.txt
-@@ -15,10 +15,19 @@ Required sub-node properties:
- 	- reg: Pin that the LED is connected to. Must be 1, 2, or 3.
+diff --git a/drivers/leds/leds-an30259a.c b/drivers/leds/leds-an30259a.c
+index 1c1f0c8c56f4..fa722d45269e 100644
+--- a/drivers/leds/leds-an30259a.c
++++ b/drivers/leds/leds-an30259a.c
+@@ -13,7 +13,6 @@
+ #include <linux/mutex.h>
+ #include <linux/of.h>
+ #include <linux/regmap.h>
+-#include <uapi/linux/uleds.h>
  
- Optional sub-node properties:
--	- label: see Documentation/devicetree/bindings/leds/common.txt
--	- linux,default-trigger: see Documentation/devicetree/bindings/leds/common.txt
-+	- function :
-+		see Documentation/devicetree/bindings/leds/common.txt
-+	- color :
-+		see Documentation/devicetree/bindings/leds/common.txt
-+	- label :
-+		see Documentation/devicetree/bindings/leds/common.txt (deprecated)
-+	- linux,default-trigger :
-+		see Documentation/devicetree/bindings/leds/common.txt
+ #define AN30259A_MAX_LEDS 3
  
- Example:
+@@ -54,6 +53,8 @@
+ #define AN30259A_BLINK_MAX_TIME 7500 /* ms */
+ #define AN30259A_SLOPE_RESOLUTION 500 /* ms */
+ 
++#define AN30259A_NAME "an30259a"
 +
-+#include <dt-bindings/leds/common.h>
-+
- led-controller@30 {
- 	compatible = "panasonic,an30259a";
- 	reg = <0x30>;
-@@ -28,16 +37,19 @@ led-controller@30 {
- 	led@1 {
- 		reg = <1>;
- 		linux,default-trigger = "heartbeat";
--		label = "red:indicator";
-+		function = LED_FUNCTION_INDICATOR;
-+		color = <LED_COLOR_ID_RED>;
- 	};
+ #define STATE_OFF 0
+ #define STATE_KEEP 1
+ #define STATE_ON 2
+@@ -62,11 +63,11 @@ struct an30259a;
  
- 	led@2 {
- 		reg = <2>;
--		label = "green:indicator";
-+		function = LED_FUNCTION_INDICATOR;
-+		color = <LED_COLOR_ID_GREEN>;
- 	};
- 
- 	led@3 {
- 		reg = <3>;
--		label = "blue:indicator";
-+		function = LED_FUNCTION_INDICATOR;
-+		color = <LED_COLOR_ID_BLUE>;
- 	};
+ struct an30259a_led {
+ 	struct an30259a *chip;
++	struct fwnode_handle *fwnode;
+ 	struct led_classdev cdev;
+ 	u32 num;
+ 	u32 default_state;
+ 	bool sloping;
+-	char label[LED_MAX_NAME_SIZE];
  };
+ 
+ struct an30259a {
+@@ -226,14 +227,7 @@ static int an30259a_dt_init(struct i2c_client *client,
+ 
+ 		led->num = source;
+ 		led->chip = chip;
+-
+-		if (of_property_read_string(child, "label", &str))
+-			snprintf(led->label, sizeof(led->label), "an30259a::");
+-		else
+-			snprintf(led->label, sizeof(led->label), "an30259a:%s",
+-				 str);
+-
+-		led->cdev.name = led->label;
++		led->fwnode = of_fwnode_handle(child);
+ 
+ 		if (!of_property_read_string(child, "default-state", &str)) {
+ 			if (!strcmp(str, "on"))
+@@ -312,13 +306,20 @@ static int an30259a_probe(struct i2c_client *client)
+ 	chip->regmap = devm_regmap_init_i2c(client, &an30259a_regmap_config);
+ 
+ 	for (i = 0; i < chip->num_leds; i++) {
++		struct led_init_data init_data = {};
++
+ 		an30259a_init_default_state(&chip->leds[i]);
+ 		chip->leds[i].cdev.brightness_set_blocking =
+ 			an30259a_brightness_set;
+ 		chip->leds[i].cdev.blink_set = an30259a_blink_set;
+ 
+-		err = devm_led_classdev_register(&client->dev,
+-						 &chip->leds[i].cdev);
++		init_data.fwnode = chip->leds[i].fwnode;
++		init_data.devicename = AN30259A_NAME;
++		init_data.default_label = ":";
++
++		err = devm_led_classdev_register_ext(&client->dev,
++						 &chip->leds[i].cdev,
++						 &init_data);
+ 		if (err < 0)
+ 			goto exit;
+ 	}
 -- 
 2.11.0
 
