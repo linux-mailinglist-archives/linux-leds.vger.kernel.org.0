@@ -2,56 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D97563AB68
-	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 21:10:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEE823AB6A
+	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 21:10:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730537AbfFITI6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 9 Jun 2019 15:08:58 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37315 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730513AbfFITI5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Jun 2019 15:08:57 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 22so6177493wmg.2;
-        Sun, 09 Jun 2019 12:08:56 -0700 (PDT)
+        id S1730542AbfFITI7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 9 Jun 2019 15:08:59 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:33272 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730367AbfFITI7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Jun 2019 15:08:59 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n9so7018764wru.0;
+        Sun, 09 Jun 2019 12:08:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=wLfBGSpG5kcjtADXYpGO9iKtzL6iCob5R6RB66c3aK4=;
-        b=lrQiHLPWn3Ibg7b6JlpAEDyb8MJASMKOQoLT+7NZmZUm6mUllw9rd6eUaJMWUQw10L
-         jue6OujvfczL9Sz0RZ1tl7kgEUN/vT6Y57at2PPTcKVjsuCd98WM1Y4sNKa7uemjnck7
-         dJmud9Yw5RRNDOSBA7F3r1AQ+0jcPDl6TAPLaz76EqmhgmaVKmJZebpyi53KwLbatcl/
-         llThF23MaLInqYQyQ8dsAD7pojmoFBl8d9orPEfUZ52Va77waUEJatZtF9Ql8iiLGo6i
-         iHKsv425+QoOkP/orRNQ0Prt6g2Sv2d48duzOkiHZPV++P/XgvZ7qx252dGZoID1eQgA
-         Aw4w==
+        bh=Z2eH+3/86F7l26OXjPtVzBX++Fh8MEXdrET9Il+DCLQ=;
+        b=GwzGRTDWLjhPT3moaYmOv2coVV9+ArjxYA9Jg8jMKpt0uIc4hUu8kKhfoXCk7b8jhl
+         vsLU3Y/36mNP+rj1dJa62ufqhrildmBDjIMGx2sdfSJzsXioxLGctGyvTXRDMqpba2/h
+         thMd7ULOWwRFG46GEHYjsQKSFeLgHBjdVMR5lrTtLpKCa3DK0cstrEAw5GrZ6kVLl61w
+         6B9BBG1aSV5sVRW93S3CDkjM9Xnq/Cb0NnqPeNT4ExU2lbILx5KaVObUf1nbzYbWul5T
+         lMORAoQYh+UAV2TVr0nJdqByWaR2Jvmgg73TuCQKdGh/QJ3biqkTXR6es+qwEzOH1Lsd
+         N9YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=wLfBGSpG5kcjtADXYpGO9iKtzL6iCob5R6RB66c3aK4=;
-        b=HZDQdoUWq9opfVyLKPDd6Bqd48YsLvCW+PQ6ZcFcRhg/EuBPxQq96vukAWbiGextv9
-         SGjKyCNeLOSFcEJ7yMNITTbAair4o9Eau0W4MTOXB4R86AsKaodELWAePlTr7jL1DQAV
-         4ee5ZoOzm+uS6VI4Uagh2nDkJdJOSgaOWMCp8xCHygzrh18CJH2/Sf7keq/I0BGThnL4
-         PahntIgUijSIgT5grMfsf7mZ+MgeOxV7nmVH56ephTcPcCah6hBbgrJ0g0SWxfs9w/Mw
-         +leI6m7qbPaCTL0YBRk/4PyDTgzbmkdRJdA5SupT4b7hb0VByUbpEBlUTJfYukzIZbUg
-         i6hw==
-X-Gm-Message-State: APjAAAVUcU3y3kPG9lWwHwYt0uMOeUs2Yw7sAx5Tepxu8ioER8QLM1Bk
-        feeAFmyo/YIj5V+sbapMRtP3+KTX
-X-Google-Smtp-Source: APXvYqwd+a/5/UOK4C4OhnaZpV5dOz32BwQ8m/Y44jf4wJpNxp04wuocGikXsCENyNOU2P0wU7hX7A==
-X-Received: by 2002:a1c:40c6:: with SMTP id n189mr10611700wma.118.1560107335228;
-        Sun, 09 Jun 2019 12:08:55 -0700 (PDT)
+        bh=Z2eH+3/86F7l26OXjPtVzBX++Fh8MEXdrET9Il+DCLQ=;
+        b=Dwa9VUYUyvj0vLqpwbKQMCFlUqUUYfcB49SfNDfTGUfSzHDyF5+KQA4nN3yZgyQfdW
+         ComHd7ijZbweWR9D4nzvMv8N7VuH2BBmfPhPZXENcNzjVo8iuEV3dGMr5JGwJ8+CLPJS
+         Y6jsSfhgn5rFmB2tPOs0I0MjfTOXuDmIotT9+2XWugfj7Qu42ZQYDppyy4DWNPSQw23+
+         kil+c62+48pwmOHvj+o0oFh5aEQXpBHcuOR8N3X/ijY4BLLfvyGddu7OFvV6+CkbzgNt
+         QEGrpFjEhI0t732duTS1fdwmj2n7KyR7XkPOe1S3iAXNG98KoHlEROxYXjM0c/4YEKok
+         1zvQ==
+X-Gm-Message-State: APjAAAUMMNYyjt8GdlZVMJJfLWJdhhsILbXHD3EOCvBuGAUjTlOZzvAU
+        f2hxap4g1mziLoUpUEymDlVzEBX1
+X-Google-Smtp-Source: APXvYqwIknc6FYFCm0U+sVb6eRFWTG5vGcqGjB3rgxsr+kwYonwshCjeWqQ6xR1OJRAqjxDB6T/7uw==
+X-Received: by 2002:a5d:4cc3:: with SMTP id c3mr15668352wrt.259.1560107336873;
+        Sun, 09 Jun 2019 12:08:56 -0700 (PDT)
 Received: from myhost.home (ckm12.neoplus.adsl.tpnet.pl. [83.31.88.12])
-        by smtp.gmail.com with ESMTPSA id y38sm14725041wrd.41.2019.06.09.12.08.53
+        by smtp.gmail.com with ESMTPSA id y38sm14725041wrd.41.2019.06.09.12.08.55
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 09 Jun 2019 12:08:54 -0700 (PDT)
+        Sun, 09 Jun 2019 12:08:56 -0700 (PDT)
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 To:     linux-leds@vger.kernel.org
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         pavel@ucw.cz, robh@kernel.org, dtor@google.com, linux@roeck-us.net,
         dmurphy@ti.com, jacek.anaszewski@gmail.com,
         Oleh Kravchenko <oleg@kaa.org.ua>
-Subject: [PATCH v5 16/26] dt-bindings: cr0014114: Add function and color properties
-Date:   Sun,  9 Jun 2019 21:07:53 +0200
-Message-Id: <20190609190803.14815-17-jacek.anaszewski@gmail.com>
+Subject: [PATCH v5 17/26] leds: cr0014114: Use generic support for composing LED names
+Date:   Sun,  9 Jun 2019 21:07:54 +0200
+Message-Id: <20190609190803.14815-18-jacek.anaszewski@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
 References: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
@@ -60,82 +60,104 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Refer to new "function" and "color" properties and mark "label"
-as deprecated.
+Switch to using generic LED support for composing LED class
+device name.
+
+At this occassion remove initialization of struct led_classdev's
+dev->of_node property in the driver, since now it will be taken from
+fwnode assigned to struct led_init_data and passed to the new
+devm_led_classdev_register_ext() API.
 
 Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Cc: Oleh Kravchenko <oleg@kaa.org.ua>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Pavel Machek <pavel@ucw.cz>
 ---
- .../devicetree/bindings/leds/leds-cr0014114.txt    | 26 ++++++++++++++++------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+ drivers/leds/leds-cr0014114.c | 32 +++++++++++---------------------
+ 1 file changed, 11 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-cr0014114.txt b/Documentation/devicetree/bindings/leds/leds-cr0014114.txt
-index 4255b19ad25c..f8de7516a39b 100644
---- a/Documentation/devicetree/bindings/leds/leds-cr0014114.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-cr0014114.txt
-@@ -11,14 +11,20 @@ Property rules described in Documentation/devicetree/bindings/spi/spi-bus.txt
- apply. In particular, "reg" and "spi-max-frequency" properties must be given.
+diff --git a/drivers/leds/leds-cr0014114.c b/drivers/leds/leds-cr0014114.c
+index 1c82152764d2..2da448ae718e 100644
+--- a/drivers/leds/leds-cr0014114.c
++++ b/drivers/leds/leds-cr0014114.c
+@@ -8,7 +8,6 @@
+ #include <linux/of_device.h>
+ #include <linux/spi/spi.h>
+ #include <linux/workqueue.h>
+-#include <uapi/linux/uleds.h>
  
- LED sub-node properties:
--- label :
-+- function :
-+	see Documentation/devicetree/bindings/leds/common.txt
-+- color :
- 	see Documentation/devicetree/bindings/leds/common.txt
-+- label :
-+	see Documentation/devicetree/bindings/leds/common.txt (deprecated)
- - linux,default-trigger : (optional)
- 	see Documentation/devicetree/bindings/leds/common.txt
+ /*
+  *  CR0014114 SPI protocol descrtiption:
+@@ -40,8 +39,9 @@
+ #define CR_FW_DELAY_MSEC	10
+ #define CR_RECOUNT_DELAY	(HZ * 3600)
  
- Example
- -------
- 
-+#include <dt-bindings/leds/common.h>
++#define CR_DEV_NAME		"cr0014114"
 +
- led-controller@0 {
- 	compatible = "crane,cr0014114";
- 	reg = <0>;
-@@ -28,27 +34,33 @@ led-controller@0 {
+ struct cr0014114_led {
+-	char			name[LED_MAX_NAME_SIZE];
+ 	struct cr0014114	*priv;
+ 	struct led_classdev	ldev;
+ 	u8			brightness;
+@@ -167,8 +167,7 @@ static int cr0014114_set_sync(struct led_classdev *ldev,
+ 						    struct cr0014114_led,
+ 						    ldev);
  
- 	led@0 {
- 		reg = <0>;
--		label = "red:coin";
-+		function = "coin";
-+		color = <LED_COLOR_ID_RED>;
- 	};
- 	led@1 {
- 		reg = <1>;
--		label = "green:coin";
-+		function = "coin";
-+		color = <LED_COLOR_ID_GREEN>;
- 	};
- 	led@2 {
- 		reg = <2>;
--		label = "blue:coin";
-+		function = "coin";
-+		color = <LED_COLOR_ID_BLUE>;
- 	};
- 	led@3 {
- 		reg = <3>;
--		label = "red:bill";
-+		function = "bill";
-+		color = <LED_COLOR_ID_RED>;
- 	};
- 	led@4 {
- 		reg = <4>;
--		label = "green:bill";
-+		function = "bill";
-+		color = <LED_COLOR_ID_GREEN>;
- 	};
- 	led@5 {
- 		reg = <5>;
--		label = "blue:bill";
-+		function = "bill";
-+		color = <LED_COLOR_ID_BLUE>;
- 	};
- 	...
- };
+-	dev_dbg(led->priv->dev, "Set brightness of %s to %d\n",
+-		led->name, brightness);
++	dev_dbg(led->priv->dev, "Set brightness to %d\n", brightness);
+ 
+ 	mutex_lock(&led->priv->lock);
+ 	led->brightness = (u8)brightness;
+@@ -183,41 +182,32 @@ static int cr0014114_probe_dt(struct cr0014114 *priv)
+ 	size_t			i = 0;
+ 	struct cr0014114_led	*led;
+ 	struct fwnode_handle	*child;
+-	struct device_node	*np;
++	struct led_init_data	init_data = {};
+ 	int			ret;
+-	const char		*str;
+ 
+ 	device_for_each_child_node(priv->dev, child) {
+-		np = to_of_node(child);
+ 		led = &priv->leds[i];
+ 
+-		ret = fwnode_property_read_string(child, "label", &str);
+-		if (ret)
+-			snprintf(led->name, sizeof(led->name),
+-				 "cr0014114::");
+-		else
+-			snprintf(led->name, sizeof(led->name),
+-				 "cr0014114:%s", str);
+-
+ 		fwnode_property_read_string(child, "linux,default-trigger",
+ 					    &led->ldev.default_trigger);
+ 
+ 		led->priv			  = priv;
+-		led->ldev.name			  = led->name;
+ 		led->ldev.max_brightness	  = CR_MAX_BRIGHTNESS;
+ 		led->ldev.brightness_set_blocking = cr0014114_set_sync;
+ 
+-		ret = devm_led_classdev_register(priv->dev, &led->ldev);
++		init_data.fwnode = child;
++		init_data.devicename = CR_DEV_NAME;
++		init_data.default_label = ":";
++
++		ret = devm_led_classdev_register_ext(priv->dev, &led->ldev,
++						     &init_data);
+ 		if (ret) {
+ 			dev_err(priv->dev,
+-				"failed to register LED device %s, err %d",
+-				led->name, ret);
++				"failed to register LED device, err %d", ret);
+ 			fwnode_handle_put(child);
+ 			return ret;
+ 		}
+ 
+-		led->ldev.dev->of_node = np;
+-
+ 		i++;
+ 	}
+ 
 -- 
 2.11.0
 
