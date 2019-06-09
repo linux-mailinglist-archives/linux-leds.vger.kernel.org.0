@@ -2,55 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EF4D3AB82
-	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 21:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 240773AB7F
+	for <lists+linux-leds@lfdr.de>; Sun,  9 Jun 2019 21:10:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731158AbfFITJ6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 9 Jun 2019 15:09:58 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33805 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730121AbfFITIx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Jun 2019 15:08:53 -0400
-Received: by mail-wr1-f66.google.com with SMTP id e16so7006162wrn.1;
-        Sun, 09 Jun 2019 12:08:52 -0700 (PDT)
+        id S1731123AbfFITJx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 9 Jun 2019 15:09:53 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46133 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730458AbfFITIz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Jun 2019 15:08:55 -0400
+Received: by mail-wr1-f67.google.com with SMTP id n4so6933172wrw.13;
+        Sun, 09 Jun 2019 12:08:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=1REZxe3P1+JW6Xm7KwYXE71LWPK1YU+cJhkDympEObA=;
-        b=iAg78eDjDTX6pcg8tWePERcY/I449Qb7CLzf9AwMe6mae+GqbyBtNAROHVvkqVya1O
-         KgmCLfaF2OcNG5t1yjFD+MjTyvb0dbdp+jreT2K4kyRsnKw+0psGwgRncEMg+TYc8VG/
-         rS1Zln3vazU1vfjegl3P1FNcJRkmznYJ/Bx+qPNCHooN8zF6t7S4qCs3uvBQjDPmXCP+
-         XQmPPULRrGBC08jZPyGvxu+6Du7vdNz+4jeBDux22tF4NutvMUzj9eCsB2kbOZhK+7wH
-         BVAzULeJzzgSidzsBjxIyYrt9gdpkMiHa1GY2db/Vc4QF0Gf2fv6fTnSwv/vosSAJJP0
-         5r6A==
+        bh=Zb0S+kv68PgG+pBeAnbaHOnFNrsLe1KdA3qhUfCq5K0=;
+        b=D8GCkkr4TkYAWnJp+fnC2QxWsMtm21fqIolXl29pd3lXnNi1M4Wf0t69fxgb/Txjzl
+         Cr6zrl0DJUiat6+rb3MEvsyiZPLdBM1ZEnhEtYiEPAbd9eONhVFyjcrafE/mZW/SAd4M
+         UGTXzJOHeOwN7lOeJDirvQo1lyZUUUyFEo9tMkIlYKIaSB2d4BQR+SLHfmnH+o8j/ca5
+         vr3jyDRGDqaE2RFEPy0OQdjclf8Wb90q0UvL37BoQ6wBFBB/X3hdw04t+z+mRxwoP6y8
+         sydWTYSTgicOAK7UJz8bDWINM1UZoNqhCTeVMXs3R1CjmCI19ndxLyEo58ZuV4w0UtI4
+         wm0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=1REZxe3P1+JW6Xm7KwYXE71LWPK1YU+cJhkDympEObA=;
-        b=RGxK2zgpKngvNHVxr5X9TGX5qq+Xbz55DFxRy6QrkD62x4HyTAIngFbbyi3HwkWGDm
-         zgrqyn4HhXoW8C5H4cbaMtlPiseAPZm2k/b6wnSAIk7usx62SQFV6erh3eWUyje8O0E5
-         qByMx8OQj1yTvGxHoN58y5zKm5MG4QDwg+nUHmYb3MkLegNxDftntxde15eVW/z/d74U
-         arKxCuPLfmygm3v7HW/2pkCkBKcLJ1UahRdDonPOUXMqyzGB8rVsIIufpnDt7iL4Q6kf
-         mW+RF5eXu+kOppI5QSz6xPG7aSABoC3hpW2Gwkv5iS0vocMtw+XMlNvmS+3sVZxsgYFh
-         44Cg==
-X-Gm-Message-State: APjAAAXOV2uWtFB+3cvlLDLLZIWWqUM0yu3HD7Y87zTyw6wcpcsyUsuZ
-        u4vPKxuUkA8n9piemyk4e4W7sqK8
-X-Google-Smtp-Source: APXvYqwKlhzr8/ctM7Lmu7hNCO7SOJJbF8dXA4Pa6L8RtpPF+LWREmzNcyAK4dM6MrMCqpSJWT9kVQ==
-X-Received: by 2002:a5d:52c7:: with SMTP id r7mr40896040wrv.110.1560107331458;
-        Sun, 09 Jun 2019 12:08:51 -0700 (PDT)
+        bh=Zb0S+kv68PgG+pBeAnbaHOnFNrsLe1KdA3qhUfCq5K0=;
+        b=mYeGvh8PfUDjBqdzcpg75lJNI1knCkGFfuAwtnnoXYkBggq7+uG6sKEp4As/mNnOB9
+         pC56v5MuIgr6Sibx4Eqxea69ESh3nSc2KbxDCtQCuMATvnH+zTzGcX8qGzN+Z1m/da6Z
+         OfnwUg5MVzBYbyZ8owFQAlWA8k6FfLdmw4MWC5Ufk4qq3MkhjC2h1IcdCvQTJ4jWZ71U
+         csXqRvJIczn2ZlLTXGtCLccQFLmVpCVQfr2HPzb6sTW8fJpYadIgEeDwxgK+GDNzxNlO
+         1KpdlbGcHD0NzSb7V+F25jteTkgGMW6Qab85Im/y+LyJb7hN9iwwIPqmnCf0N1H7e+xT
+         E6RQ==
+X-Gm-Message-State: APjAAAWropQG2zoSyRapxNDANxHz/JXxK50FT1hfpw8KaW9DOED8TGAD
+        lwPGcliIEHUl6XlA4U0P0lZSB6KQ
+X-Google-Smtp-Source: APXvYqxgqa1sgXG5QifVLCgk8f+hLZi8WDJ8H2OUiCz7Fpi//WZD0o7FxCJevrYhhBoeZCG/C1kHEQ==
+X-Received: by 2002:a05:6000:1289:: with SMTP id f9mr3775360wrx.125.1560107333026;
+        Sun, 09 Jun 2019 12:08:53 -0700 (PDT)
 Received: from myhost.home (ckm12.neoplus.adsl.tpnet.pl. [83.31.88.12])
-        by smtp.gmail.com with ESMTPSA id y38sm14725041wrd.41.2019.06.09.12.08.49
+        by smtp.gmail.com with ESMTPSA id y38sm14725041wrd.41.2019.06.09.12.08.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 09 Jun 2019 12:08:50 -0700 (PDT)
+        Sun, 09 Jun 2019 12:08:52 -0700 (PDT)
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 To:     linux-leds@vger.kernel.org
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         pavel@ucw.cz, robh@kernel.org, dtor@google.com, linux@roeck-us.net,
         dmurphy@ti.com, jacek.anaszewski@gmail.com
-Subject: [PATCH v5 14/26] dt-bindings: lm36010: Add function and color properties
-Date:   Sun,  9 Jun 2019 21:07:51 +0200
-Message-Id: <20190609190803.14815-15-jacek.anaszewski@gmail.com>
+Subject: [PATCH v5 15/26] leds: lm3601x: Use generic support for composing LED names
+Date:   Sun,  9 Jun 2019 21:07:52 +0200
+Message-Id: <20190609190803.14815-16-jacek.anaszewski@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
 References: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
@@ -59,46 +59,134 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Refer to new "function" and "color" properties and mark "label"
-as deprecated.
+Switch to using generic LED support for composing LED class
+device name.
 
 Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Reviewed-by: Dan Murphy <dmurphy@ti.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Tested-by: Dan Murphy <dmurphy@ti.com>
+Acked-by: Pavel Machek <pavel@ucw.cz>
 ---
- Documentation/devicetree/bindings/leds/leds-lm3601x.txt | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/leds/leds-lm3601x.c | 38 +++++++++++++++++---------------------
+ 1 file changed, 17 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-lm3601x.txt b/Documentation/devicetree/bindings/leds/leds-lm3601x.txt
-index a88b2c41e75b..095dafb6ec7f 100644
---- a/Documentation/devicetree/bindings/leds/leds-lm3601x.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lm3601x.txt
-@@ -22,9 +22,14 @@ Required properties for flash LED child nodes:
- 	- led-max-microamp : Range from 2.4mA - 376mA
+diff --git a/drivers/leds/leds-lm3601x.c b/drivers/leds/leds-lm3601x.c
+index 081aa71e43a3..b02972f1a341 100644
+--- a/drivers/leds/leds-lm3601x.c
++++ b/drivers/leds/leds-lm3601x.c
+@@ -10,7 +10,6 @@
+ #include <linux/module.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+-#include <uapi/linux/uleds.h>
  
- Optional child properties:
--	- label : see Documentation/devicetree/bindings/leds/common.txt
-+	- function : see Documentation/devicetree/bindings/leds/common.txt
-+	- color : see Documentation/devicetree/bindings/leds/common.txt
-+	- label : see Documentation/devicetree/bindings/leds/common.txt (deprecated)
+ #define LM3601X_LED_IR		0x0
+ #define LM3601X_LED_TORCH	0x1
+@@ -90,8 +89,6 @@ struct lm3601x_led {
+ 	struct regmap *regmap;
+ 	struct mutex lock;
  
- Example:
+-	char led_name[LED_MAX_NAME_SIZE];
+-
+ 	unsigned int flash_timeout;
+ 	unsigned int last_flag;
+ 
+@@ -322,10 +319,12 @@ static const struct led_flash_ops flash_ops = {
+ 	.fault_get		= lm3601x_flash_fault_get,
+ };
+ 
+-static int lm3601x_register_leds(struct lm3601x_led *led)
++static int lm3601x_register_leds(struct lm3601x_led *led,
++				 struct fwnode_handle *fwnode)
+ {
+ 	struct led_classdev *led_cdev;
+ 	struct led_flash_setting *setting;
++	struct led_init_data init_data = {};
+ 
+ 	led->fled_cdev.ops = &flash_ops;
+ 
+@@ -342,20 +341,25 @@ static int lm3601x_register_leds(struct lm3601x_led *led)
+ 	setting->val = led->flash_current_max;
+ 
+ 	led_cdev = &led->fled_cdev.led_cdev;
+-	led_cdev->name = led->led_name;
+ 	led_cdev->brightness_set_blocking = lm3601x_brightness_set;
+ 	led_cdev->max_brightness = DIV_ROUND_UP(led->torch_current_max,
+ 						LM3601X_TORCH_REG_DIV);
+ 	led_cdev->flags |= LED_DEV_CAP_FLASH;
+ 
+-	return led_classdev_flash_register(&led->client->dev, &led->fled_cdev);
++	init_data.fwnode = fwnode;
++	init_data.devicename = led->client->name;
++	init_data.default_label = (led->led_mode == LM3601X_LED_TORCH) ?
++					"torch" : "infrared";
 +
-+#include <dt-bindings/leds/common.h>
-+
- led-controller@64 {
- 	compatible = "ti,lm36010";
- 	#address-cells = <1>;
-@@ -33,7 +38,8 @@ led-controller@64 {
++	return led_classdev_flash_register_ext(&led->client->dev,
++						&led->fled_cdev, &init_data);
+ }
  
- 	led@0 {
- 		reg = <1>;
--		label = "white:torch";
-+		function = LED_FUNCTION_TORCH;
-+		color = <LED_COLOR_ID_WHITE>;
- 		led-max-microamp = <376000>;
- 		flash-max-microamp = <1500000>;
- 		flash-max-timeout-us = <1600000>;
+-static int lm3601x_parse_node(struct lm3601x_led *led)
++static int lm3601x_parse_node(struct lm3601x_led *led,
++			      struct fwnode_handle **fwnode)
+ {
+ 	struct fwnode_handle *child = NULL;
+ 	int ret = -ENODEV;
+-	const char *name;
+ 
+ 	child = device_get_next_child_node(&led->client->dev, child);
+ 	if (!child) {
+@@ -376,17 +380,6 @@ static int lm3601x_parse_node(struct lm3601x_led *led)
+ 		goto out_err;
+ 	}
+ 
+-	ret = fwnode_property_read_string(child, "label", &name);
+-	if (ret) {
+-		if (led->led_mode == LM3601X_LED_TORCH)
+-			name = "torch";
+-		else
+-			name = "infrared";
+-	}
+-
+-	snprintf(led->led_name, sizeof(led->led_name),
+-		"%s:%s", led->client->name, name);
+-
+ 	ret = fwnode_property_read_u32(child, "led-max-microamp",
+ 					&led->torch_current_max);
+ 	if (ret) {
+@@ -411,6 +404,8 @@ static int lm3601x_parse_node(struct lm3601x_led *led)
+ 		goto out_err;
+ 	}
+ 
++	*fwnode = child;
++
+ out_err:
+ 	fwnode_handle_put(child);
+ 	return ret;
+@@ -419,6 +414,7 @@ static int lm3601x_parse_node(struct lm3601x_led *led)
+ static int lm3601x_probe(struct i2c_client *client)
+ {
+ 	struct lm3601x_led *led;
++	struct fwnode_handle *fwnode;
+ 	int ret;
+ 
+ 	led = devm_kzalloc(&client->dev, sizeof(*led), GFP_KERNEL);
+@@ -428,7 +424,7 @@ static int lm3601x_probe(struct i2c_client *client)
+ 	led->client = client;
+ 	i2c_set_clientdata(client, led);
+ 
+-	ret = lm3601x_parse_node(led);
++	ret = lm3601x_parse_node(led, &fwnode);
+ 	if (ret)
+ 		return -ENODEV;
+ 
+@@ -442,7 +438,7 @@ static int lm3601x_probe(struct i2c_client *client)
+ 
+ 	mutex_init(&led->lock);
+ 
+-	return lm3601x_register_leds(led);
++	return lm3601x_register_leds(led, fwnode);
+ }
+ 
+ static int lm3601x_remove(struct i2c_client *client)
 -- 
 2.11.0
 
