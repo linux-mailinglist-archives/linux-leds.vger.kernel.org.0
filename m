@@ -2,109 +2,109 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 052153B29C
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Jun 2019 12:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 601B03B74B
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Jun 2019 16:26:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388830AbfFJKAH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 10 Jun 2019 06:00:07 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:56332 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388056AbfFJKAH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 10 Jun 2019 06:00:07 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 7C75E279009
-Subject: Re: [PATCH v3 3/4] backlight: pwm_bl: compute brightness of LED
- linearly to human eye.
-To:     Pavel Machek <pavel@ucw.cz>, Matthias Kaehlcke <mka@chromium.org>
-Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
-        Doug Anderson <dianders@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Richard Purdie <rpurdie@rpsys.net>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Brian Norris <briannorris@google.com>,
-        Guenter Roeck <groeck@google.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Alexandru Stan <amstan@google.com>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-References: <20180208113032.27810-1-enric.balletbo@collabora.com>
- <20180208113032.27810-4-enric.balletbo@collabora.com>
- <20190607220947.GR40515@google.com>
- <20190608210226.GB2359@xo-6d-61-c0.localdomain>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <819ecbcd-18e3-0f6b-6121-67cb363df440@collabora.com>
-Date:   Mon, 10 Jun 2019 12:00:02 +0200
+        id S2390801AbfFJO0T (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 10 Jun 2019 10:26:19 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:54528 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389402AbfFJO0S (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 10 Jun 2019 10:26:18 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5AEQEMO082091;
+        Mon, 10 Jun 2019 09:26:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1560176774;
+        bh=MCwaAhpKgdZSCwWZz2rkXa2waxvi+eQpdMMUcAWPYf4=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=GjipU9CTt+oG8o2nq5X8BO8NcEcTDSJUXh9SBMFVq2FoSCUlMrZsM1guz7XudAFFF
+         ms9lZhkXhkg8cUn+SePQMF4PU4u9KGtX5r6O7q3K7ytTRhSscJNhRURyja5XFpf10Y
+         9G0+NseY7qD/wRPthRINwWV2gi7g3Yiau5K5rr+U=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5AEQEAV111202
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 10 Jun 2019 09:26:14 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 10
+ Jun 2019 09:26:14 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 10 Jun 2019 09:26:14 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5AEQEm9083299;
+        Mon, 10 Jun 2019 09:26:14 -0500
+Subject: Re: [PATCH v2 2/2] Simplify LED registeration by
+ devm_led_classdev_register()
+To:     Oleh Kravchenko <oleg@kaa.org.ua>, <linux-leds@vger.kernel.org>
+References: <20190608143039.13454-1-oleg@kaa.org.ua>
+ <20190608143039.13454-2-oleg@kaa.org.ua>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <ab1404dc-0a1f-ec23-3e3d-8eec86d24c8b@ti.com>
+Date:   Mon, 10 Jun 2019 09:26:14 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190608210226.GB2359@xo-6d-61-c0.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20190608143039.13454-2-oleg@kaa.org.ua>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Matthias,
+Oleh
 
-On 8/6/19 23:02, Pavel Machek wrote:
-> Hi!
-> 
->>> +	 * Note that this method is based on empirical testing on different
->>> +	 * devices with PWM of 8 and 16 bits of resolution.
->>> +	 */
->>> +	n = period;
->>> +	while (n) {
->>> +		counter += n % 2;
->>> +		n >>= 1;
->>> +	}
->>
->> I don't quite follow the heuristics above. Are you sure the number of
->> PWM bits can be infered from the period? What if the period value (in
->> ns) doesn't directly correspond to a register value? And even if it
->> did, counting the number of set bits (the above loops is a
->> re-implementation of ffs()) doesn't really result in the dividers
->> mentioned in the comment. E.g. a period of 32768 ns (0x8000) results
->> in a divider of 1, i.e. 32768 brighness levels.
->>
+On 6/8/19 9:30 AM, Oleh Kravchenko wrote:
+> Then there is no need to set np or store it.
 
-Right, I think that only works on the cases that we only have one pwm cell, and
-looks like during my tests I did only tests on devices with one pwm cell :-(
+Huh?  This does not really explain much about what this patch is doing.
 
-And as you point the code is broken for other cases (pwm-cells > 1)
-
->> On veyron minnie the period is 1000000 ns, which results in 142858
->> levels (1000000 / 7)!
->>
->> Not sure if there is a clean solution using heuristics, a DT property
->> specifying the number of levels could be an alternative. This could
->> also be useful to limit the number of (mostly) redundant levels, even
->> the intended max of 4096 seems pretty high.
->>
-
-Looking again looks like we _can not_ deduce the number of bits of a pwm, it is
-not exposed at all, so I think we will need to end adding a property to specify
-this. Something similar to what leds-pwm binding does, it has:
-
-max-brightness : Maximum brightness possible for the LED
+Dan
 
 
-Enric
-
->> Another (not directly related) observation is that on minnie the
->> actual brightness at a nominal 50% is close to 0 (duty cycle ~3%). I
->> haven't tested with other devices, but I wonder if it would make
->> sense to have an option to drop the bottom N% of levels, since the
->> near 0 brightness in the lower 50% probably isn't very useful in most
->> use cases, but maybe it looks different on other devices.
-> 
-> Eye percieves logarithm(duty cycle), mostly, and I find very low brightness
-> levels quite useful when trying to use machine in dark room.
-> 
-> But yes, specifying if brightness is linear or exponential would be quite
-> useful.
-> 									Pavel
-> 
+> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+> ---
+>   drivers/leds/leds-cr0014114.c | 7 +------
+>   1 file changed, 1 insertion(+), 6 deletions(-)
+>
+> diff --git a/drivers/leds/leds-cr0014114.c b/drivers/leds/leds-cr0014114.c
+> index 91deb40db307..880089ef9a9b 100644
+> --- a/drivers/leds/leds-cr0014114.c
+> +++ b/drivers/leds/leds-cr0014114.c
+> @@ -183,12 +183,10 @@ static int cr0014114_probe_dt(struct cr0014114 *priv)
+>   	size_t			i = 0;
+>   	struct cr0014114_led	*led;
+>   	struct fwnode_handle	*child;
+> -	struct device_node	*np;
+>   	int			ret;
+>   	const char		*str;
+>   
+>   	device_for_each_child_node(priv->dev, child) {
+> -		np = to_of_node(child);
+>   		led = &priv->leds[i];
+>   
+>   		ret = fwnode_property_read_string(child, "label", &str);
+> @@ -207,8 +205,7 @@ static int cr0014114_probe_dt(struct cr0014114 *priv)
+>   		led->ldev.max_brightness	  = CR_MAX_BRIGHTNESS;
+>   		led->ldev.brightness_set_blocking = cr0014114_set_sync;
+>   
+> -		ret = devm_of_led_classdev_register(priv->dev, np,
+> -						    &led->ldev);
+> +		ret = devm_led_classdev_register(priv->dev, &led->ldev);
+>   		if (ret) {
+>   			dev_err(priv->dev,
+>   				"failed to register LED device %s, err %d",
+> @@ -217,8 +214,6 @@ static int cr0014114_probe_dt(struct cr0014114 *priv)
+>   			return ret;
+>   		}
+>   
+> -		led->ldev.dev->of_node = np;
+> -
+>   		i++;
+>   	}
+>   
