@@ -2,95 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 858B33B96F
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Jun 2019 18:29:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D0E33B977
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Jun 2019 18:32:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727782AbfFJQ3a (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 10 Jun 2019 12:29:30 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:50408 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727720AbfFJQ3a (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 10 Jun 2019 12:29:30 -0400
-Received: by mail-wm1-f65.google.com with SMTP id c66so11467wmf.0
-        for <linux-leds@vger.kernel.org>; Mon, 10 Jun 2019 09:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uIv2uO6ElhZgfwMPtGScT+OV4CF0zYe0J8NP5SmVits=;
-        b=LXLrbsbVJ3aHZBUZvBvxwSdMYFfowM7KARVyBTRNut8vzaFiE++0WGjhzTEOotSR85
-         +f6tCLMjGUo7ohsfVIyGud7aDnt6KPTIkMSXYPuMoXsmElrt7HVOXGqGzgzouUpwulN3
-         3Nu1pkTjM0J4iWwuD/t0RZeW3txVztYbl94kdFYQxNsW3b6qQ5UGu6pJvn67epfDeoop
-         0RSgstsE3f705aTjS30YwtsTSv7UcsLRnA9xxQt4pgQ7yBNbFtp7f3ErJhmSWjxBvHfc
-         iUfMBkHsFWUjIwEYKog8Tbw++6XTbpPTjtz/dSsmOrOTVYegCQAeuosVI2JdftSQGZSh
-         7y+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uIv2uO6ElhZgfwMPtGScT+OV4CF0zYe0J8NP5SmVits=;
-        b=opEpOUdZIRxGDmZk/h075JPCQ8QWjbp7OmfFXiasD2t587hu8WGXbpEt6eG9lIlpNi
-         nMWbYn4gX/REQy0tzrtb2VzJkU+E2ppVAuesxe5dogUVlXFaRVJVVZ2BvPy4EGsyfTdQ
-         gRliC2RbAHfasOuZPs7mzb104pQ8xvZcQog6puVKTfXkPAcm0f+zAxA3ZbffIwp8KGAs
-         MODYqvXTH3+G92NyVVImh/tV7ObYgM/n2Mm7MPqxsQ1dRNBxbiDWbffR5lR6yfajTPGT
-         mVaQ81IrmNBM6vwIYIqO/PDm+PhVsrbGJLgdn5Fz2PcSvHpjP8YTeeDl/i/BeZI/SiVB
-         O+Ag==
-X-Gm-Message-State: APjAAAXeHV9ESAQ7fJV/V1zDc7K5KHcqkeevCotmrJJCxXD8Ur/ToZOT
-        +D4Dl2sUcnPm5AC0qnT2+3kcZEi8
-X-Google-Smtp-Source: APXvYqzDYe4xkQO+KrnV4rR6JlKiKh9dSddyNiobYMu1uKi/bgL1ahs/Lkp1Ha4hQChUTsPPGmjzrg==
-X-Received: by 2002:a1c:9c8a:: with SMTP id f132mr9259312wme.29.1560184168101;
-        Mon, 10 Jun 2019 09:29:28 -0700 (PDT)
-Received: from [192.168.1.17] (chq222.neoplus.adsl.tpnet.pl. [83.31.14.222])
-        by smtp.gmail.com with ESMTPSA id f26sm9602wmh.8.2019.06.10.09.29.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Jun 2019 09:29:27 -0700 (PDT)
+        id S1727914AbfFJQcd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 10 Jun 2019 12:32:33 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:53494 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727861AbfFJQcd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 10 Jun 2019 12:32:33 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5AGWLUf047582;
+        Mon, 10 Jun 2019 11:32:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1560184341;
+        bh=C5b7TIZf9lI0MNyPjijVn5SzWERMj55K+yenF+FDDNU=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=qgBH3rTY4hjwUlSvhwraMsOlxDuD1T8w1X5pig+Y1F4I7JPywOQLWWYK/fiaPGImv
+         WPVfub2bJccrWh5ZVSHE50FNpy0Spn0Dp0liAlPaBCeLfo9Oe1vupGeuE9ghE2kPoh
+         CIl/d7WwLTOAbR5gS6Oj6bdjgI8JR4QDR+55meSE=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5AGWLG7093119
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 10 Jun 2019 11:32:21 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 10
+ Jun 2019 11:32:20 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 10 Jun 2019 11:32:20 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5AGWKB9009466;
+        Mon, 10 Jun 2019 11:32:20 -0500
 Subject: Re: [PATCH v2 2/2] Simplify LED registeration by
  devm_led_classdev_register()
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>, Oleh Kravchenko <oleg@kaa.org.ua>,
-        linux-leds@vger.kernel.org
+CC:     Oleh Kravchenko <oleg@kaa.org.ua>, <linux-leds@vger.kernel.org>
 References: <20190608143039.13454-1-oleg@kaa.org.ua>
  <20190608143039.13454-2-oleg@kaa.org.ua>
  <ab1404dc-0a1f-ec23-3e3d-8eec86d24c8b@ti.com> <20190610143626.GA7475@amd>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <b285cb11-f00d-482d-ce89-4c02ee351bfe@gmail.com>
-Date:   Mon, 10 Jun 2019 18:29:24 +0200
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <f07ca091-da8c-9560-b12f-015c268101c7@ti.com>
+Date:   Mon, 10 Jun 2019 11:32:20 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
 In-Reply-To: <20190610143626.GA7475@amd>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Oleh,
+Pavel
 
-Thank you for the patch. I am addressing that already in the
-patch 17/26 [0] of my LED naming v5 series, so I will hold on
-this for a while - maybe the series will be accepted in greater part
-this time, so the improvement will go alongside.
-
-On 6/10/19 4:36 PM, Pavel Machek wrote:
+On 6/10/19 9:36 AM, Pavel Machek wrote:
 > On Mon 2019-06-10 09:26:14, Dan Murphy wrote:
 >> Oleh
 >>
 >> On 6/8/19 9:30 AM, Oleh Kravchenko wrote:
 >>> Then there is no need to set np or store it.
->>
 >> Huh?  This does not really explain much about what this patch is
 > doing.
-> 
+>
 > ledm_ variant does not need np, so it can be deleted. Sounds like a
 > good cleanup to me.
-> 
+
+I agree with the patch and the clean up just wanted a better commit log.
+
+Dan
+
+>
 > Acked-by: Pavel Machek <pavel@ucw.cz>
-> 
-> 
+>
+>
 >>> diff --git a/drivers/leds/leds-cr0014114.c b/drivers/leds/leds-cr0014114.c
 >>> index 91deb40db307..880089ef9a9b 100644
 >>> --- a/drivers/leds/leds-cr0014114.c
@@ -122,10 +112,3 @@ On 6/10/19 4:36 PM, Pavel Machek wrote:
 >>> -
 >>>   		i++;
 >>>   	}
-> 
-
-[0] https://lkml.org/lkml/2019/6/9/709
-
--- 
-Best regards,
-Jacek Anaszewski
