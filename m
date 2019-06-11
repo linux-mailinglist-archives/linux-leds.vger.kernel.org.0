@@ -2,106 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8D2B3CAA5
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2019 14:01:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CFE93CACD
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2019 14:13:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404340AbfFKMB7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Jun 2019 08:01:59 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:35740 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404218AbfFKMB6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jun 2019 08:01:58 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 4443F80233; Tue, 11 Jun 2019 14:01:46 +0200 (CEST)
-Date:   Tue, 11 Jun 2019 14:01:56 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Oleh Kravchenko <oleg@kaa.org.ua>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
-Message-ID: <20190611120156.GA1161@amd>
-References: <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
- <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
- <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
- <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
- <7e787498-537b-390d-589a-577f34ffbc3f@kaa.org.ua>
- <94968b55-a9cc-277e-ac25-bf765f9db138@kaa.org.ua>
- <e1fc84a1-75e4-6c56-d2ea-f6ade28087ac@kaa.org.ua>
- <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
- <38050529-5730-6e88-fe1a-909492711dd0@kaa.org.ua>
- <8f658d57-5079-ad76-ce3e-af3d031b4685@gmail.com>
+        id S2387563AbfFKMNK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Jun 2019 08:13:10 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:56394 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387538AbfFKMNK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jun 2019 08:13:10 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5BCD3Zo130503;
+        Tue, 11 Jun 2019 07:13:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1560255183;
+        bh=HePOYhqYS2HbRqkNEI3dPuUaAn43h5YTLxXONHCUDAs=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=Xz7JydBG/rogA6dMJHOyCST+7PBDOINWZ0X6FAc0WOZ+SQ4GOvIAkY8d6cIPtiDiE
+         zjCC0WXaA92QQmW69lgYh00Tpa6aReBHJzzLUsWmk/ylbbfm0vuVz1cs03b46/R/Up
+         Xiy7p6J5b2R/svO2x3jKDF5d30rYFcUmDrchWppk=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5BCD3Hc090984
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 11 Jun 2019 07:13:03 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 11
+ Jun 2019 07:13:02 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 11 Jun 2019 07:13:02 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5BCD1R4022343;
+        Tue, 11 Jun 2019 07:13:01 -0500
+Subject: Re: [PATCH v3 2/2] Simplify LED registeration by
+ devm_led_classdev_register()
+To:     Pavel Machek <pavel@ucw.cz>, Oleh Kravchenko <oleg@kaa.org.ua>
+CC:     <linux-leds@vger.kernel.org>
+References: <20190610173206.8060-1-oleg@kaa.org.ua>
+ <20190610173206.8060-2-oleg@kaa.org.ua> <20190611101322.GB7526@amd>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <213d4b87-22fa-8d7d-14f3-39622afab279@ti.com>
+Date:   Tue, 11 Jun 2019 07:13:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
-Content-Disposition: inline
-In-Reply-To: <8f658d57-5079-ad76-ce3e-af3d031b4685@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190611101322.GB7526@amd>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Oleh
 
---C7zPtVaVf+AK4Oqc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 6/11/19 5:13 AM, Pavel Machek wrote:
+> On Mon 2019-06-10 20:32:06, Oleh Kravchenko wrote:
+>> Because of devm_led_classdev_register() doesn't require device node pointer.
+>> This patch reduce little bit code size and complexity.
+>>
+>> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+>
+Thanks for the updates
 
-Hi!
+Acked-by: Dan Murphy <dmurphy@ti.com>
 
-> >I just want to clerify - for now LEDs board has 2 from 3 LEDs with effec=
-t function.
-> >
-> >1. Screen frame led is just blinking, so blink_set() is fit well to this.
-> >2. Pipe led actually consist from 3 leds and when effect is enabled next=
- pattern is used:
-> >
-> >       ^
-> >       |
-> >LED1  >   OFF  ON   ON   ON
-> >       |
-> >LED2  >   OFF  OFF  ON   ON
-> >       |
-> >LED3  >   OFF  OFF  OFF  ON
-> >       |
-> >       +----^----^----^----^----> time
->=20
-> Pattern trigger applies to a single LED so it won't fit for this
-> pattern.
->=20
-> Currently we don't support patterns spanning on multiple LEDs,
-> so you would have to come up with your own solution.
->=20
-> What I can recommend is a trigger that would be created by your driver
-> and would activate this sequence.
-
-Yes, please.
-
-While adding custom files to sysfs may appear easier, we'll need
-"led-specific-triggers" for other reasons.
-
-And for the record... Handling 3 LEDs as one is not something usual in
-the LED subsystem; I guess it makes sense in your specific case, but
-hopefully noone will copy that design.
-
-(I guess they are not individually controllable?)
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---C7zPtVaVf+AK4Oqc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlz/mDMACgkQMOfwapXb+vKWzgCgiPgB2oU0imIW7b++aMkJyPcd
-5gIAnRlHpBLsgyLVhIIEWlrA1J+gujeg
-=ZIFz
------END PGP SIGNATURE-----
-
---C7zPtVaVf+AK4Oqc--
