@@ -2,119 +2,114 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5747417F3
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Jun 2019 00:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58508417F5
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Jun 2019 00:12:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436716AbfFKWLw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Jun 2019 18:11:52 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:39078 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407855AbfFKWLw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jun 2019 18:11:52 -0400
-Received: by mail-pl1-f194.google.com with SMTP id b7so657076pls.6
-        for <linux-leds@vger.kernel.org>; Tue, 11 Jun 2019 15:11:51 -0700 (PDT)
+        id S2407036AbfFKWM2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Jun 2019 18:12:28 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:54133 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405700AbfFKWM2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jun 2019 18:12:28 -0400
+Received: by mail-wm1-f66.google.com with SMTP id x15so4512949wmj.3;
+        Tue, 11 Jun 2019 15:12:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=8vFvJ8V6ajJREADlkWcQGOvk5dqkkgFT9ytOdn/LZ6s=;
-        b=hPfeNzhq51hsmDu/JK7bh3qIFlI5DoZS5suqWw3uFdum9RZoZ2kLpg+CG3WfwtzWqG
-         wUsWqTNqS4DVwjG3bZ5K061mHFseBicQAv9ZBnZKQCzCbAd+m0Wm71AVkht6a9BHwRBP
-         mH/ugMZuWCy/YaFsK+qaD6od1aOotlirFt6fw=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=bVPCEvUm37j5/nMXvu1GBJ1OW7kAlgBx9khSuStibkY=;
+        b=lfR9/mTwpnZX73L52BGCnsG5fRJ+Pzd2jKMAxVB5z2xvoY8ejjn5UKnpskv3CIe5yi
+         EGlXlqwoJFQ9iIytAbVdWMpYE3Shmg/oEi2bDje32jElR/8xL3vAj6l0GN90yaM+Xj3E
+         pdiCgJCXPTRVUKFH17jzoG9WB7TXamMNFVLTSRcgG0wxnCjriSby1mPRWR6ASgwWFrAo
+         Jnl0yXZSM5MNWiG3pXbvb3yzi+8eXxDdZEn5/REahMnVsMTEFctF+w43if1Qq5TcvoSv
+         Fsa3Gz3WWvo3U14YnWvoUN/SnDmqf9l+VbhBD2q9NwMhx6vUfebS7Xpu1leX93RQN9sP
+         XrUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8vFvJ8V6ajJREADlkWcQGOvk5dqkkgFT9ytOdn/LZ6s=;
-        b=HDYYgy9OC8e+3wJNNY0DguyES09hFHsFvOtCuyLN64CDBUopu2+WnWYsJwXdoumXkb
-         C5+dDdo7NRhdEhDzsGVis7A119ajjjIYgRa5TWQ8n1BEsiwMebDXHDCgnSHq9YEquFWr
-         X429LOsL/81An+Uanl6YA+f+V50Ik7+7HhzoGEvQFdm+74rFEezxBAUodOrP/2l7NYzT
-         Omz9PC7wV8vzLh1c1fLKpuz1HC5RqVcjYMNGOxOLU/DZeF3vPfvlCOAbUoWKv5ws3Y0O
-         ljrH5KB6H5RZvXZnBwZ/zwMxpHDymrrLac+hp/jL/uoKVp0NDrxmK6DRVYP2upCTjKJX
-         rQFw==
-X-Gm-Message-State: APjAAAUrwkJ7icL5O7c1PmbmgdnaEfQrFNLcQovCLm9AvFpeluaN0JQf
-        55q3j8fKw3JRofsK/acc8FN51g==
-X-Google-Smtp-Source: APXvYqwEviZoSj03YwFf0xshEB8pQdCuQy4uEVw4wDJoV5zm7LJ8rVpZzWCRBK0Mj4y2Dqy1neX5Aw==
-X-Received: by 2002:a17:902:e58b:: with SMTP id cl11mr57462355plb.24.1560291110514;
-        Tue, 11 Jun 2019 15:11:50 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:75a:3f6e:21d:9374])
-        by smtp.gmail.com with ESMTPSA id u4sm17102828pfu.26.2019.06.11.15.11.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=bVPCEvUm37j5/nMXvu1GBJ1OW7kAlgBx9khSuStibkY=;
+        b=Yq5UK5DCaZTjK/ykKlwXCeO2RbwPWpnar7y7lbHZq0rgnJ/CNiSR1Dg+nHTvwWT4jk
+         +LuHn6B2HYYPf8z/2Vm5IATqWwA8FaFVFJCfZNQQl9Uyiy1N+PLj1qHydmwGfpYKZHWI
+         EN4enO1AU1gn+lEaXenvf9qsJZ+w6GqFirwZOh+CfJcgQ0CmuYnJ5SXG4rDs0c6nF+m9
+         kIfhrSRn/vP7CluDhO9nORvtoKqQiG2a1N/mTMi8uYlQrw+HGOVINChTu2s3YmEXTbOB
+         LDS6Lm1EQP3xzF2vxnu3WpmJMwPkBzW5CKuQi8hTmNxK6gr8XyfthzqAuyyrhk12u/en
+         deRw==
+X-Gm-Message-State: APjAAAU4KGDda/ni+j1V+ZwfxAuQAZ+32dbQQYVnTnCzsNiuNHnUBdb4
+        S2XT6h3hpnj1QTDAYYtIufI=
+X-Google-Smtp-Source: APXvYqwYlP0YynAPZ2YAJreCMUb4Ui68+N0NLGh1D1BoaKNrd9SzYf0GioDvLADzWxo+qnY5Nnu3YQ==
+X-Received: by 2002:a05:600c:21d4:: with SMTP id x20mr12733670wmj.149.1560291146429;
+        Tue, 11 Jun 2019 15:12:26 -0700 (PDT)
+Received: from myhost.home (bgt97.neoplus.adsl.tpnet.pl. [83.28.83.97])
+        by smtp.gmail.com with ESMTPSA id g17sm15738610wrm.7.2019.06.11.15.12.25
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Jun 2019 15:11:49 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 15:11:47 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH 1/2] dt-bindings: pwm-backlight: Add 'max-brightness'
- property
-Message-ID: <20190611221147.GG137143@google.com>
-References: <20190610233739.29477-1-mka@chromium.org>
- <00220cd7-ed4b-5250-d448-cf83ed4c2012@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <00220cd7-ed4b-5250-d448-cf83ed4c2012@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Tue, 11 Jun 2019 15:12:25 -0700 (PDT)
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+To:     broonie@kernel.org, lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        jacek.anaszewski@gmail.com
+Subject: [GIT PULL v2] Immutable branch between LEDs, MFD and REGULATOR
+Date:   Wed, 12 Jun 2019 00:12:17 +0200
+Message-Id: <20190611221217.12335-1-jacek.anaszewski@gmail.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jacek,
+The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
 
-On Tue, Jun 11, 2019 at 10:02:23PM +0200, Jacek Anaszewski wrote:
-> Hi Matthias,
-> 
-> On 6/11/19 1:37 AM, Matthias Kaehlcke wrote:
-> > Add an optional 'max-brightness' property, which is used to specify
-> > the number of brightness levels (max-brightness + 1) when the node
-> > has no 'brightness-levels' table.
-> > 
-> > Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-> > ---
-> >   .../devicetree/bindings/leds/backlight/pwm-backlight.txt       | 3 +++
-> >   1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
-> > index 64fa2fbd98c9..98f4ba626054 100644
-> > --- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
-> > +++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
-> > @@ -27,6 +27,9 @@ Optional properties:
-> >                               resolution pwm duty cycle can be used without
-> >                               having to list out every possible value in the
-> >                               brightness-level array.
-> > +  - max-brightness: Maximum brightness value. Used to specify the number of
-> > +                    brightness levels (max-brightness + 1) when the node
-> > +                    has no 'brightness-levels' table.
-> 
-> In the LED subsystem we have led-max-microamp property which seems to
-> better describe hardware capabilities. It says just: this is the current
-> level the LED can withstand. max-brightness does not implicitly convey
-> this kind of information.
-> 
-> Why the need for the property at all? If for the reasons other than
-> hardware capabilities than it should be more likely handled
-> by userspace.
+  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
 
-The driver needs to know how many brightness levels to expose to
-userspace. It currently uses a heuristic for that which is broken:
+are available in the git repository at:
 
-https://elixir.bootlin.com/linux/v5.1.9/source/drivers/video/backlight/pwm_bl.c#L234
-https://lore.kernel.org/patchwork/patch/1086777/#1282610
+  git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git tags/ti-lmu-led-drivers
 
-In any case it seems the discussion is going into the direction of
-fixing the heuristic (apparently using the period as an indicator of
-the PWM resolution has more merit than I was initially aware of), if
-that moves forward the property wouldn't be needed.
+for you to fetch changes up to 11e1bbc116a75d4a93122ea0a3b2be814922d864:
+
+  leds: lm36274: Introduce the TI LM36274 LED driver (2019-06-07 20:40:07 +0200)
+
+Thanks,
+Jacek Anaszewski
+
+----------------------------------------------------------------
+TI LMU LED support rework and introduction of two new drivers
+with DT bindings:
+
+- leds-lm3697
+- leds-lm36274
+
+----------------------------------------------------------------
+Dan Murphy (11):
+      dt-bindings: mfd: LMU: Add the ramp up/down property
+      dt-bindings: mfd: LMU: Add ti,brightness-resolution
+      leds: TI LMU: Add common code for TI LMU devices
+      dt-bindings: ti-lmu: Modify dt bindings for the LM3697
+      mfd: ti-lmu: Remove support for LM3697
+      leds: lm3697: Introduce the lm3697 driver
+      dt-bindings: mfd: Add lm36274 bindings to ti-lmu
+      mfd: ti-lmu: Add LM36274 support to the ti-lmu
+      regulator: lm363x: Add support for LM36274
+      dt-bindings: leds: Add LED bindings for the LM36274
+      leds: lm36274: Introduce the TI LM36274 LED driver
+
+ .../devicetree/bindings/leds/leds-lm36274.txt      |  85 +++++
+ .../devicetree/bindings/leds/leds-lm3697.txt       |  73 ++++
+ Documentation/devicetree/bindings/mfd/ti-lmu.txt   |  88 +++--
+ drivers/leds/Kconfig                               |  25 ++
+ drivers/leds/Makefile                              |   3 +
+ drivers/leds/leds-lm36274.c                        | 172 +++++++++
+ drivers/leds/leds-lm3697.c                         | 395 +++++++++++++++++++++
+ drivers/leds/leds-ti-lmu-common.c                  | 156 ++++++++
+ drivers/mfd/Kconfig                                |   5 +-
+ drivers/mfd/ti-lmu.c                               |  23 +-
+ drivers/regulator/Kconfig                          |   2 +-
+ drivers/regulator/lm363x-regulator.c               |  78 +++-
+ include/linux/leds-ti-lmu-common.h                 |  47 +++
+ include/linux/mfd/ti-lmu-register.h                |  63 ++--
+ include/linux/mfd/ti-lmu.h                         |   5 +-
+ 15 files changed, 1135 insertions(+), 85 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lm3697.txt
+ create mode 100644 drivers/leds/leds-lm36274.c
+ create mode 100644 drivers/leds/leds-lm3697.c
+ create mode 100644 drivers/leds/leds-ti-lmu-common.c
+ create mode 100644 include/linux/leds-ti-lmu-common.h
