@@ -2,126 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BDF141705
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2019 23:38:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 020B94172B
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2019 23:51:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407680AbfFKViF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Jun 2019 17:38:05 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:45425 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407671AbfFKViF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jun 2019 17:38:05 -0400
-Received: by mail-pl1-f194.google.com with SMTP id bi6so5269785plb.12
-        for <linux-leds@vger.kernel.org>; Tue, 11 Jun 2019 14:38:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=c/V5azhQK0NKG3CgTrOQr2YdB5nv03TCL7KtVGmmTnE=;
-        b=oIUVz20NxztwZIHdK3k65o0Fojj8X3TmNQgvsbpNbh+NJFEE9FTzcALPGexsN2u0lV
-         R4N/0/VHL69lIgdJo/Mavd44QxzYFnGkGyNM5SqP5YDejiSLqcxh4/bWKonb2Q9Rk44g
-         4lfQgqfTvNf3GlM1jKlbf4K51OOFbRZUH6njQ=
+        id S2405228AbfFKVvZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Jun 2019 17:51:25 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:43338 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387764AbfFKVvZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jun 2019 17:51:25 -0400
+Received: by mail-qt1-f193.google.com with SMTP id z24so3241821qtj.10;
+        Tue, 11 Jun 2019 14:51:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=c/V5azhQK0NKG3CgTrOQr2YdB5nv03TCL7KtVGmmTnE=;
-        b=W2MjSEnw1wFfAje0vJflp4rg41t3Zuzn6503OymOdE8Oa4kkWZSMJgQzh3rH/jZj15
-         Gi2kMpFY8y7YUv9IiMqaCkLEeqwllDOYqpa+mIt9QtH++hwSOo5erEkhn/7XQf3K4ynQ
-         igcwaL3SOWtsmjIKAbjCkFsy9UJp/c8TE4oQbGDQeMgxG5zEQ9QcQDANoibTPaM8RGef
-         piQKdWO+pVDiBuqZ+PjucEpdb7TnzAKlDe5J3tY9kD+LEINCLVBqrZWdDBp8xnk6FVZ5
-         Ljoevw1SxVHwW6jdnDr2W913tWrwNkmoJ93maLi6Wa1Sdbgrf9OnGfO1ja0A+jYEqufQ
-         MFfw==
-X-Gm-Message-State: APjAAAU4TaJ2MbqbcHvLq8gFYcAT+Ecy8ir1KYNTig5IA1b6Ao/O6o73
-        YcytyGAtAHD5vM0Z5o2pixUiKw==
-X-Google-Smtp-Source: APXvYqw7YuxbYKqsmcBwdCJJBrsNVyyiE8CmkHa4T0LQVEl29ePKAtTry61J448brFzrtjCg2vAB6Q==
-X-Received: by 2002:a17:902:d695:: with SMTP id v21mr62285877ply.342.1560289084363;
-        Tue, 11 Jun 2019 14:38:04 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:75a:3f6e:21d:9374])
-        by smtp.gmail.com with ESMTPSA id b128sm15771434pfa.165.2019.06.11.14.38.03
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Jun 2019 14:38:03 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 14:38:01 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        Brian Norris <briannorris@chromium.org>
-Subject: Re: [PATCH 1/2] dt-bindings: pwm-backlight: Add 'max-brightness'
- property
-Message-ID: <20190611213801.GE137143@google.com>
-References: <20190610233739.29477-1-mka@chromium.org>
- <20190611102851.GA16611@ulmo>
+        bh=7TWYrDDzfkQtKv9+OVgy+qU0N7iuCHIvNR6+Puv9gzk=;
+        b=t+CCjQ/Pno8etKWdXdq1tHmV9jJCkiK3vjVL3NDXl+m6Ao0EojqQ5DX62gOGUvo7Si
+         4KcCrSA1IFdsgnyMdbnoKccTIZZEPw0BEjViBiYsbuqDWRyoZH18IDfAmEd4XW8Yd8Tn
+         lznWPMz0TeM6xb9eBzO8/j/brznEyaxJZAkzIlCE6bmcdPAM8Fde1XmAfqZiknFJ4Eea
+         6A5L7zeKP3yRQb4lNPyC53A4AE51rTlf0k8PyWIRWOyBpOGBPX1XIINprQ1xYLxHnTTu
+         97ljUN11XLZRJ4G7Ht3dg3TaQFK0bqIdcqBPICESTFdhm1fT4pKHLVqXYgTt+QWULmXX
+         8q5Q==
+X-Gm-Message-State: APjAAAVQVPmGd+giTO9948yVDdwRtq6+8BTkEzTSWD248V2KBMxXMp7Y
+        N0yxc5WdMIsX88I/S6vQuQ==
+X-Google-Smtp-Source: APXvYqw41EKa1vDT4YG9KxPTlR+OKZ8vNQM/geD9FeXtMv78BxIbs6gCj41LNOzCA2dBvc4h3ZRhEg==
+X-Received: by 2002:ac8:2bbd:: with SMTP id m58mr67089312qtm.225.1560289884437;
+        Tue, 11 Jun 2019 14:51:24 -0700 (PDT)
+Received: from localhost ([64.188.179.199])
+        by smtp.gmail.com with ESMTPSA id r5sm1914028qkc.42.2019.06.11.14.51.23
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 11 Jun 2019 14:51:23 -0700 (PDT)
+Date:   Tue, 11 Jun 2019 15:51:21 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 7/9] dt: bindings: lp50xx: Introduce the lp50xx family
+ of RGB drivers
+Message-ID: <20190611215121.GA14337@bogus>
+References: <20190523190820.29375-1-dmurphy@ti.com>
+ <20190523190820.29375-8-dmurphy@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190611102851.GA16611@ulmo>
+In-Reply-To: <20190523190820.29375-8-dmurphy@ti.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Thierry,
-
-On Tue, Jun 11, 2019 at 12:28:51PM +0200, Thierry Reding wrote:
-> On Mon, Jun 10, 2019 at 04:37:38PM -0700, Matthias Kaehlcke wrote:
-> > Add an optional 'max-brightness' property, which is used to specify
-> > the number of brightness levels (max-brightness + 1) when the node
-> > has no 'brightness-levels' table.
-> > 
-> > Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-> > ---
-> >  .../devicetree/bindings/leds/backlight/pwm-backlight.txt       | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
-> > index 64fa2fbd98c9..98f4ba626054 100644
-> > --- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
-> > +++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
-> > @@ -27,6 +27,9 @@ Optional properties:
-> >                              resolution pwm duty cycle can be used without
-> >                              having to list out every possible value in the
-> >                              brightness-level array.
-> > +  - max-brightness: Maximum brightness value. Used to specify the number of
-> > +                    brightness levels (max-brightness + 1) when the node
-> > +                    has no 'brightness-levels' table.
+On Thu, May 23, 2019 at 02:08:18PM -0500, Dan Murphy wrote:
+> Introduce the bindings for the Texas Instruments LP5036, LP5030, LP5024 and
+> LP5018 RGB LED device driver.  The LP5036/30/24/18 can control RGB LEDs
+> individually or as part of a control bank group.  These devices have the ability
+> to adjust the mixing control for the RGB LEDs to obtain different colors
+> independent of the overall brightness of the LED grouping.
 > 
-> Back at the time when these bindings were defined we specifically didn't
-> add this because it was deemed impractical. That is, no real hardware is
-> actually capable of achieving useful results with a simplified
-> description like this.
+> Datasheet:
+> http://www.ti.com/lit/ds/symlink/lp5024.pdf
+> http://www.ti.com/lit/ds/symlink/lp5036.pdf
 > 
-> Besides, we already have the num-interpolated-steps property which
-> should allow you to achieve the same thing:
-> 
-> 	brightness-levels = <0 255>;
-> 	default-brightness-level = <1>;
-> 	num-interpolated-steps = <255>;
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>  .../devicetree/bindings/leds/leds-lp50xx.txt  | 142 ++++++++++++++++++
+>  1 file changed, 142 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-lp50xx.txt
 
-It doesn't achieve the same. With this configuration the device would
-have a table with 256 linearly increasing values, the intended use of
-the property is to provide the number of brightness levels to be used
-by the CIE 1931 algorithm to compute a brightness scale that is
-perceived as linear by the human eye. We could possibly treat a
-'brightness-levels' table with only two levels as special case and
-get the number of levels from it.
-
-In any case from the discussion on "backlight: pwm_bl: Get number of
-brightness levels for CIE 1931 from the device tree" it might not be
-necessary to specify the number of levels in the DT.
-
-> Though given the original discussion that we had around how backlight
-> hardware behaves, that doesn't seem like a good choice.
-
-
+Reviewed-by: Rob Herring <robh@kernel.org>
