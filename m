@@ -2,73 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 020B94172B
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2019 23:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E71AB417B9
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2019 23:59:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405228AbfFKVvZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Jun 2019 17:51:25 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:43338 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387764AbfFKVvZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jun 2019 17:51:25 -0400
-Received: by mail-qt1-f193.google.com with SMTP id z24so3241821qtj.10;
-        Tue, 11 Jun 2019 14:51:25 -0700 (PDT)
+        id S2407785AbfFKV7C (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Jun 2019 17:59:02 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:37234 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407787AbfFKV7C (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jun 2019 17:59:02 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 19so7443358pfa.4
+        for <linux-leds@vger.kernel.org>; Tue, 11 Jun 2019 14:59:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=STdR09JTplMSpZu8BTmSobDKkVojc1fyDlFwggPK8Uk=;
+        b=MR5Ygywl093uFDulviOIYvyfuuIg7LVcRCENxaahnbQl3TWTuyLFxmaN/CsCFje4ZW
+         lMOJpV5vlQByThnbSdpFW5pDrScHKNyi5Uayf6G9Qo/JGt6L3QsMwiyIsPBFjywBcNsB
+         KOnwwUTJm+TTD2GsLYgy//6zZNVAYMjKqx244=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7TWYrDDzfkQtKv9+OVgy+qU0N7iuCHIvNR6+Puv9gzk=;
-        b=t+CCjQ/Pno8etKWdXdq1tHmV9jJCkiK3vjVL3NDXl+m6Ao0EojqQ5DX62gOGUvo7Si
-         4KcCrSA1IFdsgnyMdbnoKccTIZZEPw0BEjViBiYsbuqDWRyoZH18IDfAmEd4XW8Yd8Tn
-         lznWPMz0TeM6xb9eBzO8/j/brznEyaxJZAkzIlCE6bmcdPAM8Fde1XmAfqZiknFJ4Eea
-         6A5L7zeKP3yRQb4lNPyC53A4AE51rTlf0k8PyWIRWOyBpOGBPX1XIINprQ1xYLxHnTTu
-         97ljUN11XLZRJ4G7Ht3dg3TaQFK0bqIdcqBPICESTFdhm1fT4pKHLVqXYgTt+QWULmXX
-         8q5Q==
-X-Gm-Message-State: APjAAAVQVPmGd+giTO9948yVDdwRtq6+8BTkEzTSWD248V2KBMxXMp7Y
-        N0yxc5WdMIsX88I/S6vQuQ==
-X-Google-Smtp-Source: APXvYqw41EKa1vDT4YG9KxPTlR+OKZ8vNQM/geD9FeXtMv78BxIbs6gCj41LNOzCA2dBvc4h3ZRhEg==
-X-Received: by 2002:ac8:2bbd:: with SMTP id m58mr67089312qtm.225.1560289884437;
-        Tue, 11 Jun 2019 14:51:24 -0700 (PDT)
-Received: from localhost ([64.188.179.199])
-        by smtp.gmail.com with ESMTPSA id r5sm1914028qkc.42.2019.06.11.14.51.23
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 11 Jun 2019 14:51:23 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 15:51:21 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 7/9] dt: bindings: lp50xx: Introduce the lp50xx family
- of RGB drivers
-Message-ID: <20190611215121.GA14337@bogus>
-References: <20190523190820.29375-1-dmurphy@ti.com>
- <20190523190820.29375-8-dmurphy@ti.com>
+        bh=STdR09JTplMSpZu8BTmSobDKkVojc1fyDlFwggPK8Uk=;
+        b=PkClANmYNLIApy6TKy4yYfFy+psRySXvCZV5VjMa66RIBldNallBOsswlLmVJU0y7J
+         B6WwTV7sg/IOC+uFDLyPuO7KGo+1q+axiA8L1LS8H1j7uIFL/T3SKgGj/KKLpTE26Zwg
+         FLAV59a+30brAsSvySmT0Rsieor5zodoRPAPDN1ExpOzNfh+rMKSfsQMrjOj2NaH8nFN
+         8JyfxpfcyBPIQQYNfwfhj7isSlbd5gxuLHNF2fmR+W+leRXYI79rdo0TG39LPXu0w+DL
+         dm6+DC57at1ZbDUz+6mW9hiBwCNYuHXMFbI20YPfIZZRFbZfwUxSQS7z4IJvf+f9eYxH
+         MS3A==
+X-Gm-Message-State: APjAAAWwg0y2ztNGW8gE+s7o+RYe2m3yl6/+YrayTlXQE2HdIVhgcuIO
+        QJcJkU0yiO4sJwa1dytRG8Cstw==
+X-Google-Smtp-Source: APXvYqwNRiFSWTAdFHpr/jTf2FF34I6ZRq0BdECtRnB+Jk555Y9lQHvSTV1z1QBb+8m6aiHhXzbajQ==
+X-Received: by 2002:a17:90b:d8a:: with SMTP id bg10mr29155223pjb.92.1560290341471;
+        Tue, 11 Jun 2019 14:59:01 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:75a:3f6e:21d:9374])
+        by smtp.gmail.com with ESMTPSA id m2sm15311952pgq.48.2019.06.11.14.59.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 11 Jun 2019 14:59:00 -0700 (PDT)
+Date:   Tue, 11 Jun 2019 14:58:59 -0700
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Brian Norris <briannorris@chromium.org>
+Subject: Re: [PATCH 2/2] backlight: pwm_bl: Get number of brightness levels
+ for CIE 1931 from the device tree
+Message-ID: <20190611215859.GF137143@google.com>
+References: <20190610233739.29477-1-mka@chromium.org>
+ <20190610233739.29477-2-mka@chromium.org>
+ <20190611101843.GD7526@amd>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190523190820.29375-8-dmurphy@ti.com>
+In-Reply-To: <20190611101843.GD7526@amd>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, May 23, 2019 at 02:08:18PM -0500, Dan Murphy wrote:
-> Introduce the bindings for the Texas Instruments LP5036, LP5030, LP5024 and
-> LP5018 RGB LED device driver.  The LP5036/30/24/18 can control RGB LEDs
-> individually or as part of a control bank group.  These devices have the ability
-> to adjust the mixing control for the RGB LEDs to obtain different colors
-> independent of the overall brightness of the LED grouping.
-> 
-> Datasheet:
-> http://www.ti.com/lit/ds/symlink/lp5024.pdf
-> http://www.ti.com/lit/ds/symlink/lp5036.pdf
-> 
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
->  .../devicetree/bindings/leds/leds-lp50xx.txt  | 142 ++++++++++++++++++
->  1 file changed, 142 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-lp50xx.txt
+Hi Pavel,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Tue, Jun 11, 2019 at 12:18:43PM +0200, Pavel Machek wrote:
+> On Mon 2019-06-10 16:37:39, Matthias Kaehlcke wrote:
+> > Commit 88ba95bedb79 ("backlight: pwm_bl: Compute brightness of LED
+> > linearly to human eye") uses pwm_period / hweight32(pwm_period) as
+> > as heuristic to determine the number of brightness levels when the DT
+> > doesn't provide a brightness level table. This heuristic is broken
+> > and can result in excessively large brightness tables.
+> > 
+> > Instead of using the heuristic try to retrieve the number of
+> > brightness levels from the device tree (property 'max-brightness'
+> > + 1). If the value is not specified use a default of 256 levels.
+> > 
+> > Fixes: 88ba95bedb79 ("backlight: pwm_bl: Compute brightness of LED linearly to human eye")
+> 
+> I don't think this one is suitable for stable. I'm pretty sure the
+> heuristics works well for many boards, and you just replaced it with
+> another heuristics ("256").
+
+whether the patch is suitable for stable/upstream is certainly
+debatable, in any case I'd argue the current heuristic is bogus and
+works by accident or at a cost:
+
+nlevels = period / hweight(period)
+
+w/ period = 131071 ns  (0x1FFFF)
+
+  nlevels = 131071 / 17 = 7710
+
+w/ period = 131072 ns (0x20000)
+
+  nlevels = 131072 / 1 = 131072
+
+and some PWMs use significantly higher periods like 1 ms or 10 ms.
