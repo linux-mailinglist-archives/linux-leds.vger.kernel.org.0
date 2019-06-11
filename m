@@ -2,53 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CFE93CACD
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2019 14:13:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE4503CACE
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Jun 2019 14:13:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387563AbfFKMNK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Jun 2019 08:13:10 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:56394 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387538AbfFKMNK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jun 2019 08:13:10 -0400
+        id S2387574AbfFKMNT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Jun 2019 08:13:19 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:59968 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387538AbfFKMNT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Jun 2019 08:13:19 -0400
 Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5BCD3Zo130503;
-        Tue, 11 Jun 2019 07:13:03 -0500
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5BCDEhL078754;
+        Tue, 11 Jun 2019 07:13:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1560255183;
-        bh=HePOYhqYS2HbRqkNEI3dPuUaAn43h5YTLxXONHCUDAs=;
+        s=ti-com-17Q1; t=1560255194;
+        bh=81uXDxnujEsAwK0R3fdDpTMwgzLhRvrVC+0V+nXPx0w=;
         h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=Xz7JydBG/rogA6dMJHOyCST+7PBDOINWZ0X6FAc0WOZ+SQ4GOvIAkY8d6cIPtiDiE
-         zjCC0WXaA92QQmW69lgYh00Tpa6aReBHJzzLUsWmk/ylbbfm0vuVz1cs03b46/R/Up
-         Xiy7p6J5b2R/svO2x3jKDF5d30rYFcUmDrchWppk=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5BCD3Hc090984
+        b=wYkP07zs9pDxKTLybTw2zTLm0d0LZeUXne3oLobut2uNtIi74kT33NTA0aBhtPwwI
+         k8fc0w4AZ+zHfIbDkxPe0vjAIOaK8dsNJPXgCB5eiBxZYwVa8OmcleJcOl1xkS+MsB
+         yFKazyCtIbdqjQ8/IXGKb745+/gOk6frhSyQwM9I=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5BCDDk8091275
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 11 Jun 2019 07:13:03 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+        Tue, 11 Jun 2019 07:13:13 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 11
- Jun 2019 07:13:02 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2019 07:13:13 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 11 Jun 2019 07:13:02 -0500
+ Frontend Transport; Tue, 11 Jun 2019 07:13:13 -0500
 Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5BCD1R4022343;
-        Tue, 11 Jun 2019 07:13:01 -0500
-Subject: Re: [PATCH v3 2/2] Simplify LED registeration by
- devm_led_classdev_register()
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5BCDDoW022770;
+        Tue, 11 Jun 2019 07:13:13 -0500
+Subject: Re: [PATCH v3 1/2] Use usleep_range() for better precision timings
 To:     Pavel Machek <pavel@ucw.cz>, Oleh Kravchenko <oleg@kaa.org.ua>
 CC:     <linux-leds@vger.kernel.org>
 References: <20190610173206.8060-1-oleg@kaa.org.ua>
- <20190610173206.8060-2-oleg@kaa.org.ua> <20190611101322.GB7526@amd>
+ <20190611101308.GA7526@amd>
 From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <213d4b87-22fa-8d7d-14f3-39622afab279@ti.com>
-Date:   Tue, 11 Jun 2019 07:13:01 -0500
+Message-ID: <3c0d56e3-c4ee-47a9-98c2-db6cbcdb1857@ti.com>
+Date:   Tue, 11 Jun 2019 07:13:13 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190611101322.GB7526@amd>
+In-Reply-To: <20190611101308.GA7526@amd>
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -61,13 +60,16 @@ X-Mailing-List: linux-leds@vger.kernel.org
 Oleh
 
 On 6/11/19 5:13 AM, Pavel Machek wrote:
-> On Mon 2019-06-10 20:32:06, Oleh Kravchenko wrote:
->> Because of devm_led_classdev_register() doesn't require device node pointer.
->> This patch reduce little bit code size and complexity.
+> On Mon 2019-06-10 20:32:05, Oleh Kravchenko wrote:
+>> Documentation/timers/timers-howto.txt recommends to use msleep_range()
+>> for delays less or equal 20ms. This driver use 10ms delays to talk with
+>> hardware, so let's follow the rules.
+>> Also because of buggy firmware better to keep timings much as possible.
 >>
 >> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
 > Acked-by: Pavel Machek <pavel@ucw.cz>
 >
+
 Thanks for the updates
 
 Acked-by: Dan Murphy <dmurphy@ti.com>
