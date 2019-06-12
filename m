@@ -2,260 +2,136 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6768642327
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Jun 2019 12:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C849542363
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Jun 2019 13:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728135AbfFLK7D (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Jun 2019 06:59:03 -0400
-Received: from smtp.220.in.ua ([89.184.67.205]:34608 "EHLO smtp.220.in.ua"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726584AbfFLK7D (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 12 Jun 2019 06:59:03 -0400
-Received: from [192.168.202.100] (unknown [95.67.115.55])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by smtp.220.in.ua (Postfix) with ESMTPSA id B8A6F1A20B8C;
-        Wed, 12 Jun 2019 13:58:59 +0300 (EEST)
-Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-References: <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
- <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
- <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
- <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
- <7e787498-537b-390d-589a-577f34ffbc3f@kaa.org.ua>
- <94968b55-a9cc-277e-ac25-bf765f9db138@kaa.org.ua>
- <e1fc84a1-75e4-6c56-d2ea-f6ade28087ac@kaa.org.ua>
- <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
- <38050529-5730-6e88-fe1a-909492711dd0@kaa.org.ua>
- <8f658d57-5079-ad76-ce3e-af3d031b4685@gmail.com> <20190611120156.GA1161@amd>
- <9e812391-56e9-2dd5-1f08-435df717b12b@gmail.com>
-From:   Oleh Kravchenko <oleg@kaa.org.ua>
-Openpgp: preference=signencrypt
-Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
- 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
- WVdfrwbus0lVCELNSvCIW2IktSytUxjQfmjBMw==
-Message-ID: <18e0c91d-d258-37ae-e46a-0f42f148eacc@kaa.org.ua>
-Date:   Wed, 12 Jun 2019 13:58:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S2408440AbfFLLDf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 Jun 2019 07:03:35 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:42440 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408429AbfFLLDe (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Jun 2019 07:03:34 -0400
+Received: by mail-wr1-f65.google.com with SMTP id x17so1121115wrl.9
+        for <linux-leds@vger.kernel.org>; Wed, 12 Jun 2019 04:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=fKEuXpKhwW6QYirKkEZUMz7KKtRy+gRE2kTuvjwe5Og=;
+        b=RDAvMiYL1/E12jVZRrvjScX/Ri1mztuZtwe0YjXLDoQGwJ9hsU9dFZTKzXhD6yrfAF
+         +vEPWD7W9C5F6bo8JKZBpBtEEDDsNrJ9BVvdiyOwNe+1OHwDE7+ylO2qqSI7KbSbM9bx
+         jdVCxvg4AKjGJ/Fjr53LH24cus/xugKFsCWba7KrOcHFzBhgwOhCWINDQ1wbVrY7OQyU
+         u/UBe878vavY48j4914n3YRLR28cDacRENJaFiMgeEIpJz5lpyZp9gAfovlXUsyR5wjr
+         MWMd4r+tDMlwHQ73jQuuohiLcBUV1aIw655M30SX/uocU5kw5+1XTSlofcoBzjy3TvBp
+         ry1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=fKEuXpKhwW6QYirKkEZUMz7KKtRy+gRE2kTuvjwe5Og=;
+        b=DSMxhvbGe9cZphn4REGIDcZOcCSDf1wuvcAbQQWvBiQL6gWa4dy/iUgGs+nYd/wWSW
+         u9hlF2uhnfJ4NPtdOD9fsXtnHs07RmVL+FK9KNzCqJOlk1NDTwDgzRLLEuViPpxkS8dU
+         sCUYTD5Ar5QHPyz4EGsR8ftULsiRbpL2RnRHdPI3/CR5QA8CO/eeD5tLWdCHTU9P8jtq
+         dwiHVkXdY3ZA2Z1/o7vKW7W0q99feKh6WelNJmEV6N4lfrdjI8sth4avFigKJW7x+tce
+         UJHUPe3KfsbCh9ajItA8SXe/ZA5fZlQsD62gzCHEQI6yfEZY20lc4nO33EtUdeb9Gbat
+         CouA==
+X-Gm-Message-State: APjAAAWfyLcUYl4W/RmxN9nmF410/vgNGVcmwJIbhrgtiFVoyytkJLWN
+        r3fMxwEVwib7DTLzhb1ID7aNYw==
+X-Google-Smtp-Source: APXvYqz9I7iqIVvewoxRxb2oZe1pv8KmSN3qpUEh/9sDe+JKW7LsnC39cGT3KhS/4+zBqXYPYzFNtg==
+X-Received: by 2002:a5d:53ca:: with SMTP id a10mr41666584wrw.131.1560337412723;
+        Wed, 12 Jun 2019 04:03:32 -0700 (PDT)
+Received: from holly.lan ([185.80.132.160])
+        by smtp.gmail.com with ESMTPSA id j132sm7583807wmj.21.2019.06.12.04.03.31
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 12 Jun 2019 04:03:31 -0700 (PDT)
+Date:   Wed, 12 Jun 2019 12:03:25 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Matthias Kaehlcke <mka@chromium.org>
+Cc:     Brian Norris <briannorris@google.com>, Pavel Machek <pavel@ucw.cz>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Doug Anderson <dianders@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Richard Purdie <rpurdie@rpsys.net>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Guenter Roeck <groeck@google.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Alexandru Stan <amstan@google.com>, linux-leds@vger.kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        kernel@collabora.com
+Subject: Re: [PATCH v3 3/4] backlight: pwm_bl: compute brightness of LED
+ linearly to human eye.
+Message-ID: <20190612110325.xdn3q2aod52oalge@holly.lan>
+References: <20180208113032.27810-1-enric.balletbo@collabora.com>
+ <20180208113032.27810-4-enric.balletbo@collabora.com>
+ <20190607220947.GR40515@google.com>
+ <20190608210226.GB2359@xo-6d-61-c0.localdomain>
+ <20190610205233.GB137143@google.com>
+ <20190611104913.egsbwcedshjdy3m5@holly.lan>
+ <CA+ASDXOq7KQ+f4KMh0gaC9hvXaxBDdsbiJxiTbeOJ9ZVaeNJag@mail.gmail.com>
+ <20190611223019.GH137143@google.com>
 MIME-Version: 1.0
-In-Reply-To: <9e812391-56e9-2dd5-1f08-435df717b12b@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="nPxKHK5Tm8oatyLJh4sVQYm7JiM2z2CZr"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190611223019.GH137143@google.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---nPxKHK5Tm8oatyLJh4sVQYm7JiM2z2CZr
-Content-Type: multipart/mixed; boundary="0t61QmO5H3sVgllWZ3K32TB666zfDpRtd";
- protected-headers="v1"
-From: Oleh Kravchenko <oleg@kaa.org.ua>
-To: Jacek Anaszewski <jacek.anaszewski@gmail.com>, Pavel Machek <pavel@ucw.cz>
-Cc: Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-Message-ID: <18e0c91d-d258-37ae-e46a-0f42f148eacc@kaa.org.ua>
-Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
-References: <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
- <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
- <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
- <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
- <7e787498-537b-390d-589a-577f34ffbc3f@kaa.org.ua>
- <94968b55-a9cc-277e-ac25-bf765f9db138@kaa.org.ua>
- <e1fc84a1-75e4-6c56-d2ea-f6ade28087ac@kaa.org.ua>
- <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
- <38050529-5730-6e88-fe1a-909492711dd0@kaa.org.ua>
- <8f658d57-5079-ad76-ce3e-af3d031b4685@gmail.com> <20190611120156.GA1161@amd>
- <9e812391-56e9-2dd5-1f08-435df717b12b@gmail.com>
-In-Reply-To: <9e812391-56e9-2dd5-1f08-435df717b12b@gmail.com>
+On Tue, Jun 11, 2019 at 03:30:19PM -0700, Matthias Kaehlcke wrote:
+> On Tue, Jun 11, 2019 at 09:55:30AM -0700, Brian Norris wrote:
+> > On Tue, Jun 11, 2019 at 3:49 AM Daniel Thompson
+> > <daniel.thompson@linaro.org> wrote:
+> > > This is a long standing flaw in the backlight interfaces. AFAIK generic
+> > > userspaces end up with a (flawed) heuristic.
+> > 
+> > Bingo! Would be nice if we could start to fix this long-standing flaw.
+> 
+> Agreed!
+> 
+> How could a fix look like, a sysfs attribute? Would a boolean value
+> like 'logarithmic_scale' or 'linear_scale' be enough or could more
+> granularity be needed?
 
---0t61QmO5H3sVgllWZ3K32TB666zfDpRtd
-Content-Type: text/plain; charset=UTF-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Certainly "linear" (this device will work more or less correctly if the
+userspace applies perceptual curves). Not sure about logarithmic since
+what is actually useful is something that is "perceptually linear"
+(logarithmic is merely a way to approximate that).
 
-Dan, Jacek and Pavel,
+I do wonder about a compatible string like most-detailed to
+least-detailed description. This for a PWM with the auto-generated
+tables we'd see something like:
 
-Let me also describe blinking effect for Screen Frame LED tube,
-because looks like blink_set() doesn't support smooth blinking.
+cie-1991,perceptual,non-linear
 
-> brightness
->     ^
->     |        ***               ***               **
->     >      **   **           **   **           **
->     |     *       *         *       *         *
->     >    *         *       *         *       *
->     |  **           **   **           **   **
->     >**               ***               ***
->     |
->     +----^----^----^----^----^----^----^----^----^----> time
+For something that is non-linear but we are not sure what its tables are
+we can offer just "non-linear".
 
-So it's actually never go to OFF state, when effect is set.
-It is always in ON state, just brightness is smoothly changed from min to=
- max.
-It all handled by LEDs board itself, there are no way to control it from =
-SPI master.
+> 
+> The new attribute could be optional (it only exists if explicitly
+> specified by the driver) or be set to a default based on a heuristic
+> if not specified and be 'fixed' on a case by case basis. The latter
+> might violate "don't break userspace" though, so I'm not sure it's a
+> good idea.
 
-Please advice how it can be implemented to pass review?
+I think we should avoid any heuristic! There are several drivers and we
+may not be able to work through all of them and make the correct
+decision.
 
-11.06.19 22:52, Jacek Anaszewski =D0=BF=D0=B8=D1=88=D0=B5:> On 6/11/19 2:=
-01 PM, Pavel Machek wrote:
->> Hi!
->>
->>>> I just want to clerify - for now LEDs board has 2 from 3 LEDs with e=
-ffect function.
->>>>
->>>> 1. Screen frame led is just blinking, so blink_set() is fit well to =
-this.
->>>> 2. Pipe led actually consist from 3 leds and when effect is enabled =
-next pattern is used:
->>>>
->>>>        ^
->>>>        |
->>>> LED1  >   OFF  ON   ON   ON
->>>>        |
->>>> LED2  >   OFF  OFF  ON   ON
->>>>        |
->>>> LED3  >   OFF  OFF  OFF  ON
->>>>        |
->>>>        +----^----^----^----^----> time
->>>
->>> Pattern trigger applies to a single LED so it won't fit for this
->>> pattern.
->>>
->>> Currently we don't support patterns spanning on multiple LEDs,
->>> so you would have to come up with your own solution.
->>>
->>> What I can recommend is a trigger that would be created by your drive=
-r
->>> and would activate this sequence.
->>
->> Yes, please.
->>
->> While adding custom files to sysfs may appear easier, we'll need
->> "led-specific-triggers" for other reasons.
->=20
-> For what reasons exactly?
->=20
-> This is similar to the generic hw trigger support proposed by
-> Marek Behun. In the reply to that patch I asked some questions [0].
-> So far the mechanism looks too me awkward and not introducing any
-> novelty besides requiring one more step - setting the trigger.
->=20
->> And for the record... Handling 3 LEDs as one is not something usual in=
+Instead one valid value for the sysfs should be "unknown" and this be
+the default for drivers we have not analysed (this also makes it easy to
+introduce change here).
 
->> the LED subsystem; I guess it makes sense in your specific case, but
->> hopefully noone will copy that design.
->>
->> (I guess they are not individually controllable?)
->>
->>                                     Pavel
->>
->=20
-> [0] https://www.spinics.net/lists/linux-leds/msg12269.html
->=20
+We should only set the property to something else for drivers that have
+been reviewed.
 
---=20
-Best regards,
-Oleh Kravchenko
+There could be a special case for pwm_bl.c in that I'm prepared to
+assume that the hardware components downstream of the PWM have a
+roughly linear response and that if the user provided tables that their
+function is to provide a perceptually comfortable response.
 
 
---0t61QmO5H3sVgllWZ3K32TB666zfDpRtd--
-
---nPxKHK5Tm8oatyLJh4sVQYm7JiM2z2CZr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAl0A2usACgkQ0xNJm20p
-l4yLXg//e6pvZ8r8mBpqZid7dx1h2Py7wzuVRnAeo+QcJ1StLpSOeonaY1QU4RFT
-R9qKyFu3GJoJItXrReG6r1feN/H1Wq7pCHZ0TLbT9+KQWE58EqzvSQlgTKPgmvf1
-hVwrNuJ7ZrVST9v2NmVmMvwlCE4kq979UuH/dvCLdyK9SaTyh6oj5XbEg0bh5YwW
-vcBH2pvUc6cdStcaNPtXOIiNpBvyYS9gH+iklMW9mf43So66MWWL4eajAxu9yubj
-XH5/1NRTWnZq7hbHzueWVm820dkPH0qpOwI2buiytMMeSPN5EB7Q95rrSCkTAWSs
-YfpTLG6c1ZLQUjsb1NGbc7BiWM5yetHPNvzxELt+t6cyG36JuAYWyimN/VpV/EPu
-PdNkYdEVlOoUSXBuU9khGtG9cvF2dsphECeOK/a4Ac288KBFQz72HVCS7krG1xr7
-1zE+6xnaA9ysyRumfJUdP22mT0Mt0JB8kxXBdkcoW261Xev+Rw0wMyJ3uT+k8I3X
-DhTrRo+ps3myAK27mnUlDxxCETqVegJ8eF7uRIsj6WUbOc880mTq6dkN2zM6fJPC
-cSVg5z/GGdPbAYxbvFJsp3f42u14JokntrhDJEoZVhP/Yvt4q5UG9jypVrgU6IsE
-QVFu5weu+D00iv1z00oIHyx7XU3vktJsYEeRZNYuearuw52dSYg=
-=jp5g
------END PGP SIGNATURE-----
-
---nPxKHK5Tm8oatyLJh4sVQYm7JiM2z2CZr--
+Daniel.
