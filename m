@@ -2,202 +2,172 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB6CA46586
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Jun 2019 19:18:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87CA74668B
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Jun 2019 19:57:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725993AbfFNRS3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 Jun 2019 13:18:29 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:52054 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725981AbfFNRS3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Jun 2019 13:18:29 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5EHIM4R037139;
-        Fri, 14 Jun 2019 12:18:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1560532702;
-        bh=YAV8kjvzmhIpBEXNbXi91uV4TOTMlxj3RoDfsxqvjxc=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=S0xtbz3Pjsku+utgwQC8CujKspUPPAbgZ2n5yNl/cxxhwnpbE52D3j2ZUR1QptsqD
-         E+ID6s8BNntwCCLhbE8DiSpTu8keWtZRMIiOV3SXBlMYkxSiD2dz3CZTBroSnqF1CG
-         yHK1KiYG0JKg8XtHg4SRVdDlTBQivHhRvkN/3jYs=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5EHIMwL064473
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 14 Jun 2019 12:18:22 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 14
- Jun 2019 12:18:22 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 14 Jun 2019 12:18:22 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5EHILSv019322;
-        Fri, 14 Jun 2019 12:18:21 -0500
-Subject: Re: [PATCH v3 2/9] dt: bindings: Add multicolor class dt bindings
- documention
-To:     Rob Herring <robh@kernel.org>
-CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20190523190820.29375-1-dmurphy@ti.com>
- <20190523190820.29375-3-dmurphy@ti.com> <20190614170011.GA3277@bogus>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <c234361e-f5f7-f8d7-18c6-9cc8ef74ac99@ti.com>
-Date:   Fri, 14 Jun 2019 12:18:21 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190614170011.GA3277@bogus>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        id S1726393AbfFNRzH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Jun 2019 13:55:07 -0400
+Received: from foss.arm.com ([217.140.110.172]:39448 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727434AbfFNRzH (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 14 Jun 2019 13:55:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3123E346;
+        Fri, 14 Jun 2019 10:55:06 -0700 (PDT)
+Received: from en101.cambridge.arm.com (en101.cambridge.arm.com [10.1.196.93])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 302813F718;
+        Fri, 14 Jun 2019 10:55:03 -0700 (PDT)
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
+        suzuki.poulose@arm.com, Alessandro Zummo <a.zummo@towertech.it>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Arnd Bergmann <arnd@arndb.de>, Dan Murphy <dmurphy@ti.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wpan@vger.kernel.org,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Subject: [PATCH v2 10/28] drivers: Add generic helper to match by name
+Date:   Fri, 14 Jun 2019 18:54:05 +0100
+Message-Id: <1560534863-15115-11-git-send-email-suzuki.poulose@arm.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1560534863-15115-1-git-send-email-suzuki.poulose@arm.com>
+References: <1560534863-15115-1-git-send-email-suzuki.poulose@arm.com>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Rob
+Add a helper to match the device name. Also reuse this generic
+exported helper for bus_find_device_by_name(). This will also be
+used to add similar interface for (driver/class)_find_device()
 
-Thanks for the review
+Cc: Alessandro Zummo <a.zummo@towertech.it>
+Cc: Alexander Aring <alex.aring@gmail.com>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Dan Murphy <dmurphy@ti.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Harald Freudenberger <freude@linux.ibm.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
+Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: linux-leds@vger.kernel.org
+Cc: linux-rtc@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-wpan@vger.kernel.org
+Cc: Martin Schwidefsky <schwidefsky@de.ibm.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Peter Oberparleiter <oberpar@linux.ibm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Stefan Schmidt <stefan@datenfreihafen.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+---
+ drivers/base/bus.c     | 24 ------------------------
+ drivers/base/core.c    |  6 ++++++
+ include/linux/device.h | 18 +++++++++++++++---
+ 3 files changed, 21 insertions(+), 27 deletions(-)
 
-On 6/14/19 12:00 PM, Rob Herring wrote:
-> On Thu, May 23, 2019 at 02:08:13PM -0500, Dan Murphy wrote:
->> Add DT bindings for the LEDs multicolor class framework.
->>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->> ---
->>   .../bindings/leds/leds-class-multicolor.txt   | 97 +++++++++++++++++++
->>   1 file changed, 97 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
->>
->> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
->> new file mode 100644
->> index 000000000000..e2a2ce3279cb
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
->> @@ -0,0 +1,97 @@
->> +* Multicolor LED properties
->> +
->> +Multicolor LEDs can consist of a RGB, RGBW or a RGBA LED clusters.  These devices
->> +can be grouped together and also provide a modeling mechanism so that the
->> +cluster LEDs can vary in hue and intensity to produce a wide range of colors.
->> +
->> +The nodes and properties defined in this document are unique to the multicolor
->> +LED class.  Common LED nodes and properties are inherited from the common.txt
->> +within this documentation directory.
->> +
->> +Required LED Child properties:
->> +	- color : For multicolor LED support this property should be defined as
->> +		  LED_COLOR_ID_MULTI and further definition can be found in
->> +		  include/linux/leds/common.h.
->> +
->> +led-controller@30 {
->> +	#address-cells = <1>;
->> +	#size-cells = <0>;
->> +	compatible = "ti,lp5024";
->> +	reg = <0x29>;
->> +
->> +	multi-led@4 {
-> Typically we sort by address order.
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index df3cac7..a1d1e82 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -342,30 +342,6 @@ struct device *bus_find_device(struct bus_type *bus,
+ }
+ EXPORT_SYMBOL_GPL(bus_find_device);
+ 
+-static int match_name(struct device *dev, const void *data)
+-{
+-	const char *name = data;
+-
+-	return sysfs_streq(name, dev_name(dev));
+-}
+-
+-/**
+- * bus_find_device_by_name - device iterator for locating a particular device of a specific name
+- * @bus: bus type
+- * @start: Device to begin with
+- * @name: name of the device to match
+- *
+- * This is similar to the bus_find_device() function above, but it handles
+- * searching by a name automatically, no need to write another strcmp matching
+- * function.
+- */
+-struct device *bus_find_device_by_name(struct bus_type *bus,
+-				       struct device *start, const char *name)
+-{
+-	return bus_find_device(bus, start, (void *)name, match_name);
+-}
+-EXPORT_SYMBOL_GPL(bus_find_device_by_name);
+-
+ /**
+  * subsys_find_device_by_id - find a device with a specific enumeration number
+  * @subsys: subsystem
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 597095b..5724f93 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -3352,3 +3352,9 @@ int device_match_acpi_dev(struct device *dev, const void *adev)
+ 	return ACPI_COMPANION(dev) == adev;
+ }
+ EXPORT_SYMBOL(device_match_acpi_dev);
++
++int device_match_name(struct device *dev, const void *name)
++{
++	return sysfs_streq(dev_name(dev), name);
++}
++EXPORT_SYMBOL_GPL(device_match_name);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index a03b50d..b9b82b7 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -167,15 +167,27 @@ int device_match_of_node(struct device *dev, const void *np);
+ int device_match_fwnode(struct device *dev, const void *fwnode);
+ int device_match_devt(struct device *dev, const void *pdevt);
+ int device_match_acpi_dev(struct device *dev, const void *adev);
++int device_match_name(struct device *dev, const void *name);
+ 
+ int bus_for_each_dev(struct bus_type *bus, struct device *start, void *data,
+ 		     int (*fn)(struct device *dev, void *data));
+ struct device *bus_find_device(struct bus_type *bus, struct device *start,
+ 			       const void *data,
+ 			       int (*match)(struct device *dev, const void *data));
+-struct device *bus_find_device_by_name(struct bus_type *bus,
+-				       struct device *start,
+-				       const char *name);
++/**
++ * bus_find_device_by_name - device iterator for locating a particular device
++ * of a specific name.
++ * @bus: bus type
++ * @start: Device to begin with
++ * @name: name of the device to match
++ */
++static inline struct device *bus_find_device_by_name(struct bus_type *bus,
++						     struct device *start,
++						     const char *name)
++{
++	return bus_find_device(bus, start, name, device_match_name);
++}
++
+ struct device *subsys_find_device_by_id(struct bus_type *bus, unsigned int id,
+ 					struct device *hint);
+ int bus_for_each_drv(struct bus_type *bus, struct device_driver *start,
+-- 
+2.7.4
 
-These are not addresses these end up being the "module" number that the 
-LEDs below are associated to.
-
-
->
->> +		#address-cells = <1>;
->> +		#size-cells = <0>;
->> +		reg = <4>;
->> +		color = <LED_COLOR_ID_MULTI>;
->> +		function = LED_FUNCTION_ACTIVITY;
->> +
->> +		led@12 {
->> +			reg = <12>;
->> +			color = <LED_COLOR_ID_RED>;
->> +		};
->> +
->> +		led@13 {
->> +			reg = <13>;
->> +			color = <LED_COLOR_ID_GREEN>;
->> +		};
->> +
->> +		led@14 {
->> +			reg = <14>;
->> +			color = <LED_COLOR_ID_BLUE>;
->> +		};
->> +	};
->> +
->> +	/* Only support RGB no model defined */
-> I don't understand this comment.
-
-Artifact can be removed
-
-
->
->> +	multi-led@1 {
->> +		#address-cells = <1>;
->> +		#size-cells = <0>;
->> +		reg = <1>;
->> +		color = <LED_COLOR_ID_MULTI>;
->> +		function = LED_FUNCTION_;
-> ??
-
-I meant to change that but missed it in the example.
-
-Dan
-
-
->
->> +
->> +
->> +		led@3 {
->> +			reg = <3>;
->> +			color = <LED_COLOR_ID_RED>;
->> +		};
->> +
->> +		led@4 {
->> +			reg = <4>;
->> +			color = <LED_COLOR_ID_GREEN>;
->> +		};
->> +
->> +		led@5 {
->> +			reg = <5>;
->> +			color = <LED_COLOR_ID_BLUE>;
->> +		};
->> +	};
->> +
->> +	multi-led@2 {
->> +		#address-cells = <1>;
->> +		#size-cells = <0>;
->> +		color = <LED_COLOR_ID_MULTI>;
->> +		function = LED_FUNCTION_ACTIVITY;
->> +		reg = <2>;
->> +		ti,led-bank = <2 3 5>;
->> +
->> +		led@6 {
->> +			reg = <0x6>;
->> +			color = <LED_COLOR_ID_RED>;
->> +			led-sources = <6 9 15>;
->> +		};
->> +
->> +		led@7 {
->> +			reg = <0x7>;
->> +			color = <LED_COLOR_ID_GREEN>;
->> +			led-sources = <7 10 16>;
->> +		};
->> +
->> +		led@8 {
->> +			reg = <0x8>;
->> +			color = <LED_COLOR_ID_BLUE>;
->> +			led-sources = <8 11 17>;
->> +		};
->> +	};
->> +
->> +};
->> -- 
->> 2.21.0.5.gaeb582a983
->>
