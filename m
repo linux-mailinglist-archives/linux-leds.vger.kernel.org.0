@@ -2,109 +2,179 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82087462F4
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Jun 2019 17:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1C554653A
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Jun 2019 19:00:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726389AbfFNPfk convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Fri, 14 Jun 2019 11:35:40 -0400
-Received: from mga01.intel.com ([192.55.52.88]:34880 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725780AbfFNPfj (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 14 Jun 2019 11:35:39 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Jun 2019 08:35:38 -0700
-X-ExtLoop1: 1
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Jun 2019 08:35:38 -0700
-Received: from orsmsx116.amr.corp.intel.com (10.22.240.14) by
- ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server (TLS)
- id 14.3.408.0; Fri, 14 Jun 2019 08:35:38 -0700
-Received: from orsmsx110.amr.corp.intel.com ([169.254.10.60]) by
- ORSMSX116.amr.corp.intel.com ([169.254.7.166]) with mapi id 14.03.0415.000;
- Fri, 14 Jun 2019 08:35:37 -0700
-From:   "Moore, Robert" <robert.moore@intel.com>
-To:     Nikolaus Voss <nv@vosn.de>, "Rafael J. Wysocki" <rafael@kernel.org>
-CC:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        "Schmauss, Erik" <erik.schmauss@intel.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "ACPI Devel Maling List" <linux-acpi@vger.kernel.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 1/3] ACPI: Resolve objects on host-directed table
- loads
-Thread-Topic: [PATCH v2 1/3] ACPI: Resolve objects on host-directed table
- loads
-Thread-Index: AQHVIPn/qqDB5Bv4z0aSsleXlAnDw6abVhaAgAADpwD///G0sA==
-Date:   Fri, 14 Jun 2019 15:35:36 +0000
-Message-ID: <94F2FBAB4432B54E8AACC7DFDE6C92E3B95EFB26@ORSMSX110.amr.corp.intel.com>
-References: <cover.1560327219.git.nikolaus.voss@loewensteinmedical.de>
- <e2a4ddfd93a904b50b7ccc074e00e14dc4661963.1560327219.git.nikolaus.voss@loewensteinmedical.de>
- <CAJZ5v0jqxWs=PPik-TCDqQiyxCSyRP7HTue1WsdWP9e-nik2eA@mail.gmail.com>
- <alpine.DEB.2.20.1906141114490.6579@fox.voss.local>
-In-Reply-To: <alpine.DEB.2.20.1906141114490.6579@fox.voss.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMjNjOGUyNzEtODllMy00MDgxLWE0MmYtZTE5ZDRlOTBjZDFmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoieHMzbXMwTW5xdTg0dUJueHJ5aWNNR0dQTDNaSWk1T0FNYlRldUk0TW0wMUlzWnp6cFwvN0dqNlAraXlyaTVweG0ifQ==
-x-ctpclassification: CTP_NT
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.138]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1725999AbfFNRAO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Jun 2019 13:00:14 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:46575 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725889AbfFNRAO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Jun 2019 13:00:14 -0400
+Received: by mail-qt1-f195.google.com with SMTP id h21so3213660qtn.13;
+        Fri, 14 Jun 2019 10:00:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GS1hGa817xEQ00srJV+PzwKtWWnIbCX8xB7ozEQ8PeA=;
+        b=SziVNEb96Y3NHG5cI0sUpDirBmajlOGfVjSelfia2mBJeWUCqYrFvZxyvJh29lzVCl
+         p4xWul+tbDIZtMisiTiewevPEegV/feRwVn9TgwL3Ai3RvoSxjCielu5i88b+G1GDt8X
+         ZodO9PdmCGZxds27W5QpIC1Dd4CnQW6Mrs0fH8B+mCq+KiIgz6uiNWsWVsBCb8r9Kcg8
+         V7youdprjCTzgarBP9KZAUEsmmm/GTqkaLD4o56BcUxcKle5N7ZYi/oJ7RjNAv13kJmU
+         jA1EN4KGDB3c3p1d74U/CV1Mkv9CZtiArWHfxj+5tMaNjPQS8CS91bH2gk7l+H9OtzTi
+         hDEw==
+X-Gm-Message-State: APjAAAWwK2iMm10cml1uYqzRrF18oNGnKVWdHjHTmDIrjv7S2Y7DU45h
+        67Hrwkam/Ut2LFN0mmjka3q/OnwUEg==
+X-Google-Smtp-Source: APXvYqypc0vhDImV9CKnXnk341O4whOdSmNRzr7Vv8pyHogbMsYPOsNoVDRfEVwUDByeZtQNRMKJfg==
+X-Received: by 2002:ac8:1087:: with SMTP id a7mr67129150qtj.141.1560531613016;
+        Fri, 14 Jun 2019 10:00:13 -0700 (PDT)
+Received: from localhost ([64.188.179.243])
+        by smtp.gmail.com with ESMTPSA id j141sm2139542qke.28.2019.06.14.10.00.12
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 14 Jun 2019 10:00:12 -0700 (PDT)
+Date:   Fri, 14 Jun 2019 11:00:11 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/9] dt: bindings: Add multicolor class dt bindings
+ documention
+Message-ID: <20190614170011.GA3277@bogus>
+References: <20190523190820.29375-1-dmurphy@ti.com>
+ <20190523190820.29375-3-dmurphy@ti.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190523190820.29375-3-dmurphy@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Thu, May 23, 2019 at 02:08:13PM -0500, Dan Murphy wrote:
+> Add DT bindings for the LEDs multicolor class framework.
+> 
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>  .../bindings/leds/leds-class-multicolor.txt   | 97 +++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+> new file mode 100644
+> index 000000000000..e2a2ce3279cb
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+> @@ -0,0 +1,97 @@
+> +* Multicolor LED properties
+> +
+> +Multicolor LEDs can consist of a RGB, RGBW or a RGBA LED clusters.  These devices
+> +can be grouped together and also provide a modeling mechanism so that the
+> +cluster LEDs can vary in hue and intensity to produce a wide range of colors.
+> +
+> +The nodes and properties defined in this document are unique to the multicolor
+> +LED class.  Common LED nodes and properties are inherited from the common.txt
+> +within this documentation directory.
+> +
+> +Required LED Child properties:
+> +	- color : For multicolor LED support this property should be defined as
+> +		  LED_COLOR_ID_MULTI and further definition can be found in
+> +		  include/linux/leds/common.h.
+> +
+> +led-controller@30 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +	compatible = "ti,lp5024";
+> +	reg = <0x29>;
+> +
+> +	multi-led@4 {
 
+Typically we sort by address order.
 
------Original Message-----
-From: Nikolaus Voss [mailto:nv@vosn.de] 
-Sent: Friday, June 14, 2019 2:26 AM
-To: Rafael J. Wysocki <rafael@kernel.org>
-Cc: Rafael J. Wysocki <rjw@rjwysocki.net>; Len Brown <lenb@kernel.org>; Moore, Robert <robert.moore@intel.com>; Schmauss, Erik <erik.schmauss@intel.com>; Jacek Anaszewski <jacek.anaszewski@gmail.com>; Pavel Machek <pavel@ucw.cz>; Dan Murphy <dmurphy@ti.com>; Thierry Reding <thierry.reding@gmail.com>; ACPI Devel Maling List <linux-acpi@vger.kernel.org>; open list:ACPI COMPONENT ARCHITECTURE (ACPICA) <devel@acpica.org>; linux-leds@vger.kernel.org; Linux PWM List <linux-pwm@vger.kernel.org>; Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] ACPI: Resolve objects on host-directed table loads
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		reg = <4>;
+> +		color = <LED_COLOR_ID_MULTI>;
+> +		function = LED_FUNCTION_ACTIVITY;
+> +
+> +		led@12 {
+> +			reg = <12>;
+> +			color = <LED_COLOR_ID_RED>;
+> +		};
+> +
+> +		led@13 {
+> +			reg = <13>;
+> +			color = <LED_COLOR_ID_GREEN>;
+> +		};
+> +
+> +		led@14 {
+> +			reg = <14>;
+> +			color = <LED_COLOR_ID_BLUE>;
+> +		};
+> +	};
+> +
+> +	/* Only support RGB no model defined */
 
-Hi Rafael,
+I don't understand this comment.
 
-On Fri, 14 Jun 2019, Rafael J. Wysocki wrote:
-> On Wed, Jun 12, 2019 at 10:36 AM Nikolaus Voss 
-> <nikolaus.voss@loewensteinmedical.de> wrote:
->>
->> If an ACPI SSDT overlay is loaded after built-in tables have been 
->> loaded e.g. via configfs or efivar_ssdt_load() it is necessary to 
->> rewalk the namespace to resolve references. Without this, relative 
->> and absolute paths like ^PCI0.SBUS or \_SB.PCI0.SBUS are not resolved 
->> correctly.
->>
->> Make configfs load use the same method as efivar_ssdt_load().
->>
->> Signed-off-by: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
->
-> This is fine by me, so
->
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->
-> Or if you want me to take this patch (without the other two in the 
-> series), please let me know.
+> +	multi-led@1 {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		reg = <1>;
+> +		color = <LED_COLOR_ID_MULTI>;
+> +		function = LED_FUNCTION_;
 
-thanks. I think it would be the best if you take up this patch as it is an independent topic. In retrospect it wasn't a good idea to put it into this series.
+??
 
-Kind regards,
-Niko
-
-I would have to ask, why is additional code needed for package initialization/resolution? It already happens elsewhere in acpica.
-Bob
-
-[...]
+> +
+> +
+> +		led@3 {
+> +			reg = <3>;
+> +			color = <LED_COLOR_ID_RED>;
+> +		};
+> +
+> +		led@4 {
+> +			reg = <4>;
+> +			color = <LED_COLOR_ID_GREEN>;
+> +		};
+> +
+> +		led@5 {
+> +			reg = <5>;
+> +			color = <LED_COLOR_ID_BLUE>;
+> +		};
+> +	};
+> +
+> +	multi-led@2 {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		color = <LED_COLOR_ID_MULTI>;
+> +		function = LED_FUNCTION_ACTIVITY;
+> +		reg = <2>;
+> +		ti,led-bank = <2 3 5>;
+> +
+> +		led@6 {
+> +			reg = <0x6>;
+> +			color = <LED_COLOR_ID_RED>;
+> +			led-sources = <6 9 15>;
+> +		};
+> +
+> +		led@7 {
+> +			reg = <0x7>;
+> +			color = <LED_COLOR_ID_GREEN>;
+> +			led-sources = <7 10 16>;
+> +		};
+> +
+> +		led@8 {
+> +			reg = <0x8>;
+> +			color = <LED_COLOR_ID_BLUE>;
+> +			led-sources = <8 11 17>;
+> +		};
+> +	};
+> +
+> +};
+> -- 
+> 2.21.0.5.gaeb582a983
+> 
