@@ -2,64 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F17DD45545
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Jun 2019 09:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFED145856
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Jun 2019 11:13:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725996AbfFNHKj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 Jun 2019 03:10:39 -0400
-Received: from mail.thorsis.com ([92.198.35.195]:45998 "EHLO mail.thorsis.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725843AbfFNHKj (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 14 Jun 2019 03:10:39 -0400
-X-Greylist: delayed 486 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Jun 2019 03:10:38 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.thorsis.com (Postfix) with ESMTP id 9275A477B;
-        Fri, 14 Jun 2019 09:05:39 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
-Received: from mail.thorsis.com ([127.0.0.1])
-        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id n4hKxe5O_F5z; Fri, 14 Jun 2019 09:05:39 +0200 (CEST)
-Received: by mail.thorsis.com (Postfix, from userid 109)
-        id BE7913DD3; Fri, 14 Jun 2019 09:05:37 +0200 (CEST)
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RECEIVED,
-        NO_RELAYS autolearn=unavailable autolearn_force=no version=3.4.2
-From:   Alexander Dahl <ada@thorsis.com>
-To:     linux-leds@vger.kernel.org
-Cc:     Dan Murphy <dmurphy@ti.com>, jacek.anaszewski@gmail.com,
-        pavel@ucw.cz, robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/9] Multicolor Framework update
-Date:   Fri, 14 Jun 2019 09:02:23 +0200
-Message-ID: <55737098.K72IVJ5cDM@ada>
-In-Reply-To: <20190523190820.29375-1-dmurphy@ti.com>
-References: <20190523190820.29375-1-dmurphy@ti.com>
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        id S1726575AbfFNJNF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Jun 2019 05:13:05 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:32773 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725859AbfFNJNE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Jun 2019 05:13:04 -0400
+Received: by mail-ot1-f66.google.com with SMTP id p4so2016299oti.0;
+        Fri, 14 Jun 2019 02:13:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iQKOlho3IePwEIN90jAdwdDwovI9WsnmIGTODVgkjRA=;
+        b=WBt42ZFsjkB1h+W59AEmW0p5Z4PbncLAzeV7iKPVlD7QvQ9y2IT96iXNMvAaPvBZ9T
+         kRypHl/oFlCIe9FQwmX2HizCmXz1mn7xXMMBTgmWJwP5zhs0xdc5J8+A3J0zzmjITFgy
+         YXwY53hLE3WZY2zcjfJt0pECB/c4SFYu4lkEHDr+ViYw0Z73lawdd1XkJDJIiojbhg19
+         IM0VlvJkQuGKP73ImtI2UpZVMxw/VIYTU2yj90HdX2qnxEX+mMQLiVCpvdMGICkDUsSk
+         5AVj2BjxWjA1TK6dpx6Ixr4qzMFPp+1k/nO5Rhd5Wmfqaxy6t2KeNpr3mJK1h9DlTgIy
+         tE8w==
+X-Gm-Message-State: APjAAAXF07kaErJ4haKJqz+S1idWeYEYZed0uniVnjQ9T0lCeNSeuNFW
+        N4axdw0modMa5gQJ3NmPag31s54hLH+9NlVD9A0=
+X-Google-Smtp-Source: APXvYqwmdZTMd2v6GPlEy1a/TL7qrJsrqpXKgBAz63iJnH2gtW407SGicB8TN5jAyyOvInGV4i/vIKKPF+eAlUMk8A4=
+X-Received: by 2002:a05:6830:1516:: with SMTP id k22mr2077918otp.189.1560503583969;
+ Fri, 14 Jun 2019 02:13:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1560327219.git.nikolaus.voss@loewensteinmedical.de> <e2a4ddfd93a904b50b7ccc074e00e14dc4661963.1560327219.git.nikolaus.voss@loewensteinmedical.de>
+In-Reply-To: <e2a4ddfd93a904b50b7ccc074e00e14dc4661963.1560327219.git.nikolaus.voss@loewensteinmedical.de>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 14 Jun 2019 11:12:53 +0200
+Message-ID: <CAJZ5v0jqxWs=PPik-TCDqQiyxCSyRP7HTue1WsdWP9e-nik2eA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] ACPI: Resolve objects on host-directed table loads
+To:     Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Schmauss <erik.schmauss@intel.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
+        linux-leds@vger.kernel.org,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        nv@vosn.de
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Dan,
+On Wed, Jun 12, 2019 at 10:36 AM Nikolaus Voss
+<nikolaus.voss@loewensteinmedical.de> wrote:
+>
+> If an ACPI SSDT overlay is loaded after built-in tables
+> have been loaded e.g. via configfs or efivar_ssdt_load()
+> it is necessary to rewalk the namespace to resolve
+> references. Without this, relative and absolute paths
+> like ^PCI0.SBUS or \_SB.PCI0.SBUS are not resolved
+> correctly.
+>
+> Make configfs load use the same method as efivar_ssdt_load().
+>
+> Signed-off-by: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
 
-Am Donnerstag, 23. Mai 2019, 14:08:11 CEST schrieb Dan Murphy:
->   leds: multicolor: Add sysfs interface definition
->   dt: bindings: Add multicolor class dt bindings documention
->   documention: leds: Add multicolor class documentation
->   dt-bindings: leds: Add multicolor ID to the color ID  list
->   leds: Add multicolor ID to the color ID list
->   leds: multicolor: Introduce a multicolor class definition
->   dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers
->   leds: lp50xx: Add the LP50XX family of the RGB LED driver
->   leds: Update the lp55xx to use the multi color framework
+This is fine by me, so
 
-While not having much experience with the implementation of the LED subsystem, 
-I've had a short look at those. Curious question: would it be possible to take 
-three gpio-leds and group those together to one multicolor-led? I know at 
-least one board, where things are wired up like this, see e.g. 
-at91-sama5d27_som1_ek.dts
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Greets
-Alex
+Or if you want me to take this patch (without the other two in the
+series), please let me know.
 
+As for the other two patches, someone else needs to review them for
+you as I'm not particularly familiar with the PWM subsystem.
+
+> ---
+>  drivers/acpi/acpi_configfs.c   |  6 +-----
+>  drivers/acpi/acpica/tbxfload.c | 11 +++++++++++
+>  2 files changed, 12 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/acpi/acpi_configfs.c b/drivers/acpi/acpi_configfs.c
+> index f92033661239..663f0d88f912 100644
+> --- a/drivers/acpi/acpi_configfs.c
+> +++ b/drivers/acpi/acpi_configfs.c
+> @@ -56,11 +56,7 @@ static ssize_t acpi_table_aml_write(struct config_item *cfg,
+>         if (!table->header)
+>                 return -ENOMEM;
+>
+> -       ACPI_INFO(("Host-directed Dynamic ACPI Table Load:"));
+> -       ret = acpi_tb_install_and_load_table(
+> -                       ACPI_PTR_TO_PHYSADDR(table->header),
+> -                       ACPI_TABLE_ORIGIN_EXTERNAL_VIRTUAL, FALSE,
+> -                       &table->index);
+> +       ret = acpi_load_table(table->header);
+>         if (ret) {
+>                 kfree(table->header);
+>                 table->header = NULL;
+> diff --git a/drivers/acpi/acpica/tbxfload.c b/drivers/acpi/acpica/tbxfload.c
+> index 4f30f06a6f78..ef8f8a9f3c9c 100644
+> --- a/drivers/acpi/acpica/tbxfload.c
+> +++ b/drivers/acpi/acpica/tbxfload.c
+> @@ -297,6 +297,17 @@ acpi_status acpi_load_table(struct acpi_table_header *table)
+>         status = acpi_tb_install_and_load_table(ACPI_PTR_TO_PHYSADDR(table),
+>                                                 ACPI_TABLE_ORIGIN_EXTERNAL_VIRTUAL,
+>                                                 FALSE, &table_index);
+> +
+> +       if (ACPI_SUCCESS(status)) {
+> +               /* Complete the initialization/resolution of package objects */
+> +
+> +               status = acpi_ns_walk_namespace(ACPI_TYPE_PACKAGE,
+> +                                               ACPI_ROOT_OBJECT,
+> +                                               ACPI_UINT32_MAX, 0,
+> +                                               acpi_ns_init_one_package,
+> +                                               NULL, NULL, NULL);
+> +       }
+> +
+>         return_ACPI_STATUS(status);
+>  }
+>
+> --
+> 2.17.1
+>
