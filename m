@@ -2,73 +2,114 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A20547AFA
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Jun 2019 09:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49DA04835E
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Jun 2019 15:02:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726730AbfFQH27 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 17 Jun 2019 03:28:59 -0400
-Received: from slot0.nejknio.cf ([89.32.41.233]:56942 "EHLO slot0.nejknio.cf"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726412AbfFQH27 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 17 Jun 2019 03:28:59 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=nejknio.cf;
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=trade1@nejknio.cf;
- bh=73Xs4LxjK+lP+h5mKCyFyWTpkoQ=;
- b=GbsVe0LsU/9SrXrFIqp4qv5HmxLod7dLF3X2Kv2OXh1c2po4oSCR6F0k1BjcvNWK5kBI+B+Ej3BW
-   KDTzRYaed3qkUvKu05TI8FgjZVNiVAoJU8LppsjCS5R/ZEFlLkHQ6iy4+m9ASP6P/PEpnuynBpIk
-   U8K2k6TCkoISa7a1sxoEigIwrWqYow0ie4om5rTVuf3WachkpdDsdcjPnzwhLCkV9DAe9dn0t5/P
-   yd85ud/JeVvBB7m9phkOQ7tVd+Zu9KKnGBCibmiMahl6iMR+nNPrWViAG2/ku5i6cnfaRkreBF/k
-   1SOoiDWoaY/9erfGFscZ2D8YOqYj9HqjrMwDMg==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=nejknio.cf;
- b=O/lUUF9OyNk+xx7ckG9mFyz9YH33bQXrppfcB59mqLuAybOGEzGNZrK6mGyd4rHFsGD/kRxMe5p9
-   ET1ulckxGmrggIeAaRyI+ZTadLQhMiIVS37ECPKczTV3SORM70T9uwHaKuKAkeKlwWjUJdwt7prj
-   IbfalSNvqo9lz9wQkG34wG1qQkF5ib+pqkotAvZPGdk9+9Dlxs3mJoeleR9T2P5TyP6UnWKvvHXM
-   uQiHglcnwHUY7jklZQ8TJMysPozHc4Lu9Y6my3f+FCqAmoVRSx2G8iC1WgeE7fjiM897+grFb34k
-   GYnJc+JOcorDZZT0DdH8W7zyOaOrVk7ivXsvyQ==;
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1727903AbfFQNBz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 17 Jun 2019 09:01:55 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:45909 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725983AbfFQNBz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Jun 2019 09:01:55 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id E7E9680258; Mon, 17 Jun 2019 15:01:40 +0200 (CEST)
+Date:   Mon, 17 Jun 2019 15:01:51 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Matthias Kaehlcke <mka@chromium.org>
+Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
+        Brian Norris <briannorris@google.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Doug Anderson <dianders@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Richard Purdie <rpurdie@rpsys.net>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Guenter Roeck <groeck@google.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Alexandru Stan <amstan@google.com>, linux-leds@vger.kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        kernel@collabora.com
+Subject: Re: [PATCH v3 3/4] backlight: pwm_bl: compute brightness of LED
+ linearly to human eye.
+Message-ID: <20190617130150.GA21113@amd>
+References: <20180208113032.27810-1-enric.balletbo@collabora.com>
+ <20180208113032.27810-4-enric.balletbo@collabora.com>
+ <20190607220947.GR40515@google.com>
+ <20190608210226.GB2359@xo-6d-61-c0.localdomain>
+ <20190610205233.GB137143@google.com>
+ <20190611104913.egsbwcedshjdy3m5@holly.lan>
+ <CA+ASDXOq7KQ+f4KMh0gaC9hvXaxBDdsbiJxiTbeOJ9ZVaeNJag@mail.gmail.com>
+ <20190611223019.GH137143@google.com>
+ <20190612110325.xdn3q2aod52oalge@holly.lan>
+ <20190612192642.GK137143@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: PRODUCT INQUIRY FOR EXPORT SHIPMENT
-To:     Recipients <trade1@nejknio.cf>
-From:   "Mark Maths" <trade1@nejknio.cf>
-Date:   Mon, 17 Jun 2019 10:09:00 +0300
-Reply-To: purchase_m.maths@aol.com
-Message-ID: <0.0.1.D8D.1D524DB7EAF56EA.0@slot0.nejknio.cf>
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
+Content-Disposition: inline
+In-Reply-To: <20190612192642.GK137143@google.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dear Sales team,
- =
 
-In furtherance to our market research, we have reviewed all your products t=
-ypes and we have finally interested in your product for our market here in =
+--sdtB3X0nJg68CQEu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi!
 
-United State for your production. We introduce ourselves as Emilxa Tram SRL=
-, A general group of company located in the United State. =
+> > Certainly "linear" (this device will work more or less correctly if the
+> > userspace applies perceptual curves). Not sure about logarithmic since
+> > what is actually useful is something that is "perceptually linear"
+> > (logarithmic is merely a way to approximate that).
+> >=20
+> > I do wonder about a compatible string like most-detailed to
+> > least-detailed description. This for a PWM with the auto-generated
+> > tables we'd see something like:
+> >=20
+> > cie-1991,perceptual,non-linear
+> >=20
+> > For something that is non-linear but we are not sure what its tables are
+> > we can offer just "non-linear".
+>=20
+> Thanks for the feedback!
+>=20
+> It seems clear that we want a string for the added flexibility. I can
+> work on a patch with the compatible string like description you
+> suggested and we can discuss in the review if we want to go with that
+> or prefer something else.
 
+Compatible-like string seems overly complicated.
 
-We are sourcing for new suppliers from your location =
+> > Instead one valid value for the sysfs should be "unknown" and this be
+> > the default for drivers we have not analysed (this also makes it easy to
+> > introduce change here).
+>=20
+> An "unknown" value sounds good, it allows userspace to just do what it
+> did/would hace done before this attribute existed.
 
+What about simply not presenting the attribute when we don't have the
+information?
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-Kindly advice us if you accept new purchase orders, I will forward our PO f=
-or urgent order.
+--sdtB3X0nJg68CQEu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Waiting for your response to send order. Reply to ( purchase_m.maths@aol.co=
-m)
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-Best regards.
-Mark Maths
-Company Address:
-Emilxa Tram SRL Company Limited
-P.O. Box 978
-Road Town
-Tortola
-British Virgin Islands
-Contact information:
-Tel: +1 (284) 493 7235
-Email: purchase_m.maths@aol.com
-https://meridianbvi.com/contact-us/
+iEYEARECAAYFAl0Hjz4ACgkQMOfwapXb+vJICwCgw2oDqZxKwg0bd8+7Xh6ZsIX9
+/MsAn2woctEoRe0BmsGCFOw5p1KQMS68
+=vCQf
+-----END PGP SIGNATURE-----
+
+--sdtB3X0nJg68CQEu--
