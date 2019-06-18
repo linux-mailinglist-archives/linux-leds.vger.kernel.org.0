@@ -2,146 +2,109 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F92349D00
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Jun 2019 11:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 782DB4A58E
+	for <lists+linux-leds@lfdr.de>; Tue, 18 Jun 2019 17:36:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729113AbfFRJVs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 18 Jun 2019 05:21:48 -0400
-Received: from mail.steuer-voss.de ([85.183.69.95]:58172 "EHLO
-        mail.steuer-voss.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728810AbfFRJVs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 18 Jun 2019 05:21:48 -0400
-X-Virus-Scanned: Debian amavisd-new at mail.steuer-voss.de
-Received: by mail.steuer-voss.de (Postfix, from userid 1000)
-        id C023A4CD7A; Tue, 18 Jun 2019 11:21:44 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.steuer-voss.de (Postfix) with ESMTP id BBDE9449CC;
-        Tue, 18 Jun 2019 11:21:44 +0200 (CEST)
-Date:   Tue, 18 Jun 2019 11:21:44 +0200 (CEST)
-From:   Nikolaus Voss <nv@vosn.de>
-X-X-Sender: nv@fox.voss.local
-To:     "Moore, Robert" <robert.moore@intel.com>
-cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        "Schmauss, Erik" <erik.schmauss@intel.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 1/3] ACPI: Resolve objects on host-directed table
- loads
-In-Reply-To: <94F2FBAB4432B54E8AACC7DFDE6C92E3B95F9EC6@ORSMSX110.amr.corp.intel.com>
-Message-ID: <alpine.DEB.2.20.1906181030240.24846@fox.voss.local>
-References: <cover.1560327219.git.nikolaus.voss@loewensteinmedical.de> <e2a4ddfd93a904b50b7ccc074e00e14dc4661963.1560327219.git.nikolaus.voss@loewensteinmedical.de> <CAJZ5v0jqxWs=PPik-TCDqQiyxCSyRP7HTue1WsdWP9e-nik2eA@mail.gmail.com>
- <alpine.DEB.2.20.1906141114490.6579@fox.voss.local> <94F2FBAB4432B54E8AACC7DFDE6C92E3B95EFB26@ORSMSX110.amr.corp.intel.com> <alpine.DEB.2.20.1906170746150.12344@fox.voss.local> <94F2FBAB4432B54E8AACC7DFDE6C92E3B95F9EC6@ORSMSX110.amr.corp.intel.com>
-User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
+        id S1729295AbfFRPgs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 18 Jun 2019 11:36:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58808 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729247AbfFRPgs (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 18 Jun 2019 11:36:48 -0400
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 958402147A;
+        Tue, 18 Jun 2019 15:36:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560872207;
+        bh=P3c7WTFd5bkryIwaaS0lM3mM4LU8ZJ+8UHH77q6iXHE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OM+AN0GnmI/edYouix8hQf125OXUPVl6CWgXLOLkOvnqcTs6YNSJRdf5ux6YKhZkn
+         s4bXNZxdUQryXSwFE4j2u0dotZQx1XQ54TIS2aeOFHLc3wrWMqUJuEBoj+eJmr7rRW
+         G8OwfwTJIo0sb3lpeY9pHwX7U5r3IPykDCbwO0pI=
+Received: by mail-qt1-f182.google.com with SMTP id d17so10889799qtj.8;
+        Tue, 18 Jun 2019 08:36:47 -0700 (PDT)
+X-Gm-Message-State: APjAAAUs3hkDDnUExlfu2Kw8jjUT7JMKtWd8q5Q5esJIoMXfVOk3CM0z
+        zBiCy0KmAj0Zis+GVeVDaXd2gD+LAwqU3SibrA==
+X-Google-Smtp-Source: APXvYqwBsgC8TlLUxgiGwURCbLNcxpyWAeVdYQMbb3DPTVcwQSgYfBD6HNFMBFD1iM8lprtpkb5RztVK4hrnc93kI8E=
+X-Received: by 2002:a05:6214:248:: with SMTP id k8mr27999342qvt.200.1560872206821;
+ Tue, 18 Jun 2019 08:36:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+References: <20190523190820.29375-1-dmurphy@ti.com> <20190523190820.29375-3-dmurphy@ti.com>
+ <20190614170011.GA3277@bogus> <c234361e-f5f7-f8d7-18c6-9cc8ef74ac99@ti.com>
+In-Reply-To: <c234361e-f5f7-f8d7-18c6-9cc8ef74ac99@ti.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 18 Jun 2019 09:36:35 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK7u1xXNmwtHjUd7Z5ewHd9_d51quH4zMXxEd63egd28w@mail.gmail.com>
+Message-ID: <CAL_JsqK7u1xXNmwtHjUd7Z5ewHd9_d51quH4zMXxEd63egd28w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] dt: bindings: Add multicolor class dt bindings documention
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 17 Jun 2019, Moore, Robert wrote:
->> -----Original Message-----
->> From: Nikolaus Voss [mailto:nv@vosn.de]
->> Sent: Sunday, June 16, 2019 11:24 PM
->> To: Moore, Robert <robert.moore@intel.com>
->> Cc: Rafael J. Wysocki <rafael@kernel.org>; Rafael J. Wysocki
->> <rjw@rjwysocki.net>; Len Brown <lenb@kernel.org>; Schmauss, Erik
->> <erik.schmauss@intel.com>; Jacek Anaszewski
->> <jacek.anaszewski@gmail.com>; Pavel Machek <pavel@ucw.cz>; Dan Murphy
->> <dmurphy@ti.com>; Thierry Reding <thierry.reding@gmail.com>; ACPI Devel
->> Maling List <linux-acpi@vger.kernel.org>; open list:ACPI COMPONENT
->> ARCHITECTURE (ACPICA) <devel@acpica.org>; linux-leds@vger.kernel.org;
->> Linux PWM List <linux-pwm@vger.kernel.org>; Linux Kernel Mailing List
->> <linux-kernel@vger.kernel.org>; nikolaus.voss@loewensteinmedical.de
->> Subject: RE: [PATCH v2 1/3] ACPI: Resolve objects on host-directed table
->> loads
->>
->> Bob,
->>
->> On Fri, 14 Jun 2019, Moore, Robert wrote:
->>>
->>>
->>> -----Original Message-----
->>> From: Nikolaus Voss [mailto:nv@vosn.de]
->>> Sent: Friday, June 14, 2019 2:26 AM
->>> To: Rafael J. Wysocki <rafael@kernel.org>
->>> Cc: Rafael J. Wysocki <rjw@rjwysocki.net>; Len Brown
->>> <lenb@kernel.org>; Moore, Robert <robert.moore@intel.com>; Schmauss,
->>> Erik <erik.schmauss@intel.com>; Jacek Anaszewski
->>> <jacek.anaszewski@gmail.com>; Pavel Machek <pavel@ucw.cz>; Dan Murphy
->>> <dmurphy@ti.com>; Thierry Reding <thierry.reding@gmail.com>; ACPI
->>> Devel Maling List <linux-acpi@vger.kernel.org>; open list:ACPI
->>> COMPONENT ARCHITECTURE (ACPICA) <devel@acpica.org>;
->>> linux-leds@vger.kernel.org; Linux PWM List
->>> <linux-pwm@vger.kernel.org>; Linux Kernel Mailing List
->>> <linux-kernel@vger.kernel.org>
->>> Subject: Re: [PATCH v2 1/3] ACPI: Resolve objects on host-directed
->>> table loads
->>>
->>> Hi Rafael,
->>>
->>> On Fri, 14 Jun 2019, Rafael J. Wysocki wrote:
->>>> On Wed, Jun 12, 2019 at 10:36 AM Nikolaus Voss
->>>> <nikolaus.voss@loewensteinmedical.de> wrote:
->>>>>
->>>>> If an ACPI SSDT overlay is loaded after built-in tables have been
->>>>> loaded e.g. via configfs or efivar_ssdt_load() it is necessary to
->>>>> rewalk the namespace to resolve references. Without this, relative
->>>>> and absolute paths like ^PCI0.SBUS or \_SB.PCI0.SBUS are not
->>>>> resolved correctly.
->>>>>
->>>>> Make configfs load use the same method as efivar_ssdt_load().
->>>>>
->>>>> Signed-off-by: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
->>>>
->>>> This is fine by me, so
->>>>
->>>> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->>>>
->>>> Or if you want me to take this patch (without the other two in the
->>>> series), please let me know.
->>>
->>> thanks. I think it would be the best if you take up this patch as it
->>> is an independent topic. In retrospect it wasn't a good idea to put it
->>> into this series.
->>>
->>> Kind regards,
->>> Niko
->>>
->>> I would have to ask, why is additional code needed for package
->>> initialization/resolution? It already happens elsewhere in acpica. Bob
->>
->> for built-in tables loaded via acpi_ex_load_table_op() everything is
->> fine, because after acpi_tb_load_table() acpi_ns_walk_namespace() is
->> called to resolve references.
->>
->> My fix only affects tables loaded dynamically via either acpi_configfs
->> driver (for debugging purposes) or efivar_ssdt_load() (to specify a
->> table on the kernel's command line). They use acpi_load_table() to load
->> the table from a caller-owned buffer. To resolve the references, it is
->> again necessary to rewalk the namespace, which was simply missing in
->> acpi_load_table().
->>
-> [Moore, Robert]
+On Fri, Jun 14, 2019 at 11:18 AM Dan Murphy <dmurphy@ti.com> wrote:
 >
-> Perhaps you should call AcpiInitializeObjects after the call to 
-> AcpiLoadTable, but I will check.
+> Rob
+>
+> Thanks for the review
+>
+> On 6/14/19 12:00 PM, Rob Herring wrote:
+> > On Thu, May 23, 2019 at 02:08:13PM -0500, Dan Murphy wrote:
+> >> Add DT bindings for the LEDs multicolor class framework.
+> >>
+> >> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> >> ---
+> >>   .../bindings/leds/leds-class-multicolor.txt   | 97 +++++++++++++++++++
+> >>   1 file changed, 97 insertions(+)
+> >>   create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+> >> new file mode 100644
+> >> index 000000000000..e2a2ce3279cb
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+> >> @@ -0,0 +1,97 @@
+> >> +* Multicolor LED properties
+> >> +
+> >> +Multicolor LEDs can consist of a RGB, RGBW or a RGBA LED clusters.  These devices
+> >> +can be grouped together and also provide a modeling mechanism so that the
+> >> +cluster LEDs can vary in hue and intensity to produce a wide range of colors.
+> >> +
+> >> +The nodes and properties defined in this document are unique to the multicolor
+> >> +LED class.  Common LED nodes and properties are inherited from the common.txt
+> >> +within this documentation directory.
+> >> +
+> >> +Required LED Child properties:
+> >> +    - color : For multicolor LED support this property should be defined as
+> >> +              LED_COLOR_ID_MULTI and further definition can be found in
+> >> +              include/linux/leds/common.h.
+> >> +
+> >> +led-controller@30 {
+> >> +    #address-cells = <1>;
+> >> +    #size-cells = <0>;
+> >> +    compatible = "ti,lp5024";
+> >> +    reg = <0x29>;
+> >> +
+> >> +    multi-led@4 {
+> > Typically we sort by address order.
+>
+> These are not addresses these end up being the "module" number that the
+> LEDs below are associated to.
 
-My usage of acpi_load_table() is to load a SSDT which is the intended use 
-of this method according to its description. And my expectation is that 
-the package objects of the loaded table are initialized when this function 
-successfully returns so it aligns with the behavior of 
-acpi_ex_load_table_op() for built-in SSDTs. Otherwise there would be no 
-point in having this function at all, because 
-acpi_tb_install_and_load_table() could be called directly without any 
-difference.
+'reg' (and the unit-address) is an address in the sense that is how
+you identify a device or sub-device. It doesn't matter what type of
+'address' it is, DT practice is to sort node in unit-address numerical
+order.
 
-Niko
+'module' is a h/w thing, right? A bank or instance within the device?
+If not, using 'reg' here is not appropriate.
+
+Rob
