@@ -2,92 +2,180 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A8E74F0A8
-	for <lists+linux-leds@lfdr.de>; Sat, 22 Jun 2019 00:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E94BC4F497
+	for <lists+linux-leds@lfdr.de>; Sat, 22 Jun 2019 11:04:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbfFUWN2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 21 Jun 2019 18:13:28 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:48239 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726031AbfFUWN2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Jun 2019 18:13:28 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 2CCC2805DE; Sat, 22 Jun 2019 00:13:15 +0200 (CEST)
-Date:   Sat, 22 Jun 2019 00:13:25 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Daniel Thompson <daniel.thompson@linaro.org>
-Cc:     Brian Dodge <bdodge09@gmail.com>, lee.jones@linaro.org,
-        jingoohan1@gmail.com, jacek.anaszewski@gmail.com,
-        robh+dt@kernel.org, mark.rutland@arm.com,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, Peter Bacon <pbacon@psemi.com>
-Subject: Re: Re: [PATCH 2/3] backlight/arcxcnn fix vendor prefix
-Message-ID: <20190621221325.GA2343@amd>
-References: <1541592640-18478-1-git-send-email-bdodge09@gmail.com>
- <1541592640-18478-3-git-send-email-bdodge09@gmail.com>
- <20181111113053.GF27666@amd>
- <e372391c-1fd5-41ec-b766-7669fffb928d@gmail.com>
- <c4477220-7159-b5a8-16ea-4f4dbb645ced@linaro.org>
+        id S1726299AbfFVJEp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 22 Jun 2019 05:04:45 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43267 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726276AbfFVJEo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 22 Jun 2019 05:04:44 -0400
+Received: by mail-oi1-f196.google.com with SMTP id w79so6333877oif.10;
+        Sat, 22 Jun 2019 02:04:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=znnrmmd5ezgQQoLVi1c3W8tP7JtD4QP2MPjjSsJDXVU=;
+        b=J4puKHaedbCVC0VPDEv6DPwzuVD/6NLYgQURAXaVuj9/aPGV3lcvz2L/JpGMRehaOE
+         JzTqLFh4UVgXb2MSxJVFHy9+c8EsQdYqBrBfK3rbxgxIleboENJL+oL/ITOdXOhEtGzD
+         ZoLbSd5r7rJAzhqSDEmjcjBwwg5qPvC5yXSSxXdrEpz9QhjfqagRtUEqxudBFS54drle
+         vAic2Pv6HFtm/PDTOOhqVuqejUYs4fV3knL9SJpnVTCmKFO1ALGHX+F+96ua/+J8qm87
+         4C20oW/e6ZZMGz0ZfLtEZMoPQoTDi/3JDvcUrh9sMSAWoZIvmMt2KBKH61Ux4NXs9M4G
+         vcFQ==
+X-Gm-Message-State: APjAAAX/xEGXxiPNboakoJnifA3ebMXmN+YfdEMGNOE4FymakXBCLU0w
+        K5Xb7y5cmoOAzc7qpgmdMT/L1QnC7jQ/pJrZXxU=
+X-Google-Smtp-Source: APXvYqyrO8swJV7vX2S8SGUP+QsEI2mkcYtZ8Pxi8Q9z7YEX829B2FvfF+OUbjnxitwSAZE78Re+Rc1Pt8gdkXlN8ks=
+X-Received: by 2002:aca:4e89:: with SMTP id c131mr5281987oib.57.1561194283551;
+ Sat, 22 Jun 2019 02:04:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="VbJkn9YxBvnuCH5J"
-Content-Disposition: inline
-In-Reply-To: <c4477220-7159-b5a8-16ea-4f4dbb645ced@linaro.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <cover.1560327219.git.nikolaus.voss@loewensteinmedical.de>
+ <e2a4ddfd93a904b50b7ccc074e00e14dc4661963.1560327219.git.nikolaus.voss@loewensteinmedical.de>
+ <CAJZ5v0jqxWs=PPik-TCDqQiyxCSyRP7HTue1WsdWP9e-nik2eA@mail.gmail.com>
+ <alpine.DEB.2.20.1906141114490.6579@fox.voss.local> <94F2FBAB4432B54E8AACC7DFDE6C92E3B95EFB26@ORSMSX110.amr.corp.intel.com>
+ <alpine.DEB.2.20.1906170746150.12344@fox.voss.local> <94F2FBAB4432B54E8AACC7DFDE6C92E3B95F9EC6@ORSMSX110.amr.corp.intel.com>
+ <alpine.DEB.2.20.1906181030240.24846@fox.voss.local> <94F2FBAB4432B54E8AACC7DFDE6C92E3B95FB0BA@ORSMSX110.amr.corp.intel.com>
+ <alpine.DEB.2.20.1906191123400.34742@fox.voss.local> <94F2FBAB4432B54E8AACC7DFDE6C92E3B95FC28D@ORSMSX110.amr.corp.intel.com>
+ <alpine.DEB.2.20.1906200843320.9673@fox.voss.local>
+In-Reply-To: <alpine.DEB.2.20.1906200843320.9673@fox.voss.local>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Sat, 22 Jun 2019 11:04:32 +0200
+Message-ID: <CAJZ5v0gtG5mcBwMB7mZ2aooBnJmL7fmx=QpoeMTDpbbHrue6OA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] ACPI: Resolve objects on host-directed table loads
+To:     Nikolaus Voss <nv@vosn.de>,
+        "Moore, Robert" <robert.moore@intel.com>
+Cc:     Len Brown <lenb@kernel.org>,
+        "Schmauss, Erik" <erik.schmauss@intel.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
---VbJkn9YxBvnuCH5J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> [Sorry to those receiving this twice... had to dig this out from the
-> archives and sent it to the lists from the wrong mailer]
->=20
-> On 27/11/2018 00:44, Brian Dodge wrote:
-> >Thank you Pavel, that is a good point.
+On Thu, Jun 20, 2019 at 8:49 AM Nikolaus Voss <nv@vosn.de> wrote:
+>
+> On Wed, 19 Jun 2019, Moore, Robert wrote:
 > >
-> >The chip vendor has indicated that there is no reason to maintain the
-> >old/improper prefix and wishes to go forward (only) with the "arctic"
-> >prefix and any existing dts files are or will be updated.
->=20
-> Looks like this patch series has fallen into the cracks a little.
->=20
-> I think I assumed this info would end in the description of patch v2 1/3 =
-(in
-> order to answer Rob's feedback) and I sat and waited for a respin. On the
-> other hand... I didn't actually say that explicitly anywhere! So... I'd
-> recommend a respin perhaps with a small bit of text explaining how the
-> vendor can state that any existing dts files will be updated. This is a
-> peripheral device so these strings are probably embedded into OEM
-> devicetrees rather than exclusively under the control of the vendor.
+> >
+> >> -----Original Message-----
+> >> From: Nikolaus Voss [mailto:nv@vosn.de]
+> >> Sent: Wednesday, June 19, 2019 2:31 AM
+> >> To: Moore, Robert <robert.moore@intel.com>
+> >> Cc: Rafael J. Wysocki <rafael@kernel.org>; Rafael J. Wysocki
+> >> <rjw@rjwysocki.net>; Len Brown <lenb@kernel.org>; Schmauss, Erik
+> >> <erik.schmauss@intel.com>; Jacek Anaszewski
+> >> <jacek.anaszewski@gmail.com>; Pavel Machek <pavel@ucw.cz>; Dan Murphy
+> >> <dmurphy@ti.com>; Thierry Reding <thierry.reding@gmail.com>; ACPI Devel
+> >> Maling List <linux-acpi@vger.kernel.org>; open list:ACPI COMPONENT
+> >> ARCHITECTURE (ACPICA) <devel@acpica.org>; linux-leds@vger.kernel.org;
+> >> Linux PWM List <linux-pwm@vger.kernel.org>; Linux Kernel Mailing List
+> >> <linux-kernel@vger.kernel.org>; nikolaus.voss@loewensteinmedical.de
+> >> Subject: RE: [PATCH v2 1/3] ACPI: Resolve objects on host-directed table
+> >> loads
+> >>
+> >> Hi Bob,
+> >>
+> >> On Tue, 18 Jun 2019, Moore, Robert wrote:
+> >>>
+> >>>
+> >>>> -----Original Message-----
+> >>>> From: Moore, Robert
+> >>>> Sent: Tuesday, June 18, 2019 1:25 PM
+> >>>> To: 'Nikolaus Voss' <nv@vosn.de>
+> >>>> Cc: 'Rafael J. Wysocki' <rafael@kernel.org>; 'Rafael J. Wysocki'
+> >>>> <rjw@rjwysocki.net>; 'Len Brown' <lenb@kernel.org>; Schmauss, Erik
+> >>>> <erik.schmauss@intel.com>; 'Jacek Anaszewski'
+> >>>> <jacek.anaszewski@gmail.com>; 'Pavel Machek' <pavel@ucw.cz>; 'Dan
+> >>>> Murphy' <dmurphy@ti.com>; 'Thierry Reding'
+> >>>> <thierry.reding@gmail.com>; 'ACPI Devel Maling List'
+> >>>> <linux-acpi@vger.kernel.org>; 'open list:ACPI COMPONENT ARCHITECTURE
+> >>>> (ACPICA)' <devel@acpica.org>; 'linux- leds@vger.kernel.org' <linux-
+> >> leds@vger.kernel.org>; 'Linux PWM List'
+> >>>> <linux-pwm@vger.kernel.org>; 'Linux Kernel Mailing List' <linux-
+> >>>> kernel@vger.kernel.org>
+> >>>> Subject: RE: [PATCH v2 1/3] ACPI: Resolve objects on host-directed
+> >>>> table loads
+> >>>>
+> >>>> If it is in fact the AcpiLoadTable interface that is incorrect, that
+> >>>> of course is different. I'll check that out next.
+> >>>>
+> >>> [Moore, Robert]
+> >>>
+> >>> Yes, this is the issue, not specifically the Load() operator, but the
+> >>> AcpiLoadTable interface only.
+> >>
+> >> thanks for checking this out. So what is the conclusion? Is my fix of
+> >> AcpiLoadTable() sufficient or do we need a different solution?
+> >>
+> >> Niko
+> >>
+> >
+> >
+> > Your change is in the correct area. We want to do something like this, however:
+> >
+> > diff --git a/source/components/executer/exconfig.c b/source/components/executer/exconfig.c
+> > index 84a058ada..eba1a6d28 100644
+> > --- a/source/components/executer/exconfig.c
+> > +++ b/source/components/executer/exconfig.c
+> > @@ -342,10 +342,9 @@ AcpiExLoadTableOp (
+> >         return_ACPI_STATUS (Status);
+> >     }
+> >
+> > -    /* Complete the initialization/resolution of package objects */
+> > +    /* Complete the initialization/resolution of new objects */
+> >
+> > -    Status = AcpiNsWalkNamespace (ACPI_TYPE_PACKAGE, ACPI_ROOT_OBJECT,
+> > -        ACPI_UINT32_MAX, 0, AcpiNsInitOnePackage, NULL, NULL, NULL);
+> > +    AcpiNsInitializeObjects ();
+> >
+> >     /* Parameter Data (optional) */
+> >
+> > @@ -620,10 +619,11 @@ AcpiExLoadOp (
+> >         return_ACPI_STATUS (Status);
+> >     }
+> >
+> > -    /* Complete the initialization/resolution of package objects */
+> > +    /* Complete the initialization/resolution of new objects */
+> >
+> > -    Status = AcpiNsWalkNamespace (ACPI_TYPE_PACKAGE, ACPI_ROOT_OBJECT,
+> > -        ACPI_UINT32_MAX, 0, AcpiNsInitOnePackage, NULL, NULL, NULL);
+> > +    AcpiExExitInterpreter ();
+> > +    AcpiNsInitializeObjects ();
+> > +    AcpiExEnterInterpreter ();
+> >
+> >     /* Store the DdbHandle into the Target operand */
+> >
+> > diff --git a/source/components/tables/tbxfload.c b/source/components/tables/tbxfload.c
+> > index 217d54bf0..1e17db6c8 100644
+> > --- a/source/components/tables/tbxfload.c
+> > +++ b/source/components/tables/tbxfload.c
+> > @@ -479,6 +479,13 @@ AcpiLoadTable (
+> >     ACPI_INFO (("Host-directed Dynamic ACPI Table Load:"));
+> >     Status = AcpiTbInstallAndLoadTable (ACPI_PTR_TO_PHYSADDR (Table),
+> >         ACPI_TABLE_ORIGIN_EXTERNAL_VIRTUAL, FALSE, &TableIndex);
+> > +    if (ACPI_SUCCESS (Status))
+> > +    {
+> > +        /* Complete the initialization/resolution of new objects */
+> > +
+> > +        AcpiNsInitializeObjects ();
+> > +    }
+> > +
+> >     return_ACPI_STATUS (Status);
+> > }
+>
+> Ok, I see your are taking this up (I was a bit unsure after your previous
+> post). Thanks,
 
-So in next email you give good reason not to apply this :-).
+The $subject patch has been queued for 5.3.  If I should drop it,
+please let me know.
 
-Anyway, this is Doc*/devicetree/, so not my area.
-									Pavel
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---VbJkn9YxBvnuCH5J
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl0NVoUACgkQMOfwapXb+vKcPQCeMXZLMpPGhmvkuIH+olZhfCFk
-CVIAoLN12wP5S77RinlmdQ/jZIZqwCWD
-=7Nqr
------END PGP SIGNATURE-----
-
---VbJkn9YxBvnuCH5J--
+Thanks!
