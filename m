@@ -2,110 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DF335196A
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Jun 2019 19:20:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F062521A4
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Jun 2019 06:05:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731262AbfFXRUt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 24 Jun 2019 13:20:49 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:36198 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726533AbfFXRUt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Jun 2019 13:20:49 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5OHKgp4080283;
-        Mon, 24 Jun 2019 12:20:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1561396842;
-        bh=YNkUtWajZtiM9sopHCT/5Y0mKT4JD06PwkeqZVYX7vE=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=QiDX+xtTz/NfG1c9k7nwjSzLGfmo/HLfMbG50FhY0Pa4OjMqPKm7lSZPfBfe0PnqV
-         2Y+UJiGFDIgl+k3rVFf+KXzk40WMdlV7/W5bsTT/4Z6jSLlIxCMqSFEa8zizTXnGdY
-         qw030qDerqiN6ih2akJoWA9g9S03IxaQ/zKMDR2w=
-Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5OHKgvX033882
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 24 Jun 2019 12:20:42 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 24
- Jun 2019 12:20:41 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 24 Jun 2019 12:20:42 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5OHKfTT026570;
-        Mon, 24 Jun 2019 12:20:41 -0500
-Subject: Re: [PATCH v6 0/5] LM36274 Introduction
-To:     Lee Jones <lee.jones@linaro.org>
-CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20190605125634.7042-1-dmurphy@ti.com>
- <20190624144217.GJ4699@dell>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <3d2aa88c-c21c-b3a9-c8d9-fdb3a8fc3858@ti.com>
-Date:   Mon, 24 Jun 2019 12:20:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190624144217.GJ4699@dell>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        id S1728199AbfFYEFs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Jun 2019 00:05:48 -0400
+Received: from mail-qt1-f178.google.com ([209.85.160.178]:43336 "EHLO
+        mail-qt1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726631AbfFYEFs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Jun 2019 00:05:48 -0400
+Received: by mail-qt1-f178.google.com with SMTP id w17so16917164qto.10;
+        Mon, 24 Jun 2019 21:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=XoSvE7N+j3Mxg/IlWBM7LJa1qcyCkhIFO08QDOH/raI=;
+        b=aZEOJgBocvFcnzN3COTXh7aIr/gTmHFXM+R2u8j0mtd/ktaH/5E2KiFSboc7jqTj/h
+         alfDJZPhA0GjokbKjupf3AhMI80ijLB9I/Zhx0bARILpwCMqpyKCS//ecExyEOplmeqN
+         BLc5AI76ePPltb5EAnxkLXP/H/Q3WSMYjbk9b4T2gBWP8RkACXMR+HcqB/6hoGJCDzCj
+         7TAzVU55bsuWOPZHIbNpS+QDyUO+dwzGaUhPazvQXlXIJ9KDVfS1v4FR5qg4Kf56YjBu
+         1AZ4W4xNam/hll9H+fnBVeew6HRm0bNmAvsIyhfSMCCRV7M14jNE3ypaa6r3M6ApdAlZ
+         v5aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=XoSvE7N+j3Mxg/IlWBM7LJa1qcyCkhIFO08QDOH/raI=;
+        b=e240a3uJ7rZ7+fuHQrQwluGAdD6Z+Q7Vczm6WY+Z0GJILWZ1xY6O4wyaNXTxGB5Zy3
+         NIyXasWZAn3FGnGtVqQm7QeXWsUSAFPlLd2yc0UaI1ZeRlCpFGWIFmULoetmKVxzxaYg
+         Mqek7/o4P+j89BPvfwTr36gEkV0MOB7ntu840mNVmuXNlIWlY3leOXV41vMYK8e5JLBW
+         5X8LTBt9PZVze7ZPLs4hzxVrPyX97WzErAuLEgOeCdO+ETc1P0Z9fawG2ZzGdTM6e3QP
+         llsbYTDcgnZCku5pi+3WYGIwsyzw43Cj15QiZu+grcMs7CPuMxgSsxfewWF3RVWShL0L
+         KyDA==
+X-Gm-Message-State: APjAAAVJRimwAWw+CUGMRi3qWzROiMDDcoPTEUj806ZozBDyfMjv9AgN
+        BT9ONvLPn4G3IKE8k/kO6NA=
+X-Google-Smtp-Source: APXvYqzVgLl6NC4D8YY3vGIeOwlowXRytM35NnhS97fSyed0a2UigQzw125JadsbBPopKo7Dxfr+dg==
+X-Received: by 2002:ac8:29c9:: with SMTP id 9mr106932315qtt.196.1561435546877;
+        Mon, 24 Jun 2019 21:05:46 -0700 (PDT)
+Received: from bdodge-linux-ub.fios-router.home (pool-100-0-123-202.bstnma.fios.verizon.net. [100.0.123.202])
+        by smtp.gmail.com with ESMTPSA id e8sm6741029qkn.95.2019.06.24.21.05.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Mon, 24 Jun 2019 21:05:46 -0700 (PDT)
+From:   Brian Dodge <bdodge09@gmail.com>
+To:     pavel@ucw.cz
+Cc:     daniel.thompson@linaro.org, lee.jones@linaro.org,
+        jingoohan1@gmail.com, jacek.anaszewski@gmail.com,
+        robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        pbacon@psemi.com
+Subject: [PATCH 0/2] fix vendor prefix for arcxcnn driver and bindings
+Date:   Tue, 25 Jun 2019 00:05:27 -0400
+Message-Id: <1561435529-7835-1-git-send-email-bdodge09@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Lee
 
-On 6/24/19 9:42 AM, Lee Jones wrote:
-> On Wed, 05 Jun 2019, Dan Murphy wrote:
->
->> Hello
->>
->> The v5 patchset missed adding in the new validation code.
->> Patch 1 of the v5 series was squashed into patch 4 of the v5 series.
->> So this will reduce the patchset by 1.
->>
->> Sorry for the extra noise on the patchsets.  The change was lost when I converted
->> the patches from the mainline branch to the LED branch.
->>
->> This change was made on top of the branch
->>
->> repo: https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git
->> branch: ti-lmu-led-drivers
->>
->>
->> Dan Murphy (5):
->>    dt-bindings: mfd: Add lm36274 bindings to ti-lmu
->>    mfd: ti-lmu: Add LM36274 support to the ti-lmu
->>    regulator: lm363x: Add support for LM36274
->>    dt-bindings: leds: Add LED bindings for the LM36274
->>    leds: lm36274: Introduce the TI LM36274 LED driver
->>
->>   .../devicetree/bindings/leds/leds-lm36274.txt |  82 +++++++++
->>   .../devicetree/bindings/mfd/ti-lmu.txt        |  54 ++++++
->>   drivers/leds/Kconfig                          |   8 +
->>   drivers/leds/Makefile                         |   1 +
->>   drivers/leds/leds-lm36274.c                   | 174 ++++++++++++++++++
->>   drivers/mfd/Kconfig                           |   5 +-
->>   drivers/mfd/ti-lmu.c                          |  14 ++
->>   drivers/regulator/Kconfig                     |   2 +-
->>   drivers/regulator/lm363x-regulator.c          |  78 +++++++-
->>   include/linux/mfd/ti-lmu-register.h           |  23 +++
->>   include/linux/mfd/ti-lmu.h                    |   4 +
->>   11 files changed, 437 insertions(+), 8 deletions(-)
->>   create mode 100644 Documentation/devicetree/bindings/leds/leds-lm36274.txt
->>   create mode 100644 drivers/leds/leds-lm36274.c
-> Can you finish of satisfying everyone's comments and re-send with all
-> the Acks you've collected so far?  If you turn this around quickly,
-> you might still get into v5.3.
->
+These two patches supercede the prior similar three-patch set 
+submitted on 6 Mov 2018. Apologies for the confusion.
 
-The changes were made by Jacek and I reviewed and tested them
+This patch is to update the arcxcnn backlight driver to use the
+proper "arctic" vendor-prefix and document that in the device-
+tree bindings.
 
-https://lkml.org/lkml/2019/6/11/455
+There is at least one existing device using the old "arc"
+vendor-prefix (Samsung Chromebook Plus), so support for that
+remains in the driver source.
 
+Unlike the previous patch set which hasn't been applied, there
+there is no actual functionality change here.
