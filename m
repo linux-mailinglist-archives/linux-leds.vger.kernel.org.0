@@ -2,171 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A58CC567E1
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2019 13:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43F0356A48
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2019 15:22:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726157AbfFZLpq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 26 Jun 2019 07:45:46 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:42440 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725930AbfFZLpq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Jun 2019 07:45:46 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5QBjaMd112837;
-        Wed, 26 Jun 2019 06:45:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1561549536;
-        bh=I/ctjznRxQiSnecOM85p6pOQO7x6Ipp335rglx6ouZk=;
-        h=Subject:From:To:CC:References:Date:In-Reply-To;
-        b=qgKAcV4lw28iZNDurpHklbugvY3NO6YOrXSoOjL5wpAKSe6+PjzlMkWmEs7SU/UNm
-         PI8TsmMNiNb+2u9Lk9VhFDkN5jIot5lOxQa9hcylqfUKzOvnOEkf2D4W0HxxpTMQPs
-         8LvVNPZSlMbF4qpIuj3vsX+IGfQhYDzrQNypKjRo=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5QBja2C025430
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 26 Jun 2019 06:45:36 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 26
- Jun 2019 06:45:36 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 26 Jun 2019 06:45:36 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5QBjZMP020610;
-        Wed, 26 Jun 2019 06:45:36 -0500
-Subject: Re: [PATCH 2/2] backlight: arcxcnn: add "arctic" vendor prefix
-From:   Dan Murphy <dmurphy@ti.com>
-To:     Brian Dodge <bdodge09@gmail.com>, <pavel@ucw.cz>
-CC:     <daniel.thompson@linaro.org>, <lee.jones@linaro.org>,
-        <jingoohan1@gmail.com>, <jacek.anaszewski@gmail.com>,
-        <robh+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <pbacon@psemi.com>
+        id S1727492AbfFZNWS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 Jun 2019 09:22:18 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:33446 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726628AbfFZNWR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Jun 2019 09:22:17 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n9so2757619wru.0
+        for <linux-leds@vger.kernel.org>; Wed, 26 Jun 2019 06:22:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=cuxtZ9Aae3DH1NJCfDMKnoPl+FBHAa2h/EExjT0fQNc=;
+        b=KGHXnME8o1CNzuLsNPnksWtUosw23qQsHaBKXq7l1B7ki3v5PtB9qp1S2vlfHrc9jj
+         SXdwe77palkdFKReSxHp+34zIFIX60YKsS3Za8CENaN7Xc8mWa2p39JJw5gT043pKVSP
+         Re0bvBqiAnJGmlUNu5jzeFx82sJo5RKtEZh0hwm8U+Ov0mYzkWnFXQMgWVhlCEw9Vrph
+         tcxtM3p+ojk81iUVnyYM2+PzCn6Iw22csDFhJ9TdGFkAtuf025EW/xyVtFVMehffxiXZ
+         /8GW+qcbApofZG59odL2ArxowKdnQIHafbR+o99bCvHOXZQqoEUwcRcyTYsT6Mq4l28C
+         ZJVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=cuxtZ9Aae3DH1NJCfDMKnoPl+FBHAa2h/EExjT0fQNc=;
+        b=CCVt985aVBYFLTq1c9sKwqrnD38wB/Rvyy32eCuNTwqMNQR8CgGhyyKmbXxEHxaP61
+         N3BazwiRYIob6OwDQuEVwpdORndliNvxJqcV9EIwowGJQObRaWoiMEvOUTeGHicV+65W
+         bpPewIbLr5U4qkPz3o6a51lYRWoA5RUBMY5imy7Yd6Q4c4vVsPsArtsUB08cdTrFHOZw
+         TMqO9A+muZAKVEIlX0jUTofcatM4KVF3tqI/Oc5OEWfoMPBJchfs10RVp9IaqoDpd6E9
+         dhmL69NKzIUcfr54vbTbdeZ+oZ6L3SPxTLDZaJaxrdwe6GKhn52oSThcRRIE4w0VG4Wv
+         juIg==
+X-Gm-Message-State: APjAAAUg0P3hGZ5up2FnihnKxJp1UuyhCgcD+9qShdVrWGU1cDySqBH9
+        lj8UCfQ+whkr6iMzBclULaddnQ==
+X-Google-Smtp-Source: APXvYqzycz2lKwnCYPycV/KI1zIZm5ZA2Kw7FmtYekLbuzv56bWJYZ2WZIyiB7E3oEK8U8XQ2vtJlw==
+X-Received: by 2002:a5d:4c87:: with SMTP id z7mr2629049wrs.58.1561555335964;
+        Wed, 26 Jun 2019 06:22:15 -0700 (PDT)
+Received: from dell ([2.27.35.164])
+        by smtp.gmail.com with ESMTPSA id y133sm3197821wmg.5.2019.06.26.06.22.14
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 26 Jun 2019 06:22:15 -0700 (PDT)
+Date:   Wed, 26 Jun 2019 14:22:13 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+Cc:     Brian Dodge <bdodge09@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        jingoohan1@gmail.com, jacek.anaszewski@gmail.com,
+        robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        pbacon@psemi.com
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: fix vendor prefix for
+ ArcticSand arcxcnn driver bindings
+Message-ID: <20190626132213.GX21119@dell>
 References: <1561435529-7835-1-git-send-email-bdodge09@gmail.com>
- <1561435529-7835-3-git-send-email-bdodge09@gmail.com>
- <e3a6f4f5-8da9-f533-5cef-3ae2a87f52bc@ti.com>
-Message-ID: <215b39a5-8f4b-c96f-b5e7-292132d84813@ti.com>
-Date:   Wed, 26 Jun 2019 06:45:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ <1561435529-7835-2-git-send-email-bdodge09@gmail.com>
+ <20190625085534.xf2ullyju3ewbgik@holly.lan>
+ <CAFaGBPnH=75=wJRM4EX9MYR8MSehEa2_hBEOsqo-DZvD6c6f_A@mail.gmail.com>
+ <20190626105614.ujmryi7qou2ra7aq@holly.lan>
 MIME-Version: 1.0
-In-Reply-To: <e3a6f4f5-8da9-f533-5cef-3ae2a87f52bc@ti.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20190626105614.ujmryi7qou2ra7aq@holly.lan>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello
+On Wed, 26 Jun 2019, Daniel Thompson wrote:
 
-One other thing
+> On Tue, Jun 25, 2019 at 07:44:06AM -0400, Brian Dodge wrote:
+> > I would like to deprecate the old prefix in the future after communicating
+> > with all chip customers, which is why the old prefix is not documented in
+> > the new bindings.
+> 
+> Deprecation is fine (by me at least) it's just that I'm not sure that
+> removing the documentation for the deprecated bindings is the right way
+> to do it. What is the prior art here?
 
-On 6/26/19 6:42 AM, Dan Murphy wrote:
-> Hello
->
-> On 6/24/19 11:05 PM, Brian Dodge wrote:
->> The original patch adding this driver and DT bindings improperly
->> used "arc" as the vendor-prefix. This adds "arctic" which is the
->> proper prefix and retains "arc" to allow existing users of the
->> "arc" prefix to update to new kernels. There is at least one
->> (Samsung Chromebook Plus)
->>
->> Signed-off-by: Brian Dodge <bdodge09@gmail.com>
->> ---
->>   drivers/video/backlight/arcxcnn_bl.c | 35 
->> +++++++++++++++++++++++++----------
->>   1 file changed, 25 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/video/backlight/arcxcnn_bl.c 
->> b/drivers/video/backlight/arcxcnn_bl.c
->> index 7b1c0a0..14c67f2 100644
->> --- a/drivers/video/backlight/arcxcnn_bl.c
->> +++ b/drivers/video/backlight/arcxcnn_bl.c
->> @@ -1,9 +1,9 @@
->>   // SPDX-License-Identifier: GPL-2.0-only
->>   /*
->> - * Backlight driver for ArcticSand ARC_X_C_0N_0N Devices
->> + * Backlight driver for pSemi (formerly ArcticSand) ARC_X_C_0N_0N 
->> Devices
->>    *
->> - * Copyright 2016 ArcticSand, Inc.
->> - * Author : Brian Dodge <bdodge@arcticsand.com>
->> + * Copyright 2016-2019  pSemi, Inc.
->> + * Author : Brian Dodge <bdodge@psemi.com>
->>    */
->>     #include <linux/backlight.h>
->> @@ -191,27 +191,40 @@ static void arcxcnn_parse_dt(struct arcxcnn *lp)
->>       if (ret == 0)
->>           lp->pdata->initial_brightness = prog_val;
->>   -    ret = of_property_read_u32(node, "arc,led-config-0", &prog_val);
->> +    ret = of_property_read_u32(node, "arctic,led-config-0", &prog_val);
->> +    if (ret)
->> +        ret = of_property_read_u32(node, "arc,led-config-0", 
->> &prog_val);
-> Can you add new lines between these and all below
-
-Maybe add a dev_info here to indicate that this is being deprecated.
-
-It will make the Chrome book console noisy but at least it won't go silent.
-
-Dan
-
-
->>       if (ret == 0)
->>           lp->pdata->led_config_0 = (u8)prog_val;
->>   -    ret = of_property_read_u32(node, "arc,led-config-1", &prog_val);
->> +    ret = of_property_read_u32(node, "arctic,led-config-1", &prog_val);
->> +    if (ret)
->> +        ret = of_property_read_u32(node, "arc,led-config-1", 
->> &prog_val);
->>       if (ret == 0)
->>           lp->pdata->led_config_1 = (u8)prog_val;
->>   -    ret = of_property_read_u32(node, "arc,dim-freq", &prog_val);
->> +    ret = of_property_read_u32(node, "arctic,dim-freq", &prog_val);
->> +    if (ret)
->> +        ret = of_property_read_u32(node, "arc,dim-freq", &prog_val);
->>       if (ret == 0)
->>           lp->pdata->dim_freq = (u8)prog_val;
->>   -    ret = of_property_read_u32(node, "arc,comp-config", &prog_val);
->> +    ret = of_property_read_u32(node, "arctic,comp-config", &prog_val);
->> +    if (ret)
->> +        ret = of_property_read_u32(node, "arc,comp-config", &prog_val);
->>       if (ret == 0)
->>           lp->pdata->comp_config = (u8)prog_val;
->>   -    ret = of_property_read_u32(node, "arc,filter-config", &prog_val);
->> +    ret = of_property_read_u32(node, "arctic,filter-config", 
->> &prog_val);
->> +    if (ret)
->> +        ret = of_property_read_u32(node,
->> +                "arc,filter-config", &prog_val);
->>       if (ret == 0)
->>           lp->pdata->filter_config = (u8)prog_val;
->>   -    ret = of_property_read_u32(node, "arc,trim-config", &prog_val);
->> +    ret = of_property_read_u32(node, "arctic,trim-config", &prog_val);
->> +    if (ret)
->> +        ret = of_property_read_u32(node, "arc,trim-config", &prog_val);
->>       if (ret == 0)
->>           lp->pdata->trim_config = (u8)prog_val;
->>   @@ -381,6 +394,8 @@ static int arcxcnn_remove(struct i2c_client *cl)
->>   }
->>     static const struct of_device_id arcxcnn_dt_ids[] = {
->> +    { .compatible = "arctic,arc2c0608" },
->> +    /* here to remaim compatible with an older binding, do not use */
->
-> s/remaim/remain
->
->
->>       { .compatible = "arc,arc2c0608" },
->>       { }
->>   };
->> @@ -404,5 +419,5 @@ static struct i2c_driver arcxcnn_driver = {
->>   module_i2c_driver(arcxcnn_driver);
->>     MODULE_LICENSE("GPL v2");
->> -MODULE_AUTHOR("Brian Dodge <bdodge@arcticsand.com>");
->> +MODULE_AUTHOR("Brian Dodge <bdodge@psemi.com>");
->>   MODULE_DESCRIPTION("ARCXCNN Backlight driver");
+I'd let Rob et al. make the final decision.
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
