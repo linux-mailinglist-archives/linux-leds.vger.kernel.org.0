@@ -2,56 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F728567DB
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2019 13:43:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64FAA567DF
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Jun 2019 13:44:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726708AbfFZLnM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 26 Jun 2019 07:43:12 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:42166 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726462AbfFZLnM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Jun 2019 07:43:12 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5QBh1Dt058683;
-        Wed, 26 Jun 2019 06:43:01 -0500
+        id S1726157AbfFZLog (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 Jun 2019 07:44:36 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:47734 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725930AbfFZLog (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Jun 2019 07:44:36 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5QBiSZ6051879;
+        Wed, 26 Jun 2019 06:44:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1561549381;
-        bh=WwHQvZVuBJ4XkmGdaiEi/q1HLv0u2YRrE022uHmQfco=;
+        s=ti-com-17Q1; t=1561549469;
+        bh=mKtXv03ZcxrF8K2N0kwvFVNwU8jLpeFN2jb6+ZaJNTQ=;
         h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=vJiJSx52YheNxh4+vzGtHWRxLhdiTdGWocbHw532ycmCrV6zNoXKf1Yf+g+J4pcPh
-         1By/DdttkARmrxJM4ndjIf4x8bkugjXs8+wAKtovVhW3dWiW5ddvCQYPqZLm17bHE2
-         dYYnnsn24/w7//JL/RKCWSCrUNJJtSmwVEpk+E3E=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5QBh1fe101052
+        b=yaH2jeymL9cb8gnfj+a3JYqPlL2Xsx3ExKigv3J4BYGEQvtFxycDlgBQub+25SD97
+         l9BoznDqDM3l+Z13q71VQM3dgOJwsDx+IVP56G3fQlYOygUUieFEhvyeW57ksbcf5D
+         E4DDsX7Y5XnxoGE0n31XXe3zfTXGP60CLJV9OneY=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5QBiSMm023834
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 26 Jun 2019 06:43:01 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 26
- Jun 2019 06:43:01 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
+        Wed, 26 Jun 2019 06:44:28 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE105.ent.ti.com
  (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 26
+ Jun 2019 06:44:28 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 26 Jun 2019 06:43:01 -0500
+ Frontend Transport; Wed, 26 Jun 2019 06:44:28 -0500
 Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5QBh0dl016779;
-        Wed, 26 Jun 2019 06:43:00 -0500
-Subject: Re: [PATCH 2/2] backlight: arcxcnn: add "arctic" vendor prefix
-To:     Brian Dodge <bdodge09@gmail.com>, <pavel@ucw.cz>
-CC:     <daniel.thompson@linaro.org>, <lee.jones@linaro.org>,
-        <jingoohan1@gmail.com>, <jacek.anaszewski@gmail.com>,
-        <robh+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <pbacon@psemi.com>
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5QBiRIs042717;
+        Wed, 26 Jun 2019 06:44:28 -0500
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: fix vendor prefix for
+ ArcticSand arcxcnn driver bindings
+To:     Daniel Thompson <daniel.thompson@linaro.org>,
+        Brian Dodge <bdodge09@gmail.com>
+CC:     <pavel@ucw.cz>, <lee.jones@linaro.org>, <jingoohan1@gmail.com>,
+        <jacek.anaszewski@gmail.com>, <robh+dt@kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <pbacon@psemi.com>
 References: <1561435529-7835-1-git-send-email-bdodge09@gmail.com>
- <1561435529-7835-3-git-send-email-bdodge09@gmail.com>
+ <1561435529-7835-2-git-send-email-bdodge09@gmail.com>
+ <20190625085534.xf2ullyju3ewbgik@holly.lan>
 From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <e3a6f4f5-8da9-f533-5cef-3ae2a87f52bc@ti.com>
-Date:   Wed, 26 Jun 2019 06:42:43 -0500
+Message-ID: <905cf517-0fae-cc52-d0ef-5b1dbe1c5864@ti.com>
+Date:   Wed, 26 Jun 2019 06:44:10 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <1561435529-7835-3-git-send-email-bdodge09@gmail.com>
+In-Reply-To: <20190625085534.xf2ullyju3ewbgik@holly.lan>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -63,100 +65,94 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hello
 
-On 6/24/19 11:05 PM, Brian Dodge wrote:
-> The original patch adding this driver and DT bindings improperly
-> used "arc" as the vendor-prefix. This adds "arctic" which is the
-> proper prefix and retains "arc" to allow existing users of the
-> "arc" prefix to update to new kernels. There is at least one
-> (Samsung Chromebook Plus)
+On 6/25/19 3:55 AM, Daniel Thompson wrote:
+> On Tue, Jun 25, 2019 at 12:05:28AM -0400, Brian Dodge wrote:
+>>      The vendor-prefixes.txt file properly refers to ArcticSand
+>>      as arctic but the driver bindings improperly abbreviated the
+>>      prefix to arc. This was a mistake in the original patch
+>>
+>> Signed-off-by: Brian Dodge <bdodge09@gmail.com>
+>> ---
+>>   .../bindings/leds/backlight/arcxcnn_bl.txt         | 24 +++++++++++++---------
+>>   1 file changed, 14 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+>> index 230abde..9cf4c44 100644
+>> --- a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+>> +++ b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+>> @@ -1,8 +1,12 @@
+>> -Binding for ArcticSand arc2c0608 LED driver
+>> +Binding for ArcticSand arc family LED drivers
+>>   
+>>   Required properties:
+>> -- compatible:		should be "arc,arc2c0608"
+>> -- reg:			slave address
+>> +- compatible: one of
+>> +	"arctic,arc1c0608"
+>> +	"arctic,arc2c0608"
+>> +	"arctic,arc3c0845"
+> This is more a question for the DT folks than for Brian but...
 >
-> Signed-off-by: Brian Dodge <bdodge09@gmail.com>
-> ---
->   drivers/video/backlight/arcxcnn_bl.c | 35 +++++++++++++++++++++++++----------
->   1 file changed, 25 insertions(+), 10 deletions(-)
+> AFAICT this patch is fixing the binding for the ArcticSand devices to
+> use the correct value from vendor-prefixes.yaml and has been previously
+> discussed here:
+> https://lkml.org/lkml/2018/9/25/726
 >
-> diff --git a/drivers/video/backlight/arcxcnn_bl.c b/drivers/video/backlight/arcxcnn_bl.c
-> index 7b1c0a0..14c67f2 100644
-> --- a/drivers/video/backlight/arcxcnn_bl.c
-> +++ b/drivers/video/backlight/arcxcnn_bl.c
-> @@ -1,9 +1,9 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Backlight driver for ArcticSand ARC_X_C_0N_0N Devices
-> + * Backlight driver for pSemi (formerly ArcticSand) ARC_X_C_0N_0N Devices
->    *
-> - * Copyright 2016 ArcticSand, Inc.
-> - * Author : Brian Dodge <bdodge@arcticsand.com>
-> + * Copyright 2016-2019  pSemi, Inc.
-> + * Author : Brian Dodge <bdodge@psemi.com>
->    */
->   
->   #include <linux/backlight.h>
-> @@ -191,27 +191,40 @@ static void arcxcnn_parse_dt(struct arcxcnn *lp)
->   	if (ret == 0)
->   		lp->pdata->initial_brightness = prog_val;
->   
-> -	ret = of_property_read_u32(node, "arc,led-config-0", &prog_val);
-> +	ret = of_property_read_u32(node, "arctic,led-config-0", &prog_val);
-> +	if (ret)
-> +		ret = of_property_read_u32(node, "arc,led-config-0", &prog_val);
-Can you add new lines between these and all below
->   	if (ret == 0)
->   		lp->pdata->led_config_0 = (u8)prog_val;
->   
-> -	ret = of_property_read_u32(node, "arc,led-config-1", &prog_val);
-> +	ret = of_property_read_u32(node, "arctic,led-config-1", &prog_val);
-> +	if (ret)
-> +		ret = of_property_read_u32(node, "arc,led-config-1", &prog_val);
->   	if (ret == 0)
->   		lp->pdata->led_config_1 = (u8)prog_val;
->   
-> -	ret = of_property_read_u32(node, "arc,dim-freq", &prog_val);
-> +	ret = of_property_read_u32(node, "arctic,dim-freq", &prog_val);
-> +	if (ret)
-> +		ret = of_property_read_u32(node, "arc,dim-freq", &prog_val);
->   	if (ret == 0)
->   		lp->pdata->dim_freq = (u8)prog_val;
->   
-> -	ret = of_property_read_u32(node, "arc,comp-config", &prog_val);
-> +	ret = of_property_read_u32(node, "arctic,comp-config", &prog_val);
-> +	if (ret)
-> +		ret = of_property_read_u32(node, "arc,comp-config", &prog_val);
->   	if (ret == 0)
->   		lp->pdata->comp_config = (u8)prog_val;
->   
-> -	ret = of_property_read_u32(node, "arc,filter-config", &prog_val);
-> +	ret = of_property_read_u32(node, "arctic,filter-config", &prog_val);
-> +	if (ret)
-> +		ret = of_property_read_u32(node,
-> +				"arc,filter-config", &prog_val);
->   	if (ret == 0)
->   		lp->pdata->filter_config = (u8)prog_val;
->   
-> -	ret = of_property_read_u32(node, "arc,trim-config", &prog_val);
-> +	ret = of_property_read_u32(node, "arctic,trim-config", &prog_val);
-> +	if (ret)
-> +		ret = of_property_read_u32(node, "arc,trim-config", &prog_val);
->   	if (ret == 0)
->   		lp->pdata->trim_config = (u8)prog_val;
->   
-> @@ -381,6 +394,8 @@ static int arcxcnn_remove(struct i2c_client *cl)
->   }
->   
->   static const struct of_device_id arcxcnn_dt_ids[] = {
-> +	{ .compatible = "arctic,arc2c0608" },
-> +	/* here to remaim compatible with an older binding, do not use */
+> Currently this patch series just updates the DT bindings but the
+> implementation also honours the old values (since there is a Chromebook
+> in the wild that uses the current bindings).
+>
+> Hence I'm not clear whether the bindings should document the deprecated
+> options too (e.g. make it easier to find the bindings doc with git grep
+> and friends).
+>
+>
+> Daniel.
+>
+>
+>> +
+>> +- reg:		slave address
+>>   
+>>   Optional properties:
+>>   - default-brightness:	brightness value on boot, value from: 0-4095
+>> @@ -11,19 +15,19 @@ Optional properties:
+>>   - led-sources:		List of enabled channels from 0 to 5.
+>>   			See Documentation/devicetree/bindings/leds/common.txt
+>>   
+>> -- arc,led-config-0:	setting for register ILED_CONFIG_0
+>> -- arc,led-config-1:	setting for register ILED_CONFIG_1
+>> -- arc,dim-freq:		PWM mode frequence setting (bits [3:0] used)
+>> -- arc,comp-config:	setting for register CONFIG_COMP
+>> -- arc,filter-config:	setting for register FILTER_CONFIG
+>> -- arc,trim-config:	setting for register IMAXTUNE
 
-s/remaim/remain
+IMO I would prefer to keep these and mark them as deprecated since the 
+driver will still
+
+honor these properties.
+
+Maybe in a Optional Deprecated Properties section in the DT binding.
+
+Dan
 
 
->   	{ .compatible = "arc,arc2c0608" },
->   	{ }
->   };
-> @@ -404,5 +419,5 @@ static struct i2c_driver arcxcnn_driver = {
->   module_i2c_driver(arcxcnn_driver);
->   
->   MODULE_LICENSE("GPL v2");
-> -MODULE_AUTHOR("Brian Dodge <bdodge@arcticsand.com>");
-> +MODULE_AUTHOR("Brian Dodge <bdodge@psemi.com>");
->   MODULE_DESCRIPTION("ARCXCNN Backlight driver");
+>> +- arctic,led-config-0:	setting for register ILED_CONFIG_0
+>> +- arctic,led-config-1:	setting for register ILED_CONFIG_1
+>> +- arctic,dim-freq:		PWM mode frequence setting (bits [3:0] used)
+>> +- arctic,comp-config:	setting for register CONFIG_COMP
+>> +- arctic,filter-config:	setting for register FILTER_CONFIG
+>> +- arctic,trim-config:	setting for register IMAXTUNE
+>>   
+>>   Note: Optional properties not specified will default to values in IC EPROM
+>>   
+>>   Example:
+>>   
+>>   arc2c0608@30 {
+>> -	compatible = "arc,arc2c0608";
+>> +	compatible = "arctic,arc2c0608";
+>>   	reg = <0x30>;
+>>   	default-brightness = <500>;
+>>   	label = "lcd-backlight";
+>> -- 
+>> 2.7.4
+>>
