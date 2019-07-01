@@ -2,87 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 582EF5A517
-	for <lists+linux-leds@lfdr.de>; Fri, 28 Jun 2019 21:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBD435B272
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Jul 2019 02:28:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbfF1TWl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Jun 2019 15:22:41 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:38334 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726497AbfF1TWl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Jun 2019 15:22:41 -0400
-Received: by mail-io1-f68.google.com with SMTP id j6so14835735ioa.5;
-        Fri, 28 Jun 2019 12:22:40 -0700 (PDT)
+        id S1726647AbfGAA2b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 30 Jun 2019 20:28:31 -0400
+Received: from mail-qk1-f171.google.com ([209.85.222.171]:46491 "EHLO
+        mail-qk1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726086AbfGAA2a (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 30 Jun 2019 20:28:30 -0400
+Received: by mail-qk1-f171.google.com with SMTP id x18so9666617qkn.13;
+        Sun, 30 Jun 2019 17:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=7qYFyTa++dPYcTB/wPOOwVksoths7n3J/hGDQEqBk9Y=;
+        b=bPXYpNuRbzysSa/8pQCMk6dwAcL9Rtn+30GYHuF+swMnoy5/1OZjhO3+YEJF4yiLiJ
+         dRO6CwvPWIcEUAISJnt5OmmrTt1sR+mHIVck4aKRa0Jmc7yXUX6hwNbOBjSrn60yCSE+
+         fp+sf/xnjLOSE+KTH4ZZLmZyfC5hAIYP/VNyOJGu1KcB6OZMUkCCbwkixfQuyrOBojm2
+         Bn1rSadoFV/D3ufymRmWCdA0dYC7d/y/u4Dl6OlMzx+GXFuajZ8CteB04fXipQlYHkGt
+         qqvkgxAn4Nc76faUjYWMvInhnnYEiPh5cxRQkJsg9PuP2+63mUjtkNAjhJHYCkMRkQVm
+         IGGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=SV3UaGLoeKUQCI7wGZiOfbddOtsjqVsakZX22AHysxE=;
-        b=AfS92IuksD4AqsR+XNQaGaqAbBSKk/Ot7d+SNdIKKF5RIa0dQWPBfoZHWqwcqehPvo
-         GGqJpQd8X91Vdj0GpfEJiSHcwGfSfgAkmVaHj/WpLG5GshlmejcX17GaOh9LJy7SByPN
-         K+E+pFsmgs1JQjNqWNtqYcAEPLH2itf3TudSmUGIbZYjd+ofPKIcOSyVyyuUpSENnRmJ
-         2ZitEvjq+cWl9m6jhTdRegKea7LxSkzBLT1xjxh/Ks+NPm22AjAfJDrqQ8rO2AnuFmYe
-         xJxh5hrq/jqsNpZc9e2Qokqd8eBm/ADG7rGD5yGG4GswsInyrwh1WEGonQfzBIm/3v0U
-         RLjg==
-X-Gm-Message-State: APjAAAV4rJo22fDnSMMH1hZxqV8WRTxmq+piH0wNOcFUrPX+0QTb+stF
-        aboOIT/R1724axJRNEwv2Q==
-X-Google-Smtp-Source: APXvYqzFAiaMqX9Kc+pU35sAZ092vTl08ulqOCvMY9sGS0us9aZUSx2qrN6swZfkkImylaZ6IpC8fg==
-X-Received: by 2002:a5d:9bc6:: with SMTP id d6mr1291115ion.160.1561749759989;
-        Fri, 28 Jun 2019 12:22:39 -0700 (PDT)
-Received: from localhost ([64.188.179.243])
-        by smtp.gmail.com with ESMTPSA id c23sm2720600iod.11.2019.06.28.12.22.38
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 28 Jun 2019 12:22:39 -0700 (PDT)
-Date:   Fri, 28 Jun 2019 13:22:38 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Brian Masney <masneyb@onstation.org>
-Cc:     robh+dt@kernel.org, lee.jones@linaro.org,
-        daniel.thompson@linaro.org, jingoohan1@gmail.com,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, mark.rutland@arm.com,
-        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=7qYFyTa++dPYcTB/wPOOwVksoths7n3J/hGDQEqBk9Y=;
+        b=j83y9GZuLJxkDKGfGVNivNQXdbVlushGEIn/0f8D58DKn29mgeCtE0AwaaPdynXZE7
+         1xz+Yv9yMKN3hbQpvLkixQqmhUMmN7Bd0twnf+9quP8ASf+k89nCs5jil7hKbaED3qmV
+         H1oTAInJ5G1PuM1h+6UmgIGLNtOZgNxxL/N7FnbI6cfMMx/d9INCvDD3xsaxGN6L8mXN
+         W7d1XhK4B5Roh5peIWCpGEC+TLo8LReP9It+5Xf+v9G2WdlpB60ASeEIUy5NoSISCCgp
+         IIGsmrHmJZ+Qzg8/z+Y2BI4qDRWjH4WzmbjpgiRlogSHhSGkxz33C0aphy2NraDZ4kY7
+         aXAg==
+X-Gm-Message-State: APjAAAVIBxkfSFH0swbUpC2iZELXdoD0cTcGQyRaJMtLAflmKgUXEV0P
+        zNMnZNI3EeuzD+SJJIShtXc=
+X-Google-Smtp-Source: APXvYqzYYg9GzCKY0A+FyNahVdDjis8vR4irKL7u8oE3utcfTC+p0obqxkqpQ/Hs/TZEqdYpGLNMew==
+X-Received: by 2002:a05:620a:124c:: with SMTP id a12mr17969302qkl.336.1561940909759;
+        Sun, 30 Jun 2019 17:28:29 -0700 (PDT)
+Received: from bdodge-linux-ub.fios-router.home (pool-100-0-123-202.bstnma.fios.verizon.net. [100.0.123.202])
+        by smtp.gmail.com with ESMTPSA id 70sm3971404qkj.118.2019.06.30.17.28.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sun, 30 Jun 2019 17:28:28 -0700 (PDT)
+From:   Brian Dodge <bdodge09@gmail.com>
+To:     pavel@ucw.cz
+Cc:     daniel.thompson@linaro.org, lee.jones@linaro.org,
+        jingoohan1@gmail.com, jacek.anaszewski@gmail.com,
+        robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dmurphy@ti.com, jonathan@marek.ca
-Subject: Re: [PATCH] dt-bindings: backlight: lm3630a: correct schema
- validation
-Message-ID: <20190628192238.GA8617@bogus>
-References: <20190520085846.22320-1-masneyb@onstation.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190520085846.22320-1-masneyb@onstation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        pbacon@psemi.com
+Subject: [PATCH v2 0/2] fix vendor prefix for arcxcnn driver and bindings
+Date:   Sun, 30 Jun 2019 20:28:13 -0400
+Message-Id: <1561940895-15837-1-git-send-email-bdodge09@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 20 May 2019 04:58:46 -0400, Brian Masney wrote:
-> The '#address-cells' and '#size-cells' properties were not defined in
-> the lm3630a bindings and would cause the following error when
-> attempting to validate the examples against the schema:
-> 
-> Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
-> '#address-cells', '#size-cells' do not match any of the regexes:
-> '^led@[01]$', 'pinctrl-[0-9]+'
-> 
-> Correct this by adding those two properties.
-> 
-> While we're here, move the ti,linear-mapping-mode property to the
-> led@[01] child nodes to correct the following validation error:
-> 
-> Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
-> led@0: 'ti,linear-mapping-mode' does not match any of the regexes:
-> 'pinctrl-[0-9]+'
-> 
-> Fixes: 32fcb75c66a0 ("dt-bindings: backlight: Add lm3630a bindings")
-> Signed-off-by: Brian Masney <masneyb@onstation.org>
-> Reported-by: Rob Herring <robh+dt@kernel.org>
-> ---
->  .../leds/backlight/lm3630a-backlight.yaml     | 20 +++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
-> 
+These v2 patches incorporate the following changes
 
-Applied, thanks.
+1/2 dt-bindings: backlight:
 
-Rob
+The documentation for "arc" has been re-added but marked (deprecated)
+to match the actual driver support for that
+
+2/2 backlight: arcxcnn:
+
+Added new-lines and fixed spelling as per feedback
+
+Original patch description:
+
+This patch is to update the arcxcnn backlight driver to use the
+proper "arctic" vendor-prefix and document that in the device-
+tree bindings.
+
+There is at least one existing device using the old "arc"
+vendor-prefix (Samsung Chromebook Plus), so support for that
+remains in the driver source.
+
