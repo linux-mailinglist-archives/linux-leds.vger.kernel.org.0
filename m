@@ -2,188 +2,408 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 20EE95D045
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Jul 2019 15:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AFEF5D28C
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Jul 2019 17:17:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726623AbfGBNLx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 2 Jul 2019 09:11:53 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33423 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726930AbfGBNLx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 2 Jul 2019 09:11:53 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n9so17817629wru.0
-        for <linux-leds@vger.kernel.org>; Tue, 02 Jul 2019 06:11:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dtiFMwb61GFph+NiLLfdMwRbAYlFiiULbxV5uhpqzbs=;
-        b=V++CEmF+i6wDMdxwKT7ZGWJ2ct/9at3E204w9IE7cbFQWvcCNQDR5KcsoLxloh2VfD
-         OOZPoB15QjLkAQbitnLCpRSYMCMzSNs3PWcmh0VIV5ty8dbo3ii8pxCnrV/W4/cAbfT0
-         5rYF5WJ1dd+EkPRCDWtfxN9gt5240opSaVY6DC1sQYflxwnNOtTwzgkqXVrPGck5ILHL
-         901nlWn8vCond4cgJdNfrZwlgBX0o5z0bip8f12VfwaBw1vBIotnBxn1Qzg1QCmjRtBD
-         HqOVZTHD7ztuO2Mbc2oJ3aQ4AR9KnOcNOTVgajbPs7qAONZ88vxFMqSInkMoi5415upq
-         cFIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dtiFMwb61GFph+NiLLfdMwRbAYlFiiULbxV5uhpqzbs=;
-        b=bt35A101cAPTZIu9Ws68bqPMQj3n/ZKBYnmiOYfKHzjRBHOEZrs+S/BQ1xNkcdhUVx
-         +ltuWZImR7t/10zJXc/WxNYjtOvRIevQmLflPB+4l2mIFJU5E5cRdNl4Hs/ALlApN7l/
-         TE44ClSstpc78ZLM+0KifdodgTXGhU+qixN8njka5DIgPikxSHs74RqgY8H/4nA7XtgB
-         7T4NixF2UWJgKkQmpV2g8sRm75dV2EBwjjf/W7Z6bWAHFReuMahrwAAEKVErHuriTPqM
-         5grK1S+xjWPdbtxQFPg/zCoo00G4H79CIo25nVo53CkNDazvTiLOrpzogvYPdkwlPrBu
-         qe4Q==
-X-Gm-Message-State: APjAAAU1XmAT7vzn72FW+FjPCHqUhuy68K9c3VpfamJGMKP6KfNJCUjO
-        fC51zyXh5L+pWNBLv/VF6x6kiQ==
-X-Google-Smtp-Source: APXvYqyCF5BhdWZHRjhmUYkqcu7PDvQ+1PKBZeupILVCkfHkRnPZLwpcjzx3Hpun3/h9ML/RRkFBRQ==
-X-Received: by 2002:a5d:4d84:: with SMTP id b4mr20369411wru.242.1562073110866;
-        Tue, 02 Jul 2019 06:11:50 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
-        by smtp.gmail.com with ESMTPSA id h8sm2526250wmf.12.2019.07.02.06.11.49
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 02 Jul 2019 06:11:50 -0700 (PDT)
-Date:   Tue, 2 Jul 2019 14:11:48 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Brian Dodge <bdodge09@gmail.com>
-Cc:     pavel@ucw.cz, lee.jones@linaro.org, jingoohan1@gmail.com,
-        jacek.anaszewski@gmail.com, robh+dt@kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, pbacon@psemi.com
-Subject: Re: [PATCH 1/2] dt-bindings: backlight: fix vendor prefix for
- ArcticSand arcxcnn driver bindings
-Message-ID: <20190702131148.unb3pfthxvacfwn3@holly.lan>
-References: <1561940895-15837-1-git-send-email-bdodge09@gmail.com>
- <1561940895-15837-2-git-send-email-bdodge09@gmail.com>
- <20190702092617.c4wn3dmg5orrquyj@holly.lan>
- <9ffed46f-c878-e415-cad0-cbe64efb9885@gmail.com>
+        id S1725858AbfGBPRf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 2 Jul 2019 11:17:35 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:43826 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725996AbfGBPRf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 2 Jul 2019 11:17:35 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x62FHPaf098046;
+        Tue, 2 Jul 2019 10:17:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1562080645;
+        bh=gbwaCwQ6fKN5XjRRfFOG0wr4S/ub75myonMsutcPDTM=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=M1moEhmEKouKlWaark8V5FQfal96qP/W7IcJmFE2p59eCpDlRYwcu/9EKoGMKBVaN
+         aBq5Ds7g3DJmweK7ZGVGT0oERT8/Re+/g+M0+3TCVWD6M+Mu8pNpFWIW3j77qZH/DZ
+         Vjybw+k6LcQU1X9HDCpVIipqPSgdriBftB6EXnhM=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x62FHPJs039339
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 2 Jul 2019 10:17:25 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 2 Jul
+ 2019 10:17:24 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 2 Jul 2019 10:17:24 -0500
+Received: from [10.250.97.31] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x62FHM9t069759;
+        Tue, 2 Jul 2019 10:17:22 -0500
+Subject: Re: [PATCH 3/4] backlight: add led-backlight driver
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <lee.jones@linaro.org>,
+        <jingoohan1@gmail.com>, <dmurphy@ti.com>,
+        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <tomi.valkeinen@ti.com>
+References: <20190701151423.30768-1-jjhiblot@ti.com>
+ <20190701151423.30768-4-jjhiblot@ti.com>
+ <20190702095434.d426lichmaffz7a5@holly.lan>
+ <531e237c-b570-5270-6fc3-6629a8bf7acd@ti.com>
+ <20190702130434.frbx7jkec27ejbpo@holly.lan>
+From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
+Message-ID: <72c45311-c710-dc2d-a6de-68e44ea8436a@ti.com>
+Date:   Tue, 2 Jul 2019 17:17:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ffed46f-c878-e415-cad0-cbe64efb9885@gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190702130434.frbx7jkec27ejbpo@holly.lan>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Jul 02, 2019 at 07:21:29AM -0400, Brian Dodge wrote:
-> 
-> On 7/2/19 5:26 AM, Daniel Thompson wrote:
-> > > [PATCH 1/2] dt-bindings: backlight: fix vendor prefix for
-> > > ArcticSand arcxcnn driver bindings
-> > The "v2" is normally applied to the whole patchset (if you
-> > prepare the patchset using git format-patch then you can use
-> > the --subject-prefix argument for that).
-> Sorry and noted
-> > 
-> > On Sun, Jun 30, 2019 at 08:28:14PM -0400, Brian Dodge wrote:
-> > > The vendor-prefixes.txt file properly refers to ArcticSand
-> > > as arctic but the driver bindings improperly abbreviated the
-> > > prefix to arc. This was a mistake in the original patch. This
-> > > patch adds "arctic" and retains "arc" (deprecated) bindings
-> > > 
-> > > Signed-off-by: Brian Dodge <bdodge09@gmail.com>
-> > > ---
-> > >   .../bindings/leds/backlight/arcxcnn_bl.txt         | 31 +++++++++++++++-------
-> > >   1 file changed, 21 insertions(+), 10 deletions(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
-> > > index 230abde..4d98394 100644
-> > > --- a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
-> > > +++ b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
-> > > @@ -1,8 +1,13 @@
-> > > -Binding for ArcticSand arc2c0608 LED driver
-> > > +Binding for ArcticSand arc family LED drivers
-> > >   Required properties:
-> > > -- compatible:		should be "arc,arc2c0608"
-> > > -- reg:			slave address
-> > > +- compatible: one of
-> > > +	"arctic,arc1c0608"
-> > > +	"arctic,arc2c0608"
-> > > +	"arctic,arc3c0845"
-> > > +	"arc,arc2c0608" (deprecated)
-> > Nothing wrong with adding compatible strings for arc1 and arc3 but I
-> > would expect it to be mentioned in the description to reassure reviewers
-> > that the right depth of thought has been applied Something like "Also added
-> > compatible strings for other family members, all the existing optional
-> > properties work the same way for the new devices." (if you agree that it
-> > is true) is good to show you were paying proper attention!
-> > 
-> > However this does perhaps verge a little towards nitpicking so maybe
-> > wait to see what the DT folks say. From my point of view:
-> > Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
-> > 
-> > 
-> > Daniel.
-> 
-> Good point. I did actually think about this a bit. The *only* chip available
-> at the time of the original driver was the arc2c0608 and that is the chip
-> that is currently in use in the Samsung Chromebook Plus, and the only use I
-> know of using the "arc" prefix. There will be no reason to ever support
-> "arc,arc1.." or "arc,arc3..." in the bindings for past or future use.
-> 
-> The new two chips are just basically supported by this driver. There is more
-> functionality to them which will be enabled in my next patch. I wanted to
-> separate the move to "arctic" from the move to fully support the other chips
-> for clarity (you guys are all rightly picky!) I did put the new chip
-> bindings in the driver/bindings in this patch though so I could test this
-> patch against the actual h/w instances: I have three boards, one with each
-> chip type and each has a dtb with the "arctic,.." type binding onboard.
+Daniel,
 
-I think you have misunderstood. I've got no problem with renaming the
-properties as well.
+On 02/07/2019 15:04, Daniel Thompson wrote:
+> On Tue, Jul 02, 2019 at 12:59:53PM +0200, Jean-Jacques Hiblot wrote:
+>> Hi Daniel,
+>>
+>> On 02/07/2019 11:54, Daniel Thompson wrote:
+>>> On Mon, Jul 01, 2019 at 05:14:22PM +0200, Jean-Jacques Hiblot wrote:
+>>>> From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>>>>
+>>>> This patch adds a led-backlight driver (led_bl), which is mostly similar to
+>>>> pwm_bl except the driver uses a LED class driver to adjust the brightness
+>>>> in the HW.
+>>>>
+>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>>>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+>>>> ---
+>>>>    drivers/video/backlight/Kconfig  |   7 +
+>>>>    drivers/video/backlight/Makefile |   1 +
+>>>>    drivers/video/backlight/led_bl.c | 217 +++++++++++++++++++++++++++++++
+>>>>    3 files changed, 225 insertions(+)
+>>>>    create mode 100644 drivers/video/backlight/led_bl.c
+>>>>
+>>>> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+>>>> index 8b081d61773e..585a1787618c 100644
+>>>> --- a/drivers/video/backlight/Kconfig
+>>>> +++ b/drivers/video/backlight/Kconfig
+>>>> @@ -458,6 +458,13 @@ config BACKLIGHT_RAVE_SP
+>>>>    	help
+>>>>    	  Support for backlight control on RAVE SP device.
+>>>> +config BACKLIGHT_LED
+>>>> +	tristate "Generic LED based Backlight Driver"
+>>>> +	depends on LEDS_CLASS && OF
+>>>> +	help
+>>>> +	  If you have a LCD backlight adjustable by LED class driver, say Y
+>>>> +	  to enable this driver.
+>>>> +
+>>>>    endif # BACKLIGHT_CLASS_DEVICE
+>>>>    endmenu
+>>>> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+>>>> index 63c507c07437..2a67642966a5 100644
+>>>> --- a/drivers/video/backlight/Makefile
+>>>> +++ b/drivers/video/backlight/Makefile
+>>>> @@ -57,3 +57,4 @@ obj-$(CONFIG_BACKLIGHT_TPS65217)	+= tps65217_bl.o
+>>>>    obj-$(CONFIG_BACKLIGHT_WM831X)		+= wm831x_bl.o
+>>>>    obj-$(CONFIG_BACKLIGHT_ARCXCNN) 	+= arcxcnn_bl.o
+>>>>    obj-$(CONFIG_BACKLIGHT_RAVE_SP)		+= rave-sp-backlight.o
+>>>> +obj-$(CONFIG_BACKLIGHT_LED)		+= led_bl.o
+>>>> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
+>>>> new file mode 100644
+>>>> index 000000000000..e699924cc2bc
+>>>> --- /dev/null
+>>>> +++ b/drivers/video/backlight/led_bl.c
+>>>> @@ -0,0 +1,217 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +/*
+>>>> + * Copyright (C) 2015-2018 Texas Instruments Incorporated -  http://www.ti.com/
+>>>> + * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>>>> + *
+>>>> + * Based on pwm_bl.c
+>>>> + */
+>>>> +
+>>>> +#include <linux/backlight.h>
+>>>> +#include <linux/gpio/consumer.h>
+>>>> +#include <linux/leds.h>
+>>>> +#include <linux/module.h>
+>>>> +#include <linux/platform_device.h>
+>>>> +#include <linux/regulator/consumer.h>
+>>>> +#include <linux/slab.h>
+>>>> +
+>>>> +struct led_bl_data {
+>>>> +	struct device		*dev;
+>>>> +	struct backlight_device	*bl_dev;
+>>>> +
+>>>> +	unsigned int		*levels;
+>>>> +	bool			enabled;
+>>>> +	struct regulator	*power_supply;
+>>>> +	struct gpio_desc	*enable_gpio;
+>>> For the PWM driver the power_supply and enable_gpio are part of managing
+>>> a dumb LED driver device that is downstream of the PWM.
+>>>
+>>> What is their purpose when we wrap an LED device? Put another why why isn't
+>>> the LED device driver responsible for this?
+>> This question came up when the patch was first proposed in 2015. Here is the
+>> answer from Tomi at the time. It is still relevant.
+>>
+>> "These are for the backlight, not for the LED chip. So "LED" here is a
+>> chip that produces (most likely) a PWM signal, and "backlight" is the
+>> collection of components that use the PWM to produce the backlight
+>> itself, and use the power-supply and gpios."
+> Expanded significantly in the associated thread, right?
+> https://patchwork.kernel.org/patch/7293991/
+>
+> Also still relevant is whether the LED device is being correctly
+> modelled if the act of turning on the LED doesn't, in fact, turn the LED
+> on. Is it *really* a correct implementation of an LED device that
+> setting it to LED_FULL using sysfs doesn't cause it to light up?
 
-What I was bringing up is that you have extended the scope of the
-bindings to cover the arc1 and arc3 devices. It would be good for you
-to explicitly confirm that the existing properties all still apply
-to arc1 and arc3 devices, and that no new properties are needed to
-model them properly.
+What I understood from the discussion between Rob and Tomi is that the 
+child-node of the LED controller should be considered a backlight 
+device, not a simple LED. I'm not sure if the sysfs interface is still 
+relevant in that case. Maybe it should just be disabled by the backlight 
+driver (possible with led_sysfs_disable())
 
-As it happens I *did* glance at your old arc1/arc3 patch to check it for
-myself before I offered you the Acked-by and didn't see anything that
-offended me. However a good patch description would have spared me that
-work...
+>
+> Actually there is another area where I think an LED backlight should
+> perhaps be held to a higher standard than a PWM backlight and that is
+> handling backlights composed of multiple LEDs.
+>
+> Using the TLC591xx examples from the thread above... these are
+> multi-channel (8 or 16) LED controllers and I don't think its
+> speculative to assume that a backlight could constructed using
+> one of these could require multiple LEDs.
+
+In that case, the device-tree model must be quite different.
+
+Actually the best way to do that is to use the model from Tomi 
+https://patchwork.kernel.org/patch/7293991/ and modify it to handle more 
+than one LED
+<https://patchwork.kernel.org/patch/7293991/>
+
+I'm not completely sure that people would start making real backlight 
+this way though. It is much more probable that the ouput of the led ctrl 
+is connected to a single control input of a real backlight than to 
+actual LEDs.
 
 
-Daniel.
+JJ
 
-
-> 
-> > > +
-> > > +- reg:		slave address
-> > >   Optional properties:
-> > >   - default-brightness:	brightness value on boot, value from: 0-4095
-> > > @@ -11,19 +16,25 @@ Optional properties:
-> > >   - led-sources:		List of enabled channels from 0 to 5.
-> > >   			See Documentation/devicetree/bindings/leds/common.txt
-> > > -- arc,led-config-0:	setting for register ILED_CONFIG_0
-> > > -- arc,led-config-1:	setting for register ILED_CONFIG_1
-> > > -- arc,dim-freq:		PWM mode frequence setting (bits [3:0] used)
-> > > -- arc,comp-config:	setting for register CONFIG_COMP
-> > > -- arc,filter-config:	setting for register FILTER_CONFIG
-> > > -- arc,trim-config:	setting for register IMAXTUNE
-> > > +- arctic,led-config-0:	setting for register ILED_CONFIG_0
-> > > +- arctic,led-config-1:	setting for register ILED_CONFIG_1
-> > > +- arctic,dim-freq:	PWM mode frequence setting (bits [3:0] used)
-> > > +- arctic,comp-config:	setting for register CONFIG_COMP
-> > > +- arctic,filter-config:	setting for register FILTER_CONFIG
-> > > +- arctic,trim-config:	setting for register IMAXTUNE
-> > > +- arc,led-config-0:	setting for register ILED_CONFIG_0 (deprecated)
-> > > +- arc,led-config-1:	setting for register ILED_CONFIG_1 (deprecated)
-> > > +- arc,dim-freq:		PWM mode frequence setting (bits [3:0] used) (deprecated)
-> > > +- arc,comp-config:	setting for register CONFIG_COMP (deprecated)
-> > > +- arc,filter-config:	setting for register FILTER_CONFIG (deprecated)
-> > > +- arc,trim-config:	setting for register IMAXTUNE (deprecated)
-> > >   Note: Optional properties not specified will default to values in IC EPROM
-> > >   Example:
-> > >   arc2c0608@30 {
-> > > -	compatible = "arc,arc2c0608";
-> > > +	compatible = "arctic,arc2c0608";
-> > >   	reg = <0x30>;
-> > >   	default-brightness = <500>;
-> > >   	label = "lcd-backlight";
-> > > -- 
-> > > 2.7.4
-> > > 
+>
+>
+> Daniel.
+>
+>
+>>>> +
+>>>> +	struct led_classdev *led_cdev;
+>>>> +
+>>>> +	unsigned int max_brightness;
+>>>> +	unsigned int default_brightness;
+>>>> +};
+>>>> +
+>>>> +static void led_bl_set_brightness(struct led_bl_data *priv, int brightness)
+>>>> +{
+>>>> +	int err;
+>>>> +
+>>>> +	if (!priv->enabled) {
+>>>> +		err = regulator_enable(priv->power_supply);
+>>>> +		if (err < 0)
+>>>> +			dev_err(priv->dev, "failed to enable power supply\n");
+>>>> +
+>>>> +		if (priv->enable_gpio)
+>>>> +			gpiod_set_value_cansleep(priv->enable_gpio, 1);
+>>>> +	}
+>>>> +
+>>>> +	led_set_brightness(priv->led_cdev, priv->levels[brightness]);
+>>>> +
+>>>> +	priv->enabled = true;
+>>>> +}
+>>>> +
+>>>> +static void led_bl_power_off(struct led_bl_data *priv)
+>>>> +{
+>>>> +	if (!priv->enabled)
+>>>> +		return;
+>>>> +
+>>>> +	led_set_brightness(priv->led_cdev, LED_OFF);
+>>>> +
+>>>> +	if (priv->enable_gpio)
+>>>> +		gpiod_set_value_cansleep(priv->enable_gpio, 0);
+>>>> +
+>>>> +	regulator_disable(priv->power_supply);
+>>>> +
+>>>> +	priv->enabled = false;
+>>>> +}
+>>>> +
+>>>> +static int led_bl_update_status(struct backlight_device *bl)
+>>>> +{
+>>>> +	struct led_bl_data *priv = bl_get_data(bl);
+>>>> +	int brightness = bl->props.brightness;
+>>>> +
+>>>> +	if (bl->props.power != FB_BLANK_UNBLANK ||
+>>>> +	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
+>>>> +	    bl->props.state & BL_CORE_FBBLANK)
+>>>> +		brightness = 0;
+>>>> +
+>>>> +	if (brightness > 0)
+>>>> +		led_bl_set_brightness(priv, brightness);
+>>>> +	else
+>>>> +		led_bl_power_off(priv);
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static const struct backlight_ops led_bl_ops = {
+>>>> +	.update_status	= led_bl_update_status,
+>>>> +};
+>>>> +
+>>>> +static int led_bl_parse_dt(struct device *dev,
+>>>> +			   struct led_bl_data *priv)
+>>>> +{
+>>>> +	struct device_node *node = dev->of_node;
+>>>> +	int num_levels;
+>>>> +	u32 *levels;
+>>>> +	u32 value;
+>>>> +	int ret;
+>>>> +
+>>>> +	if (!node)
+>>>> +		return -ENODEV;
+>>>> +
+>>>> +	num_levels = of_property_count_u32_elems(node, "brightness-levels");
+>>> Is there any reason that this function cannot use the (more generic)
+>>> device property API throughout this function?
+>> No reason. The code is a bit old, and can do with an update.
+>>
+>> Are you thinking of of_property_read_u32_array(), or another function ?
+>>
+>> JJ
+>>
+>>>
+>>>
+>>> Daniel.
+>>>
+>>>
+>>>> +	if (num_levels < 0)
+>>>> +		return num_levels;
+>>>> +
+>>>> +	levels = devm_kzalloc(dev, sizeof(u32) * num_levels, GFP_KERNEL);
+>>>> +	if (!levels)
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	ret = of_property_read_u32_array(node, "brightness-levels",
+>>>> +					 levels,
+>>>> +					 num_levels);
+>>>> +	if (ret < 0)
+>>>> +		return ret;
+>>>> +
+>>>> +	ret = of_property_read_u32(node, "default-brightness-level", &value);
+>>>> +	if (ret < 0)
+>>>> +		return ret;
+>>>> +
+>>>> +	if (value >= num_levels) {
+>>>> +		dev_err(dev, "invalid default-brightness-level\n");
+>>>> +		return -EINVAL;
+>>>> +	}
+>>>> +
+>>>> +	priv->levels = levels;
+>>>> +	priv->max_brightness = num_levels - 1;
+>>>> +	priv->default_brightness = value;
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static int led_bl_probe(struct platform_device *pdev)
+>>>> +{
+>>>> +	struct backlight_properties props;
+>>>> +	struct led_bl_data *priv;
+>>>> +	int ret;
+>>>> +
+>>>> +	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+>>>> +	if (!priv)
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	platform_set_drvdata(pdev, priv);
+>>>> +
+>>>> +	priv->dev = &pdev->dev;
+>>>> +	priv->led_cdev = to_led_classdev(pdev->dev.parent);
+>>>> +
+>>>> +	ret = led_bl_parse_dt(&pdev->dev, priv);
+>>>> +	if (ret < 0) {
+>>>> +		if (ret != -EPROBE_DEFER)
+>>>> +			dev_err(&pdev->dev, "failed to parse DT data\n");
+>>>> +		return ret;
+>>>> +	}
+>>>> +
+>>>> +	priv->enable_gpio = devm_gpiod_get_optional(&pdev->dev, "enable",
+>>>> +			    GPIOD_OUT_LOW);
+>>>> +	if (IS_ERR(priv->enable_gpio)) {
+>>>> +		ret = PTR_ERR(priv->enable_gpio);
+>>>> +		goto err;
+>>>> +	}
+>>>> +
+>>>> +	priv->power_supply = devm_regulator_get(&pdev->dev, "power");
+>>>> +	if (IS_ERR(priv->power_supply)) {
+>>>> +		ret = PTR_ERR(priv->power_supply);
+>>>> +		goto err;
+>>>> +	}
+>>>> +
+>>>> +	memset(&props, 0, sizeof(struct backlight_properties));
+>>>> +	props.type = BACKLIGHT_RAW;
+>>>> +	props.max_brightness = priv->max_brightness;
+>>>> +	priv->bl_dev = backlight_device_register(dev_name(&pdev->dev),
+>>>> +			&pdev->dev, priv, &led_bl_ops, &props);
+>>>> +	if (IS_ERR(priv->bl_dev)) {
+>>>> +		dev_err(&pdev->dev, "failed to register backlight\n");
+>>>> +		ret = PTR_ERR(priv->bl_dev);
+>>>> +		goto err;
+>>>> +	}
+>>>> +
+>>>> +	priv->bl_dev->props.brightness = priv->default_brightness;
+>>>> +	backlight_update_status(priv->bl_dev);
+>>>> +
+>>>> +	return 0;
+>>>> +
+>>>> +err:
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>> +static int led_bl_remove(struct platform_device *pdev)
+>>>> +{
+>>>> +	struct led_bl_data *priv = platform_get_drvdata(pdev);
+>>>> +	struct backlight_device *bl = priv->bl_dev;
+>>>> +
+>>>> +	backlight_device_unregister(bl);
+>>>> +
+>>>> +	led_bl_power_off(priv);
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static const struct of_device_id led_bl_of_match[] = {
+>>>> +	{ .compatible = "led-backlight" },
+>>>> +	{ }
+>>>> +};
+>>>> +
+>>>> +MODULE_DEVICE_TABLE(of, led_bl_of_match);
+>>>> +
+>>>> +static struct platform_driver led_bl_driver = {
+>>>> +	.driver		= {
+>>>> +		.name		= "led-backlight",
+>>>> +		.of_match_table	= of_match_ptr(led_bl_of_match),
+>>>> +	},
+>>>> +	.probe		= led_bl_probe,
+>>>> +	.remove		= led_bl_remove,
+>>>> +};
+>>>> +
+>>>> +module_platform_driver(led_bl_driver);
+>>>> +
+>>>> +MODULE_DESCRIPTION("LED based Backlight Driver");
+>>>> +MODULE_LICENSE("GPL");
+>>>> +MODULE_ALIAS("platform:led-backlight");
+>>>> -- 
+>>>> 2.17.1
+>>>>
