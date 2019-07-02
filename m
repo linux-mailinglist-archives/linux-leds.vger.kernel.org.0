@@ -2,227 +2,159 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 530925C470
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Jul 2019 22:47:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E02B95CC9F
+	for <lists+linux-leds@lfdr.de>; Tue,  2 Jul 2019 11:26:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbfGAUrM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 1 Jul 2019 16:47:12 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:59914 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726509AbfGAUrJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 1 Jul 2019 16:47:09 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x61Kl5RR029592;
-        Mon, 1 Jul 2019 15:47:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1562014025;
-        bh=OJ7OEYPSj/BhZ+hG55lmCg91Yfw8PJn9vGw/+khfqjE=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=CTf95TpFkP5RGqV7E4HIojoGBcCxxAhEJQATNFNEPoZhOFcWxeKQLUsb4Ou0R0I6m
-         TlnyTHisRUS2Fo/eozVrRNqJp8w1BPDSil30FXxoPMFst53KeMxE6TaKJ23EZcVV9o
-         rZuLsCMhPH2W2j7lOFDL5giTKkghp43xpBHXyPrY=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x61Kl5YH110362
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 1 Jul 2019 15:47:05 -0500
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 1 Jul
- 2019 15:47:04 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 1 Jul 2019 15:47:04 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x61Kl4EJ098878;
-        Mon, 1 Jul 2019 15:47:04 -0500
-From:   Dan Murphy <dmurphy@ti.com>
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v5 2/2] documention: leds: Add multicolor class documentation
-Date:   Mon, 1 Jul 2019 15:46:34 -0500
-Message-ID: <20190701204634.10517-3-dmurphy@ti.com>
-X-Mailer: git-send-email 2.22.0.214.g8dca754b1e
-In-Reply-To: <20190701204634.10517-1-dmurphy@ti.com>
-References: <20190701204634.10517-1-dmurphy@ti.com>
+        id S1725851AbfGBJ0W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 2 Jul 2019 05:26:22 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:35446 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727123AbfGBJ0W (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 2 Jul 2019 05:26:22 -0400
+Received: by mail-wr1-f67.google.com with SMTP id c27so9227669wrb.2
+        for <linux-leds@vger.kernel.org>; Tue, 02 Jul 2019 02:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=c72Fyv8WA8NkxR1IFEkFaoMZKlvVd6q4wEbx/w5xWrw=;
+        b=IHga+PwEW1L/a8rXy5sV9kxGuNjBMF9qHUniE/0/a5Ur1zZOuT3qyyCANMHs/WorcQ
+         MAWj+SGBsPt+ea9HIBwPKgENbjs5HPjxOQ+hgnDi1631qry2pfvB3sZecY/4G6O9cXtV
+         A6v0dMOC83IYdDFod6EqCakDBarEXgrW517jfovbIzk4zNATVqZ2eFggysL4Rfd4YFMe
+         r/JKKjmupcjqIFelICv020IHg9+2wCtCWhsRh+BwpHtuHJAME0jA7k9JzH0e6HQJLBJQ
+         YuA/8WTuhb5A0/3sYnJX1PDee8aRG6lpmcR16uf0wJ1yu2XD4wmaHWEIk8sjMHez7vnl
+         S+QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=c72Fyv8WA8NkxR1IFEkFaoMZKlvVd6q4wEbx/w5xWrw=;
+        b=lWUjlRtOk4yyUrRhRiMhuzbgmilXZot6gpQCsvxWz0PqwopDutDKKaFF3CAZOZDmYY
+         hsy4YYGS4aG1rx3MDAdlKCGQeXPUye9iEkx4kwg3KyObDSF4dfWFIMCYnQyn9UpFPwNv
+         qn4M4hj+/U3OmK0f70fxVHcrHfonmKX56Z1924xN+T5VnczrliZZLfBC3j6qgs4LlT2H
+         WW66B+GsjTJPfaqBV5g812S5ZE8I+w9USRKADDb/vDwxvURdl7Zd6UWtjv9MhZbwoY7C
+         8XOrxddUtXKthGyfey1UClzi8Hf9LCQpvFh3HHcCiFEoIlzdnz4SzYdxXpNqMuc9UN8w
+         qm6w==
+X-Gm-Message-State: APjAAAV/Fr5DFVwKldgKvUujCbu2dnM+lAaylxCTd+RnnkriIY7VxIAR
+        PbKW4NjggFkY6Du/6450pFSvcA==
+X-Google-Smtp-Source: APXvYqzC2jCeeAT8m43F20d75Nsx3gx2QADkoiM7D01OfOhKZnJP2dgErCaWhDrM44y+I23WtSeY3A==
+X-Received: by 2002:adf:de8b:: with SMTP id w11mr23223214wrl.134.1562059579253;
+        Tue, 02 Jul 2019 02:26:19 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
+        by smtp.gmail.com with ESMTPSA id g10sm11371415wrw.60.2019.07.02.02.26.18
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 02 Jul 2019 02:26:18 -0700 (PDT)
+Date:   Tue, 2 Jul 2019 10:26:17 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Brian Dodge <bdodge09@gmail.com>
+Cc:     pavel@ucw.cz, lee.jones@linaro.org, jingoohan1@gmail.com,
+        jacek.anaszewski@gmail.com, robh+dt@kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, pbacon@psemi.com
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: fix vendor prefix for
+ ArcticSand arcxcnn driver bindings
+Message-ID: <20190702092617.c4wn3dmg5orrquyj@holly.lan>
+References: <1561940895-15837-1-git-send-email-bdodge09@gmail.com>
+ <1561940895-15837-2-git-send-email-bdodge09@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1561940895-15837-2-git-send-email-bdodge09@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add the support documentation on the multicolor LED framework.
-This document defines the directores and file generated by the
-multicolor framework.  It also documents usage.
+> [PATCH 1/2] dt-bindings: backlight: fix vendor prefix for
+> ArcticSand arcxcnn driver bindings
 
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
----
- Documentation/leds/leds-class-multicolor.txt | 152 +++++++++++++++++++
- 1 file changed, 152 insertions(+)
- create mode 100644 Documentation/leds/leds-class-multicolor.txt
+The "v2" is normally applied to the whole patchset (if you
+prepare the patchset using git format-patch then you can use
+the --subject-prefix argument for that).
 
-diff --git a/Documentation/leds/leds-class-multicolor.txt b/Documentation/leds/leds-class-multicolor.txt
-new file mode 100644
-index 000000000000..01175288502e
---- /dev/null
-+++ b/Documentation/leds/leds-class-multicolor.txt
-@@ -0,0 +1,152 @@
-+
-+Multi Color LED handling under Linux
-+=================================================
-+
-+Author: Dan Murphy <dmurphy@ti.com>
-+
-+Description
-+-----------
-+There are varying monochrome LED colors available for application.  These
-+LEDs can be used as a single use case LED or can be mixed with other color
-+LEDs to produce the full spectrum of color.  Color LEDs that are grouped
-+can be presented under a single LED node with individual color control.
-+The multicolor class groups these LEDs and allows dynamically setting the value
-+of a single LED or setting the intensity values of the LEDs in the group and
-+updating the LEDs virtually simultaneously.
-+
-+Multicolor Class Control
-+-------------------------
-+The multicolor class presents the LED groups under a directory called "colors".
-+This directory is a child under the LED parent node created by the led_class
-+framework.  The led_class framework is documented in led-class.txt within this
-+documentation directory.
-+
-+Each colored LED is given its own directory.  These directories can be, but not
-+limited to red, green, blue, white, amber, yellow and violet.  Under these
-+directories the intensity and max_intensity files are presented for each LED.
-+
-+
-+Directory Layout Example
-+------------------------
-+root:/sys/class/leds/rgb:grouped_leds# ls -lR colors/
-+colors/:
-+drwxr-xr-x    2 root     root             0 Jun 28 20:21 blue
-+drwxr-xr-x    2 root     root             0 Jun 28 20:21 green
-+drwxr-xr-x    2 root     root             0 Jun 28 20:21 red
-+-rw-------    1 root     root          4096 Jun 28 20:21 color_mix
-+
-+colors/blue:
-+-rw-------    1 root     root          4096 Jun 28 20:21 intensity
-+-r--------    1 root     root          4096 Jun 28 20:27 max_intensity
-+-r--------    1 root     root          4096 Jun 28 20:21 color_id
-+
-+colors/green:
-+-rw-------    1 root     root          4096 Jun 28 20:22 intensity
-+-r--------    1 root     root          4096 Jun 28 20:27 max_intensity
-+-r--------    1 root     root          4096 Jun 28 20:21 color_id
-+
-+colors/red:
-+-rw-------    1 root     root          4096 Jun 28 20:21 intensity
-+-r--------    1 root     root          4096 Jun 28 20:27 max_intensity
-+-r--------    1 root     root          4096 Jun 28 20:21 color_id
-+
-+Multicolor Color Mixing
-+-----------------------
-+Multicolor monochrome LEDs intensity can be modified and mixed to produce a
-+varying array of colors.  The color_mix file gives the user the ability to write
-+all the monochrome LEDs registered in the directory with a single call.
-+To create a specific color from monochrome LEDs the color_mix file needs to be
-+written with each color's intensity.  The order in which the monochrome LEDs
-+should be written is based on the colors color_id.
-+
-+For example:
-+cat /sys/class/leds/rgb:grouped_leds/red/color_id
-+0
-+cat /sys/class/leds/rgb:grouped_leds/green/color_id
-+1
-+cat /sys/class/leds/rgb:grouped_leds/blue/color_id
-+2
-+
-+red - color_id = 0
-+green - color_id = 1
-+blue - color_id = 2
-+
-+These id's are the order in which to write the color_mix file.
-+
-+echo "<red> <green> <blue>" > color_mix
-+
-+echo "0x80 0x00 0x80" > color_mix
-+
-+The order of the monochrome LEDs are determined during multicolor class
-+registration and will not change unless unregistered and re-registered.
-+
-+Other example with amber monochrome LED:
-+blue - color_id = 0
-+amber - color_id = 1
-+
-+In this exampe blue is at ID 0 and amber ID is 1 so the user would write
-+echo "<blue> <amber>" > color_mix
-+
-+echo "0x38 0x80" > color_mix
-+
-+If a single monochrome LED needs to be modified then the user would write the
-+colors/<color>/intensity file.
-+
-+
-+Multicolor Class Brightness Control
-+-----------------------------------
-+The multiclor class framework will calculate each monochrome LEDs intensity.
-+
-+The brightness level for each LED is calculated based on the color LED
-+intensity setting divided by the color LED max intensity setting multiplied by
-+the requested value.
-+
-+led_brightness = requested_value*(led_color_intensity/led_color_max_intensity)
-+
-+Example:
-+Three LEDs are present in the group as defined in "Directory Layout Example"
-+within this document.
-+
-+A user first writes the color LED brightness file with the brightness level that
-+is neccesary to achieve a blueish violet output from the RGB LED group.
-+
-+echo 138 > /sys/class/leds/rgb:grouped_leds/red/intensity
-+echo 43 > /sys/class/leds/rgb:grouped_leds/green/intensity
-+echo 226 > /sys/class/leds/rgb:grouped_leds/blue/intensity
-+
-+red -
-+	intensity = 138
-+	max_intensity = 255
-+green -
-+	intensity = 43
-+	max_intensity = 255
-+blue -
-+	intensity = 226
-+	max_intensity = 255
-+
-+The user can control the brightness of that RGB group by writing the parent
-+'brightness' control.  Assuming a parent max_brightness of 255 the user may want
-+to dim the LED color group to half.  The user would write a value of 128 to the
-+parent brightness file then the values written to each LED will be adjusted
-+base on this value
-+
-+cat /sys/class/leds/rgb:grouped_leds/max_brightness
-+255
-+echo 128 > /sys/class/leds/rgb:grouped_leds/brightness
-+
-+adjusted_red_value = 128 * (138/255) = 69
-+adjusted_green_value = 128 * (43/255) = 21
-+adjusted_blue_value = 128 * (226/255) = 113
-+
-+Reading the parent brightness file will return the current brightness value of
-+the color LED group.
-+
-+cat /sys/class/leds/rgb:grouped_leds/max_brightness
-+255
-+
-+echo 128 > /sys/class/leds/rgb:grouped_leds/brightness
-+
-+cat /sys/class/leds/rgb:grouped_leds/max_brightness
-+128
-+
-+
--- 
-2.22.0.214.g8dca754b1e
 
+On Sun, Jun 30, 2019 at 08:28:14PM -0400, Brian Dodge wrote:
+> The vendor-prefixes.txt file properly refers to ArcticSand
+> as arctic but the driver bindings improperly abbreviated the
+> prefix to arc. This was a mistake in the original patch. This
+> patch adds "arctic" and retains "arc" (deprecated) bindings
+> 
+> Signed-off-by: Brian Dodge <bdodge09@gmail.com>
+> ---
+>  .../bindings/leds/backlight/arcxcnn_bl.txt         | 31 +++++++++++++++-------
+>  1 file changed, 21 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+> index 230abde..4d98394 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+> +++ b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+> @@ -1,8 +1,13 @@
+> -Binding for ArcticSand arc2c0608 LED driver
+> +Binding for ArcticSand arc family LED drivers
+>  
+>  Required properties:
+> -- compatible:		should be "arc,arc2c0608"
+> -- reg:			slave address
+> +- compatible: one of
+> +	"arctic,arc1c0608"
+> +	"arctic,arc2c0608"
+> +	"arctic,arc3c0845"
+> +	"arc,arc2c0608" (deprecated)
+
+Nothing wrong with adding compatible strings for arc1 and arc3 but I
+would expect it to be mentioned in the description to reassure reviewers
+that the right depth of thought has been applied Something like "Also added
+compatible strings for other family members, all the existing optional
+properties work the same way for the new devices." (if you agree that it
+is true) is good to show you were paying proper attention!
+
+However this does perhaps verge a little towards nitpicking so maybe
+wait to see what the DT folks say. From my point of view:
+Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+
+Daniel.
+
+
+> +
+> +- reg:		slave address
+>  
+>  Optional properties:
+>  - default-brightness:	brightness value on boot, value from: 0-4095
+> @@ -11,19 +16,25 @@ Optional properties:
+>  - led-sources:		List of enabled channels from 0 to 5.
+>  			See Documentation/devicetree/bindings/leds/common.txt
+>  
+> -- arc,led-config-0:	setting for register ILED_CONFIG_0
+> -- arc,led-config-1:	setting for register ILED_CONFIG_1
+> -- arc,dim-freq:		PWM mode frequence setting (bits [3:0] used)
+> -- arc,comp-config:	setting for register CONFIG_COMP
+> -- arc,filter-config:	setting for register FILTER_CONFIG
+> -- arc,trim-config:	setting for register IMAXTUNE
+> +- arctic,led-config-0:	setting for register ILED_CONFIG_0
+> +- arctic,led-config-1:	setting for register ILED_CONFIG_1
+> +- arctic,dim-freq:	PWM mode frequence setting (bits [3:0] used)
+> +- arctic,comp-config:	setting for register CONFIG_COMP
+> +- arctic,filter-config:	setting for register FILTER_CONFIG
+> +- arctic,trim-config:	setting for register IMAXTUNE
+> +- arc,led-config-0:	setting for register ILED_CONFIG_0 (deprecated)
+> +- arc,led-config-1:	setting for register ILED_CONFIG_1 (deprecated)
+> +- arc,dim-freq:		PWM mode frequence setting (bits [3:0] used) (deprecated)
+> +- arc,comp-config:	setting for register CONFIG_COMP (deprecated)
+> +- arc,filter-config:	setting for register FILTER_CONFIG (deprecated)
+> +- arc,trim-config:	setting for register IMAXTUNE (deprecated)
+>  
+>  Note: Optional properties not specified will default to values in IC EPROM
+>  
+>  Example:
+>  
+>  arc2c0608@30 {
+> -	compatible = "arc,arc2c0608";
+> +	compatible = "arctic,arc2c0608";
+>  	reg = <0x30>;
+>  	default-brightness = <500>;
+>  	label = "lcd-backlight";
+> -- 
+> 2.7.4
+> 
