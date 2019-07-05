@@ -2,114 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C93E560477
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Jul 2019 12:30:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62EDC6048D
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Jul 2019 12:33:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727658AbfGEKaK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 5 Jul 2019 06:30:10 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:37527 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727212AbfGEKaJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 5 Jul 2019 06:30:09 -0400
-Received: by mail-wm1-f65.google.com with SMTP id f17so8822302wme.2
-        for <linux-leds@vger.kernel.org>; Fri, 05 Jul 2019 03:30:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=MR8qrrLzz1ee0JQetWcmCrqB1Zhi9MpQBveeGBxIzn8=;
-        b=OZa6F+Ua55bJVrO2vEtkAOaJIkayk3hKsgKXfjMjIEqrl21aUvdj0yr81GuNGWuUn+
-         X6okF+VgbwxcQjKD44wbj7XJO1UGOzBsE7A9xQ4xJNVV1KZrBSi7tPSWgxDxC85AI11W
-         qQE9PlaSMJz8oQiQv6nL+hdwDqyWPV9c89RTpvKcvDQCGO2PmOmusRVZ0HowA2bJ9XM9
-         RLR8t3DTMADduoe+uYn4EXsRdQPP08xx6yFfoVE5jXIDpwW4H2M3YwawkXB6c9ZfyJfs
-         rTrXzsguklz4vk8ZCE0AdWTXLGS1JyUpD0U01f4QA9RkiYYPNtr3BeKQitVC+gKSuiyH
-         uVrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=MR8qrrLzz1ee0JQetWcmCrqB1Zhi9MpQBveeGBxIzn8=;
-        b=hIhUY+8+nP/bJh6yvKZYnDouNSAiJ7IYHWGEBgInUSYkMGQzu3VARlqUi1gn9PvWAP
-         xZFqKW1VGxtuAAENhI1uhd7Sx8coZpaHcvl3Md7K3bEEBqPL2JH7AsU2U2be8fAIyZUs
-         sNRsAo6sHwKvTqVrdP3Bp4peVQHZ5mKZzZzzdrY+F+Wioit0zxq2osxBQYyurmfnOcAv
-         NEzeBiKX+GbGQpwiD7JI70FrSwgy/tdcSIam1ZvRooEM0oUNjA/cmi06ox949HhHVnS9
-         bHTiKvZzdCZhiKbbBxmfC1GC1KLTfKxa2GsdrJPbeFQ2fipeE8BbgGE4M4DSNVNf2rZK
-         BeDg==
-X-Gm-Message-State: APjAAAU1YYhUor8J0F4RioUo7xUfdNTZAkx2TsYD2FJlXixxME8iYX3T
-        FxbEjbSXk8/CysGjtDa7RsqaRg==
-X-Google-Smtp-Source: APXvYqxY2gEpA+xkxp2cQs9p2kb6x6zZLLaKq7ZvIatk9EblUmS/qLnLyEGcoK/mMsScXPadH1rv9w==
-X-Received: by 2002:a1c:acc8:: with SMTP id v191mr2991912wme.177.1562322607796;
-        Fri, 05 Jul 2019 03:30:07 -0700 (PDT)
-Received: from holly.lan (82-132-213-94.dab.02.net. [82.132.213.94])
-        by smtp.gmail.com with ESMTPSA id y10sm5524508wmj.2.2019.07.05.03.30.05
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 05 Jul 2019 03:30:07 -0700 (PDT)
-Date:   Fri, 5 Jul 2019 11:29:59 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
+        id S1728047AbfGEKdu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 5 Jul 2019 06:33:50 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:49188 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728004AbfGEKdu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 5 Jul 2019 06:33:50 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x65AXdMJ045769;
+        Fri, 5 Jul 2019 05:33:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1562322819;
+        bh=a+9kqxFBb4ONOgcxUqkn+qLv8UCr52lzZuc0RccW2Xw=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=LRqAfRzKxnl2Xipdm3VYCpApjQIdqkeD3HVFzK3CMyriOURvthKE7CBvCshT8CPUs
+         Dt82c+aEXJXv3DOLCQY5F2is2/Qv/i1CG16L38FsjLfJH4wYPcgghxh1lQQi0yOfxz
+         T46mSNHK/la9A84zPIDoWZ+iMD8wfHKvnjw6eNr4=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x65AXdgj019071
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 5 Jul 2019 05:33:39 -0500
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 5 Jul
+ 2019 05:33:38 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 5 Jul 2019 05:33:38 -0500
+Received: from [10.250.97.31] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x65AXa3F125307;
+        Fri, 5 Jul 2019 05:33:36 -0500
+Subject: Re: [PATCH 3/4] backlight: add led-backlight driver
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>, jacek.anaszewski@gmail.com,
-        robh+dt@kernel.org, mark.rutland@arm.com, lee.jones@linaro.org,
-        jingoohan1@gmail.com, dmurphy@ti.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        tomi.valkeinen@ti.com
-Subject: Re: [PATCH 0/4] Add a generic driver for LED-based backlight
-Message-ID: <20190705102959.cmqhzpzikqjsydlx@holly.lan>
+CC:     Daniel Thompson <daniel.thompson@linaro.org>,
+        <jacek.anaszewski@gmail.com>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <lee.jones@linaro.org>,
+        <jingoohan1@gmail.com>, <dmurphy@ti.com>,
+        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <tomi.valkeinen@ti.com>
 References: <20190701151423.30768-1-jjhiblot@ti.com>
- <20190705101434.fw5rpctnqt6dwg6e@devuan>
+ <20190701151423.30768-4-jjhiblot@ti.com>
+ <20190702095434.d426lichmaffz7a5@holly.lan>
+ <531e237c-b570-5270-6fc3-6629a8bf7acd@ti.com>
+ <20190702130434.frbx7jkec27ejbpo@holly.lan>
+ <72c45311-c710-dc2d-a6de-68e44ea8436a@ti.com>
+ <20190703094457.etmbbjhhssbdkveo@holly.lan>
+ <a8886ae9-31ec-de4c-0a83-5f681582a0b9@ti.com>
+ <20190705100851.zn2jkipj4fxq5we6@devuan>
+From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
+Message-ID: <6c21af33-8c3b-58a8-0a1b-f85fb9f80050@ti.com>
+Date:   Fri, 5 Jul 2019 12:33:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190705101434.fw5rpctnqt6dwg6e@devuan>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190705100851.zn2jkipj4fxq5we6@devuan>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Jul 05, 2019 at 12:14:34PM +0200, Pavel Machek wrote:
-> On Mon 2019-07-01 17:14:19, Jean-Jacques Hiblot wrote:
-> > This series aims to add a led-backlight driver, similar to pwm-backlight,
-> > but using a LED class device underneath.
-> > 
-> > A few years ago (2015), Tomi Valkeinen posted a series implementing a
-> > backlight driver on top of a LED device:
-> > https://patchwork.kernel.org/patch/7293991/
-> > https://patchwork.kernel.org/patch/7294001/
-> > https://patchwork.kernel.org/patch/7293981/
-> > 
-> > The discussion stopped because Tomi lacked the time to work on it.
-> > 
-> > This series takes it from there and implements the binding that was
-> > discussed in https://patchwork.kernel.org/patch/7293991/. In this new
-> > binding the backlight device is a child of the LED controller instead of
-> > being another platform device that uses a phandle to reference a LED.
-> 
-> Other option would be to have backlight trigger. What are
-> advantages/disadvantages relative to that?
+Pavel
 
-I spent a little time thinking about that during the recent round of
-reviews.
+On 05/07/2019 12:08, Pavel Machek wrote:
+> Hi!
+>
+>>>>> Also still relevant is whether the LED device is being correctly
+>>>>> modelled if the act of turning on the LED doesn't, in fact, turn the LED
+>>>>> on. Is it *really* a correct implementation of an LED device that
+>>>>> setting it to LED_FULL using sysfs doesn't cause it to light up?
+>>>> What I understood from the discussion between Rob and Tomi is that the
+>>>> child-node of the LED controller should be considered a backlight device,
+>>>> not a simple LED. I'm not sure if the sysfs interface is still relevant in
+>>>> that case. Maybe it should just be disabled by the backlight driver
+>>>> (possible with led_sysfs_disable())
+>>> led_sysfs_disable() sounds like a sensible change but that's not quite
+>>> what I mean.
+>>>
+>>> It is more a thought experiment to see if the power control *should* be
+>>> implemented by the backlight. Consider what happens if we *don't*
+>>> enable CONFIG_BACKLIGHT_LED in the kernel: we would still have an LED
+>>> device and it would not work correctly.
+>>>
+>>> In other words I naively expect turning on an LED using the LED API
+>>> (any of them, sysfs or kernel) to result in the LED turning on.
+>>> Implementing a workaround in the client for what appears to be
+>>> something missing in the LED driver strikes me as odd. Why shouldn't
+>>> the regulator be managed in the LED driver?
+>> I see your point. Indeed having the regulator handled in the LED-core makes
+>> sense in a lot of situations
+>>
+>> I'll think about it.
+> For the record, I also believe regulator and enable gpio should be
+> handled in the core.
 
-My rough thoughts were that LED triggers would be a good way to
-handle it in the kernel code and would trivially solve a backlight
-composed of multiple LED devices (since all could attach to the same
-trigger). However I think it would be difficult to use the existing DT
-bindings for triggers to express things like brightness curves and to
-handle systems with multiple heads.
+I am working on adding the regulator to the led core.
 
-I'm not *too* worried about conflict with the existing backlight trigger
-(which isn't actually a backlight... just a hook into the framebuffer
-code to operate a binary LED). People like Daniel Vetter are
-labouring diligently to get rid of the notifier it depends on so turning
-it into a proper backlight device would probably help with that effort.
+I don't really want to add a GPIO enable to the core though. If needed 
+it can be described as a GPIO-enabled regulator up(/down)stream the 
+regular regulator.
 
-Anyhow... having thought the above I then shook myself a bit and
-figured it was more important to focus on sane bindings that on what
-the kernel does under the covers to realize them ;-) and decided to keep
-quiet until the next set of bindings is proposed.
-
-However... since you asked...
+JJ
 
 
-
-Daniel.
+>
+> 									Pavel
+> PS please trim down the quoted text.									
