@@ -2,139 +2,126 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FFE060FDF
-	for <lists+linux-leds@lfdr.de>; Sat,  6 Jul 2019 12:41:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2F02611D8
+	for <lists+linux-leds@lfdr.de>; Sat,  6 Jul 2019 17:19:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726012AbfGFKlg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 6 Jul 2019 06:41:36 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40710 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725926AbfGFKlg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 6 Jul 2019 06:41:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=x8xrypbhTWD1eWxAgLr7OjCl2dz8XFdFHYVEQD+l2xE=; b=YBvr4PY1Da2Hx3f7iSWvlPukP
-        XbOYF2nAlGklvMISBtplGqU/b14y4fzaIQRcBUXwTlVjP/RP6dOV0RlTBXmTwT1CfKGKGciWFl5du
-        b4b3cBo3O8z3yXD1nvSYMMDOWbwgHWouDGhSADzwfwA9Qm6uyZcweCcmo96c/ckGZLYGeOVuZ64ly
-        5gBICvY5YcW2NxdEDWyS4FfRL3zcOwXSGLhCk0jo8H+GSEGe1eqbOnl4pWZhaMUhRTjSuHCW4FwKQ
-        NKb9Oa3HttarFKO3DQFaIC1yifRDMHCZS5a/koauXe+hzqed8li7bGQynmTKFugnD7KIuBPk+ZQTw
-        u+zCYCLqA==;
-Received: from 177.205.70.5.dynamic.adsl.gvt.net.br ([177.205.70.5] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hji8K-0007Fa-2X; Sat, 06 Jul 2019 10:41:32 +0000
-Date:   Sat, 6 Jul 2019 07:41:26 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+        id S1726672AbfGFPTv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 6 Jul 2019 11:19:51 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39571 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726446AbfGFPTv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 6 Jul 2019 11:19:51 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 7EDDF803E2; Sat,  6 Jul 2019 17:19:37 +0200 (CEST)
+Date:   Sat, 6 Jul 2019 17:19:41 +0200
+From:   Pavel Machek <pavel@ucw.cz>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-leds@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 24/43] docs: leds: convert to ReST
-Message-ID: <20190706074047.58c23fe9@coco.lan>
-In-Reply-To: <0b2a2452-20ca-1651-e03b-a15a8502b028@gmail.com>
-References: <cover.1561723979.git.mchehab+samsung@kernel.org>
-        <2fecbe9a9cefda64771b43c5fc67495d897dd722.1561723980.git.mchehab+samsung@kernel.org>
-        <0b2a2452-20ca-1651-e03b-a15a8502b028@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org, robh@kernel.org,
+        "Valkeinen, Tomi" <tomi.valkeinen@ti.com>
+Subject: Re: devicetree bindings for a generic led-based backlight driver
+Message-ID: <20190706151941.GB9856@amd>
+References: <69f3a300-9e37-448d-e6fa-49c1c9ca0dd6@ti.com>
+ <400ac00b-d3c7-b58f-52fa-8b18b6c7e4a2@gmail.com>
+ <283a3b7c-c3ed-719e-14e3-fc73e08af880@ti.com>
+ <e7c5a500-4107-8895-d0fc-377c71cd3b34@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="b5gNqxB1S1yM7hjW"
+Content-Disposition: inline
+In-Reply-To: <e7c5a500-4107-8895-d0fc-377c71cd3b34@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Em Fri, 28 Jun 2019 21:01:40 +0200
-Jacek Anaszewski <jacek.anaszewski@gmail.com> escreveu:
 
-> Hi Mauro,
->=20
-> On 6/28/19 2:20 PM, Mauro Carvalho Chehab wrote:
-> > Rename the leds documentation files to ReST, add an
-> > index for them and adjust in order to produce a nice html
-> > output via the Sphinx build system.
+--b5gNqxB1S1yM7hjW
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> >>> A few years ago (2015), Tomi Valkeinen posted a series implementing a
+> >>> backlight driver on top of a LED device.
+> >>>
+> >>> https://patchwork.kernel.org/patch/7293991/
+> >>> https://patchwork.kernel.org/patch/7294001/
+> >>> https://patchwork.kernel.org/patch/7293981/
+> >>>
+> >>> The discussion stopped=A0 because he lacked the time to work on it.
+> >>>
+> >>> I will be taking over the task and, before heading in the wrong
+> >>> direction, wanted a confirmation that the binding Tomi last proposed =
+in
+> >>> hist last email was indeed the preferred option.
+> >>>
+> >>> It will probably require some modifications in the LED core to create
+> >>> the right kind of led-device (normal, flash or backlight) based on the
+> >>> compatible option.
+> >> I recall that discussion. I gave my ack for the LED changes but
+> >> now we have more LED people that might want to look into that.
 > >=20
-> > At its new index.rst, let's add a :orphan: while this is not linked to
-> > the main index.rst file, in order to avoid build warnings.
-> >=20
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > Acked-by: Pavel Machek <pavel@ucw.cz>
-> > ---
-> >  Documentation/laptops/thinkpad-acpi.txt       |   4 +-
-> >  Documentation/leds/index.rst                  |  25 ++
-> >  .../leds/{leds-blinkm.txt =3D> leds-blinkm.rst} |  64 ++---
-> >  ...s-class-flash.txt =3D> leds-class-flash.rst} |  49 ++--
-> >  .../leds/{leds-class.txt =3D> leds-class.rst}   |  15 +-
-> >  .../leds/{leds-lm3556.txt =3D> leds-lm3556.rst} | 100 ++++++--
-> >  .../leds/{leds-lp3944.txt =3D> leds-lp3944.rst} |  23 +-
-> >  Documentation/leds/leds-lp5521.rst            | 115 +++++++++
-> >  Documentation/leds/leds-lp5521.txt            | 101 --------
-> >  Documentation/leds/leds-lp5523.rst            | 147 ++++++++++++
-> >  Documentation/leds/leds-lp5523.txt            | 130 ----------
-> >  Documentation/leds/leds-lp5562.rst            | 137 +++++++++++
-> >  Documentation/leds/leds-lp5562.txt            | 120 ----------
-> >  Documentation/leds/leds-lp55xx.rst            | 224 ++++++++++++++++++
-> >  Documentation/leds/leds-lp55xx.txt            | 194 ---------------
-> >  Documentation/leds/leds-mlxcpld.rst           | 118 +++++++++
-> >  Documentation/leds/leds-mlxcpld.txt           | 110 ---------
-> >  ...edtrig-oneshot.txt =3D> ledtrig-oneshot.rst} |  11 +-
-> >  ...ig-transient.txt =3D> ledtrig-transient.rst} |  63 +++--
-> >  ...edtrig-usbport.txt =3D> ledtrig-usbport.rst} |  11 +-
-> >  Documentation/leds/{uleds.txt =3D> uleds.rst}   |   5 +-
-> >  MAINTAINERS                                   |   2 +-
-> >  drivers/leds/trigger/Kconfig                  |   2 +-
-> >  drivers/leds/trigger/ledtrig-transient.c      |   2 +-
-> >  net/netfilter/Kconfig                         |   2 +-
-> >  25 files changed, 996 insertions(+), 778 deletions(-)
-> >  create mode 100644 Documentation/leds/index.rst
-> >  rename Documentation/leds/{leds-blinkm.txt =3D> leds-blinkm.rst} (57%)
-> >  rename Documentation/leds/{leds-class-flash.txt =3D> leds-class-flash.=
-rst} (74%)
-> >  rename Documentation/leds/{leds-class.txt =3D> leds-class.rst} (92%)
-> >  rename Documentation/leds/{leds-lm3556.txt =3D> leds-lm3556.rst} (70%)
-> >  rename Documentation/leds/{leds-lp3944.txt =3D> leds-lp3944.rst} (78%)
-> >  create mode 100644 Documentation/leds/leds-lp5521.rst
-> >  delete mode 100644 Documentation/leds/leds-lp5521.txt
-> >  create mode 100644 Documentation/leds/leds-lp5523.rst
-> >  delete mode 100644 Documentation/leds/leds-lp5523.txt
-> >  create mode 100644 Documentation/leds/leds-lp5562.rst
-> >  delete mode 100644 Documentation/leds/leds-lp5562.txt
-> >  create mode 100644 Documentation/leds/leds-lp55xx.rst
-> >  delete mode 100644 Documentation/leds/leds-lp55xx.txt
-> >  create mode 100644 Documentation/leds/leds-mlxcpld.rst
-> >  delete mode 100644 Documentation/leds/leds-mlxcpld.txt
-> >  rename Documentation/leds/{ledtrig-oneshot.txt =3D> ledtrig-oneshot.rs=
-t} (90%)
-> >  rename Documentation/leds/{ledtrig-transient.txt =3D> ledtrig-transien=
-t.rst} (81%)
-> >  rename Documentation/leds/{ledtrig-usbport.txt =3D> ledtrig-usbport.rs=
-t} (86%)
-> >  rename Documentation/leds/{uleds.txt =3D> uleds.rst} (95%) =20
+> > Regarding the LED bindings as discussed by Tom and Rob in
+> > https://patchwork.kernel.org/patch/7293991/, what do you think of using
+> > a 'compatible' string to make a LED device also a backlight or a flash =
+LED ?
 >=20
-> Patches 4/9 and 24/43 applied to the for-next branch of linux-leds.git.
+> After going through the referenced discussion and refreshing my memory
+> it looks to me the most reasonable way to go for backlight case.
+>=20
+> Nevertheless I'd not tamper at LED flash support - if it's not broken,
+> don't fix it.
+>=20
+> Best regards,
+> Jacek Anaszewski
+>=20
+> > Here is the example from Tomi at the end of the discussion:
+> >=20
+> > /* tlc59108 is an i2c device */
+> > tlc59116@40 {
+> > 	#address-cells =3D <1>;
+> > 	#size-cells =3D <0>;
+> > 	compatible =3D "ti,tlc59108";
+> > 	reg =3D <0x40>;
+> >=20
+> > 	wan@0 {
+> > 		label =3D "wrt1900ac:amber:wan";
+> > 		reg =3D <0x0>;
+> > 	};
+> >=20
+> > 	bl@2 {
+> > 		label =3D "backlight";
+> > 		reg =3D <0x2>;
+> >=20
+> > 		compatible =3D "led-backlight";
+> > 		brightness-levels =3D <0 243 245 247 248 249 251 252 255>;
+> > 		default-brightness-level =3D <8>;
+> >=20
+> > 		enable-gpios =3D <&pcf_lcd 13 GPIO_ACTIVE_LOW>;
 
-Thanks!
+So... this needs some kind of reference to display it belongs to,
+right?
 
-I'll keep this one on my tree:
+									Pavel
 
-	[PATCH 10/39] docs: leds: add it to the driver-api book
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-=46rom the other series. If everything goes well, either Jon or I should
-be sending upstream by the end of the merge window, after rebasing it,
-together with a bunch of other patches touching the driver-api index.rst.
+--b5gNqxB1S1yM7hjW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-That should hopefully avoid merge conflicts.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-Regards,
-Mauro
+iEYEARECAAYFAl0gvA0ACgkQMOfwapXb+vLuAgCgkcxncs9hK9t8jdQD36OCNME+
+Xc8An1qdPMdEZT4o/7K4z1UaqQXEberG
+=6Egk
+-----END PGP SIGNATURE-----
+
+--b5gNqxB1S1yM7hjW--
