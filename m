@@ -2,120 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C96D061D3F
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Jul 2019 12:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02F51627DD
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Jul 2019 20:03:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729370AbfGHKuc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Jul 2019 06:50:32 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:41919 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729307AbfGHKub (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Jul 2019 06:50:31 -0400
-Received: by mail-wr1-f66.google.com with SMTP id c2so16493427wrm.8
-        for <linux-leds@vger.kernel.org>; Mon, 08 Jul 2019 03:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=lej7Q+QP3kcSJDvUANx4MpD1co7bVMerIr3ru5n/a4c=;
-        b=tx0P6Ygyb6DdA7G9POdLYsY1nwSb8R4k49+VwLBqIM1T9U1q/43us/Hdp8RMCdxoM6
-         CxuFx8aefoTs/hCz3yvx7UmSMCQs75fPh2oqTpzSzgEAVtuMo0TiIddSX/MloG/0NaMC
-         /OuHfKw1t3wHozbRyinjBNu/uYqpLFdPDxvZTgi28Oj1nGIxdbftq3SUKZrE3RxOOkST
-         1JZo4hQM22IsH+9TgOURFthDgZYKAc/w1OfQpWX5hwJ4HsE0k/ydx+szAcuMarDgp4qs
-         4If7zr2vnPvh63kFDa+exPDoE6uCHeBsdsee98ujGIC3d2X6vubZP2v1YiFM3agasNf0
-         SaBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=lej7Q+QP3kcSJDvUANx4MpD1co7bVMerIr3ru5n/a4c=;
-        b=Fp+iY+R+yroKKiVILPmvo+gROgJ1D387OxzEcX7TIBhKppH8mDuh5aY0hiUwpLYm/9
-         56/Mlq0giPPOZoWB6+psTpw8dc+tu8bp3x/XelpvM5VMoCYiR/irdCvNJubOTRmd4JzS
-         mmP00KNSUeKxzRLI6KrkZvNlfsTX/uPc1+e+f23pYqR8LRYLdSgHdW+Gw9ik/rW6IvfY
-         Z7PwD6Uiac5bR0B16pxj96mICN9wFO0ksCB9e3ub7zCR6TAQ3OKdui2Guq50UcfE1LvU
-         K31D3gEbkG4/u5yQr+jVlaKCl04G24DJ2gu5qrsng4p1U3AbD/9YHvbcYqDhZbK4+ZVe
-         +Zyw==
-X-Gm-Message-State: APjAAAV9BGAaFj2WJo6qADW/0klkXrsn6nv1PiCsKOMrS88EaS6dZqfv
-        0r3XVL/Dbq7YWulMzM/QrsQgvw==
-X-Google-Smtp-Source: APXvYqyu3f1q1SnNB9p5IHgyIAns7STGef0JfhMHOgez/jYHIaz1D/lShD2tvop5KW5jyBLxrvSP+g==
-X-Received: by 2002:a5d:5446:: with SMTP id w6mr13496134wrv.164.1562583029398;
-        Mon, 08 Jul 2019 03:50:29 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
-        by smtp.gmail.com with ESMTPSA id o11sm16642628wmh.37.2019.07.08.03.50.28
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 08 Jul 2019 03:50:28 -0700 (PDT)
-Date:   Mon, 8 Jul 2019 11:50:26 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>
-Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        mark.rutland@arm.com, lee.jones@linaro.org, jingoohan1@gmail.com,
-        dmurphy@ti.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        tomi.valkeinen@ti.com
-Subject: Re: [PATCH v2 3/4] dt-bindings: backlight: Add led-backlight binding
-Message-ID: <20190708105026.jfl4krv2veb7gzow@holly.lan>
-References: <20190708102700.23138-1-jjhiblot@ti.com>
- <20190708102700.23138-4-jjhiblot@ti.com>
+        id S1728793AbfGHSDB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Jul 2019 14:03:01 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:45934 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727413AbfGHSDB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Jul 2019 14:03:01 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x68I2pM2047759;
+        Mon, 8 Jul 2019 13:02:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1562608971;
+        bh=gCVJdCJhOuBj+s1tpW3aHcSTDf/4h8j7xDhTsbbntpw=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=Zex9v9fYpK9P9FJArcOrRkHIxc5liW5n3jTKlUu2erCIFlqDEneyO7RSGHgwLxVMb
+         E8dG1bHdLu6TMsSK50wac9QaPZ7ORQQgbIw1O9Z1rfwZu6Gb90sNHPYZnP//Ic1hfW
+         k14egafNPi7SDCha/15Sekl+7Fq6Fw2wXvYx97rU=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x68I2oAi097972
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 8 Jul 2019 13:02:51 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 8 Jul
+ 2019 13:02:50 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 8 Jul 2019 13:02:50 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x68I2oNO005559;
+        Mon, 8 Jul 2019 13:02:50 -0500
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: fix vendor prefix for
+ ArcticSand arcxcnn driver bindings
+To:     Brian Dodge <bdodge09@gmail.com>, <pavel@ucw.cz>
+CC:     <daniel.thompson@linaro.org>, <lee.jones@linaro.org>,
+        <jingoohan1@gmail.com>, <jacek.anaszewski@gmail.com>,
+        <robh+dt@kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <pbacon@psemi.com>
+References: <1561940895-15837-1-git-send-email-bdodge09@gmail.com>
+ <1561940895-15837-2-git-send-email-bdodge09@gmail.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <f2cf7c51-4857-30bd-a096-b1ce5ff01bd5@ti.com>
+Date:   Mon, 8 Jul 2019 13:02:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190708102700.23138-4-jjhiblot@ti.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <1561940895-15837-2-git-send-email-bdodge09@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Jul 08, 2019 at 12:26:59PM +0200, Jean-Jacques Hiblot wrote:
-> Add DT binding for led-backlight.
-> 
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+Brian
+
+On 6/30/19 7:28 PM, Brian Dodge wrote:
+> The vendor-prefixes.txt file properly refers to ArcticSand
+> as arctic but the driver bindings improperly abbreviated the
+> prefix to arc. This was a mistake in the original patch. This
+> patch adds "arctic" and retains "arc" (deprecated) bindings
+>
+> Signed-off-by: Brian Dodge <bdodge09@gmail.com>
 > ---
->  .../bindings/leds/backlight/led-backlight.txt | 29 +++++++++++++++++++
->  1 file changed, 29 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
-> new file mode 100644
-> index 000000000000..4f545316b288
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
-> @@ -0,0 +1,29 @@
-> +led-backlight bindings
+>   .../bindings/leds/backlight/arcxcnn_bl.txt         | 31 +++++++++++++++-------
+>   1 file changed, 21 insertions(+), 10 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+> index 230abde..4d98394 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+> +++ b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+> @@ -1,8 +1,13 @@
+> -Binding for ArcticSand arc2c0608 LED driver
+> +Binding for ArcticSand arc family LED drivers
+>   
+>   Required properties:
+> -- compatible:		should be "arc,arc2c0608"
+> -- reg:			slave address
+> +- compatible: one of
+> +	"arctic,arc1c0608"
+> +	"arctic,arc2c0608"
+> +	"arctic,arc3c0845"
+> +	"arc,arc2c0608" (deprecated)
 > +
-> +This binding is used to describe a basic backlight device made of LEDs.
-> +It can also be used to describe a backlight device controlled by the output of
-> +a LED driver.
-> +
-> +Required properties:
-> +  - compatible: "led-backlight"
-> +  - leds: a list of LEDs
-> +
-> +Optional properties:
-> +  - brightness-levels: Array of distinct brightness levels. These
-> +                       are in the range from 0 to 255. The actual brightness
-> +                       level programmed in each LED will be adjusted based on
-> +                       its maximum brightness:
-> +                       led brightness = (level * maximum brightness) / 255
+> +- reg:		slave address
+>   
+>   Optional properties:
+>   - default-brightness:	brightness value on boot, value from: 0-4095
+> @@ -11,19 +16,25 @@ Optional properties:
+>   - led-sources:		List of enabled channels from 0 to 5.
+>   			See Documentation/devicetree/bindings/leds/common.txt
+>   
+> -- arc,led-config-0:	setting for register ILED_CONFIG_0
+> -- arc,led-config-1:	setting for register ILED_CONFIG_1
+> -- arc,dim-freq:		PWM mode frequence setting (bits [3:0] used)
+> -- arc,comp-config:	setting for register CONFIG_COMP
+> -- arc,filter-config:	setting for register FILTER_CONFIG
+> -- arc,trim-config:	setting for register IMAXTUNE
+> +- arctic,led-config-0:	setting for register ILED_CONFIG_0
+> +- arctic,led-config-1:	setting for register ILED_CONFIG_1
+> +- arctic,dim-freq:	PWM mode frequence setting (bits [3:0] used)
+> +- arctic,comp-config:	setting for register CONFIG_COMP
+> +- arctic,filter-config:	setting for register FILTER_CONFIG
+> +- arctic,trim-config:	setting for register IMAXTUNE
+> +- arc,led-config-0:	setting for register ILED_CONFIG_0 (deprecated)
+> +- arc,led-config-1:	setting for register ILED_CONFIG_1 (deprecated)
+> +- arc,dim-freq:		PWM mode frequence setting (bits [3:0] used) (deprecated)
+> +- arc,comp-config:	setting for register CONFIG_COMP (deprecated)
+> +- arc,filter-config:	setting for register FILTER_CONFIG (deprecated)
+> +- arc,trim-config:	setting for register IMAXTUNE (deprecated)
+>   
+>   Note: Optional properties not specified will default to values in IC EPROM
+>   
+>   Example:
+>   
+>   arc2c0608@30 {
+> -	compatible = "arc,arc2c0608";
+> +	compatible = "arctic,arc2c0608";
+>   	reg = <0x30>;
+>   	default-brightness = <500>;
+>   	label = "lcd-backlight";
 
-8-bits is a narrow range and likely to make animated backlight effects
-impossible because the stepping artefacts would be too obvious.
 
-I'd rather see the brightness-levels table expressed in the native
-steps of the LEDs in the leds list.
+Reviewed-by: Dan Murphy <dmurphy@ti.com>
 
-I know this means that the LEDs must have identical ranges but I think
-it is OK. A backlight design whose LEDs are connected to non-identical
-drivers is either badly broken or sufficiently exotic to need to special
-purpose driver. The driver can therefore fail to probe if the LEDs are
-mismatched.
-
-> +
-> +  - default-brightness-level: The default brightness level (index into the
-> +                              array defined by the "brightness-levels" property).
-
-The brightness-levels property is optional... this text needs to be
-updated.
-
-
-Daniel.
