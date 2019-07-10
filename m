@@ -2,40 +2,40 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6174264667
-	for <lists+linux-leds@lfdr.de>; Wed, 10 Jul 2019 14:40:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E776364666
+	for <lists+linux-leds@lfdr.de>; Wed, 10 Jul 2019 14:40:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727068AbfGJMj4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S1727465AbfGJMj4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Wed, 10 Jul 2019 08:39:56 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:53306 "EHLO
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:53308 "EHLO
         fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727325AbfGJMjt (ORCPT
+        with ESMTP id S1726458AbfGJMjt (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Wed, 10 Jul 2019 08:39:49 -0400
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6ACdeeO104812;
-        Wed, 10 Jul 2019 07:39:40 -0500
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6ACdfWG104822;
+        Wed, 10 Jul 2019 07:39:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1562762380;
-        bh=ItirwO8erJEYpB2ZQfeB1f9//VYKLfEYE9vUyXsRw94=;
+        s=ti-com-17Q1; t=1562762381;
+        bh=Pk7hnsVKcJGKKe6elo6dBDjGU2lxh03iSzrLZOy1kgU=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=fiAQzfgmv6EyownznjqE2NAbeOdOnBlqbOktus8k3tf27F6fETNlihMgdsdHarK0a
-         gQLxG0AVtms0wfiulXwC26bUO26ilXTpISul4YJRd+dJxpaYOh/ovK1nH8X8HQx0Qx
-         JC7OAD+x2E6sGrkg1x89rSRrRBMPvdsIkvOg8id0=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6ACdeme113528
+        b=VNrBWkNPOCnHiOPV7FKvFAJC3hRSnSsiiBRZKutIoS9cvXgXbbdi+cpRSKvrTGlq+
+         r9yYUT52z8IQN2pNlG3DlEWOAvxxJqo8QqciUqw6A8rrqL2f5ym+GArIwA8oyB9jof
+         akzodC8O4/4uNgf2yaVG50nOgb/d+v0bVr/JyGas=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6ACdf9l113538
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 10 Jul 2019 07:39:40 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+        Wed, 10 Jul 2019 07:39:41 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 10
- Jul 2019 07:39:40 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ Jul 2019 07:39:41 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 10 Jul 2019 07:39:40 -0500
+ Frontend Transport; Wed, 10 Jul 2019 07:39:41 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6ACdd2g071883;
-        Wed, 10 Jul 2019 07:39:39 -0500
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6ACdeT5113704;
+        Wed, 10 Jul 2019 07:39:41 -0500
 From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
         <mark.rutland@arm.com>, <lee.jones@linaro.org>,
@@ -43,9 +43,9 @@ To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
 CC:     <dmurphy@ti.com>, <linux-leds@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
         <tomi.valkeinen@ti.com>, Jean-Jacques Hiblot <jjhiblot@ti.com>
-Subject: [PATCH v3 2/4] leds: Add managed API to get a LED from a device driver
-Date:   Wed, 10 Jul 2019 14:39:30 +0200
-Message-ID: <20190710123932.28244-3-jjhiblot@ti.com>
+Subject: [PATCH v3 3/4] dt-bindings: backlight: Add led-backlight binding
+Date:   Wed, 10 Jul 2019 14:39:31 +0200
+Message-ID: <20190710123932.28244-4-jjhiblot@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190710123932.28244-1-jjhiblot@ti.com>
 References: <20190710123932.28244-1-jjhiblot@ti.com>
@@ -57,81 +57,48 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-If the LED is acquired by a consumer device with devm_led_get(), it is
-automatically release when the device is detach.
+Add DT binding for led-backlight.
 
 Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
 ---
- drivers/leds/led-class.c | 42 ++++++++++++++++++++++++++++++++++++++++
- include/linux/leds.h     |  2 ++
- 2 files changed, 44 insertions(+)
+ .../bindings/leds/backlight/led-backlight.txt | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
 
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 0f67b13b0f1f..521cb76fbaf7 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -264,6 +264,48 @@ void led_put(struct led_classdev *led_cdev)
- }
- EXPORT_SYMBOL_GPL(led_put);
- 
-+static void devm_led_release(struct device *dev, void *res)
-+{
-+	struct led_classdev **p = res;
+diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+new file mode 100644
+index 000000000000..0444eec8efe1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+@@ -0,0 +1,28 @@
++led-backlight bindings
 +
-+	led_put(*p);
-+}
++This binding is used to describe a basic backlight device made of LEDs.
++It can also be used to describe a backlight device controlled by the output of
++a LED driver.
 +
-+/**
-+ * devm_led_get - Resource-managed request of a LED device
-+ * @dev:	LED consumer
-+ * @idx:	index of the LED to obtain in the consumer
-+ *
-+ * The device node of the device is parse to find the request LED device.
-+ * The LED device returned from this function is automatically released
-+ * on driver detach.
-+ *
-+ * @return a pointer to a LED device or ERR_PTR(errno) on failure.
-+ */
-+struct led_classdev *__must_check devm_led_get(struct device *dev,
-+					       int index)
-+{
-+	struct led_classdev *led;
-+	struct led_classdev **dr;
++Required properties:
++  - compatible: "led-backlight"
++  - leds: a list of LEDs
 +
-+	led = of_led_get(dev->of_node, index);
-+	if (IS_ERR(led))
-+		return led;
++Optional properties:
++  - brightness-levels: Array of distinct brightness levels. The levels must be
++                       in the range accepted by the underlying LED devices.
++                       This is used to translate a backlight brightness level
++                       into a LED brightness level. if not provided, the
++                       identity mapping is used.
 +
-+	dr = devres_alloc(devm_led_release, sizeof(struct led_classdev *),
-+			  GFP_KERNEL);
-+	if (!dr) {
-+		led_put(led);
-+		return ERR_PTR(-ENOMEM);
-+	}
++  - default-brightness-level: The default brightness level.
 +
-+	*dr = led;
-+	devres_add(dev, dr);
++Example:
 +
-+	return led;
-+}
-+EXPORT_SYMBOL_GPL(devm_led_get);
++	backlight {
++		compatible = "led-backlight";
 +
- static int match_name(struct device *dev, const void *data)
- {
- 	if (!dev_name(dev))
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 0a71c7cdd191..7fcec566d774 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -148,6 +148,8 @@ extern void led_classdev_resume(struct led_classdev *led_cdev);
- 
- extern struct led_classdev *of_led_get(struct device_node *np, int index);
- extern void led_put(struct led_classdev *led_cdev);
-+struct led_classdev *__must_check devm_led_get(struct device *dev,
-+					       int index);
- 
- /**
-  * led_blink_set - set blinking with software fallback
++		leds = <&led1>, <&led2>;
++		brightness-levels = <0 4 8 16 32 64 128 255>;
++		default-brightness-level = <6>;
++	};
 -- 
 2.17.1
 
