@@ -2,56 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A03D26529A
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2019 09:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAA1F652AB
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2019 09:54:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727743AbfGKHoR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 11 Jul 2019 03:44:17 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:41045 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726088AbfGKHoQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 11 Jul 2019 03:44:16 -0400
-Received: by mail-pg1-f193.google.com with SMTP id q4so2513544pgj.8
-        for <linux-leds@vger.kernel.org>; Thu, 11 Jul 2019 00:44:16 -0700 (PDT)
+        id S1727836AbfGKHym (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 11 Jul 2019 03:54:42 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:33702 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727680AbfGKHym (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 11 Jul 2019 03:54:42 -0400
+Received: by mail-pl1-f195.google.com with SMTP id c14so2595274plo.0
+        for <linux-leds@vger.kernel.org>; Thu, 11 Jul 2019 00:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ri9bHj5HCMC+Wo/9G5FYaH6I/ZuEgsaw454KTs1aDJI=;
-        b=pJczOSTcUNYZuvPPeK+Hy5RL5jO0oSlBdxDn+QkU8q2e32LbOe+x3Ce95t1VyaKBg0
-         u3Xg7O8jzPdDzbToWmWLj4k5s5j2+g1r6OTYZTaJVH65KgSfHMcpPs9cxHSN7OIkcBGK
-         Pnd8FNyldCte1G4+C/Z+MLVOYT1gBWzTaMTcKgrpvi3A0395fKmFlZzUaLzi0dXHFIsp
-         IQF/8KU5W+LYH6CqtYRZH5OpFmBaocdnLugnoC4JF6d+Rj4eJmYB2D7LsuwdYZ4y70RT
-         CcOqDzcPHF9tsV3FseZ5NlOBi/4BTEhqgkhMr5wPPnIO4TRFSRyKeoMRXB1pk/XZ5H7m
-         69vA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=hYtfM2/RqLpM2hXEpX7FtWSD8l6/1iktEw80gp1fK84=;
+        b=Z45sdqgC7Kkk8TdXFHZ0WilnDg+eQNTJXAlhj2PtkVDAuAN6f0zMUXCckwn2w52d80
+         pp1Qj6mmzI5bJrxXnoKhlRSPbtP43T+ILx18iktYKdL1Dl99NTYuCWP+xMDaux1wac9I
+         gxMB9+vOs3b8ULrvJM8DGsXTEtppRlbereMDRDdGM3k8XP+6hMuGd67IDjPcnAzGp6v2
+         PrVM8m+q1+n8OrzuEu/O2bKJA7ySrDnJATPnOO/cGJtlivOtjk1LMmWs37CnUixp32cX
+         L57LvB0intCbFOV7QKrq6mC4Yvu3oSX1ftJKgM1ECdDzs10c/e35d/AkUdgZJx9zxQ62
+         0wtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ri9bHj5HCMC+Wo/9G5FYaH6I/ZuEgsaw454KTs1aDJI=;
-        b=dR18RmJwVnTkmEcmXWlCebHh4PIaXSfqUt4kQBDrEaydVUtdluEICuWoZo4Y5wet3A
-         fsi/O353tbZ6+fsG7WpUcpRCmp+3g4nmjnlXHlwjeYVrOhOAmgkSbhYvoWEFc5iPtgPJ
-         8pRbetn6F1kiMIBOqgvQprMY5sytz9C4lMWnT4tl2HJxvJhsACPi6O0iGIYDqXPosgH3
-         /an4Pv9vq3tr+xN0lSoXhjux5bNokYSLYXN2YG0iu9v/0NyLvhG4934pUIoUvLUfWlE/
-         HAJPkLxlgsqfx3CUZJ8DVVO7FepVNK5z62NmIs8R8LGMjQmIHIWk9kp94n4fXSj7gyGy
-         6xIg==
-X-Gm-Message-State: APjAAAUoHBFsc6rFLOzQlb1jr6hBTC0XPw0aitU3hIbR9oxK1dNRomB+
-        euuDfm9RSICALQ2CJkZv714=
-X-Google-Smtp-Source: APXvYqz2it+hOibP1gaBh2YNGnA3hkU8tVnImZHiWNC+0u0hpCsKRR7qFxSWHwF3/d5hbZ4HvK8juQ==
-X-Received: by 2002:a63:e62:: with SMTP id 34mr2853985pgo.331.1562831056014;
-        Thu, 11 Jul 2019 00:44:16 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hYtfM2/RqLpM2hXEpX7FtWSD8l6/1iktEw80gp1fK84=;
+        b=i+30e/RTY7s74qEIC0MmdabjWymw9akvdyRqkJfmunSK0eXNSInMvAHKueCENiRUA9
+         TiyMG/TkoLnTFF28P8/uRuPqoZupJHADUlPsexX8rOnt7nile75S8ZYFHgwASbnbQuOo
+         P9ZzYNo+jlMYF8gCbF5mifZMulx6sD5HW7JSo/6DV6WTA5A4iLCJZpmTafIS3i9VCZss
+         uU6TIz2ormnMsPEI5B/HimKy2btV6MK5StB4tOzm/wZfB7qwIwCywpQX1iu+G1w/SxYG
+         osdtL6+7zMI+Tkm3I5niGEagabU0LeiY8T0LfAFmKmjkkgVl8HYn4AufKSEMkQJDGUsv
+         i3DQ==
+X-Gm-Message-State: APjAAAWG9HxfoLY4G8qlNNpcvlqer671uptbGn4LBHVH99Vnfd2u6mWd
+        6+tNFdmqxoU6967O2LCSFjM=
+X-Google-Smtp-Source: APXvYqwRLt34P99IlO9yM/LXdEKK6Xa0y5b4fdzZjLaYPX5291yKF7jZ32Ft/CqCD3WrdSPfk3Qa3A==
+X-Received: by 2002:a17:902:2926:: with SMTP id g35mr3045013plb.269.1562831681399;
+        Thu, 11 Jul 2019 00:54:41 -0700 (PDT)
 Received: from localhost.localdomain ([110.227.64.207])
-        by smtp.gmail.com with ESMTPSA id e63sm4125625pgc.62.2019.07.11.00.44.13
+        by smtp.gmail.com with ESMTPSA id p2sm8424448pfb.118.2019.07.11.00.54.38
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 11 Jul 2019 00:44:15 -0700 (PDT)
+        Thu, 11 Jul 2019 00:54:41 -0700 (PDT)
 From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
 To:     bgolaszewski@baylibre.com, jacek.anaszewski@gmail.com,
         pavel@ucw.cz, dmurphy@ti.com, linux-leds@vger.kernel.org
 Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Subject: [PATCH v2] leds: max77650: Add of_node_put() before return
-Date:   Thu, 11 Jul 2019 13:14:02 +0530
-Message-Id: <20190711074402.12257-1-nishkadg.linux@gmail.com>
+Subject: [PATCH v3] leds: max77650: Add of_node_put() before return
+Date:   Thu, 11 Jul 2019 13:24:05 +0530
+Message-Id: <20190711075405.12634-1-nishkadg.linux@gmail.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190711074402.12257-1-nishkadg.linux@gmail.com>
+References: <20190711074402.12257-1-nishkadg.linux@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -69,6 +71,14 @@ Issue found with Coccinelle.
 
 Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
 ---
+Changes in v3:
+- Add change log.
+Changes in v2:
+- Change subject line to match previous patches on the same file.
+- Merge the of_node_put calls into a single call in a label at the end
+  of the function instead of calling it separately for each return
+  statement.
+
  drivers/leds/leds-max77650.c | 21 ++++++++++++++-------
  1 file changed, 14 insertions(+), 7 deletions(-)
 
