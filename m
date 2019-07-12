@@ -2,143 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA1F652AB
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Jul 2019 09:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 702D567090
+	for <lists+linux-leds@lfdr.de>; Fri, 12 Jul 2019 15:52:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727836AbfGKHym (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 11 Jul 2019 03:54:42 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:33702 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727680AbfGKHym (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 11 Jul 2019 03:54:42 -0400
-Received: by mail-pl1-f195.google.com with SMTP id c14so2595274plo.0
-        for <linux-leds@vger.kernel.org>; Thu, 11 Jul 2019 00:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hYtfM2/RqLpM2hXEpX7FtWSD8l6/1iktEw80gp1fK84=;
-        b=Z45sdqgC7Kkk8TdXFHZ0WilnDg+eQNTJXAlhj2PtkVDAuAN6f0zMUXCckwn2w52d80
-         pp1Qj6mmzI5bJrxXnoKhlRSPbtP43T+ILx18iktYKdL1Dl99NTYuCWP+xMDaux1wac9I
-         gxMB9+vOs3b8ULrvJM8DGsXTEtppRlbereMDRDdGM3k8XP+6hMuGd67IDjPcnAzGp6v2
-         PrVM8m+q1+n8OrzuEu/O2bKJA7ySrDnJATPnOO/cGJtlivOtjk1LMmWs37CnUixp32cX
-         L57LvB0intCbFOV7QKrq6mC4Yvu3oSX1ftJKgM1ECdDzs10c/e35d/AkUdgZJx9zxQ62
-         0wtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hYtfM2/RqLpM2hXEpX7FtWSD8l6/1iktEw80gp1fK84=;
-        b=i+30e/RTY7s74qEIC0MmdabjWymw9akvdyRqkJfmunSK0eXNSInMvAHKueCENiRUA9
-         TiyMG/TkoLnTFF28P8/uRuPqoZupJHADUlPsexX8rOnt7nile75S8ZYFHgwASbnbQuOo
-         P9ZzYNo+jlMYF8gCbF5mifZMulx6sD5HW7JSo/6DV6WTA5A4iLCJZpmTafIS3i9VCZss
-         uU6TIz2ormnMsPEI5B/HimKy2btV6MK5StB4tOzm/wZfB7qwIwCywpQX1iu+G1w/SxYG
-         osdtL6+7zMI+Tkm3I5niGEagabU0LeiY8T0LfAFmKmjkkgVl8HYn4AufKSEMkQJDGUsv
-         i3DQ==
-X-Gm-Message-State: APjAAAWG9HxfoLY4G8qlNNpcvlqer671uptbGn4LBHVH99Vnfd2u6mWd
-        6+tNFdmqxoU6967O2LCSFjM=
-X-Google-Smtp-Source: APXvYqwRLt34P99IlO9yM/LXdEKK6Xa0y5b4fdzZjLaYPX5291yKF7jZ32Ft/CqCD3WrdSPfk3Qa3A==
-X-Received: by 2002:a17:902:2926:: with SMTP id g35mr3045013plb.269.1562831681399;
-        Thu, 11 Jul 2019 00:54:41 -0700 (PDT)
-Received: from localhost.localdomain ([110.227.64.207])
-        by smtp.gmail.com with ESMTPSA id p2sm8424448pfb.118.2019.07.11.00.54.38
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 11 Jul 2019 00:54:41 -0700 (PDT)
-From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
-To:     bgolaszewski@baylibre.com, jacek.anaszewski@gmail.com,
-        pavel@ucw.cz, dmurphy@ti.com, linux-leds@vger.kernel.org
-Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Subject: [PATCH v3] leds: max77650: Add of_node_put() before return
-Date:   Thu, 11 Jul 2019 13:24:05 +0530
-Message-Id: <20190711075405.12634-1-nishkadg.linux@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190711074402.12257-1-nishkadg.linux@gmail.com>
-References: <20190711074402.12257-1-nishkadg.linux@gmail.com>
+        id S1727024AbfGLNwt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 12 Jul 2019 09:52:49 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:40956 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726724AbfGLNwt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 12 Jul 2019 09:52:49 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6CDqd9i084341;
+        Fri, 12 Jul 2019 08:52:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1562939559;
+        bh=meFXgNrWFMAJFlDbssv3deEMf3ehyrCBz7/CcuE5Iis=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=i638SYldqyQVmOzdQj9fgCo6Ip9tBbbaugPy7+4iWUJX+5FD2/OnPE+WB8Tu4m5X1
+         xm8U+xfWBVHzJRSfXkikGu/PLMWx4kNyb/kN0ancSag5/jNuepDwKQopHubhAZGCPI
+         H8kxSwtZomlLTNq7YGRiBNcJW00QF5TkMCN5AYjw=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6CDqd3F094482
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 12 Jul 2019 08:52:39 -0500
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 12
+ Jul 2019 08:52:38 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 12 Jul 2019 08:52:39 -0500
+Received: from [10.250.97.31] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6CDqabN012751;
+        Fri, 12 Jul 2019 08:52:37 -0500
+Subject: Re: [PATCH v3 1/4] leds: Add of_led_get() and led_put()
+To:     Pavel Machek <pavel@ucw.cz>
+CC:     <jacek.anaszewski@gmail.com>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <lee.jones@linaro.org>,
+        <daniel.thompson@linaro.org>, <jingoohan1@gmail.com>,
+        <dmurphy@ti.com>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <tomi.valkeinen@ti.com>
+References: <20190710123932.28244-1-jjhiblot@ti.com>
+ <20190710123932.28244-2-jjhiblot@ti.com> <20190710190949.GA22995@amd>
+From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
+Message-ID: <da911df6-876e-802e-2953-5293b01789f7@ti.com>
+Date:   Fri, 12 Jul 2019 15:52:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190710190949.GA22995@amd>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Each iteration of for_each_child_of_node puts the previous node, but in
-the case of a return from the middle of the loop, there is no put, thus
-causing a memory leak.
-Hence create a new label, err_node_put, which puts the previous node and
-returns variable rv. Modify the mid-loop return statements to instead
-store the return value in rv and jump to err_node_put.
-Issue found with Coccinelle.
+hi Pavel
 
-Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
----
-Changes in v3:
-- Add change log.
-Changes in v2:
-- Change subject line to match previous patches on the same file.
-- Merge the of_node_put calls into a single call in a label at the end
-  of the function instead of calling it separately for each return
-  statement.
+On 10/07/2019 21:09, Pavel Machek wrote:
+> On Wed 2019-07-10 14:39:29, Jean-Jacques Hiblot wrote:
+>> From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>>
+>> This patch adds basic support for a kernel driver to get a LED device.
+>> This will be used by the led-backlight driver.
+>>
+>> Only OF version is implemented for now, and the behavior is similar to
+>> PWM's of_pwm_get() and pwm_put().
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+>>
+>>
+>> @@ -214,6 +215,55 @@ static int led_resume(struct device *dev)
+>>   
+>>   static SIMPLE_DEV_PM_OPS(leds_class_dev_pm_ops, led_suspend, led_resume);
+>>   
+>> +static int led_match_led_node(struct device *led_dev, const void *data)
+>> +{
+>> +	return led_dev->of_node == data ? 1 : 0;
+>> +}
+> Get rid of the "? 1 : 0"?
+OK
+>
+>
+>> +	led_node = of_parse_phandle(np, "leds", index);
+>> +	if (!led_node)
+>> +		return ERR_PTR(-ENOENT);
+>> +	led_dev = class_find_device(leds_class, NULL, led_node,
+>> +		led_match_led_node);
+>> +	of_node_put(led_node);
+>> +
+>> +	if (!led_dev)
+>> +		return ERR_PTR(-EPROBE_DEFER);
+> Won't this defer probe "forever" when the driver is not available?
 
- drivers/leds/leds-max77650.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+Yes it will.
 
-diff --git a/drivers/leds/leds-max77650.c b/drivers/leds/leds-max77650.c
-index 6b74ce9cac12..1eb9998899e4 100644
---- a/drivers/leds/leds-max77650.c
-+++ b/drivers/leds/leds-max77650.c
-@@ -93,8 +93,10 @@ static int max77650_led_probe(struct platform_device *pdev)
- 
- 	for_each_child_of_node(of_node, child) {
- 		rv = of_property_read_u32(child, "reg", &reg);
--		if (rv || reg >= MAX77650_LED_NUM_LEDS)
--			return -EINVAL;
-+		if (rv || reg >= MAX77650_LED_NUM_LEDS) {
-+			rv = -EINVAL;
-+			goto err_node_put;
-+		}
- 
- 		led = &leds[reg];
- 		led->map = map;
-@@ -109,8 +111,10 @@ static int max77650_led_probe(struct platform_device *pdev)
- 		} else {
- 			led->cdev.name = devm_kasprintf(dev, GFP_KERNEL,
- 							"max77650:%s", label);
--			if (!led->cdev.name)
--				return -ENOMEM;
-+			if (!led->cdev.name) {
-+				rv = -ENOMEM;
-+				goto err_node_put;
-+			}
- 		}
- 
- 		of_property_read_string(child, "linux,default-trigger",
-@@ -118,20 +122,23 @@ static int max77650_led_probe(struct platform_device *pdev)
- 
- 		rv = devm_of_led_classdev_register(dev, child, &led->cdev);
- 		if (rv)
--			return rv;
-+			goto err_node_put;
- 
- 		rv = regmap_write(map, led->regA, MAX77650_LED_A_DEFAULT);
- 		if (rv)
--			return rv;
-+			goto err_node_put;
- 
- 		rv = regmap_write(map, led->regB, MAX77650_LED_B_DEFAULT);
- 		if (rv)
--			return rv;
-+			goto err_node_put;
- 	}
- 
- 	return regmap_write(map,
- 			    MAX77650_REG_CNFG_LED_TOP,
- 			    MAX77650_LED_TOP_DEFAULT);
-+err_node_put:
-+	of_node_put(child);
-+	return rv;
- }
- 
- static struct platform_driver max77650_led_driver = {
--- 
-2.19.1
+However I don't see how we can fix this because we don't know for sure 
+that the LED driver will not become available at a later time.
 
+JJ
+
+
+
+>
