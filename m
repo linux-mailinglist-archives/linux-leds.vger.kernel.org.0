@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A39C16752A
-	for <lists+linux-leds@lfdr.de>; Fri, 12 Jul 2019 20:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EDBB6753A
+	for <lists+linux-leds@lfdr.de>; Fri, 12 Jul 2019 20:50:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727417AbfGLSjI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 12 Jul 2019 14:39:08 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:36850 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726811AbfGLSjI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 12 Jul 2019 14:39:08 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6CIcwZq015255;
-        Fri, 12 Jul 2019 13:38:58 -0500
+        id S1726976AbfGLSuS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 12 Jul 2019 14:50:18 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:44448 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726867AbfGLSuS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 12 Jul 2019 14:50:18 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6CIo9EC024168;
+        Fri, 12 Jul 2019 13:50:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1562956738;
-        bh=qoKT170R6U+xejiy045waJJnY7mObDoDXmCpVbDWlxU=;
+        s=ti-com-17Q1; t=1562957409;
+        bh=zqQ58ER/KkKEyQXdg8uscL61M3xULXtOuGlfXPiC+0g=;
         h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=IvWP7LKWUo/msn1Nf+yf/zMbneTgvg+6CLwE1sCOQdGFJtWl5L7kgspohdLbyA/RF
-         T2Ul1BJC3Z67GZax/DwW2PogmdN/9zAin0U5vFtfsnSypj4kHS9y6AVA6VdY8DMjlK
-         nUscF5Nw3fGj6IItwkAW85rmT6dzmCEzXMN6+6lk=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6CIcwFb052967
+        b=dAaZQGHV1DwZdJc3UcxYwVwxsHGEIz6yobfLwkVrdJ8xlzPcRiFLnt5YhDoVz/jYR
+         YZPUa6bJPksA7hRv5TVSbBcil3pf+rn+aSPgKKUNZEelUV6Jc2CmrBWF+ksF5YIdOL
+         pLPtf1Lq32spU5PxbfkO8McmuC/BT5NJ6PdhBbsI=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6CIo9B2120918
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 12 Jul 2019 13:38:58 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+        Fri, 12 Jul 2019 13:50:09 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 12
- Jul 2019 13:38:57 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE103.ent.ti.com
+ Jul 2019 13:50:09 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE103.ent.ti.com
  (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 12 Jul 2019 13:38:57 -0500
+ Frontend Transport; Fri, 12 Jul 2019 13:50:09 -0500
 Received: from [128.247.59.136] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6CIcvj9030014;
-        Fri, 12 Jul 2019 13:38:57 -0500
-Subject: Re: [PATCH 2/2] dt-bindings: leds: document new "power-supply"
- property
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6CIo9xY056447;
+        Fri, 12 Jul 2019 13:50:09 -0500
+Subject: Re: [PATCH 1/2] leds: Add control of the voltage/current regulator to
+ the LED core
 To:     Jean-Jacques Hiblot <jjhiblot@ti.com>,
         <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
         <mark.rutland@arm.com>, <daniel.thompson@linaro.org>
 CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <devicetree@vger.kernel.org>
 References: <20190708103547.23528-1-jjhiblot@ti.com>
- <20190708103547.23528-3-jjhiblot@ti.com>
+ <20190708103547.23528-2-jjhiblot@ti.com>
 From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <cd233d13-b4dd-1c4f-235e-d63cebab6f4f@ti.com>
-Date:   Fri, 12 Jul 2019 13:38:10 -0500
+Message-ID: <56d16260-ff82-3439-4c1f-2a3a1552bc7d@ti.com>
+Date:   Fri, 12 Jul 2019 13:49:21 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190708103547.23528-3-jjhiblot@ti.com>
+In-Reply-To: <20190708103547.23528-2-jjhiblot@ti.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
@@ -64,37 +64,209 @@ X-Mailing-List: linux-leds@vger.kernel.org
 JJ
 
 On 7/8/19 5:35 AM, Jean-Jacques Hiblot wrote:
-> Most of the LEDs are powered by a voltage/current regulator. describing in
-> the device-tree makes it possible for the LED core to enable/disable it
-> when needed.
+> A LED is usually powered by a voltage/current regulator. Let the LED core
+Let the LED core know
+> about it. This allows the LED core to turn on or off the power supply
+> as needed.
 
-This should be patch 1.
-
-
+>
 > Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
 > ---
->   Documentation/devicetree/bindings/leds/common.txt | 5 +++++
->   1 file changed, 5 insertions(+)
+>   drivers/leds/led-class.c | 10 ++++++++
+>   drivers/leds/led-core.c  | 53 +++++++++++++++++++++++++++++++++++++---
+>   include/linux/leds.h     |  4 +++
+>   3 files changed, 64 insertions(+), 3 deletions(-)
 >
-> diff --git a/Documentation/devicetree/bindings/leds/common.txt b/Documentation/devicetree/bindings/leds/common.txt
-> index 70876ac11367..e093a2b7eb90 100644
-> --- a/Documentation/devicetree/bindings/leds/common.txt
-> +++ b/Documentation/devicetree/bindings/leds/common.txt
-> @@ -61,6 +61,11 @@ Optional properties for child nodes:
->   - panic-indicator : This property specifies that the LED should be used,
->   		    if at all possible, as a panic indicator.
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 4793e77808e2..e01b2d982564 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -17,6 +17,7 @@
+>   #include <linux/slab.h>
+>   #include <linux/spinlock.h>
+>   #include <linux/timer.h>
+> +#include <linux/regulator/consumer.h>
+
+What if you move this to leds.h so core and class can both include it.
+
+
+>   #include <uapi/linux/uleds.h>
+>   #include "leds.h"
 >   
-> +- power-supply : A voltage/current regulator used to to power the LED. When a
-> +		 LED is turned off, the LED core disable its regulator. The
-> +		 same regulator can power many LED (or other) devices. It is
-> +		 turned off only when all of its users disabled it.
+> @@ -272,6 +273,15 @@ int of_led_classdev_register(struct device *parent, struct device_node *np,
+>   		dev_warn(parent, "Led %s renamed to %s due to name collision",
+>   				led_cdev->name, dev_name(led_cdev->dev));
+>   
+> +	led_cdev->regulator = devm_regulator_get(led_cdev->dev, "power");
+
+Is the regulator always going to be called power?
+
+> +	if (IS_ERR(led_cdev->regulator)) {
+> +		dev_err(led_cdev->dev, "Cannot get the power supply for %s\n",
+> +			led_cdev->name);
+> +		device_unregister(led_cdev->dev);
+> +		mutex_unlock(&led_cdev->led_access);
+> +		return PTR_ERR(led_cdev->regulator);
+
+This is listed as optional in the DT doc.  This appears to be required.
+
+I prefer to keep it optional.  Many LED drivers are connected to fixed 
+non-managed supplies.
+
+> +	}
 > +
->   - trigger-sources : List of devices which should be used as a source triggering
->   		    this LED activity. Some LEDs can be related to a specific
->   		    device and should somehow indicate its state. E.g. USB 2.0
+>   	if (led_cdev->flags & LED_BRIGHT_HW_CHANGED) {
+>   		ret = led_add_brightness_hw_changed(led_cdev);
+>   		if (ret) {
+> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+> index 7107cd7e87cf..139de6b08cad 100644
+> --- a/drivers/leds/led-core.c
+> +++ b/drivers/leds/led-core.c
+> @@ -16,6 +16,7 @@
+>   #include <linux/rwsem.h>
+>   #include <linux/slab.h>
+>   #include "leds.h"
+> +#include <linux/regulator/consumer.h>
+>   
+>   DECLARE_RWSEM(leds_list_lock);
+>   EXPORT_SYMBOL_GPL(leds_list_lock);
+> @@ -23,6 +24,31 @@ EXPORT_SYMBOL_GPL(leds_list_lock);
+>   LIST_HEAD(leds_list);
+>   EXPORT_SYMBOL_GPL(leds_list);
+>   
+> +static bool __led_need_regulator_update(struct led_classdev *led_cdev,
+> +					int brightness)
+> +{
+> +	bool new_regulator_state = (brightness != LED_OFF);
+> +
+> +	return led_cdev->regulator_state != new_regulator_state;
+> +}
+> +
+> +static int __led_handle_regulator(struct led_classdev *led_cdev,
+> +				int brightness)
+> +{
+> +	if (__led_need_regulator_update(led_cdev, brightness)) {
+> +		int ret;
+
+Prefer to this to be moved up.
+
+> +
+> +		if (brightness != LED_OFF)
+> +			ret = regulator_enable(led_cdev->regulator);
+> +		else
+> +			ret = regulator_disable(led_cdev->regulator);
+> +		if (ret)
+> +			return ret;
+new line
+> +		led_cdev->regulator_state = (brightness != LED_OFF);
+> +	}
+> +	return 0;
+> +}
+> +
+>   static int __led_set_brightness(struct led_classdev *led_cdev,
+>   				enum led_brightness value)
+>   {
+> @@ -80,6 +106,7 @@ static void led_timer_function(struct timer_list *t)
+>   	}
+>   
+>   	led_set_brightness_nosleep(led_cdev, brightness);
+> +	__led_handle_regulator(led_cdev, brightness);
+
+Again this seems to indicate that the regulator is a required property 
+for the LEDs
+
+This needs to be made optional.  And the same comment through out for 
+every call.
 
 
-Do you have an example update?
+>   
+>   	/* Return in next iteration if led is in one-shot mode and we are in
+>   	 * the final blink state so that the led is toggled each delay_on +
+> @@ -115,6 +142,8 @@ static void set_brightness_delayed(struct work_struct *ws)
+>   	if (ret == -ENOTSUPP)
+>   		ret = __led_set_brightness_blocking(led_cdev,
+>   					led_cdev->delayed_set_value);
+> +	__led_handle_regulator(led_cdev, led_cdev->delayed_set_value);
+> +
+>   	if (ret < 0 &&
+>   	    /* LED HW might have been unplugged, therefore don't warn */
+>   	    !(ret == -ENODEV && (led_cdev->flags & LED_UNREGISTERING) &&
+> @@ -141,6 +170,7 @@ static void led_set_software_blink(struct led_classdev *led_cdev,
+>   	/* never on - just set to off */
+>   	if (!delay_on) {
+>   		led_set_brightness_nosleep(led_cdev, LED_OFF);
+> +		__led_handle_regulator(led_cdev, LED_OFF);
+>   		return;
+>   	}
+>   
+> @@ -148,6 +178,7 @@ static void led_set_software_blink(struct led_classdev *led_cdev,
+>   	if (!delay_off) {
+>   		led_set_brightness_nosleep(led_cdev,
+>   					   led_cdev->blink_brightness);
+> +		__led_handle_regulator(led_cdev, led_cdev->blink_brightness);
+>   		return;
+>   	}
+>   
+> @@ -256,8 +287,14 @@ void led_set_brightness_nopm(struct led_classdev *led_cdev,
+>   			      enum led_brightness value)
+>   {
+>   	/* Use brightness_set op if available, it is guaranteed not to sleep */
+> -	if (!__led_set_brightness(led_cdev, value))
+> -		return;
+> +	if (!__led_set_brightness(led_cdev, value)) {
+> +		/*
+> +		 * if regulator state doesn't need to be changed, that is all/
+> +		 * Otherwise delegate the change to a work queue
+> +		 */
+> +		if (!__led_need_regulator_update(led_cdev, value))
+> +			return;
+> +	}
+>   
+>   	/* If brightness setting can sleep, delegate it to a work queue task */
+>   	led_cdev->delayed_set_value = value;
+> @@ -280,6 +317,8 @@ EXPORT_SYMBOL_GPL(led_set_brightness_nosleep);
+>   int led_set_brightness_sync(struct led_classdev *led_cdev,
+>   			    enum led_brightness value)
+>   {
+> +	int ret;
+> +
+>   	if (led_cdev->blink_delay_on || led_cdev->blink_delay_off)
+>   		return -EBUSY;
+>   
+> @@ -288,7 +327,15 @@ int led_set_brightness_sync(struct led_classdev *led_cdev,
+>   	if (led_cdev->flags & LED_SUSPENDED)
+>   		return 0;
+>   
+> -	return __led_set_brightness_blocking(led_cdev, led_cdev->brightness);
+> +	ret = __led_set_brightness_blocking(led_cdev, led_cdev->brightness);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = __led_handle_regulator(led_cdev, led_cdev->brightness);
+
+Can't you just return here?
 
 Dan
 
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+>   }
+>   EXPORT_SYMBOL_GPL(led_set_brightness_sync);
+>   
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index 9b2bf574a17a..bee8e3f8dddd 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -123,6 +123,10 @@ struct led_classdev {
+>   
+>   	/* Ensures consistent access to the LED Flash Class device */
+>   	struct mutex		led_access;
+> +
+> +	/* regulator */
+> +	struct regulator	*regulator;
+> +	bool			regulator_state;
+>   };
+>   
+>   extern int of_led_classdev_register(struct device *parent,
