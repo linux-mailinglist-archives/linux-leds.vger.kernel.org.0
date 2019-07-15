@@ -2,56 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE77869AA6
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Jul 2019 20:17:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49DB869AE6
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Jul 2019 20:30:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732095AbfGOSQr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 Jul 2019 14:16:47 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:34981 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729135AbfGOSQq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Jul 2019 14:16:46 -0400
-Received: by mail-wm1-f68.google.com with SMTP id l2so16156936wmg.0;
-        Mon, 15 Jul 2019 11:16:44 -0700 (PDT)
+        id S1729735AbfGOSaD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 15 Jul 2019 14:30:03 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38020 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729413AbfGOSaD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Jul 2019 14:30:03 -0400
+Received: by mail-wr1-f66.google.com with SMTP id g17so18171025wrr.5;
+        Mon, 15 Jul 2019 11:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=6HLk2cVj3kq3Kbhp4GQe5jlzCfC1ukXF1+aHRy1IKdI=;
-        b=SVfiX/jmBlWRNvHi2ycuo8U3gTuvYMgm++pS3H61q82M23ghhqpPQ7JC7TkaxxF5rN
-         U8oI2phXhoM4SuGOrDCqK1BmBRML11c5cWu+rjT8NqsqiQFs82dk28e8MWuJYbtA/u5K
-         ERFJOzhuVvK897bbN/LW+xlU+2kbegv5eVxdOviiaLJyh2gRNfdX9w3rxy36ERgjb/jU
-         kbcKNv9eaxja2sN5jFj7ScJQmc763DodwNBAzO5twXs9ogWb/15KFJeG7o55HHDlsiAL
-         IT/HcrfWpU/vNeR+B6wm8PiZ1i1dpWCFqewpctgfPfD4hCPBq9rtbP8kmJ1cEK/uRY5O
-         RrwA==
+        bh=5C6gCMrB4Kck5n5fpD6+2uQwMZHyzbePsAM6WHVARw0=;
+        b=jPTPlqN0laDTew0wgZcmI3lwD60ZR+4eQsdcwr0PzcvU+bR+p9H/t97BoBrVzwMTJ5
+         wfzeCfJ+x2ElRkCL2cManKpdwkplTgQrGkIjjnlP+b9voX+MGBHJpThLdkhrsgOxyysG
+         hfl3qTVVrcmzmr8hkcKjUgpKOpYqys33tCwb5V7bM5UQIgshM6byvCV9XQUhknIcPSnL
+         GtF6qK1ArkVbpuca+Y20lA1hzPVB605Q+w/sNQ9UJBBMyVdHstifHcR0BpPW9se3D23I
+         Bzdd0NV4aLrWJ/JciixLQGPmHLxnYkvR1nj5wC28aTK+EsA99Gv7zPAPHf5VMTPViinx
+         IvWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=6HLk2cVj3kq3Kbhp4GQe5jlzCfC1ukXF1+aHRy1IKdI=;
-        b=lIrFPpCHmdVKkwaHTk8/Kg6JW073UyzRHqPKBdlGE3kRxvzGeqOrk6PR5AAo29FCm4
-         +j3oK/QRqDu4aPrDxfQBpqq/szze81K2hJEgAeDTrQKA56+AzVHwH4GPmGX7OY5GrzHs
-         v8SXAgrgsO7H+9DVot5f6zGMowSURBbJ/vaMv+XaqQApaIrmCY7keIyLu8J0qNdYC97s
-         aaX2hhYZR+0nvEjP078fFt0EVcfkXC3Ycz2akdF/m6F8NmWXcmcPidlk7Ttj1oZNglOK
-         h4IrR+A+U35zLCRvWj1ImM6BM7QJeBbrL2Kakq7zjrzpF3xU0wBNcYV7/e6K9xuJSYT5
-         lWdA==
-X-Gm-Message-State: APjAAAXv4o6gY4fn2Cjiw5YqHk+T1Jti87aUZciA7UZsar0qCAQOCHER
-        QK4dw4XT00NQfu0XlBST2J4=
-X-Google-Smtp-Source: APXvYqzgapmoF5R4bqZ8zHWqSpKRkfXePkiopmEpHwhrEsQA4nRS6qYeOremflfHxUNPqhDl4fT8Ow==
-X-Received: by 2002:a1c:c747:: with SMTP id x68mr25806716wmf.138.1563214603758;
-        Mon, 15 Jul 2019 11:16:43 -0700 (PDT)
+        bh=5C6gCMrB4Kck5n5fpD6+2uQwMZHyzbePsAM6WHVARw0=;
+        b=H5/Y35vsCh+RJOrMDLc2fBER0mSuSO3GrvxB2OkfMVA3LotaeLctmjtVuq+9VyVkM0
+         HwAtErJZ9DocvuhGph/rCDi11iha7X4kerivc7oFNG4mWLJyYFp93PqCH55Wu/7ang6F
+         mYMPJ22CCJk72plBIX7xCHPD2eRlOeiGZulBgzraCqUwOX6HAJC1Aatp1l7lW/IjEZHZ
+         IMF8LyEK4oS6tntm0DB8XFGvYr2PrzvH4CN4xZ1ai2LmxQzgGUQ5JZG9Bkz6pOzdclMA
+         c5fXDUGQ22CZHaOdmfbInLJyX0FPBmCswa817ZhJ+yinCzHgiyTX7F42kwdRx42AnFt4
+         C/ww==
+X-Gm-Message-State: APjAAAXLow3uGAFt7RZjiRtOVB10tDmbyrGoL9gjQ3hVHQn7gv0oerf0
+        7v2xSNFiX0M/zKx16JfgOhDB75oh
+X-Google-Smtp-Source: APXvYqwfLPAq2O8/U1n/BiU5wBLZxapWFuxS+VnCEDjiib1EgvoZvqkk5/PZYQiOjt/ONnzUQiJj+Q==
+X-Received: by 2002:a5d:6406:: with SMTP id z6mr29905018wru.280.1563215400594;
+        Mon, 15 Jul 2019 11:30:00 -0700 (PDT)
 Received: from [192.168.1.19] (chk118.neoplus.adsl.tpnet.pl. [83.31.8.118])
-        by smtp.gmail.com with ESMTPSA id n9sm31948472wrp.54.2019.07.15.11.16.42
+        by smtp.gmail.com with ESMTPSA id g17sm13279081wrm.7.2019.07.15.11.29.59
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jul 2019 11:16:43 -0700 (PDT)
-Subject: Re: [PATCH] leds: max77650: add MODULE_ALIAS()
-To:     Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-References: <20190703084738.9501-1-brgl@bgdev.pl>
+        Mon, 15 Jul 2019 11:29:59 -0700 (PDT)
+Subject: Re: [PATCH 2/8] leds: as3645a: Fix misuse of strlcpy
+To:     Joe Perches <joe@perches.com>, Sakari Ailus <sakari.ailus@iki.fi>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1562283944.git.joe@perches.com>
+ <79fe35321ff794dccf1d08b415cee40636fa5fce.1562283944.git.joe@perches.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,12 +110,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  VykdkWccEqvxqDV4f8q0V0MW3KWfkD9/07bbGxXSnImeLt7bPuVMGK2tAUbr2+dUYmUdsETZ
  1HgZ11moCVU5Ru0RwTv9oyThOsK3HQjI7NCIsDzVpolaGQPd9E7xwOVHhhDcXRqqNjLzHUSe
  eGGiEQ==
-Message-ID: <3a4162b2-2b1b-69af-698f-058ad52389d8@gmail.com>
-Date:   Mon, 15 Jul 2019 20:16:41 +0200
+Message-ID: <a6ff8385-6c83-c820-0fb1-105601331456@gmail.com>
+Date:   Mon, 15 Jul 2019 20:29:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190703084738.9501-1-brgl@bgdev.pl>
+In-Reply-To: <79fe35321ff794dccf1d08b415cee40636fa5fce.1562283944.git.joe@perches.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -124,30 +124,31 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Bartosz,
+Hi Joe,
 
 Thank you for the patch.
 
-On 7/3/19 10:47 AM, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On 7/5/19 1:57 AM, Joe Perches wrote:
+> Probable cut&paste typo - use the correct field size.
 > 
-> Define a MODULE_ALIAS() in the LED sub-driver for max77650 so that
-> the appropriate module gets loaded together with the core mfd driver.
-> 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Signed-off-by: Joe Perches <joe@perches.com>
 > ---
->  drivers/leds/leds-max77650.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/leds/leds-as3645a.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/leds/leds-max77650.c b/drivers/leds/leds-max77650.c
-> index 6b74ce9cac12..70166cd3816c 100644
-> --- a/drivers/leds/leds-max77650.c
-> +++ b/drivers/leds/leds-max77650.c
-> @@ -145,3 +145,4 @@ module_platform_driver(max77650_led_driver);
->  MODULE_DESCRIPTION("MAXIM 77650/77651 LED driver");
->  MODULE_AUTHOR("Bartosz Golaszewski <bgolaszewski@baylibre.com>");
->  MODULE_LICENSE("GPL v2");
-> +MODULE_ALIAS("platform:max77650-led");
+> diff --git a/drivers/leds/leds-as3645a.c b/drivers/leds/leds-as3645a.c
+> index 14ab6b0e4de9..050088dff8dd 100644
+> --- a/drivers/leds/leds-as3645a.c
+> +++ b/drivers/leds/leds-as3645a.c
+> @@ -668,7 +668,7 @@ static int as3645a_v4l2_setup(struct as3645a *flash)
+>  	};
+>  
+>  	strlcpy(cfg.dev_name, led->name, sizeof(cfg.dev_name));
+> -	strlcpy(cfgind.dev_name, flash->iled_cdev.name, sizeof(cfg.dev_name));
+> +	strlcpy(cfgind.dev_name, flash->iled_cdev.name, sizeof(cfgind.dev_name));
+>  
+>  	flash->vf = v4l2_flash_init(
+>  		&flash->client->dev, flash->flash_node, &flash->fled, NULL,
 > 
 
 Applied to for-5.4 branch of linux-leds.git.
