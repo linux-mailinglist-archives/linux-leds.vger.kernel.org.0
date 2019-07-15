@@ -2,56 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8A2169D33
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Jul 2019 23:02:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF9CE69D8D
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Jul 2019 23:16:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730258AbfGOVC0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 Jul 2019 17:02:26 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40120 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729640AbfGOVCZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Jul 2019 17:02:25 -0400
-Received: by mail-wm1-f67.google.com with SMTP id v19so16551072wmj.5
-        for <linux-leds@vger.kernel.org>; Mon, 15 Jul 2019 14:02:23 -0700 (PDT)
+        id S1730091AbfGOVQq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 15 Jul 2019 17:16:46 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:38871 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730076AbfGOVQp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Jul 2019 17:16:45 -0400
+Received: by mail-wm1-f65.google.com with SMTP id s15so16575858wmj.3
+        for <linux-leds@vger.kernel.org>; Mon, 15 Jul 2019 14:16:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=dHsXqOI3gug1EIxpL25nN7IJ29TVD/T8nji3vu8y6F0=;
-        b=UFy9wv+5YcTbs+EEVMB6kScqrP5QtFVJDziwjR4kSlHMX9VvK/H0ea4EQGdWtr084F
-         lvSy38HMazGgWghurrVFbIz23TaTdw7a0xMyuYLyOWZVVg1ZsBXRUkUQVTL4tv8ZrZek
-         aL8riNfwlD4gBRtIZjqJcH2izFRTxDSVANC9i7HeGC0TtZA6qfGiXMzPedeN7ysoz7iM
-         dkWtPdq+uyXOwG9LSz6kxczch3ewMIxK9JkVd65HItPB2J78ftZBTzPXgfXQ+TjSSzLz
-         zUVJzDaFGmw35XhoCm2CzEJAlF+JK3jPrNCQcIHe7q9nEi2/dqI+cC79DbmfiQ35EoUj
-         DJXw==
+        bh=luyqFKzKjqTDzDPYiVBMzQdJumB/BY+8wCFD2kNe5hU=;
+        b=AyUtCVRKJTubS8L8zerUQ+ulwYbXv6pVrOtMNXVqvhS0BAT0yftwlVp7SL1+AvtlUu
+         pG+kebghfq/3+dItxTzcPJfCkhqeKDwIvZIz53+Qi9a8nKax6gBArHsI3RSNEq9OrJBV
+         0hYuKxoeu3sjj/r/tgB9iWzBmw/O3x2ULWjXSAErbS42AI2WPWBhKAjbZpd/ZE8ucbPb
+         SVzfmV0lcvywtBG+FYE6WLOUBlyWWGGpDIw7s1Y599vWh1iAY213K6oveAsX0xr/TmPJ
+         DP2++kJc/ZE4HDauY1HPIIVnzftMuBQpFAZ7ja1AU11QzhEkeB0VPAT+gL8hUT9iBVUM
+         t4Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=dHsXqOI3gug1EIxpL25nN7IJ29TVD/T8nji3vu8y6F0=;
-        b=oBvlLUC7QUOLAPUpctpWKkop+POwPcfiEgt+lFYubUPpAIKyijDl5wSzwQcoXhlYc6
-         +Jgcfk0CWPwGZ+uvK0v0pKXwL20e+Q4L5wYdoWWhPTubhi3Ri4FXTNU/56eOzDFCtCz7
-         kIqVgqVbEhoLPMzlzM2Y3aI2CfdvxhFYNr96FcL3lEw09pAaCVnU9qKZKOEu+VnsFe1D
-         NF3i4Y2q3FMlFJdsxYWjR530DVWpWn6wg90JJ4/i1+1rqMvJSiXOhu80su9QJ0v73aSv
-         fjZvRR2gqfGGku9oeBiy/WvC9iFfBbyInWdRAA8jqtZwCifTK2jtlkbZzbOiBW1ON+72
-         bsGA==
-X-Gm-Message-State: APjAAAX8HulRhalPif+kHv5IWNmZAye7lohJ+jL6lC1a5IddkRmH4paG
-        COpYBlJEbVaac4bUZFjY+lEnb0Gl
-X-Google-Smtp-Source: APXvYqwfBImdEMR0a/Y9Psm4krF4AlrwtIkmFAhiZB1qB61Yz0Yd0oY3Sh+CSxUrQRoNyvDPLvcClA==
-X-Received: by 2002:a1c:228b:: with SMTP id i133mr26223210wmi.140.1563224542565;
-        Mon, 15 Jul 2019 14:02:22 -0700 (PDT)
+        bh=luyqFKzKjqTDzDPYiVBMzQdJumB/BY+8wCFD2kNe5hU=;
+        b=iJWYtEWIQQIK5lLBBu1pIdRb0pCp3ZVmRFNtWNSNOWNLJ+Ras+OQn7SyIwtQAhflpX
+         6okGu9DapV02G0v2iVWBmHGWZlcTTiNzd4iXyYoqXe2N93hHLhM1bw47t4qfFRz7L4eO
+         GYrHETCuJ77qKxeV5e1FLNjSwIS8rDdErtcQeULjLfSE+A/sqfAWvxoImspRMTcS9eW4
+         Gg8rJ5Z6ub+rKcGXShJBxnmrutIEDsIJgBUioGUt2eVjt3LpT/ydB9r0GL48kp9mi83b
+         zH4f4Bcoz5blHtPKMz7/mNqTgvkzz75Hb7l9mvxmumehguxqpXHqkBVJufGUXr/wIPAb
+         Epzg==
+X-Gm-Message-State: APjAAAVW5Ii+bptNeHCUJX8AtZ8GGfL7iBxC8pyMqrH3ENbkkxJ99sZM
+        5cH3SCMUCDvjeM1zqi6q34KTrDh8
+X-Google-Smtp-Source: APXvYqyz1hYQDzqYQAaMw+X+aaxZYgE0FFgih8OM5IzQbx8AGsi2DxSDQ6+tIBWMRY01cGxUtSNJrg==
+X-Received: by 2002:a1c:18a:: with SMTP id 132mr26453802wmb.15.1563225402697;
+        Mon, 15 Jul 2019 14:16:42 -0700 (PDT)
 Received: from [192.168.1.19] (chk118.neoplus.adsl.tpnet.pl. [83.31.8.118])
-        by smtp.gmail.com with ESMTPSA id u1sm17845263wml.14.2019.07.15.14.02.20
+        by smtp.gmail.com with ESMTPSA id 91sm37097824wrp.3.2019.07.15.14.16.41
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jul 2019 14:02:21 -0700 (PDT)
-Subject: Re: [PATCH v3] leds: max77650: Add of_node_put() before return
-To:     Nishka Dasgupta <nishkadg.linux@gmail.com>,
-        bgolaszewski@baylibre.com, pavel@ucw.cz, dmurphy@ti.com,
+        Mon, 15 Jul 2019 14:16:42 -0700 (PDT)
+Subject: Re: [PATCH] leds: leds-lp5562 allow firmware files up to the maximum
+ length
+To:     Nick Stoughton <nstoughton@logitech.com>,
         linux-leds@vger.kernel.org
-References: <20190711074402.12257-1-nishkadg.linux@gmail.com>
- <20190711075405.12634-1-nishkadg.linux@gmail.com>
+References: <CACpbN90YPxnsm1Py4t2-npk0b8A06+OZTtc8kom_smMDUyFEVw@mail.gmail.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,12 +109,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  VykdkWccEqvxqDV4f8q0V0MW3KWfkD9/07bbGxXSnImeLt7bPuVMGK2tAUbr2+dUYmUdsETZ
  1HgZ11moCVU5Ru0RwTv9oyThOsK3HQjI7NCIsDzVpolaGQPd9E7xwOVHhhDcXRqqNjLzHUSe
  eGGiEQ==
-Message-ID: <e0fe66bb-abba-8b6a-e21a-ebc308e51c5d@gmail.com>
-Date:   Mon, 15 Jul 2019 23:02:19 +0200
+Message-ID: <0c4b1ce9-77d1-44bd-01b9-d4f37dc1fcc2@gmail.com>
+Date:   Mon, 15 Jul 2019 23:16:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190711075405.12634-1-nishkadg.linux@gmail.com>
+In-Reply-To: <CACpbN90YPxnsm1Py4t2-npk0b8A06+OZTtc8kom_smMDUyFEVw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -124,93 +123,53 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Nishka,
+Hi Nick,
 
-Thank you for the patch.
+Thank you for the patch. Unfortunately it doesn't apply:
 
-On 7/11/19 9:54 AM, Nishka Dasgupta wrote:
-> Each iteration of for_each_child_of_node puts the previous node, but in
-> the case of a return from the middle of the loop, there is no put, thus
-> causing a memory leak.
-> Hence create a new label, err_node_put, which puts the previous node and
-> returns variable rv. Modify the mid-loop return statements to instead
-> store the return value in rv and jump to err_node_put.
-> Issue found with Coccinelle.
-> 
-> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
-> ---
-> Changes in v3:
-> - Add change log.
-> Changes in v2:
-> - Change subject line to match previous patches on the same file.
-> - Merge the of_node_put calls into a single call in a label at the end
->   of the function instead of calling it separately for each return
->   statement.
-> 
->  drivers/leds/leds-max77650.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-max77650.c b/drivers/leds/leds-max77650.c
-> index 6b74ce9cac12..1eb9998899e4 100644
-> --- a/drivers/leds/leds-max77650.c
-> +++ b/drivers/leds/leds-max77650.c
-> @@ -93,8 +93,10 @@ static int max77650_led_probe(struct platform_device *pdev)
->  
->  	for_each_child_of_node(of_node, child) {
->  		rv = of_property_read_u32(child, "reg", &reg);
-> -		if (rv || reg >= MAX77650_LED_NUM_LEDS)
-> -			return -EINVAL;
-> +		if (rv || reg >= MAX77650_LED_NUM_LEDS) {
-> +			rv = -EINVAL;
-> +			goto err_node_put;
-> +		}
->  
->  		led = &leds[reg];
->  		led->map = map;
-> @@ -109,8 +111,10 @@ static int max77650_led_probe(struct platform_device *pdev)
->  		} else {
->  			led->cdev.name = devm_kasprintf(dev, GFP_KERNEL,
->  							"max77650:%s", label);
-> -			if (!led->cdev.name)
-> -				return -ENOMEM;
-> +			if (!led->cdev.name) {
-> +				rv = -ENOMEM;
-> +				goto err_node_put;
-> +			}
->  		}
->  
->  		of_property_read_string(child, "linux,default-trigger",
-> @@ -118,20 +122,23 @@ static int max77650_led_probe(struct platform_device *pdev)
->  
->  		rv = devm_of_led_classdev_register(dev, child, &led->cdev);
->  		if (rv)
-> -			return rv;
-> +			goto err_node_put;
->  
->  		rv = regmap_write(map, led->regA, MAX77650_LED_A_DEFAULT);
->  		if (rv)
-> -			return rv;
-> +			goto err_node_put;
->  
->  		rv = regmap_write(map, led->regB, MAX77650_LED_B_DEFAULT);
->  		if (rv)
-> -			return rv;
-> +			goto err_node_put;
->  	}
->  
->  	return regmap_write(map,
->  			    MAX77650_REG_CNFG_LED_TOP,
->  			    MAX77650_LED_TOP_DEFAULT);
-> +err_node_put:
-> +	of_node_put(child);
-> +	return rv;
->  }
->  
->  static struct platform_driver max77650_led_driver = {
-> 
+$ git am \[PATCH\]\ leds\:\ leds-lp5562\ allow\ firmware\ files\ up\ to\
+the\ maximum\ length.eml
+Applying: leds: leds-lp5562 allow firmware files up to the maximum length
+error: corrupt patch at line 10
+...
 
-Applied to for-5.4 branch of linux-leds.git.
+I don't know where is the problem exactly, but you seem to have copied
+the patch created with "git format-patch" and copy-pasted it to the
+message composer window. Please send the patch using
+"git send-email".
 
--- 
 Best regards,
 Jacek Anaszewski
+
+
+On 7/10/19 4:30 PM, Nick Stoughton wrote:
+> Firmware files are in ASCII, using 2 hex characters per byte. The
+> maximum length of a firmware string is therefore
+> 
+> 16 (commands) * 2 (bytes per command) * 2 (characters per byte) = 64
+> 
+> Signed-off-by: Nick Stoughton <nstoughton@logitech.com>
+> ---
+>  drivers/leds/leds-lp5562.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/leds-lp5562.c b/drivers/leds/leds-lp5562.c
+> index 37632fc63741..e00117e3b50d 100644
+> --- a/drivers/leds/leds-lp5562.c
+> +++ b/drivers/leds/leds-lp5562.c
+> @@ -260,7 +260,11 @@ static void lp5562_firmware_loaded(struct
+> lp55xx_chip *chip)
+>  {
+>         const struct firmware *fw = chip->fw;
+> 
+> -       if (fw->size > LP5562_PROGRAM_LENGTH) {
+> +        /*
+> +         * the firmware is encoded in ascii hex character, with 2 chars
+> +         * per byte
+> +         */
+> +       if (fw->size > (LP5562_PROGRAM_LENGTH * 2)) {
+>                 dev_err(&chip->cl->dev, "firmware data size overflow: %zu\n",
+>                         fw->size);
+>                 return;
+> 
+
