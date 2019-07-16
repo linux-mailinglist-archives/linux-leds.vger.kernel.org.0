@@ -2,132 +2,82 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E22A6A2DE
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jul 2019 09:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C0B76A6C3
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jul 2019 12:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726528AbfGPHYi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Jul 2019 03:24:38 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:35580 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726463AbfGPHYi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Jul 2019 03:24:38 -0400
-Received: by mail-pg1-f196.google.com with SMTP id s1so2671235pgr.2
-        for <linux-leds@vger.kernel.org>; Tue, 16 Jul 2019 00:24:38 -0700 (PDT)
+        id S2387440AbfGPKuk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Jul 2019 06:50:40 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38111 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728235AbfGPKuh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Jul 2019 06:50:37 -0400
+Received: by mail-wr1-f66.google.com with SMTP id g17so20411018wrr.5
+        for <linux-leds@vger.kernel.org>; Tue, 16 Jul 2019 03:50:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kdV0GjxaWO6Y8iHlzAUy39ZOtzGux2+F/UOJkAqaCPk=;
-        b=pmOnu209A5IGEbSFYWfPNlVs/lhog4i6+muFMjp3iF9I8qYCh0m06zpveXRjb8jGA7
-         sAXsiWy1CL1R3UHhE3G4PvAVnPgVEj7vhuQMi9zbgdzdx58onomqw8FxdBo3hI8o+MD/
-         dQfr0C98yk6TLmGicd3vn47G/naCgCKxqU8VThTzbBl6aTSCcJ5itJcLNDAj0G7BRirU
-         FGZ4taNXjs+eT1157FKa7YHELdWDNTSVAr+a6Cm6bRTrxgWa65j0WLkrluUZEUehTmd4
-         WqDepnUqbwa/lIzLHQeW+tR2m6Wrcb6gXhuvHSMagStLQ2uSGf5JMhakskwvyqEQiSfk
-         jjSw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=nGHdZHwOOO/T2384pEiYCjK9U0acA1Up7ymoQnE8Urk=;
+        b=cP8y8jz99Gz9nRhMHIWp3tnPvoaGR2aHUluujRGjc/UHmoPzvlHWZZkT9YcFmAFqi1
+         EssQrq1YHwRLYzCr/tsZ0plLTWbcsQTYmpb3zrTWqQ2pvpknCWsDme74+qRvh6zNosvL
+         JGAfQEePL0/yPaeoQcFQFIEk0uH4KlZBIxtBFYJ26oU/Z+0malorsCIFbN4AEU+J0DF3
+         9nnNUjifgD8e++maw7yPtAf7PhlB3fnx8hRyZRkseNTr42TO4stZDXoO8IjZMbva8g2C
+         cv0Wlw4CvZ++FZewUVs7r4OTdNQiwK/VP8CQop8Ydut99FTWoH4kIBlrfU4K5otNRFQN
+         NXNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kdV0GjxaWO6Y8iHlzAUy39ZOtzGux2+F/UOJkAqaCPk=;
-        b=cuc3dy5+zvk+ebbIw/uqcf/gAMLFmLqdRd/6iMBnWtGJFheWqwCALkbInX3dxIhMI5
-         fNi43lK8pu/NiuGTMHcRMc8C3uy8MmPDvMx5uf4c4suRSSaMaEPzL9Sr8hdtjSnDdkvn
-         J7rUUmmqguNcMeuPYZvcQ3kKo24+YiOxD7FhnhXJQHyTjIYBBP8Y++8EDCP/yUBtpc2q
-         AXMF+jLEoCR/xU2GLp6uk20wvsS7rU6CdYilCFXv7sEyZs6LLvhcZRazOGGy7fLNi8td
-         YWKUhtpfCa/UKZQMNCKfm5k9AYshEKtLgYsK/MOSvsEWVF3lEqOHHlef93snPJAO02ZW
-         /yng==
-X-Gm-Message-State: APjAAAUj411D5LmOXibDgpzkkEt1S/qlt31hKVV/6XgUyWzZIsv0Q0u/
-        icalIZj+owOyBCD5AoH07To=
-X-Google-Smtp-Source: APXvYqzd1Ap46L/A/u6qceQSIMxyJkoGD6uqwWhtwLjRduvWqkPZNhMlvDmlnYddBNRHmFafqJ01bQ==
-X-Received: by 2002:a17:90a:bf08:: with SMTP id c8mr34271062pjs.75.1563261877730;
-        Tue, 16 Jul 2019 00:24:37 -0700 (PDT)
-Received: from localhost.localdomain ([110.227.64.207])
-        by smtp.gmail.com with ESMTPSA id 81sm30615165pfx.111.2019.07.16.00.24.34
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=nGHdZHwOOO/T2384pEiYCjK9U0acA1Up7ymoQnE8Urk=;
+        b=jVcuJKSWjGu6yNqWFlCULZ/XrLwUNE5UyH0usEiBwSTFtHkk2mXT7QRZUcnKDK009A
+         Lq8Hkxps5sp5yjhnCtV3MX7i+45vkR7QGVv0wjU7+g6dSFqpI2IdcWDvjZ1K2rJoorGB
+         sf3utLMKNO1kJ54oPzETcpFaSQsz2w+pAYU+h11biH2s8AUVAdUO/CKzEC0jGslDHse9
+         Sl69v6fV3Zoyc+BAO6mjZrAVBGnd+/PSGEblodfhgEmqUQLH6a1VY11goTtN+ReLaPiB
+         DXCovar6Mw7N43SAk6jb5WsGLNA9vozfHHg5ueYzQvii5kJzrfjvvbPbhD+rkY4GGhLX
+         fxqg==
+X-Gm-Message-State: APjAAAVVtedd2S70m93Cr2vzjaOmo8LldGMzwuJfkWyDPKAVOOpcsPxQ
+        XQiKAyEsD+SyvW8VEHOQT4dKIOx5vcgKTA==
+X-Google-Smtp-Source: APXvYqx1ya2YP0LeutZVoNpvYo9pNFMWGWEbyjTVlgN08/JSNnQvVJ1GmsmxFf21LN1R3KUhPwUP8w==
+X-Received: by 2002:adf:eb51:: with SMTP id u17mr34484243wrn.257.1563274235060;
+        Tue, 16 Jul 2019 03:50:35 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
+        by smtp.gmail.com with ESMTPSA id g19sm35841133wrb.52.2019.07.16.03.50.34
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 16 Jul 2019 00:24:37 -0700 (PDT)
-From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
-To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
-        linux-leds@vger.kernel.org
-Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Subject: [PATCH v2] leds: ns2: Add of_node_put() before return
-Date:   Tue, 16 Jul 2019 12:54:24 +0530
-Message-Id: <20190716072424.14676-1-nishkadg.linux@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        Tue, 16 Jul 2019 03:50:34 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 11:50:32 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Jean-Jacques Hiblot <jjhiblot@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        mark.rutland@arm.com, dmurphy@ti.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] leds: Add control of the voltage/current
+ regulator to the LED core
+Message-ID: <20190716105032.thpcttko5do3u56n@holly.lan>
+References: <20190715155657.22976-1-jjhiblot@ti.com>
+ <20190715155657.22976-3-jjhiblot@ti.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190715155657.22976-3-jjhiblot@ti.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Each iteration of for_each_child_of_node puts the previous node, but in
-the case of a return from the middle of the loop, there is no put, thus
-causing a memory leak. Hence create a new label, err_node_put, that puts
-the previous node before returning the required value. Edit the mid-loop
-return sites to instead go to this new label.
-Issue found with Coccinelle.
+On Mon, Jul 15, 2019 at 05:56:57PM +0200, Jean-Jacques Hiblot wrote:
+> A LED is usually powered by a voltage/current regulator. Let the LED core
 
-Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
----
-Changes in v2:
-- Put the of_node_put statement under a label instead of at each return
-  site.
-- Modify subject line to reflect previous patches on this driver.
+This is almost certainly nitpicking but since there's enough other
+review comments that you will have to respin anyway ;-)
 
- drivers/leds/leds-ns2.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+Is an LED really "usually powered by a voltage/current regulator"? Some
+LEDs have a software controlled power supply but I'm not sure it is
+the usual case.
 
-diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
-index f92e2c07c1c6..83cdce0f801a 100644
---- a/drivers/leds/leds-ns2.c
-+++ b/drivers/leds/leds-ns2.c
-@@ -264,11 +264,11 @@ ns2_leds_get_of_pdata(struct device *dev, struct ns2_led_platform_data *pdata)
- 
- 		ret = of_get_named_gpio(child, "cmd-gpio", 0);
- 		if (ret < 0)
--			return ret;
-+			goto err_node_put;
- 		led->cmd = ret;
- 		ret = of_get_named_gpio(child, "slow-gpio", 0);
- 		if (ret < 0)
--			return ret;
-+			goto err_node_put;
- 		led->slow = ret;
- 		ret = of_property_read_string(child, "label", &string);
- 		led->name = (ret == 0) ? string : child->name;
-@@ -281,7 +281,8 @@ ns2_leds_get_of_pdata(struct device *dev, struct ns2_led_platform_data *pdata)
- 		if (ret < 0 || ret % 3) {
- 			dev_err(dev,
- 				"Missing or malformed modes-map property\n");
--			return -EINVAL;
-+			ret = -EINVAL;
-+			goto err_node_put;
- 		}
- 
- 		num_modes = ret / 3;
-@@ -289,8 +290,10 @@ ns2_leds_get_of_pdata(struct device *dev, struct ns2_led_platform_data *pdata)
- 				      num_modes,
- 				      sizeof(struct ns2_led_modval),
- 				      GFP_KERNEL);
--		if (!modval)
--			return -ENOMEM;
-+		if (!modval) {
-+			ret = -ENOMEM;
-+			goto err_node_put;
-+		}
- 
- 		for (i = 0; i < num_modes; i++) {
- 			of_property_read_u32_index(child,
-@@ -314,6 +317,10 @@ ns2_leds_get_of_pdata(struct device *dev, struct ns2_led_platform_data *pdata)
- 	pdata->num_leds = num_leds;
- 
- 	return 0;
-+
-+err_node_put:
-+	of_node_put(child);
-+	return ret;
- }
- 
- static const struct of_device_id of_ns2_leds_match[] = {
--- 
-2.19.1
+Likewise its a little confusing to be talking about LEDs with an
+external current regulator since, although that is possible, it is also
+one the main features provided by LED driver chips.
 
+
+Daniel.
