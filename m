@@ -2,65 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67E7E6AED6
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jul 2019 20:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 235516AFAA
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jul 2019 21:18:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728579AbfGPSln (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Jul 2019 14:41:43 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:39251 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728121AbfGPSlm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Jul 2019 14:41:42 -0400
-Received: by mail-wm1-f68.google.com with SMTP id u25so9304989wmc.4
-        for <linux-leds@vger.kernel.org>; Tue, 16 Jul 2019 11:41:40 -0700 (PDT)
+        id S1728781AbfGPTSh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Jul 2019 15:18:37 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:39663 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728137AbfGPTSh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Jul 2019 15:18:37 -0400
+Received: by mail-wm1-f65.google.com with SMTP id u25so9393158wmc.4;
+        Tue, 16 Jul 2019 12:18:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=M8CBVePSvxV2aKHHaVhRfz7JP/L3OTOWwphdlXJNLuM=;
-        b=m1r3eBBkIvmVCvVorxjqILNbfknHF2NfuAPmlZFXanFeERt4yjnr/eck7J49y6vEkK
-         Nx9uZyq84OCkMAad2qfJBOWRcKIVDBIOJdVXDrdtz/QJ6CRBAtHA/eURdXDReb7ykKsX
-         Y/jw2bVikMIzH0641ySCYlq9Kj0YWizcaOaZgMnAfkDVbK1r9NwyQmkFo4Ye+ceGcYkU
-         VS2oG35l93X0qsxv/w7IBCZbkpNzso+jVD+HqFzGHStxPORad49jI+EfirhuR2dj64Bp
-         Vv9MuabXbJJXvxd7us3JHDCMfDnlZyWGPaqDMsgZmrU9gWMMVzYpKbhIMzYA20WrBqZT
-         oADg==
+        bh=v2mTx1EqMffEGEst9Te19cokm4X5NiDrNxCf2bWm/vw=;
+        b=p3xsA1sipzqDAboi2BYPJQZ8gQZWd6WlZ+fqAZb8d/KXf7JbHDFrxeKM2x+8FFQrWG
+         T7SMTu4Q5nTf6ebnMvPyssBBXpRfFb4jmz1Q4kBME7ooVKI9GQGyS9+2HWlkjnF5zzCH
+         TVdMcJEdKZdxCnjRfFqiUhXLcCTX5+mbb5XgPhoHCKJ5Ku1jAnbkVpwXPaTwj8tsqeTe
+         +sCMZFiVOHu7qTcdi2yxk5OfP5s414MH3QUL6vi8tM+Watf3KmsDXJML4uKMYdLeRt4t
+         vApIDAHvlZ1jnFUgoJGFn/6d7wG1Secra4e03iSoawKAujjrZxQYNteoXEQ473Vy/kI/
+         iCFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=M8CBVePSvxV2aKHHaVhRfz7JP/L3OTOWwphdlXJNLuM=;
-        b=JzsJQL+2LVX48++AzN+QnvPAO9LVRiNPgPKedrI/PiAGKU368FrYMjsdzpxOzrZcy6
-         wHTtq2BNQGTR9qjqJOanYEbttMgNpTxlXkgcGYPYJBLHNbsORATMDNui22XsKMYW0ZrV
-         4qsgli3Y/H3jgHdls1qtAi5IthJzuUvbdUX3JkWdjO0BllNmE/MT933IaaTdKQVnLtEo
-         1FxF0GbjIQgRB4ERWKoIsdD8FR+bZLKayaUeXvGGPDnG4UKzP8HNlym/L/BB57Tr1zMn
-         P/HlS847fAsJ4yWgsxvUVTZPZIMRKwxMKksOXPXCokI2/LGcprTBjA7eHED9KoC9ZnyS
-         AUjw==
-X-Gm-Message-State: APjAAAXtaXLOKnl7c7C6PuWd2U6ZzqwER9STivVvfxz4D6boeCYCYovS
-        1eL7GenQX4LBWoeBkeL1UJSuCzD6
-X-Google-Smtp-Source: APXvYqzE5VDiXi4nmAFe037MPCHzMUXcP/05hXpuBHJGHurHs2kWLbaVl8zSVXXgjjC8jGTw0p/Mtw==
-X-Received: by 2002:a05:600c:224d:: with SMTP id a13mr5154198wmm.62.1563302499620;
-        Tue, 16 Jul 2019 11:41:39 -0700 (PDT)
+        bh=v2mTx1EqMffEGEst9Te19cokm4X5NiDrNxCf2bWm/vw=;
+        b=VbA0OvrqjbobkJbSpFIKII2vpcpV9jO3aVzDGdWKpiVj5scN4XqovVYAlkf2FJ/1Nt
+         ZMj3MzPSqi42A3Ce3jQF4OLTavSWHpjdcuBseVEbvUUzeTrVdajJXQZJrCqATPfaP8dN
+         qkAHYPJbTGuCdL/5mErEolJgQUEkHT0MZqfPN3YRPnpcUCzIUyhIPjwR9Hwtb7oyF4Bk
+         oieeJzeeKMJIpi7/jjzp7f1OvhonVNylJm2C/meFnRQMbdNjk04pdzbCMpG7xS9tdWlb
+         SGFddzuorRI/KSKdKNmX7jTkuh9Xrh34qiZOlS59lgfNt84G6eOIl40p6ACviprAF8LD
+         LwKA==
+X-Gm-Message-State: APjAAAXmYLtZuTpbeEiYAVxj64kfOf8IoEn9HyyGad0Qlxyxf+l3MTP5
+        FDIp0bHoskFLPZgnadWJ7SnmWiNo
+X-Google-Smtp-Source: APXvYqxABHNYQJc0Te9kSVXJXnK1B6NRRnV/FJgDDpw5AcNdn/UyGnXwNaE+62zA9aCzIBxIyGIEUg==
+X-Received: by 2002:a05:600c:2218:: with SMTP id z24mr31841977wml.84.1563304713081;
+        Tue, 16 Jul 2019 12:18:33 -0700 (PDT)
 Received: from [192.168.1.19] (chm81.neoplus.adsl.tpnet.pl. [83.31.10.81])
-        by smtp.gmail.com with ESMTPSA id s63sm18953278wme.17.2019.07.16.11.41.38
+        by smtp.gmail.com with ESMTPSA id s63sm19076896wme.17.2019.07.16.12.18.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Jul 2019 11:41:39 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] dt-bindings: Add docs for EL15203000
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-References: <27c0b356-8111-6b36-23cc-8e654147178f@kaa.org.ua>
- <b6a5cc5e-74f1-d328-7a47-995670ba7aa7@ti.com>
- <adf5a755-c534-64c3-6e99-ba39ffea95e2@kaa.org.ua>
- <2eba86cb-01be-c002-32d0-80ab2ab14f97@gmail.com>
- <7e787498-537b-390d-589a-577f34ffbc3f@kaa.org.ua>
- <94968b55-a9cc-277e-ac25-bf765f9db138@kaa.org.ua>
- <e1fc84a1-75e4-6c56-d2ea-f6ade28087ac@kaa.org.ua>
- <e4e0223d-c463-e767-12b2-7e360eac000b@gmail.com>
- <38050529-5730-6e88-fe1a-909492711dd0@kaa.org.ua>
- <8f658d57-5079-ad76-ce3e-af3d031b4685@gmail.com> <20190611120156.GA1161@amd>
- <9e812391-56e9-2dd5-1f08-435df717b12b@gmail.com>
- <8d0d6893-212c-41c4-fef8-76417eb45399@kaa.org.ua>
+        Tue, 16 Jul 2019 12:18:32 -0700 (PDT)
+Subject: Re: [PATCH v5 2/2] documention: leds: Add multicolor class
+ documentation
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190701204634.10517-1-dmurphy@ti.com>
+ <20190701204634.10517-3-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -119,12 +110,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  VykdkWccEqvxqDV4f8q0V0MW3KWfkD9/07bbGxXSnImeLt7bPuVMGK2tAUbr2+dUYmUdsETZ
  1HgZ11moCVU5Ru0RwTv9oyThOsK3HQjI7NCIsDzVpolaGQPd9E7xwOVHhhDcXRqqNjLzHUSe
  eGGiEQ==
-Message-ID: <7d71e2a7-5dcf-7dd8-71a7-eee5c07fb1d0@gmail.com>
-Date:   Tue, 16 Jul 2019 20:41:37 +0200
+Message-ID: <1049968b-6084-ed21-67bf-ef074c591f0a@gmail.com>
+Date:   Tue, 16 Jul 2019 21:18:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <8d0d6893-212c-41c4-fef8-76417eb45399@kaa.org.ua>
+In-Reply-To: <20190701204634.10517-3-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -133,85 +124,189 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Oleh,
+Hi Dan,
 
-On 7/9/19 12:00 AM, Oleh Kravchenko wrote:
-> Hello Jacek,
-> 
-> 11.06.19 22:52, Jacek Anaszewski пише:
->> On 6/11/19 2:01 PM, Pavel Machek wrote:
->>> Hi!
->>>
->>>>> I just want to clerify - for now LEDs board has 2 from 3 LEDs with effect function.
->>>>>
->>>>> 1. Screen frame led is just blinking, so blink_set() is fit well to this.
->>>>> 2. Pipe led actually consist from 3 leds and when effect is enabled next pattern is used:
->>>>>
->>>>>        ^
->>>>>        |
->>>>> LED1  >   OFF  ON   ON   ON
->>>>>        |
->>>>> LED2  >   OFF  OFF  ON   ON
->>>>>        |
->>>>> LED3  >   OFF  OFF  OFF  ON
->>>>>        |
->>>>>        +----^----^----^----^----> time
->>>>
->>>> Pattern trigger applies to a single LED so it won't fit for this
->>>> pattern.
->>>>
->>>> Currently we don't support patterns spanning on multiple LEDs,
->>>> so you would have to come up with your own solution.
->>>>
->>>> What I can recommend is a trigger that would be created by your driver
->>>> and would activate this sequence.
->>>
->>> Yes, please.
->>>
->>> While adding custom files to sysfs may appear easier, we'll need
->>> "led-specific-triggers" for other reasons.
->>
->> For what reasons exactly?
->>
->> This is similar to the generic hw trigger support proposed by
->> Marek Behun. In the reply to that patch I asked some questions [0].
->> So far the mechanism looks too me awkward and not introducing any
->> novelty besides requiring one more step - setting the trigger.
->>
->>> And for the record... Handling 3 LEDs as one is not something usual in
->>> the LED subsystem; I guess it makes sense in your specific case, but
->>> hopefully noone will copy that design.
->>>
->>> (I guess they are not individually controllable?)
->>>
->>>                                     Pavel
->>>
->>
->> [0] https://www.spinics.net/lists/linux-leds/msg12269.html
->>
-> 
-> I just figure out that this Pipe LED actually consist from 5 LEDs, not 3 :)
-> And supports next level 'brightness' from SPI driver:
-> - '0' Off
-> - '1' On
-> - '2' Cascade (waterfall down)
->  -'3' InverseCascade (waterfall up)
-> - '4' Bounce
-> - '5' InverseBounce
-> 
-> Please advice, can I proceed with sys attribute file to set '2'..'5' levels?
+Thanks for the update. I have some nits below, please take a look.
 
-It looks like pattern trigger is the most appropriate solution for the
-effects 2-5. Your driver will need to implement pattern_set op for the
-LEDs supporting the effects, and then the effect will be enabled after
-writing required sequence to the hw_pattern file. You will need to come
-up with a sequence of values that the driver will recognize as a request
-of enabling given hardware effect. Please compare
-drivers/leds/leds-sc27xx-bltc.c and its ABI documentation [0] for
-reference. See also hw_pattern file description in [1].
+On 7/1/19 10:46 PM, Dan Murphy wrote:
+> Add the support documentation on the multicolor LED framework.
+> This document defines the directores and file generated by the
+> multicolor framework.  It also documents usage.
+> 
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>  Documentation/leds/leds-class-multicolor.txt | 152 +++++++++++++++++++
+>  1 file changed, 152 insertions(+)
+>  create mode 100644 Documentation/leds/leds-class-multicolor.txt
+> 
+> diff --git a/Documentation/leds/leds-class-multicolor.txt b/Documentation/leds/leds-class-multicolor.txt
+> new file mode 100644
+> index 000000000000..01175288502e
+> --- /dev/null
+> +++ b/Documentation/leds/leds-class-multicolor.txt
+> @@ -0,0 +1,152 @@
+> +
+> +Multi Color LED handling under Linux
+> +=================================================
+> +
+> +Author: Dan Murphy <dmurphy@ti.com>
+> +
+> +Description
+> +-----------
+> +There are varying monochrome LED colors available for application.  These
+> +LEDs can be used as a single use case LED or can be mixed with other color
+> +LEDs to produce the full spectrum of color.  Color LEDs that are grouped
+> +can be presented under a single LED node with individual color control.
+> +The multicolor class groups these LEDs and allows dynamically setting the value
+> +of a single LED or setting the intensity values of the LEDs in the group and
+> +updating the LEDs virtually simultaneously.
+> +
+> +Multicolor Class Control
+> +-------------------------
+> +The multicolor class presents the LED groups under a directory called "colors".
+> +This directory is a child under the LED parent node created by the led_class
+> +framework.  The led_class framework is documented in led-class.txt within this
+> +documentation directory.
+> +
+> +Each colored LED is given its own directory.  These directories can be, but not
+> +limited to red, green, blue, white, amber, yellow and violet.  Under these
+> +directories the intensity and max_intensity files are presented for each LED.
+> +
+> +
+> +Directory Layout Example
+> +------------------------
+> +root:/sys/class/leds/rgb:grouped_leds# ls -lR colors/
+> +colors/:
+> +drwxr-xr-x    2 root     root             0 Jun 28 20:21 blue
+> +drwxr-xr-x    2 root     root             0 Jun 28 20:21 green
+> +drwxr-xr-x    2 root     root             0 Jun 28 20:21 red
+> +-rw-------    1 root     root          4096 Jun 28 20:21 color_mix
+> +
+> +colors/blue:
+> +-rw-------    1 root     root          4096 Jun 28 20:21 intensity
+> +-r--------    1 root     root          4096 Jun 28 20:27 max_intensity
+> +-r--------    1 root     root          4096 Jun 28 20:21 color_id
+> +
+> +colors/green:
+> +-rw-------    1 root     root          4096 Jun 28 20:22 intensity
+> +-r--------    1 root     root          4096 Jun 28 20:27 max_intensity
+> +-r--------    1 root     root          4096 Jun 28 20:21 color_id
+> +
+> +colors/red:
+> +-rw-------    1 root     root          4096 Jun 28 20:21 intensity
+> +-r--------    1 root     root          4096 Jun 28 20:27 max_intensity
+> +-r--------    1 root     root          4096 Jun 28 20:21 color_id
+> +
+> +Multicolor Color Mixing
+> +-----------------------
+> +Multicolor monochrome LEDs intensity can be modified and mixed to produce a
+> +varying array of colors.  The color_mix file gives the user the ability to write
+> +all the monochrome LEDs registered in the directory with a single call.
+> +To create a specific color from monochrome LEDs the color_mix file needs to be
+> +written with each color's intensity.  The order in which the monochrome LEDs
+> +should be written is based on the colors color_id.
+> +
+> +For example:
+> +cat /sys/class/leds/rgb:grouped_leds/red/color_id
+> +0
+> +cat /sys/class/leds/rgb:grouped_leds/green/color_id
+> +1
+> +cat /sys/class/leds/rgb:grouped_leds/blue/color_id
+> +2
+> +
+> +red - color_id = 0
+> +green - color_id = 1
+> +blue - color_id = 2
+> +
+> +These id's are the order in which to write the color_mix file.
+> +
+> +echo "<red> <green> <blue>" > color_mix
+> +
+> +echo "0x80 0x00 0x80" > color_mix
+> +
+> +The order of the monochrome LEDs are determined during multicolor class
+> +registration and will not change unless unregistered and re-registered.
+> +
+> +Other example with amber monochrome LED:
+> +blue - color_id = 0
+> +amber - color_id = 1
+> +
+> +In this exampe blue is at ID 0 and amber ID is 1 so the user would write
+> +echo "<blue> <amber>" > color_mix
+> +
+> +echo "0x38 0x80" > color_mix
+> +
+> +If a single monochrome LED needs to be modified then the user would write the
+> +colors/<color>/intensity file.
+> +
+> +
+> +Multicolor Class Brightness Control
+> +-----------------------------------
+> +The multiclor class framework will calculate each monochrome LEDs intensity.
+> +
+> +The brightness level for each LED is calculated based on the color LED
+> +intensity setting divided by the color LED max intensity setting multiplied by
+> +the requested value.
+> +
+> +led_brightness = requested_value*(led_color_intensity/led_color_max_intensity)
 
-[0] Documentation/ABI/testing/sysfs-class-led-driver-sc27xx
-[1] Documentation/ABI/testing/sysfs-class-led-trigger-pattern
+Please drop parentheses here as pointed out before in the code review.
+
+> +
+> +Example:
+> +Three LEDs are present in the group as defined in "Directory Layout Example"
+> +within this document.
+> +
+> +A user first writes the color LED brightness file with the brightness level that
+> +is neccesary to achieve a blueish violet output from the RGB LED group.
+> +
+> +echo 138 > /sys/class/leds/rgb:grouped_leds/red/intensity
+> +echo 43 > /sys/class/leds/rgb:grouped_leds/green/intensity
+> +echo 226 > /sys/class/leds/rgb:grouped_leds/blue/intensity
+> +
+> +red -
+> +	intensity = 138
+> +	max_intensity = 255
+> +green -
+> +	intensity = 43
+> +	max_intensity = 255
+> +blue -
+> +	intensity = 226
+> +	max_intensity = 255
+> +
+> +The user can control the brightness of that RGB group by writing the parent
+> +'brightness' control.  Assuming a parent max_brightness of 255 the user may want
+> +to dim the LED color group to half.  The user would write a value of 128 to the
+> +parent brightness file then the values written to each LED will be adjusted
+> +base on this value
+
+We probably need to state here that any amendment to color intensity
+values resets brightness to its max value.
+
+> +cat /sys/class/leds/rgb:grouped_leds/max_brightness
+> +255
+> +echo 128 > /sys/class/leds/rgb:grouped_leds/brightness
+> +
+> +adjusted_red_value = 128 * (138/255) = 69
+> +adjusted_green_value = 128 * (43/255) = 21
+> +adjusted_blue_value = 128 * (226/255) = 113
+
+Drop parentheses.
+
+> +
+> +Reading the parent brightness file will return the current brightness value of
+> +the color LED group.
+> +
+> +cat /sys/class/leds/rgb:grouped_leds/max_brightness
+> +255
+> +
+> +echo 128 > /sys/class/leds/rgb:grouped_leds/brightness
+> +
+> +cat /sys/class/leds/rgb:grouped_leds/max_brightness
+> +128
+> +
+> +
+> 
 
 -- 
 Best regards,
