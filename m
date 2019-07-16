@@ -2,247 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D68F86AFC9
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jul 2019 21:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B610D6AFCB
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jul 2019 21:28:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728340AbfGPT11 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Jul 2019 15:27:27 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:59166 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726213AbfGPT11 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Jul 2019 15:27:27 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6GJRJtu012986;
-        Tue, 16 Jul 2019 14:27:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1563305239;
-        bh=ydO0juFPt+se2iwIxAWwDUJGI6rqlf9SWoLd68JHFb8=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=x73JdttSbIU5tTETXr604pEGAVT0UxDE31I06NVuxn8ERe7cPPAIA4vbxpu3NeO0N
-         2K3aJfvz4YhDxzhTeqkQEOa08ZGu7UcGDt8xMa8V1bzorA9a/+PrGygrXU5T0IPKMf
-         t45uHHsT3I7wqpr6mWQ9RwXJt0WXEBAPicONSirQ=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6GJRJQL022526
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 16 Jul 2019 14:27:19 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 16
- Jul 2019 14:27:18 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 16 Jul 2019 14:27:19 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6GJRI6A046282;
-        Tue, 16 Jul 2019 14:27:18 -0500
-Subject: Re: [PATCH v5 2/2] documention: leds: Add multicolor class
- documentation
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20190701204634.10517-1-dmurphy@ti.com>
- <20190701204634.10517-3-dmurphy@ti.com>
- <1049968b-6084-ed21-67bf-ef074c591f0a@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <9112080d-a53e-8c2b-ebfa-6e4ff9eed3c3@ti.com>
-Date:   Tue, 16 Jul 2019 14:27:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1728340AbfGPT2I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Jul 2019 15:28:08 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:47311 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726213AbfGPT2I (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Jul 2019 15:28:08 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 7C66D80593; Tue, 16 Jul 2019 21:27:54 +0200 (CEST)
+Date:   Tue, 16 Jul 2019 21:28:05 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, jacek.anaszewski@gmail.com,
+        dmurphy@ti.com, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 5/6] leds: apu: fix error on probing failure
+Message-ID: <20190716192805.GE10400@amd>
+References: <1563202653-20994-1-git-send-email-info@metux.net>
+ <1563202653-20994-6-git-send-email-info@metux.net>
 MIME-Version: 1.0
-In-Reply-To: <1049968b-6084-ed21-67bf-ef074c591f0a@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="KuLpqunXa7jZSBt+"
+Content-Disposition: inline
+In-Reply-To: <1563202653-20994-6-git-send-email-info@metux.net>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek
 
-On 7/16/19 2:18 PM, Jacek Anaszewski wrote:
-> Hi Dan,
->
-> Thanks for the update. I have some nits below, please take a look.
->
-> On 7/1/19 10:46 PM, Dan Murphy wrote:
->> Add the support documentation on the multicolor LED framework.
->> This document defines the directores and file generated by the
->> multicolor framework.  It also documents usage.
->>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->> ---
->>   Documentation/leds/leds-class-multicolor.txt | 152 +++++++++++++++++++
->>   1 file changed, 152 insertions(+)
->>   create mode 100644 Documentation/leds/leds-class-multicolor.txt
->>
->> diff --git a/Documentation/leds/leds-class-multicolor.txt b/Documentation/leds/leds-class-multicolor.txt
->> new file mode 100644
->> index 000000000000..01175288502e
->> --- /dev/null
->> +++ b/Documentation/leds/leds-class-multicolor.txt
->> @@ -0,0 +1,152 @@
->> +
->> +Multi Color LED handling under Linux
->> +=================================================
->> +
->> +Author: Dan Murphy <dmurphy@ti.com>
->> +
->> +Description
->> +-----------
->> +There are varying monochrome LED colors available for application.  These
->> +LEDs can be used as a single use case LED or can be mixed with other color
->> +LEDs to produce the full spectrum of color.  Color LEDs that are grouped
->> +can be presented under a single LED node with individual color control.
->> +The multicolor class groups these LEDs and allows dynamically setting the value
->> +of a single LED or setting the intensity values of the LEDs in the group and
->> +updating the LEDs virtually simultaneously.
->> +
->> +Multicolor Class Control
->> +-------------------------
->> +The multicolor class presents the LED groups under a directory called "colors".
->> +This directory is a child under the LED parent node created by the led_class
->> +framework.  The led_class framework is documented in led-class.txt within this
->> +documentation directory.
->> +
->> +Each colored LED is given its own directory.  These directories can be, but not
->> +limited to red, green, blue, white, amber, yellow and violet.  Under these
->> +directories the intensity and max_intensity files are presented for each LED.
->> +
->> +
->> +Directory Layout Example
->> +------------------------
->> +root:/sys/class/leds/rgb:grouped_leds# ls -lR colors/
->> +colors/:
->> +drwxr-xr-x    2 root     root             0 Jun 28 20:21 blue
->> +drwxr-xr-x    2 root     root             0 Jun 28 20:21 green
->> +drwxr-xr-x    2 root     root             0 Jun 28 20:21 red
->> +-rw-------    1 root     root          4096 Jun 28 20:21 color_mix
->> +
->> +colors/blue:
->> +-rw-------    1 root     root          4096 Jun 28 20:21 intensity
->> +-r--------    1 root     root          4096 Jun 28 20:27 max_intensity
->> +-r--------    1 root     root          4096 Jun 28 20:21 color_id
->> +
->> +colors/green:
->> +-rw-------    1 root     root          4096 Jun 28 20:22 intensity
->> +-r--------    1 root     root          4096 Jun 28 20:27 max_intensity
->> +-r--------    1 root     root          4096 Jun 28 20:21 color_id
->> +
->> +colors/red:
->> +-rw-------    1 root     root          4096 Jun 28 20:21 intensity
->> +-r--------    1 root     root          4096 Jun 28 20:27 max_intensity
->> +-r--------    1 root     root          4096 Jun 28 20:21 color_id
->> +
->> +Multicolor Color Mixing
->> +-----------------------
->> +Multicolor monochrome LEDs intensity can be modified and mixed to produce a
->> +varying array of colors.  The color_mix file gives the user the ability to write
->> +all the monochrome LEDs registered in the directory with a single call.
->> +To create a specific color from monochrome LEDs the color_mix file needs to be
->> +written with each color's intensity.  The order in which the monochrome LEDs
->> +should be written is based on the colors color_id.
->> +
->> +For example:
->> +cat /sys/class/leds/rgb:grouped_leds/red/color_id
->> +0
->> +cat /sys/class/leds/rgb:grouped_leds/green/color_id
->> +1
->> +cat /sys/class/leds/rgb:grouped_leds/blue/color_id
->> +2
->> +
->> +red - color_id = 0
->> +green - color_id = 1
->> +blue - color_id = 2
->> +
->> +These id's are the order in which to write the color_mix file.
->> +
->> +echo "<red> <green> <blue>" > color_mix
->> +
->> +echo "0x80 0x00 0x80" > color_mix
->> +
->> +The order of the monochrome LEDs are determined during multicolor class
->> +registration and will not change unless unregistered and re-registered.
->> +
->> +Other example with amber monochrome LED:
->> +blue - color_id = 0
->> +amber - color_id = 1
->> +
->> +In this exampe blue is at ID 0 and amber ID is 1 so the user would write
->> +echo "<blue> <amber>" > color_mix
->> +
->> +echo "0x38 0x80" > color_mix
->> +
->> +If a single monochrome LED needs to be modified then the user would write the
->> +colors/<color>/intensity file.
->> +
->> +
->> +Multicolor Class Brightness Control
->> +-----------------------------------
->> +The multiclor class framework will calculate each monochrome LEDs intensity.
->> +
->> +The brightness level for each LED is calculated based on the color LED
->> +intensity setting divided by the color LED max intensity setting multiplied by
->> +the requested value.
->> +
->> +led_brightness = requested_value*(led_color_intensity/led_color_max_intensity)
-> Please drop parentheses here as pointed out before in the code review.
+--KuLpqunXa7jZSBt+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ack
+On Mon 2019-07-15 16:57:32, Enrico Weigelt, metux IT consult wrote:
+> From: Enrico Weigelt <info@metux.net>
+>=20
+> The current error message on failed probing tends to be a bit
+> misleading. Fix it to tell exactly that an APU v1 was not found.
+>=20
+> Signed-off-by: Enrico Weigelt <info@metux.net>
+> ---
+>  drivers/leds/leds-apu.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/leds/leds-apu.c b/drivers/leds/leds-apu.c
+> index 451cb9f..892fea7 100644
+> --- a/drivers/leds/leds-apu.c
+> +++ b/drivers/leds/leds-apu.c
+> @@ -170,13 +170,9 @@ static int __init apu_led_init(void)
+>  	struct platform_device *pdev;
+>  	int err;
+> =20
+> -	if (!dmi_match(DMI_SYS_VENDOR, "PC Engines")) {
+> -		pr_err("No PC Engines board detected\n");
+> -		return -ENODEV;
+> -	}
+> -	if (!(dmi_match(DMI_PRODUCT_NAME, "APU"))) {
+> -		pr_err("Unknown PC Engines board: %s\n",
+> -				dmi_get_system_info(DMI_PRODUCT_NAME));
+> +	if (!(dmi_match(DMI_SYS_VENDOR, "PC Engines") &&
+> +	      dmi_match(DMI_PRODUCT_NAME, "APU"))) {
+> +		pr_err("No PC Engines APUv1 board detected\n");
 
+You may want to add here: "For APUv2,3 support, enable CONFIG_xxx".
 
->> +
->> +Example:
->> +Three LEDs are present in the group as defined in "Directory Layout Example"
->> +within this document.
->> +
->> +A user first writes the color LED brightness file with the brightness level that
->> +is neccesary to achieve a blueish violet output from the RGB LED group.
->> +
->> +echo 138 > /sys/class/leds/rgb:grouped_leds/red/intensity
->> +echo 43 > /sys/class/leds/rgb:grouped_leds/green/intensity
->> +echo 226 > /sys/class/leds/rgb:grouped_leds/blue/intensity
->> +
->> +red -
->> +	intensity = 138
->> +	max_intensity = 255
->> +green -
->> +	intensity = 43
->> +	max_intensity = 255
->> +blue -
->> +	intensity = 226
->> +	max_intensity = 255
->> +
->> +The user can control the brightness of that RGB group by writing the parent
->> +'brightness' control.  Assuming a parent max_brightness of 255 the user may want
->> +to dim the LED color group to half.  The user would write a value of 128 to the
->> +parent brightness file then the values written to each LED will be adjusted
->> +base on this value
-> We probably need to state here that any amendment to color intensity
-> values resets brightness to its max value.
+If you have any APUv2 users (and you may), this si chance to get their
+attention.
 
-Well that is not true.  Intensity and brightness are two different spaces.
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-Brightness is for cluster control and intensity is for monochrome LED 
-control.
+--KuLpqunXa7jZSBt+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-There only relationship is when setting cluster brightness.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
->
->> +cat /sys/class/leds/rgb:grouped_leds/max_brightness
->> +255
->> +echo 128 > /sys/class/leds/rgb:grouped_leds/brightness
->> +
->> +adjusted_red_value = 128 * (138/255) = 69
->> +adjusted_green_value = 128 * (43/255) = 21
->> +adjusted_blue_value = 128 * (226/255) = 113
-> Drop parentheses.
+iEYEARECAAYFAl0uJUUACgkQMOfwapXb+vITAQCgpmLDfopl+tqzT8H7ZJndlrxD
+m54An1S+GSHoiMWyLP9MPPyxcJEVzmt2
+=dx8m
+-----END PGP SIGNATURE-----
 
-Ack
-
-I have working code now.  Just need to clean it up and test it.
-
-Should be submitted by EOW.
-
-Dan
+--KuLpqunXa7jZSBt+--
