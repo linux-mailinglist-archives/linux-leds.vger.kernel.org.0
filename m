@@ -2,87 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4975D6BD96
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jul 2019 15:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8731C6BDBD
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jul 2019 16:00:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725993AbfGQNr2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 17 Jul 2019 09:47:28 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:59366 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725936AbfGQNr2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 17 Jul 2019 09:47:28 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6HDlKab106607;
-        Wed, 17 Jul 2019 08:47:20 -0500
+        id S1726085AbfGQOAA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 17 Jul 2019 10:00:00 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:37350 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725873AbfGQOAA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 17 Jul 2019 10:00:00 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6HDxqSk062883;
+        Wed, 17 Jul 2019 08:59:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1563371240;
-        bh=KE7ll8RGnYW0NspHb1Isx+it3u3F262JZfA7NFbvB3Y=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=OvE+rl3DHZ7If/K/1iJwdCLx5InQVBbexmSEQpkQ1Kme5IQpTazoz/ueXM1ClMQ6I
-         GdzxtbsgpT7rXrDsVr9Zxk10m5WmII+hj1yjSZwOhOaNtOAnTJ3ik54N8hvVcRQ5TZ
-         IbT8SqyWweaUefOfxcp1QobQtlEtCzRc89qOfR5A=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6HDlK6C122361
+        s=ti-com-17Q1; t=1563371992;
+        bh=XbfWttQsD9HxjUDBssZl8Yh4lE+MdlmkC8ZSKN0ubjI=;
+        h=From:To:CC:Subject:Date;
+        b=u/wqkh9r280mzTDCWrrmUqWC9Xqq7FIa+nryqf62hRieZntb5ITucSR84049lMBQA
+         Os7pzsTXBvgq0khbrOeYDLFAzTFyovVWkuwRPkq1Yz+rdVOZMOwanrrstTlRxLcnXr
+         KPZAHtzfTa42+zAnf9EmBOv+9xYBtQHD0pV22Obg=
+Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6HDxqO8108183
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 17 Jul 2019 08:47:20 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+        Wed, 17 Jul 2019 08:59:52 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 17
- Jul 2019 08:47:20 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ Jul 2019 08:59:52 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 17 Jul 2019 08:47:20 -0500
-Received: from [10.250.98.129] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6HDlIet039267;
-        Wed, 17 Jul 2019 08:47:18 -0500
-Subject: Re: [PATCH v2 2/2] leds: Add control of the voltage/current regulator
- to the LED core
-To:     Daniel Thompson <daniel.thompson@linaro.org>
-CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <dmurphy@ti.com>,
-        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <20190715155657.22976-1-jjhiblot@ti.com>
- <20190715155657.22976-3-jjhiblot@ti.com>
- <20190716105032.thpcttko5do3u56n@holly.lan>
+ Frontend Transport; Wed, 17 Jul 2019 08:59:52 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6HDxpQb069975;
+        Wed, 17 Jul 2019 08:59:52 -0500
 From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
-Message-ID: <9497174a-65b9-bd4f-8ce3-89176930a78c@ti.com>
-Date:   Wed, 17 Jul 2019 15:47:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <daniel.thompson@linaro.org>
+CC:     <dmurphy@ti.com>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Jean-Jacques Hiblot <jjhiblot@ti.com>
+Subject: [PATCH v3 0/3] leds: Add control of the voltage/current regulator to the LED core
+Date:   Wed, 17 Jul 2019 15:59:45 +0200
+Message-ID: <20190717135948.19340-1-jjhiblot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20190716105032.thpcttko5do3u56n@holly.lan>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+This series makes it possible for the LED core to manage the power supply
+of a LED. It uses the regulator API to disable/enable the power if when the
+LED is turned on/off.
+This is especially useful in situations where the LED driver/controller is
+not supplying the power.
 
-On 16/07/2019 12:50, Daniel Thompson wrote:
-> On Mon, Jul 15, 2019 at 05:56:57PM +0200, Jean-Jacques Hiblot wrote:
->> A LED is usually powered by a voltage/current regulator. Let the LED core
-> This is almost certainly nitpicking but since there's enough other
-> review comments that you will have to respin anyway ;-)
-No problems. comments are welcome.
-> Is an LED really "usually powered by a voltage/current regulator"? Some
-> LEDs have a software controlled power supply but I'm not sure it is
-> the usual case.
-True. I'll reword this.
-> Likewise its a little confusing to be talking about LEDs with an
-> external current regulator since, although that is possible, it is also
-> one the main features provided by LED driver chips.
+While at it, throw in a fix for led_set_brightness_sync() so that it can
+work with drivers that don't provide brightness_set_blocking()
 
-In my experience LED drivers are quite often current sinks. In that case 
-the power is provided externally, and sometimes by a managed regulator.
+changes in v3:
+- reword device-tree description
+- reword commit log
+- remove regulator updates from functions used in atomic context. If the
+  regulator must be updated, it is defered to a workqueue.
+- Fix led_set_brightness_sync() to work with the non-blocking function
+  __led_set_brightness()
 
-Thanks,
+changes in v2:
+- use devm_regulator_get_optional() to avoid using the dummy regulator and
+  do some unnecessary work
 
-JJ
+Jean-Jacques Hiblot (3):
+  dt-bindings: leds: document the "power-supply" property
+  leds: Add control of the voltage/current regulator to the LED core
+  leds: Make led_set_brightness_sync() also use __led_set_brightness()
 
->
-> Daniel.
+ .../devicetree/bindings/leds/common.txt       |  4 ++
+ drivers/leds/led-class.c                      | 15 ++++++
+ drivers/leds/led-core.c                       | 53 +++++++++++++++++--
+ drivers/leds/leds.h                           |  1 +
+ include/linux/leds.h                          |  4 ++
+ 5 files changed, 73 insertions(+), 4 deletions(-)
+
+-- 
+2.17.1
+
