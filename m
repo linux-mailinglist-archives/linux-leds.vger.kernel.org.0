@@ -2,59 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D71D56BFB8
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jul 2019 18:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 955026C265
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jul 2019 23:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbfGQQhd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 17 Jul 2019 12:37:33 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51788 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726081AbfGQQhc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 17 Jul 2019 12:37:32 -0400
-Received: by mail-wm1-f66.google.com with SMTP id 207so22839489wma.1;
-        Wed, 17 Jul 2019 09:37:30 -0700 (PDT)
+        id S1727217AbfGQVDJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 17 Jul 2019 17:03:09 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37234 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726063AbfGQVDJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 17 Jul 2019 17:03:09 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n9so1228225wrr.4;
+        Wed, 17 Jul 2019 14:03:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Aa/QpTuErHvr5V5L8Bf2tDqL9lCgJrsUbZ9EjAKKi/A=;
-        b=qQF7k65upI/0wf2Pu6n+5h+Go3mhnkmpDzMc89WjEFE8U8YgiNMIEvgbH5tbJASuLo
-         r/+MvXA9JX9KLR4f4KEtRQyUqzpMlIPUBf3LR44k3THGxyzU7Be6ZX5iy2TNOWGxwOIN
-         pmEKGK9qY2gi9D34R7XOmM5O/9fV2v4me2K37e2nwBy/mQRg6+woz0JZgM/miKcMle3C
-         JoZ1CdgD3TsPIvm7qi1TnfYsrMGdX5RBNKwRTbmDW4XILp9Q8ubt342/HBFABUXeYHXS
-         VZAXfAgsHMyT4Anjfk2gy53GTWe9vBMNhVT46ilEFkDq7yr2J7rEB/OhD7dX9HQYnX7J
-         zuqw==
+        bh=7G3cT9KrL4vNeHNtAQ5iSocM749GHaSrKdFhS+CuwUA=;
+        b=hoCONj94MduawEJxaVlnXMMh6ESD3xJVbTeFnMIoOrAX2QaZU4T4Jld/tvzMreanhE
+         GB2ZjQp4x4oKAcherQIJ9hTZwc9bcf3iVy0KgQpOMfclJDWocQ4+ya+D3/fySqQlUNTE
+         XsYLPNqPUunXSTrMB3faiTm5yh42LOKXJg0ey8+d+CT2ktFsnTz9cIEZOVPQm/dun2z3
+         pRNUYSiLiknOypGKcqZfsK4h9Av/cHhxdrJHJuYUD0qJUcONwl74jJRZwpQf+R0OANLM
+         QKay6LrxPUI/dqSjhJd4j1xGQBn4FJyFBs0Sjq+bxv4+1bvQAoChVD6GrNRRxkTvQ3D1
+         i5dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=Aa/QpTuErHvr5V5L8Bf2tDqL9lCgJrsUbZ9EjAKKi/A=;
-        b=eAIEwfbfH+4z/QCiL5dMGmV157CncwIVqEhm8CiSxDmIWo+6rHlTheIeeCi7+rWkjK
-         sAdHdvvaePad3oq8zTVssHI5ZepmugooBlvSJIOqyvBFRlrBXlb/OzxSNgU1JDyJTRED
-         Vrwm4n4/Nxk14GkomHdxPPJtD8mmim1XvSH3kXCQChNP3S/MnVLB5uK5uj+flWAenoyD
-         5e2vl2A5v/ICmDPL0wfGsRJIyoglY48J95vTwCGuNlhFytmyn7LBX7xcWMn0npJZndqe
-         F8wVtWmurxXifjMBS4TxIdg3OlONy/TI8APqKqvB000xqFKt6qmr/XEqruTSWokYq6fh
-         o1Pg==
-X-Gm-Message-State: APjAAAUqhMuYsZXDRdY1weRXA6pytRXDm1QX9a9+5o9Gwglo7MB1cOBz
-        3vjtic3c9fpfLrqnk4No1psSMGvn
-X-Google-Smtp-Source: APXvYqxFsPvyoF4wzVs19siVCBP+Fho95sG92gz67gchIsCS+frIuG/+39qdjZ+MK3nAA2m69z8tkg==
-X-Received: by 2002:a1c:4054:: with SMTP id n81mr38090105wma.78.1563381449533;
-        Wed, 17 Jul 2019 09:37:29 -0700 (PDT)
+        bh=7G3cT9KrL4vNeHNtAQ5iSocM749GHaSrKdFhS+CuwUA=;
+        b=f9sqtZsliwe4C5+EKok1AtKYQzo7Eu9MlpsVl2RbJ6WKSdYF7PKHjhnTOAaq9VnrqE
+         OpyYecHn/JVe9ByLezWm3e/QGgJIT1c0Zyg3ttPchDc85fBMHq+wWg6mDo/Nc3MzlADG
+         i4q0egQOl7ThsYsv11QaD9ImT0iy27TaImpgl0tsqh5DNQtIJVCKWdB7PB902iHmHrKD
+         j6oLcpH9cgB9V330eU3uVMIeEHjs4Y3q8bv7YhK/mnOk01iwmP9JeuGno5lbj9XiTWNy
+         Vwl81tS7Lm60Lf2YjOivp928rsY3+P/hYINWAsjhDRewX1QPV9mdDkIIewninmr5mEMD
+         Gaew==
+X-Gm-Message-State: APjAAAVjVOdIECu3MaF8WoK1eHbnJjfJMyspDQgCrFRKSaL7+ox06W04
+        i0QRVRJW7f8MgHuavGPdLZI=
+X-Google-Smtp-Source: APXvYqyjgjWw1fGWe+pb2/AzRE08V6T3ZUR0Ia24RI5Er50deUUD7ngSJ3gwdov0OmiWRVygjGDdIQ==
+X-Received: by 2002:a05:6000:100f:: with SMTP id a15mr25035139wrx.325.1563397386345;
+        Wed, 17 Jul 2019 14:03:06 -0700 (PDT)
 Received: from [192.168.1.19] (bgq113.neoplus.adsl.tpnet.pl. [83.28.80.113])
-        by smtp.gmail.com with ESMTPSA id y2sm19865021wrl.4.2019.07.17.09.37.27
+        by smtp.gmail.com with ESMTPSA id j10sm24209744wrw.96.2019.07.17.14.03.03
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Jul 2019 09:37:28 -0700 (PDT)
-Subject: Re: [PATCH 5/6] leds: apu: fix error on probing failure
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, dmurphy@ti.com,
-        linux-leds@vger.kernel.org
-References: <1563202653-20994-1-git-send-email-info@metux.net>
- <1563202653-20994-6-git-send-email-info@metux.net>
- <20190716192805.GE10400@amd> <7ec18de5-f71b-4b9a-0db9-3c010a8e67e7@metux.net>
+        Wed, 17 Jul 2019 14:03:05 -0700 (PDT)
+Subject: Re: [PATCH v5 05/26] leds: core: Add support for composing LED class
+ device names
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, robh@kernel.org, dtor@google.com,
+        linux@roeck-us.net, dmurphy@ti.com,
+        Baolin Wang <baolin.wang@linaro.org>,
+        Daniel Mack <daniel@zonque.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Oleh Kravchenko <oleg@kaa.org.ua>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Simon Shields <simon@lineageos.org>
+References: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
+ <20190609190803.14815-6-jacek.anaszewski@gmail.com>
+ <20190703220043.GA876@amd>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -113,33 +119,106 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  VykdkWccEqvxqDV4f8q0V0MW3KWfkD9/07bbGxXSnImeLt7bPuVMGK2tAUbr2+dUYmUdsETZ
  1HgZ11moCVU5Ru0RwTv9oyThOsK3HQjI7NCIsDzVpolaGQPd9E7xwOVHhhDcXRqqNjLzHUSe
  eGGiEQ==
-Message-ID: <f54bb3f1-2699-1213-f568-b2c529488306@gmail.com>
-Date:   Wed, 17 Jul 2019 18:37:26 +0200
+Message-ID: <1cc95085-2465-9f01-094b-c4233cd665c1@gmail.com>
+Date:   Wed, 17 Jul 2019 23:03:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <7ec18de5-f71b-4b9a-0db9-3c010a8e67e7@metux.net>
+In-Reply-To: <20190703220043.GA876@amd>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Enrico
+Hi Pavel,
 
-On 7/17/19 4:29 PM, Enrico Weigelt, metux IT consult wrote:
-> On 16.07.19 21:28, Pavel Machek wrote:
+On 7/4/19 12:00 AM, Pavel Machek wrote:
+> Hi!
 > 
->> You may want to add here: "For APUv2,3 support, enable CONFIG_xxx".
->>
->> If you have any APUv2 users (and you may), this si chance to get their
->> attention.
-> 
-> Good idea. Shall I repost a changed patch ? (or repost the whole queue)
+> Sorry for the delay.
 
-Please send only the patch in question (and bump the version).
+No problem.
+
+>> @@ -27,6 +29,18 @@ EXPORT_SYMBOL_GPL(leds_list_lock);
+>>  LIST_HEAD(leds_list);
+>>  EXPORT_SYMBOL_GPL(leds_list);
+>>  
+>> +const char *led_colors[LED_COLOR_ID_MAX] = {
+> 
+> const char * const , if we want to play that game?
+
+Ack.
+
+>> +	[LED_COLOR_ID_WHITE] = "white",
+>> +	[LED_COLOR_ID_RED] = "red",
+>> +	[LED_COLOR_ID_GREEN] = "green",
+>> +	[LED_COLOR_ID_BLUE] = "blue",
+>> +	[LED_COLOR_ID_AMBER] = "amber",
+>> +	[LED_COLOR_ID_VIOLET] = "violet",
+>> +	[LED_COLOR_ID_YELLOW] = "yellow",
+>> +	[LED_COLOR_ID_IR] = "ir",
+>> +};
+>> +EXPORT_SYMBOL_GPL(led_colors);
+>> +
+> 
+>> +	if (fwnode_property_present(fwnode, "label")) {
+>> +		ret = fwnode_property_read_string(fwnode, "label", &props->label);
+>> +		if (ret)
+>> +			dev_err(dev, "Error parsing \'label\' property (%d)\n", ret);
+>> +		return;
+> 
+> I don't think you need to escape ' with \.
+
+Right.
+
+>> +	if (fwnode_property_present(fwnode, "function")) {
+>> +		ret = fwnode_property_read_string(fwnode, "function", &props->function);
+>> +		if (ret) {
+>> +			dev_err(dev,
+>> +				"Error parsing \'function\' property (%d)\n",
+>> +				ret);
+>> +		}
+>> +	} else {
+>> +		return;
+>> +	}
+> 
+>> +
+>> +	if (fwnode_property_present(fwnode, "function-enumerator")) {
+> 
+> I'd do if (!fwnode_property_present()) return; in both occasions, to
+> save an indentation level; but that's nitpicking.
+
+Ack.
+
+>> +	if (props.label) {
+>> +		/*
+>> +		 * If init_data.devicename is NULL, then it indicates that
+>> +		 * DT label should be used as-is for LED class device name.
+>> +		 * Otherwise the label is prepended with devicename to compose
+>> +		 * the final LED class device name.
+>> +		 */
+>> +		if (!devicename) {
+>> +			strncpy(led_classdev_name, props.label,
+>> +				LED_MAX_NAME_SIZE);
+>> +		} else {
+>> +			snprintf(led_classdev_name, LED_MAX_NAME_SIZE, "%s:%s",
+>> +				 devicename, props.label);
+>> +		}
+> 
+> Unlike snprintf(), strncpy() does not guarantee NULL termination.
+
+Indeed. I'll change strncpy to strscpy.
+
+> I did not check the shell script.
+> 
+> With that fixed,
+> 
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+
+Thanks!
 
 -- 
 Best regards,
