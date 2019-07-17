@@ -2,378 +2,177 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BCE1B6BE0A
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Jul 2019 16:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1FF86BE34
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Jul 2019 16:27:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727888AbfGQOPd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 17 Jul 2019 10:15:33 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:33258 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727469AbfGQOPc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 17 Jul 2019 10:15:32 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6HEFORk046072;
-        Wed, 17 Jul 2019 09:15:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1563372924;
-        bh=rUD+mDW7qj79oqu5aA2ibwroIdtpWBev6WZwilXEqqU=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=sBqN+9Ca+nTbmh14qs+owU/5jR5+jMpIev2rZDKdiKon7TLTF18MLF/g+QG04iQoO
-         Z7LRpdqNBHYrqxoztjn4uGwpGloEhKDAksN38gzmJtvouwSlw7HFVywhiRLalagkQ6
-         bR2zVJLMq3XQ4VeelKe+DkdYBv/ss1VZoqY/R3n4=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6HEFOgG075667
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 17 Jul 2019 09:15:24 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 17
- Jul 2019 09:15:23 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 17 Jul 2019 09:15:23 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6HEFNFu094901;
-        Wed, 17 Jul 2019 09:15:23 -0500
-From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <lee.jones@linaro.org>,
-        <daniel.thompson@linaro.org>, <jingoohan1@gmail.com>
-CC:     <dmurphy@ti.com>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <tomi.valkeinen@ti.com>, Jean-Jacques Hiblot <jjhiblot@ti.com>
-Subject: [PATCH v4 4/4] backlight: add led-backlight driver
-Date:   Wed, 17 Jul 2019 16:15:14 +0200
-Message-ID: <20190717141514.21171-5-jjhiblot@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190717141514.21171-1-jjhiblot@ti.com>
-References: <20190717141514.21171-1-jjhiblot@ti.com>
+        id S1726880AbfGQO16 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 17 Jul 2019 10:27:58 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:33457 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726598AbfGQO15 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 17 Jul 2019 10:27:57 -0400
+Received: by mail-pg1-f195.google.com with SMTP id f20so2019481pgj.0;
+        Wed, 17 Jul 2019 07:27:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=nvqNr9SLuwwZZcGIJgyeLTzR5iN49WRmD1bzET7qrX0=;
+        b=fZbqig6DExgJMx86f03afKw6OwCDHbTpt3kZa8PZYEL3OaDDQRrrRg8tQI3mt8mqxN
+         s3RW8s5Za59L4GeXU2LEhWXBPRhMvkhNhDyB5sUYzVamWXn2p3DYqzbZcxWqFUOC5x3D
+         RvkB/2/3DxL+SP7N7+TPjU4UjQ+gU2nB2XgCVPSn7s8eJTMe4MZjvY98/JDunyEYu0fp
+         7Kh0buABkIsMJNBGrzzG4cRrnZrc/b89mAqQj6VlVT9nMDGpcjrdS/MnwqnfgM8TqiAq
+         /6SOCMQ385Yv/JxsdNTvI6yptg9NnkTKSVxsXrh2je/S0i3YgZdaiJzz+aBFbgT0E8Vv
+         iAcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=nvqNr9SLuwwZZcGIJgyeLTzR5iN49WRmD1bzET7qrX0=;
+        b=klqn5Wy9KniOWtNVkw4guWGjo0J6MqY6gmIDo5GtKArjDaCWN078dc2bPCAzu/z/Et
+         PL4f0xP4DPLyWXpTEjAs8CrnnTQpLZG3feATeYmrr207GOs9QbeH4GrrWicLO1Y0FCdq
+         g8bdEHLkGfOoV2CtWYawf5azwq0sn7QM5Ks7Wa4HAs1DRjINh/BD1BcNg3pnslTngs06
+         nHVFDB2QwM39/LXhE+pkJq1JCRFvpkySwyvSlb2XG/D1+BYbqVgO2ARvrFXfXLyq/3F/
+         SzvOox4pzwlnXZ8z2JsL9KSKR5Ju8HlyMyI4/z6avRR3V6EDlk/n7GgF7J9DRUykIBIL
+         XGQA==
+X-Gm-Message-State: APjAAAULhLajj2DxOSb+s+k0Xvbb7KRyB9t69DhFvhe+1Mx2LARq1LjY
+        QEdTVAy9aDDtR+DSQHbJ2tEnejvHF/CwWimebMg=
+X-Google-Smtp-Source: APXvYqwhAEQJYHqg+zo9ow9mDEV6qDdC8D9kEUY/g6y1OE313KSTV8uAp24yxQENP1K6vRVs9TLqvxUbZ5cUiyq4jCU=
+X-Received: by 2002:a63:7455:: with SMTP id e21mr35805147pgn.439.1563373677041;
+ Wed, 17 Jul 2019 07:27:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <1562435939-15466-1-git-send-email-akinobu.mita@gmail.com>
+ <1562435939-15466-3-git-send-email-akinobu.mita@gmail.com> <89262967-667f-80cc-0fd5-ba480e879fe0@gmail.com>
+In-Reply-To: <89262967-667f-80cc-0fd5-ba480e879fe0@gmail.com>
+From:   Akinobu Mita <akinobu.mita@gmail.com>
+Date:   Wed, 17 Jul 2019 23:27:45 +0900
+Message-ID: <CAC5umyjDNh+MP+jLST1sLyFhGsRe-SJCm+KjSOp4ppHqXog3Qw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] block: introduce LED block device activity trigger
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-nvme@lists.infradead.org,
+        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Jens Axboe <axboe@kernel.dk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+2019=E5=B9=B47=E6=9C=8817=E6=97=A5(=E6=B0=B4) 5:57 Jacek Anaszewski <jacek.=
+anaszewski@gmail.com>:
+>
+> Hi Akinobu,
+>
+> Thank you for the patch set. It looks nice in general, but I'd like
+> to maintain it under LED subsystem. See my below comments.
 
-This patch adds a led-backlight driver (led_bl), which is similar to
-pwm_bl except the driver uses a LED class driver to adjust the
-brightness in the HW. Multiple LEDs can be used for a single backlight.
+Thanks for reviewing. I'll apply your feedback.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
-Acked-by: Pavel Machek <pavel@ucw.cz>
----
- drivers/video/backlight/Kconfig  |   7 +
- drivers/video/backlight/Makefile |   1 +
- drivers/video/backlight/led_bl.c | 268 +++++++++++++++++++++++++++++++
- 3 files changed, 276 insertions(+)
- create mode 100644 drivers/video/backlight/led_bl.c
+> On 7/6/19 7:58 PM, Akinobu Mita wrote:
+> > This allows LEDs to be controlled by block device activity.
+> >
+> > We already have ledtrig-disk (LED disk activity trigger), but the lower
+> > level disk drivers need to utilize ledtrig_disk_activity() to make the
+> > LED blink.
+> >
+> > The LED block device trigger doesn't require the lower level drivers to
+> > have any instrumentation. The activity is collected by polling the disk
+> > stats.
+> >
+> > Example:
+> >
+> > echo block-nvme0n1 > /sys/class/leds/diy/trigger
+> >
+> > Cc: Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>
+> > Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> > Cc: Pavel Machek <pavel@ucw.cz>
+> > Cc: Dan Murphy <dmurphy@ti.com>
+> > Cc: Jens Axboe <axboe@kernel.dk>
+> > Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+> > ---
+> >  block/Makefile        |   1 +
+> >  block/blk-ledtrig.c   | 219 ++++++++++++++++++++++++++++++++++++++++++=
+++++++++
+> >  block/blk.h           |  13 +++
+> >  block/genhd.c         |   2 +
+> >  include/linux/genhd.h |   4 +
+> >  5 files changed, 239 insertions(+)
+> >  create mode 100644 block/blk-ledtrig.c
+> >
+> > diff --git a/block/Makefile b/block/Makefile
+> > index eee1b4c..c74d84e6 100644
+> > --- a/block/Makefile
+> > +++ b/block/Makefile
+> > @@ -35,3 +35,4 @@ obj-$(CONFIG_BLK_DEBUG_FS)  +=3D blk-mq-debugfs.o
+> >  obj-$(CONFIG_BLK_DEBUG_FS_ZONED)+=3D blk-mq-debugfs-zoned.o
+> >  obj-$(CONFIG_BLK_SED_OPAL)   +=3D sed-opal.o
+> >  obj-$(CONFIG_BLK_PM)         +=3D blk-pm.o
+> > +obj-$(CONFIG_LEDS_TRIGGERS)  +=3D blk-ledtrig.o
+> > diff --git a/block/blk-ledtrig.c b/block/blk-ledtrig.c
+>
+> Please move the whole trigger implementation to
+> drivers/leds/trigger and rename the file to ledtrig-blk.c
 
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 8b081d61773e..585a1787618c 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -458,6 +458,13 @@ config BACKLIGHT_RAVE_SP
- 	help
- 	  Support for backlight control on RAVE SP device.
- 
-+config BACKLIGHT_LED
-+	tristate "Generic LED based Backlight Driver"
-+	depends on LEDS_CLASS && OF
-+	help
-+	  If you have a LCD backlight adjustable by LED class driver, say Y
-+	  to enable this driver.
-+
- endif # BACKLIGHT_CLASS_DEVICE
- 
- endmenu
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index 63c507c07437..2a67642966a5 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -57,3 +57,4 @@ obj-$(CONFIG_BACKLIGHT_TPS65217)	+= tps65217_bl.o
- obj-$(CONFIG_BACKLIGHT_WM831X)		+= wm831x_bl.o
- obj-$(CONFIG_BACKLIGHT_ARCXCNN) 	+= arcxcnn_bl.o
- obj-$(CONFIG_BACKLIGHT_RAVE_SP)		+= rave-sp-backlight.o
-+obj-$(CONFIG_BACKLIGHT_LED)		+= led_bl.o
-diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
-new file mode 100644
-index 000000000000..ac5ff78e7859
---- /dev/null
-+++ b/drivers/video/backlight/led_bl.c
-@@ -0,0 +1,268 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2015-2019 Texas Instruments Incorporated -  http://www.ti.com/
-+ * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-+ *
-+ * Based on pwm_bl.c
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+
-+#define BKL_FULL_BRIGHTNESS 255
-+
-+struct led_bl_data {
-+	struct device		*dev;
-+	struct backlight_device	*bl_dev;
-+	struct led_classdev	**leds;
-+	bool			enabled;
-+	int			nb_leds;
-+	unsigned int		*levels;
-+	unsigned int		default_brightness;
-+	unsigned int		max_brightness;
-+};
-+
-+static int to_led_brightness(struct led_classdev *led, int value)
-+{
-+	return (value * led->max_brightness) / BKL_FULL_BRIGHTNESS;
-+}
-+
-+static void led_bl_set_brightness(struct led_bl_data *priv, int level)
-+{
-+	int i;
-+	int bkl_brightness;
-+
-+	if (priv->levels)
-+		bkl_brightness = priv->levels[level];
-+	else
-+		bkl_brightness = level;
-+
-+	for (i = 0; i < priv->nb_leds; i++) {
-+		int led_brightness;
-+		struct led_classdev *led = priv->leds[i];
-+
-+		led_brightness = to_led_brightness(led, bkl_brightness);
-+		led_set_brightness(led, led_brightness);
-+	}
-+
-+	priv->enabled = true;
-+}
-+
-+static void led_bl_power_off(struct led_bl_data *priv)
-+{
-+	int i;
-+
-+	if (!priv->enabled)
-+		return;
-+
-+	for (i = 0; i < priv->nb_leds; i++)
-+		led_set_brightness(priv->leds[i], LED_OFF);
-+
-+	priv->enabled = false;
-+}
-+
-+static int led_bl_update_status(struct backlight_device *bl)
-+{
-+	struct led_bl_data *priv = bl_get_data(bl);
-+	int brightness = bl->props.brightness;
-+
-+	if (bl->props.power != FB_BLANK_UNBLANK ||
-+	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
-+	    bl->props.state & BL_CORE_FBBLANK)
-+		brightness = 0;
-+
-+	if (brightness > 0)
-+		led_bl_set_brightness(priv, brightness);
-+	else
-+		led_bl_power_off(priv);
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops led_bl_ops = {
-+	.update_status	= led_bl_update_status,
-+};
-+
-+static int led_bl_get_leds(struct device *dev,
-+			   struct led_bl_data *priv)
-+{
-+	int i, nb_leds, ret;
-+	struct device_node *node = dev->of_node;
-+	struct led_classdev **leds;
-+	unsigned int max_brightness;
-+	unsigned int default_brightness;
-+
-+	ret = of_count_phandle_with_args(node, "leds", NULL);
-+	if (ret < 0) {
-+		dev_err(dev, "Unable to get led count\n");
-+		return -EINVAL;
-+	}
-+
-+	nb_leds = ret;
-+	if (nb_leds < 1) {
-+		dev_err(dev, "At least one LED must be specified!\n");
-+		return -EINVAL;
-+	}
-+
-+	leds = devm_kzalloc(dev, sizeof(struct led_classdev *) * nb_leds,
-+			    GFP_KERNEL);
-+	if (!leds)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < nb_leds; i++) {
-+		leds[i] = devm_led_get(dev, i);
-+		if (IS_ERR(leds[i]))
-+			return PTR_ERR(leds[i]);
-+	}
-+
-+	/* check that the LEDs all have the same brightness range */
-+	max_brightness = leds[0]->max_brightness;
-+	for (i = 1; i < nb_leds; i++) {
-+		if (max_brightness != leds[i]->max_brightness) {
-+			dev_err(dev, "LEDs must have identical ranges\n");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	/* get the default brightness from the first LED from the list */
-+	default_brightness = leds[0]->brightness;
-+
-+	priv->nb_leds = nb_leds;
-+	priv->leds = leds;
-+	priv->max_brightness = max_brightness;
-+	priv->default_brightness = default_brightness;
-+
-+	return 0;
-+}
-+
-+static int led_bl_parse_levels(struct device *dev,
-+			   struct led_bl_data *priv)
-+{
-+	struct device_node *node = dev->of_node;
-+	int num_levels;
-+	u32 value;
-+	int ret;
-+
-+	if (!node)
-+		return -ENODEV;
-+
-+	num_levels = of_property_count_u32_elems(node, "brightness-levels");
-+	if (num_levels > 1) {
-+		int i;
-+		unsigned int db;
-+		u32 *levels = NULL;
-+
-+		levels = devm_kzalloc(dev, sizeof(u32) * num_levels,
-+				      GFP_KERNEL);
-+		if (!levels)
-+			return -ENOMEM;
-+
-+		ret = of_property_read_u32_array(node, "brightness-levels",
-+						levels,
-+						num_levels);
-+		if (ret < 0)
-+			return ret;
-+
-+		/*
-+		 * Try to map actual LED brightness to backlight brightness
-+		 * level
-+		 */
-+		db = priv->default_brightness;
-+		for (i = 0 ; i < num_levels; i++) {
-+			if ((i && db > levels[i-1]) && db <= levels[i])
-+				break;
-+		}
-+		priv->default_brightness = i;
-+		priv->max_brightness = num_levels - 1;
-+		priv->levels = levels;
-+	} else if (num_levels >= 0)
-+		dev_warn(dev, "Not enough levels defined\n");
-+
-+	ret = of_property_read_u32(node, "default-brightness-level", &value);
-+	if (!ret && value <= priv->max_brightness)
-+		priv->default_brightness = value;
-+	else if (!ret  && value > priv->max_brightness)
-+		dev_warn(dev, "Invalid default brightness. Ignoring it\n");
-+
-+	return 0;
-+}
-+
-+static int led_bl_probe(struct platform_device *pdev)
-+{
-+	struct backlight_properties props;
-+	struct led_bl_data *priv;
-+	int ret;
-+
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, priv);
-+
-+	priv->dev = &pdev->dev;
-+
-+	ret = led_bl_get_leds(&pdev->dev, priv);
-+	if (ret)
-+		return ret;
-+
-+	ret = led_bl_parse_levels(&pdev->dev, priv);
-+	if (ret < 0) {
-+		dev_err(&pdev->dev, "Failed to parse DT data\n");
-+		return ret;
-+	}
-+
-+	memset(&props, 0, sizeof(struct backlight_properties));
-+	props.type = BACKLIGHT_RAW;
-+	props.max_brightness = priv->max_brightness;
-+	props.brightness = priv->default_brightness;
-+	props.power = (priv->default_brightness > 0) ? FB_BLANK_POWERDOWN :
-+		      FB_BLANK_UNBLANK;
-+	priv->bl_dev = backlight_device_register(dev_name(&pdev->dev),
-+			&pdev->dev, priv, &led_bl_ops, &props);
-+	if (IS_ERR(priv->bl_dev)) {
-+		dev_err(&pdev->dev, "Failed to register backlight\n");
-+		return PTR_ERR(priv->bl_dev);
-+	}
-+
-+	backlight_update_status(priv->bl_dev);
-+
-+	return 0;
-+}
-+
-+static int led_bl_remove(struct platform_device *pdev)
-+{
-+	struct led_bl_data *priv = platform_get_drvdata(pdev);
-+	struct backlight_device *bl = priv->bl_dev;
-+
-+	backlight_device_unregister(bl);
-+
-+	led_bl_power_off(priv);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id led_bl_of_match[] = {
-+	{ .compatible = "led-backlight" },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, led_bl_of_match);
-+
-+static struct platform_driver led_bl_driver = {
-+	.driver		= {
-+		.name		= "led-backlight",
-+		.of_match_table	= of_match_ptr(led_bl_of_match),
-+	},
-+	.probe		= led_bl_probe,
-+	.remove		= led_bl_remove,
-+};
-+
-+module_platform_driver(led_bl_driver);
-+
-+MODULE_DESCRIPTION("LED based Backlight Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:led-backlight");
--- 
-2.17.1
+OK. Then we don't need to patch 1/2 ("leds: move declaration of
+led_stop_software_blink() to linux/leds.h") anymore.
 
+> > new file mode 100644
+> > index 0000000..da93b06
+> > --- /dev/null
+> > +++ b/block/blk-ledtrig.c
+> > @@ -0,0 +1,219 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +// LED Kernel Blockdev Trigger
+> > +// Derived from ledtrig-netdev.c
+> > +
+> > +#include <linux/atomic.h>
+> > +#include <linux/genhd.h>
+> > +#include <linux/leds.h>
+> > +#include <linux/workqueue.h>
+> > +
+> > +struct blk_ledtrig_data {
+> > +     struct delayed_work work;
+> > +     struct led_classdev *led_cdev;
+> > +
+> > +     atomic_t interval;
+> > +     u64 last_activity;
+> > +
+> > +     unsigned long mode;
+> > +#define BLK_LEDTRIG_READ BIT(0)
+> > +#define BLK_LEDTRIG_WRITE BIT(1)
+> > +#define BLK_LEDTRIG_DISCARD BIT(2)
+>
+> s/BLK_LEDTRIG/LEDTRIG_BLK/
+
+OK.
+
+> > diff --git a/block/blk.h b/block/blk.h
+> > index 7814aa2..dd4c230a 100644
+> > --- a/block/blk.h
+> > +++ b/block/blk.h
+> > @@ -331,4 +331,17 @@ void blk_queue_free_zone_bitmaps(struct request_qu=
+eue *q);
+> >  static inline void blk_queue_free_zone_bitmaps(struct request_queue *q=
+) {}
+> >  #endif
+> >
+> > +#ifdef CONFIG_LEDS_TRIGGERS
+> > +int blk_ledtrig_register(struct gendisk *disk);
+> > +void blk_ledtrig_unregister(struct gendisk *disk);
+> > +#else
+> > +static inline int blk_ledtrig_register(struct gendisk *disk)
+> > +{
+> > +     return 0;
+> > +}
+> > +static inline void blk_ledtrig_unregister(struct gendisk *disk)
+> > +{
+> > +}
+> > +#endif /* CONFIG_LEDS_TRIGGERS */
+>
+> Please move this part to include/linux/leds.h, next to the other
+> triggers' facilities.
+
+OK.
