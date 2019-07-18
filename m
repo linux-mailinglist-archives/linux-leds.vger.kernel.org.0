@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C99686CEC1
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Jul 2019 15:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EEEA6CEDF
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Jul 2019 15:31:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727655AbfGRNTu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 Jul 2019 09:19:50 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:39965 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726608AbfGRNTt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 Jul 2019 09:19:49 -0400
-Received: by mail-wr1-f66.google.com with SMTP id r1so28658100wrl.7;
-        Thu, 18 Jul 2019 06:19:47 -0700 (PDT)
+        id S1727791AbfGRNb3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 18 Jul 2019 09:31:29 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46920 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390302AbfGRNb2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 Jul 2019 09:31:28 -0400
+Received: by mail-wr1-f68.google.com with SMTP id z1so28686790wru.13;
+        Thu, 18 Jul 2019 06:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=OLDs21KMIbgvdFUuvjXWKrJvzDqxKAC/PhzEbEX10Nc=;
-        b=n8id90WdayYJdA5Hv1yRTX+yHg1lxWjz2Kq24cUbg9XU12h91f7jAgtkTNpq0AA947
-         jMmcZxlIjzUWp9B+89O7ijwBdWv7Flt4G4skmojcF3E/C/q4O+ze4ZVmwCsnj6r/ybMj
-         UrZ/LhqPXj0YI4La3rihQBrb8tppwfyltLg6N5tHGFrNK2qmUXifpPnL0L4Wv72OIg0f
-         FgPHa4B5rn2Jv7HxbL0EHcUTODNqDQv7FSW7gYXEi35wMBqneDRdDPu/pSELK+lUyNE5
-         mH2TcLYp6YOiw9OOMFzGm79V4Xi6qHABFLy7rd572ufVYbVgnDsUr8z2cG7HRFiYgfsL
-         tEOA==
+        bh=WaAcYuOETNJBZmu5hJKbnkdvkEWzaL+ypcfEzgqEBts=;
+        b=dXvHPolSM0Jnf/uuyDRv0dfLwA+w5Oy63rkf/2Y0dd2QSiidg7ts5xybH4zH/ilsMB
+         Lj90fT4Mx4HjpquxhClbV3Xx4ooCMXtLXlwfsJydoT3BuRqxYuzh5Rswf6JmODKarzJN
+         Zbu924RXczaofEKvod64JJqg89XpaC9hY9EjS4nj+4WJL6qDhUKRjV6USY2QEY63HEaQ
+         Vn2bHvsc3oJ/mjLWJOD2/2i77X9mB28/7Q8H6sqhtoo1lRTWJh0kxMZSFxtadxHYvjg3
+         dw+WJvEGvrFIDYQ0xGVgqRu5BdGVIsiEGVEi5dMnHUfYG4eqaS2r40o1l42dAEv3KZ3u
+         RLNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=OLDs21KMIbgvdFUuvjXWKrJvzDqxKAC/PhzEbEX10Nc=;
-        b=VHGDBmkQG5EcETw1+oRZmtKAU3rNGnDHaiEfVgFTxNIXwbrcTQQvKdsm8Zrleo81Vz
-         2N5Pe5QGeXZxlXQo5b6O4BjldlbNTi/pIARGrrVtPy2vACsqbgozSgIlQDEIMnIXyaHB
-         ba25dQs//tS/tous1vUpw+GxtFDnEf7eS9wa8ldzWFk7qq3iMn39PzqgAMmo3c4Um0rI
-         ZcykMMhxU5GPOdYoWP94inkKGPw3AGr072smgnbbC8QeJakaK6SKGa95hgGJgT31Chdv
-         QMKybmxzWCYdE6CLom5o4iHhXfpVuIuVvuqeT++ISiJN2r5CwIjiLjjizJpKeDl3aayF
-         RnYQ==
-X-Gm-Message-State: APjAAAX0D6uE/1OJ+QEeVB9tHzN6ed6XrKCOm5Gh5pfaAa9uwpx2r86S
-        fQh3Ubzn19innGGm29J1ADY=
-X-Google-Smtp-Source: APXvYqz3Y6aPFdcL25IhafcGWP/1Zzs5bnp/6nbtuPuAGXkO6jhwrz9Di79NvbLRrTSIgLXBBRA9Aw==
-X-Received: by 2002:a5d:4108:: with SMTP id l8mr49151936wrp.113.1563455986905;
-        Thu, 18 Jul 2019 06:19:46 -0700 (PDT)
+        bh=WaAcYuOETNJBZmu5hJKbnkdvkEWzaL+ypcfEzgqEBts=;
+        b=Tn/Aa3mTraxqKGlUFDjCjx7/MA+RH6PHbo4pREodmUR6qrOm53y+d4pHO1Mv8TAr6o
+         Exc6AnhgBg9ak2ptJRfo2zizhL7uoEuN3HOftUvnCp0jlZAUaFS+Co9HX/NIx+b0e5yc
+         tN3IQacf+uSc6zJ2r0oToawJcD6utoY62CVxJ3uxdjElWhBlO8Xm9fk43OfQSrjF/LZh
+         lUS+mchl5YLTtCQQ65lohP/MbzxN2ly5TLwgPN5f+rS7qbGHjU4DFM2Us3dYTzi8Fl71
+         KAgz7sRlbVSrXkhEffN3kuRxivJzOA2Ovu5N4VMcEdC1kl4MIJMS0Zp/PBAA1xp9oI/i
+         iiug==
+X-Gm-Message-State: APjAAAWCHy3hpwdutdTHUsqVunFl4jVkKpAMn8lFJryA03+bHzVoue9+
+        2nf3QKhHUXWAu03fWhN/rMY=
+X-Google-Smtp-Source: APXvYqysL32h0Zhpaq6Dlqn3rVp59a8EJm4WrJo7YVfyOcLvVZLjx2pyxgTkg6yGsl51wt79McRRzQ==
+X-Received: by 2002:a5d:4950:: with SMTP id r16mr43519141wrs.136.1563456685542;
+        Thu, 18 Jul 2019 06:31:25 -0700 (PDT)
 Received: from [192.168.1.19] (bkt159.neoplus.adsl.tpnet.pl. [83.28.187.159])
-        by smtp.gmail.com with ESMTPSA id c30sm42096099wrb.15.2019.07.18.06.19.45
+        by smtp.gmail.com with ESMTPSA id x20sm21075974wmc.1.2019.07.18.06.31.24
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Jul 2019 06:19:46 -0700 (PDT)
-Subject: Re: [PATCH v4 0/4] Add a generic driver for LED-based backlight
-To:     lee.jones@linaro.org
-Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
-        robh+dt@kernel.org, mark.rutland@arm.com,
-        daniel.thompson@linaro.org, jingoohan1@gmail.com, dmurphy@ti.com,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, tomi.valkeinen@ti.com
-References: <20190717141514.21171-1-jjhiblot@ti.com>
+        Thu, 18 Jul 2019 06:31:24 -0700 (PDT)
+Subject: Re: [PATCH v5 26/26] leds: Document standard LED functions
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, robh@kernel.org, dtor@google.com,
+        linux@roeck-us.net, dmurphy@ti.com
+References: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
+ <20190609190803.14815-27-jacek.anaszewski@gmail.com>
+ <20190718110352.GB3859@amd>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -112,13 +112,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  VykdkWccEqvxqDV4f8q0V0MW3KWfkD9/07bbGxXSnImeLt7bPuVMGK2tAUbr2+dUYmUdsETZ
  1HgZ11moCVU5Ru0RwTv9oyThOsK3HQjI7NCIsDzVpolaGQPd9E7xwOVHhhDcXRqqNjLzHUSe
  eGGiEQ==
-Message-ID: <283d9044-df2d-b176-bea9-7e1520d9cf56@gmail.com>
-Date:   Thu, 18 Jul 2019 15:19:44 +0200
+Message-ID: <d3f1532e-5fa5-d944-bb6b-1b97c1e6c9c9@gmail.com>
+Date:   Thu, 18 Jul 2019 15:31:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190717141514.21171-1-jjhiblot@ti.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190718110352.GB3859@amd>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -126,68 +126,102 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 7/17/19 4:15 PM, Jean-Jacques Hiblot wrote:
-> This series aims to add a led-backlight driver, similar to pwm-backlight,
-> but using a LED class device underneath.
-> 
-> A few years ago (2015), Tomi Valkeinen posted a series implementing a
-> backlight driver on top of a LED device:
-> https://patchwork.kernel.org/patch/7293991/
-> https://patchwork.kernel.org/patch/7294001/
-> https://patchwork.kernel.org/patch/7293981/
-> 
-> The discussion stopped because Tomi lacked the time to work on it.
-> 
-> changes in v4:
-> - fix dev_err() messages and commit logs following the advices of Pavel
-> - cosmetic changes (indents, getting rid of  "? 1 : 0" in
->   led_match_led_node())
-> 
-> changes in v3:
-> - dt binding: don't limit the brightness range to 0-255. Use the range of
->   the underlying LEDs. as a side-effect, all LEDs must now have the same
->   range
-> - driver: Adapt to dt binding update.
-> - driver: rework probe() for clarity and remove the remaining goto.
-> 
-> changes in v2:
-> - handle more than one LED.
-> - don't make the backlight device a child of the LED controller.
-> - make brightness-levels and default-brightness-level optional
-> - removed the option to use a GPIO enable.
-> - removed the option to use a regulator. It should be handled by the LED
->   core
-> - don't make any change to the LED core (not needed anymore)
-> 
-> Jean-Jacques Hiblot (2):
->   leds: Add managed API to get a LED from a device driver
->   dt-bindings: backlight: Add led-backlight binding
-> 
-> Tomi Valkeinen (2):
->   leds: Add of_led_get() and led_put()
->   backlight: add led-backlight driver
-> 
->  .../bindings/leds/backlight/led-backlight.txt |  28 ++
->  drivers/leds/led-class.c                      |  92 ++++++
->  drivers/video/backlight/Kconfig               |   7 +
->  drivers/video/backlight/Makefile              |   1 +
->  drivers/video/backlight/led_bl.c              | 268 ++++++++++++++++++
->  include/linux/leds.h                          |   6 +
->  6 files changed, 402 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
->  create mode 100644 drivers/video/backlight/led_bl.c
-> 
+Hi Pavel,
 
-For the whole set:
+Thanks for the review.
 
-Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+On 7/18/19 1:03 PM, Pavel Machek wrote:
+> Hi!
+> 
+>> Add a documentation for standard LED functions with regard
+>> to differences in meaning between cases when devicename section
+>> of LED name is present or not.
+>>
+>> Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+>> ---
+>>  Documentation/leds/led-functions.txt | 223 +++++++++++++++++++++++++++++++++++
+>>  Documentation/leds/leds-class.txt    |   3 +
+>>  2 files changed, 226 insertions(+)
+>>  create mode 100644 Documentation/leds/led-functions.txt
+>>
+>> diff --git a/Documentation/leds/led-functions.txt b/Documentation/leds/led-functions.txt
+>> new file mode 100644
+>> index 000000000000..003b6b6271d1
+>> --- /dev/null
+>> +++ b/Documentation/leds/led-functions.txt
+>> @@ -0,0 +1,223 @@
+>> +This file presents standardized LED functions and their meaning.
+>> +
+>> +Each LED function is described using below template:
+>> +
+>> +- LED function name
+>> +    NDEV : <function meaning when LED devicename section is absent>
+>> +    DEV  : <function meaning when LED devicename section is present>
+>> +    DEVICENAME : <expected LED devicename for DEV case>
+>> +    TRIGGER: <matching LED trigger>
+>> +
+>> +/* LED functions with corresponding trigger support */
+>> +
+>> +- activity
+>> +    NDEV : system activity
+>> +    DEV  : n/a
+>> +    TRIGGER : "activity"
+>> +
+>> +- backlight
+>> +    NDEV : n/a
+>> +    DEV  : backlight of a frame buffer device
+>> +    DEVICENAME : associated frame buffer device, e.g. fb0
+>> +    TRIGGER: "backlight"
+> 
+> ndev: if there's single one on the platform?
 
-Lee - we need to create immutable branch for this set since there will
-be some interfering changes in the LED core in this cycle.
+Ack.
 
-I can create the branch and send the pull request once we will
-obtain the ack from Rob for DT bindings, unless you have other
-preference.
+>> +- capslock
+>> +    NDEV : n/a
+>> +    DEV  : keyboard capslock state related to the specified input device
+>> +    DEVICENAME : associated input device, e.g. input1
+>> +    TRIGGER : "kbd-capslock"
+>> +
+> 
+>> +- disk
+>> +    NDEV : rw activity on any disk in the system
+>> +    DEV  : rw activity on specified disk
+>> +    DEVICENAME : associated disk, e.g.: hda, sdb
+>> +    TRIGGER : "disk-activity", applies only to NDEV case
+> 
+> I'd sort this file according to the places where these leds are
+> usually are present, to make it simpler for user to find the
+> labels. capslock should go near scrollock etc.
+> 
+> Plus I guess explanation in which systems such LED is found would be
+> good.
+
+I need more input on that. No idea what you mean.
+
+> Global "disk" LED is very common on the PCs, and we should make sure
+> such LEDs have consistent labeling everywhere.
+
+Could you please be more specific and give some examples of the rework
+you propose? Whereas it's clear what you mean regarding keyboard LEDs,
+I'm not sure what is your intention in case of "disk".
+
+>> +- disk-read
+>> +    NDEV : read activity on any disk in the system
+>> +    DEV  : read activity on specified disk
+>> +    DEVICENAME : associted disk, e.g.: hda, sdb
+>> +    TRIGGER : "disk-read", applies only to NDEV case
+>> +
+>> +- disk-write
+>> +    NDEV : write activity on any disk in the system
+>> +    DEV  : write activity on specified disk
+>> +    DEVICENAME : associated disk, .e.g" hda, sdb
+>> +    TRIGGER : "disk-write", applies only to NDEV case
+> 
+> I don't see separated read/write LEDs very often. To keep the file
+> size down, I'd list is at "disk-read, disk-write".
+
+Ack.
 
 -- 
 Best regards,
