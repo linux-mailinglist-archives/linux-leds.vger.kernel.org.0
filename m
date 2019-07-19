@@ -2,89 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEF846D467
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Jul 2019 21:09:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC93A6DFBD
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Jul 2019 06:38:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391178AbfGRTIw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 Jul 2019 15:08:52 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:40444 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726040AbfGRTIw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 Jul 2019 15:08:52 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id B0487802B0; Thu, 18 Jul 2019 21:08:38 +0200 (CEST)
-Date:   Thu, 18 Jul 2019 21:08:49 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     kernel list <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-omap@vger.kernel.org, tony@atomide.com, sre@kernel.org,
-        nekit1000@gmail.com, mpartap@gmx.net, merlijn@wizzup.org,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
-        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org
-Subject: [PATCH] Enable backlight when trigger is activated
-Message-ID: <20190718190849.GA11409@amd>
+        id S1728923AbfGSD7x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 18 Jul 2019 23:59:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59628 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727739AbfGSD7w (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 18 Jul 2019 23:59:52 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9FB2821873;
+        Fri, 19 Jul 2019 03:59:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1563508791;
+        bh=QvlXDSoxkqqz4+28wmL0GcIAtj5yQiD+NHM8MahlxRw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=CCZs4gazG2xpUNZXFdBEnZ5NQqzsQujhxKlDFnYJqkQ6tf77soCEFL6glgN0ioP/y
+         aCVRLjfrMMvEmwsfeggVlhBiWJxHyfIpMy/fjZP5LsXI7leCLAb6K+Gvvisqy8vi+l
+         VOigOYrapNJdjpHGEcUs1gduX4QghWKWWWZy99Dc=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Brian Masney <masneyb@onstation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>,
+        Sasha Levin <sashal@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.2 091/171] dt-bindings: backlight: lm3630a: correct schema validation
+Date:   Thu, 18 Jul 2019 23:55:22 -0400
+Message-Id: <20190719035643.14300-91-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190719035643.14300-1-sashal@kernel.org>
+References: <20190719035643.14300-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="fUYQa+Pmc3FrFX/N"
-Content-Disposition: inline
-User-Agent: Mutt/1.5.23 (2014-03-12)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+From: Brian Masney <masneyb@onstation.org>
 
---fUYQa+Pmc3FrFX/N
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[ Upstream commit ef4db28c1f45cda6989bc8a8e45294894786d947 ]
 
-Configuring backlight trigger from dts results in backlight off during
-boot. Machine looks dead upon boot, which is not good.
+The '#address-cells' and '#size-cells' properties were not defined in
+the lm3630a bindings and would cause the following error when
+attempting to validate the examples against the schema:
 
-Fix that by enabling LED on trigger activation.
+Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
+'#address-cells', '#size-cells' do not match any of the regexes:
+'^led@[01]$', 'pinctrl-[0-9]+'
 
-Signed-off-by: Pavel Machek <pavel@ucw.cz>
+Correct this by adding those two properties.
 
-diff --git a/drivers/leds/trigger/ledtrig-backlight.c b/drivers/leds/trigge=
-r/ledtrig-backlight.c
-index 487577d..6e6bc78 100644
---- a/drivers/leds/trigger/ledtrig-backlight.c
-+++ b/drivers/leds/trigger/ledtrig-backlight.c
-@@ -114,6 +114,8 @@ static int bl_trig_activate(struct led_classdev *led)
- 	n->old_status =3D UNBLANK;
- 	n->notifier.notifier_call =3D fb_notifier_callback;
-=20
-+	led_set_brightness(led, LED_ON);
+While we're here, move the ti,linear-mapping-mode property to the
+led@[01] child nodes to correct the following validation error:
+
+Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
+led@0: 'ti,linear-mapping-mode' does not match any of the regexes:
+'pinctrl-[0-9]+'
+
+Fixes: 32fcb75c66a0 ("dt-bindings: backlight: Add lm3630a bindings")
+Signed-off-by: Brian Masney <masneyb@onstation.org>
+Reported-by: Rob Herring <robh+dt@kernel.org>
+Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+Acked-by: Dan Murphy <dmurphy@ti.com>
+[robh: also drop maxItems from child reg]
+Signed-off-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../leds/backlight/lm3630a-backlight.yaml     | 21 ++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+index 4d61fe0a98a4..dc129d9a329e 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+@@ -23,16 +23,17 @@ properties:
+   reg:
+     maxItems: 1
+ 
+-  ti,linear-mapping-mode:
+-    description: |
+-      Enable linear mapping mode. If disabled, then it will use exponential
+-      mapping mode in which the ramp up/down appears to have a more uniform
+-      transition to the human eye.
+-    type: boolean
++  '#address-cells':
++    const: 1
 +
- 	ret =3D fb_register_client(&n->notifier);
- 	if (ret)
- 		dev_err(led->dev, "unable to register backlight trigger\n");
-@@ -126,6 +128,7 @@ static void bl_trig_deactivate(struct led_classdev *led)
- 	struct bl_trig_notifier *n =3D led_get_trigger_data(led);
-=20
- 	fb_unregister_client(&n->notifier);
-+	led_set_brightness(led, LED_OFF);
- 	kfree(n);
- }
-=20
++  '#size-cells':
++    const: 0
+ 
+ required:
+   - compatible
+   - reg
++  - '#address-cells'
++  - '#size-cells'
+ 
+ patternProperties:
+   "^led@[01]$":
+@@ -48,7 +49,6 @@ patternProperties:
+           in this property. The two current sinks can be controlled
+           independently with both banks, or bank A can be configured to control
+           both sinks with the led-sources property.
+-        maxItems: 1
+         minimum: 0
+         maximum: 1
+ 
+@@ -73,6 +73,13 @@ patternProperties:
+         minimum: 0
+         maximum: 255
+ 
++      ti,linear-mapping-mode:
++        description: |
++          Enable linear mapping mode. If disabled, then it will use exponential
++          mapping mode in which the ramp up/down appears to have a more uniform
++          transition to the human eye.
++        type: boolean
++
+     required:
+       - reg
+ 
+-- 
+2.20.1
 
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---fUYQa+Pmc3FrFX/N
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl0ww8EACgkQMOfwapXb+vI/hQCeO9FNCL2TmO9oZ8A7L2jg1y1R
-jvQAn1C6VabsEY2RJJWCWLOK9CshUbyu
-=aKee
------END PGP SIGNATURE-----
-
---fUYQa+Pmc3FrFX/N--
