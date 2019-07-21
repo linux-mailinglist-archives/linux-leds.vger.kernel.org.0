@@ -2,134 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC93A6DFBD
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Jul 2019 06:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 058546F5B4
+	for <lists+linux-leds@lfdr.de>; Sun, 21 Jul 2019 23:00:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728923AbfGSD7x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 Jul 2019 23:59:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59628 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727739AbfGSD7w (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 18 Jul 2019 23:59:52 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9FB2821873;
-        Fri, 19 Jul 2019 03:59:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563508791;
-        bh=QvlXDSoxkqqz4+28wmL0GcIAtj5yQiD+NHM8MahlxRw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CCZs4gazG2xpUNZXFdBEnZ5NQqzsQujhxKlDFnYJqkQ6tf77soCEFL6glgN0ioP/y
-         aCVRLjfrMMvEmwsfeggVlhBiWJxHyfIpMy/fjZP5LsXI7leCLAb6K+Gvvisqy8vi+l
-         VOigOYrapNJdjpHGEcUs1gduX4QghWKWWWZy99Dc=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Brian Masney <masneyb@onstation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 091/171] dt-bindings: backlight: lm3630a: correct schema validation
-Date:   Thu, 18 Jul 2019 23:55:22 -0400
-Message-Id: <20190719035643.14300-91-sashal@kernel.org>
+        id S1726496AbfGUVAZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 21 Jul 2019 17:00:25 -0400
+Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:53740 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725828AbfGUVAZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 21 Jul 2019 17:00:25 -0400
+Received: from localhost.localdomain ([92.140.204.221])
+        by mwinf5d11 with ME
+        id fZ0M2000J4n7eLC03Z0Nan; Sun, 21 Jul 2019 23:00:23 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 21 Jul 2019 23:00:23 +0200
+X-ME-IP: 92.140.204.221
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] leds: an30259a: Fix typo
+Date:   Sun, 21 Jul 2019 22:59:55 +0200
+Message-Id: <20190721205955.25317-1-christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719035643.14300-1-sashal@kernel.org>
-References: <20190719035643.14300-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Brian Masney <masneyb@onstation.org>
+All this file is about an30259a, including the reference to the datasheet
+at the top of the file.
 
-[ Upstream commit ef4db28c1f45cda6989bc8a8e45294894786d947 ]
+So change the 2 places where an32059a is used instead.
 
-The '#address-cells' and '#size-cells' properties were not defined in
-the lm3630a bindings and would cause the following error when
-attempting to validate the examples against the schema:
-
-Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
-'#address-cells', '#size-cells' do not match any of the regexes:
-'^led@[01]$', 'pinctrl-[0-9]+'
-
-Correct this by adding those two properties.
-
-While we're here, move the ti,linear-mapping-mode property to the
-led@[01] child nodes to correct the following validation error:
-
-Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.example.dt.yaml:
-led@0: 'ti,linear-mapping-mode' does not match any of the regexes:
-'pinctrl-[0-9]+'
-
-Fixes: 32fcb75c66a0 ("dt-bindings: backlight: Add lm3630a bindings")
-Signed-off-by: Brian Masney <masneyb@onstation.org>
-Reported-by: Rob Herring <robh+dt@kernel.org>
-Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
-Acked-by: Dan Murphy <dmurphy@ti.com>
-[robh: also drop maxItems from child reg]
-Signed-off-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- .../leds/backlight/lm3630a-backlight.yaml     | 21 ++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+an32059a is another chip from panasonic
+---
+ drivers/leds/leds-an30259a.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
-index 4d61fe0a98a4..dc129d9a329e 100644
---- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
-+++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
-@@ -23,16 +23,17 @@ properties:
-   reg:
-     maxItems: 1
+diff --git a/drivers/leds/leds-an30259a.c b/drivers/leds/leds-an30259a.c
+index 1c1f0c8c56f4..37e7c7998972 100644
+--- a/drivers/leds/leds-an30259a.c
++++ b/drivers/leds/leds-an30259a.c
+@@ -353,7 +353,7 @@ MODULE_DEVICE_TABLE(i2c, an30259a_id);
  
--  ti,linear-mapping-mode:
--    description: |
--      Enable linear mapping mode. If disabled, then it will use exponential
--      mapping mode in which the ramp up/down appears to have a more uniform
--      transition to the human eye.
--    type: boolean
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
+ static struct i2c_driver an30259a_driver = {
+ 	.driver = {
+-		.name = "leds-an32059a",
++		.name = "leds-an30259a",
+ 		.of_match_table = of_match_ptr(an30259a_match_table),
+ 	},
+ 	.probe_new = an30259a_probe,
+@@ -364,5 +364,5 @@ static struct i2c_driver an30259a_driver = {
+ module_i2c_driver(an30259a_driver);
  
- required:
-   - compatible
-   - reg
-+  - '#address-cells'
-+  - '#size-cells'
- 
- patternProperties:
-   "^led@[01]$":
-@@ -48,7 +49,6 @@ patternProperties:
-           in this property. The two current sinks can be controlled
-           independently with both banks, or bank A can be configured to control
-           both sinks with the led-sources property.
--        maxItems: 1
-         minimum: 0
-         maximum: 1
- 
-@@ -73,6 +73,13 @@ patternProperties:
-         minimum: 0
-         maximum: 255
- 
-+      ti,linear-mapping-mode:
-+        description: |
-+          Enable linear mapping mode. If disabled, then it will use exponential
-+          mapping mode in which the ramp up/down appears to have a more uniform
-+          transition to the human eye.
-+        type: boolean
-+
-     required:
-       - reg
- 
+ MODULE_AUTHOR("Simon Shields <simon@lineageos.org>");
+-MODULE_DESCRIPTION("AN32059A LED driver");
++MODULE_DESCRIPTION("AN30259A LED driver");
+ MODULE_LICENSE("GPL v2");
 -- 
 2.20.1
 
