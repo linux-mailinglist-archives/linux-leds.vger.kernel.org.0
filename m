@@ -2,69 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 15F0B6F630
-	for <lists+linux-leds@lfdr.de>; Sun, 21 Jul 2019 23:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB4C86F692
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Jul 2019 01:00:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726440AbfGUVnP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 21 Jul 2019 17:43:15 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:52835 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726106AbfGUVnP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 21 Jul 2019 17:43:15 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id A9D51803E5; Sun, 21 Jul 2019 23:43:01 +0200 (CEST)
-Date:   Sun, 21 Jul 2019 23:43:11 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     jacek.anaszewski@gmail.com, dmurphy@ti.com,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] leds: ktd2692: Fix a typo in the name of a constant
-Message-ID: <20190721214311.GB13062@amd>
-References: <20190721210539.25669-1-christophe.jaillet@wanadoo.fr>
+        id S1726106AbfGUXA6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 21 Jul 2019 19:00:58 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57806 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726022AbfGUXA5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 21 Jul 2019 19:00:57 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 7E59628A24F
+Message-ID: <22d7eca4ad8aa2e73933c4f83c92221ce6e0945a.camel@collabora.com>
+Subject: Re: [PATCH] Enable backlight when trigger is activated
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Pavel Machek <pavel@ucw.cz>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-omap@vger.kernel.org, tony@atomide.com, sre@kernel.org,
+        nekit1000@gmail.com, mpartap@gmx.net, merlijn@wizzup.org,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org
+Date:   Sun, 21 Jul 2019 20:00:44 -0300
+In-Reply-To: <20190718190849.GA11409@amd>
+References: <20190718190849.GA11409@amd>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="1UWUbFP1cBYEclgG"
-Content-Disposition: inline
-In-Reply-To: <20190721210539.25669-1-christophe.jaillet@wanadoo.fr>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Pavel,
 
---1UWUbFP1cBYEclgG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The commit log is lacking the proper "leds: triggers: ".
 
-On Sun 2019-07-21 23:05:39, Christophe JAILLET wrote:
-> There is a typo in KTD2962_MM_MIN_CURR_THRESHOLD_SCALE. 6 and 9 are
-> switched in 2962.
->=20
-> Define and use KTD2692_MM_MIN_CURR_THRESHOLD_SCALE instead.
->=20
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Also...
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
-									Pavel
+On Thu, 2019-07-18 at 21:08 +0200, Pavel Machek wrote:
+> Configuring backlight trigger from dts results in backlight off during
+> boot. Machine looks dead upon boot, which is not good.
+> 
+> Fix that by enabling LED on trigger activation.
+> 
+> Signed-off-by: Pavel Machek <pavel@ucw.cz>
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-backlight.c b/drivers/leds/trigger/ledtrig-backlight.c
+> index 487577d..6e6bc78 100644
+> --- a/drivers/leds/trigger/ledtrig-backlight.c
+> +++ b/drivers/leds/trigger/ledtrig-backlight.c
+> @@ -114,6 +114,8 @@ static int bl_trig_activate(struct led_classdev *led)
+>  	n->old_status = UNBLANK;
+>  	n->notifier.notifier_call = fb_notifier_callback;
+>  
+> +	led_set_brightness(led, LED_ON);
+> +
 
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+This looks fishy.
 
---1UWUbFP1cBYEclgG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Maybe you should use a default-state = "keep" instead? (and you'll have
+to support it in the LED driver).
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+That'll give you proper "don't touch the LED if it was turned on" behavior,
+which is what you seem to want.
 
-iEYEARECAAYFAl003G8ACgkQMOfwapXb+vK4BgCgpSLX/vZZJrlrNm0aYtQcGSUv
-vYwAoIrPZVugmomaKRZqSJABzny7ge3i
-=xOVv
------END PGP SIGNATURE-----
+Regards,
+Eze
 
---1UWUbFP1cBYEclgG--
