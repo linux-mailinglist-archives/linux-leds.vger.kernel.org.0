@@ -2,30 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 058546F5B4
-	for <lists+linux-leds@lfdr.de>; Sun, 21 Jul 2019 23:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D08CC6F5BA
+	for <lists+linux-leds@lfdr.de>; Sun, 21 Jul 2019 23:06:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbfGUVAZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 21 Jul 2019 17:00:25 -0400
-Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:53740 "EHLO
+        id S1726613AbfGUVGI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 21 Jul 2019 17:06:08 -0400
+Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:23713 "EHLO
         smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725828AbfGUVAZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 21 Jul 2019 17:00:25 -0400
+        with ESMTP id S1726605AbfGUVGI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 21 Jul 2019 17:06:08 -0400
 Received: from localhost.localdomain ([92.140.204.221])
         by mwinf5d11 with ME
-        id fZ0M2000J4n7eLC03Z0Nan; Sun, 21 Jul 2019 23:00:23 +0200
+        id fZ662000A4n7eLC03Z66rk; Sun, 21 Jul 2019 23:06:07 +0200
 X-ME-Helo: localhost.localdomain
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 21 Jul 2019 23:00:23 +0200
+X-ME-Date: Sun, 21 Jul 2019 23:06:07 +0200
 X-ME-IP: 92.140.204.221
 From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
         kernel-janitors@vger.kernel.org,
         Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] leds: an30259a: Fix typo
-Date:   Sun, 21 Jul 2019 22:59:55 +0200
-Message-Id: <20190721205955.25317-1-christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] leds: ktd2692: Fix a typo in the name of a constant
+Date:   Sun, 21 Jul 2019 23:05:39 +0200
+Message-Id: <20190721210539.25669-1-christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -34,38 +34,38 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-All this file is about an30259a, including the reference to the datasheet
-at the top of the file.
+There is a typo in KTD2962_MM_MIN_CURR_THRESHOLD_SCALE. 6 and 9 are
+switched in 2962.
 
-So change the 2 places where an32059a is used instead.
+Define and use KTD2692_MM_MIN_CURR_THRESHOLD_SCALE instead.
 
 Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
-an32059a is another chip from panasonic
----
- drivers/leds/leds-an30259a.c | 4 ++--
+ drivers/leds/leds-ktd2692.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/leds/leds-an30259a.c b/drivers/leds/leds-an30259a.c
-index 1c1f0c8c56f4..37e7c7998972 100644
---- a/drivers/leds/leds-an30259a.c
-+++ b/drivers/leds/leds-an30259a.c
-@@ -353,7 +353,7 @@ MODULE_DEVICE_TABLE(i2c, an30259a_id);
+diff --git a/drivers/leds/leds-ktd2692.c b/drivers/leds/leds-ktd2692.c
+index 45296aaca9da..44db748c570e 100644
+--- a/drivers/leds/leds-ktd2692.c
++++ b/drivers/leds/leds-ktd2692.c
+@@ -22,7 +22,7 @@
+ /* Value related the movie mode */
+ #define KTD2692_MOVIE_MODE_CURRENT_LEVELS	16
+ #define KTD2692_MM_TO_FL_RATIO(x)		((x) / 3)
+-#define KTD2962_MM_MIN_CURR_THRESHOLD_SCALE	8
++#define KTD2692_MM_MIN_CURR_THRESHOLD_SCALE	8
  
- static struct i2c_driver an30259a_driver = {
- 	.driver = {
--		.name = "leds-an32059a",
-+		.name = "leds-an30259a",
- 		.of_match_table = of_match_ptr(an30259a_match_table),
- 	},
- 	.probe_new = an30259a_probe,
-@@ -364,5 +364,5 @@ static struct i2c_driver an30259a_driver = {
- module_i2c_driver(an30259a_driver);
+ /* Value related the flash mode */
+ #define KTD2692_FLASH_MODE_TIMEOUT_LEVELS	8
+@@ -253,7 +253,7 @@ static void ktd2692_setup(struct ktd2692_context *led)
+ 	ktd2692_expresswire_reset(led);
+ 	gpiod_direction_output(led->aux_gpio, KTD2692_LOW);
  
- MODULE_AUTHOR("Simon Shields <simon@lineageos.org>");
--MODULE_DESCRIPTION("AN32059A LED driver");
-+MODULE_DESCRIPTION("AN30259A LED driver");
- MODULE_LICENSE("GPL v2");
+-	ktd2692_expresswire_write(led, (KTD2962_MM_MIN_CURR_THRESHOLD_SCALE - 1)
++	ktd2692_expresswire_write(led, (KTD2692_MM_MIN_CURR_THRESHOLD_SCALE - 1)
+ 				 | KTD2692_REG_MM_MIN_CURR_THRESHOLD_BASE);
+ 	ktd2692_expresswire_write(led, KTD2692_FLASH_MODE_CURR_PERCENT(45)
+ 				 | KTD2692_REG_FLASH_CURRENT_BASE);
 -- 
 2.20.1
 
