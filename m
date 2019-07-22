@@ -2,56 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ED5070A76
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jul 2019 22:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2686570AA0
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Jul 2019 22:25:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729978AbfGVUN7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 22 Jul 2019 16:13:59 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:39743 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729331AbfGVUN6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 22 Jul 2019 16:13:58 -0400
-Received: by mail-wr1-f66.google.com with SMTP id x4so40675144wrt.6;
-        Mon, 22 Jul 2019 13:13:56 -0700 (PDT)
+        id S1730315AbfGVUZL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 22 Jul 2019 16:25:11 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:51364 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729672AbfGVUZL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 22 Jul 2019 16:25:11 -0400
+Received: by mail-wm1-f67.google.com with SMTP id 207so36422781wma.1;
+        Mon, 22 Jul 2019 13:25:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=xbLtMMRGzNmbRKafAK7uzwBCFfuAVfrgmxskwqG2DoY=;
-        b=OZYQz0N3hEjjFCvtuiJcFs7IZu+Bd0WYuSVbxbjsOmK2wIuYNey5mT6gN6y4Qh5Qfr
-         msjkqN1Qbwh8AWEF/fuFE0d5FGEIAaca6VoubF4ZB5YuD1Luohv702ckVCmEjQ7k/Rii
-         yGTcZMTBNUNmfCPTR4hYoZ2WUKJvvGsInJrKG34tU6Jhm7sDEGM88e8celJg7S5UGZwB
-         Y4Fw5pSg4uqfUnsJwI8Bf12RNH6tkUuOdeLmjPacHgbWj6VBXAD5prnzQb/kO4KQ6GN7
-         DhGdB0Dj3Za2LrK6aPNIFIXc5U/x8/npQd4S0nUmeAT1XsAU/0yMk9i5qOx4Yb4oiOMN
-         iRCg==
+        bh=Z+P3bLyNMOpFfuF+fOvhJa1C6yyOoO7aLy4gyZM9N48=;
+        b=pzNqBeERdklviCkYj/AJ4yxcFyT/QfyrHKJKpA0z8GnYTGb+IU/rWDxctJsfPU5pOa
+         YKQ1lcjfqIZikP1fL+j7DsUSF2tdtfU4qsIyOyxJvj8LmFeedsoqjYVBQqnfWlws4KfI
+         i7POaVt7vVXpKiHGFBEIazKkyOBVBouLkk5iadzDrpHdY2358rmvg2XKdiGV6EYHgUAP
+         KqPPcHRg81yYGA6XMDwcP+A7ljQzaWySCuOsybOtIlPTsi2lPtp2HpNz1Uyzccns4J6A
+         uaDccxcj5WSpEEkq6jfEna4dap7smgL1+z+gP15T1SzvxweTo9EHOpXpo96mF6nG5gZ4
+         34xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=xbLtMMRGzNmbRKafAK7uzwBCFfuAVfrgmxskwqG2DoY=;
-        b=RW0LbXC5UCEPKPBehAI5YWsw0MIqYHMCdCTJ5nsPJlJYyY4xeMcL6y1WdB1urLU9Tk
-         r+5+Yx7LZyB1yaq/QxFPYFcp0o7VL0KxLUhswf9cgu0LZvm0h6SD1FpyoS51bSjoG2vq
-         8EO/N7squ4u8DlByec3fKb6inzxzzt6i36WDBAGEBN/fJB7TV17EOCP/25KF/K3gdR30
-         r6spg2acT4bY2QuR99sfKOX8GBbfbpQpSnE4KG7Npo+FhGgCwiyQ6yzRhdVvLZm7Xojf
-         LErYYREA0G4xdrVdATmOMxwb/2xVNMXvzRzQ/DaZX5E4r63ZyzbxFRlIfcB9he+aBSPV
-         tOlw==
-X-Gm-Message-State: APjAAAUzU7+QF/T+KvEXbF20Yhhmmnl8pTkHHaAlX7eMHWhnIHBryMRg
-        YApRGhSyQVRgdvlComl+Ezs4btsH
-X-Google-Smtp-Source: APXvYqzBur3VV5Dvp7bRQEU1kRtK0LxA0pr8WJfJpaF0Kvo5/xUb7jY69N4owWRpPXiWnIXzh8VkAA==
-X-Received: by 2002:a5d:54c7:: with SMTP id x7mr47064264wrv.39.1563826435717;
-        Mon, 22 Jul 2019 13:13:55 -0700 (PDT)
+        bh=Z+P3bLyNMOpFfuF+fOvhJa1C6yyOoO7aLy4gyZM9N48=;
+        b=OdjeLurw0BZ9FMDDnHcx4tM+7B6HA9S0Yv2yjDUAmWA7805J01z2ZnP/39qCSradE3
+         OtddwC5Tce74lWgAiqbOwErZmUObF/pZ0QCBPhtRl5es0hE3vyMsliUHimJWFpVldmSG
+         4J6HT7ZCgG1l/Ofs92e6Xs8sdDu5DGsSxE7rhHWfrMhqbU8ivONE++9KI9lhj0zcpnpK
+         J1TYsX7lwQLo8kJc2azqs7HRace6H6F4O/636I8LtI2DcrZwDgk7uNlrFVhQJAnpLCmb
+         cdrrWmwJSTW/rfm87/r8N7d6n8UseagaPGBLgolMxsUMc+Wn2x2Rs4aKM4eG+RX/CqGO
+         vqLw==
+X-Gm-Message-State: APjAAAXqvX2enYS2dhsXkMjfJdOWDtmcjzXkoT/TxVvsk1zAw6RVFSz+
+        Bog/cWfmuy/HBsQKNwyfwSh7UJok
+X-Google-Smtp-Source: APXvYqzVRREtwH3BjCYLSlSau+Ic7SVVeUJcLdSvNu7gz2h4WKdmefXiLiVvtbc30tTw+jnWl7+2Cw==
+X-Received: by 2002:a1c:7d4e:: with SMTP id y75mr65702133wmc.169.1563827108359;
+        Mon, 22 Jul 2019 13:25:08 -0700 (PDT)
 Received: from [192.168.1.19] (chg44.neoplus.adsl.tpnet.pl. [83.31.4.44])
-        by smtp.gmail.com with ESMTPSA id y12sm18814142wru.30.2019.07.22.13.13.54
+        by smtp.gmail.com with ESMTPSA id a84sm47936454wmf.29.2019.07.22.13.25.06
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Jul 2019 13:13:55 -0700 (PDT)
-Subject: Re: [PATCH] leds: ktd2692: Fix a typo in the name of a constant
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>, pavel@ucw.cz,
-        dmurphy@ti.com
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-References: <20190721210539.25669-1-christophe.jaillet@wanadoo.fr>
+        Mon, 22 Jul 2019 13:25:07 -0700 (PDT)
+Subject: Re: [PATCH] Enable backlight when trigger is activated
+To:     Pavel Machek <pavel@ucw.cz>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-omap@vger.kernel.org, tony@atomide.com, sre@kernel.org,
+        nekit1000@gmail.com, mpartap@gmx.net, merlijn@wizzup.org,
+        linux-leds@vger.kernel.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20190718190849.GA11409@amd>
+ <22d7eca4ad8aa2e73933c4f83c92221ce6e0945a.camel@collabora.com>
+ <20190722075032.GA27524@amd>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,60 +116,58 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  VykdkWccEqvxqDV4f8q0V0MW3KWfkD9/07bbGxXSnImeLt7bPuVMGK2tAUbr2+dUYmUdsETZ
  1HgZ11moCVU5Ru0RwTv9oyThOsK3HQjI7NCIsDzVpolaGQPd9E7xwOVHhhDcXRqqNjLzHUSe
  eGGiEQ==
-Message-ID: <b3d0d746-5f3f-77ae-428c-001e242c9a8d@gmail.com>
-Date:   Mon, 22 Jul 2019 22:13:53 +0200
+Message-ID: <6fc6af89-1455-7665-47e7-0568ecd87c9c@gmail.com>
+Date:   Mon, 22 Jul 2019 22:25:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190721210539.25669-1-christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190722075032.GA27524@amd>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Christophe,
+Hi Pavel,
 
-Thank you for the patch.
+On 7/22/19 9:50 AM, Pavel Machek wrote:
+> Hi!
+> 
+>>> Configuring backlight trigger from dts results in backlight off during
+>>> boot. Machine looks dead upon boot, which is not good.
+>>>
+>>> Fix that by enabling LED on trigger activation.
+> 
+>>> +++ b/drivers/leds/trigger/ledtrig-backlight.c
+>>> @@ -114,6 +114,8 @@ static int bl_trig_activate(struct led_classdev *led)
+>>>  	n->old_status = UNBLANK;
+>>>  	n->notifier.notifier_call = fb_notifier_callback;
+>>>  
+>>> +	led_set_brightness(led, LED_ON);
+>>> +
+>>
+>> This looks fishy.
+>>
+>> Maybe you should use a default-state = "keep" instead? (and you'll have
+>> to support it in the LED driver).
+>>
+>> That'll give you proper "don't touch the LED if it was turned on" behavior,
+>> which is what you seem to want.
+> 
+> Actually no, that's not what I want. LED should go on if the display
+> is active, as soon as trigger is activated.
+> 
+> Unfortunately, I have see no good way to tell if the display is
+> active (and display is usually active when trigger is activated).
 
-On 7/21/19 11:05 PM, Christophe JAILLET wrote:
-> There is a typo in KTD2962_MM_MIN_CURR_THRESHOLD_SCALE. 6 and 9 are
-> switched in 2962.
-> 
-> Define and use KTD2692_MM_MIN_CURR_THRESHOLD_SCALE instead.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/leds/leds-ktd2692.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-ktd2692.c b/drivers/leds/leds-ktd2692.c
-> index 45296aaca9da..44db748c570e 100644
-> --- a/drivers/leds/leds-ktd2692.c
-> +++ b/drivers/leds/leds-ktd2692.c
-> @@ -22,7 +22,7 @@
->  /* Value related the movie mode */
->  #define KTD2692_MOVIE_MODE_CURRENT_LEVELS	16
->  #define KTD2692_MM_TO_FL_RATIO(x)		((x) / 3)
-> -#define KTD2962_MM_MIN_CURR_THRESHOLD_SCALE	8
-> +#define KTD2692_MM_MIN_CURR_THRESHOLD_SCALE	8
->  
->  /* Value related the flash mode */
->  #define KTD2692_FLASH_MODE_TIMEOUT_LEVELS	8
-> @@ -253,7 +253,7 @@ static void ktd2692_setup(struct ktd2692_context *led)
->  	ktd2692_expresswire_reset(led);
->  	gpiod_direction_output(led->aux_gpio, KTD2692_LOW);
->  
-> -	ktd2692_expresswire_write(led, (KTD2962_MM_MIN_CURR_THRESHOLD_SCALE - 1)
-> +	ktd2692_expresswire_write(led, (KTD2692_MM_MIN_CURR_THRESHOLD_SCALE - 1)
->  				 | KTD2692_REG_MM_MIN_CURR_THRESHOLD_BASE);
->  	ktd2692_expresswire_write(led, KTD2692_FLASH_MODE_CURR_PERCENT(45)
->  				 | KTD2692_REG_FLASH_CURRENT_BASE);
-> 
+default-state DT property can be also set to "on"
+(see Documentation/devicetree/bindings/leds/common.txt).
 
-Applied.
+You could make use of LED_INIT_DEFAULT_TRIGGER flag and
+parse DT property in the activate op. Similar approach has been
+applied e.g. in ledtrig-pattern.c.
 
 -- 
 Best regards,
