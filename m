@@ -2,55 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78DF770A5F
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jul 2019 22:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14EFB70A69
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Jul 2019 22:13:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729981AbfGVUM1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 22 Jul 2019 16:12:27 -0400
-Received: from mail-wr1-f51.google.com ([209.85.221.51]:33449 "EHLO
-        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726661AbfGVUM0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 22 Jul 2019 16:12:26 -0400
-Received: by mail-wr1-f51.google.com with SMTP id n9so40786376wru.0;
-        Mon, 22 Jul 2019 13:12:24 -0700 (PDT)
+        id S1726661AbfGVUNY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 22 Jul 2019 16:13:24 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:38422 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728133AbfGVUNY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 22 Jul 2019 16:13:24 -0400
+Received: by mail-wr1-f68.google.com with SMTP id g17so40728385wrr.5;
+        Mon, 22 Jul 2019 13:13:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=+MNp3pdhhpOYgaKBX+ihaqaTDPn1Rx3r49wYT6ItqrE=;
-        b=PnG7PQcqkHyaT1YiVMpjoKGeSJ0+gLN/4LhPzKZubpAIlm7aeK8gQLrnI3gRuwV5Ms
-         m7tBBd460hlx7Q3wzTynxqzqslfxTA+9zvdSIk0zGogyr2STMMfVpun2KSJs3ZiCySxE
-         8yRDjF44CVW7NAkrLZgmfJRY273J6HL6Yg4Jh6FIJZdAme4AnHvKbFh3WeTt+OEDOql/
-         DcwAfhy+6wH1zw0CnAkuEVk8R8BC3ryqx7t+7NJlzzkdaAHwAcgpPjZZRKFm9bp0mjeB
-         bRT4sRoQboDc1hUvw+d0Fg5+YJIV2vUX8AmZ5724Tj8VYo+ap2nG3tyrq6AI2Wjr/4pJ
-         W6xQ==
+        bh=wVxJR06LzF2/Nzvj8FoHhZvUXp0KQAH5j2qt2pvNpL4=;
+        b=gtb7FEjJAw9rJ4M6gcvrPJvfNBhNM9iFxwgZPFSkwZXWgeWrPgqaqlxZaDmlaCJNep
+         Hh0AaGdAdSrUio3Nm3WoUXCS2Dfoy752nJMCjoxiH5e3nMQ72TvDZxTJ8TXJqzanDnQb
+         JYHdNBw3CCPfrWTgB8R6QGpiq5HDDaKu9KItvV51ifDR1SZe5Tvn8Nc3RSooX8FWgqNS
+         a9+Cp74b1vED+WsJCGZVUAYYCeFGmhLnRlpxHHCcQgMhQrOkVDVayGWUEjSqm4fjzanA
+         L/Nh9WCRfrg14n9YfQJ+MpKb34EBxktD5cPgVxgTw6QYVBzsLy5LQlnFotHb50CJkmdj
+         hSww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=+MNp3pdhhpOYgaKBX+ihaqaTDPn1Rx3r49wYT6ItqrE=;
-        b=pZwwZpa5+5MM5ukdOkmQu+Xp9cMriWqrgLS8IWBOjaPyswQgtMIcvvOWjSjBeZNMNn
-         3YwP0Dkc0CoHcVcnbqEGoL7GG9uSX2qOiFPsflf2KlQVyHtJlCNgcVN/LvGtT87LaHzd
-         KPxk6cozi3aGANgQt+0lCtXQUkQrYdwfFyFRj6wyzMlQDl8I7G/O9ZcYENjuIEcRqwyn
-         V6Jr53otEUMO7J4VX5u18mR0QubyXzlA+4Uz5ZI/7XHdAstrjVsoTBJSVbDl62/WgkwV
-         22N7jfJDZYLHN2aFNUkzI0FxYl7xbDhsskXXQgav1AVfUdcY4jpnfhf1fEYknEW3/vOf
-         kGQA==
-X-Gm-Message-State: APjAAAVQY4+6kxV5u0W2Li2ROtjUAlqWM39J0M0vh/hRiLZaPnZ5+Igw
-        u8K58UPs5e+G09jdIINylxWS6QfG
-X-Google-Smtp-Source: APXvYqwS+leIsA7bnCQ6zX42/iRonD8wrsWaSandttJSB35XbbOhknHJ0lPw+MbEcw067B7xt5azXw==
-X-Received: by 2002:a5d:4484:: with SMTP id j4mr76313434wrq.143.1563826343891;
-        Mon, 22 Jul 2019 13:12:23 -0700 (PDT)
+        bh=wVxJR06LzF2/Nzvj8FoHhZvUXp0KQAH5j2qt2pvNpL4=;
+        b=B+PVlpP88QHwGxBKEHD0x9zOLLWe37nvl+K02OiDq4NGWLk6f0szArAtbA5+HVf2U9
+         jOmwUuqtHc/UMqXUjr7evddSr6DFObRxk07nmixZnT1RQOer7PWbbuSDG+lmXvNifHk2
+         dt5ZQcSvWX7OKEdXZCJtt2gS3lboGuD4RIMeZpX4RHpadgtA6p6WeFXYJtOSNqa0AG/4
+         BxTp6tYzhugRBbGrMkKMzgVYpWKNEsONhEpbHco/qWQvPROxezGs4yz0zOoxuAqNa1Qd
+         FG43qe2dNW8UHqOSkx1Ka0xcdMA0SUWrU76VafGn/AC6ZbwDtZadseuMzmpTkzqHFEi0
+         Y4Mg==
+X-Gm-Message-State: APjAAAXx86BzCf4GgWzDa8yUE0cVtppB9OFdy5OefG5YFW23TkPId0MS
+        C5zGNiFsMc2mU4sY2Dw5Jqof4/vg
+X-Google-Smtp-Source: APXvYqwpXfEDjv6juDfLt7DHx7x4TcQuguyvU2jyc++G0L/52X+vOf8zfXKOtY8rkZ7Dh28RHVNm8Q==
+X-Received: by 2002:adf:ea4c:: with SMTP id j12mr79412417wrn.75.1563826400855;
+        Mon, 22 Jul 2019 13:13:20 -0700 (PDT)
 Received: from [192.168.1.19] (chg44.neoplus.adsl.tpnet.pl. [83.31.4.44])
-        by smtp.gmail.com with ESMTPSA id q18sm46772698wrw.36.2019.07.22.13.12.22
+        by smtp.gmail.com with ESMTPSA id e7sm38195230wmd.0.2019.07.22.13.13.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Jul 2019 13:12:23 -0700 (PDT)
-Subject: Re: leds: apu: drop obsolete support for apu>=2
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org
-Cc:     pavel@ucw.cz, dmurphy@ti.com, linux-leds@vger.kernel.org
-References: <1563202653-20994-1-git-send-email-info@metux.net>
+        Mon, 22 Jul 2019 13:13:19 -0700 (PDT)
+Subject: Re: [PATCH] leds: an30259a: Fix typo
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>, pavel@ucw.cz,
+        dmurphy@ti.com
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+References: <20190721205955.25317-1-christophe.jaillet@wanadoo.fr>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -109,12 +110,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  VykdkWccEqvxqDV4f8q0V0MW3KWfkD9/07bbGxXSnImeLt7bPuVMGK2tAUbr2+dUYmUdsETZ
  1HgZ11moCVU5Ru0RwTv9oyThOsK3HQjI7NCIsDzVpolaGQPd9E7xwOVHhhDcXRqqNjLzHUSe
  eGGiEQ==
-Message-ID: <bb7a338b-d86d-5016-7ae2-e893e1934d96@gmail.com>
-Date:   Mon, 22 Jul 2019 22:12:20 +0200
+Message-ID: <eb0e69dc-3257-3337-2558-d5faa0a1416f@gmail.com>
+Date:   Mon, 22 Jul 2019 22:13:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1563202653-20994-1-git-send-email-info@metux.net>
+In-Reply-To: <20190721205955.25317-1-christophe.jaillet@wanadoo.fr>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -123,26 +124,46 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Enrico,
+Hi Christophe,
 
-Thank you for the patch set.
+Thank you for the patch.
 
-On 7/15/19 4:57 PM, Enrico Weigelt, metux IT consult wrote:
-> Hi folks,
+On 7/21/19 10:59 PM, Christophe JAILLET wrote:
+> All this file is about an30259a, including the reference to the datasheet
+> at the top of the file.
 > 
+> So change the 2 places where an32059a is used instead.
 > 
-> the legacy apu LEDs driver has been superseded by the more complete
-> pcengines-apu2 platform driver, for APU >= 2. It only supports
-> the three front LEDs, but lacks all the other GPIOs (eg. button
-> or simsw), and conflicts with the pcengines-apu2 driver.
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> an32059a is another chip from panasonic
+> ---
+>  drivers/leds/leds-an30259a.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Old APUv1 has a very different chipset.
+> diff --git a/drivers/leds/leds-an30259a.c b/drivers/leds/leds-an30259a.c
+> index 1c1f0c8c56f4..37e7c7998972 100644
+> --- a/drivers/leds/leds-an30259a.c
+> +++ b/drivers/leds/leds-an30259a.c
+> @@ -353,7 +353,7 @@ MODULE_DEVICE_TABLE(i2c, an30259a_id);
+>  
+>  static struct i2c_driver an30259a_driver = {
+>  	.driver = {
+> -		.name = "leds-an32059a",
+> +		.name = "leds-an30259a",
+>  		.of_match_table = of_match_ptr(an30259a_match_table),
+>  	},
+>  	.probe_new = an30259a_probe,
+> @@ -364,5 +364,5 @@ static struct i2c_driver an30259a_driver = {
+>  module_i2c_driver(an30259a_driver);
+>  
+>  MODULE_AUTHOR("Simon Shields <simon@lineageos.org>");
+> -MODULE_DESCRIPTION("AN32059A LED driver");
+> +MODULE_DESCRIPTION("AN30259A LED driver");
+>  MODULE_LICENSE("GPL v2");
 > 
-> Therefore I propose dropping the apu>=2 support from the legacy
-> driver, reducing it to only the old (obsolete) APUv1 boards.
 
-
-Patch set applied along with the update for the patch 5/6.
+Applied.
 
 -- 
 Best regards,
