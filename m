@@ -2,55 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D486A71F7A
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Jul 2019 20:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5156071FD4
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Jul 2019 21:02:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733158AbfGWSlK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 23 Jul 2019 14:41:10 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43517 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731007AbfGWSlJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 Jul 2019 14:41:09 -0400
-Received: by mail-wr1-f68.google.com with SMTP id p13so44221902wru.10
-        for <linux-leds@vger.kernel.org>; Tue, 23 Jul 2019 11:41:07 -0700 (PDT)
+        id S2391679AbfGWTC2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 23 Jul 2019 15:02:28 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:36031 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391653AbfGWTC0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 Jul 2019 15:02:26 -0400
+Received: by mail-wm1-f65.google.com with SMTP id g67so35319732wme.1;
+        Tue, 23 Jul 2019 12:02:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:references:openpgp:autocrypt:message-id:date
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Y/LD9W8c4U/1YXganbwOyVgAI7ATVkGuinsV+rVVjgk=;
-        b=m5P3XEqoi10yar8s+44POEzBruYvmmw6dojweQO+utXqeas00olnt2yAE3olHIsv8b
-         PolFaMHEoL1u0CY21KYJpz/DyvimSw2Day/xkZtdIANeSONP5gINfYyIiAW6dhJrovZ5
-         ZKU/OBEcCnVDBozLOyykM1/pllkgpMj6wlvSulRfflsSUZXV5o9vNfBZuNiAeRJzEKY5
-         1271tRzBqBFj4T7YSn+Xj6iz1hJ25KxHrwQKqJaBRaErsbQiOmGYPwbuTnFOVOWbHx8J
-         99pSbxhDVWIYdDKEgvtukDUAfpCB9xp8fVeO4jg3ttNZRpsD4VuBaFOEAQf0Nn+OEIIU
-         /sTw==
+        bh=PZGRZ/1bTZIqKtrZnhZ3ITHiFSwsGywvp1sTvI99OFg=;
+        b=AUx+naFDyPAFyGTPbk7w+JiT6KzW2p85rD6jhqLRVg6fpXmYxEY3KMi9hEWVJdP7h+
+         IZLcK4qF8WeL/w6gdVpDLuEVJptXS678Jy12E78yboW+CasxqbObQ24bh7jtkrAybk6B
+         C4Dt8NQWhKKGLqVhws0GaO3vQZ6rEiV2DOB3HTFoRLjoef8jHmR0cQfuKEDg1KL3yyyv
+         9scytthxEMZ0oURskN4oggqtXf0EEqEMKQpYh/LI8QA2k39nKZrUnQ8QlQ63jGm1lpk3
+         zbQPyx//3oCvVjqlb4fO5oj8BHwnWTgsd3XxyQEC6U9MpQEaOfV5uJCh8g3KXzBn1wKv
+         mNnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:references:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=Y/LD9W8c4U/1YXganbwOyVgAI7ATVkGuinsV+rVVjgk=;
-        b=gNSq8lgu35ZsE7mtB05VN4OtYuHeYqkwkPzGSH1gdYw+X0gruhbcNb2CmxoJndrPKd
-         dNlfsXpdpO6ZwKVy9fQPwicbj2KNK6cF9NN28/uqxl3V7WMemEbMPUz5DRsIkxWI3z8f
-         ByFqHwTFS0TsMvFV/qYOuKDVxjl9w/0Kc1lwiZ0QbW3gwEDm20D8c2z0R4n7D18kCyw5
-         4Lu5jMQYrM8AFIv75byEIZqRzHOpqFEijK6vU5Q+kvJTCVjenO4tvXRDV/5IDSWip1bG
-         FLjqL49kQUKUQa6JDGOyxI1xME+QLbD+Ti5CcnGOXUso5zvPtkv04Rq0h9Pd07lHl6e8
-         /I+A==
-X-Gm-Message-State: APjAAAX4c2qI1syPHGaBQvZ+1xFRyztp0eLvJcq/kz1kAK9Yh0Q0RGNJ
-        ksibYn7x1L5nO5ZDeaU8v1W/bYfP
-X-Google-Smtp-Source: APXvYqyclZ9KUdppWnkNHbMpQNhWsNSh4wMKf4g66mCUZdFRP9Q9RArsUW80Xb5kgv+LKl/aaS6UjA==
-X-Received: by 2002:adf:e552:: with SMTP id z18mr84731917wrm.45.1563907266635;
-        Tue, 23 Jul 2019 11:41:06 -0700 (PDT)
+        bh=PZGRZ/1bTZIqKtrZnhZ3ITHiFSwsGywvp1sTvI99OFg=;
+        b=YfAElHuM1c0kiJz10hsf4mjLP9y+A1PrVfu9VYPY0yKx2tA9uJLhh6YsK1+2UtEDe9
+         9JMZEmanHJTVTwGseLsaWH7L3KlZgbbNZsoBXAtTsV2sqAjUeSinAAzDWMvNEH2FmR2I
+         27x9cMjCTRp1Wbu7s7oSVbn6XLw/8I9lqR+NzhmKBgg9gbXztu9gyJVusOP6r6C0o1F8
+         2yZRE6fcTiPLPb9pGEMWqm5vJMS8FNC5cm0vhavmqevYd17U9kyRoQYRvoUGEl1jCire
+         Jbe4x8CvBqE8g2/5UhWIa2MUPS+kFamN2LgzPtfPyrkkzStyfdE6D9OvePQtEYbFpBwB
+         jt2A==
+X-Gm-Message-State: APjAAAX1qJzxef+exAo11PoUvpkm3w7R3NKrPwptx1/uOhY1mZroAkvV
+        grwkxGCLCJpis6Jsmge0WxdDqqlA
+X-Google-Smtp-Source: APXvYqyEzo3WonSEYKOOJFPaPXBypSpFrkXOa0LwJulxwTb4CxyfM2oFKGUSH96B3o29M0050MSToA==
+X-Received: by 2002:a7b:c7d8:: with SMTP id z24mr70643530wmk.10.1563908544293;
+        Tue, 23 Jul 2019 12:02:24 -0700 (PDT)
 Received: from [192.168.1.19] (bgp75.neoplus.adsl.tpnet.pl. [83.28.79.75])
-        by smtp.gmail.com with ESMTPSA id c65sm41221566wma.44.2019.07.23.11.41.05
-        for <linux-leds@vger.kernel.org>
+        by smtp.gmail.com with ESMTPSA id d16sm36995631wrv.55.2019.07.23.12.02.22
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Jul 2019 11:41:05 -0700 (PDT)
-Subject: Re: Call for linux-leds mbox archives older than March 2016
+        Tue, 23 Jul 2019 12:02:23 -0700 (PDT)
+Subject: Re: [PATCH] leds: is31fl319x: simplify getting the adapter of a
+ client
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190722181416.6743-1-wsa+renesas@sang-engineering.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-To:     Linux LED Subsystem <linux-leds@vger.kernel.org>
-References: <d8e40512-cf30-bb06-b0d4-8be61571afa3@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -108,50 +111,55 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  VykdkWccEqvxqDV4f8q0V0MW3KWfkD9/07bbGxXSnImeLt7bPuVMGK2tAUbr2+dUYmUdsETZ
  1HgZ11moCVU5Ru0RwTv9oyThOsK3HQjI7NCIsDzVpolaGQPd9E7xwOVHhhDcXRqqNjLzHUSe
  eGGiEQ==
-Message-ID: <d8808d40-9ffe-b3ae-9815-728723fac6a2@gmail.com>
-Date:   Tue, 23 Jul 2019 20:41:04 +0200
+Message-ID: <f3a05808-91c4-3641-3d1a-3de6e510b46f@gmail.com>
+Date:   Tue, 23 Jul 2019 21:02:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <d8e40512-cf30-bb06-b0d4-8be61571afa3@gmail.com>
+In-Reply-To: <20190722181416.6743-1-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi all,
+Hi Wolfram,
 
-linux-leds list has been added to lore.kernel.org tracker and
-is available at https://lore.kernel.org/linux-leds.
+Thank you for the patch.
 
-The archives reach up to 2013-08-07.
+On 7/22/19 8:14 PM, Wolfram Sang wrote:
+> We have a dedicated pointer for that, so use it. Much easier to read and
+> less computation involved.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  drivers/leds/leds-is31fl319x.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-is31fl319x.c b/drivers/leds/leds-is31fl319x.c
+> index 2d077b8edd0e..ca6634b8683c 100644
+> --- a/drivers/leds/leds-is31fl319x.c
+> +++ b/drivers/leds/leds-is31fl319x.c
+> @@ -333,12 +333,11 @@ static int is31fl319x_probe(struct i2c_client *client,
+>  {
+>  	struct is31fl319x_chip *is31;
+>  	struct device *dev = &client->dev;
+> -	struct i2c_adapter *adapter = to_i2c_adapter(dev->parent);
+>  	int err;
+>  	int i = 0;
+>  	u32 aggregated_led_microamp = IS31FL319X_CURRENT_MAX;
+>  
+> -	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C))
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+>  		return -EIO;
+>  
+>  	is31 = devm_kzalloc(&client->dev, sizeof(*is31), GFP_KERNEL);
+> 
 
+Applied.
+
+-- 
 Best regards,
 Jacek Anaszewski
-
-On 6/21/19 10:46 PM, Jacek Anaszewski wrote:
-> Hi, everyone:
-> 
-> I'm working to add this list to lore.kernel.org. As one of prerequisites
-> they require that we provide full existing archives of all list messages
-> (or, at least, as complete as possible). I've collected mine already,
-> but  would really appreciate if you could pitch in from your own
-> collection.
-> 
-> Just follow the instructions on this page:
-> https://korg.wiki.kernel.org/userdoc/lore
-> 
-> I've attached the list of message-ids that I already have. You'll need
-> it during the archive sanitization process to pass to the -k switch.
-> 
-> Please tar up and xz -9 the resulting directory with mbox files and send
-> the archive to me so I can add it to what I already have.
-> 
-> Basically I've managed to collect messages starting from March 2016,
-> so feel addressed only if you may have collected some older stuff.
-> 
-> Thanks!
-
