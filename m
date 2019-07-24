@@ -2,56 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 772867408F
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Jul 2019 23:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAAD6740BE
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Jul 2019 23:16:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727000AbfGXVDJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 Jul 2019 17:03:09 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35126 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726238AbfGXVDI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Jul 2019 17:03:08 -0400
-Received: by mail-wm1-f65.google.com with SMTP id l2so42794225wmg.0
-        for <linux-leds@vger.kernel.org>; Wed, 24 Jul 2019 14:03:07 -0700 (PDT)
+        id S1727868AbfGXVQq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 Jul 2019 17:16:46 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:41755 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727211AbfGXVQp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Jul 2019 17:16:45 -0400
+Received: by mail-wr1-f68.google.com with SMTP id c2so45224315wrm.8;
+        Wed, 24 Jul 2019 14:16:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=hIDsH5aVfojpz6x8o3X6q1+g9RwTgIPDJIHQX6u7rNk=;
-        b=CIxHLUuavRqYSgEVKjhWof4KnLVkHgtTgT6gjVIw063OqLldD0Onp3pA5z3YPJNGwi
-         vbGMwiBlFnz3LUReRV1Xd34A/GGxOpiyGzzLwLcxpSAScueb9+zZ8uc+ICZx0XTQ0qLl
-         IQG1lYTLt8p4P4+YMhxBhHl2HjEiOWSKQImKazMx9KcHwo2dhSkAOvi1aQckb0f94hn+
-         qVMk8d16ZE9d1SVOe9dllNvicl5ZuPqpiVfvJJOjcn/pgbDqIUEjpvBpLK0ALxUeQ71D
-         Mgj3CSM/eZtqJD3/f1k06Jo9EanVd5Wk1oqREhw6/QYXZ4tlN877dtrslCRovEk+RyMb
-         g4Og==
+        bh=W1jFeugsJ0oirRWmWhC8GQwi5V7rmQsow/rL22Dmte8=;
+        b=usVr2ZwLIZQWZ7AIbj+TxyWWjwYj+Qp44q3aXgoV9E2Tqt/vYxz4oCR/lSjLaXfDta
+         JOZ1NftN2dnDfnAD6PYTMvQYUD0igLbjcAGsnG7CK1TWLuw9ddtV2gpjDHq8MGUxsduG
+         T9TTeXMSVtJ3To5rElilFQXBgSSOa0AXot8M9Ihi6R7+xomcyz0ztq3HKX/SrcKz7eW8
+         AvzsPtuRLrvSFmFhFihwRslqM0LIgVigxV0fCgaFG1RHbfKNbjCXMQ9UBsmu4BPo11DN
+         eGrBU4X5KYvEJOSFct2TrbXIY2bgA1Fn/JazB7SKpUVdfMiJTdCrDbMv4WQDlYHUci8a
+         y/1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=hIDsH5aVfojpz6x8o3X6q1+g9RwTgIPDJIHQX6u7rNk=;
-        b=gnFtiHA3YxNFWV0TqbwxAMBiXh+aOU6lHtLXh+CIje+5nkftOyOCR/7W5rXWmQIeuP
-         eRPzR0wQaBnahuAPKGjLBwswfPyLirmumltExqLd/4M76jndMxU7xT2hsYXa0jhSqgYC
-         p7ZBzFiBMt0AtrPjXnqhHs/vw5d33/rYZWz9zf7Y7gt32Y2GJpKbsWAwX4svZVs6Fb3p
-         0HwCMCp1JRIrP5QDSOO9AcDdG3NJX3laJ8ZBStVVS5V3za0NqMdV7zu3m3ZPQI91xrrw
-         wuvGYih5hCpOFKIvf3GD8K87xIgDhIz48EafadQ1DXR/sLbUqzNmJbXCiYrObSz+oEXs
-         WBvA==
-X-Gm-Message-State: APjAAAUdC0qeZswhyDJjQUsx3qNyWE0+H6g7vte/oKBOiSHV6DjUdmhu
-        rr0xBVrqz1poEv6clC4wFpY=
-X-Google-Smtp-Source: APXvYqxhldOt/lwFV43AO2fuYLn8CC1coXVYCN2OiE4YTzdRZSpIqiJ8fBcJrc0NrRj6jgvvI+Q/MA==
-X-Received: by 2002:a05:600c:212:: with SMTP id 18mr26192697wmi.88.1564002186525;
-        Wed, 24 Jul 2019 14:03:06 -0700 (PDT)
+        bh=W1jFeugsJ0oirRWmWhC8GQwi5V7rmQsow/rL22Dmte8=;
+        b=oNbx5ssQwLAhHLgGPUeBt+buktKHiIgZPJTCAtMboR5BYZg9D4gQ4fjBgVMj5DFxWc
+         OOEV1pOWxg+dxF0NwfgM/hsAcc7vA3w7HsBZ43l2NfPtkS5+ThreUcMlOuhO9byNmsJ6
+         fZVnLDCoDaV7PBb2DTPH+0GGOAeAQD2VCGFhrNdwnKfzW0hslVldJtiHH2crEZxlfnkK
+         a2QgZ0k+YJhaJdFV45unuH8jdwZKG4F9+DqIelg/jU3ayL0UWoC82CMGwV9jYwNx3DSf
+         B9DEaLAKMM42qzm4me1Xc+F7lH3eCo9cCpxFdrzw46CzqVqPfHzDDHdZ/kQQMZy+Ii7u
+         Ia/Q==
+X-Gm-Message-State: APjAAAVrGXU+4M3cXMEzlEVitigNGzAcKmrJDzqFDzkY9dwEQ4y6Pm4k
+        4rl3aP8wgPIrNfGQpsWJo2iuVIZa
+X-Google-Smtp-Source: APXvYqzogvYFojqU+LiKW5qZ/iRZn2RtP8P4IXNz/56oAvGgeGNR0S8kfcjgs2G7ekuiKhVfW3tn5A==
+X-Received: by 2002:adf:ea8b:: with SMTP id s11mr88132670wrm.100.1564003002083;
+        Wed, 24 Jul 2019 14:16:42 -0700 (PDT)
 Received: from [192.168.1.19] (bko238.neoplus.adsl.tpnet.pl. [83.28.182.238])
-        by smtp.gmail.com with ESMTPSA id s188sm38193415wmf.40.2019.07.24.14.03.05
+        by smtp.gmail.com with ESMTPSA id y6sm58524363wmd.16.2019.07.24.14.16.40
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Jul 2019 14:03:05 -0700 (PDT)
-Subject: Re: [PATCH v1 1/3] leds: lm3532: Switch to use
- fwnode_property_count_uXX()
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>
-References: <20190723201459.70449-1-andriy.shevchenko@linux.intel.com>
+        Wed, 24 Jul 2019 14:16:41 -0700 (PDT)
+Subject: Re: [PATCH] Enable backlight when trigger is activated
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-omap@vger.kernel.org, tony@atomide.com, sre@kernel.org,
+        nekit1000@gmail.com, mpartap@gmx.net, merlijn@wizzup.org,
+        linux-leds@vger.kernel.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20190718190849.GA11409@amd>
+ <22d7eca4ad8aa2e73933c4f83c92221ce6e0945a.camel@collabora.com>
+ <20190722075032.GA27524@amd> <6fc6af89-1455-7665-47e7-0568ecd87c9c@gmail.com>
+ <20190724083355.GA27716@amd>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,13 +117,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  VykdkWccEqvxqDV4f8q0V0MW3KWfkD9/07bbGxXSnImeLt7bPuVMGK2tAUbr2+dUYmUdsETZ
  1HgZ11moCVU5Ru0RwTv9oyThOsK3HQjI7NCIsDzVpolaGQPd9E7xwOVHhhDcXRqqNjLzHUSe
  eGGiEQ==
-Message-ID: <ed940bb6-f16f-0d0e-74c8-1af70d4f0fad@gmail.com>
-Date:   Wed, 24 Jul 2019 23:03:04 +0200
+Message-ID: <f00d99cb-da32-05b3-bf49-447cb8bd33e0@gmail.com>
+Date:   Wed, 24 Jul 2019 23:16:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190723201459.70449-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190724083355.GA27716@amd>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -124,37 +131,42 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Andy,
-
-Thank you for the patch set.
-
-Patches 1-3 applied.
-
-On 7/23/19 10:14 PM, Andy Shevchenko wrote:
-> Use fwnode_property_count_uXX() directly, that makes code neater.
+On 7/24/19 10:33 AM, Pavel Machek wrote:
+> Hi!
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/leds/leds-lm3532.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>>>>> +++ b/drivers/leds/trigger/ledtrig-backlight.c
+>>>>> @@ -114,6 +114,8 @@ static int bl_trig_activate(struct led_classdev *led)
+>>>>>  	n->old_status = UNBLANK;
+>>>>>  	n->notifier.notifier_call = fb_notifier_callback;
+>>>>>  
+>>>>> +	led_set_brightness(led, LED_ON);
+>>>>> +
+>>>>
+>>>> This looks fishy.
+>>>>
+>>>> Maybe you should use a default-state = "keep" instead? (and you'll have
+>>>> to support it in the LED driver).
+>>>>
+>>>> That'll give you proper "don't touch the LED if it was turned on" behavior,
+>>>> which is what you seem to want.
+>>>
+>>> Actually no, that's not what I want. LED should go on if the display
+>>> is active, as soon as trigger is activated.
+>>>
+>>> Unfortunately, I have see no good way to tell if the display is
+>>> active (and display is usually active when trigger is activated).
+>>
+>> default-state DT property can be also set to "on"
+>> (see Documentation/devicetree/bindings/leds/common.txt).
 > 
-> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
-> index 180895b83b88..646100724971 100644
-> --- a/drivers/leds/leds-lm3532.c
-> +++ b/drivers/leds/leds-lm3532.c
-> @@ -549,10 +549,7 @@ static int lm3532_parse_node(struct lm3532_data *priv)
->  				lm3532_als_configure(priv, led);
->  		}
->  
-> -		led->num_leds = fwnode_property_read_u32_array(child,
-> -							       "led-sources",
-> -							       NULL, 0);
-> -
-> +		led->num_leds = fwnode_property_count_u32(child, "led-sources");
->  		if (led->num_leds > LM3532_MAX_LED_STRINGS) {
->  			dev_err(&priv->client->dev, "To many LED string defined\n");
->  			continue;
+> Yes, except that it does not work with all drivers :-(. In particular,
+> it does not work with lm3532.
 > 
+> We should really move more of the device tree parsing into core, so
+> that there's one place to fix...
+
+Right. We could have something similar to led_get_default_pattern().
+led_get_default_state() ?
 
 -- 
 Best regards,
