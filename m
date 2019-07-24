@@ -2,91 +2,169 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B602773428
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Jul 2019 18:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05B9C7408C
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Jul 2019 23:02:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387698AbfGXQsA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 Jul 2019 12:48:00 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:39117 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726316AbfGXQr7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Jul 2019 12:47:59 -0400
-Received: by mail-io1-f67.google.com with SMTP id f4so91034448ioh.6;
-        Wed, 24 Jul 2019 09:47:59 -0700 (PDT)
+        id S1727721AbfGXVC6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 Jul 2019 17:02:58 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53371 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726238AbfGXVC6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Jul 2019 17:02:58 -0400
+Received: by mail-wm1-f67.google.com with SMTP id x15so43029223wmj.3;
+        Wed, 24 Jul 2019 14:02:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7YgJqjEfdgZXnXeTvJ4PZQHPEn5PQ4I8CGg8M9y1/NY=;
+        b=NXRtSpQnbhspUOKyvA4vYLPHtv7ovVVB269NAGzsXKdHQTxx/wSAPrWOz7VnSQaon+
+         BNA4ahkDPqHgmLWg5B2gPMpdDyBV3lIigkELBFm7UEHhUbkgsdUln2MlSebD5BmpvTTX
+         AvlKx5xgJ27bRBwKZp1sDw31zPqjnIfEdRGeYRpSULFAixsQ9fKPUG350Mg5azB2qWbc
+         zQ6aniZU9aXPYxjOgRqWVVajHpDrVuUD9ovJA7TFAvq1/duUtIUVbzYFZrnKPWNNJUfp
+         dHIBXuvhmdrQp4t1l7BOn+oSQYjrfT5021OUrXmHBOp4Sxkd4ImPywkhH0z+c0Nu5jgM
+         jj2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NaGPAivB1MBv9O5lVWBShae32bWUUsQkrf58j6a6XWY=;
-        b=gX1m7rA7wbPHnvd7/XqCaN/dXfTsUeaBwMPQaLAd5IyKnv/v1tZ0La18S3JU0EkNSi
-         Tk7NaZuk6gE7gfDJezU8b21I0vA13APrC5fSNAnh3mU2cG8I4zalK/5YQj2dXi96gEpV
-         U90ggHDLs3drk5nD/dSk2bvvcZ+9lMUEzui/ipA2jwvDTR+BngV+A+g3zxgO56Qm+YFN
-         zflPBHGWVt08mgJwsNuPocWFbJwUs/IuNIGTzjkSvFZ4ncZIqxxlR8r9wVSpTMszcXm4
-         y7F5KO5A7BNjC+T60kFiyQeDbZdeEqq6xxc/1lLudvJ5y92+xg3QerrLrwQBQfjykgCZ
-         t0iA==
-X-Gm-Message-State: APjAAAUVAiJCFX9YED5FxG/0ontDsffq+BTJGL3/nUqYJ+Rof5JVbUGD
-        YFCD8aUfjTRJ3RIA6GPEFg==
-X-Google-Smtp-Source: APXvYqwYAKj9Y6Xo4kgnFhQ30skobcWvL/jM5t0oA7OfBXz+vNRCAT4o/ffCCGaz6bY311xkT9x01Q==
-X-Received: by 2002:a5e:8f08:: with SMTP id c8mr77188637iok.52.1563986878841;
-        Wed, 24 Jul 2019 09:47:58 -0700 (PDT)
-Received: from localhost ([64.188.179.254])
-        by smtp.gmail.com with ESMTPSA id m20sm44390636ioh.4.2019.07.24.09.47.57
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 24 Jul 2019 09:47:58 -0700 (PDT)
-Date:   Wed, 24 Jul 2019 10:47:57 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>
-Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, mark.rutland@arm.com,
-        daniel.thompson@linaro.org, dmurphy@ti.com,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: leds: document new "power-supply"
- property
-Message-ID: <20190724164757.GA3723@bogus>
-References: <20190708103547.23528-1-jjhiblot@ti.com>
- <20190708103547.23528-3-jjhiblot@ti.com>
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=7YgJqjEfdgZXnXeTvJ4PZQHPEn5PQ4I8CGg8M9y1/NY=;
+        b=Or4VtYgglrkQFkftFP+EPMxj9xAPDGNKDoJIASQ6Pi8aDzyBxLNWh06nQsIkHSZXZH
+         IM+KeWGgtDkEY85USuwrEsp/RFWcxiaI/h0aX4HIPRRB0bF5mT++OsUbswwq5xp0ht0d
+         uLDLHTUi+BBoOPsmqbzHlMy/+6MYZx7KGVUTdhGuM05StWihh5vCKcXbZOsEV8r2RFoi
+         e3N20gbU2+5oIjmvYmpm6lSNd6gdPgn/Vw3tgykVav/6RN6wSCDYyb9c3jbWACPlj1HK
+         mss3UWgTXFT0Ot07jTsfCk1f2x03Kvg1xyin9dGJ0fwQsfgGIEj3Vd2v/qT3NqaS9NP1
+         /fDg==
+X-Gm-Message-State: APjAAAWjR1ls5I5LCu77hYX6SPgL8r5OGV3jbdPquZUYZy/eMSevX/gj
+        kQWdqJ5C+DUqfht45fEyN50=
+X-Google-Smtp-Source: APXvYqyL88aMFz4WzOJeQkMPvXkNK8S4wy/OwQKWC9RR1vtpvxV36XzBzkBfVkfIIkrUy95eK68ZRg==
+X-Received: by 2002:a7b:c954:: with SMTP id i20mr77168269wml.169.1564002175217;
+        Wed, 24 Jul 2019 14:02:55 -0700 (PDT)
+Received: from [192.168.1.19] (bko238.neoplus.adsl.tpnet.pl. [83.28.182.238])
+        by smtp.gmail.com with ESMTPSA id e3sm41762283wrt.93.2019.07.24.14.02.53
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 24 Jul 2019 14:02:54 -0700 (PDT)
+Subject: Re: [PATCH v5 00/26] Add generic support for composing LED class
+ device name
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, dmurphy@ti.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        robh@kernel.org, dtor@google.com, linux@roeck-us.net
+References: <20190609190803.14815-1-jacek.anaszewski@gmail.com>
+ <405b2806-342a-952d-67ab-47516225c54e@gmail.com> <20190718105233.GA3859@amd>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
+ mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
+ eWFBS8XtApKQx1xAs1j5z70k3zebk2eeNs5ahxi6vM4Qh89vBM46biSKeeX5fLcv7asmGb/a
+ FnHPAfQaKFyG/Bj9V+//ef67hpjJWR3s74C6LZCFLcbZM0z/wTH+baA5Jwcnqr4h/ygosvhP
+ X3gkRzJLSFYekmEv+WHieeKXLrJdsUPUvPJTZtvi3ELUxHNOZwX2oRJStWpmL2QGMwPokRNQ
+ 29GvnueQdQrIl2ylhul6TSrClMrKZqOajDFng7TLgvNfyVZE8WQwmrkTrdzBLfu3kScjE14Q
+ Volq8OtQpTsw5570D4plVKh2ahlhrwXdneSot0STk9Dh1grEB/Jfw8dknvqkdjALUrrM45eF
+ FM4FSMxIlNV8WxueHDss9vXRbCUxzGw37Ck9JWYo0EpcpcvwPf33yntYCbnt+RQRjv7vy3w5
+ osVwRR4hpbL/fWt1AnZ+RvbP4kYSptOCPQ+Pp1tCw16BOaPjtlqSTcrlD2fo2IbaB5D21SUa
+ IsdZ/XkD+V2S9jCrN1yyK2iKgxtDoUkWiqlfRgH2Ep1tZtb4NLF/S0oCr7rNLO7WbqLZQh1q
+ ShfZR16h7YW//1/NFwnyCVaG1CP/L/io719dPWgEd/sVSKT2TwARAQABtC1KYWNlayBBbmFz
+ emV3c2tpIDxqYWNlay5hbmFzemV3c2tpQGdtYWlsLmNvbT6JAj4EEwEIACgCGwMHCwkIBwMC
+ AQYVCAIJCgsDFgIBAh4BAheABQJVo39tBQkJZgNMAAoJEL1qUBy3i3wmxLQQAK8QEQ0JqZEv
+ 5hrxiwT+Qtkx1TULYriK9sYcY9zbi18YxbKB0C4Znh5iP5o7k26WnPGLM+w4qWvTAkHjuAI7
+ aBrvb4nGRvE5s14PQ9IHgL7iL3zAAHT1azIZng9dUCCSontB+vQZu1x/Un0lVlVCvsvO7QVt
+ hAZUlT3iucNMO0jpCiS3raZkNfab8M+JWP/iplaV0Kn+O7LX3A/RdLmx5ZhuT+zvyHwl2c3K
+ T56UHaQnjkuHB2Ytk8HtOjNXGNYnm4nLx3ok3jEN1nWDRV/DeiPn8zz4Zebsp686OH9vvX/0
+ R4dk2YEjUCY/S7CbJxXzUnLjboUAGmtTVOu/uJ7y11iS9XEoJ09HEzijQwWctJXLojcTXCFw
+ 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
+ eGGiEQ==
+Message-ID: <3d8890a2-47e8-2dd0-9764-93676703df2a@gmail.com>
+Date:   Wed, 24 Jul 2019 23:02:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190708103547.23528-3-jjhiblot@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190718105233.GA3859@amd>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Jul 08, 2019 at 12:35:47PM +0200, Jean-Jacques Hiblot wrote:
-> Most of the LEDs are powered by a voltage/current regulator. describing in
-> the device-tree makes it possible for the LED core to enable/disable it
-> when needed.
+On 7/18/19 12:52 PM, Pavel Machek wrote:
 > 
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
-> ---
->  Documentation/devicetree/bindings/leds/common.txt | 5 +++++
->  1 file changed, 5 insertions(+)
+>> Hi all,
+>>
+>> I need explicit acks for some patches from this series, that
+>> were either requested improvements or I modified them by myself
+>> after v4.
+>>
+>> The patches I am talking about are the following:
+>>
+>> 1/26
+>> 21/26
+>> 23/26
+>> 25/26
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/common.txt b/Documentation/devicetree/bindings/leds/common.txt
-> index 70876ac11367..e093a2b7eb90 100644
-> --- a/Documentation/devicetree/bindings/leds/common.txt
-> +++ b/Documentation/devicetree/bindings/leds/common.txt
-> @@ -61,6 +61,11 @@ Optional properties for child nodes:
->  - panic-indicator : This property specifies that the LED should be used,
->  		    if at all possible, as a panic indicator.
->  
-> +- power-supply : A voltage/current regulator used to to power the LED. When a
-> +		 LED is turned off, the LED core disable its regulator. The
-> +		 same regulator can power many LED (or other) devices. It is
-> +		 turned off only when all of its users disabled it.
+> Acked-by: Pavel Machek <pavel@ucw.cz>
 
-Not sure this should be common. It wouldn't apply to cases where we have 
-an LED controller parent nor gpio and pwm LEDs and those are most cases.
+Applied the patch set without patch 26/26 for now.
+I had to make some formatting related changes in leds-class.rst, in
+part of the added text (we had leds-class.txt -> leds-class.rst
+transition in the meantime) to fix resulting html formatting.
+Basically they aimed to achieve nice bullets to compensate some
+sphinx issue related to lack of line breaks after quoted strings.
 
-Perhaps what makes sense here is an regulator-led binding.
+Current shape of leds-class.rst on linux-leds.git for-next branch can
+be looked up via [0].
 
-> +
->  - trigger-sources : List of devices which should be used as a source triggering
->  		    this LED activity. Some LEDs can be related to a specific
->  		    device and should somehow indicate its state. E.g. USB 2.0
-> -- 
-> 2.17.1
+>> 26/26 would be nice to have but I presume it needs more discussion
+>> and analysis.
 > 
+> Idea is good, but I'd sort the file in different way.
+> 
+> Best regards,
+> 									Pavel
+> 
+
+[0]
+https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/tree/Documentation/leds/leds-class.rst?h=for-next
+
+-- 
+Best regards,
+Jacek Anaszewski
