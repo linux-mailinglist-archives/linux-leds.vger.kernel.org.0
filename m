@@ -2,60 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 149CD780A1
-	for <lists+linux-leds@lfdr.de>; Sun, 28 Jul 2019 19:30:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C190780C6
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Jul 2019 19:46:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726430AbfG1Rad (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 28 Jul 2019 13:30:33 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43182 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726429AbfG1Rad (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 28 Jul 2019 13:30:33 -0400
-Received: by mail-wr1-f66.google.com with SMTP id p13so59300567wru.10;
-        Sun, 28 Jul 2019 10:30:31 -0700 (PDT)
+        id S1726082AbfG1RqS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 28 Jul 2019 13:46:18 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40199 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726080AbfG1RqR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 28 Jul 2019 13:46:17 -0400
+Received: by mail-wm1-f68.google.com with SMTP id v19so51532246wmj.5;
+        Sun, 28 Jul 2019 10:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=apWn64+m3Kn58ms9/LyU9mwHW5rt3ShIev47RnfwhBY=;
-        b=tUlqJcmXe8Y/YIjnr9uaZyYQDq8DYlKcBwarPrn9JPKz02/LOlUzcvy5DArxB+gHcv
-         lkGEfXutS0FoMlUELkiBSe/D1aVnMASWFdbPDi2ygt1u2DDL2y9K8XzZHn6WXkG5xlqd
-         I7MkDF3o/6jGLtmyEF2hPtvh0DoGH20uel5EMmO4Ysgud62ZMUoC1clCRoA7EWVaSSN9
-         VAvqWlF3/1HlddUPYOivrQF4/FRvVidaqHY5Cix4+GSuoryMvNeClGdST5FtrwFVgeGo
-         cqd8NxZr3uY8POsJnphfxz9ny2BI1IJrrMeVZFt+6+t56z8PMGU760dwYZWtUoWvXGlb
-         X5Dg==
+        bh=rDXxJQ+dG4QCU9nGvI3i3ZK8Pexg6wjvSNaJezti8Ow=;
+        b=Vj5B0zAjEcE8k/QKd++pkcPZe9RW3+B2OkS7fV4aNHEH/9tez9WkWwdVeRN80QTYDB
+         8NkI7V1hnB8UuhwR2rLyIeIobBVfuTsBvbdfF/zTAzql6PT3Ylp+hluHqU1D154icjci
+         sSTJMSUyMCeDxVaHnn3nECEez44I4/1C+SSh/+c45c8ucSKDQOMsNquKLMYeiohEQw49
+         TFkIIgjgWmpeeUUommllIjUS6KfLi7mf5kczi/hMo508iA0ORN4mtSrQLhWKzABJZynE
+         ZQ6xlJ8LntamPipD5s3hREUhHEj71l/RPIqJr4KJlILhKvDqnnpGLOMYwozB+6PoJ5dH
+         EQqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=apWn64+m3Kn58ms9/LyU9mwHW5rt3ShIev47RnfwhBY=;
-        b=NbRvgHspZTwuMvTuVBm4VsRhvQk8FAkKZY5ewTbls5LrHWKJdJcmwOPc2yByBUJypp
-         rwJTPiYN1kYWrCy7R2rs7m8YcU/YXHMssHQeivEEXJp/UVFfSwxe32MHPAjXwGDtn6Pe
-         GIahBllDxGpuulmvUlxkSHY7fzchQ19jhU+FPMYj/sVcuAkQRQW2RsKOkIWl5PZE/uNH
-         TDHm/MPLeU1DyvDS26ZX8NR17Up6DpK826gdg20QBHupLSPguTfI5dg2Agi949DKrtQY
-         bvFxDo8/bfxttAKeFz5tKaGS5FeOUtdSrTZVUi7ypDBfRCcRuAcbKbAXTbAe4H3ovW0J
-         SZzg==
-X-Gm-Message-State: APjAAAXtNNlaVjb3oVgTVQVP7c4uZ1O7cS6wPngDW3h9ANN+v1OD5t8W
-        U6ANrL97sP2PEG/rCdbttTyZ4STR
-X-Google-Smtp-Source: APXvYqwhzJWSqxw5052FzX3jJeD8wpNKl5wNB1r/CXFusjeb2mWhOBazUE9NmAhnuvad4mhBczl+hg==
-X-Received: by 2002:adf:80e6:: with SMTP id 93mr77122401wrl.298.1564335031403;
-        Sun, 28 Jul 2019 10:30:31 -0700 (PDT)
+        bh=rDXxJQ+dG4QCU9nGvI3i3ZK8Pexg6wjvSNaJezti8Ow=;
+        b=NxR4tRPDEtRlMiG9nsTbvplHwA8o5dZceMyx55joW6zBdMG5n7CBu+VmbYuH2Fn4PV
+         bsWErWiFnJxOQnH0Hwla2dXFQMtMecVt6eRyHkCzbfYU0VecQqFx+9fJp1+omf5JvFer
+         lb5R8NMQwcq0N4+Iz+qKaUUgYq6thUVxNiRY9GtntvAfOxYIUA8I8q1LsQ4896wUf2l9
+         lgnkL1FaK3RACpqLXRFGWZ9YG60l3uHV6kZAYSb6uFuPTojOFfODGSmwTjDoPNE2wzux
+         uBzUbkDoLtCmH7zjNmwAZ4WVfV35N+my7KEPuGOTKabA9LSPDBDB7/KpLnqCpElgWKx/
+         SN5g==
+X-Gm-Message-State: APjAAAXj8jZIUaIxzZZgaqo1slOL0tkXU8zc6W3qbRKJHf0iK7luJw4c
+        qg1XTdp2jPlboUyM/TYiyms=
+X-Google-Smtp-Source: APXvYqx6nnjgnqualgcHafYQwrZF1uz01rBZZ3/8EBSayOlTht65DcE2XIfW182Z/2+EQ5PhD7Hr5Q==
+X-Received: by 2002:a1c:a686:: with SMTP id p128mr33288864wme.130.1564335975321;
+        Sun, 28 Jul 2019 10:46:15 -0700 (PDT)
 Received: from [192.168.1.19] (chm157.neoplus.adsl.tpnet.pl. [83.31.10.157])
-        by smtp.gmail.com with ESMTPSA id v5sm66964315wre.50.2019.07.28.10.30.29
+        by smtp.gmail.com with ESMTPSA id o6sm120593861wra.27.2019.07.28.10.46.13
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 28 Jul 2019 10:30:30 -0700 (PDT)
-Subject: Re: [PATCH 1/3] block: umem: rename LED_* macros to LEDCTRL_*
-To:     Akinobu Mita <akinobu.mita@gmail.com>, linux-block@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-scsi@vger.kernel.org
-Cc:     Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
+        Sun, 28 Jul 2019 10:46:14 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] block: introduce LED block device activity trigger
+To:     Akinobu Mita <akinobu.mita@gmail.com>
+Cc:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Jens Axboe <axboe@kernel.dk>,
         "James E.J. Bottomley" <jejb@linux.ibm.com>,
         "Martin K. Petersen" <martin.petersen@oracle.com>
-References: <1564322446-28255-1-git-send-email-akinobu.mita@gmail.com>
- <1564322446-28255-2-git-send-email-akinobu.mita@gmail.com>
+References: <1563807552-23498-1-git-send-email-akinobu.mita@gmail.com>
+ <1563807552-23498-2-git-send-email-akinobu.mita@gmail.com>
+ <44a6093f-7df7-9442-c33b-5827eb5f187b@gmail.com>
+ <CAC5umygzNj=7LjzrzrVgOyLiZrKckaCgH68j0COFuWvX1yZAzA@mail.gmail.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -114,12 +117,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <85aa571d-69c4-a35c-8b9a-770cc3662baa@gmail.com>
-Date:   Sun, 28 Jul 2019 19:30:28 +0200
+Message-ID: <5630049e-7ab7-e48e-894d-b07a87fe6c25@gmail.com>
+Date:   Sun, 28 Jul 2019 19:46:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1564322446-28255-2-git-send-email-akinobu.mita@gmail.com>
+In-Reply-To: <CAC5umygzNj=7LjzrzrVgOyLiZrKckaCgH68j0COFuWvX1yZAzA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -130,50 +133,60 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi Akinobu,
 
-On 7/28/19 4:00 PM, Akinobu Mita wrote:
-> The umem driver defines LED_* macros for MEMCTRLCMD_LEDCTRL register
-> values.  The LED_OFF and LED_ON macros conflict with the LED subsystem's
-> LED_OFF and LED_ON enums.
+On 7/28/19 3:51 PM, Akinobu Mita wrote:
+> 2019年7月27日(土) 6:22 Jacek Anaszewski <jacek.anaszewski@gmail.com>:
+>>
+>> Hi Akinobu,
+>>
+>> Thank you for the v2. I've checked and it works as expected.
+>>
+>> One thing is missing though - ABI documentation.
+>>
+>> Please add Documentation/ABI/testing/sysfs-class-led-trigger-blk
+>> and document read, write and discard files.
 > 
-> This renames these LED_* macros to LEDCTRL_* in umem driver.
-[...]
->  
-> diff --git a/drivers/block/umem.h b/drivers/block/umem.h
-> index 5838497..8563fdc 100644
-> --- a/drivers/block/umem.h
-> +++ b/drivers/block/umem.h
-> @@ -32,16 +32,16 @@
->  #define  MEM_2_GB		0xe0
->  
->  #define MEMCTRLCMD_LEDCTRL	0x08
-> -#define  LED_REMOVE		2
-> -#define  LED_FAULT		4
-> -#define  LED_POWER		6
-> -#define	 LED_FLIP		255
-> -#define  LED_OFF		0x00
-> -#define  LED_ON			0x01
-> -#define  LED_FLASH_3_5		0x02
-> -#define  LED_FLASH_7_0		0x03
-> -#define  LED_POWER_ON		0x00
-> -#define  LED_POWER_OFF		0x01
-> +#define  LEDCTRL_REMOVE		2
-
-This way the namespacing prefix still begins with "LED",
-which can lead to further conflicts in the future.
-
-> +#define  LEDCTRL_FAULT		4
-> +#define  LEDCTRL_POWER		6
-> +#define	 LEDCTRL_FLIP		255
-> +#define  LEDCTRL_OFF		0x00
-> +#define  LEDCTRL_ON		0x01
-> +#define  LEDCTRL_FLASH_3_5	0x02
-> +#define  LEDCTRL_FLASH_7_0	0x03
-> +#define  LEDCTRL_POWER_ON	0x00
-> +#define  LEDCTRL_POWER_OFF	0x01
->  #define  USER_BIT1		0x01
->  #define  USER_BIT2		0x02
->  
+> OK. I'll add document like below.
 > 
+> What:           /sys/class/leds/<led>/interval
+> Date:           Aug 2019
+> KernelVersion:  5.4
+> Contact:        linux-leds@vger.kernel.org
+> Description:
+>                 Specifies the duration of the LED blink in milliseconds.
+>                 Defaults to 50 ms.
+> 
+> What:           /sys/class/leds/<led>/read
+> Date:           Aug 2019
+> KernelVersion:  5.4
+> Contact:        linux-leds@vger.kernel.org
+> Description:
+>                 Signal data read on the block device.
+>                 If set to 0, the LED will not blink on data read.
+>                 If set to 1 (default), the LED will blink for the milliseconds
+>                 specified in interval to signal data read.
+> 
+> What:           /sys/class/leds/<led>/write
+> Date:           Aug 2019
+> KernelVersion:  5.4
+> Contact:        linux-leds@vger.kernel.org
+> Description:
+>                 Signal data written on the block device.
+>                 If set to 0, the LED will not blink on data written.
+>                 If set to 1 (default), the LED will blink for the milliseconds
+>                 specified in interval to signal data written.
+> 
+> What:           /sys/class/leds/<led>/discard
+> Date:           Aug 2019
+> KernelVersion:  5.4
+> Contact:        linux-leds@vger.kernel.org
+> Description:
+>                 Signal data discarded on the block device.
+>                 If set to 0, the LED will not blink on data discarded.
+>                 If set to 1 (default), the LED will blink for the milliseconds
+>                 specified in interval to signal data discarded.
+> 
+
+Looks good, please submit it officially.
 
 -- 
 Best regards,
