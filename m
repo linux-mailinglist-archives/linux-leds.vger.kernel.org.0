@@ -2,20 +2,20 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F679788C0
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jul 2019 11:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 211C4788C2
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jul 2019 11:44:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727161AbfG2Jn6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Jul 2019 05:43:58 -0400
-Received: from mx2.suse.de ([195.135.220.15]:42434 "EHLO mx1.suse.de"
+        id S1727671AbfG2JoX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Jul 2019 05:44:23 -0400
+Received: from mx2.suse.de ([195.135.220.15]:42662 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726930AbfG2Jn6 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 29 Jul 2019 05:43:58 -0400
+        id S1726930AbfG2JoX (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 29 Jul 2019 05:44:23 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 6439BB60B;
-        Mon, 29 Jul 2019 09:43:56 +0000 (UTC)
-Subject: Re: [PATCH 2/3] scsi: mvsas: rename LED_* enums to SGPIO_LED_*
+        by mx1.suse.de (Postfix) with ESMTP id 78FEFB612;
+        Mon, 29 Jul 2019 09:44:21 +0000 (UTC)
+Subject: Re: [PATCH 3/3] scsi: nsp32: rename LED_* macros to EXT_PORT_LED_*
 To:     Akinobu Mita <akinobu.mita@gmail.com>, linux-block@vger.kernel.org,
         linux-leds@vger.kernel.org, linux-scsi@vger.kernel.org
 Cc:     Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
@@ -23,9 +23,11 @@ Cc:     Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Jens Axboe <axboe@kernel.dk>,
         "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        GOTO Masanori <gotom@debian.or.jp>,
+        YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>
 References: <1564322446-28255-1-git-send-email-akinobu.mita@gmail.com>
- <1564322446-28255-3-git-send-email-akinobu.mita@gmail.com>
+ <1564322446-28255-4-git-send-email-akinobu.mita@gmail.com>
 From:   Hannes Reinecke <hare@suse.de>
 Openpgp: preference=signencrypt
 Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
@@ -71,12 +73,12 @@ Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
  ZtWlhGRERnDH17PUXDglsOA08HCls0PHx8itYsjYCAyETlxlLApXWdVl9YVwbQpQ+i693t/Y
  PGu8jotn0++P19d3JwXW8t6TVvBIQ1dRZHx1IxGLMn+CkDJMOmHAUMWTAXX2rf5tUjas8/v2
  azzYF4VRJsdl+d0MCaSy8mUh
-Message-ID: <0cc409b4-4df0-00ca-5e0f-d96e3ab6b5ec@suse.de>
-Date:   Mon, 29 Jul 2019 11:43:56 +0200
+Message-ID: <746444e2-f35a-e0c5-1a1b-5982ef268dd1@suse.de>
+Date:   Mon, 29 Jul 2019 11:44:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <1564322446-28255-3-git-send-email-akinobu.mita@gmail.com>
+In-Reply-To: <1564322446-28255-4-git-send-email-akinobu.mita@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -86,11 +88,11 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 On 7/28/19 4:00 PM, Akinobu Mita wrote:
-> The mvsas driver declares LED_* enums for enum sgpio_led_status. The
-> LED_OFF and LED_ON enums cause redeclaration of enumerator with the
-> LED subsystem's LED_OFF and LED_ON enums.
+> The nsp32 driver defines LED_ON and LED_OFF macros for EXT_PORT_DDR or
+> EXT_PORT register values.  The LED_OFF and LED_ON macros conflict with
+> the LED subsystem's LED_OFF and LED_ON enums.
 > 
-> This adds 'SGPIO_' prefix to these enums in mvsas driver.
+> This renames these LED_* macros to EXT_PORT_LED_* in nsp32 driver.
 > 
 > Cc: Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>
 > Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
@@ -99,11 +101,13 @@ On 7/28/19 4:00 PM, Akinobu Mita wrote:
 > Cc: Jens Axboe <axboe@kernel.dk>
 > Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
 > Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+> Cc: GOTO Masanori <gotom@debian.or.jp>
+> Cc: YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>
 > Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 > ---
->  drivers/scsi/mvsas/mv_94xx.c |  2 +-
->  drivers/scsi/mvsas/mv_94xx.h | 24 ++++++++++++------------
->  2 files changed, 13 insertions(+), 13 deletions(-)
+>  drivers/scsi/nsp32.c | 6 +++---
+>  drivers/scsi/nsp32.h | 4 ++--
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.com>
 
