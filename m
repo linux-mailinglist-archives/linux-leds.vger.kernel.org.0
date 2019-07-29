@@ -2,20 +2,20 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E82D7788B4
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jul 2019 11:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F679788C0
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jul 2019 11:44:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728057AbfG2Jni (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Jul 2019 05:43:38 -0400
-Received: from mx2.suse.de ([195.135.220.15]:42120 "EHLO mx1.suse.de"
+        id S1727161AbfG2Jn6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Jul 2019 05:43:58 -0400
+Received: from mx2.suse.de ([195.135.220.15]:42434 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728024AbfG2Jnh (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 29 Jul 2019 05:43:37 -0400
+        id S1726930AbfG2Jn6 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 29 Jul 2019 05:43:58 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 81B4BAF40;
-        Mon, 29 Jul 2019 09:43:35 +0000 (UTC)
-Subject: Re: [PATCH 1/3] block: umem: rename LED_* macros to LEDCTRL_*
+        by mx1.suse.de (Postfix) with ESMTP id 6439BB60B;
+        Mon, 29 Jul 2019 09:43:56 +0000 (UTC)
+Subject: Re: [PATCH 2/3] scsi: mvsas: rename LED_* enums to SGPIO_LED_*
 To:     Akinobu Mita <akinobu.mita@gmail.com>, linux-block@vger.kernel.org,
         linux-leds@vger.kernel.org, linux-scsi@vger.kernel.org
 Cc:     Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
@@ -25,7 +25,7 @@ Cc:     Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
         "James E.J. Bottomley" <jejb@linux.ibm.com>,
         "Martin K. Petersen" <martin.petersen@oracle.com>
 References: <1564322446-28255-1-git-send-email-akinobu.mita@gmail.com>
- <1564322446-28255-2-git-send-email-akinobu.mita@gmail.com>
+ <1564322446-28255-3-git-send-email-akinobu.mita@gmail.com>
 From:   Hannes Reinecke <hare@suse.de>
 Openpgp: preference=signencrypt
 Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
@@ -71,12 +71,12 @@ Autocrypt: addr=hare@suse.de; prefer-encrypt=mutual; keydata=
  ZtWlhGRERnDH17PUXDglsOA08HCls0PHx8itYsjYCAyETlxlLApXWdVl9YVwbQpQ+i693t/Y
  PGu8jotn0++P19d3JwXW8t6TVvBIQ1dRZHx1IxGLMn+CkDJMOmHAUMWTAXX2rf5tUjas8/v2
  azzYF4VRJsdl+d0MCaSy8mUh
-Message-ID: <a0564cab-e690-afae-be41-ecef262c3ebf@suse.de>
-Date:   Mon, 29 Jul 2019 11:43:34 +0200
+Message-ID: <0cc409b4-4df0-00ca-5e0f-d96e3ab6b5ec@suse.de>
+Date:   Mon, 29 Jul 2019 11:43:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <1564322446-28255-2-git-send-email-akinobu.mita@gmail.com>
+In-Reply-To: <1564322446-28255-3-git-send-email-akinobu.mita@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -86,11 +86,11 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 On 7/28/19 4:00 PM, Akinobu Mita wrote:
-> The umem driver defines LED_* macros for MEMCTRLCMD_LEDCTRL register
-> values.  The LED_OFF and LED_ON macros conflict with the LED subsystem's
-> LED_OFF and LED_ON enums.
+> The mvsas driver declares LED_* enums for enum sgpio_led_status. The
+> LED_OFF and LED_ON enums cause redeclaration of enumerator with the
+> LED subsystem's LED_OFF and LED_ON enums.
 > 
-> This renames these LED_* macros to LEDCTRL_* in umem driver.
+> This adds 'SGPIO_' prefix to these enums in mvsas driver.
 > 
 > Cc: Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>
 > Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
@@ -101,9 +101,9 @@ On 7/28/19 4:00 PM, Akinobu Mita wrote:
 > Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
 > Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 > ---
->  drivers/block/umem.c | 20 ++++++++++----------
->  drivers/block/umem.h | 20 ++++++++++----------
->  2 files changed, 20 insertions(+), 20 deletions(-)
+>  drivers/scsi/mvsas/mv_94xx.c |  2 +-
+>  drivers/scsi/mvsas/mv_94xx.h | 24 ++++++++++++------------
+>  2 files changed, 13 insertions(+), 13 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.com>
 
