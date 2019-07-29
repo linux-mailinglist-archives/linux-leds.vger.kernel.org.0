@@ -2,16 +2,16 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52A0A793AB
+	by mail.lfdr.de (Postfix) with ESMTP id E59B4793AC
 	for <lists+linux-leds@lfdr.de>; Mon, 29 Jul 2019 21:20:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729358AbfG2TUa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Jul 2019 15:20:30 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39250 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728914AbfG2TUa (ORCPT
+        id S1728914AbfG2TUb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Jul 2019 15:20:31 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55483 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729141AbfG2TUa (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Jul 2019 15:20:30 -0400
-Received: by mail-wr1-f65.google.com with SMTP id x4so9904223wrt.6
+Received: by mail-wm1-f65.google.com with SMTP id a15so54871588wmj.5
         for <linux-leds@vger.kernel.org>; Mon, 29 Jul 2019 12:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
@@ -19,33 +19,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
         bh=/gTEEkJSHfF6Cw8eknDeEHw6b5wSmEGKAtIjbED1iFE=;
-        b=RmGQHpXmPJlvKlG2ewWmGGVI0iHE2w8KFtKJCo25OrWiWT8q+RUGaxZUCbrlkcyqQe
-         kQf0t7qLGu6X+qM+NbP2lkN9dg7dSKrGPaCHrRRnQppVLUWjJ0Txh/rENaL2cW6HK5L/
-         4Ii4Ls4YuzacycJ8gsVNCZej7sJr/VefmKzp1STmy2FN+DM3rVlPaMbJYEZs3RL4vrFs
-         6ojHhNFChL/plpIk5qt1HMxoUEKqTpffGJdiHCIiEE+aoCrs0G0QpfCIO9Sf9OGcx3md
-         du54pjolRdc2rRjEOAWLDP7RnQC4oBI78bTuP/BAbGsCSQnVNRWeRXvN9G4OVvK/9w6J
-         5u7Q==
+        b=C7MJvv53FDM6+DIUu8IVALemxfr9u8HTeoU6hOiI0Lcv1BPn4eUhUzX8pfDrNaLPBb
+         6MicnJ/00nbZUYR/L0x7bn8aFrlUUS4SUzH6rYeZq/iFL1wGx+XnqnDLO9RXjSt1dpTz
+         2bQXJ9dcU745m/GWz/IG66GocMWN68cp4hjQ1tcAWW0n8sAi6rQ0AZ4x+c5VHH2X72TU
+         uobLDeKLP7AON4VB+D0wg5J6dCqPmpLPriPk0qkBkJNads2N9d7BgYthBsQ+a4Trz/mR
+         epUQC8vsEltfXBc4e/HC2ICjsuawJlFjGMd68tseDRuK5txYJTpU5Ne9a5IGp3CweHzG
+         wH7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
         bh=/gTEEkJSHfF6Cw8eknDeEHw6b5wSmEGKAtIjbED1iFE=;
-        b=BRCKSi6OPfIQajSaHEI/EsnGBwqLzUr+FFIrI9hX86anks7kwWo3exeevpghNfwFwY
-         fOquTgAkW0GCeg3hPrJjUiaNxqp+HvUCTWomsk9gob+akrmpxcNAQs71XsZiTP+dTjIe
-         me8Uaf6G4KoeDnKmFAGC75cYQejc3jzYGEswgFlTzLV9xg+xjsfI6Q3VloM65Jmg1r9K
-         gcZ/5Jv8oNUik/AE74kslwpTN8Y8Mw7qpTW2Ap/ypSmfZOJX819OSZvz9mg5rEDLR2mM
-         slIOu8tTJpBbEhtRamspDO7hvJGp5+NlMOJfKxZiOk/Go+1m/DMD8/Jw0fIyHd31KGxR
-         8ZHQ==
-X-Gm-Message-State: APjAAAWrz2uJ/ePhiNbsshmreRb4txV1m34LFid9gMDunRc+9TxtMEuI
-        dOrg+H/g1V8wmcw3JE8zFqURkYKg
-X-Google-Smtp-Source: APXvYqxV0PFWLNHj3Iks2wdfWeBm1ieIRfuHqB6m+EEy5MhW6migjbtmQ/mRTNQweMoETwo3RN4EhA==
-X-Received: by 2002:adf:f050:: with SMTP id t16mr114872982wro.99.1564428027320;
+        b=m5WQYrzcpvDxLOZTRigtp4Ggs8GlfajKA97Fb/LX444JRpgT9FvjJwCxUuslBa+o4M
+         hHyJpGmkU9X13qUAmUXidnMpRwf6lO10Hnk4qXq2PZEPtxG8DT/clf7f6EcQqsadR7gB
+         QMA2NtTfZlHnhxQWfqOdIw99tDiahqKGBHBNSpjWh8Gve+GqRP9hur6sga6FgJizlfV6
+         LteDHzGV60HAU1maPslyRFWAXu6bLD5pxtQqL2B7oSqTmN2ovyGa2tVKttq5cLJX3D12
+         3KbAQR39zI8sbLCBgLYjTI1XjeA7QPogWw/6Y2ukk3ptQbUsA8pSeF3l/8lxQWt34UJe
+         hj+g==
+X-Gm-Message-State: APjAAAUB+54VmIVv06LMC+5A95gPSdIME+2hW77S04QnuJ7E28QIlhLR
+        QuIldof6i9fbK5ToamvtSAZYhoqw
+X-Google-Smtp-Source: APXvYqz3w6C4uM/aX/z46lPSrK906sfKF6atrIZ8tX58CxDp6b2l7Jkb48ai3rpDg8BR6dBYGhCdEg==
+X-Received: by 2002:a1c:b707:: with SMTP id h7mr99213086wmf.45.1564428027628;
         Mon, 29 Jul 2019 12:20:27 -0700 (PDT)
 Received: from [192.168.1.19] (civ151.neoplus.adsl.tpnet.pl. [83.31.45.151])
-        by smtp.gmail.com with ESMTPSA id r11sm95231416wre.14.2019.07.29.12.20.26
+        by smtp.gmail.com with ESMTPSA id b5sm53359711wru.69.2019.07.29.12.20.26
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jul 2019 12:20:26 -0700 (PDT)
+        Mon, 29 Jul 2019 12:20:27 -0700 (PDT)
 Subject: Re: [PATCH] leds: netxbig: Add of_node_put() in
  netxbig_leds_get_of_pdata()
 To:     Nishka Dasgupta <nishkadg.linux@gmail.com>, pavel@ucw.cz,
@@ -109,7 +109,7 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <f7fb173a-be50-da46-1aa0-5ec24515e2df@gmail.com>
+Message-ID: <7d1a67bb-ba08-fe57-ca62-91c311d100f5@gmail.com>
 Date:   Mon, 29 Jul 2019 21:20:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
