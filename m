@@ -2,55 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E59B4793AC
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jul 2019 21:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 045BA799B6
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jul 2019 22:17:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728914AbfG2TUb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Jul 2019 15:20:31 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55483 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729141AbfG2TUa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Jul 2019 15:20:30 -0400
-Received: by mail-wm1-f65.google.com with SMTP id a15so54871588wmj.5
-        for <linux-leds@vger.kernel.org>; Mon, 29 Jul 2019 12:20:28 -0700 (PDT)
+        id S1726277AbfG2TYu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Jul 2019 15:24:50 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:35327 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388252AbfG2TYu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Jul 2019 15:24:50 -0400
+Received: by mail-wr1-f66.google.com with SMTP id y4so63090688wrm.2;
+        Mon, 29 Jul 2019 12:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=/gTEEkJSHfF6Cw8eknDeEHw6b5wSmEGKAtIjbED1iFE=;
-        b=C7MJvv53FDM6+DIUu8IVALemxfr9u8HTeoU6hOiI0Lcv1BPn4eUhUzX8pfDrNaLPBb
-         6MicnJ/00nbZUYR/L0x7bn8aFrlUUS4SUzH6rYeZq/iFL1wGx+XnqnDLO9RXjSt1dpTz
-         2bQXJ9dcU745m/GWz/IG66GocMWN68cp4hjQ1tcAWW0n8sAi6rQ0AZ4x+c5VHH2X72TU
-         uobLDeKLP7AON4VB+D0wg5J6dCqPmpLPriPk0qkBkJNads2N9d7BgYthBsQ+a4Trz/mR
-         epUQC8vsEltfXBc4e/HC2ICjsuawJlFjGMd68tseDRuK5txYJTpU5Ne9a5IGp3CweHzG
-         wH7Q==
+        bh=KzFDXsZm34vYHoXXRNHS48SfK2h0C8sqr3jtXFIdm4g=;
+        b=NmuBIAePTW8QVBl/aXLHiMGzEg2vfuCJkW2LPc23wYxwdC8H7ZSk0qqwub1vVxdLG0
+         JBYgpLQmqr1dI+fkYI66YigMNgMEKXRqlyaRrqTvyOIBOQNQdL6EdmIrnziP2gEUl4Xk
+         aBJXeh4fMov7Bdq7XwQRz30WYIR0xPAsSJAchhLXfQHa4I7rwo45louQdq+hne6lGTAR
+         Wsv79ciooSIUAphTldkLbJThbwr5RC7ndhOHu7nJ1st9ERRVVlbxLH9u3cRF8Iz63gsn
+         TOBFxem7R7XCz3y1UQn4TNFLKfXs3rdvXXK0qPgGwCg8vei0XB+E5G0oPAx/XQdZfWIL
+         3RVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=/gTEEkJSHfF6Cw8eknDeEHw6b5wSmEGKAtIjbED1iFE=;
-        b=m5WQYrzcpvDxLOZTRigtp4Ggs8GlfajKA97Fb/LX444JRpgT9FvjJwCxUuslBa+o4M
-         hHyJpGmkU9X13qUAmUXidnMpRwf6lO10Hnk4qXq2PZEPtxG8DT/clf7f6EcQqsadR7gB
-         QMA2NtTfZlHnhxQWfqOdIw99tDiahqKGBHBNSpjWh8Gve+GqRP9hur6sga6FgJizlfV6
-         LteDHzGV60HAU1maPslyRFWAXu6bLD5pxtQqL2B7oSqTmN2ovyGa2tVKttq5cLJX3D12
-         3KbAQR39zI8sbLCBgLYjTI1XjeA7QPogWw/6Y2ukk3ptQbUsA8pSeF3l/8lxQWt34UJe
-         hj+g==
-X-Gm-Message-State: APjAAAUB+54VmIVv06LMC+5A95gPSdIME+2hW77S04QnuJ7E28QIlhLR
-        QuIldof6i9fbK5ToamvtSAZYhoqw
-X-Google-Smtp-Source: APXvYqz3w6C4uM/aX/z46lPSrK906sfKF6atrIZ8tX58CxDp6b2l7Jkb48ai3rpDg8BR6dBYGhCdEg==
-X-Received: by 2002:a1c:b707:: with SMTP id h7mr99213086wmf.45.1564428027628;
-        Mon, 29 Jul 2019 12:20:27 -0700 (PDT)
+        bh=KzFDXsZm34vYHoXXRNHS48SfK2h0C8sqr3jtXFIdm4g=;
+        b=jfgwWBAIm7LygCZrpArWomCzwKEhD2dC9NU8LhFjDg9LorgOAyjLRc0ABgEOuQzABU
+         cWT27tMCV+UqvXmdl9gBF5/4ekQv0bKs94hA4OPFkpYaN1nDMwRfAGKPEIGlvPdLbLhS
+         g2rvzOUIrSHyP1FwqTOhR6QDOyv9GFY6TlyWoWpi4n4T1gTeW6IjtyBh3TCSOVdfJiX1
+         dDDjwcNxlPccneduprEZOa07sWRksdc3ND6BAjQnKEyXofbut4A6Xy+G5nlcybDlQFr+
+         jiaj7gqbtuTRFvdSmFWua80SRImdw9hu7ONdHooostTCY5yI6vZC/hrqv4cjG+VdF1zi
+         oMNQ==
+X-Gm-Message-State: APjAAAVOBQW63HZK0RzWS9VAu6LfmqBL8qKLWpoPyno5a2G+r67g/AdD
+        meX7Exngre7awOq+p5Qi/LEDMEf0
+X-Google-Smtp-Source: APXvYqxL7A2BC1Jc4ZKoJqXhrtH5QDbS/xfRVga49b6Ndry4o4Q8BoKkTjruQvBoTNV0KAjg2ue1DA==
+X-Received: by 2002:adf:cd81:: with SMTP id q1mr120386836wrj.16.1564428287884;
+        Mon, 29 Jul 2019 12:24:47 -0700 (PDT)
 Received: from [192.168.1.19] (civ151.neoplus.adsl.tpnet.pl. [83.31.45.151])
-        by smtp.gmail.com with ESMTPSA id b5sm53359711wru.69.2019.07.29.12.20.26
+        by smtp.gmail.com with ESMTPSA id l2sm42262102wmj.4.2019.07.29.12.24.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jul 2019 12:20:27 -0700 (PDT)
-Subject: Re: [PATCH] leds: netxbig: Add of_node_put() in
- netxbig_leds_get_of_pdata()
-To:     Nishka Dasgupta <nishkadg.linux@gmail.com>, pavel@ucw.cz,
-        dmurphy@ti.com, linux-leds@vger.kernel.org
-References: <20190729065356.26793-1-nishkadg.linux@gmail.com>
+        Mon, 29 Jul 2019 12:24:47 -0700 (PDT)
+Subject: Re: [PATCH 1/3] block: umem: rename LED_* macros to LEDCTRL_*
+To:     Pavel Machek <pavel@ucw.cz>, Akinobu Mita <akinobu.mita@gmail.com>
+Cc:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-scsi@vger.kernel.org,
+        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
+        Dan Murphy <dmurphy@ti.com>, Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+References: <1564322446-28255-1-git-send-email-akinobu.mita@gmail.com>
+ <1564322446-28255-2-git-send-email-akinobu.mita@gmail.com>
+ <85aa571d-69c4-a35c-8b9a-770cc3662baa@gmail.com>
+ <CAC5umyggeHZJrW7BR7o+GgnQiW5zaSP+cqMeW_CgWwqLVOjNZQ@mail.gmail.com>
+ <20190729191338.GA2023@amd>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -109,61 +117,63 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <7d1a67bb-ba08-fe57-ca62-91c311d100f5@gmail.com>
-Date:   Mon, 29 Jul 2019 21:20:25 +0200
+Message-ID: <bd8e7602-bc73-8b0f-5024-f67980f045a4@gmail.com>
+Date:   Mon, 29 Jul 2019 21:24:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190729065356.26793-1-nishkadg.linux@gmail.com>
+In-Reply-To: <20190729191338.GA2023@amd>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Nishka,
-
-Thank you for the patch.
-
-On 7/29/19 8:53 AM, Nishka Dasgupta wrote:
-> The variable gpio_ext_np in the function netxbig_leds_get_of_pdata takes
-> the value returned by of_parse_phandle; hence, it must be put in order
-> to prevent a memory leak. Add an of_node_put for gpio_ext_np before a
-> return statement, and move a pre-existing of_node_put statement to right
-> after the last usage of this variable.
-> Issue found with Coccinelle.
+On 7/29/19 9:13 PM, Pavel Machek wrote:
+> On Tue 2019-07-30 00:21:14, Akinobu Mita wrote:
+>> 2019年7月29日(月) 2:30 Jacek Anaszewski <jacek.anaszewski@gmail.com>:
+>>>
+>>> Hi Akinobu,
+>>>
+>>> On 7/28/19 4:00 PM, Akinobu Mita wrote:
+>>>> The umem driver defines LED_* macros for MEMCTRLCMD_LEDCTRL register
+>>>> values.  The LED_OFF and LED_ON macros conflict with the LED subsystem's
+>>>> LED_OFF and LED_ON enums.
+>>>>
+>>>> This renames these LED_* macros to LEDCTRL_* in umem driver.
+>>> [...]
+>>>>
+>>>> diff --git a/drivers/block/umem.h b/drivers/block/umem.h
+>>>> index 5838497..8563fdc 100644
+>>>> --- a/drivers/block/umem.h
+>>>> +++ b/drivers/block/umem.h
+>>>> @@ -32,16 +32,16 @@
+>>>>  #define  MEM_2_GB            0xe0
+>>>>
+>>>>  #define MEMCTRLCMD_LEDCTRL   0x08
+>>>> -#define  LED_REMOVE          2
+>>>> -#define  LED_FAULT           4
+>>>> -#define  LED_POWER           6
+>>>> -#define       LED_FLIP               255
+>>>> -#define  LED_OFF             0x00
+>>>> -#define  LED_ON                      0x01
+>>>> -#define  LED_FLASH_3_5               0x02
+>>>> -#define  LED_FLASH_7_0               0x03
+>>>> -#define  LED_POWER_ON                0x00
+>>>> -#define  LED_POWER_OFF               0x01
+>>>> +#define  LEDCTRL_REMOVE              2
+>>>
+>>> This way the namespacing prefix still begins with "LED",
+>>> which can lead to further conflicts in the future.
+>>
+>> How about renaming 'LED_ON' to 'MEMCTRLCMD_LEDCTRL_ON', and 'LED_OFF' to
+>> 'MEMCTRLCMD_LEDCTRL_OFF' ?
 > 
-> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
-> ---
->  drivers/leds/leds-netxbig.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-netxbig.c b/drivers/leds/leds-netxbig.c
-> index 10497a466775..654d83bbc450 100644
-> --- a/drivers/leds/leds-netxbig.c
-> +++ b/drivers/leds/leds-netxbig.c
-> @@ -388,12 +388,14 @@ static int netxbig_leds_get_of_pdata(struct device *dev,
->  	}
->  
->  	gpio_ext = devm_kzalloc(dev, sizeof(*gpio_ext), GFP_KERNEL);
-> -	if (!gpio_ext)
-> +	if (!gpio_ext) {
-> +		of_node_put(gpio_ext_np);
->  		return -ENOMEM;
-> +	}
->  	ret = gpio_ext_get_of_pdata(dev, gpio_ext_np, gpio_ext);
-> +	of_node_put(gpio_ext_np);
->  	if (ret)
->  		return ret;
-> -	of_node_put(gpio_ext_np);
->  	pdata->gpio_ext = gpio_ext;
->  
->  	/* Timers (optional) */
-> 
+> I'd say that "MEMCTRL_LED_ON" woudl e enough, but... :-).
 
-Applied.
+I agree, it looks neater.
 
 -- 
 Best regards,
