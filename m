@@ -2,56 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AAF8C793A7
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Jul 2019 21:19:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52A0A793AB
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Jul 2019 21:20:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729315AbfG2TTu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Jul 2019 15:19:50 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:40467 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729141AbfG2TTu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Jul 2019 15:19:50 -0400
-Received: by mail-wr1-f66.google.com with SMTP id r1so63062876wrl.7;
-        Mon, 29 Jul 2019 12:19:47 -0700 (PDT)
+        id S1729358AbfG2TUa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 29 Jul 2019 15:20:30 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:39250 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728914AbfG2TUa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Jul 2019 15:20:30 -0400
+Received: by mail-wr1-f65.google.com with SMTP id x4so9904223wrt.6
+        for <linux-leds@vger.kernel.org>; Mon, 29 Jul 2019 12:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=IC6AhNaUochbr8eNg202VjmvgNDySHaGSRtYPT5r/sM=;
-        b=R+0Hj67XY9BrfvpMkvSqIevAupXwChaHlUgYHXqCsDnLscnmXsXiOYFGulz5gUva06
-         FMymicoOHogtuo/yX3rPEtxA9ZSayDRa/8OBEqoouqkMwL8HRBRiS7SYYi5OjDTTfaUd
-         rZwgw0zgdvaxxJFJgGLnYsdQyLYSZkO4s31EbmZlyGiFcssqMnow2BGtpZ5bTJ/wVuXI
-         /LuptZV3zLtv3yFrfUo0dZo7XPYE3lO/rqJL/rYl5G3Oo4457RHak75ruVXYXeLFp2a7
-         FPsI4PfccYTuaWqwXn38BkK0k9/9luuNd1pyb9mu1LQ/+Ee5/50FirBg4dtgpUbxJKeU
-         mZxA==
+        bh=/gTEEkJSHfF6Cw8eknDeEHw6b5wSmEGKAtIjbED1iFE=;
+        b=RmGQHpXmPJlvKlG2ewWmGGVI0iHE2w8KFtKJCo25OrWiWT8q+RUGaxZUCbrlkcyqQe
+         kQf0t7qLGu6X+qM+NbP2lkN9dg7dSKrGPaCHrRRnQppVLUWjJ0Txh/rENaL2cW6HK5L/
+         4Ii4Ls4YuzacycJ8gsVNCZej7sJr/VefmKzp1STmy2FN+DM3rVlPaMbJYEZs3RL4vrFs
+         6ojHhNFChL/plpIk5qt1HMxoUEKqTpffGJdiHCIiEE+aoCrs0G0QpfCIO9Sf9OGcx3md
+         du54pjolRdc2rRjEOAWLDP7RnQC4oBI78bTuP/BAbGsCSQnVNRWeRXvN9G4OVvK/9w6J
+         5u7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=IC6AhNaUochbr8eNg202VjmvgNDySHaGSRtYPT5r/sM=;
-        b=M52VESZZqHyhCRel8s8EH7ukskwCRMybMUSFISssnuJaHjl7toLvCsD59/JNG7nc6q
-         zQvf4XVjhkhagSMSzK9+gB1ZkMOjeR0n9eXJvCILYNcQbEmSXwYBxWwmtpU2DSbF/zxN
-         C+bneH4ZPPK1yO5a2e8zGNXpzMbTJajnle2IxgTHDkHzl0q0mOPhue+awYtH/eM/VoUA
-         Th/kM8GcFryT7bk9/BRPNeVzZ6ILbW2lUTJIzK2OERShGO4Fp8oUoOp31PAoQ4LUL+u5
-         4sJBVTbxxZ3Cm19vapecR8ENNzYUBBmrfYke9CP5xo7zpOHPLoYC2kqZDu3Le5qp+Dpi
-         QyiA==
-X-Gm-Message-State: APjAAAXvfu4XuVxa//j1gNMp9jJaBY4Nj78OjnistmKXvluElxwyTKcm
-        8btTrQFG4P4TwObzsCRynv1KLFm4
-X-Google-Smtp-Source: APXvYqw5Mq/gKZ2qpEiRMEF78yzwj/BTsegOW50yX9sNhgabpRIWgKzbRCDvkXneVFBHLkmHmVHciQ==
-X-Received: by 2002:a5d:514f:: with SMTP id u15mr23030729wrt.183.1564427986784;
-        Mon, 29 Jul 2019 12:19:46 -0700 (PDT)
+        bh=/gTEEkJSHfF6Cw8eknDeEHw6b5wSmEGKAtIjbED1iFE=;
+        b=BRCKSi6OPfIQajSaHEI/EsnGBwqLzUr+FFIrI9hX86anks7kwWo3exeevpghNfwFwY
+         fOquTgAkW0GCeg3hPrJjUiaNxqp+HvUCTWomsk9gob+akrmpxcNAQs71XsZiTP+dTjIe
+         me8Uaf6G4KoeDnKmFAGC75cYQejc3jzYGEswgFlTzLV9xg+xjsfI6Q3VloM65Jmg1r9K
+         gcZ/5Jv8oNUik/AE74kslwpTN8Y8Mw7qpTW2Ap/ypSmfZOJX819OSZvz9mg5rEDLR2mM
+         slIOu8tTJpBbEhtRamspDO7hvJGp5+NlMOJfKxZiOk/Go+1m/DMD8/Jw0fIyHd31KGxR
+         8ZHQ==
+X-Gm-Message-State: APjAAAWrz2uJ/ePhiNbsshmreRb4txV1m34LFid9gMDunRc+9TxtMEuI
+        dOrg+H/g1V8wmcw3JE8zFqURkYKg
+X-Google-Smtp-Source: APXvYqxV0PFWLNHj3Iks2wdfWeBm1ieIRfuHqB6m+EEy5MhW6migjbtmQ/mRTNQweMoETwo3RN4EhA==
+X-Received: by 2002:adf:f050:: with SMTP id t16mr114872982wro.99.1564428027320;
+        Mon, 29 Jul 2019 12:20:27 -0700 (PDT)
 Received: from [192.168.1.19] (civ151.neoplus.adsl.tpnet.pl. [83.31.45.151])
-        by smtp.gmail.com with ESMTPSA id s188sm51714022wmf.40.2019.07.29.12.19.45
+        by smtp.gmail.com with ESMTPSA id r11sm95231416wre.14.2019.07.29.12.20.26
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jul 2019 12:19:46 -0700 (PDT)
-Subject: Re: [PATCH] leds: netxbig: remove legacy board-file support
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
-References: <20190728164015.15405-1-yamada.masahiro@socionext.com>
+        Mon, 29 Jul 2019 12:20:26 -0700 (PDT)
+Subject: Re: [PATCH] leds: netxbig: Add of_node_put() in
+ netxbig_leds_get_of_pdata()
+To:     Nishka Dasgupta <nishkadg.linux@gmail.com>, pavel@ucw.cz,
+        dmurphy@ti.com, linux-leds@vger.kernel.org
+References: <20190729065356.26793-1-nishkadg.linux@gmail.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,12 +109,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <3723142a-30b9-0ca3-5e31-73eabda54145@gmail.com>
-Date:   Mon, 29 Jul 2019 21:19:44 +0200
+Message-ID: <f7fb173a-be50-da46-1aa0-5ec24515e2df@gmail.com>
+Date:   Mon, 29 Jul 2019 21:20:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190728164015.15405-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190729065356.26793-1-nishkadg.linux@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -124,30 +123,45 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Masahiro,
+Hi Nishka,
 
 Thank you for the patch.
 
-On 7/28/19 6:40 PM, Masahiro Yamada wrote:
-> Since commit ebc278f15759 ("ARM: mvebu: remove static LED setup for
-> netxbig boards"), no one in upstream passes in the platform data to
-> this driver.
+On 7/29/19 8:53 AM, Nishka Dasgupta wrote:
+> The variable gpio_ext_np in the function netxbig_leds_get_of_pdata takes
+> the value returned by of_parse_phandle; hence, it must be put in order
+> to prevent a memory leak. Add an of_node_put for gpio_ext_np before a
+> return statement, and move a pre-existing of_node_put statement to right
+> after the last usage of this variable.
+> Issue found with Coccinelle.
 > 
-> Squash leds-kirkwood-netxbig.h into the driver, and remove the legacy
-> board-file support.
-> 
-> Link: https://lkml.org/lkml/2019/7/20/83
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
 > ---
+>  drivers/leds/leds-netxbig.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
->  drivers/leds/Kconfig                          |  1 +
->  drivers/leds/leds-netxbig.c                   | 70 +++++++++++++------
->  .../platform_data/leds-kirkwood-netxbig.h     | 54 --------------
->  3 files changed, 51 insertions(+), 74 deletions(-)
->  delete mode 100644 include/linux/platform_data/leds-kirkwood-netxbig.h
-[...]
-
+> diff --git a/drivers/leds/leds-netxbig.c b/drivers/leds/leds-netxbig.c
+> index 10497a466775..654d83bbc450 100644
+> --- a/drivers/leds/leds-netxbig.c
+> +++ b/drivers/leds/leds-netxbig.c
+> @@ -388,12 +388,14 @@ static int netxbig_leds_get_of_pdata(struct device *dev,
+>  	}
+>  
+>  	gpio_ext = devm_kzalloc(dev, sizeof(*gpio_ext), GFP_KERNEL);
+> -	if (!gpio_ext)
+> +	if (!gpio_ext) {
+> +		of_node_put(gpio_ext_np);
+>  		return -ENOMEM;
+> +	}
+>  	ret = gpio_ext_get_of_pdata(dev, gpio_ext_np, gpio_ext);
+> +	of_node_put(gpio_ext_np);
+>  	if (ret)
+>  		return ret;
+> -	of_node_put(gpio_ext_np);
+>  	pdata->gpio_ext = gpio_ext;
+>  
+>  	/* Timers (optional) */
+> 
 
 Applied.
 
