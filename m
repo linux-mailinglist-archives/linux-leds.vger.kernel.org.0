@@ -2,37 +2,34 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E075679BF1
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Jul 2019 00:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CF657A662
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Jul 2019 13:02:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730662AbfG2WAf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 29 Jul 2019 18:00:35 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:42541 "EHLO
+        id S1729493AbfG3LCQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 30 Jul 2019 07:02:16 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:59552 "EHLO
         atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727067AbfG2WAe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 29 Jul 2019 18:00:34 -0400
+        with ESMTP id S1725974AbfG3LCP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 Jul 2019 07:02:15 -0400
 Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id D1F298025F; Tue, 30 Jul 2019 00:00:19 +0200 (CEST)
-Date:   Tue, 30 Jul 2019 00:00:31 +0200
+        id 2F7D1802B5; Tue, 30 Jul 2019 13:02:01 +0200 (CEST)
+Date:   Tue, 30 Jul 2019 13:02:12 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     linux-omap@vger.kernel.org, tony@atomide.com, sre@kernel.org,
-        nekit1000@gmail.com, mpartap@gmx.net, merlijn@wizzup.org,
-        jacek.anaszewski@gmail.com, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: Backlight in motorola Droid 4
-Message-ID: <20190729220030.GA20100@amd>
-References: <20181219162626.12297-1-dmurphy@ti.com>
- <20190722205921.GA24787@amd>
- <b8fbc94f-c087-2c9d-4532-ea423f1626e6@ti.com>
- <20190724124530.GA30211@amd>
- <ca69f627-96e2-f982-3a29-18b0127ac6e5@ti.com>
- <edde330e-516b-ecaa-4139-0bfa766a9c08@ti.com>
+To:     Jean-Jacques Hiblot <jjhiblot@ti.com>
+Cc:     jacek.anaszewski@gmail.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, lee.jones@linaro.org,
+        daniel.thompson@linaro.org, jingoohan1@gmail.com, dmurphy@ti.com,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, tomi.valkeinen@ti.com
+Subject: Re: [PATCH v4 1/4] leds: Add of_led_get() and led_put()
+Message-ID: <20190730110212.GA21815@amd>
+References: <20190717141514.21171-1-jjhiblot@ti.com>
+ <20190717141514.21171-2-jjhiblot@ti.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="LQksG6bCIzRHxTLp"
+        protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
 Content-Disposition: inline
-In-Reply-To: <edde330e-516b-ecaa-4139-0bfa766a9c08@ti.com>
+In-Reply-To: <20190717141514.21171-2-jjhiblot@ti.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -40,51 +37,40 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---LQksG6bCIzRHxTLp
+--gKMricLos+KVdGMg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
-
-> >Looking at the rest of the code.
-> >
-> >The DT doc indicated that this was a required child property so this is
-> >why it
-> >
-> >errors out.
-> >
-> >Dan
-> >
-> ><snip>
-> >
+On Wed 2019-07-17 16:15:11, Jean-Jacques Hiblot wrote:
+> From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 >=20
-> Did you want me to fix up the LM3532 and send the patch?
+> This patch adds basic support for a kernel driver to get a LED device.
+> This will be used by the led-backlight driver.
+>=20
+> Only OF version is implemented for now, and the behavior is similar to
+> PWM's of_pwm_get() and pwm_put().
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
 
-If you could do that, that would be nice :-).
-
-> Or do you have a patch ready to go?
-
-No progress there, I'm busy with other stuff...
-
-Thanks,
-									Pavel
+Acked-by: Pavel Machek <pavel@ucw.cz>
 
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---LQksG6bCIzRHxTLp
+--gKMricLos+KVdGMg
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAl0/bH4ACgkQMOfwapXb+vJbZwCeOsEnECGW7XgsYHjDkAvi9ZHy
-Rd4Anjl6meti7Dn9fgRfk1KrcIy28Ueo
-=J4oU
+iEYEARECAAYFAl1AI7QACgkQMOfwapXb+vJsRwCglnluzpArltYwDkrYu3S0hfhd
+JoAAnRuijBB2KPUT8ekHNFYou2NxkDOY
+=GGAz
 -----END PGP SIGNATURE-----
 
---LQksG6bCIzRHxTLp--
+--gKMricLos+KVdGMg--
