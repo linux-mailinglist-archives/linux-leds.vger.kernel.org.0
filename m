@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08E2D88C9E
-	for <lists+linux-leds@lfdr.de>; Sat, 10 Aug 2019 19:55:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A90AE88CA2
+	for <lists+linux-leds@lfdr.de>; Sat, 10 Aug 2019 19:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726246AbfHJRzt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 10 Aug 2019 13:55:49 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:42148 "EHLO
+        id S1726276AbfHJRzy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 10 Aug 2019 13:55:54 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:33044 "EHLO
         mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726014AbfHJRzt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 10 Aug 2019 13:55:49 -0400
-Received: by mail-pf1-f194.google.com with SMTP id q10so47671899pff.9;
-        Sat, 10 Aug 2019 10:55:49 -0700 (PDT)
+        with ESMTP id S1726014AbfHJRzy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 10 Aug 2019 13:55:54 -0400
+Received: by mail-pf1-f194.google.com with SMTP id g2so47693129pfq.0;
+        Sat, 10 Aug 2019 10:55:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=AVfMX6QMV6PyqWsJPtDzTdoOO2jzzS21Op+O5L+8L7o=;
-        b=N7lbfhIpqmHugedPRlThgo1zTW075TGIwh7ISCztXOsmWo2iYU1OgHE+ofsd7qa1/I
-         6fvlqI2D+7kXkVNioAIo943hXTyRoAsOliSAWjjFQsNtyHYd32IOMv7ej+G6NkpCa8XE
-         oSknfnlzP2WfM+jlXlv3AFdgHkQHas4YQ4Eprj8aWgu/gNc4EY7/mu9B1UMh2rikEfig
-         WQGQ23hr9gYBNuyfm22FG/iFONSI8YseuZi+xVAA1KrdshYt4qTMr44wenru9uqRsXBS
-         O/ki7++iCiLqOAteQutNBugglv031kPnL023+5Oc/nkdLTKInqQXjguHTGaUzgEwu/Zx
-         zChw==
+        bh=h/9CsJGmHC2k7mkEH3qy3JiPzHPuCIzjhAVDf1/O6Fc=;
+        b=ezPjll7Lb5sAV1hP9STQ2H5TEWxJogWsWbSW7y+KFt8hKb48Uc6nbNCEiJHuxAeqHA
+         7UzTKft2gkU9gK1+83GaQU5HrmqlshJxETLy3P6NAhzmzEBEszr7pLK7w25zRBbjySqp
+         OZOQE4fBLDV0iLkIPzRy4UWpRD4RDqG+pn3hclJ0igWjzJuvdukgkXmHdZ7VVK0P/BA2
+         /0ZLPBDn1A2xu1bW572g7bTPIXOw96XakrAKTDe99583c+Y+UWTiUSPe8IfmYwMdFpj2
+         +v/drnpSO1KPgGt3c2SzbPrWFp4r2t5jFN6KYVe88i03JTpkqghSKG8o7sK8+4HN3b3T
+         +V3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=AVfMX6QMV6PyqWsJPtDzTdoOO2jzzS21Op+O5L+8L7o=;
-        b=JtDdGTwDup0TrRwHn+l+7bD8E2QkG5QO1D5WL4DUpCB+eLe6DegGa5mcf9wttVdkdQ
-         eIOW/7ZTXq4r17HuDQg3XRYEI831fis6OjP+JOahDeGcO3WtpDV/0X3I+dSbp6JxnKdD
-         ZDQzSC2f4KXrTDJ01EfHzctkyw186js0cj/povpt0bOPISJzm0e42vJoZGCtxfMX3fp2
-         urb6FfeNhJ8MO1Sm7zRgT+4+924ZPJRxJRwcsPiSf+AH9BF8FppB+qJN7D6W56A1tFpf
-         KlpIPFE7mX2VqW7ooMw8xpJV2hKjPK+xmAdPCILQQWw7G2HTNbG9hhl82xsHlJF7SroZ
-         W6XA==
-X-Gm-Message-State: APjAAAWIZ4gZqbl6Vqp+Adv3EQh2YQywDvvG9R9T8nQFwRZzCI3e1MZo
-        Sx/7Ddv9TAL5vNQhFeWBVHqhcaezxU0=
-X-Google-Smtp-Source: APXvYqwjSdrkeXQ+uvDURUhSgaO64jF+/9IW/MzfGhAlKHO7CZudOuJ9DFi/SFDlARo2GpOcC9Z2lw==
-X-Received: by 2002:a17:90a:cd03:: with SMTP id d3mr152787pju.117.1565459748683;
-        Sat, 10 Aug 2019 10:55:48 -0700 (PDT)
+        bh=h/9CsJGmHC2k7mkEH3qy3JiPzHPuCIzjhAVDf1/O6Fc=;
+        b=K5XyPcRZaAYQI19IRaZsOek3hyc6sO+2RcZ7vNBdL68ASXqW31Q6wohHbG7Ic7tmNc
+         QaUq9VnIgeLVOyYVrdoIGmbvujJGgVAFDs7qCY1yzmmHXESA+PxKAsTyH0k0gR0AWmWq
+         8NlFF1Q4IxlzEFt1xeOarRqHURNskacGysjEuiKOzJW/gWMHrKaZNekqvR1jgGD0fJpL
+         12N4adYqL8p6wZbEEXvFTS13p7DORP/L6BChRkrzqmLDYka/Lv4OuCXky9I/KfgmAhRy
+         uSs5yiJS2l4nkjBpCU6WPd8MLlatpe375RK+oveRQN29OBxbfhh/uyfjmJTvxAIpDCne
+         2gvA==
+X-Gm-Message-State: APjAAAU2f4F+zD7AqDGGTSnZMJWaJi+S6E4OYxQ+V4AeEVtpEng0fYMN
+        wrPQJAmiTQHu4hOvqcV0jJvK6H/MF8U=
+X-Google-Smtp-Source: APXvYqzF2UwGISoFhldo7ZZvtdBY4gBhWZntLgvppdH9tAoUWH7GgkeTyFQlSEYAwteeWPypa4ORuA==
+X-Received: by 2002:a17:90a:2041:: with SMTP id n59mr15025439pjc.6.1565459753633;
+        Sat, 10 Aug 2019 10:55:53 -0700 (PDT)
 Received: from mita-MS-7A45.lan ([240f:34:212d:1:a137:2bda:e96e:808])
-        by smtp.gmail.com with ESMTPSA id 185sm102146544pfd.125.2019.08.10.10.55.45
+        by smtp.gmail.com with ESMTPSA id 185sm102146544pfd.125.2019.08.10.10.55.48
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 10 Aug 2019 10:55:47 -0700 (PDT)
+        Sat, 10 Aug 2019 10:55:53 -0700 (PDT)
 From:   Akinobu Mita <akinobu.mita@gmail.com>
 To:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
@@ -54,9 +54,9 @@ Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
         "James E.J. Bottomley" <jejb@linux.ibm.com>,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
         Hannes Reinecke <hare@suse.com>
-Subject: [PATCH v3 5/6] ledtrig-blk: add interface to stop and restart polling disk stats
-Date:   Sun, 11 Aug 2019 02:55:02 +0900
-Message-Id: <1565459703-30513-6-git-send-email-akinobu.mita@gmail.com>
+Subject: [PATCH v3 6/6] scsi: sd: stop polling disk stats by ledtrig-blk during runtime suspend
+Date:   Sun, 11 Aug 2019 02:55:03 +0900
+Message-Id: <1565459703-30513-7-git-send-email-akinobu.mita@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
 References: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
@@ -67,10 +67,11 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 The LED block device activity trigger periodically polls the disk stats
 to collect the activity.  However, it is pointless to poll while the
-block device is in quiescent state.
+scsi device is in runtime suspend.
 
-This provides an optional interface to stop and restart polling disk stats
-for the lower-level block drivers.
+This stops polling disk stats when the device is successfully runtime
+suspended, and restarts polling when the device is successfully runtime
+resumed.
 
 Cc: Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>
 Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
@@ -82,103 +83,95 @@ Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
 Cc: Hannes Reinecke <hare@suse.com>
 Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 ---
- drivers/leds/trigger/ledtrig-blk.c | 37 +++++++++++++++++++++++++++++++++++--
- include/linux/leds.h               | 11 +++++++++++
- 2 files changed, 46 insertions(+), 2 deletions(-)
+ drivers/scsi/sd.c | 40 +++++++++++++++++++++++-----------------
+ 1 file changed, 23 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/leds/trigger/ledtrig-blk.c b/drivers/leds/trigger/ledtrig-blk.c
-index d5808c9..6b826ed 100644
---- a/drivers/leds/trigger/ledtrig-blk.c
-+++ b/drivers/leds/trigger/ledtrig-blk.c
-@@ -153,8 +153,9 @@ static void ledtrig_blk_work(struct work_struct *work)
- 		trig_data->last_activity = activity;
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 149d406..5f73142 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -3538,7 +3538,7 @@ static int sd_suspend_common(struct device *dev, bool ignore_stop_errors)
+ {
+ 	struct scsi_disk *sdkp = dev_get_drvdata(dev);
+ 	struct scsi_sense_hdr sshdr;
+-	int ret = 0;
++	int ret;
+ 
+ 	if (!sdkp)	/* E.g.: runtime suspend following sd_remove() */
+ 		return 0;
+@@ -3550,18 +3550,16 @@ static int sd_suspend_common(struct device *dev, bool ignore_stop_errors)
+ 		if (ret) {
+ 			/* ignore OFFLINE device */
+ 			if (ret == -ENODEV)
+-				return 0;
+-
+-			if (!scsi_sense_valid(&sshdr) ||
+-			    sshdr.sense_key != ILLEGAL_REQUEST)
+-				return ret;
++				goto success;
+ 
+ 			/*
+ 			 * sshdr.sense_key == ILLEGAL_REQUEST means this drive
+ 			 * doesn't support sync. There's not much to do and
+ 			 * suspend shouldn't fail.
+ 			 */
+-			ret = 0;
++			if (!scsi_sense_valid(&sshdr) ||
++			    sshdr.sense_key != ILLEGAL_REQUEST)
++				return ret;
+ 		}
  	}
  
--	schedule_delayed_work(&trig_data->work,
--			      atomic_read(&trig_data->interval) * 2);
-+	if (atomic_read(&disk->led.enable_count))
-+		schedule_delayed_work(&trig_data->work,
-+				      atomic_read(&trig_data->interval) * 2);
+@@ -3569,11 +3567,14 @@ static int sd_suspend_common(struct device *dev, bool ignore_stop_errors)
+ 		sd_printk(KERN_NOTICE, sdkp, "Stopping disk\n");
+ 		/* an error is not worth aborting a system sleep */
+ 		ret = sd_start_stop_device(sdkp, 0);
+-		if (ignore_stop_errors)
+-			ret = 0;
++		if (ret && !ignore_stop_errors)
++			return ret;
+ 	}
+ 
+-	return ret;
++success:
++	ledtrig_blk_disable(sdkp->disk);
++
++	return 0;
  }
  
- static int ledtrig_blk_activate(struct led_classdev *led_cdev)
-@@ -190,6 +191,36 @@ static void ledtrig_blk_deactivate(struct led_classdev *led_cdev)
- 	kfree(trig_data);
- }
+ static int sd_suspend_system(struct device *dev)
+@@ -3589,19 +3590,24 @@ static int sd_suspend_runtime(struct device *dev)
+ static int sd_resume(struct device *dev)
+ {
+ 	struct scsi_disk *sdkp = dev_get_drvdata(dev);
+-	int ret;
  
-+void ledtrig_blk_disable(struct gendisk *disk)
-+{
-+	if (disk)
-+		atomic_dec(&disk->led.enable_count);
-+}
-+EXPORT_SYMBOL_GPL(ledtrig_blk_disable);
+ 	if (!sdkp)	/* E.g.: runtime resume at the start of sd_probe() */
+ 		return 0;
+ 
+-	if (!sdkp->device->manage_start_stop)
+-		return 0;
++	if (sdkp->device->manage_start_stop) {
++		int ret;
 +
-+void ledtrig_blk_enable(struct gendisk *disk)
-+{
-+	struct led_classdev *led_cdev;
-+
-+	if (!disk)
-+		return;
-+
-+	atomic_inc(&disk->led.enable_count);
-+
-+	read_lock(&disk->led.trig.leddev_list_lock);
-+
-+	list_for_each_entry(led_cdev, &disk->led.trig.led_cdevs, trig_list) {
-+		struct ledtrig_blk_data *trig_data =
-+			led_get_trigger_data(led_cdev);
-+
-+		schedule_delayed_work(&trig_data->work,
-+				      atomic_read(&trig_data->interval) * 2);
++		sd_printk(KERN_NOTICE, sdkp, "Starting disk\n");
++		ret = sd_start_stop_device(sdkp, 1);
++		if (ret)
++			return ret;
+ 
+-	sd_printk(KERN_NOTICE, sdkp, "Starting disk\n");
+-	ret = sd_start_stop_device(sdkp, 1);
+-	if (!ret)
+ 		opal_unlock_from_suspend(sdkp->opal_dev);
+-	return ret;
 +	}
 +
-+	read_unlock(&disk->led.trig.leddev_list_lock);
-+}
-+EXPORT_SYMBOL_GPL(ledtrig_blk_enable);
++	ledtrig_blk_enable(sdkp->disk);
 +
- int ledtrig_blk_register(struct gendisk *disk)
- {
- 	int ret;
-@@ -203,6 +234,8 @@ int ledtrig_blk_register(struct gendisk *disk)
- 	disk->led.trig.deactivate = ledtrig_blk_deactivate;
- 	disk->led.trig.groups = ledtrig_blk_groups;
++	return 0;
+ }
  
-+	atomic_set(&disk->led.enable_count, 1);
-+
- 	ret = led_trigger_register(&disk->led.trig);
- 	if (ret) {
- 		kfree(disk->led.trig.name);
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 395fa61..fd2eb7c 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -523,8 +523,11 @@ struct gendisk;
- 
- struct ledtrig_blk {
- 	struct led_trigger trig;
-+	atomic_t enable_count;
- };
- 
-+void ledtrig_blk_enable(struct gendisk *disk);
-+void ledtrig_blk_disable(struct gendisk *disk);
- int ledtrig_blk_register(struct gendisk *disk);
- void ledtrig_blk_unregister(struct gendisk *disk);
- 
-@@ -533,6 +536,14 @@ void ledtrig_blk_unregister(struct gendisk *disk);
- struct ledtrig_blk {
- };
- 
-+static inline void ledtrig_blk_enable(struct gendisk *disk)
-+{
-+}
-+
-+static inline void ledtrig_blk_disable(struct gendisk *disk)
-+{
-+}
-+
- static inline int ledtrig_blk_register(struct gendisk *disk)
- {
- 	return 0;
+ /**
 -- 
 2.7.4
 
