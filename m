@@ -2,89 +2,214 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D1B68BD5F
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Aug 2019 17:40:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C94738C035
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Aug 2019 20:12:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729684AbfHMPkS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 13 Aug 2019 11:40:18 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:34761 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727621AbfHMPkQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Aug 2019 11:40:16 -0400
-Received: by mail-pl1-f193.google.com with SMTP id i2so49474774plt.1;
-        Tue, 13 Aug 2019 08:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=IFpHEZmO8P8ibZrjmbskVYzECLFyHY2hgPRhajuorfs=;
-        b=sGF94uH4H9+S8YPc2Ukpi/1ZXz9Nz5ogn48iUe10002eaQGeW9R76QEXvloVxsJ8O5
-         HHftRakxcyAtdpvm67SMNg/n8Ms24pXF0JFkGxKiA9TSjLsTxHN4KiK1qDDaENtFYpBt
-         pmPZipPh5fmh3J6IRmnn807Dr6BBZ6KL4t3OwWfjNFfSGg/FtMNgrTbl42hETtN6zrxc
-         XR3dq0hBHLWzqTvDFUd7bvaxJ20xYbY6J6UGBaoyO/YfbNb7xjWwF/yuUSlnsoywXPkN
-         fTJ2EQilg187cc0fxhxA7//cI8yhQ83tgZtcbR/xaZDvN63r5FpSi9ydJ1D3w7zAenm+
-         iedA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IFpHEZmO8P8ibZrjmbskVYzECLFyHY2hgPRhajuorfs=;
-        b=lo3o1Mk0jI1MZrSTwjF+kximH8Z/oBSzkkVWkIoeqGte1fieTW8JGEZM43AlRi9PzR
-         J9o7ESDTEUwkrcOjrE3yDgGAdQbtWxxrgFx+4S1B1qHKglpGWyIvARDv8OuwvaOSKyka
-         gBqeqyEDiJfWokwwhlPCsV/U6Pd5wNEiSU+ID/FZrA6fJBLjBV074q5fGJkhfXRlJhDT
-         CUz5tEdI5iBLaZ2O1ldh5fNQJ5bRTWRQofIbCcOOg6VTJ14zfwSD2lBWrlp9ga3C/tpt
-         ILlvlDYcCzLvifAcV0q4PFYbfh86dtozs5FV+vis1ubK/lSQUY6EDj4pcAI4yhT2iqpR
-         QsPQ==
-X-Gm-Message-State: APjAAAUwRdd590qPGoJuTcG/FBqWGyqLlqyRO9BHbJVdsirS+QVT26xK
-        a8/lm8erfPeAIy+TE2JzbawkzIv+blDCoU8S0SA=
-X-Google-Smtp-Source: APXvYqyi5GZcial+3zjrwPbvHTkx2yuaQQdgUEbv9P1uEG6WC3VBx9CpmJ5hPZttqtau7i2XXxydh7GEOMuGWFo/Izc=
-X-Received: by 2002:a17:902:44f:: with SMTP id 73mr38874274ple.192.1565710815744;
- Tue, 13 Aug 2019 08:40:15 -0700 (PDT)
+        id S1728442AbfHMSMM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 13 Aug 2019 14:12:12 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:53536 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728389AbfHMSML (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Aug 2019 14:12:11 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7DIBxGC093394;
+        Tue, 13 Aug 2019 13:11:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1565719919;
+        bh=6IElY7mu7NaowaOQQQSPP6rPLthYZQitAQKvQcMKjKE=;
+        h=From:To:CC:Subject:Date;
+        b=JrpWH2mS9kUG9vn0WkYsW2nxuloDCDK1QZkLLHB6wFi3wPsC3mVQUc2/Dh2M22QA5
+         qf9tF+9/dgkJpl94W7LpuahhxBumzbUwhJgiMh/gZIu6pabhuJqKR+cGiov0o6yR/z
+         Cq3pRGKcjslAiwb/ZujyVwnk4l689bsuju1uDTNs=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7DIBxw8004227
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 13 Aug 2019 13:11:59 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 13
+ Aug 2019 13:11:59 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 13 Aug 2019 13:11:59 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7DIBwNM051016;
+        Tue, 13 Aug 2019 13:11:59 -0500
+From:   Dan Murphy <dmurphy@ti.com>
+To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <tony@atomide.com>,
+        <sre@kernel.org>, <nekit1000@gmail.com>, <mpartap@gmx.net>,
+        <merlijn@wizzup.org>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Dan Murphy <dmurphy@ti.com>
+Subject: [PATCH v2 1/4] leds: lm3532: Fix brightness control for i2c mode
+Date:   Tue, 13 Aug 2019 13:11:51 -0500
+Message-ID: <20190813181154.6614-1-dmurphy@ti.com>
+X-Mailer: git-send-email 2.22.0.214.g8dca754b1e
 MIME-Version: 1.0
-References: <1565459703-30513-1-git-send-email-akinobu.mita@gmail.com>
- <1565459703-30513-5-git-send-email-akinobu.mita@gmail.com> <20190813103313.GC26337@amd>
-In-Reply-To: <20190813103313.GC26337@amd>
-From:   Akinobu Mita <akinobu.mita@gmail.com>
-Date:   Wed, 14 Aug 2019 00:40:04 +0900
-Message-ID: <CAC5umyhpVdMwrm_U7RGq=q4F+mrgGJC01rLvjs4HbF5_C-kXQw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] block: introduce LED block device activity trigger
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Hannes Reinecke <hare@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-2019=E5=B9=B48=E6=9C=8813=E6=97=A5(=E7=81=AB) 19:33 Pavel Machek <pavel@ucw=
-.cz>:
->
-> On Sun 2019-08-11 02:55:01, Akinobu Mita wrote:
-> > This allows LEDs to be controlled by block device activity.
-> >
-> > We already have ledtrig-disk (LED disk activity trigger), but the lower
-> > level disk drivers need to utilize ledtrig_disk_activity() to make the
-> > LED blink.
-> >
-> > The LED block device trigger doesn't require the lower level drivers to
-> > have any instrumentation. The activity is collected by polling the disk
-> > stats.
-> >
-> > Example:
-> >
-> > echo block-nvme0n1 > /sys/class/leds/diy/trigger
->
-> Some machines have lots of block devices... Should we perhaps have
-> "echo block > trigger; echo nvme0n1 > device"?
+Fix the brightness control for I2C mode.  Instead of
+changing the full scale current register update the ALS target
+register for the appropriate banks.
 
-I originally considered doing so, just like ledtrig-netdev. However, it
-turned out that we needed an additional mechanism to mediate between
-the led trigger registration and the block device unregistration.
+In addition clean up some code errors and random misspellings found
+during coding.
+
+Tested on Droid4 as well as LM3532 EVM connected to a BeagleBoneBlack
+
+Fixes: e37a7f8d77e1 ("leds: lm3532: Introduce the lm3532 LED driver")
+Reported-by: Pavel Machek <pavel@ucw.cz>
+Signed-off-by: Dan Murphy <dmurphy@ti.com>
+---
+
+v2 - Separated out random fixes and brightness control fix - https://lore.kernel.org/patchwork/patch/1109502/
+
+ drivers/leds/leds-lm3532.c | 56 ++++++++++++++++++++++++--------------
+ 1 file changed, 36 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
+index 646100724971..b28b7f63198b 100644
+--- a/drivers/leds/leds-lm3532.c
++++ b/drivers/leds/leds-lm3532.c
+@@ -23,11 +23,11 @@
+ #define LM3532_REG_PWM_B_CFG	0x14
+ #define LM3532_REG_PWM_C_CFG	0x15
+ #define LM3532_REG_ZONE_CFG_A	0x16
+-#define LM3532_REG_CTRL_A_BRT	0x17
++#define LM3532_REG_CTRL_A_FS_CURR	0x17
+ #define LM3532_REG_ZONE_CFG_B	0x18
+-#define LM3532_REG_CTRL_B_BRT	0x19
++#define LM3532_REG_CTRL_B_FS_CURR	0x19
+ #define LM3532_REG_ZONE_CFG_C	0x1a
+-#define LM3532_REG_CTRL_C_BRT	0x1b
++#define LM3532_REG_CTRL_C_FS_CURR	0x1b
+ #define LM3532_REG_ENABLE	0x1d
+ #define LM3532_ALS_CONFIG	0x23
+ #define LM3532_REG_ZN_0_HI	0x60
+@@ -38,6 +38,9 @@
+ #define LM3532_REG_ZN_2_LO	0x65
+ #define LM3532_REG_ZN_3_HI	0x66
+ #define LM3532_REG_ZN_3_LO	0x67
++#define LM3532_REG_ZONE_TRGT_A	0x70
++#define LM3532_REG_ZONE_TRGT_B	0x75
++#define LM3532_REG_ZONE_TRGT_C	0x7a
+ #define LM3532_REG_MAX		0x7e
+ 
+ /* Contorl Enable */
+@@ -116,6 +119,7 @@ struct lm3532_als_data {
+  * @priv - Pointer the device data structure
+  * @control_bank - Control bank the LED is associated to
+  * @mode - Mode of the LED string
++ * @ctrl_brt_pointer - Zone target register that controls the sink
+  * @num_leds - Number of LED strings are supported in this array
+  * @led_strings - The LED strings supported in this array
+  * @label - LED label
+@@ -126,6 +130,7 @@ struct lm3532_led {
+ 
+ 	int control_bank;
+ 	int mode;
++	int ctrl_brt_pointer;
+ 	int num_leds;
+ 	u32 led_strings[LM3532_MAX_CONTROL_BANKS];
+ 	char label[LED_MAX_NAME_SIZE];
+@@ -168,11 +173,11 @@ static const struct reg_default lm3532_reg_defs[] = {
+ 	{LM3532_REG_PWM_B_CFG, 0x82},
+ 	{LM3532_REG_PWM_C_CFG, 0x82},
+ 	{LM3532_REG_ZONE_CFG_A, 0xf1},
+-	{LM3532_REG_CTRL_A_BRT, 0xf3},
++	{LM3532_REG_CTRL_A_FS_CURR, 0x13},
+ 	{LM3532_REG_ZONE_CFG_B, 0xf1},
+-	{LM3532_REG_CTRL_B_BRT, 0xf3},
++	{LM3532_REG_CTRL_B_FS_CURR, 0x13},
+ 	{LM3532_REG_ZONE_CFG_C, 0xf1},
+-	{LM3532_REG_CTRL_C_BRT, 0xf3},
++	{LM3532_REG_CTRL_C_FS_CURR, 0x13},
+ 	{LM3532_REG_ENABLE, 0xf8},
+ 	{LM3532_ALS_CONFIG, 0x44},
+ 	{LM3532_REG_ZN_0_HI, 0x35},
+@@ -339,8 +344,8 @@ static int lm3532_brightness_set(struct led_classdev *led_cdev,
+ 	if (ret)
+ 		goto unlock;
+ 
+-	brightness_reg = LM3532_REG_CTRL_A_BRT + led->control_bank * 2;
+-	brt_val = brt_val / LM3532_BRT_VAL_ADJUST;
++	brightness_reg = LM3532_REG_ZONE_TRGT_A + led->control_bank * 5 +
++			 (led->ctrl_brt_pointer >> 2);
+ 
+ 	ret = regmap_write(led->priv->regmap, brightness_reg, brt_val);
+ 
+@@ -356,8 +361,30 @@ static int lm3532_init_registers(struct lm3532_led *led)
+ 	unsigned int output_cfg_val = 0;
+ 	unsigned int output_cfg_shift = 0;
+ 	unsigned int output_cfg_mask = 0;
++	unsigned int brightness_config_reg;
++	unsigned int brightness_config_val;
+ 	int ret, i;
+ 
++	if (drvdata->enable_gpio)
++		gpiod_direction_output(drvdata->enable_gpio, 1);
++
++	brightness_config_reg = LM3532_REG_ZONE_CFG_A + led->control_bank * 2;
++	/*
++	 * This could be hard coded to the default value but the control
++	 * brightness register may have changed during boot.
++	 */
++	ret = regmap_read(drvdata->regmap, brightness_config_reg,
++			  &led->ctrl_brt_pointer);
++	if (ret)
++		return ret;
++
++	led->ctrl_brt_pointer &= LM3532_ZONE_MASK;
++	brightness_config_val = led->ctrl_brt_pointer | led->mode;
++	ret = regmap_write(drvdata->regmap, brightness_config_reg,
++			   brightness_config_val);
++	if (ret)
++		return ret;
++
+ 	for (i = 0; i < led->num_leds; i++) {
+ 		output_cfg_shift = led->led_strings[i] * 2;
+ 		output_cfg_val |= (led->control_bank << output_cfg_shift);
+@@ -382,7 +409,6 @@ static int lm3532_als_configure(struct lm3532_data *priv,
+ 	struct lm3532_als_data *als = priv->als_data;
+ 	u32 als_vmin, als_vmax, als_vstep;
+ 	int zone_reg = LM3532_REG_ZN_0_HI;
+-	int brightnes_config_reg;
+ 	int ret;
+ 	int i;
+ 
+@@ -411,14 +437,7 @@ static int lm3532_als_configure(struct lm3532_data *priv,
+ 	als->config = (als->als_avrg_time | (LM3532_ENABLE_ALS) |
+ 		(als->als_input_mode << LM3532_ALS_SEL_SHIFT));
+ 
+-	ret = regmap_write(priv->regmap, LM3532_ALS_CONFIG, als->config);
+-	if (ret)
+-		return ret;
+-
+-	brightnes_config_reg = LM3532_REG_ZONE_CFG_A + led->control_bank * 2;
+-
+-	return regmap_update_bits(priv->regmap, brightnes_config_reg,
+-				  LM3532_I2C_CTRL, LM3532_ALS_CTRL);
++	return regmap_write(priv->regmap, LM3532_ALS_CONFIG, als->config);
+ }
+ 
+ static int lm3532_parse_als(struct lm3532_data *priv)
+@@ -634,9 +653,6 @@ static int lm3532_probe(struct i2c_client *client,
+ 		return ret;
+ 	}
+ 
+-	if (drvdata->enable_gpio)
+-		gpiod_direction_output(drvdata->enable_gpio, 1);
+-
+ 	return ret;
+ }
+ 
+-- 
+2.22.0.214.g8dca754b1e
+
