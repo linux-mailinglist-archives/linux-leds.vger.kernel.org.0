@@ -2,121 +2,224 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 838818C21B
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Aug 2019 22:31:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8B328C22A
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Aug 2019 22:37:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725903AbfHMUbO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 13 Aug 2019 16:31:14 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:59174 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725869AbfHMUbO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Aug 2019 16:31:14 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7DKV9Cu100047;
-        Tue, 13 Aug 2019 15:31:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1565728269;
-        bh=jLhK86Oecet3GUKCruU64ZUr3SjgwUKfS2GudCyLPUw=;
-        h=Subject:To:References:From:Date:In-Reply-To;
-        b=wNU0UYOmYWbPMq22e8MXkLzWUUsetp4O1wPlsOJFCAUCFnxzfm+naEeoRPrLm6WwC
-         eGRiGcDM4aa0Z1zS2h5QFOh6z9PZqFKJjjmuRjP/yXmWfWhXOFYOJwOUlPOUmC9db5
-         g07gHxxD91I0pYP+7hMRJSCYHjt4ZbL2/6yHBFMI=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7DKV9IE035581
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 13 Aug 2019 15:31:09 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 13
- Aug 2019 15:31:09 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 13 Aug 2019 15:31:09 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7DKV96Z043501;
-        Tue, 13 Aug 2019 15:31:09 -0500
-Subject: Re: [PATCH v4 1/2] dt-bindings: Add docs for EL15203000
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, <devicetree@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>
+        id S1726444AbfHMUhc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 13 Aug 2019 16:37:32 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:58730 "EHLO smtp.220.in.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726457AbfHMUhb (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 13 Aug 2019 16:37:31 -0400
+Received: from [192.168.202.100] (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 421651A20AC5;
+        Tue, 13 Aug 2019 23:37:28 +0300 (EEST)
+Subject: Re: [PATCH v4 2/2] leds: add LED driver for EL15203000 board
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org
 References: <20190808203204.8614-1-oleg@kaa.org.ua>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <ea3d06b2-3689-bcfc-8f5f-6345634cfa2b@ti.com>
-Date:   Tue, 13 Aug 2019 15:31:05 -0500
+ <20190808203204.8614-2-oleg@kaa.org.ua>
+ <c2b006bb-2bb6-98b0-c907-190fd9fc41c7@gmail.com>
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+Openpgp: preference=signencrypt
+Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
+ 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
+ WVdfrwbus0lVCELNSvCIW2IktSytUxjQfmjBMw==
+Message-ID: <260f8b69-3f4a-d911-88f8-d6de59e79bc3@kaa.org.ua>
+Date:   Tue, 13 Aug 2019 23:37:18 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190808203204.8614-1-oleg@kaa.org.ua>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <c2b006bb-2bb6-98b0-c907-190fd9fc41c7@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="pxTZfILcL1OqbLiypwg5rh1boQLSlBMfp"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--pxTZfILcL1OqbLiypwg5rh1boQLSlBMfp
+Content-Type: multipart/mixed; boundary="MO1kBPu8JOD6InQBs0iyLQdEjvw5gWmio";
+ protected-headers="v1"
+From: Oleh Kravchenko <oleg@kaa.org.ua>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ devicetree@vger.kernel.org, linux-leds@vger.kernel.org
+Message-ID: <260f8b69-3f4a-d911-88f8-d6de59e79bc3@kaa.org.ua>
+Subject: Re: [PATCH v4 2/2] leds: add LED driver for EL15203000 board
+References: <20190808203204.8614-1-oleg@kaa.org.ua>
+ <20190808203204.8614-2-oleg@kaa.org.ua>
+ <c2b006bb-2bb6-98b0-c907-190fd9fc41c7@gmail.com>
+In-Reply-To: <c2b006bb-2bb6-98b0-c907-190fd9fc41c7@gmail.com>
 
-Need your input below
+--MO1kBPu8JOD6InQBs0iyLQdEjvw5gWmio
+Content-Type: text/plain; charset=utf-8
+Content-Language: uk-UA
+Content-Transfer-Encoding: quoted-printable
 
-On 8/8/19 3:32 PM, Oleh Kravchenko wrote:
-> Add documentation and example for dt-bindings EL15203000.
-> LED board (aka RED LED board) from Crane Merchandising Systems.
->
-> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
-> ---
->   .../bindings/leds/leds-el15203000.txt         | 47 +++++++++++++++++++
->   1 file changed, 47 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/leds/leds-el15203000.txt
->
-> diff --git a/Documentation/devicetree/bindings/leds/leds-el15203000.txt b/Documentation/devicetree/bindings/leds/leds-el15203000.txt
-> new file mode 100644
-> index 000000000000..4c2245babfdc
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-el15203000.txt
-> @@ -0,0 +1,47 @@
-> +Crane Merchandising System - el15203000 LED driver
-> +--------------------------------------------------
-> +
-> +This LED Board (aka RED LEDs board) is widely used in
-> +coffee vending machines produced by Crane Merchandising Systems.
-> +
-> +Required properties:
-> +- compatible : "crane,el15203000"
-> +- reg :
-> +	see Documentation/devicetree/bindings/spi/spi-bus.txt
-> +- spi-max-frequency : (optional)
-> +	see Documentation/devicetree/bindings/spi/spi-bus.txt
-> +
-> +Optional LED sub-node properties:
-> +- label :
-> +	see Documentation/devicetree/bindings/leds/common.txt
-> +- linux,default-trigger :
-> +	see Documentation/devicetree/bindings/leds/common.txt
-> +
-> +Example
-> +-------
-> +
-> +led-controller@0 {
-> +	compatible = "crane,el15203000";
-> +	reg = <0>;
-> +	spi-max-frequency = <50000>;
-> +	#address-cells = <1>;
-> +	#size-cells = <0>;
-> +
-> +	/* water pipe */
-> +	pipe@50 {
-> +		reg = <0x50>;
-> +		label = "red:pipe";
+Hello Jacek,
 
-Should we use the color and function property here?
+Thank you for your useful review,
 
-Not sure what function would be for pipe, screen or vending but there may be
+13.08.19 23:28, Jacek Anaszewski =D0=BF=D0=B8=D1=88=D0=B5:
+> Hi Oleh,
+>=20
+> Thank you for the patch set.
+>=20
+> On 8/8/19 10:32 PM, Oleh Kravchenko wrote:
+>> +++ b/Documentation/ABI/testing/sysfs-class-led-driver-el15203000
+>> @@ -0,0 +1,22 @@
+>> +What:		/sys/class/leds/<led>/hw_pattern
+>> +Date:		August 2019
+>> +KernelVersion:	5.3
+>> +Description:
+>> +		Specify a hardware pattern for the EL15203000 LED.
+>> +		The LEDs board supports only predefined patterns by firmware
+>> +		for specific LEDs.
+>> +
+>> +		Breathing mode for Screen frame light tube:
+>> +		"0 4000 1 4000"
+>> +
+>> +		Cascade mode for Pipe LED:
+>> +		"1 800 2 800 4 800 8 800 16 800 1 800 2 800 4 800 8 800 16 800"
+>=20
+> Why the sequence "1 800 2 800 4 800 8 800 16 800" is duplicated here?
+> It seems redundant. But aside of that - aren't the timings modifiable?
+> In other words - are these all patterns somehow configurable or they ar=
+e
+> pre-programmed?
+>=20
 
-comparable functions that may fit.
+All pattern is predefined, you can't change them at all.
+I just tried to describe real things what happened in LED board.
+It's ticks every 800 milliseconds for Pipe LEDs.
 
-Dan
+>> +
+>> +		Inverted cascade mode for Pipe LED:
+>> +		"30 800 29 800 27 800 23 800 15 800 30 800 29 800 27 800 23 800 15 =
+800"
+>=20
+> Similar duplication here.
+>=20
+>> +
+>> +		Bounce mode for Pipe LED:
+>> +		"1 800 2 800 4 800 8 800 16 800 16 800 8 800 4 800 2 800 1 800"
+>=20
+> Instead of two repeating "16 800" you could provide "16 1600".
+> But here again is the question whether these values are configurable.
+> From what I can see in your driver implementation you're expecting
+> exactly the values provided in these examples to enable given hardware
+> pattern (led_pattern_cmp()).
+>=20
+>> +
+>> +		Inverted bounce mode for Pipe LED:
+>> +		"30 800 29 800 27 800 23 800 15 800 15 800 23 800 27 800 29 800 30 =
+800"
+>=20
 
-<snip>
+Should I cut this patterns to smaller? Or let keep it?
 
+--=20
+Best regards,
+Oleh Kravchenko
+
+
+--MO1kBPu8JOD6InQBs0iyLQdEjvw5gWmio--
+
+--pxTZfILcL1OqbLiypwg5rh1boQLSlBMfp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAl1TH4EACgkQ0xNJm20p
+l4xK6w//eUtTVjVdlD3HV1/IUN82psdKUdqKz1ioqQ3BXZhJn20hffZhHNWetNE1
+rMQtdQ19OXTs+6njvFTtJFFgealCo8y9aTu5sLwM/OQWC//fY3KTD/QayiXOJbPB
+ConNMOz+fklZoiZYgNLjFFzQXrWHE86Nbhwz4xH3bhfBpUc5Sq4G0YG6TofwiACp
+4257b7cxpYt/bCnRnQpsIZK21xWC/8m1jRaP8uPFO4ul35R9RaSv/bIXipiuTPcz
+etCxZ3SnV7132eIj/g53woChEXhKIBt+D6PtOD++rXGutKdA3tVAr4ORAItD6pCR
+d2hVA/3Pn1Iui2Cz1AwXh+9VtRu3GxOmpGZoNa78k9KgD4rcZ/opFPLCXMJbJHL1
+OFWlI2RwDkIaCzlQ5YdfUF/dg004qR7evPzTTW+1WHjJ/X8R0ZtRC/JUGcuTevCc
+Mls0nUi788OUeztfBstTNvzjrYX0gNxAr8sqNZVILBDmf5ZupcRGlWThBL7SRYoW
+5S4tH1ryBwIgQDnsJJUT2suibNda7hxYJKh8fX0VyH5IjAmTw54z3aCabMTsX2mm
+jmCHL52/H0Q1qBb6GxRw2cry7jfTgf2iruXPaZH2nVf1PeGteo5X7Huvc2V8CgEk
+RStGGhizmqL7ej87zV51vHS+/uzv4dK8OisZg8vdTWxBmrw7w34=
+=xIoc
+-----END PGP SIGNATURE-----
+
+--pxTZfILcL1OqbLiypwg5rh1boQLSlBMfp--
