@@ -2,39 +2,39 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D5BB8C032
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Aug 2019 20:12:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B66E8C031
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Aug 2019 20:12:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728345AbfHMSMK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S1728393AbfHMSMK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Tue, 13 Aug 2019 14:12:10 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:33206 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727517AbfHMSMK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Aug 2019 14:12:10 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:39772 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728345AbfHMSMJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Aug 2019 14:12:09 -0400
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7DIBx0o013157;
-        Tue, 13 Aug 2019 13:11:59 -0500
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7DIC0Ih061504;
+        Tue, 13 Aug 2019 13:12:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1565719919;
-        bh=I/IFBZHJxBn9bBq7cBF0dvoXV8U66cz6/84fF3yjhzY=;
+        s=ti-com-17Q1; t=1565719920;
+        bh=rcJORkZ6Sdyk2JGl2jXoFIyuGmwVg+r6vi7peaiEtlw=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=CSKoW6X7HPWwS89l7MXgLiHGIQgJqolBzYS4OFxTZ3Nhr0D8h708kMusV4DWZUw6/
-         IkHYDhudbXN9LpXpnF4Z9PXV8REZxyO0wCbNIc1SEOL99XTScSGeZykccXqz4i9f8/
-         GcFP4Z4zQw2yNs/HA94qu9aTFxq3c2CG+fTm7cmk=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7DIBx79004380
+        b=IcH5DOonvzv3nLDM3nm1vW+BUC0irajM0A9YqwmHZa+LIzbOfEjHwrdFn/Rrk9L2T
+         ekD2KMtoXmjE95vzRZVTO3yF+iwXryCu4MVwEJF45c3h2qE4xOf/0ErrPdTFTHU2/K
+         whAHXPbqHlmuEEkEg6V80NZATq+cLAN3M1StgEYw=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7DIC0QR004387
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 13 Aug 2019 13:11:59 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+        Tue, 13 Aug 2019 13:12:00 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 13
  Aug 2019 13:11:59 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
  Frontend Transport; Tue, 13 Aug 2019 13:11:59 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7DIBxgn013188;
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7DIBxNe051021;
         Tue, 13 Aug 2019 13:11:59 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <tony@atomide.com>,
@@ -42,9 +42,9 @@ To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <tony@atomide.com>,
         <merlijn@wizzup.org>
 CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v2 2/4] leds: lm3532: Fixes for the driver for stability
-Date:   Tue, 13 Aug 2019 13:11:52 -0500
-Message-ID: <20190813181154.6614-2-dmurphy@ti.com>
+Subject: [PATCH v2 3/4] dt: lm3532: Add property for full scale current.
+Date:   Tue, 13 Aug 2019 13:11:53 -0500
+Message-ID: <20190813181154.6614-3-dmurphy@ti.com>
 X-Mailer: git-send-email 2.22.0.214.g8dca754b1e
 In-Reply-To: <20190813181154.6614-1-dmurphy@ti.com>
 References: <20190813181154.6614-1-dmurphy@ti.com>
@@ -57,82 +57,39 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Fixed misspelled words, added error check during probe
-on the init of the registers, and fixed ALS/I2C control
-mode.
+Add a property for each control bank to configure the
+full scale current setting for the device.
 
-Fixes: e37a7f8d77e1 ("leds: lm3532: Introduce the lm3532 LED driver")
-Reported-by: Pavel Machek <pavel@ucw.cz>
 Signed-off-by: Dan Murphy <dmurphy@ti.com>
 ---
 
-v2 - New patch due to separating out random fixes and brightness control
-fix - https://lore.kernel.org/patchwork/patch/1109502/
+v2 - Change ti,fs-current to led-max-microamp - https://lore.kernel.org/patchwork/patch/1109501/
 
- drivers/leds/leds-lm3532.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ Documentation/devicetree/bindings/leds/leds-lm3532.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
-index b28b7f63198b..ef4c74cbcdc0 100644
---- a/drivers/leds/leds-lm3532.c
-+++ b/drivers/leds/leds-lm3532.c
-@@ -43,7 +43,7 @@
- #define LM3532_REG_ZONE_TRGT_C	0x7a
- #define LM3532_REG_MAX		0x7e
+diff --git a/Documentation/devicetree/bindings/leds/leds-lm3532.txt b/Documentation/devicetree/bindings/leds/leds-lm3532.txt
+index c087f85ddddc..53793213dd52 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lm3532.txt
++++ b/Documentation/devicetree/bindings/leds/leds-lm3532.txt
+@@ -62,6 +62,9 @@ Optional LED child properties:
+ 	- label : see Documentation/devicetree/bindings/leds/common.txt
+ 	- linux,default-trigger :
+ 	   see Documentation/devicetree/bindings/leds/common.txt
++	- led-max-microamp : Defines the full scale current value for each control
++			  bank.  The range is from 5000uA-29800uA in increments
++			  of 800uA.
  
--/* Contorl Enable */
-+/* Control Enable */
- #define LM3532_CTRL_A_ENABLE	BIT(0)
- #define LM3532_CTRL_B_ENABLE	BIT(1)
- #define LM3532_CTRL_C_ENABLE	BIT(2)
-@@ -307,7 +307,7 @@ static int lm3532_led_disable(struct lm3532_led *led_data)
- 	int ret;
- 
- 	ret = regmap_update_bits(led_data->priv->regmap, LM3532_REG_ENABLE,
--					 ctrl_en_val, ~ctrl_en_val);
-+					 ctrl_en_val, 0);
- 	if (ret) {
- 		dev_err(led_data->priv->dev, "Failed to set ctrl:%d\n", ret);
- 		return ret;
-@@ -326,7 +326,7 @@ static int lm3532_brightness_set(struct led_classdev *led_cdev,
- 
- 	mutex_lock(&led->priv->lock);
- 
--	if (led->mode == LM3532_BL_MODE_ALS) {
-+	if (led->mode == LM3532_ALS_CTRL) {
- 		if (brt_val > LED_OFF)
- 			ret = lm3532_led_enable(led);
- 		else
-@@ -561,11 +561,14 @@ static int lm3532_parse_node(struct lm3532_data *priv)
- 		}
- 
- 		if (led->mode == LM3532_BL_MODE_ALS) {
-+			led->mode = LM3532_ALS_CTRL;
- 			ret = lm3532_parse_als(priv);
- 			if (ret)
- 				dev_err(&priv->client->dev, "Failed to parse als\n");
- 			else
- 				lm3532_als_configure(priv, led);
-+		} else {
-+			led->mode = LM3532_I2C_CTRL;
- 		}
- 
- 		led->num_leds = fwnode_property_count_u32(child, "led-sources");
-@@ -606,7 +609,13 @@ static int lm3532_parse_node(struct lm3532_data *priv)
- 			goto child_out;
- 		}
- 
--		lm3532_init_registers(led);
-+		ret = lm3532_init_registers(led);
-+		if (ret) {
-+			dev_err(&priv->client->dev, "register init err: %d\n",
-+				ret);
-+			fwnode_handle_put(child);
-+			goto child_out;
-+		}
- 
- 		i++;
- 	}
+ Example:
+ led-controller@38 {
+@@ -85,6 +88,7 @@ led-controller@38 {
+ 		reg = <0>;
+ 		led-sources = <2>;
+ 		ti,led-mode = <1>;
++		led-max-microamp = <21800>;
+ 		label = ":backlight";
+ 		linux,default-trigger = "backlight";
+ 	};
 -- 
 2.22.0.214.g8dca754b1e
 
