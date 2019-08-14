@@ -2,187 +2,226 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F7608DE2B
-	for <lists+linux-leds@lfdr.de>; Wed, 14 Aug 2019 21:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7BB68DE89
+	for <lists+linux-leds@lfdr.de>; Wed, 14 Aug 2019 22:16:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728670AbfHNT53 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 14 Aug 2019 15:57:29 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:39760 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726865AbfHNT53 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Aug 2019 15:57:29 -0400
-Received: by mail-wr1-f66.google.com with SMTP id t16so237510wra.6;
-        Wed, 14 Aug 2019 12:57:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5qgldDu2T1hX63irisfyyTG7dUkySAnDyAjfhhQzr4k=;
-        b=gCiy40HTPZ3UWdrP7P6JLs6kPpvjkQXYPtPEuKaasnrnxg8Wve74YFtQtITCMqlkw0
-         DcjN4bd5RB5LG6ui94XzCthyWctXvFv62bjRDdqTtCUw5Ove2J38lvJWivRgp/LKnJv7
-         lsluVF/biXlOLUV3g4bKpJGbtHEkr3FwGjx4NmRSyFgunFcpbuavhqN1z/Js81cz/r4V
-         s7912Q3FtGLPLXKKKDrvnvI/c1wvXS6YPsfEkvVUtfRE66XSu6z+Ium9yDJSsXXX5o+X
-         0Na3aEVwzSVB73EYfxKoYCvLqm6BHSme3kA6T50qxZZYboo9jfNcvDiKNw9xn4NXuW0v
-         0+qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=5qgldDu2T1hX63irisfyyTG7dUkySAnDyAjfhhQzr4k=;
-        b=ENcWJpiucmRHeU1qdnNtrZbmslZKVgvF5uyDkquw0D6PRQSESTxOf7WumE8dtIePNq
-         kH0DF7gGXTp//q4ouyBNdct5qVRPKSy7YLqxLSEBD0WbHUZnB4rYfp0+NM0q5ZYubowO
-         oX+El9z5Kk9Te7A/pEU8q9ux/w5c5V+uleDrvbkmATW5T24gzJcNoY1XE4+DXm6dkubt
-         YQphiNhkP3mvGrblnnM6q6318APvhEt1LiRATIgn9tC/N0xmkzzYcHpZBlBWd5soTSWL
-         WaY1y9c7vxQgovhMup7bdEUT/XVlI3TnDUw19ml3GxCCgHzADibmsdofquDFShyAzs+w
-         imWw==
-X-Gm-Message-State: APjAAAXWLcJDuHrdRiij/j8jpAfW5LIuLjrUz7pxOef4p/S/pDNV+kAG
-        GrXXpg3k5snycrp2wseuXK1cJQa+
-X-Google-Smtp-Source: APXvYqzWFfD3OApf4zcdPwAoi5QqfmiQdV2i8XM+GipggWTJ0XQwgJa4s0qrVDZF1v5zTaMcd5biLg==
-X-Received: by 2002:a5d:63c8:: with SMTP id c8mr1533891wrw.21.1565812646012;
-        Wed, 14 Aug 2019 12:57:26 -0700 (PDT)
-Received: from [192.168.1.19] (bky210.neoplus.adsl.tpnet.pl. [83.28.192.210])
-        by smtp.gmail.com with ESMTPSA id b3sm1084391wrm.72.2019.08.14.12.57.24
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Aug 2019 12:57:25 -0700 (PDT)
+        id S1726865AbfHNUQM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 14 Aug 2019 16:16:12 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:57224 "EHLO smtp.220.in.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726509AbfHNUQL (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 14 Aug 2019 16:16:11 -0400
+Received: from [192.168.202.100] (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 690451A20EAD;
+        Wed, 14 Aug 2019 23:16:08 +0300 (EEST)
 Subject: Re: [PATCH v4 2/2] leds: add LED driver for EL15203000 board
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, devicetree@vger.kernel.org,
-        linux-leds@vger.kernel.org
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org
 References: <20190808203204.8614-1-oleg@kaa.org.ua>
  <20190808203204.8614-2-oleg@kaa.org.ua>
  <c2b006bb-2bb6-98b0-c907-190fd9fc41c7@gmail.com>
  <260f8b69-3f4a-d911-88f8-d6de59e79bc3@kaa.org.ua>
  <56fa6881-2af6-71ec-160c-7712075756be@gmail.com>
  <11f6da3b-860a-2e52-e4fa-2a650fd2407b@kaa.org.ua>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+ <b0965dd8-2085-db4d-519d-8ea8a51f57a6@gmail.com>
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
 Openpgp: preference=signencrypt
-Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <b0965dd8-2085-db4d-519d-8ea8a51f57a6@gmail.com>
-Date:   Wed, 14 Aug 2019 21:57:24 +0200
+Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
+ 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
+ WVdfrwbus0lVCELNSvCIW2IktSytUxjQfmjBMw==
+Message-ID: <e72f3669-1537-54ee-5ddd-ea77f9d13f07@kaa.org.ua>
+Date:   Wed, 14 Aug 2019 23:16:00 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <11f6da3b-860a-2e52-e4fa-2a650fd2407b@kaa.org.ua>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <b0965dd8-2085-db4d-519d-8ea8a51f57a6@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Vv9XVWA37xOGFiwJN7qaUrU1B6VJMXZid"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 8/14/19 9:46 PM, Oleh Kravchenko wrote:
-> Hello Jacek,
-> 
-> 14.08.19 21:18, Jacek Anaszewski пише:
->>>> Why the sequence "1 800 2 800 4 800 8 800 16 800" is duplicated here?
->>>> It seems redundant. But aside of that - aren't the timings modifiable?
->>>> In other words - are these all patterns somehow configurable or they are
->>>> pre-programmed?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Vv9XVWA37xOGFiwJN7qaUrU1B6VJMXZid
+Content-Type: multipart/mixed; boundary="6Geq9CZOi8uLuNapBUiDV7eGT1q7pXtDU";
+ protected-headers="v1"
+From: Oleh Kravchenko <oleg@kaa.org.ua>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ devicetree@vger.kernel.org, linux-leds@vger.kernel.org
+Message-ID: <e72f3669-1537-54ee-5ddd-ea77f9d13f07@kaa.org.ua>
+Subject: Re: [PATCH v4 2/2] leds: add LED driver for EL15203000 board
+References: <20190808203204.8614-1-oleg@kaa.org.ua>
+ <20190808203204.8614-2-oleg@kaa.org.ua>
+ <c2b006bb-2bb6-98b0-c907-190fd9fc41c7@gmail.com>
+ <260f8b69-3f4a-d911-88f8-d6de59e79bc3@kaa.org.ua>
+ <56fa6881-2af6-71ec-160c-7712075756be@gmail.com>
+ <11f6da3b-860a-2e52-e4fa-2a650fd2407b@kaa.org.ua>
+ <b0965dd8-2085-db4d-519d-8ea8a51f57a6@gmail.com>
+In-Reply-To: <b0965dd8-2085-db4d-519d-8ea8a51f57a6@gmail.com>
+
+--6Geq9CZOi8uLuNapBUiDV7eGT1q7pXtDU
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hello Jacek,
+
+14.08.19 22:57, Jacek Anaszewski =D0=BF=D0=B8=D1=88=D0=B5:
 >>>>
+>>>> All pattern is predefined, you can't change them at all.
+>>>> I just tried to describe real things what happened in LED board.
+>>>> It's ticks every 800 milliseconds for Pipe LEDs.
 >>>
->>> All pattern is predefined, you can't change them at all.
->>> I just tried to describe real things what happened in LED board.
->>> It's ticks every 800 milliseconds for Pipe LEDs.
+>>> It makes me wonder how you figured out the values? If you have
+>>> a documentation for this controller, could you share how the pattern
+>>> settings are documented?
 >>
->> It makes me wonder how you figured out the values? If you have
->> a documentation for this controller, could you share how the pattern
->> settings are documented?
-> 
-> I saw the code of firmware.
-> Not sure if I can find any documentation for it right now.
+>> I saw the code of firmware.
+>> Not sure if I can find any documentation for it right now.
+>=20
+> Have you tried to alter the values? Or check what happens when
+> the duplication is removed?
 
-Have you tried to alter the values? Or check what happens when
-the duplication is removed?
-
->>>>> +
->>>>> +		Inverted cascade mode for Pipe LED:
->>>>> +		"30 800 29 800 27 800 23 800 15 800 30 800 29 800 27 800 23 800 15 800"
->>>>
->>>> Similar duplication here.
->>>>
->>>>> +
->>>>> +		Bounce mode for Pipe LED:
->>>>> +		"1 800 2 800 4 800 8 800 16 800 16 800 8 800 4 800 2 800 1 800"
->>>>
->>>> Instead of two repeating "16 800" you could provide "16 1600".
->>>> But here again is the question whether these values are configurable.
->>>> From what I can see in your driver implementation you're expecting
->>>> exactly the values provided in these examples to enable given hardware
->>>> pattern (led_pattern_cmp()).
->>>>
->>>>> +
->>>>> +		Inverted bounce mode for Pipe LED:
->>>>> +		"30 800 29 800 27 800 23 800 15 800 15 800 23 800 27 800 29 800 30 800"
->>>>
+What do you mean alter? It doesn't make any sense.
+Board is accepts only brightness level from '0' to '5'.
+I'm really confused :-)
+=20
 >>>
->>> Should I cut this patterns to smaller? Or let keep it?
->>>
+>>> For the first two we could do without sequence duplication.
 >>
->> For the first two we could do without sequence duplication.
-> 
-> Ok, I will reduce it.
+>> Ok, I will reduce it.
+>=20
+> Please hold on for a while. I will have some more remarks to the driver=
+,
+> just collecting missing info for now to gain more complete view on this=
 
-Please hold on for a while. I will have some more remarks to the driver,
-just collecting missing info for now to gain more complete view on this
-device.
+> device.
 
--- 
+Here is the full story:
+
+EL15203000 LEDs board (aka RED LEDs board, because it has only RED LEDs).=
+
+It's provide access to 3 LEDs:
+
+- First LED (Screen) is a light tube around big 21" screen
+  It's have 3 brightness levels:
+  * OFF
+  * ON
+  * Breathing mode (8 seconds full cycle)
+- Second LED (Vending area) is highlight coffee cap
+  * OFF
+  * ON
+- Third LED (Pipe) is actually virtual, because consists from 5 LEDs
+  * OFF for all 5 LEDs
+  * ON for all 5 LEDs
+  * Cascade
+  * Inverses cascade
+  * Bounce
+  * Inverses bounce
+
+--=20
 Best regards,
-Jacek Anaszewski
+Oleh Kravchenko
+
+
+
+--6Geq9CZOi8uLuNapBUiDV7eGT1q7pXtDU--
+
+--Vv9XVWA37xOGFiwJN7qaUrU1B6VJMXZid
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAl1UbAAACgkQ0xNJm20p
+l4zO1xAA10nvI+cGkHcQNuZKmf18GsyCviv9spWx0iRuv4Ml1GdXNSMdIXgSgDXd
+L01arcZNr2pe6FwrlWIBgsOTaSD7/vvcw+k5pPlp917hbBPzayNUxRuv3qSKwdzA
+6VohgDGnpxCnGzEvux1sCuKZcWsN957vSq4nC0xVvhBUSQebhZcNzsa6jr/6wVWl
+O7HNaRUpvP+zTfRe/3F/tKCnCT+5UiT+L33TYZhSj5Ig3ICTGcFHag3Ga/d+tT+X
+88/5VkwfFlS2hzPhiWTKmrAx8sdll9h2i1zvRP8tC+wJlH418XoM6w8YIo9eGzJE
+finlRijpFFw2xGEAMxXZcJzsnvrhRzhL1fprt9pEzonsEjfmDOvki9CjFpm+bU77
+dl0P2+QJBeGLT+jyUVCwvteNcTQaWnU/OAsfeDsUweTS6M3om1NEk+BtTZq1HzLt
+oLOK6nY3LWSu4aQj82jEkMPw0hiFJBxIqVwkaLj1+iiBdYIgzB3yZlDNw4e7rdpN
+6EMIYAApvuQxsR9ojdLpOwHkL1hjzBF3TLnsxxqkAVMhKcruplary2/alxo75189
+e9mOrdgK4sSV0S8c/DGGUR1c4+pMpn1l0rMsNX7hKv0v4pMTtxI3MRzKq9LZ1+d0
+P7LepXHF/nbbjscmanovoG73xQoT32ugko/Mx4DKRdjFtdFSQyM=
+=AOEo
+-----END PGP SIGNATURE-----
+
+--Vv9XVWA37xOGFiwJN7qaUrU1B6VJMXZid--
