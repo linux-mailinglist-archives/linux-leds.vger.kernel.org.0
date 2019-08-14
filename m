@@ -2,55 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9375B8DE24
-	for <lists+linux-leds@lfdr.de>; Wed, 14 Aug 2019 21:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F7608DE2B
+	for <lists+linux-leds@lfdr.de>; Wed, 14 Aug 2019 21:57:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728128AbfHNTyz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 14 Aug 2019 15:54:55 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46432 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726951AbfHNTyy (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Aug 2019 15:54:54 -0400
-Received: by mail-wr1-f67.google.com with SMTP id z1so194814wru.13;
-        Wed, 14 Aug 2019 12:54:52 -0700 (PDT)
+        id S1728670AbfHNT53 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 14 Aug 2019 15:57:29 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:39760 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726865AbfHNT53 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Aug 2019 15:57:29 -0400
+Received: by mail-wr1-f66.google.com with SMTP id t16so237510wra.6;
+        Wed, 14 Aug 2019 12:57:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=iqRvknYqtcJYifGXcSuJXeF9zzcpouI8DpoKxmPRgNU=;
-        b=Z9D2GDJTNEuoBr/CONhB9k602VeH0HGCxvFXUaUbTcrD5pk63q6ibn81Z+Omh8Hb78
-         pyOHxNRi0A0XTdE/b/GPWuxpTak1okBnQfpZy75MXWDwUn7Dzekyz78QWWCoOPqhsGI4
-         c2YKilyrIy8F4LTadYU4vK9ccJwADrOOa+5eP2VcpFKDkZuEB3ypXJYNi805JgFd6jc6
-         qnFw67UnL0vFeAAjN4gFnH+yDQpxVNPNUFvc/YZGDlnByaJZM6Z/LWsDE/xUNJoMUq3b
-         S2NjFXzTWbLcaJEp5FoojV5x5l2hhHzSdcnS5vlQtsZbBmL8OCmzX2Vi0gQW1lmPxo+B
-         w7vQ==
+        bh=5qgldDu2T1hX63irisfyyTG7dUkySAnDyAjfhhQzr4k=;
+        b=gCiy40HTPZ3UWdrP7P6JLs6kPpvjkQXYPtPEuKaasnrnxg8Wve74YFtQtITCMqlkw0
+         DcjN4bd5RB5LG6ui94XzCthyWctXvFv62bjRDdqTtCUw5Ove2J38lvJWivRgp/LKnJv7
+         lsluVF/biXlOLUV3g4bKpJGbtHEkr3FwGjx4NmRSyFgunFcpbuavhqN1z/Js81cz/r4V
+         s7912Q3FtGLPLXKKKDrvnvI/c1wvXS6YPsfEkvVUtfRE66XSu6z+Ium9yDJSsXXX5o+X
+         0Na3aEVwzSVB73EYfxKoYCvLqm6BHSme3kA6T50qxZZYboo9jfNcvDiKNw9xn4NXuW0v
+         0+qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=iqRvknYqtcJYifGXcSuJXeF9zzcpouI8DpoKxmPRgNU=;
-        b=KliH4RRb+22ftANkBolcYrep8XsHWXzH1qk7m4lim0VAmOZO2shya19R0xrMOtPBti
-         RgsrqnF9WZN9a+Xb1ujgWBHw1voWzptuOhTBFrbSyO/R/wyk9p7OgCHRdN1AQk8nOM2R
-         +9L5rx0jOFUHHrL2ohl1vSc0Nil97MPbYESq4AxZ3NeoHMtBBtLmb4Tqrj1SjWhMnMSa
-         qCCkXFsk4Jw8IoJS8ajqDuPcl6kvJIfcTNYYCTnA7Z9qD3Ekp+Ftzm8YFdFZmIs6gWBX
-         3mG1zgFmrROqiVx6Wf8nZAA9hPOi75ALVwC8gCmM7I+/CpmlMxdYBB0Q+fKtRO7L8wVg
-         PhEA==
-X-Gm-Message-State: APjAAAVUhEBqX9yySdllhZOxNjoQ2juDNyUSaSETdCmBGB1AmyFred9B
-        7Bajw16LWgNrOOWzNw/dJ5m1bvFF
-X-Google-Smtp-Source: APXvYqz5Whs90O2nCNqee0Ba2xbzVFV3R/QOxN2Ry2PzwtWHb7DlN00KpxW17fWK3FqytUqKjLJYJg==
-X-Received: by 2002:adf:e8c2:: with SMTP id k2mr1439305wrn.198.1565812491313;
-        Wed, 14 Aug 2019 12:54:51 -0700 (PDT)
+        bh=5qgldDu2T1hX63irisfyyTG7dUkySAnDyAjfhhQzr4k=;
+        b=ENcWJpiucmRHeU1qdnNtrZbmslZKVgvF5uyDkquw0D6PRQSESTxOf7WumE8dtIePNq
+         kH0DF7gGXTp//q4ouyBNdct5qVRPKSy7YLqxLSEBD0WbHUZnB4rYfp0+NM0q5ZYubowO
+         oX+El9z5Kk9Te7A/pEU8q9ux/w5c5V+uleDrvbkmATW5T24gzJcNoY1XE4+DXm6dkubt
+         YQphiNhkP3mvGrblnnM6q6318APvhEt1LiRATIgn9tC/N0xmkzzYcHpZBlBWd5soTSWL
+         WaY1y9c7vxQgovhMup7bdEUT/XVlI3TnDUw19ml3GxCCgHzADibmsdofquDFShyAzs+w
+         imWw==
+X-Gm-Message-State: APjAAAXWLcJDuHrdRiij/j8jpAfW5LIuLjrUz7pxOef4p/S/pDNV+kAG
+        GrXXpg3k5snycrp2wseuXK1cJQa+
+X-Google-Smtp-Source: APXvYqzWFfD3OApf4zcdPwAoi5QqfmiQdV2i8XM+GipggWTJ0XQwgJa4s0qrVDZF1v5zTaMcd5biLg==
+X-Received: by 2002:a5d:63c8:: with SMTP id c8mr1533891wrw.21.1565812646012;
+        Wed, 14 Aug 2019 12:57:26 -0700 (PDT)
 Received: from [192.168.1.19] (bky210.neoplus.adsl.tpnet.pl. [83.28.192.210])
-        by smtp.gmail.com with ESMTPSA id f70sm640654wme.22.2019.08.14.12.54.49
+        by smtp.gmail.com with ESMTPSA id b3sm1084391wrm.72.2019.08.14.12.57.24
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Aug 2019 12:54:50 -0700 (PDT)
-Subject: Re: [PATCH v4 1/2] dt-bindings: Add docs for EL15203000
-To:     Dan Murphy <dmurphy@ti.com>, Oleh Kravchenko <oleg@kaa.org.ua>,
-        devicetree@vger.kernel.org, linux-leds@vger.kernel.org
+        Wed, 14 Aug 2019 12:57:25 -0700 (PDT)
+Subject: Re: [PATCH v4 2/2] leds: add LED driver for EL15203000 board
+To:     Oleh Kravchenko <oleg@kaa.org.ua>, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org
 References: <20190808203204.8614-1-oleg@kaa.org.ua>
- <ea3d06b2-3689-bcfc-8f5f-6345634cfa2b@ti.com>
+ <20190808203204.8614-2-oleg@kaa.org.ua>
+ <c2b006bb-2bb6-98b0-c907-190fd9fc41c7@gmail.com>
+ <260f8b69-3f4a-d911-88f8-d6de59e79bc3@kaa.org.ua>
+ <56fa6881-2af6-71ec-160c-7712075756be@gmail.com>
+ <11f6da3b-860a-2e52-e4fa-2a650fd2407b@kaa.org.ua>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -109,12 +113,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <d75d5fea-0a7c-b057-d972-c7747df7f33b@gmail.com>
-Date:   Wed, 14 Aug 2019 21:54:48 +0200
+Message-ID: <b0965dd8-2085-db4d-519d-8ea8a51f57a6@gmail.com>
+Date:   Wed, 14 Aug 2019 21:57:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <ea3d06b2-3689-bcfc-8f5f-6345634cfa2b@ti.com>
+In-Reply-To: <11f6da3b-860a-2e52-e4fa-2a650fd2407b@kaa.org.ua>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -123,82 +127,61 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dan,
-
-On 8/13/19 10:31 PM, Dan Murphy wrote:
-> Jacek
+On 8/14/19 9:46 PM, Oleh Kravchenko wrote:
+> Hello Jacek,
 > 
-> Need your input below
-> 
-> On 8/8/19 3:32 PM, Oleh Kravchenko wrote:
->> Add documentation and example for dt-bindings EL15203000.
->> LED board (aka RED LED board) from Crane Merchandising Systems.
+> 14.08.19 21:18, Jacek Anaszewski пише:
+>>>> Why the sequence "1 800 2 800 4 800 8 800 16 800" is duplicated here?
+>>>> It seems redundant. But aside of that - aren't the timings modifiable?
+>>>> In other words - are these all patterns somehow configurable or they are
+>>>> pre-programmed?
+>>>>
+>>>
+>>> All pattern is predefined, you can't change them at all.
+>>> I just tried to describe real things what happened in LED board.
+>>> It's ticks every 800 milliseconds for Pipe LEDs.
 >>
->> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
->> ---
->>   .../bindings/leds/leds-el15203000.txt         | 47 +++++++++++++++++++
->>   1 file changed, 47 insertions(+)
->>   create mode 100644
->> Documentation/devicetree/bindings/leds/leds-el15203000.txt
+>> It makes me wonder how you figured out the values? If you have
+>> a documentation for this controller, could you share how the pattern
+>> settings are documented?
+> 
+> I saw the code of firmware.
+> Not sure if I can find any documentation for it right now.
+
+Have you tried to alter the values? Or check what happens when
+the duplication is removed?
+
+>>>>> +
+>>>>> +		Inverted cascade mode for Pipe LED:
+>>>>> +		"30 800 29 800 27 800 23 800 15 800 30 800 29 800 27 800 23 800 15 800"
+>>>>
+>>>> Similar duplication here.
+>>>>
+>>>>> +
+>>>>> +		Bounce mode for Pipe LED:
+>>>>> +		"1 800 2 800 4 800 8 800 16 800 16 800 8 800 4 800 2 800 1 800"
+>>>>
+>>>> Instead of two repeating "16 800" you could provide "16 1600".
+>>>> But here again is the question whether these values are configurable.
+>>>> From what I can see in your driver implementation you're expecting
+>>>> exactly the values provided in these examples to enable given hardware
+>>>> pattern (led_pattern_cmp()).
+>>>>
+>>>>> +
+>>>>> +		Inverted bounce mode for Pipe LED:
+>>>>> +		"30 800 29 800 27 800 23 800 15 800 15 800 23 800 27 800 29 800 30 800"
+>>>>
+>>>
+>>> Should I cut this patterns to smaller? Or let keep it?
+>>>
 >>
->> diff --git
->> a/Documentation/devicetree/bindings/leds/leds-el15203000.txt
->> b/Documentation/devicetree/bindings/leds/leds-el15203000.txt
->> new file mode 100644
->> index 000000000000..4c2245babfdc
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/leds/leds-el15203000.txt
->> @@ -0,0 +1,47 @@
->> +Crane Merchandising System - el15203000 LED driver
->> +--------------------------------------------------
->> +
->> +This LED Board (aka RED LEDs board) is widely used in
->> +coffee vending machines produced by Crane Merchandising Systems.
->> +
->> +Required properties:
->> +- compatible : "crane,el15203000"
->> +- reg :
->> +    see Documentation/devicetree/bindings/spi/spi-bus.txt
->> +- spi-max-frequency : (optional)
->> +    see Documentation/devicetree/bindings/spi/spi-bus.txt
->> +
->> +Optional LED sub-node properties:
->> +- label :
->> +    see Documentation/devicetree/bindings/leds/common.txt
->> +- linux,default-trigger :
->> +    see Documentation/devicetree/bindings/leds/common.txt
->> +
->> +Example
->> +-------
->> +
->> +led-controller@0 {
->> +    compatible = "crane,el15203000";
->> +    reg = <0>;
->> +    spi-max-frequency = <50000>;
->> +    #address-cells = <1>;
->> +    #size-cells = <0>;
->> +
->> +    /* water pipe */
->> +    pipe@50 {
->> +        reg = <0x50>;
->> +        label = "red:pipe";
+>> For the first two we could do without sequence duplication.
 > 
-> Should we use the color and function property here?
+> Ok, I will reduce it.
 
-Yes, label is already deprecated in the common LED bindings
-in linux-next. We need separate color and function here.
-
-> Not sure what function would be for pipe, screen or vending but there
-> may be
-> 
-> comparable functions that may fit.
-
-These are functions specific to this board and it is not something
-that could have some vast system-wide use. Common LED functions aim
-rather to unify the naming for LEDs on standard system devices and
-peripherals.
-
-I'd not strive for creating common LED_FUNCTION macros for these.
+Please hold on for a while. I will have some more remarks to the driver,
+just collecting missing info for now to gain more complete view on this
+device.
 
 -- 
 Best regards,
