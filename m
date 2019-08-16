@@ -2,57 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9995790767
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2019 20:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9458C908F5
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Aug 2019 21:52:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbfHPSCp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 16 Aug 2019 14:02:45 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:39946 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727357AbfHPSCo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Aug 2019 14:02:44 -0400
-Received: by mail-wr1-f68.google.com with SMTP id c3so2337245wrd.7
-        for <linux-leds@vger.kernel.org>; Fri, 16 Aug 2019 11:02:42 -0700 (PDT)
+        id S1727574AbfHPTwb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 16 Aug 2019 15:52:31 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:40328 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726527AbfHPTwb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Aug 2019 15:52:31 -0400
+Received: by mail-wm1-f65.google.com with SMTP id v19so4970549wmj.5;
+        Fri, 16 Aug 2019 12:52:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=tQH8UVE6rtVD0N3cy+YK3utBcrod9X6bP5wHhIlR7LY=;
-        b=pAxyr8rwqT1EX4swHrx6yfTaXY8E+/GYjBX0LL+Z+9NjwGITjWataCMADLG+xYIFE9
-         wAzBPFKYyVLfJAyI/2sSrps5/ALH9DsSQ7RBcCJuJHoquWQQ8Sh6nBMK0oRg/socSWkA
-         u/gMSJRT6B7STJGZqmctc/Gt8m5l0ZCHZOpLER/gsvhHMGBTUB5GparBE+OorSJsd198
-         l869BJkGc6HLIEktdDZo6OCXB4M9uHlby7X2vs2E/X1FARsMTpu4lVgeePMELB1PvsNz
-         dNWzZfkzK5qaNWsOOamg4RtracRr7j5P+2R9lL4d0y368mqMRrMlQu9M1vOIhM1v2ook
-         XV/Q==
+        bh=NFDNTV+DcBXCXR6V43G44/tvOJ5WKvqNFr4X8/n+eMA=;
+        b=ljlDUQJDb/LaeKa/Pasm3ij3mBNJHxej/3LDw25w2WqBz+KxcfkE7Y0fSFvFerVCf1
+         PMhHlyAg3pQqJLPqge6pYQItyykVsT7YfX9wcF6n3MhlX9HEhmrAEMAhCBqu/SnOpZj/
+         reTGSHDn+rcABp8coZV+cHr14TTIYKxXrcDOatU2djytO1VNm28PeT8wzohgFf0eXEb5
+         oYYNLrDINI27gcm7zZIFIr6OqFFbk5dDIKL5jmC/g1gwtONyMx4NWBNEhUJbM7EbiaIt
+         YG1Gx9rCs3q0puMZRGxaChiNoGXOpSMXOO5U5TVyyqEFAGTcd8zbQ1G9tq26hEjLKL4J
+         NX7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=tQH8UVE6rtVD0N3cy+YK3utBcrod9X6bP5wHhIlR7LY=;
-        b=WX+A+ed5O7jTyN1IB81JJKPD06O4/2uZmFrxODbqfYE5wJQU1haRPEvUppPpPl7AgE
-         bn78NBSekeAIDzrJlj7ZuX4rRllBU5RIJUMHJd4kfecdYzaa50dHvrx1JFEt2Mi3r4LO
-         Q2IZDQ3yJRbLRQjNX7N3g72uazvPrnrYjLso/Lw1rlVQdy75aQzrIGL7WW4WAziboceG
-         gOkIQvo1FZDeRgtPJ5fHGsldc+xHQe/KoOPIhlG5C2fkI2J+sgUEGjMSh3ke99nwlqZc
-         kqb9v0ZHhEeDgsLzs2NGEVgA74dv3IA/XtdJgmJhNzgoolUG4UlnP8z5aZtkrKWmdmfZ
-         hXSw==
-X-Gm-Message-State: APjAAAVC4dkAwfhn/3yRH0HbvcTIlMrVjhV9BzPkjBENx1NXzukmjXDz
-        /itJEp9VnPpCQM6wsRIgatpap4de
-X-Google-Smtp-Source: APXvYqwOraRBGYbedMKq2XcWnHKJPUo8u+zMlduLmKG83Kr0Xe8Lgnj9f0UHtElhiSuc+qUl34RC9Q==
-X-Received: by 2002:a5d:63c9:: with SMTP id c9mr12611686wrw.15.1565978561370;
-        Fri, 16 Aug 2019 11:02:41 -0700 (PDT)
+        bh=NFDNTV+DcBXCXR6V43G44/tvOJ5WKvqNFr4X8/n+eMA=;
+        b=lKptRELFO325rzmfc1LZioSoS/I6VBiTOYcPky51Mpnd6zjxLARii9a3dcd7cIeFjT
+         IlJJcrlnBz75VbWx7nggQULB/erSA+IFbY1PVbiYyVJMotv9pBbSNnlguaq8D3JGcVhJ
+         YpKJiXqJ3XYmdV5mRoWJvJKQwjKQV2oF79UA7tjdOyrTmS+hgaowHsE8sUJECQoZurNT
+         RadE81P9I4WBJ1NI5eZF447YB1rG0quZhEw3b4jHeYL6Gku5H+xGzS2YcBU7DqT52P/c
+         ulwZReX9HP5cqvIK3MFAorDoYbcCZDUQ5+/Kz+saAvmG3g2/20NFeunIHMseA+i2KCQq
+         1F0g==
+X-Gm-Message-State: APjAAAUVz9QclPUpl3uuZoEmB78QWp99WrKtsogetbmWf15FtVILGWS0
+        vGJxE6L5fqiJpOLsatp3+Cs=
+X-Google-Smtp-Source: APXvYqybYgGnUGioZ6fpOWG2paejsSTYsmbsAmKhoxrzuFb+0F55MiB7llm1MWv5f36LTb45oXLDqQ==
+X-Received: by 2002:a1c:c5c2:: with SMTP id v185mr9372661wmf.161.1565985147985;
+        Fri, 16 Aug 2019 12:52:27 -0700 (PDT)
 Received: from [192.168.1.19] (blc39.neoplus.adsl.tpnet.pl. [83.28.196.39])
-        by smtp.gmail.com with ESMTPSA id i66sm5317905wmg.2.2019.08.16.11.02.40
+        by smtp.gmail.com with ESMTPSA id r17sm16311692wrg.93.2019.08.16.12.52.26
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 16 Aug 2019 11:02:40 -0700 (PDT)
-Subject: Re: [PATCH v1] leds: Allow to call led_classdev_unregister()
- unconditionally
-To:     Pavel Machek <pavel@ucw.cz>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-References: <20190816105229.81234-1-andriy.shevchenko@linux.intel.com>
- <20190816114908.GA10081@amd>
+        Fri, 16 Aug 2019 12:52:27 -0700 (PDT)
+Subject: Re: [PATCH v4 5/5] scsi: sd: stop polling disk stats by ledtrig-blk
+ during runtime suspend
+To:     Akinobu Mita <akinobu.mita@gmail.com>, linux-block@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org
+Cc:     Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Hannes Reinecke <hare@suse.com>
+References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
+ <1565888399-21550-6-git-send-email-akinobu.mita@gmail.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -111,13 +117,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <6027ed85-62a2-8983-cd80-771b03dfd905@gmail.com>
-Date:   Fri, 16 Aug 2019 20:02:39 +0200
+Message-ID: <aed1b43e-0857-ac5c-2887-c9b444a6b51f@gmail.com>
+Date:   Fri, 16 Aug 2019 21:52:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190816114908.GA10081@amd>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <1565888399-21550-6-git-send-email-akinobu.mita@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -125,29 +131,127 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 8/16/19 1:49 PM, Pavel Machek wrote:
-> Hi!
-> 
->> If in the certain driver the LED is optional, and it's a majority of them,
->> the call of led_classdev_unregister() still requires some additional checks.
->>
->> The usual pattern on unregistering is to check for NULL, but we also check
->> for IS_ERR() in case device_create_with_groups() fails.
->>
->> The change will reduce a burden in a lot of drivers to repeatedly check
->> for above conditions.
-> 
-> I don't see majority of calls being protected.  Doing nothing on NULL
-> sounds reasonable. I'm less sure about "IS_ERR"...
+Hi Akinobu,
 
-device_create_groups_vargs() returns ERR_PTR(retval) on error so
-led_cdev->dev may be left non-NULL even on error.
+Thank you for the update.
 
-We can be correct checking only for NULL if we will add
-"led_cdev->dev = NULL" assignment in "if (IS_ERR(led_cdev->dev)" branch
-in led_classdev_register_ext(). Nonetheless I'm personally in favor of
-Andy's solution.
+Previously I forgot to mention one more thing - this patch does more
+than it declares in the commit message, i.e. in addition to what is
+declared it uses new ledtrig-blk trigger by calling
+ledtrig_blk_enable()/ledtrig_blk_disable().
 
--- 
+Those should be definitely split into a separate patch, preceding the
+changes required for stopping polling disk stats.
+
 Best regards,
 Jacek Anaszewski
+
+On 8/15/19 6:59 PM, Akinobu Mita wrote:
+> The LED block device activity trigger periodically polls the disk stats
+> to collect the activity.  However, it is pointless to poll while the
+> scsi device is in runtime suspend.
+> 
+> This stops polling disk stats when the device is successfully runtime
+> suspended, and restarts polling when the device is successfully runtime
+> resumed.
+> 
+> Cc: Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>
+> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Dan Murphy <dmurphy@ti.com>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
+> Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+> Cc: Hannes Reinecke <hare@suse.com>
+> Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+> ---
+>  drivers/scsi/sd.c | 40 +++++++++++++++++++++++-----------------
+>  1 file changed, 23 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+> index 149d406..5f73142 100644
+> --- a/drivers/scsi/sd.c
+> +++ b/drivers/scsi/sd.c
+> @@ -3538,7 +3538,7 @@ static int sd_suspend_common(struct device *dev, bool ignore_stop_errors)
+>  {
+>  	struct scsi_disk *sdkp = dev_get_drvdata(dev);
+>  	struct scsi_sense_hdr sshdr;
+> -	int ret = 0;
+> +	int ret;
+>  
+>  	if (!sdkp)	/* E.g.: runtime suspend following sd_remove() */
+>  		return 0;
+> @@ -3550,18 +3550,16 @@ static int sd_suspend_common(struct device *dev, bool ignore_stop_errors)
+>  		if (ret) {
+>  			/* ignore OFFLINE device */
+>  			if (ret == -ENODEV)
+> -				return 0;
+> -
+> -			if (!scsi_sense_valid(&sshdr) ||
+> -			    sshdr.sense_key != ILLEGAL_REQUEST)
+> -				return ret;
+> +				goto success;
+>  
+>  			/*
+>  			 * sshdr.sense_key == ILLEGAL_REQUEST means this drive
+>  			 * doesn't support sync. There's not much to do and
+>  			 * suspend shouldn't fail.
+>  			 */
+> -			ret = 0;
+> +			if (!scsi_sense_valid(&sshdr) ||
+> +			    sshdr.sense_key != ILLEGAL_REQUEST)
+> +				return ret;
+>  		}
+>  	}
+>  
+> @@ -3569,11 +3567,14 @@ static int sd_suspend_common(struct device *dev, bool ignore_stop_errors)
+>  		sd_printk(KERN_NOTICE, sdkp, "Stopping disk\n");
+>  		/* an error is not worth aborting a system sleep */
+>  		ret = sd_start_stop_device(sdkp, 0);
+> -		if (ignore_stop_errors)
+> -			ret = 0;
+> +		if (ret && !ignore_stop_errors)
+> +			return ret;
+>  	}
+>  
+> -	return ret;
+> +success:
+> +	ledtrig_blk_disable(sdkp->disk);
+> +
+> +	return 0;
+>  }
+>  
+>  static int sd_suspend_system(struct device *dev)
+> @@ -3589,19 +3590,24 @@ static int sd_suspend_runtime(struct device *dev)
+>  static int sd_resume(struct device *dev)
+>  {
+>  	struct scsi_disk *sdkp = dev_get_drvdata(dev);
+> -	int ret;
+>  
+>  	if (!sdkp)	/* E.g.: runtime resume at the start of sd_probe() */
+>  		return 0;
+>  
+> -	if (!sdkp->device->manage_start_stop)
+> -		return 0;
+> +	if (sdkp->device->manage_start_stop) {
+> +		int ret;
+> +
+> +		sd_printk(KERN_NOTICE, sdkp, "Starting disk\n");
+> +		ret = sd_start_stop_device(sdkp, 1);
+> +		if (ret)
+> +			return ret;
+>  
+> -	sd_printk(KERN_NOTICE, sdkp, "Starting disk\n");
+> -	ret = sd_start_stop_device(sdkp, 1);
+> -	if (!ret)
+>  		opal_unlock_from_suspend(sdkp->opal_dev);
+> -	return ret;
+> +	}
+> +
+> +	ledtrig_blk_enable(sdkp->disk);
+> +
+> +	return 0;
+>  }
+>  
+>  /**
+> 
