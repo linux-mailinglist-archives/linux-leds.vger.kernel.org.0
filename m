@@ -2,37 +2,37 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2B72910EE
-	for <lists+linux-leds@lfdr.de>; Sat, 17 Aug 2019 16:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73AD891117
+	for <lists+linux-leds@lfdr.de>; Sat, 17 Aug 2019 17:02:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725937AbfHQOzM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 17 Aug 2019 10:55:12 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39480 "EHLO
+        id S1725937AbfHQPCs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 17 Aug 2019 11:02:48 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39801 "EHLO
         atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725832AbfHQOzL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Aug 2019 10:55:11 -0400
+        with ESMTP id S1725925AbfHQPCs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Aug 2019 11:02:48 -0400
 Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 654A1811A5; Sat, 17 Aug 2019 16:54:56 +0200 (CEST)
-Date:   Sat, 17 Aug 2019 16:55:09 +0200
+        id 5F73C811A4; Sat, 17 Aug 2019 17:02:33 +0200 (CEST)
+Date:   Sat, 17 Aug 2019 17:02:46 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Akinobu Mita <akinobu.mita@gmail.com>
-Cc:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Hannes Reinecke <hare@suse.com>
-Subject: Re: [PATCH v4 4/5] block: introduce LED block device activity trigger
-Message-ID: <20190817145509.GA18381@amd>
-References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
- <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
+To:     Oleh Kravchenko <oleg@kaa.org.ua>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] leds: add LED driver for EL15203000 board
+Message-ID: <20190817150246.GB18381@amd>
+References: <20190808203204.8614-1-oleg@kaa.org.ua>
+ <20190808203204.8614-2-oleg@kaa.org.ua>
+ <c2b006bb-2bb6-98b0-c907-190fd9fc41c7@gmail.com>
+ <260f8b69-3f4a-d911-88f8-d6de59e79bc3@kaa.org.ua>
+ <56fa6881-2af6-71ec-160c-7712075756be@gmail.com>
+ <11f6da3b-860a-2e52-e4fa-2a650fd2407b@kaa.org.ua>
+ <b0965dd8-2085-db4d-519d-8ea8a51f57a6@gmail.com>
+ <e72f3669-1537-54ee-5ddd-ea77f9d13f07@kaa.org.ua>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
+        protocol="application/pgp-signature"; boundary="b5gNqxB1S1yM7hjW"
 Content-Disposition: inline
-In-Reply-To: <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
+In-Reply-To: <e72f3669-1537-54ee-5ddd-ea77f9d13f07@kaa.org.ua>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -40,81 +40,87 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---G4iJoqBmSsgzjUCe
+--b5gNqxB1S1yM7hjW
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri 2019-08-16 01:59:58, Akinobu Mita wrote:
-> This allows LEDs to be controlled by block device activity.
+Hi!
+
+> >>>> All pattern is predefined, you can't change them at all.
+> >>>> I just tried to describe real things what happened in LED board.
+> >>>> It's ticks every 800 milliseconds for Pipe LEDs.
+> >>>
+> >>> It makes me wonder how you figured out the values? If you have
+> >>> a documentation for this controller, could you share how the pattern
+> >>> settings are documented?
+> >>
+> >> I saw the code of firmware.
+> >> Not sure if I can find any documentation for it right now.
+> >=20
+> > Have you tried to alter the values? Or check what happens when
+> > the duplication is removed?
 >=20
-> We already have ledtrig-disk (LED disk activity trigger), but the lower
-> level disk drivers need to utilize ledtrig_disk_activity() to make the
-> LED blink.
+> What do you mean alter? It doesn't make any sense.
+> Board is accepts only brightness level from '0' to '5'.
+> I'm really confused :-)
+
+For the record, what you did seems ok to me.
+
+> >> Ok, I will reduce it.
+> >=20
+> > Please hold on for a while. I will have some more remarks to the driver,
+> > just collecting missing info for now to gain more complete view on this
+> > device.
 >=20
-> The LED block device trigger doesn't require the lower level drivers to
-> have any instrumentation. The activity is collected by polling the disk
-> stats.
+> Here is the full story:
 >=20
-> Example:
+> EL15203000 LEDs board (aka RED LEDs board, because it has only RED LEDs).
+> It's provide access to 3 LEDs:
 >=20
-> echo block-nvme0n1 > /sys/class/leds/diy/trigger
+> - First LED (Screen) is a light tube around big 21" screen
+>   It's have 3 brightness levels:
+>   * OFF
+>   * ON
+>   * Breathing mode (8 seconds full cycle)
+> - Second LED (Vending area) is highlight coffee cap
+>   * OFF
+>   * ON
 
-Lets use one trigger "block" and have the device as a parameter,
-please.
+Again, this is ok.
 
-We already have 1000 cpu triggers on 1000 cpu machines, and yes, its a
-disaster we'll need to fix. Lets not repeat the same mistake here.
+> - Third LED (Pipe) is actually virtual, because consists from 5 LEDs
+>   * OFF for all 5 LEDs
+>   * ON for all 5 LEDs
+>   * Cascade
+>   * Inverses cascade
+>   * Bounce
+>   * Inverses bounce
 
-I guess it may be slightly more work. Sorry about that.
-
-								Pavel
-
-> +++ b/include/linux/leds.h
-> +#else
-> +
-> +struct ledtrig_blk {
-> +};
-> +
-
-Is the empty struct neccessary?
-
-> +static inline void ledtrig_blk_enable(struct gendisk *disk)
-> +{
-> +}
-> +
-> +static inline void ledtrig_blk_disable(struct gendisk *disk)
-> +{
-> +}
-> +
-> +static inline int ledtrig_blk_register(struct gendisk *disk)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void ledtrig_blk_unregister(struct gendisk *disk)
-> +{
-> +}
-
-Normally we put such empty functions on single lines...
+But having one virtual LED that is really five LEDs scares me a tiny
+bit. But I guess its ok for your case...
 
 Best regards,
-									     Pavel
+									Pavel
+
+
+
+
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---G4iJoqBmSsgzjUCe
+--b5gNqxB1S1yM7hjW
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAl1YFU0ACgkQMOfwapXb+vIGPQCglZkw8NZthvlINOkCpWU1QMNO
-MMgAn3a+ksIdc1KjC9wzh3owNpIMKsXc
-=mrgh
+iEYEARECAAYFAl1YFxYACgkQMOfwapXb+vJojgCgjqeQrTqIQD6NzrPAmlXw91Ib
+NDUAn1vnGXxmcF9AFVYZa/CEdp1JtEfg
+=QGKQ
 -----END PGP SIGNATURE-----
 
---G4iJoqBmSsgzjUCe--
+--b5gNqxB1S1yM7hjW--
