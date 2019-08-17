@@ -2,41 +2,37 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AF5A910AB
-	for <lists+linux-leds@lfdr.de>; Sat, 17 Aug 2019 16:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2B72910EE
+	for <lists+linux-leds@lfdr.de>; Sat, 17 Aug 2019 16:55:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725966AbfHQOFG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 17 Aug 2019 10:05:06 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:59474 "EHLO
+        id S1725937AbfHQOzM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 17 Aug 2019 10:55:12 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39480 "EHLO
         atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725832AbfHQOFF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Aug 2019 10:05:05 -0400
+        with ESMTP id S1725832AbfHQOzL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Aug 2019 10:55:11 -0400
 Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 5823B8044A; Sat, 17 Aug 2019 16:04:49 +0200 (CEST)
-Date:   Sat, 17 Aug 2019 16:05:02 +0200
+        id 654A1811A5; Sat, 17 Aug 2019 16:54:56 +0200 (CEST)
+Date:   Sat, 17 Aug 2019 16:55:09 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Matthias Kaehlcke <mka@chromium.org>, jacek.anaszewski@gmail.com,
-        linux-leds@vger.kernel.org, dmurphy@ti.com
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v6 4/4] net: phy: realtek: Add LED configuration support
- for RTL8211E
-Message-ID: <20190817140502.GA5878@amd>
-References: <20190813191147.19936-1-mka@chromium.org>
- <20190813191147.19936-5-mka@chromium.org>
- <20190816201342.GB1646@bug>
- <20190816212728.GW250418@google.com>
+To:     Akinobu Mita <akinobu.mita@gmail.com>
+Cc:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Hannes Reinecke <hare@suse.com>
+Subject: Re: [PATCH v4 4/5] block: introduce LED block device activity trigger
+Message-ID: <20190817145509.GA18381@amd>
+References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
+ <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+        protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
 Content-Disposition: inline
-In-Reply-To: <20190816212728.GW250418@google.com>
+In-Reply-To: <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -44,58 +40,81 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---LZvS9be/3tNcYl/X
+--G4iJoqBmSsgzjUCe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri 2019-08-16 14:27:28, Matthias Kaehlcke wrote:
-> On Fri, Aug 16, 2019 at 10:13:42PM +0200, Pavel Machek wrote:
-> > On Tue 2019-08-13 12:11:47, Matthias Kaehlcke wrote:
-> > > Add a .config_led hook which is called by the PHY core when
-> > > configuration data for a PHY LED is available. Each LED can be
-> > > configured to be solid 'off, solid 'on' for certain (or all)
-> > > link speeds or to blink on RX/TX activity.
-> > >=20
-> > > Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-> >=20
-> > THis really needs to go through the LED subsystem,
+On Fri 2019-08-16 01:59:58, Akinobu Mita wrote:
+> This allows LEDs to be controlled by block device activity.
 >=20
-> Sorry, I used what get_maintainers.pl threw at me, I should have
-> manually cc-ed the LED list.
+> We already have ledtrig-disk (LED disk activity trigger), but the lower
+> level disk drivers need to utilize ledtrig_disk_activity() to make the
+> LED blink.
 >=20
-> > and use the same userland interfaces as the rest of the system.
+> The LED block device trigger doesn't require the lower level drivers to
+> have any instrumentation. The activity is collected by polling the disk
+> stats.
 >=20
-> With the PHY maintainers we discussed to define a binding that is
-> compatible with that of the LED one, to have the option to integrate
-> it with the LED subsystem later. The integration itself is beyond the
-> scope of this patchset.
+> Example:
+>=20
+> echo block-nvme0n1 > /sys/class/leds/diy/trigger
 
-Yes, I believe the integration is neccessary. Using same binding is
-neccessary for that, but not sufficient. For example, we need
-compatible trigger names, too.
+Lets use one trigger "block" and have the device as a parameter,
+please.
 
-So... I'd really like to see proper integration is possible before we
-merge this.
+We already have 1000 cpu triggers on 1000 cpu machines, and yes, its a
+disaster we'll need to fix. Lets not repeat the same mistake here.
+
+I guess it may be slightly more work. Sorry about that.
+
+								Pavel
+
+> +++ b/include/linux/leds.h
+> +#else
+> +
+> +struct ledtrig_blk {
+> +};
+> +
+
+Is the empty struct neccessary?
+
+> +static inline void ledtrig_blk_enable(struct gendisk *disk)
+> +{
+> +}
+> +
+> +static inline void ledtrig_blk_disable(struct gendisk *disk)
+> +{
+> +}
+> +
+> +static inline int ledtrig_blk_register(struct gendisk *disk)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void ledtrig_blk_unregister(struct gendisk *disk)
+> +{
+> +}
+
+Normally we put such empty functions on single lines...
 
 Best regards,
-
-									Pavel
+									     Pavel
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---LZvS9be/3tNcYl/X
+--G4iJoqBmSsgzjUCe
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAl1YCY4ACgkQMOfwapXb+vLWawCfRWR0PDijLDYNaPyitgHnT8lZ
-gP0AoKg13Rvbd2LdaNcuMCeR8ISyxfLv
-=ya1+
+iEYEARECAAYFAl1YFU0ACgkQMOfwapXb+vIGPQCglZkw8NZthvlINOkCpWU1QMNO
+MMgAn3a+ksIdc1KjC9wzh3owNpIMKsXc
+=mrgh
 -----END PGP SIGNATURE-----
 
---LZvS9be/3tNcYl/X--
+--G4iJoqBmSsgzjUCe--
