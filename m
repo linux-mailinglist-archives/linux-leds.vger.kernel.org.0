@@ -2,63 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53A5F912CB
-	for <lists+linux-leds@lfdr.de>; Sat, 17 Aug 2019 22:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF4BD916D1
+	for <lists+linux-leds@lfdr.de>; Sun, 18 Aug 2019 15:42:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726126AbfHQUHt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 17 Aug 2019 16:07:49 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:32962 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbfHQUHt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Aug 2019 16:07:49 -0400
-Received: by mail-wr1-f66.google.com with SMTP id u16so4796488wrr.0;
-        Sat, 17 Aug 2019 13:07:46 -0700 (PDT)
+        id S1726115AbfHRNmA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 18 Aug 2019 09:42:00 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40043 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726089AbfHRNl7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 18 Aug 2019 09:41:59 -0400
+Received: by mail-wr1-f65.google.com with SMTP id c3so5980846wrd.7;
+        Sun, 18 Aug 2019 06:41:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:openpgp:autocrypt:message-id:date
+        h=subject:to:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=LD8Qjbb1bcqEhNQuvANwlKP16jgQXjo5ks/zYoQL4NQ=;
-        b=Gh1dgv5yRs0qxI4GZk9J8EvAEFXcwJlN+5SvwWVqZwbB3nLaVAHUK1nKNHl+nLlSdb
-         xmHp4HFDVSKv56VLFJ42njzb88uRVb2RIurNr33EfYtoQtHDJ+syWV+/9o0NHUGcy6rs
-         CPpaBzohlBT3RnDlBAIIyHVfDc5qVSXI5QPtmHGL7hLIXfYqmKM0QYdgQ2oAalcMrgob
-         a+2HNYXmR3Hf0WX9Wfd70ur3FnBheA3icBLAjv+VqhdP1JEBawxGoGn9OZEynSi3mJD/
-         n2JHweAzzLKTnCJy6nIEQTOL9+sOBN8V6nXvOK3el2NvBjfP41lUnnTR7RG3bn1Y4gX2
-         Tltg==
+        bh=FBOuTVgX8yy7HsW5bB8pzbesYxyQL/R/DfkpTp+Teuw=;
+        b=TrEnLglzwZhgsoG9I9xSx2Re7qawxQGKfD5dSS8JrHufHIWCXhodQMpKg/BhneBy1x
+         DMw+ym0okfspI0tS/UiQjVhSREfudA3Kt2UqNujcfGct6u0FshyB7P3q/NJnOWH12xP8
+         wqQ82sBlSKPymJoa2OSEKhAe1byNC5zwqafzLFzjKLa5+/tCzcBoGFp4+yQ5HWx1j7Ew
+         IWPcGrRA+1Qn2k6H7mulqTNeDrVUWJAUSrkSuygdNC/j0gvjJLpVf3nWr2j+8HDo9kUc
+         m7GYrFAnlNRwgTo5UnH6Yr3tRAJ9ePhrdUnXQPK/QHzqx4M3pIVZREHsjDUGDqlLg1d+
+         krsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=LD8Qjbb1bcqEhNQuvANwlKP16jgQXjo5ks/zYoQL4NQ=;
-        b=hwAHdg0BfMYTFswqYSGvTvyjKgrQdCjFtVYlW6w9m7+nUJ7qwi3e5OrScWRxbwkaSK
-         KTIEhHCp8B64m+cqDVNbtbHuZlKyn9VDunh6nAk0o1PW/vFkqrT5WlJdT1T5GF/meAmj
-         8hC7kQmOiMlCpML7qJVuOUMhkPUIc+kaoaaK4XyG1Dj17Dzz+FnFQEt85B45bTHXAW7S
-         w5HoGrLFhiod+QIXqbnn4cmRpgg0mn6Go5JKeGF1nlP4a3O8hgCjNE+iPnBGW2uFV0yd
-         VgrBGI8lWj5QHd/73SDUjR0aZRbx1F8zPx8TKN8/CXWzHYyWPpOXSWqlZX2Ko08IyOfr
-         yzMw==
-X-Gm-Message-State: APjAAAXhoHWXG05zzHTnv7rSTDe4tctrQl0AzzxHSZR1zvPpoo/VouAF
-        /v6A588XW3MBrsElxXcxIs0=
-X-Google-Smtp-Source: APXvYqxzJ5z3T1S4siu+rWpK8U+MgZsNMpLJDhcsQ4vEQU/+BV+l8zljDOxK+NM8rXY7irSumJ59wg==
-X-Received: by 2002:a5d:46d1:: with SMTP id g17mr17846055wrs.131.1566072466038;
-        Sat, 17 Aug 2019 13:07:46 -0700 (PDT)
-Received: from [192.168.1.19] (chd227.neoplus.adsl.tpnet.pl. [83.31.1.227])
-        by smtp.gmail.com with ESMTPSA id r17sm24745415wrg.93.2019.08.17.13.07.44
+        bh=FBOuTVgX8yy7HsW5bB8pzbesYxyQL/R/DfkpTp+Teuw=;
+        b=HJZR/80jlllKqkxrGfF5RlqhI8H5cyF17OPyYDCG9s4oFQ+gjWNkBuj2W3Oxh1DObk
+         VCgio10UZyjTQGBCp9CK3IWAeAlTdRH5ns+coYHj1pjAEIWDneaLExantMARmlXn6EgP
+         9mXmHszEUh88yUgd3Gl3tB63jeSGxdlv34tL94NuV52Rt/bzhpW95sIvp0eN90mZQNxp
+         t1SoD4FVtbFdU5ATcl0Uq8IXI5zwg1fsqRJqI8H7avLl2h/vK8mCVPqmEzpR4XoPoCPW
+         8hDdHLoFx1bd6DW66wyfITQreLsmFGFGMzHIw6PQlL98DigrJGOWpsYIWIdbyp7a/guZ
+         8vRg==
+X-Gm-Message-State: APjAAAV7PJ2wGFCR5iE++XY3kfTi6JuhPac1XRpFnTNK07WZETWuLzt9
+        9A95+1MFXX9gB3OEkh+dNIT6Felh
+X-Google-Smtp-Source: APXvYqywwalMfGK129SPSgmIizUncXQjAJKo6iu0TxO/HOIIGdTsC3Z8mBWO7mDK4NyVSnq28guGcA==
+X-Received: by 2002:adf:dcc2:: with SMTP id x2mr22595316wrm.295.1566135716356;
+        Sun, 18 Aug 2019 06:41:56 -0700 (PDT)
+Received: from [192.168.1.19] (dlz160.neoplus.adsl.tpnet.pl. [83.24.55.160])
+        by smtp.gmail.com with ESMTPSA id v12sm11385101wrr.87.2019.08.18.06.41.55
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 17 Aug 2019 13:07:45 -0700 (PDT)
+        Sun, 18 Aug 2019 06:41:55 -0700 (PDT)
+Subject: Re: [PATCH v4 1/2] dt-bindings: Add docs for EL15203000
+To:     Oleh Kravchenko <oleg@kaa.org.ua>, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org
+References: <20190808203204.8614-1-oleg@kaa.org.ua>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: [PATCH v4 4/5] block: introduce LED block device activity trigger
-To:     Pavel Machek <pavel@ucw.cz>, Akinobu Mita <akinobu.mita@gmail.com>
-Cc:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
-        Dan Murphy <dmurphy@ti.com>, Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Hannes Reinecke <hare@suse.com>
-References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
- <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
- <20190817145509.GA18381@amd>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -116,13 +108,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <925633c4-a459-5e84-9c9a-502a504fdc82@gmail.com>
-Date:   Sat, 17 Aug 2019 22:07:43 +0200
+Message-ID: <4d64d64a-cc21-cee0-eb37-441bc3a14caf@gmail.com>
+Date:   Sun, 18 Aug 2019 15:41:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190817145509.GA18381@amd>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20190808203204.8614-1-oleg@kaa.org.ua>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -130,87 +122,108 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 8/17/19 4:55 PM, Pavel Machek wrote:
-> On Fri 2019-08-16 01:59:58, Akinobu Mita wrote:
->> This allows LEDs to be controlled by block device activity.
->>
->> We already have ledtrig-disk (LED disk activity trigger), but the lower
->> level disk drivers need to utilize ledtrig_disk_activity() to make the
->> LED blink.
->>
->> The LED block device trigger doesn't require the lower level drivers to
->> have any instrumentation. The activity is collected by polling the disk
->> stats.
->>
->> Example:
->>
->> echo block-nvme0n1 > /sys/class/leds/diy/trigger
-> 
-> Lets use one trigger "block" and have the device as a parameter,
-> please.
-> 
-> We already have 1000 cpu triggers on 1000 cpu machines, and yes, its a
-> disaster we'll need to fix. Lets not repeat the same mistake here.
-> 
-> I guess it may be slightly more work. Sorry about that.
+Hi Oleh,
 
-We should be able to list available block devices to set,
-so the problem would be not avoided anyway. And Greg already proposed
-a solution for trigger file PAGE_SIZE overflow, so this should not pose
-a big problem in the future once that is implemented.
-
-> 								Pavel
+On 8/8/19 10:32 PM, Oleh Kravchenko wrote:
+> Add documentation and example for dt-bindings EL15203000.
+> LED board (aka RED LED board) from Crane Merchandising Systems.
 > 
->> +++ b/include/linux/leds.h
->> +#else
->> +
->> +struct ledtrig_blk {
->> +};
->> +
+> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+> ---
+>  .../bindings/leds/leds-el15203000.txt         | 47 +++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-el15203000.txt
 > 
-> Is the empty struct neccessary?
+> diff --git a/Documentation/devicetree/bindings/leds/leds-el15203000.txt b/Documentation/devicetree/bindings/leds/leds-el15203000.txt
+> new file mode 100644
+> index 000000000000..4c2245babfdc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-el15203000.txt
+> @@ -0,0 +1,47 @@
+> +Crane Merchandising System - el15203000 LED driver
+> +--------------------------------------------------
+> +
+> +This LED Board (aka RED LEDs board) is widely used in
+> +coffee vending machines produced by Crane Merchandising Systems.
+> +
+> +Required properties:
+> +- compatible : "crane,el15203000"
+> +- reg :
+> +	see Documentation/devicetree/bindings/spi/spi-bus.txt
+> +- spi-max-frequency : (optional)
+> +	see Documentation/devicetree/bindings/spi/spi-bus.txt
+> +
+> +Optional LED sub-node properties:
+> +- label :
+> +	see Documentation/devicetree/bindings/leds/common.txt
 
-Yeah, I didn't like that too and tried to play with the code to turn
-it into a pointer but it turned out to be non-trivial.
+Please change this label description to the below:
 
-The thing is that struct ledtrig_blk is made a property of
-struct gendisk, which then allows to get a pointer to the struct gendisk
-of the registrar in ledtrig_blk_work() via container_of macro.
+- function: see Documentation/devicetree/bindings/leds/common.txt.
+- color: See Documentation/devicetree/bindings/leds/common.txt.
+- label: See Documentation/devicetree/bindings/leds/common.txt (deprecated).
 
-Initially I did not realize the problem and asked Akinobu to move the
-trigger implementation to the LED subsystem since it seems to have
-likely broad use and it would be good to have it visible in the LED
-triggers config menu.
+> +- linux,default-trigger :
+> +	see Documentation/devicetree/bindings/leds/common.txt
+> +
+> +Example
+> +-------
 
-That move unfortunately entails the cumbersome dependency we're
-discussing now. It's to be decided then if it wouldn't be cleaner
-to have that trigger entirely implemented on gendisk side.
+#include <dt-bindings/leds/common.h>
 
->> +static inline void ledtrig_blk_enable(struct gendisk *disk)
->> +{
->> +}
->> +
->> +static inline void ledtrig_blk_disable(struct gendisk *disk)
->> +{
->> +}
->> +
->> +static inline int ledtrig_blk_register(struct gendisk *disk)
->> +{
->> +	return 0;
->> +}
->> +
->> +static inline void ledtrig_blk_unregister(struct gendisk *disk)
->> +{
->> +}
-> 
-> Normally we put such empty functions on single lines...
-> 
-> Best regards,
-> 									     Pavel
+> +led-controller@0 {
+> +	compatible = "crane,el15203000";
+> +	reg = <0>;
+> +	spi-max-frequency = <50000>;
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +
+> +	/* water pipe */
+> +	pipe@50 {
+
+s/pipe/led/
+
+> +		reg = <0x50>;
+> +		label = "red:pipe";
+
+label is now deprecated.
+
+Please use function and color:
+
+	function = "pipe";
+	color = <LED_COLOR_ID_RED>;
+
+
+> +	};
+> +
+> +	/* screen frame */
+> +	screen@53 {
+
+s/screen/led/
+
+> +		reg = <0x53>;
+> +		label = "red:screen";
+
+	function = "screen";
+	color = <LED_COLOR_ID_RED>;
+
+> +	};
+> +
+> +	/* vending area */
+> +	vend@56 {
+
+s/vend/led/
+
+> +		reg = <0x56>;
+> +		label = "red:vend";
+
+	function = "vend";
+	color = <LED_COLOR_ID_RED>;
+
+> +	};
+> +};
 > 
 
 -- 
 Best regards,
 Jacek Anaszewski
-
-
