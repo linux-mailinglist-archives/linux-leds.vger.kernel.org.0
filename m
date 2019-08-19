@@ -2,70 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E90CE91A7E
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Aug 2019 02:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74EAD921A0
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Aug 2019 12:48:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726120AbfHSAiG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 18 Aug 2019 20:38:06 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:40316 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726103AbfHSAiG (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 18 Aug 2019 20:38:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=BrMXY7EIAyVUBAzvqXeIobS9TRD0sVX9w0IwUrcpffM=; b=PE3/GP8p/ed33a+Wk6aGB3xX+E
-        c+IsGouiSzIwdwhHyMf3Beb+NbiyrdVlH4YtE6zTbwMdBj6lf29TplWtFf39rMMfYOevXfCBxJNnz
-        3iiFlEWu+C0ar56VsqIe0nprfyahzC1IE6Yb+KppQu3O0g33HGQjlt2ssdW7v775+9+Q=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.89)
-        (envelope-from <andrew@lunn.ch>)
-        id 1hzVgL-0002VI-CB; Mon, 19 Aug 2019 02:37:57 +0200
-Date:   Mon, 19 Aug 2019 02:37:57 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Matthias Kaehlcke <mka@chromium.org>, jacek.anaszewski@gmail.com,
-        linux-leds@vger.kernel.org, dmurphy@ti.com,
-        "David S . Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v6 4/4] net: phy: realtek: Add LED configuration support
- for RTL8211E
-Message-ID: <20190819003757.GB8981@lunn.ch>
-References: <20190813191147.19936-1-mka@chromium.org>
- <20190813191147.19936-5-mka@chromium.org>
- <20190816201342.GB1646@bug>
- <20190816212728.GW250418@google.com>
- <20190817140502.GA5878@amd>
+        id S1726784AbfHSKsG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 19 Aug 2019 06:48:06 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:34659 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726477AbfHSKsG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 19 Aug 2019 06:48:06 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id EE46F815F5; Mon, 19 Aug 2019 12:47:51 +0200 (CEST)
+Date:   Mon, 19 Aug 2019 12:48:04 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, tony@atomide.com, sre@kernel.org,
+        nekit1000@gmail.com, mpartap@gmx.net, merlijn@wizzup.org,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] leds: lm3532: Fix brightness control for i2c mode
+Message-ID: <20190819104804.GD21072@amd>
+References: <20190813181154.6614-1-dmurphy@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="gE7i1rD7pdK0Ng3j"
 Content-Disposition: inline
-In-Reply-To: <20190817140502.GA5878@amd>
+In-Reply-To: <20190813181154.6614-1-dmurphy@ti.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> Yes, I believe the integration is neccessary. Using same binding is
-> neccessary for that, but not sufficient. For example, we need
-> compatible trigger names, too.
 
-Hi Pavel
+--gE7i1rD7pdK0Ng3j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please could you explain what you mean by compatible trigger names?
+On Tue 2019-08-13 13:11:51, Dan Murphy wrote:
+> Fix the brightness control for I2C mode.  Instead of
+> changing the full scale current register update the ALS target
+> register for the appropriate banks.
+>=20
+> In addition clean up some code errors and random misspellings found
+> during coding.
+>=20
+> Tested on Droid4 as well as LM3532 EVM connected to a BeagleBoneBlack
+>=20
+> Fixes: e37a7f8d77e1 ("leds: lm3532: Introduce the lm3532 LED driver")
+> Reported-by: Pavel Machek <pavel@ucw.cz>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
 
-> So... I'd really like to see proper integration is possible before we
-> merge this.
+I may prefer register renames to come separately, but ...
 
-Please let me turn that around. What do you see as being impossible at
-the moment? What do we need to convince you about?
+Acked-by: Pavel Machek <pavel@ucw.cz>
+								Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-    Thanks
-	Andrew
+--gE7i1rD7pdK0Ng3j
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl1afmQACgkQMOfwapXb+vJyWQCfU/tZGXYDv0Yg5ikdrFBOljiQ
+6PwAniBhpvUOZcimMKQvPK7ofeM4efQz
+=9Rkl
+-----END PGP SIGNATURE-----
+
+--gE7i1rD7pdK0Ng3j--
