@@ -2,81 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C58D39B773
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Aug 2019 21:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DAF29B7BA
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Aug 2019 22:36:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391184AbfHWTzh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 23 Aug 2019 15:55:37 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:51446 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392200AbfHWTzf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Aug 2019 15:55:35 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7NJtRxr044090;
-        Fri, 23 Aug 2019 14:55:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1566590127;
-        bh=s0XicrLXuGI/HXmhbkjUlUHssBuuijSTQe3NjyOcpYc=;
-        h=From:To:CC:Subject:Date;
-        b=Yj9GHaINlCrLeqpl554w/KOYgdyGojesoH0OC4jJaXLz1xIV/29ZxiqNurw1BKwk+
-         Bi15b+mYcRCSC18HK3TvzCX7kClgG+vCVvYPenvVu3hYbTQgnCbf3N/pdxzwvF3RdF
-         +jW4fAByG5Pfe9cLExhlaOpInKNEQwp4hXmLz/7A=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7NJtRCG069056
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 23 Aug 2019 14:55:27 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 23
- Aug 2019 14:55:27 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 23 Aug 2019 14:55:27 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7NJtRZL004700;
-        Fri, 23 Aug 2019 14:55:27 -0500
-From:   Dan Murphy <dmurphy@ti.com>
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH] leds: ti-lmu-common: Fix coccinelle issue in TI LMU
-Date:   Fri, 23 Aug 2019 14:55:23 -0500
-Message-ID: <20190823195523.20950-1-dmurphy@ti.com>
-X-Mailer: git-send-email 2.22.0.214.g8dca754b1e
+        id S2389410AbfHWUgi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 23 Aug 2019 16:36:38 -0400
+Received: from mga03.intel.com ([134.134.136.65]:19274 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389217AbfHWUgi (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 23 Aug 2019 16:36:38 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Aug 2019 13:36:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,422,1559545200"; 
+   d="scan'208";a="191052970"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.145])
+  by orsmga002.jf.intel.com with ESMTP; 23 Aug 2019 13:36:36 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1i1GIU-0002rc-LQ; Fri, 23 Aug 2019 23:36:34 +0300
+Date:   Fri, 23 Aug 2019 23:36:34 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] leds: Switch to use fwnode instead of be stuck
+ with OF one
+Message-ID: <20190823203634.GX30120@smile.fi.intel.com>
+References: <20190822151928.51274-1-andriy.shevchenko@linux.intel.com>
+ <20190822151928.51274-2-andriy.shevchenko@linux.intel.com>
+ <08858604-8a89-870f-9234-21c7fdd1d165@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <08858604-8a89-870f-9234-21c7fdd1d165@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Fix the coccinelle issues found in the TI LMU common code
+On Fri, Aug 23, 2019 at 08:14:49PM +0200, Jacek Anaszewski wrote:
+> On 8/22/19 5:19 PM, Andy Shevchenko wrote:
 
-drivers/leds/leds-ti-lmu-common.c:97:20-29: WARNING: Unsigned expression compared with zero: ramp_down < 0
-drivers/leds/leds-ti-lmu-common.c:97:5-12: WARNING: Unsigned expression compared with zero: ramp_up < 0
+> > -	if (!np)
+> > -		return NULL;
+> 
+> Why aren't you checking fwnode for being not NULL?
+> It is not guaranteed to be always initialized.
 
-Fixes: f717460ba4d7 ("leds: TI LMU: Add common code for TI LMU devices")
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
----
- drivers/leds/leds-ti-lmu-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+And this is handled by the below. Even in the original code the check was
+redundant. Note, led_parse_fwnode_props() is written with the same redundancy.
 
-diff --git a/drivers/leds/leds-ti-lmu-common.c b/drivers/leds/leds-ti-lmu-common.c
-index adc7293004f1..c9ab40d5a6ba 100644
---- a/drivers/leds/leds-ti-lmu-common.c
-+++ b/drivers/leds/leds-ti-lmu-common.c
-@@ -84,7 +84,7 @@ static int ti_lmu_common_convert_ramp_to_index(unsigned int usec)
- int ti_lmu_common_set_ramp(struct ti_lmu_bank *lmu_bank)
- {
- 	struct regmap *regmap = lmu_bank->regmap;
--	u8 ramp, ramp_up, ramp_down;
-+	int ramp, ramp_up, ramp_down;
- 
- 	if (lmu_bank->ramp_up_usec == 0 && lmu_bank->ramp_down_usec == 0) {
- 		ramp_up = 0;
+> > -	count = of_property_count_u32_elems(np, "led-pattern");
+> > +	count = fwnode_property_count_u32(fwnode, "led-pattern");
+> >  	if (count < 0)
+> >  		return NULL;
+
 -- 
-2.22.0.214.g8dca754b1e
+With Best Regards,
+Andy Shevchenko
+
 
