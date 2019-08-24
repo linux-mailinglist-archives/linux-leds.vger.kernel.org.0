@@ -2,54 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D3609BE6F
-	for <lists+linux-leds@lfdr.de>; Sat, 24 Aug 2019 17:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A0F19BEAA
+	for <lists+linux-leds@lfdr.de>; Sat, 24 Aug 2019 17:53:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727248AbfHXPSt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 24 Aug 2019 11:18:49 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44992 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726855AbfHXPSt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Aug 2019 11:18:49 -0400
-Received: by mail-wr1-f67.google.com with SMTP id p17so11238218wrf.11;
-        Sat, 24 Aug 2019 08:18:47 -0700 (PDT)
+        id S1727440AbfHXPxT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 24 Aug 2019 11:53:19 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53100 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726628AbfHXPxS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Aug 2019 11:53:18 -0400
+Received: by mail-wm1-f65.google.com with SMTP id o4so11537757wmh.2;
+        Sat, 24 Aug 2019 08:53:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=dxisSCHOCPyLMPuzXwNXM1NTQPJznyVhrtka9jOq7XQ=;
-        b=ekfnuZsp4a4C5O5IKaVqGFkSU6MRt3Pm69ueJL71pqPPfSnKIuj60nbURDdEvXZh5/
-         fBEPYfTpnMiDDY3aQjkLQMG/HHdnQi2lj7HWUlasjARQNlDEUYbsoHOEz0qKIbn/ju7j
-         E1V8FV7filVzChLgNVXRwCNk822bNB+k9nvVjRJWMrOPtcu47qVPDSW83pJtbatFwH+i
-         PaMR+F6X2XOcP/nUpiONz4Xby947ywV5Tu7hXk3InhNKwDqNRaMvXFD8MJlGz1PEd+Wi
-         mvnm53KoRaiLWws1qsC2IZAJKJD2blRF3Q82bCZfImcs8m9WLY35kXwKYCipOWELlg1i
-         NpCg==
+        bh=vCwPhxu+XisVo9i1552VuYe7l2Hda+qqnfmRLD+DEa0=;
+        b=g6yItDStVpTxrMuw1zrWX1FYg02WxYK8nGnjK04ARNPZi46+L0EAzkUEZNYl5LVwYI
+         GM3adosi7CHNbt2xSARddVQ4NWcm6nYJDXTqKAVnoLMr3R1gKm2JVRVma2YT1xvKM6BF
+         bgviYEqX2CvHlTCem48Q7dkYjSYp2miLB553ZJ1IklEjQGc/dwc8BgGDmpKXdTay4vOv
+         D2kvv0Xtci8AvdmiauJoKDtvhi1kqTokBj2n7DJf8XOf6eK8ioH47aemkrqdh2BM4dbQ
+         C3HSo/zOMk3nBjHIEXBpc20WnU6uyXuVsUM/zl7QTcnSHOQg6G6+VRU1L8UuX3/xadma
+         tdxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=dxisSCHOCPyLMPuzXwNXM1NTQPJznyVhrtka9jOq7XQ=;
-        b=pYD6HgrIbulfR06Yx24DIIN1eZb3RZ4mv9LxCdIDyvbjLrc2i/GmR/PyEDtWlUDRyF
-         Tk9auA2hPM/I+kgwNyO0iB1yzJVp9Oynpv2SkE7zohm8/31OZ5fHn5djiQCmU6xjSy9P
-         +LIPoa8M+Q5GabAC9fAMNPghE9nvZ1213WUoKE1I9Ix9MlrU8spTe3niJepPhKBJZi04
-         sAS67jK/IULwY5ZY6432QohK2hEAMW7Js3DNpK3ONP6BTuxtQe0Jyb9G+B6+oc3kFiHX
-         IxbLz/r8WHioEf6IZDy70m1Vv2QFwOcHEysKA7BF05p8wXP6aXZcMC2EI5CsYJBm7Wp8
-         lsrA==
-X-Gm-Message-State: APjAAAXhzji/OYRDMhTxbc9O/07yxecqWp4hjWRPIU9zNjuuMAzRN3qe
-        4Nb/voDNns1oSARJ94AsL7Hep2Q/
-X-Google-Smtp-Source: APXvYqzXsALOqzS4Y3dYjAYbx2UmJObFqtsT6sXq16km7KbBFHjasaukFJJ2ivblBG921WK6DtrvhA==
-X-Received: by 2002:adf:c7cb:: with SMTP id y11mr12054607wrg.281.1566659926333;
-        Sat, 24 Aug 2019 08:18:46 -0700 (PDT)
+        bh=vCwPhxu+XisVo9i1552VuYe7l2Hda+qqnfmRLD+DEa0=;
+        b=f746RLijoii1MbSs8otAqKvjdkK4v139fKEiXbXT+jMrXFFTO6I1dqd3SAp4Z/jHyL
+         f0dzBDkEZkg4uH9EVqgataxgdi91PGByLHtOIdCvNahBxZtEdPgkaj5A7VOajLlwF2jU
+         3hsarB4m71kgJmDbFI6jUkCozAMVpFNC/ucnaiYrqte41ZE/aj+AWKDViU3qzBGrQbRY
+         DdfgzMR5JFmhQWHUT7+ApGbUi5Tf4i2Xu7bBBzt/8BmzznojRWXWIeG48TAv/T6C5RaC
+         MDhtY+zG/dgBO4pniasMJc4Lw7+e0E/Zy437KNl3I2Z+/+NpeLeF499dRaXYUci926/N
+         s6Jw==
+X-Gm-Message-State: APjAAAV27uppofmm0m0m/+6/rS/G5lHJH+Z2uMOs2BcCGQKuM986mZVc
+        BQo/V7xPPriVn5zhv21C+C8=
+X-Google-Smtp-Source: APXvYqymVWrjrfwCy4Xz0GWctLage0SMcJKrmEeRaDCOterLyVx97RddgIdLl/i+Fh+xk7qb6rqaQg==
+X-Received: by 2002:a1c:a7c9:: with SMTP id q192mr11135854wme.144.1566661995736;
+        Sat, 24 Aug 2019 08:53:15 -0700 (PDT)
 Received: from [192.168.1.19] (bkw182.neoplus.adsl.tpnet.pl. [83.28.190.182])
-        by smtp.gmail.com with ESMTPSA id f197sm18119567wme.22.2019.08.24.08.18.44
+        by smtp.gmail.com with ESMTPSA id g14sm12075103wrb.38.2019.08.24.08.53.13
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 24 Aug 2019 08:18:45 -0700 (PDT)
-Subject: Re: [PATCH] leds: ti-lmu-common: Fix coccinelle issue in TI LMU
-To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190823195523.20950-1-dmurphy@ti.com>
+        Sat, 24 Aug 2019 08:53:15 -0700 (PDT)
+Subject: Re: [PATCH v4 4/5] block: introduce LED block device activity trigger
+To:     Akinobu Mita <akinobu.mita@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-block@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org,
+        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
+        Dan Murphy <dmurphy@ti.com>, Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Hannes Reinecke <hare@suse.com>
+References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
+ <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
+ <20190817145509.GA18381@amd> <925633c4-a459-5e84-9c9a-502a504fdc82@gmail.com>
+ <20190819143842.GA25401@amd> <7c4c4853-7e3a-0618-92a0-337e248e2b4c@gmail.com>
+ <c937b7e0-02c6-ae9a-aaf7-16a2ef29886d@gmail.com>
+ <CAC5umyjxkeR3rhf3XZvwkxLvc-0ENEkQfOLnk8A12Qazr9Et8w@mail.gmail.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -108,58 +120,83 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <4a1872e8-89a5-4bc4-6aa4-bcadbc48697a@gmail.com>
-Date:   Sat, 24 Aug 2019 17:18:43 +0200
+Message-ID: <86309c4f-bcee-182c-369f-fcc883f379c6@gmail.com>
+Date:   Sat, 24 Aug 2019 17:53:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190823195523.20950-1-dmurphy@ti.com>
+In-Reply-To: <CAC5umyjxkeR3rhf3XZvwkxLvc-0ENEkQfOLnk8A12Qazr9Et8w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Dan,
-
-Thank you for the patch.
-
-On 8/23/19 9:55 PM, Dan Murphy wrote:
-> Fix the coccinelle issues found in the TI LMU common code
+On 8/23/19 6:00 PM, Akinobu Mita wrote:
+> 2019年8月20日(火) 3:38 Jacek Anaszewski <jacek.anaszewski@gmail.com>:
+>>
+>> On 8/19/19 8:22 PM, Jacek Anaszewski wrote:
+>>> On 8/19/19 4:38 PM, Pavel Machek wrote:
+>>>> On Sat 2019-08-17 22:07:43, Jacek Anaszewski wrote:
+>>>>> On 8/17/19 4:55 PM, Pavel Machek wrote:
+>>>>>> On Fri 2019-08-16 01:59:58, Akinobu Mita wrote:
+>>>>>>> This allows LEDs to be controlled by block device activity.
+>>>>>>>
+>>>>>>> We already have ledtrig-disk (LED disk activity trigger), but the lower
+>>>>>>> level disk drivers need to utilize ledtrig_disk_activity() to make the
+>>>>>>> LED blink.
+>>>>>>>
+>>>>>>> The LED block device trigger doesn't require the lower level drivers to
+>>>>>>> have any instrumentation. The activity is collected by polling the disk
+>>>>>>> stats.
+>>>>>>>
+>>>>>>> Example:
+>>>>>>>
+>>>>>>> echo block-nvme0n1 > /sys/class/leds/diy/trigger
+>>>>>>
+>>>>>> Lets use one trigger "block" and have the device as a parameter,
+>>>>>> please.
+>>>>>>
+>>>>>> We already have 1000 cpu triggers on 1000 cpu machines, and yes, its a
+>>>>>> disaster we'll need to fix. Lets not repeat the same mistake here.
+>>>>>>
+>>>>>> I guess it may be slightly more work. Sorry about that.
+>>>>>
+>>>>> We should be able to list available block devices to set,
+>>>>> so the problem would be not avoided anyway.
+>>>>
+>>>> Should we? We need to list triggers, but we may not list all the devices...
+>>>
+>>> This is similar to usbport trigger that lists available
+>>> ports as files in a sub-directory. We might eventually go
+>>> in this direction.
+>>
+>> I must withdraw this statement. This is not similar to usbport
+>> trigger. The difference is that with ledtrig-block we have separate
+>> triggers per each device and I am not aware if there is some centralized
+>> mechanism similar to blocking_notifier_chain (usb_notifier_list
+>> in drivers/usb/core/notify.c) available for block devices, that
+>> would allow to gather all available block devs under common trigger.
+>>
+>> Moreover I remember Greg once discouraged using notifier chains
+>> as they are unsafe, so we would need some other solution anyway.
 > 
-> drivers/leds/leds-ti-lmu-common.c:97:20-29: WARNING: Unsigned expression compared with zero: ramp_down < 0
-> drivers/leds/leds-ti-lmu-common.c:97:5-12: WARNING: Unsigned expression compared with zero: ramp_up < 0
+> I start thinking that we should implement the LED block device activity
+> trigger in userspace.  The userspace application firstly activates
+> one-shot LED trigger and periodically reads /sys/block/<disk>/stat and
+> writes /sys/class/leds/<led>/shot if there is any disk activity.
 
-Wouldn't it make more sense to remove those pointless checks?
-Clearly a correct index of an array cannot be negative.
-Looking at the code I would make more int -> unsigned int conversions:
+This would suboptimal solution. I have another idea - let's get back
+to the implementation of ledtrig-blk in genhd.c. We would be registering
+one trigger on module initialization in a function with __init modifier.
+Then we would need to add/remove triggers to the ledtrig-blk in
+register_blkdev()/unregister_blkdev(). And registered triggers would
+be listed in block_devs directory created by the trigger.
 
-- ramp_table should be unsigned int
-- ti_lmu_common_convert_ramp_to_index should return unsigned int
-
-
-> Fixes: f717460ba4d7 ("leds: TI LMU: Add common code for TI LMU devices")
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
->  drivers/leds/leds-ti-lmu-common.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/leds-ti-lmu-common.c b/drivers/leds/leds-ti-lmu-common.c
-> index adc7293004f1..c9ab40d5a6ba 100644
-> --- a/drivers/leds/leds-ti-lmu-common.c
-> +++ b/drivers/leds/leds-ti-lmu-common.c
-> @@ -84,7 +84,7 @@ static int ti_lmu_common_convert_ramp_to_index(unsigned int usec)
->  int ti_lmu_common_set_ramp(struct ti_lmu_bank *lmu_bank)
->  {
->  	struct regmap *regmap = lmu_bank->regmap;
-> -	u8 ramp, ramp_up, ramp_down;
-> +	int ramp, ramp_up, ramp_down;
->  
->  	if (lmu_bank->ramp_up_usec == 0 && lmu_bank->ramp_down_usec == 0) {
->  		ramp_up = 0;
-> 
+You can compare how drivers/usb/core/ledtrig-usbport.c maintains
+similar directory of usb ports.
 
 -- 
 Best regards,
