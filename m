@@ -2,55 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 57FB29BEE3
-	for <lists+linux-leds@lfdr.de>; Sat, 24 Aug 2019 18:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F36B9BEE5
+	for <lists+linux-leds@lfdr.de>; Sat, 24 Aug 2019 18:51:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726628AbfHXQr7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 24 Aug 2019 12:47:59 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:41635 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726390AbfHXQr7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Aug 2019 12:47:59 -0400
-Received: by mail-wr1-f66.google.com with SMTP id j16so11376665wrr.8
-        for <linux-leds@vger.kernel.org>; Sat, 24 Aug 2019 09:47:57 -0700 (PDT)
+        id S1726390AbfHXQvQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 24 Aug 2019 12:51:16 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:43652 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726343AbfHXQvQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Aug 2019 12:51:16 -0400
+Received: by mail-wr1-f68.google.com with SMTP id y8so11370210wrn.10
+        for <linux-leds@vger.kernel.org>; Sat, 24 Aug 2019 09:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=wRbNQw4PA8ce36N65sszJ+TyFhEpil8YGhUmGKH0V3k=;
-        b=CEG03SBBqLJ2XWdKaP90hBFDsbNknTCnYFI2nlja2Yo5wKrowOG73KJMmo7jaFJKp0
-         drqm13o6+s7uIhnQ3nBP53XFcyv+88t7qtZvA4SYzqB05W1hY86dg2lxSh1I4MdLq5F/
-         pe8mtBxI84vaKcsZUzg0UiCokQFhkd8vqF3bKhSiFEAR3ia4qyA4vfT0h/p9HciWaDm5
-         oxrNmU8nH8NAuA+MYUokq3iKj+JmjCXTCtnhxIpByhQwXU3OBANh34U+wHeNMCkCwHFT
-         uTzcBHIltJeZ79TZ4EM2TNh6RHTQ5MevrH3EwcXiAXSGuz6rHeiQrMVk2VjKM6s8Rlik
-         WnEQ==
+        bh=8BeMpeLjMGUnuMrkii/eNeuzrFKxrLeUzLp5A5QYISI=;
+        b=pQ3Ft8z4fiH5vlCJFPv1vijqQJzOicyoQKHo93iQavE4+rqFwXiFB6+kqqr6WoeXVQ
+         hALQIiJUTXlsZTvH6/gCcMdv/U17JMOWPODovxp/p4/nQ/mbGCWFzdbM8BfSjL7hijfj
+         66ylXI5GFYLt4l3RQlf1Z/bT3LbeaJTzOpJLBkv68VEkr9TAh89KYEjs6GY3nQEUa5eb
+         OCg5A9FpvkAsXk6GwTFscK1r8GdI53vmprJEgjMoxqaQ+bjPUMEoxGRTJj2fmUWzAtYg
+         GJ7PdZqIf5eOBNxvZA4S6sEhPh4Sela2ucaRBPMoRBwA0qJ0qvZFnznDXg0sGZR0mgkR
+         JAfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=wRbNQw4PA8ce36N65sszJ+TyFhEpil8YGhUmGKH0V3k=;
-        b=gz0tqQvTh0LDLVFrFeVC0Os++TFu4qwocTRFB1CG65qd16o8A1agp+o1SMyBsfk9c7
-         +EmZmqiWzmFW+RRc00BwN97sr2Ihk8w7wEN6UefsAqGJG60zuwJM/5EIqis+jMn/9x+r
-         YCdT4Fy8EzX/7AZhfLM3iO/hmecA+oT/WromR7xOFVE5WOBHxIQqI9Bu3cxrQmIaaSPe
-         XOVuM+UoPxsFAgumgWUlcmHtS9RnFqSUyIW2VzFMKrqAveBlT/ViIf/Mtc4kSObvZqaG
-         GsWp3BA249XYx1mlJ6WiC23zZEeFpLKtX4fWb0gq902EdPYlUzCzkzXOwMFTJ5+lv51e
-         IomA==
-X-Gm-Message-State: APjAAAVz2+IB1XvwQEFUVjkva+/s9iq13T7HAP1w8+jsCmD4uRswhY1p
-        sYGZBRSkxAn/SD7jzjVWZv3gqc6P
-X-Google-Smtp-Source: APXvYqxU8SEuSkWRgc+XOT6HaBTKcRlH/0+DP31BJgW1dDU3XePbRoMY90qeBLbxz1zSN2L9TBo3Hg==
-X-Received: by 2002:adf:fe4f:: with SMTP id m15mr7226323wrs.36.1566665276380;
-        Sat, 24 Aug 2019 09:47:56 -0700 (PDT)
+        bh=8BeMpeLjMGUnuMrkii/eNeuzrFKxrLeUzLp5A5QYISI=;
+        b=IF7q4kzb9mVocx+igpq69d/ZnEUx+8QMYSHOuzkRuso9jQEX2VIEdJ0Ee2HbPOWMpc
+         dW2ByN0kBec+cfsMJ64mEI9aiiq0RRVrEDABvlvfKZTx1aecPkzPifgSpS3TMuIypAO6
+         0E+bLjXKnKxFfsQagCWXtpquA2UWQDbjMQ6es8vWuUrGp3ngbf7N0Py7M3F7QDBGtzbG
+         ukQrAxSbx66+lnNyL2JYqZXMZXr8UX7u/kYyuWZ60e2RAril5z42hBt9Phn74QZRnC1D
+         fbE6KPbwiHdFdApCaq/4FneOwuu/ISGJ0Vq3MhzA2TeFUc0OjvfbeeyKCaMjqFi3V1n2
+         gK+w==
+X-Gm-Message-State: APjAAAWMCjTn38P6ktj30pZyJedSKEmJ+Hn5Qg/O08j6igjkpsJnQYCC
+        Rqvs+gNEX7HnooIrKjp6IiKyk9qV
+X-Google-Smtp-Source: APXvYqz3XvFSS42njrB/JhKxDBuHsdwzQxCd+Zioy6syYfCyn1/JbC31uEiuaMavKtWtyDYaYr6LLw==
+X-Received: by 2002:a5d:54ce:: with SMTP id x14mr11918123wrv.237.1566665472796;
+        Sat, 24 Aug 2019 09:51:12 -0700 (PDT)
 Received: from [192.168.1.19] (bkw182.neoplus.adsl.tpnet.pl. [83.28.190.182])
-        by smtp.gmail.com with ESMTPSA id c12sm5410370wrx.46.2019.08.24.09.47.55
+        by smtp.gmail.com with ESMTPSA id n8sm5046014wro.89.2019.08.24.09.51.11
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 24 Aug 2019 09:47:55 -0700 (PDT)
-Subject: Re: [PATCH v1 1/2] leds: trigger: gpio: GPIO 0 is valid
+        Sat, 24 Aug 2019 09:51:12 -0700 (PDT)
+Subject: Re: [PATCH v1 2/2] leds: trigger: gpio: Convert to use kstrtox()
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         linux-leds@vger.kernel.org
 References: <20190821171727.87886-1-andriy.shevchenko@linux.intel.com>
+ <20190821171727.87886-2-andriy.shevchenko@linux.intel.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -109,15 +110,15 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <c06873f2-7472-8013-7909-e5eb50def993@gmail.com>
-Date:   Sat, 24 Aug 2019 18:47:54 +0200
+Message-ID: <fcac91ba-5048-912f-47b4-490421f04fc1@gmail.com>
+Date:   Sat, 24 Aug 2019 18:51:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190821171727.87886-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20190821171727.87886-2-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
@@ -128,60 +129,75 @@ Hi Andy,
 Thank you for the patch.
 
 On 8/21/19 7:17 PM, Andy Shevchenko wrote:
-> Allow all valid GPIOs to be used in the driver.
+> sscanf() is a heavy one and moreover requires additional boundary checks.
+> Convert driver to use kstrtox() and replace kstrtoul() by kstrtobool() in
+> gpio_trig_inverted_store()
 > 
-> Fixes: 17354bfe8527 ("leds: Add gpio-led trigger")
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  drivers/leds/trigger/ledtrig-gpio.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  drivers/leds/trigger/ledtrig-gpio.c | 23 ++++++++++-------------
+>  1 file changed, 10 insertions(+), 13 deletions(-)
 > 
 > diff --git a/drivers/leds/trigger/ledtrig-gpio.c b/drivers/leds/trigger/ledtrig-gpio.c
-> index 33cc99a1a16a..31f456dd4417 100644
+> index 31f456dd4417..b01862b94c99 100644
 > --- a/drivers/leds/trigger/ledtrig-gpio.c
 > +++ b/drivers/leds/trigger/ledtrig-gpio.c
-> @@ -131,10 +131,10 @@ static ssize_t gpio_trig_gpio_store(struct device *dev,
->  	if (gpio_data->gpio == gpio)
->  		return n;
+> @@ -57,13 +57,13 @@ static ssize_t gpio_trig_brightness_store(struct device *dev,
+>  		struct device_attribute *attr, const char *buf, size_t n)
+>  {
+>  	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
+> -	unsigned desired_brightness;
+> +	u8 desired_brightness;
+>  	int ret;
 >  
-> -	if (!gpio) {
-> -		if (gpio_data->gpio != 0)
-> +	if (!gpio_is_valid(gpio)) {
-> +		if (gpio_is_valid(gpio_data->gpio))
->  			free_irq(gpio_to_irq(gpio_data->gpio), led);
-> -		gpio_data->gpio = 0;
-> +		gpio_data->gpio = gpio;
+> -	ret = sscanf(buf, "%u", &desired_brightness);
+> -	if (ret < 1 || desired_brightness > 255) {
 
-It looks odd to me. I'd just assign invalid constant gpio number
-e.g. -1.
+LED_FULL (255) is already not a hard limit for quite a long time.
+While we are at it we could change that to led->max_brightness.
 
-Note that we should also do that in gpio_trig_activate(), where
-gpio_data->gpio is initialized to 0 by kzalloc(). That later can
-have nasty side effect in gpio_trig_gpio_store() when gpio to set
-is 0. Then the condition "if (gpio_data->gpio == gpio)" will evaluate
-to true and gpio_trig_irq() handler will not be registered.
-
->  		return n;
+> +	ret = kstrtou8(buf, 10, &desired_brightness);
+> +	if (ret) {
+>  		dev_err(dev, "invalid value\n");
+> -		return -EINVAL;
+> +		return ret;
 >  	}
 >  
-> @@ -144,7 +144,7 @@ static ssize_t gpio_trig_gpio_store(struct device *dev,
->  	if (ret) {
->  		dev_err(dev, "request_irq failed with error %d\n", ret);
->  	} else {
-> -		if (gpio_data->gpio != 0)
-> +		if (gpio_is_valid(gpio_data->gpio))
->  			free_irq(gpio_to_irq(gpio_data->gpio), led);
->  		gpio_data->gpio = gpio;
->  		/* After changing the GPIO, we need to update the LED. */
-> @@ -181,7 +181,7 @@ static void gpio_trig_deactivate(struct led_classdev *led)
+>  	gpio_data->desired_brightness = desired_brightness;
+> @@ -86,16 +86,13 @@ static ssize_t gpio_trig_inverted_store(struct device *dev,
 >  {
->  	struct gpio_trig_data *gpio_data = led_get_trigger_data(led);
+>  	struct led_classdev *led = led_trigger_get_led(dev);
+>  	struct gpio_trig_data *gpio_data = led_trigger_get_drvdata(dev);
+> -	unsigned long inverted;
+> +	bool inverted;
+>  	int ret;
 >  
-> -	if (gpio_data->gpio != 0)
-> +	if (gpio_is_valid(gpio_data->gpio))
->  		free_irq(gpio_to_irq(gpio_data->gpio), led);
->  	kfree(gpio_data);
->  }
+> -	ret = kstrtoul(buf, 10, &inverted);
+> -	if (ret < 0)
+> +	ret = kstrtobool(buf, &inverted);
+> +	if (ret)
+>  		return ret;
+>  
+> -	if (inverted > 1)
+> -		return -EINVAL;
+> -
+>  	gpio_data->inverted = inverted;
+>  
+>  	/* After inverting, we need to update the LED. */
+> @@ -122,10 +119,10 @@ static ssize_t gpio_trig_gpio_store(struct device *dev,
+>  	unsigned gpio;
+>  	int ret;
+>  
+> -	ret = sscanf(buf, "%u", &gpio);
+> -	if (ret < 1) {
+> +	ret = kstrtouint(buf, 10, &gpio);
+> +	if (ret) {
+>  		dev_err(dev, "couldn't read gpio number\n");
+> -		return -EINVAL;
+> +		return ret;
+>  	}
+>  
+>  	if (gpio_data->gpio == gpio)
 > 
 
 -- 
