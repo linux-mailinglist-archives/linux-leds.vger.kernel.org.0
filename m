@@ -2,66 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A0F19BEAA
-	for <lists+linux-leds@lfdr.de>; Sat, 24 Aug 2019 17:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57FB29BEE3
+	for <lists+linux-leds@lfdr.de>; Sat, 24 Aug 2019 18:48:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727440AbfHXPxT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 24 Aug 2019 11:53:19 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53100 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726628AbfHXPxS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Aug 2019 11:53:18 -0400
-Received: by mail-wm1-f65.google.com with SMTP id o4so11537757wmh.2;
-        Sat, 24 Aug 2019 08:53:16 -0700 (PDT)
+        id S1726628AbfHXQr7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 24 Aug 2019 12:47:59 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41635 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726390AbfHXQr7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Aug 2019 12:47:59 -0400
+Received: by mail-wr1-f66.google.com with SMTP id j16so11376665wrr.8
+        for <linux-leds@vger.kernel.org>; Sat, 24 Aug 2019 09:47:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=vCwPhxu+XisVo9i1552VuYe7l2Hda+qqnfmRLD+DEa0=;
-        b=g6yItDStVpTxrMuw1zrWX1FYg02WxYK8nGnjK04ARNPZi46+L0EAzkUEZNYl5LVwYI
-         GM3adosi7CHNbt2xSARddVQ4NWcm6nYJDXTqKAVnoLMr3R1gKm2JVRVma2YT1xvKM6BF
-         bgviYEqX2CvHlTCem48Q7dkYjSYp2miLB553ZJ1IklEjQGc/dwc8BgGDmpKXdTay4vOv
-         D2kvv0Xtci8AvdmiauJoKDtvhi1kqTokBj2n7DJf8XOf6eK8ioH47aemkrqdh2BM4dbQ
-         C3HSo/zOMk3nBjHIEXBpc20WnU6uyXuVsUM/zl7QTcnSHOQg6G6+VRU1L8UuX3/xadma
-         tdxA==
+        bh=wRbNQw4PA8ce36N65sszJ+TyFhEpil8YGhUmGKH0V3k=;
+        b=CEG03SBBqLJ2XWdKaP90hBFDsbNknTCnYFI2nlja2Yo5wKrowOG73KJMmo7jaFJKp0
+         drqm13o6+s7uIhnQ3nBP53XFcyv+88t7qtZvA4SYzqB05W1hY86dg2lxSh1I4MdLq5F/
+         pe8mtBxI84vaKcsZUzg0UiCokQFhkd8vqF3bKhSiFEAR3ia4qyA4vfT0h/p9HciWaDm5
+         oxrNmU8nH8NAuA+MYUokq3iKj+JmjCXTCtnhxIpByhQwXU3OBANh34U+wHeNMCkCwHFT
+         uTzcBHIltJeZ79TZ4EM2TNh6RHTQ5MevrH3EwcXiAXSGuz6rHeiQrMVk2VjKM6s8Rlik
+         WnEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=vCwPhxu+XisVo9i1552VuYe7l2Hda+qqnfmRLD+DEa0=;
-        b=f746RLijoii1MbSs8otAqKvjdkK4v139fKEiXbXT+jMrXFFTO6I1dqd3SAp4Z/jHyL
-         f0dzBDkEZkg4uH9EVqgataxgdi91PGByLHtOIdCvNahBxZtEdPgkaj5A7VOajLlwF2jU
-         3hsarB4m71kgJmDbFI6jUkCozAMVpFNC/ucnaiYrqte41ZE/aj+AWKDViU3qzBGrQbRY
-         DdfgzMR5JFmhQWHUT7+ApGbUi5Tf4i2Xu7bBBzt/8BmzznojRWXWIeG48TAv/T6C5RaC
-         MDhtY+zG/dgBO4pniasMJc4Lw7+e0E/Zy437KNl3I2Z+/+NpeLeF499dRaXYUci926/N
-         s6Jw==
-X-Gm-Message-State: APjAAAV27uppofmm0m0m/+6/rS/G5lHJH+Z2uMOs2BcCGQKuM986mZVc
-        BQo/V7xPPriVn5zhv21C+C8=
-X-Google-Smtp-Source: APXvYqymVWrjrfwCy4Xz0GWctLage0SMcJKrmEeRaDCOterLyVx97RddgIdLl/i+Fh+xk7qb6rqaQg==
-X-Received: by 2002:a1c:a7c9:: with SMTP id q192mr11135854wme.144.1566661995736;
-        Sat, 24 Aug 2019 08:53:15 -0700 (PDT)
+        bh=wRbNQw4PA8ce36N65sszJ+TyFhEpil8YGhUmGKH0V3k=;
+        b=gz0tqQvTh0LDLVFrFeVC0Os++TFu4qwocTRFB1CG65qd16o8A1agp+o1SMyBsfk9c7
+         +EmZmqiWzmFW+RRc00BwN97sr2Ihk8w7wEN6UefsAqGJG60zuwJM/5EIqis+jMn/9x+r
+         YCdT4Fy8EzX/7AZhfLM3iO/hmecA+oT/WromR7xOFVE5WOBHxIQqI9Bu3cxrQmIaaSPe
+         XOVuM+UoPxsFAgumgWUlcmHtS9RnFqSUyIW2VzFMKrqAveBlT/ViIf/Mtc4kSObvZqaG
+         GsWp3BA249XYx1mlJ6WiC23zZEeFpLKtX4fWb0gq902EdPYlUzCzkzXOwMFTJ5+lv51e
+         IomA==
+X-Gm-Message-State: APjAAAVz2+IB1XvwQEFUVjkva+/s9iq13T7HAP1w8+jsCmD4uRswhY1p
+        sYGZBRSkxAn/SD7jzjVWZv3gqc6P
+X-Google-Smtp-Source: APXvYqxU8SEuSkWRgc+XOT6HaBTKcRlH/0+DP31BJgW1dDU3XePbRoMY90qeBLbxz1zSN2L9TBo3Hg==
+X-Received: by 2002:adf:fe4f:: with SMTP id m15mr7226323wrs.36.1566665276380;
+        Sat, 24 Aug 2019 09:47:56 -0700 (PDT)
 Received: from [192.168.1.19] (bkw182.neoplus.adsl.tpnet.pl. [83.28.190.182])
-        by smtp.gmail.com with ESMTPSA id g14sm12075103wrb.38.2019.08.24.08.53.13
+        by smtp.gmail.com with ESMTPSA id c12sm5410370wrx.46.2019.08.24.09.47.55
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 24 Aug 2019 08:53:15 -0700 (PDT)
-Subject: Re: [PATCH v4 4/5] block: introduce LED block device activity trigger
-To:     Akinobu Mita <akinobu.mita@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-block@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org,
-        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
-        Dan Murphy <dmurphy@ti.com>, Jens Axboe <axboe@kernel.dk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Hannes Reinecke <hare@suse.com>
-References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
- <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
- <20190817145509.GA18381@amd> <925633c4-a459-5e84-9c9a-502a504fdc82@gmail.com>
- <20190819143842.GA25401@amd> <7c4c4853-7e3a-0618-92a0-337e248e2b4c@gmail.com>
- <c937b7e0-02c6-ae9a-aaf7-16a2ef29886d@gmail.com>
- <CAC5umyjxkeR3rhf3XZvwkxLvc-0ENEkQfOLnk8A12Qazr9Et8w@mail.gmail.com>
+        Sat, 24 Aug 2019 09:47:55 -0700 (PDT)
+Subject: Re: [PATCH v1 1/2] leds: trigger: gpio: GPIO 0 is valid
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org
+References: <20190821171727.87886-1-andriy.shevchenko@linux.intel.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -120,12 +109,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <86309c4f-bcee-182c-369f-fcc883f379c6@gmail.com>
-Date:   Sat, 24 Aug 2019 17:53:12 +0200
+Message-ID: <c06873f2-7472-8013-7909-e5eb50def993@gmail.com>
+Date:   Sat, 24 Aug 2019 18:47:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAC5umyjxkeR3rhf3XZvwkxLvc-0ENEkQfOLnk8A12Qazr9Et8w@mail.gmail.com>
+In-Reply-To: <20190821171727.87886-1-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -134,69 +123,66 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 8/23/19 6:00 PM, Akinobu Mita wrote:
-> 2019年8月20日(火) 3:38 Jacek Anaszewski <jacek.anaszewski@gmail.com>:
->>
->> On 8/19/19 8:22 PM, Jacek Anaszewski wrote:
->>> On 8/19/19 4:38 PM, Pavel Machek wrote:
->>>> On Sat 2019-08-17 22:07:43, Jacek Anaszewski wrote:
->>>>> On 8/17/19 4:55 PM, Pavel Machek wrote:
->>>>>> On Fri 2019-08-16 01:59:58, Akinobu Mita wrote:
->>>>>>> This allows LEDs to be controlled by block device activity.
->>>>>>>
->>>>>>> We already have ledtrig-disk (LED disk activity trigger), but the lower
->>>>>>> level disk drivers need to utilize ledtrig_disk_activity() to make the
->>>>>>> LED blink.
->>>>>>>
->>>>>>> The LED block device trigger doesn't require the lower level drivers to
->>>>>>> have any instrumentation. The activity is collected by polling the disk
->>>>>>> stats.
->>>>>>>
->>>>>>> Example:
->>>>>>>
->>>>>>> echo block-nvme0n1 > /sys/class/leds/diy/trigger
->>>>>>
->>>>>> Lets use one trigger "block" and have the device as a parameter,
->>>>>> please.
->>>>>>
->>>>>> We already have 1000 cpu triggers on 1000 cpu machines, and yes, its a
->>>>>> disaster we'll need to fix. Lets not repeat the same mistake here.
->>>>>>
->>>>>> I guess it may be slightly more work. Sorry about that.
->>>>>
->>>>> We should be able to list available block devices to set,
->>>>> so the problem would be not avoided anyway.
->>>>
->>>> Should we? We need to list triggers, but we may not list all the devices...
->>>
->>> This is similar to usbport trigger that lists available
->>> ports as files in a sub-directory. We might eventually go
->>> in this direction.
->>
->> I must withdraw this statement. This is not similar to usbport
->> trigger. The difference is that with ledtrig-block we have separate
->> triggers per each device and I am not aware if there is some centralized
->> mechanism similar to blocking_notifier_chain (usb_notifier_list
->> in drivers/usb/core/notify.c) available for block devices, that
->> would allow to gather all available block devs under common trigger.
->>
->> Moreover I remember Greg once discouraged using notifier chains
->> as they are unsafe, so we would need some other solution anyway.
+Hi Andy,
+
+Thank you for the patch.
+
+On 8/21/19 7:17 PM, Andy Shevchenko wrote:
+> Allow all valid GPIOs to be used in the driver.
 > 
-> I start thinking that we should implement the LED block device activity
-> trigger in userspace.  The userspace application firstly activates
-> one-shot LED trigger and periodically reads /sys/block/<disk>/stat and
-> writes /sys/class/leds/<led>/shot if there is any disk activity.
+> Fixes: 17354bfe8527 ("leds: Add gpio-led trigger")
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/leds/trigger/ledtrig-gpio.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-gpio.c b/drivers/leds/trigger/ledtrig-gpio.c
+> index 33cc99a1a16a..31f456dd4417 100644
+> --- a/drivers/leds/trigger/ledtrig-gpio.c
+> +++ b/drivers/leds/trigger/ledtrig-gpio.c
+> @@ -131,10 +131,10 @@ static ssize_t gpio_trig_gpio_store(struct device *dev,
+>  	if (gpio_data->gpio == gpio)
+>  		return n;
+>  
+> -	if (!gpio) {
+> -		if (gpio_data->gpio != 0)
+> +	if (!gpio_is_valid(gpio)) {
+> +		if (gpio_is_valid(gpio_data->gpio))
+>  			free_irq(gpio_to_irq(gpio_data->gpio), led);
+> -		gpio_data->gpio = 0;
+> +		gpio_data->gpio = gpio;
 
-This would suboptimal solution. I have another idea - let's get back
-to the implementation of ledtrig-blk in genhd.c. We would be registering
-one trigger on module initialization in a function with __init modifier.
-Then we would need to add/remove triggers to the ledtrig-blk in
-register_blkdev()/unregister_blkdev(). And registered triggers would
-be listed in block_devs directory created by the trigger.
+It looks odd to me. I'd just assign invalid constant gpio number
+e.g. -1.
 
-You can compare how drivers/usb/core/ledtrig-usbport.c maintains
-similar directory of usb ports.
+Note that we should also do that in gpio_trig_activate(), where
+gpio_data->gpio is initialized to 0 by kzalloc(). That later can
+have nasty side effect in gpio_trig_gpio_store() when gpio to set
+is 0. Then the condition "if (gpio_data->gpio == gpio)" will evaluate
+to true and gpio_trig_irq() handler will not be registered.
+
+>  		return n;
+>  	}
+>  
+> @@ -144,7 +144,7 @@ static ssize_t gpio_trig_gpio_store(struct device *dev,
+>  	if (ret) {
+>  		dev_err(dev, "request_irq failed with error %d\n", ret);
+>  	} else {
+> -		if (gpio_data->gpio != 0)
+> +		if (gpio_is_valid(gpio_data->gpio))
+>  			free_irq(gpio_to_irq(gpio_data->gpio), led);
+>  		gpio_data->gpio = gpio;
+>  		/* After changing the GPIO, we need to update the LED. */
+> @@ -181,7 +181,7 @@ static void gpio_trig_deactivate(struct led_classdev *led)
+>  {
+>  	struct gpio_trig_data *gpio_data = led_get_trigger_data(led);
+>  
+> -	if (gpio_data->gpio != 0)
+> +	if (gpio_is_valid(gpio_data->gpio))
+>  		free_irq(gpio_to_irq(gpio_data->gpio), led);
+>  	kfree(gpio_data);
+>  }
+> 
 
 -- 
 Best regards,
