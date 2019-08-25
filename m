@@ -2,57 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 083779C2F2
-	for <lists+linux-leds@lfdr.de>; Sun, 25 Aug 2019 12:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 231109C2F4
+	for <lists+linux-leds@lfdr.de>; Sun, 25 Aug 2019 12:51:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726511AbfHYKvA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 25 Aug 2019 06:51:00 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:40755 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbfHYKvA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 25 Aug 2019 06:51:00 -0400
-Received: by mail-wr1-f66.google.com with SMTP id c3so12554044wrd.7;
-        Sun, 25 Aug 2019 03:50:57 -0700 (PDT)
+        id S1726511AbfHYKvv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 25 Aug 2019 06:51:51 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:39781 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725809AbfHYKvv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 25 Aug 2019 06:51:51 -0400
+Received: by mail-wm1-f65.google.com with SMTP id i63so13133714wmg.4
+        for <linux-leds@vger.kernel.org>; Sun, 25 Aug 2019 03:51:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:from:to:cc:references:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Z4LZRcJX7yFxtYd9ZqbkCVE7tpudPLpKrjUrE+oXxxc=;
-        b=dU213K24anPdfF7XH/plFNyb+QQjqRPBjlXBy0GJRBkBIRwkK3N2EZpOj8Wv9x+Ssq
-         /IqtnzfGYSVwTa3clVOeG3xMC4u5CSJ+ln3MSozcAoHsNQ4sYDVNN3OryTs5Y/ujFSZb
-         YUz4WUsVnb3Fja/5ydSZM3XTulHu/fSMUmYH91c5iE8LQyIbJEkmhQ8exeNkLr4zuqeL
-         MqgTZ7ZziUD1Yqg8YMtmma4QA8gQg3CKs3Jny196kzjZzTuYFGlFnBbWA9IXqeyaHE58
-         9ThAyziiAtUvRFv17bT8X08ieqnGB6aiJfvhaFE9cRGbZutyywCIRChXZUWI3aBWn20H
-         KvUw==
+        bh=iyFVWMDIULCPM5BkMYl7DiojL9+mENwJVSlJVyg1KhA=;
+        b=kKmfqKrtHDZAqXJfvkkkUyk1t8+2cNn9BDl9ErQffbH1SbmJCm55nsafGAzstaYPSL
+         SHzdPdt0BFRwLnMAXE3t3g25FG8eVRfKZLX+XWXkL2C643xuyUKY6DXpkwwVSHeKaxhi
+         Osm+GyRyvgzYDs3G2MMTNWoyZfZSMjmH5hvcyCNwpvDZEMept6QF3+gKGpYrupTDSap+
+         bb5F//E1Nsc2BPyG2fMQGQ4Yq9KAin1zsu2vUZ2BASqBrUCHVr3ZTJlNrG60E4Mf3Rmy
+         fTslE58/XbYLbMcy5D0ZLLPwrheOz3HFYBhE6qtV/9AR3sNbZYJuy5icQZq0rQZq0MP7
+         7eUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=Z4LZRcJX7yFxtYd9ZqbkCVE7tpudPLpKrjUrE+oXxxc=;
-        b=cs/xgrZi/ZWXNhgU34XFbZf0pgZCq13bqErFGn3qwVFrWVIFxpdbkNLXML4hX84CGn
-         OPkoyYA1g3+UPs3dqHdXhwc75YtRSUI/r1GTeeGfOpVr1SSdIf1psMyoebGElPU4mQ6v
-         k6JDl8bbtr0yByRGojS+EgPP445ox66hf9tggwtzIYF64HjOi/+FIkQvs1EFOmhaEmP2
-         NfRgVdvTdBUwPspCtv5tOMbgr0Y/eFxFSxzXaSXortEMwVRtvg6UT/AVgGkUSEi2KaQv
-         LGN+oZ6KLnurzlfI4TTtarFWVDjIs61BKeMipv7Ruvhm4+q3RVp49C6jVdgvLvU1c/fO
-         1cvQ==
-X-Gm-Message-State: APjAAAWdi3YnHAct1Yt6gm68uC5oEv6eoOGLL59SYefEa/lzxqUHhff2
-        uW3eAaRzCwh+gdbiqbDM8Q7DzmYZ
-X-Google-Smtp-Source: APXvYqxX3U4ynt293pQXYmzSYp6tOoPOuQsTwYvcnP6P06wmrirmciEcsI5iV5GLaKWqDjWr6j+m6Q==
-X-Received: by 2002:adf:94e5:: with SMTP id 92mr15937253wrr.212.1566730256410;
-        Sun, 25 Aug 2019 03:50:56 -0700 (PDT)
+        bh=iyFVWMDIULCPM5BkMYl7DiojL9+mENwJVSlJVyg1KhA=;
+        b=XF5xVQP6VpIxQNOaabh099qt7bZ47LIoCnF4DWeZWfQa+ZivYYECgtuDY42KyEwzDU
+         78e+WR8OTvvqRZRA97dmCNnzimRt7Ce6DQnohB9NH2w5zzuZkaFHT3VgkfkrQjbnB1Vt
+         65XGsFS55/I6rUjhO2fXpvq8UdWfT/ChvPt1+k0yVe3COCAvOwyBbf9lH6UswRYAiQK2
+         mk0zuO4EKkWwreTqt9J5KWwVhPq/t8V/IakXV7pgFaiDBFHwv3uW3g5Z55MgIE7Ajke1
+         5OH0FB4ubb5ZlljK9u0+Cll6mjzzHN6CRM+CtcofiPoT9h99+tTMWRuBVF9VxPvYGZ2w
+         ObHA==
+X-Gm-Message-State: APjAAAV6hatA7YQarWxz4/Vi/23+DPCiniwUrE5NUDalfDl8pA99YuYp
+        S2nnQCQ854Q+pbh2CfUwFi64DNjM
+X-Google-Smtp-Source: APXvYqxAIx2RSj66XYuLZaENVLdE74Mb3YOwebBvwDCnaS313Y1wWE8A6iJBuZA3eOeFRzkaLMKoEQ==
+X-Received: by 2002:a05:600c:2255:: with SMTP id a21mr15174071wmm.119.1566730307969;
+        Sun, 25 Aug 2019 03:51:47 -0700 (PDT)
 Received: from [192.168.1.19] (bkm171.neoplus.adsl.tpnet.pl. [83.28.180.171])
-        by smtp.gmail.com with ESMTPSA id t8sm22848815wra.73.2019.08.25.03.50.54
+        by smtp.gmail.com with ESMTPSA id g65sm15807408wma.21.2019.08.25.03.51.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 25 Aug 2019 03:50:55 -0700 (PDT)
-Subject: Re: [PATCH v3 1/5] leds: lm3532: Fix brightness control for i2c mode
-To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz, tony@atomide.com,
-        sre@kernel.org, nekit1000@gmail.com, mpartap@gmx.net,
-        merlijn@wizzup.org
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190820195307.27590-1-dmurphy@ti.com>
+        Sun, 25 Aug 2019 03:51:47 -0700 (PDT)
+Subject: Re: [PATCH v1] leds: Allow to call led_classdev_unregister()
+ unconditionally
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
+References: <20190816105229.81234-1-andriy.shevchenko@linux.intel.com>
+ <20190816114908.GA10081@amd> <6027ed85-62a2-8983-cd80-771b03dfd905@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -110,13 +111,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <8497503d-6b6a-b557-2247-33b186218beb@gmail.com>
-Date:   Sun, 25 Aug 2019 12:50:53 +0200
+Message-ID: <fda837a7-fe16-ee73-cef9-ca94f686c031@gmail.com>
+Date:   Sun, 25 Aug 2019 12:51:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190820195307.27590-1-dmurphy@ti.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <6027ed85-62a2-8983-cd80-771b03dfd905@gmail.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -124,139 +125,32 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Dan,
-
-Thank you for the update.
-
-On 8/20/19 9:53 PM, Dan Murphy wrote:
-> Fix the brightness control for I2C mode.  Instead of
-> changing the full scale current register update the ALS target
-> register for the appropriate banks.
+On 8/16/19 8:02 PM, Jacek Anaszewski wrote:
+> On 8/16/19 1:49 PM, Pavel Machek wrote:
+>> Hi!
+>>
+>>> If in the certain driver the LED is optional, and it's a majority of them,
+>>> the call of led_classdev_unregister() still requires some additional checks.
+>>>
+>>> The usual pattern on unregistering is to check for NULL, but we also check
+>>> for IS_ERR() in case device_create_with_groups() fails.
+>>>
+>>> The change will reduce a burden in a lot of drivers to repeatedly check
+>>> for above conditions.
+>>
+>> I don't see majority of calls being protected.  Doing nothing on NULL
+>> sounds reasonable. I'm less sure about "IS_ERR"...
 > 
-> In addition clean up some code errors and random misspellings found
-> during coding.
+> device_create_groups_vargs() returns ERR_PTR(retval) on error so
+> led_cdev->dev may be left non-NULL even on error.
 > 
-> Tested on Droid4 as well as LM3532 EVM connected to a BeagleBoneBlack
-> 
-> Fixes: e37a7f8d77e1 ("leds: lm3532: Introduce the lm3532 LED driver")
-> Reported-by: Pavel Machek <pavel@ucw.cz>
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
-> 
-> v3 - Removed register define updates - https://lore.kernel.org/patchwork/patch/1114542/
-> 
->  drivers/leds/leds-lm3532.c | 44 ++++++++++++++++++++++++++------------
->  1 file changed, 30 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
-> index 646100724971..8132d05f7add 100644
-> --- a/drivers/leds/leds-lm3532.c
-> +++ b/drivers/leds/leds-lm3532.c
-> @@ -38,6 +38,9 @@
->  #define LM3532_REG_ZN_2_LO	0x65
->  #define LM3532_REG_ZN_3_HI	0x66
->  #define LM3532_REG_ZN_3_LO	0x67
-> +#define LM3532_REG_ZONE_TRGT_A	0x70
-> +#define LM3532_REG_ZONE_TRGT_B	0x75
-> +#define LM3532_REG_ZONE_TRGT_C	0x7a
->  #define LM3532_REG_MAX		0x7e
->  
->  /* Contorl Enable */
-> @@ -116,6 +119,7 @@ struct lm3532_als_data {
->   * @priv - Pointer the device data structure
->   * @control_bank - Control bank the LED is associated to
->   * @mode - Mode of the LED string
-> + * @ctrl_brt_pointer - Zone target register that controls the sink
->   * @num_leds - Number of LED strings are supported in this array
->   * @led_strings - The LED strings supported in this array
->   * @label - LED label
-> @@ -126,6 +130,7 @@ struct lm3532_led {
->  
->  	int control_bank;
->  	int mode;
-> +	int ctrl_brt_pointer;
->  	int num_leds;
->  	u32 led_strings[LM3532_MAX_CONTROL_BANKS];
->  	char label[LED_MAX_NAME_SIZE];
-> @@ -339,8 +344,8 @@ static int lm3532_brightness_set(struct led_classdev *led_cdev,
->  	if (ret)
->  		goto unlock;
->  
-> -	brightness_reg = LM3532_REG_CTRL_A_BRT + led->control_bank * 2;
-> -	brt_val = brt_val / LM3532_BRT_VAL_ADJUST;
-> +	brightness_reg = LM3532_REG_ZONE_TRGT_A + led->control_bank * 5 +
-> +			 (led->ctrl_brt_pointer >> 2);
->  
->  	ret = regmap_write(led->priv->regmap, brightness_reg, brt_val);
->  
-> @@ -356,8 +361,30 @@ static int lm3532_init_registers(struct lm3532_led *led)
->  	unsigned int output_cfg_val = 0;
->  	unsigned int output_cfg_shift = 0;
->  	unsigned int output_cfg_mask = 0;
-> +	unsigned int brightness_config_reg;
-> +	unsigned int brightness_config_val;
->  	int ret, i;
->  
-> +	if (drvdata->enable_gpio)
-> +		gpiod_direction_output(drvdata->enable_gpio, 1);
-> +
-> +	brightness_config_reg = LM3532_REG_ZONE_CFG_A + led->control_bank * 2;
-> +	/*
-> +	 * This could be hard coded to the default value but the control
-> +	 * brightness register may have changed during boot.
-> +	 */
-> +	ret = regmap_read(drvdata->regmap, brightness_config_reg,
-> +			  &led->ctrl_brt_pointer);
-> +	if (ret)
-> +		return ret;
-> +
-> +	led->ctrl_brt_pointer &= LM3532_ZONE_MASK;
-> +	brightness_config_val = led->ctrl_brt_pointer | led->mode;
-> +	ret = regmap_write(drvdata->regmap, brightness_config_reg,
-> +			   brightness_config_val);
-> +	if (ret)
-> +		return ret;
-> +
->  	for (i = 0; i < led->num_leds; i++) {
->  		output_cfg_shift = led->led_strings[i] * 2;
->  		output_cfg_val |= (led->control_bank << output_cfg_shift);
-> @@ -382,7 +409,6 @@ static int lm3532_als_configure(struct lm3532_data *priv,
->  	struct lm3532_als_data *als = priv->als_data;
->  	u32 als_vmin, als_vmax, als_vstep;
->  	int zone_reg = LM3532_REG_ZN_0_HI;
-> -	int brightnes_config_reg;
->  	int ret;
->  	int i;
->  
-> @@ -411,14 +437,7 @@ static int lm3532_als_configure(struct lm3532_data *priv,
->  	als->config = (als->als_avrg_time | (LM3532_ENABLE_ALS) |
->  		(als->als_input_mode << LM3532_ALS_SEL_SHIFT));
->  
-> -	ret = regmap_write(priv->regmap, LM3532_ALS_CONFIG, als->config);
-> -	if (ret)
-> -		return ret;
-> -
-> -	brightnes_config_reg = LM3532_REG_ZONE_CFG_A + led->control_bank * 2;
-> -
-> -	return regmap_update_bits(priv->regmap, brightnes_config_reg,
-> -				  LM3532_I2C_CTRL, LM3532_ALS_CTRL);
-> +	return regmap_write(priv->regmap, LM3532_ALS_CONFIG, als->config);
->  }
->  
->  static int lm3532_parse_als(struct lm3532_data *priv)
-> @@ -634,9 +653,6 @@ static int lm3532_probe(struct i2c_client *client,
->  		return ret;
->  	}
->  
-> -	if (drvdata->enable_gpio)
-> -		gpiod_direction_output(drvdata->enable_gpio, 1);
-> -
->  	return ret;
->  }
->  
+> We can be correct checking only for NULL if we will add
+> "led_cdev->dev = NULL" assignment in "if (IS_ERR(led_cdev->dev)" branch
+> in led_classdev_register_ext(). Nonetheless I'm personally in favor of
+> Andy's solution.
 > 
 
-Patch set applied.
+Patch applied, thanks.
 
 -- 
 Best regards,
