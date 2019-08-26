@@ -2,57 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9713C9D5DE
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Aug 2019 20:36:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 531719D6D6
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Aug 2019 21:34:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729373AbfHZSgK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 26 Aug 2019 14:36:10 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:41247 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727687AbfHZSgJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 26 Aug 2019 14:36:09 -0400
-Received: by mail-wr1-f68.google.com with SMTP id j16so16264881wrr.8
-        for <linux-leds@vger.kernel.org>; Mon, 26 Aug 2019 11:36:07 -0700 (PDT)
+        id S1729722AbfHZTey (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 26 Aug 2019 15:34:54 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39006 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729201AbfHZTex (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 26 Aug 2019 15:34:53 -0400
+Received: by mail-wm1-f66.google.com with SMTP id i63so615083wmg.4;
+        Mon, 26 Aug 2019 12:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=sfNV/2wO0+kNdyOfLD6Q9M9PCWcE/YKNKFn/fcjJMzE=;
-        b=Gt4sVMaUASHuWBZF/cOCaFl6Ah8UmiGRdVdC6g7jydb8yYa/bUlzKDUaPznO4F+oI/
-         vf4NpkP3PqDXg/PBFwx3Aohsqt4yJ8tFshtAmuobtfKQdZHoF/J6rZQpijozD7zcHdo8
-         1Ryk6/NSeyNpCq6XFC7qL4Oyava4eWl0txlAcwA2c1yqW1FpNvo8w9TIb91VGVWK8zjY
-         02INxPtZvJYqfCnbFuprcnEWdDEl1bnj4jVlaQHLcy4PmuPbT9WvqemlinIrCCNf3+Zw
-         W978NqhsTPds/rhs5atnt43bY3a5UB1ctaBwRK/ICbKZjvlsZVydNDirmnLIKYE7PThT
-         l6tw==
+        bh=QkdlqMsC5a/i4Uri7THbPzRWtoDxe6v2yJ+K7ZTNvk0=;
+        b=nQmcIl8K4+xOY/ps+ZVrM/Lw2YqlsqnLkCtP/bkQ7EbnY+b9agcTzLUyqUB7uaMHWi
+         NurOSjbkrrTYCMojglN2EJ4y6+Ytz/h8OFRrLF2mt5fAzInBYqCmuVoFyjsIv+2qfDCI
+         LdnZnevD9+j2/P8Twb+JL01S+muKnd98T3MGLDebDSOtHda+vINchzBsJhYjI53uROIV
+         4FQB7h7hVpStWjXbTmo72W7MJ3Jy4Mh02jUZfF7Oj/Y8gmtAEj5kOxlIgLoDESoafIXo
+         fcZVsh9XAm5kSiktcpu0cyP5otVojV2HuP8ukrOYsPyEMRTbDLKhOsD9s7k041rHG2SE
+         CtNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=sfNV/2wO0+kNdyOfLD6Q9M9PCWcE/YKNKFn/fcjJMzE=;
-        b=m4n+jjgnfjMDnG+KdX9XCLpSKiGrq8zkyCfXhMDpjUp2Uwac6k5JV3em8htC4/vTqw
-         I9Nl79FhIkhcOidRLmcrcE5hh/q+GzGHjlrIGLV0qWjLQ89kpHkWX7jLWgkaApGs/jHJ
-         V6dn1GAvbg/eC1XJFrSebz85GxWzffwtV0QJ05YKmwh9yRv6S2gd/3YmeePL8FfyZ5yD
-         tLFYkY8IhQGCnpvg1AjNNp9gyCwtGK6vDNH7LBRgUVrtHlamCMsNe5EmXv3NpVc1ta2q
-         xq4BfvjBAla9nJxvHlVhuKI+vaXMgrVlBEERfk8KjSU0NgXZNjtRLvsqzJ63sleRtqTh
-         tuYA==
-X-Gm-Message-State: APjAAAWgSo0s2ye/hoXB+PTUOZrCbuD/W7FhEuebEm5HFMpkSMj+euRx
-        blYcLA9tDqPNLLZibCGTC/wDbYE3
-X-Google-Smtp-Source: APXvYqxITDPXZzzJB9Y1BliOWbtgqgi6CBatevSAGcv5M2j5tvdun5lMta24kBJNP8qRV0q4k5s43w==
-X-Received: by 2002:a5d:460e:: with SMTP id t14mr1449510wrq.171.1566844566501;
-        Mon, 26 Aug 2019 11:36:06 -0700 (PDT)
+        bh=QkdlqMsC5a/i4Uri7THbPzRWtoDxe6v2yJ+K7ZTNvk0=;
+        b=B9aFwrKIuLdpCRswVhf0tqAAqXqAbOoY371TFqtJPIX8wqpdtIWicEE5yOWpYSE2Wy
+         /AaItB7jAUKP3sjvNxkj7eabRxVKpdScegeqyjF2Ybplwjtq4OjclLGWktxmZipLJpGt
+         JfJot9h4S1YcPhfNFGqTJN+dPfw7x3KfvVazng3s+TStGEAocT+3/hfw1L7c5BQXhqyK
+         ZDD4KnUjWMIVLZW82yL6Ym2vptb7Dgj3mlU6jQ+LON77J+IG0HbuJiXFSAXAgeRRLFSh
+         8d+uYeiHTw5lsC5vuA403GQZcq5KbePE53Oi3LprCR554N/GZiykwXfzJahl6/BLrDh6
+         B7QA==
+X-Gm-Message-State: APjAAAUlwsKsjrQzsPOmhItlbn2wrAtGhiGk5NKpH1NtTf8oI2rW+Yxo
+        b4Orh59gSwUpqyI66KCg6UMwdh6W
+X-Google-Smtp-Source: APXvYqw4UaDOvVDhg8onVzeY8Rpsic7xgsu9QhdXCTExNkBDP52Zy5u6LFuH9X5ZWj4TFnRBWyfY/g==
+X-Received: by 2002:a7b:c091:: with SMTP id r17mr17248571wmh.74.1566848090317;
+        Mon, 26 Aug 2019 12:34:50 -0700 (PDT)
 Received: from [192.168.1.19] (coo134.neoplus.adsl.tpnet.pl. [83.31.194.134])
-        by smtp.gmail.com with ESMTPSA id b26sm264543wmj.14.2019.08.26.11.36.05
+        by smtp.gmail.com with ESMTPSA id m7sm1054857wmi.18.2019.08.26.12.34.48
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 26 Aug 2019 11:36:05 -0700 (PDT)
-Subject: Re: [PATCH v1 1/2] leds: trigger: gpio: GPIO 0 is valid
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org
-References: <20190821171727.87886-1-andriy.shevchenko@linux.intel.com>
- <c06873f2-7472-8013-7909-e5eb50def993@gmail.com>
- <20190826095746.GE30120@smile.fi.intel.com>
+        Mon, 26 Aug 2019 12:34:49 -0700 (PDT)
+Subject: Re: [PATCH] leds: ti-lmu-common: Fix coccinelle issue in TI LMU
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190823195523.20950-1-dmurphy@ti.com>
+ <4a1872e8-89a5-4bc4-6aa4-bcadbc48697a@gmail.com>
+ <de1bb95d-d5ca-6f8f-e758-b03479091f99@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -111,57 +110,55 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <4abc4284-023d-2596-1554-42c0657cf1e8@gmail.com>
-Date:   Mon, 26 Aug 2019 20:36:04 +0200
+Message-ID: <48fc16c5-9f43-e5c3-e756-514f9f3eb254@gmail.com>
+Date:   Mon, 26 Aug 2019 21:34:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190826095746.GE30120@smile.fi.intel.com>
+In-Reply-To: <de1bb95d-d5ca-6f8f-e758-b03479091f99@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 8/26/19 11:57 AM, Andy Shevchenko wrote:
-> On Sat, Aug 24, 2019 at 06:47:54PM +0200, Jacek Anaszewski wrote:
->> On 8/21/19 7:17 PM, Andy Shevchenko wrote:
->>> Allow all valid GPIOs to be used in the driver.
->>>
->>> Fixes: 17354bfe8527 ("leds: Add gpio-led trigger")
->>> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Dan,
+
+On 8/26/19 4:53 PM, Dan Murphy wrote:
+> Jacek
 > 
->>> -	if (!gpio) {
->>> -		if (gpio_data->gpio != 0)
->>> +	if (!gpio_is_valid(gpio)) {
->>> +		if (gpio_is_valid(gpio_data->gpio))
->>>  			free_irq(gpio_to_irq(gpio_data->gpio), led);
->>> -		gpio_data->gpio = 0;
->>> +		gpio_data->gpio = gpio;
+> On 8/24/19 10:18 AM, Jacek Anaszewski wrote:
+>> Hi Dan,
 >>
->> It looks odd to me. I'd just assign invalid constant gpio number
->> e.g. -1.
+>> Thank you for the patch.
+>>
+>> On 8/23/19 9:55 PM, Dan Murphy wrote:
+>>> Fix the coccinelle issues found in the TI LMU common code
+>>>
+>>> drivers/leds/leds-ti-lmu-common.c:97:20-29: WARNING: Unsigned
+>>> expression compared with zero: ramp_down < 0
+>>> drivers/leds/leds-ti-lmu-common.c:97:5-12: WARNING: Unsigned
+>>> expression compared with zero: ramp_up < 0
+>> Wouldn't it make more sense to remove those pointless checks?
+>> Clearly a correct index of an array cannot be negative.
+>> Looking at the code I would make more int -> unsigned int conversions:
+>>
+>> - ramp_table should be unsigned int
+>> - ti_lmu_common_convert_ramp_to_index should return unsigned int
+>>
+> Yeah I was going to just remove the code but when I was writing the
+> original code my intent was
 > 
-> Current ABI (unsigned) doesn't allow us to do this. Internally we can redefine
-
-Ah, right, missed that.
-
-> invalid GPIO line number to -1 or so, but does it worth it?  And actually I
-> would prefer -EINVAL or -ENOENT in such cases.
-
-OK, we can keep your "= gpio" assignment in view of the above, but need
-to return error instead of "n".
-
->> Note that we should also do that in gpio_trig_activate(), where
->> gpio_data->gpio is initialized to 0 by kzalloc(). That later can
->> have nasty side effect in gpio_trig_gpio_store() when gpio to set
->> is 0. Then the condition "if (gpio_data->gpio == gpio)" will evaluate
->> to true and gpio_trig_irq() handler will not be registered.
+> to extend the ramp call to allow other TI LMU driver to pass in the
+> device specific ramp table.
 > 
-> Thanks for spotting this!
-> 
+> But since I don't currently have any devices on my plate that require
+> that I can just remove the code as well
+
+You don't need to remove, just do the conversions I proposed.
+Unless it introduces some other problems I am currently not aware of.
 
 -- 
 Best regards,
