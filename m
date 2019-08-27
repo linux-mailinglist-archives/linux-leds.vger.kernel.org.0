@@ -2,58 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97C359F51D
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A1E99F52D
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:37:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730672AbfH0Veg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Aug 2019 17:34:36 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37873 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728834AbfH0Vef (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:34:35 -0400
-Received: by mail-wr1-f65.google.com with SMTP id z11so295926wrt.4;
-        Tue, 27 Aug 2019 14:34:33 -0700 (PDT)
+        id S1728371AbfH0Vhn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Aug 2019 17:37:43 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43189 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727064AbfH0Vhn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:37:43 -0400
+Received: by mail-wr1-f66.google.com with SMTP id y8so276595wrn.10;
+        Tue, 27 Aug 2019 14:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:from:to:cc:references:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=nklkBywv17hDTqciRE44lApR8HzsJHDGjLG6rhuoO+g=;
-        b=eBw1hFBXAjq02yqUC7y0UiMzIt2RrleK/cjl1dnKlw6PHXzVlGDJ+g09BEGX7Zn07S
-         p/rPU61ryrAv5TgcNb2iDlL+/50fyhN21ecDK8nOrM0fFdWCu4WTKUrQWC2hSllwkqC4
-         0Z6DYCHGBi7S8H/gwy+j8LDeqa4Lsq9cORnnQPpe1x1Ha9DqWqg9sSXP+jXKnRt23T7u
-         9oKaWEXBfl5ZQPw2ISM65FrXT4mG/Fej9MYX6My/rvk0cdIQkCBVnwvIslcvbgvJ/Veh
-         fJV8JJZrhCPUsg0GVry7cH4mmN6naAs428UQygyk7ggasAdQR5z2eh/Uo9EUsa61ydbR
-         OnUw==
+        bh=DSR/MEtGjrUpy7aK5sxf4jRfRx5rcdWBees9b5lcQdg=;
+        b=Fb00+7/ZxKx/ZBPfvWzaB4DUx7ucVShQ1iKNUL43J5KOQnkgbRRAaQresWuojiou9/
+         MxvF5jNCtg2KYfNIIZ30x4HoJLc8s4pN6yg/w5BqeLQ0PnkClE+pHw/Q1gxXVzyOwvtt
+         vCBVWm5iDP4ypYE40S1/7ELiNBTKsTYtXfsYYxSODQeP0HxQdN27LF7a+PsJZltF85Fc
+         GbFxOkx68gnNKnI1Ah8WyB5QojJN9/Gtql2hEJJNMDQl7YnhABDjk4jRhs4Jzy8Ilj2N
+         BhRe0yX1YbNCwvGSRNdWDPxijfWmEpmIsrJ5UgH7G0UzVkwREKqa5La7DkwkQXC2yDNY
+         yPuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=nklkBywv17hDTqciRE44lApR8HzsJHDGjLG6rhuoO+g=;
-        b=JW5QGXZ1P9Igh61wiPA+FzUJ9sG+wIqvZfg0EmNHH9m1NFSoIXw2Cm8ERg6AUpWNUq
-         VDoaSXwpVb8EE8w/2QfRvLEFqjhHkzJPMyU2NHkTMnhab+CI2l4JzsVboOSG4lfAqPHx
-         OtJg85tUpmbOogB8jNVzU5/vwSx1QWkzPFEftNcD2vGFjqmyt4FjvNaOXEFW5Cwwv+jK
-         0++b5jr7Vp79n+EBX9mw1euEQG5QntBuO07TT5iU1LM5iuxk4FpS5b4iXL/VbbidTONp
-         X817x8tKhdYecrecPGgMRFoLwEP8nbz2HNims+Ice0zOlGUn8SLNSdgqMFUhY2OzfvWl
-         MgFQ==
-X-Gm-Message-State: APjAAAUVfrsYuLinFUi8WnKlL0nV9NAu1zhZzo05R2R934ZLOBsVIsc2
-        ix+nM/yY6IeXinJO04oknt9cR9rd
-X-Google-Smtp-Source: APXvYqzUHZBpin82QIB78CS3V79+panem8jcMkiHKdbjuu2S9CuDq+wYbI0q2Bs2hTWcT/zeUoxcGQ==
-X-Received: by 2002:a5d:4284:: with SMTP id k4mr311116wrq.6.1566941673158;
-        Tue, 27 Aug 2019 14:34:33 -0700 (PDT)
+        bh=DSR/MEtGjrUpy7aK5sxf4jRfRx5rcdWBees9b5lcQdg=;
+        b=Z13w2iJQE7uJ8XUsT/i1lO+2jeyjvEX732lD90F1KARUoAaMeKdxGBbYaMNgKhI0uZ
+         6nDFa9FL/LiEsd+7kFBxq9+W6GPl2ku8Qe/y58E5P/AS5cm1a/V3B+JjL6aNidgfub37
+         iJhf7Z7O4wUgeQQlWoOq+HDZmSSVFpqDi5L1pS3yjIqvIyQ49OALSgd4pNbZqiKfqD5F
+         ca3flDn9vO2a46po0zQkeZ0LtwnISWwD2j9xq6Om3SvFdGWzQ90EbWLe7sqhmSA5mIQa
+         Xqhau8+gwU6TEFK+F3/tfc4mb3SIiymfOTt2f7GTYyI/sPwF9dcw3mf8k6f5rwsDoc85
+         DWyA==
+X-Gm-Message-State: APjAAAX01BYvWUryNtwoagxyeIZ3Rv1iMUwJRqqUh6cFyNQIXqYdydoX
+        uKmS/6bSA/Tf1e6w3i7/fssLI2z+
+X-Google-Smtp-Source: APXvYqyltLZTJcoMrGfn0h66INKi1m037ZJhGilJJGb+J481jVzpSCuSFxYHhgmlekNpcQaay7LgMg==
+X-Received: by 2002:adf:bd84:: with SMTP id l4mr267400wrh.143.1566941860185;
+        Tue, 27 Aug 2019 14:37:40 -0700 (PDT)
 Received: from [192.168.1.19] (ckl27.neoplus.adsl.tpnet.pl. [83.31.87.27])
-        by smtp.gmail.com with ESMTPSA id e11sm741982wrc.4.2019.08.27.14.34.31
+        by smtp.gmail.com with ESMTPSA id e11sm762980wrc.4.2019.08.27.14.37.38
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Aug 2019 14:34:32 -0700 (PDT)
-Subject: Re: [PATCH] leds: Replace {devm_}led_classdev_register() macros with
- inlines
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>
-References: <20190826210219.22597-1-jacek.anaszewski@gmail.com>
- <20190827113112.GA18218@amd>
+        Tue, 27 Aug 2019 14:37:39 -0700 (PDT)
+Subject: Re: [PATCH v3 2/5] leds: lm3532: Change the define for the fs current
+ register
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     tony@atomide.com, sre@kernel.org, nekit1000@gmail.com,
+        mpartap@gmx.net, merlijn@wizzup.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190820195307.27590-1-dmurphy@ti.com>
+ <20190820195307.27590-2-dmurphy@ti.com> <20190825093227.GC1644@amd>
+ <661a6df1-151c-b11b-6bfb-afd5dea6ca64@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -111,12 +113,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <56bce69b-3e2c-8a25-9424-906878a0ab3c@gmail.com>
-Date:   Tue, 27 Aug 2019 23:34:31 +0200
+Message-ID: <63495e40-83c1-a1b6-0179-58c0ad6fca9a@gmail.com>
+Date:   Tue, 27 Aug 2019 23:37:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190827113112.GA18218@amd>
+In-Reply-To: <661a6df1-151c-b11b-6bfb-afd5dea6ca64@gmail.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -125,19 +127,21 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 8/27/19 1:31 PM, Pavel Machek wrote:
-> On Mon 2019-08-26 23:02:19, Jacek Anaszewski wrote:
->> Replace preprocessor macro aliases for legacy LED registration helpers
->> with inline functions. It will allow to avoid misleading compiler error
->> messages about missing symbol that actually wasn't explicitly used
->> in the code. It used to occur when CONFIG_LEDS_CLASS was undefined
->> and legacy (non-ext) function had been used in the code.
+On 8/27/19 11:33 PM, Jacek Anaszewski wrote:
+> On 8/25/19 11:32 AM, Pavel Machek wrote:
+>> On Tue 2019-08-20 14:53:04, Dan Murphy wrote:
+>>> Change the define name of the full scale current registers.
+>>>
+>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
 >>
->> Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+>> Acked-by: Pavel Machek <pavel@ucw.cz>
+>>
 > 
-> Acked-by: Pavel Machek <pavel@ucw.cz>
+> Thanks, applied.
 
-Thanks, applied.
+My above reply is a mistake, please ignore.
+
+Patch was applied yesterday anyway.
 
 -- 
 Best regards,
