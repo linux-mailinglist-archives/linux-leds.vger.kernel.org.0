@@ -2,60 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 082F49F4D3
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AED99F4EC
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:18:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730376AbfH0VOt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Aug 2019 17:14:49 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51116 "EHLO
+        id S1727064AbfH0VSL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Aug 2019 17:18:11 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39064 "EHLO
         mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726735AbfH0VOt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:14:49 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v15so523253wml.0;
-        Tue, 27 Aug 2019 14:14:46 -0700 (PDT)
+        with ESMTP id S1726675AbfH0VSK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:18:10 -0400
+Received: by mail-wm1-f66.google.com with SMTP id i63so543466wmg.4
+        for <linux-leds@vger.kernel.org>; Tue, 27 Aug 2019 14:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=yECDAiuiu9jr/nOshuFbg5LajN45t3Fqtc32iDnnNj4=;
-        b=Sr8I+2KrGyakUbO16mBUGkqZiojwSQosnNXEu++6pvuqEd2dILfMv07vZ5Vv6B1SRE
-         Sj/YcVhxpAEHDFUE6X7GhDm1PKeOT2n8pI+WKkv9nWakvjrpjBbNNzBUseIVO26sR1Y4
-         IjrLf0I0/o2Psz/kGa0Z/P8hBAmT7egPD6OyhYKabAmqTr7iPJ/DDC9bOCny6+mgMKnK
-         7lwegQvki8ESjOzqXKYZJ0sDl1HBbMR0Je0MgArIWWTrT3qTMDaEFArrlqRduojp/TYZ
-         YXnJtU7A40rEexCsw7zr3cyhG8l6yC0PwysxJ12knlGsKWQg4XHQP4q1zZVYXgNV3zzv
-         Lckw==
+        bh=94cW5uk0yGJRUKBR9Jz3mjJTvb6WijoEtprBpbapNi0=;
+        b=TvKjyN8as3qDPl3gmM00fwVQNRSRTdraV7XlkcEmkm9eO+2iilUku1vuupB24djLhA
+         lTF0lV/54AhGRJcSTH9N+rM421yPMRu2fZFSmVeJ1i8MqpRRmg8m+08xN6kBOgP0i+a9
+         /fHON5QWGdJmxI4TsvBvZubraUESZrv3si0iLhhyak/l5+dfCRyECEKKVEZ3TjGJ+0Jb
+         ce9VUJcTkgPR3P2KoJh9H29kfPHoIDfd8osMhhBYTd3nh1iE99Niw1jfyppkCbdd2aRZ
+         j4OajSH8FLDSvI7b3rXGW5c1yXgiqbJsqICBbKfmjPPxFO0LJB1biDM6fEpPkiPcsGbd
+         dzVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=yECDAiuiu9jr/nOshuFbg5LajN45t3Fqtc32iDnnNj4=;
-        b=X+2pwS4220YbviKGz2I3l6KyAxOE3tvVQa3mbL10LI1IfQ+AmjswPlYB3FOVd5LpA2
-         im2IAA8QTlMRXyingA7HpTMb5UHgBVaCaCKJoL+Ml0g4eAyOZJxD/Bbm7ie+w7uw9DiC
-         mpDcvojQNxAbgLsRd0GzSAOplQM/xgKGTifJYYgeOT+jEnPlPOndOgOYp86Uv5SEMfMo
-         EpYi2VF+iqU5wehJER1Fxng8Y1E3/RXh+9ed1476zdRVt5DkA1K4d0owzjEGav3pKe3t
-         6VVyYu1lnqZVlXzSU0oKTATIaMiWT9rem1dk2W06GTpfisNL54unqyGTNYxpGPH1EG9i
-         sTuA==
-X-Gm-Message-State: APjAAAWfEF5KYpudE2Bgb5GzxfViceyGYP8Oq8tcJ7Qu9NsRBLO2sqyz
-        PRlSrtqa7VKTzIzLdSatmdh2GDYV
-X-Google-Smtp-Source: APXvYqyUoeQFl82ZnGfYrHaOq3DoQDbcX2FuP3GBcJZEA+74Q64a4WWlsP5iy45x4x1AQL0eBYCsmg==
-X-Received: by 2002:a05:600c:254a:: with SMTP id e10mr568638wma.113.1566940485789;
-        Tue, 27 Aug 2019 14:14:45 -0700 (PDT)
+        bh=94cW5uk0yGJRUKBR9Jz3mjJTvb6WijoEtprBpbapNi0=;
+        b=AVkGqWhm7RMYg3Mk5lWyv2ZOL8o/tFfHf+CNMIAxfrDZ7/nPh7OBpx7VcGFjcVAh/k
+         +R2t1RvFGrSKwRbGYIdwa5JpgrGT84IcWjemvJHqq6XG57++kSDTxOHnDnWLOpErGvXP
+         XnI9CT4il1VvLxyUhivAlgEugapxWke4cy+8dAsMGKI4m/cT1fO7H54bkyo3z1mrOztp
+         vboPhMZEBY61eJLg7WY1zq7VHyGS+QHZ+Akpfr4U8nMElPS6G2OyWjY6pRhPK1kv0suu
+         /QX4E+VXFmpv/AHFGsUBOqxJl3bCenRqrKUqE4Z9v5pE2T7P/iE7h/4Jjp3mgaP9Lk0l
+         xshw==
+X-Gm-Message-State: APjAAAWkgNutusQUDTcpRFPJOsmvaqPWRfE5w3BwOOeg2rnmtLClgl6N
+        g4ybVoat/zFQdCXp4oJCJGOdcEMt
+X-Google-Smtp-Source: APXvYqw8gnJrRaUTzt587gm/Fen/pPWEw33YW8c1q0DtinzmG0/ZzTMqMCdCNGIXcTM8hkZuqCwOfA==
+X-Received: by 2002:a1c:9d0b:: with SMTP id g11mr419658wme.22.1566940687815;
+        Tue, 27 Aug 2019 14:18:07 -0700 (PDT)
 Received: from [192.168.1.19] (ckl27.neoplus.adsl.tpnet.pl. [83.31.87.27])
-        by smtp.gmail.com with ESMTPSA id b18sm149395wro.34.2019.08.27.14.14.44
+        by smtp.gmail.com with ESMTPSA id b18sm154731wro.34.2019.08.27.14.18.06
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Aug 2019 14:14:45 -0700 (PDT)
-Subject: Re: [PATCH v3 1/5] leds: lm3532: Fix brightness control for i2c mode
-To:     Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
-        Tony Lindgren <tony@atomide.com>
-Cc:     sre@kernel.org, nekit1000@gmail.com, mpartap@gmx.net,
-        merlijn@wizzup.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190820195307.27590-1-dmurphy@ti.com>
- <20190826215822.GY52127@atomide.com> <20190826221413.GA19124@amd>
- <20190826224437.GZ52127@atomide.com> <20190827121818.GB19927@amd>
- <0eab6f72-ddb7-3da7-e90e-888374531f86@ti.com>
+        Tue, 27 Aug 2019 14:18:07 -0700 (PDT)
+Subject: Re: [PATCH v4 2/2] leds: add LED driver for EL15203000 board
+To:     Oleh Kravchenko <oleg@kaa.org.ua>, linux-leds@vger.kernel.org
+References: <20190808203204.8614-1-oleg@kaa.org.ua>
+ <20190808203204.8614-2-oleg@kaa.org.ua>
+ <e59f9411-e762-fd62-55f1-3e29bd5c36ad@gmail.com>
+ <08a3898c-6556-516c-a057-650cc22a86b6@kaa.org.ua>
+ <5e215618-f204-0ca7-92ff-aedded9668a1@gmail.com>
+ <a188c74c-66d2-7a62-da1e-1e0c4558ca35@kaa.org.ua>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -114,13 +112,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <69925382-d8f4-4916-f121-0184a4219354@gmail.com>
-Date:   Tue, 27 Aug 2019 23:14:42 +0200
+Message-ID: <09adee48-484b-9486-8d5b-3bc6520dc719@gmail.com>
+Date:   Tue, 27 Aug 2019 23:18:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <0eab6f72-ddb7-3da7-e90e-888374531f86@ti.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <a188c74c-66d2-7a62-da1e-1e0c4558ca35@kaa.org.ua>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -128,77 +126,50 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dan,
+Oleh,
 
-On 8/27/19 2:44 PM, Dan Murphy wrote:
-> Tony
+On 8/27/19 11:11 PM, Oleh Kravchenko wrote:
+> Yes it has this include :)
 > 
-> On 8/27/19 7:18 AM, Pavel Machek wrote:
->> On Mon 2019-08-26 15:44:37, Tony Lindgren wrote:
->>> * Pavel Machek <pavel@ucw.cz> [190826 22:14]:
->>>> On Mon 2019-08-26 14:58:22, Tony Lindgren wrote:
->>>>> Hi,
->>>>>
->>>>> * Dan Murphy <dmurphy@ti.com> [190820 19:53]:
->>>>>> Fix the brightness control for I2C mode.� Instead of
->>>>>> changing the full scale current register update the ALS target
->>>>>> register for the appropriate banks.
->>>>>>
->>>>>> In addition clean up some code errors and random misspellings found
->>>>>> during coding.
->>>>>>
->>>>>> Tested on Droid4 as well as LM3532 EVM connected to a BeagleBoneBlack
->>>>>>
->>>>>> Fixes: e37a7f8d77e1 ("leds: lm3532: Introduce the lm3532 LED driver")
->>>>>> Reported-by: Pavel Machek <pavel@ucw.cz>
->>>>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->>>>>> ---
->>>>>>
->>>>>> v3 - Removed register define updates -
->>>>>> https://lore.kernel.org/patchwork/patch/1114542/
->>>>> Looks like starting with this patch in Linux next the LCD on droid4
->>>>> is so dim it's unreadable even with brightness set to 255. Setting
->>>>> brightness to 0 does blank it completely though.
->>>>>
->>>>> Did something maybe break with the various patch revisions or are
->>>>> we now missing some dts patch?
->>>> Maybe missing dts patch. We should provide maximum current the LED can
->>>> handle...
->>> Or i2c control is somehow broken and only als control now works?
+> $ git remote -v
+> origin  git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git (fetch)
+> origin  git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git (push)
 > 
-> With only setting CONFIG_LEDS_LM3532=m to the next branch I get full
-> brightness with 255.
+> $ git fetch --all -p
+> Fetching origin
 > 
-> I also see half brightness at 128 with the ramp down working.
-> 
-> I am not able to reproduce this issue on my device.
-> 
->> Well, max current led is obviously missing. Plus code does not check
->> the return from reading led-max-microamp.
-> 
-> led-max-microamp is optional so there is no need to check the return.
+> $ git log origin/master -1
+> commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b (tag: v5.3-rc1, origin/master, origin/HEAD)
+> Author: Linus Torvalds <torvalds@linux-foundation.org>
+> Date:   Sun Jul 21 14:05:38 2019 -0700
 
-It's also ugly to not check it when you have it assigned.
-We'll soon receive complaints from static checkers about pointless
-assignment.
+You need to checkout for-next branch.
 
-I'd distinguish between cases when parsing failed,
-and when property has not been provided.
-
-if (fwnode_property_present(child, "led-max-microamp")) {
-	if (fwnode_property_read_u32(child, "led-max-microamp",
-				&led->full_scale_current);
-		dev_err(&priv->client->dev,
-                         "Failed to parse led-max-microamp property\n")
-} else {
-	dev_info(&priv->client->dev,
-		 led-max-microamp property is missing\n")
-}
-
-> full_scale_current should be 0 if not populated and in the init only if
-> this variable is set does
+>     Linus 5.3-rc1
 > 
-> the code program the register otherwise it is default of 20.2 mA.
+> $ grep -R led_init_data --include='*.h'
+> 
+> returns nothing..
+> 
+> 27.08.19 23:56, Jacek Anaszewski пише:
+>> Hi Oleh,
+>>
+>> On 8/27/19 10:43 PM, Oleh Kravchenko wrote:
+>>> Hello Jacek,
+>>>
+>>> what status of linux-leds.git?
+>>>     git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git
+>>>
+>>> Is it outdated? Because I have a errors:
+>>>     drivers/leds/leds-el15203000.c:234:9: error: variable ‘init_data’ has initializer but incomplete type
+>>>       struct led_init_data init_data = {};
+>>
+>> I've just compiled drivers/leds/leds-aat1290.c driver that contains the
+>> same declaration and it went just fine.
+>>
+>> I know this is trivial, but did you "#include <linux/leds.h>" ?
+>>
+> 
 
 -- 
 Best regards,
