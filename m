@@ -2,56 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A3109F49A
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 22:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21D819F4A6
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:02:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728312AbfH0U46 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Aug 2019 16:56:58 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43420 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726675AbfH0U46 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 16:56:58 -0400
-Received: by mail-wr1-f67.google.com with SMTP id y8so189216wrn.10
-        for <linux-leds@vger.kernel.org>; Tue, 27 Aug 2019 13:56:56 -0700 (PDT)
+        id S1727064AbfH0VCX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Aug 2019 17:02:23 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:36844 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726871AbfH0VCX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:02:23 -0400
+Received: by mail-wm1-f68.google.com with SMTP id p13so284633wmh.1;
+        Tue, 27 Aug 2019 14:02:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=jbszWRbrge1RFtUuB0+DhqwzBLx7cuM7WKtEFBRJnzw=;
-        b=pPeEWMDhqbD0VDeXFkZxXos4WSbJQeCwODytCmJU2nyd+4Cf1swyIIDv7MsavvFPYk
-         mA8nH4+L3VkdLKT4/nJvINOqQp3jgT92OLUtP6sf48641LtqUssdgwierugLsuY/D8IZ
-         0NoA021bXF13BxszQrrZv0oln0AhQG0HIszChL+nsMzXlMtux+V5L8XsYhPB2MMU5mAN
-         40osEEaqoAgExDDY7A7tPCw2+DyTWIBA5DaBzja/1S1Yl5T7uI2cFi8Bd1ed/hy7VMjY
-         6zSwTbWKIp4Q2uDP6N6+a3nibq2ZOEMJyorv61gJKGzCoR5UHd9j6rEEqXHRW7S0UkJg
-         Hb7A==
+        bh=LYnBmNFm/AVJ/ogCESBihbknRq6ODHDlLJ5Za9H92/M=;
+        b=UmChool4DH3Va70ZGeqC8JNdidvWiuO/nHaFXAT1HrEDpHB9zXL1IZpyzcFXnxZEn0
+         EXXIsyDDd1Cp8GoSwIiXDQ2FixEW+Fkqi6gFYOEK7p7UZbl2zMRstgy4bTBXwnumXaXn
+         KpMPgjpR3oM8k8aEUTVG/SS36LLA95NT0PNn2a5G7+opuIBnENsleGGP1vbK2jVH2CMT
+         H4/2AIsIZUPF+EBsWz5zw8Gxa29VLVmpqwPgpW938JHYUtlLIZBMPg5B0fMEu6arGr/9
+         EewKVP5vXRNq+yAJlsWtfaKqvItg1xBMni2M6xH5+xi17sL/QLT7uxHvF6/8n8YEPk/e
+         5qZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=jbszWRbrge1RFtUuB0+DhqwzBLx7cuM7WKtEFBRJnzw=;
-        b=L3Zkb/F4YlnHvmcToL+RlTR+y7hRg8RNqFC5XessKqhZp7RVQhYgYRng09qDaYWc19
-         mulWMcs3fa1OsLaEYJcGH8v3FN+83sLf6ihOcEFBQoCSSEh12ClFfbiTIRsBpgPVgWkn
-         HmsWkiEW6MbddkV56EixSodwWDfGhhsXwCq3CtMhk0zzE+INBeiqWnIOOS4RXjeAj1Gh
-         JbgYCWY/S76zhY78fDfP0KdMg8ZfI1ZgMNXuYfkWWs8SP0uS/nBhLhAQhPlWPJsLIdML
-         HEbqpw+lu9aiVZzo0+6XsDp9O8KbFgLOKpG72yOUyd8zK9q7nP+DErGvI9fH+tdkj0k9
-         is5A==
-X-Gm-Message-State: APjAAAUAx/0J6s0327t9v9hvL6OvtES4PTOzImxpXTRuArgR4HRp5fGH
-        NXo+wQx7Eet4TOAxzi9Hf/qrfEwU
-X-Google-Smtp-Source: APXvYqzYBEW4s/We/3ER1/X6SwFlLnp1eeHkiZ/0mq31UVF4V2jIWN3Iz84GmMu22MVxEpaGlaKwDg==
-X-Received: by 2002:a05:6000:182:: with SMTP id p2mr169280wrx.336.1566939415468;
-        Tue, 27 Aug 2019 13:56:55 -0700 (PDT)
+        bh=LYnBmNFm/AVJ/ogCESBihbknRq6ODHDlLJ5Za9H92/M=;
+        b=koYaQ8/gFD9sfFZp7cF8erNwYFm1jC0ucAGg9VUHmVYpcbW0MQIbCPj5rI5oQ2NIM/
+         me9UmSCH0QnDduX9bNq1eAwx/57JtcI9Pi0CPka/83k5GIfSkdBQhq9FeUQLsSRe8wHE
+         P9sJG5HkrOG3rTwlY9ntJS9EguH7TnK8g33PjmSNQsyfj67+3a195vexYAk/9hG4x9b6
+         pn0Qj2h34n0Y519KKWu1Cif+6m6/hmI4KhKFWxcI56ekiLtkmFFaMSKxs363SZ6Ob+EG
+         SSaa9/iGEWr6mYMbboePOhnNZIEpNdGtUVADRw3VbVIWE+SosRQdNXFncwP8PM2sFD25
+         rQ6w==
+X-Gm-Message-State: APjAAAVDArUzk301KS7MWuFaZtaVMyvgciiON428cxoN2GmuRWuTdSiQ
+        mkNn8PkYR/q2wB+rXBEzlK6HJJb9
+X-Google-Smtp-Source: APXvYqwEnVAkClYUBMXp1YvaiT495jh9omLvI8TCbkUc0Uz+5XX6JhEAqMWOuQ5jyWBR4pZfXMLHbA==
+X-Received: by 2002:a1c:4d06:: with SMTP id o6mr526942wmh.43.1566939739832;
+        Tue, 27 Aug 2019 14:02:19 -0700 (PDT)
 Received: from [192.168.1.19] (ckl27.neoplus.adsl.tpnet.pl. [83.31.87.27])
-        by smtp.gmail.com with ESMTPSA id i93sm346903wri.57.2019.08.27.13.56.54
+        by smtp.gmail.com with ESMTPSA id w8sm6285886wmc.1.2019.08.27.14.02.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Aug 2019 13:56:54 -0700 (PDT)
-Subject: Re: [PATCH v4 2/2] leds: add LED driver for EL15203000 board
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, linux-leds@vger.kernel.org
-References: <20190808203204.8614-1-oleg@kaa.org.ua>
- <20190808203204.8614-2-oleg@kaa.org.ua>
- <e59f9411-e762-fd62-55f1-3e29bd5c36ad@gmail.com>
- <08a3898c-6556-516c-a057-650cc22a86b6@kaa.org.ua>
+        Tue, 27 Aug 2019 14:02:19 -0700 (PDT)
+Subject: Re: [PATCH] leds: ti-lmu-common: Fix coccinelle issue in TI LMU
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190823195523.20950-1-dmurphy@ti.com>
+ <4a1872e8-89a5-4bc4-6aa4-bcadbc48697a@gmail.com>
+ <de1bb95d-d5ca-6f8f-e758-b03479091f99@ti.com>
+ <48fc16c5-9f43-e5c3-e756-514f9f3eb254@gmail.com>
+ <12746d3e-e658-5ce6-5231-33005a74e549@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,12 +112,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <5e215618-f204-0ca7-92ff-aedded9668a1@gmail.com>
-Date:   Tue, 27 Aug 2019 22:56:53 +0200
+Message-ID: <f36eac2f-6643-c4f3-2b73-45f147b019a7@gmail.com>
+Date:   Tue, 27 Aug 2019 23:02:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <08a3898c-6556-516c-a057-650cc22a86b6@kaa.org.ua>
+In-Reply-To: <12746d3e-e658-5ce6-5231-33005a74e549@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -124,22 +126,70 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Oleh,
+Dan,
 
-On 8/27/19 10:43 PM, Oleh Kravchenko wrote:
-> Hello Jacek,
+On 8/27/19 3:37 PM, Dan Murphy wrote:
+> Jacek
 > 
-> what status of linux-leds.git?
->     git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git
+> On 8/26/19 2:34 PM, Jacek Anaszewski wrote:
+>> Dan,
+>>
+>> On 8/26/19 4:53 PM, Dan Murphy wrote:
+>>> Jacek
+>>>
+>>> On 8/24/19 10:18 AM, Jacek Anaszewski wrote:
+>>>> Hi Dan,
+>>>>
+>>>> Thank you for the patch.
+>>>>
+>>>> On 8/23/19 9:55 PM, Dan Murphy wrote:
+>>>>> Fix the coccinelle issues found in the TI LMU common code
+>>>>>
+>>>>> drivers/leds/leds-ti-lmu-common.c:97:20-29: WARNING: Unsigned
+>>>>> expression compared with zero: ramp_down < 0
+>>>>> drivers/leds/leds-ti-lmu-common.c:97:5-12: WARNING: Unsigned
+>>>>> expression compared with zero: ramp_up < 0
+>>>> Wouldn't it make more sense to remove those pointless checks?
+>>>> Clearly a correct index of an array cannot be negative.
+>>>> Looking at the code I would make more int -> unsigned int conversions:
+>>>>
+>>>> - ramp_table should be unsigned int
+>>>> - ti_lmu_common_convert_ramp_to_index should return unsigned int
+>>>>
+>>> Yeah I was going to just remove the code but when I was writing the
+>>> original code my intent was
+>>>
+>>> to extend the ramp call to allow other TI LMU driver to pass in the
+>>> device specific ramp table.
+>>>
+>>> But since I don't currently have any devices on my plate that require
+>>> that I can just remove the code as well
+>> You don't need to remove, just do the conversions I proposed.
+>> Unless it introduces some other problems I am currently not aware of.
+>>
+> Well just converting those two would/did not fix the issue.
+
+I implicitly assumed that you'd just drop the check since it
+would make no sense to check unsigned int for being lower than 0.
+
+And I propose to not return any error code from
+ti_lmu_common_convert_ramp_to_index(), just make sure inside it
+you return sane value. Ramp should, well, ramp.
+
 > 
-> Is it outdated? Because I have a errors:
->     drivers/leds/leds-el15203000.c:234:9: error: variable ‘init_data’ has initializer but incomplete type
->       struct led_init_data init_data = {};
-
-I've just compiled drivers/leds/leds-aat1290.c driver that contains the
-same declaration and it went just fine.
-
-I know this is trivial, but did you "#include <linux/leds.h>" ?
+> But actually there is only 1 possibility that could happen if the
+> convert function returns -EINVAL
+> 
+> So the check should be
+> 
+> if (ramp_up == -EINVAL || ramp_down == -EINVAL)
+> 
+> Because ramp_up/down should never be less then zero otherwise.
+> 
+> Dan
+> 
+> 
+> 
 
 -- 
 Best regards,
