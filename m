@@ -2,56 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE5419F518
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:32:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E43F99F51A
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:33:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbfH0VcS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Aug 2019 17:32:18 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51867 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726871AbfH0VcS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:32:18 -0400
-Received: by mail-wm1-f65.google.com with SMTP id k1so555298wmi.1;
-        Tue, 27 Aug 2019 14:32:15 -0700 (PDT)
+        id S1730407AbfH0VdW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Aug 2019 17:33:22 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37961 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730376AbfH0VdW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:33:22 -0400
+Received: by mail-wr1-f66.google.com with SMTP id e16so287947wro.5;
+        Tue, 27 Aug 2019 14:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=FrRZWZUwYUXdMa+oKqoED7dUbKBobepIBtnWWSuRaAc=;
-        b=RSaSi8XpCUh9ePS0VoE83z3mzEBqkpf9GhGQRwXUq4gs/bZPdZotkvdNdXC6P3lk4j
-         VSYxWE5Mo06XusY+CIaPVg3E3ZSfr1okNFsHpa+R99gK70JAx6Lk+ixRYGeqDhMnEebz
-         MWHOuPs2lQwirqTaqbd8/ajjKFCkcG6/sWJBz1p4pB9WDci9IEmIMQxXVviJ0QzzZlGh
-         jNZcSUmQAWZ8x+UEKQCPt/rjuyaY4uA8/uMJBlyq61ScqKGWzN4vHrXOcSHFpcd1hSMU
-         AqQe0/hpLV4/PfSI0fszBSZYUbCxoeaQ4qn5oA28KUFOEe+2yxXDfuq/8Tmo6xUliMga
-         bK3g==
+        bh=z356aK2/lAzZKCmGQJjJzdiM5ec3u7ANYqOzPKe5V8g=;
+        b=CuhOWyQAXJugdWMnYzI1ocRXhfE1axC4AOpdQ9efS0uFwO/gXmYnBB5vKO26hfRmca
+         caaJboJVrYcPYx/1wkTXF2oYtcovqJlJmlzLW3dLtCdMjGn4pPBwX4MlWjs40K0R0OkU
+         PqXQAWPTu79OzEns3jnJ2No0zLlhMxmVsoc6uACzamD9CoiIZVoscjU7cwxgqmfjL9u5
+         gdeP7VnktbyRGNPF1cpj8Ymj7xRX4SkcIRuyJDmr1LZ9W4GcayUPbtst6uZ1W2ovmQ/f
+         TRU74QS5LjcHpTrN1OgP64ryg1y7l/DTSGWMkNpoJV8tAGWx7RqDUaX2RKhWAE3E7Zqy
+         pwGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=FrRZWZUwYUXdMa+oKqoED7dUbKBobepIBtnWWSuRaAc=;
-        b=bTtIVr+myPWpmjgCWCOSwOoy7EWH+SfilXfBHpqvQj3AqLwTTbko9ZKxdrrCw6ZAMt
-         JQqGmYeP7mwFcq/xjZiKeK+sm5qZUpvg0oFSi2+3QbxU3pHoAKidlaqi+uCLTk+kCwLN
-         S3qvH9HlhR7gL82tGFLJ94YtJu9o6At9zIVDukoedC7TFle/Qivi33DI6//RVqP5905M
-         boOQ6MvAZpAU4P1kquaqrj0VSkn8NktQJg2f6MrQ8gZ384oe8O4ocRlqWjRMh6HPgy+i
-         7UX377MN0F++kMkAnjAeiVg5ETw/GFRmOMIHbY6PJv45n/aw3c98Hiqw5lQoLJtJSMgn
-         xe/Q==
-X-Gm-Message-State: APjAAAXn/TEev+hq1xJviaFqWBpLQ4M0JQA6YYdB9/agStjO2cPzy+F1
-        Okh9uF7iV0MKPHS282Zg4j7Sl158
-X-Google-Smtp-Source: APXvYqyPRPYsVzAyoiv2fjareH74+O7O3RqxeHRy7msjhd17Nx7CeTwZwO8m7LHGv2DD7jobjaqTUQ==
-X-Received: by 2002:a1c:1f10:: with SMTP id f16mr625167wmf.176.1566941534890;
-        Tue, 27 Aug 2019 14:32:14 -0700 (PDT)
+        bh=z356aK2/lAzZKCmGQJjJzdiM5ec3u7ANYqOzPKe5V8g=;
+        b=aKzIzJIsHusF7QTkRVslt1chcuD1LNhSuRuTlvwFOKsh8UvEfoFB4bn9Z3j6OZ9+Yq
+         WKvZUy8sMxxTentpHAT71N/bAzAxjeR4lqeAL2mu9HbhsK5+8AGc7j7GUns9y1ioSKZw
+         4rnjqRBMPnGVOyQSm/+oox4yIEQvyEkeb6ZrSw7T3L6SZ/mCJZVjbvUQ85gdlsKz9Xgy
+         AiY/DUFJXbyHDNbobxGt7zFueRl8WJFrbc7A7fN5od/8t7t58ECFZCfZiuQZTZGYBygj
+         sOZHh5VHqaE4B9yRxz9X8Uc8ngURbzrCR98fbR+b5h83nTdk8cmuHFQVZ0zJkam82C5I
+         JfhA==
+X-Gm-Message-State: APjAAAXKt8bmhplgLB8Pk0Yh7BXi/7UWwJCv5MLRgoLJDTg6VEhy2PoT
+        9BSG6esDGwuv1Ctb21Ha2sCgzPJz
+X-Google-Smtp-Source: APXvYqziXkEEN1TeAMUswWsKkrW5+X6qGZdd8ZFAIFhqDbw6sLozbyZujTUpB0QkfbxTFiwtKvn4TQ==
+X-Received: by 2002:a05:6000:118a:: with SMTP id g10mr240736wrx.175.1566941598666;
+        Tue, 27 Aug 2019 14:33:18 -0700 (PDT)
 Received: from [192.168.1.19] (ckl27.neoplus.adsl.tpnet.pl. [83.31.87.27])
-        by smtp.gmail.com with ESMTPSA id j9sm524861wrx.66.2019.08.27.14.32.13
+        by smtp.gmail.com with ESMTPSA id e11sm734332wrc.4.2019.08.27.14.33.16
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Aug 2019 14:32:14 -0700 (PDT)
-Subject: Re: [PATCH] leds: syscon: Use resource managed variant of device
+        Tue, 27 Aug 2019 14:33:17 -0700 (PDT)
+Subject: Re: [PATCH v3 2/5] leds: lm3532: Change the define for the fs current
  register
-To:     Alexander Dahl <ada@thorsis.com>, linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     tony@atomide.com, sre@kernel.org, nekit1000@gmail.com,
+        mpartap@gmx.net, merlijn@wizzup.org, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20190827130027.28998-1-ada@thorsis.com>
+References: <20190820195307.27590-1-dmurphy@ti.com>
+ <20190820195307.27590-2-dmurphy@ti.com> <20190825093227.GC1644@amd>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,13 +112,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <9d59f587-140b-9517-8b37-070817aea2ba@gmail.com>
-Date:   Tue, 27 Aug 2019 23:32:12 +0200
+Message-ID: <661a6df1-151c-b11b-6bfb-afd5dea6ca64@gmail.com>
+Date:   Tue, 27 Aug 2019 23:33:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190827130027.28998-1-ada@thorsis.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190825093227.GC1644@amd>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -124,34 +126,16 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Alexander,
-
-Thank you for the patch.
-
-On 8/27/19 3:00 PM, Alexander Dahl wrote:
-> We have a MFD driver compiled as module instantiating this driver. When
-> unloading that module, those LED devices are not removed, which produces
-> conflicts, when that module is inserted again.
+On 8/25/19 11:32 AM, Pavel Machek wrote:
+> On Tue 2019-08-20 14:53:04, Dan Murphy wrote:
+>> Change the define name of the full scale current registers.
+>>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
 > 
-> Signed-off-by: Alexander Dahl <ada@thorsis.com>
-> ---
->  drivers/leds/leds-syscon.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Acked-by: Pavel Machek <pavel@ucw.cz>
 > 
-> diff --git a/drivers/leds/leds-syscon.c b/drivers/leds/leds-syscon.c
-> index e35dff0050f0..b58f3cafe16f 100644
-> --- a/drivers/leds/leds-syscon.c
-> +++ b/drivers/leds/leds-syscon.c
-> @@ -115,7 +115,7 @@ static int syscon_led_probe(struct platform_device *pdev)
->  	}
->  	sled->cdev.brightness_set = syscon_led_set;
->  
-> -	ret = led_classdev_register(dev, &sled->cdev);
-> +	ret = devm_led_classdev_register(dev, &sled->cdev);
->  	if (ret < 0)
->  		return ret;
 
-Applied.
+Thanks, applied.
 
 -- 
 Best regards,
