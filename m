@@ -2,146 +2,213 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A8549F08E
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 18:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9B5A9F0CF
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 18:54:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729626AbfH0Qpn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Aug 2019 12:45:43 -0400
-Received: from muru.com ([72.249.23.125]:58862 "EHLO muru.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726610AbfH0Qpm (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 27 Aug 2019 12:45:42 -0400
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id A860C8107;
-        Tue, 27 Aug 2019 16:46:10 +0000 (UTC)
-Date:   Tue, 27 Aug 2019 09:45:38 -0700
-From:   Tony Lindgren <tony@atomide.com>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, jacek.anaszewski@gmail.com,
-        sre@kernel.org, nekit1000@gmail.com, mpartap@gmx.net,
-        merlijn@wizzup.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/5] leds: lm3532: Fix brightness control for i2c mode
-Message-ID: <20190827164538.GB52127@atomide.com>
-References: <20190820195307.27590-1-dmurphy@ti.com>
- <20190826215822.GY52127@atomide.com>
- <20190826221413.GA19124@amd>
- <20190826224437.GZ52127@atomide.com>
- <20190827121818.GB19927@amd>
- <0eab6f72-ddb7-3da7-e90e-888374531f86@ti.com>
- <9939e253-0c9e-5ef7-e160-c1e5fe99c453@ti.com>
- <20190827160454.GA52127@atomide.com>
- <56200c16-dcfe-3b14-6f22-80e5a387a66b@ti.com>
+        id S1727057AbfH0Qy3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Aug 2019 12:54:29 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:33358 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726871AbfH0Qy3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 12:54:29 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7RGsNOm033976;
+        Tue, 27 Aug 2019 11:54:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1566924863;
+        bh=HC0VQo87xCYzvz3EczML+vIkBhy+KbWR5luZ0gk+F3M=;
+        h=From:Subject:To:CC:References:Date:In-Reply-To;
+        b=gHNdDy1DOWwXGWbe5bRGyidRam0qnRYHduVkK7b89Ik/h47sfVZ3slXmhAdwowLod
+         auMGs0lZ3RrENmyqgwFsibXmVwfD7ZqnWIKmm5uX86Ys+3HKZaB6AQGTiLc01DIF1M
+         oFyAke1aVwtzPZHy4LxyOZdyXPFM93n2Aok+1KsA=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7RGsN4I069629
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 27 Aug 2019 11:54:23 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 27
+ Aug 2019 11:54:22 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 27 Aug 2019 11:54:22 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7RGsMd0113429;
+        Tue, 27 Aug 2019 11:54:22 -0500
+From:   Dan Murphy <dmurphy@ti.com>
+Subject: Re: [PATCH v4 1/9] leds: multicolor: Add sysfs interface definition
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190725182818.29556-1-dmurphy@ti.com>
+ <20190725182818.29556-2-dmurphy@ti.com>
+ <c451847b-d08e-19a2-281c-70ba46cff29a@gmail.com>
+Message-ID: <bfcd15e3-ed94-fd16-9281-d49129c23abf@ti.com>
+Date:   Tue, 27 Aug 2019 11:54:22 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <c451847b-d08e-19a2-281c-70ba46cff29a@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <56200c16-dcfe-3b14-6f22-80e5a387a66b@ti.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-* Dan Murphy <dmurphy@ti.com> [190827 16:20]:
-> Tony
-> 
-> On 8/27/19 11:04 AM, Tony Lindgren wrote:
-> > * Dan Murphy <dmurphy@ti.com> [190827 13:02]:
-> > > Hello
-> > > 
-> > > On 8/27/19 7:44 AM, Dan Murphy wrote:
-> > > > Tony
-> > > > 
-> > > > On 8/27/19 7:18 AM, Pavel Machek wrote:
-> > > > > On Mon 2019-08-26 15:44:37, Tony Lindgren wrote:
-> > > > > > * Pavel Machek <pavel@ucw.cz> [190826 22:14]:
-> > > > > > > On Mon 2019-08-26 14:58:22, Tony Lindgren wrote:
-> > > > > > > > Hi,
-> > > > > > > > 
-> > > > > > > > * Dan Murphy <dmurphy@ti.com> [190820 19:53]:
-> > > > > > > > > Fix the brightness control for I2C mode.  Instead of
-> > > > > > > > > changing the full scale current register update the ALS target
-> > > > > > > > > register for the appropriate banks.
-> > > > > > > > > 
-> > > > > > > > > In addition clean up some code errors and random misspellings found
-> > > > > > > > > during coding.
-> > > > > > > > > 
-> > > > > > > > > Tested on Droid4 as well as LM3532 EVM connected to
-> > > > > > > > > a BeagleBoneBlack
-> > > > > > > > > 
-> > > > > > > > > Fixes: e37a7f8d77e1 ("leds: lm3532: Introduce the
-> > > > > > > > > lm3532 LED driver")
-> > > > > > > > > Reported-by: Pavel Machek <pavel@ucw.cz>
-> > > > > > > > > Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> > > > > > > > > ---
-> > > > > > > > > 
-> > > > > > > > > v3 - Removed register define updates -
-> > > > > > > > > https://lore.kernel.org/patchwork/patch/1114542/
-> > > > > > > > Looks like starting with this patch in Linux next the LCD on droid4
-> > > > > > > > is so dim it's unreadable even with brightness set to 255. Setting
-> > > > > > > > brightness to 0 does blank it completely though.
-> > > > > > > > 
-> > > > > > > > Did something maybe break with the various patch revisions or are
-> > > > > > > > we now missing some dts patch?
-> > > > > > > Maybe missing dts patch. We should provide maximum current the LED can
-> > > > > > > handle...
-> > > > > > Or i2c control is somehow broken and only als control now works?
-> > > > With only setting CONFIG_LEDS_LM3532=m to the next branch I get full
-> > > > brightness with 255.
-> > > > 
-> > > > I also see half brightness at 128 with the ramp down working.
-> > > > 
-> > > > I am not able to reproduce this issue on my device.
-> > > > 
-> > > Just to make sure my data was right I did a clean rebuild on commit
-> > > 1dbb9fb4082ce2a2f1cf9596881ddece062d15d0
-> > > 
-> > > from the led-next branch.
-> > > 
-> > > Just adding the above config flag.  I still cannot reproduce the issue
-> > > 
-> > > See attached pic
-> > OK thanks for checking. Probably you can reproduce the issue if you
-> > reset things to commit c4b8354e5341 ("leds: lm3532: Fix brightness
-> > control for i2c mode"). There might now be something uninitialized
-> > with that commit depending on the hardware state on boot if you
-> > care to check that. Or maybe there's some interaction with other
-> > patches not yet at commit c4b8354e5341 level.
-> 
-> Ok the fix for that issue is in this patch
-> 
-> leds: lm3532: Fixes for the driver for stability
-> 
-> The fix for setting the brightness control register during the init forced
-> the ALS mode to
-> 
-> be enabled.  The Fixes for driver stability patch then set the led->mode to
-> the correct register setting.
+Jacek
 
-OK yeah so that part starts to make sense now. I wonder if the reason
-for my issues was caused by change in sysfs brightness level values
-and I ended up chasing an already fixed issue. I think I was using
-value of 30 recently, which is now very dim :)
+OK finally getting back to this.
 
-> > I confirmed again that things fail at commit c4b8354e5341. But
-> > now testing with the same Linux next as yesterday things works again.
-> > Not sure what's going on as failures with Linux next yestreday
-> > made me start narrowing down what commit causes the issues.
-> > 
-> > Anyways, playing with loading and unloading the leds-lm3532.ko I
-> > noticed we can also have unpaired regulator calls when using sysfs
-> > brightness that the below patch attempts to fix. Not sure how I got
-> > to the point of regulator warnings, but I was trying to enable
-> > the brightness via sysfs. Maybe I had other patches too when
-> > I got the regulator warnings.. But please check if the below
-> > patch makes sense.
-> 
-> Makes sense did you want me to push a patch?
+On 7/29/19 3:45 PM, Jacek Anaszewski wrote:
+> Hi Dan,
+>
+> Thank you for the v4.
+>
+> I have a bunch of comments below. Please take a look.
+>
+> On 7/25/19 8:28 PM, Dan Murphy wrote:
+>> Add a documentation of LED Multicolor LED class specific
+>> sysfs attributes.
+>>
+>> Signed-off-by: Dan Murphy<dmurphy@ti.com>
+>> ---
+>>   .../ABI/testing/sysfs-class-led-multicolor    | 67 +++++++++++++++++++
+>>   1 file changed, 67 insertions(+)
+>>   create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>> new file mode 100644
+>> index 000000000000..59839f0eae76
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>> @@ -0,0 +1,67 @@
+>> +What:		/sys/class/leds/<led>/brightness
+>> +Date:		Sept 2019
+>> +KernelVersion:	TBD
+>> +Contact:	Dan Murphy<dmurphy@ti.com>
+>> +Description:	read/write
+>> +		The multicolor class will redirect the device drivers call back
+>> +		function for brightness control to the multicolor class
+>> +		brightness control function.
+>> +
+>> +		Writing to this file will update all LEDs within the group to a
+>> +		calculated percentage of what each color LED in the group is set
+>> +		to.  Please refer to the leds-class-multicolor.txt in the
+>> +		Documentation directory for a complete description.
+> Instead of redirecting the reader to led-class-multicolor.txt I'd prefer
+> to have at least the formula to calculate the colors laid out here.
+> Aside of that - it is more helpful to have a full path to the referenced
+> file.
 
-No need to, I can send out a proper patch later today after typing up
-the patch description if no other comments.
+Ack
 
-Regards,
 
-Tony
+>> +
+>> +		The value of the color is from 0 to
+>> +		/sys/class/leds/<led>/max_brightness.
+>> +
+>> +What:		/sys/class/leds/<led>/colors/color_mix
+>> +Date:		Sept 2019
+>> +KernelVersion:	TBD
+>> +Contact:	Dan Murphy<dmurphy@ti.com>
+>> +Description:	read/write
+>> +		The color_mix file allows writing all registered multicolor LEDs
+>> +		virtually at the same time.  The value(s) written to this file
+> I'd drop parentheses form "value(s)". Multi color LED class device is
+> supposed to always have more then one LED. And if I understand it
+> correctly we have to pass intensities of all colors supported by LED
+> multicolor class device here, even we're changing single one.
+
+Yes that is true.
+
+
+>> +		contain the intensity values for each multicolor LED within
+>> +		the colors directory.  The color indexes are reported in the
+>> +		color_id file as defined in this document.
+> This is a bit misleading. It sounds as if single color_id file would be
+> reporting more than one index.
+>
+>> +		Please refer to the leds-class-multicolor.txt in the
+>> +		Documentation directory for a complete description.
+> Here, similarly as for brightness, I would prefer to have complete
+> documentation of this file.
+>
+> How about:
+>
+> The values written to this file should contain the intensity values of
+> each multicolor LED within the colors directory. The index of given
+> color is reported by the color_id file present in colors/<color>
+> directory. The index determines the position in the sequence of
+> intensities on which the related intensity should be passed to this
+> file.
+>
+> And here we could have the examples from leds-class-multicolor.txt.
+
+I prefer to keep the examples in the leds-class-multicolor.rst.
+
+This is an ABI document not a document describing the code.
+
+I updated the doc to what you have above.
+
+>> +
+>> +What:		/sys/class/leds/<led>/colors/<led_color>/color_id
+>> +Date:		Sept 2019
+>> +KernelVersion:	TBD
+>> +Contact:	Dan Murphy<dmurphy@ti.com>
+>> +Description:	read only
+>> +		This file when read will return the index of the color in the
+>> +		color_mix.
+>> +		Please refer to the leds-class-multicolor.txt in the
+>> +		Documentation directory for a complete description.
+>> +
+>> +What:		/sys/class/leds/<led>/colors/<led_color>/intensity
+>> +Date:		Sept 2019
+>> +KernelVersion:	TBD
+>> +Contact:	Dan Murphy<dmurphy@ti.com>
+>> +Description:	read/write
+>> +		The led_color directory is dynamically created based on the
+>> +		colors defined by the registrar of the class.
+>> +		The led_color can be but not limited to red, green, blue,
+>> +		white, amber, yellow and violet.  Drivers can also declare a
+> Instead of this vague sentence about the available colors I propose to
+> maintain the list of supported colors in leds-class.rst or in a separate
+> file and keep it in sync with the led_colors array. Then we could refer
+> to that file here.
+
+I would rather point to the file that contains the colors.  This way we 
+don't have added documentation
+
+maintenance to add a new color.
+
+
+>
+>> +		LED color for presentation.  There is one directory per color
+> I'd not let drivers define their custom colors. It would entail issues
+> related to lack of generic LED_COLOR_ID and DT parsing failure.
+
+Ack
+
+Dan
+
+>
+>> +		presented.  The brightness file is created under each
+>> +		led_color directory and controls the individual LED color
+>> +		setting.
+>> +
+>> +		The value of the color is from 0 to
+>> +		/sys/class/leds/<led>/colors/<led_color>/max_intensity.
+>> +
+>> +What:		/sys/class/leds/<led>/colors/<led_color>/max_intensity
+>> +Date:		Sept 2019
+>> +KernelVersion:	TBD
+>> +Contact:	Dan Murphy<dmurphy@ti.com>
+>> +Description:	read only
+>> +		Maximum intensity level for the LED color, default is
+>> +		255 (LED_FULL).
+>> +
+>> +		If the LED does not support different intensity levels, this
+>> +		should be 1.
+>>
