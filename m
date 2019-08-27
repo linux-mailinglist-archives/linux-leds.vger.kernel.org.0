@@ -2,58 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E43F99F51A
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:33:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97C359F51D
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:34:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730407AbfH0VdW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Aug 2019 17:33:22 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37961 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730376AbfH0VdW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:33:22 -0400
-Received: by mail-wr1-f66.google.com with SMTP id e16so287947wro.5;
-        Tue, 27 Aug 2019 14:33:19 -0700 (PDT)
+        id S1730672AbfH0Veg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Aug 2019 17:34:36 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:37873 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728834AbfH0Vef (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:34:35 -0400
+Received: by mail-wr1-f65.google.com with SMTP id z11so295926wrt.4;
+        Tue, 27 Aug 2019 14:34:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=z356aK2/lAzZKCmGQJjJzdiM5ec3u7ANYqOzPKe5V8g=;
-        b=CuhOWyQAXJugdWMnYzI1ocRXhfE1axC4AOpdQ9efS0uFwO/gXmYnBB5vKO26hfRmca
-         caaJboJVrYcPYx/1wkTXF2oYtcovqJlJmlzLW3dLtCdMjGn4pPBwX4MlWjs40K0R0OkU
-         PqXQAWPTu79OzEns3jnJ2No0zLlhMxmVsoc6uACzamD9CoiIZVoscjU7cwxgqmfjL9u5
-         gdeP7VnktbyRGNPF1cpj8Ymj7xRX4SkcIRuyJDmr1LZ9W4GcayUPbtst6uZ1W2ovmQ/f
-         TRU74QS5LjcHpTrN1OgP64ryg1y7l/DTSGWMkNpoJV8tAGWx7RqDUaX2RKhWAE3E7Zqy
-         pwGw==
+        bh=nklkBywv17hDTqciRE44lApR8HzsJHDGjLG6rhuoO+g=;
+        b=eBw1hFBXAjq02yqUC7y0UiMzIt2RrleK/cjl1dnKlw6PHXzVlGDJ+g09BEGX7Zn07S
+         p/rPU61ryrAv5TgcNb2iDlL+/50fyhN21ecDK8nOrM0fFdWCu4WTKUrQWC2hSllwkqC4
+         0Z6DYCHGBi7S8H/gwy+j8LDeqa4Lsq9cORnnQPpe1x1Ha9DqWqg9sSXP+jXKnRt23T7u
+         9oKaWEXBfl5ZQPw2ISM65FrXT4mG/Fej9MYX6My/rvk0cdIQkCBVnwvIslcvbgvJ/Veh
+         fJV8JJZrhCPUsg0GVry7cH4mmN6naAs428UQygyk7ggasAdQR5z2eh/Uo9EUsa61ydbR
+         OnUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=z356aK2/lAzZKCmGQJjJzdiM5ec3u7ANYqOzPKe5V8g=;
-        b=aKzIzJIsHusF7QTkRVslt1chcuD1LNhSuRuTlvwFOKsh8UvEfoFB4bn9Z3j6OZ9+Yq
-         WKvZUy8sMxxTentpHAT71N/bAzAxjeR4lqeAL2mu9HbhsK5+8AGc7j7GUns9y1ioSKZw
-         4rnjqRBMPnGVOyQSm/+oox4yIEQvyEkeb6ZrSw7T3L6SZ/mCJZVjbvUQ85gdlsKz9Xgy
-         AiY/DUFJXbyHDNbobxGt7zFueRl8WJFrbc7A7fN5od/8t7t58ECFZCfZiuQZTZGYBygj
-         sOZHh5VHqaE4B9yRxz9X8Uc8ngURbzrCR98fbR+b5h83nTdk8cmuHFQVZ0zJkam82C5I
-         JfhA==
-X-Gm-Message-State: APjAAAXKt8bmhplgLB8Pk0Yh7BXi/7UWwJCv5MLRgoLJDTg6VEhy2PoT
-        9BSG6esDGwuv1Ctb21Ha2sCgzPJz
-X-Google-Smtp-Source: APXvYqziXkEEN1TeAMUswWsKkrW5+X6qGZdd8ZFAIFhqDbw6sLozbyZujTUpB0QkfbxTFiwtKvn4TQ==
-X-Received: by 2002:a05:6000:118a:: with SMTP id g10mr240736wrx.175.1566941598666;
-        Tue, 27 Aug 2019 14:33:18 -0700 (PDT)
+        bh=nklkBywv17hDTqciRE44lApR8HzsJHDGjLG6rhuoO+g=;
+        b=JW5QGXZ1P9Igh61wiPA+FzUJ9sG+wIqvZfg0EmNHH9m1NFSoIXw2Cm8ERg6AUpWNUq
+         VDoaSXwpVb8EE8w/2QfRvLEFqjhHkzJPMyU2NHkTMnhab+CI2l4JzsVboOSG4lfAqPHx
+         OtJg85tUpmbOogB8jNVzU5/vwSx1QWkzPFEftNcD2vGFjqmyt4FjvNaOXEFW5Cwwv+jK
+         0++b5jr7Vp79n+EBX9mw1euEQG5QntBuO07TT5iU1LM5iuxk4FpS5b4iXL/VbbidTONp
+         X817x8tKhdYecrecPGgMRFoLwEP8nbz2HNims+Ice0zOlGUn8SLNSdgqMFUhY2OzfvWl
+         MgFQ==
+X-Gm-Message-State: APjAAAUVfrsYuLinFUi8WnKlL0nV9NAu1zhZzo05R2R934ZLOBsVIsc2
+        ix+nM/yY6IeXinJO04oknt9cR9rd
+X-Google-Smtp-Source: APXvYqzUHZBpin82QIB78CS3V79+panem8jcMkiHKdbjuu2S9CuDq+wYbI0q2Bs2hTWcT/zeUoxcGQ==
+X-Received: by 2002:a5d:4284:: with SMTP id k4mr311116wrq.6.1566941673158;
+        Tue, 27 Aug 2019 14:34:33 -0700 (PDT)
 Received: from [192.168.1.19] (ckl27.neoplus.adsl.tpnet.pl. [83.31.87.27])
-        by smtp.gmail.com with ESMTPSA id e11sm734332wrc.4.2019.08.27.14.33.16
+        by smtp.gmail.com with ESMTPSA id e11sm741982wrc.4.2019.08.27.14.34.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Aug 2019 14:33:17 -0700 (PDT)
-Subject: Re: [PATCH v3 2/5] leds: lm3532: Change the define for the fs current
- register
-To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Cc:     tony@atomide.com, sre@kernel.org, nekit1000@gmail.com,
-        mpartap@gmx.net, merlijn@wizzup.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190820195307.27590-1-dmurphy@ti.com>
- <20190820195307.27590-2-dmurphy@ti.com> <20190825093227.GC1644@amd>
+        Tue, 27 Aug 2019 14:34:32 -0700 (PDT)
+Subject: Re: [PATCH] leds: Replace {devm_}led_classdev_register() macros with
+ inlines
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dan Murphy <dmurphy@ti.com>
+References: <20190826210219.22597-1-jacek.anaszewski@gmail.com>
+ <20190827113112.GA18218@amd>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -112,12 +111,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <661a6df1-151c-b11b-6bfb-afd5dea6ca64@gmail.com>
-Date:   Tue, 27 Aug 2019 23:33:16 +0200
+Message-ID: <56bce69b-3e2c-8a25-9424-906878a0ab3c@gmail.com>
+Date:   Tue, 27 Aug 2019 23:34:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190825093227.GC1644@amd>
+In-Reply-To: <20190827113112.GA18218@amd>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -126,14 +125,17 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 8/25/19 11:32 AM, Pavel Machek wrote:
-> On Tue 2019-08-20 14:53:04, Dan Murphy wrote:
->> Change the define name of the full scale current registers.
+On 8/27/19 1:31 PM, Pavel Machek wrote:
+> On Mon 2019-08-26 23:02:19, Jacek Anaszewski wrote:
+>> Replace preprocessor macro aliases for legacy LED registration helpers
+>> with inline functions. It will allow to avoid misleading compiler error
+>> messages about missing symbol that actually wasn't explicitly used
+>> in the code. It used to occur when CONFIG_LEDS_CLASS was undefined
+>> and legacy (non-ext) function had been used in the code.
 >>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>> Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 > 
 > Acked-by: Pavel Machek <pavel@ucw.cz>
-> 
 
 Thanks, applied.
 
