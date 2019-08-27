@@ -2,108 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7F8C9E74B
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 14:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2895C9E7B1
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 14:19:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726125AbfH0MDr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Aug 2019 08:03:47 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:45958 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726596AbfH0MDq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 08:03:46 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7RC3ZAq082565;
-        Tue, 27 Aug 2019 07:03:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1566907415;
-        bh=Gx/FVDEvOAy9DQhXBGwcgfOgeHlRY8Nqm4MiJXluNFc=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=zWVNFJKzHovUK950fX20Z7Aon5sva+WPQY/264sYvOdwm639fc7mGEPJYNJbPV8Kb
-         f5EnF19GK4oKwKodnHH6tL5HQka68v4yKYoHB74c15BP5KloBgYHCjCo53N2TWuCbd
-         i/dQDVfsWmPcPnpdrmkjVpeq70PIpu2Hm34zTtq4=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7RC3Zbj101492
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 27 Aug 2019 07:03:35 -0500
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 27
- Aug 2019 07:03:35 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 27 Aug 2019 07:03:35 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7RC3ZJL071130;
-        Tue, 27 Aug 2019 07:03:35 -0500
+        id S1729091AbfH0MSV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Aug 2019 08:18:21 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:45940 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726170AbfH0MSV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 08:18:21 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id AE47A8196C; Tue, 27 Aug 2019 14:18:05 +0200 (CEST)
+Date:   Tue, 27 Aug 2019 14:18:18 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Tony Lindgren <tony@atomide.com>
+Cc:     Dan Murphy <dmurphy@ti.com>, jacek.anaszewski@gmail.com,
+        sre@kernel.org, nekit1000@gmail.com, mpartap@gmx.net,
+        merlijn@wizzup.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 1/5] leds: lm3532: Fix brightness control for i2c mode
-To:     Tony Lindgren <tony@atomide.com>, Pavel Machek <pavel@ucw.cz>
-CC:     <jacek.anaszewski@gmail.com>, <sre@kernel.org>,
-        <nekit1000@gmail.com>, <mpartap@gmx.net>, <merlijn@wizzup.org>,
-        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Message-ID: <20190827121818.GB19927@amd>
 References: <20190820195307.27590-1-dmurphy@ti.com>
- <20190826215822.GY52127@atomide.com> <20190826221413.GA19124@amd>
+ <20190826215822.GY52127@atomide.com>
+ <20190826221413.GA19124@amd>
  <20190826224437.GZ52127@atomide.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <8479fc08-f1b3-7816-ae73-425471286899@ti.com>
-Date:   Tue, 27 Aug 2019 07:03:34 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="NMuMz9nt05w80d4+"
+Content-Disposition: inline
 In-Reply-To: <20190826224437.GZ52127@atomide.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Tony
 
-On 8/26/19 5:44 PM, Tony Lindgren wrote:
+--NMuMz9nt05w80d4+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon 2019-08-26 15:44:37, Tony Lindgren wrote:
 > * Pavel Machek <pavel@ucw.cz> [190826 22:14]:
->> On Mon 2019-08-26 14:58:22, Tony Lindgren wrote:
->>> Hi,
->>>
->>> * Dan Murphy <dmurphy@ti.com> [190820 19:53]:
->>>> Fix the brightness control for I2C mode.  Instead of
->>>> changing the full scale current register update the ALS target
->>>> register for the appropriate banks.
->>>>
->>>> In addition clean up some code errors and random misspellings found
->>>> during coding.
->>>>
->>>> Tested on Droid4 as well as LM3532 EVM connected to a BeagleBoneBlack
->>>>
->>>> Fixes: e37a7f8d77e1 ("leds: lm3532: Introduce the lm3532 LED driver")
->>>> Reported-by: Pavel Machek <pavel@ucw.cz>
->>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->>>> ---
->>>>
->>>> v3 - Removed register define updates - https://lore.kernel.org/patchwork/patch/1114542/
->>> Looks like starting with this patch in Linux next the LCD on droid4
->>> is so dim it's unreadable even with brightness set to 255. Setting
->>> brightness to 0 does blank it completely though.
->>>
->>> Did something maybe break with the various patch revisions or are
->>> we now missing some dts patch?
->> Maybe missing dts patch. We should provide maximum current the LED can
->> handle...
+> > On Mon 2019-08-26 14:58:22, Tony Lindgren wrote:
+> > > Hi,
+> > >=20
+> > > * Dan Murphy <dmurphy@ti.com> [190820 19:53]:
+> > > > Fix the brightness control for I2C mode.  Instead of
+> > > > changing the full scale current register update the ALS target
+> > > > register for the appropriate banks.
+> > > >=20
+> > > > In addition clean up some code errors and random misspellings found
+> > > > during coding.
+> > > >=20
+> > > > Tested on Droid4 as well as LM3532 EVM connected to a BeagleBoneBla=
+ck
+> > > >=20
+> > > > Fixes: e37a7f8d77e1 ("leds: lm3532: Introduce the lm3532 LED driver=
+")
+> > > > Reported-by: Pavel Machek <pavel@ucw.cz>
+> > > > Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> > > > ---
+> > > >=20
+> > > > v3 - Removed register define updates - https://lore.kernel.org/patc=
+hwork/patch/1114542/
+> > >=20
+> > > Looks like starting with this patch in Linux next the LCD on droid4
+> > > is so dim it's unreadable even with brightness set to 255. Setting
+> > > brightness to 0 does blank it completely though.
+> > >=20
+> > > Did something maybe break with the various patch revisions or are
+> > > we now missing some dts patch?
+> >=20
+> > Maybe missing dts patch. We should provide maximum current the LED can
+> > handle...=20
+>=20
 > Or i2c control is somehow broken and only als control now works?
 
-Let me test the next branch.
+Well, max current led is obviously missing. Plus code does not check
+the return from reading led-max-microamp.
 
-I did not see this when I wrote the patches on the Droid 4.
+ret =3D fwnode_property_read_u32(child, "led-max-microamp",
+                                               &led->full_scale_current);
 
-But I did not recheck Droid 4.
+Untested, but something like this is neccessary according to code
+review.
 
-Dan
+Signed-off-by: Pavel Machek <pavel@ucw.cz>
+								Pavel
+
+diff --git a/arch/arm/boot/dts/omap4-droid4-xt894.dts b/arch/arm/boot/dts/o=
+map4-droid4-xt894.dts
+index 4454449..b883b84 100644
+--- a/arch/arm/boot/dts/omap4-droid4-xt894.dts
++++ b/arch/arm/boot/dts/omap4-droid4-xt894.dts
+@@ -395,6 +395,7 @@
+ 			ti,led-mode =3D <0>;
+ 			label =3D ":backlight";
+ 			linux,default-trigger =3D "backlight";
++			led-max-microamp =3D 29800;
+ 		};
+=20
+ 		led@1 {
+@@ -402,6 +403,7 @@
+ 			led-sources =3D <1>;
+ 			ti,led-mode =3D <0>;
+ 			label =3D ":kbd_backlight";
++			led-max-microamp =3D 29800;
+ 		};
+ 	};
+ };
 
 
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-> Regards,
->
-> Tony
->
+--NMuMz9nt05w80d4+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl1lH4oACgkQMOfwapXb+vKiWACgkkLvRG/5tM1SVIfFQ7w05Apv
+53UAni7bPkRZj0eZxJdMWmfyWuPcaUKE
+=vVUm
+-----END PGP SIGNATURE-----
+
+--NMuMz9nt05w80d4+--
