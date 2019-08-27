@@ -2,58 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AED99F4EC
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:18:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95D889F507
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 23:23:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbfH0VSL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Aug 2019 17:18:11 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:39064 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726675AbfH0VSK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:18:10 -0400
-Received: by mail-wm1-f66.google.com with SMTP id i63so543466wmg.4
-        for <linux-leds@vger.kernel.org>; Tue, 27 Aug 2019 14:18:08 -0700 (PDT)
+        id S1727064AbfH0VXT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Aug 2019 17:23:19 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34852 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726675AbfH0VXT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 17:23:19 -0400
+Received: by mail-wr1-f65.google.com with SMTP id k2so283979wrq.2;
+        Tue, 27 Aug 2019 14:23:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=94cW5uk0yGJRUKBR9Jz3mjJTvb6WijoEtprBpbapNi0=;
-        b=TvKjyN8as3qDPl3gmM00fwVQNRSRTdraV7XlkcEmkm9eO+2iilUku1vuupB24djLhA
-         lTF0lV/54AhGRJcSTH9N+rM421yPMRu2fZFSmVeJ1i8MqpRRmg8m+08xN6kBOgP0i+a9
-         /fHON5QWGdJmxI4TsvBvZubraUESZrv3si0iLhhyak/l5+dfCRyECEKKVEZ3TjGJ+0Jb
-         ce9VUJcTkgPR3P2KoJh9H29kfPHoIDfd8osMhhBYTd3nh1iE99Niw1jfyppkCbdd2aRZ
-         j4OajSH8FLDSvI7b3rXGW5c1yXgiqbJsqICBbKfmjPPxFO0LJB1biDM6fEpPkiPcsGbd
-         dzVg==
+        bh=pTOaZhW5xKtnT1x8xRBR+lYJlD1bPd7S9+Vr1x5mo0c=;
+        b=k15hrvDzSkku9LhKt4Dw7rN5H5/wnPa5DLw2TxVQi9ZwArGhWd0Bq6pcX7CLvAme9f
+         vujFTq4VbRK80hSNZXfgYzkt7nmoJEZukM+3t0q4bv9a6JgkRK6iJFjsjSPGsQJ+2JrC
+         HP9YCDUHmub9O9iG6bOWZTl/iWQXjCm/athaXNwoqlGq+la0uegJnH6Pz4pXkvS+ngXp
+         u3g7kLmnKo1fMhze/vyb6DVBuZste+cB8J5Ewg4wHYs0Aahb260NPhW6uCxw8/BlK95u
+         K8PcgYnn8BBpozs2i3R6x1EZxl3OYzep37PIWYmoiMx4rpp2RZrNvUX55u6Jbxv0r5Ma
+         recw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=94cW5uk0yGJRUKBR9Jz3mjJTvb6WijoEtprBpbapNi0=;
-        b=AVkGqWhm7RMYg3Mk5lWyv2ZOL8o/tFfHf+CNMIAxfrDZ7/nPh7OBpx7VcGFjcVAh/k
-         +R2t1RvFGrSKwRbGYIdwa5JpgrGT84IcWjemvJHqq6XG57++kSDTxOHnDnWLOpErGvXP
-         XnI9CT4il1VvLxyUhivAlgEugapxWke4cy+8dAsMGKI4m/cT1fO7H54bkyo3z1mrOztp
-         vboPhMZEBY61eJLg7WY1zq7VHyGS+QHZ+Akpfr4U8nMElPS6G2OyWjY6pRhPK1kv0suu
-         /QX4E+VXFmpv/AHFGsUBOqxJl3bCenRqrKUqE4Z9v5pE2T7P/iE7h/4Jjp3mgaP9Lk0l
-         xshw==
-X-Gm-Message-State: APjAAAWkgNutusQUDTcpRFPJOsmvaqPWRfE5w3BwOOeg2rnmtLClgl6N
-        g4ybVoat/zFQdCXp4oJCJGOdcEMt
-X-Google-Smtp-Source: APXvYqw8gnJrRaUTzt587gm/Fen/pPWEw33YW8c1q0DtinzmG0/ZzTMqMCdCNGIXcTM8hkZuqCwOfA==
-X-Received: by 2002:a1c:9d0b:: with SMTP id g11mr419658wme.22.1566940687815;
-        Tue, 27 Aug 2019 14:18:07 -0700 (PDT)
+        bh=pTOaZhW5xKtnT1x8xRBR+lYJlD1bPd7S9+Vr1x5mo0c=;
+        b=IEEfk+J6v6LuxVaTPfLUTRsAlX71daCqtwxJbidEk4NEuifFlk1OEWS6EVXXZCl5MZ
+         cZo9Y4iH7tnqfOjFg1drEJ+b61hsqI8ZU/LTLYoBxkBOWooyiRwrNelhQP/CN8xcl/Jn
+         ivO7kfak2IBgU8/pjH7BiVqGK0Rzm45AGii71pwAiDawyA4KqUpp6OORj/gdzZGnI9XX
+         0TvH6uvE8lOatM7YYkjQtpaZmDlpkYtZ6YVgjKIsiu4CgJP7Yx5XkOCHGYRpVugCRJgJ
+         21yHS8XHuhfN/bAa2D+jgh0tAs0N6RPS5iYaXoDhehU0QjzahdCWkAuEybQTnJtvdttQ
+         ZddQ==
+X-Gm-Message-State: APjAAAVjgJDGAq5qhaoKc8bnVt6YId101pJ+SVpjY4h+eGFS6Cv0C378
+        CNb09ANOkIwCxiJs1HDF1memyIwR
+X-Google-Smtp-Source: APXvYqwch/WIGFqX8UdlE+stqLlGzDb6mAAO+ADMOVPkX0a9I6jBXMkZldGyPc5HrWWioaq5b/AYSQ==
+X-Received: by 2002:adf:f281:: with SMTP id k1mr262269wro.154.1566940996262;
+        Tue, 27 Aug 2019 14:23:16 -0700 (PDT)
 Received: from [192.168.1.19] (ckl27.neoplus.adsl.tpnet.pl. [83.31.87.27])
-        by smtp.gmail.com with ESMTPSA id b18sm154731wro.34.2019.08.27.14.18.06
+        by smtp.gmail.com with ESMTPSA id f13sm252179wrr.5.2019.08.27.14.23.14
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Aug 2019 14:18:07 -0700 (PDT)
-Subject: Re: [PATCH v4 2/2] leds: add LED driver for EL15203000 board
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, linux-leds@vger.kernel.org
-References: <20190808203204.8614-1-oleg@kaa.org.ua>
- <20190808203204.8614-2-oleg@kaa.org.ua>
- <e59f9411-e762-fd62-55f1-3e29bd5c36ad@gmail.com>
- <08a3898c-6556-516c-a057-650cc22a86b6@kaa.org.ua>
- <5e215618-f204-0ca7-92ff-aedded9668a1@gmail.com>
- <a188c74c-66d2-7a62-da1e-1e0c4558ca35@kaa.org.ua>
+        Tue, 27 Aug 2019 14:23:15 -0700 (PDT)
+Subject: Re: [PATCH v4 4/5] block: introduce LED block device activity trigger
+To:     Akinobu Mita <akinobu.mita@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-block@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org,
+        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
+        Dan Murphy <dmurphy@ti.com>, Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Hannes Reinecke <hare@suse.com>
+References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
+ <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
+ <20190817145509.GA18381@amd> <925633c4-a459-5e84-9c9a-502a504fdc82@gmail.com>
+ <20190819143842.GA25401@amd> <7c4c4853-7e3a-0618-92a0-337e248e2b4c@gmail.com>
+ <c937b7e0-02c6-ae9a-aaf7-16a2ef29886d@gmail.com>
+ <CAC5umyjxkeR3rhf3XZvwkxLvc-0ENEkQfOLnk8A12Qazr9Et8w@mail.gmail.com>
+ <86309c4f-bcee-182c-369f-fcc883f379c6@gmail.com>
+ <CAC5umyibEMrxhZv0TyS6hYHR+oyj2Oby+LVsjrYmMV8u-chXRQ@mail.gmail.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -112,12 +122,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <09adee48-484b-9486-8d5b-3bc6520dc719@gmail.com>
-Date:   Tue, 27 Aug 2019 23:18:05 +0200
+Message-ID: <1f7928a1-61ba-72f0-fd03-2208856cd8b8@gmail.com>
+Date:   Tue, 27 Aug 2019 23:23:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <a188c74c-66d2-7a62-da1e-1e0c4558ca35@kaa.org.ua>
+In-Reply-To: <CAC5umyibEMrxhZv0TyS6hYHR+oyj2Oby+LVsjrYmMV8u-chXRQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -126,50 +136,86 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Oleh,
-
-On 8/27/19 11:11 PM, Oleh Kravchenko wrote:
-> Yes it has this include :)
-> 
-> $ git remote -v
-> origin  git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git (fetch)
-> origin  git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git (push)
-> 
-> $ git fetch --all -p
-> Fetching origin
-> 
-> $ git log origin/master -1
-> commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b (tag: v5.3-rc1, origin/master, origin/HEAD)
-> Author: Linus Torvalds <torvalds@linux-foundation.org>
-> Date:   Sun Jul 21 14:05:38 2019 -0700
-
-You need to checkout for-next branch.
-
->     Linus 5.3-rc1
-> 
-> $ grep -R led_init_data --include='*.h'
-> 
-> returns nothing..
-> 
-> 27.08.19 23:56, Jacek Anaszewski пише:
->> Hi Oleh,
+On 8/27/19 4:03 PM, Akinobu Mita wrote:
+> 2019年8月25日(日) 0:53 Jacek Anaszewski <jacek.anaszewski@gmail.com>:
 >>
->> On 8/27/19 10:43 PM, Oleh Kravchenko wrote:
->>> Hello Jacek,
+>> On 8/23/19 6:00 PM, Akinobu Mita wrote:
+>>> 2019年8月20日(火) 3:38 Jacek Anaszewski <jacek.anaszewski@gmail.com>:
+>>>>
+>>>> On 8/19/19 8:22 PM, Jacek Anaszewski wrote:
+>>>>> On 8/19/19 4:38 PM, Pavel Machek wrote:
+>>>>>> On Sat 2019-08-17 22:07:43, Jacek Anaszewski wrote:
+>>>>>>> On 8/17/19 4:55 PM, Pavel Machek wrote:
+>>>>>>>> On Fri 2019-08-16 01:59:58, Akinobu Mita wrote:
+>>>>>>>>> This allows LEDs to be controlled by block device activity.
+>>>>>>>>>
+>>>>>>>>> We already have ledtrig-disk (LED disk activity trigger), but the lower
+>>>>>>>>> level disk drivers need to utilize ledtrig_disk_activity() to make the
+>>>>>>>>> LED blink.
+>>>>>>>>>
+>>>>>>>>> The LED block device trigger doesn't require the lower level drivers to
+>>>>>>>>> have any instrumentation. The activity is collected by polling the disk
+>>>>>>>>> stats.
+>>>>>>>>>
+>>>>>>>>> Example:
+>>>>>>>>>
+>>>>>>>>> echo block-nvme0n1 > /sys/class/leds/diy/trigger
+>>>>>>>>
+>>>>>>>> Lets use one trigger "block" and have the device as a parameter,
+>>>>>>>> please.
+>>>>>>>>
+>>>>>>>> We already have 1000 cpu triggers on 1000 cpu machines, and yes, its a
+>>>>>>>> disaster we'll need to fix. Lets not repeat the same mistake here.
+>>>>>>>>
+>>>>>>>> I guess it may be slightly more work. Sorry about that.
+>>>>>>>
+>>>>>>> We should be able to list available block devices to set,
+>>>>>>> so the problem would be not avoided anyway.
+>>>>>>
+>>>>>> Should we? We need to list triggers, but we may not list all the devices...
+>>>>>
+>>>>> This is similar to usbport trigger that lists available
+>>>>> ports as files in a sub-directory. We might eventually go
+>>>>> in this direction.
+>>>>
+>>>> I must withdraw this statement. This is not similar to usbport
+>>>> trigger. The difference is that with ledtrig-block we have separate
+>>>> triggers per each device and I am not aware if there is some centralized
+>>>> mechanism similar to blocking_notifier_chain (usb_notifier_list
+>>>> in drivers/usb/core/notify.c) available for block devices, that
+>>>> would allow to gather all available block devs under common trigger.
+>>>>
+>>>> Moreover I remember Greg once discouraged using notifier chains
+>>>> as they are unsafe, so we would need some other solution anyway.
 >>>
->>> what status of linux-leds.git?
->>>     git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git
->>>
->>> Is it outdated? Because I have a errors:
->>>     drivers/leds/leds-el15203000.c:234:9: error: variable ‘init_data’ has initializer but incomplete type
->>>       struct led_init_data init_data = {};
+>>> I start thinking that we should implement the LED block device activity
+>>> trigger in userspace.  The userspace application firstly activates
+>>> one-shot LED trigger and periodically reads /sys/block/<disk>/stat and
+>>> writes /sys/class/leds/<led>/shot if there is any disk activity.
 >>
->> I've just compiled drivers/leds/leds-aat1290.c driver that contains the
->> same declaration and it went just fine.
+>> This would suboptimal solution. I have another idea - let's get back
+>> to the implementation of ledtrig-blk in genhd.c. We would be registering
+>> one trigger on module initialization in a function with __init modifier.
+>> Then we would need to add/remove triggers to the ledtrig-blk in
+>> register_blkdev()/unregister_blkdev(). And registered triggers would
+>> be listed in block_devs directory created by the trigger.
 >>
->> I know this is trivial, but did you "#include <linux/leds.h>" ?
->>
+>> You can compare how drivers/usb/core/ledtrig-usbport.c maintains
+>> similar directory of usb ports.
 > 
+> It could be possible, but I have yet another idea.  What about introducing
+> /proc/led-triggers and /sys/class/leds/<led>/current-trigger?
+> The /sys/class/leds/<led>/trigger will be obsoleted by these two files.
+> 
+> The /proc/led-triggers is read only and no PAGE_SIZE limitation by the
+> seq_file interface.  So we can list all triggers in this file.
+> 
+> The /sys/class/leds/<led>/current-trigger is almost identical to
+> /sys/class/leds/<led>/trigger.  The only difference is that
+> 'current-trigger' only shows the current trigger name.
+
+There's not need to come up with yet another trigger interface.
+We just need to convert sysfs trigger attribute type to binary.
 
 -- 
 Best regards,
