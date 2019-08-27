@@ -2,124 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 498099E6D0
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 13:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7F8C9E74B
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 14:03:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726552AbfH0LbR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Aug 2019 07:31:17 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:34856 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725860AbfH0LbR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 07:31:17 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 354FD82386; Tue, 27 Aug 2019 13:31:00 +0200 (CEST)
-Date:   Tue, 27 Aug 2019 13:31:12 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH] leds: Replace {devm_}led_classdev_register() macros with
- inlines
-Message-ID: <20190827113112.GA18218@amd>
-References: <20190826210219.22597-1-jacek.anaszewski@gmail.com>
+        id S1726125AbfH0MDr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Aug 2019 08:03:47 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:45958 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726596AbfH0MDq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 08:03:46 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7RC3ZAq082565;
+        Tue, 27 Aug 2019 07:03:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1566907415;
+        bh=Gx/FVDEvOAy9DQhXBGwcgfOgeHlRY8Nqm4MiJXluNFc=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=zWVNFJKzHovUK950fX20Z7Aon5sva+WPQY/264sYvOdwm639fc7mGEPJYNJbPV8Kb
+         f5EnF19GK4oKwKodnHH6tL5HQka68v4yKYoHB74c15BP5KloBgYHCjCo53N2TWuCbd
+         i/dQDVfsWmPcPnpdrmkjVpeq70PIpu2Hm34zTtq4=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7RC3Zbj101492
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 27 Aug 2019 07:03:35 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 27
+ Aug 2019 07:03:35 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 27 Aug 2019 07:03:35 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7RC3ZJL071130;
+        Tue, 27 Aug 2019 07:03:35 -0500
+Subject: Re: [PATCH v3 1/5] leds: lm3532: Fix brightness control for i2c mode
+To:     Tony Lindgren <tony@atomide.com>, Pavel Machek <pavel@ucw.cz>
+CC:     <jacek.anaszewski@gmail.com>, <sre@kernel.org>,
+        <nekit1000@gmail.com>, <mpartap@gmx.net>, <merlijn@wizzup.org>,
+        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190820195307.27590-1-dmurphy@ti.com>
+ <20190826215822.GY52127@atomide.com> <20190826221413.GA19124@amd>
+ <20190826224437.GZ52127@atomide.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <8479fc08-f1b3-7816-ae73-425471286899@ti.com>
+Date:   Tue, 27 Aug 2019 07:03:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="45Z9DzgjV8m4Oswq"
-Content-Disposition: inline
-In-Reply-To: <20190826210219.22597-1-jacek.anaszewski@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190826224437.GZ52127@atomide.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Tony
 
---45Z9DzgjV8m4Oswq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 8/26/19 5:44 PM, Tony Lindgren wrote:
+> * Pavel Machek <pavel@ucw.cz> [190826 22:14]:
+>> On Mon 2019-08-26 14:58:22, Tony Lindgren wrote:
+>>> Hi,
+>>>
+>>> * Dan Murphy <dmurphy@ti.com> [190820 19:53]:
+>>>> Fix the brightness control for I2C mode.  Instead of
+>>>> changing the full scale current register update the ALS target
+>>>> register for the appropriate banks.
+>>>>
+>>>> In addition clean up some code errors and random misspellings found
+>>>> during coding.
+>>>>
+>>>> Tested on Droid4 as well as LM3532 EVM connected to a BeagleBoneBlack
+>>>>
+>>>> Fixes: e37a7f8d77e1 ("leds: lm3532: Introduce the lm3532 LED driver")
+>>>> Reported-by: Pavel Machek <pavel@ucw.cz>
+>>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>>>> ---
+>>>>
+>>>> v3 - Removed register define updates - https://lore.kernel.org/patchwork/patch/1114542/
+>>> Looks like starting with this patch in Linux next the LCD on droid4
+>>> is so dim it's unreadable even with brightness set to 255. Setting
+>>> brightness to 0 does blank it completely though.
+>>>
+>>> Did something maybe break with the various patch revisions or are
+>>> we now missing some dts patch?
+>> Maybe missing dts patch. We should provide maximum current the LED can
+>> handle...
+> Or i2c control is somehow broken and only als control now works?
 
-On Mon 2019-08-26 23:02:19, Jacek Anaszewski wrote:
-> Replace preprocessor macro aliases for legacy LED registration helpers
-> with inline functions. It will allow to avoid misleading compiler error
-> messages about missing symbol that actually wasn't explicitly used
-> in the code. It used to occur when CONFIG_LEDS_CLASS was undefined
-> and legacy (non-ext) function had been used in the code.
->=20
-> Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Let me test the next branch.
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+I did not see this when I wrote the patches on the Droid 4.
 
-> Cc: Dan Murphy <dmurphy@ti.com>
-> ---
->  include/linux/leds.h | 29 +++++++++++++++++++++++++----
->  1 file changed, 25 insertions(+), 4 deletions(-)
->=20
-> diff --git a/include/linux/leds.h b/include/linux/leds.h
-> index d101fd13e18e..b8df71193329 100644
-> --- a/include/linux/leds.h
-> +++ b/include/linux/leds.h
-> @@ -157,18 +157,39 @@ struct led_classdev {
->   * @led_cdev: the led_classdev structure for this device
->   * @init_data: the LED class device initialization data
->   *
-> + * Register a new object of LED class, with name derived from init_data.
-> + *
->   * Returns: 0 on success or negative error value on failure
->   */
->  extern int led_classdev_register_ext(struct device *parent,
->  				     struct led_classdev *led_cdev,
->  				     struct led_init_data *init_data);
-> -#define led_classdev_register(parent, led_cdev)			\
-> -	led_classdev_register_ext(parent, led_cdev, NULL)
-> +
-> +/**
-> + * led_classdev_register - register a new object of LED class
-> + * @parent: LED controller device this LED is driven by
-> + * @led_cdev: the led_classdev structure for this device
-> + *
-> + * Register a new object of LED class, with name derived from the name p=
-roperty
-> + * of passed led_cdev argument.
-> + *
-> + * Returns: 0 on success or negative error value on failure
-> + */
-> +static inline int led_classdev_register(struct device *parent,
-> +					struct led_classdev *led_cdev)
-> +{
-> +	return led_classdev_register_ext(parent, led_cdev, NULL);
-> +}
-> +
->  extern int devm_led_classdev_register_ext(struct device *parent,
->  					  struct led_classdev *led_cdev,
->  					  struct led_init_data *init_data);
-> -#define devm_led_classdev_register(parent, led_cdev)		\
-> -	devm_led_classdev_register_ext(parent, led_cdev, NULL)
-> +
-> +static inline int devm_led_classdev_register(struct device *parent,
-> +					     struct led_classdev *led_cdev)
-> +{
-> +	return devm_led_classdev_register_ext(parent, led_cdev, NULL);
-> +}
->  extern void led_classdev_unregister(struct led_classdev *led_cdev);
->  extern void devm_led_classdev_unregister(struct device *parent,
->  					 struct led_classdev *led_cdev);
+But I did not recheck Droid 4.
 
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+Dan
 
---45Z9DzgjV8m4Oswq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
 
-iEYEARECAAYFAl1lFIAACgkQMOfwapXb+vKxagCfV2R0QnLNC+KUp0RJpfVwpT4C
-d4oAn2SazXFK9X4wI8yR992OQfyZdG4r
-=zWL0
------END PGP SIGNATURE-----
-
---45Z9DzgjV8m4Oswq--
+> Regards,
+>
+> Tony
+>
