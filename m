@@ -2,112 +2,154 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82C459E997
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 15:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54F0D9EA52
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Aug 2019 16:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725825AbfH0NhU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Aug 2019 09:37:20 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:48058 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725811AbfH0NhU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 09:37:20 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7RDbFZO095893;
-        Tue, 27 Aug 2019 08:37:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1566913035;
-        bh=idSC7WAHIV2lQSz7AHnFlEGNVeMX3kh33tNpXiiWeAA=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=mIVcGmL2B4dROlbl6Kop5YOPkwC6BLDvQpCZ6TUDFRTtZ2oVhxt0RB3sskHhB9uZF
-         6cvH1Cd9TPvtMJf1dfrm3y/FcRnZsFSyKVLqk6PBH1Dz4VSyRscCvpmoZbNqpW614u
-         /2FawPwGfMGu3u8ZinuG/xatWCI0inhICM/O0LM4=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7RDbFtq061789
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 27 Aug 2019 08:37:15 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 27
- Aug 2019 08:37:15 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 27 Aug 2019 08:37:15 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7RDbEpI074090;
-        Tue, 27 Aug 2019 08:37:14 -0500
-Subject: Re: [PATCH] leds: ti-lmu-common: Fix coccinelle issue in TI LMU
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20190823195523.20950-1-dmurphy@ti.com>
- <4a1872e8-89a5-4bc4-6aa4-bcadbc48697a@gmail.com>
- <de1bb95d-d5ca-6f8f-e758-b03479091f99@ti.com>
- <48fc16c5-9f43-e5c3-e756-514f9f3eb254@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <12746d3e-e658-5ce6-5231-33005a74e549@ti.com>
-Date:   Tue, 27 Aug 2019 08:37:14 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727306AbfH0OD5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Aug 2019 10:03:57 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:45210 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726170AbfH0OD5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Aug 2019 10:03:57 -0400
+Received: by mail-pg1-f194.google.com with SMTP id o13so12747601pgp.12;
+        Tue, 27 Aug 2019 07:03:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=vRyuTS5qz2XPINcB7iLgtQKJC9f4ym0cl5Z9n4olkJ8=;
+        b=X4MqDOM3NpQlq8zFabAVi3zXT4qB4XT9H6oeKNPetlhQBOGhSnr2vDJQJ1nOTRLmx0
+         asfst4+807osIwzlK7laI+rw8CkMci9NUI+M5+yuH2S89cMVQpfzFFh9M70Q5dMx13fB
+         iFnS1uZWk3x6p9vX0QsOMWwEQUW9jIvsjgBWowHP13/SWeeVPVCRfaQ7Zfy29eN2aVJe
+         X/rEaEbDeLvvyFm0Juwyrdy2laaATjJ5dXTXkiISX1oQf9oZKGF5rzyW4GGE8+ckkgGD
+         PPJ5kBhYm3Gp97NE6PYwKqReGMlJyKe8vZnBHZz36EoHkSNoDXPY/GRaReFhgdSKEFVE
+         JrUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=vRyuTS5qz2XPINcB7iLgtQKJC9f4ym0cl5Z9n4olkJ8=;
+        b=h0JdUZ0rVgJaKaJhcvZkq0SNlvdhn8aa1lg9+Neuq2zOptFdJudLnaWY+uSCej4n+1
+         r3XEw9iss8TAfw6n59czAmrB3uDWXhQE8YpePAAr55iqtc1D3waVQo++udHWkiqdj3md
+         FcwvwOER39nS6UAqe5utkJO4tistEj1rNM5y5WItBO6AnbidBreqJ9s1Z846MuohHl8I
+         zi3HcAcQ7nCVJsSugsoOJYZMbr9iu8zGbDcR5tlIq+gChfxE5iKMoiJL2PFX0LQY5BNc
+         /pP/uhcW2IxygRu10zoTC8B3Zt1h8sUGy+b5ouIwuaoDytlB97s3ojtWmoRSv5rUsYvo
+         FuZw==
+X-Gm-Message-State: APjAAAXT8iUFefl6Jp8kxxJmHpXmPYz1Lj3l+fgBuHts2/OB7cgkTv05
+        xFE0wkzSACayfpnDi84vA8COZwqq+5w+9bcrJDs=
+X-Google-Smtp-Source: APXvYqxC9fDdQGPHmEP/2yp/CfPRcllwn+ny0Utliu9P6xDn54VSI5qHeGbP0PWgfwoT5mwG9D1Ws/3vWFNeZl4ytJs=
+X-Received: by 2002:aa7:8007:: with SMTP id j7mr26172131pfi.154.1566914636187;
+ Tue, 27 Aug 2019 07:03:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <48fc16c5-9f43-e5c3-e756-514f9f3eb254@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <1565888399-21550-1-git-send-email-akinobu.mita@gmail.com>
+ <1565888399-21550-5-git-send-email-akinobu.mita@gmail.com>
+ <20190817145509.GA18381@amd> <925633c4-a459-5e84-9c9a-502a504fdc82@gmail.com>
+ <20190819143842.GA25401@amd> <7c4c4853-7e3a-0618-92a0-337e248e2b4c@gmail.com>
+ <c937b7e0-02c6-ae9a-aaf7-16a2ef29886d@gmail.com> <CAC5umyjxkeR3rhf3XZvwkxLvc-0ENEkQfOLnk8A12Qazr9Et8w@mail.gmail.com>
+ <86309c4f-bcee-182c-369f-fcc883f379c6@gmail.com>
+In-Reply-To: <86309c4f-bcee-182c-369f-fcc883f379c6@gmail.com>
+From:   Akinobu Mita <akinobu.mita@gmail.com>
+Date:   Tue, 27 Aug 2019 23:03:45 +0900
+Message-ID: <CAC5umyibEMrxhZv0TyS6hYHR+oyj2Oby+LVsjrYmMV8u-chXRQ@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] block: introduce LED block device activity trigger
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-block@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org,
+        Frank Steiner <fsteiner-mail1@bio.ifi.lmu.de>,
+        Dan Murphy <dmurphy@ti.com>, Jens Axboe <axboe@kernel.dk>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Hannes Reinecke <hare@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek
-
-On 8/26/19 2:34 PM, Jacek Anaszewski wrote:
-> Dan,
+2019=E5=B9=B48=E6=9C=8825=E6=97=A5(=E6=97=A5) 0:53 Jacek Anaszewski <jacek.=
+anaszewski@gmail.com>:
 >
-> On 8/26/19 4:53 PM, Dan Murphy wrote:
->> Jacek
->>
->> On 8/24/19 10:18 AM, Jacek Anaszewski wrote:
->>> Hi Dan,
->>>
->>> Thank you for the patch.
->>>
->>> On 8/23/19 9:55 PM, Dan Murphy wrote:
->>>> Fix the coccinelle issues found in the TI LMU common code
->>>>
->>>> drivers/leds/leds-ti-lmu-common.c:97:20-29: WARNING: Unsigned
->>>> expression compared with zero: ramp_down < 0
->>>> drivers/leds/leds-ti-lmu-common.c:97:5-12: WARNING: Unsigned
->>>> expression compared with zero: ramp_up < 0
->>> Wouldn't it make more sense to remove those pointless checks?
->>> Clearly a correct index of an array cannot be negative.
->>> Looking at the code I would make more int -> unsigned int conversions:
->>>
->>> - ramp_table should be unsigned int
->>> - ti_lmu_common_convert_ramp_to_index should return unsigned int
->>>
->> Yeah I was going to just remove the code but when I was writing the
->> original code my intent was
->>
->> to extend the ramp call to allow other TI LMU driver to pass in the
->> device specific ramp table.
->>
->> But since I don't currently have any devices on my plate that require
->> that I can just remove the code as well
-> You don't need to remove, just do the conversions I proposed.
-> Unless it introduces some other problems I am currently not aware of.
+> On 8/23/19 6:00 PM, Akinobu Mita wrote:
+> > 2019=E5=B9=B48=E6=9C=8820=E6=97=A5(=E7=81=AB) 3:38 Jacek Anaszewski <ja=
+cek.anaszewski@gmail.com>:
+> >>
+> >> On 8/19/19 8:22 PM, Jacek Anaszewski wrote:
+> >>> On 8/19/19 4:38 PM, Pavel Machek wrote:
+> >>>> On Sat 2019-08-17 22:07:43, Jacek Anaszewski wrote:
+> >>>>> On 8/17/19 4:55 PM, Pavel Machek wrote:
+> >>>>>> On Fri 2019-08-16 01:59:58, Akinobu Mita wrote:
+> >>>>>>> This allows LEDs to be controlled by block device activity.
+> >>>>>>>
+> >>>>>>> We already have ledtrig-disk (LED disk activity trigger), but the=
+ lower
+> >>>>>>> level disk drivers need to utilize ledtrig_disk_activity() to mak=
+e the
+> >>>>>>> LED blink.
+> >>>>>>>
+> >>>>>>> The LED block device trigger doesn't require the lower level driv=
+ers to
+> >>>>>>> have any instrumentation. The activity is collected by polling th=
+e disk
+> >>>>>>> stats.
+> >>>>>>>
+> >>>>>>> Example:
+> >>>>>>>
+> >>>>>>> echo block-nvme0n1 > /sys/class/leds/diy/trigger
+> >>>>>>
+> >>>>>> Lets use one trigger "block" and have the device as a parameter,
+> >>>>>> please.
+> >>>>>>
+> >>>>>> We already have 1000 cpu triggers on 1000 cpu machines, and yes, i=
+ts a
+> >>>>>> disaster we'll need to fix. Lets not repeat the same mistake here.
+> >>>>>>
+> >>>>>> I guess it may be slightly more work. Sorry about that.
+> >>>>>
+> >>>>> We should be able to list available block devices to set,
+> >>>>> so the problem would be not avoided anyway.
+> >>>>
+> >>>> Should we? We need to list triggers, but we may not list all the dev=
+ices...
+> >>>
+> >>> This is similar to usbport trigger that lists available
+> >>> ports as files in a sub-directory. We might eventually go
+> >>> in this direction.
+> >>
+> >> I must withdraw this statement. This is not similar to usbport
+> >> trigger. The difference is that with ledtrig-block we have separate
+> >> triggers per each device and I am not aware if there is some centraliz=
+ed
+> >> mechanism similar to blocking_notifier_chain (usb_notifier_list
+> >> in drivers/usb/core/notify.c) available for block devices, that
+> >> would allow to gather all available block devs under common trigger.
+> >>
+> >> Moreover I remember Greg once discouraged using notifier chains
+> >> as they are unsafe, so we would need some other solution anyway.
+> >
+> > I start thinking that we should implement the LED block device activity
+> > trigger in userspace.  The userspace application firstly activates
+> > one-shot LED trigger and periodically reads /sys/block/<disk>/stat and
+> > writes /sys/class/leds/<led>/shot if there is any disk activity.
 >
-Well just converting those two would/did not fix the issue.
+> This would suboptimal solution. I have another idea - let's get back
+> to the implementation of ledtrig-blk in genhd.c. We would be registering
+> one trigger on module initialization in a function with __init modifier.
+> Then we would need to add/remove triggers to the ledtrig-blk in
+> register_blkdev()/unregister_blkdev(). And registered triggers would
+> be listed in block_devs directory created by the trigger.
+>
+> You can compare how drivers/usb/core/ledtrig-usbport.c maintains
+> similar directory of usb ports.
 
-But actually there is only 1 possibility that could happen if the 
-convert function returns -EINVAL
+It could be possible, but I have yet another idea.  What about introducing
+/proc/led-triggers and /sys/class/leds/<led>/current-trigger?
+The /sys/class/leds/<led>/trigger will be obsoleted by these two files.
 
-So the check should be
+The /proc/led-triggers is read only and no PAGE_SIZE limitation by the
+seq_file interface.  So we can list all triggers in this file.
 
-if (ramp_up == -EINVAL || ramp_down == -EINVAL)
-
-Because ramp_up/down should never be less then zero otherwise.
-
-Dan
-
-
+The /sys/class/leds/<led>/current-trigger is almost identical to
+/sys/class/leds/<led>/trigger.  The only difference is that
+'current-trigger' only shows the current trigger name.
