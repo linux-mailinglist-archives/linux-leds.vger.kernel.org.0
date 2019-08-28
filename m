@@ -2,57 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60BE2A0B8E
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Aug 2019 22:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B858A0BA3
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Aug 2019 22:37:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726400AbfH1UdD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Aug 2019 16:33:03 -0400
-Received: from mail-wr1-f47.google.com ([209.85.221.47]:41813 "EHLO
-        mail-wr1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726618AbfH1UdD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Aug 2019 16:33:03 -0400
-Received: by mail-wr1-f47.google.com with SMTP id j16so1100897wrr.8;
-        Wed, 28 Aug 2019 13:33:00 -0700 (PDT)
+        id S1726763AbfH1Uhi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Aug 2019 16:37:38 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:43966 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726687AbfH1Uhi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Aug 2019 16:37:38 -0400
+Received: by mail-wr1-f65.google.com with SMTP id y8so1091882wrn.10;
+        Wed, 28 Aug 2019 13:37:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=TISg0muwB2M2Jy6luhj9/zvgyEU+woHzKtCqNGSYKTI=;
-        b=HcqbNyQHmf9ViGyfpvW68rz0SbDibwmKr1gY8yiqrYO3eiX4GhflOkCrC+KPqa4WZv
-         pJL+rIGRl2PU5cPMi6Vb1NO+HM2r7LovMxl2szuj0r3yCgVxe+/bJgMzInpWC4d86daw
-         5+HRlzoCXTCufoaIxlPQ7Frgnyo2/G3CNrpxSlgUdXEItJZUeu0ScGBUwxlL2EONU8Gg
-         lmtbEmOquEZA4BgC6VJhW4WVjDQiFyxK1GPcwQ4TbUoZGLZY5P4MHODolXYgrLGpLAVK
-         MfvswrouRzYta1BonQCK5ZCvtBOzdIQG68HNTwjtzQDFxVSIdmv3sRY+2ijtpqCAQu6R
-         YsDQ==
+        bh=miPshPOcnrEwVpvxQoK3Ls37y5/pCPaMdY3vQpQnRPk=;
+        b=pVECr5uEbJzJZx8TrmQlLcIWPgLqayJDDotVSoF/PJWjF750XnV9qKxVSiOQQBcVUQ
+         TIvK0sjsvAxn3bsXcXikA6VAAaopwdIMVhSqfSXUAhX8HirmBRylAgRi6S0OmjIlNZGt
+         yLI4oV9YAS/cFofsoU2r6hvZNTZXTV3/VQGglLA1VnZ8COtH+5s22xTnTlpK/X1f1Qjs
+         fP8j33/6i9SwOFSBHDmKih2y4zRIpZagKowInP/EBRT/003CQNqhzoChDTummfoMQm6a
+         NC+YRgrT3579IFYLPW1h17gnjQA9AFBjvrSllaZIv7StH6qLxhU7w2VgLQPZdXw7ULab
+         BH2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=TISg0muwB2M2Jy6luhj9/zvgyEU+woHzKtCqNGSYKTI=;
-        b=H2Ik5Q5ctAvR9RuOL1xikvXHFi7tIArlpLGmXIlkF7eE16vXCQN2TjsPI23sDft6+h
-         HZc81J+wtd1BIE+c2NERyijTpTOyYRte7/oj+dz740IS5fmMiVyCft+2tlLDfKVRB6ZD
-         dkNNQ0u2EWYXWV0xQYKEZwb2HggU6EadHO34dZQ/5BrYEBf9vIjvv5I3XjpLBfW6pAhx
-         RF2AgtyVDGGaTCX31PgcgZzC/ZQvdetDl9flqdz7lSy8NjIqsJdWTKZh3wgTcEKvrArg
-         tt02pD9B7/GHn5tHTiJ43SQ+G9TuBWgp9c0xMg8c7AkjJB5dJy3pkYBU5TEcFM6s8DDG
-         xwDw==
-X-Gm-Message-State: APjAAAUeziV8l0QXP58KU3pdjdTEMxJXnl/p51FEMysjTIMeMtl1al6P
-        Apw3wmh3FIwp8uALVP8ui7KeaYti
-X-Google-Smtp-Source: APXvYqyI1O5W8Pflp/nPGRoUDkiOrgSPDd4wiXnnJf55xe7Nv0V2q7lqo7IIPndE/pqnQiUOa2MRPA==
-X-Received: by 2002:adf:9043:: with SMTP id h61mr6838369wrh.247.1567024379945;
-        Wed, 28 Aug 2019 13:32:59 -0700 (PDT)
+        bh=miPshPOcnrEwVpvxQoK3Ls37y5/pCPaMdY3vQpQnRPk=;
+        b=djtF/vvEZo9hsF4TvGZHAWuG14vjpbcsQU6nnRViWsFQy3PUoV3eebbSxsXrTeGhR5
+         tnt71bwEn+kf2jN6e+o9w/EM06uxH4VY7731vFKn58u6VVp1alvIwhLHFkwa7nPyv4iS
+         juI7npunucSQZ069zssf0uQDwHsU4+2eMcX3zotZgBi5nr3JMsRNEHPujJgOjM/59GYA
+         v8n4s6VWi6D5j/XSHHy84AmJQlTnFUQJOqlwzgjwxMvdDZJdA0qFkgrJ4DxwcYGQNueP
+         DReXY9u6XZUHX9Z/vKChVJL2GuH8IJeoOoLP7kXWZHan5+ZrumKn5xh6F4IEp45ANbJu
+         sPAA==
+X-Gm-Message-State: APjAAAV0yqyGytCruJgQtTiAcC2d5uKbPYvlgJ5WQeHQMvtivUUsoce6
+        sg9XaO+XpX+wjukKQ1ibBgZRqV0i
+X-Google-Smtp-Source: APXvYqysiWspI267imez/H1iQFU4xLC50QgrXaWgqSu08yzyzn06gYv39rESMMvD0DXx1Sp6XxU+gQ==
+X-Received: by 2002:adf:a2cd:: with SMTP id t13mr6535827wra.251.1567024655268;
+        Wed, 28 Aug 2019 13:37:35 -0700 (PDT)
 Received: from [192.168.1.19] (chg13.neoplus.adsl.tpnet.pl. [83.31.4.13])
-        by smtp.gmail.com with ESMTPSA id p11sm334335wrx.9.2019.08.28.13.32.58
+        by smtp.gmail.com with ESMTPSA id 24sm279546wmf.10.2019.08.28.13.37.33
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 28 Aug 2019 13:32:59 -0700 (PDT)
-Subject: Re: [FYI] lm3532: right registration to work with LED-backlight
-To:     Pavel Machek <pavel@ucw.cz>, Tony Lindgren <tony@atomide.com>,
-        kernel list <linux-kernel@vger.kernel.org>, sre@kernel.org,
-        nekit1000@gmail.com, mpartap@gmx.net, merlijn@wizzup.org
-Cc:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-References: <20190827215205.59677-1-tony@atomide.com>
- <20190828085339.GB2923@amd>
+        Wed, 28 Aug 2019 13:37:34 -0700 (PDT)
+Subject: Re: [PATCH v3 1/5] leds: lm3532: Fix brightness control for i2c mode
+To:     Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
+        Tony Lindgren <tony@atomide.com>
+Cc:     sre@kernel.org, nekit1000@gmail.com, mpartap@gmx.net,
+        merlijn@wizzup.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190820195307.27590-1-dmurphy@ti.com>
+ <20190826215822.GY52127@atomide.com> <20190826221413.GA19124@amd>
+ <20190826224437.GZ52127@atomide.com> <20190827121818.GB19927@amd>
+ <0eab6f72-ddb7-3da7-e90e-888374531f86@ti.com>
+ <69925382-d8f4-4916-f121-0184a4219354@gmail.com>
+ <84511f1e-5a04-5348-a2b4-1dc2b534a1cb@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -111,47 +116,71 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <c3ac1863-9cdb-1ba6-d5a4-df1c4cfecbe1@gmail.com>
-Date:   Wed, 28 Aug 2019 22:32:57 +0200
+Message-ID: <4f2b2950-2756-67f9-3fde-09fa4b8439ee@gmail.com>
+Date:   Wed, 28 Aug 2019 22:37:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190828085339.GB2923@amd>
+In-Reply-To: <84511f1e-5a04-5348-a2b4-1dc2b534a1cb@ti.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 8/28/19 10:53 AM, Pavel Machek wrote:
-> Hi!
-> 
-> Eventually, these will be needed.
-> 
-> Best regards,
-> 								Pavel
-> 
-> commit 38d956977a7d6cbdc811676f9b4033da7487e045
-> Author: Pavel <pavel@ucw.cz>
-> Date:   Wed Aug 7 12:43:52 2019 +0200
-> 
->     d4: lm3532 needs to use right register function for backlight to work.
-> 
-> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
-> index 365a22a5..f98e657 100644
-> --- a/drivers/leds/leds-lm3532.c
-> +++ b/drivers/leds/leds-lm3532.c
-> @@ -629,7 +629,7 @@ static int lm3532_parse_node(struct lm3532_data *priv)
->  
->  		lm3532_init_registers(led);
->  
-> -		ret = devm_led_classdev_register(priv->dev, &led->led_dev);
-> +		ret = devm_of_led_classdev_register(priv->dev, to_of_node(child), &led->led_dev);
+Dan,
 
-We no longer have devm_of_led_classdev_register(). You must use
-devm_led_classdev_register_ext().
+On 8/28/19 5:28 PM, Dan Murphy wrote:
+> Jacek
+[...]
+>>>>> Or i2c control is somehow broken and only als control now works?
+>>> With only setting CONFIG_LEDS_LM3532=m to the next branch I get full
+>>> brightness with 255.
+>>>
+>>> I also see half brightness at 128 with the ramp down working.
+>>>
+>>> I am not able to reproduce this issue on my device.
+>>>
+>>>> Well, max current led is obviously missing. Plus code does not check
+>>>> the return from reading led-max-microamp.
+>>> led-max-microamp is optional so there is no need to check the return.
+>> It's also ugly to not check it when you have it assigned.
+>> We'll soon receive complaints from static checkers about pointless
+>> assignment.
+>>
+>> I'd distinguish between cases when parsing failed,
+>> and when property has not been provided.
+>>
+>> if (fwnode_property_present(child, "led-max-microamp")) {
+>>     if (fwnode_property_read_u32(child, "led-max-microamp",
+>>                 &led->full_scale_current);
+>>         dev_err(&priv->client->dev,
+>>                           "Failed to parse led-max-microamp property\n")
+> 
+> I am OK with doing this but I think the else case logging is extra.
+> 
+> Again the property is optional and if the user decides not to populate
+> it then there should not
+> 
+> be a log of that it is missing.
+
+That's why I used lower log level (info). But it's up to you. I will
+not insist on keeping the logging for missing property case.
+
+> Dan
+> 
+>> } else {
+>>     dev_info(&priv->client->dev,
+>>          led-max-microamp property is missing\n")
+>> }
+>>
+>>> full_scale_current should be 0 if not populated and in the init only if
+>>> this variable is set does
+>>>
+>>> the code program the register otherwise it is default of 20.2 mA.
+> 
 
 -- 
 Best regards,
