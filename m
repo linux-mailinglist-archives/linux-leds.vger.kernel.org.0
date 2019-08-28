@@ -2,55 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77C00A0B19
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Aug 2019 22:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BEC9A0B5E
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Aug 2019 22:27:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726687AbfH1UJU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Aug 2019 16:09:20 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:38728 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726663AbfH1UJU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Aug 2019 16:09:20 -0400
-Received: by mail-wr1-f67.google.com with SMTP id e16so1061934wro.5;
-        Wed, 28 Aug 2019 13:09:17 -0700 (PDT)
+        id S1726663AbfH1U1b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Aug 2019 16:27:31 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:54034 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726616AbfH1U1b (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Aug 2019 16:27:31 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 10so1382342wmp.3;
+        Wed, 28 Aug 2019 13:27:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=tKEaTUZEAYl5DlrWPO5ct5BclLqumjFbmjuxJBmq1hU=;
-        b=g40YxbETJAmrRlb2nbSFLWPFSdyzJJLeQ/bU1JD21B6CVShmmvj68gTg8XlmdeZFq/
-         6cegNMmiV3BfAPR02Zk9wieYqRFMfRWb9v7DoNWwUoLRWKpnueHI/3HNux2w3+Yl/+vy
-         i9nINTvC2K2uVaMAwjVmDQkLu77mfAuwU1jyixysxcuMARhJHTYDt8WGh4qUk11l5OF7
-         pC/7NVRgYkkL68zFh+zghS0SsdcY5ZwUd1l6gYchhfeGd//AxeomiXahUuiw6YD1vcjo
-         7pPIc6bbTAjuBXvTMuc8t7vR6Et3DzHISKtcALpFsQmRqptC/WpZ9QhAXvrNl/nLJhqu
-         PqxA==
+        bh=8AsJc4UlRTuvAjTir+XVFURhWb+KIva3JiHoLaMnkHc=;
+        b=iOUDbkM81Th1s30W9wVUBdpnq6Cva62RKTn5QCAvGTJNTKq+4pAKmxA110xDO+lFyt
+         77H6ckIzvsbRu/y9N4ZYjFfQTTol/4FsnvvKrlbL9oaMoFe15SauHBhmfXhNnhGCNJtG
+         l136sfg7qnczALv4nTfSxe7Ei/BY1k5ltC+ORGjIBhcLbZ999j1IKewfBLESwHF4LAlO
+         0ovj7oQezntR5Dn0VId/sd7XhAwvejEHiWE2toRiJOvZQ597e1yd/reI/nweWqyY5wU9
+         JIXgARH2JP04PyvfB6S4Zbv+uiuf92LgJGiu7I9H7JWS7x9PgPZ+YbvN/mHkhwSN72Ft
+         pZ6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=tKEaTUZEAYl5DlrWPO5ct5BclLqumjFbmjuxJBmq1hU=;
-        b=dYoML2ZdizdGOuiKXOTRFypIWAjZF36bPjje9tmTYJI6bGFOtb0y6rwvoKn42nrF7x
-         ReBUxDswLhndnFR96zIE8Ve/a/eU5PgXgEOVJPJDpfLW+q/bjdLE6pYdbdzXsntGkHNH
-         VyIrGE2wko5W+RmrNcMKN8tnR+m2OuVDJvOTVTuifsb+Zwe7cQnagDIeEspJZ/BrwX1G
-         LyNXibyDoNpaGWRskAVqvxVaKGE+zpzlLryXVFjRPkqPXhqH4M5n4hQr1P+h94HSFQ4z
-         +sdTVX0JfKYVGqx7LG6pBpzsIDnNB8Z2S1d0OOzTG+XVLcAgxiLpPlXhudEhJBmm+p16
-         XgZQ==
-X-Gm-Message-State: APjAAAU3ZmSiTNzklc3w7prdTFl5ZtOtCU2X85qZM4aBwa9QpVPYWsBj
-        uY3dLG5Gdh4uwgGpFJDviYd9M5yo
-X-Google-Smtp-Source: APXvYqy8OiwwUBMFC1xDdigGJ88rF5unEZ28rR6wAf2vDokAZRQwArOqEYNMAx03zDSLGIBccDAZaw==
-X-Received: by 2002:adf:a491:: with SMTP id g17mr3305729wrb.327.1567022956901;
-        Wed, 28 Aug 2019 13:09:16 -0700 (PDT)
+        bh=8AsJc4UlRTuvAjTir+XVFURhWb+KIva3JiHoLaMnkHc=;
+        b=UoohuiZNTEUUJBfXr8yWLOonSAm+NyBRdt5YJOZsFyILjzCX34+Ctwjh3v0smLDC7Y
+         oWa37qclyLZt2mwKniPl/0Q5doeDYYoMYfOacT4s/cJ4jqtOJbCBEMKmX/LzpGnxfiTJ
+         OHBXe/8WUZhkUJz2tkDSKrnP1Lvns7SRTD0RCRca7lzFtxXB9ixH9G9rF40PDAMDaqrN
+         82f8ECR8UBcvtQ+GQ6CdFU1NTShaUyHOldjXy3JQta3kTBKWEJm1kszXq23pRXosHXUh
+         9yHOgA47uuGcj47CpajZujT4XVVJNgPduEY16aRq5D3NEsLdvf01a53SNcfCTChxZt3B
+         ZCrQ==
+X-Gm-Message-State: APjAAAU65xFpJ/WyBB+wgU76Fwv2nGhm91PSHAhWr3kxowLQ/OENFutn
+        2xoHGWMXjphtLGbAZNipPiCNlqJW
+X-Google-Smtp-Source: APXvYqzYOTWEwE3pLwY0ZXi6VrM7p54jYNJEXU6qMwVAMZY8RXIrOjqo2BM2VlqRLgLXWeHYbhjlXg==
+X-Received: by 2002:a1c:2dcf:: with SMTP id t198mr6624089wmt.147.1567024047579;
+        Wed, 28 Aug 2019 13:27:27 -0700 (PDT)
 Received: from [192.168.1.19] (chg13.neoplus.adsl.tpnet.pl. [83.31.4.13])
-        by smtp.gmail.com with ESMTPSA id x6sm743565wmf.6.2019.08.28.13.09.15
+        by smtp.gmail.com with ESMTPSA id n14sm428473wra.75.2019.08.28.13.27.26
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 28 Aug 2019 13:09:16 -0700 (PDT)
-Subject: Re: [PATCH] leds: lm3532: Avoid potentially unpaired regulator calls
-To:     Tony Lindgren <tony@atomide.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190827215205.59677-1-tony@atomide.com>
+        Wed, 28 Aug 2019 13:27:26 -0700 (PDT)
+Subject: Re: [PATCH v2] leds: ti-lmu-common: Fix coccinelle issue in TI LMU
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190828152219.27640-1-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -109,12 +108,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <75c6095c-01a0-3a87-acab-d522225f259b@gmail.com>
-Date:   Wed, 28 Aug 2019 22:09:12 +0200
+Message-ID: <3c0d26f7-52db-d0ff-e2cf-0dcc15edc67b@gmail.com>
+Date:   Wed, 28 Aug 2019 22:27:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190827215205.59677-1-tony@atomide.com>
+In-Reply-To: <20190828152219.27640-1-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -123,99 +122,73 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Tony,
+Hi Dan,
 
-Thank you for the patch.
+Thank you for the update.
 
-On 8/27/19 11:52 PM, Tony Lindgren wrote:
-> We may currently get unpaired regulator calls when configuring the LED
-> brightness via sysfs in case of regulator calls producing errors. Let's
-> fix this by maintaining local state for enabled.
+On 8/28/19 5:22 PM, Dan Murphy wrote:
+> Fix the coccinelle issues found in the TI LMU common code
 > 
-> Signed-off-by: Tony Lindgren <tony@atomide.com>
+> drivers/leds/leds-ti-lmu-common.c:97:20-29: WARNING: Unsigned expression compared with zero: ramp_down < 0
+> drivers/leds/leds-ti-lmu-common.c:97:5-12: WARNING: Unsigned expression compared with zero: ramp_up < 0
+> 
+> Fixes: f717460ba4d7 ("leds: TI LMU: Add common code for TI LMU devices")
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
 > ---
->  drivers/leds/leds-lm3532.c | 26 ++++++++++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
+>  drivers/leds/leds-ti-lmu-common.c | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
-> --- a/drivers/leds/leds-lm3532.c
-> +++ b/drivers/leds/leds-lm3532.c
-> @@ -127,6 +127,7 @@ struct lm3532_als_data {
->   * @num_leds - Number of LED strings are supported in this array
->   * @full_scale_current - The full-scale current setting for the current sink.
->   * @led_strings - The LED strings supported in this array
-> + * @enabled - Enabled status
->   * @label - LED label
->   */
->  struct lm3532_led {
-> @@ -138,6 +139,7 @@ struct lm3532_led {
->  	int ctrl_brt_pointer;
->  	int num_leds;
->  	int full_scale_current;
-> +	int enabled:1;
->  	u32 led_strings[LM3532_MAX_CONTROL_BANKS];
->  	char label[LED_MAX_NAME_SIZE];
->  };
-> @@ -292,11 +294,15 @@ static int lm3532_get_ramp_index(int ramp_time)
->  				ramp_time);
+> diff --git a/drivers/leds/leds-ti-lmu-common.c b/drivers/leds/leds-ti-lmu-common.c
+> index adc7293004f1..e294a0b097e3 100644
+> --- a/drivers/leds/leds-ti-lmu-common.c
+> +++ b/drivers/leds/leds-ti-lmu-common.c
+> @@ -11,10 +11,10 @@
+>  
+>  #include <linux/leds-ti-lmu-common.h>
+>  
+> -const static int ramp_table[16] = {2048, 262000, 524000, 1049000, 2090000,
+> -				4194000, 8389000, 16780000, 33550000, 41940000,
+> -				50330000, 58720000, 67110000, 83880000,
+> -				100660000, 117440000};
+> +const static unsigned int ramp_table[16] = {2048, 262000, 524000, 1049000,
+> +				2090000, 4194000, 8389000, 16780000, 33550000,
+> +				41940000, 50330000, 58720000, 67110000,
+> +				83880000, 100660000, 117440000};
+>  
+>  static int ti_lmu_common_update_brightness(struct ti_lmu_bank *lmu_bank,
+>  					   int brightness)
+> @@ -54,7 +54,7 @@ int ti_lmu_common_set_brightness(struct ti_lmu_bank *lmu_bank, int brightness)
 >  }
+>  EXPORT_SYMBOL(ti_lmu_common_set_brightness);
 >  
-> +/* Caller must take care of locking */
->  static int lm3532_led_enable(struct lm3532_led *led_data)
+> -static int ti_lmu_common_convert_ramp_to_index(unsigned int usec)
+> +static unsigned int ti_lmu_common_convert_ramp_to_index(unsigned int usec)
 >  {
->  	int ctrl_en_val = BIT(led_data->control_bank);
->  	int ret;
->  
-> +	if (led_data->enabled)
-> +		return 0;
-> +
->  	ret = regmap_update_bits(led_data->priv->regmap, LM3532_REG_ENABLE,
->  					 ctrl_en_val, ctrl_en_val);
->  	if (ret) {
-> @@ -304,14 +310,24 @@ static int lm3532_led_enable(struct lm3532_led *led_data)
->  		return ret;
+>  	int size = ARRAY_SIZE(ramp_table);
+>  	int i;
+> @@ -78,7 +78,7 @@ static int ti_lmu_common_convert_ramp_to_index(unsigned int usec)
+>  		}
 >  	}
 >  
-> -	return regulator_enable(led_data->priv->regulator);
-> +	ret = regulator_enable(led_data->priv->regulator);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	led_data->enabled = 1;
-> +
+> -	return -EINVAL;
 > +	return 0;
 >  }
 >  
-> +/* Caller must take care of locking */
->  static int lm3532_led_disable(struct lm3532_led *led_data)
->  {
->  	int ctrl_en_val = BIT(led_data->control_bank);
->  	int ret;
->  
-> +	if (!led_data->enabled)
-> +		return 0;
-> +
->  	ret = regmap_update_bits(led_data->priv->regmap, LM3532_REG_ENABLE,
->  					 ctrl_en_val, 0);
->  	if (ret) {
-> @@ -319,7 +335,13 @@ static int lm3532_led_disable(struct lm3532_led *led_data)
->  		return ret;
+>  int ti_lmu_common_set_ramp(struct ti_lmu_bank *lmu_bank)
+> @@ -94,9 +94,6 @@ int ti_lmu_common_set_ramp(struct ti_lmu_bank *lmu_bank)
+>  		ramp_down = ti_lmu_common_convert_ramp_to_index(lmu_bank->ramp_down_usec);
 >  	}
 >  
-> -	return regulator_disable(led_data->priv->regulator);
-> +	ret = regulator_disable(led_data->priv->regulator);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	led_data->enabled = 0;
-> +
-> +	return 0;
->  }
+> -	if (ramp_up < 0 || ramp_down < 0)
+> -		return -EINVAL;
+> -
+>  	ramp = (ramp_up << 4) | ramp_down;
 >  
->  static int lm3532_brightness_set(struct led_classdev *led_cdev,
+>  	return regmap_write(regmap, lmu_bank->runtime_ramp_reg, ramp);
 > 
 
-Applied.
+I've applied the patch but amended SHA1 in the Fixes tag - in mainline
+it is 3fce8e1eb994.
 
 -- 
 Best regards,
