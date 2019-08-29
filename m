@@ -2,58 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB9D8A2770
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Aug 2019 21:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A31A0A27A1
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Aug 2019 22:04:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727707AbfH2TvZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Aug 2019 15:51:25 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:39539 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727673AbfH2TvZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Aug 2019 15:51:25 -0400
-Received: by mail-wm1-f67.google.com with SMTP id n2so3639743wmk.4;
-        Thu, 29 Aug 2019 12:51:23 -0700 (PDT)
+        id S1726894AbfH2UEY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Aug 2019 16:04:24 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46264 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726512AbfH2UEX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Aug 2019 16:04:23 -0400
+Received: by mail-wr1-f68.google.com with SMTP id h7so3347352wrt.13;
+        Thu, 29 Aug 2019 13:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=um+uNk3I2VIFoT3TE7WfeDKQIDFMRwrUXXKEDKVUSbs=;
-        b=Dl8dldZxrsmXnGH4o93lYLU3cZPOmSMfwfpDhVjytjz7kWainQyomTV3sbg4S1lOAl
-         up03BTI990ta35IK5ImP+Zj5CfwIDJmzLJoRykyH++5lc2ykmmF8gaANvL7WhPnc7Ht6
-         8MIzUMjNVZik8ST7igsuD5pK2RKJJXAVtnryOle/8fEdqdjH/fer9Kk/ZytPzYvxkbTi
-         IUlAAtRlqoWCvWToVgLohIwkxHm4zHm+W74op0S/Bnrq5AZIpo57yaW+soz3xbuvEpDt
-         tRGMDPBZD6rVMs8yAXIhW4xbQreSxVYMR6E3a2oRsBMkg54okLyjoI93sZ54WCtg92ae
-         iF/g==
+        bh=HsxpJcZSI71PdCWjAkEI23BizxSa4mt7mKkj5knkHJs=;
+        b=Ez6J3AZe/WF5Yml9bO2ExN1KMW03AKxwOL3oBqgvWpWj6G84BtxInZGF/413TlfIgO
+         x+R55BiM8L3DgmrVXvvDSp4xGS8QJhJCWqK9krNlNhaghxkTUbA7L7nRyHe61SNbQoHC
+         6KkI1Zr1XadMUQ5ma5eHwAUaicqYIE5GXhWvgo8ilxrHE+5rNaRTUW5Glj4Fz+XF51tI
+         p02cW7PooE1ZUdj1v/StUN3mKTZMb9A6qN+azExuMTcwkJFEbmFhu7GLEj+rlz6XLX0K
+         TY9BdnJZgsTiLLqugA3UzQexI2eCQ7GgVzhs8wDwJp1f+ALAmg1nX4fZxZrKOdzkQylj
+         Brnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=um+uNk3I2VIFoT3TE7WfeDKQIDFMRwrUXXKEDKVUSbs=;
-        b=dJ9pQ4+1pAtvvwvjv/oMsEhhiHrJb/P6bHwBfPxjQzKE6SmqzBUtVOAerwAux92fHY
-         Z74ukTcrp/NXS31kM/+XDcw5jm13HcjltxNGiShZy1CzVeiL/KKsAfALq9MLI+qDgk+F
-         61RZt647swykq1qnw9indO0mdAdSwDiUaImgnLjZOhIswDZr4qgoCUJZv3QuRTdouVAX
-         ETNQHANlqud/9Gib9uYbxJuMnLj1pQjhtnVY0nDyw7wPBCje8KrBQt0TBGH0VxYX0wo8
-         dOcwqed2xO7wsIyX2JjFl2YZv6v6ucWn6rRSu8hACYd71xMySUu2T9IdUOS6qsxau+MW
-         QR6g==
-X-Gm-Message-State: APjAAAX3A6XNP72kiLUSuAEC+lnw1mysq3ksB3QdSq9xzGWq9N7pL+Qi
-        snKp8uqblxPKjIJNLHUTC6DMF6U/
-X-Google-Smtp-Source: APXvYqymwAOPvcCuJFsvXXcPsC7IdravIdWPGSRhhe6nnKtEOJ56VuJMH4AH+9oGGmPDTkppLqX6EA==
-X-Received: by 2002:a7b:c8ca:: with SMTP id f10mr12582565wml.36.1567108282215;
-        Thu, 29 Aug 2019 12:51:22 -0700 (PDT)
+        bh=HsxpJcZSI71PdCWjAkEI23BizxSa4mt7mKkj5knkHJs=;
+        b=odGR2Ww9byKHfrztZDdyQFyFaLeo7YRxQ7YcPCyIg+t/zCZmn02WlhrCVb9uBTDeHD
+         elESAZhiivy17BrnhwD6y5HWxUXxSXOrZ6VL8sHNXapyCEQVKdpci1w8ABtDngwHC3TF
+         teArrO9GLE5nOi3Rp5qyEs/PzWrrgcsEL6BG4uIrMIZaeUHoqvZz8vKyxdC5/OKyicjA
+         iRd7ogwIGHoQ9LUrAS2OtQcovpjSokxMKrVkY80x+Gbs/HfUTJEqESz/Av77CUBLd+ZA
+         i2buhg+YO7xTIvnqgu+bage4ero57sZ3mzOZD7qfcrM/e9O48RC9aYMDZpuQQlFQvU1J
+         u9Ow==
+X-Gm-Message-State: APjAAAWoUFtMiJJJHTuU9g/Zw98gEbHLV3iP8DDYvDIlEkY2gcbsWj0T
+        3LWEIh+6OdrrbTczilZ+pcnN7bYL
+X-Google-Smtp-Source: APXvYqxtibjKrr/KvWr5UbETlkyol0MTxzoL3XGdEsYm7yknBbV/+FHTJNNthym+pRW1/5qwSy/LLA==
+X-Received: by 2002:adf:e74c:: with SMTP id c12mr13676906wrn.173.1567109060940;
+        Thu, 29 Aug 2019 13:04:20 -0700 (PDT)
 Received: from [192.168.1.19] (cjm4.neoplus.adsl.tpnet.pl. [83.31.62.4])
-        by smtp.gmail.com with ESMTPSA id 16sm4830263wmx.45.2019.08.29.12.51.20
+        by smtp.gmail.com with ESMTPSA id j20sm6671531wre.65.2019.08.29.13.04.19
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 29 Aug 2019 12:51:21 -0700 (PDT)
-Subject: Re: leds: apu: drop obsolete support for apu>=2
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org
-Cc:     pavel@ucw.cz, dmurphy@ti.com, linux-leds@vger.kernel.org
-References: <1563202653-20994-1-git-send-email-info@metux.net>
- <bb7a338b-d86d-5016-7ae2-e893e1934d96@gmail.com>
- <12d2e12f-4157-eb64-6734-db7f1908200c@metux.net>
+        Thu, 29 Aug 2019 13:04:20 -0700 (PDT)
+Subject: Re: [PATCH] leds: lm3532: Fix optional led-max-microamp prop error
+ handling
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190829191836.9648-1-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -112,12 +109,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <30474762-eb84-962b-8854-652679d968f3@gmail.com>
-Date:   Thu, 29 Aug 2019 21:51:19 +0200
+Message-ID: <ff3a0662-a71b-79d5-6d28-a882f9f77f89@gmail.com>
+Date:   Thu, 29 Aug 2019 22:04:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <12d2e12f-4157-eb64-6734-db7f1908200c@metux.net>
+In-Reply-To: <20190829191836.9648-1-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -126,17 +123,50 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 8/29/19 11:08 AM, Enrico Weigelt, metux IT consult wrote:
-> On 22.07.19 22:12, Jacek Anaszewski wrote:
-> 
-> Hi,
-> 
->> Patch set applied along with the update for the patch 5/6.
-> 
-> What's the status of this patch set ?
-> Doesn't seem to have landed in Torvalds tree yet.
+Hi Dan,
 
-It is in linux-next and will be sent upstream for 5.4-rc1.
+Thanks for the update.
+
+On 8/29/19 9:18 PM, Dan Murphy wrote:
+> Fix the error handling for the led-max-microamp property.
+> Need to check if the property is present and then if it is
+> retrieve the setting and its max boundary
+> 
+> Reported-by: Pavel Machek <pavel@ucw.cz>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>  drivers/leds/leds-lm3532.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
+> index c5cfd8e3f15f..13b4265fb85a 100644
+> --- a/drivers/leds/leds-lm3532.c
+> +++ b/drivers/leds/leds-lm3532.c
+> @@ -601,11 +601,15 @@ static int lm3532_parse_node(struct lm3532_data *priv)
+>  			goto child_out;
+>  		}
+>  
+> -		ret = fwnode_property_read_u32(child, "led-max-microamp",
+> -					       &led->full_scale_current);
+> -
+> -		if (led->full_scale_current > LM3532_FS_CURR_MAX)
+> -			led->full_scale_current = LM3532_FS_CURR_MAX;
+> +		if (fwnode_property_present(child, "led-max-microamp")) {
+> +			if (fwnode_property_read_u32(child, "led-max-microamp",
+> +						     &led->full_scale_current))
+> +				dev_err(&priv->client->dev,
+> +					"Failed getting led-max-microamp\n");
+> +
+> +			if (led->full_scale_current > LM3532_FS_CURR_MAX)
+> +				led->full_scale_current = LM3532_FS_CURR_MAX;
+
+One more nit: we have min() macro in kernel.h for such things.
+
+> +		}
+>  
+>  		if (led->mode == LM3532_BL_MODE_ALS) {
+>  			led->mode = LM3532_ALS_CTRL;
+> 
 
 -- 
 Best regards,
