@@ -2,186 +2,72 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B858A0BA3
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Aug 2019 22:37:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40CA0A145F
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Aug 2019 11:08:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726763AbfH1Uhi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Aug 2019 16:37:38 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:43966 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726687AbfH1Uhi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Aug 2019 16:37:38 -0400
-Received: by mail-wr1-f65.google.com with SMTP id y8so1091882wrn.10;
-        Wed, 28 Aug 2019 13:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=miPshPOcnrEwVpvxQoK3Ls37y5/pCPaMdY3vQpQnRPk=;
-        b=pVECr5uEbJzJZx8TrmQlLcIWPgLqayJDDotVSoF/PJWjF750XnV9qKxVSiOQQBcVUQ
-         TIvK0sjsvAxn3bsXcXikA6VAAaopwdIMVhSqfSXUAhX8HirmBRylAgRi6S0OmjIlNZGt
-         yLI4oV9YAS/cFofsoU2r6hvZNTZXTV3/VQGglLA1VnZ8COtH+5s22xTnTlpK/X1f1Qjs
-         fP8j33/6i9SwOFSBHDmKih2y4zRIpZagKowInP/EBRT/003CQNqhzoChDTummfoMQm6a
-         NC+YRgrT3579IFYLPW1h17gnjQA9AFBjvrSllaZIv7StH6qLxhU7w2VgLQPZdXw7ULab
-         BH2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=miPshPOcnrEwVpvxQoK3Ls37y5/pCPaMdY3vQpQnRPk=;
-        b=djtF/vvEZo9hsF4TvGZHAWuG14vjpbcsQU6nnRViWsFQy3PUoV3eebbSxsXrTeGhR5
-         tnt71bwEn+kf2jN6e+o9w/EM06uxH4VY7731vFKn58u6VVp1alvIwhLHFkwa7nPyv4iS
-         juI7npunucSQZ069zssf0uQDwHsU4+2eMcX3zotZgBi5nr3JMsRNEHPujJgOjM/59GYA
-         v8n4s6VWi6D5j/XSHHy84AmJQlTnFUQJOqlwzgjwxMvdDZJdA0qFkgrJ4DxwcYGQNueP
-         DReXY9u6XZUHX9Z/vKChVJL2GuH8IJeoOoLP7kXWZHan5+ZrumKn5xh6F4IEp45ANbJu
-         sPAA==
-X-Gm-Message-State: APjAAAV0yqyGytCruJgQtTiAcC2d5uKbPYvlgJ5WQeHQMvtivUUsoce6
-        sg9XaO+XpX+wjukKQ1ibBgZRqV0i
-X-Google-Smtp-Source: APXvYqysiWspI267imez/H1iQFU4xLC50QgrXaWgqSu08yzyzn06gYv39rESMMvD0DXx1Sp6XxU+gQ==
-X-Received: by 2002:adf:a2cd:: with SMTP id t13mr6535827wra.251.1567024655268;
-        Wed, 28 Aug 2019 13:37:35 -0700 (PDT)
-Received: from [192.168.1.19] (chg13.neoplus.adsl.tpnet.pl. [83.31.4.13])
-        by smtp.gmail.com with ESMTPSA id 24sm279546wmf.10.2019.08.28.13.37.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 28 Aug 2019 13:37:34 -0700 (PDT)
-Subject: Re: [PATCH v3 1/5] leds: lm3532: Fix brightness control for i2c mode
-To:     Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
-        Tony Lindgren <tony@atomide.com>
-Cc:     sre@kernel.org, nekit1000@gmail.com, mpartap@gmx.net,
-        merlijn@wizzup.org, linux-leds@vger.kernel.org,
+        id S1726070AbfH2JIq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Aug 2019 05:08:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:46679 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726973AbfH2JIq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Aug 2019 05:08:46 -0400
+Received: from [192.168.1.110] ([77.7.44.18]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N3bjH-1iBChO0vnX-010c52; Thu, 29 Aug 2019 11:08:41 +0200
+Subject: Re: leds: apu: drop obsolete support for apu>=2
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
         linux-kernel@vger.kernel.org
-References: <20190820195307.27590-1-dmurphy@ti.com>
- <20190826215822.GY52127@atomide.com> <20190826221413.GA19124@amd>
- <20190826224437.GZ52127@atomide.com> <20190827121818.GB19927@amd>
- <0eab6f72-ddb7-3da7-e90e-888374531f86@ti.com>
- <69925382-d8f4-4916-f121-0184a4219354@gmail.com>
- <84511f1e-5a04-5348-a2b4-1dc2b534a1cb@ti.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <4f2b2950-2756-67f9-3fde-09fa4b8439ee@gmail.com>
-Date:   Wed, 28 Aug 2019 22:37:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Cc:     pavel@ucw.cz, dmurphy@ti.com, linux-leds@vger.kernel.org
+References: <1563202653-20994-1-git-send-email-info@metux.net>
+ <bb7a338b-d86d-5016-7ae2-e893e1934d96@gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <12d2e12f-4157-eb64-6734-db7f1908200c@metux.net>
+Date:   Thu, 29 Aug 2019 11:08:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <84511f1e-5a04-5348-a2b4-1dc2b534a1cb@ti.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <bb7a338b-d86d-5016-7ae2-e893e1934d96@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:bk46UKSSJSsY5ewyTBOd84ZGPF1MXRbTg+pz0HEYQB8R+Bkc5yS
+ iScwJHPY8xCXrPCp8bLdsO9kD6JFQ/jYoWNvRoOH2/AKrxt5IePtaLfLHadluCEYBFbhbnP
+ cDyKKf6NYKKng80DD4VzIR/4U37rSgYOq+xACZUZnE1J4OYbYIq1cQ4ZDC5LypJGSyEELqw
+ d/WVgF+HfDyB+A+Yz5fYg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZlS4e7wBA8c=:OPAMx9dodqVC8qHmOWnBDp
+ zTmhTBsTxYlfQ2BZfEVAIYxIidEQjp9SxVeFqNPgvjmU2Ga73t1VKrjbRI1rjJjQtNglgo/sa
+ KFLS7/AROFkIgnBo0t/HQfWhUdBXRBy7MGttdAlOWQy9WJBQinQwiLZbsToNyPRzOVT6SEzFK
+ agTPY18wJqVOD5OBz3nYoE9gZby/CtKNesLQfm656uC3CYEjkRohhwfcpsKu0aHiC2DZTFVrr
+ woYcQMjUvU1IAGsgQoVJdPoQ7t1hBP7czcDMKRAQlF9ESoJuxOOigqfdSOnNGf6oB8m0orHcn
+ JDwTy2klifp4TXdSZEdXcezsSKrfD6xrEnncJbEng5YKbu8UdDc8n/WzGTwwaF7hTTWHRhEuN
+ 5segvubd10V+G3Jh4wHJE9GUHUls/LEUvrDuqPXSA26M/66bcLeyhpjGDf+XQHhD4uaHK7VXK
+ ZM2iHCU94BUcCYkHXrQdMP/FybCll+TohCBI4K/7D/9KykdlpO2q+I4A5eW/h7bLqafo1G+Uo
+ sNusOySRzL5IFunCnpx9iqYVPTpIThXFLwwfT3sI+Rl7K5j2sB2Xa9e0/YXk5MXT8H+quMcZg
+ 0KVx0MYOEV+lxHeXK8D82nQ9SnIQgiX506FbPIglHAb3smr1EBf8yJJV7iycBJBuU4eJCE4/X
+ wBT31lxuWFd+jiepQShHgAcdyWZA9N0Tl6H1AIni9eA4AMPhTKogEyqEYgUCt9wADvTKmwyh4
+ TvWtPi0cR940o+x1UJ+S10/7VYwfAe8eVG7cqnZaqHu1LMhawpMdyHRVkTa5LlVIR0+pkRPah
+ S6j3LH9aSoSWlbhIP8j/JNt6nABgQ==
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dan,
+On 22.07.19 22:12, Jacek Anaszewski wrote:
 
-On 8/28/19 5:28 PM, Dan Murphy wrote:
-> Jacek
-[...]
->>>>> Or i2c control is somehow broken and only als control now works?
->>> With only setting CONFIG_LEDS_LM3532=m to the next branch I get full
->>> brightness with 255.
->>>
->>> I also see half brightness at 128 with the ramp down working.
->>>
->>> I am not able to reproduce this issue on my device.
->>>
->>>> Well, max current led is obviously missing. Plus code does not check
->>>> the return from reading led-max-microamp.
->>> led-max-microamp is optional so there is no need to check the return.
->> It's also ugly to not check it when you have it assigned.
->> We'll soon receive complaints from static checkers about pointless
->> assignment.
->>
->> I'd distinguish between cases when parsing failed,
->> and when property has not been provided.
->>
->> if (fwnode_property_present(child, "led-max-microamp")) {
->>     if (fwnode_property_read_u32(child, "led-max-microamp",
->>                 &led->full_scale_current);
->>         dev_err(&priv->client->dev,
->>                           "Failed to parse led-max-microamp property\n")
-> 
-> I am OK with doing this but I think the else case logging is extra.
-> 
-> Again the property is optional and if the user decides not to populate
-> it then there should not
-> 
-> be a log of that it is missing.
+Hi,
 
-That's why I used lower log level (info). But it's up to you. I will
-not insist on keeping the logging for missing property case.
+> Patch set applied along with the update for the patch 5/6.
 
-> Dan
-> 
->> } else {
->>     dev_info(&priv->client->dev,
->>          led-max-microamp property is missing\n")
->> }
->>
->>> full_scale_current should be 0 if not populated and in the init only if
->>> this variable is set does
->>>
->>> the code program the register otherwise it is default of 20.2 mA.
-> 
+What's the status of this patch set ?
+Doesn't seem to have landed in Torvalds tree yet.
+
+
+--mtx
 
 -- 
-Best regards,
-Jacek Anaszewski
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
