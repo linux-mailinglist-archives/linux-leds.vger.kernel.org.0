@@ -2,57 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B20CA3EBC
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2019 22:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFFF6A3EF9
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2019 22:29:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728031AbfH3UDn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 30 Aug 2019 16:03:43 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44627 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727992AbfH3UDn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Aug 2019 16:03:43 -0400
-Received: by mail-wr1-f65.google.com with SMTP id b6so5319001wrv.11;
-        Fri, 30 Aug 2019 13:03:40 -0700 (PDT)
+        id S1727791AbfH3U3S (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 30 Aug 2019 16:29:18 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:38003 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727304AbfH3U3R (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Aug 2019 16:29:17 -0400
+Received: by mail-wm1-f68.google.com with SMTP id o184so8694473wme.3;
+        Fri, 30 Aug 2019 13:29:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=nbYgAXFqpEWpNeQdfqqbRNi1Pqjjuw9bXcRhhmygscU=;
-        b=ghce4EdrrmKF/JNEWJmx3/wD4G8s8LJIBaS6IXeGu/PtAqH2YS+e9eXg2yrVT0Cu5e
-         6zHKsEP8MbyQOoS4zY9vYYDFPxS12ZqLbf8WUXCCPZ63RKYE5Br9Iiq/rwl/2JNRyQRv
-         i+BxBZTYfsBexhmFAQ64yKXwIZQjdC+1imU/B7c7cLxn09eSW0An6P86ISuKGZQyIN1j
-         +t9AniPdKTy84ym/hScLXQRl1ysm4fjSIooE1EGDCRe6OF4lAQ6plwhhB62TrRtbIcUs
-         58jSa6bPc6nArWDLV9pQd/qPOCeMicooefr3m4bZIvKJTv0VBMD/mlkw70nahZFO/evw
-         a31w==
+        bh=2cvpcT7LjExxS60zQsJjidnQ6i1o1etF86ALzHAc1a8=;
+        b=Gye1oK30CWiXcOJG2WD1A6sVGChteaELrq3P2ViaxmVfuxokJJBU6gnoVmkoydvtP/
+         LPQ3/xUjj9zI/8KtilMHy3dkxtDajuphJx26rZz3+V57WQ3qiVkgocsAglat2/5yhrGi
+         IsH8t0u05fqOYao5BsBdeMGWH7dfjDyodD0lFA7PO3UnLyKKwsI14e6X68XqwYeUuUnB
+         s/i5MWqi4rv4mZsux899xnijCef6OznZqlGetbZDBSLYVwwA5AUw0+gFqW7GXXHTaJRC
+         l1aT0BUu0FKs6n04WYuparLp2XvgRhFkkEuoIbZeMhlHnhSx0HcpbXSXciQKDc98OPdf
+         puxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=nbYgAXFqpEWpNeQdfqqbRNi1Pqjjuw9bXcRhhmygscU=;
-        b=p1ZsXT+6DJmXKQ+0h4hxWElXYwIOdUOfl4tLK5kW2bw8mniiTrmjXI13IjbRWO51xx
-         gdBUTOY6sQG8z4JVgu0p0RJWBo9Qenh+xWacclO/RwXcFFF9Z97Busm3Ybuqppl0c+DR
-         JvrC3Oge3iafuLgWNgEzC+XvViJxqaXPCAXmf5NbMllvBy3ypdb4WaxrWK4HzGVvsYVC
-         EZ9/xZ35ugDUzFHDDnLv5MLwHuOQbXUA+yy4UWYwthLWX5IU3WCNcZgogWULmFVn1pPf
-         1vjbiPwtjX24on4CdeI6XxQ1RGSS0fPapDedexSag/LCtTxcfsFuV95uN/Rlq0bZ6P7q
-         GUXg==
-X-Gm-Message-State: APjAAAV0ZTMLtwjBPdvAhTuIxFquKQ3cq8jlcMdmz8I79aXlGgi9apAR
-        gb7l9M19mE2y82A0RT4AGNXVuFxw
-X-Google-Smtp-Source: APXvYqw78Idx922crI47NGdYtGq3qj3NX4iTuBc15dSzGBN8eNCnIDEkIdUbdjAc+RTAZk8WJeXAog==
-X-Received: by 2002:a05:6000:104c:: with SMTP id c12mr19509276wrx.328.1567195419866;
-        Fri, 30 Aug 2019 13:03:39 -0700 (PDT)
+        bh=2cvpcT7LjExxS60zQsJjidnQ6i1o1etF86ALzHAc1a8=;
+        b=fWJ/u9afODAdno0puW/kYiJpyPPSQaiEE2zCfeVzyhLT9YsdG3B08KfOcreKYcSTN3
+         VUKxqZhfzoOySg4B0B9WiRVLPOsot1VE02nTfhLqBbZcMOAedfbtwF1TFg/gKDwUKqXx
+         qTrKV2hJCG0XXcNQA3RSy4d4Z0e8JysqQCdOECnVv5CMCjdwmgkBWL5/WqhR8vuNtpXt
+         oJxqxGaeEubCs7xQvVrDqoSQAtXNXGCU8BZP07phbuefVxWcGlUlw+HyMm260EFlwt7M
+         WB0KAuCuZXW8TrU5MHgQ+2+eGCONDVSonkBCn9kQrdjCadBgZO3/SB0YVMbh0pqZ4LGq
+         LUqw==
+X-Gm-Message-State: APjAAAW1W7uOqinsREQpuTjL8QIJ3ka4gqOaorOVe/xWQf9BDPmbIfKI
+        s0hwwrIQzprL+UFyJdZaecg=
+X-Google-Smtp-Source: APXvYqzvpLg3V5OsyNMoXmbNaZS/GPz0rdENRsMbgvQTrdO1PNlrJVDwTl0e6oWsEiQdZuMk4v7MDQ==
+X-Received: by 2002:a1c:7a12:: with SMTP id v18mr20249041wmc.56.1567196954755;
+        Fri, 30 Aug 2019 13:29:14 -0700 (PDT)
 Received: from [192.168.1.19] (bkn35.neoplus.adsl.tpnet.pl. [83.28.181.35])
-        by smtp.gmail.com with ESMTPSA id f24sm6524809wmc.25.2019.08.30.13.03.38
+        by smtp.gmail.com with ESMTPSA id w1sm5656599wrm.38.2019.08.30.13.29.13
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 30 Aug 2019 13:03:39 -0700 (PDT)
-Subject: Re: [PATCH] leds: lm3532: Fix optional led-max-microamp prop error
- handling
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190829191836.9648-1-dmurphy@ti.com>
- <ff3a0662-a71b-79d5-6d28-a882f9f77f89@gmail.com> <20190829212247.GB32254@amd>
+        Fri, 30 Aug 2019 13:29:14 -0700 (PDT)
+Subject: Re: [PATCH] leds: pwm: Use struct_size() helper
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>
+References: <20190830005320.GA15267@embeddedor>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -111,13 +110,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <5afc6d1e-3cec-7d80-0911-9c42f973dae2@gmail.com>
-Date:   Fri, 30 Aug 2019 22:03:37 +0200
+Message-ID: <2d60cc38-a594-4457-6fb0-64ec96af477e@gmail.com>
+Date:   Fri, 30 Aug 2019 22:29:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190829212247.GB32254@amd>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20190830005320.GA15267@embeddedor>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -125,54 +124,71 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 8/29/19 11:22 PM, Pavel Machek wrote:
-> On Thu 2019-08-29 22:04:18, Jacek Anaszewski wrote:
->> Hi Dan,
->>
->> Thanks for the update.
->>
->> On 8/29/19 9:18 PM, Dan Murphy wrote:
->>> Fix the error handling for the led-max-microamp property.
->>> Need to check if the property is present and then if it is
->>> retrieve the setting and its max boundary
->>>
->>> Reported-by: Pavel Machek <pavel@ucw.cz>
->>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->>> ---
->>>  drivers/leds/leds-lm3532.c | 14 +++++++++-----
->>>  1 file changed, 9 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
->>> index c5cfd8e3f15f..13b4265fb85a 100644
->>> --- a/drivers/leds/leds-lm3532.c
->>> +++ b/drivers/leds/leds-lm3532.c
->>> @@ -601,11 +601,15 @@ static int lm3532_parse_node(struct lm3532_data *priv)
->>>  			goto child_out;
->>>  		}
->>>  
->>> -		ret = fwnode_property_read_u32(child, "led-max-microamp",
->>> -					       &led->full_scale_current);
->>> -
->>> -		if (led->full_scale_current > LM3532_FS_CURR_MAX)
->>> -			led->full_scale_current = LM3532_FS_CURR_MAX;
->>> +		if (fwnode_property_present(child, "led-max-microamp")) {
->>> +			if (fwnode_property_read_u32(child, "led-max-microamp",
->>> +						     &led->full_scale_current))
->>> +				dev_err(&priv->client->dev,
->>> +					"Failed getting led-max-microamp\n");
->>> +
->>> +			if (led->full_scale_current > LM3532_FS_CURR_MAX)
->>> +				led->full_scale_current = LM3532_FS_CURR_MAX;
->>
->> One more nit: we have min() macro in kernel.h for such things.
-> 
-> Actually, I believe this one is okay. min() would be also good, but
-> improvement is not that big, as it still duplicates the argument.
-> 
-> led->full_scale_current = min(led->full_scale_current, LM3532_FS_CURR_MAX)
+Hi Gustavo,
 
-I don't see any excuse for not improving that if we are at patch stage.
-It looks simply cleaner.
+Thank you for the patch.
+
+On 8/30/19 2:53 AM, Gustavo A. R. Silva wrote:
+> One of the more common cases of allocation size calculations is finding
+> the size of a structure that has a zero-sized array at the end, along
+> with memory for some number of elements for that array. For example:
+> 
+> struct led_pwm_priv {
+> 	...
+>         struct led_pwm_data leds[0];
+> };
+> 
+> Make use of the struct_size() helper instead of an open-coded version
+> in order to avoid any potential type mistakes.
+> 
+> So, replace the following function:
+> 
+> static inline size_t sizeof_pwm_leds_priv(int num_leds)
+> {
+>        return sizeof(struct led_pwm_priv) +
+>                      (sizeof(struct led_pwm_data) * num_leds);
+> }
+> 
+> with:
+> 
+> struct_size(priv, leds, count)
+> 
+> This code was detected with the help of Coccinelle.
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> ---
+>  drivers/leds/leds-pwm.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+> index d0e1f2710351..8b6965a563e9 100644
+> --- a/drivers/leds/leds-pwm.c
+> +++ b/drivers/leds/leds-pwm.c
+> @@ -65,12 +65,6 @@ static int led_pwm_set(struct led_classdev *led_cdev,
+>  	return 0;
+>  }
+>  
+> -static inline size_t sizeof_pwm_leds_priv(int num_leds)
+> -{
+> -	return sizeof(struct led_pwm_priv) +
+> -		      (sizeof(struct led_pwm_data) * num_leds);
+> -}
+> -
+>  static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+>  		       struct led_pwm *led, struct fwnode_handle *fwnode)
+>  {
+> @@ -174,7 +168,7 @@ static int led_pwm_probe(struct platform_device *pdev)
+>  	if (!count)
+>  		return -EINVAL;
+>  
+> -	priv = devm_kzalloc(&pdev->dev, sizeof_pwm_leds_priv(count),
+> +	priv = devm_kzalloc(&pdev->dev, struct_size(priv, leds, count),
+>  			    GFP_KERNEL);
+>  	if (!priv)
+>  		return -ENOMEM;
+> 
+
+Applied.
 
 -- 
 Best regards,
