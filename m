@@ -2,137 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 15D7EA336D
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2019 11:10:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E318A39A0
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2019 16:53:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727976AbfH3JKD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 30 Aug 2019 05:10:03 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40477 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726653AbfH3JKD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Aug 2019 05:10:03 -0400
-Received: by mail-wr1-f65.google.com with SMTP id c3so6189362wrd.7;
-        Fri, 30 Aug 2019 02:10:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6fnLh7tQX3N9usyfotPT6mkswbVLXc4JZHd92mBiSTI=;
-        b=UThDoyvJovedyEVEXczjXIcorK/1oLmGtGTD5dB5j7I95uLfANogl2CrLnDudO2Vn3
-         M9IAYsrZg9aJgwlP8mYO/GwcG9UR0QJ3B/buOOG1w+ymnCWnGnug9MpIiqRqD1j8URlL
-         xBcxgiToiu/YsDj9MvWGOxNBYfVPhtFEJbt7BpCaYhrfNkK8oubZVDrYDOpypXBJRkZH
-         ReZUVa0w6VY6SQj8bJPQbKP8o/Mm8xwFZ6Udw6v2wgmMhMwcdafjEhJdBTepXmUU/V/S
-         v0OR37akbFwy4GyKY/NH3GsVcGZdyXVwfk+ZaVtgf4+Cvuo+pgbAQJRxECKguVnorRUl
-         GF8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=6fnLh7tQX3N9usyfotPT6mkswbVLXc4JZHd92mBiSTI=;
-        b=qWDXcUtLA/LYyuGBondHGi9Jjb4UIWHqp13cI1xbW2MJnOHrzNdY84PMulATn+9H7S
-         IHlUftB+dJ5KZ/WdAO31QLlQ4/ZEdb82ULqr+YwKcdBaZTOCu6nnEyt/nx5e6tdYrgjW
-         wC13k6DjvhjEFoolL3czn7Q9PhYD6bP1nLkEcN7TTLKBHWrmWOtZXS0AVL3lxfTMIvah
-         iES5R7zl9yMo94iGUctGu5gLKPDVSA14JlSaLh6jlB+5fcQy4usv1pUSv7NZwtANTwdO
-         RML+7FGveKea8YjtDMsOzvgbpuyAz+AFjC1bjySFywn2u0caOZgDod38A+G0TZuIS830
-         wNIg==
-X-Gm-Message-State: APjAAAVKM1kIX5KC1fK7xPTV137CgM5kqlj5emkrXNhzOvyjac+81FBZ
-        F2hZDRzJ+t+GUbTl5weEOUo=
-X-Google-Smtp-Source: APXvYqxbABh+dd1Rf1D71USHqNcez973FQDDAf+AphQcfgWi+VoXc+1TvM51tIppmYXFVliCVYJnOw==
-X-Received: by 2002:adf:f30e:: with SMTP id i14mr2486634wro.288.1567156200472;
-        Fri, 30 Aug 2019 02:10:00 -0700 (PDT)
-Received: from localhost.localdomain (ip5b4096c3.dynamic.kabel-deutschland.de. [91.64.150.195])
-        by smtp.gmail.com with ESMTPSA id b144sm13108169wmb.3.2019.08.30.02.09.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2019 02:09:59 -0700 (PDT)
-From:   Krzysztof Wilczynski <kw@linux.com>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: Move static keyword to the front of declarations
-Date:   Fri, 30 Aug 2019 11:09:58 +0200
-Message-Id: <20190830090958.27108-1-kw@linux.com>
-X-Mailer: git-send-email 2.22.1
+        id S1727901AbfH3Oxx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 30 Aug 2019 10:53:53 -0400
+Received: from mga05.intel.com ([192.55.52.43]:55256 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727857AbfH3Oxx (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 30 Aug 2019 10:53:53 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Aug 2019 07:53:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,447,1559545200"; 
+   d="scan'208";a="198051411"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001.fm.intel.com with ESMTP; 30 Aug 2019 07:53:49 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1i3iHc-0008QV-0c; Fri, 30 Aug 2019 17:53:48 +0300
+Date:   Fri, 30 Aug 2019 17:53:48 +0300
+From:   "Shevchenko, Andriy" <andriy.shevchenko@intel.com>
+To:     Nikolaus Voss <nv@vosn.de>
+Cc:     "Schmauss, Erik" <erik.schmauss@intel.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        "Moore, Robert" <robert.moore@intel.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "devel@acpica.org" <devel@acpica.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        nikolaus.voss@loewensteinmedical.de
+Subject: Re: [PATCH 1/3] ACPI: Resolve objects on host-directed table loads
+Message-ID: <20190830145348.GM2680@smile.fi.intel.com>
+References: <cover.1559127603.git.nikolaus.voss@loewensteinmedical.de>
+ <8704391ae3004a6b4dd17975dbcc9e88bd28cf4b.1559127603.git.nikolaus.voss@loewensteinmedical.de>
+ <20190814185055.GZ30120@smile.fi.intel.com>
+ <CF6A88132359CE47947DB4C6E1709ED53C61A211@ORSMSX122.amr.corp.intel.com>
+ <alpine.DEB.2.20.1908161345590.41303@fox.voss.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.20.1908161345590.41303@fox.voss.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Move the static keyword to the front of declarations.
+On Fri, Aug 16, 2019 at 01:57:26PM +0200, Nikolaus Voss wrote:
+> On Wed, 14 Aug 2019, Schmauss, Erik wrote:
+> > > -----Original Message-----
+> > > From: Shevchenko, Andriy
+> > > Sent: Wednesday, August 14, 2019 11:51 AM
+> > > To: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
+> > > Cc: Rafael J. Wysocki <rjw@rjwysocki.net>; Len Brown <lenb@kernel.org>;
+> > > Moore, Robert <robert.moore@intel.com>; Schmauss, Erik
+> > > <erik.schmauss@intel.com>; Jacek Anaszewski <jacek.anaszewski@gmail.com>;
+> > > Pavel Machek <pavel@ucw.cz>; Dan Murphy <dmurphy@ti.com>; Thierry
+> > > Reding <thierry.reding@gmail.com>; linux-acpi@vger.kernel.org;
+> > > devel@acpica.org; linux-leds@vger.kernel.org; linux-pwm@vger.kernel.org
+> > > Subject: Re: [PATCH 1/3] ACPI: Resolve objects on host-directed table loads
+> > > 
+> > > On Wed, May 29, 2019 at 02:18:20PM +0200, Nikolaus Voss wrote:
+> > > > If an ACPI SSDT overlay is loaded after built-in tables have been
+> > > > loaded e.g. via configfs or efivar_ssdt_load() it is necessary to
+> > > > rewalk the namespace to resolve references. Without this, relative and
+> > > > absolute paths like ^PCI0.SBUS or \_SB.PCI0.SBUS are not resolved
+> > > > correctly.
+> > > > 
+> > > > Make configfs load use the same method as efivar_ssdt_load().
+> > > 
+> > > This patch brought a regression (bisect log below).
+> > > Now I'm unable to unload the table which was working before.
+> > > 
+> > > Reverting (manual, due to ACPICA changes) helps.
+> > > 
+> > > Please, consider to revert for this cycle, or fix. I will be glad to test any
+> > > proposed fix.
+> > 
+> > We submitted a patch (d1fb5b2f623b1af5a0d2a83d205df1b61f430dc6)
+> > in response to this suggestion and I was not aware that this had been applied.
+> > 
+> > Rafael, please revert at least the ACPICA portion of this patch.
+> 
+> As I see it, my ACPICA change is not part of 5.3-rc1 any more. Reverting my
+> fix is part of the patch above (d1fb5b2f623b1af5a0d2a83d205df1b61f430dc6)
+> which is already applied.
+> 
+> Nevertheless, what is new, is that acpi_ns_initialize_objects() is called in
+> acpi_load_table(). This is necessary to resolve the references in the newly
+> loaded table. Maybe this prevents the table from being unloaded?
 
-In drivers/leds/leds-lm3532.c for ramp_table, als_avrg_table
-and als_imp_table, and in drivers/leds/leds-lm3532.c for
-ramp_table.
+So, can we do something about it? It's a regression.
 
-This will resolve the following compiler warnings that can
-be seen when building with warnings enabled (W=1):
+Rafael, Nikolaus?
 
-drivers/leds/leds-lm3532.c:209:1: warning:
-  ‘static’ is not at beginning of declaration [-Wold-style-declaration]
-
-drivers/leds/leds-lm3532.c:266:1: warning:
-  ‘static’ is not at beginning of declaration [-Wold-style-declaration]
-
-drivers/leds/leds-lm3532.c:281:1: warning:
-  ‘static’ is not at beginning of declaration [-Wold-style-declaration]
-
-drivers/leds/leds-ti-lmu-common.c:14:1: warning:
-  ‘static’ is not at beginning of declaration [-Wold-style-declaration]
-
-Signed-off-by: Krzysztof Wilczynski <kw@linux.com>
----
-Related: https://lore.kernel.org/r/20190827233017.GK9987@google.com
-
- drivers/leds/leds-lm3532.c        | 6 +++---
- drivers/leds/leds-ti-lmu-common.c | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
-index c5cfd8e3f15f..62ace6698d25 100644
---- a/drivers/leds/leds-lm3532.c
-+++ b/drivers/leds/leds-lm3532.c
-@@ -208,7 +208,7 @@ static const struct regmap_config lm3532_regmap_config = {
- 	.cache_type = REGCACHE_FLAT,
- };
- 
--const static int als_imp_table[LM3532_NUM_IMP_VALS] = {37000, 18500, 12330,
-+static const int als_imp_table[LM3532_NUM_IMP_VALS] = {37000, 18500, 12330,
- 						       92500, 7400, 6170, 5290,
- 						       4630, 4110, 3700, 3360,
- 						       3080, 2850, 2640, 2440,
-@@ -265,7 +265,7 @@ static int lm3532_get_index(const int table[], int size, int value)
- 	return -EINVAL;
- }
- 
--const static int als_avrg_table[LM3532_NUM_AVG_VALS] = {17920, 35840, 71680,
-+static const int als_avrg_table[LM3532_NUM_AVG_VALS] = {17920, 35840, 71680,
- 							1433360, 286720, 573440,
- 							1146880, 2293760};
- static int lm3532_get_als_avg_index(int avg_time)
-@@ -280,7 +280,7 @@ static int lm3532_get_als_avg_index(int avg_time)
- 				avg_time);
- }
- 
--const static int ramp_table[LM3532_NUM_RAMP_VALS] = { 8, 1024, 2048, 4096, 8192,
-+static const int ramp_table[LM3532_NUM_RAMP_VALS] = { 8, 1024, 2048, 4096, 8192,
- 						     16384, 32768, 65536};
- static int lm3532_get_ramp_index(int ramp_time)
- {
-diff --git a/drivers/leds/leds-ti-lmu-common.c b/drivers/leds/leds-ti-lmu-common.c
-index e294a0b097e3..d7f10ad721ba 100644
---- a/drivers/leds/leds-ti-lmu-common.c
-+++ b/drivers/leds/leds-ti-lmu-common.c
-@@ -11,7 +11,7 @@
- 
- #include <linux/leds-ti-lmu-common.h>
- 
--const static unsigned int ramp_table[16] = {2048, 262000, 524000, 1049000,
-+static const unsigned int ramp_table[16] = {2048, 262000, 524000, 1049000,
- 				2090000, 4194000, 8389000, 16780000, 33550000,
- 				41940000, 50330000, 58720000, 67110000,
- 				83880000, 100660000, 117440000};
 -- 
-2.22.1
+With Best Regards,
+Andy Shevchenko
+
 
