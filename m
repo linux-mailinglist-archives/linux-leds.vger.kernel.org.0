@@ -2,56 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24EA7A3EFC
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2019 22:29:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCC71A3F7D
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2019 23:11:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728079AbfH3U3q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 30 Aug 2019 16:29:46 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:37704 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728067AbfH3U3q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Aug 2019 16:29:46 -0400
-Received: by mail-wr1-f67.google.com with SMTP id z11so8182314wrt.4;
-        Fri, 30 Aug 2019 13:29:43 -0700 (PDT)
+        id S1727991AbfH3VLN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 30 Aug 2019 17:11:13 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41159 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727304AbfH3VLM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Aug 2019 17:11:12 -0400
+Received: by mail-wr1-f66.google.com with SMTP id j16so8248365wrr.8
+        for <linux-leds@vger.kernel.org>; Fri, 30 Aug 2019 14:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=/82QsxfIZXEBMMJyXDx/AoMaziXQVJM8A0l4dCY4vdo=;
-        b=eUXUozUgsjnU9456RWpCkvzMXO9s2EbOwVVzMpaDLVFFsWiK8Xa+BohQNYynNf7xNR
-         Ld+MZIdvYyfi8ms64FvklnSkx6vw7b3aec+eizcf7wZww/fRAa7m/gFCKz+qI4E4dWQq
-         ZwvhUXrMUONH4lYAqdDPr5gHTUK3/3K4spWR6Nc06tEZmSuQpJIzrDOm+haRwA/J61PI
-         3MbDUebVkRrWf4zdk/YhFR+ExpsKojzkRHp/27R8bfr00XMQ/24UoPTpm5dbhxwxpqah
-         yzvQ/8RKfn0Pc+TlfqocWDCfOKOpsu0e8GAR2u2Sn29xALTfiARGTHWZP78z2JWBe9tH
-         BQFg==
+        bh=8HrdOJIoiw9kGZY9GhOJgWKyYTqi/4si5oD8jqTUcTg=;
+        b=obL7nAnbt88LsJEchB3lf+U7RbfRF3yg8C8NQExE8bltY9hKrvsOOV07JehM030heW
+         LCii7OmYv6FXSPcgiKIfW++B8WZsd7n3N4ml9mLtSSqO7iNcaQuzPVubB4YayOaP+ZN5
+         rnljKlaxkcRrRdcn8WkCeWWyuQRwIOe/5OGHiK/TPz74rAQmqRa2eyxKOJetz/jBBwmh
+         zonjIega0+k1a154+J8WqL4aHuXyorVNOpXrrl/SgsPc+wiuSpRtJCMClBLpNCB8vRmA
+         mE0ZioGOi7KrbInN3tyPumWvnTrkAAQj4YJZ8AK5ZqCSwr2dKCioap9D/j0bBN2ehnf1
+         ykYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=/82QsxfIZXEBMMJyXDx/AoMaziXQVJM8A0l4dCY4vdo=;
-        b=La9F7XfEFF0arcTWuqUUEJnYMXLwvyF7Y/MoL5dJE60YpLnj7Jc7XdR5MVj9vmglre
-         AXIajDOvVnGJluiZVnCFWZU7lIji3jSy/fUbp6kd7j3A9U1Yr+FQkyFrLx5RHAwuBcxO
-         Uri2cpyATevKasWJ5iyFFBmfsYWBNey6rbKmuT2iHIPeACL+dUuO1aELPVuIhmxJW4GC
-         h2WZKFLYZrBj/aSt0XoUVas+xN4G6xLbGHukWDAKML03Sl0a36qn6Rd0lQ03r8u79WOQ
-         f/VdqbkzJLGzsslHD7r3ErJVdxkJxHuMn33aTF+tva9zVKWMQFbbOzQYPdXCdC+gFRF5
-         HFOw==
-X-Gm-Message-State: APjAAAXJxD1jLTB9lCHXGD/lF24I3ElIyLrWNTnRcutNj1ar294SlkON
-        WoDI1HTMch/N7E5FqEnnYMI=
-X-Google-Smtp-Source: APXvYqz8T0sLB+qlslCBtenlVkzyl/hJQbyyUNu2f0IbyEvj2Q/cm7kZQITbSGCKpRqKRhECa0xF6g==
-X-Received: by 2002:a5d:4ecb:: with SMTP id s11mr20482276wrv.323.1567196983188;
-        Fri, 30 Aug 2019 13:29:43 -0700 (PDT)
+        bh=8HrdOJIoiw9kGZY9GhOJgWKyYTqi/4si5oD8jqTUcTg=;
+        b=sUCNFaEB0h8DNC2OpSrX4//Mnu9/w9WSYOTx9+vmXRozPMo8pkVLKD4If4KTOgK6x/
+         rSQ95vXRWWIFfQrjlMr0oNz1pgzkWMOUfFY8e38Fb0qa7UD1QES4RKa01pCfCXeW44il
+         4AvvOh7Akmx5MrEAnWsQqME3mNGdF7R8WSfcxRq8nA2Jgwo5fSfZkGMVxpG5PX51O9VS
+         GGM3gA+jYrLD8UIbNKnhXzdlujq0z9E0MavRNgKdvasQxKGsHHtx3v4fmfvXVKWl0MQY
+         s+yCQRsk1MBMR8Qpyq9vfYD2QGGukISrpi9EbOJyvBgV2+yhi2qMt7kMHedoV0FAWTz8
+         MaqQ==
+X-Gm-Message-State: APjAAAW6o/kbjjE1FYJxWlBs0nnPNJ1oKhnu9urUJgskUY1pCYo02cJq
+        qeTYfluH6BCMLOWzdBbmX+e9I7WL
+X-Google-Smtp-Source: APXvYqxajAVqsId7Pcsx9fO+ltY6MTXoQ2h2XqqryUuY9UDYc/rq46kSsANKQw+t2OPkQHxSmjU4BA==
+X-Received: by 2002:adf:eec5:: with SMTP id a5mr20791957wrp.352.1567199469796;
+        Fri, 30 Aug 2019 14:11:09 -0700 (PDT)
 Received: from [192.168.1.19] (bkn35.neoplus.adsl.tpnet.pl. [83.28.181.35])
-        by smtp.gmail.com with ESMTPSA id v6sm15804120wma.24.2019.08.30.13.29.41
+        by smtp.gmail.com with ESMTPSA id l15sm7083689wru.56.2019.08.30.14.11.08
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 30 Aug 2019 13:29:42 -0700 (PDT)
-Subject: Re: [PATCH] leds: is31fl32xx: Use struct_size() helper
-To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>
-References: <20190830181448.GA24483@embeddedor>
+        Fri, 30 Aug 2019 14:11:09 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] leds: trigger: gpio: GPIO 0 is valid
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org
+References: <20190830150820.63450-1-andriy.shevchenko@linux.intel.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,85 +109,82 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <68cc0bb5-0d76-67b2-6d96-d46c0fd09551@gmail.com>
-Date:   Fri, 30 Aug 2019 22:29:39 +0200
+Message-ID: <68b262ff-ef98-0fd6-0773-5eb02774b61a@gmail.com>
+Date:   Fri, 30 Aug 2019 23:11:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190830181448.GA24483@embeddedor>
+In-Reply-To: <20190830150820.63450-1-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Gustavo,
+Hi Andy,
 
-Thank you for the patch.
+Thank you for the v2.
 
-On 8/30/19 8:14 PM, Gustavo A. R. Silva wrote:
-> One of the more common cases of allocation size calculations is finding
-> the size of a structure that has a zero-sized array at the end, along
-> with memory for some number of elements for that array. For example:
+On 8/30/19 5:08 PM, Andy Shevchenko wrote:
+> Allow all valid GPIOs to be used in the driver.
 > 
-> struct is31fl32xx_priv {
-> 	...
->         struct is31fl32xx_led_data leds[0];
-> };
-> 
-> Make use of the struct_size() helper instead of an open-coded version
-> in order to avoid any potential type mistakes.
-> 
-> So, replace the following function:
-> 
-> static inline size_t sizeof_is31fl32xx_priv(int num_leds)
-> {
->        return sizeof(struct is31fl32xx_priv) +
->                      (sizeof(struct is31fl32xx_led_data) * num_leds);
-> }
-> 
-> with:
-> 
-> struct_size(priv, leds, count)
-> 
-> This code was detected with the help of Coccinelle.
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> Fixes: 17354bfe8527 ("leds: Add gpio-led trigger")
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  drivers/leds/leds-is31fl32xx.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+> - set initial GPIO value to -ENOENT (Jacek)
+>  drivers/leds/trigger/ledtrig-gpio.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-> index 6fbab70dfb04..6f29b8943913 100644
-> --- a/drivers/leds/leds-is31fl32xx.c
-> +++ b/drivers/leds/leds-is31fl32xx.c
-> @@ -324,12 +324,6 @@ static int is31fl32xx_init_regs(struct is31fl32xx_priv *priv)
->  	return 0;
->  }
+> diff --git a/drivers/leds/trigger/ledtrig-gpio.c b/drivers/leds/trigger/ledtrig-gpio.c
+> index 33cc99a1a16a..dc64679b1a92 100644
+> --- a/drivers/leds/trigger/ledtrig-gpio.c
+> +++ b/drivers/leds/trigger/ledtrig-gpio.c
+> @@ -131,10 +131,10 @@ static ssize_t gpio_trig_gpio_store(struct device *dev,
+>  	if (gpio_data->gpio == gpio)
+>  		return n;
 >  
-> -static inline size_t sizeof_is31fl32xx_priv(int num_leds)
-> -{
-> -	return sizeof(struct is31fl32xx_priv) +
-> -		      (sizeof(struct is31fl32xx_led_data) * num_leds);
-> -}
-> -
->  static int is31fl32xx_parse_child_dt(const struct device *dev,
->  				     const struct device_node *child,
->  				     struct is31fl32xx_led_data *led_data)
-> @@ -450,7 +444,7 @@ static int is31fl32xx_probe(struct i2c_client *client,
->  	if (!count)
->  		return -EINVAL;
+> -	if (!gpio) {
+> -		if (gpio_data->gpio != 0)
+> +	if (!gpio_is_valid(gpio)) {
+> +		if (gpio_is_valid(gpio_data->gpio))
+>  			free_irq(gpio_to_irq(gpio_data->gpio), led);
+> -		gpio_data->gpio = 0;
+> +		gpio_data->gpio = gpio;
+>  		return n;
+>  	}
 >  
-> -	priv = devm_kzalloc(dev, sizeof_is31fl32xx_priv(count),
-> +	priv = devm_kzalloc(dev, struct_size(priv, leds, count),
->  			    GFP_KERNEL);
->  	if (!priv)
+> @@ -144,7 +144,7 @@ static ssize_t gpio_trig_gpio_store(struct device *dev,
+>  	if (ret) {
+>  		dev_err(dev, "request_irq failed with error %d\n", ret);
+>  	} else {
+> -		if (gpio_data->gpio != 0)
+> +		if (gpio_is_valid(gpio_data->gpio))
+>  			free_irq(gpio_to_irq(gpio_data->gpio), led);
+>  		gpio_data->gpio = gpio;
+>  		/* After changing the GPIO, we need to update the LED. */
+> @@ -172,6 +172,8 @@ static int gpio_trig_activate(struct led_classdev *led)
 >  		return -ENOMEM;
+>  
+>  	gpio_data->led = led;
+> +	gpio_data->gpio = -ENOENT;
+> +
+>  	led_set_trigger_data(led, gpio_data);
+>  
+>  	return 0;
+> @@ -181,7 +183,7 @@ static void gpio_trig_deactivate(struct led_classdev *led)
+>  {
+>  	struct gpio_trig_data *gpio_data = led_get_trigger_data(led);
+>  
+> -	if (gpio_data->gpio != 0)
+> +	if (gpio_is_valid(gpio_data->gpio))
+>  		free_irq(gpio_to_irq(gpio_data->gpio), led);
+>  	kfree(gpio_data);
+>  }
 > 
 
-Applied.
+Both 1/2 and 2/2 applied.
 
 -- 
 Best regards,
