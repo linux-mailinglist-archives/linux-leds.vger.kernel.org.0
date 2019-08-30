@@ -2,129 +2,137 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A26DA2F1A
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2019 07:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15D7EA336D
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Aug 2019 11:10:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728161AbfH3Fkp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 30 Aug 2019 01:40:45 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:46027 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727904AbfH3Fko (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Aug 2019 01:40:44 -0400
-Received: by mail-pf1-f195.google.com with SMTP id w26so3835919pfq.12
-        for <linux-leds@vger.kernel.org>; Thu, 29 Aug 2019 22:40:44 -0700 (PDT)
+        id S1727976AbfH3JKD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 30 Aug 2019 05:10:03 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40477 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726653AbfH3JKD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Aug 2019 05:10:03 -0400
+Received: by mail-wr1-f65.google.com with SMTP id c3so6189362wrd.7;
+        Fri, 30 Aug 2019 02:10:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=eVvtzN7Igkuh4Imleg3djnnr5OtlI8MGXuQLQiEidZU=;
-        b=hnMZlylCor+dZUvWVSWYiA8UIOvAlApi2I0f+Ywdk+k9sW5KnRJJeMF1IJd3tX7vkU
-         oaZHglBJbWbFB/jvIbYVjQaAnporW/L9dZx1dWJmGIbQMgt5u8KzMnu0pZMZ3WsDg/DF
-         ut4lcjfTVbUwEvfyvTQgRkFXWxUnAhD0nSlEQ=
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6fnLh7tQX3N9usyfotPT6mkswbVLXc4JZHd92mBiSTI=;
+        b=UThDoyvJovedyEVEXczjXIcorK/1oLmGtGTD5dB5j7I95uLfANogl2CrLnDudO2Vn3
+         M9IAYsrZg9aJgwlP8mYO/GwcG9UR0QJ3B/buOOG1w+ymnCWnGnug9MpIiqRqD1j8URlL
+         xBcxgiToiu/YsDj9MvWGOxNBYfVPhtFEJbt7BpCaYhrfNkK8oubZVDrYDOpypXBJRkZH
+         ReZUVa0w6VY6SQj8bJPQbKP8o/Mm8xwFZ6Udw6v2wgmMhMwcdafjEhJdBTepXmUU/V/S
+         v0OR37akbFwy4GyKY/NH3GsVcGZdyXVwfk+ZaVtgf4+Cvuo+pgbAQJRxECKguVnorRUl
+         GF8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eVvtzN7Igkuh4Imleg3djnnr5OtlI8MGXuQLQiEidZU=;
-        b=eBrq+MwssPGLUkLqAY9D074KdiHm99tvDScv72BWssZPxOq5JHCamLgF4Cw8aFKKiK
-         AbUqHLuNnsVHuLFL9j5q4KdQdGEBJzMTxLyc92cRAxyxzTjBies+SP776DdSMA+/6fbd
-         Gscj8V8TOViaFrs20tH8gcTF+mnnNdmKIaDHPcY5OuEWWP+7TgVdC9cAFb0E8P+OAM8D
-         r6yN2R78rf6SBBiGRmBbBI+zLGzB3RTBu9PxNznhO1bBOYWJseH3ezCKDoVX5/WN7uQv
-         tVa8lQr8PDe1oDO8K6TtY4d+7ApngXiR6rsLOGofA2HMOuBkCAtT8gDowsFNWymswtCJ
-         0i6w==
-X-Gm-Message-State: APjAAAXIEO7ZUpLJoq30lBU/YgREkA+/ugplHpbH2S3UmPrMLnkYUFIN
-        ecFKbRB1EYDV/e7TRN83p7r4Lg==
-X-Google-Smtp-Source: APXvYqw+F5l2dLUHf4clL+wuN5FTwsCCkJfTv4z/xD76/v2pwtskdDaZ43oFaBVsm56JgOyDMxNNfQ==
-X-Received: by 2002:a17:90a:a40e:: with SMTP id y14mr13342365pjp.83.1567143643954;
-        Thu, 29 Aug 2019 22:40:43 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u4sm4937379pfh.186.2019.08.29.22.40.43
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=6fnLh7tQX3N9usyfotPT6mkswbVLXc4JZHd92mBiSTI=;
+        b=qWDXcUtLA/LYyuGBondHGi9Jjb4UIWHqp13cI1xbW2MJnOHrzNdY84PMulATn+9H7S
+         IHlUftB+dJ5KZ/WdAO31QLlQ4/ZEdb82ULqr+YwKcdBaZTOCu6nnEyt/nx5e6tdYrgjW
+         wC13k6DjvhjEFoolL3czn7Q9PhYD6bP1nLkEcN7TTLKBHWrmWOtZXS0AVL3lxfTMIvah
+         iES5R7zl9yMo94iGUctGu5gLKPDVSA14JlSaLh6jlB+5fcQy4usv1pUSv7NZwtANTwdO
+         RML+7FGveKea8YjtDMsOzvgbpuyAz+AFjC1bjySFywn2u0caOZgDod38A+G0TZuIS830
+         wNIg==
+X-Gm-Message-State: APjAAAVKM1kIX5KC1fK7xPTV137CgM5kqlj5emkrXNhzOvyjac+81FBZ
+        F2hZDRzJ+t+GUbTl5weEOUo=
+X-Google-Smtp-Source: APXvYqxbABh+dd1Rf1D71USHqNcez973FQDDAf+AphQcfgWi+VoXc+1TvM51tIppmYXFVliCVYJnOw==
+X-Received: by 2002:adf:f30e:: with SMTP id i14mr2486634wro.288.1567156200472;
+        Fri, 30 Aug 2019 02:10:00 -0700 (PDT)
+Received: from localhost.localdomain (ip5b4096c3.dynamic.kabel-deutschland.de. [91.64.150.195])
+        by smtp.gmail.com with ESMTPSA id b144sm13108169wmb.3.2019.08.30.02.09.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 22:40:43 -0700 (PDT)
-Date:   Thu, 29 Aug 2019 22:40:42 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Fri, 30 Aug 2019 02:09:59 -0700 (PDT)
+From:   Krzysztof Wilczynski <kw@linux.com>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: pwm: Use struct_size() helper
-Message-ID: <201908292240.E0C345D884@keescook>
-References: <20190830005320.GA15267@embeddedor>
+Subject: [PATCH] leds: Move static keyword to the front of declarations
+Date:   Fri, 30 Aug 2019 11:09:58 +0200
+Message-Id: <20190830090958.27108-1-kw@linux.com>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190830005320.GA15267@embeddedor>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Aug 29, 2019 at 07:53:20PM -0500, Gustavo A. R. Silva wrote:
-> One of the more common cases of allocation size calculations is finding
-> the size of a structure that has a zero-sized array at the end, along
-> with memory for some number of elements for that array. For example:
-> 
-> struct led_pwm_priv {
-> 	...
->         struct led_pwm_data leds[0];
-> };
-> 
-> Make use of the struct_size() helper instead of an open-coded version
-> in order to avoid any potential type mistakes.
-> 
-> So, replace the following function:
-> 
-> static inline size_t sizeof_pwm_leds_priv(int num_leds)
-> {
->        return sizeof(struct led_pwm_priv) +
->                      (sizeof(struct led_pwm_data) * num_leds);
-> }
-> 
-> with:
-> 
-> struct_size(priv, leds, count)
-> 
-> This code was detected with the help of Coccinelle.
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+Move the static keyword to the front of declarations.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+In drivers/leds/leds-lm3532.c for ramp_table, als_avrg_table
+and als_imp_table, and in drivers/leds/leds-lm3532.c for
+ramp_table.
 
--Kees
+This will resolve the following compiler warnings that can
+be seen when building with warnings enabled (W=1):
 
-> ---
->  drivers/leds/leds-pwm.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-> index d0e1f2710351..8b6965a563e9 100644
-> --- a/drivers/leds/leds-pwm.c
-> +++ b/drivers/leds/leds-pwm.c
-> @@ -65,12 +65,6 @@ static int led_pwm_set(struct led_classdev *led_cdev,
->  	return 0;
->  }
->  
-> -static inline size_t sizeof_pwm_leds_priv(int num_leds)
-> -{
-> -	return sizeof(struct led_pwm_priv) +
-> -		      (sizeof(struct led_pwm_data) * num_leds);
-> -}
-> -
->  static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
->  		       struct led_pwm *led, struct fwnode_handle *fwnode)
->  {
-> @@ -174,7 +168,7 @@ static int led_pwm_probe(struct platform_device *pdev)
->  	if (!count)
->  		return -EINVAL;
->  
-> -	priv = devm_kzalloc(&pdev->dev, sizeof_pwm_leds_priv(count),
-> +	priv = devm_kzalloc(&pdev->dev, struct_size(priv, leds, count),
->  			    GFP_KERNEL);
->  	if (!priv)
->  		return -ENOMEM;
-> -- 
-> 2.23.0
-> 
+drivers/leds/leds-lm3532.c:209:1: warning:
+  ‘static’ is not at beginning of declaration [-Wold-style-declaration]
 
+drivers/leds/leds-lm3532.c:266:1: warning:
+  ‘static’ is not at beginning of declaration [-Wold-style-declaration]
+
+drivers/leds/leds-lm3532.c:281:1: warning:
+  ‘static’ is not at beginning of declaration [-Wold-style-declaration]
+
+drivers/leds/leds-ti-lmu-common.c:14:1: warning:
+  ‘static’ is not at beginning of declaration [-Wold-style-declaration]
+
+Signed-off-by: Krzysztof Wilczynski <kw@linux.com>
+---
+Related: https://lore.kernel.org/r/20190827233017.GK9987@google.com
+
+ drivers/leds/leds-lm3532.c        | 6 +++---
+ drivers/leds/leds-ti-lmu-common.c | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
+index c5cfd8e3f15f..62ace6698d25 100644
+--- a/drivers/leds/leds-lm3532.c
++++ b/drivers/leds/leds-lm3532.c
+@@ -208,7 +208,7 @@ static const struct regmap_config lm3532_regmap_config = {
+ 	.cache_type = REGCACHE_FLAT,
+ };
+ 
+-const static int als_imp_table[LM3532_NUM_IMP_VALS] = {37000, 18500, 12330,
++static const int als_imp_table[LM3532_NUM_IMP_VALS] = {37000, 18500, 12330,
+ 						       92500, 7400, 6170, 5290,
+ 						       4630, 4110, 3700, 3360,
+ 						       3080, 2850, 2640, 2440,
+@@ -265,7 +265,7 @@ static int lm3532_get_index(const int table[], int size, int value)
+ 	return -EINVAL;
+ }
+ 
+-const static int als_avrg_table[LM3532_NUM_AVG_VALS] = {17920, 35840, 71680,
++static const int als_avrg_table[LM3532_NUM_AVG_VALS] = {17920, 35840, 71680,
+ 							1433360, 286720, 573440,
+ 							1146880, 2293760};
+ static int lm3532_get_als_avg_index(int avg_time)
+@@ -280,7 +280,7 @@ static int lm3532_get_als_avg_index(int avg_time)
+ 				avg_time);
+ }
+ 
+-const static int ramp_table[LM3532_NUM_RAMP_VALS] = { 8, 1024, 2048, 4096, 8192,
++static const int ramp_table[LM3532_NUM_RAMP_VALS] = { 8, 1024, 2048, 4096, 8192,
+ 						     16384, 32768, 65536};
+ static int lm3532_get_ramp_index(int ramp_time)
+ {
+diff --git a/drivers/leds/leds-ti-lmu-common.c b/drivers/leds/leds-ti-lmu-common.c
+index e294a0b097e3..d7f10ad721ba 100644
+--- a/drivers/leds/leds-ti-lmu-common.c
++++ b/drivers/leds/leds-ti-lmu-common.c
+@@ -11,7 +11,7 @@
+ 
+ #include <linux/leds-ti-lmu-common.h>
+ 
+-const static unsigned int ramp_table[16] = {2048, 262000, 524000, 1049000,
++static const unsigned int ramp_table[16] = {2048, 262000, 524000, 1049000,
+ 				2090000, 4194000, 8389000, 16780000, 33550000,
+ 				41940000, 50330000, 58720000, 67110000,
+ 				83880000, 100660000, 117440000};
 -- 
-Kees Cook
+2.22.1
+
