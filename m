@@ -2,123 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0790A6ACF
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2019 16:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F055BA6AE4
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2019 16:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729432AbfICOHX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 3 Sep 2019 10:07:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51936 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727107AbfICOHX (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 3 Sep 2019 10:07:23 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CF05D23431;
-        Tue,  3 Sep 2019 14:07:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567519642;
-        bh=ILgzKV/BAHkb2QyjWgpo1XspwECJBh+lYg4WsMle8bQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xlGj+2evrF1h0zvBIa8N3bQL6cxJBZMdk2MG1tQU+CuADY+vDhA0cnkdhPT6IG5PZ
-         hjKLSbJu5eRrQEP/3tk8EYslv0RL85O29WYCu/356Ma9/IL+CoF61epccZ5YNWW/O6
-         JPf34jGXxQbXOUkFoozfzJUqDgVBbmn4bE4wt4Wc=
-Date:   Tue, 3 Sep 2019 16:07:19 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Akinobu Mita <akinobu.mita@gmail.com>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH] leds: remove PAGE_SIZE limit of
- /sys/class/leds/<led>/trigger
-Message-ID: <20190903140719.GA9506@kroah.com>
-References: <1567090164-6819-1-git-send-email-akinobu.mita@gmail.com>
- <6ebeedab-4a7f-14ea-d62e-9184e911047f@gmail.com>
- <20190902181207.GA18577@kroah.com>
- <1cd468a3-b6e5-a93b-739a-f30288318356@gmail.com>
- <20190902190843.GB25019@kroah.com>
- <CAC5umyjTJSMdKMtZbF8Uxky6nOrAHesTHmZRV5VA1uPwX2rtxA@mail.gmail.com>
+        id S1729452AbfICOMg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 3 Sep 2019 10:12:36 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:57580 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728679AbfICOMf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Sep 2019 10:12:35 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 6A65481FA1; Tue,  3 Sep 2019 16:12:18 +0200 (CEST)
+Date:   Tue, 3 Sep 2019 16:12:31 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Oleh Kravchenko <oleg@kaa.org.ua>
+Cc:     linux-leds@vger.kernel.org
+Subject: Re: [PATCH 1/2] leds: mlxreg: Fix possible buffer overflow
+Message-ID: <20190903141231.GA8199@amd>
+References: <20190903125020.20482-1-oleg@kaa.org.ua>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="envbJBWh7q8WU6mo"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAC5umyjTJSMdKMtZbF8Uxky6nOrAHesTHmZRV5VA1uPwX2rtxA@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190903125020.20482-1-oleg@kaa.org.ua>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Sep 03, 2019 at 10:55:40PM +0900, Akinobu Mita wrote:
-> 2019年9月3日(火) 4:08 Greg KH <gregkh@linuxfoundation.org>:
-> >
-> > On Mon, Sep 02, 2019 at 08:47:02PM +0200, Jacek Anaszewski wrote:
-> > > On 9/2/19 8:12 PM, Greg KH wrote:
-> > > > On Sun, Sep 01, 2019 at 06:53:34PM +0200, Jacek Anaszewski wrote:
-> > > >> Hi Akinobu,
-> > > >>
-> > > >> Thank you for the patch.
-> > > >>
-> > > >> I have one nit below but in general it looks good to me.
-> > > >> I've tested it with 2000 mtd triggers (~14kB file size)
-> > > >> and it worked flawlessly.
-> > > >>
-> > > >> Still, I would like to have ack from Greg for it.
-> > > >>
-> > > >> Adding Greg on Cc.
-> > > >>
-> > > >> On 8/29/19 4:49 PM, Akinobu Mita wrote:
-> > > >>> Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
-> > > >>> However, the size of this file is limited to PAGE_SIZE because of the
-> > > >>> limitation for sysfs attribute.
-> > > >>>
-> > > >>> Enabling LED CPU trigger on systems with thousands of CPUs easily hits
-> > > >>> PAGE_SIZE limit, and makes it impossible to see all available LED triggers
-> > > >>> and which trigger is currently activated.
-> > > >>>
-> > > >>> This converts /sys/class/leds/<led>/trigger to bin attribute and removes
-> > > >>> the PAGE_SIZE limitation.
-> > > >
-> > > > But this is NOT a binary file.  A sysfs binary file is used for when the
-> > > > kernel passes data to or from hardware without any parsing of the data
-> > > > by the kernel.
-> > > >
-> > > > You are not doing that here, you are abusing the "one value per file"
-> > > > rule of sysfs so much that you are forced to work around the limitation
-> > > > it put in place on purpose to keep you from doing stuff like this.
-> > > >
-> > > > Please fix this "correctly" by creating a new api that works properly
-> > > > and just live with the fact that this file will never work correctly and
-> > > > move everyone to use the new api instead.
-> > > >
-> > > > Don't keep on abusing the interface by workarounds like this, it is not
-> > > > ok.
-> > >
-> > > In the message [0] you pledged to give us exception for that, provided
-> > > it will be properly documented in the code. I suppose you now object
-> > > because the patch does not meet that condition.
-> >
-> > Well, I honestly don't remember writing that email, but it was 5 months
-> > and many thousands of emails ago :)
-> >
-> > Also, you all didn't document the heck out of this.  So no, I really do
-> > not want to see this patch accepted as-is.
-> >
-> > > Provided that will be fixed, can we count on your ack for the
-> > > implementation of the solution you proposed? :-)
-> >
-> > Let's see the patch that actually implements what I suggested first :)
-> 
-> I'd propose introducing a new procfs file (/proc/led-triggers) and new
-> /sys/class/leds/<led>/current-trigger api.
-> 
-> Reading /proc/led-triggers file shows all available triggers.
-> This violates "one value per file", but it's a procfs file.
 
-No, procfs files are ONLY for process-related things.  Don't keep the
-insanity of this file format by just moving it out of sysfs and into
-procfs :)
+--envbJBWh7q8WU6mo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+On Tue 2019-09-03 15:50:19, Oleh Kravchenko wrote:
+> Error was detected by PVS-Studio:
+> V512 A call of the 'sprintf' function will lead to overflow of
+> the buffer 'led_data->led_cdev_name'.
 
-greg k-h
+Are you sure this is correct fix? Will the name be always properly
+null terminated?
+									Pavel
+
+> +++ b/drivers/leds/leds-mlxreg.c
+> @@ -228,8 +228,8 @@ static int mlxreg_led_config(struct mlxreg_led_priv_d=
+ata *priv)
+>  			brightness =3D LED_OFF;
+>  			led_data->base_color =3D MLXREG_LED_GREEN_SOLID;
+>  		}
+> -		sprintf(led_data->led_cdev_name, "%s:%s", "mlxreg",
+> -			data->label);
+> +		snprintf(led_data->led_cdev_name, sizeof(led_data->led_cdev_name),
+> +			 "mlxreg:%s", data->label);
+>  		led_cdev->name =3D led_data->led_cdev_name;
+>  		led_cdev->brightness =3D brightness;
+>  		led_cdev->max_brightness =3D LED_ON;
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--envbJBWh7q8WU6mo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl1udM8ACgkQMOfwapXb+vLyewCfS/Yb3pzHTA4fG87yxCwzbaKi
+w6UAoKS4Wi5+Fint28MAvVqs8UuZ7956
+=7yO8
+-----END PGP SIGNATURE-----
+
+--envbJBWh7q8WU6mo--
