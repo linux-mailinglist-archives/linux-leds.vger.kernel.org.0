@@ -2,96 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 15BF4A6968
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2019 15:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2729A696D
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2019 15:13:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728860AbfICNMj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 3 Sep 2019 09:12:39 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:39796 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728854AbfICNMj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Sep 2019 09:12:39 -0400
-Received: by mail-pl1-f195.google.com with SMTP id bd8so1553328plb.6;
-        Tue, 03 Sep 2019 06:12:39 -0700 (PDT)
+        id S1728860AbfICNN2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 3 Sep 2019 09:13:28 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:34284 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728571AbfICNN1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Sep 2019 09:13:27 -0400
+Received: by mail-pl1-f193.google.com with SMTP id d3so7898763plr.1;
+        Tue, 03 Sep 2019 06:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Oyzje1d/Yp6dp7EJioGtvOkl1us11NkLYeaDJjiD9GM=;
-        b=cKiqb3gyADk+aCJu7IOs8iEgDQUYXluRKjO+di3+uHqQil066X+3EUm51TI8r17m7x
-         NyzxcR9A5Yy0DyJtgxcNocPH42Gf4E2DUG7PK+e6D9tujIDNL17+QRoy+cgv7PzCzUqz
-         Kx6xuuq0pCT5PhJYDNhBFLsbA7nnFx/Wsk5bHg7eZrQLDTAOX6xRVISxbNrEvSSHSh5Y
-         okD2HoBLiCEhNkUVxSxnEtKgjG9u5cnrY4ilZeLioTaPHZk7UsW5iKcw4eTDDX7dWhJH
-         yVGQw9tiyyh0Sz1wWbWGYh8AgBEWWKUMAjKT/i38jf9LwURzuJS+bFiuTsw35J4b63Z2
-         idEA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5bkDAmHBMFK32nnuTqY8Dz+zY+pSRwll+hw9x/DOfxo=;
+        b=bWgvdyFlvd/gBZHW1UM8pZEOW5gm/3vhTBtl5kvNL+GJQPZEwPL5XUDDNF6mBbI/3W
+         2OkG0djgc+xn7fLgG8VnlW/VDNplJ4JMxUaNWH5awV+jnrfISRu5RPh6k09Mj+DQBysj
+         /aJ6gWQmoyywBhzT9GqxXJOJgjbb3toQnTDWBR2YArAbEylAqJl1qbNk8LcxY8vmCgRG
+         LwKhSWe4PZzuxJ79l5Gnd+wcwg/CDAtGNlY5DK3C4evcsOCEdRsvfbSvfO7uo1BE11qp
+         Peh7u9lJ+JNYLcvjZ9z+xM4Bm5oIOseTdgHyk9h+IlpdP97eJ03+GGh7ahneq8jq5fq7
+         qEYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Oyzje1d/Yp6dp7EJioGtvOkl1us11NkLYeaDJjiD9GM=;
-        b=RJDRq1DYMqAVY2CUXj4RdAG3WHz7qHIUQ6o4FoQTFnWUjam7rzsUjfBznx/Lj5/Biw
-         QPcfWMjLAeKnWXurjnMBvbBUdP0uEU9BA3DMMkF8z9Pg52wfHq3OoAH1iGqyWxkkRSDo
-         1Z0XJk8ZDuvr4Za56YA/LHO/nYhkN8yia1JV4q/szNu0ccH2nEI/6op9eG3spCCAvUFa
-         mQ1jz7n9DG8gDU+IjcZtHM+aigo7+af8MqGCWLhhCMKbHjOoZEqtmuS+Sdr3rOYp0SeZ
-         /WsqpZnHUJzTDLxzST/NjtZlHGQJDpt6zZhTfvqPyoxTwi8xKb2Zz9dOA47RxPSE9gRl
-         cCdw==
-X-Gm-Message-State: APjAAAWuZMlVB09Q/zxXHmyDrzvdM2v92Zf4Kb7YLGY9m4LDI5uoiaOk
-        WDDfTEs0ZrOOGqYMAYnZuSNZdkCU7s8=
-X-Google-Smtp-Source: APXvYqwNwfUOJxTNPaZLdHPRdKE/4TFVjuEc1qWSovceJyDRuA5nM2pZrVLw6T8ZE+sLds08UA396Q==
-X-Received: by 2002:a17:902:e68f:: with SMTP id cn15mr35725292plb.212.1567516358873;
-        Tue, 03 Sep 2019 06:12:38 -0700 (PDT)
-Received: from localhost.localdomain ([240f:34:212d:1:c96a:23e0:ac2a:c9f5])
-        by smtp.gmail.com with ESMTPSA id 69sm19769823pfb.145.2019.09.03.06.12.35
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 03 Sep 2019 06:12:37 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5bkDAmHBMFK32nnuTqY8Dz+zY+pSRwll+hw9x/DOfxo=;
+        b=NiAg1DK1EElIexxzexZUpg9nBEPFKgJbTuWN40fXnkOlqNIu3Iojen6FBqf4ybM4zG
+         7h5lkmX79Fwr+k56LgTHZpOuwKAa2HrkKsncLAlE44j3PG+MD7B0LMtJBIh3UiRa7VWU
+         kHm+10fEy0Cofj+If2kytr/9Av8pt4nEX5qJk90AFBGiiti/oHYjNecD0LRaIfZC0CIE
+         QkVwDI+kWahKGb2R8GlKzNM3yR0EB5LnQBDG5rf5k9FeGjUui+6IROHwJitrcFOf9PBt
+         AED000DV2qn2nJdbSAt9VmGGP4jJTvQtxiDRyK0AyqvmC/jvaKSwXYMOE7PMT1ChcIsj
+         Fb3A==
+X-Gm-Message-State: APjAAAVvEbpcE3jFDBVjjRTiui/ttUOluaWsiCJXPbKoRwtwTXrqC/tN
+        hC/ehz5QzAhXSMGbdUiTigU4qeL+SKdnC2G/np9xAbS7vfU=
+X-Google-Smtp-Source: APXvYqx7JswKzeB3Zxp1QRSOlEKbG9I2BSeM7Z8hcpw+m/NQv4CPOiQGbxK6lTHzgn1znrx+lYDNTtn2uEELe1A+vko=
+X-Received: by 2002:a17:902:426:: with SMTP id 35mr35833244ple.192.1567516407027;
+ Tue, 03 Sep 2019 06:13:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <1567346932-16744-1-git-send-email-akinobu.mita@gmail.com>
+ <1567346932-16744-2-git-send-email-akinobu.mita@gmail.com> <CAJZ5v0g+NqasLwWRLA_LM+QEjrHquxzEgtvG4_P=4n=vzpOHWQ@mail.gmail.com>
+In-Reply-To: <CAJZ5v0g+NqasLwWRLA_LM+QEjrHquxzEgtvG4_P=4n=vzpOHWQ@mail.gmail.com>
 From:   Akinobu Mita <akinobu.mita@gmail.com>
-To:     linux-leds@vger.kernel.org, linux-pm@vger.kernel.org
-Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
+Date:   Tue, 3 Sep 2019 22:13:16 +0900
+Message-ID: <CAC5umyhBkvWFaRpzJ=xtdnf_fLHe2OeJJ01sve8F6HA0=MuLMQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] PM-runtime: allow userspace to monitor runtime_status changes
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     linux-leds@vger.kernel.org, Linux PM <linux-pm@vger.kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         Dominik Brodowski <linux@dominikbrodowski.net>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: [PATCH v2] PM-runtime: Documentation: add runtime_status ABI document
-Date:   Tue,  3 Sep 2019 22:12:22 +0900
-Message-Id: <1567516342-5939-1-git-send-email-akinobu.mita@gmail.com>
-X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-/sys/devices/.../power/runtime_status is introduced by commit c92445fadb91
-("PM / Runtime: Add sysfs debug files").  Then commit 0fcb4eef8294 ("PM /
-Runtime: Make runtime_status attribute not debug-only (v. 2)") made the
-runtime_status attribute available without CONFIG_PM_ADVANCED_DEBUG.
+2019=E5=B9=B49=E6=9C=883=E6=97=A5(=E7=81=AB) 6:47 Rafael J. Wysocki <rafael=
+@kernel.org>:
+>
+> On Sun, Sep 1, 2019 at 4:09 PM Akinobu Mita <akinobu.mita@gmail.com> wrot=
+e:
+> >
+> > This enables the /sys/devices/.../power/runtime_status attribute to
+> > allow the user space to get notifications via poll/select when the devi=
+ce
+> > runtime PM status is changed.
+> >
+> > An example use case is to avoid unnecessary accesses for device statist=
+ics
+> > (e.g. diskstats for block devices) while the device is in runtime suspe=
+nd
+> > by user space LED device actitity trigger.
+> >
+> > Cc: Alan Stern <stern@rowland.harvard.edu>
+> > Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> > Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+> > Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+> > ---
+> >  Documentation/ABI/testing/sysfs-devices-power | 2 ++
+> >  drivers/base/power/power.h                    | 1 +
+> >  drivers/base/power/runtime.c                  | 1 +
+> >  drivers/base/power/sysfs.c                    | 5 +++++
+> >  4 files changed, 9 insertions(+)
+> >
+> > diff --git a/Documentation/ABI/testing/sysfs-devices-power b/Documentat=
+ion/ABI/testing/sysfs-devices-power
+> > index 3e50536..47dc357 100644
+> > --- a/Documentation/ABI/testing/sysfs-devices-power
+> > +++ b/Documentation/ABI/testing/sysfs-devices-power
+> > @@ -269,3 +269,5 @@ Description:
+> >                 the current runtime PM status of the device, which may =
+be
+> >                 "suspended", "suspending", "resuming", "active", "error=
+" (fatal
+> >                 error), or "unsupported" (runtime PM is disabled).
+> > +               This attribute allows the user space to get notificatio=
+ns via
+> > +               poll/select when the device runtime PM status is change=
+d.
+> > diff --git a/drivers/base/power/power.h b/drivers/base/power/power.h
+> > index ec33fbdb..8891bf4 100644
+> > --- a/drivers/base/power/power.h
+> > +++ b/drivers/base/power/power.h
+> > @@ -74,6 +74,7 @@ extern int pm_qos_sysfs_add_flags(struct device *dev)=
+;
+> >  extern void pm_qos_sysfs_remove_flags(struct device *dev);
+> >  extern int pm_qos_sysfs_add_latency_tolerance(struct device *dev);
+> >  extern void pm_qos_sysfs_remove_latency_tolerance(struct device *dev);
+> > +extern void sysfs_notify_runtime_status(struct device *dev);
+> >
+> >  #else /* CONFIG_PM */
+> >
+> > diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.=
+c
+> > index b753355..3a3e413 100644
+> > --- a/drivers/base/power/runtime.c
+> > +++ b/drivers/base/power/runtime.c
+> > @@ -94,6 +94,7 @@ static void __update_runtime_status(struct device *de=
+v, enum rpm_status status)
+> >  {
+> >         update_pm_runtime_accounting(dev);
+> >         dev->power.runtime_status =3D status;
+> > +       sysfs_notify_runtime_status(dev);
+>
+> There are concerns about this.
+>
+> First off, it adds overhead for devices that change the PM-runtime
+> status relatively often.  I'm not sure if that's sufficiently
+> justified.
+>
+> Second, it is called for status changes from "active" to "suspending"
+> and from "suspending" to "suspended" (and analogously for resume)
+> which may not be particularly useful.  At least, user space may not
+> have enough time to act on such notifications.
+>
+> Finally, it is racy, because at the time user space does something on
+> a device PM-runtime status change, it very well may have changed the
+> other way around already.
 
-This adds missing runtime_status ABI document.
-
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
----
-* v2
-- Change the contact person
-
- Documentation/ABI/testing/sysfs-devices-power | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/Documentation/ABI/testing/sysfs-devices-power b/Documentation/ABI/testing/sysfs-devices-power
-index 80a00f7..1763e64 100644
---- a/Documentation/ABI/testing/sysfs-devices-power
-+++ b/Documentation/ABI/testing/sysfs-devices-power
-@@ -260,3 +260,12 @@ Description:
- 
- 		This attribute has no effect on system-wide suspend/resume and
- 		hibernation.
-+
-+What:		/sys/devices/.../power/runtime_status
-+Date:		April 2010
-+Contact:	Rafael J. Wysocki <rjw@rjwysocki.net>
-+Description:
-+		The /sys/devices/.../power/runtime_status attribute contains
-+		the current runtime PM status of the device, which may be
-+		"suspended", "suspending", "resuming", "active", "error" (fatal
-+		error), or "unsupported" (runtime PM is disabled).
--- 
-2.7.4
-
+I withdraw this patch now.  I hope I'll retry with a real use case example
+program.
