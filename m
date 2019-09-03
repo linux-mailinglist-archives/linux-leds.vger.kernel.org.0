@@ -2,88 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A17EBA5ED4
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2019 03:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17F86A68E9
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2019 14:50:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbfICB3B (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Sep 2019 21:29:01 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:50022 "EHLO inva020.nxp.com"
+        id S1729079AbfICMua (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 3 Sep 2019 08:50:30 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:52985 "EHLO smtp.220.in.ua"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725306AbfICB3B (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 2 Sep 2019 21:29:01 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id C2EFA1A09E7;
-        Tue,  3 Sep 2019 03:28:59 +0200 (CEST)
-Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id C75341A09F3;
-        Tue,  3 Sep 2019 03:28:47 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 0401F402B1;
-        Tue,  3 Sep 2019 09:28:39 +0800 (SGT)
-From:   Anson Huang <Anson.Huang@nxp.com>
-To:     robh+dt@kernel.org, mark.rutland@arm.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Linux-imx@nxp.com, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        dmurphy@ti.com
-Subject: [PATCH V2] arm64: dts: imx8mn-ddr4-evk: Enable GPIO LED
-Date:   Tue,  3 Sep 2019 09:27:57 -0400
-Message-Id: <1567517277-30919-1-git-send-email-Anson.Huang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1729067AbfICMua (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 3 Sep 2019 08:50:30 -0400
+Received: from oleh-pc.lan (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id D148E1A24464;
+        Tue,  3 Sep 2019 15:50:27 +0300 (EEST)
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+To:     linux-leds@vger.kernel.org
+Cc:     Oleh Kravchenko <oleg@kaa.org.ua>
+Subject: [PATCH 1/2] leds: mlxreg: Fix possible buffer overflow
+Date:   Tue,  3 Sep 2019 15:50:19 +0300
+Message-Id: <20190903125020.20482-1-oleg@kaa.org.ua>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-i.MX8MN DDR4 EVK board has a GPIO LED to indicate status,
-add support for it.
+Error was detected by PVS-Studio:
+V512 A call of the 'sprintf' function will lead to overflow of
+the buffer 'led_data->led_cdev_name'.
 
-Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
 ---
-Changes since V1:
-	- Mention color in the label.
----
- arch/arm64/boot/dts/freescale/imx8mn-ddr4-evk.dts | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/leds/leds-mlxreg.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mn-ddr4-evk.dts b/arch/arm64/boot/dts/freescale/imx8mn-ddr4-evk.dts
-index b698061..bf1c097 100644
---- a/arch/arm64/boot/dts/freescale/imx8mn-ddr4-evk.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8mn-ddr4-evk.dts
-@@ -15,6 +15,18 @@
- 		stdout-path = &uart2;
- 	};
- 
-+	gpio-leds {
-+		compatible = "gpio-leds";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_gpio_led>;
-+
-+		status {
-+			label = "yellow:status";
-+			gpios = <&gpio3 16 GPIO_ACTIVE_HIGH>;
-+			default-state = "on";
-+		};
-+	};
-+
- 	reg_usdhc2_vmmc: regulator-usdhc2 {
- 		compatible = "regulator-fixed";
- 		pinctrl-names = "default";
-@@ -54,6 +66,12 @@
- 		>;
- 	};
- 
-+	pinctrl_gpio_led: gpioledgrp {
-+		fsl,pins = <
-+			MX8MN_IOMUXC_NAND_READY_B_GPIO3_IO16	0x19
-+		>;
-+	};
-+
- 	pinctrl_i2c1: i2c1grp {
- 		fsl,pins = <
- 			MX8MN_IOMUXC_I2C1_SCL_I2C1_SCL		0x400001c3
+diff --git a/drivers/leds/leds-mlxreg.c b/drivers/leds/leds-mlxreg.c
+index cabe379071a7..82aea1cd0c12 100644
+--- a/drivers/leds/leds-mlxreg.c
++++ b/drivers/leds/leds-mlxreg.c
+@@ -228,8 +228,8 @@ static int mlxreg_led_config(struct mlxreg_led_priv_data *priv)
+ 			brightness = LED_OFF;
+ 			led_data->base_color = MLXREG_LED_GREEN_SOLID;
+ 		}
+-		sprintf(led_data->led_cdev_name, "%s:%s", "mlxreg",
+-			data->label);
++		snprintf(led_data->led_cdev_name, sizeof(led_data->led_cdev_name),
++			 "mlxreg:%s", data->label);
+ 		led_cdev->name = led_data->led_cdev_name;
+ 		led_cdev->brightness = brightness;
+ 		led_cdev->max_brightness = LED_ON;
 -- 
-2.7.4
+2.21.0
 
