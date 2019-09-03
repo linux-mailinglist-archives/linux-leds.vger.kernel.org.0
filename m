@@ -2,57 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2729A696D
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2019 15:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81D6CA6A87
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Sep 2019 15:55:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728860AbfICNN2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 3 Sep 2019 09:13:28 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:34284 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728571AbfICNN1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Sep 2019 09:13:27 -0400
-Received: by mail-pl1-f193.google.com with SMTP id d3so7898763plr.1;
-        Tue, 03 Sep 2019 06:13:27 -0700 (PDT)
+        id S1729183AbfICNzx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 3 Sep 2019 09:55:53 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:44422 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728576AbfICNzx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Sep 2019 09:55:53 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q21so5791849pfn.11;
+        Tue, 03 Sep 2019 06:55:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=5bkDAmHBMFK32nnuTqY8Dz+zY+pSRwll+hw9x/DOfxo=;
-        b=bWgvdyFlvd/gBZHW1UM8pZEOW5gm/3vhTBtl5kvNL+GJQPZEwPL5XUDDNF6mBbI/3W
-         2OkG0djgc+xn7fLgG8VnlW/VDNplJ4JMxUaNWH5awV+jnrfISRu5RPh6k09Mj+DQBysj
-         /aJ6gWQmoyywBhzT9GqxXJOJgjbb3toQnTDWBR2YArAbEylAqJl1qbNk8LcxY8vmCgRG
-         LwKhSWe4PZzuxJ79l5Gnd+wcwg/CDAtGNlY5DK3C4evcsOCEdRsvfbSvfO7uo1BE11qp
-         Peh7u9lJ+JNYLcvjZ9z+xM4Bm5oIOseTdgHyk9h+IlpdP97eJ03+GGh7ahneq8jq5fq7
-         qEYg==
+        bh=NLKvK3f8SdEghfwOcKdCBnv2yALB4FJT+JO4qAGu9vY=;
+        b=CqCwVzfPIEt7EUoqsb3vuZ2oJNfv7mm6Y+sSBaVje4EVbtB3+AI0GcahDat2aI+piH
+         CbFjdAVGYRtzMmaCp48+5iynm8I348kzdUa8085v1POys7GdGGZeEf8qLpeIZqOrN9nS
+         onAbZtBSUzeDBnLKZ8l1FSVJwds6K2WkWFQ2CxaqgD3jiseP9QkkwA7PngptgHsulqTT
+         vnqgED8EWsmVaJQrrBD7WQbenCs0/Bh1vH6gDCqnrxdVEcOgLxUCYBJ+6D1XbESoAF8X
+         maN+uHlxUnvxjm/dCYs2cY7ZhNa1UZmXg+0xyFKrRw157K78Rt56Azf5UBtYviiWfis4
+         QunQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5bkDAmHBMFK32nnuTqY8Dz+zY+pSRwll+hw9x/DOfxo=;
-        b=NiAg1DK1EElIexxzexZUpg9nBEPFKgJbTuWN40fXnkOlqNIu3Iojen6FBqf4ybM4zG
-         7h5lkmX79Fwr+k56LgTHZpOuwKAa2HrkKsncLAlE44j3PG+MD7B0LMtJBIh3UiRa7VWU
-         kHm+10fEy0Cofj+If2kytr/9Av8pt4nEX5qJk90AFBGiiti/oHYjNecD0LRaIfZC0CIE
-         QkVwDI+kWahKGb2R8GlKzNM3yR0EB5LnQBDG5rf5k9FeGjUui+6IROHwJitrcFOf9PBt
-         AED000DV2qn2nJdbSAt9VmGGP4jJTvQtxiDRyK0AyqvmC/jvaKSwXYMOE7PMT1ChcIsj
-         Fb3A==
-X-Gm-Message-State: APjAAAVvEbpcE3jFDBVjjRTiui/ttUOluaWsiCJXPbKoRwtwTXrqC/tN
-        hC/ehz5QzAhXSMGbdUiTigU4qeL+SKdnC2G/np9xAbS7vfU=
-X-Google-Smtp-Source: APXvYqx7JswKzeB3Zxp1QRSOlEKbG9I2BSeM7Z8hcpw+m/NQv4CPOiQGbxK6lTHzgn1znrx+lYDNTtn2uEELe1A+vko=
-X-Received: by 2002:a17:902:426:: with SMTP id 35mr35833244ple.192.1567516407027;
- Tue, 03 Sep 2019 06:13:27 -0700 (PDT)
+        bh=NLKvK3f8SdEghfwOcKdCBnv2yALB4FJT+JO4qAGu9vY=;
+        b=kUAZoCsFT92xn1/kpUgGReggTzrcEi/Vj6zjTpZ3C/SXt1jnnSK8pXyjmpA4osHYCT
+         PUUBtEg6YSuh9zE/CC9/GRJj+GsnUYmkKDqIejvw61vPNb/PKxYftz6CvYvHx2xFn89c
+         Iqy/WkGF1rxE6ZAQ7U6P1xfpoyvDSJJI8cGFSVfyiBg6Pg1YgyrBQkn3T4gMKOUti69A
+         qHX2cELQqnzkbJDpJcWajxK62EKyzbZhHlZojHaniNEG1GlvFH3oyp1Ab6XixVMp5kSR
+         WCkcaRzzwg0VK8uESJ4N9m41Zr+jivwnXF6vvl2eF2E3QwgkfjCWdG4R4vwqBsqHdbwx
+         /tbA==
+X-Gm-Message-State: APjAAAXlIxXcR10EKntwVUVAx3mL2qLMR1d5DUVzjDnipLgSCvM/eOok
+        XlSbyNPzokJIteo0uHBio6ChMQNxHGEY7ffKNEQ=
+X-Google-Smtp-Source: APXvYqwQU7sOMX0lTDfc+K5B77SeOLOlV8KLToWsFoAvVJjozpSZ+S5zDG/63oo+9Omo1hxtsVQ5VtOzBwW4cxUdgRc=
+X-Received: by 2002:a17:90a:6504:: with SMTP id i4mr128907pjj.13.1567518952222;
+ Tue, 03 Sep 2019 06:55:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <1567346932-16744-1-git-send-email-akinobu.mita@gmail.com>
- <1567346932-16744-2-git-send-email-akinobu.mita@gmail.com> <CAJZ5v0g+NqasLwWRLA_LM+QEjrHquxzEgtvG4_P=4n=vzpOHWQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0g+NqasLwWRLA_LM+QEjrHquxzEgtvG4_P=4n=vzpOHWQ@mail.gmail.com>
+References: <1567090164-6819-1-git-send-email-akinobu.mita@gmail.com>
+ <6ebeedab-4a7f-14ea-d62e-9184e911047f@gmail.com> <20190902181207.GA18577@kroah.com>
+ <1cd468a3-b6e5-a93b-739a-f30288318356@gmail.com> <20190902190843.GB25019@kroah.com>
+In-Reply-To: <20190902190843.GB25019@kroah.com>
 From:   Akinobu Mita <akinobu.mita@gmail.com>
-Date:   Tue, 3 Sep 2019 22:13:16 +0900
-Message-ID: <CAC5umyhBkvWFaRpzJ=xtdnf_fLHe2OeJJ01sve8F6HA0=MuLMQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] PM-runtime: allow userspace to monitor runtime_status changes
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     linux-leds@vger.kernel.org, Linux PM <linux-pm@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Date:   Tue, 3 Sep 2019 22:55:40 +0900
+Message-ID: <CAC5umyjTJSMdKMtZbF8Uxky6nOrAHesTHmZRV5VA1uPwX2rtxA@mail.gmail.com>
+Subject: Re: [PATCH] leds: remove PAGE_SIZE limit of /sys/class/leds/<led>/trigger
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
@@ -60,88 +60,83 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-2019=E5=B9=B49=E6=9C=883=E6=97=A5(=E7=81=AB) 6:47 Rafael J. Wysocki <rafael=
-@kernel.org>:
+2019=E5=B9=B49=E6=9C=883=E6=97=A5(=E7=81=AB) 4:08 Greg KH <gregkh@linuxfoun=
+dation.org>:
 >
-> On Sun, Sep 1, 2019 at 4:09 PM Akinobu Mita <akinobu.mita@gmail.com> wrot=
-e:
+> On Mon, Sep 02, 2019 at 08:47:02PM +0200, Jacek Anaszewski wrote:
+> > On 9/2/19 8:12 PM, Greg KH wrote:
+> > > On Sun, Sep 01, 2019 at 06:53:34PM +0200, Jacek Anaszewski wrote:
+> > >> Hi Akinobu,
+> > >>
+> > >> Thank you for the patch.
+> > >>
+> > >> I have one nit below but in general it looks good to me.
+> > >> I've tested it with 2000 mtd triggers (~14kB file size)
+> > >> and it worked flawlessly.
+> > >>
+> > >> Still, I would like to have ack from Greg for it.
+> > >>
+> > >> Adding Greg on Cc.
+> > >>
+> > >> On 8/29/19 4:49 PM, Akinobu Mita wrote:
+> > >>> Reading /sys/class/leds/<led>/trigger returns all available LED tri=
+ggers.
+> > >>> However, the size of this file is limited to PAGE_SIZE because of t=
+he
+> > >>> limitation for sysfs attribute.
+> > >>>
+> > >>> Enabling LED CPU trigger on systems with thousands of CPUs easily h=
+its
+> > >>> PAGE_SIZE limit, and makes it impossible to see all available LED t=
+riggers
+> > >>> and which trigger is currently activated.
+> > >>>
+> > >>> This converts /sys/class/leds/<led>/trigger to bin attribute and re=
+moves
+> > >>> the PAGE_SIZE limitation.
+> > >
+> > > But this is NOT a binary file.  A sysfs binary file is used for when =
+the
+> > > kernel passes data to or from hardware without any parsing of the dat=
+a
+> > > by the kernel.
+> > >
+> > > You are not doing that here, you are abusing the "one value per file"
+> > > rule of sysfs so much that you are forced to work around the limitati=
+on
+> > > it put in place on purpose to keep you from doing stuff like this.
+> > >
+> > > Please fix this "correctly" by creating a new api that works properly
+> > > and just live with the fact that this file will never work correctly =
+and
+> > > move everyone to use the new api instead.
+> > >
+> > > Don't keep on abusing the interface by workarounds like this, it is n=
+ot
+> > > ok.
 > >
-> > This enables the /sys/devices/.../power/runtime_status attribute to
-> > allow the user space to get notifications via poll/select when the devi=
-ce
-> > runtime PM status is changed.
-> >
-> > An example use case is to avoid unnecessary accesses for device statist=
-ics
-> > (e.g. diskstats for block devices) while the device is in runtime suspe=
-nd
-> > by user space LED device actitity trigger.
-> >
-> > Cc: Alan Stern <stern@rowland.harvard.edu>
-> > Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-> > Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-> > Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
-> > ---
-> >  Documentation/ABI/testing/sysfs-devices-power | 2 ++
-> >  drivers/base/power/power.h                    | 1 +
-> >  drivers/base/power/runtime.c                  | 1 +
-> >  drivers/base/power/sysfs.c                    | 5 +++++
-> >  4 files changed, 9 insertions(+)
-> >
-> > diff --git a/Documentation/ABI/testing/sysfs-devices-power b/Documentat=
-ion/ABI/testing/sysfs-devices-power
-> > index 3e50536..47dc357 100644
-> > --- a/Documentation/ABI/testing/sysfs-devices-power
-> > +++ b/Documentation/ABI/testing/sysfs-devices-power
-> > @@ -269,3 +269,5 @@ Description:
-> >                 the current runtime PM status of the device, which may =
-be
-> >                 "suspended", "suspending", "resuming", "active", "error=
-" (fatal
-> >                 error), or "unsupported" (runtime PM is disabled).
-> > +               This attribute allows the user space to get notificatio=
-ns via
-> > +               poll/select when the device runtime PM status is change=
-d.
-> > diff --git a/drivers/base/power/power.h b/drivers/base/power/power.h
-> > index ec33fbdb..8891bf4 100644
-> > --- a/drivers/base/power/power.h
-> > +++ b/drivers/base/power/power.h
-> > @@ -74,6 +74,7 @@ extern int pm_qos_sysfs_add_flags(struct device *dev)=
-;
-> >  extern void pm_qos_sysfs_remove_flags(struct device *dev);
-> >  extern int pm_qos_sysfs_add_latency_tolerance(struct device *dev);
-> >  extern void pm_qos_sysfs_remove_latency_tolerance(struct device *dev);
-> > +extern void sysfs_notify_runtime_status(struct device *dev);
-> >
-> >  #else /* CONFIG_PM */
-> >
-> > diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.=
-c
-> > index b753355..3a3e413 100644
-> > --- a/drivers/base/power/runtime.c
-> > +++ b/drivers/base/power/runtime.c
-> > @@ -94,6 +94,7 @@ static void __update_runtime_status(struct device *de=
-v, enum rpm_status status)
-> >  {
-> >         update_pm_runtime_accounting(dev);
-> >         dev->power.runtime_status =3D status;
-> > +       sysfs_notify_runtime_status(dev);
+> > In the message [0] you pledged to give us exception for that, provided
+> > it will be properly documented in the code. I suppose you now object
+> > because the patch does not meet that condition.
 >
-> There are concerns about this.
+> Well, I honestly don't remember writing that email, but it was 5 months
+> and many thousands of emails ago :)
 >
-> First off, it adds overhead for devices that change the PM-runtime
-> status relatively often.  I'm not sure if that's sufficiently
-> justified.
+> Also, you all didn't document the heck out of this.  So no, I really do
+> not want to see this patch accepted as-is.
 >
-> Second, it is called for status changes from "active" to "suspending"
-> and from "suspending" to "suspended" (and analogously for resume)
-> which may not be particularly useful.  At least, user space may not
-> have enough time to act on such notifications.
+> > Provided that will be fixed, can we count on your ack for the
+> > implementation of the solution you proposed? :-)
 >
-> Finally, it is racy, because at the time user space does something on
-> a device PM-runtime status change, it very well may have changed the
-> other way around already.
+> Let's see the patch that actually implements what I suggested first :)
 
-I withdraw this patch now.  I hope I'll retry with a real use case example
-program.
+I'd propose introducing a new procfs file (/proc/led-triggers) and new
+/sys/class/leds/<led>/current-trigger api.
+
+Reading /proc/led-triggers file shows all available triggers.
+This violates "one value per file", but it's a procfs file.
+
+The /sys/class/leds/<led>/current-trigger is almost identical to
+/sys/class/leds/<led>/trigger.  The only difference is that
+'current-trigger' only shows the current trigger name.
+This file follows the "one value per file" rule of sysfs.
