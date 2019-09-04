@@ -2,55 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27CA2A9504
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Sep 2019 23:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B94AA950F
+	for <lists+linux-leds@lfdr.de>; Wed,  4 Sep 2019 23:23:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730435AbfIDVX3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 Sep 2019 17:23:29 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:33490 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730116AbfIDVX2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 Sep 2019 17:23:28 -0400
-Received: by mail-wm1-f68.google.com with SMTP id r17so3442533wme.0;
-        Wed, 04 Sep 2019 14:23:27 -0700 (PDT)
+        id S1730359AbfIDVXr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 4 Sep 2019 17:23:47 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46943 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730078AbfIDVXq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 Sep 2019 17:23:46 -0400
+Received: by mail-wr1-f67.google.com with SMTP id h7so270724wrt.13;
+        Wed, 04 Sep 2019 14:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Y+Va4jOQmGLhg7bFLiSApJ6fwpTUHrC2V1s+0I3W8rg=;
-        b=VAaoNHYI2cRRBMvYWrdRGORVZsFSD5Pk6eYy8WkqymT4TUJPcIimm66F2FIq6j6OJt
-         CGiFsf/CJ3aQcEbNPdwskoZKSLtcq1ewDYHhjBI4S98D5E6nLGGxioIAht9VxnsuI+wQ
-         MiAU0uOI9nD4F9PqXYvNo7anrDIQPJW21ScQb2siEHQxfV75PBPrUabr0C+lr6cmk6XJ
-         UNCGre4h1ewyFvzCWIryTew4vumxc4dkd/EzlzJamtBEmpZ/CsGcC0pqa9//m/3uKevU
-         vqQadQmPjaJRzl5iqUEkn5IW4nH9gtvflqeOFj/gPHK/8ntzX33R7FiVYFGpDLIfT5xJ
-         C1IA==
+        bh=K18yqezmByj+AxsEDfutZ4fE5qSxE5IhD1HzPxLKWig=;
+        b=AUxM1nLHkSr5gxkkqlmJP3IkF7D3swXmx7/BY32pJLLq/2CsCPhXzGCLMhvFLZ8GTQ
+         MIEIGECugOdcmttA5weUPPR0lVh7s2foBimgVdvwH2RZHraf+oVPzMoDZm8aefDw/hoi
+         xmGh1XA0Xn5z9b37MjZkvjuo92L4aGHyjF0YObJwFdx/ykG6/Pkxmew2k5S+B0DmAUmq
+         a2BkwfIsL+fqtVysMayLS3OezQhm75WAQwnnRIiV/EKHBGAE+0uSCxWm0OtsMqusrIhn
+         /ksuQl/WLGvgBVJOkWkK0Ki1Oreah2UOlnQf+rVN3yO8z3564LjoRR6Ng68xblTa+ffO
+         xovw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=Y+Va4jOQmGLhg7bFLiSApJ6fwpTUHrC2V1s+0I3W8rg=;
-        b=rJSiM2qs/KvavEdVCt2R/JsqunnoAz2SC1Ay38hIUBD6oQK/STCKiz8Vp0Cb3q+Vtr
-         bDuVvmeIfAap6EwS3wgtlUI9QZKh4HxvRNhkqTe3lDcVDDAhhEPW1W9nG94gQE0OKxeb
-         kwC0MUOTi9ad7OPOhe9okCmTt4QP1s7bJgaKz/bAkwcoJt1I3BAYW5SY1W7bVCNYqVLq
-         l1OiXX+tto0JVIbrIxzALGJ7fiionaCWa8Eg6e3zA4xr/vYFPHPTf9Tcx3AxsDaHsjTx
-         jywq50qYxMrTVr7aIVzlEwYy12kwYnHkrHDPgNhC35iw2qeGShpXt5Z01BtvgMZPs/1B
-         t+rg==
-X-Gm-Message-State: APjAAAXtS0Bim2OwSAQCR6YMTHd+P0e6eN4H56gJtiQkkcaQZz0/NX+l
-        YokqWFXDrysb3U7/yzSZxAyyiDS8
-X-Google-Smtp-Source: APXvYqzr5qG3Dl03+ShDC2ZCCXW7TzMp5J8ncVpvXmCUufJLR9sgOE9OtOuYJtPdO6rETBSJP0judA==
-X-Received: by 2002:a1c:9889:: with SMTP id a131mr249971wme.38.1567632206068;
-        Wed, 04 Sep 2019 14:23:26 -0700 (PDT)
+        bh=K18yqezmByj+AxsEDfutZ4fE5qSxE5IhD1HzPxLKWig=;
+        b=Z1fVpvcAZnn91Aib2OCVPh+zRgMQFozEm8FM4O7HnYYOHJ5HZSHmUfICg6c2GHGnBM
+         FxSmrRlLkw7+zEuT15SpdIgP87lbcQM2W85L9eusaXYS5DsXWg1/tKjZxXFEP2nNlGci
+         Pu+oOAfyq6GF8SpjbM8AQNFaLS+0MlrHJ6zRieZUgp7X4vSQasxEo7J1ZQWQ1dgAQEkt
+         SG9/iNMCCDTHzYYg4yJASiLmjoKpBOcn361c+8hv9uZeJyXDhlv1Cntv7Losz3sh5G8W
+         NUrGw7S3z65C1gYmen0BtH3fUfshbmpdJsNFsNLLfES6LF5KYqb0lN7ubnjw+EdurNkE
+         E7UA==
+X-Gm-Message-State: APjAAAXGrRYiYea6+/vhkC0Zh4QZs378fhpMI8Yu8gHvzSkTGuBSY8t+
+        teM6snCHrbFPgW5IRxKF1ZB+V8pD
+X-Google-Smtp-Source: APXvYqwSrrxhQGQZT4MPKnqISFH0LgNGClSn6VuuDDfS87j2kDus/KLYXAFMSVTDtazGQW2X8i0jng==
+X-Received: by 2002:adf:de08:: with SMTP id b8mr4450964wrm.200.1567632224243;
+        Wed, 04 Sep 2019 14:23:44 -0700 (PDT)
 Received: from [192.168.1.19] (cis91.neoplus.adsl.tpnet.pl. [83.31.42.91])
-        by smtp.gmail.com with ESMTPSA id b1sm242066wmj.4.2019.09.04.14.23.24
+        by smtp.gmail.com with ESMTPSA id a13sm47089wrf.73.2019.09.04.14.23.43
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 04 Sep 2019 14:23:25 -0700 (PDT)
-Subject: Re: [PATCH v5 2/2] leds: add LED driver for EL15203000 board
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, devicetree@vger.kernel.org,
-        linux-leds@vger.kernel.org
+        Wed, 04 Sep 2019 14:23:43 -0700 (PDT)
+Subject: Re: [PATCH v5 1/2] dt-bindings: Add docs for EL15203000
+To:     Rob Herring <robh@kernel.org>, Oleh Kravchenko <oleg@kaa.org.ua>
+Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org
 References: <20190830224619.15728-1-oleg@kaa.org.ua>
- <20190830224619.15728-2-oleg@kaa.org.ua>
+ <20190901191836.GA21686@bogus>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -109,12 +109,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <371b2ecd-034d-dd64-d47b-b7fcc99bedba@gmail.com>
-Date:   Wed, 4 Sep 2019 23:23:23 +0200
+Message-ID: <983c2f93-7a36-f43b-87a6-b4779dffb299@gmail.com>
+Date:   Wed, 4 Sep 2019 23:23:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190830224619.15728-2-oleg@kaa.org.ua>
+In-Reply-To: <20190901191836.GA21686@bogus>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -123,493 +123,27 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Oleh,
-
-Thank you for the updated set.
-
-Now it looks really good. Just few minor issues left.
-
-And side note - please address the patches also to maintainers,
-not only to the list.
-
-On 8/31/19 12:46 AM, Oleh Kravchenko wrote:
-> This patch adds a LED class driver for the RGB LEDs found on
-> the Crane Merchandising System EL15203000 LEDs board
-> (aka RED LEDs board).
+On 9/1/19 9:18 PM, Rob Herring wrote:
+> On Sat, 31 Aug 2019 01:46:18 +0300, Oleh Kravchenko wrote:
+>> Add documentation and example for dt-bindings EL15203000.
+>> LED board (aka RED LED board) from Crane Merchandising Systems.
+>>
+>> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+>> ---
+>>  .../bindings/leds/leds-el15203000.txt         | 54 +++++++++++++++++++
+>>  1 file changed, 54 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/leds/leds-el15203000.txt
+>>
 > 
-> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
-> ---
->  .../testing/sysfs-class-led-driver-el15203000 |  22 ++
->  drivers/leds/Kconfig                          |  13 +
->  drivers/leds/Makefile                         |   1 +
->  drivers/leds/leds-el15203000.c                | 362 ++++++++++++++++++
->  4 files changed, 398 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-el15203000
->  create mode 100644 drivers/leds/leds-el15203000.c
+> Please add Acked-by/Reviewed-by tags when posting new versions. However,
+> there's no need to repost patches *only* to add the tags. The upstream
+> maintainer will do that for acks received on the version they apply.
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-driver-el15203000 b/Documentation/ABI/testing/sysfs-class-led-driver-el15203000
-> new file mode 100644
-> index 000000000000..767763409125
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-class-led-driver-el15203000
-> @@ -0,0 +1,22 @@
-> +What:		/sys/class/leds/<led>/hw_pattern
-> +Date:		August 2019
-> +KernelVersion:	5.3
-
-Now it will be September and 5.5. It is late even for 5.4.
-
-> +Description:
-> +		Specify a hardware pattern for the EL15203000 LED.
-> +		The LEDs board supports only predefined patterns by firmware
-> +		for specific LEDs.
-> +
-> +		Breathing mode for Screen frame light tube:
-> +		"0 4000 1 4000"
-> +
-> +		Cascade mode for Pipe LED:
-> +		"1 800 2 800 4 800 8 800 16 800"
-> +
-> +		Inverted cascade mode for Pipe LED:
-> +		"30 800 29 800 27 800 23 800 15 800"
-> +
-> +		Bounce mode for Pipe LED:
-> +		"1 800 2 800 4 800 8 800 16 800 16 800 8 800 4 800 2 800 1 800"
-> +
-> +		Inverted bounce mode for Pipe LED:
-> +		"30 800 29 800 27 800 23 800 15 800 15 800 23 800 27 800 29 800 30 800"
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 1988de1d64c0..6e7703fd03d0 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -132,6 +132,19 @@ config LEDS_CR0014114
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called leds-cr0014114.
->  
-> +config LEDS_EL15203000
-> +	tristate "LED Support for Crane EL15203000"
-> +	depends on LEDS_CLASS
-> +	depends on SPI
-> +	depends on OF
-> +	help
-> +	  This option enables support for EL15203000 LED Board
-> +	  (aka RED LED board) which is widely used in coffee vending
-> +	  machines produced by Crane Merchandising Systems.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called leds-el15203000.
-> +
->  config LEDS_LM3530
->  	tristate "LCD Backlight driver for LM3530"
->  	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index 41fb073a39c1..2da39e896ce8 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -89,6 +89,7 @@ obj-$(CONFIG_LEDS_LM36274)		+= leds-lm36274.o
->  # LED SPI Drivers
->  obj-$(CONFIG_LEDS_CR0014114)		+= leds-cr0014114.o
->  obj-$(CONFIG_LEDS_DAC124S085)		+= leds-dac124s085.o
-> +obj-$(CONFIG_LEDS_EL15203000)		+= leds-el15203000.o
->  
->  # LED Userspace Drivers
->  obj-$(CONFIG_LEDS_USER)			+= uleds.o
-> diff --git a/drivers/leds/leds-el15203000.c b/drivers/leds/leds-el15203000.c
-> new file mode 100644
-> index 000000000000..9de81dee3618
-> --- /dev/null
-> +++ b/drivers/leds/leds-el15203000.c
-> @@ -0,0 +1,362 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (c) 2019 Crane Merchandising Systems. All rights reserved.
-> +// Copyright (C) 2019 Oleh Kravchenko <oleg@kaa.org.ua>
-> +
-> +#include <linux/delay.h>
-> +#include <linux/leds.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/spi/spi.h>
-> +
-> +/*
-> + * EL15203000 SPI protocol description:
-> + * +-----+---------+
-> + * | LED | COMMAND |
-> + * +-----+---------+
-> + * |  1  |    1    |
-> + * +-----+---------+
-> + * (*) LEDs MCU board expects 20 msec delay per byte.
-> + *
-> + * LEDs:
-> + * +----------+--------------+-------------------------------------------+
-> + * |    ID    |     NAME     |         DESCRIPTION                       |
-> + * +----------+--------------+-------------------------------------------+
-> + * | 'P' 0x50 |     Pipe     | Consists from 5 LEDs, controlled by board |
-> + * +----------+--------------+-------------------------------------------+
-> + * | 'S' 0x53 | Screen frame | Light tube around the screen              |
-> + * +----------+--------------+-------------------------------------------+
-> + * | 'V' 0x56 | Vending area | Highlights a cup of coffee                |
-> + * +----------+--------------+-------------------------------------------+
-> + *
-> + * COMMAND:
-> + * +----------+-----------------+--------------+--------------+
-> + * |  VALUES  |       PIPE      | SCREEN FRAME | VENDING AREA |
-> + * +----------+-----------------+--------------+--------------+
-> + * | '0' 0x30 |                      Off                      |
-> + * +----------+-----------------------------------------------+
-> + * | '1' 0x31 |                      On                       |
-> + * +----------+-----------------+--------------+--------------+
-> + * | '2' 0x32 |     Cascade     |   Breathing  |
-> + * +----------+-----------------+--------------+
-> + * | '3' 0x33 | Inverse cascade |
-> + * +----------+-----------------+
-> + * | '4' 0x34 |     Bounce      |
-> + * +----------+-----------------+
-> + * | '5' 0x35 | Inverse bounce  |
-> + * +----------+-----------------+
-> + */
-> +
-> +/* EL15203000 default settings */
-> +#define EL_FW_DELAY_USEC	20000ul
-> +#define EL_PATTERN_DELAY_MSEC	800u
-> +#define EL_PATTERN_LEN		10u
-> +#define EL_PATTERN_HALF_LEN	(EL_PATTERN_LEN / 2)
-> +
-> +enum el15203000_command {
-> +	/* for all LEDs */
-> +	EL_OFF			= '0',
-> +	EL_ON			= '1',
-> +
-> +	/* for Screen LED */
-> +	EL_SCREEN_BREATHING	= '2',
-> +
-> +	/* for Pipe LED */
-> +	EL_PIPE_CASCADE		= '2',
-> +	EL_PIPE_INV_CASCADE	= '3',
-> +	EL_PIPE_BOUNCE		= '4',
-> +	EL_PIPE_INV_BOUNCE	= '5',
-> +};
-> +
-> +struct el15203000_led {
-> +	struct el15203000	*priv;
-> +	struct led_classdev	ldev;
-> +	u8			reg;
-> +};
-> +
-> +struct el15203000 {
-> +	struct device		*dev;
-> +	struct mutex		lock;
-> +	struct spi_device	*spi;
-> +	unsigned long		delay;
-> +	size_t			count;
-> +	struct el15203000_led	leds[];
-> +};
-> +
-> +static int el15203000_cmd(struct el15203000_led *led, u8 brightness)
-> +{
-> +	int		ret;
-> +	u8		cmd[2];
-> +	size_t		i;
-> +
-> +	mutex_lock(&led->priv->lock);
-> +
-> +	dev_dbg(led->priv->dev, "Set brightness of 0x%02x(%c) to 0x%02x(%c)",
-> +		led->reg, led->reg, brightness, brightness);
-> +
-> +	/* to avoid SPI mistiming with firmware we should wait some time */
-> +	if (time_after(led->priv->delay, jiffies)) {
-> +		dev_dbg(led->priv->dev, "Wait %luus to sync",
-> +			EL_FW_DELAY_USEC);
-> +
-> +		usleep_range(EL_FW_DELAY_USEC,
-> +			     EL_FW_DELAY_USEC + 1);
-> +	}
-> +
-> +	cmd[0] = led->reg;
-> +	cmd[1] = brightness;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(cmd); i++) {
-> +		if (i)
-> +			usleep_range(EL_FW_DELAY_USEC,
-> +				     EL_FW_DELAY_USEC + 1);
-> +
-> +		ret = spi_write(led->priv->spi, &cmd[i], sizeof(cmd[i]));
-> +		if (ret) {
-> +			dev_err(led->priv->dev,
-> +				"spi_write() error %d", ret);
-> +			break;
-> +		}
-> +	}
-> +
-> +	led->priv->delay = jiffies + usecs_to_jiffies(EL_FW_DELAY_USEC);
-> +
-> +	mutex_unlock(&led->priv->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int el15203000_set_blocking(struct led_classdev *ldev,
-> +				   enum led_brightness brightness)
-> +{
-> +	struct el15203000_led	*led = container_of(ldev,
-> +						    struct el15203000_led,
-> +						    ldev);
-> +
-> +	return el15203000_cmd(led, brightness == LED_OFF ? EL_OFF : EL_ON);
-> +}
-> +
-> +static int el15203000_pattern_set_S(struct led_classdev *ldev,
-> +				    struct led_pattern *pattern,
-> +				    u32 len, int repeat)
-> +{
-> +	struct el15203000_led	*led = container_of(ldev,
-> +						    struct el15203000_led,
-> +						    ldev);
-> +
-> +	if (repeat > 0 || len != 2 ||
-> +	    pattern[0].delta_t != 4000 || pattern[0].brightness != 0 ||
-> +	    pattern[1].delta_t != 4000 || pattern[1].brightness != 1)
-> +		return -EINVAL;
-> +
-> +	dev_dbg(led->priv->dev, "Breathing mode for 0x%02x(%c)",
-> +		led->reg, led->reg);
-> +
-> +	return el15203000_cmd(led, EL_SCREEN_BREATHING);
-> +}
-> +
-> +static bool is_cascade(const struct led_pattern *pattern, u32 len,
-> +		       bool inv, bool right)
-> +{
-> +	int val, t;
-> +	u32 i;
-> +
-> +	if (len != EL_PATTERN_HALF_LEN)
-> +		return false;
-> +
-> +	val = right ? BIT(4) : BIT(0);
-> +
-> +	for (i = 0; i < len; i++) {
-> +		t = inv ? ~val & GENMASK(4, 0) : val;
-> +
-> +		if (pattern[i].delta_t != EL_PATTERN_DELAY_MSEC ||
-> +		    pattern[i].brightness != t)
-> +			return false;
-> +
-> +		val = right ? val >> 1 : val << 1;
-> +	}
-
-Nice!
-
-> +
-> +	return true;
-> +}
-> +
-> +static bool is_bounce(const struct led_pattern *pattern, u32 len, bool inv)
-> +{
-> +	if (len != EL_PATTERN_LEN)
-> +		return false;
-> +
-> +	return is_cascade(pattern, EL_PATTERN_HALF_LEN, inv, false) &&
-> +	       is_cascade(pattern +  EL_PATTERN_HALF_LEN,
-> +			  EL_PATTERN_HALF_LEN, inv, true);
-> +}
-> +
-> +static int el15203000_pattern_set_P(struct led_classdev *ldev,
-> +				    struct led_pattern *pattern,
-> +				    u32 len, int repeat)
-> +{
-> +	struct el15203000_led	*led = container_of(ldev,
-> +						    struct el15203000_led,
-> +						    ldev);
-> +
-> +	if (repeat > 0)
-
-This is wrong. Repeat has to be -1 or > 0. If all patterns supported
-by your device are infinite, then you should expect here -1.
-
-Either way this needs to be covered in the ABI documentation too.
-
-> +		return -EINVAL;
-> +
-> +	if (is_cascade(pattern, len, false, false)) {
-> +		dev_dbg(led->priv->dev, "Cascade mode for 0x%02x(%c)",
-> +			led->reg, led->reg);
-> +
-> +		return el15203000_cmd(led, EL_PIPE_CASCADE);
-> +	} else if (is_cascade(pattern, len, true, false)) {
-> +		dev_dbg(led->priv->dev, "Inverse cascade mode for 0x%02x(%c)",
-> +			led->reg, led->reg);
-> +
-> +		return el15203000_cmd(led, EL_PIPE_INV_CASCADE);
-> +	} else if (is_bounce(pattern, len, false)) {
-> +		dev_dbg(led->priv->dev, "Bounce mode for 0x%02x(%c)",
-> +			led->reg, led->reg);
-> +
-> +		return el15203000_cmd(led, EL_PIPE_BOUNCE);
-> +	} else if (is_bounce(pattern, len, true)) {
-> +		dev_dbg(led->priv->dev, "Inverse bounce mode for 0x%02x(%c)",
-> +			led->reg, led->reg);
-> +
-> +		return el15203000_cmd(led, EL_PIPE_INV_BOUNCE);
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int el15203000_pattern_clear(struct led_classdev *ldev)
-> +{
-> +	struct el15203000_led	*led = container_of(ldev,
-> +						    struct el15203000_led,
-> +						    ldev);
-> +
-> +	return el15203000_cmd(led, EL_OFF);
-> +}
-> +
-> +static int el15203000_probe_dt(struct el15203000 *priv)
-> +{
-> +	size_t			i = 0;
-> +	struct el15203000_led	*led;
-> +	struct fwnode_handle	*child;
-> +	int			ret;
-> +	u32			reg;
-> +	struct led_init_data	init_data = {};
-> +
-> +	device_for_each_child_node(priv->dev, child) {
-
-Please move above init_data initialization here.
-
-
-> +		led = &priv->leds[i];
-
-You can increment 'i' here, it is not used below and you will save one
-LOC:
-
-		led = &priv->leds[i++];
-
-> +
-> +		init_data.fwnode = child;
-
-Please move it to where it will be needed. i.e. one line above
-devm_led_classdev_register_ext().
-
-> +
-> +		ret = fwnode_property_read_u32(child, "reg", &reg);
-> +		if (ret) {
-> +			dev_err(priv->dev, "LED without ID number");
-> +			fwnode_handle_put(child);
-> +
-> +			return ret;
-> +		}
-> +
-> +		if (reg > U8_MAX) {
-> +			dev_err(priv->dev, "LED value %d is invalid", reg);
-> +			fwnode_handle_put(child);
-> +
-> +			return -EINVAL;
-> +		}
-> +
-> +		led->reg = reg;
-
-I'd just pass &led->reg directly to fwnode_property_read_u32().
-Then you'll be able to drop local reg variable.
-
-> +
-> +		fwnode_property_read_string(child, "linux,default-trigger",
-> +					    &led->ldev.default_trigger);
-> +
-> +		led->priv			  = priv;
-> +		led->ldev.max_brightness	  = LED_ON;
-> +		led->ldev.brightness_set_blocking = el15203000_set_blocking;
-> +
-> +		if (reg == 'S') {
-> +			led->ldev.pattern_set	= el15203000_pattern_set_S;
-> +			led->ldev.pattern_clear	= el15203000_pattern_clear;
-> +		} else if (reg == 'P') {
-> +			led->ldev.pattern_set	= el15203000_pattern_set_P;
-> +			led->ldev.pattern_clear	= el15203000_pattern_clear;
-> +		}
-> +
-> +		ret = devm_led_classdev_register_ext(priv->dev, &led->ldev,
-> +						     &init_data);
-> +		if (ret) {
-> +			dev_err(priv->dev,
-> +				"failed to register LED device %s, err %d",
-> +				led->ldev.name, ret);
-> +			fwnode_handle_put(child);
-> +
-> +			return ret;
-> +		}
-> +
-> +		i++;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int el15203000_probe(struct spi_device *spi)
-> +{
-> +	struct el15203000	*priv;
-> +	size_t			count;
-> +	int			ret;
-> +
-> +	count = device_get_child_node_count(&spi->dev);
-> +	if (!count) {
-> +		dev_err(&spi->dev, "LEDs are not defined in device tree!");
-> +		return -ENODEV;
-> +	}
-> +
-> +	priv = devm_kzalloc(&spi->dev, struct_size(priv, leds, count),
-> +			    GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&priv->lock);
-> +	priv->count	= count;
-> +	priv->dev	= &spi->dev;
-> +	priv->spi	= spi;
-> +	priv->delay	= jiffies -
-> +			  usecs_to_jiffies(EL_FW_DELAY_USEC);
-> +
-> +	ret = el15203000_probe_dt(priv);
-> +	if (ret)
-> +		return ret;
-> +
-> +	spi_set_drvdata(spi, priv);
-> +
-> +	return 0;
-> +}
-> +
-> +static int el15203000_remove(struct spi_device *spi)
-> +{
-> +	struct el15203000 *priv = spi_get_drvdata(spi);
-> +
-> +	mutex_destroy(&priv->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id el15203000_dt_ids[] = {
-> +	{ .compatible = "crane,el15203000", },
-> +	{},
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, el15203000_dt_ids);
-> +
-> +static struct spi_driver el15203000_driver = {
-> +	.probe		= el15203000_probe,
-> +	.remove		= el15203000_remove,
-> +	.driver = {
-> +		.name		= KBUILD_MODNAME,
-> +		.of_match_table	= el15203000_dt_ids,
-> +	},
-> +};
-> +
-> +module_spi_driver(el15203000_driver);
-> +
-> +MODULE_AUTHOR("Oleh Kravchenko <oleg@kaa.org.ua>");
-> +MODULE_DESCRIPTION("el15203000 LED driver");
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_ALIAS("spi:el15203000");
+> If a tag was not added on purpose, please state why and what changed.
 > 
+
+Actually there has been some rework involved after acked v3, so dropping
+the tag was justified.
 
 -- 
 Best regards,
