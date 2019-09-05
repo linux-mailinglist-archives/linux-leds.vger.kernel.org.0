@@ -2,53 +2,61 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6A61AAD28
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Sep 2019 22:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D4FAAAD3A
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Sep 2019 22:41:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730476AbfIEUiC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 Sep 2019 16:38:02 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:36958 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728072AbfIEUiB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Sep 2019 16:38:01 -0400
-Received: by mail-wm1-f68.google.com with SMTP id r195so4622553wme.2
-        for <linux-leds@vger.kernel.org>; Thu, 05 Sep 2019 13:37:59 -0700 (PDT)
+        id S2390380AbfIEUlw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 Sep 2019 16:41:52 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41129 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388260AbfIEUlw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Sep 2019 16:41:52 -0400
+Received: by mail-wr1-f65.google.com with SMTP id h7so3259623wrw.8;
+        Thu, 05 Sep 2019 13:41:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=LxNhLGbnIEXUPFvuZzktNAfBjTBixsewDhHpq44e/JU=;
-        b=lf0BKasKs6merZi73PgF2sKPOkJWoMd0mxb9T9ih8h7EwcUWyPU1Yq6OFd/QYgzXV2
-         lvbGCAKxvi1cZ4ujZAJewRpC2ChEHpZJt5ipXT07o7FZtzv61mo+ENST29RxWqADGHCZ
-         ZiYUkIcxP/SqdrRxYwsaHJGd8pL6aY+vKp4rcooWakCzgcxY2che/Xke6BGO5T9lEGLi
-         H9m3I4mxqk8H4xC9apshk92AYvRr/jS1gj2lcSoqjkqCRDrv/+pAVJHY5RYov0xot/xw
-         S7dNg7oJvP4AS3tQGty0ghQNrl1ZM5x4XXy7X+lm+ZZRwFUPHwCoQPIKjdSB7h8rsY3V
-         gB7Q==
+        bh=QuArjzMf2knHsrXJUNnbQwGWPd7vhHRxYUrOA3Vg1dg=;
+        b=SF+FgKjyyZhCmG8WF2kZLrPYG9BaEvJDAEj5G7wjUGt3dcUUAj5dXroZBd+hOpObMY
+         UUu8kVozvEnvUfjisxElAkeN/K8c/j7PIZT2gsYK/cAyebpj36DC1+T0bz2swwXCOIb5
+         d3xc44BrsDvhbhHdsrQJja+WGQeaggnArdV45/hHjENXFl0cfNRucXmshwIJ8o9wKCen
+         BaN7nZXVJLuL+t0hw1d5spFNrKr2GvL8PUpSKcJB28rUI7tXe8+59rcpxJ3quPzi3bbI
+         Yp4+qs8/OA3sEup4/hneA3C9gKF8gApOPO2DnwES9HPr8MOCJ3BuU7z3uSPGvlE00fVZ
+         ShFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=LxNhLGbnIEXUPFvuZzktNAfBjTBixsewDhHpq44e/JU=;
-        b=nEdwnnnPN/tOivPMbmtzfCIE3UMFub8fpBfxXQCz9PB1291G3slPT4CHR+Yl7z2LL1
-         OpLhw4iGFijqmrCgLQjSs0X/RviieYkd8qFIlWYlL90Wj4T/OLszwdh6Cl7Vi/CopLR7
-         U14LuavmD/+eZK8y/zH1U98hiRUHwxHFYtOKTY4BSJh6stkT+J2ajylJny9X94p5CBCu
-         UdCoMAw01pIXb09TFxB2XkZRsvVA0vsXuaPir2azlMObmCwdKQjJH2SJHGD6Idzi1DRq
-         bZDH7k3YoEJKxP9jRsIWpkRlsBmtmIf5iWDSVhMwRfZoxQPbTt/7J4LM3EKwIIS1UKrg
-         QPuQ==
-X-Gm-Message-State: APjAAAViRdAiNAcUZnwMpux34l84y5qBAOGbhxNX+TZam7Cw/DXd3LIa
-        fkZKHcgoPlmYLit4R1GkphLloqim
-X-Google-Smtp-Source: APXvYqw+5JGHAKvbv8E2MuwScQXHFYHck5bHtiTH/HlF7FQmnAfJMEEPjUkSb0jSaIxT7kpaU+eVZQ==
-X-Received: by 2002:a1c:9641:: with SMTP id y62mr4224237wmd.161.1567715878750;
-        Thu, 05 Sep 2019 13:37:58 -0700 (PDT)
+        bh=QuArjzMf2knHsrXJUNnbQwGWPd7vhHRxYUrOA3Vg1dg=;
+        b=oJvk1/ez3saKYMzV+YsU7HwMAcbZRWXjHhyNlHbaDroSXhhgbCJyf/Lrq4tTNyk6v3
+         Wgb0aR7tQLHQw0h5NDMoLqfwdOkzvWPc+5vUVwdKBl1HS0vCJR7hafJMFjw2XpyuaK8U
+         djgOGBPGmtvC4vMbrjn9KaYVYDEkIguxjx94P14WDLdiSsaqVeLiBVgKYDZomDYHVTaW
+         bmsszggfvNx0NYVN87U2K+JIEUs6qndJ2aZgYhaQkt7qddHlDDpR6rNnDvbmYBnKvoZm
+         A8cvOyOmrAYLt6uAGT+49iS195Tu4xd9AnCHa+MvK0j82/PX5rCfF+w+WkgdEIH1oxRc
+         jvZw==
+X-Gm-Message-State: APjAAAUN3sZY3J94TQaX6h5FGtR7FuVmictS8ggVcU7aWrFkEx032Pen
+        l5SuJxel/Uo3UCQaw5yklimvOfB2
+X-Google-Smtp-Source: APXvYqxtax4X4dmR/lcEqmfeLfq9gIQM/EzJWvg7u+5Sq/9YmpkPxU7bdMXoprGkavpIycll+aLWJw==
+X-Received: by 2002:a05:6000:152:: with SMTP id r18mr4506951wrx.153.1567716108924;
+        Thu, 05 Sep 2019 13:41:48 -0700 (PDT)
 Received: from [192.168.1.19] (chd230.neoplus.adsl.tpnet.pl. [83.31.1.230])
-        by smtp.gmail.com with ESMTPSA id y14sm5234495wrd.84.2019.09.05.13.37.57
+        by smtp.gmail.com with ESMTPSA id d12sm3316374wme.33.2019.09.05.13.41.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 05 Sep 2019 13:37:58 -0700 (PDT)
-Subject: Re: [PATCH] led: triggers: Fix dereferencing of null pointer
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, linux-leds@vger.kernel.org
-References: <20190903211819.23578-1-oleg@kaa.org.ua>
+        Thu, 05 Sep 2019 13:41:47 -0700 (PDT)
+Subject: Re: [PATCH] led: triggers: Fix NULL dereference in led_trigger_set()
+ error handling
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Oleh Kravchenko <oleg@kaa.org.ua>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20190905095728.GA26005@mwanda>
+ <20190905120626.hyegecmy6hf5lvhj@pengutronix.de>
+ <BC1CA967-2B9F-44A4-A1A9-FD9C6E874991@kaa.org.ua>
+ <20190905124641.eo4a6ld77q2f2prl@pengutronix.de>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -107,12 +115,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <866fbf2c-ecdf-7e67-40ec-fb06bef31c6e@gmail.com>
-Date:   Thu, 5 Sep 2019 22:37:55 +0200
+Message-ID: <f6944fdb-5285-c88c-d227-88c1fef04568@gmail.com>
+Date:   Thu, 5 Sep 2019 22:41:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190903211819.23578-1-oleg@kaa.org.ua>
+In-Reply-To: <20190905124641.eo4a6ld77q2f2prl@pengutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -121,45 +129,46 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Oleh,
-
-Thank you for the patch
-
-On 9/3/19 11:18 PM, Oleh Kravchenko wrote:
-> Error was detected by PVS-Studio:
-> V522 Dereferencing of the null pointer 'led_cdev->trigger' might take place.
+On 9/5/19 2:46 PM, Uwe Kleine-König wrote:
+> On Thu, Sep 05, 2019 at 03:23:21PM +0300, Oleh Kravchenko wrote:
+>> Hello Jacek,
+>>
+>>> 5 вер. 2019 р. о 3:06 пп Uwe Kleine-König <u.kleine-koenig@pengutronix.de> написав(ла):
+>>>
+>>> Hello,
+>>>
+>>> On Thu, Sep 05, 2019 at 12:57:28PM +0300, Dan Carpenter wrote:
+>>>> The problem is we set "led_cdev->trigger = NULL;" and then dereference
+>>>> it when we call write_lock_irqsave():
+>>>>
+>>>> 	write_lock_irqsave(&led_cdev->trigger->leddev_list_lock, flags);
+>>>>                            ^^^^^^^^^^^^^^^^^
+>>>>
+>>>> Fixes: 2282e125a406 ("leds: triggers: let struct led_trigger::activate() return an error code")
+>>>> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+>>>
+>>> Obviously right. Thanks for catching.
+>>>
+>>> Reviewed-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+>>>
+>>> Did you find this at runtime or by using some static checker?
+>>
+>> Let me summarize the chronology of the last activities below:
+>> 1. I have sent the patch for the bugs that I have found by static analyzer at PVS-Studio
+>>     Date: Wed, 4 Sep 2019 00:18:19 +0300
+>>     https://www.spinics.net/lists/linux-leds/msg13181.html
+>>
+>> 2. At 5 Sep 2019 12:57:19 +0300 Time Dan Cartpen has sent the patch with the same proposal
+>> 3. Uwe Kleine-König started to discuss his results of review by asking Dan on how he was found it.
+>>
+>> Would you mine if you will keep me as a Original author of this patch based on fact 1?
 > 
-> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
-> ---
->  drivers/leds/led-triggers.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> I don't care much personally but it seems fair to take Oleh's version. I
+> didn't see Oleh's patch before as only Dan's was Cc:d to me.
 > 
-> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-> index eff1bda8b520..23963e5cb5d6 100644
-> --- a/drivers/leds/led-triggers.c
-> +++ b/drivers/leds/led-triggers.c
-> @@ -167,11 +167,11 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
->  		trig->deactivate(led_cdev);
->  err_activate:
->  
-> -	led_cdev->trigger = NULL;
-> -	led_cdev->trigger_data = NULL;
->  	write_lock_irqsave(&led_cdev->trigger->leddev_list_lock, flags);
->  	list_del(&led_cdev->trig_list);
->  	write_unlock_irqrestore(&led_cdev->trigger->leddev_list_lock, flags);
-> +	led_cdev->trigger = NULL;
-> +	led_cdev->trigger_data = NULL;
->  	led_set_brightness(led_cdev, LED_OFF);
->  	kfree(event);
->  
-> 
+> Feel free to add my Reviewed-by also to Oleh's patch of course.
 
-Added tag:
-
-Fixes: 2282e125a406 ("leds: triggers: let struct led_trigger::activate()
-return an error code")
-
-and applied.
+I've applied the patch from Oleh then, and added your Reviewed-by.
 
 -- 
 Best regards,
