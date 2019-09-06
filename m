@@ -2,122 +2,132 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 15EC2AB94E
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Sep 2019 15:33:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1AC1ABEEE
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Sep 2019 19:46:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405135AbfIFNdh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 6 Sep 2019 09:33:37 -0400
-Received: from smtp.220.in.ua ([89.184.67.205]:54369 "EHLO smtp.220.in.ua"
+        id S2389559AbfIFRqL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 6 Sep 2019 13:46:11 -0400
+Received: from mga07.intel.com ([134.134.136.100]:28159 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405133AbfIFNdh (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 6 Sep 2019 09:33:37 -0400
-Received: from [10.0.18.83] (unknown [95.164.50.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by smtp.220.in.ua (Postfix) with ESMTPSA id 1CA601A24460;
-        Fri,  6 Sep 2019 16:33:34 +0300 (EEST)
-Subject: Re: EL15203000
-From:   Oleh Kravchenko <oleg@kaa.org.ua>
-To:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz
-References: <20190906132916.12423-1-oleg@kaa.org.ua>
-Openpgp: preference=signencrypt
-Autocrypt: addr=oleg@kaa.org.ua; keydata=
- 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
- WVdfrwbus0lVCELNSvCIW2IktSytUxjQfmjBMw==
-Message-ID: <f43c6f3a-859d-e180-ad09-6876926dbe87@kaa.org.ua>
-Date:   Fri, 6 Sep 2019 16:33:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726626AbfIFRqL (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 6 Sep 2019 13:46:11 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Sep 2019 10:46:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,473,1559545200"; 
+   d="scan'208";a="177706735"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 06 Sep 2019 10:46:06 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1i6IJB-00032q-1U; Fri, 06 Sep 2019 20:46:05 +0300
+Date:   Fri, 6 Sep 2019 20:46:05 +0300
+From:   "Shevchenko, Andriy" <andriy.shevchenko@intel.com>
+To:     Nikolaus Voss <nv@vosn.de>
+Cc:     "Schmauss, Erik" <erik.schmauss@intel.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        "Moore, Robert" <robert.moore@intel.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "devel@acpica.org" <devel@acpica.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
+Subject: Re: [PATCH 1/3] ACPI: Resolve objects on host-directed table loads
+Message-ID: <20190906174605.GY2680@smile.fi.intel.com>
+References: <cover.1559127603.git.nikolaus.voss@loewensteinmedical.de>
+ <8704391ae3004a6b4dd17975dbcc9e88bd28cf4b.1559127603.git.nikolaus.voss@loewensteinmedical.de>
+ <20190814185055.GZ30120@smile.fi.intel.com>
+ <CF6A88132359CE47947DB4C6E1709ED53C61A211@ORSMSX122.amr.corp.intel.com>
+ <alpine.DEB.2.20.1908161345590.41303@fox.voss.local>
+ <20190830145348.GM2680@smile.fi.intel.com>
+ <alpine.DEB.2.20.1909040913230.15999@fox.voss.local>
 MIME-Version: 1.0
-In-Reply-To: <20190906132916.12423-1-oleg@kaa.org.ua>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <alpine.DEB.2.20.1909040913230.15999@fox.voss.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Sorry,
-I screwed up with Subject :(
+On Wed, Sep 04, 2019 at 09:20:03AM +0200, Nikolaus Voss wrote:
+> On Fri, 30 Aug 2019, Shevchenko, Andriy wrote:
+> > On Fri, Aug 16, 2019 at 01:57:26PM +0200, Nikolaus Voss wrote:
+> > > On Wed, 14 Aug 2019, Schmauss, Erik wrote:
+> > > > > -----Original Message-----
+> > > > > From: Shevchenko, Andriy
+> > > > > Sent: Wednesday, August 14, 2019 11:51 AM
+> > > > > To: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
+> > > > > Cc: Rafael J. Wysocki <rjw@rjwysocki.net>; Len Brown <lenb@kernel.org>;
+> > > > > Moore, Robert <robert.moore@intel.com>; Schmauss, Erik
+> > > > > <erik.schmauss@intel.com>; Jacek Anaszewski <jacek.anaszewski@gmail.com>;
+> > > > > Pavel Machek <pavel@ucw.cz>; Dan Murphy <dmurphy@ti.com>; Thierry
+> > > > > Reding <thierry.reding@gmail.com>; linux-acpi@vger.kernel.org;
+> > > > > devel@acpica.org; linux-leds@vger.kernel.org; linux-pwm@vger.kernel.org
+> > > > > Subject: Re: [PATCH 1/3] ACPI: Resolve objects on host-directed table loads
+> > > > > 
+> > > > > On Wed, May 29, 2019 at 02:18:20PM +0200, Nikolaus Voss wrote:
+> > > > > > If an ACPI SSDT overlay is loaded after built-in tables have been
+> > > > > > loaded e.g. via configfs or efivar_ssdt_load() it is necessary to
+> > > > > > rewalk the namespace to resolve references. Without this, relative and
+> > > > > > absolute paths like ^PCI0.SBUS or \_SB.PCI0.SBUS are not resolved
+> > > > > > correctly.
+> > > > > > 
+> > > > > > Make configfs load use the same method as efivar_ssdt_load().
+> > > > > 
+> > > > > This patch brought a regression (bisect log below).
+> > > > > Now I'm unable to unload the table which was working before.
+> > > > > 
+> > > > > Reverting (manual, due to ACPICA changes) helps.
+> > > > > 
+> > > > > Please, consider to revert for this cycle, or fix. I will be glad to test any
+> > > > > proposed fix.
+> > > > 
+> > > > We submitted a patch (d1fb5b2f623b1af5a0d2a83d205df1b61f430dc6)
+> > > > in response to this suggestion and I was not aware that this had been applied.
+> > > > 
+> > > > Rafael, please revert at least the ACPICA portion of this patch.
+> > > 
+> > > As I see it, my ACPICA change is not part of 5.3-rc1 any more. Reverting my
+> > > fix is part of the patch above (d1fb5b2f623b1af5a0d2a83d205df1b61f430dc6)
+> > > which is already applied.
+> > > 
+> > > Nevertheless, what is new, is that acpi_ns_initialize_objects() is called in
+> > > acpi_load_table(). This is necessary to resolve the references in the newly
+> > > loaded table. Maybe this prevents the table from being unloaded?
+> > 
+> > So, can we do something about it? It's a regression.
+> > 
+> > Rafael, Nikolaus?
+> 
+> can you describe how you unload the table (from userspace?). I cannot
+> reproduce this regression. I was not aware of any working interface for
+> unloading ACPI tables, I ended up in kexec'ing the kernel for my tests each
+> time I had to unload a table.
 
-06.09.19 16:29, Oleh Kravchenko пише:
-> [PATCH v6 1/2] dt-bindings: Add docs for EL15203000
-> [PATCH v6 2/2] leds: add LED driver for EL15203000 board
->
-> Reworked few minor issues:
-> - added 'repeat' entity in test documentation
-> - removed variable i
-> - few lines of code was moved to make code clear
+Sure.
+
+I have connected an I�C device(s) to my board where I have compiled ACPI tables
+which describes them (more details if you want to know is on [1]).
+
+So, I create a folder in ConfigFS [1,2] and fill it up with SSDT (an *.aml file).
+After this, if I try to remove the folder in ConfigFS followed by table removal
+event, the actual nodes won't be removed, and this messes up with the internal
+representation of the ACPI device tree.
+
+[1]: https://www.kernel.org/doc/html/latest/admin-guide/acpi/ssdt-overlays.html
+[2]: https://htot.github.io/meta-intel-edison/1.3-ACPI-or-not.html#run-time-loading-through-configfs
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
