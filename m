@@ -2,132 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1AC1ABEEE
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Sep 2019 19:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0DCEAC3F5
+	for <lists+linux-leds@lfdr.de>; Sat,  7 Sep 2019 03:36:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389559AbfIFRqL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 6 Sep 2019 13:46:11 -0400
-Received: from mga07.intel.com ([134.134.136.100]:28159 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726626AbfIFRqL (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 6 Sep 2019 13:46:11 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Sep 2019 10:46:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,473,1559545200"; 
-   d="scan'208";a="177706735"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 06 Sep 2019 10:46:06 -0700
-Received: from andy by smile with local (Exim 4.92.1)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1i6IJB-00032q-1U; Fri, 06 Sep 2019 20:46:05 +0300
-Date:   Fri, 6 Sep 2019 20:46:05 +0300
-From:   "Shevchenko, Andriy" <andriy.shevchenko@intel.com>
-To:     Nikolaus Voss <nv@vosn.de>
-Cc:     "Schmauss, Erik" <erik.schmauss@intel.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        "Moore, Robert" <robert.moore@intel.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "devel@acpica.org" <devel@acpica.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
-Subject: Re: [PATCH 1/3] ACPI: Resolve objects on host-directed table loads
-Message-ID: <20190906174605.GY2680@smile.fi.intel.com>
-References: <cover.1559127603.git.nikolaus.voss@loewensteinmedical.de>
- <8704391ae3004a6b4dd17975dbcc9e88bd28cf4b.1559127603.git.nikolaus.voss@loewensteinmedical.de>
- <20190814185055.GZ30120@smile.fi.intel.com>
- <CF6A88132359CE47947DB4C6E1709ED53C61A211@ORSMSX122.amr.corp.intel.com>
- <alpine.DEB.2.20.1908161345590.41303@fox.voss.local>
- <20190830145348.GM2680@smile.fi.intel.com>
- <alpine.DEB.2.20.1909040913230.15999@fox.voss.local>
+        id S2406421AbfIGBgZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 6 Sep 2019 21:36:25 -0400
+Received: from mail-vk1-f194.google.com ([209.85.221.194]:35936 "EHLO
+        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731824AbfIGBgY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 6 Sep 2019 21:36:24 -0400
+Received: by mail-vk1-f194.google.com with SMTP id b25so1684060vkk.3
+        for <linux-leds@vger.kernel.org>; Fri, 06 Sep 2019 18:36:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=C+0rVi6PzTMFYTcbcIBgVtgcdKuod3fbgGTlJ3s1Cbc=;
+        b=Kth8Yn8aqwQ1dhbwv8aljGXK+vO+aYz2h+EwTzc6TJdoDTjm26cqgjCKCFYRHpukrq
+         yFGAv4Zx4wzTUBgH3rjYAhuCwrGmyX4BdnlQjlmXCq1J6OSpbrVLDUEWZBQHoKfcz9gq
+         +DFt4QKyeCdT3HCRFFYGZJpbK6XQo62gcPX4skasse3Aa9JY9/kgqheoZ/CjJEzPMoZs
+         8TcDL6ToAtBldB0xTMBobwfnDZHHwiCI+zlrnzWJ7iynAgP0T0Bqlm8M2cZvSXnJvlP1
+         Hi6GBOsBkOmZZCvMPwxQo2WeO4n2XX2XHaaRhb0S0Q8Ef5uW5Hzz0IRBH2APyJkvsjun
+         V3NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=C+0rVi6PzTMFYTcbcIBgVtgcdKuod3fbgGTlJ3s1Cbc=;
+        b=KWFz9HyAAtiPLFtO8p/zdo2OMZoU3z/TyDu3h+mu3EkG0NqjRKSfVU1N/uRZcHFrJE
+         U0CEQxOfluQWCmp303jlJr+nJOnh3TZMuxEd1JeRa9UlwgCx7OE0DmLE+JIf4QIQqGJZ
+         xy2WgHTjCrpY4SlY8lLZP6JIVduI9HaovlK6/lIYS8Kmy6kUzmMek1jyjbwpzdOUL+iR
+         TzE6fDF0JleG9XcqgR0ytC1HtcpaGkcyqUz74goyvm2FK73giVZ/ichMxP3ViFmBkROq
+         G9+lOlKzwU328jZu73DKA+xm/nvvXVlnRkJAnMQqfkkF8l7acKIT1wFMnES7OiNlXioh
+         ZdmA==
+X-Gm-Message-State: APjAAAWMhNo//ROfD4CVg2+8LcaUaXkUo1eEURinLDoDL38wIbM+6x9+
+        o1aoJBaXhMSlBHbBezplCXg6l/THq0m6kDhiFBQ=
+X-Google-Smtp-Source: APXvYqz1GfU0vDtDXeK0mLFRBtS62H7V36hYGsFYnoEydiORGIr+Qtqo7DhRnADq4IEXbFXiL26+YfYJSNooKcpNnIo=
+X-Received: by 2002:ac5:c659:: with SMTP id j25mr1551208vkl.30.1567820183862;
+ Fri, 06 Sep 2019 18:36:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <alpine.DEB.2.20.1909040913230.15999@fox.voss.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a1f:c545:0:0:0:0:0 with HTTP; Fri, 6 Sep 2019 18:36:23 -0700 (PDT)
+Reply-To: waltonalice41@gmail.com
+From:   Alice Walton <saraharmony501@gmail.com>
+Date:   Sat, 7 Sep 2019 02:36:23 +0100
+Message-ID: <CAHoQAbXM9q3oYC7yxf2PeVUcncM7eCNNjMqy+D5BsXQ_86hp6w@mail.gmail.com>
+Subject: Please forgive me
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Sep 04, 2019 at 09:20:03AM +0200, Nikolaus Voss wrote:
-> On Fri, 30 Aug 2019, Shevchenko, Andriy wrote:
-> > On Fri, Aug 16, 2019 at 01:57:26PM +0200, Nikolaus Voss wrote:
-> > > On Wed, 14 Aug 2019, Schmauss, Erik wrote:
-> > > > > -----Original Message-----
-> > > > > From: Shevchenko, Andriy
-> > > > > Sent: Wednesday, August 14, 2019 11:51 AM
-> > > > > To: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
-> > > > > Cc: Rafael J. Wysocki <rjw@rjwysocki.net>; Len Brown <lenb@kernel.org>;
-> > > > > Moore, Robert <robert.moore@intel.com>; Schmauss, Erik
-> > > > > <erik.schmauss@intel.com>; Jacek Anaszewski <jacek.anaszewski@gmail.com>;
-> > > > > Pavel Machek <pavel@ucw.cz>; Dan Murphy <dmurphy@ti.com>; Thierry
-> > > > > Reding <thierry.reding@gmail.com>; linux-acpi@vger.kernel.org;
-> > > > > devel@acpica.org; linux-leds@vger.kernel.org; linux-pwm@vger.kernel.org
-> > > > > Subject: Re: [PATCH 1/3] ACPI: Resolve objects on host-directed table loads
-> > > > > 
-> > > > > On Wed, May 29, 2019 at 02:18:20PM +0200, Nikolaus Voss wrote:
-> > > > > > If an ACPI SSDT overlay is loaded after built-in tables have been
-> > > > > > loaded e.g. via configfs or efivar_ssdt_load() it is necessary to
-> > > > > > rewalk the namespace to resolve references. Without this, relative and
-> > > > > > absolute paths like ^PCI0.SBUS or \_SB.PCI0.SBUS are not resolved
-> > > > > > correctly.
-> > > > > > 
-> > > > > > Make configfs load use the same method as efivar_ssdt_load().
-> > > > > 
-> > > > > This patch brought a regression (bisect log below).
-> > > > > Now I'm unable to unload the table which was working before.
-> > > > > 
-> > > > > Reverting (manual, due to ACPICA changes) helps.
-> > > > > 
-> > > > > Please, consider to revert for this cycle, or fix. I will be glad to test any
-> > > > > proposed fix.
-> > > > 
-> > > > We submitted a patch (d1fb5b2f623b1af5a0d2a83d205df1b61f430dc6)
-> > > > in response to this suggestion and I was not aware that this had been applied.
-> > > > 
-> > > > Rafael, please revert at least the ACPICA portion of this patch.
-> > > 
-> > > As I see it, my ACPICA change is not part of 5.3-rc1 any more. Reverting my
-> > > fix is part of the patch above (d1fb5b2f623b1af5a0d2a83d205df1b61f430dc6)
-> > > which is already applied.
-> > > 
-> > > Nevertheless, what is new, is that acpi_ns_initialize_objects() is called in
-> > > acpi_load_table(). This is necessary to resolve the references in the newly
-> > > loaded table. Maybe this prevents the table from being unloaded?
-> > 
-> > So, can we do something about it? It's a regression.
-> > 
-> > Rafael, Nikolaus?
-> 
-> can you describe how you unload the table (from userspace?). I cannot
-> reproduce this regression. I was not aware of any working interface for
-> unloading ACPI tables, I ended up in kexec'ing the kernel for my tests each
-> time I had to unload a table.
+My Dearest,
 
-Sure.
+Please forgive me for stressing you with my predicaments as I know
+that this letter may come to you as a big surprise.
 
-I have connected an I²C device(s) to my board where I have compiled ACPI tables
-which describes them (more details if you want to know is on [1]).
+Actually, I came across your E-mail from my personal search afterward
+I decided to email you directly believing that you will be honest to
+fulfil my final wish before anything happens to me. Meanwhile, I am
+Madam Alice Walton, 71 years old childless widow from France but i
+reside and doing Gold mining business in Africa before i fall sick.
 
-So, I create a folder in ConfigFS [1,2] and fill it up with SSDT (an *.aml file).
-After this, if I try to remove the folder in ConfigFS followed by table removal
-event, the actual nodes won't be removed, and this messes up with the internal
-representation of the ACPI device tree.
+I am suffering from Adenocarcinoma Cancer of the lungs for the past 8
+years and from all indication my condition is really deteriorating as
+my doctors have confirmed and courageously advised me that I may not
+live beyond 3 weeks from now for the reason that my tumor has reached
+a critical stage which has defiled all forms of medical treatment.
 
-[1]: https://www.kernel.org/doc/html/latest/admin-guide/acpi/ssdt-overlays.html
-[2]: https://htot.github.io/meta-intel-edison/1.3-ACPI-or-not.html#run-time-loading-through-configfs
+Since my days are numbered, I=E2=80=99ve decided willingly to fulfil my
+long-time vow to donate to the less privileges the sum of($18.5
+million dollars) I deposited in my offshore account over 7 years now
+because I have tried to handle this project by myself but I have seen
+that my health could not allow me to do so anymore.
 
--- 
-With Best Regards,
-Andy Shevchenko
+My promise to God includes building of well-equipped charity
+foundation/hospital and a technical school for the orphans and less
+privileges.
 
+Since i am not capable to handle this again myself due to my critical
+health condition,please i need your consent to help me receive my
+money from the bank and use it to do this divine works of God in your
+country in my name so that my soul can be at rest if anything happens
+to me.
 
+If you will be honest, kind and willing to assist me handle this
+charity project as I=E2=80=99ve mentioned here, I will like you to provide =
+me
+your personal data like,
+
+(1) Your full name:
+(2) country:
+(3) Occupation:
+(4) phone number:
+(5) Age:
+
+Let me have this data so that i can link you up with my bank as my
+representative and receiver of the funds now that i am still alive.
+
+Warmest Regards!
+Mrs. Alice Walton
