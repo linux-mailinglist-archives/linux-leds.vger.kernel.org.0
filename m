@@ -2,60 +2,61 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87545ACFA5
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Sep 2019 18:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C401ACFA7
+	for <lists+linux-leds@lfdr.de>; Sun,  8 Sep 2019 18:17:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729411AbfIHQRf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 8 Sep 2019 12:17:35 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39134 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729409AbfIHQRf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Sep 2019 12:17:35 -0400
-Received: by mail-wr1-f65.google.com with SMTP id t16so11253453wra.6;
-        Sun, 08 Sep 2019 09:17:32 -0700 (PDT)
+        id S1729442AbfIHQR4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 8 Sep 2019 12:17:56 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:45043 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729409AbfIHQR4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Sep 2019 12:17:56 -0400
+Received: by mail-wr1-f68.google.com with SMTP id 30so11206680wrk.11;
+        Sun, 08 Sep 2019 09:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:from:to:cc:references:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=34Gm+mqacQT9Dg5F66EbtT1u+Ti5scHvGTdVQxEaWAY=;
-        b=Y07CNuZzY9bsIMmUCgO8/vzqf1BW2TPIbdHKcvzyPIaVgOGBsRBOscGLcejjLkmuMy
-         iHEfeGzkVxjtHcl9DW1+awr8dZiFDwwnsSm3AponcWls+yjSRO6fnPQ+BfVpT7hVtwna
-         3hTEsiXHoBO5mxR+cNuEph7ODod63QftR2l+wiX7Hl2GI33rvkouuhnphkztG9aZBRuQ
-         L58e9jgEILSJU8edSxKlHpMz+4CR7Au+e+BIVIdTn3j/4LDtSRc8q+X44pu0Ma8CE5A9
-         c9SqPkggGXorNDcwKGD3sdi0T7LxL5EMBo2tORl0Yh8jlfX112g666plHIDFLLgH9In1
-         TXMg==
+        bh=fX2RgGMKJSfSxbUrxSWdGN7Yeuu0S7li8+KEw9fT10A=;
+        b=bgTjK6s0zFpLAP4yPSlRNj778eFDLvQExj/lCf6+SSDqOxuRXjI0K6++m6eHsMDXt/
+         FkpgEjOmxOf/vi+1vn0arRZqaul+6GNBzChfcorsVMoJA2YYe2Iq7oS0r+M08XAPKPVL
+         al0tKtNTRPgcHZMrAD3otmuRl5YxzDxPoGYYNx+1HNZm0MwmDRBJ9XE1YJwyHs5aiIrr
+         YhvVGbJNRfOIBohBUPBEMEJn821uv1l5G0/ydMMDLc7JKkGPH/zmZLF88QJnEfnm+xnV
+         GyC2jiv1nSablYBcZz+4sjlYM4IFMCy/WTyvKSpDpq7CMc0qAtMTiVBeHXoqPeKShkfG
+         HFEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=34Gm+mqacQT9Dg5F66EbtT1u+Ti5scHvGTdVQxEaWAY=;
-        b=a/j0U01HoaB3IEk3Qm6+kHbxSshRAb8ntYEbh4Xm/DbhI7568vTYixxgTu2BLhCmwL
-         nVRGnkYRbXg3VaMFKgXOHefFRNYH5WxHSIkfjTbAFWveGQm2/+hRDUttcCoLLuXB0ARu
-         o/Y8JeznXs5G6fZBbnezpcEycSeC/gt18xUr6/ekvkMBQhVIq60mQ1hS4IOYudvMbw5H
-         RLh7Ln/eZCMutr9UWy9iH//IQpkr30kdZqZl3AhUhjZfIbZrSAK3KKbLt3C92UJ6tntI
-         ubzdWoRLnnxC1VkuHr3nr17hPfl1cYrzDi1DaBuMzXP/Euk/tA6Z/7hdhf5904SRdepZ
-         peCw==
-X-Gm-Message-State: APjAAAVv/HHeBMp6YLzUKU3Y6RO+aKSeqOn2njLbo3q2h+XPDcoRv9r0
-        LmGYnEuWD0weaFuHxUAjr6jya6v5
-X-Google-Smtp-Source: APXvYqzYub7QtpY9k0T98+d/JC8P0GnCDBEfZGdNsLe02qkeBKAkLaGdIZEoqc5KaI7AgiGrbZnF9g==
-X-Received: by 2002:a5d:5345:: with SMTP id t5mr13193531wrv.30.1567959452082;
-        Sun, 08 Sep 2019 09:17:32 -0700 (PDT)
+        bh=fX2RgGMKJSfSxbUrxSWdGN7Yeuu0S7li8+KEw9fT10A=;
+        b=b835MpmdZHDl/Ks2dXisGSSNypPY+ldwfx+9hOPWNGSji2ueSrGo64u2MoBr5gqaDV
+         WhGuMkKPnEa49tR++E6omAXH1PiVbiBsuLj7eV6F6yMQAU/ekbCk3vAPmzjsCpS99PaB
+         fcbl8HeHTBS652F3SIL7XWz6wW/Y3/T/FiFPB1/+Sq9v5NV+p45qbnFvt3GjvXRskFdT
+         PGWXc7IBi2sgodhIbX+pa4Nr0DQ1PcjpntVaegpchNgLbkVBfGRqhgbt2DEGz0ChGAfx
+         /3dkhCwra8IP5pVTtmeyVJJW8k+h2gtWAYAjwQ93BKjLTGDWJygFHsQK41n49+lvBU+H
+         /Cfg==
+X-Gm-Message-State: APjAAAWysQBacQs1+rsObzQt6X3m7q8ixUQp9XujLz+Eir/bVOLfd3Hg
+        Q0f0LlLS09UZEhU9/YX83C8=
+X-Google-Smtp-Source: APXvYqxrlCEocJxDiHeReVme5I5AOLPWGs1nTcQ+s0jYqBz7/DGeF7ASE15ImzRgIfyVktuk60iTYA==
+X-Received: by 2002:a05:6000:12c9:: with SMTP id l9mr15291358wrx.163.1567959473555;
+        Sun, 08 Sep 2019 09:17:53 -0700 (PDT)
 Received: from [192.168.1.19] (bdt94.neoplus.adsl.tpnet.pl. [83.28.5.94])
-        by smtp.gmail.com with ESMTPSA id m3sm10459017wmc.44.2019.09.08.09.17.29
+        by smtp.gmail.com with ESMTPSA id k9sm23961065wrd.7.2019.09.08.09.17.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 08 Sep 2019 09:17:31 -0700 (PDT)
-Subject: Re: [FYI] lm3532: right registration to work with LED-backlight
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Tony Lindgren <tony@atomide.com>,
-        kernel list <linux-kernel@vger.kernel.org>, sre@kernel.org,
-        nekit1000@gmail.com, mpartap@gmx.net, merlijn@wizzup.org,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-References: <20190827215205.59677-1-tony@atomide.com>
- <20190828085339.GB2923@amd> <c3ac1863-9cdb-1ba6-d5a4-df1c4cfecbe1@gmail.com>
- <20190908080305.GC25459@amd>
+        Sun, 08 Sep 2019 09:17:53 -0700 (PDT)
+Subject: Re: [PATCH v4 0/4] Add a generic driver for LED-based backlight
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>, daniel.thompson@linaro.org
+Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
+        robh+dt@kernel.org, mark.rutland@arm.com, jingoohan1@gmail.com,
+        dmurphy@ti.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        tomi.valkeinen@ti.com
+References: <20190717141514.21171-1-jjhiblot@ti.com>
+ <283d9044-df2d-b176-bea9-7e1520d9cf56@gmail.com> <20190722070620.GD8402@dell>
+ <9cbd9cf6-3422-85df-885f-904f52e9cabd@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -113,13 +114,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <390760c1-de39-9328-bb23-cbf791094718@gmail.com>
-Date:   Sun, 8 Sep 2019 18:17:27 +0200
+Message-ID: <e8b4bf9a-2ee2-a496-c4de-1ed643211ec7@gmail.com>
+Date:   Sun, 8 Sep 2019 18:17:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190908080305.GC25459@amd>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <9cbd9cf6-3422-85df-885f-904f52e9cabd@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -127,101 +128,84 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/8/19 10:03 AM, Pavel Machek wrote:
-> On Wed 2019-08-28 22:32:57, Jacek Anaszewski wrote:
->> On 8/28/19 10:53 AM, Pavel Machek wrote:
->>> Hi!
->>>
->>> Eventually, these will be needed.
->>>
->>> Best regards,
->>> 								Pavel
->>>
->>> commit 38d956977a7d6cbdc811676f9b4033da7487e045
->>> Author: Pavel <pavel@ucw.cz>
->>> Date:   Wed Aug 7 12:43:52 2019 +0200
->>>
->>>     d4: lm3532 needs to use right register function for backlight to work.
->>>
->>> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
->>> index 365a22a5..f98e657 100644
->>> --- a/drivers/leds/leds-lm3532.c
->>> +++ b/drivers/leds/leds-lm3532.c
->>> @@ -629,7 +629,7 @@ static int lm3532_parse_node(struct lm3532_data *priv)
->>>  
->>>  		lm3532_init_registers(led);
->>>  
->>> -		ret = devm_led_classdev_register(priv->dev, &led->led_dev);
->>> +		ret = devm_of_led_classdev_register(priv->dev, to_of_node(child), &led->led_dev);
+On 7/22/19 11:23 PM, Jacek Anaszewski wrote:
+> On 7/22/19 9:06 AM, Lee Jones wrote:
+>> On Thu, 18 Jul 2019, Jacek Anaszewski wrote:
 >>
->> We no longer have devm_of_led_classdev_register(). You must use
->> devm_led_classdev_register_ext().
+>>> On 7/17/19 4:15 PM, Jean-Jacques Hiblot wrote:
+>>>> This series aims to add a led-backlight driver, similar to pwm-backlight,
+>>>> but using a LED class device underneath.
+>>>>
+>>>> A few years ago (2015), Tomi Valkeinen posted a series implementing a
+>>>> backlight driver on top of a LED device:
+>>>> https://patchwork.kernel.org/patch/7293991/
+>>>> https://patchwork.kernel.org/patch/7294001/
+>>>> https://patchwork.kernel.org/patch/7293981/
+>>>>
+>>>> The discussion stopped because Tomi lacked the time to work on it.
+>>>>
+>>>> changes in v4:
+>>>> - fix dev_err() messages and commit logs following the advices of Pavel
+>>>> - cosmetic changes (indents, getting rid of  "? 1 : 0" in
+>>>>   led_match_led_node())
+>>>>
+>>>> changes in v3:
+>>>> - dt binding: don't limit the brightness range to 0-255. Use the range of
+>>>>   the underlying LEDs. as a side-effect, all LEDs must now have the same
+>>>>   range
+>>>> - driver: Adapt to dt binding update.
+>>>> - driver: rework probe() for clarity and remove the remaining goto.
+>>>>
+>>>> changes in v2:
+>>>> - handle more than one LED.
+>>>> - don't make the backlight device a child of the LED controller.
+>>>> - make brightness-levels and default-brightness-level optional
+>>>> - removed the option to use a GPIO enable.
+>>>> - removed the option to use a regulator. It should be handled by the LED
+>>>>   core
+>>>> - don't make any change to the LED core (not needed anymore)
+>>>>
+>>>> Jean-Jacques Hiblot (2):
+>>>>   leds: Add managed API to get a LED from a device driver
+>>>>   dt-bindings: backlight: Add led-backlight binding
+>>>>
+>>>> Tomi Valkeinen (2):
+>>>>   leds: Add of_led_get() and led_put()
+>>>>   backlight: add led-backlight driver
+>>>>
+>>>>  .../bindings/leds/backlight/led-backlight.txt |  28 ++
+>>>>  drivers/leds/led-class.c                      |  92 ++++++
+>>>>  drivers/video/backlight/Kconfig               |   7 +
+>>>>  drivers/video/backlight/Makefile              |   1 +
+>>>>  drivers/video/backlight/led_bl.c              | 268 ++++++++++++++++++
+>>>>  include/linux/leds.h                          |   6 +
+>>>>  6 files changed, 402 insertions(+)
+>>>>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+>>>>  create mode 100644 drivers/video/backlight/led_bl.c
+>>>>
+>>>
+>>> For the whole set:
+>>>
+>>> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+>>>
+>>> Lee - we need to create immutable branch for this set since there will
+>>> be some interfering changes in the LED core in this cycle.
+>>>
+>>> I can create the branch and send the pull request once we will
+>>> obtain the ack from Rob for DT bindings, unless you have other
+>>> preference.
+>>
+>> We also require a review to be conducted by Daniel Thompson.
+>>
+>> After which, an immutable branch sounds like a good idea.  I'd like to
+>> create this myself if you don't mind.
 > 
-> Something like this (untested)?
-> 
-> 								Pavel
-> 
-> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
-> index 62ace66..6340d5b 100644
-> --- a/drivers/leds/leds-lm3532.c
-> +++ b/drivers/leds/leds-lm3532.c
-> @@ -577,6 +577,11 @@ static int lm3532_parse_node(struct lm3532_data *priv)
->  		priv->runtime_ramp_down = lm3532_get_ramp_index(ramp_time);
->  
->  	device_for_each_child_node(priv->dev, child) {
-> +		struct led_init_data idata = {
-> +			.fwnode = child,
-> +			.default_label = "backlight",
-> +		};
-> +
+> Sure, thanks.
 
-If you want to properly switch to the new extended LED registration
-API, then you need:
+Unfortunately that hasn't happened and it will miss 5.4 merge window.
 
-.default_label = ":",
-.devicename = led->client->name;
+Daniel, we need your ack for this patch set.
 
-and in addition to that you need to remove old way of composing
-the LED name. Something like patch [0] for leds-lm3692x.c.
-And also patch for DT for consistency would be needed (like [1]).
-
-However it will not change anything in LED naming in comparison
-to the existing code, except that it will enable the possibility
-of using 'function' and 'color' DT properties instead of deprecated
-'label'.
-
-I suppose that you expected some extra bonus by passing
-DT node, but I'm not sure what exactly. Possibly you confused
-this with the patch set [2] that allows for instantiating
-backlight device on top of LED class device (it has been forgotten
-btw and will miss 5.4).
-
-And for lm3532 - it was just relying on the glue provided by
-ledtrig-backlight, as pointed out by Tony in [3].
-
-
->  		led = &priv->leds[i];
->  
->  		ret = fwnode_property_read_u32(child, "reg", &control_bank);
-> @@ -648,7 +653,7 @@ static int lm3532_parse_node(struct lm3532_data *priv)
->  		led->led_dev.name = led->label;
->  		led->led_dev.brightness_set_blocking = lm3532_brightness_set;
->  
-> -		ret = devm_led_classdev_register(priv->dev, &led->led_dev);
-> +		ret = devm_led_classdev_register_ext(priv->dev, &led->led_dev, &idata);
->  		if (ret) {
->  			dev_err(&priv->client->dev, "led register err: %d\n",
->  				ret);
-> 
-> 
-
-[0]
-https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/commit/?h=for-next&id=a50ff28348934913c46feb7945571329e46c70b3
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/commit/?h=for-next&id=4dcbc8f8c59f4b618d651f5ba884ee5bf562c8de
-[2]
-https://lore.kernel.org/linux-leds/20190717141514.21171-1-jjhiblot@ti.com/
-[3] https://lore.kernel.org/linux-leds/20190403235500.GU49658@atomide.com/
 -- 
 Best regards,
 Jacek Anaszewski
