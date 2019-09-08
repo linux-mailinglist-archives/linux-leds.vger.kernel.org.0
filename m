@@ -2,237 +2,226 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11670ACEE1
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Sep 2019 15:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87545ACFA5
+	for <lists+linux-leds@lfdr.de>; Sun,  8 Sep 2019 18:17:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728010AbfIHNVw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 8 Sep 2019 09:21:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56576 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727376AbfIHNVw (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 8 Sep 2019 09:21:52 -0400
-Received: from localhost (unknown [62.28.240.114])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EDCE6207FC;
-        Sun,  8 Sep 2019 13:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567948910;
-        bh=TQuvU4CJKPHD0/WaGb62Q/nrduWTHKA5oS2jfnfUwgs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aZVsvR2YSCIpzgI5jyjROB/uufd51p7kEfJqyI2ABQEIk5iMde/Q+Hgh325vzE9Fn
-         efasxd/Sjiyh6C5Dvz/v/B3VJWE9Y3iXHhf3abeLbhhSzGFViJU6scra2C5SpGvtHW
-         InFsGPx3wJ73HDxTfOZHxVG5RKHcmwEMW6txkx6o=
-Date:   Sun, 8 Sep 2019 14:21:48 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Akinobu Mita <akinobu.mita@gmail.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH 4/5] leds: add /sys/class/triggers/ that contains trigger
- sub-directories
-Message-ID: <20190908132148.GA10788@kroah.com>
-References: <1567946472-10075-1-git-send-email-akinobu.mita@gmail.com>
- <1567946472-10075-5-git-send-email-akinobu.mita@gmail.com>
+        id S1729411AbfIHQRf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 8 Sep 2019 12:17:35 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:39134 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729409AbfIHQRf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Sep 2019 12:17:35 -0400
+Received: by mail-wr1-f65.google.com with SMTP id t16so11253453wra.6;
+        Sun, 08 Sep 2019 09:17:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=34Gm+mqacQT9Dg5F66EbtT1u+Ti5scHvGTdVQxEaWAY=;
+        b=Y07CNuZzY9bsIMmUCgO8/vzqf1BW2TPIbdHKcvzyPIaVgOGBsRBOscGLcejjLkmuMy
+         iHEfeGzkVxjtHcl9DW1+awr8dZiFDwwnsSm3AponcWls+yjSRO6fnPQ+BfVpT7hVtwna
+         3hTEsiXHoBO5mxR+cNuEph7ODod63QftR2l+wiX7Hl2GI33rvkouuhnphkztG9aZBRuQ
+         L58e9jgEILSJU8edSxKlHpMz+4CR7Au+e+BIVIdTn3j/4LDtSRc8q+X44pu0Ma8CE5A9
+         c9SqPkggGXorNDcwKGD3sdi0T7LxL5EMBo2tORl0Yh8jlfX112g666plHIDFLLgH9In1
+         TXMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=34Gm+mqacQT9Dg5F66EbtT1u+Ti5scHvGTdVQxEaWAY=;
+        b=a/j0U01HoaB3IEk3Qm6+kHbxSshRAb8ntYEbh4Xm/DbhI7568vTYixxgTu2BLhCmwL
+         nVRGnkYRbXg3VaMFKgXOHefFRNYH5WxHSIkfjTbAFWveGQm2/+hRDUttcCoLLuXB0ARu
+         o/Y8JeznXs5G6fZBbnezpcEycSeC/gt18xUr6/ekvkMBQhVIq60mQ1hS4IOYudvMbw5H
+         RLh7Ln/eZCMutr9UWy9iH//IQpkr30kdZqZl3AhUhjZfIbZrSAK3KKbLt3C92UJ6tntI
+         ubzdWoRLnnxC1VkuHr3nr17hPfl1cYrzDi1DaBuMzXP/Euk/tA6Z/7hdhf5904SRdepZ
+         peCw==
+X-Gm-Message-State: APjAAAVv/HHeBMp6YLzUKU3Y6RO+aKSeqOn2njLbo3q2h+XPDcoRv9r0
+        LmGYnEuWD0weaFuHxUAjr6jya6v5
+X-Google-Smtp-Source: APXvYqzYub7QtpY9k0T98+d/JC8P0GnCDBEfZGdNsLe02qkeBKAkLaGdIZEoqc5KaI7AgiGrbZnF9g==
+X-Received: by 2002:a5d:5345:: with SMTP id t5mr13193531wrv.30.1567959452082;
+        Sun, 08 Sep 2019 09:17:32 -0700 (PDT)
+Received: from [192.168.1.19] (bdt94.neoplus.adsl.tpnet.pl. [83.28.5.94])
+        by smtp.gmail.com with ESMTPSA id m3sm10459017wmc.44.2019.09.08.09.17.29
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 08 Sep 2019 09:17:31 -0700 (PDT)
+Subject: Re: [FYI] lm3532: right registration to work with LED-backlight
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Tony Lindgren <tony@atomide.com>,
+        kernel list <linux-kernel@vger.kernel.org>, sre@kernel.org,
+        nekit1000@gmail.com, mpartap@gmx.net, merlijn@wizzup.org,
+        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
+References: <20190827215205.59677-1-tony@atomide.com>
+ <20190828085339.GB2923@amd> <c3ac1863-9cdb-1ba6-d5a4-df1c4cfecbe1@gmail.com>
+ <20190908080305.GC25459@amd>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <390760c1-de39-9328-bb23-cbf791094718@gmail.com>
+Date:   Sun, 8 Sep 2019 18:17:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1567946472-10075-5-git-send-email-akinobu.mita@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190908080305.GC25459@amd>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Sep 08, 2019 at 09:41:11PM +0900, Akinobu Mita wrote:
-> Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
-> However, this violates the "one value per file" rule of sysfs.
+On 9/8/19 10:03 AM, Pavel Machek wrote:
+> On Wed 2019-08-28 22:32:57, Jacek Anaszewski wrote:
+>> On 8/28/19 10:53 AM, Pavel Machek wrote:
+>>> Hi!
+>>>
+>>> Eventually, these will be needed.
+>>>
+>>> Best regards,
+>>> 								Pavel
+>>>
+>>> commit 38d956977a7d6cbdc811676f9b4033da7487e045
+>>> Author: Pavel <pavel@ucw.cz>
+>>> Date:   Wed Aug 7 12:43:52 2019 +0200
+>>>
+>>>     d4: lm3532 needs to use right register function for backlight to work.
+>>>
+>>> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
+>>> index 365a22a5..f98e657 100644
+>>> --- a/drivers/leds/leds-lm3532.c
+>>> +++ b/drivers/leds/leds-lm3532.c
+>>> @@ -629,7 +629,7 @@ static int lm3532_parse_node(struct lm3532_data *priv)
+>>>  
+>>>  		lm3532_init_registers(led);
+>>>  
+>>> -		ret = devm_led_classdev_register(priv->dev, &led->led_dev);
+>>> +		ret = devm_of_led_classdev_register(priv->dev, to_of_node(child), &led->led_dev);
+>>
+>> We no longer have devm_of_led_classdev_register(). You must use
+>> devm_led_classdev_register_ext().
 > 
-> This provides /sys/class/leds/triggers directory that contains a number of
-> sub-directories, each representing an LED trigger. The name of the
-> sub-directory matches the LED trigger name.
+> Something like this (untested)?
 > 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Dan Murphy <dmurphy@ti.com>
-> Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
-> ---
->  Documentation/ABI/testing/sysfs-class-led |  9 +++++++++
->  drivers/leds/led-class.c                  | 32 +++++++++++++++++++++++++++++++
->  drivers/leds/led-triggers.c               | 19 ++++++++++++++++++
->  drivers/leds/leds.h                       |  1 +
->  include/linux/leds.h                      |  1 +
->  5 files changed, 62 insertions(+)
+> 								Pavel
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/ABI/testing/sysfs-class-led
-> index 5f67f7a..14d91af 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led
-> +++ b/Documentation/ABI/testing/sysfs-class-led
-> @@ -61,3 +61,12 @@ Description:
->  		gpio and backlight triggers. In case of the backlight trigger,
->  		it is useful when driving a LED which is intended to indicate
->  		a device in a standby like state.
-> +
-> +What:		/sys/class/leds/triggers/
-> +Date:		September 2019
-> +KernelVersion:	5.5
-> +Contact:	linux-leds@vger.kernel.org
-> +Description:
-> +		This directory contains a number of sub-directories, each
-> +		representing an LED trigger. The name of the sub-directory
-> +		matches the LED trigger name.
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 7d85181..04e6c14 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -81,6 +81,28 @@ static struct bin_attribute *led_trigger_bin_attrs[] = {
->  static const struct attribute_group led_trigger_group = {
->  	.bin_attrs = led_trigger_bin_attrs,
->  };
-> +
-> +static int led_triggers_kobj_create(void)
-> +{
-> +	led_triggers_kobj = class_kobject_create_and_add("triggers",
-> +							 leds_class);
-> +
-> +	return led_triggers_kobj ? 0 : -ENOMEM;
-> +}
-> +
-> +static void led_triggers_kobj_destroy(void)
-> +{
-> +	kobject_put(led_triggers_kobj);
-> +}
-> +
-> +#else
-> +static inline int led_triggers_kobj_create(void)
-> +{
-> +	return 0;
-> +}
-> +static void led_triggers_kobj_destroy(void)
-> +{
-> +}
->  #endif
+> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
+> index 62ace66..6340d5b 100644
+> --- a/drivers/leds/leds-lm3532.c
+> +++ b/drivers/leds/leds-lm3532.c
+> @@ -577,6 +577,11 @@ static int lm3532_parse_node(struct lm3532_data *priv)
+>  		priv->runtime_ramp_down = lm3532_get_ramp_index(ramp_time);
 >  
->  static struct attribute *led_class_attrs[] = {
-> @@ -411,16 +433,26 @@ EXPORT_SYMBOL_GPL(devm_led_classdev_unregister);
->  
->  static int __init leds_init(void)
->  {
-> +	int ret;
+>  	device_for_each_child_node(priv->dev, child) {
+> +		struct led_init_data idata = {
+> +			.fwnode = child,
+> +			.default_label = "backlight",
+> +		};
 > +
->  	leds_class = class_create(THIS_MODULE, "leds");
->  	if (IS_ERR(leds_class))
->  		return PTR_ERR(leds_class);
->  	leds_class->pm = &leds_class_dev_pm_ops;
->  	leds_class->dev_groups = led_groups;
-> +
-> +	ret = led_triggers_kobj_create();
-> +	if (ret) {
-> +		class_unregister(leds_class);
-> +		return ret;
-> +	}
-> +
->  	return 0;
->  }
->  
->  static void __exit leds_exit(void)
->  {
-> +	led_triggers_kobj_destroy();
->  	class_destroy(leds_class);
->  }
->  
-> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-> index ed5a311..4a86964 100644
-> --- a/drivers/leds/led-triggers.c
-> +++ b/drivers/leds/led-triggers.c
-> @@ -268,16 +268,26 @@ void led_trigger_rename_static(const char *name, struct led_trigger *trig)
->  }
->  EXPORT_SYMBOL_GPL(led_trigger_rename_static);
->  
-> +static struct kobj_type led_trigger_kobj_type = {
-> +	.sysfs_ops = &kobj_sysfs_ops,
-> +};
-> +
-> +struct kobject *led_triggers_kobj;
-> +EXPORT_SYMBOL_GPL(led_triggers_kobj);
-> +
->  /* LED Trigger Interface */
->  
->  int led_trigger_register(struct led_trigger *trig)
->  {
->  	struct led_classdev *led_cdev;
->  	struct led_trigger *_trig;
-> +	int ret;
->  
->  	rwlock_init(&trig->leddev_list_lock);
->  	INIT_LIST_HEAD(&trig->led_cdevs);
->  
-> +	kobject_init(&trig->kobj, &led_trigger_kobj_type);
-> +
->  	down_write(&triggers_list_lock);
->  	/* Make sure the trigger's name isn't already in use */
->  	list_for_each_entry(_trig, &trigger_list, next_trig) {
-> @@ -286,6 +296,14 @@ int led_trigger_register(struct led_trigger *trig)
->  			return -EEXIST;
->  		}
->  	}
-> +
-> +	WARN_ON_ONCE(!led_triggers_kobj);
-> +	ret = kobject_add(&trig->kobj, led_triggers_kobj, "%s", trig->name);
-> +	if (ret) {
-> +		up_write(&triggers_list_lock);
-> +		return ret;
-> +	}
-> +
->  	/* Add to the list of led triggers */
->  	list_add_tail(&trig->next_trig, &trigger_list);
->  	up_write(&triggers_list_lock);
-> @@ -316,6 +334,7 @@ void led_trigger_unregister(struct led_trigger *trig)
->  
->  	/* Remove from the list of led triggers */
->  	down_write(&triggers_list_lock);
-> +	kobject_put(&trig->kobj);
->  	list_del_init(&trig->next_trig);
->  	up_write(&triggers_list_lock);
->  
-> diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
-> index a0ee33c..52debe0 100644
-> --- a/drivers/leds/leds.h
-> +++ b/drivers/leds/leds.h
-> @@ -33,5 +33,6 @@ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
->  extern struct rw_semaphore leds_list_lock;
->  extern struct list_head leds_list;
->  extern struct list_head trigger_list;
-> +extern struct kobject *led_triggers_kobj;
->  
->  #endif	/* __LEDS_H_INCLUDED */
-> diff --git a/include/linux/leds.h b/include/linux/leds.h
-> index 33ae825..379f282 100644
-> --- a/include/linux/leds.h
-> +++ b/include/linux/leds.h
-> @@ -279,6 +279,7 @@ struct led_trigger {
->  	struct list_head  next_trig;
->  
->  	const struct attribute_group **groups;
-> +	struct kobject kobj;
 
-No, don't do this.  Do not put "raw" kobjects in the device tree below a
-"normal" directory, it's only going to cause massive problems for
-userspace tools to be notified of the attributes.
+If you want to properly switch to the new extended LED registration
+API, then you need:
 
-If you want to make led_triggers "real" devices, great, do that!  But
-this hybrid "not quite real" is not going to work out well at all in the
-end.
+.default_label = ":",
+.devicename = led->client->name;
 
-Make this a 'struct device' and you will be fine.  That is probably the
-simplest of all.  Now if you want to lump them below the leds class or
-not is up to you, personally, I'd make it a new one as the structure is
-different and this makes it more obvious, but it is up to you as you
-know best how userspace is going to interact with these.
+and in addition to that you need to remove old way of composing
+the LED name. Something like patch [0] for leds-lm3692x.c.
+And also patch for DT for consistency would be needed (like [1]).
 
-thanks,
+However it will not change anything in LED naming in comparison
+to the existing code, except that it will enable the possibility
+of using 'function' and 'color' DT properties instead of deprecated
+'label'.
 
-greg k-h
+I suppose that you expected some extra bonus by passing
+DT node, but I'm not sure what exactly. Possibly you confused
+this with the patch set [2] that allows for instantiating
+backlight device on top of LED class device (it has been forgotten
+btw and will miss 5.4).
+
+And for lm3532 - it was just relying on the glue provided by
+ledtrig-backlight, as pointed out by Tony in [3].
+
+
+>  		led = &priv->leds[i];
+>  
+>  		ret = fwnode_property_read_u32(child, "reg", &control_bank);
+> @@ -648,7 +653,7 @@ static int lm3532_parse_node(struct lm3532_data *priv)
+>  		led->led_dev.name = led->label;
+>  		led->led_dev.brightness_set_blocking = lm3532_brightness_set;
+>  
+> -		ret = devm_led_classdev_register(priv->dev, &led->led_dev);
+> +		ret = devm_led_classdev_register_ext(priv->dev, &led->led_dev, &idata);
+>  		if (ret) {
+>  			dev_err(&priv->client->dev, "led register err: %d\n",
+>  				ret);
+> 
+> 
+
+[0]
+https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/commit/?h=for-next&id=a50ff28348934913c46feb7945571329e46c70b3
+[1]
+https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/commit/?h=for-next&id=4dcbc8f8c59f4b618d651f5ba884ee5bf562c8de
+[2]
+https://lore.kernel.org/linux-leds/20190717141514.21171-1-jjhiblot@ti.com/
+[3] https://lore.kernel.org/linux-leds/20190403235500.GU49658@atomide.com/
+-- 
+Best regards,
+Jacek Anaszewski
