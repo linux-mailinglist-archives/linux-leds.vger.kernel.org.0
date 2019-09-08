@@ -2,78 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E62E7AD08F
-	for <lists+linux-leds@lfdr.de>; Sun,  8 Sep 2019 22:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 927A3AD0BE
+	for <lists+linux-leds@lfdr.de>; Sun,  8 Sep 2019 23:17:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729094AbfIHU0Y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 8 Sep 2019 16:26:24 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:37229 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726270AbfIHU0X (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Sep 2019 16:26:23 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 6278A81EDE; Sun,  8 Sep 2019 22:26:07 +0200 (CEST)
-Date:   Sun, 8 Sep 2019 22:26:20 +0200
-From:   Pavel Machek <pavel@denx.de>
-To:     Akinobu Mita <akinobu.mita@gmail.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH 3/5] driver core: class: add function to create
- /sys/class/<class>/foo directory
-Message-ID: <20190908202620.GA9220@amd>
-References: <1567946472-10075-1-git-send-email-akinobu.mita@gmail.com>
- <1567946472-10075-4-git-send-email-akinobu.mita@gmail.com>
+        id S1730526AbfIHVRl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 8 Sep 2019 17:17:41 -0400
+Received: from mail.andi.de1.cc ([85.214.55.253]:37340 "EHLO mail.andi.de1.cc"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726080AbfIHVRl (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 8 Sep 2019 17:17:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=WLNvj34w1pMydEMVCJGWGNCq90dYkz0edkv/6Infxco=; b=gWNUGaQHNjgOqY5zrZ+BPjNJ/t
+        nXKXYK8g5xv+b4o4OJ7PoWuZ4TdtVR+ADL8078ghBlGq5JIn7GX3YYYNPdBCd8dnAgS+fOnizKSk0
+        HOxJnNH3asiCrxW4OycyeZrRHWupr6FrA8586BBGINUZMWm25lwruT06eEB7eCFMQRMY=;
+Received: from p200300ccff4729001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff47:2900:1a3d:a2ff:febf:d33a] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <andreas@kemnade.info>)
+        id 1i73vn-0000wL-Aw; Sun, 08 Sep 2019 22:37:07 +0200
+Received: from andi by aktux with local (Exim 4.92)
+        (envelope-from <andreas@kemnade.info>)
+        id 1i73vm-0007rN-W2; Sun, 08 Sep 2019 22:37:07 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     lee.jones@linaro.org, daniel.thompson@linaro.org,
+        jingoohan1@gmail.com, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+        dmurphy@ti.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc:     Andreas Kemnade <andreas@kemnade.info>
+Subject: [PATCH 0/2] backlight_lm3630a: add enable_gpios property
+Date:   Sun,  8 Sep 2019 22:37:02 +0200
+Message-Id: <20190908203704.30147-1-andreas@kemnade.info>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="/04w6evG8XlLl3ft"
-Content-Disposition: inline
-In-Reply-To: <1567946472-10075-4-git-send-email-akinobu.mita@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -1.0 (-)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+To be able to handle the HWEN pin of the lm3630a, add
+an enable gpio to the driver and a property.
 
---/04w6evG8XlLl3ft
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Tested on Kobo Clara HD
 
-Hi!
+Andreas Kemnade (2):
+  backlight: lm3630a: add an enable gpio for the HWEN pin
+  dt-bindings: backlight: lm3630a: add enable_gpios
 
-> This adds a new function class_kobject_create_and_add() that creates a
-> directory in the /sys/class/<class>.
->=20
-> This function is required to create the /sys/class/leds/triggers directory
-> that contains all available LED triggers.
+ .../leds/backlight/lm3630a-backlight.yaml      |  4 ++++
+ drivers/video/backlight/lm3630a_bl.c           | 18 ++++++++++++++++++
+ 2 files changed, 22 insertions(+)
 
-Lets not do this. With your fixes (1,2/5), we'll have reasonable
-interface for triggers. We don't need a new one.
+-- 
+2.20.1
 
-[And yes, we'll want to do something with the cpu activity trigger,
-too.]
-
-Best regards,
-								Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---/04w6evG8XlLl3ft
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl11Y+wACgkQMOfwapXb+vIBGgCfWdt4Yu+BdPDnU5QcgnUUIarP
-fI0AoITMKEpAjkFtHJW7ZUYvFbSA40YC
-=KRwV
------END PGP SIGNATURE-----
-
---/04w6evG8XlLl3ft--
