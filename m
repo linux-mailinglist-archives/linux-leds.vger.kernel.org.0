@@ -2,232 +2,157 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77EC2ADF09
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Sep 2019 20:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08E95ADFD7
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Sep 2019 22:14:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732110AbfIISfX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 9 Sep 2019 14:35:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49820 "EHLO mail.kernel.org"
+        id S1733249AbfIIUOG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 9 Sep 2019 16:14:06 -0400
+Received: from mail.andi.de1.cc ([85.214.55.253]:57140 "EHLO mail.andi.de1.cc"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727014AbfIISfX (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 9 Sep 2019 14:35:23 -0400
-Received: from localhost.localdomain (unknown [194.230.155.145])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8356621924;
-        Mon,  9 Sep 2019 18:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568054121;
-        bh=f3ulxYMQ251eTpcR2jzC5NSbqNu5aS1zSMbuOorVhGE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YSTMb7x7r97T0Ks+pfIvlvyXiDpse7jcUdQfun5USL8Qf72zKmOdwYFxG/Og20NdR
-         EwXkY3VwuOBg7At10VIafoG9bbUfiKlUAgMJOumyoulx2joqpTkvWFIHTHzlZzOTsC
-         tSt1sJ4XmVj3WYasMaYq5rKxVce2vbsFlaFQDKWA=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, linux-pwm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Maciej Falkowski <m.falkowski@samsung.com>,
-        linux-samsung-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org,
-        linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [RFC PATCH 2/2] dt-bindings: pwm: Convert Samsung PWM bindings to json-schema
-Date:   Mon,  9 Sep 2019 20:34:36 +0200
-Message-Id: <20190909183436.9045-2-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190909183436.9045-1-krzk@kernel.org>
-References: <20190909183436.9045-1-krzk@kernel.org>
+        id S1732733AbfIIUOG (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 9 Sep 2019 16:14:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=7S0iKdrC5W7P3u4rFYo6R5dKDWVHbSKL0UCfO8ayAEY=; b=Ca1HsyzD/Rzmy3F/wPAzVKV0jH
+        1JibeJWfqCLlaa8vb+7Jrrt7+HIBdqRX4faZ8Lkt+wJBgrSOWjW6uYFJuoF9EnR8uTQR68+4ijb5c
+        Nlt25Zh1DQU+BJTX2e7j+hslmzL8KrclN5IqlwazEZ9G0V9ZEH8F0PPTcFMJQ6MBEQDc=;
+Received: from p200300ccff0a27001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff0a:2700:1a3d:a2ff:febf:d33a] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <andreas@kemnade.info>)
+        id 1i7Q2o-0005Fh-OY; Mon, 09 Sep 2019 22:13:51 +0200
+Date:   Mon, 9 Sep 2019 22:13:49 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+Cc:     lee.jones@linaro.org, jingoohan1@gmail.com,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
+        robh+dt@kernel.org, mark.rutland@arm.com, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fbdev@vger.kernel.org,
+        "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH 1/2] backlight: lm3630a: add an enable gpio for the HWEN
+ pin
+Message-ID: <20190909221349.46ca5a1f@aktux>
+In-Reply-To: <20190909105729.w5552rtop7rhghy2@holly.lan>
+References: <20190908203704.30147-1-andreas@kemnade.info>
+        <20190908203704.30147-2-andreas@kemnade.info>
+        <20190909105729.w5552rtop7rhghy2@holly.lan>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -1.0 (-)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Convert Samsung PWM (S3C, S5P and Exynos SoCs) bindings to DT schema
-format using json-schema.
+On Mon, 9 Sep 2019 11:57:29 +0100
+Daniel Thompson <daniel.thompson@linaro.org> wrote:
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- .../devicetree/bindings/pwm/pwm-samsung.txt   |  51 --------
- .../devicetree/bindings/pwm/pwm-samsung.yaml  | 111 ++++++++++++++++++
- 2 files changed, 111 insertions(+), 51 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/pwm/pwm-samsung.txt
- create mode 100644 Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
+> On Sun, Sep 08, 2019 at 10:37:03PM +0200, Andreas Kemnade wrote:
+> > For now just enable it in the probe function to allow i2c
+> > access and disable it on remove. Disabling also means resetting
+> > the register values to default.
+> > 
+> > Tested on Kobo Clara HD.
+> > 
+> > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+> > ---
+> >  drivers/video/backlight/lm3630a_bl.c | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> > 
+> > diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
+> > index b04b35d007a2..3b45a1733198 100644
+> > --- a/drivers/video/backlight/lm3630a_bl.c
+> > +++ b/drivers/video/backlight/lm3630a_bl.c
+> > @@ -12,6 +12,8 @@
+> >  #include <linux/uaccess.h>
+> >  #include <linux/interrupt.h>
+> >  #include <linux/regmap.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/gpio.h>
+> >  #include <linux/pwm.h>
+> >  #include <linux/platform_data/lm3630a_bl.h>
+> >  
+> > @@ -48,6 +50,7 @@ struct lm3630a_chip {
+> >  	struct lm3630a_platform_data *pdata;
+> >  	struct backlight_device *bleda;
+> >  	struct backlight_device *bledb;
+> > +	struct gpio_desc *enable_gpio;
+> >  	struct regmap *regmap;
+> >  	struct pwm_device *pwmd;
+> >  };
+> > @@ -506,6 +509,14 @@ static int lm3630a_probe(struct i2c_client *client,
+> >  		return -ENOMEM;
+> >  	pchip->dev = &client->dev;
+> >  
+> > +	pchip->enable_gpio = devm_gpiod_get_optional(&client->dev, "enable",
+> > +						GPIOD_ASIS);  
+> 
+> Initializing GPIOD_ASIS doesn't look right to me.
+> 
+> If you initialize ASIS then the driver must configure the pin as an
+> output... far easier just to set GPIOD_OUT_HIGH during the get.
+> 
+> Note also that the call to this function should also be moved *below*
+> the calls parse the DT.
+> 
+oops, must have forgotten that, and had good luck here.
+> 
+> > +	if (IS_ERR(pchip->enable_gpio)) {
+> > +		rval = PTR_ERR(pchip->enable_gpio);
+> > +		return rval;
+> > +	}
+> > +
+> > +
+> >  	pchip->regmap = devm_regmap_init_i2c(client, &lm3630a_regmap);
+> >  	if (IS_ERR(pchip->regmap)) {
+> >  		rval = PTR_ERR(pchip->regmap);
+> > @@ -535,6 +546,10 @@ static int lm3630a_probe(struct i2c_client *client,
+> >  	}
+> >  	pchip->pdata = pdata;
+> >  
+> > +	if (pchip->enable_gpio) {
+> > +		gpiod_set_value_cansleep(pchip->enable_gpio, 1);  
+> 
+> Not needed, use GPIOD_OUT_HIGH instead.
+> 
+> 
+> > +		usleep_range(1000, 2000);  
+> 
+> Not needed, this sleep is already part of lm3630a_chip_init().
+> 
+you are right.
+> 
+> > +	}
+> >  	/* chip initialize */
+> >  	rval = lm3630a_chip_init(pchip);
+> >  	if (rval < 0) {
+> > @@ -586,6 +601,9 @@ static int lm3630a_remove(struct i2c_client *client)
+> >  	if (rval < 0)
+> >  		dev_err(pchip->dev, "i2c failed to access register\n");
+> >  
+> > +	if (pchip->enable_gpio)
+> > +		gpiod_set_value_cansleep(pchip->enable_gpio, 0);
+> > +  
+> 
+> Is this needed?
+> 
+> This is a remove path, not a power management path, and we have no idea
+> what the original status of the pin was anyway?
+> 
 
-diff --git a/Documentation/devicetree/bindings/pwm/pwm-samsung.txt b/Documentation/devicetree/bindings/pwm/pwm-samsung.txt
-deleted file mode 100644
-index 5538de9c2007..000000000000
---- a/Documentation/devicetree/bindings/pwm/pwm-samsung.txt
-+++ /dev/null
-@@ -1,51 +0,0 @@
--* Samsung PWM timers
--
--Samsung SoCs contain PWM timer blocks which can be used for system clock source
--and clock event timers, as well as to drive SoC outputs with PWM signal. Each
--PWM timer block provides 5 PWM channels (not all of them can drive physical
--outputs - see SoC and board manual).
--
--Be aware that the clocksource driver supports only uniprocessor systems.
--
--Required properties:
--- compatible : should be one of following:
--    samsung,s3c2410-pwm - for 16-bit timers present on S3C24xx SoCs
--    samsung,s3c6400-pwm - for 32-bit timers present on S3C64xx SoCs
--    samsung,s5p6440-pwm - for 32-bit timers present on S5P64x0 SoCs
--    samsung,s5pc100-pwm - for 32-bit timers present on S5PC100, S5PV210,
--			  Exynos4210 rev0 SoCs
--    samsung,exynos4210-pwm - for 32-bit timers present on Exynos4210,
--                          Exynos4x12, Exynos5250 and Exynos5420 SoCs
--- reg: base address and size of register area
--- interrupts: list of timer interrupts (one interrupt per timer, starting at
--  timer 0)
--- clock-names: should contain all following required clock names:
--    - "timers" - PWM base clock used to generate PWM signals,
--  and any subset of following optional clock names:
--    - "pwm-tclk0" - first external PWM clock source,
--    - "pwm-tclk1" - second external PWM clock source.
--  Note that not all IP variants allow using all external clock sources.
--  Refer to SoC documentation to learn which clock source configurations
--  are available.
--- clocks: should contain clock specifiers of all clocks, which input names
--  have been specified in clock-names property, in same order.
--- #pwm-cells: should be 3. See pwm.txt in this directory for a description of
--  the cells format. The only third cell flag supported by this binding is
--  PWM_POLARITY_INVERTED.
--
--Optional properties:
--- samsung,pwm-outputs: list of PWM channels used as PWM outputs on particular
--    platform - an array of up to 5 elements being indices of PWM channels
--    (from 0 to 4), the order does not matter.
--
--Example:
--	pwm@7f006000 {
--		compatible = "samsung,s3c6400-pwm";
--		reg = <0x7f006000 0x1000>;
--		interrupt-parent = <&vic0>;
--		interrupts = <23>, <24>, <25>, <27>, <28>;
--		clocks = <&clock 67>;
--		clock-names = "timers";
--		samsung,pwm-outputs = <0>, <1>;
--		#pwm-cells = <3>;
--	}
-diff --git a/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml b/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
-new file mode 100644
-index 000000000000..90fb467bcdd5
---- /dev/null
-+++ b/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
-@@ -0,0 +1,111 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pwm/pwm-samsung.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung SoC PWM timers
-+
-+maintainers:
-+  - Thierry Reding <thierry.reding@gmail.com>
-+  - Krzysztof Kozlowski <krzk@kernel.org>
-+
-+description: |+
-+  Samsung SoCs contain PWM timer blocks which can be used for system clock source
-+  and clock event timers, as well as to drive SoC outputs with PWM signal. Each
-+  PWM timer block provides 5 PWM channels (not all of them can drive physical
-+  outputs - see SoC and board manual).
-+
-+  Be aware that the clocksource driver supports only uniprocessor systems.
-+
-+allOf:
-+  - $ref: pwm.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - samsung,s3c2410-pwm             # 16-bit, S3C24xx
-+      - samsung,s3c6400-pwm             # 32-bit, S3C64xx
-+      - samsung,s5p6440-pwm             # 32-bit, S5P64x0
-+      - samsung,s5pc100-pwm             # 32-bit, S5PC100, S5PV210, Exynos4210 rev0 SoCs
-+      - samsung,exynos4210-pwm          # 32-bit, Exynos
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 3
-+
-+  clock-names:
-+    description: |
-+      Should contain all following required clock names:
-+      - "timers" - PWM base clock used to generate PWM signals,
-+      and any subset of following optional clock names:
-+      - "pwm-tclk0" - first external PWM clock source,
-+      - "pwm-tclk1" - second external PWM clock source.
-+      Note that not all IP variants allow using all external clock sources.
-+      Refer to SoC documentation to learn which clock source configurations
-+      are available.
-+    oneOf:
-+      - items:
-+        - const: "timers"
-+      - items:
-+        - const: "timers"
-+        - const: "pwm-tclk0"
-+      - items:
-+        - const: "timers"
-+        - const: "pwm-tclk1"
-+      - items:
-+        - const: "timers"
-+        - const: "pwm-tclk0"
-+        - const: "pwm-tclk1"
-+
-+  interrupts:
-+    description:
-+      One interrupt per timer, starting at timer 0.
-+    minItems: 1
-+    maxItems: 5
-+
-+  "#pwm-cells":
-+    description:
-+      The only third cell flag supported by this binding
-+      is PWM_POLARITY_INVERTED.
-+    const: 3
-+
-+  samsung,pwm-outputs:
-+    description:
-+      A list of PWM channels used as PWM outputs on particular platform.
-+      It is an array of up to 5 elements being indices of PWM channels
-+      (from 0 to 4), the order does not matter.
-+    # TODO: Values should not repeat
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32-array
-+      # FIXME: min/max limit of items does not work
-+      - items:
-+          minItems: 1
-+          maxItems: 5
-+      - items:
-+          minimum: 0
-+          maximum: 4
-+
-+required:
-+  - clocks
-+  - clock-names
-+  - compatible
-+  - interrupts
-+  - "#pwm-cells"
-+  - reg
-+
-+examples:
-+  - |
-+    pwm@7f006000 {
-+      compatible = "samsung,s3c6400-pwm";
-+      reg = <0x7f006000 0x1000>;
-+      interrupt-parent = <&vic0>;
-+      interrupts = <23>, <24>, <25>, <27>, <28>;
-+      clocks = <&clock 67>;
-+      clock-names = "timers";
-+      samsung,pwm-outputs = <0>, <1>;
-+      #pwm-cells = <3>;
-+    };
--- 
-2.17.1
+Looking at Ishdn on page 5 of the datasheet, switching it off everytime
+possible seems not needed. We would need to call chip_init() everytime
+we enable the gpio or live with default values.
+Therefore I did decide to not put it into any power management path. But
+switching it on and not switching it off feels so unbalanced. 
 
+Regards,
+Andreas
