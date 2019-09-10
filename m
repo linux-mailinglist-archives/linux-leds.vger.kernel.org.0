@@ -2,157 +2,259 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08E95ADFD7
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Sep 2019 22:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDA15AE59B
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Sep 2019 10:33:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733249AbfIIUOG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 9 Sep 2019 16:14:06 -0400
-Received: from mail.andi.de1.cc ([85.214.55.253]:57140 "EHLO mail.andi.de1.cc"
+        id S1727414AbfIJIdr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Sep 2019 04:33:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43074 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732733AbfIIUOG (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 9 Sep 2019 16:14:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=7S0iKdrC5W7P3u4rFYo6R5dKDWVHbSKL0UCfO8ayAEY=; b=Ca1HsyzD/Rzmy3F/wPAzVKV0jH
-        1JibeJWfqCLlaa8vb+7Jrrt7+HIBdqRX4faZ8Lkt+wJBgrSOWjW6uYFJuoF9EnR8uTQR68+4ijb5c
-        Nlt25Zh1DQU+BJTX2e7j+hslmzL8KrclN5IqlwazEZ9G0V9ZEH8F0PPTcFMJQ6MBEQDc=;
-Received: from p200300ccff0a27001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff0a:2700:1a3d:a2ff:febf:d33a] helo=aktux)
-        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <andreas@kemnade.info>)
-        id 1i7Q2o-0005Fh-OY; Mon, 09 Sep 2019 22:13:51 +0200
-Date:   Mon, 9 Sep 2019 22:13:49 +0200
-From:   Andreas Kemnade <andreas@kemnade.info>
-To:     Daniel Thompson <daniel.thompson@linaro.org>
-Cc:     lee.jones@linaro.org, jingoohan1@gmail.com,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
-        robh+dt@kernel.org, mark.rutland@arm.com, b.zolnierkie@samsung.com,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fbdev@vger.kernel.org,
-        "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH 1/2] backlight: lm3630a: add an enable gpio for the HWEN
- pin
-Message-ID: <20190909221349.46ca5a1f@aktux>
-In-Reply-To: <20190909105729.w5552rtop7rhghy2@holly.lan>
-References: <20190908203704.30147-1-andreas@kemnade.info>
-        <20190908203704.30147-2-andreas@kemnade.info>
-        <20190909105729.w5552rtop7rhghy2@holly.lan>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726948AbfIJIdr (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 10 Sep 2019 04:33:47 -0400
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3B64B208E4;
+        Tue, 10 Sep 2019 08:33:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568104425;
+        bh=2uR4nxIjqM7SnG1v4kNKhpb+sUD9OZx60ycRGNAxrtw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=zkyH+aH6JWcdKV1TOV/nja1ecvfl3lLTGstOD4HAsuDECS9uvu2lq0Mo86BskhHno
+         6xZgbjmFxR34hSXGNYrU+2Ceq/0lw2Fa9mpvAFfL3RrD5P2Qq3s48Yrdlu/OaWC8mn
+         T67jhtdbaZZARc6Ke8v1Bp13nbhBnvrg85LB0B58=
+Received: by mail-qk1-f169.google.com with SMTP id h126so8436025qke.10;
+        Tue, 10 Sep 2019 01:33:45 -0700 (PDT)
+X-Gm-Message-State: APjAAAWXarIKGvAN7A+NqGljrBO0Y/xPoRo9ha840Y02h2tgo3A0Av6z
+        kPuyNbcpgu2+okKleQqH45mHl+1/MVGOKKLP2A==
+X-Google-Smtp-Source: APXvYqxLh1CJWwOy8vR96z3k42d/dcFGmobWEBtEKhWU5BCP7PWz2tSD9v3y460G6fz1mUNTWgCDfkxzMTBNwpKCY50=
+X-Received: by 2002:a37:8905:: with SMTP id l5mr28038475qkd.152.1568104424368;
+ Tue, 10 Sep 2019 01:33:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -1.0 (-)
+References: <20190909183436.9045-1-krzk@kernel.org>
+In-Reply-To: <20190909183436.9045-1-krzk@kernel.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 10 Sep 2019 09:33:32 +0100
+X-Gmail-Original-Message-ID: <CAL_JsqJpZ-64Y7p1w5ctMwbjdftQPLjeh3XRHkBeS6tfYY0a+A@mail.gmail.com>
+Message-ID: <CAL_JsqJpZ-64Y7p1w5ctMwbjdftQPLjeh3XRHkBeS6tfYY0a+A@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] dt-bindings: pwm: Convert PWM bindings to json-schema
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Maciej Falkowski <m.falkowski@samsung.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 9 Sep 2019 11:57:29 +0100
-Daniel Thompson <daniel.thompson@linaro.org> wrote:
+On Mon, Sep 9, 2019 at 7:35 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> Convert generic PWM bindings to DT schema format using json-schema.  The
+> consumer bindings are split to separate file.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  .../devicetree/bindings/clock/pwm-clock.txt   |  2 +-
+>  .../bindings/display/bridge/ti,sn65dsi86.txt  |  2 +-
+>  .../devicetree/bindings/display/ssd1307fb.txt |  2 +-
+>  .../bindings/leds/backlight/pwm-backlight.txt |  2 +-
+>  .../devicetree/bindings/leds/leds-pwm.txt     |  2 +-
+>  .../devicetree/bindings/mfd/max77693.txt      |  2 +-
+>  .../bindings/pwm/atmel-hlcdc-pwm.txt          |  2 +-
+>  .../devicetree/bindings/pwm/atmel-pwm.txt     |  2 +-
+>  .../devicetree/bindings/pwm/atmel-tcb-pwm.txt |  2 +-
+>  .../bindings/pwm/brcm,bcm7038-pwm.txt         |  2 +-
+>  .../bindings/pwm/brcm,iproc-pwm.txt           |  2 +-
+>  .../devicetree/bindings/pwm/brcm,kona-pwm.txt |  2 +-
+>  .../devicetree/bindings/pwm/img-pwm.txt       |  2 +-
+>  .../devicetree/bindings/pwm/imx-pwm.txt       |  2 +-
+>  .../devicetree/bindings/pwm/imx-tpm-pwm.txt   |  2 +-
+>  .../bindings/pwm/lpc1850-sct-pwm.txt          |  2 +-
+>  .../devicetree/bindings/pwm/mxs-pwm.txt       |  2 +-
+>  .../bindings/pwm/nvidia,tegra20-pwm.txt       |  2 +-
+>  .../bindings/pwm/nxp,pca9685-pwm.txt          |  2 +-
+>  .../devicetree/bindings/pwm/pwm-bcm2835.txt   |  2 +-
+>  .../devicetree/bindings/pwm/pwm-berlin.txt    |  2 +-
+>  .../bindings/pwm/pwm-consumers.yaml           | 76 +++++++++++++++++++
+>  .../devicetree/bindings/pwm/pwm-fsl-ftm.txt   |  2 +-
+>  .../devicetree/bindings/pwm/pwm-hibvt.txt     |  2 +-
+>  .../devicetree/bindings/pwm/pwm-lp3943.txt    |  2 +-
+>  .../devicetree/bindings/pwm/pwm-mediatek.txt  |  2 +-
+>  .../devicetree/bindings/pwm/pwm-meson.txt     |  2 +-
+>  .../devicetree/bindings/pwm/pwm-mtk-disp.txt  |  2 +-
+>  .../bindings/pwm/pwm-omap-dmtimer.txt         |  2 +-
+>  .../devicetree/bindings/pwm/pwm-rockchip.txt  |  2 +-
+>  .../devicetree/bindings/pwm/pwm-sifive.txt    |  2 +-
+>  .../devicetree/bindings/pwm/pwm-stm32-lp.txt  |  2 +-
+>  .../devicetree/bindings/pwm/pwm-stm32.txt     |  2 +-
+>  .../devicetree/bindings/pwm/pwm-tiecap.txt    |  2 +-
+>  .../devicetree/bindings/pwm/pwm-tiehrpwm.txt  |  2 +-
+>  .../devicetree/bindings/pwm/pwm-zx.txt        |  2 +-
+>  Documentation/devicetree/bindings/pwm/pwm.txt | 69 -----------------
+>  .../devicetree/bindings/pwm/pwm.yaml          | 30 ++++++++
+>  .../bindings/pwm/renesas,pwm-rcar.txt         |  2 +-
+>  .../bindings/pwm/renesas,tpu-pwm.txt          |  4 +-
+>  .../devicetree/bindings/pwm/spear-pwm.txt     |  2 +-
+>  .../devicetree/bindings/pwm/st,stmpe-pwm.txt  |  2 +-
+>  .../devicetree/bindings/pwm/ti,twl-pwm.txt    |  2 +-
+>  .../devicetree/bindings/pwm/ti,twl-pwmled.txt |  2 +-
+>  .../devicetree/bindings/pwm/vt8500-pwm.txt    |  2 +-
+>  .../bindings/regulator/pwm-regulator.txt      |  2 +-
+>  .../devicetree/bindings/timer/ingenic,tcu.txt |  2 +-
 
-> On Sun, Sep 08, 2019 at 10:37:03PM +0200, Andreas Kemnade wrote:
-> > For now just enable it in the probe function to allow i2c
-> > access and disable it on remove. Disabling also means resetting
-> > the register values to default.
-> > 
-> > Tested on Kobo Clara HD.
-> > 
-> > Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> > ---
-> >  drivers/video/backlight/lm3630a_bl.c | 18 ++++++++++++++++++
-> >  1 file changed, 18 insertions(+)
-> > 
-> > diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-> > index b04b35d007a2..3b45a1733198 100644
-> > --- a/drivers/video/backlight/lm3630a_bl.c
-> > +++ b/drivers/video/backlight/lm3630a_bl.c
-> > @@ -12,6 +12,8 @@
-> >  #include <linux/uaccess.h>
-> >  #include <linux/interrupt.h>
-> >  #include <linux/regmap.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/gpio.h>
-> >  #include <linux/pwm.h>
-> >  #include <linux/platform_data/lm3630a_bl.h>
-> >  
-> > @@ -48,6 +50,7 @@ struct lm3630a_chip {
-> >  	struct lm3630a_platform_data *pdata;
-> >  	struct backlight_device *bleda;
-> >  	struct backlight_device *bledb;
-> > +	struct gpio_desc *enable_gpio;
-> >  	struct regmap *regmap;
-> >  	struct pwm_device *pwmd;
-> >  };
-> > @@ -506,6 +509,14 @@ static int lm3630a_probe(struct i2c_client *client,
-> >  		return -ENOMEM;
-> >  	pchip->dev = &client->dev;
-> >  
-> > +	pchip->enable_gpio = devm_gpiod_get_optional(&client->dev, "enable",
-> > +						GPIOD_ASIS);  
-> 
-> Initializing GPIOD_ASIS doesn't look right to me.
-> 
-> If you initialize ASIS then the driver must configure the pin as an
-> output... far easier just to set GPIOD_OUT_HIGH during the get.
-> 
-> Note also that the call to this function should also be moved *below*
-> the calls parse the DT.
-> 
-oops, must have forgotten that, and had good luck here.
-> 
-> > +	if (IS_ERR(pchip->enable_gpio)) {
-> > +		rval = PTR_ERR(pchip->enable_gpio);
-> > +		return rval;
-> > +	}
-> > +
-> > +
-> >  	pchip->regmap = devm_regmap_init_i2c(client, &lm3630a_regmap);
-> >  	if (IS_ERR(pchip->regmap)) {
-> >  		rval = PTR_ERR(pchip->regmap);
-> > @@ -535,6 +546,10 @@ static int lm3630a_probe(struct i2c_client *client,
-> >  	}
-> >  	pchip->pdata = pdata;
-> >  
-> > +	if (pchip->enable_gpio) {
-> > +		gpiod_set_value_cansleep(pchip->enable_gpio, 1);  
-> 
-> Not needed, use GPIOD_OUT_HIGH instead.
-> 
-> 
-> > +		usleep_range(1000, 2000);  
-> 
-> Not needed, this sleep is already part of lm3630a_chip_init().
-> 
-you are right.
-> 
-> > +	}
-> >  	/* chip initialize */
-> >  	rval = lm3630a_chip_init(pchip);
-> >  	if (rval < 0) {
-> > @@ -586,6 +601,9 @@ static int lm3630a_remove(struct i2c_client *client)
-> >  	if (rval < 0)
-> >  		dev_err(pchip->dev, "i2c failed to access register\n");
-> >  
-> > +	if (pchip->enable_gpio)
-> > +		gpiod_set_value_cansleep(pchip->enable_gpio, 0);
-> > +  
-> 
-> Is this needed?
-> 
-> This is a remove path, not a power management path, and we have no idea
-> what the original status of the pin was anyway?
-> 
+We've been leaving the .txt file with a reference to the schema file
+to avoid doing all the updates. But as you've done it already, that's
+good.
 
-Looking at Ishdn on page 5 of the datasheet, switching it off everytime
-possible seems not needed. We would need to call chip_init() everytime
-we enable the gpio or live with default values.
-Therefore I did decide to not put it into any power management path. But
-switching it on and not switching it off feels so unbalanced. 
+>  47 files changed, 151 insertions(+), 114 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/pwm/pwm-consumers.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/pwm/pwm.txt
+>  create mode 100644 Documentation/devicetree/bindings/pwm/pwm.yaml
 
-Regards,
-Andreas
+[...]
+
+> diff --git a/Documentation/devicetree/bindings/pwm/pwm-consumers.yaml b/Documentation/devicetree/bindings/pwm/pwm-consumers.yaml
+> new file mode 100644
+> index 000000000000..39c844fe6338
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pwm/pwm-consumers.yaml
+
+We already have a PWM consumer schema in dt-schema repository. It
+doesn't have the descriptions because we need permission to relicense.
+My aim is to have all common schema in the dt-schema repo, but we have
+a mixture because of needing to relicense.
+
+> @@ -0,0 +1,76 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pwm/pwm-consumers.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Specifying PWM information for devices
+> +
+> +maintainers:
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +
+> +description: |
+> +  PWM properties should be named "pwms". The exact meaning of each pwms
+> +  property must be documented in the device tree binding for each device.
+> +  An optional property "pwm-names" may contain a list of strings to label
+> +  each of the PWM devices listed in the "pwms" property. If no "pwm-names"
+> +  property is given, the name of the user node will be used as fallback.
+> +
+> +  Drivers for devices that use more than a single PWM device can use the
+> +  "pwm-names" property to map the name of the PWM device requested by the
+> +  pwm_get() call to an index into the list given by the "pwms" property.
+> +
+> +properties:
+> +  pwms:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: |
+> +      Phandle to PWM controller node and pwm-specifier (controller specific).
+> +      pwm-specifier typically encodes the chip-relative PWM number and the PWM
+> +      period in nanoseconds.
+> +      Optionally, the pwm-specifier can encode a number of flags (defined in
+> +      <dt-bindings/pwm/pwm.h>) in a third cell:
+> +        - PWM_POLARITY_INVERTED: invert the PWM signal polarity
+> +
+> +  pwm-names:
+> +    $ref: /schemas/types.yaml#/definitions/string-array
+> +    description:
+> +      A list of strings to label each of the PWM devices listed in the "pwms"
+> +      property. If no "pwm-names" property is given, the name of the user node
+> +      will be used as fallback.
+> +
+> +required:
+> +  - pwms
+
+Doing this means every consumer has to include this file where as I do
+'select: true' some every occurrence of these properties is checked.
+We're generally only including other schema on the provider side.
+
+> +
+> +dependencies:
+> +  pwm-names: [ pwms ]
+> +
+> +examples:
+> +  - |
+> +    // The following example could be used to describe a PWM-based
+> +    // backlight device:
+> +
+> +    pwm: pwm {
+> +      #pwm-cells = <2>;
+> +    };
+> +
+> +    bl: backlight {
+> +      pwms = <&pwm 0 5000000>;
+> +      pwm-names = "backlight";
+> +    };
+> +
+> +    // Note that in the example above, specifying the "pwm-names" is redundant
+> +    // because the name "backlight" would be used as fallback anyway.
+> +
+> +  - |
+> +    // Example with optional PWM specifier for inverse polarity
+> +
+> +    #include <dt-bindings/pwm/pwm.h>
+> +
+> +    pwm2: pwm {
+> +      #pwm-cells = <3>;
+> +    };
+> +
+> +    backlight {
+> +      pwms = <&pwm2 0 5000000 PWM_POLARITY_INVERTED>;
+> +      pwm-names = "backlight";
+> +    };
+
+> diff --git a/Documentation/devicetree/bindings/pwm/pwm.yaml b/Documentation/devicetree/bindings/pwm/pwm.yaml
+> new file mode 100644
+> index 000000000000..5d8029f11ccc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pwm/pwm.yaml
+> @@ -0,0 +1,30 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pwm/pwm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: PWM controllers (providers)
+> +
+> +maintainers:
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^pwm(@.*)?$"
+
+Copy the pattern for spi. We allow for 'pwm-[0-9]' for cases like GPIO PWMs.
+
+> +
+> +  "#pwm-cells":
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+
+You don't actually need to define the type as we already have for '#.*-cells'
+
+> +    description:
+> +      Number of cells in a PWM specifier.
+> +
+> +required:
+> +  - "#pwm-cells"
+> +
+> +examples:
+> +  - |
+> +    pwm: pwm@7000a000 {
+> +      compatible = "nvidia,tegra20-pwm";
+> +      reg = <0x7000a000 0x100>;
+> +      #pwm-cells = <2>;
+> +    };
