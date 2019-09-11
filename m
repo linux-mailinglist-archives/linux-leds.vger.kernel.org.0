@@ -2,249 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5D14B04A7
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Sep 2019 21:50:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63FFAB04D4
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Sep 2019 22:25:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728782AbfIKTt7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 Sep 2019 15:49:59 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:47686 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727581AbfIKTt7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Sep 2019 15:49:59 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8BJnrGq065258;
-        Wed, 11 Sep 2019 14:49:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1568231393;
-        bh=7gfU3ESt3i9r3XSL0EXrif5qmDaYR1rurMZI05Lz4bE=;
-        h=Subject:To:References:From:Date:In-Reply-To;
-        b=w9nIJ+53vBUAGqwONl1DyYy6SNaef9Lz3ZGHUJmIZepYN/quZ+6KIK2freT6wTuuN
-         VTzaimZi0lWzauShVPRZ9VoInJlD6up54gwxxbXkyyRTZaQMzxfeA5NGx+elHSa6ug
-         3maGNZ+mfZaTMACyX0Huey/DMUFsjKLl9QTpNKYc=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8BJnrMK100786;
-        Wed, 11 Sep 2019 14:49:53 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 11
- Sep 2019 14:49:53 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 11 Sep 2019 14:49:53 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8BJnqW6038786;
-        Wed, 11 Sep 2019 14:49:52 -0500
-Subject: Re: [PATCH v7 2/2] leds: add LED driver for EL15203000 board
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, <devicetree@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>, <jacek.anaszewski@gmail.com>,
-        <pavel@ucw.cz>
-References: <20190909071632.14392-1-oleg@kaa.org.ua>
- <20190909071632.14392-3-oleg@kaa.org.ua>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <7a6fbf7c-56d4-e8af-c2f2-0a22f987f724@ti.com>
-Date:   Wed, 11 Sep 2019 14:49:52 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1729277AbfIKUZ1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Sep 2019 16:25:27 -0400
+Received: from mail.andi.de1.cc ([85.214.55.253]:35838 "EHLO mail.andi.de1.cc"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729054AbfIKUZ1 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 11 Sep 2019 16:25:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=KHbCcZ8BvWWbKPSh5z+H7SgPQzQ4ifBlCer1pX9BQL0=; b=hf05DHewho7GMIGCsH6/PGeoio
+        TGv5pVTLJKtBGYQuR9O23JhXG5QQBFQf0V2+KLqVOFIomAerLdkInBvA12Nh22VovQPgot39NQJJF
+        064uTu5vshQfNEAFAkSfKJs+GTMkN5eWl7TkiwuP9es2KdReiUOZjp8+XSaY1uEhNT6s=;
+Received: from p200300ccff0b59001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff0b:5900:1a3d:a2ff:febf:d33a] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <andreas@kemnade.info>)
+        id 1i89Aw-0003L7-B7; Wed, 11 Sep 2019 22:25:14 +0200
+Date:   Wed, 11 Sep 2019 22:25:13 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
+        <lee.jones@linaro.org>, <jingoohan1@gmail.com>,
+        <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <b.zolnierkie@samsung.com>,
+        <dri-devel@lists.freedesktop.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-fbdev@vger.kernel.org>,
+        "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH v2 2/2] backlight: lm3630a: add an enable gpio for the
+ HWEN pin
+Message-ID: <20190911222513.489b5235@aktux>
+In-Reply-To: <a3f10318-11f4-3b78-47e5-d9add8a46791@ti.com>
+References: <20190910212909.18095-1-andreas@kemnade.info>
+        <20190910212909.18095-3-andreas@kemnade.info>
+        <20190911102533.not4ta3xwgm6bhjo@holly.lan>
+        <a3f10318-11f4-3b78-47e5-d9add8a46791@ti.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190909071632.14392-3-oleg@kaa.org.ua>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Score: -1.0 (-)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Oleh
-
-On 9/9/19 2:16 AM, Oleh Kravchenko wrote:
-> This patch adds a LED class driver for the LEDs found on
-> the Crane Merchandising System EL15203000 LEDs board
-> (aka RED LEDs board).
-> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
-> ---
->   .../testing/sysfs-class-led-driver-el15203000 |  32 ++
->   drivers/leds/Kconfig                          |  13 +
->   drivers/leds/Makefile                         |   1 +
->   drivers/leds/leds-el15203000.c                | 356 ++++++++++++++++++
->   4 files changed, 402 insertions(+)
->   create mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-el15203000
->   create mode 100644 drivers/leds/leds-el15203000.c
-
-[...]
-
-> +
-> +static int el15203000_pattern_set_P(struct led_classdev *ldev,
-> +				    struct led_pattern *pattern,
-> +				    u32 len, int repeat)
-> +{
-> +	struct el15203000_led	*led = container_of(ldev,
-> +						    struct el15203000_led,
-> +						    ldev);
-> +
-> +	if (repeat > 0)
-> +		return -EINVAL;
-> +
-> +	if (is_cascade(pattern, len, false, false)) {
-> +		dev_dbg(led->priv->dev, "Cascade mode for 0x%02x(%c)",
-> +			led->reg, led->reg);
-> +
-> +		return el15203000_cmd(led, EL_PIPE_CASCADE);
-> +	} else if (is_cascade(pattern, len, true, false)) {
-> +		dev_dbg(led->priv->dev, "Inverse cascade mode for 0x%02x(%c)",
-> +			led->reg, led->reg);
-> +
-> +		return el15203000_cmd(led, EL_PIPE_INV_CASCADE);
-> +	} else if (is_bounce(pattern, len, false)) {
-> +		dev_dbg(led->priv->dev, "Bounce mode for 0x%02x(%c)",
-> +			led->reg, led->reg);
-> +
-> +		return el15203000_cmd(led, EL_PIPE_BOUNCE);
-> +	} else if (is_bounce(pattern, len, true)) {
-> +		dev_dbg(led->priv->dev, "Inverse bounce mode for 0x%02x(%c)",
-> +			led->reg, led->reg);
-> +
-> +		return el15203000_cmd(led, EL_PIPE_INV_BOUNCE);
-> +	}
-> +
-
-nitpicking a bit not a blocker just some clean up
-
-maybe remove the dev_dbg statements and just set a local variable to the 
-pipe cmd
-
-if (is_cascade(pattern, len, false, false))
-
-     pipe_cmd = EL_PIPE_CASCADE;
-
-else if (is_cascade(pattern, len, true, false))
-
-     pipe_cmd = EL_PIPE_INV_CASCADE;
-
-else
-
-     return -EINVAL;
+On Wed, 11 Sep 2019 13:48:36 -0500
+Dan Murphy <dmurphy@ti.com> wrote:
 
 
-return el15203000_cmd(led, pipe_cmd0:
+> >> @@ -535,6 +538,13 @@ static int lm3630a_probe(struct i2c_client *clien=
+t,
+> >>   	}
+> >>   	pchip->pdata =3D pdata;
+> >>  =20
+> >> +	pchip->enable_gpio =3D devm_gpiod_get_optional(&client->dev, "enable=
+",
+> >> +						GPIOD_OUT_HIGH);
+> >> +	if (IS_ERR(pchip->enable_gpio)) {
+> >> +		rval =3D PTR_ERR(pchip->enable_gpio);
+> >> +		return rval; =20
+>=20
+> the enable gpio is optional so if it fails you log the error and move on
+>
+well, if the gpio is not there, then it returns NULL.
+It might return e.g. -EDEFER. So I need to check for errors here.
+=20
+> Also on driver removal did you want to set the GPIO to low to disable=20
+> the device to save power?
+>=20
+page 5 of the datasheet says:
 
-> +	return -EINVAL;
-> +}
-> +
-> +static int el15203000_pattern_clear(struct led_classdev *ldev)
-> +{
-> +	struct el15203000_led	*led = container_of(ldev,
-> +						    struct el15203000_led,
-> +						    ldev);
-> +
-> +	return el15203000_cmd(led, EL_OFF);
-> +}
-> +
-> +static int el15203000_probe_dt(struct el15203000 *priv)
-> +{
-> +	struct el15203000_led	*led = priv->leds;
-> +	struct fwnode_handle	*child;
-> +	int			ret;
-> +
-> +	device_for_each_child_node(priv->dev, child) {
-> +		struct led_init_data	init_data = {};
-> +
-> +		ret = fwnode_property_read_u32(child, "reg", &led->reg);
-> +		if (ret) {
-> +			dev_err(priv->dev, "LED without ID number");
-> +			fwnode_handle_put(child);
-> +
-> +			return ret;
-> +		}
-> +
-> +		if (led->reg > U8_MAX) {
-> +			dev_err(priv->dev, "LED value %d is invalid", led->reg);
-> +			fwnode_handle_put(child);
-> +
-> +			return -EINVAL;
-> +		}
-> +
-> +		fwnode_property_read_string(child, "linux,default-trigger",
-> +					    &led->ldev.default_trigger);
-> +
-> +		led->priv			  = priv;
-> +		led->ldev.max_brightness	  = LED_ON;
-> +		led->ldev.brightness_set_blocking = el15203000_set_blocking;
-> +
-> +		if (led->reg == 'S') {
-> +			led->ldev.pattern_set	= el15203000_pattern_set_S;
-> +			led->ldev.pattern_clear	= el15203000_pattern_clear;
-> +		} else if (led->reg == 'P') {
-> +			led->ldev.pattern_set	= el15203000_pattern_set_P;
-> +			led->ldev.pattern_clear	= el15203000_pattern_clear;
-> +		}
-> +
-> +		init_data.fwnode = child;
-> +		ret = devm_led_classdev_register_ext(priv->dev, &led->ldev,
-> +						     &init_data);
-> +		if (ret) {
-> +			dev_err(priv->dev,
-> +				"failed to register LED device %s, err %d",
-> +				led->ldev.name, ret);
-> +			fwnode_handle_put(child);
-> +
-> +			return ret;
-> +		}
-> +
-> +		led++;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int el15203000_probe(struct spi_device *spi)
-> +{
-> +	struct el15203000	*priv;
-> +	size_t			count;
-> +	int			ret;
-> +
-> +	count = device_get_child_node_count(&spi->dev);
-> +	if (!count) {
-> +		dev_err(&spi->dev, "LEDs are not defined in device tree!");
-> +		return -ENODEV;
-> +	}
-> +
-> +	priv = devm_kzalloc(&spi->dev, struct_size(priv, leds, count),
-> +			    GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&priv->lock);
-> +	priv->count	= count;
-> +	priv->dev	= &spi->dev;
-> +	priv->spi	= spi;
-> +	priv->delay	= jiffies -
-> +			  usecs_to_jiffies(EL_FW_DELAY_USEC);
-> +
-> +	ret = el15203000_probe_dt(priv);
-> +	if (ret)
-> +		return ret;
-> +
-> +	spi_set_drvdata(spi, priv);
-> +
-> +	return 0;
+Ishdn =3D Typ. 1=C2=B5A max. 4=C2=B5A.
+For HWEN=3DVin, I2c shutdown  (I guess this means outputs powered off)
+ond for HWEN=3DGND.
 
-Another nitpick again just some clean up.
+So are we really saving something here?
 
-Set spi_set_drvdata before you call the probe_dt then return on 
-el15203000_probe_dt this will allow you to eliminate the local ret variable.
-
-so it would look like this:
-
-spi_set_drvdata(spi, priv);
-
-return el15203000_probe_dt(priv);
-
-Otherwise
-
-Reviewed-by: Dan Murphy <dmurphy@ti.com>
-
-<snip>
-
+Regards,
+Andreas
