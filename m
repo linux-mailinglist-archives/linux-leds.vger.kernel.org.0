@@ -2,107 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B506B0032
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Sep 2019 17:36:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2708AB0289
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Sep 2019 19:21:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728244AbfIKPgH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 Sep 2019 11:36:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40192 "EHLO mail.kernel.org"
+        id S1729577AbfIKRV3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Sep 2019 13:21:29 -0400
+Received: from mail.andi.de1.cc ([85.214.55.253]:45194 "EHLO mail.andi.de1.cc"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727839AbfIKPgH (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 11 Sep 2019 11:36:07 -0400
-Received: from localhost (unknown [62.28.240.114])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 46CF9206A1;
-        Wed, 11 Sep 2019 15:36:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568216166;
-        bh=qxZQXSziXo+H6d/nno1dmQLnRFxQwJr3Dw8uDFe2odo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rhyFuL/9goMGIHfRJC27hH2SlluHVfsAP5kFre9S7h8dVxwZ1nHouElayo3hE/g2O
-         4OaX8r6nHmzqwEv4d+DZ9v+GCUiGsX6vkvSIljm/UZfOgtRWaDGFQOs8f345UT4qMe
-         X7p16CYetPBInxHrgDYfiPFVQfaAts5ILEu6tX2Q=
-Date:   Wed, 11 Sep 2019 16:36:02 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Akinobu Mita <akinobu.mita@gmail.com>
-Cc:     linux-leds@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH 1/5] leds: remove PAGE_SIZE limit of
- /sys/class/leds/<led>/trigger
-Message-ID: <20190911153602.GB13865@kroah.com>
-References: <1567946472-10075-1-git-send-email-akinobu.mita@gmail.com>
- <1567946472-10075-2-git-send-email-akinobu.mita@gmail.com>
- <20190908131034.GD9466@kroah.com>
- <CAC5umyhZ_-Gdh7+EzNoHPs2zki2-dK1xBv5xpE5zwZPt_jvNEA@mail.gmail.com>
+        id S1729130AbfIKRV3 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 11 Sep 2019 13:21:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=LQxw/u540K2TPFsuUGW/nsJsLYCtpA6SW4wjQ2RiCn4=; b=Enw8fEVpNTlLP3CEbfW/3P9zv7
+        q6ZAWTnc0G0NtMPIWDXHVUSl5TYA2UAZbpLvdUBpVN2QBgr22U+sVuFtpzUJRScehYULw5zunqHgW
+        FvRUUiBY1bq1tpy/XM6ndBlK6ORNyaGPgXv7qV6fnFBFE0X+FT36SFVXY9LwLOUq6Dvc=;
+Received: from p200300ccff0b59001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff0b:5900:1a3d:a2ff:febf:d33a] helo=aktux)
+        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <andreas@kemnade.info>)
+        id 1i86It-0006kA-J3; Wed, 11 Sep 2019 19:21:15 +0200
+Received: from andi by aktux with local (Exim 4.92)
+        (envelope-from <andreas@kemnade.info>)
+        id 1i86It-0003Lz-0Q; Wed, 11 Sep 2019 19:21:15 +0200
+From:   Andreas Kemnade <andreas@kemnade.info>
+To:     lee.jones@linaro.org, daniel.thompson@linaro.org,
+        jingoohan1@gmail.com, jacek.anaszewski@gmail.com, pavel@ucw.cz,
+        dmurphy@ti.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc:     Andreas Kemnade <andreas@kemnade.info>
+Subject: [PATCH v3 0/2] backlight_lm3630a: add enable_gpios property
+Date:   Wed, 11 Sep 2019 19:21:04 +0200
+Message-Id: <20190911172106.12843-1-andreas@kemnade.info>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAC5umyhZ_-Gdh7+EzNoHPs2zki2-dK1xBv5xpE5zwZPt_jvNEA@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Spam-Score: -1.0 (-)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Sep 12, 2019 at 12:25:28AM +0900, Akinobu Mita wrote:
-> 2019年9月8日(日) 22:10 Greg Kroah-Hartman <gregkh@linuxfoundation.org>:
-> >
-> > On Sun, Sep 08, 2019 at 09:41:08PM +0900, Akinobu Mita wrote:
-> > > Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
-> > > However, the size of this file is limited to PAGE_SIZE because of the
-> > > limitation for sysfs attribute.
-> > >
-> > > Enabling LED CPU trigger on systems with thousands of CPUs easily hits
-> > > PAGE_SIZE limit, and makes it impossible to see all available LED triggers
-> > > and which trigger is currently activated.
-> > >
-> > > This converts /sys/class/leds/<led>/trigger to bin attribute and removes
-> > > the PAGE_SIZE limitation.
-> > >
-> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > > Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> > > Cc: Pavel Machek <pavel@ucw.cz>
-> > > Cc: Dan Murphy <dmurphy@ti.com>
-> > > Acked-by: Pavel Machek <pavel@ucw.cz>
-> > > Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
-> > > ---
-> > >  drivers/leds/led-class.c    |  8 ++--
-> > >  drivers/leds/led-triggers.c | 90 ++++++++++++++++++++++++++++++++++-----------
-> > >  drivers/leds/leds.h         |  6 +++
-> > >  include/linux/leds.h        |  5 ---
-> > >  4 files changed, 79 insertions(+), 30 deletions(-)
-> > >
-> > > diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> > > index 4793e77..8b5a1d1 100644
-> > > --- a/drivers/leds/led-class.c
-> > > +++ b/drivers/leds/led-class.c
-> > > @@ -73,13 +73,13 @@ static ssize_t max_brightness_show(struct device *dev,
-> > >  static DEVICE_ATTR_RO(max_brightness);
-> > >
-> > >  #ifdef CONFIG_LEDS_TRIGGERS
-> > > -static DEVICE_ATTR(trigger, 0644, led_trigger_show, led_trigger_store);
-> > > -static struct attribute *led_trigger_attrs[] = {
-> > > -     &dev_attr_trigger.attr,
-> > > +static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
-> >
-> > BIN_ATTR_RW()?
-> 
-> We can use BIN_ATTR_RW() by renaming led_trigger_{read,write}() to
-> trigger_{read,write}().  But led_trigger_{read,write}() are not static
-> functions.  These are defined as export symbols for led-class module.
-> 
-> So trigger_{read,write}() will be too generic symbol names, won't they?
+To be able to handle the HWEN pin of the lm3630a, add
+an enable gpio to the driver and a property.
 
-Yes they would, sorry I didn't notice that.
+Tested on Kobo Clara HD.
 
-Wait, why are those functions being exported?  Who is calling a sysfs
-function from a different code path than sysfs?
+Changes in v2:
+simplification and reordering
 
-thanks,
+Changes in v3:
+added acked-by
+removed legacy include
 
-greg k-h
+Andreas Kemnade (2):
+  dt-bindings: backlight: lm3630a: add enable_gpios
+  backlight: lm3630a: add an enable gpio for the HWEN pin
+
+ .../bindings/leds/backlight/lm3630a-backlight.yaml       | 5 +++++
+ drivers/video/backlight/lm3630a_bl.c                     | 9 +++++++++
+ 2 files changed, 14 insertions(+)
+
+-- 
+2.20.1
+
