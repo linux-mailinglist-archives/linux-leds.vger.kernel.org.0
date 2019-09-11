@@ -2,119 +2,107 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4173DAF7A3
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Sep 2019 10:20:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C16AAF9F9
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Sep 2019 12:09:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbfIKIUi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 Sep 2019 04:20:38 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:47896 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726341AbfIKIUi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Sep 2019 04:20:38 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8B8KXQD081400;
-        Wed, 11 Sep 2019 03:20:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1568190033;
-        bh=6hgB10uBVZK0rQIzi+iHhmekBmMluywkDWdYmBF2pbA=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=GSn9RC/kiv63g6ebEZZiH40+Yc+zjCiYNkgc90yX1HB6fjg5bdgmIGHND+vHYBsW/
-         JMfJcVRRcez0EiFoo8dlaSi8zAbcOc2pbTEThHV5mZIf+tGCXA0/rHFOFEE6AIoxjq
-         K1K6Ia992JEtGEidJ+83RyJqLfsuk1JiQEUiZPAE=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8B8KXBC062348
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 11 Sep 2019 03:20:33 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 11
- Sep 2019 03:20:33 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 11 Sep 2019 03:20:33 -0500
-Received: from [10.250.98.129] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8B8KVsY087312;
-        Wed, 11 Sep 2019 03:20:32 -0500
-Subject: Re: [RESEND,v2 2/2] leds: tlc591xx: Use the OF version of the LED
- registration function
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        <dmurphy@ti.com>
-CC:     <tomi.valkeinen@ti.com>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20190910133814.10275-1-jjhiblot@ti.com>
- <20190910133814.10275-3-jjhiblot@ti.com>
- <69b5adc1-08fd-a0bd-b5b7-3943d8027253@gmail.com>
-From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
-Message-ID: <75d93001-9403-4ac4-948f-889b9ca4fa1b@ti.com>
-Date:   Wed, 11 Sep 2019 10:20:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726657AbfIKKI6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Sep 2019 06:08:58 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34167 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726793AbfIKKI5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 11 Sep 2019 06:08:57 -0400
+Received: by mail-wr1-f65.google.com with SMTP id a11so14054751wrx.1
+        for <linux-leds@vger.kernel.org>; Wed, 11 Sep 2019 03:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VDs4QBH4rsd9WApRFewbfBpAla/8JjMokOT6RslkOmM=;
+        b=NHM6VwFJgk9JP6K9tIa+qvaxn5+Ogzc7cDz8+F43SM8S6lFWNT0g/1L9XZBSVwaola
+         kZatLw3ohMiWvKK1iMWcap3jFwco0hBhy93RhTuCBarNbZP5Zi66A2/LNsXnwDrKyuPO
+         cWfXRoIHoq9VEqG/3oP4hGClbNkeNBPXy3Q7YepKlI2br1az4hA5lc1Qjt5yrgzKTsEo
+         CA3paIui1sOrvQKRKI8XBt4tGDOfdrw/DWSsAFggd6V/zfcMbx7N1jRIcp/dU2unHVdM
+         aDQ0BivD+hvha25GecLASN4k9C8wMNJdyuwmnls6pmJu2H5brulQUp5+CdOPOYcnBFE+
+         2lBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VDs4QBH4rsd9WApRFewbfBpAla/8JjMokOT6RslkOmM=;
+        b=ZbpBW3P3wQAiurU8sW433aRb91oFHCubH3zYbyHlKsPdHMCVmHefWyu7Z2Q4chpDLk
+         pWnbnP7kqDMS7ja2+fT7n+BvtNIf/n9RHgq9zQv0Ucyggocoqp3i3im40v58ABOqnNGI
+         ES8nZNyel6jmQgsN4f4v7pHo3jBVBYBkNbUArlDms5qi9Bj5D9IOGqtcShLW2EMu1XFy
+         G2lophUpaNpBBb7gtQzu5GywlxjJ/1c+aNUoOFXhxnoI3EUBMcSAhAIHb8qaABRIaOw8
+         jYjWz1a/vCAgU4Bm20BZWT46ZY8s+KFAmOz63TKZJVwQHSACUrrYP9PMZ5rZPie0Zz0k
+         98NQ==
+X-Gm-Message-State: APjAAAW7QOYu+PENr7ZFV3QUNmxXJvWemoo9DOHIbjU/Gnc8KX1izqsr
+        aIDVBL9LrN0z8cxvaoa9l9xPzg==
+X-Google-Smtp-Source: APXvYqwwO7ms6cDK74/Pkx8Q/GbwMaXoYLDIpo3xME5YnvIM2YoARQAWfaF+MWOS/r+pfR+2cwba4A==
+X-Received: by 2002:adf:8444:: with SMTP id 62mr23305991wrf.202.1568196533899;
+        Wed, 11 Sep 2019 03:08:53 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
+        by smtp.gmail.com with ESMTPSA id z189sm3551152wmc.25.2019.09.11.03.08.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2019 03:08:53 -0700 (PDT)
+Date:   Wed, 11 Sep 2019 11:08:51 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     lee.jones@linaro.org, jingoohan1@gmail.com,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
+        robh+dt@kernel.org, mark.rutland@arm.com, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fbdev@vger.kernel.org,
+        "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: lm3630a: add enable_gpios
+Message-ID: <20190911100851.f4rnldghtmly26oo@holly.lan>
+References: <20190910212909.18095-1-andreas@kemnade.info>
+ <20190910212909.18095-2-andreas@kemnade.info>
 MIME-Version: 1.0
-In-Reply-To: <69b5adc1-08fd-a0bd-b5b7-3943d8027253@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190910212909.18095-2-andreas@kemnade.info>
+User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Tue, Sep 10, 2019 at 11:29:08PM +0200, Andreas Kemnade wrote:
+> add enable-gpios to describe HWEN pin
+> 
+> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
 
-On 10/09/2019 22:08, Jacek Anaszewski wrote:
-> Hi Jean,
->
-> Thank you the patch.
->
-> On 9/10/19 3:38 PM, Jean-Jacques Hiblot wrote:
->> The driver parses the device-tree to identify which LED should be handled.
->> Since the information about the device node is known at this time, we can
->> provide the LED core with it. It may be useful later.
->>
->> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
->> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
->> Acked-by: Pavel Machek <pavel@ucw.cz>
->> ---
->>   drivers/leds/leds-tlc591xx.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
->> index 3d5a4b92f016..10764a62cb71 100644
->> --- a/drivers/leds/leds-tlc591xx.c
->> +++ b/drivers/leds/leds-tlc591xx.c
->> @@ -207,7 +207,7 @@ tlc591xx_probe(struct i2c_client *client,
->>   		led->led_no = reg;
->>   		led->ldev.brightness_set_blocking = tlc591xx_brightness_set;
->>   		led->ldev.max_brightness = LED_FULL;
->> -		err = devm_led_classdev_register(dev, &led->ldev);
->> +		err = devm_of_led_classdev_register(dev, child, &led->ldev);
-> devm_of_led_classdev_register() has been replaced with
-> devm_led_classdev_register_ext() recently. Do you have some specific
-> reason for passing OF node to the LED registration function?
+Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-Not anymore at this point.
-
-I used the OF because the other patchset I posted (leds: Add control of 
-the voltage/current regulator to the LED core) uses the of_node to find 
-a regulator in the node of the LED. Since the regulator stuff is going 
-to need some rework, we can drop this patch.
-
-Thanks
-
-JJ
-
-> Currently this is beneficial only for generic LED name composition
-> mechanism basing on 'function' and 'color' DT properties so if you
-> want you can convert the driver to that. Please compare such recent
-> conversions in linux-leds.git for-next branch [0][1].
->
->>   		if (err < 0) {
->>   			dev_err(dev, "couldn't register LED %s\n",
->>   				led->ldev.name);
->>
-> [0]
-> https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/commit/?h=for-next&id=a50ff28348934913c46feb7945571329e46c70b3
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/commit/?h=for-next&id=4dcbc8f8c59f4b618d651f5ba884ee5bf562c8de
->
+> ---
+> changes in v2: add example
+>  .../bindings/leds/backlight/lm3630a-backlight.yaml           | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+> index dc129d9a329e..1fa83feffe16 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+> @@ -29,6 +29,10 @@ properties:
+>    '#size-cells':
+>      const: 0
+>  
+> +  enable-gpios:
+> +    description: GPIO to use to enable/disable the backlight (HWEN pin).
+> +    maxItems: 1
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -92,6 +96,7 @@ examples:
+>      i2c {
+>          #address-cells = <1>;
+>          #size-cells = <0>;
+> +        enable-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
+>  
+>          led-controller@38 {
+>                  compatible = "ti,lm3630a";
+> -- 
+> 2.20.1
+> 
