@@ -2,59 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8046B1355
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Sep 2019 19:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAE4FB1474
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Sep 2019 20:33:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728598AbfILRQC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Sep 2019 13:16:02 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:37435 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728269AbfILRQB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Sep 2019 13:16:01 -0400
-Received: by mail-wm1-f68.google.com with SMTP id r195so922491wme.2;
-        Thu, 12 Sep 2019 10:15:58 -0700 (PDT)
+        id S1727281AbfILSdC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Sep 2019 14:33:02 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:35636 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726483AbfILSdC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Sep 2019 14:33:02 -0400
+Received: by mail-wm1-f66.google.com with SMTP id n10so61325wmj.0;
+        Thu, 12 Sep 2019 11:32:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=jeyXUEk5MW2f7VdPv1M1Ktn4qGM+TVYNsEqyjuyCxzk=;
-        b=mA6vqJ8l1omNhlKe1DT57HqJADrXOUJZXXTS5IIEHF2uyVCCtH/QRrVqfbDJc7iSHu
-         839fJPCVghIlsfL06snlF9z3Ued37xNHhoGe1GYnMXbnptdwiXypTfxXGnQjbv5+s4L5
-         PAK1Wh1bDCLcy7/A91x8Tr4k5QCi/cyWBBdaam9cY/aOXJBiyT6YlNfcHFApnQ3sE2V7
-         uKIXythmMhVuSbLG+UeJKceH5BT5Jzsgf0F+JLIeO/v45FbCvVl4n3hjmoC+c/wzNFsS
-         hmeMubYFbMC7Zd/6pO0XTBbykxEeMByU1dwEKRPNeFhXJYBbQ1uzRPTZYBP0NmwMq8Ve
-         +7xQ==
+        bh=EafGGJpNEDvecTjcGD7gXYMS7mxeSW45vM7UZylYEVM=;
+        b=d/mpAH4w0fgYhoMz5GQ+hJ+bcZU+oniTYQBmDTYBM5aUgj/rNya649DR7wmonPnsWD
+         upWjoPqbpmeG4b6IKjkRkHQeb4L892+PoZNTqT6+/0X/c4Qci72EE2Wcof4EG8YUZJO0
+         x02Nb5M/FrJd9KcrhNPx/AswSv1mKZQnzLy6Il+Exof9ynh04VEljriql1KiT1Vy4RO4
+         rL+RNOG1ww8POWmvkHWhKjggMCiqMeheP1wkn6gLmjTU4g/rJPodp2Gp5+tF9tw8XxJo
+         LH6Srf/L6up8sk0daenCmGLLwTkGwhdnNemn5ggIMRfBVLHIU7kBatTs9twTz2pptatv
+         ohzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=jeyXUEk5MW2f7VdPv1M1Ktn4qGM+TVYNsEqyjuyCxzk=;
-        b=feBah2z91pEnkBoCKDGS0W5b/k6sWJIRcFmHG1XiCABH3Kl+GFo3J5lUwaTMGe/9uU
-         Sjm/s95EKFJlU1e1gu64uJeh8uUq/3fczwloFupig7C34Q5JMnDaB8X/yICYpR4HRvFN
-         Sdq/FC3pXzWZhLHhij6uEAC/8l+t2ORN+W0zKN2TmG7Lvg2fDADwHwnJYonatFAuDspV
-         UsFTQ57nTNZeNFxelT7y7sxiFF3BHVTj/1ZU7bEVz/n0s7BHNxnldXv54DZziulUdFOR
-         TfSGxWA6WXc8WtjDFDbab4PmNqB6/I/8XBBHA4Hwyxxi22kjFDm9WpeWcEdUXXA7ZFtU
-         cKlg==
-X-Gm-Message-State: APjAAAWT6OAB/7xDXzX/oqSrAsL3dOqWGevazTenLdqIKVWvNQ4ZwwwW
-        nYsE27ZmBpBhEsX3cR1/gm0=
-X-Google-Smtp-Source: APXvYqzTU/6I4UZVscWpiVPC4F4NOXUWlqgl7g/fPDvo2rIYz6m6hQGmTFwZ6Exev2AAww6YtGsLsA==
-X-Received: by 2002:a1c:6c11:: with SMTP id h17mr853897wmc.128.1568308557781;
-        Thu, 12 Sep 2019 10:15:57 -0700 (PDT)
+        bh=EafGGJpNEDvecTjcGD7gXYMS7mxeSW45vM7UZylYEVM=;
+        b=ZnVgbC9s90n1owDyy+Jk+iEH00efKJrrwzK0Bb7PZIv+qIKL5NTd7KUpDNLO1PfT5k
+         0ZCTPC4u33kvgVZGYq9nPPTYs7g0ADrj9Lx2KsDIxaXAXMwNUMRcRixueR0hCOCWzvcI
+         c/kkiGfcM6j6ZTEJeds/TDuCsDtDvTLacDflA05QVwt4E1LTt1GkmAeafeuYR0cQYzkK
+         r1d/mBx2gsINFS0tvRD2nHWbhc1w788MYAw33dmSY+kVB/PkYA6nyxKagP+Oo3t0CJLX
+         ZAjy//D4ttWE2gkqCALA2PbJHir1Lm7yydGjVpo7yIiGLlStMmAJGpMkwCAiWTvEGLto
+         s3SA==
+X-Gm-Message-State: APjAAAW0IANo6s/1yKUn7ToU+phUR9uRnY2XxXFPoKT31O1AWa9OQQB1
+        l2pSMqBfmdHRGS4c7p2yRl5D7AYo
+X-Google-Smtp-Source: APXvYqwcErQm0/q3AkdcZjcumens/c7+Dc7XwktXW2JmQvHDdgvzUhSmxPW2AWATgBObiRwzZRVGsA==
+X-Received: by 2002:a1c:dd0a:: with SMTP id u10mr29968wmg.100.1568313178504;
+        Thu, 12 Sep 2019 11:32:58 -0700 (PDT)
 Received: from [192.168.1.19] (bds144.neoplus.adsl.tpnet.pl. [83.28.4.144])
-        by smtp.gmail.com with ESMTPSA id u68sm890205wmu.12.2019.09.12.10.15.56
+        by smtp.gmail.com with ESMTPSA id x6sm3437wmf.38.2019.09.12.11.32.56
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 12 Sep 2019 10:15:57 -0700 (PDT)
-Subject: Re: [PATCH] leds: remove PAGE_SIZE limit of
- /sys/class/leds/<led>/trigger
-To:     Akinobu Mita <akinobu.mita@gmail.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-References: <1568299189-11074-1-git-send-email-akinobu.mita@gmail.com>
- <1568299189-11074-2-git-send-email-akinobu.mita@gmail.com>
+        Thu, 12 Sep 2019 11:32:57 -0700 (PDT)
+Subject: Re: [PATCH v2] leds: lm3532: Fix optional led-max-microamp prop error
+ handling
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190911182730.22409-1-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -113,38 +109,67 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <296db773-2185-9a5e-c9e6-df614092a969@gmail.com>
-Date:   Thu, 12 Sep 2019 19:15:53 +0200
+Message-ID: <fe7c340b-65b9-f3eb-eb7a-f359f258ccca@gmail.com>
+Date:   Thu, 12 Sep 2019 20:32:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1568299189-11074-2-git-send-email-akinobu.mita@gmail.com>
+In-Reply-To: <20190911182730.22409-1-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Akinobu,
+Hi Dan,
 
-Please bump patch version each time you send an update
-of the patch with the same subject.
+Thank you for the update.
 
+On 9/11/19 8:27 PM, Dan Murphy wrote:
+> Fix the error handling for the led-max-microamp property.
+> Need to check if the property is present and then if it is
+> retrieve the setting and its max boundary
+> 
+> Reported-by: Pavel Machek <pavel@ucw.cz>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+> 
+> v2 - Changed full scale current check to use min function
+> 
+>  drivers/leds/leds-lm3532.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
+> index 62ace6698d25..a1742dc1f6fa 100644
+> --- a/drivers/leds/leds-lm3532.c
+> +++ b/drivers/leds/leds-lm3532.c
+> @@ -601,11 +601,15 @@ static int lm3532_parse_node(struct lm3532_data *priv)
+>  			goto child_out;
+>  		}
+>  
+> -		ret = fwnode_property_read_u32(child, "led-max-microamp",
+> -					       &led->full_scale_current);
+> -
+> -		if (led->full_scale_current > LM3532_FS_CURR_MAX)
+> -			led->full_scale_current = LM3532_FS_CURR_MAX;
+> +		if (fwnode_property_present(child, "led-max-microamp")) {
+> +			if (fwnode_property_read_u32(child, "led-max-microamp",
+> +						     &led->full_scale_current))
+> +				dev_err(&priv->client->dev,
+> +					"Failed getting led-max-microamp\n");
+> +			else
+> +				min(led->full_scale_current,
+> +				    LM3532_FS_CURR_MAX);
+> +		}
+>  
+>  		if (led->mode == LM3532_BL_MODE_ALS) {
+>  			led->mode = LM3532_ALS_CTRL;
+> 
+
+Applied.
+
+-- 
 Best regards,
 Jacek Anaszewski
-
-On 9/12/19 4:39 PM, Akinobu Mita wrote:
-> Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
-> However, the size of this file is limited to PAGE_SIZE because of the
-> limitation for sysfs attribute.
-> 
-> Enabling LED CPU trigger on systems with thousands of CPUs easily hits
-> PAGE_SIZE limit, and makes it impossible to see all available LED triggers
-> and which trigger is currently activated.
-> 
-> We work around it here by converting /sys/class/leds/<led>/trigger to
-> binary attribute, which is not limited by length. This is _not_ good
-> design, do not copy it.
-
