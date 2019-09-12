@@ -2,120 +2,149 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02AD8B11BB
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Sep 2019 17:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8046B1355
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Sep 2019 19:16:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732844AbfILPDh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Sep 2019 11:03:37 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:49990 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732817AbfILPDh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Sep 2019 11:03:37 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8CF3Aah046587;
-        Thu, 12 Sep 2019 10:03:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1568300590;
-        bh=eju7yvlhMevpk8GMIglQpXBV9N/M17eV4ISPBCjwU3g=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=kofTgmSdQLex18tsgcah0ZbTuO/uSmNQEQaKu1CsVKhJD9woALdPBt0Zuwfuqe3ea
-         /UdLDlUEJScXMRjUencauLX5F5YcouKRhw3dsEmRd4V/729PJKFPxHcCd7h3piz31p
-         igneibNxmUgJPpXVu1e2WzW5E9sGWzFqRP+0P/kA=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8CF3A4B029511
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 12 Sep 2019 10:03:10 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 12
- Sep 2019 10:03:10 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Thu, 12 Sep 2019 10:03:09 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8CF39dk069556;
-        Thu, 12 Sep 2019 10:03:09 -0500
-Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: lm3630a: add enable_gpios
-To:     Andreas Kemnade <andreas@kemnade.info>
-CC:     <lee.jones@linaro.org>, <daniel.thompson@linaro.org>,
-        <jingoohan1@gmail.com>, <jacek.anaszewski@gmail.com>,
-        <pavel@ucw.cz>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <b.zolnierkie@samsung.com>, <dri-devel@lists.freedesktop.org>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
-        "H. Nikolaus Schaller" <hns@goldelico.com>
-References: <20190911172106.12843-1-andreas@kemnade.info>
- <20190911172106.12843-2-andreas@kemnade.info>
- <ff410d6c-e1e8-7c96-e8f7-0a0deb816f6a@ti.com>
- <20190912165808.3c38b7a2@kemnade.info>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <5c8d25ab-e780-4e60-9723-cd65553f4db3@ti.com>
-Date:   Thu, 12 Sep 2019 10:03:12 -0500
+        id S1728598AbfILRQC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Sep 2019 13:16:02 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37435 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728269AbfILRQB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Sep 2019 13:16:01 -0400
+Received: by mail-wm1-f68.google.com with SMTP id r195so922491wme.2;
+        Thu, 12 Sep 2019 10:15:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=jeyXUEk5MW2f7VdPv1M1Ktn4qGM+TVYNsEqyjuyCxzk=;
+        b=mA6vqJ8l1omNhlKe1DT57HqJADrXOUJZXXTS5IIEHF2uyVCCtH/QRrVqfbDJc7iSHu
+         839fJPCVghIlsfL06snlF9z3Ued37xNHhoGe1GYnMXbnptdwiXypTfxXGnQjbv5+s4L5
+         PAK1Wh1bDCLcy7/A91x8Tr4k5QCi/cyWBBdaam9cY/aOXJBiyT6YlNfcHFApnQ3sE2V7
+         uKIXythmMhVuSbLG+UeJKceH5BT5Jzsgf0F+JLIeO/v45FbCvVl4n3hjmoC+c/wzNFsS
+         hmeMubYFbMC7Zd/6pO0XTBbykxEeMByU1dwEKRPNeFhXJYBbQ1uzRPTZYBP0NmwMq8Ve
+         +7xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=jeyXUEk5MW2f7VdPv1M1Ktn4qGM+TVYNsEqyjuyCxzk=;
+        b=feBah2z91pEnkBoCKDGS0W5b/k6sWJIRcFmHG1XiCABH3Kl+GFo3J5lUwaTMGe/9uU
+         Sjm/s95EKFJlU1e1gu64uJeh8uUq/3fczwloFupig7C34Q5JMnDaB8X/yICYpR4HRvFN
+         Sdq/FC3pXzWZhLHhij6uEAC/8l+t2ORN+W0zKN2TmG7Lvg2fDADwHwnJYonatFAuDspV
+         UsFTQ57nTNZeNFxelT7y7sxiFF3BHVTj/1ZU7bEVz/n0s7BHNxnldXv54DZziulUdFOR
+         TfSGxWA6WXc8WtjDFDbab4PmNqB6/I/8XBBHA4Hwyxxi22kjFDm9WpeWcEdUXXA7ZFtU
+         cKlg==
+X-Gm-Message-State: APjAAAWT6OAB/7xDXzX/oqSrAsL3dOqWGevazTenLdqIKVWvNQ4ZwwwW
+        nYsE27ZmBpBhEsX3cR1/gm0=
+X-Google-Smtp-Source: APXvYqzTU/6I4UZVscWpiVPC4F4NOXUWlqgl7g/fPDvo2rIYz6m6hQGmTFwZ6Exev2AAww6YtGsLsA==
+X-Received: by 2002:a1c:6c11:: with SMTP id h17mr853897wmc.128.1568308557781;
+        Thu, 12 Sep 2019 10:15:57 -0700 (PDT)
+Received: from [192.168.1.19] (bds144.neoplus.adsl.tpnet.pl. [83.28.4.144])
+        by smtp.gmail.com with ESMTPSA id u68sm890205wmu.12.2019.09.12.10.15.56
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 12 Sep 2019 10:15:57 -0700 (PDT)
+Subject: Re: [PATCH] leds: remove PAGE_SIZE limit of
+ /sys/class/leds/<led>/trigger
+To:     Akinobu Mita <akinobu.mita@gmail.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+References: <1568299189-11074-1-git-send-email-akinobu.mita@gmail.com>
+ <1568299189-11074-2-git-send-email-akinobu.mita@gmail.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <296db773-2185-9a5e-c9e6-df614092a969@gmail.com>
+Date:   Thu, 12 Sep 2019 19:15:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190912165808.3c38b7a2@kemnade.info>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1568299189-11074-2-git-send-email-akinobu.mita@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Andreas
+Hi Akinobu,
 
-On 9/12/19 9:58 AM, Andreas Kemnade wrote:
-> On Thu, 12 Sep 2019 06:39:50 -0500
-> Dan Murphy <dmurphy@ti.com> wrote:
->
->> Andreas
->>
->> On 9/11/19 12:21 PM, Andreas Kemnade wrote:
->>> add enable-gpios to describe HWEN pin
->>>
->>> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
->>> Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
->>> ---
->>> changes in v2: added example
->>> changes in v3: added Acked-by
->>>    .../bindings/leds/backlight/lm3630a-backlight.yaml           | 5 +++++
->>>    1 file changed, 5 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
->>> index dc129d9a329e..1fa83feffe16 100644
->>> --- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
->>> +++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
->>> @@ -29,6 +29,10 @@ properties:
->>>      '#size-cells':
->>>        const: 0
->>>    
->>> +  enable-gpios:
->>> +    description: GPIO to use to enable/disable the backlight (HWEN pin).
->>> +    maxItems: 1
->>> +
->>>    required:
->>>      - compatible
->>>      - reg
->>> @@ -92,6 +96,7 @@ examples:
->>>        i2c {
->>>            #address-cells = <1>;
->>>            #size-cells = <0>;
->>> +        enable-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
->>>    
->>>            led-controller@38 {
->>>                    compatible = "ti,lm3630a";
->> Looks good to me
->>
-> well, the enable-gpios is still at the same place as in v2. This was sent
-> before your comments to v2 have been arrived.
+Please bump patch version each time you send an update
+of the patch with the same subject.
 
-Ah I overlooked that.  Yeah that still needs to move I assumed you moved it.
+Best regards,
+Jacek Anaszewski
 
-Dan
+On 9/12/19 4:39 PM, Akinobu Mita wrote:
+> Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
+> However, the size of this file is limited to PAGE_SIZE because of the
+> limitation for sysfs attribute.
+> 
+> Enabling LED CPU trigger on systems with thousands of CPUs easily hits
+> PAGE_SIZE limit, and makes it impossible to see all available LED triggers
+> and which trigger is currently activated.
+> 
+> We work around it here by converting /sys/class/leds/<led>/trigger to
+> binary attribute, which is not limited by length. This is _not_ good
+> design, do not copy it.
 
-
-> Regards,
-> Andreas
