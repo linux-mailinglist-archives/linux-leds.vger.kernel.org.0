@@ -2,56 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EAE4FB1474
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Sep 2019 20:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA288B14B7
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Sep 2019 21:12:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727281AbfILSdC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Sep 2019 14:33:02 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35636 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726483AbfILSdC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Sep 2019 14:33:02 -0400
-Received: by mail-wm1-f66.google.com with SMTP id n10so61325wmj.0;
-        Thu, 12 Sep 2019 11:32:59 -0700 (PDT)
+        id S1726008AbfILTMi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Sep 2019 15:12:38 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:35744 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727564AbfILTMh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Sep 2019 15:12:37 -0400
+Received: by mail-wr1-f67.google.com with SMTP id g7so29713019wrx.2;
+        Thu, 12 Sep 2019 12:12:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:from:to:cc:references:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=EafGGJpNEDvecTjcGD7gXYMS7mxeSW45vM7UZylYEVM=;
-        b=d/mpAH4w0fgYhoMz5GQ+hJ+bcZU+oniTYQBmDTYBM5aUgj/rNya649DR7wmonPnsWD
-         upWjoPqbpmeG4b6IKjkRkHQeb4L892+PoZNTqT6+/0X/c4Qci72EE2Wcof4EG8YUZJO0
-         x02Nb5M/FrJd9KcrhNPx/AswSv1mKZQnzLy6Il+Exof9ynh04VEljriql1KiT1Vy4RO4
-         rL+RNOG1ww8POWmvkHWhKjggMCiqMeheP1wkn6gLmjTU4g/rJPodp2Gp5+tF9tw8XxJo
-         LH6Srf/L6up8sk0daenCmGLLwTkGwhdnNemn5ggIMRfBVLHIU7kBatTs9twTz2pptatv
-         ohzw==
+        bh=7aJZw6sZd9qaRFKiA699AfmVho4Xkvw3sRYEJYPqatM=;
+        b=mIlFkT+8ZE8WJsm312l0LMJiHe5O+psb5cUYXyeWNTxIlDggtBsgLTXXKOn8mzurYq
+         M9tM4b1L+YVI5a73LWReojIMWjp3DD1PcQtKupgEgy14zc8UtloXHxQChsqVX8mmyn0x
+         uGmcsIQtsC6RWBCR7+neLdv7MqAQsy9UnKZjSFi71p5LChboUgp+oBvT30i8RQ6yPFx0
+         1a1HNG+X/4LEkW9jWtegtymeXS5Au3+ilTPi5/YoyIWI419E9DPDmD2C83xpF5E2geLi
+         ycUWnHyvjG/sTtokkey3OnK+VXYrXLyCHps7mACdZBZ3e4ohaZh6RpQgre7qy6kK5gXc
+         SU9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=EafGGJpNEDvecTjcGD7gXYMS7mxeSW45vM7UZylYEVM=;
-        b=ZnVgbC9s90n1owDyy+Jk+iEH00efKJrrwzK0Bb7PZIv+qIKL5NTd7KUpDNLO1PfT5k
-         0ZCTPC4u33kvgVZGYq9nPPTYs7g0ADrj9Lx2KsDIxaXAXMwNUMRcRixueR0hCOCWzvcI
-         c/kkiGfcM6j6ZTEJeds/TDuCsDtDvTLacDflA05QVwt4E1LTt1GkmAeafeuYR0cQYzkK
-         r1d/mBx2gsINFS0tvRD2nHWbhc1w788MYAw33dmSY+kVB/PkYA6nyxKagP+Oo3t0CJLX
-         ZAjy//D4ttWE2gkqCALA2PbJHir1Lm7yydGjVpo7yIiGLlStMmAJGpMkwCAiWTvEGLto
-         s3SA==
-X-Gm-Message-State: APjAAAW0IANo6s/1yKUn7ToU+phUR9uRnY2XxXFPoKT31O1AWa9OQQB1
-        l2pSMqBfmdHRGS4c7p2yRl5D7AYo
-X-Google-Smtp-Source: APXvYqwcErQm0/q3AkdcZjcumens/c7+Dc7XwktXW2JmQvHDdgvzUhSmxPW2AWATgBObiRwzZRVGsA==
-X-Received: by 2002:a1c:dd0a:: with SMTP id u10mr29968wmg.100.1568313178504;
-        Thu, 12 Sep 2019 11:32:58 -0700 (PDT)
+        bh=7aJZw6sZd9qaRFKiA699AfmVho4Xkvw3sRYEJYPqatM=;
+        b=JMda6a5exy6mbPgdb34Yl+lttS16DRlDbZI0qKO3AGZ9QcU3K26Wm1ms4+hYI0QNGo
+         WXyP6vatAhOI+ofRPY+BggL2kvbZRTfICU/RvSw8coVqEVbF6aQSQuMSpNXzSZOQiTKW
+         zmyQIfNQJqHPeA8f4LinVyQ3VDIxk6YowaCwDzWNGU3ImQKvQjIrN+eTtOB2S99WhDCx
+         xLcQR/yKLDjF0BiuxU4HjZXRVnje4hh6ztXR+Iwz1UatiyeTXXNfmI+VngUlPuP1MmYW
+         HLd1frIpTI86oAZXwHOXKFfhmSJU/qbk3A2xJ3H+cvk2PxWVAUHYdx/mX2yzqYUY7I1I
+         t+bw==
+X-Gm-Message-State: APjAAAXa/EOwPeA8wSDBoJLXjLXiCUFWpff6nJj+y5aidyVsypKnF+4u
+        33+ov4qoO2OCi5QGj2Hkf658au7P
+X-Google-Smtp-Source: APXvYqyZ2+Wy38+QKXsZjqZNEucfhNvTOEvkJPCm86mQYwKFddIVR3Jo7aeeJAPPWqANezpxIxE/lA==
+X-Received: by 2002:adf:f901:: with SMTP id b1mr8979631wrr.184.1568315552955;
+        Thu, 12 Sep 2019 12:12:32 -0700 (PDT)
 Received: from [192.168.1.19] (bds144.neoplus.adsl.tpnet.pl. [83.28.4.144])
-        by smtp.gmail.com with ESMTPSA id x6sm3437wmf.38.2019.09.12.11.32.56
+        by smtp.gmail.com with ESMTPSA id d193sm219008wmd.0.2019.09.12.12.12.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 12 Sep 2019 11:32:57 -0700 (PDT)
+        Thu, 12 Sep 2019 12:12:32 -0700 (PDT)
 Subject: Re: [PATCH v2] leds: lm3532: Fix optional led-max-microamp prop error
  handling
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190911182730.22409-1-dmurphy@ti.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+ <fe7c340b-65b9-f3eb-eb7a-f359f258ccca@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -109,66 +110,102 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <fe7c340b-65b9-f3eb-eb7a-f359f258ccca@gmail.com>
-Date:   Thu, 12 Sep 2019 20:32:54 +0200
+Message-ID: <412da003-353d-895a-fa45-8e640b814734@gmail.com>
+Date:   Thu, 12 Sep 2019 21:12:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190911182730.22409-1-dmurphy@ti.com>
+In-Reply-To: <fe7c340b-65b9-f3eb-eb7a-f359f258ccca@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Dan,
+On 9/12/19 8:32 PM, Jacek Anaszewski wrote:> Hi Dan,
+> 
+> Thank you for the update.
+> 
+> On 9/11/19 8:27 PM, Dan Murphy wrote:
+>> Fix the error handling for the led-max-microamp property.
+>> Need to check if the property is present and then if it is
+>> retrieve the setting and its max boundary
+>>
+>> Reported-by: Pavel Machek <pavel@ucw.cz>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>> ---
+>>
+>> v2 - Changed full scale current check to use min function
+>>
+>>  drivers/leds/leds-lm3532.c | 14 +++++++++-----
+>>  1 file changed, 9 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
+>> index 62ace6698d25..a1742dc1f6fa 100644
+>> --- a/drivers/leds/leds-lm3532.c
+>> +++ b/drivers/leds/leds-lm3532.c
+>> @@ -601,11 +601,15 @@ static int lm3532_parse_node(struct lm3532_data *priv)
+>>  			goto child_out;
+>>  		}
+>>  
+>> -		ret = fwnode_property_read_u32(child, "led-max-microamp",
+>> -					       &led->full_scale_current);
+>> -
+>> -		if (led->full_scale_current > LM3532_FS_CURR_MAX)
+>> -			led->full_scale_current = LM3532_FS_CURR_MAX;
+>> +		if (fwnode_property_present(child, "led-max-microamp")) {
+>> +			if (fwnode_property_read_u32(child, "led-max-microamp",
+>> +						     &led->full_scale_current))
+>> +				dev_err(&priv->client->dev,
+>> +					"Failed getting led-max-microamp\n");
+>> +			else
+>> +				min(led->full_scale_current,
+>> +				    LM3532_FS_CURR_MAX);
 
-Thank you for the update.
+I didn't previously notice lack of assignment of min() return value.
 
-On 9/11/19 8:27 PM, Dan Murphy wrote:
-> Fix the error handling for the led-max-microamp property.
-> Need to check if the property is present and then if it is
-> retrieve the setting and its max boundary
-> 
-> Reported-by: Pavel Machek <pavel@ucw.cz>
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
-> 
-> v2 - Changed full scale current check to use min function
-> 
->  drivers/leds/leds-lm3532.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
-> index 62ace6698d25..a1742dc1f6fa 100644
-> --- a/drivers/leds/leds-lm3532.c
-> +++ b/drivers/leds/leds-lm3532.c
-> @@ -601,11 +601,15 @@ static int lm3532_parse_node(struct lm3532_data *priv)
->  			goto child_out;
->  		}
->  
-> -		ret = fwnode_property_read_u32(child, "led-max-microamp",
-> -					       &led->full_scale_current);
-> -
-> -		if (led->full_scale_current > LM3532_FS_CURR_MAX)
-> -			led->full_scale_current = LM3532_FS_CURR_MAX;
-> +		if (fwnode_property_present(child, "led-max-microamp")) {
-> +			if (fwnode_property_read_u32(child, "led-max-microamp",
-> +						     &led->full_scale_current))
-> +				dev_err(&priv->client->dev,
-> +					"Failed getting led-max-microamp\n");
-> +			else
-> +				min(led->full_scale_current,
-> +				    LM3532_FS_CURR_MAX);
-> +		}
->  
->  		if (led->mode == LM3532_BL_MODE_ALS) {
->  			led->mode = LM3532_ALS_CTRL;
-> 
+I've amended that and while at it improved a bit this construction to
+avoid some indentations and line breaks:
 
-Applied.
+diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
+index 62ace6698d25..0507c6575c08 100644
+--- a/drivers/leds/leds-lm3532.c
++++ b/drivers/leds/leds-lm3532.c
+@@ -601,11 +601,14 @@ static int lm3532_parse_node(struct lm3532_data *priv)
+                goto child_out;
+        }
+
+-       ret = fwnode_property_read_u32(child, "led-max-microamp",
+-                                      &led->full_scale_current);
+-
+-       if (led->full_scale_current > LM3532_FS_CURR_MAX)
+-               led->full_scale_current = LM3532_FS_CURR_MAX;
++       if (fwnode_property_present(child, "led-max-microamp") &&
++           fwnode_property_read_u32(child, "led-max-microamp",
++                                    &led->full_scale_current))
++               dev_err(&priv->client->dev,
++                       "Failed getting led-max-microamp\n");
++       else
++               led->full_scale_current = min(led->full_scale_current,
++                                             LM3532_FS_CURR_MAX);
+
+        if (led->mode == LM3532_BL_MODE_ALS) {
+                led->mode = LM3532_ALS_CTRL;
+
+
+Please let me know in case of any doubts.
+
+
+>> +		}
+>>  
+>>  		if (led->mode == LM3532_BL_MODE_ALS) {
+>>  			led->mode = LM3532_ALS_CTRL;
+>>
+> 
+> Applied.
+> 
 
 -- 
 Best regards,
