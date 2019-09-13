@@ -2,209 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C8F9B2237
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2019 16:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8228B22DE
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Sep 2019 17:03:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730838AbfIMOg1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 13 Sep 2019 10:36:27 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:35841 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729421AbfIMOg1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Sep 2019 10:36:27 -0400
-Received: by mail-oi1-f195.google.com with SMTP id k20so2820547oih.3;
-        Fri, 13 Sep 2019 07:36:26 -0700 (PDT)
+        id S2390433AbfIMPDl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 13 Sep 2019 11:03:41 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:46145 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390420AbfIMPDl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Sep 2019 11:03:41 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q5so18238822pfg.13;
+        Fri, 13 Sep 2019 08:03:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=bztEqJMrHA1fGFkAFV2znJLCLhbELSJhkz/+uYwGTSk=;
+        b=hQiMZnPoWog/O+cXMT7nOr9DETT3+0AoDAix5Oz3FMB1TQdkJBfwMB/F1rEc/RU6G4
+         J2mLpwkvmEqsCs2lbZopJ9tQXfeagxBIpyQk8p3PdliGIuWU4iC8IgUbXI8Cm3kgBav/
+         5dWULR9yvMwc8X/h3gLf+nBmeyJWq+zSwWD3L0Q/y9jWozQrDgCiK7u+o0YCMe+MVrPF
+         qXSE78q899fFAqd88pcXEPFjJ1mEVbhOrjKbMlb0VTjJvIy7eHS3CcGFURJYanSLmv9w
+         olFvCBgTL+bmLN41bRItGTBpOWKfcazDs+KRrotSE8Z2rcYB+w+tmSypBF6LKkmpCEON
+         qO7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+gFzsRCMB/S5/2NImCatrFU6mHejOO77M/5QHXhL2CE=;
-        b=jrutpeE7+krC7rUouqgACbAycUGqck/gLe1i/gMID+BhQg83ZN4ZkEPa7P3D6EtL6M
-         gmH67GqOwwnqDzyFlXm+cPWwAjviUzNxc2CoNPu1bs83Hn7pM72kKigGBG0rbahgFyzW
-         eu3oq2Pzj9nDoebdu6GSVRvkxIG8jeA4Ep53yfOJ3aaL8a5S+OhQEDwBhMPEBUFOoXk3
-         fFgEXp4JaOy2eY3CKBmW5aU4eVN75854bQz2fkepNthqKKxUuJ4LN9epJpK/cxEoRECO
-         RPojgTRJiJl/34f5ej0wj6bWks2giWZCn2Lu5It+t3CpbCbZ/6SU2dbYC1i9Qe0s+pJI
-         FiBg==
-X-Gm-Message-State: APjAAAWJ7NZLfmw3nzvPw/0ARfma9GNCFoqhWbZaitspuLL/ocFkPRRh
-        3jFcaSpzaQMiCIZzkDTTNQ==
-X-Google-Smtp-Source: APXvYqzDJcu7XMQwyfdu88xRNFK5/eDi+cajXRPFFVqk0IhjM9XwyTsN3OWNGDYIZvHiX+LnZBRMuw==
-X-Received: by 2002:a05:6808:8e3:: with SMTP id d3mr3373504oic.153.1568385385768;
-        Fri, 13 Sep 2019 07:36:25 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id o19sm841989oic.26.2019.09.13.07.36.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Sep 2019 07:36:25 -0700 (PDT)
-Date:   Fri, 13 Sep 2019 15:36:24 +0100
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>, linux-pwm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maciej Falkowski <m.falkowski@samsung.com>,
-        linux-samsung-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] dt-bindings: pwm: Convert Samsung PWM bindings
- to json-schema
-Message-ID: <20190912175001.GA29884@bogus>
-References: <20190909183436.9045-1-krzk@kernel.org>
- <20190909183436.9045-2-krzk@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190909183436.9045-2-krzk@kernel.org>
-X-Mutt-References: <20190909183436.9045-2-krzk@kernel.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=bztEqJMrHA1fGFkAFV2znJLCLhbELSJhkz/+uYwGTSk=;
+        b=gdhHo7Jx1c6DKkirYYeJReT6pN6E6Uozyeb6WiLjt1kefzOCVe1SHHjajRlej/nu0m
+         +9eVRCJIiEChVq1r05qGpQVxsdt/e2TVNA0YKlz40S6SiRF3aNVnQvA1MbYYAiLxCpqJ
+         CEOzor05NGiSOORg2whivdx4oWD+v0eFEtkNaqLAkAdjsLhzIacz7CIpB5siouvLr9yJ
+         N3ojWJ22l8B6DZrDLjYacHnj/h4zsFeTsU8FSq5ZWWNEvCRrxbOOM9HR8ww7pD+U2BSn
+         unJbFtZu9sPvTbRCPScpT5KtQ5dtDk0nHGE5coRxW4+VkoM190iWLjytQfTKme0oXnk4
+         V3aw==
+X-Gm-Message-State: APjAAAW6mV6hCaPogstDIB5xtYz02rpUlP1nXvOMHvK+hr6iaX49RLgL
+        TclXUwWL/8zpgXvGAqPiBJxHO0gC
+X-Google-Smtp-Source: APXvYqxs3dQ3r6MWKtoPmmX0dkpZfa8fjN6Jfn2hB2eDkrZDYJ/R7+3uX5JgEYlgKJhIqmLb0MFFLQ==
+X-Received: by 2002:a17:90a:8509:: with SMTP id l9mr5606118pjn.10.1568387020264;
+        Fri, 13 Sep 2019 08:03:40 -0700 (PDT)
+Received: from localhost.localdomain ([240f:34:212d:1:a4da:99f6:4d93:495b])
+        by smtp.gmail.com with ESMTPSA id c8sm9551899pgw.37.2019.09.13.08.03.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Fri, 13 Sep 2019 08:03:39 -0700 (PDT)
+From:   Akinobu Mita <akinobu.mita@gmail.com>
+To:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Subject: [PATCH v2 0/1] leds: fix /sys/class/leds/<led>/trigger
+Date:   Sat, 14 Sep 2019 00:03:23 +0900
+Message-Id: <1568387004-3802-1-git-send-email-akinobu.mita@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Sep 09, 2019 at 08:34:36PM +0200, Krzysztof Kozlowski wrote:
-> Convert Samsung PWM (S3C, S5P and Exynos SoCs) bindings to DT schema
-> format using json-schema.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  .../devicetree/bindings/pwm/pwm-samsung.txt   |  51 --------
->  .../devicetree/bindings/pwm/pwm-samsung.yaml  | 111 ++++++++++++++++++
->  2 files changed, 111 insertions(+), 51 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/pwm/pwm-samsung.txt
->  create mode 100644 Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
+(Resending with the version tag in the subject)
 
+Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
+However, the size of this file is limited to PAGE_SIZE because of the
+limitation for sysfs attribute.
 
-> diff --git a/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml b/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
-> new file mode 100644
-> index 000000000000..90fb467bcdd5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
-> @@ -0,0 +1,111 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pwm/pwm-samsung.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Samsung SoC PWM timers
-> +
-> +maintainers:
-> +  - Thierry Reding <thierry.reding@gmail.com>
-> +  - Krzysztof Kozlowski <krzk@kernel.org>
-> +
-> +description: |+
-> +  Samsung SoCs contain PWM timer blocks which can be used for system clock source
-> +  and clock event timers, as well as to drive SoC outputs with PWM signal. Each
-> +  PWM timer block provides 5 PWM channels (not all of them can drive physical
-> +  outputs - see SoC and board manual).
-> +
-> +  Be aware that the clocksource driver supports only uniprocessor systems.
-> +
-> +allOf:
-> +  - $ref: pwm.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - samsung,s3c2410-pwm             # 16-bit, S3C24xx
-> +      - samsung,s3c6400-pwm             # 32-bit, S3C64xx
-> +      - samsung,s5p6440-pwm             # 32-bit, S5P64x0
-> +      - samsung,s5pc100-pwm             # 32-bit, S5PC100, S5PV210, Exynos4210 rev0 SoCs
-> +      - samsung,exynos4210-pwm          # 32-bit, Exynos
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 3
-> +
-> +  clock-names:
-> +    description: |
-> +      Should contain all following required clock names:
-> +      - "timers" - PWM base clock used to generate PWM signals,
-> +      and any subset of following optional clock names:
-> +      - "pwm-tclk0" - first external PWM clock source,
-> +      - "pwm-tclk1" - second external PWM clock source.
-> +      Note that not all IP variants allow using all external clock sources.
-> +      Refer to SoC documentation to learn which clock source configurations
-> +      are available.
-> +    oneOf:
-> +      - items:
-> +        - const: "timers"
-> +      - items:
-> +        - const: "timers"
-> +        - const: "pwm-tclk0"
-> +      - items:
-> +        - const: "timers"
-> +        - const: "pwm-tclk1"
-> +      - items:
-> +        - const: "timers"
-> +        - const: "pwm-tclk0"
-> +        - const: "pwm-tclk1"
-> +
-> +  interrupts:
-> +    description:
-> +      One interrupt per timer, starting at timer 0.
-> +    minItems: 1
-> +    maxItems: 5
-> +
-> +  "#pwm-cells":
-> +    description:
-> +      The only third cell flag supported by this binding
-> +      is PWM_POLARITY_INVERTED.
-> +    const: 3
-> +
-> +  samsung,pwm-outputs:
-> +    description:
-> +      A list of PWM channels used as PWM outputs on particular platform.
-> +      It is an array of up to 5 elements being indices of PWM channels
-> +      (from 0 to 4), the order does not matter.
-> +    # TODO: Values should not repeat
+Enabling LED CPU trigger on systems with thousands of CPUs easily hits
+PAGE_SIZE limit, and makes it impossible to see all available LED triggers
+and which trigger is currently activated.
 
-uniqueItems: true
+This patch converts /sys/class/leds/<led>/trigger to bin attribute and
+removes the PAGE_SIZE limitation.
 
-Though it looks like we have to enable that keyword. (As silently 
-ignoring unknown keywords (such as typos) is 'feature' of json-schema, 
-we explicitly list keywords we use.)
+The first version of this seris provided the new api that follows the
+"one value per file" rule of sysfs. This second version dropped it because
+there have been a number of problems and it turns out that the new api
+should be submitted separately.
 
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32-array
-> +      # FIXME: min/max limit of items does not work
-> +      - items:
-> +          minItems: 1
-> +          maxItems: 5
-> +      - items:
-> +          minimum: 0
-> +          maximum: 4
+* v2
+- Update commit message
+- Drop patches for new api
 
-I think you want:
+Akinobu Mita (1):
+  leds: remove PAGE_SIZE limit of /sys/class/leds/<led>/trigger
 
-minItems: 1
-maxItems: 2
-items:
-  minimum: 0
-  maximum: 4
+ drivers/leds/led-class.c    |  8 ++--
+ drivers/leds/led-triggers.c | 90 ++++++++++++++++++++++++++++++++++-----------
+ drivers/leds/leds.h         |  6 +++
+ include/linux/leds.h        |  5 ---
+ 4 files changed, 79 insertions(+), 30 deletions(-)
 
-> +
-> +required:
-> +  - clocks
-> +  - clock-names
-> +  - compatible
-> +  - interrupts
-> +  - "#pwm-cells"
-> +  - reg
-> +
-> +examples:
-> +  - |
-> +    pwm@7f006000 {
-> +      compatible = "samsung,s3c6400-pwm";
-> +      reg = <0x7f006000 0x1000>;
-> +      interrupt-parent = <&vic0>;
-> +      interrupts = <23>, <24>, <25>, <27>, <28>;
-> +      clocks = <&clock 67>;
-> +      clock-names = "timers";
-> +      samsung,pwm-outputs = <0>, <1>;
-> +      #pwm-cells = <3>;
-> +    };
-> -- 
-> 2.17.1
-> 
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Dan Murphy <dmurphy@ti.com>
+-- 
+2.7.4
 
