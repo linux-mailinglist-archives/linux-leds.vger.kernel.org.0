@@ -2,57 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69052B306A
-	for <lists+linux-leds@lfdr.de>; Sun, 15 Sep 2019 16:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BF00B30D8
+	for <lists+linux-leds@lfdr.de>; Sun, 15 Sep 2019 18:20:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726247AbfIOOBs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 15 Sep 2019 10:01:48 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43094 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726146AbfIOOBs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 15 Sep 2019 10:01:48 -0400
-Received: by mail-wr1-f67.google.com with SMTP id q17so31577132wrx.10;
-        Sun, 15 Sep 2019 07:01:45 -0700 (PDT)
+        id S1727580AbfIOQUp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 15 Sep 2019 12:20:45 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40581 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726147AbfIOQUo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 15 Sep 2019 12:20:44 -0400
+Received: by mail-wr1-f66.google.com with SMTP id l3so13726510wru.7;
+        Sun, 15 Sep 2019 09:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=pc5OYxx/OqGOCzCGhVi8QkjABEvV14GvKWnMQPL9wmI=;
-        b=UNuCq27Ab3s1z3TJsB048/uxGO8RxZRq0DWK8K/nt2L9ri62RS2oFfwJNOBWoupMTh
-         7kLg0AeudKHLPwj9YDMHOc8/yzPo86AmHw5jnjA5EEsJehWq4cUE20amcDz26gJw4gSb
-         PWIpmscjVfIo5G0Afu36cBf/XQt1Ouldidzq4/8/2L9LSBUuCcPAdxuyizRL9e9QO+qd
-         SbfRDjBKf9zdan/i2xqovFZftEdwcOJsG+k81PeyhCPt0CwURAzuu6ekHlmswpG1mVX+
-         3dPmU0P55fNTJy1KUm7/HZOU3YM08qA5/G8cdVVbQ5bxiQrmenHIP0U8tCfacre+0VVN
-         U+zw==
+        bh=LXYogUyVgEfdttqhSgJpKk+Qfx5lH2Txt69NZwThQLA=;
+        b=U6hDoPTNjGV0Ld27MvW0XKdG4X42EJbo5H5q2SX4n0bxQHiUzkwrH0a7Oo6IsgpYJM
+         NBHzW3PgIpOeFPyx72CyJkAi6n9mvhYtDRkvLE3Mg0Q51xhQfGp+s5EFyi49m0PUxTSI
+         NAGZP2Uli9H1mX1cofqibeu1ImnV61jvyUyppuccgqwuJbiFP05QkUguZOyyoNxlzzWj
+         fAYPExibs+5p2EM/uipF8eLA7SfyKxzym2Hpwm6TaQdXgADiWoVX15dKqDChv+zAaBZO
+         uuSQ18X02MBa9qLafPpLAj0sD9k5B69pQTbeyHFYv8BQsI0I19Eu87pit2ayQvr1sBlk
+         TTSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=pc5OYxx/OqGOCzCGhVi8QkjABEvV14GvKWnMQPL9wmI=;
-        b=qcygu3FD6Gbnbk0kEsboe71phMLTkMUv/1PSpd3IFD1JY8GrObfNxtWwnt7oPl8Ftg
-         9JFZzKuTTAKCHVaT5tDByInUos1251Fic4+fDhyHCsOX1TWQv4+2kdMoq3E7tyvIO3pG
-         G9+l9WVGNxluTHUTpf2VtFt57Aa6+/CQCyESa9Uit8PrBJ04hM34ypXv5euQ+6Agb7Vi
-         npcwExk6xQfpCku46BixFoxBo0xeohPLRolaZ01svJGL8skasx+JZ55iO87LZHUJ8JUU
-         W6Z8fA+Ho9za5m7OSHzqtHLbVD4JZ93NglpY7NE0agH+JBXEPbtyl5Kmlseu0Bt5DO15
-         PVLA==
-X-Gm-Message-State: APjAAAVyf3Vt+6knB1LfDQqwsJPZXP/fYAFxbMopC9zXz4YY0WMDRZpK
-        QbqMO9/s2BYJs9VSFJ4x6oWHYuRP
-X-Google-Smtp-Source: APXvYqwvyxCnc3Bkj1tGByyZclf7G0wjwNgFAsLQdSjqM7wfR4KWuuheyjg1VurBtd/curJxHCtQdw==
-X-Received: by 2002:a05:6000:1c4:: with SMTP id t4mr5438428wrx.183.1568556105022;
-        Sun, 15 Sep 2019 07:01:45 -0700 (PDT)
+        bh=LXYogUyVgEfdttqhSgJpKk+Qfx5lH2Txt69NZwThQLA=;
+        b=kzHb5lrQZwkDWRcZem9EFrPIB1HypqAIuJLKvDwnzygQSntKgAuJIJbEj4B3B2YlKx
+         5aN0WoglHVQZ9TKiIiPMqwobQoO6Hm1pP1SUoyxGUk4JZ7J8IHxQFFyA5IQ63tswXEzm
+         PxRSgriUKKJOUna5nGfVyifYjLkOHzEwWDp4UHhDgMwItRuxvWrZcpbRWIpLBLagpdDq
+         IQKUFdUXKwu8rqrMP1rlQKBE88mIlH31dScyzn45vPPAoAFjH2k6/N7IyH9i2ewTNmzZ
+         NduQo4YDVgfgXKRFT8En7ikPCGwvm+dq+HnYyzG8Kdq8ScGvsyepgOb5YdHzB6Au9U/w
+         dFuA==
+X-Gm-Message-State: APjAAAWzlrg+tOZ6dvlaeo2SRk4zQcKwXjH/xjQ+fonCzuW2wNB0vbub
+        CmLeWIZNaBt5W56heM9AjmWgfCOk
+X-Google-Smtp-Source: APXvYqy/04wEAWAqDvVBHn+OvuvoKCJyuj13LFXwSlWxqVDdn4FpTjIxXlYUN7PDLoasyGQ6i1+UXA==
+X-Received: by 2002:adf:fa10:: with SMTP id m16mr41351287wrr.322.1568564439757;
+        Sun, 15 Sep 2019 09:20:39 -0700 (PDT)
 Received: from [192.168.1.19] (ckk130.neoplus.adsl.tpnet.pl. [83.31.86.130])
-        by smtp.gmail.com with ESMTPSA id r20sm48039390wrg.61.2019.09.15.07.01.43
+        by smtp.gmail.com with ESMTPSA id a4sm1890108wmj.29.2019.09.15.09.20.37
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 15 Sep 2019 07:01:44 -0700 (PDT)
-Subject: Re: [PATCH v5 3/9] dt: bindings: Add multicolor class dt bindings
- documention
+        Sun, 15 Sep 2019 09:20:39 -0700 (PDT)
+Subject: Re: [PATCH v5 6/9] leds: multicolor: Introduce a multicolor class
+ definition
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     robh+dt@kernel.org, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20190911180115.21035-1-dmurphy@ti.com>
- <20190911180115.21035-4-dmurphy@ti.com>
+ <20190911180115.21035-7-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -111,15 +111,15 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <e842eef7-094a-a7dd-bcf1-90ed41bf45cd@gmail.com>
-Date:   Sun, 15 Sep 2019 16:01:42 +0200
+Message-ID: <2bfd27cf-6703-48b8-be82-9b36066ef2ed@gmail.com>
+Date:   Sun, 15 Sep 2019 18:20:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190911180115.21035-4-dmurphy@ti.com>
+In-Reply-To: <20190911180115.21035-7-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
@@ -127,123 +127,594 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Dan,
 
-This patch has the same issues I mentioned in the v4 review [0].
-
 On 9/11/19 8:01 PM, Dan Murphy wrote:
-> Add DT bindings for the LEDs multicolor class framework.
+> Introduce a multicolor class that groups colored LEDs
+> within a LED node.
+> 
+> The framework allows for dynamically setting individual LEDs
+> or setting brightness levels of LEDs and updating them virtually
+> simultaneously.
 > 
 > Signed-off-by: Dan Murphy <dmurphy@ti.com>
 > ---
->  .../bindings/leds/leds-class-multicolor.txt   | 96 +++++++++++++++++++
->  1 file changed, 96 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+>  drivers/leds/Kconfig                 |  10 +
+>  drivers/leds/Makefile                |   1 +
+>  drivers/leds/led-class-multicolor.c  | 387 +++++++++++++++++++++++++++
+>  include/linux/led-class-multicolor.h |  96 +++++++
+>  4 files changed, 494 insertions(+)
+>  create mode 100644 drivers/leds/led-class-multicolor.c
+>  create mode 100644 include/linux/led-class-multicolor.h
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index 1988de1d64c0..71e7fd4f6f15 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -30,6 +30,16 @@ config LEDS_CLASS_FLASH
+>  	  for the flash related features of a LED device. It can be built
+>  	  as a module.
+>  
+> +config LEDS_CLASS_MULTI_COLOR
+> +	tristate "LED Mulit Color LED Class Support"
+> +	depends on LEDS_CLASS
+> +	help
+> +	  This option enables the multicolor LED sysfs class in /sys/class/leds.
+> +	  It wraps LED class and adds multicolor LED specific sysfs attributes
+> +	  and kernel internal API to it. You'll need this to provide support
+> +	  for multicolor LEDs that are grouped together. This class is not
+> +	  intended for single color LEDs. It can be built as a module.
+> +
+>  config LEDS_BRIGHTNESS_HW_CHANGED
+>  	bool "LED Class brightness_hw_changed attribute support"
+>  	depends on LEDS_CLASS
+> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> index 41fb073a39c1..897b810257dd 100644
+> --- a/drivers/leds/Makefile
+> +++ b/drivers/leds/Makefile
+> @@ -4,6 +4,7 @@
+>  obj-$(CONFIG_NEW_LEDS)			+= led-core.o
+>  obj-$(CONFIG_LEDS_CLASS)		+= led-class.o
+>  obj-$(CONFIG_LEDS_CLASS_FLASH)		+= led-class-flash.o
+> +obj-$(CONFIG_LEDS_CLASS_MULTI_COLOR)	+= led-class-multicolor.o
+>  obj-$(CONFIG_LEDS_TRIGGERS)		+= led-triggers.o
+>  
+>  # LED Platform Drivers
+> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
 > new file mode 100644
-> index 000000000000..5d36327b18fc
+> index 000000000000..c733192b31fa
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
-> @@ -0,0 +1,96 @@
-> +* Multicolor LED properties
+> +++ b/drivers/leds/led-class-multicolor.c
+> @@ -0,0 +1,387 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// LED Multi Color class interface
+> +// Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
 > +
-> +Multicolor LEDs can consist of a RGB, RGBW or a RGBA LED clusters.  These devices
-> +can be grouped together and also provide a modeling mechanism so that the
-> +cluster LEDs can vary in hue and intensity to produce a wide range of colors.
+> +#include <linux/device.h>
+> +#include <linux/init.h>
+> +#include <linux/led-class-multicolor.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/uaccess.h>
 > +
-> +The nodes and properties defined in this document are unique to the multicolor
-> +LED class.  Common LED nodes and properties are inherited from the common.txt
-> +within this documentation directory.
+> +#include "leds.h"
 > +
-> +Required LED Child properties:
-> +	- color : For multicolor LED support this property should be defined as
-> +		  LED_COLOR_ID_MULTI and further definition can be found in
-> +		  include/linux/leds/common.h.
-> +
-> +led-controller@30 {
-> +	#address-cells = <1>;
-> +	#size-cells = <0>;
-> +	compatible = "ti,lp5024";
-> +	reg = <0x29>;
-> +
-> +	multi-led@1 {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <1>;
-> +		color = <LED_COLOR_ID_MULTI>;
-> +		function = LED_FUNCTION_;
-> +
-> +
-> +		led@3 {
-> +			reg = <3>;
-> +			color = <LED_COLOR_ID_RED>;
-> +		};
-> +
-> +		led@4 {
-> +			reg = <4>;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +		};
-> +
-> +		led@5 {
-> +			reg = <5>;
-> +			color = <LED_COLOR_ID_BLUE>;
-> +		};
-> +	};
-> +
-> +	multi-led@2 {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		color = <LED_COLOR_ID_MULTI>;
-> +		function = LED_FUNCTION_ACTIVITY;
-> +		reg = <2>;
-> +		ti,led-bank = <2 3 5>;
-> +
-> +		led@6 {
-> +			reg = <0x6>;
-> +			color = <LED_COLOR_ID_RED>;
-> +			led-sources = <6 9 15>;
-> +		};
-> +
-> +		led@7 {
-> +			reg = <0x7>;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			led-sources = <7 10 16>;
-> +		};
-> +
-> +		led@8 {
-> +			reg = <0x8>;
-> +			color = <LED_COLOR_ID_BLUE>;
-> +			led-sources = <8 11 17>;
-> +		};
-> +	};
-> +
-> +	multi-led@4 {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <4>;
-> +		color = <LED_COLOR_ID_MULTI>;
-> +		function = LED_FUNCTION_ACTIVITY;
-> +
-> +		led@12 {
-> +			reg = <12>;
-> +			color = <LED_COLOR_ID_RED>;
-> +		};
-> +
-> +		led@13 {
-> +			reg = <13>;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +		};
-> +
-> +		led@14 {
-> +			reg = <14>;
-> +			color = <LED_COLOR_ID_BLUE>;
-> +		};
-> +	};
-> +
-> +};
-> 
+> +struct led_classdev_mc_priv {
 
-[0]
-https://lore.kernel.org/linux-leds/684010e7-a47c-2bc8-2bf6-c632be31649b@gmail.com/
+I'd go for some more informative struct name here.
+And also this is not going to be main classdev struct
+so we can drop that from the name.
+
+struct led_mc_color_entry ?
+
+> +	struct led_classdev_mc *mcled_cdev;
+> +
+> +	struct device_attribute max_intensity_attr;
+> +	struct device_attribute intensity_attr;
+> +	struct device_attribute color_index_attr;
+> +
+> +	enum led_brightness max_intensity;
+> +	enum led_brightness intensity;
+> +
+> +	struct list_head list;
+> +
+> +	int led_color_id;
+> +	int color_seq_pos;
+> +};
+> +
+> +static int led_mc_calculate_brightness(int brightness, int intensity,
+> +				       int max_intensity)
+> +{
+> +	if (brightness && intensity && max_intensity)
+
+This check looks odd. I'd drop it entirely. One thing we could worry
+about would be max_intensity == 0 but this should be secured by the
+core on registration. Effectively I don't see the need for wrapping
+below calculation in a function at all.
+
+> +		return brightness * intensity / max_intensity;
+> +
+> +	return LED_OFF;
+> +}
+> +
+> +void led_mc_set_cluster_brightness(struct led_classdev_mc *mcled_cdev,
+
+
+We really don't set cluster brightness but calculate it only here
+(we can skip "cluster" as well):
+
+s/led_mc_set_cluster_brightness/led_mc_calc_brightness/
+
+> +			    enum led_brightness brightness, int adj_value[])
+
+s/adj_value/brightness_val/
+
+> +{
+> +	struct led_classdev_mc_data *data = mcled_cdev->data;
+> +	struct led_classdev_mc_priv *priv;
+> +	int i = 0;
+> +
+> +	list_for_each_entry(priv, &data->color_list, list) {
+> +		adj_value[i] = led_mc_calculate_brightness(brightness,
+> +							   priv->intensity,
+> +							   priv->max_intensity);
+
+brightness_val[i] = brightness * priv->intensity / priv->max_intensity;
+
+> +		i++;
+> +	}
+> +
+> +	data->cluster_brightness = brightness;
+
+Why can't we use led_classdev_mc->led_cdev->brightness for storing
+cluster brightness?
+
+> +}
+> +
+> +void led_mc_get_cluster_brightness(struct led_classdev_mc *mcled_cdev,
+> +				  int brightness_val[])
+> +{
+> +	struct led_classdev_mc_data *data = mcled_cdev->data;
+> +	struct led_classdev_mc_priv *priv;
+> +	int i = 0;
+> +
+> +	list_for_each_entry(priv, &data->color_list, list) {
+> +		brightness_val[i] = priv->intensity;
+> +		i++;
+> +	}
+> +}
+> +
+> +static ssize_t color_index_show(struct device *dev,
+> +				   struct device_attribute *color_index_attr,
+> +				   char *buf)
+> +{
+> +	struct led_classdev_mc_priv *priv = container_of(color_index_attr,
+> +						    struct led_classdev_mc_priv,
+> +						      color_index_attr);
+> +
+> +	return sprintf(buf, "%d\n", priv->led_color_id);
+> +}
+> +
+> +static ssize_t color_mix_store(struct device *dev,
+> +				struct device_attribute *color_mix_attr,
+> +				const char *buf, size_t size)
+> +{
+> +	struct led_classdev_mc_data *data = container_of(color_mix_attr,
+> +						    struct led_classdev_mc_data,
+> +						      color_mix_attr);
+> +	struct led_classdev_mc *mcled_cdev = data->mcled_cdev;
+> +	struct led_classdev_mc_priv *priv;
+> +	unsigned int value[LED_COLOR_ID_MAX];
+> +	int nrchars, offset = 0;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	for (i = 0; i < mcled_cdev->num_leds; i++) {
+> +		ret = sscanf(buf + offset, "%i%n", &value[i], &nrchars);
+> +		if (ret != 1)
+> +			break;
+> +
+> +		offset += nrchars;
+> +	}
+> +
+> +	if (i != mcled_cdev->num_leds) {
+> +		dev_err(dev, "Wrong number of LEDs defined %i, need %i\n",
+> +			i, mcled_cdev->num_leds);
+> +		return -EINVAL;
+> +	}
+> +
+> +	list_for_each_entry(priv, &data->color_list, list) {
+> +		priv->intensity = value[priv->color_seq_pos];
+> +		if (mcled_cdev->ops) {
+> +			ret = mcled_cdev->ops->set_color_brightness(mcled_cdev,
+> +							    priv->led_color_id,
+> +							    priv->intensity);
+> +			if (ret)
+> +				goto out;
+> +		}
+> +	}
+> +out:
+> +	return size;
+> +}
+> +
+> +static ssize_t intensity_store(struct device *dev,
+> +				struct device_attribute *intensity_attr,
+> +				const char *buf, size_t size)
+> +{
+> +	struct led_classdev_mc_priv *priv = container_of(intensity_attr,
+> +						    struct led_classdev_mc_priv,
+> +						      intensity_attr);
+> +	struct led_classdev_mc_data *data = priv->mcled_cdev->data;
+> +	struct led_classdev_mc *mcled_cdev = data->mcled_cdev;
+> +	struct led_classdev *led_cdev = priv->mcled_cdev->led_cdev;
+> +	unsigned long value;
+> +	ssize_t ret;
+> +
+> +	mutex_lock(&led_cdev->led_access);
+> +
+> +	ret = kstrtoul(buf, 10, &value);
+> +	if (ret)
+> +		goto unlock;
+> +
+> +	if (value > priv->max_intensity) {
+> +		ret = -EINVAL;
+> +		goto unlock;
+> +	}
+> +
+> +	priv->intensity = value;
+> +
+> +	if (mcled_cdev->ops) {
+> +		ret = mcled_cdev->ops->set_color_brightness(mcled_cdev,
+> +							    priv->led_color_id,
+> +							    priv->intensity);
+> +		if (ret)
+> +			goto unlock;
+> +	}
+> +
+> +	ret = size;
+> +
+> +unlock:
+> +	mutex_unlock(&led_cdev->led_access);
+> +	return ret;
+> +}
+> +
+> +static ssize_t intensity_show(struct device *dev,
+> +			      struct device_attribute *intensity_attr,
+> +			      char *buf)
+> +{
+> +	struct led_classdev_mc_priv *priv = container_of(intensity_attr,
+> +						    struct led_classdev_mc_priv,
+> +						      intensity_attr);
+> +	const struct led_multicolor_ops *ops = priv->mcled_cdev->ops;
+> +	int value = 0;
+> +
+> +	if (ops->get_color_brightness) {
+> +		value = ops->get_color_brightness(priv->mcled_cdev,
+> +						  priv->led_color_id);
+> +		priv->intensity = value;
+> +	} else {
+> +		value = priv->intensity;
+> +	}
+> +
+> +	return sprintf(buf, "%d\n", value);
+> +}
+> +
+> +static ssize_t max_intensity_show(struct device *dev,
+> +				   struct device_attribute *max_intensity_attr,
+> +				   char *buf)
+> +{
+> +	struct led_classdev_mc_priv *priv = container_of(max_intensity_attr,
+> +						    struct led_classdev_mc_priv,
+> +						      max_intensity_attr);
+> +
+> +	return sprintf(buf, "%d\n", priv->max_intensity);
+> +}
+> +
+> +static int led_multicolor_init_color(struct led_classdev_mc_data *data,
+> +				     struct led_classdev_mc *mcled_cdev,
+> +				     int color_id, int color_index)
+> +{
+> +	struct led_classdev *led_cdev = mcled_cdev->led_cdev;
+> +	struct led_classdev_mc_priv *mc_priv;
+> +	int ret;
+> +
+> +	mc_priv = devm_kzalloc(led_cdev->dev, sizeof(*mc_priv), GFP_KERNEL);
+> +	if (!mc_priv)
+> +		return -ENOMEM;
+> +
+> +	mc_priv->led_color_id = color_id;
+> +	mc_priv->mcled_cdev = mcled_cdev;
+> +
+> +	data->led_kobj = kobject_create_and_add(led_colors[color_id],
+> +						data->color_kobj);
+
+No change here since previous version? What prevents you from following
+what has been done for drivers/usb/core/ledtrig-usbport.c?
+
+Use sysfs_create_group() for creating color dir
+and sysfs_add_file_to_group() for adding files to it.
+
+
+> +	if (!data->led_kobj)
+> +		return -EINVAL;
+> +
+> +	sysfs_attr_init(&mc_priv->intensity_attr.attr);
+> +	mc_priv->intensity_attr.attr.name = "intensity";
+> +	mc_priv->intensity_attr.attr.mode = S_IRUGO | S_IWUGO;
+> +	mc_priv->intensity_attr.store = intensity_store;
+> +	mc_priv->intensity_attr.show = intensity_show;
+> +	ret = sysfs_create_file(data->led_kobj,
+> +				&mc_priv->intensity_attr.attr);
+> +	if (ret)
+> +		goto err_out;
+> +
+> +	sysfs_attr_init(&mc_priv->max_intensity_attr.attr);
+> +	mc_priv->max_intensity_attr.attr.name = "max_intensity";
+> +	mc_priv->max_intensity_attr.attr.mode = S_IRUGO;
+> +	mc_priv->max_intensity_attr.show = max_intensity_show;
+> +	ret = sysfs_create_file(data->led_kobj,
+> +				&mc_priv->max_intensity_attr.attr);
+> +	if (ret)
+> +		goto err_out;
+> +
+> +	sysfs_attr_init(&mc_priv->color_index_attr.attr);
+> +	mc_priv->color_index_attr.attr.name = "color_id";
+> +	mc_priv->color_index_attr.attr.mode = S_IRUGO;
+> +	mc_priv->color_index_attr.show = color_index_show;
+> +	ret = sysfs_create_file(data->led_kobj,
+> +				&mc_priv->color_index_attr.attr);
+> +	if (ret)
+> +		goto err_out;
+> +
+> +	mc_priv->max_intensity = LED_FULL;
+> +	mc_priv->color_seq_pos = color_index;
+> +	list_add_tail(&mc_priv->list, &data->color_list);
+> +
+> +err_out:
+> +	return ret;
+> +}
+> +
+> +static int led_multicolor_init_color_dir(struct led_classdev_mc_data *data,
+> +					 struct led_classdev_mc *mcled_cdev)
+> +{
+> +	struct led_classdev *led_cdev = mcled_cdev->led_cdev;
+> +	u32 color_id;
+> +	int ret;
+> +	int i, j = 0;
+> +
+> +	data->color_kobj = kobject_create_and_add("colors",
+> +						  &led_cdev->dev->kobj);
+
+Again: use sysfs_create_group().
+
+> +	if (!data->color_kobj)
+> +		return -EINVAL;
+> +
+> +	data->mcled_cdev = mcled_cdev;
+> +
+> +	for (i = 0; i < LED_COLOR_ID_MAX; i++) {
+> +		color_id = (mcled_cdev->available_colors & (1 << i));
+> +		if (color_id) {
+> +			ret = led_multicolor_init_color(data, mcled_cdev, i, j);
+> +			if (ret)
+> +				break;
+> +
+> +			j++;
+> +		}
+> +	}
+> +
+> +	sysfs_attr_init(&data->color_mix_attr.attr);
+> +	data->color_mix_attr.attr.name = "color_mix";
+> +	data->color_mix_attr.attr.mode = S_IRUGO | S_IWUGO;
+> +	data->color_mix_attr.store = color_mix_store;
+> +	ret = sysfs_create_file(data->color_kobj,
+> +				&data->color_mix_attr.attr);
+> +
+> +	return ret;
+> +}
+> +
+> +int led_classdev_multicolor_register_ext(struct device *parent,
+> +				     struct led_classdev_mc *mcled_cdev,
+> +				     struct led_init_data *init_data)
+> +{
+> +	struct led_classdev *led_cdev;
+> +	struct led_classdev_mc_data *data;
+> +	int ret;
+> +
+> +	if (!mcled_cdev)
+> +		return -EINVAL;
+> +
+> +	data = kzalloc(sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	mcled_cdev->data = data;
+> +	led_cdev = mcled_cdev->led_cdev;
+> +	INIT_LIST_HEAD(&data->color_list);
+> +
+> +	/* Register led class device */
+> +	ret = led_classdev_register_ext(parent, led_cdev, init_data);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return led_multicolor_init_color_dir(data, mcled_cdev);
+> +}
+> +EXPORT_SYMBOL_GPL(led_classdev_multicolor_register_ext);
+> +
+> +void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev)
+> +{
+> +	if (!mcled_cdev)
+> +		return;
+> +
+> +	led_classdev_unregister(mcled_cdev->led_cdev);
+> +}
+> +EXPORT_SYMBOL_GPL(led_classdev_multicolor_unregister);
+> +
+> +static void devm_led_classdev_multicolor_release(struct device *dev, void *res)
+> +{
+> +	led_classdev_multicolor_unregister(*(struct led_classdev_mc **)res);
+> +}
+> +
+> +/**
+> + * devm_of_led_classdev_register - resource managed led_classdev_register()
+> + *
+> + * @parent: parent of LED device
+> + * @led_cdev: the led_classdev structure for this device.
+> + */
+> +int devm_led_classdev_multicolor_register(struct device *parent,
+> +					  struct led_classdev_mc *mcled_cdev)
+> +{
+> +	struct led_classdev_mc **dr;
+> +	int ret;
+> +
+> +	dr = devres_alloc(devm_led_classdev_multicolor_release,
+> +			  sizeof(*dr), GFP_KERNEL);
+> +	if (!dr)
+> +		return -ENOMEM;
+> +
+> +	ret = led_classdev_multicolor_register(parent, mcled_cdev);
+> +	if (ret) {
+> +		devres_free(dr);
+> +		return ret;
+> +	}
+> +
+> +	*dr = mcled_cdev;
+> +	devres_add(parent, dr);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_led_classdev_multicolor_register);
+> +
+> +static int devm_led_classdev_multicolor_match(struct device *dev,
+> +					      void *res, void *data)
+> +{
+> +	struct mcled_cdev **p = res;
+> +
+> +	if (WARN_ON(!p || !*p))
+> +		return 0;
+> +
+> +	return *p == data;
+> +}
+> +
+> +/**
+> + * devm_led_classdev_multicolor_unregister() - resource managed
+> + *					led_classdev_multicolor_unregister()
+> + * @parent: The device to unregister.
+> + * @mcled_cdev: the led_classdev_mc structure for this device.
+> + */
+> +void devm_led_classdev_multicolor_unregister(struct device *dev,
+> +				  struct led_classdev_mc *mcled_cdev)
+> +{
+> +	WARN_ON(devres_release(dev,
+> +			       devm_led_classdev_multicolor_release,
+> +			       devm_led_classdev_multicolor_match, mcled_cdev));
+> +}
+> +EXPORT_SYMBOL_GPL(devm_led_classdev_multicolor_unregister);
+> +
+> +MODULE_AUTHOR("Dan Murphy <dmurphy@ti.com>");
+> +MODULE_DESCRIPTION("Multi Color LED class interface");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
+> new file mode 100644
+> index 000000000000..193ba0e46042
+> --- /dev/null
+> +++ b/include/linux/led-class-multicolor.h
+> @@ -0,0 +1,96 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* LED Multicolor class interface
+> + * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
+> + */
+> +
+> +#ifndef __LINUX_MULTICOLOR_LEDS_H_INCLUDED
+> +#define __LINUX_MULTICOLOR_LEDS_H_INCLUDED
+> +
+> +#include <linux/leds.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +struct led_classdev_mc;
+> +
+> +struct led_classdev_mc_data {
+> +	struct led_classdev_mc *mcled_cdev;
+> +
+> +	struct kobject *color_kobj;
+> +	struct kobject *led_kobj;
+> +
+> +	struct device_attribute color_mix_attr;
+> +
+> +	struct list_head color_list;
+> +
+> +	enum led_brightness cluster_brightness;
+> +};
+> +
+> +struct led_multicolor_ops {
+> +	/* Set brightness for a specific color id */
+> +	int (*set_color_brightness)(struct led_classdev_mc *mcled_cdev,
+> +				    int color_id, int value);
+> +	/* Read current color setting */
+> +	int (*get_color_brightness)(struct led_classdev_mc *mcled_cdev,
+> +				    int color_id);
+> +};
+> +
+> +struct led_classdev_mc {
+> +	/* led class device */
+> +	struct led_classdev *led_cdev;
+> +
+> +	/* multicolor led specific ops */
+> +	struct led_multicolor_ops *ops;
+> +
+> +	struct led_classdev_mc_data *data;
+> +
+> +	unsigned long available_colors;
+> +	int num_leds;
+> +};
+> +
+> +static inline struct led_classdev_mc *lcdev_to_mccdev(
+> +						struct led_classdev *lcdev)
+> +{
+> +	return container_of(lcdev, struct led_classdev_mc, led_cdev);
+> +}
+> +
+> +/**
+> + * led_classdev_multicolor_register_ext - register a new object of led_classdev
+> + *				      class with support for multicolor LEDs
+> + * @parent: the multicolor LED to register
+> + * @mcled_cdev: the led_classdev_mc structure for this device
+> + * @init_data: the LED class Multi color device initialization data
+> + *
+> + * Returns: 0 on success or negative error value on failure
+> + */
+> +extern int led_classdev_multicolor_register_ext(struct device *parent,
+> +					    struct led_classdev_mc *mcled_cdev,
+> +					    struct led_init_data *init_data);
+> +
+> +#define led_classdev_multicolor_register(parent, mcled_cdev)		\
+> +	led_classdev_multicolor_register_ext(parent, mcled_cdev, NULL)
+> +
+> +/**
+> + * led_classdev_multicolor_unregister - unregisters an object of led_classdev
+> + *					class with support for multicolor LEDs
+> + * @mcled_cdev: the multicolor LED to unregister
+> + *
+> + * Unregister a previously registered via led_classdev_multicolor_register
+> + * object
+> + */
+> +extern void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev);
+> +
+> +extern int devm_led_classdev_multicolor_register(struct device *parent,
+> +					struct led_classdev_mc *mcled_cdev);
+> +
+> +extern void devm_led_classdev_multicolor_unregister(struct device *parent,
+> +					   struct led_classdev_mc *mcled_cdev);
+> +
+> +/* Set brightness for the monochrome LED cluster */
+> +extern void led_mc_set_cluster_brightness(struct led_classdev_mc *mcled_cdev,
+> +			    enum led_brightness brightness,
+> +			    int adj_value[]);
+> +
+> +/* Read current cluster brightness */
+> +extern void led_mc_get_cluster_brightness(struct led_classdev_mc *mcled_cdev,
+> +				   int brightness_val[]);
+> +
+> +#endif	/* __LINUX_MULTICOLOR_LEDS_H_INCLUDED */
+> 
 
 -- 
 Best regards,
