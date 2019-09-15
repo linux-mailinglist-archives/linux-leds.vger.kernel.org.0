@@ -2,57 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 415B5B2FF5
-	for <lists+linux-leds@lfdr.de>; Sun, 15 Sep 2019 14:45:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26B32B3066
+	for <lists+linux-leds@lfdr.de>; Sun, 15 Sep 2019 15:58:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726364AbfIOMpv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 15 Sep 2019 08:45:51 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:32935 "EHLO
+        id S1728741AbfION6B (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 15 Sep 2019 09:58:01 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:51999 "EHLO
         mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726246AbfIOMpv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 15 Sep 2019 08:45:51 -0400
-Received: by mail-wm1-f68.google.com with SMTP id r17so5278714wme.0;
-        Sun, 15 Sep 2019 05:45:48 -0700 (PDT)
+        with ESMTP id S1728707AbfION6B (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 15 Sep 2019 09:58:01 -0400
+Received: by mail-wm1-f68.google.com with SMTP id 7so7253471wme.1;
+        Sun, 15 Sep 2019 06:57:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=sPQgipNi6zYqj+O0PF+Zu66miidWkOJBO3jpaxxld/g=;
-        b=Bq/SHN25f9dZEUzfK24KDrkvU8HMMZJpc6UR+OvVoO1XpvS4spDz0r7dW5LeDSEfHD
-         rCpqvd2ri2yj+JJ0ssRPzKu4081DuXq6NK/BfPhM4RIgZOcmSVBJL27HAOnqoqwbsLmV
-         2VYW7wP6PPsJWGR56SpGYtOwnE8MjpiEcNgXvreUUEG2/sV+Ji15sURmchlCdJ6TQL+b
-         35KzvmFdArSht4xTSFohhCwgpuemGRR7gCL0Xxdw4D9r8OPw65elT9s4hFwRJudO+n1j
-         SoRMklCKXlSJ8++F64QAwgiXcEhlaEaTnOhRwbyo7vfXKVqo9VbrmwYbY5Wmh2K5VUXC
-         ZBPQ==
+        bh=iU8CZBG+853lyyHbtAZt6//wuZGqGS4UtbCiqVnymhQ=;
+        b=mGTETSVTFox4OqPhggVtBhHCES88JuCXM0oor/6s6en9nbOUWt33SNtM9MEPfbnfYt
+         jxSqw6FeFgd/y51ymxkLOyGDdQ1OnYzAzralx18VoJgVGent8+QHHesM6tQ5a+dCIlTa
+         ufHRcRJkS1zth7BBB+wDMVRzzPyY03HpvOTmsvOZGR6ybx6xw8GhwolhUpOvX/X0Of0X
+         ZfuTd/Q/gBDCzLDx3cvBrFkLYaADuq2TEGbSg17eZkfQyfjPKQ/EHpyY+H36ersjkBhs
+         uy6ar3aTwmcBPnM/WRb3fayTlZjN9R/GENYIiQfsdON5YPhdGGzYfJnDRDB8r3u88S6N
+         04rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=sPQgipNi6zYqj+O0PF+Zu66miidWkOJBO3jpaxxld/g=;
-        b=QaVMsWJO+LINAzulZQm8+YVRG/CndcjWfvwS8HJXO6SDd4uuOA7woNdqz9DUDNnUdG
-         hmBmLKRSkg8oeTXz9eKJ/4ndls+8Q3akplkkyahz+t50ewLJBU2H4HZynFFbfVIeL3kA
-         /N1a3AGY/NTghoqBv8cBosQFswzlHx3BXTC5+t2N6Qnn7nCli6YTNJYXoEy0R8gYcDTA
-         VUSKFZMLK5KRdf8rGCw6MA0XQKJvSQOsxJ1FoVvUpowTxLKpwBtDf5pYGOvIWeufI4gS
-         x3F5OTNwiuvsX3m4JQu6HgEWbGS28iU1HIOhvME5JZVEk6R8+zpG9bdogHxXrkaCUiOZ
-         EThg==
-X-Gm-Message-State: APjAAAWVdT+khCg0IB0F/yldQi29B3zO/Ms41OFHclotJS7t8ue23IeZ
-        QVWRmmj+0jawEFeB5Pj8OgjHEtH4
-X-Google-Smtp-Source: APXvYqxl4CalrXQ2TsIfOC1kUfinWGaGLzkiNoxCac8v7xnwNdmKbDrSeTa+QtQuWvFSjZ9wP+8mbQ==
-X-Received: by 2002:a05:600c:54f:: with SMTP id k15mr10127812wmc.21.1568551548015;
-        Sun, 15 Sep 2019 05:45:48 -0700 (PDT)
+        bh=iU8CZBG+853lyyHbtAZt6//wuZGqGS4UtbCiqVnymhQ=;
+        b=VAl3PUUMesdetozatni4tIChgITBapwH9JTm7T3EbQ64LZxibV0YRrtNyTPVhGK5QT
+         PLqDiBCiP9w5g29vsRrccJNgAkIYPM95coQes9Sj9l9KuIIVd1zQ9N2uoMwISk2KiAKo
+         QDx/YIHAMDE11laBW+G7ETlSeF5CgYnSdrIUZnaGspSAAcIdlXpS9YuSR0F1kvLbtlSq
+         ny42UgzW4zfpgqCDgSOZatdFsqULARD/LtpWwoLLdiKARqXrla6aILgBQfjNAotKVHe6
+         gGIAPCR7MYqzGoZlwuXtsNZLlqcaPYvBKvatFEojwRfabyT2gzfUkJzsKddYEk9/2Faz
+         V5CA==
+X-Gm-Message-State: APjAAAW6lrUM3pLJFMVB0hQadbjIsrnKolA6dU603GCDvU3f46dLxPyN
+        uy6npXD8R5rpBWr+CMBkvEIkr+RT
+X-Google-Smtp-Source: APXvYqzGUDi0kFautpcxKijaSvi5yz7Tcpcf3H6D4jGb9efGnveVH8/OI3kq3lq0xPWXxAOhk0qv0A==
+X-Received: by 2002:a1c:20cf:: with SMTP id g198mr11198837wmg.66.1568555877819;
+        Sun, 15 Sep 2019 06:57:57 -0700 (PDT)
 Received: from [192.168.1.19] (ckk130.neoplus.adsl.tpnet.pl. [83.31.86.130])
-        by smtp.gmail.com with ESMTPSA id i1sm2529175wmb.19.2019.09.15.05.45.46
+        by smtp.gmail.com with ESMTPSA id o9sm44937338wrh.46.2019.09.15.06.57.56
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 15 Sep 2019 05:45:47 -0700 (PDT)
-Subject: Re: [PATCH v5 2/9] documention: leds: Add multicolor class
- documentation
-To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+        Sun, 15 Sep 2019 06:57:57 -0700 (PDT)
+Subject: Re: [PATCH v5 1/9] leds: multicolor: Add sysfs interface definition
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     robh+dt@kernel.org, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20190911180115.21035-1-dmurphy@ti.com>
- <20190911180115.21035-3-dmurphy@ti.com> <20190912205551.GA13514@amd>
+ <20190911180115.21035-2-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -111,65 +110,118 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <f9d9f299-f9fc-cac0-eaa4-f080f435a856@gmail.com>
-Date:   Sun, 15 Sep 2019 14:45:45 +0200
+Message-ID: <e34f4182-71d1-d51d-fb07-f88f6b88b6a3@gmail.com>
+Date:   Sun, 15 Sep 2019 15:57:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190912205551.GA13514@amd>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20190911180115.21035-2-dmurphy@ti.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/12/19 10:55 PM, Pavel Machek wrote:
-> Hi!
+Hi Dan,
+
+On 9/11/19 8:01 PM, Dan Murphy wrote:
+> Add a documentation of LED Multicolor LED class specific
+> sysfs attributes.
 > 
->> +Directory Layout Example
->> +========================
->> +root:/sys/class/leds/rgb:grouped_leds# ls -lR colors/
->> +colors/:
->> +drwxr-xr-x    2 root     root             0 Jun 28 20:21 blue
->> +drwxr-xr-x    2 root     root             0 Jun 28 20:21 green
->> +drwxr-xr-x    2 root     root             0 Jun 28 20:21 red
->> +-rw-------    1 root     root          4096 Jun 28 20:21 color_mix
->> +
->> +colors/blue:
->> +-rw-------    1 root     root          4096 Jun 28 20:21 intensity
->> +-r--------    1 root     root          4096 Jun 28 20:27 max_intensity
->> +-r--------    1 root     root          4096 Jun 28 20:21 color_id
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>  .../ABI/testing/sysfs-class-led-multicolor    | 73 +++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
 > 
-> I don't really like the directories... A bit too much complexity, and
-> it will have a memory footprint, too.
+> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> new file mode 100644
+> index 000000000000..4ea54c2ad4c8
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> @@ -0,0 +1,73 @@
+> +What:		/sys/class/leds/<led>/brightness
+> +Date:		Sept 2019
+> +KernelVersion:	5.5
+> +Contact:	Dan Murphy <dmurphy@ti.com>
+> +Description:	read/write
+> +		The multicolor class will redirect the device drivers call back
+> +		function for brightness control to the multicolor class
+> +		brightness control function.
+> +
+> +		Writing to this file will update all LEDs within the group to a
+> +		calculated percentage of what each color LED in the group is set
+> +		to.  The percentage is calculated via the equation below:
+> +
+> +		led_brightness = requested_value * led_color_intensity/led_color_max_intensity
+> +
+> +		For additional details please refer to
+> +		Documentation/leds/leds-class-multicolor.rst.
+> +
+> +		The value of the color is from 0 to
+> +		/sys/class/leds/<led>/max_brightness.
+> +
+> +What:		/sys/class/leds/<led>/colors/color_mix
+> +Date:		Sept 2019
+> +KernelVersion:	5.5
+> +Contact:	Dan Murphy <dmurphy@ti.com>
+> +Description:	read/write
+> +		The values written to this file should contain the intensity
+> +		values of each multicolor LED within the colors directory. The
+> +		index of given color is reported by the color_id file present in
+> +		colors/<color> directory. The index determines the position in
+> +		the sequence of	intensities on which the related intensity
+> +		should be passed to this file.
+> +
+> +		For additional details please refer to
+> +		Documentation/leds/leds-class-multicolor.rst.
 
-We will need separate intensity files for each color anyway so separate
-max_brightness can go along in the sub-dir - it will be cleaner this
-way and will leave some flexibility regarding max intensity supported
-by the LED.
+As already mentioned in the reply to Pavel - let's avoid the
+introduction of another sysfs file with multiple values.
 
-And I'm saying about the need for separate intensity files because
-I've changed my mind regarding color_mix file, basing on the recent
-experience with trigger file PAGE_SIZE limit rework. That said, I am
-no longer eager to accept any exception for one-value-per-file rule.
+Color intensity files will only cache the value and actual
+write will be performed upon writing brightness file.
 
-This of course render color_mix file format unacceptable. In a new
-approach intensity files will only cache the values and actual write
-to registers will occur on write to the brightness file.
-
-> I'd expect max_intensity to be same for all the leds in
-> rgb:grouped_leds... Could we simply rely on max_brightness file?
-This may not be necessarily true if one will add gpio LED
-to the cluster of PWM LEDs.
-
-> [If not, would one "max_intensity" file in rgb:grouped_leds be
-> enough?]
-> 
-> Best regards,
-> 							Pavel
-> 							
+> +
+> +What:		/sys/class/leds/<led>/colors/<led_color>/color_id
+> +Date:		Sept 2019
+> +KernelVersion:	5.5
+> +Contact:	Dan Murphy <dmurphy@ti.com>
+> +Description:	read only
+> +		This file when read will return the index of the color in the
+> +		color_mix.
+> +
+> +		For additional details please refer to
+> +		Documentation/leds/leds-class-multicolor.rst.
+> +
+> +What:		/sys/class/leds/<led>/colors/<led_color>/intensity
+> +Date:		Sept 2019
+> +KernelVersion:	5.5
+> +Contact:	Dan Murphy <dmurphy@ti.com>
+> +Description:	read/write
+> +		The led_color directory is dynamically created based on the
+> +		colors defined by the registrar of the class.
+> +		The led_color can be but not limited to red, green, blue,
+> +		white, amber, yellow and violet.  There is one directory per color
+> +		presented.  The brightness file is created under each
+> +		led_color directory and controls the individual LED color
+> +		setting.
+> +
+> +		The value of the color is from 0 to
+> +		/sys/class/leds/<led>/colors/<led_color>/max_intensity.
+> +
+> +What:		/sys/class/leds/<led>/colors/<led_color>/max_intensity
+> +Date:		Sept 2019
+> +KernelVersion:	5.5
+> +Contact:	Dan Murphy <dmurphy@ti.com>
+> +Description:	read only
+> +		Maximum intensity level for the LED color, default is
+> +		255 (LED_FULL).
+> +
+> +		If the LED does not support different intensity levels, this
+> +		should be 1.
 > 
 
 -- 
