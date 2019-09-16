@@ -2,108 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8E7BB3131
-	for <lists+linux-leds@lfdr.de>; Sun, 15 Sep 2019 19:34:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8251CB3BDD
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Sep 2019 15:54:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727717AbfIORep (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 15 Sep 2019 13:34:45 -0400
-Received: from mail.andi.de1.cc ([85.214.55.253]:45134 "EHLO mail.andi.de1.cc"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727140AbfIORep (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 15 Sep 2019 13:34:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=kemnade.info; s=20180802; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=RH3Ef5d/v7AONt/7OCwGtfOGl/ZPOxk/BNLO7+WUrvc=; b=AuCxOItxAXXy3fGbF9/x8IzmSv
-        tGCuMHC05jD9iNfKoMUQAl2DaePaOtKeIV2WoW4pKb9DOiNSCpZGbLl6lEiZPYmbJ53XsWH/0niWw
-        /PlR7DJNY3//d+JYjmNl5bFRFeDib33HA0PqO6TzET64gY137rJbQ53i/585fHhMSLK4=;
-Received: from p200300ccff4ebd001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff4e:bd00:1a3d:a2ff:febf:d33a] helo=aktux)
-        by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <andreas@kemnade.info>)
-        id 1i9YPu-0006G5-NN; Sun, 15 Sep 2019 19:34:31 +0200
-Date:   Sun, 15 Sep 2019 19:34:29 +0200
-From:   Andreas Kemnade <andreas@kemnade.info>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Daniel Thompson <daniel.thompson@linaro.org>, lee.jones@linaro.org,
-        jingoohan1@gmail.com, jacek.anaszewski@gmail.com, dmurphy@ti.com,
-        robh+dt@kernel.org, mark.rutland@arm.com, b.zolnierkie@samsung.com,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fbdev@vger.kernel.org,
-        "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH 1/2] backlight: lm3630a: add an enable gpio for the HWEN
- pin
-Message-ID: <20190915193429.5feef312@aktux>
-In-Reply-To: <20190915165204.GA4857@bug>
-References: <20190908203704.30147-1-andreas@kemnade.info>
-        <20190908203704.30147-2-andreas@kemnade.info>
-        <20190909105729.w5552rtop7rhghy2@holly.lan>
-        <20190909221349.46ca5a1f@aktux>
-        <20190910102156.vmprsjebmlphkv34@holly.lan>
-        <20190910210648.3594912d@kemnade.info>
-        <20190915165204.GA4857@bug>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1732992AbfIPNyn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Sep 2019 09:54:43 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:42782 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728005AbfIPNyn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Sep 2019 09:54:43 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8GDsb4N084722;
+        Mon, 16 Sep 2019 08:54:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1568642077;
+        bh=l8yeJsF8FmT2WnVdhCOfEujrwIHFMa/BZ4gjgWzLKWk=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=S1iVH2MgMmOKe6ECllqnFkshWA551SXE7hsEYqnVjkJyD62SzdGUT8p62g04H5+/d
+         uTNgpp7/9L2guOauipwSX6UYECEIP41nQkAHm5aO718nH6AduE1zpMeaIDdEMOARTL
+         hKwRYlLSxMiUGw9FvYKQlciIlvvT6/rM0/GM33pI=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8GDsbhV072484;
+        Mon, 16 Sep 2019 08:54:37 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 16
+ Sep 2019 08:54:35 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 16 Sep 2019 08:54:35 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8GDsauO095861;
+        Mon, 16 Sep 2019 08:54:37 -0500
+Subject: Re: [PATCH v5 1/9] leds: multicolor: Add sysfs interface definition
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
+CC:     <robh+dt@kernel.org>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20190911180115.21035-1-dmurphy@ti.com>
+ <20190911180115.21035-2-dmurphy@ti.com>
+ <e34f4182-71d1-d51d-fb07-f88f6b88b6a3@gmail.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <eb08cd1b-a3eb-18db-0dd2-5c34637df9d5@ti.com>
+Date:   Mon, 16 Sep 2019 08:56:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <e34f4182-71d1-d51d-fb07-f88f6b88b6a3@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: -1.0 (-)
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Hello
 
-On Sun, 15 Sep 2019 18:52:04 +0200
-Pavel Machek <pavel@ucw.cz> wrote:
+On 9/15/19 8:57 AM, Jacek Anaszewski wrote:
+> Hi Dan,
+>
+> On 9/11/19 8:01 PM, Dan Murphy wrote:
+>> Add a documentation of LED Multicolor LED class specific
+>> sysfs attributes.
+>>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>> ---
+>>   .../ABI/testing/sysfs-class-led-multicolor    | 73 +++++++++++++++++++
+>>   1 file changed, 73 insertions(+)
+>>   create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>> new file mode 100644
+>> index 000000000000..4ea54c2ad4c8
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>> @@ -0,0 +1,73 @@
+>> +What:		/sys/class/leds/<led>/brightness
+>> +Date:		Sept 2019
+>> +KernelVersion:	5.5
+>> +Contact:	Dan Murphy <dmurphy@ti.com>
+>> +Description:	read/write
+>> +		The multicolor class will redirect the device drivers call back
+>> +		function for brightness control to the multicolor class
+>> +		brightness control function.
+>> +
+>> +		Writing to this file will update all LEDs within the group to a
+>> +		calculated percentage of what each color LED in the group is set
+>> +		to.  The percentage is calculated via the equation below:
+>> +
+>> +		led_brightness = requested_value * led_color_intensity/led_color_max_intensity
+>> +
+>> +		For additional details please refer to
+>> +		Documentation/leds/leds-class-multicolor.rst.
+>> +
+>> +		The value of the color is from 0 to
+>> +		/sys/class/leds/<led>/max_brightness.
+>> +
+>> +What:		/sys/class/leds/<led>/colors/color_mix
+>> +Date:		Sept 2019
+>> +KernelVersion:	5.5
+>> +Contact:	Dan Murphy <dmurphy@ti.com>
+>> +Description:	read/write
+>> +		The values written to this file should contain the intensity
+>> +		values of each multicolor LED within the colors directory. The
+>> +		index of given color is reported by the color_id file present in
+>> +		colors/<color> directory. The index determines the position in
+>> +		the sequence of	intensities on which the related intensity
+>> +		should be passed to this file.
+>> +
+>> +		For additional details please refer to
+>> +		Documentation/leds/leds-class-multicolor.rst.
+> As already mentioned in the reply to Pavel - let's avoid the
+> introduction of another sysfs file with multiple values.
 
-> Hi!
-> 
-> > > > > Is this needed?
-> > > > > 
-> > > > > This is a remove path, not a power management path, and we have no idea
-> > > > > what the original status of the pin was anyway?
-> > > > >     
-> > > > 
-> > > > Looking at Ishdn on page 5 of the datasheet, switching it off everytime
-> > > > possible seems not needed. We would need to call chip_init() everytime
-> > > > we enable the gpio or live with default values.
-> > > > Therefore I did decide to not put it into any power management path.
-> > > > But switching it on and not switching it off feels so unbalanced.     
-> > > 
-> > > Either the power consumed by the controller when strings aren't lit up
-> > > matters, in which case the driver should implement proper power
-> > > management or it doesn't matter and changing the pin state isn't needed.
-> > > 
-> > > I'm happy with either of the above but this looks like a third way,
-> > > where eager users could hack in a bit of extra power management by
-> > > forcing drivers to unbind. 
-> > >   
-> > I think I will take the simple way. I am quite sure that the power
-> > consumption with HWEN on and leds off does not matter. If someone
-> > later comes up and finds out that I misread the datasheet, things
-> > are prepared to be improved.  
-> 
-> Dunno.. if the power consumption does not matter, why does the chip have the enable
-> pin in the first place, and why do we bother supporting it? We could hardcode the
-> pin to enabled as well..
+OK for clarification remove the color_mix and color_id files and keep 
+the intensity files?
 
-Well, I agree having the pin and no power saving seems not to make
-sense. Two points here: I think it is a good idea to properly describe
-the hardware in the devicetree. What to do with that information is
-another thing.
-A problem is that at the moment I cannot easily measure consumption
-of the chip. Hmm, even testing a solution which disables the pin while
-the chip is not in use, is not so easy.
-But wait...
-I could use a wrong gpio but one that I can easily monitor to check if
-the pin is toggled. And set the real pin to high by some other means.
-And then use the real gpio to check if timings are correct (waiting
-enough after enabling the chip, e.g.
+Dan
 
-Regards,
-Andreas
