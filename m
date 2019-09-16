@@ -2,173 +2,407 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44E35B41A6
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Sep 2019 22:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00F18B43EB
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Sep 2019 00:21:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727809AbfIPUST (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 Sep 2019 16:18:19 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38610 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728003AbfIPUST (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Sep 2019 16:18:19 -0400
-Received: by mail-wr1-f65.google.com with SMTP id l11so773078wrx.5;
-        Mon, 16 Sep 2019 13:18:16 -0700 (PDT)
+        id S1732461AbfIPWVm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Sep 2019 18:21:42 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:54598 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728897AbfIPWVm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Sep 2019 18:21:42 -0400
+Received: by mail-wm1-f68.google.com with SMTP id p7so963887wmp.4;
+        Mon, 16 Sep 2019 15:21:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=xelTtxQZNwUHjKI4djBQXcsmyeU/4Lfzkk0E8IqczKA=;
-        b=L8VzfxsqHQ8LcrCqNVEWoPzMvYKROKLYU/J8tGhPijGQhyCO9BBrfr72WIL9HPeYwo
-         qzFAjUFT7z/91no63Cf2rMMHKb7zFTsFbRqpNvqB1iUnnHW/5pzllQFBru36mL252oXZ
-         dGe6+ifSvDtuKPvrX097jah+28NzIZMeATbwTYreHA+y4IsDo/j1F1ZcHMn2uu6A03eR
-         ++RamHOyCNdpDt7w0ypnhrtSuoxCdowILD+EiH0kvOYAcX1rHrflzwMNd8Lna/LdDmMV
-         93Wo4+14Hv3UPtTxxnUL7uDnZ6+ZsqYPdp4uB4HlR4+H1YS9QXiFMFq1oERMGJzSuSss
-         fn5w==
+        h=from:to:cc:subject:date:message-id;
+        bh=nKoTFnP2/sw+MzHjqEsPSUWv07lXTqRgvUBHxy8c4T8=;
+        b=QtsWfAqo4JkUzgPKzDlC4fQCjX0vgsc15DJvBiJ14XOXIwJ6p+F/nyqVOnf/Xv7GuF
+         gimK11Z2gNxZADTrA2YU7MdKSc3iI/7enCsv3yLwfEyhE84QhxtDo10NLsZsS32A4lUq
+         3sONaXrZuA5mG9VhSWqe1i95VAUFUw3mWrbwuwAHcL9vEJs4cfPRDBxt12gr5Zrf3ly7
+         /RY4wydc+w0YqFYHjP73eVoIOg+cxeCXN+DwJF7WWPQokEhfP42y4n3XNTSd6ewH7z1q
+         etekLd9XFA026GmBmJgS1fos+m3xPcuaomOBZEGkLa7Q8D4NrMKjdMEThTrtqqICcLuA
+         aqtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=xelTtxQZNwUHjKI4djBQXcsmyeU/4Lfzkk0E8IqczKA=;
-        b=Dxl5Plz1YAwG+a8TnnsH9L6InfoxJNjr4l+B5dSLDq0ApnJJTAkNUYQWmsIZjQmtuM
-         jKHoVjCSvnMZMeyrJrcxi2W17Tg+zc3g2N3EBlDh7TpaSO+2/JiCVChf9m4oXda/KL7p
-         e9qDDgu8CAPqOrKpWjEZjnjpreGN2pIdzCCprVn4mQajwXVh/gBaR6Rxj+eQsMgXeNTA
-         OfrSSOkXg+WQsXkdNESUAS3unvS8Mxd4VzM7pJVcqCoxmzG5/R/gC2uKryf6QecQ5S5B
-         lTfzNuO5y39/LIKoTvj7UKuMZwja3peqerWuhmQvM3+tFIQplanKKvrYJ4GKOohCLSGi
-         4GAA==
-X-Gm-Message-State: APjAAAUTmni1Owi5TVkFoUNwRtnhErxmHvM6hV/+xSiKKh4XZucmx9Ul
-        Aah6HcMneMfWhx2btdqMnSYcxYQ3
-X-Google-Smtp-Source: APXvYqz35KSANFy1K7cjmog1aUsHShUSOPyVP5JNXlDOsnGpAKbSxjaYZmR2blryXIRlNualQROPcQ==
-X-Received: by 2002:a5d:5403:: with SMTP id g3mr121808wrv.338.1568665096013;
-        Mon, 16 Sep 2019 13:18:16 -0700 (PDT)
-Received: from [192.168.1.19] (bgp90.neoplus.adsl.tpnet.pl. [83.28.79.90])
-        by smtp.gmail.com with ESMTPSA id n17sm7835wrp.37.2019.09.16.13.18.14
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=nKoTFnP2/sw+MzHjqEsPSUWv07lXTqRgvUBHxy8c4T8=;
+        b=Qa7jP27iBlaoW3sBKkYpNN8A6ATp2oFsKzSSnJwgrOIGuBpHmlyM2eVVCdbYZlN7Ir
+         uC/LUEDgeVUAEafOSgIa9bP5t3rFVPaMQvj1J4sLX5HnVCQGejlCeFEJqeVKkT9bBpmS
+         9x7wtpdJClovpmZnCmWkux4ZTyCNoUmq999V73dnQV3Y6JfwopY25fEnJ04/g2HAUXZU
+         Q72mO/KfHJ15x5+NNT9eF/Hc094/V1QkqhlApMfQmpQbGggVl68K7GKCfG6ufgwbPJo1
+         GWk3H7QK+eOWZtVsBtAgHmsEce3ttkvUJto5z5+mwLblcMdRhllu/A29ni59gNMZAB7j
+         BKvg==
+X-Gm-Message-State: APjAAAVpkAft3BO8SeLzQ/2w7kfMgivbHJrzT20wRLNtuyOhczYQ1H2R
+        tD6M1EFwIk9GMXoIY2PQaPQ=
+X-Google-Smtp-Source: APXvYqzosns+bPvr817B+GjgW5cJX6MwpNcDX2A/G2Ons3CKh63vYCeJDPIGZ8Ho+KucaPPoXdBoXw==
+X-Received: by 2002:a1c:a74f:: with SMTP id q76mr967187wme.16.1568672499309;
+        Mon, 16 Sep 2019 15:21:39 -0700 (PDT)
+Received: from myhost.home (bgp90.neoplus.adsl.tpnet.pl. [83.28.79.90])
+        by smtp.gmail.com with ESMTPSA id u10sm516357wrg.55.2019.09.16.15.21.36
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 Sep 2019 13:18:15 -0700 (PDT)
-Subject: Re: [PATCH v5 6/9] leds: multicolor: Introduce a multicolor class
- definition
-To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
-Cc:     robh+dt@kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190911180115.21035-1-dmurphy@ti.com>
- <20190911180115.21035-7-dmurphy@ti.com>
- <2bfd27cf-6703-48b8-be82-9b36066ef2ed@gmail.com>
- <edc6aa22-3a9a-2a99-ccca-1bd3bf07f04b@ti.com>
+        Mon, 16 Sep 2019 15:21:38 -0700 (PDT)
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <43f810ed-f477-1c8e-5f96-ba2c5ef824eb@gmail.com>
-Date:   Mon, 16 Sep 2019 22:18:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <edc6aa22-3a9a-2a99-ccca-1bd3bf07f04b@ti.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+To:     torvalds@linux-foundation.org
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        ada@thorsis.com, andriy.shevchenko@linux.intel.com,
+        bgolaszewski@baylibre.com, christophe.jaillet@wanadoo.fr,
+        dmurphy@ti.com, gustavo@embeddedor.com, info@metux.net,
+        jacek.anaszewski@gmail.com, joe@perches.com, kw@linux.com,
+        linus.walleij@linaro.org, nishkadg.linux@gmail.com,
+        nstoughton@logitech.com, oleg@kaa.org.ua, suzuki.poulose@arm.com,
+        tony@atomide.com, wenwen@cs.uga.edu,
+        wsa+renesas@sang-engineering.com, yamada.masahiro@socionext.com
+Subject: [GIT PULL] LED updates for 5.4-rc1
+Date:   Tue, 17 Sep 2019 00:21:33 +0200
+Message-Id: <20190916222133.9119-1-jacek.anaszewski@gmail.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/16/19 8:34 PM, Dan Murphy wrote:
-> Jacek
-> 
-> On 9/15/19 11:20 AM, Jacek Anaszewski wrote:
->>
->>> +
->>> +static int led_multicolor_init_color(struct led_classdev_mc_data *data,
->>> +                     struct led_classdev_mc *mcled_cdev,
->>> +                     int color_id, int color_index)
->>> +{
->>> +    struct led_classdev *led_cdev = mcled_cdev->led_cdev;
->>> +    struct led_classdev_mc_priv *mc_priv;
->>> +    int ret;
->>> +
->>> +    mc_priv = devm_kzalloc(led_cdev->dev, sizeof(*mc_priv),
->>> GFP_KERNEL);
->>> +    if (!mc_priv)
->>> +        return -ENOMEM;
->>> +
->>> +    mc_priv->led_color_id = color_id;
->>> +    mc_priv->mcled_cdev = mcled_cdev;
->>> +
->>> +    data->led_kobj = kobject_create_and_add(led_colors[color_id],
->>> +                        data->color_kobj);
->> No change here since previous version? What prevents you from following
->> what has been done for drivers/usb/core/ledtrig-usbport.c?
->>
->> Use sysfs_create_group() for creating color dir
->> and sysfs_add_file_to_group() for adding files to it.
-> 
-> We have nested directories here.  colors is a directory and then the LED
-> color is a directory.
-> 
-> So I am not sure how to create a group under another group without the
-> colors directory kobj.
-> 
-> Wondering if you know of any examples?
+Hi Linus,
 
-Hmm, that indeed seems not to be allowed. kobject_create_and_add()
-seems to be the only solution to achieve nested directories.
-Nonetheless we will have to first justify the need for that to Greg.
+Please pull LED updates for 5.4-rc1.
 
--- 
-Best regards,
+
+There is one merge of tag with generic_lookup_helpers since
+LED class has been made using class_find_device_by_name() helper:
+
+    Merge tag 'generic_lookup_helpers' into for-next
+    platform: Add platform_find_device_by_driver() helper
+    drivers: Add generic helper to match any device
+    drivers: Introduce device lookup variants by ACPI_COMPANION device
+    drivers: Introduce device lookup variants by device type
+    drivers: Introduce device lookup variants by fwnode
+    drivers: Introduce device lookup variants by of_node
+    drivers: Introduce device lookup variants by name
+
+In this cycle we've finally managed to contribute the patch set sorting out
+LED naming issues. Besides that there are many changes scattered among various
+LED class drivers and triggers.
+
+LED naming related improvements:
+
+    - add new 'function' and 'color' fwnode properties and deprecate
+      'label' property which has been frequently abused for conveying vendor
+      specific names that have been available in sysfs anyway
+    - introduce a set of standard LED_FUNCTION* definitions
+    - introduce a set of standard LED_COLOR_ID* definitions
+    - add a new {devm_}led_classdev_register_ext() API with the capability
+      of automatic LED name composition basing on the properties available
+      in the passed fwnode; the function is backwards compatible in a sense
+      that it uses 'label' data, if present in the fwnode, for creating LED name
+    - add tools/leds/get_led_device_info.sh script for retrieving LED vendor,
+      product and bus names, if applicable; it also performs basic validation
+      of an LED name
+    - update following drivers and their DT bindings to use the new
+      LED registration API:
+
+        - leds-an30259a, leds-gpio, leds-as3645a, leds-aat1290, leds-cr0014114,
+          leds-lm3601x, leds-lm3692x, leds-lp8860, leds-lt3593, leds-sc27xx-blt
+
+Other LED class improvements:
+
+    - replace {devm_}led_classdev_register() macros with inlines
+    - allow to call led_classdev_unregister() unconditionally
+    - switch to use fwnode instead of be stuck with OF one
+
+LED triggers improvements:
+
+    - led-triggers:
+        - fix dereferencing of null pointer
+        - fix a memory leak bug
+    - ledtrig-gpio:
+        - GPIO 0 is valid
+
+Drop superseeded apu2/3 support from leds-apu since for apu2+ a newer, more
+complete driver exists, based on a generic driver for the AMD SOCs
+gpio-controller, supporting LEDs as well other devices:
+
+    - drop profile field from priv data
+    - drop iosize field from priv data
+    - drop enum_apu_led_platform_types
+    - drop superseeded apu2/3 led support
+    - add pr_fmt prefix for better log output
+    - fix error message on probing failure
+
+Add of_node_put() before return:
+
+    - leds-ns2, leds-max77650
+
+Use struct_size() helper:
+
+    - leds-pwm, leds-is31fl32xx
+
+Switch to use fwnode_property_count_uXX()
+
+    - leds-lm3697, leds-lm36274, leds-lm3532
+
+Other misc fixes and improvements to existing LED class drivers:
+
+    - leds-lm3532:
+        - fix brightness control for i2c mode
+        - change the define for the fs current register
+        - fixes for the driver for stability
+        - add full scale current configuration
+        - dt: Add property for full scale current.
+        - avoid potentially unpaired regulator calls
+        - move static keyword to the front of declarations
+        - fix optional led-max-microamp prop error handling
+    - leds-max77650:
+	- add of_node_put() before return
+        - add MODULE_ALIAS()
+        - Switch to fwnode property API
+    - leds-as3645a:
+        - fix misuse of strlcpy
+    - leds-netxbig:
+        - add of_node_put() in netxbig_leds_get_of_pdata()
+        - remove legacy board-file support
+    - leds-is31fl319x:
+        - simplify getting the adapter of a client
+    - leds-ti-lmu-common:
+        - fix coccinelle issue
+        - move static keyword to the front of declaration
+    - leds-syscon:
+        - use resource managed variant of device register
+    - leds-ktd2692:
+        - fix a typo in the name of a constant
+    - leds-lp5562:
+        - allow firmware files up to the maximum length
+    - leds-an30259a:
+        - fix typo
+    - leds-pca953x:
+        - include the right header
+
+
+The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
+
+  Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git tags/leds-for-5.4-rc1
+
+for you to fetch changes up to 6d4faf3b6b6eb3c8a750b2e6659a5b1ff3dd9e75:
+
+  leds: lm3532: Fix optional led-max-microamp prop error handling (2019-09-12 20:45:52 +0200)
+
+Thanks,
 Jacek Anaszewski
+
+----------------------------------------------------------------
+LED updates for 5.4-rc1
+----------------------------------------------------------------
+Alexander Dahl (1):
+      leds: syscon: Use resource managed variant of device register
+
+Andy Shevchenko (7):
+      leds: lm3532: Switch to use fwnode_property_count_uXX()
+      leds: lm36274: Switch to use fwnode_property_count_uXX()
+      leds: lm3697: Switch to use fwnode_property_count_uXX()
+      leds: max77650: Switch to fwnode property API
+      leds: Switch to use fwnode instead of be stuck with OF one
+      leds: Allow to call led_classdev_unregister() unconditionally
+      leds: trigger: gpio: GPIO 0 is valid
+
+Bartosz Golaszewski (1):
+      leds: max77650: add MODULE_ALIAS()
+
+Christophe JAILLET (2):
+      leds: an30259a: Fix typo
+      leds: ktd2692: Fix a typo in the name of a constant
+
+Dan Murphy (7):
+      leds: lm3532: Fix brightness control for i2c mode
+      leds: lm3532: Change the define for the fs current register
+      leds: lm3532: Fixes for the driver for stability
+      dt: lm3532: Add property for full scale current.
+      leds: lm3532: Add full scale current configuration
+      leds: ti-lmu-common: Fix coccinelle issue in TI LMU
+      leds: lm3532: Fix optional led-max-microamp prop error handling
+
+Enrico Weigelt (6):
+      leds: apu: drop superseeded apu2/3 led support
+      leds: apu: drop enum_apu_led_platform_types
+      leds: apu: drop iosize field from priv data
+      leds: apu: drop profile field from priv data
+      leds: apu: fix error message on probing failure
+      leds: apu: add pr_fmt prefix for better log output
+
+Gustavo A. R. Silva (2):
+      leds: is31fl32xx: Use struct_size() helper
+      leds: pwm: Use struct_size() helper
+
+Jacek Anaszewski (27):
+      leds: class: Improve LED and LED flash class registration API
+      dt-bindings: leds: Add LED_COLOR_ID definitions
+      dt-bindings: leds: Add LED_FUNCTION definitions
+      dt-bindings: leds: Add properties for LED name construction
+      leds: core: Add support for composing LED class device names
+      dt-bindings: sc27xx-blt: Add function and color properties
+      leds: sc27xx-blt: Use generic support for composing LED names
+      dt-bindings: lt3593: Add function and color properties
+      leds: lt3593: Use generic support for composing LED names
+      dt-bindings: lp8860: Add function and color properties
+      leds: lp8860: Use generic support for composing LED names
+      dt-bindings: lm3692x: Add function and color properties
+      leds: lm3692x: Use generic support for composing LED names
+      dt-bindings: lm36010: Add function and color properties
+      leds: lm3601x: Use generic support for composing LED names
+      dt-bindings: cr0014114: Add function and color properties
+      leds: cr0014114: Use generic support for composing LED names
+      dt-bindings: aat1290: Add function and color properties
+      leds: aat1290: Use generic support for composing LED names
+      dt-bindings: as3645a: Add function and color properties
+      leds: as3645a: Use generic support for composing LED names
+      dt-bindings: leds-gpio: Add function and color properties
+      leds: gpio: Use generic support for composing LED names
+      dt-bindings: an30259a: Add function and color properties
+      leds: an30259a: Use generic support for composing LED names
+      Merge tag 'generic_lookup_helpers' into for-next
+      leds: Replace {devm_}led_classdev_register() macros with inlines
+
+Joe Perches (1):
+      leds: as3645a: Fix misuse of strlcpy
+
+Krzysztof Wilczynski (2):
+      leds: lm3532: Move static keyword to the front of declarations
+      leds: ti-lmu-common: Move static keyword to the front of declaration
+
+Linus Walleij (1):
+      leds: pca953x: Include the right header
+
+Masahiro Yamada (1):
+      leds: netxbig: remove legacy board-file support
+
+Nick Stoughton (1):
+      leds: leds-lp5562 allow firmware files up to the maximum length
+
+Nishka Dasgupta (3):
+      leds: max77650: Add of_node_put() before return
+      leds: ns2: Add of_node_put() before return
+      leds: netxbig: Add of_node_put() in netxbig_leds_get_of_pdata()
+
+Oleh Kravchenko (1):
+      led: triggers: Fix dereferencing of null pointer
+
+Suzuki K Poulose (7):
+      drivers: Introduce device lookup variants by name
+      drivers: Introduce device lookup variants by of_node
+      drivers: Introduce device lookup variants by fwnode
+      drivers: Introduce device lookup variants by device type
+      drivers: Introduce device lookup variants by ACPI_COMPANION device
+      drivers: Add generic helper to match any device
+      platform: Add platform_find_device_by_driver() helper
+
+Tony Lindgren (1):
+      leds: lm3532: Avoid potentially unpaired regulator calls
+
+Wenwen Wang (1):
+      led: triggers: Fix a memory leak bug
+
+Wolfram Sang (1):
+      leds: is31fl319x: simplify getting the adapter of a client
+
+ .../devicetree/bindings/leds/ams,as3645a.txt       |  22 +-
+ Documentation/devicetree/bindings/leds/common.txt  |  62 +++++-
+ .../devicetree/bindings/leds/leds-aat1290.txt      |  12 +-
+ .../devicetree/bindings/leds/leds-an30259a.txt     |  22 +-
+ .../devicetree/bindings/leds/leds-cr0014114.txt    |  26 ++-
+ .../devicetree/bindings/leds/leds-gpio.txt         |  23 +-
+ .../devicetree/bindings/leds/leds-lm3532.txt       |   4 +
+ .../devicetree/bindings/leds/leds-lm3601x.txt      |  10 +-
+ .../devicetree/bindings/leds/leds-lm3692x.txt      |   9 +-
+ .../devicetree/bindings/leds/leds-lp8860.txt       |   9 +-
+ .../devicetree/bindings/leds/leds-lt3593.txt       |  11 +-
+ .../devicetree/bindings/leds/leds-sc27xx-bltc.txt  |  10 +-
+ Documentation/leds/leds-class.rst                  |  70 +++++-
+ drivers/amba/tegra-ahb.c                           |  11 +-
+ drivers/base/bus.c                                 |  24 ---
+ drivers/base/core.c                                |  39 +++-
+ drivers/base/devcon.c                              |   8 +-
+ drivers/base/platform.c                            |  14 ++
+ drivers/fpga/fpga-bridge.c                         |   8 +-
+ drivers/fpga/fpga-mgr.c                            |   8 +-
+ drivers/gpu/drm/drm_mipi_dsi.c                     |   7 +-
+ drivers/gpu/drm/exynos/exynos_drm_drv.c            |   9 +-
+ drivers/gpu/drm/mcde/mcde_drv.c                    |   3 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |   3 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                      |   3 +-
+ drivers/hwtracing/coresight/coresight-platform.c   |  11 +-
+ drivers/hwtracing/coresight/coresight-priv.h       |   2 -
+ drivers/hwtracing/coresight/coresight.c            |   4 +-
+ drivers/hwtracing/intel_th/core.c                  |  10 +-
+ drivers/hwtracing/stm/core.c                       |   9 +-
+ drivers/i2c/busses/i2c-amd-mp2-pci.c               |   8 +-
+ drivers/i2c/i2c-core-acpi.c                        |  11 +-
+ drivers/i2c/i2c-core-of.c                          |   7 +-
+ drivers/infiniband/hw/hns/hns_roce_hw_v1.c         |   8 +-
+ drivers/iommu/arm-smmu-v3.c                        |   9 +-
+ drivers/iommu/arm-smmu.c                           |   9 +-
+ drivers/leds/Kconfig                               |   6 +-
+ drivers/leds/led-class-flash.c                     |   9 +-
+ drivers/leds/led-class.c                           |  62 ++++--
+ drivers/leds/led-core.c                            | 136 +++++++++++-
+ drivers/leds/led-triggers.c                        |   5 +-
+ drivers/leds/leds-aat1290.c                        |  16 +-
+ drivers/leds/leds-an30259a.c                       |  29 +--
+ drivers/leds/leds-apu.c                            | 157 ++------------
+ drivers/leds/leds-as3645a.c                        |  74 +++----
+ drivers/leds/leds-cr0014114.c                      |  33 +--
+ drivers/leds/leds-gpio.c                           |  26 +--
+ drivers/leds/leds-is31fl319x.c                     |   3 +-
+ drivers/leds/leds-is31fl32xx.c                     |   8 +-
+ drivers/leds/leds-ktd2692.c                        |   4 +-
+ drivers/leds/leds-lm3532.c                         | 138 +++++++++---
+ drivers/leds/leds-lm3601x.c                        |  38 ++--
+ drivers/leds/leds-lm36274.c                        |   4 +-
+ drivers/leds/leds-lm3692x.c                        |  22 +-
+ drivers/leds/leds-lm3697.c                         |   5 +-
+ drivers/leds/leds-lp5562.c                         |   6 +-
+ drivers/leds/leds-lp8860.c                         |  35 ++-
+ drivers/leds/leds-lt3593.c                         |  20 +-
+ drivers/leds/leds-max77650.c                       |  44 ++--
+ drivers/leds/leds-netxbig.c                        |  76 +++++--
+ drivers/leds/leds-ns2.c                            |  21 +-
+ drivers/leds/leds-pca9532.c                        |   2 +-
+ drivers/leds/leds-pwm.c                            |  11 +-
+ drivers/leds/leds-sc27xx-bltc.c                    |  22 +-
+ drivers/leds/leds-syscon.c                         |   2 +-
+ drivers/leds/leds-ti-lmu-common.c                  |  15 +-
+ drivers/leds/leds.h                                |   1 +
+ drivers/leds/trigger/ledtrig-gpio.c                |  12 +-
+ drivers/mfd/altera-sysmgr.c                        |  14 +-
+ drivers/misc/mei/main.c                            |   9 +-
+ drivers/mux/core.c                                 |   7 +-
+ drivers/net/ethernet/hisilicon/hns/hns_dsaf_misc.c |   8 +-
+ drivers/net/phy/mdio_bus.c                         |   9 +-
+ drivers/nvmem/core.c                               |   7 +-
+ drivers/of/of_mdio.c                               |   8 +-
+ drivers/of/platform.c                              |   7 +-
+ drivers/pci/probe.c                                |   7 +-
+ drivers/regulator/of_regulator.c                   |   7 +-
+ drivers/rtc/interface.c                            |  11 +-
+ drivers/s390/cio/ccwgroup.c                        |  18 +-
+ drivers/s390/cio/device.c                          |  15 +-
+ drivers/s390/crypto/zcrypt_api.c                   |  22 +-
+ drivers/scsi/scsi_proc.c                           |   9 +-
+ drivers/spi/spi.c                                  |  28 +--
+ drivers/tty/tty_io.c                               |   8 +-
+ drivers/usb/core/devio.c                           |   8 +-
+ drivers/usb/roles/class.c                          |  16 +-
+ drivers/usb/typec/class.c                          |  16 +-
+ include/dt-bindings/leds/common.h                  |  55 ++++-
+ include/linux/device.h                             | 237 ++++++++++++++++++++-
+ include/linux/led-class-flash.h                    |  15 +-
+ include/linux/leds.h                               | 100 ++++++++-
+ .../linux/platform_data/leds-kirkwood-netxbig.h    |  54 -----
+ include/linux/platform_device.h                    |   3 +
+ net/ieee802154/core.c                              |   7 +-
+ sound/soc/rockchip/rk3399_gru_sound.c              |   9 +-
+ tools/leds/get_led_device_info.sh                  | 201 +++++++++++++++++
+ 97 files changed, 1484 insertions(+), 988 deletions(-)
+ delete mode 100644 include/linux/platform_data/leds-kirkwood-netxbig.h
+ create mode 100755 tools/leds/get_led_device_info.sh
