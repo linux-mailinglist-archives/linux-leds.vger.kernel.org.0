@@ -2,101 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1FC9B5E08
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 09:30:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D70BFB5F45
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 10:33:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbfIRHaM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 Sep 2019 03:30:12 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:38279 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725834AbfIRHaM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Sep 2019 03:30:12 -0400
-Received: by mail-pf1-f193.google.com with SMTP id h195so3788003pfe.5;
-        Wed, 18 Sep 2019 00:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=QUTOW7SYGhvEuMpoMsqm9wPl2xVghInSIZpBh/SUcUk=;
-        b=LM26Nt9HJM92nBkzwhuKXJ/TFFVRvuPeXdw8cueU2lG5HAMsOx3m0oVi3iwu/5Xk+Y
-         N4UzRamAPxp3eisEFchdP7nJknejziYf4sjcaGa4q8PwmYhNaQa1FvtUeJC17ILQkXxj
-         vIRSQpB59FX4R1DOVKhF7ZtTCf2oF0BfTa+U3qb2A7mjYc+XP/15lROqYEdBtYxIzFxt
-         Bc3+KuA39F6qudCLEZlxoydeCM9ADrpsebBbqgucIb9cHCfp4FZCs/GRY2F1K5UwR6hC
-         urYCyzc5uuFWdEiM+AGGCfrhVvpiktNKFPJFaTK7eSUGM42vwGHdP2e6MJh3VVsrm4wa
-         BnTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=QUTOW7SYGhvEuMpoMsqm9wPl2xVghInSIZpBh/SUcUk=;
-        b=q2s3Z7pdWJ2C+yw+TCdKkNpqKHea00gcIGbJ1sOUE3F3F7dZMe2VTw68lxDYGTWbGO
-         +P+u6gMZpGDYXgJWUrk/G3NIYkko1vX96PL47o1mYB3+vmjUdyjIoXsSHarg0VNSkI57
-         IV4xOG7B13yeE3qZaxF7BKCq/cr2gAY2dDXr30jp0Mo52TNUliwbFCxQBy32vjJe2Hs9
-         +Svp68WFbd63OJtuCaULqywwLX3H2R3k413zzLk27DLdKFfNspKHbgWVlrHzt7oDj8CX
-         HOiEhV8RBUBabYuEyhDzsqPsY+lJMyWTapf28++LhLu0JICvD3SNomgqLxc3lDUso0rv
-         Cb0A==
-X-Gm-Message-State: APjAAAWhdA8fZm4zLGNSqemRgalIc6QDWOBTfotU5+WKJNFqNUTlxz+F
-        cAfMyVTtREYqLbfWfpIOh3H4lwfOPFFSWcRPgkQ=
-X-Google-Smtp-Source: APXvYqxODHAnGNoo1M+FYBIaBIgkbTTYcS9ntGYAZGLVoHlN4Qo7fAGTV8pIM8b6s3rawj73lTeVjkJu886kGqrWRm0=
-X-Received: by 2002:a63:c842:: with SMTP id l2mr2685854pgi.4.1568791811184;
- Wed, 18 Sep 2019 00:30:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190916222133.9119-1-jacek.anaszewski@gmail.com>
- <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com>
- <CAHk-=wjAVTCZ9-X6ETA7SASNhrOyJuCgn792E_Wmn+JaEQ8N0Q@mail.gmail.com> <CAHk-=wjm422bg+ZPuKkjU6NffbAyysY2n8iLRFyiNKin4cvWgg@mail.gmail.com>
-In-Reply-To: <CAHk-=wjm422bg+ZPuKkjU6NffbAyysY2n8iLRFyiNKin4cvWgg@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 18 Sep 2019 10:29:59 +0300
-Message-ID: <CAHp75Vdn5_U3rCvuK1_P_nf5gEO63r342dgp_wk77diPU8k06Q@mail.gmail.com>
-Subject: Re: [GIT PULL] LED updates for 5.4-rc1
+        id S1727616AbfIRIdS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Sep 2019 04:33:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34918 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725866AbfIRIdS (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 18 Sep 2019 04:33:18 -0400
+Received: from localhost (unknown [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D0D4420856;
+        Wed, 18 Sep 2019 08:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568795597;
+        bh=bhRFbJTVCCXdGlg9G8DHJvi0UBcENXr89PrBpqx+QZ0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TRGsR9PVcN6p7jD2NzQGbYZXK/ftjna43SLxyxBP6P5ExhX11W2IjaLMnWCY4+fMS
+         fP214uw5fMbjx6ggIu/cJeeGTNFhcix30z0MmTamWGnk3C3j3JPpVo2k7NOwTdSY2c
+         Pd44Z2Ks2OwUP0Fe83DYX9AY5zZV4pFcVetfoXkE=
+Date:   Wed, 18 Sep 2019 08:22:47 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        ada@thorsis.com,
+        linux-leds@vger.kernel.org, ada@thorsis.com,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Dan Murphy <dmurphy@ti.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        christophe.jaillet@wanadoo.fr, dmurphy@ti.com,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>, info@metux.net,
         Joe Perches <joe@perches.com>, kw@linux.com,
         Linus Walleij <linus.walleij@linaro.org>,
         nishkadg.linux@gmail.com, nstoughton@logitech.com, oleg@kaa.org.ua,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
         Tony Lindgren <tony@atomide.com>, wenwen@cs.uga.edu,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        wsa+renesas@sang-engineering.com,
         Masahiro Yamada <yamada.masahiro@socionext.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [GIT PULL] LED updates for 5.4-rc1
+Message-ID: <20190918062247.GA1855305@kroah.com>
+References: <20190916222133.9119-1-jacek.anaszewski@gmail.com>
+ <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Sep 18, 2019 at 10:24 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Tue, Sep 17, 2019 at 6:14 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
+On Tue, Sep 17, 2019 at 06:13:09PM -0700, Linus Torvalds wrote:
+> On Mon, Sep 16, 2019 at 3:21 PM Jacek Anaszewski
+> <jacek.anaszewski@gmail.com> wrote:
 > >
-> > Famous last words. I now get a new warning:
+> > There is one merge of tag with generic_lookup_helpers since
+> > LED class has been made using class_find_device_by_name() helper:
 > >
-> > drivers/i2c/i2c-core-acpi.c:347:12: warning:
-> > =E2=80=98i2c_acpi_find_match_adapter=E2=80=99 defined but not used [-Wu=
-nused-function]
->
-> Commit 00500147cbd3 ("drivers: Introduce device lookup variants by
-> ACPI_COMPANION device") removed the use of that matching function, but
-> didn't remove the function.
->
-> It also removed the use of i2c_acpi_find_match_device(), but in that
-> case it _did_ remove the function.
+> >     Merge tag 'generic_lookup_helpers' into for-next
+> >     platform: Add platform_find_device_by_driver() helper
+> >     drivers: Add generic helper to match any device
+> >     drivers: Introduce device lookup variants by ACPI_COMPANION device
+> >     drivers: Introduce device lookup variants by device type
+> >     drivers: Introduce device lookup variants by fwnode
+> >     drivers: Introduce device lookup variants by of_node
+> >     drivers: Introduce device lookup variants by name
+> 
+> So this is fine and I've pulled it, but I have to say that I
+> absolutely detest how this device.h header keeps just growing
+> endlessly:
+> 
+>   [torvalds@linux]$ wc include/linux/device.h
+>    1921  8252 66021 include/linux/device.h
+> 
+> that's almost 2k of header file, and it's included a _lot_:
+> 
+>   [torvalds@linux]$ git grep include.*linux/device.h | wc
+>    2518    5085  144875
+> 
+> and many of those includes are actually from other core header files,
+> so it's effectively included from even more trees.
+> 
+> Yes, yes, many of those 2k lines are comments. But still... Do we
+> really want to have that humongous 65kB, 2kloc header file, and keep
+> growing it forever?
+> 
+> Greg?
 
-I hope you have a chance to read my previous email.
-We still need that function.
+Yeah, it is getting big, I'll look into splitting it up.
 
---=20
-With Best Regards,
-Andy Shevchenko
+thanks,
+
+greg k-h
+
+
+> 
+>                   Linus
