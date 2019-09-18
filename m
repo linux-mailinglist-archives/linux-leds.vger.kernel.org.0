@@ -2,57 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FF0BB5938
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 03:22:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CED9FB595E
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 03:40:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbfIRBWD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Sep 2019 21:22:03 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:39373 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726277AbfIRBWD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Sep 2019 21:22:03 -0400
-Received: by mail-lf1-f65.google.com with SMTP id 72so4351065lfh.6
-        for <linux-leds@vger.kernel.org>; Tue, 17 Sep 2019 18:22:01 -0700 (PDT)
+        id S1726832AbfIRBkz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 Sep 2019 21:40:55 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45429 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728383AbfIRBkz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Sep 2019 21:40:55 -0400
+Received: by mail-lf1-f68.google.com with SMTP id r134so4326684lff.12
+        for <linux-leds@vger.kernel.org>; Tue, 17 Sep 2019 18:40:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=XZNPfc6roJDRqmm7Hq8AaswPkY6LR6E77xlBLQ/HJ7I=;
-        b=FzJhEyBPVTskda0cSucuaFKcE8AEsBpYdGOJjLPClHwFKc2AS/i3sV9dJdFatrdl9/
-         d0bWr9ZHhztIufS7u+2stdRbWIRLzOK/Bwm0TtRbjePzxKxcyg40NuanmOr9EE+lFHAf
-         T09bX7Lwf4TX2HtwM0RbKJPmFyV4HubOteVNc=
+        bh=fxZxgQXB1oaMwYliKzbFMQ3wWmFlE3pkMrUM3WHegTI=;
+        b=gll0QwYPhJXC5RJZMPEoVL65l3AwY9HheCrApLkuz9bM8z5Y6nQmWdcjiFnXXZD66l
+         wbKE8dQqumz0IA0gcfqzd7tQEKcaTkP2a0TZtm2uaU1XJ4P4e2jMjulleFNtwgmEhhT2
+         wZmpXrgJ61REEDlo/x/getB7PUdm6g7R/DNGE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=XZNPfc6roJDRqmm7Hq8AaswPkY6LR6E77xlBLQ/HJ7I=;
-        b=U3GJe+Vnu3kBahPs/7lGHEydIQw74WUu4VcdW1HCwmnKyoAdIBkGqd81u8gNLYHbgA
-         LZAmQOll4zDf2JR9BeYogPApkQsVZNMWp2E/k6hbpEHdsvLZdSJPZcAMdgcgAshkSxdq
-         jYtYg/ygQgsoD+IRkwT3N6AaEFpu7GaOKxdKw56QKutVDYEURlyGDYTPgff9OqgR1xFQ
-         BzsqzFJ8YGsx54yCY3676ogpEd5kQyed9MWkTX7CNmuA3sY5WGDVhkaGkwZl/Q/bjDd4
-         5K1ltOsffl8NGbt9NSYIfOq1h2yoDn4EVpz8QMB8RahRkjCXOm40rbSG8LK9BJplQoCF
-         6JTg==
-X-Gm-Message-State: APjAAAXNxp7LcdhXxU2YY29vpI6YroYVQc5r5m3ekvL0TZc6afG22Pz3
-        i8UlHt+TuKWvKf1uTG36/uWs4oT5r3c=
-X-Google-Smtp-Source: APXvYqzxPCG+I9kOVqia6x05wuGpzUoEeKSe4ZhUJKJSzwHHdV29kt0IaDhz4RAuEoOaWBk0g9fS0g==
-X-Received: by 2002:ac2:510c:: with SMTP id q12mr558265lfb.163.1568769720417;
-        Tue, 17 Sep 2019 18:22:00 -0700 (PDT)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
-        by smtp.gmail.com with ESMTPSA id p9sm737671lji.107.2019.09.17.18.22.00
+        bh=fxZxgQXB1oaMwYliKzbFMQ3wWmFlE3pkMrUM3WHegTI=;
+        b=h8iSieaEQrx8giHyhWtfnxZgsUl/qzf+oWo0Lc6CKuI/GTvK0wUiIdIfEGHGHcsY5g
+         gdduNchLQm/xk8fkF7Wne4JAkv2SueGzxbYJ0pGq+DUmqV1nFpEF9gBH+lYugXtBGwqP
+         vlcXv7fy7A+y2z597+IBSVArIohZOlQwh8ZLPpLGh3lf4LLpUHRLw1ESOhUHNpghVr6q
+         s6fAP935U2LC2ZbvkuKaU3AUNUR+1/4B3m9VUzNpNSLpOS7F/nutEHq0Bbfz6yzQW+/6
+         4NmRLBDPELkQuLhBwpxblw00BxbJeIjHsz3SC6glEuj0IdTjKQGI4HVJPt0wxgxKEgox
+         msHg==
+X-Gm-Message-State: APjAAAWKL9/vxzh31I7p2G6hsucKtMUBFndAYVocbC0H8eGqxmM91m66
+        QgyozKusVc7Hr/N4nr9F0kK/HDzQbbc=
+X-Google-Smtp-Source: APXvYqxsJHiX1oiqsVzk33VOnfVDc1KL1b5hZraM1kbm/ZZPZIzfCNXttRDZfbMhcgul53JHboiUWA==
+X-Received: by 2002:a05:6512:14c:: with SMTP id m12mr597504lfo.27.1568770851118;
+        Tue, 17 Sep 2019 18:40:51 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id m10sm727599lfo.69.2019.09.17.18.40.49
         for <linux-leds@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Sep 2019 18:22:00 -0700 (PDT)
-Received: by mail-lf1-f52.google.com with SMTP id u28so4345328lfc.5
-        for <linux-leds@vger.kernel.org>; Tue, 17 Sep 2019 18:22:00 -0700 (PDT)
-X-Received: by 2002:ac2:50cb:: with SMTP id h11mr580490lfm.170.1568769268404;
- Tue, 17 Sep 2019 18:14:28 -0700 (PDT)
+        Tue, 17 Sep 2019 18:40:49 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id d5so5460851lja.10
+        for <linux-leds@vger.kernel.org>; Tue, 17 Sep 2019 18:40:49 -0700 (PDT)
+X-Received: by 2002:a2e:2c02:: with SMTP id s2mr678446ljs.156.1568770848787;
+ Tue, 17 Sep 2019 18:40:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190916222133.9119-1-jacek.anaszewski@gmail.com> <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com>
-In-Reply-To: <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com>
+References: <20190916222133.9119-1-jacek.anaszewski@gmail.com>
+ <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com> <CAHk-=wjAVTCZ9-X6ETA7SASNhrOyJuCgn792E_Wmn+JaEQ8N0Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wjAVTCZ9-X6ETA7SASNhrOyJuCgn792E_Wmn+JaEQ8N0Q@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 17 Sep 2019 18:14:12 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjAVTCZ9-X6ETA7SASNhrOyJuCgn792E_Wmn+JaEQ8N0Q@mail.gmail.com>
-Message-ID: <CAHk-=wjAVTCZ9-X6ETA7SASNhrOyJuCgn792E_Wmn+JaEQ8N0Q@mail.gmail.com>
+Date:   Tue, 17 Sep 2019 18:40:33 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjm422bg+ZPuKkjU6NffbAyysY2n8iLRFyiNKin4cvWgg@mail.gmail.com>
+Message-ID: <CAHk-=wjm422bg+ZPuKkjU6NffbAyysY2n8iLRFyiNKin4cvWgg@mail.gmail.com>
 Subject: Re: [GIT PULL] LED updates for 5.4-rc1
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -76,20 +77,22 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Sep 17, 2019 at 6:13 PM Linus Torvalds
+On Tue, Sep 17, 2019 at 6:14 PM Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
 >
-> So this is fine and I've pulled it,
+> Famous last words. I now get a new warning:
+>
+> drivers/i2c/i2c-core-acpi.c:347:12: warning:
+> =E2=80=98i2c_acpi_find_match_adapter=E2=80=99 defined but not used [-Wunu=
+sed-function]
 
-Famous last words. I now get a new warning:
+Commit 00500147cbd3 ("drivers: Introduce device lookup variants by
+ACPI_COMPANION device") removed the use of that matching function, but
+didn't remove the function.
 
-drivers/i2c/i2c-core-acpi.c:347:12: warning:
-=E2=80=98i2c_acpi_find_match_adapter=E2=80=99 defined but not used [-Wunuse=
-d-function]
-  347 | static int i2c_acpi_find_match_adapter(struct device *dev,
-const void *data)
-      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+It also removed the use of i2c_acpi_find_match_device(), but in that
+case it _did_ remove the function.
 
-with this pull request.  I'll have to look at it after dinner.
+And apparently nobody bothers checking warnings. Tssk tssk.
 
-              Linus
+                Linus
