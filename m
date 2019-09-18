@@ -2,56 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D6B6B6ECA
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 23:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 151F0B6ECE
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 23:29:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732204AbfIRV2E (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 Sep 2019 17:28:04 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:39413 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732187AbfIRV2E (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Sep 2019 17:28:04 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v17so1577677wml.4;
-        Wed, 18 Sep 2019 14:28:00 -0700 (PDT)
+        id S1729578AbfIRV3F (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Sep 2019 17:29:05 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40999 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727737AbfIRV3F (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Sep 2019 17:29:05 -0400
+Received: by mail-wr1-f66.google.com with SMTP id h7so871182wrw.8;
+        Wed, 18 Sep 2019 14:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=vidPzJs5EDqpMSpA+z4jj33ViK417dD+xVu8y3BDwoc=;
-        b=V/QzljDLmHMb9aFO5Zxy4PaJCAyEfX3MARh2dQwaRsnAvsr4SYGJfh/q9mrPp7MNEz
-         nfhlwtaYivtvbf/ScfAXW+kDPs6650ZS6QMDKaALp/EL7tbOwpinK8Vqup4LnN3q55vx
-         mYMdkn+l8xiohPVJ0RF+YQFyQr8do4u5Ccak1Eaf+Cl4egAA0gRsxWYysjcZ+O8NcaF6
-         Xy3ukFDiMlLDkoDb0q2weTrK5/smFUUmY/FZ/AtsezKajow2rhj6IBIMW+nejYejz7Ez
-         A8d6ogetkTNWicpJz3NY8eVRnGjDzrd7+6iauuu4FmbntV1ZWX4whE9oP1CfNw5tvr8k
-         azEw==
+        bh=rifH4LsDo4++Qh/+DNBmH1Gppbtj87t+yksfSpQFJ9k=;
+        b=YzGuu5gdu6/1iGRsADbu0LbYB05zEjV635mcItJiUaIOwYNTivP3hRK/kyA8wIxacD
+         ENDvKHv8j3sJmtQ0Tcmv//DSn20WhpEsB6lVS7cAfDI2E1tdqMo/moSYJLp1I//f1dx/
+         HI6cB6VftZok2XoiCbGIfK/xsms14cK6+MGIvTjy5oty/q1eW/cDt74w6mVxF++Z7m81
+         XVurUX4IxZS28kyWA/5YKrIu1I9Czh3tR1cLmVexRKLmwSAeEXtr2HvQmtwjx4La1hwF
+         9N0CjOg1n0y9gd8HKaiUQf3R3XMoOew5EECjuRTWzoZOx8l3seDEKIpFWeV5DWMJkGOB
+         BYxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=vidPzJs5EDqpMSpA+z4jj33ViK417dD+xVu8y3BDwoc=;
-        b=NhzIcn25NfdyIGYgS8Pp7NZf2mXsm98mdkthfycCMhP8DGx8/6CrDEwD4d0DXqW6/O
-         qFbdtGb/Hbq/IqP/gsUMWK4pmHQqS9H7gO/KE9OA5jQyvQW6RFXz/li8iymvYJXFLB24
-         K53gEk0WfVSmAKs+636RdOL9pVLKxjixlO81IoVHOBuxS0kNJISr2LPmhDrd8gC0/Wro
-         QHbCM5kSMdwDI/rnqq6Y6MhJy0MUUVUIdjKQbXxB+xEAnNE27b6TT4Yi/NtcgieAtXMa
-         HMR2uclEe/KUBQQbusdiTRcbaJyLWP1UVJXTRspBrRgMb2FctOZjtyPhpCbeVoaSlB2A
-         Hr+Q==
-X-Gm-Message-State: APjAAAXHwbcBx/gS4vdAGOfysc4Td0Aj44K+Xlu0zabyq6L9vjY322M0
-        vHrKbgpN+dej9xMmNkfIDuWdyp37
-X-Google-Smtp-Source: APXvYqytW/oX0EBncxf8wLOs14F8vu+SwL04VHMsaEYBkVKNE9eK9Q1jWaY1I6tMGBYOFuzXmfzWUg==
-X-Received: by 2002:a1c:4846:: with SMTP id v67mr1263wma.120.1568842079994;
-        Wed, 18 Sep 2019 14:27:59 -0700 (PDT)
+        bh=rifH4LsDo4++Qh/+DNBmH1Gppbtj87t+yksfSpQFJ9k=;
+        b=uB3V6flO6cLIROn8gRRl+P/ogOHWQ7CTU7iR8w1iG2Du+ZJ6c75Bd2+cPhDjSsQDIA
+         XzfJevPLENKiiwrU0AwVXnq0ilc1JDYGj9NsS0A1AjC7baJCOpe9lLe+EbsQQPtPnH6+
+         Z0oSJMwF02yaKgj4Fu/Fq1TYIKiI94TN9gQfVYSsFtjGPm5Ro4ckC+n6Iep0WgPjCUBv
+         xfVgZ76IJhA5666theUFJ7gdaTqy78K6quavwFs/AmLgssX0+/sJfEvML6bfWRClUl7F
+         SXptt/nLP2PtxPlzAkk+NNepiRLZG1nMBAKSUhtBbH+lauDR7VfX/lEqumjMydMyMBBa
+         1uMw==
+X-Gm-Message-State: APjAAAWbEoe9o3GNTuZE+HiSduuPVKgfp1EJXzloyP/Sxcz5q/JxtxaR
+        RioH9hpBY23gQwBr5zECg/WUDFkG
+X-Google-Smtp-Source: APXvYqyNyu9G86SbBGpckZNCs7Y5FXKroxBOkXlTwG7sNak1RR0gK0xvjEknDgPEnw5fqH6gtS7F+A==
+X-Received: by 2002:adf:f00b:: with SMTP id j11mr4492646wro.298.1568842141376;
+        Wed, 18 Sep 2019 14:29:01 -0700 (PDT)
 Received: from [192.168.1.19] (dma211.neoplus.adsl.tpnet.pl. [83.24.56.211])
-        by smtp.gmail.com with ESMTPSA id r28sm9234816wrr.94.2019.09.18.14.27.58
+        by smtp.gmail.com with ESMTPSA id v2sm6851266wmf.18.2019.09.18.14.29.00
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 18 Sep 2019 14:27:59 -0700 (PDT)
-Subject: Re: [PATCH v6 6/9] leds: multicolor: Introduce a multicolor class
- definition
-To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190917175937.13872-1-dmurphy@ti.com>
- <20190917175937.13872-6-dmurphy@ti.com>
+        Wed, 18 Sep 2019 14:29:00 -0700 (PDT)
+Subject: Re: [PATCH v9 1/2] dt-bindings: Add docs for EL15203000
+To:     Oleh Kravchenko <oleg@kaa.org.ua>, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org, pavel@ucw.cz
+Cc:     Rob Herring <robh+dt@kernel.org>
+References: <20190918105250.22855-1-oleg@kaa.org.ua>
+ <20190918105250.22855-2-oleg@kaa.org.ua>
+ <5219879e-84af-a98e-2fca-10684548d416@gmail.com>
+ <2ac88d9d-afe6-9629-eb11-28dff59461eb@kaa.org.ua>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,12 +112,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <ff1d2ede-6bdf-8f73-9e89-0e990cce09a7@gmail.com>
-Date:   Wed, 18 Sep 2019 23:27:57 +0200
+Message-ID: <c4c0be80-dc78-feaa-e22a-fa994a9d2949@gmail.com>
+Date:   Wed, 18 Sep 2019 23:28:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190917175937.13872-6-dmurphy@ti.com>
+In-Reply-To: <2ac88d9d-afe6-9629-eb11-28dff59461eb@kaa.org.ua>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -124,163 +126,157 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Dan,
+On 9/18/19 11:17 PM, Oleh Kravchenko wrote:
+> Hello Jacek,
+> 
+> 19.09.19 00:02, Jacek Anaszewski пише:
+>> Hi Oleh,
+>>
+>> Thank you for the update.
+>>
+>> I have some comments below. Please take a look.
+>>
+>> On 9/18/19 12:52 PM, Oleh Kravchenko wrote:
+>>> Add documentation and example for dt-bindings EL15203000.
+>>> LED board (aka RED LED board) from Crane Merchandising Systems.
+>>>
+>>> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+>>> ---
+>>>  .../bindings/leds/leds-el15203000.txt         | 147 ++++++++++++++++++
+>>>  1 file changed, 147 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/leds/leds-el15203000.txt
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/leds/leds-el15203000.txt b/Documentation/devicetree/bindings/leds/leds-el15203000.txt
+>>> new file mode 100644
+>>> index 000000000000..4a9b29cc9f46
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/leds/leds-el15203000.txt
+>>> @@ -0,0 +1,147 @@
+>>> +Crane Merchandising System - EL15203000 LED driver
+>>> +--------------------------------------------------
+>>> +
+>>> +This LED Board (aka RED LEDs board) is widely used in
+>>> +coffee vending machines produced by Crane Merchandising Systems.
+>>> +The board manages 3 LEDs and supports predefined blinking patterns
+>>> +for specific leds.
+>>> +
+>>> +Vending area LED encoded with symbol 'V' (hex code 0x56).
+>>> +Doesn't have any hardware blinking pattern.
+>>> +
+>>> +Screen light tube LED which surrounds vending machine screen and
+>>> +encoded with symbol 'S' (hex code 0x53). Supports blinking breathing pattern:
+>>> +
+>>> +    ^
+>>> +    |
+>>> +Max >_____***___________**
+>>> +    |    *   *         *
+>>> +    |   *     *       *
+>>> +    |  *       *     *
+>>> +    | *         *   *
+>>> +Min >*___________***______
+>>> +    |
+>>> +    +------^------^------> time (sec)
+>>> +    0      4      8
+>>> +
+>>> +
+>>> +Water Pipe LED actually consists from 5 LEDs
+>>
+>> "(hex code 0x50)" is here missing if you want to be consistent.
+>>
+>>> +that exposed by protocol like one LED. Supports next patterns:
+>>> +
+>>> +- cascade pattern
+>>> +
+>>> +     ^
+>>> +     |
+>>> +LED0 >*****____________________*****____________________*****
+>>> +     |
+>>> +LED1 >_____*****____________________*****____________________
+>>> +     |
+>>> +LED2 >__________*****____________________*****_______________
+>>> +     |
+>>> +LED3 >_______________*****____________________*****__________
+>>> +     |
+>>> +LED4 >____________________*****____________________*****_____
+>>> +     |
+>>> +     +----^----^----^----^----^----^----^----^----^----^----> time (sec)
+>>> +     0   0.8  1.6  2.4  3.2   4   4.8  5.6  6.4  7.2   8
+>>> +
+>>> +- inversed cascade pattern
+>>> +
+>>> +     ^
+>>> +     |
+>>> +LED0 >_____********************_____********************_____
+>>> +     |
+>>> +LED1 >*****_____********************_____********************
+>>> +     |
+>>> +LED2 >**********_____********************_____***************
+>>> +     |
+>>> +LED3 >***************_____********************_____**********
+>>> +     |
+>>> +LED4 >********************_____********************_____*****
+>>> +     |
+>>> +     +----^----^----^----^----^----^----^----^----^----^----> time (sec)
+>>> +     0   0.8  1.6  2.4  3.2   4   4.8  5.6  6.4  7.2   8
+>>> +
+>>> +- bounce pattern
+>>> +
+>>> +     ^
+>>> +     |
+>>> +LED0 >*****________________________________________*****_____
+>>> +     |
+>>> +LED1 >_____*****______________________________*****_____*****
+>>> +     |
+>>> +LED2 >__________*****____________________*****_______________
+>>> +     |
+>>> +LED3 >_______________*****__________*****____________________
+>>> +     |
+>>> +LED4 >____________________**********_________________________
+>>> +     |
+>>> +     +----^----^----^----^----^----^----^----^----^----^----> time (sec)
+>>> +     0   0.8  1.6  2.4  3.2   4   4.8  5.6  6.4  7.2   8
+>>> +
+>>> +- inversed bounce pattern
+>>> +
+>>> +     ^
+>>> +     |
+>>> +LED0 >_____****************************************_____*****
+>>> +     |
+>>> +LED1 >*****_____******************************_____*****_____
+>>> +     |
+>>> +LED2 >**********_____********************_____***************
+>>> +     |
+>>> +LED3 >***************_____**********_____********************
+>>> +     |
+>>> +LED4 >********************__________*************************
+>>> +     |
+>>> +     +----^----^----^----^----^----^----^----^----^----^----> time (sec)
+>>> +     0   0.8  1.6  2.4  3.2   4   4.8  5.6  6.4  7.2   8
+>>
+>> Regarding this ASCII art - I presume you wanted to follow
+>> Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt.
+>>
+>> It was added to bindings because we support 'pattern' value
+>> for linux,default-trigger, which in turn looks for 'led-pattern'
+>> property, whose format needs to be documented in the LED bindings.
+>>
+>> leds-trigger-pattern.txt documents only common syntax for software
+>> pattern engine. Currently we don't have a means to setup hw_pattern
+>> for the pattern trigger from DT, which is obvious omission and your
+>> patch just brings it to light.
+>>
+>> That said, I propose to fix it alongside and introduce led-hw-pattern
+>> property. When present, ledtrig-pattern would setup the pattern
+>> using pattern_set op, similarly as if it was set via sysfs hw_pattern
+>> file.
+>>
+>> Only in this case placing the pattern depiction here would be justified.
+>> Otherwise, it would have to land in the ABI documentation.
+> 
+> You are okay, if I move it to Documentation/ABI/testing/sysfs-class-led-driver-el15203000 ?
+> 
 
-I think Greg's guidance clarified everything nicely -
-we will avoid <color> sub-dirs in favour of prefixes
-to *intensity and *max_intensity.
-
-Before you will send an update I have some improvement
-ideas regarding the remnants after the previous approach,
-where single color intensity update resulted in updating
-hardware state. Now the update will happen only on write to
-brightness file, so we will not need color_set/color_get ops
-anymore.
-
-On 9/17/19 7:59 PM, Dan Murphy wrote:
-> Introduce a multicolor class that groups colored LEDs
-> within a LED node.
-> 
-> The framework allows for dynamically setting individual LEDs
-> or setting brightness levels of LEDs and updating them virtually
-> simultaneously.
-> 
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
-> 
-> v6 removed color_id and color_mix files, used sysfs_create_groups instead of
-> kobject call for LED color directory, kept kobject_create for the "colors" directory,
-> removed the calculate function, updated the export for the intensity calculations.
-> 
-> 
->  drivers/leds/Kconfig                 |  10 +
->  drivers/leds/Makefile                |   1 +
->  drivers/leds/led-class-multicolor.c  | 306 +++++++++++++++++++++++++++
->  include/linux/led-class-multicolor.h |  90 ++++++++
->  4 files changed, 407 insertions(+)
->  create mode 100644 drivers/leds/led-class-multicolor.c
->  create mode 100644 include/linux/led-class-multicolor.h
-> 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 1988de1d64c0..71e7fd4f6f15 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -30,6 +30,16 @@ config LEDS_CLASS_FLASH
->  	  for the flash related features of a LED device. It can be built
->  	  as a module.
->  
-> +config LEDS_CLASS_MULTI_COLOR
-> +	tristate "LED Mulit Color LED Class Support"
-> +	depends on LEDS_CLASS
-> +	help
-> +	  This option enables the multicolor LED sysfs class in /sys/class/leds.
-> +	  It wraps LED class and adds multicolor LED specific sysfs attributes
-> +	  and kernel internal API to it. You'll need this to provide support
-> +	  for multicolor LEDs that are grouped together. This class is not
-> +	  intended for single color LEDs. It can be built as a module.
-> +
->  config LEDS_BRIGHTNESS_HW_CHANGED
->  	bool "LED Class brightness_hw_changed attribute support"
->  	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index 41fb073a39c1..897b810257dd 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -4,6 +4,7 @@
->  obj-$(CONFIG_NEW_LEDS)			+= led-core.o
->  obj-$(CONFIG_LEDS_CLASS)		+= led-class.o
->  obj-$(CONFIG_LEDS_CLASS_FLASH)		+= led-class-flash.o
-> +obj-$(CONFIG_LEDS_CLASS_MULTI_COLOR)	+= led-class-multicolor.o
->  obj-$(CONFIG_LEDS_TRIGGERS)		+= led-triggers.o
->  
->  # LED Platform Drivers
-> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
-> new file mode 100644
-> index 000000000000..d43bd344ed4c
-> --- /dev/null
-> +++ b/drivers/leds/led-class-multicolor.c
-> @@ -0,0 +1,306 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// LED Multi Color class interface
-> +// Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-> +
-> +#include <linux/device.h>
-> +#include <linux/init.h>
-> +#include <linux/led-class-multicolor.h>
-> +#include <linux/module.h>
-> +#include <linux/slab.h>
-> +#include <linux/uaccess.h>
-> +
-> +#include "leds.h"
-> +
-> +struct led_mc_color_entry {
-> +	struct led_classdev_mc *mcled_cdev;
-> +
-> +	struct device_attribute max_intensity_attr;
-> +	struct device_attribute intensity_attr;
-> +
-> +	enum led_brightness max_intensity;
-> +	enum led_brightness intensity;
-> +
-> +	struct list_head list;
-> +
-> +	int led_color_id;
-> +};
-> +
-> +void led_mc_calc_brightness(struct led_classdev_mc *mcled_cdev,
-> +			    enum led_brightness brightness,
-> +			    int brightness_val[])
-> +{
-> +	struct led_classdev_mc_data *data = mcled_cdev->data;
-> +	struct led_mc_color_entry *priv;
-> +	int i = 0;
-> +
-> +	list_for_each_entry(priv, &data->color_list, list) {
-> +		brightness_val[i] = brightness *
-> +				    priv->intensity / priv->max_intensity;
-> +		i++;
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(led_mc_calc_brightness);
-> +
-> +static ssize_t intensity_store(struct device *dev,
-> +				struct device_attribute *intensity_attr,
-> +				const char *buf, size_t size)
-> +{
-> +	struct led_mc_color_entry *priv = container_of(intensity_attr,
-> +						    struct led_mc_color_entry,
-> +						      intensity_attr);
-> +	struct led_classdev_mc_data *data = priv->mcled_cdev->data;
-> +	struct led_classdev_mc *mcled_cdev = data->mcled_cdev;
-> +	struct led_classdev *led_cdev = priv->mcled_cdev->led_cdev;
-> +	unsigned long value;
-> +	ssize_t ret;
-> +
-> +	mutex_lock(&led_cdev->led_access);
-> +
-> +	ret = kstrtoul(buf, 10, &value);
-> +	if (ret)
-> +		goto unlock;
-> +
-> +	if (value > priv->max_intensity) {
-> +		ret = -EINVAL;
-> +		goto unlock;
-> +	}
-> +
-> +	priv->intensity = value;
-> +
-> +	if (mcled_cdev->ops) {
-> +		ret = mcled_cdev->ops->set_color_brightness(mcled_cdev,
-> +							    priv->led_color_id,
-> +							    priv->intensity);
-
-I don't think this is a good idea to update hw here now.
-As I proposed before - let's do the write only in brightness set.
-Otherwise any change of hue requiring alteration of more than one color
-component will be non-atomic w.r.t. hw state change. Just cache the
-intensity in the entry here.
-
-[...]
+Yes, we can cover led-hw-pattern property later.
 
 -- 
 Best regards,
