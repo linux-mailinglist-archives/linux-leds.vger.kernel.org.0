@@ -2,57 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60CA9B5931
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 03:13:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FF0BB5938
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 03:22:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725866AbfIRBNb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Sep 2019 21:13:31 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:42479 "EHLO
+        id S1726362AbfIRBWD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 Sep 2019 21:22:03 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:39373 "EHLO
         mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727502AbfIRBNa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Sep 2019 21:13:30 -0400
-Received: by mail-lf1-f65.google.com with SMTP id c195so4327589lfg.9
-        for <linux-leds@vger.kernel.org>; Tue, 17 Sep 2019 18:13:29 -0700 (PDT)
+        with ESMTP id S1726277AbfIRBWD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Sep 2019 21:22:03 -0400
+Received: by mail-lf1-f65.google.com with SMTP id 72so4351065lfh.6
+        for <linux-leds@vger.kernel.org>; Tue, 17 Sep 2019 18:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=z9sK1ngN/n6Bki2rTXsaIHGzKhpD8qU//AwbTzCHcEM=;
-        b=Lv1OlFB+vE/8hyhp6ljiiZQvJidCEy0ZgSymKjsTaYB5I3jEEpIO7SIuzdDDctYw3m
-         z3Togu0rcN6U6Ol4q1onK9YPtDhox0+GJJH6YXbIiIlo70XiKJ/4a/pyYOsczsv4fhPu
-         nWhCU33cEfqauY+INzFZh1Ld3jQnuh8pymZGI=
+         :cc:content-transfer-encoding;
+        bh=XZNPfc6roJDRqmm7Hq8AaswPkY6LR6E77xlBLQ/HJ7I=;
+        b=FzJhEyBPVTskda0cSucuaFKcE8AEsBpYdGOJjLPClHwFKc2AS/i3sV9dJdFatrdl9/
+         d0bWr9ZHhztIufS7u+2stdRbWIRLzOK/Bwm0TtRbjePzxKxcyg40NuanmOr9EE+lFHAf
+         T09bX7Lwf4TX2HtwM0RbKJPmFyV4HubOteVNc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=z9sK1ngN/n6Bki2rTXsaIHGzKhpD8qU//AwbTzCHcEM=;
-        b=lFbjCTXuLVmMPuACTlMFwqcqxndEdkepljqD3rHAxN2KAw+/iA2IJsoB04+8MIjpB6
-         IVLV3UVRWSBr9w+qHMhojxeehdnEDc9VX8MfxkIeSU02CciVy0fBNduQn1J2bz0FIbwB
-         Q2YpOlXcV60QBLYmqTB1OvoPCVHOJcjRjp4f/8v9SoYx+S4o6kKUy8+xl0zimBStJJMK
-         jhNaiXdTWLJXSyXHjIslP7A/nGJGcS7SqYxeeHFVFhd6BKaCkvQkpYGRLP0XnlLOfk2d
-         /ZiKpAuObT98H1+V2ss5RzGuXCkjggaSWgP90unEtpSG6s9Qc61+YTEYxrzXWSgFaO/V
-         XC2Q==
-X-Gm-Message-State: APjAAAXyKkZLdMwx1kQWMAY9GXl3FbuRdwOVrswei6s2RXQNf8EL4jfr
-        RJuNJmCN+ytXN+UhXsArKjebPyJ+5VM=
-X-Google-Smtp-Source: APXvYqy5MfsHgyG1Njd3qTeoxnc5cInwIFUUYJaNSA8/SvYEJrfUZ471sJnJNkstDQY2YwwlNl126w==
-X-Received: by 2002:a19:f204:: with SMTP id q4mr567506lfh.29.1568769207548;
-        Tue, 17 Sep 2019 18:13:27 -0700 (PDT)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id 207sm836519lfn.0.2019.09.17.18.13.25
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=XZNPfc6roJDRqmm7Hq8AaswPkY6LR6E77xlBLQ/HJ7I=;
+        b=U3GJe+Vnu3kBahPs/7lGHEydIQw74WUu4VcdW1HCwmnKyoAdIBkGqd81u8gNLYHbgA
+         LZAmQOll4zDf2JR9BeYogPApkQsVZNMWp2E/k6hbpEHdsvLZdSJPZcAMdgcgAshkSxdq
+         jYtYg/ygQgsoD+IRkwT3N6AaEFpu7GaOKxdKw56QKutVDYEURlyGDYTPgff9OqgR1xFQ
+         BzsqzFJ8YGsx54yCY3676ogpEd5kQyed9MWkTX7CNmuA3sY5WGDVhkaGkwZl/Q/bjDd4
+         5K1ltOsffl8NGbt9NSYIfOq1h2yoDn4EVpz8QMB8RahRkjCXOm40rbSG8LK9BJplQoCF
+         6JTg==
+X-Gm-Message-State: APjAAAXNxp7LcdhXxU2YY29vpI6YroYVQc5r5m3ekvL0TZc6afG22Pz3
+        i8UlHt+TuKWvKf1uTG36/uWs4oT5r3c=
+X-Google-Smtp-Source: APXvYqzxPCG+I9kOVqia6x05wuGpzUoEeKSe4ZhUJKJSzwHHdV29kt0IaDhz4RAuEoOaWBk0g9fS0g==
+X-Received: by 2002:ac2:510c:: with SMTP id q12mr558265lfb.163.1568769720417;
+        Tue, 17 Sep 2019 18:22:00 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
+        by smtp.gmail.com with ESMTPSA id p9sm737671lji.107.2019.09.17.18.22.00
         for <linux-leds@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Sep 2019 18:13:26 -0700 (PDT)
-Received: by mail-lj1-f178.google.com with SMTP id q64so5409990ljb.12
-        for <linux-leds@vger.kernel.org>; Tue, 17 Sep 2019 18:13:25 -0700 (PDT)
-X-Received: by 2002:a2e:2c02:: with SMTP id s2mr632522ljs.156.1568769205183;
- Tue, 17 Sep 2019 18:13:25 -0700 (PDT)
+        Tue, 17 Sep 2019 18:22:00 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id u28so4345328lfc.5
+        for <linux-leds@vger.kernel.org>; Tue, 17 Sep 2019 18:22:00 -0700 (PDT)
+X-Received: by 2002:ac2:50cb:: with SMTP id h11mr580490lfm.170.1568769268404;
+ Tue, 17 Sep 2019 18:14:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190916222133.9119-1-jacek.anaszewski@gmail.com>
-In-Reply-To: <20190916222133.9119-1-jacek.anaszewski@gmail.com>
+References: <20190916222133.9119-1-jacek.anaszewski@gmail.com> <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com>
+In-Reply-To: <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 17 Sep 2019 18:13:09 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com>
-Message-ID: <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com>
+Date:   Tue, 17 Sep 2019 18:14:12 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjAVTCZ9-X6ETA7SASNhrOyJuCgn792E_Wmn+JaEQ8N0Q@mail.gmail.com>
+Message-ID: <CAHk-=wjAVTCZ9-X6ETA7SASNhrOyJuCgn792E_Wmn+JaEQ8N0Q@mail.gmail.com>
 Subject: Re: [GIT PULL] LED updates for 5.4-rc1
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -70,45 +70,26 @@ Cc:     Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
         wsa+renesas@sang-engineering.com,
         Masahiro Yamada <yamada.masahiro@socionext.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Sep 16, 2019 at 3:21 PM Jacek Anaszewski
-<jacek.anaszewski@gmail.com> wrote:
+On Tue, Sep 17, 2019 at 6:13 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> There is one merge of tag with generic_lookup_helpers since
-> LED class has been made using class_find_device_by_name() helper:
->
->     Merge tag 'generic_lookup_helpers' into for-next
->     platform: Add platform_find_device_by_driver() helper
->     drivers: Add generic helper to match any device
->     drivers: Introduce device lookup variants by ACPI_COMPANION device
->     drivers: Introduce device lookup variants by device type
->     drivers: Introduce device lookup variants by fwnode
->     drivers: Introduce device lookup variants by of_node
->     drivers: Introduce device lookup variants by name
+> So this is fine and I've pulled it,
 
-So this is fine and I've pulled it, but I have to say that I
-absolutely detest how this device.h header keeps just growing
-endlessly:
+Famous last words. I now get a new warning:
 
-  [torvalds@linux]$ wc include/linux/device.h
-   1921  8252 66021 include/linux/device.h
+drivers/i2c/i2c-core-acpi.c:347:12: warning:
+=E2=80=98i2c_acpi_find_match_adapter=E2=80=99 defined but not used [-Wunuse=
+d-function]
+  347 | static int i2c_acpi_find_match_adapter(struct device *dev,
+const void *data)
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-that's almost 2k of header file, and it's included a _lot_:
+with this pull request.  I'll have to look at it after dinner.
 
-  [torvalds@linux]$ git grep include.*linux/device.h | wc
-   2518    5085  144875
-
-and many of those includes are actually from other core header files,
-so it's effectively included from even more trees.
-
-Yes, yes, many of those 2k lines are comments. But still... Do we
-really want to have that humongous 65kB, 2kloc header file, and keep
-growing it forever?
-
-Greg?
-
-                  Linus
+              Linus
