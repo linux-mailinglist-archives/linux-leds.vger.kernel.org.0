@@ -2,247 +2,139 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F378B697E
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 19:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C45BB6A6A
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 20:21:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387934AbfIRRc7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 Sep 2019 13:32:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43612 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387890AbfIRRc6 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 18 Sep 2019 13:32:58 -0400
-Received: from localhost.localdomain (unknown [194.230.155.145])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6F47621925;
-        Wed, 18 Sep 2019 17:32:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568827977;
-        bh=NfJ9sRleyQQ5tZgP4QFSZEUinJ+3DSTjk/BekNqpBzg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DvkvvauWtTZxYAuzUUBqMADQXEYtupsymGMZ9i8bCRI0eD4uxwy9Mrekx+m7lo608
-         xXOoC18wwUbAVnB6tbyj6CivJ990xXRyTxbCl/ehV5A+YCwzqW6gWTAS6TYIk27B/m
-         t5v6muzQDp89MsyDGgmfGZt6jDCemAvG/Z7pkoDA=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Matt Mackall <mpm@selenic.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-riscv@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-crypto@vger.kernel.org, linux-watchdog@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v2 8/8] dt-bindings: pwm: Convert Samsung PWM bindings to json-schema
-Date:   Wed, 18 Sep 2019 19:31:41 +0200
-Message-Id: <20190918173141.4314-8-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190918173141.4314-1-krzk@kernel.org>
-References: <20190918173141.4314-1-krzk@kernel.org>
+        id S2388203AbfIRSVD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Sep 2019 14:21:03 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:54030 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388200AbfIRSVC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Sep 2019 14:21:02 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8IIKoZe007568;
+        Wed, 18 Sep 2019 13:20:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1568830850;
+        bh=mk1J1bxX/qV9LdpG8hTCViqMRxqXPXOYl6P5hZpjSjU=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=NZ6iUKEzkI36kTAaWDz30nD1CdUNXOMaIikyYcD3cpGTOe/2oPFrLneBeXV4vfeO9
+         NF31xKotltaMys5htSfHMdEVRXoCQvKHZYTtZPeAsK+MqppPRk0BkHTzwyuu/uvwHF
+         ACCsvliHwwFh+5jrnJV29VYib+8WSccTN6sDnkI8=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8IIKol5025979;
+        Wed, 18 Sep 2019 13:20:50 -0500
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 18
+ Sep 2019 13:20:47 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Wed, 18 Sep 2019 13:20:50 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8IIKoW2066248;
+        Wed, 18 Sep 2019 13:20:50 -0500
+Subject: Re: [PATCH 1/5] leds: lm3692x: Print error value on dev_err
+To:     =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <cover.1568772964.git.agx@sigxcpu.org>
+ <9f95299fe7f98e4defb445e2e29531465a3a3860.1568772964.git.agx@sigxcpu.org>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <ab49dddc-87ec-d7db-fca4-e3fbf2673290@ti.com>
+Date:   Wed, 18 Sep 2019 13:23:19 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <9f95299fe7f98e4defb445e2e29531465a3a3860.1568772964.git.agx@sigxcpu.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Convert Samsung PWM (S3C, S5P and Exynos SoCs) bindings to DT schema
-format using json-schema.
+Guido
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+On 9/17/19 9:19 PM, Guido Günther wrote:
+> This gives a way better idea what is going on.
+>
+> Signed-off-by: Guido Günther <agx@sigxcpu.org>
 
----
+Reviewed-by: Dan Murphy <dmurphy@ti.com>
 
-Changes since v1:
-1. Indent example with four spaces (more readable),
-2. Fix samsung,pwm-outputs after review,
-3. Remove double-quotes from clock names.
----
- .../devicetree/bindings/pwm/pwm-samsung.txt   |  51 ---------
- .../devicetree/bindings/pwm/pwm-samsung.yaml  | 107 ++++++++++++++++++
- 2 files changed, 107 insertions(+), 51 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/pwm/pwm-samsung.txt
- create mode 100644 Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
 
-diff --git a/Documentation/devicetree/bindings/pwm/pwm-samsung.txt b/Documentation/devicetree/bindings/pwm/pwm-samsung.txt
-deleted file mode 100644
-index 5538de9c2007..000000000000
---- a/Documentation/devicetree/bindings/pwm/pwm-samsung.txt
-+++ /dev/null
-@@ -1,51 +0,0 @@
--* Samsung PWM timers
--
--Samsung SoCs contain PWM timer blocks which can be used for system clock source
--and clock event timers, as well as to drive SoC outputs with PWM signal. Each
--PWM timer block provides 5 PWM channels (not all of them can drive physical
--outputs - see SoC and board manual).
--
--Be aware that the clocksource driver supports only uniprocessor systems.
--
--Required properties:
--- compatible : should be one of following:
--    samsung,s3c2410-pwm - for 16-bit timers present on S3C24xx SoCs
--    samsung,s3c6400-pwm - for 32-bit timers present on S3C64xx SoCs
--    samsung,s5p6440-pwm - for 32-bit timers present on S5P64x0 SoCs
--    samsung,s5pc100-pwm - for 32-bit timers present on S5PC100, S5PV210,
--			  Exynos4210 rev0 SoCs
--    samsung,exynos4210-pwm - for 32-bit timers present on Exynos4210,
--                          Exynos4x12, Exynos5250 and Exynos5420 SoCs
--- reg: base address and size of register area
--- interrupts: list of timer interrupts (one interrupt per timer, starting at
--  timer 0)
--- clock-names: should contain all following required clock names:
--    - "timers" - PWM base clock used to generate PWM signals,
--  and any subset of following optional clock names:
--    - "pwm-tclk0" - first external PWM clock source,
--    - "pwm-tclk1" - second external PWM clock source.
--  Note that not all IP variants allow using all external clock sources.
--  Refer to SoC documentation to learn which clock source configurations
--  are available.
--- clocks: should contain clock specifiers of all clocks, which input names
--  have been specified in clock-names property, in same order.
--- #pwm-cells: should be 3. See pwm.txt in this directory for a description of
--  the cells format. The only third cell flag supported by this binding is
--  PWM_POLARITY_INVERTED.
--
--Optional properties:
--- samsung,pwm-outputs: list of PWM channels used as PWM outputs on particular
--    platform - an array of up to 5 elements being indices of PWM channels
--    (from 0 to 4), the order does not matter.
--
--Example:
--	pwm@7f006000 {
--		compatible = "samsung,s3c6400-pwm";
--		reg = <0x7f006000 0x1000>;
--		interrupt-parent = <&vic0>;
--		interrupts = <23>, <24>, <25>, <27>, <28>;
--		clocks = <&clock 67>;
--		clock-names = "timers";
--		samsung,pwm-outputs = <0>, <1>;
--		#pwm-cells = <3>;
--	}
-diff --git a/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml b/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
-new file mode 100644
-index 000000000000..06d11faabff6
---- /dev/null
-+++ b/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
-@@ -0,0 +1,107 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pwm/pwm-samsung.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung SoC PWM timers
-+
-+maintainers:
-+  - Thierry Reding <thierry.reding@gmail.com>
-+  - Krzysztof Kozlowski <krzk@kernel.org>
-+
-+description: |+
-+  Samsung SoCs contain PWM timer blocks which can be used for system clock source
-+  and clock event timers, as well as to drive SoC outputs with PWM signal. Each
-+  PWM timer block provides 5 PWM channels (not all of them can drive physical
-+  outputs - see SoC and board manual).
-+
-+  Be aware that the clocksource driver supports only uniprocessor systems.
-+
-+allOf:
-+  - $ref: pwm.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - samsung,s3c2410-pwm             # 16-bit, S3C24xx
-+      - samsung,s3c6400-pwm             # 32-bit, S3C64xx
-+      - samsung,s5p6440-pwm             # 32-bit, S5P64x0
-+      - samsung,s5pc100-pwm             # 32-bit, S5PC100, S5PV210, Exynos4210 rev0 SoCs
-+      - samsung,exynos4210-pwm          # 32-bit, Exynos
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 3
-+
-+  clock-names:
-+    description: |
-+      Should contain all following required clock names:
-+      - "timers" - PWM base clock used to generate PWM signals,
-+      and any subset of following optional clock names:
-+      - "pwm-tclk0" - first external PWM clock source,
-+      - "pwm-tclk1" - second external PWM clock source.
-+      Note that not all IP variants allow using all external clock sources.
-+      Refer to SoC documentation to learn which clock source configurations
-+      are available.
-+    oneOf:
-+      - items:
-+        - const: timers
-+      - items:
-+        - const: timers
-+        - const: pwm-tclk0
-+      - items:
-+        - const: timers
-+        - const: pwm-tclk1
-+      - items:
-+        - const: timers
-+        - const: pwm-tclk0
-+        - const: pwm-tclk1
-+
-+  interrupts:
-+    description:
-+      One interrupt per timer, starting at timer 0.
-+    minItems: 1
-+    maxItems: 5
-+
-+  "#pwm-cells":
-+    description:
-+      The only third cell flag supported by this binding
-+      is PWM_POLARITY_INVERTED.
-+    const: 3
-+
-+  samsung,pwm-outputs:
-+    description:
-+      A list of PWM channels used as PWM outputs on particular platform.
-+      It is an array of up to 5 elements being indices of PWM channels
-+      (from 0 to 4), the order does not matter.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32-array
-+      - uniqueItems: true
-+      - items:
-+          minimum: 0
-+          maximum: 4
-+
-+required:
-+  - clocks
-+  - clock-names
-+  - compatible
-+  - interrupts
-+  - "#pwm-cells"
-+  - reg
-+
-+examples:
-+  - |
-+    pwm@7f006000 {
-+        compatible = "samsung,s3c6400-pwm";
-+        reg = <0x7f006000 0x1000>;
-+        interrupt-parent = <&vic0>;
-+        interrupts = <23>, <24>, <25>, <27>, <28>;
-+        clocks = <&clock 67>;
-+        clock-names = "timers";
-+        samsung,pwm-outputs = <0>, <1>;
-+        #pwm-cells = <3>;
-+    };
--- 
-2.17.1
-
+> ---
+>   drivers/leds/leds-lm3692x.c | 17 ++++++++++-------
+>   1 file changed, 10 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
+> index 3d381f2f73d0..487228c2bed2 100644
+> --- a/drivers/leds/leds-lm3692x.c
+> +++ b/drivers/leds/leds-lm3692x.c
+> @@ -174,19 +174,20 @@ static int lm3692x_brightness_set(struct led_classdev *led_cdev,
+>   
+>   	ret = lm3692x_fault_check(led);
+>   	if (ret) {
+> -		dev_err(&led->client->dev, "Cannot read/clear faults\n");
+> +		dev_err(&led->client->dev, "Cannot read/clear faults: %d\n",
+> +			ret);
+>   		goto out;
+>   	}
+>   
+>   	ret = regmap_write(led->regmap, LM3692X_BRT_MSB, brt_val);
+>   	if (ret) {
+> -		dev_err(&led->client->dev, "Cannot write MSB\n");
+> +		dev_err(&led->client->dev, "Cannot write MSB: %d\n", ret);
+>   		goto out;
+>   	}
+>   
+>   	ret = regmap_write(led->regmap, LM3692X_BRT_LSB, led_brightness_lsb);
+>   	if (ret) {
+> -		dev_err(&led->client->dev, "Cannot write LSB\n");
+> +		dev_err(&led->client->dev, "Cannot write LSB: %d\n", ret);
+>   		goto out;
+>   	}
+>   out:
+> @@ -203,7 +204,7 @@ static int lm3692x_init(struct lm3692x_led *led)
+>   		ret = regulator_enable(led->regulator);
+>   		if (ret) {
+>   			dev_err(&led->client->dev,
+> -				"Failed to enable regulator\n");
+> +				"Failed to enable regulator: %d\n", ret);
+>   			return ret;
+>   		}
+>   	}
+> @@ -213,7 +214,8 @@ static int lm3692x_init(struct lm3692x_led *led)
+>   
+>   	ret = lm3692x_fault_check(led);
+>   	if (ret) {
+> -		dev_err(&led->client->dev, "Cannot read/clear faults\n");
+> +		dev_err(&led->client->dev, "Cannot read/clear faults: %d\n",
+> +			ret);
+>   		goto out;
+>   	}
+>   
+> @@ -409,7 +411,8 @@ static int lm3692x_remove(struct i2c_client *client)
+>   
+>   	ret = regmap_update_bits(led->regmap, LM3692X_EN, LM3692X_DEVICE_EN, 0);
+>   	if (ret) {
+> -		dev_err(&led->client->dev, "Failed to disable regulator\n");
+> +		dev_err(&led->client->dev, "Failed to disable regulator: %d\n",
+> +			ret);
+>   		return ret;
+>   	}
+>   
+> @@ -420,7 +423,7 @@ static int lm3692x_remove(struct i2c_client *client)
+>   		ret = regulator_disable(led->regulator);
+>   		if (ret)
+>   			dev_err(&led->client->dev,
+> -				"Failed to disable regulator\n");
+> +				"Failed to disable regulator: %d\n", ret);
+>   	}
+>   
+>   	mutex_destroy(&led->lock);
