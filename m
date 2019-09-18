@@ -2,171 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8706B68A3
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 19:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92374B68B7
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 19:10:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729361AbfIRRGt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 Sep 2019 13:06:49 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:46346 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726908AbfIRRGt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Sep 2019 13:06:49 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8IH6iPq120554;
-        Wed, 18 Sep 2019 12:06:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1568826404;
-        bh=uJVcOB+ch38YNMZP4f1rNkBv5jy24fM/dgvduX4wNqs=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=lrjHapFy0Xjxm7F/eUB9mlxvptcXK8XzN2gbibV2r9SuxErIIHyA0mS3XYaHggLws
-         7CFXvQ0uxxjco0xex8PJ2NJbzxVpbLNorlzm3BrEhRW/hvDGt83GgUU6MYpYgTy+NC
-         ycxXTwO7YdgRBDBPeEzd1Hqh5GSqGDdvf9/24OEo=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8IH6iSt029052
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 18 Sep 2019 12:06:44 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 18
- Sep 2019 12:06:44 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 18 Sep 2019 12:06:41 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8IH6iBw084821;
-        Wed, 18 Sep 2019 12:06:44 -0500
-Subject: Re: [PATCH v6 6/9] leds: multicolor: Introduce a multicolor class
- definition
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        Greg KH <gregkh@linuxfoundation.org>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20190917175937.13872-1-dmurphy@ti.com>
- <20190917175937.13872-6-dmurphy@ti.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <f5cf1fa4-c891-744c-6fa9-4b166b64f463@ti.com>
-Date:   Wed, 18 Sep 2019 12:09:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1731572AbfIRRKW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Sep 2019 13:10:22 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:34672 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731053AbfIRRKV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Sep 2019 13:10:21 -0400
+Received: by mail-lf1-f68.google.com with SMTP id r22so254624lfm.1
+        for <linux-leds@vger.kernel.org>; Wed, 18 Sep 2019 10:10:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=drcDcqj4KDDXGJKr6wejeR7kG1o047hONACm2WK24V0=;
+        b=Xm+EKOIf7gY8Lht4lxteOIc8tLcVkeM5+f2m7l34dDTGKP1poNujvqM5z2/t3tLLqi
+         r0Lt9a5hW8elneXXf+OUNcuOTJo2yJNwp7uNGGOS5d3XWKTaRRJy01+ugVTpoA2MJKm7
+         u9UdC41LiWVuqBY1TJ9E6tEuZzGgycTPdiImE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=drcDcqj4KDDXGJKr6wejeR7kG1o047hONACm2WK24V0=;
+        b=UQEkSu5ZKofkmxpGMaYrg9yPIvZ03LNDIDyUhDVJ1fjnPv7lOIe4Jcq1nddsF3bkiz
+         vR2+gNPRPItBut0NxvCFF6iqxqPfzC222KtHP8PhfK3uhmX4WLt9oftP5s4AR17iVoE4
+         VVuA6W43qBpAm0rn9X48Dufi5K/SQIRZd+r6gUhI1dhg3dSXIPjJfN+6LW79K7u85evC
+         /Bmdr4zZ0gJZVnejvWnpF2dt4jmm1pb9e+Vc/gfYISDYModLZ/FuukqO8Hyb07kc0fh7
+         1jij9ACZ4IHpHF2e95sCt6zSDL8nzHLsRiySSftIWb6FHIPfiawZfIlkXkFaNn5tQddM
+         4WGA==
+X-Gm-Message-State: APjAAAXww/Ct07HmofJ0NmpQPeZUki0qgWgDTja+0i506P6Y+7UH5fi3
+        9A36Fy+Qf6f9RB6QY1wtSHuNyS5fNkw=
+X-Google-Smtp-Source: APXvYqybjeBpKrq+eNe4rkTi5S0C/Ty+l3wK3a2bt5c1o4Zkznq0/mmr6052xU2B6VKsJy6aZee/UQ==
+X-Received: by 2002:a05:6512:202:: with SMTP id a2mr2609523lfo.175.1568826617903;
+        Wed, 18 Sep 2019 10:10:17 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
+        by smtp.gmail.com with ESMTPSA id w13sm1100085lfk.47.2019.09.18.10.10.14
+        for <linux-leds@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Sep 2019 10:10:15 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id a22so740041ljd.0
+        for <linux-leds@vger.kernel.org>; Wed, 18 Sep 2019 10:10:14 -0700 (PDT)
+X-Received: by 2002:a2e:9854:: with SMTP id e20mr2923609ljj.72.1568826614107;
+ Wed, 18 Sep 2019 10:10:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190917175937.13872-6-dmurphy@ti.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20190916222133.9119-1-jacek.anaszewski@gmail.com>
+ <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com>
+ <CAHk-=wjAVTCZ9-X6ETA7SASNhrOyJuCgn792E_Wmn+JaEQ8N0Q@mail.gmail.com>
+ <CAHk-=wjm422bg+ZPuKkjU6NffbAyysY2n8iLRFyiNKin4cvWgg@mail.gmail.com>
+ <CAHp75Vdn5_U3rCvuK1_P_nf5gEO63r342dgp_wk77diPU8k06Q@mail.gmail.com> <CAHk-=whg7WLb8mriT46iuMXCSj34FheRxGRPcifNsaLGuowiGw@mail.gmail.com>
+In-Reply-To: <CAHk-=whg7WLb8mriT46iuMXCSj34FheRxGRPcifNsaLGuowiGw@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 18 Sep 2019 10:09:57 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg0J3Jn+gHJAitQ3cDzPi6Z4JQHdtf9ruW8g2NnFhGD-w@mail.gmail.com>
+Message-ID: <CAHk-=wg0J3Jn+gHJAitQ3cDzPi6Z4JQHdtf9ruW8g2NnFhGD-w@mail.gmail.com>
+Subject: Re: [GIT PULL] LED updates for 5.4-rc1
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        ada@thorsis.com,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Dan Murphy <dmurphy@ti.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Joe Perches <joe@perches.com>, kw@linux.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        nishkadg.linux@gmail.com, nstoughton@logitech.com,
+        Oleh Kravchenko <oleg@kaa.org.ua>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Tony Lindgren <tony@atomide.com>, wenwen@cs.uga.edu,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Greg
+On Wed, Sep 18, 2019 at 9:53 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> I think (hope) the fixup commit is in one of Greg's pull requests that
+> are now pending in my queue.
 
-<snip>
+Yup, confirmed.
 
-> +static int led_multicolor_init_color(struct led_classdev_mc_data *data,
-> +				     struct led_classdev_mc *mcled_cdev,
-> +				     int color_id, int color_index)
-> +{
-> +	struct led_classdev *led_cdev = mcled_cdev->led_cdev;
-> +	struct led_mc_color_entry *mc_priv;
-> +	int ret;
-> +
-> +	mc_priv = devm_kzalloc(led_cdev->dev, sizeof(*mc_priv), GFP_KERNEL);
-> +	if (!mc_priv)
-> +		return -ENOMEM;
-> +
-> +	mc_priv->led_color_id = color_id;
-> +	mc_priv->mcled_cdev = mcled_cdev;
-> +
-> +	led_color_group.name = led_colors[color_id];
-> +	ret = sysfs_create_group(data->color_kobj, &led_color_group);
-> +	if (ret)
-> +		return ret;
-> +
-> +	sysfs_attr_init(&mc_priv->intensity_attr.attr);
-> +	mc_priv->intensity_attr.attr.name = "intensity";
-> +	mc_priv->intensity_attr.attr.mode = 666;
-> +	mc_priv->intensity_attr.store = intensity_store;
-> +	mc_priv->intensity_attr.show = intensity_show;
-> +	ret = sysfs_add_file_to_group(data->color_kobj,
-> +				      &mc_priv->intensity_attr.attr,
-> +				      led_color_group.name);
-> +	if (ret)
-> +		return ret;
-> +
-> +	sysfs_attr_init(&mc_priv->max_intensity_attr.attr);
-> +	mc_priv->max_intensity_attr.attr.name = "max_intensity";
-> +	mc_priv->max_intensity_attr.attr.mode = 444;
-> +	mc_priv->max_intensity_attr.show = max_intensity_show;
-> +	ret = sysfs_add_file_to_group(data->color_kobj,
-> +				      &mc_priv->max_intensity_attr.attr,
-> +				      led_color_group.name);
-> +	if (ret)
-> +		goto err_out;
-> +
-> +	mc_priv->max_intensity = LED_FULL;
-> +	list_add_tail(&mc_priv->list, &data->color_list);
-> +
-> +err_out:
-> +	return ret;
-> +}
-> +
-> +static int led_multicolor_init_color_dir(struct led_classdev_mc_data *data,
-> +					 struct led_classdev_mc *mcled_cdev)
-> +{
-> +	struct led_classdev *led_cdev = mcled_cdev->led_cdev;
-> +	u32 color_id;
-> +	int ret;
-> +	int i, j = 0;
-> +
-> +	data->color_kobj = kobject_create_and_add("colors",
-> +						  &led_cdev->dev->kobj);
+I was planning to do them later today, but I'm doing them now to get
+that regression out of the way.
 
-We need some guidance here on how to properly create sub directories 
-more then 1 level deep.
-
-In short under the LED class device parent directory we want to create a 
-directory called "colors".
-
-Under that directory we want to create a directory corresponding to the 
-monochrome LED color.
-Under that directory we have the files to for intensity and 
-max_intensity for the monochrome LED.
-
-We can use the LED class kobject to create the colors directory using 
-the sysfs calls but the issue comes when creating the LED color 
-directory.  We don't have a kobj for colors to associate those 
-directories to.  The only API we see to use the kobject_create_and_add 
-which then gives us the colors directory kobj.
-
-So the directory structure would look like this which is explained in 
-this patch https://lore.kernel.org/patchwork/patch/1128444/
-
-Directory Layout Example
-========================
-root:/sys/class/leds/rgb:grouped_leds# ls -lR colors/
-colors/:
-drwxr-xr-x    2 root     root             0 Jun 28 20:21 blue
-rwxr-xr-x    2 root     root             0 Jun 28 20:21 green
-drwxr-xr-x    2 root     root             0 Jun 28 20:21 red
-
-colors/blue:
--rw-------    1 root     root          4096 Jun 28 20:21 intensity
--r--------    1 root     root          4096 Jun 28 20:27 max_intensity
-+colors/green:
--rw-------    1 root     root          4096 Jun 28 20:22 intensity
--r--------    1 root     root          4096 Jun 28 20:27 max_intensity
-
-colors/red:
--rw-------    1 root     root          4096 Jun 28 20:21 intensity
--r--------    1 root     root          4096 Jun 28 20:27 max_intensity
-
-I have reviewed your example code and read your blogs and papers on the 
-subject but nothing really talks about sub-sub directories.
-
-Now if this is a no-no in the kernel that is fine we can adjust but 
-Jacek wanted to get your opinon/guidance on this topic.
-
-Dan
-
-<snip>
+              Linus
