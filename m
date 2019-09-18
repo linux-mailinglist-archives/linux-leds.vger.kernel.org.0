@@ -2,64 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A02FEB599B
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 04:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBB18B5DF3
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Sep 2019 09:23:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727742AbfIRCUH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Sep 2019 22:20:07 -0400
-Received: from honk.sigxcpu.org ([24.134.29.49]:35254 "EHLO honk.sigxcpu.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727790AbfIRCUG (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 17 Sep 2019 22:20:06 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id C96F1FB06;
-        Wed, 18 Sep 2019 04:20:04 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
-        by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id q1jHUL4tJnUN; Wed, 18 Sep 2019 04:20:04 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id 4564649248; Tue, 17 Sep 2019 19:19:58 -0700 (PDT)
-From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] leds: lm3692x: Use flags from LM3692X_BRT_CTRL
-Date:   Tue, 17 Sep 2019 19:19:58 -0700
-Message-Id: <d1347a31ab9f86c3d13ab8016606999d5c0497cd.1568772964.git.agx@sigxcpu.org>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <cover.1568772964.git.agx@sigxcpu.org>
-References: <cover.1568772964.git.agx@sigxcpu.org>
+        id S1728716AbfIRHXm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Sep 2019 03:23:42 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:40270 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728728AbfIRHXm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Sep 2019 03:23:42 -0400
+Received: by mail-pg1-f193.google.com with SMTP id w10so3471285pgj.7;
+        Wed, 18 Sep 2019 00:23:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=2UrT7kWXq7Zv08Ux1ZFLXJe97a76AVYSBPn7eC+0dXc=;
+        b=QDVRfN5zmScR1Bqy85j7Aa/Cwhhp+1jdOzVCqNtz6M/p+LuItCJZIxaYIuuyigZuqs
+         PJcTyWD/Mp+skwAxUC205hMV0XMWhnU/HxVtjqZOdDA946uj0EGS3pYRchE1L5MEkOmd
+         q9QVplok9A7tUfVeMjUb1cY7uWttGIMxL8JRFZvkRVBjUFHbK5sesP/iCKFB4pqdpNp9
+         fyLmAPX93FeA1jO3mb2EZ5ympIz/IYBuizLx51p7iXyStOBecZHotROXrPK+C4xxpB13
+         X48pfb28LfbLUiIaVGJ+SyfLgM6AhYALzXrZGdOqokjvHUf4X4RicUjkZAlEIpI6SarT
+         swoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=2UrT7kWXq7Zv08Ux1ZFLXJe97a76AVYSBPn7eC+0dXc=;
+        b=JWUTYO+v09CwNQB6qGS+V0Q58RW86pPlVL/HBBeL4U4DS30UJRXMafCB6Egqze9qpU
+         J+uth4LKA/HWBBNxAZRMSYJBR25EchCfJtwq7Xyc3uBIHvNTKJcjIJ7WaKMgmbTtjaus
+         pArbIysUNAuq3+ni8d+DniVJgpYLK7jaR6qVI0bodRor/8a9qnAX4NddKcwe96Q/E7MP
+         23/fZCq6BqtAO9OeSgAQyiy3B3mD7/f7JeumIS/9ZnXj8fRjrmfhgBPpwEQTwBo1T4x3
+         ze/RPBHaP5VpQoUPu/gZ5N7hzzZ2cGObDPUwM5JSSHyMeAhBX0v0IGzu9Y+TEKr3gNco
+         SX1g==
+X-Gm-Message-State: APjAAAWMFKfR3YgrahuM1tr5M2R+etHB6EE+kNJ1OOcWyVVx63yuwXnF
+        hzz4qNKLzc/yV8ue39gX8ELfTOJSQ06lK624/EU=
+X-Google-Smtp-Source: APXvYqx4GGiFYwR2caQijMB5QqJkgEa5lLfYzz9p0wIQOCj8rKC7aTmkjVrj7uSonkgit/GoTghxfejYgajtCBnUyVo=
+X-Received: by 2002:a63:1020:: with SMTP id f32mr2722800pgl.203.1568791421343;
+ Wed, 18 Sep 2019 00:23:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190916222133.9119-1-jacek.anaszewski@gmail.com>
+ <CAHk-=wgxNj_RBpE0xRYnMQ9W6PtyLx+LS+pZ_BqG31vute1iAg@mail.gmail.com> <CAHk-=wjAVTCZ9-X6ETA7SASNhrOyJuCgn792E_Wmn+JaEQ8N0Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wjAVTCZ9-X6ETA7SASNhrOyJuCgn792E_Wmn+JaEQ8N0Q@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 18 Sep 2019 10:23:28 +0300
+Message-ID: <CAHp75VeRiNLhmWaSHnw=DhrgyFrshO5hzpnhAwsM+ZiMyaCSTw@mail.gmail.com>
+Subject: Re: [GIT PULL] LED updates for 5.4-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        ada@thorsis.com,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Dan Murphy <dmurphy@ti.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Joe Perches <joe@perches.com>, kw@linux.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        nishkadg.linux@gmail.com, nstoughton@logitech.com, oleg@kaa.org.ua,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Tony Lindgren <tony@atomide.com>, wenwen@cs.uga.edu,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Use LM3692X_RAMP_EN instead of LM3692X_PWM_HYSTER_4LSB
-since the later is a flag for the PWM register. The
-actual register value remains unchanged.
+On Wed, Sep 18, 2019 at 10:16 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Tue, Sep 17, 2019 at 6:13 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > So this is fine and I've pulled it,
+>
+> Famous last words. I now get a new warning:
+>
+> drivers/i2c/i2c-core-acpi.c:347:12: warning:
+> =E2=80=98i2c_acpi_find_match_adapter=E2=80=99 defined but not used [-Wunu=
+sed-function]
+>   347 | static int i2c_acpi_find_match_adapter(struct device *dev,
+> const void *data)
+>       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> with this pull request.  I'll have to look at it after dinner.
+>
+>               Linus
 
-Signed-off-by: Guido Günther <agx@sigxcpu.org>
----
- drivers/leds/leds-lm3692x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+One of those *device core* patch broke i2c ACPI, which has been fixed by
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/=
+drivers/i2c/i2c-core-acpi.c?id=3D644bf60088955421051e716ab9c8fe7fb7997fd7
 
-diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
-index d673f706385e..ecac586ca89c 100644
---- a/drivers/leds/leds-lm3692x.c
-+++ b/drivers/leds/leds-lm3692x.c
-@@ -269,7 +269,7 @@ static int lm3692x_init(struct lm3692x_led *led)
- 		goto out;
- 
- 	ret = regmap_write(led->regmap, LM3692X_BRT_CTRL,
--			LM3692X_BL_ADJ_POL | LM3692X_PWM_HYSTER_4LSB);
-+			LM3692X_BL_ADJ_POL | LM3692X_RAMP_EN);
- 	if (ret)
- 		goto out;
- 
--- 
-2.23.0.rc1
+As I read above the merge commit didn't take this patch.
 
+Solution might be to merge this PR after corresponding bundle of
+device core stuff.
+
+--=20
+With Best Regards,
+Andy Shevchenko
