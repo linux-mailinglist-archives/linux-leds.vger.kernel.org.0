@@ -2,57 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78C7CB82EF
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Sep 2019 22:51:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB940B8370
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Sep 2019 23:32:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732592AbfISUvG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Sep 2019 16:51:06 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:36233 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727273AbfISUvG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Sep 2019 16:51:06 -0400
-Received: by mail-wr1-f66.google.com with SMTP id y19so4559034wrd.3;
-        Thu, 19 Sep 2019 13:51:04 -0700 (PDT)
+        id S2393033AbfISVcN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Sep 2019 17:32:13 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:35340 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391333AbfISVcN (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Sep 2019 17:32:13 -0400
+Received: by mail-wr1-f68.google.com with SMTP id v8so4662613wrt.2;
+        Thu, 19 Sep 2019 14:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=PCN06HDhMLRY6dWZM/Gh0fuWh+++p5i62hJglrfWPiw=;
-        b=lpu8xzeq41toSriH5epaua2Fig+bPZOfJq02lKkxcerCQlVEY5DvS4B5/4/DOMWh7I
-         llNbHTLSbpZQhcNiv5Z0ebQayExB1YoY4PQJxNdNMGVahHm/2sLyGennaDuDFqZ2VCro
-         me5EeYPA9Tl77K+AAcK4p2Co9H3ya8Jj1Qb4mDv8KrSZV/K86ZmF9UItNCQk0sEsxyq1
-         oMSwAfJ2J/ceSkQHc8aFsZImm3ePhalioqw/tvqOvrv+YyjPuocyg2plK8KG+u5CKOTm
-         sP1Loof3iu2fHGbf8oNzy2649iyF7GxAZAdubzPu6oqJ0OfPgQV6LFxJ1xPcsKUTcF56
-         P8hA==
+        bh=fwnI8HToirwK2bIklFTcyBZ87fFKLO47S8keYN3k6FQ=;
+        b=lNQKV3nNmbrQNcjrKrUeojO8E7jHg7Qx2Y3mYHKUo/tx+wdFhrFRF76iUQmcdxrkMj
+         m/ktagEJ8KhYIawb7J0NQjSK02AZX0snp6VKgGb+CSfKQ+xXWUvmBX696BZzVMSTZKvk
+         YFDqjGDJXuoL7V3C3AWzEuDlZCcF5QdV/pW/F3sWh06glblA2ADILRdLe974zKScnZ2H
+         3w2UyxRJoI250DBf66o/ep8CBP4YfYCp0ESMF11qKZev07strnZZcenoAMuTz6cYZXU3
+         wI3NlCu2cmL1JPEG22AHXt4F4vJzBZkiS+xQINz3xoNKEqwnx8AMKhdQb2W9UPBZM+S4
+         yKQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=PCN06HDhMLRY6dWZM/Gh0fuWh+++p5i62hJglrfWPiw=;
-        b=nCnio5xWdfCBcvpLbLj6bXqnhKlccZZlIZhGk9ltnqMLzfy6zanbdxQdcumE/tQxlg
-         NxNRLvLxVAJ/IZ3c0OqOjXa6PuHPDjEJIvKOTAUhnQ0wMFdokkf0wk/3/Na9TUahXCFD
-         5DSoRmFw9FdYQeosGWNXyPTf8uTJWpJcW8dBFpjT7gCbN76VR3ziX9idmYyja7iHzBHW
-         YSboSHLJIEkOfw+o3xRKPElFrRAJxcLpXJJIcgMrr48R5Sc4qz9dmJrSSmWPjEHiXjfg
-         rc78tViy9dI6I7VaT3inmkH9wTXoXzpfx1hzOqieDDZBUnVv42qjjTX6yyqK01gHOfOc
-         7tMw==
-X-Gm-Message-State: APjAAAVEa1GK/M0eam/rpoNBqHO6msqE4LnfuTlUVU+rStHlGbaDkGLR
-        CyQ3z1dazPv0dXPRN1pIGPRvHzLX
-X-Google-Smtp-Source: APXvYqzIsvTgSX5LyAVNoQWs3ZRw+atnCHUyC/ivxztmzvLRU4eMndkt9t/dW10lTfssWO9BFdAb7w==
-X-Received: by 2002:a5d:4708:: with SMTP id y8mr8636604wrq.318.1568926263055;
-        Thu, 19 Sep 2019 13:51:03 -0700 (PDT)
+        bh=fwnI8HToirwK2bIklFTcyBZ87fFKLO47S8keYN3k6FQ=;
+        b=XgUKmfXkjMarcJg3+05WBPzr0Ws8UpMaoghInthrr8xGVz5YXNdQJoa7r73tCRB86V
+         ha+hWamuR6ywyJvV6MyPMP+WG+lBbI791DxKWwmN3kDKkOADfrhU2HT11KSG4sBDPZ8L
+         92vAso6EGz+yQ7+l7bsxdcDyIP9gofQkUOxMUMDqW9Y3buf0/zXTR8MAMup1TG4j0fF7
+         2lpysm2H0G+CGubOkqv7DIkF/QRqDo/pvo+kXzX1O+xGAtmFXUC66kaPISMWzpy24+u5
+         5r9Cd8lrkvnXdV7vqguq+QIZnrPomRYEXri9BnaPX9WdO7NrfbudLlwQ2AQNg/jx0MYw
+         qhdw==
+X-Gm-Message-State: APjAAAWXD8xwcUuZq+0GaijZbIrhuYYmX1EBsMHLrJTUzXk6+zxv0hM0
+        wchK5VCORDDKiZaBRoSlQo4lXx5h
+X-Google-Smtp-Source: APXvYqzyl31UwF+WRMl297EZuxoAtqpnc32fbZXDrAIenYqteRRAK/1V9+1wzHeWDUfXOwDGyNCUDw==
+X-Received: by 2002:a5d:5381:: with SMTP id d1mr8193396wrv.315.1568928730067;
+        Thu, 19 Sep 2019 14:32:10 -0700 (PDT)
 Received: from [192.168.1.19] (bgr130.neoplus.adsl.tpnet.pl. [83.28.81.130])
-        by smtp.gmail.com with ESMTPSA id t14sm8158681wrs.6.2019.09.19.13.51.01
+        by smtp.gmail.com with ESMTPSA id g4sm10114368wrw.9.2019.09.19.14.32.08
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 19 Sep 2019 13:51:02 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] leds: tlc591xx: simplify driver by using the
- managed led API
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz, dmurphy@ti.com
-Cc:     tomi.valkeinen@ti.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190918152556.9925-1-jjhiblot@ti.com>
- <20190918152556.9925-2-jjhiblot@ti.com>
+        Thu, 19 Sep 2019 14:32:09 -0700 (PDT)
+Subject: Re: [PATCH v6 6/9] leds: multicolor: Introduce a multicolor class
+ definition
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190917175937.13872-1-dmurphy@ti.com>
+ <20190917175937.13872-6-dmurphy@ti.com>
+ <ff1d2ede-6bdf-8f73-9e89-0e990cce09a7@gmail.com>
+ <e1de10a6-49ad-c7f2-9246-5bee29f58c80@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -111,12 +112,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <35676405-613b-d650-b7e1-4fc7d9269a35@gmail.com>
-Date:   Thu, 19 Sep 2019 22:51:00 +0200
+Message-ID: <045e1988-176c-b5ea-73cb-182b6210a3db@gmail.com>
+Date:   Thu, 19 Sep 2019 23:32:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190918152556.9925-2-jjhiblot@ti.com>
+In-Reply-To: <e1de10a6-49ad-c7f2-9246-5bee29f58c80@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -125,63 +126,63 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jean,
+Dan,
 
-Thank you for the updated set.
-
-We will need one more iteration. Please refer below.
-
-On 9/18/19 5:25 PM, Jean-Jacques Hiblot wrote:
-> Use the managed API of the LED class (devm_led_classdev_register()
-> instead of led_classdev_register()).
-> This allows us to remove the code used to track-and-destroy the LED devices
+On 9/19/19 3:07 AM, Dan Murphy wrote:
+> Jacek
 > 
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> ---
->  drivers/leds/leds-tlc591xx.c | 79 +++++++++---------------------------
->  1 file changed, 20 insertions(+), 59 deletions(-)
+> On 9/18/19 4:27 PM, Jacek Anaszewski wrote:
+>> Hi Dan,
+>>
+>> I think Greg's guidance clarified everything nicely -
+>> we will avoid <color> sub-dirs in favour of prefixes
+>> to *intensity and *max_intensity.
+> Yes I will make the change accordingly.  It will simplify the code.
+>>
+>> Before you will send an update I have some improvement
+>> ideas regarding the remnants after the previous approach,
+>> where single color intensity update resulted in updating
+>> hardware state. Now the update will happen only on write to
+>> brightness file, so we will not need color_set/color_get ops
+>> anymore.
 > 
-> diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-> index 59ff088c7d75..3d5a4b92f016 100644
-> --- a/drivers/leds/leds-tlc591xx.c
-> +++ b/drivers/leds/leds-tlc591xx.c
-> @@ -128,51 +128,6 @@ tlc591xx_brightness_set(struct led_classdev *led_cdev,
->  	return err;
->  }
->  
-[...]
-> +		led->ldev.max_brightness = LED_FULL;
+> I left those call backs in specifically for the LP50xx. Otherwise the
+> LEDs are only updated when the brightness file is written.
 
-This is redundant since initially zeroed by kzalloc and LED core sets it
-to LED_FULL in this case, so we can remove it by this occasion.
-
-We have also one fix to this driver, preceding this patch, so your set
-will need a rebase onto for-5.5 branch [0].
-
-
-> +		err = devm_led_classdev_register(dev, &led->ldev);
-> +		if (err < 0) {
-> +			dev_err(dev, "couldn't register LED %s\n",
-> +				led->ldev.name);
-> +			return err;
-> +		}
-> +	}
->  	return 0;
->  }
->  
-> @@ -268,7 +230,6 @@ static struct i2c_driver tlc591xx_driver = {
->  		.of_match_table = of_match_ptr(of_tlc591xx_leds_match),
->  	},
->  	.probe = tlc591xx_probe,
-> -	.remove = tlc591xx_remove,
->  	.id_table = tlc591xx_id,
->  };
->  
+> The LP50xx has an engine that performs the intensity computation for the
+> specific LED.  So there is no call back to the MC FW for calculating the
+> intensity.
 > 
+> The brightness and intensity are written directly to the device and the
+> MCU in the device does all the computations so you have real time update.
 
-[0]
-https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git/log/?h=for-5.5
+You can still handle that in brightness_set op. You need to compare
+which color channels have changed and update them in hardware in
+addition to setting LEDn_BRIGHTNESS register.
+
+And yes - even updating a single color will need two operations:
+
+echo 231 >  colors/red_intensity // only cache the color in MC core
+echo 100 > brightness // do the actual hw update
+
+Note that brightness value doesn't have to be necessarily different
+from the previous one here, but writing brightness file will be needed
+to trigger the hw update.
+
+> For the LP55xx device the LEDs are only updated when the brightness file
+> is written.
+> 
+> I think we can leave those call backs in if device driver or product
+> development teams would like to use them.
+
+I'd not do that - it will be confusing. We can accomplish everything
+in brightness_set{_blocking} op. It will have also the advantage of
+same ABI semantics across all devices. Otherwise we would need separate
+documentation for devices like LP50xx.
+
+I have also another question - what with linear vs logarithmic
+LP50xx brightness scale? I think we should make both options available
+to the userspace.
 
 -- 
 Best regards,
