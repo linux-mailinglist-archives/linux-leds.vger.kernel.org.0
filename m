@@ -2,55 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 226DAB8241
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Sep 2019 22:10:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F702B8268
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Sep 2019 22:26:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392500AbfISUKO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Sep 2019 16:10:14 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:55737 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390722AbfISUKO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Sep 2019 16:10:14 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a6so6099871wma.5;
-        Thu, 19 Sep 2019 13:10:11 -0700 (PDT)
+        id S2404643AbfISU0u (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Sep 2019 16:26:50 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36240 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404462AbfISU0t (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Sep 2019 16:26:49 -0400
+Received: by mail-wr1-f65.google.com with SMTP id y19so4497108wrd.3
+        for <linux-leds@vger.kernel.org>; Thu, 19 Sep 2019 13:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Ui082kyKjt1/1o7RzJrjZO997JL6kup+ExToXqhxJMU=;
-        b=toYbAnrSKOeo+97xyuYVK+bebCzY6l98E48PbXIEQvnQmcXEeCEmx5HICKfC5H1cHR
-         qGpyUqOTXQGATYkBL8Ou0V9SHJbSijP7i2Q2IT/tnj2f5HFa/UmS6mGpInStCvRbU/6i
-         Ci2rRpGJ4e3bc/qZJNkFeEayhGUQzSg/fsjsZhRt9hTzqHA7It/Y/M/yvV3+oMqsIM7n
-         OLvmQE0TV7khh7WWZzgQufGVbZReMyY6q0RjoNNx1qxx/hU3o8hGCcQ3x1pd4Lohc+tS
-         98V0QoC6s5X0jvn96WQNtRb1S8mutD9w/qESSM50Gos8loPQSyzRSJcYm0MdlwVXNCLk
-         H0iw==
+        bh=VgI5Yu4w0eiS/zXJAZeDkXaki8UmLvLXRFK+ARWpNsY=;
+        b=NT5YgEfXd6qkBxLJqbQvrR/DMVE7duQPihcW1Pd/oX/7/XW/tsfrUzQa8bMHQeEg0G
+         lyNrB/d3HJXrCDcJaBTB8W29gIcI9u5emcPSz32rkS4vTOUssO3F2ooE4zG2FAPKpgsK
+         STg8ddnSFc2t8xSYl483eLvRcG1O418y6XXmCDtySdOakDjkpE2rGxsefId9i9Hyu12e
+         YIVx9ocIPFCt/vW6lysALSVxPAhd6guO93zEJdWBla1GBngiNGHh2BujEGHvFxrs8pxU
+         TVnde7YKd/8n/5yXPSnsZYYhUlvdi+b9PrvoaFc7RlHNqMjddC/CNuk0bjGY8xDW5Z0U
+         maJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=Ui082kyKjt1/1o7RzJrjZO997JL6kup+ExToXqhxJMU=;
-        b=aMymLY1+VmJVtNIW0YHy03eIspaIfKyrx3zk+Vv43uyJzzm5Ls82mOhxaqltqRM759
-         SRvnq2Wcz+o4wAC48YIbWR6heYQJJRvMA7wQ6CsimV9M7iLH7rOYp/TSw4soAtaz1VAk
-         QGpUmzF+oYYBiUvHVEzvvpl2IOd+MvRCvicgoVFlfN+dM1id/0oF8wV947lwLpCz7bI5
-         M9CkQ3rHrxpbNR6wjVLWORtItVnc98on5eY4uC9jElOFrNrtm/515GAoxNUyJJzWRG5y
-         Zj8+5q7an3Mu9Os5wJ3o46YhhMHfG4Ph/ZRTjzVYrlMkDUtay1Z8EPdKAlbqsuhpS0bh
-         zsPg==
-X-Gm-Message-State: APjAAAV1fqrPnLO1qQZSr73gMRlzRsC9vA8N78TmDdLU9G+CpuVLquUX
-        lsEvum1GWqQSDd5lEbPj622RL54c
-X-Google-Smtp-Source: APXvYqyMAM5DcuYnLnmgCpMFZkJQYk9IBeGkN3Ve918FG3CgxZlL4tfQtcmyarddQhy9jeQFK5v1PQ==
-X-Received: by 2002:a7b:c8c3:: with SMTP id f3mr4158075wml.157.1568923811297;
-        Thu, 19 Sep 2019 13:10:11 -0700 (PDT)
+        bh=VgI5Yu4w0eiS/zXJAZeDkXaki8UmLvLXRFK+ARWpNsY=;
+        b=ZF6Vu2cLMZH4oydJKyzwHJLIQDdWFs46zTWwQVc0FldQojPxYwPMQ/ZvKBbi287Nym
+         RgfLo0GRhnQcyo2V/xg/DufyRNMjFNjFYNIp4xKnQDOGZiJcFJBA2c3LIy2cqMnhLIjp
+         aWX9aiy+CL9Ww0i9zfZxeZVq7PJgMdEiXjb/txVifPiJyDTT5z+GKhJlQlCES7h53J3O
+         Var/Z0dX0Ht88zhdt37U0zSbVOU915EWeoAp6Sk8poIAlIQN7GrY6Dy2y3exDVx9JcyQ
+         smauoZnVZpSFd3pweQNbQflGh2IuJUWcL7d9w1I1lNOHgxYSnO1rhvbFqEEJoq1p6ktN
+         Oiog==
+X-Gm-Message-State: APjAAAXjipFxMhWANeW8MJswNFkJJMSyWj/K0R/tkOsetsMASAOQvACq
+        /MlTVZaDM96lA3Z27is8w+PEDYEC
+X-Google-Smtp-Source: APXvYqz5eGQLP4wiz0uR/deC/f2mDITtdHc5EF7oLrpKTSLxjYX8oXmVXB/XJEPdKE6+imWVSZvK4w==
+X-Received: by 2002:adf:eccd:: with SMTP id s13mr8803968wro.288.1568924806413;
+        Thu, 19 Sep 2019 13:26:46 -0700 (PDT)
 Received: from [192.168.1.19] (bgr130.neoplus.adsl.tpnet.pl. [83.28.81.130])
-        by smtp.gmail.com with ESMTPSA id t6sm10991335wmf.8.2019.09.19.13.10.09
+        by smtp.gmail.com with ESMTPSA id 207sm12109317wme.17.2019.09.19.13.26.45
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 19 Sep 2019 13:10:10 -0700 (PDT)
-Subject: Re: [PATCH v11 2/2] leds: add LED driver for EL15203000 board
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, devicetree@vger.kernel.org,
-        linux-leds@vger.kernel.org, pavel@ucw.cz, dmurphy@ti.com
-References: <20190919125313.24081-1-oleg@kaa.org.ua>
- <20190919125313.24081-3-oleg@kaa.org.ua>
+        Thu, 19 Sep 2019 13:26:45 -0700 (PDT)
+Subject: Re: [PATCH] drivers: leds: tlc591xx: check error during device init
+To:     Daniel Mack <daniel@zonque.org>
+Cc:     linux-leds@vger.kernel.org
+References: <20190913180749.25740-1-daniel@zonque.org>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -109,42 +108,56 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <86064ea2-03fb-dac5-49f0-1bfc94940852@gmail.com>
-Date:   Thu, 19 Sep 2019 22:10:08 +0200
+Message-ID: <90e00401-3903-f65d-e670-1ffa28e59e22@gmail.com>
+Date:   Thu, 19 Sep 2019 22:26:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190919125313.24081-3-oleg@kaa.org.ua>
+In-Reply-To: <20190913180749.25740-1-daniel@zonque.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Oleh,
+Hi Daniel,
 
-On 9/19/19 2:53 PM, Oleh Kravchenko wrote:
-> This patch adds a LED class driver for the LEDs found on
-> the Crane Merchandising System EL15203000 LEDs board
-> (aka RED LEDs board).
+Thank you for the patch.
+
+On 9/13/19 8:07 PM, Daniel Mack wrote:
+> The driver currently ignores errors from register writes at probe time.
+> It will hence register an LED class device no matter whether the
+> pyhsical device is present or not.
 > 
-> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
-> Reviewed-by: Dan Murphy <dmurphy@ti.com>
+> To fix this, make the device probe fail in case regmap operations
+> return an error.
+> 
+> Signed-off-by: Daniel Mack <daniel@zonque.org>
 > ---
->  .../testing/sysfs-class-led-driver-el15203000 | 139 +++++++
->  drivers/leds/Kconfig                          |  13 +
->  drivers/leds/Makefile                         |   1 +
->  drivers/leds/leds-el15203000.c                | 357 ++++++++++++++++++
->  4 files changed, 510 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-el15203000
->  create mode 100644 drivers/leds/leds-el15203000.c
+>  drivers/leds/leds-tlc591xx.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
+> index 59ff088c7d75..00702824d27c 100644
+> --- a/drivers/leds/leds-tlc591xx.c
+> +++ b/drivers/leds/leds-tlc591xx.c
+> @@ -147,7 +147,10 @@ tlc591xx_configure(struct device *dev,
+>  	unsigned int i;
+>  	int err = 0;
+>  
+> -	tlc591xx_set_mode(priv->regmap, MODE2_DIM);
+> +	err = tlc591xx_set_mode(priv->regmap, MODE2_DIM);
+> +	if (err < 0)
+> +		return err;
+> +
+>  	for (i = 0; i < TLC591XX_MAX_LEDS; i++) {
+>  		struct tlc591xx_led *led = &priv->leds[i];
+>  
+> 
 
-
-Thank you for your work on this set.
-
-Applied to the for-5.5 branch.
+Applied.
 
 -- 
 Best regards,
