@@ -2,596 +2,147 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F52BB79D5
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Sep 2019 14:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3345B7AC7
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Sep 2019 15:46:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390359AbfISMxZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Sep 2019 08:53:25 -0400
-Received: from smtp.220.in.ua ([89.184.67.205]:48136 "EHLO smtp.220.in.ua"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390416AbfISMxZ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 19 Sep 2019 08:53:25 -0400
-Received: from oleh-pc.lan (unknown [95.67.115.55])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by smtp.220.in.ua (Postfix) with ESMTPSA id 38EC61A2443C;
-        Thu, 19 Sep 2019 15:53:20 +0300 (EEST)
-From:   Oleh Kravchenko <oleg@kaa.org.ua>
-To:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com
-Cc:     Oleh Kravchenko <oleg@kaa.org.ua>
-Subject: [PATCH v11 2/2] leds: add LED driver for EL15203000 board
-Date:   Thu, 19 Sep 2019 15:53:13 +0300
-Message-Id: <20190919125313.24081-3-oleg@kaa.org.ua>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190919125313.24081-1-oleg@kaa.org.ua>
+        id S2390517AbfISNqg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Sep 2019 09:46:36 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:37000 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390323AbfISNqg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Sep 2019 09:46:36 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8JDkRnV100805;
+        Thu, 19 Sep 2019 08:46:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1568900787;
+        bh=vGbwM4NbY+he7iaH6paryMD4bbgV3tLQKkI1ZMsbxNk=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=CH8I4cVYQ5OiiVKH+B2TRZQTQy8GJL5/ITI9ukdXjj1SLvISkpR3EXiuZB62Edpfn
+         8d0RdvkrWVshPbP+UHXwPm6rprXvgmwsb+xG8xTGJ48PqmWD6MSzbCOEtEA3pIR964
+         ZJNbOUfjuD5K62bJtSlTAT+lyEc1AP6wVXFwbhQc=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8JDkRKN003387
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 19 Sep 2019 08:46:27 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 19
+ Sep 2019 08:46:23 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 19 Sep 2019 08:46:26 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8JDkQ8T115113;
+        Thu, 19 Sep 2019 08:46:26 -0500
+Subject: Re: [PATCH v11 1/2] dt-bindings: Add docs for EL15203000
+To:     Oleh Kravchenko <oleg@kaa.org.ua>, <devicetree@vger.kernel.org>,
+        <linux-leds@vger.kernel.org>, <jacek.anaszewski@gmail.com>,
+        <pavel@ucw.cz>
 References: <20190919125313.24081-1-oleg@kaa.org.ua>
+ <20190919125313.24081-2-oleg@kaa.org.ua>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <76f24ad8-a375-45f8-a1e1-f9e90bcbc95d@ti.com>
+Date:   Thu, 19 Sep 2019 08:49:15 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190919125313.24081-2-oleg@kaa.org.ua>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This patch adds a LED class driver for the LEDs found on
-the Crane Merchandising System EL15203000 LEDs board
-(aka RED LEDs board).
+Oleh
 
-Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+On 9/19/19 7:53 AM, Oleh Kravchenko wrote:
+> Add documentation and example for dt-bindings EL15203000.
+> LED board (aka RED LED board) from Crane Merchandising Systems.
+>
+> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
 Reviewed-by: Dan Murphy <dmurphy@ti.com>
----
- .../testing/sysfs-class-led-driver-el15203000 | 139 +++++++
- drivers/leds/Kconfig                          |  13 +
- drivers/leds/Makefile                         |   1 +
- drivers/leds/leds-el15203000.c                | 357 ++++++++++++++++++
- 4 files changed, 510 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-el15203000
- create mode 100644 drivers/leds/leds-el15203000.c
-
-diff --git a/Documentation/ABI/testing/sysfs-class-led-driver-el15203000 b/Documentation/ABI/testing/sysfs-class-led-driver-el15203000
-new file mode 100644
-index 000000000000..f520ece9b64c
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-class-led-driver-el15203000
-@@ -0,0 +1,139 @@
-+What:		/sys/class/leds/<led>/hw_pattern
-+Date:		September 2019
-+KernelVersion:	5.5
-+Description:
-+		Specify a hardware pattern for the EL15203000 LED.
-+		The LEDs board supports only predefined patterns by firmware
-+		for specific LEDs.
-+
-+		Breathing mode for Screen frame light tube:
-+		"0 4000 1 4000"
-+
-+		    ^
-+		    |
-+		Max-|     ---
-+		    |    /   \
-+		    |   /     \
-+		    |  /       \     /
-+		    | /         \   /
-+		Min-|-           ---
-+		    |
-+		    0------4------8--> time (sec)
-+
-+		Cascade mode for Pipe LED:
-+		"1 800 2 800 4 800 8 800 16 800"
-+
-+		      ^
-+		      |
-+		0 On -|----+                   +----+                   +---
-+		      |    |                   |    |                   |
-+		  Off-|    +-------------------+    +-------------------+
-+		      |
-+		1 On -|    +----+                   +----+
-+		      |    |    |                   |    |
-+		  Off |----+    +-------------------+    +------------------
-+		      |
-+		2 On -|         +----+                   +----+
-+		      |         |    |                   |    |
-+		  Off-|---------+    +-------------------+    +-------------
-+		      |
-+		3 On -|              +----+                   +----+
-+		      |              |    |                   |    |
-+		  Off-|--------------+    +-------------------+    +--------
-+		      |
-+		4 On -|                   +----+                   +----+
-+		      |                   |    |                   |    |
-+		  Off-|-------------------+    +-------------------+    +---
-+		      |
-+		      0---0.8--1.6--2.4--3.2---4---4.8--5.6--6.4--7.2---8--> time (sec)
-+
-+		Inverted cascade mode for Pipe LED:
-+		"30 800 29 800 27 800 23 800 15 800"
-+
-+		      ^
-+		      |
-+		0 On -|    +-------------------+    +-------------------+
-+		      |    |                   |    |                   |
-+		  Off-|----+                   +----+                   +---
-+		      |
-+		1 On -|----+    +-------------------+    +------------------
-+		      |    |    |                   |    |
-+		  Off |    +----+                   +----+
-+		      |
-+		2 On -|---------+    +-------------------+    +-------------
-+		      |         |    |                   |    |
-+		  Off-|         +----+                   +----+
-+		      |
-+		3 On -|--------------+    +-------------------+    +--------
-+		      |              |    |                   |    |
-+		  Off-|              +----+                   +----+
-+		      |
-+		4 On -|-------------------+    +-------------------+    +---
-+		      |                   |    |                   |    |
-+		  Off-|                   +----+                   +----+
-+		      |
-+		      0---0.8--1.6--2.4--3.2---4---4.8--5.6--6.4--7.2---8--> time (sec)
-+
-+		Bounce mode for Pipe LED:
-+		"1 800 2 800 4 800 8 800 16 800 16 800 8 800 4 800 2 800 1 800"
-+
-+		      ^
-+		      |
-+		0 On -|----+                                       +--------
-+		      |    |                                       |
-+		  Off-|    +---------------------------------------+
-+		      |
-+		1 On -|    +----+                             +----+
-+		      |    |    |                             |    |
-+		  Off |----+    +-----------------------------+    +--------
-+		      |
-+		2 On -|         +----+                   +----+
-+		      |         |    |                   |    |
-+		  Off-|---------+    +-------------------+    +-------------
-+		      |
-+		3 On -|              +----+         +----+
-+		      |              |    |         |    |
-+		  Off-|--------------+    +---------+    +------------------
-+		      |
-+		4 On -|                   +---------+
-+		      |                   |         |
-+		  Off-|-------------------+         +-----------------------
-+		      |
-+		      0---0.8--1.6--2.4--3.2---4---4.8--5.6--6.4--7.2---8--> time (sec)
-+
-+		Inverted bounce mode for Pipe LED:
-+		"30 800 29 800 27 800 23 800 15 800 15 800 23 800 27 800 29 800 30 800"
-+
-+		      ^
-+		      |
-+		0 On -|    +---------------------------------------+
-+		      |    |                                       |
-+		  Off-|----+                                       +--------
-+		      |
-+		1 On -|----+    +-----------------------------+    +--------
-+		      |    |    |                             |    |
-+		  Off |    +----+                             +----+
-+		      |
-+		2 On -|---------+    +-------------------+    +-------------
-+		      |         |    |                   |    |
-+		  Off-|         +----+                   +----+
-+		      |
-+		3 On -|--------------+    +---------+    +------------------
-+		      |              |    |         |    |
-+		  Off-|              +----+         +----+
-+		      |
-+		4 On -|-------------------+         +-----------------------
-+		      |                   |         |
-+		  Off-|                   +---------+
-+		      |
-+		      0---0.8--1.6--2.4--3.2---4---4.8--5.6--6.4--7.2---8--> time (sec)
-+
-+What:		/sys/class/leds/<led>/repeat
-+Date:		September 2019
-+KernelVersion:	5.5
-+Description:
-+		EL15203000 supports only indefinitely patterns,
-+		so this file should always store -1.
-+
-+		For more info, please see:
-+		Documentation/ABI/testing/sysfs-class-led-trigger-pattern
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 1988de1d64c0..6e7703fd03d0 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -132,6 +132,19 @@ config LEDS_CR0014114
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called leds-cr0014114.
- 
-+config LEDS_EL15203000
-+	tristate "LED Support for Crane EL15203000"
-+	depends on LEDS_CLASS
-+	depends on SPI
-+	depends on OF
-+	help
-+	  This option enables support for EL15203000 LED Board
-+	  (aka RED LED board) which is widely used in coffee vending
-+	  machines produced by Crane Merchandising Systems.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called leds-el15203000.
-+
- config LEDS_LM3530
- 	tristate "LCD Backlight driver for LM3530"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 41fb073a39c1..2da39e896ce8 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -89,6 +89,7 @@ obj-$(CONFIG_LEDS_LM36274)		+= leds-lm36274.o
- # LED SPI Drivers
- obj-$(CONFIG_LEDS_CR0014114)		+= leds-cr0014114.o
- obj-$(CONFIG_LEDS_DAC124S085)		+= leds-dac124s085.o
-+obj-$(CONFIG_LEDS_EL15203000)		+= leds-el15203000.o
- 
- # LED Userspace Drivers
- obj-$(CONFIG_LEDS_USER)			+= uleds.o
-diff --git a/drivers/leds/leds-el15203000.c b/drivers/leds/leds-el15203000.c
-new file mode 100644
-index 000000000000..298b13e4807a
---- /dev/null
-+++ b/drivers/leds/leds-el15203000.c
-@@ -0,0 +1,357 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2019 Crane Merchandising Systems. All rights reserved.
-+// Copyright (C) 2019 Oleh Kravchenko <oleg@kaa.org.ua>
-+
-+#include <linux/delay.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/spi/spi.h>
-+
-+/*
-+ * EL15203000 SPI protocol description:
-+ * +-----+---------+
-+ * | LED | COMMAND |
-+ * +-----+---------+
-+ * |  1  |    1    |
-+ * +-----+---------+
-+ * (*) LEDs MCU board expects 20 msec delay per byte.
-+ *
-+ * LEDs:
-+ * +----------+--------------+-------------------------------------------+
-+ * |    ID    |     NAME     |         DESCRIPTION                       |
-+ * +----------+--------------+-------------------------------------------+
-+ * | 'P' 0x50 |     Pipe     | Consists from 5 LEDs, controlled by board |
-+ * +----------+--------------+-------------------------------------------+
-+ * | 'S' 0x53 | Screen frame | Light tube around the screen              |
-+ * +----------+--------------+-------------------------------------------+
-+ * | 'V' 0x56 | Vending area | Highlights a cup of coffee                |
-+ * +----------+--------------+-------------------------------------------+
-+ *
-+ * COMMAND:
-+ * +----------+-----------------+--------------+--------------+
-+ * |  VALUES  |       PIPE      | SCREEN FRAME | VENDING AREA |
-+ * +----------+-----------------+--------------+--------------+
-+ * | '0' 0x30 |                      Off                      |
-+ * +----------+-----------------------------------------------+
-+ * | '1' 0x31 |                      On                       |
-+ * +----------+-----------------+--------------+--------------+
-+ * | '2' 0x32 |     Cascade     |   Breathing  |
-+ * +----------+-----------------+--------------+
-+ * | '3' 0x33 | Inverse cascade |
-+ * +----------+-----------------+
-+ * | '4' 0x34 |     Bounce      |
-+ * +----------+-----------------+
-+ * | '5' 0x35 | Inverse bounce  |
-+ * +----------+-----------------+
-+ */
-+
-+/* EL15203000 default settings */
-+#define EL_FW_DELAY_USEC	20000ul
-+#define EL_PATTERN_DELAY_MSEC	800u
-+#define EL_PATTERN_LEN		10u
-+#define EL_PATTERN_HALF_LEN	(EL_PATTERN_LEN / 2)
-+
-+enum el15203000_command {
-+	/* for all LEDs */
-+	EL_OFF			= '0',
-+	EL_ON			= '1',
-+
-+	/* for Screen LED */
-+	EL_SCREEN_BREATHING	= '2',
-+
-+	/* for Pipe LED */
-+	EL_PIPE_CASCADE		= '2',
-+	EL_PIPE_INV_CASCADE	= '3',
-+	EL_PIPE_BOUNCE		= '4',
-+	EL_PIPE_INV_BOUNCE	= '5',
-+};
-+
-+struct el15203000_led {
-+	struct el15203000	*priv;
-+	struct led_classdev	ldev;
-+	u32			reg;
-+};
-+
-+struct el15203000 {
-+	struct device		*dev;
-+	struct mutex		lock;
-+	struct spi_device	*spi;
-+	unsigned long		delay;
-+	size_t			count;
-+	struct el15203000_led	leds[];
-+};
-+
-+static int el15203000_cmd(struct el15203000_led *led, u8 brightness)
-+{
-+	int		ret;
-+	u8		cmd[2];
-+	size_t		i;
-+
-+	mutex_lock(&led->priv->lock);
-+
-+	dev_dbg(led->priv->dev, "Set brightness of 0x%02x(%c) to 0x%02x(%c)",
-+		led->reg, led->reg, brightness, brightness);
-+
-+	/* to avoid SPI mistiming with firmware we should wait some time */
-+	if (time_after(led->priv->delay, jiffies)) {
-+		dev_dbg(led->priv->dev, "Wait %luus to sync",
-+			EL_FW_DELAY_USEC);
-+
-+		usleep_range(EL_FW_DELAY_USEC,
-+			     EL_FW_DELAY_USEC + 1);
-+	}
-+
-+	cmd[0] = led->reg;
-+	cmd[1] = brightness;
-+
-+	for (i = 0; i < ARRAY_SIZE(cmd); i++) {
-+		if (i)
-+			usleep_range(EL_FW_DELAY_USEC,
-+				     EL_FW_DELAY_USEC + 1);
-+
-+		ret = spi_write(led->priv->spi, &cmd[i], sizeof(cmd[i]));
-+		if (ret) {
-+			dev_err(led->priv->dev,
-+				"spi_write() error %d", ret);
-+			break;
-+		}
-+	}
-+
-+	led->priv->delay = jiffies + usecs_to_jiffies(EL_FW_DELAY_USEC);
-+
-+	mutex_unlock(&led->priv->lock);
-+
-+	return ret;
-+}
-+
-+static int el15203000_set_blocking(struct led_classdev *ldev,
-+				   enum led_brightness brightness)
-+{
-+	struct el15203000_led *led = container_of(ldev,
-+						  struct el15203000_led,
-+						  ldev);
-+
-+	return el15203000_cmd(led, brightness == LED_OFF ? EL_OFF : EL_ON);
-+}
-+
-+static int el15203000_pattern_set_S(struct led_classdev *ldev,
-+				    struct led_pattern *pattern,
-+				    u32 len, int repeat)
-+{
-+	struct el15203000_led *led = container_of(ldev,
-+						  struct el15203000_led,
-+						  ldev);
-+
-+	if (repeat > 0 || len != 2 ||
-+	    pattern[0].delta_t != 4000 || pattern[0].brightness != 0 ||
-+	    pattern[1].delta_t != 4000 || pattern[1].brightness != 1)
-+		return -EINVAL;
-+
-+	dev_dbg(led->priv->dev, "Breathing mode for 0x%02x(%c)",
-+		led->reg, led->reg);
-+
-+	return el15203000_cmd(led, EL_SCREEN_BREATHING);
-+}
-+
-+static bool is_cascade(const struct led_pattern *pattern, u32 len,
-+		       bool inv, bool right)
-+{
-+	int val, t;
-+	u32 i;
-+
-+	if (len != EL_PATTERN_HALF_LEN)
-+		return false;
-+
-+	val = right ? BIT(4) : BIT(0);
-+
-+	for (i = 0; i < len; i++) {
-+		t = inv ? ~val & GENMASK(4, 0) : val;
-+
-+		if (pattern[i].delta_t != EL_PATTERN_DELAY_MSEC ||
-+		    pattern[i].brightness != t)
-+			return false;
-+
-+		val = right ? val >> 1 : val << 1;
-+	}
-+
-+	return true;
-+}
-+
-+static bool is_bounce(const struct led_pattern *pattern, u32 len, bool inv)
-+{
-+	if (len != EL_PATTERN_LEN)
-+		return false;
-+
-+	return is_cascade(pattern, EL_PATTERN_HALF_LEN, inv, false) &&
-+	       is_cascade(pattern + EL_PATTERN_HALF_LEN,
-+			  EL_PATTERN_HALF_LEN, inv, true);
-+}
-+
-+static int el15203000_pattern_set_P(struct led_classdev *ldev,
-+				    struct led_pattern *pattern,
-+				    u32 len, int repeat)
-+{
-+	u8			cmd;
-+	struct el15203000_led	*led = container_of(ldev,
-+						    struct el15203000_led,
-+						    ldev);
-+
-+	if (repeat > 0)
-+		return -EINVAL;
-+
-+	if (is_cascade(pattern, len, false, false)) {
-+		dev_dbg(led->priv->dev, "Cascade mode for 0x%02x(%c)",
-+			led->reg, led->reg);
-+
-+		cmd = EL_PIPE_CASCADE;
-+	} else if (is_cascade(pattern, len, true, false)) {
-+		dev_dbg(led->priv->dev, "Inverse cascade mode for 0x%02x(%c)",
-+			led->reg, led->reg);
-+
-+		cmd = EL_PIPE_INV_CASCADE;
-+	} else if (is_bounce(pattern, len, false)) {
-+		dev_dbg(led->priv->dev, "Bounce mode for 0x%02x(%c)",
-+			led->reg, led->reg);
-+
-+		cmd = EL_PIPE_BOUNCE;
-+	} else if (is_bounce(pattern, len, true)) {
-+		dev_dbg(led->priv->dev, "Inverse bounce mode for 0x%02x(%c)",
-+			led->reg, led->reg);
-+
-+		cmd = EL_PIPE_INV_BOUNCE;
-+	} else {
-+		dev_err(led->priv->dev, "Invalid hw_pattern for 0x%02x(%c)!",
-+			led->reg, led->reg);
-+
-+		return -EINVAL;
-+	}
-+
-+	return el15203000_cmd(led, cmd);
-+}
-+
-+static int el15203000_pattern_clear(struct led_classdev *ldev)
-+{
-+	struct el15203000_led	*led = container_of(ldev,
-+						    struct el15203000_led,
-+						    ldev);
-+
-+	return el15203000_cmd(led, EL_OFF);
-+}
-+
-+static int el15203000_probe_dt(struct el15203000 *priv)
-+{
-+	struct el15203000_led	*led = priv->leds;
-+	struct fwnode_handle	*child;
-+	int			ret;
-+
-+	device_for_each_child_node(priv->dev, child) {
-+		struct led_init_data init_data = {};
-+
-+		ret = fwnode_property_read_u32(child, "reg", &led->reg);
-+		if (ret) {
-+			dev_err(priv->dev, "LED without ID number");
-+			fwnode_handle_put(child);
-+
-+			break;
-+		}
-+
-+		if (led->reg > U8_MAX) {
-+			dev_err(priv->dev, "LED value %d is invalid", led->reg);
-+			fwnode_handle_put(child);
-+
-+			return -EINVAL;
-+		}
-+
-+		fwnode_property_read_string(child, "linux,default-trigger",
-+					    &led->ldev.default_trigger);
-+
-+		led->priv			  = priv;
-+		led->ldev.max_brightness	  = LED_ON;
-+		led->ldev.brightness_set_blocking = el15203000_set_blocking;
-+
-+		if (led->reg == 'S') {
-+			led->ldev.pattern_set	= el15203000_pattern_set_S;
-+			led->ldev.pattern_clear	= el15203000_pattern_clear;
-+		} else if (led->reg == 'P') {
-+			led->ldev.pattern_set	= el15203000_pattern_set_P;
-+			led->ldev.pattern_clear	= el15203000_pattern_clear;
-+		}
-+
-+		init_data.fwnode = child;
-+		ret = devm_led_classdev_register_ext(priv->dev, &led->ldev,
-+						     &init_data);
-+		if (ret) {
-+			dev_err(priv->dev,
-+				"failed to register LED device %s, err %d",
-+				led->ldev.name, ret);
-+			fwnode_handle_put(child);
-+
-+			break;
-+		}
-+
-+		led++;
-+	}
-+
-+	return ret;
-+}
-+
-+static int el15203000_probe(struct spi_device *spi)
-+{
-+	struct el15203000	*priv;
-+	size_t			count;
-+
-+	count = device_get_child_node_count(&spi->dev);
-+	if (!count) {
-+		dev_err(&spi->dev, "LEDs are not defined in device tree!");
-+		return -ENODEV;
-+	}
-+
-+	priv = devm_kzalloc(&spi->dev, struct_size(priv, leds, count),
-+			    GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	mutex_init(&priv->lock);
-+	priv->count	= count;
-+	priv->dev	= &spi->dev;
-+	priv->spi	= spi;
-+	priv->delay	= jiffies -
-+			  usecs_to_jiffies(EL_FW_DELAY_USEC);
-+
-+	spi_set_drvdata(spi, priv);
-+
-+	return el15203000_probe_dt(priv);
-+}
-+
-+static int el15203000_remove(struct spi_device *spi)
-+{
-+	struct el15203000 *priv = spi_get_drvdata(spi);
-+
-+	mutex_destroy(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id el15203000_dt_ids[] = {
-+	{ .compatible = "crane,el15203000", },
-+	{},
-+};
-+
-+MODULE_DEVICE_TABLE(of, el15203000_dt_ids);
-+
-+static struct spi_driver el15203000_driver = {
-+	.probe		= el15203000_probe,
-+	.remove		= el15203000_remove,
-+	.driver = {
-+		.name		= KBUILD_MODNAME,
-+		.of_match_table	= el15203000_dt_ids,
-+	},
-+};
-+
-+module_spi_driver(el15203000_driver);
-+
-+MODULE_AUTHOR("Oleh Kravchenko <oleg@kaa.org.ua>");
-+MODULE_DESCRIPTION("el15203000 LED driver");
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("spi:el15203000");
--- 
-2.21.0
-
+> ---
+>   .../bindings/leds/leds-el15203000.txt         | 69 +++++++++++++++++++
+>   1 file changed, 69 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/leds/leds-el15203000.txt
+>
+> diff --git a/Documentation/devicetree/bindings/leds/leds-el15203000.txt b/Documentation/devicetree/bindings/leds/leds-el15203000.txt
+> new file mode 100644
+> index 000000000000..1bcd341967f8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-el15203000.txt
+> @@ -0,0 +1,69 @@
+> +Crane Merchandising System - EL15203000 LED driver
+> +--------------------------------------------------
+> +
+> +This LED Board (aka RED LEDs board) is widely used in
+> +coffee vending machines produced by Crane Merchandising Systems.
+> +The board manages 3 LEDs and supports predefined blinking patterns
+> +for specific leds.
+> +
+> +Vending area LED encoded with symbol 'V' (hex code 0x56).
+> +Doesn't have any hardware blinking pattern.
+> +
+> +Screen light tube LED which surrounds vending machine screen and
+> +encoded with symbol 'S' (hex code 0x53). Supports blinking breathing pattern.
+> +
+> +Water Pipe LED encoded with symbol 'P' (hex code 0x50) and
+> +actually consists from 5 LEDs that exposed by protocol like one LED.
+> +Supports next patterns:
+> +- cascade pattern
+> +- inversed cascade pattern
+> +- bounce pattern
+> +- inversed bounce pattern
+> +
+> +Required properties:
+> +- compatible : "crane,el15203000"
+> +- #address-cells : must be 1
+> +- #size-cells : must be 0
+> +
+> +Property rules described in Documentation/devicetree/bindings/spi/spi-bus.txt
+> +apply. In particular, "reg" and "spi-max-frequency" properties must be given.
+> +
+> +Optional LED sub-node properties:
+> +- function:
+> +	see Documentation/devicetree/bindings/leds/common.txt
+> +- color:
+> +	see Documentation/devicetree/bindings/leds/common.txt
+> +
+> +Example
+> +-------
+> +
+> +#include <dt-bindings/leds/common.h>
+> +
+> +led-controller@0 {
+> +	compatible = "crane,el15203000";
+> +	reg = <0>;
+> +	spi-max-frequency = <50000>;
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +
+> +	/* water pipe */
+> +	led@50 {
+> +		reg = <0x50>;
+> +		function = "pipe";
+> +		color = <LED_COLOR_ID_RED>;
+> +	};
+> +
+> +	/* screen frame */
+> +	led@53 {
+> +		reg = <0x53>;
+> +		function = "screen";
+> +		color = <LED_COLOR_ID_RED>;
+> +	};
+> +
+> +	/* vending area */
+> +	led@56 {
+> +		reg = <0x56>;
+> +		function = "vend";
+> +		color = <LED_COLOR_ID_RED>;
+> +	};
+> +};
