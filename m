@@ -2,54 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F702B8268
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Sep 2019 22:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57845B8286
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Sep 2019 22:35:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404643AbfISU0u (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Sep 2019 16:26:50 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:36240 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404462AbfISU0t (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Sep 2019 16:26:49 -0400
-Received: by mail-wr1-f65.google.com with SMTP id y19so4497108wrd.3
-        for <linux-leds@vger.kernel.org>; Thu, 19 Sep 2019 13:26:47 -0700 (PDT)
+        id S2392442AbfISUfk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Sep 2019 16:35:40 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:43830 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388384AbfISUfk (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Sep 2019 16:35:40 -0400
+Received: by mail-wr1-f67.google.com with SMTP id q17so4482637wrx.10;
+        Thu, 19 Sep 2019 13:35:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=VgI5Yu4w0eiS/zXJAZeDkXaki8UmLvLXRFK+ARWpNsY=;
-        b=NT5YgEfXd6qkBxLJqbQvrR/DMVE7duQPihcW1Pd/oX/7/XW/tsfrUzQa8bMHQeEg0G
-         lyNrB/d3HJXrCDcJaBTB8W29gIcI9u5emcPSz32rkS4vTOUssO3F2ooE4zG2FAPKpgsK
-         STg8ddnSFc2t8xSYl483eLvRcG1O418y6XXmCDtySdOakDjkpE2rGxsefId9i9Hyu12e
-         YIVx9ocIPFCt/vW6lysALSVxPAhd6guO93zEJdWBla1GBngiNGHh2BujEGHvFxrs8pxU
-         TVnde7YKd/8n/5yXPSnsZYYhUlvdi+b9PrvoaFc7RlHNqMjddC/CNuk0bjGY8xDW5Z0U
-         maJg==
+        bh=gJt1HUYdy8U6R6Y/iiLH4E3a/lx/R50bWG12Pxbl3CA=;
+        b=BG5QiZXEt9X8eLSaO8ff1g1tCLo2OyCR+/gMKh/BtW8eKU2pBcpbTaGZZg33Bi+467
+         oTHcXGwf3H12AHwbyUAy/XkClbn5WExWG97Q1Oir8Y5d7fuRwvndrAEnvPMQlKZPM3ez
+         p4VwmJ+/gAtYUv8B690/JIdYdDu3vUZbM+HJZWXsR8xXGEEzBdG5dgYGPmUsQTLM3omc
+         wzK6ZYFnrj+qknPzqnnyW7QacmKToR3DzW14WuMaR6ubtr1VlaGUeMIzRpWc8dYlJUUT
+         Dr8UHfLV0krNLOHEChO+NJ/8vHBwUP17qV9kN2vnj72OFsmuKEH55AVoTzNNzDUcm9GD
+         wjTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=VgI5Yu4w0eiS/zXJAZeDkXaki8UmLvLXRFK+ARWpNsY=;
-        b=ZF6Vu2cLMZH4oydJKyzwHJLIQDdWFs46zTWwQVc0FldQojPxYwPMQ/ZvKBbi287Nym
-         RgfLo0GRhnQcyo2V/xg/DufyRNMjFNjFYNIp4xKnQDOGZiJcFJBA2c3LIy2cqMnhLIjp
-         aWX9aiy+CL9Ww0i9zfZxeZVq7PJgMdEiXjb/txVifPiJyDTT5z+GKhJlQlCES7h53J3O
-         Var/Z0dX0Ht88zhdt37U0zSbVOU915EWeoAp6Sk8poIAlIQN7GrY6Dy2y3exDVx9JcyQ
-         smauoZnVZpSFd3pweQNbQflGh2IuJUWcL7d9w1I1lNOHgxYSnO1rhvbFqEEJoq1p6ktN
-         Oiog==
-X-Gm-Message-State: APjAAAXjipFxMhWANeW8MJswNFkJJMSyWj/K0R/tkOsetsMASAOQvACq
-        /MlTVZaDM96lA3Z27is8w+PEDYEC
-X-Google-Smtp-Source: APXvYqz5eGQLP4wiz0uR/deC/f2mDITtdHc5EF7oLrpKTSLxjYX8oXmVXB/XJEPdKE6+imWVSZvK4w==
-X-Received: by 2002:adf:eccd:: with SMTP id s13mr8803968wro.288.1568924806413;
-        Thu, 19 Sep 2019 13:26:46 -0700 (PDT)
+        bh=gJt1HUYdy8U6R6Y/iiLH4E3a/lx/R50bWG12Pxbl3CA=;
+        b=W93acUOO5MXFvC0w2V/yU0Bjo9IukvZsC/xohKqTWQj+A1en/zwEB3ubVfs9F9h+Ug
+         gUAw8vSRAwhwe1NX/G7eVUPwRnzIEDIbOzNUY3nK4NSxbsU6ufzMSCqkVIh5QKHOJtRd
+         vdQn+zOozLzXs/8em0gc4eTdBNf62CqAFpY5503ynjoJb7B4qFFLBIv/5dp1j3khsB5S
+         c2jftxbhnapoLhCny9Trq2rqpHYLlRtpvv8GxeeLbiORNk059e0qWpNIzQeSDaiIcrSY
+         ybQ2t4E6vopOguFYw+9QHwYkUfwo1iw1FCRSItvxOiLnNGxaNP+Xha1U12nekiZy1xrA
+         +5Ww==
+X-Gm-Message-State: APjAAAX0+Uli4o8AVV37wXgIkuCl+d612oihGmA2XJhggthizSQ1Bwsw
+        vFZVxhvNc4fA/uFW+eItpitsUBRB
+X-Google-Smtp-Source: APXvYqzkh/qlSaGjidsis39yxGEQOTkCwIo+TYLn5SGTl8d8NxWYjWClbAfBHEj0yDY0H/EsBnAlpg==
+X-Received: by 2002:adf:f008:: with SMTP id j8mr9203826wro.75.1568925337563;
+        Thu, 19 Sep 2019 13:35:37 -0700 (PDT)
 Received: from [192.168.1.19] (bgr130.neoplus.adsl.tpnet.pl. [83.28.81.130])
-        by smtp.gmail.com with ESMTPSA id 207sm12109317wme.17.2019.09.19.13.26.45
+        by smtp.gmail.com with ESMTPSA id q10sm19953606wrd.39.2019.09.19.13.35.35
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 19 Sep 2019 13:26:45 -0700 (PDT)
-Subject: Re: [PATCH] drivers: leds: tlc591xx: check error during device init
-To:     Daniel Mack <daniel@zonque.org>
-Cc:     linux-leds@vger.kernel.org
-References: <20190913180749.25740-1-daniel@zonque.org>
+        Thu, 19 Sep 2019 13:35:36 -0700 (PDT)
+Subject: Re: [PATCH] leds-bcm63xx: Use devm_platform_ioremap_resource() in two
+ functions
+To:     Markus Elfring <Markus.Elfring@web.de>, linux-leds@vger.kernel.org,
+        =?UTF-8?Q?=c3=81lvaro_Fern=c3=a1ndez_Rojas?= <noltari@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Himanshu Jha <himanshujha199640@gmail.com>
+References: <b6ea044c-c483-0de6-67c5-5ea2fa3c85aa@web.de>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -108,12 +114,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <90e00401-3903-f65d-e670-1ffa28e59e22@gmail.com>
-Date:   Thu, 19 Sep 2019 22:26:44 +0200
+Message-ID: <658bd05d-376d-adfd-64a5-e20f83d7b90a@gmail.com>
+Date:   Thu, 19 Sep 2019 22:35:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190913180749.25740-1-daniel@zonque.org>
+In-Reply-To: <b6ea044c-c483-0de6-67c5-5ea2fa3c85aa@web.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -122,43 +128,26 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Daniel,
+Hi Markus,
 
 Thank you for the patch.
 
-On 9/13/19 8:07 PM, Daniel Mack wrote:
-> The driver currently ignores errors from register writes at probe time.
-> It will hence register an LED class device no matter whether the
-> pyhsical device is present or not.
-> 
-> To fix this, make the device probe fail in case regmap operations
-> return an error.
-> 
-> Signed-off-by: Daniel Mack <daniel@zonque.org>
-> ---
->  drivers/leds/leds-tlc591xx.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-> index 59ff088c7d75..00702824d27c 100644
-> --- a/drivers/leds/leds-tlc591xx.c
-> +++ b/drivers/leds/leds-tlc591xx.c
-> @@ -147,7 +147,10 @@ tlc591xx_configure(struct device *dev,
->  	unsigned int i;
->  	int err = 0;
->  
-> -	tlc591xx_set_mode(priv->regmap, MODE2_DIM);
-> +	err = tlc591xx_set_mode(priv->regmap, MODE2_DIM);
-> +	if (err < 0)
-> +		return err;
-> +
->  	for (i = 0; i < TLC591XX_MAX_LEDS; i++) {
->  		struct tlc591xx_led *led = &priv->leds[i];
->  
-> 
+Please split it to two separate ones - one per affected driver.
 
-Applied.
-
--- 
 Best regards,
 Jacek Anaszewski
+
+On 9/18/19 10:55 AM, Markus Elfring wrote:
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Wed, 18 Sep 2019 10:45:24 +0200
+> 
+> Simplify these function implementations by using a known function.
+> 
+> This issue was detected by using the Coccinelle software.
+> 
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> ---
+>  drivers/leds/leds-bcm6328.c | 7 +------
+>  drivers/leds/leds-bcm6358.c | 7 +------
+>  2 files changed, 2 insertions(+), 12 deletions(-)
+
