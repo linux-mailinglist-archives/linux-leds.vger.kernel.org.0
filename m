@@ -2,51 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B6C5B8F60
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 13:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 084B9B8FB5
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 14:25:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408821AbfITL6R (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Sep 2019 07:58:17 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:52760 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408806AbfITL6P (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 07:58:15 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8KBwCXN068213;
-        Fri, 20 Sep 2019 06:58:12 -0500
+        id S2408968AbfITMZv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Sep 2019 08:25:51 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:49434 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408945AbfITMZu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 08:25:50 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8KCPjSE071956;
+        Fri, 20 Sep 2019 07:25:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1568980692;
-        bh=ZOcqTLVEr3nn+41wnlCxrgM97BsSS51UgwOEyQKYKck=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=UGSxoOX2o9c7Lwca1bKP/XInNcgAei18NKCF9hh7PKaxgevpJxr03D7eCC74Op9kl
-         H+9svBTKJ432XudHbnh2NMwyu3KlNzTgfs3JBnfXLR4ZUXiFcvDCxoScD5yvjwkTn6
-         P+9xib5uoKDn7Jq6hGcxMPwdkR7eWuAq9TLsgw8o=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8KBwCnU099046
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 20 Sep 2019 06:58:12 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+        s=ti-com-17Q1; t=1568982346;
+        bh=4TyJ5sizsTzi/H33Mo1wWvezZRRG5B0ADthV0dE35aI=;
+        h=From:To:CC:Subject:Date;
+        b=IdJ6fdlLW78lRCYMwbOIiIJJH0hm/utSpaDmuL7BnOW0hrXUBEs8hNmJEcrFlfHrg
+         vBGuPCRihgLp7Vc0vqbafd1xUib/UxZhh9VnpIiKb6my1chGPfrvpHjXyXdv10eem9
+         UKbql1OR93ipflY4bQ/FpbA91lUqlRPdfDTleveY=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8KCPj2X095282;
+        Fri, 20 Sep 2019 07:25:45 -0500
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 20
- Sep 2019 06:58:12 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2019 07:25:41 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 20 Sep 2019 06:58:08 -0500
+ Frontend Transport; Fri, 20 Sep 2019 07:25:41 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8KBwBsv063748;
-        Fri, 20 Sep 2019 06:58:12 -0500
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8KCPiY1016302;
+        Fri, 20 Sep 2019 07:25:45 -0500
 From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <dmurphy@ti.com>
-CC:     <tomi.valkeinen@ti.com>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
+To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
+        <daniel.thompson@linaro.org>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dmurphy@ti.com>, <tomi.valkeinen@ti.com>,
         Jean-Jacques Hiblot <jjhiblot@ti.com>
-Subject: [PATCH v4 2/2] leds: tlc591xx: use devm_led_classdev_register_ext()
-Date:   Fri, 20 Sep 2019 13:58:06 +0200
-Message-ID: <20190920115806.14475-3-jjhiblot@ti.com>
+Subject: [PATCH v4 0/3] leds: Add control of the voltage/current regulator to the LED core
+Date:   Fri, 20 Sep 2019 14:25:22 +0200
+Message-ID: <20190920122525.15712-1-jjhiblot@ti.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190920115806.14475-1-jjhiblot@ti.com>
-References: <20190920115806.14475-1-jjhiblot@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
@@ -55,48 +53,43 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Use devm_led_classdev_register_ext() to pass the fwnode to the LED core.
-The fwnode can then be used by the firmware core to create meaningful
-names.
+This series makes it possible for the LED core to manage the power supply
+of a LED. It uses the regulator API to disable/enable the power if when the
+LED is turned on/off.
+This is especially useful in situations where the LED driver/controller is
+not supplying the power.
+Because updating a regulator state can block, it is always defered to
+set_brightness_delayed().
 
-Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
----
- drivers/leds/leds-tlc591xx.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+changes in v4:
+- Add a new patch to make led_set_brightness_sync() use
+  led_set_brightness_nosleep() and then wait the work to be done
+- Rework how the core knows how the regulator needs to be updated.
 
-diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index bbdaa3148317..8eadb673dc2e 100644
---- a/drivers/leds/leds-tlc591xx.c
-+++ b/drivers/leds/leds-tlc591xx.c
-@@ -186,6 +186,9 @@ tlc591xx_probe(struct i2c_client *client,
- 
- 	for_each_child_of_node(np, child) {
- 		struct tlc591xx_led *led;
-+		struct led_init_data init_data = {};
-+
-+		init_data.fwnode = of_fwnode_handle(child);
- 
- 		err = of_property_read_u32(child, "reg", &reg);
- 		if (err) {
-@@ -200,8 +203,6 @@ tlc591xx_probe(struct i2c_client *client,
- 		led = &priv->leds[reg];
- 
- 		led->active = true;
--		led->ldev.name =
--			of_get_property(child, "label", NULL) ? : child->name;
- 		led->ldev.default_trigger =
- 			of_get_property(child, "linux,default-trigger", NULL);
- 
-@@ -209,7 +210,8 @@ tlc591xx_probe(struct i2c_client *client,
- 		led->led_no = reg;
- 		led->ldev.brightness_set_blocking = tlc591xx_brightness_set;
- 		led->ldev.max_brightness = LED_FULL;
--		err = devm_led_classdev_register(dev, &led->ldev);
-+		err = devm_led_classdev_register_ext(dev, &led->ldev,
-+						     &init_data);
- 		if (err < 0) {
- 			dev_err(dev, "couldn't register LED %s\n",
- 				led->ldev.name);
+changes in v3:
+- reword device-tree description
+- reword commit log
+- remove regulator updates from functions used in atomic context. If the
+  regulator must be updated, it is defered to a workqueue.
+- Fix led_set_brightness_sync() to work with the non-blocking function
+  __led_set_brightness()
+
+changes in v2:
+- use devm_regulator_get_optional() to avoid using the dummy regulator and
+  do some unnecessary work
+
+Jean-Jacques Hiblot (3):
+  led: make led_set_brightness_sync() use led_set_brightness_nosleep()
+  dt-bindings: leds: document the "power-supply" property
+  leds: Add control of the voltage/current regulator to the LED core
+
+ .../devicetree/bindings/leds/common.txt       |  6 ++
+ drivers/leds/led-class.c                      | 17 ++++
+ drivers/leds/led-core.c                       | 77 +++++++++++++++++--
+ drivers/leds/leds.h                           |  3 +
+ include/linux/leds.h                          |  5 ++
+ 5 files changed, 101 insertions(+), 7 deletions(-)
+
 -- 
 2.17.1
 
