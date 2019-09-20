@@ -2,59 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45754B8FD0
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 14:30:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EC27B8FC8
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 14:28:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404619AbfITMaL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Sep 2019 08:30:11 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:36404 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404361AbfITMaL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 08:30:11 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8KCU2YC033049;
-        Fri, 20 Sep 2019 07:30:02 -0500
+        id S2408981AbfITM2g (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Sep 2019 08:28:36 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:42216 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406113AbfITM2g (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 08:28:36 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8KCSXIN097923;
+        Fri, 20 Sep 2019 07:28:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1568982602;
-        bh=Ol6M1ir1cCrFdmazeVk2q4bf7wGJSKlf95XAGkQx4QI=;
+        s=ti-com-17Q1; t=1568982513;
+        bh=nE9H3GYPX50OkTC4fJZHCfiqTllBS2vIxWYseW0TEsE=;
         h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=g6ERzpJLElkXyrwSOCdMpa7F1RcjgTNgqoC+4auEB6mhfweL9MVlnHxcYuu4uorgO
-         dEuVOG9IUnsqWNRKO4/gSW/+qnBCev1RV9dpzJs17FOWNY34+cTyDR4HwJd0MT/IOt
-         ADi2t+SMA5Jh6YGisQvtGT3gz+kAI1dnbB7B/1Rs=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8KCU2G7130077
+        b=JOzlTELDzsMA0j69dhIVDLNifj5dO5caECg+SaYHU8VBeFMKDVtx18TfkQP4zwW9r
+         0eP4IPV+erKNz2LUHLNcDYri8BS9q/7wso8M3UJQHx9wj99QKrWkXoT+VHKyNGASt2
+         IAyW3XxD0xFmk5opr6jrDFK7DDdFWJ/Megy9QxBk=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8KCSX1M007557
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 20 Sep 2019 07:30:02 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+        Fri, 20 Sep 2019 07:28:33 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 20
- Sep 2019 07:30:02 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2019 07:28:29 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 20 Sep 2019 07:29:58 -0500
-Received: from [10.250.98.129] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8KCU0tP108372;
-        Fri, 20 Sep 2019 07:30:00 -0500
-Subject: Re: [PATCH v3 2/3] leds: Add control of the voltage/current regulator
- to the LED core
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <daniel.thompson@linaro.org>
-CC:     <dmurphy@ti.com>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20190717135948.19340-1-jjhiblot@ti.com>
- <20190717135948.19340-3-jjhiblot@ti.com>
- <4bd3b558-ea5b-0d2e-16b2-5b2e8bb484d2@gmail.com>
- <49152281-059c-6006-4c0f-a6be96a12707@ti.com>
- <928fd71b-d1d3-cbf3-1aed-ae7fa97f6cf0@gmail.com>
-From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
-Message-ID: <ce73712c-8931-9177-fbbf-f42dc3d656e6@ti.com>
-Date:   Fri, 20 Sep 2019 14:29:58 +0200
+ Frontend Transport; Fri, 20 Sep 2019 07:28:29 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8KCSXtQ027841;
+        Fri, 20 Sep 2019 07:28:33 -0500
+Subject: Re: [PATCH v6 6/9] leds: multicolor: Introduce a multicolor class
+ definition
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190917175937.13872-1-dmurphy@ti.com>
+ <20190917175937.13872-6-dmurphy@ti.com>
+ <ff1d2ede-6bdf-8f73-9e89-0e990cce09a7@gmail.com>
+ <e1de10a6-49ad-c7f2-9246-5bee29f58c80@ti.com>
+ <045e1988-176c-b5ea-73cb-182b6210a3db@gmail.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <b9aa67ce-50f5-c9d8-b3d1-f6eedc133876@ti.com>
+Date:   Fri, 20 Sep 2019 07:31:44 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <928fd71b-d1d3-cbf3-1aed-ae7fa97f6cf0@gmail.com>
+In-Reply-To: <045e1988-176c-b5ea-73cb-182b6210a3db@gmail.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -64,102 +61,78 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jacek,
+Jacek
 
-On 18/07/2019 19:49, Jacek Anaszewski wrote:
-> On 7/18/19 3:31 PM, Jean-Jacques Hiblot wrote:
->> On 18/07/2019 14:24, Jacek Anaszewski wrote:
->>> Hi Jean,
+On 9/19/19 4:32 PM, Jacek Anaszewski wrote:
+> Dan,
+>
+> On 9/19/19 3:07 AM, Dan Murphy wrote:
+>> Jacek
+>>
+>> On 9/18/19 4:27 PM, Jacek Anaszewski wrote:
+>>> Hi Dan,
 >>>
->>> Thank you for the updated patch set.
->>>
->>> I have some more comments below.
->>>
->>> On 7/17/19 3:59 PM, Jean-Jacques Hiblot wrote:
->>>>    +static bool __led_need_regulator_update(struct led_classdev
->>>> *led_cdev,
->>>> +                    int brightness)
->>>> +{
->>>> +    bool new_state = (brightness != LED_OFF);
->>> How about:
->>>
->>> bool new_state = !!brightness;
->> Throughout the code LED_OFF is used when the LED is turned off. I think
->> it would be more consistent to use it there too.
-> Basically brightness is a scalar and 0 always means off.
-> We treat enum led_brightness as a legacy type - it is no
-> longer valid on the whole its span since LED_FULL = 255
-> was depreciated with addition of max_brightness property.
+>>> I think Greg's guidance clarified everything nicely -
+>>> we will avoid <color> sub-dirs in favour of prefixes
+>>> to *intensity and *max_intensity.
+>> Yes I will make the change accordingly.  It will simplify the code.
+>>> Before you will send an update I have some improvement
+>>> ideas regarding the remnants after the previous approach,
+>>> where single color intensity update resulted in updating
+>>> hardware state. Now the update will happen only on write to
+>>> brightness file, so we will not need color_set/color_get ops
+>>> anymore.
+>> I left those call backs in specifically for the LP50xx. Otherwise the
+>> LEDs are only updated when the brightness file is written.
+>> The LP50xx has an engine that performs the intensity computation for the
+>> specific LED.  So there is no call back to the MC FW for calculating the
+>> intensity.
+>>
+>> The brightness and intensity are written directly to the device and the
+>> MCU in the device does all the computations so you have real time update.
+> You can still handle that in brightness_set op. You need to compare
+> which color channels have changed and update them in hardware in
+> addition to setting LEDn_BRIGHTNESS register.
 >
-> IMHO use of reverse logic here only hinders code analysis.
->
->>>> +
->>>> +    return led_cdev->regulator && led_cdev->regulator_state !=
->>>> new_state;
->>>> +}
->>>> +static int __led_handle_regulator(struct led_classdev *led_cdev,
->>>> +                int brightness)
->>>> +{
->>>> +    int rc;
->>>> +
->>>> +    if (__led_need_regulator_update(led_cdev, brightness)) {
->>>> +
->>>> +        if (brightness != LED_OFF)
->>>> +            rc = regulator_enable(led_cdev->regulator);
->>>> +        else
->>>> +            rc = regulator_disable(led_cdev->regulator);
->>>> +        if (rc)
->>>> +            return rc;
->>>> +
->>>> +        led_cdev->regulator_state = (brightness != LED_OFF);
->>>> +    }
->>>> +    return 0;
->>>> +}
->>> Let's have these function names without leading underscores.
->> OK.
->>>>    static int __led_set_brightness(struct led_classdev *led_cdev,
->>>>                    enum led_brightness value)
->>>>    {
->>>> @@ -115,6 +142,8 @@ static void set_brightness_delayed(struct
->>>> work_struct *ws)
->>>>        if (ret == -ENOTSUPP)
->>>>            ret = __led_set_brightness_blocking(led_cdev,
->>>>                        led_cdev->delayed_set_value);
->>>> +    __led_handle_regulator(led_cdev, led_cdev->delayed_set_value)
->>> If you called it from __led_set_brightness() and
->> We cannot call it from __led_set_brightness() because it is supposed not
->> to block.
-> You're right. The problematic part is that with regulator handling
-> we cannot treat the whole brightness setting operation uniformly
-> for brightness_set op case, i.e. without mediation of a workqueue.
->
-> Now you have to fire workqueue in led_set_brightness_nopm()
-> even for brightness_set() op path, if regulator state needs update.
-> This is ugly and can be misleading. Can be also error prone and
-> have non-obvious implications for software blink state transitions.
+> And yes - even updating a single color will need two operations:
 
-Taking your queue I reworked the series to take better care of the 
-concurrency issues.
+If we kept the ops then the LP50xx device would only need one operation 
+to the led intensity file to update the color.
 
-I believe it's in better shape right now.
+> echo 231 >  colors/red_intensity // only cache the color in MC core
+> echo 100 > brightness // do the actual hw update
+And this is the way the LP55xx device works now.
+>
+> Note that brightness value doesn't have to be necessarily different
+> from the previous one here, but writing brightness file will be needed
+> to trigger the hw update.
+>
+>> For the LP55xx device the LEDs are only updated when the brightness file
+>> is written.
+>>
+>> I think we can leave those call backs in if device driver or product
+>> development teams would like to use them.
+> I'd not do that - it will be confusing. We can accomplish everything
+> in brightness_set{_blocking} op. It will have also the advantage of
+> same ABI semantics across all devices. Otherwise we would need separate
+> documentation for devices like LP50xx.
+
+OK I am not going to argue this I will just remove the ops even though I 
+don't agree.
+
+Removing the ops will just make the LP50xx driver more complex then what 
+it needs to be.
+
+I will post v8 later today.
 
 >
-> I think we would first need to improve locking between the workqueue
-> and led_timer_function(). I proposed a patch [0] over a year
-> ago.
+> I have also another question - what with linear vs logarithmic
+> LP50xx brightness scale? I think we should make both options available
+> to the userspace.
 
-I tried the patch and get a lot of warning because of triggers on 
-storage devices.
+I have no requirements from customers to provide this scaling.
 
-Making led_set_brightness() not callable from a IRQ context, is probably 
-not the right approach anymore.
+It can be an enhancement to the driver later if we get the request.
 
+Dan
 
-JJ
-
->
-> Only then we could think of adding another asynchronous dependency
-> to the brightness setting chain.
->
-> [0] https://lkml.org/lkml/2018/1/17/1144
->
