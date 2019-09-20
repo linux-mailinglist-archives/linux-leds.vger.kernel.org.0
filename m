@@ -2,28 +2,28 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9270B8FE2
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 14:40:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ECCFB8FFD
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 14:51:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726283AbfITMkd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Sep 2019 08:40:33 -0400
-Received: from mout.web.de ([212.227.15.4]:50819 "EHLO mout.web.de"
+        id S1726463AbfITMul (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Sep 2019 08:50:41 -0400
+Received: from mout.web.de ([212.227.15.14]:32841 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726276AbfITMkd (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 20 Sep 2019 08:40:33 -0400
+        id S1726223AbfITMul (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 20 Sep 2019 08:50:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1568983226;
-        bh=ICllt23EDlAXp0ZD2T14az/Ixb5oynPLqxBTWxzBQOA=;
+        s=dbaedf251592; t=1568983836;
+        bh=kEx851ItGCqytQT37a7Mq3kVPSQnaFF1ENrLg9m1LCI=;
         h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=LIdeEt4UUUC5pdjjfA2+/Y2czYz3KAQqgcCTqaEuBB4BWTVRH7eVq6whFh8pGte0n
-         3iNWkui4SNeb/ihrtFhgcfkbEFa5TMgCtWBr1RDSmLJDi3ZJ4drhJfx9OIkhuoiswr
-         T1U4NvVaX0zvqeg57UqtCAIhiwQE5vg2h25i1YVM=
+        b=GC+hXvEkYtsEpokQhD/AKNHxFAva4d0maGXSd+TAUUvWqFPZDHjIcSgmML0vlDjHH
+         ffLi3xiRDBfOXYOXGRHK2XmupJI0KVx2ZCZXof31rx0Nqk1FHkCylS63fzXwu+1I7m
+         fjDgvCsxw8DrzRvNWFE4mPBnbfNeSNN/rCZzfNWg=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([2.244.117.22]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MDxSJ-1iQT131OvP-00HNWp; Fri, 20
- Sep 2019 14:40:26 +0200
-Subject: [PATCH v2] leds-bcm6328: Use devm_platform_ioremap_resource() in
- bcm6328_leds_probe()
+Received: from [192.168.1.2] ([2.244.117.22]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0Lrrva-1i3y693aYw-013afw; Fri, 20
+ Sep 2019 14:50:35 +0200
+Subject: [PATCH v2] leds-bcm6358: Use devm_platform_ioremap_resource() in
+ bcm6358_leds_probe()
 To:     linux-leds@vger.kernel.org,
         =?UTF-8?Q?=c3=81lvaro_Fern=c3=a1ndez_Rojas?= <noltari@gmail.com>,
         Dan Murphy <dmurphy@ti.com>,
@@ -77,8 +77,8 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <bd063a0e-d541-b95f-add1-90edde0acf50@web.de>
-Date:   Fri, 20 Sep 2019 14:40:25 +0200
+Message-ID: <45982431-f597-29fb-abef-fb2952296f39@web.de>
+Date:   Fri, 20 Sep 2019 14:50:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
@@ -86,37 +86,37 @@ In-Reply-To: <658bd05d-376d-adfd-64a5-e20f83d7b90a@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:RHnbqsOlm3xcH1RayjvghUe7cW515Z/Q+qe9QxCcwNz6+7fyQzk
- RbMnFVwK5wC/O92V4TOk2HUNedx5qlry6TeEHns3EANzUL1/WK0gha1HHHrJFV9KmVYz75y
- 0gMJ1tDa50dvY1xy0C8SqlZB503maNHeYA2i5OtESnzPelU15n1R4I4njR5Mg4f9sx4HRnb
- pR6YJpOGSdA2bCVeJK4Lg==
+X-Provags-ID: V03:K1:CUtzK7SzSSzi+k31lRuFx8QcQXp8c3me6I2s0TfFdWYmIL7uUMv
+ x7XmGKpX8hJW6//eg3hTrkOuHZk/Yv7Y8s0T2iQya//Oc5465VLlokk+CVu8NIq2rQw3/K5
+ qu2b/8x1jFuflv9QUQirEK2Qp3tlWhyuLBuVSvClOWl8zEpEbKccgwLnfeB+uQFrRCbaLcH
+ B2JbpQ1droi7O43l1rmLQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VNwMEYDc2Pk=:9uqeraGyMZ6/NMYDE5M5P0
- K2NZzLrww39WejQ7JjdGePxt/F0GBPemIHvziNZginE0d5qrUOcT9OCnoXPskwhY6bhc96nnw
- Tw1yWVnXJB9Ildfy3xxxy71UMQsh4lRMGmcJT2N6r2ZS9E/vtcYWb7+EkEMP5dnBopl4ygTrN
- Iac3QjwJaB2sOtz2AnWGWxqCwBF5Upna/f5jLSFP4W4z8F4HM5B822KL7ufE3Vm/15zMcoAGr
- LZWJ2AqToPezeSPDTt/cWyYnvfgfHfL8jPJY1yoMfY7ZWHs1+t07e1d0dxhBOBQ/Cn1iNDfEE
- vJzL52wC4NVs/5zlMX6hQ9X6ge+GwXVlInPUgJmsqgkFX68sqJW59hPUmerM88CP0fPFkA6mE
- 3ATzby0VydlM5PGDUJUtkHiO9JskFhmtjeuUdEGKlR65a7sH+cisg3gqzx+W3pwqAULmEgmcP
- n59aUDF7sS/4Bdmg1+ruI4D3+jSIHhF4mXGx3xJ09HjxjW/fyxTEqbMAxX/mR0/hA2crkYwYO
- JT2pzNF2GhZeLvw/cZFbmOz0gX4SGaZEM4EZAFwKlZI70ow8XxHqLR2UZdXCf8ViiT1KG1YtW
- R+blkw70JEUUJ718fCPYcMo/cQTCn8ZUUyr2C5gqUkd7Nm5lw7/PVjM08V1GUxfnwgADpy3UB
- Zd0ILxnSQpxAlNIbGww/kbHM+kL/hrhCU8IXBkOmnebqOSJrrlq+zbGYTgIb3ANM7ovw4Wrwv
- o8/ntBeN1SWvont/Fc5fWW641H/97uJ+fccMXDMKNvaUwAl3W2aSdCwA3xNZ9vXDLFOx+NWar
- CH5hu5IuYLNkuz6FouSRDhvzjkapWcNP7EX8lFKTjaGQYDm2DVUg1CYfMUJvXze7aSju9k0RY
- wiDBNm3eGIpuIUqJGGm8Vz2ZwKzNYO+yymGkhXHnMp8NWeG9iR0TcCc2JfY8Ug56xoUEMvZbW
- A87Dnr+qYzB+gEp8FLbS/fLonKU7erSJEAFVvlmGZop0NkNPfYx8YKd0eYbXFftj4SRwGzrT0
- B/FivRPZIelfy4THS7eGcAozGPzEgVZFSwaJoUz4aRM2qhhHJP166erkwXCKvkAPafhppLyfh
- aRco4M/A+60HuiteF30dkXU+MY/BNfx7oVNEZvoAcRrd7u0pAhbFHB9Hq5XblZL6JZwVOO3UN
- nsmwMj3dPm7WWC8KXEUFuYM322vQKirRp1GYvlIUFPh0fo1VV2VoK2grr8A6GT9PbGZcqnMXX
- cCele0tkF98350QasKxitECejKIHeLFIi319TjelJDIeC9XKJ+3Id0w9o2X0=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:J53LgZh2STs=:esznt7HvmkiY7U5arsmdof
+ UCLq6lSQxOOdaWivhNOEXerTqqjhubaaDc6zteYfpEcx/qPIz8TZsY+hHLzndJS6oBXs2GDwN
+ oCv2F7n1geNKEcchAydDidb4Zu331S6v1B13Wpoj4hKMQLb3nSIm9K5JPEHBP9IVIKPqRDUxX
+ nDVGJVFPFh+iIiqxhKaj83qdaB5MJsJVy45apyazUOCrRuxrIBWbSZZr0qiyY7hN+z1CXHyiG
+ 3Mw7Y1K5gm3ZZpueCNdPGQ9QWOUPzAzK7f7spDPWN82aPjLpfBauDx96C831pV99ZfqKawwZH
+ h3QznRKIBd9TNZioGzKIgO09FRewheXrx0iT6QaZJN3I5VYN8+BQ9wJadR+pnBhDqGJv3nj9f
+ kJqUvP//LtqXdTheqXLdzJUwAF3vfQ43g9qumV77EWFooeVccdLrfGjwYyQOGL1FQ0g3uXTsS
+ ONODnrAiPZgOnH7T2wiorH0Wbqz9nsOX3AgTd8Q+wBo8+XxNIYdeWwMiUqbRk1QMPwNAhqZtM
+ RkRgW4NcZfx95YRT9pxVs+BMCX/nHfxmSclD1sfSJomYAAoLosR9hFkZGJuNTx7O0hFxgAkkc
+ CBBjlvHdOY+x9XMK0Y83WbYxOmrxpF0k8lsCvBxmevTWq+IvOzf4w2JXcYhW74+B5umJAZ3Tq
+ pt/j9ALV/2BSlYKLUXZ7q8cwZok9gp0VtqR8v3QqXETmjuzLXdO90zx+RcS6XP9pIOQCuwHOp
+ PVWf7jxtpwqeqcAEz2TWUvghFne7aQsqwKS4ayJr2TflXlg+xCrqVmUc94CEQpPlCe+Vtz2zj
+ nhVzg/mzSyrp/+SkjIdUuPEaXkJqdOK/xtlAot/2DBIGAXVZSXe6SYHMqwzQ6oKEgNYYxqc1w
+ 9dOaEpgOXk6Bm1RBO4lE0QYX5bRCkcEe+KdLf4mLvNbNd8oAcB5wMxuk68OhZIRyYyt0UoAfe
+ Cmj9Prg5O8GAAqY2ZdTMfbLB+4S7HG/h/fq3DPMNp/RX+vHBNTb1I89lNAJWBqm2YQE7LItev
+ LvHdopoXllzMMbHERCr2YQrPDsd+ZcSBeAQbsw9ps/l922EjCfOBJyr+ta1C9ofezwJzL8h5w
+ ozDGq3bGYCb3n4ciB7Aneb+XC5iylPG6O1Ed6UsdYxc0g1EqUPynZegaSHrxV7CW63fvG1CDC
+ wDwPD4wYqP+Eed6H7CRha4QMR28EBPa7tyYO0exx09NBwIOep5VXppBob61uMMT3nITkwptPb
+ j06tFUId/HH7Uj0bscyRoxTMWouCBt1vPnrmlIVFX3NGkVCfWRpr5hPUfZd4=
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Fri, 20 Sep 2019 14:30:31 +0200
+Date: Fri, 20 Sep 2019 14:44:06 +0200
 
 Simplify this function implementation by using a known wrapper function.
 
@@ -127,23 +127,19 @@ Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 
 
 v2:
-
 Jacek Anaszewski requested to split updates for two modules
-
 into a separate patch for each driver.
-
 https://lore.kernel.org/r/658bd05d-376d-adfd-64a5-e20f83d7b90a@gmail.com/
 
 
-
- drivers/leds/leds-bcm6328.c | 7 +------
+ drivers/leds/leds-bcm6358.c | 7 +------
  1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/leds/leds-bcm6328.c b/drivers/leds/leds-bcm6328.c
-index c50d34e2b098..42e1b7598c3a 100644
-=2D-- a/drivers/leds/leds-bcm6328.c
-+++ b/drivers/leds/leds-bcm6328.c
-@@ -346,16 +346,11 @@ static int bcm6328_leds_probe(struct platform_device=
+diff --git a/drivers/leds/leds-bcm6358.c b/drivers/leds/leds-bcm6358.c
+index aec285fd21c0..94fefd456ba0 100644
+=2D-- a/drivers/leds/leds-bcm6358.c
++++ b/drivers/leds/leds-bcm6358.c
+@@ -151,17 +151,12 @@ static int bcm6358_leds_probe(struct platform_device=
  *pdev)
  	struct device *dev =3D &pdev->dev;
  	struct device_node *np =3D pdev->dev.of_node;
@@ -151,7 +147,8 @@ index c50d34e2b098..42e1b7598c3a 100644
 -	struct resource *mem_r;
  	void __iomem *mem;
  	spinlock_t *lock; /* memory lock */
- 	unsigned long val, *blink_leds, *blink_delay;
+ 	unsigned long val;
+ 	u32 clk_div;
 
 -	mem_r =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
 -	if (!mem_r)
