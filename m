@@ -2,32 +2,34 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02590B8A6D
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 07:27:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C266DB8A75
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 07:27:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408094AbfITF1O (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Sep 2019 01:27:14 -0400
-Received: from honk.sigxcpu.org ([24.134.29.49]:39698 "EHLO honk.sigxcpu.org"
+        id S2408098AbfITF1X (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Sep 2019 01:27:23 -0400
+Received: from honk.sigxcpu.org ([24.134.29.49]:39714 "EHLO honk.sigxcpu.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390510AbfITF1O (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        id S2392288AbfITF1O (ORCPT <rfc822;linux-leds@vger.kernel.org>);
         Fri, 20 Sep 2019 01:27:14 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id 4C2FFFB07;
-        Fri, 20 Sep 2019 07:27:11 +0200 (CEST)
+        by honk.sigxcpu.org (Postfix) with ESMTP id 0745CFB08;
+        Fri, 20 Sep 2019 07:27:13 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
         by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id e6bagnW90Xuz; Fri, 20 Sep 2019 07:27:10 +0200 (CEST)
+        with ESMTP id Sg_3lLmZ3W-e; Fri, 20 Sep 2019 07:27:10 +0200 (CEST)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id BB74848764; Thu, 19 Sep 2019 22:27:07 -0700 (PDT)
+        id C77F442244; Thu, 19 Sep 2019 22:27:07 -0700 (PDT)
 From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/5] leds: lm3692x: Probing and flag fixes
-Date:   Thu, 19 Sep 2019 22:27:02 -0700
-Message-Id: <cover.1568957104.git.agx@sigxcpu.org>
+Subject: [PATCH v2 1/5] leds: lm3692x: Print error value on dev_err
+Date:   Thu, 19 Sep 2019 22:27:03 -0700
+Message-Id: <7999f868f677e2f44ec81e7b9f300771b9fb1991.1568957104.git.agx@sigxcpu.org>
 X-Mailer: git-send-email 2.23.0.rc1
+In-Reply-To: <cover.1568957104.git.agx@sigxcpu.org>
+References: <cover.1568957104.git.agx@sigxcpu.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -36,36 +38,81 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The driver currently returns success on init although probing fails and
-register setup uses flag values from other registers which is confusing when
-reading the driver. This series cleans this up.
+This gives a way better idea what is going on.
 
-Changes from v1:
-- Add reviewed by's from Dan Murphy, thanks!
-  https://lore.kernel.org/linux-leds/cover.1568772964.git.agx@sigxcpu.org/T/#mc183f3f65931371fa9f9ca2e0e83e0b85010f24b
-  https://lore.kernel.org/linux-leds/cover.1568772964.git.agx@sigxcpu.org/T/#mb845fac36327a5d5dd03fe7e988eef0eb5626f82
-  https://lore.kernel.org/linux-leds/cover.1568772964.git.agx@sigxcpu.org/T/#m995bce73dda3e3bd4f0c2e8f98cbd04a39c13832
-- As per review comment from Dan Murphy
-  - Don't drop error message when disabling the regulator fails
-    https://lore.kernel.org/linux-leds/cover.1568772964.git.agx@sigxcpu.org/T/#m2ab6dc33b7277b71a197c3747847f1c4d9d9c1d8
-  - Handle -ENODEV (when the regulator is not set)
-    https://lore.kernel.org/linux-leds/cover.1568772964.git.agx@sigxcpu.org/T/#mf6212c29bbfa37b43200ea2c9744074de4f068ee
-- Add Acked-by from Pavel Machek, thanks!
-  https://lore.kernel.org/linux-leds/20190919095415.GA29939@amd/
+Signed-off-by: Guido Günther <agx@sigxcpu.org>
+Reviewed-by: Dan Murphy <dmurphy@ti.com>
+Acked-by: Pavel Machek <pavel@ucw.cz>
+---
+ drivers/leds/leds-lm3692x.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-To: Jacek Anaszewski <jacek.anaszewski@gmail.com>,Pavel Machek <pavel@ucw.cz>,Dan Murphy <dmurphy@ti.com>,linux-leds@vger.kernel.org,linux-kernel@vger.kernel.org
-
-
-Guido Günther (5):
-  leds: lm3692x: Print error value on dev_err
-  leds: lm3692x: Don't overwrite return value in error path
-  leds: lm3692x: Handle failure to probe the regulator
-  leds: lm3692x: Use flags from LM3692X_BOOST_CTRL
-  leds: lm3692x: Use flags from LM3692X_BRT_CTRL
-
- drivers/leds/leds-lm3692x.c | 45 ++++++++++++++++++++++++-------------
- 1 file changed, 29 insertions(+), 16 deletions(-)
-
+diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
+index 3d381f2f73d0..487228c2bed2 100644
+--- a/drivers/leds/leds-lm3692x.c
++++ b/drivers/leds/leds-lm3692x.c
+@@ -174,19 +174,20 @@ static int lm3692x_brightness_set(struct led_classdev *led_cdev,
+ 
+ 	ret = lm3692x_fault_check(led);
+ 	if (ret) {
+-		dev_err(&led->client->dev, "Cannot read/clear faults\n");
++		dev_err(&led->client->dev, "Cannot read/clear faults: %d\n",
++			ret);
+ 		goto out;
+ 	}
+ 
+ 	ret = regmap_write(led->regmap, LM3692X_BRT_MSB, brt_val);
+ 	if (ret) {
+-		dev_err(&led->client->dev, "Cannot write MSB\n");
++		dev_err(&led->client->dev, "Cannot write MSB: %d\n", ret);
+ 		goto out;
+ 	}
+ 
+ 	ret = regmap_write(led->regmap, LM3692X_BRT_LSB, led_brightness_lsb);
+ 	if (ret) {
+-		dev_err(&led->client->dev, "Cannot write LSB\n");
++		dev_err(&led->client->dev, "Cannot write LSB: %d\n", ret);
+ 		goto out;
+ 	}
+ out:
+@@ -203,7 +204,7 @@ static int lm3692x_init(struct lm3692x_led *led)
+ 		ret = regulator_enable(led->regulator);
+ 		if (ret) {
+ 			dev_err(&led->client->dev,
+-				"Failed to enable regulator\n");
++				"Failed to enable regulator: %d\n", ret);
+ 			return ret;
+ 		}
+ 	}
+@@ -213,7 +214,8 @@ static int lm3692x_init(struct lm3692x_led *led)
+ 
+ 	ret = lm3692x_fault_check(led);
+ 	if (ret) {
+-		dev_err(&led->client->dev, "Cannot read/clear faults\n");
++		dev_err(&led->client->dev, "Cannot read/clear faults: %d\n",
++			ret);
+ 		goto out;
+ 	}
+ 
+@@ -409,7 +411,8 @@ static int lm3692x_remove(struct i2c_client *client)
+ 
+ 	ret = regmap_update_bits(led->regmap, LM3692X_EN, LM3692X_DEVICE_EN, 0);
+ 	if (ret) {
+-		dev_err(&led->client->dev, "Failed to disable regulator\n");
++		dev_err(&led->client->dev, "Failed to disable regulator: %d\n",
++			ret);
+ 		return ret;
+ 	}
+ 
+@@ -420,7 +423,7 @@ static int lm3692x_remove(struct i2c_client *client)
+ 		ret = regulator_disable(led->regulator);
+ 		if (ret)
+ 			dev_err(&led->client->dev,
+-				"Failed to disable regulator\n");
++				"Failed to disable regulator: %d\n", ret);
+ 	}
+ 
+ 	mutex_destroy(&led->lock);
 -- 
 2.23.0.rc1
 
