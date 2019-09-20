@@ -2,69 +2,115 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BDCB7B8F37
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 13:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA066B8F34
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 13:45:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438251AbfITLrp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Sep 2019 07:47:45 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:35183 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438250AbfITLro (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 07:47:44 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id D44FE814A7; Fri, 20 Sep 2019 13:47:28 +0200 (CEST)
-Date:   Fri, 20 Sep 2019 13:47:43 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        id S2438238AbfITLp4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Sep 2019 07:45:56 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:51394 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2438234AbfITLp4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 07:45:56 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8KBjniL065355;
+        Fri, 20 Sep 2019 06:45:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1568979949;
+        bh=BEDtAfL/joofY0lgoqbNbOuUs3KMuDnLnj1scx1TbUs=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=AXsSUJZ8PmVDa/FaDDUY3zbO/D4Sugk4DhZFVPQltzana+q7DiFUQ3sYnaRC2hOD0
+         JDOdXqCvcqbaMmGuE6BTFeHhEzmpdaTRD4XHfEYGGD3vPCtIpppFngBDDzEIda3CDu
+         c9BoPjG/9fX13931HIf8ggf/l07XAF0Spg+9/3p0=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8KBjn4d089246
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 20 Sep 2019 06:45:49 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 20
+ Sep 2019 06:45:49 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 20 Sep 2019 06:45:45 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8KBjn9w055169;
+        Fri, 20 Sep 2019 06:45:49 -0500
 Subject: Re: [PATCH v2 2/5] leds: lm3692x: Don't overwrite return value in
  error path
-Message-ID: <20190920114743.GA21835@amd>
+To:     =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
 References: <cover.1568957104.git.agx@sigxcpu.org>
  <e3ee36845c1555bd722807f85329341d5ec9728e.1568957104.git.agx@sigxcpu.org>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <2bde2870-08a3-38b9-9cd7-fee0e2107743@ti.com>
+Date:   Fri, 20 Sep 2019 06:48:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Qxx1br4bt0+wmkIi"
-Content-Disposition: inline
 In-Reply-To: <e3ee36845c1555bd722807f85329341d5ec9728e.1568957104.git.agx@sigxcpu.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Guido
 
---Qxx1br4bt0+wmkIi
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu 2019-09-19 22:27:04, Guido G=FCnther wrote:
+On 9/20/19 12:27 AM, Guido Günther wrote:
 > The driver currently reports successful initialization on every failure
 > as long as it's able to power off the regulator. Don't check the return
 > value of regulator_disable to avoid that.
->=20
-> Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
+>
+> Signed-off-by: Guido Günther <agx@sigxcpu.org>
+> ---
+>   drivers/leds/leds-lm3692x.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
+> index 487228c2bed2..31115655f97b 100644
+> --- a/drivers/leds/leds-lm3692x.c
+> +++ b/drivers/leds/leds-lm3692x.c
+> @@ -198,7 +198,7 @@ static int lm3692x_brightness_set(struct led_classdev *led_cdev,
+>   static int lm3692x_init(struct lm3692x_led *led)
+>   {
+>   	int enable_state;
+> -	int ret;
+> +	int ret, ret2;
+>   
+>   	if (led->regulator) {
+>   		ret = regulator_enable(led->regulator);
+> @@ -313,14 +313,15 @@ static int lm3692x_init(struct lm3692x_led *led)
+>   		gpiod_direction_output(led->enable_gpio, 0);
+>   
+>   	if (led->regulator) {
+> -		ret = regulator_disable(led->regulator);
+> -		if (ret)
+> +		ret2 = regulator_disable(led->regulator);
+> +		if (ret2)
+>   			dev_err(&led->client->dev,
+>   				"Failed to disable regulator\n");
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+s/ret2/reg_ret
 
---Qxx1br4bt0+wmkIi
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Like you did in patch 1 log the error code as well.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+If regulator_disabled failed you might want to send that error code but 
+either error returned is fine.
 
-iEYEARECAAYFAl2EvF8ACgkQMOfwapXb+vL38ACfYAEHteQpE9xQEhFdMg1L5EpJ
-e8cAn3bR4zgHOl0VqlkyAhhqaBR59NzF
-=nvK3
------END PGP SIGNATURE-----
+Dan
 
---Qxx1br4bt0+wmkIi--
+
+>   	}
+>   
+>   	return ret;
+>   }
+> +
+>   static int lm3692x_probe_dt(struct lm3692x_led *led)
+>   {
+>   	struct fwnode_handle *child = NULL;
