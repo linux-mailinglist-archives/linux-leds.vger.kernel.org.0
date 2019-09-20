@@ -2,60 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06983B9803
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 21:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3680EB9877
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 22:29:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729748AbfITTtH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Sep 2019 15:49:07 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:34083 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726807AbfITTtG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 15:49:06 -0400
-Received: by mail-wr1-f65.google.com with SMTP id a11so7997794wrx.1;
-        Fri, 20 Sep 2019 12:49:04 -0700 (PDT)
+        id S1728379AbfITU3g (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Sep 2019 16:29:36 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:38903 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728259AbfITU3g (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 16:29:36 -0400
+Received: by mail-wm1-f67.google.com with SMTP id 3so3415524wmi.3;
+        Fri, 20 Sep 2019 13:29:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Ke4QhjeEO2DgspR7pQqxAUwab6i64hfQ9ueBUqC4Yyo=;
-        b=dGZBTHNqqk6bSLhBfvJqx2a0CGqtoWnVZnahs9MmiwUyJjzdcUGexFyEXX7ni5bpJa
-         7hncGAJK5jOkTOsMEAjIlzZzklo39n3+21t0wLNHNzDP5JsoyaMW50JQTE16B7HSX5SI
-         nKiIspYsWTF8w/nksqnPuvuBO/Ks3vxpZe0BsM5vkDT2uJSUK3nnvPFv2GZWMx5nXPKA
-         t4WcXL12CaNor6c201AcXJME3MUE4tTGAJJdAtQD0jCAVsPUSYBxiz5i2vhH/nhY1rZe
-         bTs5yTx8TX25Mcv1a8poYkXLhZ6wtErWexi2YrEHFE/saYqcdoxQxenwwzRObTB2sO0/
-         mbaQ==
+        bh=tORgamMeFxE0aKietPttjgWj7GfkU1uIlscm8UxYn2k=;
+        b=TbHsV8xUplJWj/zhKPmdVwqbItDcuJBoTKs2v27AyJ5IqCd0WRdwASOUNB5ekah3Mc
+         1QX2nCJN6lgDKX0XvrL6bVYxz3G8dLmz8/6gLAVD7ioaZd31WptVMV6QTOPBJwecRvZj
+         g6lXFjtZmsTC51S+jfjmb95bWKgCAvfQRV+kZDGTr+6IaRYAOeHSwOuZ71m04ECM+CR/
+         Rnu6h8H4XoSYIHJCDVSO7WQcxdjSBP34MjqJFFMCMYwi+xv8oHbqiiUqwf645LY4nu+L
+         Wl3g5zWXSEIcJAq5u9esPtzOWaDBlfjK91EeEK++R7PrIY+o1f+9j/olzaPHAuju69XG
+         OefQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=Ke4QhjeEO2DgspR7pQqxAUwab6i64hfQ9ueBUqC4Yyo=;
-        b=N/8uFqq2eJHMVsPNBfocgdgbjIYfzRR8VPT7HUmbkLOEGiEQrprCsPp4Z3mbKceKuk
-         qFvQOvDe0z6HOzrUOdBzgNJCFSCSbfheCFX5vI4lt5EaaPRfGH0xiwFk3I0Jxyqlpbad
-         rY28hvG3ZGV4XxTNuhBcSwXb+/sPvGPHfzGCptMNn3Vq7DHztyWpA1gc0I8t5p+7+0bD
-         jokKDPHcZvyZfHx0EA4AbaEUpz9om3QpC2wrnb13Bw1+ZT/tzPSUAkPBVzfRoACX8HGI
-         htNnCO4G+ZYeZYXXx0C4edjTR6T9sBsqx/Os7PookRmU2hWhH4ncl4edTEIxQTc1CYaw
-         Zi5A==
-X-Gm-Message-State: APjAAAU+rNCzqNn/pJbFAvaZEmXKEqWtpfhf80aTAjedx5W14aPLs0gV
-        M2dUjNUdo897Px6HM5IU/cH/ZsXE
-X-Google-Smtp-Source: APXvYqzLL+kNVKNjREPcxk9XoUj7ByNkCJEEQYswR7dgdYUkYPbhYpxDoVHBFTS7g0atFVZKRtjAtA==
-X-Received: by 2002:a05:6000:1281:: with SMTP id f1mr12913262wrx.247.1569008943329;
-        Fri, 20 Sep 2019 12:49:03 -0700 (PDT)
+        bh=tORgamMeFxE0aKietPttjgWj7GfkU1uIlscm8UxYn2k=;
+        b=Z0ksavWWeHCtCSAT/wdFcF6LcEH7U/FnUUu7gDcb7VVSS7ADWzdOVLK6RIJ6KpWw1S
+         Sbkl/egC9ja9TPlhKdtbdvpAL9UTKlPV7+b75ENsw4Ag/s6jEviaO7VXi6dusurPAdkt
+         pmwyP0XG2RBsR/KfjxzPiBNkBf07d/mYSJdwl4KLToqdieOZL5DnPZy3wuZ/GcnqMeB/
+         2ElgoGSlsxVGsAh4dcoFE2oZckZeXhl2xGReZMSgat4u40Ewqmox2V3KSigEZ/UoetHP
+         7dEQQ9efcZMnNwtG1u6oxC86Tx2ym2YEpGtRcpGYeJc30WiRJTDizyBYNW1KPQGMZIcp
+         +nPg==
+X-Gm-Message-State: APjAAAXvta52n68QHoIge4OPWEMDWub0VQifU2GV8Swx+pm9WKjeognQ
+        e5R3lMzs8GDFn8fn7oalQfWqUBgg
+X-Google-Smtp-Source: APXvYqxq1UtJJZIRGU+518luXzWcohyYvza+JO7D9H/jc1l7vOd5AeiuTGIyUndW1LEpxHYrn+yH+A==
+X-Received: by 2002:a1c:9d0b:: with SMTP id g11mr4616942wme.22.1569011372830;
+        Fri, 20 Sep 2019 13:29:32 -0700 (PDT)
 Received: from [192.168.1.19] (chi109.neoplus.adsl.tpnet.pl. [83.31.6.109])
-        by smtp.gmail.com with ESMTPSA id y3sm13569774wmg.2.2019.09.20.12.49.01
+        by smtp.gmail.com with ESMTPSA id 189sm2808496wmz.19.2019.09.20.13.29.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 Sep 2019 12:49:02 -0700 (PDT)
-Subject: Re: [PATCH v2] leds-bcm6328: Use devm_platform_ioremap_resource() in
- bcm6328_leds_probe()
-To:     Markus Elfring <Markus.Elfring@web.de>, linux-leds@vger.kernel.org,
-        =?UTF-8?Q?=c3=81lvaro_Fern=c3=a1ndez_Rojas?= <noltari@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org
-References: <b6ea044c-c483-0de6-67c5-5ea2fa3c85aa@web.de>
- <658bd05d-376d-adfd-64a5-e20f83d7b90a@gmail.com>
- <bd063a0e-d541-b95f-add1-90edde0acf50@web.de>
+        Fri, 20 Sep 2019 13:29:32 -0700 (PDT)
+Subject: Re: [PATCH v4 2/2] leds: tlc591xx: use
+ devm_led_classdev_register_ext()
+To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz, dmurphy@ti.com
+Cc:     tomi.valkeinen@ti.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190920115806.14475-1-jjhiblot@ti.com>
+ <20190920115806.14475-3-jjhiblot@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -114,78 +111,75 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <72d7c197-e5ca-d51e-4c36-016147ce3d1c@gmail.com>
-Date:   Fri, 20 Sep 2019 21:49:00 +0200
+Message-ID: <b4387d66-febd-ff20-7b5e-e66e5de8a988@gmail.com>
+Date:   Fri, 20 Sep 2019 22:29:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <bd063a0e-d541-b95f-add1-90edde0acf50@web.de>
+In-Reply-To: <20190920115806.14475-3-jjhiblot@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Markus,
+Hi Jean,
 
-Thank you for the updated patch set.
+Thank you for the update.
 
-Applied to the for-5.5 branch.
+On 9/20/19 1:58 PM, Jean-Jacques Hiblot wrote:
+> Use devm_led_classdev_register_ext() to pass the fwnode to the LED core.
+> The fwnode can then be used by the firmware core to create meaningful
+> names.
+> 
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> ---
+>  drivers/leds/leds-tlc591xx.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
+> index bbdaa3148317..8eadb673dc2e 100644
+> --- a/drivers/leds/leds-tlc591xx.c
+> +++ b/drivers/leds/leds-tlc591xx.c
+> @@ -186,6 +186,9 @@ tlc591xx_probe(struct i2c_client *client,
+>  
+>  	for_each_child_of_node(np, child) {
+>  		struct tlc591xx_led *led;
+> +		struct led_init_data init_data = {};
+> +
+> +		init_data.fwnode = of_fwnode_handle(child);
+>  
+>  		err = of_property_read_u32(child, "reg", &reg);
+>  		if (err) {
+> @@ -200,8 +203,6 @@ tlc591xx_probe(struct i2c_client *client,
+>  		led = &priv->leds[reg];
+>  
+>  		led->active = true;
+> -		led->ldev.name =
+> -			of_get_property(child, "label", NULL) ? : child->name;
+>  		led->ldev.default_trigger =
+>  			of_get_property(child, "linux,default-trigger", NULL);
+>  
+> @@ -209,7 +210,8 @@ tlc591xx_probe(struct i2c_client *client,
+>  		led->led_no = reg;
+>  		led->ldev.brightness_set_blocking = tlc591xx_brightness_set;
+>  		led->ldev.max_brightness = LED_FULL;
 
+I was asking for removing tabove assignment, but we can always do that
+in the incremental patch.
+
+Patch set applied to the for-5.5 branch. Thanks.
+
+> -		err = devm_led_classdev_register(dev, &led->ldev);
+> +		err = devm_led_classdev_register_ext(dev, &led->ldev,
+> +						     &init_data);
+>  		if (err < 0) {
+>  			dev_err(dev, "couldn't register LED %s\n",
+>  				led->ldev.name);
+> 
+
+-- 
 Best regards,
 Jacek Anaszewski
-
-On 9/20/19 2:40 PM, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Fri, 20 Sep 2019 14:30:31 +0200
-> 
-> Simplify this function implementation by using a known wrapper function.
-> 
-> This issue was detected by using the Coccinelle software.
-> 
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> ---
-> 
-> 
-> v2:
-> 
-> Jacek Anaszewski requested to split updates for two modules
-> 
-> into a separate patch for each driver.
-> 
-> https://lore.kernel.org/r/658bd05d-376d-adfd-64a5-e20f83d7b90a@gmail.com/
-> 
-> 
-> 
->  drivers/leds/leds-bcm6328.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-bcm6328.c b/drivers/leds/leds-bcm6328.c
-> index c50d34e2b098..42e1b7598c3a 100644
-> --- a/drivers/leds/leds-bcm6328.c
-> +++ b/drivers/leds/leds-bcm6328.c
-> @@ -346,16 +346,11 @@ static int bcm6328_leds_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct device_node *np = pdev->dev.of_node;
->  	struct device_node *child;
-> -	struct resource *mem_r;
->  	void __iomem *mem;
->  	spinlock_t *lock; /* memory lock */
->  	unsigned long val, *blink_leds, *blink_delay;
-> 
-> -	mem_r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	if (!mem_r)
-> -		return -EINVAL;
-> -
-> -	mem = devm_ioremap_resource(dev, mem_r);
-> +	mem = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(mem))
->  		return PTR_ERR(mem);
-> 
-> --
-> 2.23.0
-> 
-> 
-
