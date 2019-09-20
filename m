@@ -2,57 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3680EB9877
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 22:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8852AB98C8
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 23:10:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728379AbfITU3g (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Sep 2019 16:29:36 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:38903 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728259AbfITU3g (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 16:29:36 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 3so3415524wmi.3;
-        Fri, 20 Sep 2019 13:29:33 -0700 (PDT)
+        id S2393322AbfITVKN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Sep 2019 17:10:13 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43048 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392396AbfITVKN (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 17:10:13 -0400
+Received: by mail-wr1-f66.google.com with SMTP id q17so8104221wrx.10;
+        Fri, 20 Sep 2019 14:10:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=tORgamMeFxE0aKietPttjgWj7GfkU1uIlscm8UxYn2k=;
-        b=TbHsV8xUplJWj/zhKPmdVwqbItDcuJBoTKs2v27AyJ5IqCd0WRdwASOUNB5ekah3Mc
-         1QX2nCJN6lgDKX0XvrL6bVYxz3G8dLmz8/6gLAVD7ioaZd31WptVMV6QTOPBJwecRvZj
-         g6lXFjtZmsTC51S+jfjmb95bWKgCAvfQRV+kZDGTr+6IaRYAOeHSwOuZ71m04ECM+CR/
-         Rnu6h8H4XoSYIHJCDVSO7WQcxdjSBP34MjqJFFMCMYwi+xv8oHbqiiUqwf645LY4nu+L
-         Wl3g5zWXSEIcJAq5u9esPtzOWaDBlfjK91EeEK++R7PrIY+o1f+9j/olzaPHAuju69XG
-         OefQ==
+        bh=NrIe7HL72ul8D55s30/aoVJeJG1mf1VDOxHKFaM4Nd4=;
+        b=OFERlMN9erWK5qmBoighlcfHG57Ll9ezBjwNzXsrc3XtV0mn3RpqdPvvo4qpUASVz6
+         U4ZgHvvfposjj4dcpPr6St0yVHQZywDdMJzR8BWxbngyjRPWiQoJiEdgYw+Hi4tv7d7x
+         OVMcx4R3fZ6Fa7yQ+Kmak8shrv7tHtDLbz8kPm7W6/l9Wi0RcEhTrvcvCrS9hED35aIF
+         QWyS1HAx5CixPcCWZpZdD8myWZvO50HgvjvtA/zV6G3N4JCDu1Px5+1DOy7u7vcntj+r
+         DLxDSV2sTozx1lZ8dHwg68/fWMQG7EJkEoOve1PrlMWgM7vJEdbCL50OgTq1kVTspVy8
+         NQJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=tORgamMeFxE0aKietPttjgWj7GfkU1uIlscm8UxYn2k=;
-        b=Z0ksavWWeHCtCSAT/wdFcF6LcEH7U/FnUUu7gDcb7VVSS7ADWzdOVLK6RIJ6KpWw1S
-         Sbkl/egC9ja9TPlhKdtbdvpAL9UTKlPV7+b75ENsw4Ag/s6jEviaO7VXi6dusurPAdkt
-         pmwyP0XG2RBsR/KfjxzPiBNkBf07d/mYSJdwl4KLToqdieOZL5DnPZy3wuZ/GcnqMeB/
-         2ElgoGSlsxVGsAh4dcoFE2oZckZeXhl2xGReZMSgat4u40Ewqmox2V3KSigEZ/UoetHP
-         7dEQQ9efcZMnNwtG1u6oxC86Tx2ym2YEpGtRcpGYeJc30WiRJTDizyBYNW1KPQGMZIcp
-         +nPg==
-X-Gm-Message-State: APjAAAXvta52n68QHoIge4OPWEMDWub0VQifU2GV8Swx+pm9WKjeognQ
-        e5R3lMzs8GDFn8fn7oalQfWqUBgg
-X-Google-Smtp-Source: APXvYqxq1UtJJZIRGU+518luXzWcohyYvza+JO7D9H/jc1l7vOd5AeiuTGIyUndW1LEpxHYrn+yH+A==
-X-Received: by 2002:a1c:9d0b:: with SMTP id g11mr4616942wme.22.1569011372830;
-        Fri, 20 Sep 2019 13:29:32 -0700 (PDT)
+        bh=NrIe7HL72ul8D55s30/aoVJeJG1mf1VDOxHKFaM4Nd4=;
+        b=gWvOHCdhVcMqTISrfcjCZAukVa4OWyyVb8+te4txXGe4lLYEoKTfJnw8rcO2a6yl+e
+         Dp47XMYsKurg2cRcPY7QiRD/yepz3uwkSTmFAnZjXSFBBm+ID6utUIY8rN24q/mYxpX4
+         y7E4YU220fY8EkSl87SoYPdnGA9NFtWw6UCsr7ejYjhO6m4/LsmEinAk1IV4dHo5rHuo
+         2/NGqP3iS+nzl8kpFKuA4wKcYpHFb65SK18Z0FobUH3fjQOmsged5rwibADn2YdRqaJo
+         87ZRbnILllnsV1KuZfqUeNR7mdosrAP/ghmUJNYzmkoFaDNjRv+0HnRfPuYUzIfDQlCl
+         oUIw==
+X-Gm-Message-State: APjAAAVYv/4Jd5gGjbdVvvF/XH9F1EbfktH4gJMnONAI7shGO07/B+7d
+        XZtLflpj1T+1EPBfjKAS5Ew=
+X-Google-Smtp-Source: APXvYqxXFY4dr8Q9B2Oif3dDjsD2czd8O0U5j/d774duJ2tww4lMyZwaFrd5jKw7XP56GEYSzOaLMg==
+X-Received: by 2002:adf:f790:: with SMTP id q16mr13814747wrp.164.1569013810347;
+        Fri, 20 Sep 2019 14:10:10 -0700 (PDT)
 Received: from [192.168.1.19] (chi109.neoplus.adsl.tpnet.pl. [83.31.6.109])
-        by smtp.gmail.com with ESMTPSA id 189sm2808496wmz.19.2019.09.20.13.29.31
+        by smtp.gmail.com with ESMTPSA id y13sm4676461wrg.8.2019.09.20.14.10.08
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 Sep 2019 13:29:32 -0700 (PDT)
-Subject: Re: [PATCH v4 2/2] leds: tlc591xx: use
- devm_led_classdev_register_ext()
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz, dmurphy@ti.com
-Cc:     tomi.valkeinen@ti.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190920115806.14475-1-jjhiblot@ti.com>
- <20190920115806.14475-3-jjhiblot@ti.com>
+        Fri, 20 Sep 2019 14:10:09 -0700 (PDT)
+Subject: Re: [PATCH v4 1/3] led: make led_set_brightness_sync() use
+ led_set_brightness_nosleep()
+To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
+        daniel.thompson@linaro.org
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dmurphy@ti.com, tomi.valkeinen@ti.com
+References: <20190920122525.15712-1-jjhiblot@ti.com>
+ <20190920122525.15712-2-jjhiblot@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -111,12 +112,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <b4387d66-febd-ff20-7b5e-e66e5de8a988@gmail.com>
-Date:   Fri, 20 Sep 2019 22:29:30 +0200
+Message-ID: <c8519e2f-9d46-e164-04d0-42cc5834042a@gmail.com>
+Date:   Fri, 20 Sep 2019 23:10:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190920115806.14475-3-jjhiblot@ti.com>
+In-Reply-To: <20190920122525.15712-2-jjhiblot@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -127,57 +128,55 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi Jean,
 
-Thank you for the update.
+On 9/20/19 2:25 PM, Jean-Jacques Hiblot wrote:
+> Making led_set_brightness_sync() use led_set_brightness_nosleep() has 2
+> advantages:
+> - works for LED controllers that do not provide brightness_set_blocking()
+> - When the blocking callback is used, it uses the workqueue to update the
+>   LED state, removing the need for mutual exclusion between
+>   led_set_brightness_sync() and set_brightness_delayed().
 
-On 9/20/19 1:58 PM, Jean-Jacques Hiblot wrote:
-> Use devm_led_classdev_register_ext() to pass the fwnode to the LED core.
-> The fwnode can then be used by the firmware core to create meaningful
-> names.
+And third:
+
+- it compromises the "sync" part of the function name :-)
+
+This function has been introduced specifically to be blocking
+and have the immediate effect. Its sole client is
+drivers/media/v4l2-core/v4l2-flash-led-class.c.
+
 > 
 > Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
 > ---
->  drivers/leds/leds-tlc591xx.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>  drivers/leds/led-core.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-> index bbdaa3148317..8eadb673dc2e 100644
-> --- a/drivers/leds/leds-tlc591xx.c
-> +++ b/drivers/leds/leds-tlc591xx.c
-> @@ -186,6 +186,9 @@ tlc591xx_probe(struct i2c_client *client,
->  
->  	for_each_child_of_node(np, child) {
->  		struct tlc591xx_led *led;
-> +		struct led_init_data init_data = {};
+> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+> index f1f718dbe0f8..50e28a8f9357 100644
+> --- a/drivers/leds/led-core.c
+> +++ b/drivers/leds/led-core.c
+> @@ -294,15 +294,17 @@ EXPORT_SYMBOL_GPL(led_set_brightness_nosleep);
+>  int led_set_brightness_sync(struct led_classdev *led_cdev,
+>  			    enum led_brightness value)
+>  {
+> +	int ret;
 > +
-> +		init_data.fwnode = of_fwnode_handle(child);
+>  	if (led_cdev->blink_delay_on || led_cdev->blink_delay_off)
+>  		return -EBUSY;
 >  
->  		err = of_property_read_u32(child, "reg", &reg);
->  		if (err) {
-> @@ -200,8 +203,6 @@ tlc591xx_probe(struct i2c_client *client,
->  		led = &priv->leds[reg];
+> -	led_cdev->brightness = min(value, led_cdev->max_brightness);
+> -
+> -	if (led_cdev->flags & LED_SUSPENDED)
+> -		return 0;
+> +	ret = led_set_brightness_nosleep(led_cdev, value);
+> +	if (!ret)
+> +		return ret;
 >  
->  		led->active = true;
-> -		led->ldev.name =
-> -			of_get_property(child, "label", NULL) ? : child->name;
->  		led->ldev.default_trigger =
->  			of_get_property(child, "linux,default-trigger", NULL);
+> -	return __led_set_brightness_blocking(led_cdev, led_cdev->brightness);
+> +	flush_work(&led_cdev->set_brightness_work);
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(led_set_brightness_sync);
 >  
-> @@ -209,7 +210,8 @@ tlc591xx_probe(struct i2c_client *client,
->  		led->led_no = reg;
->  		led->ldev.brightness_set_blocking = tlc591xx_brightness_set;
->  		led->ldev.max_brightness = LED_FULL;
-
-I was asking for removing tabove assignment, but we can always do that
-in the incremental patch.
-
-Patch set applied to the for-5.5 branch. Thanks.
-
-> -		err = devm_led_classdev_register(dev, &led->ldev);
-> +		err = devm_led_classdev_register_ext(dev, &led->ldev,
-> +						     &init_data);
->  		if (err < 0) {
->  			dev_err(dev, "couldn't register LED %s\n",
->  				led->ldev.name);
 > 
 
 -- 
