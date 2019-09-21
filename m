@@ -2,56 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00C10B9DEE
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Sep 2019 14:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8005EB9DF0
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Sep 2019 14:59:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407620AbfIUM6q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Sep 2019 08:58:46 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40265 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407616AbfIUM6q (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Sep 2019 08:58:46 -0400
-Received: by mail-wm1-f68.google.com with SMTP id b24so4719163wmj.5;
-        Sat, 21 Sep 2019 05:58:42 -0700 (PDT)
+        id S2407627AbfIUM7Z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Sep 2019 08:59:25 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40804 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407616AbfIUM7Z (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Sep 2019 08:59:25 -0400
+Received: by mail-wr1-f68.google.com with SMTP id l3so9375857wru.7;
+        Sat, 21 Sep 2019 05:59:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=3I9dnqHN5mSkxGHMAQ+f3fvn5XrXwfhbnRGW4Cd92+Y=;
-        b=Z9c310Qkq3NtuHGG30B52dCI91rNnfXfRmoxXQVB8xwguXOJEpU574yX/i7KvLSFNE
-         O6OxfjvN3kyOXIEyZJypgxdcFb14Z7YFPT2lq/AsHM8mFA/H1lA5PMkRH2Xpa56BQcqX
-         DLHiFAs1h+M3XCgt+F6kVlevR7+uMJ9DPrR06cUi3KYfQWauoDppZukIWMSY1vijj59m
-         z8XC8tQY8RvqM5Oy8rjMBOqzSOVCdwD9Q5Q5utYKzJudINR/xWEP3Xsb9c2YZIoHmHb0
-         hj+Xg/T/KyluQ1/ypZxw0W87CsOGBKiyCkLYaKKoSRd/Y5wajs3QbCKSPZjU3IsL2hr8
-         AMfQ==
+        bh=bN1lxP5ObnV0nm05d66P27bzTcAS5Otmjnwx82CldfE=;
+        b=NAMWj5ktP4Lxyvrm9Vu4SgG4DBinO0KKP2z+GP1PYV1mAqvDNsZO59zT3VlTdRAZfc
+         cPjnO0iwFluZ1CZcICAODDPN+9vXNpDE7wT26+AQ3ewFeQLs7ya0KSA243bE8vewdBNl
+         GpNBzahh8eMruSRhETXoJZgiSPWWh5TWCx7L1rbX63guCk/Xk05FNMAQLUXvxlyVvWFj
+         8i5MZyGpHhgeKPa83BhwDC7SunkQj9Peth74SQJ0ljvVjvznbU7Dkz+j4sQ1YggLu0LB
+         0s1Vw4g9J+0nrNuMIgd49f/anK6S0aQ9gGcx0or71zj3+4lfRAiKCqnNL1BBkPzc/q5+
+         KrLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=3I9dnqHN5mSkxGHMAQ+f3fvn5XrXwfhbnRGW4Cd92+Y=;
-        b=UXC3KWTTuunvC4Cwb3/W4aV0UbKnYUYbbohTKNq5lC0S5yo6lMwXGHWe1barV0p0G+
-         6/bEnAQzAlsA2y+F9UfKZrVqHnDuCo4UMPSRNNQt/dUbiWat+FGJeGnV6ZuD6j4gfqQE
-         KUbftXnSWLoTwMgHZf3g5IE8enBC2j9yyWOcaEC/V6ve77zYHk3Bh1cEeWhV0QM9klyd
-         QXAEd2NDqJt7QnK4oD15y02pHH2i12iERrotLsqZ7vNmMwetTvqUO6J3U0sTwFZSvh8G
-         mIL71lNtakhpTX4Dhcj3sr6uYG2zGlLjpyLh6K5fQHamt6phfSe25hdZmISJT6qUqwvu
-         m6kQ==
-X-Gm-Message-State: APjAAAXPG2lICMxzO+UCVWojzS6962k+1Sic+ynANubzqlYjjCaYmjMZ
-        /Xo00a177g5iGNcPsit7LS4Di++T
-X-Google-Smtp-Source: APXvYqzczD7YXfZpXwsmHAemFdHe1kplvK8ibjR4FAuPQse5XOTXbRMg4hQM/Fn8uPTssrdENiK2XA==
-X-Received: by 2002:a1c:a616:: with SMTP id p22mr6864383wme.3.1569070721784;
-        Sat, 21 Sep 2019 05:58:41 -0700 (PDT)
+        bh=bN1lxP5ObnV0nm05d66P27bzTcAS5Otmjnwx82CldfE=;
+        b=X3nm7spgs599swqrfGeTPz2MAgEIwBb1seYkgsv0QKM994to2ShzqRiRRgfPJzueyY
+         kf9UpRt5WESeO1lg+MTnCeS5CvKP4/dLWi23mfq3EN7U42oxDmqW5sQNXCHnIAENJtuS
+         8hc88oOfIzeGhMgFaqgxa3VNIsqG96+EJ2SXFJ9qfUJwhoQIm6Dig2FkrGVz5aLPwESe
+         zCvA53bFL4s3PRFC+LP6fCJTu2223X0a04F4wMccjiQ8ZAyr6HY2ebn3DWI/8qAbXDOM
+         7LLf31cNTVMvVViJaiqu8cxXmbTdbC6ixutlWIHjSUI33JsmfOD2GbEirMz5s6KXBwad
+         cejA==
+X-Gm-Message-State: APjAAAW567AP9b7EyKshYb1j2HbVYEFk0S1eUkd9U6WxbCo4AgEL6Z7g
+        nrPz+PHmYX+R2LxUK1Oh3MjFZvUT
+X-Google-Smtp-Source: APXvYqxWY6QsMFmEKY8K+R5PTAOp02GRNMakiYFdkF3NQU6rNG7sI/brGCGcMa+oI1pBtC8FoK6SeA==
+X-Received: by 2002:adf:f64f:: with SMTP id x15mr15705284wrp.25.1569070761063;
+        Sat, 21 Sep 2019 05:59:21 -0700 (PDT)
 Received: from [192.168.1.19] (blb134.neoplus.adsl.tpnet.pl. [83.28.195.134])
-        by smtp.gmail.com with ESMTPSA id f143sm5928477wme.40.2019.09.21.05.58.40
+        by smtp.gmail.com with ESMTPSA id o22sm9470509wra.96.2019.09.21.05.59.19
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 21 Sep 2019 05:58:40 -0700 (PDT)
-Subject: Re: [PATCH v8 4/9] dt-bindings: leds: Add multicolor ID to the color
- ID list
+        Sat, 21 Sep 2019 05:59:20 -0700 (PDT)
+Subject: Re: [PATCH v8 5/9] leds: Add multicolor ID to the color ID list
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190920174139.30079-1-dmurphy@ti.com>
- <20190920174139.30079-5-dmurphy@ti.com>
+ <20190920174139.30079-6-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,12 +109,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <732288d6-2d1f-4152-b256-40411ed6aca1@gmail.com>
-Date:   Sat, 21 Sep 2019 14:58:39 +0200
+Message-ID: <bfff49fd-deb4-8ba8-eaee-6ac3f17a2572@gmail.com>
+Date:   Sat, 21 Sep 2019 14:59:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190920174139.30079-5-dmurphy@ti.com>
+In-Reply-To: <20190920174139.30079-6-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -133,23 +132,21 @@ On 9/20/19 7:41 PM, Dan Murphy wrote:
 > 
 > Signed-off-by: Dan Murphy <dmurphy@ti.com>
 > ---
->  include/dt-bindings/leds/common.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/leds/led-core.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-> index 9e1256a7c1bf..7006d15f71e8 100644
-> --- a/include/dt-bindings/leds/common.h
-> +++ b/include/dt-bindings/leds/common.h
-> @@ -29,7 +29,8 @@
->  #define LED_COLOR_ID_VIOLET	5
->  #define LED_COLOR_ID_YELLOW	6
->  #define LED_COLOR_ID_IR		7
-> -#define LED_COLOR_ID_MAX	8
-> +#define LED_COLOR_ID_MULTI	8
-> +#define LED_COLOR_ID_MAX	9
+> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+> index f1f718dbe0f8..846248a0693d 100644
+> --- a/drivers/leds/led-core.c
+> +++ b/drivers/leds/led-core.c
+> @@ -34,6 +34,7 @@ const char * const led_colors[LED_COLOR_ID_MAX] = {
+>  	[LED_COLOR_ID_VIOLET] = "violet",
+>  	[LED_COLOR_ID_YELLOW] = "yellow",
+>  	[LED_COLOR_ID_IR] = "ir",
+> +	[LED_COLOR_ID_MULTI] = "multicolor",
+>  };
+>  EXPORT_SYMBOL_GPL(led_colors);
 >  
->  /* Standard LED functions */
->  #define LED_FUNCTION_ACTIVITY "activity"
 > 
 
 ack.
