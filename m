@@ -2,58 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8852AB98C8
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Sep 2019 23:10:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFE28B9D77
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Sep 2019 12:55:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393322AbfITVKN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Sep 2019 17:10:13 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43048 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392396AbfITVKN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Sep 2019 17:10:13 -0400
-Received: by mail-wr1-f66.google.com with SMTP id q17so8104221wrx.10;
-        Fri, 20 Sep 2019 14:10:10 -0700 (PDT)
+        id S2407512AbfIUKzT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Sep 2019 06:55:19 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50445 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407449AbfIUKzT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Sep 2019 06:55:19 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 5so5009973wmg.0;
+        Sat, 21 Sep 2019 03:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=NrIe7HL72ul8D55s30/aoVJeJG1mf1VDOxHKFaM4Nd4=;
-        b=OFERlMN9erWK5qmBoighlcfHG57Ll9ezBjwNzXsrc3XtV0mn3RpqdPvvo4qpUASVz6
-         U4ZgHvvfposjj4dcpPr6St0yVHQZywDdMJzR8BWxbngyjRPWiQoJiEdgYw+Hi4tv7d7x
-         OVMcx4R3fZ6Fa7yQ+Kmak8shrv7tHtDLbz8kPm7W6/l9Wi0RcEhTrvcvCrS9hED35aIF
-         QWyS1HAx5CixPcCWZpZdD8myWZvO50HgvjvtA/zV6G3N4JCDu1Px5+1DOy7u7vcntj+r
-         DLxDSV2sTozx1lZ8dHwg68/fWMQG7EJkEoOve1PrlMWgM7vJEdbCL50OgTq1kVTspVy8
-         NQJw==
+        bh=Uws/t6BglFHhG735K622EFKuAGq3v8qgTlRHs9SU1QI=;
+        b=MJzSDEWwnnckSo0hw9ps1r8ygJzpXECoX4pUawSKjpvxh5P88Ku+sToeltSrwkhj/t
+         5/uC3hPeXuDNGeQAkYrQSQzVFO2oI2y9MacXTx+JtIsAEFkSeekiAzW/swpUyC1vQTxp
+         J+KzKKQMTQlGloJT+pBuPes0JpNmmLWHDgi4OJDcyJCKTJgnHRHcXkG/UeHXaNJyMwS6
+         pYs8fPSMsaMKJEfcR2sxBZ7syQaNgfUoXQpBVAYcNFPBHamvgt/TTSyZf6beWdpeGpFm
+         lgnG1IzMZHmZ3wZRTs1buYpinPt6pvIWChKJcIf4vA4fDJbieBQWwFQvmvqrrhW1RTlK
+         hJyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=NrIe7HL72ul8D55s30/aoVJeJG1mf1VDOxHKFaM4Nd4=;
-        b=gWvOHCdhVcMqTISrfcjCZAukVa4OWyyVb8+te4txXGe4lLYEoKTfJnw8rcO2a6yl+e
-         Dp47XMYsKurg2cRcPY7QiRD/yepz3uwkSTmFAnZjXSFBBm+ID6utUIY8rN24q/mYxpX4
-         y7E4YU220fY8EkSl87SoYPdnGA9NFtWw6UCsr7ejYjhO6m4/LsmEinAk1IV4dHo5rHuo
-         2/NGqP3iS+nzl8kpFKuA4wKcYpHFb65SK18Z0FobUH3fjQOmsged5rwibADn2YdRqaJo
-         87ZRbnILllnsV1KuZfqUeNR7mdosrAP/ghmUJNYzmkoFaDNjRv+0HnRfPuYUzIfDQlCl
-         oUIw==
-X-Gm-Message-State: APjAAAVYv/4Jd5gGjbdVvvF/XH9F1EbfktH4gJMnONAI7shGO07/B+7d
-        XZtLflpj1T+1EPBfjKAS5Ew=
-X-Google-Smtp-Source: APXvYqxXFY4dr8Q9B2Oif3dDjsD2czd8O0U5j/d774duJ2tww4lMyZwaFrd5jKw7XP56GEYSzOaLMg==
-X-Received: by 2002:adf:f790:: with SMTP id q16mr13814747wrp.164.1569013810347;
-        Fri, 20 Sep 2019 14:10:10 -0700 (PDT)
-Received: from [192.168.1.19] (chi109.neoplus.adsl.tpnet.pl. [83.31.6.109])
-        by smtp.gmail.com with ESMTPSA id y13sm4676461wrg.8.2019.09.20.14.10.08
+        bh=Uws/t6BglFHhG735K622EFKuAGq3v8qgTlRHs9SU1QI=;
+        b=ObI2D9fCJkFTpcJRniaJ4OvI1okRDbMoc2J1ljFLzrdCTrI52PAhhz6bwuMM+nisFF
+         XoP7IjrIUBWEqUNV3opKU8VI1516ItLzD2L0GFMI+0JLVRd/q5LdimkQDa/vGUuRtjXH
+         rHAN6bbuwc/8QAoGTXKHKlRV11hNxsa1sHTtwogyCRLy0zmDHgHfDMaLn+vm/NhT6f9a
+         DhGJPEAtzY5a24cZCR48GsRSjVjFZk+l8+bxak1mxOGUMl53HQt1k1ZRFDmAixX90LXy
+         lvGNO9On3Q3++qSoGe+LXsiZJplFF3NMVvUeZuEAF+EBEU/YW+pP3yYDxZEovy8hwi+b
+         cVcw==
+X-Gm-Message-State: APjAAAV/t/+gs7QfIlAIORcwqa00zJ3f+ST2xSZJZoA2ah08o5QWoSoG
+        wt1l4bOTTESKzH028ges0LbkmZjA
+X-Google-Smtp-Source: APXvYqze4hNfrxXmuUPxM03Y6LXxq5Rizj+smRAdfxE8BhsI2uGBjOVcI4hbcvSUD66GjGXmpf8CTw==
+X-Received: by 2002:a1c:e90b:: with SMTP id q11mr6752283wmc.19.1569063314437;
+        Sat, 21 Sep 2019 03:55:14 -0700 (PDT)
+Received: from [192.168.1.19] (blb134.neoplus.adsl.tpnet.pl. [83.28.195.134])
+        by smtp.gmail.com with ESMTPSA id r18sm6146883wme.48.2019.09.21.03.55.12
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 Sep 2019 14:10:09 -0700 (PDT)
-Subject: Re: [PATCH v4 1/3] led: make led_set_brightness_sync() use
- led_set_brightness_nosleep()
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
-        daniel.thompson@linaro.org
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dmurphy@ti.com, tomi.valkeinen@ti.com
-References: <20190920122525.15712-1-jjhiblot@ti.com>
- <20190920122525.15712-2-jjhiblot@ti.com>
+        Sat, 21 Sep 2019 03:55:13 -0700 (PDT)
+Subject: Re: [PATCH v8 1/9] leds: multicolor: Add sysfs interface definition
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190920174139.30079-1-dmurphy@ti.com>
+ <20190920174139.30079-2-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -112,12 +109,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <c8519e2f-9d46-e164-04d0-42cc5834042a@gmail.com>
-Date:   Fri, 20 Sep 2019 23:10:07 +0200
+Message-ID: <ea294ad4-d340-3677-eab0-6138968cfe0e@gmail.com>
+Date:   Sat, 21 Sep 2019 12:55:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190920122525.15712-2-jjhiblot@ti.com>
+In-Reply-To: <20190920174139.30079-2-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -126,58 +123,90 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jean,
+Dan,
 
-On 9/20/19 2:25 PM, Jean-Jacques Hiblot wrote:
-> Making led_set_brightness_sync() use led_set_brightness_nosleep() has 2
-> advantages:
-> - works for LED controllers that do not provide brightness_set_blocking()
-> - When the blocking callback is used, it uses the workqueue to update the
->   LED state, removing the need for mutual exclusion between
->   led_set_brightness_sync() and set_brightness_delayed().
-
-And third:
-
-- it compromises the "sync" part of the function name :-)
-
-This function has been introduced specifically to be blocking
-and have the immediate effect. Its sole client is
-drivers/media/v4l2-core/v4l2-flash-led-class.c.
-
+On 9/20/19 7:41 PM, Dan Murphy wrote:
+> Add a documentation of LED Multicolor LED class specific
+> sysfs attributes.
 > 
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
 > ---
->  drivers/leds/led-core.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+>  .../ABI/testing/sysfs-class-led-multicolor    | 43 +++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
 > 
-> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-> index f1f718dbe0f8..50e28a8f9357 100644
-> --- a/drivers/leds/led-core.c
-> +++ b/drivers/leds/led-core.c
-> @@ -294,15 +294,17 @@ EXPORT_SYMBOL_GPL(led_set_brightness_nosleep);
->  int led_set_brightness_sync(struct led_classdev *led_cdev,
->  			    enum led_brightness value)
->  {
-> +	int ret;
+> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> new file mode 100644
+> index 000000000000..39fc73becfec
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> @@ -0,0 +1,43 @@
+> +What:		/sys/class/leds/<led>/brightness
+> +Date:		Sept 2019
+> +KernelVersion:	5.5
+> +Contact:	Dan Murphy <dmurphy@ti.com>
+> +Description:	read/write
+> +		Writing to this file will update all LEDs within the group to a
+> +		calculated percentage of what each color LED intensity is set
+> +		to. The percentage is calculated via the equation below:
 > +
->  	if (led_cdev->blink_delay_on || led_cdev->blink_delay_off)
->  		return -EBUSY;
->  
-> -	led_cdev->brightness = min(value, led_cdev->max_brightness);
-> -
-> -	if (led_cdev->flags & LED_SUSPENDED)
-> -		return 0;
-> +	ret = led_set_brightness_nosleep(led_cdev, value);
-> +	if (!ret)
-> +		return ret;
->  
-> -	return __led_set_brightness_blocking(led_cdev, led_cdev->brightness);
-> +	flush_work(&led_cdev->set_brightness_work);
-> +	return 0;
->  }
->  EXPORT_SYMBOL_GPL(led_set_brightness_sync);
->  
+> +		led_brightness = requested_value * led_color_intensity/led_color_max_intensity
+
+How about:
+
+led_brightness = brightness * <color>_intensity/<color>_max_intensity
+
+> +
+> +		For additional details please refer to
+> +		Documentation/leds/leds-class-multicolor.rst.
+> +
+> +		The value of the color is from 0 to
+> +		/sys/class/leds/<led>/max_brightness.
+> +
+> +What:		/sys/class/leds/<led>/colors/<led_color>_intensity
+
+s/led_color/color/
+
+> +Date:		Sept 2019
+> +KernelVersion:	5.5
+> +Contact:	Dan Murphy <dmurphy@ti.com>
+> +Description:	read/write
+> +		The led_color directory is dynamically created based on the
+> +		colors defined by the registrar of the class.
+> +		The value for the led_color is defined in the
+> +		include/dt-bindings/leds/common.h. There is one directory per
+> +		color presented.  The intensity file is created under each
+> +		led_color directory and controls the individual LED color
+> +		setting.
+
+We no longer have led_color directories so this description needs
+to be adjusted.
+
+And I'd not mention where the colors are defined. This is documentation
+for the user, who does not need to know about implementation details.
+
+> +
+> +		The value of the color is from 0 to
+> +		/sys/class/leds/<led>/colors/<led_color>_max_intensity.
+> +
+> +What:		/sys/class/leds/<led>/colors/<led_color>_max_intensity
+> +Date:		Sept 2019
+> +KernelVersion:	5.5
+> +Contact:	Dan Murphy <dmurphy@ti.com>
+> +Description:	read only
+> +		Maximum intensity level for the LED color, default is
+> +		255 (LED_FULL).
+
+Mentioning the default value here is pointless IMO. Userspace cannot
+change it anyway.
+
+> +
+> +		If the LED does not support different intensity levels, this
+> +		should be 1.
 > 
+
+This is less relevant for MC class, and also it is rather obvious.
+I'd skip this sentence.
 
 -- 
 Best regards,
