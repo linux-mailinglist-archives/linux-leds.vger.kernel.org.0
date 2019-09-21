@@ -2,56 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61EFEB9DEB
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Sep 2019 14:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00C10B9DEE
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Sep 2019 14:58:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405510AbfIUM5R (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Sep 2019 08:57:17 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:47048 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407607AbfIUM5R (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Sep 2019 08:57:17 -0400
-Received: by mail-wr1-f68.google.com with SMTP id o18so9349202wrv.13;
-        Sat, 21 Sep 2019 05:57:14 -0700 (PDT)
+        id S2407620AbfIUM6q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Sep 2019 08:58:46 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40265 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407616AbfIUM6q (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Sep 2019 08:58:46 -0400
+Received: by mail-wm1-f68.google.com with SMTP id b24so4719163wmj.5;
+        Sat, 21 Sep 2019 05:58:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=DjK7LmUpIJI70HM7ghsoWwMuHpCYpLdWG8YBw23AFm0=;
-        b=imbp3fps+Q1Rh0uOplOjhMKXzPGlTYMWirQtw/TzIT0r4l1UFlPD0/zAryqlP10lZJ
-         vlxa1ElcSMybOE4OFTuexN0RnyZTtTEvNRyLaAUHAYXP8fVnTpXoMbyFUo8gKz/KIHeX
-         iQL9AQ044xjicSZ7a2nhaJuF1fmKnJAGFR6GCRrwyi5U7h03RgbWKMTAqJwEZl5PY/4L
-         /XatRjeA4b0Z+jq3f3u2LTVe76OPJQSRzI5O9oAGNQkGaUWv40kE/YZDWsh84WOsYys8
-         2Dmr1GrfimUfr2NmnJkfafEmZzGi6bk5iK24FadB78qZTdFcYnmHK6I3EwGDA+0YzGCk
-         X4dQ==
+        bh=3I9dnqHN5mSkxGHMAQ+f3fvn5XrXwfhbnRGW4Cd92+Y=;
+        b=Z9c310Qkq3NtuHGG30B52dCI91rNnfXfRmoxXQVB8xwguXOJEpU574yX/i7KvLSFNE
+         O6OxfjvN3kyOXIEyZJypgxdcFb14Z7YFPT2lq/AsHM8mFA/H1lA5PMkRH2Xpa56BQcqX
+         DLHiFAs1h+M3XCgt+F6kVlevR7+uMJ9DPrR06cUi3KYfQWauoDppZukIWMSY1vijj59m
+         z8XC8tQY8RvqM5Oy8rjMBOqzSOVCdwD9Q5Q5utYKzJudINR/xWEP3Xsb9c2YZIoHmHb0
+         hj+Xg/T/KyluQ1/ypZxw0W87CsOGBKiyCkLYaKKoSRd/Y5wajs3QbCKSPZjU3IsL2hr8
+         AMfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=DjK7LmUpIJI70HM7ghsoWwMuHpCYpLdWG8YBw23AFm0=;
-        b=nC055WvCqs7tKbr104UMJONydKSNdF/f7WGfLhA1fxTw21dYYyHrefD2is9lm3NILY
-         Fvxh3vZ+up0BbaUiG+AEH6ZbxSBlGAFIM1JkclGM9XeTtaBcM67YQNRw9+uBXRxNxjpb
-         jsLYVcS+mMwP3TCFw5ljj2LVDGf5qgYBJ2DA+SjeaxNJEnGBHNfbT/fOF2kpp+JpGiOt
-         xNYQTDRi34zGSodQxFxCAgsYR3yUR5L+6hRDY5Yq6QaHHvc0QMxI14Mt8m0Jd+YcF6Sx
-         JfUK5u0UkuXj6DvzD4ylRj9PG9CElqvIFK6MvdrHKp4rBjyf9JmcBm44E/zrMxTZTNvH
-         BLPw==
-X-Gm-Message-State: APjAAAXfyF2FlT4GhWPbMDIA3hxc74RckQiS2Draz123QcGkqoCZk74J
-        rvjMwfcwFzKgXqGVt4gkww146Iwi
-X-Google-Smtp-Source: APXvYqxIBnO5B4LTj8iW8fmfsA7KNCNCQPa6avUOVha1r2efvL+4TAjsJ8+4g/SeClHmzP+dtwULsQ==
-X-Received: by 2002:adf:e692:: with SMTP id r18mr15134320wrm.339.1569070633796;
-        Sat, 21 Sep 2019 05:57:13 -0700 (PDT)
+        bh=3I9dnqHN5mSkxGHMAQ+f3fvn5XrXwfhbnRGW4Cd92+Y=;
+        b=UXC3KWTTuunvC4Cwb3/W4aV0UbKnYUYbbohTKNq5lC0S5yo6lMwXGHWe1barV0p0G+
+         6/bEnAQzAlsA2y+F9UfKZrVqHnDuCo4UMPSRNNQt/dUbiWat+FGJeGnV6ZuD6j4gfqQE
+         KUbftXnSWLoTwMgHZf3g5IE8enBC2j9yyWOcaEC/V6ve77zYHk3Bh1cEeWhV0QM9klyd
+         QXAEd2NDqJt7QnK4oD15y02pHH2i12iERrotLsqZ7vNmMwetTvqUO6J3U0sTwFZSvh8G
+         mIL71lNtakhpTX4Dhcj3sr6uYG2zGlLjpyLh6K5fQHamt6phfSe25hdZmISJT6qUqwvu
+         m6kQ==
+X-Gm-Message-State: APjAAAXPG2lICMxzO+UCVWojzS6962k+1Sic+ynANubzqlYjjCaYmjMZ
+        /Xo00a177g5iGNcPsit7LS4Di++T
+X-Google-Smtp-Source: APXvYqzczD7YXfZpXwsmHAemFdHe1kplvK8ibjR4FAuPQse5XOTXbRMg4hQM/Fn8uPTssrdENiK2XA==
+X-Received: by 2002:a1c:a616:: with SMTP id p22mr6864383wme.3.1569070721784;
+        Sat, 21 Sep 2019 05:58:41 -0700 (PDT)
 Received: from [192.168.1.19] (blb134.neoplus.adsl.tpnet.pl. [83.28.195.134])
-        by smtp.gmail.com with ESMTPSA id r65sm4229181wmr.9.2019.09.21.05.57.12
+        by smtp.gmail.com with ESMTPSA id f143sm5928477wme.40.2019.09.21.05.58.40
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 21 Sep 2019 05:57:13 -0700 (PDT)
-Subject: Re: [PATCH v8 3/9] dt: bindings: Add multicolor class dt bindings
- documention
+        Sat, 21 Sep 2019 05:58:40 -0700 (PDT)
+Subject: Re: [PATCH v8 4/9] dt-bindings: leds: Add multicolor ID to the color
+ ID list
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190920174139.30079-1-dmurphy@ti.com>
- <20190920174139.30079-4-dmurphy@ti.com>
+ <20190920174139.30079-5-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,15 +110,15 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <1326aba6-1f40-f2ee-747f-3b16c008a9e1@gmail.com>
-Date:   Sat, 21 Sep 2019 14:57:11 +0200
+Message-ID: <732288d6-2d1f-4152-b256-40411ed6aca1@gmail.com>
+Date:   Sat, 21 Sep 2019 14:58:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190920174139.30079-4-dmurphy@ti.com>
+In-Reply-To: <20190920174139.30079-5-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
@@ -127,134 +127,32 @@ X-Mailing-List: linux-leds@vger.kernel.org
 Dan,
 
 On 9/20/19 7:41 PM, Dan Murphy wrote:
-> Add DT bindings for the LEDs multicolor class framework.
+> Add a new color ID that is declared as MULTICOLOR as with the
+> multicolor framework declaring a definitive color is not accurate
+> as the node can contain multiple colors.
 > 
 > Signed-off-by: Dan Murphy <dmurphy@ti.com>
 > ---
->  .../bindings/leds/leds-class-multicolor.txt   | 95 +++++++++++++++++++
->  1 file changed, 95 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+>  include/dt-bindings/leds/common.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
-> new file mode 100644
-> index 000000000000..215d3c90f351
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
-> @@ -0,0 +1,95 @@
-> +* Multicolor LED properties
-> +
-> +Monochrome LEDs can grouped into LED clusters.  These clusters can provide a
-> +visible output that have a wide range of colors and intensities.
-
-Here is the same issue as I spotted in a review for the patch 2/9
-from this set:
-
-"
-I'd say it won't be the most frequent use case. We can expect rather
-compound RGB, RGBA[UV] etc. LED elements being connected to iouts of
-multi color LED controllers like LP50xx.
-"
-
-How about:
-
-Bindings for multi color LEDs show how to describe current outputs of
-either integrated multi-color LED elements (like RGB, RGBW, RGBWA-UV
-etc.) or standalone LEDs, to achieve logically grouped multi-color LED
-modules. This is achieved by adding multi-led nodes layer to the
-monochrome LED bindings.
-
-> +
-> +The nodes and properties defined in this document are unique to the multicolor
-> +LED class.  Common LED nodes and properties are inherited from the common.txt
-> +within this documentation directory.
-> +
-> +Required LED Child properties:
-> +	- color : For multicolor LED support this property should be defined as
-> +		  LED_COLOR_ID_MULTI and further definition can be found in
-> +		  include/linux/leds/common.h.
-> +
-> +led-controller@30 {
-> +	#address-cells = <1>;
-> +	#size-cells = <0>;
-> +	compatible = "ti,lp5024";
-> +	reg = <0x29>;
-> +
-> +	multi-led@1 {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <1>;
-> +		color = <LED_COLOR_ID_MULTI>;
-> +		function = LED_FUNCTION_STATUS;
-> +
-> +
-> +		led@3 {
-> +			reg = <3>;
-> +			color = <LED_COLOR_ID_RED>;
-> +		};
-> +
-> +		led@4 {
-> +			reg = <4>;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +		};
-> +
-> +		led@5 {
-> +			reg = <5>;
-> +			color = <LED_COLOR_ID_BLUE>;
-> +		};
-> +	};
-> +
-> +	multi-led@2 {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		color = <LED_COLOR_ID_MULTI>;
-> +		function = LED_FUNCTION_ACTIVITY;
-> +		reg = <2>;
-> +		ti,led-bank = <2 3 5>;
-> +
-> +		led@6 {
-> +			reg = <0x6>;
-> +			color = <LED_COLOR_ID_RED>;
-> +			led-sources = <6 9 15>;
-> +		};
-> +
-> +		led@7 {
-> +			reg = <0x7>;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +			led-sources = <7 10 16>;
-> +		};
-> +
-> +		led@8 {
-> +			reg = <0x8>;
-> +			color = <LED_COLOR_ID_BLUE>;
-> +			led-sources = <8 11 17>;
-> +		};
-> +	};
-> +
-> +	multi-led@4 {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <4>;
-> +		color = <LED_COLOR_ID_MULTI>;
-> +		function = LED_FUNCTION_ACTIVITY;
-> +
-> +		led@12 {
-> +			reg = <12>;
-> +			color = <LED_COLOR_ID_RED>;
-> +		};
-> +
-> +		led@13 {
-> +			reg = <13>;
-> +			color = <LED_COLOR_ID_GREEN>;
-> +		};
-> +
-> +		led@14 {
-> +			reg = <14>;
-> +			color = <LED_COLOR_ID_BLUE>;
-> +		};
-> +	};
-> +
-> +};
+> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+> index 9e1256a7c1bf..7006d15f71e8 100644
+> --- a/include/dt-bindings/leds/common.h
+> +++ b/include/dt-bindings/leds/common.h
+> @@ -29,7 +29,8 @@
+>  #define LED_COLOR_ID_VIOLET	5
+>  #define LED_COLOR_ID_YELLOW	6
+>  #define LED_COLOR_ID_IR		7
+> -#define LED_COLOR_ID_MAX	8
+> +#define LED_COLOR_ID_MULTI	8
+> +#define LED_COLOR_ID_MAX	9
+>  
+>  /* Standard LED functions */
+>  #define LED_FUNCTION_ACTIVITY "activity"
 > 
+
+ack.
 
 -- 
 Best regards,
