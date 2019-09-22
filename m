@@ -2,38 +2,38 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B807CBA5FA
-	for <lists+linux-leds@lfdr.de>; Sun, 22 Sep 2019 21:45:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21B99BA712
+	for <lists+linux-leds@lfdr.de>; Sun, 22 Sep 2019 21:47:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390406AbfIVSq4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 22 Sep 2019 14:46:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43234 "EHLO mail.kernel.org"
+        id S1729366AbfIVSzt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 22 Sep 2019 14:55:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57374 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390380AbfIVSqz (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:46:55 -0400
+        id S1729358AbfIVSzs (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:55:48 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0FF96208C2;
-        Sun, 22 Sep 2019 18:46:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7B4E421D7A;
+        Sun, 22 Sep 2019 18:55:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178014;
-        bh=rpLu/oS3jQttqG3AiJBi6ubdqtvP3hbrdcN6X/C/dR4=;
+        s=default; t=1569178548;
+        bh=CQ1VJV5SGEcxU1DDwi4WGZ9oGRxifBDjq7NGuSu/3LU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cFGiiT+AFA4SfPMwPKYNmvRRC3QzuiVhwITL+MSv2GU+Ro7HQoFngaRHtGIyBunWx
-         1vzTCy2IAgxleyxTfAf/ra9aYN/LrJMrzjxGyS6vrvzBJTXRnyKoHS4yKJ1oa1LVvE
-         ypNMPMac8ttxhg60PDy9qZi5r8tMKGUO/NGxOpyw=
+        b=lfTbguNt8pquU8kETeVfq/A0DoHal+8cjyE3lXvM5Za38rSfx7fcrH6SsneOzU0oI
+         f402qs4IKNOuZWmUYoRHg0LrVq78VzRlOiixTEOTjNACIWHCswbnItqIDn8Z4zuQxh
+         t5kuvhObEUUtFEY4al8SwDw9P6Lvd6ddb6ntjn3c=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Wenwen Wang <wenwen@cs.uga.edu>, Pavel Machek <pavel@ucw.cz>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 101/203] led: triggers: Fix a memory leak bug
-Date:   Sun, 22 Sep 2019 14:42:07 -0400
-Message-Id: <20190922184350.30563-101-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 066/128] led: triggers: Fix a memory leak bug
+Date:   Sun, 22 Sep 2019 14:53:16 -0400
+Message-Id: <20190922185418.2158-66-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
-References: <20190922184350.30563-1-sashal@kernel.org>
+In-Reply-To: <20190922185418.2158-1-sashal@kernel.org>
+References: <20190922185418.2158-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,10 +62,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index 8d11a5e232271..eff1bda8b5200 100644
+index 17d73db1456eb..e4cb3811e82a3 100644
 --- a/drivers/leds/led-triggers.c
 +++ b/drivers/leds/led-triggers.c
-@@ -173,6 +173,7 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
+@@ -177,6 +177,7 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
  	list_del(&led_cdev->trig_list);
  	write_unlock_irqrestore(&led_cdev->trigger->leddev_list_lock, flags);
  	led_set_brightness(led_cdev, LED_OFF);
