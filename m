@@ -2,54 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7A45BB643
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2019 16:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E798BB64A
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2019 16:13:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393936AbfIWOMb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 Sep 2019 10:12:31 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:50650 "EHLO
+        id S2405326AbfIWONU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 Sep 2019 10:13:20 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:50728 "EHLO
         fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389738AbfIWOMb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Sep 2019 10:12:31 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8NECO3O074073;
-        Mon, 23 Sep 2019 09:12:24 -0500
+        with ESMTP id S2404847AbfIWONU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Sep 2019 10:13:20 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8NEDFYh074217;
+        Mon, 23 Sep 2019 09:13:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1569247944;
-        bh=xjCqVaqsfxQUrYb+QYCqmUUgiW6IKZy5ystoyrOScP0=;
+        s=ti-com-17Q1; t=1569247996;
+        bh=pylUPeCNtRYYZvjwR77bzHfG+zVG/7+gE+JoZOyPgmM=;
         h=Subject:To:References:From:Date:In-Reply-To;
-        b=djVMXW2xEx7V3DIFjCoijRRDlcfvADAx5fqZdXy+u/aWGj3+z1HJ3cufDqKSpYr0w
-         tlK+Qrxedm0ElKG597iPF29GTsbxqbO4QQIEm85k9njWBbkrsNgd+Wko8acxf+2xTQ
-         lSLGnKSDzBD2V8xpCnwizeQ9vtazvyNNCxaJhKOw=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8NECOe5007615;
-        Mon, 23 Sep 2019 09:12:24 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+        b=Hgbv4v36BP4W3UhGYlKUnVLDXwiAqEaYuizHFb2RbcmN8fb5t0hew/PgBEN4dpVUf
+         MmFqV3ki2K+x/aZjJhgJbxCkb6xKig6A28L9495kXCOl2tjNMr33HK15/FLr+0y8rv
+         NapSH1ZHlwYb73LCStx0KzPlbAjatWoQK6Hc4jCc=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8NEDF6T082043
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 23 Sep 2019 09:13:15 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 23
- Sep 2019 09:12:18 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2019 09:13:10 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 23 Sep 2019 09:12:18 -0500
+ Frontend Transport; Mon, 23 Sep 2019 09:13:09 -0500
 Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8NECNH5090850;
-        Mon, 23 Sep 2019 09:12:23 -0500
-Subject: Re: [PATCH v3 2/5] leds: lm3692x: Don't overwrite return value in
- error path
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8NEDF8s092017;
+        Mon, 23 Sep 2019 09:13:15 -0500
+Subject: Re: [PATCH v3 3/5] leds: lm3692x: Handle failure to probe the
+ regulator
 To:     =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, <linux-leds@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 References: <cover.1569100154.git.agx@sigxcpu.org>
- <be4c3e89e6285d8d1529967e6198abb51d28fe8b.1569100154.git.agx@sigxcpu.org>
+ <32fd08565f8dff39ce9a13f7b0a2546d22913b3a.1569100154.git.agx@sigxcpu.org>
 From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <b7f48872-b839-6c83-3708-659e84bc02b8@ti.com>
-Date:   Mon, 23 Sep 2019 09:16:47 -0500
+Message-ID: <c1073a35-adaa-1a9b-e1d6-1b36ee7ac1a5@ti.com>
+Date:   Mon, 23 Sep 2019 09:17:39 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <be4c3e89e6285d8d1529967e6198abb51d28fe8b.1569100154.git.agx@sigxcpu.org>
+In-Reply-To: <32fd08565f8dff39ce9a13f7b0a2546d22913b3a.1569100154.git.agx@sigxcpu.org>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -66,45 +67,37 @@ Thanks for the update
 Reviewed-by: Dan Murphy <dmurphy@ti.com>
 
 On 9/21/19 4:12 PM, Guido Günther wrote:
-> The driver currently reports successful initialization on every failure
-> as long as it's able to power off the regulator. Don't check the return
-> value of regulator_disable to avoid that.
+> Instead use devm_regulator_get_optional since the regulator
+> is optional and check for errors.
 >
 > Signed-off-by: Guido Günther <agx@sigxcpu.org>
 > Acked-by: Pavel Machek <pavel@ucw.cz>
 > ---
->   drivers/leds/leds-lm3692x.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
+>   drivers/leds/leds-lm3692x.c | 13 +++++++++++--
+>   1 file changed, 11 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
-> index 487228c2bed2..ad76e34455ff 100644
+> index ad76e34455ff..54e9bd2d288b 100644
 > --- a/drivers/leds/leds-lm3692x.c
 > +++ b/drivers/leds/leds-lm3692x.c
-> @@ -198,7 +198,7 @@ static int lm3692x_brightness_set(struct led_classdev *led_cdev,
->   static int lm3692x_init(struct lm3692x_led *led)
->   {
->   	int enable_state;
-> -	int ret;
-> +	int ret, reg_ret;
->   
->   	if (led->regulator) {
->   		ret = regulator_enable(led->regulator);
-> @@ -313,14 +313,15 @@ static int lm3692x_init(struct lm3692x_led *led)
->   		gpiod_direction_output(led->enable_gpio, 0);
->   
->   	if (led->regulator) {
-> -		ret = regulator_disable(led->regulator);
-> -		if (ret)
-> +		reg_ret = regulator_disable(led->regulator);
-> +		if (reg_ret)
->   			dev_err(&led->client->dev,
-> -				"Failed to disable regulator\n");
-> +				"Failed to disable regulator: %d\n", reg_ret);
+> @@ -337,9 +337,18 @@ static int lm3692x_probe_dt(struct lm3692x_led *led)
+>   		return ret;
 >   	}
 >   
->   	return ret;
->   }
-> +
->   static int lm3692x_probe_dt(struct lm3692x_led *led)
->   {
->   	struct fwnode_handle *child = NULL;
+> -	led->regulator = devm_regulator_get(&led->client->dev, "vled");
+> -	if (IS_ERR(led->regulator))
+> +	led->regulator = devm_regulator_get_optional(&led->client->dev, "vled");
+> +	if (IS_ERR(led->regulator)) {
+> +		ret = PTR_ERR(led->regulator);
+> +		if (ret != -ENODEV) {
+> +			if (ret != -EPROBE_DEFER)
+> +				dev_err(&led->client->dev,
+> +					"Failed to get vled regulator: %d\n",
+> +					ret);
+> +			return ret;
+> +		}
+>   		led->regulator = NULL;
+> +	}
+>   
+>   	child = device_get_next_child_node(&led->client->dev, child);
+>   	if (!child) {
