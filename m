@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04FDFBBDC0
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2019 23:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C9BEBBE09
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2019 23:36:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388866AbfIWVVn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 Sep 2019 17:21:43 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:41788 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388859AbfIWVVn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Sep 2019 17:21:43 -0400
-Received: by mail-wr1-f66.google.com with SMTP id h7so15539918wrw.8;
-        Mon, 23 Sep 2019 14:21:40 -0700 (PDT)
+        id S2390628AbfIWVgM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 Sep 2019 17:36:12 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:33881 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389058AbfIWVgM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Sep 2019 17:36:12 -0400
+Received: by mail-wm1-f67.google.com with SMTP id y135so162427wmc.1;
+        Mon, 23 Sep 2019 14:36:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=yDiZLJhE5QfqyJecos8R/R/0KtO0neQxJZxGWvPk/oU=;
-        b=Xc1MXyRMf1XN3QaiwjwD+RNZY0Did9AEFkdIBX839fOAfu0zcN2pA2gupdWh+ebhfR
-         A8Jqs2egrBgtpKyDifwy0MdyWhfcx0FpkFa8aeVfFzLPOrEdccPP9V6tjy/UnqGEXK7o
-         Np2agBCgWBNCn9VoN2jkcFsVAxKKLcRM6asVt/QJvKgCnlDWDIQX+8atnOGH4J6xsNzH
-         19LZwcYTf6HyZsOxrAfieF/aI6T+yO23jAjkgbhCLdr4I7bi8102TknAAhXc5MIsy/y4
-         w6Kua0LOsctusxvT+R8lOYHyC5NXTi4ap8u1NEZTGdErNiZe8Oq8v5h64xrKsVJyTqOT
-         D6jw==
+        bh=+TBCYfV6Zm9nb/+ZFfMgPppDw5pPT/EVuorxGYBzmaI=;
+        b=L5LhuQH9TdLXmPCB5WPdH9dRnauSCkLGWxS23p5xR/MdPP4GXe/AAG2Gyox+EJqK0p
+         J6P9FLzg4Ry9JN4UJzaOY9Oi00ISv5tA9vT33Zp9wuKUb3EhCT+pz0FmtcH1zbp7D2pe
+         fv6cOWoaYFhiSryypphu37LJk+F973J3oFVxOdqdk6cI4MSRGpoNrPLKIdpYK7AS3CHC
+         zTUI6pvUc9vr3kdFUVZafgsb23hx99y0Cn++868d3oL99e7HFHBT/i+3e3V3+PgUZqgD
+         RqU5/kfJ5eQqGtaDol17KP+f/CVjqZcM3iHktc740iTpRyIwmj5B99ei3NU2FSJT9zVq
+         1rcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=yDiZLJhE5QfqyJecos8R/R/0KtO0neQxJZxGWvPk/oU=;
-        b=MpwV7cPf7ui9fqqdJL1et1+7bw2HZUs5OrhdwcIjvBfA1+5/sQI9m6k9Yq0Anf9Un1
-         XD3PRHX2uY4T7N1vegprEX978JpgltgYFvHSra8qhoQykG24Qp70CxntDSqAmiSr0xJK
-         QBELh8KINRomi3lVpRutGua2Y7Svyg/BImthzK1+B+u0Gzipdzm0k/8AQTLsyytpyndA
-         KFOjQj9ehYIdH93qvavs7nCGdEM5EOVESSg54GHElsCXmrRfu+PPfd8oVkCRDlsmVpWu
-         ZAfT2EPDfAIQHPOwK/Xp1ZkoJEeGSrlRhTZXzlOA+HS5jttviUoGawkpJd8RJsDE7Vy8
-         DQ0w==
-X-Gm-Message-State: APjAAAXEGCxq+qsj/Oa32BAg2TxE+brsjBUOb2GslMYoApn3PHlUY8xq
-        4OPerB0Q2SNAZKalxvnePUCzBzh4
-X-Google-Smtp-Source: APXvYqw8BMdw/K+S2Aatyt9aUv5sU+9FztJ1EAP6H/Y1J0UNT0R3mecr8hqxQ53nutNUUC69WnZqEw==
-X-Received: by 2002:adf:fa10:: with SMTP id m16mr958942wrr.322.1569273699477;
-        Mon, 23 Sep 2019 14:21:39 -0700 (PDT)
+        bh=+TBCYfV6Zm9nb/+ZFfMgPppDw5pPT/EVuorxGYBzmaI=;
+        b=EjrTuDI3PKuE9TQBCwVabMFuO6xUwBdg7ej4F5faEn4Z9hJenrfLpQGJsTHRW9vWrz
+         y1fLxpSIRNYUcJi61A0UPodOGd8FFprEy0BXHE0d+0sDfRNspjAz/YGv89t0gS5X3qAD
+         IH5XOX735AWIWTYPJEd7tL6qh4/1WPhjgMBLu6G+YF991LThMQAzTV14PbInSqrEWQOI
+         RBeELx8hNVH79VbKFnW5CGULHHvSsh9Osu9pXWkqJ+tkLzpHpV0mKnWp8ylmygHsdIfy
+         kYvQJqyc5ZmeTti4u1F3WjAuUHbJew1cs0ShIxvQvvFUFpAcO4aOcpj6EtxXFsxDKS0n
+         Ppaw==
+X-Gm-Message-State: APjAAAVV/3dJdwWQ1Bn6b1xgJwlLUyhN1KBlLJBHxacBSuzPSUiy4pTK
+        gKNKZ/qlyHhJdpjIaB5U20yVlWSg
+X-Google-Smtp-Source: APXvYqxcK+aGf/M1KTKa4D7Ib69sFnVJJIxi5dKVxAlw8oMkEPLCs5/ZohO89zxYVv/nt75xT9poiw==
+X-Received: by 2002:a05:600c:295b:: with SMTP id n27mr1181426wmd.128.1569274568192;
+        Mon, 23 Sep 2019 14:36:08 -0700 (PDT)
 Received: from [192.168.1.19] (bdr247.neoplus.adsl.tpnet.pl. [83.28.3.247])
-        by smtp.gmail.com with ESMTPSA id c4sm10118294wru.31.2019.09.23.14.21.38
+        by smtp.gmail.com with ESMTPSA id x5sm22545307wrg.69.2019.09.23.14.36.06
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 23 Sep 2019 14:21:38 -0700 (PDT)
-Subject: Re: [PATCH v8 2/9] documention: leds: Add multicolor class
- documentation
+        Mon, 23 Sep 2019 14:36:07 -0700 (PDT)
+Subject: Re: [PATCH v8 6/9] leds: multicolor: Introduce a multicolor class
+ definition
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190920174139.30079-1-dmurphy@ti.com>
- <20190920174139.30079-3-dmurphy@ti.com>
- <2f2d40d7-aa4f-a38d-19a7-425a111adb64@gmail.com>
- <56d9a7a6-7cdb-8ac0-5e41-f45fad914c55@ti.com>
+ <20190920174139.30079-7-dmurphy@ti.com>
+ <157045af-f6c4-919b-3617-350299639f8f@gmail.com>
+ <c0499e2e-8595-5224-e13a-1b058695e785@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -112,12 +112,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <b49c11e5-7271-b1a7-6f51-dba1dd7c1e26@gmail.com>
-Date:   Mon, 23 Sep 2019 23:21:37 +0200
+Message-ID: <5b3d60a7-4893-0118-1f40-d4b4ad6d279f@gmail.com>
+Date:   Mon, 23 Sep 2019 23:36:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <56d9a7a6-7cdb-8ac0-5e41-f45fad914c55@ti.com>
+In-Reply-To: <c0499e2e-8595-5224-e13a-1b058695e785@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -128,79 +128,286 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Dan,
 
-On 9/23/19 4:50 PM, Dan Murphy wrote:
+On 9/23/19 5:14 PM, Dan Murphy wrote:
 > Jacek
 > 
-> Thanks for the review
-> 
-> On 9/21/19 7:28 AM, Jacek Anaszewski wrote:
+> On 9/21/19 8:30 AM, Jacek Anaszewski wrote:
 >> Dan,
 >>
 >> On 9/20/19 7:41 PM, Dan Murphy wrote:
->>> Add the support documentation on the multicolor LED framework.
->>> This document defines the directores and file generated by the
->> Now there will be one directory created.
->>
->> Apart from that - all documentation should go in the same patch
->> as the feature being added. So patches 1,2 and 3 should be melded
->> together.
-> 
-> I think only patches 1 & 2 should be squashed into a single patch.
-> 
-> Patch 3 are the dt-bindings which should be separated
-
-Right.
-
->>> multicolor framework.  It also documents usage.
+>>> Introduce a multicolor class that groups colored LEDs
+>>> within a LED node.
 >>>
->>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->>> ---
->>>   Documentation/leds/index.rst                 |  1 +
->>>   Documentation/leds/leds-class-multicolor.rst | 91 ++++++++++++++++++++
->>>   2 files changed, 92 insertions(+)
->>>   create mode 100644 Documentation/leds/leds-class-multicolor.rst
->>>
->>> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
->>> index 060f4e485897..bc70c6aa7138 100644
->>> --- a/Documentation/leds/index.rst
->>> +++ b/Documentation/leds/index.rst
->>> @@ -9,6 +9,7 @@ LEDs
->>>        leds-class
->>>      leds-class-flash
->>> +   leds-class-multicolor
->>>      ledtrig-oneshot
->>>      ledtrig-transient
->>>      ledtrig-usbport
->>> diff --git a/Documentation/leds/leds-class-multicolor.rst
->>> b/Documentation/leds/leds-class-multicolor.rst
->>> new file mode 100644
->>> index 000000000000..063c9a411a1d
->>> --- /dev/null
->>> +++ b/Documentation/leds/leds-class-multicolor.rst
->>> @@ -0,0 +1,91 @@
->>> +====================================
->>> +Multi Color LED handling under Linux
->>> +====================================
+>>> The framework allows for dynamically setting individual LEDs
+>>> or setting brightness levels of LEDs and updating them virtually
+>>> simultaneously.
+>> Let's update this to the corresponding changed fragment from
+>> the documentation after we finally agree upon it.
+> 
+[...]
+>>> +static int led_multicolor_init_color_dir(struct led_classdev_mc_data
+>>> *data,
+>>> +                     struct led_classdev_mc *mcled_cdev)
+>>> +{
+>>> +    struct led_classdev *led_cdev = mcled_cdev->led_cdev;
+>>> +    u32 color_id;
+>>> +    int ret;
+>>> +    int i, j = 0;
 >>> +
->>> +Description
->>> +===========
->>> +There are varying monochrome LED colors available for application. 
->>> These
->>> +LEDs can be used as a single use case LED or can be mixed with other
->>> color
->>> +LEDs to produce the full spectrum of color.
->> I'd say it won't be the most frequent use case. We can expect rather
->> compound RGB, RGBA[UV] etc. LED elements being connected to iouts of
->> multi color LED controllers like LP50xx. TI mentions RGB LEDs in its
->> application notes for instance. I'd mention that in the first place
->> and leave what you have above as another use case.
+>>> +    data->mcled_cdev = mcled_cdev;
+>>> +
+>>> +    ret = sysfs_create_group(&led_cdev->dev->kobj, &led_color_group);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    for (i = 0; i < LED_COLOR_ID_MAX; i++) {
+>>> +        color_id = (mcled_cdev->available_colors & (1 << i));
+>> This is nitpicking but for me it would look cleaner if we had
+>> color_mask variable:
+>>
+>> color_id = (mcled_cdev->available_colors & color_mask);
+>>
+>>> +        if (color_id) {
+>>> +            ret = led_multicolor_init_color(data, mcled_cdev, i, j);
+>>> +            if (ret)
+>>> +                break;
+>>> +
+>>> +            j++;
+>>> +        }
+>> And do the shifting here:
+>>
+>>         color_mask <<= 1;
 > 
-> Which application notes are you referring to?
+> Ack but responded to your follow up email on using bit ops.
 
-I don't remember if it was titled exactly AN, but I do remember a sample
-PCB design using RGB LEDs mounted circle-wise to achieve the demo
-sample shown in the TI LP50xx presentation videos we were discussing
-somewhere in last Jan/Feb/March.
+Yeah, bitops will be better here.
+
+>>> +    }
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +int led_classdev_multicolor_register_ext(struct device *parent,
+>>> +                     struct led_classdev_mc *mcled_cdev,
+>>> +                     struct led_init_data *init_data)
+>>> +{
+>>> +    struct led_classdev *led_cdev;
+>>> +    struct led_classdev_mc_data *data;
+>>> +    int ret;
+>>> +
+>>> +    if (!mcled_cdev)
+>>> +        return -EINVAL;
+>>> +
+>>> +    data = kzalloc(sizeof(*data), GFP_KERNEL);
+>>> +    if (!data)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    mcled_cdev->data = data;
+>>> +    led_cdev = mcled_cdev->led_cdev;
+>>> +    INIT_LIST_HEAD(&data->color_list);
+>>> +
+>>> +    /* Register led class device */
+>>> +    ret = led_classdev_register_ext(parent, led_cdev, init_data);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    return led_multicolor_init_color_dir(data, mcled_cdev);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(led_classdev_multicolor_register_ext);
+>>> +
+>>> +void led_classdev_multicolor_unregister(struct led_classdev_mc
+>>> *mcled_cdev)
+>>> +{
+>>> +    if (!mcled_cdev)
+>>> +        return;
+>>> +
+>>> +    sysfs_remove_group(&mcled_cdev->led_cdev->dev->kobj,
+>>> &led_color_group);
+>>> +    led_classdev_unregister(mcled_cdev->led_cdev);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(led_classdev_multicolor_unregister);
+>>> +
+>>> +static void devm_led_classdev_multicolor_release(struct device *dev,
+>>> void *res)
+>>> +{
+>>> +    led_classdev_multicolor_unregister(*(struct led_classdev_mc
+>>> **)res);
+>>> +}
+>>> +
+>>> +/**
+>>> + * devm_of_led_classdev_register - resource managed
+>>> led_classdev_register()
+>>> + *
+>>> + * @parent: parent of LED device
+>>> + * @led_cdev: the led_classdev structure for this device.
+>>> + */
+>> Let's move documentation to the header. We should to the same with
+>> the existing led-class.c API one day.
+> 
+> Well this will go away if we remove the non-ext function.
+> 
+> And this documentation needs to be updated anyway.
+> 
+> 
+>>> +int devm_led_classdev_multicolor_register(struct device *parent,
+>>> +                      struct led_classdev_mc *mcled_cdev)
+>> We don't need non-ext version for a new API.
+> 
+> So we only need the ext version like in the flash class?
+
+Yes. We can always fallback to the old LED name initialization way
+that uses struct led_classdev's name property by setting init_data
+to NULL.
+
+>>> +{
+>>> +    struct led_classdev_mc **dr;
+>>> +    int ret;
+>>> +
+>>> +    dr = devres_alloc(devm_led_classdev_multicolor_release,
+>>> +              sizeof(*dr), GFP_KERNEL);
+>>> +    if (!dr)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    ret = led_classdev_multicolor_register(parent, mcled_cdev);
+>>> +    if (ret) {
+>>> +        devres_free(dr);
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    *dr = mcled_cdev;
+>>> +    devres_add(parent, dr);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(devm_led_classdev_multicolor_register);
+>>> +
+>>> +static int devm_led_classdev_multicolor_match(struct device *dev,
+>>> +                          void *res, void *data)
+>>> +{
+>>> +    struct mcled_cdev **p = res;
+>>> +
+>>> +    if (WARN_ON(!p || !*p))
+>>> +        return 0;
+>>> +
+>>> +    return *p == data;
+>>> +}
+>>> +
+>>> +/**
+>>> + * devm_led_classdev_multicolor_unregister() - resource managed
+>>> + *                    led_classdev_multicolor_unregister()
+>>> + * @parent: The device to unregister.
+>>> + * @mcled_cdev: the led_classdev_mc structure for this device.
+>>> + */
+>>> +void devm_led_classdev_multicolor_unregister(struct device *dev,
+>>> +                  struct led_classdev_mc *mcled_cdev)
+>>> +{
+>>> +    WARN_ON(devres_release(dev,
+>>> +                   devm_led_classdev_multicolor_release,
+>>> +                   devm_led_classdev_multicolor_match, mcled_cdev));
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(devm_led_classdev_multicolor_unregister);
+>>> +
+>>> +MODULE_AUTHOR("Dan Murphy <dmurphy@ti.com>");
+>>> +MODULE_DESCRIPTION("Multi Color LED class interface");
+>>> +MODULE_LICENSE("GPL v2");
+>>> diff --git a/include/linux/led-class-multicolor.h
+>>> b/include/linux/led-class-multicolor.h
+>>> new file mode 100644
+>>> index 000000000000..afcaf429fba5
+>>> --- /dev/null
+>>> +++ b/include/linux/led-class-multicolor.h
+>>> @@ -0,0 +1,76 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0 */
+>>> +/* LED Multicolor class interface
+>>> + * Copyright (C) 2019 Texas Instruments Incorporated -
+>>> http://www.ti.com/
+>>> + */
+>>> +
+>>> +#ifndef __LINUX_MULTICOLOR_LEDS_H_INCLUDED
+>>> +#define __LINUX_MULTICOLOR_LEDS_H_INCLUDED
+>>> +
+>>> +#include <linux/leds.h>
+>>> +#include <dt-bindings/leds/common.h>
+>>> +
+>>> +struct led_classdev_mc;
+>>> +
+>>> +struct led_classdev_mc_data {
+>>> +    struct led_classdev_mc *mcled_cdev;
+>>> +    struct list_head color_list;
+>>> +};
+>>> +
+>>> +struct led_classdev_mc {
+>>> +    /* led class device */
+>>> +    struct led_classdev *led_cdev;
+>>> +
+>>> +    /* Set brightness for a specific color id */
+>>> +    int (*set_color_brightness)(struct led_classdev_mc *mcled_cdev,
+>>> +                    int color_id, int value);
+>>> +
+>>> +    struct led_classdev_mc_data *data;
+>>> +
+>>> +    unsigned long available_colors;
+>>> +    int num_leds;
+>>> +};
+>>> +
+>>> +static inline struct led_classdev_mc *lcdev_to_mccdev(
+>>> +                        struct led_classdev *lcdev)
+>>> +{
+>>> +    return container_of(lcdev, struct led_classdev_mc, led_cdev);
+>>> +}
+>>> +
+>>> +/**
+>>> + * led_classdev_multicolor_register_ext - register a new object of
+>>> led_classdev
+>>> + *                      class with support for multicolor LEDs
+>>> + * @parent: the multicolor LED to register
+>>> + * @mcled_cdev: the led_classdev_mc structure for this device
+>>> + * @init_data: the LED class Multi color device initialization data
+>>> + *
+>>> + * Returns: 0 on success or negative error value on failure
+>>> + */
+>>> +extern int led_classdev_multicolor_register_ext(struct device *parent,
+>> extern is implied by default for functions. We need also to do this
+>> cleanup in leds.h soem day.
+> 
+> For clarity we can remove extern from all the APIs in the header?
+
+Yes, in a dedicated patch.
+
+>>> +                        struct led_classdev_mc *mcled_cdev,
+>>> +                        struct led_init_data *init_data);
+>>> +
+>>> +#define led_classdev_multicolor_register(parent, mcled_cdev)        \
+>>> +    led_classdev_multicolor_register_ext(parent, mcled_cdev, NULL)
+>>> +
+>>> +/**
+>>> + * led_classdev_multicolor_unregister - unregisters an object of
+>>> led_classdev
+>>> + *                    class with support for multicolor LEDs
+>>> + * @mcled_cdev: the multicolor LED to unregister
+>>> + *
+>>> + * Unregister a previously registered via
+>>> led_classdev_multicolor_register
+>>> + * object
+>>> + */
+>>> +extern void led_classdev_multicolor_unregister(struct
+>>> led_classdev_mc *mcled_cdev);
+>>> +
+>>> +extern int devm_led_classdev_multicolor_register(struct device *parent,
+>>> +                    struct led_classdev_mc *mcled_cdev);
+>>> +
+>>> +extern void devm_led_classdev_multicolor_unregister(struct device
+>>> *parent,
+>>> +                       struct led_classdev_mc *mcled_cdev);
+>>> +
+>>> +/* Set brightness for the monochrome LED cluster */
+>>> +extern void led_mc_calc_brightness(struct led_classdev_mc *mcled_cdev,
+>>> +                enum led_brightness brightness,
+>>> +                int brightness_val[]);
+>>> +
+>>> +#endif    /* __LINUX_MULTICOLOR_LEDS_H_INCLUDED */
+>>>
+> 
 
 -- 
 Best regards,
