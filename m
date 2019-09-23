@@ -2,60 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4A28BBD86
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2019 23:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04FDFBBDC0
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2019 23:21:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388089AbfIWVDr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 Sep 2019 17:03:47 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37869 "EHLO
+        id S2388866AbfIWVVn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 Sep 2019 17:21:43 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41788 "EHLO
         mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387617AbfIWVDq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Sep 2019 17:03:46 -0400
-Received: by mail-wr1-f66.google.com with SMTP id i1so15508198wro.4;
-        Mon, 23 Sep 2019 14:03:44 -0700 (PDT)
+        with ESMTP id S2388859AbfIWVVn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Sep 2019 17:21:43 -0400
+Received: by mail-wr1-f66.google.com with SMTP id h7so15539918wrw.8;
+        Mon, 23 Sep 2019 14:21:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=fVe2WkRSC+/JEESDxzcblBv1KaMd9haF8Fwrq2sZu/o=;
-        b=GnSvtobcMbJX4lBtD8JZWrUcA7WBIfrM5jqg5R4a4k72bLwWPPe4TRdUrU1zAFNJ9H
-         HTFJEndLAL+QH3yne2LlAP7L4ATR3vrvkWvI/5A2pKqbs0u9ZuZFSmRfYt9uRoVOkR0/
-         ZLmEOCRq0ZDysZCi2+4cdg0IYBDzkL2kKpYaR2O7xaVSa77xfk3ka0EAzTQpHHxW1Bsf
-         7V+UtSKRT+U6tsMDAoudHFp/lO/51TSrcrGl9rls8bYB+6tgYc/lDYu9vr9dgSsuEjMr
-         BE0KbdhxapmcAGbikwNL8Jm2tTSVrea+CuITaNysGDAkshtL1Hi3z4SeSwbXunXUXVw3
-         brUg==
+        bh=yDiZLJhE5QfqyJecos8R/R/0KtO0neQxJZxGWvPk/oU=;
+        b=Xc1MXyRMf1XN3QaiwjwD+RNZY0Did9AEFkdIBX839fOAfu0zcN2pA2gupdWh+ebhfR
+         A8Jqs2egrBgtpKyDifwy0MdyWhfcx0FpkFa8aeVfFzLPOrEdccPP9V6tjy/UnqGEXK7o
+         Np2agBCgWBNCn9VoN2jkcFsVAxKKLcRM6asVt/QJvKgCnlDWDIQX+8atnOGH4J6xsNzH
+         19LZwcYTf6HyZsOxrAfieF/aI6T+yO23jAjkgbhCLdr4I7bi8102TknAAhXc5MIsy/y4
+         w6Kua0LOsctusxvT+R8lOYHyC5NXTi4ap8u1NEZTGdErNiZe8Oq8v5h64xrKsVJyTqOT
+         D6jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=fVe2WkRSC+/JEESDxzcblBv1KaMd9haF8Fwrq2sZu/o=;
-        b=Yrhq0utb4dcvMYz8I+5hkm4Ei8zcDc6cXOueEDFgo93pprK0HJ9uqij7IwTnn3+TkE
-         siIyzhyl2P948RBMFpOBS87Gzmqi1Y8xsVryE1Ltwinh21IC95qx7J53h+DoPax2RqXY
-         pvtNa0H50b3RdeGSyYU1I2Fjz4fJNpHDV8Ccuk1nPq3s3y6eSzeQWe6D2b4d69M2/oa4
-         coKzmad0Wh4JPdQoJetQfPyQFPoNdmX+K/qPOtoK3jDQUimDZfXClm7ZToHbxuDDdEyq
-         Zij2o3JbhWNd6rzTTXITjvso1bkt5Yj/sB/+xCx+KMxoXi0/MJe6jseaCCM9TC3k8Bdj
-         x09w==
-X-Gm-Message-State: APjAAAXT3KcECrKXH7dXvrG3yrHhA0CxQthTO/hTY+DsqlWvz9T+OZPE
-        p2gikMcCezGOcy7rzaEiohM=
-X-Google-Smtp-Source: APXvYqzJD3D5MvfXMaFrP+5zOCfamlXds4X7mCYDilCd5gtE7S9tRSaEm4azH/oa8Ydd2R0hlZ+H7w==
-X-Received: by 2002:a05:6000:108e:: with SMTP id y14mr917888wrw.344.1569272623547;
-        Mon, 23 Sep 2019 14:03:43 -0700 (PDT)
+        bh=yDiZLJhE5QfqyJecos8R/R/0KtO0neQxJZxGWvPk/oU=;
+        b=MpwV7cPf7ui9fqqdJL1et1+7bw2HZUs5OrhdwcIjvBfA1+5/sQI9m6k9Yq0Anf9Un1
+         XD3PRHX2uY4T7N1vegprEX978JpgltgYFvHSra8qhoQykG24Qp70CxntDSqAmiSr0xJK
+         QBELh8KINRomi3lVpRutGua2Y7Svyg/BImthzK1+B+u0Gzipdzm0k/8AQTLsyytpyndA
+         KFOjQj9ehYIdH93qvavs7nCGdEM5EOVESSg54GHElsCXmrRfu+PPfd8oVkCRDlsmVpWu
+         ZAfT2EPDfAIQHPOwK/Xp1ZkoJEeGSrlRhTZXzlOA+HS5jttviUoGawkpJd8RJsDE7Vy8
+         DQ0w==
+X-Gm-Message-State: APjAAAXEGCxq+qsj/Oa32BAg2TxE+brsjBUOb2GslMYoApn3PHlUY8xq
+        4OPerB0Q2SNAZKalxvnePUCzBzh4
+X-Google-Smtp-Source: APXvYqw8BMdw/K+S2Aatyt9aUv5sU+9FztJ1EAP6H/Y1J0UNT0R3mecr8hqxQ53nutNUUC69WnZqEw==
+X-Received: by 2002:adf:fa10:: with SMTP id m16mr958942wrr.322.1569273699477;
+        Mon, 23 Sep 2019 14:21:39 -0700 (PDT)
 Received: from [192.168.1.19] (bdr247.neoplus.adsl.tpnet.pl. [83.28.3.247])
-        by smtp.gmail.com with ESMTPSA id y186sm26130778wmb.41.2019.09.23.14.03.41
+        by smtp.gmail.com with ESMTPSA id c4sm10118294wru.31.2019.09.23.14.21.38
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 23 Sep 2019 14:03:42 -0700 (PDT)
-Subject: Re: [PATCH v4 1/3] led: make led_set_brightness_sync() use
- led_set_brightness_nosleep()
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
-        daniel.thompson@linaro.org
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dmurphy@ti.com, tomi.valkeinen@ti.com
-References: <20190920122525.15712-1-jjhiblot@ti.com>
- <20190920122525.15712-2-jjhiblot@ti.com>
- <c8519e2f-9d46-e164-04d0-42cc5834042a@gmail.com>
- <2172e1c7-931e-d510-648b-80ef9c606ab6@ti.com>
+        Mon, 23 Sep 2019 14:21:38 -0700 (PDT)
+Subject: Re: [PATCH v8 2/9] documention: leds: Add multicolor class
+ documentation
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190920174139.30079-1-dmurphy@ti.com>
+ <20190920174139.30079-3-dmurphy@ti.com>
+ <2f2d40d7-aa4f-a38d-19a7-425a111adb64@gmail.com>
+ <56d9a7a6-7cdb-8ac0-5e41-f45fad914c55@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -114,12 +112,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <2de8d45c-dc0f-90d2-ed8d-96494a6386c1@gmail.com>
-Date:   Mon, 23 Sep 2019 23:03:39 +0200
+Message-ID: <b49c11e5-7271-b1a7-6f51-dba1dd7c1e26@gmail.com>
+Date:   Mon, 23 Sep 2019 23:21:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <2172e1c7-931e-d510-648b-80ef9c606ab6@ti.com>
+In-Reply-To: <56d9a7a6-7cdb-8ac0-5e41-f45fad914c55@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -128,84 +126,81 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jean,
+Dan,
 
-On 9/23/19 11:14 AM, Jean-Jacques Hiblot wrote:
-> Hi Jacek,
+On 9/23/19 4:50 PM, Dan Murphy wrote:
+> Jacek
 > 
-> On 20/09/2019 23:10, Jacek Anaszewski wrote:
->> Hi Jean,
->>
->> On 9/20/19 2:25 PM, Jean-Jacques Hiblot wrote:
->>> Making led_set_brightness_sync() use led_set_brightness_nosleep() has 2
->>> advantages:
->>> - works for LED controllers that do not provide
->>> brightness_set_blocking()
->>> - When the blocking callback is used, it uses the workqueue to update
->>> the
->>>    LED state, removing the need for mutual exclusion between
->>>    led_set_brightness_sync() and set_brightness_delayed().
->> And third:
->>
->> - it compromises the "sync" part of the function name :-)
+> Thanks for the review
 > 
-> Making it sync is the role of the flush_work() function. It waits until
-> the deferred work has been done.
-
-The thing is not in the blocking character of the function, but rather
-in the fastest possible way of setting torch brightness.
-led_set_brightness_nosleep() will defer brightness_set_blocking op
-to the workqueue so this condition will not be met then.
-
-This function was added specifically for LED class flash v4l2 wrapper:
-drivers/media/v4l2-core/v4l2-flash-led-class.c.
-
-It may need an addition of support for brightness_set only drivers,
-but we haven't had a use case so far, since all client flash LED
-controllers are driven via blocking buses (there are not many of them).
-
-Also, when LED flash class (and thus LED class also as a parent)
-is hijacked by v4l2-flash-led wrapper, its sysfs is disabled,
-so it is not possible to set e.g. timer trigger which could
-interfere with the led_set_brightness_sync() (and it also returns
--EBUSY when blinking is enabled).
-
->> This function has been introduced specifically to be blocking
->> and have the immediate effect. Its sole client is
->> drivers/media/v4l2-core/v4l2-flash-led-class.c.
+> On 9/21/19 7:28 AM, Jacek Anaszewski wrote:
+>> Dan,
 >>
->>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
->>> ---
->>>   drivers/leds/led-core.c | 12 +++++++-----
->>>   1 file changed, 7 insertions(+), 5 deletions(-)
+>> On 9/20/19 7:41 PM, Dan Murphy wrote:
+>>> Add the support documentation on the multicolor LED framework.
+>>> This document defines the directores and file generated by the
+>> Now there will be one directory created.
+>>
+>> Apart from that - all documentation should go in the same patch
+>> as the feature being added. So patches 1,2 and 3 should be melded
+>> together.
+> 
+> I think only patches 1 & 2 should be squashed into a single patch.
+> 
+> Patch 3 are the dt-bindings which should be separated
+
+Right.
+
+>>> multicolor framework.  It also documents usage.
 >>>
->>> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
->>> index f1f718dbe0f8..50e28a8f9357 100644
->>> --- a/drivers/leds/led-core.c
->>> +++ b/drivers/leds/led-core.c
->>> @@ -294,15 +294,17 @@ EXPORT_SYMBOL_GPL(led_set_brightness_nosleep);
->>>   int led_set_brightness_sync(struct led_classdev *led_cdev,
->>>                   enum led_brightness value)
->>>   {
->>> +    int ret;
+>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>>> ---
+>>>   Documentation/leds/index.rst                 |  1 +
+>>>   Documentation/leds/leds-class-multicolor.rst | 91 ++++++++++++++++++++
+>>>   2 files changed, 92 insertions(+)
+>>>   create mode 100644 Documentation/leds/leds-class-multicolor.rst
+>>>
+>>> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+>>> index 060f4e485897..bc70c6aa7138 100644
+>>> --- a/Documentation/leds/index.rst
+>>> +++ b/Documentation/leds/index.rst
+>>> @@ -9,6 +9,7 @@ LEDs
+>>>        leds-class
+>>>      leds-class-flash
+>>> +   leds-class-multicolor
+>>>      ledtrig-oneshot
+>>>      ledtrig-transient
+>>>      ledtrig-usbport
+>>> diff --git a/Documentation/leds/leds-class-multicolor.rst
+>>> b/Documentation/leds/leds-class-multicolor.rst
+>>> new file mode 100644
+>>> index 000000000000..063c9a411a1d
+>>> --- /dev/null
+>>> +++ b/Documentation/leds/leds-class-multicolor.rst
+>>> @@ -0,0 +1,91 @@
+>>> +====================================
+>>> +Multi Color LED handling under Linux
+>>> +====================================
 >>> +
->>>       if (led_cdev->blink_delay_on || led_cdev->blink_delay_off)
->>>           return -EBUSY;
->>>   -    led_cdev->brightness = min(value, led_cdev->max_brightness);
->>> -
->>> -    if (led_cdev->flags & LED_SUSPENDED)
->>> -        return 0;
->>> +    ret = led_set_brightness_nosleep(led_cdev, value);
->>> +    if (!ret)
->>> +        return ret;
->>>   -    return __led_set_brightness_blocking(led_cdev,
->>> led_cdev->brightness);
->>> +    flush_work(&led_cdev->set_brightness_work);
->>> +    return 0;
->>>   }
->>>   EXPORT_SYMBOL_GPL(led_set_brightness_sync);
->>>  
+>>> +Description
+>>> +===========
+>>> +There are varying monochrome LED colors available for application. 
+>>> These
+>>> +LEDs can be used as a single use case LED or can be mixed with other
+>>> color
+>>> +LEDs to produce the full spectrum of color.
+>> I'd say it won't be the most frequent use case. We can expect rather
+>> compound RGB, RGBA[UV] etc. LED elements being connected to iouts of
+>> multi color LED controllers like LP50xx. TI mentions RGB LEDs in its
+>> application notes for instance. I'd mention that in the first place
+>> and leave what you have above as another use case.
 > 
+> Which application notes are you referring to?
+
+I don't remember if it was titled exactly AN, but I do remember a sample
+PCB design using RGB LEDs mounted circle-wise to achieve the demo
+sample shown in the TI LP50xx presentation videos we were discussing
+somewhere in last Jan/Feb/March.
 
 -- 
 Best regards,
