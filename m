@@ -2,57 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E798BB64A
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2019 16:13:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B948BB67E
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2019 16:19:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405326AbfIWONU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 Sep 2019 10:13:20 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:50728 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404847AbfIWONU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Sep 2019 10:13:20 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8NEDFYh074217;
-        Mon, 23 Sep 2019 09:13:16 -0500
+        id S1732601AbfIWOTE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 Sep 2019 10:19:04 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:55670 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728575AbfIWOTE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Sep 2019 10:19:04 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8NEJ02l078946;
+        Mon, 23 Sep 2019 09:19:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1569247996;
-        bh=pylUPeCNtRYYZvjwR77bzHfG+zVG/7+gE+JoZOyPgmM=;
-        h=Subject:To:References:From:Date:In-Reply-To;
-        b=Hgbv4v36BP4W3UhGYlKUnVLDXwiAqEaYuizHFb2RbcmN8fb5t0hew/PgBEN4dpVUf
-         MmFqV3ki2K+x/aZjJhgJbxCkb6xKig6A28L9495kXCOl2tjNMr33HK15/FLr+0y8rv
-         NapSH1ZHlwYb73LCStx0KzPlbAjatWoQK6Hc4jCc=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8NEDF6T082043
+        s=ti-com-17Q1; t=1569248340;
+        bh=4HrGNJ0G06qOuyWPwNF7oHzx92HidaHXsQc7BzZ0wDk=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=Z2/E6kP4ZsKa6S7QBBca3S/itsvmN84EWQlap4RwVKw+aF9AUu2LBN2JC4wqZMABC
+         rCMu6ghdfqgelxlZlIaHfqzLVzC3xawAzjLlF7l1A3Fc743++uorZeaS9BLCb2WFPH
+         57nKsNrzCQCSKhpa7bA7u8Ko4/jhj4QQhsnCqdYo=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8NEJ08p040870
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 23 Sep 2019 09:13:15 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 23 Sep 2019 09:19:00 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 23
- Sep 2019 09:13:10 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE105.ent.ti.com
+ Sep 2019 09:19:00 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE105.ent.ti.com
  (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 23 Sep 2019 09:13:09 -0500
+ Frontend Transport; Mon, 23 Sep 2019 09:18:54 -0500
 Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8NEDF8s092017;
-        Mon, 23 Sep 2019 09:13:15 -0500
-Subject: Re: [PATCH v3 3/5] leds: lm3692x: Handle failure to probe the
- regulator
-To:     =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <cover.1569100154.git.agx@sigxcpu.org>
- <32fd08565f8dff39ce9a13f7b0a2546d22913b3a.1569100154.git.agx@sigxcpu.org>
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8NEJ09j015620;
+        Mon, 23 Sep 2019 09:19:00 -0500
+Subject: Re: [PATCH v8 1/9] leds: multicolor: Add sysfs interface definition
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190920174139.30079-1-dmurphy@ti.com>
+ <20190920174139.30079-2-dmurphy@ti.com>
+ <ea294ad4-d340-3677-eab0-6138968cfe0e@gmail.com>
 From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <c1073a35-adaa-1a9b-e1d6-1b36ee7ac1a5@ti.com>
-Date:   Mon, 23 Sep 2019 09:17:39 -0500
+Message-ID: <e8b19608-91be-ac9f-9aa2-2027993df3d7@ti.com>
+Date:   Mon, 23 Sep 2019 09:23:24 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <32fd08565f8dff39ce9a13f7b0a2546d22913b3a.1569100154.git.agx@sigxcpu.org>
+In-Reply-To: <ea294ad4-d340-3677-eab0-6138968cfe0e@gmail.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
@@ -60,44 +58,107 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Guido
+Jacek
 
-Thanks for the update
+Thanks for the review
 
-Reviewed-by: Dan Murphy <dmurphy@ti.com>
-
-On 9/21/19 4:12 PM, Guido Günther wrote:
-> Instead use devm_regulator_get_optional since the regulator
-> is optional and check for errors.
+On 9/21/19 5:55 AM, Jacek Anaszewski wrote:
+> Dan,
 >
-> Signed-off-by: Guido Günther <agx@sigxcpu.org>
-> Acked-by: Pavel Machek <pavel@ucw.cz>
-> ---
->   drivers/leds/leds-lm3692x.c | 13 +++++++++++--
->   1 file changed, 11 insertions(+), 2 deletions(-)
+> On 9/20/19 7:41 PM, Dan Murphy wrote:
+>> Add a documentation of LED Multicolor LED class specific
+>> sysfs attributes.
+>>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>> ---
+>>   .../ABI/testing/sysfs-class-led-multicolor    | 43 +++++++++++++++++++
+>>   1 file changed, 43 insertions(+)
+>>   create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>> new file mode 100644
+>> index 000000000000..39fc73becfec
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>> @@ -0,0 +1,43 @@
+>> +What:		/sys/class/leds/<led>/brightness
+>> +Date:		Sept 2019
+>> +KernelVersion:	5.5
+>> +Contact:	Dan Murphy <dmurphy@ti.com>
+>> +Description:	read/write
+>> +		Writing to this file will update all LEDs within the group to a
+>> +		calculated percentage of what each color LED intensity is set
+>> +		to. The percentage is calculated via the equation below:
+>> +
+>> +		led_brightness = requested_value * led_color_intensity/led_color_max_intensity
+> How about:
 >
-> diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
-> index ad76e34455ff..54e9bd2d288b 100644
-> --- a/drivers/leds/leds-lm3692x.c
-> +++ b/drivers/leds/leds-lm3692x.c
-> @@ -337,9 +337,18 @@ static int lm3692x_probe_dt(struct lm3692x_led *led)
->   		return ret;
->   	}
->   
-> -	led->regulator = devm_regulator_get(&led->client->dev, "vled");
-> -	if (IS_ERR(led->regulator))
-> +	led->regulator = devm_regulator_get_optional(&led->client->dev, "vled");
-> +	if (IS_ERR(led->regulator)) {
-> +		ret = PTR_ERR(led->regulator);
-> +		if (ret != -ENODEV) {
-> +			if (ret != -EPROBE_DEFER)
-> +				dev_err(&led->client->dev,
-> +					"Failed to get vled regulator: %d\n",
-> +					ret);
-> +			return ret;
-> +		}
->   		led->regulator = NULL;
-> +	}
->   
->   	child = device_get_next_child_node(&led->client->dev, child);
->   	if (!child) {
+> led_brightness = brightness * <color>_intensity/<color>_max_intensity
+
+Ack
+
+
+>> +
+>> +		For additional details please refer to
+>> +		Documentation/leds/leds-class-multicolor.rst.
+>> +
+>> +		The value of the color is from 0 to
+>> +		/sys/class/leds/<led>/max_brightness.
+>> +
+>> +What:		/sys/class/leds/<led>/colors/<led_color>_intensity
+> s/led_color/color/
+
+Ack
+
+
+>> +Date:		Sept 2019
+>> +KernelVersion:	5.5
+>> +Contact:	Dan Murphy <dmurphy@ti.com>
+>> +Description:	read/write
+>> +		The led_color directory is dynamically created based on the
+>> +		colors defined by the registrar of the class.
+>> +		The value for the led_color is defined in the
+>> +		include/dt-bindings/leds/common.h. There is one directory per
+>> +		color presented.  The intensity file is created under each
+>> +		led_color directory and controls the individual LED color
+>> +		setting.
+> We no longer have led_color directories so this description needs
+> to be adjusted.
+>
+> And I'd not mention where the colors are defined. This is documentation
+> for the user, who does not need to know about implementation details.
+
+I thought I updated this but I will re-write this
+
+Ack
+
+
+>> +
+>> +		The value of the color is from 0 to
+>> +		/sys/class/leds/<led>/colors/<led_color>_max_intensity.
+>> +
+>> +What:		/sys/class/leds/<led>/colors/<led_color>_max_intensity
+>> +Date:		Sept 2019
+>> +KernelVersion:	5.5
+>> +Contact:	Dan Murphy <dmurphy@ti.com>
+>> +Description:	read only
+>> +		Maximum intensity level for the LED color, default is
+>> +		255 (LED_FULL).
+> Mentioning the default value here is pointless IMO. Userspace cannot
+> change it anyway.
+>
+Ack
+
+
+>> +
+>> +		If the LED does not support different intensity levels, this
+>> +		should be 1.
+>>
+> This is less relevant for MC class, and also it is rather obvious.
+> I'd skip this sentence.
+>
+Ack
+
+
+Dan
+
