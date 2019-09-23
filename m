@@ -2,60 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CE4FBBE11
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Sep 2019 23:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F79DBBE37
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 00:00:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389818AbfIWVmJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 Sep 2019 17:42:09 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:38810 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389663AbfIWVmJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Sep 2019 17:42:09 -0400
-Received: by mail-wm1-f68.google.com with SMTP id 3so10824168wmi.3;
-        Mon, 23 Sep 2019 14:42:06 -0700 (PDT)
+        id S2502548AbfIWWAD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 Sep 2019 18:00:03 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37205 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389997AbfIWWAD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 23 Sep 2019 18:00:03 -0400
+Received: by mail-wr1-f66.google.com with SMTP id i1so15625961wro.4;
+        Mon, 23 Sep 2019 15:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=u2phEEYkBvGvKK2I6xq/vEA7c4Ost+MCUN0yPnMB5Kg=;
-        b=b2fF7eRgXbmxQE9Ct6w+cJinP/RjrLK4QXlxFQ8bEOiBM4eAWr/stPtnTjC2AWssop
-         zylf0r7zXqaG211hVCC58khKkMy9fz1HmMWcI797n+6h0FRsfNShojK6dzBLiq+XWYSv
-         e7pGObeSqWBN/DbefOcy5Y8jH4fWgM6ns1+VP7PWrAse3FybAH6AXjuSwu+Pj4oLBE0a
-         d/t40P+IZxEz8QHt/b80z8nqSfXd6lXgT6uqZAXhy4qclUnjsLLzCeJv1GyeYqwlBWyN
-         6dnCtHdpwgmRcNAdzEA/oRlP9jFnf1/FIGfH0f2ivQX0pBwsrGfq9VHB/vrKqmsMAet4
-         RKnA==
+        bh=NnnDZeev726m2OmJw6ekee+oEaPokMPQdAEJQYuZ6nE=;
+        b=Icoz3Q+YEJSeumSHmhXpOVM4zAWUNcbTbCmxdlSgone7+rk0VCH579nz6gkqt0MURf
+         PLAHEaxi1kwnbn+umT3WWQUc8fuUbzsykw5y5DVQb+Bo2Us1m1rxcjB6bJw02UQb0zzE
+         c4jtX7wu2ztz/8R8VJcnHlldS3TOjzYQsSb1Flv8M7yGo/cZxSUB5yblirdmWX4JY+2/
+         vdTwOTtno4Az+hx0mi+GlxhiEz94rifJTvSOUjWRNYgPu5sRn3214GQVLjHM5OlkcOkm
+         MVQ2BeRyvsAMyF7H2CfMr3a2szsRlRCUEAKpc82DSr21lExvKyZk4+ibfABmgitSrQsH
+         /Xlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=u2phEEYkBvGvKK2I6xq/vEA7c4Ost+MCUN0yPnMB5Kg=;
-        b=WEVHiKAli9XTtGXUrIE4wo8ivvxSql8eZlawDdSwoq9JMCWYSZbPG9ZH8Zy+F1NGni
-         NC02/z4wwonEKJA5D5xsJVjLqx1JRHvLP30ibcJIFGTcOJ2hqfVPFMjZ/3zsflxcHHKN
-         upgUBpPsA+ISKwx0bBHJpxbmg4u5aj2ZDxbZgtDj8fEV+uUTFG4UOUXBVvJglTXZ4FzC
-         uEI7TR8TCiDr4hC/sCaO781NCNVT9KiRCrNBkQWtPfkHT5NzLrq8l3Ckw79FH9A36xvK
-         awvxOzKq5Kiu/grfANkhp0om+3Vx04T2sEOqMbPJ2ZB/YaYA5tMbg7z3vixo4a1nibfi
-         E3NQ==
-X-Gm-Message-State: APjAAAXFt86EUfeLZGG7T7mj1I+reVnIz3LCZ90yTcBWLk+D7YeeUtTS
-        AwStr5x/+Vn6l3ZF+efjzK2e+LaO
-X-Google-Smtp-Source: APXvYqz5B/kwbNVff9OKkI+jpRz3FHT8H52/oMIDrDeWkLfybFOZyotIpsbE2D07hfP+WHhmCMv3nA==
-X-Received: by 2002:a1c:bc46:: with SMTP id m67mr1214562wmf.126.1569274925252;
-        Mon, 23 Sep 2019 14:42:05 -0700 (PDT)
+        bh=NnnDZeev726m2OmJw6ekee+oEaPokMPQdAEJQYuZ6nE=;
+        b=kRbHhKHHY52rbS0mEiiAr4PREXqOPC6PS9MoOPf+2JLQzx4l+tdcIe9+SwzQ1y8FjH
+         Z5G51j/oIE0MjFK1/V2ZPZVekdgLaShnec+Sza+oIYx0DTYdA0h4toQMExk8Ag1HlwWF
+         f3mQR3S6WJeSIxfguhFhcRntD198lRQz5A3bgRrxEezfu3OgXZbSJBr/Gmx/hyJc5rsD
+         wwKDQB+NA7z1XYpZgDiZQda55vcSd+A/vYL8iFt0Uv46Kci/ziV7MqLOQyFCCAswrmYw
+         caydWxk+A93gPZvn7bi3kz/1d2Imh+KW/gfjMs6NM6SuUZ/NhvG/P8VtTKiUDPJnwfJT
+         EMjA==
+X-Gm-Message-State: APjAAAUk6tsGv/LQa+mVRpPBX06LEBWaJ7TmdildZpKL1p1VzjOLe01k
+        E+mYro9S0c/RrNf2rSEKxLPlklNI
+X-Google-Smtp-Source: APXvYqyDZEenBDNPTPeZs9sTkE+UylvQPbv4d/ak9FW9dWgVfwsmrqWA3zWxzhqyCEcWfJYZAJPbtw==
+X-Received: by 2002:a5d:4491:: with SMTP id j17mr967077wrq.257.1569275998947;
+        Mon, 23 Sep 2019 14:59:58 -0700 (PDT)
 Received: from [192.168.1.19] (bdr247.neoplus.adsl.tpnet.pl. [83.28.3.247])
-        by smtp.gmail.com with ESMTPSA id b184sm19078845wmg.47.2019.09.23.14.42.03
+        by smtp.gmail.com with ESMTPSA id t4sm7294018wrm.13.2019.09.23.14.59.57
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 23 Sep 2019 14:42:04 -0700 (PDT)
-Subject: Re: [PATCH v8 7/9] dt: bindings: lp50xx: Introduce the lp50xx family
- of RGB drivers
+        Mon, 23 Sep 2019 14:59:58 -0700 (PDT)
+Subject: Re: [PATCH v8 8/9] leds: lp50xx: Add the LP50XX family of the RGB LED
+ driver
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190920174139.30079-1-dmurphy@ti.com>
- <20190920174139.30079-8-dmurphy@ti.com>
- <73a95bac-7433-5b06-5701-c742307aa004@gmail.com>
- <ba92d95a-9f2c-6b37-74d3-4e3a87ad28bf@ti.com>
+ <20190920174139.30079-9-dmurphy@ti.com>
+ <b6a09f76-3663-9bce-e009-24e31940517e@gmail.com>
+ <c063774f-9397-31ae-4ca8-24d50114296e@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -114,12 +112,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <6788e600-460a-7846-04d0-480268e674a1@gmail.com>
-Date:   Mon, 23 Sep 2019 23:42:02 +0200
+Message-ID: <c8972136-7489-e5a1-6d25-87108806c9cc@gmail.com>
+Date:   Mon, 23 Sep 2019 23:59:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <ba92d95a-9f2c-6b37-74d3-4e3a87ad28bf@ti.com>
+In-Reply-To: <c063774f-9397-31ae-4ca8-24d50114296e@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -130,240 +128,161 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Dan,
 
-On 9/23/19 5:28 PM, Dan Murphy wrote:
+On 9/23/19 7:56 PM, Dan Murphy wrote:
 > Jacek
 > 
-> On 9/21/19 10:13 AM, Jacek Anaszewski wrote:
+> On 9/21/19 10:11 AM, Jacek Anaszewski wrote:
 >> Dan,
 >>
 >> On 9/20/19 7:41 PM, Dan Murphy wrote:
->>> Introduce the bindings for the Texas Instruments LP5036, LP5030, LP5024,
->>> LP5018, LP5012 and LP5009 RGB LED device driver.  The
->>> LP5036/30/24/18/12/9
->>> can control RGB LEDs individually or as part of a control bank group.
->>> These devices have the ability to adjust the mixing control for the RGB
->>> LEDs to obtain different colors independent of the overall brightness of
->>> the LED grouping.
+>>> Introduce the LP5036/30/24/18/12/9 RGB LED driver.
+>>> The difference in these parts are the number of
+>>> LED outputs where the:
 >>>
->>> Datasheet:
->>> http://www.ti.com/lit/ds/symlink/lp5012.pdf
->>> http://www.ti.com/lit/ds/symlink/lp5024.pdf
->>> http://www.ti.com/lit/ds/symlink/lp5036.pdf
+>>> LP5036 can control 36 LEDs
+>>> LP5030 can control 30 LEDs
+>>> LP5024 can control 24 LEDs
+>>> LP5018 can control 18 LEDs
+>>> LP5012 can control 12 LEDs
+>>> LP509 can control 9 LEDs
 >>>
->>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>>> The device has the ability to group LED output into control banks
+>>> so that multiple LED banks can be controlled with the same mixing and
+>>> brightness.  Inversely the LEDs can also be controlled independently.
+>>>
+>>> Signed-off-by: Dan Murphy<dmurphy@ti.com>
 >>> ---
->>>   .../devicetree/bindings/leds/leds-lp50xx.txt  | 148 ++++++++++++++++++
->>>   1 file changed, 148 insertions(+)
->>>   create mode 100644
->>> Documentation/devicetree/bindings/leds/leds-lp50xx.txt
+>>>   drivers/leds/Kconfig       |   7 +
+>>>   drivers/leds/Makefile      |   1 +
+>>>   drivers/leds/leds-lp50xx.c | 785 +++++++++++++++++++++++++++++++++++++
+>>>   3 files changed, 793 insertions(+)
+>>>   create mode 100644 drivers/leds/leds-lp50xx.c
 >>>
->>> diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.txt
->>> b/Documentation/devicetree/bindings/leds/leds-lp50xx.txt
->>> new file mode 100644
->>> index 000000000000..9d05f43042e0
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.txt
->>> @@ -0,0 +1,148 @@
->>> +* Texas Instruments - LP5009/12/18/24/30/36 RGB LED driver
->>> +
->>> +The LP50XX is multi-channel, I2C RGB LED Drivers that can group RGB
->>> LEDs into
->>> +a LED group or control them individually.
->>> +
->>> +The difference in these RGB LED drivers is the number of supported
->>> RGB modules.
->>> +
->>> +Required parent properties:
->>> +    - compatible:
->>> +        "ti,lp5009"
->>> +        "ti,lp5012"
->>> +        "ti,lp5018"
->>> +        "ti,lp5024"
->>> +        "ti,lp5030"
->>> +        "ti,lp5036"
->>> +    - reg :  I2C slave address
->>> +        lp5009/12 - 0x28
->>> +        lp5018/24 - 0x28
->>> +        lp5030/36 - 0x30
->>> +    - #address-cells : 1
->>> +    - #size-cells : 0
->>> +
->>> +Optional parent properties:
->>> +    - enable-gpios : gpio pin to enable/disable the device.
->>> +    - vled-supply : LED supply
->>> +
->>> +Required child properties:
->>> +    - #address-cells : 1
->>> +    - #size-cells : 0
->>> +    - reg : This is the LED module number.
->>> +    - color : see Documentation/devicetree/bindings/leds/common.txt
->>> +    - function : see Documentation/devicetree/bindings/leds/common.txt
->>> +
->>> +Required child properties only is LED modules will be banked:
->>> +    - ti,led-bank : This property denotes the LED module numbers
->>> that will
->>> +            be controlled as a single RGB cluster.  Each LED module
->>> +            number will be controlled by a single LED class instance.
->>> +            There can only be one instance of the ti,led-bank
->>> +            property for each device node.
->>> +
->>> +Required grandchildren properties:
->>> +    - reg : A single entry denoting the LED module that controls
->>> +        the RGB cluster.
->>> +    - color : see
->>> Documentation/devicetree/bindings/leds/leds-multicolor.txt
->>> +    - led-sources : see
->>> Documentation/devicetree/bindings/leds/common.txt
->>> +
->>> +The LED outputs associated with the LED modules are defined in Table
->>> 1 of the
->>> +corresponding data sheets.
->> We must enclose this information here.
+>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+>>> index cfb1ebb6517f..1c0cacb100e6 100644
+>>> --- a/drivers/leds/Kconfig
+>>> +++ b/drivers/leds/Kconfig
+>>> @@ -363,6 +363,13 @@ config LEDS_LP3952
+>>>         To compile this driver as a module, choose M here: the
+>>>         module will be called leds-lp3952.
+>>>   +config LEDS_LP50XX
+>>> +    tristate "LED Support for TI LP5036/30/24/18 LED driver chip"
+>>> +    depends on LEDS_CLASS && REGMAP_I2C
+>> && OF
 > 
-> That will make this doc pretty messy especially with the LP5036 entries.
+> Not sure why I would add that since we are using fw_node calls not
+> of_property calls.
 > 
-> I would have to do ascii art to make it understandable and basically
-> there is not a delta in the lesser devices in the outputs
-> 
-> I don't see value in reproducing this data sheet contents in the
-> dt-bindings.
+> The fw_node calls are built in as default kernel so these should always
+> be available.
 
-IMO DT bindings should be self-contained. We cannot assume that
-user will always have Internet access.
+Ah, right. Forget it.
 
-> For example (LP5012) and then for the LP5036 multiply this by 3
+[...]
+>>> +static int lp50xx_brightness_set(struct led_classdev *cdev,
+>>> +                 enum led_brightness brightness)
+>>> +{
+>>> +    struct lp50xx_led *led = container_of(cdev, struct lp50xx_led,
+>>> led_dev);
+>>> +    int ret = 0;
+>>> +    u8 reg_val;
+>>> +
+>>> +    mutex_lock(&led->priv->lock);
+>>> +
+>>> +    if (led->ctrl_bank_enabled)
+>>> +        reg_val = led->priv->chip_info->bank_brt_reg;
+>>> +    else
+>>> +        reg_val = led->priv->chip_info->led_brightness0_reg +
+>>> +              led->led_number;
+>>> +
+>>> +    ret = regmap_write(led->priv->regmap, reg_val, brightness);
+>>> +    if (ret)
+>>> +        goto err_out;
+>>> +
+>>> +    ret = lp50xx_set_intensity(led);
+>>> +err_out:
+>>> +    mutex_unlock(&led->priv->lock);
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +static enum led_brightness lp50xx_brightness_get(struct led_classdev
+>>> *cdev)
+>> Do we really need this op? Is it possible that the device will alter
+>> brightness autonomously ? IOW can't we rely on what we've written
+>> previously to the hw?
 > 
-> Table 1.
-> 
-> Bank Number and LED Number Assignment
-> OUT NUMBER BANK NUMBER  RGB LED MODULE NUMBER
-> OUT0                    Bank A
-> OUT1                    Bank B                        LED0
-> OUT2                    Bank C
-> 
-> OUT3                    Bank A
-> OUT4                    Bank B                        LED1
-> OUT5                    Bank C
-> 
-> OUT6                    Bank A
-> OUT7                    Bank B                        LED2
-> OUT8                    Bank C
-> 
-> OUT9 (LP5012 only) Bank A
-> OUT10 (LP5012 only) Bank B                  LED3
-> OUT11 (LP5012 only) Bank C
+> How can we be sure that the previous I/O actually wrote to the device?
 
+brightness_set* op returned 0?
 
-I'd say it is required. But let's wait for DT guys' opinion.
+> If set_brightness fails does the LED class not modify the current
+> brightness setting?
 
+It does modify it on every brightness setting op in
+led_set_brightness_nosleep().
 
->>> +
->>> +LP5009 - 2 Total RGB cluster LED outputs 0-1
+> So we have mismatched values and with this call back we can refresh the
+> right setting.
 > 
-> This should be 3 total not 2
+> But I can remove it if you see no value in doing get_brightness call back.
+
+If write to the device fails it signifies much more serious problem
+than resulting mismatched values. Have you experienced that?
+
+>>> +{
+>>> +    struct lp50xx_led *led = container_of(cdev, struct lp50xx_led,
+>>> led_dev);
+>>> +    unsigned int brt_val;
+>>> +    u8 reg_val;
+>>> +    int ret;
+>>> +
+>>> +    mutex_lock(&led->priv->lock);
+>>> +
+>>> +    if (led->ctrl_bank_enabled)
+>>> +        reg_val = led->priv->chip_info->bank_brt_reg;
+>>> +    else
+>>> +        reg_val = led->priv->chip_info->led_brightness0_reg +
+>>> led->led_number;
+>>> +
+>>> +    ret = regmap_read(led->priv->regmap, reg_val, &brt_val);
+>>> +
+>>> +    mutex_unlock(&led->priv->lock);
+>>> +
+>>> +    return brt_val;
+>>> +}
+>>> +
+>>> +static int lp50xx_set_color(struct led_classdev_mc *mcled_cdev,
+>>> +                int color, int value)
+>>> +{
+>>> +    struct lp50xx_led *led = mcled_cdev_to_led(mcled_cdev);
+>>> +
+>>> +    led->led_intensity[color] = value;
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static int lp50xx_set_banks(struct lp50xx *priv, u32 led_strings[])
+>> This is a bit misleading to introduce "strings" when the function
+>> claims to set "banks". Let's have the parameter name "led_banks".
+> Ack
+>>
+>>> +{
+>>> +    u8 led_ctrl_enable = 0;
+>>> +    u8 led1_ctrl_enable = 0;
+>>> +    u8 ctrl_ext = 0;
+>> Let's have below instead of the above three variables:
+>>
+>>     u32 bank_enable_mask = 0;
+>>     u8 led_config_lo, led_config_hi;
 > 
-> Dan
-> 
->>> +LP5012 - 4 Total RGB cluster LED outputs 0-3
->>> +LP5018 - 6 Total RGB cluster LED outputs 0-5
->>> +LP5024 - 8 Total RGB cluster LED outputs 0-7
->>> +LP5030 - 10 Total RGB cluster LED outputs 0-9
->>> +LP5036 - 12 Total RGB cluster LED outputs 0-11
->>> +
->>> +Optional child properties:
->>> +    - label : see Documentation/devicetree/bindings/leds/common.txt
->>> +    - linux,default-trigger :
->>> +       see Documentation/devicetree/bindings/leds/common.txt
->>> +
->>> +Examples:
->>> +led-controller@29 {
->>> +    #address-cells = <1>;
->>> +    #size-cells = <0>;
->>> +    compatible = "ti,lp5024";
->>> +    reg = <0x29>;
->>> +    enable-gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
->>> +    vled-supply = <&vmmcsd_fixed>;
->>> +
->>> +    multi-led@1 {
->>> +        #address-cells = <1>;
->>> +        #size-cells = <0>;
->>> +        reg = <1>;
->>> +        color = <LED_COLOR_ID_MULTI>;
->>> +        function = LED_FUNCTION_STATUS;
->>> +
->>> +        led@3 {
->>> +            reg = <3>;
->>> +            color = <LED_COLOR_ID_RED>;
->>> +        };
->>> +
->>> +        led@4 {
->>> +            reg = <4>;
->>> +            color = <LED_COLOR_ID_GREEN>;
->>> +        };
->>> +
->>> +        led@5 {
->>> +            reg = <5>;
->>> +            color = <LED_COLOR_ID_BLUE>;
->>> +        };
->>> +    };
->>> +
->>> +    multi-led@2 {
->>> +        #address-cells = <1>;
->>> +        #size-cells = <0>;
->>> +        reg = <2>;
->>> +        color = <LED_COLOR_ID_MULTI>;
->>> +        function = LED_FUNCTION_STANDBY;
->>> +        ti,led-bank = <2 3 5>;
->>> +
->>> +        led@6 {
->>> +            reg = <0x6>;
->>> +            color = <LED_COLOR_ID_RED>;
->>> +            led-sources = <6 9 15>;
->>> +        };
->>> +
->>> +        led@7 {
->>> +            reg = <0x7>;
->>> +            color = <LED_COLOR_ID_GREEN>;
->>> +            led-sources = <7 10 16>;
->>> +        };
->>> +
->>> +        led@8 {
->>> +            reg = <0x8>;
->>> +            color = <LED_COLOR_ID_BLUE>;
->>> +            led-sources = <8 11 17>;
->>> +        };
->>> +    };
->>> +
->>> +    multi-led@4 {
->>> +        #address-cells = <1>;
->>> +        #size-cells = <0>;
->>> +        reg = <4>;
->>> +        color = <LED_COLOR_ID_MULTI>;
->>> +        function = LED_FUNCTION_ACTIVITY;
->>> +
->>> +        led@12 {
->>> +            reg = <12>;
->>> +            color = <LED_COLOR_ID_RED>;
->>> +        };
->>> +
->>> +        led@13 {
->>> +            reg = <13>;
->>> +            color = <LED_COLOR_ID_GREEN>;
->>> +        };
->>> +
->>> +        led@14 {
->>> +            reg = <14>;
->>> +            color = <LED_COLOR_ID_BLUE>;
->>> +        };
->>> +    };
->>> +};
->>> +
->>> +For more product information please see the link below:
->>> +http://www.ti.com/lit/ds/symlink/lp5012.pdf
->>> +http://www.ti.com/lit/ds/symlink/lp5024.pdf
->>> +http://www.ti.com/lit/ds/symlink/lp5036.pdf
->>>
-> 
+> Ack but I have to keep the initialization to 0 as the compiler
+> complained that these values may not be set.
+
+It was because in your code values are assigned in a loop that
+may or may not execute at all, depending on num_leds.
+In my example variables will be assigned unconditionally
+so there should be no compiler complaints.
+
 
 -- 
 Best regards,
