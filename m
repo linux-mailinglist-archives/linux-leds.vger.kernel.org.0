@@ -2,58 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CC4FBC910
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 15:43:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1B1FBCA90
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 16:47:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730203AbfIXNn3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Sep 2019 09:43:29 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:58642 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727963AbfIXNn3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Sep 2019 09:43:29 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8ODhOdD022608;
-        Tue, 24 Sep 2019 08:43:24 -0500
+        id S2388268AbfIXOr6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 Sep 2019 10:47:58 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:34910 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726060AbfIXOr5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Sep 2019 10:47:57 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8OElpj4035406;
+        Tue, 24 Sep 2019 09:47:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1569332604;
-        bh=MGPyYnOE9iJUG1lF+FjK3DuaMzMR8PthtlnbMzCnkWY=;
+        s=ti-com-17Q1; t=1569336471;
+        bh=TXLiWsgLS6zqBq6pXxzlutr7tMcfrndBxh5tD9dOtac=;
         h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=SGnBwd7KtaGNMfFGxoEmchvTacVbzL/kamdKhN6Yg5WQd7ooVcRaU2xlUoOyb+6xR
-         2BvhtgzKKJIBwF/QRSKM/dE0xUcbktVNPRwTMaswkDBIXbLPxEA9OayigmHBfOOGbH
-         Ky0f59PhYft4z5egXRRPwCeTQAVFiXC4XYKX2N4M=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8ODhO5W005401
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 24 Sep 2019 08:43:24 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+        b=RwO1zwKXB3pLKh8yo4Koq2/OakQIiCYvtV51uQV0IRM2OnaYVAZG+MXUnx13Yh8YW
+         JujdqS/mzMCKL3ge2uYAlMMRqfraStheA+eyZlEQpsegaeiJV5bqR3Bi/VH+LzNLxR
+         8yQxnNHgTk4QGt3qOP11QgjEYdriZCofElsFTO8U=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8OElptx106281;
+        Tue, 24 Sep 2019 09:47:51 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 24
- Sep 2019 08:43:17 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2019 09:47:45 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 24 Sep 2019 08:43:17 -0500
-Received: from [10.250.99.146] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8ODhMOk055308;
-        Tue, 24 Sep 2019 08:43:22 -0500
-Subject: Re: [PATCH v4 1/3] led: make led_set_brightness_sync() use
- led_set_brightness_nosleep()
+ Frontend Transport; Tue, 24 Sep 2019 09:47:51 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8OElogq013583;
+        Tue, 24 Sep 2019 09:47:51 -0500
+Subject: Re: [PATCH v8 7/9] dt: bindings: lp50xx: Introduce the lp50xx family
+ of RGB drivers
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        <daniel.thompson@linaro.org>
+        Rob Herring <robh+dt@kernel.org>
 CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <dmurphy@ti.com>, <tomi.valkeinen@ti.com>
-References: <20190920122525.15712-1-jjhiblot@ti.com>
- <20190920122525.15712-2-jjhiblot@ti.com>
- <c8519e2f-9d46-e164-04d0-42cc5834042a@gmail.com>
- <2172e1c7-931e-d510-648b-80ef9c606ab6@ti.com>
- <2de8d45c-dc0f-90d2-ed8d-96494a6386c1@gmail.com>
-From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
-Message-ID: <360f37a8-da8d-6ea9-3164-35d2289097dc@ti.com>
-Date:   Tue, 24 Sep 2019 15:43:21 +0200
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+References: <20190920174139.30079-1-dmurphy@ti.com>
+ <20190920174139.30079-8-dmurphy@ti.com>
+ <73a95bac-7433-5b06-5701-c742307aa004@gmail.com>
+ <ba92d95a-9f2c-6b37-74d3-4e3a87ad28bf@ti.com>
+ <6788e600-460a-7846-04d0-480268e674a1@gmail.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <5c1091b6-788e-79b2-a6ac-911401b58ed3@ti.com>
+Date:   Tue, 24 Sep 2019 09:52:39 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <2de8d45c-dc0f-90d2-ed8d-96494a6386c1@gmail.com>
+In-Reply-To: <6788e600-460a-7846-04d0-480268e674a1@gmail.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -63,93 +62,244 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Rob
 
-On 23/09/2019 23:03, Jacek Anaszewski wrote:
-> Hi Jean,
+On 9/23/19 4:42 PM, Jacek Anaszewski wrote:
+> Dan,
 >
-> On 9/23/19 11:14 AM, Jean-Jacques Hiblot wrote:
->> Hi Jacek,
+> On 9/23/19 5:28 PM, Dan Murphy wrote:
+>> Jacek
 >>
->> On 20/09/2019 23:10, Jacek Anaszewski wrote:
->>> Hi Jean,
+>> On 9/21/19 10:13 AM, Jacek Anaszewski wrote:
+>>> Dan,
 >>>
->>> On 9/20/19 2:25 PM, Jean-Jacques Hiblot wrote:
->>>> Making led_set_brightness_sync() use led_set_brightness_nosleep() has 2
->>>> advantages:
->>>> - works for LED controllers that do not provide
->>>> brightness_set_blocking()
->>>> - When the blocking callback is used, it uses the workqueue to update
->>>> the
->>>>     LED state, removing the need for mutual exclusion between
->>>>     led_set_brightness_sync() and set_brightness_delayed().
->>> And third:
->>>
->>> - it compromises the "sync" part of the function name :-)
->> Making it sync is the role of the flush_work() function. It waits until
->> the deferred work has been done.
-> The thing is not in the blocking character of the function, but rather
-> in the fastest possible way of setting torch brightness.
-> led_set_brightness_nosleep() will defer brightness_set_blocking op
-> to the workqueue so this condition will not be met then.
-
-OK. I see the point there.
-
->
-> This function was added specifically for LED class flash v4l2 wrapper:
-> drivers/media/v4l2-core/v4l2-flash-led-class.c.
->
-> It may need an addition of support for brightness_set only drivers,
-> but we haven't had a use case so far, since all client flash LED
-> controllers are driven via blocking buses (there are not many of them).
->
-> Also, when LED flash class (and thus LED class also as a parent)
-> is hijacked by v4l2-flash-led wrapper, its sysfs is disabled,
-> so it is not possible to set e.g. timer trigger which could
-> interfere with the led_set_brightness_sync() (and it also returns
-> -EBUSY when blinking is enabled).
-
-Then this is a really special use case and we don't really have to  
-worry about synchronization with the other ways to set the LED 
-brightness. I'll drop any change to this function then.
-
-Thanks for the detailed explanation.
-
-JJ
-
-
->
->>> This function has been introduced specifically to be blocking
->>> and have the immediate effect. Its sole client is
->>> drivers/media/v4l2-core/v4l2-flash-led-class.c.
->>>
->>>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
->>>> ---
->>>>    drivers/leds/led-core.c | 12 +++++++-----
->>>>    1 file changed, 7 insertions(+), 5 deletions(-)
+>>> On 9/20/19 7:41 PM, Dan Murphy wrote:
+>>>> Introduce the bindings for the Texas Instruments LP5036, LP5030, LP5024,
+>>>> LP5018, LP5012 and LP5009 RGB LED device driver.  The
+>>>> LP5036/30/24/18/12/9
+>>>> can control RGB LEDs individually or as part of a control bank group.
+>>>> These devices have the ability to adjust the mixing control for the RGB
+>>>> LEDs to obtain different colors independent of the overall brightness of
+>>>> the LED grouping.
 >>>>
->>>> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
->>>> index f1f718dbe0f8..50e28a8f9357 100644
->>>> --- a/drivers/leds/led-core.c
->>>> +++ b/drivers/leds/led-core.c
->>>> @@ -294,15 +294,17 @@ EXPORT_SYMBOL_GPL(led_set_brightness_nosleep);
->>>>    int led_set_brightness_sync(struct led_classdev *led_cdev,
->>>>                    enum led_brightness value)
->>>>    {
->>>> +    int ret;
+>>>> Datasheet:
+>>>> http://www.ti.com/lit/ds/symlink/lp5012.pdf
+>>>> http://www.ti.com/lit/ds/symlink/lp5024.pdf
+>>>> http://www.ti.com/lit/ds/symlink/lp5036.pdf
+>>>>
+>>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>>>> ---
+>>>>    .../devicetree/bindings/leds/leds-lp50xx.txt  | 148 ++++++++++++++++++
+>>>>    1 file changed, 148 insertions(+)
+>>>>    create mode 100644
+>>>> Documentation/devicetree/bindings/leds/leds-lp50xx.txt
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.txt
+>>>> b/Documentation/devicetree/bindings/leds/leds-lp50xx.txt
+>>>> new file mode 100644
+>>>> index 000000000000..9d05f43042e0
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.txt
+>>>> @@ -0,0 +1,148 @@
+>>>> +* Texas Instruments - LP5009/12/18/24/30/36 RGB LED driver
 >>>> +
->>>>        if (led_cdev->blink_delay_on || led_cdev->blink_delay_off)
->>>>            return -EBUSY;
->>>>    -    led_cdev->brightness = min(value, led_cdev->max_brightness);
->>>> -
->>>> -    if (led_cdev->flags & LED_SUSPENDED)
->>>> -        return 0;
->>>> +    ret = led_set_brightness_nosleep(led_cdev, value);
->>>> +    if (!ret)
->>>> +        return ret;
->>>>    -    return __led_set_brightness_blocking(led_cdev,
->>>> led_cdev->brightness);
->>>> +    flush_work(&led_cdev->set_brightness_work);
->>>> +    return 0;
->>>>    }
->>>>    EXPORT_SYMBOL_GPL(led_set_brightness_sync);
->>>>   
+>>>> +The LP50XX is multi-channel, I2C RGB LED Drivers that can group RGB
+>>>> LEDs into
+>>>> +a LED group or control them individually.
+>>>> +
+>>>> +The difference in these RGB LED drivers is the number of supported
+>>>> RGB modules.
+>>>> +
+>>>> +Required parent properties:
+>>>> +    - compatible:
+>>>> +        "ti,lp5009"
+>>>> +        "ti,lp5012"
+>>>> +        "ti,lp5018"
+>>>> +        "ti,lp5024"
+>>>> +        "ti,lp5030"
+>>>> +        "ti,lp5036"
+>>>> +    - reg :  I2C slave address
+>>>> +        lp5009/12 - 0x28
+>>>> +        lp5018/24 - 0x28
+>>>> +        lp5030/36 - 0x30
+>>>> +    - #address-cells : 1
+>>>> +    - #size-cells : 0
+>>>> +
+>>>> +Optional parent properties:
+>>>> +    - enable-gpios : gpio pin to enable/disable the device.
+>>>> +    - vled-supply : LED supply
+>>>> +
+>>>> +Required child properties:
+>>>> +    - #address-cells : 1
+>>>> +    - #size-cells : 0
+>>>> +    - reg : This is the LED module number.
+>>>> +    - color : see Documentation/devicetree/bindings/leds/common.txt
+>>>> +    - function : see Documentation/devicetree/bindings/leds/common.txt
+>>>> +
+>>>> +Required child properties only is LED modules will be banked:
+>>>> +    - ti,led-bank : This property denotes the LED module numbers
+>>>> that will
+>>>> +            be controlled as a single RGB cluster.  Each LED module
+>>>> +            number will be controlled by a single LED class instance.
+>>>> +            There can only be one instance of the ti,led-bank
+>>>> +            property for each device node.
+>>>> +
+>>>> +Required grandchildren properties:
+>>>> +    - reg : A single entry denoting the LED module that controls
+>>>> +        the RGB cluster.
+>>>> +    - color : see
+>>>> Documentation/devicetree/bindings/leds/leds-multicolor.txt
+>>>> +    - led-sources : see
+>>>> Documentation/devicetree/bindings/leds/common.txt
+>>>> +
+>>>> +The LED outputs associated with the LED modules are defined in Table
+>>>> 1 of the
+>>>> +corresponding data sheets.
+>>> We must enclose this information here.
+>> That will make this doc pretty messy especially with the LP5036 entries.
+>>
+>> I would have to do ascii art to make it understandable and basically
+>> there is not a delta in the lesser devices in the outputs
+>>
+>> I don't see value in reproducing this data sheet contents in the
+>> dt-bindings.
+> IMO DT bindings should be self-contained. We cannot assume that
+> user will always have Internet access.
+>
+>> For example (LP5012) and then for the LP5036 multiply this by 3
+>>
+>> Table 1.
+>>
+>> Bank Number and LED Number Assignment
+>> OUT NUMBER BANK NUMBER  RGB LED MODULE NUMBER
+>> OUT0                    Bank A
+>> OUT1                    Bank B                        LED0
+>> OUT2                    Bank C
+>>
+>> OUT3                    Bank A
+>> OUT4                    Bank B                        LED1
+>> OUT5                    Bank C
+>>
+>> OUT6                    Bank A
+>> OUT7                    Bank B                        LED2
+>> OUT8                    Bank C
+>>
+>> OUT9 (LP5012 only) Bank A
+>> OUT10 (LP5012 only) Bank B                  LED3
+>> OUT11 (LP5012 only) Bank C
+>
+> I'd say it is required. But let's wait for DT guys' opinion.
+>
+Do you have an opinion on whether we need to publish in the DT the 
+output to module map?
+
+This is the last item I have to fix before submitting v9.
+
+Dan
+
+
+>>>> +
+>>>> +LP5009 - 2 Total RGB cluster LED outputs 0-1
+>> This should be 3 total not 2
+>>
+>> Dan
+>>
+>>>> +LP5012 - 4 Total RGB cluster LED outputs 0-3
+>>>> +LP5018 - 6 Total RGB cluster LED outputs 0-5
+>>>> +LP5024 - 8 Total RGB cluster LED outputs 0-7
+>>>> +LP5030 - 10 Total RGB cluster LED outputs 0-9
+>>>> +LP5036 - 12 Total RGB cluster LED outputs 0-11
+>>>> +
+>>>> +Optional child properties:
+>>>> +    - label : see Documentation/devicetree/bindings/leds/common.txt
+>>>> +    - linux,default-trigger :
+>>>> +       see Documentation/devicetree/bindings/leds/common.txt
+>>>> +
+>>>> +Examples:
+>>>> +led-controller@29 {
+>>>> +    #address-cells = <1>;
+>>>> +    #size-cells = <0>;
+>>>> +    compatible = "ti,lp5024";
+>>>> +    reg = <0x29>;
+>>>> +    enable-gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
+>>>> +    vled-supply = <&vmmcsd_fixed>;
+>>>> +
+>>>> +    multi-led@1 {
+>>>> +        #address-cells = <1>;
+>>>> +        #size-cells = <0>;
+>>>> +        reg = <1>;
+>>>> +        color = <LED_COLOR_ID_MULTI>;
+>>>> +        function = LED_FUNCTION_STATUS;
+>>>> +
+>>>> +        led@3 {
+>>>> +            reg = <3>;
+>>>> +            color = <LED_COLOR_ID_RED>;
+>>>> +        };
+>>>> +
+>>>> +        led@4 {
+>>>> +            reg = <4>;
+>>>> +            color = <LED_COLOR_ID_GREEN>;
+>>>> +        };
+>>>> +
+>>>> +        led@5 {
+>>>> +            reg = <5>;
+>>>> +            color = <LED_COLOR_ID_BLUE>;
+>>>> +        };
+>>>> +    };
+>>>> +
+>>>> +    multi-led@2 {
+>>>> +        #address-cells = <1>;
+>>>> +        #size-cells = <0>;
+>>>> +        reg = <2>;
+>>>> +        color = <LED_COLOR_ID_MULTI>;
+>>>> +        function = LED_FUNCTION_STANDBY;
+>>>> +        ti,led-bank = <2 3 5>;
+>>>> +
+>>>> +        led@6 {
+>>>> +            reg = <0x6>;
+>>>> +            color = <LED_COLOR_ID_RED>;
+>>>> +            led-sources = <6 9 15>;
+>>>> +        };
+>>>> +
+>>>> +        led@7 {
+>>>> +            reg = <0x7>;
+>>>> +            color = <LED_COLOR_ID_GREEN>;
+>>>> +            led-sources = <7 10 16>;
+>>>> +        };
+>>>> +
+>>>> +        led@8 {
+>>>> +            reg = <0x8>;
+>>>> +            color = <LED_COLOR_ID_BLUE>;
+>>>> +            led-sources = <8 11 17>;
+>>>> +        };
+>>>> +    };
+>>>> +
+>>>> +    multi-led@4 {
+>>>> +        #address-cells = <1>;
+>>>> +        #size-cells = <0>;
+>>>> +        reg = <4>;
+>>>> +        color = <LED_COLOR_ID_MULTI>;
+>>>> +        function = LED_FUNCTION_ACTIVITY;
+>>>> +
+>>>> +        led@12 {
+>>>> +            reg = <12>;
+>>>> +            color = <LED_COLOR_ID_RED>;
+>>>> +        };
+>>>> +
+>>>> +        led@13 {
+>>>> +            reg = <13>;
+>>>> +            color = <LED_COLOR_ID_GREEN>;
+>>>> +        };
+>>>> +
+>>>> +        led@14 {
+>>>> +            reg = <14>;
+>>>> +            color = <LED_COLOR_ID_BLUE>;
+>>>> +        };
+>>>> +    };
+>>>> +};
+>>>> +
+>>>> +For more product information please see the link below:
+>>>> +http://www.ti.com/lit/ds/symlink/lp5012.pdf
+>>>> +http://www.ti.com/lit/ds/symlink/lp5024.pdf
+>>>> +http://www.ti.com/lit/ds/symlink/lp5036.pdf
+>>>>
