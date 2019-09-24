@@ -2,55 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A3D8BD1C0
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 20:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 524F0BD238
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 20:58:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395207AbfIXSVE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Sep 2019 14:21:04 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40484 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394091AbfIXSVE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Sep 2019 14:21:04 -0400
-Received: by mail-wm1-f67.google.com with SMTP id b24so1083804wmj.5;
-        Tue, 24 Sep 2019 11:21:01 -0700 (PDT)
+        id S2441795AbfIXS6H (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 Sep 2019 14:58:07 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53793 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391875AbfIXS6G (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Sep 2019 14:58:06 -0400
+Received: by mail-wm1-f65.google.com with SMTP id i16so1392065wmd.3;
+        Tue, 24 Sep 2019 11:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:openpgp:autocrypt:message-id:date
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=8DtjNvJI7omodXJqBEfDRZCHl5Fugn0TcO2cbrU+wn4=;
-        b=RcyK6BcxL0dxXvpToQa8jJm+pm9K9G9UGc1Sl4LFEcpzkvIz4YpW0ysbWzivQvwu+2
-         eaTITUfzKvo8XyYkx/JmYIShGDj16h9msYLSGgvQrUCEKCkPm8OLbxNICDvCrgrQ/CQZ
-         Pnt8OC2CZClOAGFB0CSfB8SE4voxqw/PD73aC56CcQCdJvuKe8DEaV1EsuQZ7NsHEOzR
-         6D1l/8s1yX5Q2lFWAlnEqi27hCMfoCr199KnR0sTsK+uz7CqqtqRxRLevIm7n6VGrymH
-         8F4JtLAk6/iOMyhXd4SvBhRsztNe72oUEa5dqMm0F/l+TX0nSfWU/aDXZFZiD/w3v+U1
-         0xUQ==
+        bh=AMi3E+OEgwheN9xQpUXRfzmR42ph0xuy5svWzO8+71Y=;
+        b=c5shH1baewK3gIklEDxW5nXI2tx9hycATC6g4mRG6VOpuBjPKGxFqDsGXdgZkMoM2f
+         +8IIWjaFHQtfPOLFSMkHVI69OHprGh83TEtWxvq3CKFyLL1hUqtO0CxkQ2lW61Y0MpQx
+         K5CPxIaM7EyMej8wHyrMtVSDCLeC9uaixh1nxKLH3bbv7WyKfB2cjWQJG5twQ6zkTxaR
+         l9ALZoGHyERxpspmLqnk9rkVOrJTeAsL77kMYvqB5ZILF3trvcwjzClAq0DfSnUNgcj2
+         7/usFP8+9ALIjOu/qViivFwJB2conq5Mz8DjsWiPCiAMlO/lWFwwO54IUKRZln0U4wBr
+         tZIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=8DtjNvJI7omodXJqBEfDRZCHl5Fugn0TcO2cbrU+wn4=;
-        b=jO5eIxYIoJP7mpB/Ucni/Ew4WjTfeZ/Kob3LnApVvm0qCaTF5exxf45NU/U1nfh0OF
-         LQA3VDlJpR0dcObX6zKzatO+zT1M3ZMQ2yWF0T0xhN0PwtgN3GSF4EwnEKWREUgNCEkW
-         3wPbU88pu8qQNWou0agMIGGXkb4uoUR8/AiyRD4YTLcwgQUJGSYXvdw7A1ElgdgkJ+iz
-         /NYFDRQ9Jr1caYIQz97e7+faaKBtgYfat4CUxafGfGxJH9ZvIeCA5WRbmazeSHqLEaCs
-         2Kr3BkwUVdx+xb7mw9ngtHC6aXR8qGfc6C3twBiuGCgT3/Wz76/jbod+09WsZuXxEdIq
-         wtRQ==
-X-Gm-Message-State: APjAAAXRMutnN+AUCIi4uQUcEftTwSFtEkqOOvycl961Me1NXkyMAzbw
-        jPNqEBMeTR7p0YUfARku7EWAZAbN
-X-Google-Smtp-Source: APXvYqxKPeFgWHRPzP/Gtopti8ePk45sqqlJI4YJoo9LRozvi6ODz1pEqi1qxACzCDdETJNA3D6wtQ==
-X-Received: by 2002:a05:600c:351:: with SMTP id u17mr1553652wmd.1.1569349260879;
-        Tue, 24 Sep 2019 11:21:00 -0700 (PDT)
+        bh=AMi3E+OEgwheN9xQpUXRfzmR42ph0xuy5svWzO8+71Y=;
+        b=fSqIDbyP+EnkvlKp0Pv1K2TmD5FOCXoU3rbEWlKGBK08cR9zgS5GdrjpX8aSd6Qyt7
+         IxoVFI8fTIxS+sB1cHbGsvGu24i9zIl+c+EypuKQOQvw936naoxPJ+d2+LapvBKvJ25y
+         ncI42NBoWK9u6MreEuI5wU6STG+dQleuGrXuVl9enYE7lHrvC3UH6atPGXZryK1/cfaV
+         zaB/DFgaIg4BpIM/NNbS5XbH1OhBxlCFuoUlaX7RJ6oxXECrYWdn3PTnyGWIYQ4lyvIg
+         WGiN/3/oMIi6ByI2jJxQTN4devqydcZhM+xxnXituo1rDquyXmwAa9X5ACDW/bGDSnYA
+         To6g==
+X-Gm-Message-State: APjAAAXhwDaTmlarqDtcayccvieXkg3ylFUT/Yi9qUGyzZFo+MhDH6Y/
+        4nQatg26pc16iIRpyEqt6xMOtlsQ
+X-Google-Smtp-Source: APXvYqzgR4Tk/9LblbhD/sYruH0z+iBxa4xJ9MfnvaqTsK/UrKU+61ThfI3ysIGHx2Ir7j/JvHW1pg==
+X-Received: by 2002:a1c:1a4b:: with SMTP id a72mr1818406wma.44.1569351483703;
+        Tue, 24 Sep 2019 11:58:03 -0700 (PDT)
 Received: from [192.168.1.19] (bfw157.neoplus.adsl.tpnet.pl. [83.28.60.157])
-        by smtp.gmail.com with ESMTPSA id p7sm376011wma.34.2019.09.24.11.20.59
+        by smtp.gmail.com with ESMTPSA id k9sm4461578wrd.7.2019.09.24.11.58.02
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 24 Sep 2019 11:21:00 -0700 (PDT)
-Subject: Re: [PATCH v3 0/5] leds: lm3692x: Probing and flag fixes
-To:     =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1569100154.git.agx@sigxcpu.org>
+        Tue, 24 Sep 2019 11:58:03 -0700 (PDT)
+Subject: Re: [PATCH v5 3/3] leds: Add control of the voltage/current regulator
+ to the LED core
+To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
+        daniel.thompson@linaro.org
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dmurphy@ti.com, tomi.valkeinen@ti.com
+References: <20190923102059.17818-1-jjhiblot@ti.com>
+ <20190923102059.17818-4-jjhiblot@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -109,12 +112,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <ba610ed3-19b7-3e10-7032-453e0cb05704@gmail.com>
-Date:   Tue, 24 Sep 2019 20:20:58 +0200
+Message-ID: <3e648fab-638f-4aa0-dda9-8ddba6562751@gmail.com>
+Date:   Tue, 24 Sep 2019 20:58:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1569100154.git.agx@sigxcpu.org>
+In-Reply-To: <20190923102059.17818-4-jjhiblot@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -123,49 +126,193 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Guido,
+Hi Jean,
 
-Thank you for the update.
+Thank you for the patch.
 
-On 9/21/19 11:12 PM, Guido Günther wrote:
-> The driver currently returns success on init although probing fails and
-> register setup uses flag values from other registers which is confusing when
-> reading the driver. This series cleans this up.
-> 
-> Changes from v2:
-> - Add Acked-by from Pavel Machek, thanks!
->   https://lore.kernel.org/linux-leds/20190920114743.GA21835@amd/
-> - As per review comment from Dan Murphy
->   https://lore.kernel.org/linux-leds/2bde2870-08a3-38b9-9cd7-fee0e2107743@ti.com/
->   - rename return value from ret2 to reg_ret
->   - print error code
-> 
-> Changes from v1:
-> - Add reviewed by's from Dan Murphy, thanks!
->   https://lore.kernel.org/linux-leds/cover.1568772964.git.agx@sigxcpu.org/T/#mc183f3f65931371fa9f9ca2e0e83e0b85010f24b
->   https://lore.kernel.org/linux-leds/cover.1568772964.git.agx@sigxcpu.org/T/#mb845fac36327a5d5dd03fe7e988eef0eb5626f82
->   https://lore.kernel.org/linux-leds/cover.1568772964.git.agx@sigxcpu.org/T/#m995bce73dda3e3bd4f0c2e8f98cbd04a39c13832
-> - As per review comment from Dan Murphy
->   - Don't drop error message when disabling the regulator fails
->     https://lore.kernel.org/linux-leds/cover.1568772964.git.agx@sigxcpu.org/T/#m2ab6dc33b7277b71a197c3747847f1c4d9d9c1d8
->   - Handle -ENODEV (when the regulator is not set)
->     https://lore.kernel.org/linux-leds/cover.1568772964.git.agx@sigxcpu.org/T/#mf6212c29bbfa37b43200ea2c9744074de4f068ee
-> - Add Acked-by from Pavel Machek, thanks!
->   https://lore.kernel.org/linux-leds/20190919095415.GA29939@amd/
-> 
-> Guido Günther (5):
->   leds: lm3692x: Print error value on dev_err
->   leds: lm3692x: Don't overwrite return value in error path
->   leds: lm3692x: Handle failure to probe the regulator
->   leds: lm3692x: Use flags from LM3692X_BOOST_CTRL
->   leds: lm3692x: Use flags from LM3692X_BRT_CTRL
-> 
->  drivers/leds/leds-lm3692x.c | 47 +++++++++++++++++++++++--------------
->  1 file changed, 30 insertions(+), 17 deletions(-)
-> 
+I must say I'm not a big fan of this change.
+It adds a bunch of code to the LED core and gives small
+functionality in a reward. It may also influence maximum
+software blinking rate, so I'd rather avoid calling
+regulator_enable/disable when timer trigger is set.
 
-Patch set applied to the for-5.5 branch of linux-leds.git.
+It will of course require more code.
 
--- 
+Since AFAIR Pavel was original proponent of this change then
+I'd like to see his opinion before we move on to discussing
+possible improvements to this patch.
+
 Best regards,
 Jacek Anaszewski
+
+On 9/23/19 12:20 PM, Jean-Jacques Hiblot wrote:
+> A LED is usually powered by a voltage/current regulator. Let the LED core
+> know about it. This allows the LED core to turn on or off the power supply
+> as needed.
+> 
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> ---
+>  drivers/leds/led-class.c | 17 +++++++++++
+>  drivers/leds/led-core.c  | 65 ++++++++++++++++++++++++++++++++++++++--
+>  drivers/leds/leds.h      |  3 ++
+>  include/linux/leds.h     |  5 ++++
+>  4 files changed, 88 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index e11177d77b4c..d122b6982efd 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -352,6 +352,7 @@ int led_classdev_register_ext(struct device *parent,
+>  	char final_name[LED_MAX_NAME_SIZE];
+>  	const char *proposed_name = composed_name;
+>  	int ret;
+> +	struct regulator *regulator;
+>  
+>  	if (init_data) {
+>  		if (init_data->devname_mandatory && !init_data->devicename) {
+> @@ -387,6 +388,22 @@ int led_classdev_register_ext(struct device *parent,
+>  		dev_warn(parent, "Led %s renamed to %s due to name collision",
+>  				led_cdev->name, dev_name(led_cdev->dev));
+>  
+> +	regulator = devm_regulator_get_optional(led_cdev->dev, "power");
+> +	if (IS_ERR(regulator)) {
+> +		if (regulator != ERR_PTR(-ENODEV)) {
+> +			dev_err(led_cdev->dev, "Cannot get the power supply for %s\n",
+> +				led_cdev->name);
+> +			device_unregister(led_cdev->dev);
+> +			mutex_unlock(&led_cdev->led_access);
+> +			return PTR_ERR(regulator);
+> +		}
+> +		led_cdev->regulator = NULL;
+> +	} else {
+> +		led_cdev->regulator = regulator;
+> +		led_cdev->regulator_state = REG_OFF;
+> +		atomic_set(&led_cdev->target_regulator_state, REG_UNKNOWN);
+> +	}
+> +
+>  	if (led_cdev->flags & LED_BRIGHT_HW_CHANGED) {
+>  		ret = led_add_brightness_hw_changed(led_cdev);
+>  		if (ret) {
+> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+> index d318f9b0382d..155a158c7b8d 100644
+> --- a/drivers/leds/led-core.c
+> +++ b/drivers/leds/led-core.c
+> @@ -37,6 +37,43 @@ const char * const led_colors[LED_COLOR_ID_MAX] = {
+>  };
+>  EXPORT_SYMBOL_GPL(led_colors);
+>  
+> +static int __led_handle_regulator(struct led_classdev *led_cdev)
+> +{
+> +	int rc;
+> +	int target_state = led_cdev->delayed_set_value ?  REG_ON : REG_OFF;
+> +
+> +	if (!led_cdev->regulator)
+> +		return 0;
+> +
+> +	/*
+> +	 * if the current regulator state is not the target state, we
+> +	 * need to update it.
+> +	 * note: No need for spinlock or atomic here because
+> +	 * led_cdev->regulator_state is modified only in the context of
+> +	 * the worqueue
+> +	 */
+> +	if (led_cdev->regulator_state != target_state) {
+> +
+> +		if (target_state == REG_ON)
+> +			rc = regulator_enable(led_cdev->regulator);
+> +		else
+> +			rc = regulator_disable(led_cdev->regulator);
+> +		if (rc) {
+> +			/*
+> +			 * If something went wrong with the regulator update,
+> +			 * Make sure that led_set_brightness_nosleep() assume
+> +			 * that the regultor is in the right state.
+> +			 */
+> +			atomic_set(&led_cdev->target_regulator_state,
+> +				   REG_UNKNOWN);
+> +			return rc;
+> +		}
+> +
+> +		led_cdev->regulator_state = target_state;
+> +	}
+> +	return 0;
+> +}
+> +
+>  static int __led_set_brightness(struct led_classdev *led_cdev,
+>  				enum led_brightness value)
+>  {
+> @@ -135,6 +172,11 @@ static void set_brightness_delayed(struct work_struct *ws)
+>  	    (led_cdev->flags & LED_HW_PLUGGABLE)))
+>  		dev_err(led_cdev->dev,
+>  			"Setting an LED's brightness failed (%d)\n", ret);
+> +
+> +	ret = __led_handle_regulator(led_cdev);
+> +	if (ret)
+> +		dev_err(led_cdev->dev,
+> +			"Updating regulator state failed (%d)\n", ret);
+>  }
+>  
+>  static void led_set_software_blink(struct led_classdev *led_cdev,
+> @@ -269,8 +311,27 @@ EXPORT_SYMBOL_GPL(led_set_brightness);
+>  void led_set_brightness_nopm(struct led_classdev *led_cdev,
+>  			      enum led_brightness value)
+>  {
+> -	/* Use brightness_set op if available, it is guaranteed not to sleep */
+> -	if (!__led_set_brightness(led_cdev, value))
+> +	bool update_regulator = false;
+> +	int old, new;
+> +
+> +	if (led_cdev->regulator) {
+> +		/*
+> +		 * Check if the regulator need to be updated.
+> +		 * We use an atomic here because multiple threads could
+> +		 * be calling this function at the same time. Using
+> +		 * atomic_xchg() ensures the consistency between
+> +		 * target_regulator_state, value and update_regulator
+> +		 */
+> +		new = !!value;
+> +		old = atomic_xchg(&led_cdev->target_regulator_state, new);
+> +		update_regulator = (old != new);
+> +	}
+> +
+> +	/*
+> +	 * If regulator state doesn't need to be changed, use brightness_set
+> +	 * op if available, it is guaranteed not to sleep
+> +	 */
+> +	if (!update_regulator && !__led_set_brightness(led_cdev, value))
+>  		return;
+>  
+>  	/* If brightness setting can sleep, delegate it to a work queue task */
+> diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
+> index 0b577cece8f7..02f261ce77f2 100644
+> --- a/drivers/leds/leds.h
+> +++ b/drivers/leds/leds.h
+> @@ -11,6 +11,9 @@
+>  
+>  #include <linux/rwsem.h>
+>  #include <linux/leds.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +enum { REG_OFF = 0, REG_ON, REG_UNKNOWN };
+>  
+>  static inline int led_get_brightness(struct led_classdev *led_cdev)
+>  {
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index 88bf2ceaabe6..8ce7cf937192 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -149,6 +149,11 @@ struct led_classdev {
+>  
+>  	/* Ensures consistent access to the LED Flash Class device */
+>  	struct mutex		led_access;
+> +
+> +	/* regulator */
+> +	struct regulator	*regulator;
+> +	int			regulator_state;
+> +	atomic_t		target_regulator_state;
+>  };
+>  
+>  /**
+> 
+
+
