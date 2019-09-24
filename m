@@ -2,51 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F9DABD3FC
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 23:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4187FBD409
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 23:08:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2633482AbfIXVDn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Sep 2019 17:03:43 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:40921 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2633461AbfIXVDn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Sep 2019 17:03:43 -0400
-Received: by mail-wm1-f66.google.com with SMTP id b24so1709054wmj.5;
-        Tue, 24 Sep 2019 14:03:40 -0700 (PDT)
+        id S1728380AbfIXVI5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 Sep 2019 17:08:57 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43801 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727476AbfIXVI5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Sep 2019 17:08:57 -0400
+Received: by mail-wr1-f66.google.com with SMTP id q17so3641595wrx.10;
+        Tue, 24 Sep 2019 14:08:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Ch/LP+oIAIqtM8PqdGgeodMs4R43bcOkMn+/V+Nlf8I=;
-        b=q5uUeTQ1mJXE8Syc2wvenuw0swKpamqS4yXdBzoz+4WoQ5kvumXJClKB+ZlZreJUS+
-         rf8BQ3y91GlbI+AHIhDEfSDnQx7KEYkeRK3sDpgW/oBVjHwYvmjqARxsQO8MAFaX28hL
-         xWxr7hIWUxRkKkfeNUO8WYRjp4otDp+CxXNqzWPfFHVMNzC7RylI4bFfw0+to3PZnjhA
-         5VTyaaKdg52nGtGg7bXlD9WGut0d6jPtQ01qGI0w6Fq0DFyOnGA5Su8gHavk1eLwD+1O
-         dQNUrQL7T/azrdbyW6Ulfv0FKgIBhnIy+yzbSmvK17yfVo1GsX8etaELVQzYOdTeTsXe
-         WY/g==
+        bh=XVmJVxXzYqb+G0BLob2gcH/cvcMPCD/+7W0Jky/+H44=;
+        b=bXbtworhmZjQOufav+2U6CVsEvLFwdktw9JbMtx01Byqa8XiV3j+AK6uT3QbSeRoq5
+         uEr8h1NvmHOsr+/X6JhdZ1c/wb8VFvJgWcAtzc6ijqLrbcTaNGN8/zqYg23x3XG+0qhE
+         e80t0ddfZiJAzLAdaEWl5hsfkVxx8dR3VCydlIu2kT9tkMnfPoW0PmSVpoeLvPR6Ipxo
+         JtioIcS3r2+bD9B7S2G4JyXdSvcVFPjT8Lzn6RG/kxRBQKD/1CNdIY6C8qun97ZHT/TJ
+         a+5lHl4uQVH12YJZ4KpVzhxCwS7ixcQ+jlbO3leyqNCXqJd7Ui/6NNJvE5CMOZr4QR2o
+         PcCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=Ch/LP+oIAIqtM8PqdGgeodMs4R43bcOkMn+/V+Nlf8I=;
-        b=BhIJkvByS4MCg4VQBwt47eL9bMLJNUAZwY2Bmcwlk4PouPuQzRnR7zyQ7CgyNPuWLy
-         +pgDX9Gmepb3GN8eVldXdkCsCq+EHgNPYLCltGC8SZ8KnoprmR1jEknjjj7uO8rMwc5/
-         D9tFsngJ/XplwGqsHQoPonDtEGhk7SNRAw1390/P8L69/o1MQ+G8xeUa0WaxEp0KCcwW
-         Duqa2t94t+rOUfC3tcZox0KvjHJ50PiuOyG8/VZS7OxINCz80gRNCGwPoXJO1WuNJpdY
-         MVXzdafR3SaN1+Wbv6MzjY7eVfaOUCH92oXY163OUUP3HWQwPcL1kMAsvYCNI++yTn2b
-         aN5w==
-X-Gm-Message-State: APjAAAXn4SaIsnqZ2oBIf1ZTsYDdloR2y0v5VQOqTF9/cJzN/+0VouE/
-        SEp2XJWsDHHAVNqeAqIm0E0=
-X-Google-Smtp-Source: APXvYqw1r7WzfLU/E5+64DJ2RsjWvu2OQ4NhXaQXbYl+NsgV332Dj07FoKFLZ/BjORtSHQTJ0MsoCg==
-X-Received: by 2002:a7b:c758:: with SMTP id w24mr2397200wmk.148.1569359020231;
-        Tue, 24 Sep 2019 14:03:40 -0700 (PDT)
+        bh=XVmJVxXzYqb+G0BLob2gcH/cvcMPCD/+7W0Jky/+H44=;
+        b=SOCLgN3XP51hE6dQeuxXWxxQqsU45Ige1JkjcO2sRHmBrrA1noSJDWAyWGsXzOI1lf
+         rzX6L8egqrzCs71Vb8M9noeVe5hfUC8J3QlWjZsSN426IJ5H9KFuiFOozQAmY/ys/Fqa
+         +DpC8RF2lDyXnkF6iBTNQD+1fxOXdr76fT9m+OH+1ZDp/IPj3U6D/SqwKbnEVQlLm7NR
+         WuaVxfoQKp6VUfW/LaQTIUVmjP+dAw0lpwz06KD7l6yQWyhNJWZbDIhIC//bswzXhepk
+         FSNUhgweNIEO8B5wzGSZTQNxOdEP6M60MWuAzG8SyQo5oKTsgRz55qjQVUr962deLbms
+         /2zg==
+X-Gm-Message-State: APjAAAUbvF/s/FJ9I1cbPkeNSECPxvjGyAnQx9eIVkRUFvv578ItwIdY
+        SamJWhivV+SgfRignzMCGU4=
+X-Google-Smtp-Source: APXvYqyJX0eEZG4Q/p2p1INSvTHeBK6yRVdeZpgZY+f/x8BrHYC57+ariD4r8adpV/4bLJvVwWwoTQ==
+X-Received: by 2002:adf:e78d:: with SMTP id n13mr5010294wrm.355.1569359333921;
+        Tue, 24 Sep 2019 14:08:53 -0700 (PDT)
 Received: from [192.168.1.19] (bfw157.neoplus.adsl.tpnet.pl. [83.28.60.157])
-        by smtp.gmail.com with ESMTPSA id a10sm3717500wrm.52.2019.09.24.14.03.38
+        by smtp.gmail.com with ESMTPSA id g1sm1692516wrv.68.2019.09.24.14.08.52
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 24 Sep 2019 14:03:39 -0700 (PDT)
-Subject: Re: [PATCH v7 1/5] leds: populate the device's of_node when possible
+        Tue, 24 Sep 2019 14:08:53 -0700 (PDT)
+Subject: Re: [PATCH v7 2/5] leds: Add of_led_get() and led_put()
 To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
         robh+dt@kernel.org, mark.rutland@arm.com, lee.jones@linaro.org,
         daniel.thompson@linaro.org
@@ -54,7 +54,7 @@ Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
         tomi.valkeinen@ti.com
 References: <20190918145730.22805-1-jjhiblot@ti.com>
- <20190918145730.22805-2-jjhiblot@ti.com>
+ <20190918145730.22805-3-jjhiblot@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -113,15 +113,15 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <f543e757-e000-6de4-694b-e75f388e5908@gmail.com>
-Date:   Tue, 24 Sep 2019 23:03:37 +0200
+Message-ID: <700942d3-8e67-8520-d42a-605addcc2e06@gmail.com>
+Date:   Tue, 24 Sep 2019 23:08:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190918145730.22805-2-jjhiblot@ti.com>
+In-Reply-To: <20190918145730.22805-3-jjhiblot@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
@@ -129,39 +129,120 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi Jean,
 
-Thank you for rebasing the set
+Thank you for the patch.
+
+I have one nit below.
 
 On 9/18/19 4:57 PM, Jean-Jacques Hiblot wrote:
-> If initialization data is available and its fwnode is actually a of_node,
-> store this information in the led device's structure. This will allow the
-> device to use or provide OF-based API such (devm_xxx).
+> From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > 
+> This patch adds basic support for a kernel driver to get a LED device.
+> This will be used by the led-backlight driver.
+> 
+> Only OF version is implemented for now, and the behavior is similar to
+> PWM's of_pwm_get() and pwm_put().
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
 > ---
->  drivers/leds/led-class.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  drivers/leds/led-class.c | 50 ++++++++++++++++++++++++++++++++++++++++
+>  include/linux/leds.h     |  4 ++++
+>  2 files changed, 54 insertions(+)
 > 
 > diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 647b1263c579..c2167b66b61f 100644
+> index c2167b66b61f..2b8f20f94128 100644
 > --- a/drivers/leds/led-class.c
 > +++ b/drivers/leds/led-class.c
-> @@ -276,8 +276,11 @@ int led_classdev_register_ext(struct device *parent,
->  		mutex_unlock(&led_cdev->led_access);
->  		return PTR_ERR(led_cdev->dev);
->  	}
-> -	if (init_data && init_data->fwnode)
-> +	if (init_data && init_data->fwnode) {
->  		led_cdev->dev->fwnode = init_data->fwnode;
-> +		if (is_of_node(init_data->fwnode))
-> +			led_cdev->dev->of_node = to_of_node(init_data->fwnode);
-
-It would be step backwards. You can do the conversion in the place of
-use i.e. in devm_led_get().
-
-> +	}
+> @@ -19,6 +19,7 @@
+>  #include <linux/spinlock.h>
+>  #include <linux/timer.h>
+>  #include <uapi/linux/uleds.h>
+> +#include <linux/of.h>
+>  #include "leds.h"
 >  
->  	if (ret)
->  		dev_warn(parent, "Led %s renamed to %s due to name collision",
+>  static struct class *leds_class;
+> @@ -214,6 +215,55 @@ static int led_resume(struct device *dev)
+>  
+>  static SIMPLE_DEV_PM_OPS(leds_class_dev_pm_ops, led_suspend, led_resume);
+>  
+> +static int led_match_led_of_node(struct device *led_dev, const void *data)
+> +{
+> +	return led_dev->of_node == data;
+> +}
+> +
+> +/**
+> + * of_led_get() - request a LED device via the LED framework
+> + * @np: device node to get the LED device from
+> + * @index: the index of the LED
+> + *
+> + * Returns the LED device parsed from the phandle specified in the "leds"
+> + * property of a device tree node or a negative error-code on failure.
+> + */
+> +struct led_classdev *of_led_get(struct device_node *np, int index)
+> +{
+> +	struct device *led_dev;
+> +	struct led_classdev *led_cdev;
+> +	struct device_node *led_node;
+> +
+> +	led_node = of_parse_phandle(np, "leds", index);
+> +	if (!led_node)
+> +		return ERR_PTR(-ENOENT);
+> +
+> +	led_dev = class_find_device(leds_class, NULL, led_node,
+> +		led_match_led_of_node);
+
+Now we have class_find_device_by_of_node().
+
+> +	of_node_put(led_node);
+> +
+> +	if (!led_dev)
+> +		return ERR_PTR(-EPROBE_DEFER);
+> +
+> +	led_cdev = dev_get_drvdata(led_dev);
+> +
+> +	if (!try_module_get(led_cdev->dev->parent->driver->owner))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	return led_cdev;
+> +}
+> +EXPORT_SYMBOL_GPL(of_led_get);
+> +
+> +/**
+> + * led_put() - release a LED device
+> + * @led_cdev: LED device
+> + */
+> +void led_put(struct led_classdev *led_cdev)
+> +{
+> +	module_put(led_cdev->dev->parent->driver->owner);
+> +}
+> +EXPORT_SYMBOL_GPL(led_put);
+> +
+>  static int led_classdev_next_name(const char *init_name, char *name,
+>  				  size_t len)
+>  {
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index b8df71193329..6f7371bc7757 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -20,6 +20,7 @@
+>  
+>  struct device;
+>  struct led_pattern;
+> +struct device_node;
+>  /*
+>   * LED Core
+>   */
+> @@ -196,6 +197,9 @@ extern void devm_led_classdev_unregister(struct device *parent,
+>  extern void led_classdev_suspend(struct led_classdev *led_cdev);
+>  extern void led_classdev_resume(struct led_classdev *led_cdev);
+>  
+> +extern struct led_classdev *of_led_get(struct device_node *np, int index);
+> +extern void led_put(struct led_classdev *led_cdev);
+> +
+>  /**
+>   * led_blink_set - set blinking with software fallback
+>   * @led_cdev: the LED to start blinking
 > 
 
 -- 
