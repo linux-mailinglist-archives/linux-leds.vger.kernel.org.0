@@ -2,55 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2215CBD296
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 21:26:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F9DABD3FC
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 23:03:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407673AbfIXT0e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Sep 2019 15:26:34 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43057 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406462AbfIXT0e (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Sep 2019 15:26:34 -0400
-Received: by mail-wr1-f66.google.com with SMTP id q17so3274380wrx.10;
-        Tue, 24 Sep 2019 12:26:30 -0700 (PDT)
+        id S2633482AbfIXVDn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 Sep 2019 17:03:43 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40921 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2633461AbfIXVDn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Sep 2019 17:03:43 -0400
+Received: by mail-wm1-f66.google.com with SMTP id b24so1709054wmj.5;
+        Tue, 24 Sep 2019 14:03:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=wTMeJkg3LNJ8wC/vELiPnwfSnHuBqzYusKgEEqBqFiI=;
-        b=NF01syVrCaAQvNLEXUrP4SMki5Y5JI29BnMNFJ5DqbN9/E1Mzclg+NWq4NQSyfnP96
-         xdh4zbYd/3W/DXadW1wJj3GdT9TKHKJw5KqBvTD8VP2tkDtHA3b5gDm19B4yVgBnrUG1
-         HOh3f1EEoGlN1+k0D+LkQqve4lmXcJB6112pHNQ7Zfn1HMYHSzaaY1o7dfaxffC04lR3
-         crPXVe34t6wHSM0WfhfCIceQLerum9ebnyW7noOD5BbvUhsfJUU/X7qYEvpZU1VJWiYa
-         7RNHgojuvXmYsDz9UZswbFNXkHlJApYiSaJ45bzaDc2ZneTsEt6UFoadAJKcOy4DXRMP
-         CkHQ==
+        bh=Ch/LP+oIAIqtM8PqdGgeodMs4R43bcOkMn+/V+Nlf8I=;
+        b=q5uUeTQ1mJXE8Syc2wvenuw0swKpamqS4yXdBzoz+4WoQ5kvumXJClKB+ZlZreJUS+
+         rf8BQ3y91GlbI+AHIhDEfSDnQx7KEYkeRK3sDpgW/oBVjHwYvmjqARxsQO8MAFaX28hL
+         xWxr7hIWUxRkKkfeNUO8WYRjp4otDp+CxXNqzWPfFHVMNzC7RylI4bFfw0+to3PZnjhA
+         5VTyaaKdg52nGtGg7bXlD9WGut0d6jPtQ01qGI0w6Fq0DFyOnGA5Su8gHavk1eLwD+1O
+         dQNUrQL7T/azrdbyW6Ulfv0FKgIBhnIy+yzbSmvK17yfVo1GsX8etaELVQzYOdTeTsXe
+         WY/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=wTMeJkg3LNJ8wC/vELiPnwfSnHuBqzYusKgEEqBqFiI=;
-        b=ILx5q2V8lBCPekGwQkahxMpjYvMcccQo0hitsNyaBAR6C4ElFL/gv2HaYrgor4X27K
-         ndNWtwL2+La2VqbyfyivDY6uxGPpDmVGRKHUGdLWFpuY2LugoeNal6/KtQcdwlhSLtf7
-         pM3s8vfkdgkjZHIJcs+0hVn+OdwqP2QjdxjaTeO6v2IYBueRwwMkBHrteYQ5llBVXh/G
-         LvBia0flimJH4/lsJayQ8F94hKUsuGLQh85a5ASNwHBQoOxpyRtNBsX3QvbRe4igVxsY
-         pwscmbpaRm0Wrs4pWAUYDkAPg2JlmJR/xAuPoLLn6tfunUVgVgU4f5KoOSjHfGGGhWCP
-         td5g==
-X-Gm-Message-State: APjAAAUwAy/tLRWVm7iNEqA2ACnba0awbSaZDEGUhhVGjtqxS0g1v8/+
-        GbS909TQwUZZZIE5VlslWf4=
-X-Google-Smtp-Source: APXvYqyRPEOl55nM1W8rkCanbWtr+okUpeCujZiLu31Wx+XdyzkbeQDdQCe4rtvJBkhP0FF56UEWAg==
-X-Received: by 2002:a5d:4708:: with SMTP id y8mr2694992wrq.318.1569353189493;
-        Tue, 24 Sep 2019 12:26:29 -0700 (PDT)
+        bh=Ch/LP+oIAIqtM8PqdGgeodMs4R43bcOkMn+/V+Nlf8I=;
+        b=BhIJkvByS4MCg4VQBwt47eL9bMLJNUAZwY2Bmcwlk4PouPuQzRnR7zyQ7CgyNPuWLy
+         +pgDX9Gmepb3GN8eVldXdkCsCq+EHgNPYLCltGC8SZ8KnoprmR1jEknjjj7uO8rMwc5/
+         D9tFsngJ/XplwGqsHQoPonDtEGhk7SNRAw1390/P8L69/o1MQ+G8xeUa0WaxEp0KCcwW
+         Duqa2t94t+rOUfC3tcZox0KvjHJ50PiuOyG8/VZS7OxINCz80gRNCGwPoXJO1WuNJpdY
+         MVXzdafR3SaN1+Wbv6MzjY7eVfaOUCH92oXY163OUUP3HWQwPcL1kMAsvYCNI++yTn2b
+         aN5w==
+X-Gm-Message-State: APjAAAXn4SaIsnqZ2oBIf1ZTsYDdloR2y0v5VQOqTF9/cJzN/+0VouE/
+        SEp2XJWsDHHAVNqeAqIm0E0=
+X-Google-Smtp-Source: APXvYqw1r7WzfLU/E5+64DJ2RsjWvu2OQ4NhXaQXbYl+NsgV332Dj07FoKFLZ/BjORtSHQTJ0MsoCg==
+X-Received: by 2002:a7b:c758:: with SMTP id w24mr2397200wmk.148.1569359020231;
+        Tue, 24 Sep 2019 14:03:40 -0700 (PDT)
 Received: from [192.168.1.19] (bfw157.neoplus.adsl.tpnet.pl. [83.28.60.157])
-        by smtp.gmail.com with ESMTPSA id b144sm1302083wmb.3.2019.09.24.12.26.27
+        by smtp.gmail.com with ESMTPSA id a10sm3717500wrm.52.2019.09.24.14.03.38
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 24 Sep 2019 12:26:28 -0700 (PDT)
-Subject: Re: [PATCH] leds: tlc591xx: update the maximum brightness
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz, dmurphy@ti.com
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andrew Lunn <andrew@lunn.ch>
-References: <20190923100250.22326-1-jjhiblot@ti.com>
+        Tue, 24 Sep 2019 14:03:39 -0700 (PDT)
+Subject: Re: [PATCH v7 1/5] leds: populate the device's of_node when possible
+To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
+        robh+dt@kernel.org, mark.rutland@arm.com, lee.jones@linaro.org,
+        daniel.thompson@linaro.org
+Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        tomi.valkeinen@ti.com
+References: <20190918145730.22805-1-jjhiblot@ti.com>
+ <20190918145730.22805-2-jjhiblot@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -109,15 +113,15 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <91864098-a6e8-e275-4b07-e4bb15469f78@gmail.com>
-Date:   Tue, 24 Sep 2019 21:26:25 +0200
+Message-ID: <f543e757-e000-6de4-694b-e75f388e5908@gmail.com>
+Date:   Tue, 24 Sep 2019 23:03:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190923100250.22326-1-jjhiblot@ti.com>
+In-Reply-To: <20190918145730.22805-2-jjhiblot@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
@@ -125,66 +129,40 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi Jean,
 
-Thank you for the patch.
+Thank you for rebasing the set
 
-On 9/23/19 12:02 PM, Jean-Jacques Hiblot wrote:
-> The TLC chips actually offer 257 levels:
-> - 0: led OFF
-> - 1-255: Led dimmed is using a PWM. The duty cycle range from 0.4% to 99.6%
-> - 256: led fully ON
+On 9/18/19 4:57 PM, Jean-Jacques Hiblot wrote:
+> If initialization data is available and its fwnode is actually a of_node,
+> store this information in the led device's structure. This will allow the
+> device to use or provide OF-based API such (devm_xxx).
 > 
 > Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
 > ---
->  drivers/leds/leds-tlc591xx.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  drivers/leds/led-class.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-> index 8eadb673dc2e..a8911ebd30e5 100644
-> --- a/drivers/leds/leds-tlc591xx.c
-> +++ b/drivers/leds/leds-tlc591xx.c
-> @@ -13,6 +13,7 @@
->  #include <linux/slab.h>
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 647b1263c579..c2167b66b61f 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -276,8 +276,11 @@ int led_classdev_register_ext(struct device *parent,
+>  		mutex_unlock(&led_cdev->led_access);
+>  		return PTR_ERR(led_cdev->dev);
+>  	}
+> -	if (init_data && init_data->fwnode)
+> +	if (init_data && init_data->fwnode) {
+>  		led_cdev->dev->fwnode = init_data->fwnode;
+> +		if (is_of_node(init_data->fwnode))
+> +			led_cdev->dev->of_node = to_of_node(init_data->fwnode);
+
+It would be step backwards. You can do the conversion in the place of
+use i.e. in devm_led_get().
+
+> +	}
 >  
->  #define TLC591XX_MAX_LEDS	16
-> +#define TLC591XX_MAX_BRIGHTNESS	256
->  
->  #define TLC591XX_REG_MODE1	0x00
->  #define MODE1_RESPON_ADDR_MASK	0xF0
-> @@ -112,11 +113,11 @@ tlc591xx_brightness_set(struct led_classdev *led_cdev,
->  	struct tlc591xx_priv *priv = led->priv;
->  	int err;
->  
-> -	switch (brightness) {
-> +	switch ((int)brightness) {
->  	case 0:
->  		err = tlc591xx_set_ledout(priv, led, LEDOUT_OFF);
->  		break;
-> -	case LED_FULL:
-> +	case TLC591XX_MAX_BRIGHTNESS:
->  		err = tlc591xx_set_ledout(priv, led, LEDOUT_ON);
->  		break;
->  	default:
-> @@ -209,7 +210,7 @@ tlc591xx_probe(struct i2c_client *client,
->  		led->priv = priv;
->  		led->led_no = reg;
->  		led->ldev.brightness_set_blocking = tlc591xx_brightness_set;
-> -		led->ldev.max_brightness = LED_FULL;
-> +		led->ldev.max_brightness = TLC591XX_MAX_BRIGHTNESS;
->  		err = devm_led_classdev_register_ext(dev, &led->ldev,
->  						     &init_data);
->  		if (err < 0) {
+>  	if (ret)
+>  		dev_warn(parent, "Led %s renamed to %s due to name collision",
 > 
-
-Added tag:
-
-Fixes: e370d010a5fe ("leds: tlc591xx: Driver for the TI 8/16 Channel i2c
-LED driver")
-
-and applied to the for-5.5 branch.
-
-It is also a good habit to cc the author of the driver.
-
-Cc Andrew.
 
 -- 
 Best regards,
