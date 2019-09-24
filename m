@@ -2,60 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59C87BD412
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 23:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2389FBD45A
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Sep 2019 23:30:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728597AbfIXVKI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Sep 2019 17:10:08 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46816 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727890AbfIXVKI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Sep 2019 17:10:08 -0400
-Received: by mail-wr1-f66.google.com with SMTP id o18so3637450wrv.13;
-        Tue, 24 Sep 2019 14:10:05 -0700 (PDT)
+        id S1731710AbfIXVaP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 Sep 2019 17:30:15 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:37512 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728980AbfIXVaP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Sep 2019 17:30:15 -0400
+Received: by mail-wr1-f68.google.com with SMTP id i1so3719171wro.4;
+        Tue, 24 Sep 2019 14:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=nwaRtEcx4RlUGhCzFIfFa52z36UoikBl3mWSSzdWQN4=;
-        b=s+mGhTT+Cr8rpVeVQo0/RPfX08iEG0NxK10YMuEiWPy3x7pSWIip7uzLxzLF7vW9J0
-         XEztTPL+EotTEsqT2KjXYwm5O61YDw2vklKz+UhATBDwU+23VjimokD6Isb76iOG1iYF
-         SEM98FCTw8SjaZPkrtk7gdndJ0EkaP7CFdOaZ8reZNkJoVe8tJ8guNYAAaRPaViNA327
-         pEUbwJgJoVNY1v//8ad2m0WLfp3D/s/lz+a+yXEOkUNXh4i6YSU7ikDYk1dyXkXkd+ka
-         QNm7ljg8H7HvFcH048XoFjCd0Z+Pl1x4npX1ApTjFnBATMQfGfBJCjhVRM87Upob2o6T
-         2NLg==
+        bh=E7Mha1NoRjN8EbkILeu/xMHK3yWGNSQvglgYQtw7CH8=;
+        b=cc/0dNMj4Be0MuGC4RrWPQoxP7vRn5GJktrvs5aSiiNSq4KvFWsviGHNVEHUj/Uznm
+         c/Ku5Q+gWZyPSHt7EnrNWhYNhqUGgkfLMfMo9HBPPqAO+KuPfj1n3ONyhZCR77ji+an1
+         iXp704bRR+CqGkuaFE7JipilteLn7TEboM5Z3maHJ/trXpR+tYbSlLwxv2oYnt6OCkda
+         G14MOfU0tCa2uaEdjUUONcZODXdMWr9euHrBIKbZehKkbLEzY54V4UqecsTb84xCTjlO
+         bWN9tGM1Uc6b1nefdfrEoBVh2Aa4Wo4raoLc4ImgH//wILrqkujiYjlQUOXSR93f5loW
+         bmqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=nwaRtEcx4RlUGhCzFIfFa52z36UoikBl3mWSSzdWQN4=;
-        b=DUxB2P+TEJmoNnlotSp42IwzwHy53eSJuBW0DMaMo0YHXCipSr98ZB/6iA1VRCuBzV
-         o7STCMJCPr6vMGo75SaUmJWJk/ijHqqICgXtg0ElAxxZm5i/1zK5aFn8UgdU/we6umhB
-         Izo8xzLcQxuF2shHUrS/Lx6reeWKLFclPdUD6LKyVtxDAQdNW2l2izzbIN19IANtV2t1
-         lZBIjbpjCG5W2p+531wR6Yt3Am+G3ZRxPSdzRNO/LIyKBG4aOTwBeO58VUQgVa4gbfvp
-         zI8jtEeipbptbYEWz1Hapo9NmL2Mpr+Qgquxs4bv8Ilo5/0b+P1mR6bfXccNCNtYbktS
-         3D2w==
-X-Gm-Message-State: APjAAAV+b0gKvPo7Wcgse3RVgPhocKCgsuTP7hu+kQHBnGVFnw7UDaK1
-        4OgX323NcNH8LByT+tjqS735cVUd
-X-Google-Smtp-Source: APXvYqyFpo7CEuhf16Pc62JvftaRUH07p/7YqCbIUO12gKJ/mVopvGJkkMVxCP7uEBQqsyIMIJ3Wpw==
-X-Received: by 2002:adf:fac3:: with SMTP id a3mr4405178wrs.24.1569359405293;
-        Tue, 24 Sep 2019 14:10:05 -0700 (PDT)
+        bh=E7Mha1NoRjN8EbkILeu/xMHK3yWGNSQvglgYQtw7CH8=;
+        b=mUP/h6ZwjAphTr+Jw7oJG8gLbJG2eWwfn/GzLQJ2cUTcDNFmerm2elqNgiGi5I9akQ
+         n5DKfH5gMi/Vojtqi6/c1KBsykjaqphCXNahEYaOgVdWug/uT4tUC2qwqdj1QlVwcPlb
+         6MkttJ8IYHMbiEdhdPSw8N+CwigCvRp7t6MBP1mDXP5ALF1fbNJlKtqQuNHKBuAXE1wF
+         RlIyqAE+NGnBJOQx1SnkPshPwNo3q6EQ8bLVH8RNGiN3Oi9x15i+jERaiWeqGwQ7jixa
+         6Jgz0L0caDFUIAvn3l8jEihruMbOzrwHzSdQ9bo9jk94toVzcsB1aHcrLGFFBdO7pr9t
+         oPSQ==
+X-Gm-Message-State: APjAAAVwwTgAEcUWPxxvvVpEr41gVoW6qjgiTiaTDix2YG8sVZufkinX
+        inGMrJRyiZpvL/Yd2eBBrGbKKLlv
+X-Google-Smtp-Source: APXvYqwSu3nlN1qniQ7awiMez5TCRjXkCdPmoVmS1w0aUl94O0OCUuEfdjoqa8ntpQvNbNB/fjbCRw==
+X-Received: by 2002:a5d:408c:: with SMTP id o12mr4988616wrp.312.1569360611138;
+        Tue, 24 Sep 2019 14:30:11 -0700 (PDT)
 Received: from [192.168.1.19] (bfw157.neoplus.adsl.tpnet.pl. [83.28.60.157])
-        by smtp.gmail.com with ESMTPSA id v64sm1531182wmf.12.2019.09.24.14.10.03
+        by smtp.gmail.com with ESMTPSA id a3sm2053981wmc.3.2019.09.24.14.30.09
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 24 Sep 2019 14:10:04 -0700 (PDT)
-Subject: Re: [PATCH v7 3/5] leds: Add managed API to get a LED from a device
- driver
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
-        robh+dt@kernel.org, mark.rutland@arm.com, lee.jones@linaro.org,
-        daniel.thompson@linaro.org
-Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        tomi.valkeinen@ti.com
-References: <20190918145730.22805-1-jjhiblot@ti.com>
- <20190918145730.22805-4-jjhiblot@ti.com>
+        Tue, 24 Sep 2019 14:30:10 -0700 (PDT)
+Subject: Re: [PATCH v2 1/1] leds: remove PAGE_SIZE limit of
+ /sys/class/leds/<led>/trigger
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Akinobu Mita <akinobu.mita@gmail.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+References: <1568387004-3802-1-git-send-email-akinobu.mita@gmail.com>
+ <1568387004-3802-2-git-send-email-akinobu.mita@gmail.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -114,113 +113,240 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <5b252fe0-8b9b-1f12-9915-4970f766d5d9@gmail.com>
-Date:   Tue, 24 Sep 2019 23:10:02 +0200
+Message-ID: <54d4debc-470a-86f6-e43c-f51f1c7913e0@gmail.com>
+Date:   Tue, 24 Sep 2019 23:30:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190918145730.22805-4-jjhiblot@ti.com>
+In-Reply-To: <1568387004-3802-2-git-send-email-akinobu.mita@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jean,
+Hi Greg,
 
-On 9/18/19 4:57 PM, Jean-Jacques Hiblot wrote:
-> If the LED is acquired by a consumer device with devm_led_get(), it is
-> automatically released when the device is detached.
-> 
-> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
-> Acked-by: Pavel Machek <pavel@ucw.cz>
-> ---
->  drivers/leds/led-class.c | 51 ++++++++++++++++++++++++++++++++++++++++
->  include/linux/leds.h     |  2 ++
->  2 files changed, 53 insertions(+)
-> 
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 2b8f20f94128..e11177d77b4c 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -264,6 +264,57 @@ void led_put(struct led_classdev *led_cdev)
->  }
->  EXPORT_SYMBOL_GPL(led_put);
->  
-> +static void devm_led_release(struct device *dev, void *res)
-> +{
-> +	struct led_classdev **p = res;
-> +
-> +	led_put(*p);
-> +}
-> +
-> +/**
-> + * devm_led_get - Resource-managed request of a LED device
-> + * @dev:	LED consumer
-> + * @idx:	index of the LED to obtain in the consumer
-> + *
-> + * The device node of the device is parse to find the request LED device.
-> + * The LED device returned from this function is automatically released
-> + * on driver detach.
-> + *
-> + * NOTE: At the moment, it supports only device-tree based LED lookup
-> + *
-> + * @return a pointer to a LED device or ERR_PTR(errno) on failure.
-> + */
-> +struct led_classdev *__must_check devm_led_get(struct device *dev,
-> +					       int index)
+Akinobu seems to have addressed all issues that have been
+raised regarding this patch. I'd be happy to have your ack before
+applying it.
 
-s/devm_led_get/devm_of_led_get/
-
-> +{
-> +	struct led_classdev *led;
-> +	struct led_classdev **dr;
-> +
-> +	if (!dev)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	/* Not using device tree? */
-> +	if (!IS_ENABLED(CONFIG_OF) || !dev->of_node)
-> +		return ERR_PTR(-ENOTSUPP);
-> +
-> +	led = of_led_get(dev->of_node, index);
-> +	if (IS_ERR(led))
-> +		return led;
-> +
-> +	dr = devres_alloc(devm_led_release, sizeof(struct led_classdev *),
-> +			  GFP_KERNEL);
-> +	if (!dr) {
-> +		led_put(led);
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	*dr = led;
-> +	devres_add(dev, dr);
-> +
-> +	return led;
-> +}
-> +EXPORT_SYMBOL_GPL(devm_led_get);
-> +
->  static int led_classdev_next_name(const char *init_name, char *name,
->  				  size_t len)
->  {
-> diff --git a/include/linux/leds.h b/include/linux/leds.h
-> index 6f7371bc7757..88bf2ceaabe6 100644
-> --- a/include/linux/leds.h
-> +++ b/include/linux/leds.h
-> @@ -199,6 +199,8 @@ extern void led_classdev_resume(struct led_classdev *led_cdev);
->  
->  extern struct led_classdev *of_led_get(struct device_node *np, int index);
->  extern void led_put(struct led_classdev *led_cdev);
-> +struct led_classdev *__must_check devm_led_get(struct device *dev,
-> +					       int index);
->  
->  /**
->   * led_blink_set - set blinking with software fallback
-> 
-
--- 
 Best regards,
 Jacek Anaszewski
+
+On 9/13/19 5:03 PM, Akinobu Mita wrote:
+> Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
+> However, the size of this file is limited to PAGE_SIZE because of the
+> limitation for sysfs attribute.
+> 
+> Enabling LED CPU trigger on systems with thousands of CPUs easily hits
+> PAGE_SIZE limit, and makes it impossible to see all available LED triggers
+> and which trigger is currently activated.
+> 
+> We work around it here by converting /sys/class/leds/<led>/trigger to
+> binary attribute, which is not limited by length. This is _not_ good
+> design, do not copy it.
+> 
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Dan Murphy <dmurphy@ti.com>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+> Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+> ---
+>  drivers/leds/led-class.c    |  8 ++--
+>  drivers/leds/led-triggers.c | 90 ++++++++++++++++++++++++++++++++++-----------
+>  drivers/leds/leds.h         |  6 +++
+>  include/linux/leds.h        |  5 ---
+>  4 files changed, 79 insertions(+), 30 deletions(-)
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 4793e77..8b5a1d1 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -73,13 +73,13 @@ static ssize_t max_brightness_show(struct device *dev,
+>  static DEVICE_ATTR_RO(max_brightness);
+>  
+>  #ifdef CONFIG_LEDS_TRIGGERS
+> -static DEVICE_ATTR(trigger, 0644, led_trigger_show, led_trigger_store);
+> -static struct attribute *led_trigger_attrs[] = {
+> -	&dev_attr_trigger.attr,
+> +static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
+> +static struct bin_attribute *led_trigger_bin_attrs[] = {
+> +	&bin_attr_trigger,
+>  	NULL,
+>  };
+>  static const struct attribute_group led_trigger_group = {
+> -	.attrs = led_trigger_attrs,
+> +	.bin_attrs = led_trigger_bin_attrs,
+>  };
+>  #endif
+>  
+> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+> index 8d11a5e..ed5a311 100644
+> --- a/drivers/leds/led-triggers.c
+> +++ b/drivers/leds/led-triggers.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/rwsem.h>
+>  #include <linux/leds.h>
+>  #include <linux/slab.h>
+> +#include <linux/mm.h>
+>  #include "leds.h"
+>  
+>  /*
+> @@ -26,9 +27,11 @@ LIST_HEAD(trigger_list);
+>  
+>   /* Used by LED Class */
+>  
+> -ssize_t led_trigger_store(struct device *dev, struct device_attribute *attr,
+> -		const char *buf, size_t count)
+> +ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+> +			  struct bin_attribute *bin_attr, char *buf,
+> +			  loff_t pos, size_t count)
+>  {
+> +	struct device *dev = kobj_to_dev(kobj);
+>  	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+>  	struct led_trigger *trig;
+>  	int ret = count;
+> @@ -64,39 +67,84 @@ ssize_t led_trigger_store(struct device *dev, struct device_attribute *attr,
+>  	mutex_unlock(&led_cdev->led_access);
+>  	return ret;
+>  }
+> -EXPORT_SYMBOL_GPL(led_trigger_store);
+> +EXPORT_SYMBOL_GPL(led_trigger_write);
+>  
+> -ssize_t led_trigger_show(struct device *dev, struct device_attribute *attr,
+> -		char *buf)
+> +__printf(4, 5)
+> +static int led_trigger_snprintf(char *buf, size_t size, bool query,
+> +				const char *fmt, ...)
+> +{
+> +	va_list args;
+> +	int i;
+> +
+> +	va_start(args, fmt);
+> +	if (query)
+> +		i = vsnprintf(NULL, 0, fmt, args);
+> +	else
+> +		i = vscnprintf(buf, size, fmt, args);
+> +	va_end(args);
+> +
+> +	return i;
+> +}
+> +
+> +static int led_trigger_format(char *buf, size_t size, bool query,
+> +			      struct led_classdev *led_cdev)
+>  {
+> -	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+>  	struct led_trigger *trig;
+> -	int len = 0;
+> +	int len = led_trigger_snprintf(buf, size, query, "%s",
+> +				       led_cdev->trigger ? "none" : "[none]");
+> +
+> +	list_for_each_entry(trig, &trigger_list, next_trig) {
+> +		bool hit = led_cdev->trigger &&
+> +			!strcmp(led_cdev->trigger->name, trig->name);
+> +
+> +		len += led_trigger_snprintf(buf + len, size - len, query,
+> +					    " %s%s%s", hit ? "[" : "",
+> +					    trig->name, hit ? "]" : "");
+> +	}
+> +
+> +	len += led_trigger_snprintf(buf + len, size - len, query, "\n");
+> +
+> +	return len;
+> +}
+> +
+> +/*
+> + * It was stupid to create 10000 cpu triggers, but we are stuck with it now.
+> + * Don't make that mistake again. We work around it here by creating binary
+> + * attribute, which is not limited by length. This is _not_ good design, do not
+> + * copy it.
+> + */
+> +ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
+> +			struct bin_attribute *attr, char *buf,
+> +			loff_t pos, size_t count)
+> +{
+> +	struct device *dev = kobj_to_dev(kobj);
+> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> +	void *data;
+> +	int len;
+>  
+>  	down_read(&triggers_list_lock);
+>  	down_read(&led_cdev->trigger_lock);
+>  
+> -	if (!led_cdev->trigger)
+> -		len += scnprintf(buf+len, PAGE_SIZE - len, "[none] ");
+> +	len = led_trigger_format(NULL, 0, true, led_cdev);
+> +	data = kvmalloc(len + 1, GFP_KERNEL);
+> +	if (data)
+> +		len = led_trigger_format(data, len + 1, false, led_cdev);
+>  	else
+> -		len += scnprintf(buf+len, PAGE_SIZE - len, "none ");
+> +		len = -ENOMEM;
+>  
+> -	list_for_each_entry(trig, &trigger_list, next_trig) {
+> -		if (led_cdev->trigger && !strcmp(led_cdev->trigger->name,
+> -							trig->name))
+> -			len += scnprintf(buf+len, PAGE_SIZE - len, "[%s] ",
+> -					 trig->name);
+> -		else
+> -			len += scnprintf(buf+len, PAGE_SIZE - len, "%s ",
+> -					 trig->name);
+> -	}
+>  	up_read(&led_cdev->trigger_lock);
+>  	up_read(&triggers_list_lock);
+>  
+> -	len += scnprintf(len+buf, PAGE_SIZE - len, "\n");
+> +	if (len < 0)
+> +		return len;
+> +
+> +	len = memory_read_from_buffer(buf, count, &pos, data, len);
+> +
+> +	kvfree(data);
+> +
+>  	return len;
+>  }
+> -EXPORT_SYMBOL_GPL(led_trigger_show);
+> +EXPORT_SYMBOL_GPL(led_trigger_read);
+>  
+>  /* Caller must ensure led_cdev->trigger_lock held */
+>  int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
+> diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
+> index 47b2294..a0ee33c 100644
+> --- a/drivers/leds/leds.h
+> +++ b/drivers/leds/leds.h
+> @@ -23,6 +23,12 @@ void led_set_brightness_nopm(struct led_classdev *led_cdev,
+>  				enum led_brightness value);
+>  void led_set_brightness_nosleep(struct led_classdev *led_cdev,
+>  				enum led_brightness value);
+> +ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
+> +			struct bin_attribute *attr, char *buf,
+> +			loff_t pos, size_t count);
+> +ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+> +			struct bin_attribute *bin_attr, char *buf,
+> +			loff_t pos, size_t count);
+>  
+>  extern struct rw_semaphore leds_list_lock;
+>  extern struct list_head leds_list;
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index fd2eb7c..33ae825 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -290,11 +290,6 @@ struct led_trigger {
+>  #define led_trigger_get_led(dev)	((struct led_classdev *)dev_get_drvdata((dev)))
+>  #define led_trigger_get_drvdata(dev)	(led_get_trigger_data(led_trigger_get_led(dev)))
+>  
+> -ssize_t led_trigger_store(struct device *dev, struct device_attribute *attr,
+> -			const char *buf, size_t count);
+> -ssize_t led_trigger_show(struct device *dev, struct device_attribute *attr,
+> -			char *buf);
+> -
+>  /* Registration functions for complex triggers */
+>  extern int led_trigger_register(struct led_trigger *trigger);
+>  extern void led_trigger_unregister(struct led_trigger *trigger);
+> 
+
