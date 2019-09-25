@@ -2,118 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DF1CBE39C
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Sep 2019 19:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1683CBE414
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Sep 2019 20:00:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731184AbfIYRmG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 25 Sep 2019 13:42:06 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:50752 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437639AbfIYRlV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Sep 2019 13:41:21 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8PHfI39029475;
-        Wed, 25 Sep 2019 12:41:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1569433278;
-        bh=qZXobCQEdxdBf8db4ptHqKRRbgiuP+MZ7ubiK/z5XQY=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=ZaN1oH2bQ2F4YwUSmH6sYGXLP/CBdmiwbyucge/XV0QFyUIrcyGOm/2NN7xQpxumz
-         /eiC2cNnBNavJDyB9U4U1ZybT2891kKEFeXBrMuKyCwonEYRHETMeyG6nhaRbQxgyD
-         Vo3em8WkXqFnAB6hguz2kuyDgNBQsCDyi368KDsE=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8PHfIGR000378
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 25 Sep 2019 12:41:18 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 25
- Sep 2019 12:41:11 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 25 Sep 2019 12:41:10 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8PHfHr3045690;
-        Wed, 25 Sep 2019 12:41:17 -0500
-From:   Dan Murphy <dmurphy@ti.com>
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v9 15/15] leds: lp5523: Fix checkpatch issues in the code
-Date:   Wed, 25 Sep 2019 12:46:16 -0500
-Message-ID: <20190925174616.3714-16-dmurphy@ti.com>
-X-Mailer: git-send-email 2.22.0.214.g8dca754b1e
-In-Reply-To: <20190925174616.3714-1-dmurphy@ti.com>
-References: <20190925174616.3714-1-dmurphy@ti.com>
+        id S1726683AbfIYSA2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 25 Sep 2019 14:00:28 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39837 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726482AbfIYSA2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Sep 2019 14:00:28 -0400
+Received: by mail-lj1-f196.google.com with SMTP id y3so6619975ljj.6;
+        Wed, 25 Sep 2019 11:00:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bXErfHRA5V2j3IUtubyzRXAx2v534OGMhyigdUPBMkg=;
+        b=LK7791fGIcuVhpBiCLk3PBGgYW4+HzNT3JotY3GbmDZnU9bwPlxKQfDVI6CtTb54PS
+         /BbkkL/bWQ60N4KacXiZ85US+3S0Mru0wazmMxJ64M6jVhBATVv2Xgi+YNEMf3UCdDZH
+         Zu6E8L5g3kpTsDA5qp/WtBPQvAcBA8U1PL19Tkblf891QNHemU2By5XqxNV+3ZwmvptB
+         zQdWKnmbtJuU5G6TRxItZ9gTcOVeBZk1XgBvvq2PVPXmh2f5Em8l+ZrNaiH/EdhtM8Vj
+         mtbzosw/1a+aE80JLW3IpH/RKrFWI62tXUo3PNZsMxkC8pH7LiW32jPgAfIkM2NSrdeR
+         +2bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bXErfHRA5V2j3IUtubyzRXAx2v534OGMhyigdUPBMkg=;
+        b=oFYe28299GZPIMtsZxu+F8NEMXbfMfn8w+n1V5JbtaOFFH4CT/OThXCAMcCesDFNHM
+         vk0hH4YUQad7ED/E9YqOou53743K0bsmXTDej/UaD0YXz5RzIPMov0xaXue3HnVmIfut
+         ip8zIsjaG5+mAugTo7lOaKRomuyTGVRUZjatOQUgSZJv5QW5/ftS+HAsIieiQ4grkx1u
+         EvVnD025tO/A1wydphKCgPZSy7YcM7FzvKLRDsfXLnlrWBk6rwJq4bcQe+wBoC3KglUR
+         amJ0Kl2bGSjslihvpZ3PCIqyLQlfjp/EvHqOSzggDD8zFY8JREsbZuoTAMI0XNI0eBYx
+         wI0g==
+X-Gm-Message-State: APjAAAXWVLx6NTQYyuUzKMCUMFKJOLQ226npIPIKO/BxVXeU3DvB5qra
+        AkvpJsvkh9Wl+40ktHzNYwTl9mEdGuSrCF46gw13BYcU
+X-Google-Smtp-Source: APXvYqz9QCn5sWNeOv03oMOxgE5+x5J9dl1ayPpJXqo6/K9aKxKAWK2BN4GIo+xjV+DJ6cfijaHL75/TULdR8VvoRFk=
+X-Received: by 2002:a2e:b0f4:: with SMTP id h20mr2354841ljl.10.1569434425656;
+ Wed, 25 Sep 2019 11:00:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20190925174616.3714-1-dmurphy@ti.com> <20190925174616.3714-12-dmurphy@ti.com>
+In-Reply-To: <20190925174616.3714-12-dmurphy@ti.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Wed, 25 Sep 2019 15:00:34 -0300
+Message-ID: <CAOMZO5CeDKohK5np29X1fvzqBiCw6S3QmbpJ7jjn+avObKNqFw@mail.gmail.com>
+Subject: Re: [PATCH v9 11/15] ARM: dts: imx6dl-yapp4: Add reg property to the
+ lp5562 channel node
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Fix checkpatch errors and warnings for the LP5523.c device
-driver.
+Hi Dan,
 
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
----
- drivers/leds/leds-lp5523.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+On Wed, Sep 25, 2019 at 2:41 PM Dan Murphy <dmurphy@ti.com> wrote:
 
-diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-index 8b2cdb98fed6..c4a94903f8c4 100644
---- a/drivers/leds/leds-lp5523.c
-+++ b/drivers/leds/leds-lp5523.c
-@@ -23,13 +23,13 @@
- 
- #define LP5523_PROGRAM_LENGTH		32	/* bytes */
- /* Memory is used like this:
--   0x00 engine 1 program
--   0x10 engine 2 program
--   0x20 engine 3 program
--   0x30 engine 1 muxing info
--   0x40 engine 2 muxing info
--   0x50 engine 3 muxing info
--*/
-+ * 0x00 engine 1 program
-+ * 0x10 engine 2 program
-+ * 0x20 engine 3 program
-+ * 0x30 engine 1 muxing info
-+ * 0x40 engine 2 muxing info
-+ * 0x50 engine 3 muxing info
-+ */
- #define LP5523_MAX_LEDS			9
- 
- /* Registers */
-@@ -326,7 +326,7 @@ static int lp5523_update_program_memory(struct lp55xx_chip *chip,
- 					const u8 *data, size_t size)
- {
- 	u8 pattern[LP5523_PROGRAM_LENGTH] = {0};
--	unsigned cmd;
-+	unsigned int cmd;
- 	char c[3];
- 	int nrchars;
- 	int ret;
-@@ -468,6 +468,7 @@ static int lp5523_mux_parse(const char *buf, u16 *mux, size_t len)
- static void lp5523_mux_to_array(u16 led_mux, char *array)
- {
- 	int i, pos = 0;
-+
- 	for (i = 0; i < LP5523_MAX_LEDS; i++)
- 		pos += sprintf(array + pos, "%x", LED_ACTIVE(led_mux, i));
- 
-@@ -506,7 +507,7 @@ static int lp5523_load_mux(struct lp55xx_chip *chip, u16 mux, int nr)
- 	if (ret)
- 		return ret;
- 
--	ret = lp55xx_write(chip, LP5523_REG_PROG_MEM , (u8)(mux >> 8));
-+	ret = lp55xx_write(chip, LP5523_REG_PROG_MEM, (u8)(mux >> 8));
- 	if (ret)
- 		return ret;
- 
--- 
-2.22.0.214.g8dca754b1e
+>
+>                 chan0 {
 
+This should be chan@0
+
+>                         chan-name = "R";
+>                         led-cur = /bits/ 8 <0x20>;
+>                         max-cur = /bits/ 8 <0x60>;
+> +                       reg = <0>;
+
+Passing reg without its corresponding @ entry gives a dtc warning when
+building with W=1.
