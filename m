@@ -2,64 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C509BE768
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Sep 2019 23:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC1B3BE7F8
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Sep 2019 00:02:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727558AbfIYVet (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 25 Sep 2019 17:34:49 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43375 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727537AbfIYVes (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Sep 2019 17:34:48 -0400
-Received: by mail-wr1-f66.google.com with SMTP id q17so33399wrx.10;
-        Wed, 25 Sep 2019 14:34:46 -0700 (PDT)
+        id S1727266AbfIYWBt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 25 Sep 2019 18:01:49 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:43822 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728816AbfIYWAT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Sep 2019 18:00:19 -0400
+Received: by mail-wr1-f68.google.com with SMTP id q17so84827wrx.10;
+        Wed, 25 Sep 2019 15:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ZmPPUmbrXE407Y9de0jQGIjBXdFNsGGZGk6KceiOZwI=;
-        b=Jo0MRrfONX7HEudivxbuy6PBLE0a7yNcDgPQE9Ia+AHuqQf8lB01YbmbedrqKUuIQq
-         OXrz5R0zOdBiesAMV2NTth4I99IaOvyj20RWW0AkwbUvXeRv4cPaBjtTBrVicImtn7mT
-         n3tiaj+X9KY9riFAMoO9mVBP1ttdUwiIhSOGIGvqN5kRCjahPA7RsdFMa1m6w7438kif
-         1IE+tZcmK703CTfhk6TDSXV/dQYBDEkXWiTK4MUYcIQotv0LkoZyQ0DK4ujASQWLH6+G
-         dKwWfbjVeOrx9ZBYEu8QdF8kjlV0EG8NoN36VgeFNj6ikITGZYsJkDNb/k55VwIFGj7y
-         CYlQ==
+        bh=y58n22AehKpICGg7pp3UrxHJ2uXYXc6EGOkvrwA6HO8=;
+        b=Lw8M/6OPBaRs7BUKWe84Lhr+tS78mYzMADTYKDSwFWmJlt9z1m6QVlWpx0AVr4g6Wn
+         QNB5l6hp3VVfKmmTimqAdwdIHkqEGWTJcdsxnWbsGZcDI8i+VzOALEoXZzPxV6QH4uss
+         T6Zisk6GOL9jItOND5rodsvjHjPNx/CWSMvETUEvp2TvF85oxjQKzAcymRplx7hprgME
+         PmOM4r72tepI7IysJp5hEQ0op7WUThrsgoAZuCw4V3QLeMbfpSOvJksSIzAkM4fdowpc
+         uSKicTcKuCTYI23e52v8PH+JTH70R6EolnH4OT87zkiwpCsi4pD66DsltD0h+f/u4oJP
+         VPEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=ZmPPUmbrXE407Y9de0jQGIjBXdFNsGGZGk6KceiOZwI=;
-        b=VwNQFmxYveRkLpiIdPh+ncXhEKv3fXH2kmzy8TtAuC6SX4HaVokr8V5iLC7tz08nxf
-         zcKLDCqVL+Ytv7p7D69jNLoKt4tfQkvZJq9uZHy2Gi6h4zYX0oVNTXHjI0rsoWE2T+RM
-         dpqoVDLkqh/DY2sUg2hmk+lV15pX7x5nrRJZhd9AaxtZIavFl3wHYcZCzErwzsB476/W
-         kxXZt2OuVlZo8+waYjqJS9200CFbB+uFanUr9uiWdClo7XFRH+nq26hkWeBMbggxm/+N
-         h2yWPc0gO3n1IY9ktKZ1NBdjIyB/6VWR1rh/29LuPsuMQB9nQNC25KFazyz7gJ/F2wSO
-         /lFA==
-X-Gm-Message-State: APjAAAWlktpfUAe9ranrwL9hJcnW0INF+vylj90/0vhsNqAVcac5boDh
-        /Nxz6BSEpUkfGqAa5oxr9aQ=
-X-Google-Smtp-Source: APXvYqwa+WmKAMunC6T1OCzT50lb9ar9P+Xn/DXZJJXU3TlycG4Qi0zvAQ6l30FUHzohNz6veIWERw==
-X-Received: by 2002:adf:ea12:: with SMTP id q18mr307497wrm.378.1569447285838;
-        Wed, 25 Sep 2019 14:34:45 -0700 (PDT)
+        bh=y58n22AehKpICGg7pp3UrxHJ2uXYXc6EGOkvrwA6HO8=;
+        b=FSaSQcnxlbumnHvyeHw0HPfppLIgsz8wk76OzOHWeYzNTFb6ZEMlk8SOPMfsB7axcr
+         PnosQ3w6JOqQ38LI2dlBb++DP+KI1Crg8avESgzQM9hKxQ5bvKO90Ld4gkDBiV3YOLIh
+         iP/H5UmW3xbnolGTj/oC1StPLnB/mVrol7GnaKmnd4sZngMHDU2SNpRvcGe2ov/YGcjX
+         eN04Np+g6a5G+ggUb/al5/ZbUCkaJB6wNGxKDArTQTwH9X9FkwkessfWF1Np+mr9gQ7q
+         y1q/0hdGFQmD6zq6vOpGYE2vdLZ+Oyf23zPWkqAqCrL4ShQozV2uu2aEV1sgFFig5GwB
+         tqQQ==
+X-Gm-Message-State: APjAAAUhYHNu8c+WkE31tJmQoQg4ImYTXrxShs+ZCnTMFN08gIv7saLv
+        VLqWRGbfYt4RyPNS5qns9OWJTwse
+X-Google-Smtp-Source: APXvYqzjbFzUDF/Vb7xtEn+hZQ6NLT5vQFIl+2w2PRqRUMyLc/pRQiF1L5l7qj6XnMl98jHDrikISQ==
+X-Received: by 2002:adf:fe4a:: with SMTP id m10mr319209wrs.209.1569448817090;
+        Wed, 25 Sep 2019 15:00:17 -0700 (PDT)
 Received: from [192.168.1.19] (bfw9.neoplus.adsl.tpnet.pl. [83.28.60.9])
-        by smtp.gmail.com with ESMTPSA id s12sm556445wra.82.2019.09.25.14.34.44
+        by smtp.gmail.com with ESMTPSA id t203sm236626wmf.42.2019.09.25.15.00.15
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Sep 2019 14:34:45 -0700 (PDT)
-Subject: Re: [PATCH v9 09/15] dt: bindings: lp55xx: Update binding for
- Multicolor Framework
+        Wed, 25 Sep 2019 15:00:16 -0700 (PDT)
+Subject: Re: [PATCH v9 13/15] leds: lp55xx: Update the lp55xx to use the multi
+ color framework
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tony Lindgren <tony@atomide.com>,
-        =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190925174616.3714-1-dmurphy@ti.com>
- <20190925174616.3714-10-dmurphy@ti.com>
+ <20190925174616.3714-14-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -118,12 +110,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <ef02eafd-d1d9-da3f-4f52-cd159c7960d9@gmail.com>
-Date:   Wed, 25 Sep 2019 23:34:43 +0200
+Message-ID: <59e58ccf-84fb-5db7-5008-20afc7436d35@gmail.com>
+Date:   Thu, 26 Sep 2019 00:00:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190925174616.3714-10-dmurphy@ti.com>
+In-Reply-To: <20190925174616.3714-14-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -135,79 +127,96 @@ X-Mailing-List: linux-leds@vger.kernel.org
 Dan,
 
 On 9/25/19 7:46 PM, Dan Murphy wrote:
-> Update the DT binding to include the properties to use the
-> multicolor framework for the devices that use the LP55xx
-> framework.
+> Update the lp5523 to allow the use of the multi color framework.
 > 
 > Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> CC: Tony Lindgren <tony@atomide.com>
-> CC: "Benoît Cousson" <bcousson@baylibre.com>
-> CC: Linus Walleij <linus.walleij@linaro.org>
-> CC: Shawn Guo <shawnguo@kernel.org>
-> CC: Sascha Hauer <s.hauer@pengutronix.de>
-> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-> CC: Fabio Estevam <festevam@gmail.com>
-> CC: NXP Linux Team <linux-imx@nxp.com>
 > ---
->  .../devicetree/bindings/leds/leds-lp55xx.txt  | 99 +++++++++++++++++++
->  1 file changed, 99 insertions(+)
+>  drivers/leds/Kconfig                      |   1 +
+>  drivers/leds/leds-lp5523.c                |  13 ++
+>  drivers/leds/leds-lp55xx-common.c         | 150 ++++++++++++++++++----
+>  drivers/leds/leds-lp55xx-common.h         |  11 ++
+>  include/linux/platform_data/leds-lp55xx.h |   6 +
+>  5 files changed, 157 insertions(+), 24 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.txt b/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
-> index bfe2805c5534..c120d2bde3bd 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
-> +++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
-> @@ -1,6 +1,8 @@
->  Binding for TI/National Semiconductor LP55xx LED Drivers
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index 84f60e35c5ee..dc3d9f2194cd 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -377,6 +377,7 @@ config LEDS_LP50XX
+>  config LEDS_LP55XX_COMMON
+>  	tristate "Common Driver for TI/National LP5521/5523/55231/5562/8501"
+>  	depends on LEDS_LP5521 || LEDS_LP5523 || LEDS_LP5562 || LEDS_LP8501
+> +	depends on LEDS_CLASS_MULTI_COLOR && OF
+>  	select FW_LOADER
+>  	select FW_LOADER_USER_HELPER
+>  	help
+> diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
+> index d0b931a136b9..8b2cdb98fed6 100644
+> --- a/drivers/leds/leds-lp5523.c
+> +++ b/drivers/leds/leds-lp5523.c
+> @@ -791,6 +791,18 @@ static ssize_t store_master_fader_leds(struct device *dev,
+>  	return ret;
+>  }
 >  
->  Required properties:
-> +- #address-cells: 1
-> +- #size-cells: 0
->  - compatible: one of
->  	national,lp5521
->  	national,lp5523
-> @@ -14,6 +16,18 @@ Required properties:
->  Each child has own specific current settings
->  - led-cur: Current setting at each LED channel (mA x10, 0 if LED is not connected)
->  - max-cur: Maximun current at each LED channel.
-> +- reg: Output channel for the LED.  This is zero based channel identifier and
-> +	the data sheet is a one based channel identifier.
-> +	reg value to output to LED output number
-> +	D1 = reg value is 0
-> +	D2 = reg value is 1
-> +	D3 = reg value is 2
-> +	D4 = reg value is 3
-> +	D5 = reg value is 4
-> +	D6 = reg value is 5
-> +	D7 = reg value is 6
-> +	D8 = reg value is 7
-> +	D9 = reg value is 8
->  
->  Optional properties:
->  - enable-gpio: GPIO attached to the chip's enable pin
-> @@ -35,23 +49,28 @@ example 1) LP5521
->  on channel 0.
->  
->  lp5521@32 {
-> +	#address-cells = <1>;
-> +	#size-cells = <0>;
->  	compatible = "national,lp5521";
->  	reg = <0x32>;
->  	label = "lp5521_pri";
->  	clock-mode = /bits/ 8 <2>;
->  
->  	chan0 {
+> +static int lp5523_led_intensity(struct lp55xx_led *led, int chan_num)
 
-s/chan0/chan@0/
+Why do we need this function? brightness op will not suffice?
 
-The same applies to the remaining occurrences in this file and to
-the other patches from the patch set as already pointed out.
+> +{
+> +	struct lp55xx_chip *chip = led->chip;
+> +	int ret;
+> +
+> +	mutex_lock(&chip->lock);
+> +	ret = lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + chan_num,
+> +		     led->brightness);
+> +	mutex_unlock(&chip->lock);
+> +	return ret;
+> +}
+> +
+>  static int lp5523_led_brightness(struct lp55xx_led *led)
+>  {
+>  	struct lp55xx_chip *chip = led->chip;
+> @@ -857,6 +869,7 @@ static struct lp55xx_device_config lp5523_cfg = {
+>  	.max_channel  = LP5523_MAX_LEDS,
+>  	.post_init_device   = lp5523_post_init_device,
+>  	.brightness_fn      = lp5523_led_brightness,
+> +	.color_intensity_fn = lp5523_led_intensity,
+>  	.set_led_current    = lp5523_set_led_current,
+>  	.firmware_cb        = lp5523_firmware_loaded,
+>  	.run_engine         = lp5523_run_engine,
+> diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
+> index 44ced02b49f9..0e4b3a9d3047 100644
+> --- a/drivers/leds/leds-lp55xx-common.c
+> +++ b/drivers/leds/leds-lp55xx-common.c
+> @@ -136,9 +136,26 @@ static int lp55xx_set_brightness(struct led_classdev *cdev,
+>  {
+>  	struct lp55xx_led *led = cdev_to_lp55xx_led(cdev);
+>  	struct lp55xx_device_config *cfg = led->chip->cfg;
+> +	int brightness_val[LP55XX_MAX_GROUPED_CHAN];
+> +	int ret;
+> +	int i;
+> +
+> +	if (led->mc_cdev.num_leds > 1) {
+> +		led_mc_calc_brightness(&led->mc_cdev,
+> +				       brightness, brightness_val);
+> +		for (i = 0; i < led->mc_cdev.num_leds; i++) {
+> +			led->brightness = brightness_val[i];
+> +			ret = cfg->color_intensity_fn(led,
+> +						      led->grouped_channels[i]);
 
-> +		reg = <0>;
->  		led-cur = /bits/ 8 <0x2f>;
->  		max-cur = /bits/ 8 <0x5f>;
->  		linux,default-trigger = "heartbeat";
->  	};
->
+Now we will have three separate calls for each color component
+(and possibly sleeping on mutex on contention).
+
+Probably LED mc class use case will need a bit different design.
+
+Also, instead of grouped_channels we could possibly have
+
+led_mc_get_color_id(&led->mc_dev, i)
+
+which would map entry position index to color_id.
+
+I will stop reviewing here and will continue after taking
+deeper look at this lp55xx design.
 
 -- 
 Best regards,
