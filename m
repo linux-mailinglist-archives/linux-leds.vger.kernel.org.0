@@ -2,56 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFCFCBE733
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Sep 2019 23:32:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C509BE768
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Sep 2019 23:34:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726675AbfIYVcE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 25 Sep 2019 17:32:04 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35153 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726632AbfIYVcE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Sep 2019 17:32:04 -0400
-Received: by mail-wm1-f66.google.com with SMTP id y21so309564wmi.0;
-        Wed, 25 Sep 2019 14:32:01 -0700 (PDT)
+        id S1727558AbfIYVet (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 25 Sep 2019 17:34:49 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43375 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727537AbfIYVes (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Sep 2019 17:34:48 -0400
+Received: by mail-wr1-f66.google.com with SMTP id q17so33399wrx.10;
+        Wed, 25 Sep 2019 14:34:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=DgvDI6AHihApDTIhbETPblhhru0YNUbUeZC1PsacDrA=;
-        b=Mv5uZ5cutWgGr6//ber69YPK+cWlp/6QdTIhPsHCDM7Jgi3eDLb2QR3RkmHRcN9jnV
-         9tzJrlZWXmv6VaBLlrL0X+CO0DKqfYX5FzeXPLfO41150Kq9QIMRfDGO9Kv7L0h6zWCt
-         uLaNMWMTb2JOM0PYMb73fi9/a3y+OXHH2pENhcRJOJxy8uY155yeQOpZrW+xDymzrPge
-         1zRD5xv5Gd5BEPyauR/LfRtYj2TKGthqZ1PeygoFwvtC6BYNNM4ZNAFpOibYU8DGTmam
-         00SwoabHgniLfZDRB84VEB0xhyw6VgBoy7PrlmUdKaVsKPmuesZT+a/OQ1Y8qaVygyqR
-         lbcw==
+        bh=ZmPPUmbrXE407Y9de0jQGIjBXdFNsGGZGk6KceiOZwI=;
+        b=Jo0MRrfONX7HEudivxbuy6PBLE0a7yNcDgPQE9Ia+AHuqQf8lB01YbmbedrqKUuIQq
+         OXrz5R0zOdBiesAMV2NTth4I99IaOvyj20RWW0AkwbUvXeRv4cPaBjtTBrVicImtn7mT
+         n3tiaj+X9KY9riFAMoO9mVBP1ttdUwiIhSOGIGvqN5kRCjahPA7RsdFMa1m6w7438kif
+         1IE+tZcmK703CTfhk6TDSXV/dQYBDEkXWiTK4MUYcIQotv0LkoZyQ0DK4ujASQWLH6+G
+         dKwWfbjVeOrx9ZBYEu8QdF8kjlV0EG8NoN36VgeFNj6ikITGZYsJkDNb/k55VwIFGj7y
+         CYlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=DgvDI6AHihApDTIhbETPblhhru0YNUbUeZC1PsacDrA=;
-        b=D+bx19C1SLwwmlD+uhYjEOxCrqP2cgBYfzUpBRME25P4QBV7+QqicXBut30kuErklo
-         kgSD1txiG8gFpCDLk/23V9+K9d3aIOwraZ6pKTei6/vQEdM04Uty2KvtA61SkomDYkjY
-         GGFOEJNK6V9Nsd5GGAjCpQYi/eBntITCeDdox6nuvdxxE72mm1nW/L2j/ngZO6ukTG4S
-         bGiRzJATbm/YxaG7xjMoSIOZZLKYwcJpG7m17o0/O39CBCT+XZh0Bv2VKJsKxtH9QZVT
-         Logoqx8WOkxDvigQobBVd2qzgDtlrPgAlT908KeUuo5DVGOEaqscACSUW7s628irDcvG
-         CWkQ==
-X-Gm-Message-State: APjAAAW4E0zn8L+veu4EtYMNMm/sBA1pFsJEFqKbgRIuYd+auHPWSN5d
-        4fg/JfyEfCxu+9PKmbAmqg+T8NuG
-X-Google-Smtp-Source: APXvYqztK4lDJ5Ys5lt2nERCMNO2IVLLQtmoHZH+RxQhtajXnkX91HiOK+jBvgPmVQTOm5lem9Dqqw==
-X-Received: by 2002:a1c:f003:: with SMTP id a3mr213317wmb.41.1569447120908;
-        Wed, 25 Sep 2019 14:32:00 -0700 (PDT)
+        bh=ZmPPUmbrXE407Y9de0jQGIjBXdFNsGGZGk6KceiOZwI=;
+        b=VwNQFmxYveRkLpiIdPh+ncXhEKv3fXH2kmzy8TtAuC6SX4HaVokr8V5iLC7tz08nxf
+         zcKLDCqVL+Ytv7p7D69jNLoKt4tfQkvZJq9uZHy2Gi6h4zYX0oVNTXHjI0rsoWE2T+RM
+         dpqoVDLkqh/DY2sUg2hmk+lV15pX7x5nrRJZhd9AaxtZIavFl3wHYcZCzErwzsB476/W
+         kxXZt2OuVlZo8+waYjqJS9200CFbB+uFanUr9uiWdClo7XFRH+nq26hkWeBMbggxm/+N
+         h2yWPc0gO3n1IY9ktKZ1NBdjIyB/6VWR1rh/29LuPsuMQB9nQNC25KFazyz7gJ/F2wSO
+         /lFA==
+X-Gm-Message-State: APjAAAWlktpfUAe9ranrwL9hJcnW0INF+vylj90/0vhsNqAVcac5boDh
+        /Nxz6BSEpUkfGqAa5oxr9aQ=
+X-Google-Smtp-Source: APXvYqwa+WmKAMunC6T1OCzT50lb9ar9P+Xn/DXZJJXU3TlycG4Qi0zvAQ6l30FUHzohNz6veIWERw==
+X-Received: by 2002:adf:ea12:: with SMTP id q18mr307497wrm.378.1569447285838;
+        Wed, 25 Sep 2019 14:34:45 -0700 (PDT)
 Received: from [192.168.1.19] (bfw9.neoplus.adsl.tpnet.pl. [83.28.60.9])
-        by smtp.gmail.com with ESMTPSA id z12sm180699wmf.27.2019.09.25.14.31.59
+        by smtp.gmail.com with ESMTPSA id s12sm556445wra.82.2019.09.25.14.34.44
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Sep 2019 14:32:00 -0700 (PDT)
-Subject: Re: [PATCH v9 08/15] dt: bindings: lp55xx: Be consistent in the
- document with LED
+        Wed, 25 Sep 2019 14:34:45 -0700 (PDT)
+Subject: Re: [PATCH v9 09/15] dt: bindings: lp55xx: Update binding for
+ Multicolor Framework
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tony Lindgren <tony@atomide.com>,
+        =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>
 References: <20190925174616.3714-1-dmurphy@ti.com>
- <20190925174616.3714-9-dmurphy@ti.com>
+ <20190925174616.3714-10-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,15 +118,15 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <e4916f0c-c8e7-924f-e944-4c5388dc0ef8@gmail.com>
-Date:   Wed, 25 Sep 2019 23:31:58 +0200
+Message-ID: <ef02eafd-d1d9-da3f-4f52-cd159c7960d9@gmail.com>
+Date:   Wed, 25 Sep 2019 23:34:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190925174616.3714-9-dmurphy@ti.com>
+In-Reply-To: <20190925174616.3714-10-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
@@ -127,39 +135,79 @@ X-Mailing-List: linux-leds@vger.kernel.org
 Dan,
 
 On 9/25/19 7:46 PM, Dan Murphy wrote:
-> Update the document to be consistent in case when using LED.
-
-s/LED/"LED"/.
-
-> This should be capital throughout the document.
+> Update the DT binding to include the properties to use the
+> multicolor framework for the devices that use the LP55xx
+> framework.
 > 
 > Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> CC: Tony Lindgren <tony@atomide.com>
+> CC: "Benoît Cousson" <bcousson@baylibre.com>
+> CC: Linus Walleij <linus.walleij@linaro.org>
+> CC: Shawn Guo <shawnguo@kernel.org>
+> CC: Sascha Hauer <s.hauer@pengutronix.de>
+> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+> CC: Fabio Estevam <festevam@gmail.com>
+> CC: NXP Linux Team <linux-imx@nxp.com>
 > ---
->  Documentation/devicetree/bindings/leds/leds-lp55xx.txt | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  .../devicetree/bindings/leds/leds-lp55xx.txt  | 99 +++++++++++++++++++
+>  1 file changed, 99 insertions(+)
 > 
 > diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.txt b/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
-> index 1b66a413fb9d..bfe2805c5534 100644
+> index bfe2805c5534..c120d2bde3bd 100644
 > --- a/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
 > +++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
-> @@ -1,4 +1,4 @@
-> -Binding for TI/National Semiconductor LP55xx Led Drivers
-> +Binding for TI/National Semiconductor LP55xx LED Drivers
+> @@ -1,6 +1,8 @@
+>  Binding for TI/National Semiconductor LP55xx LED Drivers
 >  
 >  Required properties:
+> +- #address-cells: 1
+> +- #size-cells: 0
 >  - compatible: one of
-> @@ -12,8 +12,8 @@ Required properties:
->  - clock-mode: Input clock mode, (0: automode, 1: internal, 2: external)
->  
+>  	national,lp5521
+>  	national,lp5523
+> @@ -14,6 +16,18 @@ Required properties:
 >  Each child has own specific current settings
-> -- led-cur: Current setting at each led channel (mA x10, 0 if led is not connected)
-> -- max-cur: Maximun current at each led channel.
-> +- led-cur: Current setting at each LED channel (mA x10, 0 if LED is not connected)
-> +- max-cur: Maximun current at each LED channel.
+>  - led-cur: Current setting at each LED channel (mA x10, 0 if LED is not connected)
+>  - max-cur: Maximun current at each LED channel.
+> +- reg: Output channel for the LED.  This is zero based channel identifier and
+> +	the data sheet is a one based channel identifier.
+> +	reg value to output to LED output number
+> +	D1 = reg value is 0
+> +	D2 = reg value is 1
+> +	D3 = reg value is 2
+> +	D4 = reg value is 3
+> +	D5 = reg value is 4
+> +	D6 = reg value is 5
+> +	D7 = reg value is 6
+> +	D8 = reg value is 7
+> +	D9 = reg value is 8
 >  
 >  Optional properties:
 >  - enable-gpio: GPIO attached to the chip's enable pin
-> 
+> @@ -35,23 +49,28 @@ example 1) LP5521
+>  on channel 0.
+>  
+>  lp5521@32 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+>  	compatible = "national,lp5521";
+>  	reg = <0x32>;
+>  	label = "lp5521_pri";
+>  	clock-mode = /bits/ 8 <2>;
+>  
+>  	chan0 {
+
+s/chan0/chan@0/
+
+The same applies to the remaining occurrences in this file and to
+the other patches from the patch set as already pointed out.
+
+> +		reg = <0>;
+>  		led-cur = /bits/ 8 <0x2f>;
+>  		max-cur = /bits/ 8 <0x5f>;
+>  		linux,default-trigger = "heartbeat";
+>  	};
+>
 
 -- 
 Best regards,
