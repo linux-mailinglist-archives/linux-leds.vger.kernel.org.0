@@ -2,59 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55417C1095
-	for <lists+linux-leds@lfdr.de>; Sat, 28 Sep 2019 12:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E375C11C2
+	for <lists+linux-leds@lfdr.de>; Sat, 28 Sep 2019 20:31:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725932AbfI1K3O (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 28 Sep 2019 06:29:14 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:34013 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725857AbfI1K3O (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 28 Sep 2019 06:29:14 -0400
-Received: by mail-wm1-f67.google.com with SMTP id y135so10330036wmc.1;
-        Sat, 28 Sep 2019 03:29:10 -0700 (PDT)
+        id S1726026AbfI1Sbi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 28 Sep 2019 14:31:38 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:53608 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725965AbfI1Sbi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 28 Sep 2019 14:31:38 -0400
+Received: by mail-wm1-f66.google.com with SMTP id i16so9127751wmd.3;
+        Sat, 28 Sep 2019 11:31:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:from:to:cc:references:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=9Dwre/L+ieT/XxIVjOPLPPe4F/irNf6EoQVH8e6iN3w=;
-        b=bXUodu772GoN0O5h+WYhD1MhiqCcVH+fZJtiL5J2sp+x4LNg5lCw44vqPs0XaZ1asA
-         rARbQlHwOrwnJr9CVCJnqtSfhjuQ/Pc355y2QNt4mt8bJ4XLIf+CFinXu6yFss1C3cSR
-         A7opKvGyKcMPOPleK7yVMOc4ftW+GpLoD7ScQ0fHn9j4c67FipQ76OVxs9zX69OEUGLw
-         1jtTvdERCfPbHdsAfWS8of4zvt6mlDAIaXWW92w+zXJgF8lWfMGzC39XIVCFfku0aMfm
-         s8EwtgcGSzRw4BDjxVcatdwLOJ6QTFOTNlc/Xdy392ZNlRqsXAAcXWimM7ZECYCphBjT
-         4MEg==
+        bh=0/ijaaeAztuYOjSKnKrkSMDRNMbsOQA/gzMopruKTpE=;
+        b=ViQoreuUdr04dajRNSGxzRGy6lBr3ywJ602JRkbiPTjMFAE+1vIbG8lasM9XXVdtny
+         crC8UGCO1y7FzPhJIXE5K7YqOddTdRuGnlblW5aN20IKRG1MHBHGxPgSWVafMDHPFfba
+         D1xjRffEejmuuk4ia/5aB/k0YCKQgOfvv/BFCI2Cst3nczjEILuG8KOB+LnsUgFLe3fO
+         bi+paAG7P1j7lv0AzKNkL4M8jjCJ6/2Ha0ws+q7FTZC85gc77ByS2ruZjHJsz9GLZAXL
+         0p8B7oYCXh2M1YdIVDaWqUxSKpBTfcyBPb/oYY3JcMX5I7X3ExaYivlcAiJx246VURjy
+         u8Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=9Dwre/L+ieT/XxIVjOPLPPe4F/irNf6EoQVH8e6iN3w=;
-        b=k8SVo10hbUz8rycM8yJUu7FcXxYR4nW9AOfaBNPpx+2rXZtwj/bQpLq7Ptxhsz8cCT
-         HmHsmhr3dQAAWHqwBItjfX1b5mc5MauxuSJrVg66BbumXLUJ/182vbhIco9z1De9VBuw
-         Z6DO2e8oIl1zb+PpfazHJ8X0GStRTzQKnVS7x/dyoT6hQIC0/2pSNd0XDST+DSVMhfo9
-         yMYX5sIuuaLfICIKGglkvandXc23nRaimOMWUHuFQjclqj+Cuc/CgSE+IVN0rcNKcTGB
-         VmB++X/FvWyC/gM+Py6nS6WUXf9yM32WSPSuMKTqUKZP776BeKhWo+k1TXfN8WVCy/sk
-         Fgsg==
-X-Gm-Message-State: APjAAAU3u3dITWkkrsSJ6Zm0RZoXRvBNQixrep4gqE6GNmf0VujAH7S8
-        pWqGrhyuMe4bq+B04yq/RZ76Wcsl
-X-Google-Smtp-Source: APXvYqz7X5XoPd34s1mwgNPJMymPbNr9WfSwOSNHks+jRmEyhWHixID6KOXx67N3Wdgs2wjlYvtfEQ==
-X-Received: by 2002:a05:600c:20a:: with SMTP id 10mr11150024wmi.75.1569666549516;
-        Sat, 28 Sep 2019 03:29:09 -0700 (PDT)
+        bh=0/ijaaeAztuYOjSKnKrkSMDRNMbsOQA/gzMopruKTpE=;
+        b=SAyFYn5pJa+L3VoavfL/K5MkPCbw62tWR8T91S+x3bLNJwFNZiGgkbz0OPr2d16ue2
+         2DnRcTO3CZlfBHFeAL1AQHU/kCg0jcllyZp8zUJ3m65PFpTzM4C0BEeQD/IOqsJyLy2D
+         gGOCuXvApUYghVz1IpGOzaDNlhWMPpvXwa/7oz1JbO558zZdZTQtfr2b0c6i12wsnZQv
+         ZlzQeHvubp65kkL0+VVMorBxzYnLi9qd8uaRMqYPEplFY2JIpO5OVSaImarGlc+a/FC0
+         vO/2ECgSc0JO0kKCvzQkVLPdvSNCJrzV+AmyZFznVu4AMncgDJC5zwjl2gbgnMjDvAmL
+         hHPg==
+X-Gm-Message-State: APjAAAWTLrMq9D0+jpgl32QMkZi7iE8Yg//Qiup1eqkOdJqqSPEmBAtQ
+        zMeH64GLJK/3jW+ukyTBfp7C9lo3
+X-Google-Smtp-Source: APXvYqwxvRSRtYRbfEDP84ilmUZEzesr1duDt/6SZp+bYG2s3ZLx87Th/3ZmJIcVBM4dpJBl2hbSUg==
+X-Received: by 2002:a05:600c:210b:: with SMTP id u11mr11465675wml.29.1569695494805;
+        Sat, 28 Sep 2019 11:31:34 -0700 (PDT)
 Received: from [192.168.1.19] (chs80.neoplus.adsl.tpnet.pl. [83.31.16.80])
-        by smtp.gmail.com with ESMTPSA id t13sm10968963wra.70.2019.09.28.03.29.08
+        by smtp.gmail.com with ESMTPSA id b5sm7702752wmj.18.2019.09.28.11.31.33
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 28 Sep 2019 03:29:08 -0700 (PDT)
-Subject: Re: [PATCH v9 07/15] leds: lp50xx: Add the LP50XX family of the RGB
- LED driver
+        Sat, 28 Sep 2019 11:31:34 -0700 (PDT)
+Subject: Re: [PATCH v9 05/15] leds: multicolor: Introduce a multicolor class
+ definition
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190925174616.3714-1-dmurphy@ti.com>
- <20190925174616.3714-8-dmurphy@ti.com>
- <4293530f-70ae-0796-e7a7-0c6564e71132@gmail.com>
- <d4126720-25ea-7c15-2424-b7f16b25c3b4@ti.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+ <20190925174616.3714-6-dmurphy@ti.com>
+ <918ff939-8b6c-af35-ef08-0f13937d2fed@gmail.com>
+ <4f23cd99-23a5-5185-dd42-d6d29c48f566@ti.com>
+ <03deb117-4bd4-b636-cbc9-4634afc73e78@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -112,12 +113,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <4186e454-48fd-1578-cd26-083b54c707ab@gmail.com>
-Date:   Sat, 28 Sep 2019 12:29:07 +0200
+Message-ID: <5e6c2122-1953-c853-fc37-96d26dc59ea9@gmail.com>
+Date:   Sat, 28 Sep 2019 20:31:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <d4126720-25ea-7c15-2424-b7f16b25c3b4@ti.com>
+In-Reply-To: <03deb117-4bd4-b636-cbc9-4634afc73e78@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -126,63 +127,32 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dan,
+On 9/28/19 12:09 PM, Jacek Anaszewski wrote:
+> Dan,
+[...]
+>>>
+>>>
+>>>> +        brightness_val[i] = brightness *
+>>>> +                    priv->intensity / priv->max_intensity;
+> 
+> Now, looking closer at this equation it becomes obvious to me
+> why Pavel opted for common max_brightness: in case of
+> <color>_intensity == <color>_max_intensity we will get the result
+> equal to max_brightness. And this is problematic: think of a case when
+> calculated value will be greater than given <color>_max_intensity.
+> It will have to be limited the that constraint and will fail to
 
-On 9/26/19 1:59 PM, Dan Murphy wrote:
-> Jacek
-> 
-> On 9/25/19 4:27 PM, Jacek Anaszewski wrote:
->> Dan,
->>
->> On 9/25/19 7:46 PM, Dan Murphy wrote:
-> 
-> <big_snip>
-> 
->>> +
->>> +static int lp50xx_brightness_set(struct led_classdev *cdev,
->>> +                 enum led_brightness brightness)
->>> +{
->>> +    struct lp50xx_led *led = container_of(cdev, struct lp50xx_led,
->>> led_dev);
->>> +    const struct lp50xx_chip_info *led_chip = led->priv->chip_info;
->>> +    struct led_mc_color_entry *color_data;
->>> +    u8 led_offset, reg_val, reg_color_offset;
->>> +    int ret = 0;
->>> +
->>> +    mutex_lock(&led->priv->lock);
->>> +
->>> +    if (led->ctrl_bank_enabled)
->>> +        reg_val = led_chip->bank_brt_reg;
->>> +    else
->>> +        reg_val = led_chip->led_brightness0_reg +
->>> +              led->led_number;
->>> +
->>> +    ret = regmap_write(led->priv->regmap, reg_val, brightness);
->>> +    if (ret) {
->>> +        dev_err(&led->priv->client->dev,
->>> +            "Cannot write brightness value %d\n", ret);
->>> +        goto out;
->>> +    }
->>> +
->>> +    list_for_each_entry(color_data, &led->mc_cdev.color_list, list) {
->>> +        if (color_data->led_color_id == LED_COLOR_ID_RED)
->>> +            reg_color_offset = 0;
->>> +        else if (color_data->led_color_id == LED_COLOR_ID_GREEN)
->>> +            reg_color_offset = 1;
->>> +        else if (color_data->led_color_id == LED_COLOR_ID_BLUE)
->>> +            reg_color_offset = 2;
->>> +        else
->>> +            continue;
->> This else case is quite erroneous. Sheer continue is just ignoring
->> serious problem. I'd log the problem and return -EINVAL.
-> Ack.
->>
->> Also, you could have a macro for mapping color_id to offset.
-> If the code needed to do this more then once I could justify a macro. 
-> But this is the only instance of this check.
+s/the that/to that/
 
-OK, at first glance I thought we could have a formula for that,
-but this is not the case.
+> produce proper color combination.
+> 
+> As a solution I see limiting max_brightness to the lowest supported
+> brightness from the LEDs in the cluster.
+
+A re-thinking that I withdraw this idea since it will not allow to lit
+all LEDs to their max brightness values. Probably we will need just
+document that only when all LEDs have the same brightness range the
+combined brightness will preserve the hue on the whole its span.
 
 -- 
 Best regards,
