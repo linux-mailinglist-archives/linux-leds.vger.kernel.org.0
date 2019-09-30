@@ -2,274 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 685EFC15BC
-	for <lists+linux-leds@lfdr.de>; Sun, 29 Sep 2019 16:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9298FC1B82
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Sep 2019 08:39:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729003AbfI2OTM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 29 Sep 2019 10:19:12 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:43795 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725948AbfI2OTM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 29 Sep 2019 10:19:12 -0400
-Received: by mail-pg1-f196.google.com with SMTP id v27so5824226pgk.10;
-        Sun, 29 Sep 2019 07:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=GWVmon7ssB0uuITFe2bBCfeRidxeNfTrMso/H8aAwhQ=;
-        b=rbOvKSairizR+P/rHoAlq+Sy2ek1VHohcLx3BvzSi2lNJwE/gcEsJGzxf994X8UR5S
-         6nzZiGv8h3FC7zL0/gVonWZcjklrSe2pEI3a/+25W6j1PucQ/AzjUqBhRQ/0jkA2CPdy
-         Nls0DreyTyI7cf6LSAp87tqpkzD4StLja4oZw+aM6sqCFIGzvxLWYgikJtFO1jeF2hQY
-         SvOimE6P+oJ88J0kihMpvfcX+W7E4N8FSDbO4aSZvbpSzlzbBa6+ichWogcXgpO6yU+L
-         x2ZnxpOMulkWfd/qOOF7BhHGJBCfv+TTKaH5O36gqlBYyVmJplfcfp86Cm9aCUkHMeq8
-         56xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=GWVmon7ssB0uuITFe2bBCfeRidxeNfTrMso/H8aAwhQ=;
-        b=KYwKfcfNRxiN9ihtrXQF2FrRqggFXkKGhKk6kf65yO7ABsHUctPGGrYra8urwO5QvL
-         rWACRZBC8SvYv7yQ/FJrQ0l7xgrsodWhetlavHjY80R5ykbkJj/zvFnFUp1YHYTVzkco
-         RDSuX0/BEYMWSEbxzTsL7A1DYz7GXWcaWa6ctVShiMrM6ecXYkkrz7i811CcJmZH21UQ
-         BA6h4m9gUzmCY38K+iW11GpXDh57X5Evkm8e1s/X1NmyQKaQA8ae7t05ZSsJHdk9RAS6
-         Iv3Y2E3/v3N1IBTDsxPLzvAoziUTeTXC3th9M6C48YvL1hcY3ADtMrZvHR/UWkxmdgbS
-         okHQ==
-X-Gm-Message-State: APjAAAVi5GXuTpAJ9NJAmrDFLxD12kOq1591f17puh7XKp1FoLxJDSbj
-        qMjquGa6M9UGmHsNmmlvjwJpS0p7
-X-Google-Smtp-Source: APXvYqwaqAQpJoqcisrKfz1WY9gAJDrFsIw4UQN+ZUk6yZ4giCEOvJQAlTpDDlf9ET9ZmAC6bgGHGQ==
-X-Received: by 2002:a63:441b:: with SMTP id r27mr19487414pga.357.1569766750665;
-        Sun, 29 Sep 2019 07:19:10 -0700 (PDT)
-Received: from localhost.localdomain ([240f:34:212d:1:20:6ca:d990:a8a2])
-        by smtp.gmail.com with ESMTPSA id fa24sm10833336pjb.13.2019.09.29.07.19.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sun, 29 Sep 2019 07:19:09 -0700 (PDT)
-From:   Akinobu Mita <akinobu.mita@gmail.com>
-To:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v3 1/1] leds: remove PAGE_SIZE limit of /sys/class/leds/<led>/trigger
-Date:   Sun, 29 Sep 2019 23:18:49 +0900
-Message-Id: <1569766729-8433-2-git-send-email-akinobu.mita@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1569766729-8433-1-git-send-email-akinobu.mita@gmail.com>
-References: <1569766729-8433-1-git-send-email-akinobu.mita@gmail.com>
+        id S1729677AbfI3Gjo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 30 Sep 2019 02:39:44 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:41624 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729592AbfI3Gjo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 30 Sep 2019 02:39:44 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 8465B607C6; Mon, 30 Sep 2019 06:39:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1569825583;
+        bh=1qNHkkMgT5hOVnMaCbUcCEui91XvPTn+kZXRkbNHc+k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=huMiW61BVsCUMAkoP3y5OaUnFMNRWpEI4FQUK2x+wPP+bBIwNXvjLjKoUWi8Lw3ho
+         T4PaP5xtfSP8SW2nj9OA4HcxMLZj2GRyvbgvGN2toAPIdDdIPkjjin9fI1ehq4RMLU
+         PBd2sFkmqaBSm5J5LBeeMSC6Vj3nFyCOV6HjaG64=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from kgunda-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kgunda@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id B194B607C6;
+        Mon, 30 Sep 2019 06:39:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1569825582;
+        bh=1qNHkkMgT5hOVnMaCbUcCEui91XvPTn+kZXRkbNHc+k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IocXLNUscTjCpb7jNz63MVrifS6OV5AVVG/N40oq5zr9krX4zrRgajXNI9TvUiMMQ
+         uCWX1rpSJ52FpOv9H7X7suUwgk5ZgUNnQFk1nPIXNlAZwpprZEiCXcD04di5qK26pU
+         C51PD7HRZW0IA5X/lCpu9TgY/LNIdLMwO1BXDh1Q=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B194B607C6
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kgunda@codeaurora.org
+From:   Kiran Gunda <kgunda@codeaurora.org>
+To:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        lee.jones@linaro.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        mark.rutland@arm.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
+Subject: [PATCH V6 0/8] backlight: qcom-wled: Support for QCOM wled driver
+Date:   Mon, 30 Sep 2019 12:09:05 +0530
+Message-Id: <1569825553-26039-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
-However, the size of this file is limited to PAGE_SIZE because of the
-limitation for sysfs attribute.
+This patch series renames the pm8941-wled.c driver to qcom-wled.c to add
+the support for multiple PMICs supported by qualcomm. This patch series
+supports both PM8941 and PMI8998 WLED. The PMI8998 WLED has the support
+to handle the OVP (over voltage protection) and the SC (short circuit
+protection)
+interrupts. It also has the auto string detection algorithm support to
+configure the right strings if the user specified string configuration
+is in-correct. These three features are added in this series for PMI8998.
 
-Enabling LED CPU trigger on systems with thousands of CPUs easily hits
-PAGE_SIZE limit, and makes it impossible to see all available LED triggers
-and which trigger is currently activated.
+changes from v1:
+   - Fixed the commit message for
+   - backlight: qcom-wled: Rename pm8941-wled.c to qcom-wled.c
 
-We work around it here by converting /sys/class/leds/<led>/trigger to
-binary attribute, which is not limited by length. This is _not_ good
-design, do not copy it.
+Changes from v2:
+   - Fixed bjorn and other reviewer's comments
+   - Seperated the device tree bindings
+   - Splitted out the WLED4 changes in seperate patch
+   - Merged OVP and auto string detection patch
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Dan Murphy <dmurphy@ti.com>
-Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
----
- drivers/leds/led-class.c    |  8 ++--
- drivers/leds/led-triggers.c | 90 ++++++++++++++++++++++++++++++++++-----------
- drivers/leds/leds.h         |  6 +++
- include/linux/leds.h        |  5 ---
- 4 files changed, 78 insertions(+), 31 deletions(-)
+Changes from v3:
+  - Added Reviewed-by/Acked-by tags
+  - Fixed comments from Bjorn/Vinod/Rob
+  - Splitting the "backlight: qcom-wled: Add support for WLED4 peripheral" patch
+    to seperate the WLED3 specific restructure.
 
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 647b126..3f04334 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -74,13 +74,13 @@ static ssize_t max_brightness_show(struct device *dev,
- static DEVICE_ATTR_RO(max_brightness);
- 
- #ifdef CONFIG_LEDS_TRIGGERS
--static DEVICE_ATTR(trigger, 0644, led_trigger_show, led_trigger_store);
--static struct attribute *led_trigger_attrs[] = {
--	&dev_attr_trigger.attr,
-+static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
-+static struct bin_attribute *led_trigger_bin_attrs[] = {
-+	&bin_attr_trigger,
- 	NULL,
- };
- static const struct attribute_group led_trigger_group = {
--	.attrs = led_trigger_attrs,
-+	.bin_attrs = led_trigger_bin_attrs,
- };
- #endif
- 
-diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index 23963e5c..79e30d2 100644
---- a/drivers/leds/led-triggers.c
-+++ b/drivers/leds/led-triggers.c
-@@ -16,6 +16,7 @@
- #include <linux/rwsem.h>
- #include <linux/leds.h>
- #include <linux/slab.h>
-+#include <linux/mm.h>
- #include "leds.h"
- 
- /*
-@@ -26,9 +27,11 @@ LIST_HEAD(trigger_list);
- 
-  /* Used by LED Class */
- 
--ssize_t led_trigger_store(struct device *dev, struct device_attribute *attr,
--		const char *buf, size_t count)
-+ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
-+			  struct bin_attribute *bin_attr, char *buf,
-+			  loff_t pos, size_t count)
- {
-+	struct device *dev = kobj_to_dev(kobj);
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
- 	struct led_trigger *trig;
- 	int ret = count;
-@@ -64,39 +67,82 @@ ssize_t led_trigger_store(struct device *dev, struct device_attribute *attr,
- 	mutex_unlock(&led_cdev->led_access);
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(led_trigger_store);
-+EXPORT_SYMBOL_GPL(led_trigger_write);
- 
--ssize_t led_trigger_show(struct device *dev, struct device_attribute *attr,
--		char *buf)
-+__printf(3, 4)
-+static int led_trigger_snprintf(char *buf, ssize_t size, const char *fmt, ...)
-+{
-+	va_list args;
-+	int i;
-+
-+	va_start(args, fmt);
-+	if (size <= 0)
-+		i = vsnprintf(NULL, 0, fmt, args);
-+	else
-+		i = vscnprintf(buf, size, fmt, args);
-+	va_end(args);
-+
-+	return i;
-+}
-+
-+static int led_trigger_format(char *buf, size_t size,
-+			      struct led_classdev *led_cdev)
- {
--	struct led_classdev *led_cdev = dev_get_drvdata(dev);
- 	struct led_trigger *trig;
--	int len = 0;
-+	int len = led_trigger_snprintf(buf, size, "%s",
-+				       led_cdev->trigger ? "none" : "[none]");
-+
-+	list_for_each_entry(trig, &trigger_list, next_trig) {
-+		bool hit = led_cdev->trigger &&
-+			!strcmp(led_cdev->trigger->name, trig->name);
-+
-+		len += led_trigger_snprintf(buf + len, size - len,
-+					    " %s%s%s", hit ? "[" : "",
-+					    trig->name, hit ? "]" : "");
-+	}
-+
-+	len += led_trigger_snprintf(buf + len, size - len, "\n");
-+
-+	return len;
-+}
-+
-+/*
-+ * It was stupid to create 10000 cpu triggers, but we are stuck with it now.
-+ * Don't make that mistake again. We work around it here by creating binary
-+ * attribute, which is not limited by length. This is _not_ good design, do not
-+ * copy it.
-+ */
-+ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
-+			struct bin_attribute *attr, char *buf,
-+			loff_t pos, size_t count)
-+{
-+	struct device *dev = kobj_to_dev(kobj);
-+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-+	void *data;
-+	int len;
- 
- 	down_read(&triggers_list_lock);
- 	down_read(&led_cdev->trigger_lock);
- 
--	if (!led_cdev->trigger)
--		len += scnprintf(buf+len, PAGE_SIZE - len, "[none] ");
--	else
--		len += scnprintf(buf+len, PAGE_SIZE - len, "none ");
--
--	list_for_each_entry(trig, &trigger_list, next_trig) {
--		if (led_cdev->trigger && !strcmp(led_cdev->trigger->name,
--							trig->name))
--			len += scnprintf(buf+len, PAGE_SIZE - len, "[%s] ",
--					 trig->name);
--		else
--			len += scnprintf(buf+len, PAGE_SIZE - len, "%s ",
--					 trig->name);
-+	len = led_trigger_format(NULL, 0, led_cdev);
-+	data = kvmalloc(len + 1, GFP_KERNEL);
-+	if (!data) {
-+		up_read(&led_cdev->trigger_lock);
-+		up_read(&triggers_list_lock);
-+		return -ENOMEM;
- 	}
-+	len = led_trigger_format(data, len + 1, led_cdev);
-+
- 	up_read(&led_cdev->trigger_lock);
- 	up_read(&triggers_list_lock);
- 
--	len += scnprintf(len+buf, PAGE_SIZE - len, "\n");
-+	len = memory_read_from_buffer(buf, count, &pos, data, len);
-+
-+	kvfree(data);
-+
- 	return len;
- }
--EXPORT_SYMBOL_GPL(led_trigger_show);
-+EXPORT_SYMBOL_GPL(led_trigger_read);
- 
- /* Caller must ensure led_cdev->trigger_lock held */
- int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
-diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
-index 0b577ce..2d9eb48 100644
---- a/drivers/leds/leds.h
-+++ b/drivers/leds/leds.h
-@@ -23,6 +23,12 @@ void led_set_brightness_nopm(struct led_classdev *led_cdev,
- 				enum led_brightness value);
- void led_set_brightness_nosleep(struct led_classdev *led_cdev,
- 				enum led_brightness value);
-+ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
-+			struct bin_attribute *attr, char *buf,
-+			loff_t pos, size_t count);
-+ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
-+			struct bin_attribute *bin_attr, char *buf,
-+			loff_t pos, size_t count);
- 
- extern struct rw_semaphore leds_list_lock;
- extern struct list_head leds_list;
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 5c8f3c5..da78b27 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -361,11 +361,6 @@ struct led_trigger {
- #define led_trigger_get_led(dev)	((struct led_classdev *)dev_get_drvdata((dev)))
- #define led_trigger_get_drvdata(dev)	(led_get_trigger_data(led_trigger_get_led(dev)))
- 
--ssize_t led_trigger_store(struct device *dev, struct device_attribute *attr,
--			const char *buf, size_t count);
--ssize_t led_trigger_show(struct device *dev, struct device_attribute *attr,
--			char *buf);
--
- /* Registration functions for complex triggers */
- extern int led_trigger_register(struct led_trigger *trigger);
- extern void led_trigger_unregister(struct led_trigger *trigger);
+Changes from v4:
+  - Added reviewed-by/Acked-by tags
+  - Fixed comments from Bjorn/Daniel/Pavel
+
+Changes from v5:
+  - Fixed comments from Bjorn/Pavel
+
+Kiran Gunda (8):
+  backlight: qcom-wled: Rename pm8941-wled.c to qcom-wled.c
+  backlight: qcom-wled: restructure the qcom-wled bindings
+  backlight: qcom-wled: Add new properties for PMI8998
+  backlight: qcom-wled: Rename PM8941* to WLED3
+  backlight: qcom-wled: Restructure the driver for WLED3
+  backlight: qcom-wled: Add support for WLED4 peripheral
+  backlight: qcom-wled: add support for short circuit handling.
+  backlight: qcom-wled: Add auto string detection logic
+
+ .../bindings/leds/backlight/pm8941-wled.txt        |   42 -
+ .../bindings/leds/backlight/qcom-wled.txt          |  150 +++
+ drivers/video/backlight/Kconfig                    |    8 +-
+ drivers/video/backlight/Makefile                   |    2 +-
+ drivers/video/backlight/pm8941-wled.c              |  424 -------
+ drivers/video/backlight/qcom-wled.c                | 1288 ++++++++++++++++++++
+ 6 files changed, 1443 insertions(+), 471 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/backlight/pm8941-wled.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
+ delete mode 100644 drivers/video/backlight/pm8941-wled.c
+ create mode 100644 drivers/video/backlight/qcom-wled.c
+
 -- 
-2.7.4
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
 
