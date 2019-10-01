@@ -2,59 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F629C4123
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2019 21:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E50FBC412F
+	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2019 21:39:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726480AbfJATfH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 1 Oct 2019 15:35:07 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:34272 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726043AbfJATfH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Oct 2019 15:35:07 -0400
-Received: by mail-wm1-f66.google.com with SMTP id y135so3269859wmc.1;
-        Tue, 01 Oct 2019 12:35:04 -0700 (PDT)
+        id S1726509AbfJATj0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 1 Oct 2019 15:39:26 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:54440 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726397AbfJATjZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Oct 2019 15:39:25 -0400
+Received: by mail-wm1-f67.google.com with SMTP id p7so4654387wmp.4;
+        Tue, 01 Oct 2019 12:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=3cgxDW8us0+5JVWW7DTO4bnkHpCqO+NE67H0yqTE6g8=;
-        b=CFs6hF/HesZmShWWokCP0TaSRQA7w0rT+nJvA1Y0mc5M6Bza1PYF3t/ta2r7Xnx22t
-         dWUgDIT8mdrPwX67AM2h/lgpwggNwc9rVQJCn+2bTbCHKS9sIXCdfMWWebOiC+8BT1nv
-         zcex448PKU0tNvfRvdtbt6zDuw00nfOieI94WF8TsICyh11anHZQAhyzgrDMuhH130XU
-         6XkdlG8XeD/f+7qOuYx9v7ekldrs9xYtDOkF8x/rJa837mgJGOLrqAQMSjEVYe8zP9FG
-         cj0DAgfMNPG0P/gbLmfYM1PJDECkGJZ51acXbXIdzIkjLwpZ2vbeFkJ4ILqZJ4Lsi9yI
-         CXdA==
+        bh=ywb+nsfPF+Z3DCZgk+yF3jv1PIj9PSL8oPWXw4QNmes=;
+        b=B/V7puL/nT3UONj3n3yunqqTShXwbzE/dZLJYxI+qcTTAuHYwnSyuPneVvUnf2pcPm
+         jUJLV678kdpU6myJYnKqjKVwy0rAZqAIszBWcIJt8nXkudRU4VqGd/jzPjOaKFbZvev+
+         73iY32BL7hiOYUUVXcohfmmUJulIAdlFLZk03HOTdBNDM4neBmRg4mSODSVsPgGkeazb
+         bpCuX4oZ125uxg1cyanneLj0nHT5etHcaY09l+UHliqpWaVetLAZmAy5HDRbRmqzt56W
+         /hpLRke/XvDKNPfOtDxjedp29FbuL8TEMYQMMFQeibXSQ/o/RnB8zxiIoZtm/cFMevd9
+         LiwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=3cgxDW8us0+5JVWW7DTO4bnkHpCqO+NE67H0yqTE6g8=;
-        b=jvKRvKLJXhmF7EfgBe87VLInjPnnVxWOg0xkhqhzlB9XtWc33s3uSE9tbwmwVEfsuf
-         l1QGwcnBR+ecfJTBGVuFfXu1kr0L0I0OgvDOrpffGUnMlSE5G/Sib2AHiZDySipTDuc4
-         bYOZ/QJv8QtYlCh+o8FPGS2zIG4GDTdngPPVoimKyS9Lw0KiJX72RXIFsAbHoUkSN5mz
-         G68o7SZ/DqpUaFuabxUtsS421jWGfV/ubTntuEt8M7/hlx7o1LoQKFq5GiH1fe28daHB
-         lq+5NRI4Mr1HKWwATxSoVfNnYQtGBh8olZe6A58cJt3GlXeMqg4vffUDSjutkxqpSA1z
-         lChQ==
-X-Gm-Message-State: APjAAAXfVKJhFmJB0kDb+Y3uPKsKwY6BfJAGoGKRA/HBI2RHVGMurdu8
-        gxuH6FLjQT3i4w3ECpecKpg=
-X-Google-Smtp-Source: APXvYqzIwmHFDZYFkUdxkEPstZSswkmzmdwNVyG9KzQULvqVS3WotitBpDdKR7eGTZmQwbSm3Zw5lA==
-X-Received: by 2002:a1c:d183:: with SMTP id i125mr5321706wmg.1.1569958504190;
-        Tue, 01 Oct 2019 12:35:04 -0700 (PDT)
+        bh=ywb+nsfPF+Z3DCZgk+yF3jv1PIj9PSL8oPWXw4QNmes=;
+        b=o4m56y3e0DeottmlHRSv4cFEHkyPESBCbGT01IOl4yhJi3yoBLmS40LtdJcj5CogXh
+         fb+6/xDXrLILeDHLuOTEH4U99rrF1SMWuHzJykLOQ05YwYcNDoUeJyX4ixX7/ukt38SP
+         8a7gD1VOG0OMWVrgfQgOld22HG75rDZBocfB092lmgyglLCjSpNMvM1YEpppaTuDqmqd
+         nSO2AXRCi1NR1CEyf36DWvMyABG20l+2brCwfoCMMZCUea1k+OcPa/m2a9RLAqluIukS
+         PHPydcD3mYrDo8VOwiz337gv30xf3eFjq0EujrbTWmJyfPRSz9Dr5AS3dUtHwvDqAgna
+         D3hQ==
+X-Gm-Message-State: APjAAAU8l3BPg2bbcNmeSjxeXLxuggPtZrZ04sunQ9RDs2poBhAZlreG
+        AU1iCtTaLDTRAvTv3eSSR7TEhbdo
+X-Google-Smtp-Source: APXvYqy68EoO3ZdSzeTIT6RB8xqNljDnNUwtktKG58eAkc6CdTmLe0JGCqzAkFh90ZcumORl9nfRAA==
+X-Received: by 2002:a1c:a853:: with SMTP id r80mr4951562wme.140.1569958762580;
+        Tue, 01 Oct 2019 12:39:22 -0700 (PDT)
 Received: from [192.168.1.19] (bgt101.neoplus.adsl.tpnet.pl. [83.28.83.101])
-        by smtp.gmail.com with ESMTPSA id x2sm23807617wrn.81.2019.10.01.12.35.02
+        by smtp.gmail.com with ESMTPSA id r9sm20653329wra.19.2019.10.01.12.39.21
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 Oct 2019 12:35:03 -0700 (PDT)
-Subject: Re: [PATCH v3 1/1] leds: remove PAGE_SIZE limit of
- /sys/class/leds/<led>/trigger
-To:     Akinobu Mita <akinobu.mita@gmail.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-References: <1569766729-8433-1-git-send-email-akinobu.mita@gmail.com>
- <1569766729-8433-2-git-send-email-akinobu.mita@gmail.com>
+        Tue, 01 Oct 2019 12:39:22 -0700 (PDT)
+Subject: Re: [PATCH 5/5] leds: lm3601x: Convert class registration to device
+ managed
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191001180439.8312-1-dmurphy@ti.com>
+ <20191001180439.8312-5-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -113,12 +110,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <85dad71e-bd8d-99a4-c955-7b51e8a47141@gmail.com>
-Date:   Tue, 1 Oct 2019 21:35:01 +0200
+Message-ID: <66354452-f6f9-416d-0955-63914cb32746@gmail.com>
+Date:   Tue, 1 Oct 2019 21:39:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <1569766729-8433-2-git-send-email-akinobu.mita@gmail.com>
+In-Reply-To: <20191001180439.8312-5-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -127,31 +124,34 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Akinobu,
+Hi Dan,
 
-Thank you for your work on this patch.
+Thank you for the patch.
 
-On 9/29/19 4:18 PM, Akinobu Mita wrote:
-> Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
-> However, the size of this file is limited to PAGE_SIZE because of the
-> limitation for sysfs attribute.
+On 10/1/19 8:04 PM, Dan Murphy wrote:
+> Convert LED flash class registration to device managed class
+> registration API.
 > 
-> Enabling LED CPU trigger on systems with thousands of CPUs easily hits
-> PAGE_SIZE limit, and makes it impossible to see all available LED triggers
-> and which trigger is currently activated.
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>  drivers/leds/leds-lm3601x.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> We work around it here by converting /sys/class/leds/<led>/trigger to
-> binary attribute, which is not limited by length. This is _not_ good
-> design, do not copy it.
-> 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Dan Murphy <dmurphy@ti.com>
-> Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+> diff --git a/drivers/leds/leds-lm3601x.c b/drivers/leds/leds-lm3601x.c
+> index b02972f1a341..a68e4f97739c 100644
+> --- a/drivers/leds/leds-lm3601x.c
+> +++ b/drivers/leds/leds-lm3601x.c
+> @@ -350,8 +350,7 @@ static int lm3601x_register_leds(struct lm3601x_led *led,
+>  	init_data.devicename = led->client->name;
+>  	init_data.default_label = (led->led_mode == LM3601X_LED_TORCH) ?
+>  					"torch" : "infrared";
+> -
+> -	return led_classdev_flash_register_ext(&led->client->dev,
+> +	return devm_led_classdev_flash_register_ext(&led->client->dev,
+>  						&led->fled_cdev, &init_data);
 
-Applied to the for-next branch of linux-leds.git
+You need to remove led_classdev_flash_unregister(&led->fled_cdev) from
+lm3601x_remove() to complete this improvement.
 
 -- 
 Best regards,
