@@ -2,48 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17D61C3F4A
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2019 20:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78EC8C3F4D
+	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2019 20:04:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731030AbfJASEY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 1 Oct 2019 14:04:24 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:34464 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727176AbfJASEX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Oct 2019 14:04:23 -0400
+        id S1731555AbfJASEd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 1 Oct 2019 14:04:33 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:42210 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726554AbfJASEY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Oct 2019 14:04:24 -0400
 Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x91I4Jkq062621;
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x91I4Jop054153;
         Tue, 1 Oct 2019 13:04:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
         s=ti-com-17Q1; t=1569953059;
-        bh=G5dE59ax181azOisHSqvm9h6ieZKUV+zX+MgaCfGHj8=;
-        h=From:To:CC:Subject:Date;
-        b=X1HMrt9OTxUASF5Eq5yoPjn/G0KYc+DRpOtRUiPAQ3ubsafzXgbrAs1kADn37a94A
-         Y2YAna15WGq6j4VpCmEyzJ0T+Uh0sq9xxYUoNM8JB1J+byGxzjV+El5fT4JNKCGnQc
-         y2wnEYU0cySaXwMFPokhcl68ZbpClrWjW5BPG9FY=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x91I4JMW036201
+        bh=2GcFghmzbOxrboNekJ5oh9fzsxmTa0oc0n6YrSflEMI=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=BjM/0eE31GIF8cYhZhjX2MPveroV0odtGJ5z7GCVwOfZvqviqxbZIhlDV0sylvLkR
+         rZfc9B41ElRHqr+aFMLWc7ArV8v6Cg7Z8rkpsLBL6FCXE/XfJsY6Udvm3XkDrBfbLO
+         tt91laFPzyAFryJUQbvoBDAoKW7rs2BN3StulccI=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x91I4JMU036210
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
         Tue, 1 Oct 2019 13:04:19 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 1 Oct
  2019 13:04:19 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 1 Oct 2019 13:04:08 -0500
+ Frontend Transport; Tue, 1 Oct 2019 13:04:19 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x91I4IBK061630;
-        Tue, 1 Oct 2019 13:04:18 -0500
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x91I4J0a075928;
+        Tue, 1 Oct 2019 13:04:19 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
 CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH 1/5] leds: Kconfig: Be consistent with the usage of "LED"
-Date:   Tue, 1 Oct 2019 13:04:35 -0500
-Message-ID: <20191001180439.8312-1-dmurphy@ti.com>
+Subject: [PATCH 2/5] leds: flash: Convert non extended registration to inline
+Date:   Tue, 1 Oct 2019 13:04:36 -0500
+Message-ID: <20191001180439.8312-2-dmurphy@ti.com>
 X-Mailer: git-send-email 2.22.0.214.g8dca754b1e
+In-Reply-To: <20191001180439.8312-1-dmurphy@ti.com>
+References: <20191001180439.8312-1-dmurphy@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -53,37 +55,32 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Update the Kconfig to be consistent in the case of using
-"LED" in the Kconfig.  LED is an acronym and should be
-capitalized.
+Convert the #define non-extended registration API to an
+inline function.
 
 Signed-off-by: Dan Murphy <dmurphy@ti.com>
 ---
- drivers/leds/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/linux/led-class-flash.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 6e7703fd03d0..4b68520ac251 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -17,7 +17,7 @@ if NEW_LEDS
- config LEDS_CLASS
- 	tristate "LED Class Support"
- 	help
--	  This option enables the led sysfs class in /sys/class/leds.  You'll
-+	  This option enables the LED sysfs class in /sys/class/leds.  You'll
- 	  need this to do anything useful with LEDs.  If unsure, say N.
+diff --git a/include/linux/led-class-flash.h b/include/linux/led-class-flash.h
+index 1e824963af17..7ff287a9e2a2 100644
+--- a/include/linux/led-class-flash.h
++++ b/include/linux/led-class-flash.h
+@@ -98,8 +98,11 @@ extern int led_classdev_flash_register_ext(struct device *parent,
+ 					struct led_classdev_flash *fled_cdev,
+ 					struct led_init_data *init_data);
  
- config LEDS_CLASS_FLASH
-@@ -35,7 +35,7 @@ config LEDS_BRIGHTNESS_HW_CHANGED
- 	depends on LEDS_CLASS
- 	help
- 	  This option enables support for the brightness_hw_changed attribute
--	  for led sysfs class devices under /sys/class/leds.
-+	  for LED sysfs class devices under /sys/class/leds.
+-#define led_classdev_flash_register(parent, fled_cdev)		\
+-	led_classdev_flash_register_ext(parent, fled_cdev, NULL)
++static inline int led_classdev_flash_register(struct device *parent,
++					struct led_classdev_flash *fled_cdev)
++{
++	return led_classdev_flash_register_ext(parent, fled_cdev, NULL);
++}
  
- 	  See Documentation/ABI/testing/sysfs-class-led for details.
- 
+ /**
+  * led_classdev_flash_unregister - unregisters an object of led_classdev class
 -- 
 2.22.0.214.g8dca754b1e
 
