@@ -2,232 +2,259 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0EDDC339B
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2019 14:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D77CFC368C
+	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2019 16:00:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725821AbfJAMAq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 1 Oct 2019 08:00:46 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:50692 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726131AbfJAMAp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Oct 2019 08:00:45 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8UKYbPN124510;
-        Mon, 30 Sep 2019 15:34:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1569875677;
-        bh=bw9tlbxrjC99BnEJLTEUHA5a+42MA0ECMgh+G7yLHgM=;
-        h=Subject:From:To:CC:References:Date:In-Reply-To;
-        b=DSfUR24hPbevBBXliMfc9GuhWY7K6MZ2zHxsxtylDlkOLJKgPOd3A64qiQkcbyedE
-         eO9JKqrTuaczbma/0rCEwyFPZQ+9pbG9OtLSvOMWRK33xECmeKgc7/FhLncPonS5Af
-         p0z1Hrr80Jk1ib6xXRD+3bnA+18LBK+IfcfdYpaI=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8UKYbL9017660
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 30 Sep 2019 15:34:37 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 30
- Sep 2019 15:34:26 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 30 Sep 2019 15:34:27 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8UKYaWB055926;
-        Mon, 30 Sep 2019 15:34:36 -0500
-Subject: Re: [PATCH v9 13/15] leds: lp55xx: Update the lp55xx to use the multi
- color framework
-From:   Dan Murphy <dmurphy@ti.com>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20190925174616.3714-1-dmurphy@ti.com>
- <20190925174616.3714-14-dmurphy@ti.com>
- <59e58ccf-84fb-5db7-5008-20afc7436d35@gmail.com>
- <64d00aab-501c-d709-94af-4747a27df098@ti.com>
- <35e25398-81de-3755-7979-72638a119c77@gmail.com>
- <74099f4d-5a90-3241-9c40-47ca6f0c9521@ti.com>
-Message-ID: <4f8247b4-45ce-a1c3-389f-2fe0de5c0e7a@ti.com>
-Date:   Mon, 30 Sep 2019 15:34:36 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2387897AbfJAOAH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 1 Oct 2019 10:00:07 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:40773 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726710AbfJAOAH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Oct 2019 10:00:07 -0400
+Received: by mail-ot1-f68.google.com with SMTP id y39so11610424ota.7;
+        Tue, 01 Oct 2019 07:00:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JZBM1FPFDAl5uESgEP9tPsFTn7qdNx8IBtQzRJpA2CU=;
+        b=JJ6Ba9U260hPNMjV33RcZ4y4AOaBtHnjOByo9zSyjfHN3eAatyKNOkOgmyd1ru0Sm9
+         Sh0ucXuvXH5gHibOXGHWFPbLnOMTyrqAVMT+4gthL0YteSJyxpstoaO4V9iyLtOIV4mk
+         vqs8y3GDEj61emJcbuf5VrBAYuRm+ZTKiyod7zaSjSik06RgNP9A3j8T17P47IoGyOd6
+         hg7mtUlOXdAodyFCsBiBvJ1HgXnwIQ45nshjfu+Bodd+rOJRidpOPndCoCGsjgyVobpd
+         bwR8ycm8zR0dF61jo6a2FP57u6Jg3T6gS22+G+vOhySqKsyDZ1gbdxnZ8PwUalSEfshh
+         KkmA==
+X-Gm-Message-State: APjAAAVr+PRHwQCvMAYY+PNPx5D0/RCQsKzdEgbERn2PSzCOE2hbsup5
+        HznEYzRjx+2O9BlmLHiUOw==
+X-Google-Smtp-Source: APXvYqyny3jSQCJcTq07B8NFgeh+CqrPZ/jllExOJcitfcVJnCPPhlC7KQB0zTngJlFTUtwdcVIBqg==
+X-Received: by 2002:a9d:4041:: with SMTP id o1mr4924805oti.61.1569938405253;
+        Tue, 01 Oct 2019 07:00:05 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m25sm5045457oie.39.2019.10.01.07.00.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 07:00:04 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 09:00:03 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-crypto@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH v2 2/8] dt-bindings: sram: Convert SRAM bindings to
+ json-schema
+Message-ID: <20191001140003.GA31344@bogus>
+References: <20190918173141.4314-1-krzk@kernel.org>
+ <20190918173141.4314-2-krzk@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <74099f4d-5a90-3241-9c40-47ca6f0c9521@ti.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190918173141.4314-2-krzk@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek
+On Wed, Sep 18, 2019 at 07:31:35PM +0200, Krzysztof Kozlowski wrote:
+> Convert generic mmio-sram bindings to DT schema format using
+> json-schema.
 
-On 9/30/19 11:31 AM, Dan Murphy wrote:
-> Jacek
->
-> On 9/29/19 8:01 AM, Jacek Anaszewski wrote:
->> Dan,
->>
->> On 9/26/19 2:02 PM, Dan Murphy wrote:
->>> Jacek
->>>
->>> On 9/25/19 5:00 PM, Jacek Anaszewski wrote:
->>>> Dan,
->>>>
->>>> On 9/25/19 7:46 PM, Dan Murphy wrote:
->>>>> Update the lp5523 to allow the use of the multi color framework.
->>>>>
->>>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->>>>> ---
->>>>>    drivers/leds/Kconfig                      |   1 +
->>>>>    drivers/leds/leds-lp5523.c                |  13 ++
->>>>>    drivers/leds/leds-lp55xx-common.c         | 150 
->>>>> ++++++++++++++++++----
->>>>>    drivers/leds/leds-lp55xx-common.h         |  11 ++
->>>>>    include/linux/platform_data/leds-lp55xx.h |   6 +
->>>>>    5 files changed, 157 insertions(+), 24 deletions(-)
->>>>>
->>>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->>>>> index 84f60e35c5ee..dc3d9f2194cd 100644
->>>>> --- a/drivers/leds/Kconfig
->>>>> +++ b/drivers/leds/Kconfig
->>>>> @@ -377,6 +377,7 @@ config LEDS_LP50XX
->>>>>    config LEDS_LP55XX_COMMON
->>>>>        tristate "Common Driver for TI/National
->>>>> LP5521/5523/55231/5562/8501"
->>>>>        depends on LEDS_LP5521 || LEDS_LP5523 || LEDS_LP5562 ||
->>>>> LEDS_LP8501
->>>>> +    depends on LEDS_CLASS_MULTI_COLOR && OF
->>>>>        select FW_LOADER
->>>>>        select FW_LOADER_USER_HELPER
->>>>>        help
->>>>> diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
->>>>> index d0b931a136b9..8b2cdb98fed6 100644
->>>>> --- a/drivers/leds/leds-lp5523.c
->>>>> +++ b/drivers/leds/leds-lp5523.c
->>>>> @@ -791,6 +791,18 @@ static ssize_t store_master_fader_leds(struct
->>>>> device *dev,
->>>>>        return ret;
->>>>>    }
->>>>>    +static int lp5523_led_intensity(struct lp55xx_led *led, int 
->>>>> chan_num)
->>>> Why do we need this function? brightness op will not suffice?
->>> I looked at this before sending it in.  This API adds the chan_num to
->>> write to.
->>>
->>> The brightness_fn does not it takes it from the led structure.
->>>
->>>>> +{
->>>>> +    struct lp55xx_chip *chip = led->chip;
->>>>> +    int ret;
->>>>> +
->>>>> +    mutex_lock(&chip->lock);
->>>>> +    ret = lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + chan_num,
->>>>> +             led->brightness);
->>>>> +    mutex_unlock(&chip->lock);
->>>>> +    return ret;
->>>>> +}
->>>>> +
->>>>>    static int lp5523_led_brightness(struct lp55xx_led *led)
->>>>>    {
->>>>>        struct lp55xx_chip *chip = led->chip;
->>>>> @@ -857,6 +869,7 @@ static struct lp55xx_device_config lp5523_cfg = {
->>>>>        .max_channel  = LP5523_MAX_LEDS,
->>>>>        .post_init_device   = lp5523_post_init_device,
->>>>>        .brightness_fn      = lp5523_led_brightness,
->>>>> +    .color_intensity_fn = lp5523_led_intensity,
->>>>>        .set_led_current    = lp5523_set_led_current,
->>>>>        .firmware_cb        = lp5523_firmware_loaded,
->>>>>        .run_engine         = lp5523_run_engine,
->>>>> diff --git a/drivers/leds/leds-lp55xx-common.c
->>>>> b/drivers/leds/leds-lp55xx-common.c
->>>>> index 44ced02b49f9..0e4b3a9d3047 100644
->>>>> --- a/drivers/leds/leds-lp55xx-common.c
->>>>> +++ b/drivers/leds/leds-lp55xx-common.c
->>>>> @@ -136,9 +136,26 @@ static int lp55xx_set_brightness(struct
->>>>> led_classdev *cdev,
->>>>>    {
->>>>>        struct lp55xx_led *led = cdev_to_lp55xx_led(cdev);
->>>>>        struct lp55xx_device_config *cfg = led->chip->cfg;
->>>>> +    int brightness_val[LP55XX_MAX_GROUPED_CHAN];
->>>>> +    int ret;
->>>>> +    int i;
->>>>> +
->>>>> +    if (led->mc_cdev.num_leds > 1) {
->>>>> +        led_mc_calc_brightness(&led->mc_cdev,
->>>>> +                       brightness, brightness_val);
->>>>> +        for (i = 0; i < led->mc_cdev.num_leds; i++) {
->>>>> +            led->brightness = brightness_val[i];
->>>>> +            ret = cfg->color_intensity_fn(led,
->>>>> + led->grouped_channels[i]);
->>>> Now we will have three separate calls for each color component
->>>> (and possibly sleeping on mutex on contention).
->>>>
->>>> Probably LED mc class use case will need a bit different design.
->>>>
->>>> Also, instead of grouped_channels we could possibly have
->>>>
->>>> led_mc_get_color_id(&led->mc_dev, i)
->>> color_id and grouped_channels are not a 1:1 mapping
->> OK, they're channel numbers.
->>
->>>> which would map entry position index to color_id.
->>>>
->>>> I will stop reviewing here and will continue after taking
->>>> deeper look at this lp55xx design.
->> I've analyzed that design in greater detail and have started
->> to wonder why you can't pass two arrays to the new op:
->> channel numbers and corresponding calculated channel intensities?
->
->
-> OK so I coded this up.  And there is not a clean way to do this since 
-> the channels and colors are not correlated between two structures.  In 
-> order to do this we would have to expand the grouped_channel and 
-> channel_color arrays in the lp55xx_led to LED_COLOR_ID_MAX and put the 
-> channel and color_component value in the position in the array that is 
-> associated with the color ID. Then the driver can loop through the 
-> available colors from the MC class and get the channel and 
-> color_component information.
->
-I spent the day trying to figure out the cleanest way to do this.  What 
-I did was I added a struct to the MC framework (struct name will 
-probably need to be changed)
+I've been slow getting to this because I started on the same thing...
 
-This also solves the problem that you brought up on the caller knowing 
-what ID and brightness goes to what.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> 
+> ---
+> 
+> Changes since v1:
+> 1. Indent example with four spaces (more readable).
+> ---
+>  .../devicetree/bindings/sram/sram.txt         |  80 ----------
+>  .../devicetree/bindings/sram/sram.yaml        | 138 ++++++++++++++++++
+>  2 files changed, 138 insertions(+), 80 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sram/sram.txt
+>  create mode 100644 Documentation/devicetree/bindings/sram/sram.yaml
 
-struct led_mc_color_conversion {
-     int color_id;
-     int brightness;
-};
+> diff --git a/Documentation/devicetree/bindings/sram/sram.yaml b/Documentation/devicetree/bindings/sram/sram.yaml
+> new file mode 100644
+> index 000000000000..8d9d6ce494b2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sram/sram.yaml
+> @@ -0,0 +1,138 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sram/sram.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Generic on-chip SRAM
+> +
+> +maintainers:
+> +  - FIXME <who@should.it.be>
 
-For devices that need the color conversion to take place the driver will 
-pass in an array of structs to be filled out by the MC framework.  Once 
-the MCFW populates the array the device driver can map the color IDs to 
-the the associated output.  So for the LP55xx I was able to map the 
-color ID to the channel number.
+You can put me.
 
-I added a brightness value to the intensity function so now the caller 
-passes in the channel number and the brightness.  This should be all the 
-child cares about.
+> +
+> +description: |+
+> +  Simple IO memory regions to be managed by the genalloc API.
+> +
+> +  Each child of the sram node specifies a region of reserved memory. Each
+> +  child node should use a 'reg' property to specify a specific range of
+> +  reserved memory.
+> +
+> +  Following the generic-names recommended practice, node names should
+> +  reflect the purpose of the node. Unit address (@<address>) should be
+> +  appended to the name.
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^sram(@.*)?"
+> +
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - mmio-sram
+> +          - atmel,sama5d2-securam
 
-I think it is ok that the common code calls the intensity function x 
-number of times.  Otherwise each child will need to have the same code 
-to de-reference the struct seems a bit error wrought IMO.
+I was trying to go down the path of putting all the compatibles for 
+various SRAM bindings here, but I ran into some issues. I need to 
+revisit as I've forgotten the exact issue.
 
-Dan
+This would need to be a 'contains' if this is going to work for others.
 
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    description: Should use the same values as the root node.
+> +
+> +  "#size-cells":
+> +    description: Should use the same values as the root node.
 
-> Beyond that in coding this and thinking about the design it is better 
-> to have the lp55xx_common code to do all the heavy lifting and the 
-> children to just perform the action on the device itself. So doing the 
-> loop in the common code like we have now and calling the intensity_fn 
-> based on x number of LEDs.  The child subscriber to the common code 
-> should have to worry about the color it should only care about the 
-> channel and the value.
->
-> Dan
->
->
+I defined both of these to be 1 as 4GB of SRAM should be enough for a 
+while. We can debate 1 or 2 cells vs. 1, but there's no reason it has to 
+be the same as the root (unless we're failing to do address 
+translation).
+
+> +
+> +  ranges:
+> +    description:
+> +      Should translate from local addresses within the sram to bus addresses.
+> +
+> +  no-memory-wc:
+> +    description:
+> +      The flag indicating, that SRAM memory region has not to be remapped
+> +      as write combining. WC is used by default.
+> +    type: boolean
+> +
+> +  # TODO: additionalProperties: false
+> +
+> +patternProperties:
+> +  "^([a-z]*-)?sram@[a-f0-9]$":
+> +    type: object
+> +    description:
+> +      Each child of the sram node specifies a region of reserved memory.
+> +    properties:
+> +      reg:
+> +        description:
+> +          IO mem address range, relative to the SRAM range.
+
+maxItems: 1
+
+> +
+> +      compatible:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        description:
+> +          Should contain a vendor specific string in the form
+> +          <vendor>,[<device>-]<usage>
+> +
+> +      pool:
+> +        description:
+> +          Indicates that the particular reserved SRAM area is addressable
+> +          and in use by another device or devices.
+> +        type: boolean
+> +
+> +      export:
+> +        description:
+> +          Indicates that the reserved SRAM area may be accessed outside
+> +          of the kernel, e.g. by bootloader or userspace.
+> +        type: boolean
+> +
+> +      protect-exec:
+> +        description: |
+> +          Same as 'pool' above but with the additional constraint that code
+> +          will be run from the region and that the memory is maintained as
+> +          read-only, executable during code execution. NOTE: This region must
+> +          be page aligned on start and end in order to properly allow
+> +          manipulation of the page attributes.
+> +        type: boolean
+> +
+> +      label:
+> +        $ref: /schemas/types.yaml#/definitions/string
+
+Already has a type definition.
+
+> +        description:
+> +          The name for the reserved partition, if omitted, the label is taken
+> +          from the node name excluding the unit address.
+> +
+> +      clocks:
+> +        description:
+> +          A list of phandle and clock specifier pair that controls the
+> +          single SRAM clock.
+> +
+> +      # TODO: additionalProperties: false
+> +
+> +    required:
+> +      - reg
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - ranges
+> +
+> +examples:
+> +  - |
+> +    sram: sram@5c000000 {
+> +        compatible = "mmio-sram";
+> +        reg = <0x5c000000 0x40000>; /* 256 KiB SRAM at address 0x5c000000 */
+> +
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges = <0 0x5c000000 0x40000>;
+> +
+> +        smp-sram@100 {
+> +            compatible = "socvendor,smp-sram";
+> +            reg = <0x100 0x50>;
+> +        };
+> +
+> +        device-sram@1000 {
+> +            reg = <0x1000 0x1000>;
+> +            pool;
+> +        };
+> +
+> +        exported@20000 {
+> +            reg = <0x20000 0x20000>;
+> +            export;
+> +        };
+> +    };
+> -- 
+> 2.17.1
+> 
