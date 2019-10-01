@@ -2,56 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ED73C424D
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2019 23:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BDB2C4253
+	for <lists+linux-leds@lfdr.de>; Tue,  1 Oct 2019 23:10:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726364AbfJAVHA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 1 Oct 2019 17:07:00 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:40067 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726097AbfJAVHA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Oct 2019 17:07:00 -0400
-Received: by mail-wm1-f66.google.com with SMTP id b24so4691229wmj.5;
-        Tue, 01 Oct 2019 14:06:57 -0700 (PDT)
+        id S1726097AbfJAVKH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 1 Oct 2019 17:10:07 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43522 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726073AbfJAVKH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Oct 2019 17:10:07 -0400
+Received: by mail-wr1-f66.google.com with SMTP id q17so17161970wrx.10;
+        Tue, 01 Oct 2019 14:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:from:to:cc:references:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=EpNUAo9L4bmbj6ckG3/cRD1CYPIDbXGdEzNuBuW2n/c=;
-        b=KmtFsb7Mf9lSrKmLxDXat2KUY9UEiiKUiRUVTOJ3gIclx6l6tXioK0lbB9T4nQA6/7
-         eUgZK4vXWMCixFAOBuuD/H13ym8hcabG+wdaXARUttrKYZpsjbtnWHZw9f6+wXXTO2Ga
-         1RAVc+YRQObL9RTg6HOJZjiQ+x14POkF/1+azD+IkZG5KioLeJXukNiJtG3w8MP2rxpd
-         CKe/Hf+/EHymgXTRR0H2CowleNyNQaExgtjHWp81N6s7w67mhp8uLKhcHf0iy609A3o+
-         icmLhtYBfncbkL+ietI6CQqkV4qOBgUbGfqun8yHWLCFv1EHqGNaRzwgRjsjI9c6gN2l
-         GNaQ==
+        bh=ZVCUEuQ5s6ltgorohDrhsE140d4XNXoA6pC4Ti9MiFc=;
+        b=JMOdLiWKIE+LyArrTHwikIbyGyfVxRR6hohBLJwZ2FIs+JyK1L3+s1/ryqXvI8mYjR
+         hnWToL+H1Ge+sjv2lDR3A49+BqTg2UeX8HTbMzGNE/9Ye7gd04NgthKPpKXn98Pcpt/i
+         9RkpBU9uGkkRA41adpOBCff8ceklQZkwVo44tvlx411ekdWIyK/gceXlV+2gi8yt6Xdi
+         V20uSzIRkVk7Mo/dhUg0opC2WZqHTqCF3tCro8h8DVwQnBJNU6NvqbT1PhDaPFGgRqCC
+         p92L9pG/x0J4zzc5smTkjuXQrZJNCe/4Dt9i41mFZHLWD4XtRACO2DIEhIP3rI6D846G
+         DqMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=EpNUAo9L4bmbj6ckG3/cRD1CYPIDbXGdEzNuBuW2n/c=;
-        b=FeRNtStuo7M1fvwKkoR3J5I/Uv1fhndPcfhFIJeNkNPyYY2JfpPlmEpO6P2CWVIFjf
-         bbOLXWM9Dbc6pdnaoZJy9SLo9sFXqjhYHaD/Kq9LvBV8vSEQfQqR4fop7LxkAGO9fzxC
-         zMO8ipmGFf8ZYN1fEicXyjviqTerndqR82ykUDrh5llfqPM7WPnN1xL4N5Yfw/zVJEIr
-         4BNzdWgpkbe/mE5QcHYWot8d3KlvAssDgE49Y1o/cY67s8s9410yMMyZzoncqp01T/y3
-         T6Kv0Q9Ht2REAEDF8xly/IVbr4MKg35QKAqj5IeH5nyaZ/sYVx10AOfcxs2GZdpSZXqP
-         roSg==
-X-Gm-Message-State: APjAAAVXrQdd61rJCLwT4vhPcnL7lWDa53EERMlk49FNJDNBSaOi+ZZ1
-        HmHQlKIjPHnRPsPGqr90ri/xYMjZ
-X-Google-Smtp-Source: APXvYqyiTwNyAaNCiMsbLCm1AC0OMezR1E99NQPa3qrWgRjuWBGKY++JOuhOMEE9I+DmnBe3iU+awA==
-X-Received: by 2002:a1c:7409:: with SMTP id p9mr53194wmc.162.1569964016111;
-        Tue, 01 Oct 2019 14:06:56 -0700 (PDT)
+        bh=ZVCUEuQ5s6ltgorohDrhsE140d4XNXoA6pC4Ti9MiFc=;
+        b=A9NlITDCWnbyUod9wxDn/0BGEjipvX041NJW2/HolLICuvd9taMSsZYnwu23gdpmZQ
+         AyDy6CD1hDGUr1hARzFHGDvbOS7FFZgSxHZGZ/pVKgqECKXUehOwctVjeI2IBCR7rnYq
+         OtxQvDtfmisrxMOD16/WOz7ovtHZOfW4rRKbZarpajskQzE3GmsdG0/Q8neCFg+lIT+5
+         U1RibMjX0uQ/9Lip8JUdjfnHmNtDDxq17Rnbv9XdhWtth3Yk5tMMGKw2jsw3lbktUzvl
+         NrrPVqU6opWPDzmOgskiwIg9K7NU2Kl7VY2+VnBqw2HxigXe2i0r1slPA3s7pw0bQKRN
+         q4vQ==
+X-Gm-Message-State: APjAAAW5E9WZTpRiZCWivhBVyrelcBVOv3pLJSwiYH6P7ZRtmqmttTeh
+        5oPxc7Q592XuLGTT0TpL6F2n+rMg
+X-Google-Smtp-Source: APXvYqwjg8YTz8m5Qi1/78H0Mnhy4b8ozGGCU/mce9rj9ubbb+p+t3uSIylxtlXMysUJFqRcfXSiQQ==
+X-Received: by 2002:a5d:4983:: with SMTP id r3mr20779061wrq.194.1569964203895;
+        Tue, 01 Oct 2019 14:10:03 -0700 (PDT)
 Received: from [192.168.1.19] (bgt101.neoplus.adsl.tpnet.pl. [83.28.83.101])
-        by smtp.gmail.com with ESMTPSA id s13sm3919533wmc.28.2019.10.01.14.06.54
+        by smtp.gmail.com with ESMTPSA id f143sm8620278wme.40.2019.10.01.14.10.02
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 Oct 2019 14:06:55 -0700 (PDT)
+        Tue, 01 Oct 2019 14:10:03 -0700 (PDT)
 Subject: Re: [PATCH 4/5] leds: flash: Add devm_* functions to the flash class
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20191001180439.8312-1-dmurphy@ti.com>
  <20191001180439.8312-4-dmurphy@ti.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+ <218b33ac-506b-2014-d37f-3da2da323388@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -109,135 +110,140 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <218b33ac-506b-2014-d37f-3da2da323388@gmail.com>
-Date:   Tue, 1 Oct 2019 23:06:51 +0200
+Message-ID: <ab274710-2d6a-7a2a-6261-bfdff5ade466@gmail.com>
+Date:   Tue, 1 Oct 2019 23:10:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191001180439.8312-4-dmurphy@ti.com>
+In-Reply-To: <218b33ac-506b-2014-d37f-3da2da323388@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dan,
+Moreover, checkpatch.pl complains about whitespaces
+in two places of this patch.
 
-Thank you for the patch. One funny omission caught my
-eye here and in led-class.c when making visual comparison.
-Please refer below.
-
-On 10/1/19 8:04 PM, Dan Murphy wrote:
-> Add the missing device managed API for registration and
-> unregistration for the LED flash class.
+On 10/1/19 11:06 PM, Jacek Anaszewski wrote:
+> Dan,
 > 
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
->  drivers/leds/led-class-flash.c  | 50 +++++++++++++++++++++++++++++++++
->  include/linux/led-class-flash.h | 14 +++++++++
->  2 files changed, 64 insertions(+)
+> Thank you for the patch. One funny omission caught my
+> eye here and in led-class.c when making visual comparison.
+> Please refer below.
 > 
-> diff --git a/drivers/leds/led-class-flash.c b/drivers/leds/led-class-flash.c
-> index 60c3de5c6b9f..c2b4fd02a1bc 100644
-> --- a/drivers/leds/led-class-flash.c
-> +++ b/drivers/leds/led-class-flash.c
-> @@ -327,6 +327,56 @@ void led_classdev_flash_unregister(struct led_classdev_flash *fled_cdev)
->  }
->  EXPORT_SYMBOL_GPL(led_classdev_flash_unregister);
->  
-> +static void devm_led_classdev_flash_release(struct device *dev, void *res)
-> +{
-> +	led_classdev_flash_unregister(*(struct led_classdev_flash **)res);
-> +}
-> +
-> +int devm_led_classdev_flash_register_ext(struct device *parent,
-> +				     struct led_classdev_flash *fled_cdev,
-> +				     struct led_init_data *init_data)
-> +{
-> +	struct led_classdev_flash **dr;
-> +	int ret;
-> +
-> +	dr = devres_alloc(devm_led_classdev_flash_release, sizeof(*dr),
-> +			  GFP_KERNEL);
-> +	if (!dr)
-> +		return -ENOMEM;
-> +
-> +	ret = led_classdev_flash_register_ext(parent, fled_cdev, init_data);
-> +	if (ret) {
-> +		devres_free(dr);
-> +		return ret;
-> +	}
-> +
-> +	*dr = fled_cdev;
-> +	devres_add(parent, dr);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(devm_led_classdev_flash_register_ext);
-> +
-> +static int devm_led_classdev_flash_match(struct device *dev,
-> +					      void *res, void *data)
-> +{
-> +	struct fled_cdev **p = res;
-
-We don't have struct fled_cdev. This name is used for variables
-of struct led_clssdev_flash type in drivers.
-
-We don't get even compiler warning here because this is cast
-from void pointer.
-
-Funny thing is that you seem to have followed similar flaw in
-devm_led_classdev_match() where struct led_cdev has been
-introduced.
-
-We need to fix both cases.
-
-> +
-> +	if (WARN_ON(!p || !*p))
-> +		return 0;
-> +
-> +	return *p == data;
-> +}
-> +
-> +void devm_led_classdev_flash_unregister(struct device *dev,
-> +				  	     struct led_classdev_flash *fled_cdev)
-> +{
-> +	WARN_ON(devres_release(dev,
-> +			       devm_led_classdev_flash_release,
-> +			       devm_led_classdev_flash_match, fled_cdev));
-> +}
-> +EXPORT_SYMBOL_GPL(devm_led_classdev_flash_unregister);
-> +
->  static void led_clamp_align(struct led_flash_setting *s)
->  {
->  	u32 v, offset;
-> diff --git a/include/linux/led-class-flash.h b/include/linux/led-class-flash.h
-> index 1bd83159fa4c..21a3358a1731 100644
-> --- a/include/linux/led-class-flash.h
-> +++ b/include/linux/led-class-flash.h
-> @@ -113,6 +113,20 @@ static inline int led_classdev_flash_register(struct device *parent,
->   */
->  void led_classdev_flash_unregister(struct led_classdev_flash *fled_cdev);
->  
-> +int devm_led_classdev_flash_register_ext(struct device *parent,
-> +				     struct led_classdev_flash *fled_cdev,
-> +				     struct led_init_data *init_data);
-> +
-> +
-> +static inline int devm_led_classdev_flash_register(struct device *parent,
-> +				     struct led_classdev_flash *fled_cdev)
-> +{
-> +	return devm_led_classdev_flash_register_ext(parent, fled_cdev, NULL);
-> +}
-> +
-> +void devm_led_classdev_flash_unregister(struct device *parent,
-> +					struct led_classdev_flash *fled_cdev);
-> +
->  /**
->   * led_set_flash_strobe - setup flash strobe
->   * @fled_cdev: the flash LED to set strobe on
+> On 10/1/19 8:04 PM, Dan Murphy wrote:
+>> Add the missing device managed API for registration and
+>> unregistration for the LED flash class.
+>>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>> ---
+>>  drivers/leds/led-class-flash.c  | 50 +++++++++++++++++++++++++++++++++
+>>  include/linux/led-class-flash.h | 14 +++++++++
+>>  2 files changed, 64 insertions(+)
+>>
+>> diff --git a/drivers/leds/led-class-flash.c b/drivers/leds/led-class-flash.c
+>> index 60c3de5c6b9f..c2b4fd02a1bc 100644
+>> --- a/drivers/leds/led-class-flash.c
+>> +++ b/drivers/leds/led-class-flash.c
+>> @@ -327,6 +327,56 @@ void led_classdev_flash_unregister(struct led_classdev_flash *fled_cdev)
+>>  }
+>>  EXPORT_SYMBOL_GPL(led_classdev_flash_unregister);
+>>  
+>> +static void devm_led_classdev_flash_release(struct device *dev, void *res)
+>> +{
+>> +	led_classdev_flash_unregister(*(struct led_classdev_flash **)res);
+>> +}
+>> +
+>> +int devm_led_classdev_flash_register_ext(struct device *parent,
+>> +				     struct led_classdev_flash *fled_cdev,
+>> +				     struct led_init_data *init_data)
+>> +{
+>> +	struct led_classdev_flash **dr;
+>> +	int ret;
+>> +
+>> +	dr = devres_alloc(devm_led_classdev_flash_release, sizeof(*dr),
+>> +			  GFP_KERNEL);
+>> +	if (!dr)
+>> +		return -ENOMEM;
+>> +
+>> +	ret = led_classdev_flash_register_ext(parent, fled_cdev, init_data);
+>> +	if (ret) {
+>> +		devres_free(dr);
+>> +		return ret;
+>> +	}
+>> +
+>> +	*dr = fled_cdev;
+>> +	devres_add(parent, dr);
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(devm_led_classdev_flash_register_ext);
+>> +
+>> +static int devm_led_classdev_flash_match(struct device *dev,
+>> +					      void *res, void *data)
+>> +{
+>> +	struct fled_cdev **p = res;
+> 
+> We don't have struct fled_cdev. This name is used for variables
+> of struct led_clssdev_flash type in drivers.
+> 
+> We don't get even compiler warning here because this is cast
+> from void pointer.
+> 
+> Funny thing is that you seem to have followed similar flaw in
+> devm_led_classdev_match() where struct led_cdev has been
+> introduced.
+> 
+> We need to fix both cases.
+> 
+>> +
+>> +	if (WARN_ON(!p || !*p))
+>> +		return 0;
+>> +
+>> +	return *p == data;
+>> +}
+>> +
+>> +void devm_led_classdev_flash_unregister(struct device *dev,
+>> +				  	     struct led_classdev_flash *fled_cdev)
+>> +{
+>> +	WARN_ON(devres_release(dev,
+>> +			       devm_led_classdev_flash_release,
+>> +			       devm_led_classdev_flash_match, fled_cdev));
+>> +}
+>> +EXPORT_SYMBOL_GPL(devm_led_classdev_flash_unregister);
+>> +
+>>  static void led_clamp_align(struct led_flash_setting *s)
+>>  {
+>>  	u32 v, offset;
+>> diff --git a/include/linux/led-class-flash.h b/include/linux/led-class-flash.h
+>> index 1bd83159fa4c..21a3358a1731 100644
+>> --- a/include/linux/led-class-flash.h
+>> +++ b/include/linux/led-class-flash.h
+>> @@ -113,6 +113,20 @@ static inline int led_classdev_flash_register(struct device *parent,
+>>   */
+>>  void led_classdev_flash_unregister(struct led_classdev_flash *fled_cdev);
+>>  
+>> +int devm_led_classdev_flash_register_ext(struct device *parent,
+>> +				     struct led_classdev_flash *fled_cdev,
+>> +				     struct led_init_data *init_data);
+>> +
+>> +
+>> +static inline int devm_led_classdev_flash_register(struct device *parent,
+>> +				     struct led_classdev_flash *fled_cdev)
+>> +{
+>> +	return devm_led_classdev_flash_register_ext(parent, fled_cdev, NULL);
+>> +}
+>> +
+>> +void devm_led_classdev_flash_unregister(struct device *parent,
+>> +					struct led_classdev_flash *fled_cdev);
+>> +
+>>  /**
+>>   * led_set_flash_strobe - setup flash strobe
+>>   * @fled_cdev: the flash LED to set strobe on
+>>
 > 
 
 -- 
