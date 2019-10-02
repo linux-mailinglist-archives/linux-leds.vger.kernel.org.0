@@ -2,111 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB22EC8A5C
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2019 15:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B441BC8C76
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2019 17:13:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726200AbfJBN7F (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Oct 2019 09:59:05 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:46796 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725917AbfJBN7F (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Oct 2019 09:59:05 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x92Dwqcj111590;
-        Wed, 2 Oct 2019 08:58:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570024732;
-        bh=RaDMxu07D9M++yaf5vgHDeabPM3lihqxOYytrbBSUU0=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=s4hfO8XBCPZmABJZKz9xLcLV1xumo+2UHZ2+aNDDakouuzaZaCbuwZMrUk437umz5
-         vJJjNFUrEhcWyXN1MrOJc/+9swQCw5J872R3gux1SIxbhBacPPqfup96xK3T3tOE7e
-         atmDEnMg2+05Cf54/a6FST1u/zcePHJ8aUvZfG2o=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x92Dwqja096089
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 2 Oct 2019 08:58:52 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 2 Oct
- 2019 08:58:51 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 2 Oct 2019 08:58:51 -0500
-Received: from [10.250.99.146] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x92DwnDw091205;
-        Wed, 2 Oct 2019 08:58:49 -0500
-Subject: Re: [PATCH v7 1/5] leds: populate the device's of_node when possible
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <lee.jones@linaro.org>, <daniel.thompson@linaro.org>
-CC:     <dmurphy@ti.com>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <tomi.valkeinen@ti.com>
-References: <20190918145730.22805-1-jjhiblot@ti.com>
- <20190918145730.22805-2-jjhiblot@ti.com>
- <f543e757-e000-6de4-694b-e75f388e5908@gmail.com>
-From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
-Message-ID: <e9588e03-20d4-7e6d-e514-0b79dae12cce@ti.com>
-Date:   Wed, 2 Oct 2019 15:58:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <f543e757-e000-6de4-694b-e75f388e5908@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        id S1728105AbfJBPNS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Oct 2019 11:13:18 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:42868 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728076AbfJBPNR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Oct 2019 11:13:17 -0400
+Received: by mail-pg1-f195.google.com with SMTP id z12so11983171pgp.9;
+        Wed, 02 Oct 2019 08:13:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=4Lk6X+8663rlL2uCTHfqJkJzTZluu7khYUv6X9toXdg=;
+        b=fKS5ds0V7eIwZHJZclPEIpM7T12M6C4dwK2clTRewG9tCcDo7/GEP1rV4IbItDbnsz
+         DTD72BqH/mBQnR13mCeekJektDnt/qAp6GtQvH9b2KIlg68LRpiPrrBmX/J5K/l7IwAb
+         lFIy2tTfdG6xhKqhSIf1MxCOzqHxBX13MN2ql8sYUt7HX54k3p/tuBQTSC06AqdIfMox
+         /pyy0rD3QuLC4Y7IrZ6Tn3KyW8NmqX5OdPWJchRgjCxjq2u9lzcu78qbLvtBm+QCLiA4
+         n8d123o6QFyfw1lm1XokHoeBgODKCHBNbTE2ND+jTR/4OGpe0FSS+xBwtmd1U3m2jN3l
+         5UGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=4Lk6X+8663rlL2uCTHfqJkJzTZluu7khYUv6X9toXdg=;
+        b=amRYccKkSzbpyNmT8VB1KAvLHUIdQlyDDsohkfAISSdLD7JUUWptVVw6dn5Yh7pzSu
+         q9rfjcqRzoUUz4Tly5CM4VvT1sLAC+6obHwc2+fABPYxHVXuUjo81IamWaAoKfRQvWi9
+         0Z6I6WgwGyx5ZujMiqyzqJO9OfsOqWyjIIe8Wo0P9rrLC1udGtHl/dv8xJ0ku8mAi44d
+         V8VPHdF7hfQzxbR6Xw/i0ZfwQjLrKN8wiGWUgWMKb7WI9XyEMNkLeFki2hMlOfxt20z3
+         +tgBQw2KC2e1JF9VijSRP4mhMGRy0l3QjPPJry52QfrAYVYk1LqhuBMkIF0K5vFf2RI7
+         OlYA==
+X-Gm-Message-State: APjAAAUomNq9cW+bEnqW/tt5LtW3X06J+hdj9sr6kGaWm8PSi0jFrDA0
+        vaNJtpkFFPHT+BeF5Ij49YLFDfEY
+X-Google-Smtp-Source: APXvYqwOCrdZMbz0ngy90R9ypGhrS8Fj8XkN/dl4q/hVTlza5DRNGUVpiJMxPipg4NThNroT3rGkWw==
+X-Received: by 2002:a63:e444:: with SMTP id i4mr4316529pgk.45.1570029196229;
+        Wed, 02 Oct 2019 08:13:16 -0700 (PDT)
+Received: from localhost.localdomain ([240f:34:212d:1:8161:a821:b9aa:cfb2])
+        by smtp.gmail.com with ESMTPSA id k23sm21397937pgg.73.2019.10.02.08.13.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Wed, 02 Oct 2019 08:13:15 -0700 (PDT)
+From:   Akinobu Mita <akinobu.mita@gmail.com>
+To:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Subject: [PATCH -next 0/2] leds: add substitutes for /sys/class/leds/<led>/trigger
+Date:   Thu,  3 Oct 2019 00:12:59 +0900
+Message-Id: <1570029181-11102-1-git-send-email-akinobu.mita@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jacek,
+Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
+However, this violates the "one value per file" rule of sysfs.
 
-On 24/09/2019 23:03, Jacek Anaszewski wrote:
-> Hi Jean,
->
-> Thank you for rebasing the set
->
-> On 9/18/19 4:57 PM, Jean-Jacques Hiblot wrote:
->> If initialization data is available and its fwnode is actually a of_node,
->> store this information in the led device's structure. This will allow the
->> device to use or provide OF-based API such (devm_xxx).
->>
->> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
->> ---
->>   drivers/leds/led-class.c | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
->> index 647b1263c579..c2167b66b61f 100644
->> --- a/drivers/leds/led-class.c
->> +++ b/drivers/leds/led-class.c
->> @@ -276,8 +276,11 @@ int led_classdev_register_ext(struct device *parent,
->>   		mutex_unlock(&led_cdev->led_access);
->>   		return PTR_ERR(led_cdev->dev);
->>   	}
->> -	if (init_data && init_data->fwnode)
->> +	if (init_data && init_data->fwnode) {
->>   		led_cdev->dev->fwnode = init_data->fwnode;
->> +		if (is_of_node(init_data->fwnode))
->> +			led_cdev->dev->of_node = to_of_node(init_data->fwnode);
-> It would be step backwards. You can do the conversion in the place of
-> use i.e. in devm_led_get().
+This series provides a new /sys/devices/virtual/led-trigger/ directory and
+/sys/class/leds/<led>/current-trigger. The new api follows the "one value
+per file" rule of sysfs.
 
-Could be done. But it would break another use case I have. I'm also 
-working on the regulator support and for this one, of_node needs to be 
-populated.
+This series was previously developed as a part of the series "leds: fix
+/sys/class/leds/<led>/trigger and add new api" [1].  Now this version
+only contains the new api part.
 
-Is there a problem populating of_node if the LED is indeed described in 
-the DT ?
+[1] https://lore.kernel.org/r/1567946472-10075-1-git-send-email-akinobu.mita@gmail.com
 
-JJ
+Akinobu Mita (2):
+  leds: add /sys/devices/virtual/led-trigger/
+  leds: add /sys/class/leds/<led>/current-trigger
 
->
->> +	}
->>   
->>   	if (ret)
->>   		dev_warn(parent, "Led %s renamed to %s due to name collision",
->>
+ Documentation/ABI/testing/sysfs-class-led          | 13 +++
+ .../ABI/testing/sysfs-devices-virtual-led-trigger  |  8 ++
+ drivers/leds/led-class.c                           | 10 +++
+ drivers/leds/led-triggers.c                        | 95 +++++++++++++++++++++-
+ drivers/leds/leds.h                                |  5 ++
+ include/linux/leds.h                               |  3 +
+ 6 files changed, 130 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-devices-virtual-led-trigger
+
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Dan Murphy <dmurphy@ti.com>
+-- 
+2.7.4
+
