@@ -2,57 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD38CC92A5
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2019 21:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E46C4C92AC
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2019 21:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727191AbfJBTxk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Oct 2019 15:53:40 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37695 "EHLO
+        id S1728288AbfJBTzY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Oct 2019 15:55:24 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:50524 "EHLO
         mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726070AbfJBTxj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Oct 2019 15:53:39 -0400
-Received: by mail-wm1-f67.google.com with SMTP id f22so189347wmc.2;
-        Wed, 02 Oct 2019 12:53:37 -0700 (PDT)
+        with ESMTP id S1725951AbfJBTzX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Oct 2019 15:55:23 -0400
+Received: by mail-wm1-f67.google.com with SMTP id 5so212764wmg.0;
+        Wed, 02 Oct 2019 12:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=K9yfcV7jqI8NxUw9J76/nvZNh29Vby57LkvJugNledo=;
-        b=Zzinorf6S9fwXm86+u6W2bglO/7NbF8Oo2fXVCIiPWa6eAwNPTOa3oo6yVFnUuRMY0
-         DkPsVMTHOEykRee0oiSUoSOr/KUlpaHS48qStIolP7WtFV6ztI2FSTF0aJ0yOub++qp8
-         qFHrTxcftXiySLLr6HK7IHWMF9lsJV6ZQIek8DpKmnHxzcHRzZzVGMlpyN7keiHh3bps
-         gX2FEBawursJtmIXCttZUsIm6gGSeFo6FubIsPqf2Bo7R5k0KqEnhV99+gO1xrMSDykw
-         xk1c73JDNmjbhA0XGJH4NJVvmmKP64rDpDDaEjx1Icbvr9618p1Dyb7hTTJLOgtKV6X8
-         TMxg==
+        bh=/OYBCmaoZBgnH58CWsomF0ic7XrQ33IxvcB/Z227870=;
+        b=kH9w1jbDm264UH0kXGpd9Dw6unxOcEXx8DOVhON8bhaAFIjq65FjJm3Lz7tyNbsVTX
+         UKnYLAFaQWmczzqurLh/bH1L8tVMXStbtFeVtzoCozVzORr7YRT6SXjMCSF8hEzeTi+j
+         idLWzv/bTBsSSwGXi5ON/eeURLRwc+Rld9EDzZTwh9ugu1jW2kUFu9v1ZlIVMJgU8Aob
+         mNxipUEmsooaep/oghO+TmzH3ptalRfCxWxcMN1zJxb2SseYB6TpPW/WDP6gPzO1wlQ5
+         zguJ1nAWpYwIpKg0+TGfoA9M+spEIs6aop1y3DLQtHnzUyPeX+QNHOnz+waQU4cPx1Nl
+         kf7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=K9yfcV7jqI8NxUw9J76/nvZNh29Vby57LkvJugNledo=;
-        b=IU8LVTTFKpCSNx7hXLVVFV11+Dy2ar7A3El7+KDbP0ULLSxyBpFu7oTo4QWhIlf241
-         tLA4z5bcd8luJmg455XWDa1oZnqMAd0V8FhQLjKHHy9W1N8i7C2u9k3u4VCtFDl7VZEY
-         jNFPZay4GiAk5Y5gvxIxveF+MFURdVXY1vkxAIRFHPKMXSwcn7DyyaHZyyw+lewJDpJN
-         sPhNnJ65N1Uw4s7R598o5+KQ4sEi8tzTOzm7RIHmXJoVSA7rVKcS1q1r5vojy59RoSx3
-         H9hS8hDIJB1Vn+f/3uQHntM5DZ1b4UGpVUgIirBnUactK0M+7e9wv9+yLZ85Iyd7SYHv
-         l2vQ==
-X-Gm-Message-State: APjAAAXpj2rIAteyxWACt/OlVSs04wTHzrLHXqfqj0x5t6XYml0G5spM
-        JDopZ8z/I9fs+OnbeKkhq5NkbiXy
-X-Google-Smtp-Source: APXvYqyqppYN50tjPkZYx6JkQiz9gzlqUbOPUvmkxGU2g9hqw1VPFBzZXZiIq3ViZgzbjckYAikD7A==
-X-Received: by 2002:a05:600c:2052:: with SMTP id p18mr4142788wmg.13.1570046016679;
-        Wed, 02 Oct 2019 12:53:36 -0700 (PDT)
+        bh=/OYBCmaoZBgnH58CWsomF0ic7XrQ33IxvcB/Z227870=;
+        b=KzF1GtbkhLbiJ9P8ehqoq+YxE047sq6ealoV8GgTLJdA2tyzSkoXsFCcCuDqfBsEs6
+         aiGjYvN1rlJpgwuF7wjtfUT01rhCS5J3POnkPQYCk87jiCKOsGy8T5RRnsEU2v/p7nLr
+         OBEtttWmps/geXaMxhv8OL4LB1sAAQ/AU89r/mEy+YU6cpMVbXJEzAWDSLWZ07WU+raK
+         Ipd3zms5jGFFhSUA5jXWgCyGMyJWIpPQNSJZQK9BspP9eqSLgVlCxYc13le86fCiOkED
+         pNDSWBt/NQYOilrGzvzA9a1eEuGMAYB5CHy08h3X0IDuAAp1IU1oCEJV1l5GviZSitzP
+         TM2A==
+X-Gm-Message-State: APjAAAW+gEa1G/eCbHCmiXK3hdyQCidlGFHab05ru6r2y2zpjWacy9A9
+        9mUj3ReoPIngnFbfuFwpwzpI4TNS
+X-Google-Smtp-Source: APXvYqyOHGEJ5i80627Iuf6XCjE/3F5QUz/Q6A9wHs4OdxzKaSGbjvfOZ8+h3wcoV95w/em0XB5pLA==
+X-Received: by 2002:a1c:7519:: with SMTP id o25mr4053714wmc.16.1570046120037;
+        Wed, 02 Oct 2019 12:55:20 -0700 (PDT)
 Received: from [192.168.1.19] (ckh198.neoplus.adsl.tpnet.pl. [83.31.83.198])
-        by smtp.gmail.com with ESMTPSA id c132sm276840wme.27.2019.10.02.12.53.35
+        by smtp.gmail.com with ESMTPSA id c6sm248741wrm.71.2019.10.02.12.55.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Oct 2019 12:53:36 -0700 (PDT)
-Subject: Re: [PATCH 3/5] leds: flash: Remove extern from the header file
+        Wed, 02 Oct 2019 12:55:19 -0700 (PDT)
+Subject: Re: [PATCH 4/5] leds: flash: Add devm_* functions to the flash class
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20191001180439.8312-1-dmurphy@ti.com>
- <20191001180439.8312-3-dmurphy@ti.com>
- <a6601fe9-0723-baec-d610-aafe7731c80d@gmail.com>
- <01576f87-9113-1148-438a-5b73c5424535@ti.com>
+ <20191001180439.8312-4-dmurphy@ti.com>
+ <218b33ac-506b-2014-d37f-3da2da323388@gmail.com>
+ <6e33734d-f1df-bfd9-ecc5-8f013bf86a78@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -111,34 +111,102 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <a9a33038-3005-f716-1448-b0a68cf95e08@gmail.com>
-Date:   Wed, 2 Oct 2019 21:53:34 +0200
+Message-ID: <6ec62c8f-1522-b81a-1072-0cfa655f2b6f@gmail.com>
+Date:   Wed, 2 Oct 2019 21:55:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <01576f87-9113-1148-438a-5b73c5424535@ti.com>
+In-Reply-To: <6e33734d-f1df-bfd9-ecc5-8f013bf86a78@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 10/2/19 1:56 PM, Dan Murphy wrote:
+Dan,
+
+On 10/2/19 2:04 PM, Dan Murphy wrote:
 > Jacek
 > 
-> On 10/1/19 3:57 PM, Jacek Anaszewski wrote:
+> On 10/1/19 4:06 PM, Jacek Anaszewski wrote:
 >> Dan,
 >>
->> Thank you for the patch.
+>> Thank you for the patch. One funny omission caught my
+>> eye here and in led-class.c when making visual comparison.
+>> Please refer below.
 >>
->> Could we have similar patch for leds.h when we are at it,
->> if you wouldn't mind?
+>> On 10/1/19 8:04 PM, Dan Murphy wrote:
+>>> Add the missing device managed API for registration and
+>>> unregistration for the LED flash class.
+>>>
+>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>>> ---
+>>>   drivers/leds/led-class-flash.c  | 50 +++++++++++++++++++++++++++++++++
+>>>   include/linux/led-class-flash.h | 14 +++++++++
+>>>   2 files changed, 64 insertions(+)
+>>>
+>>> diff --git a/drivers/leds/led-class-flash.c
+>>> b/drivers/leds/led-class-flash.c
+>>> index 60c3de5c6b9f..c2b4fd02a1bc 100644
+>>> --- a/drivers/leds/led-class-flash.c
+>>> +++ b/drivers/leds/led-class-flash.c
+>>> @@ -327,6 +327,56 @@ void led_classdev_flash_unregister(struct
+>>> led_classdev_flash *fled_cdev)
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(led_classdev_flash_unregister);
+>>>   +static void devm_led_classdev_flash_release(struct device *dev,
+>>> void *res)
+>>> +{
+>>> +    led_classdev_flash_unregister(*(struct led_classdev_flash **)res);
+>>> +}
+>>> +
+>>> +int devm_led_classdev_flash_register_ext(struct device *parent,
+>>> +                     struct led_classdev_flash *fled_cdev,
+>>> +                     struct led_init_data *init_data)
+>>> +{
+>>> +    struct led_classdev_flash **dr;
+>>> +    int ret;
+>>> +
+>>> +    dr = devres_alloc(devm_led_classdev_flash_release, sizeof(*dr),
+>>> +              GFP_KERNEL);
+>>> +    if (!dr)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    ret = led_classdev_flash_register_ext(parent, fled_cdev,
+>>> init_data);
+>>> +    if (ret) {
+>>> +        devres_free(dr);
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    *dr = fled_cdev;
+>>> +    devres_add(parent, dr);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(devm_led_classdev_flash_register_ext);
+>>> +
+>>> +static int devm_led_classdev_flash_match(struct device *dev,
+>>> +                          void *res, void *data)
+>>> +{
+>>> +    struct fled_cdev **p = res;
+>> We don't have struct fled_cdev. This name is used for variables
+>> of struct led_clssdev_flash type in drivers.
 >>
-> Sure do you want it in this patch or a separate patch?
+>> We don't get even compiler warning here because this is cast
+>> from void pointer.
+>>
+>> Funny thing is that you seem to have followed similar flaw in
+>> devm_led_classdev_match() where struct led_cdev has been
+>> introduced.
+>>
+>> We need to fix both cases.
+> 
+> OK I will fix the leds-class in a separate patch in case it causes issues.
 
-Separate please. Thanks!
+It doesn't cause issues now but is misleading.
 
 -- 
 Best regards,
