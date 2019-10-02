@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A038C8C78
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2019 17:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20780C8C7A
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2019 17:13:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728364AbfJBPNV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Oct 2019 11:13:21 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:37356 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728351AbfJBPNU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Oct 2019 11:13:20 -0400
-Received: by mail-pl1-f196.google.com with SMTP id u20so7172758plq.4;
-        Wed, 02 Oct 2019 08:13:20 -0700 (PDT)
+        id S1728397AbfJBPNX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Oct 2019 11:13:23 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:43796 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728351AbfJBPNX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Oct 2019 11:13:23 -0400
+Received: by mail-pg1-f195.google.com with SMTP id v27so11973772pgk.10;
+        Wed, 02 Oct 2019 08:13:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=WF06h6Z4y9HlCvfE9POtx7739uPO4m+a8tJQ0lXuv8Y=;
-        b=edA7D5wgWDwI7YF2LpcW2zVST5DycbiLD+M48JfxPfB83zK/DcidfnvFmj1BQw6G1k
-         wnCW0TYjYB9avsIv2WDia8s0sDVKNlYjD3KZQDF6U5//omleyS+6TOQrwS34QeP3AmYl
-         7vAylH/Do7Gy6j3pFxJTO091oW3v/UFGqMvnXHTuNHh5O1e2c0WoxKc4LSIuMq/ljerf
-         NN2rYzWo7PZW4lWVEVWgfNhOWIiaKrlMV722ANIzMpHbzvZ7EARhtfZNojPRUV5TiqXV
-         ZeA3XmMOk/rQl8t6Rwyi14CZvQqp0+GmhSfP9WoReMZ3x2wYd8m1gVZG1r/skt06eAHb
-         pfog==
+        bh=3FqLvYfuaoKXbyP0A5kLIz64ep9FrXLqoZM44num0xE=;
+        b=PKJZdL5Sa/gpM+j1M3Pm6olFhgJLFzyZOm50+SvkpzzlgHcnZm0giPQ9Y/pCNMHhDn
+         Y+QRvzfW1qeIgUhY4I6exl4LOwdfOgydffmtUintP1ozB8hwBSvzl9F37odohaGgd4nw
+         X7TRW04x760u7YU7F9QkN2UfYd329g0BM2Oeig2Sbu3Rx5Jngm2Dvs0Q7WnieqS6JQ6y
+         Q6X6jGp1G1h+F+I55xx274fmoZXlpcIfWoQzqZs2DqF8mhMPjjbi4+lVLwBbyu0+S/Ky
+         RDbHf3INgYykWxqQTkL3sqwFMei5+WMk+4soKMRY/LbcNwlPsN/KxPVEXU1aqe8mDikp
+         99jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=WF06h6Z4y9HlCvfE9POtx7739uPO4m+a8tJQ0lXuv8Y=;
-        b=rH/W9A9cIxdWIJZeJmNyinHd46l4Q9MmWYAZX2FYUupK1mRPSZt2krEE/ZFpHH/cCG
-         8hCtbZ4UFPTaWMudTPIN1kEHaO9LRxNaNSv1aQCvoN0NaL7G4zudas4o51ITAZd496VN
-         rVVnb8I1wBjWKEEaLjsdzXlHcskiZHlufq3YFPk/sEBbaemI/6otHpkbthcq/S47YHF5
-         S/aiWxvpE5l8gsMbr6iCrEIAOgHWF9x/iK4ayz1LH0X4cfuLcCO0ZOZ63qmUbi1w0qLY
-         hT5wJjxVMf97IYa0NykPABavIjJNEF8oa/7owaHDllaUT82nvTZF8KZIWdLvcNszWMn3
-         fHbQ==
-X-Gm-Message-State: APjAAAU3Ebwu3h6S6Vef8vGhqmWkMLi2u9o0qmNKbRW0+UkOtnq0dQhl
-        q362TrxUGHOZBPJftC3K9bwdp2BB
-X-Google-Smtp-Source: APXvYqxLVbtZUQT7T6305Alx6quszF4v/CAHZ+s+k6ZHP+dLsihLur+fNZBxSQqtIH5DH3KMIljevg==
-X-Received: by 2002:a17:902:ba87:: with SMTP id k7mr4256642pls.244.1570029199415;
-        Wed, 02 Oct 2019 08:13:19 -0700 (PDT)
+        bh=3FqLvYfuaoKXbyP0A5kLIz64ep9FrXLqoZM44num0xE=;
+        b=bp6u15XdWVn0UU+96fihjoxi/kDN2hIDwDTWkG2zC4r2w3TsfcSzypacfarpNf2N39
+         gjF0WqCHN376wmfGyxP4YooA62BEkMFaDXbmolELOId8wglGbiLIkFNIUg2AYHonpY5P
+         fNY/t/68qz6hwqj4oPBxTXNPCuT/8L1MO74lIBKDbwy6HiyOebVGrg+pejdN9/yceXCf
+         5pJqOuchN7Uuv6c2Wr7ncuaZ+vV8qDvpUxftA7svMWDYa8UDkvWRUsD0J7SAkpYZ1LdH
+         2HcP7VxipUPTnA154JcgzZEVCK8fScZxU1wWvWfRKH85aPUWSN6UK5pW+WjIiVW3ider
+         h3Bw==
+X-Gm-Message-State: APjAAAV/umrQVDAeKxlNUMFChUe5dQ7Cbios9ksbQS9WK700xKhelV2J
+        4+2UH3hMiU4FjX/yJ7byC1mN8lXF
+X-Google-Smtp-Source: APXvYqylA+HssXlU40obBKzlgg8iDzvdZ649/qVE7d+n1yVt7hEvSh6jJk3KLDQWxIImpcNuprChXw==
+X-Received: by 2002:aa7:85d0:: with SMTP id z16mr5244861pfn.206.1570029202254;
+        Wed, 02 Oct 2019 08:13:22 -0700 (PDT)
 Received: from localhost.localdomain ([240f:34:212d:1:8161:a821:b9aa:cfb2])
-        by smtp.gmail.com with ESMTPSA id k23sm21397937pgg.73.2019.10.02.08.13.16
+        by smtp.gmail.com with ESMTPSA id k23sm21397937pgg.73.2019.10.02.08.13.19
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 02 Oct 2019 08:13:18 -0700 (PDT)
+        Wed, 02 Oct 2019 08:13:21 -0700 (PDT)
 From:   Akinobu Mita <akinobu.mita@gmail.com>
 To:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
@@ -50,9 +50,9 @@ Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH -next 1/2] leds: add /sys/devices/virtual/led-trigger/
-Date:   Thu,  3 Oct 2019 00:13:00 +0900
-Message-Id: <1570029181-11102-2-git-send-email-akinobu.mita@gmail.com>
+Subject: [PATCH -next 2/2] leds: add /sys/class/leds/<led>/current-trigger
+Date:   Thu,  3 Oct 2019 00:13:01 +0900
+Message-Id: <1570029181-11102-3-git-send-email-akinobu.mita@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1570029181-11102-1-git-send-email-akinobu.mita@gmail.com>
 References: <1570029181-11102-1-git-send-email-akinobu.mita@gmail.com>
@@ -64,12 +64,13 @@ X-Mailing-List: linux-leds@vger.kernel.org
 Reading /sys/class/leds/<led>/trigger returns all available LED triggers.
 However, this violates the "one value per file" rule of sysfs.
 
-This makes led_triggers "real" devices and provides an
-/sys/devices/virtual/led-trigger/ directory that contains a sub-directoriy
-for each LED trigger device. The name of the sub-directory matches the LED
-trigger name.
+This provides /sys/class/leds/<led>/current-trigger which is almost
+identical to /sys/class/leds/<led>/trigger.  The only difference is that
+'current-trigger' only shows the current trigger name.
 
-We can find all available LED triggers by listing this directory contents.
+This new file follows the "one value per file" rule of sysfs.
+We can find all available LED triggers by listing the
+/sys/devices/virtual/led-trigger/ directory.
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
@@ -78,137 +79,142 @@ Cc: Pavel Machek <pavel@ucw.cz>
 Cc: Dan Murphy <dmurphy@ti.com>
 Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 ---
- .../ABI/testing/sysfs-devices-virtual-led-trigger  |  8 +++
- drivers/leds/led-triggers.c                        | 57 ++++++++++++++++++++++
- include/linux/leds.h                               |  3 ++
- 3 files changed, 68 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-devices-virtual-led-trigger
+ Documentation/ABI/testing/sysfs-class-led | 13 +++++++++++
+ drivers/leds/led-class.c                  | 10 ++++++++
+ drivers/leds/led-triggers.c               | 38 +++++++++++++++++++++++++++----
+ drivers/leds/leds.h                       |  5 ++++
+ 4 files changed, 62 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-devices-virtual-led-trigger b/Documentation/ABI/testing/sysfs-devices-virtual-led-trigger
-new file mode 100644
-index 0000000..b8eb8f3
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-devices-virtual-led-trigger
-@@ -0,0 +1,8 @@
-+What:		/sys/devices/virtual/leds-trigger/
+diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/ABI/testing/sysfs-class-led
+index 5f67f7a..fdfed3f 100644
+--- a/Documentation/ABI/testing/sysfs-class-led
++++ b/Documentation/ABI/testing/sysfs-class-led
+@@ -61,3 +61,16 @@ Description:
+ 		gpio and backlight triggers. In case of the backlight trigger,
+ 		it is useful when driving a LED which is intended to indicate
+ 		a device in a standby like state.
++
++What:		/sys/class/leds/<led>/current-trigger
 +Date:		September 2019
 +KernelVersion:	5.5
 +Contact:	linux-leds@vger.kernel.org
 +Description:
-+		This directory contains a sub-directoriy for each LED trigger
-+		device. The name of the sub-directory matches the LED trigger
-+		name.
++		Set the trigger for this LED. A trigger is a kernel based source
++		of LED events.
++		Writing the trigger name to this file will change the current
++		trigger. Trigger specific parameters can appear in
++		/sys/class/leds/<led> once a given trigger is selected. For
++		their documentation see sysfs-class-led-trigger-*.
++		Reading this file will return the current LED trigger name.
+diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+index 3f04334..3cb0d8a 100644
+--- a/drivers/leds/led-class.c
++++ b/drivers/leds/led-class.c
+@@ -74,12 +74,22 @@ static ssize_t max_brightness_show(struct device *dev,
+ static DEVICE_ATTR_RO(max_brightness);
+ 
+ #ifdef CONFIG_LEDS_TRIGGERS
++
++static DEVICE_ATTR(current_trigger, 0644, led_current_trigger_show,
++		   led_current_trigger_store);
++
++static struct attribute *led_current_trigger_attrs[] = {
++	&dev_attr_current_trigger.attr,
++	NULL,
++};
++
+ static BIN_ATTR(trigger, 0644, led_trigger_read, led_trigger_write, 0);
+ static struct bin_attribute *led_trigger_bin_attrs[] = {
+ 	&bin_attr_trigger,
+ 	NULL,
+ };
+ static const struct attribute_group led_trigger_group = {
++	.attrs = led_current_trigger_attrs,
+ 	.bin_attrs = led_trigger_bin_attrs,
+ };
+ #endif
 diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index 79e30d2..0b810cf 100644
+index 0b810cf..a2ef674 100644
 --- a/drivers/leds/led-triggers.c
 +++ b/drivers/leds/led-triggers.c
-@@ -267,21 +267,76 @@ void led_trigger_rename_static(const char *name, struct led_trigger *trig)
- }
- EXPORT_SYMBOL_GPL(led_trigger_rename_static);
+@@ -27,11 +27,9 @@ LIST_HEAD(trigger_list);
  
-+struct ledtrig_device {
-+	struct device dev;
-+};
-+
-+static void ledtrig_device_release(struct device *dev)
-+{
-+	struct ledtrig_device *trig_dev =
-+		container_of(dev, struct ledtrig_device, dev);
-+
-+	kfree(trig_dev);
-+}
-+
-+static struct bus_type led_trigger_subsys = {
-+	.name = "led-trigger",
-+};
-+
-+static int led_trigger_subsys_init(void)
-+{
-+	static DEFINE_MUTEX(init_mutex);
-+	static bool init_done;
-+	int ret = 0;
-+
-+	mutex_lock(&init_mutex);
-+	if (!init_done) {
-+		ret = subsys_virtual_register(&led_trigger_subsys, NULL);
-+		if (!ret)
-+			init_done = true;
-+	}
-+	mutex_unlock(&init_mutex);
-+
-+	return ret;
-+}
-+
- /* LED Trigger Interface */
+  /* Used by LED Class */
  
- int led_trigger_register(struct led_trigger *trig)
+-ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+-			  struct bin_attribute *bin_attr, char *buf,
+-			  loff_t pos, size_t count)
++static ssize_t led_trigger_store(struct device *dev, const char *buf,
++				 size_t count)
  {
- 	struct led_classdev *led_cdev;
- 	struct led_trigger *_trig;
-+	struct ledtrig_device *trig_dev;
-+	int ret;
- 
- 	rwlock_init(&trig->leddev_list_lock);
- 	INIT_LIST_HEAD(&trig->led_cdevs);
- 
-+	ret = led_trigger_subsys_init();
-+	if (ret)
-+		return ret;
-+	trig_dev = kzalloc(sizeof(*trig_dev), GFP_KERNEL);
-+	if (!trig_dev)
-+		return -ENOMEM;
-+
-+	trig_dev->dev.bus = &led_trigger_subsys;
-+	trig_dev->dev.release = ledtrig_device_release;
-+	dev_set_name(&trig_dev->dev, "%s", trig->name);
-+
-+	ret = device_register(&trig_dev->dev);
-+	if (ret) {
-+		put_device(&trig_dev->dev);
-+		return ret;
-+	}
-+
-+	trig->trig_dev = trig_dev;
-+
- 	down_write(&triggers_list_lock);
- 	/* Make sure the trigger's name isn't already in use */
- 	list_for_each_entry(_trig, &trigger_list, next_trig) {
- 		if (!strcmp(_trig->name, trig->name)) {
- 			up_write(&triggers_list_lock);
-+			device_unregister(&trig_dev->dev);
- 			return -EEXIST;
- 		}
- 	}
-@@ -327,6 +382,8 @@ void led_trigger_unregister(struct led_trigger *trig)
- 		up_write(&led_cdev->trigger_lock);
- 	}
- 	up_read(&leds_list_lock);
-+
-+	device_unregister(&trig->trig_dev->dev);
+-	struct device *dev = kobj_to_dev(kobj);
+ 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+ 	struct led_trigger *trig;
+ 	int ret = count;
+@@ -67,8 +65,25 @@ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+ 	mutex_unlock(&led_cdev->led_access);
+ 	return ret;
  }
- EXPORT_SYMBOL_GPL(led_trigger_unregister);
- 
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index da78b27..d63c8e7 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -336,6 +336,8 @@ static inline bool led_sysfs_is_disabled(struct led_classdev *led_cdev)
- 
- #define TRIG_NAME_MAX 50
- 
-+struct ledtrig_device;
 +
- struct led_trigger {
- 	/* Trigger Properties */
- 	const char	 *name;
-@@ -350,6 +352,7 @@ struct led_trigger {
- 	struct list_head  next_trig;
++ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
++			  struct bin_attribute *bin_attr, char *buf,
++			  loff_t pos, size_t count)
++{
++	struct device *dev = kobj_to_dev(kobj);
++
++	return led_trigger_store(dev, buf, count);
++}
+ EXPORT_SYMBOL_GPL(led_trigger_write);
  
- 	const struct attribute_group **groups;
-+	struct ledtrig_device *trig_dev;
- };
++ssize_t led_current_trigger_store(struct device *dev,
++				struct device_attribute *attr, const char *buf,
++				size_t count)
++{
++	return led_trigger_store(dev, buf, count);
++}
++EXPORT_SYMBOL_GPL(led_current_trigger_store);
++
+ __printf(3, 4)
+ static int led_trigger_snprintf(char *buf, ssize_t size, const char *fmt, ...)
+ {
+@@ -144,6 +159,21 @@ ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
+ }
+ EXPORT_SYMBOL_GPL(led_trigger_read);
  
- /*
++ssize_t led_current_trigger_show(struct device *dev,
++				 struct device_attribute *attr, char *buf)
++{
++	struct led_classdev *led_cdev = dev_get_drvdata(dev);
++	int len;
++
++	down_read(&led_cdev->trigger_lock);
++	len = scnprintf(buf, PAGE_SIZE, "%s\n", led_cdev->trigger ?
++			led_cdev->trigger->name : "none");
++	up_read(&led_cdev->trigger_lock);
++
++	return len;
++}
++EXPORT_SYMBOL_GPL(led_current_trigger_show);
++
+ /* Caller must ensure led_cdev->trigger_lock held */
+ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
+ {
+diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
+index 2d9eb48..c581690 100644
+--- a/drivers/leds/leds.h
++++ b/drivers/leds/leds.h
+@@ -29,6 +29,11 @@ ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
+ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+ 			struct bin_attribute *bin_attr, char *buf,
+ 			loff_t pos, size_t count);
++ssize_t led_current_trigger_store(struct device *dev,
++				struct device_attribute *attr,
++				const char *buf, size_t count);
++ssize_t led_current_trigger_show(struct device *dev,
++				struct device_attribute *attr, char *buf);
+ 
+ extern struct rw_semaphore leds_list_lock;
+ extern struct list_head leds_list;
 -- 
 2.7.4
 
