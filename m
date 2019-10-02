@@ -2,61 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2173C9299
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2019 21:47:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD38CC92A5
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2019 21:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726574AbfJBTr0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Oct 2019 15:47:26 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38833 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726034AbfJBTrZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Oct 2019 15:47:25 -0400
-Received: by mail-wr1-f65.google.com with SMTP id w12so371535wro.5;
-        Wed, 02 Oct 2019 12:47:22 -0700 (PDT)
+        id S1727191AbfJBTxk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Oct 2019 15:53:40 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:37695 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726070AbfJBTxj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Oct 2019 15:53:39 -0400
+Received: by mail-wm1-f67.google.com with SMTP id f22so189347wmc.2;
+        Wed, 02 Oct 2019 12:53:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=XC7LA55iHiUITo+83QzxAVmoetQd0JqQF8Gg112JjJQ=;
-        b=TVI8bgL+0zY79i9zDnmSeL3V5D3k8c5dUaQlFSw+o+Pl+hcTUJmnd/icqybX32e1dh
-         TORtaW8b7jSpFTeXHCb2O1HtYNoOXm3HbH8iXiujD7iNP1ccqJJSffjeIT0xlusq635f
-         cfA8deGNzjEjZq/o4NIiSJJFaxcvGmRcH78w7sCYW7GXST4NXMahA+baJEkX4d8TklGU
-         mheCkQdLzryCbjRmYTqzE7hcUOMxGFPWhm7QEJMQ6iAizHChiRlAxyvbuPaakkIpiOIG
-         AUZscZUFBJWJim7yRKvDQ2g7++Fsj/guprIlQwbbPVvSOxPy6tQII9qIzAAYuH3kVHy7
-         L9TQ==
+        bh=K9yfcV7jqI8NxUw9J76/nvZNh29Vby57LkvJugNledo=;
+        b=Zzinorf6S9fwXm86+u6W2bglO/7NbF8Oo2fXVCIiPWa6eAwNPTOa3oo6yVFnUuRMY0
+         DkPsVMTHOEykRee0oiSUoSOr/KUlpaHS48qStIolP7WtFV6ztI2FSTF0aJ0yOub++qp8
+         qFHrTxcftXiySLLr6HK7IHWMF9lsJV6ZQIek8DpKmnHxzcHRzZzVGMlpyN7keiHh3bps
+         gX2FEBawursJtmIXCttZUsIm6gGSeFo6FubIsPqf2Bo7R5k0KqEnhV99+gO1xrMSDykw
+         xk1c73JDNmjbhA0XGJH4NJVvmmKP64rDpDDaEjx1Icbvr9618p1Dyb7hTTJLOgtKV6X8
+         TMxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=XC7LA55iHiUITo+83QzxAVmoetQd0JqQF8Gg112JjJQ=;
-        b=Uo/1HgAHEs5arqyohhnRgYEDV+m4QPAanoDDVIGfZcrk2oYDKuuC2Fm2pbaO+wQvyN
-         ZvUpzJmuovHeGPzN5VcxCI7RSdN6UUydGVXqUBizuMXmJTzMpP7gevtRIKjYwe8cZNG+
-         g8ctoa4dhf+anA0+o7NC9IxJ6Cu+CMYxqH7vqQs2nEk7CCMKuwdxdk9mmG1RaU0Eh9WO
-         PXXsocfxp+1Qiw/aJKz67L9aYYx51Im3P/bpr/SqpYzS5g/jxMB3HIAHifIml640NuXj
-         npQtxs4FwnBM/hVipFgSzO/f12t9g6gc716sXnXFBWHwucJL6VhsFR3QwtreyxjK7vmw
-         Ya5w==
-X-Gm-Message-State: APjAAAUx7qemam1qyXw5nYxfaF/v0JCmD7fbhCZ6LiHjJTRCGTZkq31V
-        K6n6HNTUVt/yV0UCFYDAtTw=
-X-Google-Smtp-Source: APXvYqxmXlFoHspoGGfhtQtVCMlMyjp0i+wHw/MOyFzuuPKkitH7WZnXt1PsKKhwB8WE33W/gSqlXw==
-X-Received: by 2002:a5d:4a84:: with SMTP id o4mr3954548wrq.165.1570045641581;
-        Wed, 02 Oct 2019 12:47:21 -0700 (PDT)
+        bh=K9yfcV7jqI8NxUw9J76/nvZNh29Vby57LkvJugNledo=;
+        b=IU8LVTTFKpCSNx7hXLVVFV11+Dy2ar7A3El7+KDbP0ULLSxyBpFu7oTo4QWhIlf241
+         tLA4z5bcd8luJmg455XWDa1oZnqMAd0V8FhQLjKHHy9W1N8i7C2u9k3u4VCtFDl7VZEY
+         jNFPZay4GiAk5Y5gvxIxveF+MFURdVXY1vkxAIRFHPKMXSwcn7DyyaHZyyw+lewJDpJN
+         sPhNnJ65N1Uw4s7R598o5+KQ4sEi8tzTOzm7RIHmXJoVSA7rVKcS1q1r5vojy59RoSx3
+         H9hS8hDIJB1Vn+f/3uQHntM5DZ1b4UGpVUgIirBnUactK0M+7e9wv9+yLZ85Iyd7SYHv
+         l2vQ==
+X-Gm-Message-State: APjAAAXpj2rIAteyxWACt/OlVSs04wTHzrLHXqfqj0x5t6XYml0G5spM
+        JDopZ8z/I9fs+OnbeKkhq5NkbiXy
+X-Google-Smtp-Source: APXvYqyqppYN50tjPkZYx6JkQiz9gzlqUbOPUvmkxGU2g9hqw1VPFBzZXZiIq3ViZgzbjckYAikD7A==
+X-Received: by 2002:a05:600c:2052:: with SMTP id p18mr4142788wmg.13.1570046016679;
+        Wed, 02 Oct 2019 12:53:36 -0700 (PDT)
 Received: from [192.168.1.19] (ckh198.neoplus.adsl.tpnet.pl. [83.31.83.198])
-        by smtp.gmail.com with ESMTPSA id m62sm141201wmm.35.2019.10.02.12.47.19
+        by smtp.gmail.com with ESMTPSA id c132sm276840wme.27.2019.10.02.12.53.35
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Oct 2019 12:47:20 -0700 (PDT)
-Subject: Re: [PATCH v7 1/5] leds: populate the device's of_node when possible
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
-        robh+dt@kernel.org, mark.rutland@arm.com, lee.jones@linaro.org,
-        daniel.thompson@linaro.org
-Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        tomi.valkeinen@ti.com
-References: <20190918145730.22805-1-jjhiblot@ti.com>
- <20190918145730.22805-2-jjhiblot@ti.com>
- <f543e757-e000-6de4-694b-e75f388e5908@gmail.com>
- <e9588e03-20d4-7e6d-e514-0b79dae12cce@ti.com>
+        Wed, 02 Oct 2019 12:53:36 -0700 (PDT)
+Subject: Re: [PATCH 3/5] leds: flash: Remove extern from the header file
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191001180439.8312-1-dmurphy@ti.com>
+ <20191001180439.8312-3-dmurphy@ti.com>
+ <a6601fe9-0723-baec-d610-aafe7731c80d@gmail.com>
+ <01576f87-9113-1148-438a-5b73c5424535@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -115,70 +111,34 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <b7b3409b-97bd-79b4-a712-6c03c6eabd56@gmail.com>
-Date:   Wed, 2 Oct 2019 21:47:18 +0200
+Message-ID: <a9a33038-3005-f716-1448-b0a68cf95e08@gmail.com>
+Date:   Wed, 2 Oct 2019 21:53:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <e9588e03-20d4-7e6d-e514-0b79dae12cce@ti.com>
+In-Reply-To: <01576f87-9113-1148-438a-5b73c5424535@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jean,
-
-On 10/2/19 3:58 PM, Jean-Jacques Hiblot wrote:
-> Hi Jacek,
+On 10/2/19 1:56 PM, Dan Murphy wrote:
+> Jacek
 > 
-> On 24/09/2019 23:03, Jacek Anaszewski wrote:
->> Hi Jean,
+> On 10/1/19 3:57 PM, Jacek Anaszewski wrote:
+>> Dan,
 >>
->> Thank you for rebasing the set
+>> Thank you for the patch.
 >>
->> On 9/18/19 4:57 PM, Jean-Jacques Hiblot wrote:
->>> If initialization data is available and its fwnode is actually a
->>> of_node,
->>> store this information in the led device's structure. This will allow
->>> the
->>> device to use or provide OF-based API such (devm_xxx).
->>>
->>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
->>> ---
->>>   drivers/leds/led-class.c | 5 ++++-
->>>   1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
->>> index 647b1263c579..c2167b66b61f 100644
->>> --- a/drivers/leds/led-class.c
->>> +++ b/drivers/leds/led-class.c
->>> @@ -276,8 +276,11 @@ int led_classdev_register_ext(struct device
->>> *parent,
->>>           mutex_unlock(&led_cdev->led_access);
->>>           return PTR_ERR(led_cdev->dev);
->>>       }
->>> -    if (init_data && init_data->fwnode)
->>> +    if (init_data && init_data->fwnode) {
->>>           led_cdev->dev->fwnode = init_data->fwnode;
->>> +        if (is_of_node(init_data->fwnode))
->>> +            led_cdev->dev->of_node = to_of_node(init_data->fwnode);
->> It would be step backwards. You can do the conversion in the place of
->> use i.e. in devm_led_get().
-> 
-> Could be done. But it would break another use case I have. I'm also
-> working on the regulator support and for this one, of_node needs to be
-> populated.
+>> Could we have similar patch for leds.h when we are at it,
+>> if you wouldn't mind?
+>>
+> Sure do you want it in this patch or a separate patch?
 
-I thought that regulator core can do the conversion to of_node itself,
-but this seems not to be the case.
-
-> Is there a problem populating of_node if the LED is indeed described in
-> the DT ?
-
-No, if it is not possible to do it otherwise.
+Separate please. Thanks!
 
 -- 
 Best regards,
