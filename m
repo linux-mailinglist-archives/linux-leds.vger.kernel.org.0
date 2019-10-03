@@ -2,212 +2,129 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E46C4C92AC
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Oct 2019 21:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2167DC99DE
+	for <lists+linux-leds@lfdr.de>; Thu,  3 Oct 2019 10:29:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728288AbfJBTzY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Oct 2019 15:55:24 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:50524 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725951AbfJBTzX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Oct 2019 15:55:23 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 5so212764wmg.0;
-        Wed, 02 Oct 2019 12:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/OYBCmaoZBgnH58CWsomF0ic7XrQ33IxvcB/Z227870=;
-        b=kH9w1jbDm264UH0kXGpd9Dw6unxOcEXx8DOVhON8bhaAFIjq65FjJm3Lz7tyNbsVTX
-         UKnYLAFaQWmczzqurLh/bH1L8tVMXStbtFeVtzoCozVzORr7YRT6SXjMCSF8hEzeTi+j
-         idLWzv/bTBsSSwGXi5ON/eeURLRwc+Rld9EDzZTwh9ugu1jW2kUFu9v1ZlIVMJgU8Aob
-         mNxipUEmsooaep/oghO+TmzH3ptalRfCxWxcMN1zJxb2SseYB6TpPW/WDP6gPzO1wlQ5
-         zguJ1nAWpYwIpKg0+TGfoA9M+spEIs6aop1y3DLQtHnzUyPeX+QNHOnz+waQU4cPx1Nl
-         kf7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=/OYBCmaoZBgnH58CWsomF0ic7XrQ33IxvcB/Z227870=;
-        b=KzF1GtbkhLbiJ9P8ehqoq+YxE047sq6ealoV8GgTLJdA2tyzSkoXsFCcCuDqfBsEs6
-         aiGjYvN1rlJpgwuF7wjtfUT01rhCS5J3POnkPQYCk87jiCKOsGy8T5RRnsEU2v/p7nLr
-         OBEtttWmps/geXaMxhv8OL4LB1sAAQ/AU89r/mEy+YU6cpMVbXJEzAWDSLWZ07WU+raK
-         Ipd3zms5jGFFhSUA5jXWgCyGMyJWIpPQNSJZQK9BspP9eqSLgVlCxYc13le86fCiOkED
-         pNDSWBt/NQYOilrGzvzA9a1eEuGMAYB5CHy08h3X0IDuAAp1IU1oCEJV1l5GviZSitzP
-         TM2A==
-X-Gm-Message-State: APjAAAW+gEa1G/eCbHCmiXK3hdyQCidlGFHab05ru6r2y2zpjWacy9A9
-        9mUj3ReoPIngnFbfuFwpwzpI4TNS
-X-Google-Smtp-Source: APXvYqyOHGEJ5i80627Iuf6XCjE/3F5QUz/Q6A9wHs4OdxzKaSGbjvfOZ8+h3wcoV95w/em0XB5pLA==
-X-Received: by 2002:a1c:7519:: with SMTP id o25mr4053714wmc.16.1570046120037;
-        Wed, 02 Oct 2019 12:55:20 -0700 (PDT)
-Received: from [192.168.1.19] (ckh198.neoplus.adsl.tpnet.pl. [83.31.83.198])
-        by smtp.gmail.com with ESMTPSA id c6sm248741wrm.71.2019.10.02.12.55.18
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Oct 2019 12:55:19 -0700 (PDT)
-Subject: Re: [PATCH 4/5] leds: flash: Add devm_* functions to the flash class
-To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191001180439.8312-1-dmurphy@ti.com>
- <20191001180439.8312-4-dmurphy@ti.com>
- <218b33ac-506b-2014-d37f-3da2da323388@gmail.com>
- <6e33734d-f1df-bfd9-ecc5-8f013bf86a78@ti.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <6ec62c8f-1522-b81a-1072-0cfa655f2b6f@gmail.com>
-Date:   Wed, 2 Oct 2019 21:55:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1728806AbfJCI2b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 3 Oct 2019 04:28:31 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:59904 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726523AbfJCI2b (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 3 Oct 2019 04:28:31 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x938SGt5086185;
+        Thu, 3 Oct 2019 03:28:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1570091296;
+        bh=ZEHDwWZtjItO4loUVl/4DVTQMNSpL7iyeLeaFKV6yBI=;
+        h=From:To:CC:Subject:Date;
+        b=F9r1mbIEv5nYVhtMXq/tihqyGZ223AwTPNqczkOtK87jYm8rOOwIcmZO4a7Vw6R2N
+         h+n5OFLt8B2hQR+Ms5qCJ6VU2XHHWGcIyX9350Xer0AK1vPdCnFDYUGBJpREX01me6
+         VDMDVnp3MLcVfXyhxGMAPtMrbLUB1V26hTZkSVNs=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x938SG2q094622
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 3 Oct 2019 03:28:16 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 3 Oct
+ 2019 03:28:04 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 3 Oct 2019 03:28:15 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x938SE6N082784;
+        Thu, 3 Oct 2019 03:28:15 -0500
+From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
+To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <lee.jones@linaro.org>,
+        <daniel.thompson@linaro.org>
+CC:     <dmurphy@ti.com>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <tomi.valkeinen@ti.com>, Jean-Jacques Hiblot <jjhiblot@ti.com>
+Subject: [PATCH v8 0/5] Add a generic driver for LED-based backlight
+Date:   Thu, 3 Oct 2019 10:28:07 +0200
+Message-ID: <20191003082812.28491-1-jjhiblot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <6e33734d-f1df-bfd9-ecc5-8f013bf86a78@ti.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dan,
+This series aims to add a led-backlight driver, similar to pwm-backlight,
+but using a LED class device underneath.
 
-On 10/2/19 2:04 PM, Dan Murphy wrote:
-> Jacek
-> 
-> On 10/1/19 4:06 PM, Jacek Anaszewski wrote:
->> Dan,
->>
->> Thank you for the patch. One funny omission caught my
->> eye here and in led-class.c when making visual comparison.
->> Please refer below.
->>
->> On 10/1/19 8:04 PM, Dan Murphy wrote:
->>> Add the missing device managed API for registration and
->>> unregistration for the LED flash class.
->>>
->>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->>> ---
->>>   drivers/leds/led-class-flash.c  | 50 +++++++++++++++++++++++++++++++++
->>>   include/linux/led-class-flash.h | 14 +++++++++
->>>   2 files changed, 64 insertions(+)
->>>
->>> diff --git a/drivers/leds/led-class-flash.c
->>> b/drivers/leds/led-class-flash.c
->>> index 60c3de5c6b9f..c2b4fd02a1bc 100644
->>> --- a/drivers/leds/led-class-flash.c
->>> +++ b/drivers/leds/led-class-flash.c
->>> @@ -327,6 +327,56 @@ void led_classdev_flash_unregister(struct
->>> led_classdev_flash *fled_cdev)
->>>   }
->>>   EXPORT_SYMBOL_GPL(led_classdev_flash_unregister);
->>>   +static void devm_led_classdev_flash_release(struct device *dev,
->>> void *res)
->>> +{
->>> +    led_classdev_flash_unregister(*(struct led_classdev_flash **)res);
->>> +}
->>> +
->>> +int devm_led_classdev_flash_register_ext(struct device *parent,
->>> +                     struct led_classdev_flash *fled_cdev,
->>> +                     struct led_init_data *init_data)
->>> +{
->>> +    struct led_classdev_flash **dr;
->>> +    int ret;
->>> +
->>> +    dr = devres_alloc(devm_led_classdev_flash_release, sizeof(*dr),
->>> +              GFP_KERNEL);
->>> +    if (!dr)
->>> +        return -ENOMEM;
->>> +
->>> +    ret = led_classdev_flash_register_ext(parent, fled_cdev,
->>> init_data);
->>> +    if (ret) {
->>> +        devres_free(dr);
->>> +        return ret;
->>> +    }
->>> +
->>> +    *dr = fled_cdev;
->>> +    devres_add(parent, dr);
->>> +
->>> +    return 0;
->>> +}
->>> +EXPORT_SYMBOL_GPL(devm_led_classdev_flash_register_ext);
->>> +
->>> +static int devm_led_classdev_flash_match(struct device *dev,
->>> +                          void *res, void *data)
->>> +{
->>> +    struct fled_cdev **p = res;
->> We don't have struct fled_cdev. This name is used for variables
->> of struct led_clssdev_flash type in drivers.
->>
->> We don't get even compiler warning here because this is cast
->> from void pointer.
->>
->> Funny thing is that you seem to have followed similar flaw in
->> devm_led_classdev_match() where struct led_cdev has been
->> introduced.
->>
->> We need to fix both cases.
-> 
-> OK I will fix the leds-class in a separate patch in case it causes issues.
+A few years ago (2015), Tomi Valkeinen posted a series implementing a
+backlight driver on top of a LED device:
+https://patchwork.kernel.org/patch/7293991/
+https://patchwork.kernel.org/patch/7294001/
+https://patchwork.kernel.org/patch/7293981/
 
-It doesn't cause issues now but is misleading.
+The discussion stopped because Tomi lacked the time to work on it.
+
+changes in v8:
+- use class_find_device_by_of_node() instead of class_find_device()
+- renamed devm_led_get() as devm_of_led_get()
+
+changes in v7:
+- rebased on top of linux-leds/for-next
+- populate the of_node member of the LED device if fwnode is a of_node
+  (this is a new patch and the first of the series).
+- devm_led_get() works only when the device tree is used. Add a few checks
+  for that.  
+
+changes in v6:
+- trim the list of included headers
+- remove useless definition of BKL_FULL_BRIGHTNESS
+
+changes in v5:
+- removed LED brightness scaling
+- disable sysfs the interface of the LEDs when used by the backlight device
+
+changes in v4:
+- fix dev_err() messages and commit logs following the advices of Pavel
+- cosmetic changes (indents, getting rid of  "? 1 : 0" in
+  led_match_led_node())
+
+changes in v3:
+- dt binding: don't limit the brightness range to 0-255. Use the range of
+  the underlying LEDs. as a side-effect, all LEDs must now have the same
+  range
+- driver: Adapt to dt binding update.
+- driver: rework probe() for clarity and remove the remaining goto.
+
+changes in v2:
+- handle more than one LED.
+- don't make the backlight device a child of the LED controller.
+- make brightness-levels and default-brightness-level optional
+- removed the option to use a GPIO enable.
+- removed the option to use a regulator. It should be handled by the LED
+  core
+- don't make any change to the LED core (not needed anymore)
+
+Jean-Jacques Hiblot (3):
+  leds: populate the device's of_node when possible
+  leds: Add managed API to get a LED from a device driver
+  dt-bindings: backlight: Add led-backlight binding
+
+Tomi Valkeinen (2):
+  leds: Add of_led_get() and led_put()
+  backlight: add led-backlight driver
+
+ .../bindings/leds/backlight/led-backlight.txt |  28 ++
+ drivers/leds/led-class.c                      |  98 ++++++-
+ drivers/video/backlight/Kconfig               |   7 +
+ drivers/video/backlight/Makefile              |   1 +
+ drivers/video/backlight/led_bl.c              | 260 ++++++++++++++++++
+ include/linux/leds.h                          |   6 +
+ 6 files changed, 399 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+ create mode 100644 drivers/video/backlight/led_bl.c
 
 -- 
-Best regards,
-Jacek Anaszewski
+2.17.1
+
