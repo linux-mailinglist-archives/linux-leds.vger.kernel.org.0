@@ -2,113 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DCEACC1EC
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2019 19:44:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B27D9CC3F3
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2019 22:09:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387988AbfJDRmm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 4 Oct 2019 13:42:42 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:33848 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387428AbfJDRmm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Oct 2019 13:42:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=SAkQpxESi/jK/m+F0rStFnkhrz33ICzQ+DcDMRtBMOc=; b=okGkzQUW1797du/qbiyU6EyTw
-        kqBvY+MybQMETrMgtajMpbz4dL/mwe/X9jSDkTvVk0+l1N+Z0BcM9MBpoS8fxIe58uQ5iGsTmDPHy
-        +kBUdi0rmHeK/AmZLnqHWshr8L32Qcfu5Hm4ideAmeVG2xuJKILTkT2bJgwei093dPNSE=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iGRb8-0003s3-Gr; Fri, 04 Oct 2019 17:42:34 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 78CA62741EF0; Fri,  4 Oct 2019 18:42:33 +0100 (BST)
-Date:   Fri, 4 Oct 2019 18:42:33 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>
-Cc:     mark.rutland@arm.com, daniel.thompson@linaro.org,
-        Liam Girdwood <lgirdwood@gmail.com>, tomi.valkeinen@ti.com,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        robh+dt@kernel.org, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        pavel@ucw.cz, lee.jones@linaro.org, linux-leds@vger.kernel.org,
-        dmurphy@ti.com
-Subject: Re: Should regulator core support parsing OF based fwnode?
-Message-ID: <20191004174233.GF4866@sirena.co.uk>
-References: <20191003183554.GA37096@sirena.co.uk>
- <25b9614f-d6be-9da5-0fe5-eb58c8c93850@gmail.com>
- <20191003194140.GE6090@sirena.co.uk>
- <a9f668f9-ad26-4e18-178a-8403b8b3b1db@gmail.com>
- <20191004113942.GB4866@sirena.co.uk>
- <b6318ba5-e76e-dc1c-6921-a702abf6749c@ti.com>
- <20191004144029.GC4866@sirena.co.uk>
- <6df68ecb-f92e-fd9c-7f55-f66fa463263a@ti.com>
- <20191004155838.GE4866@sirena.co.uk>
- <95a43632-57d0-2705-a2d3-d64827212692@ti.com>
+        id S1731140AbfJDUJe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 4 Oct 2019 16:09:34 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:5642 "EHLO
+        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730746AbfJDUJd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Oct 2019 16:09:33 -0400
+IronPort-SDR: WtWD0dH1xMN+UplfngyNpN/C38lbkJt3erNRrTzIR8EgOh7dPfdwjjGgodLmIJzd1HQZfj3PrF
+ QrZ67QEkrWIrQzTyX0hn9OzJDg6duu0DO0f8IfhUJ2WUqS9G+kilBvLLpfghZweYZvD33aC7kt
+ lMFAs+faYa9p1odtWoI/YoLcNpVnkyg0rcDuIXTsZmINcmvcvo7tPqMy/GaC+7QmVZN83cp3F6
+ AX++zy7duimka8Q2DpjNiQtX5I5EmBuPay7S030O/t6NqgTY68lhjTNFOytRqWlASYrFsONxkx
+ /vc=
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 04 Oct 2019 13:09:33 -0700
+IronPort-SDR: 9ICUc+DTTiKGzKi7aA/r2a/HESwclO9tdbuGxTkbxe//az0DxpLsnrb3uRQTxUswipVMRy6NbD
+ BT9jvXy4HfA/wNg2q+uCs1NkhkC+bhlnfSx4OsAI8fo6RbkxsDnF7QmjYEFx4Eb51vkf5BEVSf
+ XqF6Aes6rX9ROK2vQhGCdhRpHZsGej7NCdPACGAdumKIWZBO4hU4yrhOGJ7HaeI/3KutLA0R1D
+ MQynlOX0eOur0aPAJwgl1uEnKuEEisnMedjYJ17sv5lvFE81IEkTqYp8OQ1PFOrz3TMTfNqYzA
+ z+YjHig81E4eKzeip5QeTBAB
+Received: from gurus-linux.qualcomm.com ([10.46.162.81])
+  by ironmsg01-sd.qualcomm.com with ESMTP; 04 Oct 2019 13:09:32 -0700
+Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
+        id 808BF46E8; Fri,  4 Oct 2019 13:09:32 -0700 (PDT)
+Date:   Fri, 4 Oct 2019 13:09:32 -0700
+From:   Guru Das Srinagesh <gurus@codeaurora.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Pavel Machek <pavel@denx.de>, linux-leds@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, linux-kernel@vger.kernel.org,
+        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Subject: Re: [PATCH 1/2] leds: Add flag to keep trigger always
+Message-ID: <20191004200932.GA28140@codeaurora.org>
+References: <1565398367-11811-1-git-send-email-gurus@codeaurora.org>
+ <20190810071322.GA13760@amd>
+ <20190930133902.GA2249614@kroah.com>
+ <20190930172239.GA26107@amd>
+ <20190930172743.GA2409822@kroah.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="HCdXmnRlPgeNBad2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <95a43632-57d0-2705-a2d3-d64827212692@ti.com>
-X-Cookie: core error - bus dumped
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190930172743.GA2409822@kroah.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Mon, Sep 30, 2019 at 07:27:43PM +0200, Greg KH wrote:
+> On Mon, Sep 30, 2019 at 07:22:39PM +0200, Pavel Machek wrote:
+> > On Mon 2019-09-30 15:39:02, Greg KH wrote:
+> > > On Sat, Aug 10, 2019 at 09:13:22AM +0200, Pavel Machek wrote:
+> > > > On Fri 2019-08-09 17:52:46, Guru Das Srinagesh wrote:
+> > > > > From: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+> > > > > 
+> > > > > Commit 0013b23d66a2768f5babbb0ea9f03ab067a990d8 ("leds: disable triggers
+> > > > > on brightness set") removes the trigger on an LED class device when
+> > > > > brightness is set to 0. However, there are some LED class devices which
+> > > > > need the trigger not to be removed. In a use case like camera flash,
+> > > > > camera flash driver passes in a trigger device to LED class driver. If
+> > > > > the trigger is removed when the brightness is set to 0, this will affect
+> > > > > the clients using those triggers. Hence add a flag to always keep the
+> > > > > trigger even when brightness is set to 0.
+> > > > 
+> > > > No.
+> > > > 
+> > > > Yes, it would affect those clients. Don't do it, then. It is
+> > > > root-only operation.
+> > > 
+> > > I don't understand.  The original commit broke userspace operations.
+> > > Shouldn't it be reverted, or fixed this way in order to have userspace
+> > > work properly again?
+> > 
+> > So, what it is exactly that is not working? :-). Yes, root can
+> > disconnect LED from v4l2 interface; he can also connect it
+> > back. Documentation says that happens.
+> > 
+> > Yes, root can do stupid things.
+> > 
+> > Commit 0013b23d66a2768f5babbb0ea9f03ab067a990d8 is from 2008. I'd
+> > prefer we did not apply it in 2008, but...
+> 
+> Ah, my fault, I thought this was a new commit.
+> 
+> Guru, what are you doing here that this is required all of a sudden?  No
+> other kernel seems to need these changes, what is different in your
+> Android userspace that requires this patch series?
+> 
+> thanks,
+> 
+> greg k-h
 
---HCdXmnRlPgeNBad2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi Greg,
 
-On Fri, Oct 04, 2019 at 06:12:52PM +0200, Jean-Jacques Hiblot wrote:
-> On 04/10/2019 17:58, Mark Brown wrote:
+Our camera flash driver first requests the available current from the
+flash LED before setting its brightness. It passes a trigger as argument
+to the function that determines the available current. This function
+uses trigger_to_lcdev() to look up the led_classdev associated with that
+trigger as a first step. This lookup will fail if the trigger has been
+dissociated from its led_classdev as a result of a user setting that
+led_classdev's brightness to zero manually through sysfs. 
 
-> > Regulator supplies are supposed to be defined at the chip level rather
-> > than subfunctions with names corresponding to the names on the chip.
+Why would the user set the brightness to zero? The user does this as
+part of camera and LED testing activities which include, amongst other
+things, visual inspection of the operation of various onboard LEDs. The
+user uses sysfs to manually turn on and off the LEDs by setting their
+brightness to max and then to zero in order to verify that they are
+working as expected. 
 
-...
+So what happens if the user, having turned off the flash LED after an
+inspection, wishes to move on to testing the userspace camera app? The
+userspace camera app will not be able to utilize the flash LED for any
+of its functions due to the led_classdev lookup failure. The user has no
+choice but to reboot the device to continue with his testing.
 
-> > good chance that they come up with the same mapping.  The supply_alias
-> > interface is there to allow mapping these through to subfunctions if
-> > needed, it looks like the LED framework should be using this.
-
-> In case of current-sink LED drivers, each LED can be powered by a different
-> regulator, because the driver is only a switch between the LED cathod and
-> the ground.
-
-Sure, it's common for devices to have supplies that are only needed by
-one part of the chip which is why we have the supply_alias interface for
-mapping things through.
-
-> > That said if you are doing the above and the LEDs are appearing as
-> > devices it's extremely surprising that their of_node might not be
-> > initialized.
-
-> That is because this is usually done by the platform core which is not
-> involved here.
-
-The surprise is more that it got instantiated from the DT without
-keeping the node around than how it happened.
-
---HCdXmnRlPgeNBad2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2XhIgACgkQJNaLcl1U
-h9Ax0wf7BtlHwZ3DGTnXuJN85FVOLdmgDfERGDVQS+pR3WFG/BLI42EXa+OfXl6S
-VF7r82YlzCBgY4z9Qm+DXbEkxdRyYzDu+fXp7iT/gEpuN8tS+y/vEAlfz8TVxbmi
-P1cNkSnXcO4kKFGwW6mzVKOWE9Odxw1kFu0srade53RfiIC0xhXGafHXplRiIM+7
-2saUeJgmWDYsOAcSO7IBvnoicuXNOn0+FPV9O+Raj+1vw5BCD6wJGdbCQPI+OYSl
-DfaR1UmYKJkXH5wCjCHsaAkMI3Y/1u04Xoik5Y2cle8e1DdE6w1a/vzIEhLIqup2
-Nzc07kK12LcFNNRdcqE4MiRNMNpS+Q==
-=FQdn
------END PGP SIGNATURE-----
-
---HCdXmnRlPgeNBad2--
+Therefore, to summarize, this patch is being utilized in our downstream
+kernel (for a few years now) to support aforementioned testing
+activities, and so we thought it might be a good idea to upstream this
+patch now.
