@@ -2,70 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0998CC475
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2019 22:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 226A8CC491
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2019 23:08:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726811AbfJDUzZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 4 Oct 2019 16:55:25 -0400
-Received: from mail-wr1-f47.google.com ([209.85.221.47]:38271 "EHLO
-        mail-wr1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbfJDUzY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Oct 2019 16:55:24 -0400
-Received: by mail-wr1-f47.google.com with SMTP id w12so8714990wro.5;
-        Fri, 04 Oct 2019 13:55:22 -0700 (PDT)
+        id S1730040AbfJDVIk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 4 Oct 2019 17:08:40 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:34773 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729727AbfJDVIk (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Oct 2019 17:08:40 -0400
+Received: by mail-wm1-f65.google.com with SMTP id y135so10450892wmc.1;
+        Fri, 04 Oct 2019 14:08:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=LTkMEJBsKkeXqsqeSzZYk6ZI75fZWAdZcjtGy04cHBs=;
-        b=O78VDnnIwogsY8nkCznTnChQeA8YCanhUesI2b/F/wpXGPCjHQT5JsTNCTJWaey/ms
-         5wnShF7bIN1hF9axh1TFE45nPdHuQEaAwX2fuNX/nBk5YMcfrq4qOMBMNS5idzy1Yu4N
-         EVPXE3d2jbUPeu6YLE/QK0j/GggYTqK3JkJYXMazJ66JYN9C0H2cqMjJ3uh41sJkR9Dq
-         r6OFh5EK6xD0FfCZE7Q0xZKIsTB9yTTKCzZpyFIVV3Q9DzodzzkLA0ResHD5Tn0GB23/
-         9Y9pwZMLMbdTVrUK8OAfKuWk5QhpjvDGcZ+3167nl5Kslee5B9u6InIi7Ak4SQFW3ZEE
-         sPlQ==
+        bh=Xs9nGVfRa49MAMd6rPIpbPDjHB0XDn2fdvb5QJBGce0=;
+        b=lMVZ8OAvRcMofEXnTLvnSnAxiPknzHQurjeBGTm2UM/+Rkr527l/SPW8z9FZAw+9wf
+         VUToX+RJyHgE6t+01Vx70WULL7gd6MFOT3u3BWjBFKyd8c51sg/C+dgWfK6G3RZBl24A
+         0H01/sGaWvbPySEAA5Y7IY+YvRXXdOtxk63pJeSQZMF1TsWHbjXVbtScm7ZSMGXPrhO+
+         F1HD3nDDCCLgFyAMkdKhXHdarCMgldOnBCkubE9Lj6ReQ39PQLYrO4rZUBRj6yv6koCZ
+         bdwqn1i2dBL3rTL+UQQPXdaqh3bnfAez/hNxNPznoxPuoAwkf/bXDy5xdHlGJdgu0gFy
+         V/xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=LTkMEJBsKkeXqsqeSzZYk6ZI75fZWAdZcjtGy04cHBs=;
-        b=Oz94hZAeGEzCExo/TUEnPqS+SYjDfHhNdfccDnFnIFTdpf38D01ubNIRuBs+b2qVlq
-         n/sWzBcywHetosuKLzFzr5RmNc0T/3DSxCas+cr4cbO4kQHWN//bU62gqC+x/uXLmDhI
-         8pOBR5QzwhrLZ63ANuA66CGM6QJpAveXFjuu0RPSsZPk7ud+NKhlX8gDdFxtOixHLRNZ
-         BUwTgKvZztxDU3LGQfecRgSZ0jpDRlPcK9eP0wpEPPQPMUdCcN/fuXKeQseTtlyCpChn
-         sP2lHuZyifyk7K+GZFsEMtFFVn8szM2BK000DMgiClEJZMYDJezie5U13gJNc5/BuHUP
-         hkrg==
-X-Gm-Message-State: APjAAAUDSpEl1pVfbOmSpvt3Gv2bKvfTdIKaum3hNvoCz0P09KLEiCMV
-        jkNhZbvUi/hOK6LP5mmSRv8=
-X-Google-Smtp-Source: APXvYqzvXXohn1AzaUdkt3xKosYCb3DRxyPX/+eIs2tix0p4uxjJvNhI1QGUXrvzGs20fXz/q7vCwA==
-X-Received: by 2002:adf:e849:: with SMTP id d9mr13345989wrn.358.1570222521353;
-        Fri, 04 Oct 2019 13:55:21 -0700 (PDT)
+        bh=Xs9nGVfRa49MAMd6rPIpbPDjHB0XDn2fdvb5QJBGce0=;
+        b=l5OvZbVA6Zfdd30Eb7qRx/ofLPgTH0MWurcnDNW/xLaK48e7BHCAJlkLvi6S+m7s6C
+         Qa3JCY95VX+1g8Sgti/2Lpyh2Av8l7uUU++rLyUkaoJvDbK+k9Oda1pzqP7Gb6fMS95L
+         lt73ZFb+e7UTGQbX9bHCs8VKtSuNrx5Tnc4Rak4uDHiqubki2E9yRV5iwL1o7Qn71eEX
+         0OSeQkMGw4eNDHEQI48PeIj/5CIYK4UwmKExSL569mcDPQAFA2ojKv4ZlJ+k3rqzmS6A
+         pGGhsNvP6ZLHyQDl2RRVbPvq+kTtbXlup+FD2tE7gsBzoaDdojUIIg4+hFanxSTEZWv/
+         04wA==
+X-Gm-Message-State: APjAAAURuizH0qpZfNHzda0vwxrI3uWaHUtvS9AXOcdh+1f1INoeEI+8
+        JKdT9sAV+XKkzjTMkQhnW0Q=
+X-Google-Smtp-Source: APXvYqzEUIs7uxCMc+KninQ59Wk+oAf/xzR/85IxSS0vSkzZ0mNAtzcb5bVP2qjiM0c7RIep6t8kAg==
+X-Received: by 2002:a1c:9e0b:: with SMTP id h11mr11772235wme.144.1570223316964;
+        Fri, 04 Oct 2019 14:08:36 -0700 (PDT)
 Received: from [192.168.1.19] (civ244.neoplus.adsl.tpnet.pl. [83.31.45.244])
-        by smtp.gmail.com with ESMTPSA id 36sm10124390wrp.30.2019.10.04.13.55.19
+        by smtp.gmail.com with ESMTPSA id y186sm11717372wmd.26.2019.10.04.14.08.35
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 04 Oct 2019 13:55:20 -0700 (PDT)
-Subject: Re: Should regulator core support parsing OF based fwnode?
-To:     Mark Brown <broonie@kernel.org>,
-        Jean-Jacques Hiblot <jjhiblot@ti.com>
-Cc:     mark.rutland@arm.com, daniel.thompson@linaro.org,
-        Liam Girdwood <lgirdwood@gmail.com>, tomi.valkeinen@ti.com,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        robh+dt@kernel.org, pavel@ucw.cz, lee.jones@linaro.org,
-        linux-leds@vger.kernel.org, dmurphy@ti.com
-References: <20191003183554.GA37096@sirena.co.uk>
- <25b9614f-d6be-9da5-0fe5-eb58c8c93850@gmail.com>
- <20191003194140.GE6090@sirena.co.uk>
- <a9f668f9-ad26-4e18-178a-8403b8b3b1db@gmail.com>
- <20191004113942.GB4866@sirena.co.uk>
- <b6318ba5-e76e-dc1c-6921-a702abf6749c@ti.com>
- <20191004144029.GC4866@sirena.co.uk>
- <6df68ecb-f92e-fd9c-7f55-f66fa463263a@ti.com>
- <20191004155838.GE4866@sirena.co.uk>
- <95a43632-57d0-2705-a2d3-d64827212692@ti.com>
- <20191004174233.GF4866@sirena.co.uk>
+        Fri, 04 Oct 2019 14:08:36 -0700 (PDT)
+Subject: Re: [PATCH v8 1/5] leds: populate the device's of_node when possible
+To:     Jean-Jacques Hiblot <jjhiblot@ti.com>, pavel@ucw.cz,
+        robh+dt@kernel.org, mark.rutland@arm.com, lee.jones@linaro.org,
+        daniel.thompson@linaro.org
+Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        tomi.valkeinen@ti.com
+References: <20191003082812.28491-1-jjhiblot@ti.com>
+ <20191003082812.28491-2-jjhiblot@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -124,72 +113,54 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <1a81148b-7445-6b49-9cef-99c12549f715@gmail.com>
-Date:   Fri, 4 Oct 2019 22:55:17 +0200
+Message-ID: <00cf59d0-cc34-a69b-be61-66647c5c4ec6@gmail.com>
+Date:   Fri, 4 Oct 2019 23:08:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191004174233.GF4866@sirena.co.uk>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20191003082812.28491-2-jjhiblot@ti.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 10/4/19 7:42 PM, Mark Brown wrote:
-> On Fri, Oct 04, 2019 at 06:12:52PM +0200, Jean-Jacques Hiblot wrote:
->> On 04/10/2019 17:58, Mark Brown wrote:
-> 
->>> Regulator supplies are supposed to be defined at the chip level rather
->>> than subfunctions with names corresponding to the names on the chip.
-> 
-> ...
-> 
->>> good chance that they come up with the same mapping.  The supply_alias
->>> interface is there to allow mapping these through to subfunctions if
->>> needed, it looks like the LED framework should be using this.
-> 
->> In case of current-sink LED drivers, each LED can be powered by a different
->> regulator, because the driver is only a switch between the LED cathod and
->> the ground.
-> 
-> Sure, it's common for devices to have supplies that are only needed by
-> one part of the chip which is why we have the supply_alias interface for
-> mapping things through.
-> 
->>> That said if you are doing the above and the LEDs are appearing as
->>> devices it's extremely surprising that their of_node might not be
->>> initialized.
-> 
->> That is because this is usually done by the platform core which is not
->> involved here.
-> 
-> The surprise is more that it got instantiated from the DT without
-> keeping the node around than how it happened.
+Hi Jean,
 
-This is LED class driver that is instantiated from DT and it in
-turn registers LED class devices - one per corresponding DT child
-node found in the parent LED controller node.
+On 10/3/19 10:28 AM, Jean-Jacques Hiblot wrote:
+> If initialization data is available and its fwnode is actually a of_node,
+> store this information in the led device's structure. This will allow the
+> device to use or provide OF-based API such (devm_xxx).
+> 
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> ---
+>  drivers/leds/led-class.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 647b1263c579..c2167b66b61f 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -276,8 +276,11 @@ int led_classdev_register_ext(struct device *parent,
+>  		mutex_unlock(&led_cdev->led_access);
+>  		return PTR_ERR(led_cdev->dev);
+>  	}
+> -	if (init_data && init_data->fwnode)
+> +	if (init_data && init_data->fwnode) {
+>  		led_cdev->dev->fwnode = init_data->fwnode;
+> +		if (is_of_node(init_data->fwnode))
 
-LED class device is created via device_create_with_groups() that
-returns struct device with uninitialized of_node. This is the point
-we're discussing. In order to be able to obtain regulator handle
-in the LED core from DT we need to have exactly of_node
-(of course provided it contains *-supply property).
+This check is made inside to_of_node() macro so here we
+need only below assignment.
 
-Here the question may arise why it is not the LED core that instantiates
-LED class devices per child nodes - well it is tricky to implement
-due to disparate possible LED channel routings across devices.
-We can think of adding it to the TODO list, but this is another story.
-
-This is the background. However, since Jean pointed to the few
-other similar cases when of_node is being initialized in addition
-to fwnode I deem there is no issue and we can do the same in the
-LED core.
-
-No action in regulator core is required then.
+> +			led_cdev->dev->of_node = to_of_node(init_data->fwnode);
+> +	}
+>  
+>  	if (ret)
+>  		dev_warn(parent, "Led %s renamed to %s due to name collision",
+> 
 
 -- 
 Best regards,
