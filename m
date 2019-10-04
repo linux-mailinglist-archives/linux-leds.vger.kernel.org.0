@@ -2,49 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5926CC02A
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2019 18:07:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00E87CC030
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2019 18:07:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390140AbfJDQHc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S2390243AbfJDQHc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Fri, 4 Oct 2019 12:07:32 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:58834 "EHLO
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:58836 "EHLO
         fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389968AbfJDQHb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Oct 2019 12:07:31 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x94G7RnY076403;
-        Fri, 4 Oct 2019 11:07:27 -0500
+        with ESMTP id S2390128AbfJDQHc (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Oct 2019 12:07:32 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x94G7Tje076420;
+        Fri, 4 Oct 2019 11:07:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570205247;
-        bh=EQy/Mm3OOex5bExLsCtlrPlLzadZWkr+8aDvqHfvdSI=;
-        h=From:To:CC:Subject:Date;
-        b=I/JTOs7taQszVTeNMzIs9b/wmhp3+R+jIlFmj7ExwAwvudz7nxBQtcqJjhIgGI/LH
-         +6EvdJRWB3RHu2SS3sLybB4EQw4ecU4hFnRPhPxrFDcH9eErM1T9isz7aGLzLP9QuO
-         8cfAogtspSJBB2m6IsjbkQ/yiWys0eHGePygkPtQ=
-Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x94G7RvC025365
+        s=ti-com-17Q1; t=1570205249;
+        bh=nKBgDExWroacI0cXAYy90RlQTvpdjmGaUe/C+9QHUIk=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=V3gIEhu/3ild1Onc0Zp9MGXdAuIXD1xqfQ1OBU0cOciRPisnaFSE16+bngPnclgfm
+         birUarb7gj7yrdnUeM7FXVYCx1d2X8tmddG8ztyQZD8m0aeISqPGRsEk2u1yBjLFPt
+         kOvi0E/I7jllJ9rVDIxdInz51hwzQPoVv4AYYkAc=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x94G7Ts7030721
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 4 Oct 2019 11:07:27 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+        Fri, 4 Oct 2019 11:07:29 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 4 Oct
- 2019 11:07:26 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ 2019 11:07:27 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 4 Oct 2019 11:07:26 -0500
+ Frontend Transport; Fri, 4 Oct 2019 11:07:27 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x94G7QSN129119;
-        Fri, 4 Oct 2019 11:07:26 -0500
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x94G7R3P056166;
+        Fri, 4 Oct 2019 11:07:28 -0500
 From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
 CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <dmurphy@ti.com>, <tomi.valkeinen@ti.com>,
         Jean-Jacques Hiblot <jjhiblot@ti.com>
-Subject: [PATCH v6 0/2] leds: Add control of the voltage/current regulator to the LED core
-Date:   Fri, 4 Oct 2019 18:07:22 +0200
-Message-ID: <20191004160724.18390-1-jjhiblot@ti.com>
+Subject: [PATCH v6 1/2] dt-bindings: leds: document the "power-supply" property
+Date:   Fri, 4 Oct 2019 18:07:23 +0200
+Message-ID: <20191004160724.18390-2-jjhiblot@ti.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191004160724.18390-1-jjhiblot@ti.com>
+References: <20191004160724.18390-1-jjhiblot@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
@@ -53,56 +55,47 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This series makes it possible for the LED core to manage the power supply
-of a LED. It uses the regulator API to disable/enable the power if when the
-LED is turned on/off.
-This is especially useful in situations where the LED driver/controller is
-not supplying the power.
-Because updating a regulator state can block, it is always a defered job.
+Most of the LEDs are powered by a voltage/current regulator. Describing it
+in the device-tree makes it possible for the LED core to enable/disable it
+when needed.
 
-Note: this series relies on led_cdev->dev->of_node being populated [0]
+Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+---
+ Documentation/devicetree/bindings/leds/common.txt | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-[0] https://lkml.org/lkml/2019/10/3/139
-
-changes in v6:
-- Introduce a new property in DT binding to delay turning OFF the regulator
-  The idea is to keep the regulator ON for some time after the LED is turned
-  off in order to not change the regulator state when the LED is blinking.
-- Use an atomic to track the state of the regulator to ensure consistency.
-- Remove changes in led_set_brightness_sync().
-
-changes in v5:
-- fixed build error in led_set_brightness_sync(). Explain the role of
-  flush__work()
-
-changes in v4:
-- Add a new patch to make led_set_brightness_sync() use
-  led_set_brightness_nosleep() and then wait the work to be done
-- Rework how the core knows how the regulator needs to be updated.
-
-changes in v3:
-- reword device-tree description
-- reword commit log
-- remove regulator updates from functions used in atomic context. If the
-  regulator must be updated, it is defered to a workqueue.
-- Fix led_set_brightness_sync() to work with the non-blocking function
-  __led_set_brightness()
-
-changes in v2:
-- use devm_regulator_get_optional() to avoid using the dummy regulator and
-  do some unnecessary work
-
-Jean-Jacques Hiblot (2):
-  dt-bindings: leds: document the "power-supply" property
-  leds: Add control of the voltage/current regulator to the LED core
-
- .../devicetree/bindings/leds/common.txt       |  14 ++
- drivers/leds/led-class.c                      |  21 +++
- drivers/leds/led-core.c                       | 122 +++++++++++++++++-
- drivers/leds/leds.h                           |  18 +++
- include/linux/leds.h                          |   8 ++
- 5 files changed, 181 insertions(+), 2 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/leds/common.txt b/Documentation/devicetree/bindings/leds/common.txt
+index 9fa6f9795d50..28c0cbb7c6ab 100644
+--- a/Documentation/devicetree/bindings/leds/common.txt
++++ b/Documentation/devicetree/bindings/leds/common.txt
+@@ -77,6 +77,19 @@ Optional properties for child nodes:
+ - panic-indicator : This property specifies that the LED should be used,
+ 		    if at all possible, as a panic indicator.
+ 
++- power-supply : A voltage/current regulator used to to power the LED. When a
++		 LED is turned off, the LED core disable its regulator. The
++		 same regulator can power many LED (or other) devices. It is
++		 turned off only when all of its users disabled it.
++
++- power-off-delays-ms: This property specifies the delay between the time a LED
++                       is turned off and the time the regulator is turned off.
++                       It can be used to limit the overhead of the regulator
++                       handling if the LED is toggling fast.
++                       ex: if power-off-delays-ms is set to 500 ms, the
++                       regulator will not be turned off until the LED is turned
++                       off for more than 500ms.
++
+ - trigger-sources : List of devices which should be used as a source triggering
+ 		    this LED activity. Some LEDs can be related to a specific
+ 		    device and should somehow indicate its state. E.g. USB 2.0
+@@ -124,6 +137,7 @@ led-controller@0 {
+ 		function = LED_FUNCTION_STATUS;
+ 		linux,default-trigger = "heartbeat";
+ 		gpios = <&gpio0 0 GPIO_ACTIVE_HIGH>;
++		power-supply = <&led_regulator>;
+ 	};
+ 
+ 	led1 {
 -- 
 2.17.1
 
