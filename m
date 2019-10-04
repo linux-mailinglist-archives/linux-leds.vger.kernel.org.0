@@ -2,43 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF3BCBD8C
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2019 16:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0AC8CBEBE
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2019 17:13:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388724AbfJDOkh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 4 Oct 2019 10:40:37 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:38324 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388776AbfJDOkh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Oct 2019 10:40:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=sdQIBbOXBwzFgH+w4lhhVo+Zt37yuiiDYZ+TGwQZASg=; b=lxBwAiZXpgjJ6SKZpBNusOjRW
-        YldjtkMC4YgiMNF6azYMG/L8Ymms7j6dGPRgb6/OudyY7UIQzHSHbX7Gjl6DlBlyiXrO2L2agBCxf
-        +hnxCb52rSLdMtVnoG8zORokOx2kE1pYyT/TBMbRrV1GX2yr8ILfEesXrBEnqz/q+kDQI=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iGOkw-0003CN-8p; Fri, 04 Oct 2019 14:40:30 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 56EEB2741EF0; Fri,  4 Oct 2019 15:40:29 +0100 (BST)
-Date:   Fri, 4 Oct 2019 15:40:29 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jean-Jacques Hiblot <jjhiblot@ti.com>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
-        lee.jones@linaro.org, daniel.thompson@linaro.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        tomi.valkeinen@ti.com, dmurphy@ti.com, linux-leds@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>
+        id S2389668AbfJDPNa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 4 Oct 2019 11:13:30 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:55362 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389086AbfJDPN3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Oct 2019 11:13:29 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x94FDH8I117781;
+        Fri, 4 Oct 2019 10:13:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1570201997;
+        bh=aWz10fmIXx+gUjLiGBjJkxuwFaREky92Azp3aqmUDuU=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=jAXv7dVQrIT8YcJvuU675D0UM7cua4NjMs5nlDwC2L8cWQmYZauOR9OvXbPScu4Kx
+         7iT72jT1qpqZ7TO9iemlztLdY+kwsCe/vpTVZcE77u1c+umE8P3p56zdPnVAYE8+kL
+         t0qToAANSv7YI0YFgHAJExcVRDbmj5G0HRae2ru8=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x94FDH0o102033;
+        Fri, 4 Oct 2019 10:13:17 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 4 Oct
+ 2019 10:13:16 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 4 Oct 2019 10:13:16 -0500
+Received: from [10.250.99.146] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x94FDEUv040225;
+        Fri, 4 Oct 2019 10:13:14 -0500
 Subject: Re: Should regulator core support parsing OF based fwnode?
-Message-ID: <20191004144029.GC4866@sirena.co.uk>
+To:     Mark Brown <broonie@kernel.org>
+CC:     <mark.rutland@arm.com>, <daniel.thompson@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, <tomi.valkeinen@ti.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <robh+dt@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
+        <lee.jones@linaro.org>, <linux-leds@vger.kernel.org>,
+        <dmurphy@ti.com>
 References: <20191003082812.28491-3-jjhiblot@ti.com>
  <20191003104228.c5nho6eimwzqwxpt@earth.universe>
  <acd11fe1-1d51-eda5-f807-c16319514c3a@ti.com>
@@ -49,75 +55,92 @@ References: <20191003082812.28491-3-jjhiblot@ti.com>
  <a9f668f9-ad26-4e18-178a-8403b8b3b1db@gmail.com>
  <20191004113942.GB4866@sirena.co.uk>
  <b6318ba5-e76e-dc1c-6921-a702abf6749c@ti.com>
+ <20191004144029.GC4866@sirena.co.uk>
+From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
+Message-ID: <6df68ecb-f92e-fd9c-7f55-f66fa463263a@ti.com>
+Date:   Fri, 4 Oct 2019 17:13:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="V88s5gaDVPzZ0KCq"
-Content-Disposition: inline
-In-Reply-To: <b6318ba5-e76e-dc1c-6921-a702abf6749c@ti.com>
-X-Cookie: core error - bus dumped
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191004144029.GC4866@sirena.co.uk>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---V88s5gaDVPzZ0KCq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 04/10/2019 16:40, Mark Brown wrote:
+> On Fri, Oct 04, 2019 at 03:33:13PM +0200, Jean-Jacques Hiblot wrote:
+>> On 04/10/2019 13:39, Mark Brown wrote:
+>>> Consumers should just be able to request a regulator without having to
+>>> worry about how that's being provided - they should have no knowledge at
+>>> all of firmware bindings or platform data for defining this.  If they
+>>> do that suggests there's an abstraction issue somewhere, what makes you
+>>> think that doing something with of_node is required?
+>> The regulator core accesses consumer->of_node to get a phandle to a
+>> regulator's node. The trouble arises from the fact that the LED core does
+>> not populate of_node anymore, instead it populates fwnode. This allows the
+>> LED core to be agnostic of ACPI or OF to get the properties of a LED.
+> Why is the LED core populating anything?  Is the LED core copying bits
+> out of the struct device for the actual device into a synthetic device
+> rather than passing the actual device in?  That really doesn't seem like
+> a good idea, it's likely to lead to things like this where you don't
+> copy something that's required (or worse where something directly in the
+> struct device that can't be copied is needed).
 
-On Fri, Oct 04, 2019 at 03:33:13PM +0200, Jean-Jacques Hiblot wrote:
-> On 04/10/2019 13:39, Mark Brown wrote:
+This is not a copy of a device of parent's of_node or something like that.
 
-> > Consumers should just be able to request a regulator without having to
-> > worry about how that's being provided - they should have no knowledge at
-> > all of firmware bindings or platform data for defining this.  If they
-> > do that suggests there's an abstraction issue somewhere, what makes you
-> > think that doing something with of_node is required?
+You can think of a LED controller as a bus. It 'enumerates' its children 
+LED, create the children devices (one per LED) and provides the 
+functions to interact with them.
 
-> The regulator core accesses consumer->of_node to get a phandle to a
-> regulator's node. The trouble arises from the fact that the LED core does
-> not populate of_node anymore, instead it populates fwnode. This allows the
-> LED core to be agnostic of ACPI or OF to get the properties of a LED.
+The device node we are talking about here is a per-LED thing, it is a 
+child node of the node of the LED controller.
 
-Why is the LED core populating anything?  Is the LED core copying bits
-out of the struct device for the actual device into a synthetic device
-rather than passing the actual device in?  That really doesn't seem like
-a good idea, it's likely to lead to things like this where you don't
-copy something that's required (or worse where something directly in the
-struct device that can't be copied is needed).
+here is an example:
 
-> IMO it is better to populate both of_node and fwnode in the LED core at the
-> moment. It has already been fixed this way for the platform driver [0], MTD
-> [1] and PCI-OF [2].
+     tlc59108: tlc59116@40 { /* this is the node for the LED controller */
+         status = "okay";
+         #address-cells = <1>;
+         #size-cells = <0>;
+         compatible = "ti,tlc59108";
+         reg = <0x40>;
 
-Yeah, if you're going to be copying stuff out of the real device I'd
-copy the of_node as well.
+         backlight_led: led@2 { /* this is the node of one LED attached 
+to pin#2 of the LED controller */
+             power-supply = <&bkl_fixed>;
+             reg = <0x2>;
+         };
+         other_led: led@3 { /* this is the node another LED attached to 
+pin #3 of the LED controller */
+             power-supply = <&reg_3v3>;
+             reg = <0x3>;
+         };
+     };
 
-> > Further, unless you have LEDs that work without power you probably
-> > shouldn't be using _get_optional() for their supply.  That interface is
-> > intended only for supplies that may be physically absent.
 
-> Not all LEDs have a regulator to provide the power. The power can be
-> supplied by the LED controller for example.
+>
+>> IMO it is better to populate both of_node and fwnode in the LED core at the
+>> moment. It has already been fixed this way for the platform driver [0], MTD
+>> [1] and PCI-OF [2].
+> Yeah, if you're going to be copying stuff out of the real device I'd
+> copy the of_node as well.
+>
+>>> Further, unless you have LEDs that work without power you probably
+>>> shouldn't be using _get_optional() for their supply.  That interface is
+>>> intended only for supplies that may be physically absent.
+>> Not all LEDs have a regulator to provide the power. The power can be
+>> supplied by the LED controller for example.
+> This code probably shouldn't be being run at all for LEDs like that, I
+> was assuming this was just for GPIO LEDs and similar rather than all
+> LEDs.
 
-This code probably shouldn't be being run at all for LEDs like that, I
-was assuming this was just for GPIO LEDs and similar rather than all
-LEDs.
-
---V88s5gaDVPzZ0KCq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2XWdwACgkQJNaLcl1U
-h9A0xwf/U7Fm4ePiL2y1R3tDNXQn6f+Ur82WCmb5QG5/fkiK7tKAiiqjZdb4UiQ3
-UoCAY3wUBeivTw0fCmNqy4kzoR8YY+pOlVu5Tp1j2XMTO/xZTTfnW6oYBJai4evk
-6rUCxFl/STljjjojTz+dph2hqLkBwo1HbPKqwXXHvy54CIalHfRma0AbN4t1qySt
-WftXW83OaF82QqZLtf21nnKfAuve/p8nPEc5wjF06ZFLqv2LLRBEwJWXc2L3O0NC
-FgOKXCWKQwidU2XcgS67Kxtz0vviOhugRZm9boLYk/63sMjOnYmS6+9OzzSgFXCI
-Q+eZGtEugXuSLTew99ZJm9Hw3FTj7Q==
-=SmQ4
------END PGP SIGNATURE-----
-
---V88s5gaDVPzZ0KCq--
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
