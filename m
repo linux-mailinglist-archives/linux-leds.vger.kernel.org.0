@@ -2,48 +2,44 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28EF0CB7FE
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2019 12:12:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FE98CB951
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Oct 2019 13:39:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727513AbfJDKMm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 4 Oct 2019 06:12:42 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:59562 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726927AbfJDKMm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Oct 2019 06:12:42 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x94ACQmo109113;
-        Fri, 4 Oct 2019 05:12:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570183946;
-        bh=c3zkR74xsAFswSP7dMpMX60k0Qrn8EeINoag7SKD4dU=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=BT7Isw0UTPLb/7GgIZs0OD4IsoxdnUVrlcUKN+NUsK272elLQvEoPKIyIrnJHc/4X
-         kyjHClQnj/RQgIJefBB2l49gBxuClpW1Zz+q08f9ibGWXuhiZmFsbkTfyCe5Ic0vqP
-         +VxcuVOJf0Z8aCMxKH0IgjdSP9A8CbnPUozQMSTI=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x94ACQCb116498;
-        Fri, 4 Oct 2019 05:12:26 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 4 Oct
- 2019 05:12:25 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 4 Oct 2019 05:12:25 -0500
-Received: from [10.250.99.146] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x94ACMPE100107;
-        Fri, 4 Oct 2019 05:12:23 -0500
-Subject: Re: Should regulator core support parsing OF based fwnode?
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Mark Brown <broonie@kernel.org>
-CC:     Sebastian Reichel <sebastian.reichel@collabora.com>,
-        <pavel@ucw.cz>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <lee.jones@linaro.org>, <daniel.thompson@linaro.org>,
-        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <tomi.valkeinen@ti.com>, <dmurphy@ti.com>,
-        <linux-leds@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
+        id S1727647AbfJDLju (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 4 Oct 2019 07:39:50 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:44784 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725826AbfJDLju (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Oct 2019 07:39:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=uxkER/QipwAak3j6xLb6XLIxFP8Zl0rvqGk64ybuFnk=; b=XkhiTwr9rNVXDBGU85RAUGh/z
+        V9hc/cYKA7+fP3dgX1OOfE7x1jAzO5iZx+bMl1C205sdm87GEwuLPWSiRd5HQdDbT9L7XT9OvfEIP
+        JxNgmR+utm/pQV7O9LhM4X9+d2+8VhWkj+CT5JurPuBL18Vcpz4S9wUZWTTSbo+wIoIlM=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.co.uk>)
+        id 1iGLvz-0001uM-AQ; Fri, 04 Oct 2019 11:39:43 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id 887BE2741EF0; Fri,  4 Oct 2019 12:39:42 +0100 (BST)
+Date:   Fri, 4 Oct 2019 12:39:42 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
+        lee.jones@linaro.org, daniel.thompson@linaro.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        tomi.valkeinen@ti.com, dmurphy@ti.com, linux-leds@vger.kernel.org,
+        Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: Should regulator core support parsing OF based fwnode? (was: Re:
+ [PATCH v8 2/5] leds: Add of_led_get() and led_put())
+Message-ID: <20191004113942.GB4866@sirena.co.uk>
 References: <20191003082812.28491-1-jjhiblot@ti.com>
  <20191003082812.28491-3-jjhiblot@ti.com>
  <20191003104228.c5nho6eimwzqwxpt@earth.universe>
@@ -53,82 +49,66 @@ References: <20191003082812.28491-1-jjhiblot@ti.com>
  <25b9614f-d6be-9da5-0fe5-eb58c8c93850@gmail.com>
  <20191003194140.GE6090@sirena.co.uk>
  <a9f668f9-ad26-4e18-178a-8403b8b3b1db@gmail.com>
-From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
-Message-ID: <58f32544-89ba-6a72-2491-82307a71df05@ti.com>
-Date:   Fri, 4 Oct 2019 12:12:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="98e8jtXdkpgskNou"
+Content-Disposition: inline
 In-Reply-To: <a9f668f9-ad26-4e18-178a-8403b8b3b1db@gmail.com>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Cookie: core error - bus dumped
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
-On 03/10/2019 22:27, Jacek Anaszewski wrote:
+--98e8jtXdkpgskNou
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Oct 03, 2019 at 10:27:26PM +0200, Jacek Anaszewski wrote:
 > On 10/3/19 9:41 PM, Mark Brown wrote:
->> On Thu, Oct 03, 2019 at 09:21:06PM +0200, Jacek Anaszewski wrote:
->>> On 10/3/19 8:35 PM, Mark Brown wrote:
->>>> On Thu, Oct 03, 2019 at 07:43:17PM +0200, Jacek Anaszewski wrote:
->>>>> On 10/3/19 2:47 PM, Jean-Jacques Hiblot wrote:
->>>>>> On 03/10/2019 12:42, Sebastian Reichel wrote:
->>>>>>> On Thu, Oct 03, 2019 at 10:28:09AM +0200, Jean-Jacques Hiblot wrote:
->>>> This mail has nothing relevant in the subject line and pages of quotes
->>>> before the question for me, it's kind of lucky I noticed it....
->>> Isn't it all about creating proper filters?
->> My point there is that there's nothing obvious in the mail that suggests
->> it should get past filters - just being CCed on a mail isn't super
->> reliable, people often get pulled in due to things like checkpatch or
->> someone copying a CC list from an earlier patch series where there were
->> things were relevant.
-> OK, updated the subject.
->
->>>>> I wonder if it wouldn't make sense to add support for fwnode
->>>>> parsing to regulator core. Or maybe it is either somehow supported
->>>>> or not supported on purpose?
->>>> Anything attempting to use the regulator DT bindings in ACPI has very
->>>> serious problems, ACPI has its own power model which isn't compatible
->>>> with that used in DT.
->>> We have a means for checking if fwnode refers to of_node:
->>> is_of_node(const struct fwnode_handle *fwnode)
->>> Couldn't it be employed for OF case?
->> Why would we want to do that?  We'd continue to support only DT systems,
->> just with code that's less obviously DT only and would need to put
->> checks in.  I'm not seeing an upside here.
+
+> > Why would we want to do that?  We'd continue to support only DT systems,
+> > just with code that's less obviously DT only and would need to put
+> > checks in.  I'm not seeing an upside here.
+
 > For instance few weeks ago we had a patch [0] in the LED core switching
 > from using struct device's of_node property to fwnode for conveying
 > device property data. And this transition to fwnode property API can be
 > observed as a frequent pattern across subsystems.
->
+
+For most subsystems the intent is to reuse DT bindings on embedded ACPI
+systems via _DSD.
+
 > Recently there is an ongoing effort aiming to add generic support for
 > handling regulators in the LED core [1], but it turns out to require
 > bringing back initialization of of_node property for
 > devm_regulator_get_optional() to work properly.
->
-> Support for OF related fwnodes in regulator core could help reducing
-> this noise.
 
-We could have this done in dev_of_node():
+Consumers should just be able to request a regulator without having to
+worry about how that's being provided - they should have no knowledge at
+all of firmware bindings or platform data for defining this.  If they
+do that suggests there's an abstraction issue somewhere, what makes you
+think that doing something with of_node is required?
 
-static inline struct device_node *dev_of_node(struct device *dev)
-{
-     if (!IS_ENABLED(CONFIG_OF) || !dev)
-         return NULL;
-     return dev->of_node ? dev->of_node : to_of_node(dev->fwnode);
-}
+Further, unless you have LEDs that work without power you probably
+shouldn't be using _get_optional() for their supply.  That interface is
+intended only for supplies that may be physically absent.
 
-Then it will only be a matter of using dev_of_node() instead of 
-accessing directly dev->of_node
+--98e8jtXdkpgskNou
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
->
-> [0]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/leds/led-class.c?id=fd81d7e946c6bdb86dbf0bd88fee3e1a545e7979
-> [1]
-> https://lore.kernel.org/linux-leds/20190923102059.17818-4-jjhiblot@ti.com/
->
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl2XL30ACgkQJNaLcl1U
+h9Bl/Af/YOdwSUwNR5lUVgKAFW2pr2ik2c3HTxDJRohY7d7c9SAjDU0BMEXYIPFM
+eC0e7q+wlO+6BS603W/HM+P0a5vIBN6s/THgmPZI9ZqkCf/yfDMcrZvBrkZgihie
+eHb0vUpC9r+PYo2YLAXIB2SPav+9hrMm9sy9PFTbzAD1rzIfoNjrjDgPcrQDZnBD
+82toS6OhmV2ycspOQIk0j4Y97n7FoFnW/YcT43Qu1LqHVYv7mVoS6VcRMlmlUCAh
+g2XNf42osnLjTWk1to+LFx3a3I+u6PkBFXOxvBukXXhx5w2GpZDb8auZiKliGe9U
+XiA9FkkaTcFWIJjx861STbwGn0CRSw==
+=7d+U
+-----END PGP SIGNATURE-----
+
+--98e8jtXdkpgskNou--
