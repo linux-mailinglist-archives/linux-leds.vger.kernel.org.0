@@ -2,82 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E82AACDCC1
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2019 10:02:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C649CCDFCD
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2019 13:02:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727103AbfJGICC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 7 Oct 2019 04:02:02 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43357 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726889AbfJGICC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 7 Oct 2019 04:02:02 -0400
-Received: by mail-ot1-f67.google.com with SMTP id o44so10172711ota.10;
-        Mon, 07 Oct 2019 01:02:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WiJjEh2P/dyMb1MJzsWFaEgMTfnFgUH+HoqfUj6XAKA=;
-        b=eltyb27puKV6cRWxqPkFxhTgfivvdftkv1x+0jwrQXOjmQFwFlAf/+DQCSRTL4bqhG
-         3ejuS7CrKclCons3kSC+F9whC/FoYnmq68huoi6oGwiPF7bkcyMDIdfBHDmrj4pi92et
-         jrh6SxHg8AQUQqsELmZmjSXduu/VVO6Q+asGr7WcXcKIcaT9HW3KBZdPio+Aacm3drmQ
-         GBTugQi0JVOdYhBzWCi0/lc1F9obdHz4FbBBTicNhBC1axhgKvGQXCBp8URklsjD0h4c
-         F2p/2rFVUPM6Ew385+RjHxpAu/lH8BrpiC6hZtPHcLa5bX87476fQZzyT47wYXMKEqfR
-         MrsA==
-X-Gm-Message-State: APjAAAXpx/7WYiJuLMqOxG3PILNKQCePoxdJwDjaYJFcuFwoQHGnA0qz
-        9CP+SBSZiJQN6hD953smcZN3WvXvgQv/ZRBy5Fw=
-X-Google-Smtp-Source: APXvYqyr5gTwqlNjWjpoY+fbY/HbAeUc/RMYmX3o91M1ZyhhDDrBuaEKqKaRa2ZbH9RuuHNx4tCPjpqyo1z+igJCvu0=
-X-Received: by 2002:a9d:6642:: with SMTP id q2mr19938204otm.250.1570435319780;
- Mon, 07 Oct 2019 01:01:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191004214334.149976-1-swboyd@chromium.org> <20191004214334.149976-2-swboyd@chromium.org>
-In-Reply-To: <20191004214334.149976-2-swboyd@chromium.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Oct 2019 10:01:46 +0200
-Message-ID: <CAMuHMdVD0paDmb7RbpgY1XWJahVOspyHspPQL_-gseZb2Yqwyg@mail.gmail.com>
-Subject: Re: [PATCH 01/10] leds: pca953x: Use of_device_get_match_data()
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Riku Voipio <riku.voipio@iki.fi>,
+        id S1727505AbfJGLCo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 7 Oct 2019 07:02:44 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:52920 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727317AbfJGLCn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 7 Oct 2019 07:02:43 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 10BD780552; Mon,  7 Oct 2019 13:02:24 +0200 (CEST)
+Date:   Mon, 7 Oct 2019 13:02:39 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Matthias Kaehlcke <mka@chromium.org>, jacek.anaszewski@gmail.com,
+        linux-leds@vger.kernel.org, dmurphy@ti.com,
+        "David S . Miller" <davem@davemloft.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Mark Rutland <mark.rutland@arm.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v6 4/4] net: phy: realtek: Add LED configuration support
+ for RTL8211E
+Message-ID: <20191007110239.GA21484@amd>
+References: <20190813191147.19936-1-mka@chromium.org>
+ <20190813191147.19936-5-mka@chromium.org>
+ <20190816201342.GB1646@bug>
+ <20190816212728.GW250418@google.com>
+ <20190817140502.GA5878@amd>
+ <20190819003757.GB8981@lunn.ch>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
+Content-Disposition: inline
+In-Reply-To: <20190819003757.GB8981@lunn.ch>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Oct 4, 2019 at 11:43 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> This driver can use the of_device_get_match_data() API to simplify the
-> code. Replace calls to of_match_device() with this newer API under the
-> assumption that where it is called will be when we know the device is
-> backed by a DT node. This nicely avoids referencing the match table when
-> it is undefined with configurations where CONFIG_OF=n.
->
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Riku Voipio <riku.voipio@iki.fi>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Dan Murphy <dmurphy@ti.com>
-> Cc: <linux-leds@vger.kernel.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+--WIyZ46R2i8wDzkSu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Gr{oetje,eeting}s,
+On Mon 2019-08-19 02:37:57, Andrew Lunn wrote:
+> > Yes, I believe the integration is neccessary. Using same binding is
+> > neccessary for that, but not sufficient. For example, we need
+> > compatible trigger names, too.
+>=20
+> Hi Pavel
+>=20
+> Please could you explain what you mean by compatible trigger names?
 
-                        Geert
+Well, you attempted to put trigger names in device tree. That means
+those names should work w.r.t. LED subsystem, too.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> > So... I'd really like to see proper integration is possible before we
+> > merge this.
+>=20
+> Please let me turn that around. What do you see as being impossible at
+> the moment? What do we need to convince you about?
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+That locking requirements are compatible, that triggers you invented
+can be implemented by LED subsystem, ...
+
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--WIyZ46R2i8wDzkSu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl2bG08ACgkQMOfwapXb+vLTsACguaZUSA7o5wiU8LUngEzV9LZ2
+S4QAoIuXQiHHVs6amdFdbIvXRo7LFifl
+=yXXm
+-----END PGP SIGNATURE-----
+
+--WIyZ46R2i8wDzkSu--
