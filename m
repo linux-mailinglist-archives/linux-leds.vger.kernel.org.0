@@ -2,206 +2,137 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B215CE1C6
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2019 14:33:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8A41CE210
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Oct 2019 14:45:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727793AbfJGMd0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 7 Oct 2019 08:33:26 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:36348 "EHLO
+        id S1727838AbfJGMpD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 7 Oct 2019 08:45:03 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:38396 "EHLO
         fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727789AbfJGMd0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 7 Oct 2019 08:33:26 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x97CXKkg026980;
-        Mon, 7 Oct 2019 07:33:20 -0500
+        with ESMTP id S1727801AbfJGMpD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 7 Oct 2019 08:45:03 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x97CitGu030289;
+        Mon, 7 Oct 2019 07:44:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570451600;
-        bh=orB4Mt40ggPITyEUfzhbhBT5Za8iHXundC/FxfCuCrI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=cQshZ2d80zjYiGr0EOEc6kGwHZ8LosOKevfIos/zRbEbGQ385bVnFPU4PIhfEdcYh
-         cemLqKOnraPsFxZJllghES9e9tw/Lo4nMad5lm0xAgRUSZdnclr7qDblgdFM5J3Hg1
-         ngUAta5GmYTrc0iycZimtCSUQw9TQn+V1d/cBLcM=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x97CXKlW075007
+        s=ti-com-17Q1; t=1570452295;
+        bh=UKYNlQrAnqYHdLObzAAphAQPvbt/6HFXaFAp/AGJipk=;
+        h=From:To:CC:Subject:Date;
+        b=swLnqi6AwNfzDlhYP5J9keUG1KcsL4skefAR55w8Pz2OMMn08OqjivTAXjr91v/y3
+         SckiArG3Sf2ECvZ199k9uSOKNvYthRKzsyVh7cm/bdBoUlxvFSv7SUXVZ1+GMvVDu1
+         rjqBP58vKmIjF/EKnavTGlHpU1xuauD6GHYpwLS4=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x97Cit91109873
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 7 Oct 2019 07:33:20 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 7 Oct 2019 07:44:55 -0500
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 7 Oct
- 2019 07:33:17 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ 2019 07:44:54 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 7 Oct 2019 07:33:19 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x97CXJMH114580;
-        Mon, 7 Oct 2019 07:33:19 -0500
-Subject: Re: [PATCH v10 06/16] leds: lp50xx: Add the LP50XX family of the RGB
- LED driver
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20191001145620.11123-1-dmurphy@ti.com>
- <20191001145620.11123-7-dmurphy@ti.com>
- <d674fcb2-922e-7801-a3a1-ee86f571eb64@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <2395f219-ce2f-6809-a082-035f5f1a8a6b@ti.com>
-Date:   Mon, 7 Oct 2019 07:35:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Frontend Transport; Mon, 7 Oct 2019 07:44:52 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x97CirYU093802;
+        Mon, 7 Oct 2019 07:44:54 -0500
+From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
+To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <sre@kernel.org>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <lee.jones@linaro.org>, <daniel.thompson@linaro.org>
+CC:     <dmurphy@ti.com>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <tomi.valkeinen@ti.com>, Jean-Jacques Hiblot <jjhiblot@ti.com>
+Subject: [PATCH v9 0/5] Add a generic driver for LED-based backlight
+Date:   Mon, 7 Oct 2019 14:44:32 +0200
+Message-ID: <20191007124437.20367-1-jjhiblot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <d674fcb2-922e-7801-a3a1-ee86f571eb64@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek
+This series aims to add a led-backlight driver, similar to pwm-backlight,
+but using a LED class device underneath.
 
-On 10/6/19 11:12 AM, Jacek Anaszewski wrote:
-> Dan,
->
-> On 10/1/19 4:56 PM, Dan Murphy wrote:
->> Introduce the LP5036/30/24/18/12/9 RGB LED driver.
->> The difference in these parts are the number of
->> LED outputs where the:
->>
->> LP5036 can control 36 LEDs
->> LP5030 can control 30 LEDs
->> LP5024 can control 24 LEDs
->> LP5018 can control 18 LEDs
->> LP5012 can control 12 LEDs
->> LP5009 can control 9 LEDs
->>
->> The device has the ability to group LED output into control banks
->> so that multiple LED banks can be controlled with the same mixing and
->> brightness.  Inversely the LEDs can also be controlled independently.
->>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->> ---
->>   drivers/leds/Kconfig       |  11 +
->>   drivers/leds/Makefile      |   1 +
->>   drivers/leds/leds-lp50xx.c | 784 +++++++++++++++++++++++++++++++++++++
->>   3 files changed, 796 insertions(+)
->>   create mode 100644 drivers/leds/leds-lp50xx.c
->>
->> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->> index cfb1ebb6517f..84f60e35c5ee 100644
->> --- a/drivers/leds/Kconfig
->> +++ b/drivers/leds/Kconfig
->> @@ -363,6 +363,17 @@ config LEDS_LP3952
->>   	  To compile this driver as a module, choose M here: the
->>   	  module will be called leds-lp3952.
->>   
->> +config LEDS_LP50XX
->> +	tristate "LED Support for TI LP5036/30/24/18/12/9 LED driver chip"
->> +	depends on LEDS_CLASS && REGMAP_I2C
->> +	depends on LEDS_CLASS_MULTI_COLOR
->> +	help
->> +	  If you say yes here you get support for the Texas Instruments
->> +	  LP5036, LP5030, LP5024, LP5018, LP5012 and LP5009 LED driver.
->> +
->> +	  To compile this driver as a module, choose M here: the
->> +	  module will be called leds-lp50xx.
->> +
->>   config LEDS_LP55XX_COMMON
->>   	tristate "Common Driver for TI/National LP5521/5523/55231/5562/8501"
->>   	depends on LEDS_LP5521 || LEDS_LP5523 || LEDS_LP5562 || LEDS_LP8501
->> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
->> index 841038cfe35b..7a208a0f7b84 100644
->> --- a/drivers/leds/Makefile
->> +++ b/drivers/leds/Makefile
->> @@ -34,6 +34,7 @@ obj-$(CONFIG_LEDS_GPIO_REGISTER)	+= leds-gpio-register.o
->>   obj-$(CONFIG_LEDS_GPIO)			+= leds-gpio.o
->>   obj-$(CONFIG_LEDS_LP3944)		+= leds-lp3944.o
->>   obj-$(CONFIG_LEDS_LP3952)		+= leds-lp3952.o
->> +obj-$(CONFIG_LEDS_LP50XX)		+= leds-lp50xx.o
->>   obj-$(CONFIG_LEDS_LP55XX_COMMON)	+= leds-lp55xx-common.o
->>   obj-$(CONFIG_LEDS_LP5521)		+= leds-lp5521.o
->>   obj-$(CONFIG_LEDS_LP5523)		+= leds-lp5523.o
->> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> [...]
->> +static int lp50xx_probe_dt(struct lp50xx *priv)
->> +{
->> +	u32 led_banks[LP5036_MAX_LED_MODULES];
->> +	struct fwnode_handle *child = NULL;
->> +	struct fwnode_handle *led_node = NULL;
->> +	struct led_init_data init_data;
->> +	struct lp50xx_led *led;
->> +	int num_colors;
->> +	u32 color_id;
->> +	int led_number;
->> +	size_t i = 0;
->> +	int ret;
->> +
->> +	priv->enable_gpio = devm_gpiod_get_optional(&priv->client->dev,
->> +						   "enable", GPIOD_OUT_LOW);
->> +	if (IS_ERR(priv->enable_gpio)) {
->> +		ret = PTR_ERR(priv->enable_gpio);
->> +		dev_err(&priv->client->dev, "Failed to get enable gpio: %d\n",
->> +			ret);
->> +		return ret;
->> +	}
->> +
->> +	priv->regulator = devm_regulator_get(&priv->client->dev, "vled");
->> +	if (IS_ERR(priv->regulator))
->> +		priv->regulator = NULL;
->> +
->> +	device_for_each_child_node(&priv->client->dev, child) {
->> +		led = &priv->leds[i];
->> +		if (fwnode_property_present(child, "ti,led-bank")) {
->> +			ret = fwnode_property_read_u32_array(child,
->> +							     "ti,led-bank",
->> +							     NULL, 0);
->> +			ret = fwnode_property_read_u32_array(child,
->> +							     "ti,led-bank",
->> +							     led_banks,
->> +							     ret);
-> You could check if bank numbers are within a range.
+A few years ago (2015), Tomi Valkeinen posted a series implementing a
+backlight driver on top of a LED device:
+https://patchwork.kernel.org/patch/7293991/
+https://patchwork.kernel.org/patch/7294001/
+https://patchwork.kernel.org/patch/7293981/
 
-Ack
+The discussion stopped because Tomi lacked the time to work on it.
 
+changes in v9:
+- let to_of_node() check if the fwnode is actually a of_node
+- add some checks in of_led_get()
+- let dev_of_node() do the check about OF availabilty
+- refactor led_bl_probe() to register a cleanup function with
+  devm_add_action_or_reset(). This simplifies the error handling (which
+  was not 100% done in v7) and allows to get rid of led_bl_remove()
 
->
->> +			if (ret) {
->> +				dev_err(&priv->client->dev,
->> +					"led-bank property is missing\n");
->> +				fwnode_handle_put(child);
->> +				goto child_out;
->> +			}
->> +
->> +			priv->num_of_banked_leds = ARRAY_SIZE(led_banks);
->> +
->> +			ret = lp50xx_set_banks(priv, led_banks);
->> +			if (ret) {
->> +				dev_err(&priv->client->dev,
->> +					"Cannot setup banked LEDs\n");
->> +				fwnode_handle_put(child);
->> +				goto child_out;
->> +			}
->> +			led->ctrl_bank_enabled = 1;
->> +
->> +		} else {
->> +			ret = fwnode_property_read_u32(child, "reg",
->> +					       &led_number);
-> The same applies to the led_number.
+changes in v8:
+- use class_find_device_by_of_node() instead of class_find_device()
+- renamed devm_led_get() as devm_of_led_get()
 
-NACK to this.  This is checked below.  But I should probably move that 
-check up into the else case.
+changes in v7:
+- rebased on top of linux-leds/for-next
+- populate the of_node member of the LED device if fwnode is a of_node
+  (this is a new patch and the first of the series).
+- devm_led_get() works only when the device tree is used. Add a few checks
+  for that.  
 
-Dan
+changes in v6:
+- trim the list of included headers
+- remove useless definition of BKL_FULL_BRIGHTNESS
 
+changes in v5:
+- removed LED brightness scaling
+- disable sysfs the interface of the LEDs when used by the backlight device
 
->
->> +			if (ret) {
->> +				dev_err(&priv->client->dev,
->> +					"led reg property missing\n");
->> +				fwnode_handle_put(child);
->> +				goto child_out;
->> +			}
->> +
->> +			led->led_number = led_number;
->> +		}
+changes in v4:
+- fix dev_err() messages and commit logs following the advices of Pavel
+- cosmetic changes (indents, getting rid of  "? 1 : 0" in
+  led_match_led_node())
+
+changes in v3:
+- dt binding: don't limit the brightness range to 0-255. Use the range of
+  the underlying LEDs. as a side-effect, all LEDs must now have the same
+  range
+- driver: Adapt to dt binding update.
+- driver: rework probe() for clarity and remove the remaining goto.
+
+changes in v2:
+- handle more than one LED.
+- don't make the backlight device a child of the LED controller.
+- make brightness-levels and default-brightness-level optional
+- removed the option to use a GPIO enable.
+- removed the option to use a regulator. It should be handled by the LED
+  core
+- don't make any change to the LED core (not needed anymore)
+
+Jean-Jacques Hiblot (3):
+  leds: populate the device's of_node
+  leds: Add managed API to get a LED from a device driver
+  dt-bindings: backlight: Add led-backlight binding
+
+Tomi Valkeinen (2):
+  leds: Add of_led_get() and led_put()
+  backlight: add led-backlight driver
+
+ .../bindings/leds/backlight/led-backlight.txt |  28 ++
+ drivers/leds/led-class.c                      | 103 ++++++-
+ drivers/video/backlight/Kconfig               |   7 +
+ drivers/video/backlight/Makefile              |   1 +
+ drivers/video/backlight/led_bl.c              | 258 ++++++++++++++++++
+ include/linux/leds.h                          |   6 +
+ 6 files changed, 402 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+ create mode 100644 drivers/video/backlight/led_bl.c
+
+-- 
+2.17.1
+
