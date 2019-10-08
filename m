@@ -2,130 +2,131 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81801D01AB
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Oct 2019 21:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04A38D01D5
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Oct 2019 22:01:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730781AbfJHTzW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Oct 2019 15:55:22 -0400
-Received: from mail-ed1-f53.google.com ([209.85.208.53]:42851 "EHLO
-        mail-ed1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730737AbfJHTzV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Oct 2019 15:55:21 -0400
-Received: by mail-ed1-f53.google.com with SMTP id y91so16802761ede.9
-        for <linux-leds@vger.kernel.org>; Tue, 08 Oct 2019 12:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
-        b=aMQQgi7dIXVBnmVMSSMCLgb3oXTzeafbZdgWl2Y7dgh9d3yilS1+9yTnvWoS7+GzUk
-         LWbTYKnbDzuBJ3/U6U4a0Txwis4unkVKDohWYyBjnKYrTLghN7laSYeGp1/FcmznDyEO
-         GS9pgiMN+uT0qCjbihaa5wuvtHOM98vqOW8UVjJ7Cv+EprgLSNS8LJdhrjnJyNqQEN56
-         5sfOyU15h4kpoOXNgzNljIz5N8IZnpl4XHLYJYLCwvTOpHMRDfM3ywlgrk+4Qs+isMtv
-         bwWMXB9P8rpPXCaQx70qpw2S2sG0Q07XznOIe3PPQ9uFVdh7+iWMtRM+rtyrWFblwrYM
-         wXZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
-        b=t9g/rJUd4tylf5MLfBZ/COnTym7IJIiVn5YyN9EtZg4nzuYMEHnipFhNmbUUPL0nEI
-         nzt/5do6s9xlZhTdsh1RpOREC/rwGw4efSBeoMnaFX84FiSBasG0ioyuzj3lA4vtP8LS
-         RZA7bqHEcd7gykZ9fJddMF09BK51hUsaLvP7fvSjg1X622iu5tvV9a07xul3pYlesnrT
-         WJddDAf41v+l8bE75EMDLZnptGMnYbZDtB33I3sTDwpls8YMjnToB5ruvJt8ipGBFZia
-         nM5FsXfQe0PVW+p6D3nltB/dIBZLWBCRZvUqkLGfFciYu00f8pNFObIsTgB6nLL+Iu9U
-         uO4w==
-X-Gm-Message-State: APjAAAW/Hy0lJAa8rGlcfFYjm3THW3NpvUUecLy2J3OwKB66btlYgt1y
-        AtAR286HM3W/xLN5RxFIdq7X2mRG5BJwF6t/F7M=
-X-Google-Smtp-Source: APXvYqxaZfvXk0/G1PfPN40JEbEfue6b7v2Lk/SQWmnUxoxmnZyxXwpPNC4UPIh9mJw4kQ9atMHeHG1Orcb22TWXOSk=
-X-Received: by 2002:a50:c306:: with SMTP id a6mr36339639edb.108.1570564517490;
- Tue, 08 Oct 2019 12:55:17 -0700 (PDT)
+        id S1729794AbfJHUBN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 8 Oct 2019 16:01:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44394 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729436AbfJHUBN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 8 Oct 2019 16:01:13 -0400
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9D87221920;
+        Tue,  8 Oct 2019 20:01:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570564871;
+        bh=MXnhJLTL8ti42i5VuVCIvvysD431dNS8jvytu6e8Lf8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=r3wGpJ5xQJauzB5omWs2piL66oogJbi9dKwnsf6P7dpJBpkjbxME+CL3Sby1isMxo
+         BpBwx+ii+CFuyMGzq10Oep53fWC7hjLld4CN0YwhP6JdH7Z7Jc1ory6inLSqnG+mDA
+         0ONxGaQ7yr848NPhVlPjE4y7Mc9JXtwdoXuYbDy0=
+Received: by mail-qk1-f171.google.com with SMTP id 4so23423qki.6;
+        Tue, 08 Oct 2019 13:01:11 -0700 (PDT)
+X-Gm-Message-State: APjAAAXP9Juwyxs9BQw9a7NgCEupwd72SxEb9goA0mh+Ftu6AoBV2G6x
+        yCJBJUeveTTiuaoWogoQwhxbhXEJ1iNvTJQHKA==
+X-Google-Smtp-Source: APXvYqzM48d5zR+zkCtLlKtkyUNzyrezT7QeMT9990hbYZvI1831lnXsT0GtMlUy9GSCqRc67XwIzIu3jH6XXuZmdCE=
+X-Received: by 2002:a05:620a:12d5:: with SMTP id e21mr31267756qkl.152.1570564870662;
+ Tue, 08 Oct 2019 13:01:10 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a17:906:cc89:0:0:0:0 with HTTP; Tue, 8 Oct 2019 12:55:16
- -0700 (PDT)
-Reply-To: moneygram.1820@outlook.fr
-From:   MONEY GRAM <currency1000000@gmail.com>
-Date:   Tue, 8 Oct 2019 20:55:16 +0100
-Message-ID: <CAPqfnSEO==O6BEtBbcMMZfh3qcY4Bz0qndhCqbcLqZx4DCs44A@mail.gmail.com>
-Subject: HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE M.T.C.N:78393135
-To:     undisclosed-recipients:;
+References: <20191007124437.20367-1-jjhiblot@ti.com> <20191007124437.20367-5-jjhiblot@ti.com>
+ <CAL_JsqLTqnKpU4PB8Zt9SSPSia5mkFcUgoA8ZyX_1E_HfdFyxg@mail.gmail.com>
+ <30fcd898-aa50-bac2-b316-0d9bf2429369@ti.com> <bc5e4094-2b58-c917-9b9e-0f646c04dd78@ti.com>
+ <CAL_JsqL8b0gWPTt3oJ8ScY_AwP+uB__dZP6Eednfa5Fq9vAptw@mail.gmail.com> <edadb121-cebd-b8ea-e07d-f5495a581dfd@gmail.com>
+In-Reply-To: <edadb121-cebd-b8ea-e07d-f5495a581dfd@gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 8 Oct 2019 15:00:58 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJLp65f6g2OG5uJPrcZ2uuc5cgREaiQ-AXeBp6reqvbkw@mail.gmail.com>
+Message-ID: <CAL_JsqJLp65f6g2OG5uJPrcZ2uuc5cgREaiQ-AXeBp6reqvbkw@mail.gmail.com>
+Subject: Re: [PATCH v9 4/5] dt-bindings: backlight: Add led-backlight binding
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>, Pavel Machek <pavel@ucw.cz>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE
-M.T.C.N:78393135
+On Tue, Oct 8, 2019 at 12:17 PM Jacek Anaszewski
+<jacek.anaszewski@gmail.com> wrote:
+>
+> On 10/8/19 5:00 PM, Rob Herring wrote:
+> > On Tue, Oct 8, 2019 at 8:30 AM Jean-Jacques Hiblot <jjhiblot@ti.com> wrote:
+> >>
+> >> Rob,
+> >>
+> >> On 08/10/2019 14:51, Jean-Jacques Hiblot wrote:
+> >>> Hi Rob,
+> >>>
+> >>> On 07/10/2019 18:15, Rob Herring wrote:
+> >>>> Please send DT bindings to DT list or it's never in my queue. IOW,
+> >>>> send patches to the lists that get_maintainers.pl tells you to.
+> >>>>
+> >>>> On Mon, Oct 7, 2019 at 7:45 AM Jean-Jacques Hiblot <jjhiblot@ti.com>
+> >>>> wrote:
+> >>>>> Add DT binding for led-backlight.
+> >>>>>
+> >>>>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> >>>>> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> >>>>> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> >>>>> ---
+> >>>>>   .../bindings/leds/backlight/led-backlight.txt | 28
+> >>>>> +++++++++++++++++++
+> >>>>>   1 file changed, 28 insertions(+)
+> >>>>>   create mode 100644
+> >>>>> Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+> >>>> Please make this a DT schema.
+> >>>
+> >>> OK.
+> >>>
+> >>> BTW I used "make dt_binding_check" but had to fix a couple of YAMLs
+> >>> file to get it to work. Do you have a kernel tree with already all the
+> >>> YAML files in good shape ? Or do you want me to post the changes to
+> >>> devicetree@vger.kernel.org ?
+> >>>
+> >>>
+> >>>>
+> >>>>> diff --git
+> >>>>> a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+> >>>>> b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+> >>>>> new file mode 100644
+> >>>>> index 000000000000..4c7dfbe7f67a
+> >>>>> --- /dev/null
+> >>>>> +++
+> >>>>> b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+> >>>>> @@ -0,0 +1,28 @@
+> >>>>> +led-backlight bindings
+> >>>>> +
+> >>>>> +This binding is used to describe a basic backlight device made of
+> >>>>> LEDs.
+> >>>>> +It can also be used to describe a backlight device controlled by
+> >>>>> the output of
+> >>>>> +a LED driver.
+> >>>>> +
+> >>>>> +Required properties:
+> >>>>> +  - compatible: "led-backlight"
+> >>>>> +  - leds: a list of LEDs
+> >>>> 'leds' is already used as a node name and mixing is not ideal.
+>
+> for the record: child node names (if that was what you had on mind)
+> have singular form 'led'.
 
-Attn: Beneficiary,
+I did actually grep this and not rely on my somewhat faulty memory:
 
-This is to inform you that the America Embassy office was instructed
-to transfer your fund $980,000.00 U.S Dollars compensating all the
-SCAM VICTIMS and your email was found as one of the VICTIMS. by
-America security leading team and America representative officers so
-between today the 8th of October till 1ST Of December 2019 you will
-be receiving MONEY GRAM the sum of $6,000 dollars per day. However be informed
-that we have already sent the $6,000 dollars this morning to avoid
-cancellation of your payment, remain the total sum of $980,000.00.
+$ git grep '\sleds {' | wc -l
+463
 
-You have only six hours to call this office upon the receipt of this
-email the maximum amount you will be receiving per a day starting from
-today's $6,000 and the Money Transfer Control Number of today is
-below.
+These are mostly gpio-leds I think.
 
-NOTE; The sent $6,000 is on hold because of the instruction from IMF
-office, they asked us to place it on hold by requesting the (Clean
-Bill Record Certificate) which will cost you $25 in order to fulfill
-all the necessary obligation to avoid any hitches while sending you
-the payment through MONEY GRAM money transfer, the necessary
-obligation I mean here is to obtain the (Clean Bill Record
-Certificate)
-
-Below is the information of today track it in our
-
-websitehttps://moneygarm.com/asp/orderStatus.asp?country=global
-to see is available to pick up by the receiver, but if we didn't here
-from you soon we'll pickup it up from line for security reason to
-avoid hackers stealing the money online.
-
-Money Transfer Control Number M.T.C.N)::78393135
-SENDERS FIRST NAME: John
-SENDERS LAST NAME: Chun
-SENDERS COUNTRY...BENIN REPUBLIC
-TEXT QUESTION: A
-ANSWER: B
-AMOUNT: $6,000
-
-We need the below details from you, to enable us place the payment to
-your name and transfer the fund to you.
-
-(Full Receivers name)...................
-(You're Country)................................
-(Address)......................................
-(Phone NuMBER-...............................
-(You're Age)............................
-(OCCUPATION)..REAL ESTATE..................
-(A Copy of Your ID CARD).SEE ATTACHMENTS.............
-
-HOWEVER YOU HAVE TO PAY $25 FOR THE (Clean Bill Record Certificate)
-AND THAT IS ALL YOU HAVE TO DO ASAP.
-
-The payment will be sending to below information, such as:
-
-Receiver.............. ALAN UDE
-Country................Benin Republic
-Amount: ....................$25
-Question: .....................A
-Answer:................... B
-Sender...............Name:
-MTCN :..............
-
-According to the instruction and order we received from IMF the their
-requested $25 must be made directly to the above info's.
-
-Furthermore you are advised to call us as the instruction was passed
-that within 6hours without hearing from you, Count your payment
-canceled. Number to call is below listed manager director office of
-release order:
-DR.ALAN UDE
-Director MONEY GRAM-Benin
+Rob
