@@ -2,112 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AFC9CF42B
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Oct 2019 09:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94949CFA69
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Oct 2019 14:52:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730222AbfJHHre (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Oct 2019 03:47:34 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:60429 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730209AbfJHHre (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Oct 2019 03:47:34 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 0165380477; Tue,  8 Oct 2019 09:47:16 +0200 (CEST)
-Date:   Tue, 8 Oct 2019 09:47:31 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Guru Das Srinagesh <gurus@codeaurora.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-leds@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-kernel@vger.kernel.org,
-        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Subject: Re: [PATCH 1/2] leds: Add flag to keep trigger always
-Message-ID: <20191008074731.GB633@amd>
-References: <1565398367-11811-1-git-send-email-gurus@codeaurora.org>
- <20190810071322.GA13760@amd>
- <20190930133902.GA2249614@kroah.com>
- <20190930172239.GA26107@amd>
- <20190930172743.GA2409822@kroah.com>
- <20191004200932.GA28140@codeaurora.org>
+        id S1730541AbfJHMwF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 8 Oct 2019 08:52:05 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:35330 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730249AbfJHMwE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Oct 2019 08:52:04 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x98CpsTx127468;
+        Tue, 8 Oct 2019 07:51:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1570539114;
+        bh=Dokst5718CmAxTwYuW21IP+idbHKHbrxtnp594hXaJM=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=C3xkjpdKNFvvVV5BeRFI8KcgEAItARKGaiuyV4mEnboJjXpRgN69MGEXr6CgzjrXC
+         JYKg5yB8mooAGhQKTnUhJtAx3YVXflHlPeweDoOVAW3BiNe2bst+tquOegdWIyiPnt
+         9oBIqblHQLu0wS2LUufgyFsR1TGGWEPxLrGFitZ0=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x98Cps5I098014;
+        Tue, 8 Oct 2019 07:51:54 -0500
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 8 Oct
+ 2019 07:51:51 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 8 Oct 2019 07:51:54 -0500
+Received: from [10.250.99.146] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x98CppEv035995;
+        Tue, 8 Oct 2019 07:51:52 -0500
+Subject: Re: [PATCH v9 4/5] dt-bindings: backlight: Add led-backlight binding
+To:     Rob Herring <robh+dt@kernel.org>
+CC:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+References: <20191007124437.20367-1-jjhiblot@ti.com>
+ <20191007124437.20367-5-jjhiblot@ti.com>
+ <CAL_JsqLTqnKpU4PB8Zt9SSPSia5mkFcUgoA8ZyX_1E_HfdFyxg@mail.gmail.com>
+From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
+Message-ID: <30fcd898-aa50-bac2-b316-0d9bf2429369@ti.com>
+Date:   Tue, 8 Oct 2019 14:51:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="jho1yZJdad60DJr+"
-Content-Disposition: inline
-In-Reply-To: <20191004200932.GA28140@codeaurora.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <CAL_JsqLTqnKpU4PB8Zt9SSPSia5mkFcUgoA8ZyX_1E_HfdFyxg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Rob,
 
---jho1yZJdad60DJr+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 07/10/2019 18:15, Rob Herring wrote:
+> Please send DT bindings to DT list or it's never in my queue. IOW,
+> send patches to the lists that get_maintainers.pl tells you to.
+>
+> On Mon, Oct 7, 2019 at 7:45 AM Jean-Jacques Hiblot <jjhiblot@ti.com> wrote:
+>> Add DT binding for led-backlight.
+>>
+>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+>> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+>> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+>> ---
+>>   .../bindings/leds/backlight/led-backlight.txt | 28 +++++++++++++++++++
+>>   1 file changed, 28 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+> Please make this a DT schema.
 
-Hi!
+OK.
 
-> > > > I don't understand.  The original commit broke userspace operations.
-> > > > Shouldn't it be reverted, or fixed this way in order to have usersp=
-ace
-> > > > work properly again?
-> > >=20
-> > > So, what it is exactly that is not working? :-). Yes, root can
-> > > disconnect LED from v4l2 interface; he can also connect it
-> > > back. Documentation says that happens.
-> > >=20
-> > > Yes, root can do stupid things.
-> > >=20
-> > > Commit 0013b23d66a2768f5babbb0ea9f03ab067a990d8 is from 2008. I'd
-> > > prefer we did not apply it in 2008, but...
-> >=20
-> > Ah, my fault, I thought this was a new commit.
-> >=20
-> > Guru, what are you doing here that this is required all of a sudden?  No
-> > other kernel seems to need these changes, what is different in your
-> > Android userspace that requires this patch series?
-> >=20
-> > thanks,
-> >=20
-> > greg k-h
->=20
-> Hi Greg,
->=20
-> Our camera flash driver first requests the available current from the
-> flash LED before setting its brightness. It passes a trigger as argument
-> to the function that determines the available current. This function
-> uses trigger_to_lcdev() to look up the led_classdev associated with that
-> trigger as a first step. This lookup will fail if the trigger has been
-> dissociated from its led_classdev as a result of a user setting that
-> led_classdev's brightness to zero manually through sysfs.=20
->=20
-> Why would the user set the brightness to zero? The user does this as
-> part of camera and LED testing activities which include, amongst other
-> things, visual inspection of the operation of various onboard LEDs. The
-> user uses sysfs to manually turn on and off the LEDs by setting their
-> brightness to max and then to zero in order to verify that they are
-> working as expected.
+BTW I used "make dt_binding_check" but had to fix a couple of YAMLs file 
+to get it to work. Do you have a kernel tree with already all the YAML 
+files in good shape ? Or do you want me to post the changes to 
+devicetree@vger.kernel.org ?
 
-Yes, so you should really set trigger to none before changing
-brightness manually and restore it back to whatever it was when you
-are done with manual testing.
 
-Thanks,
-								Pavel
---=20
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+>
+>> diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+>> new file mode 100644
+>> index 000000000000..4c7dfbe7f67a
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+>> @@ -0,0 +1,28 @@
+>> +led-backlight bindings
+>> +
+>> +This binding is used to describe a basic backlight device made of LEDs.
+>> +It can also be used to describe a backlight device controlled by the output of
+>> +a LED driver.
+>> +
+>> +Required properties:
+>> +  - compatible: "led-backlight"
+>> +  - leds: a list of LEDs
+> 'leds' is already used as a node name and mixing is not ideal.
+>
+> We already have 'flash-leds' in use and with the same definition, so
+> lets continue that and use 'backlight-leds'.
+OK
+>
+>> +
+>> +Optional properties:
+>> +  - brightness-levels: Array of distinct brightness levels. The levels must be
+>> +                       in the range accepted by the underlying LED devices.
+>> +                       This is used to translate a backlight brightness level
+>> +                       into a LED brightness level. If it is not provided, the
+>> +                       identity mapping is used.
+>> +
+>> +  - default-brightness-level: The default brightness level.
+> You can just assume these 2 get a common schema at some point. So just
+> need to define any additional constraints if possible.
 
---jho1yZJdad60DJr+
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Maybe we should keep them until such a common schema is written ?
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+JJ
 
-iEYEARECAAYFAl2cPxMACgkQMOfwapXb+vK+0wCfbggq9YJMl4GKAkrHg3LbJdu+
-1ggAoJ2ZqAt2XqJvPsCjsdv/ac8rlt0v
-=gqzV
------END PGP SIGNATURE-----
-
---jho1yZJdad60DJr+--
+>
+> Rob
