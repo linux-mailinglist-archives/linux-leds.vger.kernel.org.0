@@ -2,218 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61235D1793
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2019 20:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04980D18E7
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2019 21:27:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730955AbfJISbq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Oct 2019 14:31:46 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46785 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728804AbfJISbq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Oct 2019 14:31:46 -0400
-Received: by mail-wr1-f66.google.com with SMTP id o18so4179707wrv.13;
-        Wed, 09 Oct 2019 11:31:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oWkC+BZoP7VUQ2ztR/WpAMsp2lmAnOuXDnBIIvOWkGA=;
-        b=fBXibqojDDDkc/wCUNSb61Yv2drYaMkqP3mLDqbt3jY14GYujTmNyVtSeArNy3SKY5
-         O6Cnf3Kc/T8PlTbMRdFdYqn9xJIa/9P21Z+DdyXFEyos8HYToaXTY9MU5rH7lFi4zuUb
-         WDG4cGlaTup0y2JDh40tvzq63bOy5SfoqiHPuR7W4/2m4rMREjvXl+Ug+oLNKoo/3rU2
-         cKt+zez5VJTiapdvMxSsRjFgS/z21dZGiaQcL9j8Y5Ly1oJU2goc547ZpAJXsQwFi2E1
-         P9HMaFUGt0kOXL+jc1Ugo9cKSYi6DKKVEFMSNqpJ4ZA72+LNnuSTvFRWtWWLSoqQaQq8
-         0pnA==
+        id S1731762AbfJIT0b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Oct 2019 15:26:31 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:41960 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731254AbfJIT0b (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Oct 2019 15:26:31 -0400
+Received: by mail-oi1-f196.google.com with SMTP id w65so2760752oiw.8;
+        Wed, 09 Oct 2019 12:26:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=oWkC+BZoP7VUQ2ztR/WpAMsp2lmAnOuXDnBIIvOWkGA=;
-        b=p6t15eMkEoF3h3ubVnuIdxXibcIGFFUPJtRIViosM+VC/5uTegdb08X1AIdvCItH0n
-         HuzZrJIR8ETVgS2a8AS+qZvGfLGIk1jk/C2VLphcTJdyTdl3ZKv0koC8MnC+1q47IuT4
-         ad61kv+6vKu159evtpTJbS2IBe72kNcbIEZAMomj/SSTz8ZVHNUw311Yoicz72FNIOSt
-         uBpTuZ6Yw6YwAGZiWY879Px6H0TKVRW5oB4w7DEqJN48OZdhnYPw9gXWSfyiQLaGUt0t
-         1jJ89ho9oodZYm4MUE9uJQuH/WYWc0kYOfpVZuCkq9FdlR2EhDpOgBGGFm4hsuLaSqci
-         C7qA==
-X-Gm-Message-State: APjAAAW4H0KH/hTQyLi18w64KG3KoMgvy6x2BML+xp1aiEF4aYjL3m8x
-        IjTufIBunYMwDI3Hbj5Huvs=
-X-Google-Smtp-Source: APXvYqyM2etDyWUPu7v7d+CD4W0SPXOldpjlksplBTMaO9G/jxiazmJNGIb74AbxqheyQL0cI2KRgw==
-X-Received: by 2002:a5d:5270:: with SMTP id l16mr4118079wrc.201.1570645903148;
-        Wed, 09 Oct 2019 11:31:43 -0700 (PDT)
-Received: from [192.168.1.19] (cjk130.neoplus.adsl.tpnet.pl. [83.31.60.130])
-        by smtp.gmail.com with ESMTPSA id y14sm4359437wrd.84.2019.10.09.11.31.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 09 Oct 2019 11:31:42 -0700 (PDT)
-Subject: Re: [PATCH v9 4/5] dt-bindings: backlight: Add led-backlight binding
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>, Pavel Machek <pavel@ucw.cz>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-References: <20191007124437.20367-1-jjhiblot@ti.com>
- <20191007124437.20367-5-jjhiblot@ti.com>
- <CAL_JsqLTqnKpU4PB8Zt9SSPSia5mkFcUgoA8ZyX_1E_HfdFyxg@mail.gmail.com>
- <30fcd898-aa50-bac2-b316-0d9bf2429369@ti.com>
- <bc5e4094-2b58-c917-9b9e-0f646c04dd78@ti.com>
- <CAL_JsqL8b0gWPTt3oJ8ScY_AwP+uB__dZP6Eednfa5Fq9vAptw@mail.gmail.com>
- <edadb121-cebd-b8ea-e07d-f5495a581dfd@gmail.com>
- <CAL_JsqJLp65f6g2OG5uJPrcZ2uuc5cgREaiQ-AXeBp6reqvbkw@mail.gmail.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <a0b161a3-afc7-a00f-2a22-79ebe360f2ad@gmail.com>
-Date:   Wed, 9 Oct 2019 20:31:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=E+1Cf+QVyq8bhGJdgpmwKD8ewKz92Myu7dCI2HheZcs=;
+        b=OEvacDBD1nNTxzNXydm1Fi/JV52WJKzGU5Lk2an5FP4A6V65B/rQDrrQfU1QGRCQ0S
+         Zrs0Jgbh0qEaujYFk8He/cvzhz3gg7tG4KgA8UcNbYihwcIz5jbD8yHf5bQPPpyEz/2I
+         sZhdpflWkZGUBiCBkGjpHXoc8O3Ev9CghEAWVKhJ9uIIle7Zy1j5Hv1yo9WWdL6jUF8V
+         6qoEGX8nNPZt7j1wkFD+5TW6D0qVBlqeTDKABi1msx1C7VrPVhpsKsmm+PTJ41/hX0FW
+         ioIZIj8++W3GX9EVE3RKWmPmC9WNF4/m2BBdcPD9gH50uCiY/bYDOZDC67/CProCkQQr
+         Ij7Q==
+X-Gm-Message-State: APjAAAU740lGtAvsv8SOXnNeze78ee3GyLWQmXR8a4sDx0w1GpiMmprC
+        urK6ESwFkhW/hcktHE1blg==
+X-Google-Smtp-Source: APXvYqxhf2oe+tg+UPt4mEDyJD79ww7yyIO3EkWvJYkdvSRE+pnt3LOVSbpBMfctWccSlLhsJ7SMZQ==
+X-Received: by 2002:aca:d402:: with SMTP id l2mr4027557oig.127.1570649190033;
+        Wed, 09 Oct 2019 12:26:30 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id 11sm991096otg.62.2019.10.09.12.26.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2019 12:26:29 -0700 (PDT)
+Date:   Wed, 9 Oct 2019 14:26:28 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Jean-Jacques Hiblot <jjhiblot@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz, sre@kernel.org,
+        mark.rutland@arm.com, lee.jones@linaro.org,
+        daniel.thompson@linaro.org, dmurphy@ti.com,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, tomi.valkeinen@ti.com,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v10 4/6] dts-bindings: leds: Document the naming
+ requirement for LED properties
+Message-ID: <20191009192628.GA24087@bogus>
+References: <20191009085127.22843-1-jjhiblot@ti.com>
+ <20191009085127.22843-5-jjhiblot@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqJLp65f6g2OG5uJPrcZ2uuc5cgREaiQ-AXeBp6reqvbkw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191009085127.22843-5-jjhiblot@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 10/8/19 10:00 PM, Rob Herring wrote:
-> On Tue, Oct 8, 2019 at 12:17 PM Jacek Anaszewski
-> <jacek.anaszewski@gmail.com> wrote:
->>
->> On 10/8/19 5:00 PM, Rob Herring wrote:
->>> On Tue, Oct 8, 2019 at 8:30 AM Jean-Jacques Hiblot <jjhiblot@ti.com> wrote:
->>>>
->>>> Rob,
->>>>
->>>> On 08/10/2019 14:51, Jean-Jacques Hiblot wrote:
->>>>> Hi Rob,
->>>>>
->>>>> On 07/10/2019 18:15, Rob Herring wrote:
->>>>>> Please send DT bindings to DT list or it's never in my queue. IOW,
->>>>>> send patches to the lists that get_maintainers.pl tells you to.
->>>>>>
->>>>>> On Mon, Oct 7, 2019 at 7:45 AM Jean-Jacques Hiblot <jjhiblot@ti.com>
->>>>>> wrote:
->>>>>>> Add DT binding for led-backlight.
->>>>>>>
->>>>>>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
->>>>>>> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
->>>>>>> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
->>>>>>> ---
->>>>>>>   .../bindings/leds/backlight/led-backlight.txt | 28
->>>>>>> +++++++++++++++++++
->>>>>>>   1 file changed, 28 insertions(+)
->>>>>>>   create mode 100644
->>>>>>> Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
->>>>>> Please make this a DT schema.
->>>>>
->>>>> OK.
->>>>>
->>>>> BTW I used "make dt_binding_check" but had to fix a couple of YAMLs
->>>>> file to get it to work. Do you have a kernel tree with already all the
->>>>> YAML files in good shape ? Or do you want me to post the changes to
->>>>> devicetree@vger.kernel.org ?
->>>>>
->>>>>
->>>>>>
->>>>>>> diff --git
->>>>>>> a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
->>>>>>> b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
->>>>>>> new file mode 100644
->>>>>>> index 000000000000..4c7dfbe7f67a
->>>>>>> --- /dev/null
->>>>>>> +++
->>>>>>> b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
->>>>>>> @@ -0,0 +1,28 @@
->>>>>>> +led-backlight bindings
->>>>>>> +
->>>>>>> +This binding is used to describe a basic backlight device made of
->>>>>>> LEDs.
->>>>>>> +It can also be used to describe a backlight device controlled by
->>>>>>> the output of
->>>>>>> +a LED driver.
->>>>>>> +
->>>>>>> +Required properties:
->>>>>>> +  - compatible: "led-backlight"
->>>>>>> +  - leds: a list of LEDs
->>>>>> 'leds' is already used as a node name and mixing is not ideal.
->>
->> for the record: child node names (if that was what you had on mind)
->> have singular form 'led'.
+On Wed, Oct 09, 2019 at 10:51:25AM +0200, Jean-Jacques Hiblot wrote:
+> LED properties must be named "leds" in the same way that PWM, clocks or
+> PHY properties are names respectively "pwms", "clocks" and "phys".
 > 
-> I did actually grep this and not rely on my somewhat faulty memory:
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> ---
+>  .../devicetree/bindings/leds/common.txt       | 20 ++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
 > 
-> $ git grep '\sleds {' | wc -l
-> 463
-> 
-> These are mostly gpio-leds I think.
+> diff --git a/Documentation/devicetree/bindings/leds/common.txt b/Documentation/devicetree/bindings/leds/common.txt
+> index 9fa6f9795d50..31b8c1f68d27 100644
+> --- a/Documentation/devicetree/bindings/leds/common.txt
+> +++ b/Documentation/devicetree/bindings/leds/common.txt
+> @@ -10,6 +10,9 @@ can influence the way of the LED device initialization, the LED components
+>  have to be tightly coupled with the LED device binding. They are represented
+>  by child nodes of the parent LED device binding.
+>  
+> +LED properties should be named "leds". The exact meaning of each leds
+> +property must be documented in the device tree binding for each device.
+> +
 
-Indeed. So this is legacy, but common LED bindings have never stated
-that. If should be OK to add leds property to common bindings with
-proper description.
+This is worded oddly. The property is 'leds' and it is always a list of 
+phandles to LED device nodes. It is present in an LED consumer device.
 
--- 
-Best regards,
-Jacek Anaszewski
+>  
+>  Optional properties for child nodes:
+>  - led-sources : List of device current outputs the LED is connected to. The
+> @@ -165,9 +168,20 @@ led-controller@30 {
+>  		function-enumerator = <2>;
+>          };
+>  
+> -        led@3 {
+> +        bkl_led0: led@3 {
+>  		reg = <3>;
+> -		function = LED_FUNCTION_INDICATOR;
+> -		function-enumerator = <3>;
+> +		function = LED_FUNCTION_BACKLIGHT;
+> +		function-enumerator = <1>;
+>          };
+> +
+> +        bkl_led1: led@4 {
+> +		reg = <4>;
+> +		function = LED_FUNCTION_BACKLIGHT;
+> +		function-enumerator = <2>;
+> +        };
+> +};
+> +
+> +
+> +backlight@40 {
+
+Either needs 'reg' or the unit-address dropped.
+
+> +	leds = <&bkl_led0> , <&bkl_led1>;
+
+drop the space            ^
+
+>  };
+> -- 
+> 2.17.1
+> 
