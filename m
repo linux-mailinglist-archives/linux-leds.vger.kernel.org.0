@@ -2,64 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3C2CD1763
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2019 20:14:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61235D1793
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Oct 2019 20:31:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730256AbfJISO1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Oct 2019 14:14:27 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52253 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728804AbfJISO0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Oct 2019 14:14:26 -0400
-Received: by mail-wm1-f67.google.com with SMTP id r19so3660474wmh.2;
-        Wed, 09 Oct 2019 11:14:24 -0700 (PDT)
+        id S1730955AbfJISbq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Oct 2019 14:31:46 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46785 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728804AbfJISbq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Oct 2019 14:31:46 -0400
+Received: by mail-wr1-f66.google.com with SMTP id o18so4179707wrv.13;
+        Wed, 09 Oct 2019 11:31:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=uwzBHKz4v3Z12UE7ITamse/W27iE2qROZBMwpCna8+I=;
-        b=TQg4CvEZZVlJ92O4V6RkOXLsC97CxCbaPV8ZJ+/KkQg8DLcep8yniSWCPMn5R0GT/0
-         G8SAzDAZswcB5C/gf5aqU36V9UxhJXd4gMwnsLZ1n6AUx3drPcyf1IauOd0Vi8yrY/Lf
-         CS5Bcgf/w1fa39JCfFatIa41jELs9dbo0CSFoRdqW3ypRmelp19Tiue5M0kNKY0mbh9u
-         3IjQqS97IAqq2ZcqwA4XQOMQzTtY9FJUZ2OhBGCskKbgGixYwNkObYldDi2kGQ7cIoD9
-         8+wA+CaAfyCAQbIjP2lfkzS95OqwICZukxGq2rZxzc3oIybA+ng4mj5Q2Ji55lDDnwr7
-         zxGw==
+        bh=oWkC+BZoP7VUQ2ztR/WpAMsp2lmAnOuXDnBIIvOWkGA=;
+        b=fBXibqojDDDkc/wCUNSb61Yv2drYaMkqP3mLDqbt3jY14GYujTmNyVtSeArNy3SKY5
+         O6Cnf3Kc/T8PlTbMRdFdYqn9xJIa/9P21Z+DdyXFEyos8HYToaXTY9MU5rH7lFi4zuUb
+         WDG4cGlaTup0y2JDh40tvzq63bOy5SfoqiHPuR7W4/2m4rMREjvXl+Ug+oLNKoo/3rU2
+         cKt+zez5VJTiapdvMxSsRjFgS/z21dZGiaQcL9j8Y5Ly1oJU2goc547ZpAJXsQwFi2E1
+         P9HMaFUGt0kOXL+jc1Ugo9cKSYi6DKKVEFMSNqpJ4ZA72+LNnuSTvFRWtWWLSoqQaQq8
+         0pnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=uwzBHKz4v3Z12UE7ITamse/W27iE2qROZBMwpCna8+I=;
-        b=AO2gfIJJvKVDKtyaQOwgVUkpq7WRURXsZemql+pwseBFxpq7kuKs8SykwVh451A1ng
-         +eW5FEY0FyvS8ViIRBlak1qHSQ7Sg02azAbXVG0MCDk7tmB5OujQuKkMV7+pIbg38pXR
-         IehDRGGG4GlTUelcgScVOjSQO9+WfLv5fJSVrHP+llnJtUa8BYUMLqy2iEDbRbZik+Yv
-         9gIuCkEm3seYKsXUD23Fe1SO12N0iVuQJikHTsbYspa3E3yO7kK525knXDPlXp3qdq3A
-         rrygRuyBgqkQJWTTYnRPbIpPcBkTdMKny/JSqumxG+fWeKiyWgJXO4jGTZUhlyhYiqai
-         s7xQ==
-X-Gm-Message-State: APjAAAU8rsGZtvc39yRH3ThN/8/D9P/nJ+P0TLFgzcnrTA9T4hpgvjSa
-        h/Fk9u5ybwc6djJSfBwzDcU=
-X-Google-Smtp-Source: APXvYqwFlj9Ae6VTTr7Bijua5iLGfNtM0Tf23oRNto22SP+bCS6Toy3676uu3fROs/ojM6x+pST/TQ==
-X-Received: by 2002:a1c:8148:: with SMTP id c69mr3870039wmd.41.1570644863779;
-        Wed, 09 Oct 2019 11:14:23 -0700 (PDT)
+        bh=oWkC+BZoP7VUQ2ztR/WpAMsp2lmAnOuXDnBIIvOWkGA=;
+        b=p6t15eMkEoF3h3ubVnuIdxXibcIGFFUPJtRIViosM+VC/5uTegdb08X1AIdvCItH0n
+         HuzZrJIR8ETVgS2a8AS+qZvGfLGIk1jk/C2VLphcTJdyTdl3ZKv0koC8MnC+1q47IuT4
+         ad61kv+6vKu159evtpTJbS2IBe72kNcbIEZAMomj/SSTz8ZVHNUw311Yoicz72FNIOSt
+         uBpTuZ6Yw6YwAGZiWY879Px6H0TKVRW5oB4w7DEqJN48OZdhnYPw9gXWSfyiQLaGUt0t
+         1jJ89ho9oodZYm4MUE9uJQuH/WYWc0kYOfpVZuCkq9FdlR2EhDpOgBGGFm4hsuLaSqci
+         C7qA==
+X-Gm-Message-State: APjAAAW4H0KH/hTQyLi18w64KG3KoMgvy6x2BML+xp1aiEF4aYjL3m8x
+        IjTufIBunYMwDI3Hbj5Huvs=
+X-Google-Smtp-Source: APXvYqyM2etDyWUPu7v7d+CD4W0SPXOldpjlksplBTMaO9G/jxiazmJNGIb74AbxqheyQL0cI2KRgw==
+X-Received: by 2002:a5d:5270:: with SMTP id l16mr4118079wrc.201.1570645903148;
+        Wed, 09 Oct 2019 11:31:43 -0700 (PDT)
 Received: from [192.168.1.19] (cjk130.neoplus.adsl.tpnet.pl. [83.31.60.130])
-        by smtp.gmail.com with ESMTPSA id t13sm5913351wra.70.2019.10.09.11.14.22
+        by smtp.gmail.com with ESMTPSA id y14sm4359437wrd.84.2019.10.09.11.31.41
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 09 Oct 2019 11:14:23 -0700 (PDT)
-Subject: Re: [PATCH] leds: gpio: support multi-level brightness
-To:     Akinobu Mita <akinobu.mita@gmail.com>
-Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        linux-gpio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-References: <1570203299-4270-1-git-send-email-akinobu.mita@gmail.com>
- <96ac332f-359f-531a-7890-45b39e168b82@gmail.com>
- <CAC5umyggUm26JHU9QeND=rTozjXwH5uMiVvoK=Zqo31eBn69pg@mail.gmail.com>
- <7d451092-bf8a-e1d4-996c-8af3cc816fc7@gmail.com>
- <CAC5umyiK8LBqQ1B1LPQgWXGCk_a+JyKgidrRZpPMDu+NZncDXw@mail.gmail.com>
- <72129a38-d975-74d4-269d-6269556d7aae@gmail.com>
- <CAC5umyjRbVFV8hQoynA83wEAwumMU1iZ1KouHaXiNruwXfATZQ@mail.gmail.com>
+        Wed, 09 Oct 2019 11:31:42 -0700 (PDT)
+Subject: Re: [PATCH v9 4/5] dt-bindings: backlight: Add led-backlight binding
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>, Pavel Machek <pavel@ucw.cz>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+References: <20191007124437.20367-1-jjhiblot@ti.com>
+ <20191007124437.20367-5-jjhiblot@ti.com>
+ <CAL_JsqLTqnKpU4PB8Zt9SSPSia5mkFcUgoA8ZyX_1E_HfdFyxg@mail.gmail.com>
+ <30fcd898-aa50-bac2-b316-0d9bf2429369@ti.com>
+ <bc5e4094-2b58-c917-9b9e-0f646c04dd78@ti.com>
+ <CAL_JsqL8b0gWPTt3oJ8ScY_AwP+uB__dZP6Eednfa5Fq9vAptw@mail.gmail.com>
+ <edadb121-cebd-b8ea-e07d-f5495a581dfd@gmail.com>
+ <CAL_JsqJLp65f6g2OG5uJPrcZ2uuc5cgREaiQ-AXeBp6reqvbkw@mail.gmail.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -118,12 +124,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <aa269811-c66c-da6a-ce2a-7a25fe22d2e5@gmail.com>
-Date:   Wed, 9 Oct 2019 20:14:21 +0200
+Message-ID: <a0b161a3-afc7-a00f-2a22-79ebe360f2ad@gmail.com>
+Date:   Wed, 9 Oct 2019 20:31:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAC5umyjRbVFV8hQoynA83wEAwumMU1iZ1KouHaXiNruwXfATZQ@mail.gmail.com>
+In-Reply-To: <CAL_JsqJLp65f6g2OG5uJPrcZ2uuc5cgREaiQ-AXeBp6reqvbkw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -132,68 +138,81 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 10/9/19 4:43 PM, Akinobu Mita wrote:
-> 2019年10月9日(水) 5:53 Jacek Anaszewski <jacek.anaszewski@gmail.com>:
+On 10/8/19 10:00 PM, Rob Herring wrote:
+> On Tue, Oct 8, 2019 at 12:17 PM Jacek Anaszewski
+> <jacek.anaszewski@gmail.com> wrote:
 >>
->> On 10/6/19 4:11 PM, Akinobu Mita wrote:
->>> 2019年10月6日(日) 4:17 Jacek Anaszewski <jacek.anaszewski@gmail.com>:
+>> On 10/8/19 5:00 PM, Rob Herring wrote:
+>>> On Tue, Oct 8, 2019 at 8:30 AM Jean-Jacques Hiblot <jjhiblot@ti.com> wrote:
 >>>>
->>>> On 10/5/19 3:20 PM, Akinobu Mita wrote:
->>>>> 2019年10月5日(土) 6:17 Jacek Anaszewski <jacek.anaszewski@gmail.com>:
->>>>>>
->>>>>> Hi Akinobu,
->>>>>>
->>>>>> Why do you think this change is needed? Does it solve
->>>>>> some use case for you?
->>>>>
->>>>> It can be useful when using with an LED trigger that could set the
->>>>> brightness values other than LED_FULL or LED_OFF.
->>>>>
->>>>> The LED CPU trigger for all CPUs (not per CPU) sets the brightness value
->>>>> depending on the number of active CPUs.  We can define the multi brightness
->>>>> level gpio LED with fewer number of GPIO LEDs than the total number of
->>>>> CPUs, and the LEDs can be viewed as a level meter.
+>>>> Rob,
 >>>>
->>>> Can't you achieve exactly the same effect by creating separate LED class
->>>> device for each GPIO LED and registering each of them for separate cpuN
->>>> trigger?
->>>
->>> If there are GPIO LEDs as many as the total number of CPUs, we can.
->>> However, if there are only two GPIO LEDs and six CPUs, we can only know
->>> the CPU activity for two CPUs out of six CPUs with cpuN trigger.
->>> So it's different from using cpu (all) trigger with multi level (2-level)
->>> brightness GPIO LED.
+>>>> On 08/10/2019 14:51, Jean-Jacques Hiblot wrote:
+>>>>> Hi Rob,
+>>>>>
+>>>>> On 07/10/2019 18:15, Rob Herring wrote:
+>>>>>> Please send DT bindings to DT list or it's never in my queue. IOW,
+>>>>>> send patches to the lists that get_maintainers.pl tells you to.
+>>>>>>
+>>>>>> On Mon, Oct 7, 2019 at 7:45 AM Jean-Jacques Hiblot <jjhiblot@ti.com>
+>>>>>> wrote:
+>>>>>>> Add DT binding for led-backlight.
+>>>>>>>
+>>>>>>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+>>>>>>> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+>>>>>>> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+>>>>>>> ---
+>>>>>>>   .../bindings/leds/backlight/led-backlight.txt | 28
+>>>>>>> +++++++++++++++++++
+>>>>>>>   1 file changed, 28 insertions(+)
+>>>>>>>   create mode 100644
+>>>>>>> Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+>>>>>> Please make this a DT schema.
+>>>>>
+>>>>> OK.
+>>>>>
+>>>>> BTW I used "make dt_binding_check" but had to fix a couple of YAMLs
+>>>>> file to get it to work. Do you have a kernel tree with already all the
+>>>>> YAML files in good shape ? Or do you want me to post the changes to
+>>>>> devicetree@vger.kernel.org ?
+>>>>>
+>>>>>
+>>>>>>
+>>>>>>> diff --git
+>>>>>>> a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+>>>>>>> b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+>>>>>>> new file mode 100644
+>>>>>>> index 000000000000..4c7dfbe7f67a
+>>>>>>> --- /dev/null
+>>>>>>> +++
+>>>>>>> b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+>>>>>>> @@ -0,0 +1,28 @@
+>>>>>>> +led-backlight bindings
+>>>>>>> +
+>>>>>>> +This binding is used to describe a basic backlight device made of
+>>>>>>> LEDs.
+>>>>>>> +It can also be used to describe a backlight device controlled by
+>>>>>>> the output of
+>>>>>>> +a LED driver.
+>>>>>>> +
+>>>>>>> +Required properties:
+>>>>>>> +  - compatible: "led-backlight"
+>>>>>>> +  - leds: a list of LEDs
+>>>>>> 'leds' is already used as a node name and mixing is not ideal.
 >>
->> OK, that's a reasonable argument. However, this is clearly
->> trigger-specific functionality and we should not delegate this
->> logic down to the driver.
->>
->> What you propose should be a responsibility of a trigger that would
->> allow registering multiple LEDs for its disposal. This would have to
->> be different from existing LED Trigger mechanism, that blindly
->> applies trigger event to all LEDs that have registered for it.
->>
->> Such a trigger would have to be a separate LED (pattern?) class device.
->> It would need to be told how many LEDs it is going to manage
->> and create files for filling the LED names. This design could be also
->> used for defining patterns spanning on multiple LEDs. Just a rough idea.
->> We can dwell on it if it catches.
+>> for the record: child node names (if that was what you had on mind)
+>> have singular form 'led'.
 > 
-> What do you think about introducing a new led driver and describing a
-> level meter in the following DT node.
+> I did actually grep this and not rely on my somewhat faulty memory:
 > 
-> led-level-meter {
->         compatible = "led-level-meter";
->         leds = <&led0>, <&led1>, <&led2>, <&led3>;
-> };
+> $ git grep '\sleds {' | wc -l
+> 463
 > 
-> Setting the brightness of led-level-meter to LED_HALF turns on led0 and
-> led1 with max brightness and turns off led2 and led3.
-> 
-> This is inspired by led-backlight driver patchset and Bjorn Andersson's
-> reply in this thread.
+> These are mostly gpio-leds I think.
 
-Looks interesting, I like the idea.
+Indeed. So this is legacy, but common LED bindings have never stated
+that. If should be OK to add leds property to common bindings with
+proper description.
 
 -- 
 Best regards,
