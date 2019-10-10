@@ -2,107 +2,183 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A17B8D1D76
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2019 02:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CAA0D1D89
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2019 02:43:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731542AbfJJAgb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Oct 2019 20:36:31 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:33909 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731145AbfJJAgb (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 9 Oct 2019 20:36:31 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 46pXFn3J83z9s7T;
-        Thu, 10 Oct 2019 11:36:28 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1570667789;
-        bh=arnV4YeF195CkdQRcEOF4JZK7WnH2Z7fUvzdfofOT24=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=KLpChH0U0UFW1QQk54fxdOWQGndN3TtL67gQ7H0DbksYVt6Ibdron+x6EKZvZyX+L
-         OesHmz2WfAuM0rHT0MtIEbjC883tZ4/0tYJZMjqVQiIaNeXaufD+GJ9nxeKnjbxZjO
-         XiMtJrItb8RPf7HFrVkj1MQ0LglVSkP3Bf+2KvCvmUt/mWloiS+AYTBFz3y0j3W42q
-         vok5qD1toUZVEF8KCuOevnQydepZGPV84/fU9Zil7suc+3ug28+n5tTK4tqCII8EY0
-         9rZZFheXepJMZZCPKnRZZu414/sBzzBNKXU/fTLtJfwmu7RDVVy7xcSSnVj1ZtO0Wy
-         PdbpSzsUmZYNA==
-Date:   Thu, 10 Oct 2019 11:36:28 +1100
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: leds in -next -- update address was Re: [GIT PULL] LED fixes
- for 5.4-rc3.
-Message-ID: <20191010113628.62708b7d@canb.auug.org.au>
-In-Reply-To: <20191009125520.GA1436@amd>
-References: <20191008204258.22196-1-jacek.anaszewski@gmail.com>
-        <20191009125520.GA1436@amd>
+        id S1731959AbfJJAnf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Oct 2019 20:43:35 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:41122 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731542AbfJJAne (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Oct 2019 20:43:34 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9A0hTsr118568;
+        Wed, 9 Oct 2019 19:43:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1570668209;
+        bh=Yxcoi5EtNXabhjep2Y1KNRL8XZbLwiQgniLFoGc+Jhg=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=OdyqiHvnQzZqyossQxz3sx4kdIAR8VUP6BgxA3SmmHqR/uxK23T0HrTnaq/cZ6A3V
+         j5Oa4KdlAc+mCginCMsMUyWVujETpxXKj7/LAy1rCqME9es7UbdOZIRZ9VpDe7DSHm
+         ymKMUsbpqGwQdvDCDVQ/qbCjWcKxfWXt5OPygy2s=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9A0hT2N004540
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 9 Oct 2019 19:43:29 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 9 Oct
+ 2019 19:43:25 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Wed, 9 Oct 2019 19:43:29 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9A0hTT9004462;
+        Wed, 9 Oct 2019 19:43:29 -0500
+Subject: Re: [PATCH v11 04/16] leds: multicolor: Introduce a multicolor class
+ definition
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+CC:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <20191008204800.19870-1-dmurphy@ti.com>
+ <20191008204800.19870-5-dmurphy@ti.com>
+ <CAOCOHw5uQL56T_DcZA47721yS1tLsp9cyUEdmiWr+Ccfh7YpRQ@mail.gmail.com>
+ <d6b68a79-235a-0a9b-bbf3-519571646eff@ti.com> <20191009232539.GB571@minitux>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <1b18570f-a5ac-fb34-aed9-7d8422df7e6d@ti.com>
+Date:   Wed, 9 Oct 2019 19:43:10 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/pQjucLpReI.erAoc1bAlOW_";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <20191009232539.GB571@minitux>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
---Sig_/pQjucLpReI.erAoc1bAlOW_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Bjorn
 
-Hi Pavel,
-
-On Wed, 9 Oct 2019 14:55:21 +0200 Pavel Machek <pavel@ucw.cz> wrote:
+On 10/9/19 6:25 PM, Bjorn Andersson wrote:
+> On Wed 09 Oct 13:44 PDT 2019, Dan Murphy wrote:
 >
-> > - MAINTAINERS: add pointer to Pavel Machek's linux-leds.git tree.
-> >   Pavel is going to take over LED tree maintainership
-> >   from myself. =20
->=20
-> I pulled latest changes from for-next, so I can take over -next
-> maintainance for now.
->=20
-> Stephen, could you update your scripts to pull from
-> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git ?
+>> Bjorn
+>>
+>> On 10/9/19 3:11 PM, Bjorn Andersson wrote:
+>>> On Tue, Oct 8, 2019 at 1:49 PM Dan Murphy <dmurphy@ti.com> wrote:
+>>>> Introduce a multicolor class that groups colored LEDs
+>>>> within a LED node.
+>>>>
+>>>> The multi color class groups monochrome LEDs and allows controlling two
+>>>> aspects of the final combined color: hue and lightness. The former is
+>>>> controlled via <color>_intensity files and the latter is controlled
+>>>> via brightness file.
+>>>>
+>>> Thanks for making progress on this, it's been the one outstanding
+>>> question mark for the long overdue respin of the Qualcomm LPG driver.
+>>> But while it works for the LPG, in that it has outputs named "RGB" I
+>>> have boards with "generic" LED drivers that are connected to RGB LEDs.
+>>> So per your proposed solution we would need to add the additional
+>> You don't have to add the MC class to those drivers.  This is an optional
+>> framework but if you wanted to use the framework for specific devices then
+>> yes you would need to add that support. This is why I did the LP55xx patches
+>> to demonstrate the feasibility since the LP50xx has the MC class
+>> intelligence already.
+>>
+> Correct me if I've misunderstood something, but if I have a product
+> using e.g. lm3533 connected to an RGB LED then the correct way to
+> represent this towards userspace is to introduce the MC class in the
+> lm3533 LED driver, no?
+>
+Not necessarily.  If the RGB LED is to be used as a RGB module and not 
+as independent LEDs.
 
-Done.
+For instance on smartphones if you had that RGB module connected to the 
+LM3533 and needed to mix colors to give different status indicators then 
+yes you would use the MC class.  As the MC class presents and treats the 
+module as a single LED with individual color mixing control knobs.
 
-Thanks for adding your subsystem tree as a participant of linux-next.  As
-you may know, this is not a judgement of your code.  The purpose of
-linux-next is for integration testing and to lower the impact of
-conflicts between subsystems in the next merge window.=20
+If you were using each LED for a separate use cases then you would want 
+to present these as individual LEDs as done today.
 
-You will need to ensure that the patches/commits in your tree/series have
-been:
-     * submitted under GPL v2 (or later) and include the Contributor's
-        Signed-off-by,
-     * posted to the relevant mailing list,
-     * reviewed by you (or another maintainer of your subsystem tree),
-     * successfully unit tested, and=20
-     * destined for the current or next Linux merge window.
 
-Basically, this should be just what you would send to Linus (or ask him
-to fetch).  It is allowed to be rebased if you deem it necessary.
+>> The LP55xx driver can register to the LED class and/or the MC LED class
+>> pending on the DT organization.
+>>
+> Understood.
+>
+>> I don't plan on going through all of TI's RGB drivers and retrofitting them
+>> to the MC class.  I do have to update the GPIO LED driver to use the class
+>> but that work is still pending.
+>>
+>> I may also update the Motorola PCAP driver as well since I have a Droid4 to
+>> test.
+>>
+> My concern with this is that being connected to a RGB LED is not a
+> property of the controller, but the system design and the proposed
+> implementation makes it a property of each controller.
+>
+> I'm not saying that the proposed path is wrong, I'm saying that we have
+> 83 files named leds-*.c in drivers/leds and this adaption needs to
+> happen on each one.
 
---=20
-Cheers,
-Stephen Rothwell=20
-sfr@canb.auug.org.au
+Agreed.  I would expect the adoption to be done on a case by case basis 
+driven by usage and need.
 
---Sig_/pQjucLpReI.erAoc1bAlOW_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
+>
+>
+> And I'm not saying I expect you to do this.
 
-iQEyBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl2efQwACgkQAVBC80lX
-0GwgXgf4xDlgAN864WMWFjNSbkM6j2Hbno9pmOFU8VLnhFEasLqk7fb2zxnOmrT8
-NJ6AKufxhi5ICOcSBHsvF3FO1fARiMYU6I4UUg1ttYqaX2v7nOuRyojvsZZqxCXf
-puMPeq42O5oAgzXSuQnNEG32jwQHSKydhWUr74s/uNsWDEylYIAUDPfmGQKQ3Ret
-mcTnaKrohPXegSmJ7CAL2+SgCuMuDufk7kGhUtl6DNRl9t9FTJOaEUIBxbGwIh1k
-M58Ri6Y3/HphDvUAvdBrB4WAldY568gZfF5ufRJ3xARCRPKb4q5um1ftrWBFqniH
-aNmQa+1CCqAfXzR4cjB/KOcEjFhH
-=Kdm0
------END PGP SIGNATURE-----
+Phew.  I did not think you were. I will only convert drivers that I can 
+could test.
 
---Sig_/pQjucLpReI.erAoc1bAlOW_--
+
+>
+>>> mc_class handling to every single LED driver that might be used to
+>>> sink current into an RGB LED.
+>>>
+>>> I also don't see anything preventing hardware designers from feeding
+>>> single RGB LEDs from multiple different LED controllers, something the
+>>> current proposal would prohibit.
+>> What do you mean by a single RGB LED? Are you referring to a RGB module?
+>>
+>> http://wiki.sunfounder.cc/index.php?title=RGB_LED_Module
+>>
+> Yes
+>
+>> There is no prevention for HW designers to put a driver on each LED output
+>> but I am not sure why they would incur
+>>
+>> the additional BOM cost seems quite silly unless you have an unlimited
+>> budget ;)
+>>
+> So if you have a system with e.g. 8 PWM channels on one PMIC and a
+> single PWM available on a different PMIC then you're saying that the
+> hardware guys would be silly to believe that they can drive 3 RGB LEDS
+> off this?
+
+OK I must have removed my question to you on presenting a use case.   
+Grouping LEDs across multiple devices would an issue yes but we would 
+need a design or hardware to develop a good solution.
+
+
+>
+>> If they did design the system that way then the SW would need to revert back
+>> to the standard LED class as it is done today.
+>>
+> If that is the agreed upon design then I'll continue to adapt my LED
+> drivers to the MC class.
+
+For now this is the basic design. We are willing to take other 
+suggestions.  We appreciate the feedback.
+
+Dan
+
+
