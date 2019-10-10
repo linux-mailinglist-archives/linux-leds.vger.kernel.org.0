@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0ECFD3084
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2019 20:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B40ED3099
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2019 20:43:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726959AbfJJShH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 10 Oct 2019 14:37:07 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:55853 "EHLO
+        id S1726007AbfJJSnA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Oct 2019 14:43:00 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50593 "EHLO
         mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726007AbfJJShH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Oct 2019 14:37:07 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a6so7971822wma.5;
-        Thu, 10 Oct 2019 11:37:05 -0700 (PDT)
+        with ESMTP id S1726336AbfJJSnA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Oct 2019 14:43:00 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 5so8015740wmg.0;
+        Thu, 10 Oct 2019 11:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=FrLev8RKCes1rQN5iSQMblGUpNeOsZxGiMBIF8f6iVE=;
-        b=KxRFSAUAD59rV7rZB+1UfSHNh2TKpyKiOtaHOKgaHDKcJOglhezi+RBSB7LQi1X2si
-         TkkrjKzth2ddLHc5nYsVYKYdnyePLAitzpMfI9jdVxKxTNYA8UEuGsnP3ytfwL7OsExL
-         KdfLiESP4NE/irLSLzNzG0MmDWfBLfnf3Rj0lgkoa70LB1wpjxXlYBKqdZHvIPbyUYIR
-         FLX1CsTaSFu/WuI0BuAJ8wPPiiqiqDd9B2Y0V7CcIjxmBzivZOYQc/SuxGCv6AncJrDD
-         xd0Isoc3z8TRJSntDA4xwpanoANV4nral3tUArYNOwjt9UhKJIIIk7M1PSxAJDRlbsCN
-         MgzA==
+        bh=nIWIITr28i6KbyOyO87MIlIpYz5kcwfm7f7WnksAVIY=;
+        b=Ux6mXJAjmffQ/0lVNbiGdeZ8TLd8LEJnk7LUi/x8WpWU6TocItMTaDfwLfI/eUyCdf
+         Frxofqg0Pv23Ibctq+MzKyh4MoWlmln10hDuszJVE0jugYOaBQF2MtB7nEJI7+M1L9Hr
+         JrwEYUaLeUbScAq5PuMpNSPR8wE1U/+oyINGErWMdJtPnnxkMAB19d2y7kjWP4jmVc1U
+         xMbDqhTYg4E2JClwniAlRLoYtgHzm2trSVXFXnhVpiZsGbUCTqFj0Gm0Zyfl7rQMrpG8
+         7VOexWqAvplM7V5Be+AWYJOkga7CN9PZXICCQM8iW+2vZ/kiQj02NsZ6MRfQPLSvYRdr
+         d/uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=FrLev8RKCes1rQN5iSQMblGUpNeOsZxGiMBIF8f6iVE=;
-        b=aZQPWhO55zxF2M6l6+mjjRpHrpzVq1iUFLAMW/HB4wK8BfCLe1ZL9SUNGBYCyktAkA
-         9G8H567OoY15rqt0puesWowWpBeEcOyCJKYZ2wTs/TwrC109uDUGUkvD5z+DTccoocXQ
-         +qeVbklGHV+BtEz9W3eM3yuAdMC6RuidnkDUGChLEEgq8HWWYn4s0hGAohHqJ0qN5/xr
-         U3pjzNQg35/vqdvmMi0+996zkuLVgY5ZHQ+dvNIUhngRMEKSRCpVEoWe6RiD4lFwdT5F
-         WnIzwCNdw1713Q2HdpINAy3iahGu5igKBdbdy0Ys5qw4GLXKFsb3vac7q8bXv/VBg97s
-         5z3A==
-X-Gm-Message-State: APjAAAVXUl6ni+MaOyUqpo02JThR6VXIgK1JEZKXnyXED03t3Id0EzhR
-        VacCqqo25nQHAZEGM9LlzTtkmrG0
-X-Google-Smtp-Source: APXvYqxJ1sD7CTK5Pu7ZCaTe59pS45ZxtHbAjfpMteVkmViHS63GTH0M7u+vcq7d9byTyD5bbS5ysw==
-X-Received: by 2002:a1c:8157:: with SMTP id c84mr3109wmd.56.1570732624359;
-        Thu, 10 Oct 2019 11:37:04 -0700 (PDT)
+        bh=nIWIITr28i6KbyOyO87MIlIpYz5kcwfm7f7WnksAVIY=;
+        b=EfOXF8F9Ze8b26UqXS8wB3tdPpe2eYSecgv/vYcUDFZVl9+Ugk8uPMMs3DTK18wnbd
+         B0783cli93RmwfkTpHORHpwbLv10sCYy5a9hw1h6pIer1fuFNmFiIGL/evBPrf+ZElnS
+         E1IOyGfjC3i5fkLu3ZnQtCODT+7xOISjqCo+YyB+ZYkW1yfw6eOJ0XmNwg2rPIRyo9DO
+         MB5fBt53MRqJQCyNEjuPwE05EUdAwJr7B9wO7R+mfy2wBN3Ac8wQSN7QoMmJ5CL1eNMi
+         9NsesisDo5e+s2M7/W6bqo4DmXx/9/8ME5R70fuZ/jDE2EMyX62BYpntTZiJWp6s/OYJ
+         5F5A==
+X-Gm-Message-State: APjAAAXSXmQcuCSmtb45CiTYERrwRQoBIe+RGNW5CdMcnqPaHiTSSUYA
+        21u/Y4/5xJMjAxDmQYndcHdfxe5L
+X-Google-Smtp-Source: APXvYqz6gNCnFend5AFxlJA12xqK71Ro5ZuLDWRY0mL9QugtJXE+VPdqG73Kj+uA4L2rMyZztEHhZQ==
+X-Received: by 2002:a1c:2e4c:: with SMTP id u73mr14940wmu.94.1570732976973;
+        Thu, 10 Oct 2019 11:42:56 -0700 (PDT)
 Received: from [192.168.1.19] (bkt243.neoplus.adsl.tpnet.pl. [83.28.187.243])
-        by smtp.gmail.com with ESMTPSA id r27sm14960539wrc.55.2019.10.10.11.37.03
+        by smtp.gmail.com with ESMTPSA id 79sm8157164wmb.7.2019.10.10.11.42.55
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Oct 2019 11:37:03 -0700 (PDT)
-Subject: Re: [PATCH v11 04/16] leds: multicolor: Introduce a multicolor class
- definition
+        Thu, 10 Oct 2019 11:42:56 -0700 (PDT)
+Subject: Re: [PATCH v11 01/16] dt: bindings: Add multicolor class dt bindings
+ documention
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20191008204800.19870-1-dmurphy@ti.com>
- <20191008204800.19870-5-dmurphy@ti.com>
- <e031ad7d-3191-eddf-ec7e-db9f31b6f05b@gmail.com>
- <e1514b57-c902-0bf4-bc2a-5f1a1b788390@ti.com>
+ <20191008204800.19870-2-dmurphy@ti.com>
+ <487f2425-1570-c946-c4a6-3da60ad21f2c@gmail.com>
+ <fc2de5ad-5dd6-0ea0-5ec6-2dfdd7429c09@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -112,12 +112,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <52ed9921-54a0-d0ce-2952-59c5a7ac0ed9@gmail.com>
-Date:   Thu, 10 Oct 2019 20:37:02 +0200
+Message-ID: <63197144-11e1-f6bb-f1aa-13b33435f2f2@gmail.com>
+Date:   Thu, 10 Oct 2019 20:42:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <e1514b57-c902-0bf4-bc2a-5f1a1b788390@ti.com>
+In-Reply-To: <fc2de5ad-5dd6-0ea0-5ec6-2dfdd7429c09@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -128,317 +128,78 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Dan,
 
-On 10/10/19 2:27 AM, Dan Murphy wrote:
+On 10/10/19 2:49 AM, Dan Murphy wrote:
 > Jacek
 > 
-> On 10/9/19 4:47 PM, Jacek Anaszewski wrote:
+> On 10/9/19 5:07 PM, Jacek Anaszewski wrote:
 >> Dan,
 >>
 >> On 10/8/19 10:47 PM, Dan Murphy wrote:
->>> Introduce a multicolor class that groups colored LEDs
->>> within a LED node.
->>>
->>> The multi color class groups monochrome LEDs and allows controlling two
->>> aspects of the final combined color: hue and lightness. The former is
->>> controlled via <color>_intensity files and the latter is controlled
->>> via brightness file.
+>>> Add DT bindings for the LEDs multicolor class framework.
 >>>
 >>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
 >>> ---
->>>   .../ABI/testing/sysfs-class-led-multicolor    |  35 +++
->>>   Documentation/leds/index.rst                  |   1 +
->>>   Documentation/leds/leds-class-multicolor.rst  |  96 +++++++
->>>   drivers/leds/Kconfig                          |  10 +
->>>   drivers/leds/Makefile                         |   1 +
->>>   drivers/leds/led-class-multicolor.c           | 271 ++++++++++++++++++
->>>   include/linux/led-class-multicolor.h          | 143 +++++++++
->>>   7 files changed, 557 insertions(+)
+>>>   .../bindings/leds/leds-class-multicolor.txt   | 98 +++++++++++++++++++
+>>>   1 file changed, 98 insertions(+)
 >>>   create mode 100644
->>> Documentation/ABI/testing/sysfs-class-led-multicolor
->>>   create mode 100644 Documentation/leds/leds-class-multicolor.rst
->>>   create mode 100644 drivers/leds/led-class-multicolor.c
->>>   create mode 100644 include/linux/led-class-multicolor.h
+>>> Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
 >>>
->>> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor
->>> b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+>>> b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
 >>> new file mode 100644
->>> index 000000000000..65cb43de26e6
+>>> index 000000000000..8619c9bf1811
 >>> --- /dev/null
->>> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
->>> @@ -0,0 +1,35 @@
->>> +What:        /sys/class/leds/<led>/brightness
->>> +Date:        Sept 2019
->>> +KernelVersion:    5.5
->>> +Contact:    Dan Murphy <dmurphy@ti.com>
->>> +Description:    read/write
->>> +        Writing to this file will update all LEDs within the group to a
->>> +        calculated percentage of what each color LED intensity is set
->>> +        to. The percentage is calculated via the equation below:
+>>> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+>>> @@ -0,0 +1,98 @@
+>>> +* Multicolor LED properties
 >>> +
->>> +        led_brightness = brightness *
->>> <color>_intensity/<color>_max_intensity
->> This equation alone incites questions on how it is supposed to work.
->>
->> It would be better to present the whole algorithm for calculating
->> combined color here.
+>>> +Bindings for multi color LEDs show how to describe current outputs of
+>>> +either integrated multi-color LED elements (like RGB, RGBW, RGBWA-UV
+>>> +etc.) or standalone LEDs, to achieve logically grouped multi-color LED
+>>> +modules. This is achieved by adding multi-led nodes layer to the
+>>> +monochrome LED bindings.
+>>> +
+>>> +The nodes and properties defined in this document are unique to the
+>>> multicolor
+>>> +LED class.  Common LED nodes and properties are inherited from the
+>>> common.txt
+>>> +within this documentation directory.
+>>> +
+>>> +Required LED Child properties:
+>> s/Child/child/
 > 
-> I am not sure I follow.  Isn't that explained in the class document?
-
-I just think that this document should contain all necessary info
-for the reader to understand the effect of writing brightness.
-Looking once more it seems that slight modification of the last
-sentence above equation could suffice:
-
-s/is calculated/is calculated for each grouped LED/
-
->>> +
->>> +        For additional details please refer to
->>> +        Documentation/leds/leds-class-multicolor.rst.
->>> +
->>> +        The value of the color is from 0 to
->>> +        /sys/class/leds/<led>/max_brightness.
->>> +
->>> +What:        /sys/class/leds/<led>/colors/<color>_intensity
->>> +Date:        Sept 2019
->>> +KernelVersion:    5.5
->>> +Contact:    Dan Murphy <dmurphy@ti.com>
->>> +Description:    read/write
->>> +        The <color>_intensity file is created based on the color
->>> +        defined by the registrar of the class.
->>> +        There is one file per color presented.
->>> +
->>> +        The value of the color is from 0 to
->>> +        /sys/class/leds/<led>/colors/<color>_max_intensity.
->>> +
->>> +What:        /sys/class/leds/<led>/colors/<color>_max_intensity
->>> +Date:        Sept 2019
->>> +KernelVersion:    5.5
->>> +Contact:    Dan Murphy <dmurphy@ti.com>
->>> +Description:    read only
->>> +        Maximum intensity level for the LED color.
->>> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
->>> index 060f4e485897..bc70c6aa7138 100644
->>> --- a/Documentation/leds/index.rst
->>> +++ b/Documentation/leds/index.rst
->>> @@ -9,6 +9,7 @@ LEDs
->>>        leds-class
->>>      leds-class-flash
->>> +   leds-class-multicolor
->>>      ledtrig-oneshot
->>>      ledtrig-transient
->>>      ledtrig-usbport
->>> diff --git a/Documentation/leds/leds-class-multicolor.rst
->>> b/Documentation/leds/leds-class-multicolor.rst
->>> new file mode 100644
->>> index 000000000000..7a695a29377e
->>> --- /dev/null
->>> +++ b/Documentation/leds/leds-class-multicolor.rst
->>> @@ -0,0 +1,96 @@
->>> +====================================
->>> +Multi Color LED handling under Linux
->>> +====================================
->>> +
->>> +Description
->>> +===========
->>> +The multi color class groups monochrome LEDs and allows controlling two
->>> +aspects of the final combined color: hue and lightness. The former is
->>> +controlled via <color>_intensity files and the latter is controlled
->>> +via brightness file.
->>> +
->>> +For more details on hue and lightness notions please refer to
->>> +https://en.wikipedia.org/wiki/CIECAM02.
->>> +
->>> +Note that intensity files only cache the written value and the actual
->>> +change of hardware state occurs upon writing brightness file. This
->>> +allows for changing many factors of the perceived color in a virtually
->>> +unnoticeable way for the human observer.
->>> +
->>> +Multicolor Class Control
->>> +========================
->>> +The multicolor class presents the LED groups under a directory
->>> called "colors".
->>> +This directory is a child under the LED parent node created by the
->>> led_class
->>> +framework.  The led_class framework is documented in led-class.rst
->>> within this
->>> +documentation directory.
->>> +
->>> +Each colored LED will have two files created under the colors directory
->>> +<color>_intensity and <color>_max_intensity. These files will contain
->>> +one of LED_COLOR_ID_* definitions from the header
->>> +include/dt-bindings/leds/common.h.
->>> +
->>> +Directory Layout Example
->>> +========================
->>> +root:/sys/class/leds/rgb:grouped_leds# ls -lR colors/
->>> +-rw-r--r--    1 root     root          4096 Jul  7 03:10 blue_intensity
->>> +-r--r--r--    1 root     root          4096 Jul  7 03:10
->>> blue_max_intensity
->>> +-rw-r--r--    1 root     root          4096 Jul  7 03:10
->>> green_intensity
->>> +-r--r--r--    1 root     root          4096 Jul  7 03:10
->>> green_max_intensity
->>> +-rw-r--r--    1 root     root          4096 Jul  7 03:10 red_intensity
->>> +-r--r--r--    1 root     root          4096 Jul  7 03:10
->>> red_max_intensity
->>> +
->>> +Multicolor Class Brightness Control
->>> +===================================
->>> +The multiclor class framework will calculate each monochrome LEDs
->>> intensity.
->>> +
->>> +The brightness level for each LED is calculated based on the color LED
->>> +intensity setting divided by the color LED max intensity setting
->>> multiplied by
->>> +the requested brightness.
->>> +
->>> +led_brightness = brightness * <color>_intensity/<color>_max_intensity
->>> +
->>> +Example:
->>> +Three LEDs are present in the group as defined in "Directory Layout
->>> Example"
->>> +within this document.
->>> +
->>> +A user first writes the color LED brightness file with the
->>> brightness level that
->>> +is necessary to achieve a blueish violet output from the RGB LED group.
->>> +
->>> +echo 138 > /sys/class/leds/rgb:grouped_leds/red_intensity
->>> +echo 43 > /sys/class/leds/rgb:grouped_leds/green_intensity
->>> +echo 226 > /sys/class/leds/rgb:grouped_leds/blue_intensity
->>> +
->>> +red -
->>> +    intensity = 138
->>> +    max_intensity = 255
->>> +green -
->>> +    intensity = 43
->>> +    max_intensity = 255
->>> +blue -
->>> +    intensity = 226
->>> +    max_intensity = 255
->>> +
->>> +The user can control the brightness of that RGB group by writing the
->>> parent
->>> +'brightness' control.  Assuming a parent max_brightness of 255 the
->>> user may want
->>> +to dim the LED color group to half.  The user would write a value of
->>> 128 to the
->>> +parent brightness file then the values written to each LED will be
->>> adjusted
->>> +base on this value
->>> +
->>> +cat /sys/class/leds/rgb:grouped_leds/max_brightness
->>> +255
->>> +echo 128 > /sys/class/leds/rgb:grouped_leds/brightness
->>> +
->>> +adjusted_red_value = 128 * 138/255 = 69
->>> +adjusted_green_value = 128 * 43/255 = 21
->>> +adjusted_blue_value = 128 * 226/255 = 113
->>> +
->>> +Reading the parent brightness file will return the current
->>> brightness value of
->>> +the color LED group.
->>> +
->>> +cat /sys/class/leds/rgb:grouped_leds/max_brightness
->>> +255
->>> +
->>> +echo 128 > /sys/class/leds/rgb:grouped_leds/brightness
->>> +
->>> +cat /sys/class/leds/rgb:grouped_leds/brightness
->>> +128
->>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->>> index 4b68520ac251..a1ede89afc9e 100644
->>> --- a/drivers/leds/Kconfig
->>> +++ b/drivers/leds/Kconfig
->>> @@ -30,6 +30,16 @@ config LEDS_CLASS_FLASH
->>>         for the flash related features of a LED device. It can be built
->>>         as a module.
->>>   +config LEDS_CLASS_MULTI_COLOR
->>> +    tristate "LED Mulit Color LED Class Support"
->>> +    depends on LEDS_CLASS
->>> +    help
->>> +      This option enables the multicolor LED sysfs class in
->>> /sys/class/leds.
->>> +      It wraps LED class and adds multicolor LED specific sysfs
->>> attributes
->>> +      and kernel internal API to it. You'll need this to provide
->>> support
->>> +      for multicolor LEDs that are grouped together. This class is not
->>> +      intended for single color LEDs. It can be built as a module.
->>> +
->>>   config LEDS_BRIGHTNESS_HW_CHANGED
->>>       bool "LED Class brightness_hw_changed attribute support"
->>>       depends on LEDS_CLASS
->>> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
->>> index 2da39e896ce8..841038cfe35b 100644
->>> --- a/drivers/leds/Makefile
->>> +++ b/drivers/leds/Makefile
->>> @@ -4,6 +4,7 @@
->>>   obj-$(CONFIG_NEW_LEDS)            += led-core.o
->>>   obj-$(CONFIG_LEDS_CLASS)        += led-class.o
->>>   obj-$(CONFIG_LEDS_CLASS_FLASH)        += led-class-flash.o
->>> +obj-$(CONFIG_LEDS_CLASS_MULTI_COLOR)    += led-class-multicolor.o
->>>   obj-$(CONFIG_LEDS_TRIGGERS)        += led-triggers.o
->>>     # LED Platform Drivers
->>> diff --git a/drivers/leds/led-class-multicolor.c
->>> b/drivers/leds/led-class-multicolor.c
->>> new file mode 100644
->>> index 000000000000..89f4bc9e057c
->>> --- /dev/null
->>> +++ b/drivers/leds/led-class-multicolor.c
->>> @@ -0,0 +1,271 @@
->>> +// SPDX-License-Identifier: GPL-2.0
->>> +// LED Multi Color class interface
->>> +// Copyright (C) 2019 Texas Instruments Incorporated -
->>> http://www.ti.com/
->>> +
->>> +#include <linux/device.h>
->>> +#include <linux/init.h>
->>> +#include <linux/led-class-multicolor.h>
->>> +#include <linux/module.h>
->>> +#include <linux/slab.h>
->>> +#include <linux/uaccess.h>
->>> +
->>> +#include "leds.h"
->>> +
->>> +#define INTENSITY_NAME        "_intensity"
->>> +#define MAX_INTENSITY_NAME    "_max_intensity"
->>> +
->>> +int led_mc_calc_brightness(struct led_classdev_mc *mcled_cdev,
->>> +                enum led_brightness brightness,
->>> +                struct led_mc_color_conversion color_component[])
->> Now the function name doesn't match with the output array name.
->>
->> How about:
->>
->> - led_mc_brightness_to_color_components
->> - led_mc_calc_color_components
->>
->> Other suggestions?
+> Ack
 > 
-> led_mc_calc_color_components is fine the first one is to long
-
-Agreed.
-
-[...]
->>> +static inline int devm_led_classdev_multicolor_register(struct
->>> device *parent,
->>> +                     struct led_classdev_mc *mcled_cdev)
->>> +{
->>> +    return -EINVAL;
->>> +}
->> Do you have use case for which these no-ops would be useful?
->> We don't have no-ops for any of current LED API beside triggers,
->> which are indeed useful.
 > 
-> Absolutely this was the solution for the kbuild test.  This MC framework
-> is optional for drivers where as the LED class and flash are not.
+>>
+>>> +    - color : For multicolor LED support this property should be
+>>> defined as
+>>> +          LED_COLOR_ID_MULTI and further definition can be found in
+>>> +          include/linux/leds/common.h.
+>>> +
+>>> +led-controller@30 {
+>>> +    #address-cells = <1>;
+>>> +    #size-cells = <0>;
+>>> +    compatible = "ti,lp5024";
+>>> +    reg = <0x29>;
+>>> +
+>>> +    multi-led@1 {
+>>> +        #address-cells = <1>;
+>>> +        #size-cells = <0>;
+>>> +        reg = <1>;
+>>> +        color = <LED_COLOR_ID_MULTI>;
+>>> +        function = LED_FUNCTION_STATUS;
+>> Status is not too fancy function for multi color LED ;-)
+>> I'd skip it entirely for this example if we don't have
+>> anything suitable at the moment for our disposal.
 > 
-> The LP55xx does not have a dependency on the CONFIG_MULTICOLOR_CLASS
-> flag and it does not need a hard dependency.  Without that flag defined
-> in the defconfig
+> Not sure I understand.  Status is a good example as a RGB module can be
+> used to present charging status
 
-Ack.
+So, maybe LED_FUNCTION_CHARGING ? This implies that color can change
+gradually during charging. However me might think of adding
+LED_FUNCTION_VBAT or so.
 
 -- 
 Best regards,
