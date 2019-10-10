@@ -2,107 +2,149 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 108A0D1DB6
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2019 02:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95B62D2739
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2019 12:32:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731166AbfJJAw0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Oct 2019 20:52:26 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:35198 "EHLO
-        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731134AbfJJAw0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Oct 2019 20:52:26 -0400
-IronPort-SDR: KP+TDw3abl/DSqy7bmalkCp0mt64Afpyaw8ueA2wPxhT6asjKAH659E0IXy3tFvNh1n1LkhDML
- lyjCF3K8b5DlliavePxjFag9ZQAViMYS+iisgvUmUszaTXqZ5N/pVUrKf+7BS230BjsLZ1RkZQ
- I6iDhCCAcugLP/0dXP2vyfpBRvh4mRBBOpEFSOOulSeETSys8RlR4ih3EBELR1LNUV5zy6ytwe
- Qzbj/NLTEDvWB4/dG53T1dHaZabVUV6JWyeo4vTw1ZCbFztUyh9CtW6MLbZLib3H/CqBsz3i/S
- LBc=
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 09 Oct 2019 17:52:25 -0700
-IronPort-SDR: 5L4sJ8Sf+cQwvwIsNeq9CncPt18G8SLD744ne+mRaFs2tNiU2kCQj/srsThOrW9NROl7I65kIR
- eAqStAfEM9yay1jiJjwUoi98r2CcPvFHeojZwQJY3WeyKG3CB6oTlVFUrk76jeMPahcDczFrx9
- F2JqFOR45KbcVbn/TNW5nZ/R2IfCp/H2Uo68JBFDIQ3Wjb6URqdWgFe10v5o/ldy5ORWU93v54
- e3rSPU60ZBiUTH0v2Q9Rkmnk36ZNi9NjwZ0P91fikYUOqF6GQ+sCD6vlazxkIvLyyWMbRe2bEu
- B3An10YkRKmlEkvSSQXMXyNM
-Received: from gurus-linux.qualcomm.com ([10.46.162.81])
-  by ironmsg02-sd.qualcomm.com with ESMTP; 09 Oct 2019 17:52:24 -0700
-Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
-        id C16E74714; Wed,  9 Oct 2019 17:52:24 -0700 (PDT)
-Date:   Wed, 9 Oct 2019 17:52:24 -0700
-From:   Guru Das Srinagesh <gurus@codeaurora.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-leds@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-kernel@vger.kernel.org,
-        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Subject: Re: [PATCH 1/2] leds: Add flag to keep trigger always
-Message-ID: <20191010005224.GA31702@codeaurora.org>
-References: <1565398367-11811-1-git-send-email-gurus@codeaurora.org>
- <20190810071322.GA13760@amd>
- <20190930133902.GA2249614@kroah.com>
- <20190930172239.GA26107@amd>
- <20190930172743.GA2409822@kroah.com>
- <20191004200932.GA28140@codeaurora.org>
- <20191008074731.GB633@amd>
+        id S1726201AbfJJKcE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Oct 2019 06:32:04 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:53920 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbfJJKcE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Oct 2019 06:32:04 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9AAVt4E002714;
+        Thu, 10 Oct 2019 05:31:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1570703515;
+        bh=oTQ6m0DLPijn4Z75VG/MQLEv1ErJGwIKzArMsIw7Reo=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=gDzQJKaL5ZvdXWt7JQU1Odz5MXSAU4BnqfxoG/K0mKbj9ifPOyncptYUb7TWOxNKK
+         hwA3dCOfGekVFIyO6giwm6HTdfezyLf8Zfb2pNXgv7h1nZXjZbBN/CARWAhW14fwyX
+         EyTHEoXmvGGZB6t5MTMX77NJ7D+7aVI5uRsNEJw8=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9AAVtK2097014
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 10 Oct 2019 05:31:55 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 10
+ Oct 2019 05:31:51 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 10 Oct 2019 05:31:51 -0500
+Received: from [10.250.99.146] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9AAVqgX109829;
+        Thu, 10 Oct 2019 05:31:52 -0500
+Subject: Re: [PATCH v10 4/6] dts-bindings: leds: Document the naming
+ requirement for LED properties
+To:     Rob Herring <robh@kernel.org>
+CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <sre@kernel.org>,
+        <mark.rutland@arm.com>, <lee.jones@linaro.org>,
+        <daniel.thompson@linaro.org>, <dmurphy@ti.com>,
+        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <tomi.valkeinen@ti.com>,
+        <devicetree@vger.kernel.org>
+References: <20191009085127.22843-1-jjhiblot@ti.com>
+ <20191009085127.22843-5-jjhiblot@ti.com> <20191009192628.GA24087@bogus>
+From:   Jean-Jacques Hiblot <jjhiblot@ti.com>
+Message-ID: <f281d352-ec3e-f80a-66ea-b955609f2531@ti.com>
+Date:   Thu, 10 Oct 2019 12:31:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191008074731.GB633@amd>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20191009192628.GA24087@bogus>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Oct 08, 2019 at 09:47:31AM +0200, Pavel Machek wrote:
-> Hi!
-> 
-> > > > > I don't understand.  The original commit broke userspace operations.
-> > > > > Shouldn't it be reverted, or fixed this way in order to have userspace
-> > > > > work properly again?
-> > > > 
-> > > > So, what it is exactly that is not working? :-). Yes, root can
-> > > > disconnect LED from v4l2 interface; he can also connect it
-> > > > back. Documentation says that happens.
-> > > > 
-> > > > Yes, root can do stupid things.
-> > > > 
-> > > > Commit 0013b23d66a2768f5babbb0ea9f03ab067a990d8 is from 2008. I'd
-> > > > prefer we did not apply it in 2008, but...
-> > > 
-> > > Ah, my fault, I thought this was a new commit.
-> > > 
-> > > Guru, what are you doing here that this is required all of a sudden?  No
-> > > other kernel seems to need these changes, what is different in your
-> > > Android userspace that requires this patch series?
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h
-> > 
-> > Hi Greg,
-> > 
-> > Our camera flash driver first requests the available current from the
-> > flash LED before setting its brightness. It passes a trigger as argument
-> > to the function that determines the available current. This function
-> > uses trigger_to_lcdev() to look up the led_classdev associated with that
-> > trigger as a first step. This lookup will fail if the trigger has been
-> > dissociated from its led_classdev as a result of a user setting that
-> > led_classdev's brightness to zero manually through sysfs. 
-> > 
-> > Why would the user set the brightness to zero? The user does this as
-> > part of camera and LED testing activities which include, amongst other
-> > things, visual inspection of the operation of various onboard LEDs. The
-> > user uses sysfs to manually turn on and off the LEDs by setting their
-> > brightness to max and then to zero in order to verify that they are
-> > working as expected.
-> 
-> Yes, so you should really set trigger to none before changing
-> brightness manually and restore it back to whatever it was when you
-> are done with manual testing.
 
-Hi Pavel,
+On 09/10/2019 21:26, Rob Herring wrote:
+> On Wed, Oct 09, 2019 at 10:51:25AM +0200, Jean-Jacques Hiblot wrote:
+>> LED properties must be named "leds" in the same way that PWM, clocks or
+>> PHY properties are names respectively "pwms", "clocks" and "phys".
+>>
+>> Cc: devicetree@vger.kernel.org
+>> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
+>> ---
+>>   .../devicetree/bindings/leds/common.txt       | 20 ++++++++++++++++---
+>>   1 file changed, 17 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/common.txt b/Documentation/devicetree/bindings/leds/common.txt
+>> index 9fa6f9795d50..31b8c1f68d27 100644
+>> --- a/Documentation/devicetree/bindings/leds/common.txt
+>> +++ b/Documentation/devicetree/bindings/leds/common.txt
+>> @@ -10,6 +10,9 @@ can influence the way of the LED device initialization, the LED components
+>>   have to be tightly coupled with the LED device binding. They are represented
+>>   by child nodes of the parent LED device binding.
+>>   
+>> +LED properties should be named "leds". The exact meaning of each leds
+>> +property must be documented in the device tree binding for each device.
+>> +
+> This is worded oddly. The property is 'leds' and it is always a list of
+> phandles to LED device nodes. It is present in an LED consumer device.
 
-Tried your suggestion to set the trigger to "none" before manual testing
-and to restore it afterwards, and it works.
+How about:
 
-Thanks a lot.
+[...]
+
+A LED consumer device has a 'leds' property. This property is always a list
+of phandles to LED nodes (child node of a LED device node).
+
+led_device {
+     ...
+
+     led0: led@0 {
+         ...
+     };
+
+     led1: led@1 {
+         ...
+     };
+};
+
+consumer {
+     ...
+     leds = <led0>, <led1>;
+};
+
+>
+>>   
+>>   Optional properties for child nodes:
+>>   - led-sources : List of device current outputs the LED is connected to. The
+>> @@ -165,9 +168,20 @@ led-controller@30 {
+>>   		function-enumerator = <2>;
+>>           };
+>>   
+>> -        led@3 {
+>> +        bkl_led0: led@3 {
+>>   		reg = <3>;
+>> -		function = LED_FUNCTION_INDICATOR;
+>> -		function-enumerator = <3>;
+>> +		function = LED_FUNCTION_BACKLIGHT;
+>> +		function-enumerator = <1>;
+>>           };
+>> +
+>> +        bkl_led1: led@4 {
+>> +		reg = <4>;
+>> +		function = LED_FUNCTION_BACKLIGHT;
+>> +		function-enumerator = <2>;
+>> +        };
+>> +};
+>> +
+>> +
+>> +backlight@40 {
+> Either needs 'reg' or the unit-address dropped.
+>
+>> +	leds = <&bkl_led0> , <&bkl_led1>;
+> drop the space            ^
+>
+>>   };
+>> -- 
+>> 2.17.1
+>>
