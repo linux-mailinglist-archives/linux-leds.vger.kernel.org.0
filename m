@@ -2,50 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A7E0D307D
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2019 20:37:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0ECFD3084
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2019 20:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726595AbfJJShE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 10 Oct 2019 14:37:04 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:32793 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726007AbfJJShD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Oct 2019 14:37:03 -0400
-Received: by mail-wr1-f66.google.com with SMTP id b9so9143702wrs.0;
-        Thu, 10 Oct 2019 11:37:00 -0700 (PDT)
+        id S1726959AbfJJShH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Oct 2019 14:37:07 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:55853 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726007AbfJJShH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Oct 2019 14:37:07 -0400
+Received: by mail-wm1-f66.google.com with SMTP id a6so7971822wma.5;
+        Thu, 10 Oct 2019 11:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
         bh=FrLev8RKCes1rQN5iSQMblGUpNeOsZxGiMBIF8f6iVE=;
-        b=gmPbnzFykFDj3hBHdj+dh/prbEguqfub10uxqRHs4pYpIG5z+LPyCY84CncQQE8hXg
-         R1f/6DlUWaEoZTK0fuYOEOmQB943EO42MGXtdT63xCJCZYgIMXItCj3q8sDoMk1daPb2
-         LS6+fV7Fmt17peNwGdsPC7FqOXj+JKPI/R95xQldtv7zzvbfra6ZYWCU1z6Gh6aUEGda
-         Cqz+TV+baOKLIZcG7HjK02A/gfW8pZ9IcXw24On6ZG0+SbRYTZjgfvEAPCn4Vo8pvydq
-         H0kNFxgrhpVeACa9cYPRKLWE0FQr/nwb3tfQP7s2gSJGrGKupcUns7a0zGlS7UBWkRH/
-         4j/w==
+        b=KxRFSAUAD59rV7rZB+1UfSHNh2TKpyKiOtaHOKgaHDKcJOglhezi+RBSB7LQi1X2si
+         TkkrjKzth2ddLHc5nYsVYKYdnyePLAitzpMfI9jdVxKxTNYA8UEuGsnP3ytfwL7OsExL
+         KdfLiESP4NE/irLSLzNzG0MmDWfBLfnf3Rj0lgkoa70LB1wpjxXlYBKqdZHvIPbyUYIR
+         FLX1CsTaSFu/WuI0BuAJ8wPPiiqiqDd9B2Y0V7CcIjxmBzivZOYQc/SuxGCv6AncJrDD
+         xd0Isoc3z8TRJSntDA4xwpanoANV4nral3tUArYNOwjt9UhKJIIIk7M1PSxAJDRlbsCN
+         MgzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
         bh=FrLev8RKCes1rQN5iSQMblGUpNeOsZxGiMBIF8f6iVE=;
-        b=T32rvahHSXwg37232kMHFs/leeUjRBtCdjoOHr46JcTLSogjXiUdHcz7paqP9pg1w7
-         UWz2KRJgR8Xd9HwV+D+1S57cll6l+F+QyeahGWXPkQtFXXJ2e8qo5+FeI6nR5p1M5CGW
-         6uEngJU/Pix3GkqQrCUVCUHJZFSaiw4mGh7KaOQlL8EujDI7DGqe5cyVpwUQXLXMLTGk
-         pkakkUVlU9VYR1YSZGPBasZnnLmpkp6L5r+Spe5eSm2qD+ED+wmnSifb3B9ZJ+eofLGy
-         EomQ1Xogn69XbG8CPkAju2KwjtCusYrRUcvIaObfbPExEimdDqrDUu0E4tKDCkXIgJvv
-         B08g==
-X-Gm-Message-State: APjAAAXrTDA/uFUy/DcU+KGbuUvA2Rf5lyv8gy6N1pHSMcIR6OHZbQ4c
-        BecizWR7kSTnalO2m0kxrsto29KP
-X-Google-Smtp-Source: APXvYqxIrlb9POrt4nFfxinEDZMu6M9xUS+NlzeBrsYjUDLjirT6i5gwOQX5taGv5wWN9r24Q+aSSA==
-X-Received: by 2002:adf:a50b:: with SMTP id i11mr10210243wrb.308.1570732619447;
-        Thu, 10 Oct 2019 11:36:59 -0700 (PDT)
+        b=aZQPWhO55zxF2M6l6+mjjRpHrpzVq1iUFLAMW/HB4wK8BfCLe1ZL9SUNGBYCyktAkA
+         9G8H567OoY15rqt0puesWowWpBeEcOyCJKYZ2wTs/TwrC109uDUGUkvD5z+DTccoocXQ
+         +qeVbklGHV+BtEz9W3eM3yuAdMC6RuidnkDUGChLEEgq8HWWYn4s0hGAohHqJ0qN5/xr
+         U3pjzNQg35/vqdvmMi0+996zkuLVgY5ZHQ+dvNIUhngRMEKSRCpVEoWe6RiD4lFwdT5F
+         WnIzwCNdw1713Q2HdpINAy3iahGu5igKBdbdy0Ys5qw4GLXKFsb3vac7q8bXv/VBg97s
+         5z3A==
+X-Gm-Message-State: APjAAAVXUl6ni+MaOyUqpo02JThR6VXIgK1JEZKXnyXED03t3Id0EzhR
+        VacCqqo25nQHAZEGM9LlzTtkmrG0
+X-Google-Smtp-Source: APXvYqxJ1sD7CTK5Pu7ZCaTe59pS45ZxtHbAjfpMteVkmViHS63GTH0M7u+vcq7d9byTyD5bbS5ysw==
+X-Received: by 2002:a1c:8157:: with SMTP id c84mr3109wmd.56.1570732624359;
+        Thu, 10 Oct 2019 11:37:04 -0700 (PDT)
 Received: from [192.168.1.19] (bkt243.neoplus.adsl.tpnet.pl. [83.28.187.243])
-        by smtp.gmail.com with ESMTPSA id a2sm10499002wrt.45.2019.10.10.11.36.57
+        by smtp.gmail.com with ESMTPSA id r27sm14960539wrc.55.2019.10.10.11.37.03
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Oct 2019 11:36:58 -0700 (PDT)
+        Thu, 10 Oct 2019 11:37:03 -0700 (PDT)
 Subject: Re: [PATCH v11 04/16] leds: multicolor: Introduce a multicolor class
  definition
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
@@ -112,8 +112,8 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <8ced5374-0e8a-34d0-a8c8-796de3f2f433@gmail.com>
-Date:   Thu, 10 Oct 2019 20:36:56 +0200
+Message-ID: <52ed9921-54a0-d0ce-2952-59c5a7ac0ed9@gmail.com>
+Date:   Thu, 10 Oct 2019 20:37:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
