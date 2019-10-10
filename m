@@ -2,77 +2,444 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07CA8D2AF6
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2019 15:18:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A7E0D307D
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Oct 2019 20:37:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388295AbfJJNRo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 10 Oct 2019 09:17:44 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:37212 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388112AbfJJNRn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Oct 2019 09:17:43 -0400
-Received: by mail-ot1-f66.google.com with SMTP id k32so4824862otc.4
-        for <linux-leds@vger.kernel.org>; Thu, 10 Oct 2019 06:17:43 -0700 (PDT)
+        id S1726595AbfJJShE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Oct 2019 14:37:04 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:32793 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726007AbfJJShD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Oct 2019 14:37:03 -0400
+Received: by mail-wr1-f66.google.com with SMTP id b9so9143702wrs.0;
+        Thu, 10 Oct 2019 11:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ub-ac-id.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
-        b=kbDD0ETnfb+9T5ky4afnuU19WL5B3TgSTtrvr8/78l52RfSJ/bD7cjcm8C45XsJ4wr
-         kY8zUv/ms1sLDr56E/0rqAcpldgbTirzVsO1TqrlTRt5AL5IhxusLfWbWkCQZqSDApog
-         xVZixZPZF5pv+wD9wYHHFszyBuRJ0Z0/71+2E/SGgHwnMzv66/86w9uplcX1z0grTv9p
-         1TYZ7MtIagYr+hnMPgyspL8CH18dkY1RexU6NSgr6L6/lGHi7jHNMmmGOoiBuh2azqNd
-         aWHFVXbx5cxjkbX5kJe7PAp4IU2wf06fogqa+YoO9ylF7jna+POCU+xNsHXT6R2wFQg9
-         YqYQ==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=FrLev8RKCes1rQN5iSQMblGUpNeOsZxGiMBIF8f6iVE=;
+        b=gmPbnzFykFDj3hBHdj+dh/prbEguqfub10uxqRHs4pYpIG5z+LPyCY84CncQQE8hXg
+         R1f/6DlUWaEoZTK0fuYOEOmQB943EO42MGXtdT63xCJCZYgIMXItCj3q8sDoMk1daPb2
+         LS6+fV7Fmt17peNwGdsPC7FqOXj+JKPI/R95xQldtv7zzvbfra6ZYWCU1z6Gh6aUEGda
+         Cqz+TV+baOKLIZcG7HjK02A/gfW8pZ9IcXw24On6ZG0+SbRYTZjgfvEAPCn4Vo8pvydq
+         H0kNFxgrhpVeACa9cYPRKLWE0FQr/nwb3tfQP7s2gSJGrGKupcUns7a0zGlS7UBWkRH/
+         4j/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
-        b=lkZsThb7nu4vNM3ZGXl3nX0MOpM9Q+DobZM8RcS0Hb2kV16EhbBk/qzwztwmaJG0sg
-         Xg5gLp4opzp8Kmq3qtyj1LRg51Zz51bdD1XI9OuCJyfR1mrp2wlYdgWybW90zGJle6+T
-         JIuhYLxl6/02x4ScOJLS89FS/DPrcAo+wpVomMlnIN2NVxjmMxt+zb5/CBf4hHyRYcAS
-         eT9a8oJ5VQv/7qHuXGcb95ftFo6ZmTClZ6eP8UfQ5eD/ocYh7qBV6CQ8B8CYMJLNlGHE
-         5C8JnGPvqvJ3c3g1BwAWxhWG66nmWJzAbwWJiijO7Nkkv59tnPa2EEo5WC5HESgC0dLY
-         5SJQ==
-X-Gm-Message-State: APjAAAUlgoB+FIbA85N+8pK8UR6jhKotzBdP8fz4d5rt+SMJ5u/ZCon9
-        odp1YI7DFtQ0Y33iqksmGJDD+/M+pI23ice5oGz7
-X-Google-Smtp-Source: APXvYqwe5B6z/3dUuNDQtQ0n2oQYOsdY3HQR3dkIin1gqVhu0NNteov05tKzv4DhJBBR4bjK2RG7Phnj6WUHoBrkRYc=
-X-Received: by 2002:a05:6830:1103:: with SMTP id w3mr7909437otq.312.1570713462861;
- Thu, 10 Oct 2019 06:17:42 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=FrLev8RKCes1rQN5iSQMblGUpNeOsZxGiMBIF8f6iVE=;
+        b=T32rvahHSXwg37232kMHFs/leeUjRBtCdjoOHr46JcTLSogjXiUdHcz7paqP9pg1w7
+         UWz2KRJgR8Xd9HwV+D+1S57cll6l+F+QyeahGWXPkQtFXXJ2e8qo5+FeI6nR5p1M5CGW
+         6uEngJU/Pix3GkqQrCUVCUHJZFSaiw4mGh7KaOQlL8EujDI7DGqe5cyVpwUQXLXMLTGk
+         pkakkUVlU9VYR1YSZGPBasZnnLmpkp6L5r+Spe5eSm2qD+ED+wmnSifb3B9ZJ+eofLGy
+         EomQ1Xogn69XbG8CPkAju2KwjtCusYrRUcvIaObfbPExEimdDqrDUu0E4tKDCkXIgJvv
+         B08g==
+X-Gm-Message-State: APjAAAXrTDA/uFUy/DcU+KGbuUvA2Rf5lyv8gy6N1pHSMcIR6OHZbQ4c
+        BecizWR7kSTnalO2m0kxrsto29KP
+X-Google-Smtp-Source: APXvYqxIrlb9POrt4nFfxinEDZMu6M9xUS+NlzeBrsYjUDLjirT6i5gwOQX5taGv5wWN9r24Q+aSSA==
+X-Received: by 2002:adf:a50b:: with SMTP id i11mr10210243wrb.308.1570732619447;
+        Thu, 10 Oct 2019 11:36:59 -0700 (PDT)
+Received: from [192.168.1.19] (bkt243.neoplus.adsl.tpnet.pl. [83.28.187.243])
+        by smtp.gmail.com with ESMTPSA id a2sm10499002wrt.45.2019.10.10.11.36.57
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 10 Oct 2019 11:36:58 -0700 (PDT)
+Subject: Re: [PATCH v11 04/16] leds: multicolor: Introduce a multicolor class
+ definition
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191008204800.19870-1-dmurphy@ti.com>
+ <20191008204800.19870-5-dmurphy@ti.com>
+ <e031ad7d-3191-eddf-ec7e-db9f31b6f05b@gmail.com>
+ <e1514b57-c902-0bf4-bc2a-5f1a1b788390@ti.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <8ced5374-0e8a-34d0-a8c8-796de3f2f433@gmail.com>
+Date:   Thu, 10 Oct 2019 20:36:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Received: by 2002:a4a:3346:0:0:0:0:0 with HTTP; Thu, 10 Oct 2019 06:17:41
- -0700 (PDT)
-Reply-To: sunrisefundingltd50@gmail.com
-From:   Valentina Yurina <v_yurina@ub.ac.id>
-Date:   Thu, 10 Oct 2019 14:17:41 +0100
-Message-ID: <CAKoEkvu4vc5Yn9-hzxQ5dYmUL=oO69=GSP0FC7O+CGz9Jni8+Q@mail.gmail.com>
-Subject: Apply For Financial investment at a lower rate 2%
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <e1514b57-c902-0bf4-bc2a-5f1a1b788390@ti.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Dan,
+
+On 10/10/19 2:27 AM, Dan Murphy wrote:
+> Jacek
+> 
+> On 10/9/19 4:47 PM, Jacek Anaszewski wrote:
+>> Dan,
+>>
+>> On 10/8/19 10:47 PM, Dan Murphy wrote:
+>>> Introduce a multicolor class that groups colored LEDs
+>>> within a LED node.
+>>>
+>>> The multi color class groups monochrome LEDs and allows controlling two
+>>> aspects of the final combined color: hue and lightness. The former is
+>>> controlled via <color>_intensity files and the latter is controlled
+>>> via brightness file.
+>>>
+>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>>> ---
+>>>   .../ABI/testing/sysfs-class-led-multicolor    |  35 +++
+>>>   Documentation/leds/index.rst                  |   1 +
+>>>   Documentation/leds/leds-class-multicolor.rst  |  96 +++++++
+>>>   drivers/leds/Kconfig                          |  10 +
+>>>   drivers/leds/Makefile                         |   1 +
+>>>   drivers/leds/led-class-multicolor.c           | 271 ++++++++++++++++++
+>>>   include/linux/led-class-multicolor.h          | 143 +++++++++
+>>>   7 files changed, 557 insertions(+)
+>>>   create mode 100644
+>>> Documentation/ABI/testing/sysfs-class-led-multicolor
+>>>   create mode 100644 Documentation/leds/leds-class-multicolor.rst
+>>>   create mode 100644 drivers/leds/led-class-multicolor.c
+>>>   create mode 100644 include/linux/led-class-multicolor.h
+>>>
+>>> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor
+>>> b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>>> new file mode 100644
+>>> index 000000000000..65cb43de26e6
+>>> --- /dev/null
+>>> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>>> @@ -0,0 +1,35 @@
+>>> +What:        /sys/class/leds/<led>/brightness
+>>> +Date:        Sept 2019
+>>> +KernelVersion:    5.5
+>>> +Contact:    Dan Murphy <dmurphy@ti.com>
+>>> +Description:    read/write
+>>> +        Writing to this file will update all LEDs within the group to a
+>>> +        calculated percentage of what each color LED intensity is set
+>>> +        to. The percentage is calculated via the equation below:
+>>> +
+>>> +        led_brightness = brightness *
+>>> <color>_intensity/<color>_max_intensity
+>> This equation alone incites questions on how it is supposed to work.
+>>
+>> It would be better to present the whole algorithm for calculating
+>> combined color here.
+> 
+> I am not sure I follow.  Isn't that explained in the class document?
+
+I just think that this document should contain all necessary info
+for the reader to understand the effect of writing brightness.
+Looking once more it seems that slight modification of the last
+sentence above equation could suffice:
+
+s/is calculated/is calculated for each grouped LED/
+
+>>> +
+>>> +        For additional details please refer to
+>>> +        Documentation/leds/leds-class-multicolor.rst.
+>>> +
+>>> +        The value of the color is from 0 to
+>>> +        /sys/class/leds/<led>/max_brightness.
+>>> +
+>>> +What:        /sys/class/leds/<led>/colors/<color>_intensity
+>>> +Date:        Sept 2019
+>>> +KernelVersion:    5.5
+>>> +Contact:    Dan Murphy <dmurphy@ti.com>
+>>> +Description:    read/write
+>>> +        The <color>_intensity file is created based on the color
+>>> +        defined by the registrar of the class.
+>>> +        There is one file per color presented.
+>>> +
+>>> +        The value of the color is from 0 to
+>>> +        /sys/class/leds/<led>/colors/<color>_max_intensity.
+>>> +
+>>> +What:        /sys/class/leds/<led>/colors/<color>_max_intensity
+>>> +Date:        Sept 2019
+>>> +KernelVersion:    5.5
+>>> +Contact:    Dan Murphy <dmurphy@ti.com>
+>>> +Description:    read only
+>>> +        Maximum intensity level for the LED color.
+>>> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+>>> index 060f4e485897..bc70c6aa7138 100644
+>>> --- a/Documentation/leds/index.rst
+>>> +++ b/Documentation/leds/index.rst
+>>> @@ -9,6 +9,7 @@ LEDs
+>>>        leds-class
+>>>      leds-class-flash
+>>> +   leds-class-multicolor
+>>>      ledtrig-oneshot
+>>>      ledtrig-transient
+>>>      ledtrig-usbport
+>>> diff --git a/Documentation/leds/leds-class-multicolor.rst
+>>> b/Documentation/leds/leds-class-multicolor.rst
+>>> new file mode 100644
+>>> index 000000000000..7a695a29377e
+>>> --- /dev/null
+>>> +++ b/Documentation/leds/leds-class-multicolor.rst
+>>> @@ -0,0 +1,96 @@
+>>> +====================================
+>>> +Multi Color LED handling under Linux
+>>> +====================================
+>>> +
+>>> +Description
+>>> +===========
+>>> +The multi color class groups monochrome LEDs and allows controlling two
+>>> +aspects of the final combined color: hue and lightness. The former is
+>>> +controlled via <color>_intensity files and the latter is controlled
+>>> +via brightness file.
+>>> +
+>>> +For more details on hue and lightness notions please refer to
+>>> +https://en.wikipedia.org/wiki/CIECAM02.
+>>> +
+>>> +Note that intensity files only cache the written value and the actual
+>>> +change of hardware state occurs upon writing brightness file. This
+>>> +allows for changing many factors of the perceived color in a virtually
+>>> +unnoticeable way for the human observer.
+>>> +
+>>> +Multicolor Class Control
+>>> +========================
+>>> +The multicolor class presents the LED groups under a directory
+>>> called "colors".
+>>> +This directory is a child under the LED parent node created by the
+>>> led_class
+>>> +framework.  The led_class framework is documented in led-class.rst
+>>> within this
+>>> +documentation directory.
+>>> +
+>>> +Each colored LED will have two files created under the colors directory
+>>> +<color>_intensity and <color>_max_intensity. These files will contain
+>>> +one of LED_COLOR_ID_* definitions from the header
+>>> +include/dt-bindings/leds/common.h.
+>>> +
+>>> +Directory Layout Example
+>>> +========================
+>>> +root:/sys/class/leds/rgb:grouped_leds# ls -lR colors/
+>>> +-rw-r--r--    1 root     root          4096 Jul  7 03:10 blue_intensity
+>>> +-r--r--r--    1 root     root          4096 Jul  7 03:10
+>>> blue_max_intensity
+>>> +-rw-r--r--    1 root     root          4096 Jul  7 03:10
+>>> green_intensity
+>>> +-r--r--r--    1 root     root          4096 Jul  7 03:10
+>>> green_max_intensity
+>>> +-rw-r--r--    1 root     root          4096 Jul  7 03:10 red_intensity
+>>> +-r--r--r--    1 root     root          4096 Jul  7 03:10
+>>> red_max_intensity
+>>> +
+>>> +Multicolor Class Brightness Control
+>>> +===================================
+>>> +The multiclor class framework will calculate each monochrome LEDs
+>>> intensity.
+>>> +
+>>> +The brightness level for each LED is calculated based on the color LED
+>>> +intensity setting divided by the color LED max intensity setting
+>>> multiplied by
+>>> +the requested brightness.
+>>> +
+>>> +led_brightness = brightness * <color>_intensity/<color>_max_intensity
+>>> +
+>>> +Example:
+>>> +Three LEDs are present in the group as defined in "Directory Layout
+>>> Example"
+>>> +within this document.
+>>> +
+>>> +A user first writes the color LED brightness file with the
+>>> brightness level that
+>>> +is necessary to achieve a blueish violet output from the RGB LED group.
+>>> +
+>>> +echo 138 > /sys/class/leds/rgb:grouped_leds/red_intensity
+>>> +echo 43 > /sys/class/leds/rgb:grouped_leds/green_intensity
+>>> +echo 226 > /sys/class/leds/rgb:grouped_leds/blue_intensity
+>>> +
+>>> +red -
+>>> +    intensity = 138
+>>> +    max_intensity = 255
+>>> +green -
+>>> +    intensity = 43
+>>> +    max_intensity = 255
+>>> +blue -
+>>> +    intensity = 226
+>>> +    max_intensity = 255
+>>> +
+>>> +The user can control the brightness of that RGB group by writing the
+>>> parent
+>>> +'brightness' control.  Assuming a parent max_brightness of 255 the
+>>> user may want
+>>> +to dim the LED color group to half.  The user would write a value of
+>>> 128 to the
+>>> +parent brightness file then the values written to each LED will be
+>>> adjusted
+>>> +base on this value
+>>> +
+>>> +cat /sys/class/leds/rgb:grouped_leds/max_brightness
+>>> +255
+>>> +echo 128 > /sys/class/leds/rgb:grouped_leds/brightness
+>>> +
+>>> +adjusted_red_value = 128 * 138/255 = 69
+>>> +adjusted_green_value = 128 * 43/255 = 21
+>>> +adjusted_blue_value = 128 * 226/255 = 113
+>>> +
+>>> +Reading the parent brightness file will return the current
+>>> brightness value of
+>>> +the color LED group.
+>>> +
+>>> +cat /sys/class/leds/rgb:grouped_leds/max_brightness
+>>> +255
+>>> +
+>>> +echo 128 > /sys/class/leds/rgb:grouped_leds/brightness
+>>> +
+>>> +cat /sys/class/leds/rgb:grouped_leds/brightness
+>>> +128
+>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+>>> index 4b68520ac251..a1ede89afc9e 100644
+>>> --- a/drivers/leds/Kconfig
+>>> +++ b/drivers/leds/Kconfig
+>>> @@ -30,6 +30,16 @@ config LEDS_CLASS_FLASH
+>>>         for the flash related features of a LED device. It can be built
+>>>         as a module.
+>>>   +config LEDS_CLASS_MULTI_COLOR
+>>> +    tristate "LED Mulit Color LED Class Support"
+>>> +    depends on LEDS_CLASS
+>>> +    help
+>>> +      This option enables the multicolor LED sysfs class in
+>>> /sys/class/leds.
+>>> +      It wraps LED class and adds multicolor LED specific sysfs
+>>> attributes
+>>> +      and kernel internal API to it. You'll need this to provide
+>>> support
+>>> +      for multicolor LEDs that are grouped together. This class is not
+>>> +      intended for single color LEDs. It can be built as a module.
+>>> +
+>>>   config LEDS_BRIGHTNESS_HW_CHANGED
+>>>       bool "LED Class brightness_hw_changed attribute support"
+>>>       depends on LEDS_CLASS
+>>> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+>>> index 2da39e896ce8..841038cfe35b 100644
+>>> --- a/drivers/leds/Makefile
+>>> +++ b/drivers/leds/Makefile
+>>> @@ -4,6 +4,7 @@
+>>>   obj-$(CONFIG_NEW_LEDS)            += led-core.o
+>>>   obj-$(CONFIG_LEDS_CLASS)        += led-class.o
+>>>   obj-$(CONFIG_LEDS_CLASS_FLASH)        += led-class-flash.o
+>>> +obj-$(CONFIG_LEDS_CLASS_MULTI_COLOR)    += led-class-multicolor.o
+>>>   obj-$(CONFIG_LEDS_TRIGGERS)        += led-triggers.o
+>>>     # LED Platform Drivers
+>>> diff --git a/drivers/leds/led-class-multicolor.c
+>>> b/drivers/leds/led-class-multicolor.c
+>>> new file mode 100644
+>>> index 000000000000..89f4bc9e057c
+>>> --- /dev/null
+>>> +++ b/drivers/leds/led-class-multicolor.c
+>>> @@ -0,0 +1,271 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +// LED Multi Color class interface
+>>> +// Copyright (C) 2019 Texas Instruments Incorporated -
+>>> http://www.ti.com/
+>>> +
+>>> +#include <linux/device.h>
+>>> +#include <linux/init.h>
+>>> +#include <linux/led-class-multicolor.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/slab.h>
+>>> +#include <linux/uaccess.h>
+>>> +
+>>> +#include "leds.h"
+>>> +
+>>> +#define INTENSITY_NAME        "_intensity"
+>>> +#define MAX_INTENSITY_NAME    "_max_intensity"
+>>> +
+>>> +int led_mc_calc_brightness(struct led_classdev_mc *mcled_cdev,
+>>> +                enum led_brightness brightness,
+>>> +                struct led_mc_color_conversion color_component[])
+>> Now the function name doesn't match with the output array name.
+>>
+>> How about:
+>>
+>> - led_mc_brightness_to_color_components
+>> - led_mc_calc_color_components
+>>
+>> Other suggestions?
+> 
+> led_mc_calc_color_components is fine the first one is to long
+
+Agreed.
+
+[...]
+>>> +static inline int devm_led_classdev_multicolor_register(struct
+>>> device *parent,
+>>> +                     struct led_classdev_mc *mcled_cdev)
+>>> +{
+>>> +    return -EINVAL;
+>>> +}
+>> Do you have use case for which these no-ops would be useful?
+>> We don't have no-ops for any of current LED API beside triggers,
+>> which are indeed useful.
+> 
+> Absolutely this was the solution for the kbuild test.  This MC framework
+> is optional for drivers where as the LED class and flash are not.
+> 
+> The LP55xx does not have a dependency on the CONFIG_MULTICOLOR_CLASS
+> flag and it does not need a hard dependency.  Without that flag defined
+> in the defconfig
+
+Ack.
+
 -- 
-Hello,
-
-We are private lenders based in UK.
-
-Do you need a loan (credit) as soon as possible. Are you in search of
-money to solve your personal needs or finance your business venture,
-then get Your desired loan today! Consult us at Sunrise Funding Ltd.
-
-* We offer personal loan & huge capital loan at 2% interest rate to
-the general public both locally and internationally.
-* Credit amount range from $5,000.00 -- $500,000.00 and above.
-* Special $10,000,000.00 Loan offer for huge project also available.
-* Loan period of 6 months -- 10 years.
-* Loan is granted 24 hours after approval and accredited, directly in
-hand or bank account.
-
-Please note that you are advised to contact us for more details via
-the following e-mail address below;
-
-EMAIL : sunrisefundingltd50@gmail.com
-FIRM : Sunrise Funding Ltd UK.
+Best regards,
+Jacek Anaszewski
