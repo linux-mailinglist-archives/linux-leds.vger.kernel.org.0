@@ -2,56 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AC32D48A2
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2019 21:53:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0010AD48D4
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2019 22:05:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728854AbfJKTxZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 11 Oct 2019 15:53:25 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42353 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728799AbfJKTxZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Oct 2019 15:53:25 -0400
-Received: by mail-wr1-f67.google.com with SMTP id n14so13132346wrw.9;
-        Fri, 11 Oct 2019 12:53:23 -0700 (PDT)
+        id S1728783AbfJKUEu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 11 Oct 2019 16:04:50 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:50238 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729055AbfJKUEu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Oct 2019 16:04:50 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 5so11590791wmg.0;
+        Fri, 11 Oct 2019 13:04:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=oRkq44kf2oMWpSigMYhsqTCgVycawmSkx6daDds1u/0=;
-        b=JlD58wTOG0kzS04t2jjntEBsH8ZnrRAzRg2dLTG279iPd5PpShdTPERPi9sSIzkzP0
-         TB2bw29KILSfvgxcrnsSF9C6JDT9JiKzgQl6PLCB7vzpK2CNwfNx/Zw5MTJTuP8yKY2a
-         kcSELCGu6LXeBhrsEDMvbTQDNljl0vK71yIFR0GGKkjdUJ8QT8fI5nSU7rmGEIPpZtOG
-         cIOZCy4eujpUmoQiYbQIMXDKzS0DYCwuX+oM/njZ8XZ3dm026K0jmwJM/xc+bYG/d12S
-         Uz2mysyRngeX8DFwHQ4j6i9vko7LOJF+L1u5SWxTfSN4JMOx4jpGbqn7XFQ2Y/JRntXO
-         yu+Q==
+        bh=CCvC7hS+Qw2SK0rBUJRPdMFnrmvX7elCndWYCCyy89A=;
+        b=ubNH10oaKFK/a1ZeGigoI+GZqbT+CtuZ4qUy+dgxurEZnnerAz65EnPCxnMWjYP0Ap
+         iDIrmjjuYciNf/vLHYqJyqkLqfKRDAr5ErQAnzhEdeujXW6+hCI7xjb5+BQl22qRhdzc
+         4XFH5AbAZXpAkG32lRL0PwlRpePRKsRONehGINAc11X3Z3KKVONP1czXdQ2SqLZsr+S1
+         8YGFUSoRnEiFctInCswCS6EnYy73aG8HzEyl7d2hSLA/VEMj//Mb7HUc+9d15tTGYM/f
+         6jvA8vZp3nrBd/JiEKpPtSFBmz7rMNtH8+zQvx+fr46QLzxJatfY3VqN8v97MtoxCfEs
+         9Obg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=oRkq44kf2oMWpSigMYhsqTCgVycawmSkx6daDds1u/0=;
-        b=qt+h+BsUj06qvEgmYzfVwqhRCisuBWJ0MmWPTV1yslbwHIMnURpQdTczTJbToyEXPK
-         WmkxfCcdQeRX1JHHVwLWWS1jKIRaAdADQAxTw1mNPdqXCu2lEVtVNPOOF0W+cBhZO7ik
-         41gh4mFRTrssQVh/k1r3adgIURBWU2hysCrUW9dpJMLImm4To/hPqrS1AIq8autS/9zs
-         30LVy+kbn0pmI5rL5GTSC143Sm/q+Zrm+H+EjxlUdWS0ecG4vRLIp4mqW5iNWabggKE8
-         dODO3B+xuZExDxrveqDxzChF11/OXH0M/N4yNTM+MBvUPxh8iwP3LfBm0D51+/eJge8D
-         5O7g==
-X-Gm-Message-State: APjAAAXr5wJ+hDP6BnfZiQ8LRntrXMbhOeP5h5Fhznq0+ifrINby8ti6
-        lIWTmsC8VDaJQMmM84VVfIIBKxLK
-X-Google-Smtp-Source: APXvYqwDGIQBS20dp/4ydFb+f1KNdejkzVmdf6MlHrDZKio7px7a7vGw7jsiifj0pBvH4a5GkQiZyw==
-X-Received: by 2002:adf:a50b:: with SMTP id i11mr15298546wrb.308.1570823602624;
-        Fri, 11 Oct 2019 12:53:22 -0700 (PDT)
+        bh=CCvC7hS+Qw2SK0rBUJRPdMFnrmvX7elCndWYCCyy89A=;
+        b=hXeHCqSTtFWqJbVxgwG6oEc6y6gsiuPq30xV1FIPCBCsdab9be73AAqFKsDFRz5til
+         c+C/fZ+wlGhMppojD1Wg6k/tAu2Cg6+ih0CrG55b4h4WB/bdd76qME4+EcpuEK7hqzVa
+         yhqPNfwvml4uA8uuQ9vA+wz6YfOnuLKlAZkKH4xvdxblJYDHNLY3lMkHHvC1dMuxSurt
+         eyPz603diUFnQJCqTGyCnctHu6SdB21Y5V0sqatAydViTRHONF0vquDzPhkOXr/HFX3J
+         aTODfFKjZ+hlxZrhyO76xJhHEWv48Tfqo6rm5ZuiHVbUq+7w+DHNzZiG3RUgISDXjy4r
+         zLcw==
+X-Gm-Message-State: APjAAAX3hxCdvyPqO0K22w5lGH6O68S9XGQB0lA4wKaAtfMjlN9IghgO
+        jrVZabppubbu05WQuV8eVtBoQTC0
+X-Google-Smtp-Source: APXvYqzZ2Ti7F39ZOKQLF7bWzqU3K84H62TM7X02l7f5piCk6bS9u7JC7XiRcbkL/CuOaA9mREwUhQ==
+X-Received: by 2002:a1c:6a05:: with SMTP id f5mr4549491wmc.121.1570824286863;
+        Fri, 11 Oct 2019 13:04:46 -0700 (PDT)
 Received: from [192.168.1.19] (cjl71.neoplus.adsl.tpnet.pl. [83.31.61.71])
-        by smtp.gmail.com with ESMTPSA id v11sm9047468wml.30.2019.10.11.12.53.21
+        by smtp.gmail.com with ESMTPSA id s12sm11414707wra.82.2019.10.11.13.04.45
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 11 Oct 2019 12:53:21 -0700 (PDT)
-Subject: Re: [PATCH v12 04/16] leds: multicolor: Introduce a multicolor class
- definition
+        Fri, 11 Oct 2019 13:04:46 -0700 (PDT)
+Subject: Re: [PATCH v12 06/16] leds: lp50xx: Add the LP50XX family of the RGB
+ LED driver
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20191011130657.4713-1-dmurphy@ti.com>
- <20191011130657.4713-5-dmurphy@ti.com>
+ <20191011130657.4713-7-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,12 +110,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <651f42b4-a15c-d9ae-9a83-0a0567d61230@gmail.com>
-Date:   Fri, 11 Oct 2019 21:53:20 +0200
+Message-ID: <2fe811df-d9d8-1608-6ad1-060b49df5b8f@gmail.com>
+Date:   Fri, 11 Oct 2019 22:04:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191011130657.4713-5-dmurphy@ti.com>
+In-Reply-To: <20191011130657.4713-7-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -127,94 +127,102 @@ X-Mailing-List: linux-leds@vger.kernel.org
 Dan,
 
 On 10/11/19 3:06 PM, Dan Murphy wrote:
-> Introduce a multicolor class that groups colored LEDs
-> within a LED node.
+> Introduce the LP5036/30/24/18/12/9 RGB LED driver.
+> The difference in these parts are the number of
+> LED outputs where the:
 > 
-> The multi color class groups monochrome LEDs and allows controlling two
-> aspects of the final combined color: hue and lightness. The former is
-> controlled via <color>_intensity files and the latter is controlled
-> via brightness file.
+> LP5036 can control 36 LEDs
+> LP5030 can control 30 LEDs
+> LP5024 can control 24 LEDs
+> LP5018 can control 18 LEDs
+> LP5012 can control 12 LEDs
+> LP5009 can control 9 LEDs
+> 
+> The device has the ability to group LED output into control banks
+> so that multiple LED banks can be controlled with the same mixing and
+> brightness.  Inversely the LEDs can also be controlled independently.
 > 
 > Signed-off-by: Dan Murphy <dmurphy@ti.com>
 > ---
->  .../ABI/testing/sysfs-class-led-multicolor    |  36 +++
->  .../bindings/leds/leds-class-multicolor.txt   |   4 +-
->  Documentation/leds/index.rst                  |   1 +
->  Documentation/leds/leds-class-multicolor.rst  |  96 +++++++
->  drivers/leds/Kconfig                          |  10 +
->  drivers/leds/Makefile                         |   1 +
->  drivers/leds/led-class-multicolor.c           | 271 ++++++++++++++++++
->  include/linux/led-class-multicolor.h          | 143 +++++++++
->  8 files changed, 560 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
->  create mode 100644 Documentation/leds/leds-class-multicolor.rst
->  create mode 100644 drivers/leds/led-class-multicolor.c
->  create mode 100644 include/linux/led-class-multicolor.h
+>  drivers/leds/Kconfig       |  11 +
+>  drivers/leds/Makefile      |   1 +
+>  drivers/leds/leds-lp50xx.c | 799 +++++++++++++++++++++++++++++++++++++
+>  3 files changed, 811 insertions(+)
+>  create mode 100644 drivers/leds/leds-lp50xx.c
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> new file mode 100644
-> index 000000000000..3d1f9d726c70
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> @@ -0,0 +1,36 @@
-> +What:		/sys/class/leds/<led>/brightness
-> +Date:		Sept 2019
-> +KernelVersion:	5.5
-> +Contact:	Dan Murphy <dmurphy@ti.com>
-> +Description:	read/write
-> +		Writing to this file will update all LEDs within the group to a
-> +		calculated percentage of what each color LED intensity is set
-> +		to. The percentage is calculated for each grouped LED via the
-> +		equation below:
-> +
-> +		led_brightness = brightness * <color>_intensity/<color>_max_intensity
-> +
-> +		For additional details please refer to
-> +		Documentation/leds/leds-class-multicolor.rst.
-> +
-> +		The value of the color is from 0 to
-> +		/sys/class/leds/<led>/max_brightness.
-> +
-> +What:		/sys/class/leds/<led>/colors/<color>_intensity
-> +Date:		Sept 2019
-> +KernelVersion:	5.5
-> +Contact:	Dan Murphy <dmurphy@ti.com>
-> +Description:	read/write
-> +		The <color>_intensity file is created based on the color
-> +		defined by the registrar of the class.
-> +		There is one file per color presented.
-> +
-> +		The value of the color is from 0 to
-> +		/sys/class/leds/<led>/colors/<color>_max_intensity.
-> +
-> +What:		/sys/class/leds/<led>/colors/<color>_max_intensity
-> +Date:		Sept 2019
-> +KernelVersion:	5.5
-> +Contact:	Dan Murphy <dmurphy@ti.com>
-> +Description:	read only
-> +		Maximum intensity level for the LED color.
-> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
-> index 8619c9bf1811..4b1bd82f2a42 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
-> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
-> @@ -10,7 +10,7 @@ The nodes and properties defined in this document are unique to the multicolor
->  LED class.  Common LED nodes and properties are inherited from the common.txt
->  within this documentation directory.
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index a1ede89afc9e..fb614a6b9afa 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -363,6 +363,17 @@ config LEDS_LP3952
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called leds-lp3952.
 >  
-> -Required LED Child properties:
-> +Required LED child properties:
->  	- color : For multicolor LED support this property should be defined as
->  		  LED_COLOR_ID_MULTI and further definition can be found in
->  		  include/linux/leds/common.h.
-> @@ -26,7 +26,7 @@ led-controller@30 {
->  		#size-cells = <0>;
->  		reg = <1>;
->  		color = <LED_COLOR_ID_MULTI>;
-> -		function = LED_FUNCTION_STATUS;
-> +		function = LED_FUNCTION_CHARGING;
->  
+> +config LEDS_LP50XX
+> +	tristate "LED Support for TI LP5036/30/24/18/12/9 LED driver chip"
+> +	depends on LEDS_CLASS && REGMAP_I2C
+> +	depends on LEDS_CLASS_MULTI_COLOR
+> +	help
+> +	  If you say yes here you get support for the Texas Instruments
+> +	  LP5036, LP5030, LP5024, LP5018, LP5012 and LP5009 LED driver.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called leds-lp50xx.
+> +
+>  config LEDS_LP55XX_COMMON
+>  	tristate "Common Driver for TI/National LP5521/5523/55231/5562/8501"
+>  	depends on LEDS_LP5521 || LEDS_LP5523 || LEDS_LP5562 || LEDS_LP8501
+> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> index 841038cfe35b..7a208a0f7b84 100644
+> --- a/drivers/leds/Makefile
+> +++ b/drivers/leds/Makefile
+> @@ -34,6 +34,7 @@ obj-$(CONFIG_LEDS_GPIO_REGISTER)	+= leds-gpio-register.o
+>  obj-$(CONFIG_LEDS_GPIO)			+= leds-gpio.o
+>  obj-$(CONFIG_LEDS_LP3944)		+= leds-lp3944.o
+>  obj-$(CONFIG_LEDS_LP3952)		+= leds-lp3952.o
+> +obj-$(CONFIG_LEDS_LP50XX)		+= leds-lp50xx.o
+>  obj-$(CONFIG_LEDS_LP55XX_COMMON)	+= leds-lp55xx-common.o
+>  obj-$(CONFIG_LEDS_LP5521)		+= leds-lp5521.o
+>  obj-$(CONFIG_LEDS_LP5523)		+= leds-lp5523.o
+> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+[...]
+> +		fwnode_for_each_child_node(child, led_node) {
+> +			ret = fwnode_property_read_u32(led_node, "color",
+> +						       &color_id);
+> +			if (ret)
+> +				dev_err(&priv->client->dev,
+> +				"Cannot read color\n");
+> +
+> +			set_bit(color_id, &led->mc_cdev.available_colors);
+> +			num_colors++;
+> +
+> +		}
+> +
+> +		led->priv = priv;
+> +		led->mc_cdev.num_leds = num_colors;
+> +		led->mc_cdev.led_cdev = &led->led_dev;
+> +		led->led_dev.brightness_set_blocking = lp50xx_brightness_set;
+> +		led->led_dev.brightness_get = lp50xx_brightness_get;
+> +		ret = led_classdev_multicolor_register_ext(&priv->client->dev,
+> +						       &led->mc_cdev,
+> +						       &init_data);
 
-So this went to wrong patch.
+s/led_classdev/devm_led_classdev/
+
+> +		if (ret) {
+> +			dev_err(&priv->client->dev, "led register err: %d\n",
+> +				ret);
+> +			fwnode_handle_put(child);
+> +			goto child_out;
+> +		}
+> +		i++;
+> +	}
+> +
+> +child_out:
+> +	return ret;
+> +}
+> +
+
 
 -- 
 Best regards,
