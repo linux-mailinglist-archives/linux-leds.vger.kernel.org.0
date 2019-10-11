@@ -2,56 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0010AD48D4
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2019 22:05:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D1ABD493C
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Oct 2019 22:23:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728783AbfJKUEu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 11 Oct 2019 16:04:50 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:50238 "EHLO
+        id S1729153AbfJKUPw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 11 Oct 2019 16:15:52 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:50260 "EHLO
         mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729055AbfJKUEu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Oct 2019 16:04:50 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 5so11590791wmg.0;
-        Fri, 11 Oct 2019 13:04:47 -0700 (PDT)
+        with ESMTP id S1729102AbfJKUPv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Oct 2019 16:15:51 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 5so11612836wmg.0;
+        Fri, 11 Oct 2019 13:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=CCvC7hS+Qw2SK0rBUJRPdMFnrmvX7elCndWYCCyy89A=;
-        b=ubNH10oaKFK/a1ZeGigoI+GZqbT+CtuZ4qUy+dgxurEZnnerAz65EnPCxnMWjYP0Ap
-         iDIrmjjuYciNf/vLHYqJyqkLqfKRDAr5ErQAnzhEdeujXW6+hCI7xjb5+BQl22qRhdzc
-         4XFH5AbAZXpAkG32lRL0PwlRpePRKsRONehGINAc11X3Z3KKVONP1czXdQ2SqLZsr+S1
-         8YGFUSoRnEiFctInCswCS6EnYy73aG8HzEyl7d2hSLA/VEMj//Mb7HUc+9d15tTGYM/f
-         6jvA8vZp3nrBd/JiEKpPtSFBmz7rMNtH8+zQvx+fr46QLzxJatfY3VqN8v97MtoxCfEs
-         9Obg==
+        bh=tu1djCD07vR6Np7/uG+RV0J/wyoWVKzkLXaCxKlssVQ=;
+        b=Et1faQ9fqzEspoGff/VIzcIDW1n/IL6988ozBTr3McLm32cens8mNPSrdNto4yp9c/
+         Ygh933mY1gu+fgVYDBeWAkgrDPPcDMqn20sGppTQ4vPsDka6rtENAeqsI7cTa5E+rnV2
+         6Gl5wQX5snYOsY/12AG0yFrYyGyeJgFIymmupvpaYUFgea/OPbn6xSkxCPxidgu4Tiv8
+         d4lc2D+7TTsnTQt5B6CJ4iZTn1Ktv5e5YH2OXKuSSHN4p/mdLwN2th7JtnRgoPSS4vNr
+         tBr0raH0vkwxYnFfYIRsvow86grwCynWK+IB1dMabzBCz32oUAde0Kjl7Jm0mcYOSrC4
+         WgmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=CCvC7hS+Qw2SK0rBUJRPdMFnrmvX7elCndWYCCyy89A=;
-        b=hXeHCqSTtFWqJbVxgwG6oEc6y6gsiuPq30xV1FIPCBCsdab9be73AAqFKsDFRz5til
-         c+C/fZ+wlGhMppojD1Wg6k/tAu2Cg6+ih0CrG55b4h4WB/bdd76qME4+EcpuEK7hqzVa
-         yhqPNfwvml4uA8uuQ9vA+wz6YfOnuLKlAZkKH4xvdxblJYDHNLY3lMkHHvC1dMuxSurt
-         eyPz603diUFnQJCqTGyCnctHu6SdB21Y5V0sqatAydViTRHONF0vquDzPhkOXr/HFX3J
-         aTODfFKjZ+hlxZrhyO76xJhHEWv48Tfqo6rm5ZuiHVbUq+7w+DHNzZiG3RUgISDXjy4r
-         zLcw==
-X-Gm-Message-State: APjAAAX3hxCdvyPqO0K22w5lGH6O68S9XGQB0lA4wKaAtfMjlN9IghgO
-        jrVZabppubbu05WQuV8eVtBoQTC0
-X-Google-Smtp-Source: APXvYqzZ2Ti7F39ZOKQLF7bWzqU3K84H62TM7X02l7f5piCk6bS9u7JC7XiRcbkL/CuOaA9mREwUhQ==
-X-Received: by 2002:a1c:6a05:: with SMTP id f5mr4549491wmc.121.1570824286863;
-        Fri, 11 Oct 2019 13:04:46 -0700 (PDT)
+        bh=tu1djCD07vR6Np7/uG+RV0J/wyoWVKzkLXaCxKlssVQ=;
+        b=sIfnyNMAzHn/DfaFWoehSg7UMfE0A1BfntUS9R44bLbgJ+QRCcBz4W28t8tchKt6iu
+         me/2rOePWf1/kqcI0sjyl17zePaSlG919uqBUVZbSkzRZpMIG2bHGzm3BGwqEBDLTmBK
+         lgxMYVYEbkG10XqMnruz4nNEIKkS36D8Nkre0T20atIvMMj99/c8pWDghGx4b4gw/cD6
+         gLA0GlWkq7rl0JjX/n0KwgcGfcYdUC+PuZVT2AVfNcxBAgD2IQqAWam2M0y2NBmohSJo
+         I378gyx/hv0FPoFHwYMDkGLFn0aPYS3szXiy4qkvdgK1EUYt/d+BiTVTnbkaSeJy+5Tv
+         jdLQ==
+X-Gm-Message-State: APjAAAUeN/mmo22ZojQgnmJ0Xv9WNrXa4uNcOy+b7X9NhDudT6qCJUyC
+        zm7k/s6louXzKDaucLEHsGY=
+X-Google-Smtp-Source: APXvYqwvgMIJ3jVWWy8FJxgP4eNeecPyx6ZMrVMdWgXJWiW4l3rHCCd7MKzkt2WLQvZ6p13nTLGIgQ==
+X-Received: by 2002:a1c:20d8:: with SMTP id g207mr4581850wmg.79.1570824948174;
+        Fri, 11 Oct 2019 13:15:48 -0700 (PDT)
 Received: from [192.168.1.19] (cjl71.neoplus.adsl.tpnet.pl. [83.31.61.71])
-        by smtp.gmail.com with ESMTPSA id s12sm11414707wra.82.2019.10.11.13.04.45
+        by smtp.gmail.com with ESMTPSA id h17sm14222443wme.6.2019.10.11.13.15.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 11 Oct 2019 13:04:46 -0700 (PDT)
-Subject: Re: [PATCH v12 06/16] leds: lp50xx: Add the LP50XX family of the RGB
- LED driver
+        Fri, 11 Oct 2019 13:15:47 -0700 (PDT)
+Subject: Re: [PATCH v12 08/16] dt: bindings: lp55xx: Update binding for
+ Multicolor Framework
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tony Lindgren <tony@atomide.com>,
+        =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>
 References: <20191011130657.4713-1-dmurphy@ti.com>
- <20191011130657.4713-7-dmurphy@ti.com>
+ <20191011130657.4713-9-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,15 +118,15 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <2fe811df-d9d8-1608-6ad1-060b49df5b8f@gmail.com>
-Date:   Fri, 11 Oct 2019 22:04:44 +0200
+Message-ID: <42fb3f20-be4c-8e9e-8035-e4eafbc1e687@gmail.com>
+Date:   Fri, 11 Oct 2019 22:15:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191011130657.4713-7-dmurphy@ti.com>
+In-Reply-To: <20191011130657.4713-9-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
@@ -127,102 +135,369 @@ X-Mailing-List: linux-leds@vger.kernel.org
 Dan,
 
 On 10/11/19 3:06 PM, Dan Murphy wrote:
-> Introduce the LP5036/30/24/18/12/9 RGB LED driver.
-> The difference in these parts are the number of
-> LED outputs where the:
-> 
-> LP5036 can control 36 LEDs
-> LP5030 can control 30 LEDs
-> LP5024 can control 24 LEDs
-> LP5018 can control 18 LEDs
-> LP5012 can control 12 LEDs
-> LP5009 can control 9 LEDs
-> 
-> The device has the ability to group LED output into control banks
-> so that multiple LED banks can be controlled with the same mixing and
-> brightness.  Inversely the LEDs can also be controlled independently.
+> Update the DT binding to include the properties to use the
+> multicolor framework for the devices that use the LP55xx
+> framework.
 > 
 > Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> CC: Tony Lindgren <tony@atomide.com>
+> CC: "Benoît Cousson" <bcousson@baylibre.com>
+> CC: Linus Walleij <linus.walleij@linaro.org>
+> CC: Shawn Guo <shawnguo@kernel.org>
+> CC: Sascha Hauer <s.hauer@pengutronix.de>
+> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+> CC: Fabio Estevam <festevam@gmail.com>
+> CC: NXP Linux Team <linux-imx@nxp.com>
 > ---
->  drivers/leds/Kconfig       |  11 +
->  drivers/leds/Makefile      |   1 +
->  drivers/leds/leds-lp50xx.c | 799 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 811 insertions(+)
->  create mode 100644 drivers/leds/leds-lp50xx.c
+>  .../devicetree/bindings/leds/leds-lp55xx.txt  | 149 +++++++++++++++---
+>  1 file changed, 124 insertions(+), 25 deletions(-)
 > 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index a1ede89afc9e..fb614a6b9afa 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -363,6 +363,17 @@ config LEDS_LP3952
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called leds-lp3952.
+> diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.txt b/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
+> index bfe2805c5534..736a2e1538be 100644
+> --- a/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
+> +++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
+> @@ -1,6 +1,8 @@
+>  Binding for TI/National Semiconductor LP55xx LED Drivers
 >  
-> +config LEDS_LP50XX
-> +	tristate "LED Support for TI LP5036/30/24/18/12/9 LED driver chip"
-> +	depends on LEDS_CLASS && REGMAP_I2C
-> +	depends on LEDS_CLASS_MULTI_COLOR
-> +	help
-> +	  If you say yes here you get support for the Texas Instruments
-> +	  LP5036, LP5030, LP5024, LP5018, LP5012 and LP5009 LED driver.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called leds-lp50xx.
-> +
->  config LEDS_LP55XX_COMMON
->  	tristate "Common Driver for TI/National LP5521/5523/55231/5562/8501"
->  	depends on LEDS_LP5521 || LEDS_LP5523 || LEDS_LP5562 || LEDS_LP8501
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index 841038cfe35b..7a208a0f7b84 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -34,6 +34,7 @@ obj-$(CONFIG_LEDS_GPIO_REGISTER)	+= leds-gpio-register.o
->  obj-$(CONFIG_LEDS_GPIO)			+= leds-gpio.o
->  obj-$(CONFIG_LEDS_LP3944)		+= leds-lp3944.o
->  obj-$(CONFIG_LEDS_LP3952)		+= leds-lp3952.o
-> +obj-$(CONFIG_LEDS_LP50XX)		+= leds-lp50xx.o
->  obj-$(CONFIG_LEDS_LP55XX_COMMON)	+= leds-lp55xx-common.o
->  obj-$(CONFIG_LEDS_LP5521)		+= leds-lp5521.o
->  obj-$(CONFIG_LEDS_LP5523)		+= leds-lp5523.o
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-[...]
-> +		fwnode_for_each_child_node(child, led_node) {
-> +			ret = fwnode_property_read_u32(led_node, "color",
-> +						       &color_id);
-> +			if (ret)
-> +				dev_err(&priv->client->dev,
-> +				"Cannot read color\n");
-> +
-> +			set_bit(color_id, &led->mc_cdev.available_colors);
-> +			num_colors++;
-> +
-> +		}
-> +
-> +		led->priv = priv;
-> +		led->mc_cdev.num_leds = num_colors;
-> +		led->mc_cdev.led_cdev = &led->led_dev;
-> +		led->led_dev.brightness_set_blocking = lp50xx_brightness_set;
-> +		led->led_dev.brightness_get = lp50xx_brightness_get;
-> +		ret = led_classdev_multicolor_register_ext(&priv->client->dev,
-> +						       &led->mc_cdev,
-> +						       &init_data);
+>  Required properties:
+> +- #address-cells: 1
+> +- #size-cells: 0
+>  - compatible: one of
+>  	national,lp5521
+>  	national,lp5523
+> @@ -14,6 +16,18 @@ Required properties:
+>  Each child has own specific current settings
+>  - led-cur: Current setting at each LED channel (mA x10, 0 if LED is not connected)
+>  - max-cur: Maximun current at each LED channel.
+> +- reg: Output channel for the LED.  This is zero based channel identifier and
+> +	the data sheet is a one based channel identifier.
+> +	reg value to output to LED output number
+> +	D1 = reg value is 0
+> +	D2 = reg value is 1
+> +	D3 = reg value is 2
+> +	D4 = reg value is 3
+> +	D5 = reg value is 4
+> +	D6 = reg value is 5
+> +	D7 = reg value is 6
+> +	D8 = reg value is 7
+> +	D9 = reg value is 8
+>  
+>  Optional properties:
+>  - enable-gpio: GPIO attached to the chip's enable pin
+> @@ -35,23 +49,28 @@ example 1) LP5521
+>  on channel 0.
+>  
+>  lp5521@32 {
 
-s/led_classdev/devm_led_classdev/
+While at it let's fix node prefix to led-controller.
+It will not break anyone and yet it will adapt the node naming
+to what is now recommended.
 
-> +		if (ret) {
-> +			dev_err(&priv->client->dev, "led register err: %d\n",
-> +				ret);
-> +			fwnode_handle_put(child);
-> +			goto child_out;
-> +		}
-> +		i++;
-> +	}
-> +
-> +child_out:
-> +	return ret;
-> +}
-> +
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+>  	compatible = "national,lp5521";
+>  	reg = <0x32>;
+>  	label = "lp5521_pri";
+>  	clock-mode = /bits/ 8 <2>;
+>  
+> -	chan0 {
+> +	chan@0 {
 
+Similarly in case of every child node:
+
+s/chan/led/
+
+> +		reg = <0>;
+>  		led-cur = /bits/ 8 <0x2f>;
+>  		max-cur = /bits/ 8 <0x5f>;
+>  		linux,default-trigger = "heartbeat";
+>  	};
+>  
+> -	chan1 {
+> +	chan@1 {
+> +		reg = <1>;
+>  		led-cur = /bits/ 8 <0x2f>;
+>  		max-cur = /bits/ 8 <0x5f>;
+>  	};
+>  
+> -	chan2 {
+> +	chan@2 {
+> +		reg = <2>;
+>  		led-cur = /bits/ 8 <0x2f>;
+>  		max-cur = /bits/ 8 <0x5f>;
+>  	};
+> @@ -70,59 +89,70 @@ ASEL1    ASEL0    Address
+>   VEN      VEN       35h
+>  
+>  lp5523@32 {
+
+s/lp5523/led-controller/
+
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+>  	compatible = "national,lp5523";
+>  	reg = <0x32>;
+>  	clock-mode = /bits/ 8 <1>;
+>  
+> -	chan0 {
+> +	chan@0 {
+> +		reg = <0>;
+>  		chan-name = "d1";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan1 {
+> +	chan@1 {
+> +		reg = <1>;
+>  		chan-name = "d2";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan2 {
+> +	chan@2 {
+> +		reg = <2>;
+>  		chan-name = "d3";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan3 {
+> +	chan@3 {
+> +		reg = <3>;
+>  		chan-name = "d4";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan4 {
+> +	chan@4 {
+> +		reg = <4>;
+>  		chan-name = "d5";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan5 {
+> +	chan@5 {
+> +		reg = <5>;
+>  		chan-name = "d6";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan6 {
+> +	chan@6 {
+> +		reg = <6>;
+>  		chan-name = "d7";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan7 {
+> +	chan@7 {
+> +		reg = <7>;
+>  		chan-name = "d8";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan8 {
+> +	chan@8 {
+> +		reg = <8>;
+>  		chan-name = "d9";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+> @@ -133,29 +163,35 @@ example 3) LP5562
+>  4 channels are defined.
+>  
+>  lp5562@30 {
+
+s/lp5562/led-controller/
+
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+>  	compatible = "ti,lp5562";
+>  	reg = <0x30>;
+>  	clock-mode = /bits/8 <2>;
+>  
+> -	chan0 {
+> +	chan@0 {
+> +		reg = <0>;
+>  		chan-name = "R";
+>  		led-cur = /bits/ 8 <0x20>;
+>  		max-cur = /bits/ 8 <0x60>;
+>  	};
+>  
+> -	chan1 {
+> +	chan@1 {
+> +		reg = <1>;
+>  		chan-name = "G";
+>  		led-cur = /bits/ 8 <0x20>;
+>  		max-cur = /bits/ 8 <0x60>;
+>  	};
+>  
+> -	chan2 {
+> +	chan@2 {
+> +		reg = <2>;
+>  		chan-name = "B";
+>  		led-cur = /bits/ 8 <0x20>;
+>  		max-cur = /bits/ 8 <0x60>;
+>  	};
+>  
+> -	chan3 {
+> +	chan@3 {
+> +		reg = <3>;
+>  		chan-name = "W";
+>  		led-cur = /bits/ 8 <0x20>;
+>  		max-cur = /bits/ 8 <0x60>;
+> @@ -167,62 +203,125 @@ example 4) LP8501
+>  Others are same as LP5523.
+>  
+>  lp8501@32 {
+
+s/lp8501/led-controller/
+
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+>  	compatible = "ti,lp8501";
+>  	reg = <0x32>;
+>  	clock-mode = /bits/ 8 <2>;
+>  	pwr-sel = /bits/ 8 <3>;	/* D1~9 connected to VOUT */
+>  
+> -	chan0 {
+> +	chan@0 {
+> +		reg = <0>;
+>  		chan-name = "d1";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan1 {
+> +	chan@1 {
+> +		reg = <1>;
+>  		chan-name = "d2";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan2 {
+> +	chan@2 {
+> +		reg = <2>;
+>  		chan-name = "d3";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan3 {
+> +	chan@3 {
+> +		reg = <3>;
+>  		chan-name = "d4";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan4 {
+> +	chan@4 {
+> +		reg = <4>;
+>  		chan-name = "d5";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan5 {
+> +	chan@5 {
+> +		reg = <5>;
+>  		chan-name = "d6";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan6 {
+> +	chan@6 {
+> +		reg = <6>;
+>  		chan-name = "d7";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan7 {
+> +	chan@7 {
+> +		reg = <7>;
+>  		chan-name = "d8";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  
+> -	chan8 {
+> +	chan@8 {
+> +		reg = <8>;
+>  		chan-name = "d9";
+>  		led-cur = /bits/ 8 <0x14>;
+>  		max-cur = /bits/ 8 <0x20>;
+>  	};
+>  };
+> +
+> +Multicolor Framework Support
+> +In addition to the nodes and properties defined above for device support the
+> +properties below are needed for multicolor framework support as defined in
+> +Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+> +
+> +Required child properties for multicolor framework
+> +	- color : Must be LED_COLOR_ID_MULTI
+> +	- function : see Documentation/devicetree/bindings/leds/common.txt
+> +
+> +Required grandchildren properties
+> +	- reg : This is the LED output of the device
+> +	- color : see Documentation/devicetree/bindings/leds/common.txt
+> +
+> +Multicolor LED example:
+> +lp5523: lp5523@32 {
+
+Do you really need "lp5523:" node label ?
+
+Besides:
+
+s/lp5523@32/led-controller@32/
+
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +	compatible = "national,lp5523";
+> +	reg = <0x32>;
+> +	clock-mode = /bits/ 8 <0>; /* LP55XX_CLOCK_AUTO */
+> +
+> +	multi-led@2 {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		reg = <2>;
+> +		color = <LED_COLOR_ID_MULTI>;
+> +		function = LED_FUNCTION_STANDBY;
+> +		linux,default-trigger = "heartbeat";
+> +
+> +		led@0 {
+> +			led-cur = /bits/ 8 <50>;
+> +			max-cur = /bits/ 8 <100>;
+> +			reg = <0x0>;
+> +			color = <LED_COLOR_ID_GREEN>;
+> +		};
+> +
+> +		led@1 {
+> +			led-cur = /bits/ 8 <50>;
+> +			max-cur = /bits/ 8 <100>;
+> +			reg = <0x1>;
+> +			color = <LED_COLOR_ID_BLUE>;
+> +		};
+> +
+> +		led@6 {
+> +			led-cur = /bits/ 8 <50>;
+> +			max-cur = /bits/ 8 <100>;
+> +			reg = <0x6>;
+> +			color = <LED_COLOR_ID_RED>;
+> +		};
+> +	};
+> +};
+> 
 
 -- 
 Best regards,
