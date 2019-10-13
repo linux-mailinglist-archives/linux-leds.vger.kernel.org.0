@@ -2,30 +2,25 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DEEA4D5705
-	for <lists+linux-leds@lfdr.de>; Sun, 13 Oct 2019 19:29:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D860D570A
+	for <lists+linux-leds@lfdr.de>; Sun, 13 Oct 2019 19:34:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728839AbfJMR36 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 13 Oct 2019 13:29:58 -0400
-Received: from smtp.220.in.ua ([89.184.67.205]:42930 "EHLO smtp.220.in.ua"
+        id S1728839AbfJMRd7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 13 Oct 2019 13:33:59 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:43213 "EHLO smtp.220.in.ua"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726264AbfJMR35 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 13 Oct 2019 13:29:57 -0400
+        id S1726264AbfJMRd7 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 13 Oct 2019 13:33:59 -0400
 Received: from [192.168.202.100] (unknown [95.67.115.55])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by smtp.220.in.ua (Postfix) with ESMTPSA id 987B81A201ED;
-        Sun, 13 Oct 2019 20:29:54 +0300 (EEST)
-Subject: Re: [PATCH v9 1/2] dt-bindings: Add docs for EL15203000
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-References: <20190918105250.22855-1-oleg@kaa.org.ua>
- <20190918105250.22855-2-oleg@kaa.org.ua>
- <5219879e-84af-a98e-2fca-10684548d416@gmail.com>
- <2ac88d9d-afe6-9629-eb11-28dff59461eb@kaa.org.ua> <20191013121110.GP5653@amd>
- <6cd93ad2-4622-4f11-037c-9799dff4c772@gmail.com>
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 398631A201ED;
+        Sun, 13 Oct 2019 20:33:56 +0300 (EEST)
+Subject: Re: [PATCH] leds: mlxreg: Fix possible buffer overflow
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+References: <20190921220230.6850-1-oleg@kaa.org.ua>
+ <20190926120734.GC9310@amd>
+To:     jacek.anaszewski@gmail.com
 From:   Oleh Kravchenko <oleg@kaa.org.ua>
 Openpgp: preference=signencrypt
 Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
@@ -102,87 +97,51 @@ Autocrypt: addr=oleg@kaa.org.ua; prefer-encrypt=mutual; keydata=
  LAfjDKzc9y0J1q0aDQljQpgdi+CC3RzskpCK+D3RG/vKbZCASLlnk5SWWiRiCt33BfoDC2h6
  u0q8t+6HIP1VWw73qZ233By1VCEohLVJV1+cZ0/kUgkocr7aZuyNLLN/awZc0g+pj42u2BDC
  WVdfrwbus0lVCELNSvCIW2IktSytUxjQfmjBMw==
-Message-ID: <d5468bc5-86a9-6d7f-1c92-1bd941ebf4bf@kaa.org.ua>
-Date:   Sun, 13 Oct 2019 20:29:43 +0300
+Message-ID: <b20ad1ca-78ef-4f44-aae9-7e26bb24b3a2@kaa.org.ua>
+Date:   Sun, 13 Oct 2019 20:33:49 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <6cd93ad2-4622-4f11-037c-9799dff4c772@gmail.com>
+In-Reply-To: <20190926120734.GC9310@amd>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="idrp4tTa9MwHXl3vWrzDK2ShbVEmPFTHg"
+ boundary="d2LsLGnezR8Eu7TRL4xRnQZst6IUH4TWv"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---idrp4tTa9MwHXl3vWrzDK2ShbVEmPFTHg
-Content-Type: multipart/mixed; boundary="7vbIFitDRxxY06cxn6wbWrSKCCta4uW8k";
+--d2LsLGnezR8Eu7TRL4xRnQZst6IUH4TWv
+Content-Type: multipart/mixed; boundary="BcKPjIfcrqDDbEKhjvRvc85JfSsTTfkeJ";
  protected-headers="v1"
 From: Oleh Kravchenko <oleg@kaa.org.ua>
-To: Jacek Anaszewski <jacek.anaszewski@gmail.com>, Pavel Machek <pavel@ucw.cz>
-Cc: devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>
-Message-ID: <d5468bc5-86a9-6d7f-1c92-1bd941ebf4bf@kaa.org.ua>
-Subject: Re: [PATCH v9 1/2] dt-bindings: Add docs for EL15203000
-References: <20190918105250.22855-1-oleg@kaa.org.ua>
- <20190918105250.22855-2-oleg@kaa.org.ua>
- <5219879e-84af-a98e-2fca-10684548d416@gmail.com>
- <2ac88d9d-afe6-9629-eb11-28dff59461eb@kaa.org.ua> <20191013121110.GP5653@amd>
- <6cd93ad2-4622-4f11-037c-9799dff4c772@gmail.com>
-In-Reply-To: <6cd93ad2-4622-4f11-037c-9799dff4c772@gmail.com>
+To: jacek.anaszewski@gmail.com
+Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+Message-ID: <b20ad1ca-78ef-4f44-aae9-7e26bb24b3a2@kaa.org.ua>
+Subject: Re: [PATCH] leds: mlxreg: Fix possible buffer overflow
+References: <20190921220230.6850-1-oleg@kaa.org.ua>
+ <20190926120734.GC9310@amd>
+In-Reply-To: <20190926120734.GC9310@amd>
 
---7vbIFitDRxxY06cxn6wbWrSKCCta4uW8k
+--BcKPjIfcrqDDbEKhjvRvc85JfSsTTfkeJ
 Content-Type: text/plain; charset=UTF-8
 Content-Language: uk-UA
 Content-Transfer-Encoding: quoted-printable
 
-Hello Pavel,
+Hello Jacek,
+Could you please react on this patch?
 
-13.10.19 19:47, Jacek Anaszewski =D0=BF=D0=B8=D1=88=D0=B5:
-> Hi Pavel.
->=20
-> On 10/13/19 2:11 PM, Pavel Machek wrote:
->> Hi!
+26.09.19 15:07, Pavel Machek =D0=BF=D0=B8=D1=88=D0=B5:
+> On Sun 2019-09-22 01:02:30, Oleh Kravchenko wrote:
+>> Error was detected by PVS-Studio:
+>> V512 A call of the 'sprintf' function will lead to overflow of
+>> the buffer 'led_data->led_cdev_name'.
 >>
->>>> Regarding this ASCII art - I presume you wanted to follow
->>>> Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt.
->>>>
->>>> It was added to bindings because we support 'pattern' value
->>>> for linux,default-trigger, which in turn looks for 'led-pattern'
->>>> property, whose format needs to be documented in the LED bindings.
->>>>
->>>> leds-trigger-pattern.txt documents only common syntax for software
->>>> pattern engine. Currently we don't have a means to setup hw_pattern
->>>> for the pattern trigger from DT, which is obvious omission and your
->>>> patch just brings it to light.
->>>>
->>>> That said, I propose to fix it alongside and introduce led-hw-patter=
-n
->>>> property. When present, ledtrig-pattern would setup the pattern
->>>> using pattern_set op, similarly as if it was set via sysfs hw_patter=
-n
->>>> file.
->>>>
->>>> Only in this case placing the pattern depiction here would be justif=
-ied.
->>>> Otherwise, it would have to land in the ABI documentation.
->>>
->>> You are okay, if I move it to Documentation/ABI/testing/sysfs-class-l=
-ed-driver-el15203000 ?
->>
->> I don't see if this got a reply. Yes,
->> Documentation/ABI/testing/sysfs-class-led-driver-el15203000 sounds
->> like a right place for the sysfs description.
+>> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
 >=20
-> There was no explicit reply because Oleh sent the update with this
-> change before I managed to respond. And the patch is already in the
-> for-next branch with the file in the discussed location. So the reply
-> was in the form of my later confirmation that the patch was applied.
+> Acked-by: Pavel Machek <pavel@ucw.cz>
 >=20
-
-Anyway thanks for reply.
 
 --=20
 Best regards,
@@ -190,28 +149,28 @@ Oleh Kravchenko
 
 
 
---7vbIFitDRxxY06cxn6wbWrSKCCta4uW8k--
+--BcKPjIfcrqDDbEKhjvRvc85JfSsTTfkeJ--
 
---idrp4tTa9MwHXl3vWrzDK2ShbVEmPFTHg
+--d2LsLGnezR8Eu7TRL4xRnQZst6IUH4TWv
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAl2jXwoACgkQ0xNJm20p
-l4yNjxAAn1Ls/EgEIPFNGc5TxvAQ2tnSM0DRyye2ZS0j4dcQNwTFvuhHYRnQ8FB+
-TJaX7GKs24AGI5lpe4q7It84kqzIn76wEeej6ij+iWsRuvp3ru/3M8TcIv+Fh17C
-mIqGHJ/KP8cjQScEMPFbKPdnmpHojJtJWbVxf5WnsmJAo43UHtoju10hYCJqb4oA
-gdgZyJF/JQwbGNEjicjK8Cx8GYVh5quGGz6KHdqANY+TYq+sCVAKC4Ka15vdO7aH
-qrCoSBVVPHdis38DcFsRIsiGV/hhVsrnk38EsOAztIKO6MEe9FMZsynyiK+YJlFd
-QV0H5E86Mtrj2leP4Nw1AnNLeOUk6VeWVZi/Vis80C7RyAxsLx21zdkyNuGns2+R
-98Tla1W7JJxJSkKcZChSP9AyTMbHYeo6Ql72EdPFVhAIYYPhtNoZ4EY2vcMNBxE2
-U0TKQuOH/g+C/GOoOP0bbsKEKH3YLXy8BfFrOUmH+40a6qw2LTPxEKMHkeVNdJAK
-7tfGylZvlE90eEI/9iyHR6XTr1F64vnauxVPffXsJITftAIbSZueMMepp6EQE8y/
-3GmJ4cFnitLSjFp0q4blVPQuqLSzcMDwg30NXdWV+ekzSt+rMkMEZPYfcBK/mg8K
-EHFdUtR+I4Yzb9rsQOEPX6WDofRCUMX6d2i1c47+kV90EXhx8gs=
-=Mnf7
+iQIzBAEBCAAdFiEEC/TM5t+2NenFhW0Q0xNJm20pl4wFAl2jX/0ACgkQ0xNJm20p
+l4xf7w/8DN5uGbApHUh+EzgtMb2AdeiXJzk5OPuZJcomMSsbMsL+9QxW55CH3OEJ
+dYNQdttJW26klvMBPQY45MbT0KIu3tjWkLr+GY1JmF6wmZvBrFtLlldOnCM1oPgB
+ZwnztSZ/kkd1GKbjy26V9SXcXUr9OQjN1bJT4OPI84f/ybvoYJXgiUbn49W43anZ
+3TSbyc2Iam3HR35IKoaijo/HTm9ijgAfK+Q1rtQ/Eb9VxLSuEXkv0XciW/dk5fuQ
+OYkzfV79tavFdxdd0J/T5fvxAM2DwnxwevOPWVVBrzPf9ebuFs2bQ9nh8tCaUp3e
+mUeG3xtgkM8yCcN89adYQjWLXwbP1fLxB8iqapwwl3SmY8oMdpjSgOpFnRUoT2v7
+ho4isKkEyoOrTUnQnnGLy1hXANc37QgxyTGnJlMk71mAgvJ5GcaPn8FPNMl1Vj48
+bcYLzh1ZeXF3eYCehFTmdmlFpa8AMXcA6h88WzyAyCDRrOOdnum8afJDQNnRJu1e
+hmiWKGM28N6wlCwlefxQvQgio7l/DkXs/VISDBnDUjfun4qKnfL7oBiDuVHXcSoF
+ZCBb3u8CimPl/Qlfv8dPh6rwAihZ5hMXj4m62YQf8cbHx977NcUtlmHf5U72cc95
++zt5Eh0Py94xSUw1nLthKZ/PApB39LMdfii3tmKPXJRv0eYTLwI=
+=zggK
 -----END PGP SIGNATURE-----
 
---idrp4tTa9MwHXl3vWrzDK2ShbVEmPFTHg--
+--d2LsLGnezR8Eu7TRL4xRnQZst6IUH4TWv--
