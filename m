@@ -2,36 +2,34 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04C75D5625
-	for <lists+linux-leds@lfdr.de>; Sun, 13 Oct 2019 14:11:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6F42D5627
+	for <lists+linux-leds@lfdr.de>; Sun, 13 Oct 2019 14:11:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728620AbfJMMLD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 13 Oct 2019 08:11:03 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:41990 "EHLO
+        id S1729188AbfJMMLR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 13 Oct 2019 08:11:17 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:41997 "EHLO
         atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729143AbfJMMLD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 13 Oct 2019 08:11:03 -0400
+        with ESMTP id S1729143AbfJMMLR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 13 Oct 2019 08:11:17 -0400
 Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 144198025D; Sun, 13 Oct 2019 14:10:44 +0200 (CEST)
-Date:   Sun, 13 Oct 2019 14:10:55 +0200
+        id 32CB38025E; Sun, 13 Oct 2019 14:10:59 +0200 (CEST)
+Date:   Sun, 13 Oct 2019 14:11:10 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Riku Voipio <riku.voipio@iki.fi>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH 01/10] leds: pca953x: Use of_device_get_match_data()
-Message-ID: <20191013121055.GO5653@amd>
-References: <20191004214334.149976-1-swboyd@chromium.org>
- <20191004214334.149976-2-swboyd@chromium.org>
+To:     Oleh Kravchenko <oleg@kaa.org.ua>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v9 1/2] dt-bindings: Add docs for EL15203000
+Message-ID: <20191013121110.GP5653@amd>
+References: <20190918105250.22855-1-oleg@kaa.org.ua>
+ <20190918105250.22855-2-oleg@kaa.org.ua>
+ <5219879e-84af-a98e-2fca-10684548d416@gmail.com>
+ <2ac88d9d-afe6-9629-eb11-28dff59461eb@kaa.org.ua>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Ck22u5fw4m2k6hx2"
+        protocol="application/pgp-signature"; boundary="gQt10JDuGyDb0HQ5"
 Content-Disposition: inline
-In-Reply-To: <20191004214334.149976-2-swboyd@chromium.org>
+In-Reply-To: <2ac88d9d-afe6-9629-eb11-28dff59461eb@kaa.org.ua>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -39,99 +37,57 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---Ck22u5fw4m2k6hx2
+--gQt10JDuGyDb0HQ5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri 2019-10-04 14:43:25, Stephen Boyd wrote:
-> This driver can use the of_device_get_match_data() API to simplify the
-> code. Replace calls to of_match_device() with this newer API under the
-> assumption that where it is called will be when we know the device is
-> backed by a DT node. This nicely avoids referencing the match table when
-> it is undefined with configurations where CONFIG_OF=3Dn.
+Hi!
 
-Thanks, applied.
+> > Regarding this ASCII art - I presume you wanted to follow
+> > Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt.
+> >=20
+> > It was added to bindings because we support 'pattern' value
+> > for linux,default-trigger, which in turn looks for 'led-pattern'
+> > property, whose format needs to be documented in the LED bindings.
+> >=20
+> > leds-trigger-pattern.txt documents only common syntax for software
+> > pattern engine. Currently we don't have a means to setup hw_pattern
+> > for the pattern trigger from DT, which is obvious omission and your
+> > patch just brings it to light.
+> >=20
+> > That said, I propose to fix it alongside and introduce led-hw-pattern
+> > property. When present, ledtrig-pattern would setup the pattern
+> > using pattern_set op, similarly as if it was set via sysfs hw_pattern
+> > file.
+> >=20
+> > Only in this case placing the pattern depiction here would be justified.
+> > Otherwise, it would have to land in the ABI documentation.
+>=20
+> You are okay, if I move it to Documentation/ABI/testing/sysfs-class-led-d=
+river-el15203000 ?
 
+I don't see if this got a reply. Yes,
+Documentation/ABI/testing/sysfs-class-led-driver-el15203000 sounds
+like a right place for the sysfs description.
+
+Best regards,
 								Pavel
-
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Riku Voipio <riku.voipio@iki.fi>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Dan Murphy <dmurphy@ti.com>
-> Cc: <linux-leds@vger.kernel.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->=20
-> Please ack or pick for immediate merge so the last patch can be merged.
->=20
->  drivers/leds/leds-pca9532.c | 14 ++------------
->  1 file changed, 2 insertions(+), 12 deletions(-)
->=20
-> diff --git a/drivers/leds/leds-pca9532.c b/drivers/leds/leds-pca9532.c
-> index c7c7199e8ebd..7d515d5e57bd 100644
-> --- a/drivers/leds/leds-pca9532.c
-> +++ b/drivers/leds/leds-pca9532.c
-> @@ -467,16 +467,11 @@ pca9532_of_populate_pdata(struct device *dev, struc=
-t device_node *np)
->  {
->  	struct pca9532_platform_data *pdata;
->  	struct device_node *child;
-> -	const struct of_device_id *match;
->  	int devid, maxleds;
->  	int i =3D 0;
->  	const char *state;
-> =20
-> -	match =3D of_match_device(of_pca9532_leds_match, dev);
-> -	if (!match)
-> -		return ERR_PTR(-ENODEV);
-> -
-> -	devid =3D (int)(uintptr_t)match->data;
-> +	devid =3D (int)(uintptr_t)of_device_get_match_data(dev);
->  	maxleds =3D pca9532_chip_info_tbl[devid].num_leds;
-> =20
->  	pdata =3D devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
-> @@ -509,7 +504,6 @@ static int pca9532_probe(struct i2c_client *client,
->  	const struct i2c_device_id *id)
->  {
->  	int devid;
-> -	const struct of_device_id *of_id;
->  	struct pca9532_data *data =3D i2c_get_clientdata(client);
->  	struct pca9532_platform_data *pca9532_pdata =3D
->  			dev_get_platdata(&client->dev);
-> @@ -525,11 +519,7 @@ static int pca9532_probe(struct i2c_client *client,
->  			dev_err(&client->dev, "no platform data\n");
->  			return -EINVAL;
->  		}
-> -		of_id =3D of_match_device(of_pca9532_leds_match,
-> -				&client->dev);
-> -		if (unlikely(!of_id))
-> -			return -EINVAL;
-> -		devid =3D (int)(uintptr_t) of_id->data;
-> +		devid =3D (int)(uintptr_t)of_device_get_match_data(&client->dev);
->  	} else {
->  		devid =3D id->driver_data;
->  	}
-
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---Ck22u5fw4m2k6hx2
+--gQt10JDuGyDb0HQ5
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAl2jFE8ACgkQMOfwapXb+vIMRgCfUGz2BiRVoRY4urcPw8LTSyxq
-E+UAnjXZMxG56LJLaiqiK6kWf9dWNBaI
-=Q5tE
+iEYEARECAAYFAl2jFF4ACgkQMOfwapXb+vIaZQCgr6IJKemp2lsU7hH6fuadU6Lx
+/5kAoJAeFC1LOjO6ltqebBcz5OjB05RH
+=4791
 -----END PGP SIGNATURE-----
 
---Ck22u5fw4m2k6hx2--
+--gQt10JDuGyDb0HQ5--
