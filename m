@@ -2,57 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C975D56DA
-	for <lists+linux-leds@lfdr.de>; Sun, 13 Oct 2019 18:43:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0A33D56D5
+	for <lists+linux-leds@lfdr.de>; Sun, 13 Oct 2019 18:40:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727974AbfJMQnn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 13 Oct 2019 12:43:43 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:37174 "EHLO
+        id S1728329AbfJMQkX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 13 Oct 2019 12:40:23 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40542 "EHLO
         mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727386AbfJMQnn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 13 Oct 2019 12:43:43 -0400
-Received: by mail-wm1-f66.google.com with SMTP id f22so14437294wmc.2;
-        Sun, 13 Oct 2019 09:43:39 -0700 (PDT)
+        with ESMTP id S1727386AbfJMQkW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 13 Oct 2019 12:40:22 -0400
+Received: by mail-wm1-f66.google.com with SMTP id b24so14433308wmj.5;
+        Sun, 13 Oct 2019 09:40:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=MX1zXgaX+X9ef/Z1zG/d5g/4qBYhVRp8VHXnKMwhz70=;
-        b=igNR26SmcrrFxypwwA12mCNM1liIuy3mwI5pRn2xiFBcGf/pmr0p33VdlT+oFNphAL
-         TS8i/W7YCU8br9N4AsdDoX4VD449GOHPF7LTqx+W0BZHLhFhKiKJMm9CfjgAYRRfQaCA
-         w/gBMPYICFUIYoqeUNVLCWxc7wboMoUfsjxlxBmi6u6jElTNNQAp2KuHb2LBLX30EwwJ
-         Yucr2NYhCQhgJqPDnxlqTryA0J7/OGi0u4em1ixsi/cFWlaBmrjatUEfk2oS6Q3gSnWN
-         3J2+84x4fpstntNtv+JvUj3vF122CH4kGkgJ0m2uinwm73wn8QxzC6hJeugX+fFSTtMk
-         qkqQ==
+        bh=/D5wlqO48MSRyAKVTTRy6GrLGA7BoZm7n8TtwgC14Is=;
+        b=X/aY7IthFl1y6IlfWYavTR3INLtdsYmUAz71Gu36bKV6U41oAu6A4Lo33IRZBloYoS
+         Sgi+jRNI6LOdVDMrescgXW+evzQ+Z2946p0EBn8z6u2+gPym11QWDD4oti3cubU/loFJ
+         rQlbt2Tle7c58ydzUtVWPsfdmhp4WC/kWXrcPyKcklTqKv191RON22hqPUqufUd+L3s8
+         DnB+E7+ZMB8uLK6Mn1dYv4Z2NevVmSUPLuuBKbGh7Gu/EDNme54a71YRV0dcRdC/xqn2
+         Y6BjptdvULtTG/wAUsbGKlfWGWV7HNNMLCoFeCvV34VjmeYBCXQLar3gEUNtPZSvFoga
+         0uZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=MX1zXgaX+X9ef/Z1zG/d5g/4qBYhVRp8VHXnKMwhz70=;
-        b=SpFGGLKQutnWGq59zUdMR5hqDjdKwKrDO79Ph+YmqF8qMdkUdHJTSNFn+3WRhsoXDu
-         aYTVWzcF8odvxtWgZr88r9XccpEKIdBeGUJAy8jIssD/sx0HQDCohK9WiDbU9GSF2+uK
-         Lb6TxOmZ551qdxIKFbdpTqcRMyQjn/mumhsoCE2qg1QTcbjqprpbSH5/V7WflgB3vFIu
-         aZ/Zf0+oxNTLbylhXNstJ9mcZJYRlgkZhy00wiaa2R31OaJ0Qk/oU9SU3d/V7E49DlPz
-         MpTk1qskUlPovI10dbKmzDe5c/j1lpdMT4AGnkExHHA6OOtHzpyWpDDl9eJG8MUIucBP
-         2eEQ==
-X-Gm-Message-State: APjAAAU5bSOUclFsAPXpAeDk5H2nVNnBiXS722Ry11c0BFwWRs7TcFAT
-        6OuR5wIs0GF/jlkqG+GPTic=
-X-Google-Smtp-Source: APXvYqwEX0fY7so4uuo5sNIXU6vy+iUgCbNGLGS7ijbJwHlPxK1Z3e20PdYe/0W0S84ecHDLYOKj0Q==
-X-Received: by 2002:a05:600c:40f:: with SMTP id q15mr11682818wmb.30.1570984563891;
-        Sun, 13 Oct 2019 09:36:03 -0700 (PDT)
+        bh=/D5wlqO48MSRyAKVTTRy6GrLGA7BoZm7n8TtwgC14Is=;
+        b=cP7RS/O+8zjkzHemoRqUS9GJQ0EvAABGm3OC+aoeEtYIXwib4kXcXlmfmg3VsFlewr
+         tV59ZSJWU6Sm/uNcFYYVOhqg22vfUZemTm84b2ZmZfaz26dI0Fg/KzYdKTcj/eLlpsml
+         06ypO2DBOOhXCJttIgXY5uAxNC/OMFHQrNBVJv0sGsR216I0JTW4ZpvH+SKnE95FskNi
+         06WTQyczFXVLPgecavTlY4HJEquxznJb6H0BcAnDwQvtjS4XMLoEV2t4yxsxD4mRsTp8
+         yiWO1rVsBMs3qx/m4I1rasNQsONaZNDDxQ4us9fG2DDnnNZQ1SZ1OfNDpKtBOKkKjHGI
+         PuMg==
+X-Gm-Message-State: APjAAAXcUAFZkztRbHe13u6B7jlzrDniAYDJB0ooHlaWqk5TQH3T5vAL
+        M8c40LLwWr11J8sOXNjd5Lk=
+X-Google-Smtp-Source: APXvYqxIc04g9rUaD2vYwAWDe52r5T+MluTiEkLMbjGTRuGFKEcakx3eSxWrXIgjdrPIUJgR25U0+w==
+X-Received: by 2002:a1c:ed0d:: with SMTP id l13mr11664133wmh.54.1570984819664;
+        Sun, 13 Oct 2019 09:40:19 -0700 (PDT)
 Received: from [192.168.1.19] (ckd148.neoplus.adsl.tpnet.pl. [83.31.79.148])
-        by smtp.gmail.com with ESMTPSA id b62sm19658641wmc.13.2019.10.13.09.36.02
+        by smtp.gmail.com with ESMTPSA id t8sm14365362wrx.76.2019.10.13.09.40.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Oct 2019 09:36:03 -0700 (PDT)
-Subject: Re: [PATCH] leds: tlc591xx: update the maximum brightness
+        Sun, 13 Oct 2019 09:40:18 -0700 (PDT)
+Subject: Re: [PATCH v5 3/3] leds: Add control of the voltage/current regulator
+ to the LED core
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>, dmurphy@ti.com,
+Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>, daniel.thompson@linaro.org,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andrew Lunn <andrew@lunn.ch>
-References: <20190923100250.22326-1-jjhiblot@ti.com>
- <91864098-a6e8-e275-4b07-e4bb15469f78@gmail.com> <20191013114508.GI5653@amd>
+        dmurphy@ti.com, tomi.valkeinen@ti.com
+References: <20190923102059.17818-1-jjhiblot@ti.com>
+ <20190923102059.17818-4-jjhiblot@ti.com>
+ <3e648fab-638f-4aa0-dda9-8ddba6562751@gmail.com> <20191013120937.GK5653@amd>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -111,58 +113,56 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <844845d6-01fe-50c4-94cd-e19ce8a5d060@gmail.com>
-Date:   Sun, 13 Oct 2019 18:36:01 +0200
+Message-ID: <291da5c4-16c0-28a4-9bd4-ba89f6f41051@gmail.com>
+Date:   Sun, 13 Oct 2019 18:40:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191013114508.GI5653@amd>
+In-Reply-To: <20191013120937.GK5653@amd>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 10/13/19 1:45 PM, Pavel Machek wrote:
+On 10/13/19 2:09 PM, Pavel Machek wrote:
 > Hi!
 > 
->>> @@ -112,11 +113,11 @@ tlc591xx_brightness_set(struct led_classdev *led_cdev,
->>>  	struct tlc591xx_priv *priv = led->priv;
->>>  	int err;
->>>  
->>> -	switch (brightness) {
->>> +	switch ((int)brightness) {
->>>  	case 0:
-> 
-> Can we get a rid of the cast here? Do we need to move away from the
-> enum for the brightness?
-
-I at first also wanted to ask for dropping the cast but first tried
-to do it myself. Then I found out compiler (or sparse, I don't recall
-exactly) complains about TLC591XX_MAX_BRIGHTNESS not being a value of
-enum led_brighteess type. That's the reason for the cast Jean added,
-I presume.
-
->> Added tag:
+>> I must say I'm not a big fan of this change.
+>> It adds a bunch of code to the LED core and gives small
+>> functionality in a reward. It may also influence maximum
+>> software blinking rate, so I'd rather avoid calling
+>> regulator_enable/disable when timer trigger is set.
 >>
->> Fixes: e370d010a5fe ("leds: tlc591xx: Driver for the TI 8/16 Channel i2c
->> LED driver")
+>> It will of course require more code.
 >>
->> and applied to the for-5.5 branch.
+>> Since AFAIR Pavel was original proponent of this change then
+>> I'd like to see his opinion before we move on to discussing
+>> possible improvements to this patch.
 > 
-> Actually, careful with the Fixes tag. -stable people will want to
-> apply it, and it may not be a good idea in this case. Maximum
-> brightness of 256 is pretty unusual, so I'd call this "a bit risky".
+> Was I?
 
-I entirely disagree. Not seeing anything risky in that since
-max_brightness is also initialized to this value. If userspace properly
-uses the ABI, then it will be safe.
+See [0]:
 
+"For the record, I also believe regulator and enable gpio should be
+handled in the core."
+
+> Okay, this series looks quite confusing to me. First, 1/3 looks
+> "interesting" (would have to analyze it way more).
+> 
+> Second, 3/3... So we have a LED driver _and_ a regulator? So yes, the
+> chip driving a LED is usually ... voltage/current regulator. What is
+> second regulator doing there? Is that a common setup?
+> 
 > Best regards,
-> 									Pavel
+> 								Pavel
+> 								
 > 
+
+[0]
+https://lore.kernel.org/linux-leds/20190705100851.zn2jkipj4fxq5we6@devuan/
 
 -- 
 Best regards,
