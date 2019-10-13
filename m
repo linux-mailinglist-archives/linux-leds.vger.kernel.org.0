@@ -2,59 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0A33D56D5
-	for <lists+linux-leds@lfdr.de>; Sun, 13 Oct 2019 18:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C7F6D56DD
+	for <lists+linux-leds@lfdr.de>; Sun, 13 Oct 2019 18:47:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728329AbfJMQkX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 13 Oct 2019 12:40:23 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:40542 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727386AbfJMQkW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 13 Oct 2019 12:40:22 -0400
-Received: by mail-wm1-f66.google.com with SMTP id b24so14433308wmj.5;
-        Sun, 13 Oct 2019 09:40:20 -0700 (PDT)
+        id S1728839AbfJMQrS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 13 Oct 2019 12:47:18 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:45700 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727386AbfJMQrS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 13 Oct 2019 12:47:18 -0400
+Received: by mail-wr1-f65.google.com with SMTP id r5so16901242wrm.12;
+        Sun, 13 Oct 2019 09:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=/D5wlqO48MSRyAKVTTRy6GrLGA7BoZm7n8TtwgC14Is=;
-        b=X/aY7IthFl1y6IlfWYavTR3INLtdsYmUAz71Gu36bKV6U41oAu6A4Lo33IRZBloYoS
-         Sgi+jRNI6LOdVDMrescgXW+evzQ+Z2946p0EBn8z6u2+gPym11QWDD4oti3cubU/loFJ
-         rQlbt2Tle7c58ydzUtVWPsfdmhp4WC/kWXrcPyKcklTqKv191RON22hqPUqufUd+L3s8
-         DnB+E7+ZMB8uLK6Mn1dYv4Z2NevVmSUPLuuBKbGh7Gu/EDNme54a71YRV0dcRdC/xqn2
-         Y6BjptdvULtTG/wAUsbGKlfWGWV7HNNMLCoFeCvV34VjmeYBCXQLar3gEUNtPZSvFoga
-         0uZw==
+        bh=L7SrkuU+SBZM7Dq5DKaJYDRokqS1TC03YIonaVv7A1s=;
+        b=Uva+87G7uOIz87dZKh+y9kp1tPBOeNYLQHGWAnFfIdScyOzCkAsT5yDjEpHoSKgHI1
+         1dKWAZIoWKXqbWwpH9A9WcQQLGcOFW6U20HTkrtCUA5ez5PwQbrVss3SoZTunFNdLhwN
+         uWUHam0pddkH1EuaY8l6ykc5QAX44nBurlvAO//h3QkawL7ZlsRoPp4HttKTAotlsmYT
+         2JDvvpbt474Ap3aHyeSnKQKRJaI4Bk4Y4yk77O4+sAJWfYXD+8LqMAHEmxQCFF1rkrk2
+         Nf+SQCJet58tBBwIUEgwe1wUjUm0J4XNR8F2lazAK4bzS00zDCcuBJkWBtiKHxpp/gxq
+         aL4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=/D5wlqO48MSRyAKVTTRy6GrLGA7BoZm7n8TtwgC14Is=;
-        b=cP7RS/O+8zjkzHemoRqUS9GJQ0EvAABGm3OC+aoeEtYIXwib4kXcXlmfmg3VsFlewr
-         tV59ZSJWU6Sm/uNcFYYVOhqg22vfUZemTm84b2ZmZfaz26dI0Fg/KzYdKTcj/eLlpsml
-         06ypO2DBOOhXCJttIgXY5uAxNC/OMFHQrNBVJv0sGsR216I0JTW4ZpvH+SKnE95FskNi
-         06WTQyczFXVLPgecavTlY4HJEquxznJb6H0BcAnDwQvtjS4XMLoEV2t4yxsxD4mRsTp8
-         yiWO1rVsBMs3qx/m4I1rasNQsONaZNDDxQ4us9fG2DDnnNZQ1SZ1OfNDpKtBOKkKjHGI
-         PuMg==
-X-Gm-Message-State: APjAAAXcUAFZkztRbHe13u6B7jlzrDniAYDJB0ooHlaWqk5TQH3T5vAL
-        M8c40LLwWr11J8sOXNjd5Lk=
-X-Google-Smtp-Source: APXvYqxIc04g9rUaD2vYwAWDe52r5T+MluTiEkLMbjGTRuGFKEcakx3eSxWrXIgjdrPIUJgR25U0+w==
-X-Received: by 2002:a1c:ed0d:: with SMTP id l13mr11664133wmh.54.1570984819664;
-        Sun, 13 Oct 2019 09:40:19 -0700 (PDT)
+        bh=L7SrkuU+SBZM7Dq5DKaJYDRokqS1TC03YIonaVv7A1s=;
+        b=GT86Y3j0O5QgVJXXTPwlnvm7HePBee1eoLREDsA2VHODN7IJIkCexiz1i17ClZrUgR
+         1RkpP13usmKhuRakq1HjQaEKKjLxk5bBaebhO//cOz1ckJ8y5+UK5OGxs0DXfW/gh2J4
+         bPkxSsLit2ZxzfO0ORrefvYuCQPSdVK8G5Q0w3AQB7/MuVnyjwIBxtv1vX0fOc0QNU3B
+         3W2aZYctpOO1hkIZM0FZvhFsm1FdwFHN6YFpcuS9vr4eEBbOHSiAEgA4+FrD4QL9dlan
+         d6xr6sbdQBWgxHIrqVH/tZrYVvCtLDPHa/6+B9pAkNSGbSmsN0VxIJHfAdxBMqiK7OsM
+         gcIw==
+X-Gm-Message-State: APjAAAVfMTCEd/8L/D23ke0jcK7sLIKOYBpNz4AQnnuTzGF0UqIXwpYH
+        qWtWzVjEqM+5Y840dvckyac=
+X-Google-Smtp-Source: APXvYqxqf4YDSNJkFDHvOZSItTriFT3eBs+hG9I7S47/sefrTxdXDr2RBXJg91ZwzHDGEI3SUee6eQ==
+X-Received: by 2002:a05:6000:49:: with SMTP id k9mr23019416wrx.289.1570985235276;
+        Sun, 13 Oct 2019 09:47:15 -0700 (PDT)
 Received: from [192.168.1.19] (ckd148.neoplus.adsl.tpnet.pl. [83.31.79.148])
-        by smtp.gmail.com with ESMTPSA id t8sm14365362wrx.76.2019.10.13.09.40.18
+        by smtp.gmail.com with ESMTPSA id z15sm1787254wrr.19.2019.10.13.09.47.13
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Oct 2019 09:40:18 -0700 (PDT)
-Subject: Re: [PATCH v5 3/3] leds: Add control of the voltage/current regulator
- to the LED core
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jean-Jacques Hiblot <jjhiblot@ti.com>, daniel.thompson@linaro.org,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dmurphy@ti.com, tomi.valkeinen@ti.com
-References: <20190923102059.17818-1-jjhiblot@ti.com>
- <20190923102059.17818-4-jjhiblot@ti.com>
- <3e648fab-638f-4aa0-dda9-8ddba6562751@gmail.com> <20191013120937.GK5653@amd>
+        Sun, 13 Oct 2019 09:47:14 -0700 (PDT)
+Subject: Re: [PATCH v9 1/2] dt-bindings: Add docs for EL15203000
+To:     Pavel Machek <pavel@ucw.cz>, Oleh Kravchenko <oleg@kaa.org.ua>
+Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+References: <20190918105250.22855-1-oleg@kaa.org.ua>
+ <20190918105250.22855-2-oleg@kaa.org.ua>
+ <5219879e-84af-a98e-2fca-10684548d416@gmail.com>
+ <2ac88d9d-afe6-9629-eb11-28dff59461eb@kaa.org.ua> <20191013121110.GP5653@amd>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -113,12 +112,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <291da5c4-16c0-28a4-9bd4-ba89f6f41051@gmail.com>
-Date:   Sun, 13 Oct 2019 18:40:17 +0200
+Message-ID: <6cd93ad2-4622-4f11-037c-9799dff4c772@gmail.com>
+Date:   Sun, 13 Oct 2019 18:47:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191013120937.GK5653@amd>
+In-Reply-To: <20191013121110.GP5653@amd>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -127,42 +126,41 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 10/13/19 2:09 PM, Pavel Machek wrote:
+Hi Pavel.
+
+On 10/13/19 2:11 PM, Pavel Machek wrote:
 > Hi!
 > 
->> I must say I'm not a big fan of this change.
->> It adds a bunch of code to the LED core and gives small
->> functionality in a reward. It may also influence maximum
->> software blinking rate, so I'd rather avoid calling
->> regulator_enable/disable when timer trigger is set.
+>>> Regarding this ASCII art - I presume you wanted to follow
+>>> Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt.
+>>>
+>>> It was added to bindings because we support 'pattern' value
+>>> for linux,default-trigger, which in turn looks for 'led-pattern'
+>>> property, whose format needs to be documented in the LED bindings.
+>>>
+>>> leds-trigger-pattern.txt documents only common syntax for software
+>>> pattern engine. Currently we don't have a means to setup hw_pattern
+>>> for the pattern trigger from DT, which is obvious omission and your
+>>> patch just brings it to light.
+>>>
+>>> That said, I propose to fix it alongside and introduce led-hw-pattern
+>>> property. When present, ledtrig-pattern would setup the pattern
+>>> using pattern_set op, similarly as if it was set via sysfs hw_pattern
+>>> file.
+>>>
+>>> Only in this case placing the pattern depiction here would be justified.
+>>> Otherwise, it would have to land in the ABI documentation.
 >>
->> It will of course require more code.
->>
->> Since AFAIR Pavel was original proponent of this change then
->> I'd like to see his opinion before we move on to discussing
->> possible improvements to this patch.
+>> You are okay, if I move it to Documentation/ABI/testing/sysfs-class-led-driver-el15203000 ?
 > 
-> Was I?
+> I don't see if this got a reply. Yes,
+> Documentation/ABI/testing/sysfs-class-led-driver-el15203000 sounds
+> like a right place for the sysfs description.
 
-See [0]:
-
-"For the record, I also believe regulator and enable gpio should be
-handled in the core."
-
-> Okay, this series looks quite confusing to me. First, 1/3 looks
-> "interesting" (would have to analyze it way more).
-> 
-> Second, 3/3... So we have a LED driver _and_ a regulator? So yes, the
-> chip driving a LED is usually ... voltage/current regulator. What is
-> second regulator doing there? Is that a common setup?
-> 
-> Best regards,
-> 								Pavel
-> 								
-> 
-
-[0]
-https://lore.kernel.org/linux-leds/20190705100851.zn2jkipj4fxq5we6@devuan/
+There was no explicit reply because Oleh sent the update with this
+change before I managed to respond. And the patch is already in the
+for-next branch with the file in the discussed location. So the reply
+was in the form of my later confirmation that the patch was applied.
 
 -- 
 Best regards,
