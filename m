@@ -2,61 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3057CD69B9
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Oct 2019 20:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 579E6D69CA
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Oct 2019 20:57:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731007AbfJNSsy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 14 Oct 2019 14:48:54 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40428 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731506AbfJNSsx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Oct 2019 14:48:53 -0400
-Received: by mail-wm1-f65.google.com with SMTP id b24so17755896wmj.5;
-        Mon, 14 Oct 2019 11:48:51 -0700 (PDT)
+        id S1727083AbfJNS5x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 14 Oct 2019 14:57:53 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:53932 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726706AbfJNS5x (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Oct 2019 14:57:53 -0400
+Received: by mail-wm1-f66.google.com with SMTP id i16so18322217wmd.3
+        for <linux-leds@vger.kernel.org>; Mon, 14 Oct 2019 11:57:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=qtApknBx8ly+kOurF6UQstOCC32vn7syQ2amILoeo/0=;
-        b=Vqt8mvXidkSy00ESZyjP1bPGmSxQBm5K0P2gZqXZ8T7x9o5pr/lRcdirGqtlA91SjW
-         TborCJb+J336HGiRdXghrHKUi4jIAk3SIzTiu0zaM3sr602dA6T2uXgtMJyHUuVimAq5
-         +QLWDLhntxXHVIHu0fSquMLn7lfhgZ71awSaOqO3B7XYdepP9isc22XU2M+a1W4TuM02
-         d935EKyUaKT8+Y8qk38ttA8/DSmWdHLChM2rY/vLZf8LZUk2vusIweqsgasJ8sgSUpLn
-         tua4YECb8euwLrzbWggVZQ7RrXmlTJWPSQPTZN6os+rps8+TGjR3mJI2h4bGOWVNWBcm
-         Nqjw==
+        bh=6O8Vz2s66qBucXasBxGc8xvRbR8UvtyU4OzRTHXR8aI=;
+        b=A7vqUgpo4b6b75YarnBJxZe3R7hTbcyxRr3e0geqVvXeEPWfSY03yc/izveRJ4s1aF
+         75zXU+p+Ny91UY/bMnpKECBtGzNSx+QWhfvijgQynq13kJxwfK7QxhCkzVWLYLf+DWcv
+         kbKH7Rg4KeoVnYsYDRtz9fbB7+2kL1MMlEVykxmRlarpVtfXenz28+AnMSBD5OLdd2ET
+         a/RkkLsxMGj9CH8s/d297kwS+q68Z/PXc8YMMG+ZHqaUByKX9OhnqNr6yV+bCQAt/hQP
+         TL6kZL/7XwLMonK/sTq2YumbT7uJh+DnNzDELLzs1i4Bg/Uq9S3920hIt4EpK2NgMkWQ
+         SbNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=qtApknBx8ly+kOurF6UQstOCC32vn7syQ2amILoeo/0=;
-        b=N5MFPnVy6vH7IVER//9wci6mi44eSzar3ZF4GOU99nEk1+Pbkj361YDPAfz28XAg25
-         a7pKnfiUffdFzvk5/atkUG0wWsQtMbBHXKSc0FDHjkfX46YEKqJUpjuwCWOoXuzg3VXm
-         UKB6Mi9omGcwqlJp7OQ3OLfq83bm7RUZ9H04x1EzfTlDcUXdmzC0eisnXWke1wONks4N
-         U+Az33ZapwxmtqHzZ3hfqGqUcWFdIe32mv+ulU0/yDr0z8lfYzU+JxYHEDtZOyX3+gtL
-         fJaFg6MEKofItUCD3I97oWPHD7rJvZ3ijeKERTvl997z7ixRNBY0QooaEuMvPSNTtvoE
-         oDTw==
-X-Gm-Message-State: APjAAAU7iqq/9QSs0KCwZ4+EJNwa0QuYPPtR5QVnPC2IFGFCp3MRM4eb
-        6xuKHUJX3EhpCvkSlbDn0T8jpQ+s
-X-Google-Smtp-Source: APXvYqwQikvvPcC74zrsm7UOvdnO4AoF0vSG2bgmWgUUEQhVhm2rfwlZrDKtvI6C6JqbPZ2qvBxndg==
-X-Received: by 2002:a7b:cd04:: with SMTP id f4mr16062093wmj.91.1571078931088;
-        Mon, 14 Oct 2019 11:48:51 -0700 (PDT)
+        bh=6O8Vz2s66qBucXasBxGc8xvRbR8UvtyU4OzRTHXR8aI=;
+        b=RUtRjXE2tAi5BsOIKGhKl+fYh9nIoh9F/WWIY9wnO6sYf/O1Q+7B8Q4t8lzf/gWHll
+         ZUJeyVwrigdXTNFun4jcIJhU/rnEaDdAUUDterch5t/l4Qj7ssQoDsraQ8UVRENOeq4V
+         8Fdao52yP1rKqezr0AP66ZsOXHuqujkl7j9r7KBKNvkgeWKFL6JAugmNKlY60xCCvkce
+         nKZf1PvK+2hgzrN04XibrJzAIr5pLrWPxCekEqIW4wQ+GY6vJg6ymzNHpNKdZZplin12
+         yvr+U5GeptLtQbG+vKXEowcCFDhCzIPI2cswHOSTU9QCC+VS4GoaZYybsU0a+KJyqD5D
+         Dumw==
+X-Gm-Message-State: APjAAAUAWV4OHVl6GVc3x+MNRtOMJsokgdJGBZ2q1ou1pIsq9YrfkWlM
+        ppia0u7sLbpWuGAofzBpE/WN804M
+X-Google-Smtp-Source: APXvYqyyPBrveDCoGR8k0+ZRLu9SYTO3SHip/uEPjFiQBIvSsb9kBO9QuNrqeBVy/SvBPqCyEv+ycg==
+X-Received: by 2002:a7b:cd04:: with SMTP id f4mr16087057wmj.91.1571079470094;
+        Mon, 14 Oct 2019 11:57:50 -0700 (PDT)
 Received: from [192.168.1.19] (cka157.neoplus.adsl.tpnet.pl. [83.31.76.157])
-        by smtp.gmail.com with ESMTPSA id h7sm17523694wrt.17.2019.10.14.11.48.49
+        by smtp.gmail.com with ESMTPSA id a13sm51285846wrf.73.2019.10.14.11.57.48
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 14 Oct 2019 11:48:50 -0700 (PDT)
-Subject: Re: [PATCH v5 3/3] leds: Add control of the voltage/current regulator
- to the LED core
-To:     Daniel Thompson <daniel.thompson@linaro.org>,
-        Jean-Jacques Hiblot <jjhiblot@ti.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dmurphy@ti.com, tomi.valkeinen@ti.com
-References: <20190923102059.17818-1-jjhiblot@ti.com>
- <20190923102059.17818-4-jjhiblot@ti.com>
- <3e648fab-638f-4aa0-dda9-8ddba6562751@gmail.com> <20191013120937.GK5653@amd>
- <eb8c0df1-0d5b-11d0-9965-3192fa5675f3@ti.com>
- <20191014123849.fhvmqn7dyu6bminc@holly.lan>
+        Mon, 14 Oct 2019 11:57:49 -0700 (PDT)
+Subject: Re: [PATCH] leds: mlxreg: Fix possible buffer overflow
+To:     Oleh Kravchenko <oleg@kaa.org.ua>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+References: <20190921220230.6850-1-oleg@kaa.org.ua>
+ <20190926120734.GC9310@amd> <b20ad1ca-78ef-4f44-aae9-7e26bb24b3a2@kaa.org.ua>
+ <a5647bbd-cb0f-ef8c-75f9-5000aae24d1b@gmail.com>
+ <a5dadff5-17d1-1fe0-8e0a-a667eb26273d@kaa.org.ua>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -115,12 +111,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <939cf695-b955-da01-2a2b-3b5ce0dc3660@gmail.com>
-Date:   Mon, 14 Oct 2019 20:48:48 +0200
+Message-ID: <64094126-bbe3-bf7d-1788-6d24cc6a90d5@gmail.com>
+Date:   Mon, 14 Oct 2019 20:57:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191014123849.fhvmqn7dyu6bminc@holly.lan>
+In-Reply-To: <a5dadff5-17d1-1fe0-8e0a-a667eb26273d@kaa.org.ua>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -129,74 +125,47 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 10/14/19 2:38 PM, Daniel Thompson wrote:
-> On Mon, Oct 14, 2019 at 12:49:07PM +0200, Jean-Jacques Hiblot wrote:
->>
->> On 13/10/2019 14:09, Pavel Machek wrote:
->>> Hi!
->>>
->>>> I must say I'm not a big fan of this change.
->>>> It adds a bunch of code to the LED core and gives small
->>>> functionality in a reward. It may also influence maximum
->>>> software blinking rate, so I'd rather avoid calling
->>>> regulator_enable/disable when timer trigger is set.
->>>>
->>>> It will of course require more code.
->>>>
->>>> Since AFAIR Pavel was original proponent of this change then
->>>> I'd like to see his opinion before we move on to discussing
->>>> possible improvements to this patch.
->>> Was I?
->>>
->>> Okay, this series looks quite confusing to me. First, 1/3 looks
->>> "interesting" (would have to analyze it way more).
->>>
->>> Second, 3/3... So we have a LED driver _and_ a regulator? So yes, the
->>> chip driving a LED is usually ... voltage/current regulator. What is
->>> second regulator doing there? Is that a common setup?
->>
->> This is quite common with current-sink LED drivers.
->>
->> The setup looks like this:
->>
->> +-----------+
->> |           |
->> | Regulator |
->> |           +------------------------+
->> |           |                        |
->> +-----------+                      __|__
->>                                    \   /
->>          +---------------------+    \ / led
->>          |                     |     V
->>          |    Led Driver       |   --+--
->>          |                     |     |
->>          |                     |     |
->>          |                +----------+
->>          |              \      |
->>          |               \     |
->>          |                +    |
->>          |                |    |
->>          +---------------------+
->>                           |
->>                        +--+--+
->>                        ///////
->>
->>
->> Only the regulator usually does not supply only one LED.
+Hi Oleh,
+
+On 10/13/19 8:00 PM, Oleh Kravchenko wrote:
+> Hello Jacek,
 > 
-> Given questions have been raised about the complexity of the change I
-> wondered whether, for a system with this topology, the regulator
-> could/should be enabled when the LED driver driver probes?
+> 13.10.19 20:48, Jacek Anaszewski пише:
+>> Hi Oleh,
+>>
+>> On 10/13/19 7:33 PM, Oleh Kravchenko wrote:
+>>> Hello Jacek,
+>>> Could you please react on this patch?
+>>
+>> Sorry for dropping the ball on it. Either way, I can only give
+>> my ack since I handed over LED git maintenance to Pavel.
+> 
+> I hope you will be still involved in Linux kernel development.
+> Your code-reviews was good and very useful. 
 
-And this is how are doing that now.
+I'm glad you found them useful.
 
-Moreover, just after seeing your ASCII art it has become obvious to me
-that we can't simply do regulator_disable() while setting brightness to
-LED_OFF since it can result in powering off the LED controller, which
-would need to be reconfigured on next transition to
-brightness > LED_OFF.
+I may not be as active as I used to but I will be hanging
+around...
 
-It looks that the idea is flawed I'm afraid.
+>> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> 
+> Thank you!
+
+You're welcome.
+
+>>> 26.09.19 15:07, Pavel Machek пише:
+>>>> On Sun 2019-09-22 01:02:30, Oleh Kravchenko wrote:
+>>>>> Error was detected by PVS-Studio:
+>>>>> V512 A call of the 'sprintf' function will lead to overflow of
+>>>>> the buffer 'led_data->led_cdev_name'.
+>>>>>
+>>>>> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+>>>>
+>>>> Acked-by: Pavel Machek <pavel@ucw.cz>
+>>>>
+>>>
+>>
 
 -- 
 Best regards,
