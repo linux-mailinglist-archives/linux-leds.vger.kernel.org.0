@@ -2,100 +2,199 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43092D7B42
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Oct 2019 18:23:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAF6ED7FFF
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Oct 2019 21:20:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387895AbfJOQX2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 15 Oct 2019 12:23:28 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52171 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387941AbfJOQXP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Oct 2019 12:23:15 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 7so21575924wme.1
-        for <linux-leds@vger.kernel.org>; Tue, 15 Oct 2019 09:23:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=02ptUi820rtgb1rVywdXHHVh+A6FBo6gb2V5cVn00l4=;
-        b=MtpXMuoLIGOHdIDmPktqqAnPBBGdTjagnzKbds+7qPmfpcLGCESELR2gYmKw+dAlsH
-         GALZyOdhrfBMu5kJ+9Xdwc10r7YixnzgTtoEN+sXwjbniUhbJe7QvOO/aAIzGpPEh7wf
-         tfCJUfOOWUzVdJeNCG6CFQB8dEnEzKFW+8j2U5xtaG1G3ZhP43Ie0qhZ8IVGsF0AXBnv
-         DMOWQaRx3fOEAAcptWX7okOpspg4CH1Ta5qXiMV2qqrxphCM/NqNvepzLTjUnEvCyNA1
-         1AfGvqLU5KqSe4tJuDyCVpvjoNHpQNhZx5ieCd6JnQGy7BJrhwx+i3RBcBCT1IEoLoes
-         Zqtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=02ptUi820rtgb1rVywdXHHVh+A6FBo6gb2V5cVn00l4=;
-        b=mFL2Re14pqGURA1vaCnD50w3rIIcdTUOD4UDxnqlo1QTcVEi85FU4g6GZEGBGFk0UH
-         oZODDB9Wd1HZlOm8UXrEXrvSiGsWzKI3rC0cjnlMiv0QfFhGaeUB4XxxSHe+pAI5n3Yi
-         1Dy9SlqthZARmxE23qlFgUq/l8UWZGS/cmsu34F/xMOvd9B7q/moKh+6JXBwWj558cMe
-         3I/GoOhgMsuaGsF8uWDX3bVoC/LJJJBxHOwq6rx8r9rNvjW/1KPkLkeJHa8AoheoeZ0e
-         LxJZz6ucw8V24s8UpCp5W+52f9RN+BBhTwM47molxfbDRm1Ev7iNDazmfilACNQBmALh
-         O7Mg==
-X-Gm-Message-State: APjAAAUu3EFoiTSmx/In+oLElZPSvMQ38lRv6QydOzvTe20pgYpzgqNg
-        d0UL4CS2xqX8M3/tcJ6G+y5/WA==
-X-Google-Smtp-Source: APXvYqyezfzjgdEUemMJTrQBNb59P7iN2VRfn6C43WnRKbQCCmslDGhSYjUP8u7dsDPSEr9csaBvYw==
-X-Received: by 2002:a1c:e08a:: with SMTP id x132mr19703933wmg.155.1571156593871;
-        Tue, 15 Oct 2019 09:23:13 -0700 (PDT)
-Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
-        by smtp.gmail.com with ESMTPSA id x129sm41427605wmg.8.2019.10.15.09.23.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 09:23:13 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        id S1729894AbfJOTUf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 15 Oct 2019 15:20:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55230 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389382AbfJOTSl (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 15 Oct 2019 15:18:41 -0400
+Received: from earth.universe (eth-west-pareq2-46-193-2-41.wb.wifirst.net [46.193.2.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2499920854;
+        Tue, 15 Oct 2019 19:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571167120;
+        bh=3VW3nI+C8AV/pn0tLd1hom0tfVBcQeY8vKH6rm2SlyI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cnX5nhBNBOkPiickEeDv73BH7AJSwxU5DzeCYKhyqo7HLp58cTBbHcyuedxGTRfFF
+         zjCBGym+BMmC5jH49x3l6nmZBIFC/CrGynmKu2dwMe3Y9i7a5z74TeTWFqjlCEtje9
+         f/NIODiCutdaXX7nobHbAj9HeMAsy3cllhSk7WYY=
+Received: by earth.universe (Postfix, from userid 1000)
+        id 9C91E3C0CA1; Tue, 15 Oct 2019 21:18:37 +0200 (CEST)
+Date:   Tue, 15 Oct 2019 21:18:37 +0200
+From:   Sebastian Reichel <sre@kernel.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Lee Jones <lee.jones@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-pm@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 6/6] MAINTAINERS: update the list of maintained files for max77650
-Date:   Tue, 15 Oct 2019 18:23:00 +0200
-Message-Id: <20191015162300.22024-7-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191015162300.22024-1-brgl@bgdev.pl>
+Subject: Re: [PATCH v2 4/6] dt-bindings: power: max77650: convert the binding
+ document to yaml
+Message-ID: <20191015191837.jd6lbk3qbsmzuwfu@earth.universe>
 References: <20191015162300.22024-1-brgl@bgdev.pl>
+ <20191015162300.22024-5-brgl@bgdev.pl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="qh5r3wj6smdvdc4t"
+Content-Disposition: inline
+In-Reply-To: <20191015162300.22024-5-brgl@bgdev.pl>
+User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-The DT bindings for MAX77650 MFD have now been converted to YAML.
-Update the MAINTAINERS entry for this set of drivers.
+--qh5r3wj6smdvdc4t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi,
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a69e6db80c79..c05e6fd6aedb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9903,8 +9903,8 @@ MAXIM MAX77650 PMIC MFD DRIVER
- M:	Bartosz Golaszewski <bgolaszewski@baylibre.com>
- L:	linux-kernel@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/*/*max77650.txt
--F:	Documentation/devicetree/bindings/*/max77650*.txt
-+F:	Documentation/devicetree/bindings/*/*max77650.yaml
-+F:	Documentation/devicetree/bindings/*/max77650*.yaml
- F:	include/linux/mfd/max77650.h
- F:	drivers/mfd/max77650.c
- F:	drivers/regulator/max77650-regulator.c
--- 
-2.23.0
+On Tue, Oct 15, 2019 at 06:22:58PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>=20
+> Convert the binding document for MAX77650 charger module to YAML.
+>=20
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> ---
 
+Looks sensible to me. Assuming this goes through Rob:
+
+Acked-by: Sebastian Reichel <sre@kernel.org>
+
+-- Sebastian
+
+>  .../power/supply/max77650-charger.txt         | 29 +------------
+>  .../power/supply/max77650-charger.yaml        | 42 +++++++++++++++++++
+>  2 files changed, 43 insertions(+), 28 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/power/supply/max776=
+50-charger.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/power/supply/max77650-char=
+ger.txt b/Documentation/devicetree/bindings/power/supply/max77650-charger.t=
+xt
+> index e6d0fb6ff94e..fbab7d3ac8e3 100644
+> --- a/Documentation/devicetree/bindings/power/supply/max77650-charger.txt
+> +++ b/Documentation/devicetree/bindings/power/supply/max77650-charger.txt
+> @@ -1,28 +1 @@
+> -Battery charger driver for MAX77650 PMIC from Maxim Integrated.
+> -
+> -This module is part of the MAX77650 MFD device. For more details
+> -see Documentation/devicetree/bindings/mfd/max77650.txt.
+> -
+> -The charger is represented as a sub-node of the PMIC node on the device =
+tree.
+> -
+> -Required properties:
+> ---------------------
+> -- compatible:		Must be "maxim,max77650-charger"
+> -
+> -Optional properties:
+> ---------------------
+> -- input-voltage-min-microvolt:	Minimum CHGIN regulation voltage. Must be=
+ one
+> -				of: 4000000, 4100000, 4200000, 4300000,
+> -				4400000, 4500000, 4600000, 4700000.
+> -- input-current-limit-microamp:	CHGIN input current limit (in microamps)=
+=2E Must
+> -				be one of: 95000, 190000, 285000, 380000,
+> -				475000.
+> -
+> -Example:
+> ---------
+> -
+> -	charger {
+> -		compatible =3D "maxim,max77650-charger";
+> -		input-voltage-min-microvolt =3D <4200000>;
+> -		input-current-limit-microamp =3D <285000>;
+> -	};
+> +This file was moved to max77650-charger.yaml.
+> diff --git a/Documentation/devicetree/bindings/power/supply/max77650-char=
+ger.yaml b/Documentation/devicetree/bindings/power/supply/max77650-charger.=
+yaml
+> new file mode 100644
+> index 000000000000..9dd0dad0f948
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/power/supply/max77650-charger.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/power/supply/max77650-charger.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Battery charger driver for MAX77650 PMIC from Maxim Integrated.
+> +
+> +maintainers:
+> +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> +
+> +description: |
+> +  This module is part of the MAX77650 MFD device. For more details
+> +  see Documentation/devicetree/bindings/mfd/max77650.txt.
+> +
+> +  The charger is represented as a sub-node of the PMIC node on the devic=
+e tree.
+> +
+> +properties:
+> +  compatible:
+> +    const: maxim,max77650-charger
+> +
+> +  input-voltage-min-microvolt:
+> +    description:
+> +      Minimum CHGIN regulation voltage.
+> +    enum: [ 4000000, 4100000, 4200000, 4300000,
+> +            4400000, 4500000, 4600000, 4700000 ]
+> +
+> +  input-current-limit-microamp:
+> +    description:
+> +      CHGIN input current limit (in microamps).
+> +    enum: [ 95000, 190000, 285000, 380000, 475000 ]
+> +
+> +required:
+> +  - compatible
+> +
+> +examples:
+> +  - |
+> +    charger {
+> +        compatible =3D "maxim,max77650-charger";
+> +        input-voltage-min-microvolt =3D <4200000>;
+> +        input-current-limit-microamp =3D <285000>;
+> +    };
+> --=20
+> 2.23.0
+>=20
+
+--qh5r3wj6smdvdc4t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl2mG4QACgkQ2O7X88g7
++pr7Tg/+IMEVM9QSOBaEnCwYZYyzGFLriJJdzib9Cy6UMd80ujaTVa/BRf95ctlx
+SWLlkmQd8I6BsF9CxMulgyhatN0GA+/C0Q2Dr8eSvvWtDtQu5DY6W0LjKQzXr/W5
+UVM1OzqO9FDQsF7x0jaLfgTt+0AOdtiDBz+kKO2SnAytJkqjtlxj4vLAI9Gl9u6z
+dlaTeMxs7eO0qir3L47jLBbtsnoXuKq5QmWn2SI+j/D//tmlVPqodLbNPKqKpcV0
+hNgmRdBCMSYTXFGEV9d6jgkZ17QaXU8dGumr2w8DIeLDKj3blCU7gEIw1wiIdnkG
+c1SX+Kzw+Q8ejaD4tn0vxYrHl0G+H6x/vR948BZvlgH6eO/5iMaf8dRyp7BsqItV
+xE8Ii9ZepDr5Ny0a7UjKXXelujrAHdnaEWnV4AXGiPcatePsdYElz0PI4e99JLLa
+TWrtDsvmlFRDlMmcmGd+JJ5waj/RSaHg8fA+A4BDUBGkzQQFIrg6pFouvj81N/4v
+8mcFQ+S1X0kqQSXQnsvWlIl5XGO+0oThjlBOKoy2Sla+q5G37DvIqUE3FOJAOiUk
+Vk1RRM6PkM1dObjiYHaAzVK+qZBkWsIYLSa5FcS93efcTKHumN0HueGYTb/8zG0J
+2PiUCu20PdEbRYgrsRMaa/b2YusDP+ZPssYgqKJR7aN5fH0lpnU=
+=m1Mo
+-----END PGP SIGNATURE-----
+
+--qh5r3wj6smdvdc4t--
