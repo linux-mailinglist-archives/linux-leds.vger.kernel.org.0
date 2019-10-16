@@ -2,88 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37422D8F5E
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Oct 2019 13:26:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9011DD905B
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Oct 2019 14:06:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732462AbfJPLZ6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 16 Oct 2019 07:25:58 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:35868 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389378AbfJPLZ6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Oct 2019 07:25:58 -0400
-Received: by mail-lj1-f193.google.com with SMTP id v24so23605704ljj.3
-        for <linux-leds@vger.kernel.org>; Wed, 16 Oct 2019 04:25:56 -0700 (PDT)
+        id S2388763AbfJPMGS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 16 Oct 2019 08:06:18 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:44025 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726845AbfJPMGS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Oct 2019 08:06:18 -0400
+Received: by mail-pg1-f194.google.com with SMTP id i32so14165837pgl.10;
+        Wed, 16 Oct 2019 05:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=LFk6sNVy6XuWO8svgO6+SSQcv4B4DXcQwZI92acaUZg=;
-        b=wlgzQ3oAP2ptN6X3utRzkAkjiqbEvYZXZQ+934tvjKy32thr8vZSqIc3pjPQLtXgfH
-         jeUBx5S+U2BSXgq2bY3a6rZHCVzdzh+kGvbE07If8ZiWQLa2h2+10RU4koLv03ux3gjE
-         DCzgydf/q4oYSBTGeXWDkZTjJjNQfG0kl/C1baQNK4RkmkkBDVuU8EPk3rS1S21Ok64P
-         Pjs+a+EA94Nyt6KVp1f5UHI6dOEEB26gXM8gWR7Sv++h4vM+Y5KkwFnMR/zr6gAyKTgc
-         h01AoRKaUw8x7ixZkwD232rQIiApexPE1UixgnWHen2AVtsKl7yBpql2TxBthHjwEaYS
-         6gow==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F55Wt5S26tfWJ9YDzUSzM52fARPw99KqXvjlrC+Fh3g=;
+        b=ebMtAJuQlngR44Vl7KMnrR+dFZ+Nrj0hqzA0pmoxrQ8fVwoy255CC5iS0TkYgBwldj
+         1m3eTLY6SrRNaEqZ7MkV9cv+dsAMAtEqRo1JYYHlcam860EhPfAKxCm4G2fEYaTFd2ld
+         SLOM7PU99kY8AySQ+cDC5EILWMSetW3CPlzjMtxg6KBdRF4uAE1YTqzrjhaj/g/0LAOa
+         b1FthkhUXBwClscDHg6Z+svRgzOjTJDTpTW+kJ7K8uBlMRAFCGc8wAQS8v9SZhVAFHKC
+         j2/Yr9DE8gNtE6qOMdGyiqDKOIb9UaRa6r1hOpGl6kpjyvrxENJKCS3Fq4go6uxUWRAE
+         f1aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LFk6sNVy6XuWO8svgO6+SSQcv4B4DXcQwZI92acaUZg=;
-        b=ZCAk/VF0eAqyBN5z0vYeKTwRUlpVimDvWDbfaDIkUiyJHY8DjO0wqr/CS+dH5lVav0
-         JaFjw6cjPBv9b38ng3sH0lqjXBulX6WUxAuAP5bvernT6x7llgj1psthUUN2zc+MXB1i
-         A0P3SbPkP6LzCcKFGsKLKA2uhqJQfa77Z+VvBmpfpLTmKJNQ9s7xtRIeeVK1CNzNqT/l
-         njnMd5spEjWSEX3hu794osu+saYf8RPUbB5PU3/Ly0gl2xrDxBh4yX9xDWM5PPnQgz2/
-         FgR8/tVTkHTTuxF0J2El2jmHl131SWMlkmfeju/0nuYbDzxuY0lzIkZPk53q/MBAOU6m
-         Umiw==
-X-Gm-Message-State: APjAAAXs+iDe3/K2U6fT/kNxq50GDdY/7ICO7fYdkCrd04AmCkfnzndm
-        BPTjBqJaowkkslJ3T5Llq8uKsQVTjDtW+G19lfcF6w==
-X-Google-Smtp-Source: APXvYqwSxhfGwr8JdpJK0AeAGHl2j1JLtgGa4YJbf2sWoCxuxnBaFU4sl8NjUq/icemc6j6BY/vNAsSpnZssdNul8CE=
-X-Received: by 2002:a2e:481a:: with SMTP id v26mr18130946lja.41.1571225156108;
- Wed, 16 Oct 2019 04:25:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191008204800.19870-1-dmurphy@ti.com> <20191008204800.19870-9-dmurphy@ti.com>
-In-Reply-To: <20191008204800.19870-9-dmurphy@ti.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 16 Oct 2019 13:25:43 +0200
-Message-ID: <CACRpkdZQmgO-VMVMQz9P5S-Ff5JWBZ+CzN-TS+cwqMSmBargHg@mail.gmail.com>
-Subject: Re: [PATCH v11 08/16] dt: bindings: lp55xx: Update binding for
- Multicolor Framework
-To:     Dan Murphy <dmurphy@ti.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F55Wt5S26tfWJ9YDzUSzM52fARPw99KqXvjlrC+Fh3g=;
+        b=b+JNIUQAgZ/QQmEJyZISYHJna7hwILUU2hRuMIj+FHF2J7kqYWd1q3r7SZb74V7afG
+         3Or4d//WIxlbec/rgF732aHlsHEzHPEcEpS6TnFh5G0v7MCLsfaxMC19Gh9kWLuHsA/i
+         8WxC7Sm0KnouWHEKRxYl6OguYJDAxcbHANBiIQhNLP0GaJiq5oYMYCLc3tThtwJX3wKX
+         lhTrVuS4kbBposASpUGIUwBCllHGuhMmj5qNmMj5HVskVv4YnD7hHPYx8xGq/NOP9qUC
+         asdc2K0t+pSRjfF8cBncmjRJpibFP55SEVXLLsC8P2Mmpdzr6lI8eNRh5Po13jgPxap9
+         f7Cg==
+X-Gm-Message-State: APjAAAWo2V/veEwTqMr9eqkM6bTMaz4AAiC7xO2ex+jzbZU+IF4pJJJY
+        cVO+TjSIH+Sht31eg0lcMoDeAMYUYlE=
+X-Google-Smtp-Source: APXvYqw2dVLQUTIg1pKd/sv8fErPpPzrpqUTL/fKfnkVJIl7Arsc/6Hacpewc6Ec/BgLci7MAYRgfA==
+X-Received: by 2002:a63:cc4a:: with SMTP id q10mr44514091pgi.221.1571227577442;
+        Wed, 16 Oct 2019 05:06:17 -0700 (PDT)
+Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
+        by smtp.gmail.com with ESMTPSA id j16sm2641670pje.6.2019.10.16.05.06.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2019 05:06:16 -0700 (PDT)
+From:   Chuhong Yuan <hslester96@gmail.com>
 Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chuhong Yuan <hslester96@gmail.com>
+Subject: [PATCH] leds: an30259a: add a check for devm_regmap_init_i2c
+Date:   Wed, 16 Oct 2019 20:06:07 +0800
+Message-Id: <20191016120607.32718-1-hslester96@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Oct 8, 2019 at 10:48 PM Dan Murphy <dmurphy@ti.com> wrote:
+an30259a_probe misses a check for devm_regmap_init_i2c and may cause
+problems.
+Add a check and print errors like other leds drivers.
 
-> Update the DT binding to include the properties to use the
-> multicolor framework for the devices that use the LP55xx
-> framework.
->
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> CC: Tony Lindgren <tony@atomide.com>
-> CC: "Beno=C3=AEt Cousson" <bcousson@baylibre.com>
-> CC: Linus Walleij <linus.walleij@linaro.org>
-> CC: Shawn Guo <shawnguo@kernel.org>
-> CC: Sascha Hauer <s.hauer@pengutronix.de>
-> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-> CC: Fabio Estevam <festevam@gmail.com>
-> CC: NXP Linux Team <linux-imx@nxp.com>
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+---
+ drivers/leds/leds-an30259a.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+diff --git a/drivers/leds/leds-an30259a.c b/drivers/leds/leds-an30259a.c
+index 250dc9d6f635..03ad068f29f7 100644
+--- a/drivers/leds/leds-an30259a.c
++++ b/drivers/leds/leds-an30259a.c
+@@ -305,6 +305,13 @@ static int an30259a_probe(struct i2c_client *client)
+ 
+ 	chip->regmap = devm_regmap_init_i2c(client, &an30259a_regmap_config);
+ 
++	if (IS_ERR(chip->regmap)) {
++		err = PTR_ERR(chip->regmap);
++		dev_err(&client->dev, "Failed to allocate register map: %d\n",
++			err);
++		return err;
++	}
++
+ 	for (i = 0; i < chip->num_leds; i++) {
+ 		struct led_init_data init_data = {};
+ 
+-- 
+2.20.1
 
-Yours,
-Linus Walleij
