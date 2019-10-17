@@ -2,48 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6568DA623
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Oct 2019 09:13:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13E45DA61D
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Oct 2019 09:13:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407965AbfJQHNF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Oct 2019 03:13:05 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43392 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407961AbfJQHMq (ORCPT
+        id S2407970AbfJQHMs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 17 Oct 2019 03:12:48 -0400
+Received: from mail-wr1-f49.google.com ([209.85.221.49]:42799 "EHLO
+        mail-wr1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407971AbfJQHMq (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Oct 2019 03:12:46 -0400
-Received: by mail-wr1-f66.google.com with SMTP id j18so992772wrq.10
-        for <linux-leds@vger.kernel.org>; Thu, 17 Oct 2019 00:12:42 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id n14so1001756wrw.9
+        for <linux-leds@vger.kernel.org>; Thu, 17 Oct 2019 00:12:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3bOb1AKJG3bDEr1FgpNlaFfI94OCjr2yDrXcaaBRNYg=;
-        b=h5cjymHanIeuqRg2f6PHLWtTKxGIGeWwYBrxDn3dqeqUrRXvmQ/H/EJ7fdKo0WYEvX
-         zMvQs7GZUv5bR5yySSUIxjbhoOXJhKsbhE5Yd7Fz/BLWglt/fMjYsUq4YIFCYFE8SuF/
-         lLJbAhtCdBdoafQN7L+NLeRCYjbEnNzkKxN6WX6i//uKhyiTaMJwR8bQ8OiUi7XBglcU
-         JrvMnRLys1v0LcebJJRuYsEJuW6GQP1elTy8W6Ts79uwFTg9Xc7fGDNNNPZ2N61AL41T
-         xUgd6AgLY/QujzlTleid8OOXnNmZspRAU82+jbJqUA1MlvRDU5tkCX/zSR8bSa5oduX5
-         GNsQ==
+        bh=Y0xe4FV0YX22NO6I3XU+3Y8zPnld2K+UQnu+8AFIWtw=;
+        b=MQ1lZeNLhK1v35h5GBrVyrfS3o+FpzpiwUZFY+/nQUc8DMZRWC1HFjF/WkkxIy2/fO
+         E2lBgJcNi75C159GTkooUVaGTMWLzuvvSTJbe0mquS8qSxTsn5tTImupeKx0IeaZ3Dbm
+         v21aC79ALMER6MdH6aNzlmWHDJvS1om0lpBw3ntecQnjmXfZ1W1fP5RMaxj1MX0j0dKx
+         wOdp1GirtV0Tx2YhNj7dSmxvi9lRWahd++Awy/l07tVXOSiktKHSPVzgioTkxp4CjWdo
+         08xmPG+RhK5JmTR6HZGrF6HWk5oa6/30FraJfjORzP9J66TPxcBX+QtYKAAv56jqp+aD
+         tpug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3bOb1AKJG3bDEr1FgpNlaFfI94OCjr2yDrXcaaBRNYg=;
-        b=er0zJKvUIq9qzc55iC0k4lSGVbyt8bZ1FXf5lNFBdFHhbtpsjI9i0RFSjRP1wYTzDs
-         GVMhV8adMTSY7NFnOc2T5oxyBa7ttvYV0iAJM0+yrv0XKO1fkvwoH42PYXVcU0IzZbcl
-         1q1/HXtf4Q9Cd78v4tVBZXvVOQU8ClCS5CHlPNUv4kRILSVBumoJ8L2suIRazmONq0kh
-         8NDJItBmfx3w9UOe22HwFaV+HBWWuZhhIMv2jgXw1my66fRWZ2va5QtY26cN4tOfIYLs
-         oEFZL76sDXVVkW2cjZCJg7xpD+8+Rn4lvMYY9MnvwHZ62aLDbeOvbTl1owExEiy79Q4j
-         Tpew==
-X-Gm-Message-State: APjAAAUWi/9j89XtYy61ePLsr62pByXkjYoZYinOFJVdvdkkCpAu6DMK
-        AQWbB7QugXhziqSOo39sIgkwYw==
-X-Google-Smtp-Source: APXvYqz55R/u66x2hhzpqDGgG8BwQelWQK9VRVJUp9ocyDd81uTXM8KarRo/wU7uHDUUsX8/LzGOsA==
-X-Received: by 2002:adf:fc42:: with SMTP id e2mr1730108wrs.100.1571296362163;
-        Thu, 17 Oct 2019 00:12:42 -0700 (PDT)
+        bh=Y0xe4FV0YX22NO6I3XU+3Y8zPnld2K+UQnu+8AFIWtw=;
+        b=cFUUKyql6hxWwcFyqxP46nBhqj+zUd/G+nxNhodY4aapQ8Vj0Ia26enippDeNmfdPk
+         cm98HjqB2WDbBT2/ZY4JDCuo8oHvqpooHUzmVCovZ85p19XgNSxlGspiHZknwxcS6Wx5
+         CqiQ3ccb4/7gPuYpPdtcpqfQ1rCU/pcEaRYGpf+KFaXAIsmpFzVn67lmQX4HSZM2gNm4
+         FBNryMg/ZU9y6QFVBw7aFrmP+tJCH9YN2PSB2QInn+mtJuVaSEOXuXfUUCYj+cLGTfi7
+         p6WARCHOgr9W5rkIxZxFMrXGwiZ2TVulj4AIbp0Iwcftw1nUy9VKjZf6esOwpEg224UC
+         V/mw==
+X-Gm-Message-State: APjAAAWmk83xJsFbgQdT1PTDw/0XvEkfiGtBJ8GatjVyISZkxArO8ovO
+        9QWgSG9hnFhJtzvejRa6kW5S7Q==
+X-Google-Smtp-Source: APXvYqxuNydySVjKyAR1uZqIgM8g7VpD/F9Gd+CR3TNU1mKhx151sENGB6uo4noCfeKX+vy/ie2vHg==
+X-Received: by 2002:a5d:4a87:: with SMTP id o7mr1680954wrq.374.1571296363695;
+        Thu, 17 Oct 2019 00:12:43 -0700 (PDT)
 Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
-        by smtp.gmail.com with ESMTPSA id n22sm1156689wmk.19.2019.10.17.00.12.40
+        by smtp.gmail.com with ESMTPSA id n22sm1156689wmk.19.2019.10.17.00.12.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 00:12:40 -0700 (PDT)
+        Thu, 17 Oct 2019 00:12:43 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -58,9 +58,9 @@ Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-pm@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 2/6] dt-bindings: input: max77650: convert the binding document to yaml
-Date:   Thu, 17 Oct 2019 09:12:30 +0200
-Message-Id: <20191017071234.8719-3-brgl@bgdev.pl>
+Subject: [PATCH v3 3/6] dt-bindings: regulator: max77650: convert the binding document to yaml
+Date:   Thu, 17 Oct 2019 09:12:31 +0200
+Message-Id: <20191017071234.8719-4-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191017071234.8719-1-brgl@bgdev.pl>
 References: <20191017071234.8719-1-brgl@bgdev.pl>
@@ -73,86 +73,97 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Convert the binding document for MAX77650 onkey module to YAML.
+Convert the binding document for MAX77650 regulator module to YAML.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- .../bindings/input/max77650-onkey.txt         | 26 --------------
- .../bindings/input/max77650-onkey.yaml        | 35 +++++++++++++++++++
- 2 files changed, 35 insertions(+), 26 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/max77650-onkey.txt
- create mode 100644 Documentation/devicetree/bindings/input/max77650-onkey.yaml
+ .../bindings/regulator/max77650-regulator.txt | 41 -------------------
+ .../regulator/max77650-regulator.yaml         | 31 ++++++++++++++
+ 2 files changed, 31 insertions(+), 41 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/regulator/max77650-regulator.txt
+ create mode 100644 Documentation/devicetree/bindings/regulator/max77650-regulator.yaml
 
-diff --git a/Documentation/devicetree/bindings/input/max77650-onkey.txt b/Documentation/devicetree/bindings/input/max77650-onkey.txt
+diff --git a/Documentation/devicetree/bindings/regulator/max77650-regulator.txt b/Documentation/devicetree/bindings/regulator/max77650-regulator.txt
 deleted file mode 100644
-index 477dc74f452a..000000000000
---- a/Documentation/devicetree/bindings/input/max77650-onkey.txt
+index f1cbe813c30f..000000000000
+--- a/Documentation/devicetree/bindings/regulator/max77650-regulator.txt
 +++ /dev/null
-@@ -1,26 +0,0 @@
--Onkey driver for MAX77650 PMIC from Maxim Integrated.
+@@ -1,41 +0,0 @@
+-Regulator driver for MAX77650 PMIC from Maxim Integrated.
 -
 -This module is part of the MAX77650 MFD device. For more details
 -see Documentation/devicetree/bindings/mfd/max77650.txt.
 -
--The onkey controller is represented as a sub-node of the PMIC node on
--the device tree.
+-The regulator controller is represented as a sub-node of the PMIC node
+-on the device tree.
+-
+-The device has a single LDO regulator and a SIMO buck-boost regulator with
+-three independent power rails.
 -
 -Required properties:
 ---------------------
--- compatible:		Must be "maxim,max77650-onkey".
+-- compatible:		Must be "maxim,max77650-regulator"
 -
--Optional properties:
--- linux,code:		The key-code to be reported when the key is pressed.
--			Defaults to KEY_POWER.
--- maxim,onkey-slide:	The system's button is a slide switch, not the default
--			push button.
+-Each rail must be instantiated under the regulators subnode of the top PMIC
+-node. Up to four regulators can be defined. For standard regulator properties
+-refer to Documentation/devicetree/bindings/regulator/regulator.txt.
+-
+-Available regulator compatible strings are: "ldo", "sbb0", "sbb1", "sbb2".
 -
 -Example:
 ---------
 -
--	onkey {
--		compatible = "maxim,max77650-onkey";
--		linux,code = <KEY_END>;
--		maxim,onkey-slide;
+-	regulators {
+-		compatible = "maxim,max77650-regulator";
+-
+-		max77650_ldo: regulator@0 {
+-			regulator-compatible = "ldo";
+-			regulator-name = "max77650-ldo";
+-			regulator-min-microvolt = <1350000>;
+-			regulator-max-microvolt = <2937500>;
+-		};
+-
+-		max77650_sbb0: regulator@1 {
+-			regulator-compatible = "sbb0";
+-			regulator-name = "max77650-sbb0";
+-			regulator-min-microvolt = <800000>;
+-			regulator-max-microvolt = <1587500>;
+-		};
 -	};
-diff --git a/Documentation/devicetree/bindings/input/max77650-onkey.yaml b/Documentation/devicetree/bindings/input/max77650-onkey.yaml
+diff --git a/Documentation/devicetree/bindings/regulator/max77650-regulator.yaml b/Documentation/devicetree/bindings/regulator/max77650-regulator.yaml
 new file mode 100644
-index 000000000000..2f2e0b6ebbbd
+index 000000000000..a8770742836d
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/input/max77650-onkey.yaml
-@@ -0,0 +1,35 @@
++++ b/Documentation/devicetree/bindings/regulator/max77650-regulator.yaml
+@@ -0,0 +1,31 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/input/max77650-onkey.yaml#
++$id: http://devicetree.org/schemas/regulator/max77650-regulator.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Onkey driver for MAX77650 PMIC from Maxim Integrated.
++title: Regulator driver for MAX77650 PMIC from Maxim Integrated.
 +
 +maintainers:
 +  - Bartosz Golaszewski <bgolaszewski@baylibre.com>
 +
 +description: |
 +  This module is part of the MAX77650 MFD device. For more details
-+  see Documentation/devicetree/bindings/mfd/max77650.yaml.
++  see Documentation/devicetree/bindings/mfd/max77650.txt.
 +
-+  The onkey controller is represented as a sub-node of the PMIC node on
-+  the device tree.
++  The regulator controller is represented as a sub-node of the PMIC node
++  on the device tree.
++
++  The device has a single LDO regulator and a SIMO buck-boost regulator with
++  three independent power rails.
 +
 +properties:
 +  compatible:
-+    const: maxim,max77650-onkey
++    const: maxim,max77650-regulator
 +
-+  linux,code:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      The key-code to be reported when the key is pressed. Defaults
-+      to KEY_POWER.
-+
-+  maxim,onkey-slide:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      The system's button is a slide switch, not the default push button.
++patternProperties:
++  "^regulator@[0-3]$":
++    $ref: "regulator.yaml#"
 +
 +required:
 +  - compatible
