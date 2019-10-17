@@ -2,373 +2,325 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D48B5DACA1
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Oct 2019 14:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 699C9DADE9
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Oct 2019 15:09:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502527AbfJQMpX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Oct 2019 08:45:23 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:32972 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502483AbfJQMpT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Oct 2019 08:45:19 -0400
-Received: by mail-ot1-f68.google.com with SMTP id 60so1774606otu.0
-        for <linux-leds@vger.kernel.org>; Thu, 17 Oct 2019 05:45:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=DHEsQ/t2mNEg5LKu5Mj2zpugAqBSCvuZbGbTIWytwV4=;
-        b=Txkr59yRl2Ox0VxegifYZHbERme0c7yuNsQITmT/4CUgyG92fosJJqbC3gCRm1DZ1T
-         z5Bb2AVaZKJjtP/OYMD4q0+3gF5/79mYluKOr6sIS3irApVeIVBue7FbK3a8+4mV8NAy
-         MjSMrDn7yhLK24KDuIEPaIJEso96FkALB8UW7ppkWJh0cHB7QDaHU/PtOyabowOYmK/7
-         Gwwj1kB8NmCpgqyh/dG1ih4FsRFeYigMmQP9UarSq1MSRzusn+xHmh7EJWVE5wR7qYYh
-         ZOAGgvloA/ql9yI+9esoZMsHe2FGbDY0IcaieH2LrPc3AgH+pVC6BcvJni6hZfiJT4kT
-         /uHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=DHEsQ/t2mNEg5LKu5Mj2zpugAqBSCvuZbGbTIWytwV4=;
-        b=tV8CcOGHUwdOqX6HRmN/0KUzwHkpBMLI4FDg+HLJ0hoYrCXAuKTtkZs2t6w+CYsbeB
-         erGJr79JUrzHEw2FLZgJ6iuLbJItHIIMS3Gn135bfIc9q6S5CQNcLgUZEZyNC9OJG1wO
-         Xg2i6a5ZuEeqJnvwxV3KA56rJdzVSjLqpX85awfnQzo4SBNvdvemJHiAnQAwV4WAakdo
-         W5zo9Fz6k9siUjg8db94SVWekyQGO1ovMaQiYFMnrBjkmLFU3oDNOatXFH24cDEk6AMM
-         EY2EojBTdZp4EpO6272kdDJ+Ld6wnfkUBtddAiyLZEXfR9eVwowzMXCE5uA8df5ghrSH
-         BZQA==
-X-Gm-Message-State: APjAAAXZBNKmzPQmHvO7cxyk3akufEtyR54bl4W5AuPLA7HExeHaiS+u
-        ESvu7i7AaVQEWh/GajwhasIgN8GdNEFtzGb4OQ/ifw==
-X-Google-Smtp-Source: APXvYqyb2vOvmSDj5KcHlFaG8FReaXiD1B0KpKO/tQhf5PzX4y7oRLevzVXTbOtrlOWA9AixmSejWJHz4apsrioz8Bk=
-X-Received: by 2002:a9d:7d09:: with SMTP id v9mr2902297otn.292.1571316317767;
- Thu, 17 Oct 2019 05:45:17 -0700 (PDT)
+        id S2394287AbfJQNJW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 17 Oct 2019 09:09:22 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:42130 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726898AbfJQNJW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Oct 2019 09:09:22 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 4F1256125D; Thu, 17 Oct 2019 13:09:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1571317760;
+        bh=t4NDnXelW5sg2Ml0QnUbHO+z1QOEllhT39rq4T66eHs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=o4INH9b7KFD1tjqGTSgsz+2oGmUCs9JKuh1/wINCJsYntKoTLpmNOD/HcAkV2g3GR
+         /u7gsJwQEJHUXUJ20hxSBZsQJJCdoHUNT08n+zKSbQzzRTMckGydHaXfZxd8qwyvJT
+         0LZLOrw1fjeB0WJE/NlZD3PN7UDiBkx+sS4BmAYI=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED autolearn=no autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by smtp.codeaurora.org (Postfix) with ESMTP id CBB806125D;
+        Thu, 17 Oct 2019 13:09:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1571317755;
+        bh=t4NDnXelW5sg2Ml0QnUbHO+z1QOEllhT39rq4T66eHs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=SIHZPviicUwgsJzTmnVeEDom69LTwHWuGQiES8WuWRan8bUKNfgBfO0uNxWm2oB1K
+         W5sFvlIusgqjRRDN9TDUOl8rq75CgMnGplpFhptRIecrGfOaK/oHpzIoRPcwoaSD+d
+         YCsLgMcgS1z9AUoo9w/ogcJOa4rywQum+h2qx9y0=
 MIME-Version: 1.0
-References: <cover.1571302099.git.matti.vaittinen@fi.rohmeurope.com> <f8f8c323d378244afe4e94f48c0a94bb296cbbe0.1571302099.git.matti.vaittinen@fi.rohmeurope.com>
-In-Reply-To: <f8f8c323d378244afe4e94f48c0a94bb296cbbe0.1571302099.git.matti.vaittinen@fi.rohmeurope.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Thu, 17 Oct 2019 14:45:06 +0200
-Message-ID: <CAMpxmJWXQccY8HsM6MXYBW8KC0U+7iOk+Ve-4nk=cpa=Zuk1cg@mail.gmail.com>
-Subject: Re: [RFC PATCH 10/13] gpio: bd71828: Initial support for ROHM BD71828
- PMIC GPIOs
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     Matti Vaittinen <mazziesaccount@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        linux-rtc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 17 Oct 2019 18:39:15 +0530
+From:   kgunda@codeaurora.org
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+        daniel.thompson@linaro.org, jacek.anaszewski@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH V7 6/6] backlight: qcom-wled: Add auto string detection
+ logic
+In-Reply-To: <20191017122653.GO4365@dell>
+References: <1571220826-7740-1-git-send-email-kgunda@codeaurora.org>
+ <1571220826-7740-7-git-send-email-kgunda@codeaurora.org>
+ <20191017122653.GO4365@dell>
+Message-ID: <689831a9d7561f51cdb7ea0a1760d472@codeaurora.org>
+X-Sender: kgunda@codeaurora.org
+User-Agent: Roundcube Webmail/1.2.5
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-czw., 17 pa=C5=BA 2019 o 11:53 Matti Vaittinen
-<matti.vaittinen@fi.rohmeurope.com> napisa=C5=82(a):
->
-> ROHM BD71828 PMIC contains 4 pins which can be configured by OTP
-> to be used for general purposes. First 3 can be used as outputs
-> and 4.th pin can be used as input. Allow them to be controlled
-> via GPIO framework.
->
-> The driver assumes all of the pins are configured as GPIOs and
-> rusts that the reserved pins in other OTP configurations are
-> excluded from control using "gpio-reserved-ranges" device tree
-> property (or left untouched by GPIO users).
->
-> Typical use for 4.th pin (input) is to use it as HALL sensor
-> input so that this pin state is toggled when HALL sensor detects
-> LID position change (from close to open or open to close). PMIC
-> HW implements some extra logic which allows PMIC to power-up the
-> system when this pin is toggled. Please see the data sheet for
-> details of GPIO options which can be selcted by OTP settings.
->
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> ---
->  drivers/gpio/Kconfig        |  12 +++
->  drivers/gpio/Makefile       |   1 +
->  drivers/gpio/gpio-bd71828.c | 161 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 174 insertions(+)
->  create mode 100644 drivers/gpio/gpio-bd71828.c
->
-> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-> index bb13c266c329..fb0a099de961 100644
-> --- a/drivers/gpio/Kconfig
-> +++ b/drivers/gpio/Kconfig
-> @@ -986,6 +986,18 @@ config GPIO_BD70528
->           This driver can also be built as a module. If so, the module
->           will be called gpio-bd70528.
->
-> +config GPIO_BD71828
-> +       tristate "ROHM BD71828 GPIO support"
-> +       depends on MFD_ROHM_BD71828
-> +       help
-> +         Support for GPIOs on ROHM BD71828 PMIC. There are three GPIOs
-> +         available on the ROHM PMIC in total. The GPIOs are limited to
-> +         outputs only and pins must be configured to GPIO outputs by
-> +         OTP. Enable this only if you want to use these pins as outputs.
-> +
-> +         This driver can also be built as a module. If so, the module
-> +         will be called gpio-bd71828.
-> +
->  config GPIO_BD9571MWV
->         tristate "ROHM BD9571 GPIO support"
->         depends on MFD_BD9571MWV
-> diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-> index a4e91175c708..b11932844768 100644
-> --- a/drivers/gpio/Makefile
-> +++ b/drivers/gpio/Makefile
-> @@ -35,6 +35,7 @@ obj-$(CONFIG_GPIO_ASPEED)             +=3D gpio-aspeed.=
-o
->  obj-$(CONFIG_GPIO_ATH79)               +=3D gpio-ath79.o
->  obj-$(CONFIG_GPIO_BCM_KONA)            +=3D gpio-bcm-kona.o
->  obj-$(CONFIG_GPIO_BD70528)             +=3D gpio-bd70528.o
-> +obj-$(CONFIG_GPIO_BD71828)             +=3D gpio-bd71828.o
->  obj-$(CONFIG_GPIO_BD9571MWV)           +=3D gpio-bd9571mwv.o
->  obj-$(CONFIG_GPIO_BRCMSTB)             +=3D gpio-brcmstb.o
->  obj-$(CONFIG_GPIO_BT8XX)               +=3D gpio-bt8xx.o
-> diff --git a/drivers/gpio/gpio-bd71828.c b/drivers/gpio/gpio-bd71828.c
-> new file mode 100644
-> index 000000000000..3cf3890a24c4
-> --- /dev/null
-> +++ b/drivers/gpio/gpio-bd71828.c
-> @@ -0,0 +1,161 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (C) 2018 ROHM Semiconductors
-> +// gpio-bd71828.c ROHM BD71828 gpio driver
+On 2019-10-17 17:56, Lee Jones wrote:
+> On Wed, 16 Oct 2019, Kiran Gunda wrote:
+> 
+>> The auto string detection algorithm checks if the current WLED
+>> sink configuration is valid. It tries enabling every sink and
+>> checks if the OVP fault is observed. Based on this information
+>> it detects and enables the valid sink configuration.
+>> Auto calibration will be triggered when the OVP fault interrupts
+>> are seen frequently thereby it tries to fix the sink configuration.
+>> 
+>> The auto-detection also kicks in when the connected LED string
+>> of the display-backlight malfunctions (because of damage) and
+>> requires the damaged string to be turned off to prevent the
+>> complete panel and/or board from being damaged.
+>> 
+>> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+>> ---
+>>  drivers/video/backlight/qcom-wled.c | 410 
+>> +++++++++++++++++++++++++++++++++++-
+>>  1 file changed, 404 insertions(+), 6 deletions(-)
+>> 
+>> diff --git a/drivers/video/backlight/qcom-wled.c 
+>> b/drivers/video/backlight/qcom-wled.c
+>> index b5b125c..ff7c409 100644
+>> --- a/drivers/video/backlight/qcom-wled.c
+>> +++ b/drivers/video/backlight/qcom-wled.c
+> 
+> 
+> [...]
+> 
+>> +	/* iterate through the strings one by one */
+> 
+> Please use proper English in comments (less a full stop).
+> 
+> In this case, just s/iterate/Iterate/.
+> 
+Sorry for that ! will fix it in next series.
+>> +	for (i = 0; i < wled->cfg.num_strings; i++) {
+>> +		sink_test = BIT((WLED4_SINK_REG_CURR_SINK_SHFT + i));
+>> +
+>> +		/* Enable feedback control */
+>> +		rc = regmap_write(wled->regmap, wled->ctrl_addr +
+>> +				  WLED3_CTRL_REG_FEEDBACK_CONTROL, i + 1);
+>> +		if (rc < 0) {
+>> +			dev_err(wled->dev, "Failed to enable feedback for SINK %d rc = 
+>> %d\n",
+>> +				i + 1, rc);
+>> +			goto failed_detect;
+>> +		}
+>> +
+>> +		/* enable the sink */
+> 
+> Here too.  And everywhere else.
+> 
+Will fix it in next series.
+>> +		rc = regmap_write(wled->regmap, wled->sink_addr +
+>> +				  WLED4_SINK_REG_CURR_SINK, sink_test);
+>> +		if (rc < 0) {
+>> +			dev_err(wled->dev, "Failed to configure SINK %d rc=%d\n",
+>> +				i + 1, rc);
+>> +			goto failed_detect;
+>> +		}
+>> +
+>> +		/* Enable the module */
+>> +		rc = regmap_update_bits(wled->regmap, wled->ctrl_addr +
+>> +					WLED3_CTRL_REG_MOD_EN,
+>> +					WLED3_CTRL_REG_MOD_EN_MASK,
+>> +					WLED3_CTRL_REG_MOD_EN_MASK);
+>> +		if (rc < 0) {
+>> +			dev_err(wled->dev, "Failed to enable WLED module rc=%d\n",
+>> +				rc);
+>> +			goto failed_detect;
+>> +		}
+>> +
+>> +		usleep_range(WLED_SOFT_START_DLY_US,
+>> +			     WLED_SOFT_START_DLY_US + 1000);
+>> +
+>> +		rc = regmap_read(wled->regmap, wled->ctrl_addr +
+>> +				 WLED3_CTRL_REG_INT_RT_STS, &int_sts);
+>> +		if (rc < 0) {
+>> +			dev_err(wled->dev, "Error in reading WLED3_CTRL_INT_RT_STS 
+>> rc=%d\n",
+>> +				rc);
+>> +			goto failed_detect;
+>> +		}
+>> +
+>> +		if (int_sts & WLED3_CTRL_REG_OVP_FAULT_STATUS)
+>> +			dev_dbg(wled->dev, "WLED OVP fault detected with SINK %d\n",
+>> +				i + 1);
+> 
+> I haven't reviewed the whole patch, but this caught my eye.
+> 
+> I think this should be upgraded to dev_warn().
+> 
+Thought of keeping these messages silent, Because the string 
+configuration will be corrected in this
+and informing it at end of the auto string detection.
+>> +		else
+>> +			sink_valid |= sink_test;
+>> +
+>> +		/* Disable the module */
+>> +		rc = regmap_update_bits(wled->regmap,
+>> +					wled->ctrl_addr + WLED3_CTRL_REG_MOD_EN,
+>> +					WLED3_CTRL_REG_MOD_EN_MASK, 0);
+>> +		if (rc < 0) {
+>> +			dev_err(wled->dev, "Failed to disable WLED module rc=%d\n",
+>> +				rc);
+>> +			goto failed_detect;
+>> +		}
+>> +	}
+>> +
+>> +	if (!sink_valid) {
+>> +		dev_err(wled->dev, "No valid WLED sinks found\n");
+>> +		wled->disabled_by_short = true;
+>> +		goto failed_detect;
+>> +	}
+>> +
+>> +	if (sink_valid == sink_config) {
+>> +		dev_dbg(wled->dev, "WLED auto-detection complete, sink-config=%x 
+>> OK!\n",
+>> +			sink_config);
+> 
+> Does this really need to be placed in the kernel log?
+> 
+Ok. This can be removed. I will remove it in next series.
+>> +	} else {
+>> +		dev_warn(wled->dev, "New WLED string configuration found %x\n",
+>> +			 sink_valid);
+> 
+> Why would the user care about this?  Is it not normal?
+> 
+Actually, it comes here if the user provided string configuration in the 
+device tree is in-correct.
+That's why just informing the user about the right string configuration, 
+after the auto string detection.
+>> +		sink_config = sink_valid;
+>> +	}
+> 
+> [...]
+> 
+>> +static irqreturn_t wled_ovp_irq_handler(int irq, void *_wled)
+>> +{
+>> +	struct wled *wled = _wled;
+>> +	int rc;
+>> +	u32 int_sts, fault_sts;
+>> +
+>> +	rc = regmap_read(wled->regmap,
+>> +			 wled->ctrl_addr + WLED3_CTRL_REG_INT_RT_STS, &int_sts);
+>> +	if (rc < 0) {
+>> +		dev_err(wled->dev, "Error in reading WLED3_INT_RT_STS rc=%d\n",
+>> +			rc);
+>> +		return IRQ_HANDLED;
+>> +	}
+>> +
+>> +	rc = regmap_read(wled->regmap, wled->ctrl_addr +
+>> +			 WLED3_CTRL_REG_FAULT_STATUS, &fault_sts);
+>> +	if (rc < 0) {
+>> +		dev_err(wled->dev, "Error in reading WLED_FAULT_STATUS rc=%d\n",
+>> +			rc);
+>> +		return IRQ_HANDLED;
+>> +	}
+>> +
+>> +	if (fault_sts &
+>> +		(WLED3_CTRL_REG_OVP_FAULT_BIT | WLED3_CTRL_REG_ILIM_FAULT_BIT))
+> 
+> Break the line at the '|'.
+> 
+Will do it next series.
+>> +		dev_dbg(wled->dev, "WLED OVP fault detected, int_sts=%x fault_sts= 
+>> %x\n",
+>> +			int_sts, fault_sts);
+> 
+> dev_warn().
+> 
+As said above, wanted to keep these messages silent and inform the right 
+string
+configuration at the end of string detection.
+>> +	if (fault_sts & WLED3_CTRL_REG_OVP_FAULT_BIT) {
+>> +		mutex_lock(&wled->lock);
+>> +		disable_irq_nosync(wled->ovp_irq);
+>> +
+>> +		if (wled_auto_detection_required(wled))
+>> +			wled_auto_string_detection(wled);
+>> +
+>> +		enable_irq(wled->ovp_irq);
+>> +
+>> +		mutex_unlock(&wled->lock);
+>> +	}
+>> +
+>> +	return IRQ_HANDLED;
+>> +}
+>> +
+>>  static int wled3_setup(struct wled *wled)
+>>  {
+>>  	u16 addr;
+>> @@ -435,8 +775,10 @@ static int wled4_setup(struct wled *wled)
+>>  		sink_en |= 1 << temp;
+>>  	}
+>> 
+>> -	if (sink_cfg == sink_en)
+>> -		return 0;
+>> +	if (sink_cfg == sink_en) {
+>> +		rc = wled_auto_detection_at_init(wled);
+>> +		return rc;
+>> +	}
+>> 
+>>  	rc = regmap_update_bits(wled->regmap,
+>>  				wled->sink_addr + WLED4_SINK_REG_CURR_SINK,
+>> @@ -499,7 +841,9 @@ static int wled4_setup(struct wled *wled)
+>>  		return rc;
+>>  	}
+>> 
+>> -	return 0;
+>> +	rc = wled_auto_detection_at_init(wled);
+>> +
+>> +	return rc;
+>>  }
+>> 
+>>  static const struct wled_config wled4_config_defaults = {
+>> @@ -510,6 +854,7 @@ static int wled4_setup(struct wled *wled)
+>>  	.switch_freq = 11,
+>>  	.cabc = false,
+>>  	.external_pfet = false,
+>> +	.auto_detection_enabled = false,
+>>  };
+>> 
+>>  static const u32 wled3_boost_i_limit_values[] = {
+>> @@ -676,6 +1021,7 @@ static int wled_configure(struct wled *wled, int 
+>> version)
+>>  		{ "qcom,ext-gen", &cfg->ext_gen, },
+>>  		{ "qcom,cabc", &cfg->cabc, },
+>>  		{ "qcom,external-pfet", &cfg->external_pfet, },
+>> +		{ "qcom,auto-string-detection", &cfg->auto_detection_enabled, },
+>>  	};
+>> 
+>>  	prop_addr = of_get_address(dev->of_node, 0, NULL, NULL);
+>> @@ -796,6 +1142,40 @@ static int wled_configure_short_irq(struct wled 
+>> *wled,
+>>  	return rc;
+>>  }
+>> 
+>> +static int wled_configure_ovp_irq(struct wled *wled,
+>> +				  struct platform_device *pdev)
+>> +{
+>> +	int rc;
+>> +	u32 val;
+>> +
+>> +	wled->ovp_irq = platform_get_irq_byname(pdev, "ovp");
+>> +	if (wled->ovp_irq < 0) {
+>> +		dev_dbg(&pdev->dev, "ovp irq is not used\n");
+> 
+> I assume this is optional.  What happens if no IRQ is provided?
+> 
+Here OVP IRQ is used to detect the wrong string detection. If it is not
+provided the auto string detection logic won't work.
 
-I don't think the name of the source file is needed here.
-
-> +
-> +#include <linux/gpio/driver.h>
-> +#include <linux/mfd/rohm-bd71828.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#define OUT 0
-> +#define IN 1
-
-If you really want to define those, please use a common prefix for all
-symbols in the driver.
-
-> +#define GPIO_OUT_REG(off) (BD71828_REG_GPIO_CTRL1 + (off))
-> +#define HALL_GPIO_OFFSET 3
-> +
-> +struct bd71828_gpio {
-> +       struct rohm_regmap_dev chip;
-> +       struct gpio_chip gpio;
-> +};
-> +
-> +static void bd71828_gpio_set(struct gpio_chip *chip, unsigned int offset=
-,
-> +                            int value)
-> +{
-> +       int ret;
-> +       struct bd71828_gpio *bdgpio =3D gpiochip_get_data(chip);
-> +       u8 val =3D (value) ? BD71828_GPIO_OUT_HI : BD71828_GPIO_OUT_LO;
-> +
-> +       if (offset =3D=3D HALL_GPIO_OFFSET)
-> +               return;
-
-Can you add a comment here saying that this pin can only be used as
-input? Otherwise this information is only available in the commit
-message.
-
-> +
-> +       ret =3D regmap_update_bits(bdgpio->chip.regmap, GPIO_OUT_REG(offs=
-et),
-> +                                BD71828_GPIO_OUT_MASK, val);
-> +       if (ret)
-> +               dev_err(bdgpio->chip.dev, "Could not set gpio to %d\n", v=
-alue);
-> +}
-> +
-> +static int bd71828_gpio_get(struct gpio_chip *chip, unsigned int offset)
-> +{
-> +       int ret;
-> +       unsigned int val;
-> +       struct bd71828_gpio *bdgpio =3D gpiochip_get_data(chip);
-> +
-> +       if (offset =3D=3D HALL_GPIO_OFFSET)
-> +               ret =3D regmap_read(bdgpio->chip.regmap, BD71828_REG_IO_S=
-TAT,
-> +                                 &val);
-> +       else
-> +               ret =3D regmap_read(bdgpio->chip.regmap, GPIO_OUT_REG(off=
-set),
-> +                                 &val);
-> +       if (!ret)
-> +               ret =3D (val & BD71828_GPIO_OUT_MASK);
-> +
-> +       return ret;
-> +}
-> +
-> +static int bd71828_gpio_set_config(struct gpio_chip *chip, unsigned int =
-offset,
-> +                                  unsigned long config)
-> +{
-> +       struct bd71828_gpio *bdgpio =3D gpiochip_get_data(chip);
-> +
-> +       if (offset =3D=3D HALL_GPIO_OFFSET)
-> +               return -ENOTSUPP;
-> +
-> +       switch (pinconf_to_config_param(config)) {
-> +       case PIN_CONFIG_DRIVE_OPEN_DRAIN:
-> +               return regmap_update_bits(bdgpio->chip.regmap,
-> +                                         GPIO_OUT_REG(offset),
-> +                                         BD71828_GPIO_DRIVE_MASK,
-> +                                         BD71828_GPIO_OPEN_DRAIN);
-> +       case PIN_CONFIG_DRIVE_PUSH_PULL:
-> +               return regmap_update_bits(bdgpio->chip.regmap,
-> +                                         GPIO_OUT_REG(offset),
-> +                                         BD71828_GPIO_DRIVE_MASK,
-> +                                         BD71828_GPIO_PUSH_PULL);
-> +       default:
-> +               break;
-> +       }
-> +       return -ENOTSUPP;
-> +}
-> +
-> +static int bd71828_get_direction(struct gpio_chip *chip, unsigned int of=
-fset)
-> +{
-> +       /*
-> +        * Pin usage is selected by OTP data. We can't read it runtime. H=
-ence
-> +        * we trust that if the pin is not excluded by "gpio-reserved-ran=
-ges"
-> +        * the OTP configuration is set to OUT. (Other pins but HALL inpu=
-t pin
-> +        * on BD71828 can't really be used for general purpose input - in=
-put
-> +        * states are used for specific cases like regulator control or
-> +        * PMIC_ON_REQ.
-> +        */
-> +       if (offset =3D=3D HALL_GPIO_OFFSET)
-> +               return IN;
-> +
-> +       return OUT;
-> +}
-> +
-> +static int bd71828_gpio_parse_dt(struct device *dev,
-> +                                struct bd71828_gpio *bdgpio)
-> +{
-> +       /*
-> +        * TBD: See if we need some implementation to mark some PINs as
-> +        * not controllable based on DT info or if core can handle
-> +        * "gpio-reserved-ranges" and exclude them from control
-> +        */
-> +       return 0;
-> +}
-
-Please don't implement empty functions. Just add this comment next to
-gpiochip's initialization...
-
-> +
-> +static int bd71828_probe(struct platform_device *pdev)
-> +{
-> +       struct bd71828_gpio *bdgpio;
-> +       struct rohm_regmap_dev *bd71828;
-> +       int ret;
-> +
-> +       bd71828 =3D dev_get_drvdata(pdev->dev.parent);
-> +       if (!bd71828) {
-> +               dev_err(&pdev->dev, "No MFD driver data\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       bdgpio =3D devm_kzalloc(&pdev->dev, sizeof(*bdgpio),
-> +                             GFP_KERNEL);
-> +       if (!bdgpio)
-> +               return -ENOMEM;
-> +
-> +       ret =3D bd71828_gpio_parse_dt(pdev->dev.parent, bdgpio);
-
-... and remove this call.
-
-> +
-> +       bdgpio->chip.dev =3D &pdev->dev;
-> +       bdgpio->gpio.parent =3D pdev->dev.parent;
-> +       bdgpio->gpio.label =3D "bd71828-gpio";
-> +       bdgpio->gpio.owner =3D THIS_MODULE;
-> +       bdgpio->gpio.get_direction =3D bd71828_get_direction;
-> +       bdgpio->gpio.set_config =3D bd71828_gpio_set_config;
-> +       bdgpio->gpio.can_sleep =3D true;
-> +       bdgpio->gpio.get =3D bd71828_gpio_get;
-> +       bdgpio->gpio.set =3D bd71828_gpio_set;
-
-Not implementing direction_output() and direction_input() here will
-results in warnings from the GPIO framework: for instance you
-implement set() but not direction_output(). I'd say: just add those
-callbacks and return an error if they're called for invalid lines (for
-instance: direction_output() being called for line 3).
-
-> +       bdgpio->gpio.base =3D -1;
-> +       bdgpio->gpio.ngpio =3D 4;
-> +#ifdef CONFIG_OF_GPIO
-
-This is not needed - for CONFIG_OF_GPIO disabled the parent of_node
-will be NULL.
-
-> +       bdgpio->gpio.of_node =3D pdev->dev.parent->of_node;
-> +#endif
-> +       bdgpio->chip.regmap =3D bd71828->regmap;
-> +
-> +       ret =3D devm_gpiochip_add_data(&pdev->dev, &bdgpio->gpio,
-> +                                    bdgpio);
-> +       if (ret)
-> +               dev_err(&pdev->dev, "gpio_init: Failed to add bd71828-gpi=
-o\n");
-
-Since there aren't many places where this function can fail, you can
-directly return devm_gpiochip_add_data() here.
-
-> +
-> +       return ret;
-> +}
-> +
-> +static struct platform_driver bd71828_gpio =3D {
-> +       .driver =3D {
-> +               .name =3D "bd71828-gpio"
-> +       },
-> +       .probe =3D bd71828_probe,
-> +};
-> +
-> +module_platform_driver(bd71828_gpio);
-> +
-> +MODULE_AUTHOR("Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>");
-> +MODULE_DESCRIPTION("BD71828 voltage regulator driver");
-> +MODULE_LICENSE("GPL");
-
-Don't you need a MODULE_ALIAS() here since this is an MFD sub-module?
-
-Bart
-
-> --
-> 2.21.0
->
->
-> --
-> Matti Vaittinen, Linux device drivers
-> ROHM Semiconductors, Finland SWDC
-> Kiviharjunlenkki 1E
-> 90220 OULU
-> FINLAND
->
-> ~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-> Simon says - in Latin please.
-> ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-> Thanks to Simon Glass for the translation =3D]
+> If, for instance, polling mode is enabled, maybe something like this
+> would be better?
+> 
+>       dev_warn(&pdev->dev, "No IRQ found, falling back to polling 
+> mode\n");
