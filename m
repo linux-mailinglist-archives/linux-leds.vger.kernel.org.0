@@ -2,58 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E31CEDD170
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Oct 2019 23:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEEEFDD178
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Oct 2019 00:02:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726275AbfJRV4p (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Oct 2019 17:56:45 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:34509 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725806AbfJRV4o (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Oct 2019 17:56:44 -0400
-Received: by mail-wr1-f68.google.com with SMTP id t16so2576035wrr.1;
-        Fri, 18 Oct 2019 14:56:41 -0700 (PDT)
+        id S1726540AbfJRWCX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Oct 2019 18:02:23 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37645 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726258AbfJRWCW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Oct 2019 18:02:22 -0400
+Received: by mail-wr1-f67.google.com with SMTP id p14so7732107wro.4;
+        Fri, 18 Oct 2019 15:02:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:openpgp:autocrypt:message-id:date
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=NNT4s+96n0HtKra+JkkijNCDNZR67HLwPEp4ZkBnTZc=;
-        b=fHxVZBpH5RPdwhSk6TZqDGXwcSweopwEOfg5u8oQZ73QhsXzDcUu/rYeyMD29geE54
-         RiY4PeYq8OoZ1t//Plcj8uNVrS8lxcxejrnFeYW2P6yvHIK4DRQMBiUCj/Id7+3qr+Wc
-         4OkJLqzURD7uzl5l+BVdHJB74hVCULzH0wqNVrXAfhiImmdgS0Q5VGRenySPabnsKhST
-         m8y8GSc6iLcRC2hR1gqGXXdq72zYBHjjbtb5mrJZP7OWTZFpq8P7KZLMXGHv0fx0GFRq
-         w2adN0mrkpimsLgt0GvAHwFXBed93rUB1Fzr49yVZ0oW1SDYxuzonbfV0SFt/vAKFvUQ
-         ok/A==
+        bh=6dQAFshhL48PZ+aODCJDOIXc/B1ygVRm2PcTJmwhQZ8=;
+        b=cwydHiem7kl9J2qd7uKTtF7J3wM7jjKn7b3x/mJriNM9J7l5wBiO2EME5a9xo6R+7f
+         j1IH2FdosiljJjZcC7LIwbBEPKqXoVeiJfUeGFen/vpQgwZnxvZq2g5Y87xVgkx2UCmQ
+         1ssjdMs7qVaKw2xQlNOL9P1trEyCwiZi77iGdNlVylEYSyop/oRQTK4MUsOqR6C5Qzmw
+         QHOYhTfg875nJNw7AsJsaS+y7Fx5/h0GfIUeoufMY5iZNyWB3yVos/+nvOzXgdB2SwjO
+         kCxKviBAwsb6UgQudRgt6mZYw28n3STyfBZ1pb9mKH3sAfYzAKKqFoGQk/60EZOqF3dj
+         GrEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=NNT4s+96n0HtKra+JkkijNCDNZR67HLwPEp4ZkBnTZc=;
-        b=kuWa21GtE9Zg15GEo/cuB+GpsJgnugHzm+VzjPDatTVJ6gfR7cZ9cf5NvkRTuMGzA5
-         N5V9IIxNr2d8bv73kDHgOX5fIr2axaPz2MDbZ+ames0d9JyQ9Lt6cbu75DmqqFHn+1pr
-         QVVsWpYfv/kZ6BvUTNnOwQT6ICYFp3hbSR2NFzFjVcAO6sYbHjdEwa99qREyY1xF+h9/
-         jyBudk/sXf8rr05zPPA+d1NscMQ+OA6iaQX6xlBa1ngWYPESiMLHauA287HXJO9xVRC0
-         tlCnlZPWwnNPsrVrPUK9DMAtrsm7+16es4rJlahtbXOK5CXoE9vRbLtW90LMQLyA94xR
-         VIoQ==
-X-Gm-Message-State: APjAAAXnAj1yRX6M3Gkc1fvFkC7fkcSibV4au6zzXX2EOlKgfd7X+lkO
-        0x4JXEThFfPf7gZr1+QmMOlRq3UI
-X-Google-Smtp-Source: APXvYqxZxRYEmZsPWUE1AxKD1UmLmy/7X8JnSw1PQGYkZP3PIeeIO+tBjnGjG3HS+eSrjDkIEt5CVg==
-X-Received: by 2002:adf:e441:: with SMTP id t1mr3929173wrm.395.1571435800113;
-        Fri, 18 Oct 2019 14:56:40 -0700 (PDT)
+        bh=6dQAFshhL48PZ+aODCJDOIXc/B1ygVRm2PcTJmwhQZ8=;
+        b=RHnPDPBkQrmjbkLrXjj3Q+G52ttqFMWHnJQojVbJe3nDqNwayK1sp43vdBcfk7ST69
+         /aA2OOop75qeG/wI1LuiWKqvu1T3ksc/y+129ne3q2R+9ahRwjQ2umR/ucM/nx6cIu2S
+         8aTahWjbhzESAX/jg/QhHpsb9ml86hCSOC4OVBN6o97pjJso5voRaLRDY2YtJfuNK01g
+         N8x3SAIP+2Tt7EPtJwlFzeoEXmeDQ3aOO1Orzk/eNqGLh6ZY1MQA40MzweQu7QyMhLzc
+         hk3vFfA+GKuI95rAajsfG3NkLd8CjB9FhHA6CxLsuWbGyVLeuJbHvza9w9GnntE03D/E
+         QklA==
+X-Gm-Message-State: APjAAAWPmbQ3tDvg8Elx5JYgw5ulXg4zdBdxIxE2nJD/uj9rd+l3FL44
+        Y1NxcMvHkjcOIEg8vdmaIi+h83rK
+X-Google-Smtp-Source: APXvYqyJamAIE/iZ1SsNp2IPEgLxsZddLjBtyTAv6MDoLxl2+xd7ipsQNJY8QGlXN/dHP2ffTpKgbw==
+X-Received: by 2002:adf:a157:: with SMTP id r23mr9149541wrr.51.1571436139336;
+        Fri, 18 Oct 2019 15:02:19 -0700 (PDT)
 Received: from [192.168.1.19] (chp168.neoplus.adsl.tpnet.pl. [83.31.13.168])
-        by smtp.gmail.com with ESMTPSA id a17sm2665775wmb.8.2019.10.18.14.56.38
+        by smtp.gmail.com with ESMTPSA id q19sm8985483wra.89.2019.10.18.15.02.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 18 Oct 2019 14:56:39 -0700 (PDT)
+        Fri, 18 Oct 2019 15:02:18 -0700 (PDT)
 Subject: Re: [PATCH v14 13/19] leds: lp55xx: Add multicolor framework support
  to lp55xx
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20191018122521.6757-1-dmurphy@ti.com>
  <20191018122521.6757-14-dmurphy@ti.com>
- <a24832d9-1c3d-b3ea-4326-2ef4937d5a59@gmail.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -111,138 +110,68 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <c9a704d4-b411-59f1-02bf-3ea7b219c4b4@gmail.com>
-Date:   Fri, 18 Oct 2019 23:56:38 +0200
+Message-ID: <2da123af-8cbe-e143-73f2-ca741e0923d2@gmail.com>
+Date:   Sat, 19 Oct 2019 00:02:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <a24832d9-1c3d-b3ea-4326-2ef4937d5a59@gmail.com>
+In-Reply-To: <20191018122521.6757-14-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Dan,
 
-On 10/18/19 11:48 PM, Jacek Anaszewski wrote:
-> Dan,
-+		ret = lp5xx_parse_channel_child(child, cfg, i);
-> 
-> I went into details of this parsing and finally came up with
-> the code which is a bit greater in size, but IMHO cleaner.
-> Note changes in variable naming. It is not even compile-tested.
-> 
-> static int lp55xx_parse_common_child(struct device_node *np,
->                                     struct lp55xx_led_config *cfg,
->                                     int led_number, int *chan_nr)
-> {
->         int ret;
-> 
->         of_property_read_string(np, "chan-name",
->                                 &cfg[led_number].name);
->         of_property_read_u8(np, "led-cur",
->                             &cfg[led_number].led_current);
->         of_property_read_u8(np, "max-cur",
->                             &cfg[led_number].max_current);
-> 
->         ret = of_property_read_u32(np, "reg", chan_nr);
->         if (ret)
->                 return ret;
-> 
->         if (chan_nr < 0 || chan_nr > cfg->max_chan_nr) /* side note: new
-> max_chan_nr property needed in cfg */
->                 return -EINVAL;
-> 
->         return 0;
-> }
-> 
-> static int lp55xx_parse_mutli_led_child(struct device_node *np,
->                                         struct lp55xx_led_config *cfg,
->                                         int child_number,
->                                         int color_number)
-> {
->         int chan_nr, color_id;
-> 
->         ret = lp55xx_parse_common_child(child, cfg, child_number,
-> color_number,
->                                         &chan_nr);
->         if (ret)
->                 return ret;
-> 
->         ret = of_property_read_u32(child, "color", &color_id);
->         if (ret)
->                return ret;
-> 
->         cfg[child_number].color_components[color_number].color_id =
-> color_id;
->         cfg[child_number].color_components[color_number].output_num =
-> chan_nr;
->         set_bit(color_id, &cfg[child_number].available_colors);
-> 
->         return 0;
-> }
-> 
-> staitc int lp55xx_parse_mutli_led(struct device_node *np,
->                                   struct lp55xx_led_config *cfg,
->                                   int child_number)
-> {
->         struct device_node *child;
->         int num_colors = 0, i = 0;
+I forgot to mention one thing below.
 
-s/, i = 0//
+On 10/18/19 2:25 PM, Dan Murphy wrote:
+> Add multicolor framework support for the lp55xx family.
+> 
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+[...]
 
-> 
->         for_each_child_of_node(np, child) {
->                 ret = lp55xx_parse_mutli_led_child(child, cfg, num_colors,
->                                                    child_number, i))
+> -	led->cdev.default_trigger = pdata->led_config[chan].default_trigger;
+>  
+>  	if (led->chan_nr >= max_channel) {
+>  		dev_err(dev, "Use channel numbers between 0 and %d\n",
+> @@ -170,18 +242,13 @@ static int lp55xx_init_led(struct lp55xx_led *led,
+>  		return -EINVAL;
+>  	}
+>  
+> -	led->cdev.brightness_set_blocking = lp55xx_set_brightness;
+> -	led->cdev.groups = lp55xx_led_groups;
+> -
+> -	if (pdata->led_config[chan].name) {
+> -		led->cdev.name = pdata->led_config[chan].name;
+> -	} else {
+> -		snprintf(name, sizeof(name), "%s:channel%d",
+> -			pdata->label ? : chip->cl->name, chan);
+> -		led->cdev.name = name;
+> -	}
+> +#if IS_ENABLED(CONFIG_LEDS_CLASS_MULTI_COLOR)
+> +	if (pdata->led_config[chan].num_colors > 1)
+> +		ret = devm_led_classdev_multicolor_register(dev, &led->mc_cdev);
+> +	else
+> +#endif
 
-Replace above call with below:
+This looks odd. I think that no-ops from previous version were OK.
 
-ret = lp55xx_parse_mutli_led_child(child, cfg, child_number, num_colors);
+> +		ret = devm_led_classdev_register(dev, &led->cdev);
+>  
+> -	ret = devm_led_classdev_register(dev, &led->cdev);
+>  	if (ret) {
+>  		dev_err(dev, "led register err: %d\n", ret);
+>  		return ret;
+> @@ -525,6 +592,82 @@ void lp55xx_unregister_sysfs(struct lp55xx_chip *chip)
+>  }
+>  EXPORT_SYMBOL_GPL(lp55xx_unregister_sysfs);
+>  
 
->                 if (ret)
->                         return ret;
->                 num_colors++;
->         }
-> }
-> 
-> static int lp5xx_parse_logical_led(struct device_node *np,
->                                    struct lp55xx_led_config *cfg,
->                                    int child_number)
-> {
->         int led_color, ret;
-> 
->         cfg[child_number].default_trigger =
->                 of_get_property(np, "linux,default-trigger", NULL);
-> 
->         ret = of_property_read_u32(np, "color", &led_color);
-> 
->         if (ret) {
->                 int chan_nr;
->                 ret =  lp55xx_parse_common_child(np, cfg, child_number,
->                                                  &chan_nr);
->                 if (ret < 0)
->                        return ret;
->                 cfg[child_number].chan_nr = chan_nr;
->         } else if (led_color == LED_COLOR_ID_MULTI) {
->                 return lp55xx_parse_mutli_led(np, cfg, child_number);
->         } else
->                 return ret;
-> 
->         return 0;
-> }
-> 
-> 
-> for_each_child_of_node(np, child) {
->         ret = lp55xx_parse_logical_led(child, cfg, i);
->         if (ret)
->                 return ERR_PTR(-EINVAL);
->         i++;
-> }
-> 
-> 
 
 -- 
 Best regards,
