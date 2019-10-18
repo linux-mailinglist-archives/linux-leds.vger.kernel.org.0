@@ -2,612 +2,432 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13E47DC504
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Oct 2019 14:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAE66DC96A
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Oct 2019 17:50:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2633685AbfJRMed (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Oct 2019 08:34:33 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:52932 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438968AbfJRMed (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Oct 2019 08:34:33 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 4E277612C3; Fri, 18 Oct 2019 12:34:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1571402071;
-        bh=9LfF8rWL83P80bxW5adx9b4CL9hwzZ6cUe7pu2GR0n0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ILYud/wlL6SXaxBXZjGdUQucBEB5A2PgSVtPT3ilpIDNNd22Px5+mOZTxZF911qsq
-         CrQCXZPdcOXUtfFU9OQxulJKh9BQc3WAqARrvfUrTfPugdA49jGlCh1okVy0bv4dmd
-         4yC7Tfg4a2MJILZAWFovvZriurfElPYVlUAzSQvQ=
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        pdx-caf-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
-        version=3.4.0
-Received: from kgunda-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: kgunda@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id D59B361273;
-        Fri, 18 Oct 2019 12:34:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1571402068;
-        bh=9LfF8rWL83P80bxW5adx9b4CL9hwzZ6cUe7pu2GR0n0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aMaJiJPPtsBTJUkm1ziZR/Hc4aw2B2rzx/Qn1M9b8eAxNHq6iAf20KjIkmQiMxBKZ
-         Lr6TIViLYlroFcARKxKrYSLBVLdcd1u2nMJZlwitHgRv8y2+otM8i8tt0MQ+umtAma
-         tHC1xo/drGiejzd4BBDNTvzkbVTBIZVTdvD5BaDc=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D59B361273
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kgunda@codeaurora.org
-From:   Kiran Gunda <kgunda@codeaurora.org>
-To:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
-        lee.jones@linaro.org, b.zolnierkie@samsung.com,
-        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        mark.rutland@arm.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-fbdev@vger.kernel.org
-Cc:     Kiran Gunda <kgunda@codeaurora.org>
-Subject: [PATCH V8 6/6] backlight: qcom-wled: Add auto string detection logic
-Date:   Fri, 18 Oct 2019 18:03:29 +0530
-Message-Id: <1571402009-8706-7-git-send-email-kgunda@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1571402009-8706-1-git-send-email-kgunda@codeaurora.org>
-References: <1571402009-8706-1-git-send-email-kgunda@codeaurora.org>
+        id S2501983AbfJRPmf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Oct 2019 11:42:35 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:39843 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439662AbfJRPme (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Oct 2019 11:42:34 -0400
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1MkHIV-1hauA20lSb-00kdie; Fri, 18 Oct 2019 17:41:11 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, linux-clk@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject: [PATCH 00/46] ARM: pxa: towards multiplatform support
+Date:   Fri, 18 Oct 2019 17:40:52 +0200
+Message-Id: <20191018154052.1276506-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:EHc7oEzoVA7wFO+Bch6RyP3Dmkh5AMRq/Ay6Si14JV6lk4ud9hG
+ Rebu5BXDtymt2IyLQOTjtdgK6YNR3mzeiU1Iz44weETYwhNUZA3lhMBHpYk8vX3QhGhyK94
+ kCllRns/Nt5rZvsPJrwJWc/6hwei4WDR7zussy/AAIDLcsRES0ddHF6Kcf9khiXYHAVoAUG
+ rup34Bo4MqFMDTnIgjfNQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dxE2RJNuqeQ=:Erdj2DVtSPYWczY3oZZ9HJ
+ dqPVJK56NENsV8jgemKgYOlgILekiFj7Wr1UYeO83MkuYh1EIquVzzslvtlinPjaswpZsm7RP
+ 6rH8MHndTNGZ3qvBg72nxKSTvqop19eMZva5iz/t1KDIcL6Y50UwD4VWs+e+cvNnZy7BrR5Xc
+ 4QTLrPjG2movX1Mv1sII87WLSFb6tdQfRrR8RBLnkZvQ6qwI3UqWeNUTCvtDJgzb8lnXsNwBf
+ s9pYhaccSH5GDqTtHOFdHbqT4Mv2triKsDy7hDw2acs2Ea0fqkQiRSURv0wjK21BIJyQAXCxc
+ u+G5rU0bAVe8sN6Kmf0/e7IpupEAneezN/rGH3CBTFZLlUejYYPGoW3mSwLXBLTqKqPQ8otE4
+ NNdYvXYhFoTMFfaaIsA87aGQTK8MQpf/ojfjSdYVmGOnHi5Yl4p884AJfwMCsYD3TZ/4JCLEZ
+ Zqkmb3hIUmilROzsQt2pfH9fzbT0mnZd6CulD1MoscYfuSPafAB3BYirZxtQJhoZCij8z9GjD
+ FkrfWjOCgvDievzI7GtYWHSeLrjpu8QtdLD8C6QL86Zhd2A3JBNgM1uJGbRk0K8y1fkcLRaYO
+ 8p0WEk59xAtIANUijr6ZjHKuol9ADJp1S3i8wu0k3aiFW/Dzj0yMEAgFsN0RB+Kgqtq4405u5
+ c3wsDLdrAtFa16SX0pBzKqELCia9Q/1KXIGidCYq/FI3ujnsyIr6TVNTcpeZqPFPkR3cEMAhE
+ tCl52psfDTr+zs5tcElDnPWOTJZXOVqtdlNAlGD38iQrKCGryYVt1QdAuGIHEK4uhCSlISyQ6
+ IIF3IT2mmzyqMw9F2CreKbmLybsolksnpbtKhHjqahUfNg5mSoO80LJTUen7lqoJyCEsyHQoP
+ w5Jy020MzrnM+X6ufotQ==
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The auto string detection algorithm checks if the current WLED
-sink configuration is valid. It tries enabling every sink and
-checks if the OVP fault is observed. Based on this information
-it detects and enables the valid sink configuration.
-Auto calibration will be triggered when the OVP fault interrupts
-are seen frequently thereby it tries to fix the sink configuration.
 
-The auto-detection also kicks in when the connected LED string
-of the display-backlight malfunctions (because of damage) and
-requires the damaged string to be turned off to prevent the
-complete panel and/or board from being damaged.
+Hi PXA maintainers,
 
-Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
----
- drivers/video/backlight/qcom-wled.c | 398 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 392 insertions(+), 6 deletions(-)
+I'm in the process of getting the old ARM platforms to all build
+in a single kernel. The largest part of that work is changing all
+the device drivers to no longer require mach/*.h header files.
 
-diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index 658b1e0..b2e6754 100644
---- a/drivers/video/backlight/qcom-wled.c
-+++ b/drivers/video/backlight/qcom-wled.c
-@@ -17,19 +17,29 @@
- #define WLED_MAX_STRINGS				4
- 
- #define WLED_DEFAULT_BRIGHTNESS				2048
--
-+#define WLED_SOFT_START_DLY_US				10000
- #define WLED3_SINK_REG_BRIGHT_MAX			0xFFF
- 
- /* WLED3/WLED4 control registers */
-+#define WLED3_CTRL_REG_FAULT_STATUS			0x08
-+#define  WLED3_CTRL_REG_ILIM_FAULT_BIT			BIT(0)
-+#define  WLED3_CTRL_REG_OVP_FAULT_BIT			BIT(1)
-+#define  WLED4_CTRL_REG_SC_FAULT_BIT			BIT(2)
-+
-+#define WLED3_CTRL_REG_INT_RT_STS			0x10
-+#define  WLED3_CTRL_REG_OVP_FAULT_STATUS		BIT(1)
-+
- #define WLED3_CTRL_REG_MOD_EN				0x46
- #define  WLED3_CTRL_REG_MOD_EN_MASK			BIT(7)
- #define  WLED3_CTRL_REG_MOD_EN_SHIFT			7
- 
-+#define WLED3_CTRL_REG_FEEDBACK_CONTROL			0x48
-+
- #define WLED3_CTRL_REG_FREQ				0x4c
- #define  WLED3_CTRL_REG_FREQ_MASK			GENMASK(3, 0)
- 
- #define WLED3_CTRL_REG_OVP				0x4d
--#define  WLED3_CTRL_REG_OVP_MASK				GENMASK(1, 0)
-+#define  WLED3_CTRL_REG_OVP_MASK			GENMASK(1, 0)
- 
- #define WLED3_CTRL_REG_ILIMIT				0x4e
- #define  WLED3_CTRL_REG_ILIMIT_MASK			GENMASK(2, 0)
-@@ -119,6 +129,7 @@ struct wled_config {
- 	bool ext_gen;
- 	bool cabc;
- 	bool external_pfet;
-+	bool auto_detection_enabled;
- };
- 
- struct wled {
-@@ -127,17 +138,22 @@ struct wled {
- 	struct regmap *regmap;
- 	struct mutex lock;	/* Lock to avoid race from thread irq handler */
- 	ktime_t last_short_event;
-+	ktime_t start_ovp_fault_time;
- 	u16 ctrl_addr;
- 	u16 sink_addr;
- 	u16 max_string_count;
-+	u16 auto_detection_ovp_count;
- 	u32 brightness;
- 	u32 max_brightness;
- 	u32 short_count;
-+	u32 auto_detect_count;
- 	bool disabled_by_short;
- 	bool has_short_detect;
- 	int short_irq;
-+	int ovp_irq;
- 
- 	struct wled_config cfg;
-+	struct delayed_work ovp_work;
- 	int (*wled_set_brightness)(struct wled *wled, u16 brightness);
- };
- 
-@@ -182,6 +198,13 @@ static int wled4_set_brightness(struct wled *wled, u16 brightness)
- 	return 0;
- }
- 
-+static void wled_ovp_work(struct work_struct *work)
-+{
-+	struct wled *wled = container_of(work,
-+					 struct wled, ovp_work.work);
-+	enable_irq(wled->ovp_irq);
-+}
-+
- static int wled_module_enable(struct wled *wled, int val)
- {
- 	int rc;
-@@ -193,7 +216,23 @@ static int wled_module_enable(struct wled *wled, int val)
- 				WLED3_CTRL_REG_MOD_EN,
- 				WLED3_CTRL_REG_MOD_EN_MASK,
- 				val << WLED3_CTRL_REG_MOD_EN_SHIFT);
--	return rc;
-+	if (rc < 0)
-+		return rc;
-+
-+	if (wled->ovp_irq > 0) {
-+		if (val) {
-+			/*
-+			 * Wait for at least 10ms before enabling OVP interrupt
-+			 * after module enable so that soft start is completed.
-+			 */
-+			schedule_delayed_work(&wled->ovp_work, HZ / 100);
-+		} else {
-+			if (!cancel_delayed_work_sync(&wled->ovp_work))
-+				disable_irq(wled->ovp_irq);
-+		}
-+	}
-+
-+	return 0;
- }
- 
- static int wled_sync_toggle(struct wled *wled)
-@@ -300,6 +339,304 @@ static irqreturn_t wled_short_irq_handler(int irq, void *_wled)
- 	return IRQ_HANDLED;
- }
- 
-+#define AUTO_DETECT_BRIGHTNESS		200
-+
-+static void wled_auto_string_detection(struct wled *wled)
-+{
-+	int rc = 0, i;
-+	u32 sink_config = 0, int_sts;
-+	u8 sink_test = 0, sink_valid = 0, val;
-+
-+	/* Read configured sink configuration */
-+	rc = regmap_read(wled->regmap, wled->sink_addr +
-+			 WLED4_SINK_REG_CURR_SINK, &sink_config);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to read SINK configuration rc=%d\n",
-+			rc);
-+		goto failed_detect;
-+	}
-+
-+	/* Disable the module before starting detection */
-+	rc = regmap_update_bits(wled->regmap,
-+				wled->ctrl_addr + WLED3_CTRL_REG_MOD_EN,
-+				WLED3_CTRL_REG_MOD_EN_MASK, 0);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to disable WLED module rc=%d\n", rc);
-+		goto failed_detect;
-+	}
-+
-+	/* Set low brightness across all sinks */
-+	rc = wled4_set_brightness(wled, AUTO_DETECT_BRIGHTNESS);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to set brightness for auto detection rc=%d\n",
-+			rc);
-+		goto failed_detect;
-+	}
-+
-+	if (wled->cfg.cabc) {
-+		for (i = 0; i < wled->cfg.num_strings; i++) {
-+			rc = regmap_update_bits(wled->regmap, wled->sink_addr +
-+						WLED4_SINK_REG_STR_CABC(i),
-+						WLED4_SINK_REG_STR_CABC_MASK,
-+						0);
-+			if (rc < 0)
-+				goto failed_detect;
-+		}
-+	}
-+
-+	/* Disable all sinks */
-+	rc = regmap_write(wled->regmap,
-+			  wled->sink_addr + WLED4_SINK_REG_CURR_SINK, 0);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to disable all sinks rc=%d\n", rc);
-+		goto failed_detect;
-+	}
-+
-+	/* Iterate through the strings one by one */
-+	for (i = 0; i < wled->cfg.num_strings; i++) {
-+		sink_test = BIT((WLED4_SINK_REG_CURR_SINK_SHFT + i));
-+
-+		/* Enable feedback control */
-+		rc = regmap_write(wled->regmap, wled->ctrl_addr +
-+				  WLED3_CTRL_REG_FEEDBACK_CONTROL, i + 1);
-+		if (rc < 0) {
-+			dev_err(wled->dev, "Failed to enable feedback for SINK %d rc = %d\n",
-+				i + 1, rc);
-+			goto failed_detect;
-+		}
-+
-+		/* Enable the sink */
-+		rc = regmap_write(wled->regmap, wled->sink_addr +
-+				  WLED4_SINK_REG_CURR_SINK, sink_test);
-+		if (rc < 0) {
-+			dev_err(wled->dev, "Failed to configure SINK %d rc=%d\n",
-+				i + 1, rc);
-+			goto failed_detect;
-+		}
-+
-+		/* Enable the module */
-+		rc = regmap_update_bits(wled->regmap, wled->ctrl_addr +
-+					WLED3_CTRL_REG_MOD_EN,
-+					WLED3_CTRL_REG_MOD_EN_MASK,
-+					WLED3_CTRL_REG_MOD_EN_MASK);
-+		if (rc < 0) {
-+			dev_err(wled->dev, "Failed to enable WLED module rc=%d\n",
-+				rc);
-+			goto failed_detect;
-+		}
-+
-+		usleep_range(WLED_SOFT_START_DLY_US,
-+			     WLED_SOFT_START_DLY_US + 1000);
-+
-+		rc = regmap_read(wled->regmap, wled->ctrl_addr +
-+				 WLED3_CTRL_REG_INT_RT_STS, &int_sts);
-+		if (rc < 0) {
-+			dev_err(wled->dev, "Error in reading WLED3_CTRL_INT_RT_STS rc=%d\n",
-+				rc);
-+			goto failed_detect;
-+		}
-+
-+		if (int_sts & WLED3_CTRL_REG_OVP_FAULT_STATUS)
-+			dev_dbg(wled->dev, "WLED OVP fault detected with SINK %d\n",
-+				i + 1);
-+		else
-+			sink_valid |= sink_test;
-+
-+		/* Disable the module */
-+		rc = regmap_update_bits(wled->regmap,
-+					wled->ctrl_addr + WLED3_CTRL_REG_MOD_EN,
-+					WLED3_CTRL_REG_MOD_EN_MASK, 0);
-+		if (rc < 0) {
-+			dev_err(wled->dev, "Failed to disable WLED module rc=%d\n",
-+				rc);
-+			goto failed_detect;
-+		}
-+	}
-+
-+	if (!sink_valid) {
-+		dev_err(wled->dev, "No valid WLED sinks found\n");
-+		wled->disabled_by_short = true;
-+		goto failed_detect;
-+	}
-+
-+	if (sink_valid != sink_config) {
-+		dev_warn(wled->dev, "%x is not a valid sink configuration - using %x instead\n",
-+			 sink_config, sink_valid);
-+		sink_config = sink_valid;
-+	}
-+
-+	/* Write the new sink configuration */
-+	rc = regmap_write(wled->regmap,
-+			  wled->sink_addr + WLED4_SINK_REG_CURR_SINK,
-+			  sink_config);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to reconfigure the default sink rc=%d\n",
-+			rc);
-+		goto failed_detect;
-+	}
-+
-+	/* Enable valid sinks */
-+	for (i = 0; i < wled->cfg.num_strings; i++) {
-+		if (wled->cfg.cabc) {
-+			rc = regmap_update_bits(wled->regmap, wled->sink_addr +
-+						WLED4_SINK_REG_STR_CABC(i),
-+						WLED4_SINK_REG_STR_CABC_MASK,
-+						WLED4_SINK_REG_STR_CABC_MASK);
-+			if (rc < 0)
-+				goto failed_detect;
-+		}
-+
-+		if (sink_config & BIT(WLED4_SINK_REG_CURR_SINK_SHFT + i))
-+			val = WLED4_SINK_REG_STR_MOD_MASK;
-+		else
-+			val = 0x0; /* Disable modulator_en for unused sink */
-+
-+		rc = regmap_write(wled->regmap, wled->sink_addr +
-+				  WLED4_SINK_REG_STR_MOD_EN(i), val);
-+		if (rc < 0) {
-+			dev_err(wled->dev, "Failed to configure MODULATOR_EN rc=%d\n",
-+				rc);
-+			goto failed_detect;
-+		}
-+	}
-+
-+	/* Restore the feedback setting */
-+	rc = regmap_write(wled->regmap,
-+			  wled->ctrl_addr + WLED3_CTRL_REG_FEEDBACK_CONTROL, 0);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to restore feedback setting rc=%d\n",
-+			rc);
-+		goto failed_detect;
-+	}
-+
-+	/* Restore brightness */
-+	rc = wled4_set_brightness(wled, wled->brightness);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to set brightness after auto detection rc=%d\n",
-+			rc);
-+		goto failed_detect;
-+	}
-+
-+	rc = regmap_update_bits(wled->regmap,
-+				wled->ctrl_addr + WLED3_CTRL_REG_MOD_EN,
-+				WLED3_CTRL_REG_MOD_EN_MASK,
-+				WLED3_CTRL_REG_MOD_EN_MASK);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to enable WLED module rc=%d\n", rc);
-+		goto failed_detect;
-+	}
-+
-+failed_detect:
-+	return;
-+}
-+
-+#define WLED_AUTO_DETECT_OVP_COUNT		5
-+#define WLED_AUTO_DETECT_CNT_DLY_US		USEC_PER_SEC
-+static bool wled_auto_detection_required(struct wled *wled)
-+{
-+	s64 elapsed_time_us;
-+
-+	if (!wled->cfg.auto_detection_enabled)
-+		return false;
-+
-+	/*
-+	 * Check if the OVP fault was an occasional one
-+	 * or if it's firing continuously, the latter qualifies
-+	 * for an auto-detection check.
-+	 */
-+	if (!wled->auto_detection_ovp_count) {
-+		wled->start_ovp_fault_time = ktime_get();
-+		wled->auto_detection_ovp_count++;
-+	} else {
-+		elapsed_time_us = ktime_us_delta(ktime_get(),
-+						 wled->start_ovp_fault_time);
-+		if (elapsed_time_us > WLED_AUTO_DETECT_CNT_DLY_US)
-+			wled->auto_detection_ovp_count = 0;
-+		else
-+			wled->auto_detection_ovp_count++;
-+
-+		if (wled->auto_detection_ovp_count >=
-+				WLED_AUTO_DETECT_OVP_COUNT) {
-+			wled->auto_detection_ovp_count = 0;
-+			return true;
-+		}
-+	}
-+
-+	return false;
-+}
-+
-+static int wled_auto_detection_at_init(struct wled *wled)
-+{
-+	int rc;
-+	u32 fault_status, rt_status;
-+
-+	if (!wled->cfg.auto_detection_enabled)
-+		return 0;
-+
-+	rc = regmap_read(wled->regmap,
-+			 wled->ctrl_addr + WLED3_CTRL_REG_INT_RT_STS,
-+			 &rt_status);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to read RT status rc=%d\n", rc);
-+		return rc;
-+	}
-+
-+	rc = regmap_read(wled->regmap,
-+			 wled->ctrl_addr + WLED3_CTRL_REG_FAULT_STATUS,
-+			 &fault_status);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Failed to read fault status rc=%d\n", rc);
-+		return rc;
-+	}
-+
-+	if ((rt_status & WLED3_CTRL_REG_OVP_FAULT_STATUS) ||
-+	    (fault_status & WLED3_CTRL_REG_OVP_FAULT_BIT)) {
-+		mutex_lock(&wled->lock);
-+		wled_auto_string_detection(wled);
-+		mutex_unlock(&wled->lock);
-+	}
-+
-+	return rc;
-+}
-+
-+static irqreturn_t wled_ovp_irq_handler(int irq, void *_wled)
-+{
-+	struct wled *wled = _wled;
-+	int rc;
-+	u32 int_sts, fault_sts;
-+
-+	rc = regmap_read(wled->regmap,
-+			 wled->ctrl_addr + WLED3_CTRL_REG_INT_RT_STS, &int_sts);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Error in reading WLED3_INT_RT_STS rc=%d\n",
-+			rc);
-+		return IRQ_HANDLED;
-+	}
-+
-+	rc = regmap_read(wled->regmap, wled->ctrl_addr +
-+			 WLED3_CTRL_REG_FAULT_STATUS, &fault_sts);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Error in reading WLED_FAULT_STATUS rc=%d\n",
-+			rc);
-+		return IRQ_HANDLED;
-+	}
-+
-+	if (fault_sts & (WLED3_CTRL_REG_OVP_FAULT_BIT |
-+		WLED3_CTRL_REG_ILIM_FAULT_BIT))
-+		dev_dbg(wled->dev, "WLED OVP fault detected, int_sts=%x fault_sts= %x\n",
-+			int_sts, fault_sts);
-+
-+	if (fault_sts & WLED3_CTRL_REG_OVP_FAULT_BIT) {
-+		if (wled_auto_detection_required(wled)) {
-+			mutex_lock(&wled->lock);
-+			wled_auto_string_detection(wled);
-+			mutex_unlock(&wled->lock);
-+		}
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int wled3_setup(struct wled *wled)
- {
- 	u16 addr;
-@@ -436,8 +773,10 @@ static int wled4_setup(struct wled *wled)
- 		sink_en |= 1 << temp;
- 	}
- 
--	if (sink_cfg == sink_en)
--		return 0;
-+	if (sink_cfg == sink_en) {
-+		rc = wled_auto_detection_at_init(wled);
-+		return rc;
-+	}
- 
- 	rc = regmap_update_bits(wled->regmap,
- 				wled->sink_addr + WLED4_SINK_REG_CURR_SINK,
-@@ -500,7 +839,9 @@ static int wled4_setup(struct wled *wled)
- 		return rc;
- 	}
- 
--	return 0;
-+	rc = wled_auto_detection_at_init(wled);
-+
-+	return rc;
- }
- 
- static const struct wled_config wled4_config_defaults = {
-@@ -511,6 +852,7 @@ static int wled4_setup(struct wled *wled)
- 	.switch_freq = 11,
- 	.cabc = false,
- 	.external_pfet = false,
-+	.auto_detection_enabled = false,
- };
- 
- static const u32 wled3_boost_i_limit_values[] = {
-@@ -677,6 +1019,7 @@ static int wled_configure(struct wled *wled, int version)
- 		{ "qcom,ext-gen", &cfg->ext_gen, },
- 		{ "qcom,cabc", &cfg->cabc, },
- 		{ "qcom,external-pfet", &cfg->external_pfet, },
-+		{ "qcom,auto-string-detection", &cfg->auto_detection_enabled, },
- 	};
- 
- 	prop_addr = of_get_address(dev->of_node, 0, NULL, NULL);
-@@ -797,6 +1140,40 @@ static int wled_configure_short_irq(struct wled *wled,
- 	return rc;
- }
- 
-+static int wled_configure_ovp_irq(struct wled *wled,
-+				  struct platform_device *pdev)
-+{
-+	int rc;
-+	u32 val;
-+
-+	wled->ovp_irq = platform_get_irq_byname(pdev, "ovp");
-+	if (wled->ovp_irq < 0) {
-+		dev_dbg(&pdev->dev, "OVP IRQ not found - disabling automatic string detection\n");
-+		return 0;
-+	}
-+
-+	rc = devm_request_threaded_irq(wled->dev, wled->ovp_irq, NULL,
-+				       wled_ovp_irq_handler, IRQF_ONESHOT,
-+				       "wled_ovp_irq", wled);
-+	if (rc < 0) {
-+		dev_err(wled->dev, "Unable to request ovp_irq (err:%d)\n",
-+			rc);
-+		wled->ovp_irq = 0;
-+		return 0;
-+	}
-+
-+	rc = regmap_read(wled->regmap, wled->ctrl_addr +
-+			 WLED3_CTRL_REG_MOD_EN, &val);
-+	if (rc < 0)
-+		return rc;
-+
-+	/* Keep OVP irq disabled until module is enabled */
-+	if (!(val & WLED3_CTRL_REG_MOD_EN_MASK))
-+		disable_irq(wled->ovp_irq);
-+
-+	return 0;
-+}
-+
- static const struct backlight_ops wled_ops = {
- 	.update_status = wled_update_status,
- };
-@@ -837,6 +1214,7 @@ static int wled_probe(struct platform_device *pdev)
- 
- 	switch (version) {
- 	case 3:
-+		wled->cfg.auto_detection_enabled = false;
- 		rc = wled3_setup(wled);
- 		if (rc) {
- 			dev_err(&pdev->dev, "wled3_setup failed\n");
-@@ -858,10 +1236,16 @@ static int wled_probe(struct platform_device *pdev)
- 		break;
- 	}
- 
-+	INIT_DELAYED_WORK(&wled->ovp_work, wled_ovp_work);
-+
- 	rc = wled_configure_short_irq(wled, pdev);
- 	if (rc < 0)
- 		return rc;
- 
-+	rc = wled_configure_ovp_irq(wled, pdev);
-+	if (rc < 0)
-+		return rc;
-+
- 	val = WLED_DEFAULT_BRIGHTNESS;
- 	of_property_read_u32(pdev->dev.of_node, "default-brightness", &val);
- 
-@@ -880,7 +1264,9 @@ static int wled_remove(struct platform_device *pdev)
- 	struct wled *wled = dev_get_drvdata(&pdev->dev);
- 
- 	mutex_destroy(&wled->lock);
-+	cancel_delayed_work_sync(&wled->ovp_work);
- 	disable_irq(wled->short_irq);
-+	disable_irq(wled->ovp_irq);
- 
- 	return 0;
- }
+This series does it for arch/pxa/.
+
+As with the omap1 and s3c24xx series I sent before, I don't
+expect this all to be correct in the first version, though
+a lot of the patches are fairly simple and I did exhaustive
+compile-time testing on them.
+
+Please test if you have the hardware, or review!
+
+     Arnd
+
+Bcc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Bcc: alsa-devel@alsa-project.org
+Bcc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Bcc: Brian Norris <computersforpeace@gmail.com>
+Bcc: Daniel Thompson <daniel.thompson@linaro.org>
+Bcc: David Woodhouse <dwmw2@infradead.org>
+Bcc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Bcc: Dominik Brodowski <linux@dominikbrodowski.net>
+Bcc: dri-devel@lists.freedesktop.org
+Bcc: Felipe Balbi <balbi@kernel.org>
+Bcc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Bcc: Guenter Roeck <linux@roeck-us.net>
+Bcc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Bcc: Jens Axboe <axboe@kernel.dk>
+Bcc: Jingoo Han <jingoohan1@gmail.com>
+Bcc: Jonathan Cameron <jic23@cam.ac.uk>
+Bcc: Lee Jones <lee.jones@linaro.org>
+Bcc: Lubomir Rintel <lkundrak@v3.sk>
+Bcc: Marek Vasut <marek.vasut@gmail.com>
+Bcc: Mark Brown <broonie@kernel.org>
+Bcc: Michael Turquette <mturquette@baylibre.com>
+Bcc: Miquel Raynal <miquel.raynal@bootlin.com>
+Bcc: Paul Parsons <lost.distance@yahoo.com>
+Bcc: Pavel Machek <pavel@ucw.cz>
+Bcc: Philipp Zabel <philipp.zabel@gmail.com>
+Bcc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Bcc: Richard Weinberger <richard@nod.at>
+Bcc: Russell King <linux@armlinux.org.uk>
+Bcc: Sebastian Reichel <sre@kernel.org>
+Bcc: Sergey Lapin <slapin@ossfans.org>
+Bcc: Stephen Boyd <sboyd@kernel.org>
+Bcc: Tomas Cech <sleep_walker@suse.com>
+Bcc: Ulf Hansson <ulf.hansson@linaro.org>
+Bcc: Vignesh Raghavendra <vigneshr@ti.com>
+Bcc: Viresh Kumar <viresh.kumar@linaro.org>
+Bcc: Wim Van Sebroeck <wim@linux-watchdog.org>
+Cc: linux-clk@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-ide@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-leds@vger.kernel.org
+Cc: linux-mmc@vger.kernel.org
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-rtc@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-watchdog@vger.kernel.org
+
+Arnd Bergmann (46):
+  ARM: pxa: split mach/generic.h
+  ARM: pxa: make mainstone.h private
+  ARM: pxa: make mach/regs-uart.h private
+  ARM: pxa: remove mach/dma.h
+  ARM: pxa: split up mach/hardware.h
+  ARM: pxa: stop using mach/bitfield.h
+  ARM: pxa: move mach/sound.h to linux/platform_data/
+  ARM: pxa: move regs-lcd.h into driver
+  watchdog: sa1100: use platform device registration
+  ARM: pxa: pxa2xx-ac97-lib: use IRQ resource
+  ARM: pxa: cmx270: use platform device for nand
+  ARM: pxa: make addr-map.h header local
+  ARM: pxa: move pcmcia board data into mach-pxa
+  ARM: pxa: use pdev resource for palmld mmio
+  ARM: pxa: maybe fix gpio lookup tables
+  ARM: pxa: tosa: use gpio descriptor for audio
+  ARM: pxa: poodle: use platform data for poodle asoc driver
+  ARM: pxa: corgi: use gpio descriptors for audio
+  ARM: pxa: hx4700: use gpio descriptors for audio
+  ARM: pxa: lubbock: pass udc irqs as resource
+  ARM: pxa: spitz: use gpio descriptors for audio
+  ARM: pxa: eseries: use gpio lookup for audio
+  ARM: pxa: z2: use gpio lookup for audio device
+  ARM: pxa: magician: use platform driver for audio
+  ARM: pxa: mainstone-wm97xx: use gpio lookup table
+  ARM: pxa: zylonite: use gpio lookup instead mfp header
+  input: touchscreen: mainstone: fix pxa2xx+pxa3xx configuration
+  input: touchscreen: mainstone: sync with zylonite driver
+  Input: touchscreen: use wrapper for pxa2xx ac97 registers
+  SoC: pxa: use pdev resource for FIFO regs
+  ASoC: pxa: ac97: use normal MMIO accessors
+  ASoC: pxa: i2s: use normal MMIO accessors
+  ARM: pxa: pcmcia: move smemc configuration back to arch
+  ARM: pxa: remove get_clk_frequency_khz()
+  cpufreq: pxa3: move clk register access to clk driver
+  ARM: pxa: move smemc register access from clk to platform
+  ARM: pxa: move clk register definitions to driver
+  video: backlight: tosa: use gpio lookup table
+  power: tosa: simplify probe function
+  ARM: pxa: tosa: use gpio lookup for battery
+  ARM: pxa: move it8152 PCI support into machine
+  ARM: pxa: remove unused mach/bitfield.h
+  ARM: pxa: pci-it8152: add platform checks
+  ARM: mmp: remove tavorevb board support
+  ARM: mmp: rename pxa_register_device
+  ARM: pxa: move plat-pxa to drivers/soc/
+
+ arch/arm/Kconfig                              |   9 -
+ arch/arm/Makefile                             |   1 -
+ arch/arm/common/Makefile                      |   1 -
+ arch/arm/common/locomo.c                      |   1 -
+ arch/arm/common/sa1111.c                      |   5 +-
+ arch/arm/include/asm/hardware/sa1111.h        |   2 -
+ arch/arm/mach-mmp/Kconfig                     |  10 +-
+ arch/arm/mach-mmp/Makefile                    |   1 -
+ arch/arm/mach-mmp/devices.c                   |   2 +-
+ arch/arm/mach-mmp/devices.h                   |  10 +-
+ arch/arm/mach-mmp/mfp.h                       |   2 +-
+ arch/arm/mach-mmp/mmp2.h                      |  48 ++---
+ arch/arm/mach-mmp/pxa168.h                    |  60 +++---
+ arch/arm/mach-mmp/pxa910.h                    |  38 ++--
+ arch/arm/mach-mmp/tavorevb.c                  | 113 -----------
+ arch/arm/mach-mmp/ttc_dkb.c                   |   6 +-
+ arch/arm/mach-pxa/Kconfig                     |   8 +-
+ arch/arm/mach-pxa/Makefile                    |  22 +-
+ .../mach-pxa/{include/mach => }/addr-map.h    |   0
+ .../arm/mach-pxa/balloon3-pcmcia.c            |   4 +-
+ arch/arm/mach-pxa/balloon3.c                  |   4 +-
+ .../mach-pxa/{include/mach => }/balloon3.h    |   2 +-
+ arch/arm/mach-pxa/cm-x270.c                   |  25 +++
+ arch/arm/mach-pxa/cm-x2xx-pci.c               |   2 +-
+ arch/arm/mach-pxa/cm-x2xx.c                   |   7 +-
+ arch/arm/mach-pxa/cm-x300.c                   |  12 +-
+ .../arm/mach-pxa/cm_x255-pcmcia.c             |   2 +-
+ .../arm/mach-pxa/cm_x270-pcmcia.c             |   2 +-
+ .../arm/mach-pxa/cm_x2xx-pcmcia.c             |   2 +-
+ arch/arm/mach-pxa/colibri-evalboard.c         |   1 -
+ .../arm/mach-pxa/colibri-pcmcia.c             |   2 +-
+ arch/arm/mach-pxa/colibri-pxa270-income.c     |   1 -
+ arch/arm/mach-pxa/colibri-pxa270.c            |   2 +-
+ arch/arm/mach-pxa/colibri-pxa300.c            |   3 +-
+ arch/arm/mach-pxa/colibri-pxa320.c            |   2 +-
+ arch/arm/mach-pxa/colibri-pxa3xx.c            |   1 -
+ arch/arm/mach-pxa/corgi.c                     |  23 ++-
+ arch/arm/mach-pxa/{include/mach => }/corgi.h  |   2 +-
+ arch/arm/mach-pxa/corgi_pm.c                  |   3 +-
+ arch/arm/mach-pxa/csb726.c                    |   3 +-
+ arch/arm/mach-pxa/devices.c                   |  15 +-
+ .../arm/mach-pxa/e740-pcmcia.c                |   2 +-
+ arch/arm/mach-pxa/em-x270.c                   |   2 +-
+ arch/arm/mach-pxa/eseries.c                   |  34 +++-
+ arch/arm/mach-pxa/ezx.c                       |   1 -
+ arch/arm/mach-pxa/generic.c                   |  78 ++++++--
+ arch/arm/mach-pxa/generic.h                   |   9 -
+ arch/arm/mach-pxa/gumstix.c                   |   1 -
+ .../arm/mach-pxa/hx4700-pcmcia.c              |   4 +-
+ arch/arm/mach-pxa/hx4700.c                    |  18 +-
+ arch/arm/mach-pxa/{include/mach => }/hx4700.h |   2 +-
+ arch/arm/mach-pxa/idp.c                       |   2 -
+ arch/arm/mach-pxa/include/mach/bitfield.h     | 114 -----------
+ arch/arm/mach-pxa/include/mach/dma.h          |  17 --
+ arch/arm/mach-pxa/include/mach/generic.h      |   1 -
+ arch/arm/mach-pxa/include/mach/mfp.h          |   2 +-
+ arch/arm/mach-pxa/include/mach/pxa-regs.h     |  52 +++++
+ arch/arm/mach-pxa/include/mach/pxa2xx-regs.h  |  47 +----
+ arch/arm/mach-pxa/include/mach/pxa3xx-regs.h  |  71 +------
+ arch/arm/mach-pxa/include/mach/regs-ost.h     |   4 +-
+ arch/arm/mach-pxa/include/mach/reset.h        |   2 +-
+ arch/arm/mach-pxa/include/mach/tosa.h         |  15 --
+ arch/arm/mach-pxa/irq.c                       |   3 +-
+ arch/arm/mach-pxa/littleton.c                 |   1 -
+ arch/arm/mach-pxa/lpd270.c                    |   4 +-
+ arch/arm/mach-pxa/lubbock.c                   |  15 +-
+ .../arm/mach-pxa/{include/mach => }/lubbock.h |   2 -
+ arch/arm/mach-pxa/magician.c                  |  54 ++++-
+ arch/arm/mach-pxa/mainstone.c                 |  15 +-
+ .../mach-pxa/{include/mach => }/mainstone.h   |   2 -
+ arch/arm/mach-pxa/mfp-pxa2xx.c                |   1 +
+ arch/arm/mach-pxa/mfp-pxa2xx.h                |   2 +-
+ arch/arm/mach-pxa/mfp-pxa3xx.c                |   1 -
+ arch/arm/mach-pxa/mfp-pxa3xx.h                |   2 +-
+ arch/arm/mach-pxa/mioa701.c                   |   2 +-
+ arch/arm/mach-pxa/mxm8x10.c                   |   8 +-
+ arch/arm/mach-pxa/palm27x.c                   |   2 +-
+ .../arm/mach-pxa/palmld-pcmcia.c              |   5 +-
+ arch/arm/mach-pxa/palmld.c                    |  23 ++-
+ arch/arm/mach-pxa/{include/mach => }/palmld.h |   2 +-
+ arch/arm/mach-pxa/palmt5.c                    |  11 +-
+ .../arm/mach-pxa/palmtc-pcmcia.c              |   4 +-
+ arch/arm/mach-pxa/palmtc.c                    |   4 +-
+ arch/arm/mach-pxa/{include/mach => }/palmtc.h |   2 +-
+ arch/arm/mach-pxa/palmte2.c                   |   2 +-
+ arch/arm/mach-pxa/palmtreo.c                  |   2 +-
+ .../arm/mach-pxa/palmtx-pcmcia.c              |   4 +-
+ arch/arm/mach-pxa/palmtx.c                    |  13 +-
+ arch/arm/mach-pxa/{include/mach => }/palmtx.h |   2 +-
+ arch/arm/mach-pxa/palmz72.c                   |   2 +-
+ .../it8152.c => mach-pxa/pci-it8152.c}        |  25 ++-
+ .../it8152.h => mach-pxa/pci-it8152.h}        |   2 -
+ arch/arm/mach-pxa/pcm990-baseboard.c          |   2 +-
+ arch/arm/mach-pxa/poodle.c                    |  31 ++-
+ arch/arm/mach-pxa/{include/mach => }/poodle.h |   4 +-
+ arch/arm/mach-pxa/pxa-regs.h                  |   1 +
+ arch/arm/mach-pxa/pxa25x.c                    |   6 +-
+ arch/arm/mach-pxa/pxa25x.h                    |   2 +-
+ arch/arm/mach-pxa/pxa27x-udc.h                |   2 +
+ arch/arm/mach-pxa/pxa27x.c                    |   6 +-
+ arch/arm/mach-pxa/pxa27x.h                    |   2 +-
+ arch/arm/mach-pxa/pxa2xx.c                    |   1 -
+ arch/arm/mach-pxa/pxa300.c                    |   1 +
+ arch/arm/mach-pxa/pxa320.c                    |   1 +
+ arch/arm/mach-pxa/pxa3xx-ulpi.c               |   2 +-
+ arch/arm/mach-pxa/pxa3xx.c                    |  11 +-
+ arch/arm/mach-pxa/pxa3xx.h                    |   2 +-
+ arch/arm/mach-pxa/pxa930.c                    |   1 +
+ arch/arm/mach-pxa/regs-rtc.h                  |   2 +-
+ arch/arm/mach-pxa/regs-u2d.h                  |   2 -
+ .../mach-pxa/{include/mach => }/regs-uart.h   |   2 +
+ arch/arm/mach-pxa/reset.c                     |   3 -
+ arch/arm/mach-pxa/sleep.S                     |   5 +-
+ arch/arm/mach-pxa/smemc.c                     |  11 +-
+ arch/arm/mach-pxa/spitz.c                     |  33 ++-
+ arch/arm/mach-pxa/{include/mach => }/spitz.h  |   2 +-
+ arch/arm/mach-pxa/spitz_pm.c                  |   3 +-
+ arch/arm/mach-pxa/standby.S                   |   1 -
+ .../arm/mach-pxa/stargate2-pcmcia.c           |   2 +-
+ arch/arm/mach-pxa/tosa.c                      |  63 +++++-
+ .../arm/mach-pxa/trizeps4-pcmcia.c            |   4 +-
+ arch/arm/mach-pxa/trizeps4.c                  |   4 +-
+ .../mach-pxa/{include/mach => }/trizeps4.h    |   3 +-
+ .../arm/mach-pxa/viper-pcmcia.c               |   6 +-
+ .../arm/mach-pxa/viper-pcmcia.h               |   0
+ arch/arm/mach-pxa/viper.c                     |   8 +-
+ .../arm/mach-pxa/vpac270-pcmcia.c             |   4 +-
+ arch/arm/mach-pxa/vpac270.c                   |   4 +-
+ .../arm/mach-pxa/{include/mach => }/vpac270.h |   0
+ arch/arm/mach-pxa/xcep.c                      |   2 +-
+ arch/arm/mach-pxa/z2.c                        |  11 +
+ arch/arm/mach-pxa/zeus.c                      |   6 +-
+ arch/arm/mach-pxa/zylonite.c                  |  34 +++-
+ arch/arm/mach-pxa/zylonite.h                  |   2 +
+ arch/arm/mach-pxa/zylonite_pxa300.c           |   1 +
+ arch/arm/mach-pxa/zylonite_pxa320.c           |   1 +
+ arch/arm/mach-sa1100/generic.c                |   6 +-
+ arch/arm/mach-sa1100/include/mach/reset.h     |   1 -
+ drivers/ata/pata_palmld.c                     |   3 +-
+ drivers/clk/pxa/clk-pxa.c                     |   8 +-
+ drivers/clk/pxa/clk-pxa.h                     |   9 +-
+ drivers/clk/pxa/clk-pxa25x.c                  |  46 ++---
+ drivers/clk/pxa/clk-pxa27x.c                  |  68 +++----
+ drivers/clk/pxa/clk-pxa3xx.c                  | 139 +++++++++++--
+ drivers/cpufreq/pxa2xx-cpufreq.c              |   6 +-
+ drivers/cpufreq/pxa3xx-cpufreq.c              |  65 +++---
+ drivers/input/mouse/pxa930_trkball.c          |   1 -
+ drivers/input/touchscreen/Kconfig             |   2 +
+ drivers/input/touchscreen/mainstone-wm97xx.c  | 123 ++++++------
+ drivers/input/touchscreen/zylonite-wm97xx.c   |  34 ++--
+ drivers/leds/leds-locomo.c                    |   1 -
+ drivers/mmc/host/pxamci.c                     |   2 +-
+ drivers/mtd/maps/pxa2xx-flash.c               |   2 -
+ drivers/mtd/nand/raw/cmx270_nand.c            |  89 +++------
+ drivers/pcmcia/Makefile                       |  16 --
+ drivers/pcmcia/pxa2xx_base.c                  |  48 ++---
+ drivers/pcmcia/pxa2xx_sharpsl.c               |   3 +-
+ drivers/pcmcia/sa1111_generic.c               |   1 -
+ drivers/pcmcia/sa1111_lubbock.c               |   1 -
+ drivers/pcmcia/soc_common.c                   |   2 -
+ drivers/pcmcia/soc_common.h                   | 120 +----------
+ drivers/power/supply/tosa_battery.c           | 189 ++++++++++--------
+ drivers/rtc/rtc-pxa.c                         |   2 -
+ drivers/soc/Kconfig                           |   1 +
+ drivers/soc/Makefile                          |   1 +
+ .../arm/plat-pxa => drivers/soc/pxa}/Kconfig  |   5 +-
+ .../arm/plat-pxa => drivers/soc/pxa}/Makefile |   4 -
+ {arch/arm/plat-pxa => drivers/soc/pxa}/mfp.c  |   2 +-
+ {arch/arm/plat-pxa => drivers/soc/pxa}/ssp.c  |   0
+ drivers/usb/gadget/udc/pxa25x_udc.c           |  37 ++--
+ drivers/usb/gadget/udc/pxa25x_udc.h           |   7 +-
+ drivers/usb/host/ohci-pxa27x.c                |   3 +-
+ drivers/video/backlight/tosa_bl.c             |  10 +-
+ drivers/video/backlight/tosa_bl.h             |   8 +
+ drivers/video/backlight/tosa_lcd.c            |  28 ++-
+ .../video/fbdev/pxa3xx-regs.h                 |  24 +--
+ drivers/video/fbdev/pxafb.c                   |   4 +-
+ drivers/watchdog/sa1100_wdt.c                 |  88 +++++---
+ include/linux/clk/pxa.h                       |  16 ++
+ include/linux/platform_data/asoc-poodle.h     |  16 ++
+ .../linux/platform_data/asoc-pxa.h            |   4 +-
+ include/linux/platform_data/video-pxafb.h     |  22 +-
+ .../hardware.h => include/linux/soc/pxa/cpu.h |  61 +-----
+ .../plat => include/linux/soc/pxa}/mfp.h      |   6 +-
+ include/linux/soc/pxa/smemc.h                 |  13 ++
+ include/pcmcia/soc_common.h                   | 125 ++++++++++++
+ include/sound/pxa2xx-lib.h                    |   4 +
+ sound/arm/pxa2xx-ac97-lib.c                   | 145 +++++++++-----
+ .../arm/pxa2xx-ac97-regs.h                    |  42 ++--
+ sound/arm/pxa2xx-ac97.c                       |   3 +-
+ sound/soc/pxa/corgi.c                         |  42 ++--
+ sound/soc/pxa/e740_wm9705.c                   |  37 ++--
+ sound/soc/pxa/e750_wm9705.c                   |  33 ++-
+ sound/soc/pxa/e800_wm9712.c                   |  33 ++-
+ sound/soc/pxa/em-x270.c                       |   2 +-
+ sound/soc/pxa/hx4700.c                        |  34 ++--
+ sound/soc/pxa/magician.c                      | 141 ++++---------
+ sound/soc/pxa/mioa701_wm9713.c                |   2 +-
+ sound/soc/pxa/palm27x.c                       |   2 +-
+ sound/soc/pxa/poodle.c                        |  51 ++---
+ sound/soc/pxa/pxa2xx-ac97.c                   |  24 ++-
+ sound/soc/pxa/pxa2xx-i2s.c                    | 112 ++++++-----
+ sound/soc/pxa/spitz.c                         |  58 +++---
+ sound/soc/pxa/tosa.c                          |  18 +-
+ sound/soc/pxa/z2.c                            |   8 +-
+ 205 files changed, 1916 insertions(+), 1795 deletions(-)
+ delete mode 100644 arch/arm/mach-mmp/tavorevb.c
+ rename arch/arm/mach-pxa/{include/mach => }/addr-map.h (100%)
+ rename drivers/pcmcia/pxa2xx_balloon3.c => arch/arm/mach-pxa/balloon3-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/balloon3.h (99%)
+ rename drivers/pcmcia/pxa2xx_cm_x255.c => arch/arm/mach-pxa/cm_x255-pcmcia.c (98%)
+ rename drivers/pcmcia/pxa2xx_cm_x270.c => arch/arm/mach-pxa/cm_x270-pcmcia.c (98%)
+ rename drivers/pcmcia/pxa2xx_cm_x2xx.c => arch/arm/mach-pxa/cm_x2xx-pcmcia.c (96%)
+ rename drivers/pcmcia/pxa2xx_colibri.c => arch/arm/mach-pxa/colibri-pcmcia.c (99%)
+ rename arch/arm/mach-pxa/{include/mach => }/corgi.h (98%)
+ rename drivers/pcmcia/pxa2xx_e740.c => arch/arm/mach-pxa/e740-pcmcia.c (98%)
+ rename drivers/pcmcia/pxa2xx_hx4700.c => arch/arm/mach-pxa/hx4700-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/hx4700.h (99%)
+ delete mode 100644 arch/arm/mach-pxa/include/mach/bitfield.h
+ delete mode 100644 arch/arm/mach-pxa/include/mach/dma.h
+ delete mode 100644 arch/arm/mach-pxa/include/mach/generic.h
+ create mode 100644 arch/arm/mach-pxa/include/mach/pxa-regs.h
+ rename arch/arm/mach-pxa/{include/mach => }/lubbock.h (97%)
+ rename arch/arm/mach-pxa/{include/mach => }/mainstone.h (99%)
+ rename drivers/pcmcia/pxa2xx_palmld.c => arch/arm/mach-pxa/palmld-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/palmld.h (98%)
+ rename drivers/pcmcia/pxa2xx_palmtc.c => arch/arm/mach-pxa/palmtc-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/palmtc.h (98%)
+ rename drivers/pcmcia/pxa2xx_palmtx.c => arch/arm/mach-pxa/palmtx-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/palmtx.h (98%)
+ rename arch/arm/{common/it8152.c => mach-pxa/pci-it8152.c} (95%)
+ rename arch/arm/{include/asm/hardware/it8152.h => mach-pxa/pci-it8152.h} (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/poodle.h (97%)
+ create mode 100644 arch/arm/mach-pxa/pxa-regs.h
+ rename arch/arm/mach-pxa/{include/mach => }/regs-uart.h (99%)
+ rename arch/arm/mach-pxa/{include/mach => }/spitz.h (99%)
+ rename drivers/pcmcia/pxa2xx_stargate2.c => arch/arm/mach-pxa/stargate2-pcmcia.c (99%)
+ rename drivers/pcmcia/pxa2xx_trizeps4.c => arch/arm/mach-pxa/trizeps4-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/trizeps4.h (98%)
+ rename drivers/pcmcia/pxa2xx_viper.c => arch/arm/mach-pxa/viper-pcmcia.c (97%)
+ rename include/linux/platform_data/pcmcia-pxa2xx_viper.h => arch/arm/mach-pxa/viper-pcmcia.h (100%)
+ rename drivers/pcmcia/pxa2xx_vpac270.c => arch/arm/mach-pxa/vpac270-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/vpac270.h (100%)
+ rename {arch/arm/plat-pxa => drivers/soc/pxa}/Kconfig (83%)
+ rename {arch/arm/plat-pxa => drivers/soc/pxa}/Makefile (51%)
+ rename {arch/arm/plat-pxa => drivers/soc/pxa}/mfp.c (99%)
+ rename {arch/arm/plat-pxa => drivers/soc/pxa}/ssp.c (100%)
+ create mode 100644 drivers/video/backlight/tosa_bl.h
+ rename arch/arm/mach-pxa/include/mach/regs-lcd.h => drivers/video/fbdev/pxa3xx-regs.h (90%)
+ create mode 100644 include/linux/clk/pxa.h
+ create mode 100644 include/linux/platform_data/asoc-poodle.h
+ rename arch/arm/mach-pxa/include/mach/audio.h => include/linux/platform_data/asoc-pxa.h (93%)
+ rename arch/arm/mach-pxa/include/mach/hardware.h => include/linux/soc/pxa/cpu.h (75%)
+ rename {arch/arm/plat-pxa/include/plat => include/linux/soc/pxa}/mfp.h (98%)
+ create mode 100644 include/linux/soc/pxa/smemc.h
+ create mode 100644 include/pcmcia/soc_common.h
+ rename arch/arm/mach-pxa/include/mach/regs-ac97.h => sound/arm/pxa2xx-ac97-regs.h (71%)
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
- a Linux Foundation Collaborative Project
+2.20.0
 
