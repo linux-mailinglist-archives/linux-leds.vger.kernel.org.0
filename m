@@ -2,104 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7976DDCF4E
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Oct 2019 21:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 619A4DD03C
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Oct 2019 22:28:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437620AbfJRTc6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Oct 2019 15:32:58 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:37369 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394807AbfJRTc6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Oct 2019 15:32:58 -0400
-Received: from mail-qk1-f179.google.com ([209.85.222.179]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1N5UoU-1hx1rB0p0k-016tR7; Fri, 18 Oct 2019 21:32:55 +0200
-Received: by mail-qk1-f179.google.com with SMTP id u184so6377750qkd.4;
-        Fri, 18 Oct 2019 12:32:54 -0700 (PDT)
-X-Gm-Message-State: APjAAAWOMUseeQAnmf5ePLjWA4QTqPmO0TGTh8vzYVIg+mSZ45wpLuT4
-        58u8s2senhYMMa3qH1GwOLEUY2VGgyDQeT6vYe0=
-X-Google-Smtp-Source: APXvYqzndIi4+lrEFsQAJTvDSAykrBEjXYWBlihPsFokm/QiIqztK3NntxmM4iVAVoSe7PNdrIRvDpgwbQhfLS5cKrs=
-X-Received: by 2002:a37:db0a:: with SMTP id e10mr10369877qki.3.1571427173049;
- Fri, 18 Oct 2019 12:32:53 -0700 (PDT)
+        id S2403797AbfJRU2W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Oct 2019 16:28:22 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:53280 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404558AbfJRU2L (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Oct 2019 16:28:11 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9IKS3IM085329;
+        Fri, 18 Oct 2019 15:28:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1571430483;
+        bh=a+GAE0sVEXOhLy6brVlHTcwN/KDv0zWpSHSOu4P36c8=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=YkN24xcmOMIn0U7VQzsxJBYzWI0nHZRNSIlCd3PeJdqcVkqxl/Vq7GXzK0Cx0PIrG
+         wkHWok4zRTKOwXMROQyN+5u03K3V1Wj26OVXs3gNgIwU0oR2a2XewH75iB8hsmLqRW
+         J5eZvK7/x5vr2uV1v6JtVPyOcSBusdta861oOtN8=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9IKS36B024931
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 18 Oct 2019 15:28:03 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 18
+ Oct 2019 15:28:03 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 18 Oct 2019 15:27:55 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9IKS3wP067488;
+        Fri, 18 Oct 2019 15:28:03 -0500
+Subject: Re: [PATCH v14 12/19] leds: lp55xx: Convert LED class registration to
+ devm_*
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20191018122521.6757-1-dmurphy@ti.com>
+ <20191018122521.6757-13-dmurphy@ti.com>
+ <855cd70e-69d5-c5fe-3eb1-d0faee9327c6@gmail.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <b7d84fe5-8a19-2635-c696-06d539cff3d3@ti.com>
+Date:   Fri, 18 Oct 2019 15:27:30 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191018154052.1276506-1-arnd@arndb.de> <87v9slg9k5.fsf@belgarion.home>
- <CAK8P3a1JDtHsOW=iaxEycbJ4TBkR9MHUyDMeJnwxCtb=tefnBQ@mail.gmail.com>
-In-Reply-To: <CAK8P3a1JDtHsOW=iaxEycbJ4TBkR9MHUyDMeJnwxCtb=tefnBQ@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 18 Oct 2019 21:32:36 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0376Anmoc8VWXcEBg+z2B+1vcxJoywYYROBQNxpVmZuA@mail.gmail.com>
-Message-ID: <CAK8P3a0376Anmoc8VWXcEBg+z2B+1vcxJoywYYROBQNxpVmZuA@mail.gmail.com>
-Subject: Re: [PATCH 00/46] ARM: pxa: towards multiplatform support
-To:     Robert Jarzmik <robert.jarzmik@free.fr>
-Cc:     Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        IDE-ML <linux-ide@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:x6rjh/SYhkhVXFY7sn38XpS2jNl7mZ+ZSAgBlTmeuBIEAqo8moQ
- ZloY0yHOr0VObCTuKLP4a+2rBvJkW653ZyzZa/eWVN3/Ovj/BNRg9Ewp1Qf7rCBMO8Hhk1D
- iwosZq0hvegBArF9MtuUzikr1dATmDPGh2GE3ojjjAh3L/xbOPWehNtgUykguhtLo25ub3e
- Gh9uYlRVvIqPMYEpjyOxg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xqW7pTXOCNI=:B+AiqXxm34TeJktaofJfOW
- XqUjplt4t0CUZ2O55g6B1bgZZacd+rT+JuPTFvuaVx1dQM1GrEbNii30aJz0qTY/9r2GHRVUi
- OvSlVnq3juFgtcY+5TmDRWP+EjFL1/t5QgjdUXDpsAc1iUjtxFwuDKrEFw+SMqJFj+Evb4M8L
- 7wbYHomgQQY+uoWcF9O5DLciqMHlDIzbauOi8Lb8bts8RuWV8MWXNKV6pySMZBfkvYKfVY6Id
- dRjDuhZDsgP5jWCbtzO12OqzKnxMnZUkvtuNqE907owCD6DW0lhUjJdXJhyg1DtnUR53aLxXm
- uyT/qud2H90oWDD31hBeJ6MHXUOHppefVXVH9rJMm26ZRkgxdiioxTD1OTJ3EFcBSYEbMiSdD
- m5KrdOruT25lSFB4y/FukEE5zBpl7S+BgJvHFF6Lpzaci4tD8YF/Hro/LlSi2jylbMPpLzp0o
- KFXy7N7zXVPStE+nf8LQ+jE3PgkeG0V+cB2bFyTkuUjr3n3f0q/2MDNhY0CG1kmgrpZlzzT3C
- nFqWmIbnG7sOILmVeWRjrQKFkoHeOzeRBURJlkJHZ3Gutmq6dZJlxibBGXhwRR/y/DLzj1lOO
- nJSr90gM3rzdbOXgkUqkX6zqSQRolgGoHmR78xCiWTiTij+CXnBDpAbXF7ph7vNR8G4br9z3F
- 7GSqCWBHVQSTXQR8mPCBUBGRHGWz00P0gLcFNQnu04PqT8bERSnbgL6kj6jQEO2gPIvxVswEo
- KaV2YTmOgsEA8o5SRMsZ1yI0YtaDQ+9tFZs7P8kssy4pBkyQoodTbi6OXh3O/ve4sCf1oXpS0
- hLIQTF7A215Fx0yevnxC4Wa+lLYgROb6ZPDKBCkqsk9/rn4KMZ6nxOo4JptuWrj4WMJY71M9w
- TgvMufS3940rCabHvzVQ==
+In-Reply-To: <855cd70e-69d5-c5fe-3eb1-d0faee9327c6@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Oct 18, 2019 at 9:17 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> On Fri, Oct 18, 2019 at 9:04 PM Robert Jarzmik <robert.jarzmik@free.fr> wrote:
-> > Arnd Bergmann <arnd@arndb.de> writes:
-> >
-> > > Hi PXA maintainers,
-> > >
-> > > I'm in the process of getting the old ARM platforms to all build
-> > > in a single kernel. The largest part of that work is changing all
-> > > the device drivers to no longer require mach/*.h header files.
-> > >
-> > > This series does it for arch/pxa/.
-> > >
-> > > As with the omap1 and s3c24xx series I sent before, I don't
-> > > expect this all to be correct in the first version, though
-> > > a lot of the patches are fairly simple and I did exhaustive
-> > > compile-time testing on them.
-> > >
-> > > Please test if you have the hardware, or review!
-> >
-> > Hi Arnd,
-> >
-> > Would you have a git tree I can pull from ?
-> > That would make my life easier than applying manually 46 patches...
->
-> I've now pushed it to
->
-> git://git.kernel.org:/pub/scm/linux/kernel/git/arnd/playground.git
-> pxa-multiplatform
+Jacek
 
-Sorry for the duplication, I had some problems with email configuration
-so my reply got rejected, let's see if it goes through this time.
+On 10/18/19 1:02 PM, Jacek Anaszewski wrote:
+> Dan,
+>
+> Thank you for the patch.
+>
+> On 10/18/19 2:25 PM, Dan Murphy wrote:
+>> Convert the LED class registration calls to the LED devm_*
+>> registration calls.
+>>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>> ---
+>>   drivers/leds/leds-lp5521.c        |  9 +++------
+>>   drivers/leds/leds-lp5523.c        |  9 +++------
+>>   drivers/leds/leds-lp55xx-common.c | 15 +--------------
+>>   drivers/leds/leds-lp55xx-common.h |  2 --
+>>   drivers/leds/leds-lp8501.c        |  9 +++------
+>>   5 files changed, 10 insertions(+), 34 deletions(-)
+> What about drivers/leds/leds-lp5562.c?
+>
+Ack I will make that change too.
 
-       Arnd
+Dn
+
