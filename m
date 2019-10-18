@@ -2,16 +2,16 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA684DCD38
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Oct 2019 20:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C2ADCD3A
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Oct 2019 20:02:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391956AbfJRSCU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S2394482AbfJRSCU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Fri, 18 Oct 2019 14:02:20 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45285 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405427AbfJRSCT (ORCPT
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40440 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406213AbfJRSCT (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Oct 2019 14:02:19 -0400
-Received: by mail-wr1-f65.google.com with SMTP id q13so2212793wrs.12;
+Received: by mail-wm1-f66.google.com with SMTP id b24so6934236wmj.5;
         Fri, 18 Oct 2019 11:02:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
@@ -19,31 +19,31 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
         bh=tJMrfs5dQiANYwXWHGQRj7QlKn69tRfKal8fw4EDpNE=;
-        b=Z5yNWGMPKK9skF3WX2yXY67YqrphVgHVQIw54zPcgigl7kll7lYnsuvfsjSSNsgqPS
-         l83RohJAf24hFaxfT1xF66pBtbBNcgd6L5dnDtmen0lWceShLc/q8949p2qx72rqzdID
-         b+LBxbcWCoPihgzrs2vu/7mPhM4oh4LpJmb2bnc+gQ0CUe4RG5v15n46nfE6MUfdEmYU
-         G2fwEwg9TAZdbMxhaHLqZ4uSCF5bZ+Gikc2NXtk0iFLiiBWlG5XzMN5vsILT9QiRacZh
-         eNS9+LLiono3wBIt2WnskAyLm8Gmrcm4r/MVoUTOo9HzHpkGxADbSQGI+anM+ELWJk7M
-         zgCw==
+        b=rFLZ9FTTelAqervLM2X0dWH/an9GjDseCsMgVhrWfaZHz+0iu7LlwCoWJGaMMwmtab
+         jbdvka4m5JFLoRrPpad/XDDJjCDPOGo2i48rgvX3ZYioBMu4onGcbpkuOWEK3cKh3jgn
+         JhddLlF7ZX5pEsx0RV3OMUUPWlZTat14s2uQC3SCFb35+Mpe8swDPEjdaS1ZEnNPmjYU
+         cEGstWG8+8hBuF13SNslIhMWlCQQmrHPmEVYY/DRwVzGSllHgE+i86uSm6r/iWdCVaJu
+         urmUynEL4IgmVIEzUHFNWn+EkaHTECpAa9sGJ8apmjkVUSGHSN2Pqb49ABGjazBLjPDL
+         kvMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
         bh=tJMrfs5dQiANYwXWHGQRj7QlKn69tRfKal8fw4EDpNE=;
-        b=JOgq6hPfHkdoytDh79Q2zkyyp2VgppvvnC6voSB6ObETB+nuQJRCLna2cxtVpOMcNQ
-         nRBM8lUhWUubLVf8x/lsgkApVfe0tx17ZW0tH5OMx7l0+BEM4Pwi0THXbLoJx/9FwlFG
-         bLdhMdUkihAUk0kNwwJ5/kIJaBSUgtOwVfEkajWU3NJTFscpepQA1wQgFPo43gf1SBLg
-         PwQj2NhAzoPg9ZT2Wp82hkORFWwtKtIH/I/zbPKSlOfMKwd7n5DwbC3hQdq4R+4tOofg
-         7TJK7wg4yrpgVVIQf70y8614GvyJYb9gubhHeCcNdKZK101gr+ytrZQv5t5r6UPzCIx8
-         8OGQ==
-X-Gm-Message-State: APjAAAV5bZ0XBe9TcktvrALOq6zRmQrhbIAcH3gJR0cz8bvR7U1xjnYQ
-        JgmCVX57sZ/FJSt0gjDYFM5lJuE9
-X-Google-Smtp-Source: APXvYqx4wYBhmr5zOjt+ftv4KIl8rGqKs+9YtbRbor6xmrWWXTvdl/5BeLiZK13lS82X0QSskXs5UA==
-X-Received: by 2002:a5d:5222:: with SMTP id i2mr3761594wra.271.1571421736144;
+        b=aUtjjMcl8y2KvosD80DxU4UTbHpOwI3Mn9U7HyhaL9gxqK35mye442pLFO1Fjv3nmo
+         +Ouh8i1p+1bRWZZPSWXNShsZJY09o1I/GXVWyeHfkkXz1Hs2MAI/l+2KwmdAmXxi+Zpt
+         EmSgl0iWjXJP+3KID6OHLxZs90u3j4bQiysFQD729IG+aY92tlLKXwwgEfrIdcVT/Gxw
+         WZt8jbXryh84r1oYH0WAaW865KIWPtmXBagPgCti5DNRmqMwOVid1ZJO/WpPPdZjWBqt
+         0FsGb6803A5Y+02zZxRLb8j2mNtlTnGGe6/kufELWYxMr2QWv1PxOca75TfQix5Al5rK
+         iB+w==
+X-Gm-Message-State: APjAAAVvySHxKSO9bokXc/BuutvJYAdkgVlQsp3XKs5SXtWrpYzmk55h
+        SxkmktiOF03h7+fOdz+E7JdNzdZ0
+X-Google-Smtp-Source: APXvYqxqDPRz69m1EIovJKm3pYFX83XZrE9So71TR7RLW1oW5vCT6jfrJST6vgwZAVtzAEfP3hTdcQ==
+X-Received: by 2002:a7b:cb8a:: with SMTP id m10mr8076927wmi.132.1571421736450;
         Fri, 18 Oct 2019 11:02:16 -0700 (PDT)
 Received: from [192.168.1.19] (chp168.neoplus.adsl.tpnet.pl. [83.31.13.168])
-        by smtp.gmail.com with ESMTPSA id v20sm5195026wml.26.2019.10.18.11.02.14
+        by smtp.gmail.com with ESMTPSA id a204sm8091544wmh.21.2019.10.18.11.02.14
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Fri, 18 Oct 2019 11:02:15 -0700 (PDT)
 Subject: Re: [PATCH v14 12/19] leds: lp55xx: Convert LED class registration to
@@ -110,7 +110,7 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <e10b1922-bc93-999c-8edb-b81f5c35efff@gmail.com>
+Message-ID: <855cd70e-69d5-c5fe-3eb1-d0faee9327c6@gmail.com>
 Date:   Fri, 18 Oct 2019 20:02:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
