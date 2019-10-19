@@ -2,56 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0561DD9C2
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Oct 2019 19:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BC04DDA1B
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Oct 2019 20:33:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726092AbfJSRNG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 19 Oct 2019 13:13:06 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53790 "EHLO
+        id S1726133AbfJSSdR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 19 Oct 2019 14:33:17 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53140 "EHLO
         mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726026AbfJSRNG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Oct 2019 13:13:06 -0400
-Received: by mail-wm1-f68.google.com with SMTP id i16so9127163wmd.3
-        for <linux-leds@vger.kernel.org>; Sat, 19 Oct 2019 10:13:03 -0700 (PDT)
+        with ESMTP id S1726078AbfJSSdR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Oct 2019 14:33:17 -0400
+Received: by mail-wm1-f68.google.com with SMTP id r19so9241782wmh.2;
+        Sat, 19 Oct 2019 11:33:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vgrO/HwhHDD8Uj/4o5QdclhRIA4cb+1ZstoyfFd3g4o=;
-        b=PHlAzg8gP0bOGOiGmUKxv1dn8ff4WMUssFlfOwO4EVD39JUm+U0vkENgd6kPfXz/Bm
-         d35rZH0JPVjnETwyH0rdBP/4a3z9WLUjfCcKZsFVT4gxpYoDsqPegGjiEjWBqDZe6cBT
-         pqPdhml3CbztAkzRUIObFldvuKA/AIF6e/S/xDhTC/2HutIOQiCljiyZHGuTuzbfRaHq
-         jZepTKIqTD+1EhzMN8ve64pvcrKHdFXEmXCmYG0lPEK9IiPfl4IS46oaUdSm/LL9BHFd
-         OjqvtqUnNc/9bT+r30WF5fJz5O3ZmuqnUUVvXS6TIB4uY7QLGzFQVmHfts++WPb1HzWk
-         dm1Q==
+         :user-agent:mime-version:in-reply-to:content-language;
+        bh=wyIWKIMdSpZ8g9011rp0bv2NXpDq0n5OZuboEeutHYU=;
+        b=BISMambalFE9RdHWFNYq8ksPghZdx8fcdZVkvowvRmb0JhkZu21v4EqAQC5lkwtQBh
+         02pW9v793cXXxdw6sCc06exPlvw0uQbvTUDCMq9UrwHdVbJf5y6/wC9jRPpdFfWphNN6
+         gneAZTBJvkYrfeU+ybyEkFoVaU7lIFscG6gFiJ6AXIPeFv4VbSbEdzByLpVeprc1Fn9D
+         zGJgFqJRVjOHwaVDExJWIxmO78J17r5rwKjlncNmZzmKDPGEBCcPVYhDycSBoorm5LZ7
+         KZjJW86svfW/O30XgtXO41YOmNBJIxY6MU9E5IWFiRV2RaPyfgME7gZB30aN62cEKoes
+         /wFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=vgrO/HwhHDD8Uj/4o5QdclhRIA4cb+1ZstoyfFd3g4o=;
-        b=EzWdaegdB0r2G0Yr8WWMdiqRPHTV6GSWttvfZLpMXgLdp/3TnEzW4NLznwM2XmhBgt
-         2RGyqsXxboHmaGG0H61rsJL5woqLNLvTQBZpDx15bKLEbtx/WlQIZmAkSuJrXqZlKSWM
-         /XN8i9cySEKlOg3Ty94OUHp7cY6WDLaztBAT8740feE0DBQ4k0wu1WhnGl3fwMjyQd+O
-         40fji3PIXCmZlxqPZckW5/nbcS36twKJ8LPAL0SDouHQAVFY282ifLoGfZJhDazc7vEZ
-         3Xu6B+q6N0aOpMAQ2ELh7/epgQEByHrpYT4+gB0+PA7KA2RfZUVb/k8zmsj5vYWHV/xG
-         U1Zg==
-X-Gm-Message-State: APjAAAVg8vWRd3oElcLf/5lZNq28KtLjlFoqPD63A7N4LNn96veUqSP1
-        SLzIcb2s47rTQ2rcTkuBy3H31Bgg
-X-Google-Smtp-Source: APXvYqzslVajqCLxSyk+UpM3OolgtECqXSrboQuUWzuaBEJXJuxyl2xsKOhUykhOqnN0aloBTa832w==
-X-Received: by 2002:a1c:990a:: with SMTP id b10mr12039046wme.39.1571505182998;
-        Sat, 19 Oct 2019 10:13:02 -0700 (PDT)
+         :content-language;
+        bh=wyIWKIMdSpZ8g9011rp0bv2NXpDq0n5OZuboEeutHYU=;
+        b=Ej8KSCJNVCbfcsPKn6Py+oQP9qcKKxjtQrLbqrs4h2ebeS5EiCz+RHnJ+WZZTnYcVW
+         qYts47JCF/ynN9oTEtNWPK2JLMy/cknUa5eHOcUWf9MLfQLYJxb7ErNO0ruGy3siAMJp
+         kiyopbrEZiYq/4teWDf1JJW/0bsF4K/bVJsKZHUGDbisWCutRMsbEh13YSh3fLxYRq7H
+         yDMFqA5aY78apWY16Y53rgIPbIYa7LKKFfn9IajDhUCZm9cheptJmFabvXgIrkl3Be8T
+         IRhT2URBfAlXzyvvnC+fb+uwLVM7ZDPjGi3J9WPiQXud13hZFaoeBGxlcmsiJOoKn7OP
+         NpOQ==
+X-Gm-Message-State: APjAAAUStqdpuEvw6DpK/vNyy3oVCyTzpiW3gyUqSN54ya2DP6YMLbCq
+        poHvODK3RFPd9pdmQNawhxANAfSD
+X-Google-Smtp-Source: APXvYqz4a4jkzEIveesVs6J8MpaOqJeafYNC+rgBZ6VfEthVOq9ZJGCjevmjpztF3Das+0eWQQRkHw==
+X-Received: by 2002:a1c:55c4:: with SMTP id j187mr12562829wmb.155.1571509993015;
+        Sat, 19 Oct 2019 11:33:13 -0700 (PDT)
 Received: from [192.168.1.19] (bdt81.neoplus.adsl.tpnet.pl. [83.28.5.81])
-        by smtp.gmail.com with ESMTPSA id 3sm8360459wmo.22.2019.10.19.10.13.01
+        by smtp.gmail.com with ESMTPSA id q124sm17444310wma.5.2019.10.19.11.33.11
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 19 Oct 2019 10:13:02 -0700 (PDT)
-Subject: Re: [PATCH v12 06/16] leds: lp50xx: Add the LP50XX family of the RGB
- LED driver
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org
-References: <20191011130657.4713-7-dmurphy@ti.com>
- <201910141723.wxRNtgEe%lkp@intel.com>
+        Sat, 19 Oct 2019 11:33:12 -0700 (PDT)
+Subject: Re: [PATCH v13 04/18] leds: multicolor: Introduce a multicolor class
+ definition
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191016155954.29044-1-dmurphy@ti.com>
+ <20191016155954.29044-5-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
@@ -110,77 +109,315 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <b71aa86c-515d-2ad3-2d1b-da312d9b3f1f@gmail.com>
-Date:   Sat, 19 Oct 2019 19:13:00 +0200
+Message-ID: <141a58aa-654e-6edf-b84c-b451b7b2d96b@gmail.com>
+Date:   Sat, 19 Oct 2019 20:33:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <201910141723.wxRNtgEe%lkp@intel.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20191016155954.29044-5-dmurphy@ti.com>
+Content-Type: multipart/mixed;
+ boundary="------------F1057529D76C2ED616F0DE37"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+This is a multi-part message in MIME format.
+--------------F1057529D76C2ED616F0DE37
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
 Dan,
 
-Below compilation errors are occurring also for v14.
-Did you compile-test it at least?
+On 10/16/19 5:59 PM, Dan Murphy wrote:
+> Introduce a multicolor class that groups colored LEDs
+> within a LED node.
+> 
+> The multi color class groups monochrome LEDs and allows controlling two
+> aspects of the final combined color: hue and lightness. The former is
+> controlled via <color>_intensity files and the latter is controlled
+> via brightness file.
+> 
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+[...]
+> +static int led_multicolor_init_color(struct led_classdev_mc *mcled_cdev,
+> +				     int color_id)
+> +{
+> +	struct led_classdev *led_cdev = mcled_cdev->led_cdev;
+> +	struct led_mc_color_entry *mc_priv;
+> +	char *intensity_file_name;
+> +	char *max_intensity_file_name;
+> +	size_t len;
+> +	int ret;
+> +
+> +	mc_priv = devm_kzalloc(led_cdev->dev, sizeof(*mc_priv), GFP_KERNEL);
+> +	if (!mc_priv)
+> +		return -ENOMEM;
+> +
+> +	mc_priv->led_color_id = color_id;
+> +	mc_priv->mcled_cdev = mcled_cdev;
+> +
+> +	sysfs_attr_init(&mc_priv->intensity_attr.attr);
+> +	len = strlen(led_colors[color_id]) + strlen(INTENSITY_NAME) + 1;
+> +	intensity_file_name = kzalloc(len, GFP_KERNEL);
+> +	if (!intensity_file_name)
+> +		return -ENOMEM;
+> +
+> +	snprintf(intensity_file_name, len, "%s%s",
+> +		 led_colors[color_id], INTENSITY_NAME);
+> +	mc_priv->intensity_attr.attr.name = intensity_file_name;
+> +	mc_priv->intensity_attr.attr.mode = 0644;
+> +	mc_priv->intensity_attr.store = intensity_store;
+> +	mc_priv->intensity_attr.show = intensity_show;
+> +	ret = sysfs_add_file_to_group(&led_cdev->dev->kobj,
+> +				      &mc_priv->intensity_attr.attr,
+> +				      led_color_group.name);
+> +	if (ret)
+> +		goto intensity_err_out;
+> +
+> +	sysfs_attr_init(&mc_priv->max_intensity_attr.attr);
+> +	len = strlen(led_colors[color_id]) + strlen(MAX_INTENSITY_NAME) + 1;
+> +	max_intensity_file_name = kzalloc(len, GFP_KERNEL);
+> +	if (!max_intensity_file_name) {
+> +		ret = -ENOMEM;
+> +		goto intensity_err_out;
+> +	}
+> +
+> +	snprintf(max_intensity_file_name, len, "%s%s",
+> +		 led_colors[color_id], MAX_INTENSITY_NAME);
+> +	mc_priv->max_intensity_attr.attr.name = max_intensity_file_name;
+> +	mc_priv->max_intensity_attr.attr.mode = 0444;
+> +	mc_priv->max_intensity_attr.show = max_intensity_show;
+> +	ret = sysfs_add_file_to_group(&led_cdev->dev->kobj,
+> +				      &mc_priv->max_intensity_attr.attr,
+> +				      led_color_group.name);
+> +	if (ret)
+> +		goto max_intensity_err_out;
+> +
+> +	mc_priv->max_intensity = LED_FULL;
+> +	list_add_tail(&mc_priv->list, &mcled_cdev->color_list);
 
-On 10/14/19 11:17 AM, kbuild test robot wrote:
-> Hi Dan,
-> 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on j.anaszewski-leds/for-next]
-> [cannot apply to v5.4-rc3 next-20191011]
-> [if your patch is applied to the wrong git tree, please drop us a note to help
-> improve the system. BTW, we also suggest to use '--base' option to specify the
-> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Dan-Murphy/Multicolor-Framework-v12/20191014-103058
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git for-next
-> config: sparc64-allmodconfig (attached as .config)
-> compiler: sparc64-linux-gcc (GCC) 7.4.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # save the attached .config to linux build tree
->         GCC_VERSION=7.4.0 make.cross ARCH=sparc64 
-> 
-> If you fix the issue, kindly add following tag
-> Reported-by: kbuild test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> drivers//leds/leds-lp50xx.c:360:27: error: initializer element is not constant
->       .lp50xx_regmap_config = lp5012_regmap_config,
->                               ^~~~~~~~~~~~~~~~~~~~
->    drivers//leds/leds-lp50xx.c:360:27: note: (near initialization for 'lp50xx_chip_info_tbl[0].lp50xx_regmap_config')
->    drivers//leds/leds-lp50xx.c:371:27: error: initializer element is not constant
->       .lp50xx_regmap_config = lp5012_regmap_config,
->                               ^~~~~~~~~~~~~~~~~~~~
->    drivers//leds/leds-lp50xx.c:371:27: note: (near initialization for 'lp50xx_chip_info_tbl[1].lp50xx_regmap_config')
->    drivers//leds/leds-lp50xx.c:382:27: error: initializer element is not constant
->       .lp50xx_regmap_config = lp5024_regmap_config,
->                               ^~~~~~~~~~~~~~~~~~~~
->    drivers//leds/leds-lp50xx.c:382:27: note: (near initialization for 'lp50xx_chip_info_tbl[2].lp50xx_regmap_config')
->    drivers//leds/leds-lp50xx.c:393:27: error: initializer element is not constant
->       .lp50xx_regmap_config = lp5024_regmap_config,
->                               ^~~~~~~~~~~~~~~~~~~~
->    drivers//leds/leds-lp50xx.c:393:27: note: (near initialization for 'lp50xx_chip_info_tbl[3].lp50xx_regmap_config')
->    drivers//leds/leds-lp50xx.c:404:27: error: initializer element is not constant
->       .lp50xx_regmap_config = lp5036_regmap_config,
->                               ^~~~~~~~~~~~~~~~~~~~
->    drivers//leds/leds-lp50xx.c:404:27: note: (near initialization for 'lp50xx_chip_info_tbl[4].lp50xx_regmap_config')
->    drivers//leds/leds-lp50xx.c:415:27: error: initializer element is not constant
->       .lp50xx_regmap_config = lp5036_regmap_config,
->                               ^~~~~~~~~~~~~~~~~~~~
->    drivers//leds/leds-lp50xx.c:415:27: note: (near initialization for 'lp50xx_chip_info_tbl[5].lp50xx_regmap_config')
-> 
+We don't need the list here since our collection of color LEDs will
+be fixed. Instead of the list we can do with a dynamically allocated
+array of a size depending on available color LEDs.
 
+It will allow also to get rid of lp55xx_map_channel() since random
+access to array elements will be possible via lookup tables mapping
+colors to array element id.
+
+And regarding my amendments to the DT parser - attached is the
+patch for your patch, that is compile-tested.
+
+> +
+> +max_intensity_err_out:
+> +	kfree(max_intensity_file_name);
+> +intensity_err_out:
+> +	kfree(intensity_file_name);
+> +	return ret;
+> +}
+> +
+>
 -- 
 Best regards,
 Jacek Anaszewski
+
+--------------F1057529D76C2ED616F0DE37
+Content-Type: text/x-patch;
+ name="0001-DT-parser-amendments.patch"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="0001-DT-parser-amendments.patch"
+
+=46rom fb0ce79b97acf6ee68ec4a2a9e24d56080826766 Mon Sep 17 00:00:00 2001
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Date: Sat, 19 Oct 2019 19:45:18 +0200
+Subject: [PATCH] DT parser amendments
+
+---
+ drivers/leds/leds-lp55xx-common.c         | 109 ++++++++++++++++--------=
+------
+ include/linux/platform_data/leds-lp55xx.h |   1 +
+ 2 files changed, 61 insertions(+), 49 deletions(-)
+
+diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx=
+-common.c
+index 0764520bc4a8..0244ec9bad8d 100644
+--- a/drivers/leds/leds-lp55xx-common.c
++++ b/drivers/leds/leds-lp55xx-common.c
+@@ -590,82 +590,93 @@ void lp55xx_unregister_sysfs(struct lp55xx_chip *ch=
+ip)
+ }
+ EXPORT_SYMBOL_GPL(lp55xx_unregister_sysfs);
+=20
+-static int lp5xx_parse_common_child(struct device_node *np,
+-				    struct lp55xx_led_config *cfg,
+-				    int chan_num, bool is_multicolor,
+-				    int color_num)
++static int lp55xx_parse_common_child(struct device_node *np,
++				     struct lp55xx_led_config *cfg,
++				     int led_number, int *chan_nr)
+ {
+-	u32 led_number;
+ 	int ret;
+=20
+ 	of_property_read_string(np, "chan-name",
+-				&cfg[chan_num].name);
++				&cfg[led_number].name);
+ 	of_property_read_u8(np, "led-cur",
+-			    &cfg[chan_num].led_current);
++			    &cfg[led_number].led_current);
+ 	of_property_read_u8(np, "max-cur",
+-			    &cfg[chan_num].max_current);
++			    &cfg[led_number].max_current);
+=20
+-	ret =3D of_property_read_u32(np, "reg", &led_number);
++	ret =3D of_property_read_u32(np, "reg", chan_nr);
+ 	if (ret)
+ 		return ret;
+=20
+-	if (led_number < 0 || led_number > 6)
++	if (chan_nr < 0 || chan_nr > cfg->max_channel)
+ 		return -EINVAL;
+=20
+-	if (is_multicolor)
+-		cfg[chan_num].color_components[color_num].output_num =3D
+-								led_number;
+-	else
+-		cfg[chan_num].chan_nr =3D led_number;
+-
+ 	return 0;
+ }
+=20
+-static int lp5xx_parse_channel_child(struct device_node *np,
+-				     struct lp55xx_led_config *cfg,
+-				     int child_number)
++static int lp55xx_parse_mutli_led_child(struct device_node *child,
++					 struct lp55xx_led_config *cfg,
++					 int child_number, int color_number)
+ {
+-	struct device_node *child;
+-	int channel_color;
+-	int num_colors =3D 0;
+-	u32 color_id;
+-	int ret;
+-
+-	cfg[child_number].default_trigger =3D
+-			of_get_property(np, "linux,default-trigger", NULL);
++	int chan_nr, color_id, ret;
+=20
+-	ret =3D of_property_read_u32(np, "color", &channel_color);
++	ret =3D lp55xx_parse_common_child(child, cfg, child_number, &chan_nr);
+ 	if (ret)
+-		channel_color =3D ret;
++		return ret;
+=20
++	ret =3D of_property_read_u32(child, "color", &color_id);
++	if (ret)
++	       return ret;
+=20
+-	if (channel_color =3D=3D LED_COLOR_ID_MULTI) {
+-		for_each_child_of_node(np, child) {
+-			ret =3D lp5xx_parse_common_child(child, cfg,
+-						       child_number, true,
+-						       num_colors);
+-			if (ret)
+-				return ret;
++	cfg[child_number].color_components[color_number].color_id =3D color_id;=
+
++	cfg[child_number].color_components[color_number].output_num =3D chan_nr=
+;
++	set_bit(color_id, &cfg[child_number].available_colors);
+=20
+-			ret =3D of_property_read_u32(child, "color", &color_id);
+-			if (ret)
+-				return ret;
++	return 0;
++}
+=20
+-			cfg[child_number].color_components[num_colors].color_id =3D
+-						color_id;
+-			set_bit(color_id, &cfg[child_number].available_colors);
+-			num_colors++;
+-		}
++static int lp55xx_parse_mutli_led(struct device_node *np,
++				  struct lp55xx_led_config *cfg,
++				  int child_number)
++{
++	struct device_node *child;
++	int num_colors =3D 0, ret;
+=20
+-		cfg[child_number].num_colors =3D num_colors;
+-	} else {
+-		return lp5xx_parse_common_child(np, cfg, child_number, false,
+-						num_colors);
++	for_each_child_of_node(np, child) {
++		ret =3D lp55xx_parse_mutli_led_child(child, cfg, child_number,
++						   num_colors);
++		if (ret)
++			return ret;
++		num_colors++;
+ 	}
+=20
+ 	return 0;
+ }
+=20
++static int lp55xx_parse_logical_led(struct device_node *np,
++				   struct lp55xx_led_config *cfg,
++				   int child_number)
++{
++	int led_color, ret;
++
++	cfg[child_number].default_trigger =3D
++		of_get_property(np, "linux,default-trigger", NULL);
++
++	ret =3D of_property_read_u32(np, "color", &led_color);
++
++	if (ret) {
++		int chan_nr;
++		ret =3D  lp55xx_parse_common_child(np, cfg, child_number,
++						 &chan_nr);
++		if (ret < 0)
++		       return ret;
++		cfg[child_number].chan_nr =3D chan_nr;
++	} else if (led_color =3D=3D LED_COLOR_ID_MULTI) {
++		return lp55xx_parse_mutli_led(np, cfg, child_number);
++	}
++
++	return ret;
++}
++
+ struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev=
+,
+ 						      struct device_node *np)
+ {
+@@ -694,7 +705,7 @@ struct lp55xx_platform_data *lp55xx_of_populate_pdata=
+(struct device *dev,
+ 	pdata->num_channels =3D num_channels;
+=20
+ 	for_each_child_of_node(np, child) {
+-		ret =3D lp5xx_parse_channel_child(child, cfg, i);
++		ret =3D lp55xx_parse_logical_led(child, cfg, i);
+ 		if (ret)
+ 			return ERR_PTR(-EINVAL);
+ 		i++;
+diff --git a/include/linux/platform_data/leds-lp55xx.h b/include/linux/pl=
+atform_data/leds-lp55xx.h
+index ead9d145de0d..dca21b19a283 100644
+--- a/include/linux/platform_data/leds-lp55xx.h
++++ b/include/linux/platform_data/leds-lp55xx.h
+@@ -28,6 +28,7 @@ struct lp55xx_led_config {
+ 	u8 led_current; /* mA x10, 0 if led is not connected */
+ 	u8 max_current;
+ 	int num_colors;
++	unsigned int max_channel;
+ 	unsigned long available_colors;
+ 	struct led_mc_color_conversion color_components[LP55XX_MAX_GROUPED_CHAN=
+];
+ };
+--=20
+2.11.0
+
+
+--------------F1057529D76C2ED616F0DE37--
