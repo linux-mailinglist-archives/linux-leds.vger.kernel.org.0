@@ -2,73 +2,125 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92A11DEB4E
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Oct 2019 13:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A679DEC81
+	for <lists+linux-leds@lfdr.de>; Mon, 21 Oct 2019 14:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728213AbfJULrD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 21 Oct 2019 07:47:03 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:37098 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727725AbfJULrD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Oct 2019 07:47:03 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9LBkrqa034784;
-        Mon, 21 Oct 2019 06:46:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1571658413;
-        bh=9685NJF42uQRzMwQYkhd+6NMjtGXi7wyw8hXK7A5sFg=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=Jp2DwO4U5DiK3uJQXY+srkRDqTKBdwJz9HDQgBfjwz3yk6qOfMtdqqqGJ2IcEWvzF
-         pP/TPaFhjcjgBwwDRhimS1/i4/A1QmISq/AWk74mgQrRsNrtsMQohtxt8mUeHEb3WT
-         5IUMt6Wf4O85J/ZTrcQ13qjTZM5I3bQBrVeEbA+k=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9LBkrxP121917
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 21 Oct 2019 06:46:53 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 21
- Oct 2019 06:46:43 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 21 Oct 2019 06:46:43 -0500
-Received: from [10.250.35.43] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9LBkq8p031649;
-        Mon, 21 Oct 2019 06:46:52 -0500
-Subject: Re: [PATCH v12 06/16] leds: lp50xx: Add the LP50XX family of the RGB
- LED driver
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-CC:     <pavel@ucw.cz>, <linux-leds@vger.kernel.org>
-References: <20191011130657.4713-7-dmurphy@ti.com>
- <201910141723.wxRNtgEe%lkp@intel.com>
- <b71aa86c-515d-2ad3-2d1b-da312d9b3f1f@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <32f384d7-8d2e-889e-c40d-e6370c73be26@ti.com>
-Date:   Mon, 21 Oct 2019 06:46:16 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1728793AbfJUMof (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 21 Oct 2019 08:44:35 -0400
+Received: from mail-wr1-f46.google.com ([209.85.221.46]:35907 "EHLO
+        mail-wr1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727322AbfJUMof (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Oct 2019 08:44:35 -0400
+Received: by mail-wr1-f46.google.com with SMTP id w18so13274855wrt.3
+        for <linux-leds@vger.kernel.org>; Mon, 21 Oct 2019 05:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VpVTW+WZL6DdTi8R1egFqPRwhOG2T/BnlrI0vbGyKSo=;
+        b=dr7wEaSY8UQJ/AGGF8UXvMrEs1GBk4PDp/qRe60BXnj7SOebY0ws+tP9IK08OXd3WA
+         kJoq8fetsUi4FkHh+sBV/YmnRD6gIjEH4N1Am4Ke2muT28aQSeyApTI3r+2/dP9N+0t7
+         onSwyMIwTu7ueIJ+elRnh3UjKkx+mEYmzWe1tFb7MvYeii774AU19xwhKT/Zt8V6uotq
+         02Em+Q3qsSDWgWOGt+RSYtRMl1ZmT4ZbyjojQJE7RlUNLYaVhOzGY+ZEGj9ZKpTzwIOe
+         gR5kB15y/ls8Ufg9q5zq1voYnC1BU+xBenMeFh562h8p/UmuHrVeS1dCHx8ihObV8JOk
+         ZBow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VpVTW+WZL6DdTi8R1egFqPRwhOG2T/BnlrI0vbGyKSo=;
+        b=g4cyhrE2aqwG96awKN4Wn71/rhVb3NdQSJy00Y7bZWvQkWKaKYneqR7lpp1QCgUmU5
+         3GGNnEOmxmo0PFXmkbuJSPKoCP8pmc7ibvF2cUnm1iEjoGanDN7vPpDDI//GEVtK33Be
+         TYmbFz8wl1J0KKWxFLRHbhJEUcTcZoA4D+SGBrMGPilqmyped81yDMr5ZETinyukcDW2
+         pYeOoJQrF/AaFpD6IzIUgvjZSXO0UqIpW187jke/+cuyt6XRU8macdMNddTBbOEi8GQU
+         hMIwozlp7OL3UldFmeAAmJUKT2AIXoYEs4sdtk359Cr5sgnJLAc8rjsfjP15dhoHWIps
+         MKUw==
+X-Gm-Message-State: APjAAAVuUYyAOo/BHtadAvh34qWORH3SHh38fRtbocUfAis8ypM5SPLp
+        lYr0PIAcdkIRet7xt+GnORVMvA==
+X-Google-Smtp-Source: APXvYqyQZq9D7JNE8PCA9bjbf3OX5gqPK3dKrKLOL8KxWrUV3Y0cO+9DD/86Di3mogYOVO6kiCvOTA==
+X-Received: by 2002:adf:e2c5:: with SMTP id d5mr18874464wrj.283.1571661873402;
+        Mon, 21 Oct 2019 05:44:33 -0700 (PDT)
+Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
+        by smtp.gmail.com with ESMTPSA id a17sm10216150wmb.8.2019.10.21.05.44.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2019 05:44:32 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-pm@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v4 0/6] dt-bindings: max77650: convert the device-tree bindings to yaml
+Date:   Mon, 21 Oct 2019 14:44:22 +0200
+Message-Id: <20191021124428.2541-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <b71aa86c-515d-2ad3-2d1b-da312d9b3f1f@gmail.com>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-On 10/19/19 12:13 PM, Jacek Anaszewski wrote:
-> Dan,
->
-> Below compilation errors are occurring also for v14.
-> Did you compile-test it at least?
+This series converts all DT binding documents for MAX77650 PMIC to YAML.
 
-Compile tested and board tested.
+v1 -> v2:
+- use upper case for abbreviations in commit messages
 
-Dan
+v2 -> v3:
+- pull all example fragments into the binding document for the core MFD module
+- fix all dt_binding_check errors
+- add references to submodules to the main binding document
+- drop the type for gpio-line-names
+- drop the description for the interrupts property
+- completely delete the previous txt files
 
+v3 -> v4:
+- remove unnecessary parts of descriptions, added details on the chip
+- correct file references (.txt -> .yaml)
+- fix mixing scalar and array constraints
+- dropped type refs for globally defined properties
+
+Bartosz Golaszewski (6):
+  dt-bindings: input: max77650: convert the binding document to yaml
+  dt-bindings: regulator: max77650: convert the binding document to yaml
+  dt-bindings: power: max77650: convert the binding document to yaml
+  dt-bindings: leds: max77650: convert the binding document to yaml
+  dt-bindings: mfd: max77650: convert the binding document to yaml
+  MAINTAINERS: update the list of maintained files for max77650
+
+ .../bindings/input/max77650-onkey.txt         |  26 ---
+ .../bindings/input/max77650-onkey.yaml        |  35 ++++
+ .../bindings/leds/leds-max77650.txt           |  57 -------
+ .../bindings/leds/leds-max77650.yaml          |  51 ++++++
+ .../devicetree/bindings/mfd/max77650.txt      |  46 ------
+ .../devicetree/bindings/mfd/max77650.yaml     | 149 ++++++++++++++++++
+ .../power/supply/max77650-charger.txt         |  28 ----
+ .../power/supply/max77650-charger.yaml        |  34 ++++
+ .../bindings/regulator/max77650-regulator.txt |  41 -----
+ .../regulator/max77650-regulator.yaml         |  31 ++++
+ MAINTAINERS                                   |   4 +-
+ 11 files changed, 302 insertions(+), 200 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/max77650-onkey.txt
+ create mode 100644 Documentation/devicetree/bindings/input/max77650-onkey.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-max77650.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-max77650.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/max77650.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/max77650.yaml
+ delete mode 100644 Documentation/devicetree/bindings/power/supply/max77650-charger.txt
+ create mode 100644 Documentation/devicetree/bindings/power/supply/max77650-charger.yaml
+ delete mode 100644 Documentation/devicetree/bindings/regulator/max77650-regulator.txt
+ create mode 100644 Documentation/devicetree/bindings/regulator/max77650-regulator.yaml
+
+-- 
+2.23.0
 
