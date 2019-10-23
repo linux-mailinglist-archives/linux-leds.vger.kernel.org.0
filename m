@@ -2,145 +2,470 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7C26E17E0
-	for <lists+linux-leds@lfdr.de>; Wed, 23 Oct 2019 12:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D361FE19F4
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Oct 2019 14:23:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404406AbfJWK1y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 23 Oct 2019 06:27:54 -0400
-Received: from mailgate1.rohmeurope.com ([178.15.145.194]:58660 "EHLO
-        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403831AbfJWK1x (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 23 Oct 2019 06:27:53 -0400
-X-AuditID: c0a8fbf4-199ff70000001fa6-81-5db02b257c8e
-Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com [192.168.251.178])
-        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 88.3C.08102.52B20BD5; Wed, 23 Oct 2019 12:27:49 +0200 (CEST)
-Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
- WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
- 14.03.0439.000; Wed, 23 Oct 2019 12:27:44 +0200
-From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To:     "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>
-CC:     "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>
-Subject: Re: [RFC PATCH 09/13] mfd: rtc: support RTC on ROHM BD71828 with
- BD70528 driver
-Thread-Topic: [RFC PATCH 09/13] mfd: rtc: support RTC on ROHM BD71828 with
- BD70528 driver
-Thread-Index: AQHVhNCZAuXq65juYU207wWeSYVtU6dee5aAgAAGywCAAANsgIAJaAyA
-Date:   Wed, 23 Oct 2019 10:27:43 +0000
-Message-ID: <bf7a8ce661277aca3c4dede5fb17ef4163a56027.camel@fi.rohmeurope.com>
-References: <cover.1571302099.git.matti.vaittinen@fi.rohmeurope.com>
-         <9ccc83f3dfd0fd0dc8178adf41b52115f960c45a.1571302099.git.matti.vaittinen@fi.rohmeurope.com>
-         <20191017101225.GB3125@piout.net>
-         <a1aa91f74b41033fed4a7106247f48f9b9f78bd9.camel@fi.rohmeurope.com>
-         <20191017104859.GC3125@piout.net>
-In-Reply-To: <20191017104859.GC3125@piout.net>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <010E24F802C4034F91829371010E81DE@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
+        id S1726636AbfJWMXe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 23 Oct 2019 08:23:34 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:53300 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731061AbfJWMXd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 23 Oct 2019 08:23:33 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9NCNSWC035580;
+        Wed, 23 Oct 2019 07:23:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1571833408;
+        bh=GkW5gJVbTW+LhOlY4Ins8dpTt10fVxvgFsWnyyXMmEo=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=OarjQGalMDcQPW6kMg3U5Q8RI82bBJFkARMx4QqnB3AtkoEfO4kYJBivf3Z2d6IFu
+         hD9EEs5EkSErWE9hW9Opv5jY0SH+EmAIBROjG+cYLFd1I5jpvNIGf1WZ5YFE8E7fYh
+         M9I29WttA0GhMpE4M2P2WgdMfBewJTAWlt3wsFck=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9NCNShO012608;
+        Wed, 23 Oct 2019 07:23:28 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 23
+ Oct 2019 07:23:18 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Wed, 23 Oct 2019 07:23:18 -0500
+Received: from [10.250.35.43] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9NCNSMH004188;
+        Wed, 23 Oct 2019 07:23:28 -0500
+Subject: Re: [PATCH v14 13/19] leds: lp55xx: Add multicolor framework support
+ to lp55xx
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20191018122521.6757-1-dmurphy@ti.com>
+ <20191018122521.6757-14-dmurphy@ti.com>
+ <a24832d9-1c3d-b3ea-4326-2ef4937d5a59@gmail.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <44796209-104e-66f1-e1e0-2f3dfe3d7cd7@ti.com>
+Date:   Wed, 23 Oct 2019 07:22:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0wTZxzG8969vb6gt73WIq9VmKuSTRGQbH+8RrKQbJrbxGXJ/liCadhp
-        T0osLbkWozOZzRhT62IYY1EaKGrAaWEDKwQxNmNNcVASTBUYZf4AQRN/BGfGjxGJesep8M/d
-        k+/zfp7nveR7iDXc40yoyOGWZIdoN3OJsPPcs2BGWnqLZZPnjw9ofWxATw9PnNXTydoopL+M
-        jnO0LtKno8d6W3X0n7YWSO9MdQE63X+EoVVzvzL06Y+3dfRi3RygNy7XcLTt8e+AXm3s52jD
-        3zGG1jR0QxqLbqW3ol0cLQ9F9PT54AWYmyQ0+ZuA8GSoXC/4mw4KHb5beiEYOMoJNwevcMJf
-        Q+2McMI/ywjnGmf0wn/B1C8S85fk7BLd+74sKnRkffT1Elu0Z5wt6Vu3v202ynlA/1ovSEAE
-        f0ii3kboBYnIgAcB+f/7mF41DLgbkOG6TC9AiMM5xBufHxvxx8R/7Yf58yyuRMR/fgiqxnKc
-        T46XjbPaoZ0kXlWp0/Q2Er8+BVQNcRo5P9TKqpk8/pwMP2K1qosMKbvLqToBZ5LT/vr5SIBT
-        yFHPBKNqFieT4P0ZnXZnTOqvXGM1nUQejD1/NTeT0OwoVONZvJ40X87S0FwSjnRxmn6XVB0b
-        nf8UHi8jPdXjsAKs8C1q8C3QvkW0bxHtW0SfAroAIMVikb1QdEvZmbJUmik7bcXKa7ezOAi0
-        hZm8BF6EPw0DBoEwWIkYcxIvRZsthrd2Oa0HbKLLViCX2iVXGBDEmo38zU2/WQy8VTzwjSQ7
-        X1urEDQn8++N/mQxYLVrrySVSPJrdzVCZsKH3m+xGJbJUqG0f0+R3b1gMyhBDU80GV2SwyrJ
-        YqnbVqBuR4FLWQ/VWqr0ihsUnHeViMXKVEOjIBtVPKg9w6KeQL3yjNQ2nGEN0OF0SKZkfqsK
-        YBWwlTre1D0EyQiYl/Od6xV3qfLvvEl7qBQxSlHq281qkVtcsEweUM2FY8T02UAv3V2WDue2
-        PMtqi321+WR+O/dY3BjnTwwYmR7binI4cnx7yp+d0/GM9IzhkcbNM9sDnty56um+Q5XtI8zV
-        6TRnR/ehne1caA20sisnja2wYqx37Ns8e+XPkdvuHXmrT31XaM1JCUy90/EJ/rf7jj9UVZO6
-        cdVEnhm6bGL2BlZ2iS8Bxt9KQPgDAAA=
+In-Reply-To: <a24832d9-1c3d-b3ea-4326-2ef4937d5a59@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGVsbG8gYWdhaW4gQWxleGFuZHJlLA0KDQpPbiBUaHUsIDIwMTktMTAtMTcgYXQgMTI6NDggKzAy
-MDAsIEFsZXhhbmRyZSBCZWxsb25pIHdyb3RlOg0KPiBPbiAxNy8xMC8yMDE5IDEwOjM2OjQ0KzAw
-MDAsIFZhaXR0aW5lbiwgTWF0dGkgd3JvdGU6DQo+ID4gSGVsbG8gQWxleGFuZHJlLA0KPiA+IA0K
-PiA+IFRoYW5rcyBmb3IgcXVpY2sgY2hlY2shIEknbGwgYmUgb2ZmIGZvciB0aGUgcmVzdCBvZiB0
-aGUgd2VlayBidXQgSQ0KPiA+IHdpbGwNCj4gPiByZS13b3JrIHRoaXMgcGF0Y2ggYXQgbmV4dCB3
-ZWVrIDopIEkgYWdyZWUgd2l0aCB5b3UgcmVnYXJkaW5nIG1vc3QNCj4gPiBvZg0KPiA+IHRoZSBj
-b21tZW50cy4NCj4gPiANCj4gPiA+ID4gKw0KPiA+ID4gPiArDQo+ID4gPiA+ICsvKg0KPiA+ID4g
-PiArICogUlRDIGRlZmluaXRpb25zIHNoYXJlZCBiZXR3ZWVuDQo+ID4gPiA+ICsgKg0KPiA+ID4g
-PiArICogQkQ3MDUyOA0KPiA+ID4gPiArICogYW5kIEJENzE4MjgNCj4gPiA+ID4gKyAqLw0KPiA+
-ID4gPiArDQo+ID4gPiA+ICsjZGVmaW5lIFJPSE1fQkQxX01BU0tfUlRDX1NFQwkJMHg3Zg0KPiA+
-ID4gPiArI2RlZmluZSBST0hNX0JEMV9NQVNLX1JUQ19NSU5VVEUJMHg3Zg0KPiA+ID4gPiArI2Rl
-ZmluZSBST0hNX0JEMV9NQVNLX1JUQ19IT1VSXzI0SAkweDgwDQo+ID4gPiA+ICsjZGVmaW5lIFJP
-SE1fQkQxX01BU0tfUlRDX0hPVVJfUE0JMHgyMA0KPiA+ID4gPiArI2RlZmluZSBST0hNX0JEMV9N
-QVNLX1JUQ19IT1VSCQkweDNmDQo+ID4gPiA+ICsjZGVmaW5lIFJPSE1fQkQxX01BU0tfUlRDX0RB
-WQkJMHgzZg0KPiA+ID4gPiArI2RlZmluZSBST0hNX0JEMV9NQVNLX1JUQ19XRUVLCQkweDA3DQo+
-ID4gPiA+ICsjZGVmaW5lIFJPSE1fQkQxX01BU0tfUlRDX01PTlRICQkweDFmDQo+ID4gPiA+ICsj
-ZGVmaW5lIFJPSE1fQkQxX01BU0tfUlRDX1lFQVIJCTB4ZmYNCj4gPiA+ID4gKyNkZWZpbmUgUk9I
-TV9CRDFfTUFTS19BTE1fRU4JCTB4Nw0KPiA+ID4gPiArDQo+ID4gPiANCj4gPiA+IEFsbCB0aGF0
-IHJlbmFtaW5nIGlzIGRpc3RyYWN0aW5nIGFuZCB1c2VsZXNzLiBQbGVhc2UgcmVzdWJtaXQNCj4g
-PiA+IHdpdGhvdXQNCj4gPiA+IHJlbmFtaW5nIGRlZmluZXMsIHN0cnVjdHMgYW5kIGZ1bmN0aW9u
-cyB0byBtYWtlIGl0IGVhc2llciB0bw0KPiA+ID4gcmV2aWV3Lg0KPiA+IA0KPiA+IEkgd291bGQg
-cHJlZmVyIHJlbmFtaW5nIGJlY2F1c2UgaXQgbWFrZXMgaXQgY2xlYXJseSB2aXNpYmxlIHdoaWNo
-DQo+ID4gZGVmaW5lcy9zdHJ1Y3RzL2Z1bmN0aW9ucyBhcmUgY29tbW9uIGZvciBib3RoIFBNSUNz
-IGFuZCB3aGljaCBhcmUNCj4gPiBQTUlDDQo+ID4gc3BlY2lmaWMuIEJ1dCBJIHJlYWxseSB1bmRl
-cnN0YW5kIHRoZSBwcm9ibGVtIG9mIHNwb3R0aW5nIHJlYWwNCj4gPiBjaGFuZ2VzLg0KPiA+IFdv
-dWxkIGl0IGJlIE9rIGlmIEkgZGlkIHJlbmFtaW5nIGluIHNlcGFyYXRlIHBhdGNoIHdoaWNoIGRv
-ZXMgbm90DQo+ID4gYnJpbmcNCj4gPiBpbiBhbnkgb3RoZXIgY2hhbmdlcyAtIGFuZCB0aGVuIHRo
-ZSBmdW5jdGlvbmFsIGNoYW5nZXMgaW4gc2VwYXJhdGUNCj4gPiBwYXRjaD8NCj4gPiANCj4gDQo+
-IE5vLCB1bmxlc3MgeW91IGNhbiBndWFyYW50ZWUgdGhhdCBhbGwgZnV0dXJlIFBNSUNzIGZyb20g
-cm9obSBtYXRjaGluZw0KPiB0aGUgd2lsZGNhcmQgd2lsbCB1c2UgdGhpcyBkcml2ZXIuDQo+IA0K
-SSBzdGFydGVkIHJlLXdvcmtpbmcgdGhpcyBwYXRjaCBhbmQgcmVtZW1iZXJlZCBteSBvcmlnaW5h
-bCBpZGVhDQpyZWdhcmRpbmcgdGhlIG5hbWluZyA6KSBJIHNob3VsZCBoYXZlIGNvbW1lbnRlZCBp
-dCBhcyBJIGhhZCBhbHJlYWR5DQpmb3Jnb3R0ZW4gaXQuIFlvdSBhcmUgY29ycmVjdCB3aGF0IGNv
-bWVzIHRvIHRoZSBkaWZmaWN1bHR5IG9mIHVzaW5nDQpjb3JyZWN0IHdpbGQtY2FyZHMuIEFuZCBJ
-IGFncmVlIHdpdGggeW91IHdoYXQgY29tZXMgdG8gZnVuY3Rpb24gYW5kDQpzdHJ1Y3QgbmFtZXMg
-bGlrZSBiZDd4eDI4IC0gdGhvc2UgYXJlIHNvbWV3aGF0IGZyYWdpbGUgYXMgbmV4dCBQTUlDDQp3
-aGljaCB3ZSB3YW50IHRvIHN1cHBvcnQgd2l0aCB0aGlzIGRyaXZlciBtYXkgYmUgQkQxMjM0NSAt
-IHlpZWxkaW5nIG91cg0Kd2lsZC1jYXJkIHVzZWxlc3MuDQoNCkJ1dCBpZiB3ZSB0YWtlIGEgbG9v
-ayBvZiBjb21tb24gZGVmaW5pdGlvbnMgaW4gaGVhZGVyIHJvaG0tc2hhcmVkLmgNCndoaWNoIEkg
-YWRkZWQgLSB0aG9zZSBhcmUgcHJlZml4ZWQgYXMgUk9ITV9CRDEuIE15IGlkZWEgd2FzIGludHJv
-ZHVjaW5nDQp0aGlzIGNvbW1vbiBSVEMgZGVmaW5lIGdyb3VwIDEgLSB3aGljaCB3b3VsZCBiZSBj
-b21tb24gZGVmaW5lIGdyb3VwIGZvcg0KYWxsIGRldmljZXMgd2hpY2ggYmVsb25nIHRvIEJEMSBn
-cm91cC4gQ3VycmVudGx5IHRoYXQgd291bGQgYmUgQkQ3MTgyOA0KYW5kIEJENzA1MjguIFdoYXQg
-d2FzIG1pc3NpbmcgaXMgdGhlIGNvbW1lbnQgZXhwbGFpbmluZyB0aGlzIChhbmQgbGFjaw0Kb2Yg
-Y29tbWVudCBtYWRlIHRoaXMgdXNlbGVzcyBhcyBldmVuIEkgZm9yZ290IGl0IGFscmVhZHkpLg0K
-DQpJIGFscmVhZHkgcmV2ZXJ0ZWQgdGhpcyBuYW1pbmcgY2hhbmdlIGFuZCBhbGwgQkQ3MDUyOCBz
-cGVjaWZpYyBhbmQNCmNvbW1vbiBkZWZpbmVzL2Z1bmN0aW9ucy9lbnVtcyBhcmUgcHJlZml4ZWQg
-d2l0aCB0aGUgZ29vZCBvbGQgQkQ3MDUyOC4NCk9ubHkgbmV3IGRlZmluaXRpb25zIHdoaWNoIEkg
-YWRkZWQgZm9yIEJENzE4MjggYXJlIHByZWZpeGVkIHdpdGgNCkJENzE4MjguIEJ1dCBob3cgZG8g
-eW91IHNlZSB0aGUgZ3JvdXBpbmcgdGhlIGNvbW1vbiBkZWZpbmVzIHRvIGZvcm1hdA0KUk9ITV9C
-RDxncm91cCBudW1iZXI+X0ZPT19CQVIgaW4gdGhlIHJvaG0tc2hhcmVkLmggLSB3aXRoIGNvbW1l
-bnQgdGhhdA0KZ3JvdXAgQkQxIGNvbnNpc3RzIG9mIGRlZmluaXRpb25zIHdoaWNoIGFyZSBjb21t
-b24gZm9yIEJENzA1MjggYW5kDQpCRDcxODI4Pw0KDQpNeSBvbmx5IGZlYXIgd2hlbiB1c2luZyBw
-cmVmaXggQkQ3MDUyOCBmb3IgY29tbW9uIGRlZmluZXMgaXMgdGhhdA0Kc29tZW9uZSBjaGFuZ2Vz
-IHNvbWUgZGVmaW5lcyB0byBtYXRjaCB0aGUgQkQ3MDUyOCBkYXRhLXNoZWV0IHdpdGhvdXQNCmV2
-YWx1YXRpbmcgaWYgdGhpcyBpbXBhY3RzIHRvIG90aGVyIFBNSUNzLiBJdCBtYXkgYmUgdXNlbGVz
-cyBwYXJhbm9pYQ0KdGhvdWdoIC0gaGVuY2UgSSBhbSBhc2tpbmcgZm9yIHlvdXIgb3BpbmlvbiBh
-dCB0aGlzIHBoYXNlLiBJIGNhbiBkbw0KdGhpcyBncm91cGluZyBpbiBvd24gcGF0Y2ggLSBvciBq
-dXN0IGxlYXZlIGl0IGFzIGl0IGlzIG5vdyBpbiBteSBsb2NhbA0KcmVwbyAtIHdpdGggdGhlIG9s
-ZCBCRDcwNTI4IGJlaW5nIGNvbW1vbiBwcmVmaXguDQoNCkJyLA0KCU1hdHRpIFZhaXR0aW5lbg0K
-DQo=
+Jacek
+
+On 10/18/19 4:48 PM, Jacek Anaszewski wrote:
+> Dan,
+>
+> On 10/18/19 2:25 PM, Dan Murphy wrote:
+>> Add multicolor framework support for the lp55xx family.
+>>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>> ---
+>>   drivers/leds/Kconfig                      |   1 +
+>>   drivers/leds/leds-lp55xx-common.c         | 185 +++++++++++++++++++---
+>>   drivers/leds/leds-lp55xx-common.h         |   9 ++
+>>   include/linux/platform_data/leds-lp55xx.h |   7 +
+>>   4 files changed, 179 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+>> index fb614a6b9afa..5706bf8d8bd1 100644
+>> --- a/drivers/leds/Kconfig
+>> +++ b/drivers/leds/Kconfig
+>> @@ -377,6 +377,7 @@ config LEDS_LP50XX
+>>   config LEDS_LP55XX_COMMON
+>>   	tristate "Common Driver for TI/National LP5521/5523/55231/5562/8501"
+>>   	depends on LEDS_LP5521 || LEDS_LP5523 || LEDS_LP5562 || LEDS_LP8501
+>> +	depends on OF
+>>   	select FW_LOADER
+>>   	select FW_LOADER_USER_HELPER
+>>   	help
+>> diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
+>> index 882ef39e4965..197b87ca5ca2 100644
+>> --- a/drivers/leds/leds-lp55xx-common.c
+>> +++ b/drivers/leds/leds-lp55xx-common.c
+>> @@ -131,14 +131,62 @@ static struct attribute *lp55xx_led_attrs[] = {
+>>   };
+>>   ATTRIBUTE_GROUPS(lp55xx_led);
+>>   
+>> +#if IS_ENABLED(CONFIG_LEDS_CLASS_MULTI_COLOR)
+>> +static int lp55xx_map_channel(struct lp55xx_led *led, int color_id,
+>> +			      enum led_brightness brightness)
+> If you changed the type of the first parameter to
+> struct led_mc_color_conversion* then you could make this function local
+> in LED mc class and call it in led_mc_calc_color_components() after
+> calculating brightness components.
+
+I prefer to leave this here and if this code is ever integrated we can 
+see if there is a common need for the MC class to expose a mapping API.
+
+>
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < led->mc_cdev.num_leds; i++) {
+>> +		if (led->color_components[i].color_id == color_id) {
+>> +			led->color_components[i].brightness = brightness;
+>> +			return 0;
+>> +		}
+>> +	}
+>> +
+>> +	return -EINVAL;
+>> +}
+>> +#endif
+>> +
+>> +static int lp55xx_set_mc_brightness(struct lp55xx_led *led,
+>> +				    struct lp55xx_device_config *cfg,
+>> +				     enum led_brightness brightness)
+>> +{
+>> +	int ret = -EINVAL;
+>> +#if IS_ENABLED(CONFIG_LEDS_CLASS_MULTI_COLOR)
+>> +	struct led_mc_color_conversion color_components[LP55XX_MAX_GROUPED_CHAN];
+> You wouldn't need this local variable then.
+
+>> +	int i;
+>> +
+>> +	if (!cfg->multicolor_brightness_fn)
+>> +		return -EINVAL;
+>> +
+>> +	led_mc_calc_color_components(&led->mc_cdev, brightness,
+>> +				     color_components);
+> Because you could pass what you already have in the struct lp55xx_led:
+>
+> led_mc_calc_color_components(&led->mc_cdev, brightness,
+>                               led->color_components);
+
+Well that is not entirely accurate the led->color_components is the data 
+that we have from the DT that should not be changed. Passing this into 
+the MC calc function would mean that the framework would have to map the 
+output to the color_id.  As I indicated above for now I don't think the 
+MC class should do any mapping of color_id to the output.
+
+
+>
+>> +
+>> +	for (i = 0; i < led->mc_cdev.num_leds; i++) {
+>> +		ret = lp55xx_map_channel(led, color_components[i].color_id,
+>> +					 color_components[i].brightness);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+> And this loop would execute inside the previous call, thus it is to be
+> optimized out from here.
+>
+>> +
+>> +	ret = cfg->multicolor_brightness_fn(led);
+>> +#endif
+>> +	return ret;
+>> +}
+>> +
+>>   static int lp55xx_set_brightness(struct led_classdev *cdev,
+>>   			     enum led_brightness brightness)
+>>   {
+>>   	struct lp55xx_led *led = cdev_to_lp55xx_led(cdev);
+>>   	struct lp55xx_device_config *cfg = led->chip->cfg;
+>>   
+>> -	led->brightness = (u8)brightness;
+>> -	return cfg->brightness_fn(led);
+>> +	if (led->mc_cdev.num_leds > 1) {
+>> +		return lp55xx_set_mc_brightness(led, cfg, brightness);
+>> +	} else {
+>> +		led->brightness = (u8)brightness;
+>> +		return cfg->brightness_fn(led);
+>> +	}
+>>   }
+>>   
+>>   static int lp55xx_init_led(struct lp55xx_led *led,
+>> @@ -147,9 +195,9 @@ static int lp55xx_init_led(struct lp55xx_led *led,
+>>   	struct lp55xx_platform_data *pdata = chip->pdata;
+>>   	struct lp55xx_device_config *cfg = chip->cfg;
+>>   	struct device *dev = &chip->cl->dev;
+>> +	int max_channel = cfg->max_channel;
+>>   	char name[32];
+>>   	int ret;
+>> -	int max_channel = cfg->max_channel;
+>>   
+>>   	if (chan >= max_channel) {
+>>   		dev_err(dev, "invalid channel: %d / %d\n", chan, max_channel);
+>> @@ -159,10 +207,34 @@ static int lp55xx_init_led(struct lp55xx_led *led,
+>>   	if (pdata->led_config[chan].led_current == 0)
+>>   		return 0;
+>>   
+>> +	if (pdata->led_config[chan].name) {
+>> +		led->cdev.name = pdata->led_config[chan].name;
+>> +	} else {
+>> +		snprintf(name, sizeof(name), "%s:channel%d",
+>> +			pdata->label ? : chip->cl->name, chan);
+>> +		led->cdev.name = name;
+>> +	}
+>> +
+>> +	if (pdata->led_config[chan].num_colors > 1) {
+>> +		led->mc_cdev.led_cdev = &led->cdev;
+>> +		led->cdev.brightness_set_blocking = lp55xx_set_brightness;
+>> +		led->cdev.groups = lp55xx_led_groups;
+>> +		led->mc_cdev.num_leds = pdata->led_config[chan].num_colors;
+>> +		led->mc_cdev.available_colors =
+>> +			pdata->led_config[chan].available_colors;
+>> +		memcpy(led->color_components,
+>> +		       pdata->led_config[chan].color_components,
+>> +		       sizeof(led->color_components));
+>> +	} else {
+>> +
+>> +		led->cdev.default_trigger =
+>> +			pdata->led_config[chan].default_trigger;
+>> +		led->cdev.brightness_set_blocking = lp55xx_set_brightness;
+>> +	}	led->cdev.groups = lp55xx_led_groups;
+>> +
+>>   	led->led_current = pdata->led_config[chan].led_current;
+>>   	led->max_current = pdata->led_config[chan].max_current;
+>>   	led->chan_nr = pdata->led_config[chan].chan_nr;
+>> -	led->cdev.default_trigger = pdata->led_config[chan].default_trigger;
+>>   
+>>   	if (led->chan_nr >= max_channel) {
+>>   		dev_err(dev, "Use channel numbers between 0 and %d\n",
+>> @@ -170,18 +242,13 @@ static int lp55xx_init_led(struct lp55xx_led *led,
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> -	led->cdev.brightness_set_blocking = lp55xx_set_brightness;
+>> -	led->cdev.groups = lp55xx_led_groups;
+>> -
+>> -	if (pdata->led_config[chan].name) {
+>> -		led->cdev.name = pdata->led_config[chan].name;
+>> -	} else {
+>> -		snprintf(name, sizeof(name), "%s:channel%d",
+>> -			pdata->label ? : chip->cl->name, chan);
+>> -		led->cdev.name = name;
+>> -	}
+>> +#if IS_ENABLED(CONFIG_LEDS_CLASS_MULTI_COLOR)
+>> +	if (pdata->led_config[chan].num_colors > 1)
+>> +		ret = devm_led_classdev_multicolor_register(dev, &led->mc_cdev);
+>> +	else
+>> +#endif
+>> +		ret = devm_led_classdev_register(dev, &led->cdev);
+>>   
+>> -	ret = devm_led_classdev_register(dev, &led->cdev);
+>>   	if (ret) {
+>>   		dev_err(dev, "led register err: %d\n", ret);
+>>   		return ret;
+>> @@ -525,6 +592,82 @@ void lp55xx_unregister_sysfs(struct lp55xx_chip *chip)
+>>   }
+>>   EXPORT_SYMBOL_GPL(lp55xx_unregister_sysfs);
+>>   
+>> +static int lp5xx_parse_common_child(struct device_node *np,
+>> +				    struct lp55xx_led_config *cfg,
+>> +				    int chan_num, bool is_multicolor,
+>> +				    int color_num)
+>> +{
+>> +	u32 led_number;
+>> +	int ret;
+>> +
+>> +	of_property_read_string(np, "chan-name",
+>> +				&cfg[chan_num].name);
+>> +	of_property_read_u8(np, "led-cur",
+>> +			    &cfg[chan_num].led_current);
+>> +	of_property_read_u8(np, "max-cur",
+>> +			    &cfg[chan_num].max_current);
+>> +
+>> +	ret = of_property_read_u32(np, "reg", &led_number);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	if (led_number < 0 || led_number > 6)
+>> +		return -EINVAL;
+>> +
+>> +	if (is_multicolor)
+>> +		cfg[chan_num].color_components[color_num].output_num =
+>> +								led_number;
+>> +	else
+>> +		cfg[chan_num].chan_nr = led_number;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int lp5xx_parse_channel_child(struct device_node *np,
+>> +				     struct lp55xx_led_config *cfg,
+>> +				     int child_number)
+>> +{
+>> +	struct device_node *child;
+>> +	int channel_color;
+>> +	int num_colors = 0;
+>> +	u32 color_id;
+>> +	int ret;
+>> +
+>> +	cfg[child_number].default_trigger =
+>> +			of_get_property(np, "linux,default-trigger", NULL);
+>> +
+>> +	ret = of_property_read_u32(np, "color", &channel_color);
+>> +	if (ret)
+>> +		channel_color = ret;
+>> +
+>> +
+>> +	if (channel_color == LED_COLOR_ID_MULTI) {
+>> +		for_each_child_of_node(np, child) {
+>> +			ret = lp5xx_parse_common_child(child, cfg,
+>> +						       child_number, true,
+>> +						       num_colors);
+>> +			if (ret)
+>> +				return ret;
+>> +
+>> +			ret = of_property_read_u32(child, "color", &color_id);
+>> +			if (ret)
+>> +				return ret;
+>> +
+>> +			cfg[child_number].color_components[num_colors].color_id =
+>> +						color_id;
+>> +			set_bit(color_id, &cfg[child_number].available_colors);
+>> +			num_colors++;
+>> +		}
+>> +
+>> +		cfg[child_number].num_colors = num_colors;
+>> +	} else {
+>> +		return lp5xx_parse_common_child(np, cfg, child_number, false,
+>> +						num_colors);
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
+>>   						      struct device_node *np)
+>>   {
+>> @@ -533,6 +676,7 @@ struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
+>>   	struct lp55xx_led_config *cfg;
+>>   	int num_channels;
+>>   	int i = 0;
+>> +	int ret;
+>>   
+>>   	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+>>   	if (!pdata)
+>> @@ -552,14 +696,9 @@ struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
+>>   	pdata->num_channels = num_channels;
+>>   
+>>   	for_each_child_of_node(np, child) {
+>> -		cfg[i].chan_nr = i;
+>> -
+>> -		of_property_read_string(child, "chan-name", &cfg[i].name);
+>> -		of_property_read_u8(child, "led-cur", &cfg[i].led_current);
+>> -		of_property_read_u8(child, "max-cur", &cfg[i].max_current);
+>> -		cfg[i].default_trigger =
+>> -			of_get_property(child, "linux,default-trigger", NULL);
+>> -
+>> +		ret = lp5xx_parse_channel_child(child, cfg, i);
+> I went into details of this parsing and finally came up with
+> the code which is a bit greater in size, but IMHO cleaner.
+> Note changes in variable naming. It is not even compile-tested.
+>
+> static int lp55xx_parse_common_child(struct device_node *np,
+>                                      struct lp55xx_led_config *cfg,
+>                                      int led_number, int *chan_nr)
+> {
+>          int ret;
+>
+>          of_property_read_string(np, "chan-name",
+>                                  &cfg[led_number].name);
+>          of_property_read_u8(np, "led-cur",
+>                              &cfg[led_number].led_current);
+>          of_property_read_u8(np, "max-cur",
+>                              &cfg[led_number].max_current);
+>
+>          ret = of_property_read_u32(np, "reg", chan_nr);
+>          if (ret)
+>                  return ret;
+>
+>          if (chan_nr < 0 || chan_nr > cfg->max_chan_nr) /* side note: new
+> max_chan_nr property needed in cfg */
+>                  return -EINVAL;
+>
+>          return 0;
+> }
+>
+> static int lp55xx_parse_mutli_led_child(struct device_node *np,
+>                                          struct lp55xx_led_config *cfg,
+>                                          int child_number,
+>                                          int color_number)
+> {
+>          int chan_nr, color_id;
+>
+>          ret = lp55xx_parse_common_child(child, cfg, child_number,
+> color_number,
+>                                          &chan_nr);
+>          if (ret)
+>                  return ret;
+>
+>          ret = of_property_read_u32(child, "color", &color_id);
+>          if (ret)
+>                 return ret;
+>
+>          cfg[child_number].color_components[color_number].color_id =
+> color_id;
+>          cfg[child_number].color_components[color_number].output_num =
+> chan_nr;
+>          set_bit(color_id, &cfg[child_number].available_colors);
+>
+>          return 0;
+> }
+>
+> staitc int lp55xx_parse_mutli_led(struct device_node *np,
+>                                    struct lp55xx_led_config *cfg,
+>                                    int child_number)
+> {
+>          struct device_node *child;
+>          int num_colors = 0, i = 0;
+>
+>          for_each_child_of_node(np, child) {
+>                  ret = lp55xx_parse_mutli_led_child(child, cfg, num_colors,
+>                                                     child_number, i))
+>                  if (ret)
+>                          return ret;
+>                  num_colors++;
+>          }
+> }
+>
+> static int lp5xx_parse_logical_led(struct device_node *np,
+>                                     struct lp55xx_led_config *cfg,
+>                                     int child_number)
+> {
+>          int led_color, ret;
+>
+>          cfg[child_number].default_trigger =
+>                  of_get_property(np, "linux,default-trigger", NULL);
+>
+>          ret = of_property_read_u32(np, "color", &led_color);
+>
+>          if (ret) {
+>                  int chan_nr;
+>                  ret =  lp55xx_parse_common_child(np, cfg, child_number,
+>                                                   &chan_nr);
+>                  if (ret < 0)
+>                         return ret;
+>                  cfg[child_number].chan_nr = chan_nr;
+>          } else if (led_color == LED_COLOR_ID_MULTI) {
+>                  return lp55xx_parse_mutli_led(np, cfg, child_number);
+>          } else
+>                  return ret;
+>
+>          return 0;
+> }
+>
+>
+> for_each_child_of_node(np, child) {
+>          ret = lp55xx_parse_logical_led(child, cfg, i);
+>          if (ret)
+>                  return ERR_PTR(-EINVAL);
+>          i++;
+> }
+>
+>
+> It maybe worth also to check if channel has not been already taken.
+>
+I will board test this solution.
+
+Dan
+
