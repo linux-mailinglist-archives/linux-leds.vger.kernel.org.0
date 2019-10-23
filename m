@@ -2,147 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94C83E1AAF
-	for <lists+linux-leds@lfdr.de>; Wed, 23 Oct 2019 14:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3F32E1BD3
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Oct 2019 15:10:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390018AbfJWMfc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 23 Oct 2019 08:35:32 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:55154 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389888AbfJWMfc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 23 Oct 2019 08:35:32 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9NCZOCf042095;
-        Wed, 23 Oct 2019 07:35:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1571834124;
-        bh=J7vtenKEXuXVl0lBap8CU6gDxo4xRoiS6Zd5T9c5dKg=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=SFyMEXu20tZIWaqh9ZFMFCk6M9eL4V0NRo7Uw/hCdXSUdVjorjdJqwwfshKplTE0f
-         Or9hPOZLJfuxNUXYKW6OgMTETbPciRm5uHLMo+y8Xxu1Yedhb0XTUUGUvPN+CjBqpl
-         4cCHKmi4zhZK5rIGX9ZErgbyfe2WTGyshfCTUUss=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9NCZNL9010837
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 23 Oct 2019 07:35:23 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 23
- Oct 2019 07:35:23 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 23 Oct 2019 07:35:13 -0500
-Received: from [10.250.35.43] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9NCZMVS045311;
-        Wed, 23 Oct 2019 07:35:23 -0500
-Subject: Re: [PATCH 2/2] leds: meter: add leds-meter binding
-To:     Akinobu Mita <akinobu.mita@gmail.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Bjorn Andersson <bjorn@kryo.se>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Jean-Jacques Hiblot <jjhiblot@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-References: <1571756812-19005-1-git-send-email-akinobu.mita@gmail.com>
- <1571756812-19005-3-git-send-email-akinobu.mita@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <0f58e263-7e56-b4f7-51c1-a37e107a1afe@ti.com>
-Date:   Wed, 23 Oct 2019 07:34:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2388679AbfJWNK4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Wed, 23 Oct 2019 09:10:56 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:35592 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726032AbfJWNK4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 23 Oct 2019 09:10:56 -0400
+Received: by mail-ed1-f68.google.com with SMTP id k2so5018362edx.2;
+        Wed, 23 Oct 2019 06:10:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=lzwXfyhUE7yc9zrzbjqMe71sKuHvjq9U3aqm0Bd1AoI=;
+        b=S/A3aIGnph7/r49FdcX/+rOROLnuReURWi9z5AaaiFgwNDyHNguoHy2jLTKIg0AobS
+         Ii8Aob7iyqUE9px3EJl+QbMXPlHqS2i4AJjUkEXgVYMOpJB5ylqfR28AxSRz0LGrE0oN
+         dz0N+b0G4A1+WoZyqXNpZC27TiMgZrwh3OQIocjQVBgN+3XtOoyCaMvlIaqATpBbxqeb
+         aH+TRLRapqnj+ldkTcAZ0Bi9oR73bzEGJ0oLBkEdJwU7OEXluqUoH1Bhl4rcsWPwWDMa
+         DGF3xhA2WaMsusqyac2NzMIPJnBzhBlKnq/yDYu7/oI4+szOWAtVn2bNxBf1GiYtQfaY
+         jRtQ==
+X-Gm-Message-State: APjAAAXIBu2F0LkRRidZBYch85DAr88A/27wF1+klG85knTLuwFmQPUI
+        Ki2dfON5MI5tkKTRGbG4ylA=
+X-Google-Smtp-Source: APXvYqyft44OcCGb0xN0+fC1gmfK8usNRgvA/I5KY4vuTv2zLifQ5kptU9qNo1AQahi2rM4m7Aa/dg==
+X-Received: by 2002:aa7:c595:: with SMTP id g21mr36717915edq.79.1571836252860;
+        Wed, 23 Oct 2019 06:10:52 -0700 (PDT)
+Received: from pi3 ([194.230.155.217])
+        by smtp.googlemail.com with ESMTPSA id b12sm785479edq.75.2019.10.23.06.10.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2019 06:10:52 -0700 (PDT)
+Date:   Wed, 23 Oct 2019 15:10:49 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Kukjin Kim <kgene@kernel.org>, linux-samsung-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-clk@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        Lihua Yao <ylhuajnu@163.com>,
+        =?utf-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
+        Lihua Yao <ylhuajnu@outlook.com>,
+        Sergio Prado <sergio.prado@e-labworks.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: Re: [PATCH 00/36] ARM: samsung platform cleanup
+Message-ID: <20191023131049.GG11048@pi3>
+References: <20191010202802.1132272-1-arnd@arndb.de>
 MIME-Version: 1.0
-In-Reply-To: <1571756812-19005-3-git-send-email-akinobu.mita@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20191010202802.1132272-1-arnd@arndb.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Akinobu
+On Thu, Oct 10, 2019 at 10:28:02PM +0200, Arnd Bergmann wrote:
+> I've spent some time looking at the remaining ARMv4/ARMv5 platforms
+> that are not part of ARCH_MULTIPLATFORM, and tried to get them closer
+> to that. Here is what came out of that for the samsung platforms:
+> 
+> * Exynos and s5pv210 are made independent of plat-samsung
+> * device drivers stop using mach/*.h headers for s3c24xx
+>   (and other platforms not in this series)
+> * s3c24xx and s3c64xx get merged into mach-s3c, removing
+>   the need for plat-samsung (I have other patches for the
+>   remaining plat-* directories)
+> * mach/io.h gets cleaned up to only be needed for BAST
+>   PC104 mode (looking for ideas to proceed)
+> * mach/irqs.h remains for now, this still needs to be converted
+>   to sparse IRQs.
+> 
+> Some bits are a little ugly, but overall I think this a big
+> improvement.
+> 
+> The contents are available for testing in
+> 
+> git://kernel.org:/pub/scm/linux/kernel/git/arnd/playground.git s3c-multiplatform
 
-On 10/22/19 10:06 AM, Akinobu Mita wrote:
-> Add DT binding for leds-meter.
+When sending v2, can you Cc:
 
-$subject should be
+Paweł Chmiel <pawel.mikolaj.chmiel@gmail.com>
+Lihua Yao <ylhuajnu@outlook.com>
+(or Lihua Yao <ylhuajnu@163.com> if outlook.com bounces)
+Sergio Prado <sergio.prado@e-labworks.com>
+Sylwester Nawrocki <s.nawrocki@samsung.com>
 
-  dt-bindings: leds: Add leds-meter binding
+These are folks which to my knowledge had working S3C and S5P boards
+so maybe they could provide testing.
 
-And this patch should be first in the series
+Best regards,
+Krzysztof
 
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Bjorn Andersson <bjorn@kryo.se>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Cc: Jean-Jacques Hiblot <jjhiblot@ti.com>
-> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Dan Murphy <dmurphy@ti.com>
-> Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
-> ---
->   .../devicetree/bindings/leds/leds-meter.yaml       | 42 ++++++++++++++++++++++
->   1 file changed, 42 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/leds/leds-meter.yaml
->
-> diff --git a/Documentation/devicetree/bindings/leds/leds-meter.yaml b/Documentation/devicetree/bindings/leds/leds-meter.yaml
-> new file mode 100644
-> index 0000000..d5dfa261
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-meter.yaml
-> @@ -0,0 +1,42 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-meter.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Generic LED level meter
-> +
-> +maintainers:
-> +  - Akinobu Mita <akinobu.mita@gmail.com>
-> +
-> +description:
-> +  Generic LED level meter consists of multiple LED devices by different drivers.
-> +
-> +properties:
-> +  compatible:
-> +    const: meter-leds
-> +
-> +  leds:
-
-This seems a bit generic for the property name
-
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 1
-> +    description: List of phandles to LED node that are members of a level meter.
-> +
-> +  brightness-weights:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 1
-> +    description: Each integer represents a contribution ratio within a level
-> +      meter.
-
-This description is a bit vague I would not be sure what I would set 
-this to.
-
-Dan
-
-> +
-> +required:
-> + - compatible
-> + - leds
-> +
-> +examples:
-> +  - |
-> +    leds {
-> +        compatible = "meter-leds";
-> +        leds = <&led0>, <&led1>, <&led2>, <&led3>;
-> +        brightness-weights = <3 1 1 1>;
-> +    };
-> +
-> +...
