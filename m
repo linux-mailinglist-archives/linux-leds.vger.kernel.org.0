@@ -2,148 +2,176 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00FE4E3454
-	for <lists+linux-leds@lfdr.de>; Thu, 24 Oct 2019 15:34:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D5AAE3C12
+	for <lists+linux-leds@lfdr.de>; Thu, 24 Oct 2019 21:37:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502551AbfJXNeg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 24 Oct 2019 09:34:36 -0400
-Received: from mailgate1.rohmeurope.com ([178.15.145.194]:60428 "EHLO
-        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502516AbfJXNeg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Oct 2019 09:34:36 -0400
-X-AuditID: c0a8fbf4-183ff70000001fa6-d3-5db1a8699e44
-Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com [192.168.251.178])
-        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 55.D3.08102.968A1BD5; Thu, 24 Oct 2019 15:34:33 +0200 (CEST)
-Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
- WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
- 14.03.0439.000; Thu, 24 Oct 2019 15:34:27 +0200
-From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To:     "linus.walleij@linaro.org" <linus.walleij@linaro.org>
-CC:     "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>
-Subject: Re: [RFC PATCH v2 12/13] gpio: bd71828: Initial support for ROHM
- BD71828 PMIC GPIOs
-Thread-Topic: [RFC PATCH v2 12/13] gpio: bd71828: Initial support for ROHM
- BD71828 PMIC GPIOs
-Thread-Index: AQHVimFPtrmWvD61tkGGPiRCcHSxDqdpjsIAgAAad4A=
-Date:   Thu, 24 Oct 2019 13:34:27 +0000
-Message-ID: <588fccc0cafd01de7cb35b696a953f8a6e6937f6.camel@fi.rohmeurope.com>
+        id S2392604AbfJXThD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 24 Oct 2019 15:37:03 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:35182 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387655AbfJXThC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Oct 2019 15:37:02 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9OJaQQx073777;
+        Thu, 24 Oct 2019 14:36:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1571945786;
+        bh=symP3nQ06Xja5LwACedkvVAeNJcUuk64vlBk/0LFjbg=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=pGCCfSCyTyLtfEAX1MsLzI3D0/naW1DqahP/VqAozdsMqZ3SJHRg8CdxTpMPEibb1
+         esAuZTSuslj6sh/GzqneEsaGj09v7RYNxLSH+08j6W0+Fwdo1A8Ufw0DV4hyCrf93X
+         rrQWMZtiMwIe9O2Q/NAeyL3YmeMEOUGihJURqBVY=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9OJaQYG067924;
+        Thu, 24 Oct 2019 14:36:26 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 24
+ Oct 2019 14:36:15 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 24 Oct 2019 14:36:15 -0500
+Received: from [10.250.35.43] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9OJaP4P016308;
+        Thu, 24 Oct 2019 14:36:25 -0500
+Subject: Re: [RFC PATCH v2 02/13] dt-bindings: mfd: Document ROHM BD71828
+ bindings
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        <mazziesaccount@gmail.com>
+CC:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+        <linux-leds@vger.kernel.org>, <linux-rtc@vger.kernel.org>
 References: <cover.1571915550.git.matti.vaittinen@fi.rohmeurope.com>
-         <9b53139b7043572b3846a214694dbf8fe1f56f50.1571915550.git.matti.vaittinen@fi.rohmeurope.com>
-         <CACRpkdZ5CC4mtNYrurx_2M_3BN6Tu7rQ=d4-y-HOsDbRteKjjA@mail.gmail.com>
-In-Reply-To: <CACRpkdZ5CC4mtNYrurx_2M_3BN6Tu7rQ=d4-y-HOsDbRteKjjA@mail.gmail.com>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A3AD059EE561F74FB995D7AE6B6648E4@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
+ <0182df3c49c6c804ee20ef32fc4b85b50ff45fca.1571915550.git.matti.vaittinen@fi.rohmeurope.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <ed0b2aa8-8a70-0341-4ecf-8959f37c53bd@ti.com>
+Date:   Thu, 24 Oct 2019 14:35:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TWUwTURSGc2emMxd0dChgrxVcmghBo6jR5LrE+KIZH0TRBxMTrKMMbRVa
-        nBb3B3xApajBiFst4MJSEcFWjbIlBkGwGpXFigoqwRhxgYhVYlR0hlHh6f73fuc//3k4F5La
-        17QeWqwOUbIKqQY6lLrt+eGbZfF4k+Z0npyHi1qeMPhgXwmDg/l+Cp/ofkPjwoaHGpxz/7oG
-        v7hxlcKvvjYC/K39EIHzfpYS+PPhlxp8rfAnwG3Vbhrf+FgB8N3L7TQuftpCYHdxM4Vb/Mtx
-        l7+Rxll1DQweCnipZZF8eUE54Ps7shi+oHwvX+XqYnhfWTbNdwZqab6p4ybBnyr4TvCey4MM
-        /8U3eU3ohjFLNguOHessJmv80k1jzH2ld0H669hdR9qyqUzQGeMEIRBx89GdozWME4RCLRcA
-        6MSzVlK9NANU1ZcnXyCkuSXI+YxRDBHcQnSn2U0pNSTnhqiirYJQQDi3EbmzSim1yIi8Xx5q
-        VL0I3brSOKwpbjoarC2iFc1yCaipN0CrYR8AqmwoBAoI4RKR339suCngolF2Zt+wJjkd8r0d
-        1Khjc6io9hGp6kjU2zP0992A6r53U8rQJBeHKqvjVbkMBT6tU7tMQ3k53Yw6Qhi6d+YNlQsm
-        uEYFuEbMrhGza5TZNcp8DmjKAEoTLKkmwSHOnS2JGbMlmzlNPrbY0nxA3ZjgLfC7fmU9ICCo
-        BxMhYYhkw896k7TjNtuSd5sFu9koZaSK9nqAIGmIYGtiZMYmC7v3iJLtH5oEKYOOje0+lqTl
-        lKxtopguSv9oFIQGxKaUyMYwSTSJu1IsqY4RTMAQpXmoPsIuWpNFSchwmI3Kehjt8n4oaKyc
-        u0axs/Z0IU1+Va1+MBPm9uZfIGFDfvEFUktZbVZRr2MfK6WcUmrOsP4Peg90EBjC2fmlMh0r
-        f5v/fd7LEYQcMXl8pRLhEEaQPhM492mIs9MT9E0n419N/bpvywpxZ0x/TFTs9kszViV2RW9d
-        FLX/9MqLvcF3hcESXVk6sYDJXHq/2RMX7T1+bcBx890ZZ9LODybzo+DA3rXVPl/Pg6ML1o7r
-        bO0xJjzf+nIjNTihPey8KwiG+oORwQNxv6xTsm2muFw+Z2CxZ31e7epDBspuFubOICW78Ac6
-        bWGa8wMAAA==
+In-Reply-To: <0182df3c49c6c804ee20ef32fc4b85b50ff45fca.1571915550.git.matti.vaittinen@fi.rohmeurope.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGVsbG8gTGludXMsDQoNClRoYW5rcyBhZ2FpbiBmb3IgdGhlIHJldmlldyA6KSBIaWdobHkgYXBw
-cmVjaWF0ZWQhDQoNCk9uIFRodSwgMjAxOS0xMC0yNCBhdCAxMzo1OSArMDIwMCwgTGludXMgV2Fs
-bGVpaiB3cm90ZToNCj4gT24gVGh1LCBPY3QgMjQsIDIwMTkgYXQgMTo1MSBQTSBNYXR0aSBWYWl0
-dGluZW4NCj4gPG1hdHRpLnZhaXR0aW5lbkBmaS5yb2htZXVyb3BlLmNvbT4gd3JvdGU6DQo+IA0K
-PiA+IFJPSE0gQkQ3MTgyOCBQTUlDIGNvbnRhaW5zIDQgcGlucyB3aGljaCBjYW4gYmUgY29uZmln
-dXJlZCBieSBPVFANCj4gPiB0byBiZSB1c2VkIGZvciBnZW5lcmFsIHB1cnBvc2VzLiBGaXJzdCAz
-IGNhbiBiZSB1c2VkIGFzIG91dHB1dHMNCj4gPiBhbmQgNC50aCBwaW4gY2FuIGJlIHVzZWQgYXMg
-aW5wdXQuIEFsbG93IHRoZW0gdG8gYmUgY29udHJvbGxlZA0KPiA+IHZpYSBHUElPIGZyYW1ld29y
-ay4NCj4gPiANCj4gPiBUaGUgZHJpdmVyIGFzc3VtZXMgYWxsIG9mIHRoZSBwaW5zIGFyZSBjb25m
-aWd1cmVkIGFzIEdQSU9zIGFuZA0KPiA+IHRydXN0cyB0aGF0IHRoZSByZXNlcnZlZCBwaW5zIGlu
-IG90aGVyIE9UUCBjb25maWd1cmF0aW9ucyBhcmUNCj4gPiBleGNsdWRlZCBmcm9tIGNvbnRyb2wg
-dXNpbmcgImdwaW8tcmVzZXJ2ZWQtcmFuZ2VzIiBkZXZpY2UgdHJlZQ0KPiA+IHByb3BlcnR5IChv
-ciBsZWZ0IHVudG91Y2hlZCBieSBHUElPIHVzZXJzKS4NCj4gPiANCj4gPiBUeXBpY2FsIHVzZSBm
-b3IgNC50aCBwaW4gKGlucHV0KSBpcyB0byB1c2UgaXQgYXMgSEFMTCBzZW5zb3INCj4gPiBpbnB1
-dCBzbyB0aGF0IHRoaXMgcGluIHN0YXRlIGlzIHRvZ2dsZWQgd2hlbiBIQUxMIHNlbnNvciBkZXRl
-Y3RzDQo+ID4gTElEIHBvc2l0aW9uIGNoYW5nZSAoZnJvbSBjbG9zZSB0byBvcGVuIG9yIG9wZW4g
-dG8gY2xvc2UpLiBQTUlDDQo+ID4gSFcgaW1wbGVtZW50cyBzb21lIGV4dHJhIGxvZ2ljIHdoaWNo
-IGFsbG93cyBQTUlDIHRvIHBvd2VyLXVwIHRoZQ0KPiA+IHN5c3RlbSB3aGVuIHRoaXMgcGluIGlz
-IHRvZ2dsZWQuIFBsZWFzZSBzZWUgdGhlIGRhdGEgc2hlZXQgZm9yDQo+ID4gZGV0YWlscyBvZiBH
-UElPIG9wdGlvbnMgd2hpY2ggY2FuIGJlIHNlbGN0ZWQgYnkgT1RQIHNldHRpbmdzLg0KPiANCj4g
-c3BlbGxpbmcgb2Ygc2VsZWN0ZWQNCg0KUmlnaHQsIHRoYW5rcy4NCg0KPiA+IFNpZ25lZC1vZmYt
-Ynk6IE1hdHRpIFZhaXR0aW5lbiA8bWF0dGkudmFpdHRpbmVuQGZpLnJvaG1ldXJvcGUuY29tPg0K
-PiANCj4gT3ZlcmFsbCBsb29rcyB2ZXJ5IGdvb2QuDQo+IA0KPiA+ICsvLyBTUERYLUxpY2Vuc2Ut
-SWRlbnRpZmllcjogR1BMLTIuMA0KPiANCj4gSSB0aGluayB0aGV5IHdhbnQgeW91IHRvIHVzZSBH
-UEwtMi4wLW9ubHkgdGhlc2UgZGF5cy4NCg0KSG1tLiBJcyB0aGlzIGRvY3VtZW50ZWQgc29tZXdo
-ZXJlPyBUaGUgTElDRU5TRVMvcHJlZmVycmVkL0dQTC0yLjANCnN0aWxsIHN0YXRlczoNClZhbGlk
-LUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KVmFsaWQtTGljZW5zZS1JZGVudGlmaWVyOiBH
-UEwtMi4wLW9ubHkNClZhbGlkLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMCsNClZhbGlkLUxp
-Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcg0KU1BEWC1VUkw6IGh0dHBzOi8vc3Bk
-eC5vcmcvbGljZW5zZXMvR1BMLTIuMC5odG1sDQpVc2FnZS1HdWlkZToNCiAgVG8gdXNlIHRoaXMg
-bGljZW5zZSBpbiBzb3VyY2UgY29kZSwgcHV0IG9uZSBvZiB0aGUgZm9sbG93aW5nIFNQRFgNCiAg
-dGFnL3ZhbHVlIHBhaXJzIGludG8gYSBjb21tZW50IGFjY29yZGluZyB0byB0aGUgcGxhY2VtZW50
-DQogIGd1aWRlbGluZXMgaW4gdGhlIGxpY2Vuc2luZyBydWxlcyBkb2N1bWVudGF0aW9uLg0KICBG
-b3IgJ0dOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIChHUEwpIHZlcnNpb24gMiBvbmx5JyB1c2U6
-DQogICAgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCiAgb3INCiAgICBTUERYLUxp
-Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vbmx5DQogIEZvciAnR05VIEdlbmVyYWwgUHVibGlj
-IExpY2Vuc2UgKEdQTCkgdmVyc2lvbiAyIG9yIGFueSBsYXRlciB2ZXJzaW9uJw0KdXNlOg0KICAg
-IFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wKw0KICBvcg0KICAgIFNQRFgtTGljZW5z
-ZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9yLWxhdGVyDQoNCihhdCBsZWFzdCBmb3IgNS40LXJjMikN
-Cg0KVGhpcyBsb29rcyBsaWtlICJHUEwtMi4wIiBzaG91bGQgc3RpbGwgYmUgdmFsaWQuIE5vdCB0
-aGF0IEkgaGF2ZQ0KYW55dGhpbmcgYWdhaW5zdCB0aGUgIkdQTC0yLjAtb25seSIgLSBJIGFtIGp1
-c3QgYSB0aW55IGJpdCBmcnVzdHJhdGVkDQp3aGF0IGNvbWVzIHRvIHBvbGlzaGluZyB0aGUgU1BE
-WCBmb3JtYXQgOi8NCg0KPiA+ICsjZGVmaW5lIEJENzE4MjhfT1VUIDANCj4gPiArI2RlZmluZSBC
-RDcxODI4X0lOIDENCj4gDQo+IFRoZXNlIGhhdmUgbm90aGluZyB0byBkbyB3aXRoIEJENzE4Mjgs
-IGp1c3Qgc2tpcCB0aGVzZSBkZWZpbmVzDQo+IGFuZCBoYXJkY29kZSAwLzEgaW4gdGhlIGNvZGUg
-Y2FsbGVkIGZyb20gZ3Bpb2xpYi4NCg0KSSBwZXJzb25hbGx5IGRvbid0IGxpa2UgdXNpbmcgMC8x
-IGFzIEkgX2Fsd2F5c18gbmVlZCB0byBjaGVjayB3aGljaCBpcw0KSU4gYW5kIHdoaWNoIGlzIE9V
-VC4gSXQgbXVzdCBiZSBzb21laG93IHJlbGF0ZWQgdG8gbXkgYnJhaW4gY2hlbWlzdHJ5DQpidXQg
-dGhpcyBqdXN0IGRvZXMgbm90IHN0YXkgaW4gbXkgbWluZCBvdmVyIGEgd2Vla2VuZC4uLiBCdXQg
-eW91IGFyZQ0KcmlnaHQgLSBoYXZpbmcgdGhlc2UgZGVmaW5lcyBpbiBiZDcxODI4IGRyaXZlciBk
-b2VzIG5vdCBoZWxwIG11Y2guIFdoZW4NCkkgc3RhcnQgd2l0aCBuZXh0IEdQSU8gY2hpcCBJIG11
-c3Qgb25jZSBhZ2FpbiBkaWcgdGhlIHZhbHVlcyBmcm9tIHRoZXNlDQpkZWZpbmVzIG9yIGZyb20g
-c29tZXdoZXJlIGVsc2UuIFRodXMuLi4NCg0KPiAgSWYgd2Ugd2FudCBkZWZpbmVzDQo+IGZvciB0
-aGlzIHRoZXkgc2hvdWxkIGJlIGdlbmVyaWNhbGx5IG5hbWVkIGFuZCBwdXQgaW4NCj4gPGxpbnV4
-L2dwaW8vZHJpdmVyLmg+DQoNCi4uLnBsYWNpbmcgdGhlIGRlZmluZXMgaW4gdGhpcyBoZWFkZXIg
-d2hpY2ggaXMgdmlzaWJsZSBhbHNvIGluIG5leHQNCmRyaXZlciB3b3VsZCBiZSAidGhlIHJpZ2h0
-IHRoaW5nIHRvIGRvIih0bSkuDQoNCkRvIHlvdSB0aGluayB3ZSBzaG91bGQgYWRkIHRoZSBkZWZp
-bmVzIHRoZXJlIHRoZW4/IEkgd2FzIG5vdCB0cnlpbmcgdG8NCmRvIHRoYXQgYXMgSSB0aG91Z2h0
-IHRoYXQgc29tZW9uZSByZWFsbHkgbG92ZXMgdGhlIHJhdyBudW1iZXJzIGFuZA0KZGlzbGlrZXMg
-ZGVmaW5lcyAtIGFzIHRoZXNlIGhhcmQtY29kZWQgdmFsdWVzIDEgYW5kIDAgc2VlbSB0byBiZSB1
-c2VkDQpldmVyeXdoZXJlLi4uIDpdIE1heWJlIHRoZSBwbGFpbiBudW1iZXJzIGFyZSBvbmx5IGRp
-ZmZpY3VsdCBmb3IgbWU/DQoNCj4gTmljZSB1c2Ugb2YgdGhlIGNvbmZpZyBBUEkhDQoNClRoYW5r
-cyA9KSBJIGFkbWl0IEkgaGF2ZSBzdG9sZW4gdGhhdCBmcm9tIHNvbWUgb3RoZXIgZHJpdmVyLiBT
-byBJIGRvbid0DQpyZWFsbHkgZGVzZXJ2ZSB0aGUgY3JlZGl0cyA9KSBJdCdzIGVhc3kgdG8gYnVp
-bGQgd2hlbiB0aGUgZm91bmRhdGlvbnMNCmFyZSBkb25lIHdlbGwgOykNCg0KQnIsDQoJTWF0dGkg
-VmFpdHRpbmVuDQo=
+Matti
+
+On 10/24/19 6:41 AM, Matti Vaittinen wrote:
+> ROHM BD71828 Power management IC integrates 7 buck converters, 7 LDOs,
+> a real-time clock (RTC), 3 GPO/regulator control pins, HALL input
+> and a 32.768 kHz clock gate.
+>
+> Document the dt bindings drivers are using.
+>
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+>
+> No changes since v1
+>
+>   .../bindings/mfd/rohm,bd71828-pmic.txt        | 180 ++++++++++++++++++
+>   1 file changed, 180 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.txt
+
+I will let maintainers weigh in here but if this is new this should 
+probably be in the yaml format to avoid conversion in the future
+
+
+> diff --git a/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.txt b/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.txt
+> new file mode 100644
+> index 000000000000..125efa9f3de0
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.txt
+> @@ -0,0 +1,180 @@
+> +* ROHM BD71828 Power Management Integrated Circuit bindings
+> +
+> +BD71828GW is a single-chip power management IC for battery-powered portable
+> +devices. The IC integrates 7 buck converters, 7 LDOs, and a 1500 mA single-cell
+> +linear charger. Also included is a Coulomb counter, a real-time clock (RTC),
+> +and a 32.768 kHz clock gate.
+> +
+> +Required properties:
+> + - compatible			: Should be "rohm,bd71828".
+> + - reg				: I2C slave address.
+> + - interrupt-parent		: Phandle to the parent interrupt controller.
+> + - interrupts			: The interrupt line the device is connected to.
+> + - clocks			: The parent clock connected to PMIC.
+> + - #clock-cells			: Should be 0.
+> + - regulators			: List of child nodes that specify the
+> +				  regulators. Please see
+> +				  ../regulator/rohm,bd71828-regulator.txt
+> + - gpio-controller		: To indicate BD71828 acts as a GPIO controller.
+> + - #gpio-cells			: Should be 2. The first cell is the pin number
+> +				  and the second cell is used to specify flags.
+> +				  See ../gpio/gpio.txt for more information.
+> +
+> +The BD71828 RUN state is divided into 4 configurable run-levels named RUN0,
+> +RUN1, RUN2 and RUN3. Bucks 1, 2, 6 and 7 can be either controlled individually
+> +via I2C, or some/all of them can be bound to run-levels and controlled as a
+> +group. If bucks are controlled individually these run-levels are ignored. See
+> +../regulator/rohm,bd71828-regulator.txt for how to define regulator voltages
+The rohm,bd71828-regulator.txt should be yaml if the maintainers want it 
+that way.
+> +for run-levels. Run-levels can be changed by I2C or GPIO depending on PMIC's OTP
+> +configuration.
+> +
+> +Optional properties:
+> +- clock-output-names		: Should contain name for output clock.
+> +- rohm,dvs-vsel-gpios		: GPIOs used to control PMIC run-levels. Should
+> +				  describe two GPIOs. (See run-level control in
+> +				  data-sheet). If this property is omitted but
+> +				  some bucks are marked to be controlled by
+> +				  run-levels - then OTP option allowing
+> +				  run-level control via I2C is assumed.
+> +- gpio-reserved-ranges		: Usage of GPIO pins can be changed via OTP.
+> +				  This property can be used to mark the pins
+> +				  which should not be configured for GPIO.
+> +				  Please see the ../gpio/gpio.txt for more
+> +				  information.
+> +
+> +Example:
+> +
+
+This example does not look right.
+
+I see that I2C is referenced above so the example could look like this
+
+osc: oscillator {
+                 compatible = "fixed-clock";
+                 #clock-cells = <1>;
+                 clock-frequency  = <32768>;
+                 clock-output-names = "osc";
+         };
+
+This is an external oscillator and is not really part of the pmic 
+itself.  I am not sure you even need to define that since it is not part 
+of the pmic.
+
+i2c {
+
+         pmic@4b {
+
+                 [...]
+
+         };
+
+};
+
+Dan
