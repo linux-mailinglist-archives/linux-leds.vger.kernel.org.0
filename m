@@ -2,56 +2,26 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C702E2600
-	for <lists+linux-leds@lfdr.de>; Wed, 23 Oct 2019 23:59:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C877E2BDE
+	for <lists+linux-leds@lfdr.de>; Thu, 24 Oct 2019 10:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406139AbfJWV7Y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 23 Oct 2019 17:59:24 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:34063 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405035AbfJWV7Y (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 23 Oct 2019 17:59:24 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v3so608863wmh.1;
-        Wed, 23 Oct 2019 14:59:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=tRHYNEj6Qv0wyecWdVtjcYp2Pz0m73O5k6aoM2K0y24=;
-        b=UmwbtQQH10MzE1m06vK83IYrIiBkcc8Ag2Pgs9nPz/wlbcvc350vX6c5KZ2UGKPKoT
-         5JjHuO+OLygjfT1dtC0XkWrt8Z72QyXETDbsn3rrGj+LNNOG5tTWzXcLn8Wl1q+vjYhZ
-         bcZxya4UEzPhTlX/dhdM119o+fULyDHiaT1/FcplvZor6jMU8gXAnpSPPqBIgDdnGF0A
-         Zzr0LB/oWc7XjT6MiT+E8+TZEqVSDK8GaGTTv+qUh6IrCMEouvb7iZl5h22pbT2eJmEB
-         +2E1HxijGbISYJP8GCs+C0zM82FRbz6GPxHCyYC356z7XKCzczQvnSQbgX6yswGa+Hyu
-         VkMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=tRHYNEj6Qv0wyecWdVtjcYp2Pz0m73O5k6aoM2K0y24=;
-        b=bB4S0RY6kIIjQeKX4geL5s+SipGmklPsEf62R98dOnhvrUvBRc6E9mhjoUP3QS5ihY
-         8AexM+VhngHZwV3SBPIg1c+e9L17WV8cBTlSrqKXoixkGeA+ICN7WHPS2dm03A1EK6Tf
-         oPLfsWmyMct7ni4OFbvb3rCYcs0qe+xutzvQrCyXl3kGw+ERigF3bQCse1hPcmfrDhUX
-         RDo6ooBQ2T7y9rvoHIe6dc0qSeLsNR4J6Uk1yFDhrWpulvhKZW2R9hG5/8Ma1FrMZQ8K
-         UWO3eWA/S4vEJRW6jGlwtrY2PgQ0fVXStRjlYKCoCtc1OCpcUvjHm+iZeo+TWg3dX0Lo
-         0ROQ==
-X-Gm-Message-State: APjAAAUZcGFWNfbXdTgpVTMbX6lryAMu6dqr6x/Cpk/wIoH3N3ygyB6K
-        Ve8lvTZ+LAbmlIDTTaCpDPAK/FFL
-X-Google-Smtp-Source: APXvYqy3onossQAQcpFqWVovAFG7gwAVJAKmIonrYlu0BNw9NDy6upbxsP0eEuwdgi2DAlTzqZHUpA==
-X-Received: by 2002:a1c:6144:: with SMTP id v65mr1864515wmb.53.1571867957033;
-        Wed, 23 Oct 2019 14:59:17 -0700 (PDT)
-Received: from [192.168.1.19] (chh49.neoplus.adsl.tpnet.pl. [83.31.5.49])
-        by smtp.gmail.com with ESMTPSA id p10sm25274396wrx.2.2019.10.23.14.59.14
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 23 Oct 2019 14:59:16 -0700 (PDT)
-Subject: Re: [RFC PATCH 11/13] led: bd71828: Support LED outputs on ROHM
- BD71828 PMIC
-To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "dmurphy@ti.com" <dmurphy@ti.com>
-Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        id S1726632AbfJXIPy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 24 Oct 2019 04:15:54 -0400
+Received: from mailgate1.rohmeurope.com ([178.15.145.194]:49580 "EHLO
+        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726395AbfJXIPx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Oct 2019 04:15:53 -0400
+X-AuditID: c0a8fbf4-183ff70000001fa6-d6-5db15db6ca10
+Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
+        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 73.C1.08102.6BD51BD5; Thu, 24 Oct 2019 10:15:50 +0200 (CEST)
+Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
+ WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
+ 14.03.0439.000; Thu, 24 Oct 2019 10:15:45 +0200
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>
+CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
         "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
         "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -69,727 +39,528 @@ Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
         "pavel@ucw.cz" <pavel@ucw.cz>,
         "broonie@kernel.org" <broonie@kernel.org>,
         "sboyd@kernel.org" <sboyd@kernel.org>
+Subject: Re: [RFC PATCH 11/13] led: bd71828: Support LED outputs on ROHM
+ BD71828 PMIC
+Thread-Topic: [RFC PATCH 11/13] led: bd71828: Support LED outputs on ROHM
+ BD71828 PMIC
+Thread-Index: AQHVhNDGb/Fi3H2tI0CugiKcGY+PyKdevIMAgAXjkICAALrQAIABJcIAgABTx4CAAPqlgIAA3/yAgACsP4A=
+Date:   Thu, 24 Oct 2019 08:15:45 +0000
+Message-ID: <c35a2bca83c711bd7b19c8a99798374388705bfc.camel@fi.rohmeurope.com>
 References: <cover.1571302099.git.matti.vaittinen@fi.rohmeurope.com>
- <af1fb3e010d5f34502d354369b88fa28639f587d.1571302099.git.matti.vaittinen@fi.rohmeurope.com>
- <c1e41315-42ad-fb9b-c9db-8b07d4293166@ti.com>
- <fbd4960b219099b7a48ef24019ba829f866edb3b.camel@fi.rohmeurope.com>
- <4570db9c-7bc8-f131-269a-248b87e25e38@gmail.com>
- <201df0f7319b94eb581a040a2b1b07dbfed12e94.camel@fi.rohmeurope.com>
- <c5761d78-3334-adaa-b871-cb6da356483b@gmail.com>
- <8974a3974377d0623ed968563b035e701191440e.camel@fi.rohmeurope.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <e9d1c529-90ef-34bf-d893-02a109ba19ba@gmail.com>
-Date:   Wed, 23 Oct 2019 23:59:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+         <af1fb3e010d5f34502d354369b88fa28639f587d.1571302099.git.matti.vaittinen@fi.rohmeurope.com>
+         <c1e41315-42ad-fb9b-c9db-8b07d4293166@ti.com>
+         <fbd4960b219099b7a48ef24019ba829f866edb3b.camel@fi.rohmeurope.com>
+         <4570db9c-7bc8-f131-269a-248b87e25e38@gmail.com>
+         <201df0f7319b94eb581a040a2b1b07dbfed12e94.camel@fi.rohmeurope.com>
+         <c5761d78-3334-adaa-b871-cb6da356483b@gmail.com>
+         <8974a3974377d0623ed968563b035e701191440e.camel@fi.rohmeurope.com>
+         <e9d1c529-90ef-34bf-d893-02a109ba19ba@gmail.com>
+In-Reply-To: <e9d1c529-90ef-34bf-d893-02a109ba19ba@gmail.com>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [213.255.186.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <87041B6204AD2F4D9043989AB44C6DA2@de.rohmeurope.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <8974a3974377d0623ed968563b035e701191440e.camel@fi.rohmeurope.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0xTVxTHve831aeXWtZrVZK9TY1LppDsj/sHmorRPP9ZjCZuOhp4yLNl
+        Qltfi1H5QwwxCBJTE3XQANUGBgFECyITwR8VkBUzh3MFo2gquABhGgUxRKJ7r53CP/eee77n
+        ez7nj3M5Uj/KmLhsu1tW7FKOwOioW3XvA99etQQsSeHuRFzd/zeLi17+yuKpyhCFz0ZGGOzr
+        +oPGJ/uu0Phx62UKP3vbDfD0wxMEPjNbS+DXpU9p3OKbBfiv9goGt040AdzT8JDBNQP9BK6o
+        6aVwf2gLHgp1M/h4ZxeLP4QDlDlBbKxqBOKrweOsWNWYL17zDrFic30xIz4JdzDi3cE2Qvyl
+        aoYQ6xreseJkc+J23Z6FKZmS++DObKt9/caMhbYbnWan308c8lw7BwrAqJcoAXEcgt+h6ob7
+        bAnQcXoYBqi+5zmjCXrYC1DgyeoSwHEMTEElj6I1BlgOUHv3RVp7kLCDRWXVIaAZlsIf0KT3
+        FavFBvgj6rl8itTMBpiJXgyatDQFVyHfg6loOQ+/R56xs3QMHKRQuPxqFBwHN6ArtU3RPgCu
+        RMUFL6OTktCImv95R8emhqi64z4ZixPQ2PCH//MC6pyJUBqXhGvRpfb1MasZDXvuUbH4S3Tm
+        ZISNzRCPfi8foTzgC+88gnfO7Z3n9s5ze+e5zwO6HqBcKTvHKrnl5HWKnLdOcdhy1WuvI7cZ
+        xHZm6jfwMbgtCAgOBMEyjhAS+CwQsOgXZzqyDtskly1dycuRXUGAOFIw8NdXqxqfJR0+IiuO
+        T9JyjhKM/JrIaYseaqz9suyUlU/qCo4TEF+YphrjFdkqH9qXneOekwkuTmuuMxlcsj1LVqQ8
+        ty1dW5B0l7ohmrRI5eosGtfllHLVbMwaAsmcZ6zST3ItlTXq2aWdesrusMsmIz+g8aBmsOXZ
+        P+PGgZEDwlL+zk+qukj9Pp+7jasgQgUlLrmkgdzSnGQqANL4wR0vehrW1g5dSJodTgqf0o3s
+        ntiwyfjVnto3KWnOvr7psf6CyAkfn3rOnv+mcJS+k3H9dmFpRXBTUevWf3eltp3/M4P3HS22
+        bl7gyZ+8TTjTDaX+Bz+37G9LO3bA3HvviNxUFl+aerNignlW1D45Y30kTA+Y/Y7tXw9uo48u
+        KRMol01K/oZUXNJ/D9eWAvsDAAA=
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Matti,
-
-On 10/23/19 10:37 AM, Vaittinen, Matti wrote:
-> Morning Jacek,
-> 
-> Thanks for the reply again. I did some cleaning to this mail as it was
-> getting lengthy.
-> 
-> On Tue, 2019-10-22 at 19:40 +0200, Jacek Anaszewski wrote:
->> Matti,
->>
->> On 10/22/19 2:40 PM, Vaittinen, Matti wrote:
->>> Hello Jacek,
->>>
->>> Thanks for the clarifications. I think I now understand the LED
->>> subsystem a bit better :)
->>>
->>> On Mon, 2019-10-21 at 21:09 +0200, Jacek Anaszewski wrote:
->>>> Hi Matti,
->>>>
->>>> On 10/21/19 10:00 AM, Vaittinen, Matti wrote:
->>>>> Hello Dan,
->>>>>
->>>>> Thanks for taking the time to check my driver :) I truly
->>>>> appreciate
->>>>> all
->>>>> the help!
->>>>>
->>>>> A "fundamental question" regarding these review comments is
->>>>> whether
->>>>> I
->>>>> should add DT entries for these LEDs or not. I thought I
->>>>> shouldn't
->>>>> but
->>>>> I would like to get a comment from Rob regarding it.
->>>>
->>>> If the LED controller is a part of MFD device probed from DT then
->>>> there is no doubt it should have corresponding DT sub-node.
->>>
->>> Sorry but I still see no much benefit from adding this information
->>> in
->>> DT. Why should it have corresponding DT-node if the LED properties
->>> are
->>> fixed and if we only wish to allow user-space control and have no
->>> dependencies to other devices in DT? 
->>>
->>> In this specific case the information we can provide from DT is
->>> supposed to be fixed. No board based variation. Furthermore, there
->>> is
->>> not much generic driver/led core functionality which would be able
->>> to
->>> parse and utilize relevant information from DT. I think we can only
->>> give the name (function) and colour. And they are supposed to be
->>> fixed
->>> and thus could be just hard-coded in driver. Hard-coding these
->>> would be
->>> simpler and less error prone for users (no DT bindings to write)
->>> and
->>> simpler to create and probably also to maintain (no separate
->>> binding
->>> documents needed for LEDs).
->>
->> AFAICS it is possible to connect LED of arbitrary color to the iouts
->> of this device. If this is the case then it is justified to have DT
->> node only to allow for LED name customization.
-> 
-> In theory, yes. In practice (if I understand it correctly) the color in
-> this case is only visible in sysfs path name. I am not at all sure that
-> reflecting the (unlikely) color change in path name is worth the
-> hassle. Besides - if this happens, then the driver and DT can be
-> changed.
-
-Driver should not be changed. We have DT for conveying board specific
-parameters.
-
-> It is easier to add DT entries than remove them. If you see
-> the color change support as really crucial - then I could even consider
-> defaulting the colours to amber and green if no colour property is
-> present in DT.
-
-You don't need to default to anything. The color section will be left
-empty if the property is not provided.
-
-> I see no point in _requiring_ the DT entry to be there.
-
-I'm referring to this later in this message.
-
-> If we like being prepared for the theoretical possibilities - what if
-> x86 is used to control this PMIC? I guess we wouldn't have DT there
-> then (And no - I don't see such use-case).
-
-We have fwnode abstraction for that. You can also check:
-Documentation/firmware-guide/acpi/dsd/leds.rst.
-
->>> But assuming this is Ok to DT-folks and if you insist - I will add
->>> LED
->>> information to DT for the next patches. Hopefully this extra
->>> complexity
->>> helps in some oddball use-case which I can't foresee =)
->>>
->>> Then what comes to the DT format.
->>>
->>> Do you think LED subsystem should try to follow the convention with
->>> other sub-systems and not introduce multiple compatibles for single
->>> device? MFD can handle instantiating the sub-devices just fine even
->>> when sub-devices have no own compatible property or of_match. Maybe
->>> we
->>> should also avoid unnecessary sub-nodes when they are not really
->>> required.
->>
->> This is beyond my scope of responsibility. It is MFD subsystem thing
->> to
->> choose the way of LED class driver instantiation. When it comes to
->> LED subsystem - it expects single compatible pertaining to a physical
->> device.
-> 
-> Sorry but I don't quite follow. What the LED subsystem does with the
-> compatible property? How does it expect this?
-
-In case of DT based MFD cell probing you must initialize of_compatible
-property of struct mfd_cell element which will then be matched
-with struct platform_driver -> driver -> of_match_table in the LED
-class driver. Basing on that a relevant platform_device is passed
-to the probe function. Its child struct device's of_node property comes
-already initialized to the pointer to the corresponding child node
-in MFD node.
-
->> Nonetheless, so far we used to have separate compatibles for drivers
->> of
->> MFD devices' LED cells. If we are going to change that I'd like to
->> see
->> explicit DT maintainer's statement confirming that.
-> 
-> I don't expect that existing DTs would be changed. 
-
-I didn't suggest that.
-
-> But as I said, the
-> consensus amongst most of the subsystenm maintainers and DT maintainers
-> seems to be that sub-devices should not have own compatibles. I hope
-> Rob acks this here - but knowing he is a busy guy I add some old
-> discussions from which I have gathered my understanding:
-> 
-> BD71837 - first patch where regulators had compatible - Mark (regulator
-> maintainer instructed me to drop it):
-> https://lore.kernel.org/linux-clk/20180524140118.GS4828@sirena.org.uk/
-> 
-> And here Stephen (the clk subsystem maintainer) told me to drop whole
-> clocks sub-node (including the compatible):
-> https://lore.kernel.org/linux-clk/152777867392.144038.18188452389972834689@swboyd.mtv.corp.google.com/
-
-Still, there are MFD drivers using of_compatible for matching cell
-drivers. I don't follow current trends on MFD subsystem side.
-You've got to wait for review feedback from Lee Jones anyway
-to find out how to proceed with MFD bindings.
-
->> And one benefit of having separate nodes per MFD cells is that we can
->> easily discern the support for which cells is to be turned on.
-> 
-> We don't want to do DT modifications to drop some sub-device support
-> out. The DT is HW description and sub-blocks are still there. We drop
-> the support by KConfig. 
-
-How would you describe the purpose of 'status = "disabled"' DT
-assignment then?
-
-Anyway, I entirely disagree here - it is perfectly proper approach
-to define platform capabilities by modifying dts file alone.
-This way you can easily create multiple versions of platform
-configurations. It may be often impractical to enable all available
-platform features, at least from business point of view. And recompiling
-dts is lightweight operation in comparison to kernel compilation.
-
-Not saying that in some cases there are secret keys required for
-encrypting kernel images, that may not always be at hand.
-
-> Only 'configuration' we could bring from DT is
-> the amount of connected LEDs (as you said). But on the other hand -
-> whether preparing for such unlikely design is reasonable (or needed) is
-> questionable.
-
-LED naming related data is vital as well.
-
->>> 	pmic: pmic@4b {
->>> 		compatible = "rohm,bd71828";
->>> 		reg = <0x4b>;
->>> 		interrupt-parent = <&gpio1>;
->>> 		interrupts = <29 GPIO_ACTIVE_LOW>;
->>> 		clocks = <&osc 0>;
->>> 		#clock-cells = <0>;
->>> 		clock-output-names = "bd71828-32k-out";
->>> 		gpio-controller;
->>> 		#gpio-cells = <2>;
->>> 		ngpios = <4>;
->>> 		gpio-reserved-ranges = <0 1 2 1>;
->>> 		gpio-line-names = "EPDEN";
->>> 		rohm,dvs-vsel-gpios = <&gpio1 12 0>,
->>> 				      <&gpio1 13 0>;
->>> 		regulators {
->>> 			...
->>> 		};
->>> 		
->>> 		chg-led {
->>> 			function = LED_FUNCTION_CHARGING;
->>> 			color = LED_COLOR_ID_AMBER;
->>> 		};
->>>
->>> 		pwr-led {
->>> 			function = LED_FUNCTION_POWER;
->>> 			color = LED_COLOR_ID_GREEN;
->>> 		};
->>
->> This way you would probably need to probe LED class driver twice,
->> instead of letting it behave in a standard way and parse child LED
->> nodes.
-> 
-> No. Please note that probing the MFD sub-drivers is _not_ bound to
-> device-tree nodes. MFD sub-devices can be probed just fine even if they
-> have no DT entries. When we add MFD cell for LED driver, the
-> corresponding LED driver is probed. No DT magic needed for this.
-> 
-> What the LED driver (as other sub-device drivers) is required to do is
-> to obtain the pointer to parent device's DT node and find information
-> which is relevant for it. Ideally, the subsystem framework can extract
-> the properties which are common for whole subsystem (like color and
-> function in case of LEDs) and driver only parses the DT if it has some
-> custom properties. Again, ideally the driver has sane defaults - or
-> some other 'platform data' mechanism if no DT information is found.
-> There is architectures which do not support DT.
-
-LED common bindings define that each LED should be described
-using child node. And we've enforced sticking to this standard
-for last two years strictly.
-
-LED core mechanism for LED name composition also relies on this
-DT design - it expects single 'color' and 'function' properties to
-be present in the passed fwnode.
-
-LED class registration function registers single LED and it has been
-always LED class driver's responsibility to call it for every LED
-connected to the LED controller iouts.
-
-> In case of BD71828 LEDs my first idea was to go with only the 'sane
-> defaults' option as I saw no much configurability. The DT snippet above
-> contains LED information as per your suggestion.
-> 
-> What the LED sub driver for BD71828 would now do is calling 
-> devm_led_classdev_register_ext with the DT information of BD71828
-> device. Eg, it should use the MFD dt node (because this is the real
-> device) and not just part of it. devm_led_classdev_register_ext should
-> then extract the LED specific information. I have not checked the
-> implementation of devm_led_classdev_register_ext in details - but it
-> should ignore non led properties and just walk through the LED
-> information and create the sysfs interfaces etc. for all LEDs it finds.
-
-This function does not work like that, as explained above.
-Please first get acquainted with the way how existing LED class drivers
-approach LED registration. Because otherwise we're wasting each
-others' time.
-
-> (In my example this is the chg-led and pwr-led sub-nodes). Furthermore,
-> if no LED information is found from DT I would expect
-> devm_led_classdev_register_ext to fail with well-defined return value
-> so that the driver could do what it now does - Eg, use "sane defaults"
-> to register the default class-devices for green and amber LEDs. The
-> default led class dev naming should of course be same format as it
-> would be if DT was populated with green and amber led information. 
-
-Please go through 5.4-rc1 patches related to LED naming improvements
-You can also refer to Documentation/leds/leds-class.rst,
-"LED Device Naming" section for starter.
-
->>> 	};
->>>
->>> How do you see this? Or do you really wish to have this one extra
->>> node:
->>>
->>> 	pmic: pmic@4b {
->>> 		compatible = "rohm,bd71828";
->>> 		
->>> reg = <0x4b>;
->>> 		interrupt-parent = <&gpio1>;
->>> 		interru
->>> pts = <29 GPIO_ACTIVE_LOW>;
->>> 		clocks = <&osc 0>;
->>> 		
->>> #clock-cells = <0>;
->>> 		clock-output-names = "bd71828-32k-out";
->>> 		gpio-controller;
->>> 		#gpio-cells = <2>;
->>> 	
->>> 	ngpios = <4>;
->>> 		gpio-reserved-ranges = <0 1 2 1>;
->>> 	
->>> 	gpio-line-names = "EPDEN";
->>> 		rohm,dvs-vsel-gpios =
->>> <&gpio1 12 0>,
->>> 				      <&gpio1 13 0>;
->>> 		
->>> regulators {
->>> 			...
->>> 		};
->>> 		
->>> 		leds-dummy {
->>
->> Why leds-dummy ?
-> 
-> Because there is no real led controller device in any "MFD bus". It is
-> just one MFD device with controls for two LEDs. 
-> 
->> The convention is to have led-controller@unit-address as the parent
->> LED
->> controller node.
-> 
-> What is the unit address here? 0x4b is the I2C slave address and it is
-> the MFD node address. There is no addressing for LED controller as
-> there is no separate LED controller device. There is only one device,
-> the PMIC which is MFD device as it has multiple functions meld in. One
-> of these functions is LED control and requires LED driver.
-
-For MFD cell you can have just "led".
-
->>> 			chg-led {
->> s/chg-led/led0/
->>
->>> 				function = LED_FUNCTION_CHARGING;
->>> 				color = LED_COLOR_ID_AMBER;
->>> 			};
->>>
->>> 			pwr-led {
->>
->> s/pwr-led/led1/
->>
->> This is ePAPR requirement that DT node name should describe the
->> general class of device.
-> 
-> Thanks. I had some problems with these node names as I wanted to make
-> them generic (led) but also to include some information what leds they
-> are. A bit same idea as I see in node names like "chan1" and "chan345"
-> that are used in ti-lmu bindings I checked for the example. But I am
-> fine with renaming them in this example! I just don't think we should
-> have this extra node as I mentioned.
-
-I wonder what Rob and Lee will say here. I personally would
-like to stick to LED common bindings and have this extra node.
-We define standards for a reason after all.
-
->>> 				function = LED_FUNCTION_POWER;
->>> 				color = LED_COLOR_ID_GREEN;
->>> 			};
->>
->> Common LED bindings say this is the proper way to go. However you
->> would need compatible to probe LED class driver in DT based way.
-> 
-> No. I don't. MFD will probe the LED class driver as long as the name of
-> the driver matches to MFD cell name. 
-
-If you initialize only of_compatible in struct mfd_cell element then it
-will use only that for matching. I bet I was checking that five years
-ago while working on leds-max77693 driver.
-
-> So we only need MFD driver to be
-> probed based on the compatible. Rest of the sub-device drivers will be
-> probed by MFD. What I am missing is MODULE_ALIAS in LED driver for
-> loading the module when MFD is searching for it if it is not modprobed
-> via scripts or built in-kernel. I have understood this is the standard
-> way with MFD nowadays - I am positive Lee will kick me if I am wrong ;)
-> (I think I have bullied him that much in the past :/ )
-
-Last sentence confirms my observation that you're strongly inclined
-to contest status quo :-)
-
->> If you plan to do it otherwise then it makes no sense to have
->> DT nodes for LEDs.
-> 
-> That was my point. This is why I did not have LEDs in DT in first
-> place. But as I said above - as a result of this discussion I have
-> started thinking that maybe I could check if I can easily add support
-> for providing LED information also via DT and fall back to defaults if
-> no LED information is found. (to allow color change or to omit one of
-> the LEDs as you suggested)
-> 
->>>>>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->>>>>>> index b0fdeef10bd9..ec59f28bcb39 100644
->>>>>>> --- a/drivers/leds/Kconfig
->>>>>>> +++ b/drivers/leds/Kconfig
->>>>>>> @@ -529,6 +529,16 @@ config LEDS_BD2802
->>>>>>>   	  This option enables support for BD2802GU RGB LED
->>>>>>> driver chips
->>>>>>>   	  accessed via the I2C bus.
->>>>>>>   
->>>>>>> +config LEDS_BD71828
->>>>>>> +	tristate "LED driver for LED pins on ROHM BD71828 PMIC"
->>>>>>> +	depends on LEDS_CLASS
->>>>>> doesn't this have a dependency on MFD_ROHM_BD71828
->>>>>>> +	depends on I2C
->>>>>>> +	help
->>>>>>> +	  This option enables support for LED outputs located
->>>>>>> on ROHM
->>>>>>> +	   BD71828 power management IC. ROHM BD71828 has two
->>>>>>> led output
->>>>>>> pins
->>>>>>> +	   which can be left to indicate HW states or
->>>>>>> controlled by SW.
->>>>>>> Say
->>>>>>> +	   yes here if you want to enable SW control for these
->>>>>>> LEDs.
->>>>>>> +
->>>>>>
->>>>>> Add module statement
->>>>>
->>>>> What is the module statement? Do you mean the 'if you compile
->>>>> this
->>>>> as a
->>>>> module it will be called blahblah' or 'choose M to blahblah'?
->>>>>
->>>>> I've never understood why some entries have those statements.
->>>>> 'Choose
->>>>> M' stuff is help for config system - why should each module
->>>>> explain
->>>>> how
->>>>> to use configs? This information should be in more generic
->>>>> documentation. Furthermore, the 'tristate' there already says
->>>>> you
->>>>> can
->>>>> compile this as a module. Module name on the other hand really
->>>>> is
->>>>> module's property but it may well change if one changes the
->>>>> name of
->>>>> the
->>>>> file. That should not require change in KConfig. Furthermore,
->>>>> where
->>>>> do
->>>>> you need the module name? And if you really need the module
->>>>> name
->>>>> you
->>>>> should check the config name from Makefile to be sure -
->>>>> module/file
->>>>> names in comments or docs tend to get outdated.
->>>>>
->>>>> After all this being said - I can add any boilerplate text in
->>>>> KConfig
->>>>> if necessary - I just see zero benefit from this. And if you
->>>>> didn't
->>>>> mean this - can you then please tell me what is the module
->>>>> statement?
->>>>
->>>> Yes, like you noticed, this is boilerplate so please follow the
->>>> convention. If you'd like to discuss its relevance please submit
->>>> a message to kernel-janitors@vger.kernel.org.
->>>
->>> I did follow the convention. There is 67 tristated LED drivers
->>> which do
->>> NOT add this module building babbling in description. Then there is
->>> 14
->>> drivers which do. So common convention even in LED subsystem is to
->>> NOT
->>> include meaningless mumbojumbo there.
->>>
->>> So even regarding convention it is better to have short description
->>> to
->>> the point. That actually makes the requiring boilerplate even more
->>> useless. But as I said, I can put any meaningless letters there.
->>> (again, if I can't convince you to reconsider how you like the LED
->>> subsystem to appear like). Knowing how hard it is to help people
->>> reducing waste - it's may be easier for me than discussing this
->>> further
->>> :(
->>
->> I will not insist - it's up to you. Unless Dan who raised the
->> issue sees that differently.
-> 
-> Thanks :) Dan, I would like to hear your thoughts on this - do you
-> still think this is a fatal issue for you?
-> 
->>>>>>> +#define BD71828_LED_TO_DATA(l) ((l)->id == ID_GREEN_LED ?
->>>>>>> \
->>>>>>> +	container_of((l), struct bd71828_leds, green) : \
->>>>>>> +	container_of((l), struct bd71828_leds, amber))
->>>>>>
->>>>>> I don't think we should be defining the color as the
->>>>>> variable.
->>>>>> The 
->>>>>> outputs can drive any color LED.
->>>>>
->>>>> I used the colors mentioned in BD71828 data-sheet. It is true
->>>>> someone
->>>>> might use different LEDs on their board but at least this
->>>>> naming
->>>>> allows
->>>>> one to match the output to one in data-sheet. I can add comment
->>>>> explaining this if you thin it's worth mentioning.
->>>>
->>>> I see you've come up with below definitions in rohm-bd71828.h:
->>>>
->>>> #define BD71828_MASK_LED_AMBER		0x80
->>>> #define BD71828_MASK_LED_GREEN		0x40
->>>>
->>>> Is this how those bit fields are named in the data sheet?
->>>
->>> The leds are through the document referred as "GRNLED" and
->>> "AMBLED".
->>> These specific bits are named "AMBLED_FORCE_ON" and
->>> "GRNLED_FORCE_ON".
->>
->> OK, so then it's reasonable to use those names in the driver.
->> I would only add a comment next to the definitions, highlighting
->> that their names don't imply the scope of supported colors as this is
->> entirely irrelevant.
-> 
-> I'll add a note here. 
-> 
->>
->>>>>>> +
->>>>>>> +	bd71828 = dev_get_drvdata(pdev->dev.parent);
->>>>>>> +	l = devm_kzalloc(&pdev->dev, sizeof(*l), GFP_KERNEL);
->>>>>>> +	if (!l)
->>>>>>> +		return -ENOMEM;
->>>>>>> +	l->bd71828 = bd71828;
->>>>>>> +	a = &l->amber;
->>>>>>> +	g = &l->green;
->>>>>>> +	a->id = ID_AMBER_LED;
->>>>>>> +	g->id = ID_GREEN_LED;
->>>>>>> +	a->force_mask = BD71828_MASK_LED_AMBER;
->>>>>>> +	g->force_mask = BD71828_MASK_LED_GREEN;
->>>>>>> +
->>>>>>> +	a->l.name = ANAME;
->>>>>>> +	g->l.name = GNAME;
->>>>>>> +	a->l.brightness_set_blocking =
->>>>>>> bd71828_led_brightness_set;
->>>>>>> +	g->l.brightness_set_blocking =
->>>>>>> bd71828_led_brightness_set;
->>>>>>> +
->>>>>>> +	ret = devm_led_classdev_register(&pdev->dev, &g->l);
->>>>>>> +	if (ret)
->>>>>>> +		return ret;
->>>>>>> +
->>>>>>> +	return devm_led_classdev_register(&pdev->dev, &a->l);
->>>>
->>>> This way you force users to always register two LED class devices
->>>> whereas they might need only one. Please compare how other LED
->>>> class
->>>> drivers handle DT parsing and LED class device registration.
->>>
->>> I am not sure if I understand correctly what you mean by using only
->>> one
->>> class device. As I (hopefully) somewhere said - users can't control
->>> only one of these LEDs. If they decide to enable one led by SW,
->>> then
->>> they inevitably control also the other. Thus it is better that user
->>> gets control to both of the LEDs if they take the control for one.
->>>
->>> Or do you mean I could achieve the control for both of these LEDs
->>> via
->>> only one class device?
->>
->> AFAIU the LEDs, when in SW mode, can be controlled independently,
->> right?
-> 
-> Yes and no. Both of the LEDs can be forced on/off individually - as
-> long as one of them is forced ON. If both LEDs are tried to be forced
-> OFF - then both LEDs are controlled by HW. If both are controlled by HW
-> and then one is forced ON - the other is also no longer controlled by
-> HW and is forced OFF.
-> 
-> Eg, bits 0x80 and 0x40 are conrols for these LEDs. 0x80 for one, 0x40
-> for the other. Setting bit means LED is on, clearing means LED is off -
-> with the HW control twist... If either of the bits is set - then both
-> leds are controlled by these bits (SW control). If both bits are
-> cleared, then LEDs are controlled by HW (likely to be off but not for
-> sure).
-
-Thank you for the explanation. So they can be represented by separate
-LED class devices. Driver logic will just need to update the state of
-the sibling LED if it will be affected.
-
->> Because if not then there is no point in having separate LED class
->> devices.
->>
->> But if I get it right, then allowing for registering only one LED
->> class
->> device is entirely justifiable - think of a situation when the iout
->> remains not connected on the board.
-> 
-> Yes. This might be unlikely - but this is the reason why I consider
-> adding the DT support. I just am not sure if covering this scenario now
-> is worth the hassle. I tend to think we should only add the DT support
-> if someone actually produces a board where this LED is not connected.
-
-Could you share what board you're working with?
-
->>> Yet another thing for me to learn =) I looked at the trigger
->>> properties
->>> in DT. That looked like a way to make the LED framework to "bind"
->>> the
->>> LED state to some trigger. (For example make the LED framework to
->>> toggle specific LED state when USB device is plugged?)
->>>
->>> If this is the case then it might not be relevant for BD71828. Here
->>> the
->>> LED is by-default controlled by HW. Eg, when charger starts
->>> charging
->>> the battery, the PMIC will lit the LED. It will do so also when
->>> power
->>> button is pressed or certain problems are detected. This reqires no
->>> SW
->>> interaction.
->>
->> The trigger can be always deactivated from sysfs as well as set up
->> again.
->>
->>> What this driver intends to do is to allow SW to take over this.
->>> Eg, if
->>> system is designed so that it is preferably to use these LEDs for
->>> some
->>> other purpose it can be done by loading this LED driver and
->>> allowing
->>> user-space to control these LEDs via sysfs.
->>
->> So the LED trigger interface would help to signalize in which state
->> the LED is. If the trigger is set then it means the LED is under hw
->> control.
-> 
-> This might be handy. I need to check the data-sheet because I think
-> there was own control for using one of the LEDs for charge indicator.
-> It might be that by-default the HW control of LEDs means that only the
-> power button presses are signaled via these LEDs. This trigger thing
-> could be handy for enabling/disabling also the charge indication as
-> well as for checking if LEDs are in forced state - although this might
-> be somewhat complicated because the 'turn led on' bit is connected to
-> the 'trigger'. Eg, even if the trigger says that SW is controlling LED,
-> turning off the LED may mean that trigger changes. But well, this is
-> the HW design we are dealing with at this time :/ In any case, I'll
-> leave this as further dev item for now.
-> 
-> Again, thanks for all the help!
-> 
-> Br,
-> 	Matti Vaittinen
-> 
-
--- 
-Best regards,
-Jacek Anaszewski
+SGVsbG8gSmFjZWssDQoNCk9uIFdlZCwgMjAxOS0xMC0yMyBhdCAyMzo1OSArMDIwMCwgSmFjZWsg
+QW5hc3pld3NraSB3cm90ZToNCj4gT24gMTAvMjMvMTkgMTA6MzcgQU0sIFZhaXR0aW5lbiwgTWF0
+dGkgd3JvdGU6DQo+ID4gT24gVHVlLCAyMDE5LTEwLTIyIGF0IDE5OjQwICswMjAwLCBKYWNlayBB
+bmFzemV3c2tpIHdyb3RlOg0KPiA+ID4gT24gMTAvMjIvMTkgMjo0MCBQTSwgVmFpdHRpbmVuLCBN
+YXR0aSB3cm90ZToNCj4gPiA+ID4gT24gTW9uLCAyMDE5LTEwLTIxIGF0IDIxOjA5ICswMjAwLCBK
+YWNlayBBbmFzemV3c2tpIHdyb3RlOg0KPiA+ID4gPiA+IE9uIDEwLzIxLzE5IDEwOjAwIEFNLCBW
+YWl0dGluZW4sIE1hdHRpIHdyb3RlOg0KPiA+ID4gPiA+ID4gSGVsbG8gRGFuLA0KPiA+ID4gPiA+
+ID4gDQo+ID4gPiA+ID4gPiBUaGFua3MgZm9yIHRha2luZyB0aGUgdGltZSB0byBjaGVjayBteSBk
+cml2ZXIgOikgSSB0cnVseQ0KPiA+ID4gPiA+ID4gYXBwcmVjaWF0ZQ0KPiA+ID4gPiA+ID4gYWxs
+DQo+ID4gPiA+ID4gPiB0aGUgaGVscCENCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gQSAiZnVu
+ZGFtZW50YWwgcXVlc3Rpb24iIHJlZ2FyZGluZyB0aGVzZSByZXZpZXcgY29tbWVudHMgaXMNCj4g
+PiA+ID4gPiA+IHdoZXRoZXINCj4gPiA+ID4gPiA+IEkNCj4gPiA+ID4gPiA+IHNob3VsZCBhZGQg
+RFQgZW50cmllcyBmb3IgdGhlc2UgTEVEcyBvciBub3QuIEkgdGhvdWdodCBJDQo+ID4gPiA+ID4g
+PiBzaG91bGRuJ3QNCj4gPiA+ID4gPiA+IGJ1dA0KPiA+ID4gPiA+ID4gSSB3b3VsZCBsaWtlIHRv
+IGdldCBhIGNvbW1lbnQgZnJvbSBSb2IgcmVnYXJkaW5nIGl0Lg0KPiA+ID4gPiA+IA0KPiA+ID4g
+PiA+IElmIHRoZSBMRUQgY29udHJvbGxlciBpcyBhIHBhcnQgb2YgTUZEIGRldmljZSBwcm9iZWQg
+ZnJvbSBEVA0KPiA+ID4gPiA+IHRoZW4NCj4gPiA+ID4gPiB0aGVyZSBpcyBubyBkb3VidCBpdCBz
+aG91bGQgaGF2ZSBjb3JyZXNwb25kaW5nIERUIHN1Yi1ub2RlLg0KPiA+ID4gPiANCj4gPiA+ID4g
+U29ycnkgYnV0IEkgc3RpbGwgc2VlIG5vIG11Y2ggYmVuZWZpdCBmcm9tIGFkZGluZyB0aGlzDQo+
+ID4gPiA+IGluZm9ybWF0aW9uDQo+ID4gPiA+IGluDQo+ID4gPiA+IERULiBXaHkgc2hvdWxkIGl0
+IGhhdmUgY29ycmVzcG9uZGluZyBEVC1ub2RlIGlmIHRoZSBMRUQNCj4gPiA+ID4gcHJvcGVydGll
+cw0KPiA+ID4gPiBhcmUNCj4gPiA+ID4gZml4ZWQgYW5kIGlmIHdlIG9ubHkgd2lzaCB0byBhbGxv
+dyB1c2VyLXNwYWNlIGNvbnRyb2wgYW5kIGhhdmUNCj4gPiA+ID4gbm8NCj4gPiA+ID4gZGVwZW5k
+ZW5jaWVzIHRvIG90aGVyIGRldmljZXMgaW4gRFQ/IA0KPiA+ID4gPiANCj4gPiA+ID4gSW4gdGhp
+cyBzcGVjaWZpYyBjYXNlIHRoZSBpbmZvcm1hdGlvbiB3ZSBjYW4gcHJvdmlkZSBmcm9tIERUIGlz
+DQo+ID4gPiA+IHN1cHBvc2VkIHRvIGJlIGZpeGVkLiBObyBib2FyZCBiYXNlZCB2YXJpYXRpb24u
+IEZ1cnRoZXJtb3JlLA0KPiA+ID4gPiB0aGVyZQ0KPiA+ID4gPiBpcw0KPiA+ID4gPiBub3QgbXVj
+aCBnZW5lcmljIGRyaXZlci9sZWQgY29yZSBmdW5jdGlvbmFsaXR5IHdoaWNoIHdvdWxkIGJlDQo+
+ID4gPiA+IGFibGUNCj4gPiA+ID4gdG8NCj4gPiA+ID4gcGFyc2UgYW5kIHV0aWxpemUgcmVsZXZh
+bnQgaW5mb3JtYXRpb24gZnJvbSBEVC4gSSB0aGluayB3ZSBjYW4NCj4gPiA+ID4gb25seQ0KPiA+
+ID4gPiBnaXZlIHRoZSBuYW1lIChmdW5jdGlvbikgYW5kIGNvbG91ci4gQW5kIHRoZXkgYXJlIHN1
+cHBvc2VkIHRvDQo+ID4gPiA+IGJlDQo+ID4gPiA+IGZpeGVkDQo+ID4gPiA+IGFuZCB0aHVzIGNv
+dWxkIGJlIGp1c3QgaGFyZC1jb2RlZCBpbiBkcml2ZXIuIEhhcmQtY29kaW5nIHRoZXNlDQo+ID4g
+PiA+IHdvdWxkIGJlDQo+ID4gPiA+IHNpbXBsZXIgYW5kIGxlc3MgZXJyb3IgcHJvbmUgZm9yIHVz
+ZXJzIChubyBEVCBiaW5kaW5ncyB0bw0KPiA+ID4gPiB3cml0ZSkNCj4gPiA+ID4gYW5kDQo+ID4g
+PiA+IHNpbXBsZXIgdG8gY3JlYXRlIGFuZCBwcm9iYWJseSBhbHNvIHRvIG1haW50YWluIChubyBz
+ZXBhcmF0ZQ0KPiA+ID4gPiBiaW5kaW5nDQo+ID4gPiA+IGRvY3VtZW50cyBuZWVkZWQgZm9yIExF
+RHMpLg0KPiA+ID4gDQo+ID4gPiBBRkFJQ1MgaXQgaXMgcG9zc2libGUgdG8gY29ubmVjdCBMRUQg
+b2YgYXJiaXRyYXJ5IGNvbG9yIHRvIHRoZQ0KPiA+ID4gaW91dHMNCj4gPiA+IG9mIHRoaXMgZGV2
+aWNlLiBJZiB0aGlzIGlzIHRoZSBjYXNlIHRoZW4gaXQgaXMganVzdGlmaWVkIHRvIGhhdmUNCj4g
+PiA+IERUDQo+ID4gPiBub2RlIG9ubHkgdG8gYWxsb3cgZm9yIExFRCBuYW1lIGN1c3RvbWl6YXRp
+b24uDQo+ID4gDQo+ID4gSW4gdGhlb3J5LCB5ZXMuIEluIHByYWN0aWNlIChpZiBJIHVuZGVyc3Rh
+bmQgaXQgY29ycmVjdGx5KSB0aGUNCj4gPiBjb2xvciBpbg0KPiA+IHRoaXMgY2FzZSBpcyBvbmx5
+IHZpc2libGUgaW4gc3lzZnMgcGF0aCBuYW1lLiBJIGFtIG5vdCBhdCBhbGwgc3VyZQ0KPiA+IHRo
+YXQNCj4gPiByZWZsZWN0aW5nIHRoZSAodW5saWtlbHkpIGNvbG9yIGNoYW5nZSBpbiBwYXRoIG5h
+bWUgaXMgd29ydGggdGhlDQo+ID4gaGFzc2xlLiBCZXNpZGVzIC0gaWYgdGhpcyBoYXBwZW5zLCB0
+aGVuIHRoZSBkcml2ZXIgYW5kIERUIGNhbiBiZQ0KPiA+IGNoYW5nZWQuDQo+IA0KPiBEcml2ZXIg
+c2hvdWxkIG5vdCBiZSBjaGFuZ2VkLiBXZSBoYXZlIERUIGZvciBjb252ZXlpbmcgYm9hcmQgc3Bl
+Y2lmaWMNCj4gcGFyYW1ldGVycy4NCg0KRHJpdmVyIG5lZWRzIHRvIGJlIGNoYW5nZWQgaWYgd2Ug
+YWRkIG5ldyBmZWF0dXJlIHRvIGl0LiBJdCBpcyB3YXN0ZSB0bw0KZGV2ZWxvcCBmZWF0dXJlcyB0
+aGF0IGFyZSBuZXZlciBuZWVkZWQuIERUIHN1cHBvcnQgaGVyZSBtYXkgYmUgc3VjaC4gU28NCkkn
+ZCBzdWdnZXN0IHdlIGFkZCBEVCBzdXBwb3J0IGxhdGVyIGlmIGl0IGlzIG5lZWRlZC4NCg0KPiA+
+IEl0IGlzIGVhc2llciB0byBhZGQgRFQgZW50cmllcyB0aGFuIHJlbW92ZSB0aGVtLiBJZiB5b3Ug
+c2VlDQo+ID4gdGhlIGNvbG9yIGNoYW5nZSBzdXBwb3J0IGFzIHJlYWxseSBjcnVjaWFsIC0gdGhl
+biBJIGNvdWxkIGV2ZW4NCj4gPiBjb25zaWRlcg0KPiA+IGRlZmF1bHRpbmcgdGhlIGNvbG91cnMg
+dG8gYW1iZXIgYW5kIGdyZWVuIGlmIG5vIGNvbG91ciBwcm9wZXJ0eSBpcw0KPiA+IHByZXNlbnQg
+aW4gRFQuDQo+IA0KPiBZb3UgZG9uJ3QgbmVlZCB0byBkZWZhdWx0IHRvIGFueXRoaW5nLiBUaGUg
+Y29sb3Igc2VjdGlvbiB3aWxsIGJlIGxlZnQNCj4gZW1wdHkgaWYgdGhlIHByb3BlcnR5IGlzIG5v
+dCBwcm92aWRlZC4NCg0KVGhhbmtzIGZvciB0aGlzIGluZm8gOikgSXQgbWFrZXMgc2Vuc2UuDQoN
+CkFuZCBubyBuZWVkIHRvIGV4cGxhaW4gbWUgdGhpcyBpZiB5b3UgYXJlIGJ1c3kgLSBidXQgSSBk
+b24ndCByZWFsbHkgc2VlDQp3aHkgd2UgaGF2ZSBsZWQgY29sb3VyIGluIHN5c2ZzIHBhdGg/IEkg
+YWRtaXQgSSBhbSBub3QgdG9vIGRlZXAgaW4gdGhlDQp3b3JsZCBvZiBMRURzIChzbyBJIGFtIHN1
+cmUgdGhlcmUgaXMganVzdCBzb21ldGhpbmcgSSBoYXZlbid0IGJlZW4gDQp0aGlua2luZyBhYm91
+dCkgYnV0IGl0IGludHVpdGl2ZWx5IGZlZWxzIHRlcnJpYmx5IHdyb25nLiBJZiBJIHdhcw0Kd3Jp
+dGluZyBhcHBsaWNhdGlvbiB0byBjb250cm9sIC0gbGV0J3Mgc2F5IGEgY2hhcmdlciBMRUQgLSBJ
+IHdvdWxkDQpkZWZpbml0ZWx5IHByZWZlciB0byBhbHdheXMgaGF2ZSB0aGUgY2hhcmdlciBsZWQg
+Y29udHJvbCBpbiBzYW1lIHN5c2ZzDQpwYXRoIC0gbm8gbWF0dGVyIHdoYXQgdGhlIGNvbG9yIGlz
+LiBJZiBteSBhcHBsaWNhdGlvbiB3YXMgaW50ZXJlc3RlZCBpbg0Ka25vd2luZyB0aGUgY29sb3Vy
+LCB0aGVuIEkgaG9wZWQgdG8gYmUgYWJsZSB0byByZWFkIC8gY2hhbmdlIGl0IHZpYQ0KZmlsZSAi
+Y29sb3VyIiB3aGljaCByZXNpZGVzIGluIHRoZSBjaGFyZ2VyIHN5c2ZzIHBhdGguIChBbmQgeWVz
+LCBpZiBJDQpoYWQgYnVuY2ggb2YgUkdCIGxlZHMsIEkgd291bGQgX2RlZmluaXRlbHlfIHdhbnQg
+dG8gY2hhbmdlIHRoZQ0KJ2Fic3RyYWN0JyBjb2xvciAtIG5vdCBicmlnaHRuZXMgb2YgcmVkLCBn
+cmVlbiBhbmQgYmx1ZSBMRURzKS4gQnV0IGFsbA0KdGhpcyBpcyBvZmYtdG9waWMgYW5kIG5vdCBy
+ZWxhdGVkIHRvIHRoaXMgZGlzY3Vzc2lvbiAtIEkgd2FzIGp1c3QNCmN1cmlvdXMgYXMgbXkgbGlt
+aXRlZCBicmFpbnMgZG9uJ3Qgc2VlIHRoZSByZWFzb25pbmcgYmVoaW5kIHRoaXMgOikNCg0KPiA+
+IEkgc2VlIG5vIHBvaW50IGluIF9yZXF1aXJpbmdfIHRoZSBEVCBlbnRyeSB0byBiZSB0aGVyZS4N
+Cj4gDQo+IEknbSByZWZlcnJpbmcgdG8gdGhpcyBsYXRlciBpbiB0aGlzIG1lc3NhZ2UuDQo+IA0K
+PiA+IElmIHdlIGxpa2UgYmVpbmcgcHJlcGFyZWQgZm9yIHRoZSB0aGVvcmV0aWNhbCBwb3NzaWJp
+bGl0aWVzIC0gd2hhdA0KPiA+IGlmDQo+ID4geDg2IGlzIHVzZWQgdG8gY29udHJvbCB0aGlzIFBN
+SUM/IEkgZ3Vlc3Mgd2Ugd291bGRuJ3QgaGF2ZSBEVCB0aGVyZQ0KPiA+IHRoZW4gKEFuZCBubyAt
+IEkgZG9uJ3Qgc2VlIHN1Y2ggdXNlLWNhc2UpLg0KPiANCj4gV2UgaGF2ZSBmd25vZGUgYWJzdHJh
+Y3Rpb24gZm9yIHRoYXQuIFlvdSBjYW4gYWxzbyBjaGVjazoNCj4gRG9jdW1lbnRhdGlvbi9maXJt
+d2FyZS1ndWlkZS9hY3BpL2RzZC9sZWRzLnJzdC4NCj4gDQo+ID4gPiA+IEJ1dCBhc3N1bWluZyB0
+aGlzIGlzIE9rIHRvIERULWZvbGtzIGFuZCBpZiB5b3UgaW5zaXN0IC0gSSB3aWxsDQo+ID4gPiA+
+IGFkZA0KPiA+ID4gPiBMRUQNCj4gPiA+ID4gaW5mb3JtYXRpb24gdG8gRFQgZm9yIHRoZSBuZXh0
+IHBhdGNoZXMuIEhvcGVmdWxseSB0aGlzIGV4dHJhDQo+ID4gPiA+IGNvbXBsZXhpdHkNCj4gPiA+
+ID4gaGVscHMgaW4gc29tZSBvZGRiYWxsIHVzZS1jYXNlIHdoaWNoIEkgY2FuJ3QgZm9yZXNlZSA9
+KQ0KPiA+ID4gPiANCj4gPiA+ID4gVGhlbiB3aGF0IGNvbWVzIHRvIHRoZSBEVCBmb3JtYXQuDQo+
+ID4gPiA+IA0KPiA+ID4gPiBEbyB5b3UgdGhpbmsgTEVEIHN1YnN5c3RlbSBzaG91bGQgdHJ5IHRv
+IGZvbGxvdyB0aGUgY29udmVudGlvbg0KPiA+ID4gPiB3aXRoDQo+ID4gPiA+IG90aGVyIHN1Yi1z
+eXN0ZW1zIGFuZCBub3QgaW50cm9kdWNlIG11bHRpcGxlIGNvbXBhdGlibGVzIGZvcg0KPiA+ID4g
+PiBzaW5nbGUNCj4gPiA+ID4gZGV2aWNlPyBNRkQgY2FuIGhhbmRsZSBpbnN0YW50aWF0aW5nIHRo
+ZSBzdWItZGV2aWNlcyBqdXN0IGZpbmUNCj4gPiA+ID4gZXZlbg0KPiA+ID4gPiB3aGVuIHN1Yi1k
+ZXZpY2VzIGhhdmUgbm8gb3duIGNvbXBhdGlibGUgcHJvcGVydHkgb3Igb2ZfbWF0Y2guDQo+ID4g
+PiA+IE1heWJlDQo+ID4gPiA+IHdlDQo+ID4gPiA+IHNob3VsZCBhbHNvIGF2b2lkIHVubmVjZXNz
+YXJ5IHN1Yi1ub2RlcyB3aGVuIHRoZXkgYXJlIG5vdA0KPiA+ID4gPiByZWFsbHkNCj4gPiA+ID4g
+cmVxdWlyZWQuDQo+ID4gPiANCj4gPiA+IFRoaXMgaXMgYmV5b25kIG15IHNjb3BlIG9mIHJlc3Bv
+bnNpYmlsaXR5LiBJdCBpcyBNRkQgc3Vic3lzdGVtDQo+ID4gPiB0aGluZw0KPiA+ID4gdG8NCj4g
+PiA+IGNob29zZSB0aGUgd2F5IG9mIExFRCBjbGFzcyBkcml2ZXIgaW5zdGFudGlhdGlvbi4gV2hl
+biBpdCBjb21lcw0KPiA+ID4gdG8NCj4gPiA+IExFRCBzdWJzeXN0ZW0gLSBpdCBleHBlY3RzIHNp
+bmdsZSBjb21wYXRpYmxlIHBlcnRhaW5pbmcgdG8gYQ0KPiA+ID4gcGh5c2ljYWwNCj4gPiA+IGRl
+dmljZS4NCj4gPiANCj4gPiBTb3JyeSBidXQgSSBkb24ndCBxdWl0ZSBmb2xsb3cuIFdoYXQgdGhl
+IExFRCBzdWJzeXN0ZW0gZG9lcyB3aXRoDQo+ID4gdGhlDQo+ID4gY29tcGF0aWJsZSBwcm9wZXJ0
+eT8gSG93IGRvZXMgaXQgZXhwZWN0IHRoaXM/DQo+IA0KPiBJbiBjYXNlIG9mIERUIGJhc2VkIE1G
+RCBjZWxsIHByb2JpbmcgeW91IG11c3QgaW5pdGlhbGl6ZQ0KPiBvZl9jb21wYXRpYmxlDQo+IHBy
+b3BlcnR5IG9mIHN0cnVjdCBtZmRfY2VsbCBlbGVtZW50IHdoaWNoIHdpbGwgdGhlbiBiZSBtYXRj
+aGVkDQo+IHdpdGggc3RydWN0IHBsYXRmb3JtX2RyaXZlciAtPiBkcml2ZXIgLT4gb2ZfbWF0Y2hf
+dGFibGUgaW4gdGhlIExFRA0KPiBjbGFzcyBkcml2ZXIuIEJhc2luZyBvbiB0aGF0IGEgcmVsZXZh
+bnQgcGxhdGZvcm1fZGV2aWNlIGlzIHBhc3NlZA0KPiB0byB0aGUgcHJvYmUgZnVuY3Rpb24uIEl0
+cyBjaGlsZCBzdHJ1Y3QgZGV2aWNlJ3Mgb2Zfbm9kZSBwcm9wZXJ0eQ0KPiBjb21lcw0KPiBhbHJl
+YWR5IGluaXRpYWxpemVkIHRvIHRoZSBwb2ludGVyIHRvIHRoZSBjb3JyZXNwb25kaW5nIGNoaWxk
+IG5vZGUNCj4gaW4gTUZEIG5vZGUuDQoNCkkga25vdy4gSSBkaWQgdGhpcyBhdCBmaXJzdCB3aXRo
+IHRoZSBCRDcxODM3IC0gYW5kIEkgd2FzIHRvbGQgdG8gbm90IGRvDQp0aGF0LiBUaGUgZGlmZmVy
+ZW5jZSB3aGVuIHdlIGRvbid0IHVzZSBvZl9jb21wYXRpYmxlIGlzIHRoYXQgdGhlDQpvZl9ub2Rl
+IHBvaW50ZXIgaW4gc3ViLWRldmljZSAoTEVEcykgaXMgbm90IHBvcHVsYXRlZC4gQnV0IHdoZW4g
+d2UgaGF2ZQ0KcHVyZSBNRkQgc3ViLWRldmljZSAobGlrZSBMRURzIG9uIEJENzE4MjgpLCB0aGUg
+c3ViLWRldmljZSBrbm93cyBpdCBpcw0KaW5zdGFudGlhdGVkIGJ5IE1GRCAocGFyZW50KSBhbmQg
+aXQgY2FuIGdldCB0aGUgcmVsZXZhbnQgRFQgZGF0YSBmcm9tDQpwYXJlbnQncyBvZl9ub2RlIC0g
+d2hpY2gga2luZCBvZiBtYWtlcyBzZW5zZSBhcyB0aGVyZSByZWFsbHkgaXMgb25seQ0Kb25lIHBo
+eXNpY2FsIGRldmljZSAodGhlIE1GRCkuIEJ1dCBJIHNlZSB5b3UgbGlrZSB0byBnZXQgb3Bpbmlv
+biBmcm9tDQpMZWUgYW5kL29yIFJvYiAtIGxldCdzIGhvcGUgdGhleSBoZWxwIHVzIHRvIGFsaWdu
+IG91ciB2aWV3cy4gKEl0IGlzDQphbHNvIGRlZmluaXRlbHkgYSBnb29kIGlkZWEgdG8gY29ycmVj
+dCBteSB1bmRlcnN0YW5kaW5nIGlmIEkgaGF2ZQ0KbWlzdW5kZXJzdG9vZCB0aGlzISkNCg0KPiA+
+ID4gTm9uZXRoZWxlc3MsIHNvIGZhciB3ZSB1c2VkIHRvIGhhdmUgc2VwYXJhdGUgY29tcGF0aWJs
+ZXMgZm9yDQo+ID4gPiBkcml2ZXJzDQo+ID4gPiBvZg0KPiA+ID4gTUZEIGRldmljZXMnIExFRCBj
+ZWxscy4gSWYgd2UgYXJlIGdvaW5nIHRvIGNoYW5nZSB0aGF0IEknZCBsaWtlDQo+ID4gPiB0bw0K
+PiA+ID4gc2VlDQo+ID4gPiBleHBsaWNpdCBEVCBtYWludGFpbmVyJ3Mgc3RhdGVtZW50IGNvbmZp
+cm1pbmcgdGhhdC4NCj4gPiANCj4gPiBJIGRvbid0IGV4cGVjdCB0aGF0IGV4aXN0aW5nIERUcyB3
+b3VsZCBiZSBjaGFuZ2VkLiANCj4gDQo+IEkgZGlkbid0IHN1Z2dlc3QgdGhhdC4NCj4gDQo+ID4g
+QnV0IGFzIEkgc2FpZCwgdGhlDQo+ID4gY29uc2Vuc3VzIGFtb25nc3QgbW9zdCBvZiB0aGUgc3Vi
+c3lzdGVubSBtYWludGFpbmVycyBhbmQgRFQNCj4gPiBtYWludGFpbmVycw0KPiA+IHNlZW1zIHRv
+IGJlIHRoYXQgc3ViLWRldmljZXMgc2hvdWxkIG5vdCBoYXZlIG93biBjb21wYXRpYmxlcy4gSQ0K
+PiA+IGhvcGUNCj4gPiBSb2IgYWNrcyB0aGlzIGhlcmUgLSBidXQga25vd2luZyBoZSBpcyBhIGJ1
+c3kgZ3V5IEkgYWRkIHNvbWUgb2xkDQo+ID4gZGlzY3Vzc2lvbnMgZnJvbSB3aGljaCBJIGhhdmUg
+Z2F0aGVyZWQgbXkgdW5kZXJzdGFuZGluZzoNCj4gPiANCj4gPiBCRDcxODM3IC0gZmlyc3QgcGF0
+Y2ggd2hlcmUgcmVndWxhdG9ycyBoYWQgY29tcGF0aWJsZSAtIE1hcmsNCj4gPiAocmVndWxhdG9y
+DQo+ID4gbWFpbnRhaW5lciBpbnN0cnVjdGVkIG1lIHRvIGRyb3AgaXQpOg0KPiA+IGh0dHBzOi8v
+bG9yZS5rZXJuZWwub3JnL2xpbnV4LWNsay8yMDE4MDUyNDE0MDExOC5HUzQ4MjhAc2lyZW5hLm9y
+Zy51ay8NCj4gPiANCj4gPiBBbmQgaGVyZSBTdGVwaGVuICh0aGUgY2xrIHN1YnN5c3RlbSBtYWlu
+dGFpbmVyKSB0b2xkIG1lIHRvIGRyb3ANCj4gPiB3aG9sZQ0KPiA+IGNsb2NrcyBzdWItbm9kZSAo
+aW5jbHVkaW5nIHRoZSBjb21wYXRpYmxlKToNCj4gPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9s
+aW51eC1jbGsvMTUyNzc3ODY3MzkyLjE0NDAzOC4xODE4ODQ1MjM4OTk3MjgzNDY4OUBzd2JveWQu
+bXR2LmNvcnAuZ29vZ2xlLmNvbS8NCj4gDQo+IFN0aWxsLCB0aGVyZSBhcmUgTUZEIGRyaXZlcnMg
+dXNpbmcgb2ZfY29tcGF0aWJsZSBmb3IgbWF0Y2hpbmcgY2VsbA0KPiBkcml2ZXJzLiBJIGRvbid0
+IGZvbGxvdyBjdXJyZW50IHRyZW5kcyBvbiBNRkQgc3Vic3lzdGVtIHNpZGUuDQo+IFlvdSd2ZSBn
+b3QgdG8gd2FpdCBmb3IgcmV2aWV3IGZlZWRiYWNrIGZyb20gTGVlIEpvbmVzIGFueXdheQ0KPiB0
+byBmaW5kIG91dCBob3cgdG8gcHJvY2VlZCB3aXRoIE1GRCBiaW5kaW5ncy4NCg0KU3VyZS4gQW5k
+IGFzIHRoZSBzdWJqZWN0IHN0YXRlcywgdGhpcyB3aG9sZSBzZXJpZXMgaXMgc3RpbGwgUkZDLiBJ
+IGFtDQpub3QgZXhwZWN0aW5nIHRoZSByZWd1bGF0b3IgcnVuLWxldmVsIGNvbnRyb2wgdG8gYmUg
+YWNjZXB0ZWQgYXMgc3VjaCAtDQpJIGFtIGhvcGluZyB0byBnZXQgYSBwdXNoIHRvIHJpZ2h0IGRp
+cmVjdGlvbiAtIGFsdGhvdWdoIHRoZSBiYXNpYw0KcmVndWxhdG9yIGNvbnRyb2wgbWlnaHQgZ28g
+aW4gd2l0aG91dCBiaWcgY2hhbmdlcy4gU28gbXkgY2FzZSBkb2VzIG5vdA0KcmVxdWlyZSBzdXBl
+ciBmYXN0IGRlY2lzaW9uIC0gYnV0IEkgdGhpbmsgdGhhdCBpZiB0aGUgZ2VuZXJhbCBkaXJlY3Rp
+b24NCnNob3VsZCBiZSBtb3JlIHRvd2FyZHMgZHJvcHBpbmcgb3duIGNvbXBhdGlibGVzIGZyb20g
+TUZEIHN1Yi1kZXZpY2VzLA0KdGhlbiBpdCBtaWdodCBiZSBnb29kIGlkZWEgdG8gZ2V0IHRoaXMg
+c29ydGVkIHNvb25lciB0aGFuIGxhdGVyIDopDQoNCj4gPiA+IEFuZCBvbmUgYmVuZWZpdCBvZiBo
+YXZpbmcgc2VwYXJhdGUgbm9kZXMgcGVyIE1GRCBjZWxscyBpcyB0aGF0IHdlDQo+ID4gPiBjYW4N
+Cj4gPiA+IGVhc2lseSBkaXNjZXJuIHRoZSBzdXBwb3J0IGZvciB3aGljaCBjZWxscyBpcyB0byBi
+ZSB0dXJuZWQgb24uDQo+ID4gDQo+ID4gV2UgZG9uJ3Qgd2FudCB0byBkbyBEVCBtb2RpZmljYXRp
+b25zIHRvIGRyb3Agc29tZSBzdWItZGV2aWNlDQo+ID4gc3VwcG9ydA0KPiA+IG91dC4gVGhlIERU
+IGlzIEhXIGRlc2NyaXB0aW9uIGFuZCBzdWItYmxvY2tzIGFyZSBzdGlsbCB0aGVyZS4gV2UNCj4g
+PiBkcm9wDQo+ID4gdGhlIHN1cHBvcnQgYnkgS0NvbmZpZy4gDQo+IA0KPiBIb3cgd291bGQgeW91
+IGRlc2NyaWJlIHRoZSBwdXJwb3NlIG9mICdzdGF0dXMgPSAiZGlzYWJsZWQiJyBEVA0KPiBhc3Np
+Z25tZW50IHRoZW4/DQo+IA0KPiBBbnl3YXksIEkgZW50aXJlbHkgZGlzYWdyZWUgaGVyZSAtIGl0
+IGlzIHBlcmZlY3RseSBwcm9wZXIgYXBwcm9hY2gNCj4gdG8gZGVmaW5lIHBsYXRmb3JtIGNhcGFi
+aWxpdGllcyBieSBtb2RpZnlpbmcgZHRzIGZpbGUgYWxvbmUuDQo+IFRoaXMgd2F5IHlvdSBjYW4g
+ZWFzaWx5IGNyZWF0ZSBtdWx0aXBsZSB2ZXJzaW9ucyBvZiBwbGF0Zm9ybQ0KPiBjb25maWd1cmF0
+aW9ucy4gSXQgbWF5IGJlIG9mdGVuIGltcHJhY3RpY2FsIHRvIGVuYWJsZSBhbGwgYXZhaWxhYmxl
+DQo+IHBsYXRmb3JtIGZlYXR1cmVzLCBhdCBsZWFzdCBmcm9tIGJ1c2luZXNzIHBvaW50IG9mIHZp
+ZXcuIEFuZA0KPiByZWNvbXBpbGluZw0KPiBkdHMgaXMgbGlnaHR3ZWlnaHQgb3BlcmF0aW9uIGlu
+IGNvbXBhcmlzb24gdG8ga2VybmVsIGNvbXBpbGF0aW9uLg0KDQpJIGd1ZXNzIHdlIGhhdmUgZGlm
+ZmVyZW50IGJhY2tncm91bmRzIGhlcmUgPSkgRm9yIHF1aXRlIGEgbG9uZyB0aW1lIEkNCndhcyB3
+b3JraW5nIHdpdGggZGV2aWNlcyB0aGF0IGhhZCByZWFsbHkgbG9uZyBsaWZlLXNwYW4uIFRoZXkg
+cmVjZWl2ZWQNCm11bHRpcGxlIFNXIHVwZGF0ZXMgLSBidXQgY2hhbmdpbmcgYSBEVCB3YXMgcmFy
+ZS4gRm9yIHNvbWUgb2YgdGhlDQpwcm9kdWN0cyBEVCBjaGFuZ2VzIHdlcmUgaW1wb3NzaWJsZSBh
+ZnRlciB0aGUgcHJvZHVjdCB3YXMgb3V0IG9mIHRoZQ0KZmFjdG9yeS4gRm9yIHNvbWUgb2YgdGhl
+IHByb2R1Y3RzIERUIGNoYW5nZXMgd2VyZSBwb3NzaWJsZSAtIGJ1dCByYXJlIC0NCmFuZCBkdXJp
+bmcgdGhlIHVwZGF0ZSB0aGUgc3lzdGVtIG9mdGVuIGJvb3RlZCB1cCBpbiBhIHN0YXRlIHdoZXJl
+IGl0DQpoYWQgZWl0aGVyIG5ldyBTVyBidXQgb2xkIERULiBJbiBTVyBmYWxsLWJhY2sgc2NlbmFy
+aW9zIHN5c3RlbSBvZnRlbg0KaGFkIG9sZCBTVyBhbmQgbmV3IERULiBBbmQgYXQgdGltZXMgdGhl
+cmUgd2VyZSBzeXN0ZW1zIHJ1bm5pbmcgbmV3IFNXDQpidXQgeWVhcnMgb2xkIERUIC0gZXNwZWNp
+YWxseSBmb3IgdGhvc2Ugc3lzdGVtcyB3aGVyZSBEVCB3YXMgbm90DQp1cGRhdGVkIGFmdGVyIHRo
+ZSBwcm9kdWN0IGxlZnQgZmFjdG9yeS4uLg0KDQpJbiB0aGF0IGVudmlyb25tZW50IGFsbCB0aGUg
+RFQgdXBkYXRlcyB3ZXJlIGEgbmlnaHRtYXJlLg0KDQo+IE5vdCBzYXlpbmcgdGhhdCBpbiBzb21l
+IGNhc2VzIHRoZXJlIGFyZSBzZWNyZXQga2V5cyByZXF1aXJlZCBmb3INCj4gZW5jcnlwdGluZyBr
+ZXJuZWwgaW1hZ2VzLCB0aGF0IG1heSBub3QgYWx3YXlzIGJlIGF0IGhhbmQuDQo+IA0KPiA+IE9u
+bHkgJ2NvbmZpZ3VyYXRpb24nIHdlIGNvdWxkIGJyaW5nIGZyb20gRFQgaXMNCj4gPiB0aGUgYW1v
+dW50IG9mIGNvbm5lY3RlZCBMRURzIChhcyB5b3Ugc2FpZCkuIEJ1dCBvbiB0aGUgb3RoZXIgaGFu
+ZCAtDQo+ID4gd2hldGhlciBwcmVwYXJpbmcgZm9yIHN1Y2ggdW5saWtlbHkgZGVzaWduIGlzIHJl
+YXNvbmFibGUgKG9yDQo+ID4gbmVlZGVkKSBpcw0KPiA+IHF1ZXN0aW9uYWJsZS4NCj4gDQo+IExF
+RCBuYW1pbmcgcmVsYXRlZCBkYXRhIGlzIHZpdGFsIGFzIHdlbGwuDQoNClN1cmUuIEJ1dCBJIGRv
+bid0IHRoaW5rIHRoZSBMRUQgbmFtZXMgbmVlZCB0byBiZSBjaGFuZ2VkLiBPbiB0aGUNCmNvbnRy
+YXJ5IC0gSSBleHBlY3QgdGhlIHVzZXItc3BhY2UgdG8gaG9wZSB0aGUgbmFtZXMgc3RheSBjb25z
+dGFudC4NCk1heWJlIEkganVzdCBkb24ndCB1bmRlcnN0YW5kIHNvbWV0aGluZyBoZXJlIDopDQoN
+Cj4gPiA+ID4gCXBtaWM6IHBtaWNANGIgew0KPiA+ID4gPiAJCWNvbXBhdGlibGUgPSAicm9obSxi
+ZDcxODI4IjsNCj4gPiA+ID4gCQlyZWcgPSA8MHg0Yj47DQo+ID4gPiA+IAkJaW50ZXJydXB0LXBh
+cmVudCA9IDwmZ3BpbzE+Ow0KPiA+ID4gPiAJCWludGVycnVwdHMgPSA8MjkgR1BJT19BQ1RJVkVf
+TE9XPjsNCj4gPiA+ID4gCQljbG9ja3MgPSA8Jm9zYyAwPjsNCj4gPiA+ID4gCQkjY2xvY2stY2Vs
+bHMgPSA8MD47DQo+ID4gPiA+IAkJY2xvY2stb3V0cHV0LW5hbWVzID0gImJkNzE4MjgtMzJrLW91
+dCI7DQo+ID4gPiA+IAkJZ3Bpby1jb250cm9sbGVyOw0KPiA+ID4gPiAJCSNncGlvLWNlbGxzID0g
+PDI+Ow0KPiA+ID4gPiAJCW5ncGlvcyA9IDw0PjsNCj4gPiA+ID4gCQlncGlvLXJlc2VydmVkLXJh
+bmdlcyA9IDwwIDEgMiAxPjsNCj4gPiA+ID4gCQlncGlvLWxpbmUtbmFtZXMgPSAiRVBERU4iOw0K
+PiA+ID4gPiAJCXJvaG0sZHZzLXZzZWwtZ3Bpb3MgPSA8JmdwaW8xIDEyIDA+LA0KPiA+ID4gPiAJ
+CQkJICAgICAgPCZncGlvMSAxMyAwPjsNCj4gPiA+ID4gCQlyZWd1bGF0b3JzIHsNCj4gPiA+ID4g
+CQkJLi4uDQo+ID4gPiA+IAkJfTsNCj4gPiA+ID4gCQkNCj4gPiA+ID4gCQljaGctbGVkIHsNCj4g
+PiA+ID4gCQkJZnVuY3Rpb24gPSBMRURfRlVOQ1RJT05fQ0hBUkdJTkc7DQo+ID4gPiA+IAkJCWNv
+bG9yID0gTEVEX0NPTE9SX0lEX0FNQkVSOw0KPiA+ID4gPiAJCX07DQo+ID4gPiA+IA0KPiA+ID4g
+PiAJCXB3ci1sZWQgew0KPiA+ID4gPiAJCQlmdW5jdGlvbiA9IExFRF9GVU5DVElPTl9QT1dFUjsN
+Cj4gPiA+ID4gCQkJY29sb3IgPSBMRURfQ09MT1JfSURfR1JFRU47DQo+ID4gPiA+IAkJfTsNCj4g
+PiA+IA0KPiA+ID4gVGhpcyB3YXkgeW91IHdvdWxkIHByb2JhYmx5IG5lZWQgdG8gcHJvYmUgTEVE
+IGNsYXNzIGRyaXZlciB0d2ljZSwNCj4gPiA+IGluc3RlYWQgb2YgbGV0dGluZyBpdCBiZWhhdmUg
+aW4gYSBzdGFuZGFyZCB3YXkgYW5kIHBhcnNlIGNoaWxkDQo+ID4gPiBMRUQNCj4gPiA+IG5vZGVz
+Lg0KPiA+IA0KPiA+IE5vLiBQbGVhc2Ugbm90ZSB0aGF0IHByb2JpbmcgdGhlIE1GRCBzdWItZHJp
+dmVycyBpcyBfbm90XyBib3VuZCB0bw0KPiA+IGRldmljZS10cmVlIG5vZGVzLiBNRkQgc3ViLWRl
+dmljZXMgY2FuIGJlIHByb2JlZCBqdXN0IGZpbmUgZXZlbiBpZg0KPiA+IHRoZXkNCj4gPiBoYXZl
+IG5vIERUIGVudHJpZXMuIFdoZW4gd2UgYWRkIE1GRCBjZWxsIGZvciBMRUQgZHJpdmVyLCB0aGUN
+Cj4gPiBjb3JyZXNwb25kaW5nIExFRCBkcml2ZXIgaXMgcHJvYmVkLiBObyBEVCBtYWdpYyBuZWVk
+ZWQgZm9yIHRoaXMuDQo+ID4gDQo+ID4gV2hhdCB0aGUgTEVEIGRyaXZlciAoYXMgb3RoZXIgc3Vi
+LWRldmljZSBkcml2ZXJzKSBpcyByZXF1aXJlZCB0byBkbw0KPiA+IGlzDQo+ID4gdG8gb2J0YWlu
+IHRoZSBwb2ludGVyIHRvIHBhcmVudCBkZXZpY2UncyBEVCBub2RlIGFuZCBmaW5kDQo+ID4gaW5m
+b3JtYXRpb24NCj4gPiB3aGljaCBpcyByZWxldmFudCBmb3IgaXQuIElkZWFsbHksIHRoZSBzdWJz
+eXN0ZW0gZnJhbWV3b3JrIGNhbg0KPiA+IGV4dHJhY3QNCj4gPiB0aGUgcHJvcGVydGllcyB3aGlj
+aCBhcmUgY29tbW9uIGZvciB3aG9sZSBzdWJzeXN0ZW0gKGxpa2UgY29sb3IgYW5kDQo+ID4gZnVu
+Y3Rpb24gaW4gY2FzZSBvZiBMRURzKSBhbmQgZHJpdmVyIG9ubHkgcGFyc2VzIHRoZSBEVCBpZiBp
+dCBoYXMNCj4gPiBzb21lDQo+ID4gY3VzdG9tIHByb3BlcnRpZXMuIEFnYWluLCBpZGVhbGx5IHRo
+ZSBkcml2ZXIgaGFzIHNhbmUgZGVmYXVsdHMgLSBvcg0KPiA+IHNvbWUgb3RoZXIgJ3BsYXRmb3Jt
+IGRhdGEnIG1lY2hhbmlzbSBpZiBubyBEVCBpbmZvcm1hdGlvbiBpcyBmb3VuZC4NCj4gPiBUaGVy
+ZSBpcyBhcmNoaXRlY3R1cmVzIHdoaWNoIGRvIG5vdCBzdXBwb3J0IERULg0KPiANCj4gTEVEIGNv
+bW1vbiBiaW5kaW5ncyBkZWZpbmUgdGhhdCBlYWNoIExFRCBzaG91bGQgYmUgZGVzY3JpYmVkDQo+
+IHVzaW5nIGNoaWxkIG5vZGUuIEFuZCB3ZSd2ZSBlbmZvcmNlZCBzdGlja2luZyB0byB0aGlzIHN0
+YW5kYXJkDQo+IGZvciBsYXN0IHR3byB5ZWFycyBzdHJpY3RseS4NCg0KSSBhbSBub3QgYWdhaW5z
+dCB0aGF0LiBJZiBEVCBpcyB1c2VkLCB0aGVuIGl0IGlzIGZpbmUgZm9yIG1lIHRvIGhhdmUNCnBy
+b3BlcnRpZXMgb2Ygb25lIExFRCBpbiBvd24gbm9kZS4gQnV0IEkgZG9uJ3QgdGhpbmsgdGhlIERU
+IHNob3VsZCBiZQ0KY29tcHVsc29yeSBhdCBhbGwgZm9yIGNhc2VzIHdoZXJlIHRoZSBMRUQgaW5m
+b3JtYXRpb24gc3RheXMgc3RhdGljLg0KDQo+IExFRCBjb3JlIG1lY2hhbmlzbSBmb3IgTEVEIG5h
+bWUgY29tcG9zaXRpb24gYWxzbyByZWxpZXMgb24gdGhpcw0KPiBEVCBkZXNpZ24gLSBpdCBleHBl
+Y3RzIHNpbmdsZSAnY29sb3InIGFuZCAnZnVuY3Rpb24nIHByb3BlcnRpZXMgdG8NCj4gYmUgcHJl
+c2VudCBpbiB0aGUgcGFzc2VkIGZ3bm9kZS4NCg0KSSBhbSBub3QgYWdhaW5zdCB0aGlzIGVpdGhl
+ciAtIGFsdGhvdWdoIEkgZG9uJ3QgZnVsbHkgdW5kZXJzdGFuZCB0aGlzDQphcyBJIHNhaWQgYWJv
+dmUuIEkgYmVsaWV2ZSB0aGF0IHNldCBvZiB3ZWxsIGRlZmluZWQgTEVEIG5hbWVzIGlzIGEgZ29v
+ZA0KdGhpbmcuIEFuZCBMRUQgQVBJcyBzaG91bGQgaW5kZWVkIGZvcmNlIHRoZSBuYW1lIHRvIGZv
+bGxvdyBzcGVjaWZpYw0KZm9ybWF0LiBCdXQgSSBkb24ndCB0aGluayB0aGF0IHRoZSBEVCBzaG91
+bGQgYmUgb25seSBtZWNoYW5pc20gZm9yDQpicmluZ2luZyB0aGUgZnVuY3Rpb24gYW5kIGNvbG91
+ci4gSSB0aGluayB3ZSBzaG91bGQgYWxsb3cgTEVEIG5hbWUNCmNvbXBvc2l0aW9uIGZvciBleGFt
+cGxlIGJ5IHNwZWNpZnlpbmcgdGhlIGNvbG91ciBhbmQgZnVuY3Rpb24gaW4gTEVEDQpjbGFzcyBy
+ZWdpc3RyYXRpb24gQVBJIGluIGNhc2VzIHdoZXJlIGZ3bm9kZSBpcyBub3QgbmVlZGVkLg0KDQo+
+IExFRCBjbGFzcyByZWdpc3RyYXRpb24gZnVuY3Rpb24gcmVnaXN0ZXJzIHNpbmdsZSBMRUQgYW5k
+IGl0IGhhcyBiZWVuDQo+IGFsd2F5cyBMRUQgY2xhc3MgZHJpdmVyJ3MgcmVzcG9uc2liaWxpdHkg
+dG8gY2FsbCBpdCBmb3IgZXZlcnkgTEVEDQo+IGNvbm5lY3RlZCB0byB0aGUgTEVEIGNvbnRyb2xs
+ZXIgaW91dHMuDQoNClRoaXMgaXMgZmluZSBmb3IgbWUgdG9vIChlc3BlY2lhbGx5IHdoZW4gRFQg
+aXMgbm90IHVzZWQpLiBBbmQgbXkgZHJpdmVyDQpkcmFmdCBkaWQgdGhpcywgcmlnaHQ/IEJ1dCBJ
+IHNlZSB0aGF0IGxvdHMgb2YgY29kZSBkdXBsaWNhdGlvbiBpbg0KZHJpdmVycyBjb3VsZCBiZSBh
+dm9pZGVkIGlmIHRoZSBMRUQgZnJhbWV3b3JrIHByb3ZpZGVkIGZ1bmN0aW9uIHdoaWNoDQpjb3Vs
+ZCBleHRyYWN0IGFsbCBMRURzIGZyb20gYSAoTUZEKSBkZXZpY2UtdHJlZSBub2RlIGFuZCBkaWQg
+cmVnaXN0ZXINCm1vcmUgdGhhbiBvbmUgb2YgdGhlbS4gVGhlIHR5cGljYWwgImZvcl9lYWNoX2No
+aWxkX29mX25vZGUiIGNvdWxkIGJlIGluDQpMRUQgY29yZS4gQnV0IHRoaXMgaXMgY3VycmVudGx5
+IHNvbWUgd2hhdCBpcnJlbGV2YW50IC0gbGV0J3MgZmlyc3Qgc2VlDQpob3cgdGhlICJjb21wYXRp
+YmxlIiBkaXNjdXNzaW9uIGZvciBzdWItZGV2aWNlcyB0dXJucyBvdXQgOykNCg0KPiANCj4gPiBJ
+biBjYXNlIG9mIEJENzE4MjggTEVEcyBteSBmaXJzdCBpZGVhIHdhcyB0byBnbyB3aXRoIG9ubHkg
+dGhlICdzYW5lDQo+ID4gZGVmYXVsdHMnIG9wdGlvbiBhcyBJIHNhdyBubyBtdWNoIGNvbmZpZ3Vy
+YWJpbGl0eS4gVGhlIERUIHNuaXBwZXQNCj4gPiBhYm92ZQ0KPiA+IGNvbnRhaW5zIExFRCBpbmZv
+cm1hdGlvbiBhcyBwZXIgeW91ciBzdWdnZXN0aW9uLg0KPiA+IA0KPiA+IFdoYXQgdGhlIExFRCBz
+dWIgZHJpdmVyIGZvciBCRDcxODI4IHdvdWxkIG5vdyBkbyBpcyBjYWxsaW5nIA0KPiA+IGRldm1f
+bGVkX2NsYXNzZGV2X3JlZ2lzdGVyX2V4dCB3aXRoIHRoZSBEVCBpbmZvcm1hdGlvbiBvZiBCRDcx
+ODI4DQo+ID4gZGV2aWNlLiBFZywgaXQgc2hvdWxkIHVzZSB0aGUgTUZEIGR0IG5vZGUgKGJlY2F1
+c2UgdGhpcyBpcyB0aGUgcmVhbA0KPiA+IGRldmljZSkgYW5kIG5vdCBqdXN0IHBhcnQgb2YgaXQu
+IGRldm1fbGVkX2NsYXNzZGV2X3JlZ2lzdGVyX2V4dA0KPiA+IHNob3VsZA0KPiA+IHRoZW4gZXh0
+cmFjdCB0aGUgTEVEIHNwZWNpZmljIGluZm9ybWF0aW9uLiBJIGhhdmUgbm90IGNoZWNrZWQgdGhl
+DQo+ID4gaW1wbGVtZW50YXRpb24gb2YgZGV2bV9sZWRfY2xhc3NkZXZfcmVnaXN0ZXJfZXh0IGlu
+IGRldGFpbHMgLSBidXQNCj4gPiBpdA0KPiA+IHNob3VsZCBpZ25vcmUgbm9uIGxlZCBwcm9wZXJ0
+aWVzIGFuZCBqdXN0IHdhbGsgdGhyb3VnaCB0aGUgTEVEDQo+ID4gaW5mb3JtYXRpb24gYW5kIGNy
+ZWF0ZSB0aGUgc3lzZnMgaW50ZXJmYWNlcyBldGMuIGZvciBhbGwgTEVEcyBpdA0KPiA+IGZpbmRz
+Lg0KPiANCj4gVGhpcyBmdW5jdGlvbiBkb2VzIG5vdCB3b3JrIGxpa2UgdGhhdCwgYXMgZXhwbGFp
+bmVkIGFib3ZlLg0KPiBQbGVhc2UgZmlyc3QgZ2V0IGFjcXVhaW50ZWQgd2l0aCB0aGUgd2F5IGhv
+dyBleGlzdGluZyBMRUQgY2xhc3MNCj4gZHJpdmVycw0KPiBhcHByb2FjaCBMRUQgcmVnaXN0cmF0
+aW9uLiBCZWNhdXNlIG90aGVyd2lzZSB3ZSdyZSB3YXN0aW5nIGVhY2gNCj4gb3RoZXJzJyB0aW1l
+Lg0KDQpSaWdodC4gSSBzZWUuIFNvIGVhY2ggTEVEIGRyaXZlciBtdXN0IGZpcnN0IHBhcnNlIHRo
+ZSBEVCBpbmZvcm1hdGlvbiBpbg0Kb3JkZXIgdG8gZmluZCB0aGUgTEVEIG5vZGUgLSBvciBlYWNo
+IExFRCBub2RlIG11c3QgYmUgaWRlbnRpZmllZCBieQ0Kd2hhdC1ldmVyIG1lY2hhbmlzbSBpcyBp
+bnZva2luZyB0aGUgTEVEIGRyaXZlci4uLiBJIHNlZSB0aGlzIGNvdWxkIGJlDQppbXByb3ZlZCBp
+biB0aGUgZnV0dXJlIGJ5IGFkZGluZyBMRUQgZnJhbWV3b3JrIGEgbWVjaGFuaXNtIHRvIGlkZW50
+aWZ5DQpMRUQgbm9kZXMuIEJ1dCB0aGF0IGRpc2N1c3Npb24gaXMgKHByb2JhYmx5KSBvdXQgb2Yg
+dGhlIHNjb3BlIG9mIHRoaXMNCmRyaXZlci4gVGhhbmtzIGZvciBwb2ludGluZyB0aGF0IG91dC4N
+Cg0KPiA+IChJbiBteSBleGFtcGxlIHRoaXMgaXMgdGhlIGNoZy1sZWQgYW5kIHB3ci1sZWQgc3Vi
+LW5vZGVzKS4NCj4gPiBGdXJ0aGVybW9yZSwNCj4gPiBpZiBubyBMRUQgaW5mb3JtYXRpb24gaXMg
+Zm91bmQgZnJvbSBEVCBJIHdvdWxkIGV4cGVjdA0KPiA+IGRldm1fbGVkX2NsYXNzZGV2X3JlZ2lz
+dGVyX2V4dCB0byBmYWlsIHdpdGggd2VsbC1kZWZpbmVkIHJldHVybg0KPiA+IHZhbHVlDQo+ID4g
+c28gdGhhdCB0aGUgZHJpdmVyIGNvdWxkIGRvIHdoYXQgaXQgbm93IGRvZXMgLSBFZywgdXNlICJz
+YW5lDQo+ID4gZGVmYXVsdHMiDQo+ID4gdG8gcmVnaXN0ZXIgdGhlIGRlZmF1bHQgY2xhc3MtZGV2
+aWNlcyBmb3IgZ3JlZW4gYW5kIGFtYmVyIExFRHMuIFRoZQ0KPiA+IGRlZmF1bHQgbGVkIGNsYXNz
+IGRldiBuYW1pbmcgc2hvdWxkIG9mIGNvdXJzZSBiZSBzYW1lIGZvcm1hdCBhcyBpdA0KPiA+IHdv
+dWxkIGJlIGlmIERUIHdhcyBwb3B1bGF0ZWQgd2l0aCBncmVlbiBhbmQgYW1iZXIgbGVkIGluZm9y
+bWF0aW9uLiANCj4gDQo+IFBsZWFzZSBnbyB0aHJvdWdoIDUuNC1yYzEgcGF0Y2hlcyByZWxhdGVk
+IHRvIExFRCBuYW1pbmcgaW1wcm92ZW1lbnRzDQo+IFlvdSBjYW4gYWxzbyByZWZlciB0byBEb2N1
+bWVudGF0aW9uL2xlZHMvbGVkcy1jbGFzcy5yc3QsDQo+ICJMRUQgRGV2aWNlIE5hbWluZyIgc2Vj
+dGlvbiBmb3Igc3RhcnRlci4NCg0KSSB3aWxsLiBUaGUgbmFtaW5nIHNob3VsZCBiZSBjb2hlcmVu
+dCAtIGFuZCBuYW1lcyBpbiBteSBjdXJyZW50IGRyYWZ0DQp3ZXJlIGp1c3QgcHVsbGVkIG9mZiBm
+cm9tIG15IGhhdC4gVGhhbmtzLg0KDQo+ID4gPiA+IAl9Ow0KPiA+ID4gPiANCj4gPiA+ID4gSG93
+IGRvIHlvdSBzZWUgdGhpcz8gT3IgZG8geW91IHJlYWxseSB3aXNoIHRvIGhhdmUgdGhpcyBvbmUN
+Cj4gPiA+ID4gZXh0cmENCj4gPiA+ID4gbm9kZToNCj4gPiA+ID4gDQo+ID4gPiA+IAlwbWljOiBw
+bWljQDRiIHsNCj4gPiA+ID4gCQljb21wYXRpYmxlID0gInJvaG0sYmQ3MTgyOCI7DQo+ID4gPiA+
+IAkJDQo+ID4gPiA+IHJlZyA9IDwweDRiPjsNCj4gPiA+ID4gCQlpbnRlcnJ1cHQtcGFyZW50ID0g
+PCZncGlvMT47DQo+ID4gPiA+IAkJaW50ZXJydQ0KPiA+ID4gPiBwdHMgPSA8MjkgR1BJT19BQ1RJ
+VkVfTE9XPjsNCj4gPiA+ID4gCQljbG9ja3MgPSA8Jm9zYyAwPjsNCj4gPiA+ID4gCQkNCj4gPiA+
+ID4gI2Nsb2NrLWNlbGxzID0gPDA+Ow0KPiA+ID4gPiAJCWNsb2NrLW91dHB1dC1uYW1lcyA9ICJi
+ZDcxODI4LTMyay1vdXQiOw0KPiA+ID4gPiAJCWdwaW8tY29udHJvbGxlcjsNCj4gPiA+ID4gCQkj
+Z3Bpby1jZWxscyA9IDwyPjsNCj4gPiA+ID4gCQ0KPiA+ID4gPiAJbmdwaW9zID0gPDQ+Ow0KPiA+
+ID4gPiAJCWdwaW8tcmVzZXJ2ZWQtcmFuZ2VzID0gPDAgMSAyIDE+Ow0KPiA+ID4gPiAJDQo+ID4g
+PiA+IAlncGlvLWxpbmUtbmFtZXMgPSAiRVBERU4iOw0KPiA+ID4gPiAJCXJvaG0sZHZzLXZzZWwt
+Z3Bpb3MgPQ0KPiA+ID4gPiA8JmdwaW8xIDEyIDA+LA0KPiA+ID4gPiAJCQkJICAgICAgPCZncGlv
+MSAxMyAwPjsNCj4gPiA+ID4gCQkNCj4gPiA+ID4gcmVndWxhdG9ycyB7DQo+ID4gPiA+IAkJCS4u
+Lg0KPiA+ID4gPiAJCX07DQo+ID4gPiA+IAkJDQo+ID4gPiA+IAkJbGVkcy1kdW1teSB7DQo+ID4g
+PiANCj4gPiA+IFdoeSBsZWRzLWR1bW15ID8NCj4gPiANCj4gPiBCZWNhdXNlIHRoZXJlIGlzIG5v
+IHJlYWwgbGVkIGNvbnRyb2xsZXIgZGV2aWNlIGluIGFueSAiTUZEIGJ1cyIuIEl0DQo+ID4gaXMN
+Cj4gPiBqdXN0IG9uZSBNRkQgZGV2aWNlIHdpdGggY29udHJvbHMgZm9yIHR3byBMRURzLiANCj4g
+PiANCj4gPiA+IFRoZSBjb252ZW50aW9uIGlzIHRvIGhhdmUgbGVkLWNvbnRyb2xsZXJAdW5pdC1h
+ZGRyZXNzIGFzIHRoZQ0KPiA+ID4gcGFyZW50DQo+ID4gPiBMRUQNCj4gPiA+IGNvbnRyb2xsZXIg
+bm9kZS4NCj4gPiANCj4gPiBXaGF0IGlzIHRoZSB1bml0IGFkZHJlc3MgaGVyZT8gMHg0YiBpcyB0
+aGUgSTJDIHNsYXZlIGFkZHJlc3MgYW5kIGl0DQo+ID4gaXMNCj4gPiB0aGUgTUZEIG5vZGUgYWRk
+cmVzcy4gVGhlcmUgaXMgbm8gYWRkcmVzc2luZyBmb3IgTEVEIGNvbnRyb2xsZXIgYXMNCj4gPiB0
+aGVyZSBpcyBubyBzZXBhcmF0ZSBMRUQgY29udHJvbGxlciBkZXZpY2UuIFRoZXJlIGlzIG9ubHkg
+b25lDQo+ID4gZGV2aWNlLA0KPiA+IHRoZSBQTUlDIHdoaWNoIGlzIE1GRCBkZXZpY2UgYXMgaXQg
+aGFzIG11bHRpcGxlIGZ1bmN0aW9ucyBtZWxkIGluLg0KPiA+IE9uZQ0KPiA+IG9mIHRoZXNlIGZ1
+bmN0aW9ucyBpcyBMRUQgY29udHJvbCBhbmQgcmVxdWlyZXMgTEVEIGRyaXZlci4NCj4gDQo+IEZv
+ciBNRkQgY2VsbCB5b3UgY2FuIGhhdmUganVzdCAibGVkIi4NCj4gDQo+ID4gPiA+IAkJCWNoZy1s
+ZWQgew0KPiA+ID4gcy9jaGctbGVkL2xlZDAvDQo+ID4gPiANCj4gPiA+ID4gCQkJCWZ1bmN0aW9u
+ID0NCj4gPiA+ID4gTEVEX0ZVTkNUSU9OX0NIQVJHSU5HOw0KPiA+ID4gPiAJCQkJY29sb3IgPSBM
+RURfQ09MT1JfSURfQU1CRVI7DQo+ID4gPiA+IAkJCX07DQo+ID4gPiA+IA0KPiA+ID4gPiAJCQlw
+d3ItbGVkIHsNCj4gPiA+IA0KPiA+ID4gcy9wd3ItbGVkL2xlZDEvDQo+ID4gPiANCj4gPiA+IFRo
+aXMgaXMgZVBBUFIgcmVxdWlyZW1lbnQgdGhhdCBEVCBub2RlIG5hbWUgc2hvdWxkIGRlc2NyaWJl
+IHRoZQ0KPiA+ID4gZ2VuZXJhbCBjbGFzcyBvZiBkZXZpY2UuDQo+ID4gDQo+ID4gVGhhbmtzLiBJ
+IGhhZCBzb21lIHByb2JsZW1zIHdpdGggdGhlc2Ugbm9kZSBuYW1lcyBhcyBJIHdhbnRlZCB0bw0K
+PiA+IG1ha2UNCj4gPiB0aGVtIGdlbmVyaWMgKGxlZCkgYnV0IGFsc28gdG8gaW5jbHVkZSBzb21l
+IGluZm9ybWF0aW9uIHdoYXQgbGVkcw0KPiA+IHRoZXkNCj4gPiBhcmUuIEEgYml0IHNhbWUgaWRl
+YSBhcyBJIHNlZSBpbiBub2RlIG5hbWVzIGxpa2UgImNoYW4xIiBhbmQNCj4gPiAiY2hhbjM0NSIN
+Cj4gPiB0aGF0IGFyZSB1c2VkIGluIHRpLWxtdSBiaW5kaW5ncyBJIGNoZWNrZWQgZm9yIHRoZSBl
+eGFtcGxlLiBCdXQgSQ0KPiA+IGFtDQo+ID4gZmluZSB3aXRoIHJlbmFtaW5nIHRoZW0gaW4gdGhp
+cyBleGFtcGxlISBJIGp1c3QgZG9uJ3QgdGhpbmsgd2UNCj4gPiBzaG91bGQNCj4gPiBoYXZlIHRo
+aXMgZXh0cmEgbm9kZSBhcyBJIG1lbnRpb25lZC4NCj4gDQo+IEkgd29uZGVyIHdoYXQgUm9iIGFu
+ZCBMZWUgd2lsbCBzYXkgaGVyZS4gSSBwZXJzb25hbGx5IHdvdWxkDQo+IGxpa2UgdG8gc3RpY2sg
+dG8gTEVEIGNvbW1vbiBiaW5kaW5ncyBhbmQgaGF2ZSB0aGlzIGV4dHJhIG5vZGUuDQo+IFdlIGRl
+ZmluZSBzdGFuZGFyZHMgZm9yIGEgcmVhc29uIGFmdGVyIGFsbC4NCg0KSSBkb24ndCB1bmRlcnN0
+YW5kIHdoYXQgbWFrZXMgeW91IHRoaW5rIHdlIHNob3VsZG4ndCBzdGljayBMRUQgY29tbW9uDQpi
+aW5kaW5ncz8gV2UgZGVmaW5pdGVseSB3YW50IHRvIGhhdmUgY29tbW9uIGJpbmRpbmdzIGFuZCBp
+bmNyZWFzZQ0KYW1vdW50IG9mIGJpbmRpbmdzIGhhbmRsZWQgYnkgY29yZSBpbnN0ZWFkIG9mIGhh
+bmRsaW5nIHRoZSBiaW5kaW5ncyBpbg0KYWxsIG9mIHRoZSBMRUQgZHJpdmVycy4gSXQgd2FzIGp1
+c3Qgc3RyYW5nZSB0byBtZSB0aGF0IExFRCBzdWJzeXN0ZW0NCnVzZXMgdGhpcyAiZXh0cmEgbm9k
+ZSIgYW5kICJleHRyYSBjb21wYXRpYmxlIiBpbnNpZGUgTUZEIHdoZXJlYXMgKEkNCmhhdmUgdW5k
+ZXJzdG9vZCB0aGF0KSBvdGhlciBzdWJzeXN0ZW1zIHNlZW0gdG8gYmUgZ2l2aW5nIHVwIG9uIHRo
+YXQuDQpCdXQgbWF5YmUgSSBhbSBtaXN0YWtlbiBvbiB0aGF0IC0gd291bGRuJ3QgYmUgZmlyc3Qg
+dGltZSAtIGxldCdzIHNlZSA6KQ0KDQo+ID4gPiA+IAkJCQlmdW5jdGlvbiA9IExFRF9GVU5DVElP
+Tl9QT1dFUjsNCj4gPiA+ID4gCQkJCWNvbG9yID0gTEVEX0NPTE9SX0lEX0dSRUVOOw0KPiA+ID4g
+PiAJCQl9Ow0KPiA+ID4gDQo+ID4gPiBDb21tb24gTEVEIGJpbmRpbmdzIHNheSB0aGlzIGlzIHRo
+ZSBwcm9wZXIgd2F5IHRvIGdvLiBIb3dldmVyIHlvdQ0KPiA+ID4gd291bGQgbmVlZCBjb21wYXRp
+YmxlIHRvIHByb2JlIExFRCBjbGFzcyBkcml2ZXIgaW4gRFQgYmFzZWQgd2F5Lg0KPiA+IA0KPiA+
+IE5vLiBJIGRvbid0LiBNRkQgd2lsbCBwcm9iZSB0aGUgTEVEIGNsYXNzIGRyaXZlciBhcyBsb25n
+IGFzIHRoZQ0KPiA+IG5hbWUgb2YNCj4gPiB0aGUgZHJpdmVyIG1hdGNoZXMgdG8gTUZEIGNlbGwg
+bmFtZS4gDQo+IA0KPiBJZiB5b3UgaW5pdGlhbGl6ZSBvbmx5IG9mX2NvbXBhdGlibGUgaW4gc3Ry
+dWN0IG1mZF9jZWxsIGVsZW1lbnQgdGhlbg0KPiBpdA0KPiB3aWxsIHVzZSBvbmx5IHRoYXQgZm9y
+IG1hdGNoaW5nLiBJIGJldCBJIHdhcyBjaGVja2luZyB0aGF0IGZpdmUgeWVhcnMNCj4gYWdvIHdo
+aWxlIHdvcmtpbmcgb24gbGVkcy1tYXg3NzY5MyBkcml2ZXIuDQoNClllcy4gSXQgc3VyZSB1c2Vz
+IG9mX2NvbXBhdGlibGUgZm9yIG1hdGNoaW5nIGFuZCBwb3B1bGF0aW5nIHRoZSBkdA0Kbm9kZS4g
+VGhpcyBpcyBkaWZmZXJlbnQgZnJvbSBwcm9iaW5nIHRob3VnaC4gU3ViLWRldmljZSBpcyBwcm9i
+ZWQganVzdA0KZmluZSBldmVuIHdoZW4gdGhlcmUgaXMgbm8gY29tcGF0aWJsZSBmb3IgaW4gRFQg
+LSBpZiB0aGUgbmFtZSBtYXRjaGVzLg0KV2hhdCBjaGFuZ2VzIGlzIHRoYXQgdGhlIG9mX25vZGUg
+d29uJ3QgYmUgcG9wdWxhdGVkIGFuZCBzdWIgZHJpdmVyDQpuZWVkcyB0byBmaWd1cmUgaXQgb3V0
+LiBTbyBib3RoIGFwcHJvYWNoZXMgKndvcmsqIC0gd2hpY2ggaXMgY29uc2lkZXJlZA0KYXMgInJp
+Z2h0IHRoaW5nIHRvIGRvIih0bSkgbmVlZHMgdG8gYmUgZmlndXJlZCBvdXQuIEkgaGF2ZSBubyBm
+dXJ0aGVyDQppbnNpZ2h0IGFzIHRvIHdoeSB0aGUgY29tcGF0aWJsZSBzaG91bGQgb3Igc2hvdWxk
+IG5vdCBiZSB1c2VkIGZvciBNRkQNCnN1Yi1kZXZpY2VzIC0gSSB3YXMganVzdCB0b2xkIHRvIGF2
+b2lkIHRoYXQgaW4gdGhlIHBhc3QuIEJ1dCBsZXQncyBzZWUNCmlmIHdlIGdldCBSb2IncyBvciBM
+ZWUncyBhdHRlbnRpb24gOikNCg0KPiA+IFNvIHdlIG9ubHkgbmVlZCBNRkQgZHJpdmVyIHRvIGJl
+DQo+ID4gcHJvYmVkIGJhc2VkIG9uIHRoZSBjb21wYXRpYmxlLiBSZXN0IG9mIHRoZSBzdWItZGV2
+aWNlIGRyaXZlcnMgd2lsbA0KPiA+IGJlDQo+ID4gcHJvYmVkIGJ5IE1GRC4gV2hhdCBJIGFtIG1p
+c3NpbmcgaXMgTU9EVUxFX0FMSUFTIGluIExFRCBkcml2ZXIgZm9yDQo+ID4gbG9hZGluZyB0aGUg
+bW9kdWxlIHdoZW4gTUZEIGlzIHNlYXJjaGluZyBmb3IgaXQgaWYgaXQgaXMgbm90DQo+ID4gbW9k
+cHJvYmVkDQo+ID4gdmlhIHNjcmlwdHMgb3IgYnVpbHQgaW4ta2VybmVsLiBJIGhhdmUgdW5kZXJz
+dG9vZCB0aGlzIGlzIHRoZQ0KPiA+IHN0YW5kYXJkDQo+ID4gd2F5IHdpdGggTUZEIG5vd2FkYXlz
+IC0gSSBhbSBwb3NpdGl2ZSBMZWUgd2lsbCBraWNrIG1lIGlmIEkgYW0NCj4gPiB3cm9uZyA7KQ0K
+PiA+IChJIHRoaW5rIEkgaGF2ZSBidWxsaWVkIGhpbSB0aGF0IG11Y2ggaW4gdGhlIHBhc3QgOi8g
+KQ0KPiANCj4gTGFzdCBzZW50ZW5jZSBjb25maXJtcyBteSBvYnNlcnZhdGlvbiB0aGF0IHlvdSdy
+ZSBzdHJvbmdseSBpbmNsaW5lZA0KPiB0byBjb250ZXN0IHN0YXR1cyBxdW8gOi0pDQoNCkxldCdz
+IGp1c3Qgc2F5IHRoYXQgSSBoYXZlIGhhZCBteSBtb21lbnRzIC0gYm90aCBpbiBnb29kIGFuZCBp
+biBiYWQgOikNCkkgYW0gcHJvYmFibHkgbm90IHRoZSBlYXNpZXN0IGd1eSB0byB3b3JrIHdpdGgg
+YnV0IG5vdCB0aGUgd29yc3QNCmVpdGhlci4gQWN0dWFsbHksIHByb2JsZW1zIHRlbmQgdG8gc3Rh
+cnQgd2hlbiBJIHRyeSB0byBiZSBmdW5ueQ0KOnJvbGxleWVzOiBJIHNob3VsZCBsZWFybiB3aGVu
+IHRvIHN0b3AuDQoNCj4gPiA+IElmIHlvdSBwbGFuIHRvIGRvIGl0IG90aGVyd2lzZSB0aGVuIGl0
+IG1ha2VzIG5vIHNlbnNlIHRvIGhhdmUNCj4gPiA+IERUIG5vZGVzIGZvciBMRURzLg0KPiA+IA0K
+PiA+IFRoYXQgd2FzIG15IHBvaW50LiBUaGlzIGlzIHdoeSBJIGRpZCBub3QgaGF2ZSBMRURzIGlu
+IERUIGluIGZpcnN0DQo+ID4gcGxhY2UuIEJ1dCBhcyBJIHNhaWQgYWJvdmUgLSBhcyBhIHJlc3Vs
+dCBvZiB0aGlzIGRpc2N1c3Npb24gSSBoYXZlDQo+ID4gc3RhcnRlZCB0aGlua2luZyB0aGF0IG1h
+eWJlIEkgY291bGQgY2hlY2sgaWYgSSBjYW4gZWFzaWx5IGFkZA0KPiA+IHN1cHBvcnQNCj4gPiBm
+b3IgcHJvdmlkaW5nIExFRCBpbmZvcm1hdGlvbiBhbHNvIHZpYSBEVCBhbmQgZmFsbCBiYWNrIHRv
+IGRlZmF1bHRzDQo+ID4gaWYNCj4gPiBubyBMRUQgaW5mb3JtYXRpb24gaXMgZm91bmQuICh0byBh
+bGxvdyBjb2xvciBjaGFuZ2Ugb3IgdG8gb21pdCBvbmUNCj4gPiBvZg0KPiA+IHRoZSBMRURzIGFz
+IHlvdSBzdWdnZXN0ZWQpDQoNCj4gPiA+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiA+ID4gKwli
+ZDcxODI4ID0gZGV2X2dldF9kcnZkYXRhKHBkZXYtPmRldi5wYXJlbnQpOw0KPiA+ID4gPiA+ID4g
+PiA+ICsJbCA9IGRldm1fa3phbGxvYygmcGRldi0+ZGV2LCBzaXplb2YoKmwpLA0KPiA+ID4gPiA+
+ID4gPiA+IEdGUF9LRVJORUwpOw0KPiA+ID4gPiA+ID4gPiA+ICsJaWYgKCFsKQ0KPiA+ID4gPiA+
+ID4gPiA+ICsJCXJldHVybiAtRU5PTUVNOw0KPiA+ID4gPiA+ID4gPiA+ICsJbC0+YmQ3MTgyOCA9
+IGJkNzE4Mjg7DQo+ID4gPiA+ID4gPiA+ID4gKwlhID0gJmwtPmFtYmVyOw0KPiA+ID4gPiA+ID4g
+PiA+ICsJZyA9ICZsLT5ncmVlbjsNCj4gPiA+ID4gPiA+ID4gPiArCWEtPmlkID0gSURfQU1CRVJf
+TEVEOw0KPiA+ID4gPiA+ID4gPiA+ICsJZy0+aWQgPSBJRF9HUkVFTl9MRUQ7DQo+ID4gPiA+ID4g
+PiA+ID4gKwlhLT5mb3JjZV9tYXNrID0gQkQ3MTgyOF9NQVNLX0xFRF9BTUJFUjsNCj4gPiA+ID4g
+PiA+ID4gPiArCWctPmZvcmNlX21hc2sgPSBCRDcxODI4X01BU0tfTEVEX0dSRUVOOw0KPiA+ID4g
+PiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ID4gPiArCWEtPmwubmFtZSA9IEFOQU1FOw0KPiA+ID4g
+PiA+ID4gPiA+ICsJZy0+bC5uYW1lID0gR05BTUU7DQo+ID4gPiA+ID4gPiA+ID4gKwlhLT5sLmJy
+aWdodG5lc3Nfc2V0X2Jsb2NraW5nID0NCj4gPiA+ID4gPiA+ID4gPiBiZDcxODI4X2xlZF9icmln
+aHRuZXNzX3NldDsNCj4gPiA+ID4gPiA+ID4gPiArCWctPmwuYnJpZ2h0bmVzc19zZXRfYmxvY2tp
+bmcgPQ0KPiA+ID4gPiA+ID4gPiA+IGJkNzE4MjhfbGVkX2JyaWdodG5lc3Nfc2V0Ow0KPiA+ID4g
+PiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ID4gPiArCXJldCA9IGRldm1fbGVkX2NsYXNzZGV2X3Jl
+Z2lzdGVyKCZwZGV2LT5kZXYsDQo+ID4gPiA+ID4gPiA+ID4gJmctPmwpOw0KPiA+ID4gPiA+ID4g
+PiA+ICsJaWYgKHJldCkNCj4gPiA+ID4gPiA+ID4gPiArCQlyZXR1cm4gcmV0Ow0KPiA+ID4gPiA+
+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ID4gPiArCXJldHVybiBkZXZtX2xlZF9jbGFzc2Rldl9yZWdp
+c3RlcigmcGRldi0+ZGV2LA0KPiA+ID4gPiA+ID4gPiA+ICZhLT5sKTsNCj4gPiA+ID4gPiANCj4g
+PiA+ID4gPiBUaGlzIHdheSB5b3UgZm9yY2UgdXNlcnMgdG8gYWx3YXlzIHJlZ2lzdGVyIHR3byBM
+RUQgY2xhc3MNCj4gPiA+ID4gPiBkZXZpY2VzDQo+ID4gPiA+ID4gd2hlcmVhcyB0aGV5IG1pZ2h0
+IG5lZWQgb25seSBvbmUuIFBsZWFzZSBjb21wYXJlIGhvdyBvdGhlcg0KPiA+ID4gPiA+IExFRA0K
+PiA+ID4gPiA+IGNsYXNzDQo+ID4gPiA+ID4gZHJpdmVycyBoYW5kbGUgRFQgcGFyc2luZyBhbmQg
+TEVEIGNsYXNzIGRldmljZSByZWdpc3RyYXRpb24uDQo+ID4gPiA+IA0KPiA+ID4gPiBJIGFtIG5v
+dCBzdXJlIGlmIEkgdW5kZXJzdGFuZCBjb3JyZWN0bHkgd2hhdCB5b3UgbWVhbiBieSB1c2luZw0K
+PiA+ID4gPiBvbmx5DQo+ID4gPiA+IG9uZQ0KPiA+ID4gPiBjbGFzcyBkZXZpY2UuIEFzIEkgKGhv
+cGVmdWxseSkgc29tZXdoZXJlIHNhaWQgLSB1c2VycyBjYW4ndA0KPiA+ID4gPiBjb250cm9sDQo+
+ID4gPiA+IG9ubHkgb25lIG9mIHRoZXNlIExFRHMuIElmIHRoZXkgZGVjaWRlIHRvIGVuYWJsZSBv
+bmUgbGVkIGJ5IFNXLA0KPiA+ID4gPiB0aGVuDQo+ID4gPiA+IHRoZXkgaW5ldml0YWJseSBjb250
+cm9sIGFsc28gdGhlIG90aGVyLiBUaHVzIGl0IGlzIGJldHRlciB0aGF0DQo+ID4gPiA+IHVzZXIN
+Cj4gPiA+ID4gZ2V0cyBjb250cm9sIHRvIGJvdGggb2YgdGhlIExFRHMgaWYgdGhleSB0YWtlIHRo
+ZSBjb250cm9sIGZvcg0KPiA+ID4gPiBvbmUuDQo+ID4gPiA+IA0KPiA+ID4gPiBPciBkbyB5b3Ug
+bWVhbiBJIGNvdWxkIGFjaGlldmUgdGhlIGNvbnRyb2wgZm9yIGJvdGggb2YgdGhlc2UNCj4gPiA+
+ID4gTEVEcw0KPiA+ID4gPiB2aWENCj4gPiA+ID4gb25seSBvbmUgY2xhc3MgZGV2aWNlPw0KPiA+
+ID4gDQo+ID4gPiBBRkFJVSB0aGUgTEVEcywgd2hlbiBpbiBTVyBtb2RlLCBjYW4gYmUgY29udHJv
+bGxlZCBpbmRlcGVuZGVudGx5LA0KPiA+ID4gcmlnaHQ/DQo+ID4gDQo+ID4gWWVzIGFuZCBuby4g
+Qm90aCBvZiB0aGUgTEVEcyBjYW4gYmUgZm9yY2VkIG9uL29mZiBpbmRpdmlkdWFsbHkgLSBhcw0K
+PiA+IGxvbmcgYXMgb25lIG9mIHRoZW0gaXMgZm9yY2VkIE9OLiBJZiBib3RoIExFRHMgYXJlIHRy
+aWVkIHRvIGJlDQo+ID4gZm9yY2VkDQo+ID4gT0ZGIC0gdGhlbiBib3RoIExFRHMgYXJlIGNvbnRy
+b2xsZWQgYnkgSFcuIElmIGJvdGggYXJlIGNvbnRyb2xsZWQNCj4gPiBieSBIVw0KPiA+IGFuZCB0
+aGVuIG9uZSBpcyBmb3JjZWQgT04gLSB0aGUgb3RoZXIgaXMgYWxzbyBubyBsb25nZXIgY29udHJv
+bGxlZA0KPiA+IGJ5DQo+ID4gSFcgYW5kIGlzIGZvcmNlZCBPRkYuDQo+ID4gDQo+ID4gRWcsIGJp
+dHMgMHg4MCBhbmQgMHg0MCBhcmUgY29ucm9scyBmb3IgdGhlc2UgTEVEcy4gMHg4MCBmb3Igb25l
+LA0KPiA+IDB4NDANCj4gPiBmb3IgdGhlIG90aGVyLiBTZXR0aW5nIGJpdCBtZWFucyBMRUQgaXMg
+b24sIGNsZWFyaW5nIG1lYW5zIExFRCBpcw0KPiA+IG9mZiAtDQo+ID4gd2l0aCB0aGUgSFcgY29u
+dHJvbCB0d2lzdC4uLiBJZiBlaXRoZXIgb2YgdGhlIGJpdHMgaXMgc2V0IC0gdGhlbg0KPiA+IGJv
+dGgNCj4gPiBsZWRzIGFyZSBjb250cm9sbGVkIGJ5IHRoZXNlIGJpdHMgKFNXIGNvbnRyb2wpLiBJ
+ZiBib3RoIGJpdHMgYXJlDQo+ID4gY2xlYXJlZCwgdGhlbiBMRURzIGFyZSBjb250cm9sbGVkIGJ5
+IEhXIChsaWtlbHkgdG8gYmUgb2ZmIGJ1dCBub3QNCj4gPiBmb3INCj4gPiBzdXJlKS4NCj4gDQo+
+IFRoYW5rIHlvdSBmb3IgdGhlIGV4cGxhbmF0aW9uLiBTbyB0aGV5IGNhbiBiZSByZXByZXNlbnRl
+ZCBieSBzZXBhcmF0ZQ0KPiBMRUQgY2xhc3MgZGV2aWNlcy4gRHJpdmVyIGxvZ2ljIHdpbGwganVz
+dCBuZWVkIHRvIHVwZGF0ZSB0aGUgc3RhdGUgb2YNCj4gdGhlIHNpYmxpbmcgTEVEIGlmIGl0IHdp
+bGwgYmUgYWZmZWN0ZWQuDQoNClJpZ2h0LiBPciBhdCBmaXJzdCBpdCBtaWdodCBiZSBlbm91Z2gg
+KGFuZCBzaW1wbGVzdCkgdG8gYXNzdW1lIHRoYXQgaWYNCkxFRHMgYXJlIHVzZWQgdmlhIHRoaXMg
+ZHJpdmVyLCB0aGVuIGNvbG91ciBmb3IgYm90aCBMRURzIGlzIHNldA0KZXhwbGljaXRseSBieSB1
+c2VyLXNwYWNlLiBJIHdvdWxkbid0IHRyeSBndWVzc2luZyBpZiBzaWJsaW5nIExFRCBzdGF0ZQ0K
+Y2hhbmdlcyB0byBPRkYgd2hlbiBvbmUgTEVEIGlzIHR1cm5lZCBPTiAtIG9yIGlmIExFRCBzdGF0
+ZXMgY2hhbmdlIHRvDQpPTiBpZiBib3RoIGFyZSB0dXJuZWQgT0ZGLiBUaGlzIHdvdWxkIHJlcXVp
+cmUgZXhwb3J0aW5nIGludGVyZmFjZXMgZnJvbQ0KcG93ZXItc3VwcGx5IGRyaXZlciAtIGFuZCBp
+dCB3b3VsZCBzdGlsbCBiZSByYWN5LiBUaGUgdGhpbmcgaXMgdGhhdA0Kd2hlbiBib3RoIExFRHMg
+YXJlIG9uIGJvYXJkIHRoZXkgYXJlIGJvdGggZWl0aGVyIHVuZGVyIEhXIG9yIFNXDQpjb250cm9s
+LiBTbyBpdCBtYWtlcyBubyBzZW5zZSB0byBjb250cm9sIG9ubHkgb25lIExFRCBpbiBzdWNoIGNh
+c2UuDQpUaHVzIEkgdGhpbmsgaXQgaXMgT2sgaWYgdGhpcyBMRUQgZHJpdmVyIGlzIHJlZ2lzdGVy
+aW5nIGJvdGggY2xhc3MNCmRldmljZXMgYXQgb25lIHByb2JlLiBObyBuZWVkIHRvIGluc3RhbnRp
+YXRlIG93biBwbGF0Zm9ybSBkZXZpY2VzIGZvcg0KYm90aCBvZiB0aGUgTEVEcy4NCg0KPiA+ID4g
+QmVjYXVzZSBpZiBub3QgdGhlbiB0aGVyZSBpcyBubyBwb2ludCBpbiBoYXZpbmcgc2VwYXJhdGUg
+TEVEDQo+ID4gPiBjbGFzcw0KPiA+ID4gZGV2aWNlcy4NCj4gPiA+IA0KPiA+ID4gQnV0IGlmIEkg
+Z2V0IGl0IHJpZ2h0LCB0aGVuIGFsbG93aW5nIGZvciByZWdpc3RlcmluZyBvbmx5IG9uZSBMRUQN
+Cj4gPiA+IGNsYXNzDQo+ID4gPiBkZXZpY2UgaXMgZW50aXJlbHkganVzdGlmaWFibGUgLSB0aGlu
+ayBvZiBhIHNpdHVhdGlvbiB3aGVuIHRoZQ0KPiA+ID4gaW91dA0KPiA+ID4gcmVtYWlucyBub3Qg
+Y29ubmVjdGVkIG9uIHRoZSBib2FyZC4NCj4gPiANCj4gPiBZZXMuIFRoaXMgbWlnaHQgYmUgdW5s
+aWtlbHkgLSBidXQgdGhpcyBpcyB0aGUgcmVhc29uIHdoeSBJIGNvbnNpZGVyDQo+ID4gYWRkaW5n
+IHRoZSBEVCBzdXBwb3J0LiBJIGp1c3QgYW0gbm90IHN1cmUgaWYgY292ZXJpbmcgdGhpcyBzY2Vu
+YXJpbw0KPiA+IG5vdw0KPiA+IGlzIHdvcnRoIHRoZSBoYXNzbGUuIEkgdGVuZCB0byB0aGluayB3
+ZSBzaG91bGQgb25seSBhZGQgdGhlIERUDQo+ID4gc3VwcG9ydA0KPiA+IGlmIHNvbWVvbmUgYWN0
+dWFsbHkgcHJvZHVjZXMgYSBib2FyZCB3aGVyZSB0aGlzIExFRCBpcyBub3QNCj4gPiBjb25uZWN0
+ZWQuDQo+IA0KPiBDb3VsZCB5b3Ugc2hhcmUgd2hhdCBib2FyZCB5b3UncmUgd29ya2luZyB3aXRo
+Pw0KDQpVbmZvcnR1bmF0ZWx5IEkgY2FuJ3QgOiggSSBhbSB3b3JraW5nIGZvciBhIGNvbXBvbmVu
+dCB2ZW5kb3IgYW5kIGFsbA0KY3VzdG9tZXIgcmVsYXRlZCBpbmZvcm1hdGlvbiBpcyB1c3VhbGx5
+IHN0cmljdGx5IGNvbmZpZGVudGFsIC0gZXZlbiBpbg0KY2FzZXMgd2hlcmUgaXQgY2FuIGJlIGd1
+ZXNzZWQuLi4NCg0KDQoNCg==
