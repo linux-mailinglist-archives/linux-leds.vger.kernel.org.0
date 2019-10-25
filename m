@@ -2,66 +2,156 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F330CE5264
-	for <lists+linux-leds@lfdr.de>; Fri, 25 Oct 2019 19:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB68CE52C1
+	for <lists+linux-leds@lfdr.de>; Fri, 25 Oct 2019 19:58:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502743AbfJYRdX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 25 Oct 2019 13:33:23 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:46964 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391596AbfJYRdX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 25 Oct 2019 13:33:23 -0400
-Received: by mail-il1-f195.google.com with SMTP id m16so2497133iln.13
-        for <linux-leds@vger.kernel.org>; Fri, 25 Oct 2019 10:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=/za/eHCc5YOxno3F960dEsfMKhLfXOAXTv/vlKJMoEE=;
-        b=G1oGiG8O60afGke/KjUgd2tG/RdjqxXAI0+PdQzcUIRvQRnmMrIFdCL/v8qDg6c3CY
-         Uml6mrI/c3Ct2PddLdPAdrlP8XOvds7Kjczg6z+MN2NjD53UMqlsGqIYqxlunNtwGZi7
-         gMBK+/G6/9TkEaxeOFC6MD3hqc8rUsfNvMZ08=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/za/eHCc5YOxno3F960dEsfMKhLfXOAXTv/vlKJMoEE=;
-        b=sI7e8iKwcET+DfK7hV9qGNJqYzGy7ZTU1NhiDPFFPUbn5NjxSzTqu6dOg1kqSZ96wj
-         3CuV5PndH53wMGkIbhPsEaYMlMDuN/psr7jxpXh2BD4D4ITEovhGT0Ys9GwlvdMr3+ZC
-         XsBbn4ywMu35uc4331oeJzUmJpigKGMOnYqXoHlxV09YVMlUHIkOlfb6WMnW3bLPIXO2
-         gUh6c0OX57IbhetUyqwsVenC00nOwJIhTLxpXqifhSjGuCsQfon60wyBltWDuxFO5QTD
-         Oo6Wo7o85KUp2lkS+TNoZZqReFsDKSmKHFwy9joN2G6QvEhndgGN4apj4648aN/inYYg
-         nEhg==
-X-Gm-Message-State: APjAAAVHDpPLknyAP39KFPB8OZqn0zsYjF6m5xk/A3zT5PlkDWnrVfky
-        bOfpa8kYjipZHSZ8H3bwv6GIAA==
-X-Google-Smtp-Source: APXvYqwGcZc8kYV3Xx1MurQC6XjEHeqdTcoIEPkiFtkiiNBLe9vEJtobGEUW4cUDtxm5+8pjifmQ8g==
-X-Received: by 2002:a92:580d:: with SMTP id m13mr5299155ilb.117.1572024801694;
-        Fri, 25 Oct 2019 10:33:21 -0700 (PDT)
-Received: from chromium.org ([2620:15c:183:200:5d69:b29f:8fd8:6f45])
-        by smtp.gmail.com with ESMTPSA id k3sm34224ilg.27.2019.10.25.10.33.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2019 10:33:21 -0700 (PDT)
-Date:   Fri, 25 Oct 2019 11:33:19 -0600
-From:   Daniel Campello <campello@chromium.org>
-To:     Nick Crews <ncrews@chromium.org>
-Cc:     enric.balletbo@collabora.com, bleung@chromium.org,
-        linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
-        pavel@ucw.cz, linux-kernel@vger.kernel.org, arnd@arndb.de,
-        weiyongjun1@huawei.com, dlaurie@chromium.org, djkurtz@chromium.org,
-        dtor@google.com, sjg@chromium.org, groeck@chromium.com
-Subject: Re: [PATCH v8 1/2] platform/chrome: wilco_ec: Add keyboard backlight
- LED support
-Message-ID: <20191025173319.GA1768@chromium.org>
-References: <20191024222805.183642-1-ncrews@chromium.org>
+        id S1730840AbfJYR6P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 25 Oct 2019 13:58:15 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:49600 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730835AbfJYR6O (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 25 Oct 2019 13:58:14 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9PHw97j055061;
+        Fri, 25 Oct 2019 12:58:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1572026289;
+        bh=63VepNm8tn+UdkLGnRpF0hNOBgQ7fk7h+1gs9D3JlVQ=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=kPwkxDQFhLjOzLZul6tct1e4wAyK5BfPHAy8gmimSlb9EILu9xc3pMfXl7Jq6VAZB
+         91N0pywrPDPCjWzSF0eZD+6CoBaZCe8lvcM7SqOlcuHsb2/Yp1xM3TIAlsj1aF1RK/
+         mC0WCfI4uWNHmEqEsd7xkwfzK/nQN0DrPt7AYYeA=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9PHw9Bl072443;
+        Fri, 25 Oct 2019 12:58:09 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 25
+ Oct 2019 12:58:09 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 25 Oct 2019 12:58:09 -0500
+Received: from [10.250.35.43] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9PHw9AG064403;
+        Fri, 25 Oct 2019 12:58:09 -0500
+Subject: Re: [PATCH v14 13/19] leds: lp55xx: Add multicolor framework support
+ to lp55xx
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20191018122521.6757-1-dmurphy@ti.com>
+ <20191018122521.6757-14-dmurphy@ti.com>
+ <a24832d9-1c3d-b3ea-4326-2ef4937d5a59@gmail.com>
+ <c9a704d4-b411-59f1-02bf-3ea7b219c4b4@gmail.com>
+ <e1b84d15-d670-9393-aa65-85120e522a35@ti.com>
+ <0cd2082a-16d7-c414-7bd2-708a97885da1@gmail.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <b469d35b-ca39-2a99-1e86-420edcabf1ac@ti.com>
+Date:   Fri, 25 Oct 2019 12:57:23 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191024222805.183642-1-ncrews@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <0cd2082a-16d7-c414-7bd2-708a97885da1@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-LGTM.
-Reviewed-by: Daniel Campello <campello@chromium.org>
+Jacek
+
+On 10/22/19 12:41 PM, Jacek Anaszewski wrote:
+> Dan,
+>
+> On 10/22/19 6:37 PM, Dan Murphy wrote:
+>> Jacek
+>>
+>> On 10/18/19 4:56 PM, Jacek Anaszewski wrote:
+>>> On 10/18/19 11:48 PM, Jacek Anaszewski wrote:
+>>>> Dan,
+>>> +        ret = lp5xx_parse_channel_child(child, cfg, i);
+>>>> I went into details of this parsing and finally came up with
+>>>> the code which is a bit greater in size, but IMHO cleaner.
+>>>> Note changes in variable naming. It is not even compile-tested.
+>>>>
+>>>> static int lp55xx_parse_common_child(struct device_node *np,
+>>>>                                       struct lp55xx_led_config *cfg,
+>>>>                                       int led_number, int *chan_nr)
+>>>> {
+>>>>           int ret;
+>>>>
+>>>>           of_property_read_string(np, "chan-name",
+>>>>                                   &cfg[led_number].name);
+>>>>           of_property_read_u8(np, "led-cur",
+>>>>                               &cfg[led_number].led_current);
+>>>>           of_property_read_u8(np, "max-cur",
+>>>>                               &cfg[led_number].max_current);
+>>>>
+>>>>           ret = of_property_read_u32(np, "reg", chan_nr);
+>>>>           if (ret)
+>>>>                   return ret;
+>>>>
+>>>>           if (chan_nr < 0 || chan_nr > cfg->max_chan_nr) /* side note:
+>>>> new
+>>>> max_chan_nr property needed in cfg */
+>>>>                   return -EINVAL;
+>>>>
+>>>>           return 0;
+>>>> }
+>>>>
+>>>> static int lp55xx_parse_mutli_led_child(struct device_node *np,
+>>>>                                           struct lp55xx_led_config *cfg,
+>>>>                                           int child_number,
+>>>>                                           int color_number)
+>>>> {
+>>>>           int chan_nr, color_id;
+>>>>
+>>>>           ret = lp55xx_parse_common_child(child, cfg, child_number,
+>>>> color_number,
+>>>>                                           &chan_nr);
+>>>>           if (ret)
+>>>>                   return ret;
+>>>>
+>>>>           ret = of_property_read_u32(child, "color", &color_id);
+>>>>           if (ret)
+>>>>                  return ret;
+>>>>
+>>>>           cfg[child_number].color_components[color_number].color_id =
+>>>> color_id;
+>>>>           cfg[child_number].color_components[color_number].output_num =
+>>>> chan_nr;
+>>>>           set_bit(color_id, &cfg[child_number].available_colors);
+>>>>
+>>>>           return 0;
+>>>> }
+>>>>
+>>>> staitc int lp55xx_parse_mutli_led(struct device_node *np,
+>>>>                                     struct lp55xx_led_config *cfg,
+>>>>                                     int child_number)
+>>>> {
+>>>>           struct device_node *child;
+>>>>           int num_colors = 0, i = 0;
+>>> s/, i = 0//
+>>>
+>>>>           for_each_child_of_node(np, child) {
+>>>>                   ret = lp55xx_parse_mutli_led_child(child, cfg,
+>>>> num_colors,
+>>>>                                                      child_number, i))
+>>> Replace above call with below:
+>>>
+>>> ret = lp55xx_parse_mutli_led_child(child, cfg, child_number, num_colors);
+>>>
+>> I applied your DT parser patch from the v13 series.  Which eliminates
+>> this comment correct?
+> Yes, it contains this fix.
+>
+OK I added your patch and it broke a lot of the DT parsing for the LP55xx.
+
+I would prefer to stick with the original code without having to 
+re-write this again.
+
+Dan
+
