@@ -2,224 +2,147 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22AEEE54DF
-	for <lists+linux-leds@lfdr.de>; Fri, 25 Oct 2019 22:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72579E5A51
+	for <lists+linux-leds@lfdr.de>; Sat, 26 Oct 2019 13:54:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727897AbfJYUH6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 25 Oct 2019 16:07:58 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:52548 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727786AbfJYUH6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 25 Oct 2019 16:07:58 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9PK7r32072575;
-        Fri, 25 Oct 2019 15:07:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1572034073;
-        bh=j9m0vAu8vUYAMlW81Xf6OjqGsB6Z8BGD2QIDOauTBlo=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=KlZtwRV8sNUGLjTYn+QTWIr1wkmAZGOvRFvi774ILtPDR62t4pdz+5SvP5YS5UjCc
-         Tv84GrDIsmAbtW/fI9JA5cOaXusn6NoNMdD1tpI8URtyo87a702AUDzsdPMrwVJKRU
-         MyhKCtNTPoKFwj+fcxhrO9yrCktTQ+JnHAvO1kfY=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9PK7rh1028775
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 25 Oct 2019 15:07:53 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 25
- Oct 2019 15:07:52 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 25 Oct 2019 15:07:42 -0500
-Received: from [10.250.35.43] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9PK7qi5043650;
-        Fri, 25 Oct 2019 15:07:52 -0500
-Subject: Re: [PATCH v14 13/19] leds: lp55xx: Add multicolor framework support
- to lp55xx
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20191018122521.6757-1-dmurphy@ti.com>
- <20191018122521.6757-14-dmurphy@ti.com>
- <a24832d9-1c3d-b3ea-4326-2ef4937d5a59@gmail.com>
- <c9a704d4-b411-59f1-02bf-3ea7b219c4b4@gmail.com>
- <e1b84d15-d670-9393-aa65-85120e522a35@ti.com>
- <0cd2082a-16d7-c414-7bd2-708a97885da1@gmail.com>
- <b469d35b-ca39-2a99-1e86-420edcabf1ac@ti.com>
- <bfcae4c2-aa4d-8460-528f-6029d7a87b4d@gmail.com>
- <74868064-6a40-172e-ce28-94722e1f1aaf@ti.com>
- <7814c28c-ed38-24f0-6ff2-d89c918b617e@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <4273a125-129b-1c8b-b5ba-d320da40bf2a@ti.com>
-Date:   Fri, 25 Oct 2019 15:07:06 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726175AbfJZLyk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 26 Oct 2019 07:54:40 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:39861 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726350AbfJZLyj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 26 Oct 2019 07:54:39 -0400
+Received: by mail-io1-f68.google.com with SMTP id y12so5445956ioa.6
+        for <linux-leds@vger.kernel.org>; Sat, 26 Oct 2019 04:54:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=95NF6ya59NaDwQCRMTuT7+DIGgKDYS13smU5I7TrWOE=;
+        b=qCUMmIo0BbhCOq9lMzlReiKmqepVYdzM2YHifoI12iUkwr37TnSbvdjsnrTHq6ddmv
+         bcNdWTRhsJCrcu7H+ZCbftfrVYkGrejXQxUsYqr0QnOt1tpYtB5fhjD+VdHrd1I4JVAH
+         6A1H7nzmZSFyJykoe7ZXgjzmD1QlscU7jWstKtx1hQb0yQV1NCvVZmzgvp6XTgkrdojg
+         BUcQh6tjpP7wwpI4YysReDIgQl3n2hB2IrwEpkfFIoVP4NOpQ/5bmGbGDqSwfXcn28+A
+         cYAAqbFjVBQV/Ld6TFnMXKFf1zfkBRNDH5cO8RBSUUt6TuGkDcW+xW9PSAQ/48drX/SD
+         eXKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=95NF6ya59NaDwQCRMTuT7+DIGgKDYS13smU5I7TrWOE=;
+        b=hBqKO9Gyr2MVzGDYkLKBYrIzmwOpit61upSuSVsxlvclzwLmN/ymVMW4/29xJgIl7g
+         LF+upbNYYB8oT2hy7i9KIKDSPwjWlFci0rj84BIFOkN1FnNd5w0d+XjzK2Z4qpxGh9eA
+         KALrn+16Hit5RdLybQgRkk9sKjkUtPbWLoYnNGQlkn6C0nc9vxUBjKNt1nE2kYoNu6AE
+         KlswPJB2ISUJoV7URia4FVnCDpTac4jQyglxXAC/P2KAvQgGznIJvuK4lXHEIWKLNvCi
+         26IsVqXfg0jeBTxh4/oaJuhXCFrF9JrVwJxn5WoDFNopI5Q7P5qWIEkSdPKfoFKlARS8
+         VU+A==
+X-Gm-Message-State: APjAAAVlXU7BdTNHKVkfwQpCmjgVq9CTghW/Km4VJGQYEf/7JL6ki/Er
+        Tpva2uucMHC/3flh11GfM7IFFCOXRi5EfrMXXZVBNA==
+X-Google-Smtp-Source: APXvYqxZwvpfOq9dYpYH92DZtvwRF1oK54mc+XbTMo9ELET5163QFqgxXpr4ovIlOhCTlZMuVH2hrmtKW1p9kGU4FRk=
+X-Received: by 2002:a6b:6b08:: with SMTP id g8mr6377672ioc.189.1572090877362;
+ Sat, 26 Oct 2019 04:54:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7814c28c-ed38-24f0-6ff2-d89c918b617e@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20191021124428.2541-1-brgl@bgdev.pl>
+In-Reply-To: <20191021124428.2541-1-brgl@bgdev.pl>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Sat, 26 Oct 2019 13:54:26 +0200
+Message-ID: <CAMRc=MeYS+rQMCEc_z1FudnremUhUsXnxdcB2heF6qdtOkH9uQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] dt-bindings: max77650: convert the device-tree
+ bindings to yaml
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Linux Input <linux-input@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Lee Jones <lee.jones@linaro.org>, Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek
-
-On 10/25/19 1:56 PM, Jacek Anaszewski wrote:
-> Dan,
+pon., 21 pa=C5=BA 2019 o 14:44 Bartosz Golaszewski <brgl@bgdev.pl> napisa=
+=C5=82(a):
 >
-> On 10/25/19 8:18 PM, Dan Murphy wrote:
->> Jacek
->>
->> On 10/25/19 1:13 PM, Jacek Anaszewski wrote:
->>> Dan,
->>>
->>> On 10/25/19 7:57 PM, Dan Murphy wrote:
->>>> Jacek
->>>>
->>>> On 10/22/19 12:41 PM, Jacek Anaszewski wrote:
->>>>> Dan,
->>>>>
->>>>> On 10/22/19 6:37 PM, Dan Murphy wrote:
->>>>>> Jacek
->>>>>>
->>>>>> On 10/18/19 4:56 PM, Jacek Anaszewski wrote:
->>>>>>> On 10/18/19 11:48 PM, Jacek Anaszewski wrote:
->>>>>>>> Dan,
->>>>>>> +        ret = lp5xx_parse_channel_child(child, cfg, i);
->>>>>>>> I went into details of this parsing and finally came up with
->>>>>>>> the code which is a bit greater in size, but IMHO cleaner.
->>>>>>>> Note changes in variable naming. It is not even compile-tested.
->>>>>>>>
->>>>>>>> static int lp55xx_parse_common_child(struct device_node *np,
->>>>>>>>                                         struct lp55xx_led_config
->>>>>>>> *cfg,
->>>>>>>>                                         int led_number, int *chan_nr)
->>>>>>>> {
->>>>>>>>             int ret;
->>>>>>>>
->>>>>>>>             of_property_read_string(np, "chan-name",
->>>>>>>>                                     &cfg[led_number].name);
->>>>>>>>             of_property_read_u8(np, "led-cur",
->>>>>>>>                                 &cfg[led_number].led_current);
->>>>>>>>             of_property_read_u8(np, "max-cur",
->>>>>>>>                                 &cfg[led_number].max_current);
->>>>>>>>
->>>>>>>>             ret = of_property_read_u32(np, "reg", chan_nr);
->>>>>>>>             if (ret)
->>>>>>>>                     return ret;
->>>>>>>>
->>>>>>>>             if (chan_nr < 0 || chan_nr > cfg->max_chan_nr) /* side
->>>>>>>> note:
->>>>>>>> new
->>>>>>>> max_chan_nr property needed in cfg */
->>>>>>>>                     return -EINVAL;
->>>>>>>>
->>>>>>>>             return 0;
->>>>>>>> }
->>>>>>>>
->>>>>>>> static int lp55xx_parse_mutli_led_child(struct device_node *np,
->>>>>>>>                                             struct lp55xx_led_config
->>>>>>>> *cfg,
->>>>>>>>                                             int child_number,
->>>>>>>>                                             int color_number)
->>>>>>>> {
->>>>>>>>             int chan_nr, color_id;
->>>>>>>>
->>>>>>>>             ret = lp55xx_parse_common_child(child, cfg, child_number,
->>>>>>>> color_number,
->>>>>>>>                                             &chan_nr);
->>>>>>>>             if (ret)
->>>>>>>>                     return ret;
->>>>>>>>
->>>>>>>>             ret = of_property_read_u32(child, "color", &color_id);
->>>>>>>>             if (ret)
->>>>>>>>                    return ret;
->>>>>>>>
->>>>>>>>            
->>>>>>>> cfg[child_number].color_components[color_number].color_id =
->>>>>>>> color_id;
->>>>>>>>           
->>>>>>>> cfg[child_number].color_components[color_number].output_num =
->>>>>>>> chan_nr;
->>>>>>>>             set_bit(color_id, &cfg[child_number].available_colors);
->>>>>>>>
->>>>>>>>             return 0;
->>>>>>>> }
->>>>>>>>
->>>>>>>> staitc int lp55xx_parse_mutli_led(struct device_node *np,
->>>>>>>>                                       struct lp55xx_led_config *cfg,
->>>>>>>>                                       int child_number)
->>>>>>>> {
->>>>>>>>             struct device_node *child;
->>>>>>>>             int num_colors = 0, i = 0;
->>>>>>> s/, i = 0//
->>>>>>>
->>>>>>>>             for_each_child_of_node(np, child) {
->>>>>>>>                     ret = lp55xx_parse_mutli_led_child(child, cfg,
->>>>>>>> num_colors,
->>>>>>>>                                                       
->>>>>>>> child_number, i))
->>>>>>> Replace above call with below:
->>>>>>>
->>>>>>> ret = lp55xx_parse_mutli_led_child(child, cfg, child_number,
->>>>>>> num_colors);
->>>>>>>
->>>>>> I applied your DT parser patch from the v13 series.  Which eliminates
->>>>>> this comment correct?
->>>>> Yes, it contains this fix.
->>>>>
->>>> OK I added your patch and it broke a lot of the DT parsing for the
->>>> LP55xx.
->>>>
->>>> I would prefer to stick with the original code without having to
->>>> re-write this again.
->>> Let me test that with Qemu first.
->>>
->> max_channel is never set so not sure where that is supposed to come from
->> since each child device has different number of channels.  And if the
->> user has to populate that information from the DT then it does not make
->> sense as the user would already be aware of the number of channels.
->> This information would have to come from the child device some how and
->> the children do not have access to the structure to set it.
-> This was my silent assumption that the child will initialize that.
-> And I was not thoroughly seeking the most proper place for this
-> property, just chose first I could think . You are free to
-> change its location so that it was accessible for the child.
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 >
-OK  I got it limping along now by passing in the chip->cfg to the 
-populate data along with rearranging the child probe.
-
-I think it is a lot of change to check 1 value but I can include it
-
->> In checking the chan_nr to the max_channels you are comparing a pointer
->> to an integer.  Easy fix but did not solve the registration issues.
->>
->> cfg->num_colors is not set anywhere so the registration always goes to
->> base led_registration.  Unless we key off a different value to determine
->> to register to multicolor class or not.  Or we default this to the
->> multi_class registration to figure out how to register based on
->> available_colors.
-> You need to add below at the end of lp55xx_parse_mutli_led():
+> This series converts all DT binding documents for MAX77650 PMIC to YAML.
 >
-> cfg[child_number].num_colors = num_colors;
+> v1 -> v2:
+> - use upper case for abbreviations in commit messages
 >
-> and below in led_parse_logical_led() at the end of the
-> "if (ret)" branch.
+> v2 -> v3:
+> - pull all example fragments into the binding document for the core MFD m=
+odule
+> - fix all dt_binding_check errors
+> - add references to submodules to the main binding document
+> - drop the type for gpio-line-names
+> - drop the description for the interrupts property
+> - completely delete the previous txt files
 >
-> cfg[child_number].num_colors = 1;
-
-This was added
-
->> That is what I am seeing so far in my debugging and I still don't have
->> it working.
-> I didn't pretend it was flawless, just wanted to show general idea
-> how I would see that.
+> v3 -> v4:
+> - remove unnecessary parts of descriptions, added details on the chip
+> - correct file references (.txt -> .yaml)
+> - fix mixing scalar and array constraints
+> - dropped type refs for globally defined properties
 >
-Yes I know you only compile tested this.
+> Bartosz Golaszewski (6):
+>   dt-bindings: input: max77650: convert the binding document to yaml
+>   dt-bindings: regulator: max77650: convert the binding document to yaml
+>   dt-bindings: power: max77650: convert the binding document to yaml
+>   dt-bindings: leds: max77650: convert the binding document to yaml
+>   dt-bindings: mfd: max77650: convert the binding document to yaml
+>   MAINTAINERS: update the list of maintained files for max77650
+>
+>  .../bindings/input/max77650-onkey.txt         |  26 ---
+>  .../bindings/input/max77650-onkey.yaml        |  35 ++++
+>  .../bindings/leds/leds-max77650.txt           |  57 -------
+>  .../bindings/leds/leds-max77650.yaml          |  51 ++++++
+>  .../devicetree/bindings/mfd/max77650.txt      |  46 ------
+>  .../devicetree/bindings/mfd/max77650.yaml     | 149 ++++++++++++++++++
+>  .../power/supply/max77650-charger.txt         |  28 ----
+>  .../power/supply/max77650-charger.yaml        |  34 ++++
+>  .../bindings/regulator/max77650-regulator.txt |  41 -----
+>  .../regulator/max77650-regulator.yaml         |  31 ++++
+>  MAINTAINERS                                   |   4 +-
+>  11 files changed, 302 insertions(+), 200 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/max77650-onke=
+y.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/max77650-onke=
+y.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-max77650.=
+txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-max77650.=
+yaml
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/max77650.txt
+>  create mode 100644 Documentation/devicetree/bindings/mfd/max77650.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/power/supply/max776=
+50-charger.txt
+>  create mode 100644 Documentation/devicetree/bindings/power/supply/max776=
+50-charger.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/regulator/max77650-=
+regulator.txt
+>  create mode 100644 Documentation/devicetree/bindings/regulator/max77650-=
+regulator.yaml
+>
+> --
+> 2.23.0
+>
 
-Dan
+Hi Rob,
 
+thanks for reviewing the series. Can you please take it through your
+tree for v5.5? I think it'll be easier than bothering all the
+respective maintainers and it only touches on bindings anyway.
+
+Thanks,
+Bartosz
