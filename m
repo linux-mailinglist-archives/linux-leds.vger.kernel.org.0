@@ -2,46 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8247E62F1
-	for <lists+linux-leds@lfdr.de>; Sun, 27 Oct 2019 15:10:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ED54E62F3
+	for <lists+linux-leds@lfdr.de>; Sun, 27 Oct 2019 15:10:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbfJ0OKA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 27 Oct 2019 10:10:00 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:45592 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726541AbfJ0OKA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 27 Oct 2019 10:10:00 -0400
-Received: by mail-pf1-f193.google.com with SMTP id c7so3654251pfo.12;
-        Sun, 27 Oct 2019 07:09:59 -0700 (PDT)
+        id S1726706AbfJ0OKD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 27 Oct 2019 10:10:03 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36906 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726541AbfJ0OKD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 27 Oct 2019 10:10:03 -0400
+Received: by mail-pg1-f194.google.com with SMTP id p1so4735500pgi.4;
+        Sun, 27 Oct 2019 07:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=UI3dLKgfyOyp4aT+UI7pPbeRzP/GQ0hgQ8832KcNALM=;
-        b=Ehmy/hYU5WzuSjc+t1kw1dtyw4PUrpdvooaurTp6jgilTlHyeul5FS0UVzVdjFIFg2
-         D+9uL5oSeHGWmlkUWmnFF19sqM4HgjlJXugueI42xUEYQOFhQvCOtl8/abT0RIQcRujJ
-         8tbumrE1x7ymHMDJahI0bXwyY2OlHOE9bHdaEJ+wtB2R+zsAcOrAN7QhSVq38coMpGa8
-         EazRjO2nCStyuG8vmiTqp/bAwRPj/Lp5/3hqxcE3N9DT7WY8aFwpBycw9vYB28xJkVpe
-         DNKgtGTN9PKCPQh8FPgfwmkphOqJ+vDKAoeDHrjllW3rDRwH7ZIYggnLmTjfLG52YWEA
-         wQTg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=GS2AkDqPPAxKrZBWJ/DTM6rgecqBESZUQAWeB+1dpw4=;
+        b=n/4I41URnQ/vEd5LUg3dulB6/YtTB6q9IBZxOmc+qOXyOgjSegbMJBXpv+I8/aXMWA
+         4gomrD0OprJgiMNtv3ciDSLU9+UdAlZzWYIX8tvgI2pLUtXTNw7dObN8tB/44JTBecw1
+         G02x/+iPEBquXiFv/Qya8rHxflwreRd4EqKXTmuCjR7YpfUfPQs7a8RknLBLr5faPt/T
+         oEL7G6x33VcLd72TBuTFROIZUKFr+a+vopnBQ5i4TjYahDXrQo3keCbcj3Id5YYy4Ez1
+         VGi2PkmXo83oi1kbaQ62TCYlDa+QXqbtZN/lIkaJN+dMTL76ROwPH3pbNEQmgyy6hfbT
+         YdMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=UI3dLKgfyOyp4aT+UI7pPbeRzP/GQ0hgQ8832KcNALM=;
-        b=P9WVQO44wE6SzZDNwn9BFPN1AmrDF6L2xs7iMhq5Q/YCa4/qIqMHXHDyho5Q4sJy1b
-         yjz5MKdu4fypkrWYHvQwGIWthivqe75r2qXhm3W7vXVzkQjkaQpNKbW6HzMbTfJHItbE
-         x57uB8YP0WcimgG3ibzN5/T4sgzKsiWdnNmsaR+X5Ww0UFhiG9UtUbM25h8gtLcU/bo1
-         zDVFwBTu6vl61oWsnFtCERmcy0PaUsOokbTHpAfGjmm43efbmZrIVQ5Lin+U8epJdzLN
-         lKxrIFBR1KtltBV1ria6GU99Gjo3SfXWiD+Bp28fjwH1Rq9ctZCN538BSPdJEPPoIOJN
-         FKnQ==
-X-Gm-Message-State: APjAAAVTfLBpTvEyHusO4yuaU4kv3REel0R0TZvn4gFZ7ZbJUadOP6WS
-        F8o0gM7VWJPKEqYrYxRidMl6RVe/
-X-Google-Smtp-Source: APXvYqxuR898N1LLVOeC07L07I/XYcmlO7SBcWehYcxr5g6oBY5YKNpGDXOJZS/OZcXrhTPR6/v4kw==
-X-Received: by 2002:a17:90a:e38c:: with SMTP id b12mr16515902pjz.136.1572185399240;
-        Sun, 27 Oct 2019 07:09:59 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=GS2AkDqPPAxKrZBWJ/DTM6rgecqBESZUQAWeB+1dpw4=;
+        b=UBeDiArEPpq51gPfYplA2HgwEMhH18PCA5aEHyw83IZonUQ4iryQsIZ+TzIrSF6X6N
+         ujvX8JVY5K4vrdzvaNH+gd28i+SdHgjUySNdqxCg33/kFwddgwGCn6Z6A3LsYYVeBmV5
+         ZxOtWQQDOxoC3kUpAyCSxBeiIoV0tIX8d+8kSfFnSxoxLJ8Pv5M0xJxDrTx0OQlIX37o
+         2P5WHHZE8NNEJ+W4nBqO/IXVPdmJhQe+K6Jo+DCfA60ua3k3RnHbNG774QvIn4QgSACx
+         cQnS8G+m4X7Ft7q9us/AQqj2joRyD9doDTyMeGSb6Cd1XvmpkkKjywreCmuD1OKTKlWj
+         JzCQ==
+X-Gm-Message-State: APjAAAVwl/UZYLYiP/GHvpKbtueQbxhKZB7cFL//ueJFJj4njv11mQw7
+        RRTdVooTwjrUSEl29h2GD69YZGX8
+X-Google-Smtp-Source: APXvYqzbFACXOGSSPEpb68sK1f8k2oJkYtC6O+XpIEQyU5U1vmGq7Ud5exUN2ml0dYZa9JGVcMMamQ==
+X-Received: by 2002:a17:90a:3be4:: with SMTP id e91mr584364pjc.56.1572185402520;
+        Sun, 27 Oct 2019 07:10:02 -0700 (PDT)
 Received: from localhost.localdomain ([240f:34:212d:1:368e:e048:68f1:84e7])
-        by smtp.gmail.com with ESMTPSA id v10sm6514702pfg.11.2019.10.27.07.09.55
+        by smtp.gmail.com with ESMTPSA id v10sm6514702pfg.11.2019.10.27.07.09.59
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sun, 27 Oct 2019 07:09:58 -0700 (PDT)
+        Sun, 27 Oct 2019 07:10:02 -0700 (PDT)
 From:   Akinobu Mita <akinobu.mita@gmail.com>
 To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
 Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
@@ -52,47 +53,19 @@ Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
         Jean-Jacques Hiblot <jjhiblot@ti.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v2 0/2] leds: introduce generic LED level meter driver
-Date:   Sun, 27 Oct 2019 23:09:37 +0900
-Message-Id: <1572185379-21537-1-git-send-email-akinobu.mita@gmail.com>
+Subject: [PATCH v2 1/2] dt-bindings: leds: Add leds-meter binding
+Date:   Sun, 27 Oct 2019 23:09:38 +0900
+Message-Id: <1572185379-21537-2-git-send-email-akinobu.mita@gmail.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1572185379-21537-1-git-send-email-akinobu.mita@gmail.com>
+References: <1572185379-21537-1-git-send-email-akinobu.mita@gmail.com>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This introduces a new LED driver that enables us to create a virtual LED
-level meter device that consists of multiple LED devices by different
-drivers.
-
-Previously I developed the level meter feature for leds-gpio ("leds: gpio:
-support multi-level brightness") [1].  Then I got a feedback from
-Bjorn Andersson and made more generic new driver.  This driver is also
-inspired by led-backlight driver patchset [2] and actually requires
-devm_of_led_get() function provided by the patchset.
-
-[1] https://lore.kernel.org/linux-leds/1570203299-4270-1-git-send-email-akinobu.mita@gmail.com/
-[2] https://lore.kernel.org/linux-leds/20191009085127.22843-1-jjhiblot@ti.com/
-
-* v2
-- Use proper subject line for dt-binding patch.
-- Swap the patch order.
-- Various fixes noticed by Rob and Dan.
-- Update example usage for brightness-weights property
-- Use unified device proerty interface as much as possible.
-- Support linux,default-trigger and default-state properties.
-
-Akinobu Mita (2):
-  dt-bindings: leds: Add leds-meter binding
-  leds: Add generic LED level meter driver
-
- .../devicetree/bindings/leds/leds-meter.yaml       |  67 +++++++++
- drivers/leds/Kconfig                               |  10 ++
- drivers/leds/Makefile                              |   1 +
- drivers/leds/leds-meter.c                          | 151 +++++++++++++++++++++
- 4 files changed, 229 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/leds-meter.yaml
- create mode 100644 drivers/leds/leds-meter.c
+Add DT binding for generic LED level meter which consists of multiple LED
+devices by different drivers.
 
 Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Mark Rutland <mark.rutland@arm.com>
@@ -102,6 +75,85 @@ Cc: Jean-Jacques Hiblot <jjhiblot@ti.com>
 Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Cc: Pavel Machek <pavel@ucw.cz>
 Cc: Dan Murphy <dmurphy@ti.com>
+Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+---
+ .../devicetree/bindings/leds/leds-meter.yaml       | 67 ++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-meter.yaml
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-meter.yaml b/Documentation/devicetree/bindings/leds/leds-meter.yaml
+new file mode 100644
+index 0000000..b5fcd98
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-meter.yaml
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/leds-meter.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Generic LED level meter
++
++maintainers:
++  - Akinobu Mita <akinobu.mita@gmail.com>
++
++description:
++  Generic LED level meter consists of multiple LED devices by different drivers.
++
++properties:
++  $nodename:
++    pattern: "^meter-leds(@.*)?"
++
++  compatible:
++    const: meter-leds
++
++  leds:
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: List of phandles to LED node that are members of a level meter.
++
++  brightness-weights:
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32-array
++    description: |
++      By default, the brightness of the LED level meter is proportional to the
++      number of actual LEDs that are turned on.  We can optionally specify
++      the contribution ratio for each LED within a level meter by this
++      property.  The example below shows how to setup an exponential
++      relationship between the number of LEDs turned on and the brightness of
++      meter-leds.
++
++required:
++ - compatible
++ - leds
++
++additionalProperties: false
++
++examples:
++  - |
++    // Example 1: LED level meter with four LEDs
++    meter-leds {
++        compatible = "meter-leds";
++        leds = <&led0>, <&led1>, <&led2>, <&led3>;
++    };
++
++    // Example 2: Exponential relationship between the number of LEDs turned on
++    // and the brightness of meter-leds
++    //
++    // When the maximum brightness is 255
++    // - No LEDs are turned on if brightness == 0
++    // - led0 is turned on if 0 < brightness <= 32
++    // - led0 and led1 are turned on if 32 < brightness <= 64
++    // - led0, led1, and led2 are turned on if 64 < brightness <= 128
++    // - All LEDs are turned on if 128 < brightness <= 255
++    meter-leds {
++        compatible = "meter-leds";
++        leds = <&led0>, <&led1>, <&led2>, <&led3>;
++        brightness-weights = <32 32 64 127>;
++    };
++
++...
 -- 
 2.7.4
 
