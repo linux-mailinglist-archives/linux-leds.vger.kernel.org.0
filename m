@@ -2,147 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72579E5A51
-	for <lists+linux-leds@lfdr.de>; Sat, 26 Oct 2019 13:54:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8247E62F1
+	for <lists+linux-leds@lfdr.de>; Sun, 27 Oct 2019 15:10:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbfJZLyk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 26 Oct 2019 07:54:40 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:39861 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726350AbfJZLyj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 26 Oct 2019 07:54:39 -0400
-Received: by mail-io1-f68.google.com with SMTP id y12so5445956ioa.6
-        for <linux-leds@vger.kernel.org>; Sat, 26 Oct 2019 04:54:37 -0700 (PDT)
+        id S1726682AbfJ0OKA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 27 Oct 2019 10:10:00 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:45592 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726541AbfJ0OKA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 27 Oct 2019 10:10:00 -0400
+Received: by mail-pf1-f193.google.com with SMTP id c7so3654251pfo.12;
+        Sun, 27 Oct 2019 07:09:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=95NF6ya59NaDwQCRMTuT7+DIGgKDYS13smU5I7TrWOE=;
-        b=qCUMmIo0BbhCOq9lMzlReiKmqepVYdzM2YHifoI12iUkwr37TnSbvdjsnrTHq6ddmv
-         bcNdWTRhsJCrcu7H+ZCbftfrVYkGrejXQxUsYqr0QnOt1tpYtB5fhjD+VdHrd1I4JVAH
-         6A1H7nzmZSFyJykoe7ZXgjzmD1QlscU7jWstKtx1hQb0yQV1NCvVZmzgvp6XTgkrdojg
-         BUcQh6tjpP7wwpI4YysReDIgQl3n2hB2IrwEpkfFIoVP4NOpQ/5bmGbGDqSwfXcn28+A
-         cYAAqbFjVBQV/Ld6TFnMXKFf1zfkBRNDH5cO8RBSUUt6TuGkDcW+xW9PSAQ/48drX/SD
-         eXKg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=UI3dLKgfyOyp4aT+UI7pPbeRzP/GQ0hgQ8832KcNALM=;
+        b=Ehmy/hYU5WzuSjc+t1kw1dtyw4PUrpdvooaurTp6jgilTlHyeul5FS0UVzVdjFIFg2
+         D+9uL5oSeHGWmlkUWmnFF19sqM4HgjlJXugueI42xUEYQOFhQvCOtl8/abT0RIQcRujJ
+         8tbumrE1x7ymHMDJahI0bXwyY2OlHOE9bHdaEJ+wtB2R+zsAcOrAN7QhSVq38coMpGa8
+         EazRjO2nCStyuG8vmiTqp/bAwRPj/Lp5/3hqxcE3N9DT7WY8aFwpBycw9vYB28xJkVpe
+         DNKgtGTN9PKCPQh8FPgfwmkphOqJ+vDKAoeDHrjllW3rDRwH7ZIYggnLmTjfLG52YWEA
+         wQTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=95NF6ya59NaDwQCRMTuT7+DIGgKDYS13smU5I7TrWOE=;
-        b=hBqKO9Gyr2MVzGDYkLKBYrIzmwOpit61upSuSVsxlvclzwLmN/ymVMW4/29xJgIl7g
-         LF+upbNYYB8oT2hy7i9KIKDSPwjWlFci0rj84BIFOkN1FnNd5w0d+XjzK2Z4qpxGh9eA
-         KALrn+16Hit5RdLybQgRkk9sKjkUtPbWLoYnNGQlkn6C0nc9vxUBjKNt1nE2kYoNu6AE
-         KlswPJB2ISUJoV7URia4FVnCDpTac4jQyglxXAC/P2KAvQgGznIJvuK4lXHEIWKLNvCi
-         26IsVqXfg0jeBTxh4/oaJuhXCFrF9JrVwJxn5WoDFNopI5Q7P5qWIEkSdPKfoFKlARS8
-         VU+A==
-X-Gm-Message-State: APjAAAVlXU7BdTNHKVkfwQpCmjgVq9CTghW/Km4VJGQYEf/7JL6ki/Er
-        Tpva2uucMHC/3flh11GfM7IFFCOXRi5EfrMXXZVBNA==
-X-Google-Smtp-Source: APXvYqxZwvpfOq9dYpYH92DZtvwRF1oK54mc+XbTMo9ELET5163QFqgxXpr4ovIlOhCTlZMuVH2hrmtKW1p9kGU4FRk=
-X-Received: by 2002:a6b:6b08:: with SMTP id g8mr6377672ioc.189.1572090877362;
- Sat, 26 Oct 2019 04:54:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191021124428.2541-1-brgl@bgdev.pl>
-In-Reply-To: <20191021124428.2541-1-brgl@bgdev.pl>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Sat, 26 Oct 2019 13:54:26 +0200
-Message-ID: <CAMRc=MeYS+rQMCEc_z1FudnremUhUsXnxdcB2heF6qdtOkH9uQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] dt-bindings: max77650: convert the device-tree
- bindings to yaml
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=UI3dLKgfyOyp4aT+UI7pPbeRzP/GQ0hgQ8832KcNALM=;
+        b=P9WVQO44wE6SzZDNwn9BFPN1AmrDF6L2xs7iMhq5Q/YCa4/qIqMHXHDyho5Q4sJy1b
+         yjz5MKdu4fypkrWYHvQwGIWthivqe75r2qXhm3W7vXVzkQjkaQpNKbW6HzMbTfJHItbE
+         x57uB8YP0WcimgG3ibzN5/T4sgzKsiWdnNmsaR+X5Ww0UFhiG9UtUbM25h8gtLcU/bo1
+         zDVFwBTu6vl61oWsnFtCERmcy0PaUsOokbTHpAfGjmm43efbmZrIVQ5Lin+U8epJdzLN
+         lKxrIFBR1KtltBV1ria6GU99Gjo3SfXWiD+Bp28fjwH1Rq9ctZCN538BSPdJEPPoIOJN
+         FKnQ==
+X-Gm-Message-State: APjAAAVTfLBpTvEyHusO4yuaU4kv3REel0R0TZvn4gFZ7ZbJUadOP6WS
+        F8o0gM7VWJPKEqYrYxRidMl6RVe/
+X-Google-Smtp-Source: APXvYqxuR898N1LLVOeC07L07I/XYcmlO7SBcWehYcxr5g6oBY5YKNpGDXOJZS/OZcXrhTPR6/v4kw==
+X-Received: by 2002:a17:90a:e38c:: with SMTP id b12mr16515902pjz.136.1572185399240;
+        Sun, 27 Oct 2019 07:09:59 -0700 (PDT)
+Received: from localhost.localdomain ([240f:34:212d:1:368e:e048:68f1:84e7])
+        by smtp.gmail.com with ESMTPSA id v10sm6514702pfg.11.2019.10.27.07.09.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sun, 27 Oct 2019 07:09:58 -0700 (PDT)
+From:   Akinobu Mita <akinobu.mita@gmail.com>
+To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Bjorn Andersson <bjorn@kryo.se>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Jean-Jacques Hiblot <jjhiblot@ti.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Subject: [PATCH v2 0/2] leds: introduce generic LED level meter driver
+Date:   Sun, 27 Oct 2019 23:09:37 +0900
+Message-Id: <1572185379-21537-1-git-send-email-akinobu.mita@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-pon., 21 pa=C5=BA 2019 o 14:44 Bartosz Golaszewski <brgl@bgdev.pl> napisa=
-=C5=82(a):
->
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->
-> This series converts all DT binding documents for MAX77650 PMIC to YAML.
->
-> v1 -> v2:
-> - use upper case for abbreviations in commit messages
->
-> v2 -> v3:
-> - pull all example fragments into the binding document for the core MFD m=
-odule
-> - fix all dt_binding_check errors
-> - add references to submodules to the main binding document
-> - drop the type for gpio-line-names
-> - drop the description for the interrupts property
-> - completely delete the previous txt files
->
-> v3 -> v4:
-> - remove unnecessary parts of descriptions, added details on the chip
-> - correct file references (.txt -> .yaml)
-> - fix mixing scalar and array constraints
-> - dropped type refs for globally defined properties
->
-> Bartosz Golaszewski (6):
->   dt-bindings: input: max77650: convert the binding document to yaml
->   dt-bindings: regulator: max77650: convert the binding document to yaml
->   dt-bindings: power: max77650: convert the binding document to yaml
->   dt-bindings: leds: max77650: convert the binding document to yaml
->   dt-bindings: mfd: max77650: convert the binding document to yaml
->   MAINTAINERS: update the list of maintained files for max77650
->
->  .../bindings/input/max77650-onkey.txt         |  26 ---
->  .../bindings/input/max77650-onkey.yaml        |  35 ++++
->  .../bindings/leds/leds-max77650.txt           |  57 -------
->  .../bindings/leds/leds-max77650.yaml          |  51 ++++++
->  .../devicetree/bindings/mfd/max77650.txt      |  46 ------
->  .../devicetree/bindings/mfd/max77650.yaml     | 149 ++++++++++++++++++
->  .../power/supply/max77650-charger.txt         |  28 ----
->  .../power/supply/max77650-charger.yaml        |  34 ++++
->  .../bindings/regulator/max77650-regulator.txt |  41 -----
->  .../regulator/max77650-regulator.yaml         |  31 ++++
->  MAINTAINERS                                   |   4 +-
->  11 files changed, 302 insertions(+), 200 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/max77650-onke=
-y.txt
->  create mode 100644 Documentation/devicetree/bindings/input/max77650-onke=
-y.yaml
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-max77650.=
-txt
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-max77650.=
-yaml
->  delete mode 100644 Documentation/devicetree/bindings/mfd/max77650.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/max77650.yaml
->  delete mode 100644 Documentation/devicetree/bindings/power/supply/max776=
-50-charger.txt
->  create mode 100644 Documentation/devicetree/bindings/power/supply/max776=
-50-charger.yaml
->  delete mode 100644 Documentation/devicetree/bindings/regulator/max77650-=
-regulator.txt
->  create mode 100644 Documentation/devicetree/bindings/regulator/max77650-=
-regulator.yaml
->
-> --
-> 2.23.0
->
+This introduces a new LED driver that enables us to create a virtual LED
+level meter device that consists of multiple LED devices by different
+drivers.
 
-Hi Rob,
+Previously I developed the level meter feature for leds-gpio ("leds: gpio:
+support multi-level brightness") [1].  Then I got a feedback from
+Bjorn Andersson and made more generic new driver.  This driver is also
+inspired by led-backlight driver patchset [2] and actually requires
+devm_of_led_get() function provided by the patchset.
 
-thanks for reviewing the series. Can you please take it through your
-tree for v5.5? I think it'll be easier than bothering all the
-respective maintainers and it only touches on bindings anyway.
+[1] https://lore.kernel.org/linux-leds/1570203299-4270-1-git-send-email-akinobu.mita@gmail.com/
+[2] https://lore.kernel.org/linux-leds/20191009085127.22843-1-jjhiblot@ti.com/
 
-Thanks,
-Bartosz
+* v2
+- Use proper subject line for dt-binding patch.
+- Swap the patch order.
+- Various fixes noticed by Rob and Dan.
+- Update example usage for brightness-weights property
+- Use unified device proerty interface as much as possible.
+- Support linux,default-trigger and default-state properties.
+
+Akinobu Mita (2):
+  dt-bindings: leds: Add leds-meter binding
+  leds: Add generic LED level meter driver
+
+ .../devicetree/bindings/leds/leds-meter.yaml       |  67 +++++++++
+ drivers/leds/Kconfig                               |  10 ++
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/leds-meter.c                          | 151 +++++++++++++++++++++
+ 4 files changed, 229 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-meter.yaml
+ create mode 100644 drivers/leds/leds-meter.c
+
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Bjorn Andersson <bjorn@kryo.se>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Jean-Jacques Hiblot <jjhiblot@ti.com>
+Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Dan Murphy <dmurphy@ti.com>
+-- 
+2.7.4
+
