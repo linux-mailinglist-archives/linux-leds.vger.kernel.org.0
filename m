@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E20DEE7879
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Oct 2019 19:37:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65697E787C
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Oct 2019 19:37:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726990AbfJ1Sh3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 28 Oct 2019 14:37:29 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:38388 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725971AbfJ1Sh2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 28 Oct 2019 14:37:28 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9SIbPTi016680;
-        Mon, 28 Oct 2019 13:37:25 -0500
+        id S1727035AbfJ1She (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 28 Oct 2019 14:37:34 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:43174 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725971AbfJ1She (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 28 Oct 2019 14:37:34 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9SIbUYn065575;
+        Mon, 28 Oct 2019 13:37:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1572287845;
-        bh=zV3cVdmjhCBXzQdA/5xCOaiT1n6XKbwdMaP1jdy4goo=;
+        s=ti-com-17Q1; t=1572287850;
+        bh=vNLixCA7rV3r89geVpDyZT2afzJln66pkNhtKdigswM=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=E7nOPk+r+18g2l/78d7CIAg77iJobItcOb1zsbebl2XiWmkWGypLfVtPwXD53dEGx
-         GFFfuvWxDaXeZJVk+1wDzJUyB0HzD8O5h7Tg0+WO1JIJ+Vb+BzKZuL/3HnjTrQNvyc
-         dm8QaS1cJjTjY41GOqMrqNYBtPvA2W8iBGWtoDHM=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9SIbP77076836
+        b=MZC89trCVPEVTxHgB/phuXnwYMm1+SsOPe+Cup9mBKHZKc4om2u2h0/A3YTLIxp6g
+         RO+7IgtL+QcpN6iHxCGZArP43DmYSR/qcof8tusQA0OPbzfJ9XkW+faeRTtTHJFkOP
+         olK/1h+y08sGTx8o+uUNhweJccGJ2PaAwRRwxO+c=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9SIbUDW077144
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 28 Oct 2019 13:37:25 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 28 Oct 2019 13:37:30 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 28
- Oct 2019 13:37:13 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Oct 2019 13:37:30 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 28 Oct 2019 13:37:13 -0500
+ Frontend Transport; Mon, 28 Oct 2019 13:37:30 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9SIbOAI104626;
-        Mon, 28 Oct 2019 13:37:25 -0500
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9SIbUCH046503;
+        Mon, 28 Oct 2019 13:37:30 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
 CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v15 02/19] dt-bindings: leds: Add multicolor ID to the color ID list
-Date:   Mon, 28 Oct 2019 13:36:12 -0500
-Message-ID: <20191028183629.11779-3-dmurphy@ti.com>
+Subject: [PATCH v15 03/19] leds: Add multicolor ID to the color ID list
+Date:   Mon, 28 Oct 2019 13:36:13 -0500
+Message-ID: <20191028183629.11779-4-dmurphy@ti.com>
 X-Mailer: git-send-email 2.22.0.214.g8dca754b1e
 In-Reply-To: <20191028183629.11779-1-dmurphy@ti.com>
 References: <20191028183629.11779-1-dmurphy@ti.com>
@@ -61,23 +61,21 @@ as the node can contain multiple colors.
 
 Signed-off-by: Dan Murphy <dmurphy@ti.com>
 ---
- include/dt-bindings/leds/common.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/leds/led-core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-index 9e1256a7c1bf..7006d15f71e8 100644
---- a/include/dt-bindings/leds/common.h
-+++ b/include/dt-bindings/leds/common.h
-@@ -29,7 +29,8 @@
- #define LED_COLOR_ID_VIOLET	5
- #define LED_COLOR_ID_YELLOW	6
- #define LED_COLOR_ID_IR		7
--#define LED_COLOR_ID_MAX	8
-+#define LED_COLOR_ID_MULTI	8
-+#define LED_COLOR_ID_MAX	9
+diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+index f1f718dbe0f8..846248a0693d 100644
+--- a/drivers/leds/led-core.c
++++ b/drivers/leds/led-core.c
+@@ -34,6 +34,7 @@ const char * const led_colors[LED_COLOR_ID_MAX] = {
+ 	[LED_COLOR_ID_VIOLET] = "violet",
+ 	[LED_COLOR_ID_YELLOW] = "yellow",
+ 	[LED_COLOR_ID_IR] = "ir",
++	[LED_COLOR_ID_MULTI] = "multicolor",
+ };
+ EXPORT_SYMBOL_GPL(led_colors);
  
- /* Standard LED functions */
- #define LED_FUNCTION_ACTIVITY "activity"
 -- 
 2.22.0.214.g8dca754b1e
 
