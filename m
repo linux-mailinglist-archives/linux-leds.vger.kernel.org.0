@@ -2,64 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE0C3E6A64
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Oct 2019 02:11:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC5ACE6B2B
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Oct 2019 03:55:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727984AbfJ1BL0 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Sun, 27 Oct 2019 21:11:26 -0400
-Received: from posta.amasya.edu.tr ([193.255.105.20]:21447 "EHLO
-        posta.amasya.edu.tr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727581AbfJ1BL0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 27 Oct 2019 21:11:26 -0400
-X-Greylist: delayed 412 seconds by postgrey-1.27 at vger.kernel.org; Sun, 27 Oct 2019 21:11:23 EDT
-Received: by posta.amasya.edu.tr (Postfix, from userid 110)
-        id C70373C0849; Mon, 28 Oct 2019 04:04:29 +0300 (+03)
-X-Virus-Scanned: by SpamTitan at amasya.edu.tr
-Authentication-Results: posta.amasya.edu.tr; none
-Date:   Mon, 28 Oct 2019 04:04:17 +0300 (EET)
-From:   Bellucci Capital Partners <pinar.sen@amasya.edu.tr>
-Reply-To: Bellucci Capital Partners <info@belluccicp.net>
-Message-ID: <562889327.193976.1572224657561.JavaMail.zimbra@amasya.edu.tr>
-Subject: 
+        id S1726816AbfJ1Czp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 27 Oct 2019 22:55:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44332 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726789AbfJ1Czo (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 27 Oct 2019 22:55:44 -0400
+Received: from dragon (98.142.130.235.16clouds.com [98.142.130.235])
+        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AE302208C0;
+        Mon, 28 Oct 2019 02:55:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572231344;
+        bh=pb7IZTBRfkZVHAvZFuM2aHVe4OKL4bsoUZk1vFFsMic=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QeCp2KyO5HGNqs9LV5rCeAyHiDVHPizLKOXUYKZe9JMJNk5mejLTdbN1VT7KA+enL
+         nhFzRcexYUTqhoWNkmTETEes2aYa30k0oqjUzSXaNlImzHcJ79rLq8+3kmv1+p2Jsk
+         W9kfk5YiU0pAilyIEU7Qh9qOBeP9BnukZvoZ/wWg=
+Date:   Mon, 28 Oct 2019 10:55:26 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>
+Subject: Re: [PATCH v13 10/18] ARM: dts: imx6dl-yapp4: Add reg property to
+ the lp5562 channel node
+Message-ID: <20191028025524.GF16985@dragon>
+References: <20191016155954.29044-1-dmurphy@ti.com>
+ <20191016155954.29044-11-dmurphy@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [198.46.170.187]
-X-Mailer: Zimbra 8.8.15_GA_3869 (ZimbraWebClient - FF70 (Win)/8.8.15_GA_3869)
-Thread-Index: PnLc5EXjHjSmm3JIfAjZcRGfZDdKBA==
-Thread-Topic: 
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191016155954.29044-11-dmurphy@ti.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Wed, Oct 16, 2019 at 10:59:46AM -0500, Dan Murphy wrote:
+> Add the reg property to each channel node.  This update is
+> to accomodate the multicolor framework.  In addition to the
+> accomodation this allows the LEDs to be placed on any channel
+> and allow designs to skip channels as opposed to requiring
+> sequential order.
+> 
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> CC: Shawn Guo <shawnguo@kernel.org>
+> CC: Sascha Hauer <s.hauer@pengutronix.de>
+> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+> CC: Fabio Estevam <festevam@gmail.com>
+> CC: NXP Linux Team <linux-imx@nxp.com>
+> ---
+>  arch/arm/boot/dts/imx6dl-yapp4-common.dtsi | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
+> index e8d800fec637..efc466ed1fea 100644
+> --- a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
+> +++ b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
+> @@ -257,29 +257,35 @@
+>  		reg = <0x30>;
+>  		clock-mode = /bits/ 8 <1>;
+>  		status = "disabled";
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+>  
+> -		chan0 {
+> +		chan@0 {
 
+Patch #18 updates bindings example to use led as node name.  Maybe we
+should do the same here?
 
-Hej,
+Shawn
 
-Vi har en enorm kreditportfölj, vi är intresserade av att finansiera projekt med stor volym. Förfarandena är följande:
-
-1-Klienten måste skicka en kort sammanfattning av projektet. Detta måste innehålla det totala beloppet som krävs för projektet, beräknad avkastning på investeringen, lånets återbetalningsperiod, detta får inte vara mer än 15 år.
-
-2- Klienten kommer att behöva försäkra det nämnda projektet hos ett försäkringsbolag om det totala lånebeloppet för att garantera lånet som säkerhet.
-
-3- Räntan är 1% per år.
-
-4-återbetalningstid är 15 år
-
-5 Finansiering tar ungefär 10 bankdagar från den dag du presenterar försäkringscertifikatet.
-
-
-Om du är nöjd med ovanstående procedurer skicka mig en avsiktsförklaring på ditt företags brevhuvud.
-
-För ytterligare information om hur du kan få ett lån från: Svara omedelbart på den här e-postmeddelanden:
-info@belluccicp.net
-
-Hälsningar, när vi väntar på ditt svar.
-
-Vänliga hälsningar
-Manuel Baressi
-Annonspersonal
-WEB: https://www.belluccicp.net
-Bu e-posta mesaji kisiye ozel olup, gizli bilgiler iceriyor olabilir. Eger bu e-posta mesaji size yanlislikla ulasmissa, icerigini hicbir sekilde kullanmayiniz ve e-postayi siliniz. Amasya Universitesi bu e-posta mesajinin icerigi ile ilgili olarak hicbir hukuksal sorumlulugu kabul etmez. The information contained in this communication may contain confidential or legally privileged information. Amasya University doesn't accept any legal responsibility for the contents and attachments of this message. The sender does not accept any liability for any errors or omissions or any viruses in the context of this message which arise as a result of internet transmission.
+>  			chan-name = "R";
+>  			led-cur = /bits/ 8 <0x20>;
+>  			max-cur = /bits/ 8 <0x60>;
+> +			reg = <0>;
+>  		};
+>  
+> -		chan1 {
+> +		chan@1 {
+>  			chan-name = "G";
+>  			led-cur = /bits/ 8 <0x20>;
+>  			max-cur = /bits/ 8 <0x60>;
+> +			reg = <1>;
+>  		};
+>  
+> -		chan2 {
+> +		chan@2 {
+>  			chan-name = "B";
+>  			led-cur = /bits/ 8 <0x20>;
+>  			max-cur = /bits/ 8 <0x60>;
+> +			reg = <2>;
+>  		};
+>  
+> -		chan3 {
+> +		chan@3 {
+>  			chan-name = "W";
+>  			led-cur = /bits/ 8 <0x0>;
+>  			max-cur = /bits/ 8 <0x0>;
+> +			reg = <3>;
+>  		};
+>  	};
+>  
+> -- 
+> 2.22.0.214.g8dca754b1e
+> 
