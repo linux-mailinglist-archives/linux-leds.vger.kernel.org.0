@@ -2,149 +2,171 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8940DE8063
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2019 07:29:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E5C8E87B3
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2019 13:06:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732561AbfJ2G26 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Oct 2019 02:28:58 -0400
-Received: from mailgate1.rohmeurope.com ([178.15.145.194]:50556 "EHLO
-        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732549AbfJ2G26 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Oct 2019 02:28:58 -0400
-X-AuditID: c0a8fbf4-183ff70000001fa6-f5-5db7dc27a4dc
-Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
-        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 70.9A.08102.72CD7BD5; Tue, 29 Oct 2019 07:28:55 +0100 (CET)
-Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
- WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
- 14.03.0439.000; Tue, 29 Oct 2019 07:28:51 +0100
-From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To:     "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "sboyd@kernel.org" <sboyd@kernel.org>
-CC:     "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "broonie@kernel.org" <broonie@kernel.org>
-Subject: Re: [RFC PATCH v2 05/13] clk: bd718x7: Support ROHM BD71828 clk
- block
-Thread-Topic: [RFC PATCH v2 05/13] clk: bd718x7: Support ROHM BD71828 clk
- block
-Thread-Index: AQHVimBwjNMwf0EEZEiGH5vTJctNV6dwqoeAgAB0NIA=
-Date:   Tue, 29 Oct 2019 06:28:51 +0000
-Message-ID: <95b21eeaee8025dc430623429273116c35c1b769.camel@fi.rohmeurope.com>
-References: <cover.1571915550.git.matti.vaittinen@fi.rohmeurope.com>
-         <5c66ac7d43ae1f57c335b6e565553fe1df703a83.1571915550.git.matti.vaittinen@fi.rohmeurope.com>
-         <20191028233256.798AD21479@mail.kernel.org>
-In-Reply-To: <20191028233256.798AD21479@mail.kernel.org>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BA1237DA9BAD5540B994689D32145663@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
+        id S1727681AbfJ2MGt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Oct 2019 08:06:49 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:57694 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727082AbfJ2MGt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Oct 2019 08:06:49 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9TC6eYu020583;
+        Tue, 29 Oct 2019 07:06:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1572350800;
+        bh=Fw11anpRUupPfhHjF+s4H1gOWFTddrb7DScu6ObM2GA=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=McBukDJKQCzF1yD3lBPMZ6pVFL2Eh6D/EoPThHqMs/i3C7haAYASVqNcYDWe6cExx
+         qfi45WtstVl4qNVPBhJ3yTze/4OsjNwOrVH6ZpGZmJ5HM+eCkbvBeRf0Z8/zrJ2Klx
+         2nKBLklDLz915L83xuyvyFE6om0XuCvYZkFucxIU=
+Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9TC6eSL059159
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 29 Oct 2019 07:06:40 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 29
+ Oct 2019 07:06:28 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 29 Oct 2019 07:06:28 -0500
+Received: from [10.250.35.43] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9TC6eFg090144;
+        Tue, 29 Oct 2019 07:06:40 -0500
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: Add leds-meter binding
+To:     Akinobu Mita <akinobu.mita@gmail.com>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Bjorn Andersson <bjorn@kryo.se>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Jean-Jacques Hiblot <jjhiblot@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>
+References: <1572185379-21537-1-git-send-email-akinobu.mita@gmail.com>
+ <1572185379-21537-2-git-send-email-akinobu.mita@gmail.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <20078e40-7e58-a6b7-5b23-7c4201057506@ti.com>
+Date:   Tue, 29 Oct 2019 07:05:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TWUwTQRh2dre7S3HNUoqMqEQbTb0Fo2aiRnkxWYzxfDEaxAUW2tCDbIvn
-        C4lHpZB4gUflUAQkQFQQRYk1iFC0arEeiHhRr1BD8EINEcVdVoWn+TLf9U/yD41rAmQUbbTY
-        BdHCm3Skmmis+FkzW/+8PiHmYVc0KvU/ppCjt5xCfYVeAuUH3pKouNmnQjl36lTo2aULBHr1
-        rQWg74/2Yyhv4CyGPue+VKGLxQMAPWwoINGlnnMAeaoekajsiR9DBWW3COT3LkcvvC0k2utu
-        ptDv9hoiLoKrLqoG3MeOvRRXVL2Lu+p6QXG1ldkk97z9Gsm1dtRj3LGifoyrqPpBcV9ro9eo
-        N4YuSeLtW9cb0yxzl24JNew78FmV0TBt+9GqfCIL1OmdIISG7HzYcf0XKWMN+xjAntY4J1BL
-        +BaAlS31wAlommSXQOdTStZo2SR48UsOIWtw9hsF7w+6CZkIZ9fArKAPU0Rroev4e5WCF8Hd
-        3/uGMMFOhVdfN+IyZthV8HpeDVDKHgD4wF8NZCKERTDXs2dIBNiJMDurdygUZyNh7fsfKmVq
-        FpZea8MVHAGDb37/vddBd3+AkIfG2enwfMNcxRoH8+87CAVPhnk5AUqZIQzePvGWOAjGukY0
-        uIbdrhFu1wi3a4T7FFBVAmjmjaY03i7EzhGFzDmi1WCWjmSruRYoK9N3BQw2xTcBjAZNYByN
-        6SKYAU99gmZMkjVlh4G3GRLFTJNgawKQxnVaxn/3coKGSeF37BRE6z9qPE3oIhl94FCChpW7
-        0gUhQxD/sRNoWgeZqc+k0DBRSBO2pxpN9mEao0PkcHWU1iZYUgSRz7QbEuX9SLRJCyJTo6Ve
-        lWxnbBm8WbpVrF4wkz4YLCzB6ebCshJcQ1isFiEqktHKUlaWGjIt/4s+gEga6MKZkk6JHS39
-        m/85H6QKTKqY1S8/zWbnh6moLBDW9sS0wid0m7M94T3qXmN6c9/JI+M6F/Z0nYxddvtwzDxf
-        zQazd6Vzt/7eFMeGmOkv09eN6g9aqAPR2woWuO/uXFt+/kbvhNW/rOmb4gfbikvjGxen+vSB
-        Y4mbHV0omOS42Zlsqvv07ijo3h+R64kO9bYnT8LGpGmmrTytdZ/prtQRNgMfOwMXbfwfGu26
-        MfQDAAA=
+In-Reply-To: <1572185379-21537-2-git-send-email-akinobu.mita@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGVsbG8gU3RlcGhlbiwNCg0KVGhhbmtzIGZvciB0aGUgY29tbWVudHMgb25jZSBhZ2FpbiA6KQ0K
-DQpPbiBNb24sIDIwMTktMTAtMjggYXQgMTY6MzIgLTA3MDAsIFN0ZXBoZW4gQm95ZCB3cm90ZToN
-Cj4gUXVvdGluZyBNYXR0aSBWYWl0dGluZW4gKDIwMTktMTAtMjQgMDQ6NDQ6NDApDQo+ID4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvY2xrL2Nsay1iZDcxOHg3LmMgYi9kcml2ZXJzL2Nsay9jbGstYmQ3
-MTh4Ny5jDQo+ID4gaW5kZXggYWU2ZTViYWVlMzMwLi5kMTdhMTllMDQ1OTIgMTAwNjQ0DQo+ID4g
-LS0tIGEvZHJpdmVycy9jbGsvY2xrLWJkNzE4eDcuYw0KPiA+ICsrKyBiL2RyaXZlcnMvY2xrL2Ns
-ay1iZDcxOHg3LmMNCj4gPiBAQCAtOCw2ICs4LDcgQEANCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3Bs
-YXRmb3JtX2RldmljZS5oPg0KPiA+ICAjaW5jbHVkZSA8bGludXgvc2xhYi5oPg0KPiA+ICAjaW5j
-bHVkZSA8bGludXgvbWZkL3JvaG0tYmQ3MTh4Ny5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvbWZk
-L3JvaG0tYmQ3MTgyOC5oPg0KPiA+ICAjaW5jbHVkZSA8bGludXgvbWZkL3JvaG0tYmQ3MDUyOC5o
-Pg0KPiANCj4gSXQgd291bGQgYmUgcmVhbGx5IGdyZWF0IHRvIG5vdCBuZWVkIHRvIGluY2x1ZGUg
-dGhlc2UgcmFuZG9tIGhlYWRlcg0KPiBmaWxlcyBpbiB0aGlzIGRyaXZlciBhbmQganVzdCB1c2Ug
-cmF3IG51bWJlcnMgc29tZWhvdy4gTG9va3MgbGlrZQ0KPiBtYXliZQ0KPiBpdCBjYW4gYmUgZG9u
-ZSBieSBwb3B1bGF0aW5nIGEgZGlmZmVyZW50IGRldmljZSBuYW1lIGZyb20gdGhlIG1mZA0KPiBk
-cml2ZXINCj4gZGVwZW5kaW5nIG9uIHRoZSB2ZXJzaW9uIG9mIHRoZSBjbGsgY29udHJvbGxlciBk
-ZXNpcmVkPyBUaGVuIHRoYXQgY2FuDQo+IGJlDQo+IG1hdGNoZWQgaW4gdGhpcyBjbGsgZHJpdmVy
-IGFuZCB3ZSBjYW4ganVzdCBwdXQgdGhlIHJlZ2lzdGVyIGluZm8gaW4NCj4gdGhpcw0KPiBmaWxl
-Pw0KDQpJIHN0aWxsIGxpa2Uga2VlcGluZyB0aGUgY2hpcCB0eXBlIGluZm9ybWF0aW9uIG9uIG9u
-ZSBoZWFkZXIgLSBubw0KbWF0dGVyIHdoYXQtZXZlciBmb3JtYXQgdGhlIGNsay1jb250cm9sbGVy
-IHR5cGUvdmVyc2lvbiBpbmZvcm1hdGlvbiBpcy4NClJhdGlvbmFsZSBpcyB0aGF0IE1GRCBhbmQg
-YWxzbyBmZXcgb3RoZXIgc3ViLWRldmljZXMgKG5vdCBvbmx5IHRoZSBjbGspDQpuZWVkIHRvIHVz
-ZSBpdC4gQ3VycmVudGx5IGF0IGxlYXN0IHRoZSBSVEMuDQoNCkJ1dCBpZiB3ZSBkZWZpbmUgY2xr
-IHJlZ2lzdGVyIGluZm9ybWF0aW9uIGZvciBhbGwgUE1JQ3MgaW4gdGhpcyBjLWZpbGUsIA0KdGhl
-biAoSSB0aGluaykgd2UgY2FuIG9ubHkgaW5jbHVkZSB0aGUgPGxpbnV4L21mZC9yb2htLWdlbmVy
-aWMuaD4gLQ0Kd2hpY2ggY29udGFpbnMgdGhlIFBNSUMgdHlwZSBkZWZpbmVzIGFuZCB0aGUgZ2Vu
-ZXJpYyBNRkQgZGF0YQ0Kc3RydWN0dXJlLiBUaGF0IHdvdWxkOg0KDQotI2luY2x1ZGUgPGxpbnV4
-L21mZC9yb2htLWJkNzE4eDcuaD4NCi0jaW5jbHVkZSA8bGludXgvbWZkL3JvaG0tYmQ3MTgyOC5o
-Pg0KLSNpbmNsdWRlIDxsaW51eC9tZmQvcm9obS1iZDcwNTI4Lmg+DQorI2luY2x1ZGUgPGxpbnV4
-L21mZC9yb2htLWdlbmVyaWMuaD4NCg0KVGhhdCB3YXkgdGhlIGNoaXAtdHlwZSBpbmZvcm1hdGlv
-biBjb3VsZCBzdGlsbCBiZSBzYW1lIGZvciBNRkQgYW5kIGFsbA0Kc3ViLWRldmljZXMgYnV0IGNs
-ayBkcml2ZXIgd291bGQgbm90IG5lZWQgdG8gaW5jbHVkZSBhbGwgdGhlIGRldGFpbHMNCmZvciBh
-bGwgdGhlIFBNSUNzLiBJIHVuZGVyc3RhbmQgeW91ciBwb2ludCB3ZWxsIGFzIGNsayByZWdpc3Rl
-cnMgZm9yDQp0aGVzZSBQTUlDcyBhcmUgcmVhbGx5ICpsaW1pdGVkKi4NCg0KPiANCj4gPiAgI2lu
-Y2x1ZGUgPGxpbnV4L2Nsay1wcm92aWRlci5oPg0KPiA+ICAjaW5jbHVkZSA8bGludXgvY2xrZGV2
-Lmg+DQo+ID4gQEAgLTIxLDEwICsyMiw4IEBAIHN0cnVjdCBiZDcxOHh4X2NsayB7DQo+ID4gICAg
-ICAgICBzdHJ1Y3Qgcm9obV9yZWdtYXBfZGV2ICptZmQ7DQo+ID4gIH07DQo+ID4gIA0KPiA+IC1z
-dGF0aWMgaW50IGJkNzE4MzdfY2xrX3NldChzdHJ1Y3QgY2xrX2h3ICpodywgaW50IHN0YXR1cykN
-Cj4gPiArc3RhdGljIGludCBiZDcxODM3X2Nsa19zZXQoc3RydWN0IGJkNzE4eHhfY2xrICpjLCBp
-bnQgc3RhdHVzKQ0KPiANCj4gc2hvdWxkIGl0IGJlIHVuc2lnbmVkIGludCBzdGF0dXM/IE9yIG1h
-eWJlIHUzMj8NCj4gDQo+ID4gIHsNCj4gPiAtICAgICAgIHN0cnVjdCBiZDcxOHh4X2NsayAqYyA9
-IGNvbnRhaW5lcl9vZihodywgc3RydWN0DQo+ID4gYmQ3MTh4eF9jbGssIGh3KTsNCj4gPiAtDQo+
-ID4gICAgICAgICByZXR1cm4gcmVnbWFwX3VwZGF0ZV9iaXRzKGMtPm1mZC0+cmVnbWFwLCBjLT5y
-ZWcsIGMtPm1hc2ssDQo+ID4gc3RhdHVzKTsNCj4gPiAgfQ0KPiA+ICANCj4gPiBAQCAtMzMsMTQg
-KzMyLDE2IEBAIHN0YXRpYyB2b2lkIGJkNzE4MzdfY2xrX2Rpc2FibGUoc3RydWN0IGNsa19odw0K
-PiA+ICpodykNCj4gPiAgICAgICAgIGludCBydjsNCj4gPiAgICAgICAgIHN0cnVjdCBiZDcxOHh4
-X2NsayAqYyA9IGNvbnRhaW5lcl9vZihodywgc3RydWN0DQo+ID4gYmQ3MTh4eF9jbGssIGh3KTsN
-Cj4gPiAgDQo+ID4gLSAgICAgICBydiA9IGJkNzE4MzdfY2xrX3NldChodywgMCk7DQo+ID4gKyAg
-ICAgICBydiA9IGJkNzE4MzdfY2xrX3NldChjLCAwKTsNCj4gPiAgICAgICAgIGlmIChydikNCj4g
-PiAgICAgICAgICAgICAgICAgZGV2X2RiZygmYy0+cGRldi0+ZGV2LCAiRmFpbGVkIHRvIGRpc2Fi
-bGUgMzJLIGNsaw0KPiA+ICglZClcbiIsIHJ2KTsNCj4gPiAgfQ0KPiA+ICANCj4gPiAgc3RhdGlj
-IGludCBiZDcxODM3X2Nsa19lbmFibGUoc3RydWN0IGNsa19odyAqaHcpDQo+ID4gIHsNCj4gPiAt
-ICAgICAgIHJldHVybiBiZDcxODM3X2Nsa19zZXQoaHcsIDEpOw0KPiA+ICsgICAgICAgc3RydWN0
-IGJkNzE4eHhfY2xrICpjID0gY29udGFpbmVyX29mKGh3LCBzdHJ1Y3QNCj4gPiBiZDcxOHh4X2Ns
-aywgaHcpOw0KPiA+ICsNCj4gPiArICAgICAgIHJldHVybiBiZDcxODM3X2Nsa19zZXQoYywgMHhm
-ZmZmZmZmZik7DQo+IA0KPiBCZWNhdXNlIG5vdyB0aGlzIGlzIHBhc3NpbmcgLTEgdG8gdW5zaWdu
-ZWQgaW50IHRha2luZw0KPiByZWdtYXBfdXBkYXRlX2JpdHMoKT8NCg0KSSB0aGluayB0aGF0IGJp
-dC13aXNlIGl0IGlzIGFsbCB0aGUgc2FtZS4gQ3VycmVudGx5IHJlZ2lzdGVycyBhcmUgb25seQ0K
-OGJpdHMgd2lkZSBzbyBpdCBpcyBlbm91Z2ggdGhhdCBsb3dlc3QgOCBiaXRzIGFyZSBzZXQuIEFu
-ZCAweGZmZmZmZmZmDQpzaG91bGQgd29yayBuaWNlbHkgdXAtdG8gMzJiaXQgcmVnaXN0ZXJzIGFz
-IGxvbmcgYXMgaW50IGlzIDMyIGJpdCBvcg0KbW9yZS4NCg0KQnV0IHlvdSBhcmUgY29ycmVjdCB0
-aGF0IHRoaXMgaXMgbm90IGxvb2tpbmcgZ29vZC4gQXQgZmlyc3Qgc2lnaHQNCnVuc2lnbmVkIGlu
-dCBpcyBtdWNoIG5pY2VyLiBJIHByZWZlciB1bnNpZ25lZCBpbnQgb3ZlciBmb3JjZWQgdTMyIHRv
-DQpndWFyYW50ZWUgbmF0dXJhbCBhbGlnbm1lbnQgLSB3aGljaCBkb2VzIG5vdCByZWFsbHkgbWF0
-dGVyIGluIHRoaXMgY2FzZQ0KZWl0aGVyLiB1bnNpZ25lZCBpbnQgbWF0Y2hlcyByZWdtYXAgdGhv
-dWdoIHNvIEknbGwgc3dpdGNoIHRvIGl0LiBUaGFua3MNCmZvciBwb2ludGluZyB0aGlzIG91dCA6
-KQ0KDQpJJ2xsIHRyeSB0byBpbmNsdWRlIHRoZXNlIGNsayBjaGFuZ2VzIGluIHYzLg0KDQoNCkJy
-LA0KCU1hdHRpIFZhaXR0aW5lbg0K
+Akinobu
+
+On 10/27/19 9:09 AM, Akinobu Mita wrote:
+> Add DT binding for generic LED level meter which consists of multiple LED
+> devices by different drivers.
+>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Bjorn Andersson <bjorn@kryo.se>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Cc: Jean-Jacques Hiblot <jjhiblot@ti.com>
+> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Dan Murphy <dmurphy@ti.com>
+> Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+> ---
+>   .../devicetree/bindings/leds/leds-meter.yaml       | 67 ++++++++++++++++++++++
+>   1 file changed, 67 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/leds/leds-meter.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/leds/leds-meter.yaml b/Documentation/devicetree/bindings/leds/leds-meter.yaml
+> new file mode 100644
+> index 0000000..b5fcd98
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-meter.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-meter.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Generic LED level meter
+> +
+> +maintainers:
+> +  - Akinobu Mita <akinobu.mita@gmail.com>
+> +
+> +description:
+> +  Generic LED level meter consists of multiple LED devices by different drivers.
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^meter-leds(@.*)?"
+> +
+> +  compatible:
+> +    const: meter-leds
+> +
+> +  leds:
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: List of phandles to LED node that are members of a level meter.
+> +
+> +  brightness-weights:
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: |
+> +      By default, the brightness of the LED level meter is proportional to the
+> +      number of actual LEDs that are turned on.  We can optionally specify
+> +      the contribution ratio for each LED within a level meter by this
+> +      property.  The example below shows how to setup an exponential
+> +      relationship between the number of LEDs turned on and the brightness of
+> +      meter-leds.
+> +
+> +required:
+> + - compatible
+> + - leds
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    // Example 1: LED level meter with four LEDs
+> +    meter-leds {
+> +        compatible = "meter-leds";
+> +        leds = <&led0>, <&led1>, <&led2>, <&led3>;
+> +    };
+> +
+> +    // Example 2: Exponential relationship between the number of LEDs turned on
+> +    // and the brightness of meter-leds
+> +    //
+> +    // When the maximum brightness is 255
+> +    // - No LEDs are turned on if brightness == 0
+> +    // - led0 is turned on if 0 < brightness <= 32
+> +    // - led0 and led1 are turned on if 32 < brightness <= 64
+> +    // - led0, led1, and led2 are turned on if 64 < brightness <= 128
+> +    // - All LEDs are turned on if 128 < brightness <= 255
+> +    meter-leds {
+> +        compatible = "meter-leds";
+> +        leds = <&led0>, <&led1>, <&led2>, <&led3>;
+> +        brightness-weights = <32 32 64 127>;
+> +    };
+> +
+> +...
+
+Fails binding check
+
+Documentation/devicetree/bindings/leds/leds-meter.example.dts:32.20-36.11: 
+ERROR (duplicate_node_names): /example-0/meter-leds: Duplicate node name
+ERROR: Input tree has errors, aborting (use -f to force output)
+scripts/Makefile.lib:314: recipe for target 
+'Documentation/devicetree/bindings/leds/leds-meter.example.dt.yaml' failed
+make[1]: *** 
+[Documentation/devicetree/bindings/leds/leds-meter.example.dt.yaml] Error 2
+Makefile:1284: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
+
