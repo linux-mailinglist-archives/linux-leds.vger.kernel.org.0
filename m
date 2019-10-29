@@ -2,38 +2,38 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DE5AE88AD
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2019 13:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B22E88B2
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2019 13:49:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388006AbfJ2Ms0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Oct 2019 08:48:26 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:46746 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728735AbfJ2Ms0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Oct 2019 08:48:26 -0400
-Received: by mail-lj1-f194.google.com with SMTP id w8so10608373lji.13;
-        Tue, 29 Oct 2019 05:48:25 -0700 (PDT)
+        id S1729867AbfJ2Msw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Oct 2019 08:48:52 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42816 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729126AbfJ2Msv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Oct 2019 08:48:51 -0400
+Received: by mail-lj1-f196.google.com with SMTP id a21so15105804ljh.9;
+        Tue, 29 Oct 2019 05:48:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=H5IjjkjqkM+cui4b134pQ1dIG4WEHbpH+XP2ak65H3I=;
-        b=KpT2UtffyKfGyopW2sbTndkBF6BPdbMf15+6qlFfJ084//XET/eG2hAag9IsF+dwzz
-         /vgTUfxVND3Rh3gSEByZsVAYlEz8v6Z4hpUiommP5P7EypOLYePXZJMJTdgY9O629Wtj
-         JNBDOELMiYazkxqgZYeHgdhuWPdZWx2MflZePFVAotFkRpZxaG2UTv2KerN2kbxcGs7a
-         Vvmh9KOd20g9r23oVo5ZiwfPAfP/xCLDR0PeWb5fvJmTWjs5c5aDi73e5gXGUsXeGEfq
-         6LxylTVp+l7vUO2SfY41mvoErldiM+PKHJ4NwA1wys3nhkF15vNHMU0LgaYLcXWBm169
-         POGw==
-X-Gm-Message-State: APjAAAWoyEBrNz7RfnL/FvSIMmlb4fN4/HoMw8EktT0DS6xcIZsvelT9
-        kipNStm0QIcRju3GQZbrMOs=
-X-Google-Smtp-Source: APXvYqy4OsMdUjSkD96/aN4cxAwD7hbaqhesfGUgTcNpXVxwyLm+RZ8yNt2quaroqcQOf4GZqrSyRQ==
-X-Received: by 2002:a2e:481:: with SMTP id a1mr2604149ljf.209.1572353304285;
-        Tue, 29 Oct 2019 05:48:24 -0700 (PDT)
+        bh=xBVZsEwVtK814JHViicc5SAg5rQLuwblDReqpeiyxfs=;
+        b=B2PmQggIVtkAFdYjftHoHQdw9coBaA6wdTtStdaa7pS56m6mdMptPHBk7QtlX0rnR9
+         Bdrm0CGr8J5uRJjR1kw57vxQ9fLAc4kvd69gIudgYdhF7cR9YuB6GLs6bIxazJx2GfTy
+         TKiSIDV0Tjw9NzYGa3o5hfvREdozR6+asaOn6f7aFnWdmjEbJmALx37uiFryM6I2Papo
+         imFH51lutcrs24Ud5aKIVE7yS54E7K6OExM+Hhd/7ZbNwoVu9KWOUmqLtH2BH6Epg38W
+         dDcMqytDX3vandhC7eJnJFLO71nFTTd3Eiiv0q1FMHyqfI/QjClvusFzur8je5pppOWN
+         mkmQ==
+X-Gm-Message-State: APjAAAXWOapjk5Tx8FZiC7Swow/v7hsHRO2UWIiT90xeBysjv1DG19HA
+        aN2E1fF0ulMOuiCJul89/FU=
+X-Google-Smtp-Source: APXvYqxChfIwjj7Wc/TmT1HL5bfeXc+1lnmhRvhgbjX2jyrjgKWXLOryfSfpaWPWWzgrUD7+wtYY9Q==
+X-Received: by 2002:a2e:91c7:: with SMTP id u7mr2504548ljg.178.1572353328687;
+        Tue, 29 Oct 2019 05:48:48 -0700 (PDT)
 Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id g5sm6906406ljk.22.2019.10.29.05.48.23
+        by smtp.gmail.com with ESMTPSA id 12sm11264224lje.92.2019.10.29.05.48.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 05:48:23 -0700 (PDT)
-Date:   Tue, 29 Oct 2019 14:48:12 +0200
+        Tue, 29 Oct 2019 05:48:48 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 14:48:36 +0200
 From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 To:     mazziesaccount@gmail.com, matti.vaittinen@fi.rohmeurope.com
 Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -42,9 +42,9 @@ Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Mark Rutland <mark.rutland@arm.com>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 4/5] dt-bindings: lm3692x: example for using fixed LED
- node names.
-Message-ID: <5c90e1610725869967f84f1c680990f17399ccb2.1572351774.git.matti.vaittinen@fi.rohmeurope.com>
+Subject: [RFC PATCH 5/5] leds: lm3692x: Offload DT node locating and parsing
+ to core
+Message-ID: <f6420ede481afc4e0a360d937049555400f4417e.1572351774.git.matti.vaittinen@fi.rohmeurope.com>
 References: <cover.1572351774.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,46 +56,141 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Use predefined LED node name to match the LED node in driver.
+This comment serves as an example how led controller drivers
+could be simplified if led-class/led-core would handle DT node
+locating and parsing. leds-lm3692x was randomly selected from
+drivers using 'devm_led_classdev_register_ext' API. No further
+study was done :)
 
-It would be nice to offload common LED property parsing to
-LED core driver. One of the key things to allow this is somehow
-'pair' the LED DT node with LED driver initialization data.
-
-This patch uses LED node name as a 'key' in a same fashion
-as regulators do. The lm3692x was selected as demonstration
-example and this change is not intended to be feasible as such
-(surprize =]) This servers just as an example to initiate
-discussion as to how (if) we could pair the driver data and DT
-node.
+This commit HAS NOT BEEN TESTED at all. Only compile tested.
+This is only RFC - Eg, request for comments. If people see some
+of the ideas as useful then properly tested patch should be
+provided.
 
 Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 ---
- Documentation/devicetree/bindings/leds/leds-lm3692x.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/leds/leds-lm3692x.c | 75 ++++++++++++++++++++-----------------
+ 1 file changed, 41 insertions(+), 34 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-lm3692x.txt b/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
-index 4c2d923f8758..03866d491d01 100644
---- a/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
-@@ -5,7 +5,7 @@ white-LED driver designed for LCD display backlighting.
+diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
+index 3d381f2f73d0..abe2b1113049 100644
+--- a/drivers/leds/leds-lm3692x.c
++++ b/drivers/leds/leds-lm3692x.c
+@@ -108,7 +108,7 @@
+ struct lm3692x_led {
+ 	struct mutex lock;
+ 	struct i2c_client *client;
+-	struct led_classdev led_dev;
++	struct led_init_data init_data;
+ 	struct regmap *regmap;
+ 	struct gpio_desc *enable_gpio;
+ 	struct regulator *regulator;
+@@ -166,7 +166,8 @@ static int lm3692x_brightness_set(struct led_classdev *led_cdev,
+ 				enum led_brightness brt_val)
+ {
+ 	struct lm3692x_led *led =
+-			container_of(led_cdev, struct lm3692x_led, led_dev);
++			container_of(led_cdev->init_data, struct lm3692x_led,
++				     init_data);
+ 	int ret;
+ 	int led_brightness_lsb = (brt_val >> 5);
  
- The main difference between the LM36922 and LM36923 is the number of
- LED strings it supports.  The LM36922 supports two strings while the LM36923
--supports three strings.
-+supports three strings. LED sub-node must be named as "led_node_name_here".
+@@ -319,49 +320,56 @@ static int lm3692x_init(struct lm3692x_led *led)
  
- Required properties:
- 	- compatible:
-@@ -45,7 +45,7 @@ led-controller@36 {
- 	enable-gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
- 	vled-supply = <&vbatt>;
+ 	return ret;
+ }
+-static int lm3692x_probe_dt(struct lm3692x_led *led)
++
++static int lm3692x_of_parse_cb(struct led_classdev *ld, struct fwnode_handle *fw,
++			       struct led_properties *props)
+ {
+-	struct fwnode_handle *child = NULL;
+-	struct led_init_data init_data = {};
+ 	int ret;
++	struct lm3692x_led *led = container_of(ld->init_data,
++					       struct lm3692x_led, init_data);
++
++	ret = fwnode_property_read_u32(fw, "reg", &led->led_enable);
++	if (ret)
++		dev_err(&led->client->dev, "reg DT property missing\n");
++
++	return ret;
++}
++
++static const struct led_ops lm3692x_ops = {
++	.brightness_set_blocking = lm3692x_brightness_set,
++};
++
++static int lm3692x_probe_dt(struct lm3692x_led *led)
++{
++	void *ret;
  
--	led@0 {
-+	led_node_name_here {
- 		reg = <0>;
- 		function = LED_FUNCTION_BACKLIGHT;
- 		color = <LED_COLOR_ID_WHITE>;
+ 	led->enable_gpio = devm_gpiod_get_optional(&led->client->dev,
+ 						   "enable", GPIOD_OUT_LOW);
+ 	if (IS_ERR(led->enable_gpio)) {
+-		ret = PTR_ERR(led->enable_gpio);
+-		dev_err(&led->client->dev, "Failed to get enable gpio: %d\n",
+-			ret);
+-		return ret;
++		dev_err(&led->client->dev, "Failed to get enable gpio: %ld\n",
++			PTR_ERR(led->enable_gpio));
++		return PTR_ERR(led->enable_gpio);
+ 	}
+ 
+ 	led->regulator = devm_regulator_get(&led->client->dev, "vled");
+ 	if (IS_ERR(led->regulator))
+ 		led->regulator = NULL;
+ 
+-	child = device_get_next_child_node(&led->client->dev, child);
+-	if (!child) {
+-		dev_err(&led->client->dev, "No LED Child node\n");
+-		return -ENODEV;
+-	}
+-
+-	fwnode_property_read_string(child, "linux,default-trigger",
+-				    &led->led_dev.default_trigger);
+-
+-	ret = fwnode_property_read_u32(child, "reg", &led->led_enable);
+-	if (ret) {
+-		dev_err(&led->client->dev, "reg DT property missing\n");
+-		return ret;
+-	}
+-
+-	init_data.fwnode = child;
+-	init_data.devicename = led->client->name;
+-	init_data.default_label = ":";
+-
+-	ret = devm_led_classdev_register_ext(&led->client->dev, &led->led_dev,
+-					     &init_data);
+-	if (ret) {
+-		dev_err(&led->client->dev, "led register err: %d\n", ret);
+-		return ret;
++	/*
++	 * RFC_NOTE: Do we have fixed node name here or do we need another way to
++	 * do 'match'?
++	 */
++	led->init_data.of_match = of_match_ptr("led_node_name_here");
++	led->init_data.of_parse_cb = lm3692x_of_parse_cb;
++	led->init_data.devicename = led->client->name;
++	led->init_data.default_label = ":";
++
++	ret = devm_led_classdev_register_dt(&led->client->dev, &lm3692x_ops,
++					    &led->init_data);
++	if (IS_ERR(ret)) {
++		dev_err(&led->client->dev, "led register err: %ld\n",
++			PTR_ERR(ret));
++		return PTR_ERR(ret);
+ 	}
+ 
+ 	return 0;
+@@ -379,7 +387,6 @@ static int lm3692x_probe(struct i2c_client *client,
+ 
+ 	mutex_init(&led->lock);
+ 	led->client = client;
+-	led->led_dev.brightness_set_blocking = lm3692x_brightness_set;
+ 	led->model_id = id->driver_data;
+ 	i2c_set_clientdata(client, led);
+ 
 -- 
 2.21.0
 
