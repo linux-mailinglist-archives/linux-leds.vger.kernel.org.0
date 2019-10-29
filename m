@@ -2,38 +2,38 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A29E88A5
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2019 13:47:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C70BE88AA
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Oct 2019 13:48:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387851AbfJ2Mrh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Oct 2019 08:47:37 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:35202 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733206AbfJ2Mrh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Oct 2019 08:47:37 -0400
-Received: by mail-lj1-f194.google.com with SMTP id m7so15127129lji.2;
-        Tue, 29 Oct 2019 05:47:35 -0700 (PDT)
+        id S1732715AbfJ2MsD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Oct 2019 08:48:03 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:38550 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728735AbfJ2MsD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Oct 2019 08:48:03 -0400
+Received: by mail-lj1-f195.google.com with SMTP id q78so15136787lje.5;
+        Tue, 29 Oct 2019 05:48:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=OywAa/Wh8Fm343vqCkC5f2sTAIa0gIrZIUYIplehcos=;
-        b=AZPWfXJfAu5lhRyeq31OLXpw56fx8ThtkH1kOrt9gX5B5l4DkRZBrUil9COzLBXOr5
-         lqUoIxIl/4c34WNwRM0cFObHhHyBHXcV0wCjUEM5m0jvSfx6tMDebi5AOkyVwIEoUyzE
-         XmORAI3dInXxj7mFSjFb4Locd4VmilLFwQ6wg01FI84GA+mmyFliKz8QuszvLb/qNViR
-         jvwY9W9BpijcfUNvmq6yFSFkK0fXwp020YMBHWQYJu1axUaaPRBnOARZcpqkExcP1vlE
-         Z1euINfOUgwEN7mfD6lKSnVQhXBNuXzhqOX3B3gCFsEpe72CKXDOphd2wJv9VmOBic0l
-         iuwA==
-X-Gm-Message-State: APjAAAWPgE5MhY+pYLBREG6i2601OjvtjDcloaVG56cs/wzF7H65vH9J
-        2uZfvbHuyFWmbwJS2f0K9h8=
-X-Google-Smtp-Source: APXvYqz3KOrNCPv19g707lVMFVblbBiUMnyAwQ7zp6WrerCE97y+DEoSLjJp5M6MwVtGyvxf0zDC9w==
-X-Received: by 2002:a2e:420a:: with SMTP id p10mr2662653lja.16.1572353254415;
-        Tue, 29 Oct 2019 05:47:34 -0700 (PDT)
+        bh=MW/Su+hF7dOeuK9WS3oBbH9tajAn0tgnLxRJ4/XFN9Q=;
+        b=ChT+ORuun49NLo/yPJpOidUMGrXSOxeo+/ubEQ9187frsGe1ql2ZXbw6768bBqc468
+         bDxlvKIBsbKYcLGfwqt8cPCmshKKfPFwDpEdxCGvMqWOCdz/uCeNGokf1N3RHTVafd3v
+         pHXmty7cY6YB7LtyWTKfeC6H4rkBDMp1QKR9S9vFNBwe2nt7lm+nh8l0aQBqfVAiywJ4
+         ZZeyRWwD+Vit6S+T9kTQR+LGRTTKhLupzLx7bvRZCji08S7zVgzDy7E7ZyNNnFovOaz1
+         ZUksa6RAIgmy1RD8R4osLB5uvUSeduZrlx3S+2bqlY2BecaWiXjrw/QDP6Cn5gDbOoZ/
+         lOwQ==
+X-Gm-Message-State: APjAAAWLvkWT3eTgEJCzh+FFZEqeBfT7SleWuRXq603A+Xa1aE78EHoT
+        LGyjpGYk6X/B3c4Yiagq298=
+X-Google-Smtp-Source: APXvYqyys4dJFAsnYhczy2DeEgtZdc8W4NThNcMqth7uIe9P7lRHd+5WfD4WJxmgdMCfOUbxXzQ4iA==
+X-Received: by 2002:a2e:81c7:: with SMTP id s7mr2587136ljg.40.1572353279815;
+        Tue, 29 Oct 2019 05:47:59 -0700 (PDT)
 Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id i128sm8918346lfd.6.2019.10.29.05.47.33
+        by smtp.gmail.com with ESMTPSA id w20sm9160629lff.46.2019.10.29.05.47.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 05:47:33 -0700 (PDT)
-Date:   Tue, 29 Oct 2019 14:47:26 +0200
+        Tue, 29 Oct 2019 05:47:59 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 14:47:48 +0200
 From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 To:     mazziesaccount@gmail.com, matti.vaittinen@fi.rohmeurope.com
 Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -42,9 +42,9 @@ Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Mark Rutland <mark.rutland@arm.com>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 2/5] dt-bindings: an30259a: example for using fixed LED
- node names.
-Message-ID: <5b9f9e7cd3dc959962fc43d27e471245e63f5f29.1572351774.git.matti.vaittinen@fi.rohmeurope.com>
+Subject: [RFC PATCH 3/5] leds: an30259a: Offload DT node locating and parsing
+ to core
+Message-ID: <4083d9e71fbb17b15ee54e9826b77185bfffa729.1572351774.git.matti.vaittinen@fi.rohmeurope.com>
 References: <cover.1572351774.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,63 +56,273 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Use predefined LED node name to match the LED node in driver.
+This comment serves as an example how led controller drivers
+could be simplified if led-class/led-core would handle DT node
+locating and parsing. leds-an30259a was randomly selected from
+drivers using 'devm_led_classdev_register_ext' API. No further
+study was done :)
 
-It would be nice to offload common LED property parsing to
-LED core driver. One of the key things to allow this is somehow
-'pair' the LED DT node with LED driver initialization data.
-
-This patch uses LED node name as a 'key' in a same fashion
-as regulators do. The an30259a was selected as demonstration
-example and this change may not be really feasible for an30259a
-as I have no idea whether the existing DTs for devices out there
-have specific node names (or can be changed). This servers just
-as an example to initiate discussion as to how we could pair the
-driver data and DT node.
+This commit HAS NOT BEEN TESTED at all. Only compile tested.
+This is only RFC - Eg, request for comments. If people see some
+of the ideas as useful then properly tested patch should be
+provided.
 
 Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 ---
- Documentation/devicetree/bindings/leds/leds-an30259a.txt | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/leds/leds-an30259a.c | 181 +++++++++++++++++------------------
+ 1 file changed, 87 insertions(+), 94 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-an30259a.txt b/Documentation/devicetree/bindings/leds/leds-an30259a.txt
-index cbd833906b2b..bd1a2d11a0ad 100644
---- a/Documentation/devicetree/bindings/leds/leds-an30259a.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-an30259a.txt
-@@ -9,7 +9,8 @@ Required properties:
- 	- #address-cells: Must be 1.
- 	- #size-cells: Must be 0.
+diff --git a/drivers/leds/leds-an30259a.c b/drivers/leds/leds-an30259a.c
+index 250dc9d6f635..3df91866d6a2 100644
+--- a/drivers/leds/leds-an30259a.c
++++ b/drivers/leds/leds-an30259a.c
+@@ -61,10 +61,33 @@
  
--Each LED is represented as a sub-node of the panasonic,an30259a node.
-+Each LED is represented as a sub-node of the panasonic,an30259a node. LED nodes
-+must be named as led1 led2 and led3.
+ struct an30259a;
  
- Required sub-node properties:
- 	- reg: Pin that the LED is connected to. Must be 1, 2, or 3.
-@@ -34,20 +35,20 @@ led-controller@30 {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
++/*
++ * RFC_NOTE: What would be the correct way to match the DT node with driver?
++ * This may not work for leds-an30259a.c as the DT entries may not be exactly
++ * what is used in dt-binding example. For _new_ drivers we could either fix the
++ * node names (?) can we or introduce some "led-compatible" property (like
++ * regulators had regulator-compatible prior switching to node-names). But if we
++ * wish to convert old drivers to use this new API (I suggested merging the
++ * led_classdev_register_ext and led_classdev_register_dt into one in order to
++ * not create yet another LED class registration API) we may need to add some
++ * of_match_cb call-back in led_init_data so that old drivers can implement own
++ * DT matching mechanism and LED core just calls that for each child node. I'd
++ * prefer not having such as ideally drivers should not need to care about DT
++ * nodes unless they have driver specific properties. Core should handle generic
++ * LED properties.
++ */
++static const char *of_led_names[AN30259A_MAX_LEDS] = {
++	"led1", "led2", "led3",
++};
++
+ struct an30259a_led {
+ 	struct an30259a *chip;
+ 	struct fwnode_handle *fwnode;
+-	struct led_classdev cdev;
++/*
++ * RFC_NOTE: We give ownership of led_classdev to LED core. LED driver should
++ * not really need it for anything?
++ */
++	struct led_init_data init_data;
+ 	u32 num;
+ 	u32 default_state;
+ 	bool sloping;
+@@ -85,7 +108,7 @@ static int an30259a_brightness_set(struct led_classdev *cdev,
+ 	int ret;
+ 	unsigned int led_on;
  
--	led@1 {
-+	led1 {
- 		reg = <1>;
- 		linux,default-trigger = "heartbeat";
- 		function = LED_FUNCTION_INDICATOR;
- 		color = <LED_COLOR_ID_RED>;
- 	};
+-	led = container_of(cdev, struct an30259a_led, cdev);
++	led = container_of(cdev->init_data, struct an30259a_led, init_data);
+ 	mutex_lock(&led->chip->mutex);
  
--	led@2 {
-+	led2 {
- 		reg = <2>;
- 		function = LED_FUNCTION_INDICATOR;
- 		color = <LED_COLOR_ID_GREEN>;
- 	};
+ 	ret = regmap_read(led->chip->regmap, AN30259A_REG_LED_ON, &led_on);
+@@ -132,7 +155,7 @@ static int an30259a_blink_set(struct led_classdev *cdev,
+ 	unsigned int led_on;
+ 	unsigned long off = *delay_off, on = *delay_on;
  
--	led@3 {
-+	led3 {
- 		reg = <3>;
- 		function = LED_FUNCTION_INDICATOR;
- 		color = <LED_COLOR_ID_BLUE>;
+-	led = container_of(cdev, struct an30259a_led, cdev);
++	led = container_of(cdev->init_data, struct an30259a_led, init_data);
+ 
+ 	mutex_lock(&led->chip->mutex);
+ 	num = led->num;
+@@ -199,56 +222,76 @@ static int an30259a_blink_set(struct led_classdev *cdev,
+ 	return ret;
+ }
+ 
+-static int an30259a_dt_init(struct i2c_client *client,
+-			    struct an30259a *chip)
++static int of_check_reg(struct led_classdev *ld, struct fwnode_handle *fw,
++			struct led_properties *props)
+ {
+-	struct device_node *np = client->dev.of_node, *child;
+-	int count, ret;
+-	int i = 0;
++	u32 source;
++	int ret;
++	struct an30259a *chip;
+ 	const char *str;
+-	struct an30259a_led *led;
++	unsigned int led_on;
++	struct an30259a_led *led = container_of(ld->init_data,
++						struct an30259a_led, init_data);
+ 
+-	count = of_get_child_count(np);
+-	if (!count || count > AN30259A_MAX_LEDS)
++	chip = led->chip;
++
++	ret = fwnode_property_read_u32(fw, "reg", &source);
++	if (ret != 0 || !source || source > AN30259A_MAX_LEDS) {
++		dev_err(&chip->client->dev, "Couldn't read LED address: %d\n",
++			ret);
+ 		return -EINVAL;
++	}
++	led->num = source;
++	chip->num_leds++;
++
++	/*
++	 * RFC_NOTE: We need to add default-state = "keep" handling here
++	 * if we don't implement get_brightness and keep support in core
++	 */
++	if (!fwnode_property_read_string(fw, "default-state", &str)) {
++		if (!strcmp(str, "keep"))
++			ret = regmap_read(chip->regmap, AN30259A_REG_LED_ON,
++					  &led_on);
++		if (ret)
++			return ret;
+ 
+-	for_each_available_child_of_node(np, child) {
+-		u32 source;
++		if (!(led_on & AN30259A_LED_EN(led->num)))
++			ld->brightness = LED_OFF;
++		else
++			regmap_read(chip->regmap, AN30259A_REG_LEDCC(led->num),
++			    &ld->brightness);
++	}
+ 
+-		ret = of_property_read_u32(child, "reg", &source);
+-		if (ret != 0 || !source || source > AN30259A_MAX_LEDS) {
+-			dev_err(&client->dev, "Couldn't read LED address: %d\n",
+-				ret);
+-			count--;
+-			continue;
+-		}
++	return 0;
++}
+ 
+-		led = &chip->leds[i];
++const static struct led_ops an30259a_ops = {
++	.brightness_set_blocking = an30259a_brightness_set,
++	.blink_set = an30259a_blink_set,
++};
+ 
+-		led->num = source;
+-		led->chip = chip;
+-		led->fwnode = of_fwnode_handle(child);
++static int an30259a_dt_init(struct i2c_client *client,
++			    struct an30259a *chip)
++{
++	void *ret;
++	int i = 0;
++	struct an30259a_led *led;
+ 
+-		if (!of_property_read_string(child, "default-state", &str)) {
+-			if (!strcmp(str, "on"))
+-				led->default_state = STATE_ON;
+-			else if (!strcmp(str, "keep"))
+-				led->default_state = STATE_KEEP;
+-			else
+-				led->default_state = STATE_OFF;
+-		}
++	for (i = 0; i < AN30259A_MAX_LEDS; i++) {
++		led = &chip->leds[i];
+ 
+-		of_property_read_string(child, "linux,default-trigger",
+-					&led->cdev.default_trigger);
++		led->init_data.of_match = of_match_ptr(of_led_names[i]);
++		led->init_data.devicename = AN30259A_NAME;
++		led->init_data.default_label = ":";
++		led->init_data.of_parse_cb = of_check_reg;
++		led->chip = chip;
+ 
+-		i++;
++		ret = devm_led_classdev_register_dt(&client->dev, &an30259a_ops,
++						 &led->init_data);
++		if (IS_ERR(ret))
++			return PTR_ERR(ret);
+ 	}
+ 
+-	if (!count)
+-		return -EINVAL;
+-
+-	chip->num_leds = i;
+-
+ 	return 0;
+ }
+ 
+@@ -258,75 +301,25 @@ static const struct regmap_config an30259a_regmap_config = {
+ 	.max_register = AN30259A_REG_MAX,
+ };
+ 
+-static void an30259a_init_default_state(struct an30259a_led *led)
+-{
+-	struct an30259a *chip = led->chip;
+-	int led_on, err;
+-
+-	switch (led->default_state) {
+-	case STATE_ON:
+-		led->cdev.brightness = LED_FULL;
+-		break;
+-	case STATE_KEEP:
+-		err = regmap_read(chip->regmap, AN30259A_REG_LED_ON, &led_on);
+-		if (err)
+-			break;
+-
+-		if (!(led_on & AN30259A_LED_EN(led->num))) {
+-			led->cdev.brightness = LED_OFF;
+-			break;
+-		}
+-		regmap_read(chip->regmap, AN30259A_REG_LEDCC(led->num),
+-			    &led->cdev.brightness);
+-		break;
+-	default:
+-		led->cdev.brightness = LED_OFF;
+-	}
+-
+-	an30259a_brightness_set(&led->cdev, led->cdev.brightness);
+-}
+-
+ static int an30259a_probe(struct i2c_client *client)
+ {
+ 	struct an30259a *chip;
+-	int i, err;
++	int err;
+ 
+ 	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
+ 	if (!chip)
+ 		return -ENOMEM;
+ 
+-	err = an30259a_dt_init(client, chip);
+-	if (err < 0)
+-		return err;
+-
+ 	mutex_init(&chip->mutex);
+ 	chip->client = client;
+ 	i2c_set_clientdata(client, chip);
+ 
+ 	chip->regmap = devm_regmap_init_i2c(client, &an30259a_regmap_config);
+ 
+-	for (i = 0; i < chip->num_leds; i++) {
+-		struct led_init_data init_data = {};
+-
+-		an30259a_init_default_state(&chip->leds[i]);
+-		chip->leds[i].cdev.brightness_set_blocking =
+-			an30259a_brightness_set;
+-		chip->leds[i].cdev.blink_set = an30259a_blink_set;
+-
+-		init_data.fwnode = chip->leds[i].fwnode;
+-		init_data.devicename = AN30259A_NAME;
+-		init_data.default_label = ":";
+-
+-		err = devm_led_classdev_register_ext(&client->dev,
+-						 &chip->leds[i].cdev,
+-						 &init_data);
+-		if (err < 0)
+-			goto exit;
+-	}
+-	return 0;
++	err = an30259a_dt_init(client, chip);
++	if (err)
++		mutex_destroy(&chip->mutex);
+ 
+-exit:
+-	mutex_destroy(&chip->mutex);
+ 	return err;
+ }
+ 
 -- 
 2.21.0
 
