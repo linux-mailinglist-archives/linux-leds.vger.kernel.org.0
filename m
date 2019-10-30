@@ -2,54 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E3ACEA5E0
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Oct 2019 23:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 286ACEA5E9
+	for <lists+linux-leds@lfdr.de>; Wed, 30 Oct 2019 23:03:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727164AbfJ3WAt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 30 Oct 2019 18:00:49 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:35191 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726826AbfJ3WAt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Oct 2019 18:00:49 -0400
-Received: by mail-wr1-f65.google.com with SMTP id l10so4065659wrb.2;
-        Wed, 30 Oct 2019 15:00:46 -0700 (PDT)
+        id S1727161AbfJ3WDH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 30 Oct 2019 18:03:07 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:45576 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726864AbfJ3WDH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Oct 2019 18:03:07 -0400
+Received: by mail-wr1-f67.google.com with SMTP id q13so4042422wrs.12;
+        Wed, 30 Oct 2019 15:03:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+        h=subject:from:to:cc:references:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=puPnnpE6ZsR/xBwG7v5EJGpjm01NA7rreHLssAdLjbE=;
-        b=C28IGoYiOT/xjEWLTtfGsJ8fzMcS/+GYGcaJu5/gDMhmnMIs/4W+w10NtVPa5a6tPe
-         wjU69Z1nOcemexLP26ffyfI4TmpJ7xMIYSYjEGZXg3+wIZE9V4VhaP0jVMjTkTiP3A/4
-         rBWsQgZR0Th/XKkReWJ4/oznxtN0toddhj7tulXpIuOJoHWK1MW6C6eyYjwyQHijNgGN
-         FdYPleo1doIxTUdjQlp4R0/hIhE44rD+nW5vhUPsnWTJx6pz8yiwCnPtGKXjkpQpYayS
-         tUpXlEDlMPU32ylbHE9BoZ/gnm5QJhodhrS84v0bZhCRxDUKNvbBQ/mvnNYF7suuj8eh
-         E8Jw==
+        bh=Uklg+W0N6IvmcJN4v5yXUysUbBNaXJq19pwp0ft9oHA=;
+        b=Hir19Hwdjr8Vq7jDQv7pwHefjckxUKaFs1p0qR+R6t+GNS1OKq7oXcZJZn1akOjjIf
+         m18Zrzk+yjvTR9nKwnOOpQ5nexRrG6TnTsXoOWT77nLrUIgrWC2rlBqpbltlJDH3yEjH
+         QygfBafobFVfqpb1aEmGU1hkoUKPD0oeu5KcsUE1Wf/cW82U7QQ4N5oGy4oKLJfGJ77+
+         KgQlYxpsKAJVKcjcCd7MJVP5KqR79yXlpZb0S5pZQTvnxw2g9uVHDzn+ocSZEAi1jP3f
+         cBNK0tMc5dXmVx8S4YrzoWW8toykwBZa+kMopSBmta6oCVBdzqqdFNyMQJracgSRT+pM
+         XbCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=puPnnpE6ZsR/xBwG7v5EJGpjm01NA7rreHLssAdLjbE=;
-        b=IgJLmIQhVaTjSPHt9H3+t6P6wqvoBnCfSb5hECMo8jX8/AJTm3mGM5mNNdE3dVwkKD
-         LUtCfVJ/S5l2UwQnLK2hBj3VRAPmEu+JH5fs4ytD/Lm1uHRjTWBZJ8wdwkI3ki4BVQAI
-         m7Yn/hbd9Amb/bwSBFspNHP0gP18jIpvmsmkfta3Gv5rIK8tsms+4hv/G//+IbNGj3xM
-         9DlnOP8e8aKZNO/1jQvQRlMHYCLtQRWZ3ihPyZ3i0aDifdX4R4sckUecN6/RXaEqs5UP
-         qppCN845ZeXDPg/o3XmbZnjxqn+0o6erRwKMEYMwf2EUntq4ijEUDLCNZiFnxTlhPZS7
-         73/Q==
-X-Gm-Message-State: APjAAAUvw6Ia4KPjmrDArUUqletXbBYNFPCzeHAmFhGQe+aMvs43aiae
-        9Aoa/Iut2tFtr4okNvYwhIUZqHVQ
-X-Google-Smtp-Source: APXvYqweb2MeGgmLCBl557QgXr3gFDdrHZHqneMgquwkpJe5Vuv+LE1AR6XWvfKx7ZI/yNlGFR395g==
-X-Received: by 2002:adf:b603:: with SMTP id f3mr2037288wre.306.1572472845743;
-        Wed, 30 Oct 2019 15:00:45 -0700 (PDT)
+        bh=Uklg+W0N6IvmcJN4v5yXUysUbBNaXJq19pwp0ft9oHA=;
+        b=bVdlCvoK3jPRJeVb2TmZFnPEdW0AhTmImyRqbNaqmM0JLsaWZgsdw2E5XzsOHLfZA8
+         ojxvDqwOb2NdURns3VgvCiYmRobZzDWm8nwgGuq10XZh/DbasnHK+ACjUNzDM1+ZJ4yG
+         CLE4F4rlkqWMBVR/2bjcZ5CD1pnGs/JuwrDQ8UTLWCYTlBiRexr4oJWLtVy4OKweY4kR
+         8zlr/x2ZLAQ3/iKATnIiMgjhZk8iulv5MXt7JmsVc5zDVHArrVPlBBZQberc5b5JlUIy
+         PGspwAnJS6uHejhxNXcU+bK8URbl3NRGowMKeedXJ1U1oBezZ37xsoEsUSmuSHppLRzu
+         xR/w==
+X-Gm-Message-State: APjAAAUt0iiPi5A5zVTG+6ceytd7U53DI9/uYiSs30acNYhoOys7vVyx
+        02x5bJ8Bhr6QprBa55+zzZwYp9qu
+X-Google-Smtp-Source: APXvYqxvctllyS7D9dBeaFNOcXJeoWL3vxo9TZa2TITQ7s3VmvvsFIJe/P64DUKNF7yb5dS1rE22qQ==
+X-Received: by 2002:adf:afef:: with SMTP id y47mr1978171wrd.190.1572472984015;
+        Wed, 30 Oct 2019 15:03:04 -0700 (PDT)
 Received: from [192.168.1.19] (bkv74.neoplus.adsl.tpnet.pl. [83.28.189.74])
-        by smtp.gmail.com with ESMTPSA id r13sm1963929wra.74.2019.10.30.15.00.44
+        by smtp.gmail.com with ESMTPSA id h17sm1697603wme.6.2019.10.30.15.03.02
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 30 Oct 2019 15:00:45 -0700 (PDT)
+        Wed, 30 Oct 2019 15:03:03 -0700 (PDT)
 Subject: Re: [PATCH v15 06/19] leds: lp50xx: Add the LP50XX family of the RGB
  LED driver
-To:     Dan Murphy <dmurphy@ti.com>, kbuild test robot <lkp@intel.com>
-Cc:     kbuild-all@lists.01.org, pavel@ucw.cz, linux-leds@vger.kernel.org,
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20191028183629.11779-7-dmurphy@ti.com>
  <201910302027.2hNdR993%lkp@intel.com>
@@ -58,7 +59,7 @@ References: <20191028183629.11779-7-dmurphy@ti.com>
  <f32e2063-3c56-607c-0e74-f75f68e62e16@ti.com>
  <b50fa8f6-1a27-ad22-d4a7-37bc07fc6768@gmail.com>
  <6b64d284-0854-4143-6cd8-2b07ac268e5e@ti.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+ <d2d42ff8-bda3-ff32-6163-a7d2122e3441@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -116,12 +117,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  qqFCBWmTHXfwsfW0VgBmRtPO7eXVBybjJ1VXKR2RZxwSq/GoNXh/yrRXQxbcpZ+QP3/Tttsb
  FdKciZ4u3ts+5UwYra0BRuvb51RiZR2wRNnUeBnXWagJVTlG7RHBO/2jJOE6wrcdCMjs0Iiw
  PNWmiVoZA930TvHA5UeGENxdGqo2MvMdRJ54YaIR
-Message-ID: <d2d42ff8-bda3-ff32-6163-a7d2122e3441@gmail.com>
-Date:   Wed, 30 Oct 2019 23:00:43 +0100
+Message-ID: <ed2d1106-f388-6a36-cedf-33ebb5987d28@gmail.com>
+Date:   Wed, 30 Oct 2019 23:03:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <6b64d284-0854-4143-6cd8-2b07ac268e5e@ti.com>
+In-Reply-To: <d2d42ff8-bda3-ff32-6163-a7d2122e3441@gmail.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -130,47 +131,53 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dan,
 
-On 10/30/19 9:55 PM, Dan Murphy wrote:
-> Jacek
+
+On 10/30/19 11:00 PM, Jacek Anaszewski wrote:
+> Dan,
 > 
-> On 10/30/19 3:50 PM, Jacek Anaszewski wrote:
->> Dan,
+> On 10/30/19 9:55 PM, Dan Murphy wrote:
+>> Jacek
 >>
->> On 10/30/19 9:23 PM, Dan Murphy wrote:
->>> Jacek
+>> On 10/30/19 3:50 PM, Jacek Anaszewski wrote:
+>>> Dan,
 >>>
+>>> On 10/30/19 9:23 PM, Dan Murphy wrote:
+>>>> Jacek
+>>>>
+>>>>
+>>>>>> Does not appear here
+>>>>>>
+>>>>>> Finally not sure why the MIPS compiler is complaining about this
+>>>>>> but the
+>>>>>> ARM and x86 is not
+>>>>> Compilation breaks also for ARM.
+>>>> Thanks for the information.
+>>>>
+>>>> I am not seeing this issue or even a warning when using the ARM 8.3
+>>>> toolchain even in a clean build.
+>>>>
+>>>> arm-linux-gnueabihf-gcc (GNU Toolchain for the A-profile Architecture
+>>>> 8.3-2019.03 (arm-rel-8.36)) 8.3.0
+>>>>
+>>>> So is a bug in this toolchain?
+>>>  From what I've just googled C specification allows for a compiler
+>>> implementation to accept also other forms of constants expressions
+>>> than standard ones pointed out in the spec.
 >>>
->>>>> Does not appear here
->>>>>
->>>>> Finally not sure why the MIPS compiler is complaining about this
->>>>> but the
->>>>> ARM and x86 is not
->>>> Compilation breaks also for ARM.
->>> Thanks for the information.
+>>> So this is not necessarily a bug.
 >>>
->>> I am not seeing this issue or even a warning when using the ARM 8.3
->>> toolchain even in a clean build.
->>>
->>> arm-linux-gnueabihf-gcc (GNU Toolchain for the A-profile Architecture
->>> 8.3-2019.03 (arm-rel-8.36)) 8.3.0
->>>
->>> So is a bug in this toolchain?
->>  From what I've just googled C specification allows for a compiler
->> implementation to accept also other forms of constants expressions
->> than standard ones pointed out in the spec.
->>
->> So this is not necessarily a bug.
->>
-> OK.  Well I will try to repo with the above instructions.  And wait till
-> Friday for any other comments.  If I get no other comments I will make
-> the couple of changes and then post v16.
+>> OK.  Well I will try to repo with the above instructions.  And wait till
+>> Friday for any other comments.  If I get no other comments I will make
+>> the couple of changes and then post v16.
+> 
+> I confirm that with arm-unknown-linux-gnueabi-gcc just built with
+> crosstool-NG 1.24.0 I don't observe the issue either.
 
-I confirm that with arm-unknown-linux-gnueabi-gcc just built with
-crosstool-NG 1.24.0 I don't observe the issue either.
+Of course version 8.3.0.
 
-Previously I used quite old gcc 5.2 or so.
+> Previously I used quite old gcc 5.2 or so.
+> 
 
 -- 
 Best regards,
