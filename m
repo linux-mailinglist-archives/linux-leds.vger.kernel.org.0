@@ -2,190 +2,274 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C03BEA406
-	for <lists+linux-leds@lfdr.de>; Wed, 30 Oct 2019 20:23:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAF10EA479
+	for <lists+linux-leds@lfdr.de>; Wed, 30 Oct 2019 20:58:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbfJ3TXG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 30 Oct 2019 15:23:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52394 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726268AbfJ3TXG (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 30 Oct 2019 15:23:06 -0400
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BBF7920717;
-        Wed, 30 Oct 2019 19:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572463384;
-        bh=3WRdeiCcdfBEmx67tyODlRo3e+fKiyYtZaygD2WUis0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PuXZamAdL9mn1R6N0GRMg7D8L81skP3COiCXcHjjmvhAHyJsR6XxrvxUgnl6HvYqE
-         syF5m1wa6/UyZFG6kUTbFdAAuFGKB0z44xaHMNGvlgwWfBqu+XyqQzc1lj6v9CzmLb
-         HTSpjk6pvc3UnD355m/bVbsDEBX+XmUCKluSZvwg=
-Received: by mail-qt1-f172.google.com with SMTP id u22so4773711qtq.13;
-        Wed, 30 Oct 2019 12:23:04 -0700 (PDT)
-X-Gm-Message-State: APjAAAWcjldIlvWHfpxFL0bkoM4TLCeJq2o6Xy5OiZ8ur3FQ2R5oibOj
-        g/EHKrUxjRHDaeMW3vprnUyGibG/zDRcAWfXKQ==
-X-Google-Smtp-Source: APXvYqx54IxM1TwLGqZyjBl3C0NL1bTbORjQfhO/0scZK3ajveG/FOedjTVq2/EVa6f6Wdngzmvh6f2uKQuw21LJqXI=
-X-Received: by 2002:a0c:eed0:: with SMTP id h16mr728589qvs.85.1572463383841;
- Wed, 30 Oct 2019 12:23:03 -0700 (PDT)
+        id S1726269AbfJ3T6F (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 30 Oct 2019 15:58:05 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55706 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726261AbfJ3T6E (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Oct 2019 15:58:04 -0400
+Received: by mail-wm1-f65.google.com with SMTP id g24so3419463wmh.5;
+        Wed, 30 Oct 2019 12:58:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language;
+        bh=uJHxujovfFJ9h5r77MUYV3oU68SO0pgD7skhSfMTwQQ=;
+        b=CCrrh5U9JnxqTkLCAf0T7LsAyB2pDTxTIkiZFhLRaCwnqMwQbc2XRW5WDfmNhyA/PE
+         xqyA2L4QbZeo4CUKiIPW3gYOY5tIWKgrGRpMtRqkD+TDZ8M44xxBlOr0BSaZMnYikCPc
+         R5+Qel5ioiHEf8ZDP5Et+LInXH9j9rqj4mA4oTsLKZBGLndfUD3i8BI+JlZbxGBc7NII
+         YbZjjZ/YB7Afhhbt5Q2qu9YaLClDW49h4QuKrzQ1d4sL4reDDu+A8gBtVP/XhRzHOh2q
+         HOOVm9xCkubtHo3qfQzEPyiF5yTjXGSa8mI9OL0XGoE08Jae15XMCz96XtYbSgDHreBO
+         oYWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language;
+        bh=uJHxujovfFJ9h5r77MUYV3oU68SO0pgD7skhSfMTwQQ=;
+        b=QswqXXo4PnnoOIxusA1mhYLZcsQPhAQU3CTlbCatT8un3ElRKFbHNvLUdN04f0WYW9
+         ansXx2uGvH1t16q9NiHIJP+ZMyhcUvKaakY5DRgr3LbUcxwtQNteLzsAViTGg5CuZqyR
+         EeYe3gtLphJyFLAYJItQFGoj1v90r4w6kvC4OQcNMa0r7Mjs/Y7E74e/DnuQVY+3YLHc
+         Plfgmm5fxYERgE3d1mupvHbjRhUISO1hY+hZSMPXC4f9m5zmDDxFUhuD5qSEO+r5PdIn
+         z05uk5nPXVT2qKTpWrfpfPVHrD7VnETlcBLeWO3k4+x2DuSzKuawrDFqiV73tqXawgZG
+         rBmQ==
+X-Gm-Message-State: APjAAAUwkY5gz2e8wDMj1QrSQ4vYHOliR/3BRIqeORiK7dxFyKdyMTdb
+        izgKvhCvfuP0PZX1zg3Fy4x33gOv
+X-Google-Smtp-Source: APXvYqzkp6jTCzQD+qf30/iLJkKIhNzdF1FbQwIwOVtCurQOe3VJ6QIT4IB8D5At7B6YszwgGiLW4A==
+X-Received: by 2002:a1c:4c09:: with SMTP id z9mr1107999wmf.33.1572465481289;
+        Wed, 30 Oct 2019 12:58:01 -0700 (PDT)
+Received: from [192.168.1.19] (bkv74.neoplus.adsl.tpnet.pl. [83.28.189.74])
+        by smtp.gmail.com with ESMTPSA id b196sm1228119wmd.24.2019.10.30.12.57.58
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 Oct 2019 12:58:00 -0700 (PDT)
+Subject: Re: [PATCH v15 06/19] leds: lp50xx: Add the LP50XX family of the RGB
+ LED driver
+To:     Dan Murphy <dmurphy@ti.com>, kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org, pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20191028183629.11779-7-dmurphy@ti.com>
+ <201910302027.2hNdR993%lkp@intel.com>
+ <bb3473ba-ddfc-2b51-4a75-c23c5bf3bc62@ti.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <075c9330-a9b5-1360-4447-71a4797553a9@gmail.com>
+Date:   Wed, 30 Oct 2019 20:57:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <cover.1571915550.git.matti.vaittinen@fi.rohmeurope.com>
- <0182df3c49c6c804ee20ef32fc4b85b50ff45fca.1571915550.git.matti.vaittinen@fi.rohmeurope.com>
- <ed0b2aa8-8a70-0341-4ecf-8959f37c53bd@ti.com> <5c793f1308ccc6e787260b64fe6a875a8d0eb9d0.camel@fi.rohmeurope.com>
- <20191029193440.GA1812@bogus> <3e0f0943cd599cae544bd7a7a49dded46d57a604.camel@fi.rohmeurope.com>
-In-Reply-To: <3e0f0943cd599cae544bd7a7a49dded46d57a604.camel@fi.rohmeurope.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 30 Oct 2019 14:22:47 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJgnYqv1q=wf++5FOX-niRWQ=H9wWYgUKy+z=H933Qraw@mail.gmail.com>
-Message-ID: <CAL_JsqJgnYqv1q=wf++5FOX-niRWQ=H9wWYgUKy+z=H933Qraw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 02/13] dt-bindings: mfd: Document ROHM BD71828 bindings
-To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Cc:     "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <bb3473ba-ddfc-2b51-4a75-c23c5bf3bc62@ti.com>
+Content-Type: multipart/mixed;
+ boundary="------------A18F7105DE67FD7CD77E8C5B"
+Content-Language: en-US
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Oct 30, 2019 at 3:27 AM Vaittinen, Matti
-<Matti.Vaittinen@fi.rohmeurope.com> wrote:
->
->
-> On Tue, 2019-10-29 at 14:34 -0500, Rob Herring wrote:
-> > On Fri, Oct 25, 2019 at 05:49:17AM +0000, Vaittinen, Matti wrote:
-> > > Hello Dan,
-> > >
-> > > Thanks again for checking this :)
-> > >
-> > > On Thu, 2019-10-24 at 14:35 -0500, Dan Murphy wrote:
-> > > > Matti
-> > > >
-> > > > On 10/24/19 6:41 AM, Matti Vaittinen wrote:
-> > > > > ROHM BD71828 Power management IC integrates 7 buck converters,
-> > > > > 7
-> > > > > LDOs,
-> > > > > a real-time clock (RTC), 3 GPO/regulator control pins, HALL
-> > > > > input
-> > > > > and a 32.768 kHz clock gate.
-> > > > >
-> > > > > Document the dt bindings drivers are using.
-> > > > >
-> > > > > Signed-off-by: Matti Vaittinen <
-> > > > > matti.vaittinen@fi.rohmeurope.com>
-> > > > > ---
-> > > > >
-> > > > > No changes since v1
-> > > > >
-> > > > >   .../bindings/mfd/rohm,bd71828-pmic.txt        | 180
-> > > > > ++++++++++++++++++
-> > > > >   1 file changed, 180 insertions(+)
-> > > > >   create mode 100644
-> > > > > Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.txt
-> > > >
-> > > > I will let maintainers weigh in here but if this is new this
-> > > > should
-> > > > probably be in the yaml format to avoid conversion in the future
-> > >
-> > > Oh... This is new to me. I guess there are reasons for this - but I
-> > > must say I am not excited as I have never used yaml for anything.
-> > > I'll
-> > > do as you suggest and wait for what others have to say :) Thanks
-> > > for
-> > > pointing this out though.
-> >
-> > Sorry for your lack of excitement. It could be XML...
->
-> Thanks, I appreciate that, apology accepted X-D
->
-> > There aren't many MFD examples yet, but there is max77650 in my tree
-> > and
-> > linux-next.
->
-> I looked at the max77650 MFD binding from linux-next. After that I also
-> looked some of the generic documents for DT bindings (I know - I should
-> have done that earlier and your job had been easier). But all that left
-> me "slightly" puzzled. After some further wandering in the virtual
-> world I spotted this:
-> https://elinux.org/images/6/6b/LPC2018_json-schema_for_Devicetree.pdf
->
-> I think this link in some dt-yaml-binding-readme might be helpful.
+This is a multi-part message in MIME format.
+--------------A18F7105DE67FD7CD77E8C5B
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-Presentations bit rot, so I'd rather not. I'd hope that
-writing-schema.rst and example-schema.yaml capture what's in the
-presentation. What do you think is missing?
+Dan,
 
-> So if I understand this correctly, idea is to convert the dts sources
-> to use yaml (right?). This is seen better because more people know
-> JSON/YAML than dts format(?) Fair enough. Although some of us know dts
-> format decently well but have never used JSON or yaml. I guess dts
-> support is not going away though and yaml examples do not seem terribly
-> hard at first sight.
+On 10/30/19 5:41 PM, Dan Murphy wrote:
+> Hello
+> 
+> On 10/30/19 7:07 AM, kbuild test robot wrote:
+>> Hi Dan,
+>>
+>> I love your patch! Yet something to improve:
+>>
+>> [auto build test ERROR on j.anaszewski-leds/for-next]
+>> [also build test ERROR on v5.4-rc5 next-20191029]
+> 
+> I went to both these references and I do not see this patchset on either
+> of these.
 
-No, nothing is changing for .dts files (other than fixing errors the
-schemas find). The free form, human readable only prose called binding
-documentation is changing to YAML formatted, json-schema vocabulary
-binding schema which can be used to validate dts files.
+This branch is temporarily created by build bot by applying patch sets
+from lists on top of linux-leds for-next branch.
 
-> What comes to binding docs - well, in my eyes (which may be biased)
-> writing documentation in anything intended to be interpreted by a
-> machine is still a step backwards for a human document reader. Sure
-> syntax validation or reviewing is easier if format is machine readable
-> - but free text info is more, well, informative (form me at least). I
-> for example wouldn't like reading a book written in any script or
-> markup language. Nor writing one. It is difficult for me to understand
-> the documentation change to yaml, maybe because I am more often using
-> the binding docs for composing DT for a device than reviewing them ;)
+>> [if your patch is applied to the wrong git tree, please drop us a note
+>> to help
+>> improve the system. BTW, we also suggest to use '--base' option to
+>> specify the
+>> base tree in git format-patch, please see
+>> https://stackoverflow.com/a/37406982]
+>>
+>> url:   
+>> https://github.com/0day-ci/linux/commits/Dan-Murphy/Multicolor-Framework/20191030-144320
+>>
+> It appears here though
+>> base:  
+>> https://git.kernel.org/pub/scm/linux/kernel/git/j.anaszewski/linux-leds.git
+>> for-next
+> 
+> Does not appear here
+> 
+> Finally not sure why the MIPS compiler is complaining about this but the
+> ARM and x86 is not
 
-ICYMI, all the kernel docs are in a markup language now...
+Compilation breaks also for ARM.
 
-Free form descriptions are easier to use because you can put in dts
-whatever you want. Nothing is going to check. There's been no shortage
-of errors and inconsistencies that we've already found.
+This is not architecture specific but language specific thing.
 
-You can have as much description and comments as you like (though I'm
-trying to cut down on the copy-n-paste genericish 'clock for the
-module' type comments).
+If you enter this error message got Google you will get an answer
+to why this happens in the first result.
 
-> Anyways, I guess I'd better either try learning the yaml, figure out
-> what are schemas and see how to convert yaml docs to text for nicer
-> reading (I assume this is doable) and how to verify yaml binding docs
-> are Ok - or quit contributing. No one is forcing me to do this.
-> Continuing complaining on this is probably not getting us anywhere so I
-> might as well shut up now :/
+You need to patch your driver with the attached one.
 
-There is some notion to convert the DT spec to schema and then
-generate the spec from the schema. Take properties, their type, and
-descriptions and put that back into tables for example. Would love to
-have someone work on that. :)
+-- 
+Best regards,
+Jacek Anaszewski
 
-> And Sorry Rob. I am seeing you have been really close to this yaml/JSON
-> change so my wondering may be frustrating. I don't intend to be
-> disrespectful - I see that you have done huge work with this. I am
-> just... ...Slightly set in my ways. Little bit pig-headed and somewhat
-> a smart-arse - so I couldn't just let it go without giving out an
-> opinion.
+--------------A18F7105DE67FD7CD77E8C5B
+Content-Type: text/x-patch;
+ name="fix_lp50xx_struct_initialization.patch"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="fix_lp50xx_struct_initialization.patch"
 
-Everyone is welcome to their opinion.
+diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+index 76ca5cc1347c..52246565f15d 100644
+--- a/drivers/leds/leds-lp50xx.c
++++ b/drivers/leds/leds-lp50xx.c
+@@ -336,7 +336,7 @@ enum lp50xx_model {
+  * @reset_reg: device reset register
+  */
+ struct lp50xx_chip_info {
+-	const struct regmap_config lp50xx_regmap_config;
++	const struct regmap_config *lp50xx_regmap_config;
+ 	int model_id;
+ 	u8 max_modules;
+ 	u8 num_leds;
+@@ -357,7 +357,7 @@ static const struct lp50xx_chip_info lp50xx_chip_info=
+_tbl[] =3D {
+ 		.bank_brt_reg =3D LP5012_BNK_BRT,
+ 		.bank_mix_reg =3D LP5012_BNKA_CLR,
+ 		.reset_reg =3D LP5012_RESET,
+-		.lp50xx_regmap_config =3D lp5012_regmap_config,
++		.lp50xx_regmap_config =3D &lp5012_regmap_config,
+ 	},
+ 	[LP5012] =3D {
+ 		.model_id =3D LP5012,
+@@ -368,7 +368,7 @@ static const struct lp50xx_chip_info lp50xx_chip_info=
+_tbl[] =3D {
+ 		.bank_brt_reg =3D LP5012_BNK_BRT,
+ 		.bank_mix_reg =3D LP5012_BNKA_CLR,
+ 		.reset_reg =3D LP5012_RESET,
+-		.lp50xx_regmap_config =3D lp5012_regmap_config,
++		.lp50xx_regmap_config =3D &lp5012_regmap_config,
+ 	},
+ 	[LP5018] =3D {
+ 		.model_id =3D LP5018,
+@@ -379,7 +379,7 @@ static const struct lp50xx_chip_info lp50xx_chip_info=
+_tbl[] =3D {
+ 		.bank_brt_reg =3D LP5024_BNK_BRT,
+ 		.bank_mix_reg =3D LP5024_BNKA_CLR,
+ 		.reset_reg =3D LP5024_RESET,
+-		.lp50xx_regmap_config =3D lp5024_regmap_config,
++		.lp50xx_regmap_config =3D &lp5024_regmap_config,
+ 	},
+ 	[LP5024] =3D {
+ 		.model_id =3D LP5024,
+@@ -390,7 +390,7 @@ static const struct lp50xx_chip_info lp50xx_chip_info=
+_tbl[] =3D {
+ 		.bank_brt_reg =3D LP5024_BNK_BRT,
+ 		.bank_mix_reg =3D LP5024_BNKA_CLR,
+ 		.reset_reg =3D LP5024_RESET,
+-		.lp50xx_regmap_config =3D lp5024_regmap_config,
++		.lp50xx_regmap_config =3D &lp5024_regmap_config,
+ 	},
+ 	[LP5030] =3D {
+ 		.model_id =3D LP5030,
+@@ -401,7 +401,7 @@ static const struct lp50xx_chip_info lp50xx_chip_info=
+_tbl[] =3D {
+ 		.bank_brt_reg =3D LP5036_BNK_BRT,
+ 		.bank_mix_reg =3D LP5036_BNKA_CLR,
+ 		.reset_reg =3D LP5036_RESET,
+-		.lp50xx_regmap_config =3D lp5036_regmap_config,
++		.lp50xx_regmap_config =3D &lp5036_regmap_config,
+ 	},
+ 	[LP5036] =3D {
+ 		.model_id =3D LP5036,
+@@ -412,7 +412,7 @@ static const struct lp50xx_chip_info lp50xx_chip_info=
+_tbl[] =3D {
+ 		.bank_brt_reg =3D LP5036_BNK_BRT,
+ 		.bank_mix_reg =3D LP5036_BNKA_CLR,
+ 		.reset_reg =3D LP5036_RESET,
+-		.lp50xx_regmap_config =3D lp5036_regmap_config,
++		.lp50xx_regmap_config =3D &lp5036_regmap_config,
+ 	},
+ };
+=20
+@@ -716,7 +716,7 @@ static int lp50xx_probe(struct i2c_client *client,
+ 	i2c_set_clientdata(client, led);
+=20
+ 	led->regmap =3D devm_regmap_init_i2c(client,
+-					&led->chip_info->lp50xx_regmap_config);
++					led->chip_info->lp50xx_regmap_config);
+ 	if (IS_ERR(led->regmap)) {
+ 		ret =3D PTR_ERR(led->regmap);
+ 		dev_err(&client->dev, "Failed to allocate register map: %d\n",
 
-Rob
+--------------A18F7105DE67FD7CD77E8C5B--
