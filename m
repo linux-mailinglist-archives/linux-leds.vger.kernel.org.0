@@ -2,86 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79B67EBD4F
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Nov 2019 06:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34925EBDC9
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Nov 2019 07:27:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725873AbfKAFmk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 1 Nov 2019 01:42:40 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:47434 "EHLO
+        id S1727570AbfKAG1b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 1 Nov 2019 02:27:31 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:45170 "EHLO
         smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725280AbfKAFmk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Nov 2019 01:42:40 -0400
+        with ESMTP id S1725280AbfKAG1b (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Nov 2019 02:27:31 -0400
 Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id DE5A160A66; Fri,  1 Nov 2019 05:42:39 +0000 (UTC)
+        id EB918602F0; Fri,  1 Nov 2019 06:27:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1572586959;
-        bh=hfIUvKWAJJGAIiPINob40uFW3VATFr4Hy/OOMnNedZ4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=QJq/W/+LeemfKfbuQt8carVNB0URGDh3KbVxp+VdHth6cbpLg4YAnp5NwdNlmDGaS
-         HD9E4VwrnJNbYy/qP17K3SeclV+MWLu1Nxbtv1K1qPNQ1qrbJfRLtpgZf5lE38kErP
-         /DJFNVuUlQW5+mlQ/lTxmYn0RmgyFIdAaQ500YcY=
+        s=default; t=1572589649;
+        bh=bL0nOQrP/x3tmqadN/OsJ7Er4EhcsGr3nKsfrJY+8ns=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WA28TkbYi5W21hY/G1dPTGNxAaPFNPkgjAm5hNzR+dL2//HUUpKRaO6Gk2KEyf21R
+         zFE6b+RWYrxCBYDP8SalkIMFeVOIskm9Fqk9Llh7pBxDDab8uk0fLFkIUzhUeD9Gge
+         IvM6vn1Keeuxa1fi/iUsp+R+rWSvcZiKqrOTGC6M=
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
         pdx-caf-mail.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        DKIM_INVALID,DKIM_SIGNED autolearn=no autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by smtp.codeaurora.org (Postfix) with ESMTP id D668260A66;
-        Fri,  1 Nov 2019 05:42:38 +0000 (UTC)
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from kgunda-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kgunda@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 14627602F0;
+        Fri,  1 Nov 2019 06:27:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1572586958;
-        bh=hfIUvKWAJJGAIiPINob40uFW3VATFr4Hy/OOMnNedZ4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=AJl5A1k2zCnHgvYqAvbQ2tw0xbY7UZ487lMyuth0SXCeWAZy1iQ0A/UYUECO0mtq9
-         iL79uI+9ha4SC15D5PMNFY3e0Jy2CVpGZQvyYxUSd31WHzpMILh7xKbf7+8R04AYUN
-         CM2CgEzIe78GA80M9YzJSY2+1xt5ZUInUf3uwmh8=
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 01 Nov 2019 11:12:38 +0530
-From:   kgunda@codeaurora.org
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
-        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
-        daniel.thompson@linaro.org, jacek.anaszewski@gmail.com,
-        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        linux-arm-msm@vger.kernel.org, linux-arm-msm-owner@vger.kernel.org
-Subject: Re: [PATCH V9 1/6] backlight: qcom-wled: Add new properties for
- PMI8998.
-In-Reply-To: <20191031085845.GA5700@dell>
-References: <1571814423-6535-1-git-send-email-kgunda@codeaurora.org>
- <1571814423-6535-2-git-send-email-kgunda@codeaurora.org>
- <20191031085845.GA5700@dell>
-Message-ID: <4b5c264b8d4b47c48bc87ca389041a02@codeaurora.org>
-X-Sender: kgunda@codeaurora.org
-User-Agent: Roundcube Webmail/1.2.5
+        s=default; t=1572589648;
+        bh=bL0nOQrP/x3tmqadN/OsJ7Er4EhcsGr3nKsfrJY+8ns=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MUL7g+74h0Qm/7JuPlbyJhwLkieiNlTfZFnsCa4h1TTmNB6S6pLiifhTvveZrEkFz
+         tJz7sAaX+qKPV3DYhwEEqG4bXd9cIKMh3CJq5wyGJphhjz+i/3M1TyYLa0Rca03udg
+         cXH8OCKLCGqlm1EdAib4XONUfIfAZJblEHwSTers=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 14627602F0
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kgunda@codeaurora.org
+From:   Kiran Gunda <kgunda@codeaurora.org>
+To:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        lee.jones@linaro.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        mark.rutland@arm.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
+Subject: [PATCH V10 0/8] backlight: qcom-wled: Support for QCOM wled driver
+Date:   Fri,  1 Nov 2019 11:56:56 +0530
+Message-Id: <1572589624-6095-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 2019-10-31 14:28, Lee Jones wrote:
-> On Wed, 23 Oct 2019, Kiran Gunda wrote:
-> 
->> Update the bindings with the new properties used for
->> PMI8998.
->> 
->> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
->> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
->> Reviewed-by: Rob Herring <robh@kernel.org>
->> Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
->> ---
->>  .../bindings/leds/backlight/qcom-wled.txt          | 74 
->> ++++++++++++++++++----
->>  1 file changed, 63 insertions(+), 11 deletions(-)
-> 
-> This patch no longer applies.
-> 
-> It looks like you dropped the rename patch.
-> 
-> Please rebase all of the patches in this set on top of a released
-> commit and resend.
-Sure. I will resend the complete series with the dropped patches.
+This patch series renames the pm8941-wled.c driver to qcom-wled.c to add
+the support for multiple PMICs supported by qualcomm. This patch series
+supports both PM8941 and PMI8998 WLED. The PMI8998 WLED has the support
+to handle the OVP (over voltage protection) and the SC (short circuit
+protection)
+interrupts. It also has the auto string detection algorithm support to
+configure the right strings if the user specified string configuration
+is in-correct. These three features are added in this series for PMI8998.
+
+changes from v1:
+   - Fixed the commit message for
+   - backlight: qcom-wled: Rename pm8941-wled.c to qcom-wled.c
+
+Changes from v2:
+   - Fixed bjorn and other reviewer's comments
+   - Seperated the device tree bindings
+   - Splitted out the WLED4 changes in seperate patch
+   - Merged OVP and auto string detection patch
+
+Changes from v3:
+  - Added Reviewed-by/Acked-by tags
+  - Fixed comments from Bjorn/Vinod/Rob
+  - Splitting the "backlight: qcom-wled: Add support for WLED4 peripheral" patch
+    to seperate the WLED3 specific restructure.
+
+Changes from v4:
+  - Added reviewed-by/Acked-by tags
+  - Fixed comments from Bjorn/Daniel/Pavel
+
+Changes from v5:
+  - Fixed comments from Bjorn/Pavel
+
+Changes from v5/v6:
+  - Fixed comments from Bjorn/Pavel on V5 series, which were missed in V6 series
+  - Patch 1 and 2, mentioned below, from V6 series are picked by Pavel In next.
+    Hence, dropped them in this series.
+    https://lore.kernel.org/patchwork/patch/1132467/
+    https://lore.kernel.org/patchwork/patch/1132468/
+
+Changes from v7:
+  - Addressed comments from Daniel Thompson/Lee Jones
+  - Patch 1 and 2, mentioned below, from V6 series are picked by Pavel In next.
+    Hence, dropped them in this series.
+    https://lore.kernel.org/patchwork/patch/1132467/
+    https://lore.kernel.org/patchwork/patch/1132468/
+
+Changes from v8:
+ - Addressed a comment from Daniel Thompson on patch 6
+ - Added Reviewed-by tag of Daniel Thompson on patch 4
+ - Patch 1 and 2, mentioned below, from V6 series are picked by Pavel In next.
+    Hence, dropped them in this series.
+    https://lore.kernel.org/patchwork/patch/1132467/
+    https://lore.kernel.org/patchwork/patch/1132468/
+
+Changes from v9:
+ - Added back the below dropped out patches to this series.
+    https://lore.kernel.org/patchwork/patch/1132467/
+    https://lore.kernel.org/patchwork/patch/1132468/
+ - Added Reviewed-by tag of Daniel Thompson on patch 8
+
+Kiran Gunda (8):
+  backlight: qcom-wled: Rename pm8941-wled.c to qcom-wled.c
+  backlight: qcom-wled: restructure the qcom-wled bindings.
+  backlight: qcom-wled: Add new properties for PMI8998.
+  backlight: qcom-wled: Rename PM8941* to WLED3
+  backlight: qcom-wled: Restructure the driver for WLED3.
+  backlight: qcom-wled: Add support for WLED4 peripheral.
+  backlight: qcom-wled: add support for short circuit handling.
+  backlight: qcom-wled: Add auto string detection logic
+
+ .../bindings/leds/backlight/pm8941-wled.txt        |   42 -
+ .../bindings/leds/backlight/qcom-wled.txt          |  154 +++
+ drivers/video/backlight/Kconfig                    |    8 +-
+ drivers/video/backlight/Makefile                   |    2 +-
+ drivers/video/backlight/pm8941-wled.c              |  424 -------
+ drivers/video/backlight/qcom-wled.c                | 1296 ++++++++++++++++++++
+ 6 files changed, 1455 insertions(+), 471 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/backlight/pm8941-wled.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
+ delete mode 100644 drivers/video/backlight/pm8941-wled.c
+ create mode 100644 drivers/video/backlight/qcom-wled.c
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
+
