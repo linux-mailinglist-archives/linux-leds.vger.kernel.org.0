@@ -2,52 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC4B3ED62E
-	for <lists+linux-leds@lfdr.de>; Sun,  3 Nov 2019 23:27:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35C11ED63B
+	for <lists+linux-leds@lfdr.de>; Sun,  3 Nov 2019 23:30:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728059AbfKCW1Q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 3 Nov 2019 17:27:16 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:33466 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727705AbfKCW1P (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 3 Nov 2019 17:27:15 -0500
-Received: by mail-lf1-f65.google.com with SMTP id y127so10795327lfc.0
-        for <linux-leds@vger.kernel.org>; Sun, 03 Nov 2019 14:27:14 -0800 (PST)
+        id S1728079AbfKCWaY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 3 Nov 2019 17:30:24 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:40614 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727705AbfKCWaX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 3 Nov 2019 17:30:23 -0500
+Received: by mail-lj1-f194.google.com with SMTP id q2so8968861ljg.7
+        for <linux-leds@vger.kernel.org>; Sun, 03 Nov 2019 14:30:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=IzPJeK2cpUMQjH/975cPTUdiwrvG/dQ6KV42xRB7wAA=;
-        b=TuHGE1F1+ZfQMWfZYOEceMUBeLUnTeKK5wwL276Sz2hY+xKk8yxeRPuxVCLI4K8K1b
-         xc/+Bs3KENTr75oENU5Oij2awZZ1CEWkkAhr9YxWRcPvSoAZ0jwnjIPdTOs9KHH+bkjA
-         gFA/bMn9usVK1w4Rsab/nFcqIguaiTrbPF90x6B7U0CPqlgL7IVMYuqCg0LkJ7UmqPtp
-         nbt7syLDUloMjZ2JaJ7lBtj1V/QwAg3ng3c13tJGYyVP8U5en7JxXggkdqBp6at+kXvj
-         ITQxqRfoZDCgVCzD0WsGKF7ftP+d2VB9+BO8PhPn6vdBZfC19rjv4tRamOHUEGXgKOd+
-         5IUg==
+        bh=37IsC1QYGxBYfZW5BvnzIGLjijvofWTFPrPML1ai3TE=;
+        b=xv61OMy7HnCmcLqpeBquckd87P7nJi4UAXS/fJ/Hz2DjA48u2x5qTPs7j5L82y6mwa
+         JAwShxCoFU+50UNj/SpQHFCppQGWfqSYKXE+bk8Xd1pSRK7EnDQYJWgRemQnZXFEbs8i
+         mb++LMai+QyfBrih9AvQD3H0IsvwTFSgXi1Qo1K5ji0736ZNaAIji3RgI6ftuDGDE2kH
+         I1grzgb2TSw1jbxE8k/AjXadIJcx7yGtyb3pm6j0zVyEdzgOTRRa8p1iYlyzWwVLCmzT
+         dlShVoOreqcZANoVltSLTeiC0cHzt7yiJfI92HQ2x4Lj10gvjmJYw8gMMknPHGJTEmG0
+         cz8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=IzPJeK2cpUMQjH/975cPTUdiwrvG/dQ6KV42xRB7wAA=;
-        b=SZOwcqHl52DQO5CmRGwG1XFtXkHRQykgHE6pMYU13athkkS1g0pRRxrE5Z130YylPo
-         yA/zdbGq9VRbktw/leTzfYHEvCHA7CqNgnMHDWY4px7U4UL/LbSONgv6HEzxPRrNjLQV
-         Es9Tk25Wj6zL4oepBGASwpnkx+iMI0KECFZBZCsW/fhpoeRAzK1lh26Em7hcc98h98hZ
-         BLKj4fGgUq2u3B0xafIsgTnMdnj3yVkceKBFzJEH/Wi1l2KiXAKm2TIDngKiaUy9N6jn
-         hLKlBmnqGr+xA60kUsL7nhVGddu8WP7z0ArXNBHbhHQXIVnJmQT4uO5m06TDLznp8b/c
-         rTEg==
-X-Gm-Message-State: APjAAAVV3WXfxCGbTZWcri4pJCL7lqoVipDNp7C6DoVlfItxU4Vva2xC
-        CqXnjZhchmSAGYzMWv1iU9O6taOwN0U5+NOS7DDqpA==
-X-Google-Smtp-Source: APXvYqyjdYFNN9CDPrBMD1LL8+RPj9zGpSDVydNpsun9Cd81xB4a7KEsrKrdBFbr3NcThDQn/dcVLwc/glAw4mUAc7w=
-X-Received: by 2002:a19:6a0d:: with SMTP id u13mr5835609lfu.86.1572820033814;
- Sun, 03 Nov 2019 14:27:13 -0800 (PST)
+        bh=37IsC1QYGxBYfZW5BvnzIGLjijvofWTFPrPML1ai3TE=;
+        b=TFIcYT/f7ZehWPTIGOmdyebhAh5OvtnMNzHBUtu++MukXJzvadpjUJBHQ0vPXNfMWm
+         W+3IuqwsKe8zJWDtsmlcH6xP9i6L6vyi8EJgByj2XNHMbYgrWUpQGShVR3VrBBIDztGF
+         HRp3ArcAiVGzY+5O9jNLGFtl5hfyKAhRr7atbEjvZKcYQLad4qenp5Q74DGwDCuiBb1q
+         T1+CuJjKy4nikunFRa+PXDQ0ICXiOtMs/qmjav6Nos1Lvhm3zwC7maDhAyGg2NoeeiM7
+         3IM6hPR6/D3HUNjGFfTkWzzxTCs0rDDd1VM/OKHC5n2UTVtAiH4wtqt2jRu/z/6FZUTA
+         VpPw==
+X-Gm-Message-State: APjAAAWxI8ed1g6UBWyBOFTEYn0TZm2vp4+xTxQtux6GTP6mNbEPGU3N
+        Ellh4Qcm7HQp1yGmGwEGVnXwxv61jH4Jyf8RJ4wbug==
+X-Google-Smtp-Source: APXvYqwVg9mCs8V+YbBxGYd5H+o7zjgzBRtm+eVs9wqZnKUeUHaI8SATdFAn61fPpaWBK++YT2y7RJlFoFraFdF5Uus=
+X-Received: by 2002:a2e:9a55:: with SMTP id k21mr2882628ljj.251.1572820221912;
+ Sun, 03 Nov 2019 14:30:21 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1572606437.git.matti.vaittinen@fi.rohmeurope.com> <2a8fa03308b08b2a15019d9b457d9bff7aafce94.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
-In-Reply-To: <2a8fa03308b08b2a15019d9b457d9bff7aafce94.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
+References: <cover.1572606437.git.matti.vaittinen@fi.rohmeurope.com> <f08d265c12ebf185c0e1dbbfe0a3f86de4907194.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
+In-Reply-To: <f08d265c12ebf185c0e1dbbfe0a3f86de4907194.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 3 Nov 2019 23:27:02 +0100
-Message-ID: <CACRpkdZYw3QQcQ4h5y_C0UD6+4Wz9AdmQ0qSrrjfUweuJj8hyQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 10/15] regulator: bd71828: Add GPIO based run-level
- control for regulators
+Date:   Sun, 3 Nov 2019 23:30:10 +0100
+Message-ID: <CACRpkdYhasTEQq2btQ_3GSo=hMJetp128jFo-6hE=JMeX4MJSA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 14/15] gpio: Add definition for GPIO direction
 To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 Cc:     Matti Vaittinen <mazziesaccount@gmail.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -75,29 +74,28 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Nov 1, 2019 at 12:43 PM Matti Vaittinen
+Hi Matti!
+
+Good initiative (and I will see a ton of janitorial patches as a
+result of this...)
+
+On Fri, Nov 1, 2019 at 12:50 PM Matti Vaittinen
 <matti.vaittinen@fi.rohmeurope.com> wrote:
 
-> Bucks 1,2,6 and 7 on ROHM BD71828 can be either controlled as
-> individual regulartors - or they can be grouped to a group of
-> regulators that are controlled by 'run levels'. This can be
-> done via I2C. Each regulator can be assigned a voltage and
-> enable/disable status for each run-level. These statuses are
-> also changeable via I2C.
->
-> Run-levels can then be changed either by I2C or GPIO. This
-> control mechanism is selected by data in one time programmable
-> area (during production) and can't be changed later.
->
-> Allow regulators to be controlled via run-levels and allow
-> getting/setting the current run-level also via GPIO.
+> At least for me it is difficult to remember the meaning of GPIO
+> direction values. Define GPIO_IN and GPIO_OUT so that occasional
+> GPIO contributors would not need to always check the meaning of
+> hard coded values 1 and 0.
 >
 > Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+(...)
+> +#define GPIO_IN                1
+> +#define GPIO_OUT       0
 
-I like the way you use the gpio API so FWIW:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Please spell it out or people will be confused:
 
-I do not understand the regulator parts of the patch.
+GPIO_LINE_DIRECTION_IN
+GPIO_LINE_DIRECTION_OUT
 
 Yours,
 Linus Walleij
