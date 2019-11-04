@@ -2,104 +2,231 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A446EE57C
-	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2019 18:04:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54204EE84C
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2019 20:28:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728012AbfKDREB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 4 Nov 2019 12:04:01 -0500
-Received: from mout.gmx.net ([212.227.17.21]:36097 "EHLO mout.gmx.net"
+        id S1729010AbfKDT2P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 4 Nov 2019 14:28:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52714 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727861AbfKDREB (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 4 Nov 2019 12:04:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1572887016;
-        bh=PI7dAw1uU03KDM2kwW+WwA/xzQ2h0kyFFuuTAXPmP5w=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=jIcuW1V9N/vp0Pp6ApmnBa6GDUV+x38frXo+Cp26LOHZYKBcp2S5r0LsBQtXDK38h
-         znyF0vsjXAZYb0K2AXk1Ly37fCzmKUDZzPCYqfhOu0iAzIajKih0YE1E/g3ZOQfeIz
-         8mujWGnkg8CwCDyobwRBkx9Njav/7KO8YCRm0EU8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.1.164] ([37.4.249.112]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N95iR-1hq5fU3Wtz-0164Ln; Mon, 04
- Nov 2019 18:03:35 +0100
-Subject: Re: [PATCH] ARM: dts: bcm2837-rpi-cm3: Avoid leds-gpio probing issue
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Eric Anholt <eric@anholt.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        bcm-kernel-feedback-list@broadcom.com, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <1570964003-20227-1-git-send-email-wahrenst@gmx.net>
- <20191104090919.GC12355@duo.ucw.cz>
-From:   Stefan Wahren <wahrenst@gmx.net>
-Message-ID: <6426d9b6-8ef1-903a-47fb-6844e29dffdd@gmx.net>
-Date:   Mon, 4 Nov 2019 18:03:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1728174AbfKDT2P (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 4 Nov 2019 14:28:15 -0500
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B58E1214E0;
+        Mon,  4 Nov 2019 19:28:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572895693;
+        bh=pt68eIojioAlUvFfemW0bhMdFB6WrpOnQ3bfAPgc+AE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OHylc50Pr11p+2uQI16beu7RqPEN8j4u8nB+YbPjZry2BCythROALHQEXKIb8IPSN
+         /Ij2uXFw+35axNKhT6zFtzyKo37OrhG0VFXIAE/5dQKVTQPyjVQFZB1YYKczqa1ISu
+         MVf6vW4xhhlmJQCidTtoULrO1iQdOxq5gsq5nelA=
+Received: by mail-qk1-f178.google.com with SMTP id m16so18425681qki.11;
+        Mon, 04 Nov 2019 11:28:13 -0800 (PST)
+X-Gm-Message-State: APjAAAWKJhBUfqMaHNmoGPIOxnLbtrJ2fSSNUOC0biSxAj4XiQ53hV8l
+        EIZyLB0zId4WU6G4epKvhxWs16j6/EpYytt+TA==
+X-Google-Smtp-Source: APXvYqxIWjhlyQXoP3/EhmDYLOTpQ0t5Ybm7/5yMCKcuYQv/HF1ACIGPrPRERHamqHnNZnSGK9XiatayZOOA+FooTyk=
+X-Received: by 2002:a37:f703:: with SMTP id q3mr24413885qkj.254.1572895692687;
+ Mon, 04 Nov 2019 11:28:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191104090919.GC12355@duo.ucw.cz>
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Provags-ID: V03:K1:qX/zG45X4O/oDA29SB1fKSYqUQKAxW6UyeV3mrJ54AmiRk8x42G
- GeCQLS92oaCS6+ejAGhrH5tRSWBnLEEN3i0xwdkQQ2t3NDXvesDw3uP6lql1w4N46tGJa7d
- K+HBDBxJy8NCMO6SiGtGcVy/L2o6kUTUcNDMBZs9UMzNpj4NI6Du3s5GYbITiRLC0oYqImm
- NUONt5iURZ9CFbGoSkZoA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AKi8FyK/A4k=:Zv18n1lZNDVxFqawjJrsWx
- 3i+KX7zMM/HVqfGvzpMMbf+FVUYJB+4KFcORTlcbHvLDBmwnSYTw5JzEM5VCSr80raPDBv8od
- HzYkSy+Zor2VG8NedKvihSwAokRmJtHeCsaLr0DJKd4C4tCI3qk+oC1brqMwlgKvvHDAROCvX
- x8xybu+M70awLnyZOS/n+zDCgrA2W9M2SLs3a2nzJtbjVEl+HSYsN9yDmRTgjg0hOrf4vb45i
- uu9whvCd6VitDwzncHaBkiIsRk2wi5MT4cnc8FUe4FsvVcyQOewU+0325+d/xyiyyEDgIG2VW
- ZKFNCrzCqFQKi69azL6SWvtGd073+JVt1JX7jLeLiijQ3gO3O4h8hMVxRlwziBJ+84TZ+dKIb
- 1zDBZjdeSIrNwJ/E8vLLyyaU4qi0/DWS5KmMp1N+qzMbQSYeG76ObJDUVqZWlv4xDq+jxRROX
- Hu29FVgNApGEq7O6xxuX5yYZ+dNXEGU95UHQ1qTIQmEAmzZlaNa1dXlbwrfJ3UK6SfwaQbFZe
- CeFuhkJFOduxGApViqeo/CGjcJ5n4pQF1Pl31B8voPlu1L+Tq2FuDNFFuxeQFs9Mh4624/2bW
- KMIQnqQRLGH9W46xMzbsl8H5jM86n+6kEQjwSPFhCWLJ/eUAsgndx/WqPKCf/Syhlax5EsKyZ
- 9ETxCEkGF10OmX3qLxTGRmvjY+iu+n9b/gKHD6wASLmMsjZEAwwZSPiMgOQ94oZWJ/H+60mSa
- lwVlmVKV895BQQSDQf3A3Z8NZT8ptG4Wld+cYy6MvfjDgsSRpAwqu1lONv07PJJ2HsaoutNAv
- EJruYDJ92hXjYXSZutNFyqbiYck7fk2qR7QdlKFbUX/5JIOElIG0RtuZjnBMaMmXTrNr/ep3h
- LK+O3ZiNFAHqJIW0QY8aLx5kSypTnNRYWHUa0qQW5cvNmY67e3LrcLqjbuR/Mwi6inW4uuBbL
- 6AwxF3IvWb4KhCjMTxTKfSEBxPlTpXOBNXSuqyw6dmIe4eJReTHsdmocnKmUhRPIvxH3aSpse
- bHoxVEQBmluuKaor6lpzkfh08B/1nqJt0ZiVcTPjy8VLRwnizoShGHl4DDftBZOfVPXBNFQUi
- JmAtPLfh7Dj0lVqfCNmhEK6qvxEB1AszMAh9hFD9OdWDB+/a+oDM0H6CvxH7jWsh25+dT+yoa
- yIcP/q25izAzqyIzHWIH/mp1G18HK990uhGRVkNMtmWM0sZb8gP7f1v0ORvXviQEo/PFqTAjb
- txLVVfBOOq2FwlAE7lA411ge+6OfqYG7baLUNEQg06vgOyDv1wvr9gFf6+dg=
+References: <cover.1571915550.git.matti.vaittinen@fi.rohmeurope.com>
+ <0182df3c49c6c804ee20ef32fc4b85b50ff45fca.1571915550.git.matti.vaittinen@fi.rohmeurope.com>
+ <ed0b2aa8-8a70-0341-4ecf-8959f37c53bd@ti.com> <5c793f1308ccc6e787260b64fe6a875a8d0eb9d0.camel@fi.rohmeurope.com>
+ <20191029193440.GA1812@bogus> <3e0f0943cd599cae544bd7a7a49dded46d57a604.camel@fi.rohmeurope.com>
+ <CAL_JsqJgnYqv1q=wf++5FOX-niRWQ=H9wWYgUKy+z=H933Qraw@mail.gmail.com>
+ <1e3901d1c7c26f4dbbc1de78b607b92bf9ddc098.camel@fi.rohmeurope.com>
+ <CAL_JsqJ6kmZyfXtZy_gz_6sxgK2CTXKTcpARkaf462QiwJXYZA@mail.gmail.com> <a8acd74fa9c6abc8c2daea9f016d035a1ef87b02.camel@fi.rohmeurope.com>
+In-Reply-To: <a8acd74fa9c6abc8c2daea9f016d035a1ef87b02.camel@fi.rohmeurope.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 4 Nov 2019 13:28:01 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLWMfmRkxJr1NLi1FkHBO-NZR=ycq6kjbFpjNNM6mOV8g@mail.gmail.com>
+Message-ID: <CAL_JsqLWMfmRkxJr1NLi1FkHBO-NZR=ycq6kjbFpjNNM6mOV8g@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 02/13] dt-bindings: mfd: Document ROHM BD71828 bindings
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     "broonie@kernel.org" <broonie@kernel.org>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Pavel,
+On Fri, Nov 1, 2019 at 7:52 AM Vaittinen, Matti
+<Matti.Vaittinen@fi.rohmeurope.com> wrote:
+>
+>
+> On Thu, 2019-10-31 at 12:50 -0500, Rob Herring wrote:
+> > On Thu, Oct 31, 2019 at 7:54 AM Vaittinen, Matti
+> > <Matti.Vaittinen@fi.rohmeurope.com> wrote:
+> > >
+> > > On Wed, 2019-10-30 at 14:22 -0500, Rob Herring wrote:
+> > > > On Wed, Oct 30, 2019 at 3:27 AM Vaittinen, Matti
+> > > > <Matti.Vaittinen@fi.rohmeurope.com> wrote:
+> > > > > On Tue, 2019-10-29 at 14:34 -0500, Rob Herring wrote:
+> > > > > > On Fri, Oct 25, 2019 at 05:49:17AM +0000, Vaittinen, Matti
+> > > ...which brings me here. I looked at the
+> > > Documentation/devicetree/bindings folder and did read the 'writing-
+> > > bindings.txt' and 'submitting-patches.txt' from there. Then I also
+> > > checked the Documentation/devicetree/usage-model.txt None of which
+> > > helped me out. I did also open the 'writing-schema.rst' but I
+> > > didn't
+> > > read it carefully enough. Probably because I thought after reading
+> > > the
+> > > opening chapter that this described how to do actual dts in yaml.
+> >
+> > Things are a bit scattered around I'll admit. I feel like we need a
+> > 'start here', but the challenge is people have different starting
+> > points.
+>
+> cross-referencing? =)
+>
+> I guess that if yaml is what is expected to be used as patch format,
+> then we should probably mention this in submitting-patches.txt and
+> writing-bindings.txt.
 
-Am 04.11.19 um 10:09 schrieb Pavel Machek:
-> On Sun 2019-10-13 12:53:23, Stefan Wahren wrote:
->> bcm2835-rpi.dtsi defines the behavior of the ACT LED, which is available
->> on all Raspberry Pi boards. But there is no driver for this particual
->> GPIO on CM3 in mainline yet, so this node was left incomplete without
->> the actual GPIO definition. Since commit 025bf37725f1 ("gpio: Fix return
->> value mismatch of function gpiod_get_from_of_node()") this causing probe
->> issues of the leds-gpio driver for users of the CM3 dtsi file.
->>
->>   leds-gpio: probe of leds failed with error -2
->>
->> Until we have the necessary GPIO driver hide the ACT node for CM3
->> to avoid this.
->>
->> Reported-by: Fredrik Yhlen <fredrik.yhlen@endian.se>
->> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
->> Fixes: a54fe8a6cf66 ("ARM: dts: add Raspberry Pi Compute Module 3 and IO board")
->> Cc: Linus Walleij <linus.walleij@linaro.org>
->> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Acked-by: Pavel Machek <pavel@ucw.cz>
+I've actually added that to submitting-patches.txt already and
+checkpatch.pl now warns for non-schema bindings. Both are pending for
+5.5.
 
-thanks but this patch has already been applied.
+> Actyually, I think that writing-bindings.txt
+> could be combined with writing-schema.rst - they are about the same
+> thing, right?
 
-Can i consider this as a "yes" to my intended question ( Is the behavior
-change in leds-gpio desired )?
+Not really. writing-bindings.txt is about how to design bindings. It's
+the DO's and DON'Ts that I give in review comments over and over and
+over. Mostly an attempt to ensure I'm saying things that are
+documented somewhere. Probably need to come up with better names, but
+naming is hard(TM).
 
+
+> > > > There is some notion to convert the DT spec to schema and then
+> > > > generate the spec from the schema. Take properties, their type,
+> > > > and
+> > > > descriptions and put that back into tables for example. Would
+> > > > love to
+> > > > have someone work on that. :)
+> > >
+> > > I am glad to hear you have developed / are developing such tooling.
+> >
+> > TBC, I have not and am not. It's just an idea. There's been nothing
+> > done beyond experimenting if rST could be embedded into yaml.
+> >
+> > > I
+> > > really appreciate it. What comes to giving a helping hand - I'd
+> > > better
+> > > to stick the simple C drivers for now ;) But if I ever get the
+> > > feeling
+> > > that I don't know what to do I'll keep this in mind :] Let me do
+> > > some
+> > > calculus... Only 11 years and my youngest son will probably leave
+> > > our
+> > > house - do you think 2030 is a bit too late? Just let me know if
+> > > this
+> > > is still relevant then - and I'll buy you a beer or write a tool
+> > > (of
+> > > some kind) xD
+> >
+> > I've scheduled you in for 2030. :)
+>
+> Fine. Let's see if it is a beer or a tool then :]
+>
+> > > Meanwhile... I have tried to convert the BD71828 DT doc from the
+> > > RFC
+> > > patch to yaml - and I am having hard time. Especially with the
+> > > regulators node - which I would like to place in
+> > > Documentation/devicetree/bindings/regulator/rohm,bd71828-
+> > > regulator.yaml
+> > >
+> > > My problem is the
+> > > regulators {
+> > > buck1: BUCK1 {
+> > >                     regulator-name = "buck1";
+> > >                     regulator-min-microvolt = <500000>;
+> > >                     regulator-max-microvolt = <2000000>;
+> > >                     regulator-ramp-delay = <2500>;
+> > >                     rohm,dvs-runlvl-ctrl;
+> > >                     rohm,dvs-runlevel0-voltage = <500000>;
+> > >                     rohm,dvs-runlevel1-voltage = <506250>;
+> > >                     rohm,dvs-runlevel2-voltage = <512500>;
+> > >                     rohm,dvs-runlevel3-voltage = <518750>;
+> > >                     regulator-boot-on;
+> > >     };
+> > >     ...
+> > > };
+> > > node which only contains BUCKX and LDOX sub-nodes. It has no own
+> > > properties.
+> > >
+> > > From MFD yaml I did try:
+> > >
+> > >   regulators:
+> > >     $ref: ../regulator/rohm,bd71828-regulator.yaml
+> > >     description:
+> > >       List of child nodes that specify the regulators.
+> > >
+> > > and in rohm,bd71828-regulator.yaml
+> > >
+> > > I tried doing:
+> > >
+> > > patternProperties:
+> > >   "^BUCK[1-7]$":
+> > >     type: object
+> > >     description:
+> > >       Properties for single regulator.
+> > >     properties:
+> > >         ...
+> > >
+> > > but this fails validation as properties: is not given.
+> > >
+> > > [mvaittin@localhost linux]$ dt-doc-validate
+> > > Documentation/devicetree/bindings/regulator/rohm,bd71828-
+> > > regulator.yaml
+> > > /home/mvaittin/torvalds/linux/Documentation/devicetree/bindings/reg
+> > > ulat
+> > > or/rohm,bd71828-regulator.yaml: 'properties' is a required property
+> > >
+> > > If I try and add:
+> > >
+> > > properties:
+> > >   foo: true
+> > >
+> > > patternProperties:
+> > >     "^BUCK[1-7]$":
+> > >       type: object
+> > >       description:
+> > >         Properties for single regulator.
+> > >       properties:
+> > >         ...
+> >
+> > That's a case of needing to adjust the meta-schema (the schema that
+> > checks the schemas). It's a bit overly restrictive just to try to
+> > contain what's allowed. I've fixed it now. Update dtschema and it
+> > should work now.
+>
+> Thanks. At least the make dt_binding_check passed now. dt-doc-validate
+> is not able to locate the regulator.yaml and errors out - but it does
+> no longer complain about missing 'properties:'.
+
+Either look at how Kbuild calls dt-doc-validate or just use 'make
+dt_binding_check'. (It needs the base path to the schema passed in.)
+
+Rob
