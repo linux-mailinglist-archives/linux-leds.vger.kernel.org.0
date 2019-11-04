@@ -2,51 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17088EE01E
-	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2019 13:39:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51D87EE01C
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2019 13:39:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729120AbfKDMjJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 4 Nov 2019 07:39:09 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:51198 "EHLO
+        id S1729090AbfKDMjG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 4 Nov 2019 07:39:06 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:51192 "EHLO
         fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727267AbfKDMjI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 Nov 2019 07:39:08 -0500
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xA4CcvIY014981;
-        Mon, 4 Nov 2019 06:38:57 -0600
+        with ESMTP id S1727267AbfKDMjG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 Nov 2019 07:39:06 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xA4Cd3kI014997;
+        Mon, 4 Nov 2019 06:39:03 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1572871137;
-        bh=Q6v3ZsELVVFaq45xRxLW4voHJAlhEXxHc1kVNsr3mZg=;
+        s=ti-com-17Q1; t=1572871143;
+        bh=95PMofJsyIEn3NAsJyz9IppOg+cVPNREQZwHO7yf3yY=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=J0T2BXQePWpiLGVZtWCLJTjgk3tiVhMQcKderkCWycPyAPDoWz6ziGBVz3rE9HXkM
-         +Y9VYA0YK3Hd+cNAyNM8ieflcArYa8b8XeME1UTAz+41dUjrdUd7kk22IDSoiJyDr4
-         fbsozdDOokN4a2FyD4lBH5aYI2vp7v6DX+xiy0V8=
+        b=e9xfbGvrx+rJXco1K9bSGU0HuCMzXGrOQjv1+l94X7G3HYONkGSMBznUKusyGedPz
+         BtBVxL5hFyqFgG9/tfGUGNAdck9crwi6/JRffzIes00UjAl+o/7eRzPYuLMvD7OrmH
+         3xHRgyRN7M6E/bbtDpMI7eHBGn9Mdje5ZGoCNqEg=
 Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xA4CcvrF129686
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xA4Cd37x088025
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 4 Nov 2019 06:38:57 -0600
+        Mon, 4 Nov 2019 06:39:03 -0600
 Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE109.ent.ti.com
  (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 4 Nov
- 2019 06:38:42 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
+ 2019 06:38:48 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE107.ent.ti.com
  (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 4 Nov 2019 06:38:42 -0600
+ Frontend Transport; Mon, 4 Nov 2019 06:38:48 -0600
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xA4Ccunb085496;
-        Mon, 4 Nov 2019 06:38:56 -0600
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xA4Cd2Uc006717;
+        Mon, 4 Nov 2019 06:39:03 -0600
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
 CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
-Subject: [PATCH v16 10/19] ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node
-Date:   Mon, 4 Nov 2019 06:36:58 -0600
-Message-ID: <20191104123707.31930-11-dmurphy@ti.com>
+        Dan Murphy <dmurphy@ti.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH v16 11/19] ARM: dts: ste-href: Add reg property to the LP5521 channel nodes
+Date:   Mon, 4 Nov 2019 06:36:59 -0600
+Message-ID: <20191104123707.31930-12-dmurphy@ti.com>
 X-Mailer: git-send-email 2.22.0.214.g8dca754b1e
 In-Reply-To: <20191104123707.31930-1-dmurphy@ti.com>
 References: <20191104123707.31930-1-dmurphy@ti.com>
@@ -66,59 +63,64 @@ and allow designs to skip channels as opposed to requiring
 sequential order.
 
 Signed-off-by: Dan Murphy <dmurphy@ti.com>
-CC: Shawn Guo <shawnguo@kernel.org>
-CC: Sascha Hauer <s.hauer@pengutronix.de>
-CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-CC: Fabio Estevam <festevam@gmail.com>
-CC: NXP Linux Team <linux-imx@nxp.com>
+CC: Linus Walleij <linus.walleij@linaro.org>
 ---
- arch/arm/boot/dts/imx6dl-yapp4-common.dtsi | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ arch/arm/boot/dts/ste-href.dtsi | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
-index e8d800fec637..efc466ed1fea 100644
---- a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
-+++ b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
-@@ -257,29 +257,35 @@
- 		reg = <0x30>;
- 		clock-mode = /bits/ 8 <1>;
- 		status = "disabled";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
- 
--		chan0 {
-+		chan@0 {
- 			chan-name = "R";
- 			led-cur = /bits/ 8 <0x20>;
- 			max-cur = /bits/ 8 <0x60>;
-+			reg = <0>;
- 		};
- 
--		chan1 {
-+		chan@1 {
- 			chan-name = "G";
- 			led-cur = /bits/ 8 <0x20>;
- 			max-cur = /bits/ 8 <0x60>;
-+			reg = <1>;
- 		};
- 
--		chan2 {
-+		chan@2 {
- 			chan-name = "B";
- 			led-cur = /bits/ 8 <0x20>;
- 			max-cur = /bits/ 8 <0x60>;
-+			reg = <2>;
- 		};
- 
--		chan3 {
-+		chan@3 {
- 			chan-name = "W";
- 			led-cur = /bits/ 8 <0x0>;
- 			max-cur = /bits/ 8 <0x0>;
-+			reg = <3>;
- 		};
- 	};
- 
+diff --git a/arch/arm/boot/dts/ste-href.dtsi b/arch/arm/boot/dts/ste-href.dtsi
+index 4f6acbd8c040..8a873da102d3 100644
+--- a/arch/arm/boot/dts/ste-href.dtsi
++++ b/arch/arm/boot/dts/ste-href.dtsi
+@@ -56,16 +56,21 @@
+ 				reg = <0x33>;
+ 				label = "lp5521_pri";
+ 				clock-mode = /bits/ 8 <2>;
+-				chan0 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				chan@0 {
++					reg = <0>;
+ 					led-cur = /bits/ 8 <0x2f>;
+ 					max-cur = /bits/ 8 <0x5f>;
+ 					linux,default-trigger = "heartbeat";
+ 				};
+-				chan1 {
++				chan@1 {
++					reg = <1>;
+ 					led-cur = /bits/ 8 <0x2f>;
+ 					max-cur = /bits/ 8 <0x5f>;
+ 				};
+-				chan2 {
++				chan@2 {
++					reg = <2>;
+ 					led-cur = /bits/ 8 <0x2f>;
+ 					max-cur = /bits/ 8 <0x5f>;
+ 				};
+@@ -75,15 +80,20 @@
+ 				reg = <0x34>;
+ 				label = "lp5521_sec";
+ 				clock-mode = /bits/ 8 <2>;
+-				chan0 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				chan@0 {
++					reg = <0>;
+ 					led-cur = /bits/ 8 <0x2f>;
+ 					max-cur = /bits/ 8 <0x5f>;
+ 				};
+-				chan1 {
++				chan@1 {
++					reg = <1>;
+ 					led-cur = /bits/ 8 <0x2f>;
+ 					max-cur = /bits/ 8 <0x5f>;
+ 				};
+-				chan2 {
++				chan@2 {
++					reg = <2>;
+ 					led-cur = /bits/ 8 <0x2f>;
+ 					max-cur = /bits/ 8 <0x5f>;
+ 				};
 -- 
 2.22.0.214.g8dca754b1e
 
