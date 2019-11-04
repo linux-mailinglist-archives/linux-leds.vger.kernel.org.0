@@ -2,100 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35C11ED63B
-	for <lists+linux-leds@lfdr.de>; Sun,  3 Nov 2019 23:30:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6147EED94C
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Nov 2019 07:57:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728079AbfKCWaY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 3 Nov 2019 17:30:24 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:40614 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727705AbfKCWaX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 3 Nov 2019 17:30:23 -0500
-Received: by mail-lj1-f194.google.com with SMTP id q2so8968861ljg.7
-        for <linux-leds@vger.kernel.org>; Sun, 03 Nov 2019 14:30:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=37IsC1QYGxBYfZW5BvnzIGLjijvofWTFPrPML1ai3TE=;
-        b=xv61OMy7HnCmcLqpeBquckd87P7nJi4UAXS/fJ/Hz2DjA48u2x5qTPs7j5L82y6mwa
-         JAwShxCoFU+50UNj/SpQHFCppQGWfqSYKXE+bk8Xd1pSRK7EnDQYJWgRemQnZXFEbs8i
-         mb++LMai+QyfBrih9AvQD3H0IsvwTFSgXi1Qo1K5ji0736ZNaAIji3RgI6ftuDGDE2kH
-         I1grzgb2TSw1jbxE8k/AjXadIJcx7yGtyb3pm6j0zVyEdzgOTRRa8p1iYlyzWwVLCmzT
-         dlShVoOreqcZANoVltSLTeiC0cHzt7yiJfI92HQ2x4Lj10gvjmJYw8gMMknPHGJTEmG0
-         cz8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=37IsC1QYGxBYfZW5BvnzIGLjijvofWTFPrPML1ai3TE=;
-        b=TFIcYT/f7ZehWPTIGOmdyebhAh5OvtnMNzHBUtu++MukXJzvadpjUJBHQ0vPXNfMWm
-         W+3IuqwsKe8zJWDtsmlcH6xP9i6L6vyi8EJgByj2XNHMbYgrWUpQGShVR3VrBBIDztGF
-         HRp3ArcAiVGzY+5O9jNLGFtl5hfyKAhRr7atbEjvZKcYQLad4qenp5Q74DGwDCuiBb1q
-         T1+CuJjKy4nikunFRa+PXDQ0ICXiOtMs/qmjav6Nos1Lvhm3zwC7maDhAyGg2NoeeiM7
-         3IM6hPR6/D3HUNjGFfTkWzzxTCs0rDDd1VM/OKHC5n2UTVtAiH4wtqt2jRu/z/6FZUTA
-         VpPw==
-X-Gm-Message-State: APjAAAWxI8ed1g6UBWyBOFTEYn0TZm2vp4+xTxQtux6GTP6mNbEPGU3N
-        Ellh4Qcm7HQp1yGmGwEGVnXwxv61jH4Jyf8RJ4wbug==
-X-Google-Smtp-Source: APXvYqwVg9mCs8V+YbBxGYd5H+o7zjgzBRtm+eVs9wqZnKUeUHaI8SATdFAn61fPpaWBK++YT2y7RJlFoFraFdF5Uus=
-X-Received: by 2002:a2e:9a55:: with SMTP id k21mr2882628ljj.251.1572820221912;
- Sun, 03 Nov 2019 14:30:21 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1572606437.git.matti.vaittinen@fi.rohmeurope.com> <f08d265c12ebf185c0e1dbbfe0a3f86de4907194.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
-In-Reply-To: <f08d265c12ebf185c0e1dbbfe0a3f86de4907194.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 3 Nov 2019 23:30:10 +0100
-Message-ID: <CACRpkdYhasTEQq2btQ_3GSo=hMJetp128jFo-6hE=JMeX4MJSA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 14/15] gpio: Add definition for GPIO direction
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     Matti Vaittinen <mazziesaccount@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        id S1728329AbfKDG5O (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 4 Nov 2019 01:57:14 -0500
+Received: from mailgate1.rohmeurope.com ([178.15.145.194]:54832 "EHLO
+        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728223AbfKDG5N (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 Nov 2019 01:57:13 -0500
+X-AuditID: c0a8fbf4-199ff70000001fa6-74-5dbfcbc69d05
+Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
+        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id AD.CB.08102.6CBCFBD5; Mon,  4 Nov 2019 07:57:11 +0100 (CET)
+Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
+ WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
+ 14.03.0439.000; Mon, 4 Nov 2019 07:57:00 +0100
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     "linus.walleij@linaro.org" <linus.walleij@linaro.org>
+CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-rtc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>
+Subject: Re: [RFC PATCH v3 14/15] gpio: Add definition for GPIO direction
+Thread-Topic: [RFC PATCH v3 14/15] gpio: Add definition for GPIO direction
+Thread-Index: AQHVkKp+hdqKw9vEbUql9O/haZZyiad5+mgAgACNpoA=
+Date:   Mon, 4 Nov 2019 06:57:00 +0000
+Message-ID: <c06725c3dd34118a324907137758d8b85b3d4043.camel@fi.rohmeurope.com>
+References: <cover.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
+         <f08d265c12ebf185c0e1dbbfe0a3f86de4907194.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
+         <CACRpkdYhasTEQq2btQ_3GSo=hMJetp128jFo-6hE=JMeX4MJSA@mail.gmail.com>
+In-Reply-To: <CACRpkdYhasTEQq2btQ_3GSo=hMJetp128jFo-6hE=JMeX4MJSA@mail.gmail.com>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [213.255.186.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <419502E125313145ACFAD76CDE83E291@de.rohmeurope.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta0wUVxjNnZmduayOGRcoV2qNTnwE26IkNlyFGBNpMjSmEeWXcYODO2UJ
+        7C6dWQzQxPJHLIi6TSHIymOD8pQo4BtFyPKSoaHdgoLtKl2htD6iaRQMldruMCr8uiffOec7
+        58d3IWkK0JEw3e6UZLuYydNGqqvhdeun/YOd5s0F9SQ+67vD4KPP6hj8slKlcGlgksbVPUMG
+        fGzwkgH/drmFwuPTvQDPjHxH4JK5egL/XfzAgC9WzwE83F5B48tPzwPcd26ExrWjPgJX1N6m
+        sE/9HN9Xe2l8pKOHwW/utlI7woXmqmYgPB87wghVzd8I1933GaGtqZAW/Hdv0kL/2FVCKKua
+        JYSGc68Y4UXbqt3GfUviU0Xnob3pafZN2w8ssT7sOw6yipflBBpuMPnAzxaBEIi4LehXVQVF
+        wAhN3B2AWvwFhEaYuH6AOmbyigCENBePiu4x2jiM24q6b1dQmp7kKiBqfDBk0IhQLhF1zqlv
+        RV+gEk8XqeNtSO1W5zUUtxaNuM5QGma5L1Hd8BWDHvwEoN7ph/PmEC4JNf7unS8BuI9QYf6z
+        eUxyEaht6pVBb82hszd/InUcjh5NvHk751HHbIDSSpNcFLrQvkm37kCnu0cpHa9BJccCjN5h
+        ORoon6Rc4AP3ogT3gtu9yO1e5HYvcnuAoQkgm5iemSY6pZhoWcqOlh1WW/A56LC1Af1kXl4D
+        /3kTvYCAwAtWQIIPZ2tGb5lNy1IdllyrqFhT5OxMSfECBEk+jPWd6jCbWIuYmyfJjnfUh5Di
+        I9gNge/NJk7LypCkLEl+x66EkEesonaaTctlKU3K+So907lAEzBEW26MDFMku0WSxWynNUW7
+        jxQleCAatTSYS2h2VskSbcGpblXBx9D1qLKGhD2VtTWkibI77FJkBBs3EJRymtSabX8f9BhE
+        QMCHsp9oi5YG/837PY+DEUQwYtfELS3CKS5QkflgZ3npIeu4ZW7gQOEPSY1xM4lI2fPLOOWr
+        N/4VW7AqZ7jYE1s2W12+cd3zg56xPKl0d/lqT8LACcG/5h/zU//s0YQ/YpJ2Ev/GJmecOvlZ
+        wuHkqKZd0/u76n5+zZ+I3uJyRZ3+er1turjvR/XP8bLDGXHb/K6ShikiVUz+drUSZ1kbz1OK
+        VYzZSMqK+D9zqzqy9AMAAA==
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Matti!
-
-Good initiative (and I will see a ton of janitorial patches as a
-result of this...)
-
-On Fri, Nov 1, 2019 at 12:50 PM Matti Vaittinen
-<matti.vaittinen@fi.rohmeurope.com> wrote:
-
-> At least for me it is difficult to remember the meaning of GPIO
-> direction values. Define GPIO_IN and GPIO_OUT so that occasional
-> GPIO contributors would not need to always check the meaning of
-> hard coded values 1 and 0.
->
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-(...)
-> +#define GPIO_IN                1
-> +#define GPIO_OUT       0
-
-Please spell it out or people will be confused:
-
-GPIO_LINE_DIRECTION_IN
-GPIO_LINE_DIRECTION_OUT
-
-Yours,
-Linus Walleij
+SGVsbG8gTGludXMsDQoNCk9uIFN1biwgMjAxOS0xMS0wMyBhdCAyMzozMCArMDEwMCwgTGludXMg
+V2FsbGVpaiB3cm90ZToNCj4gSGkgTWF0dGkhDQo+IA0KPiBHb29kIGluaXRpYXRpdmUgKGFuZCBJ
+IHdpbGwgc2VlIGEgdG9uIG9mIGphbml0b3JpYWwgcGF0Y2hlcyBhcyBhDQo+IHJlc3VsdCBvZiB0
+aGlzLi4uKQ0KDQpZZXAuIEkgdGhpbmsgSSBtaWdodCBwdWxsIHRoaXMgY2hhbmdlIG91dCBvZiB0
+aGUgUkZDIGFuZCBzZW5kIGl0DQpzZXBhcmF0ZWx5LiBJIGNhbiBhbHNvIGRvIHNvbWUgY29udmVy
+c2lvbnMgZm9yIGV4aXN0aW5nIGRyaXZlcnMgLSBidXQgSQ0Kd29uJ3QgcHJvYmFibHkgYmUgYWJs
+ZSB0byBkbyBhbGwgb2YgdGhlIGRyaXZlcnMuIEkgc2VlIG5vIHdheSBvZiBkb2luZw0KYW55IHNl
+YXJjaCBhbmQgcmVwbGFjZSBzY3JpcHRpbmcgaGVyZSAtIHRoaXMgY29udmVyc2lvbiBpcyBnb2lu
+ZyB0byBiZQ0KbWFudWFsIHdvcmsgOi8NCg0KPiANCj4gT24gRnJpLCBOb3YgMSwgMjAxOSBhdCAx
+Mjo1MCBQTSBNYXR0aSBWYWl0dGluZW4NCj4gPG1hdHRpLnZhaXR0aW5lbkBmaS5yb2htZXVyb3Bl
+LmNvbT4gd3JvdGU6DQo+IA0KPiA+IEF0IGxlYXN0IGZvciBtZSBpdCBpcyBkaWZmaWN1bHQgdG8g
+cmVtZW1iZXIgdGhlIG1lYW5pbmcgb2YgR1BJTw0KPiA+IGRpcmVjdGlvbiB2YWx1ZXMuIERlZmlu
+ZSBHUElPX0lOIGFuZCBHUElPX09VVCBzbyB0aGF0IG9jY2FzaW9uYWwNCj4gPiBHUElPIGNvbnRy
+aWJ1dG9ycyB3b3VsZCBub3QgbmVlZCB0byBhbHdheXMgY2hlY2sgdGhlIG1lYW5pbmcgb2YNCj4g
+PiBoYXJkIGNvZGVkIHZhbHVlcyAxIGFuZCAwLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IE1h
+dHRpIFZhaXR0aW5lbiA8bWF0dGkudmFpdHRpbmVuQGZpLnJvaG1ldXJvcGUuY29tPg0KPiAoLi4u
+KQ0KPiA+ICsjZGVmaW5lIEdQSU9fSU4gICAgICAgICAgICAgICAgMQ0KPiA+ICsjZGVmaW5lIEdQ
+SU9fT1VUICAgICAgIDANCj4gDQo+IFBsZWFzZSBzcGVsbCBpdCBvdXQgb3IgcGVvcGxlIHdpbGwg
+YmUgY29uZnVzZWQ6DQo+IA0KPiBHUElPX0xJTkVfRElSRUNUSU9OX0lODQo+IEdQSU9fTElORV9E
+SVJFQ1RJT05fT1VUDQoNClJpZ2h0LiBCZXNpZGVzIHRoZSAwRGF5IHRlc3Qgc3VpdGUgZGlkIGFs
+cmVhZHkgc3BvdCBhIGZldyByZWRlZmluaXRpb24NCnByb2JsZW1zIHdoZW4gc29tZSBkcml2ZXJz
+IGRvIGRlZmluZSBHUElPX0lOIGFuZC9vciBHUElPX09VVC4uLiBTbyBJJ2xsDQpjaGFuZ2UgdGhl
+IGRlZmluZXMgdG8gd2hhdCB5b3Ugc3VnZ2VzdCBoZXJlLg0KDQpCciwNCglNYXR0aSBWYWl0dGlu
+ZW4NCg==
