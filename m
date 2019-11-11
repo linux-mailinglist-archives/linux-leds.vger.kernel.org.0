@@ -2,148 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EC72F72FB
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2019 12:21:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E24EBF7F7F
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2019 20:14:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726834AbfKKLVC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 11 Nov 2019 06:21:02 -0500
-Received: from mailgate1.rohmeurope.com ([178.15.145.194]:61546 "EHLO
-        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbfKKLVB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 Nov 2019 06:21:01 -0500
-X-AuditID: c0a8fbf4-199ff70000001fa6-f6-5dc9441b5a58
-Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com [192.168.251.178])
-        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 78.7B.08102.B1449CD5; Mon, 11 Nov 2019 12:20:59 +0100 (CET)
-Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
- WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
- 14.03.0439.000; Mon, 11 Nov 2019 12:20:47 +0100
-From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To:     "lee.jones@linaro.org" <lee.jones@linaro.org>
-CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "broonie@kernel.org" <broonie@kernel.org>
-Subject: Re: [RFC PATCH v3 01/15] mfd: bd71828: Support ROHM BD71828 PMIC -
- core
-Thread-Topic: [RFC PATCH v3 01/15] mfd: bd71828: Support ROHM BD71828 PMIC -
- core
-Thread-Index: AQHVkKelpOdu4i/TI0WwCDT0fH7Tc6eFy64AgAAGbIA=
-Date:   Mon, 11 Nov 2019 11:20:46 +0000
-Message-ID: <2353dd472559b3a398ca090356854bf795cece6d.camel@fi.rohmeurope.com>
-References: <cover.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
-         <9ce6f5810847422f4def629d30bae7b43dd4c6c6.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
-         <20191111105758.GF3218@dell>
-In-Reply-To: <20191111105758.GF3218@dell>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0A1C97DB1C1AFB418E250ED28722D9BA@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
+        id S1726965AbfKKTLf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 11 Nov 2019 14:11:35 -0500
+Received: from mail-io1-f67.google.com ([209.85.166.67]:43360 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726957AbfKKTLe (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 Nov 2019 14:11:34 -0500
+Received: by mail-io1-f67.google.com with SMTP id c11so15784427iom.10
+        for <linux-leds@vger.kernel.org>; Mon, 11 Nov 2019 11:11:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=2HgDUfvYTFbpP69aWKc0kGJILBYPdrw3d304UudQR6Y=;
+        b=eTbtsuOY1bdhKdbXYiPZJ/aG2Qace47DkAJbL4Op2wp42tGwtELx5aJ26CvJ9Jb3qT
+         vlhJLgZkDCviw9bLoBdRKzAEYECphGMJH3AnxorVg1SBo/rDG5z1xL1PRUcddapYELJc
+         JlDIgnKwPtZybDPnZO/Vil39jXyaJ3tn4cWD3olZQTk/Xys15Qnjc5WHDiyzLrr1dhpI
+         gUDI74hAWak5E6pqdOxyvLhSsu+bf3+IfPyWmb5suN58S2X3MoWTIFC9SW4Y0R3aIW+5
+         ErM2InmMnwLQIG+6QpsYESxWHX25EqnFNz7/WEo+Dks7zTq3u5LsV9tqWiolA629rCzm
+         iHFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=2HgDUfvYTFbpP69aWKc0kGJILBYPdrw3d304UudQR6Y=;
+        b=XKGCHw37PzPExGfkTwexAigKoffNUnAPkn5vGJwH8FyRd8inYSLzbxAh/LaBRAi3Up
+         EXrxztKc2fZFAKMIyzPxfLthU6y5SZbMokE51Jp09NQSJxf4utTmA6pZaIS/BNjh6zMP
+         zjOBAv9S7iPTcgB+KHTA2FhYlQPJK9xHDYwAiJ2iXVSOD6VcW2Cz5j7gPPk/h5aMm2j0
+         AoZdadz+FSpI7SBjJTkK3Kqs/vVDKL8+dVUiO3DOAlCZnonb6YGoSdI8aYEb770qjBPE
+         nxNFibJXqbmrs5NQn0y01vStVeQdPDom4tvh50QNnNzDtW6PqIBrsRQzJgGrVIp5YXWU
+         Isxg==
+X-Gm-Message-State: APjAAAVHHmaJWkEB4f4Wa3ZE0xFkDTPId+yr8KEN2KtuTv9TBjAdF30Q
+        +mBRPkMIZ2kIPnNewZdjk8oJwVqf5UWH0ssCw9K/Yw==
+X-Google-Smtp-Source: APXvYqy1znbPoGeXemeR0vFArovOl/+lq8cNdMivbT38ZF3jpW8pGC7IQIdwYmdC0F0dJSIodB17Xximee0fFWz8NMY=
+X-Received: by 2002:a02:c54b:: with SMTP id g11mr2199988jaj.136.1573499493869;
+ Mon, 11 Nov 2019 11:11:33 -0800 (PST)
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIJsWRmVeSWpSXmKPExsVyYMXvTbrSLidjDW684rRYcvEqu0X7u2Xs
-        Fl/mnmKxmPrwCZvF/CPnWC26T29htbi9dQOLxf2vRxktvl3pYLKY8mc5k8XHnnusFpvn/2G0
-        uLxrDpvF1jfrGC2Orb7CZrH0+kUmizlLT7BYXDzlanH31FE2i9a9R9gt/l3byOIg6rFm3hpG
-        j/c3Wtk95q2p9tg56y67x6ZVnWwed67tYfM4fmM7k8f0eT+ZPFas/s7u8XmTXABXFLdNUmJJ
-        WXBmep6+XQJ3xrcet4Ib6hXdP6+wNjBeUeti5OSQEDCR+LD7JmMXIxeHkMBVRokXV5ezQDgn
-        GCVmzTzE1sXIwcEmYCPRdZMdpEFEwFBiyYmnYDXMAks4JFZfu8EMkhAWCJL4dG8aK0RRsMT5
-        79+hGqwkvlz/CFbDIqAqsXXLXxYQm1fAT2LLxxlMEMsOM0q8fv8DrJlTQFOi7dQZsCJGAVmJ
-        zoZ3TCA2s4C4xKZn31khzhaQWLLnPDOELSrx8vE/qLiSxN6fD1lAjmYGmrN+lz5Eq4PE1I/n
-        WSFsRYkp3Q/ZIW4QlDg58wnLBEaxWUg2zELonoWkexaS7llIuhcwsq5ilMhNzMxJTyxJNdQr
-        Si3VK8rPyAVSyfm5mxghSebLDsb/hzwPMTJxMB5ilORgUhLl/bv+RKwQX1J+SmVGYnFGfFFp
-        TmrxIUYJDmYlEd4dFUA53pTEyqrUonyYlDQHi5I4r/rDibFCAiC7slNTC1KLYLIyHBxKErx7
-        HE7GCgkWpaanVqRl5pQgpJk4OEGGc0mJFKfmpaQWJZaWZMSD0kd8MTCBgKR4gPbucwJq5y0u
-        SMwFikK0nmLU5pjwcu4iZo4jc5cuYhZiycvPS5US590JUioAUppRmge36BWjOAejkjDvQpAs
-        DzDfwM15BbSCCWjFgbPHQFaUJCKkpBoYk09NuT79F/cWNa2SJ3M3fXtTa9mh+eZhmNzXEv7H
-        i5Zs22FeX6zjULtxxuLvMqGOk6VlS4+K/20y4FqvuDbP4lFW/L2PZha3aucyWu66K73ftSPr
-        U9q7nAT7vsrXCaFNOXvX1oi1myaXuaV9qfu1Z1ej1t+6FKMK9iNXpOuZWj5sd7voezhXiaU4
-        I9FQi7moOBEAbpRVx/QDAAA=
+References: <20191021124428.2541-1-brgl@bgdev.pl> <20191021124428.2541-6-brgl@bgdev.pl>
+ <20191111080837.GF18902@dell>
+In-Reply-To: <20191111080837.GF18902@dell>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 11 Nov 2019 20:11:23 +0100
+Message-ID: <CAMRc=Me_b5c_e+qZ1s=TgTh7k_bQqrqthC8VTb7ak8+3AOEugg@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6] dt-bindings: mfd: max77650: convert the binding
+ document to yaml
+To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGVsbG8gTGVlLA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXchDQoNCkkgd2FzIHNsaWdodGx5IHdv
-cnJpZWQgSSByZWFsbHkgbWFuYWdlZCB0byBwaXNzIHlvdSBvZmYgbGFzdCB0aW1lIDopDQpHbGFk
-IHRvIHNlZSBJIGRpZG4ndCBidXJuIGFsbCB0aGUgYnJpZGdlcyAoeWV0KSA7KQ0KDQpPbiBNb24s
-IDIwMTktMTEtMTEgYXQgMTA6NTcgKzAwMDAsIExlZSBKb25lcyB3cm90ZToNCj4gT24gRnJpLCAw
-MSBOb3YgMjAxOSwgTWF0dGkgVmFpdHRpbmVuIHdyb3RlOg0KPiANCj4gPiBCRDcxODI4R1cgaXMg
-YSBzaW5nbGUtY2hpcCBwb3dlciBtYW5hZ2VtZW50IElDIGZvciBiYXR0ZXJ5LXBvd2VyZWQNCj4g
-PiBwb3J0YWJsZQ0KPiA+IGRldmljZXMuIFRoZSBJQyBpbnRlZ3JhdGVzIDcgYnVjayBjb252ZXJ0
-ZXJzLCA3IExET3MsIGFuZCBhIDE1MDAgbUENCj4gPiBzaW5nbGUtY2VsbCBsaW5lYXIgY2hhcmdl
-ci4gQWxzbyBpbmNsdWRlZCBpcyBhIENvdWxvbWIgY291bnRlciwgYQ0KPiA+IHJlYWwtdGltZQ0K
-PiA+IGNsb2NrIChSVEMpLCAzIEdQTy9yZWd1bGF0b3IgY29udHJvbCBwaW5zLCBIQUxMIGlucHV0
-IGFuZCBhIDMyLjc2OA0KPiA+IGtIeg0KPiA+IGNsb2NrIGdhdGUuDQo+ID4gDQo+ID4gQWRkIE1G
-RCBjb3JlIGRyaXZlciBwcm92aWRpbmcgaW50ZXJydXB0IGNvbnRyb2xsZXIgZmFjaWxpdGllcyBh
-bmQNCj4gPiBpMmMNCj4gPiBhY2Nlc3MgdG8gc3ViIGRldmljZSBkcml2ZXJzLg0KPiA+IA0KPiA+
-IFNpZ25lZC1vZmYtYnk6IE1hdHRpIFZhaXR0aW5lbiA8bWF0dGkudmFpdHRpbmVuQGZpLnJvaG1l
-dXJvcGUuY29tPg0KPiA+IC0tLQ0KPiA+IA0KPiA+IE5vIGNoYW5nZXMgY29tcGFyZWQgdG8gdjIN
-Cj4gPiANCj4gPiAgZHJpdmVycy9tZmQvS2NvbmZpZyAgICAgICAgICAgICAgfCAgMTUgKysNCj4g
-PiAgZHJpdmVycy9tZmQvTWFrZWZpbGUgICAgICAgICAgICAgfCAgIDIgKy0NCj4gPiAgZHJpdmVy
-cy9tZmQvcm9obS1iZDcxODI4LmMgICAgICAgfCAzMjIgKysrKysrKysrKysrKysrKysrKysrKysN
-Cj4gPiAgaW5jbHVkZS9saW51eC9tZmQvcm9obS1iZDcxODI4LmggfCA0MjUNCj4gPiArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIGluY2x1ZGUvbGludXgvbWZkL3JvaG0tZ2Vu
-ZXJpYy5oIHwgICAxICsNCj4gPiAgNSBmaWxlcyBjaGFuZ2VkLCA3NjQgaW5zZXJ0aW9ucygrKSwg
-MSBkZWxldGlvbigtKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZmQvcm9obS1i
-ZDcxODI4LmMNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgvbWZkL3JvaG0t
-YmQ3MTgyOC5oDQo+IA0KPiAvbWUgd29uZGVycyB3aHkgdGhpcyBpcyBzdGlsbCBhbiBSRkMgYWZ0
-ZXIgMyByZXZpc2lvbnM/DQoNCkJlY2F1c2Ugb2YgdGhlIHJlZ3VsYXRvciBwYXJ0LiBJJ3ZlIGhh
-ZCBubyBjb21tZW50cyBmb3IgaXQgLSBidXQgSQ0KZG9uJ3QgdGhpbmsgaXQgc2hvdWxkIGJlIGFw
-cGxpZWQgYXMgaXMgaW4gdGhpcyBzZXJpZXMuIEkgd2FzIGtpbmQgb2YNCmhvcGluZyBzb21lb25l
-IG1vcmUgZXhwZXJpZW5jZWQgY291bGQgaGF2ZSBwb2ludGVkIG1lIHRoYXQgd2hhdCBJIGhhdmUN
-CnRyaWVkIHRvIGFjaGlldmUgaGVyZSBpcyBhbHJlYWR5IGhhbmRsZWQgYXMgPHNvbWV0aGluZyBJ
-IGFtIG1pc3NpbmcNCm5vdz4uDQoNCkkgZG9uJ3QgdGhpbmsgd2Ugc2hvdWxkIGFkZCBzeXNmcyBj
-b250cm9sIElGIGZvciBkaXNhYmxpbmcgcmVndWxhdG9ycw0KKEkgd2lsbCBkcm9wIHRoYXQgY29t
-cGxldGVseSBmcm9tIGZpcnN0IG5vbiBSRkMgcGF0Y2ggLSBidXQgSSBob3BlZCBJDQptaWdodCBn
-ZXQgc29tZSBmcmllbmRseSBwb2tlcy9wdXNoZXMgdG8gcmlnaHQgZGlyZWN0aW9uKS4gTm9yIGFt
-IEkNCmhhcHB5IG9uIGhvdyB0aGUgcnVuLXN0YXRlIHRyYW5zaXRpb25zIHdoaWNoIGltcGFjdCBt
-YW55IHJlZ3VsYXRvcnMgYXJlDQpub3cgaGFuZGxlZCB2aWEgc2luZ2xlIHJlZ3VsYXRvciByZWZl
-cmVuY2UgLSBidXQgSSBjYW4ndCB0aGluayBvZg0KYmV0dGVyIGFwcHJvYWNoIGp1c3Qgbm93LiBJ
-IGhvcGVkIEkgYW0ganVzdCBtaXNzaW5nIHNvbWV0aGluZyB3aGljaCBpcw0Kb2J2aW91cyB0byBt
-b3JlIGV4cGVyaWVuY2VkIHJlZ3VsYXRvciBndXlzLg0KDQpJZiBJIHdvbid0IGdldCBjb21tZW50
-cyB0byByZWd1bGF0b3JzIEknbGwganVzdCBkcm9wIHRoZSBzeXNmcw0KaW50ZXJmYWNlcyAoYW5k
-IHBvc3NpYmx5IHdob2xlIHJ1bi1sZXZlbCBjb250cm9sKSBhbmQgc2VuZCBzZXJpZXMNCndpdGhv
-dXQgdGhlIFJGQyB0aGVuLiBCdXQgSSBhbSBzdGlsbCBjYXV0aW91c2x5IGhvcGVmdWwgdGhhdCBN
-YXJrIGhhcw0KanVzdCBhIGV4dHJhb3JkaW5hcmlseSBidXN5IG1vbWVudCBhbmQgd2lsbCBnaXZl
-IG1lIHNvbWUgZmVlZGJhY2sNCmJlZm9yZSBJIGZpbmlzaCB2NCA6KQ0KDQo+ID4gK3Vuc2lnbmVk
-IGludCBiaXQwX29mZnNldHNbXSA9IHsxMX07CQkvKiBSVEMgSVJRDQo+ID4gcmVnaXN0ZXIgKi8N
-Cj4gPiArdW5zaWduZWQgaW50IGJpdDFfb2Zmc2V0c1tdID0gezEwfTsJCS8qIFRFTVAgSVJRDQo+
-ID4gcmVnaXN0ZXIgKi8NCj4gPiArdW5zaWduZWQgaW50IGJpdDJfb2Zmc2V0c1tdID0gezYsIDcs
-IDgsIDl9OwkvKiBCQVQgTU9OIElSUQ0KPiA+IHJlZ2lzdGVycyAqLw0KPiA+ICt1bnNpZ25lZCBp
-bnQgYml0M19vZmZzZXRzW10gPSB7NX07CQkvKiBCQVQgSVJRIHJlZ2lzdGVyICovDQo+ID4gK3Vu
-c2lnbmVkIGludCBiaXQ0X29mZnNldHNbXSA9IHs0fTsJCS8qIENIRyBJUlEgcmVnaXN0ZXIgKi8N
-Cj4gPiArdW5zaWduZWQgaW50IGJpdDVfb2Zmc2V0c1tdID0gezN9OwkJLyogVlNZUyBJUlEgcmVn
-aXN0ZXIgKi8NCj4gPiArdW5zaWduZWQgaW50IGJpdDZfb2Zmc2V0c1tdID0gezEsIDJ9OwkJLyog
-RENJTiBJUlENCj4gPiByZWdpc3RlcnMgKi8NCj4gDQo+IFNvbWV0aGluZyBhY3R1YWxseSB3cm9u
-ZyB3aXRoIHRoZSB0YWJiaW5nIGhlcmUsIG9yIGlzIHRoaXMgYQ0KPiBHaXQvcGF0Y2gvbWFpbGVy
-IGFub21hbHk/DQoNCkknbGwgY2hlY2sgdGhpcyAtIEkgbmVlZCB0byBzdGF0aWNpemUgdGhlc2Ug
-YW55d2F5cy4NCg0KPiA+IA0KPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBi
-ZDcxODI4X29mX21hdGNoW10gPSB7DQo+ID4gKwl7IC5jb21wYXRpYmxlID0gInJvaG0sYmQ3MTgy
-OCIsIH0sDQo+ID4gKwl7IH0sDQo+ID4gK307DQo+ID4gK01PRFVMRV9ERVZJQ0VfVEFCTEUob2Ys
-IGJkNzE4Mjhfb2ZfbWF0Y2gpOw0KPiA+ICsNCj4gPiArc3RhdGljIHN0cnVjdCBpMmNfZHJpdmVy
-IGJkNzE4MjhfZHJ2ID0gew0KPiA+ICsJLmRyaXZlciA9IHsNCj4gPiArCQkubmFtZSA9ICJyb2ht
-LWJkNzE4MjgiLA0KPiA+ICsJCS5vZl9tYXRjaF90YWJsZSA9IGJkNzE4Mjhfb2ZfbWF0Y2gsDQo+
-ID4gKwl9LA0KPiA+ICsJLnByb2JlID0gJmJkNzE4MjhfaTJjX3Byb2JlLA0KPiANCj4gSWYgJ2lk
-JyBpc24ndCB1c2VkLCBwZXJoYXBzIHlvdSBzaG91bGQgYmUgdXNpbmcgcHJvYmUyPw0KDQpwcm9i
-ZTI/IFNvdW5kcyBsaWtlIEkgbmVlZCB0byBkbyBteSBob21ld29yayBvbmNlIGFnYWluIDopIFRo
-YW5rcyBmb3INCnRoZSBwb2ludGVyLg0KDQpSZXN0IG9mIHRoZSBjb21tZW50cyB3ZXJlIHByZXR0
-eSBvYnZpb3VzIC0gdGhhbmtzLiBJJ2xsIGZpeCB0aGVzZSBmb3INCnY0Lg0KDQpCciwNCglNYXR0
-aSANCg0K
+pon., 11 lis 2019 o 09:08 Lee Jones <lee.jones@linaro.org> napisa=C5=82(a):
+>
+> On Mon, 21 Oct 2019, Bartosz Golaszewski wrote:
+>
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > Convert the binding document for MAX77650 core MFD module to YAML.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > ---
+> >  .../devicetree/bindings/mfd/max77650.txt      |  46 ------
+> >  .../devicetree/bindings/mfd/max77650.yaml     | 149 ++++++++++++++++++
+> >  2 files changed, 149 insertions(+), 46 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/mfd/max77650.txt
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/max77650.yaml
+>
+> Applied, thanks.
+>
+
+Hi Lee,
+
+FYI this series is already in next through Rob's DT tree.
+
+Bart
+
+> --
+> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
+> Linaro Services Technical Lead
+> Linaro.org =E2=94=82 Open source software for ARM SoCs
+> Follow Linaro: Facebook | Twitter | Blog
