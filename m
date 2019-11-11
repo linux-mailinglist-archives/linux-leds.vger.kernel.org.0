@@ -2,93 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE924F6F71
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2019 09:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 591F0F7074
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2019 10:24:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726770AbfKKIIt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 11 Nov 2019 03:08:49 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53228 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726878AbfKKIIr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 Nov 2019 03:08:47 -0500
-Received: by mail-wm1-f66.google.com with SMTP id l1so857249wme.2
-        for <linux-leds@vger.kernel.org>; Mon, 11 Nov 2019 00:08:46 -0800 (PST)
+        id S1726887AbfKKJY5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 11 Nov 2019 04:24:57 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37448 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726770AbfKKJY5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 Nov 2019 04:24:57 -0500
+Received: by mail-wr1-f66.google.com with SMTP id t1so13780620wrv.4
+        for <linux-leds@vger.kernel.org>; Mon, 11 Nov 2019 01:24:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=L3adQNG+/hxoajCHfb6EoDmmTT7W+dDlfD3Fz0vzm7c=;
-        b=N3NT49MXSpaS4htlbCzGibfT5QOaRtUcTgMKFzsLb2Tib2Z6P9pcJqi397Dvn6YP4f
-         J+o7N6J+oOSicQ+PBFkRuQlvWxbhKxNPdKyV08Wrh8gPB/yrMy8pLZ6Zxad2mgfKt63n
-         ogkHsJYocck6VVBrNoLp7nV7TGB3VwImhpkJ4yDk3pjf4leGqqq+mmXBLhm2ywUtUnFW
-         22SVUJo16tKawT9xiVAwgdyCyXpa4298o0Yl5d8s6Y5u/DyxseRGd+9l4usDR906Zwe1
-         XK3PaxW8sBaHnnRfKtnUFKIhjqn5WKUYcvtX1R3BsAIIg1PYlogSzsBtp4F5W+0j6bGR
-         1CHg==
+        bh=YWJNU/KRDci9JaBSSlvjD8ejfPkt5O8bTmBLBv7FEfI=;
+        b=g45g1B9CgnICXh+L7YGsSwGItv1VEJKTbuwdGm/cgURZrltl6remdq17TWkf9IQj0t
+         2cgaZlsss/2FQVPU4QV83/EZYMXeP4/JM/rzgGquBXWY6tsruKzcr0+SGbVegz+xLLcZ
+         WRlkw6voDLEDe2B7TEZryWLFlOlqEbkxvcdq3fjD/vIom2LOugSVjFmrSTEjpHYiyTeg
+         jy3QY5TM9aS6jBUdcaYKPjTc07TztHyuCW+skdOtl3zc2svXUOdhiAc53Q5Ohry9vPLQ
+         X91mgOIDh2Hy+Xa/MpzmiIpup7RmwG/dso2672x4CVD4Z4HurT/bAG9/az5EB48HKFhA
+         5CBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=L3adQNG+/hxoajCHfb6EoDmmTT7W+dDlfD3Fz0vzm7c=;
-        b=kWeyPPqfZCiAaXogAR8ytYYGXWwWiIxRmMCkQ74rzys44+wkMkcIIDC378I1IoFUFn
-         0wYhDcE+RP7aJFlGGFCNpeOosAC7W5WIABgj5Au+1t5QdpZG8JPIn5sEC7RfFRF20WhI
-         fkMHsDNge0LruHKdCZkYwY+Av+C8BGzH618+OcgghBEAUCIFm5s2f3eqbD8KIrGrSEeQ
-         gfdRTsB7GtnFYJQQVxK6twzSe5DBnnbWWtmzkOBjEOnYQ78skJtx38MYaUfwDTmsEu+C
-         U8KArKtY6PILWBaP5L+CWqu/UrOL1mkp5QmoS6IIMDkgJdTAZDdqUIKDQHsGhq7Pswa8
-         BSTg==
-X-Gm-Message-State: APjAAAWJIOkqFbMFn7SdRFVAfX4yIuIEmMnmYMxAq/reQcTSX+zOLxfQ
-        apHiMeFceQedWK/VxgDyCYpSVw==
-X-Google-Smtp-Source: APXvYqyYb8rJgu+xJm4zJb5VdIdq1kwZM5m0E2HUWvADn6q+tzrpOCxz+FxIkPKzGQcKis8F4cU9BA==
-X-Received: by 2002:a1c:814b:: with SMTP id c72mr20247255wmd.167.1573459725396;
-        Mon, 11 Nov 2019 00:08:45 -0800 (PST)
+        bh=YWJNU/KRDci9JaBSSlvjD8ejfPkt5O8bTmBLBv7FEfI=;
+        b=PPA5jhglemOibMg7j0lN4v07OqWR7FvqHgroQcAc0zdf37j47/l9PSTc4wjx02o/x/
+         1v6NtfTIEW+FaB5jzV+xG8MM4Vswgw6gXlhIVfIBFUVo0YoovdugEWeyIR4EB6lyyAxx
+         98XveHRcilsRfDFDZz205K5kPC/aKhc8QuADcBaTHtBcEg4oUK8vGd+tXAoqiDkZvxac
+         H70ZrPQ63L2r77OV9FCMqY4wYtLuPgbew3vyqYBUYCwhcQKgKPhho7xRhor5YkbkwzAn
+         YBTlNCAqRgNYM3aXgOWKGe8y/xPvhzdxD5bNObpim8L0rYEoIl+IzdKssZBs7wvIW4WG
+         Uy3w==
+X-Gm-Message-State: APjAAAWS+7DkIM4XBopuaP4YMnEiiPX9D511cARJPteDa2sYXU6b2rpJ
+        WuxfRmQEhxXMasWNRKjASvINGw==
+X-Google-Smtp-Source: APXvYqxLWSqz1Db3ODg/rszTepYxIenSPrtyAq4nFKwOfdpSCLBq8+G1tD9JlSzHMInuJ7vRBsDVHg==
+X-Received: by 2002:adf:e5c5:: with SMTP id a5mr20805012wrn.103.1573464294593;
+        Mon, 11 Nov 2019 01:24:54 -0800 (PST)
 Received: from dell ([95.147.198.88])
-        by smtp.gmail.com with ESMTPSA id k125sm19217715wmf.2.2019.11.11.00.08.44
+        by smtp.gmail.com with ESMTPSA id w18sm14019087wrl.2.2019.11.11.01.24.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 00:08:44 -0800 (PST)
-Date:   Mon, 11 Nov 2019 08:08:37 +0000
+        Mon, 11 Nov 2019 01:24:54 -0800 (PST)
+Date:   Mon, 11 Nov 2019 09:24:46 +0000
 From:   Lee Jones <lee.jones@linaro.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v4 5/6] dt-bindings: mfd: max77650: convert the binding
- document to yaml
-Message-ID: <20191111080837.GF18902@dell>
-References: <20191021124428.2541-1-brgl@bgdev.pl>
- <20191021124428.2541-6-brgl@bgdev.pl>
+To:     Kiran Gunda <kgunda@codeaurora.org>
+Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+        daniel.thompson@linaro.org, jacek.anaszewski@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        Andy Gross <agross@kernel.org>, linux-fbdev@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH V10 1/8] backlight: qcom-wled: Rename pm8941-wled.c to
+ qcom-wled.c
+Message-ID: <20191111092446.GO18902@dell>
+References: <1572589624-6095-1-git-send-email-kgunda@codeaurora.org>
+ <1572589624-6095-2-git-send-email-kgunda@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191021124428.2541-6-brgl@bgdev.pl>
+In-Reply-To: <1572589624-6095-2-git-send-email-kgunda@codeaurora.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 21 Oct 2019, Bartosz Golaszewski wrote:
+On Fri, 01 Nov 2019, Kiran Gunda wrote:
 
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> pm8941-wled.c driver is supporting the WLED peripheral
+> on pm8941. Rename it to qcom-wled.c so that it can support
+> WLED on multiple PMICs.
 > 
-> Convert the binding document for MAX77650 core MFD module to YAML.
-> 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Acked-by: Rob Herring <robh@kernel.org>
+> Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
 > ---
->  .../devicetree/bindings/mfd/max77650.txt      |  46 ------
->  .../devicetree/bindings/mfd/max77650.yaml     | 149 ++++++++++++++++++
->  2 files changed, 149 insertions(+), 46 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/mfd/max77650.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/max77650.yaml
+>  .../bindings/leds/backlight/{pm8941-wled.txt => qcom-wled.txt}    | 2 +-
+>  drivers/video/backlight/Kconfig                                   | 8 ++++----
+>  drivers/video/backlight/Makefile                                  | 2 +-
+>  drivers/video/backlight/{pm8941-wled.c => qcom-wled.c}            | 0
+>  4 files changed, 6 insertions(+), 6 deletions(-)
+>  rename Documentation/devicetree/bindings/leds/backlight/{pm8941-wled.txt => qcom-wled.txt} (95%)
+>  rename drivers/video/backlight/{pm8941-wled.c => qcom-wled.c} (100%)
 
 Applied, thanks.
 
