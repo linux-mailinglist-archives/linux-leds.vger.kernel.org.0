@@ -2,97 +2,214 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7E5BF713E
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2019 10:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B01FF7291
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Nov 2019 11:58:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726791AbfKKJ5J (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 11 Nov 2019 04:57:09 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33779 "EHLO
+        id S1726847AbfKKK6K (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 11 Nov 2019 05:58:10 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37884 "EHLO
         mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726845AbfKKJ5J (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 Nov 2019 04:57:09 -0500
-Received: by mail-wr1-f66.google.com with SMTP id w9so7079581wrr.0
-        for <linux-leds@vger.kernel.org>; Mon, 11 Nov 2019 01:57:07 -0800 (PST)
+        with ESMTP id S1726768AbfKKK6J (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 Nov 2019 05:58:09 -0500
+Received: by mail-wr1-f66.google.com with SMTP id t1so14116747wrv.4
+        for <linux-leds@vger.kernel.org>; Mon, 11 Nov 2019 02:58:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=n0EusroEABZj51rNdWVDgFdTyzYqS7cXwg0c/qLVta4=;
-        b=TvvvUPhGY1EPTN504vPNgAqaJvh86Flh2zLDcJbmsC4YJ0lpvgShReDzApVT+c9rv2
-         9CLNiRuFbTvDYGwUFHGmnbx5ObW1m0TrHsUObqs6+j9GUGs9EeAcNaNLwdAVEhEuAJ2A
-         DAGTLamqveYy9YG5lX1XRj0e/LDYTMfP8f3fB8cQOH6pzTad++X5Isp+3MSuli9FOuTD
-         cY56TmU6pEt6s3K6BAhsmD8rJANznYtTb6M+svD3REXmy8ADu2/aTiTBeUFIDYUq8Nht
-         tdwpjZelzbWRryvgZpSe1jUj3poga0SEboTRctWN3dbRNvJ3xVCsUuUi7rrteSqInULK
-         eOfw==
+        bh=ff/OMC2uAau2mAhoofAs4UHMiQyAXj1c9pkY1OLPdoo=;
+        b=LaQUYxSAfzZQj1a+zLxcy0Bq4BPZXruN2Hxaf+yfK5bqy4gcUXMQvhDQfCa6Yd+azj
+         Bn4Hzk7Zw65+tT5QtfUkt19a6HtUsl+smEI8Fy3Pu2pqZuBi7NxHilp8UY47PBKdSWPA
+         JTDvBQ1FSdHz19EGtx/6oPc7RTZx+Ln4H5fBqaytmDr1gyqhNy5hIVtntxwl3tZeh0U4
+         vkexstcL+mlHtM67IvlNwNCB+EHkRhwFXQCSBgnYqTVD1ZYwUw8ycjp9YF8fyuesQB14
+         Nz2ybFFtUfVysQqiF4iqzR51IFPGbbbim9u5hnyAE4j4sCLWOpbXS5l8mmFWTPcwIZJ2
+         K4Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=n0EusroEABZj51rNdWVDgFdTyzYqS7cXwg0c/qLVta4=;
-        b=WFBpf2rUMKV9Wmad9tDMui9sebbcuSKUg4u/P2Mvy4y30uJWryz9jDVciYAYRRC/Pi
-         zmDd6M2I26mFb5ys7oKs2D60HmokLLatNDGCtfmV2upgLBxqatPrpZ6uNgho1Nv1xXm2
-         IcetGIMmCQEhR1oPhg7EweUuU4KoBXaPu+YNhBlo9jppo9fUMo27Yb/j6K46n7A6UJSE
-         YkgCiwtRWhXpYOHdbDqmZzAXgliUXsbrOEyrVy+YlyGZlKC4xT6H+y+xnbr/KVVRzc+U
-         Z5eGeMQwtm0uyhwyC3s2kmK2COmy/R36tlxt9JGV5zSjXE/E5SwTjQJTlp2HkIWUTVVr
-         guAQ==
-X-Gm-Message-State: APjAAAVDN4Y1Tn0rzay1I9snT9gqRSS9262czQgVTLhuJriVesDnIBzx
-        P18ahIfIgZHe0BSKUXmszz0MZg==
-X-Google-Smtp-Source: APXvYqxCdlqnVihddbyGQfzALeeE+tBPu/fwf9oiC2+F04KmOL5DVS1xOYgShIEjb3RuICv9EfNLag==
-X-Received: by 2002:a5d:6a43:: with SMTP id t3mr722187wrw.268.1573466226850;
-        Mon, 11 Nov 2019 01:57:06 -0800 (PST)
+        bh=ff/OMC2uAau2mAhoofAs4UHMiQyAXj1c9pkY1OLPdoo=;
+        b=FQysicAO7gLY/Q3sgk2mQv9S/VGzEYRsxIODgNyGYvy/eFROc6MY2iKaY61mLCnWg7
+         9M/X74yLQshbMMZqvqq8zrS6KSt2VcLQmGZ6W4yV5xOuHKQ6BR2J0gjc1BXr+Jf7ts+r
+         RZgTja4VV7XwIrdaG1H0shSYbz0c4xGM9DJWI/TPGt34J9p6tNJKc10S00raEZhUbsJ+
+         +5wiHRUyeVdplxtOp/WmgD+MI5EByDUNOmn0T66/rBvf+/zB58tItNO36Mvr1+L7tM9O
+         aO5SYzr/JPbwFdI/Qg3wvnWgRTDgH0FRQoISkKValBor4TV0gT2nnZW+oOtX2yAagCVo
+         Az7g==
+X-Gm-Message-State: APjAAAUgMEPeZ5SK+h7OnRAbJOHIdJJODA8ifVdok+NcTzQ0DR4L4nMM
+        nDVChk6UZELj1eX+O9erV0Nndw==
+X-Google-Smtp-Source: APXvYqx8xObmE5fwQgmIoKQH3kqqcFm/LXo1giQF34YvA+BOHYlXNSI8WpZX656F+0hWaH4gE1NXpA==
+X-Received: by 2002:adf:f084:: with SMTP id n4mr20238286wro.369.1573469887033;
+        Mon, 11 Nov 2019 02:58:07 -0800 (PST)
 Received: from dell ([95.147.198.88])
-        by smtp.gmail.com with ESMTPSA id d20sm34958443wra.4.2019.11.11.01.57.05
+        by smtp.gmail.com with ESMTPSA id x205sm23261337wmb.5.2019.11.11.02.58.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 01:57:06 -0800 (PST)
-Date:   Mon, 11 Nov 2019 09:56:58 +0000
+        Mon, 11 Nov 2019 02:58:06 -0800 (PST)
+Date:   Mon, 11 Nov 2019 10:57:58 +0000
 From:   Lee Jones <lee.jones@linaro.org>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc:     mazziesaccount@gmail.com,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree@vger.kernel.org, Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH] dt-bindings: leds: lm3630a: Fix the example compilation
-Message-ID: <20191111095658.GC3218@dell>
-References: <20191031134833.241303-1-maxime@cerno.tech>
- <CAL_Jsq+0X3jqO2B4o9Md1Vo5jO9cSvioeLNLrge9aoSsm-4aLg@mail.gmail.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org
+Subject: Re: [RFC PATCH v3 01/15] mfd: bd71828: Support ROHM BD71828 PMIC -
+ core
+Message-ID: <20191111105758.GF3218@dell>
+References: <cover.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
+ <9ce6f5810847422f4def629d30bae7b43dd4c6c6.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_Jsq+0X3jqO2B4o9Md1Vo5jO9cSvioeLNLrge9aoSsm-4aLg@mail.gmail.com>
+In-Reply-To: <9ce6f5810847422f4def629d30bae7b43dd4c6c6.1572606437.git.matti.vaittinen@fi.rohmeurope.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 05 Nov 2019, Rob Herring wrote:
+On Fri, 01 Nov 2019, Matti Vaittinen wrote:
 
-> On Thu, Oct 31, 2019 at 8:48 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > Commit ae92365cdd75 ("dt-bindings: backlight: lm3630a: Add enable-gpios to
-> > describe HWEN pin") introduced in the example a GPIO flag that isn't
-> > declared anywhere, resulting in a compilation breakage when running the
-> > validation tools. Add the proper define.
-> >
-> > Cc: Andreas Kemnade <andreas@kemnade.info>
-> > Cc: Lee Jones <lee.jones@linaro.org>
-> > Fixes: ae92365cdd75 ("dt-bindings: backlight: lm3630a: Add enable-gpios to describe HWEN pin")
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  .../devicetree/bindings/leds/backlight/lm3630a-backlight.yaml   | 2 ++
-> >  1 file changed, 2 insertions(+)
+> BD71828GW is a single-chip power management IC for battery-powered portable
+> devices. The IC integrates 7 buck converters, 7 LDOs, and a 1500 mA
+> single-cell linear charger. Also included is a Coulomb counter, a real-time
+> clock (RTC), 3 GPO/regulator control pins, HALL input and a 32.768 kHz
+> clock gate.
 > 
-> Lee already applied a fix. Though it's not in linux-next yet.
+> Add MFD core driver providing interrupt controller facilities and i2c
+> access to sub device drivers.
+> 
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+> 
+> No changes compared to v2
+> 
+>  drivers/mfd/Kconfig              |  15 ++
+>  drivers/mfd/Makefile             |   2 +-
+>  drivers/mfd/rohm-bd71828.c       | 322 +++++++++++++++++++++++
+>  include/linux/mfd/rohm-bd71828.h | 425 +++++++++++++++++++++++++++++++
+>  include/linux/mfd/rohm-generic.h |   1 +
+>  5 files changed, 764 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/mfd/rohm-bd71828.c
+>  create mode 100644 include/linux/mfd/rohm-bd71828.h
 
-It is now.
+/me wonders why this is still an RFC after 3 revisions?
+
+[...]
+
+> +static struct mfd_cell bd71828_mfd_cells[] = {
+> +	{ .name = "bd71828-pmic", },
+> +	{ .name = "bd71828-gpio", },
+> +	{ .name = "bd71828-led", },
+> +	/*
+> +	 * We use BD71837 driver to drive the clock block. Only differences to
+> +	 * BD70528 clock gate are the register address and mask.
+> +	 */
+> +	{ .name = "bd718xx-clk", },
+> +	{
+> +		.name = "bd71827-power",
+
+Why isn't this on one line, like the others above?
+
+> +	}, {
+> +		.name = "bd70528-rtc",
+> +		.resources = rtc_irqs,
+> +		.num_resources = ARRAY_SIZE(rtc_irqs),
+> +	},
+> +};
+
+[...]
+
+> +unsigned int bit0_offsets[] = {11};		/* RTC IRQ register */
+> +unsigned int bit1_offsets[] = {10};		/* TEMP IRQ register */
+> +unsigned int bit2_offsets[] = {6, 7, 8, 9};	/* BAT MON IRQ registers */
+> +unsigned int bit3_offsets[] = {5};		/* BAT IRQ register */
+> +unsigned int bit4_offsets[] = {4};		/* CHG IRQ register */
+> +unsigned int bit5_offsets[] = {3};		/* VSYS IRQ register */
+> +unsigned int bit6_offsets[] = {1, 2};		/* DCIN IRQ registers */
+
+Something actually wrong with the tabbing here, or is this a
+Git/patch/mailer anomaly?
+
+[...]
+
+> +static int bd71828_i2c_probe(struct i2c_client *i2c,
+> +			     const struct i2c_device_id *id)
+> +{
+> +	struct rohm_regmap_dev *chip;
+> +	struct regmap_irq_chip_data *irq_data;
+> +	int ret;
+> +
+> +	if (!i2c->irq) {
+> +		dev_err(&i2c->dev, "No IRQ configured\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	chip = devm_kzalloc(&i2c->dev, sizeof(*chip), GFP_KERNEL);
+> +	if (!chip)
+> +		return -ENOMEM;
+> +
+> +	dev_set_drvdata(&i2c->dev, chip);
+> +
+> +	chip->chip_type = ROHM_CHIP_TYPE_BD71828;
+> +	chip->regmap = devm_regmap_init_i2c(i2c, &bd71828_regmap);
+> +	if (IS_ERR(chip->regmap)) {
+> +		dev_err(&i2c->dev, "Failed to initialize Regmap\n");
+> +		return PTR_ERR(chip->regmap);
+> +	}
+> +
+> +	ret = devm_regmap_add_irq_chip(&i2c->dev, chip->regmap,
+> +				       i2c->irq, IRQF_ONESHOT, 0,
+> +				       &bd71828_irq_chip, &irq_data);
+> +	if (ret) {
+> +		dev_err(&i2c->dev, "Failed to add IRQ chip\n");
+> +		return ret;
+> +	}
+
+Nit: '\n' here.
+
+> +	dev_dbg(&i2c->dev, "Registered %d IRQs for chip\n",
+> +		bd71828_irq_chip.num_irqs);
+> +
+> +	ret = devm_mfd_add_devices(&i2c->dev, PLATFORM_DEVID_AUTO,
+> +				   bd71828_mfd_cells,
+> +				   ARRAY_SIZE(bd71828_mfd_cells), NULL, 0,
+> +				   regmap_irq_get_domain(irq_data));
+> +	if (ret)
+> +		dev_err(&i2c->dev, "Failed to create subdevices\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct of_device_id bd71828_of_match[] = {
+> +	{ .compatible = "rohm,bd71828", },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, bd71828_of_match);
+> +
+> +static struct i2c_driver bd71828_drv = {
+> +	.driver = {
+> +		.name = "rohm-bd71828",
+> +		.of_match_table = bd71828_of_match,
+> +	},
+> +	.probe = &bd71828_i2c_probe,
+
+If 'id' isn't used, perhaps you should be using probe2?
+
+[...]
 
 -- 
 Lee Jones [李琼斯]
