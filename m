@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7445FC7A8
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Nov 2019 14:33:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 945C7FC7AA
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Nov 2019 14:33:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727217AbfKNNcn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Nov 2019 08:32:43 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:48226 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726980AbfKNNcn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Nov 2019 08:32:43 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xAEDWeYA007676;
-        Thu, 14 Nov 2019 07:32:40 -0600
+        id S1727443AbfKNNct (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 14 Nov 2019 08:32:49 -0500
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:49030 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726980AbfKNNcs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Nov 2019 08:32:48 -0500
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xAEDWjS4067543;
+        Thu, 14 Nov 2019 07:32:45 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1573738360;
-        bh=5oPRgd9y4fLZAUSx3Us0YBQ1cAUc/cf63XhWxENhBFk=;
+        s=ti-com-17Q1; t=1573738365;
+        bh=mzXCOj+zhvqp8piY/7HPCwJgl3+DnF5Gwg863ZX0foY=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=ZaMJK7yjSnY+/X3mdQThJ1etWwZ4VdMxwEt0ZRE8JeW3TWs4nBsv+dW4JKDx37wD0
-         LlHpBfGk9Ta0OYRPqFtXx1X9pYsjJjTp4mc0M9wfSAz3CBttBsVacvcnsdMXdgNrGZ
-         axxkGCyv/1b63YnXAbun2BoNJufiBpjpkAUipA9Q=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xAEDWe1E064188
+        b=J4kCkfFIrOGU8TcErrm4SGam4Z+/ourD73zGc37MDNozxdOYcMRsyibjB25uutwFZ
+         LfjwXu/edEwXfm98FBLa5neKtqczDNHmBXhFc9GoyXOIUpKB9I4cc2+UuOmRPr+zGO
+         ewdmRn/p/UVjscve6hDtVs97yNkw/xUbHtIt6fBk=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xAEDWjMp006112
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 14 Nov 2019 07:32:40 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+        Thu, 14 Nov 2019 07:32:45 -0600
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 14
- Nov 2019 07:32:40 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2019 07:32:45 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 14 Nov 2019 07:32:40 -0600
+ Frontend Transport; Thu, 14 Nov 2019 07:32:45 -0600
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xAEDWdi7081228;
-        Thu, 14 Nov 2019 07:32:39 -0600
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id xAEDWjDa032329;
+        Thu, 14 Nov 2019 07:32:45 -0600
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
 CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v17 15/19] leds: lp5521: Add multicolor framework multicolor brightness support
-Date:   Thu, 14 Nov 2019 07:30:19 -0600
-Message-ID: <20191114133023.32185-16-dmurphy@ti.com>
+Subject: [PATCH v17 16/19] leds: lp55xx: Fix checkpatch file permissions issues
+Date:   Thu, 14 Nov 2019 07:30:20 -0600
+Message-ID: <20191114133023.32185-17-dmurphy@ti.com>
 X-Mailer: git-send-email 2.22.0.214.g8dca754b1e
 In-Reply-To: <20191114133023.32185-1-dmurphy@ti.com>
 References: <20191114133023.32185-1-dmurphy@ti.com>
@@ -55,53 +55,100 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add the multicolor brightness call back to support the multicolor
-framework. This function allows setting the brightness across
-grouped LED channels in a single call.
+Fix the checkpatch warnings for the use of the file permission macros.
+In converting the file permissions to the DEVICE_ATTR_XX macros the
+call back function names needed to be updated within the code.
+
+This means that the lp55xx_ needed to be dropped in the name to keep in
+harmony with the ABI documentation.
 
 Signed-off-by: Dan Murphy <dmurphy@ti.com>
 ---
- drivers/leds/leds-lp5521.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/leds/leds-lp55xx-common.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/leds/leds-lp5521.c b/drivers/leds/leds-lp5521.c
-index 6ff81d6be789..f8bdd55e8349 100644
---- a/drivers/leds/leds-lp5521.c
-+++ b/drivers/leds/leds-lp5521.c
-@@ -349,6 +349,25 @@ static int lp5521_run_selftest(struct lp55xx_chip *chip, char *buf)
- 	return 0;
+diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
+index c2087a654ea8..41d8c5e41306 100644
+--- a/drivers/leds/leds-lp55xx-common.c
++++ b/drivers/leds/leds-lp55xx-common.c
+@@ -78,7 +78,7 @@ static int lp55xx_post_init_device(struct lp55xx_chip *chip)
+ 	return cfg->post_init_device(chip);
  }
  
-+static int lp5521_multicolor_brightness(struct lp55xx_led *led)
-+{
-+	struct lp55xx_chip *chip = led->chip;
-+	int ret;
-+	int i;
-+
-+	mutex_lock(&chip->lock);
-+	for (i = 0; i < led->mc_cdev.num_leds; i++) {
-+		ret = lp55xx_write(chip,
-+				   LP5521_REG_LED_PWM_BASE +
-+				   led->color_components[i].output_num,
-+				   led->color_components[i].brightness);
-+		if (ret)
-+			break;
-+	}
-+	mutex_unlock(&chip->lock);
-+	return ret;
-+}
-+
- static int lp5521_led_brightness(struct lp55xx_led *led)
+-static ssize_t lp55xx_show_current(struct device *dev,
++static ssize_t led_current_show(struct device *dev,
+ 			    struct device_attribute *attr,
+ 			    char *buf)
  {
- 	struct lp55xx_chip *chip = led->chip;
-@@ -490,6 +509,7 @@ static struct lp55xx_device_config lp5521_cfg = {
- 	.max_channel  = LP5521_MAX_LEDS,
- 	.post_init_device   = lp5521_post_init_device,
- 	.brightness_fn      = lp5521_led_brightness,
-+	.multicolor_brightness_fn = lp5521_multicolor_brightness,
- 	.set_led_current    = lp5521_set_led_current,
- 	.firmware_cb        = lp5521_firmware_loaded,
- 	.run_engine         = lp5521_run_engine,
+@@ -87,7 +87,7 @@ static ssize_t lp55xx_show_current(struct device *dev,
+ 	return scnprintf(buf, PAGE_SIZE, "%d\n", led->led_current);
+ }
+ 
+-static ssize_t lp55xx_store_current(struct device *dev,
++static ssize_t led_current_store(struct device *dev,
+ 			     struct device_attribute *attr,
+ 			     const char *buf, size_t len)
+ {
+@@ -111,7 +111,7 @@ static ssize_t lp55xx_store_current(struct device *dev,
+ 	return len;
+ }
+ 
+-static ssize_t lp55xx_show_max_current(struct device *dev,
++static ssize_t max_current_show(struct device *dev,
+ 			    struct device_attribute *attr,
+ 			    char *buf)
+ {
+@@ -120,9 +120,8 @@ static ssize_t lp55xx_show_max_current(struct device *dev,
+ 	return scnprintf(buf, PAGE_SIZE, "%d\n", led->max_current);
+ }
+ 
+-static DEVICE_ATTR(led_current, S_IRUGO | S_IWUSR, lp55xx_show_current,
+-		lp55xx_store_current);
+-static DEVICE_ATTR(max_current, S_IRUGO , lp55xx_show_max_current, NULL);
++static DEVICE_ATTR_RW(led_current);
++static DEVICE_ATTR_RO(max_current);
+ 
+ static struct attribute *lp55xx_led_attrs[] = {
+ 	&dev_attr_led_current.attr,
+@@ -292,7 +291,7 @@ static int lp55xx_request_firmware(struct lp55xx_chip *chip)
+ 				GFP_KERNEL, chip, lp55xx_firmware_loaded);
+ }
+ 
+-static ssize_t lp55xx_show_engine_select(struct device *dev,
++static ssize_t select_engine_show(struct device *dev,
+ 			    struct device_attribute *attr,
+ 			    char *buf)
+ {
+@@ -302,7 +301,7 @@ static ssize_t lp55xx_show_engine_select(struct device *dev,
+ 	return sprintf(buf, "%d\n", chip->engine_idx);
+ }
+ 
+-static ssize_t lp55xx_store_engine_select(struct device *dev,
++static ssize_t select_engine_store(struct device *dev,
+ 			     struct device_attribute *attr,
+ 			     const char *buf, size_t len)
+ {
+@@ -344,7 +343,7 @@ static inline void lp55xx_run_engine(struct lp55xx_chip *chip, bool start)
+ 		chip->cfg->run_engine(chip, start);
+ }
+ 
+-static ssize_t lp55xx_store_engine_run(struct device *dev,
++static ssize_t run_engine_store(struct device *dev,
+ 			     struct device_attribute *attr,
+ 			     const char *buf, size_t len)
+ {
+@@ -369,9 +368,8 @@ static ssize_t lp55xx_store_engine_run(struct device *dev,
+ 	return len;
+ }
+ 
+-static DEVICE_ATTR(select_engine, S_IRUGO | S_IWUSR,
+-		   lp55xx_show_engine_select, lp55xx_store_engine_select);
+-static DEVICE_ATTR(run_engine, S_IWUSR, NULL, lp55xx_store_engine_run);
++static DEVICE_ATTR_RW(select_engine);
++static DEVICE_ATTR_WO(run_engine);
+ 
+ static struct attribute *lp55xx_engine_attributes[] = {
+ 	&dev_attr_select_engine.attr,
 -- 
 2.22.0.214.g8dca754b1e
 
