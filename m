@@ -2,113 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 522ABFC7AE
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Nov 2019 14:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0C8CFDE7E
+	for <lists+linux-leds@lfdr.de>; Fri, 15 Nov 2019 14:02:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbfKNNdE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Nov 2019 08:33:04 -0500
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:40686 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726597AbfKNNdE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Nov 2019 08:33:04 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xAEDX1D2103984;
-        Thu, 14 Nov 2019 07:33:01 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1573738381;
-        bh=CiO3hXAyFsuZm3cE8SXZzPxL1D+KaY4p9kZlHGgSu6M=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=XAsKkLwmCbmrSZz0qqZ0uybtWehg+lTyb1r46JXCpf9lgI5tVmRgRRzRHFz1slhoM
-         yvRufn4r7cDpQv1CXaWfSVWmEUF03HAlXf3JFJyAa+uZb1pxvaYJjtV0UnjxVudAZX
-         TtonYgoPxdE0w4rwls5NrHYq5it/vqrmgDqm0DYk=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xAEDX1Un064593
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 14 Nov 2019 07:33:01 -0600
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 14
- Nov 2019 07:33:01 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 14 Nov 2019 07:33:01 -0600
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xAEDX1uP081637;
-        Thu, 14 Nov 2019 07:33:01 -0600
-From:   Dan Murphy <dmurphy@ti.com>
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v17 19/19] leds: lp55xx-common: Remove extern from lp55xx-common header
-Date:   Thu, 14 Nov 2019 07:30:23 -0600
-Message-ID: <20191114133023.32185-20-dmurphy@ti.com>
-X-Mailer: git-send-email 2.22.0.214.g8dca754b1e
-In-Reply-To: <20191114133023.32185-1-dmurphy@ti.com>
-References: <20191114133023.32185-1-dmurphy@ti.com>
+        id S1727405AbfKONCD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 15 Nov 2019 08:02:03 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:43759 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727359AbfKONCC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Nov 2019 08:02:02 -0500
+Received: by mail-oi1-f193.google.com with SMTP id l20so8499427oie.10;
+        Fri, 15 Nov 2019 05:02:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fFCEymgW22IOXjAfj44wBlKSuJ/Vx7mcifImk+2KKVg=;
+        b=ER/EhUYC5QkiYAW0NuWXmHh3nGBEqMeczo7bfaQfML9i+NLruK4Gh5CXsQ1oHEis+0
+         IE8o0YLOYLJEgxb+3fcFgTtNYhpBxdbhZ2FU1wH74ngVny8isWEvKLeOM1EUp6IuQsyR
+         sa0MRyDWpN+kwfVPNtsG1o0E1//U7Hlwu78BeVNbuGpyIbBfyOxvWvXUZjB1yvVO7M8/
+         RDioRr0MoDzQ/tz29Ggt1O30Q8GVzat1zaR+ApOHFm758kPj8fhguBvsclrvWsHN+jew
+         7VLz1NV9tYGbCnsdLjloB99a32LB5kA3JRDiwx9BLhg4TLrXqIQMWmvaDx4osSx0r6c6
+         TNJA==
+X-Gm-Message-State: APjAAAVrrtTmotSUsASqlWR6dyihUZRYtS0teQXGqlO9QGlhyuhg7PI8
+        CTzsWhJH7RePDyd49gStBA7jm8I1NLYgxGcliD0=
+X-Google-Smtp-Source: APXvYqwDJnmXPh1+p0V9jnah9Cftz47hQsDfVVyH6+VKTuHFMEr5sJTTgNmBTMY4L5m3/E6+pM7lmaFLG66wGDKmJn0=
+X-Received: by 2002:aca:4ac5:: with SMTP id x188mr7493713oia.148.1573822921804;
+ Fri, 15 Nov 2019 05:02:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20190609190803.14815-1-jacek.anaszewski@gmail.com> <20190609190803.14815-4-jacek.anaszewski@gmail.com>
+In-Reply-To: <20190609190803.14815-4-jacek.anaszewski@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 15 Nov 2019 14:01:50 +0100
+Message-ID: <CAMuHMdXkQCVXdsbS1Tf+7wkafJ4JxhxXeh4R7OWOz5uGs-jL5Q@mail.gmail.com>
+Subject: Re: [PATCH v5 03/26] dt-bindings: leds: Add LED_FUNCTION definitions
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-leds@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
+        dtor@google.com, Guenter Roeck <linux@roeck-us.net>,
+        Dan Murphy <dmurphy@ti.com>,
+        Baolin Wang <baolin.wang@linaro.org>,
+        Daniel Mack <daniel@zonque.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Oleh Kravchenko <oleg@kaa.org.ua>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Simon Shields <simon@lineageos.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-extern is implied and is not needed in the common header file.
-Remove the extern keyword and re-align the code.
+Hi Jacek,
 
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
----
- drivers/leds/leds-lp55xx-common.h | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
+On Sun, Jun 9, 2019 at 9:09 PM Jacek Anaszewski
+<jacek.anaszewski@gmail.com> wrote:
+> Add initial set of common LED function definitions.
+>
+> Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 
-diff --git a/drivers/leds/leds-lp55xx-common.h b/drivers/leds/leds-lp55xx-common.h
-index 18476051d3d2..051f8b33c601 100644
---- a/drivers/leds/leds-lp55xx-common.h
-+++ b/drivers/leds/leds-lp55xx-common.h
-@@ -183,29 +183,27 @@ struct lp55xx_led {
- };
- 
- /* register access */
--extern int lp55xx_write(struct lp55xx_chip *chip, u8 reg, u8 val);
--extern int lp55xx_read(struct lp55xx_chip *chip, u8 reg, u8 *val);
--extern int lp55xx_update_bits(struct lp55xx_chip *chip, u8 reg,
--			u8 mask, u8 val);
-+int lp55xx_write(struct lp55xx_chip *chip, u8 reg, u8 val);
-+int lp55xx_read(struct lp55xx_chip *chip, u8 reg, u8 *val);
-+int lp55xx_update_bits(struct lp55xx_chip *chip, u8 reg, u8 mask, u8 val);
- 
- /* external clock detection */
--extern bool lp55xx_is_extclk_used(struct lp55xx_chip *chip);
-+bool lp55xx_is_extclk_used(struct lp55xx_chip *chip);
- 
- /* common device init/deinit functions */
--extern int lp55xx_init_device(struct lp55xx_chip *chip);
--extern void lp55xx_deinit_device(struct lp55xx_chip *chip);
-+int lp55xx_init_device(struct lp55xx_chip *chip);
-+void lp55xx_deinit_device(struct lp55xx_chip *chip);
- 
- /* common LED class device functions */
--extern int lp55xx_register_leds(struct lp55xx_led *led,
--				struct lp55xx_chip *chip);
-+int lp55xx_register_leds(struct lp55xx_led *led, struct lp55xx_chip *chip);
- 
- /* common device attributes functions */
--extern int lp55xx_register_sysfs(struct lp55xx_chip *chip);
--extern void lp55xx_unregister_sysfs(struct lp55xx_chip *chip);
-+int lp55xx_register_sysfs(struct lp55xx_chip *chip);
-+void lp55xx_unregister_sysfs(struct lp55xx_chip *chip);
- 
- /* common device tree population function */
--extern struct lp55xx_platform_data
--*lp55xx_of_populate_pdata(struct device *dev, struct device_node *np,
--			  struct lp55xx_chip *chip);
-+struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
-+						      struct device_node *np,
-+						      struct lp55xx_chip *chip);
- 
- #endif /* _LEDS_LP55XX_COMMON_H */
+> --- a/include/dt-bindings/leds/common.h
+> +++ b/include/dt-bindings/leds/common.h
+> @@ -30,4 +31,45 @@
+>  #define LED_COLOR_ID_IR                7
+>  #define LED_COLOR_ID_MAX       8
+>
+> +/* Standard LED functions */
+> +#define LED_FUNCTION_ACTIVITY "activity"
+
+What's the appropriate function for "general purpose" or "user" LEDs on
+development boards, where the LEDs don't have fixed functions, unlike
+on real products?
+Perhaps just LED_FUNCTION_INDICATOR?
+
+I noticed your very initial submission defined LED_FUNCTION_USER "user".
+I couldn't find an explanation for the rationale behind its removal in later
+revisions, or any discussion asking for that.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.22.0.214.g8dca754b1e
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
