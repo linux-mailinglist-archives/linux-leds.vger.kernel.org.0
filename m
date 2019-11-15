@@ -2,90 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E96CFE0B0
-	for <lists+linux-leds@lfdr.de>; Fri, 15 Nov 2019 15:57:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F95AFE1FB
+	for <lists+linux-leds@lfdr.de>; Fri, 15 Nov 2019 16:50:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727629AbfKOO5h (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 15 Nov 2019 09:57:37 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39093 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727555AbfKOO5h (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Nov 2019 09:57:37 -0500
-Received: by mail-wr1-f67.google.com with SMTP id l7so11302151wrp.6
-        for <linux-leds@vger.kernel.org>; Fri, 15 Nov 2019 06:57:35 -0800 (PST)
+        id S1727671AbfKOPt4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 15 Nov 2019 10:49:56 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:40584 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727665AbfKOPtn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 15 Nov 2019 10:49:43 -0500
+Received: by mail-io1-f65.google.com with SMTP id p6so10904101iod.7
+        for <linux-leds@vger.kernel.org>; Fri, 15 Nov 2019 07:49:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flowbird.group; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=LhVSGfEhFzAltpE8aRiy3vpD2H1oU8Mhp/p8hqjjUJk=;
-        b=eFp7WM7WqUS0dAkxY6zmVayqvN0U6ecqQ2z9n4gKEkYjfdgWqfOUJ6SRplWsNH267a
-         GeHWvBzZMtMYR52ly7SOrP4Mfw16hJYy4r1l6lMJwNdXO2jJ95OFpcZRKt1MU5GXXycX
-         08wu9HCqA0m9nv2zsmbePJCDfeQwBhrp6wPFYkN9j9BeIxZmWyWEcgmOj8Vwz1LB03dH
-         3SbG7jA3F3X7uzg54TzU6pLSRmYdE6ts1OOsD4MoEEqbEI8kt+gNma+lKr0ux6RKbtX8
-         gC8cvNt6g7mSf1kvegxJlC2Judje44+s4PXXRWwYNr8c9cxAg1YNBwJth92O7is8ZrPP
-         YIog==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
+        b=T96mBsWswYjsm0w7ecYkWpV509ib/ulk9bHbI0Xwo0rzkePegh7rSfOcmzGbyf8vTc
+         lns/HOXyf4/6jOYDVIgZ/CZyIfN2m2y88qVdmXSABhNsP0MXDIRsHGSOOd7wWkwuGiQx
+         ehcoBpFXp6INIFq3jwmveina1L3fsWjpzHRhMvlhwo8OJ8Dy4xuFXwCrYZiL/Ja/dmiU
+         sEvBblBcC09ww5H/W1Li3rJXBc1TYjMn46kjeboNwYGUiqFeNnjz46iJxarBlBzUTpau
+         7EU4w1MkRxjhgPFrJ2/ipVqnuE4IawmENFYcW1JVUg9OFLrEKZvfb77T8+3XayPV4Zd+
+         KrHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=LhVSGfEhFzAltpE8aRiy3vpD2H1oU8Mhp/p8hqjjUJk=;
-        b=V7rbHyKurOtK9UG538ypXXwYPCcz+8C1qw2p5xR3ecfEWZgR6BlR0lqftvRiyg/61c
-         B/L4X1n6SOp/b/wcjb5fjBIIFqOFfGwD9pKXLVoJk/iVQmVWNg3zr9wEsCr+/yrana5p
-         5D13Q/pLpeGlz01wXpOkOywmSgZK7pQeFzMlCAsKySMPOl0PjpKK3iFhbYCGDxnX+LBJ
-         ZmWUENQDSPQMXYazD8GyiYizfN+ALAVSxYHCGkMZZXTk4KXfFlp4xDoxiBBHtWYdVonZ
-         flhOlQf/UlgW/u4zJlNWn7UL2VATpPKJScBqQ5DZWVuZqUsoMsYA4e3Z34UAaUPvBulX
-         qb8A==
-X-Gm-Message-State: APjAAAV1+cNTexbGhvhak8tR59BpmHZEWhn5+5Y44XmEbDAYXhOZdeSw
-        XIg9wapeJf6EW/fCmV0IyEPN1O+IX5lddg==
-X-Google-Smtp-Source: APXvYqwqOQ7MLMABPEV4GiRIClcn1AxUx+OW8p5Iv5Mb6AIt0bAoEipWbmZXhyVfMmLkxa6wYMd/bA==
-X-Received: by 2002:adf:aa92:: with SMTP id h18mr16585766wrc.150.1573829855230;
-        Fri, 15 Nov 2019 06:57:35 -0800 (PST)
-Received: from [10.32.51.158] ([185.149.63.251])
-        by smtp.gmail.com with ESMTPSA id q15sm11782035wrs.91.2019.11.15.06.57.34
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 15 Nov 2019 06:57:34 -0800 (PST)
-Subject: Re: [PATCH v17 00/19] Multicolor Framework
-To:     Dan Murphy <dmurphy@ti.com>, jacek.anaszewski@gmail.com,
-        pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191114133023.32185-1-dmurphy@ti.com>
-From:   Martin Fuzzey <martin.fuzzey@flowbird.group>
-Message-ID: <55c6a873-9ed7-0c00-b85b-7a0f7ae7046e@flowbird.group>
-Date:   Fri, 15 Nov 2019 15:57:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
+        b=GdQ3qVu2O+hbP8Up2toQWICTymhFk4GDeGtTZ/uoG6X4k9p3uvsBPvvh6Ne5YxATh3
+         7ETtsTYr8optprWPdOfxR79wciLUUWrJF5eSbFs3UCMoYn9TmfsM9BVqbY0ggRqxh5xL
+         qgjKUR5oNI6UDzmefTFXL6y1srnIt+Jd0luHYa24SKn8HDfpVn9vxGpxnM0z+2YyX928
+         8Jx0PhuQ1FfOK/w3C3LjsLm4xthAj44QWQXUwQ8T1TAAXxJldUlW9gUql0zP7l1NYvUF
+         J3NAE0ZKqI/ToIpop17CdIQmVHkFQSuRN0k+wP/iI6oWXAOEz9B6khD+x439Oi+d2zfL
+         eQ4A==
+X-Gm-Message-State: APjAAAWZSRbyGf3MIsMsAVOHpd1PSWQ9TyZ96zM0ZFT63kY+r7fWOGJG
+        Jw82CGcQ8A/aUp+pVYg0w0We+YGjc8eh6Ocu/Q==
+X-Google-Smtp-Source: APXvYqxEj1beLI6zhjihT/lmX2Dk324PGcIr8veC5c+0F/PFQKT7AeNYgljOGh72OwNqCMMZvqGkvMbSAqCkDjgGkjg=
+X-Received: by 2002:a5e:8e02:: with SMTP id a2mr1343031ion.269.1573832982053;
+ Fri, 15 Nov 2019 07:49:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191114133023.32185-1-dmurphy@ti.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: fr
+Received: by 2002:a02:7749:0:0:0:0:0 with HTTP; Fri, 15 Nov 2019 07:49:41
+ -0800 (PST)
+Reply-To: moneygram.1820@outlook.fr
+From:   "Ms.Mary Coster" <info.zennitbankplcnigerian@gmail.com>
+Date:   Fri, 15 Nov 2019 16:49:41 +0100
+Message-ID: <CABHzvrkUQbbmg0Gr7foD3OjAJiY7Fd37=SW3mU=fnOPOcOyNdQ@mail.gmail.com>
+Subject: Goodnews, I have deposited your transfer total amount US$4.8million
+ Dollars with Money Gram this morning. we agreed you will be receiving it
+ $5000.00 daily.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 14/11/2019 14:30, Dan Murphy wrote:
-> Hello
->
-> Simple fix in the multicolor code where the extended registration call was not
-> called in the devm_* function
->
-> Thanks Martin F. for finding this issue.
->
-> Hopefully this will be pulled in for the 5.5 merge window.
-
-For patches 2, 3, 4
-
-     Tested-by: Martin Fuzzey <martin.fuzzey@flowbird.group>
-
-I have applied patch 1 to my tree too but, being just documentation, 
-it's not testable.
-
-I don't have a lp50xx but have written my own multicolor driver on top 
-of this patchset (for a custom LED controller implemented in a MCU).
-
-
-Martin
-
-
+Attn, Dear
+Goodnews, I have deposited your transfer total amount US$4.8million
+Dollars with Money Gram this morning. we agreed you will be receiving
+it $5000.00 daily.
+Contact Mr. John Dave Director, Money Gram to pick up your first Money
+Gram payment $5000.00 today.
+Contact Person; Mr. John Dave Director, Money Gram,International
+Remittance-Benin
+Email; moneygram.1820@outlook.fr
+Telephone; +229 62619517
+Please re-confirm your address to him once again such as listed below.
+1.Your Full Name..............................
+2.Address.........................
+3.Country....................
+4.Sex.........................................
+5.Your telephone numbers..........................
+6. Copy of your ID...........................
+This is to avoid sending your funds to wrong person, He is waiting to
+hear from you urgent today.
+Let me know once you pick up your transfer $5000.00 today.
+Finally, Note I have paid for the service fees, but only money will
+send to him is $90.00 transfer fee before you can pick up the transfer
+today.
+Ask, Mr. John Dave Director, Money Gram to give you direction where to
+send your transfer fee $90.00 only to Him Immediately so that you can
+pick up $5000.00 us dollars today.
+Thanks for undrstanding.
+Mary Coster
+m.coster@aol.com
