@@ -2,114 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E487910067E
-	for <lists+linux-leds@lfdr.de>; Mon, 18 Nov 2019 14:30:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A70D3100915
+	for <lists+linux-leds@lfdr.de>; Mon, 18 Nov 2019 17:20:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726506AbfKRNaj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 18 Nov 2019 08:30:39 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:35598 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726284AbfKRNai (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 18 Nov 2019 08:30:38 -0500
-Received: by mail-lj1-f193.google.com with SMTP id r7so18952993ljg.2
-        for <linux-leds@vger.kernel.org>; Mon, 18 Nov 2019 05:30:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=balena-io.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=YWOzP2XTenM698y14EYphcgxccBzKsjNSQkaqSk5HjQ=;
-        b=BdbpqF1TbFIME6ic2c1pI6EjUkhk4ppM5wnWnOHASrhu6QWN0yAiKAQqfVdV3weoYh
-         E+aG/V9h8RMwNjWvpSMnTK6PxDijeP2bVNPw7ux32TyPwh+I9m4sjB5yb382aY6WgKzN
-         26dx0NQH7wNO+FqL+uAwkY4QrDtkJ2bSLGR5dakOnu4r0R3rAsFrYSkAeofZwyuNPZWl
-         RCZ5lVeFQ3xCWHB1fAF7FHrf1HP/BcfQpQkQlhT7ft1oB2mKCynstvvgTMItB0f7i7Tw
-         TsdjBIf/h82XprQdKawNYWAP8VNi8VQac5DlmkryiDbtFqdofGHHl1strZBZ2dyjM+pL
-         x21Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YWOzP2XTenM698y14EYphcgxccBzKsjNSQkaqSk5HjQ=;
-        b=FuG8ON4j8TyWwfV8yYlKTJhx8TV5uHk78WudLrfZFtIpEpl+VVlCQpP89jwjZACRF1
-         D8Sr6CW9L6aVjGMzLLm9e2fgy8jdUfsy30Xr6xHK2FtLIfzQln2vZjQNWzT6+bNiXR5l
-         mWIoppZsRJtciYZDuNfRslztaOEtrddQZXfhkP/YNJ+wltH3WXG95PKRzeDzqIgMRtlC
-         raB9dw7EtupNtdgsHBYEokfFMC70DK3IFxtU5MSY/zQgE46OyQD6gofQ6l/r1H2UJNNo
-         61hiQBxH2MuxmFMQuj8C4KJ/VVuWG+nwECBBdkQsAEu+V4NexiuPJriUHta7c4NDMfKe
-         KW6w==
-X-Gm-Message-State: APjAAAXdv0XjN3Es11ve4UI0HRc1xrrJVTFm+8R8eU6EM+d/HCznvfN/
-        WjJKGKjWmog8M/8+xQZv416Udw==
-X-Google-Smtp-Source: APXvYqx36+Ke1sYW/+DT6yKCb3mUj+gLbyKBBNpr/SipSyf6mcjc99F7a5wEo45HZms0zbj/oF6VcQ==
-X-Received: by 2002:a2e:9ecf:: with SMTP id h15mr21341938ljk.173.1574083835375;
-        Mon, 18 Nov 2019 05:30:35 -0800 (PST)
-Received: from majorz.localdomain ([85.130.115.21])
-        by smtp.gmail.com with ESMTPSA id s4sm3077313lfd.34.2019.11.18.05.30.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2019 05:30:34 -0800 (PST)
-Date:   Mon, 18 Nov 2019 15:30:31 +0200
-From:   Zahari Petkov <zahari@balena.io>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Zahari Petkov <zahari@balena.io>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: pca963x: Fix open-drain initialization
-Message-ID: <20191118133031.GA90092@majorz.localdomain>
-References: <20191014123604.GA743117@majorz.localdomain>
- <20191103170327.GA32107@duo.ucw.cz>
+        id S1726881AbfKRQUg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 18 Nov 2019 11:20:36 -0500
+Received: from foss.arm.com ([217.140.110.172]:36694 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726322AbfKRQUf (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 18 Nov 2019 11:20:35 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC2861FB;
+        Mon, 18 Nov 2019 08:20:34 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2ADEB3F703;
+        Mon, 18 Nov 2019 08:20:34 -0800 (PST)
+Date:   Mon, 18 Nov 2019 16:20:32 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc:     mazziesaccount@gmail.com, Lee Jones <lee.jones@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Nicholas Mc Guire <hofrat@osadl.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v5 09/16] regulator: bd71828: Basic support for ROHM
+ bd71828 PMIC regulators
+Message-ID: <20191118162032.GI9761@sirena.org.uk>
+References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+ <ffd3ea4858f820e565aba88ccac395ce5b661538.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="BWWlCdgt6QLN7tv3"
 Content-Disposition: inline
-In-Reply-To: <20191103170327.GA32107@duo.ucw.cz>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <ffd3ea4858f820e565aba88ccac395ce5b661538.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+X-Cookie: no maintenance:
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 10:09:53AM +0100, Pavel Machek wrote:
-> On Mon 2019-10-14 15:36:04, Zahari Petkov wrote:
-> > OUTDRV setting (bit 2) of Mode register 2 has a default value of 1.
-> > During initialization when open-drain is used, instead of setting
-> > OUTDRV to 0, the driver keeps it as 1. OUTDRV setting is now correctly
-> > initialized to 0 when open-drain is used.
-> > 
-> > Additionally the BIT macro is used for improved readibility.
-> 
-> You change more than you describe in the changelog.
 
-You are indeed correct. I will provide a more detailed and precise description.
+--BWWlCdgt6QLN7tv3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
-> > +++ b/drivers/leds/leds-pca963x.c
-> > @@ -438,12 +438,12 @@ static int pca963x_probe(struct i2c_client *client,
-> >  						    PCA963X_MODE2);
-> >  		/* Configure output: open-drain or totem pole (push-pull) */
-> >  		if (pdata->outdrv == PCA963X_OPEN_DRAIN)
-> > -			mode2 |= 0x01;
-> > +			mode2 &= ~BIT(2);
-> 
-> | 0 -> & ~0x04;
-> 
-> >  		else
-> > -			mode2 |= 0x05;
-> > +			mode2 |= BIT(2);
-> 
-> | 5 -> | 0x04;
-> 
-> Are you sure?
+On Mon, Nov 18, 2019 at 08:57:57AM +0200, Matti Vaittinen wrote:
 
-Yes, I need to explain this better in the updated description.
+> +static int ramp_delay_supported(struct regulator_dev *rdev)
+> +{
+> +	switch (rdev->desc->id) {
+> +	case BD71828_BUCK1:
+> +	case BD71828_BUCK2:
+> +	case BD71828_BUCK6:
+> +	case BD71828_BUCK7:
+> +		return 1;
+> +	default:
+> +		break;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int bd71828_set_ramp_delay(struct regulator_dev *rdev, int ramp_delay)
+> +{
+> +	unsigned int val;
+> +
+> +	if (!ramp_delay_supported(rdev)) {
+> +		dev_err(&rdev->dev, "%s: can't set ramp-delay\n",
+> +			rdev->desc->name);
+> +		return -EINVAL;
 
-> 
-> Additionaly, we already have defines for bits in mode2 register:
-> 
-> #define PCA963X_MODE2_DMBLNK    0x20    /* Enable blinking */
-> 
-> So if you care about readability, perhaps you should add defines for
-> invert/ open drain there, and then use them?
-> 
-> Please keep using 0xab instead of BIT() for consistency with the rest
-> of the driver.
+Rather than doing this it's better to just not provide the operation for
+devices that don't support it, that makes the handling in the core
+easier.
 
-I will update the code to use new defines instead of BIT().
+--BWWlCdgt6QLN7tv3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks a lot!
-Zahari
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3SxM8ACgkQJNaLcl1U
+h9Aq0QgAgjb3+2lEoadTP4w8qi9OfeekF/Te3BOzBoRw/N3CEI0LRdBuZ0f+Co++
+QefQkzBXUOq8Pu7bNj+3h6eZiOVqwzPGej79fhswkmFiZGzPNHGJEegNAIQQm0Gt
+FxLz5qVqIfx2orOMrYbVMIYffkH3hHE5twc3PoUf6lTpyUoErQ1miskrOfiKdqe3
+WBlMS73mAzeN65q87QNESqie94xl+DxAY0caeTePuvbEA06Hgf6ZgHvv0uxb/38q
+7lI/AzRptAy7HJqHYy6onIRxd12cBoKYa8SsoOlghgepja3prAwDE0eQ0iXo260q
+kJTWfpuB6S3o/I5A6W0SUuKwiktIEw==
+=/GhS
+-----END PGP SIGNATURE-----
+
+--BWWlCdgt6QLN7tv3--
