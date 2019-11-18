@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1F981009C5
-	for <lists+linux-leds@lfdr.de>; Mon, 18 Nov 2019 17:54:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F3ED1009CB
+	for <lists+linux-leds@lfdr.de>; Mon, 18 Nov 2019 17:54:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726996AbfKRQyQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S1726976AbfKRQyQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Mon, 18 Nov 2019 11:54:16 -0500
-Received: from mail-qv1-f67.google.com ([209.85.219.67]:36905 "EHLO
-        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726927AbfKRQyN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 18 Nov 2019 11:54:13 -0500
-Received: by mail-qv1-f67.google.com with SMTP id s18so6840520qvr.4;
-        Mon, 18 Nov 2019 08:54:12 -0800 (PST)
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:36371 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726967AbfKRQyP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 18 Nov 2019 11:54:15 -0500
+Received: by mail-qt1-f195.google.com with SMTP id y10so20987682qto.3;
+        Mon, 18 Nov 2019 08:54:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Bzl4ozQZbAWup0mtLmVDbc1Re1nPSSw6fmpMaMlXCPM=;
-        b=EVemdcIpvjKz4v5TylJy/sya0B7xZUgakOgd4rWJvyY7zTaS8z4uRAcMZzpS09K5Wn
-         KqFxHgs7IsvYu14WYkVKrGrz+JjsIWWEfikkUb9y9wnUfnaUifPS0WaJRSkKoyjwDe+D
-         CRHWQ/cOvkIE+xAJzSkJP1CgpO2Js4ODGn13s4D3CCSrsKLWpoNmdHieMtdd/dszJAIk
-         vIQnBVU0di0t5IGxAV3OKliQ9nqjnFV0beXeWUximdkh5NrEQFHTqTu2r8AN24+EoQ6b
-         FO6M3gDVinguoTXzOhuCBlPrxvQfCtyO5SloxGYZefOC1pcBtFz4LD83BPdeDz6lGNPa
-         eIzw==
+        bh=H4ufcAjmGAp7yczEOXUlfsJjyH4uOivnQy6YSEvUqsg=;
+        b=QbziSNldeobqFF9OMXSmIQYGaJoHL/ePsUtm8eQyQmHHgsgZ68SKOMpvnRGTdR+BBW
+         7YjDtKR5MKKnHtD4bKu2Rk2Jah+hpYCIZ0A6NGDt9zi3x6/rqA+i1FEuwOsH929iuJEG
+         i8IPSS0uJYKJz1aUTFhxMz9P501+KwYF0PMYMhgppot6JSPr0JTeSfMdtB1ujQY9Mdo0
+         pOoH0gYW2dbUJma5kp3eVbn9c8Xsk0MAHzIBXbTJez+xWUaTFKE6WVbZF5dgbTIntg7u
+         qhbMU7u7LyKxLScliguO53bi7BpKKzQyPLef+oCJPlwtKrxKqVygS8h6H49VNje45tsK
+         jINA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Bzl4ozQZbAWup0mtLmVDbc1Re1nPSSw6fmpMaMlXCPM=;
-        b=KMboSy7+Gm4NM8gnYU4b/ICaCTM8O1ItP+cgm5FTurfZ6lSx5mtBwb0i/UhLHB+PEZ
-         reiQCWzQ9d9JDB5tWvUrnpftHBm54av3phMGRBxE7OQ92OoLidrAvVmHYLvWyjMvm0Hr
-         KwVJkRCzk5gKLSuhxJasXRLVbj6s8n7RZymosmhNzTlqpH5CEzJQCrQL7NqBJmlNRFY7
-         /8hd7+Voo2fnCDh4zd5RsV8tVfNAX40H3tYOy8ZPF7cOsVTA3f90VY8NO6lIEpEIwFGT
-         WJvHy1TOzTys7ILzx5A8UaC3Gt5t7X0PwLHA0fXTUNB6J8BslBbS4lEeU/Tb9C2Gy9ha
-         O0wQ==
-X-Gm-Message-State: APjAAAXLHmXpRLgLxdJCnKqBmk2UiqkFpp3VprjaYOGc8vdH2haWWNCI
-        fTYrvo4fgDRDJv/RESVzqK8=
-X-Google-Smtp-Source: APXvYqxfs9VcDHAluyh5fR3VU1omMORR75Mvu/hsXIqLXJke8sagJKEPkdpgdTjhcfbjtGhzUeijZQ==
-X-Received: by 2002:ad4:55f3:: with SMTP id bu19mr25350053qvb.95.1574096052289;
-        Mon, 18 Nov 2019 08:54:12 -0800 (PST)
+        bh=H4ufcAjmGAp7yczEOXUlfsJjyH4uOivnQy6YSEvUqsg=;
+        b=Iap3L3AJbuZZeT/RnIgijkkXI6WJF2/dQ7aOFNZl9lrAAkwdNENUS03e6nFlmHGjub
+         UtJ8UIjDJ/P+JAo6pPNVQgqThLsoRQFKTfsWfKBkGdpm4kaEz6ir95RRs2euP7RjktVG
+         8vctmnsY5FKWPKnACWFl+8mVF8RGOOHp2K0HIi2n673NYvex0qJm6qgREu77GUOA1jPr
+         14xjv5AFT1R5FFhk+R1jDq4EOPdzoQq9UGeGN1WxPrPX5WZ7JppYi44VhR8tAcUojcDu
+         MubFVJGfmSFXSkCrC4nDaasBVOBkfbzk9J0VP1aT6HyyZV58c0/35OF2ruMavP398dna
+         lA7w==
+X-Gm-Message-State: APjAAAXXoMh4FmQE9nEeZSVRUPL56qEQ0Wa5h7NFpbGbeGRx4HEOZ4j/
+        gDhKwqpjDK5wC9YrCJKcqLA=
+X-Google-Smtp-Source: APXvYqwuivbv+aucBKVlB/9FxFNP+IFXzVRozHzerseUT7JZI02d9QkrZCL2MJptvFgt1mF+o1K+pw==
+X-Received: by 2002:ac8:5282:: with SMTP id s2mr28276305qtn.362.1574096053594;
+        Mon, 18 Nov 2019 08:54:13 -0800 (PST)
 Received: from localhost.localdomain ([72.53.229.209])
-        by smtp.gmail.com with ESMTPSA id a3sm8634648qkf.76.2019.11.18.08.54.10
+        by smtp.gmail.com with ESMTPSA id a3sm8634648qkf.76.2019.11.18.08.54.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2019 08:54:11 -0800 (PST)
+        Mon, 18 Nov 2019 08:54:13 -0800 (PST)
 From:   Sven Van Asbroeck <thesven73@gmail.com>
 X-Google-Original-From: Sven Van Asbroeck <TheSven73@gmail.com>
 To:     Lee Jones <lee.jones@linaro.org>,
@@ -56,9 +56,9 @@ Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Mark Rutland <mark.rutland@arm.com>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-leds@vger.kernel.org
-Subject: [PATCH v1 2/4] regulator: tps6105x: add optional devicetree support
-Date:   Mon, 18 Nov 2019 11:53:58 -0500
-Message-Id: <20191118165400.21985-3-TheSven73@gmail.com>
+Subject: [PATCH v1 3/4] leds: tps6105x: add driver for mfd chip led mode
+Date:   Mon, 18 Nov 2019 11:53:59 -0500
+Message-Id: <20191118165400.21985-4-TheSven73@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191118165400.21985-1-TheSven73@gmail.com>
 References: <20191118165400.21985-1-TheSven73@gmail.com>
@@ -67,68 +67,146 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-If regulator init data is not specified in the parent mfd
-device's platform data, attempt to retrieve it from the
-devicetree node.
+This driver adds support for the led operational mode of the
+tps6105x mfd device.
 
-Example:
+Example usage, devicetree:
 
 i2c0 {
 	tps61052@33 {
-		compatible = "ti,tps61052";
-		reg = <0x33>;
+	compatible = "ti,tps61052";
+	reg = <0x33>;
 
-		regulator {
-			compatible = "ti,tps6105x-regulator";
-			regulator-min-microvolt = <5000000>;
-			regulator-max-microvolt = <5000000>;
-			regulator-always-on;
+		tps-led {
+			compatible = "ti,tps6105x-leds";
 		};
 	};
 };
 
+Example usage, platform data in machine layer:
+
+ #include <linux/mfd/tps6105x.h>
+
+ struct tps6105x_platform_data pdata = {
+         .mode = TPS6105X_MODE_TORCH,
+ };
+
 Tree: next-20191118
 Signed-off-by: Sven Van Asbroeck <TheSven73@gmail.com>
 ---
- drivers/regulator/tps6105x-regulator.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/leds/Kconfig         | 10 ++++++
+ drivers/leds/Makefile        |  1 +
+ drivers/leds/leds-tps6105x.c | 68 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 79 insertions(+)
+ create mode 100644 drivers/leds/leds-tps6105x.c
 
-diff --git a/drivers/regulator/tps6105x-regulator.c b/drivers/regulator/tps6105x-regulator.c
-index 06059a94f7c6..9bc4e869fc4c 100644
---- a/drivers/regulator/tps6105x-regulator.c
-+++ b/drivers/regulator/tps6105x-regulator.c
-@@ -18,6 +18,7 @@
- #include <linux/regulator/driver.h>
- #include <linux/mfd/core.h>
- #include <linux/mfd/tps6105x.h>
-+#include <linux/regulator/of_regulator.h>
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index 4b68520ac251..7c7ceaa824a2 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -836,6 +836,16 @@ config LEDS_LM36274
+ 	  Say Y to enable the LM36274 LED driver for TI LMU devices.
+ 	  This supports the LED device LM36274.
  
- static const unsigned int tps6105x_voltages[] = {
- 	4500000,
-@@ -58,6 +59,7 @@ static int tps6105x_regulator_probe(struct platform_device *pdev)
- {
- 	struct tps6105x *tps6105x = dev_get_platdata(&pdev->dev);
- 	struct tps6105x_platform_data *pdata = tps6105x->pdata;
-+	struct regulator_init_data *init_data = pdata->regulator_data;
- 	struct regulator_config config = { };
- 	int ret;
++config LEDS_TPS6105X
++	tristate "LED support for TI TPS6105X"
++	depends on LEDS_CLASS
++	depends on TPS6105X
++	default y if TPS6105X
++	help
++	  This driver supports TPS61050/TPS61052 led chips.
++	  It is a single boost converter primarily for white LEDs and
++	  audio amplifiers.
++
+ comment "LED Triggers"
+ source "drivers/leds/trigger/Kconfig"
  
-@@ -68,8 +70,14 @@ static int tps6105x_regulator_probe(struct platform_device *pdev)
- 		return 0;
- 	}
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index 2da39e896ce8..d7e1107753fb 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -85,6 +85,7 @@ obj-$(CONFIG_LEDS_LM3601X)		+= leds-lm3601x.o
+ obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
+ obj-$(CONFIG_LEDS_LM3697)		+= leds-lm3697.o
+ obj-$(CONFIG_LEDS_LM36274)		+= leds-lm36274.o
++obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
  
-+	if (!init_data)
-+		init_data = of_get_regulator_init_data(
-+					&pdev->dev, pdev->dev.of_node,
-+					&tps6105x_regulator_desc);
-+	if (!init_data)
+ # LED SPI Drivers
+ obj-$(CONFIG_LEDS_CR0014114)		+= leds-cr0014114.o
+diff --git a/drivers/leds/leds-tps6105x.c b/drivers/leds/leds-tps6105x.c
+new file mode 100644
+index 000000000000..c68fc5b180ed
+--- /dev/null
++++ b/drivers/leds/leds-tps6105x.c
+@@ -0,0 +1,68 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/leds.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/mfd/tps6105x.h>
++#include <linux/regmap.h>
++
++struct tps6105x_priv {
++	struct regmap *regmap;
++	struct led_classdev cdev;
++};
++
++static int tps6105x_brightness_set(struct led_classdev *cdev,
++				  enum led_brightness brightness)
++{
++	struct tps6105x_priv *priv = container_of(cdev, struct tps6105x_priv,
++							cdev);
++
++	return regmap_update_bits(priv->regmap, TPS6105X_REG_0,
++		TPS6105X_REG0_TORCHC_MASK,
++		brightness << TPS6105X_REG0_TORCHC_SHIFT);
++}
++
++static int tps6105x_led_probe(struct platform_device *pdev)
++{
++	struct tps6105x *tps6105x = dev_get_platdata(&pdev->dev);
++	struct tps6105x_platform_data *pdata = tps6105x->pdata;
++	struct device_node *np = pdev->dev.of_node;
++	struct tps6105x_priv *priv;
++	int ret;
++
++	/* This instance is not set for led mode so bail out */
++	if (pdata->mode != TPS6105X_MODE_TORCH) {
++		dev_info(&pdev->dev,
++			"chip not in torch mode, exit probe");
 +		return -EINVAL;
- 	config.dev = &tps6105x->client->dev;
--	config.init_data = pdata->regulator_data;
-+	config.init_data = init_data;
- 	config.driver_data = tps6105x;
- 	config.regmap = tps6105x->regmap;
- 
++	}
++
++	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++	priv->regmap = tps6105x->regmap;
++	priv->cdev.name = np ? np->name : "tps6105x";
++	priv->cdev.brightness_set_blocking = tps6105x_brightness_set;
++	priv->cdev.max_brightness = 7;
++
++	ret = regmap_update_bits(tps6105x->regmap, TPS6105X_REG_0,
++		TPS6105X_REG0_MODE_MASK | TPS6105X_REG0_TORCHC_MASK,
++		TPS6105X_REG0_MODE_TORCH << TPS6105X_REG0_MODE_SHIFT);
++	if (ret)
++		return ret;
++
++	return devm_led_classdev_register(&pdev->dev, &priv->cdev);
++}
++
++static struct platform_driver led_driver = {
++	.probe = tps6105x_led_probe,
++	.driver = {
++		.name = "tps6105x-leds",
++	},
++};
++
++module_platform_driver(led_driver);
++
++MODULE_DESCRIPTION("TPS6105x led driver");
++MODULE_AUTHOR("Sven Van Asbroeck <TheSven73@gmail.com>");
++MODULE_LICENSE("GPL v2");
 -- 
 2.17.1
 
