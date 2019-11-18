@@ -2,108 +2,114 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 554621002A4
-	for <lists+linux-leds@lfdr.de>; Mon, 18 Nov 2019 11:38:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E487910067E
+	for <lists+linux-leds@lfdr.de>; Mon, 18 Nov 2019 14:30:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726461AbfKRKib (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 18 Nov 2019 05:38:31 -0500
-Received: from mailgate1.rohmeurope.com ([178.15.145.194]:50812 "EHLO
-        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726460AbfKRKib (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 18 Nov 2019 05:38:31 -0500
-X-AuditID: c0a8fbf4-183ff70000001fa6-33-5dd274a5829f
-Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
-        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 93.B6.08102.5A472DD5; Mon, 18 Nov 2019 11:38:29 +0100 (CET)
-Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
- WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
- 14.03.0439.000; Mon, 18 Nov 2019 11:38:17 +0100
-From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To:     "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "info@metux.net" <info@metux.net>
-CC:     "dmurphy@ti.com" <dmurphy@ti.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-Subject: Re: [RFC PATCH 0/5] leds: Add DT node finding and parsing to core
-Thread-Topic: [RFC PATCH 0/5] leds: Add DT node finding and parsing to core
-Thread-Index: AQHVjlbfnKGQ2A80TEuw50r1eox3kqeQtb4AgAAVbAA=
-Date:   Mon, 18 Nov 2019 10:38:16 +0000
-Message-ID: <946f091e79242b9e71d5ce8ad12c899feefa22cd.camel@fi.rohmeurope.com>
-References: <cover.1572351774.git.matti.vaittinen@fi.rohmeurope.com>
-         <ed000cda-3138-3172-1b4c-586b5bfd8d72@metux.net>
-In-Reply-To: <ed000cda-3138-3172-1b4c-586b5bfd8d72@metux.net>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B15809EE67717246A3283AB86CCE6A6D@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
+        id S1726506AbfKRNaj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 18 Nov 2019 08:30:39 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:35598 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726284AbfKRNai (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 18 Nov 2019 08:30:38 -0500
+Received: by mail-lj1-f193.google.com with SMTP id r7so18952993ljg.2
+        for <linux-leds@vger.kernel.org>; Mon, 18 Nov 2019 05:30:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=balena-io.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=YWOzP2XTenM698y14EYphcgxccBzKsjNSQkaqSk5HjQ=;
+        b=BdbpqF1TbFIME6ic2c1pI6EjUkhk4ppM5wnWnOHASrhu6QWN0yAiKAQqfVdV3weoYh
+         E+aG/V9h8RMwNjWvpSMnTK6PxDijeP2bVNPw7ux32TyPwh+I9m4sjB5yb382aY6WgKzN
+         26dx0NQH7wNO+FqL+uAwkY4QrDtkJ2bSLGR5dakOnu4r0R3rAsFrYSkAeofZwyuNPZWl
+         RCZ5lVeFQ3xCWHB1fAF7FHrf1HP/BcfQpQkQlhT7ft1oB2mKCynstvvgTMItB0f7i7Tw
+         TsdjBIf/h82XprQdKawNYWAP8VNi8VQac5DlmkryiDbtFqdofGHHl1strZBZ2dyjM+pL
+         x21Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=YWOzP2XTenM698y14EYphcgxccBzKsjNSQkaqSk5HjQ=;
+        b=FuG8ON4j8TyWwfV8yYlKTJhx8TV5uHk78WudLrfZFtIpEpl+VVlCQpP89jwjZACRF1
+         D8Sr6CW9L6aVjGMzLLm9e2fgy8jdUfsy30Xr6xHK2FtLIfzQln2vZjQNWzT6+bNiXR5l
+         mWIoppZsRJtciYZDuNfRslztaOEtrddQZXfhkP/YNJ+wltH3WXG95PKRzeDzqIgMRtlC
+         raB9dw7EtupNtdgsHBYEokfFMC70DK3IFxtU5MSY/zQgE46OyQD6gofQ6l/r1H2UJNNo
+         61hiQBxH2MuxmFMQuj8C4KJ/VVuWG+nwECBBdkQsAEu+V4NexiuPJriUHta7c4NDMfKe
+         KW6w==
+X-Gm-Message-State: APjAAAXdv0XjN3Es11ve4UI0HRc1xrrJVTFm+8R8eU6EM+d/HCznvfN/
+        WjJKGKjWmog8M/8+xQZv416Udw==
+X-Google-Smtp-Source: APXvYqx36+Ke1sYW/+DT6yKCb3mUj+gLbyKBBNpr/SipSyf6mcjc99F7a5wEo45HZms0zbj/oF6VcQ==
+X-Received: by 2002:a2e:9ecf:: with SMTP id h15mr21341938ljk.173.1574083835375;
+        Mon, 18 Nov 2019 05:30:35 -0800 (PST)
+Received: from majorz.localdomain ([85.130.115.21])
+        by smtp.gmail.com with ESMTPSA id s4sm3077313lfd.34.2019.11.18.05.30.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2019 05:30:34 -0800 (PST)
+Date:   Mon, 18 Nov 2019 15:30:31 +0200
+From:   Zahari Petkov <zahari@balena.io>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Zahari Petkov <zahari@balena.io>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: pca963x: Fix open-drain initialization
+Message-ID: <20191118133031.GA90092@majorz.localdomain>
+References: <20191014123604.GA743117@majorz.localdomain>
+ <20191103170327.GA32107@duo.ucw.cz>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SaUgUYRjmm5nd/TwmPqet/VrLaiLCJLfCH0OnP5JWA8ssgmizMSdnSXdl
-        dg0ria2QUhczqLStLNJNs9ssjzJisxu2wy6JRewClwrpwEqy5msq/TXPPMf7vPC9kOYO6c3Q
-        7nBLikPM4/WRzPWGwQsz/O7Htpn1ZxKFo51BnVB+v1kndG+/QgkvL51nhK72w3rh0vuzQPA/
-        f0QJh/13GCF076ZeKOnoNCRHWk/XnAbWNl/IYG1qLNVbK/s/6K23X7RQ1oZTAwbr56a4ZYbV
-        UfOyRfemTHuuw7JgXZQculZDFVSPKxos2WHwgE5cBiIgRkm4y/OTLgORkENPAW5s22XQfu4A
-        fCywnSoDEOrRPFzWbSABI1qLPRe/6YiHRtU0/ljV/kcYjdJwaaiC1kxLcPuPyzTJGtEcXOOV
-        Cc2gqbi0sV5HMIvScd25Zzpi4VARrqg3EToCzccnaob0BAM0AZd6PlIE08iEm94N6LSdEa67
-        +oDW8Bjc93roL8/jju+9DBlJo3h8rt2iRZPx131BoOHJeF95r0HbIAbfPfiGqQRjfSMafMNp
-        34i0b0TaNyJ9DOgaAc4X7Xm5olualahIhYmKU85XP+ud+U1Ae+wvreBXIDUAKAgCYByk+DHs
-        xIWPbNyobGfOZll0yVlKYZ7kCgAMad7Ipr96aOPYHHHzFklx/pNiIcOb2Gm9e20cIl0bJalA
-        Uv6p4yHkMbtTeWzjYhQpVyraYM9zD8sUjCDDI81Gl+TIkRSx0C1nkevIcqnnQaRotZdzqXHW
-        VSDmq6wWvQcSYGXfkeM07DziP05zjMPpkMwmNjletSJilQsd/4vCwAQBP5p9QvaIVi/+/5yw
-        WkGpFQmtQVLhFoclswekb9tRm2Jdlfos9CTotS3flhTd9T4c7umJjVtztMSfs9+WKBenNadW
-        hrbqlkYvsfTuStotZOy9tcd4dor37Qd3ZpUlyK9cE14x+Wsglh1I+RYzCClzw+I9tzfaJ32K
-        z0iImD83bMlqqz6QbmpuKS/uWBS388bJlrTi2VVeb39teAvPuGRx1nRacYm/AVkuD5auAwAA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191103170327.GA32107@duo.ucw.cz>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGVsbG8gRW5yaWNvICYgQWxsLA0KDQpGaXJzdCBvZiBhbGwgLSB0aGFua3MgZm9yIHNob3dpbmcg
-dGhlIGludGVyZXN0IDpdIEkgYW0gaGFwcHkga25vd2luZw0Kc29tZW9uZSBhY3R1YWxseSB3YXMg
-aW50ZXJlc3RlZCBhYm91dCB0aGUgUkZDIDopDQoNCk9uIE1vbiwgMjAxOS0xMS0xOCBhdCAxMDoy
-MSArMDEwMCwgRW5yaWNvIFdlaWdlbHQsIG1ldHV4IElUIGNvbnN1bHQNCndyb3RlOg0KPiBIaSwN
-Cj4gDQo+IA0KPiA+IFRoZSB0aGluZyBpcyB0aGF0DQo+ID4gdGhpcyBhcHByb2FjaCByZXF1aXJl
-cyB0aGUgTEVEIGNvbnRyb2xsZXIgYmluZGluZyB0byBkaWN0YXRlDQo+ID4gYWxsb3dlZA0KPiA+
-IExFRCBub2RlIG5hbWVzIC0gd2hpY2ggbWF5IG9yIG1heSBub3QgYmUgZG9hYmxlLiBJIG5lZWQg
-eW91ciBoZWxwDQo+ID4gdG8NCj4gPiBldmFsdWF0ZSB0aGlzIGFuZCBzdWdnZXN0IGJldHRlciBv
-cHRpb25zIDopDQo+IA0KPiBldmVuIHRob3VnaCBJIGxpa2UgdGhlIGlkZWEgb2YgY29udmVudGlv
-bi1vdmVyLWNvZGUsIGJ1dCBpZiB0aGF0J3MNCj4gY2hhbmdpbmcgYWxsb3dlZCBMRUQgbmFtZXMg
-dGhhdCB3b3VsZCByaXNrIGJyZWFraW5nIHRoaW5ncywgZWc6DQo+IA0KPiBhKSBleGlzdGluZyBE
-VCdzIChpbiB0aGUgZmllbGQpIGJlY29tZSBpbmNvbXBhdGlibGUgd2l0aCBuZXdlcg0KPiAgICBr
-ZXJuZWwgdmVyc2lvbnMNCg0KVGhpcyB3YXMgbXkgbWFpbiBjb25jZXJuLiBUaGlzIG9mIGNvdXJz
-ZSB3b3VsZCBub3QgbWVhbiB0aGF0IHdlIGNvdWxkDQpub3QgdGFrZSB0aGlzIGFwcHJvYWNoIGZv
-ciBuZXcgTEVEIGNvbnRyb2xsZXIgZHJpdmVycyAtIGJ1dCB0aGF0IHdvdWxkDQoocHJvYmFibHkp
-IGxlYWQgdG8gZHVhbCBsZWQgcmVnaXN0cmF0aW9uIGludGVyZmFjZSAtIG9uZSBmb3IgY3VycmVu
-dA0KYXBwcm9hY2ggd2hlcmUgTEVEIGRyaXZlcnMgZG8gYWxsIHRoZSBkaXJ0eSB3b3JrIHRoZW1z
-ZWxmIC0gYW5kIHBhcnNlDQp0aGUgRFQgLSBvbmUgZm9yIG5ldyBkcml2ZXJzIHdoaWNoIGNvdWxk
-IGxlYXZlIERUIHBhcnNpbmcgdG8gTEVEIGNvcmUuDQoNCj4gYikgZXhpc3RpbmcgdXNlcmxhbmRz
-IHRoYXQgcmVseSBvbiBzcGVpY2lmaWMgTEVEIG5hbWVzIGJlY29tZQ0KPiAgICBpbmNvbWF0aWJs
-ZSB3aXRoIG5ld2VyIGtlcm5lbCB2ZXJzaW9ucy4NCg0KSSBkaWRuJ3QgZXZlbiB0aGluayB0aGlz
-IGZhciwgYnV0IHllcywgSSBzZWUuLi4gTEVEIG5vZGUgbmFtZSBtaWdodCBiZQ0KcmVmbGVjdGVk
-IGluIHVzZXItc3BhY2UgTEVEIG5hbWUuIEkgd29uJ3Qgc3RhcnQgYXJndWluZyBpZiB0aGlzIGlz
-IHNhbmUNCm9yIG5vdCAtIHRoaXMgaXMgd2hhdCB3ZSBzZWVtIHRvIGJlIGxpdmluZyB3aXRoIHRv
-ZGF5IDopDQoNCkFueXdheXMsIEkgZGlkIHNlbmQgb3V0IGEgTEVEIGNvcmUgY2hhbmdlIHBhdGNo
-IHdoaWNoIGFsbG93cyBvbmUgdG8gYWRkDQplaXRoZXIgdGhlIG5vZGUtbmFtZSwgb3IgYSBwcm9w
-ZXJ0eS12YWx1ZSBwYWlyIGluIGluaXRfZGF0YS4gTEVEIGNvcmUNCmNhbiB0aGVuIHVzZSBlaXRo
-ZXIgb2YgdGhlc2UgdG8gZG8gTEVEIG5vZGUgbG9va3VwLiBJZiBub25lIG9mIHRoZXNlIGlzDQpn
-aXZlbiwgdGhlbiB3ZSBjYW4gZmFsbC1iYWNrIHRvIGV4aXN0aW5nIGxvZ2ljLiBUaGF0IHdheSB3
-ZSB3b24ndA0KY2hhbmdlIGV4aXN0aW5nIHN0dWZmLg0KSGVyZToNCmh0dHBzOi8vbG9yZS5rZXJu
-ZWwub3JnL2xrbWwvMjU4YjVjOTkzNGUyYjMxYTVmNDMzYTdkYmI5MDhkZmU1ZGEzZDMwYy4xNTc0
-MDU5NjI1LmdpdC5tYXR0aS52YWl0dGluZW5AZmkucm9obWV1cm9wZS5jb20vVC8jdQ0KDQoNCkkg
-ZGlkbid0IGludmVzdCB0b28gbXVjaCBvZiB0aW1lIG9uIHRoaXMgeWV0IC0gYnV0IGF0IGZpcnN0
-IGdsaW1wc2UgaXQNCnNlZW1lZCB0aGF0IGF0IGxlYXN0IHNvbWUgb2YgdGhlIGRyaXZlcnMgZGlk
-IHVzZSByZWcgLSBwcm9wZXJ0eSB3aXRoDQpmaXhlZCB2YWx1ZSB0byBkbyB0aGUgbWF0Y2hpbmcu
-IFRob3NlIGNvdWxkIHNldCB0aGUgcHJvcGVydHkgbmFtZSB0bw0KJ3JlZycgYW5kIHZhbHVlIHRv
-ICdYJyBhbmQgbGVhdmUgdGhlIERUIG5vZGUgbG9va3VwIGFuZCBjb21tb24gcHJvcGVydHkNCnBh
-cnNpbmcgdG8gdGhlIExFRCBjb3JlLiBJZiBteSBwYXRjaCB3b24ndCBnZXQgdG9vIGJpZyBvYmpl
-Y3Rpb24gKGFuZA0KaWYgbm8gZmF0YWwgZmxhd3MgYXJlIGZvdW5kIGZyb20gdGhlIGlkZWEpIC0g
-dGhlbiBJIG1pZ2h0IHRyeSBhbmQgZmluZA0KdGhlIHRpbWUgdG8gZG8gc29tZSBmb2xsb3ctdXAg
-cGF0Y2hlcyBzaW1wbGlmeWluZyBleGlzdGluZyBMRUQNCmRyaXZlcnMuLi4NCg0KPiANCj4gDQo+
-IA0KPiAtLW10eA0KPiANCg0K
+On Mon, Nov 04, 2019 at 10:09:53AM +0100, Pavel Machek wrote:
+> On Mon 2019-10-14 15:36:04, Zahari Petkov wrote:
+> > OUTDRV setting (bit 2) of Mode register 2 has a default value of 1.
+> > During initialization when open-drain is used, instead of setting
+> > OUTDRV to 0, the driver keeps it as 1. OUTDRV setting is now correctly
+> > initialized to 0 when open-drain is used.
+> > 
+> > Additionally the BIT macro is used for improved readibility.
+> 
+> You change more than you describe in the changelog.
+
+You are indeed correct. I will provide a more detailed and precise description.
+
+> 
+> > +++ b/drivers/leds/leds-pca963x.c
+> > @@ -438,12 +438,12 @@ static int pca963x_probe(struct i2c_client *client,
+> >  						    PCA963X_MODE2);
+> >  		/* Configure output: open-drain or totem pole (push-pull) */
+> >  		if (pdata->outdrv == PCA963X_OPEN_DRAIN)
+> > -			mode2 |= 0x01;
+> > +			mode2 &= ~BIT(2);
+> 
+> | 0 -> & ~0x04;
+> 
+> >  		else
+> > -			mode2 |= 0x05;
+> > +			mode2 |= BIT(2);
+> 
+> | 5 -> | 0x04;
+> 
+> Are you sure?
+
+Yes, I need to explain this better in the updated description.
+
+> 
+> Additionaly, we already have defines for bits in mode2 register:
+> 
+> #define PCA963X_MODE2_DMBLNK    0x20    /* Enable blinking */
+> 
+> So if you care about readability, perhaps you should add defines for
+> invert/ open drain there, and then use them?
+> 
+> Please keep using 0xab instead of BIT() for consistency with the rest
+> of the driver.
+
+I will update the code to use new defines instead of BIT().
+
+Thanks a lot!
+Zahari
