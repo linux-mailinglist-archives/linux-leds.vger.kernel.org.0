@@ -2,52 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16495102C31
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Nov 2019 19:59:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2AFD102C49
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Nov 2019 20:03:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727465AbfKSS7T (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 19 Nov 2019 13:59:19 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:37766 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727234AbfKSS7T (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Nov 2019 13:59:19 -0500
-Received: by mail-oi1-f194.google.com with SMTP id y194so20016745oie.4;
-        Tue, 19 Nov 2019 10:59:18 -0800 (PST)
+        id S1727234AbfKSTDR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 19 Nov 2019 14:03:17 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:35324 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726792AbfKSTDR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Nov 2019 14:03:17 -0500
+Received: by mail-oi1-f193.google.com with SMTP id n16so20021748oig.2;
+        Tue, 19 Nov 2019 11:03:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AAhDbZ6Zz0yul7MskfO2m0vwcTbPZ1IfTgcrN95xsWA=;
-        b=DIoAmoO6a/8GNgtSyrGZxE4xsfk7q6jmDXBCVv9KVpOc5DOSQJuLRcd5uuhdduWjPN
-         qVp8Z4ziaFwYOo/4+UMP/FgqMLstBBV+MMe734lP9C3GWC0ZTlTfkxCvt8/4QkVw/gKb
-         Otq9h70uuyI8UUaZjhGKCjw2CgI4IdtQFxoBp+/SETpsURXXU0fpL43Ls3EX2ud1zgCx
-         jfo3wXo1Dg7aXE8Ey1fxEKhr+DhOqw74zYKaamsvLmxjPOsljJDqkNGQD8mFLLh7b/W1
-         YCgENQwq2zWaVfwFvHu3DoH+VH12epIU7eMXWi4qKg0aW15kQ6AgWdVYcEA5XaKPy9WD
-         Y8KA==
+        bh=wXfDYTOYMqxNSpe9ShF/iZIMn4Wb6p7KkNxA2R5RQwU=;
+        b=Zvvx/rJ9MxiVOdMlUkbqBGIIhXOR1HhCmOoGKH39Dg7nS0DPzhnL0gwndhkeuYe5TH
+         9z5boAkb9qe38AMjQWFsuGZsAtgtqwzElNKiHbIL2xSuDtktC9jhmymsLLPQUg04ls0H
+         i4PovOsqRvq6f3M0dApqd3dfiHM/ppwcd2ioLEiWj8iWJ+n6zOx+jFDtwDMSstVVVlWI
+         h3KBs/ztlRvmH07tThqDlPWcxmmZrGx5kdThrFcwqKCzu4x8An4huMSE2SWTDDRtSVm9
+         BLTys7os2z4Sm1ZeMt02D2r0R1RSg9sD41zzY4HfjFMx+jxSaFf5hfBpV4SlB2cVP4hF
+         zJSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AAhDbZ6Zz0yul7MskfO2m0vwcTbPZ1IfTgcrN95xsWA=;
-        b=hMv7wq2EstLlczanBDBPayOqInj+CqXi2Wo518ImBI31I+Ws218HOHsehmyi3QJ7b2
-         1gjcZBS2taL/mEiJzec3RnyOYM9veY+ySt9FXrHBg+BGWzI5XzKJGJuQ5qujRAr8y5ss
-         0mYsY+UGQFf6gw2+n4uFzrkqM0/uvQ4fBD74eIG3jKzF/DSKASoiZ9QGKKBnsvv26Wng
-         uRyRDgADRLjkqoYYJPU3mRHLKXkqWxUTKzIeTFCdU8Wge3dMGxZV6sdDwapalQkH9/FA
-         g/OF95/km2ylTv4O5Yp1cZme0RDxFdZxwd4CM4O0joEziXa8qDmD0lrH6ZudsmXf6jqM
-         ib3A==
-X-Gm-Message-State: APjAAAVDvOcwkPk1qO4AsQdMOZ1TpPZaCFEMyaXHuBgm+N3SojQnGbZf
-        5FxYVafrci1U0QEGVEqovFu4MYmkF5htb5ryeL7TKgQK
-X-Google-Smtp-Source: APXvYqyQk5ZspxULq8wEjAvp5StBQQc8yqAiLsdSNBQSvUPNK0wlff+EMcmiS2CFEkD7ZUjXHDwA3PJdTUUjXkE91+U=
-X-Received: by 2002:a05:6808:3a1:: with SMTP id n1mr5328316oie.86.1574189958033;
- Tue, 19 Nov 2019 10:59:18 -0800 (PST)
+        bh=wXfDYTOYMqxNSpe9ShF/iZIMn4Wb6p7KkNxA2R5RQwU=;
+        b=I4etHjq9QBK5zlNUpArwiq34CFb6OUZFsmPwREuqciUPBt+GDI5j/4dyh8nrITDGHz
+         CB5uRfR3t/itnRlNhl83SviSuDv/Cu8rnVadrM0aYYWpyU7l/2JdFRestE9nnr9WU1Ew
+         72HvbAZZlk2eO4vknT1RjtPxMbk2XqjFPdaR9fGDW0Ypk2rwFBBz5v7+v1Z3KRTO3RHh
+         hL+0tRpAGocB9xFjCle0nwb3oeFnDI6Q1HOxewBiqdCugG9Knl36jcD+uEKRLl9OT1NW
+         NYj0ULuCl2MRFXkhs1Kz2dAty0g1JAJ9E+xdUDfZIjpysF22yAcr+HgIcbhe5o/Dbr/C
+         7hGg==
+X-Gm-Message-State: APjAAAVJNcUBhbCyyc5qbLl2AwtD2+yCvC0EH5iDgBCXgAEOrVfRQOJr
+        wAZhNXMKqalgQ4TQfwQKnizRHcdG06eadItrjZU=
+X-Google-Smtp-Source: APXvYqxQpUyGPS20zqAN957YPcUcZIpAqBiiTguvho0DCLnTHPnY/6KGVcgACFdT7eIji8LYFYjh3r3sVU7eNJpn1FA=
+X-Received: by 2002:aca:4c57:: with SMTP id z84mr5335978oia.92.1574190196370;
+ Tue, 19 Nov 2019 11:03:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20191119154611.29625-1-TheSven73@gmail.com> <20191119154611.29625-4-TheSven73@gmail.com>
- <23217b5b-90f4-748a-c008-9ae7ef82c6dd@ti.com>
-In-Reply-To: <23217b5b-90f4-748a-c008-9ae7ef82c6dd@ti.com>
+References: <20191119154611.29625-1-TheSven73@gmail.com> <20191119154611.29625-5-TheSven73@gmail.com>
+ <a37d098e-12ea-af2e-22cd-cb5ec2856b6d@ti.com>
+In-Reply-To: <a37d098e-12ea-af2e-22cd-cb5ec2856b6d@ti.com>
 From:   Sven Van Asbroeck <thesven73@gmail.com>
-Date:   Tue, 19 Nov 2019 13:59:06 -0500
-Message-ID: <CAGngYiW6PMUwQnOMqFFdZ_9KZRE_K1Ue4q8LVGCLkawHUDjACg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] leds: tps6105x: add driver for mfd chip led mode
+Date:   Tue, 19 Nov 2019 14:03:05 -0500
+Message-ID: <CAGngYiU_8Obd6jKO9-fukK4K6hYYhFYVSjzxqVxVwwKeCmUkaw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] dt-bindings: mfd: update TI tps6105x chip bindings
 To:     Dan Murphy <dmurphy@ti.com>
 Cc:     Lee Jones <lee.jones@linaro.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
@@ -67,32 +67,26 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Nov 19, 2019 at 1:33 PM Dan Murphy <dmurphy@ti.com> wrote:
+On Tue, Nov 19, 2019 at 1:37 PM Dan Murphy <dmurphy@ti.com> wrote:
 >
-> How many LEDs does this device support?
+> > +
+> > +Example (GPIO + led operation):
+> What part of the example is GPIO? Is that the default function?
 
-Just a single LED.
+The gpio function is always available by default.
+The mfd driver always adds the gpio mfd_cell.
+But no-one has ever implemented a mfd sub-driver for gpio.
 
-> > +     struct device_node *led =
-> > +             of_get_child_by_name(dev->parent->of_node, "led");
-> Prefer device_* calls as opposed to of_* calls.
-
-So do I. But because of Mark Brown's suggestions, the mfd children
-now have to grab a named sub-node from their parent.
-In this case, we grab the parent subnode named 'led' and fetch
-the label from it.
-(https://lkml.org/lkml/2019/11/18/802)
-Perhaps there is a way to accomplish this this with device_*
-calls?
-
-> > +     label = pdata->led_label ?: label_from_dt(&pdev->dev);
+> > +
+> > +i2c0 {
+> > +     tps61052@33 {
+> > +             compatible = "ti,tps61052";
+> > +             reg = <0x33>;
+> > +
+> > +             led {
+> > +                     label = "tps-torch";
 >
-> Since this is a new driver do we really have to continue to use the
-> pdata for the init
->
-> data?  Can't we just get the label from the DT node now like other drivers?
+> function and color examples?
 
-Yes we can, but pdata users would not be able to specify the label name.
-Until this patch set, pdata was the only way to use the driver.
-Of course, no-one is requesting or requiring this. So I guess
-it can be dropped.
+No function, no colour. This is a simple led control with 8 intensity
+steps. We use it as a led torch on an industrial device.
