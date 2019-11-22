@@ -2,157 +2,254 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 803FB1079B8
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Nov 2019 22:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 801BC107AD2
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Nov 2019 23:48:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbfKVVFE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Nov 2019 16:05:04 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:32812 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726526AbfKVVFE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Nov 2019 16:05:04 -0500
-Received: by mail-wr1-f68.google.com with SMTP id w9so10298758wrr.0;
-        Fri, 22 Nov 2019 13:05:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QlSohMN+E+5oCBXKKFhS8HErVjiZgtw7VYrFplFk394=;
-        b=QDOjm0yBcJrfk1uCdDxmA+VsdjSLZf8wPf6ESO1AitC6WWPVn5+Y4z5+78XqoIQs8S
-         BASwUkLOf6KfmqxYVsw6tX8VdV2OZnqd1rTS9mD6laSi0KGgg8tAe0nxc716x/GUm4LU
-         d8bM4cHcF38c56Th6k87SdaBM67Lp3t2nqGzxb538a2kLZ5VgnVTvhcKPakEu8MQrsRb
-         m0Kf2YTaHV0mLVeZ3PwP8i29N/8K7lHGKIm6s2Vg644hyTpoSrFmSJjmqLhMktxobtZs
-         gTp9TBPrLO/8tgXU+EOF3jn5McUpcYivvjjooY9GpdFwPVNKfmjjFwEnjcwqn1WLE7z4
-         7MAw==
+        id S1726704AbfKVWsk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 22 Nov 2019 17:48:40 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:39657 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbfKVWsj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Nov 2019 17:48:39 -0500
+Received: by mail-oi1-f195.google.com with SMTP id v138so7975609oif.6;
+        Fri, 22 Nov 2019 14:48:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=QlSohMN+E+5oCBXKKFhS8HErVjiZgtw7VYrFplFk394=;
-        b=ppmLcpI30q250srpgPrHhvpFXQBYHtGPRpYeT8UTJ1+TyU78dNbNUJlvX8EMOyu8Dp
-         w1h2OlzJvwY3QwhgnP0l7iae5KRGXXhNqgudFby/Bi2YkEqAxZ8Tw2Z39I8dRw0qGxuk
-         Qv17+i14hRXo9g23+LCRqiIcyfeq0ImoOFsQcltPuMQevhIQpQIBGciTswdsOn+HqmID
-         Mlz7X7pVlFgKLqH/FzFaUm+/n21U1IjcbcGJq7GAQkJNRJ0DiWjelKV4sJKEH4XMabIh
-         EZnwGw7AwCn4luXunojl4wL/mdPx9rNszOTtkBgu7bci+v7m4RV6Q5VbBWEk+I6j7+3L
-         g7Cw==
-X-Gm-Message-State: APjAAAXJ4om27R/wcaILQUXTS0BK1Ue3Z3iZ27dBkTPEB2iE6gl2MDsE
-        Y7Ndt0uSFvhqBZKU0oR5vMRw5jwp
-X-Google-Smtp-Source: APXvYqxbU3ujKQU+EkTR/lvE6e8vj2u4KNkjhE6k8YnRDAKaQ98nAovjWaYjNDTig1y8Cok3pkXNzg==
-X-Received: by 2002:a5d:6542:: with SMTP id z2mr20278002wrv.371.1574456700952;
-        Fri, 22 Nov 2019 13:05:00 -0800 (PST)
-Received: from [192.168.1.19] (bfw48.neoplus.adsl.tpnet.pl. [83.28.60.48])
-        by smtp.gmail.com with ESMTPSA id q25sm9318832wra.3.2019.11.22.13.04.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Nov 2019 13:05:00 -0800 (PST)
-Subject: Re: [PATCH v4 0/2] tps6105x add devicetree and leds support
-To:     Sven Van Asbroeck <thesven73@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-leds@vger.kernel.org
-References: <20191121142726.22856-1-TheSven73@gmail.com>
- <4b64bc1d-681d-8916-7247-a9536afc00c6@gmail.com>
- <CAGngYiXtHC7Ez2c1wXSx13jTcaq+vW69FpNokZYvk7vqt6FmpA@mail.gmail.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
- xsFNBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
- eWFBS8XtApKQx1xAs1j5z70k3zebk2eeNs5ahxi6vM4Qh89vBM46biSKeeX5fLcv7asmGb/a
- FnHPAfQaKFyG/Bj9V+//ef67hpjJWR3s74C6LZCFLcbZM0z/wTH+baA5Jwcnqr4h/ygosvhP
- X3gkRzJLSFYekmEv+WHieeKXLrJdsUPUvPJTZtvi3ELUxHNOZwX2oRJStWpmL2QGMwPokRNQ
- 29GvnueQdQrIl2ylhul6TSrClMrKZqOajDFng7TLgvNfyVZE8WQwmrkTrdzBLfu3kScjE14Q
- Volq8OtQpTsw5570D4plVKh2ahlhrwXdneSot0STk9Dh1grEB/Jfw8dknvqkdjALUrrM45eF
- FM4FSMxIlNV8WxueHDss9vXRbCUxzGw37Ck9JWYo0EpcpcvwPf33yntYCbnt+RQRjv7vy3w5
- osVwRR4hpbL/fWt1AnZ+RvbP4kYSptOCPQ+Pp1tCw16BOaPjtlqSTcrlD2fo2IbaB5D21SUa
- IsdZ/XkD+V2S9jCrN1yyK2iKgxtDoUkWiqlfRgH2Ep1tZtb4NLF/S0oCr7rNLO7WbqLZQh1q
- ShfZR16h7YW//1/NFwnyCVaG1CP/L/io719dPWgEd/sVSKT2TwARAQABzS1KYWNlayBBbmFz
- emV3c2tpIDxqYWNlay5hbmFzemV3c2tpQGdtYWlsLmNvbT7Cwa8EEwEIAEICGwMHCwkIBwMC
- AQYVCAIJCgsDFgIBAh4BAheABQkJZgNMFiEEvx38ClaPBfeVdXCQvWpQHLeLfCYFAl05/9sC
- GQEAIQkQvWpQHLeLfCYWIQS/HfwKVo8F95V1cJC9alAct4t8JqsxD/0U39aol03a1/rGQ/RE
- XJLh+3SxPTjOQ4IV84zGzyZn4pmgxT5fdr58SmkMvvGBEWkfIZoR6XuVKLV6q3OypnkmIdsN
- LUe3UbxO0BNvyryJ3ryp5J5baZ/NotD3w08QsZ9RcWhSpRCQbnPan3ZSsYXgy6PW84hb3enC
- 8Ti4Ok2yX6OuLAeiYu2MhShm0hGMZ9lELJRAjS+LktjNcJ5u7MCMYPsmHZgCnt8Mau/epOry
- xf4NQngf/4jw+Iv6NcqQR6mmoiGUEkmXhZyCCAy7dza6WNgO6pFiCG17fcFfII8Chx87b+w3
- 7IlFRNW5EWU7FSTiyvP9bxJAPA4DC0pXtPN3IXX+M4YHFbBLXcSMxvi7dfA8zNw+URA10irP
- vo0WYn33FgS+CQCYWZGKjG4FNG/wWzVzWNDTRZYnm97OpjqVxx0Oug9qVdZ4XN8+MiEptXcs
- BhOWq/Qi3vkZb37RMGE+p1MzXkOsJVcHtR6ztScPkUG1bB7BOfCv5y7y17jj1UMzM3Yj5r1g
- onWzq5mbOHkee4qfq0B8bJCHwy6NI4yVms0etGwiwtc6N4ZVrzhCT/Bq0Rw6jJDt35hpWixT
- Q4JmXQaV29sanXPa7xx3Y38cnt0CAWFDt20ZeZ1em3ZYpC9O9BeEisJZVASs1hsNkMPZXRNm
- 2U8Fpk/h+RQOS8f5LM4zBFsKioYWCSsGAQQB2kcPAQEHQFCKEG5pCgebryz66pTa9eAo+r8y
- TkMEEnG8UR5oWFt3wsIbBBgBCAAgFiEEvx38ClaPBfeVdXCQvWpQHLeLfCYFAlsKioYCGwIA
- rwkQvWpQHLeLfCaNIAQZFggAHRYhBBTDHErITmX+em3wBGIQbFEb9KXbBQJbCoqGACEJEGIQ
- bFEb9KXbFiEEFMMcSshOZf56bfAEYhBsURv0pdvELgD/U+y3/hsz0bIjMQJY0LLxM/rFY9Vz
- 1L43+lQHXjL3MPsA/1lNm5sailsY7aFBVJxAzTa8ZAGWBdVaGo6KCvimDB8GFiEEvx38ClaP
- BfeVdXCQvWpQHLeLfCbuOg/+PH6gY6Z1GiCzuYb/8f7D0NOcF8+md+R6KKiQZij/6G5Y7lXQ
- Bz21Opl4Vz/+39i5gmfBa9LRHH4ovR9Pd6H0FCjju4XjIOJkiJYs2HgCCm6nUxRJWzPgyMPS
- VbqCG2ctwaUiChUdbS+09bWb2MBNjIlI4b8wLWIOtxhyn25Vifm0p+QR5A2ym4bqJJ9LSre1
- qM8qdPWcnExPFU4PZFYQgZ9pX1Jyui73ZUP94L7/wg1GyJZL3ePeE4ogBXldE0g0Wq3ORqA9
- gA/yvrCSyNKOHTV9JMGnnPGN+wjBYMPMOuqDPC/zcK+stdFXc6UbUM1QNgDnaomvjuloflAx
- aYdblM26gFfypvpFb8czcPM+BP6X6vWk+Mw9+8vW3tyK9lSg+43OjIWlBGPpO9aLZsYYxAqv
- J5iSxcbbOLb5q8wWct6U7EZ1RnuOfVInoBttrlYvdWtcI/5NQTptkuB/DyRhrxBJc/fKzJ4w
- jS2ikcWe0FnxrQpcE2yqoUIFaZMdd/Cx9bRWAGZG087t5dUHJuMnVVcpHZFnHBKr8ag1eH/K
- tFdDFtyln5A/f9O22xsV0pyJni7e2z7lTBitrQFG69vnVGJlHbBE2dR4GddZqAlVOUbtEcE7
- /aMk4TrCtx0IyOzQiLA81aaJWhkD3fRO8cDlR4YQ3F0aqjYy8x1EnnhhohHOwU0EVaN9oQEQ
- AMPNymBNoCWc13U6qOztXrIKBVsLGZXq/yOaR2n7gFbFACD0TU7XuH2UcnwvNR+uQFwSrRqa
- EczX2V6iIy2CITXKg5Yvg12yn09gTmafuoIyKoU16XvC3aZQQ2Bn3LO2sRP0j/NuMD9GlO37
- pHCVRpI2DPxFE39TMm1PLbHnDG8+lZql+dpNwWw8dDaRgyXx2Le542CcTBT52VCeeWDtqd2M
- wOr4LioYlfGfAqmwcwucBdTEBUxklQaOR3VbJQx6ntI2oDOBlNGvjnVDzZe+iREd5l40l+Oj
- TaiWvBGXkv6OI+wx5TFPp+BM6ATU+6UzFRTUWbj+LqVA/JMqYHQp04Y4H5GtjbHCa8abRvBw
- IKEvpwTyWZlfXPtp8gRlNmxYn6gQlTyEZAWodXwE7CE+KxNnq7bPHeLvrSn8bLNK682PoTGr
- 0Y00bguYLfyvEwuDYek1/h9YSXtHaCR3CEj4LU1B561G1j7FVaeYbX9bKBAoy/GxAW8J5O1n
- mmw7FnkSHuwO/QDe0COoO0QZ620Cf9IBWYHW4m2M2yh5981lUaiMcNM2kPgsJFYloFo2XGn6
- lWU9BrWjEoNDhHZtF+yaPEuwjZo6x/3E2Tu3E5Jj0VpVcE9U1Zq/fquDY79l2RJn5ENogOs5
- +Pi0GjVpEYQVWfm0PTCxNPOzOzGR4QB3BNFvABEBAAHCwWUEGAEIAA8FAlWjfaECGwwFCQlm
- AYAACgkQvWpQHLeLfCZqGxAAlWBWVvjU6xj70GwengiqYZwmW1i8gfS4TNibQT/KRq0zkBnE
- wgKwXRbVoW38pYVuGa5x/JDQMJDrLAJ0wrCOS3XxbSHCWOl/k2ZD9OaxUeXq6N+OmGTzfrYv
- PUvWS1Hy04q9AD1dIaMNruZQmvnRfkOk2UDncDIg0166/NTHiYI09H5mpWGpHn/2aT6dmpVw
- uoM9/rHlF5s5qAAo95tZ0QW2BtIceG9/rbYlL57waSMPF49awvwLQX5RhWoF8mPS5LsBrXXK
- hmizIsn40tLbi2RtWjzDWgZYitqmmqijeCnDvISN4qJ/nCLO4DjiSGs59w5HR+l0nwePDhOC
- A4RYZqS1e2Clx1VSkDXFpL3egabcIsqK7CZ6a21r8lXVpo4RnMlQsmXZTnRx4SajFvX7PrRg
- /02C811fLfh2r5O5if8sKQ6BKKlHpuuioqfj/w9z3B0aQ71e4n1zNJBO1kcdznikPLAbr7jG
- gkBUXT1yJiwpTfRQr5y2Uo12IJsKxohnNFVYtK8X/R6S0deKPjrZWvAkllgIPcHjMi2Va8yw
- KTj/JgcpUO5KN906Pf7ywZISe7Kbcc/qnE0YjPPSqFOvoeZvHe6EZCMW9+xZsaipvlqpByQV
- UHnVg09K9YFvjUBsBPdC8ef6YwgfR9o6AnPmxl0oMUIXkCCC5c99fzJY/k8=
-Message-ID: <957d06d2-90d6-6a19-87ab-9cce7d03543d@gmail.com>
-Date:   Fri, 22 Nov 2019 22:04:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rN+xXlHiqtwE2I732mBe4YEtOdoVVWt0shahQQ1i45E=;
+        b=nvP07f099V0+hP3fXH6zVK/mOSKBBJLgfTadVnJlsiBeRbjosOOjaer8+pYZRm+SDc
+         ZBjiNvpSpUGTlZko4lxD9FrthGYTpkvxvWG72WQA39j3bWTmtA0nrAZ0HWW1e/0VYCuP
+         PviO7EQBT7iB4j7qG5h9ACEk0zCB5skMa0km1clbsrHFU+N2t16N9Z0QYK1WXis4T+s1
+         eJO0YCsvKkxDw9DAfmW50JGhwdoFU0LydaMOraR+XWzJPULs6DJh9iq23qVAeldNLTbs
+         YNaT8fcKZ1UQFMYWcti4Ig0m3Vj5j7DpY2d1vC9rRkOIbYAwgAIc7kABfz6nE4Ou417p
+         aFow==
+X-Gm-Message-State: APjAAAUma2TtgRmMWjQ2OP46EPkekrT9BpbeReldV1eX9uMiZlyWiuaS
+        S/t3VvHOTLCKRFr4ykdnog==
+X-Google-Smtp-Source: APXvYqwqXhlYdVOA8XmvWt0YO3nV0XXcoxh6FqvqjrFA1/yoNOu5VtpLAI7i/HQFdZ5mkGPvM/Umjw==
+X-Received: by 2002:aca:b10a:: with SMTP id a10mr14438745oif.26.1574462918016;
+        Fri, 22 Nov 2019 14:48:38 -0800 (PST)
+Received: from localhost ([2607:fb90:bde:716a:c9ec:246b:67b7:9768])
+        by smtp.gmail.com with ESMTPSA id 4sm2676245otc.77.2019.11.22.14.48.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2019 14:48:36 -0800 (PST)
+Date:   Fri, 22 Nov 2019 16:48:34 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc:     mazziesaccount@gmail.com, Lee Jones <lee.jones@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Nicholas Mc Guire <hofrat@osadl.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
+ regulator bindings
+Message-ID: <20191122224834.GA9158@bogus>
+References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+ <d29e0eb587b764f3ea77647392e45fac67bbd757.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-In-Reply-To: <CAGngYiXtHC7Ez2c1wXSx13jTcaq+vW69FpNokZYvk7vqt6FmpA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d29e0eb587b764f3ea77647392e45fac67bbd757.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 11/22/19 2:36 PM, Sven Van Asbroeck wrote:
-> On Thu, Nov 21, 2019 at 1:20 PM Jacek Anaszewski
-> <jacek.anaszewski@gmail.com> wrote:
->>
->> For both patches:
->>
->> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+On Mon, Nov 18, 2019 at 08:53:57AM +0200, Matti Vaittinen wrote:
+> Document ROHM BD71828 PMIC regulator device tree bindings.
 > 
-> Thank you Jacek. To get accepted in a maintainer tree, does this
-> patch need more acks/reviews?
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+> 
+> No changes from v4
+> 
+>  .../regulator/rohm,bd71828-regulator.yaml     | 122 ++++++++++++++++++
+>  1 file changed, 122 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml
+> new file mode 100644
+> index 000000000000..c23ec4d8584b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml
+> @@ -0,0 +1,122 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
 
-It should get ack from Pavel Machek since he now maintains LED tree.
+Please dual license new bindings:
 
-I'd say that it should be merged in one batch with the related change
-to the MFD driver, but this is to be agreed upon by Pavel and Lee, via
-which tree it will go.
+(GPL-2.0-only OR BSD-2-Clause)
 
-> Should I continue to include it in new patch set versions if it doesn't
-> change?
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/rohm,bd71828-regulator.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ROHM BD71828 Power Management Integrated Circuit regulators
+> +
+> +maintainers:
+> +  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> +
+> +description: |
+> +  This module is part of the ROHM BD71828 MFD device. For more details
+> +  see Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml.
+> +
+> +  The regulator controller is represented as a sub-node of the PMIC node
+> +  on the device tree.
+> +
+> +  Regulator nodes should be named to BUCK_<number> and LDO_<number>.
+> +  The valid names for BD71828 regulator nodes are
+> +  BUCK1, BUCK2, BUCK3, BUCK4, BUCK5, BUCK6, BUCK7
+> +  LDO1, LDO2, LDO3, LDO4, LDO5, LDO6, LDO7
+> +
+> +patternProperties:
+> +  "^LDO[1-7]$":
+> +    type: object
+> +    allOf:
+> +      - $ref: regulator.yaml#
+> +    description:
+> +      Properties for single LDO regulator.
+> +
+> +    properties:
+> +      #Is there a nice way to check the name is same as node name but lower case
 
-You can include it, and add my ack.
+Nope.
 
-However, you could remove also below lines, since you switched
-to using color DT property and a new LED registration API:
+Why not make the node names lower case? That's the preference though 
+the regulator binding is special.
 
--	init_data.devicename = "tps6105x";
--	init_data.default_label = ":torch";
+> +      regulator-name:
+> +        pattern: "^ldo[1-7]$"
+> +        description:
+> +          should be "ldo1", ..., "ldo7"
+> +
+> +  "^BUCK[1-7]$":
+> +    type: object
+> +    allOf:
+> +      - $ref: regulator.yaml#
+> +    description:
+> +      Properties for single BUCK regulator.
+> +
+> +    properties:
+> +      #Is there a nice way to check the name is same as node name but lower case
+> +      regulator-name:
+> +        pattern: "^buck[1-7]$"
+> +        description:
+> +          should be "buck1", ..., "buck7"
+> +
+> +      rohm,dvs-run-voltage:
+> +        allOf:
+> +          - $ref: "/schemas/types.yaml#/definitions/uint32"
+> +          - minimum: 0
+> +            maximum: 3300000
+> +        description:
+> +          PMIC default "RUN" state voltage in uV. See below table for
+> +          bucks which support this. 0 means disabled.
+> +
+> +      rohm,dvs-idle-voltage:
+> +        allOf:
+> +          - $ref: "/schemas/types.yaml#/definitions/uint32"
+> +          - minimum: 0
+> +            maximum: 3300000
+> +        description:
+> +          PMIC default "IDLE" state voltage in uV. See below table for
+> +          bucks which support this. 0 means disabled.
+> +
+> +      rohm,dvs-suspend-voltage:
+> +        allOf:
+> +          - $ref: "/schemas/types.yaml#/definitions/uint32"
+> +          - minimum: 0
+> +            maximum: 3300000
+> +        description:
+> +          PMIC default "SUSPEND" state voltage in uV. See below table for
+> +          bucks which support this. 0 means disabled.
+> +
+> +      rohm,dvs-lpsr-voltage:
+> +        allOf:
+> +          - $ref: "/schemas/types.yaml#/definitions/uint32"
+> +          - minimum: 0
+> +            maximum: 3300000
+> +        description:
+> +          PMIC default "LPSR" state voltage in uV. See below table for
+> +          bucks which support this. 0 means disabled.
+> +
+> +#Supported default DVS states:
+> +#buck		| run		| idle		| suspend	| lpsr
+> +#----------------------------------------------------------------------------
+> +#1, 2, 6, and 7	| supported	| supported	| 	supported (*)
+> +#----------------------------------------------------------------------------
+> +#3, 4, and 5	| 			supported (**)
+> +#----------------------------------------------------------------------------
+> +#(*)  LPSR and SUSPEND states use same voltage but both states have own enable /
+> +#     disable settings. Voltage 0 can be specified for a state to make regulator
+> +#     disabled on that state.
+> +#(**) All states use same voltage but have own enable / disable settings.
+> +#     Voltage 0 can be specified for a state to make regulator disabled on that
+> +#     state.
 
--- 
-Best regards,
-Jacek Anaszewski
+Would be nicer if indented to the same level.
+
+> +
+> +      rohm,dvs-runlvl-ctrl:
+> +        description: |
+> +          buck control is done based on run-level. Regulator is not
+> +          individually controllable. See ../mfd/rohm,bd71828-pmic.yaml for
+> +          how to specify run-level control mechanism. Only bucks 1, 2, 6
+> +          and 7 support this.
+> +        type: boolean
+> +
+> +      rohm,dvs-runlevel-microvolts:
+> +        minimum: 0
+> +        maximum: 2000000
+> +        maxItems: 4
+
+Mixing array and scalar constraints.
+
+maxItems: 4
+items:
+  minimum: 0
+  maximum: 2000000
+
+
+> +        description:
+> +          Array of voltages for run-levels. First value is for run-level 0,
+> +          second for run-level 1 etc. Microvolts.
+> +
+> +    required:
+> +      - regulator-name
+> +  additionalProperties: false
+> +additionalProperties: false
+> -- 
+> 2.21.0
+> 
+> 
+> -- 
+> Matti Vaittinen, Linux device drivers
+> ROHM Semiconductors, Finland SWDC
+> Kiviharjunlenkki 1E
+> 90220 OULU
+> FINLAND
+> 
+> ~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
+> Simon says - in Latin please.
+> ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
+> Thanks to Simon Glass for the translation =] 
