@@ -2,53 +2,24 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 747AF106712
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Nov 2019 08:31:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F447107346
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Nov 2019 14:32:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726500AbfKVHbl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Nov 2019 02:31:41 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:34029 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726018AbfKVHbk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Nov 2019 02:31:40 -0500
-Received: by mail-wr1-f66.google.com with SMTP id t2so7408329wrr.1
-        for <linux-leds@vger.kernel.org>; Thu, 21 Nov 2019 23:31:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=+sAO6BARi9nh6Xk/KHCfUyEO35XUSRjOifLynmlQiDE=;
-        b=HVx/6pO5h4567D8hjH/yuda0DHmEfrIy3KwJRAMUgQnJpMtEjiO10f0to3AgQi6jKl
-         uI0JNCNWfiVFi4+LjM/alLflRMt85ggNnISXKhfI6HgU4Oi/80HcceDAJbuBh4qSkmy/
-         tFuaiCt9IehZSDylgPocF/7oaHOUYEMpYcSoxESO/YPs30DcOo/yVHyfPELiXpX9+rbd
-         6xdEPygv9bp6lSzT51SDPt5A/xd87f+5k4mQPF0tHZbP0iZr91NoW/FsoiGdvqitBTk9
-         mgL4gacKXEOc5ihfnAqmpv1vriRoFJPIq/cYR6Ku07g9/ecSsN4DB7CR0mK7V/qPhyJp
-         +m8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=+sAO6BARi9nh6Xk/KHCfUyEO35XUSRjOifLynmlQiDE=;
-        b=SeRjedFU+//V96OmnrNQil2jEMyvGlO5ysF7H2oUp3JuGQ6PBoN/tAjMA93GORwfYH
-         VGq2OMhFdxNlpIjhbHlngYuovf+FJWA/vNoamFCS0mw+/8qOXTSwcPutqTJ5GWT08HV4
-         faKD9yd7tRtm1smS3xNUfQ9Iwh4vjFjWt/HwdOYfJwRoHxyA4RQkw7PuG6lWFUxKVidr
-         woaIXKVXqZryAJK82WO9UhXrIzIge5iUEwLWnSWJAqEuhy7vPMzEV5qUfT80CXoAnEmt
-         RwzAGD4YXIgwBqL6Oh7LBPx/3o33Bb3hmQPrrZn46ie4FH7R3Jt43NjZB9bvEqPze4oh
-         kR2Q==
-X-Gm-Message-State: APjAAAVKFWYu7noIFZn9d/SPEkI5ZH+5bWZz35wFo4AQUgireho1rnnS
-        r6/brqqT6S364VM1CKkKQD72zA==
-X-Google-Smtp-Source: APXvYqwmW0dHTIlMP+PqU32cRM7vod5yAs1/BX5jdgQJ3kTCd2Ik5H0UkoGKz7MJ00stV1bxRKW5Uw==
-X-Received: by 2002:a5d:558e:: with SMTP id i14mr15807519wrv.140.1574407898736;
-        Thu, 21 Nov 2019 23:31:38 -0800 (PST)
-Received: from dell ([2.27.35.135])
-        by smtp.gmail.com with ESMTPSA id w17sm6784989wrt.45.2019.11.21.23.31.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2019 23:31:38 -0800 (PST)
-Date:   Fri, 22 Nov 2019 07:31:24 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mark Brown <broonie@kernel.org>
+        id S1726747AbfKVNce (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 22 Nov 2019 08:32:34 -0500
+Received: from foss.arm.com ([217.140.110.172]:47614 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726633AbfKVNcd (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 22 Nov 2019 08:32:33 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA49731B;
+        Fri, 22 Nov 2019 05:32:32 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 617BF3F703;
+        Fri, 22 Nov 2019 05:32:32 -0800 (PST)
+Date:   Fri, 22 Nov 2019 13:32:30 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Lee Jones <lee.jones@linaro.org>
 Cc:     Sven Van Asbroeck <thesven73@gmail.com>,
         Axel Lin <axel.lin@ingics.com>, Dan Murphy <dmurphy@ti.com>,
         devicetree@vger.kernel.org, Grigoryev Denis <grigoryev@fastwel.ru>,
@@ -60,88 +31,65 @@ Cc:     Sven Van Asbroeck <thesven73@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>
 Subject: Re: Applied "tps6105x: add optional devicetree support" to the
  regulator tree
-Message-ID: <20191122073124.GA3296@dell>
+Message-ID: <20191122133230.GD6849@sirena.org.uk>
 References: <20191119154611.29625-2-TheSven73@gmail.com>
  <applied-20191119154611.29625-2-TheSven73@gmail.com>
+ <20191122073124.GA3296@dell>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Qrgsu6vtpU/OV/zm"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <applied-20191119154611.29625-2-TheSven73@gmail.com>
+In-Reply-To: <20191122073124.GA3296@dell>
+X-Cookie: sillema sillema nika su
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 20 Nov 2019, Mark Brown wrote:
 
-> The patch
-> 
->    tps6105x: add optional devicetree support
-> 
-> has been applied to the regulator tree at
-> 
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-5.5
-> 
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.  
-> 
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
-> 
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
-> 
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
-> 
-> Thanks,
-> Mark
-> 
-> From 62f7f3eca4c30064ab37b42d97cef4292d75fdd0 Mon Sep 17 00:00:00 2001
-> From: Sven Van Asbroeck <thesven73@gmail.com>
-> Date: Tue, 19 Nov 2019 10:46:08 -0500
-> Subject: [PATCH] tps6105x: add optional devicetree support
-> 
-> This driver currently requires platform data to specify the
-> operational mode and regulator init data (in case of regulator
-> mode).
-> 
-> Optionally specify the operational mode by looking at the name
-> of the devicetree child node.
-> 
-> Example: put chip in regulator mode:
-> 
-> i2c0 {
-> 	tps61052@33 {
-> 		compatible = "ti,tps61052";
-> 		reg = <0x33>;
-> 
-> 		regulator {
->                             regulator-min-microvolt = <5000000>;
->                             regulator-max-microvolt = <5000000>;
->                             regulator-always-on;
-> 		};
-> 	};
-> };
-> 
-> Tree: linux-next
-> Signed-off-by: Sven Van Asbroeck <TheSven73@gmail.com>
-> Link: https://lore.kernel.org/r/20191119154611.29625-2-TheSven73@gmail.com
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  drivers/mfd/tps6105x.c | 34 +++++++++++++++++++++++++++++++---
->  1 file changed, 31 insertions(+), 3 deletions(-)
+--Qrgsu6vtpU/OV/zm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-?
+On Fri, Nov 22, 2019 at 07:31:24AM +0000, Lee Jones wrote:
+> On Wed, 20 Nov 2019, Mark Brown wrote:
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> > Example: put chip in regulator mode:
+
+> > i2c0 {
+> > 	tps61052@33 {
+> > 		compatible =3D "ti,tps61052";
+> > 		reg =3D <0x33>;
+> >=20
+> > 		regulator {
+> >                             regulator-min-microvolt =3D <5000000>;
+> >                             regulator-max-microvolt =3D <5000000>;
+> >                             regulator-always-on;
+> > 		};
+> > 	};
+> > };
+
+> ?
+
+Sorry, I completely missed that this was adding a MFD file - the binding
+only mentioned regulator stuff and I clearly didn't look at the
+filename.  Do you want me to drop it?
+
+--Qrgsu6vtpU/OV/zm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3X420ACgkQJNaLcl1U
+h9A+dwf9F8AlkRemvtREyMZpewdCJ0ovvR/f76eStncNGq9odeCRfkw7R9l7SDZx
+gCd0WiEkEMecVYjARC8uYv6pJ/CyVDD0UvVp5ZmLc7cJRFgyKWzOfyIQoM+1BDwI
+nzPzQim+DdOmmjB+3/gxHQ4JAjBx9R9S+D/NwQGpLQdEQHhzrKDvLz3BY1mvLJCh
+1wBvAX2x/xnHwVkQ4wH4mmyQnvE2uWXeuv9kyv9b8iW/jREtFBrK9w/m8SyyVUjO
+8kInYGaOgmwHKX3PSzy+6tKNT8KpGPIdzLgUOji8JUxy0yK2cRfXPrQwzKGA3N1x
+ypeqE8aNQ6TS3kcHieEFIb3OVrD1Ag==
+=YBx2
+-----END PGP SIGNATURE-----
+
+--Qrgsu6vtpU/OV/zm--
