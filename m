@@ -2,77 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E557E108E6E
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Nov 2019 14:06:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6D45109063
+	for <lists+linux-leds@lfdr.de>; Mon, 25 Nov 2019 15:51:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727227AbfKYNGR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 25 Nov 2019 08:06:17 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:37210 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727026AbfKYNGR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 25 Nov 2019 08:06:17 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 740781C1FEA; Mon, 25 Nov 2019 14:06:14 +0100 (CET)
-Date:   Mon, 25 Nov 2019 14:06:13 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Lee Jones <lee.jones@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v4 4/6] dt-bindings: leds: max77650: convert the binding
- document to yaml
-Message-ID: <20191125130613.GA11431@amd>
-References: <20191021124428.2541-1-brgl@bgdev.pl>
- <20191021124428.2541-5-brgl@bgdev.pl>
+        id S1728204AbfKYOuu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 25 Nov 2019 09:50:50 -0500
+Received: from honk.sigxcpu.org ([24.134.29.49]:39280 "EHLO honk.sigxcpu.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728280AbfKYOuu (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 25 Nov 2019 09:50:50 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by honk.sigxcpu.org (Postfix) with ESMTP id ACD1DFB03;
+        Mon, 25 Nov 2019 15:50:46 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+        by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id fEh5mS4__lqC; Mon, 25 Nov 2019 15:50:45 +0100 (CET)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+        id C616949289; Mon, 25 Nov 2019 15:47:58 +0100 (CET)
+From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Enrico Weigelt <info@metux.net>,
+        Allison Randal <allison@lohutok.net>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/1] leds: backlight: Register with class backlight
+Date:   Mon, 25 Nov 2019 15:47:57 +0100
+Message-Id: <cover.1574692624.git.agx@sigxcpu.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="SLDf9lqlvOQaIe6s"
-Content-Disposition: inline
-In-Reply-To: <20191021124428.2541-5-brgl@bgdev.pl>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+When using current LCD drivers as ledtrig backlight they're
+not registered with the backlight device class. This has
+two problems: they're usually not found by userspace since
+these tools usually look in /sys/class/backlight and they
+can't be used as backlight phandles in device tree for
+e.g. LCD panels.
 
---SLDf9lqlvOQaIe6s
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is an RFC if this is worthwhile at all? A current problem
+is that changing the LED brightness does currently not notify
+the class backlight so they can get out of sync but i could
+look into that if the approach makes sense.
 
-On Mon 2019-10-21 14:44:26, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->=20
-> Convert the binding document for MAX77650 LED module to YAML.
->=20
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+Guido Günther (1):
+  leds: backlight: register with class backlight too
 
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+ drivers/leds/trigger/ledtrig-backlight.c | 54 ++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
---SLDf9lqlvOQaIe6s
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-- 
+2.23.0
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl3b0cUACgkQMOfwapXb+vKYCwCcCKkHdsocgaTkp/X1BQsjuUcQ
-X2AAoKxOYwWS0X8kXn/IxZ1fxQZnzWm7
-=bHB/
------END PGP SIGNATURE-----
-
---SLDf9lqlvOQaIe6s--
