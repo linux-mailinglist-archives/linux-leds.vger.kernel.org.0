@@ -2,69 +2,157 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D12BB10B002
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Nov 2019 14:15:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E27DA10C056
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Nov 2019 23:46:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726540AbfK0NP6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 27 Nov 2019 08:15:58 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:42187 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726514AbfK0NP6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 27 Nov 2019 08:15:58 -0500
-Received: by mail-oi1-f193.google.com with SMTP id o12so19996370oic.9;
-        Wed, 27 Nov 2019 05:15:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6CkueVqYBVME4T6LCtYwHv1Eee1VzP9kC3ml8CBVr5I=;
-        b=W2fTFwY2oMJ1Pes7MKv0yHAiftsFHjSXYvZWG49vfD1BoEEwfYoNVMlc7Agv6f46iN
-         v08NnMe9nRV6QR5eFcvtjMQnJqNn1uCHnNBvhfmnb9kSIj+QCMiV0FH+5IQng7TGJhPQ
-         W53GMkuug3/ZJIIb1NQjuAciwaAHgdTOn4fa5CFaII9KcdFnW0rs4ZpYrblcl91hrJzw
-         jdCPAWS6POFUPm5MbqlVXq39nnal3JCMF1f4wne/iTNCdC5vrqMFSssO7CdScIRejg/8
-         BTZGy5MjCSGOHnXWGz2v2St3krrrJhhsj2hbOhQ7thRAdQzrQ4l6hKKKRt0lhhPP7CVc
-         DOsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6CkueVqYBVME4T6LCtYwHv1Eee1VzP9kC3ml8CBVr5I=;
-        b=JbH2tHhCYdzBJoB9uyvkaCfW+VR8LFr1QmOxeTyZe6J+0/VnFvrPjVSXVrBDffkAS/
-         pWHQmxzaGfExz7rwQ/0O6MN5Gqnv4oyQE6IE2D4t9w9SqKz+rgvgGzpHKHTmEUjn0n51
-         URViTWPcBfL0aasGLXL7sjC8WN9cLcMrdUZ+yNxx76hiXgu4RwWIp899hQ2U9P2ojiGa
-         saVEtZgJOPEdarLFMdjRU03SjUxKlU4qqUTyPvZxifK0EeTXQARVhTtQPaPwegMby+X9
-         GY0ns6WMCSy1CnY7sSvK6yv5aN+Bp1iWDjB6Q/yUZpH9guuXbTv09JenGac2NFGqZmR+
-         43Yw==
-X-Gm-Message-State: APjAAAUe2/a2pOixt7vBAHJVUjLuH+Kpt31e8zo5SVvzDVG41ii2J+VR
-        Oi8AC/nNV696WAS0V6jJbRM+gBw1yw2UdaQUAJw=
-X-Google-Smtp-Source: APXvYqxF1YpJNZWQuhLaSnKq95shVazEciEynAl3XJWt5hhnLgcF5FpqLpdnh48Ipc78REvTah8XXP9RsYyAozMphLg=
-X-Received: by 2002:aca:c5ca:: with SMTP id v193mr4176878oif.77.1574860555146;
- Wed, 27 Nov 2019 05:15:55 -0800 (PST)
+        id S1727097AbfK0WqS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 27 Nov 2019 17:46:18 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:44684 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726947AbfK0WqS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 27 Nov 2019 17:46:18 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 1232D1C229A; Wed, 27 Nov 2019 23:46:15 +0100 (CET)
+Date:   Wed, 27 Nov 2019 23:46:14 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+Subject: [GIT PULL] LEDs changes for v5.5-rc1
+Message-ID: <20191127224614.GA24850@amd>
 MIME-Version: 1.0
-References: <20191121142726.22856-1-TheSven73@gmail.com> <4b64bc1d-681d-8916-7247-a9536afc00c6@gmail.com>
-In-Reply-To: <4b64bc1d-681d-8916-7247-a9536afc00c6@gmail.com>
-From:   Sven Van Asbroeck <thesven73@gmail.com>
-Date:   Wed, 27 Nov 2019 08:15:43 -0500
-Message-ID: <CAGngYiXXugLL7fky4DLUf=xwgem49dNd0YT2Hxj_YoYrcPOOqg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] tps6105x add devicetree and leds support
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="k1lZvvs/B4yU6o8G"
+Content-Disposition: inline
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Pavel,
 
-On Thu, Nov 21, 2019 at 1:20 PM Jacek Anaszewski
-<jacek.anaszewski@gmail.com> wrote:
->
-> For both patches:
-> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+--k1lZvvs/B4yU6o8G
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Is there anything I can do to help get these into your tree?
-The other patches in the set have already been taken by their
-respective maintainers.
+LED updates for 5.5-rc1
+
+This contains usual small updates to drivers, and removal of PAGE_SIZE
+limits on /sys/class/leds/<led>/trigger.
+
+We should not be really having that many triggers; but with cpu
+activity triggers we do, and we'll eventually need to fix it,
+but... remove the limit for now.
+
+Signed-off-by: Pavel Machek <pavel@ucw.cz>
+
+The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c:
+
+  Linux 5.4-rc1 (2019-09-30 10:35:40 -0700)
+
+are available in the git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
+leds-5.5-rc1
+
+for you to fetch changes up to 5f820ed52371b4f5d8c43c93f03408d0dbc01e5b:
+
+  leds: trigger: netdev: fix handling on interface rename (2019-11-03 18:10=
+:12 +0100)
+
+----------------------------------------------------------------
+Akinobu Mita (1):
+      leds: remove PAGE_SIZE limit of /sys/class/leds/<led>/trigger
+
+Chuhong Yuan (1):
+      leds: an30259a: add a check for devm_regmap_init_i2c
+
+Dan Murphy (8):
+      leds: Kconfig: Be consistent with the usage of "LED"
+      leds: flash: Convert non extended registration to inline
+      leds: flash: Remove extern from the header file
+      leds: flash: Add devm_* functions to the flash class
+      leds: lm3601x: Convert class registration to device managed
+      leds: core: Remove extern from header
+      leds: core: Fix devm_classdev_match to reference correct structure
+      leds: core: Fix leds.h structure documentation
+
+Daniel Mack (1):
+      drivers: leds: tlc591xx: check error during device init
+
+Guido G=FCnther (5):
+      leds: lm3692x: Print error value on dev_err
+      leds: lm3692x: Don't overwrite return value in error path
+      leds: lm3692x: Handle failure to probe the regulator
+      leds: lm3692x: Use flags from LM3692X_BOOST_CTRL
+      leds: lm3692x: Use flags from LM3692X_BRT_CTRL
+
+Jean-Jacques Hiblot (3):
+      leds: tlc591xx: simplify driver by using the managed led API
+      leds: tlc591xx: use devm_led_classdev_register_ext()
+      leds: tlc591xx: update the maximum brightness
+
+Markus Elfring (2):
+      leds: bcm6328: Use devm_platform_ioremap_resource() in bcm6328_leds_p=
+robe()
+      leds: bcm6358: Use devm_platform_ioremap_resource() in bcm6358_leds_p=
+robe()
+
+Martin Schiller (1):
+      leds: trigger: netdev: fix handling on interface rename
+
+Oleh Kravchenko (3):
+      dt-bindings: Add docs for EL15203000
+      leds: add LED driver for EL15203000 board
+      leds: mlxreg: Fix possible buffer overflow
+
+Stephen Boyd (1):
+      leds: pca953x: Use of_device_get_match_data()
+
+ .../ABI/testing/sysfs-class-led-driver-el15203000  | 139 ++++++++
+ .../devicetree/bindings/leds/leds-el15203000.txt   |  69 ++++
+ drivers/leds/Kconfig                               |  17 +-
+ drivers/leds/Makefile                              |   1 +
+ drivers/leds/led-class-flash.c                     |  50 +++
+ drivers/leds/led-class.c                           |  10 +-
+ drivers/leds/led-triggers.c                        |  90 ++++--
+ drivers/leds/leds-an30259a.c                       |   7 +
+ drivers/leds/leds-bcm6328.c                        |   7 +-
+ drivers/leds/leds-bcm6358.c                        |   7 +-
+ drivers/leds/leds-el15203000.c                     | 357 +++++++++++++++++=
+++++
+ drivers/leds/leds-lm3601x.c                        |   4 +-
+ drivers/leds/leds-lm3692x.c                        |  47 ++-
+ drivers/leds/leds-mlxreg.c                         |   4 +-
+ drivers/leds/leds-pca9532.c                        |  14 +-
+ drivers/leds/leds-tlc591xx.c                       |  90 ++----
+ drivers/leds/leds.h                                |   6 +
+ drivers/leds/trigger/ledtrig-netdev.c              |   5 +-
+ include/linux/led-class-flash.h                    |  41 ++-
+ include/linux/leds.h                               | 105 +++---
+ 20 files changed, 860 insertions(+), 210 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-el1520=
+3000
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-el15203000.=
+txt
+ create mode 100644 drivers/leds/leds-el15203000.c
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--k1lZvvs/B4yU6o8G
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl3e/LYACgkQMOfwapXb+vKivACfQJFuvzDQ0u2gfnENhghhVLJx
+fCsAoKAD6mEiT7fsNlKqMfC/UeJa2NJM
+=vYvs
+-----END PGP SIGNATURE-----
+
+--k1lZvvs/B4yU6o8G--
