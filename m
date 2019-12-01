@@ -2,160 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54F9C10D579
-	for <lists+linux-leds@lfdr.de>; Fri, 29 Nov 2019 13:09:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C985610E2F2
+	for <lists+linux-leds@lfdr.de>; Sun,  1 Dec 2019 19:18:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726768AbfK2MJ2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 29 Nov 2019 07:09:28 -0500
-Received: from foss.arm.com ([217.140.110.172]:46922 "EHLO foss.arm.com"
+        id S1727252AbfLASSk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 1 Dec 2019 13:18:40 -0500
+Received: from mtax.cdmx.gob.mx ([187.141.35.197]:8348 "EHLO mtax.cdmx.gob.mx"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726360AbfK2MJ2 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 29 Nov 2019 07:09:28 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8653C1FB;
-        Fri, 29 Nov 2019 04:09:27 -0800 (PST)
-Received: from localhost (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B4ED3F52E;
-        Fri, 29 Nov 2019 04:09:27 -0800 (PST)
-Date:   Fri, 29 Nov 2019 12:09:25 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "hofrat@osadl.org" <hofrat@osadl.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>
-Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
- regulator bindings
-Message-ID: <20191129120925.GA5747@sirena.org.uk>
-References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
- <d29e0eb587b764f3ea77647392e45fac67bbd757.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
- <20191118162502.GJ9761@sirena.org.uk>
- <fd1e4e652840346bd990c769eabe2f966bda4ed6.camel@fi.rohmeurope.com>
- <20191119181325.GD3634@sirena.org.uk>
- <fa69d01504817e3260d2b023ae2637aa2f1b2862.camel@fi.rohmeurope.com>
- <20191119193636.GH3634@sirena.org.uk>
- <eb685cc78b936bc61ed9f7fbfa18c96398b00909.camel@fi.rohmeurope.com>
+        id S1726155AbfLASSk (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 1 Dec 2019 13:18:40 -0500
+X-Greylist: delayed 6525 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:18:39 EST
+X-NAI-Header: Modified by McAfee Email Gateway (4500)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
+        t=1575217596; h=DKIM-Filter:X-Virus-Scanned:
+         Content-Type:MIME-Version:Content-Transfer-Encoding:
+         Content-Description:Subject:To:From:Date:Message-Id:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
+         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
+         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
+        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
+        8=; b=YDrUjaAnuazbCuG8KUTEey2hFxMJtsY0FAlZceUtnOch
+        8Hhk43GaUT7gGsmHfA2kop8T/uz5tkCdg0E66nREdaDAX334To
+        6YiHtvkIskW74eEFC7igFv5UjPer1jmrReSgPl10rB3aFJA+EH
+        QnEVV8foycfmZKgAU/42UT87P0E=
+Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
+        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
+         id 1dee_629f_54e38c11_000b_4ac1_aae9_7e58951e7f49;
+        Sun, 01 Dec 2019 10:26:35 -0600
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 0BFF81E29E3;
+        Sun,  1 Dec 2019 10:18:18 -0600 (CST)
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id RlkNKm97rMkl; Sun,  1 Dec 2019 10:18:17 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 3E6D41E29F8;
+        Sun,  1 Dec 2019 10:13:06 -0600 (CST)
+DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 3E6D41E29F8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
+        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216786;
+        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
+        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
+         From:Date:Message-Id;
+        b=qMNR9b3OMSHv5Hor1bjkbqYqOnSNG09yuVycrinq6ZAaJWBKYWg+Rg+1wTwD9wRsn
+         Hv+zGQ1w441ddNAPS6yuZvTU7V8IDdX+uzR5H6R40hs62EvIxMUzx7v8xgJnpWqaot
+         sIN5mJa46lTDyz8BYVuvkeGYe7/OAhSHWjbv58Ms=
+X-Virus-Scanned: amavisd-new at cdmx.gob.mx
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id EnZZnX-RLamS; Sun,  1 Dec 2019 10:13:06 -0600 (CST)
+Received: from [192.168.0.104] (unknown [188.125.168.160])
+        by cdmx.gob.mx (Postfix) with ESMTPSA id 873691E2D1E;
+        Sun,  1 Dec 2019 10:04:34 -0600 (CST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tThc/1wpZn/ma/RB"
-Content-Disposition: inline
-In-Reply-To: <eb685cc78b936bc61ed9f7fbfa18c96398b00909.camel@fi.rohmeurope.com>
-X-Cookie: To love is good, love being difficult.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Congratulations
+To:     Recipients <aac-styfe@cdmx.gob.mx>
+From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
+Date:   Sun, 01 Dec 2019 17:04:26 +0100
+Message-Id: <20191201160434.873691E2D1E@cdmx.gob.mx>
+X-AnalysisOut: [v=2.2 cv=KNAqNBNo c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
+X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
+X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
+X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
+X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
+X-SAAS-TrackingID: ab9e3ed5.0.105110066.00-2317.176721618.s12p02m006.mxlogic.net
+X-NAI-Spam-Flag: NO
+X-NAI-Spam-Threshold: 3
+X-NAI-Spam-Score: -5000
+X-NAI-Spam-Rules: 1 Rules triggered
+        WHITELISTED=-5000
+X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
+ <1840193> : uri <2949749>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
+ them with this email for more information =
 
---tThc/1wpZn/ma/RB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 29, 2019 at 07:48:13AM +0000, Vaittinen, Matti wrote:
-> On Tue, 2019-11-19 at 19:36 +0000, Mark Brown wrote:
-
-> > The driver interface was added in "regulator: add PM suspend and
-> > resume
-> > hooks".
-
-> I looked through the set but didn't spot any new interface towards the
-> regulator driver (which accesses the HW). I saw interface towards
-> regulator consumer driver which can be used to set the constrains
-> though.
-
-The regulator driver has a bunch fo set_suspend_ operations.
-
-> Specifically, I don't see voltage setting callback for different run-
-> modes. Nor do I see voltage setting (or differentiation) of more than
-> one suspend state.
-
-set_suspend_voltage.
-
-> To explain it further - my assumption is that the BD71828 'run-levels'
-> (RUN0, ... RUN3) could be mapped to regulator modes
-> REGULATOR_MODE_FAST, REGULATOR_MODE_NORMAL, REGULATOR_MODE_IDLE and=20
-> REGULATOR_MODE_STANDBY. But regulators which are controlled by these
-
-That doesn't make sense at all, the modes affect the quality of
-regulation not the voltage that is set.
-
-> run-levels, can't be individually controlled. If state for one is
-> changed, the state is changed for all of them. The DVS bucks 1,2,6 and
-
-We don't really have anything that'd only work for group configuration
-except for the suspend modes.
-
-> > Ah, that's actually better.  It opens up possiblities for making use
-> > of
-> > the feature without encoding voltages in DT.  For example, you can
-> > cache
-> > the last however many voltages that were set and jump quickly to them
-> > or
-> > do something like put the top of the constraints in to help with
-> > governors like ondemand.  I'd recommend trying for something like
-> > that
-> > rather than encoding in DT, it'll probably be more robust with things
-> > like cpufreq changing.
-
-> I wish I was working with the full product so that I could see and
-> learn a proper example on how the cpufreq actually uses these
-> interfaces :) I'd really like to understand this much better. Maybe
-> this could be a topic for you to present in some Linux conference ;)
-> Just please ping me when you are doing that and I'll be listening there
-> for sure ;)
-
-The cpufreq code is all there in kernel - drivers/cpufreq.  I can't
-remember if Android still has a custom governor in their trees but it
-doesn't really make much difference in terms of how it interacts with
-the regulator drivers.
-
-> Anyways, my idea was to set the inital voltage values for these states
-> via DT - but allow the voltages to be changed at run-time too (I guess
-> this idea is visible in the patch 12).
-
-It'd be much better if you could avoid putting the voltages in the
-binding if they're not strictly required.
-
---tThc/1wpZn/ma/RB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3hCnMACgkQJNaLcl1U
-h9DYngf+IXV00SV4baSzbbPD499t+tcmC50xm6QHtyWWK8Cp9civk8HKVm+I8Hq4
-QD4QuFuR+eqK2qDTm+BAX6fTA64j0WeXKdEzN7PL83q4TlUI+f6n3l7baWyikfS+
-jvtHyZGD6QeSMlTBIpR3pDt4u61HM7aFgSH6m86zZX/trPBDfMqk5AynMT4kePZ1
-/F2ygmNUUbuZKkS1NLLKsQxr7nvtNvGyR+4HbQbNBuLlMN9BZaFGnQPmVzeksPe4
-PnJgOV90Ka3VvoJfRUKKs2z2hvdUP7j+NVjib9COrIhiz987HedXU52OxS/Ae90c
-08uWP7tcnqokEsVNIdA6qRO5Jn/lug==
-=D2yP
------END PGP SIGNATURE-----
-
---tThc/1wpZn/ma/RB--
+EMail: allenandvioletlargeaward@gmail.com
