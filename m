@@ -2,113 +2,156 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3450A10EA7C
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Dec 2019 14:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29AB810EA8D
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Dec 2019 14:12:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727391AbfLBNGU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Dec 2019 08:06:20 -0500
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:53950 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727382AbfLBNGU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Dec 2019 08:06:20 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xB2D60RA057754;
-        Mon, 2 Dec 2019 07:06:00 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1575291960;
-        bh=CpiyO5wWF9b1B1f1fre8VKdouLPPVPt1I/3u7Ok/pJ4=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=yF0YiqL40R56Tmc/51bc08/PmD3rnIX1++1YF+rg6aaBIKyPAESwdsjCZlNcwkAc9
-         Fu9vxXZ0MF1Chr09+GCAKsbTlDvS+bCKTmbGy3+4Jp0w0qty2jswMDBUEq6OPRJ9uS
-         VYEpjxVSYMSv1QzO2JPC3fBSHXImd3gs9jC4y7v0=
-Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xB2D60Xt088720
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 2 Dec 2019 07:06:00 -0600
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 2 Dec
- 2019 07:06:00 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 2 Dec 2019 07:06:00 -0600
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xB2D5xtR099233;
-        Mon, 2 Dec 2019 07:05:59 -0600
-Subject: Re: [PATCH v17 10/19] ARM: dts: imx6dl-yapp4: Add reg property to the
- lp5562 channel node
-To:     Shawn Guo <shawnguo@kernel.org>
-CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
-References: <20191114133023.32185-1-dmurphy@ti.com>
- <20191114133023.32185-11-dmurphy@ti.com> <20191202090645.GI9767@dragon>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <3f0b6da2-15ca-a0cf-ba82-8bbb6af3bf81@ti.com>
-Date:   Mon, 2 Dec 2019 07:03:59 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+        id S1727423AbfLBNMJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Dec 2019 08:12:09 -0500
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:51046 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727381AbfLBNMJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Dec 2019 08:12:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=HcdPKwqbVGtlgcTIZgCIi0isK2Mpc49YUdk5xlaJzq0=; b=eMgFjIw0NhQQ+Z5g2pVLfx0Z/
+        HPRbQ8VD6LzILID+Y2PhharPGvlPAq79MtFYP84MsnbUkInBOAEYpol69Cx+VUXES8ea6kBYRFoXI
+        9LA46DCwTHRcSsg1xO5EVf3HG00L+yJhLHtjGWdwDSMtyJRAyB4gSNFoWDpW4xEoUk1gs=;
+Received: from 188.31.173.115.threembb.co.uk ([188.31.173.115] helo=fitzroy.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1iblUM-0003mu-7T; Mon, 02 Dec 2019 13:11:42 +0000
+Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
+        id E6920D020A4; Mon,  2 Dec 2019 13:11:40 +0000 (GMT)
+Date:   Mon, 2 Dec 2019 13:11:40 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "jeffrey.t.kirsher@intel.com" <jeffrey.t.kirsher@intel.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "hofrat@osadl.org" <hofrat@osadl.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>
+Subject: Re: [PATCH v5 01/16] dt-bindings: regulator: Document ROHM BD71282
+ regulator bindings
+Message-ID: <20191202131140.GD1998@sirena.org.uk>
+References: <cover.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+ <d29e0eb587b764f3ea77647392e45fac67bbd757.1574059625.git.matti.vaittinen@fi.rohmeurope.com>
+ <20191118162502.GJ9761@sirena.org.uk>
+ <fd1e4e652840346bd990c769eabe2f966bda4ed6.camel@fi.rohmeurope.com>
+ <20191119181325.GD3634@sirena.org.uk>
+ <fa69d01504817e3260d2b023ae2637aa2f1b2862.camel@fi.rohmeurope.com>
+ <20191119193636.GH3634@sirena.org.uk>
+ <eb685cc78b936bc61ed9f7fbfa18c96398b00909.camel@fi.rohmeurope.com>
+ <20191129120925.GA5747@sirena.org.uk>
+ <297fa021fb243072dbbb7bca455e57c13e8c6843.camel@fi.rohmeurope.com>
 MIME-Version: 1.0
-In-Reply-To: <20191202090645.GI9767@dragon>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vni90+aGYgRvsTuO"
+Content-Disposition: inline
+In-Reply-To: <297fa021fb243072dbbb7bca455e57c13e8c6843.camel@fi.rohmeurope.com>
+X-Cookie: Cleanliness is next to impossible.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Shawn
 
-On 12/2/19 3:06 AM, Shawn Guo wrote:
-> On Thu, Nov 14, 2019 at 07:30:14AM -0600, Dan Murphy wrote:
->> Add the reg property to each channel node.  This update is
->> to accomodate the multicolor framework.  In addition to the
->> accomodation this allows the LEDs to be placed on any channel
->> and allow designs to skip channels as opposed to requiring
->> sequential order.
->>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->> CC: Shawn Guo <shawnguo@kernel.org>
->> CC: Sascha Hauer <s.hauer@pengutronix.de>
->> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
->> CC: Fabio Estevam <festevam@gmail.com>
->> CC: NXP Linux Team <linux-imx@nxp.com>
->> ---
->>   arch/arm/boot/dts/imx6dl-yapp4-common.dtsi | 14 ++++++++++----
->>   1 file changed, 10 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
->> index e8d800fec637..efc466ed1fea 100644
->> --- a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
->> +++ b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
->> @@ -257,29 +257,35 @@
->>   		reg = <0x30>;
->>   		clock-mode = /bits/ 8 <1>;
->>   		status = "disabled";
->> +		#address-cells = <1>;
->> +		#size-cells = <0>;
->>   
->> -		chan0 {
->> +		chan@0 {
-> Again, why do not we rename it to led@0 as you update the bindings in
-> the last patch in the series?
+--vni90+aGYgRvsTuO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I am trying to limit the amount of change in this patchset.
+On Mon, Dec 02, 2019 at 07:57:13AM +0000, Vaittinen, Matti wrote:
+> On Fri, 2019-11-29 at 12:09 +0000, Mark Brown wrote:
 
-I know what you are asking is for a small change but that would be 
-another patch to the series to the label.  I want to keep functional 
-changes like this isolated from clean up changes like you asked for 
-bissectability.
+> > The regulator driver has a bunch fo set_suspend_ operations.
 
- From that point we can make additional changes. I would really like 
-this to get into 5.6 as I thought I hit the merge window for 5.5 but it 
-did not make it.
+> Hmm. I saw these. But unless I am mistaken linux only knows one
+> 'suspend' state whereas the PMIC has a few separate states I can see as
+> 'suspend' states. As far as I understood the set_suspend_voltage does
+> not allow setting separate suspend voltages depending on the "type of
+> suspend" (as there is only one 'suspend' state).
 
-Dan
+No, look at the bindings - we support a bunch of different
+suspend states matching the different suspend states that the
+kernel as a whole supports.  We don't assume that the device will
+know this but you can always use the current suspend we're going
+for to decide where to update.
 
+> > > (RUN0, ... RUN3) could be mapped to regulator modes
+> > > REGULATOR_MODE_FAST, REGULATOR_MODE_NORMAL, REGULATOR_MODE_IDLE
+> > > and=20
+> > > REGULATOR_MODE_STANDBY. But regulators which are controlled by
+> > > these
+
+> > That doesn't make sense at all, the modes affect the quality of
+> > regulation not the voltage that is set.
+
+> Thanks. I misunderstood this. I thought these states could be used for
+> some adaptive voltages. My understanding is that the RUN0,...RUN3 are
+> designed for that - but I didn't know if regulator framework is
+> designed for this.
+
+The framework doesn't care how a device is controlled, that's up
+to the device.  Like I said I recommend figuring out what
+voltages are useful to have quick access to at runtime, for
+example it's likely that it's good to have quick access to the
+highest voltage that's been set (and/or the top of the
+constraints).
+
+> > The cpufreq code is all there in kernel - drivers/cpufreq.  I can't
+> > remember if Android still has a custom governor in their trees but it
+> > doesn't really make much difference in terms of how it interacts with
+> > the regulator drivers.
+
+> Right. I guess your answers mean that there is no "regulator group
+> control" for "adaptive voltage changes" supported by regulator
+
+I can't parse the above, sorry.  What is "regulator group
+control"?
+
+--vni90+aGYgRvsTuO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3lDYkACgkQJNaLcl1U
+h9Amugf/QH6FoZOtAUIIujQELU4pGFVm5XkIvgjpWUWDlNK6CW+CKrdAc/iRcuch
+fpYcI7ht3Nd94mcruUECYYI5fTxj0ECj3mflGdL6c2nl7Sw3D3haNabXsa4XN5CT
+OUIi4NWGhuKUpFSLxgwdApBxJ5Tlri+TWW6Prv9Bf9IM1TMAHvCnIQD8rgSFrYga
+gxL160QzYsJoGI2KqLHFgo8ltWKjQO/jLHNoAL0awmx+Iujh30I8dlU1Laq3atoA
+siWbaqGqJKZLbfFOfaLQrga5DOJSd20ZY0R09niVgOr2xap2wxXaqVCLg7pnSBwV
+LD5cn4UcLr5v0sUXKwN908qjIvMxrg==
+=Fs54
+-----END PGP SIGNATURE-----
+
+--vni90+aGYgRvsTuO--
