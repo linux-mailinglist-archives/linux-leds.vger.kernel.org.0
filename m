@@ -2,89 +2,99 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 772A8116D2B
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Dec 2019 13:34:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A371B116DDE
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Dec 2019 14:25:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727398AbfLIMe2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 9 Dec 2019 07:34:28 -0500
-Received: from mga11.intel.com ([192.55.52.93]:29248 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727074AbfLIMe1 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 9 Dec 2019 07:34:27 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Dec 2019 04:34:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,294,1571727600"; 
-   d="scan'208";a="202818237"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga007.jf.intel.com with ESMTP; 09 Dec 2019 04:34:26 -0800
-Received: from andy by smile with local (Exim 4.93-RC5)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ieIF8-00058Q-40; Mon, 09 Dec 2019 14:34:26 +0200
-Date:   Mon, 9 Dec 2019 14:34:26 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-leds@vger.kernel.org
-Subject: Re: [PATCH 1/1] leds-as3645a: Drop fwnode reference on ignored node
-Message-ID: <20191209123426.GF32742@smile.fi.intel.com>
-References: <20191204075642.22070-1-sakari.ailus@linux.intel.com>
+        id S1727299AbfLINZL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 9 Dec 2019 08:25:11 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:51938 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727074AbfLINZL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 Dec 2019 08:25:11 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xB9DP4Ak043018;
+        Mon, 9 Dec 2019 07:25:04 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1575897904;
+        bh=p3a8tPlZJkmOYLEuEyzmo12XXstU5QdxohJApJwEKlY=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=ionqYPLpnEmJ7xs505HpdIJCH0ryyxg07Qeb9Eq01Hv7V5qFx60vSLj2B/52Cqf+t
+         UZ/k0PR9jDF5tdoG/sENPbStp35fR7umPoaS9oekqEBkqc1IOi3q7CNPjIsjjDTONX
+         /1CY+tFAqMOYBLbxFWmkPMQCsxQhdB6f843xBfZI=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xB9DP4kf085127
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 9 Dec 2019 07:25:04 -0600
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 9 Dec
+ 2019 07:25:03 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 9 Dec 2019 07:25:03 -0600
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xB9DP2te064237;
+        Mon, 9 Dec 2019 07:25:02 -0600
+Subject: Re: [PATCH v17 00/19] Multicolor Framework
+To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20191114133023.32185-1-dmurphy@ti.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <6f8072b0-62a5-292f-930c-cd3fb7d40fea@ti.com>
+Date:   Mon, 9 Dec 2019 07:22:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191204075642.22070-1-sakari.ailus@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191114133023.32185-1-dmurphy@ti.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Dec 04, 2019 at 09:56:42AM +0200, Sakari Ailus wrote:
-> If a node is ignored, do not get a reference to it. Fix the bug by moving
-> fwnode_handle_get() where a reference to an fwnode is saved for clarity.
-> 
+Pavel
 
-FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On 11/14/19 7:30 AM, Dan Murphy wrote:
+> Hello
+>
+> Simple fix in the multicolor code where the extended registration call was not
+> called in the devm_* function
+>
+> Thanks Martin F. for finding this issue.
+>
+> Hopefully this will be pulled in for the 5.5 merge window.
+>
+> Dan
+>
+> Dan Murphy (19):
+>    dt: bindings: Add multicolor class dt bindings documention
+>    dt-bindings: leds: Add multicolor ID to the color ID list
+>    leds: Add multicolor ID to the color ID list
+>    leds: multicolor: Introduce a multicolor class definition
+>    dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers
+>    leds: lp50xx: Add the LP50XX family of the RGB LED driver
+>    dt: bindings: lp55xx: Be consistent in the document with LED acronym
+>    dt: bindings: lp55xx: Update binding for Multicolor Framework
+>    ARM: dts: n900: Add reg property to the LP5523 channel node
+>    ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node
+>    ARM: dts: ste-href: Add reg property to the LP5521 channel nodes
+>    leds: lp55xx: Convert LED class registration to devm_*
+>    leds: lp55xx: Add multicolor framework support to lp55xx
+>    leds: lp5523: Update the lp5523 code to add multicolor brightness
+>      function
+>    leds: lp5521: Add multicolor framework multicolor brightness support
+>    leds: lp55xx: Fix checkpatch file permissions issues
+>    leds: lp5523: Fix checkpatch issues in the code
+>    dt: bindings: Update lp55xx binding to recommended LED naming
+>    leds: lp55xx-common: Remove extern from lp55xx-common header
 
-> Reported-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/leds/leds-as3645a.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/leds-as3645a.c b/drivers/leds/leds-as3645a.c
-> index b7e0ae1af8fa5..e8922fa033796 100644
-> --- a/drivers/leds/leds-as3645a.c
-> +++ b/drivers/leds/leds-as3645a.c
-> @@ -493,16 +493,17 @@ static int as3645a_parse_node(struct as3645a *flash,
->  		switch (id) {
->  		case AS_LED_FLASH:
->  			flash->flash_node = child;
-> +			fwnode_handle_get(child);
->  			break;
->  		case AS_LED_INDICATOR:
->  			flash->indicator_node = child;
-> +			fwnode_handle_get(child);
->  			break;
->  		default:
->  			dev_warn(&flash->client->dev,
->  				 "unknown LED %u encountered, ignoring\n", id);
->  			break;
->  		}
-> -		fwnode_handle_get(child);
->  	}
->  
->  	if (!flash->flash_node) {
-> -- 
-> 2.20.1
-> 
+Are these going to be pulled in for 5.6?
 
--- 
-With Best Regards,
-Andy Shevchenko
+I need to post the changes requested by Shawn on the DT but would like 
+to do it against the leds-next tree.
 
-
+Dan
