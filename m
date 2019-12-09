@@ -2,99 +2,81 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A371B116DDE
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Dec 2019 14:25:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C11A1116E1F
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Dec 2019 14:44:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727299AbfLINZL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 9 Dec 2019 08:25:11 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:51938 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727074AbfLINZL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 Dec 2019 08:25:11 -0500
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xB9DP4Ak043018;
-        Mon, 9 Dec 2019 07:25:04 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1575897904;
-        bh=p3a8tPlZJkmOYLEuEyzmo12XXstU5QdxohJApJwEKlY=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=ionqYPLpnEmJ7xs505HpdIJCH0ryyxg07Qeb9Eq01Hv7V5qFx60vSLj2B/52Cqf+t
-         UZ/k0PR9jDF5tdoG/sENPbStp35fR7umPoaS9oekqEBkqc1IOi3q7CNPjIsjjDTONX
-         /1CY+tFAqMOYBLbxFWmkPMQCsxQhdB6f843xBfZI=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xB9DP4kf085127
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 9 Dec 2019 07:25:04 -0600
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 9 Dec
- 2019 07:25:03 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 9 Dec 2019 07:25:03 -0600
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xB9DP2te064237;
-        Mon, 9 Dec 2019 07:25:02 -0600
-Subject: Re: [PATCH v17 00/19] Multicolor Framework
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20191114133023.32185-1-dmurphy@ti.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <6f8072b0-62a5-292f-930c-cd3fb7d40fea@ti.com>
-Date:   Mon, 9 Dec 2019 07:22:55 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+        id S1727716AbfLINoa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 9 Dec 2019 08:44:30 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:39960 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726687AbfLINoa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 Dec 2019 08:44:30 -0500
+Received: by mail-oi1-f193.google.com with SMTP id 6so6309734oix.7;
+        Mon, 09 Dec 2019 05:44:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pdtrpdD1TKIjvb8irx4vWJg8+w04giYZXMmV837pN2g=;
+        b=T/al3Bw8wn27lr3SLBgNIYFJs63fsI0DIaot21MQzkCVT4iZZT2NYjs5gJSJz4znGj
+         8uHbiqVU0MyxiterYKYbi0iazUDeDA71H4Z33DYgRMdbEvSygujbrg0L+QUVoTlbBtku
+         3oPvYqYbuFQUClKdzeI724fbXIX2lYSrVb+/EjYq20tF/8KPtPYcBh9VnhEVEvqVLpOe
+         JdJKgXwu57YIVoWXwI1UMSJ++EQBYdOWDDBxFfaSBTfSk9C2EU/RY2d5kxpJMGcMG91x
+         +zIev+3/ST2HH3ioHuzEMkQXsNzh2R8/XvEySepe1mr8h67Fs/EkyUwFEGNMBsO7bUkJ
+         kTnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pdtrpdD1TKIjvb8irx4vWJg8+w04giYZXMmV837pN2g=;
+        b=DWwnSvgS7H4pvng+8dRmoYSx/g4zEsHa63wRT29FeLB+elSVbiB7roZY4U+ghNprFk
+         ilkOLvg03vcQ8UcyYmoSY/8HMWgQO9rKDQP69K1xIel4U4OuOckZaFwDgkRk04TW36rj
+         kZ6oXoDLZzTSYKORUvO8aNUjgLHSp+5J04QvAAnk3JBfyatmT6tO6s1w16/sUKNQrs8M
+         iISlxK9UbBEBiRTPYrP+6afvu9X1em0ET1yxq0nvY9wP7B0oNVPAvrXoaLjc5rnh+OWL
+         8bIPOpNO2C6n1tqbDftwC5RTKc1ubTDo8Tgxu98CmD5htRMtXQ59GDQ1KKF/2/9W3AAW
+         YpRg==
+X-Gm-Message-State: APjAAAX/gC54HHfxsfe6cbYg7peut0M3aC1lKNlpzEcebyxYqAu11tS0
+        PVcsuVJJjTBMF03GULpLlvEejertypCzODAXnNE=
+X-Google-Smtp-Source: APXvYqwZ7NMEhCMa1CsGy9xOP12ehMUrB/FCbl2ilogCpY1zCGGz6MQ/XHN66Y9YL/Qw/iNI5SRd5y+Jfz0YzL7xQTQ=
+X-Received: by 2002:aca:3cc3:: with SMTP id j186mr23081279oia.169.1575899069062;
+ Mon, 09 Dec 2019 05:44:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191114133023.32185-1-dmurphy@ti.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20191121142726.22856-1-TheSven73@gmail.com> <20191121142726.22856-3-TheSven73@gmail.com>
+ <20191209123206.GI3468@dell>
+In-Reply-To: <20191209123206.GI3468@dell>
+From:   Sven Van Asbroeck <thesven73@gmail.com>
+Date:   Mon, 9 Dec 2019 08:44:18 -0500
+Message-ID: <CAGngYiX4hgEM7cjeLE-sRswDXTff92OqdBWNgx5WGNmPjuqsUA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] dt-bindings: mfd: update TI tps6105x chip bindings
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Grigoryev Denis <grigoryev@fastwel.ru>,
+        Axel Lin <axel.lin@ingics.com>, Dan Murphy <dmurphy@ti.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel
+Hi Lee, thank you for the review.
 
-On 11/14/19 7:30 AM, Dan Murphy wrote:
-> Hello
+On Mon, Dec 9, 2019 at 7:32 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
-> Simple fix in the multicolor code where the extended registration call was not
-> called in the devm_* function
+> > Tree: next-20191118
 >
-> Thanks Martin F. for finding this issue.
->
-> Hopefully this will be pulled in for the 5.5 merge window.
->
-> Dan
->
-> Dan Murphy (19):
->    dt: bindings: Add multicolor class dt bindings documention
->    dt-bindings: leds: Add multicolor ID to the color ID list
->    leds: Add multicolor ID to the color ID list
->    leds: multicolor: Introduce a multicolor class definition
->    dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers
->    leds: lp50xx: Add the LP50XX family of the RGB LED driver
->    dt: bindings: lp55xx: Be consistent in the document with LED acronym
->    dt: bindings: lp55xx: Update binding for Multicolor Framework
->    ARM: dts: n900: Add reg property to the LP5523 channel node
->    ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node
->    ARM: dts: ste-href: Add reg property to the LP5521 channel nodes
->    leds: lp55xx: Convert LED class registration to devm_*
->    leds: lp55xx: Add multicolor framework support to lp55xx
->    leds: lp5523: Update the lp5523 code to add multicolor brightness
->      function
->    leds: lp5521: Add multicolor framework multicolor brightness support
->    leds: lp55xx: Fix checkpatch file permissions issues
->    leds: lp5523: Fix checkpatch issues in the code
->    dt: bindings: Update lp55xx binding to recommended LED naming
->    leds: lp55xx-common: Remove extern from lp55xx-common header
+> Why is this in your commit message?
 
-Are these going to be pulled in for 5.6?
+I have been posting patches against various maintainer trees lately, which
+will not apply to mainline or next. So I have been including base tree
+information in the patch itself.
 
-I need to post the changes requested by Shawn on the DT but would like 
-to do it against the leds-next tree.
-
-Dan
+Base-tree info on patches is high on developers' wish list, but not yet
+standardized. This was discussed at the 2019 kernel maintainers
+summit:
+https://lwn.net/Articles/803619/
