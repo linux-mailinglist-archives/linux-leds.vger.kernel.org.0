@@ -2,124 +2,193 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1934115E17
-	for <lists+linux-leds@lfdr.de>; Sat,  7 Dec 2019 19:59:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C55E11648A
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Dec 2019 01:44:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726654AbfLGS7j (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 7 Dec 2019 13:59:39 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35513 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726455AbfLGS7i (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 7 Dec 2019 13:59:38 -0500
-Received: by mail-wm1-f65.google.com with SMTP id c20so9262071wmb.0
-        for <linux-leds@vger.kernel.org>; Sat, 07 Dec 2019 10:59:36 -0800 (PST)
+        id S1726621AbfLIAou (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 8 Dec 2019 19:44:50 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:39580 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726422AbfLIAot (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Dec 2019 19:44:49 -0500
+Received: by mail-lf1-f65.google.com with SMTP id c9so8783856lfi.6
+        for <linux-leds@vger.kernel.org>; Sun, 08 Dec 2019 16:44:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=LvpxQRRYJHPl/HMTn0zSCJc2tb2wBsjsoY0M462SFMs=;
-        b=c3ulfSaLqsVq3iP2vELAyCyV+pXoDyw6hEsXE133zV/aXbbIasdzD9m++4c6Bey5lV
-         yo6Z7ZbqrUx9Sbhp5BE/qvBPZvVBMoQDTaSzoCe3sTG/ZuAHLHZ2tyOVMGbrDHOFOKFY
-         BVTGxtRSsZuKslvQ4RTAeoSm/6YqLjTRxkkL+LL9Igoqq4Ktz+sEdHWoionDbIVTdEFs
-         DK+nDHwnYj6ekFtvfvABpSX0H6TsOyEogiSNi/4Mi24TcoKwtBnpHpIbuOLr83Lvi71z
-         2XdAk3qx0G7KNyFesVokZ1BnlwLzRnFp3gQVCVoGNAjJ5JfGg3XAg8HzddmRik/h3HvN
-         OuLg==
+        bh=OYvzSMJfxyxxDK64cQm+CKt68UJvaTrObdm8BBeYqJQ=;
+        b=TMMnyl5cVLyVeiFJHDQIUS5dnItoaK2wa7CoAk3CevxVEYksLJM6Ptj+z2CoiyOXcu
+         FkX2bNJnlf0kXGVZYZjj3XamSOvGz4nuGO4orX1Ki9RzF/3DAEbgIzBZ7Z+2NvMaCbRF
+         W04q5E11MUCiuNddt6UYuiiTT5hrXala1OGQ73TRHTPCTcRMKVxdBCdt3qTfbqebyo/o
+         Px8kWWVxm+7NzOSjYrPIcau/QsOqBBrqDT5KD9fPZviCAjDmCeSlkc7H5QHY+6cxHCmq
+         i/r8l41RemxrebtKIehNJkJk73Vyi1xKwqWpSGoT7lliQ6REj5XbvLlaXH65cw4+ko8E
+         DzLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=LvpxQRRYJHPl/HMTn0zSCJc2tb2wBsjsoY0M462SFMs=;
-        b=iFD05AcMCjaXi6yQQUJyZGCFuPqlLdyFNP3GS2QlwOTh2VJN8NbyE9oxVXq4SUdrRC
-         4XszdmJARWYD5mJGlWJDbiAfIBUsfwhqpDbvxKXxMxRUIg8bZrpP3yHQEfIFZVjVbrn1
-         vKqow+JrqSMxXKM+Sub4+yCIEb7EnLpvPMKswfqzpqt/eLSVVyVx63W31H73BZCFs2qQ
-         e9QkryXVmf6KzI0tNFwEEAnLW9zs1VvbA1o9A/4HGclg13q9FPjTjpDGuG+JhQ4/28d1
-         K78pZARZVQY6RkmhkB7FqAMpOa+4HDfM/ZEhV9k8A6uGfqo2zH9jY01y40nhvpI5/7Lo
-         wQ1w==
-X-Gm-Message-State: APjAAAWGhsn8HpZEXLC316TQwthNlrROeO39a957kuP1+12QHyfux31U
-        D0d4kj+OKfSswoxeQBf/1U46zK+HLb4Od1dX8EI=
-X-Google-Smtp-Source: APXvYqxS26Nq5VaodSppBRwydNC+TIciFnMGLUIIT4tDf3ZBKyNFEmO6xBaH7ghM6Mvg7+H3wphbMCXyVV3rCVlzREk=
-X-Received: by 2002:a05:600c:21c6:: with SMTP id x6mr16032281wmj.177.1575745176062;
- Sat, 07 Dec 2019 10:59:36 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OYvzSMJfxyxxDK64cQm+CKt68UJvaTrObdm8BBeYqJQ=;
+        b=OyxQAUb30+lxcJwYFD4jR+154jaahufSYE7vnW4aYpumeVCX6F93p/cLdwuAkpavBO
+         /VP3uVLeVIo4zEROs7JkbnvMJr+ZrgB/ztuCFnoFQ85xX9q7tHnCoVFPVVXGi7QrYBh5
+         X2hEBbW4a17xgbT9Remzi2Y/4IGo+7ab+Xr/P54NWhF0R0tZMk6OocTcE5CnCxNex2uP
+         8FmSqyqqy2ufjkEjGVpBafDnXoPy/5WzoHH+5Ng9LmgIlpGdmi/81r+7N6rEluJ9DkJy
+         lTOes2CuHgisrw7YjM3GGiuv29TJpzXNS+6zAChKvSGBp16wB4D6cqKcpwQOw6ZrnwQ0
+         7FYA==
+X-Gm-Message-State: APjAAAXy9WAv5dW1zoHXxfMRGYfnr9qHZVsTW3ZViKig4QxeKHNrAzvU
+        49EUW6kGndob0hgxUoo941OseQ==
+X-Google-Smtp-Source: APXvYqyiadFiaa6QWKFr9MhAqcArqR5PxM4pS+hc05v/JgD61+QnUGGDCli604PRX/e/LALW1cKGPQ==
+X-Received: by 2002:ac2:54b4:: with SMTP id w20mr13998887lfk.67.1575852287021;
+        Sun, 08 Dec 2019 16:44:47 -0800 (PST)
+Received: from localhost.localdomain (c-21cd225c.014-348-6c756e10.bbcust.telenor.se. [92.34.205.33])
+        by smtp.gmail.com with ESMTPSA id j22sm1136959lfh.93.2019.12.08.16.44.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Dec 2019 16:44:45 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kim Kyuwon <chammoru@gmail.com>
+Subject: [PATCH v2] leds: bd2802: Convert to use GPIO descriptors
+Date:   Mon,  9 Dec 2019 01:42:42 +0100
+Message-Id: <20191209004242.18152-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Reply-To: sebastient766@gmail.com
-Received: by 2002:a05:6000:182:0:0:0:0 with HTTP; Sat, 7 Dec 2019 10:59:35
- -0800 (PST)
-From:   =?UTF-8?B?TXIuU8OpYmFzdGllbiBUb25p?= <sebastient766@gmail.com>
-Date:   Sat, 7 Dec 2019 10:59:35 -0800
-X-Google-Sender-Auth: xqLd-ULvMtV-dK8-a2I6jzfebXE
-Message-ID: <CAG3TQM18iU5JCWBy2s-n+MN7dpp+D96anRipwU2S64sLmN6PuA@mail.gmail.com>
-Subject: Dear Friend,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-FROM MR.S=C3=89BASTIEN TONI
-AUDIT& ACCOUNT MANAGER
-BANK OF AFRICA (B.O.A)
-OUAGADOUGOU BURKINA FASO
-WEST AFRICA.
+The Rohm BD2802 have no in-kernel users so we can drop the
+GPIO number from the platform data and require users to
+provide the GPIO line using machine descriptors.
 
-Dear Friend,
+As the descriptors come with inherent polarity inversion
+semantics, we invert the calls to set the GPIO line such
+that 0 means "unasserted" and 1 means "asserted".
 
-With due respect, I have decided to contact you on
-abusinesstransaction  that will be beneficial to both of us. At the
-bank last account and  auditing evaluation, my staffs came across an
-old account which was being maintained by a foreign client who we
-learn was among the deceased passengers of motor accident on
-November.2003, the deceased was unable to run this account since his
-death. Theaccount has  remained dormant without the knowledge of his
-family since it was put in a  safe deposit account in the bank for
-future investment by the client.
+Put a note in the driver that machine descriptor tables
+will need to specify that the line is active low.
 
-Since his demise, even the members of his family haven't applied for
-claims  over this fund and it has been in the safe deposit account
-until I  discovered that it cannot be claimed since our client
-isaforeign nationaland we are sure that he has no next of kin here to
-file claims over the money. As the director of the department, this
-discovery was brought to my office so as to decide what is to bedone.I
- decided to seek ways through which to transfer this money out of the
-bank  and
-out of the country too.
+Cc: Kim Kyuwon <chammoru@gmail.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v1->v2:
+- Ask simply for a GPIO descriptor named "reset", drop the
+  idiomatic naming from the code.
+---
+ drivers/leds/leds-bd2802.c  | 27 ++++++++++++++++++---------
+ include/linux/leds-bd2802.h |  1 -
+ 2 files changed, 18 insertions(+), 10 deletions(-)
 
-The total amount in the account is 18.6 million with my positions as
-staffs  of the bank, I am handicapped because I cannot operate foreign
-accounts and  cannot lay bonafide claim over this money. The client
-was a foreign  national and you will only be asked to act as his next
-of kin and I will  supply you with all the necessary information and
-bank data to assist you in being able to transfer this money to any
-bank of your  choice where this money could be transferred into.The
-total sum will be  shared as follows: 50% for me, 50% for you and
-expenses incidental occur  during the transfer will be incur by both
-of us. The transfer is risk free on both sides hence you are going to
-follow my instruction till the fund  transfer to your account. Since I
-work in this bank that is why you should  be confident in the success
-of this transaction because you will be updated with information as at
-when desired.
+diff --git a/drivers/leds/leds-bd2802.c b/drivers/leds/leds-bd2802.c
+index e7ec6bff2b5f..bd61a823d0ca 100644
+--- a/drivers/leds/leds-bd2802.c
++++ b/drivers/leds/leds-bd2802.c
+@@ -10,7 +10,7 @@
+ 
+ #include <linux/module.h>
+ #include <linux/i2c.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
+ #include <linux/leds.h>
+ #include <linux/leds-bd2802.h>
+@@ -67,6 +67,7 @@ struct led_state {
+ struct bd2802_led {
+ 	struct bd2802_led_platform_data	*pdata;
+ 	struct i2c_client		*client;
++	struct gpio_desc		*reset;
+ 	struct rw_semaphore		rwsem;
+ 
+ 	struct led_state		led[2];
+@@ -200,7 +201,7 @@ static void bd2802_update_state(struct bd2802_led *led, enum led_ids id,
+ 		return;
+ 
+ 	if (bd2802_is_all_off(led) && !led->adf_on) {
+-		gpio_set_value(led->pdata->reset_gpio, 0);
++		gpiod_set_value(led->reset, 1);
+ 		return;
+ 	}
+ 
+@@ -226,7 +227,7 @@ static void bd2802_configure(struct bd2802_led *led)
+ 
+ static void bd2802_reset_cancel(struct bd2802_led *led)
+ {
+-	gpio_set_value(led->pdata->reset_gpio, 1);
++	gpiod_set_value(led->reset, 0);
+ 	udelay(100);
+ 	bd2802_configure(led);
+ }
+@@ -420,7 +421,7 @@ static void bd2802_disable_adv_conf(struct bd2802_led *led)
+ 						bd2802_addr_attributes[i]);
+ 
+ 	if (bd2802_is_all_off(led))
+-		gpio_set_value(led->pdata->reset_gpio, 0);
++		gpiod_set_value(led->reset, 1);
+ 
+ 	led->adf_on = 0;
+ }
+@@ -670,8 +671,16 @@ static int bd2802_probe(struct i2c_client *client,
+ 	pdata = led->pdata = dev_get_platdata(&client->dev);
+ 	i2c_set_clientdata(client, led);
+ 
+-	/* Configure RESET GPIO (L: RESET, H: RESET cancel) */
+-	gpio_request_one(pdata->reset_gpio, GPIOF_OUT_INIT_HIGH, "RGB_RESETB");
++	/*
++	 * Configure RESET GPIO (L: RESET, H: RESET cancel)
++	 *
++	 * We request the reset GPIO as OUT_LOW which means de-asserted,
++	 * board files specifying this GPIO line in a machine descriptor
++	 * table should take care to specify GPIO_ACTIVE_LOW for this line.
++	 */
++	led->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(led->reset))
++		return PTR_ERR(led->reset);
+ 
+ 	/* Tacss = min 0.1ms */
+ 	udelay(100);
+@@ -685,7 +694,7 @@ static int bd2802_probe(struct i2c_client *client,
+ 		dev_info(&client->dev, "return 0x%02x\n", ret);
+ 
+ 	/* To save the power, reset BD2802 after detecting */
+-	gpio_set_value(led->pdata->reset_gpio, 0);
++	gpiod_set_value(led->reset, 1);
+ 
+ 	/* Default attributes */
+ 	led->wave_pattern = BD2802_PATTERN_HALF;
+@@ -720,7 +729,7 @@ static int bd2802_remove(struct i2c_client *client)
+ 	struct bd2802_led *led = i2c_get_clientdata(client);
+ 	int i;
+ 
+-	gpio_set_value(led->pdata->reset_gpio, 0);
++	gpiod_set_value(led->reset, 1);
+ 	bd2802_unregister_led_classdev(led);
+ 	if (led->adf_on)
+ 		bd2802_disable_adv_conf(led);
+@@ -750,7 +759,7 @@ static int bd2802_suspend(struct device *dev)
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct bd2802_led *led = i2c_get_clientdata(client);
+ 
+-	gpio_set_value(led->pdata->reset_gpio, 0);
++	gpiod_set_value(led->reset, 1);
+ 
+ 	return 0;
+ }
+diff --git a/include/linux/leds-bd2802.h b/include/linux/leds-bd2802.h
+index dd93c8d787b4..ec577f5f8707 100644
+--- a/include/linux/leds-bd2802.h
++++ b/include/linux/leds-bd2802.h
+@@ -11,7 +11,6 @@
+ #define _LEDS_BD2802_H_
+ 
+ struct bd2802_led_platform_data{
+-	int	reset_gpio;
+ 	u8	rgb_time;
+ };
+ 
+-- 
+2.23.0
 
-I will wish you to keep this transaction secret and confidential as I
-am  hoping to retire with my share of this money at the end of
-transaction  which will be when this money is safety in your account.
-I will then come over to your country for sharing according to the
-previously agreed percentages. You might even have to advise me on
-possibilities of investment in your country or elsewhere of our
-choice. May  God help you to help me to a restive retirement, Amen,And
-You have to  contact me through my private e-mail
-at(sebastient766@gmail.com)Please for further information and inquires
-feel free to contact me back immediately for more explanation and
-better  understanding I want you to assure me your capability of
-handling this  project with trust by providing me your following
-information details such as:
-
-(1)NAME..............
-(2)AGE:................
-(3)SEX:.....................
-(4)PHONE NUMBER:.................
-(5)OCCUPATION:.....................
-(6)YOUR COUNTRY:.....................
-
-Yours sincerely,
-Mr.S=C3=A9bastien Toni
