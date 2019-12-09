@@ -2,81 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C11A1116E1F
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Dec 2019 14:44:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E794116E6E
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Dec 2019 15:02:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727716AbfLINoa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 9 Dec 2019 08:44:30 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:39960 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726687AbfLINoa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 Dec 2019 08:44:30 -0500
-Received: by mail-oi1-f193.google.com with SMTP id 6so6309734oix.7;
-        Mon, 09 Dec 2019 05:44:29 -0800 (PST)
+        id S1727388AbfLIOCj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 9 Dec 2019 09:02:39 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:37291 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726687AbfLIOCj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 Dec 2019 09:02:39 -0500
+Received: by mail-qt1-f194.google.com with SMTP id w47so15627992qtk.4;
+        Mon, 09 Dec 2019 06:02:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pdtrpdD1TKIjvb8irx4vWJg8+w04giYZXMmV837pN2g=;
-        b=T/al3Bw8wn27lr3SLBgNIYFJs63fsI0DIaot21MQzkCVT4iZZT2NYjs5gJSJz4znGj
-         8uHbiqVU0MyxiterYKYbi0iazUDeDA71H4Z33DYgRMdbEvSygujbrg0L+QUVoTlbBtku
-         3oPvYqYbuFQUClKdzeI724fbXIX2lYSrVb+/EjYq20tF/8KPtPYcBh9VnhEVEvqVLpOe
-         JdJKgXwu57YIVoWXwI1UMSJ++EQBYdOWDDBxFfaSBTfSk9C2EU/RY2d5kxpJMGcMG91x
-         +zIev+3/ST2HH3ioHuzEMkQXsNzh2R8/XvEySepe1mr8h67Fs/EkyUwFEGNMBsO7bUkJ
-         kTnQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=FS4GdxXu7/QfDNL7uDYbRfkUTYRCZcMTRaDIlBmOHhE=;
+        b=NIR//USzARfjaib/j+FaNjU5EJFI57vjLwO/c/ZHkLa2+Bfm4UMI324rEdZ/Gdp3ly
+         kDvv+zkgqy7DLmjUALOgmjtHwRAWVBOWewKpBaaGRyUXj0fZuyTBZWMuzZ7HyYPB6Cc4
+         8m2wJi29Rsplx7Bwvttw2nYCPbvAPQTJ4btUVJ3lOoX/OdIawCs2SSd8REm5coH6OfE9
+         DSefBUeEYd2mgVON+3VR6Si8EMcJ0mO1sY75LLvqmcE6ZhACKG9JEAJQ0XDRrFGv4Ie2
+         BwIlFpEQeV+vk8E0lyT2Pi9hLmgcIg75VyLT1476Yqe6NhiqzJReFaCYLti/pAWhjAcp
+         l6mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pdtrpdD1TKIjvb8irx4vWJg8+w04giYZXMmV837pN2g=;
-        b=DWwnSvgS7H4pvng+8dRmoYSx/g4zEsHa63wRT29FeLB+elSVbiB7roZY4U+ghNprFk
-         ilkOLvg03vcQ8UcyYmoSY/8HMWgQO9rKDQP69K1xIel4U4OuOckZaFwDgkRk04TW36rj
-         kZ6oXoDLZzTSYKORUvO8aNUjgLHSp+5J04QvAAnk3JBfyatmT6tO6s1w16/sUKNQrs8M
-         iISlxK9UbBEBiRTPYrP+6afvu9X1em0ET1yxq0nvY9wP7B0oNVPAvrXoaLjc5rnh+OWL
-         8bIPOpNO2C6n1tqbDftwC5RTKc1ubTDo8Tgxu98CmD5htRMtXQ59GDQ1KKF/2/9W3AAW
-         YpRg==
-X-Gm-Message-State: APjAAAX/gC54HHfxsfe6cbYg7peut0M3aC1lKNlpzEcebyxYqAu11tS0
-        PVcsuVJJjTBMF03GULpLlvEejertypCzODAXnNE=
-X-Google-Smtp-Source: APXvYqwZ7NMEhCMa1CsGy9xOP12ehMUrB/FCbl2ilogCpY1zCGGz6MQ/XHN66Y9YL/Qw/iNI5SRd5y+Jfz0YzL7xQTQ=
-X-Received: by 2002:aca:3cc3:: with SMTP id j186mr23081279oia.169.1575899069062;
- Mon, 09 Dec 2019 05:44:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20191121142726.22856-1-TheSven73@gmail.com> <20191121142726.22856-3-TheSven73@gmail.com>
- <20191209123206.GI3468@dell>
-In-Reply-To: <20191209123206.GI3468@dell>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=FS4GdxXu7/QfDNL7uDYbRfkUTYRCZcMTRaDIlBmOHhE=;
+        b=jYwvZxZp+P1svsqFiXElpYuVIWCd4kOcrvIrr3mbZCiEOS2+xysU+oTpszKg/5F+Io
+         cqLGvU1u+kGXybpheuMDIn9BNrEzucM8Jcw7kbhOWfJEoeVV0RdGbWHja1JIkYgASxEk
+         lXSb8iRXlIOWjS6NfnLQAiOiGE6FBzTYfZnkbg0I4WvcEW7CJduykH8S8ar99v8KK6iP
+         HfZ9HOrwcym7fUUvxrt5fna/BC0w8Afm/5+S86uuhLOx368j1nqUzuyWUGAqtf1UWC95
+         jU9a6iZk3zwpf8cSbn7jZuwxl6nxqvh31+WSae149ZRQLAgH84bkiUzXIgbwGUXj/Evy
+         dLOg==
+X-Gm-Message-State: APjAAAVGh1ON5aYA3D7Stx2y9Lo6vTATS9xgorOrkt0fJmW5MAsEHrvg
+        uz74uS/WTzLzGufo/R0wxF5kYsOL
+X-Google-Smtp-Source: APXvYqw02zHBpMFCOAfyakZVuDIk8pCl6TASpy/ZWVs4rrmP6otr86I7hisTCLFDwvpRpKVMwU94Hw==
+X-Received: by 2002:aed:2b07:: with SMTP id p7mr24996770qtd.180.1575900157988;
+        Mon, 09 Dec 2019 06:02:37 -0800 (PST)
+Received: from localhost.localdomain ([72.53.229.209])
+        by smtp.gmail.com with ESMTPSA id h28sm10128023qte.54.2019.12.09.06.02.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Dec 2019 06:02:37 -0800 (PST)
 From:   Sven Van Asbroeck <thesven73@gmail.com>
-Date:   Mon, 9 Dec 2019 08:44:18 -0500
-Message-ID: <CAGngYiX4hgEM7cjeLE-sRswDXTff92OqdBWNgx5WGNmPjuqsUA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] dt-bindings: mfd: update TI tps6105x chip bindings
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
+X-Google-Original-From: Sven Van Asbroeck <TheSven73@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Grigoryev Denis <grigoryev@fastwel.ru>,
-        Axel Lin <axel.lin@ingics.com>, Dan Murphy <dmurphy@ti.com>,
+        Axel Lin <axel.lin@ingics.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH v5 0/2] tps6105x add devicetree and leds support
+Date:   Mon,  9 Dec 2019 09:02:32 -0500
+Message-Id: <20191209140234.6558-1-TheSven73@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Lee, thank you for the review.
+v4 -> v5:
+	Added Jacek Anaszewski's Acked-by tag on both patches.
+	Added Rob Herring's Reviewed-by tag on devicetree patch.
+	Lee Jones:
+	- tweaked commit message s/led/LED/
+	- use relative paths in Devicetree binding docs, line up ':'s
 
-On Mon, Dec 9, 2019 at 7:32 AM Lee Jones <lee.jones@linaro.org> wrote:
->
-> > Tree: next-20191118
->
-> Why is this in your commit message?
+v3 -> v4:
+	Removed tps6105 mfd patch - it was accepted (Mark Brown).
+	
+	Use the new LED registration API - suggested by Jacek Anaszewski.
+	
+	Updated led dt bindings to document function, color usage.
 
-I have been posting patches against various maintainer trees lately, which
-will not apply to mainline or next. So I have been including base tree
-information in the patch itself.
+v2 -> v3:
+	Removed tps6105x regulator patch - it was accepted (Mark Brown).
+	
+	Removed devicetree/platdata bindings for tps6105x led naming.
+	I can test only with a 4.19 vendor kernel, which does not have the
+	latest led naming infrastructure (function/color). Drop devicetree/
+	fwnode/pdata led naming in favour of hard-coding to "tps6105x::torch",
+	so the patch can be tested by me, yet remains acceptable to upstream.
 
-Base-tree info on patches is high on developers' wish list, but not yet
-standardized. This was discussed at the 2019 kernel maintainers
-summit:
-https://lwn.net/Articles/803619/
+v1 -> v2:
+	Select chip operational mode by looking at subnode name, _not_ its
+	compatible property. Suggested by Mark Brown.
+
+I needed led operation for this mfd chip, so I added a very simple
+driver for this.
+
+My platform (arm imx6q) is devicetree-based, so I added optional
+devicetree support for this chip and its sub-drivers.
+
+Sven Van Asbroeck (2):
+  leds: tps6105x: add driver for mfd chip led mode
+  dt-bindings: mfd: update TI tps6105x chip bindings
+
+ .../devicetree/bindings/mfd/tps6105x.txt      | 47 ++++++++++-
+ drivers/leds/Kconfig                          | 10 +++
+ drivers/leds/Makefile                         |  1 +
+ drivers/leds/leds-tps6105x.c                  | 83 +++++++++++++++++++
+ 4 files changed, 140 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/leds/leds-tps6105x.c
+
+-- 
+2.17.1
+
