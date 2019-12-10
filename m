@@ -2,111 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13A361182B0
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2019 09:46:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07FE5118465
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Dec 2019 11:08:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726884AbfLJIqv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Dec 2019 03:46:51 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:38631 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726847AbfLJIqv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Dec 2019 03:46:51 -0500
-Received: by mail-wm1-f68.google.com with SMTP id p17so2130272wmi.3
-        for <linux-leds@vger.kernel.org>; Tue, 10 Dec 2019 00:46:50 -0800 (PST)
+        id S1727069AbfLJKIg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Dec 2019 05:08:36 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43080 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727093AbfLJKIg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Dec 2019 05:08:36 -0500
+Received: by mail-wr1-f66.google.com with SMTP id d16so19280936wre.10
+        for <linux-leds@vger.kernel.org>; Tue, 10 Dec 2019 02:08:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=YH5R0EOR7oNUMNAq0Ry62wkEQeH2/oUkN8cpbZjAY7U=;
-        b=DeFbGSCwhfLZgxdoHwevEaC6pGOR/3mjtvSyGOpQQYKWZeff2YN3Iv9VdGB/USU5yw
-         ljleAVDxqdrWzBvvCDbNUtN4XbZQwTqLFJi12kzacj8sXrVTf0ajf5N4sHNT8yypyjj3
-         l8uqMz1zh3XER6+sNyxvoIURhzQ/l5mJIdfsWr7r4xR5KEvsI4Teq0Y0u5FUTa2tV/gy
-         W926Nj4SOs+Qfo5ewHfd1rtzcegIoczd/B3TU2d60TE8dsAkbwGoQEru10ebbC4a0GQQ
-         pPlArT9q0wF9gvBDB/QpRT9GtE9hNI292REsaLF7A/iSqvQkZ5Hgs6dOBJet+7gaG1Te
-         5cWA==
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=53E6+zgRkhJFW2BBywNsfl5Bmu09Uj7I3LhsYlPv/yI=;
+        b=PclJIQfTM0ArnzA+0SrFj5O66enTwXrsB0tQfetxDJXzjjrrcXYlwzz1iuZxD+Hlst
+         698sdGPLLZrFcLNFVSTmXoG7mMq7cMhokXIrA2nQ5CzB0N2qnaHbWKsWh3Mr8cDxOYE2
+         4lwW4A+bqR33Oy5L/qg+ZdgEUMpwK+x/ypBv7VXNaVnME8bK98ydZnQThf5GmTnb/s1z
+         E2/kUXqDHmq5OWGF4DVXGS2NIocuP01L/9FWH9YLoe6whpeaxAcSUMBZuoe93gzC9C8K
+         M7bpnpGTrwCz6CgKAprOu7Wj1bgaU+k3JwT0zt/P1f8sQPaN0xjYEbth7pqKA8QZuwfh
+         oMfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=YH5R0EOR7oNUMNAq0Ry62wkEQeH2/oUkN8cpbZjAY7U=;
-        b=udVOTwXPSfHU1logazIv1cWyuCxsI7DuRVGXAlTvcD50va/ISANSFMmJWKitQcrZ8b
-         0B3C8SUb/PVpiYTBVSgnrNMxPbUEXNTqJWRws5zxW8nJ/kZS0hbkYQIpOmhKSR9UWP3C
-         AEQFN1j01QCHzO7/1myO3Veo9aL2vj3sxZU9H+kW8YdBy90GglpzEORr/gtAqDvezEWg
-         CCuRnRwJxxWB4g8De3qxfC5ATUSGx5JIqq6nlqGiAPlOCToQ6/fl5EgDnxtH+3YcQGmt
-         JTBQOuQs5y9Ca2GKvgVmUFiP0qaO04A+21MLMovEgeIP+7wqHoHUeqqhJ5odbXklXBlo
-         SSyA==
-X-Gm-Message-State: APjAAAWlnfpMn0Oo0DUHqVmVkrHI/9slbBu7Lo+L+aSS3sHbcoPBmnes
-        qlyClYqCELrGTBfJKp7UVzGzJA==
-X-Google-Smtp-Source: APXvYqy+Kg461LSDPA7TU+oMQnfgn8vGSzGZT39l0xIjpnrmDlYCqziDZRyjYbFhZnvZtvy1S9Qm7A==
-X-Received: by 2002:a05:600c:219a:: with SMTP id e26mr4045527wme.42.1575967609112;
-        Tue, 10 Dec 2019 00:46:49 -0800 (PST)
-Received: from dell (h185-20-99-176.host.redstation.co.uk. [185.20.99.176])
-        by smtp.gmail.com with ESMTPSA id b185sm2372512wme.36.2019.12.10.00.46.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=53E6+zgRkhJFW2BBywNsfl5Bmu09Uj7I3LhsYlPv/yI=;
+        b=sUGUvxvlAeRDM9GVj9gv3RwaRxrIcoLg63MtMaWek4uYWiO99eL4rZeLZwki0dTeQG
+         NVprev4Xbs/hCf0iQ+VL0aHTm/Y57rQprXQwc6CLMBMSy0/A0gtVStCPEaI5MoWqMT3Z
+         qWHQ4A4LXe7HN8RWTQYCexGrKc7HWi58lSn+5rZHFE/1mEWNAUoVmMVa6C3Z/Wfzkpej
+         fbE+wN2F+o3rsoz47kpUd+ckHnt0CULuLajcwXmqQyMHL5NhXyKYHLEek0z/2uTLj8iT
+         I5XkJQQZigp2jwVk2vYOtGV4/UUoDiNDhkY2FlIl2AO73pilDrRlBCIjhgLRvz6UXbDk
+         +yqQ==
+X-Gm-Message-State: APjAAAVzCr9dZo7mrjuXe9an/nSo2y19G0xrT/Q30ZFFeftmjxsrMX3K
+        bxikZWa8xe5LEy4LOvjtGKDjwA==
+X-Google-Smtp-Source: APXvYqz7GffBLgKokflLsYKh1DdYRrjX5Uq0IhqIeRUDbHP6ssACz2EgED3lcBsxC5OIi70niFkMNQ==
+X-Received: by 2002:adf:f5cb:: with SMTP id k11mr2139960wrp.71.1575972514193;
+        Tue, 10 Dec 2019 02:08:34 -0800 (PST)
+Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
+        by smtp.gmail.com with ESMTPSA id z11sm2485533wrt.82.2019.12.10.02.08.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2019 00:46:48 -0800 (PST)
-Date:   Tue, 10 Dec 2019 08:46:43 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Sven Van Asbroeck <thesven73@gmail.com>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Grigoryev Denis <grigoryev@fastwel.ru>,
-        Axel Lin <axel.lin@ingics.com>, Dan Murphy <dmurphy@ti.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] dt-bindings: mfd: update TI tps6105x chip bindings
-Message-ID: <20191210084643.GP3468@dell>
-References: <20191121142726.22856-1-TheSven73@gmail.com>
- <20191121142726.22856-3-TheSven73@gmail.com>
- <20191209123206.GI3468@dell>
- <CAGngYiX4hgEM7cjeLE-sRswDXTff92OqdBWNgx5WGNmPjuqsUA@mail.gmail.com>
- <20191210084603.GO3468@dell>
+        Tue, 10 Dec 2019 02:08:33 -0800 (PST)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH] led: max77650: add of_match table
+Date:   Tue, 10 Dec 2019 11:08:32 +0100
+Message-Id: <20191210100832.11186-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191210084603.GO3468@dell>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 10 Dec 2019, Lee Jones wrote:
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-> On Mon, 09 Dec 2019, Sven Van Asbroeck wrote:
-> 
-> > Hi Lee, thank you for the review.
-> > 
-> > On Mon, Dec 9, 2019 at 7:32 AM Lee Jones <lee.jones@linaro.org> wrote:
-> > >
-> > > > Tree: next-20191118
-> > >
-> > > Why is this in your commit message?
-> > 
-> > I have been posting patches against various maintainer trees lately, which
-> > will not apply to mainline or next. So I have been including base tree
-> > information in the patch itself.
-> > 
-> > Base-tree info on patches is high on developers' wish list, but not yet
-> > standardized. This was discussed at the 2019 kernel maintainers
-> > summit:
-> > https://lwn.net/Articles/803619/
-> 
-> NB: I haven't seen this discussion (or opened this link just yet).
-> 
-> It's no problem to have it in the submission, but it would be better
-> to have it *below* the '--' with the diff, such that if it is applied,
-> it doesn't end up in the kernel's Git history.
+We need the of_match table if we want to use the compatible string in
+the pmic's child node and get the led driver loaded automatically.
 
-Obviously that was meant to be '---'.
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+---
+ drivers/leds/leds-max77650.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
+diff --git a/drivers/leds/leds-max77650.c b/drivers/leds/leds-max77650.c
+index 4c2d0b3c6dad..a0d4b725c917 100644
+--- a/drivers/leds/leds-max77650.c
++++ b/drivers/leds/leds-max77650.c
+@@ -135,9 +135,16 @@ static int max77650_led_probe(struct platform_device *pdev)
+ 	return rv;
+ }
+ 
++static const struct of_device_id max77650_led_of_match[] = {
++	{ .compatible = "maxim,max77650-led" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, max77650_led_of_match);
++
+ static struct platform_driver max77650_led_driver = {
+ 	.driver = {
+ 		.name = "max77650-led",
++		.of_match_table = max77650_led_of_match,
+ 	},
+ 	.probe = max77650_led_probe,
+ };
 -- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.23.0
+
