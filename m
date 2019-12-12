@@ -2,37 +2,40 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C52C11CF6D
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Dec 2019 15:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A46611D0AA
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Dec 2019 16:15:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729574AbfLLOKx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Dec 2019 09:10:53 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48200 "EHLO mx1.suse.de"
+        id S1728822AbfLLPPD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Dec 2019 10:15:03 -0500
+Received: from mx2.suse.de ([195.135.220.15]:34634 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729392AbfLLOKx (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 12 Dec 2019 09:10:53 -0500
+        id S1728654AbfLLPPD (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 12 Dec 2019 10:15:03 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 90F17ACE1;
-        Thu, 12 Dec 2019 14:10:51 +0000 (UTC)
-Subject: Re: [RFC 19/25] leds: tm1628: Add 7-segment display support
+        by mx1.suse.de (Postfix) with ESMTP id A95F9ADDF;
+        Thu, 12 Dec 2019 15:15:00 +0000 (UTC)
+Subject: Re: [RFC 04/25] spi: gpio: Implement LSB First bitbang support
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     linux-realtek-soc@lists.infradead.org, linux-leds@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Pavel Machek <pavel@ucw.cz>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Dan Murphy <dmurphy@ti.com>
 References: <20191212033952.5967-1-afaerber@suse.de>
- <20191212033952.5967-20-afaerber@suse.de>
- <CAMuHMdWeqoqQBtsdN2Q=Urc22Ezj5nBRFPk1_V5gvGV9BGuMkw@mail.gmail.com>
+ <20191212033952.5967-5-afaerber@suse.de>
+ <CAMuHMdWdxJ9AaWhyCW-u8fCpXSDCPd-D6Dx129SF5nRssZsK=g@mail.gmail.com>
 From:   =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
 Organization: SUSE Software Solutions Germany GmbH
-Message-ID: <a9bacb0d-eccf-ec42-5d09-ce042aff2f41@suse.de>
-Date:   Thu, 12 Dec 2019 15:10:50 +0100
+Message-ID: <9b4b6287-c1d9-1b41-88a8-7ac9fe222642@suse.de>
+Date:   Thu, 12 Dec 2019 16:14:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdWeqoqQBtsdN2Q=Urc22Ezj5nBRFPk1_V5gvGV9BGuMkw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWdxJ9AaWhyCW-u8fCpXSDCPd-D6Dx129SF5nRssZsK=g@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -43,38 +46,76 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi Geert,
 
-Am 12.12.19 um 09:33 schrieb Geert Uytterhoeven:
-> On Thu, Dec 12, 2019 at 4:42 AM Andreas Färber <afaerber@suse.de> wrote:
->> Detect DT child nodes covering more than one LED component and implement
->> a text to 7-segment display mapping.
+Am 12.12.19 um 09:40 schrieb Geert Uytterhoeven:
+> On Thu, Dec 12, 2019 at 4:41 AM Andreas Färber <afaerber@suse.de> wrote:
+>> Add support for slave DT property spi-lsb-first, i.e., SPI_LSB_FIRST mode.
+>>
+>> Duplicate the inline helpers bitbang_txrx_be_cpha{0,1} as LE versions.
+>> Make checkpatch.pl happy by changing "unsigned" to "unsigned int".
+>>
+>> Conditionally call them from all the spi-gpio txrx_word callbacks.
 >>
 >> Signed-off-by: Andreas Färber <afaerber@suse.de>
 > 
->> --- a/drivers/leds/leds-tm1628.c
->> +++ b/drivers/leds/leds-tm1628.c
+> Thanks for your patch!
+
+NP. I prefer fixing issues at the source over awkward workarounds. :)
+
+>> --- a/drivers/spi/spi-gpio.c
+>> +++ b/drivers/spi/spi-gpio.c
+>> @@ -135,25 +135,37 @@ static inline int getmiso(const struct spi_device *spi)
+>>  static u32 spi_gpio_txrx_word_mode0(struct spi_device *spi,
+>>                 unsigned nsecs, u32 word, u8 bits, unsigned flags)
+>>  {
+>> -       return bitbang_txrx_be_cpha0(spi, nsecs, 0, flags, word, bits);
+>> +       if (unlikely(spi->mode & SPI_LSB_FIRST))
+>> +               return bitbang_txrx_le_cpha0(spi, nsecs, 0, flags, word, bits);
+>> +       else
+>> +               return bitbang_txrx_be_cpha0(spi, nsecs, 0, flags, word, bits);
+>>  }
 > 
->> +static const struct tm1628_ssd_char tm1628_char_ssd_map[] = {
->> +       { '0', SSD_TOP | SSD_TOP_LEFT | SSD_TOP_RIGHT |
->> +              SSD_BOTTOM_LEFT | SSD_BOTTOM_RIGHT | SSD_BOTTOM },
+> Duplicating all functions sounds a bit wasteful to me.
+
+Two functions duplicated, eight function calls duplicated.
+
+> What about reverting the word first, and calling the normal functions?
 > 
-> Please use include/uapi/linux/map_to_7segment.h
-> Yes, it is well hidden ;-).
+>     if (unlikely(spi->mode & SPI_LSB_FIRST)) {
+>             if (bits <= 8)
+>                     word = bitrev8(word) >> (bits - 8);
+>             else if (bits <= 16)
+>                     word = bitrev16(word) >> (bits - 16);
+>             else
+>                     word = bitrev32(word) >> (bits - 32);
+>     }
+>     return bitbang_txrx_be_cpha0(spi, nsecs, 0, flags, word, bits);
 
-Many thanks for that pointer! Even matches the segment/bit order of my
-datasheets/defines.
+Hm, wasn't aware of those helpers, so I opted not to loop over the bits
+for reversing myself, as Thomas Gleixner disliked bit loops in irqchip.
+Performance appeared to be a concern here, too.
 
-The small t may be different (T?), and I don't see it mapping combined
-characters (patch 22/25). The recommended sysfs map_7seg attribute may
-help deal with that, but seems terribly unhandy for my busybox initrd.
+Eight functions duplicated then. I don't like that - at least we should
+pack that into an inline helper or macro, to not copy&paste even more
+lines around. Who knows, maybe we'll get 64-bit support at one point?
 
-Hope you also read the cover letter, where not finding this and many
-other issues were discussed. I was expecting some .c file in either
-drivers/leds or auxdisplay - input is indeed unexpected for output.
+Do you think it would be acceptable to instead encapsulate this inside
+the _be inline helpers? That would lead the name ad absurdum, of course,
+but we would then need to do it only twice, not eight times.
 
-Still wondering whether we can somehow describe those "VFD" displays in
-a more reusable way, like we do for MIPI DSI panels.
+However, either way would seem to make the LSB code path slower than MSB
+due to the prepended reversal.
 
-Cheers,
+Delays are already stubbed out, with open TODOs for further inlining
+functions that are being dispatched today.
+
+So from that angle I don't see a better way than either duplicating the
+functions or using some macro magic to #include the header twice. If we
+wanted to go down that path, we could probably de-duplicate the existing
+two functions, too, but I was trying to err on the cautious side, since
+I don't have setups to test all four code paths myself (and a ton of
+more relevant but less fun patches to flush out ;)).
+
+Regards,
 Andreas
 
 -- 
