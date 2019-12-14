@@ -2,78 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8A6111F105
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Dec 2019 09:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91E9511F130
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Dec 2019 10:48:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726072AbfLNInd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 14 Dec 2019 03:43:33 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:37070 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725372AbfLNInd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 14 Dec 2019 03:43:33 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 7D1331C25FC; Sat, 14 Dec 2019 09:43:31 +0100 (CET)
-Date:   Sat, 14 Dec 2019 09:43:31 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Martin Schiller <ms@dev.tdt.de>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.4 034/134] leds: trigger: netdev: fix handling
- on interface rename
-Message-ID: <20191214084331.GD16834@duo.ucw.cz>
-References: <20191211151150.19073-1-sashal@kernel.org>
- <20191211151150.19073-34-sashal@kernel.org>
+        id S1725862AbfLNJsH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 14 Dec 2019 04:48:07 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35174 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725872AbfLNJsH (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 14 Dec 2019 04:48:07 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D7DC5AC71;
+        Sat, 14 Dec 2019 09:48:05 +0000 (UTC)
+Subject: Re: [RFC 07/25] leds: Add Titan Micro Electronics TM1628
+To:     linux-realtek-soc@lists.infradead.org, linux-leds@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        linux-arm-kernel@lists.infradead.org, Dan Murphy <dmurphy@ti.com>
+References: <20191212033952.5967-1-afaerber@suse.de>
+ <20191212033952.5967-8-afaerber@suse.de>
+From:   =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
+Organization: SUSE Software Solutions Germany GmbH
+Message-ID: <7441a2d5-f10a-8ca9-8df9-10c0a78cbeb7@suse.de>
+Date:   Sat, 14 Dec 2019 10:48:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="x4pBfXISqBoDm8sr"
-Content-Disposition: inline
-In-Reply-To: <20191211151150.19073-34-sashal@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191212033952.5967-8-afaerber@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Am 12.12.19 um 04:39 schrieb Andreas Färber:
+> diff --git a/drivers/leds/leds-tm1628.c b/drivers/leds/leds-tm1628.c
+> new file mode 100644
+> index 000000000000..319bf34ce835
+> --- /dev/null
+> +++ b/drivers/leds/leds-tm1628.c
+[...]
+> +struct tm1628 {
+> +	struct spi_device		*spi;
+> +	const struct tm1628_info	*info;
 
---x4pBfXISqBoDm8sr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +	u32				grids;
+> +	unsigned int			segments;
 
-On Wed 2019-12-11 10:10:10, Sasha Levin wrote:
-> From: Martin Schiller <ms@dev.tdt.de>
->=20
-> [ Upstream commit 5f820ed52371b4f5d8c43c93f03408d0dbc01e5b ]
->=20
-> The NETDEV_CHANGENAME code is not "unneeded" like it is stated in commit
-> 4cb6560514fa ("leds: trigger: netdev: fix refcnt leak on interface
-> rename").
->=20
-> The event was accidentally misinterpreted equivalent to
-> NETDEV_UNREGISTER, but should be equivalent to NETDEV_REGISTER.
->=20
-> This was the case in the original code from the openwrt project.
->=20
-> Otherwise, you are unable to set netdev led triggers for (non-existent)
-> netdevices, which has to be renamed. This is the case, for example, for
-> ppp interfaces in openwrt.
+These fields were unused since introducing mode_index, dropping.
 
-Please drop.
-								Pavel
-							=09
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+> +	int				mode_index;
+> +	int				pwm_index;
+> +	u8				data[14];
+> +	unsigned int			num_leds;
+> +	struct tm1628_led		leds[];
+> +};
+Regards,
+Andreas
 
---x4pBfXISqBoDm8sr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXfSgswAKCRAw5/Bqldv6
-8gduAJ9Lu1crg0JOc3VxbN0IycADWiBfQQCgpZAKA5szYroZKAauiMcPMTgIzzE=
-=xFie
------END PGP SIGNATURE-----
-
---x4pBfXISqBoDm8sr--
+-- 
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+GF: Felix Imendörffer
+HRB 36809 (AG Nürnberg)
