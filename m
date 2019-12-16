@@ -2,99 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 962731208FB
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2019 15:55:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8E75120FB9
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2019 17:41:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728167AbfLPOzd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 Dec 2019 09:55:33 -0500
-Received: from foss.arm.com ([217.140.110.172]:57962 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728008AbfLPOzd (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 16 Dec 2019 09:55:33 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6664A1FB;
-        Mon, 16 Dec 2019 06:55:32 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D91B93F718;
-        Mon, 16 Dec 2019 06:55:31 -0800 (PST)
-Date:   Mon, 16 Dec 2019 14:55:28 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     mazziesaccount@gmail.com,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+        id S1726545AbfLPQiG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Dec 2019 11:38:06 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:40950 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726263AbfLPQiG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Dec 2019 11:38:06 -0500
+Received: by mail-wr1-f67.google.com with SMTP id c14so8090398wrn.7
+        for <linux-leds@vger.kernel.org>; Mon, 16 Dec 2019 08:38:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=RJfGZGrl4mq7TcebevEYAAGdj89wqTsIyY2AzoZNJZg=;
+        b=lyvV6vFNgBoiTgIVaS4JIMPS2cBySlkahCSiktISYEv7wTk4WF5gXFh5lPYVT4ZLbN
+         nMmTe3CySvRZBjk31x8VWSiTTPumFluyjzxlLGWBHAryInc1ZGbEeZqAdH3Y2MU1nf5s
+         2sQg0KxnucMLhVYX90knLd9ZKAlnPnhofPbxH56MeNJQAHN67KyowAoIahFm/NE0ttGi
+         LhNODHQTETuG68H/rtkKfwEoA8xkC/YJZ75TLxh5pYUEdMZio3+sJBDwkd5r3qfgADTR
+         CqjUYjKBZZv1qkuJU0R0BzwvsmP9AFFHmFVhFVX8eEpV3bgTnvf/i0mZ2DRscTasqFQ2
+         5uIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=RJfGZGrl4mq7TcebevEYAAGdj89wqTsIyY2AzoZNJZg=;
+        b=mhL7WV0wTnR46a7txMzZI0M90BbUn66ULxjsz6ny3e3twivPtwUUXLOBbM5ORzBhVL
+         6vWhs/G8gFAhQzAM0ZgGwO2AcZnntUVA8EXCkoEGOUJ8MhC0fw767lAuUmhsvgCaVP7e
+         2NEnV5ACe1oPEyp1WhT8SLmNbHD5mo24jiOcZFJrzgPWiA7Pt/9Pxz4P457T3smS2ksW
+         yQOURIqS4MjxaUWNFckdUuFXnyCJzDDe5rofVifbjv6ag5DaTTLCsknDA/T/CidJBuDV
+         pG1hK5zWIkwLEhPI+kATU4RHdu77jdO3YS/5FnMULkQPDaEwwPLqM/yUHvjf/pPG/NrI
+         q1zg==
+X-Gm-Message-State: APjAAAX15dQPJlloXPRGj5EPwnRyksjdifWIzjCBKZrremVfafVMtsjq
+        rmKam2dOMUXlIiVgXCDPIawgUg==
+X-Google-Smtp-Source: APXvYqyISoODlaaBNQBPOF1jvtun6/H1CK0qGCqV2CyLnIjWshoO5AgQ+rhKG6UM5XFpmO+Sz2402A==
+X-Received: by 2002:adf:e8ca:: with SMTP id k10mr31579907wrn.50.1576514283856;
+        Mon, 16 Dec 2019 08:38:03 -0800 (PST)
+Received: from dell ([185.17.149.202])
+        by smtp.gmail.com with ESMTPSA id c195sm10481729wmd.45.2019.12.16.08.38.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2019 08:38:03 -0800 (PST)
+Date:   Mon, 16 Dec 2019 16:38:02 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Sven Van Asbroeck <thesven73@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v6 09/15] regulator: bd71828: Basic support for ROHM
- bd71828 PMIC regulators
-Message-ID: <20191216145528.GE4161@sirena.org.uk>
-References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
- <5b1c4a22c7945e97ff2a7924abfeb3239043f8eb.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+        Grigoryev Denis <grigoryev@fastwel.ru>,
+        Axel Lin <axel.lin@ingics.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] dt-bindings: mfd: update TI tps6105x chip bindings
+Message-ID: <20191216163802.GA18955@dell>
+References: <20191216143259.24587-1-TheSven73@gmail.com>
+ <20191216143259.24587-3-TheSven73@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vv4Sf/kQfcwinyKX"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5b1c4a22c7945e97ff2a7924abfeb3239043f8eb.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-X-Cookie: Backed up the system lately?
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191216143259.24587-3-TheSven73@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Mon, 16 Dec 2019, Sven Van Asbroeck wrote:
 
---vv4Sf/kQfcwinyKX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> The driver has been extended to optionally get its operational
+> mode, regulator init data and LED naming from the devicetree.
+> 
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Sven Van Asbroeck <TheSven73@gmail.com>
+> ---
+>  .../devicetree/bindings/mfd/tps6105x.txt      | 47 ++++++++++++++++++-
+>  1 file changed, 46 insertions(+), 1 deletion(-)
 
-On Wed, Dec 11, 2019 at 11:46:11AM +0200, Matti Vaittinen wrote:
+For my own reference:
+  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 
-> +static int bd71828_ldo6_get_voltage(struct regulator_dev *rdev)
-> +{
-> +	return BD71828_LDO_6_VOLTAGE;
-> +}
-> +
-> +static const struct regulator_ops bd71828_ldo6_ops = {
-> +	.enable = regulator_enable_regmap,
-> +	.disable = regulator_disable_regmap,
-> +	.get_voltage = bd71828_ldo6_get_voltage,
-
-You can just set fixed_uV in the regulator_desc, you don't need a
-get_voltage() operation here.  Otherwise this looks good, I'll apply it
-and please send an incremental fix for this.
-
---vv4Sf/kQfcwinyKX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl33mt8ACgkQJNaLcl1U
-h9DPqggAhcsF1ZeRBaP6Lzz9ZA0lX48wnM91c45AzpXxhBPVmVU8EJrJFkmUT+zI
-VYHCWzrWqZoUwoxRDUntTg0W7omOi4CoU10/2SGjxkdxHiAmutKvaV8e155DaKRj
-hhZGeaSRdWgD3uYUZGBB1W9OYmzuHx6NtlL76FfabMt6TTPQCq7X3VjSuI4wi4oN
-7JLtu6Gzf2WNSmP1uqZLMSqk1RvgZa2K1rgRwf+SYhTD21VWliTuq/qGtg0zmijW
-BA398k1yTl123ecTnS9Fnk+IsqPSTd/mBJT4TmFkdakxVm3JSYIqpqIiJYZtGOBs
-aUVTHrBVlYfYIk4raTP8w2l2xYiNdg==
-=0wbA
------END PGP SIGNATURE-----
-
---vv4Sf/kQfcwinyKX--
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
