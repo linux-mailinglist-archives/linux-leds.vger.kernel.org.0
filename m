@@ -2,94 +2,115 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4297311F375
-	for <lists+linux-leds@lfdr.de>; Sat, 14 Dec 2019 19:12:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12A7611FFBA
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2019 09:30:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726928AbfLNSLk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 14 Dec 2019 13:11:40 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48470 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725972AbfLNSLj (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 14 Dec 2019 13:11:39 -0500
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6E525214AF;
-        Sat, 14 Dec 2019 18:11:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576347098;
-        bh=3LrZZJbCclsHdwqWlzoOzNHVItEveOpELF2p47CNLDs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SUBZNjffD7cHvECGCGvUoTVmTCOYNdfesXyt2NzzLaBYXWloTQ+CuDz+9QLmyP4LM
-         suCNLerzScfvRJntS5Y9UtOLHvbSox6nNK1nPHelr0bu7RmwASQZtxw/dVdu5ybf+3
-         AsCXBFwQYWWTCsxfdIRJobm9UuyABauqUrstqons=
-Date:   Sat, 14 Dec 2019 13:11:37 -0500
-From:   Sasha Levin <sashal@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Martin Schiller <ms@dev.tdt.de>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.4 034/134] leds: trigger: netdev: fix handling
- on interface rename
-Message-ID: <20191214181137.GH12996@sasha-vm>
-References: <20191211151150.19073-1-sashal@kernel.org>
- <20191211151150.19073-34-sashal@kernel.org>
- <20191214084331.GD16834@duo.ucw.cz>
+        id S1726928AbfLPIaE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Dec 2019 03:30:04 -0500
+Received: from mail-ua1-f67.google.com ([209.85.222.67]:33766 "EHLO
+        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726897AbfLPIaD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Dec 2019 03:30:03 -0500
+Received: by mail-ua1-f67.google.com with SMTP id v19so1787114uap.0
+        for <linux-leds@vger.kernel.org>; Mon, 16 Dec 2019 00:30:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kDxQhaeLo6rNMVFT3CBcpOhBFhoVMYpLfsYqZHIsllM=;
+        b=GJ6KAmw6S+sq3Ccetl/H3ixiZVhos+PR0jEMWgPCzfx0kYdnBXsUmmddRDGHKCa+IW
+         XpoIFbLS8+19HgHvj1aji88fMJFyb1lR/OZ36673QRjkhDqdlzrIFkgM8oE+oLQDArnf
+         b7+9QxLZM6bFfD0TyRkuo4e0dVkdBL0SKoIBmAyTVM1uFsJHNelZ/+e0ANXGZ4aezkeZ
+         o4gb0cTRAp9bOD/PgQ9vQbyM+lGwK9Ok7JQXcF4SJ5b4Kw9UhJJL2BCwrf0d2BtMgGGk
+         5R3A+AL4JyWngHzSseIzNmoBzR/zYQxFslU5c3tgyAMleZF6TpW7mWEL4HtKwSHPi2AZ
+         9W7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kDxQhaeLo6rNMVFT3CBcpOhBFhoVMYpLfsYqZHIsllM=;
+        b=st/Dw7+/ryfTe17an0ybxoll+xH7Akqim/dxVzgN0aIVEcmBkE95Kn9r30gfiAw73u
+         s4qrl4Ok1NL5CWALbg/F96SyyQs2iO1IeTiCUaUDOd7ahjjU7hl1ajuQ6bKVR2+yaO+9
+         +dP9x92rGpCtdRYEt5ddo2soLWVflkiiddCCq0m1EvodOwEnKbmZzW6vAxe1K4w+9q7S
+         nclNLuGL+Si/Zl245SuENgEdEknMl5zS44TXOFnniuN28okuea60zrnaJ5ccwjmFPkg5
+         Rt1nTYl2WG2rP9/GfuTgIpZj9pVqaAm/elO38myF6ZzrCo90iil4CpvgcTsWCdHrwZ9V
+         b2qg==
+X-Gm-Message-State: APjAAAWQxZOjLW1i9mvPn99hgyWrI9w9awkXvTilr3NeSLuCEB4eB/se
+        aY0fO2jFFfCKClp67xY7e9SGwyb+EebD19lkFaxpyg==
+X-Google-Smtp-Source: APXvYqwni+l6XxPCyreJYxRHqzJXidyE2iM9tvx9B737sdIeXKOHoRA6FLpVo5xoUtWtnIiiMdWW6jDBBKJSinB1wok=
+X-Received: by 2002:ab0:5512:: with SMTP id t18mr22623715uaa.128.1576485002794;
+ Mon, 16 Dec 2019 00:30:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191214084331.GD16834@duo.ucw.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com> <f34765b5cb4e949c2e85415ded3d0ee7736cc97b.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+In-Reply-To: <f34765b5cb4e949c2e85415ded3d0ee7736cc97b.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 16 Dec 2019 09:29:51 +0100
+Message-ID: <CACRpkdbUS7WeQ7OoTtjGnB7L=uhYncwwcHxkJ1Uj6GqYCGNGJA@mail.gmail.com>
+Subject: Re: [PATCH v6 10/15] gpio: devres: Add devm_gpiod_get_parent_array
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc:     Matti Vaittinen <mazziesaccount@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-rtc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, Dec 14, 2019 at 09:43:31AM +0100, Pavel Machek wrote:
->On Wed 2019-12-11 10:10:10, Sasha Levin wrote:
->> From: Martin Schiller <ms@dev.tdt.de>
->>
->> [ Upstream commit 5f820ed52371b4f5d8c43c93f03408d0dbc01e5b ]
->>
->> The NETDEV_CHANGENAME code is not "unneeded" like it is stated in commit
->> 4cb6560514fa ("leds: trigger: netdev: fix refcnt leak on interface
->> rename").
->>
->> The event was accidentally misinterpreted equivalent to
->> NETDEV_UNREGISTER, but should be equivalent to NETDEV_REGISTER.
->>
->> This was the case in the original code from the openwrt project.
->>
->> Otherwise, you are unable to set netdev led triggers for (non-existent)
->> netdevices, which has to be renamed. This is the case, for example, for
->> ppp interfaces in openwrt.
+On Wed, Dec 11, 2019 at 10:47 AM Matti Vaittinen
+<matti.vaittinen@fi.rohmeurope.com> wrote:
+
+> Bunch of MFD sub-devices which are instantiated by MFD do not have
+> own device-tree nodes but have (for example) the GPIO consumer
+> information in parent device's DT node. Add resource managed
+> devm_gpiod_get_array() for such devices so that they can get the
+> consumer information from parent DT while still binding the GPIO
+> reservation life-time to this sub-device life time.
 >
->Please drop.
+> If devm_gpiod_get_array is used as such - then unloading and then
+> re-loading the child device fails as the GPIOs reserved during first
+> load are not freed when driver for sub-device is unload (if parent
+> stays there).
+>
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+>
+> Changes since v5:
+> - renamed internal function (no __ - prefixes for Linus :] )
 
-Here's a bug report from a user (fixed by this patch):
+Thanks, as there are things happening in the GPIO subsystem I
+have put this one patch on an immutable branch here:
+https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git/log/?h=ib-devm-gpiod-get-parent-array
 
-        https://forum.openwrt.org/t/18-06-4-serious-led-problems-td-w8970-v1/40417
+Please ask the maintainer (I guess Lee?) to pull this into wherever
+the rest of the patches should be merged if you want patches beyond
+this point to be applied for the next (v5.6) merge window, then this
+patch is not needed in the series.
 
-He has titled the report "18.06.4:Serious ‘LED’ Problems!", and in the
-bug report itself he has mentioned:
-
-        The LED's are really important to me. please let me know how to
-        fix this by my self! I cannot report it and wait for next few
-        months for patch, again!
-
-There are two other similar bug reports:
-
-        https://bugs.openwrt.org/index.php?do=details&task_id=2193
-        https://bugs.openwrt.org/index.php?do=details&task_id=2239
-
-So this is obviously an issue that affects users and needs to be fixed.
-
-Beyond the above, the patch is upstream, it fixes a single issue, and is
-shorter than 100 lines.
-
-I'm going to go ahead and ignore your input for this and the rest of the
-led patches in the series for similar reasons.
-
--- 
-Thanks,
-Sasha
+Yours,
+Linus Walleij
