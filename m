@@ -2,167 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 896F712035B
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2019 12:10:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C1B5120576
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2019 13:21:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727566AbfLPLJm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 Dec 2019 06:09:42 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36110 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727560AbfLPLJl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Dec 2019 06:09:41 -0500
-Received: by mail-wr1-f67.google.com with SMTP id z3so6733209wru.3
-        for <linux-leds@vger.kernel.org>; Mon, 16 Dec 2019 03:09:40 -0800 (PST)
+        id S1727566AbfLPMVu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Dec 2019 07:21:50 -0500
+Received: from mail-vk1-f194.google.com ([209.85.221.194]:36218 "EHLO
+        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727558AbfLPMVu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Dec 2019 07:21:50 -0500
+Received: by mail-vk1-f194.google.com with SMTP id i4so1553476vkc.3
+        for <linux-leds@vger.kernel.org>; Mon, 16 Dec 2019 04:21:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=GSwxZqA1p+v3fIchljXoOSOPXRU+x5PdBqx4Li7pnc8=;
-        b=izo3SXymVRSx/zAI+IcDTMigV+sq6Wd7JcYeHw99As5psoxVLMP2hcsI3tHbJwGtRI
-         C1sl5Vl4ZnUr/g4Lri6/L0G1Ju0FJSX8nD9LjZuQRdgrzwHoo/Ut2Td8QUfkMcUybSdX
-         NU7xZlV9yhVGfht/rPWB1BHz+9UV7SQQjY1Ga+C/cD+lxck8sXdO/Ghs0/6CDX5tWdei
-         1nHfn4kprePHhxmwL34DXxU9LdEfN7tSGZv3N8yDY+TjCtFJT8NUDa7V4xnZdL2vZK4K
-         NrCEHpLB2JVYhVXCTfpGgDw0iZcMyU/Vde4HcItkAUyqkTZSA0oax2At8u69pqDaw+Ss
-         nk6w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4Osz9VkIv77cDwS5TcCegl7t+g2vcc4c6bR2gC0bBTE=;
+        b=DZZyv8KM/AkMijIzHa1GdiQtmMM5jFO5/iApv4ZaWBvNM353Ymxg2+pnW5EC9h1d10
+         raOcV/4ZpE2mLiy9niImgy6S2uIbA8AxH7zU77oNYUJK5xvF07asZDBu2dJQL1Nt3X8x
+         6HN96msV5Xasoa7rvuf7T9sxjtSopJk43dVkSSJ1RkjWKxqXtfKtVaWoc6wECXGLbsW6
+         +5KQFjSFWGoSMFLp4WestwfyV+ESb9MvghUFcvSOF1K4p1gyWUHq00PnIs22QsYnLQ66
+         zzcsQnc5XGu/COfqK2j7KirCwaIBS0mSgbm1k2K1q1CxtYxlAMMyEMywAX2JwUw3AoxK
+         cEcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=GSwxZqA1p+v3fIchljXoOSOPXRU+x5PdBqx4Li7pnc8=;
-        b=NpgJqGKGiJQQpSoMg9x0sPZ3WTkrZOxoi+a6O76GabfYVIikamOeNl+DxUgDCh68Dd
-         ekDzctbiKL5CE6St8eoekOqjM8FfKmnFcYLnQ271NfJLdy02dmdgjuV0OXZ90GfC7Ahz
-         G9BB5xRm/iODva2lLTufon/2uncSch9iCXtxMiFnCrabUTpy5C4PyN6mjDHXERum3GYW
-         IUj7IryEgzugTa0zv6JWIAvVq/skxgN2gIug/e3a4OoYsH23mPH1wqbI9Cng3dX7JxrL
-         dPguAL1wCUdMKXWNQK1bHqlM21KB+J+QcZml8PXzSk4/z2O7jH7ujuPInCc5plQ+3HmA
-         7EvA==
-X-Gm-Message-State: APjAAAUcdSELEZaNrsCkSu/NaLfJJIVHX4ZTxVsgP77Vwtou87QGQJ01
-        Me6vIUtkEluSiO/WNm02DwxKVA==
-X-Google-Smtp-Source: APXvYqzqbT4cHx/a6uUClyqUgv58zyyf1LeRoaH/ossUkpuxVMrtMTrwQ8kwz8ldw4PfghfhWvf7Iw==
-X-Received: by 2002:a5d:49c7:: with SMTP id t7mr28690138wrs.369.1576494579832;
-        Mon, 16 Dec 2019 03:09:39 -0800 (PST)
-Received: from dell ([2.27.35.132])
-        by smtp.gmail.com with ESMTPSA id l3sm21080860wrt.29.2019.12.16.03.09.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2019 03:09:39 -0800 (PST)
-Date:   Mon, 16 Dec 2019 11:09:39 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Sven Van Asbroeck <thesven73@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Grigoryev Denis <grigoryev@fastwel.ru>,
-        Axel Lin <axel.lin@ingics.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] dt-bindings: mfd: update TI tps6105x chip bindings
-Message-ID: <20191216110939.GJ3601@dell>
-References: <20191209140234.6558-1-TheSven73@gmail.com>
- <20191209140234.6558-3-TheSven73@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4Osz9VkIv77cDwS5TcCegl7t+g2vcc4c6bR2gC0bBTE=;
+        b=bU/iledCUxZgQAGe6wh+ZNYqXNkJE5mM0MRe/FzBkSv1BZu5XsYOulhFZoZ0rd8IY8
+         KNSYQhUk6w0ZVL3Ru8J1eXy/ur798n8I+vhXrrWRQhryxHCSPNWlD3EL7k73nwNKCxnr
+         OrnlTvZHUopRpCgkKB8V1VxOUoZ12532j0wo7+088xhdaTcqpbL7UQoW/aeTRx+vqyC0
+         wat3wLbgOvBE6fD6eE4WoB/SDylN/xBSvX+4qAQMDDTCzApYiO/t9093Cw5vjlbK044A
+         FXq6dtLgFQNnDMTzq8L75FzZFySRpSSVcaagSidZbm0B0qXQ7yhWfCh8u/UfyFtOjU9p
+         YApQ==
+X-Gm-Message-State: APjAAAVhYe8dW3QYcD+VUOFeGPkPUiYDiQGIYdD9jDuA/a9u9I1JsGgy
+        ceeuKTmbXB3dPWoFIi0wTgbC+qYPFjVTMTHlkQqLbw==
+X-Google-Smtp-Source: APXvYqx0xjbvyReO9ph3sJ/hbSdKSuPIz6dCp5eLmtjvK0OiHzZ5p261fyvWyE0OL/9Yo5d+jJByHNJNcdJ2/e/Yeww=
+X-Received: by 2002:a1f:add3:: with SMTP id w202mr2070054vke.30.1576498909436;
+ Mon, 16 Dec 2019 04:21:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191209140234.6558-3-TheSven73@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+ <f34765b5cb4e949c2e85415ded3d0ee7736cc97b.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+ <CACRpkdbUS7WeQ7OoTtjGnB7L=uhYncwwcHxkJ1Uj6GqYCGNGJA@mail.gmail.com> <812acba9df70c4bb6975580c7965b61e923a3a13.camel@fi.rohmeurope.com>
+In-Reply-To: <812acba9df70c4bb6975580c7965b61e923a3a13.camel@fi.rohmeurope.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 16 Dec 2019 13:21:38 +0100
+Message-ID: <CACRpkdbi9AhGnG3hBwXNQV9foK=JNBH8WUNvXZVxbEX4LyDCig@mail.gmail.com>
+Subject: Re: [PATCH v6 10/15] gpio: devres: Add devm_gpiod_get_parent_array
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "noralf@tronnes.org" <noralf@tronnes.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 09 Dec 2019, Sven Van Asbroeck wrote:
+On Mon, Dec 16, 2019 at 9:59 AM Vaittinen, Matti
+<Matti.Vaittinen@fi.rohmeurope.com> wrote:
 
-> The driver has been extended to optionally get its operational
-> mode, regulator init data and LED naming from the devicetree.
-> 
-> Tree: next-20191118
+> I dropped the run-level support from regulator patch (for now at
+> least). This means that I no longer have GPIO consumers needing this
+> new API in the series.
 
-Please refrain from putting this in the commit message.
+OK I dropped it for now, we can add it when needed.
 
-> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Sven Van Asbroeck <TheSven73@gmail.com>
-> ---
-
-... if you really want to put that in, place it here, so it doesn't
-become part of the kernel's Git history.
-
->  .../devicetree/bindings/mfd/tps6105x.txt      | 47 ++++++++++++++++++-
->  1 file changed, 46 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/tps6105x.txt b/Documentation/devicetree/bindings/mfd/tps6105x.txt
-> index 93602c7a19c8..d15763740a3f 100644
-> --- a/Documentation/devicetree/bindings/mfd/tps6105x.txt
-> +++ b/Documentation/devicetree/bindings/mfd/tps6105x.txt
-> @@ -7,11 +7,56 @@ Required properties:
->  - compatible:		"ti,tps61050" or "ti,tps61052"
->  - reg:			Specifies the I2C slave address
->  
-> -Example:
-> +Optional sub-node:
-> +
-> +This subnode selects the chip's operational mode.
-> +There can be at most one single available subnode.
-> +
-> +- regulator: presence of this sub-node puts the chip in regulator mode.
-> +	see Documentation/devicetree/bindings/regulator/regulator.txt
-
-Relative paths are preferred.
-
-> +- led: presence of this sub-node puts the chip in led mode.
-> +	Optional properties:
-> +	- function : see ../leds/common.txt
-> +	- color    : see ../leds/common.txt
-> +	- label    : see ../leds/common.txt
-
-Yes, like this.
-
-> +			(deprecated)
-> +
-> +Example (GPIO operation only):
-> +
-> +i2c0 {
-> +	tps61052@33 {
-> +		compatible = "ti,tps61052";
-> +		reg = <0x33>;
-> +	};
-> +};
-> +
-> +Example (GPIO + regulator operation):
->  
->  i2c0 {
->  	tps61052@33 {
->  		compatible = "ti,tps61052";
->  		reg = <0x33>;
-> +
-> +		regulator {
-> +			regulator-min-microvolt = <5000000>;
-> +			regulator-max-microvolt = <5000000>;
-> +			regulator-always-on;
-> +		};
-> +	};
-> +};
-> +
-> +Example (GPIO + led operation):
-> +
-> +#include <dt-bindings/leds/common.h>
-> +
-> +i2c0 {
-> +	tps61052@33 {
-> +		compatible = "ti,tps61052";
-> +		reg = <0x33>;
-> +
-> +		led {
-> +			color = <LED_COLOR_ID_WHITE>;
-> +		};
->  	};
->  };
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Yours,
+Linus Walleij
