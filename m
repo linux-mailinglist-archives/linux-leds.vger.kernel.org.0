@@ -2,135 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 533ED120595
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2019 13:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEC551208AF
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Dec 2019 15:33:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727601AbfLPM2N (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 Dec 2019 07:28:13 -0500
-Received: from honk.sigxcpu.org ([24.134.29.49]:33336 "EHLO honk.sigxcpu.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727542AbfLPM2M (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 16 Dec 2019 07:28:12 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id 39041FB03;
-        Mon, 16 Dec 2019 13:28:10 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
-        by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id z35nRjP2CTXa; Mon, 16 Dec 2019 13:28:08 +0100 (CET)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id 8B0DC498AF; Mon, 16 Dec 2019 13:28:06 +0100 (CET)
-From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        id S1728033AbfLPOdH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Dec 2019 09:33:07 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:37188 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728014AbfLPOdG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 16 Dec 2019 09:33:06 -0500
+Received: by mail-qk1-f196.google.com with SMTP id 21so2602386qky.4;
+        Mon, 16 Dec 2019 06:33:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=iOSeUyEU1fkveiExoPDURDT6oyTtUpKpG0pS9lvxGPk=;
+        b=hHxa+EilxYDWvtczudP+0nTtwS0qAb+p90p84Vjb9WBCWj8OGqda8Zm9KRVGxct8EZ
+         fdkBWDe1TJBwYcZzY8NthMyNzOGUnZQmT6Fbu4vL99oACL6O79iQurTg5HyQW1zbP0ak
+         y5S1hc22S1aNwEEAwsLUEttXcHjJf2ndve0vF/D0oGIVbHE0+0y9DJqdkghg3zT5lKAX
+         5/+hMUS18YHlTj4pdUnuluISJ0JKClBlpcjQmlxJXsTes7j8cXdwNiyC0OV7P4qAihq8
+         Eh4MBeQ1JylT/15tJ7kyUOn35QriHjCsjsU7hUQWRbBM36wJXHEPPf5PhzClzQnyZ3V5
+         9Ldg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=iOSeUyEU1fkveiExoPDURDT6oyTtUpKpG0pS9lvxGPk=;
+        b=JioUpvSnLFcpNLVUDIpwTNLzNn+p8VBLalo73fazXWD9+1RO74Q33ldrbVYp6kfImg
+         b538ZUaRpH5kEcnFJjc2++b+p7kyItmHj06sthOya4430fxhaoiv7DhMFHuQaz12mz+N
+         DahIDxalU35FxozdlE9qeTQqrxVbTz4KvziArsMtrZ7sLYo3Oa9q/CE5FxaOIqd+mcvu
+         0v26MnY5bINiI+Vl/PWGjWeuJWc+NrMYe/Sb+/kk30s27zUVaDF8v5d7k5SURRuildVF
+         F6k8VF1xxYG3nz15HmJxaBOdO1H6uFVu4/soZYh8FZS2n0Ag2odB+hQJcdQDptCPk5Mg
+         BH1w==
+X-Gm-Message-State: APjAAAX0rUue18I08XidBcz+I8ZmiGIp+wa4EJUe8RUG3+RGj6E/qaC+
+        v4Q3bmpEjLLa4C4gYbBAUKI=
+X-Google-Smtp-Source: APXvYqyvqDkwXVx1vUgCuwUdrEJNtkhmJ9S6wB4zjLnLnnzhRmbZLukDpMWiBw8mOaYKRqcgwKBDJQ==
+X-Received: by 2002:a05:620a:b06:: with SMTP id t6mr28082853qkg.373.1576506785265;
+        Mon, 16 Dec 2019 06:33:05 -0800 (PST)
+Received: from localhost.localdomain ([72.53.229.209])
+        by smtp.gmail.com with ESMTPSA id b3sm6966992qtr.86.2019.12.16.06.33.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2019 06:33:04 -0800 (PST)
+From:   Sven Van Asbroeck <thesven73@gmail.com>
+X-Google-Original-From: Sven Van Asbroeck <TheSven73@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Grigoryev Denis <grigoryev@fastwel.ru>,
+        Axel Lin <axel.lin@ingics.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] leds: lm3692x: Allow to set ovp and brigthness mode
-Date:   Mon, 16 Dec 2019 13:28:06 +0100
-Message-Id: <9c87a17aefbf758d58f199f7046114ee7505a1fa.1576499103.git.agx@sigxcpu.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <cover.1576499103.git.agx@sigxcpu.org>
-References: <cover.1576499103.git.agx@sigxcpu.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: [PATCH v6 0/2] tps6105x add devicetree and leds support
+Date:   Mon, 16 Dec 2019 09:32:57 -0500
+Message-Id: <20191216143259.24587-1-TheSven73@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Overvoltage protection and brightness mode are currently hardcoded
-as disabled in the driver. Make these configurable via DT.
+v5 -> v6:
+	Dan Murphy's suggestions:
+	- s/mfd/MFD/
+	- s/led/LED/
+	- Added copyright message
+	- fixed regmap_update_bits alignment
+	- added a comment to clarify that fwnode / devicetree support is
+	  optional, and device_get_next_child_node() returning NULL is
+	  supported
+	Lee Jones's suggestions:
+	- removed 'Tree:' line from commit message
+	- changed over to relative paths
 
-Signed-off-by: Guido Günther <agx@sigxcpu.org>
----
- drivers/leds/leds-lm3692x.c | 43 +++++++++++++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 6 deletions(-)
+v4 -> v5:
+	Added Jacek Anaszewski's Acked-by tag on both patches.
+	Added Rob Herring's Reviewed-by tag on devicetree patch.
+	Lee Jones:
+	- tweaked commit message s/led/LED/
+	- use relative paths in Devicetree binding docs, line up ':'s
 
-diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
-index 8b408102e138..2c084b333628 100644
---- a/drivers/leds/leds-lm3692x.c
-+++ b/drivers/leds/leds-lm3692x.c
-@@ -114,6 +114,7 @@ struct lm3692x_led {
- 	struct regulator *regulator;
- 	int led_enable;
- 	int model_id;
-+	u8 boost_ctrl, brightness_ctrl;
- };
- 
- static const struct reg_default lm3692x_reg_defs[] = {
-@@ -249,10 +250,7 @@ static int lm3692x_init(struct lm3692x_led *led)
- 	if (ret)
- 		goto out;
- 
--	ret = regmap_write(led->regmap, LM3692X_BOOST_CTRL,
--			LM3692X_BOOST_SW_1MHZ |
--			LM3692X_BOOST_SW_NO_SHIFT |
--			LM3692X_OCP_PROT_1_5A);
-+	ret = regmap_write(led->regmap, LM3692X_BOOST_CTRL, led->boost_ctrl);
- 	if (ret)
- 		goto out;
- 
-@@ -268,8 +266,7 @@ static int lm3692x_init(struct lm3692x_led *led)
- 	if (ret)
- 		goto out;
- 
--	ret = regmap_write(led->regmap, LM3692X_BRT_CTRL,
--			LM3692X_BL_ADJ_POL | LM3692X_RAMP_EN);
-+	ret = regmap_write(led->regmap, LM3692X_BRT_CTRL, led->brightness_ctrl);
- 	if (ret)
- 		goto out;
- 
-@@ -326,6 +323,8 @@ static int lm3692x_probe_dt(struct lm3692x_led *led)
- {
- 	struct fwnode_handle *child = NULL;
- 	struct led_init_data init_data = {};
-+	u32 ovp = 0;
-+	bool exp_mode;
- 	int ret;
- 
- 	led->enable_gpio = devm_gpiod_get_optional(&led->client->dev,
-@@ -350,6 +349,38 @@ static int lm3692x_probe_dt(struct lm3692x_led *led)
- 		led->regulator = NULL;
- 	}
- 
-+	led->boost_ctrl = LM3692X_BOOST_SW_1MHZ |
-+		LM3692X_BOOST_SW_NO_SHIFT |
-+		LM3692X_OCP_PROT_1_5A;
-+	ret = device_property_read_u32(&led->client->dev,
-+				       "ti,overvoltage-volts", &ovp);
-+	if (!ret) {
-+		switch (ovp) {
-+		case 0:
-+			break;
-+		case 22:
-+			led->boost_ctrl |= LM3692X_OVP_21V;
-+			break;
-+		case 25:
-+			led->boost_ctrl |= LM3692X_OVP_25V;
-+			break;
-+		case 29:
-+			led->boost_ctrl |= LM3692X_OVP_29V;
-+			break;
-+		default:
-+			dev_err(&led->client->dev, "Invalid OVP %d\n", ovp);
-+			return -EINVAL;
-+		}
-+	}
-+	dev_dbg(&led->client->dev, "OVP: %dV", ovp);
-+
-+	led->brightness_ctrl = LM3692X_BL_ADJ_POL | LM3692X_RAMP_EN;
-+	exp_mode = device_property_read_bool(&led->client->dev,
-+				     "ti,brightness-mapping-exponential");
-+	dev_dbg(&led->client->dev, "Exponential brightness: %d", exp_mode);
-+	if (exp_mode)
-+		led->brightness_ctrl |= LM3692X_MAP_MODE_EXP;
-+
- 	child = device_get_next_child_node(&led->client->dev, child);
- 	if (!child) {
- 		dev_err(&led->client->dev, "No LED Child node\n");
+v3 -> v4:
+	Removed tps6105 mfd patch - it was accepted (Mark Brown).
+	
+	Use the new LED registration API - suggested by Jacek Anaszewski.
+	
+	Updated led dt bindings to document function, color usage.
+
+v2 -> v3:
+	Removed tps6105x regulator patch - it was accepted (Mark Brown).
+	
+	Removed devicetree/platdata bindings for tps6105x led naming.
+	I can test only with a 4.19 vendor kernel, which does not have the
+	latest led naming infrastructure (function/color). Drop devicetree/
+	fwnode/pdata led naming in favour of hard-coding to "tps6105x::torch",
+	so the patch can be tested by me, yet remains acceptable to upstream.
+
+v1 -> v2:
+	Select chip operational mode by looking at subnode name, _not_ its
+	compatible property. Suggested by Mark Brown.
+
+I needed led operation for this mfd chip, so I added a very simple
+driver for this.
+
+My platform (arm imx6q) is devicetree-based, so I added optional
+devicetree support for this chip and its sub-drivers.
+
+Sven Van Asbroeck (2):
+  leds: tps6105x: add driver for MFD chip LED mode
+  dt-bindings: mfd: update TI tps6105x chip bindings
+
+ .../devicetree/bindings/mfd/tps6105x.txt      | 47 +++++++++-
+ drivers/leds/Kconfig                          | 10 +++
+ drivers/leds/Makefile                         |  1 +
+ drivers/leds/leds-tps6105x.c                  | 89 +++++++++++++++++++
+ 4 files changed, 146 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/leds/leds-tps6105x.c
+
 -- 
-2.23.0
+2.17.1
 
