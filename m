@@ -2,68 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE0F91226BA
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 09:33:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44D26122772
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 10:15:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726710AbfLQIc6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Dec 2019 03:32:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38394 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725893AbfLQIc6 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 17 Dec 2019 03:32:58 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3ACF820717;
-        Tue, 17 Dec 2019 08:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576571577;
-        bh=KaMIYYTK97ljJkmoWGyzXxyeIHqCzEem6vx3BF/K95c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CCp/gKW2FM+ds1U0VZ2esuhAB/PBwBNbrZ+YQRpdNJ6yWAS7n4XZucBznhJZhQGNr
-         msTA3K4BgEnfrQ9MHTy153ZC+oWX+7pB7KFytATGFmSR2y/QRyAHAZSwDm3L2Pq0MX
-         eIC37abYyBJ4WzzNN0lyHE5SfsORdB46njx15lac=
-Date:   Tue, 17 Dec 2019 09:32:54 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Jiri Slaby <jslaby@suse.com>, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-serial@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v2 0/3] tty/leds: implement a trigger for ttys
-Message-ID: <20191217083254.GD2672708@kroah.com>
-References: <20191217081718.23807-1-u.kleine-koenig@pengutronix.de>
+        id S1726783AbfLQJP5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 Dec 2019 04:15:57 -0500
+Received: from mailgate1.rohmeurope.com ([178.15.145.194]:50236 "EHLO
+        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726571AbfLQJP5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Dec 2019 04:15:57 -0500
+X-AuditID: c0a8fbf4-183ff70000001fa6-67-5df89cca770e
+Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
+        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 46.55.08102.ACC98FD5; Tue, 17 Dec 2019 10:15:54 +0100 (CET)
+Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
+ WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
+ 14.03.0439.000; Tue, 17 Dec 2019 10:15:49 +0100
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     "broonie@kernel.org" <broonie@kernel.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "noralf@tronnes.org" <noralf@tronnes.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>
+Subject: Re: [PATCH v6 09/15] regulator: bd71828: Basic support for ROHM
+ bd71828 PMIC regulators
+Thread-Topic: [PATCH v6 09/15] regulator: bd71828: Basic support for ROHM
+ bd71828 PMIC regulators
+Thread-Index: AQHVsAfYI3uVDvKcOUypO4bwmJ45Qqe80OIAgAEzbYA=
+Date:   Tue, 17 Dec 2019 09:15:48 +0000
+Message-ID: <f56acdc65ab341f9c4ec0709fbfcc32b9f16d6ae.camel@fi.rohmeurope.com>
+References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+         <5b1c4a22c7945e97ff2a7924abfeb3239043f8eb.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
+         <20191216145528.GE4161@sirena.org.uk>
+In-Reply-To: <20191216145528.GE4161@sirena.org.uk>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [213.255.186.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D46A00866A9A2D4495284B4D77EF2287@de.rohmeurope.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191217081718.23807-1-u.kleine-koenig@pengutronix.de>
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Tf0wTZxj2u7veHT/OHRXks07jurjNLSgYtnxuSojxx5k4ssRky1ywPeSk
+        HaXFa1lk/iGRqQMVC0gMpUWlMIkQKwWiokZSKmpnWBpPrEFdmMTfAaYMUFB356nw1/d87/M+
+        z/P+8b40rvVSOtpsdQiilbfoyWiis3GiJSnkHs9MvnJpLqoPX6fQnsE/KPSyoptCI54Qgar6
+        B0g00LkHoMPBHg3a+2ebBhV7fSTqaz9JoL//uwjQqPQ7hg5OHsPQv/vuaNDR3fUEaj08CdC1
+        DjeJ2p+cAKi7SSJRw40whtwNlwk09LQEQ+HQalQVGqTQ7dBFEhWHIzjadT5IoVe9LQQq61mb
+        Po9rrm0G3MSLCsANRXZRXG3zdu6M6zbF+Y+XkNyt3nMkd8HTTHHeskoNN3q1nODuHfUR3KXI
+        KYw7VPsc43z7goBrbBqjuGf++d+xG2OWZ/GOXzaYc6xL0owxplppR35F9LZjrl6iCAxHlYIo
+        GrKp8FC3pCkF0bSWvQ5gl/M+pX4uA7j/SRsoBTRNssth6U1KEcSzSbDqhZdUMM5KMbDm7E8K
+        nsVmQV/Xbkzt2QwvPPC+xV9D6YgHVzDBLoTOcORNnWEz4F23D1ezrgLYJ1W+MY1il8J/HncS
+        CgbsPFhSNIipYYnQf29Mo07Nwvpzf+EqToAP7756W9fD88/7CWVmnF0EfR1LVJgOD3R+orp8
+        BA/u7afUEeLgleoBwglmu6YFuKbErimxa5rYNU18BGiOA5jHmy05vENIWSwKBYtFmylPfjbb
+        8vxAXbqR0+B1YF0AYDQIgDk0pk9gYteOZ2pnZtmyC0283WQQCyyCPQAgjevjmdMLxjK1TDZf
+        +Ksg2t5Rc2lCn8h82l+eqWWVrFxByBfEd+yHNK2HzNNq2TROFHKEbVvMFscUjdFRinm0Lt4u
+        WLMFkS9wmAzKchjs8nYoVKyc+7F8GVrGns/nyVVVGgJf0M6HnjqcDnoa6nAtYbVZBV0iU1gj
+        t7JKq6nA+j7oEUikgX4W43TJbKx8ee99HskRmByxNGNUiXDwU5SuCPx2c8V48k7jB8XSluRy
+        5kZ225dMwFDT2lXcdG3FHXvEGZizJtyzMc1rzm1YPzEjddmGnw2tPa/9kVWNzPBnYzMQPBEb
+        nL1y/mSTbXLolGRMivvq+/Tq1APg2+HKReVp7bqtt9adTW2xGEt2/liRe3I0oWPE/XjrJulZ
+        30Jja9kPKd/oCbuJT/kcF+38/5X8RXI2BAAA
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Dec 17, 2019 at 09:17:15AM +0100, Uwe Kleine-König wrote:
-> Hello,
-> 
-> back in November last year I sent my last approach to implement an led
-> trigger for UARTs (Message-Id:
-> 20181106213739.29628-1-u.kleine-koenig@pengutronix.de). This was parked
-> on my todo list since then somewhere far from the top.
-> 
-> This is a new approach. Similar to the netdev trigger the tty trigger
-> introduced here periodically checks the statistics related to a given
-> tty and if that changed the LED is flashed once.
-> 
-> I had to introduce two functions in the tty layer to be able to get my
-> hands on the needed data in the first two patches, the third patch then
-> adds the trigger.
-
-I like the idea, seems sane.  Minor code nits on the implementation
-though...
-
-thanks,
-
-greg k-h
+SGVsbG8gTWFyaywNCg0KT24gTW9uLCAyMDE5LTEyLTE2IGF0IDE0OjU1ICswMDAwLCBNYXJrIEJy
+b3duIHdyb3RlOg0KPiBPbiBXZWQsIERlYyAxMSwgMjAxOSBhdCAxMTo0NjoxMUFNICswMjAwLCBN
+YXR0aSBWYWl0dGluZW4gd3JvdGU6DQo+IA0KPiA+ICtzdGF0aWMgaW50IGJkNzE4MjhfbGRvNl9n
+ZXRfdm9sdGFnZShzdHJ1Y3QgcmVndWxhdG9yX2RldiAqcmRldikNCj4gPiArew0KPiA+ICsJcmV0
+dXJuIEJENzE4MjhfTERPXzZfVk9MVEFHRTsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIGNv
+bnN0IHN0cnVjdCByZWd1bGF0b3Jfb3BzIGJkNzE4MjhfbGRvNl9vcHMgPSB7DQo+ID4gKwkuZW5h
+YmxlID0gcmVndWxhdG9yX2VuYWJsZV9yZWdtYXAsDQo+ID4gKwkuZGlzYWJsZSA9IHJlZ3VsYXRv
+cl9kaXNhYmxlX3JlZ21hcCwNCj4gPiArCS5nZXRfdm9sdGFnZSA9IGJkNzE4MjhfbGRvNl9nZXRf
+dm9sdGFnZSwNCj4gDQo+IFlvdSBjYW4ganVzdCBzZXQgZml4ZWRfdVYgaW4gdGhlIHJlZ3VsYXRv
+cl9kZXNjLCB5b3UgZG9uJ3QgbmVlZCBhDQo+IGdldF92b2x0YWdlKCkgb3BlcmF0aW9uIGhlcmUu
+ICBPdGhlcndpc2UgdGhpcyBsb29rcyBnb29kLCBJJ2xsIGFwcGx5DQo+IGl0DQo+IGFuZCBwbGVh
+c2Ugc2VuZCBhbiBpbmNyZW1lbnRhbCBmaXggZm9yIHRoaXMuDQoNCkp1c3QgdG8gY29uZmlybSAt
+IGFyZSB5b3UgYWxzbyB0YWtpbmcgaW4gdGhlDQpbUEFUQ0ggdjYgMDgvMTVdIHJlZ3VsYXRvcjog
+YmQ3MTh4NzogU3BsaXQgZHJpdmVyIHRvIGNvbW1vbiBhbmQgYmQ3MTh4Nw0Kc3BlY2lmaWMgcGFy
+dHMNCg0KSSB0aGluayB0aGVyZSBpcyBhIGRlcGVuZGVuY3kuIChJIGFtIHByZXBhcmluZyBuZXh0
+IHZlcnNpb24gb2YgdGhlDQpzZXJpZXMgc28gSSdsbCBkcm9wIHRoZSBhbHJlYWR5IGFwcGxpZWQg
+cGF0Y2hlcy4pDQoNCkJyLA0KCU1hdHRpIFZhaXR0aW5lbg0K
