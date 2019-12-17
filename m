@@ -2,183 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E09B122C58
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 13:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F7BB122D3C
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 14:45:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726608AbfLQM4V (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Dec 2019 07:56:21 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:60072 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726141AbfLQM4V (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Dec 2019 07:56:21 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBHCuCMN064150;
-        Tue, 17 Dec 2019 06:56:12 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1576587372;
-        bh=1qUgNe6rvXdvP9mRolqQkKsWnzN3nvAWiLVZf6TRI+U=;
-        h=Subject:To:References:From:Date:In-Reply-To;
-        b=EQ9/fKgC2hOFL44pXoYPkcccs5aBLXdamoRU3yB3PAxwLUXG6lzfflUhe7mompcKg
-         22GahX2PuIopZgqtYC/tYJTrc72KuVWjh4QtV9E85/Yeq86PFwyE274S7tDdIFUNAW
-         xdtoSS+7OgiQfOTtg0IKhTOfwrsF3jlXwz3iqw9o=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBHCuCNP062296
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 17 Dec 2019 06:56:12 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 17
- Dec 2019 06:56:11 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 17 Dec 2019 06:56:11 -0600
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBHCuBvg129742;
-        Tue, 17 Dec 2019 06:56:11 -0600
-Subject: Re: [PATCH 2/2] leds: lm3692x: Allow to set ovp and brigthness mode
-To:     =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <cover.1576499103.git.agx@sigxcpu.org>
- <9c87a17aefbf758d58f199f7046114ee7505a1fa.1576499103.git.agx@sigxcpu.org>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <3d66b07d-b4c5-43e6-4378-d63cc84b8d43@ti.com>
-Date:   Tue, 17 Dec 2019 06:53:45 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1728462AbfLQNpa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 Dec 2019 08:45:30 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:50523 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726164AbfLQNpa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Dec 2019 08:45:30 -0500
+Received: from [192.168.1.155] ([95.114.21.161]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MfYgC-1i1FZn1CtU-00fzgB; Tue, 17 Dec 2019 14:45:11 +0100
+Subject: Re: [PATCH] RFC: platform driver registering via initcall tables
+To:     Greg KH <greg@kroah.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, dmitry.torokhov@gmail.com,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
+        arnd@arndb.de, masahiroy@kernel.org, michal.lkml@markovi.net,
+        kafai@fb.com, songliubraving@fb.com, yhs@fb.com, andriin@fb.com,
+        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+References: <20191217102219.29223-1-info@metux.net>
+ <20191217103152.GB2914497@kroah.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <6422bc88-6d0a-7b51-aaa7-640c6961b177@metux.net>
+Date:   Tue, 17 Dec 2019 14:44:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <9c87a17aefbf758d58f199f7046114ee7505a1fa.1576499103.git.agx@sigxcpu.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20191217103152.GB2914497@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: tl
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:UIxsKeF+t4AJ8q6DRnqSCsifxsav8JqTSzPbvflDT49nTCN38N2
+ kn8QUDipr/KlL5RzF2fLtyOuCzxNjxUSI4UZqAlp6xIsJjV2bywjnE+BMyjssnPF9+oH6ww
+ j5NFvhGrB1pzGK+XoSpXibonoL3JFM9dGJqe8hfLnfeBH94z62AKKyID1MFmz2D/kfr9ua1
+ +I6P+xiT9RjL5BBgRigTg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nhzDFcqFHhI=:Tt4Fe7MEEtN81vc41C7AoZ
+ wctLg7SjkItjTD1J3EE0wIIRp68zGRkICb7akDkm7TzGVY/Jv10cHWbbYxhEfiW4whMmm7gx1
+ calgbAvlJfzZju7vWqVRx24cZKnsPXbGGNQI6AltrredEl0JuONWHGFccnaBRDzW2rH1MKxpx
+ 7guijvh0tF+MuaZMsUVm1dIggOl4cQFDElahLOqvviCWwKyID5OeS4sL9WhPMRRYqxAHM9q5O
+ uPRf4lICI04o5CkAW0vu/jJU2fDAqqn8VRS8aZfQZtuRhCtoDTvZTEoOMN/icN7ljMBCxrxzO
+ jKVvHCAs/ZD0+MWmVOPS6sdGZYhKGJfOrGUMZTIo07lGNMYuMdb6Mvx7qAuFP3Yttazz361XR
+ WOiEbrlEia6jOwJTx0JGQiUkJqwUMutPSCYqHT+ZlswBl3PcXs2kTDeEimiMTkTWcs6cnQ5YJ
+ 0Ev+Ibgd1aJ5uVBqPmFfJs821dyrQ/nj2kpivSX944s+JlT5J79FdHn3yG5tlk4NsXcGYZpDb
+ +Su81EDqspIcaHEsqNYqm4wHR4C4MRln/yQ/qEtoFPV/rx6N17k0IIo+d/DbjDUJ5PoLA6scG
+ u5HIncBDs/JHZGLSftyL04NMt7m/WCxdQ6vh4pOOgJ+pBlIOtaNs/sr2RGvaMd1drejh8xN8T
+ oVqTHasq/lYf0bopjmsmrUnoodoESr4GakdnC5EivRzMSeLiz11uVTbijiJ6z5hpZxZEUXDoy
+ GSj9nLs8W6dvwEJKDzhLDRZdwjHLl6WE/XxOcwxG3eQ2N/ab5WauSh8y5djcp7H16KpJZ6A69
+ pcY7K1TMdNUlig8lhlUX+Ij4IEaClVQj0yKqknPNhhHZTCef462eFxVdARrJ0sbaH1PRWpIfH
+ buhiRZ+mDZotLHFEAKJ93oZ2o67FNflSKVDFquVEZb6lab6XoEveVJVdH6nxtOBexbBLcxxXW
+ ARVod/u0vtgm8aj0oa/n+a8Xz6kwOYwTrei/SbYDwnKT6YuTO5xQd
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Guido
+On 17.12.19 11:31, Greg KH wrote:
 
-On 12/16/19 6:28 AM, Guido Günther wrote:
-> Overvoltage protection and brightness mode are currently hardcoded
-> as disabled in the driver. Make these configurable via DT.
+Hi,
 
-Can we split these up to two separate patch series?
+> No, what is so "special" about platform drivers that they require this?
 
-We are adding 2 separate features and if something is incorrect with one 
-of the changes it is a bit hard to debug.
+Nothing, of course ;-)
 
->
-> Signed-off-by: Guido Günther <agx@sigxcpu.org>
-> ---
->   drivers/leds/leds-lm3692x.c | 43 +++++++++++++++++++++++++++++++------
->   1 file changed, 37 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
-> index 8b408102e138..2c084b333628 100644
-> --- a/drivers/leds/leds-lm3692x.c
-> +++ b/drivers/leds/leds-lm3692x.c
-> @@ -114,6 +114,7 @@ struct lm3692x_led {
->   	struct regulator *regulator;
->   	int led_enable;
->   	int model_id;
-> +	u8 boost_ctrl, brightness_ctrl;
->   };
->   
->   static const struct reg_default lm3692x_reg_defs[] = {
-> @@ -249,10 +250,7 @@ static int lm3692x_init(struct lm3692x_led *led)
->   	if (ret)
->   		goto out;
->   
-> -	ret = regmap_write(led->regmap, LM3692X_BOOST_CTRL,
-> -			LM3692X_BOOST_SW_1MHZ |
-> -			LM3692X_BOOST_SW_NO_SHIFT |
-> -			LM3692X_OCP_PROT_1_5A);
-> +	ret = regmap_write(led->regmap, LM3692X_BOOST_CTRL, led->boost_ctrl);
->   	if (ret)
->   		goto out;
+It's the the starting point for this PoC. The idea actually is doing
+this for all other driver types, too (eg. spi, pci, usb, ...). But
+they'll need their own tables, as different *_register() functions have
+to be called - just haven't implemented that yet.
 
-regmap_update_bits
+> If anything, we should be moving _AWAY_ from platform drivers and use
+> real bus drivers instead.
+
+That would be nice, but, unfortunately, we have lots of devices which
+aren't attached to any (probing-capable) bus. That's why we have things
+like oftree, etc.
+
+> Please no, I don't see why this is even needed.
+
+The idea is getting rid of all the init code, which all just does the
+same, just calls some *_register() function.
 
 
->   
-> @@ -268,8 +266,7 @@ static int lm3692x_init(struct lm3692x_led *led)
->   	if (ret)
->   		goto out;
->   
-> -	ret = regmap_write(led->regmap, LM3692X_BRT_CTRL,
-> -			LM3692X_BL_ADJ_POL | LM3692X_RAMP_EN);
-> +	ret = regmap_write(led->regmap, LM3692X_BRT_CTRL, led->brightness_ctrl);
->   	if (ret)
->   		goto out;
-regmap_update_bits
->   
-> @@ -326,6 +323,8 @@ static int lm3692x_probe_dt(struct lm3692x_led *led)
->   {
->   	struct fwnode_handle *child = NULL;
->   	struct led_init_data init_data = {};
-> +	u32 ovp = 0;
-> +	bool exp_mode;
->   	int ret;
->   
->   	led->enable_gpio = devm_gpiod_get_optional(&led->client->dev,
-> @@ -350,6 +349,38 @@ static int lm3692x_probe_dt(struct lm3692x_led *led)
->   		led->regulator = NULL;
->   	}
->   
-> +	led->boost_ctrl = LM3692X_BOOST_SW_1MHZ |
-> +		LM3692X_BOOST_SW_NO_SHIFT |
-> +		LM3692X_OCP_PROT_1_5A;
-Make this a #define and then it can be reused as a mask for 
-regmap_update_bits
-> +	ret = device_property_read_u32(&led->client->dev,
-> +				       "ti,overvoltage-volts", &ovp);
-> +	if (!ret) {
+--mtx
 
-if (ret)
-
-     set boost_ctrl to default value since the default is not 0
-
-led->boost_ctrl |= LM3692X_OVP_29V;
-
-else
-
-      do case
-
-> +		switch (ovp) {
-> +		case 0:
-> +			break;
-> +		case 22:
-If the value is 21v why is this case 22?  DT binding says 21 is the 
-first value
-> +			led->boost_ctrl |= LM3692X_OVP_21V;
-> +			break;
-> +		case 25:
-> +			led->boost_ctrl |= LM3692X_OVP_25V;
-> +			break;
-> +		case 29:
-> +			led->boost_ctrl |= LM3692X_OVP_29V;
-> +			break;
-> +		default:
-> +			dev_err(&led->client->dev, "Invalid OVP %d\n", ovp);
-> +			return -EINVAL;
-> +		}
-> +	}
-> +	dev_dbg(&led->client->dev, "OVP: %dV", ovp);
-> +
-extra debug statement
-> +	led->brightness_ctrl = LM3692X_BL_ADJ_POL | LM3692X_RAMP_EN;
-Same comment as before on the #define
-> +	exp_mode = device_property_read_bool(&led->client->dev,
-> +				     "ti,brightness-mapping-exponential");
-> +	dev_dbg(&led->client->dev, "Exponential brightness: %d", exp_mode);
-
-extra debug statement
-
-Dan
-
-
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
