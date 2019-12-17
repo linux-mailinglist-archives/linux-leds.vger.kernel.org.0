@@ -2,112 +2,82 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0790D1228C3
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 11:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8131712293D
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 11:51:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727189AbfLQKb6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Dec 2019 05:31:58 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38269 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725940AbfLQKb5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 17 Dec 2019 05:31:57 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id CBD7B6C1D;
-        Tue, 17 Dec 2019 05:31:55 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 17 Dec 2019 05:31:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=WVOKI5Xa8ynfxOHUH8uTfezXeuU
-        ofMPbouYAeeiBwfo=; b=bmijsgR9pBP2Ebh5XRA1uJIvaotKaT0uunVjVlY8l1C
-        aoxODXf2Z/oIfgaiOn3GfxvN12hOlmxSVrt/DaUn2ui5y4YWSoDc09CpwSTSPvtv
-        EpCAVbR4ENthlY2tusERvGdA4V9WukWKml4U8LbisXwsFqGk1MgOy+dKLHjxHdSZ
-        tyhvxw41ZOLsopmAjnd9nL0d0uAsWaB51tldwy0lqX74f4dbGKrZ/mRVPrNLxV+M
-        svbfpDgHzf/aKOcs6RlMmOlKIh1N8lDoWOt+0RBjBAS6nPLpU/KfKRRvelNIHB04
-        GM/lHpfosT7/ny01Wzi9gelg9d+2McwmJLd6HiJHazw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=WVOKI5
-        Xa8ynfxOHUH8uTfezXeuUofMPbouYAeeiBwfo=; b=JQpNJtE7YDoUUklw9zvFjP
-        wZ9Ih3qPBkDVD9rCoT5gWFxZZMwAusismfQXbuYWFxuPirAhMF5u+liubo54g2f9
-        VSPkmDIF7Z97Skk7gKtoH/EFJbwhbIq5myFJfZ1wZMfnXUVwYdTnTdbRYh7eeVJZ
-        gJr09v+76QbaX2xWEI3SPIzQs13zYK+p0ljuNvrE/AQuYI3MW6dLZmiD5Z7rxO48
-        XkEdENERvqJHzLTz0PGGUNfi9qhPrrHD1byP+9dNJtTDnPd2NMWkBFlCPwUsYFit
-        JZjF92wtLbfZEF63mps1svac1aKgx7nquB1ubhn+c8c1T9KtwpDHE9SUMhQ+u0pA
-        ==
-X-ME-Sender: <xms:mq74XbTn4Mg9VZkNfMUDm5tvQnvEyJ2uURgkgoUYXKa8WCLK8XbTTw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddtjedgudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
-    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
-    necukfhppeekfedrkeeirdekledruddtjeenucfrrghrrghmpehmrghilhhfrhhomhepgh
-    hrvghgsehkrhhorghhrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:mq74XU4x3XQ7_I5tSP0AKITnKCi65jdaYkOmpNjBtanvDdZYLiOoiQ>
-    <xmx:mq74XQUg-13Hasut9Vfn0iVM61swGMfn27ddmuXCObXilt8-pdnw2g>
-    <xmx:mq74Xa-et88YfpMZI-Zc-HV_sTQU6ySLnoywFpS3bcb4zJHuXMgkdg>
-    <xmx:m674Xe8EJYjeh9FVPEltY81zCiKvaT4ZKJ8GAjBTR6L8hMaNwuJDaQ>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 4E5FF8005C;
-        Tue, 17 Dec 2019 05:31:54 -0500 (EST)
-Date:   Tue, 17 Dec 2019 11:31:52 +0100
-From:   Greg KH <greg@kroah.com>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, dmitry.torokhov@gmail.com,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
-        arnd@arndb.de, masahiroy@kernel.org, michal.lkml@markovi.net,
-        kafai@fb.com, songliubraving@fb.com, yhs@fb.com, andriin@fb.com,
-        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-Subject: Re: [PATCH] RFC: platform driver registering via initcall tables
-Message-ID: <20191217103152.GB2914497@kroah.com>
-References: <20191217102219.29223-1-info@metux.net>
+        id S1727509AbfLQKvM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 Dec 2019 05:51:12 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:40609 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727499AbfLQKvJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Dec 2019 05:51:09 -0500
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ihARS-000152-O1; Tue, 17 Dec 2019 11:51:02 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ihARR-0004u2-SF; Tue, 17 Dec 2019 11:51:01 +0100
+Date:   Tue, 17 Dec 2019 11:51:01 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Jiri Slaby <jslaby@suse.com>, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-serial@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v2 1/3] tty: new helper function tty_kopen_shared
+Message-ID: <20191217105101.fd23zsxxi2e42ltt@pengutronix.de>
+References: <20191217081718.23807-1-u.kleine-koenig@pengutronix.de>
+ <20191217081718.23807-2-u.kleine-koenig@pengutronix.de>
+ <20191217082733.GA2672708@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20191217102219.29223-1-info@metux.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191217082733.GA2672708@kroah.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Dec 17, 2019 at 11:22:19AM +0100, Enrico Weigelt, metux IT consult wrote:
-> A large portion of platform drivers doesn't need their own init/exit
-> functions. At source level, the boilerplate is already replaced by
-> module_platform_driver() macro call, which creates this code under
-> the hood. But in the binary, the code is still there.
+Hello Greg,
+
+all feedback I don't respond to is planned to be fixed in v3.
+
+On Tue, Dec 17, 2019 at 09:27:33AM +0100, Greg Kroah-Hartman wrote:
+> On Tue, Dec 17, 2019 at 09:17:16AM +0100, Uwe Kleine-König wrote:
+> > +struct tty_struct *tty_kopen_shared(dev_t device)
+> > +{
+> > +	struct tty_struct *tty;
+> > +	struct tty_driver *driver;
+> > +	int index = -1;
+> > +
+> > +	mutex_lock(&tty_mutex);
+> > +	driver = tty_lookup_driver(device, NULL, &index);
+> > +	if (IS_ERR(driver)) {
+> > +		tty = ERR_CAST(driver);
+> > +		goto err_lookup_driver;
+> > +	}
+> > +
+> > +	tty = tty_driver_lookup_tty(driver, NULL, index);
 > 
-> This patch is an attempt to remove them it, by the same approach
-> already used for the init functions: collect pointers to the driver
-> structs in special sections, which are then processed by the init
-> code which already calls the init function vectors. For each level,
-> the structs are processed right after the init funcs, so we guarantee
-> the existing order, and explicit inits always come before the automatic
-> registering.
+> No error check?
 
-No, what is so "special" about platform drivers that they require this?
+Well, the caller of tty_kopen_shared is supposed to check for error
+returns. Do you think an error message here would be approriate? I'd do
+this in the caller similar to how tty_kopen works.
 
-If anything, we should be moving _AWAY_ from platform drivers and use
-real bus drivers instead.
+Best regards
+Uwe
 
-> Downside of apprach: cluttering init code w/ a little bit knowledge
-> about driver related stuff (calls to platform_driver_register(), etc).
-
-Exactly, don't.
-
-> For now, only implemented for the built-in case (modules still go the
-> old route). The module case is a little bit trickier: either we have to
-> extend the module header (and modpost tool) or do some dynamic symbol
-> lookup.
-> 
-> This patch is just a PoC for further discussions, not ready for mainline.
-> It also changes a few drivers, just for illustration. In case the general
-> approach is accepted, it will be cleaned up and splitted.
-
-Please no, I don't see why this is even needed.
-
-greg k-h
+-- 
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
