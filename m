@@ -2,215 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EA0E122BDF
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 13:39:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 658F2122C18
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 13:44:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728179AbfLQMja (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Dec 2019 07:39:30 -0500
-Received: from foss.arm.com ([217.140.110.172]:35638 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728051AbfLQMj3 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 17 Dec 2019 07:39:29 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4CBD6328;
-        Tue, 17 Dec 2019 04:39:28 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 98D8C3F718;
-        Tue, 17 Dec 2019 04:39:27 -0800 (PST)
-Date:   Tue, 17 Dec 2019 12:39:26 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1727519AbfLQMoD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 Dec 2019 07:44:03 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:46968 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726920AbfLQMoC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Dec 2019 07:44:02 -0500
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBHChk1p096977;
+        Tue, 17 Dec 2019 06:43:46 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1576586626;
+        bh=fBE++3ilO6IUmK3o0yQscRjirNExl2DOv8fz3sakjvo=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=E3QhkF8ybUKO93tbkloFLpppJfdXzD0bjEgghZNSYUsXyGsgtZU6vjmG86jLFsPyd
+         Eb+qlxWfnNDrttCV4h+QdwhB4ULlJICecsoOn9kiE0l9bK+msMVxFXetBQaFIhwxnJ
+         uDfmTETbgWGN5Vz13Nf+KN5UYDjSM8cV1Yy6S8os=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBHChkR2098566
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 17 Dec 2019 06:43:46 -0600
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 17
+ Dec 2019 06:43:45 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 17 Dec 2019 06:43:45 -0600
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBHChjMt109382;
+        Tue, 17 Dec 2019 06:43:45 -0600
+Subject: Re: [PATCH 1/2] dt: bindings: lm3692x: Document new properties
+To:     =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-clk@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        matti.vaittinen@fi.rohmeurope.com,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        mazziesaccount@gmail.com,
-        Michael Turquette <mturquette@baylibre.com>,
-        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Applied "dt-bindings: regulator: Document ROHM BD71282 regulator bindings" to the regulator tree
-In-Reply-To: <0985fec1cce98b1db66e5df2d9bcf2dfd9c224a7.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-Message-Id: <applied-0985fec1cce98b1db66e5df2d9bcf2dfd9c224a7.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-X-Patchwork-Hint: ignore
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <cover.1576499103.git.agx@sigxcpu.org>
+ <35a23315938909c80e7772838e1de0d2d46302f2.1576499103.git.agx@sigxcpu.org>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <c523ccf6-6958-7457-c47b-f98e08588cfe@ti.com>
+Date:   Tue, 17 Dec 2019 06:41:19 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <35a23315938909c80e7772838e1de0d2d46302f2.1576499103.git.agx@sigxcpu.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The patch
+Guido
 
-   dt-bindings: regulator: Document ROHM BD71282 regulator bindings
+Thanks for the patch
 
-has been applied to the regulator tree at
+On 12/16/19 6:28 AM, Guido Günther wrote:
+> We allow configuration of brightness mode and over voltage
+> protection.
+>
+> Signed-off-by: Guido Günther <agx@sigxcpu.org>
+> ---
+>   Documentation/devicetree/bindings/leds/leds-lm3692x.txt | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/leds/leds-lm3692x.txt b/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
+> index 4c2d923f8758..f195e8b45d85 100644
+> --- a/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
+> +++ b/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
+> @@ -18,6 +18,10 @@ Required properties:
+>   Optional properties:
+>   	- enable-gpios : gpio pin to enable/disable the device.
+>   	- vled-supply : LED supply
+> +	- ti,brightness-mapping-exponential: Whether to use exponential
+> +	    brightness mapping
+> +	- ti,overvoltage-volts: Overvoltage protection in Volts, can
+> +	    be 0 (unprotected), 21, 25 or 29V
+>   
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-5.6
+Can you show examples of these in the DT binding?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
+Dan
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From 84a867c078136887dea64fa6e336333b657bc6a1 Mon Sep 17 00:00:00 2001
-From: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Date: Wed, 11 Dec 2019 11:35:57 +0200
-Subject: [PATCH] dt-bindings: regulator: Document ROHM BD71282 regulator
- bindings
-
-Document ROHM BD71828 PMIC regulator device tree bindings.
-
-Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Link: https://lore.kernel.org/r/0985fec1cce98b1db66e5df2d9bcf2dfd9c224a7.1576054779.git.matti.vaittinen@fi.rohmeurope.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- .../regulator/rohm,bd71828-regulator.yaml     | 107 ++++++++++++++++++
- 1 file changed, 107 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml
-
-diff --git a/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml b/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml
-new file mode 100644
-index 000000000000..71ce032b8cf8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/regulator/rohm,bd71828-regulator.yaml
-@@ -0,0 +1,107 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/regulator/rohm,bd71828-regulator.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ROHM BD71828 Power Management Integrated Circuit regulators
-+
-+maintainers:
-+  - Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-+
-+description: |
-+  This module is part of the ROHM BD71828 MFD device. For more details
-+  see Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml.
-+
-+  The regulator controller is represented as a sub-node of the PMIC node
-+  on the device tree.
-+
-+  Regulator nodes should be named to BUCK_<number> and LDO_<number>.
-+  The valid names for BD71828 regulator nodes are
-+  BUCK1, BUCK2, BUCK3, BUCK4, BUCK5, BUCK6, BUCK7
-+  LDO1, LDO2, LDO3, LDO4, LDO5, LDO6, LDO7
-+
-+patternProperties:
-+  "^LDO[1-7]$":
-+    type: object
-+    allOf:
-+      - $ref: regulator.yaml#
-+    description:
-+      Properties for single LDO regulator.
-+
-+    properties:
-+      regulator-name:
-+        pattern: "^ldo[1-7]$"
-+        description:
-+          should be "ldo1", ..., "ldo7"
-+
-+  "^BUCK[1-7]$":
-+    type: object
-+    allOf:
-+      - $ref: regulator.yaml#
-+    description:
-+      Properties for single BUCK regulator.
-+
-+    properties:
-+      regulator-name:
-+        pattern: "^buck[1-7]$"
-+        description:
-+          should be "buck1", ..., "buck7"
-+
-+      rohm,dvs-run-voltage:
-+        allOf:
-+          - $ref: "/schemas/types.yaml#/definitions/uint32"
-+          - minimum: 0
-+            maximum: 3300000
-+        description:
-+          PMIC default "RUN" state voltage in uV. See below table for
-+          bucks which support this. 0 means disabled.
-+
-+      rohm,dvs-idle-voltage:
-+        allOf:
-+          - $ref: "/schemas/types.yaml#/definitions/uint32"
-+          - minimum: 0
-+            maximum: 3300000
-+        description:
-+          PMIC default "IDLE" state voltage in uV. See below table for
-+          bucks which support this. 0 means disabled.
-+
-+      rohm,dvs-suspend-voltage:
-+        allOf:
-+          - $ref: "/schemas/types.yaml#/definitions/uint32"
-+          - minimum: 0
-+            maximum: 3300000
-+        description:
-+          PMIC default "SUSPEND" state voltage in uV. See below table for
-+          bucks which support this. 0 means disabled.
-+
-+      rohm,dvs-lpsr-voltage:
-+        allOf:
-+          - $ref: "/schemas/types.yaml#/definitions/uint32"
-+          - minimum: 0
-+            maximum: 3300000
-+        description:
-+          PMIC default "LPSR" state voltage in uV. See below table for
-+          bucks which support this. 0 means disabled.
-+
-+        # Supported default DVS states:
-+        #     buck       |    run     |   idle    | suspend  | lpsr
-+        #--------------------------------------------------------------
-+        # 1, 2, 6, and 7 | supported  | supported | supported (*)
-+        #--------------------------------------------------------------
-+        # 3, 4, and 5    |                    supported (**)
-+        #--------------------------------------------------------------
-+        #
-+        #(*)  LPSR and SUSPEND states use same voltage but both states have own
-+        #     enable /
-+        #     disable settings. Voltage 0 can be specified for a state to make
-+        #     regulator disabled on that state.
-+        #
-+        #(**) All states use same voltage but have own enable / disable
-+        #     settings. Voltage 0 can be specified for a state to make
-+        #     regulator disabled on that state.
-+
-+    required:
-+      - regulator-name
-+  additionalProperties: false
-+additionalProperties: false
--- 
-2.20.1
 
