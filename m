@@ -2,202 +2,348 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CA291227C8
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 10:40:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D895122891
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 11:23:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726756AbfLQJkB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Dec 2019 04:40:01 -0500
-Received: from mailgate1.rohmeurope.com ([178.15.145.194]:51374 "EHLO
-        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbfLQJkB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Dec 2019 04:40:01 -0500
-X-AuditID: c0a8fbf4-183ff70000001fa6-21-5df8a26d82b6
-Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com [192.168.251.178])
-        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 52.A5.08102.D62A8FD5; Tue, 17 Dec 2019 10:39:57 +0100 (CET)
-Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
- WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
- 14.03.0439.000; Tue, 17 Dec 2019 10:39:52 +0100
-From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To:     "lee.jones@linaro.org" <lee.jones@linaro.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "noralf@tronnes.org" <noralf@tronnes.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v6 05/15] mfd: bd71828: Support ROHM BD71828 PMIC - core
-Thread-Topic: [PATCH v6 05/15] mfd: bd71828: Support ROHM BD71828 PMIC - core
-Thread-Index: AQHVsAdUq9cAZXeTxE+pdQm1dVrUwKe87/aAgAEbEgA=
-Date:   Tue, 17 Dec 2019 09:39:51 +0000
-Message-ID: <5593db6b3328c0a1a7069d839f5c777b4b3822b6.camel@fi.rohmeurope.com>
-References: <cover.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-         <252de5646fedfec7c575269843a47091fe199c79.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-         <20191216164641.GC18955@dell>
-In-Reply-To: <20191216164641.GC18955@dell>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5BDD41CC073047438B16BC7322087B90@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0wbZRjHee+udwfjlqMU+9oJ0VvMZIubGDPfGaaLwexMdC7xR6KG4E1O
-        SqQtuba64Y9gGEygIWN0GivlZ9EJFbZjuMlAlqYwVtwMymjHD00dY4IbBMTCYDJ7lA3+er95
-        vu/n+T5v8rw0rpYpHZ1ttIiSUcjhyBji/Ikl+XFD3UL6E5M2HXL1X6HQkalvKPTfsR4KzTl9
-        BDoeHCPR2PkjAFV7L6tQad9pFSqobyHRcNtJAv3xbzdAoYHPMWS/8y2GZmy/q1BtkYtArdV3
-        APqtvZJEbTebAeppGiBRg78fQ5UNvQSani3GUL/vBXTcN0WhUV83iQr6Azgq7PRSaHnwFIHK
-        Lu/dk8i7q9yAX1o8BvjpQCHFV7k/4n90jFK83FhM8iODHSTf5XRTfH1ZhYoP/VxO8OO1LQR/
-        IXAG47+suo3xLTYv4E80zVP8P3LSfvatDakHBMsHr2ZnGXc8+84Gvc11Q5U7lHawaGgEzwcL
-        z5eAaBqyT8EZ2zAoATG0mr0C4PdjhZhiqNleAAfmHigBNE2yqbDkKqWUNWwKdPVeJxSNszU0
-        LO9gFTaKlXF4ZnlEpRjx7Evw0vXRVeBlWOlvxSL6GXhzeBpXNME+Coua3St3GHYf/Lumh4wM
-        4QWw73DFChDNboVdFW0rTQGbCIvzp7BIshbK4/OqyAtY6Or4BY/oBDhxbXm1zsHO20FCeQDO
-        JsOW9h0RdA9cWvaQEf0ItJcGV2eIgxe/GiOOAq1jXYJjjXasox3raMc6ugaoGgE0CNk5WYJF
-        TNkuidbtkklvCB/vmgwyiOzg3Flw1/OiB2A08IAHaYxLYGL3LqSrNx4wZR7SC2Z9hmTNEc0e
-        AGmc0zBnH55PVzOZwqE8UTLdszbRBKdltgTL09WskvW+KOaK0j33IZrmIJNcG24aJ4lZ4sH3
-        snMsazZGRyvNY3Qas2jMFCXBatFnKLuSYQ4vi2LFhnM31oRxxpwrGMLVCOoD2+ijE846nPY6
-        G+pwNWE0GUWdltmmJLHKVb3VeD9oEmhpwMUzuxU3NvwR7/eZDEdg4Ygn94WUCIuwZunyQfvV
-        am1X3i5/89u3mAvuppm8gP9u2Wnvub8ak3dH7frCz3GfBd7Y2R069+ZQmnV802Kns0C+tv+7
-        U3Nph3c+V1r2Ot86fPGTkx/an076+Gt5S9wr3tkfoip7P91c3qepT7SbFn9N2uwI0rM3Jh7z
-        vXarLcaeUZhqaUwYDP2pufRTxSCI5wizXkjZiktm4X+fgVNhRQQAAA==
+        id S1726681AbfLQKXK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 Dec 2019 05:23:10 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:56675 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726401AbfLQKXK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Dec 2019 05:23:10 -0500
+Received: from orion.localdomain ([95.114.21.161]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mm9NA-1hyzXw3sOG-00iFiX; Tue, 17 Dec 2019 11:22:53 +0100
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     info@metux.net, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, dmitry.torokhov@gmail.com,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
+        arnd@arndb.de, masahiroy@kernel.org, michal.lkml@markovi.net,
+        kafai@fb.com, songliubraving@fb.com, yhs@fb.com, andriin@fb.com,
+        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Subject: [PATCH] RFC: platform driver registering via initcall tables
+Date:   Tue, 17 Dec 2019 11:22:19 +0100
+Message-Id: <20191217102219.29223-1-info@metux.net>
+X-Mailer: git-send-email 2.11.0
+X-Provags-ID: V03:K1:q9QRdzq8RyD7WuYmF06+kLn3yB2SAYG/f8x6DXsYucy7ol7pj+H
+ GoSwhks22Adw9rjWVn2SvtJgYmZY7MQVv6DnYrKYY//vL+BPhsmi73WCdSOhSQbVMkFIXl5
+ eNGgGWK+7T62lrlm9O5XwrY4gJBl76TBB0RZpPIZXHnGfDgkmAAEvXyZu5jxMjaxX8NzXN0
+ wzNuJCxLMT3fk9jGyGEaQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MEBVByY17cE=:ZpSvUigw9Q0VIfkknPktjg
+ BFVhRjzAJIpft/EiCUGnUcYUNiwtFYaDxUjfi7eEsNnx55NfwBzt9IXOyaMmXqV7D5z57PCkr
+ DhREU+H/vjd8nXDP2tNjP4njZg0vfkaauSdS+CjSwIVj/ReCk3VUaqOiQ85uTafVzWnXL5f2G
+ DVCfK2X0pnTy65kIw83HaJIfZZcx4r6wcjsq//zPgt9gFPy1qY9OWGd1IaJvAbdn0zSkmVjJS
+ 0QwgG1e2CFy8m1nt+lx8OKlMPuCZHJmJvlAklHYyntGdAzC9FgNIsbRUGodATFLIAZLx4SUzz
+ Hc9hA/zmjpebZvwUJez9KvzOzm/D3DldiiQrvMzxDlHnGhdqhGFHB24ATxAUkSJPT7vxxhnHg
+ THeJV835OoIXuU/J7hHMmxxaCSVGbShj+/4r+KFwJP1w5+YmhOZqujwEvrWtYqNa1aTyNOekG
+ eo2G64lPrr8OS+Yat19ud+EFe4iINaRovnnUtHBqiN3T1WGVz+NfleB2LFAHaiEii1bb9aSiI
+ K0N3wGqtTj4UHARYkZXkjgBwROPsakEziONBykBvCtbFZ5WuVVgQVr3pD2TskyWW0oNqSxt99
+ Yv3k7eODE6dyIo+tsw+mOtktzmttvGPVF2Am82XltcatNFcdlQzqOCAOr9HQCXxCJEU9VZa1T
+ 8Q9yjqkwYUencbv3dTrm07D+xDClDQUu+/kzvCUYSnPFmWHf3kvhR8Ag7uMG6g4XSxsz8ZbB+
+ cPrIGI1lMZKohDBCshgj52E7WqvL7KHGeETLIg5nDujn6tHDFlTgcmO6xXMR6U7uV46s4OWZq
+ CqDNKho78Vs+RAUNHF1nW50fuSOuVXTvH+EMRnnS6zl48eV09vDC2jDT1f6j5C72D06pHt4YF
+ lH+zexB5L6EggxdwCFcQ==
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGVsbG8gTGVlLA0KDQpPbiBNb24sIDIwMTktMTItMTYgYXQgMTY6NDYgKzAwMDAsIExlZSBKb25l
-cyB3cm90ZToNCj4gT24gV2VkLCAxMSBEZWMgMjAxOSwgTWF0dGkgVmFpdHRpbmVuIHdyb3RlOg0K
-PiANCj4gPiBCRDcxODI4R1cgaXMgYSBzaW5nbGUtY2hpcCBwb3dlciBtYW5hZ2VtZW50IElDIGZv
-ciBiYXR0ZXJ5LXBvd2VyZWQNCj4gPiBwb3J0YWJsZQ0KPiA+IGRldmljZXMuIFRoZSBJQyBpbnRl
-Z3JhdGVzIDcgYnVjayBjb252ZXJ0ZXJzLCA3IExET3MsIGFuZCBhIDE1MDAgbUENCj4gPiBzaW5n
-bGUtY2VsbCBsaW5lYXIgY2hhcmdlci4gQWxzbyBpbmNsdWRlZCBpcyBhIENvdWxvbWIgY291bnRl
-ciwgYQ0KPiA+IHJlYWwtdGltZQ0KPiA+IGNsb2NrIChSVEMpLCAzIEdQTy9yZWd1bGF0b3IgY29u
-dHJvbCBwaW5zLCBIQUxMIGlucHV0IGFuZCBhIDMyLjc2OA0KPiA+IGtIeg0KPiA+IGNsb2NrIGdh
-dGUuDQo+ID4gDQo+ID4gQWRkIE1GRCBjb3JlIGRyaXZlciBwcm92aWRpbmcgaW50ZXJydXB0IGNv
-bnRyb2xsZXIgZmFjaWxpdGllcyBhbmQNCj4gPiBpMmMNCj4gPiBhY2Nlc3MgdG8gc3ViIGRldmlj
-ZSBkcml2ZXJzLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IE1hdHRpIFZhaXR0aW5lbiA8bWF0
-dGkudmFpdHRpbmVuQGZpLnJvaG1ldXJvcGUuY29tPg0KPiA+IC0tLQ0KPiA+IA0KPiA+IENoYW5n
-ZXMgc2luY2UgdjU6DQo+ID4gLSBObyBjaGFuZ2VzDQo+ID4gDQo+ID4gIGRyaXZlcnMvbWZkL0tj
-b25maWcgICAgICAgICAgICAgIHwgIDE1ICsrDQo+ID4gIGRyaXZlcnMvbWZkL01ha2VmaWxlICAg
-ICAgICAgICAgIHwgICAyICstDQo+ID4gIGRyaXZlcnMvbWZkL3JvaG0tYmQ3MTgyOC5jICAgICAg
-IHwgMzE5ICsrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIGluY2x1ZGUvbGludXgvbWZkL3Jv
-aG0tYmQ3MTgyOC5oIHwgNDI1DQo+ID4gKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0K
-PiA+ICBpbmNsdWRlL2xpbnV4L21mZC9yb2htLWdlbmVyaWMuaCB8ICAgMSArDQo+ID4gIDUgZmls
-ZXMgY2hhbmdlZCwgNzYxIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiAgY3JlYXRl
-IG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWZkL3JvaG0tYmQ3MTgyOC5jDQo+ID4gIGNyZWF0ZSBtb2Rl
-IDEwMDY0NCBpbmNsdWRlL2xpbnV4L21mZC9yb2htLWJkNzE4MjguaA0KPiANCj4gQ291cGxlIG9m
-IHNtYWxsIG5pdHMuICBPbmNlIGZpeGVkLCBwbGVhc2UgYXBwbHkgbXk6DQo+IA0KPiBGb3IgbXkg
-b3duIHJlZmVyZW5jZToNCj4gICBBY2tlZC1mb3ItTUZELWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25l
-c0BsaW5hcm8ub3JnPg0KPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZmQvS2NvbmZpZyBi
-L2RyaXZlcnMvbWZkL0tjb25maWcNCj4gPiBpbmRleCA0MjA5MDA4NTIxNjYuLmMzYzk0MzJlZjUx
-YyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL21mZC9LY29uZmlnDQo+ID4gKysrIGIvZHJpdmVy
-cy9tZmQvS2NvbmZpZw0KPiA+IEBAIC0xOTA2LDYgKzE5MDYsMjEgQEAgY29uZmlnIE1GRF9ST0hN
-X0JENzA1MjgNCj4gPiAgCSAgMTAgYml0cyBTQVIgQURDIGZvciBiYXR0ZXJ5IHRlbXBlcmF0dXJl
-IG1vbml0b3IgYW5kIDFTDQo+ID4gYmF0dGVyeQ0KPiA+ICAJICBjaGFyZ2VyLg0KPiA+ICANCj4g
-PiArY29uZmlnIE1GRF9ST0hNX0JENzE4MjgNCj4gPiArCXRyaXN0YXRlICJST0hNIEJENzE4Mjgg
-UG93ZXIgTWFuYWdlbWVudCBJQyINCj4gPiArCWRlcGVuZHMgb24gSTJDPXkNCj4gPiArCWRlcGVu
-ZHMgb24gT0YNCj4gPiArCXNlbGVjdCBSRUdNQVBfSTJDDQo+ID4gKwlzZWxlY3QgUkVHTUFQX0lS
-UQ0KPiA+ICsJc2VsZWN0IE1GRF9DT1JFDQo+ID4gKwloZWxwDQo+ID4gKwkgIFNlbGVjdCB0aGlz
-IG9wdGlvbiB0byBnZXQgc3VwcG9ydCBmb3IgdGhlIFJPSE0gQkQ3MTgyOCBQb3dlcg0KPiA+ICsJ
-ICBNYW5hZ2VtZW50IElDLiBCRDcxODI4R1cgaXMgYSBzaW5nbGUtY2hpcCBwb3dlciBtYW5hZ2Vt
-ZW50IElDDQo+ID4gZm9yDQo+ID4gKwkgIGJhdHRlcnktcG93ZXJlZCBwb3J0YWJsZSBkZXZpY2Vz
-LiBUaGUgSUMgaW50ZWdyYXRlcyA3IGJ1Y2sNCj4gPiArCSAgY29udmVydGVycywgNyBMRE9zLCBh
-bmQgYSAxNTAwIG1BIHNpbmdsZS1jZWxsIGxpbmVhciBjaGFyZ2VyLg0KPiA+ICsJICBBbHNvIGlu
-Y2x1ZGVkIGlzIGEgQ291bG9tYiBjb3VudGVyLCBhIHJlYWwtdGltZSBjbG9jayAoUlRDKSwNCj4g
-PiBhbmQNCj4gPiArCSAgYSAzMi43Njgga0h6IGNsb2NrIGdhdGUuDQo+ID4gKw0KPiA+ICBjb25m
-aWcgTUZEX1NUTTMyX0xQVElNRVINCj4gPiAgCXRyaXN0YXRlICJTdXBwb3J0IGZvciBTVE0zMiBM
-b3ctUG93ZXIgVGltZXIiDQo+ID4gIAlkZXBlbmRzIG9uIChBUkNIX1NUTTMyICYmIE9GKSB8fCBD
-T01QSUxFX1RFU1QNCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZmQvTWFrZWZpbGUgYi9kcml2
-ZXJzL21mZC9NYWtlZmlsZQ0KPiA+IGluZGV4IGFlZDk5ZjA4NzM5Zi4uY2EyZDU1YzY3OWM1IDEw
-MDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWZkL01ha2VmaWxlDQo+ID4gKysrIGIvZHJpdmVycy9t
-ZmQvTWFrZWZpbGUNCj4gPiBAQCAtMjUyLDYgKzI1Miw2IEBAIG9iai0kKENPTkZJR19NRkRfTVhT
-X0xSQURDKSAgICAgKz0gbXhzLWxyYWRjLm8NCj4gPiAgb2JqLSQoQ09ORklHX01GRF9TQzI3WFhf
-UE1JQykJKz0gc3ByZC1zYzI3eHgtc3BpLm8NCj4gPiAgb2JqLSQoQ09ORklHX1JBVkVfU1BfQ09S
-RSkJKz0gcmF2ZS1zcC5vDQo+ID4gIG9iai0kKENPTkZJR19NRkRfUk9ITV9CRDcwNTI4KQkrPSBy
-b2htLWJkNzA1Mjgubw0KPiA+ICtvYmotJChDT05GSUdfTUZEX1JPSE1fQkQ3MTgyOCkJKz0gcm9o
-bS1iZDcxODI4Lm8NCj4gPiAgb2JqLSQoQ09ORklHX01GRF9ST0hNX0JENzE4WFgpCSs9IHJvaG0t
-YmQ3MTh4Ny5vDQo+ID4gIG9iai0kKENPTkZJR19NRkRfU1RNRlgpIAkrPSBzdG1meC5vDQo+ID4g
-LQ0KPiANCj4gTml0OiBUaGlzIGlzIGFuIHVucmVsYXRlZCBjaGFuZ2UgYW5kIHNob3VsZCBub3Qg
-cmVhbGx5IGJlIGluIHRoaXMNCj4gcGF0Y2guDQoNCk9rLiBXaWxsIGdldCByaWQgb2YgaXQuDQoN
-Cj4gDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWZkL3JvaG0tYmQ3MTgyOC5jIGIvZHJpdmVy
-cy9tZmQvcm9obS0NCj4gPiBiZDcxODI4LmMNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+
-IGluZGV4IDAwMDAwMDAwMDAwMC4uN2Y0NDVkNjk5ZmQ5DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+
-ICsrKyBiL2RyaXZlcnMvbWZkL3JvaG0tYmQ3MTgyOC5jDQo+ID4gQEAgLTAsMCArMSwzMTkgQEAN
-Cj4gPiArLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb25seQ0KPiA+ICsvLw0K
-PiA+ICsvLyBDb3B5cmlnaHQgKEMpIDIwMTkgUk9ITSBTZW1pY29uZHVjdG9ycw0KPiA+ICsvLw0K
-PiA+ICsvLyBST0hNIEJENzE4MjggUE1JQyBkcml2ZXINCj4gPiArDQoNCi8vc25pcA0KDQo+ID4g
-Kw0KPiA+ICtzdGF0aWMgc3RydWN0IGkyY19kcml2ZXIgYmQ3MTgyOF9kcnYgPSB7DQo+ID4gKwku
-ZHJpdmVyID0gew0KPiA+ICsJCS5uYW1lID0gInJvaG0tYmQ3MTgyOCIsDQo+ID4gKwkJLm9mX21h
-dGNoX3RhYmxlID0gYmQ3MTgyOF9vZl9tYXRjaCwNCj4gPiArCX0sDQo+ID4gKwkucHJvYmVfbmV3
-ID0gJmJkNzE4MjhfaTJjX3Byb2JlLA0KPiA+ICt9Ow0KPiA+ICsNCj4gDQo+IE5pdDogWW91IGNh
-biByZW1vdmUgdGhpcyBsaW5lLg0KDQpXaWxsIGRvLg0KDQo+IA0KPiA+ICttb2R1bGVfaTJjX2Ry
-aXZlcihiZDcxODI4X2Rydik7DQo+ID4gKw0KPiA+ICtNT0RVTEVfQVVUSE9SKCJNYXR0aSBWYWl0
-dGluZW4gPG1hdHRpLnZhaXR0aW5lbkBmaS5yb2htZXVyb3BlLmNvbT4NCj4gPiAiKTsNCj4gPiAr
-TU9EVUxFX0RFU0NSSVBUSU9OKCJST0hNIEJENzE4MjggUG93ZXIgTWFuYWdlbWVudCBJQyBkcml2
-ZXIiKTsNCj4gPiArTU9EVUxFX0xJQ0VOU0UoIkdQTCIpOw0KPiANCj4gVGhpcyBkb2VzIG5vdCBt
-YXRjaCB0aGUgaGVhZGVyLg0KDQpIb3cgaXMgdGhhdD8gVGhpcyBpcyB3aGF0IGlzIHN0YXRlZCBp
-biBtb2R1bGUuaCBmb3IgdGhlIA0KTU9EVUxFX0xJQ0VOU0U6DQoNCi8qDQogKiBUaGUgZm9sbG93
-aW5nIGxpY2Vuc2UgaWRlbnRzIGFyZSBjdXJyZW50bHkgYWNjZXB0ZWQgYXMgaW5kaWNhdGluZw0K
-ZnJlZQ0KICogc29mdHdhcmUgbW9kdWxlcw0KICoNCiAqCSJHUEwiCQkJCVtHTlUgUHVibGljIExp
-Y2Vuc2UgdjJdDQogKgkiR1BMIHYyIgkJCVtHTlUgUHVibGljIExpY2Vuc2UgdjJdDQogKgkiR1BM
-IGFuZCBhZGRpdGlvbmFsIHJpZ2h0cyIJW0dOVSBQdWJsaWMgTGljZW5zZSB2MiByaWdodHMNCmFu
-ZCBtb3JlXQ0KICoJIkR1YWwgQlNEL0dQTCIJCQlbR05VIFB1YmxpYyBMaWNlbnNlIHYyDQogKgkJ
-CQkJIG9yIEJTRCBsaWNlbnNlIGNob2ljZV0NCiAqCSJEdWFsIE1JVC9HUEwiCQkJW0dOVSBQdWJs
-aWMgTGljZW5zZSB2Mg0KICoJCQkJCSBvciBNSVQgbGljZW5zZSBjaG9pY2VdDQogKgkiRHVhbCBN
-UEwvR1BMIgkJCVtHTlUgUHVibGljIExpY2Vuc2UgdjINCiAqCQkJCQkgb3IgTW96aWxsYSBsaWNl
-bnNlIGNob2ljZV0NCiAqDQogKiBUaGUgZm9sbG93aW5nIG90aGVyIGlkZW50cyBhcmUgYXZhaWxh
-YmxlDQogKg0KICoJIlByb3ByaWV0YXJ5IgkJCVtOb24gZnJlZSBwcm9kdWN0c10NCiAqDQogKiBC
-b3RoICJHUEwgdjIiIGFuZCAiR1BMIiAodGhlIGxhdHRlciBhbHNvIGluIGR1YWwgbGljZW5zZWQg
-c3RyaW5ncykNCmFyZQ0KICogbWVyZWx5IHN0YXRpbmcgdGhhdCB0aGUgbW9kdWxlIGlzIGxpY2Vu
-c2VkIHVuZGVyIHRoZSBHUEwgdjIsIGJ1dCBhcmUNCm5vdA0KICogdGVsbGluZyB3aGV0aGVyICJH
-UEwgdjIgb25seSIgb3IgIkdQTCB2MiBvciBsYXRlciIuIFRoZSByZWFzb24gd2h5DQp0aGVyZQ0K
-ICogYXJlIHR3byB2YXJpYW50cyBpcyBhIGhpc3RvcmljIGFuZCBmYWlsZWQgYXR0ZW1wdCB0byBj
-b252ZXkgbW9yZQ0KICogaW5mb3JtYXRpb24gaW4gdGhlIE1PRFVMRV9MSUNFTlNFIHN0cmluZy4g
-Rm9yIG1vZHVsZSBsb2FkaW5nIHRoZQ0KICogIm9ubHkvb3IgbGF0ZXIiIGRpc3RpbmN0aW9uIGlz
-IGNvbXBsZXRlbHkgaXJyZWxldmFudCBhbmQgZG9lcw0KbmVpdGhlcg0KICogcmVwbGFjZSB0aGUg
-cHJvcGVyIGxpY2Vuc2UgaWRlbnRpZmllcnMgaW4gdGhlIGNvcnJlc3BvbmRpbmcgc291cmNlDQpm
-aWxlDQogKiBub3IgYW1lbmRzIHRoZW0gaW4gYW55IHdheS4gVGhlIHNvbGUgcHVycG9zZSBpcyB0
-byBtYWtlIHRoZQ0KICogJ1Byb3ByaWV0YXJ5JyBmbGFnZ2luZyB3b3JrIGFuZCB0byByZWZ1c2Ug
-dG8gYmluZCBzeW1ib2xzIHdoaWNoIGFyZQ0KICogZXhwb3J0ZWQgd2l0aCBFWFBPUlRfU1lNQk9M
-X0dQTCB3aGVuIGEgbm9uIGZyZWUgbW9kdWxlIGlzIGxvYWRlZC4NCiAqDQogKiBJbiB0aGUgc2Ft
-ZSB3YXkgIkJTRCIgaXMgbm90IGEgY2xlYXIgbGljZW5zZSBpbmZvcm1hdGlvbi4gSXQgbWVyZWx5
-DQogKiBzdGF0ZXMsIHRoYXQgdGhlIG1vZHVsZSBpcyBsaWNlbnNlZCB1bmRlciBvbmUgb2YgdGhl
-IGNvbXBhdGlibGUgQlNEDQogKiBsaWNlbnNlIHZhcmlhbnRzLiBUaGUgZGV0YWlsZWQgYW5kIGNv
-cnJlY3QgbGljZW5zZSBpbmZvcm1hdGlvbiBpcw0KYWdhaW4NCiAqIHRvIGJlIGZvdW5kIGluIHRo
-ZSBjb3JyZXNwb25kaW5nIHNvdXJjZSBmaWxlcy4NCiAqDQogKiBUaGVyZSBhcmUgZHVhbCBsaWNl
-bnNlZCBjb21wb25lbnRzLCBidXQgd2hlbiBydW5uaW5nIHdpdGggTGludXggaXQNCmlzIHRoZQ0K
-ICogR1BMIHRoYXQgaXMgcmVsZXZhbnQgc28gdGhpcyBpcyBhIG5vbiBpc3N1ZS4gU2ltaWxhcmx5
-IExHUEwgbGlua2VkDQp3aXRoIEdQTA0KICogaXMgYSBHUEwgY29tYmluZWQgd29yay4NCiAqDQog
-KiBUaGlzIGV4aXN0cyBmb3Igc2V2ZXJhbCByZWFzb25zDQogKiAxLglTbyBtb2RpbmZvIGNhbiBz
-aG93IGxpY2Vuc2UgaW5mbyBmb3IgdXNlcnMgd2FudGluZyB0byB2ZXQgdGhlaXINCnNldHVwDQog
-KglpcyBmcmVlDQogKiAyLglTbyB0aGUgY29tbXVuaXR5IGNhbiBpZ25vcmUgYnVnIHJlcG9ydHMg
-aW5jbHVkaW5nIHByb3ByaWV0YXJ5DQptb2R1bGVzDQogKiAzLglTbyB2ZW5kb3JzIGNhbiBkbyBs
-aWtld2lzZSBiYXNlZCBvbiB0aGVpciBvd24gcG9saWNpZXMNCiAqLw0KI2RlZmluZSBNT0RVTEVf
-TElDRU5TRShfbGljZW5zZSkgTU9EVUxFX0lORk8obGljZW5zZSwgX2xpY2Vuc2UpDQoNCkkgaGF2
-ZSBubyBvYmplY3Rpb25zIG9uIGNoYW5naW5nIHRoZSBsaWNlbnNlIGlmIG5lZWRlZCBidXQgY2Fu
-IHlvdQ0KcGxlYXNlIHRlbGwgbWUgd2hhdCBpcyBPayBjb21ib3MgdGhlbiAtIEkgYW0gaGF2aW5n
-IGhhcmQgdGltZSB3aGVuDQp0cnlpbmcgdG8gc2VsZWN0IGxpY2Vuc2VzIHdoaWNoIGFyZSBhY2Nl
-cHRhYmxlIGZvciBhbGwuDQoNCkJyLA0KCU1hdHRpIFZhaXR0aW5lbg0K
+A large portion of platform drivers doesn't need their own init/exit
+functions. At source level, the boilerplate is already replaced by
+module_platform_driver() macro call, which creates this code under
+the hood. But in the binary, the code is still there.
+
+This patch is an attempt to remove them it, by the same approach
+already used for the init functions: collect pointers to the driver
+structs in special sections, which are then processed by the init
+code which already calls the init function vectors. For each level,
+the structs are processed right after the init funcs, so we guarantee
+the existing order, and explicit inits always come before the automatic
+registering.
+
+Downside of apprach: cluttering init code w/ a little bit knowledge
+about driver related stuff (calls to platform_driver_register(), etc).
+
+For now, only implemented for the built-in case (modules still go the
+old route). The module case is a little bit trickier: either we have to
+extend the module header (and modpost tool) or do some dynamic symbol
+lookup.
+
+This patch is just a PoC for further discussions, not ready for mainline.
+It also changes a few drivers, just for illustration. In case the general
+approach is accepted, it will be cleaned up and splitted.
+
+2DO:
+    * check for potential arch specific issues (-> um ?)
+    * implement loadable module case
+    * add other driver types (eg. spi, pci, ...)
+    * design a practical way for converting drivers step by step
+      (or shall we just brutally change module_platform_driver() ?)
+
+Please let me know what you think about this.
+
+happy hacking
+--mtx
+---
+ drivers/gpio/gpio-amd-fch.c               |  3 +--
+ drivers/input/keyboard/gpio_keys_polled.c |  2 +-
+ drivers/leds/leds-gpio.c                  |  3 +--
+ include/asm-generic/vmlinux.lds.h         | 20 ++++++++++++++
+ include/linux/init.h                      | 25 ++++++++++++++++++
+ include/linux/platform_device.h           |  9 +++++++
+ init/main.c                               | 43 +++++++++++++++++++++++++++++++
+ scripts/mod/modpost.c                     |  2 +-
+ 8 files changed, 101 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpio/gpio-amd-fch.c b/drivers/gpio/gpio-amd-fch.c
+index 4e44ba4d7423..2542d30258c6 100644
+--- a/drivers/gpio/gpio-amd-fch.c
++++ b/drivers/gpio/gpio-amd-fch.c
+@@ -183,8 +183,7 @@ static struct platform_driver amd_fch_gpio_driver = {
+ 	},
+ 	.probe = amd_fch_gpio_probe,
+ };
+-
+-module_platform_driver(amd_fch_gpio_driver);
++MODULE_PLATFORM_DRIVER(amd_fch_gpio_driver);
+ 
+ MODULE_AUTHOR("Enrico Weigelt, metux IT consult <info@metux.net>");
+ MODULE_DESCRIPTION("AMD G-series FCH GPIO driver");
+diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
+index 6eb0a2f3f9de..0c107c11dd1d 100644
+--- a/drivers/input/keyboard/gpio_keys_polled.c
++++ b/drivers/input/keyboard/gpio_keys_polled.c
+@@ -383,7 +383,7 @@ static struct platform_driver gpio_keys_polled_driver = {
+ 		.of_match_table = gpio_keys_polled_of_match,
+ 	},
+ };
+-module_platform_driver(gpio_keys_polled_driver);
++MODULE_PLATFORM_DRIVER(gpio_keys_polled_driver);
+ 
+ MODULE_LICENSE("GPL v2");
+ MODULE_AUTHOR("Gabor Juhos <juhosg@openwrt.org>");
+diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
+index a5c73f3d5f79..cf0ef4a9eb79 100644
+--- a/drivers/leds/leds-gpio.c
++++ b/drivers/leds/leds-gpio.c
+@@ -313,8 +313,7 @@ static struct platform_driver gpio_led_driver = {
+ 		.of_match_table = of_gpio_leds_match,
+ 	},
+ };
+-
+-module_platform_driver(gpio_led_driver);
++MODULE_PLATFORM_DRIVER(gpio_led_driver);
+ 
+ MODULE_AUTHOR("Raphael Assenat <raph@8d.com>, Trent Piepho <tpiepho@freescale.com>");
+ MODULE_DESCRIPTION("GPIO LED driver");
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index e00f41aa8ec4..5956f64db7c6 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -851,6 +851,25 @@
+ 		INIT_CALLS_LEVEL(7)					\
+ 		__initcall_end = .;
+ 
++#define INIT_DRVS_PLAT_LEVEL(level)					\
++		__initdrv_plat##level##_start = .;			\
++		KEEP(*(.initdrv_plat##level##.init))			\
++		KEEP(*(.initdrv_plat##level##s.init))			\
++
++#define INIT_DRVS							\
++		__initdrv_plat_start = .;				\
++		KEEP(*(.initdrv_plat_early.init))			\
++		INIT_DRVS_PLAT_LEVEL(0)					\
++		INIT_DRVS_PLAT_LEVEL(1)					\
++		INIT_DRVS_PLAT_LEVEL(2)					\
++		INIT_DRVS_PLAT_LEVEL(3)					\
++		INIT_DRVS_PLAT_LEVEL(4)					\
++		INIT_DRVS_PLAT_LEVEL(5)					\
++		INIT_DRVS_PLAT_LEVEL(rootfs)				\
++		INIT_DRVS_PLAT_LEVEL(6)					\
++		INIT_DRVS_PLAT_LEVEL(7)					\
++		__initdrv_plat_end = .;
++
+ #define CON_INITCALL							\
+ 		__con_initcall_start = .;				\
+ 		KEEP(*(.con_initcall.init))				\
+@@ -1022,6 +1041,7 @@
+ 		INIT_DATA						\
+ 		INIT_SETUP(initsetup_align)				\
+ 		INIT_CALLS						\
++		INIT_DRVS						\
+ 		CON_INITCALL						\
+ 		INIT_RAM_FS						\
+ 	}
+diff --git a/include/linux/init.h b/include/linux/init.h
+index 212fc9e2f691..9aa1695bf69c 100644
+--- a/include/linux/init.h
++++ b/include/linux/init.h
+@@ -123,6 +123,11 @@ static inline initcall_t initcall_from_entry(initcall_entry_t *entry)
+ {
+ 	return offset_to_ptr(entry);
+ }
++
++static inline struct platform_driver *initdrv_plat_from_entry(initcall_entry_t *entry)
++{
++	return offset_to_ptr(entry);
++}
+ #else
+ typedef initcall_t initcall_entry_t;
+ 
+@@ -130,6 +135,11 @@ static inline initcall_t initcall_from_entry(initcall_entry_t *entry)
+ {
+ 	return *entry;
+ }
++
++static inline struct platform_driver *initdrv_plat_from_entry(initcall_entry_t *entry)
++{
++	return *entry;
++}
+ #endif
+ 
+ extern initcall_entry_t __con_initcall_start[], __con_initcall_end[];
+@@ -191,13 +201,28 @@ extern bool initcall_debug;
+ 	"__initcall_" #fn #id ":			\n"	\
+ 	    ".long	" #fn " - .			\n"	\
+ 	    ".previous					\n");
++
++#define ___define_platform_driver(pd, id, __sec)		\
++	__ADDRESSABLE(pd)					\
++	asm(".section	\"" #__sec ".init\", \"a\"	\n"	\
++	"__plat_drv__" #pd #id ":			\n"	\
++	    ".long	" #pd " - .			\n"	\
++	    ".previous					\n");
++
++
+ #else
+ #define ___define_initcall(fn, id, __sec) \
+ 	static initcall_t __initcall_##fn##id __used \
+ 		__attribute__((__section__(#__sec ".init"))) = fn;
++
++#define ___define_platform_driver(fn, id, __sec) \
++	static initcall_t __initcall_##pd##id __used \
++		__attribute__((__section__(#__sec ".init"))) = fn;
++
+ #endif
+ 
+ #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
++#define __define_platform_driver(fn, id) ___define_platform_driver(fn, id, .initdrv_plat##id)
+ 
+ /*
+  * Early initcalls run before initializing SMP.
+diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
+index 276a03c24691..3868b0e75f5f 100644
+--- a/include/linux/platform_device.h
++++ b/include/linux/platform_device.h
+@@ -244,6 +244,15 @@ static inline void platform_set_drvdata(struct platform_device *pdev,
+ 	module_driver(__platform_driver, platform_driver_register, \
+ 			platform_driver_unregister)
+ 
++#ifdef MODULE
++#define MODULE_PLATFORM_DRIVER(__platform_driver) \
++	module_driver(__platform_driver, platform_driver_register, \
++			platform_driver_unregister)
++#else
++#define MODULE_PLATFORM_DRIVER(__platform_driver) \
++	__define_platform_driver(__platform_driver, 6)
++#endif
++
+ /* builtin_platform_driver() - Helper macro for builtin drivers that
+  * don't do anything special in driver init.  This eliminates some
+  * boilerplate.  Each driver may only use this macro once, and
+diff --git a/init/main.c b/init/main.c
+index ec3a1463ac69..754b68111b53 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -94,6 +94,7 @@
+ #include <linux/jump_label.h>
+ #include <linux/mem_encrypt.h>
+ #include <linux/file.h>
++#include <linux/platform_device.h>
+ 
+ #include <asm/io.h>
+ #include <asm/bugs.h>
+@@ -955,6 +956,22 @@ int __init_or_module do_one_initcall(initcall_t fn)
+ 	return ret;
+ }
+ 
++struct platform_driver;
++
++int __init_or_module do_one_initdrv_plat(struct platform_driver *pd)
++{
++	int rc;
++
++	rc = platform_driver_register(pd);
++	if (rc)
++		pr_warn("init: failed registering platform driver: %s: %d\n",
++			pd->driver.name, rc);
++	else
++		pr_info("init: registered platform driver: %s\n",
++			pd->driver.name);
++
++	return rc;
++}
+ 
+ extern initcall_entry_t __initcall_start[];
+ extern initcall_entry_t __initcall0_start[];
+@@ -979,6 +996,29 @@ static initcall_entry_t *initcall_levels[] __initdata = {
+ 	__initcall_end,
+ };
+ 
++extern initcall_entry_t __initdrv_plat_start[];
++extern initcall_entry_t __initdrv_plat0_start[];
++extern initcall_entry_t __initdrv_plat1_start[];
++extern initcall_entry_t __initdrv_plat2_start[];
++extern initcall_entry_t __initdrv_plat3_start[];
++extern initcall_entry_t __initdrv_plat4_start[];
++extern initcall_entry_t __initdrv_plat5_start[];
++extern initcall_entry_t __initdrv_plat6_start[];
++extern initcall_entry_t __initdrv_plat7_start[];
++extern initcall_entry_t __initdrv_plat_end[];
++
++static initcall_entry_t *initdrv_plat_levels[] __initdata = {
++	__initdrv_plat0_start,
++	__initdrv_plat1_start,
++	__initdrv_plat2_start,
++	__initdrv_plat3_start,
++	__initdrv_plat4_start,
++	__initdrv_plat5_start,
++	__initdrv_plat6_start,
++	__initdrv_plat7_start,
++	__initdrv_plat_end,
++};
++
+ /* Keep these in sync with initcalls in include/linux/init.h */
+ static const char *initcall_level_names[] __initdata = {
+ 	"pure",
+@@ -1005,6 +1045,9 @@ static void __init do_initcall_level(int level)
+ 	trace_initcall_level(initcall_level_names[level]);
+ 	for (fn = initcall_levels[level]; fn < initcall_levels[level+1]; fn++)
+ 		do_one_initcall(initcall_from_entry(fn));
++
++	for (fn = initdrv_plat_levels[level]; fn < initdrv_plat_levels[level+1]; fn++)
++		do_one_initdrv_plat(initdrv_plat_from_entry(fn));
+ }
+ 
+ static void __init do_initcalls(void)
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 6e892c93d104..7fc8871c4da6 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -957,7 +957,7 @@ static void check_section(const char *modname, struct elf_info *elf,
+ #define ALL_INIT_SECTIONS INIT_SECTIONS, ALL_XXXINIT_SECTIONS
+ #define ALL_EXIT_SECTIONS EXIT_SECTIONS, ALL_XXXEXIT_SECTIONS
+ 
+-#define DATA_SECTIONS ".data", ".data.rel"
++#define DATA_SECTIONS ".data", ".data.rel", ".data.platdrv"
+ #define TEXT_SECTIONS ".text", ".text.unlikely", ".sched.text", \
+ 		".kprobes.text", ".cpuidle.text"
+ #define OTHER_TEXT_SECTIONS ".ref.text", ".head.text", ".spinlock.text", \
+-- 
+2.11.0
+
