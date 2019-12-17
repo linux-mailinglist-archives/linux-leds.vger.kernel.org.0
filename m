@@ -2,90 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3E80123322
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 18:04:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1EC0123363
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 18:21:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727241AbfLQREZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Dec 2019 12:04:25 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:49488 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726191AbfLQREZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Dec 2019 12:04:25 -0500
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBHH4G98059831;
-        Tue, 17 Dec 2019 11:04:16 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1576602256;
-        bh=c5aNDJdm202QVz/ei0pWBemlPhzJ5FDI2ojZ/hTof/o=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=ldwTZP2cZVtzeLKa5fQRMrGwhb6feqtwReIfenzbmy3hJD6PwxgDbf31IH1a4daAm
-         MPmbDOcKX/gwjUb9z4sivTnO/cRw+dujLC658BTWxRMaaADnTVDiAD1ISgcHEBlWH+
-         3syxJb63H6OrRvq5fCJTWNlXewsYk9jJJCa7G7qo=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBHH4F5f018559;
-        Tue, 17 Dec 2019 11:04:15 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 17
- Dec 2019 11:04:15 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 17 Dec 2019 11:04:15 -0600
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBHH4F6D060212;
-        Tue, 17 Dec 2019 11:04:15 -0600
-Subject: Re: [PATCH 2/2] leds: lm3692x: Allow to set ovp and brigthness mode
-To:     =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>
-CC:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <cover.1576499103.git.agx@sigxcpu.org>
- <9c87a17aefbf758d58f199f7046114ee7505a1fa.1576499103.git.agx@sigxcpu.org>
- <3d66b07d-b4c5-43e6-4378-d63cc84b8d43@ti.com>
- <20191217154059.GA3929@bogon.m.sigxcpu.org>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <1c233937-5d99-bd9d-b8ac-290fca8305d5@ti.com>
-Date:   Tue, 17 Dec 2019 11:01:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1726722AbfLQRVG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 Dec 2019 12:21:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58286 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726191AbfLQRVG (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 17 Dec 2019 12:21:06 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6490F21582;
+        Tue, 17 Dec 2019 17:21:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576603265;
+        bh=M03ToXVlhxaSn1s14N+p+KZe5B0/dADmOYgSMKETlNs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TkHRnpSBunkxmidMGP8NjEIv8AikT24N46ZYxcKbI4BtwHE2DzWKFve1hoVg3Wv/b
+         vsDrp9eWvubSOm7EOKqAcUc3RPmDSRKRz30qa6fOxYorMrW5N3969gi2Nl+FVi/bZk
+         +mxUJFk5EMHhzhywXR7RMzyAtUP5HQH1xTQgJjPM=
+Date:   Tue, 17 Dec 2019 18:21:02 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Jiri Slaby <jslaby@suse.com>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] leds: trigger: implement a tty trigger
+Message-ID: <20191217172102.GB3829986@kroah.com>
+References: <20191217150736.1479-1-u.kleine-koenig@pengutronix.de>
+ <20191217150736.1479-4-u.kleine-koenig@pengutronix.de>
+ <20191217152724.GA3667595@kroah.com>
+ <20191217162313.5n3v7va5nw5lxloh@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20191217154059.GA3929@bogon.m.sigxcpu.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20191217162313.5n3v7va5nw5lxloh@pengutronix.de>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Guido
+On Tue, Dec 17, 2019 at 05:23:13PM +0100, Uwe Kleine-König wrote:
+> On Tue, Dec 17, 2019 at 04:27:24PM +0100, Greg Kroah-Hartman wrote:
+> > On Tue, Dec 17, 2019 at 04:07:36PM +0100, Uwe Kleine-König wrote:
+> > > Usage is as follows:
+> > > 
+> > > 	myled=ledname
+> > > 	tty=ttyS0
+> > > 
+> > > 	echo tty > /sys/class/leds/$myled/trigger
+> > > 	cat /sys/class/tty/$tty/dev > /sys/class/leds/$myled/dev
+> > 
+> > Is this the correct instructions?  Aren't you looking for a major/minor
+> > number instead in your sysfs file?
+> 
+> This is correct, yes, at least it works as intended on my machine.
+> 
+> /sys/class/tty/$tty/dev produces $major:$minor and that's what the
+> led-trigger consumes.
 
-On 12/17/19 9:40 AM, Guido GÃ¼nther wrote:
-> Hi Dan,
-> On Tue, Dec 17, 2019 at 06:53:45AM -0600, Dan Murphy wrote:
->> Guido
->>
->> On 12/16/19 6:28 AM, Guido GÃ¼nther wrote:
->>> Overvoltage protection and brightness mode are currently hardcoded
->>> as disabled in the driver. Make these configurable via DT.
->> Can we split these up to two separate patch series?
-> Sure, should the binding doc updates be split as well?
+Ugh, nevermind, I totally read that wrong, I was thinking "echo" instead
+of cat.  My fault, what you wrote is correct.  Should that be documented
+somewhere in a Documentation/ABI/ file so that people know how to use
+this new sysfs file?  How are led triggers documented?
 
-Yes.
+thanks,
 
-<snip>
->> extra debug statement
-> They're not extra but meant to ease debugging the driver long therm but
-> i can drop these if that's not wanted. The rest makes a lot of sense.
-> Thanks a lot for having a look so promptly!
-
-Yes please remove those we don't need extra noise in the log.
-
-If someone wants to debug this then they can add the statements themselves
-
-Dan
-
+greg k-h
