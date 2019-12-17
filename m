@@ -2,23 +2,23 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0526D12267F
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 09:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D950112267A
+	for <lists+linux-leds@lfdr.de>; Tue, 17 Dec 2019 09:17:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726608AbfLQIRx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Dec 2019 03:17:53 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:46959 "EHLO
+        id S1726536AbfLQIR4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 17 Dec 2019 03:17:56 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:41411 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726520AbfLQIRx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Dec 2019 03:17:53 -0500
+        with ESMTP id S1725805AbfLQIRz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Dec 2019 03:17:55 -0500
 Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
         by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1ih839-0000yH-65; Tue, 17 Dec 2019 09:17:47 +0100
+        id 1ih839-0000yI-64; Tue, 17 Dec 2019 09:17:47 +0100
 Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
         (envelope-from <ukl@pengutronix.de>)
-        id 1ih837-0002IV-Mf; Tue, 17 Dec 2019 09:17:45 +0100
+        id 1ih838-0002IZ-2K; Tue, 17 Dec 2019 09:17:46 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -27,9 +27,9 @@ To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Jiri Slaby <jslaby@suse.com>
 Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-serial@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH v2 1/3] tty: new helper function tty_kopen_shared
-Date:   Tue, 17 Dec 2019 09:17:16 +0100
-Message-Id: <20191217081718.23807-2-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH v2 2/3] tty: new helper function tty_get_icount()
+Date:   Tue, 17 Dec 2019 09:17:17 +0100
+Message-Id: <20191217081718.23807-3-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191217081718.23807-1-u.kleine-koenig@pengutronix.de>
 References: <20191217081718.23807-1-u.kleine-koenig@pengutronix.de>
@@ -45,64 +45,66 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This function gives a struct tty_struct for a given device number.
+For a given struct tty_struct this yields the corresponding statistics
+about sent and received characters (and some more)
+
+Use the function to simplify tty_tiocgicount().
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/tty/tty_io.c | 27 +++++++++++++++++++++++++++
- include/linux/tty.h  |  1 +
- 2 files changed, 28 insertions(+)
+ drivers/tty/tty_io.c | 20 ++++++++++++++++----
+ include/linux/tty.h  |  2 ++
+ 2 files changed, 18 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-index d9f54c7d94f2..584025117cd3 100644
+index 584025117cd3..df3942eb3468 100644
 --- a/drivers/tty/tty_io.c
 +++ b/drivers/tty/tty_io.c
-@@ -1925,6 +1925,33 @@ struct tty_struct *tty_kopen(dev_t device)
+@@ -2497,15 +2497,27 @@ static int tty_tiocmset(struct tty_struct *tty, unsigned int cmd,
+ 	return tty->ops->tiocmset(tty, set, clear);
  }
- EXPORT_SYMBOL_GPL(tty_kopen);
  
-+/*
-+ * Caller gets a reference on (non-error) ttys, that must be disposed using
-+ * tty_kref_put().
-+ */
-+struct tty_struct *tty_kopen_shared(dev_t device)
++int tty_get_icount(struct tty_struct *tty,
++		   struct serial_icounter_struct *icount)
 +{
-+	struct tty_struct *tty;
-+	struct tty_driver *driver;
-+	int index = -1;
++	memset(icount, 0, sizeof(*icount));
 +
-+	mutex_lock(&tty_mutex);
-+	driver = tty_lookup_driver(device, NULL, &index);
-+	if (IS_ERR(driver)) {
-+		tty = ERR_CAST(driver);
-+		goto err_lookup_driver;
-+	}
-+
-+	tty = tty_driver_lookup_tty(driver, NULL, index);
-+
-+	tty_driver_kref_put(driver);
-+err_lookup_driver:
-+
-+	mutex_unlock(&tty_mutex);
-+	return tty;
++	if (tty->ops->get_icount)
++		return tty->ops->get_icount(tty, icount);
++	else
++		return -EINVAL;
 +}
-+EXPORT_SYMBOL(tty_kopen_shared);
++EXPORT_SYMBOL(tty_get_icount);
 +
- /**
-  *	tty_open_by_driver	-	open a tty device
-  *	@device: dev_t of device to open
+ static int tty_tiocgicount(struct tty_struct *tty, void __user *arg)
+ {
+-	int retval = -EINVAL;
+ 	struct serial_icounter_struct icount;
+-	memset(&icount, 0, sizeof(icount));
+-	if (tty->ops->get_icount)
+-		retval = tty->ops->get_icount(tty, &icount);
++	int retval;
++
++	retval = tty_get_icount(tty, &icount);
+ 	if (retval != 0)
+ 		return retval;
++
+ 	if (copy_to_user(arg, &icount, sizeof(icount)))
+ 		return -EFAULT;
+ 	return 0;
 diff --git a/include/linux/tty.h b/include/linux/tty.h
-index bfa4e2ee94a9..616268eb1613 100644
+index 616268eb1613..3c6f58032f57 100644
 --- a/include/linux/tty.h
 +++ b/include/linux/tty.h
-@@ -412,6 +412,7 @@ extern struct tty_struct *get_current_tty(void);
- extern int __init tty_init(void);
- extern const char *tty_name(const struct tty_struct *tty);
- extern struct tty_struct *tty_kopen(dev_t device);
-+extern struct tty_struct *tty_kopen_shared(dev_t device);
- extern void tty_kclose(struct tty_struct *tty);
- extern int tty_dev_name_to_number(const char *name, dev_t *number);
- extern int tty_ldisc_lock(struct tty_struct *tty, unsigned long timeout);
+@@ -495,6 +495,8 @@ extern void tty_unthrottle(struct tty_struct *tty);
+ extern int tty_throttle_safe(struct tty_struct *tty);
+ extern int tty_unthrottle_safe(struct tty_struct *tty);
+ extern int tty_do_resize(struct tty_struct *tty, struct winsize *ws);
++extern int tty_get_icount(struct tty_struct *tty,
++			  struct serial_icounter_struct *icount);
+ extern int is_current_pgrp_orphaned(void);
+ extern void tty_hangup(struct tty_struct *tty);
+ extern void tty_vhangup(struct tty_struct *tty);
 -- 
 2.24.0
 
