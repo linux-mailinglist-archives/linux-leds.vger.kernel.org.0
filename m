@@ -2,108 +2,129 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7077C1248E4
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2019 15:01:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D88A7124A12
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Dec 2019 15:47:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727162AbfLROBi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 Dec 2019 09:01:38 -0500
-Received: from mailgate1.rohmeurope.com ([178.15.145.194]:59018 "EHLO
-        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726942AbfLROBg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Dec 2019 09:01:36 -0500
-X-AuditID: c0a8fbf4-199ff70000001fa6-87-5dfa313d1e2b
-Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
-        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id DE.4F.08102.D313AFD5; Wed, 18 Dec 2019 15:01:33 +0100 (CET)
-Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
- WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
- 14.03.0439.000; Wed, 18 Dec 2019 15:01:27 +0100
-From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To:     "broonie@kernel.org" <broonie@kernel.org>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "phil.edworthy@renesas.com" <phil.edworthy@renesas.com>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "noralf@tronnes.org" <noralf@tronnes.org>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>
-Subject: Re: Applied "regulator: bd71828: Basic support for ROHM bd71828
- PMIC regulators" to the regulator tree
-Thread-Topic: Applied "regulator: bd71828: Basic support for ROHM bd71828
- PMIC regulators" to the regulator tree
-Thread-Index: AQHVtNcCPO+Kt0OMfE2l+CzrBWADfqe/eY8AgABW2wCAAAxsgA==
-Date:   Wed, 18 Dec 2019 14:01:27 +0000
-Message-ID: <b72cd22df0bbbb159cda08e556037f1ccf490b3d.camel@fi.rohmeurope.com>
-References: <applied-5b1c4a22c7945e97ff2a7924abfeb3239043f8eb.1576054779.git.matti.vaittinen@fi.rohmeurope.com>
-         <de7424126e285d9bbd21a70945415d78203c2ba7.camel@fi.rohmeurope.com>
-         <20191218131700.GB42175@sirena.org.uk>
-In-Reply-To: <20191218131700.GB42175@sirena.org.uk>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0EC2AB5390333649B5FA8FB87510E416@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
+        id S1727191AbfLROry (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Dec 2019 09:47:54 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:44882 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727186AbfLROry (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Dec 2019 09:47:54 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBIElnw9091999;
+        Wed, 18 Dec 2019 08:47:49 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1576680469;
+        bh=9QQbSS0rFH46BR10NFC7Q609jmka/ilJ1AcUNksp8Fo=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=JZ97l2tUebr0TbqM/WnjQMc9swjxz6W/Tn97oPc6EhnSznVXHMtgIbLg5uHlpmuY1
+         NiMeHguJuWE/AhB+3KImvys8cEkiA6AwOJa9vxdBP3YvIsgHw6aSFZ3u0cwNo6a/em
+         Z42TZ5RhDeLiubGLZNdxY2hMlQ/R8P8hbNBj7pcg=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBIEln1I019031
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 18 Dec 2019 08:47:49 -0600
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 18
+ Dec 2019 08:47:48 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 18 Dec 2019 08:47:48 -0600
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBIElmKj014309;
+        Wed, 18 Dec 2019 08:47:48 -0600
+Subject: Re: [PATCH v17 00/19] Multicolor Framework
+To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20191114133023.32185-1-dmurphy@ti.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <efdfcf1f-50b2-314f-3d46-93369229109a@ti.com>
+Date:   Wed, 18 Dec 2019 08:45:21 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0wUVxTGc2dmZy7gNOMK3du1mjhtbWzDK5p4E221bYhDjMTEtCaNhI7u
-        lCHCLs4uKjVGjAFlwdcCtW5dWHnVCBVZBBUhpRsW7NZCiKAoPrKWkoBmadVKAB+dYarw1/3u
-        +c7vfuePcyFprGXMMMPqkBSrmMnTkVTHmenG2E8Sp1ITvv9jFa7uG2DwwXAtg1+4uhj81BOk
-        cFlomMbDHQcBrujsMeCi3y8Y8IGqBhoPNZ+n8P1/AwA/6z9E4NLnPxH4n+J7Bny6oJrCTRXP
-        Ab7eeorGzY/OAdxV10/jmpt9BD5Vc5XC448LCdwXTMJlwTCD7wYDND7QN0ji/PZOBr+80Ujh
-        Iz3r1i4S6svrgTA95QLC+GA+I5TX7xEuu+8ygu9sIS3cudFGC7946hmh6kiJQXh27TgljJxu
-        oITuwYuEcKJ8khAaijuBcKZughGe+BZv5L6OWr1VdOzclJFujf/0myi5IJyQ7Yrc3dLiA3ng
-        7wgniICIW4HyTnTTThAJjdwAQOdK7hn0y1WAwj/UASeAkOZWI+ctRgOiuVhUNlU1A5BcfxSq
-        7C8hNWMBtwMdbgqSepOCbr8YpXT9OSryjczUKe4DVPRXKdA0y6Wgh12XgB52HyBP6yODZkRw
-        y9HtWtdMGuAWocK8MKFpkjMh38iEQR+bQ9VtvaSuY9Dony//r/OofTJEaUOT3DLU0Bqvo2tR
-        S8kgqeslqLQoxOgzzEe/nRymjoG33XMS3LO0ew7tnkO759BeYDgLUJaYkZkuOqTEOEXKiVNs
-        cpZ6bLNl+YC+d08vgVf+ZD8gIPCDdyDBx7C8PJlqfGurzZIri3Y5TcnJlOx+gCDJR7NDh1SP
-        tYi530mK7bW1EFK8if0wdDzVyGlZ2yUpW1Jeu+9CyCO2LXYq1ThfkdKl3d9mZDpmbQJGaI9H
-        mqPtktUiKWKOQ07T9iPNri6IZs1Tcy3xKs7as8UstaqjQfAxPDbqqSRhp6emkjRSVptVMptY
-        dqnaymmtco71TdAYMEHAL2D3J6juPPXzvXlnTI0g1Ai4bCbCIc5a5jwQPz6R25HUIl45umFs
-        DdW78uTi5PdSVvUcnf7isEJXVMlG/2Pf5t73cSDmq33XU27+6vU++PLVBdeuQNM+rxFZNz+J
-        cbvOr9gY8rLFS4RmJm6vybS/wBy482P79oWNQ9tqNjUnr3FeLF0/kFQ3vOXyuh3lll74cLzr
-        s4H8K065+9rPPGWXxcSPSMUu/gfQRcVfOQQAAA==
+In-Reply-To: <20191114133023.32185-1-dmurphy@ti.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-DQpPbiBXZWQsIDIwMTktMTItMTggYXQgMTM6MTcgKzAwMDAsIE1hcmsgQnJvd24gd3JvdGU6DQo+
-IE9uIFdlZCwgRGVjIDE4LCAyMDE5IGF0IDA4OjA2OjA0QU0gKzAwMDAsIFZhaXR0aW5lbiwgTWF0
-dGkgd3JvdGU6DQo+IA0KPiA+IEkgdGhpbmsgeW91IG1pc3NlZCB0aGUgW1BBVENIIHY2IDA4LzE1
-XSByZWd1bGF0b3I6IGJkNzE4eDc6IFNwbGl0DQo+ID4gZHJpdmVyIHRvIGNvbW1vbiBhbmQgYmQ3
-MTh4NyBzcGVjaWZpYyBwYXJ0cw0KPiANCj4gSSBkaWRuJ3QgbWlzcyBpdCwgaXQgd2FzIHF1ZXVl
-ZCBidXQgaXQgZG9lc24ndCBhcHBseS4NClJpZ2h0LiBUaGUgcm9obS1nZW5lcmljLmggaXMgY2hh
-bmdlZCBieQ0KW1BBVENIIHY2IDA0LzE1XSBtZmQ6IHJvaG0gUE1JQ3MgLSB1c2UgcGxhdGZvcm1f
-ZGV2aWNlX2lkIHRvIG1hdGNoIE1GRA0Kc3ViLWRldmljZXMNCg0KZGlmZiAtLWdpdCBhL2luY2x1
-ZGUvbGludXgvbWZkL3JvaG0tZ2VuZXJpYy5oIGIvaW5jbHVkZS9saW51eC9tZmQvcm9obS0NCmdl
-bmVyaWMuaA0KaW5kZXggYmZmMTVhYzI2ZjJjLi45MjJmODgwMDgyMzIgMTAwNjQ0DQotLS0gYS9p
-bmNsdWRlL2xpbnV4L21mZC9yb2htLWdlbmVyaWMuaA0KKysrIGIvaW5jbHVkZS9saW51eC9tZmQv
-cm9obS1nZW5lcmljLmgNCkBAIC00LDcgKzQsNyBAQA0KICNpZm5kZWYgX19MSU5VWF9NRkRfUk9I
-TV9IX18NCiAjZGVmaW5lIF9fTElOVVhfTUZEX1JPSE1fSF9fDQogDQotZW51bSB7DQorZW51bSBy
-b2htX2NoaXBfdHlwZSB7DQoNCg0KSSB0aGluayB0aGlzIGlzIHRoZSByb290IG9mIHRoZSBjb25m
-bGljdCBoZXJlIGFzIFtQQVRDSCB2NiAwNC8xNV0gaXMNCm5vdCBpbiByZWd1bGF0b3IgdHJlZS4g
-SG93IHNob3VsZCBJIGhhbmRsZSB0aGlzIHNvIHRoYXQgaXQgd29uJ3QNCmNvbmZsaWN0IGluIHlv
-dXIgYW5kIExlZSdzIHRyZWVzPw0KDQpCciwNCglNYXR0aQ0K
+Hello
+
+Bump for application to leds-next
+
+Dan
+
+On 11/14/19 7:30 AM, Dan Murphy wrote:
+> Hello
+>
+> Simple fix in the multicolor code where the extended registration call was not
+> called in the devm_* function
+>
+> Thanks Martin F. for finding this issue.
+>
+> Hopefully this will be pulled in for the 5.5 merge window.
+>
+> Dan
+>
+> Dan Murphy (19):
+>    dt: bindings: Add multicolor class dt bindings documention
+>    dt-bindings: leds: Add multicolor ID to the color ID list
+>    leds: Add multicolor ID to the color ID list
+>    leds: multicolor: Introduce a multicolor class definition
+>    dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers
+>    leds: lp50xx: Add the LP50XX family of the RGB LED driver
+>    dt: bindings: lp55xx: Be consistent in the document with LED acronym
+>    dt: bindings: lp55xx: Update binding for Multicolor Framework
+>    ARM: dts: n900: Add reg property to the LP5523 channel node
+>    ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node
+>    ARM: dts: ste-href: Add reg property to the LP5521 channel nodes
+>    leds: lp55xx: Convert LED class registration to devm_*
+>    leds: lp55xx: Add multicolor framework support to lp55xx
+>    leds: lp5523: Update the lp5523 code to add multicolor brightness
+>      function
+>    leds: lp5521: Add multicolor framework multicolor brightness support
+>    leds: lp55xx: Fix checkpatch file permissions issues
+>    leds: lp5523: Fix checkpatch issues in the code
+>    dt: bindings: Update lp55xx binding to recommended LED naming
+>    leds: lp55xx-common: Remove extern from lp55xx-common header
+>
+>   .../ABI/testing/sysfs-class-led-multicolor    |  36 +
+>   .../bindings/leds/leds-class-multicolor.txt   |  98 +++
+>   .../devicetree/bindings/leds/leds-lp50xx.txt  | 148 ++++
+>   .../devicetree/bindings/leds/leds-lp55xx.txt  | 163 +++-
+>   Documentation/leds/index.rst                  |   1 +
+>   Documentation/leds/leds-class-multicolor.rst  | 100 +++
+>   arch/arm/boot/dts/imx6dl-yapp4-common.dtsi    |  14 +-
+>   arch/arm/boot/dts/omap3-n900.dts              |  29 +-
+>   arch/arm/boot/dts/ste-href.dtsi               |  22 +-
+>   drivers/leds/Kconfig                          |  22 +
+>   drivers/leds/Makefile                         |   2 +
+>   drivers/leds/led-class-multicolor.c           | 272 ++++++
+>   drivers/leds/led-core.c                       |   1 +
+>   drivers/leds/leds-lp50xx.c                    | 799 ++++++++++++++++++
+>   drivers/leds/leds-lp5521.c                    |  43 +-
+>   drivers/leds/leds-lp5523.c                    |  62 +-
+>   drivers/leds/leds-lp5562.c                    |  22 +-
+>   drivers/leds/leds-lp55xx-common.c             | 235 ++++--
+>   drivers/leds/leds-lp55xx-common.h             |  36 +-
+>   drivers/leds/leds-lp8501.c                    |  23 +-
+>   include/dt-bindings/leds/common.h             |   3 +-
+>   include/linux/led-class-multicolor.h          | 139 +++
+>   include/linux/platform_data/leds-lp55xx.h     |   8 +
+>   23 files changed, 2106 insertions(+), 172 deletions(-)
+>   create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
+>   create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+>   create mode 100644 Documentation/devicetree/bindings/leds/leds-lp50xx.txt
+>   create mode 100644 Documentation/leds/leds-class-multicolor.rst
+>   create mode 100644 drivers/leds/led-class-multicolor.c
+>   create mode 100644 drivers/leds/leds-lp50xx.c
+>   create mode 100644 include/linux/led-class-multicolor.h
+>
