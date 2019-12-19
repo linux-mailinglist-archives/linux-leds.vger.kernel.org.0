@@ -2,24 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01090125E64
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Dec 2019 10:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF0071264F3
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Dec 2019 15:36:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726696AbfLSJ66 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Dec 2019 04:58:58 -0500
-Received: from mailgate1.rohmeurope.com ([178.15.145.194]:45744 "EHLO
-        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726652AbfLSJ65 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Dec 2019 04:58:57 -0500
-X-AuditID: c0a8fbf4-183ff70000001fa6-4e-5dfb49dfc7dc
-Received: from smtp.reu.rohmeu.com (will-cas001.reu.rohmeu.com [192.168.251.177])
-        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id BE.74.08102.FD94BFD5; Thu, 19 Dec 2019 10:58:55 +0100 (CET)
-Received: from WILL-MAIL001.REu.RohmEu.com ([fe80::2915:304f:d22c:c6ba]) by
- WILL-CAS001.REu.RohmEu.com ([fe80::d57e:33d0:7a5d:f0a6%16]) with mapi id
- 14.03.0439.000; Thu, 19 Dec 2019 10:58:50 +0100
-From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To:     "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>
-CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        id S1726880AbfLSOgy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Dec 2019 09:36:54 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:55723 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726840AbfLSOgx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Dec 2019 09:36:53 -0500
+Received: by mail-wm1-f68.google.com with SMTP id q9so5675011wmj.5
+        for <linux-leds@vger.kernel.org>; Thu, 19 Dec 2019 06:36:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=AoW0ANcjhnWhVQy1nVWVlNehespmk84ZLnrhmIANeDA=;
+        b=YK7LdqaacIifpKR43grXurOLS6lstMbGSX6yh9BiZsQbKGNAobIumTzzfI0vzVab3R
+         BkL1DaoAW+buzNT46GZR1VAyTxwQHfe6Iqdri+qpsLkTm1jLnks+ua7+UCV5dwzRWpBr
+         zHE1KRA4Iy2WKEJFJsjuikO4s1AxpUw2M4/JDE9e80qW+IzcNdabq4wW2jwE6Xy00jH5
+         8JUp76OYneB+zZAZuHdXWgdWHsHIhMW2gicqtOp+PQxuKbTk7uEprMzGXTs55KHJtezM
+         aAawLm+qXV4CRlSmp8cS3SguI+nL2u/3rdPi/AuPaXieEK/Qv5k6q+UklgBSCRaqY02x
+         TROw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=AoW0ANcjhnWhVQy1nVWVlNehespmk84ZLnrhmIANeDA=;
+        b=hhQcA5/1LMol+xj4oLzX/8TUd2Nwb+IiHl6YtuY3wkqnpXZTaWw9W9VToGJkeMozXY
+         pM0bVWJ1s7QYxq1NasjHTBrhjVcRdw1oRH1r2fDjNn+EmoStz4fiRJHNR/cDjPJKUWF8
+         EiMXS5/a3FN28FQnDXr+Scsx0wIiTFJ7pTKS6+k8FtYda/urr9OFojVneJo2kJfkR87o
+         hNNnfURS3Pqvwnw9wbKUEeD5mw5ImtEVweM5iRZ4ssxZ+emU4hJ9rGiLNVK9xotGU6M+
+         erD6tivWc6SLAlbvmonGwKicb8Ak2lEEsNb/gURK2wKn3qBeseBH56wHbp+iHKibRjsv
+         iDmg==
+X-Gm-Message-State: APjAAAW/MPWQ19RZgqF3dkBr6nf9x3Ipq279M/WN82iyD8kVczFKj28z
+        W1l8IcMW5cf+Y32KMRqMXYvinw==
+X-Google-Smtp-Source: APXvYqzWCOPBrg4orgmeiuAAjBbDOGoPenNVv75ndLEhJ5dP0c89acYNuswyk6Faok6Xlh/8ZdFv0Q==
+X-Received: by 2002:a7b:ce81:: with SMTP id q1mr10589381wmj.47.1576766208594;
+        Thu, 19 Dec 2019 06:36:48 -0800 (PST)
+Received: from dell ([2.27.35.132])
+        by smtp.gmail.com with ESMTPSA id 188sm6700579wmd.1.2019.12.19.06.36.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2019 06:36:47 -0800 (PST)
+Date:   Thu, 19 Dec 2019 14:36:47 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+Cc:     "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
         "dmurphy@ti.com" <dmurphy@ti.com>,
         "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
         "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
@@ -36,62 +67,57 @@ CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
         "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
         "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
         "sboyd@kernel.org" <sboyd@kernel.org>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
         "broonie@kernel.org" <broonie@kernel.org>,
         "pavel@ucw.cz" <pavel@ucw.cz>
-Subject: Re: [PATCH v7 02/12] dt-bindings: mfd: Document ROHM BD71828
- bindings
-Thread-Topic: [PATCH v7 02/12] dt-bindings: mfd: Document ROHM BD71828
- bindings
-Thread-Index: AQHVtlEjPJdYWhzff0OqIDcPrX4s7KfBKG6A
-Date:   Thu, 19 Dec 2019 09:58:47 +0000
-Message-ID: <f9b0fbb7b898691d09ed8954e8df67cf3706aa96.camel@fi.rohmeurope.com>
+Subject: Re: [PATCH v7 02/12] dt-bindings: mfd: Document ROHM BD71828 bindings
+Message-ID: <20191219143647.GQ18955@dell>
 References: <cover.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
-         <702daeb9d8604e2feddd5f6f92b067a2d60d81ad.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
-In-Reply-To: <702daeb9d8604e2feddd5f6f92b067a2d60d81ad.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [84.253.217.17]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B6C67A5C16966941A778612C207EB21C@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
+ <702daeb9d8604e2feddd5f6f92b067a2d60d81ad.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
+ <f9b0fbb7b898691d09ed8954e8df67cf3706aa96.camel@fi.rohmeurope.com>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTVxzHPfd5QK+eVhjH+gqNBl/TsZjsaJwhKvFqssXJP2iseBlXipSW
-        3Jb5wGVsSsSqEaPGWCk+ywglaqv4LMZhrdoZlYDVRZyrz2gUVHRGYbh7vSr8c87n/L7n+/ue
-        P34H0sYHnAkW2F2yYpdsZi6ROVvbFfjyzpwuy1drOoaQA83XebKuvYYnr7xRhmyP3+fI7vAV
-        lmz48yhLbjUcZsid1+cB+be1giLbun+nyIuNf7PkyO5uQFpOVXGk4elBQCL+Vo74bjRTpMp3
-        kSHN0UxyO3qeI+WNYZ70xAJMRrJYX10PxI6b5bxYXV8qnvTc5sVg3XpObIuFOPHCzeOUuKP6
-        LSXW+t/wYmdwxLzEhf2n5Uqun7IK8u2Tpi/pb41VeKnid3DF5YiXLQNt0A0gxGgy7g596waJ
-        0IiuA9ywsZPTDxcBPr3zNaNd4tA07P6L1zAJTcGBZoMbJEAaVUHcU7FK48FoHo5dizMaJ6Ef
-        cLxuK9D5a7x5TSWlMYNG4+qjLziNBfQ9ru98+jFqP8C7/mn/cCkBWXFZxPeBARqO15fpdRql
-        4ODDN6zGGCF8IHSV1jkZP77X87Geivf6g6z2ThqNxYdOTdKtGfjwwxpe51S8bUOc199gwJd2
-        3mcqwReePgmeXrenj9vTx+3p494D2DqAi6QCW77kktMnKnLJRMVhLVK3Hx1FQaAPzKsT4H3T
-        nCZAQdAEhkDKnCzkTe2yGAfmOvJWWiWnNUcpscnOJoAhbU4SblW8tRiFPGnlKllxfJKGQsac
-        IqTFt1iMSMsqlOViWfmkDoPQjAW/qDY1KHK+vGJpgc3VK1MwQWueaEpyyvY8WZFKXNYcbTpy
-        nOp4aNIANXexZhecxVKRWtWtUZAOKx9799Ew7PWp642ORh9tZOwOu2xKEdbOVg1IM1hL7J/j
-        noAUCMyDhXKt3QD173zu9kQNotQgOPadFuSSeiVTGfhj1r3vvjEUHqLbJtwNLEqL/vooNiia
-        Ptt+uvhZ8uQ9GZaRhT8r/42vyWSfN87vrBVKZ/wSjtzdf2amI9JS2N7vuK0lPnr45ewFyw/+
-        9t49LJ/NepT9MkRnPTCVtkbTxtDc8kHn4qFMccvczFGrN2Xnzg8YZnVPrQNt/pebY6lp4WPL
-        zIzTKqWPoxWn9D/9jQrW+AMAAA==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f9b0fbb7b898691d09ed8954e8df67cf3706aa96.camel@fi.rohmeurope.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGVsbG8gTWFyaywgTGVlLCBSb2INCg0KSSBqdXN0IG5vdGljZWQgd2UgaGF2ZSBhIGRlcGVuZGVu
-Y3kgaGVyZS4gVGhpcyBiaW5kaW5nIGlzIHJlZmVycmluZyB0bw0KcmVndWxhdG9yIGJpbmRpbmcg
-LSB3aGljaCB3YXMgYXBwbGllZCBieSBNYXJrIGFuZCBpcyB0aHVzIG1pc3NpbmcgZnJvbQ0KdGhl
-IHNlcmllcy4gV2hhdCdzIHRoZSBiZXN0IHdheSBmb3J3YXJkPw0KDQpPbiBUaHUsIDIwMTktMTIt
-MTkgYXQgMTE6NDYgKzAyMDAsIE1hdHRpIFZhaXR0aW5lbiB3cm90ZToNCj4gUk9ITSBCRDcxODI4
-IFBvd2VyIG1hbmFnZW1lbnQgSUMgaW50ZWdyYXRlcyA3IGJ1Y2sgY29udmVydGVycywgNw0KPiBM
-RE9zLA0KPiBhIHJlYWwtdGltZSBjbG9jayAoUlRDKSwgMyBHUE8vcmVndWxhdG9yIGNvbnRyb2wg
-cGlucywgSEFMTCBpbnB1dA0KPiBhbmQgYSAzMi43Njgga0h6IGNsb2NrIGdhdGUuDQo+IA0KPiBE
-b2N1bWVudCB0aGUgZHQgYmluZGluZ3MgZHJpdmVycyBhcmUgdXNpbmcuDQo+IA0KPiBTaWduZWQt
-b2ZmLWJ5OiBNYXR0aSBWYWl0dGluZW4gPG1hdHRpLnZhaXR0aW5lbkBmaS5yb2htZXVyb3BlLmNv
-bT4NCj4gUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+DQo+IC0tLQ0K
-PiANCj4gTm8gY2hhbmdlcyBzaW5jZSB2Ng0KDQovL3NuaXANCg0KPiArICByZWd1bGF0b3JzOg0K
-PiArICAgICRyZWY6IC4uL3JlZ3VsYXRvci9yb2htLGJkNzE4MjgtcmVndWxhdG9yLnlhbWwNCg0K
-VGhpcyBmaWxlIGlzIG1pc3NpbmcgZnJvbSB0aGUgc2VyaWVzIGFuZCBpcyBhcHBsaWVkIHRvIE1h
-cmsncyB0cmVlLg0KDQpCciwNCglNYXR0aSBWYWl0dGluZW4NCg0K
+On Thu, 19 Dec 2019, Vaittinen, Matti wrote:
+
+> Hello Mark, Lee, Rob
+> 
+> I just noticed we have a dependency here. This binding is referring to
+> regulator binding - which was applied by Mark and is thus missing from
+> the series. What's the best way forward?
+> 
+> On Thu, 2019-12-19 at 11:46 +0200, Matti Vaittinen wrote:
+> > ROHM BD71828 Power management IC integrates 7 buck converters, 7
+> > LDOs,
+> > a real-time clock (RTC), 3 GPO/regulator control pins, HALL input
+> > and a 32.768 kHz clock gate.
+> > 
+> > Document the dt bindings drivers are using.
+> > 
+> > Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > ---
+> > 
+> > No changes since v6
+> 
+> //snip
+> 
+> > +  regulators:
+> > +    $ref: ../regulator/rohm,bd71828-regulator.yaml
+> 
+> This file is missing from the series and is applied to Mark's tree.
+
+Shouldn't matter.  I guess they're all heading for he same release.
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
