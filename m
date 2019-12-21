@@ -2,119 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 431F9128B9A
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Dec 2019 22:04:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FBC2128BA3
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Dec 2019 22:07:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbfLUVEO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Dec 2019 16:04:14 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:52586 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbfLUVEO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Dec 2019 16:04:14 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 183EC1C24A9; Sat, 21 Dec 2019 22:04:12 +0100 (CET)
-Date:   Sat, 21 Dec 2019 22:04:06 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>
-Cc:     linux-realtek-soc@lists.infradead.org, linux-leds@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [RFC 22/25] leds: tm1826: Add combined glyph support
-Message-ID: <20191221210406.GA13125@amd>
+        id S1727426AbfLUVHt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Dec 2019 16:07:49 -0500
+Received: from mx2.suse.de ([195.135.220.15]:34610 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726763AbfLUVHt (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 21 Dec 2019 16:07:49 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 2E76FACEC;
+        Sat, 21 Dec 2019 21:07:46 +0000 (UTC)
+Subject: Re: [RFC 00/25] arm64: realtek: Add Xnano X5 and implement
+ TM1628/FD628/AiP1618 LED controllers
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-rtc@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-realtek-soc@lists.infradead.org,
+        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh@kernel.org>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>
 References: <20191212033952.5967-1-afaerber@suse.de>
- <20191212033952.5967-23-afaerber@suse.de>
- <20191221202755.GN32732@amd>
- <506d0697-1820-7811-1b38-910355812948@suse.de>
+ <20191221182057.GA32732@amd>
+From:   =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
+Organization: SUSE Software Solutions Germany GmbH
+Message-ID: <e26f985b-ceca-ca2c-a709-e7dc40c7fdd1@suse.de>
+Date:   Sat, 21 Dec 2019 22:07:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="0F1p//8PRICkK4MW"
-Content-Disposition: inline
-In-Reply-To: <506d0697-1820-7811-1b38-910355812948@suse.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20191221182057.GA32732@amd>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Pavel,
 
---0F1p//8PRICkK4MW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[- Roc He, - chipset vendors]
 
-Hi!
+Am 21.12.19 um 19:20 schrieb Pavel Machek:
+>> It goes on to add a "text" attribute to the driver that enables DT-configured
+>> seven-segment displays; I was expecting to find precedence in auxdisplay
+>> subsystem but came up empty. So my driver currently integrates its own
+>> generic (but incomplete) character-to-8-segments mapping, as well as in a
+>> second step a combined-characters-to-8-segments mapping, which then gets
+>> mapped to the chipset's available output lines. Doing this as sysfs
+>> device
+> 
+> I did not investigate this in great detail; but if it is displaying
+> characters, auxdisplay is probably right subsystem to handle that.
 
-> >>Allow to squeeze the text "HEllO" into a 4-digit display,
-> >>as seen on MeLE V9 TV box.
-> >>
-> >>Enable this combining mode only if the text would overflow.
-> >
-> >"HEll,nO"!
-> >
-> >:-)
-> >
-> >Ok, it is kind of cool, but... Can you take a look at
-> >drivers/auxdisplay/charlcd.c ? It seems to support some kind of text
-> >displays...
->=20
-> Why don't you look at it before making such a suggestion? ;) It is in no =
-way
-> useful, as I pointed out in my cover letter. The only thing related today,
-> as Geert pointed out, is in the input subsystem.
+ausdisplay does not have any common API AFAICS. Most of them are 
+high-level displays with some parallel interface to set text and 
+metadata. Half of them hardcode the text to Linux or maybe offer a 
+Kconfig option to override it; the other half implements their own 
+character device file with ABI specific to that driver.
 
-Okay, so maybe we should get
+> I
+> guess LEDs can still take the low-level parts...
 
-AUXILIARY DISPLAY DRIVERS
-M:      Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
+I'd hope so, but I believe we're missing multiple things there:
 
-on the Cc: list? What you really have is a display, not a bunch of LEDs.
+1) A bulk-update API for setting multiple LEDs at once. 
+.brightness_set[_blocking]() is all we have on the device side, which 
+here results in two SPI commands. led_set_brightness[_sync]() is all I 
+see on the API side. We'd need an API that takes an array of LEDs and 
+brightness values and allows a common driver rather than individual 
+devices to update the Display RAM via SPI from an internal buffer.
 
-> If you don't want this in leds, you'll have to help make leds subsystem m=
-ore
-> useful to external users - the latest function refactoring has been anyth=
-ing
-> but helpful here, as you've seen with the indicators, and we're completely
-> lacking any indexing or bulk operations on the LED controller level, since
-> you treat each LED as a standalone device. That's precisely why this code=
- is
-> here in leds although - as I pointed out - it shouldn't belong here.
+2) DT is currently limited to one node per LED device. We'd need 
+#led-cells, with current LED nodes defaulting to zero. That way we could 
+address LEDs from an external, e.g., auxdisplay driver via a two-cell 
+index for these LED controllers, without needing to have DT nodes for 
+each and every display segment.
 
-Well, your introduction mail was kind of long :-).
+3) Better LED device names. More "function" values, or a reversal of the 
+label deprecation. Or an alternative API to register LEDs with manual name.
 
-If someone wants to do heartbeat on
+4) LED triggers controlling more than one LED. linux,default-trigger 
+seems to assign one per LED, so that two heartbeats are quickly out of 
+sync. Doing it from code would probably be simpler than finding a way to 
+model this in DT, but I don't yet see how.
 
- --
-|  | <- this segment
- --
-|  |
- --
+Alternatively we could expose those LED output lines as a gpiochip, 
+which we can already index in DT, and consider the display GPIO-based, 
+but then we're in the situation again that GregKH was telling people to 
+either go screw themselves in userspace or move things into leds, which 
+now you're against.
 
-they are probably crazy. We may not want to support that. What about
-doing it as auxdisplay driver, and then exporting the indicators
-around that as LEDs?
+Also, if you don't allow displays in leds, then we can't have LED 
+triggers for them either.
 
-Having USB activity trigger on 'USB' icon makes sense, on the other
-hand. That would still be supported.
+> 
+> Oh, and common dimming for many LEDs is seen on other hardware, too
+> (Turris routers). Not sure how to handle that, either :-(.
 
-Hmm?
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+That part I have indeed successfully solved with a backlight device.
 
---0F1p//8PRICkK4MW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+My current problem (WIP blocking a push) is the key input handling - not 
+sure how to model both LEDs and keys as DT child nodes - do we need a 
+compatible to distinguish between them? Unit addresses and reg values 
+would be in different ranges, making this awkward, not to mention the 
+problem of naming a compatible, given the incredible diverse chipsets.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+Regards,
+Andreas
 
-iEYEARECAAYFAl3+iMYACgkQMOfwapXb+vLZQgCghm+4BSW3+dMlaHTM2YeWiyDT
-cAAAoKpPCbi0WzsihqRnnB2sB8k3SOLa
-=w2fT
------END PGP SIGNATURE-----
-
---0F1p//8PRICkK4MW--
+-- 
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+GF: Felix Imendörffer
+HRB 36809 (AG Nürnberg)
