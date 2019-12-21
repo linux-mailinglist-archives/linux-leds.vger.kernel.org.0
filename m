@@ -2,31 +2,29 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35A88128AEA
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Dec 2019 19:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F98128AF5
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Dec 2019 20:02:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726319AbfLUSwu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Dec 2019 13:52:50 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:40514 "EHLO
+        id S1726107AbfLUTC0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Dec 2019 14:02:26 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:41156 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726107AbfLUSwu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Dec 2019 13:52:50 -0500
+        with ESMTP id S1726593AbfLUTC0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Dec 2019 14:02:26 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id BA7C01C24DF; Sat, 21 Dec 2019 19:52:48 +0100 (CET)
-Date:   Sat, 21 Dec 2019 19:52:48 +0100
+        id 046CE1C24DF; Sat, 21 Dec 2019 20:02:25 +0100 (CET)
+Date:   Sat, 21 Dec 2019 20:02:24 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
-        Kim Kyuwon <chammoru@gmail.com>
-Subject: Re: [PATCH] leds: bd2802: Convert to use GPIO descriptors
-Message-ID: <20191221185248.GE32732@amd>
-References: <20191203095908.52926-1-linus.walleij@linaro.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-leds@vger.kernel.org, andriy.shevchenko@intel.com
+Subject: Re: [PATCH 1/1] leds-as3645a: Drop fwnode reference on ignored node
+Message-ID: <20191221190224.GA4199@amd>
+References: <20191204075642.22070-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="EXKGNeO8l0xGFBjy"
+        protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
 Content-Disposition: inline
-In-Reply-To: <20191203095908.52926-1-linus.walleij@linaro.org>
+In-Reply-To: <20191204075642.22070-1-sakari.ailus@linux.intel.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -34,49 +32,36 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---EXKGNeO8l0xGFBjy
+--OXfL5xGRrasGEqWY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue 2019-12-03 10:59:08, Linus Walleij wrote:
-> The Rohm BD2802 have no in-kernel users so we can drop the
-> GPIO number from the platform data and require users to
-> provide the GPIO line using machine descriptors.
+On Wed 2019-12-04 09:56:42, Sakari Ailus wrote:
+> If a node is ignored, do not get a reference to it. Fix the bug by moving
+> fwnode_handle_get() where a reference to an fwnode is saved for clarity.
 >=20
-> As the descriptors come with inherent polarity inversion
-> semantics, we invert the calls to set the GPIO line such
-> that 0 means "unasserted" and 1 means "asserted".
->=20
-> Put a note in the driver that machine descriptor tables
-> will need to specify that the line is active low.
->=20
-> Cc: Kim Kyuwon <chammoru@gmail.com>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> Reported-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Umm. What should I do here? Apply to next and see if it breaks
-something?
-
-Was this tested somehow?
-
-Best regards,
-							Pavel
-						=09
+Thanks, applied.
+								Pavel
+							=09
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---EXKGNeO8l0xGFBjy
+--OXfL5xGRrasGEqWY
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAl3+af8ACgkQMOfwapXb+vIbaACfRbb6rjYojhs1H4oU2RDywaqq
-RKoAnRRpp75o71EvU2asc5CubOVg44k4
-=0h7q
+iEYEARECAAYFAl3+bEAACgkQMOfwapXb+vLKfQCeMfH4tJnpxGSpbOt6cGpVDOQG
+WD4An2d7xtuEDTGpiBVOnvlZdpbTw2vf
+=TGfK
 -----END PGP SIGNATURE-----
 
---EXKGNeO8l0xGFBjy--
+--OXfL5xGRrasGEqWY--
