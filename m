@@ -2,99 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 57A4A128B38
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Dec 2019 20:48:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5A9E128B43
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Dec 2019 20:56:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbfLUTsG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Dec 2019 14:48:06 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:45404 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726736AbfLUTsG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Dec 2019 14:48:06 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id A7AD51C24A9; Sat, 21 Dec 2019 20:48:03 +0100 (CET)
-Date:   Sat, 21 Dec 2019 20:48:02 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     mazziesaccount@gmail.com,
+        id S1726940AbfLUTzw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Dec 2019 14:55:52 -0500
+Received: from mx2.suse.de ([195.135.220.15]:51398 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726593AbfLUTzw (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 21 Dec 2019 14:55:52 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id C7C31AC81;
+        Sat, 21 Dec 2019 19:55:50 +0000 (UTC)
+Subject: Re: [RFC 17/25] leds: tm1628: Prepare Fude Microelectronics AiP1618
+To:     linux-realtek-soc@lists.infradead.org, linux-leds@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v7 12/12] led: bd71828: Support LED outputs on ROHM
- BD71828 PMIC
-Message-ID: <20191221194802.GK32732@amd>
-References: <cover.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
- <c95eb856c8e05a196551179c2416455c022eb3ea.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
+        Pavel Machek <pavel@ucw.cz>,
+        linux-arm-kernel@lists.infradead.org, Dan Murphy <dmurphy@ti.com>
+References: <20191212033952.5967-1-afaerber@suse.de>
+ <20191212033952.5967-18-afaerber@suse.de>
+From:   =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
+Organization: SUSE Software Solutions Germany GmbH
+Message-ID: <56665464-0a2f-709d-56fe-565e45ca6eea@suse.de>
+Date:   Sat, 21 Dec 2019 20:55:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="++alDQ2ROsODg1x+"
-Content-Disposition: inline
-In-Reply-To: <c95eb856c8e05a196551179c2416455c022eb3ea.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20191212033952.5967-18-afaerber@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Am 12.12.19 um 04:39 schrieb Andreas Färber:
+> diff --git a/drivers/leds/leds-tm1628.c b/drivers/leds/leds-tm1628.c
+> index ef85712a84f2..8a8fd1562853 100644
+> --- a/drivers/leds/leds-tm1628.c
+> +++ b/drivers/leds/leds-tm1628.c
+[...]
+> @@ -411,9 +412,38 @@ static const struct tm1628_info fd628_info = {
+>   	.default_pwm = 0,
+>   };
+>   
+> +static const struct tm1628_mode aip1618_modes[4] = {
+> +	{
+> +		.grid_mask = GENMASK(4, 1),
+> +		.seg_mask = GENMASK(8, 1),
+> +	},
+> +	{
+> +		.grid_mask = GENMASK(5, 1),
+> +		.seg_mask = GENMASK(7, 1),
+> +	},
+> +	{
+> +		.grid_mask = GENMASK(6, 1),
+> +		.seg_mask = GENMASK(6, 1),
+> +	},
 
---++alDQ2ROsODg1x+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+These three segment masks are obviously wrong - they violate the 
+seg_mask below, not leaving the gap between 5 and 12. Fixed.
 
-Hi!
+> +	{
+> +		.grid_mask = GENMASK(7, 1),
+> +		.seg_mask = GENMASK(5, 1),
+> +	},
+> +};
+> +
+> +static const struct tm1628_info aip1618_info = {
+> +	.grid_mask = GENMASK(7, 1),
+> +	.seg_mask = GENMASK(14, 12) | GENMASK(5, 1),
+> +	.modes = aip1618_modes,
+> +	.default_mode = 3,
+> +	.pwm_map = tm1628_pwm_map,
+> +	.default_pwm = 0,
+> +};
+[snip]
 
-> ROHM BD71828 power management IC has two LED outputs for charge status
-> and button pressing indications. The LED outputs can also be forced
-> by SW so add driver allowing to use these LEDs for other indications
-> as well.
->=20
-> Leds are controlled by SW using 'Force ON' bits. Please note the
-> constrains mentioned in data-sheet:
->     1. If one LED is forced ON - then also the other LED is forced.
->             =3D> You can't use SW control to force ON one LED and allow HW
->                to control the other.
->     2. You can't force both LEDs OFF. If the FORCE bit for both LED's is
->        zero, then LEDs are controlled by HW and indicate button/charger
->        states as explained in data-sheet.
+Regards,
+Andreas
 
-That's really quite sad, is it?
-
-All the effort and all we got is ... one working LED. Because hardware
-does not allow you to control both LEDs...
-
-=2E..and we don't even have support selecting if the LED should be sw or
-hw controlled in the mainline, yet...
-
-Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---++alDQ2ROsODg1x+
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl3+dvIACgkQMOfwapXb+vIg1wCfYtYi6MN/BEF+ztr/KeVKSAJq
-ufgAoL9RYqOIuswW/TX+njSk7v8JSMf0
-=GjUc
------END PGP SIGNATURE-----
-
---++alDQ2ROsODg1x+--
+-- 
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+GF: Felix Imendörffer
+HRB 36809 (AG Nürnberg)
