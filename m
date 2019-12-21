@@ -2,31 +2,31 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F0F2128AF6
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Dec 2019 20:02:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1AEA128AF8
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Dec 2019 20:03:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726736AbfLUTCn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Dec 2019 14:02:43 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:41174 "EHLO
+        id S1726593AbfLUTDV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Dec 2019 14:03:21 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:41212 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726593AbfLUTCn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Dec 2019 14:02:43 -0500
+        with ESMTP id S1726107AbfLUTDV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Dec 2019 14:03:21 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 74FAC1C24DF; Sat, 21 Dec 2019 20:02:41 +0100 (CET)
-Date:   Sat, 21 Dec 2019 20:02:40 +0100
+        id 5E3F81C24DF; Sat, 21 Dec 2019 20:03:19 +0100 (CET)
+Date:   Sat, 21 Dec 2019 20:03:18 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Zahari Petkov <zahari@balena.io>
+To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] leds: pca963x: Fix open-drain initialization
-Message-ID: <20191221190240.GB4199@amd>
-References: <20191118210255.GA99907@majorz.localdomain>
+        Kim Kyuwon <chammoru@gmail.com>
+Subject: Re: [PATCH v2] leds: bd2802: Convert to use GPIO descriptors
+Message-ID: <20191221190318.GC4199@amd>
+References: <20191209004242.18152-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="E39vaYmALEf/7YXx"
+        protocol="application/pgp-signature"; boundary="c3bfwLpm8qysLVxt"
 Content-Disposition: inline
-In-Reply-To: <20191118210255.GA99907@majorz.localdomain>
+In-Reply-To: <20191209004242.18152-1-linus.walleij@linaro.org>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -34,50 +34,41 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---E39vaYmALEf/7YXx
+--c3bfwLpm8qysLVxt
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon 2019-11-18 23:02:55, Zahari Petkov wrote:
-> Before commit bb29b9cccd95 ("leds: pca963x: Add bindings to invert
-> polarity") Mode register 2 was initialized directly with either 0x01
-> or 0x05 for open-drain or totem pole (push-pull) configuration.
+On Mon 2019-12-09 01:42:42, Linus Walleij wrote:
+> The Rohm BD2802 have no in-kernel users so we can drop the
+> GPIO number from the platform data and require users to
+> provide the GPIO line using machine descriptors.
 >=20
-> Afterwards, MODE2 initialization started using bitwise operations on
-> top of the default MODE2 register value (0x05). Using bitwise OR for
-> setting OUTDRV with 0x01 and 0x05 does not produce correct results.
-> When open-drain is used, instead of setting OUTDRV to 0, the driver
-> keeps it as 1:
+> As the descriptors come with inherent polarity inversion
+> semantics, we invert the calls to set the GPIO line such
+> that 0 means "unasserted" and 1 means "asserted".
 >=20
-> Open-drain: 0x05 | 0x01 -> 0x05 (0b101 - incorrect)
-> Totem pole: 0x05 | 0x05 -> 0x05 (0b101 - correct but still wrong)
->=20
-> Now OUTDRV setting uses correct bitwise operations for initialization:
->=20
-> Open-drain: 0x05 & ~0x04 -> 0x01 (0b001 - correct)
-> Totem pole: 0x05 | 0x04 -> 0x05 (0b101 - correct)
->=20
-> Additional MODE2 register definitions are introduced now as well.
+> Put a note in the driver that machine descriptor tables
+> will need to specify that the line is active low.
 
 Thanks, applied.
-								Pavel
-							=09
+						Pavel
+					=09
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---E39vaYmALEf/7YXx
+--c3bfwLpm8qysLVxt
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAl3+bFAACgkQMOfwapXb+vI6/QCcDa/XaVJ4hspNhTLtt6t4ZaPF
-oNYAn3VloD0vlMsPJigwil6/Q6bd6SvH
-=C5rA
+iEYEARECAAYFAl3+bHYACgkQMOfwapXb+vJZSQCgtZHYfw8RDlSxTBYjb5e0/kw8
+ND0An1s2pIMq1mL9jdz5iqfLmR/K+ntl
+=1Uhk
 -----END PGP SIGNATURE-----
 
---E39vaYmALEf/7YXx--
+--c3bfwLpm8qysLVxt--
