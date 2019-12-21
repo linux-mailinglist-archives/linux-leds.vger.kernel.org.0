@@ -2,142 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8508F1279AF
-	for <lists+linux-leds@lfdr.de>; Fri, 20 Dec 2019 11:55:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C73F2128AC5
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Dec 2019 19:21:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727192AbfLTKzH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 20 Dec 2019 05:55:07 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:41117 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727184AbfLTKzH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Dec 2019 05:55:07 -0500
-Received: by mail-wr1-f67.google.com with SMTP id c9so8974326wrw.8
-        for <linux-leds@vger.kernel.org>; Fri, 20 Dec 2019 02:55:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=a9C14P9lsGAuh8F6Rdx7vHrUThQ9aonGy2O3DOUo7Ds=;
-        b=lnsxrNECjkBnFDoUoh4Zk3vI7gih7BdHS5VDD/ljXCsq9ilLRKOZ8GzzX7sx/6q8XK
-         zXuAKwefaAx9xOCMJiNWqqF/21CHWenY5X0UiZceAAACBFFJpSOR2/UekgYy3Alhn+7K
-         ieZJlFRB2hooAr36DkhTxOLH/VBGWvH3v/mySwaI6BcLANoApcE8RhKRUozqUqqmupM9
-         pRRKHrcSYVWSErKLI8B7XsVpW7oGvA9qLZMI7MVHFPZ7zG0gSaC9VyAIgYXmv8TF26Ih
-         fDVRzS4kElTzBv5ztckoj5PvaMpdOldZIi3GMchS7cYL/6H8DBkQYaUkNyrvhqkZXB72
-         YaSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=a9C14P9lsGAuh8F6Rdx7vHrUThQ9aonGy2O3DOUo7Ds=;
-        b=Sa9hbTDTIT1MPf3l5/kqcApYrjvtLXzsqE8NmGc3Th7hIQDH6nxXvSfcA6I+i8y7Zo
-         Fbal04slkaEgPIHuad1JYGwfVRS+J88oReHCP4kozfLA215R8jHPNIe+k+Clni7mSW6c
-         eFpJfU2JCU5YB+RWN1zfInWZhiciUFuaFSRkSYRjHewnIoTZRovKjnQpYBfDENSsixV3
-         OeA7jeaovB+9ffBP6aQsE/rs+zDAnm+h9zBtBQ+4sHyqhf35/PDYkKBC5POSttcNhumV
-         6precG8jZpJL/qUMABCpuRorFPI6IpNYXAA4zi6FjS3RdE2b326lQ49Yo5M7hp6pf5RT
-         AHAw==
-X-Gm-Message-State: APjAAAXiDbrLOlWZkMeAwIlmMGn2tfhCWXHlVJ7PSMcYSm9jkMUup06r
-        lN4Ncp43HEhndiOcHvy+/UgqNw==
-X-Google-Smtp-Source: APXvYqyicvSFzhHzxpljiw/uidTI78NGorAjjg+bi/J4O8iYxkHUB7TVkQ+2LhBMrPCHOQeS/2zn7Q==
-X-Received: by 2002:adf:f052:: with SMTP id t18mr14250816wro.192.1576839304724;
-        Fri, 20 Dec 2019 02:55:04 -0800 (PST)
-Received: from dell ([2.27.35.132])
-        by smtp.gmail.com with ESMTPSA id f17sm9339549wmc.8.2019.12.20.02.55.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Dec 2019 02:55:04 -0800 (PST)
-Date:   Fri, 20 Dec 2019 10:55:05 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Cc:     "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
-        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
-        "mturquette@baylibre.com" <mturquette@baylibre.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        "a.zummo@towertech.it" <a.zummo@towertech.it>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "broonie@kernel.org" <broonie@kernel.org>
-Subject: Re: [PATCH v7 02/12] dt-bindings: mfd: Document ROHM BD71828 bindings
-Message-ID: <20191220105505.GS18955@dell>
-References: <cover.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
- <702daeb9d8604e2feddd5f6f92b067a2d60d81ad.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
- <f9b0fbb7b898691d09ed8954e8df67cf3706aa96.camel@fi.rohmeurope.com>
- <20191219143647.GQ18955@dell>
- <e734a11ed158814119256a3fac253a8574c90837.camel@fi.rohmeurope.com>
+        id S1726114AbfLUSVB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Dec 2019 13:21:01 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:38364 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726107AbfLUSVA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Dec 2019 13:21:00 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 4B2391C24DF; Sat, 21 Dec 2019 19:20:58 +0100 (CET)
+Date:   Sat, 21 Dec 2019 19:20:57 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>
+Cc:     linux-realtek-soc@lists.infradead.org, linux-leds@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-rtc@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        linux-amlogic@lists.infradead.org, Roc He <hepeng@zidoo.tv>,
+        zypeng@titanmec.com, sales@fdhisi.com, csd@princeton.com.tw
+Subject: Re: [RFC 00/25] arm64: realtek: Add Xnano X5 and implement
+ TM1628/FD628/AiP1618 LED controllers
+Message-ID: <20191221182057.GA32732@amd>
+References: <20191212033952.5967-1-afaerber@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="opJtzjQTFsWo+cga"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e734a11ed158814119256a3fac253a8574c90837.camel@fi.rohmeurope.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191212033952.5967-1-afaerber@suse.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 20 Dec 2019, Vaittinen, Matti wrote:
 
-> 
-> On Thu, 2019-12-19 at 14:36 +0000, Lee Jones wrote:
-> > On Thu, 19 Dec 2019, Vaittinen, Matti wrote:
-> > 
-> > > Hello Mark, Lee, Rob
-> > > 
-> > > I just noticed we have a dependency here. This binding is referring
-> > > to
-> > > regulator binding - which was applied by Mark and is thus missing
-> > > from
-> > > the series. What's the best way forward?
-> > > 
-> > > On Thu, 2019-12-19 at 11:46 +0200, Matti Vaittinen wrote:
-> > > > ROHM BD71828 Power management IC integrates 7 buck converters, 7
-> > > > LDOs,
-> > > > a real-time clock (RTC), 3 GPO/regulator control pins, HALL input
-> > > > and a 32.768 kHz clock gate.
-> > > > 
-> > > > Document the dt bindings drivers are using.
-> > > > 
-> > > > Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com
-> > > > >
-> > > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > > ---
-> > > > 
-> > > > No changes since v6
-> > > 
-> > > //snip
-> > > 
-> > > > +  regulators:
-> > > > +    $ref: ../regulator/rohm,bd71828-regulator.yaml
-> > > 
-> > > This file is missing from the series and is applied to Mark's tree.
-> > 
-> > Shouldn't matter.  I guess they're all heading for he same release.
-> > 
-> Ok. Thanks for clarification. I was asking this because Rob asked me to
-> reorder the patches a few versions ago so that the dt_binding_check
-> Make target would not be broken between commits. He asked me to submit
-> the regulator and LED bindings first and MFD (which refers to those)
-> only after them. Thus I was wondering if the final merge order of MFD
-> and regulator trees is such that it can result the breakage Rob hoped
-> to avoid. But I am more than glad if the series can go in like this :)
+--opJtzjQTFsWo+cga
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It's not something that concerns me personally.  I only care about
-*build* breakages.  Rob might be more upset about it however.
+Hi!
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> This patch series implements the LED controllers found in some RTD1295 ba=
+sed
+> TV set-top boxes.
+>=20
+> Ever since I've had mainline Linux kernels booting on my Zidoo X9S TV box,
+> it's been bugging me that it kept displaying "boot" on its front display.
+> A hot lead was a TM1628 chip on the front display's daughterboard, which
+> English and Chinese datasheets were available for. The biggest
+> hurdle
+
+Fun :-).
+
+> It goes on to add a "text" attribute to the driver that enables DT-config=
+ured
+> seven-segment displays; I was expecting to find precedence in auxdisplay
+> subsystem but came up empty. So my driver currently integrates its own
+> generic (but incomplete) character-to-8-segments mapping, as well as in a
+> second step a combined-characters-to-8-segments mapping, which then gets
+> mapped to the chipset's available output lines. Doing this as sysfs
+> device
+
+I did not investigate this in great detail; but if it is displaying
+characters, auxdisplay is probably right subsystem to handle that. I
+guess LEDs can still take the low-level parts...
+
+Oh, and common dimming for many LEDs is seen on other hardware, too
+(Turris routers). Not sure how to handle that, either :-(.
+
+Best regards,
+									Pavel
+
+
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--opJtzjQTFsWo+cga
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl3+YokACgkQMOfwapXb+vJoqgCfY5/dzSIdT0c0DWaA1+WWkFdQ
+6wkAoIzd/X2VTQwW3tq7WApoawbDjUdO
+=xFhp
+-----END PGP SIGNATURE-----
+
+--opJtzjQTFsWo+cga--
