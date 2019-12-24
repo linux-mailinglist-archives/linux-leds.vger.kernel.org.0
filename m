@@ -2,69 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EA60129E47
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Dec 2019 07:54:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13BF4129F0A
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Dec 2019 09:37:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726070AbfLXGyQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Dec 2019 01:54:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38866 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726043AbfLXGyP (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 24 Dec 2019 01:54:15 -0500
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D09B620706;
-        Tue, 24 Dec 2019 06:54:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577170454;
-        bh=ZKiiDeIHEimT5RF49wdxk08CEo4aIHjAHjFkXzaey7Y=;
-        h=In-Reply-To:References:Cc:From:To:Subject:Date:From;
-        b=XD/RA8iIKhhmqKRAYapiwrONvPCq/s/0rct5T1yVgKpw15dEQr4ILYfgyPZaPBQ0N
-         w2MGva0yTs/pjiEyEbMOCYXAOeYP9ZSfev1N/rA9WOhHHH8pu1G0qouZQNUj/1P3n+
-         kW+SQz5bkTrNMQWF30Q6IHU4RMWGk3jkJcoRpSX8=
-Content-Type: text/plain; charset="utf-8"
+        id S1726206AbfLXIhS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 Dec 2019 03:37:18 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:37891 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726091AbfLXIhS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Dec 2019 03:37:18 -0500
+Received: by mail-il1-f194.google.com with SMTP id f5so16082665ilq.5
+        for <linux-leds@vger.kernel.org>; Tue, 24 Dec 2019 00:37:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=thLznmLowQYlgCkXssGgqDu9lyH9UW6YjKmOssHb1tTK4hOQZrMXPmcN+NyMPf6FCl
+         UvREnc30T4YWVk+0sz5tUX66h6x9TrTk5PLAy+j6B7YQx87dbuBKpJdKp6vHEaeyv/Mk
+         +ugQax6dxzQYdZRO2RuhmUBXO0k1ex+ujK03f0IwAMz2143noOnX/n9FaaLqE/JawMIu
+         cAyyILMJ9qtw2dvj23jE86BJWZZAt8n9o0u6ZQ2NXyeUK9YTazBgzNeXTkC83D8e6w+y
+         LyuzLzl8dZr8HmmG/1asFn/Ndqg1z9wICefdZo1ski0C2gomR8pQBnx9Wa/071qwcZbY
+         xpeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=abRvNGvzEDMfep9fSSrr69xBUg/CtLYo5B6eYQRpaJ+OufB0VkcANiK/bJclBDpafE
+         61rdCkhvebnWc5ISC/rZvBaAwGUwateVe/wv9UfjHhyW06OEd2DLelXKKOXImNREBgHq
+         Ycb8EvJvDSzOPMfFSsA0kwhO9syi/bC66WOSvOhDUtoFsdBa8ErmIp6CzTtyVxyB486Q
+         SF+YibVnZJF4pYrd5JNyykJFENFgwj1kqMt9i+yA5hvCYJ0i5qHD+eTxDnlFwFEaBdpV
+         LrYOHkZg1mSdQ90RKylKuef3YCFCBxaHpckdn+0qCVdcNG8MiXbCebZqCTznxnLSx1FO
+         uKoQ==
+X-Gm-Message-State: APjAAAUaq14RChftE0bNT2t8+Gf0MDzMNuAx2nZzPOtP7zWq1Dbl/vyb
+        G5GhlY7029GrOcm+kXA0QEJe+hq+guV61L7/aOA=
+X-Google-Smtp-Source: APXvYqz2tBa4QzKmO6wzSXUBWoAEt+AdW5keElYd0pxn2QCdUk0KRvhLw5nMwIzFzVTuSc6Cp+qr2Z5Nq+YfPm0LYgM=
+X-Received: by 2002:a92:3b98:: with SMTP id n24mr4582447ilh.108.1577176637594;
+ Tue, 24 Dec 2019 00:37:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <4907f35240ae77bba4a27fd32f1e586e00cd434d.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
-References: <cover.1576745635.git.matti.vaittinen@fi.rohmeurope.com> <4907f35240ae77bba4a27fd32f1e586e00cd434d.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org
-From:   Stephen Boyd <sboyd@kernel.org>
-To:     matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com
-Subject: Re: [PATCH v7 07/12] clk: bd718x7: Support ROHM BD71828 clk block
-User-Agent: alot/0.8.1
-Date:   Mon, 23 Dec 2019 22:54:14 -0800
-Message-Id: <20191224065414.D09B620706@mail.kernel.org>
+Received: by 2002:ac0:f302:0:0:0:0:0 with HTTP; Tue, 24 Dec 2019 00:37:16
+ -0800 (PST)
+Reply-To: bethnatividad9@gmail.com
+From:   Beth Nat <clementidibia1960@gmail.com>
+Date:   Tue, 24 Dec 2019 08:37:16 +0000
+Message-ID: <CAEG=icHSiKA+obxr5hSbrz+bX3f1O1rMyddMXXp8YnqnRrxBeQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Quoting Matti Vaittinen (2019-12-19 01:52:13)
-> BD71828GW is a single-chip power management IC for battery-powered portab=
-le
-> devices. Add support for controlling BD71828 clk using bd718x7 driver.
->=20
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
-> ---
-
-Acked-by: Stephen Boyd <sboyd@kernel.org>
-
-I guess we can't win and break the build dependency on the "generic"
-header file :/
-
+How are you today my dear? i saw your profile and it interests me, i
+am a Military nurse from USA. Can we be friend? I want to know more
+about you.
