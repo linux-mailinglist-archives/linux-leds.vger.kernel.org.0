@@ -2,83 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19F2412A0DA
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Dec 2019 12:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDEBF12A7A6
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Dec 2019 12:07:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726353AbfLXLpX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Dec 2019 06:45:23 -0500
-Received: from honk.sigxcpu.org ([24.134.29.49]:42376 "EHLO honk.sigxcpu.org"
+        id S1726688AbfLYLH1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 25 Dec 2019 06:07:27 -0500
+Received: from honk.sigxcpu.org ([24.134.29.49]:36294 "EHLO honk.sigxcpu.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726124AbfLXLpX (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 24 Dec 2019 06:45:23 -0500
+        id S1726025AbfLYLH0 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 25 Dec 2019 06:07:26 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id C6B9EFB03;
-        Tue, 24 Dec 2019 12:45:20 +0100 (CET)
+        by honk.sigxcpu.org (Postfix) with ESMTP id 8EBCDFB04;
+        Wed, 25 Dec 2019 12:07:24 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
         by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id oeGdyga0v2t8; Tue, 24 Dec 2019 12:45:19 +0100 (CET)
+        with ESMTP id SHGpHxTKvx2y; Wed, 25 Dec 2019 12:07:19 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id 12A6640BD8; Tue, 24 Dec 2019 12:45:19 +0100 (CET)
-Date:   Tue, 24 Dec 2019 12:45:18 +0100
-From:   Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        id 3D39F40BD8; Wed, 25 Dec 2019 12:07:19 +0100 (CET)
+From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt: bindings: lm3692x: Document new properties
-Message-ID: <20191224114518.GA13883@bogon.m.sigxcpu.org>
-References: <cover.1576499103.git.agx@sigxcpu.org>
- <35a23315938909c80e7772838e1de0d2d46302f2.1576499103.git.agx@sigxcpu.org>
- <20191221191515.GF32732@amd>
+Subject: [PATCH v2 0/6] leds: lm3692x: Allow to set ovp and brigthness mode
+Date:   Wed, 25 Dec 2019 12:07:13 +0100
+Message-Id: <cover.1577271823.git.agx@sigxcpu.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191221191515.GF32732@amd>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
-On Sat, Dec 21, 2019 at 08:15:15PM +0100, Pavel Machek wrote:
-> On Mon 2019-12-16 13:28:05, Guido Günther wrote:
-> > We allow configuration of brightness mode and over voltage
-> > protection.
-> > 
-> > Signed-off-by: Guido Günther <agx@sigxcpu.org>
-> > +++ b/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
-> > @@ -18,6 +18,10 @@ Required properties:
-> >  Optional properties:
-> >  	- enable-gpios : gpio pin to enable/disable the device.
-> >  	- vled-supply : LED supply
-> > +	- ti,brightness-mapping-exponential: Whether to use exponential
-> > +	    brightness mapping
-> > +	- ti,overvoltage-volts: Overvoltage protection in Volts, can
-> > +	    be 0 (unprotected), 21, 25 or 29V
-> >  
-> 
-> We usually use microvolts in various device tree properties...
+Overvoltage protection and brightness mode are currently hardcoded
+as 29V and disabled in the driver. Make these configurable via DT.
 
-Make sense.
+Besides addressing review comments v2 also allows to limit the maximum led
+current.
 
-> Exponential mapping s not really property of the hardware, is it? Does
-> it belong here or somewhere in the backlight binding?
+Changes from v1
+- As per review comments by Dan Murphy
+  https://lore.kernel.org/linux-leds/3d66b07d-b4c5-43e6-4378-d63cc84b8d43@ti.com/
+  - Split commits per propoerty
+  - Add new properties to DT example too
+  - Drop dev_dbg() statements
+  - ovp: fix 21V value parsing
+  - ovp: Set correct default value if DT parsing fails
+- As per review comments by Pavel Machek
+  https://lore.kernel.org/linux-leds/20191221191515.GF32732@amd/
+  - Fix defaults (which is 29V)
+  - Use uV as Unit for ovp property
+- Change property name to 'ti,ovp-microvolt' to make it shorter
+- Honor led-max-microamp to not exceed the maximum led current
 
-I opted for having it with the hardware since the property can't be
-configured per backlight led strip individually.
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>,Pavel Machek <pavel@ucw.cz>,Dan Murphy <dmurphy@ti.com>,Rob Herring <robh+dt@kernel.org>,Mark Rutland <mark.rutland@arm.com>,linux-leds@vger.kernel.org,devicetree@vger.kernel.org,linux-kernel@vger.kernel.org
 
-Cheers,
- -- Guido
 
-> Best regards,
-> 									Pavel
-> -- 
-> (english) http://www.livejournal.com/~pavelmachek
-> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+Guido GÃ¼nther (6):
+  dt: bindings: lm3692x: Add ti,ovp-microvolt property
+  leds: lm3692x: Allow to configure over voltage protection
+  dt: bindings: lm3692x: Add ti,brightness-mapping-exponential property
+  leds: lm3692x: Allow to configure brigthness mode
+  dt: bindings: lm3692x: Add led-max-microamp property
+  leds: lm3692x: Make sure we don't exceed the maximum led current
 
+ .../devicetree/bindings/leds/leds-lm3692x.txt | 11 +++
+ drivers/leds/leds-lm3692x.c                   | 67 +++++++++++++++++--
+ 2 files changed, 72 insertions(+), 6 deletions(-)
+
+-- 
+2.23.0
 
