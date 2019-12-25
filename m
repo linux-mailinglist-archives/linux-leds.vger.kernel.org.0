@@ -2,24 +2,24 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04EEC12A798
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Dec 2019 12:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D19712A7A1
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Dec 2019 12:07:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726890AbfLYLH2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 25 Dec 2019 06:07:28 -0500
-Received: from honk.sigxcpu.org ([24.134.29.49]:36318 "EHLO honk.sigxcpu.org"
+        id S1726934AbfLYLHb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 25 Dec 2019 06:07:31 -0500
+Received: from honk.sigxcpu.org ([24.134.29.49]:36294 "EHLO honk.sigxcpu.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726409AbfLYLH2 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 25 Dec 2019 06:07:28 -0500
+        id S1726025AbfLYLH3 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 25 Dec 2019 06:07:29 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id BEF1EFB02;
-        Wed, 25 Dec 2019 12:07:25 +0100 (CET)
+        by honk.sigxcpu.org (Postfix) with ESMTP id 12DC8FB03;
+        Wed, 25 Dec 2019 12:07:28 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
         by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id bd8ULHC7HzCf; Wed, 25 Dec 2019 12:07:24 +0100 (CET)
+        with ESMTP id BE1zhDwYOEc1; Wed, 25 Dec 2019 12:07:27 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id 7003D40BFE; Wed, 25 Dec 2019 12:07:19 +0100 (CET)
+        id 77E3A40EF6; Wed, 25 Dec 2019 12:07:19 +0100 (CET)
 From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
@@ -27,9 +27,9 @@ To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Mark Rutland <mark.rutland@arm.com>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/6] leds: lm3692x: Allow to configure brigthness mode
-Date:   Wed, 25 Dec 2019 12:07:17 +0100
-Message-Id: <f6dabbf17ee2d839e53d305de819acd8fab72fad.1577271823.git.agx@sigxcpu.org>
+Subject: [PATCH v2 5/6] dt: bindings: lm3692x: Add led-max-microamp property
+Date:   Wed, 25 Dec 2019 12:07:18 +0100
+Message-Id: <db76306346364e93a03df25a49ad4a16eb6036b2.1577271823.git.agx@sigxcpu.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1577271823.git.agx@sigxcpu.org>
 References: <cover.1577271823.git.agx@sigxcpu.org>
@@ -41,58 +41,34 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Brightness mode is currently hardcoded as linear in the driver. Make
-exponential mode configurable via DT.
+This can be used to limit the current per led strip
 
 Signed-off-by: Guido Günther <agx@sigxcpu.org>
 ---
- drivers/leds/leds-lm3692x.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ Documentation/devicetree/bindings/leds/leds-lm3692x.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
-index 28973cc5a6cc..ff20560a8263 100644
---- a/drivers/leds/leds-lm3692x.c
-+++ b/drivers/leds/leds-lm3692x.c
-@@ -115,7 +115,7 @@ struct lm3692x_led {
- 	int led_enable;
- 	int model_id;
+diff --git a/Documentation/devicetree/bindings/leds/leds-lm3692x.txt b/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
+index 73f41249ecd3..e0d7b3030c01 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
++++ b/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
+@@ -37,6 +37,8 @@ Optional child properties:
+ 	- label : see Documentation/devicetree/bindings/leds/common.txt (deprecated)
+ 	- linux,default-trigger :
+ 	   see Documentation/devicetree/bindings/leds/common.txt
++	- led-max-microamp :
++	   see Documentation/devicetree/bindings/leds/common.txt
  
--	u8 boost_ctrl;
-+	u8 boost_ctrl, brightness_ctrl;
- };
+ Example:
  
- static const struct reg_default lm3692x_reg_defs[] = {
-@@ -267,8 +267,7 @@ static int lm3692x_init(struct lm3692x_led *led)
- 	if (ret)
- 		goto out;
+@@ -58,6 +60,7 @@ led-controller@36 {
+ 		function = LED_FUNCTION_BACKLIGHT;
+ 		color = <LED_COLOR_ID_WHITE>;
+ 		linux,default-trigger = "backlight";
++		led-max-microamp = <20000>;
+ 	};
+ }
  
--	ret = regmap_write(led->regmap, LM3692X_BRT_CTRL,
--			LM3692X_BL_ADJ_POL | LM3692X_RAMP_EN);
-+	ret = regmap_write(led->regmap, LM3692X_BRT_CTRL, led->brightness_ctrl);
- 	if (ret)
- 		goto out;
- 
-@@ -326,6 +325,7 @@ static int lm3692x_probe_dt(struct lm3692x_led *led)
- 	struct fwnode_handle *child = NULL;
- 	struct led_init_data init_data = {};
- 	u32 ovp;
-+	bool exp_mode;
- 	int ret;
- 
- 	led->enable_gpio = devm_gpiod_get_optional(&led->client->dev,
-@@ -376,6 +376,12 @@ static int lm3692x_probe_dt(struct lm3692x_led *led)
- 		}
- 	}
- 
-+	led->brightness_ctrl = LM3692X_BL_ADJ_POL | LM3692X_RAMP_EN;
-+	exp_mode = device_property_read_bool(&led->client->dev,
-+				     "ti,brightness-mapping-exponential");
-+	if (exp_mode)
-+		led->brightness_ctrl |= LM3692X_MAP_MODE_EXP;
-+
- 	child = device_get_next_child_node(&led->client->dev, child);
- 	if (!child) {
- 		dev_err(&led->client->dev, "No LED Child node\n");
 -- 
 2.23.0
 
