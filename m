@@ -2,32 +2,32 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 247F012AB95
-	for <lists+linux-leds@lfdr.de>; Thu, 26 Dec 2019 11:16:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CAC012ABA1
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Dec 2019 11:30:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726023AbfLZKQR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 26 Dec 2019 05:16:17 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:42804 "EHLO
+        id S1726075AbfLZK37 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 26 Dec 2019 05:29:59 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:44554 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725954AbfLZKQR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Dec 2019 05:16:17 -0500
+        with ESMTP id S1726055AbfLZK37 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Dec 2019 05:29:59 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 9BEFD1C213B; Thu, 26 Dec 2019 11:16:15 +0100 (CET)
-Date:   Thu, 26 Dec 2019 11:16:14 +0100
+        id 964A61C2103; Thu, 26 Dec 2019 11:29:57 +0100 (CET)
+Date:   Thu, 26 Dec 2019 11:29:56 +0100
 From:   Pavel Machek <pavel@ucw.cz>
 To:     Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
 Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] leds: lm3692x: Split out lm3692x_leds_disable
-Message-ID: <20191226101614.GG4033@amd>
+Subject: Re: [PATCH 3/3] leds: lm3692x: Disable chip on brightness 0
+Message-ID: <20191226102956.GH4033@amd>
 References: <cover.1577272495.git.agx@sigxcpu.org>
- <dce4e011e5172c4ded5f5a41f7b4f1154ac1ff66.1577272495.git.agx@sigxcpu.org>
+ <e1dc56c07235063a9c0afbfc8c227b92b39ec3d4.1577272495.git.agx@sigxcpu.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="APlYHCtpeOhspHkB"
+        protocol="application/pgp-signature"; boundary="it/zdz3K1bH9Y8/E"
 Content-Disposition: inline
-In-Reply-To: <dce4e011e5172c4ded5f5a41f7b4f1154ac1ff66.1577272495.git.agx@sigxcpu.org>
+In-Reply-To: <e1dc56c07235063a9c0afbfc8c227b92b39ec3d4.1577272495.git.agx@sigxcpu.org>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -35,36 +35,40 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---APlYHCtpeOhspHkB
+--it/zdz3K1bH9Y8/E
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed 2019-12-25 12:16:38, Guido G=FCnther wrote:
-> Move the relevant parts out of lm3692x_remove() and
-> call it from there. No functional change.
->=20
-> Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
+On Wed 2019-12-25 12:16:39, Guido G=FCnther wrote:
+> Otherwise there's a noticeable glow even with brightness 0. Also
+> turning off the regulator can save additional power.
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+Ok, this will make set brightness slower, but I guess it makes sense.
 
+Can you try to toggling brightness quickly from userspace, maybe even
+=66rom two threads, to ensure nothing really goes wrong there?
+
+Hmm. And if this is independend of the other series, tell me and I can
+apply v2.
+
+Best regards,
 								Pavel
-							=09
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---APlYHCtpeOhspHkB
+--it/zdz3K1bH9Y8/E
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAl4EiG4ACgkQMOfwapXb+vLSYQCfetPyh2iTsT94abcM8grFtKiX
-+iUAoLdZAOWsW4DHiRv0LtIWbLtnFECv
-=yUqk
+iEYEARECAAYFAl4Ei6QACgkQMOfwapXb+vKRlACgjsmUKw5HTV41mZpVjYyCe4a+
+jxAAn0TJv2kocImeeHf4JNzTV0lAj5vi
+=iO66
 -----END PGP SIGNATURE-----
 
---APlYHCtpeOhspHkB--
+--it/zdz3K1bH9Y8/E--
