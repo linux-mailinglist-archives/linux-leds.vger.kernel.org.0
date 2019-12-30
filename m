@@ -2,98 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 574D912B4AB
-	for <lists+linux-leds@lfdr.de>; Fri, 27 Dec 2019 13:59:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A5B012CD5B
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Dec 2019 08:36:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbfL0M7p (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 27 Dec 2019 07:59:45 -0500
-Received: from honk.sigxcpu.org ([24.134.29.49]:33310 "EHLO honk.sigxcpu.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726377AbfL0M7p (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 27 Dec 2019 07:59:45 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id 59BE2FB03;
-        Fri, 27 Dec 2019 13:59:42 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
-        by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id R0-rgRbwKwjQ; Fri, 27 Dec 2019 13:59:40 +0100 (CET)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id C688E49799; Fri, 27 Dec 2019 13:59:39 +0100 (CET)
-Date:   Fri, 27 Dec 2019 13:59:39 +0100
-From:   Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] leds: lm3692x: Make sure we don't exceed the
- maximum led current
-Message-ID: <20191227125939.GA26392@bogon.m.sigxcpu.org>
-References: <cover.1577271823.git.agx@sigxcpu.org>
- <96dad031f3a9ff5bbc311d0ec8768b348b996bcf.1577271823.git.agx@sigxcpu.org>
- <20191226101336.GD4033@amd>
+        id S1727232AbfL3Hgd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 30 Dec 2019 02:36:33 -0500
+Received: from mailgate1.rohmeurope.com ([178.15.145.194]:62412 "EHLO
+        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727173AbfL3Hgd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 30 Dec 2019 02:36:33 -0500
+X-AuditID: c0a8fbf4-199ff70000001fa6-38-5e09a8fedbab
+Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com [192.168.251.178])
+        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 28.83.08102.EF8A90E5; Mon, 30 Dec 2019 08:36:30 +0100 (CET)
+Received: from WILL-MAIL001.REu.RohmEu.com ([fe80::2915:304f:d22c:c6ba]) by
+ WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
+ 14.03.0439.000; Mon, 30 Dec 2019 08:36:19 +0100
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     "pavel@ucw.cz" <pavel@ucw.cz>
+CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mturquette@baylibre.com" <mturquette@baylibre.com>,
+        "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "a.zummo@towertech.it" <a.zummo@towertech.it>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "sboyd@kernel.org" <sboyd@kernel.org>,
+        "broonie@kernel.org" <broonie@kernel.org>
+Subject: Re: [PATCH v7 11/12] leds: Add common LED binding parsing support
+ to LED class/core
+Thread-Topic: [PATCH v7 11/12] leds: Add common LED binding parsing support
+ to LED class/core
+Thread-Index: AQHVtlJMyatI9ieot0i0jk0Qmtw3YKfE7uMAgA1bZYA=
+Date:   Mon, 30 Dec 2019 07:36:17 +0000
+Message-ID: <8359b8365f6c86fe4acb9c35c2c6be55091b45a3.camel@fi.rohmeurope.com>
+References: <cover.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
+         <c7abf8d15ea54fee504fbec5666d013c26d3b62a.1576745635.git.matti.vaittinen@fi.rohmeurope.com>
+         <20191221193758.GJ32732@amd>
+In-Reply-To: <20191221193758.GJ32732@amd>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [213.255.186.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A634DDBC66D8E242A516C99F83209630@de.rohmeurope.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191226101336.GD4033@amd>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Ta0wTWRTH986rt8VZhwpyrfgaH/iIiBvjXg1ZNdFklPiIJn4wWBxllhL7
+        INNiQN2EfRAE2YhGRSoPo7xEAlpEpZGEFHDdEtcQRXxCGhtUsmHDiiKRrTvTUeHTPfec/+/8
+        z4dzIGkMMCaYbndJsl208oyBaqv96FkeqtWbEy718biyu0eH84aqdXikzE/hM4Eggys6/qLx
+        8a7rNH7WfJXC/e86AX7/8BiBT4/XEHi4sI/GTRXjAD/wljK4+e8GgO9cecjgqt5uApdW3aVw
+        t38TfuHvZHBua4cOhx5do9ZHC/Xl9UD453GuTiivPyK0uF/oBE9dPiM8f3SbEf54fJMQisvH
+        CKH2yqhOeOuZvcOwJyJxv+g6tCs9zb7ih30RlluXjzEZQUNW28ApOge0GQqAHiJuFaoeOUsU
+        AAM0cj0ABWu9jPa5C1Dd8CXlAyHDJaKCJzoViOLmoabC/LCG5G5A1DLQQ6iaaZwZ3axZoGlS
+        UMPrCkKL16Lm9l5ajSluIQoWd4X7sNw21Dh+j9a82gEqLwyGAT23BLW3PA+LADcL5ecMhfMk
+        F4M8A6O0NjWHKm/fJ7U4Gr15Gfqc51HrWIBS5yGVPo3eFRq6Hp37eZDW4nno9PHA5xki0Z8l
+        QaoITHdPcnBP0O5JtHsS7Z5EXwB0HUA2Md2aJrqklfGylBkvOyw25TngsHmAtjIjt8An32Yf
+        ICDwgRmQ4KPZihPQbPx2vyM12yI6LSlyplVy+gCCJB/FrkrWm41sqph9WJIdX0ozIcXHsHGB
+        k3uNnOp1UJIyJPlLNRZCHrG2agWMlKU0KevHdKtrokxAvdrcYIpySvZUSRYzXZYUdT9SnMqC
+        qKUpii+j4qwzQ7QpWQ31g2Ww6E3ZRRJ2lFVdJI2U3WGXTDGst0aRcqrUkmn/ajQIYiDgp7Gt
+        yoEYpyh387XPoGJBKBZbIKNauMSJkikHSP/O2ChGjrhCv+3ezmctjN0QUZjUlDQat3h136He
+        6LiE8wd3bl36U3zay5C35l2pU0ye2bimv/j+kH95zyKU2FX0a/v2BPm/DZ3Ws/MTXv/ecCpH
+        yi1Oih1L/nTv1YV1eZGzj8aNbcs7+d0vWZWXP8wp+GZB6vc7S/qfTs/wTR1eYjZlz+Upp0Vc
+        uZSUneL/+jCsR/QDAAA=
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
-On Thu, Dec 26, 2019 at 11:13:36AM +0100, Pavel Machek wrote:
-> On Wed 2019-12-25 12:07:19, Guido Günther wrote:
-> 1;2802;0c> The current is given by the formular from page 12 of
-> > https://www.ti.com/lit/ds/symlink/lm36922.pdf. We use this to limit the
-> > led's max_brightness using the led-max-microamp DT property.
-> > 
-> > The formular for the lm36923 is identical according to the data
-> sheet.
-> 
-> formula?
-> 
-> >  static int lm3692x_probe_dt(struct lm3692x_led *led)
-> >  {
-> >  	struct fwnode_handle *child = NULL;
-> >  	struct led_init_data init_data = {};
-> > -	u32 ovp;
-> > +	u32 ovp, max_cur;
-> >  	bool exp_mode;
-> >  	int ret;
-> >  
-> > @@ -397,6 +416,10 @@ static int lm3692x_probe_dt(struct lm3692x_led *led)
-> >  		return ret;
-> >  	}
-> >  
-> > +	fwnode_property_read_u32(child, "led-max-microamp", &max_cur);
-> > +	led->led_dev.max_brightness = ret ? LED_FULL :
-> > +		lm3692x_max_brightness(led, max_cur);
-> > +
-> 
-> Umm. Should ret come from this fwnode_property_read_u32()?
-
-Argh...i was sure i had that fixed (and tested without setting
-led-max-microamp) but it was sitting on another branch. Thanks a lot for
-catching that!
- -- Guido
-
-> 
-> With that fixed,
-> 
-> Acked-by: Pavel Machek <pavel@ucw.cz>
-> 
-> (Feel free to wait for Rob before resending the series, and I guess
-> you can merge it with the next one).
-> 
-> Best regards,
-> 									Pavel
-> -- 
-> (english) http://www.livejournal.com/~pavelmachek
-> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
-
-
+SGVsbG8gQWdhaW4gUGF2ZWwsDQoNCk9uIFNhdCwgMjAxOS0xMi0yMSBhdCAyMDozNyArMDEwMCwg
+UGF2ZWwgTWFjaGVrIHdyb3RlOg0KPiA+ICtzdGF0aWMgdm9pZCBsZWRfYWRkX3Byb3BzKHN0cnVj
+dCBsZWRfY2xhc3NkZXYgKmxkLCBzdHJ1Y3QNCj4gPiBsZWRfcHJvcGVydGllcyAqcHJvcHMpDQo+
+ID4gK3sNCj4gPiArCWlmIChwcm9wcy0+ZGVmYXVsdF90cmlnZ2VyKQ0KPiA+ICsJCWxkLT5kZWZh
+dWx0X3RyaWdnZXIgPSBwcm9wcy0+ZGVmYXVsdF90cmlnZ2VyOw0KPiA+ICsJLyoNCj4gPiArCSAq
+IEFjY29yZGluZyB0byBiaW5kaW5nIGRvY3MgdGhlIExFRCBpcyBieS1kZWZhdWx0IHR1cm5lZCBP
+RkYNCj4gPiB1bmxlc3MNCj4gPiArCSAqIGRlZmF1bHRfc3RhdGUgaXMgdXNlZCB0byBpbmRpY2F0
+ZSBpdCBzaG91bGQgYmUgT04gb3IgdGhhdA0KPiA+IHN0YXRlDQo+ID4gKwkgKiBzaG91bGQgYmUg
+a2VwdCBhcyBpcw0KPiA+ICsJICovDQo+ID4gKwlpZiAocHJvcHMtPmRlZmF1bHRfc3RhdGUpIHsN
+Cj4gPiArCQlsZC0+YnJpZ2h0bmVzcyA9IExFRF9PRkY7DQo+ID4gKwkJaWYgKCFzdHJjbXAocHJv
+cHMtPmRlZmF1bHRfc3RhdGUsICJvbiIpKQ0KPiA+ICsJCQlsZC0+YnJpZ2h0bmVzcyA9IExFRF9G
+VUxMOw0KPiANCj4gTWF4IGJyaWdodG5lc3MgaXMgbm90IGFsd2F5cyA9PSBMRURfRlVMTCB0aGVz
+ZSBkYXlzLg0KDQpJIHRvb2sgYW5vdGhlciBsb29rIGF0IHRoaXMgYW5kIGNoYW5nZWQgdGhpcyB0
+bzoNCg0KaWYgKCFzdHJjbXAocHJvcHMtPmRlZmF1bHRfc3RhdGUsICJvbiIpKSB7DQoJaWYgKCFs
+ZC0+bWF4X2JyaWdodG5lc3MpDQoJCWxkLT5icmlnaHRuZXNzID0gTEVEX0ZVTEw7DQoJZWxzZQ0K
+CQlsZC0+YnJpZ2h0bmVzcyA9IGxkLT5tYXhfYnJpZ2h0bmVzczsNCn0NCg0KSSBob3BlIHRoaXMg
+aXMgd2hhdCB5b3Ugd2VyZSBzdWdnZXN0aW5nLiBJJ2xsIHNlbmQgdGhlIHY4IChob3BlZnVsbHkp
+DQpzb29uKGlzaCkuDQoNCkJlc3QgUmVnYXJkcw0KCU1hdHRpDQo=
