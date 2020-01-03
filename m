@@ -2,91 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 129E312F2A5
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Jan 2020 02:19:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42D9512F9F2
+	for <lists+linux-leds@lfdr.de>; Fri,  3 Jan 2020 16:46:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726019AbgACBTS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 2 Jan 2020 20:19:18 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:45908 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725872AbgACBTS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Jan 2020 20:19:18 -0500
-Received: by mail-pl1-f194.google.com with SMTP id b22so18457006pls.12;
-        Thu, 02 Jan 2020 17:19:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=Pj7NnDsV8DAl7XvANKt95DF4vhQ5j9tx+hWo3+M62uk=;
-        b=JROiiOYCr5lwF8FppQZTwu4slm8bZjMyBXPs8OobqBdx0c5DWs6MswUYTUQESgvDaq
-         H6vtD/TWrexXCVTwg8eu43CZn+NbuMgU2qJ0RFZ89n6EWsuRcssXVn6WRq1HWqiZlJ3E
-         SOdGHik6DEfwM1AzHc0gCvxxWL/tD2XZ5xYHwNKuuzW76IhNFNYiD71ogIRnTUqEPnnT
-         U9ZyvQky1e8EHdSrkTDrx9Ro2DArdlLNzxaBRh9WKijHc4UTAG8TVnllw7mfiTPqaihm
-         QjEsZJa1q1vMGe5uXCQF2kARXjqv+egyOuG4g+uSb6kKVKtyh5HHkSWgT3B0cU4MVx9+
-         C6rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=Pj7NnDsV8DAl7XvANKt95DF4vhQ5j9tx+hWo3+M62uk=;
-        b=OATCEcTet0lOx08nKKIxHdCBGYHcBbIvRyOH6lWI/qYAs+QD/BUipeHoVKsuQt6Ldw
-         yYqTT4BM4wDbYgpnaoTwzTUH9V00tarLmaAqKTJyhDoRd5tNuFgpbp0MYiSsBT1Q2oHT
-         lQUhWxH0RUXi+TtuLfL9oYL1YAHX5FRY77rDHPk6d1EKxuDwgok+cSHao5BXfbcLT8Rv
-         cEHWp4VW42NPfzuyolMzsUbCltFEXcDtzULgKCIsQotEvI/xaMXwd1wnhYqRN28ubREe
-         s2ki0nVPqBnhlJ99yehw8UQNuLHIkbhkMENT/E89cydnwPKmJf9oMEvJyWrJdP7Rs9LX
-         Jc/g==
-X-Gm-Message-State: APjAAAWopnqvloX9U2VQWRZFM6y23ZuPVDt4+bqRIlvzyyH7px2dRH4h
-        S4qLb8GH5eVTtU6mOOzdzomjpgye
-X-Google-Smtp-Source: APXvYqziU4V5sowOrbh/FwOCan3iwRxFbK5Qh/qmFR88ULJJjYcBVFUjB+m2cKUQ2BrDXsi0ogFyTQ==
-X-Received: by 2002:a17:90a:6587:: with SMTP id k7mr22448878pjj.40.1578014357462;
-        Thu, 02 Jan 2020 17:19:17 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id l14sm59177498pgt.42.2020.01.02.17.19.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jan 2020 17:19:17 -0800 (PST)
-Date:   Thu, 2 Jan 2020 17:19:15 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: gpio: switch to using devm_fwnode_gpiod_get()
-Message-ID: <20200103011915.GA879@dtor-ws>
+        id S1727720AbgACPqR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 3 Jan 2020 10:46:17 -0500
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:39092 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727539AbgACPqR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Jan 2020 10:46:17 -0500
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 003FkC71029465;
+        Fri, 3 Jan 2020 09:46:12 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1578066372;
+        bh=lb0AnQ1+V7a+ZHjp9y/3Z41QC1sC2dSQ9y8lR2d1B6M=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=yAdIgCBPqESKui77m9z+GH3ow/kIUaCPaH6wJGLTK2yg3JihGDNynNcrmvURtwovL
+         yQun2W6SR6aT50n3+31iKbFNw/Nft1pBfgpoiHuDppyPOIWcLDkx/qTd/sxnTxB1+y
+         LRdjzV9PO7JTkeXShA9v14u5gDVFD+UWANewLkuI=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 003FkCj3071007
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 3 Jan 2020 09:46:12 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 3 Jan
+ 2020 09:46:12 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Fri, 3 Jan 2020 09:46:12 -0600
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 003FkBen047834;
+        Fri, 3 Jan 2020 09:46:12 -0600
+Subject: Re: [PATCH v17 19/19] leds: lp55xx-common: Remove extern from
+ lp55xx-common header
+To:     Pavel Machek <pavel@ucw.cz>
+CC:     <jacek.anaszewski@gmail.com>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20191114133023.32185-1-dmurphy@ti.com>
+ <20191114133023.32185-20-dmurphy@ti.com> <20191222183523.GH23369@amd>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <f43fde41-de0e-5b77-e22d-abab76e90c59@ti.com>
+Date:   Fri, 3 Jan 2020 09:43:27 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191222183523.GH23369@amd>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-devm_fwnode_get_gpiod_from_child() is going away as the name is too
-unwieldy, let's switch to using the new devm_fwnode_gpiod_get().
+Pavel
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/leds/leds-gpio.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Thanks for the review on all the patches.  Sorry for the late reply I 
+was on holiday
 
-diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
-index a5c73f3d5f797..f57f33008f4f3 100644
---- a/drivers/leds/leds-gpio.c
-+++ b/drivers/leds/leds-gpio.c
-@@ -151,9 +151,8 @@ static struct gpio_leds_priv *gpio_leds_create(struct platform_device *pdev)
- 		struct gpio_led led = {};
- 		const char *state = NULL;
- 
--		led.gpiod = devm_fwnode_get_gpiod_from_child(dev, NULL, child,
--							     GPIOD_ASIS,
--							     led.name);
-+		led.gpiod = devm_fwnode_gpiod_get(dev, child, NULL, GPIOD_ASIS,
-+						  led.name);
- 		if (IS_ERR(led.gpiod)) {
- 			fwnode_handle_put(child);
- 			return ERR_CAST(led.gpiod);
--- 
-2.24.1.735.g03f4e72817-goog
+On 12/22/19 12:35 PM, Pavel Machek wrote:
+> On Thu 2019-11-14 07:30:23, Dan Murphy wrote:
+>> extern is implied and is not needed in the common header file.
+>> Remove the extern keyword and re-align the code.
+>>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> Lets not do this.
 
+OK this is the last patch in the series so I am OK to drop it.
 
--- 
-Dmitry
+Dan
+
