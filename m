@@ -2,75 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BA5E12FA00
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Jan 2020 16:52:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7623012FD8B
+	for <lists+linux-leds@lfdr.de>; Fri,  3 Jan 2020 21:19:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727733AbgACPwE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 3 Jan 2020 10:52:04 -0500
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:39592 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727539AbgACPwE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Jan 2020 10:52:04 -0500
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 003Fq1Ci031568;
-        Fri, 3 Jan 2020 09:52:01 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1578066721;
-        bh=SfsqMeXpaHIQy5T0+ikFgHjVBWCZNjzMtW2w57vNK/Y=;
-        h=Subject:To:References:From:Date:In-Reply-To;
-        b=LIDKrcAJs0/Qxa7IgPBiXyXxCl0iEPuqp1RWvfwRPFamMF5WCenLf8ZLDTxJlIJyq
-         21DcNgC2wx8/44kE8qQ0XtceIGwQCtQa7hnJUCBu1db8b+R1BBzgQF1xZRG0yXxf3b
-         mw2uucl7+3moYW8aztWLkKhJmFwh3iqok+8DvDyU=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 003Fq1tt040611
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 3 Jan 2020 09:52:01 -0600
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 3 Jan
- 2020 09:52:01 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 3 Jan 2020 09:52:01 -0600
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 003Fq14T010470;
-        Fri, 3 Jan 2020 09:52:01 -0600
-Subject: Re: leds: lm3642: remove warnings for bad strtol, cleanup gotos
-To:     Pavel Machek <pavel@ucw.cz>, <jacek.anaszewski@gmail.com>,
-        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20200102214547.GA3616@amd>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <384b876c-2043-1a48-28fc-ac7d2a1facb0@ti.com>
-Date:   Fri, 3 Jan 2020 09:49:16 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1728636AbgACUTr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 3 Jan 2020 15:19:47 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:40690 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728671AbgACUTq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Jan 2020 15:19:46 -0500
+Received: by mail-pg1-f193.google.com with SMTP id k25so23868207pgt.7
+        for <linux-leds@vger.kernel.org>; Fri, 03 Jan 2020 12:19:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
+        b=AWCc/ylFmQ91zZEJrbKovcmODhKduqUVkKGxHK8uCtVvWppAnjCzAVhlqtuTB6Zv3H
+         fwGfadWPG5OWx3vtouAanI9rAb4+nCSTS9ougZHH94RmFVRXusGOhSeq6LcZbXUbpYke
+         LecHuReAxOHZIAlNr0puF8IN10taJseJbu/8dZmgE65qy44VHc90CsjCbMPz9YIW56uc
+         KAocddCq9fbTe+4eLEe4ukQAx3KuF/S8Bs/5ss0PU18bAsmodPObJCziaNGvW+fW97nj
+         vqPpR6NvW2UHqccwDYrcuioTdRRCTX8F5vGOe97A6Uj5iUQG4sbm5c76feOsNIPb/J8O
+         nOKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
+        b=Hf9IbiV3LlJMS2i4Ko47mvu/p6uNLjECJhsd35ac//m2OJvbvvrdEVRcBkXcEy07as
+         CGPyLVOjkCwyGAhM5+4nxwM8iNx3mJoqQ7aV2pusa64IaXBEXENezZHfYHSyZthAHubf
+         +SApsE5NFcEv7bX4NyhWMZ/Y5atHVHX+i+2PcGKlHc5bXt9QHWhek3bVCwq4Y6cOh8QY
+         SUJ5vfcnMFjwQGiGyO5xANrycgzV+ngz1fXPffLisEEb0ZZB6hoQ/KNr9E6LHfif/6oo
+         0BqYsyGyMR40o6PDKzaL4yMCCcJMPRuAeciWjFqlIdGj200Gliu8z1TQRceoV+mt1z9O
+         PqlA==
+X-Gm-Message-State: APjAAAVWVLSjI7Y3HFw8MtmyTCjU/QS+UD4j6nQLL8QjH4rdhp/bzXk2
+        eUT47aDPNHx6nS5bYgiMKBoknIXz+z1nGWR7hu/ia6NdeG8=
+X-Google-Smtp-Source: APXvYqwTD0MzQRfSqMjBdpNUeZAJzfDvhrEGhXGCrMyvXGb//+N8M9ASxsqTbkQfP5NbaV7n6hKI5gEfY+hOjDS6Fyg=
+X-Received: by 2002:ad4:478b:: with SMTP id z11mr69635758qvy.185.1578082785331;
+ Fri, 03 Jan 2020 12:19:45 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200102214547.GA3616@amd>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Received: by 2002:ac8:4410:0:0:0:0:0 with HTTP; Fri, 3 Jan 2020 12:19:45 -0800 (PST)
+From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" 
+        <westernunion.benin982@gmail.com>
+Date:   Fri, 3 Jan 2020 21:19:45 +0100
+Message-ID: <CAP=nHBKxfmbdRg7q4-1jdSUL6+zok9agasMSrXV5CsEJEmZz3A@mail.gmail.com>
+Subject: I promise you must be happy today, God has uplifted you and your
+ family ok
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel
+Dear Friend
 
-On 1/2/20 3:45 PM, Pavel Machek wrote:
-> Hi!
->
-> I've applied this to for-next tree. If you see something very wrong,
-> let me know.
+i hope all is well with you,if so, glory be to God almighty. I'm very
+happy to inform you, about my success in getting payment funds under
+the cooperation of a new partner from United States of
+America.Presently I am in uk for investment projects with my own share
+of the total sum. I didn't forget your past efforts. IMF finally
+approved your compensation payment funds this morning by prepaid (ATM)
+Debit card of US$12,500.000.00Million Dollars, Since you not received
+this payment yet, I was not certified
+but it is not your fault and not my fault, I hold nothing against
+you.than bank official whom has been detaining the transfer in the
+bank, trying to claim your funds by themselves.
 
-Nothing wrong with this patch but in reviewing I did notice in the 
-lm3642_control in the switch case that we set the opmode regardless of 
-regmap_update_bits passing or failing.
+Therefore, in appreciation of your effort I have raised an
+International prepaid (ATM) Debit card of US$12,500.000.00 in your
+favor as compensation to you.
 
-FWIW
+Now, i want you to contact my Diplomatic Agent, His name is Mike Benz
+on His  e-mail Address (mikebenz550@aol.com
 
-Reviewed-by: Dan Murphy <dmurphy@ti.com>
+ask Him to send the Prepaid (ATM) Debit card to you. Bear in mind that
+the money is in Prepaid (ATM) Debit card, not cash, so you need to
+send to him,
+your full name
+address  where the prepaid (ATM) Debit card will be delivered to you,
+including your cell phone number. Finally, I left explicit
+instructions with him, on how to send the (ATM CARD) to you.
 
-Dan
+The Prepaid (ATM) Debit card, will be send to you through my
+Diplomatic Agent Mr. Mike Benz immediately you contact him. So contact
+my Diplomatic Agent Mr. Mike Benz immediately you receive this letter.
+Below is his contact information:
 
+NAME : MIKE BENZ
+EMAIL ADDRESS: mikebenz550@aol.com
+Text Him, (256) 284-4886
+
+Request for Delivery of the Prepaid (ATM) Debit card  to you today.
+Note, please I have paid for the whole service fees for you, so the
+only money you will send to my Diplomatic Agent Mr. Mike Benz is
+$50.00 for your prepaid (ATM) Debit card DELIVERY FEE to your address
+ok.
+Let me know once you receive this Card at your address.
+Best regards,
+Rev.Dr, George Adadar
