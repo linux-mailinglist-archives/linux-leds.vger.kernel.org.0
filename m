@@ -2,78 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47F99133018
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Jan 2020 20:56:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C46C1332B9
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Jan 2020 22:13:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728721AbgAGT4o (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Jan 2020 14:56:44 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:41505 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728722AbgAGT4j (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Jan 2020 14:56:39 -0500
-Received: by mail-ed1-f66.google.com with SMTP id c26so611027eds.8
-        for <linux-leds@vger.kernel.org>; Tue, 07 Jan 2020 11:56:38 -0800 (PST)
+        id S1730050AbgAGVNN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Jan 2020 16:13:13 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:43473 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730063AbgAGVNM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Jan 2020 16:13:12 -0500
+Received: by mail-lf1-f67.google.com with SMTP id 9so781611lfq.10
+        for <linux-leds@vger.kernel.org>; Tue, 07 Jan 2020 13:13:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=lUsTd9lJYwK928kai9reachpHe0HC9Hv8/gDLGwtaBI=;
-        b=m/Udengj3famfT4AeeQ1IRW+yMW7VasUnASahB37i/PoeHrkRBk2CGyFKYNukmjW7S
-         L8SRka5Jakx3oOkJPsG2IofN9vOqI+MJeZI3Q0YE0hhIfxJgla/Mvi4GlBIJ0+PXKJyR
-         fGhtIsUmeS9lphgKJPwASTV0Wis5x+akjvA6FztTMBR/K8fgi7sOjdtLa1OeTeeGw/oC
-         WuhGv+1qsxod0shrSr56iRhzuujf6ypC8mQV8JosjFfNeYtuq3xDGNFupimiXFOQL0SO
-         8SxYRsEAywqZcf7WmcQRmN/Qkf20W+/a6rRSJl252WjsQoa/SZxLvQ4mGRJVkfZ3ex9s
-         ABpA==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IGi8vX1/beRTA6iMMVbhICNfnE+SNCo5YclmR59f6vI=;
+        b=IP+X+P1YdDKA7nugszD5dZCNPhsdJerEkMg0kBnccZWGFrN1KxrTZ4lQdW1Hbzx0R4
+         OwdDogQlm8+cJmJ8elc3SToRAZClRJ1jTsa7urWbhGtQSI4dFvRzDFsk4KzLmXtTzHPo
+         fIcp5OMlksbsnoNzCqUsOd5PoNscXt7pI80LYYilmUa5mI304QU05DjgsbIVuumWqlpI
+         r2Y72IrIp+oskfHrmTzLGlQ8JkKxm23RW5s4JGR2dOvnrjIkymzo2dmVUsKsOE63grys
+         B+B8QMfGd936QR/KHn6Jsw5h4VHkvWlgJlPEceVSapspc11G3F1nPxAekz7fnOhtrHHs
+         L7zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=lUsTd9lJYwK928kai9reachpHe0HC9Hv8/gDLGwtaBI=;
-        b=fvLvdojKdtxZQalyTYdCIpBplqt2uTzlp893WrdkQ/MgrdZeXDrvT2AZnEshGwIdj/
-         9iRD4ncwJkN4YiBLbS1AZPW0Y53CAoO4qbbs2MB1VKvVcAb7xBNXMSygPcmOfZfORKzD
-         IxeTwKQztowIA3baENrXQ2hfkXLWjshFFdbfUE646mhYhaOBAGbH+8BGD2OhiMd+PjqM
-         9BqzUNDO0Dhanmel/2rAAv6xa/VgRVDYh1c4Yf3Xf0qp9IKgLdZO5wdawqabhkl2JUx6
-         8NSGF0ZmXxkMPdX+w/NBSlFvJqfBqwC2Wc8HObI9F8pbmrY/01Nr9GmmjnLt4MD50+uu
-         lOVw==
-X-Gm-Message-State: APjAAAUMip4WT3Y6NdSdO6tGdoG6Q2coXM0KS4z5q01A7bIvw6zKMj1R
-        OSYDFt7b7TcRwkq1wf1vudz4uSKr1ecex1E/Jt8=
-X-Google-Smtp-Source: APXvYqzNbcT08PcgNHBR6CjdjGMonF1aREtl3FixKkalZzLFfyP3YZsjOtPyVn2SjFoUiZ8TzNVIEuitC7fnDU0d3Kk=
-X-Received: by 2002:a17:907:20ef:: with SMTP id rh15mr1111482ejb.325.1578426995176;
- Tue, 07 Jan 2020 11:56:35 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IGi8vX1/beRTA6iMMVbhICNfnE+SNCo5YclmR59f6vI=;
+        b=V3itLD0wp+apT5aVX9LPGiSkh5dPnXugdd5vlwcILKpx70nX1f6IQUGQdF/pRBZp6d
+         +M4TVlFkhqIuZHP0+aNFusC+27/LIEaIzQf6O3bjvppLpNqR/jS+FxMBb09vn08OgV3t
+         36YYtnGqFE1mNWFtskdDt/b/C7Y43A/QnBSox7LdCyXxUfVbt5ii9xQSHy22GovR4PLp
+         tkEEVswr/CDAnagQeqhXr7P66sjkdK+k8HZx1RWP8XRWEpsHbgblb9+/A0FgkxG7ZGef
+         33FjUrhvkh+PBsea7zeJGYqQDe3Z9YiGlcD6A3/InzfdhfXZ2qBeYs9jDCqC7P10ZJ2Z
+         8kfA==
+X-Gm-Message-State: APjAAAUu75XG9YwRw20yu4iU8V6o+nT3fRwe+gxR75FoXrSxXU5HMywz
+        7S8z/Q66xi60JccT90Phk/Oy31jedd9/0PBoq8D2lQ==
+X-Google-Smtp-Source: APXvYqxeqj1Pu+ALjaJoeeYIze/VfUL6ekcrCLu+F0Extj2a1JWki5IQH+aBkA9qETgY9mIVob9LU1GJp0C0Q/lw3UU=
+X-Received: by 2002:a19:c0b:: with SMTP id 11mr837964lfm.135.1578431590574;
+ Tue, 07 Jan 2020 13:13:10 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a17:906:72c6:0:0:0:0 with HTTP; Tue, 7 Jan 2020 11:56:34
- -0800 (PST)
-Reply-To: dhlexpresscouriercompany.nyusa@gmail.com
-From:   "Dr. William Johnson" <currency1000000@gmail.com>
-Date:   Tue, 7 Jan 2020 20:56:34 +0100
-Message-ID: <CAPqfnSEyU1pBR_7HT2g1KK7i8caLMBQ8yPA8KRDVm+MN-K_Z4w@mail.gmail.com>
-Subject: contact Dhl office New York to receive your Prepaid ATM Master Card
- worth $15.8Million US DOLLARS now.
-To:     undisclosed-recipients:;
+References: <20200107141030.74052-1-linus.walleij@linaro.org>
+ <20200107141030.74052-2-linus.walleij@linaro.org> <20200107141742.GA13954@duo.ucw.cz>
+In-Reply-To: <20200107141742.GA13954@duo.ucw.cz>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 7 Jan 2020 22:12:59 +0100
+Message-ID: <CACRpkdYH4FgZTajhmtWvp2A7G_E8M1fZF2xZKY9TBouf9SLN1A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] leds: ns2: Convert to GPIO descriptors
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Simon Guinot <simon.guinot@sequanux.org>,
+        Vincent Donnefort <vdonnefort@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-ATTN Dear Beneficiary.
-Goodnews
-I have Registered your Prepaid ATM Master Card
-worth $15.800,000.00 US DOLLARS with Courier company
-asigned to deliver it to you today.
-So contact Dhl office New York to receive your Prepaid ATM Master Card
-worth $15.8Million US DOLLARS now.
-Contact Person: Mrs. Mary Michael, Director, DHL Courier Company-NY USA. 10218
-Email. dhlexpresscouriercompany.nyusa@gmail.com
-Call the office +(202) 890-8752
-Rec-Confirmed your mailing address to the office as I listed below.
-Your Full Name--------------
-House Address-----------
-Your working Phone Number----------------
-ID copy-------------------------
-Sex-----------------------------
-Note,delivery fee to your address is only $25.00. send it to this
-company urgent on itunes card today so that DHL will deliver this
-Prepaid ATM Master Card to you today according to our finally
-agreement.
-Thanks for coperations,
-Dr. William Johnson
+On Tue, Jan 7, 2020 at 3:17 PM Pavel Machek <pavel@ucw.cz> wrote:
+
+> Ok. But what is motivation for doing this?
+
+Zip from drivers/gpio/TODO:
+
+Starting with commit 79a9becda894 the GPIO subsystem embarked on a journey
+to move away from the global GPIO numberspace and toward a decriptor-based
+approach. This means that GPIO consumers, drivers and machine descriptions
+ideally have no use or idea of the global GPIO numberspace that has/was
+used in the inception of the GPIO subsystem.
+
+The motivation for that in turn is that the GPIO number space has become
+unmanageable and is also unpredictable due to factors such as probe ordering
+and the introduction of -EPROBE_DEFER. The number space issue is the
+same as to why irq is moving away from irq numbers to IRQ descriptors.
+
+> Was this tested?
+
+No, I change a lot of code I can't test, I rely on volunteers to test
+it, it seems
+Simon volunteered.
+
+Yours,
+Linus Walleij
