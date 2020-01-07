@@ -2,48 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A231132877
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Jan 2020 15:10:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E4D8132878
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Jan 2020 15:10:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727880AbgAGOKj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Jan 2020 09:10:39 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:33603 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727658AbgAGOKj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Jan 2020 09:10:39 -0500
-Received: by mail-lj1-f194.google.com with SMTP id y6so46845634lji.0
-        for <linux-leds@vger.kernel.org>; Tue, 07 Jan 2020 06:10:36 -0800 (PST)
+        id S1727894AbgAGOKm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Jan 2020 09:10:42 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:35868 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727658AbgAGOKl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Jan 2020 09:10:41 -0500
+Received: by mail-lj1-f195.google.com with SMTP id r19so54872130ljg.3
+        for <linux-leds@vger.kernel.org>; Tue, 07 Jan 2020 06:10:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qXK6t3owG6GeGu6ZNg+NrMaydSH2di5lL3mtq9EawNQ=;
-        b=DhElgpSMt50NIkscc20iDmDRna/+977/R7yTK+ZcFYDiHsAJWtxIG2LFSI7HjYjSOB
-         qF4u1S6VmmwLPyxpbMXZ4xVwldP3V/+WulFef/n/Xjs9ZhS6RbLWGz9n5ChHUs1RiRY5
-         ZDREohEkiELGpZ4rwEns/YjGq1dBE+dIyofWL3bGRtaM+J1yz/yml+YAFRtWidYrn/hy
-         J1EvBmfBy2Vh0Sn8MsjzLXgx96D2hJ0CUOKALgTSAMVYm9u3eVk8gZAqImzmPzToXohB
-         GI3xfrpOkzt8klK6kX7kiuh8WhH9RHvLRSrT3LH/M0GjJn0hnfaDnj0DJ7SAwqxX9FIT
-         ql2A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9SfiOJ95jePHuG2lfVDsu4nhLaVOYDOSWTFfp6iAftU=;
+        b=NuQyprMxJpddCKVzH6Jw80Ep6fU8CvyDaW3QTKQSbVWIMnz+cF2Ccek2FQbGgH0hm2
+         Oa8aqoV3uNiSauF5jBffMTTcd93abcuMnyJ+bnbU1R2YFYOJR/qf1MQ9gK5ISCQHQTlv
+         +pP5lo4yEKvsrB9fxKOcaK8Z6LYdsiruh77S0X/Gn0htVQzQjTohYL15kBQ1F7Zkiqd2
+         9Q6iMbsd1AYdTOA2Ahf8yHImPkc12OOZSo9gHrdqLdPanc6HmmDMcjE27GO67ZfXqSqf
+         wBqQDkj0JqHocCBtBdFe+Mp9fExsylQNlfne4sSgsP+nkeiEDL7Jmc/f4toGwxI2VWUu
+         KcfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qXK6t3owG6GeGu6ZNg+NrMaydSH2di5lL3mtq9EawNQ=;
-        b=uCBO9YW9d1BtNneW1PPFjXVVBadLYODXnl+MDotW8ljjjEFOLNrmFWuI3XSi5dktNz
-         YY2wJcGTPXsvYDWQc3AWtU4OLZfh5lVUuqeMaQEh6LJm/KKZ+BHc+iyVYxk09PtKFbfY
-         ObC5ct1hgNDMWKiZDr2QeoJAoGhOol69EaW1jR+WOJaruGWubU5/FLCIYZJyYycspkWa
-         Biri8C+KZ5Vfww110YaZ21tl9dN5KX6il2ZU6+gPAXNdn0U0b9WyYm6QhdK5NGrn5T+b
-         en1+RMKfTOKqgPm4AE4iHMZ5DDzD346FlLYUErBM+YlX7oqiQRFTKay/41GazTi9xr2X
-         7p+A==
-X-Gm-Message-State: APjAAAX51VW42CQNt1zMSUvJu3uqSmuAg/zhTmOjN/Hibq2HywQ4TwTe
-        SxqsbJd4fCBDkXX1GWJFaT03nA==
-X-Google-Smtp-Source: APXvYqxKNT+hux4DsvqW3+scyamqTLzoOrU6Cik1h4U1W+jGYo7UXCfaM+nCeXThOE372Z1TklRsgg==
-X-Received: by 2002:a2e:b017:: with SMTP id y23mr65206466ljk.229.1578406235856;
-        Tue, 07 Jan 2020 06:10:35 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9SfiOJ95jePHuG2lfVDsu4nhLaVOYDOSWTFfp6iAftU=;
+        b=jrx5srlQ0D3/Bdxn/aXF1+NQkF6RMKeQOUtbNp5kFFXid9aRPssnhG3zNlvuGQxEz8
+         ZLDiq6ahsMy8r3OfKe+C1eMcWvscF4CFk8MVpy5SvjKCKvV75bsNUt4Wf0oRJZOOpck0
+         wq8AHAaA69ZA6hiJrAQczRAu3po17q34eZylSqryI3NWews0W290SOX3+P2CBrS/kcBU
+         oXBFmTB+J+ODIzEnabiKVp4Sefv2BexxjaGGHMvEvVgOcVkD4KnT6B8kpWpngPXldlHO
+         DK0jboCNnMGyzPJ1FkpXjN7iF7Ofmnzk56M78tVVWqw4uuRbDig7NwyE8VewYbmpPwPe
+         bl4w==
+X-Gm-Message-State: APjAAAW3c+Mhso0q3kyoviMlqRUDk4ToZOR5ZMg6Cdf5FSy28FcI34h8
+        YC5g1kB/pFEAVIw6jm/ggGwIwJwGKKgSwA==
+X-Google-Smtp-Source: APXvYqwPvLYI23P/tT7IG9R7KEQABGUTYn6SiQX1sGuqzbtlNeBEe+ni1K/jNVKIi4ba/vutA8k3DQ==
+X-Received: by 2002:a2e:3a0c:: with SMTP id h12mr56641886lja.200.1578406237556;
+        Tue, 07 Jan 2020 06:10:37 -0800 (PST)
 Received: from genomnajs.ideon.se ([85.235.10.227])
-        by smtp.gmail.com with ESMTPSA id a14sm30317770lfh.50.2020.01.07.06.10.34
+        by smtp.gmail.com with ESMTPSA id a14sm30317770lfh.50.2020.01.07.06.10.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2020 06:10:35 -0800 (PST)
+        Tue, 07 Jan 2020 06:10:36 -0800 (PST)
 From:   Linus Walleij <linus.walleij@linaro.org>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
@@ -51,10 +51,12 @@ Cc:     linux-leds@vger.kernel.org,
         Linus Walleij <linus.walleij@linaro.org>,
         Simon Guinot <simon.guinot@sequanux.org>,
         Vincent Donnefort <vdonnefort@gmail.com>
-Subject: [PATCH 1/2] leds: ns2: Absorb platform data
-Date:   Tue,  7 Jan 2020 15:10:28 +0100
-Message-Id: <20200107141030.74052-1-linus.walleij@linaro.org>
+Subject: [PATCH 2/2] leds: ns2: Convert to GPIO descriptors
+Date:   Tue,  7 Jan 2020 15:10:29 +0100
+Message-Id: <20200107141030.74052-2-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200107141030.74052-1-linus.walleij@linaro.org>
+References: <20200107141030.74052-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -62,114 +64,154 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Nothing in the kernel includes the external header
-<linux/platform_data/leds-kirkwood-ns2.h> so just push the
-contents into the ns2 leds driver. If someone wants to use
-platform data or board files to describe this device they
-should be able to do so using GPIO machine descriptors but
-in any case device tree should be the way forward for these
-systems in all cases I can think of, and the driver already
-supports that.
+This converts the NS2 LED driver to use GPIO descriptors.
+We take care to request the GPIOs "as is" which is what
+the current driver goes to lengths to achieve, then we use
+GPIOs throughout.
+
+As the nodes for each LED does not have any corresponding
+device, we need to use the DT-specific accessors to get these
+GPIO descriptors from the device tree.
 
 Cc: Simon Guinot <simon.guinot@sequanux.org>
 Cc: Vincent Donnefort <vdonnefort@gmail.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/leds/leds-ns2.c                       | 30 +++++++++++++--
- .../linux/platform_data/leds-kirkwood-ns2.h   | 38 -------------------
- 2 files changed, 27 insertions(+), 41 deletions(-)
- delete mode 100644 include/linux/platform_data/leds-kirkwood-ns2.h
+ drivers/leds/leds-ns2.c | 73 +++++++++++++++++------------------------
+ 1 file changed, 31 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
-index 7c500dfdcfa3..6d37dda12c39 100644
+index 6d37dda12c39..538ca5755602 100644
 --- a/drivers/leds/leds-ns2.c
 +++ b/drivers/leds/leds-ns2.c
-@@ -12,14 +12,38 @@
- #include <linux/kernel.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/leds.h>
- #include <linux/module.h>
--#include <linux/platform_data/leds-kirkwood-ns2.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include "leds.h"
- 
-+enum ns2_led_modes {
-+	NS_V2_LED_OFF,
-+	NS_V2_LED_ON,
-+	NS_V2_LED_SATA,
-+};
-+
-+struct ns2_led_modval {
-+	enum ns2_led_modes	mode;
-+	int			cmd_level;
-+	int			slow_level;
-+};
-+
-+struct ns2_led {
-+	const char	*name;
-+	const char	*default_trigger;
-+	unsigned	cmd;
-+	unsigned	slow;
-+	int		num_modes;
-+	struct ns2_led_modval *modval;
-+};
-+
-+struct ns2_led_platform_data {
-+	int		num_leds;
-+	struct ns2_led	*leds;
-+};
-+
- /*
-  * The Network Space v2 dual-GPIO LED is wired to a CPLD. Three different LED
-  * modes are available: off, on and SATA activity blinking. The LED modes are
-diff --git a/include/linux/platform_data/leds-kirkwood-ns2.h b/include/linux/platform_data/leds-kirkwood-ns2.h
-deleted file mode 100644
-index eb8a6860e816..000000000000
---- a/include/linux/platform_data/leds-kirkwood-ns2.h
-+++ /dev/null
-@@ -1,38 +0,0 @@
--/*
-- * Platform data structure for Network Space v2 LED driver
-- *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2.  This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-- */
--
--#ifndef __LEDS_KIRKWOOD_NS2_H
--#define __LEDS_KIRKWOOD_NS2_H
--
--enum ns2_led_modes {
--	NS_V2_LED_OFF,
--	NS_V2_LED_ON,
--	NS_V2_LED_SATA,
--};
--
--struct ns2_led_modval {
--	enum ns2_led_modes	mode;
--	int			cmd_level;
--	int			slow_level;
--};
--
--struct ns2_led {
--	const char	*name;
--	const char	*default_trigger;
+@@ -33,8 +33,8 @@ struct ns2_led_modval {
+ struct ns2_led {
+ 	const char	*name;
+ 	const char	*default_trigger;
 -	unsigned	cmd;
 -	unsigned	slow;
--	int		num_modes;
--	struct ns2_led_modval *modval;
--};
++	struct gpio_desc *cmd;
++	struct gpio_desc *slow;
+ 	int		num_modes;
+ 	struct ns2_led_modval *modval;
+ };
+@@ -53,8 +53,8 @@ struct ns2_led_platform_data {
+ 
+ struct ns2_led_data {
+ 	struct led_classdev	cdev;
+-	unsigned int		cmd;
+-	unsigned int		slow;
++	struct gpio_desc	*cmd;
++	struct gpio_desc	*slow;
+ 	bool			can_sleep;
+ 	unsigned char		sata; /* True when SATA mode active. */
+ 	rwlock_t		rw_lock; /* Lock GPIOs. */
+@@ -70,8 +70,8 @@ static int ns2_led_get_mode(struct ns2_led_data *led_dat,
+ 	int cmd_level;
+ 	int slow_level;
+ 
+-	cmd_level = gpio_get_value_cansleep(led_dat->cmd);
+-	slow_level = gpio_get_value_cansleep(led_dat->slow);
++	cmd_level = gpiod_get_value_cansleep(led_dat->cmd);
++	slow_level = gpiod_get_value_cansleep(led_dat->slow);
+ 
+ 	for (i = 0; i < led_dat->num_modes; i++) {
+ 		if (cmd_level == led_dat->modval[i].cmd_level &&
+@@ -104,15 +104,15 @@ static void ns2_led_set_mode(struct ns2_led_data *led_dat,
+ 	write_lock_irqsave(&led_dat->rw_lock, flags);
+ 
+ 	if (!led_dat->can_sleep) {
+-		gpio_set_value(led_dat->cmd,
+-			       led_dat->modval[i].cmd_level);
+-		gpio_set_value(led_dat->slow,
+-			       led_dat->modval[i].slow_level);
++		gpiod_set_value(led_dat->cmd,
++				led_dat->modval[i].cmd_level);
++		gpiod_set_value(led_dat->slow,
++				led_dat->modval[i].slow_level);
+ 		goto exit_unlock;
+ 	}
+ 
+-	gpio_set_value_cansleep(led_dat->cmd, led_dat->modval[i].cmd_level);
+-	gpio_set_value_cansleep(led_dat->slow, led_dat->modval[i].slow_level);
++	gpiod_set_value_cansleep(led_dat->cmd, led_dat->modval[i].cmd_level);
++	gpiod_set_value_cansleep(led_dat->slow, led_dat->modval[i].slow_level);
+ 
+ exit_unlock:
+ 	write_unlock_irqrestore(&led_dat->rw_lock, flags);
+@@ -200,26 +200,6 @@ create_ns2_led(struct platform_device *pdev, struct ns2_led_data *led_dat,
+ 	int ret;
+ 	enum ns2_led_modes mode;
+ 
+-	ret = devm_gpio_request_one(&pdev->dev, template->cmd,
+-			gpio_get_value_cansleep(template->cmd) ?
+-			GPIOF_OUT_INIT_HIGH : GPIOF_OUT_INIT_LOW,
+-			template->name);
+-	if (ret) {
+-		dev_err(&pdev->dev, "%s: failed to setup command GPIO\n",
+-			template->name);
+-		return ret;
+-	}
 -
--struct ns2_led_platform_data {
--	int		num_leds;
--	struct ns2_led	*leds;
--};
+-	ret = devm_gpio_request_one(&pdev->dev, template->slow,
+-			gpio_get_value_cansleep(template->slow) ?
+-			GPIOF_OUT_INIT_HIGH : GPIOF_OUT_INIT_LOW,
+-			template->name);
+-	if (ret) {
+-		dev_err(&pdev->dev, "%s: failed to setup slow GPIO\n",
+-			template->name);
+-		return ret;
+-	}
 -
--#endif /* __LEDS_KIRKWOOD_NS2_H */
+ 	rwlock_init(&led_dat->rw_lock);
+ 
+ 	led_dat->cdev.name = template->name;
+@@ -229,8 +209,8 @@ create_ns2_led(struct platform_device *pdev, struct ns2_led_data *led_dat,
+ 	led_dat->cdev.groups = ns2_led_groups;
+ 	led_dat->cmd = template->cmd;
+ 	led_dat->slow = template->slow;
+-	led_dat->can_sleep = gpio_cansleep(led_dat->cmd) |
+-				gpio_cansleep(led_dat->slow);
++	led_dat->can_sleep = gpiod_cansleep(led_dat->cmd) |
++				gpiod_cansleep(led_dat->slow);
+ 	if (led_dat->can_sleep)
+ 		led_dat->cdev.brightness_set_blocking = ns2_led_set_blocking;
+ 	else
+@@ -285,17 +265,26 @@ ns2_leds_get_of_pdata(struct device *dev, struct ns2_led_platform_data *pdata)
+ 		const char *string;
+ 		int i, num_modes;
+ 		struct ns2_led_modval *modval;
++		struct gpio_desc *gd;
+ 
+-		ret = of_get_named_gpio(child, "cmd-gpio", 0);
+-		if (ret < 0)
+-			goto err_node_put;
+-		led->cmd = ret;
+-		ret = of_get_named_gpio(child, "slow-gpio", 0);
+-		if (ret < 0)
+-			goto err_node_put;
+-		led->slow = ret;
+ 		ret = of_property_read_string(child, "label", &string);
+ 		led->name = (ret == 0) ? string : child->name;
++
++		gd = gpiod_get_from_of_node(child, "cmd-gpio", 0,
++					    GPIOD_ASIS, led->name);
++		if (IS_ERR(gd)) {
++			ret = PTR_ERR(gd);
++			goto err_node_put;
++		}
++		led->cmd = gd;
++		gd = gpiod_get_from_of_node(child, "slow-gpio", 0,
++					    GPIOD_ASIS, led->name);
++		if (IS_ERR(gd)) {
++			ret = PTR_ERR(gd);
++			goto err_node_put;
++		}
++		led->slow = gd;
++
+ 		ret = of_property_read_string(child, "linux,default-trigger",
+ 					      &string);
+ 		if (ret == 0)
 -- 
 2.23.0
 
