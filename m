@@ -2,76 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE526134836
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Jan 2020 17:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 283AF1348CA
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Jan 2020 18:06:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729179AbgAHQmG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 Jan 2020 11:42:06 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:35529 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729160AbgAHQmF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Jan 2020 11:42:05 -0500
-Received: by mail-oi1-f195.google.com with SMTP id k4so3209373oik.2
-        for <linux-leds@vger.kernel.org>; Wed, 08 Jan 2020 08:42:04 -0800 (PST)
+        id S1729573AbgAHRGY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 8 Jan 2020 12:06:24 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:46775 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729525AbgAHRGY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Jan 2020 12:06:24 -0500
+Received: by mail-lf1-f68.google.com with SMTP id f15so2972658lfl.13
+        for <linux-leds@vger.kernel.org>; Wed, 08 Jan 2020 09:06:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZG5mwCvO/8hHzDnaJkWUXAlThWqWwO0oMCIc1jFVaF8=;
+        b=TS8kRNJ63oRSoj916IeOJ0PSYySbhpJVts40N/G6X/Liosb+K6ymAHraHW/2+OH/67
+         e3eJjovLYr3Ci6qG5WYWYT9rkVkqlI50jkBp3TP9GZRr2Oge/dVfEZaCDebNkdcyLppo
+         haAUiiVrcK7Y56QF9jZ571DcYLvG2NInKbOja7r62OAi/VqD7dt04zVVIFr8iE533lwp
+         AoTpiaJHNmxiLeGW0U08Rd0AZYoiqtEVqyQrTZHhXEIQbE3rCqdVjgisd27wysNXFasU
+         alVEi0kDrmLKaKWG1rBKga3afcDzjQrT1vO8vYiBRztodkPw73R0gKFEfOlvIP5IBvqb
+         STsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Icg47JqvHN2zEf9dLVseBc9ilOfxDem/7KAl7G0secI=;
-        b=krnF7Gpl6S9SYQLDzBX6Of5WSJ2BuovAFO9Z2kt1RQc1yLV3muLbYIe+4+TlgLfUSF
-         3fAywYzD/kY8rB8fYKj97ysnDfj4I9qdaURIDMDGziCqV866wChaJV7zpOQoiRzOSQe5
-         BntFSXjJVbUQrLXwxbZ+Jjwhsqyt5AAqHGBks6gNQFULgqoyrbjJh3KjXTxLaJNb0UlZ
-         ACfQYFZUZE0xo7g1Q5Wb/JEIf9bFBJu7D6R2kPaHZgR3ETucj7F0Laizk11QrhTksWfp
-         /CjRb8ARWSCmWrdsc5nYRQh3n7oo6xmwf0d2lYNc1Cmwz4JgQxvfjbsFfy4d4S+229p1
-         RYDw==
-X-Gm-Message-State: APjAAAXie0+g1J2rW19wpdVbpRee8bVVaDHWf5seHExKcvY8257ehQJ5
-        WYLpRcHuGoy62D+nZHPQrreRUyU=
-X-Google-Smtp-Source: APXvYqyWGZ/mtl7wO8eDxi60Ctd5HMalRX9qJeW0jNe3NJrpKuhEVMIKCzSKmaMHLYWb+SqSKfpGIQ==
-X-Received: by 2002:aca:f555:: with SMTP id t82mr3953040oih.103.1578501724273;
-        Wed, 08 Jan 2020 08:42:04 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n22sm1292123otj.36.2020.01.08.08.42.03
-        for <linux-leds@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2020 08:42:03 -0800 (PST)
-Received: from rob (uid 1000)
-        (envelope-from rob@rob-hp-laptop)
-        id 2208fa
-        by rob-hp-laptop (DragonFly Mail Agent v0.11);
-        Wed, 08 Jan 2020 10:42:02 -0600
-Date:   Wed, 8 Jan 2020 10:42:02 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Mohana Datta Yelugoti <ymdatta.work@gmail.com>
-Cc:     jacek.anaszewski@gmail.com, trivial@kernel.org,
-        Mohana Datta Yelugoti <ymdatta.work@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: spi-ir-led: fix spelling mistake
- "balue"->"value"
-Message-ID: <20200108164202.GA15850@bogus>
-References: <20191225205941.28429-1-ymdatta.work@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZG5mwCvO/8hHzDnaJkWUXAlThWqWwO0oMCIc1jFVaF8=;
+        b=PK2b7G80ZTxFI5gzl9nR38PbnMbz58ZxUsqjJm0/VULdM/n+uAapL+4kkg1zVtM/jn
+         5ALIMjb4/EJreCdtF5q2gnTyWXb7dq3V3F7V9w7ez3TtJay5M8wTx9eZfMo4kCXgvAyq
+         C/N6RLqM01L30sI/CtSIxF7fLMYXGiEVLbuEAw9f689+rQ3sMSUiBlWQCJCtTQYsA+mU
+         GNJKivSQTPFVH4dCfIJCn/ELcbnRN0vFy9guT179yRw5abdtNMkuLkTJuKO/BT9WfUyP
+         i/IyfB90Uqw2cnu1Cdkgnhl1FPmzO5a8pEE8DZmJPkSWopb/X8WhTgyEetVyDuJUFmxZ
+         6Hfg==
+X-Gm-Message-State: APjAAAWkW3lEVFb5xiMJLGqVQnl7W9sQ83ap5UNkcaVGLb6b4ASYX3rT
+        CX/DaFKcABvY8hT7Uxx2iL8vjwj4Nml+z9xFAGg7AFXY6Kw=
+X-Google-Smtp-Source: APXvYqy4CrhXJ4b/8g3RMkCam7ca/MhZfkbfOrlpD7xBB9Cw6TsTScAGa+ViToMmlgE2pl5ieDU41zioyn0u52uwhcU=
+X-Received: by 2002:ac2:5e78:: with SMTP id a24mr3376017lfr.5.1578503182554;
+ Wed, 08 Jan 2020 09:06:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191225205941.28429-1-ymdatta.work@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200108015322.51103-1-yuehaibing@huawei.com>
+In-Reply-To: <20200108015322.51103-1-yuehaibing@huawei.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 8 Jan 2020 18:06:11 +0100
+Message-ID: <CACRpkdYz0UwAj0Ncs9SKWbN8vN-5E14GHL2KkANMb6H5OqEW7A@mail.gmail.com>
+Subject: Re: [PATCH -next] leds: leds-bd2802: remove set but not used variable 'pdata'
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 26 Dec 2019 02:29:39 +0530, Mohana Datta Yelugoti wrote:
-> There is a spelling mistake in:
->       Documentation/bindings/leds/irled/spi-ir-led.txt.
-> Fix it.
-> 
-> Signed-off-by: Mohana Datta Yelugoti <ymdatta.work@gmail.com>
-> ---
->  Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+On Wed, Jan 8, 2020 at 2:57 AM YueHaibing <yuehaibing@huawei.com> wrote:
 
-Applied, thanks.
+> Fixes gcc '-Wunused-but-set-variable' warning:
+>
+> drivers/leds/leds-bd2802.c: In function 'bd2802_probe':
+> drivers/leds/leds-bd2802.c:663:35: warning:
+>  variable 'pdata' set but not used [-Wunused-but-set-variable]
+>
+> commit 4c3718f9d6a6 ("leds: bd2802: Convert to use GPIO descriptors")
+> left behind this unused variable.
+>
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 
-Rob
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
