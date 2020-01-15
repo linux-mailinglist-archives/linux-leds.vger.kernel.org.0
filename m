@@ -2,51 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 019541390D7
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jan 2020 13:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02E3E13BB0C
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Jan 2020 09:29:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725832AbgAMMK4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Jan 2020 07:10:56 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37138 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726193AbgAMMKx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jan 2020 07:10:53 -0500
-Received: by mail-wr1-f65.google.com with SMTP id w15so8329019wru.4
-        for <linux-leds@vger.kernel.org>; Mon, 13 Jan 2020 04:10:50 -0800 (PST)
+        id S1729273AbgAOI3X (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 15 Jan 2020 03:29:23 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:43481 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729261AbgAOI3W (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Jan 2020 03:29:22 -0500
+Received: by mail-wr1-f68.google.com with SMTP id d16so14808593wre.10
+        for <linux-leds@vger.kernel.org>; Wed, 15 Jan 2020 00:29:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=WBfLyLnxB/57Tfgm5ZKZyPtCmfHaakxN3M7SxJ598pA=;
-        b=gUIejq+FCx8Kd6HvjLMU8Nn1XtbcJ8M/jb0ryLOxB4/zVBuKYX4Af8SLra9eJs4rcB
-         mghg3QF8PPQNWvjwOAiVdwcSKLrvUlD57Ufq0i7SOK/qR+0UNHRDR60OFB5lvntqzNTu
-         cu/o0c5QoHplbht9CBc/FT8dE/Qs9MJ/hHR+zNX6ciZxIM+gEzATdOQ6DekDQYvxm+Hq
-         coYzl5K4gougiM/zugUm0SpSjhtHCDP5PDewrpJ7SkFqDI7kQoZhX7RBBi+Kp8J/QRj8
-         b9h5efbNYhOIsDtIFMb0+S+PQKoOuQsMHi34A9odAr2wmItf2LEGgYfuYCF0f/xhMBSL
-         mEyA==
+        bh=3GK5Djc6Es4Lf2bms5LobhRrB6cfPeA6TPSSmCtuW7o=;
+        b=pxINdBipIObKzAeju8UwLEZAh1c5Lz1AFYRX/gAiXp8HUgwfqjdIyb/QJQy8cq+DGJ
+         G1TfipKXPwr+RZM/eigUSHh5njYxyxJZKjJKCrRroT1Rn0/X8060NszcvuJnUWQ3pKq9
+         i9lA5p3Q1AUb8ZoVC/koPJs1YWYGrmRXX7YlokbI2szyEJ84euHOPRCiCyQGQEUfLhKF
+         lN/1qkVsQZSmhhBxica9csSceRRk4mUwyx3bsn93E4AuWl8gLuDD8fxO0lc5XB8QUORb
+         94ecpjrpXdaL3osYQWCL5R3SF0gGpKlUlb6qqYB9ywtCqBxyDGWk1lOqGWUu/kpCRtiy
+         Gn6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=WBfLyLnxB/57Tfgm5ZKZyPtCmfHaakxN3M7SxJ598pA=;
-        b=BLWwg2tL+XWU/sLpTuahcFYFfgxZJTEfU3m7JGCce8ly2grXLjpO+jS1BohBDoiJXm
-         NQ57F/u9vcrNHS78HDb8MmyNmdCvjIeAD1LCQJcCo7IzDUQi+UJEN21D57x/bMf4q2BP
-         N93A/z9+3NNcH0tUlOjX/lMVJjlOz5+2zYDAIZBMMgd9XTyQYWVH9UBs2EYNR1ZGFtEc
-         9Lcu17yTV9vNgg1Gd/53Yshcsc+yFfsRgwEgniWtrDZqfJPHCYbB+lXi4wbtYkkH2ZQY
-         SrLXnYkw1/si8WlMx0T4WsvFeA+5MesL5g2NSrRn7yg+QIGzunhZjo798frjAOjGt6kW
-         zW0w==
-X-Gm-Message-State: APjAAAUQC470R4slQ+yE3DWKoYUCle3+EsgDO6qA6rZMIO4YDTaDAyNu
-        B1GWUaTHL+vRFQKwUXgZdNrWgA==
-X-Google-Smtp-Source: APXvYqwEQVVqvqvjsj+6jgiSXpHXeqdDkCbyvYTNsbrb9Hsh7vYWqFLAsxhpBg00+gIiid7GIRicMQ==
-X-Received: by 2002:adf:edd0:: with SMTP id v16mr18025079wro.310.1578917449742;
-        Mon, 13 Jan 2020 04:10:49 -0800 (PST)
-Received: from dell ([95.147.198.95])
-        by smtp.gmail.com with ESMTPSA id s3sm14052259wmh.25.2020.01.13.04.10.48
+        bh=3GK5Djc6Es4Lf2bms5LobhRrB6cfPeA6TPSSmCtuW7o=;
+        b=Z7IqMhjU8Ft7KheZ547/l9gcxtGC5URfZMqD2mGHYEH0GazlQwg41235K8OuJdZO57
+         SjF1jo+dA8hr19z3I4uQldR5jgHgrWkdlcfBFM01DLGymAhOJJaE2pJf01wi08NSWKfA
+         PRVCWLUSYQXRtXwdpHt61LBrSTCRlix10gC7sObiEkXAzcHDjdP5eYY5eypZPrnJjxgE
+         b2d1tRJ16DKJWhVpivhh6XF6g/+RHVL4bnxVCVv0fpbOT44kZew8iHZPPX9nHpMigb/e
+         2lxirB5c837hd4/A19gqP96mxRiVTCTGS4vZ3AcVITvuYXif5Cv7p2UhHc1Fq7lpgkLk
+         0mjg==
+X-Gm-Message-State: APjAAAW59NAI+ilTNbD3B9NZ9uB+srlbOfJHhFJnEnOEdidW/FaoD8Ls
+        N3MsSjitk4lP6/kiabzGQlfAaw==
+X-Google-Smtp-Source: APXvYqxg5fYMbpzJkbMnE9bwu+VJEIcsdrHoYIUzhPAxEC31+lysJdWQxte1D3bkl5SWo9KJvHl4Nw==
+X-Received: by 2002:adf:dd51:: with SMTP id u17mr29019061wrm.290.1579076959924;
+        Wed, 15 Jan 2020 00:29:19 -0800 (PST)
+Received: from dell ([2.27.35.221])
+        by smtp.gmail.com with ESMTPSA id b16sm24408442wrj.23.2020.01.15.00.29.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2020 04:10:49 -0800 (PST)
-Date:   Mon, 13 Jan 2020 12:11:09 +0000
+        Wed, 15 Jan 2020 00:29:18 -0800 (PST)
+Date:   Wed, 15 Jan 2020 08:29:37 +0000
 From:   Lee Jones <lee.jones@linaro.org>
 To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
 Cc:     "dmurphy@ti.com" <dmurphy@ti.com>,
@@ -71,102 +71,101 @@ Cc:     "dmurphy@ti.com" <dmurphy@ti.com>,
         "broonie@kernel.org" <broonie@kernel.org>
 Subject: Re: [PATCH v8 08/12] regulator: bd718x7: Split driver to common and
  bd718x7 specific parts
-Message-ID: <20200113121109.GG5414@dell>
+Message-ID: <20200115082937.GD325@dell>
 References: <cover.1577694311.git.matti.vaittinen@fi.rohmeurope.com>
  <d247d71e183b388dd7f211aee1235965cff979b4.1577694311.git.matti.vaittinen@fi.rohmeurope.com>
  <20200107124124.GI14821@dell>
  <32f8fa4201ae99df64e7a39c6a69be2bef179f7b.camel@fi.rohmeurope.com>
  <20200113105301.GF5414@dell>
  <ab72ce13d008a0d5e9cd753b87fe397953210f70.camel@fi.rohmeurope.com>
+ <20200113121109.GG5414@dell>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ab72ce13d008a0d5e9cd753b87fe397953210f70.camel@fi.rohmeurope.com>
+In-Reply-To: <20200113121109.GG5414@dell>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 13 Jan 2020, Vaittinen, Matti wrote:
-
-> Hello Lee,
-> 
-> On Mon, 2020-01-13 at 10:53 +0000, Lee Jones wrote:
-> > On Wed, 08 Jan 2020, Vaittinen, Matti wrote:
-> > 
-> > > Hello Lee,
-> > > 
-> > > On Tue, 2020-01-07 at 12:41 +0000, Lee Jones wrote:
-> > > > On Mon, 30 Dec 2019, Matti Vaittinen wrote:
-> > > > 
-> > > > > Few ROHM PMICs allow setting the voltage states for different
-> > > > > system states
-> > > > > like RUN, IDLE, SUSPEND and LPSR. States are then changed via
-> > > > > SoC
-> > > > > specific
-> > > > > mechanisms. bd718x7 driver implemented device-tree parsing
-> > > > > functions for
-> > > > > these state specific voltages. The parsing functions can be re-
-> > > > > used 
-> > > > > by
-> > > > > other ROHM chip drivers like bd71828. Split the generic
-> > > > > functions
-> > > > > from
-> > > > > bd718x7-regulator.c to rohm-regulator.c and export them for
-> > > > > other
-> > > > > modules
-> > > > > to use.
+On Mon, 13 Jan 2020, Lee Jones wrote:
+> On Mon, 13 Jan 2020, Vaittinen, Matti wrote:
+> > On Mon, 2020-01-13 at 10:53 +0000, Lee Jones wrote:
+> > > On Wed, 08 Jan 2020, Vaittinen, Matti wrote:
+> > > > On Tue, 2020-01-07 at 12:41 +0000, Lee Jones wrote:
+> > > > > On Mon, 30 Dec 2019, Matti Vaittinen wrote:
 > > > > > 
-> > > > > Signed-off-by: Matti Vaittinen <
-> > > > > matti.vaittinen@fi.rohmeurope.com>
-> > > > > Acked-by: Mark Brown <broonie@kernel.org>
-> > > > > ---
-> > 
-> > [...]
-> > 
-> > > > > +#if IS_ENABLED(CONFIG_REGULATOR_ROHM)
-> > > > > +int rohm_regulator_set_dvs_levels(const struct rohm_dvs_config
-> > > > > *dvs,
-> > > > > +				  struct device_node *np,
-> > > > > +				  const struct regulator_desc
-> > > > > *desc,
-> > > > > +				  struct regmap *regmap);
+> > > > > > Few ROHM PMICs allow setting the voltage states for different
+> > > > > > system states
+> > > > > > like RUN, IDLE, SUSPEND and LPSR. States are then changed via
+> > > > > > SoC
+> > > > > > specific
+> > > > > > mechanisms. bd718x7 driver implemented device-tree parsing
+> > > > > > functions for
+> > > > > > these state specific voltages. The parsing functions can be re-
+> > > > > > used 
+> > > > > > by
+> > > > > > other ROHM chip drivers like bd71828. Split the generic
+> > > > > > functions
+> > > > > > from
+> > > > > > bd718x7-regulator.c to rohm-regulator.c and export them for
+> > > > > > other
+> > > > > > modules
+> > > > > > to use.
+> > > > > > 
+> > > > > > Signed-off-by: Matti Vaittinen <
+> > > > > > matti.vaittinen@fi.rohmeurope.com>
+> > > > > > Acked-by: Mark Brown <broonie@kernel.org>
+> > > > > > ---
+> > > 
+> > > [...]
+> > > 
+> > > > > > +#if IS_ENABLED(CONFIG_REGULATOR_ROHM)
+> > > > > > +int rohm_regulator_set_dvs_levels(const struct rohm_dvs_config
+> > > > > > *dvs,
+> > > > > > +				  struct device_node *np,
+> > > > > > +				  const struct regulator_desc
+> > > > > > *desc,
+> > > > > > +				  struct regmap *regmap);
+> > > > > 
+> > > > > Does these really need to live in the parent's header file?
 > > > > 
-> > > > Does these really need to live in the parent's header file?
+> > > > I don't know what would be a better place?
 > > > 
-> > > I don't know what would be a better place?
-> > 
-> > You don't have a regulator header file?
-> > 
-> > It seems over-kill to create one for this, so leave it as is.
-> > 
-> > > > What other call-sites are there?
+> > > You don't have a regulator header file?
 > > > 
-> > > After this series the bd718x7-regulator.c and bd71828-regulator.c
-> > > are
-> > > the in-tree drivers using these. rohm-regulator.c is implementing
-> > > them.
-> > > And I hope we see yet another driver landing in later this year. 
+> > > It seems over-kill to create one for this, so leave it as is.
 > > > 
-> > > Anyways, I will investigate if I can switch this to some common
-> > > (not
-> > > rohm specific) DT bindings at some point (I've scheduled this study
-> > > to
-> > > March) - If I can then they should live in regulator core headers.
+> > > > > What other call-sites are there?
+> > > > 
+> > > > After this series the bd718x7-regulator.c and bd71828-regulator.c
+> > > > are
+> > > > the in-tree drivers using these. rohm-regulator.c is implementing
+> > > > them.
+> > > > And I hope we see yet another driver landing in later this year. 
+> > > > 
+> > > > Anyways, I will investigate if I can switch this to some common
+> > > > (not
+> > > > rohm specific) DT bindings at some point (I've scheduled this study
+> > > > to
+> > > > March) - If I can then they should live in regulator core headers.
+> > > > 
+> > > > But changing the existing properties should again be own set of
+> > > > patches
+> > > > and I'd prefer doing that work independently of this series and not
+> > > > delaying the BD71828 due to not-yet-evaluated bd718x7 property
+> > > > changes.
 > > > 
-> > > But changing the existing properties should again be own set of
-> > > patches
-> > > and I'd prefer doing that work independently of this series and not
-> > > delaying the BD71828 due to not-yet-evaluated bd718x7 property
-> > > changes.
+> > > That's fine.
 > > 
-> > That's fine.
+> > Glad to hear :) By the way, I already sent the v9 ;)
 > 
-> Glad to hear :) By the way, I already sent the v9 ;)
+> It's in my queue.
 
-It's in my queue.
+Although you didn't submit the whole set to me, so I only have a few
+of the patches.  Why did you choose to do that this time?
 
 -- 
 Lee Jones [李琼斯]
