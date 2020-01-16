@@ -2,142 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A3C713DEBB
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Jan 2020 16:25:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35FC113F377
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Jan 2020 19:44:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726370AbgAPPZH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 16 Jan 2020 10:25:07 -0500
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:42712 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726410AbgAPPZH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 16 Jan 2020 10:25:07 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00GFOx7b098767;
-        Thu, 16 Jan 2020 09:24:59 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1579188299;
-        bh=Tf129wgmRT3W3nq93jyOsnWCVa9uRqpmqZ5E47xgQ1A=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=D0yRpziaqpENz0Vs/lLN+sAJbzEerf6STQwQsDywZQYTOkqmo+U8eb53JnG7+BiPE
-         slvLazi/1i7U4iSFSi0CvHA3avvPQvvYVh1sBU92qs/mbDT71ZMuoRgSPImB4i/900
-         eru/u4a54tJMTpq1Wv8ZwjX8UCJ/B4Gec2vjiyHs=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00GFOxc9102915
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 16 Jan 2020 09:24:59 -0600
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 16
- Jan 2020 09:24:59 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 16 Jan 2020 09:24:59 -0600
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00GFOwbq125808;
-        Thu, 16 Jan 2020 09:24:58 -0600
-Subject: Re: [PATCH] leds: add SGI IP30 led support
-To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>
-CC:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, <linux-kernel@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>
-References: <20200115130536.11453-1-tbogendoerfer@suse.de>
- <b5bf7941-3fc1-641d-5482-509eeae34eac@ti.com>
- <20200116120545.2f4a907b9ddda84e76e445e1@suse.de>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <4a6dd4c6-4719-6662-a5ac-eef9a4112c2e@ti.com>
-Date:   Thu, 16 Jan 2020 09:21:59 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S2389355AbgAPRL3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 16 Jan 2020 12:11:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52142 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389964AbgAPRL2 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:11:28 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 321B42468B;
+        Thu, 16 Jan 2020 17:11:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579194688;
+        bh=uiasfpaw3t7cNNMG2O+qQHIqHKAg3oUJaJRg0Vu++lE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=T8IzHwxo0HD0xqFeJjJQSjE9jWBDlrUlZ8xtY1OOoYpTP+ZsOF1sRASr++1lo6gn7
+         hEjz7DQ6eCF+k7v+nVGgET/J5bkm1wHPNtPRxCh9rowGKD7kOihnoqu12V6scXafsG
+         LBcHzUV/M018bSFez1VliUJOCJtRxIcoMV6ncuUY=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Oleh Kravchenko <oleg@kaa.org.ua>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-leds@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 531/671] led: triggers: Fix dereferencing of null pointer
+Date:   Thu, 16 Jan 2020 12:02:49 -0500
+Message-Id: <20200116170509.12787-268-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
+References: <20200116170509.12787-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200116120545.2f4a907b9ddda84e76e445e1@suse.de>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Thomas
+From: Oleh Kravchenko <oleg@kaa.org.ua>
 
-On 1/16/20 5:05 AM, Thomas Bogendoerfer wrote:
-> On Wed, 15 Jan 2020 07:46:13 -0600
-> Dan Murphy <dmurphy@ti.com> wrote:
->
->> Thomas
->>
->> On 1/15/20 7:05 AM, Thomas Bogendoerfer wrote:
->>> This patch implemenets a driver to support the front panel LEDs of
->>> SGI Octane (IP30) workstations.
->> Thanks for the patch
->>
->> Some nitpicks below
->>
->>
->>> Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
->>> ---
->>>    drivers/leds/Kconfig     | 11 ++++++
->>>    drivers/leds/Makefile    |  1 +
->>>    drivers/leds/leds-ip30.c | 82 ++++++++++++++++++++++++++++++++++++++++
->>>    3 files changed, 94 insertions(+)
->>>    create mode 100644 drivers/leds/leds-ip30.c
->>>
->>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->>> index 4b68520ac251..8ef0fe900928 100644
->>> --- a/drivers/leds/Kconfig
->>> +++ b/drivers/leds/Kconfig
->>> @@ -836,6 +836,17 @@ config LEDS_LM36274
->>>    	  Say Y to enable the LM36274 LED driver for TI LMU devices.
->>>    	  This supports the LED device LM36274.
->>>    
->>> +config LEDS_IP30
->>> +	tristate "LED support for SGI Octane machines"
->>> +	depends on LEDS_CLASS
->>> +	depends on SGI_MFD_IOC3
->> What is the dependency on the MFD?
-> the gpio lines where the leds are connected are managed by the mfd ioc3 driver.
-> So without that driver this led driver will not be started.
-Ack
->
->>> +
->>> +
->>> +	if (num == 0) {
->>> +		data->cdev.name = "ip30:white";
->> This also needs a function as defined in dt-bindings/common.h
->>> +		data->cdev.default_trigger = "default-on";
->> The name, color, function and trigger can be pulled from the DT or Firmware.
->>
->> The firmware should contain a node for each LED to be configured.
-> SGI Octanes don't have DT and the firmware just toggles some of the leds,
-> but doesn't provide informations about it. That's why this is hardcoded
-> in the driver. The MFD driver detects the ioc3 chip and knows it's a
-> SGI Octane mainboard and creates the led platform device.
->
-> How is the correct way to this without DT ?
+[ Upstream commit 4016ba85880b252365d11bc7dc899450f2c73ad7 ]
 
-Please refer to the leds-class document (1) under LED device naming 
-convention
+Error was detected by PVS-Studio:
+V522 Dereferencing of the null pointer 'led_cdev->trigger' might take place.
 
-If you don't have a DT then set the name accordingly.  The functions are 
-defined in the common.h and the colors are exported in the leds-class driver
+Fixes: 2282e125a406 ("leds: triggers: let struct led_trigger::activate() return an error code")
+Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+Reviewed-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/leds/led-triggers.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-1 https://www.kernel.org/doc/Documentation/leds/leds-class.rst
-
->
->>> +	} else {
->>> +		data->cdev.name = "ip30:red";
->> Same as above
->>> +		data->cdev.default_trigger = "panic";
->>> +		writel(0, data->reg);
->> Is the LED on by default?
-> Depends on the hardware state. If PROM firmware detects some hardware issues,
-> it turns on the red LED. Otherwise it's off.
-
-So why would we turn it off if the PROM FW turned it on?
-
-Dan
-
+diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+index e4cb3811e82a..005b839f6eb9 100644
+--- a/drivers/leds/led-triggers.c
++++ b/drivers/leds/led-triggers.c
+@@ -171,11 +171,11 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
+ 		trig->deactivate(led_cdev);
+ err_activate:
+ 
+-	led_cdev->trigger = NULL;
+-	led_cdev->trigger_data = NULL;
+ 	write_lock_irqsave(&led_cdev->trigger->leddev_list_lock, flags);
+ 	list_del(&led_cdev->trig_list);
+ 	write_unlock_irqrestore(&led_cdev->trigger->leddev_list_lock, flags);
++	led_cdev->trigger = NULL;
++	led_cdev->trigger_data = NULL;
+ 	led_set_brightness(led_cdev, LED_OFF);
+ 	kfree(event);
+ 
+-- 
+2.20.1
 
