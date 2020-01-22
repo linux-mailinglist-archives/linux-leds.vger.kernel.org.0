@@ -2,54 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61F92145D73
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Jan 2020 22:05:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FE29145F36
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Jan 2020 00:37:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725827AbgAVVFF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 Jan 2020 16:05:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56462 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727590AbgAVVFE (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 22 Jan 2020 16:05:04 -0500
-Subject: Re: [GIT PULL] LEDs changes for 5.5-rc8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579727103;
-        bh=kG72OobOMoKoOM9E0wEFPVR4W6Lb5CW8UUhHMeprrgA=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=Ts9JCQfFfLDN8aG6F1BEd0bwNBhJcp9cHykhlWSI3GIfesqpNJAUaHptNhLBKgJWH
-         FCLlCflmedlrneXDZlTI9P3pevqU9BZq49k3nsccIklDNr/9fw5v/O/CEaRKhLNkgH
-         72AZWb5jV7JoZSvQfWGCAA4RQyn4DAsIjueApzcA=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200122201711.GA29496@amd>
-References: <20200122201711.GA29496@amd>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200122201711.GA29496@amd>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/
- tags/leds-5.5-rc8
-X-PR-Tracked-Commit-Id: 43108c72cf1d518f3ce62d3b1c8a9ffa38ddc28b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 131701c697e85d5d0726e6152219359639fae98f
-Message-Id: <157972710363.17393.6526795152010055514.pr-tracker-bot@kernel.org>
-Date:   Wed, 22 Jan 2020 21:05:03 +0000
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+        id S1726796AbgAVXhy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 Jan 2020 18:37:54 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:51632 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726083AbgAVXhy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Jan 2020 18:37:54 -0500
+Received: from [82.43.126.140] (helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1iuPZG-0007ZK-Ga; Wed, 22 Jan 2020 23:37:50 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] leds: lm3697: fix spelling mistake "To" -> "Too"
+Date:   Wed, 22 Jan 2020 23:37:49 +0000
+Message-Id: <20200122233749.2829246-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.24.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The pull request you sent on Wed, 22 Jan 2020 21:17:11 +0100:
+From: Colin Ian King <colin.king@canonical.com>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.5-rc8
+There is a spelling mistake in a dev_err message. Fix it.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/131701c697e85d5d0726e6152219359639fae98f
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/leds/leds-lm3697.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you!
-
+diff --git a/drivers/leds/leds-lm3697.c b/drivers/leds/leds-lm3697.c
+index b71711aff8a3..872d26f9706a 100644
+--- a/drivers/leds/leds-lm3697.c
++++ b/drivers/leds/leds-lm3697.c
+@@ -246,7 +246,7 @@ static int lm3697_probe_dt(struct lm3697 *priv)
+ 
+ 		led->num_leds = fwnode_property_count_u32(child, "led-sources");
+ 		if (led->num_leds > LM3697_MAX_LED_STRINGS) {
+-			dev_err(&priv->client->dev, "To many LED strings defined\n");
++			dev_err(&priv->client->dev, "Too many LED strings defined\n");
+ 			continue;
+ 		}
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+2.24.0
+
