@@ -2,94 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 447F214323C
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Jan 2020 20:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E557B145CF6
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Jan 2020 21:17:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728668AbgATTcD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 Jan 2020 14:32:03 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:41182 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728587AbgATTcD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Jan 2020 14:32:03 -0500
-Received: by mail-ed1-f68.google.com with SMTP id c26so583559eds.8
-        for <linux-leds@vger.kernel.org>; Mon, 20 Jan 2020 11:32:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
-        b=kLfnsSTIjE2YEe6HI6GtqXd6cMnhTRLMcstoRngEtLrpsW8Des52P9cJGak3H8TgGi
-         7pI7x0ReUsZVA5020Qw65cEVulbgAqf7PV7Yj5z98jIQHYXuhdjNseji1wTJmoRk9owd
-         jH0nw85bxKb6JNDbbMZz77rTtrhB/lrp1T9+1Yzp1e0fAmiYnPF2y/wqE3N2vxlEpqDg
-         Q62+v45VGQo8fprIjkXGYdl8n0+0lt4RTeTWLmEirmHeh05e1zsbOQ1RyEmjVmqN0eJc
-         PRg9w7tG3wGqyiL8Rgrtjody799fKx6nbHvtMQHhCmcCncWFfzoetJS1edNfQP320vCH
-         Vilg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
-        b=Sl9YGQHjkckwO+xTG4p5rUdSIGdbOBvynq9do6z0hwHXj4NSJJKm7LoLsE5FGNONhi
-         iDb1NJ6mnJDZBJqZlUTX5pfEGXTagJM9g1+Sq/M3QEkRW9sp938ECxImV+EkmdGN6rQo
-         loGoKZLHAuDZDoMawi37XziWL5ih6SHoukFi2HhkzMT34Hbol7LQQ4EuD2I/jhTjYaF3
-         eEhFebmaY/8BwXvCdv7SbQ/r4sMW4yeNX1mIsrtih4Na96CCR5/YIxns0lmP3fM1cGfY
-         LMEp7saYQ7fD7rcD+OzlVU6RUk4luSaPNhrnWTjaGPKcFF2R4P1VMWtHk+iMcZ+j/NKC
-         nNqA==
-X-Gm-Message-State: APjAAAWNuDJvuVJ4f6PAl+LYg/avSXdxwDVtjRtuv/eOn5qpDD/pNpBn
-        e8NCb1V/DvFm/5rsTlx7Y404vTa96nvjrwXzkCI=
-X-Google-Smtp-Source: APXvYqwPh6D8ihOXjaVWGs/0GLulEekGPU0xOOyxhr7PagnLX+E8xWeQy/UQ09ZNp2jZFCCt0xVGiodDu+D5No4niKg=
-X-Received: by 2002:a05:6402:505:: with SMTP id m5mr609398edv.15.1579548719077;
- Mon, 20 Jan 2020 11:31:59 -0800 (PST)
+        id S1725933AbgAVURO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 Jan 2020 15:17:14 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:52140 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725911AbgAVURO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Jan 2020 15:17:14 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id A85F71C0357; Wed, 22 Jan 2020 21:17:12 +0100 (CET)
+Date:   Wed, 22 Jan 2020 21:17:11 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+Subject: [GIT PULL] LEDs changes for 5.5-rc8
+Message-ID: <20200122201711.GA29496@amd>
 MIME-Version: 1.0
-Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Mon, 20 Jan 2020 11:31:57
- -0800 (PST)
-Reply-To: mcclainejohn.13@gmail.com
-From:   "Prof, William Roberts" <eco.bank1204@gmail.com>
-Date:   Mon, 20 Jan 2020 20:31:57 +0100
-Message-ID: <CAOE+jAB9Cv76tHqc-hO92yWjVshCsALoX=zT1ruNmX+0-Bjyxw@mail.gmail.com>
-Subject: Contact Diplomatic Agent, Mr. Mcclaine John to receive your ATM CARD
- valued the sum of $12.8Million United States Dollars
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="y0ulUmNC+osPPQO6"
+Content-Disposition: inline
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Attn: Dear Beneficiary,
 
-I wish to inform you that the diplomatic agent conveying your ATM CARD
-valued the sum of $12.8Million United States Dollars has misplaced
-your address and he is currently stranded at (George Bush
-International Airport) Houston Texas USA now
-We required you to reconfirm the following information's below to him
-so that he can deliver your Payment CARD to you today or tomorrow
-morning as information provided with open communications via email and
-telephone for security reasons.
-HERE IS THE DETAILS  HE NEED FROM YOU URGENT
-YOUR FULL NAME:========
-ADDRESS:========
-MOBILE NO:========
-NAME OF YOUR NEAREST AIRPORT:========
-A COPY OF YOUR IDENTIFICATION :========
+--y0ulUmNC+osPPQO6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Note; do contact the diplomatic agent immediately through the
-information's listed below
-Contact Person: Diplomatic Agent, Mr. Mcclaine John
-EMAIL: mcclainejohn.13@gmail.com
-Tel:(223) 777-7518
+The following changes since commit d1eef1c619749b2a57e514a3fa67d9a516ffa919:
 
-Contact the diplomatic agent immediately
-because he is waiting to hear from you today with the needed information's.
+  Linux 5.5-rc2 (2019-12-15 15:16:08 -0800)
 
-NOTE: The Diplomatic agent does not know that the content of the
-consignment box is $12.800,000,00 Million United States Dollars and on
-no circumstances should you let him know the content. The consignment
-was moved from here as family treasures, so never allow him to open
-the box. Please I have paid delivery fees for you but the only money
-you must send to Mcclaine John is your ATM CARD delivery fee $25.00
-only. text Him as you contact Him Immediately
+are available in the git repository at:
 
-Thanks,
-with Regards.
-Prof, William Roberts
-Director DHL COURIER SERVICES-Benin
+  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
+leds-5.5-rc8
+
+for you to fetch changes up to 43108c72cf1d518f3ce62d3b1c8a9ffa38ddc28b:
+
+  leds: lm3532: add pointer to documentation and fix typo (2020-01-22 21:08=
+:24 +0100)
+
+----------------------------------------------------------------
+Changes for Linus for -rc8.
+
+Jacek's commit is why I'm requesting this pull; it fixes regression in
+debugging output in sysfs. Others are just bugfixes that should be
+safe. Everything was in -next for while.
+
+Now, I noticed one commit is from "Pavel" and it is supposed to be
+=66rom "Pavel Machek". Can you pull it anyway, or should I redo the
+request? Or feel free to edit/drop that commit.
+
+Best regards,
+								Pavel
+
+----------------------------------------------------------------
+Bartosz Golaszewski (1):
+      led: max77650: add of_match table
+
+Jacek Anaszewski (1):
+      leds: gpio: Fix uninitialized gpio label for fwnode based probe
+
+Pavel (1):
+      leds: lm3532: add pointer to documentation and fix typo
+
+Pavel Machek (2):
+      ledtrig-pattern: fix email address quoting in MODULE_AUTHOR()
+      leds: rb532: cleanup whitespace
+
+Sakari Ailus (1):
+      leds-as3645a: Drop fwnode reference on ignored node
+
+ drivers/leds/leds-as3645a.c            |  3 ++-
+ drivers/leds/leds-gpio.c               | 10 +++++++++-
+ drivers/leds/leds-lm3532.c             |  3 ++-
+ drivers/leds/leds-max77650.c           |  7 +++++++
+ drivers/leds/leds-rb532.c              |  1 -
+ drivers/leds/trigger/ledtrig-pattern.c |  4 ++--
+ 6 files changed, 22 insertions(+), 6 deletions(-)
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--y0ulUmNC+osPPQO6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl4orccACgkQMOfwapXb+vIhHACfUZ9wQ9GkIKpyxLKk2Rz93ne0
+GSMAn3v/CdOgceIvlx3tgc4WSrYfAEnb
+=VROh
+-----END PGP SIGNATURE-----
+
+--y0ulUmNC+osPPQO6--
