@@ -2,109 +2,81 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A91146C7B
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Jan 2020 16:18:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DC7214730B
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Jan 2020 22:20:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbgAWPSh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Jan 2020 10:18:37 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:42757 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729043AbgAWPSg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Jan 2020 10:18:36 -0500
-Received: by mail-lj1-f196.google.com with SMTP id y4so3839513ljj.9
-        for <linux-leds@vger.kernel.org>; Thu, 23 Jan 2020 07:18:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mCFNwhKyUI4S3r26cfgULDrw3EJWqsF8R9tqqcBvSXA=;
-        b=jOo1+tg+YOASCAdm2mEQZmYmerWuu4htxLzxplyg2I+p/zeRB/2Cc0tch7urATps8B
-         UlV+0mLYJcjxCWVIHaLOIbjgvbLZfWnALAyNX4tTygAHh2tgNdKyeiP19Udf4sVie3q+
-         jMV0CqQTgWay3Y086QrGLB+ypQ0xLmFG40mxJ30Mvyrw/HZ7SgA2CCnDxa9eXTOn05xK
-         KmyQ4jnJ25+hCr/RRYPOAfJl139AYJRpSPtNpyQGjL+a5HfOns62PvpEcaWrTXf8qmo1
-         WUZ6mheVhmkxXXjBxVhOAEe8EeHikrWHlzmMihgy4xHHjLPShVjQzTwzHnFV7PmkUKdc
-         Txew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mCFNwhKyUI4S3r26cfgULDrw3EJWqsF8R9tqqcBvSXA=;
-        b=hAqFnuV60C3UUcVw0v/ZqOoHvUi7eXy6338m/zLwx0jhYVGQE5J2Y/D3g0wB+COkvh
-         L3PskLHcrCyu7f64an/gJqQvjxAoMyYNCi8gTAPDgG/dp8f9ihKn3qzyL+LnRXaY/Br+
-         FzMKHBvksHIvxfnVQpwB62mcFNGvwjYH+tS9I5hiU7B2vx6rbZqipRGeD50KtDlw7o0n
-         bmTMSqb3zj75ZZXrRASAcz0OoRaeV8Jhp9+Vfj3GpgBDnV+lNTVld1jS4vSdavg8vlel
-         byIvZN2DIMfBq6UGBnDR0ONlggzM5n0d+RSckYcX3qxx1TdTjnNeTjwqTzQCXD/vVyy7
-         e8kA==
-X-Gm-Message-State: APjAAAU+BKUIkUd+DTQdzpEKJLxbxCyjR9+jZS3z0qYI9TWMhnvoC0hU
-        8TcjT6GiSmcti9dZ8zln4cWNv8arD1KhPXH6vBK5pg==
-X-Google-Smtp-Source: APXvYqwxOS3uccWns345t1Pc28bC+N8TaVTRa/IwkWxxj8DKKJcCwl+5B3q5OOArxG8Kn0UP3937k+GW4ED2Ip6Qexc=
-X-Received: by 2002:a2e:9143:: with SMTP id q3mr23227353ljg.199.1579792715062;
- Thu, 23 Jan 2020 07:18:35 -0800 (PST)
+        id S1728797AbgAWVUk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Jan 2020 16:20:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33806 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728765AbgAWVUk (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 23 Jan 2020 16:20:40 -0500
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CD23822522;
+        Thu, 23 Jan 2020 21:20:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579814438;
+        bh=6bfJPGTweHcN4RE4Nf0sOu2E23jDcC/V8Pnruypva6M=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=eA1OyuNt7UNNvU1NVydmw8P+6dWizAgxIZPrf92ykUVUmfFD4IHR5NRkLA8gHEXLz
+         6CMFuU2BCR3GzWU1nWJkqbzM8U4GAVfG2LHURlRbI2NpIpPrOeJJ72Zk6/K+d5OUY/
+         b1KhUwi8Kv20l3WkPSwaymwLy5pvMGndqUTyKqIU=
+Received: by mail-qv1-f47.google.com with SMTP id x1so2211427qvr.8;
+        Thu, 23 Jan 2020 13:20:38 -0800 (PST)
+X-Gm-Message-State: APjAAAWA3xbYrohDTLshNSlkpcEK5NzuutPL6afNjTK+oy20UQqMGHZk
+        8slCLY04bkoftcrOoms/liFxNGJ0xVaBgrj2eg==
+X-Google-Smtp-Source: APXvYqwfeUA2E65ZlwD9aQLhbra3MaVS5m9PQjYzX/SzG4yx5mpOwnX6H0ROMut79N7HqOydNgvdKOesVUrbMNpMPK0=
+X-Received: by 2002:a05:6214:11ac:: with SMTP id u12mr18692605qvv.85.1579814437960;
+ Thu, 23 Jan 2020 13:20:37 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1579249511.git.matti.vaittinen@fi.rohmeurope.com>
- <c8ed62a1efa0c6fde93a8a08fe6bc74a450a34f3.1579249511.git.matti.vaittinen@fi.rohmeurope.com>
- <20200117102127.GD15507@dell>
-In-Reply-To: <20200117102127.GD15507@dell>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 23 Jan 2020 16:18:23 +0100
-Message-ID: <CACRpkdbj-yjuqc+=nCKRiAANjGFFHxk_ZprO8zztpRKhmXQtDw@mail.gmail.com>
-Subject: Re: [PATCH v10 11/13] gpio: bd71828: Initial support for ROHM BD71828
- PMIC GPIOs
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+References: <20200108001738.8209-1-robh@kernel.org> <bec9ab4a-da09-6ef1-7334-d19f11ab2523@gmail.com>
+In-Reply-To: <bec9ab4a-da09-6ef1-7334-d19f11ab2523@gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 23 Jan 2020 15:20:26 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+bOWJM5nvtY58+2DRtWQNzOPiVX9P===NOk4eBaE5OEA@mail.gmail.com>
+Message-ID: <CAL_Jsq+bOWJM5nvtY58+2DRtWQNzOPiVX9P===NOk4eBaE5OEA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: Convert common LED binding to schema
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>
+Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-rtc@vger.kernel.org
+        devicetree@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Jan 17, 2020 at 11:21 AM Lee Jones <lee.jones@linaro.org> wrote:
-> On Fri, 17 Jan 2020, Matti Vaittinen wrote:
+On Wed, Jan 8, 2020 at 1:02 PM Jacek Anaszewski
+<jacek.anaszewski@gmail.com> wrote:
 >
-> > ROHM BD71828 PMIC contains 4 pins which can be configured by OTP
-> > to be used for general purposes. First 3 can be used as outputs
-> > and 4.th pin can be used as input. Allow them to be controlled
-> > via GPIO framework.
+> On 1/8/20 1:17 AM, Rob Herring wrote:
+> > Convert the common LEDs properties bindings to a schema. As trigger source
+> > providers are different nodes, we need to split trigger source properties
+> > to a separate file.
 > >
-> > The driver assumes all of the pins are configured as GPIOs and
-> > trusts that the reserved pins in other OTP configurations are
-> > excluded from control using "gpio-reserved-ranges" device tree
-> > property (or left untouched by GPIO users).
+> > Bindings for LED controllers can reference the common schema for the LED
+> > child nodes:
 > >
-> > Typical use for 4.th pin (input) is to use it as HALL sensor
-> > input so that this pin state is toggled when HALL sensor detects
-> > LID position change (from close to open or open to close). PMIC
-> > HW implements some extra logic which allows PMIC to power-up the
-> > system when this pin is toggled. Please see the data sheet for
-> > details of GPIO options which can be selected by OTP settings.
+> > patternProperties:
+> >   "^led@[0-4]":
+> >     type: object
+> >     allOf:
+> >       - $ref: common.yaml#
 > >
-> > Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> > Reviewed-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > Cc: Pavel Machek <pavel@ucw.cz>
+> > Cc: Dan Murphy <dmurphy@ti.com>
+> > Cc: linux-leds@vger.kernel.org
+> > Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
+> > Jacek, Please take this via led tree
 >
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->
-> Linus, Is that an Ack?
+> Currently Pavel maintains LED tree. Pavel?
 
-Yes! Feel free to merge this.
+As it doesn't look like there's any conflicts, I've applied this
+series to the DT tree.
 
-Yours,
-Linus Walleij
+Rob
