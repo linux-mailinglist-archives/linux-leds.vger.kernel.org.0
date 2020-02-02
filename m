@@ -2,145 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7999D14FED4
-	for <lists+linux-leds@lfdr.de>; Sun,  2 Feb 2020 20:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D06114FEF5
+	for <lists+linux-leds@lfdr.de>; Sun,  2 Feb 2020 20:43:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726912AbgBBTJq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 2 Feb 2020 14:09:46 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:57726 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726909AbgBBTJq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 2 Feb 2020 14:09:46 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 8210C1C036E; Sun,  2 Feb 2020 20:09:44 +0100 (CET)
-Date:   Sun, 2 Feb 2020 20:09:43 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
-Subject: [GIT PULL] LEDs changes for v5.6-rc1
-Message-ID: <20200202190943.GA4506@duo.ucw.cz>
+        id S1726290AbgBBTng (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 2 Feb 2020 14:43:36 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:41719 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726893AbgBBTne (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 2 Feb 2020 14:43:34 -0500
+Received: by mail-lj1-f195.google.com with SMTP id h23so12373206ljc.8
+        for <linux-leds@vger.kernel.org>; Sun, 02 Feb 2020 11:43:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pTa6/XyD9+1rf3drvOvMXmn8CbIo2ZjdpFVcqn/gc9g=;
+        b=EfUtqz117cqXcYbEgkMSPNj6oPjibOhSAJkUPDpEi877070epBxNt/Rb08Q7q1HKhq
+         wfcBqujnysYOIADcSZrkRgnXEW5dtEJO+DqpYt0VtD4BlT2ssubWQmsZI6R12aGULY9t
+         iM3TjT7CNxC2UpI9+wf30k7vxpuRY6L4jbnSg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pTa6/XyD9+1rf3drvOvMXmn8CbIo2ZjdpFVcqn/gc9g=;
+        b=UUpGrISIBQmHCcoZbND3RP32H3cVipqz4tG2ZUp4Ctrtrh5gEUIzzCL+VyUqOs1Z6t
+         r0RNl62kCS2p60gmj5pyW0fD1GGygiAkE1nzC5I1Jp23o4DLUWn56aMbyDBwVk7a5Qa+
+         xwCMJed1O6aF5c/Pq/8h7yfh+ehnFNfzzkeXuZyVT4VpC/M4iWvZy5biBGwm6nqmI3GH
+         Spe+5OX0WOLXnkT/0j+WNcWQVaMiDOs7D448YxnZyYRqZsBAhjWTemCL+FPA0/o/yuVg
+         mjXGUeWcTA+4cba8ZJfL9I3wld9Q30h2ASbFG8LYS7/pL9P6fp7hlcjwLsWvh1UNLc1N
+         dEvw==
+X-Gm-Message-State: APjAAAWrRtidEAnB3QxOQ+0sCB43w3laZSh/0Lns3Z+Fc+BHvJFHZrFV
+        xZL4rCRYPyYCkWfZcHg6Yg63d7c9Q6A=
+X-Google-Smtp-Source: APXvYqz6J9mFXqsvome6Z7LZJmPG6CbEIWJl3fW71Bd5yaeCwtwxEmDhnJ7DRhoteTeO8DpnVRe9GA==
+X-Received: by 2002:a2e:880a:: with SMTP id x10mr12190123ljh.211.1580672612019;
+        Sun, 02 Feb 2020 11:43:32 -0800 (PST)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com. [209.85.167.43])
+        by smtp.gmail.com with ESMTPSA id t10sm8484433lji.61.2020.02.02.11.43.31
+        for <linux-leds@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Feb 2020 11:43:31 -0800 (PST)
+Received: by mail-lf1-f43.google.com with SMTP id m30so8194554lfp.8
+        for <linux-leds@vger.kernel.org>; Sun, 02 Feb 2020 11:43:31 -0800 (PST)
+X-Received: by 2002:a19:c82:: with SMTP id 124mr10161529lfm.152.1580672610699;
+ Sun, 02 Feb 2020 11:43:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200202190943.GA4506@duo.ucw.cz>
+In-Reply-To: <20200202190943.GA4506@duo.ucw.cz>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun, 2 Feb 2020 11:43:14 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgsTkPZBCkmtx5o+X3penAzz_DeynChQO906NmqXd9r3Q@mail.gmail.com>
+Message-ID: <CAHk-=wgsTkPZBCkmtx5o+X3penAzz_DeynChQO906NmqXd9r3Q@mail.gmail.com>
+Subject: Re: [GIT PULL] LEDs changes for v5.6-rc1
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Sun, Feb 2, 2020 at 11:09 AM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> LED updates for 5.6-rc1.
+>
+> Some of these changes are bugfixes already merged in v5.5, but I'd
+> have to rebase the for-next branch, and git merge handles that ok, so
+> I did not do that.
 
---IJpNTDwzlM2Ie8A6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That's fine.
 
-The following changes since commit d1eef1c619749b2a57e514a3fa67d9a516ffa919:
+But I'd still have really wanted a short description of what the changes are..
 
-  Linux 5.5-rc2 (2019-12-15 15:16:08 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
-leds-5.6-rc1
-
-for you to fetch changes up to 260718b3a35d23fe89d27cc7b5e8bd30f4bba1aa:
-
-  leds: lm3692x: Disable chip on brightness 0 (2020-01-07 14:09:27 +0100)
-
-----------------------------------------------------------------
-LED updates for 5.6-rc1.
-
-Some of these changes are bugfixes already merged in v5.5, but I'd
-have to rebase the for-next branch, and git merge handles that ok, so
-I did not do that.
-
-Best regards,
-								Pavel
-
-----------------------------------------------------------------
-Bartosz Golaszewski (1):
-      led: max77650: add of_match table
-
-Guido G=FCnther (7):
-      dt: bindings: lm3692x: Add ti,ovp-microvolt property
-      leds: lm3692x: Allow to configure over voltage protection
-      dt: bindings: lm3692x: Add led-max-microamp property
-      leds: lm3692x: Make sure we don't exceed the maximum LED current
-      leds: lm3692x: Move lm3692x_init and rename to lm3692x_leds_enable
-      leds: lm3692x: Split out lm3692x_leds_disable
-      leds: lm3692x: Disable chip on brightness 0
-
-Jacek Anaszewski (1):
-      leds: gpio: Fix uninitialized gpio label for fwnode based probe
-
-Jean-Jacques Hiblot (2):
-      leds: Add managed API to get a LED from a device driver
-      leds: populate the device's of_node
-
-Linus Walleij (1):
-      leds: bd2802: Convert to use GPIO descriptors
-
-Pavel (2):
-      leds: lm3532: use extended registration so that LED can be used for b=
-acklight
-      leds: lm3532: add pointer to documentation and fix typo
-
-Pavel Machek (3):
-      ledtrig-pattern: fix email address quoting in MODULE_AUTHOR()
-      leds: rb532: cleanup whitespace
-      leds: lm3642: remove warnings for bad strtol, cleanup gotos
-
-Sakari Ailus (1):
-      leds-as3645a: Drop fwnode reference on ignored node
-
-Sven Van Asbroeck (2):
-      leds: tps6105x: add driver for MFD chip LED mode
-      dt-bindings: mfd: update TI tps6105x chip bindings
-
-Tomi Valkeinen (1):
-      leds: Add of_led_get() and led_put()
-
-Zahari Petkov (1):
-      leds: pca963x: Fix open-drain initialization
-
- .../devicetree/bindings/leds/leds-lm3692x.txt      |   8 +
- Documentation/devicetree/bindings/mfd/tps6105x.txt |  47 +++++-
- drivers/leds/Kconfig                               |  10 ++
- drivers/leds/Makefile                              |   1 +
- drivers/leds/led-class.c                           |  97 ++++++++++-
- drivers/leds/leds-as3645a.c                        |   3 +-
- drivers/leds/leds-bd2802.c                         |  27 ++--
- drivers/leds/leds-gpio.c                           |  10 +-
- drivers/leds/leds-lm3532.c                         |  11 +-
- drivers/leds/leds-lm3642.c                         |  37 ++---
- drivers/leds/leds-lm3692x.c                        | 180 ++++++++++++++---=
-----
- drivers/leds/leds-max77650.c                       |   7 +
- drivers/leds/leds-pca963x.c                        |   8 +-
- drivers/leds/leds-rb532.c                          |   1 -
- drivers/leds/leds-tps6105x.c                       |  89 ++++++++++
- drivers/leds/trigger/ledtrig-pattern.c             |   4 +-
- include/linux/leds-bd2802.h                        |   1 -
- include/linux/leds.h                               |   6 +
- 18 files changed, 447 insertions(+), 100 deletions(-)
- create mode 100644 drivers/leds/leds-tps6105x.c
-
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---IJpNTDwzlM2Ie8A6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXjcedwAKCRAw5/Bqldv6
-8tzMAJ9EBhERsZAkXBI3gtdxfgo7ImxnGACgmbf6TYHBhosnircPzkfwiNE6os8=
-=6qGe
------END PGP SIGNATURE-----
-
---IJpNTDwzlM2Ie8A6--
+                Linus
