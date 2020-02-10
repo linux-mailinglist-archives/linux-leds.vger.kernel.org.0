@@ -2,93 +2,177 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EFFC156CED
-	for <lists+linux-leds@lfdr.de>; Sun,  9 Feb 2020 23:47:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36BA11572A0
+	for <lists+linux-leds@lfdr.de>; Mon, 10 Feb 2020 11:14:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbgBIWrG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 9 Feb 2020 17:47:06 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:60386 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726798AbgBIWrG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Feb 2020 17:47:06 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id BC08C1C210C; Sun,  9 Feb 2020 23:47:04 +0100 (CET)
-Date:   Sun, 9 Feb 2020 23:47:04 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Rong Chen <rong.a.chen@intel.com>
-Cc:     Dan Murphy <dmurphy@ti.com>, kbuild test robot <lkp@intel.com>,
-        kbuild-all@lists.01.org, jacek.anaszewski@gmail.com,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [kbuild-all] Re: [PATCH v15 06/19] leds: lp50xx: Add the LP50XX
- family of the RGB LED driver
-Message-ID: <20200209224704.GB20238@amd>
-References: <20191028183629.11779-7-dmurphy@ti.com>
- <201910302027.2hNdR993%lkp@intel.com>
- <29321f74-8200-90cd-40f9-8f5bdb86e34e@ti.com>
- <20191125150730.GA3816@amd>
- <e05148a1-2588-0b08-2bcf-1ef819c33683@ti.com>
- <7df57f17-0804-469b-0e0b-084cafa3a442@intel.com>
+        id S1726950AbgBJKOH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 10 Feb 2020 05:14:07 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45049 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726451AbgBJKOH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 10 Feb 2020 05:14:07 -0500
+Received: by mail-lj1-f196.google.com with SMTP id q8so6411923ljj.11
+        for <linux-leds@vger.kernel.org>; Mon, 10 Feb 2020 02:14:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FGRQ+1VdvzmVdEQmBilazowC17TPaTmOUWHyF5XIFu4=;
+        b=r191XJKTtni0zRyHNeoX9pgfSz6DOF6DG6abJWES4rfk1Dn8YBMsrpm8/piTxi8mdb
+         3/zvcfy1XTMndQr1RKy6deJfGl/+SaBVsMscKLHwpp31ELywf8QHGELbBiepe6+xGj3d
+         X9theD5tw5vUFt1tmIzASKmYbTKDThRbnn/YXL8kv3c7bzqXGck3wvRlvGdBMZuFIu2I
+         71+VLJZe6D0ewqvy95r5DnqizwAEuEZuRcKJ3zPfh1+ewsungibcqPg8P3fvQP2IS+54
+         q8yujLyqpWjpxjQTCMPoRuBoiENlruu7V9TeWOSyZ6UHxX6t42pn0SCXg5WVlpDaq+aG
+         hlYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FGRQ+1VdvzmVdEQmBilazowC17TPaTmOUWHyF5XIFu4=;
+        b=G1YLq+HlR/NGIG2njN+179vXiJoEVAXvUExrY1mIEvb4F9R6GhcxU6aY7LB8TN7vFx
+         UbmLjWUA3Q6ghX6f1p0k9ubNU4OZy1gEu3me6jiBlcBEMl7pE0A518F8KfopFkPbqKPT
+         wZ86S/lgVDYQP25fkYKd3/cjKWaoF39ZpLyesb8+7zdT5VVG5ApY7MJMkSU9tNOF0DKu
+         AwlkFOc264ZVfWJ0myLjGcY5+8eArbxPlvG71dVZBfJmBEMfeNGR+j8flyKUuBxq78fY
+         sq3oA7tkxPHhilUEy2n0zUVd+zEBmgttzCuPYz6Hr/YYmzEyHkcHU7fAammI/OqCMpD0
+         vpzw==
+X-Gm-Message-State: APjAAAVG6CkSgHTW65Vf7vNs7jaWFUt6moZylx2Wp1ndQBv/jry1kn6x
+        g+SvT4QC7ihzFW5e3I1Kdpe+HQ==
+X-Google-Smtp-Source: APXvYqwydcXtoYK7x/1fv7u2ofG/nfcMvSb+Z7g48gvsjbtJuqlNs4PFW4lpElw33O8CwTqIvqxgmw==
+X-Received: by 2002:a2e:9dc3:: with SMTP id x3mr424737ljj.257.1581329643372;
+        Mon, 10 Feb 2020 02:14:03 -0800 (PST)
+Received: from genomnajs.ideon.se ([85.235.10.227])
+        by smtp.gmail.com with ESMTPSA id m3sm5047250lfl.97.2020.02.10.02.14.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2020 02:14:02 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Vincent Donnefort <vdonnefort@gmail.com>,
+        Simon Guinot <simon.guinot@sequanux.org>
+Subject: [PATCH 1/2 v2] leds: ns2: Absorb platform data
+Date:   Mon, 10 Feb 2020 11:13:53 +0100
+Message-Id: <20200210101354.287045-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="lEGEL1/lMxI0MVQ2"
-Content-Disposition: inline
-In-Reply-To: <7df57f17-0804-469b-0e0b-084cafa3a442@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Nothing in the kernel includes the external header
+<linux/platform_data/leds-kirkwood-ns2.h> so just push the
+contents into the ns2 leds driver. If someone wants to use
+platform data or board files to describe this device they
+should be able to do so using GPIO machine descriptors but
+in any case device tree should be the way forward for these
+systems in all cases I can think of, and the driver already
+supports that.
 
---lEGEL1/lMxI0MVQ2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Cc: Vincent Donnefort <vdonnefort@gmail.com>
+Tested-by: Simon Guinot <simon.guinot@sequanux.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v1->v2:
+- Collect Simon's Tested-by tag
+---
+ drivers/leds/leds-ns2.c                       | 30 +++++++++++++--
+ .../linux/platform_data/leds-kirkwood-ns2.h   | 38 -------------------
+ 2 files changed, 27 insertions(+), 41 deletions(-)
+ delete mode 100644 include/linux/platform_data/leds-kirkwood-ns2.h
 
-On Thu 2019-12-05 17:54:43, Rong Chen wrote:
->=20
->=20
-> On 12/4/19 8:44 PM, Dan Murphy wrote:
-> >Pavel
-> >
-> >On 11/25/19 9:07 AM, Pavel Machek wrote:
-> >>On Wed 2019-10-30 11:43:10, Dan Murphy wrote:
-> >>>Pavel
-> >>>
-> >>>On 10/30/19 7:07 AM, kbuild test robot wrote:
-> >>>>Hi Dan,
-> >>>>
-> >>>>I love your patch! Yet something to improve:
-> >>>>
-> >>>>[auto build test ERROR on j.anaszewski-leds/for-next]
-> >>>You might want to get your tree to be the base now.
-> >>Do you have an idea who I need to contact?
-> >
-> >Not sure maybe the mail list for the kbuild lkp@intel.com?
-> >
-> >
->=20
-> Thanks for the advice,=A0 we have added the tree to our monitor list:
->=20
-> https://github.com/intel/lkp-tests/blob/master/repo/linux/pavel-linux-leds
+diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
+index 7c500dfdcfa3..6d37dda12c39 100644
+--- a/drivers/leds/leds-ns2.c
++++ b/drivers/leds/leds-ns2.c
+@@ -12,14 +12,38 @@
+ #include <linux/kernel.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/leds.h>
+ #include <linux/module.h>
+-#include <linux/platform_data/leds-kirkwood-ns2.h>
+ #include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include "leds.h"
+ 
++enum ns2_led_modes {
++	NS_V2_LED_OFF,
++	NS_V2_LED_ON,
++	NS_V2_LED_SATA,
++};
++
++struct ns2_led_modval {
++	enum ns2_led_modes	mode;
++	int			cmd_level;
++	int			slow_level;
++};
++
++struct ns2_led {
++	const char	*name;
++	const char	*default_trigger;
++	unsigned	cmd;
++	unsigned	slow;
++	int		num_modes;
++	struct ns2_led_modval *modval;
++};
++
++struct ns2_led_platform_data {
++	int		num_leds;
++	struct ns2_led	*leds;
++};
++
+ /*
+  * The Network Space v2 dual-GPIO LED is wired to a CPLD. Three different LED
+  * modes are available: off, on and SATA activity blinking. The LED modes are
+diff --git a/include/linux/platform_data/leds-kirkwood-ns2.h b/include/linux/platform_data/leds-kirkwood-ns2.h
+deleted file mode 100644
+index eb8a6860e816..000000000000
+--- a/include/linux/platform_data/leds-kirkwood-ns2.h
++++ /dev/null
+@@ -1,38 +0,0 @@
+-/*
+- * Platform data structure for Network Space v2 LED driver
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2.  This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+- */
+-
+-#ifndef __LEDS_KIRKWOOD_NS2_H
+-#define __LEDS_KIRKWOOD_NS2_H
+-
+-enum ns2_led_modes {
+-	NS_V2_LED_OFF,
+-	NS_V2_LED_ON,
+-	NS_V2_LED_SATA,
+-};
+-
+-struct ns2_led_modval {
+-	enum ns2_led_modes	mode;
+-	int			cmd_level;
+-	int			slow_level;
+-};
+-
+-struct ns2_led {
+-	const char	*name;
+-	const char	*default_trigger;
+-	unsigned	cmd;
+-	unsigned	slow;
+-	int		num_modes;
+-	struct ns2_led_modval *modval;
+-};
+-
+-struct ns2_led_platform_data {
+-	int		num_leds;
+-	struct ns2_led	*leds;
+-};
+-
+-#endif /* __LEDS_KIRKWOOD_NS2_H */
+-- 
+2.23.0
 
-Thank you!
-								Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---lEGEL1/lMxI0MVQ2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl5Ai+gACgkQMOfwapXb+vJSJQCePzZYAJaUY3dZ3vQs0ZdEIOCH
-OAkAn0TEvY+XfruXf+AaBngq4ME8TSUw
-=fnZE
------END PGP SIGNATURE-----
-
---lEGEL1/lMxI0MVQ2--
