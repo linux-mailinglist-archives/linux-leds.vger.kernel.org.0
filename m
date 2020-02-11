@@ -2,219 +2,114 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC5F61572A1
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Feb 2020 11:14:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6C5B159AE9
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Feb 2020 22:05:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726451AbgBJKOH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 10 Feb 2020 05:14:07 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:45052 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726792AbgBJKOH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 10 Feb 2020 05:14:07 -0500
-Received: by mail-lj1-f196.google.com with SMTP id q8so6412035ljj.11
-        for <linux-leds@vger.kernel.org>; Mon, 10 Feb 2020 02:14:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6dwnxwcC74q23owyv0Q/4ZJ3SW1uD4qPdHWSjspIvp8=;
-        b=KO3eO3AB2ao1y3l8ZupEiEg68loazbr0dF0VMeinAS3sfdzgcJ9qLBxgnSaZAKcWfi
-         DmP44VoiqEZRK2++QV+MvCREmGu3KIamd+tn0YTeLblwqQwG/igZc3Q7lg1BSJXHo0Wz
-         XgsD8rDkZZnna1QlIqDS6ip+BRphKEAVCM5XOn3MeCfN2v/rx1aBZvT0+gVLDKtdkY0R
-         KMSE2ntnOAxbYenb2zweF85so7IYhfe1OvSLdXfNhUkXurtpEAum0aWJsWdD0awItMxA
-         b/JbebjQtjv4PYUY9kUByheo0GKZzQBMWL8iPl4VS85/H/rtqxYOmSOuh+5QwYqfy+Xy
-         QwWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6dwnxwcC74q23owyv0Q/4ZJ3SW1uD4qPdHWSjspIvp8=;
-        b=h4lHj2MBMAsuLQlyPjWwLZjCjCCqVaCR2SQ0q0vl+3Fsaq2k3W9SnbhpdjbHAZL4l4
-         sseX0+KB7U8aUoY2WpXyrCjpyidwBlf6M+LwS+CYynJHe0V8Z30rJ2iNXBS0UGtezIS5
-         qg6a/ZSD+L4CJtnzw1mOGQ4BMexZS+7JTSB6QIXMHf4UuATCDRjO/JlwG4bpgWA+FTFq
-         NT7N8u8OaberGOe3OhKFJ/koXKL2Hot2vHw2NN7GGNFEzfl2h2wUUNVuxzjzVINJ0AF6
-         lezYglZAG10G1aSfroniikvNI4+ELmUz6aUXz7uRSUjamaVWRzvhM3qnzRnFKfuGWeor
-         LB9A==
-X-Gm-Message-State: APjAAAVrDGtFpy1rXELL3xoxqwSyGy9kmxZymAJabcTQQfYHDIDiYFOD
-        8XMz/FeWuiTwIPQf2oibnFq7KA==
-X-Google-Smtp-Source: APXvYqzlbgyyjBA0UpvOyVcoYPrzyCdym/xm03hArTTEbxpxir/9wIiN2+h1j0Q/PPwSkbDy7RyGsQ==
-X-Received: by 2002:a2e:818e:: with SMTP id e14mr462901ljg.2.1581329645389;
-        Mon, 10 Feb 2020 02:14:05 -0800 (PST)
-Received: from genomnajs.ideon.se ([85.235.10.227])
-        by smtp.gmail.com with ESMTPSA id m3sm5047250lfl.97.2020.02.10.02.14.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2020 02:14:04 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
+        id S1729690AbgBKVFz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Feb 2020 16:05:55 -0500
+Received: from gateway36.websitewelcome.com ([192.185.188.18]:36720 "EHLO
+        gateway36.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729031AbgBKVFy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 11 Feb 2020 16:05:54 -0500
+X-Greylist: delayed 1232 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Feb 2020 16:05:53 EST
+Received: from cm13.websitewelcome.com (cm13.websitewelcome.com [100.42.49.6])
+        by gateway36.websitewelcome.com (Postfix) with ESMTP id DBB5040363814
+        for <linux-leds@vger.kernel.org>; Tue, 11 Feb 2020 13:59:20 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id 1cPIjbhBgRP4z1cPIj3XOO; Tue, 11 Feb 2020 14:45:20 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=efFfxVn8Jb7KD27vuCCDwjZQRJzIwoCIi3Vzmh6cNFE=; b=w08LqxD5luSX2N4SRteiaVp4oW
+        gSISNaLG49i17JIKLbyLAAiJssaXB5sYAzltOBV7x0KjfBGhmCZzD427tzobAeC/FhMLxYMS0jscM
+        /qtmE4nphazCw6n1fxbGP9kYVohxR29NTME8+qoeqOCB2qG3GLZOu6Ij2V+Zlr6ELtGkB0PzY7rW0
+        AyDjUUr6GYiSmKQbPVJEecawdyy5Fc7ASVYtttQob2ofhdt9IBTdkxeUBeZ4w5lcUfs3MuxtIHLsR
+        M1S21lGZF4X83AoduO1ulSVd3NRn+hyzAL2wb1Xg+L77P/o+q4D1GXg9bhE6RHxd5t9lpco0Bb9oZ
+        r8cOSDeA==;
+Received: from [200.68.140.36] (port=23001 helo=embeddedor)
+        by gator4166.hostgator.com with esmtpa (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1j1cPH-001tlJ-FQ; Tue, 11 Feb 2020 14:45:19 -0600
+Date:   Tue, 11 Feb 2020 14:47:54 -0600
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Cc:     linux-leds@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Vincent Donnefort <vdonnefort@gmail.com>,
-        Simon Guinot <simon.guinot@sequanux.org>
-Subject: [PATCH 2/2 v2] leds: ns2: Convert to GPIO descriptors
-Date:   Mon, 10 Feb 2020 11:13:54 +0100
-Message-Id: <20200210101354.287045-2-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200210101354.287045-1-linus.walleij@linaro.org>
-References: <20200210101354.287045-1-linus.walleij@linaro.org>
+        Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [PATCH] leds: is31fl32xx: Replace zero-length array with
+ flexible-array member
+Message-ID: <20200211204754.GA19451@embeddedor>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 200.68.140.36
+X-Source-L: No
+X-Exim-ID: 1j1cPH-001tlJ-FQ
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [200.68.140.36]:23001
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 32
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This converts the NS2 LED driver to use GPIO descriptors.
-We take care to request the GPIOs "as is" which is what
-the current driver goes to lengths to achieve, then we use
-GPIOs throughout.
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-As the nodes for each LED does not have any corresponding
-device, we need to use the DT-specific accessors to get these
-GPIO descriptors from the device tree.
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
-Cc: Vincent Donnefort <vdonnefort@gmail.com>
-Tested-by: Simon Guinot <simon.guinot@sequanux.org>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertenly introduced[3] to the codebase from now on.
+
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
-ChangeLog v1->v2:
-- Collected Simon's Tested-by tag.
----
- drivers/leds/leds-ns2.c | 73 +++++++++++++++++------------------------
- 1 file changed, 31 insertions(+), 42 deletions(-)
+ drivers/leds/leds-is31fl32xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
-index 6d37dda12c39..538ca5755602 100644
---- a/drivers/leds/leds-ns2.c
-+++ b/drivers/leds/leds-ns2.c
-@@ -33,8 +33,8 @@ struct ns2_led_modval {
- struct ns2_led {
- 	const char	*name;
- 	const char	*default_trigger;
--	unsigned	cmd;
--	unsigned	slow;
-+	struct gpio_desc *cmd;
-+	struct gpio_desc *slow;
- 	int		num_modes;
- 	struct ns2_led_modval *modval;
+diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
+index 31a9d749c8be..67032a799860 100644
+--- a/drivers/leds/leds-is31fl32xx.c
++++ b/drivers/leds/leds-is31fl32xx.c
+@@ -48,7 +48,7 @@ struct is31fl32xx_priv {
+ 	const struct is31fl32xx_chipdef *cdef;
+ 	struct i2c_client *client;
+ 	unsigned int num_leds;
+-	struct is31fl32xx_led_data leds[0];
++	struct is31fl32xx_led_data leds[];
  };
-@@ -53,8 +53,8 @@ struct ns2_led_platform_data {
  
- struct ns2_led_data {
- 	struct led_classdev	cdev;
--	unsigned int		cmd;
--	unsigned int		slow;
-+	struct gpio_desc	*cmd;
-+	struct gpio_desc	*slow;
- 	bool			can_sleep;
- 	unsigned char		sata; /* True when SATA mode active. */
- 	rwlock_t		rw_lock; /* Lock GPIOs. */
-@@ -70,8 +70,8 @@ static int ns2_led_get_mode(struct ns2_led_data *led_dat,
- 	int cmd_level;
- 	int slow_level;
- 
--	cmd_level = gpio_get_value_cansleep(led_dat->cmd);
--	slow_level = gpio_get_value_cansleep(led_dat->slow);
-+	cmd_level = gpiod_get_value_cansleep(led_dat->cmd);
-+	slow_level = gpiod_get_value_cansleep(led_dat->slow);
- 
- 	for (i = 0; i < led_dat->num_modes; i++) {
- 		if (cmd_level == led_dat->modval[i].cmd_level &&
-@@ -104,15 +104,15 @@ static void ns2_led_set_mode(struct ns2_led_data *led_dat,
- 	write_lock_irqsave(&led_dat->rw_lock, flags);
- 
- 	if (!led_dat->can_sleep) {
--		gpio_set_value(led_dat->cmd,
--			       led_dat->modval[i].cmd_level);
--		gpio_set_value(led_dat->slow,
--			       led_dat->modval[i].slow_level);
-+		gpiod_set_value(led_dat->cmd,
-+				led_dat->modval[i].cmd_level);
-+		gpiod_set_value(led_dat->slow,
-+				led_dat->modval[i].slow_level);
- 		goto exit_unlock;
- 	}
- 
--	gpio_set_value_cansleep(led_dat->cmd, led_dat->modval[i].cmd_level);
--	gpio_set_value_cansleep(led_dat->slow, led_dat->modval[i].slow_level);
-+	gpiod_set_value_cansleep(led_dat->cmd, led_dat->modval[i].cmd_level);
-+	gpiod_set_value_cansleep(led_dat->slow, led_dat->modval[i].slow_level);
- 
- exit_unlock:
- 	write_unlock_irqrestore(&led_dat->rw_lock, flags);
-@@ -200,26 +200,6 @@ create_ns2_led(struct platform_device *pdev, struct ns2_led_data *led_dat,
- 	int ret;
- 	enum ns2_led_modes mode;
- 
--	ret = devm_gpio_request_one(&pdev->dev, template->cmd,
--			gpio_get_value_cansleep(template->cmd) ?
--			GPIOF_OUT_INIT_HIGH : GPIOF_OUT_INIT_LOW,
--			template->name);
--	if (ret) {
--		dev_err(&pdev->dev, "%s: failed to setup command GPIO\n",
--			template->name);
--		return ret;
--	}
--
--	ret = devm_gpio_request_one(&pdev->dev, template->slow,
--			gpio_get_value_cansleep(template->slow) ?
--			GPIOF_OUT_INIT_HIGH : GPIOF_OUT_INIT_LOW,
--			template->name);
--	if (ret) {
--		dev_err(&pdev->dev, "%s: failed to setup slow GPIO\n",
--			template->name);
--		return ret;
--	}
--
- 	rwlock_init(&led_dat->rw_lock);
- 
- 	led_dat->cdev.name = template->name;
-@@ -229,8 +209,8 @@ create_ns2_led(struct platform_device *pdev, struct ns2_led_data *led_dat,
- 	led_dat->cdev.groups = ns2_led_groups;
- 	led_dat->cmd = template->cmd;
- 	led_dat->slow = template->slow;
--	led_dat->can_sleep = gpio_cansleep(led_dat->cmd) |
--				gpio_cansleep(led_dat->slow);
-+	led_dat->can_sleep = gpiod_cansleep(led_dat->cmd) |
-+				gpiod_cansleep(led_dat->slow);
- 	if (led_dat->can_sleep)
- 		led_dat->cdev.brightness_set_blocking = ns2_led_set_blocking;
- 	else
-@@ -285,17 +265,26 @@ ns2_leds_get_of_pdata(struct device *dev, struct ns2_led_platform_data *pdata)
- 		const char *string;
- 		int i, num_modes;
- 		struct ns2_led_modval *modval;
-+		struct gpio_desc *gd;
- 
--		ret = of_get_named_gpio(child, "cmd-gpio", 0);
--		if (ret < 0)
--			goto err_node_put;
--		led->cmd = ret;
--		ret = of_get_named_gpio(child, "slow-gpio", 0);
--		if (ret < 0)
--			goto err_node_put;
--		led->slow = ret;
- 		ret = of_property_read_string(child, "label", &string);
- 		led->name = (ret == 0) ? string : child->name;
-+
-+		gd = gpiod_get_from_of_node(child, "cmd-gpio", 0,
-+					    GPIOD_ASIS, led->name);
-+		if (IS_ERR(gd)) {
-+			ret = PTR_ERR(gd);
-+			goto err_node_put;
-+		}
-+		led->cmd = gd;
-+		gd = gpiod_get_from_of_node(child, "slow-gpio", 0,
-+					    GPIOD_ASIS, led->name);
-+		if (IS_ERR(gd)) {
-+			ret = PTR_ERR(gd);
-+			goto err_node_put;
-+		}
-+		led->slow = gd;
-+
- 		ret = of_property_read_string(child, "linux,default-trigger",
- 					      &string);
- 		if (ret == 0)
+ /**
 -- 
-2.23.0
+2.25.0
 
