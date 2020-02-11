@@ -2,23 +2,23 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C5B159AE9
-	for <lists+linux-leds@lfdr.de>; Tue, 11 Feb 2020 22:05:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 979CC159AF7
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Feb 2020 22:10:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729690AbgBKVFz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 Feb 2020 16:05:55 -0500
-Received: from gateway36.websitewelcome.com ([192.185.188.18]:36720 "EHLO
-        gateway36.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729031AbgBKVFy (ORCPT
+        id S1728917AbgBKVKB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Feb 2020 16:10:01 -0500
+Received: from gateway32.websitewelcome.com ([192.185.145.18]:49489 "EHLO
+        gateway32.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728894AbgBKVKB (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 11 Feb 2020 16:05:54 -0500
-X-Greylist: delayed 1232 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Feb 2020 16:05:53 EST
-Received: from cm13.websitewelcome.com (cm13.websitewelcome.com [100.42.49.6])
-        by gateway36.websitewelcome.com (Postfix) with ESMTP id DBB5040363814
-        for <linux-leds@vger.kernel.org>; Tue, 11 Feb 2020 13:59:20 -0600 (CST)
+        Tue, 11 Feb 2020 16:10:01 -0500
+X-Greylist: delayed 1398 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Feb 2020 16:10:01 EST
+Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
+        by gateway32.websitewelcome.com (Postfix) with ESMTP id 23A41B75C5D
+        for <linux-leds@vger.kernel.org>; Tue, 11 Feb 2020 14:46:43 -0600 (CST)
 Received: from gator4166.hostgator.com ([108.167.133.22])
         by cmsmtp with SMTP
-        id 1cPIjbhBgRP4z1cPIj3XOO; Tue, 11 Feb 2020 14:45:20 -0600
+        id 1cQdjVjIS8vkB1cQdjTtvJ; Tue, 11 Feb 2020 14:46:43 -0600
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
@@ -26,25 +26,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
         List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=efFfxVn8Jb7KD27vuCCDwjZQRJzIwoCIi3Vzmh6cNFE=; b=w08LqxD5luSX2N4SRteiaVp4oW
-        gSISNaLG49i17JIKLbyLAAiJssaXB5sYAzltOBV7x0KjfBGhmCZzD427tzobAeC/FhMLxYMS0jscM
-        /qtmE4nphazCw6n1fxbGP9kYVohxR29NTME8+qoeqOCB2qG3GLZOu6Ij2V+Zlr6ELtGkB0PzY7rW0
-        AyDjUUr6GYiSmKQbPVJEecawdyy5Fc7ASVYtttQob2ofhdt9IBTdkxeUBeZ4w5lcUfs3MuxtIHLsR
-        M1S21lGZF4X83AoduO1ulSVd3NRn+hyzAL2wb1Xg+L77P/o+q4D1GXg9bhE6RHxd5t9lpco0Bb9oZ
-        r8cOSDeA==;
-Received: from [200.68.140.36] (port=23001 helo=embeddedor)
+        bh=/FMhIrq5BpFrUC9zx3anUJVmYnzfBgatLaHuFwJIoQM=; b=MeMsZ2Kz3+N22ONp7xJJdeIa3c
+        TxzeaBvytZxe5lZsUU7/PRh09m6PN0rMSD+AXcx0W7Zw+K/HZplH4dLiv7vjHaGVL/wnURlRmfqsb
+        SmfsnDz6wgCM8nMQPbOfPOc58DUAIMMfABDj+Ep72V3HfCe5PL6KMXLIRLNZk2mQexLZHuYYRtP2G
+        hxwTVAeNlqdtV2hqsr0Yh4llaW8LyiByO4IlxKfEBF0Mv4+FtAyUlYT2tyaoPctuuWrwqA8Ei0TZI
+        /Jqe7hX6d5xGmGawyZmWc3cHqiKCx1Wza2MIFBQ5zeFhGz+D2QhSfLCV1gHKa5h8R6RvSYAIETlT0
+        /XxWW/Jw==;
+Received: from [200.68.140.36] (port=18749 helo=embeddedor)
         by gator4166.hostgator.com with esmtpa (Exim 4.92)
         (envelope-from <gustavo@embeddedor.com>)
-        id 1j1cPH-001tlJ-FQ; Tue, 11 Feb 2020 14:45:19 -0600
-Date:   Tue, 11 Feb 2020 14:47:54 -0600
+        id 1j1cQb-001uRh-MN; Tue, 11 Feb 2020 14:46:41 -0600
+Date:   Tue, 11 Feb 2020 14:49:16 -0600
 From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH] leds: is31fl32xx: Replace zero-length array with
- flexible-array member
-Message-ID: <20200211204754.GA19451@embeddedor>
+Subject: [PATCH] leds: pwm: Replace zero-length array with flexible-array
+ member
+Message-ID: <20200211204916.GA20344@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -57,13 +57,13 @@ X-AntiAbuse: Sender Address Domain - embeddedor.com
 X-BWhitelist: no
 X-Source-IP: 200.68.140.36
 X-Source-L: No
-X-Exim-ID: 1j1cPH-001tlJ-FQ
+X-Exim-ID: 1j1cQb-001uRh-MN
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: (embeddedor) [200.68.140.36]:23001
+X-Source-Sender: (embeddedor) [200.68.140.36]:18749
 X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 32
+X-Email-Count: 36
 X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
 X-Local-Domain: yes
 Sender: linux-leds-owner@vger.kernel.org
@@ -94,22 +94,22 @@ This issue was found with the help of Coccinelle.
 
 Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/leds/leds-is31fl32xx.c | 2 +-
+ drivers/leds/leds-pwm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-index 31a9d749c8be..67032a799860 100644
---- a/drivers/leds/leds-is31fl32xx.c
-+++ b/drivers/leds/leds-is31fl32xx.c
-@@ -48,7 +48,7 @@ struct is31fl32xx_priv {
- 	const struct is31fl32xx_chipdef *cdef;
- 	struct i2c_client *client;
- 	unsigned int num_leds;
--	struct is31fl32xx_led_data leds[0];
-+	struct is31fl32xx_led_data leds[];
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index af08bcdc4fd8..904a74ebbe6a 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -32,7 +32,7 @@ struct led_pwm_data {
+ 
+ struct led_pwm_priv {
+ 	int num_leds;
+-	struct led_pwm_data leds[0];
++	struct led_pwm_data leds[];
  };
  
- /**
+ static void __led_pwm_set(struct led_pwm_data *led_dat)
 -- 
 2.25.0
 
