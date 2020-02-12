@@ -2,51 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D166315A9D1
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Feb 2020 14:14:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C1DC15AA0C
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Feb 2020 14:31:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727732AbgBLNOH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Feb 2020 08:14:07 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:58242 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727662AbgBLNOH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Feb 2020 08:14:07 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01CDE3Cw046651;
-        Wed, 12 Feb 2020 07:14:03 -0600
+        id S1727904AbgBLNbs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 Feb 2020 08:31:48 -0500
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:43144 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725887AbgBLNbs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Feb 2020 08:31:48 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01CDVfxg052623;
+        Wed, 12 Feb 2020 07:31:41 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1581513243;
-        bh=pWvehROhyzqlYPUoIwnFewaNSzBZhFyj02g/FxkBm0c=;
+        s=ti-com-17Q1; t=1581514301;
+        bh=T994I6+GF8haALJGR/LjnbSPhpWFXFIVbbQeQCeVcuI=;
         h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=r3mB5w5Trj+c93oPVqyxOjgh3j1DKJGiWugmtwCE32CxAIqos+/M5xfuKMbsSfVsz
-         b+1ezAWzJIC3CAR90xsmCaS6eGk9yn9bPCCBvhh3OsTj1G0CV2aCZWDrhuMjBkdYrn
-         /eMq2t+G7u9v1VYYFo8G9BOMaKJ5peRZ2PPyQGYo=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01CDE2oj004100
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 12 Feb 2020 07:14:03 -0600
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+        b=hNq9i9gLsTBfnOMhrxXphl6hfNL9D+oWYSOq0lfpaqHteEEEj0uKFJ68kZgmBRxeq
+         odQ+vdSOO9HB3P8PWlcj+t6kmA2uqu0mEtDiQYHdpxAEP1TiY9K/IXdP+b43ddnBU2
+         fDQ4M4DY+OZhufbOY6vTGyhSo/l6oqRiOLYmGxYY=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01CDVf1u124371;
+        Wed, 12 Feb 2020 07:31:41 -0600
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 12
- Feb 2020 07:14:02 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ Feb 2020 07:31:41 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 12 Feb 2020 07:14:02 -0600
+ Frontend Transport; Wed, 12 Feb 2020 07:31:41 -0600
 Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01CDE2mV068653;
-        Wed, 12 Feb 2020 07:14:02 -0600
-Subject: Re: [RESEND PATCH v17 00/17] Multi Color LED Framework
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20200127150032.31350-1-dmurphy@ti.com>
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01CDVegh002399;
+        Wed, 12 Feb 2020 07:31:40 -0600
+Subject: Re: [PATCH 1/2 v2] leds: ns2: Absorb platform data
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>,
+        Vincent Donnefort <vdonnefort@gmail.com>,
+        Simon Guinot <simon.guinot@sequanux.org>
+References: <20200210101354.287045-1-linus.walleij@linaro.org>
 From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <42d9687b-b488-22cf-0e9a-ff635b2094e3@ti.com>
-Date:   Wed, 12 Feb 2020 07:09:26 -0600
+Message-ID: <a7e4fefe-103c-7161-ef35-f7a0f8cb1453@ti.com>
+Date:   Wed, 12 Feb 2020 07:27:05 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200127150032.31350-1-dmurphy@ti.com>
+In-Reply-To: <20200210101354.287045-1-linus.walleij@linaro.org>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -56,42 +59,50 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello
+Linus
 
-On 1/27/20 9:00 AM, Dan Murphy wrote:
-> Hello
+On 2/10/20 4:13 AM, Linus Walleij wrote:
+> Nothing in the kernel includes the external header
+> <linux/platform_data/leds-kirkwood-ns2.h> so just push the
+> contents into the ns2 leds driver. If someone wants to use
+> platform data or board files to describe this device they
+> should be able to do so using GPIO machine descriptors but
+> in any case device tree should be the way forward for these
+> systems in all cases I can think of, and the driver already
+> supports that.
 >
-> This is a re-send of the v17 multi color LED framework.  I removed the last
-> patch from the series.  In addition I rebased this series on Pavel's for-next
-> LED branch and added all ACKs from the list.
+> Cc: Vincent Donnefort <vdonnefort@gmail.com>
+> Tested-by: Simon Guinot <simon.guinot@sequanux.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v1->v2:
+> - Collect Simon's Tested-by tag
+> ---
+>   drivers/leds/leds-ns2.c                       | 30 +++++++++++++--
+>   .../linux/platform_data/leds-kirkwood-ns2.h   | 38 -------------------
+>   2 files changed, 27 insertions(+), 41 deletions(-)
+>   delete mode 100644 include/linux/platform_data/leds-kirkwood-ns2.h
 >
-> Dan
->
-> Dan Murphy (17):
->    dt-bindings: leds: Add multicolor ID to the color ID list
->    leds: Add multicolor ID to the color ID list
->    leds: multicolor: Introduce a multicolor class definition
->    dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers
->    leds: lp50xx: Add the LP50XX family of the RGB LED driver
->    dt: bindings: lp55xx: Be consistent in the document with LED acronym
->    dt: bindings: lp55xx: Update binding for Multicolor Framework
->    ARM: dts: n900: Add reg property to the LP5523 channel node
->    ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node
->    ARM: dts: ste-href: Add reg property to the LP5521 channel nodes
->    leds: lp55xx: Convert LED class registration to devm_*
->    leds: lp55xx: Add multicolor framework support to lp55xx
->    leds: lp5523: Update the lp5523 code to add multicolor brightness
->      function
->    leds: lp5521: Add multicolor framework multicolor brightness support
->    leds: lp55xx: Fix checkpatch file permissions issues
->    leds: lp5523: Fix checkpatch issues in the code
->    dt: bindings: Update lp55xx binding to recommended LED naming
+> diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
+> index 7c500dfdcfa3..6d37dda12c39 100644
+> --- a/drivers/leds/leds-ns2.c
+> +++ b/drivers/leds/leds-ns2.c
+> @@ -12,14 +12,38 @@
+>   #include <linux/kernel.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/slab.h>
+> -#include <linux/gpio.h>
+> +#include <linux/gpio/consumer.h>
+>   #include <linux/leds.h>
+>   #include <linux/module.h>
+> -#include <linux/platform_data/leds-kirkwood-ns2.h>
+>   #include <linux/of.h>
+> -#include <linux/of_gpio.h>
+>   #include "leds.h"
 
-I have no open comments on this patchset except for a DT change 
-requested by Shawn Gao but this change should wait till after this 
-patchset is merged.
+These header file change for gpio seem to belong in patch 2/2.
 
-Is there something holding this up?
+I don't see any gpio related changes in this patch
 
 Dan
 
