@@ -2,108 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C1DC15AA0C
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Feb 2020 14:31:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C14715BB54
+	for <lists+linux-leds@lfdr.de>; Thu, 13 Feb 2020 10:16:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727904AbgBLNbs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Feb 2020 08:31:48 -0500
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:43144 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725887AbgBLNbs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Feb 2020 08:31:48 -0500
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01CDVfxg052623;
-        Wed, 12 Feb 2020 07:31:41 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1581514301;
-        bh=T994I6+GF8haALJGR/LjnbSPhpWFXFIVbbQeQCeVcuI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=hNq9i9gLsTBfnOMhrxXphl6hfNL9D+oWYSOq0lfpaqHteEEEj0uKFJ68kZgmBRxeq
-         odQ+vdSOO9HB3P8PWlcj+t6kmA2uqu0mEtDiQYHdpxAEP1TiY9K/IXdP+b43ddnBU2
-         fDQ4M4DY+OZhufbOY6vTGyhSo/l6oqRiOLYmGxYY=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01CDVf1u124371;
-        Wed, 12 Feb 2020 07:31:41 -0600
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 12
- Feb 2020 07:31:41 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 12 Feb 2020 07:31:41 -0600
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01CDVegh002399;
-        Wed, 12 Feb 2020 07:31:40 -0600
-Subject: Re: [PATCH 1/2 v2] leds: ns2: Absorb platform data
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>,
-        Vincent Donnefort <vdonnefort@gmail.com>,
-        Simon Guinot <simon.guinot@sequanux.org>
-References: <20200210101354.287045-1-linus.walleij@linaro.org>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <a7e4fefe-103c-7161-ef35-f7a0f8cb1453@ti.com>
-Date:   Wed, 12 Feb 2020 07:27:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1729619AbgBMJQM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 Feb 2020 04:16:12 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:57221 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729531AbgBMJQM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 Feb 2020 04:16:12 -0500
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1j2AbQ-000802-Sl; Thu, 13 Feb 2020 10:16:08 +0100
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1j2AbP-0005qx-BI; Thu, 13 Feb 2020 10:16:07 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>
+Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        linux-serial@vger.kernel.org
+Subject: [PATCH v6 0/4] leds: trigger: implement a tty trigger
+Date:   Thu, 13 Feb 2020 10:15:56 +0100
+Message-Id: <20200213091600.554-1-uwe@kleine-koenig.org>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-In-Reply-To: <20200210101354.287045-1-linus.walleij@linaro.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Linus
+From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-On 2/10/20 4:13 AM, Linus Walleij wrote:
-> Nothing in the kernel includes the external header
-> <linux/platform_data/leds-kirkwood-ns2.h> so just push the
-> contents into the ns2 leds driver. If someone wants to use
-> platform data or board files to describe this device they
-> should be able to do so using GPIO machine descriptors but
-> in any case device tree should be the way forward for these
-> systems in all cases I can think of, and the driver already
-> supports that.
->
-> Cc: Vincent Donnefort <vdonnefort@gmail.com>
-> Tested-by: Simon Guinot <simon.guinot@sequanux.org>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> ChangeLog v1->v2:
-> - Collect Simon's Tested-by tag
-> ---
->   drivers/leds/leds-ns2.c                       | 30 +++++++++++++--
->   .../linux/platform_data/leds-kirkwood-ns2.h   | 38 -------------------
->   2 files changed, 27 insertions(+), 41 deletions(-)
->   delete mode 100644 include/linux/platform_data/leds-kirkwood-ns2.h
->
-> diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
-> index 7c500dfdcfa3..6d37dda12c39 100644
-> --- a/drivers/leds/leds-ns2.c
-> +++ b/drivers/leds/leds-ns2.c
-> @@ -12,14 +12,38 @@
->   #include <linux/kernel.h>
->   #include <linux/platform_device.h>
->   #include <linux/slab.h>
-> -#include <linux/gpio.h>
-> +#include <linux/gpio/consumer.h>
->   #include <linux/leds.h>
->   #include <linux/module.h>
-> -#include <linux/platform_data/leds-kirkwood-ns2.h>
->   #include <linux/of.h>
-> -#include <linux/of_gpio.h>
->   #include "leds.h"
+Hello,
 
-These header file change for gpio seem to belong in patch 2/2.
+This is v6 of my quest to introduce ledtriggers for UARTs. The previous
+series is available at
 
-I don't see any gpio related changes in this patch
+	http://lore.kernel.org/r/20191219093947.15502-1-u.kleine-koenig@pengutronix.de
 
-Dan
+The changes compared to that are that parsing of the dev parameter is
+more strict and that I set brightness directly from the kworker instead
+of using led_blink_set_oneshot which makes use of another kworker. (Both
+requested by Pavel Machek.)
 
+For the former I introduced a new helper kstrtodev_t() in the spirit of
+kstrtoul() to implement the stricter parsing (instead of the lax one
+using plain sscanf() in v5).
+
+Best regards
+Uwe
+
+Uwe Kleine-König (4):
+  lib: new helper kstrtodev_t()
+  tty: rename tty_kopen() and add new function tty_kopen_shared()
+  tty: new helper function tty_get_icount()
+  leds: trigger: implement a tty trigger
+
+ .../ABI/testing/sysfs-class-led-trigger-tty   |   6 +
+ drivers/leds/trigger/Kconfig                  |   7 +
+ drivers/leds/trigger/Makefile                 |   1 +
+ drivers/leds/trigger/ledtrig-tty.c            | 159 ++++++++++++++++++
+ drivers/staging/speakup/spk_ttyio.c           |   2 +-
+ drivers/tty/tty_io.c                          |  87 +++++++---
+ include/linux/kdev_t.h                        |   2 +
+ include/linux/kernel.h                        |   1 +
+ include/linux/tty.h                           |   7 +-
+ lib/kstrtox.c                                 |  46 +++++
+ 10 files changed, 293 insertions(+), 25 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-tty
+ create mode 100644 drivers/leds/trigger/ledtrig-tty.c
+
+
+base-commit: 0bf999f9c5e74c7ecf9dafb527146601e5c848b9
+-- 
+2.24.0
 
