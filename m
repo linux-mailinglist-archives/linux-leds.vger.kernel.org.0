@@ -2,37 +2,37 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CAF2015E823
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Feb 2020 17:58:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF18715EABE
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Feb 2020 18:16:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404478AbgBNQR3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 Feb 2020 11:17:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48780 "EHLO mail.kernel.org"
+        id S2391813AbgBNRQE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Feb 2020 12:16:04 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39180 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404464AbgBNQR3 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:17:29 -0500
+        id S2390425AbgBNQMA (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:12:00 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8AD2A246E1;
-        Fri, 14 Feb 2020 16:17:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 98CE1246A4;
+        Fri, 14 Feb 2020 16:11:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581697048;
-        bh=60GmdPh2XpeV0iJcUXIp/N+gnXAsjfWyw7DREWS2aig=;
+        s=default; t=1581696720;
+        bh=TWYKJH7EdXk4lvXiINzi24/zw7SjtOiQoX3rzjP6BGw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=F/cYZn+0Yy5UIb36bhWR4fKwhZsz2mlO3jdxfEqpidRjR2Y9OB7zDz2SHozAw2sIE
-         n0GvX6G+LXvLxOq8myd29wUiwWapbfU331qYDSMtYQD1hGGxIczrHklZyPC7Dl8aFa
-         U56UwvYS1V4sn1Gvcz14EfjcdXBg55SPDNqJdQcY=
+        b=onQso5oakTYtS0b9H5Jk7tb10+20fFuo09lgGId7489T9Yl/cyX+Vw+vRmJffciam
+         kx4ywbLo+JqnzjnvSMdcxEQQeWlMVdkb6m9oeY++oAKJQ1jtKqrS04xSAqp+x2z+lb
+         RNbMHCohw8pfG8NUKl5SemicBMxYZdl5eJcsbggw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Zahari Petkov <zahari@balena.io>, Pavel Machek <pavel@ucw.cz>,
         Sasha Levin <sashal@kernel.org>, linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 009/186] leds: pca963x: Fix open-drain initialization
-Date:   Fri, 14 Feb 2020 11:14:18 -0500
-Message-Id: <20200214161715.18113-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 009/252] leds: pca963x: Fix open-drain initialization
+Date:   Fri, 14 Feb 2020 11:07:44 -0500
+Message-Id: <20200214161147.15842-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
-References: <20200214161715.18113-1-sashal@kernel.org>
+In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
+References: <20200214161147.15842-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -75,7 +75,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/leds/leds-pca963x.c b/drivers/leds/leds-pca963x.c
-index 3bf9a12718192..88c7313cf8693 100644
+index 5c0908113e388..bbcde13b77f16 100644
 --- a/drivers/leds/leds-pca963x.c
 +++ b/drivers/leds/leds-pca963x.c
 @@ -43,6 +43,8 @@
