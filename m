@@ -2,107 +2,141 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AADD915EF30
-	for <lists+linux-leds@lfdr.de>; Fri, 14 Feb 2020 18:46:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3228015F002
+	for <lists+linux-leds@lfdr.de>; Fri, 14 Feb 2020 18:52:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389338AbgBNQCZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 Feb 2020 11:02:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48694 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389343AbgBNQCZ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:02:25 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 003472082F;
-        Fri, 14 Feb 2020 16:02:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696144;
-        bh=7+wHRW/OFH6ZSv2n77YPfpKBJ3mqYTMJDhk1Z2zwpLs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ueTnwcnF8mc+ZUVkZiU60A0kKuJkM7ME7JPQxuGv/Cyg9ot7RtJICvvN/7obuof5w
-         uGrUvCULs/3zk1EhXdJ1x9/LHGfeMYW0zXGPQvxu/n9MGfdKVUiaRJ15a3vigGzAqx
-         0LXlawWLY+ary4N02kLiYpM+jCBW7c4R1kZbjfi0=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zahari Petkov <zahari@balena.io>, Pavel Machek <pavel@ucw.cz>,
-        Sasha Levin <sashal@kernel.org>, linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 025/459] leds: pca963x: Fix open-drain initialization
-Date:   Fri, 14 Feb 2020 10:54:35 -0500
-Message-Id: <20200214160149.11681-25-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
-References: <20200214160149.11681-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        id S2388667AbgBNRwE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 Feb 2020 12:52:04 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:33236 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388659AbgBNP6m (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 Feb 2020 10:58:42 -0500
+Received: by mail-pf1-f195.google.com with SMTP id n7so5095631pfn.0
+        for <linux-leds@vger.kernel.org>; Fri, 14 Feb 2020 07:58:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=4CF/Tv/Hi3iB+k57zcQMZqNp1agrajE8CEQtxMkq73M=;
+        b=IDH+cD+dcpv1Yv90+7GvfN/5mzXcfkNGC2KvVrLxD7yzFROBWJ2+fIsaE7LSQBdKaY
+         Aq09JMLLoN9mnlJTPL+VO0A6thYxPoHxZqVpv9beZ1833RxmiGyXhUZDyyyi/Tqg2+vS
+         tTf3gw0IFZnga58cFysKBiPOE/2iH4V6efZPygb9sOWlAt2EaZ0YnT3ma81VPg/MJ1qC
+         qOWStvWCVE94Eui80SH63zNMInadnBy/S2neWvM8+vnoQHLFR41JF3Ll9eGWV1UQAnvi
+         swh46g9ODDKRVITKKyehsx6NDkuC9+voF31OGcjx4BbAFLrLtUNvpSq+zxn7cAIXoEKc
+         LuzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=4CF/Tv/Hi3iB+k57zcQMZqNp1agrajE8CEQtxMkq73M=;
+        b=TUAJnLmutwPT08hgiL6JuhY9d7u7KmhwemA6Y3YOQ4BXxxNFpZAizJHsZijrcnCXF5
+         SawsYicy8ztXmjbVZCWIZxaouPkNkmfv2vVLCuDf7SO0uzVb17uktu97uw4LOQBac1hC
+         yYmm6pveQTXw03yD+kR1kf8c8rBZ+uSeoj43NyEdo1OAqfG6IDnyHJxkj5auj4zuVr3w
+         APAJCCM3iTFIUVjFzXjxemFWHYpQuB2Ln0pdfiAJmcW45KlDqgxxoOpQ0eTpeHrS4M6a
+         cm6QJ1Qj4ptpYwyS1m8R8IhX5jbApfTGT/+5Mzix0QcmgN08Fr7qM3pvJufEwsp3TmWR
+         lXkw==
+X-Gm-Message-State: APjAAAXzlnze4tnwf2fs1YdrhauoVwDeWG87db0aZR0E1sKV+Tcq99or
+        HR0OegWCZBuMIULaYLKxluY=
+X-Google-Smtp-Source: APXvYqxn7t5kwJeqg3ell5/9PcILPGJ4HT8rOuGdwLOyoX2KGUTeKVRf3e33GeGBGbbhZg2IJwlI5A==
+X-Received: by 2002:a63:520a:: with SMTP id g10mr3888104pgb.298.1581695921776;
+        Fri, 14 Feb 2020 07:58:41 -0800 (PST)
+Received: from localhost ([43.224.245.179])
+        by smtp.gmail.com with ESMTPSA id 70sm7346028pgd.28.2020.02.14.07.58.40
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 14 Feb 2020 07:58:41 -0800 (PST)
+From:   qiwuchen55@gmail.com
+To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com
+Cc:     linux-leds@vger.kernel.org, chenqiwu <chenqiwu@xiaomi.com>
+Subject: [PATCH] leds: leds-nic78bx: handle error checking and error processing
+Date:   Fri, 14 Feb 2020 23:58:36 +0800
+Message-Id: <1581695916-16708-1-git-send-email-qiwuchen55@gmail.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Zahari Petkov <zahari@balena.io>
+From: chenqiwu <chenqiwu@xiaomi.com>
 
-[ Upstream commit 697529091ac7a0a90ca349b914bb30641c13c753 ]
+Add error checking and error processing for led probe.
 
-Before commit bb29b9cccd95 ("leds: pca963x: Add bindings to invert
-polarity") Mode register 2 was initialized directly with either 0x01
-or 0x05 for open-drain or totem pole (push-pull) configuration.
-
-Afterwards, MODE2 initialization started using bitwise operations on
-top of the default MODE2 register value (0x05). Using bitwise OR for
-setting OUTDRV with 0x01 and 0x05 does not produce correct results.
-When open-drain is used, instead of setting OUTDRV to 0, the driver
-keeps it as 1:
-
-Open-drain: 0x05 | 0x01 -> 0x05 (0b101 - incorrect)
-Totem pole: 0x05 | 0x05 -> 0x05 (0b101 - correct but still wrong)
-
-Now OUTDRV setting uses correct bitwise operations for initialization:
-
-Open-drain: 0x05 & ~0x04 -> 0x01 (0b001 - correct)
-Totem pole: 0x05 | 0x04 -> 0x05 (0b101 - correct)
-
-Additional MODE2 register definitions are introduced now as well.
-
-Fixes: bb29b9cccd95 ("leds: pca963x: Add bindings to invert polarity")
-Signed-off-by: Zahari Petkov <zahari@balena.io>
-Signed-off-by: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: chenqiwu <chenqiwu@xiaomi.com>
 ---
- drivers/leds/leds-pca963x.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/leds/leds-nic78bx.c | 31 ++++++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/leds/leds-pca963x.c b/drivers/leds/leds-pca963x.c
-index 4afc317901a89..66cdc003b8f42 100644
---- a/drivers/leds/leds-pca963x.c
-+++ b/drivers/leds/leds-pca963x.c
-@@ -40,6 +40,8 @@
- #define PCA963X_LED_PWM		0x2	/* Controlled through PWM */
- #define PCA963X_LED_GRP_PWM	0x3	/* Controlled through PWM/GRPPWM */
+diff --git a/drivers/leds/leds-nic78bx.c b/drivers/leds/leds-nic78bx.c
+index f196f52..cc5adf8 100644
+--- a/drivers/leds/leds-nic78bx.c
++++ b/drivers/leds/leds-nic78bx.c
+@@ -129,24 +129,24 @@ static int nic78bx_probe(struct platform_device *pdev)
+ 	if (!led_data)
+ 		return -ENOMEM;
  
-+#define PCA963X_MODE2_OUTDRV	0x04	/* Open-drain or totem pole */
-+#define PCA963X_MODE2_INVRT	0x10	/* Normal or inverted direction */
- #define PCA963X_MODE2_DMBLNK	0x20	/* Enable blinking */
- 
- #define PCA963X_MODE1		0x00
-@@ -438,12 +440,12 @@ static int pca963x_probe(struct i2c_client *client,
- 						    PCA963X_MODE2);
- 		/* Configure output: open-drain or totem pole (push-pull) */
- 		if (pdata->outdrv == PCA963X_OPEN_DRAIN)
--			mode2 |= 0x01;
-+			mode2 &= ~PCA963X_MODE2_OUTDRV;
- 		else
--			mode2 |= 0x05;
-+			mode2 |= PCA963X_MODE2_OUTDRV;
- 		/* Configure direction: normal or inverted */
- 		if (pdata->dir == PCA963X_INVERTED)
--			mode2 |= 0x10;
-+			mode2 |= PCA963X_MODE2_INVRT;
- 		i2c_smbus_write_byte_data(pca963x->chip->client, PCA963X_MODE2,
- 					  mode2);
+-	led_data->pdev = pdev;
+-	platform_set_drvdata(pdev, led_data);
+-
+ 	io_rc = platform_get_resource(pdev, IORESOURCE_IO, 0);
+ 	if (!io_rc) {
++		ret = -EINVAL;
+ 		dev_err(dev, "missing IO resources\n");
+-		return -EINVAL;
++		goto err_get_res;
  	}
+ 
+ 	if (resource_size(io_rc) < NIC78BX_USER_LED_IO_SIZE) {
+ 		dev_err(dev, "IO region too small\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto err_res_size;
+ 	}
+ 
+ 	if (!devm_request_region(dev, io_rc->start, resource_size(io_rc),
+ 				 KBUILD_MODNAME)) {
++		ret = -EBUSY;
+ 		dev_err(dev, "failed to get IO region\n");
+-		return -EBUSY;
++		goto err_request_region;
+ 	}
+ 
+ 	led_data->io_base = io_rc->start;
+@@ -157,13 +157,27 @@ static int nic78bx_probe(struct platform_device *pdev)
+ 
+ 		ret = devm_led_classdev_register(dev, &nic78bx_leds[i].cdev);
+ 		if (ret)
+-			return ret;
++			goto err_led_classdev_register;
+ 	}
+ 
+ 	/* Unlock LED register */
+ 	outb(NIC78BX_UNLOCK_VALUE,
+ 	     led_data->io_base + NIC78BX_LOCK_REG_OFFSET);
+ 
++	led_data->pdev = pdev;
++	platform_set_drvdata(pdev, led_data);
++	return 0;
++
++err_led_classdev_register:
++	i -= 1;
++	while (i >= 0)
++		devm_led_classdev_unregister(dev, &nic78bx_leds[i--].cdev);
++	devm_release_region(dev, io_rc->start, resource_size(io_rc));
++err_request_region:
++err_res_size:
++	release_resource(io_rc);
++err_get_res:
++	devm_kfree(dev, led_data);
+ 	return ret;
+ }
+ 
+@@ -171,6 +185,9 @@ static int nic78bx_remove(struct platform_device *pdev)
+ {
+ 	struct nic78bx_led_data *led_data = platform_get_drvdata(pdev);
+ 
++	if (IS_ERR_OR_NULL(led_data))
++		return PTR_ERR(led_data);
++
+ 	/* Lock LED register */
+ 	outb(NIC78BX_LOCK_VALUE,
+ 	     led_data->io_base + NIC78BX_LOCK_REG_OFFSET);
 -- 
-2.20.1
+1.9.1
 
