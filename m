@@ -2,156 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D9C1164D14
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Feb 2020 18:56:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7D34164F3D
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Feb 2020 20:51:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbgBSR4f (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 Feb 2020 12:56:35 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:51142 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726514AbgBSR4f (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Feb 2020 12:56:35 -0500
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01JHuSU5009210;
-        Wed, 19 Feb 2020 11:56:28 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1582134988;
-        bh=NjuzcmoUHTvYL3VcoNva3wXzFr/w550bjZ+AIRaeHME=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=fFR5/roPr0Pknb3A9oO9aBcZxFv/fRlCxD2m9UNOqsJl++s2nnNvuWke/C9MzJUnU
-         z7Z2B0pvVAc6o0dGyrJYcE08nPG2Cp1k6drBP0uedSdK3G/ziA8HJ3texPbkQjXWSI
-         VRIA1Tsno45So7vafDmgmb2IzmQpp9AT3hDcJzog=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01JHuStL012258;
-        Wed, 19 Feb 2020 11:56:28 -0600
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 19
- Feb 2020 11:56:28 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 19 Feb 2020 11:56:28 -0600
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01JHuSlR093961;
-        Wed, 19 Feb 2020 11:56:28 -0600
-Subject: Re: [PATCH v3] leds: add SGI IP30 led support
-To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-CC:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
-References: <20200219160504.27555-1-tbogendoerfer@suse.de>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <93666bdf-dc53-e091-157e-e5b988ede97c@ti.com>
-Date:   Wed, 19 Feb 2020 11:51:24 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1726771AbgBSTvG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 Feb 2020 14:51:06 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:43014 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726645AbgBSTvG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Feb 2020 14:51:06 -0500
+Received: by mail-pl1-f193.google.com with SMTP id p11so489878plq.10;
+        Wed, 19 Feb 2020 11:51:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=M4zKKP2Q/R2OqgXmQC7JNNxIqu37zs1Y9dnrMmNhKok=;
+        b=kYk0BubJtysEMvnnNMFVM2IeGCr/Ru/1kfwbbHPBOBzi4yZrxwxByDP6WsdcN/Vx+O
+         L+WCpjbRy+2EKKAygOeHsRw/f6pdNP/RIvO3BeCvi+bP2TjPUZ7+GeMXjAvXQlICZoy/
+         OevfqzKOx6/eAovyMtu7G/oDqXc2UWTZb1mlsBNgTlTfPOM8udclGqbaVeXqeR6KhAyC
+         m8M5f5wPFgloka5Xu0Qop9wSSZtctnLXyxEFZXECtLslg9qYcj8dJuY2ghZZc+Fc2ay5
+         kChYlnafdEFyX0ptn61peDksV2Xh+QgWDN+z0XWbhmcfmbDJ+Eglc+yfSLJZxj4wa+nK
+         prNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=M4zKKP2Q/R2OqgXmQC7JNNxIqu37zs1Y9dnrMmNhKok=;
+        b=ow4Juqku5Xss4S8WiM/Jp5zg98FmJ/POirhNGYsjMeU81HvawVZcbcJr6lqzftV9qH
+         k0V7xuEuh/gB1vpFul8YDe0nDGRznjPCXDVxKoFgoUL1yURyLljnNI2kTdkmts6oZW2m
+         LdBlM1JD5GWGOpUIWAjbsC93Y/wRRXVngmvhLtIl/QU5XReDeHtuPl+u9Gk2arASKW+3
+         py81aPg1yoNjeh60S0MKlHgOVquBuJWB6kjcqqcNjlH1E9jYYGyjNg2QV7b+fKbpMXP4
+         F59bxJU7efbRWWvYcLFYzOGxLCZ0n4ktwWDswpqZtgX5EMAWBgoK2jRWzhXRoHGsp8Fg
+         9RJg==
+X-Gm-Message-State: APjAAAUaC6eZ1qn/p1lFhuFzjP6TfmyFR2ezF9ezsoF07hmpMmOUBAwZ
+        xWJQhCPVgJxRrmUqO4n5MTol9c7aUUHxq1vT5Hg=
+X-Google-Smtp-Source: APXvYqzWKZoMXWkNrbnA1iDHd6g69T2x4VPoAwG/SDYVlx1df4kBzSZPdGZCwUj1t8upq1pqlBurbpQO9aN3F7v2m8U=
+X-Received: by 2002:a17:90a:b10b:: with SMTP id z11mr11000285pjq.132.1582141865462;
+ Wed, 19 Feb 2020 11:51:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200219160504.27555-1-tbogendoerfer@suse.de>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200213091600.554-1-uwe@kleine-koenig.org> <20200213091600.554-2-uwe@kleine-koenig.org>
+In-Reply-To: <20200213091600.554-2-uwe@kleine-koenig.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 19 Feb 2020 21:50:54 +0200
+Message-ID: <CAHp75VcStj5sE3f0uK2deOWC=ojfx-z1fbrh6Lu6jAor9F9PgA@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] lib: new helper kstrtodev_t()
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Thomas
-
-On 2/19/20 10:05 AM, Thomas Bogendoerfer wrote:
-> This patch implemenets a driver to support the front panel LEDs of
-> SGI Octane (IP30) workstations.
+On Thu, Feb 13, 2020 at 11:27 AM Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.o=
+rg> wrote:
 >
-> Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
-> ---
+> This function is in the same spirit as the other kstrto* functions and
+> uses the same calling convention. It expects the input string to be in
+> the format %u:%u and implements stricter parsing than sscanf as it
+> returns an error on trailing data (other than the usual \n).
 
-Sorry for the delay in review I had to go back and review v1 and v2 
-comments
+Can we first split the kstrotox* (and simple_strto*) to the separate
+header first?
 
+On top of that, why kstrtodev_t is so important? How many users are
+already in the kernel to get an advantage out of it?
+What to do with all other possible variants ("%d:%d", "%dx%d" and its
+%u variant, etc)?
 
-> Changes in v3:
->    - rebased to 5.6-rc2
->
-> Changes in v2:
->    - use led names conforming to include/dt-bindings/leds/common.h
->    - read LED state from firmware
->    - leave setting up to user
->
->   drivers/leds/Kconfig     | 11 ++++++
->   drivers/leds/Makefile    |  1 +
->   drivers/leds/leds-ip30.c | 80 ++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 92 insertions(+)
->   create mode 100644 drivers/leds/leds-ip30.c
->
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index d82f1dea3711..c664d84e1667 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -846,6 +846,17 @@ config LEDS_TPS6105X
->   	  It is a single boost converter primarily for white LEDs and
->   	  audio amplifiers.
->   
-> +config LEDS_IP30
-> +	tristate "LED support for SGI Octane machines"
-> +	depends on LEDS_CLASS
-> +	depends on SGI_MFD_IOC3
-> +	help
-> +	  This option enables support for the Red and White LEDs of
-> +	  SGI Octane machines.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called leds-ip30.
-> +
->   comment "LED Triggers"
->   source "drivers/leds/trigger/Kconfig"
->   
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index d7e1107753fb..46bd611a03a9 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -86,6 +86,7 @@ obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
->   obj-$(CONFIG_LEDS_LM3697)		+= leds-lm3697.o
->   obj-$(CONFIG_LEDS_LM36274)		+= leds-lm36274.o
->   obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
-> +obj-$(CONFIG_LEDS_IP30)			+= leds-ip30.o
->   
->   # LED SPI Drivers
->   obj-$(CONFIG_LEDS_CR0014114)		+= leds-cr0014114.o
-> diff --git a/drivers/leds/leds-ip30.c b/drivers/leds/leds-ip30.c
-> new file mode 100644
-> index 000000000000..82453a216f81
-> --- /dev/null
-> +++ b/drivers/leds/leds-ip30.c
-> @@ -0,0 +1,80 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * LED Driver for SGI Octane machines
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/kernel.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/leds.h>
-> +
-> +struct ip30_led {
-> +	struct led_classdev cdev;
-> +	u32 __iomem *reg;
-> +};
-> +
-> +static void ip30led_set(struct led_classdev *led_cdev,
-> +			enum led_brightness value)
-> +{
-> +	struct ip30_led *led = container_of(led_cdev, struct ip30_led, cdev);
-> +
+Why simple_strto*() can't be used?
 
-With max_brightness set to 1 then value will only be either 1 or 0.  The 
-LED framework takes care of gating the values.
+>  #include <linux/export.h>
+>  #include <linux/types.h>
+>  #include <linux/uaccess.h>
 
-So this can be writel(value, led->reg);
+> +#include <linux/kdev_t.h>
 
-Otherwise
+Perhaps preserve order? (It's for the future, since I doubt we will
+get this in upstream anyway).
 
-Reviewed-by: Dan Murphy <dmurphy@ti.com>
-
-
+--=20
+With Best Regards,
+Andy Shevchenko
