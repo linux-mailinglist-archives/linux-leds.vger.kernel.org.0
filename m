@@ -2,174 +2,166 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF63A164970
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Feb 2020 17:05:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41CC1164AA8
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Feb 2020 17:38:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726751AbgBSQFU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 Feb 2020 11:05:20 -0500
-Received: from mx2.suse.de ([195.135.220.15]:44158 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726645AbgBSQFU (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 19 Feb 2020 11:05:20 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 435ACACF0;
-        Wed, 19 Feb 2020 16:05:17 +0000 (UTC)
-From:   Thomas Bogendoerfer <tbogendoerfer@suse.de>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: [PATCH v3] leds: add SGI IP30 led support
-Date:   Wed, 19 Feb 2020 17:05:04 +0100
-Message-Id: <20200219160504.27555-1-tbogendoerfer@suse.de>
-X-Mailer: git-send-email 2.25.0
+        id S1727346AbgBSQiH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 Feb 2020 11:38:07 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:54319 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726514AbgBSQiH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Feb 2020 11:38:07 -0500
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1j4SMJ-000285-Qk; Wed, 19 Feb 2020 17:37:59 +0100
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1j4SMI-000560-NF; Wed, 19 Feb 2020 17:37:58 +0100
+Date:   Wed, 19 Feb 2020 17:37:58 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        linux-serial@vger.kernel.org
+Subject: Re: [PATCH v6 2/4] tty: rename tty_kopen() and add new function
+ tty_kopen_shared()
+Message-ID: <20200219163758.5rypsol4n6ucost4@pengutronix.de>
+References: <20200213091600.554-1-uwe@kleine-koenig.org>
+ <20200213091600.554-3-uwe@kleine-koenig.org>
+ <20200219132113.GD32540@localhost>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200219132113.GD32540@localhost>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This patch implemenets a driver to support the front panel LEDs of
-SGI Octane (IP30) workstations.
+On Wed, Feb 19, 2020 at 02:21:13PM +0100, Johan Hovold wrote:
+> On Thu, Feb 13, 2020 at 10:15:58AM +0100, Uwe Kleine-König wrote:
+> > From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> > 
+> > Introduce a new function tty_kopen_shared() that yields a struct
+> > tty_struct. The semantic difference to tty_kopen() is that the tty is
+> > expected to be used already. So rename tty_kopen() to
+> > tty_kopen_exclusive() for clearness, adapt the single user and put the
+> > common code in a new static helper function.
+> > 
+> > tty_kopen_shared is to be used to implement an LED trigger for tty
+> > devices in one of the next patches.
+> > 
+> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> > ---
+>  
+> > -/**
+> > - *	tty_kopen	-	open a tty device for kernel
+> > - *	@device: dev_t of device to open
+> > - *
+> > - *	Opens tty exclusively for kernel. Performs the driver lookup,
+> > - *	makes sure it's not already opened and performs the first-time
+> > - *	tty initialization.
+> > - *
+> > - *	Returns the locked initialized &tty_struct
+> > - *
+> > - *	Claims the global tty_mutex to serialize:
+> > - *	  - concurrent first-time tty initialization
+> > - *	  - concurrent tty driver removal w/ lookup
+> > - *	  - concurrent tty removal from driver table
+> > - */
+> > -struct tty_struct *tty_kopen(dev_t device)
+> > +static struct tty_struct *tty_kopen(dev_t device, int shared)
+> >  {
+> >  	struct tty_struct *tty;
+> >  	struct tty_driver *driver;
+> > @@ -1905,7 +1890,7 @@ struct tty_struct *tty_kopen(dev_t device)
+> >  
+> >  	/* check whether we're reopening an existing tty */
+> >  	tty = tty_driver_lookup_tty(driver, NULL, index);
+> > -	if (IS_ERR(tty))
+> > +	if (IS_ERR(tty) || shared)
+> 
+> So here you skip initialisation and return NULL if the tty isn't already
+> in use (e.g. is open) when shared is set.
 
-Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
----
-Changes in v3:
-  - rebased to 5.6-rc2
+Which is good, right? If I remember my tests correctly this even works
+if the tty isn't opened but just "exists".
 
-Changes in v2:
-  - use led names conforming to include/dt-bindings/leds/common.h
-  - read LED state from firmware
-  - leave setting up to user
+> >  		goto out;
+> >  
+> >  	if (tty) {
+> > @@ -1923,7 +1908,44 @@ struct tty_struct *tty_kopen(dev_t device)
+> >  	tty_driver_kref_put(driver);
+> >  	return tty;
+> >  }
+> > -EXPORT_SYMBOL_GPL(tty_kopen);
+> > +
+> > +/**
+> > + *	tty_kopen_exclusive	-	open a tty device for kernel
+> > + *	@device: dev_t of device to open
+> > + *
+> > + *	Opens tty exclusively for kernel. Performs the driver lookup,
+> > + *	makes sure it's not already opened and performs the first-time
+> > + *	tty initialization.
+> > + *
+> > + *	Returns the locked initialized &tty_struct
+> > + *
+> > + *	Claims the global tty_mutex to serialize:
+> > + *	  - concurrent first-time tty initialization
+> > + *	  - concurrent tty driver removal w/ lookup
+> > + *	  - concurrent tty removal from driver table
+> > + */
+> > +struct tty_struct *tty_kopen_exclusive(dev_t device)
+> > +{
+> > +	return tty_kopen(device, 0);
+> > +}
+> > +EXPORT_SYMBOL_GPL(tty_kopen_exclusive);
+> > +
+> > +/**
+> > + *	tty_kopen_shared	-	open a tty device for shared in-kernel use
+> > + *	@device: dev_t of device to open
+> > + *
+> > + *	Opens an already existing tty
+> > + *	rnel. Performs the driver lookup,
+> 
+> "rnel"?
+> 
+> > + *	makes sure it's not already opened and performs the first-time
+> > + *	tty initialization.
+> 
+> Yet, you claim to do initialisation here, which isn't the case.
 
- drivers/leds/Kconfig     | 11 ++++++
- drivers/leds/Makefile    |  1 +
- drivers/leds/leds-ip30.c | 80 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 92 insertions(+)
- create mode 100644 drivers/leds/leds-ip30.c
+Yeah, wrong (and incomplete) copy of the tty_kopen_exclusive docstring.
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index d82f1dea3711..c664d84e1667 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -846,6 +846,17 @@ config LEDS_TPS6105X
- 	  It is a single boost converter primarily for white LEDs and
- 	  audio amplifiers.
- 
-+config LEDS_IP30
-+	tristate "LED support for SGI Octane machines"
-+	depends on LEDS_CLASS
-+	depends on SGI_MFD_IOC3
-+	help
-+	  This option enables support for the Red and White LEDs of
-+	  SGI Octane machines.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called leds-ip30.
-+
- comment "LED Triggers"
- source "drivers/leds/trigger/Kconfig"
- 
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index d7e1107753fb..46bd611a03a9 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -86,6 +86,7 @@ obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
- obj-$(CONFIG_LEDS_LM3697)		+= leds-lm3697.o
- obj-$(CONFIG_LEDS_LM36274)		+= leds-lm36274.o
- obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
-+obj-$(CONFIG_LEDS_IP30)			+= leds-ip30.o
- 
- # LED SPI Drivers
- obj-$(CONFIG_LEDS_CR0014114)		+= leds-cr0014114.o
-diff --git a/drivers/leds/leds-ip30.c b/drivers/leds/leds-ip30.c
-new file mode 100644
-index 000000000000..82453a216f81
---- /dev/null
-+++ b/drivers/leds/leds-ip30.c
-@@ -0,0 +1,80 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * LED Driver for SGI Octane machines
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/platform_device.h>
-+#include <linux/leds.h>
-+
-+struct ip30_led {
-+	struct led_classdev cdev;
-+	u32 __iomem *reg;
-+};
-+
-+static void ip30led_set(struct led_classdev *led_cdev,
-+			enum led_brightness value)
-+{
-+	struct ip30_led *led = container_of(led_cdev, struct ip30_led, cdev);
-+
-+	if (value)
-+		writel(1, led->reg);
-+	else
-+		writel(0, led->reg);
-+}
-+
-+static int ip30led_create(struct platform_device *pdev, int num)
-+{
-+	struct resource *res;
-+	struct ip30_led *data;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, num);
-+	if (!res)
-+		return -EBUSY;
-+
-+	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->reg = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(data->reg))
-+		return PTR_ERR(data->reg);
-+
-+
-+	if (num == 0)
-+		data->cdev.name = "white:indicator";
-+	else
-+		data->cdev.name = "red:indicator";
-+
-+	data->cdev.brightness = readl(data->reg);
-+	data->cdev.max_brightness = 1;
-+	data->cdev.brightness_set = ip30led_set;
-+
-+	return devm_led_classdev_register(&pdev->dev, &data->cdev);
-+}
-+
-+static int ip30led_probe(struct platform_device *pdev)
-+{
-+	int ret;
-+
-+	ret = ip30led_create(pdev, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	return ip30led_create(pdev, 1);
-+}
-+
-+static struct platform_driver ip30led_driver = {
-+	.probe		= ip30led_probe,
-+	.driver		= {
-+		.name		= "ip30-leds",
-+	},
-+};
-+
-+module_platform_driver(ip30led_driver);
-+
-+MODULE_AUTHOR("Thomas Bogendoerfer <tbogendoerfer@suse.de>");
-+MODULE_DESCRIPTION("SGI Octane LED driver");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:ip30-leds");
+> > + *
+> > + *	Locking is identical to tty_kopen() above.
+> > + */
+> > +struct tty_struct *tty_kopen_shared(dev_t device)
+> > +{
+> > +	return tty_kopen(device, 1);
+> > +}
+> > +EXPORT_SYMBOL_GPL(tty_kopen_shared);
+> 
+> This "kopen" naming is unfortunate as the tty isn't really opened by
+> either of these functions, but that's not something you introduced.
+
+Ack, will send a v7 with the doc string fixed.
+
+Thanks for taking the time to look over 
+Uwe
+
 -- 
-2.25.0
-
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
