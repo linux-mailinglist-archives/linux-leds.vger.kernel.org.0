@@ -2,124 +2,156 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11334164BA9
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Feb 2020 18:18:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D9C1164D14
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Feb 2020 18:56:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726645AbgBSRSF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 Feb 2020 12:18:05 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:33317 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726539AbgBSRSF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Feb 2020 12:18:05 -0500
-Received: by mail-lj1-f193.google.com with SMTP id y6so1217886lji.0;
-        Wed, 19 Feb 2020 09:18:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=RofHi9gYU0MfSmZMufurAFlHepEM01ZEtiwTgi9BGrA=;
-        b=LZOh66VA37oObxEP7Ty5P7kX6pRSh/kdOQ7xpWeqAUCmucbf0VP/c0eKCd4ReTTppo
-         JZqjvTRaroW0x4nvkBmbgs8UyJwRmmycGXxLCDU6kuFCnZGxaMeU3eAkvMXItwSz18/5
-         adR/Hf+QDmlLeKUOL/pMR8AwqhCMeKaXhEocy0Vp6qYCUWSdcdHDBBiTfaw1lPiw9C/k
-         0ALoif7cWH+6mhiFqG8wHhyLVjE+Dv/twYKLNjpDpPRYNFx/Gv1WAxXNn25phx4WBj1V
-         HFmxmDzTEZGG14UrtRfLUI+RdmmupuWfy8TkCUB0or8VJrZWQL6ipj1hTRMfVS2yTZQJ
-         zd6A==
-X-Gm-Message-State: APjAAAW3hY995mX7NBwmDfCLWScEHms7jWlODXn7asNmInJOb0FqKK5b
-        vM96TkV/nao1HeOG/FfCLfk=
-X-Google-Smtp-Source: APXvYqx8WEW5DwJYqFalOQFg6QSc95CJr9EXAk5YvFEl1v88/LWr6FJofLuta2Vnn9pg+0MFg7u5zQ==
-X-Received: by 2002:a05:651c:40c:: with SMTP id 12mr16592063lja.147.1582132682705;
-        Wed, 19 Feb 2020 09:18:02 -0800 (PST)
-Received: from xi.terra (c-12aae455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.170.18])
-        by smtp.gmail.com with ESMTPSA id b30sm116917lfc.39.2020.02.19.09.18.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2020 09:18:01 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@kernel.org>)
-        id 1j4Sz1-0003WC-KQ; Wed, 19 Feb 2020 18:17:59 +0100
-Date:   Wed, 19 Feb 2020 18:17:59 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Johan Hovold <johan@kernel.org>,
+        id S1726598AbgBSR4f (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 Feb 2020 12:56:35 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:51142 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726514AbgBSR4f (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Feb 2020 12:56:35 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01JHuSU5009210;
+        Wed, 19 Feb 2020 11:56:28 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1582134988;
+        bh=NjuzcmoUHTvYL3VcoNva3wXzFr/w550bjZ+AIRaeHME=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=fFR5/roPr0Pknb3A9oO9aBcZxFv/fRlCxD2m9UNOqsJl++s2nnNvuWke/C9MzJUnU
+         z7Z2B0pvVAc6o0dGyrJYcE08nPG2Cp1k6drBP0uedSdK3G/ziA8HJ3texPbkQjXWSI
+         VRIA1Tsno45So7vafDmgmb2IzmQpp9AT3hDcJzog=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01JHuStL012258;
+        Wed, 19 Feb 2020 11:56:28 -0600
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 19
+ Feb 2020 11:56:28 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 19 Feb 2020 11:56:28 -0600
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01JHuSlR093961;
+        Wed, 19 Feb 2020 11:56:28 -0600
+Subject: Re: [PATCH v3] leds: add SGI IP30 led support
+To:     Thomas Bogendoerfer <tbogendoerfer@suse.de>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-        linux-serial@vger.kernel.org
-Subject: Re: [PATCH v6 2/4] tty: rename tty_kopen() and add new function
- tty_kopen_shared()
-Message-ID: <20200219171759.GE32540@localhost>
-References: <20200213091600.554-1-uwe@kleine-koenig.org>
- <20200213091600.554-3-uwe@kleine-koenig.org>
- <20200219132113.GD32540@localhost>
- <20200219163758.5rypsol4n6ucost4@pengutronix.de>
+        Pavel Machek <pavel@ucw.cz>
+CC:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
+References: <20200219160504.27555-1-tbogendoerfer@suse.de>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <93666bdf-dc53-e091-157e-e5b988ede97c@ti.com>
+Date:   Wed, 19 Feb 2020 11:51:24 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20200219160504.27555-1-tbogendoerfer@suse.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200219163758.5rypsol4n6ucost4@pengutronix.de>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Feb 19, 2020 at 05:37:58PM +0100, Uwe Kleine-König wrote:
-> On Wed, Feb 19, 2020 at 02:21:13PM +0100, Johan Hovold wrote:
-> > On Thu, Feb 13, 2020 at 10:15:58AM +0100, Uwe Kleine-König wrote:
-> > > From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> > > 
-> > > Introduce a new function tty_kopen_shared() that yields a struct
-> > > tty_struct. The semantic difference to tty_kopen() is that the tty is
-> > > expected to be used already. So rename tty_kopen() to
-> > > tty_kopen_exclusive() for clearness, adapt the single user and put the
-> > > common code in a new static helper function.
-> > > 
-> > > tty_kopen_shared is to be used to implement an LED trigger for tty
-> > > devices in one of the next patches.
-> > > 
-> > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> > > ---
-> >  
-> > > -/**
-> > > - *	tty_kopen	-	open a tty device for kernel
-> > > - *	@device: dev_t of device to open
-> > > - *
-> > > - *	Opens tty exclusively for kernel. Performs the driver lookup,
-> > > - *	makes sure it's not already opened and performs the first-time
-> > > - *	tty initialization.
-> > > - *
-> > > - *	Returns the locked initialized &tty_struct
-> > > - *
-> > > - *	Claims the global tty_mutex to serialize:
-> > > - *	  - concurrent first-time tty initialization
-> > > - *	  - concurrent tty driver removal w/ lookup
-> > > - *	  - concurrent tty removal from driver table
-> > > - */
-> > > -struct tty_struct *tty_kopen(dev_t device)
-> > > +static struct tty_struct *tty_kopen(dev_t device, int shared)
-> > >  {
-> > >  	struct tty_struct *tty;
-> > >  	struct tty_driver *driver;
-> > > @@ -1905,7 +1890,7 @@ struct tty_struct *tty_kopen(dev_t device)
-> > >  
-> > >  	/* check whether we're reopening an existing tty */
-> > >  	tty = tty_driver_lookup_tty(driver, NULL, index);
-> > > -	if (IS_ERR(tty))
-> > > +	if (IS_ERR(tty) || shared)
-> > 
-> > So here you skip initialisation and return NULL if the tty isn't already
-> > in use (e.g. is open) when shared is set.
-> 
-> Which is good, right? If I remember my tests correctly this even works
-> if the tty isn't opened but just "exists".
+Thomas
 
-No, this means that your trigger will never be installed unless the port
-is already open, yet the sysfs interface still returns success (see
-patch 4/4 dev_store()).
+On 2/19/20 10:05 AM, Thomas Bogendoerfer wrote:
+> This patch implemenets a driver to support the front panel LEDs of
+> SGI Octane (IP30) workstations.
+>
+> Signed-off-by: Thomas Bogendoerfer <tbogendoerfer@suse.de>
+> ---
 
-Note that the struct tty doesn't exist until the port is opened; it's
-allocated in tty_init_dev() that you skip above when "shared" is set.
+Sorry for the delay in review I had to go back and review v1 and v2 
+comments
 
-Johan
+
+> Changes in v3:
+>    - rebased to 5.6-rc2
+>
+> Changes in v2:
+>    - use led names conforming to include/dt-bindings/leds/common.h
+>    - read LED state from firmware
+>    - leave setting up to user
+>
+>   drivers/leds/Kconfig     | 11 ++++++
+>   drivers/leds/Makefile    |  1 +
+>   drivers/leds/leds-ip30.c | 80 ++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 92 insertions(+)
+>   create mode 100644 drivers/leds/leds-ip30.c
+>
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index d82f1dea3711..c664d84e1667 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -846,6 +846,17 @@ config LEDS_TPS6105X
+>   	  It is a single boost converter primarily for white LEDs and
+>   	  audio amplifiers.
+>   
+> +config LEDS_IP30
+> +	tristate "LED support for SGI Octane machines"
+> +	depends on LEDS_CLASS
+> +	depends on SGI_MFD_IOC3
+> +	help
+> +	  This option enables support for the Red and White LEDs of
+> +	  SGI Octane machines.
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called leds-ip30.
+> +
+>   comment "LED Triggers"
+>   source "drivers/leds/trigger/Kconfig"
+>   
+> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> index d7e1107753fb..46bd611a03a9 100644
+> --- a/drivers/leds/Makefile
+> +++ b/drivers/leds/Makefile
+> @@ -86,6 +86,7 @@ obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
+>   obj-$(CONFIG_LEDS_LM3697)		+= leds-lm3697.o
+>   obj-$(CONFIG_LEDS_LM36274)		+= leds-lm36274.o
+>   obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
+> +obj-$(CONFIG_LEDS_IP30)			+= leds-ip30.o
+>   
+>   # LED SPI Drivers
+>   obj-$(CONFIG_LEDS_CR0014114)		+= leds-cr0014114.o
+> diff --git a/drivers/leds/leds-ip30.c b/drivers/leds/leds-ip30.c
+> new file mode 100644
+> index 000000000000..82453a216f81
+> --- /dev/null
+> +++ b/drivers/leds/leds-ip30.c
+> @@ -0,0 +1,80 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * LED Driver for SGI Octane machines
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/kernel.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/leds.h>
+> +
+> +struct ip30_led {
+> +	struct led_classdev cdev;
+> +	u32 __iomem *reg;
+> +};
+> +
+> +static void ip30led_set(struct led_classdev *led_cdev,
+> +			enum led_brightness value)
+> +{
+> +	struct ip30_led *led = container_of(led_cdev, struct ip30_led, cdev);
+> +
+
+With max_brightness set to 1 then value will only be either 1 or 0.Â  The 
+LED framework takes care of gating the values.
+
+So this can be writel(value, led->reg);
+
+Otherwise
+
+Reviewed-by: Dan Murphy <dmurphy@ti.com>
+
+
