@@ -2,110 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E27DD1658BC
-	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2020 08:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77007165B34
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2020 11:11:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727034AbgBTHtJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 20 Feb 2020 02:49:09 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:54643 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727025AbgBTHtJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Feb 2020 02:49:09 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1j4gZy-00076I-W3; Thu, 20 Feb 2020 08:49:03 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1j4gZx-0007Au-66; Thu, 20 Feb 2020 08:49:01 +0100
-Date:   Thu, 20 Feb 2020 08:49:01 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
-Subject: Re: [PATCH v6 1/4] lib: new helper kstrtodev_t()
-Message-ID: <20200220074901.ohcrisjgd26555ya@pengutronix.de>
-References: <20200213091600.554-1-uwe@kleine-koenig.org>
- <20200213091600.554-2-uwe@kleine-koenig.org>
- <CAHp75VcStj5sE3f0uK2deOWC=ojfx-z1fbrh6Lu6jAor9F9PgA@mail.gmail.com>
+        id S1726906AbgBTKLe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 20 Feb 2020 05:11:34 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:46821 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726865AbgBTKLd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Feb 2020 05:11:33 -0500
+Received: by mail-pg1-f196.google.com with SMTP id y30so1685379pga.13
+        for <linux-leds@vger.kernel.org>; Thu, 20 Feb 2020 02:11:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
+        b=PJCKAi8I41I+5Tb4Mnflsd2jQsw3U4EsBKdHiq4ekjydb9zjbl/xBpYM6a8vjGrE+W
+         bq9MwZiaMiUj0KV0zpatU51OPnhvMCCSqw888gpP5zovCU/409yjTgfOgUg5PB8q2K3E
+         AHTdthzn31VEJcGx7Z1tBUpIJcKiH12kEnHjHYt7G/oqoP++Fptu78jpxqkic0773bQd
+         ZayVUruIfEjkelzoyKRCI3KHlz6Z/Dnw7ydFm76qzLLquytCz1iwfwxFLraFMHZVSvsv
+         yQuWTO5xdfcNjv2B3P6bJDVCP8BJhXXiQQ9Tuh0WlvdeGaPVI6+IBe1h84RdzkS9fKDa
+         U9fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=xsUbPWAhYtsZRE8nHbpZ90/dMr+6ACJOvf/o3gzcGwM=;
+        b=tCfE98Or1ZQg1Vboe/3svipj8EJmzQBH/z7YRqCmqn9UWb0GYwAyezTii+980A1AAr
+         ntBt6r9di7GmgJevk7vK3oXD/a8czZval0jqE3gBBeZXz/OImpSXLvtxADo0+bJOc6Dy
+         qsEwoJcj60dA97GYdbjEpjC4uz/VdpYsRTZ402zhwWb79U37EQm2Gd41jebrAHqegbjb
+         BYKdQs+H3Q2BiC/xP+74P/OsB2WIg4tPLLeMZebJbIh3LvULtWwRW+oFpiMEGM2TuIWE
+         M6Y0lF+EYGf0Z/GQyf9Uf2zUsxzDz99WJAUBq4+/9i671ywO9JXIgI53+7XC5FofR0PT
+         aIcA==
+X-Gm-Message-State: APjAAAUC4HIh1ocmg+x5zT2ldb5GQyufH8pMZN+IHv0gmOANXKTNRxds
+        xg1mvA4ZcwLObQsluIeg0EHEPrBPkg7ka0tJsPg=
+X-Google-Smtp-Source: APXvYqxHE+Jpv7TnlDVGcX3UL6Uyz2XLxptGN1jGFOlv4qxAJR9PZ93vxohGaYe++PJvLL2K5NjMeaR+jKpZPkDFcUI=
+X-Received: by 2002:a63:5220:: with SMTP id g32mr31926103pgb.116.1582193493229;
+ Thu, 20 Feb 2020 02:11:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VcStj5sE3f0uK2deOWC=ojfx-z1fbrh6Lu6jAor9F9PgA@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+Received: by 2002:a17:90a:90f:0:0:0:0 with HTTP; Thu, 20 Feb 2020 02:11:32
+ -0800 (PST)
+Reply-To: cagesusan199@gmail.com
+From:   "Mrs. Susan S. Cage" <drgoodluckebelejonathan061@gmail.com>
+Date:   Thu, 20 Feb 2020 02:11:32 -0800
+Message-ID: <CALjo5=877S8-Ry+A=9FH6dxjXo5H81+Sa3p18iiZLBS7eO_8bA@mail.gmail.com>
+Subject: Attention:Beneficiary
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Feb 19, 2020 at 09:50:54PM +0200, Andy Shevchenko wrote:
-> On Thu, Feb 13, 2020 at 11:27 AM Uwe Kleine-König <uwe@kleine-koenig.org> wrote:
-> >
-> > This function is in the same spirit as the other kstrto* functions and
-> > uses the same calling convention. It expects the input string to be in
-> > the format %u:%u and implements stricter parsing than sscanf as it
-> > returns an error on trailing data (other than the usual \n).
-> 
-> Can we first split the kstrotox* (and simple_strto*) to the separate
-> header first?
-
-I don't feel strong here what is right. But I hesitate to create another
-pre-condition for this patch set.
-
-> On top of that, why kstrtodev_t is so important? How many users are
-> already in the kernel to get an advantage out of it?
-
-Does it need to be important? It matches the other kstrto* functions and
-so it seemed more natural to me to put it near the other functions. I'm
-not aware of other potential users and surprised you seem to suggest
-this as a requirement.
-
-> What to do with all other possible variants ("%d:%d", "%dx%d" and its
-> %u variant, etc)?
-
-I don't see how %d:%d is relevant, major and minor cannot be negative
-can they? I never saw 'x' as separator between major and minor. I
-considered shortly parsing %u, but given that (I think) this is an
-internal representation only I chose to not make it more visible than it
-already is.
-
-> Why simple_strto*() can't be used?
-
-I didn't really consider it, but looking in more detail I don't like it
-much. Without having tried it I think simple_strtoull accepts
-"1000000000000000000000000000000000000000000" returning some arbitrary
-value without an error indication. And given that I was asked for strict
-parsing (i.e. not accepting 2:4:something) I'd say using simple_strto*
-is a step backwards. Also simple_strtoul() has "This function is obsolete.
-Please use kstrtoul instead." in its docstring which seems to apply to
-the other simple_strto*() functions, too.
-
-> >  #include <linux/export.h>
-> >  #include <linux/types.h>
-> >  #include <linux/uaccess.h>
-> 
-> > +#include <linux/kdev_t.h>
-> 
-> Perhaps preserve order?
-
-Can do.
-
-Best regards
-Uwe
-
 -- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Dearest Friend,
+
+Sorry for invading your privacy, my name is Susan S. Cage I am 81
+years, citizen of United States and presently in hospital undergoing
+chromatography for bronchogenic carcinomas (Lung cancer) which
+affected both Lungs. The doctors said I have few days to live because
+the cancer has now affected my brain.
+
+My late husband left Fifteen Million, Five Hundred British Pounds
+Sterling in my account, I want to transfer the money to you and I want
+you to use it as a donate for charitable and help the needy,
+motherless, less privileged and widows within your location.
+
+I need your assurance that you will use the fund for charity, once I a
+favorable reply from you, will inform my Bank through my lawyer to
+transfer the fund to you as my Next of Kin and Sole Beneficiary. Once
+I receive your response, I will inform my bank in writing through my
+lawyer.
+
+
+
+Thank you and God bless you.
+
+Mrs. Susan S. Cage
