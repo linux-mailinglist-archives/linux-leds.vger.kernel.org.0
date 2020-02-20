@@ -2,52 +2,27 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7D34164F3D
-	for <lists+linux-leds@lfdr.de>; Wed, 19 Feb 2020 20:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E27DD1658BC
+	for <lists+linux-leds@lfdr.de>; Thu, 20 Feb 2020 08:49:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726771AbgBSTvG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 Feb 2020 14:51:06 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:43014 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726645AbgBSTvG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Feb 2020 14:51:06 -0500
-Received: by mail-pl1-f193.google.com with SMTP id p11so489878plq.10;
-        Wed, 19 Feb 2020 11:51:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=M4zKKP2Q/R2OqgXmQC7JNNxIqu37zs1Y9dnrMmNhKok=;
-        b=kYk0BubJtysEMvnnNMFVM2IeGCr/Ru/1kfwbbHPBOBzi4yZrxwxByDP6WsdcN/Vx+O
-         L+WCpjbRy+2EKKAygOeHsRw/f6pdNP/RIvO3BeCvi+bP2TjPUZ7+GeMXjAvXQlICZoy/
-         OevfqzKOx6/eAovyMtu7G/oDqXc2UWTZb1mlsBNgTlTfPOM8udclGqbaVeXqeR6KhAyC
-         m8M5f5wPFgloka5Xu0Qop9wSSZtctnLXyxEFZXECtLslg9qYcj8dJuY2ghZZc+Fc2ay5
-         kChYlnafdEFyX0ptn61peDksV2Xh+QgWDN+z0XWbhmcfmbDJ+Eglc+yfSLJZxj4wa+nK
-         prNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=M4zKKP2Q/R2OqgXmQC7JNNxIqu37zs1Y9dnrMmNhKok=;
-        b=ow4Juqku5Xss4S8WiM/Jp5zg98FmJ/POirhNGYsjMeU81HvawVZcbcJr6lqzftV9qH
-         k0V7xuEuh/gB1vpFul8YDe0nDGRznjPCXDVxKoFgoUL1yURyLljnNI2kTdkmts6oZW2m
-         LdBlM1JD5GWGOpUIWAjbsC93Y/wRRXVngmvhLtIl/QU5XReDeHtuPl+u9Gk2arASKW+3
-         py81aPg1yoNjeh60S0MKlHgOVquBuJWB6kjcqqcNjlH1E9jYYGyjNg2QV7b+fKbpMXP4
-         F59bxJU7efbRWWvYcLFYzOGxLCZ0n4ktwWDswpqZtgX5EMAWBgoK2jRWzhXRoHGsp8Fg
-         9RJg==
-X-Gm-Message-State: APjAAAUaC6eZ1qn/p1lFhuFzjP6TfmyFR2ezF9ezsoF07hmpMmOUBAwZ
-        xWJQhCPVgJxRrmUqO4n5MTol9c7aUUHxq1vT5Hg=
-X-Google-Smtp-Source: APXvYqzWKZoMXWkNrbnA1iDHd6g69T2x4VPoAwG/SDYVlx1df4kBzSZPdGZCwUj1t8upq1pqlBurbpQO9aN3F7v2m8U=
-X-Received: by 2002:a17:90a:b10b:: with SMTP id z11mr11000285pjq.132.1582141865462;
- Wed, 19 Feb 2020 11:51:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20200213091600.554-1-uwe@kleine-koenig.org> <20200213091600.554-2-uwe@kleine-koenig.org>
-In-Reply-To: <20200213091600.554-2-uwe@kleine-koenig.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 19 Feb 2020 21:50:54 +0200
-Message-ID: <CAHp75VcStj5sE3f0uK2deOWC=ojfx-z1fbrh6Lu6jAor9F9PgA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] lib: new helper kstrtodev_t()
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>
+        id S1727034AbgBTHtJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 20 Feb 2020 02:49:09 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:54643 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727025AbgBTHtJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 20 Feb 2020 02:49:09 -0500
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1j4gZy-00076I-W3; Thu, 20 Feb 2020 08:49:03 +0100
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1j4gZx-0007Au-66; Thu, 20 Feb 2020 08:49:01 +0100
+Date:   Thu, 20 Feb 2020 08:49:01 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -56,40 +31,81 @@ Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Sascha Hauer <kernel@pengutronix.de>,
         "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 1/4] lib: new helper kstrtodev_t()
+Message-ID: <20200220074901.ohcrisjgd26555ya@pengutronix.de>
+References: <20200213091600.554-1-uwe@kleine-koenig.org>
+ <20200213091600.554-2-uwe@kleine-koenig.org>
+ <CAHp75VcStj5sE3f0uK2deOWC=ojfx-z1fbrh6Lu6jAor9F9PgA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VcStj5sE3f0uK2deOWC=ojfx-z1fbrh6Lu6jAor9F9PgA@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 11:27 AM Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.o=
-rg> wrote:
->
-> This function is in the same spirit as the other kstrto* functions and
-> uses the same calling convention. It expects the input string to be in
-> the format %u:%u and implements stricter parsing than sscanf as it
-> returns an error on trailing data (other than the usual \n).
+On Wed, Feb 19, 2020 at 09:50:54PM +0200, Andy Shevchenko wrote:
+> On Thu, Feb 13, 2020 at 11:27 AM Uwe Kleine-König <uwe@kleine-koenig.org> wrote:
+> >
+> > This function is in the same spirit as the other kstrto* functions and
+> > uses the same calling convention. It expects the input string to be in
+> > the format %u:%u and implements stricter parsing than sscanf as it
+> > returns an error on trailing data (other than the usual \n).
+> 
+> Can we first split the kstrotox* (and simple_strto*) to the separate
+> header first?
 
-Can we first split the kstrotox* (and simple_strto*) to the separate
-header first?
+I don't feel strong here what is right. But I hesitate to create another
+pre-condition for this patch set.
 
-On top of that, why kstrtodev_t is so important? How many users are
-already in the kernel to get an advantage out of it?
-What to do with all other possible variants ("%d:%d", "%dx%d" and its
-%u variant, etc)?
+> On top of that, why kstrtodev_t is so important? How many users are
+> already in the kernel to get an advantage out of it?
 
-Why simple_strto*() can't be used?
+Does it need to be important? It matches the other kstrto* functions and
+so it seemed more natural to me to put it near the other functions. I'm
+not aware of other potential users and surprised you seem to suggest
+this as a requirement.
 
->  #include <linux/export.h>
->  #include <linux/types.h>
->  #include <linux/uaccess.h>
+> What to do with all other possible variants ("%d:%d", "%dx%d" and its
+> %u variant, etc)?
 
-> +#include <linux/kdev_t.h>
+I don't see how %d:%d is relevant, major and minor cannot be negative
+can they? I never saw 'x' as separator between major and minor. I
+considered shortly parsing %u, but given that (I think) this is an
+internal representation only I chose to not make it more visible than it
+already is.
 
-Perhaps preserve order? (It's for the future, since I doubt we will
-get this in upstream anyway).
+> Why simple_strto*() can't be used?
 
---=20
-With Best Regards,
-Andy Shevchenko
+I didn't really consider it, but looking in more detail I don't like it
+much. Without having tried it I think simple_strtoull accepts
+"1000000000000000000000000000000000000000000" returning some arbitrary
+value without an error indication. And given that I was asked for strict
+parsing (i.e. not accepting 2:4:something) I'd say using simple_strto*
+is a step backwards. Also simple_strtoul() has "This function is obsolete.
+Please use kstrtoul instead." in its docstring which seems to apply to
+the other simple_strto*() functions, too.
+
+> >  #include <linux/export.h>
+> >  #include <linux/types.h>
+> >  #include <linux/uaccess.h>
+> 
+> > +#include <linux/kdev_t.h>
+> 
+> Perhaps preserve order?
+
+Can do.
+
+Best regards
+Uwe
+
+-- 
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
