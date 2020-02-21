@@ -2,57 +2,27 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B4C61677AA
-	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2020 09:44:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C7E1167B62
+	for <lists+linux-leds@lfdr.de>; Fri, 21 Feb 2020 11:53:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730704AbgBUImj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 21 Feb 2020 03:42:39 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:37423 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727934AbgBUImi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Feb 2020 03:42:38 -0500
-Received: by mail-pf1-f194.google.com with SMTP id p14so841675pfn.4;
-        Fri, 21 Feb 2020 00:42:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=i0j3HxQ470HdIWxAMoUka3U8AZHwcMDdR6BO6TowNX8=;
-        b=S9BznbuiB7CZsRilNYHcvxrAQnetlx6nUYiludsv40niivFJ350vJbnhnnT0ttG1nu
-         HTRfYvmy5pcjGjFl1xqDu6ElpXc7SUaVX2CZL10QamBW/nb/vbBYiRYmiotRXDrk9gFg
-         PP9rORoTEL2+EPlgzQfyG7SvbSJNNta8l6mWyY644SdNTv5yMapp4OY72k+fT7FLJUc5
-         KkLOwFLUR/JQkfe4JJBUqw5lHn+k8NftdPycBOvwpTCAvKx76NmGxq4t8FSZIPMWPCNj
-         khU4IwOfIQsVr0r9b2dUlu1J7LSVcE8vD/vIEsD/o4I9eNNLDc8FoZOR3gWfzONGvTio
-         BPKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=i0j3HxQ470HdIWxAMoUka3U8AZHwcMDdR6BO6TowNX8=;
-        b=tjqdAL18fsiNoE6QwNs/7bgF2n/3oJdkzTcjTPQtcigFkIJ2cYuCwPZFwEqMDz3pxX
-         Kz8dAsBuW3GC2hd+lY2B3GS8ujrPDH7WCZuAFb5r7GgWeVkinlinUlOxFzb3Yd6V/3z2
-         tSdOcobIgKQB4WAUgFzCjYvUhik9PEv9lwLhMyTIgjOc5xy8WcnMmOR/JCvqbDAEbb8J
-         2xfrmiDpMJCEcc6T/2VZAx42g92wSea5ZwT0zTXwgafJDHxaT+G3jSD4l0aMiX4uSFK+
-         dwY/yNF029TsXMg6J21+11Cvta3qVZpZJ42IqO7ZQgT7VgaL6zAJTC9O6LIue0m+YmVH
-         swQQ==
-X-Gm-Message-State: APjAAAU5TEHB+6QWNIquo0cOzbMTvO/9wALItIlgwGf6dSxYbzvaRfyv
-        HVRA7GMfU/Z4JqBuhgLFWp5jMCKqyAOe3DxzcfE=
-X-Google-Smtp-Source: APXvYqzr723bAPUr915pjFyXAHuVlB4FwzaNx+DToKigYTUcjbunnfJIG1Jb5ag1LVGlqNDMtFhnoQ74+d9KO9OQRDA=
-X-Received: by 2002:a62:1944:: with SMTP id 65mr37651381pfz.151.1582274557809;
- Fri, 21 Feb 2020 00:42:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20200213091600.554-1-uwe@kleine-koenig.org> <20200213091600.554-2-uwe@kleine-koenig.org>
- <CAHp75VcStj5sE3f0uK2deOWC=ojfx-z1fbrh6Lu6jAor9F9PgA@mail.gmail.com>
- <20200220074901.ohcrisjgd26555ya@pengutronix.de> <CAHp75VcxXWputX1y90t8f-c0a3dw2CHU6=ebQ+o6e8Z1GymiDw@mail.gmail.com>
- <20200220105718.eoevd3kb63zzrotu@pengutronix.de> <CAHp75Vd3KN81qxOWJQ7v=GimSLtVymur_iPsf91pka1STc1nfA@mail.gmail.com>
- <20200220140101.frlxklnv6x3uhzow@pengutronix.de>
-In-Reply-To: <20200220140101.frlxklnv6x3uhzow@pengutronix.de>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 21 Feb 2020 10:42:29 +0200
-Message-ID: <CAHp75VdD5rJMBqH-YwGKuM5EHUXxeGAon6TfPwq_YxWGzkdrtQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] lib: new helper kstrtodev_t()
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        id S1727352AbgBUKxV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 21 Feb 2020 05:53:21 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:38707 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726100AbgBUKxT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 Feb 2020 05:53:19 -0500
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1j55vl-0007RY-NN; Fri, 21 Feb 2020 11:53:13 +0100
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1j55vk-0002Kq-1Q; Fri, 21 Feb 2020 11:53:12 +0100
+Date:   Fri, 21 Feb 2020 11:53:12 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
         "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -61,210 +31,156 @@ Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
         Pavel Machek <pavel@ucw.cz>, Jiri Slaby <jslaby@suse.com>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
         Dan Murphy <dmurphy@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 1/4] lib: new helper kstrtodev_t()
+Message-ID: <20200221105311.qxy3q7sf5owze2na@pengutronix.de>
+References: <20200213091600.554-1-uwe@kleine-koenig.org>
+ <20200213091600.554-2-uwe@kleine-koenig.org>
+ <CAHp75VcStj5sE3f0uK2deOWC=ojfx-z1fbrh6Lu6jAor9F9PgA@mail.gmail.com>
+ <20200220074901.ohcrisjgd26555ya@pengutronix.de>
+ <CAHp75VcxXWputX1y90t8f-c0a3dw2CHU6=ebQ+o6e8Z1GymiDw@mail.gmail.com>
+ <20200220105718.eoevd3kb63zzrotu@pengutronix.de>
+ <CAHp75Vd3KN81qxOWJQ7v=GimSLtVymur_iPsf91pka1STc1nfA@mail.gmail.com>
+ <20200220140101.frlxklnv6x3uhzow@pengutronix.de>
+ <CAHp75VdD5rJMBqH-YwGKuM5EHUXxeGAon6TfPwq_YxWGzkdrtQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VdD5rJMBqH-YwGKuM5EHUXxeGAon6TfPwq_YxWGzkdrtQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Feb 20, 2020 at 4:01 PM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
-> On Thu, Feb 20, 2020 at 01:46:00PM +0200, Andy Shevchenko wrote (with
-> the additions written in a later mail inserted as if he said them
-> already then):
-> > On Thu, Feb 20, 2020 at 12:57 PM Uwe Kleine-K=C3=B6nig
-> > <u.kleine-koenig@pengutronix.de> wrote:
-> > > On Thu, Feb 20, 2020 at 12:22:36PM +0200, Andy Shevchenko wrote:
-> > > > On Thu, Feb 20, 2020 at 9:49 AM Uwe Kleine-K=C3=B6nig
-> > > > <u.kleine-koenig@pengutronix.de> wrote:
+Hello Andy,
 
-...
-
-> > Yes. But looking at the LOCs you introduce to entire kernel in such
-> > generic area (I wouldn't tell you anything if, for instance, you
-> > introduced a support for hypothetical S2P bus with one host controller
-> > driver) like lib/.
->
-> Why are added LOCs bad? Increased compile time? Increased binary size?
-
-Both.
-
-> More memory usage when the file is opened in an editor?
-
-Probably in some cases. :-)
-
-> > > > If you had told "look, we have 1234 users which may benefit out of
-> > > > it", I would have given no comment against.
+On Fri, Feb 21, 2020 at 10:42:29AM +0200, Andy Shevchenko wrote:
+> On Thu, Feb 20, 2020 at 4:01 PM Uwe Kleine-König
+> <u.kleine-koenig@pengutronix.de> wrote:
+> > > > Also I don't understand yet, what you want me to do.
 > > >
-> > > Sure, having >1000 potential users would be a good argument pro this
-> > > function. But having only one isn't a good contra IMHO.
+> > > I have issues with kstrto() not playing with simple and single numbers
+> > > (boolean is a special case, but still a number at the end).
 > >
-> > For lib/ is a good argument in my opinion.
->
-> So while I agree (as I wrote) that many users would be great, not having
-> many users isn't bad enough to justify putting this function somewhere
-> separated from the other kstrto*() functions. I assume we won't be able
-> to sort out this difference of opinion.
+> > A dev_t is also a number in the end.
+> 
+> My point (when I added single) is 1:1 map. dev_t is not.
 
-If you put this like: okay, this is a new helper and new user, but we
-have 100500 similar cases in the kernel which may benefit out of this,
-it's one story, it you put it like: okay, let's do one helper per each
-very particular case, it's another story.
-You see the difference? I'm completely against the latter one.
+I don't agree. The mapping is quite similar, the only difference is that
+you cannot write 47:11 in C source code to get an instance of dev_t.
+(But you can write MKDEV(47, 11) which is close but IMHO unsuitable for
+the sysfs interface.)
 
-...
+Other than that it's just that kstrtoul does
+"49283083" -> 10111100000000000000001011 while kstrtodev_t does
+"47:11" -> 10111100000000000000001011.
 
-> > > > See above, if we are going to make it generic, perhaps better to co=
-ver
-> > > > more possible users, right?
-> > > > Otherwise your change provokes pile of (replaced)
-> > > > kstrto_resolution() /* %ux:%u */
-> > > > kstrto_range() /* %d:%d */
-> > > > kstrto_you_name_it()
-> > >
-> > > Given there are respective types that this can be stored to, I don't
-> > > object more functions of this type and don't see a good reason to not
-> > > add such a function. And in my eyes I prefer to have such a function =
-in
-> > > a visible place (i.e. where all the other kstrto* functions are) to
-> > > prevent code duplication.
+(nitpick: it's both not 1:1 as "0x2f0000b" maps to the same as "49283083",
+but ...)
+
+> > > In b) case, add to the commit message how many potential _existing_
+> > > users may be converted to this.
 > >
-> > You can easily satisfy above by adding a function parameter 'char
-> > *delim', right?
->
-> Well, not completely as major and minor have a different domain range
-> compared to unsigned ints (or any other integer type).
+> > <sarcasm>Will use 9f6158946987a5ce3f16da097d18f240a89db417 as a good
+> > example how to do that.</sarcasm>
+> 
+> I didn't get it. There are _existing_ users in the kernel for that
+> functionality, At least two are using it right now.
 
-Yes, it's also can be adjusted. You provide a better helper and then
-you may do something like
+Yeah, this was just me being grumpy about "add to the commit message how
+many potential _existing_ users may be converted". See the output of
 
-static inline ... string_parse_dev_t(...)
-{
-  ret =3D string_parse_two_numbers(..., );
-  if (ret)
-    return ret;
+	git grep '\<int_pow\>' 9f6158946987a5ce3f16da097d18f240a89db417^
 
-  if (x or y is not in range)
-    return -EOVERFLOW;
-  ...
-}
+.
 
-> > > Also I don't understand yet, what you want me to do.
+> > [...]
+> > I think what is needed here to satisfy us both is a set of functions like:
 > >
-> > I have issues with kstrto() not playing with simple and single numbers
-> > (boolean is a special case, but still a number at the end).
->
-> A dev_t is also a number in the end.
-
-My point (when I added single) is 1:1 map. dev_t is not.
-
-> > I also don't feel good with too narrow usage of the newly introduced he=
-lper
->
-> I don't see how a helper that should provide a valid dev_t and other
-> types use a generic function. The specification for parsing a dev_t is:
-> "A non-negative number that fits in 20 bits, followed by a colon,
-> followed by a non-negative number that fits in 12 bits." So even if we
-> had a generic function that could parse (in scanf-semantics) "%u:%u",
-> we'd still need a more specialized helper that ensures the range of the
-> two integers. (And I suggest to call this helper kstrtodev_t. :-)
-
-See above: 1/ provide a generic helper, 2/ provide its use with
-certain dev_t validation.
-
-> > > Assume I'd be
-> > > willing to use simple_strtoul, I'd still want to have a function that
-> > > gives me a dev_t from a given string. Should I put this directly in m=
-y
-> > > led-trigger driver?
+> >         int buftoul(const char *buf, char **endp, unsigned long *result)
 > >
-> > I see the following possibilities:
-> > a) put it inside the caller and forget about generic helper
-> > b) do a generic helper, but 1/ in string_*() namespace, 2/ with a
-> > delimiter parameter and 3/ possibility to take negative numbers
->
-> I wonder about 1/. Are there already other (and similar) functions in
-> the string_* namespace?
+> > which does proper range checking (by not consuming chars that are too
+> > much) and still provides an endp pointer that allows to make use of this
+> > function to parse types that are represented by more than a plain
+> > integer.
+> 
+> Yeah, https://xkcd.com/927/.
 
-Not exactly. There is a printing in human-readable format for sizes
-and escape/unescape.
+With the difference that if we introduce a new standard we can
+effectively kill the older ones. And that you now work towards
+undeprecating simple_str* seems to confirm that we don't have the one
+standard to rule them all yet.
 
-> IMHO kstrto* is fine. These all take a string
-> and provide a value of a given type with strict parsing. As pointed out
-> above, 2/ isn't enough. I don't care much about 3/.
+=====
 
-See above, I really don't see how this fits kstrtox(), to me it's
-obvious layer violation.
+So, I'm trying to summarize the things we agree about and our
+differences to maybe help finding an agreement. Trying to be objective
+until the ==== below.
 
-> > In b) case, add to the commit message how many potential _existing_
-> > users may be converted to this.
->
-> <sarcasm>Will use 9f6158946987a5ce3f16da097d18f240a89db417 as a good
-> example how to do that.</sarcasm>
+I think we agree about:
 
-I didn't get it. There are _existing_ users in the kernel for that
-functionality, At least two are using it right now.
-Funny that the original code has been rewritten to get rid of int_pow() cal=
-l.
-You may do the same, i.e. rewrite your code to get rid of whatever_dev_t() =
-use.
+ - The dev_t specification provided by a user via sysfs should be parsed
+   in a strict way.
 
-> > Also it would be good to have two versions strict (only \n at the end
-> > is allowed) and non-strict (based on the amount of users for each
-> > group). And don't forget to extend lib/test_string.c accordingly.
-> >
-> > > > > And given that I was asked for strict
-> > > > > parsing (i.e. not accepting 2:4:something) I'd say using simple_s=
-trto*
-> > > > > is a step backwards. Also simple_strtoul() has "This function is =
-obsolete.
-> > > > > Please use kstrtoul instead." in its docstring which seems to app=
-ly to
-> > > > > the other simple_strto*() functions, too.
-> > > >
-> > > > I specifically fixed a doc string to approve its use in the precise=
-ly
-> > > > cases you have here.
-> > >
-> > > Can you please be a bit more constructive here and point to the chang=
-e
-> > > you talk about? I didn't find a commit in next.
-> >
-> > https://elixir.bootlin.com/linux/v5.6-rc2/source/include/linux/kernel.h=
-#L446
-> >
-> > Note, there is no more word 'obsolete' there.
->
-> I talked about
->
-> https://elixir.bootlin.com/linux/v5.6-rc2/source/lib/vsprintf.c#L61
->
-> which still tells to not use it.
+ - A helper that takes a string as argument and yields a dev_t or an
+   error is wanted.
 
-I see. Thanks for report, I'll soon send a patch to fix it as well.
+The points we don't agree about yet are:
 
-> I think what is needed here to satisfy us both is a set of functions like=
-:
->
->         int buftoul(const char *buf, char **endp, unsigned long *result)
->
-> which does proper range checking (by not consuming chars that are too
-> much) and still provides an endp pointer that allows to make use of this
-> function to parse types that are represented by more than a plain
-> integer.
+ a) naming of the function
+    Uwe: It fits well into kstrto*(), so kstrtodev_t()
+    Andy: It doesn't fit and feels like a layer violation
 
-Yeah, https://xkcd.com/927/.
+ b) Where to put the function
+    Uwe: Put it into a global place for others to find
+    Andy: Put it near the (for now) single user.
+    (not sure this is really your position here)
 
-> Currently this functionality is provided by _parse_integer
-> (with a different API and slightly different semantic). For my purpose
-> _parse_integer is good enough, so I'd like to leave introduction and
-> identification plus conversion of already existing potential users to
-> you.
+ c) Helpers used to implement the str-to-dev_t helper
+    Uwe: calling the already existing _parse_integer twice is fine
+    Andy: let's create a helper that parses two integers with a given
+          separator
 
-Nothing prevents you to use it from your parser which will be located
-in string_*() namespace.
+====
 
---
-With Best Regards,
-Andy Shevchenko
+I don't feel very strong about b), and could live with putting it near
+the led trigger until a new user appears. Concerning a) I still think it
+should have a name that should be obvious enough that a potential new
+user finds it. And given that kstrto* already contains functions
+converting strings to a given type this feels right for me. Andy
+didn't suggest a definitive name, only string_* namespace. This is quite
+crowded, the best representatives are probably the ones declared in
+include/linux/string_helpers.h.
+
+I looked a bit around for potential users of str-to-dev_t and
+parse-two-integers. I found none for str-to-dev_t and only
+dname_to_vma_addr() for the parse-two-integers helper. (But for
+parse-two-integers the problem might be that I missed some as I don't
+have a good idea how to grep for these.)
+
+dname_to_vma_addr() takes a string in format "%lx-%lx", interprets the
+numbers as base16 without 0x prefix and leading zeros and doesn't accept
+a trailing \n. Sounds like a quest for someone being really motivated to
+cover both (i.e. dname_to_vma_addr() and str-to-dev_t) in a single
+versatile function.
+
+Another way out would be to not take a dev_t from user-space to
+determine the tty, but a name and use tty_dev_name_to_number() to get
+the dev_t. (Which would add a second user to this globally exported
+function. (The only other user is in staging.) :-)
+
+I don't know how we can find an agreement, maybe we'd need some input
+by someone else? There are quite some people who get this mail, maybe
+someone read 'til here and cares enough to comment?
+
+Best regards
+Uwe
+
+-- 
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
