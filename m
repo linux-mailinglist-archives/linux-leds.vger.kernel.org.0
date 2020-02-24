@@ -2,141 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BEE5E16AB61
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Feb 2020 17:28:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5E1A16AE6A
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Feb 2020 19:14:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727177AbgBXQ2m (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 24 Feb 2020 11:28:42 -0500
-Received: from vps.xff.cz ([195.181.215.36]:59288 "EHLO vps.xff.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727299AbgBXQ2m (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 24 Feb 2020 11:28:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-        t=1582561720; bh=wkV253iNdu34zWLZa2QqrlFlrBm18YkIXQNR8JlEGXc=;
-        h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
-        b=WDKWj//9hWJyzQ+9eJs8ZC/lnXAkW5HiOq9ChU8ruQvc7s2a8caBEhBu0EBTqedJL
-         oF0QzLdL5peysOVfOP4s0H2nZXya9z8FBi6xQQZP8L8Am/AvpCoJXQZQq6M2YpXbpR
-         Z5xeQIUsADukIZgVk853toibAnc2nrgeVvxDR+jk=
-Date:   Mon, 24 Feb 2020 17:28:40 +0100
-From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To:     Stefan Mavrodiev <stefan@olimex.com>
-Cc:     linux-sunxi@googlegroups.com,
+        id S1727736AbgBXSOp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 24 Feb 2020 13:14:45 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:34835 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726208AbgBXSOp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Feb 2020 13:14:45 -0500
+Received: by mail-ot1-f67.google.com with SMTP id r16so9602668otd.2;
+        Mon, 24 Feb 2020 10:14:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4nmmGful+MegUr8aRgRCB1gCieEuCvrSiIBlqsABDmE=;
+        b=T58RVwbr4NQjeRTG7UBG+4HnEZ3Sm+n3CTBfK2ekFInD+UDcONAKcxlZZqX3cJCAKG
+         yQDx22hOOKsFO3bpC2vg12DTP2Cc70iIz8ge/GmMAzIFycnL48aqpdhSIu6SjIY6Jb/w
+         3CQLtymmGzu31yeSC1BxXM41upNqLNO7KQ3B6NY5hXwu0bLHZlKgJ9t13wfdGUymQSC7
+         gDxCrtZy1C6tPwuOQUncs7QGl1e7GG5jVQyCEeecIrl44DwDngTNWsEq3fA5YoZcRLqD
+         YoyAI+NerGPADjMn6sW/1o8Dat3u5XpUHkWmBhRu9PCviV1PbFSB4U/9m+xZeckDL6v3
+         AM9g==
+X-Gm-Message-State: APjAAAUgLTqsnYnob21W3Gc+mbH6Q9aO/Gm+TVoPxiuhq6T0fFVjlKQy
+        y1zplhlC2qKQJs+7Vcb+V1aYFIA=
+X-Google-Smtp-Source: APXvYqzSAV62BhNi363gv0daEbhuDKzBdde3JmEZAlbjVYZ9GcAmP/tY+ZpDRe7P2Ti1DpLoIK6ciQ==
+X-Received: by 2002:a9d:68d9:: with SMTP id i25mr29162204oto.135.1582568083899;
+        Mon, 24 Feb 2020 10:14:43 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id 60sm4761700otu.45.2020.02.24.10.14.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2020 10:14:43 -0800 (PST)
+Received: (nullmailer pid 24218 invoked by uid 1000);
+        Mon, 24 Feb 2020 18:14:41 -0000
+Date:   Mon, 24 Feb 2020 12:14:41 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Jyri Sarha <jsarha@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [linux-sunxi] Re: [PATCH 0/4] Add support for charger LED for
- AXP813 and TBS A711 Tablet
-Message-ID: <20200224162840.z7csqagz2frwvmf3@core.my.home>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        Stefan Mavrodiev <stefan@olimex.com>, linux-sunxi@googlegroups.com,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20200223131435.681620-1-megous@megous.com>
- <20200223132730.6g7tnm2f263oubhv@core.my.home>
- <20200223133517.hfqrg5dta2xk4zj3@core.my.home>
- <1464324b-2b69-c20e-4af8-f32ae5451ea6@olimex.com>
+        Stuart Yoder <stuyoder@gmail.com>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-gpio@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 2/7] docs: dt: fix several broken references due to
+ renames
+Message-ID: <20200224181441.GA23262@bogus>
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
+ <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1464324b-2b69-c20e-4af8-f32ae5451ea6@olimex.com>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
+In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Feb 24, 2020 at 08:31:06AM +0200, Stefan Mavrodiev wrote:
+On Sat, Feb 22, 2020 at 10:00:02AM +0100, Mauro Carvalho Chehab wrote:
+> Several DT references got broken due to txt->yaml conversion.
 > 
-> On 2/23/20 3:35 PM, Ondřej Jirman wrote:
-> > On Sun, Feb 23, 2020 at 02:27:30PM +0100, megous hlavni wrote:
-> > > On Sun, Feb 23, 2020 at 02:14:31PM +0100, megous hlavni wrote:
-> > > > The tablet has a charger LED exposed on the top. This LED is controlled
-> > > > by AXP813 PMIC. Add support for enabling the LED and using it either
-> > > > for charging indication (handled by PMIC automatically) or for other uses
-> > > > via user control.
-> > > Dang, I just noticed someone sent a similar driver recently, although I had this
-> > > one prepared for quite some time (since 2017) in my tree. I guess I should have
-> > > sent it earlier.
-> > > 
-> > > Please ignore.
-> > Though the meaning of "recently" is a bit relative. The other work was sent in
-> > a year ago. Here's a reference:
-> > 
-> >    https://lore.kernel.org/patchwork/cover/1042764/
+> Those are auto-fixed by running:
 > 
-> Hi,
+> 	scripts/documentation-file-ref-check --fix
 > 
-> I'm the author of the 'other' work. I don't know the full story here, but I
-> don't
-> mind someone else submitting this patch as his.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Reviewed-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>  Documentation/devicetree/bindings/arm/arm,scmi.txt        | 2 +-
+>  Documentation/devicetree/bindings/arm/arm,scpi.txt        | 2 +-
+>  .../devicetree/bindings/arm/bcm/brcm,bcm63138.txt         | 2 +-
+>  .../devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt  | 2 +-
+>  .../devicetree/bindings/arm/msm/qcom,idle-state.txt       | 2 +-
+>  Documentation/devicetree/bindings/arm/omap/mpu.txt        | 2 +-
+>  Documentation/devicetree/bindings/arm/psci.yaml           | 2 +-
+>  .../devicetree/bindings/clock/qcom,gcc-apq8064.yaml       | 2 +-
+>  .../devicetree/bindings/display/tilcdc/tilcdc.txt         | 2 +-
+>  Documentation/devicetree/bindings/leds/common.yaml        | 2 +-
+>  .../devicetree/bindings/leds/register-bit-led.txt         | 2 +-
+>  .../devicetree/bindings/memory-controllers/ti/emif.txt    | 2 +-
+>  Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt   | 2 +-
+>  .../bindings/pinctrl/aspeed,ast2400-pinctrl.yaml          | 2 +-
+>  .../bindings/pinctrl/aspeed,ast2500-pinctrl.yaml          | 2 +-
+>  .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml          | 2 +-
+>  .../devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml  | 2 +-
+>  .../devicetree/bindings/reset/st,stm32mp1-rcc.txt         | 2 +-
+>  .../devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml  | 2 +-
+>  MAINTAINERS                                               | 8 ++++----
+>  20 files changed, 23 insertions(+), 23 deletions(-)
 
-Hello Stefan,
+Applied.
 
-There's really no story. Just me being a bit anoyed at myself, for not checking
-the mailing lists prior to spending some time cleaning up and extending some old
-patches to upstream them, and wasting quite a bit of time in the process.
-
-https://megous.com/git/linux/commit/?h=linux-tbs&id=737eec64565d328cab98b75879e3f9eb1cf2f609
-
-> When I submitted the last patch, there was the proposal to use the
-> ledtrig-pattern instead
-> of sysfs entries. Also AXP209 has inverted CTRL bit.
-> 
-> Please read the the 'other' discussion.
-
-Thanks, I'll check it out.
-
-regards,
-	o.
-
-> Best regards,
-> Stefan Mavrodiev
-> 
-> > 
-> > > regards,
-> > > 	o.
-> > > 
-> > > 
-> > > > Please take a look.
-> > > > 
-> > > > thank you and regards,
-> > > >    Ondrej Jirman
-> > > > 
-> > > > Ondrej Jirman (4):
-> > > >    dt-bindings: leds: Add a binding for AXP813 charger led
-> > > >    leds: axp20x: Support charger LED on AXP20x like PMICs
-> > > >    ARM: dts: axp813: Add charger LED
-> > > >    ARM: dts: sun8i-a83t-tbs-a711: Enable charging LED
-> > > > 
-> > > >   .../devicetree/bindings/leds/leds-axp20x.yaml |  24 ++
-> > > >   arch/arm/boot/dts/axp81x.dtsi                 |   5 +
-> > > >   arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts     |   4 +
-> > > >   drivers/leds/Kconfig                          |   7 +
-> > > >   drivers/leds/Makefile                         |   1 +
-> > > >   drivers/leds/leds-axp20x.c                    | 240 ++++++++++++++++++
-> > > >   drivers/mfd/axp20x.c                          |   3 +
-> > > >   7 files changed, 284 insertions(+)
-> > > >   create mode 100644 Documentation/devicetree/bindings/leds/leds-axp20x.yaml
-> > > >   create mode 100644 drivers/leds/leds-axp20x.c
-> > > > 
-> > > > -- 
-> > > > 2.25.1
-> > > > 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Rob
