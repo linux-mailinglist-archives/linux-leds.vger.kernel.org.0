@@ -2,83 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C80016BCF4
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Feb 2020 10:06:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5C3F16BE74
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Feb 2020 11:19:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729863AbgBYJGA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Feb 2020 04:06:00 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:48635 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729765AbgBYJGA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Feb 2020 04:06:00 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1j6WA5-0007xl-H8; Tue, 25 Feb 2020 10:05:53 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1j6WA3-0003FW-Gm; Tue, 25 Feb 2020 10:05:51 +0100
-Date:   Tue, 25 Feb 2020 10:05:51 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     kernel@pengutronix.de, linux-serial@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        Pavel Machek <pavel@ucw.cz>, Jiri Slaby <jslaby@suse.com>,
-        linux-leds@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: [PATCH v6 2/4] tty: rename tty_kopen() and add new function
- tty_kopen_shared()
-Message-ID: <20200225090551.jhj7sc75neyphbss@pengutronix.de>
-References: <20200213091600.554-1-uwe@kleine-koenig.org>
- <20200213091600.554-3-uwe@kleine-koenig.org>
- <20200219132113.GD32540@localhost>
- <20200219163758.5rypsol4n6ucost4@pengutronix.de>
- <20200219171759.GE32540@localhost>
- <20200220110427.e6jgzvdhh3ysql3n@pengutronix.de>
- <20200225085503.GP32540@localhost>
+        id S1730086AbgBYKTi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Feb 2020 05:19:38 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:37870 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728958AbgBYKTi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 Feb 2020 05:19:38 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 2897A1C0411; Tue, 25 Feb 2020 11:19:36 +0100 (CET)
+Date:   Tue, 25 Feb 2020 11:19:35 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/9] leds: lm3692x: Allow to set ovp and brigthness
+ mode
+Message-ID: <20200225101935.GA16252@amd>
+References: <cover.1578134779.git.agx@sigxcpu.org>
+ <20200105234708.GA7598@amd>
+ <20200106094443.GB13043@bogon.m.sigxcpu.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200225085503.GP32540@localhost>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+In-Reply-To: <20200106094443.GB13043@bogon.m.sigxcpu.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Feb 25, 2020 at 09:55:03AM +0100, Johan Hovold wrote:
-> On Thu, Feb 20, 2020 at 12:04:27PM +0100, Uwe Kleine-König wrote:
-> > Ah I think I see. tty_driver_lookup_tty() might return NULL which for
-> > the trigger driver indicates that tty_kopen_shared should be retried,
-> > right?
-> 
-> I'm not sure how best to handle this, but yes, your trigger can only be
-> enabled while the port is open currently. And no error is returned to a
-> user trying to enable the trigger before it has been opened.
-> 
-> But regardless of the error reporting, I don't think failing when the
-> port isn't open is the right thing to do as as this makes the interface
-> rather useless since you cannot enable a trigger from for example a udev
-> rule.
-> 
-> If this approach is to be used at all, it seems you may need to allocate
-> the struct tty when the trigger is enabled. And make sure you don't mess
-> up some other assumption in tty core...
 
-My idea is instead to retry opening the device later. At least this
-sounds easier.
+--bg08WKrSYDhXBjb5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards
-Uwe
+Hi!
 
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+> > > Patches are against next-20191220.
+> >=20
+> > I applied everything but the "exponential" changes and the last
+> > one. I'll apply the last one if I get version that applies on top of
+> > leds tree.
+>=20
+> Thanks! Can I do anything to get the exponential part in? Is it because
+> you want the exponential mode to move to the backlight binding?
+
+You'd have to do some serious convincing, explaining why we absolutely
+need the exponential stuff.
+
+Most devices today use linear brightness, and userspace needs to know
+the relation, especially for RGB stuff.
+
+You can set bigger max-brightness, and then do in-driver conversion to
+use full dynamic brightness range...?
+
+Best regards,
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--bg08WKrSYDhXBjb5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl5U9LcACgkQMOfwapXb+vKmQwCeMlzPn+Eem1SMNkD3mahWvCZt
+NMAAn0xlajNgoP4SO6bIQu8nJ4+2vhUo
+=oqTC
+-----END PGP SIGNATURE-----
+
+--bg08WKrSYDhXBjb5--
