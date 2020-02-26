@@ -2,151 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1F4D170B51
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2020 23:15:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27A5D170B98
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2020 23:30:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727742AbgBZWPl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 26 Feb 2020 17:15:41 -0500
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:59308 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727715AbgBZWPl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Feb 2020 17:15:41 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01QMFYvx010050;
-        Wed, 26 Feb 2020 16:15:34 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1582755334;
-        bh=31IwkFACdr77CIUf9TrZXycOQvg7ZjmTVme5kI0Me2k=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=GyCX7V4MYgq93RTraRpbtKUydot3q9l5OF8RLtt9O0VpJg8yOcmzjRqbW2RJVzNAp
-         n9SuFhFyBsWrY0dRqwOT4KfZ6e+xTMrpTcgODpd5ruTwNcKOEXjzVQBClijteMMiLs
-         9a4Vba06dCQEBv4iVMEetzj/GUcvCMV2vvRcT7vs=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 01QMFYBQ050487
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 26 Feb 2020 16:15:34 -0600
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 26
- Feb 2020 16:15:33 -0600
-Received: from localhost.localdomain (10.64.41.19) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 26 Feb 2020 16:15:33 -0600
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by localhost.localdomain (8.15.2/8.15.2) with ESMTP id 01QMFXB8072817;
-        Wed, 26 Feb 2020 16:15:33 -0600
-Subject: Re: [RESEND PATCH v17 00/17] Multi Color LED Framework
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <20200127150032.31350-1-dmurphy@ti.com>
- <42d9687b-b488-22cf-0e9a-ff635b2094e3@ti.com> <20200225101940.GB16252@amd>
- <be76fdac-9d32-b9b2-c01d-3aa315b14463@gmail.com>
- <20200226125903.GA2800@duo.ucw.cz>
- <20f6bdd5-e899-aead-8c35-1c3a3d09145f@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <2f349232-327c-eb3a-4f3a-c22cdbe98c24@ti.com>
-Date:   Wed, 26 Feb 2020 16:10:20 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1727746AbgBZWaf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 Feb 2020 17:30:35 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:36532 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727709AbgBZWaf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Feb 2020 17:30:35 -0500
+Received: by mail-oi1-f193.google.com with SMTP id c16so1265421oic.3;
+        Wed, 26 Feb 2020 14:30:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZIlPjifus7WfeBj0gGi82kKOzq1wYnOIRClo35MBZc0=;
+        b=qxSRF0lhqypbaR4C2wgyFsDfMNKzmpIzykKyVqJUSM8JtDX70FJa1nWggYgc+b3qyi
+         /6OyHKV8TVgctdEq1crg4l0I6rIHomV9CfmnC3QUlqn0nLaHFnNZF7M1RrzchBvWTP4F
+         M8c4RKoKJO9LNHe3ejdvas2KVgEIAxGFzzq2sJVlXTMoA/wrcU9wMOxYCuXPp0qnLkCC
+         m1RXKylkAwvXFgLUTFsStbiNoWxNfKIyOHeD/spmfM6aKd18DSpOpqYhvNu25tFRESfq
+         qkyamb5eLJ9WE5XyvO3tUOCgKQHABpPulEm28hg8zcgAC/Vx92GdhVyBfpKf5cyX4zE5
+         bZqg==
+X-Gm-Message-State: APjAAAVE/QRTMbUPieYRnVwO+elD8Zq3hOAascninidBjIlqGMdtEmqa
+        AgDNEQvK6qG0xWzp5Um3Fg==
+X-Google-Smtp-Source: APXvYqxN8VRIZzGbJK5F6l4YjpqWBlSf2rbUDYu4nFqKC0CNhTmORVGaCz6j9VvqOV0Qu90LztjjPg==
+X-Received: by 2002:aca:7591:: with SMTP id q139mr787618oic.54.1582756234681;
+        Wed, 26 Feb 2020 14:30:34 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id h15sm1236359otq.67.2020.02.26.14.30.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2020 14:30:33 -0800 (PST)
+Received: (nullmailer pid 19907 invoked by uid 1000);
+        Wed, 26 Feb 2020 22:30:32 -0000
+Date:   Wed, 26 Feb 2020 16:30:32 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Ondrej Jirman <megous@megous.com>
+Cc:     linux-sunxi@googlegroups.com,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/4] dt-bindings: leds: Add a binding for AXP813 charger
+ led
+Message-ID: <20200226223032.GA13404@bogus>
+References: <20200223131435.681620-1-megous@megous.com>
+ <20200223131435.681620-2-megous@megous.com>
 MIME-Version: 1.0
-In-Reply-To: <20f6bdd5-e899-aead-8c35-1c3a3d09145f@gmail.com>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200223131435.681620-2-megous@megous.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello
+On Sun, Feb 23, 2020 at 02:14:32PM +0100, Ondrej Jirman wrote:
+> The AXP813 PMIC can control one LED. Add binding to represent the LED.
+> 
+> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> ---
+>  .../devicetree/bindings/leds/leds-axp20x.yaml | 24 +++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-axp20x.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-axp20x.yaml b/Documentation/devicetree/bindings/leds/leds-axp20x.yaml
+> new file mode 100644
+> index 0000000000000..79282d55764bf
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-axp20x.yaml
+> @@ -0,0 +1,24 @@
+> +# SPDX-License-Identifier: GPL-2.0
 
-On 2/26/20 2:45 PM, Jacek Anaszewski wrote:
-> Hi Greg,
->
-> We have here long lasting discussion related to LED multicolor class
-> sysfs interface design. We went through several iterations and worked
-> out the solution with individual file per each color sub-LED in the
-> color directory as shown below:
->
-> /sys/class/leds/<led>/colors/<color>_intensity
->
-> This is in line with one-value-per-file sysfs rule, that is being
-> frequently highlighted, and we even had not so long ago a patch
-> for led cpu trigger solving the problem caused by this rule not
-> being adhered to.
->
-> Now we have the voice below bringing to attention another caveat
-> from sysfs documentation:
->
-> "it is socially acceptable to express an array of values of the same
-> type"
->
-> and proposing the interface in the form of two files:
->
-> channel_intensity (file containing array of u32's)
-> channel_names (usually containing "red green blue")
->
-> In order to have this clarified once and for all, could you please
-> provide us with guidance on whether the fragment from
-> Documentation/filesystems/sysfs.txt is still in force and we
-> can benefit from it for LED multicolor framework, or not and then
-> it should be removed from the doc then?
+Dual license new bindings please:
 
-I spent some time trying to find the conversation on the array 
-implementation for the multi color framework.
+(GPL-2.0-only OR BSD-2-Clause)
 
-It is buried here
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-axp20x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: LED driver for AXP813 PMIC from X-Powers.
+> +
+> +maintainers:
+> +  - Ondrej Jirman <megous@megous.com>
+> +
+> +description: |
+> +  This module is part of the AXP20x MFD device. For more details
+> +  see Documentation/devicetree/bindings/mfd/axp20x.txt.
 
-https://lore.kernel.org/patchwork/patch/1026515/
+Really, we should convert this first as this should either just be 
+referenced from the MFD schema or just directly put into it.
 
-The response from GKH on array's was sited in the above here:
-
-https://www.spinics.net/lists/devicetree/msg69730.html
-
-Repeating my objections to using arrays.
-
-Would this array of colors be fixed?  Well the answer is it would be 
-fixed per DT entries.  So if a user populates 10 LEDs for color then we 
-will have 10 entries in the array.  Another DT entry may only have 3.  
-So the array size is variable but bounded for now assuming no additional 
-colors are added.
-
-Another issue with this implementation is we expect channel_names and 
-channel_intensity arrays to be aligned.  Two different arrays need to 
-line up so that each element value in channel_intensity matches the 
-color in the channel_name.   This can be very easily mixed up in the 
-HLOS if the proper array tracking is not done. Can we guarantee that the 
-values we are getting are for the LED they are targeted for?
-
-Would this array be bounded?  Bounded yes by the number of supported 
-color IDs we have defined in the LED file.  But the size of the array is 
-completely variable from device to device
-
-Specific LEDs cannot be updated without re-sending the whole array.  If 
-the user would like to change just 1 color and it is the nth position 
-(possibly 10th from above) then all color intensities need to be 
-passed.  There would be no way to say I want "red" at the 10th position 
-to be 128 without passing in all the other color values as well.  So the 
-caller needs to keep a cache of the current values or call the framework 
-to get the current values just to pass them back in. This seems more 
-expensive then writing 2 sysfs files as writing to the color/<color> 
-intensity file does not perform any I/O it merely caches the values.  
-With the array the framework would need to process all the elements in 
-the array every time the array is passed.  And then still call the 
-brightness file to update the color outputs.  So we still have at 
-minimum two sysfs accesses.
-
-Neither implementation is perfect.
-
-Maybe we need to ask GKH to host this in the staging directory and 
-actually get some feedback from users as opposed to imposing our will on 
-people.
-
-Not sure if the ABI's can change in staging.
-
-Dan
-
+Rob
