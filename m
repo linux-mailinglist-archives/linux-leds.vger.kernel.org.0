@@ -2,56 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 39838170946
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2020 21:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A8DE1709FC
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2020 21:46:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727503AbgBZUOF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 26 Feb 2020 15:14:05 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39966 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727500AbgBZUOF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Feb 2020 15:14:05 -0500
-Received: by mail-wm1-f65.google.com with SMTP id t14so678202wmi.5;
-        Wed, 26 Feb 2020 12:14:01 -0800 (PST)
+        id S1727425AbgBZUp7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 Feb 2020 15:45:59 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:34092 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727379AbgBZUp7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Feb 2020 15:45:59 -0500
+Received: by mail-wr1-f68.google.com with SMTP id z15so497692wrl.1;
+        Wed, 26 Feb 2020 12:45:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=R1RxSH3g/mT+61xYTA0dLToBIuwzhhNEDqxhKTD80ng=;
-        b=ttTr57oXaV6IqDe0Vgk4r3I2+d12h4R+gDRx7ixa+FHBl4xIz+gWLY1P0BxHmwUzS8
-         oHVDyKDdRLstO8Q2mar6Z8jkQ21MLohVT9z/h/791pQuuyudm/f/WllYZ2H166kDi3gB
-         /Nx5TC8/rZQi4gvgyCdZbh5VcK7SOt3H++8E3kcqUTmpN74CKvyjI3sRlrVz/c+O4G9b
-         DJC8mMMlx8w8BhbbEBPpLtDz/vQRj6Hvl8YTEizptz08YXbnEz0P6H0lPc2VqkakW5iC
-         aLfB8XbOqd1yT+GNQPz3XfyBOVvyPNl45AlYxaedg/aWpu3V5e7Cr6LZPpIFOifZmsYt
-         I23g==
+        bh=RQPjGZt/jTG0wtQN7H76rxOnoZw/q/6TIuTEg4fX1N8=;
+        b=K81tSiX2qakaVhGASWoFdTWuNAkPSzjWYa8cSEBAm4RcF/VDND35VIgBpEVA+pqTrE
+         Ipd9ZoArjH8BdP+b8BYFbmAwmL9u7sC+YSelpPQfcva8/2S0owxjWfeK4hLfGO0i1quJ
+         XV08Xm3m4fcerfK3otDRtA3G917dbu9omjn/Y+ea7SXTjlUM2EOw0b0nkPOR+7HW6abU
+         xjWrBvH4rSDHSo+Yxzn6UJqxe/xCNFpjz15xhkxOMHo6yxHfCv0Q9f6G2Oy2WyHnik4l
+         utO0ZqHj2B9nlv2NPOS99I2waIVPF8lBDuKP/gpC1JNaxsi8VW+3ve5ZBDty3spX6tQT
+         TM2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=R1RxSH3g/mT+61xYTA0dLToBIuwzhhNEDqxhKTD80ng=;
-        b=uOFn2gjTwu1QhKjTlzdIDSUf/cRPJQSSBi7+UuQyFJkbf+Ki2cOYT7Pz7nKNuiPMMO
-         LzmgJzfxTPSwdMNur6hV81TKV3Dw6IuSDxQTZLhwbIFUSh1HxEl/7ykx2Pxc42bkIe7B
-         pl4kTOvpIImbnW6daBgWUpqCM1wFSt3eKMwX1gZb9bd8XagpAcZa7naIDPPNa5Lni1Zz
-         CoQiqm0axr/+Y0i70wr4s+wFm9BxECAwlg1g1Nph1VZo4vtwz5n+aENNpJYcVIkoVVab
-         Rj/6aVcUaI51aAV4lMYqMxi4ze6lUw8rTItMu+G0/7bq47kVN+1jQH3uZ8LKSa18mqb3
-         802g==
-X-Gm-Message-State: APjAAAXPy3rAuM2fdaDYvXZwAVp5cpXTmfvii0ahYZjW4bHYOGdhiHPz
-        VB3WaTQfSx6E98r/QNEUhSo/UqgQ
-X-Google-Smtp-Source: APXvYqyr5qGbbakxWAxhLS07+m5tUowuEEOGzBao/OslaTkp49BlF/eMQb6npmjyN568s4gWx6E7+A==
-X-Received: by 2002:a05:600c:2942:: with SMTP id n2mr549465wmd.87.1582748040604;
-        Wed, 26 Feb 2020 12:14:00 -0800 (PST)
+        bh=RQPjGZt/jTG0wtQN7H76rxOnoZw/q/6TIuTEg4fX1N8=;
+        b=nVFdGdV37z3qkitySkTK8ypADDBbyjBukD/4QDty8Bya5owgA3JfHKcJESCc05lhhh
+         tQgg8Yk/NALwKl+RuGsx31JG075ZNfqQIR5iYRn42VAq/uVdIUbPx2SZU5f4b1dlWXnd
+         8fZ1dQg2prXCgADbwvwKx8a5mvrrzbCEdRrRnVeYPCjzKJQKM073xWGEhuN/1OBxloZI
+         m8Xq/0sXjnqIq42OnlZt6z2lUpLOn8bW/zhPM9zalL1LBXWn7EjSJb828gvttnnI0PJE
+         sTcDBLZpV343iyDNeMXxVAc8TVY4prsRg/4pearCAubeGDRJesJso3D6hnZwzGqJ4zrh
+         hIkQ==
+X-Gm-Message-State: APjAAAUiZz3JqCaZE+Tm56tU8atcuJaebs1I9vyE/GLX4l3ZJvqD3wmy
+        rq7UPeQZuR3FwXrKqKJ3dyifozNx
+X-Google-Smtp-Source: APXvYqw9VuxcevD2mah9vm0QF9dkpouk6SzlzWX3yIki6S9+eeICiirhlijA38K8EoGHiSKIdLHQ4w==
+X-Received: by 2002:adf:90e1:: with SMTP id i88mr486438wri.95.1582749956185;
+        Wed, 26 Feb 2020 12:45:56 -0800 (PST)
 Received: from [192.168.1.23] (affz246.neoplus.adsl.tpnet.pl. [95.49.155.246])
-        by smtp.gmail.com with ESMTPSA id w19sm4027148wmc.22.2020.02.26.12.13.59
+        by smtp.gmail.com with ESMTPSA id i18sm1610401wrv.30.2020.02.26.12.45.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Feb 2020 12:14:00 -0800 (PST)
-Subject: Re: [PATCH RFC v2 3/3] drivers: leds: add support for apa102c leds
-To:     Nicolas Belin <nbelin@baylibre.com>, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, pavel@ucw.cz, dmurphy@ti.com,
-        devicetree@vger.kernel.org
-Cc:     baylibre-upstreaming@groups.io
-References: <1582727592-4510-1-git-send-email-nbelin@baylibre.com>
- <1582727592-4510-4-git-send-email-nbelin@baylibre.com>
+        Wed, 26 Feb 2020 12:45:55 -0800 (PST)
+Subject: Re: [RESEND PATCH v17 00/17] Multi Color LED Framework
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200127150032.31350-1-dmurphy@ti.com>
+ <42d9687b-b488-22cf-0e9a-ff635b2094e3@ti.com> <20200225101940.GB16252@amd>
+ <be76fdac-9d32-b9b2-c01d-3aa315b14463@gmail.com>
+ <20200226125903.GA2800@duo.ucw.cz>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  xsFNBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -112,13 +113,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  hQNfg9em95lpAK+VOTocke8PSESy3GbEtmoMueW3caSeDHb5dRP6WrndaYhEOzAA/KjuPU7J
  LMXOABOMIq+R38y7e2B3TnVDCrccdZDseFPUWmH0cGCGihH/j2UZG+PImrSDCh3h5MedVHGo
  sI62tmWm0q6lrljwSZmMZ30w1QaGmdFpI3Q6V+nZ7TZldI3x
-Message-ID: <85f536f0-0078-08a5-5eeb-e401d1ed8782@gmail.com>
-Date:   Wed, 26 Feb 2020 21:13:58 +0100
+Message-ID: <20f6bdd5-e899-aead-8c35-1c3a3d09145f@gmail.com>
+Date:   Wed, 26 Feb 2020 21:45:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <1582727592-4510-4-git-send-email-nbelin@baylibre.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200226125903.GA2800@duo.ucw.cz>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -126,98 +127,89 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Nicolas,
+Hi Greg,
 
-Regardless of the fact that LED mc framework in current shape
-will probably not materialize in mainline, I have single
-remark regarding LED initialization. Please take a look below.
+We have here long lasting discussion related to LED multicolor class
+sysfs interface design. We went through several iterations and worked
+out the solution with individual file per each color sub-LED in the
+color directory as shown below:
 
-On 2/26/20 3:33 PM, Nicolas Belin wrote:
-> Initilial commit in order to support the apa102c RGB leds. This
-> is based on the Multicolor Framework.
-> 
-> Reviewed-by: Corentin Labbe <clabbe@baylibre.com>
-> Signed-off-by: Nicolas Belin <nbelin@baylibre.com>
-> ---
->  drivers/leds/Kconfig        |   7 ++
->  drivers/leds/Makefile       |   1 +
->  drivers/leds/leds-apa102c.c | 291 ++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 299 insertions(+)
->  create mode 100644 drivers/leds/leds-apa102c.c
-> 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 5dc6535a88ef..71e29727c6ec 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -79,6 +79,13 @@ config LEDS_AN30259A
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called leds-an30259a.
->  
-> +config LEDS_APA102C
-> +	tristate "LED Support for Shiji APA102C"
-> +	depends on SPI
-> +	depends on LEDS_CLASS_MULTI_COLOR
-> +	help
-> +	  This option enables support for APA102C LEDs.
-> +
->  config LEDS_APU
->  	tristate "Front panel LED support for PC Engines APU/APU2/APU3 boards"
->  	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index b5305b7d43fb..8334cb6dc7e8 100644
-[...]
-> +
-> +		led->priv			= priv;
-> +		led->ldev.max_brightness	= MAX_BRIGHTNESS;
-> +		fwnode_property_read_string(child, "linux,default-trigger",
-> +					    &led->ldev.default_trigger);
-> +
-> +		init_data.fwnode = child;
-> +		init_data.devicename = APA_DEV_NAME;
-> +		init_data.default_label = ":";
+/sys/class/leds/<led>/colors/<color>_intensity
 
-devicename property should be filled in new drivers only in case
-devname_mandatory is set to true.
-default_label property is for legacy drivers, for backward compatibility
-with old LED naming convention.
+This is in line with one-value-per-file sysfs rule, that is being
+frequently highlighted, and we even had not so long ago a patch
+for led cpu trigger solving the problem caused by this rule not
+being adhered to.
 
-For more information please refer to:
-- Documentation/leds/leds-class.rst, "LED Device Naming" section
-- struct led_init_data documention in linux/leds.h
+Now we have the voice below bringing to attention another caveat
+from sysfs documentation:
 
-In effect you need only fwnode here,
+"it is socially acceptable to express an array of values of the same
+type"
 
-> +
-> +		num_colors = 0;
-> +		fwnode_for_each_child_node(child, grandchild) {
-> +			ret = fwnode_property_read_u32(grandchild, "color",
-> +						       &color_id);
-> +			if (ret) {
-> +				dev_err(priv->dev, "Cannot read color\n");
-> +				goto child_out;
-> +			}
-> +
-> +			set_bit(color_id, &led->mc_cdev.available_colors);
-> +			num_colors++;
-> +		}
-> +
-> +		if (num_colors != 3) {
-> +			ret = -EINVAL;
-> +			dev_err(priv->dev, "There should be 3 colors\n");
-> +			goto child_out;
-> +		}
-> +
-> +		if (led->mc_cdev.available_colors != IS_RGB) {
-> +			ret = -EINVAL;
-> +			dev_err(priv->dev, "The led is expected to be RGB\n");
-> +			goto child_out;
-> +		}
-> +
-> +		led->mc_cdev.num_leds = num_colors;
-> +		led->mc_cdev.led_cdev = &led->ldev;
-> +		led->ldev.brightness_set_blocking = apa102c_brightness_set;
-> +		ret = devm_led_classdev_multicolor_register_ext(priv->dev,
+and proposing the interface in the form of two files:
 
--- 
+channel_intensity (file containing array of u32's)
+channel_names (usually containing "red green blue")
+
+In order to have this clarified once and for all, could you please
+provide us with guidance on whether the fragment from
+Documentation/filesystems/sysfs.txt is still in force and we
+can benefit from it for LED multicolor framework, or not and then
+it should be removed from the doc then?
+
 Best regards,
 Jacek Anaszewski
+
+On 2/26/20 1:59 PM, Pavel Machek wrote:
+> Hi!
+> 
+>>> The fact that it changes API makes it important to get it right, and
+>>> hard/impossible to fix it once it is merged... and I don't think this
+>>> is the right interface (sorry).
+>>>
+>>> In particular, I don't think having directory per channel is a good
+>>> idea. It makes atomic updates impossible (minor), 
+>>
+>> It is possible via brightness file, although it will need first writing
+>> intensity files, which only will cache colors, and actual write to hw
+>> occurs on write to brightness file. This has been discussed dozen of
+>> times throughout last year, and you even proposed the formula for
+>> calculating per-color-subled brightness basing on global brightness and
+>> intensity set for each color.
+> 
+> You are right, it is possible to make updates atomic with right kind
+> of latching (which is quite confusing).
+> 
+>>> but will also
+>>> increase memory consuption (to a point where led-per-channel might
+>>> be cheaper), and will make userspace do 3x ammount of syscalls in the
+>>> common case.
+>>>
+>>> And we can do better; sysfs files with arrays are okay. So I'd like to
+>>> see
+>>
+>> Let's first achieve broader consensus on this statement before we
+>> move forward with such design. Sysfs maintainer seems to be the best
+>> person to consult at first.
+> 
+> This is actually documented:
+> 
+> Documentation/filesystems/sysfs.txt
+> 
+> <quote>
+> Attributes should be ASCII text files, preferably with only one value
+> per file. It is noted that it may not be efficient to contain only one
+> value per file, so it is socially acceptable to express an array of
+> values of the same type.
+> 
+> Mixing types, expressing multiple lines of data, and doing fancy
+> formatting of data is heavily frowned upon. Doing these things may get
+> you publicly humiliated and your code rewritten without notice.
+> </quote>
+> 
+> Best regards,
+> 									Pavel
+> 
+
+
