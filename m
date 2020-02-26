@@ -2,32 +2,33 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 147DB17001D
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2020 14:33:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E6CD170023
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Feb 2020 14:35:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726867AbgBZNdk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 26 Feb 2020 08:33:40 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:37974 "EHLO
+        id S1726700AbgBZNfo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 Feb 2020 08:35:44 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:38126 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726765AbgBZNdk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Feb 2020 08:33:40 -0500
+        with ESMTP id S1726673AbgBZNfo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Feb 2020 08:35:44 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 57C391C2103; Wed, 26 Feb 2020 14:33:38 +0100 (CET)
-Date:   Wed, 26 Feb 2020 14:33:37 +0100
+        id 857751C2228; Wed, 26 Feb 2020 14:35:42 +0100 (CET)
+Date:   Wed, 26 Feb 2020 14:35:42 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: leds: Convert gpio-leds to DT schema
-Message-ID: <20200226133337.GB4080@duo.ucw.cz>
-References: <20200108001738.8209-1-robh@kernel.org>
- <20200108001738.8209-2-robh@kernel.org>
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH -next] leds: leds-bd2802: remove set but not used
+ variable 'pdata'
+Message-ID: <20200226133542.GC4080@duo.ucw.cz>
+References: <20200108015322.51103-1-yuehaibing@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Yylu36WmvOXNoKYn"
+        protocol="application/pgp-signature"; boundary="QRj9sO5tAVLaXnSD"
 Content-Disposition: inline
-In-Reply-To: <20200108001738.8209-2-robh@kernel.org>
+In-Reply-To: <20200108015322.51103-1-yuehaibing@huawei.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -35,42 +36,39 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---Yylu36WmvOXNoKYn
+--QRj9sO5tAVLaXnSD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue 2020-01-07 18:17:38, Rob Herring wrote:
-> Convert the gpio-leds binding to DT schema format.
+On Wed 2020-01-08 01:53:22, YueHaibing wrote:
+> Fixes gcc '-Wunused-but-set-variable' warning:
 >=20
-> Drop the last example as the node name collides when built, and it doesn't
-> add much value.
+> drivers/leds/leds-bd2802.c: In function 'bd2802_probe':
+> drivers/leds/leds-bd2802.c:663:35: warning:
+>  variable 'pdata' set but not used [-Wunused-but-set-variable]
 >=20
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Dan Murphy <dmurphy@ti.com>
-> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> commit 4c3718f9d6a6 ("leds: bd2802: Convert to use GPIO descriptors")
+> left behind this unused variable.
+>=20
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 
-It seems it is already in tree, as of Linux 5.6-rc2...?
-
-So, sorry for delay but nothing for me to do here?
-
-Best regards,
+Thanks, applied.
 								Pavel
-							=09
+
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---Yylu36WmvOXNoKYn
+--QRj9sO5tAVLaXnSD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXlZzsQAKCRAw5/Bqldv6
-8lRUAJ0S+0Av9iihCNs1f1F4GAzLN7gz+gCgwciZWHfC9HsapXWfAjtrzt6Zh7U=
-=wnnJ
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXlZ0LgAKCRAw5/Bqldv6
+8pH4AJ9xvxAZkpy6T7XHvo8qDEytYkQFMQCgsyB2TzRbBnybDx7t/BwUvk621bg=
+=WhOt
 -----END PGP SIGNATURE-----
 
---Yylu36WmvOXNoKYn--
+--QRj9sO5tAVLaXnSD--
