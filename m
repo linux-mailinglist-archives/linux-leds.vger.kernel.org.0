@@ -2,98 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E699171582
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2020 11:58:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4FC71717B6
+	for <lists+linux-leds@lfdr.de>; Thu, 27 Feb 2020 13:43:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728680AbgB0K6L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 27 Feb 2020 05:58:11 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:35872 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728744AbgB0K6K (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Feb 2020 05:58:10 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 1F1B71C013C; Thu, 27 Feb 2020 11:58:09 +0100 (CET)
-Date:   Thu, 27 Feb 2020 11:58:08 +0100
-From:   Pavel Machek <pavel@denx.de>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+        id S1728998AbgB0Mnd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 27 Feb 2020 07:43:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40558 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728977AbgB0Mnd (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 27 Feb 2020 07:43:33 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5449724695;
+        Thu, 27 Feb 2020 12:43:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582807411;
+        bh=YziCh5RfRjGRbrEFqGpPxtb+NAbvdYamyvPjRGczxG0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pNjU2Ahi4rlB1blPiCQmcukYcXPdWue3UzZRh8NOCawRsvTTPA+TB4ourbXemwswi
+         +Zb32Y6KjD9zTFWGNWGlRFT0CHHpqHqZOb/HUWVDO0jVn/bBcSYGD8Kd8Ve+H9TTTB
+         lShd613bsGATtZwE7hYkoF74Vp+9gpbVrbYHdRbE=
+Date:   Thu, 27 Feb 2020 13:43:29 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Pavel Machek <pavel@denx.de>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: [RESEND PATCH v17 00/17] Multi Color LED Framework
-Message-ID: <20200227105808.GA27003@duo.ucw.cz>
+Message-ID: <20200227124329.GA994747@kroah.com>
 References: <20200127150032.31350-1-dmurphy@ti.com>
  <42d9687b-b488-22cf-0e9a-ff635b2094e3@ti.com>
  <20200225101940.GB16252@amd>
  <be76fdac-9d32-b9b2-c01d-3aa315b14463@gmail.com>
  <20200226125903.GA2800@duo.ucw.cz>
  <20f6bdd5-e899-aead-8c35-1c3a3d09145f@gmail.com>
+ <20200227105808.GA27003@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="gBBFr7Ir9EOA20Yy"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20f6bdd5-e899-aead-8c35-1c3a3d09145f@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200227105808.GA27003@duo.ucw.cz>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Thu, Feb 27, 2020 at 11:58:08AM +0100, Pavel Machek wrote:
+> Hi, Jacek!
+> 
+> (and thanks for doing this).
+> 
+> > We have here long lasting discussion related to LED multicolor class
+> > sysfs interface design. We went through several iterations and worked
+> > out the solution with individual file per each color sub-LED in the
+> > color directory as shown below:
+> > 
+> > /sys/class/leds/<led>/colors/<color>_intensity
+> > 
+> > This is in line with one-value-per-file sysfs rule, that is being
+> > frequently highlighted, and we even had not so long ago a patch
+> > for led cpu trigger solving the problem caused by this rule not
+> > being adhered to.
+> 
+> Yep. One of the problems is that it is nice to change all the hardware
+> channels at once to produce color (it is often on i2c -- and slow), so
+> current proposals use "interesting" kind of latching.
+> 
+> > Now we have the voice below bringing to attention another caveat
+> > from sysfs documentation:
+> > 
+> > "it is socially acceptable to express an array of values of the same
+> > type"
+> > 
+> > and proposing the interface in the form of two files:
+> > 
+> > channel_intensity (file containing array of u32's)
+> > channel_names (usually containing "red green blue")
+> 
+> And thus I want to have it in one file, so it is naturaly atomic. RGB
+> leds with 3 channels are common; I have not user yet, but there are
+> RGBW with 4 channels (and some more exotic stuff). I don't expect to
+> have more than 5 channels.
 
---gBBFr7Ir9EOA20Yy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Writing 3 or 4 or 5 numbers all at once in a single sysfs file to
+represent a single output should be fine.
 
-Hi, Jacek!
+thanks,
 
-(and thanks for doing this).
-
-> We have here long lasting discussion related to LED multicolor class
-> sysfs interface design. We went through several iterations and worked
-> out the solution with individual file per each color sub-LED in the
-> color directory as shown below:
->=20
-> /sys/class/leds/<led>/colors/<color>_intensity
->=20
-> This is in line with one-value-per-file sysfs rule, that is being
-> frequently highlighted, and we even had not so long ago a patch
-> for led cpu trigger solving the problem caused by this rule not
-> being adhered to.
-
-Yep. One of the problems is that it is nice to change all the hardware
-channels at once to produce color (it is often on i2c -- and slow), so
-current proposals use "interesting" kind of latching.
-
-> Now we have the voice below bringing to attention another caveat
-> from sysfs documentation:
->=20
-> "it is socially acceptable to express an array of values of the same
-> type"
->=20
-> and proposing the interface in the form of two files:
->=20
-> channel_intensity (file containing array of u32's)
-> channel_names (usually containing "red green blue")
-
-And thus I want to have it in one file, so it is naturaly atomic. RGB
-leds with 3 channels are common; I have not user yet, but there are
-RGBW with 4 channels (and some more exotic stuff). I don't expect to
-have more than 5 channels.
-
-Best regards,
-								Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---gBBFr7Ir9EOA20Yy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXlegwAAKCRAw5/Bqldv6
-8mskAKCOR+FzZhQ+xON7Lm1SAo0O69112ACeKN7hUuClPLCjgJWr/mFOK3vWzdc=
-=Q6Vn
------END PGP SIGNATURE-----
-
---gBBFr7Ir9EOA20Yy--
+greg k-h
