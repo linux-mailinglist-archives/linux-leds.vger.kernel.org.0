@@ -2,58 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F8E6174C54
-	for <lists+linux-leds@lfdr.de>; Sun,  1 Mar 2020 09:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D0B2175AFF
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Mar 2020 13:56:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725812AbgCAIwf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 1 Mar 2020 03:52:35 -0500
-Received: from sonic313-4.consmr.mail.ne1.yahoo.com ([66.163.185.123]:39238
-        "EHLO sonic313-4.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725747AbgCAIwf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 1 Mar 2020 03:52:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1583052754; bh=VxFSqOLnoyhxZXWK73TPGK3hr8yutZ4yWmLQa/jSY/I=; h=Date:From:Reply-To:Subject:References:From:Subject; b=VAIwYKGm6kdLrZgMxX+h51yqgzLdH9deXeQ+gPgsTw0BCI2OuQ+R1bMk7kf2ZvN7LJbxEsl09aolqr1a7kipH5BLP/yr5+fI6dGivnvRBgaHW13Q5Ec/qCZKbzATPq9kuyBfI9QS4OXgHTFreUEA/jSs4SgTyif6bTL3X4Z5wQqzeFAwiMlFwaRCBHHj0et0TWKa3foBtiYOzIZj9rC8oxlaLOttrPZUe9Sjd5GTa+bYAz0a0Q6D+028J5dDZ5YExvVwF4bIjToNwWjnmteGcvnav5luGEBy81kwvrH7ySZKUGdHN1zqEIaK7yr0Uhh+dJBZNl2W86jW1JKq6u0xmw==
-X-YMail-OSG: CEfI7Q4VM1lK5aJXRvKsXiFAGKOZtEb6YZdofItRTk7.3fNxItd_HRWAIp1mLCI
- gM_8jSOdM7qv.f8wv9EHu5xMLa8Sd15jiWIeopXEhU0Ckv5C8EwDvSnfG15qHrcUfnEa.rY.GO1H
- CBKbPySaoiSS66.Z4QNEM8cBL3gKd04ahQMB3ATCo02lBd10R4TIJ1Mi3bEqWlWkdMpMgUtI40Oe
- fVxTdR2EIvUM9ab3XylQGFpTPiwbgxyzB0YYBpkDA1oqKq7a8YnH3XaP8t.fP_fpNFKtxrCS30R2
- pgfG.d88vYE92PXxL7CcPQMVgSkG39Sf4Zhis1C671pXZcPeEKUH3GIuusloPbw1MZYYnU2pJXo5
- 5Krhx8CSk2.B78nVTIf8WCHzf4j9.m_rfVJsIT_dUxf5f5b5THm0mUzeC.7khXfS7YfQnxeKdoOQ
- u72dpKNrAWIIOSQ5rhaDgpFLa6BT7C9pZcG18ijCK5rVNVsB7CJXWmJ5HZz4s.HBDlRxreldq2Fu
- P5gfa2mqS99KZyEli1BIrRJ.9SIEiqLDPsGLBLRzgmjBlGX.aEgF7USc_2NQjmLUt7mnTxMi33rR
- qHfZ7LCrLJTZ1vi0Mwmud7g3HOUoXy7NnOfyr2EfeXydmECmqoy7AQ0Cjd2P3eTklfO4.cZJnE5X
- 8cuoFatcOpiid1dVSPaJkyrYIQWOJxgL08ej9awp5u3Qk67hzN3YLNDtpzJe0cRCLkjWAkBZvcq3
- aV6.ZaXdYdmq0FAvjgeY.LJtLia.T5jdn9m9EPjK_MjGVaD6wa48cCUlbxDuxVkH148EIzhMF2p4
- Fr1pLsz92_GZfFhBLBsVqroRu3L5KD.PzLzurGEfMUmFi3VVhikD4gS0uKuuL8KfxNE910V613mB
- Qg7t3WBC3Qjl8MUJ2H0G.ZOWrUybK6pOLYk8KSnF0kX0Ur0TaO_F4mtQKQcjp7HA1Dk3sskeL0Vy
- 3JD3sebKyH_i7piU8erAKgIXIJszxSR9f.fhWtGE4lSnzlRrvrfsVMksWvdJQLYcrNDTPItlkJzM
- hdDrLGrOKZykFBr54j.axgpYFek_GZtPzSb2z0VbLmFs.fi1.v855wRncpAWGYvv8WNuBxqyUMGf
- KgeplQgxgowiQcsm2B6gFlxIPxKaou87LenyvOHtP4mpHkwP7UJwepBpR8jFUicKU_CW8F4XJjkc
- NrZgDaVo_twbEqNGOONnC4n5YU0voeTcPYlWJNiDZDpcfT1AF8.QOZyCzdGqIm7ACBMNhYO6P7oQ
- c_XGuPe7lz3agcmTHDlyS1tGcMnQUizTycOuQ0cRogo_Ft3hFGH9uIhwxj_HN3oYJMJMt5Jr.hDv
- 1DIpZ7H78d34Av6Y4KlD1KI9EsymI6vo2
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ne1.yahoo.com with HTTP; Sun, 1 Mar 2020 08:52:34 +0000
-Date:   Sun, 1 Mar 2020 08:50:33 +0000 (UTC)
-From:   "Mrs. Maureen Hinckley" <gg14@gijimaz.com>
-Reply-To: maurhinck6@gmail.com
-Message-ID: <1249045932.2536284.1583052633817@mail.yahoo.com>
-Subject: 
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <1249045932.2536284.1583052633817.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15302 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.115
-To:     unlisted-recipients:; (no To-header on input)
+        id S1727736AbgCBM4a (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Mar 2020 07:56:30 -0500
+Received: from mail26.static.mailgun.info ([104.130.122.26]:13708 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727627AbgCBM43 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Mar 2020 07:56:29 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1583153789; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=UksUc8DJnc1aYd/SBMqGZD14Ha68l6nAiWZPU19ssZA=; b=kn2NsvxUI1lEFP6vz3AXZ6PFOYIkImBGc80FZrQsMmx0EZXZVDlHxlnHbSEcsVHPdwqRI7Cb
+ MsDZ81P+g+q5hRjHp2fEH3eEqqi5LHUHmWWYDt8ZCMf8wss+Nl6d512dqplQ42ufzT1evYAS
+ tF2DnL9aiCK/D+e1c15jhh5Nfa0=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyJkODczOCIsICJsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e5d026b.7f9835405500-smtp-out-n01;
+ Mon, 02 Mar 2020 12:56:11 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 2E655C447A3; Mon,  2 Mar 2020 12:56:11 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from kgunda-linux.qualcomm.com (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kgunda)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id DD000C43383;
+        Mon,  2 Mar 2020 12:56:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DD000C43383
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=kgunda@codeaurora.org
+From:   Kiran Gunda <kgunda@codeaurora.org>
+To:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        lee.jones@linaro.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        mark.rutland@arm.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
+Subject: [PATCH V1 0/2] Add support for WLED5
+Date:   Mon,  2 Mar 2020 18:25:36 +0530
+Message-Id: <1583153739-19170-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Currently, WLED driver supports only WLED4 peripherals that is present
+on pmi8998 and pm660L. This patch series  converts the existing WLED4
+bindings from .txt to .yaml format and adds the support for WLED5 peripheral
+that is present on PM8150L.
 
+PM8150L WLED supports the following.
+    - Two modulators and each sink can use any of the modulator
+    - Multiple CABC selection options
+    - Multiple brightness width selection (12 bits to 15 bits)
 
-I am Maureen Hinckley and my foundation is donating (Five hundred and fifty=
- thousand USD) to you. Contact us via my email at (maurhinck6@gmail.com) fo=
-r further details.
+Kiran Gunda (2):
+  backlight: qcom-wled: convert the wled bindings to .yaml format
+  backlight: qcom-wled: Add support for WLED5 peripheral in PM8150L
 
-Best Regards,
-Mrs. Maureen Hinckley,
-Copyright =C2=A92020 The Maureen Hinckley Foundation All Rights Reserved.
+ .../bindings/leds/backlight/qcom-wled.txt          | 154 -------
+ .../bindings/leds/backlight/qcom-wled.yaml         | 223 ++++++++++
+ drivers/video/backlight/qcom-wled.c                | 463 ++++++++++++++++++---
+ 3 files changed, 636 insertions(+), 204 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
