@@ -2,55 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D207117BF48
-	for <lists+linux-leds@lfdr.de>; Fri,  6 Mar 2020 14:40:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B52C17BF4A
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Mar 2020 14:40:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726866AbgCFNkv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 6 Mar 2020 08:40:51 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:32824 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726887AbgCFNkv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 6 Mar 2020 08:40:51 -0500
-Received: by mail-wm1-f66.google.com with SMTP id a25so9450373wmm.0
-        for <linux-leds@vger.kernel.org>; Fri, 06 Mar 2020 05:40:50 -0800 (PST)
+        id S1727000AbgCFNkz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 6 Mar 2020 08:40:55 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:54755 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726887AbgCFNky (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 6 Mar 2020 08:40:54 -0500
+Received: by mail-wm1-f68.google.com with SMTP id i9so2453505wml.4
+        for <linux-leds@vger.kernel.org>; Fri, 06 Mar 2020 05:40:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=E/6gF09OIYAAYDcV57fzVa8XqTwVQognyAPormZwLXA=;
-        b=R6V+2BssLDKIwIQo4cQgyU6yIRe9UfLS08WujK48X+C7VGSQBAqjKnkarNeqwMCiMW
-         jF639ahQFVkwlVgzDnqnNg/tMsGAKjbHvdd8ZDNi7aq0yqGE+R8Wbq5AIkgV6Qh56CBK
-         hJQoYMXlT5pN9Q7KXn7NhRM2vVXqDXWiJs9LqNniwHRfE4L21K0nAfsYvkUpHJFcGavT
-         iy9wOPPjefvBcoW8ZZ7gsApK+1vwUXCIb86rvjn7Ggk4FBawo/HlFNC9aN3i4Lbpwl6z
-         9nmZw6CFGtsu1GNT15BqtJ9s9mUl4nbvEACcgfLIgj9NfxmQxkVcYy2caf29NzmLCeEE
-         eMgQ==
+        bh=TqwPKVWpDrYVmu/Cm/Bmq2S/VPK7PgKiVqGEdY3cJqk=;
+        b=WPUQj8kZJMXrcKqH/Ng/QOr/NbXP/iPjfR0rEVKAN8Ci3+AHvBaOZzWdhaRASufX3p
+         k2YKlWwfaTN9YnFshsEKsjAdx6xTe76vSuC1joaK1J9amqtbOtZCo6A4ygS44kMJozyp
+         hN/PmyyGLKp9+NdaJj7yOoIGKwFdJXjwz+QUFvFeoZLD34NMimL5So4q96ciNcvf1YYC
+         hbe02WKVfoKKOPOHKsXl4AKT0hh/tOsEaHI6xGWMtboZib7fSF+u+nfafTlH+6azZ81+
+         HcGybrHlgyaplqnj0MvRdIY6qFlGlbf8gckVLlWmoZt1Xm7i8xcL/jUPCGQmnlcvjwj+
+         4ePA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=E/6gF09OIYAAYDcV57fzVa8XqTwVQognyAPormZwLXA=;
-        b=NIZ6hg31UMGO/tb9U8EpJiNMlCEUT8H73H67ri6HlZRm7l9quMf7gCTIJK6FuFQwBd
-         Czgt0b/uJ7p6UXNdHW2fFB5HpA8l0vTHQtJzVOQ59nbKL/Vi3qLa0v062gK32Oo8M1Xm
-         iqCvA1EHJvDsRno8YZN/+0VfNIa6s88+Hfjvsh4QAJTRVkHUsJhlE34w3+rEjpg3Ha8W
-         hIqZwaHLY0BOhskQW+JpFnWwxdj9E9cKpbMUE3ZqlbagYN+3JT33K5XaOlUWd28HiP2m
-         4Zuyykek0ksmtiZqZ6aNuXOx1Y6v7suflxjlpD91dY7DGuLWV5w9sJLZ4faoRLU+I2Cd
-         lRBg==
-X-Gm-Message-State: ANhLgQ1pVroQDeybW5HtIqeSTCQ5q0kuxHX52drhEIFjwZlonTO97aWF
-        /aJrUU8/von03Ni8HfiocTDbxQ==
-X-Google-Smtp-Source: ADFU+vuUka/yk6YbdJy0yvjTDbB0XaMlyHi/ejIC+Xp7ZZ4NB0EVk8gIlOV2hfAqBcbExLEOdfhv7g==
-X-Received: by 2002:a05:600c:230d:: with SMTP id 13mr4062292wmo.11.1583502049670;
-        Fri, 06 Mar 2020 05:40:49 -0800 (PST)
+        bh=TqwPKVWpDrYVmu/Cm/Bmq2S/VPK7PgKiVqGEdY3cJqk=;
+        b=dL7c/VFknypddK7r6jF3udTB/TrLrQ6zNS26KUV3YybFcnvjhwcIkX5xtlpXUz14W/
+         3/HDmjviLGxkRf0t59v7rY4Ni4njO1BKGiltjTBKai6M34KQJaiuJCkSuhdJ484onO+S
+         Y+9S4SmQXMoa7KFYJXwc0MiQN1l2r3A1+5Dd9IOyWajYgmE1zOgliTfluxFnhyUduz2f
+         PS/23Jk3X2OvpT6VRnKSceGuVc8BOjNVJT33hMImN/3s1JdfuWMHuh/wmGOS0kQoMui3
+         a9z9Dl2TW79rQmB3MXzTtImGL49qZ3+y8TTT3qb6uI84Tpgh5b+2p/9BxMxKg4SjVSg+
+         I1FQ==
+X-Gm-Message-State: ANhLgQ1lNzyoolrV3a+iCi+Ct/vo8aH1jSfUkFo7/HTn/wASBI9hKIWo
+        6BSb9Ozga8/M4KSaD0mLo1ZfRA==
+X-Google-Smtp-Source: ADFU+vvxe2j0UhSXyb8tLoax6/Do2GBZydw/5eIHY4+nyFEx3t1nxI5f72UnPGv/mwksi7MziuPRew==
+X-Received: by 2002:a1c:488b:: with SMTP id v133mr3967539wma.159.1583502052708;
+        Fri, 06 Mar 2020 05:40:52 -0800 (PST)
 Received: from localhost.localdomain (89-82-119-43.abo.bbox.fr. [89.82.119.43])
-        by smtp.gmail.com with ESMTPSA id g7sm47178086wrm.72.2020.03.06.05.40.48
+        by smtp.gmail.com with ESMTPSA id g7sm47178086wrm.72.2020.03.06.05.40.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Fri, 06 Mar 2020 05:40:49 -0800 (PST)
+        Fri, 06 Mar 2020 05:40:52 -0800 (PST)
 From:   Nicolas Belin <nbelin@baylibre.com>
 To:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
         jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
         devicetree@vger.kernel.org
 Cc:     baylibre-upstreaming@groups.io, Nicolas Belin <nbelin@baylibre.com>
-Subject: [PATCH v3 1/3] dt-bindings: Document shiji vendor-prefix
-Date:   Fri,  6 Mar 2020 14:40:08 +0100
-Message-Id: <1583502010-16210-2-git-send-email-nbelin@baylibre.com>
+Subject: [PATCH v3 2/3] dt-bindings: leds: Shiji Lighting APA102C LED
+Date:   Fri,  6 Mar 2020 14:40:09 +0100
+Message-Id: <1583502010-16210-3-git-send-email-nbelin@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1583502010-16210-1-git-send-email-nbelin@baylibre.com>
 References: <1583502010-16210-1-git-send-email-nbelin@baylibre.com>
@@ -59,26 +59,117 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Shenzhen Shiji Lighting Co.,Ltd is a LED manufacturer.
+Document Shiji Lighting APA102C LED driver device tree bindings.
 
 Signed-off-by: Nicolas Belin <nbelin@baylibre.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/leds/leds-apa102c.yaml     | 97 ++++++++++++++++++++++
+ 1 file changed, 97 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-apa102c.yaml
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 9e67944bec9c..a463286c3960 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -863,6 +863,8 @@ patternProperties:
-     description: SGX Sensortech
-   "^sharp,.*":
-     description: Sharp Corporation
-+  "^shiji,.*":
-+    description: Shenzhen Shiji Lighting Co.,Ltd
-   "^shimafuji,.*":
-     description: Shimafuji Electric, Inc.
-   "^si-en,.*":
+diff --git a/Documentation/devicetree/bindings/leds/leds-apa102c.yaml b/Documentation/devicetree/bindings/leds/leds-apa102c.yaml
+new file mode 100644
+index 000000000000..21457fc3762d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-apa102c.yaml
+@@ -0,0 +1,97 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/leds-apa102c.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LED driver for Shiji Lighting - APA102C
++
++maintainers:
++  - Nicolas Belin <nbelin@baylibre.com>
++
++description:
++  Each RGB LED is represented as a rgb-led sub-node of the leds-apa102c
++  device.  Each LED is a three color rgb LED with an additional 32 levels
++  brightness adjustment. They can be cascaded so that multiple LEDs can be set
++  with a single command.
++
++properties:
++  compatible:
++    const: shiji,apa102c
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 1000000
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++patternProperties:
++  "^rgb-led@[0-9]+$":
++    type: object
++    description: |
++      Array of connected RGB LEDs.
++
++    properties:
++      reg:
++        description: |
++          This property corresponds to the led index. It has to be between 0
++          and the number of managed leds minus 1
++        maxItems: 1
++
++      label:
++        description: |
++          This property corresponds to the name of the RGB led.
++        maxItems: 1
++
++      linux,default-trigger: true
++
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++    required:
++      - reg
++      - label
++      - '#address-cells'
++      - '#size-cells'
++
++required:
++  - compatible
++  - reg
++  - spi-max-frequency
++  - '#address-cells'
++  - '#size-cells'
++
++examples:
++  - |
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        led-controller@0 {
++            compatible = "shiji,apa102c";
++            reg = <0>;
++            spi-max-frequency = <1000000>;
++            #address-cells = <1>;
++            #size-cells = <0>;
++            rgb-led@0 {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                reg = <0>;
++                label = "rgb_led1";
++            };
++            rgb-led@1 {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                reg = <1>;
++                label = "rgb_led2";
++            };
++        };
++    };
 -- 
 2.7.4
 
