@@ -2,60 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6287E180A1D
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2020 22:15:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 251F8180AD4
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Mar 2020 22:48:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726283AbgCJVPX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Mar 2020 17:15:23 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50813 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726268AbgCJVPW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Mar 2020 17:15:22 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a5so3029649wmb.0;
-        Tue, 10 Mar 2020 14:15:18 -0700 (PDT)
+        id S1726463AbgCJVsO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Mar 2020 17:48:14 -0400
+Received: from mail-wr1-f44.google.com ([209.85.221.44]:45970 "EHLO
+        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726273AbgCJVsO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Mar 2020 17:48:14 -0400
+Received: by mail-wr1-f44.google.com with SMTP id m9so8824274wro.12
+        for <linux-leds@vger.kernel.org>; Tue, 10 Mar 2020 14:48:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/ZnsOZ0uslw0PDCZAah9EOrGZehIeeGg1H7EizaJUL0=;
-        b=u8iuMw0zK9Ir8hDMfDosF1lrkWsR57nLHpGGtGffZduM480Cw2jiQjCn4CuzvfXxzr
-         KEIvEUZCGhHZMeUkbmGMTBU2euo51VPjJOawuC7R7s3V8ME/rHtNRgchww1wMPVK8Rt/
-         yVO/SVxnFgtbh3/s+SY4QfuhFmEZbXsZPXzYMX2XSX/doa4Ml9cuZpK0Pk80q1n5AprJ
-         X0sppP1fdeWS+SJKW+XBHeDt/5NvyLiKXo8ifyc/pYaR5fmTX7XZsGymnjZV1Yz85NHs
-         Rv0k35RaaS+3Tf1ZfJA3X7jnoGbfA4KWu1GFpwJbCORlLuI3/z4NVx0X6WxDvDKXOiEk
-         m/3w==
+        bh=hwKtHm+2sSwGibEydveMMe6RZ2HWTOESTBCw47gJeoE=;
+        b=NL56gZRnD0VV/d0dX2bdLxmP/n5cuVSfzZjLq1KFJmkqN+xnxDWy6tadmj5lm9CUpv
+         wRt/ikCyE1naLW+kLLXH2kqulfiRUMQfumkLYpa2EuRIYdxWGv/OlPqV3NW2FBSFrTia
+         Eg+uWWmV4ENFsZUXFQHIp+YSGTuv7AG+Jj2x+kA6u0cfZ2d7Lt9MiQju6o0ZUqJCzcL8
+         9GCvLo7cOSmSCe4dLnyzgQO4Yo1mYup7qA2Yad3k5xNA0Orxwd6BrK/NN2MpChPTkgzV
+         e2h19ood+yRFULRIIJsQ8tUXUau/OC2KR1FWgxCEmf4V5ggY4ADGiP0Yxw6R7FtpKfVH
+         GZfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=/ZnsOZ0uslw0PDCZAah9EOrGZehIeeGg1H7EizaJUL0=;
-        b=D0N6c36F/scTo18vubCbBAXprgWe9pj2+OQTyuGDhS16yI+czNef0QjGKTl4UCpQDa
-         EmcCNKMpnHTeOaTMgviH4tieSwSa6gEFLU7MSvjn1U2Lgd4437+V/IEmPSlFOjP7oA0s
-         90cqcgoasyFwe3zk4m8kwWagSHwepenAxcu7jNCxxw5Zgznhgf0NcLj+26R6XPr0YR09
-         AWhcO/nMusulkeH5uQhdjU08lpyfjiBeUmsaqXNnZCqNmTQSakOSK3mY3ipcKM08Io3N
-         JRqlG7H0QlI+XdqTyxah3Z+YGwBI6a0ujxq/O1dXAZjF8XXqvUJ1g+E63EuDoHSFxWWg
-         b1zg==
-X-Gm-Message-State: ANhLgQ0hknxkvSqCXyT0XKJLR1fw/svdCRJ37QL0cCb/OtmTnRIViGea
-        iLV0DfuW9WWhZjLdYG+XUG4hIjy2
-X-Google-Smtp-Source: ADFU+vsz8SBPytW5RyJPQg4B1fc9rLm++tm13PMCT8H/fHRArtiJorGXQ5nfeCc4NN/xwhKhCFRI0Q==
-X-Received: by 2002:a7b:c3d1:: with SMTP id t17mr3889890wmj.27.1583874917335;
-        Tue, 10 Mar 2020 14:15:17 -0700 (PDT)
+        bh=hwKtHm+2sSwGibEydveMMe6RZ2HWTOESTBCw47gJeoE=;
+        b=eNqgHgAMLt0YKqxYbJrnci0idlVxIQ4LUIoCew1xUDg2FbFY3rzGUII09GHTPhNUes
+         nqBHZGQ5GIQOYcpaqGSQ8/m3A3YVZXmoChecb8dXtRtLJBKWpbDCjRj9ll+iUkbFPuWZ
+         rNhWHvjyRg5FZz+phAAdupfjSK5vsa0uPznfkkmFKwdIxlbsZCGYtJIDSXJDUnD0q3qr
+         Oa9YFY+DmzW8HwJpdTt45ldgwqsjddW0zPPm+mgCzARNlHB/iDSSNKNbZJy0/eJA99aU
+         Y5t6X9pKVALnRxerCIUBjBKsxDEkrUrlbTE9PC5+EYtVGE2AQ2iPdVgvKcgPseMSPGPS
+         xkbQ==
+X-Gm-Message-State: ANhLgQ0hmWtotwr6LTqnq7oeisZQpONNHwb6lYMHp7MNHaLqx5W5i18m
+        a5kipETb6FkLgW/pGvC/WOksDEXS
+X-Google-Smtp-Source: ADFU+vvfU1HM6Zk+UZFSM42CMHje8EsnECn+t2tLi3uFRGyjhowqeAO8iavRBwv93gmCZgcoAqZSpQ==
+X-Received: by 2002:a5d:4450:: with SMTP id x16mr29828117wrr.106.1583876891037;
+        Tue, 10 Mar 2020 14:48:11 -0700 (PDT)
 Received: from [192.168.1.23] (afan71.neoplus.adsl.tpnet.pl. [95.49.13.71])
-        by smtp.gmail.com with ESMTPSA id s2sm5472193wmj.15.2020.03.10.14.15.15
+        by smtp.gmail.com with ESMTPSA id c13sm7862173wro.96.2020.03.10.14.48.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2020 14:15:16 -0700 (PDT)
-Subject: Re: [PATCH v2] leds: pwm: add support for default-state device
- property
-To:     Denis Osterland-Heim <denis.osterland@diehl.com>,
-        "dmurphy@ti.com" <dmurphy@ti.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-References: <20200310123126.4709-1-Denis.Osterland@diehl.com>
- <4c16da22994de29c2fbb23c877d55685bcbf8993.camel@diehl.com>
+        Tue, 10 Mar 2020 14:48:10 -0700 (PDT)
+Subject: Re: turris omnia leds again: question
+To:     Marek Behun <kabel@blackhole.sk>, linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>
+References: <20200310183824.1e4ad91d@blackhole.sk>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  xsFNBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -116,12 +109,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  hQNfg9em95lpAK+VOTocke8PSESy3GbEtmoMueW3caSeDHb5dRP6WrndaYhEOzAA/KjuPU7J
  LMXOABOMIq+R38y7e2B3TnVDCrccdZDseFPUWmH0cGCGihH/j2UZG+PImrSDCh3h5MedVHGo
  sI62tmWm0q6lrljwSZmMZ30w1QaGmdFpI3Q6V+nZ7TZldI3x
-Message-ID: <ccb718b2-d0e5-20d8-f30a-95f8f31a10ef@gmail.com>
-Date:   Tue, 10 Mar 2020 22:15:14 +0100
+Message-ID: <8f481aa4-463c-30cc-df69-d1f630e848a2@gmail.com>
+Date:   Tue, 10 Mar 2020 22:48:09 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <4c16da22994de29c2fbb23c877d55685bcbf8993.camel@diehl.com>
+In-Reply-To: <20200310183824.1e4ad91d@blackhole.sk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -130,176 +123,124 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Denis,
+Hi Marek,
 
-Thank you for the update. Please find my remarks below.
-
-On 3/10/20 4:19 PM, Denis Osterland-Heim wrote:
+On 3/10/20 6:38 PM, Marek Behun wrote:
 > Hi,
 > 
-> should be
-> In-Reply-To: <20200309082218.13263-1-Denis.Osterland@diehl.com>
-> instead of
-> Reply-To: <20200309082218.13263-1-Denis.Osterland@diehl.com>
+> I am going to try to send driver for Omnia LEDs again. The last time
+> there was a problem: on 05/01/2019 Jacek wrote:
 > 
-> Sorry
+>> I wonder if we're doing right merging this driver in this form.
+>> We break the rule one-led-class-device-per-one-channel. We don't
+>> have LED multi color support yet, so this should support RGB LEDs
+>> in the old manner. Or switch to using LED multi color class.
 > 
-> Am Dienstag, den 10.03.2020, 13:47 +0100 schrieb Denis Osterland-Heim:
->> This patch adds support for "default-state" devicetree property, which
->> allows to defer pwm init to first use of led.
->>
->> This allows to configure the PWM early in bootloader to let the LED
->> blink until an application in Linux userspace set something different.
->>
->> Signed-off-by: Denis Osterland-Heim <Denis.Osterland@diehl.com>
->> ---
->> v1->v2:
->>   - use default-state = "keep", as suggested by Jacek Anaszewski
->>   - calc initial brightness with PWM state from device
->>
->>  .../devicetree/bindings/leds/leds-pwm.txt     |  2 ++
->>  drivers/leds/leds-pwm.c                       | 33 +++++++++++++++++--
->>  include/linux/leds_pwm.h                      |  1 +
->>  3 files changed, 33 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/leds/leds-pwm.txt b/Documentation/devicetree/bindings/leds/leds-pwm.txt
->> index 6c6583c35f2f..d0f489680594 100644
->> --- a/Documentation/devicetree/bindings/leds/leds-pwm.txt
->> +++ b/Documentation/devicetree/bindings/leds/leds-pwm.txt
->> @@ -19,6 +19,8 @@ LED sub-node properties:
->>    see Documentation/devicetree/bindings/leds/common.txt
->>  - linux,default-trigger :  (optional)
->>    see Documentation/devicetree/bindings/leds/common.txt
->> +- default-state : (optional)
->> +  see Documentation/devicetree/bindings/leds/common.yaml
->>  
->>  Example:
->>  
->> diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
->> index 8b6965a563e9..92726c2e43ba 100644
->> --- a/drivers/leds/leds-pwm.c
->> +++ b/drivers/leds/leds-pwm.c
->> @@ -75,7 +75,8 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
->>  	led_data->active_low = led->active_low;
->>  	led_data->cdev.name = led->name;
->>  	led_data->cdev.default_trigger = led->default_trigger;
->> -	led_data->cdev.brightness = LED_OFF;
->> +	ret = led->default_state == LEDS_GPIO_DEFSTATE_ON;
-
-ret is for return value and it should not be used for anything
-else just because it is at hand. Also LEDS_GPIO* definitions have
-nothing to do with pwm leds. This is legacy because default-state
-property was primarily specific to leds-gpio bindings and only
-later was made common.
-
-Please introduce corresponding LEDS_PWM definitions, but in leds-pwm.c.
-
->> +	led_data->cdev.brightness = ret ? led->max_brightness : LED_OFF;
-
-Instead of above two changes I'd add below:
-
-if (led->default_state == LEDS_PWM_DEFSTATE_ON) {
-	led_data->cdev.brightness = led->max_brightness;
-} else if (led->default_state == LEDS_PWM_DEFSTATE_KEEP)) {
-	// here put what you're adding below, but please use
-	// pwm_get_state() instead of accessing ops directly
-}
-
-LED_OFF case is covered by kzalloc() in led_pwm_probe().
-
->>  	led_data->cdev.max_brightness = led->max_brightness;
->>  	led_data->cdev.flags = LED_CORE_SUSPENDRESUME;
->>  
->> @@ -97,7 +98,8 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
->>  	 * FIXME: pwm_apply_args() should be removed when switching to the
->>  	 * atomic PWM API.
->>  	 */
->> -	pwm_apply_args(led_data->pwm);
->> +	if (led->default_state != LEDS_GPIO_DEFSTATE_KEEP)
->> +		pwm_apply_args(led_data->pwm);
->>  
->>  	pwm_get_args(led_data->pwm, &pargs);
->>  
->> @@ -105,10 +107,23 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
->>  	if (!led_data->period && (led->pwm_period_ns > 0))
->>  		led_data->period = led->pwm_period_ns;
->>  
->> +	if (led->default_state == LEDS_GPIO_DEFSTATE_KEEP) {
->> +		uint64_t brightness;
->> +		struct pwm_device *pwm = led_data->pwm;
->> +		struct pwm_state state;
->> +
->> +		pwm->chip->ops->get_state(pwm->chip, pwm, &state);
->> +		brightness = led->max_brightness * state.duty_cycle;
->> +		do_div(brightness, state.period);
->> +		led_data->cdev.brightness = (enum led_brightness)brightness;
->> +	}
->> +
->>  	ret = devm_led_classdev_register(dev, &led_data->cdev);
->>  	if (ret == 0) {
->>  		priv->num_leds++;
->> -		led_pwm_set(&led_data->cdev, led_data->cdev.brightness);
->> +		if (led->default_state != LEDS_GPIO_DEFSTATE_KEEP)
->> +			led_pwm_set(&led_data->cdev,
->> +					led_data->cdev.brightness);
->>  	} else {
->>  		dev_err(dev, "failed to register PWM led for %s: %d\n",
->>  			led->name, ret);
->> @@ -126,6 +141,8 @@ static int led_pwm_create_fwnode(struct device *dev, struct led_pwm_priv *priv)
->>  	memset(&led, 0, sizeof(led));
->>  
->>  	device_for_each_child_node(dev, fwnode) {
->> +		const char *state = NULL;
->> +
->>  		ret = fwnode_property_read_string(fwnode, "label", &led.name);
->>  		if (ret && is_of_node(fwnode))
->>  			led.name = to_of_node(fwnode)->name;
->> @@ -143,6 +160,16 @@ static int led_pwm_create_fwnode(struct device *dev, struct led_pwm_priv *priv)
->>  		fwnode_property_read_u32(fwnode, "max-brightness",
->>  					 &led.max_brightness);
->>  
->> +		if (!fwnode_property_read_string(fwnode, "default-state",
->> +						 &state)) {
->> +			if (!strcmp(state, "keep"))
->> +				led.default_state = LEDS_GPIO_DEFSTATE_KEEP;
->> +			else if (!strcmp(state, "on"))
->> +				led.default_state = LEDS_GPIO_DEFSTATE_ON;
->> +			else
->> +				led.default_state = LEDS_GPIO_DEFSTATE_OFF;
->> +		}
->> +
->>  		ret = led_pwm_add(dev, priv, &led, fwnode);
->>  		if (ret) {
->>  			fwnode_handle_put(fwnode);
->> diff --git a/include/linux/leds_pwm.h b/include/linux/leds_pwm.h
->> index 93d101d28943..c9ef9012913d 100644
->> --- a/include/linux/leds_pwm.h
->> +++ b/include/linux/leds_pwm.h
->> @@ -10,6 +10,7 @@ struct led_pwm {
->>  	const char	*default_trigger;
->>  	unsigned	pwm_id __deprecated;
->>  	u8 		active_low;
->> +	u8		default_state;
->>  	unsigned 	max_brightness;
->>  	unsigned	pwm_period_ns;
->>  };
+>> Once we will have LED multi color class, we will be able to add the
+>> support for it to the driver and make the driver configurable to be
+>> able to expose old interface or the LED multi color one.
 > 
+>> Moreover, the bindings should use led-sources property for grouping
+>> three channels under single LED class device. This is certainly to be
+>> fixed.
 > 
-> Diehl Connectivity Solutions GmbH
-> Geschäftsführung: Horst Leonberger
-> Sitz der Gesellschaft: Nürnberg - Registergericht: Amtsgericht
-> Nürnberg: HRB 32315
-> ___________________________________________________________________________________________________
+> So I am going to try to modify the driver so that each channel creates
+> one LED class device. Do I understand this correctly then, that this
+> way when there are three channels (RGB) on one LED, all the 3 device
+> tree nodes for should have the same reg property, but different
+> led-sources property? Eg:
 > 
-> Der Inhalt der vorstehenden E-Mail ist nicht rechtlich bindend. Diese E-Mail enthaelt vertrauliche und/oder rechtlich geschuetzte Informationen.
-> Informieren Sie uns bitte, wenn Sie diese E-Mail faelschlicherweise erhalten haben. Bitte loeschen Sie in diesem Fall die Nachricht.
-> Jede unerlaubte Form der Reproduktion, Bekanntgabe, Aenderung, Verteilung und/oder Publikation dieser E-Mail ist strengstens untersagt.
-> - Informationen zum Datenschutz, insbesondere zu Ihren Rechten, erhalten Sie unter https://www.diehl.com/group/de/transparenz-und-informationspflichten/
+>   led@0,0 {
+>     reg = <0>;
+>     led-sources = <0>;
+>     label = "omnia::heartbeat::red";
+>   };
 > 
-> The contents of the above mentioned e-mail is not legally binding. This e-mail contains confidential and/or legally protected information. Please inform us if you have received this e-mail by
-> mistake and delete it in such a case. Each unauthorized reproduction, disclosure, alteration, distribution and/or publication of this e-mail is strictly prohibited. 
-> - For general information on data protection and your respective rights please visit https://www.diehl.com/group/en/transparency-and-information-obligations/
+>   led@0,1 {
+>     reg = <0>;
+>     led-sources = <1>;
+>     label = "omnia::heartbeat::green";
+>   };
 > 
+>   led@0,2 {
+>     reg = <0>;
+>     led-sources = <2>;
+>     label = "omnia::heartbeat::blue";
+>   };
+> 
+> Or did I misinterpret the led-sources property?
+
+This is what I proposed back then, strangely that message wasn't
+archived by bots, or maybe it resides only in my outbox...
+
+--------------
+
+LED sub-node properties:
+ - reg :                Must be from 0x0 to 0xb, since there are 12 RGB
+LEDs on this
+                        controller.
+ - label :              (optional)
+   see Documentation/devicetree/bindings/leds/common.txt
+ - linux,default-trigger : (optional)
+   see Documentation/devicetree/bindings/leds/common.txt
+ - led-sources : Each child node should describe RGB LED it controls,
+                 by listing corresponding iout identifiers:
+        0 - RGB LED 0: red
+        1 - RGB LED 0: green
+        2 - RGB LED 0: blue
+        3 - RGB LED 1: red
+        4 - RGB LED 1: green
+        5 - RGB LED 1: blue
+        6 - RGB LED 2: red
+        7 - RGB LED 2: green
+        8 - RGB LED 2: blue
+        9 - RGB LED 3: red
+        10 - RGB LED 3: green
+        11 - RGB LED 3: blue
+    ... and list all the iouts, maybe other names will be more
+            appropriate for this device, feel free to propose something
+
+
+
+Example:
+
+        led-controller@2b {
+                compatible = "cznic,turris-omnia-leds";
+                reg = <0x2b>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                led@0 {
+                        reg = <0x0>;
+                        label = "userB";
+                        linux,default-trigger = "heartbeat";
+                        led-sources = <0 1 2>;
+                };
+
+                led@1 {
+                        reg = <0x1>;
+                        label = "userA";
+                        led-sources = <3 4 5>;
+                };
+
+                led@2 {
+                        reg = <0x2>;
+                        label = "pci3";
+                        led-sources = <6 7 8>;
+                };
+
+                led@3 {
+                        reg = <0x3>;
+                        label = "pci2";
+                        led-sources = <9 10 11>;
+                };
+                ...
+--------------
+
+
+Of course now label should be replaced with color and function
+properties. I've just reviewed that patch set and realized that
+we agreed upon setting max_brightness to 1 for all LEDs, right?
 
 -- 
 Best regards,
