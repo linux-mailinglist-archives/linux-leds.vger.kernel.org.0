@@ -2,131 +2,314 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F7581810FF
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Mar 2020 07:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C9BF181151
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Mar 2020 08:01:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726672AbgCKGpe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 11 Mar 2020 02:45:34 -0400
-Received: from enterprise01.smtp.diehl.com ([193.201.238.219]:7714 "EHLO
-        enterprise01.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726160AbgCKGpd (ORCPT
+        id S1728263AbgCKHAV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Mar 2020 03:00:21 -0400
+Received: from mail26.static.mailgun.info ([104.130.122.26]:26899 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728335AbgCKHAU (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 11 Mar 2020 02:45:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1583909132; x=1615445132;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=AVSxEPYhTVVwgokzOwC1Y8DPPDlYxY46v2+mPoqz3Ro=;
-  b=dkaidGoUA4YE5fJiQo3qJlkQHykUqP2ewpB545c3M9R3KxJBNdehDD72
-   BNXDrtlNT0iG13tr2fDNIDvsySSj6CAKA/j2k80wlCO45WJ4YhkUsWRYX
-   3wzc6WNwTymi3r8EBh0PZ13159mkQVlI3lhKljZjFpcDgUNYX+NNOeqT8
-   K7pdG6RCZMs1CEa6yuAXpoe8+DnvqkC9913yTWsWokAfPKJgmx0w7/ufX
-   YwXbLYrAInOWsu8e/ivNWnsIMc/MtSplNyI59FcRABNuoM0rpOCfyyOX6
-   9H/6YSz3Sf3Mll4g0FDEQK/TrD224WLuxf8qmO3AOUoUQUdvovKWe7pEX
-   Q==;
-IronPort-SDR: abGHozYKu3or4mTqZtBjvwWR274OjNZfLRCJUvY0vB+k0B0H6755hn/GldSHr6+Bxnk38t/2sZ
- fCimX2ZAzr9w==
-From:   Denis Osterland-Heim <denis.osterland@diehl.com>
-To:     "dmurphy@ti.com" <dmurphy@ti.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v2] leds: pwm: add support for default-state device
- property
-Thread-Topic: [PATCH v2] leds: pwm: add support for default-state device
- property
-Thread-Index: AQHV9tn/0ZJlTn83ZkK/QE6qVZtMD6hB4AuAgABjeACAAJ9TgA==
-Date:   Wed, 11 Mar 2020 06:45:30 +0000
-Message-ID: <9e4bd43d14d00266bab4695dd37019bb1a103dd2.camel@diehl.com>
-References: <20200310123126.4709-1-Denis.Osterland@diehl.com>
-         <4c16da22994de29c2fbb23c877d55685bcbf8993.camel@diehl.com>
-         <ccb718b2-d0e5-20d8-f30a-95f8f31a10ef@gmail.com>
-In-Reply-To: <ccb718b2-d0e5-20d8-f30a-95f8f31a10ef@gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B85363EF575A434B91A849FC448B70BD@diehl.internal>
-Content-Transfer-Encoding: base64
+        Wed, 11 Mar 2020 03:00:20 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1583910019; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=Oz9e/Q1WCfCVPqJC3QfMpGgrRoHomIaUDTjoOIwEeMQ=;
+ b=atJGcLU68+E4v85lKWTMTN4NAixI74gtUWd/DADS46qDEAaUWoNhK9XiPinNquYBI1uxHFRe
+ azTGr5pgqDkig28s1KdrJUS009sPlw5/LENrOKQQ8MLOJMwzSvV3Cxh/TSrMp3OVnimFsdOn
+ iRN4Z61YQQde8r7cuj2T5UoByXs=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyJkODczOCIsICJsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e688c7b.7f07756d2c70-smtp-out-n02;
+ Wed, 11 Mar 2020 07:00:11 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 9393EC43636; Wed, 11 Mar 2020 07:00:09 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: kgunda)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id F3368C433D2;
+        Wed, 11 Mar 2020 07:00:06 +0000 (UTC)
 MIME-Version: 1.0
-X-TrailerSkip: 1
-X-GBS-PROC: PkB65aL1SqtESF35r/jQn7eY91D7Yk3wyBdLEDkUNY69es5NQLe8SnvlyyctNNXu
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 11 Mar 2020 12:30:06 +0530
+From:   kgunda@codeaurora.org
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        lee.jones@linaro.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, jacek.anaszewski@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-arm-msm-owner@vger.kernel.org
+Subject: Re: [PATCH V3 3/4] backlight: qcom-wled: Add support for WLED5
+ peripheral in PM8150L
+In-Reply-To: <20200310154512.wvnx5k44mhrsxifv@holly.lan>
+References: <1583760362-26978-1-git-send-email-kgunda@codeaurora.org>
+ <1583760362-26978-4-git-send-email-kgunda@codeaurora.org>
+ <20200310154512.wvnx5k44mhrsxifv@holly.lan>
+Message-ID: <1d9d271ec4bafe5a7848392bf8895b25@codeaurora.org>
+X-Sender: kgunda@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGkgSmFjZWssDQoNCkFtIERpZW5zdGFnLCBkZW4gMTAuMDMuMjAyMCwgMjI6MTUgKzAxMDAg
-c2NocmllYiBKYWNlayBBbmFzemV3c2tpOg0KPiBIaSBEZW5pcywNCj4gDQo+IFRoYW5rIHlv
-dSBmb3IgdGhlIHVwZGF0ZS4gUGxlYXNlIGZpbmQgbXkgcmVtYXJrcyBiZWxvdy4NCj4gDQo+
-IE9uIDMvMTAvMjAgNDoxOSBQTSwgRGVuaXMgT3N0ZXJsYW5kLUhlaW0gd3JvdGU6DQo+ID4g
-SGksDQo+ID4gDQouLi4NCj4gPiA+IC0tLSBhL2RyaXZlcnMvbGVkcy9sZWRzLXB3bS5jDQo+
-ID4gPiArKysgYi9kcml2ZXJzL2xlZHMvbGVkcy1wd20uYw0KPiA+ID4gQEAgLTc1LDcgKzc1
-LDggQEAgc3RhdGljIGludCBsZWRfcHdtX2FkZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVj
-dCBsZWRfcHdtX3ByaXYgKnByaXYsDQo+ID4gPiAgCWxlZF9kYXRhLT5hY3RpdmVfbG93ID0g
-bGVkLT5hY3RpdmVfbG93Ow0KPiA+ID4gIAlsZWRfZGF0YS0+Y2Rldi5uYW1lID0gbGVkLT5u
-YW1lOw0KPiA+ID4gIAlsZWRfZGF0YS0+Y2Rldi5kZWZhdWx0X3RyaWdnZXIgPSBsZWQtPmRl
-ZmF1bHRfdHJpZ2dlcjsNCj4gPiA+IC0JbGVkX2RhdGEtPmNkZXYuYnJpZ2h0bmVzcyA9IExF
-RF9PRkY7DQo+ID4gPiArCXJldCA9IGxlZC0+ZGVmYXVsdF9zdGF0ZSA9PSBMRURTX0dQSU9f
-REVGU1RBVEVfT047DQo+IA0KPiByZXQgaXMgZm9yIHJldHVybiB2YWx1ZSBhbmQgaXQgc2hv
-dWxkIG5vdCBiZSB1c2VkIGZvciBhbnl0aGluZw0KPiBlbHNlIGp1c3QgYmVjYXVzZSBpdCBp
-cyBhdCBoYW5kLiBBbHNvIExFRFNfR1BJTyogZGVmaW5pdGlvbnMgaGF2ZQ0KPiBub3RoaW5n
-IHRvIGRvIHdpdGggcHdtIGxlZHMuIFRoaXMgaXMgbGVnYWN5IGJlY2F1c2UgZGVmYXVsdC1z
-dGF0ZQ0KPiBwcm9wZXJ0eSB3YXMgcHJpbWFyaWx5IHNwZWNpZmljIHRvIGxlZHMtZ3BpbyBi
-aW5kaW5ncyBhbmQgb25seQ0KPiBsYXRlciB3YXMgbWFkZSBjb21tb24uDQo+IA0KPiBQbGVh
-c2UgaW50cm9kdWNlIGNvcnJlc3BvbmRpbmcgTEVEU19QV00gZGVmaW5pdGlvbnMsIGJ1dCBp
-biBsZWRzLXB3bS5jLg0Kd2lsbCBjaGFuZ2UNCg0KPiANCj4gPiA+ICsJbGVkX2RhdGEtPmNk
-ZXYuYnJpZ2h0bmVzcyA9IHJldCA/IGxlZC0+bWF4X2JyaWdodG5lc3MgOiBMRURfT0ZGOw0K
-PiANCj4gSW5zdGVhZCBvZiBhYm92ZSB0d28gY2hhbmdlcyBJJ2QgYWRkIGJlbG93Og0KPiAN
-Cj4gaWYgKGxlZC0+ZGVmYXVsdF9zdGF0ZSA9PSBMRURTX1BXTV9ERUZTVEFURV9PTikgew0K
-PiAJbGVkX2RhdGEtPmNkZXYuYnJpZ2h0bmVzcyA9IGxlZC0+bWF4X2JyaWdodG5lc3M7DQo+
-IH0gZWxzZSBpZiAobGVkLT5kZWZhdWx0X3N0YXRlID09IExFRFNfUFdNX0RFRlNUQVRFX0tF
-RVApKSB7DQo+IAkvLyBoZXJlIHB1dCB3aGF0IHlvdSdyZSBhZGRpbmcgYmVsb3csIGJ1dCBw
-bGVhc2UgdXNlDQo+IAkvLyBwd21fZ2V0X3N0YXRlKCkgaW5zdGVhZCBvZiBhY2Nlc3Npbmcg
-b3BzIGRpcmVjdGx5DQo+IH0NCj4gDQo+IExFRF9PRkYgY2FzZSBpcyBjb3ZlcmVkIGJ5IGt6
-YWxsb2MoKSBpbiBsZWRfcHdtX3Byb2JlKCkuDQpMb29rcyB2ZXJ5IGVsZWdhbnQsIEkgd2ls
-bCBhcHBseSB0aGlzLg0KcHdtX2dldF9zdGF0ZSgpIGlzIG5vdCBzdWZmaWNpZW50IGhlcmUg
-YmVjYXVzZSBpdCBvbmx5IHJldHVybnMgdGhlIHZhbHVlcyBmcm9tIHN0cnVjdHVyZSwNCndo
-aWNoIHdlcmUgbm90IHJlYWQgcmVhZCBmcm9tIHJlZ2lzdGVycyBhdCBwd21fZGV2aWNlX3Jl
-cXVlc3QoKS4NClNvbWV0aGluZyBsaWtlIHB3bV9nZXRfc3RhdGVfdW5jYWNoZWQoKSB3b3Vs
-ZCBiZSByZXF1aXJlZCwgd2hpY2ggSSBoYXZlIG5vdCBmb3VuZCB5ZXQuDQoNCkkgbG9va2Vk
-IGF0IHRoZSBhdG9taWMgUFdNIEFQSSAoNWVjODAzZWRjYjcwM2ZlMzc5ODM2ZjEzNTYwYjc5
-ZGZhYzc5YjAxZCksDQp3aGljaCBjbGFpbXMgdG8gcHJvdmlkZSBhIHNtb290aCBoYW5kb3Zl
-ciBmcm9tIGJvb3Rsb2FkZXIgdG8ga2VybmVsLg0KU28gaXQgc2VlbXMgaXQgd291bGQgYmUg
-YmV0dGVyIHRvIGZpeCB0aGUgRklYTUUgZmlyc3QsIGluIGEgZmlyc3QgcGF0Y2guDQoNClJl
-Z2FyZHMgRGVuaXMNCg0KPiANCj4gPiA+ICAJbGVkX2RhdGEtPmNkZXYubWF4X2JyaWdodG5l
-c3MgPSBsZWQtPm1heF9icmlnaHRuZXNzOw0KPiA+ID4gIAlsZWRfZGF0YS0+Y2Rldi5mbGFn
-cyA9IExFRF9DT1JFX1NVU1BFTkRSRVNVTUU7DQo+ID4gPiAgDQouLi4NCg0KDQoNCkRpZWhs
-IENvbm5lY3Rpdml0eSBTb2x1dGlvbnMgR21iSA0KR2VzY2jDpGZ0c2bDvGhydW5nOiBIb3Jz
-dCBMZW9uYmVyZ2VyDQpTaXR6IGRlciBHZXNlbGxzY2hhZnQ6IE7DvHJuYmVyZyAtIFJlZ2lz
-dGVyZ2VyaWNodDogQW10c2dlcmljaHQNCk7DvHJuYmVyZzogSFJCIDMyMzE1DQpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCg0KRGVyIEluaGFsdCBk
-ZXIgdm9yc3RlaGVuZGVuIEUtTWFpbCBpc3QgbmljaHQgcmVjaHRsaWNoIGJpbmRlbmQuIERp
-ZXNlIEUtTWFpbCBlbnRoYWVsdCB2ZXJ0cmF1bGljaGUgdW5kL29kZXIgcmVjaHRsaWNoIGdl
-c2NodWV0enRlIEluZm9ybWF0aW9uZW4uDQpJbmZvcm1pZXJlbiBTaWUgdW5zIGJpdHRlLCB3
-ZW5uIFNpZSBkaWVzZSBFLU1haWwgZmFlbHNjaGxpY2hlcndlaXNlIGVyaGFsdGVuIGhhYmVu
-LiBCaXR0ZSBsb2VzY2hlbiBTaWUgaW4gZGllc2VtIEZhbGwgZGllIE5hY2hyaWNodC4NCkpl
-ZGUgdW5lcmxhdWJ0ZSBGb3JtIGRlciBSZXByb2R1a3Rpb24sIEJla2FubnRnYWJlLCBBZW5k
-ZXJ1bmcsIFZlcnRlaWx1bmcgdW5kL29kZXIgUHVibGlrYXRpb24gZGllc2VyIEUtTWFpbCBp
-c3Qgc3RyZW5nc3RlbnMgdW50ZXJzYWd0Lg0KLSBJbmZvcm1hdGlvbmVuIHp1bSBEYXRlbnNj
-aHV0eiwgaW5zYmVzb25kZXJlIHp1IElocmVuIFJlY2h0ZW4sIGVyaGFsdGVuIFNpZSB1bnRl
-ciBodHRwczovL3d3dy5kaWVobC5jb20vZ3JvdXAvZGUvdHJhbnNwYXJlbnotdW5kLWluZm9y
-bWF0aW9uc3BmbGljaHRlbi8NCg0KVGhlIGNvbnRlbnRzIG9mIHRoZSBhYm92ZSBtZW50aW9u
-ZWQgZS1tYWlsIGlzIG5vdCBsZWdhbGx5IGJpbmRpbmcuIFRoaXMgZS1tYWlsIGNvbnRhaW5z
-IGNvbmZpZGVudGlhbCBhbmQvb3IgbGVnYWxseSBwcm90ZWN0ZWQgaW5mb3JtYXRpb24uIFBs
-ZWFzZSBpbmZvcm0gdXMgaWYgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgYnkNCm1p
-c3Rha2UgYW5kIGRlbGV0ZSBpdCBpbiBzdWNoIGEgY2FzZS4gRWFjaCB1bmF1dGhvcml6ZWQg
-cmVwcm9kdWN0aW9uLCBkaXNjbG9zdXJlLCBhbHRlcmF0aW9uLCBkaXN0cmlidXRpb24gYW5k
-L29yIHB1YmxpY2F0aW9uIG9mIHRoaXMgZS1tYWlsIGlzIHN0cmljdGx5IHByb2hpYml0ZWQu
-IA0KLSBGb3IgZ2VuZXJhbCBpbmZvcm1hdGlvbiBvbiBkYXRhIHByb3RlY3Rpb24gYW5kIHlv
-dXIgcmVzcGVjdGl2ZSByaWdodHMgcGxlYXNlIHZpc2l0IGh0dHBzOi8vd3d3LmRpZWhsLmNv
-bS9ncm91cC9lbi90cmFuc3BhcmVuY3ktYW5kLWluZm9ybWF0aW9uLW9ibGlnYXRpb25zLw0K
+On 2020-03-10 21:15, Daniel Thompson wrote:
+> On Mon, Mar 09, 2020 at 06:56:01PM +0530, Kiran Gunda wrote:
+>> Add support for WLED5 peripheral that is present on PM8150L PMICs.
+>> 
+>> PM8150L WLED supports the following:
+>>     - Two modulators and each sink can use any of the modulator
+>>     - Multiple CABC selection options
+>>     - Multiple brightness width selection (12 bits to 15 bits)
+>> 
+>> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+> 
+> Mostly just style comments below...
+> 
+> 
+>> ---
+>>  .../bindings/leds/backlight/qcom-wled.yaml         |  39 +++
+>>  drivers/video/backlight/qcom-wled.c                | 336 
+>> ++++++++++++++++++++-
+> 
+> Shouldn't the bindings and driver be separate?
+> 
+> 
+Ok. I will split it out in to a separate patch in next post.
+>>  2 files changed, 374 insertions(+), 1 deletion(-)
+>> 
+>> diff --git 
+>> a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml 
+>> b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+>> index d334f81..e0dadc4 100644
+>> --- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+>> +++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+>> @@ -20,6 +20,7 @@ properties:
+>>         - qcom,pm8941-wled
+>>         - qcom,pmi8998-wled
+>>         - qcom,pm660l-wled
+>> +       - qcom,pm8150l-wled
+>> 
+>>    reg:
+>>      maxItems: 1
+>> @@ -28,10 +29,23 @@ properties:
+>>      maxItems: 1
+>>      description:
+>>        brightness value on boot, value from 0-4095.
+>> +      For pm8150l this value vary from 0-4095 or 0-32767
+>> +      depending on the brightness control mode. If CABC is
+>> +      enabled 0-4095 range is used.
+> 
+> Is this a pm8150l restriction or a WLED5 restriction (will other WLED5
+> have different ranges)?
+> 
+It is a WLED5 restriction which is used in pm8150l PMIC.
+> 
+>>      allOf:
+>>        - $ref: /schemas/types.yaml#/definitions/uint32
+>>          default: 2048
+>> 
+>> +  max-brightness:
+>> +    maxItems: 1
+>> +    description:
+>> +      Maximum brightness level. Allowed values are,
+>> +      for pmi8998 it is  0-4095.
+>> +      For pm8150l, this can be either 4095 or 32767.
+> 
+> Ditto.
+> 
+It is a WLED5 restriction which is used in pm8150l PMIC.
+> 
+>> +      If CABC is enabled, this is capped to 4095.
+>> +    allOf:
+>> +      - $ref: /schemas/types.yaml#/definitions/uint32
+>> +
+>>    label:
+>>      maxItems: 1
+>>      description:
+>> @@ -124,6 +138,31 @@ properties:
+>>        value for PM8941 from 1 to 3. Default 2
+>>        For PMI8998 from 1 to 4.
+>> 
+>> +  qcom,modulator-sel:
+>> +    maxItems: 1
+>> +    allOf:
+>> +      - $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Selects the modulator used for brightness modulation.
+>> +      Allowed values are,
+>> +               0 - Modulator A
+>> +               1 - Modulator B
+>> +      If not specified, then modulator A will be used by default.
+>> +      This property is applicable only to WLED5 peripheral.
+>> +
+>> +  qcom,cabc-sel:
+>> +    maxItems: 1
+>> +    allOf:
+>> +      - $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Selects the CABC pin signal used for brightness modulation.
+>> +      Allowed values are,
+>> +              0 - CABC disabled
+>> +              1 - CABC 1
+>> +              2 - CABC 2
+>> +              3 - External signal (e.g. LPG) is used for dimming
+>> +      This property is applicable only to WLED5 peripheral.
+>> +
+>>    interrupts:
+>>      maxItems: 2
+>>      description:
+>> diff --git a/drivers/video/backlight/qcom-wled.c 
+>> b/drivers/video/backlight/qcom-wled.c
+>> index b73f273..edbbcb2 100644
+>> --- a/drivers/video/backlight/qcom-wled.c
+>> +++ b/drivers/video/backlight/qcom-wled.c
+>> @@ -19,6 +19,8 @@
+>>  #define WLED_DEFAULT_BRIGHTNESS				2048
+>>  #define WLED_SOFT_START_DLY_US				10000
+>>  #define WLED3_SINK_REG_BRIGHT_MAX			0xFFF
+>> +#define WLED5_SINK_REG_BRIGHT_MAX_12B			0xFFF
+>> +#define WLED5_SINK_REG_BRIGHT_MAX_15B			0x7FFF
+>> 
+>>  /* WLED3/WLED4 control registers */
+>>  #define WLED3_CTRL_REG_FAULT_STATUS			0x08
+>> @@ -40,6 +42,7 @@
+>> 
+>>  #define WLED3_CTRL_REG_OVP				0x4d
+>>  #define  WLED3_CTRL_REG_OVP_MASK			GENMASK(1, 0)
+>> +#define  WLED5_CTRL_REG_OVP_MASK			GENMASK(3, 0)
+>> 
+>>  #define WLED3_CTRL_REG_ILIMIT				0x4e
+>>  #define  WLED3_CTRL_REG_ILIMIT_MASK			GENMASK(2, 0)
+>> @@ -101,6 +104,40 @@
+>> 
+>>  #define WLED4_SINK_REG_BRIGHT(n)			(0x57 + (n * 0x10))
+>> 
+>> +/* WLED5 specific sink registers */
+>> +#define WLED5_SINK_REG_MOD_A_EN				0x50
+>> +#define WLED5_SINK_REG_MOD_B_EN				0x60
+>> +#define  WLED5_SINK_REG_MOD_EN_MASK			BIT(7)
+>> +
+>> +#define WLED5_SINK_REG_MOD_A_SRC_SEL			0x51
+>> +#define WLED5_SINK_REG_MOD_B_SRC_SEL			0x61
+>> +#define  WLED5_SINK_REG_MOD_SRC_SEL_HIGH		0
+>> +#define  WLED5_SINK_REG_MOD_SRC_SEL_EXT			0x03
+>> +#define  WLED5_SINK_REG_MOD_SRC_SEL_MASK		GENMASK(1, 0)
+>> +
+>> +#define WLED5_SINK_REG_MOD_A_BRIGHTNESS_WIDTH_SEL	0x52
+>> +#define WLED5_SINK_REG_MOD_B_BRIGHTNESS_WIDTH_SEL	0x62
+>> +#define  WLED5_SINK_REG_BRIGHTNESS_WIDTH_12B		0
+>> +#define  WLED5_SINK_REG_BRIGHTNESS_WIDTH_15B		1
+>> +
+>> +#define WLED5_SINK_REG_MOD_A_BRIGHTNESS_LSB		0x53
+>> +#define WLED5_SINK_REG_MOD_A_BRIGHTNESS_MSB		0x54
+>> +#define WLED5_SINK_REG_MOD_B_BRIGHTNESS_LSB		0x63
+>> +#define WLED5_SINK_REG_MOD_B_BRIGHTNESS_MSB		0x64
+>> +
+>> +#define WLED5_SINK_REG_MOD_SYNC_BIT			0x65
+>> +#define  WLED5_SINK_REG_SYNC_MOD_A_BIT			BIT(0)
+>> +#define  WLED5_SINK_REG_SYNC_MOD_B_BIT			BIT(1)
+>> +#define  WLED5_SINK_REG_SYNC_MASK			GENMASK(1, 0)
+>> +
+>> +/* WLED5 specific per-'string' registers below */
+>> +#define WLED5_SINK_REG_STR_FULL_SCALE_CURR(n)		(0x72 + (n * 0x10))
+>> +
+>> +#define WLED5_SINK_REG_STR_SRC_SEL(n)			(0x73 + (n * 0x10))
+>> +#define  WLED5_SINK_REG_SRC_SEL_MOD_A			0
+>> +#define  WLED5_SINK_REG_SRC_SEL_MOD_B			1
+>> +#define  WLED5_SINK_REG_SRC_SEL_MASK			GENMASK(1, 0)
+>> +
+>>  struct wled_var_cfg {
+>>  	const u32 *values;
+>>  	u32 (*fn)(u32);
+>> @@ -125,6 +162,8 @@ struct wled_config {
+>>  	u32 num_strings;
+>>  	u32 string_i_limit;
+>>  	u32 enabled_strings[WLED_MAX_STRINGS];
+> 
+>> +	u32 mod_sel;
+>> +	u32 cabc_sel;
+> 
+> Please explain cabc_sel (wled5) versus cabc_en (wled4).
+> 
+Ok. WLED5 has 2 CABC modules, from which one can be selected/enabled.
+wled4 has only one CABC module and it is just enabled based on the user 
+input.
+I will add a comment in next post.
+
+>>  	bool cs_out_en;
+>>  	bool ext_gen;
+>>  	bool cabc;
+>> @@ -164,6 +203,27 @@ struct wled {
+>>  	int (*wled_ovp_delay)(struct wled *wled);
+>>  };
+>> 
+>> +enum wled5_mod_sel {
+>> +	MOD_A,
+>> +	MOD_B,
+>> +	MOD_MAX,
+>> +};
+>> +
+>> +static const u8 wled5_brightness_reg[MOD_MAX] = {
+>> +	[MOD_A] = WLED5_SINK_REG_MOD_A_BRIGHTNESS_LSB,
+>> +	[MOD_B] = WLED5_SINK_REG_MOD_B_BRIGHTNESS_LSB,
+>> +};
+>> +
+>> +static const u8 wled5_src_sel_reg[MOD_MAX] = {
+>> +	[MOD_A] = WLED5_SINK_REG_MOD_A_SRC_SEL,
+>> +	[MOD_B] = WLED5_SINK_REG_MOD_B_SRC_SEL,
+>> +};
+>> +
+>> +static const u8 wled5_brt_wid_sel_reg[MOD_MAX] = {
+>> +	[MOD_A] = WLED5_SINK_REG_MOD_A_BRIGHTNESS_WIDTH_SEL,
+>> +	[MOD_B] = WLED5_SINK_REG_MOD_B_BRIGHTNESS_WIDTH_SEL,
+>> +};
+>> +
+>>  static int wled3_set_brightness(struct wled *wled, u16 brightness)
+>>  {
+>>  	int rc, i;
+>> @@ -182,6 +242,25 @@ static int wled3_set_brightness(struct wled 
+>> *wled, u16 brightness)
+>>  	return 0;
+>>  }
+>> 
+>> +static int wled5_set_brightness(struct wled *wled, u16 brightness)
+>> +{
+>> +	int rc, offset;
+>> +	u16 low_limit = wled->max_brightness * 1 / 1000;
+>> +	u8 v[2];
+>> +
+>> +	/* WLED5's lower limit is 0.1% */
+>> +	if (brightness < low_limit)
+>> +		brightness = low_limit;
+>> +
+>> +	v[0] = brightness & 0xff;
+>> +	v[1] = (brightness >> 8) & 0x7f;
+>> +
+>> +	offset = wled5_brightness_reg[wled->cfg.mod_sel];
+>> +	rc = regmap_bulk_write(wled->regmap, wled->sink_addr + offset,
+>> +			       v, 2);
+>> +	return rc;
+>> +}
+>> +
+> 
+> Can we keep the same ordering throughout the file (wled3, wled4, 
+> wled5)?
+> Most of the wled5 callbacks seem to have been inserted above wled4.
+> 
+Sure. Will do it in next post.
+> 
+> Daniel.
