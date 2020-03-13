@@ -2,141 +2,187 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 049A61829D2
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Mar 2020 08:35:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70BF118476E
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Mar 2020 14:06:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388086AbgCLHfT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Mar 2020 03:35:19 -0400
-Received: from enterprise02.smtp.diehl.com ([193.201.238.220]:5711 "EHLO
-        enterprise02.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387958AbgCLHfT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 12 Mar 2020 03:35:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1583998517; x=1615534517;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=kaKhqPmS3AUt/zYib0JPaZapl7OncUILdewH8kFaYpE=;
-  b=fgdpxqDXtWq2HbtTkeJy2QXMMpATFtYPouUkSbREwblFf5TbDITveZ9P
-   ZWzoqaxD14zaT1PaxFm0An73IfVqL8aBAFUSvzTIiqGMga3AnfsBImVeE
-   8jMnQ0q4O9WdumlzcDRPmlxFsuNbjbkHd3sP9mrJlGy4G1zvp463+DxlM
-   cS8Lglxjj3O7DvYWYqFIlS2rloChxRzHTv7+BmgG/mgvZBY+rE4PVzYoR
-   RGBD9bJg7QzfaTBcqD1hH1Ngs77EdcjFMKQMnk2QDgNo6fPHOCUexUe0/
-   d5hPuD8Ec3CShMfoXTGO7iOx0n/RqUA+XfIv7/TtjSAs381ARVfykRyQB
-   w==;
-IronPort-SDR: nSYO8Cw8uP1k1vk/+XRYlFAhVWKCmVqxKsPi4x1vTin/VDEyM281RVkdoKYJIt5zVubMlR4Kqf
- GkuA2p3xIl4w==
-From:   Denis Osterland-Heim <denis.osterland@diehl.com>
-To:     "pavel@ucw.cz" <pavel@ucw.cz>
-CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH v2] leds: pwm: add support for default-state device
- property
-Thread-Topic: [PATCH v2] leds: pwm: add support for default-state device
- property
-Thread-Index: AQHV9tn/0ZJlTn83ZkK/QE6qVZtMD6hD2tmAgACoNgA=
-Date:   Thu, 12 Mar 2020 07:35:14 +0000
-Message-ID: <80bee197ed44ca6cd169caf7245c568ac61c6ddc.camel@diehl.com>
-References: <20200310123126.4709-1-Denis.Osterland@diehl.com>
-         <20200311213309.GB18398@amd>
-In-Reply-To: <20200311213309.GB18398@amd>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <35B434C1D45DCB4296F42B169D4BA9C4@diehl.internal>
-Content-Transfer-Encoding: base64
+        id S1726543AbgCMNGY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 13 Mar 2020 09:06:24 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:37357 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726479AbgCMNGX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Mar 2020 09:06:23 -0400
+Received: by mail-ot1-f68.google.com with SMTP id i12so4713648otp.4;
+        Fri, 13 Mar 2020 06:06:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=cHdSid7s0H3VQaI6DYZg0oKHqhQK3N0vdw8WgkOoUMY=;
+        b=m938stGIUcYbW0yoPh4Tr85UeDKatMHrFlEDluReq25JprZzlK79jFrz2yKsFtLS73
+         w34w68dbI9l4hv3gnkA4GZeb8X0DtQ9CCko0E9u2gdd9A9+ZfL8XqQVHW/wWMAsA1iro
+         8x7mcScvJMRnCt9ltj9gx6BV3iU5FIDE7Gg8riaFmkvfGQdsYSaIYCGm8qbZQ2lqyniY
+         AAYpr3s1kuwlQLmaUMPRDmkU1A/bXyyps4PLQ11J30w7UO2Wz6k9Ba1oO5+vlMLJdKer
+         hb6kLItTOzoFILG3JIr1H8aOY0ljkYctgYM7TgmYC5v02QagzJ4Rqj5Nsro2/m87H0ZM
+         I5DQ==
+X-Gm-Message-State: ANhLgQ0W2tPiy4dA3dLf1FzGMlu8RE7RgFALrTuNWhNkAp/wjOyjNPZx
+        iFedlElOkcILRCAN8Hwq6g==
+X-Google-Smtp-Source: ADFU+vtfB8VVfp0P94IerB6q0pCgYuN2fa65rdVAVLeK4GDYJ5TINq3nU+xCyQQH5pPph5x1HIHvTw==
+X-Received: by 2002:a9d:6752:: with SMTP id w18mr10565258otm.123.1584104782282;
+        Fri, 13 Mar 2020 06:06:22 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id p130sm4070287oig.51.2020.03.13.06.06.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Mar 2020 06:06:21 -0700 (PDT)
+Received: (nullmailer pid 19075 invoked by uid 1000);
+        Fri, 13 Mar 2020 13:06:20 -0000
+Date:   Fri, 13 Mar 2020 08:06:20 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Nicolas Belin <nbelin@baylibre.com>
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
+        devicetree@vger.kernel.org, baylibre-upstreaming@groups.io
+Subject: Re: [PATCH v3 2/3] dt-bindings: leds: Shiji Lighting APA102C LED
+Message-ID: <20200313130620.GA19369@bogus>
+References: <1583502010-16210-1-git-send-email-nbelin@baylibre.com>
+ <1583502010-16210-3-git-send-email-nbelin@baylibre.com>
 MIME-Version: 1.0
-X-TrailerSkip: 1
-X-GBS-PROC: 415AWy8o668fDtCxszluz1FmQmTayKBil+65oOyKL1t+St//BRrRHC1y3u+8xIiw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1583502010-16210-3-git-send-email-nbelin@baylibre.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGkgUGF2ZWwsDQoNCkFtIE1pdHR3b2NoLCBkZW4gMTEuMDMuMjAyMCwgMjI6MzMgKzAxMDAg
-c2NocmllYiBQYXZlbCBNYWNoZWs6DQo+IEhpIQ0KPiANCj4gPiBUaGlzIHBhdGNoIGFkZHMg
-c3VwcG9ydCBmb3IgImRlZmF1bHQtc3RhdGUiIGRldmljZXRyZWUgcHJvcGVydHksIHdoaWNo
-DQo+ID4gYWxsb3dzIHRvIGRlZmVyIHB3bSBpbml0IHRvIGZpcnN0IHVzZSBvZiBsZWQuDQo+
-ID4gDQo+ID4gVGhpcyBhbGxvd3MgdG8gY29uZmlndXJlIHRoZSBQV00gZWFybHkgaW4gYm9v
-dGxvYWRlciB0byBsZXQgdGhlIExFRA0KPiA+IGJsaW5rIHVudGlsIGFuIGFwcGxpY2F0aW9u
-IGluIExpbnV4IHVzZXJzcGFjZSBzZXQgc29tZXRoaW5nIGRpZmZlcmVudC4NCj4gDQo+ICJz
-ZXRzIi4NCmRvbmUNCg0KPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBEZW5pcyBPc3RlcmxhbmQt
-SGVpbSA8RGVuaXMuT3N0ZXJsYW5kQGRpZWhsLmNvbT4NCj4gDQo+IExvb2tzIGdvb2QsIEkn
-bGwgcHJvYmFibHkganVzdCBhcHBseSBpdC4NCkkgd2lsbCByZWJhc2Ugb24geW91ciBuZXh0
-IGJyYW5jaCwgc28gdGhhdCBpdCB1c2VzIGF0b21pYyBQV00gQVBJLCBzb29uLg0KDQo+IA0K
-PiA+IGluZGV4IDZjNjU4M2MzNWYyZi4uZDBmNDg5NjgwNTk0IDEwMDY0NA0KPiA+IC0tLSBh
-L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9sZWRzL2xlZHMtcHdtLnR4dA0K
-PiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9sZWRzL2xlZHMt
-cHdtLnR4dA0KPiA+IEBAIC0xOSw2ICsxOSw4IEBAIExFRCBzdWItbm9kZSBwcm9wZXJ0aWVz
-Og0KPiA+ICAgIHNlZSBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbGVkcy9j
-b21tb24udHh0DQo+ID4gIC0gbGludXgsZGVmYXVsdC10cmlnZ2VyIDogIChvcHRpb25hbCkN
-Cj4gPiAgICBzZWUgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2xlZHMvY29t
-bW9uLnR4dA0KPiA+ICstIGRlZmF1bHQtc3RhdGUgOiAob3B0aW9uYWwpDQo+ID4gKyAgc2Vl
-IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9sZWRzL2NvbW1vbi55YW1sDQo+
-ID4gIA0KPiANCj4gU2hvdWxkIG90aGVyIHJlZmVyZW5jZXMgYmUgdXBkYXRlZCB0byBjb21t
-b24ueWFtbCAoYXMgYSBzZXBhcmF0ZSBwYXRjaCk/DQp3ZWxsLCB0aGUgd2hvbGUgdHh0IGZp
-bGUgc2hvdWxkIGJlIGNvbnZlcnRlZCB0byB5YW1sLi4uDQpjdXJyZW50bHkgY29tbW9uLnR4
-dCBleGlzdHMgYW5kIHBvaW50cyB0byBjb21tb24ueWFtbCwgc28gbm8gdXJnZW50IG5lZWQN
-Cg0KPiANCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9sZWRzX3B3bS5oIGIvaW5j
-bHVkZS9saW51eC9sZWRzX3B3bS5oDQo+ID4gaW5kZXggOTNkMTAxZDI4OTQzLi5jOWVmOTAx
-MjkxM2QgMTAwNjQ0DQo+ID4gLS0tIGEvaW5jbHVkZS9saW51eC9sZWRzX3B3bS5oDQo+ID4g
-KysrIGIvaW5jbHVkZS9saW51eC9sZWRzX3B3bS5oDQo+ID4gQEAgLTEwLDYgKzEwLDcgQEAg
-c3RydWN0IGxlZF9wd20gew0KPiA+ICAJY29uc3QgY2hhcgkqZGVmYXVsdF90cmlnZ2VyOw0K
-PiA+ICAJdW5zaWduZWQJcHdtX2lkIF9fZGVwcmVjYXRlZDsNCj4gPiAgCXU4IAkJYWN0aXZl
-X2xvdzsNCj4gPiArCXU4CQlkZWZhdWx0X3N0YXRlOw0KPiA+ICAJdW5zaWduZWQgCW1heF9i
-cmlnaHRuZXNzOw0KPiA+ICAJdW5zaWduZWQJcHdtX3BlcmlvZF9uczsNCj4gPiAgfTsNCj4g
-DQo+IGxlZHMtcHdtLmMgYnV0IGxlZHNfcHdtLmguIEhtbS4gVGhpcyByZWFsbHkgc2hvdWxk
-IGJlIGxlZHMtcHdtLmguDQo+IA0KPiBBY3R1YWxseSwgbGVkcy1wd20uYyBpcyBvbmx5IHVz
-ZXIgb2YgbGVkc19wd20uaCwgc28gdGhhdCBvbmUgc2hvdWxkDQo+IGp1c3QgZGlzYXBwZWFy
-Li4uDQpJIGNhbiBtb3ZlIGl0IGluIGEgc2Vjb25kIHBhdGNoLCBpZiB5b3Ugd2FudA0KDQpS
-ZWdhcmRzIERlbmlzDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IAkJCQkJCQkJCVBhdmVsDQo+
-IA0KPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gPiBaMSBTZWN1cmVNYWlsIEdhdGV3YXkgUHJv
-Y2Vzc2luZyBJbmZvICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8DQo+IA0KPiAr
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLSsNCj4gPiAtIFRoZSBtZXNzYWdlIHdhcyBzaWduZWQgYnkgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8DQo+ID4gICBbTm8gSW5m
-byBhdmFpbGFibGVdICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgfA0KPiA+ICAgU2lnbmF0dXJlIG5vdCB2ZXJpZmlhYmxlICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gPiAgIC0gTWVzc2FnZSBjb250ZW50
-IG5vdCB2ZXJpZmlhYmxlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8DQo+
-ID4gICAtIENlcnRpZmljYXRlIG5vdCB2ZXJpZmlhYmxlICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgfA0KPiANCj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rDQoNCg0KRGll
-aGwgQ29ubmVjdGl2aXR5IFNvbHV0aW9ucyBHbWJIDQpHZXNjaMOkZnRzZsO8aHJ1bmc6IEhv
-cnN0IExlb25iZXJnZXINClNpdHogZGVyIEdlc2VsbHNjaGFmdDogTsO8cm5iZXJnIC0gUmVn
-aXN0ZXJnZXJpY2h0OiBBbXRzZ2VyaWNodA0KTsO8cm5iZXJnOiBIUkIgMzIzMTUNCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KDQpEZXIgSW5oYWx0
-IGRlciB2b3JzdGVoZW5kZW4gRS1NYWlsIGlzdCBuaWNodCByZWNodGxpY2ggYmluZGVuZC4g
-RGllc2UgRS1NYWlsIGVudGhhZWx0IHZlcnRyYXVsaWNoZSB1bmQvb2RlciByZWNodGxpY2gg
-Z2VzY2h1ZXR6dGUgSW5mb3JtYXRpb25lbi4NCkluZm9ybWllcmVuIFNpZSB1bnMgYml0dGUs
-IHdlbm4gU2llIGRpZXNlIEUtTWFpbCBmYWVsc2NobGljaGVyd2Vpc2UgZXJoYWx0ZW4gaGFi
-ZW4uIEJpdHRlIGxvZXNjaGVuIFNpZSBpbiBkaWVzZW0gRmFsbCBkaWUgTmFjaHJpY2h0Lg0K
-SmVkZSB1bmVybGF1YnRlIEZvcm0gZGVyIFJlcHJvZHVrdGlvbiwgQmVrYW5udGdhYmUsIEFl
-bmRlcnVuZywgVmVydGVpbHVuZyB1bmQvb2RlciBQdWJsaWthdGlvbiBkaWVzZXIgRS1NYWls
-IGlzdCBzdHJlbmdzdGVucyB1bnRlcnNhZ3QuDQotIEluZm9ybWF0aW9uZW4genVtIERhdGVu
-c2NodXR6LCBpbnNiZXNvbmRlcmUgenUgSWhyZW4gUmVjaHRlbiwgZXJoYWx0ZW4gU2llIHVu
-dGVyIGh0dHBzOi8vd3d3LmRpZWhsLmNvbS9ncm91cC9kZS90cmFuc3BhcmVuei11bmQtaW5m
-b3JtYXRpb25zcGZsaWNodGVuLw0KDQpUaGUgY29udGVudHMgb2YgdGhlIGFib3ZlIG1lbnRp
-b25lZCBlLW1haWwgaXMgbm90IGxlZ2FsbHkgYmluZGluZy4gVGhpcyBlLW1haWwgY29udGFp
-bnMgY29uZmlkZW50aWFsIGFuZC9vciBsZWdhbGx5IHByb3RlY3RlZCBpbmZvcm1hdGlvbi4g
-UGxlYXNlIGluZm9ybSB1cyBpZiB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBieQ0K
-bWlzdGFrZSBhbmQgZGVsZXRlIGl0IGluIHN1Y2ggYSBjYXNlLiBFYWNoIHVuYXV0aG9yaXpl
-ZCByZXByb2R1Y3Rpb24sIGRpc2Nsb3N1cmUsIGFsdGVyYXRpb24sIGRpc3RyaWJ1dGlvbiBh
-bmQvb3IgcHVibGljYXRpb24gb2YgdGhpcyBlLW1haWwgaXMgc3RyaWN0bHkgcHJvaGliaXRl
-ZC4gDQotIEZvciBnZW5lcmFsIGluZm9ybWF0aW9uIG9uIGRhdGEgcHJvdGVjdGlvbiBhbmQg
-eW91ciByZXNwZWN0aXZlIHJpZ2h0cyBwbGVhc2UgdmlzaXQgaHR0cHM6Ly93d3cuZGllaGwu
-Y29tL2dyb3VwL2VuL3RyYW5zcGFyZW5jeS1hbmQtaW5mb3JtYXRpb24tb2JsaWdhdGlvbnMv
-DQo=
+On Fri, Mar 06, 2020 at 02:40:09PM +0100, Nicolas Belin wrote:
+> Document Shiji Lighting APA102C LED driver device tree bindings.
+> 
+> Signed-off-by: Nicolas Belin <nbelin@baylibre.com>
+> ---
+>  .../devicetree/bindings/leds/leds-apa102c.yaml     | 97 ++++++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-apa102c.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-apa102c.yaml b/Documentation/devicetree/bindings/leds/leds-apa102c.yaml
+> new file mode 100644
+> index 000000000000..21457fc3762d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-apa102c.yaml
+> @@ -0,0 +1,97 @@
+> +# SPDX-License-Identifier: GPL-2.0
+
+Dual license new bindings:
+
+(GPL-2.0-only OR BSD-2-Clause)
+
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-apa102c.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: LED driver for Shiji Lighting - APA102C
+> +
+> +maintainers:
+> +  - Nicolas Belin <nbelin@baylibre.com>
+> +
+> +description:
+> +  Each RGB LED is represented as a rgb-led sub-node of the leds-apa102c
+> +  device.  Each LED is a three color rgb LED with an additional 32 levels
+> +  brightness adjustment. They can be cascaded so that multiple LEDs can be set
+> +  with a single command.
+> +
+> +properties:
+> +  compatible:
+> +    const: shiji,apa102c
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  spi-max-frequency:
+> +    maximum: 1000000
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^rgb-led@[0-9]+$":
+> +    type: object
+> +    description: |
+> +      Array of connected RGB LEDs.
+
+This should reference leds/common.yaml:
+
+allOf:
+  - $ref: common.yaml#
+
+> +
+> +    properties:
+> +      reg:
+> +        description: |
+> +          This property corresponds to the led index. It has to be between 0
+> +          and the number of managed leds minus 1
+> +        maxItems: 1
+> +
+> +      label:
+> +        description: |
+> +          This property corresponds to the name of the RGB led.
+> +        maxItems: 1
+> +
+> +      linux,default-trigger: true
+> +
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +    required:
+> +      - reg
+> +      - label
+> +      - '#address-cells'
+> +      - '#size-cells'
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - spi-max-frequency
+> +  - '#address-cells'
+> +  - '#size-cells'
+
+Add:
+
+additionalProperties: false
+
+> +
+> +examples:
+> +  - |
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        led-controller@0 {
+> +            compatible = "shiji,apa102c";
+> +            reg = <0>;
+> +            spi-max-frequency = <1000000>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            rgb-led@0 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <0>;
+> +                label = "rgb_led1";
+> +            };
+> +            rgb-led@1 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <1>;
+> +                label = "rgb_led2";
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.7.4
+> 
