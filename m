@@ -2,44 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F720186B82
-	for <lists+linux-leds@lfdr.de>; Mon, 16 Mar 2020 13:54:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF2D9186B88
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Mar 2020 13:54:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731102AbgCPMyG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 16 Mar 2020 08:54:06 -0400
-Received: from enterprise02.smtp.diehl.com ([193.201.238.220]:39081 "EHLO
+        id S1731078AbgCPMyF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Mar 2020 08:54:05 -0400
+Received: from enterprise02.smtp.diehl.com ([193.201.238.220]:39077 "EHLO
         enterprise02.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730878AbgCPMyG (ORCPT
+        by vger.kernel.org with ESMTP id S1731016AbgCPMyE (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 16 Mar 2020 08:54:06 -0400
+        Mon, 16 Mar 2020 08:54:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1584363245; x=1615899245;
-  h=from:to:cc:subject:date:message-id:
-   content-transfer-encoding:mime-version;
-  bh=J/iGnR7YmZY9KTs8LrY/4ZVX7F3aL4si4N4VK/NPNYk=;
-  b=BhYE/0MMy7vb9217mvfVnTKKGaVHZCwZUmDovz/A2jFUNrxEiiVraZUJ
-   A6ibdCAZSBXIBLiBG50uf42+8i3zqdPEAifvI5Hpfwx13k3abXDHfHOcs
-   5KRTeb/tKwFqQpKjOSy/TD3n+E6bm4j2kshsJiqdT3zdfFPsLTMI0+Uu1
-   eRUmoCswKGCNso9HYnpLLwcYdYKWcGBvtY8snc944zib4oT8UGWgfTyRy
-   /NOL8uXIkTr/vYjWmxTs0pvw7ENQ6nAhCnzo5AQxATK8j1Cy1FU3pnBmq
-   k+st57YtOv9R+z+5Fb8wUWPCu+oUrROmlaVYzLIpNI8Wz8NlNwUuxlcxi
-   w==;
-IronPort-SDR: /ffvDTvBI0g2FnUoyrmfvRA988PHKIEOsmKEKGKDrOt6PCcK5nUr8/hsgcS6FS0CvZqVs20ks1
- dIoehy3CFc4g==
+  t=1584363243; x=1615899243;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=rAtuuWpp7vXQDSFUAnzPLYg0D3MrIJfjY3pxuv+eRv8=;
+  b=Wfjjsf0tCIb4U5InDHxP68izG+Oz7cDJNUXYBjhrMOvEbCQbVG3mCAuv
+   jR2chZ5SoPrf+UYcahhK0DVQxPQ17+DN7HcP8SWOa8MdLapMye/gj5cNH
+   1K1hUvmFqg8YdDJbsZXKuwz9l3cZesVlCJp7cfuPzf60voWi5oo/JfGm8
+   vkUibKlEnaScYDNmIohQwr8WztDtJsx7kFWxStWpOTa4DyqKTwO510jc1
+   WJerZsI60GEIOG2PpieQ8y723Ki3OQddiRX8hb5TC3S6rJ5hZFh+4wZET
+   F33QCUsRsDZ3Gm6ReE/I0cwxGYVS3JtJLdbOGdAV5BN2DtAfm7O4SYU9d
+   g==;
+IronPort-SDR: YL++mGW5MIhCl8QqcRVtXOqw6Magis0N9ifDONAmOPYR0wD+XN5C/62B28D1IRVPhZHRFU6kan
+ qt8sZKHR82Ow==
 From:   Denis Osterland-Heim <denis.osterland@diehl.com>
 To:     "dmurphy@ti.com" <dmurphy@ti.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
         "mark.rutland@arm.com" <mark.rutland@arm.com>,
         "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
         "robh+dt@kernel.org" <robh+dt@kernel.org>
 CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Denis Osterland-Heim" <denis.osterland@diehl.com>,
         "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: [PATCH v3 0/3] leds: pwm: add support for default-state device
-Thread-Topic: [PATCH v3 0/3] leds: pwm: add support for default-state device
-Thread-Index: AQHV+5H28xMtkJy33E69SJJPDStMgQ==
+Subject: [PATCH v3 3/3] leds: pwm: add reference to common leds for
+ default-state
+Thread-Topic: [PATCH v3 3/3] leds: pwm: add reference to common leds for
+ default-state
+Thread-Index: AQHV+5H2vrmXdpP7vk6zewDoYGUoug==
 Date:   Mon, 16 Mar 2020 12:54:00 +0000
-Message-ID: <20200316124851.6303-1-Denis.Osterland@diehl.com>
+Message-ID: <20200316124851.6303-4-Denis.Osterland@diehl.com>
+References: <20200316124851.6303-1-Denis.Osterland@diehl.com>
+In-Reply-To: <20200316124851.6303-1-Denis.Osterland@diehl.com>
 Accept-Language: de-DE, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -50,28 +55,35 @@ Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-TrailerSkip: 1
-X-GBS-PROC: PkB65aL1SqtESF35r/jQn8w7kzMrMJ/nFfGPiwdQWaH+CQj/jWPKj2h1ZtogVvvP
+X-GBS-PROC: 415AWy8o668fDtCxszluz0usJCarfP6B29so9zGpOBDCCPbVOIEMRavJCXLNsob3
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-v2->v3:
- - s/set/sets/
- - remove leds_pwm.h
- - rebase on atomic PWM API
- - separate patch for devicetree changes
- - PWM default state defines instead of GPIO reuse
- - apply elegant if, else if schema
+The default-state is now supported for PWM leds.
 
- .../devicetree/bindings/leds/leds-pwm.txt          |  2 +
- drivers/leds/leds-pwm.c                            | 49 ++++++++++++++++=
-++++--
- include/linux/leds_pwm.h                           | 22 ----------
- 3 files changed, 48 insertions(+), 25 deletions(-)
+Signed-off-by: Denis Osterland-Heim <Denis.Osterland@diehl.com>
+---
+ Documentation/devicetree/bindings/leds/leds-pwm.txt | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Message-Id: 20200310123126.4709-1-Denis.Osterland@diehl.com
-
+diff --git a/Documentation/devicetree/bindings/leds/leds-pwm.txt b/Docume=
+ntation/devicetree/bindings/leds/leds-pwm.txt
+index 6c6583c35f2f..d0f489680594 100644
+--- a/Documentation/devicetree/bindings/leds/leds-pwm.txt
++++ b/Documentation/devicetree/bindings/leds/leds-pwm.txt
+@@ -19,6 +19,8 @@ LED sub-node properties:
+   see Documentation/devicetree/bindings/leds/common.txt
+ - linux,default-trigger :  (optional)
+   see Documentation/devicetree/bindings/leds/common.txt
++- default-state : (optional)
++  see Documentation/devicetree/bindings/leds/common.yaml
+=20
+ Example:
+=20
+--=20
+2.25.1
 
 
 
