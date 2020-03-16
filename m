@@ -2,112 +2,159 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 858B2185C0F
-	for <lists+linux-leds@lfdr.de>; Sun, 15 Mar 2020 11:54:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D35C186B7F
+	for <lists+linux-leds@lfdr.de>; Mon, 16 Mar 2020 13:54:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728305AbgCOKx6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 15 Mar 2020 06:53:58 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45238 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728234AbgCOKx6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 15 Mar 2020 06:53:58 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4D6D02D6;
-        Sun, 15 Mar 2020 11:53:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584269636;
-        bh=tHZj7k528VQp787Iu7lw15HaxCaHUWTuuW+O8lIRCV0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=twQyM+1lGITMQqyxXCOzCVjNxdRkFDEN5Q+XB7scUmWhUwBhnFmAx/7FRLsXJe09t
-         3c+eJ6c0MTWuKvkh/Wa+144xmukaiIwjDTSe1D4n6VXiu/EFm6qlCHllgISiac3x8n
-         W4aiRKx5AIlyOz82CjnfeLQxDBSudePE3vgLvhLA=
-Date:   Sun, 15 Mar 2020 12:53:45 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Icenowy Zheng <icenowy@aosc.io>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 2/3] dt-bindings: leds: Add binding for sgm3140
-Message-ID: <20200315105345.GB4732@pendragon.ideasonboard.com>
-References: <20200309203558.305725-1-luca@z3ntu.xyz>
- <20200309203558.305725-3-luca@z3ntu.xyz>
- <4f848ab3-0e76-ae63-0771-758b1eaa0660@ti.com>
- <3051566.44csPzL39Z@g550jk>
+        id S1731049AbgCPMyD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 16 Mar 2020 08:54:03 -0400
+Received: from enterprise01.smtp.diehl.com ([193.201.238.219]:15517 "EHLO
+        enterprise01.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730878AbgCPMyD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 16 Mar 2020 08:54:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
+  t=1584363242; x=1615899242;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=feePxLU3b23qOHVy3Y3+dMLz8Wwo2J+vDu1gQ/r/Dlg=;
+  b=r9yeCIsnJiuJuU921o8JBcg7Y02/VuHT3lqGBUEKM5QmYfY329zctI5R
+   RR5jo589oe8Mv06A9fuGV9/Gakh4R7nuzZ5omtb2mTMJ85t4z9FuFh1N3
+   zKc32Vq4WeY0YmAjqjY/Vjfc/q+xlfo8VsT75+Jo79z5oypymcIjGuCJP
+   vSIyzXNDVRqcDgwciayGXVKCpP4O+sB3H8kjaVnbAhRd7Az4C1kes9A7C
+   F+Kpgp/tbLYd6nowXOhwArPAjcXHz9u2p0ZJD4HTXK6q3pcRuCfDFoWA6
+   SwC3plggKiTs+UlSLWq+3R4I/jzag8vLCx1KVA/pYnsJG0sDqWNsJK6yL
+   Q==;
+IronPort-SDR: WA+Aep83FvM9YI3o8dqfTDYhu4T82RRZQBGypZw1EWP7u5tOIByDt8zwlabX75il4Wd0Z584EG
+ VzNW1U+J0fvw==
+From:   Denis Osterland-Heim <denis.osterland@diehl.com>
+To:     "dmurphy@ti.com" <dmurphy@ti.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Denis Osterland-Heim" <denis.osterland@diehl.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: [PATCH v3 1/3] leds: pwm: remove header
+Thread-Topic: [PATCH v3 1/3] leds: pwm: remove header
+Thread-Index: AQHV+5H1Iks8TeXaGE2TwcBBeYu7jA==
+Date:   Mon, 16 Mar 2020 12:53:58 +0000
+Message-ID: <20200316124851.6303-2-Denis.Osterland@diehl.com>
+References: <20200316124851.6303-1-Denis.Osterland@diehl.com>
+In-Reply-To: <20200316124851.6303-1-Denis.Osterland@diehl.com>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+x-ms-exchange-messagesentrepresentingtype: 1
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3051566.44csPzL39Z@g550jk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-TrailerSkip: 1
+X-GBS-PROC: 415AWy8o668fDtCxszluz0usJCarfP6B29so9zGpOBBwmTyEXYBVke9EOfE4UxBx
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Luca,
+The header is only used by leds_pwm.c, so move contents to leds_pwm.c
+and remove it.
+Apply minor changes suggested by checkpatch.
 
-On Sun, Mar 15, 2020 at 11:47:36AM +0100, Luca Weiss wrote:
-> On Mittwoch, 11. März 2020 13:49:35 CET Dan Murphy wrote:
-> > On 3/9/20 3:35 PM, Luca Weiss wrote:
-> > > Add YAML devicetree binding for SGMICRO SGM3140 charge pump used for
-> > > camera flash LEDs.
-> > > 
-> > > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> > > ---
-> > > Changes since RFC:
-> > > - new patch
-> > > 
-> > > I'm not sure about the completeness of this binding as it doesn't
-> > > mention the led subnode at all.
-> > > The only existing led yaml binding is leds/leds-max77650.yaml which
-> > > mentions the subnode but duplicates properties from documented in
-> > > leds/common.txt.
-> > > 
-> > >   .../bindings/leds/leds-sgm3140.yaml           | 53 +++++++++++++++++++
-> > >   1 file changed, 53 insertions(+)
-> > >   create mode 100644
-> > >   Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> > > b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml new file mode
-> > > 100644
-> > > index 000000000000..be9384573d02
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> > > @@ -0,0 +1,53 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/leds/leds-sgm3140.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: SGMICRO SGM3140 500mA Buck/Boost Charge Pump LED Driver
-> > > +
-> > > +maintainers:
-> > > +  - Luca Weiss <luca@z3ntu.xyz>
-> > > +
-> > > +description: |
-> > > +  The SGM3140 is a current-regulated charge pump which can regulate two
-> > > current +  levels for Flash and Torch modes.
-> > > +
-> > > +  It is controlled with two GPIO pins.
-> > 
-> > Please define "It".  Not sure what is controlled here.
-> > 
-> 
-> "It" means the SGM3140. Not sure how else to write that or what the correct 
-> term for such a component is.
+Suggested-by: Pavel Machek <pavel@ucw.cz>
+Signed-off-by: Denis Osterland-Heim <Denis.Osterland@diehl.com>
+---
+ drivers/leds/leds-pwm.c  | 15 ++++++++++++++-
+ include/linux/leds_pwm.h | 22 ----------------------
+ 2 files changed, 14 insertions(+), 23 deletions(-)
+ delete mode 100644 include/linux/leds_pwm.h
 
-Maybe "The device" ? I think Dan's concern is that he wasn't sure if
-"It" referred to "the device" or to "flash and torch modes".
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index 9111cdede0ee..5f69b6571595 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -16,9 +16,22 @@
+ #include <linux/leds.h>
+ #include <linux/err.h>
+ #include <linux/pwm.h>
+-#include <linux/leds_pwm.h>
+ #include <linux/slab.h>
+=20
++struct led_pwm {
++	const char	*name;
++	const char	*default_trigger;
++	unsigned int	pwm_id __deprecated;
++	u8		active_low;
++	unsigned int	max_brightness;
++	unsigned int	pwm_period_ns;
++};
++
++struct led_pwm_platform_data {
++	int		num_leds;
++	struct led_pwm	*leds;
++};
++
+ struct led_pwm_data {
+ 	struct led_classdev	cdev;
+ 	struct pwm_device	*pwm;
+diff --git a/include/linux/leds_pwm.h b/include/linux/leds_pwm.h
+deleted file mode 100644
+index 93d101d28943..000000000000
+--- a/include/linux/leds_pwm.h
++++ /dev/null
+@@ -1,22 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * PWM LED driver data - see drivers/leds/leds-pwm.c
+- */
+-#ifndef __LINUX_LEDS_PWM_H
+-#define __LINUX_LEDS_PWM_H
+-
+-struct led_pwm {
+-	const char	*name;
+-	const char	*default_trigger;
+-	unsigned	pwm_id __deprecated;
+-	u8 		active_low;
+-	unsigned 	max_brightness;
+-	unsigned	pwm_period_ns;
+-};
+-
+-struct led_pwm_platform_data {
+-	int			num_leds;
+-	struct led_pwm	*leds;
+-};
+-
+-#endif
+--=20
+2.25.1
 
--- 
-Regards,
 
-Laurent Pinchart
+
+Diehl Connectivity Solutions GmbH
+Gesch=E4ftsf=FChrung: Horst Leonberger
+Sitz der Gesellschaft: N=FCrnberg - Registergericht: Amtsgericht
+N=FCrnberg: HRB 32315
+_________________________________________________________________________=
+__________________________
+
+Der Inhalt der vorstehenden E-Mail ist nicht rechtlich bindend. Diese E-M=
+ail enthaelt vertrauliche und/oder rechtlich geschuetzte Informationen.
+Informieren Sie uns bitte, wenn Sie diese E-Mail faelschlicherweise erhal=
+ten haben. Bitte loeschen Sie in diesem Fall die Nachricht.
+Jede unerlaubte Form der Reproduktion, Bekanntgabe, Aenderung, Verteilung=
+ und/oder Publikation dieser E-Mail ist strengstens untersagt.
+- Informationen zum Datenschutz, insbesondere zu Ihren Rechten, erhalten =
+Sie unter https://www.diehl.com/group/de/transparenz-und-informationspfli=
+chten/
+
+The contents of the above mentioned e-mail is not legally binding. This e=
+-mail contains confidential and/or legally protected information. Please =
+inform us if you have received this e-mail by
+mistake and delete it in such a case. Each unauthorized reproduction, dis=
+closure, alteration, distribution and/or publication of this e-mail is st=
+rictly prohibited.=20
+- For general information on data protection and your respective rights p=
+lease visit https://www.diehl.com/group/en/transparency-and-information-o=
+bligations/
