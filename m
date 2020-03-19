@@ -2,23 +2,23 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D181D18C2C5
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2020 23:11:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FF8318C2DF
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2020 23:15:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727433AbgCSWLx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Mar 2020 18:11:53 -0400
-Received: from gateway24.websitewelcome.com ([192.185.51.196]:22326 "EHLO
-        gateway24.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727411AbgCSWLx (ORCPT
+        id S1727399AbgCSWPi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Mar 2020 18:15:38 -0400
+Received: from gateway20.websitewelcome.com ([192.185.47.18]:40603 "EHLO
+        gateway20.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727297AbgCSWPi (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 19 Mar 2020 18:11:53 -0400
-X-Greylist: delayed 1238 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Mar 2020 18:11:52 EDT
-Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
-        by gateway24.websitewelcome.com (Postfix) with ESMTP id 5DD381CE87
-        for <linux-leds@vger.kernel.org>; Thu, 19 Mar 2020 16:51:14 -0500 (CDT)
+        Thu, 19 Mar 2020 18:15:38 -0400
+X-Greylist: delayed 1428 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Mar 2020 18:15:37 EDT
+Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
+        by gateway20.websitewelcome.com (Postfix) with ESMTP id 57418400CCC8E
+        for <linux-leds@vger.kernel.org>; Thu, 19 Mar 2020 15:36:20 -0500 (CDT)
 Received: from gator4166.hostgator.com ([108.167.133.22])
         by cmsmtp with SMTP
-        id F34MjjxnxAGTXF34Mj9uCV; Thu, 19 Mar 2020 16:51:14 -0500
+        id F34vjzTz61s2xF34vjhrRL; Thu, 19 Mar 2020 16:51:49 -0500
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
@@ -26,25 +26,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
         List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=r1OkkVLKJe2+AiskQxxbFjMMb5GWePgr3r6Djtjenbk=; b=Rp9p2gPASRhgQiAw88td9Kyu6v
-        o3If2CjXo0l/GIMOq6ywCBvmQWikt/MVDcjNB6CMbpjFaJKcGTffpKXJil/YATEXIHU1Zb/p9I36l
-        PW4xUPfLPtJdrcLlOI3/+T9H31fuON3b4ElJeBsEzL9B+TyhIM5VVN6IOmQmHBKkyhpX29MWLwXhR
-        BQ6PyK8P3CCgPEjs4uKGFbkEl2HDSCvU0kFSjhC74/olcMHRp2YqgbRCXSRZnkapL48YsNW1kO3Zl
-        ZxLgvLf2kD32nW0zI1jUqvgSOGpvHwveQiXbHZYZYtN/lsJiRePknl/TMRmNY+6gPYXsBM0FR5v44
-        wQPC4LUg==;
-Received: from cablelink-189-218-116-241.hosts.intercable.net ([189.218.116.241]:53538 helo=embeddedor)
+        bh=JEikPqF6NxVfkvZjVP+cGq3DgK8l2GBx5Tnc9nIqPVg=; b=Te9RcnksN6yMkoH3gzTZsI6FL5
+        lrC4AYhR9cB28XuBX4opT8qJPThImwhGDa83tJ/WdSiA1IKTYXtxwNQR/xhHY9BvT2a8aJKaCrg8k
+        V0XCdiIE+1OJU+NsQwnPb+Or2Mw4gBQSIvn4fdcjpvk+V/Pc67TCILpiS4VKeQjNIsVFvuJ0kv5rv
+        FoDBj3i810Ug1Eefcv6d2i4RNJDU4pTnmBDezNEf14buSaWaSCmL13s01irthevxWHMXP8fHwDkEG
+        96QB35O0EqW3U4yShNQ35bO/YfkOgMUoRX2dQgNOvgMBZzKoBeds1Gi22D5T2a+hyOjKhqCGDg2NT
+        Ws9VYm3Q==;
+Received: from cablelink-189-218-116-241.hosts.intercable.net ([189.218.116.241]:53540 helo=embeddedor)
         by gator4166.hostgator.com with esmtpa (Exim 4.92)
         (envelope-from <gustavo@embeddedor.com>)
-        id 1jF34K-001nXP-LA; Thu, 19 Mar 2020 16:51:12 -0500
-Date:   Thu, 19 Mar 2020 16:51:12 -0500
+        id 1jF34s-001noC-VK; Thu, 19 Mar 2020 16:51:47 -0500
+Date:   Thu, 19 Mar 2020 16:51:46 -0500
 From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH][next] leds: leds-is31fl32xx: Replace zero-length array with
+Subject: [PATCH][next] leds: leds-pwm: Replace zero-length array with
  flexible-array member
-Message-ID: <20200319215112.GA23858@embeddedor.com>
+Message-ID: <20200319215146.GA24054@embeddedor.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -57,13 +57,13 @@ X-AntiAbuse: Sender Address Domain - embeddedor.com
 X-BWhitelist: no
 X-Source-IP: 189.218.116.241
 X-Source-L: No
-X-Exim-ID: 1jF34K-001nXP-LA
+X-Exim-ID: 1jF34s-001noC-VK
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: cablelink-189-218-116-241.hosts.intercable.net (embeddedor) [189.218.116.241]:53538
+X-Source-Sender: cablelink-189-218-116-241.hosts.intercable.net (embeddedor) [189.218.116.241]:53540
 X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 68
+X-Email-Count: 73
 X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
 X-Local-Domain: yes
 Sender: linux-leds-owner@vger.kernel.org
@@ -101,22 +101,22 @@ This issue was found with the help of Coccinelle.
 
 Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/leds/leds-is31fl32xx.c | 2 +-
+ drivers/leds/leds-pwm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-index 6f29b8943913..cd768f991da1 100644
---- a/drivers/leds/leds-is31fl32xx.c
-+++ b/drivers/leds/leds-is31fl32xx.c
-@@ -44,7 +44,7 @@ struct is31fl32xx_priv {
- 	const struct is31fl32xx_chipdef *cdef;
- 	struct i2c_client *client;
- 	unsigned int num_leds;
--	struct is31fl32xx_led_data leds[0];
-+	struct is31fl32xx_led_data leds[];
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index 9111cdede0ee..31ac44dfb926 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -28,7 +28,7 @@ struct led_pwm_data {
+ 
+ struct led_pwm_priv {
+ 	int num_leds;
+-	struct led_pwm_data leds[0];
++	struct led_pwm_data leds[];
  };
  
- /**
+ static int led_pwm_set(struct led_classdev *led_cdev,
 -- 
 2.23.0
 
