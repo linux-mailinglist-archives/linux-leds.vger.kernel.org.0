@@ -2,245 +2,434 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54F5A18BBC5
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2020 16:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2017718BF27
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2020 19:16:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727470AbgCSP7x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Mar 2020 11:59:53 -0400
-Received: from enterprise02.smtp.diehl.com ([193.201.238.220]:31105 "EHLO
-        enterprise02.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727477AbgCSP7x (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 19 Mar 2020 11:59:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1584633590; x=1616169590;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=6pkm1NxifXqSzSLckB8G+lZ1NlLDVglBgWFUdCMeIM0=;
-  b=r8gqS8Q7FjsTpfKUjWFbnMFnheHdCaUizeYZ99WrpgHt6vBntd5jpU/N
-   ZkyB+sKxIx19uaLuGyAYQIo84XczEna3X0l1DzV5VJ+DA0UOIkH6/3NLd
-   b78xsnELHvtaqmd+ZS31Tg9ykJUdEHBm7Kpc4RLKpdQi+o+FnbGk9y8Os
-   xF48NHqkRq5fEAba1oBL7TKCSTN5dzfhAPfJ/pPQT61xoUZE5J1D8cu1o
-   aqc0jqJOCaRx9eE8gkAgIbX7gN8ntlhDdwmVEasOHa2s+VPIDr01ZOjSO
-   vlLsnTCa+lBX7KbQI38Gpagm2DS+DzxKEEWm5mQ/LPznVmQIBLLdvWlgh
-   w==;
-IronPort-SDR: oAmL9Bal121IqPgCDJzhD0Z7gSrQEQyXjHMX5tUki2KbQkPfSr/Wao28oXjX7z7Br5GOF6kez+
- qdd2ZY4GRFvw==
-From:   Denis Osterland-Heim <denis.osterland@diehl.com>
-To:     "dmurphy@ti.com" <dmurphy@ti.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v3 2/3] leds: pwm: add support for default-state device
- property
-Thread-Topic: [PATCH v3 2/3] leds: pwm: add support for default-state device
- property
-Thread-Index: AQHV+5H21uxgWjW9wEe6B/TzHpI386hLe6EAgAAeVQCAAZexgIAC1UKA
-Date:   Thu, 19 Mar 2020 15:59:46 +0000
-Message-ID: <1c0006385b6b619c656964c3ac36e35cc658066b.camel@diehl.com>
-References: <20200316124851.6303-1-Denis.Osterland@diehl.com>
-         <20200316124851.6303-3-Denis.Osterland@diehl.com>
-         <bee4d31f-1f00-c621-f93c-f49207e406d6@gmail.com>
-         <e2835f58aead3ca85ad47e9769b393addcd19f2a.camel@diehl.com>
-         <13d593fb-053e-c6de-3237-ec3b6d1c82c5@gmail.com>
-In-Reply-To: <13d593fb-053e-c6de-3237-ec3b6d1c82c5@gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D541043D802B5141A476D0CAA3DA3047@diehl.internal>
-Content-Transfer-Encoding: base64
+        id S1727023AbgCSSQJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Mar 2020 14:16:09 -0400
+Received: from lists.nic.cz ([217.31.204.67]:55094 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726663AbgCSSQJ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 19 Mar 2020 14:16:09 -0400
+Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
+        by mail.nic.cz (Postfix) with ESMTP id 2B7261431D1;
+        Thu, 19 Mar 2020 19:16:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1584641765; bh=pLcTEchpYBINZVNk8VC9h1NY9VbwmaykzF/ybfzc+Dc=;
+        h=From:To:Date;
+        b=gDgbFepZ6c0SObV6FguNPRWRl2nw8NGHVsRsQweYfLrzRLBSGZ6fnaPlhyFHDN4pC
+         ZEEDCDclpVXW/Ax5mGlUpclC04aFoks+hiVYYH28D1GITkWPXZcxclgXKmMTTqA1M1
+         iAzkCZGcIZRpCLMPJ2YhR/cPJnG49REIAX5sJtBc=
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+To:     linux-leds@vger.kernel.org
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+Subject: [PATCH RFC leds-next] leds: initial support for Turris Omnia LEDs
+Date:   Thu, 19 Mar 2020 19:16:04 +0100
+Message-Id: <20200319181604.2425-1-marek.behun@nic.cz>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-TrailerSkip: 1
-X-GBS-PROC: byQFdw3ukCM+zy1/poiPcyRxu2SSS1QbZP4YodHAifNmvPHZ9F+TO7mUw43azry0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Spam-Status: No, score=0.00
+X-Spamd-Bar: /
+X-Virus-Scanned: clamav-milter 0.101.4 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGkgSmFjZWssDQoNCkkgaGF2ZSB0ZXN0ZXQgd2l0aCBhIGkuTVg2IGN1c3RvbSBib2FyZC4N
-Ckl0IGlzIHBvc3NpYmxlIHRvIHVzZSBxZW11IHRvIHRlc3QgaXQuDQpVc2luZyB0aGUgc21k
-a2MyMTAgbWFjaGluZSB3aXRoIG1vZGlmaWVkIGRldmljZSB0cmVlOg0KDQpgYGBwYXRjaA0K
-ZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRzL2V4eW5vczQyMTAtdHJhdHMuZHRzIGIv
-YXJjaC9hcm0vYm9vdC9kdHMvZXh5bm9zNDIxMC10cmF0cy5kdHMNCmluZGV4IDdjMzlkZDFj
-NGQzYS4uOWNhMTBmNjliM2EyIDEwMDY0NA0KLS0tIGEvYXJjaC9hcm0vYm9vdC9kdHMvZXh5
-bm9zNDIxMC10cmF0cy5kdHMNCisrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL2V4eW5vczQyMTAt
-dHJhdHMuZHRzDQpAQCAtMjYsOCArMjYsOCBAQA0KIAl9Ow0KIA0KIAljaG9zZW4gew0KLQkJ
-Ym9vdGFyZ3MgPSAicm9vdD0vZGV2L21tY2JsazBwNSByb290d2FpdCBlYXJseXByaW50ayBw
-YW5pYz01IjsNCi0JCXN0ZG91dC1wYXRoID0gInNlcmlhbDI6MTE1MjAwbjgiOw0KKwkJYm9v
-dGFyZ3MgPSAiY29uc29sZT10dHlTQUMwIHJkaW5pdD0vc2Jpbi9pbml0IHJvb3Q9L2Rldi9t
-bWNibGswcDUgcm9vdHdhaXQgZWFybHlwcmludGsgcGFuaWM9NSI7DQorCQlzdGRvdXQtcGF0
-aCA9ICJzZXJpYWwwOjExNTIwMG44IjsNCiAJfTsNCiANCiAJcmVndWxhdG9ycyB7DQpAQCAt
-MTI0LDcgKzEyNCw3IEBADQogCWZpeGVkLXJhdGUtY2xvY2tzIHsNCiAJCXh4dGkgew0KIAkJ
-CWNvbXBhdGlibGUgPSAic2Ftc3VuZyxjbG9jay14eHRpIjsNCi0JCQljbG9jay1mcmVxdWVu
-Y3kgPSA8MD47DQorCQkJY2xvY2stZnJlcXVlbmN5ID0gPDI0MDAwMDAwPjsNCiAJCX07DQog
-DQogCQl4dXNieHRpIHsNCkBAIC0xNDgsMTIgKzE0OCwyNyBAQA0KIAkJfTsNCiAJfTsNCiAN
-CisJcHdtLWxlZHMgew0KKwkJY29tcGF0aWJsZSA9ICJwd20tbGVkcyI7DQorCQlsZWQgew0K
-KwkJCWxhYmVsID0gImxlZCI7DQorCQkJcHdtcyA9IDwmcHdtIDAgMTAwMDAwMDAwMCAwPjsN
-CisJCQltYXgtYnJpZ2h0bmVzcyA9IDwyNTU+Ow0KKwkJCWRlZmF1bHQtc3RhdGUgPSAia2Vl
-cCI7DQorCQl9Ow0KKwl9Ow0KKw0KK307DQorDQorJnB3bSB7DQorCXN0YXR1cyA9ICJva2F5
-IjsNCisJc2Ftc3VuZyxwd20tb3V0cHV0cyA9IDwwPjsNCiB9Ow0KIA0KICZjYW1lcmEgew0K
-IAlwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOw0KIAlwaW5jdHJsLTAgPSA8PjsNCi0Jc3Rh
-dHVzID0gIm9rYXkiOw0KKwlzdGF0dXMgPSAiZGlzYWJsZWQiOw0KIH07DQogDQogJmNwdTAg
-ew0KQEAgLTE2Niw3ICsxODEsNyBAQA0KIAlzYW1zdW5nLGJ1cnN0LWNsb2NrLWZyZXF1ZW5j
-eSA9IDw1MDAwMDAwMDA+Ow0KIAlzYW1zdW5nLGVzYy1jbG9jay1mcmVxdWVuY3kgPSA8MjAw
-MDAwMDA+Ow0KIAlzYW1zdW5nLHBsbC1jbG9jay1mcmVxdWVuY3kgPSA8MjQwMDAwMDA+Ow0K
-LQlzdGF0dXMgPSAib2theSI7DQorCXN0YXR1cyA9ICJkaXNhYmxlZCI7DQogDQogCXBhbmVs
-QDAgew0KIAkJcmVnID0gPDA+Ow0KQEAgLTE5NiwxNSArMjExLDE2IEBADQogCQkJfTsNCiAJ
-CX07DQogCX07DQorDQogfTsNCiANCiAmZXh5bm9zX3VzYnBoeSB7DQotCXN0YXR1cyA9ICJv
-a2F5IjsNCisJc3RhdHVzID0gImRpc2FibGVkIjsNCiAJdmJ1cy1zdXBwbHkgPSA8JnNhZmUx
-X3NyZWc+Ow0KIH07DQogDQogJmZpbWNfMCB7DQotCXN0YXR1cyA9ICJva2F5IjsNCisJc3Rh
-dHVzID0gImRpc2FibGVkIjsNCiAJYXNzaWduZWQtY2xvY2tzID0gPCZjbG9jayBDTEtfTU9V
-VF9GSU1DMD4sDQogCQkJICA8JmNsb2NrIENMS19TQ0xLX0ZJTUMwPjsNCiAJYXNzaWduZWQt
-Y2xvY2stcGFyZW50cyA9IDwmY2xvY2sgQ0xLX1NDTEtfTVBMTD47DQpAQCAtMjEyLDcgKzIy
-OCw3IEBADQogfTsNCiANCiAmZmltY18xIHsNCi0Jc3RhdHVzID0gIm9rYXkiOw0KKwlzdGF0
-dXMgPSAiZGlzYWJsZWQiOw0KIAlhc3NpZ25lZC1jbG9ja3MgPSA8JmNsb2NrIENMS19NT1VU
-X0ZJTUMxPiwNCiAJCQkgIDwmY2xvY2sgQ0xLX1NDTEtfRklNQzE+Ow0KIAlhc3NpZ25lZC1j
-bG9jay1wYXJlbnRzID0gPCZjbG9jayBDTEtfU0NMS19NUExMPjsNCkBAIC0yMjAsNyArMjM2
-LDcgQEANCiB9Ow0KIA0KICZmaW1jXzIgew0KLQlzdGF0dXMgPSAib2theSI7DQorCXN0YXR1
-cyA9ICJkaXNhYmxlZCI7DQogCWFzc2lnbmVkLWNsb2NrcyA9IDwmY2xvY2sgQ0xLX01PVVRf
-RklNQzI+LA0KIAkJCSAgPCZjbG9jayBDTEtfU0NMS19GSU1DMj47DQogCWFzc2lnbmVkLWNs
-b2NrLXBhcmVudHMgPSA8JmNsb2NrIENMS19TQ0xLX01QTEw+Ow0KQEAgLTIyOCw3ICsyNDQs
-NyBAQA0KIH07DQogDQogJmZpbWNfMyB7DQotCXN0YXR1cyA9ICJva2F5IjsNCisJc3RhdHVz
-ID0gImRpc2FibGVkIjsNCiAJYXNzaWduZWQtY2xvY2tzID0gPCZjbG9jayBDTEtfTU9VVF9G
-SU1DMz4sDQogCQkJICA8JmNsb2NrIENMS19TQ0xLX0ZJTUMzPjsNCiAJYXNzaWduZWQtY2xv
-Y2stcGFyZW50cyA9IDwmY2xvY2sgQ0xLX1NDTEtfTVBMTD47DQpAQCAtMjM2LDE4ICsyNTIs
-MTggQEANCiB9Ow0KIA0KICZmaW1kIHsNCi0Jc3RhdHVzID0gIm9rYXkiOw0KKwlzdGF0dXMg
-PSAiZGlzYWJsZWQiOw0KIH07DQogDQogJmdwdSB7DQotCXN0YXR1cyA9ICJva2F5IjsNCisJ
-c3RhdHVzID0gImRpc2FibGVkIjsNCiB9Ow0KIA0KICZoc290ZyB7DQogCXZ1c2JfZC1zdXBw
-bHkgPSA8JnZ1c2JfcmVnPjsNCiAJdnVzYl9hLXN1cHBseSA9IDwmdnVzYmRhY19yZWc+Ow0K
-IAlkcl9tb2RlID0gInBlcmlwaGVyYWwiOw0KLQlzdGF0dXMgPSAib2theSI7DQorCXN0YXR1
-cyA9ICJkaXNhYmxlZCI7DQogfTsNCiANCiAmaTJjXzMgew0KQEAgLTI1Niw3ICsyNzIsNyBA
-QA0KIAlzYW1zdW5nLGkyYy1tYXgtYnVzLWZyZXEgPSA8NDAwMDAwPjsNCiAJcGluY3RybC0w
-ID0gPCZpMmMzX2J1cz47DQogCXBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQotCXN0YXR1
-cyA9ICJva2F5IjsNCisJc3RhdHVzID0gImRpc2FibGVkIjsNCiANCiAJbW1zMTE0LXRvdWNo
-c2NyZWVuQDQ4IHsNCiAJCWNvbXBhdGlibGUgPSAibWVsZmFzLG1tczExNCI7DQpAQCAtMjc2
-LDcgKzI5Miw3IEBADQogCXNhbXN1bmcsaTJjLW1heC1idXMtZnJlcSA9IDwxMDAwMDA+Ow0K
-IAlwaW5jdHJsLTAgPSA8JmkyYzVfYnVzPjsNCiAJcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0
-IjsNCi0Jc3RhdHVzID0gIm9rYXkiOw0KKwlzdGF0dXMgPSAiZGlzYWJsZWQiOw0KIA0KIAlt
-YXg4OTk3X3BtaWNANjYgew0KIAkJY29tcGF0aWJsZSA9ICJtYXhpbSxtYXg4OTk3LXBtaWMi
-Ow0KYGBgDQoNClRvIGFjdHVhbGx5IHNlZSB3aGF0IGhhcHBlbnMgb24gSFcgeW91IG5lZWQg
-dG8gcGF0Y2ggcWVtdSBhcyB3ZWxsOg0KDQpgYGBwYXRjaA0KZGlmZiAtLWdpdCBhL2h3L3Rp
-bWVyL2V4eW5vczQyMTBfcHdtLmMgYi9ody90aW1lci9leHlub3M0MjEwX3B3bS5jDQppbmRl
-eCA5YmMwMzI3Nzg1MmQuLmExYzJiYzA1YjkzNSAxMDA2NDQNCi0tLSBhL2h3L3RpbWVyL2V4
-eW5vczQyMTBfcHdtLmMNCisrKyBiL2h3L3RpbWVyL2V4eW5vczQyMTBfcHdtLmMNCkBAIC0z
-MCw3ICszMCw3IEBADQogDQogI2luY2x1ZGUgImh3L2FybS9leHlub3M0MjEwLmgiDQogDQot
-Ly8jZGVmaW5lIERFQlVHX1BXTQ0KKyNkZWZpbmUgREVCVUdfUFdNDQogDQogI2lmZGVmIERF
-QlVHX1BXTQ0KICNkZWZpbmUgRFBSSU5URihmbXQsIC4uLikgXA0KQEAgLTE5OSw4ICsxOTks
-OCBAQCBzdGF0aWMgdm9pZCBleHlub3M0MjEwX3B3bV90aWNrKHZvaWQgKm9wYXF1ZSkNCiAg
-ICAgfQ0KIA0KICAgICBpZiAoY21wKSB7DQotICAgICAgICBEUFJJTlRGKCJhdXRvIHJlbG9h
-ZCB0aW1lciAlZCBjb3VudCB0byAleFxuIiwgaWQsDQotICAgICAgICAgICAgICAgIHAtPnRp
-bWVyW2lkXS5yZWdfdGNudGIpOw0KKyAgICAgICAgRFBSSU5URigiYXV0byByZWxvYWQgdGlt
-ZXIgJWQgY291bnQgdG8gMHglMDh4IGFuZCBjb21wYXJlIHRvIDB4JTA4eFxuIiwgaWQsDQor
-ICAgICAgICAgICAgICAgIHAtPnRpbWVyW2lkXS5yZWdfdGNudGIsIHAtPnRpbWVyW2lkXS5y
-ZWdfdGNtcGIpOw0KICAgICAgICAgcHRpbWVyX3NldF9jb3VudChwLT50aW1lcltpZF0ucHRp
-bWVyLCBwLT50aW1lcltpZF0ucmVnX3RjbnRiKTsNCiAgICAgICAgIHB0aW1lcl9ydW4ocC0+
-dGltZXJbaWRdLnB0aW1lciwgMSk7DQogICAgIH0gZWxzZSB7DQpgYGANCg0KV2l0aCB0aGlz
-IGNoYW5nZXMgeW91IGNhbiB0ZXN0IG9uIGFuZCBvZmYgZGVmYXVsdC1zdGF0ZS4NClRoZSBv
-biBzdGF0ZSB3aWxsIHByaW50Og0KUFdNOiBbICAgICBleHlub3M0MjEwX3B3bV90aWNrOiAg
-MjAyXSBhdXRvIHJlbG9hZCB0aW1lciAwIGNvdW50IHRvIDB4MDBiN2Q3M2YgYW5kIGNvbXBh
-cmUgdG8gMHhmZmZmZmZmZg0KVGhlIG9mZiBzdGF0ZSBvbmx5IGNoZWNrcyB0aGF0IGl0IGlz
-IGRpc2FibGVkLg0KDQpUbyB0ZXN0IHRoZSBkZWZhdWx0LXN0YXRlIGtlZXAsIG1vcmUgY2hh
-bmdlcyBhcmUgbmVlZGVkOg0KDQpgYGBwYXRjaA0KZGlmZiAtLWdpdCBhL2h3L3RpbWVyL2V4
-eW5vczQyMTBfcHdtLmMgYi9ody90aW1lci9leHlub3M0MjEwX3B3bS5jDQppbmRleCA5YmMw
-MzI3Nzg1MmQuLmExYzJiYzA1YjkzNSAxMDA2NDQNCi0tLSBhL2h3L3RpbWVyL2V4eW5vczQy
-MTBfcHdtLmMNCisrKyBiL2h3L3RpbWVyL2V4eW5vczQyMTBfcHdtLmMNCkBAIC0zNzAsNiAr
-MzcwLDEyIEBAIHN0YXRpYyB2b2lkIGV4eW5vczQyMTBfcHdtX3Jlc2V0KERldmljZVN0YXRl
-ICpkKQ0KICAgICAgICAgZXh5bm9zNDIxMF9wd21fdXBkYXRlX2ZyZXEocywgcy0+dGltZXJb
-aV0uaWQpOw0KICAgICAgICAgcHRpbWVyX3N0b3Aocy0+dGltZXJbaV0ucHRpbWVyKTsNCiAg
-ICAgfQ0KKw0KKyAgICBleHlub3M0MjEwX3B3bV93cml0ZShzLCAgIFRDT04sICAgICAgICAg
-IDQsIDQpOw0KKyAgICBleHlub3M0MjEwX3B3bV93cml0ZShzLCBUQ05UQjAsIDB4MDBiN2Q3
-M2YsIDQpOw0KKyAgICBleHlub3M0MjEwX3B3bV93cml0ZShzLCBUQ01QQjAsIDB4MDA1Yjhm
-NTcsIDQpOw0KKyAgICBleHlub3M0MjEwX3B3bV93cml0ZShzLCAgIFRDT04sICAgICAgICAg
-IDYsIDQpOw0KKyAgICBleHlub3M0MjEwX3B3bV93cml0ZShzLCAgIFRDT04sICAgICAgICAw
-eGQsIDQpOw0KIH0NCiANCiBzdGF0aWMgY29uc3QgTWVtb3J5UmVnaW9uT3BzIGV4eW5vczQy
-MTBfcHdtX29wcyA9IHsNCmBgYA0KDQpgYGBwYXRjaA0KZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-cHdtL3B3bS1zYW1zdW5nLmMgYi9kcml2ZXJzL3B3bS9wd20tc2Ftc3VuZy5jDQppbmRleCA4
-N2E4ODZmN2RjMmYuLmNmNTc4YTIzNTIwOCAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvcHdtL3B3
-bS1zYW1zdW5nLmMNCisrKyBiL2RyaXZlcnMvcHdtL3B3bS1zYW1zdW5nLmMNCkBAIC0zODcs
-NiArMzg3LDIzIEBAIHN0YXRpYyBpbnQgcHdtX3NhbXN1bmdfY29uZmlnKHN0cnVjdCBwd21f
-Y2hpcCAqY2hpcCwgc3RydWN0IHB3bV9kZXZpY2UgKnB3bSwNCiAJcmV0dXJuIF9fcHdtX3Nh
-bXN1bmdfY29uZmlnKGNoaXAsIHB3bSwgZHV0eV9ucywgcGVyaW9kX25zLCBmYWxzZSk7DQog
-fQ0KIA0KK3N0YXRpYyB2b2lkIHB3bV9zYW1zdW5nX2dldF9zdGF0ZShzdHJ1Y3QgcHdtX2No
-aXAgKmNoaXAsDQorCQkJc3RydWN0IHB3bV9kZXZpY2UgKnB3bSwgc3RydWN0IHB3bV9zdGF0
-ZSAqc3RhdGUpDQorew0KKwlzdHJ1Y3Qgc2Ftc3VuZ19wd21fY2hpcCAqb3VyX2NoaXAgPSB0
-b19zYW1zdW5nX3B3bV9jaGlwKGNoaXApOw0KKwl1MzIgdGluX3JhdGUgPSBwd21fc2Ftc3Vu
-Z19nZXRfdGluX3JhdGUob3VyX2NoaXAsIHB3bS0+aHdwd20pOw0KKwl1MzIgdGNudCA9IHJl
-YWRsKG91cl9jaGlwLT5iYXNlICsgUkVHX1RDTlRCKHB3bS0+aHdwd20pKTsNCisJdTMyIHRj
-bXAgPSByZWFkbChvdXJfY2hpcC0+YmFzZSArIFJFR19UQ01QQihwd20tPmh3cHdtKSk7DQor
-CXUzMiB0Y29uID0gcmVhZGwob3VyX2NoaXAtPmJhc2UgKyBSRUdfVENPTik7DQorCXU2NCB0
-bXA7DQorDQorCXN0YXRlLT5lbmFibGVkID0gISEodGNvbiAmIFRDT05fQVVUT1JFTE9BRChw
-d20tPmh3cHdtKSk7DQorCXRtcCA9IE5TRUNfUEVSX1NFQyAqICh1NjQpdGNtcDsNCisJc3Rh
-dGUtPmR1dHlfY3ljbGUgPSBESVZfUk9VTkRfQ0xPU0VTVF9VTEwodG1wLCB0aW5fcmF0ZSk7
-DQorCXRtcCA9IE5TRUNfUEVSX1NFQyAqICh1NjQpdGNudDsNCisJc3RhdGUtPnBlcmlvZCA9
-IERJVl9ST1VORF9DTE9TRVNUX1VMTCh0bXAsIHRpbl9yYXRlKTsNCit9DQorDQogc3RhdGlj
-IHZvaWQgcHdtX3NhbXN1bmdfc2V0X2ludmVydChzdHJ1Y3Qgc2Ftc3VuZ19wd21fY2hpcCAq
-Y2hpcCwNCiAJCQkJICAgdW5zaWduZWQgaW50IGNoYW5uZWwsIGJvb2wgaW52ZXJ0KQ0KIHsN
-CkBAIC00MzAsNiArNDQ3LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBwd21fb3BzIHB3bV9z
-YW1zdW5nX29wcyA9IHsNCiAJLmVuYWJsZQkJPSBwd21fc2Ftc3VuZ19lbmFibGUsDQogCS5k
-aXNhYmxlCT0gcHdtX3NhbXN1bmdfZGlzYWJsZSwNCiAJLmNvbmZpZwkJPSBwd21fc2Ftc3Vu
-Z19jb25maWcsDQorCS5nZXRfc3RhdGUJPSBwd21fc2Ftc3VuZ19nZXRfc3RhdGUsDQogCS5z
-ZXRfcG9sYXJpdHkJPSBwd21fc2Ftc3VuZ19zZXRfcG9sYXJpdHksDQogCS5vd25lcgkJPSBU
-SElTX01PRFVMRSwNCiB9Ow0KYGBgDQoNCldpdGhvdXQgdGhlIGdldF9zdGF0ZSgpIGEgZGl2
-aWRlIGJ5IHplcm8gaXMgdHJpZ2dlcmVkIGFuZCBkZXZpY2UgaXMgbm90IHRoZXJlLg0KSSB0
-aGluayBpdCBpcyB2YWxpZCB0byB1c2UgZGVmYXVsdC1zdGF0ZSBrZWVwIHdpdGggYSBkaXNh
-YmxlZCBQV00NCmFuZCB0aGlzIG1heSBjYXVzZSBhIGRpdmlzaW9uIGJ5IHplcm8sIEkgd2ls
-bCBhZGQgYSBgaWYgKHB3bXN0YXRlLT5lbmFibGVkKWANCnRvIGF2b2lkIHRoaXMuDQoNClJl
-Z2FyZHMgRGVuaXMNCg0KQW0gRGllbnN0YWcsIGRlbiAxNy4wMy4yMDIwLCAyMTo0MyArMDEw
-MCBzY2hyaWViIEphY2VrIEFuYXN6ZXdza2k6DQo+IEhpIERlbmlzLA0KPiANCj4gT24gMy8x
-Ni8yMCA5OjI0IFBNLCBEZW5pcyBPc3RlcmxhbmQtSGVpbSB3cm90ZToNCj4gPiBIaSBKYWNl
-aywNCj4gPiANCj4gPiBBbSBNb250YWcsIGRlbiAxNi4wMy4yMDIwLCAxOTozNiArMDEwMCBz
-Y2hyaWViIEphY2VrIEFuYXN6ZXdza2k6DQo+ID4gPiBIaSBEZW5pcywNCj4gPiA+IA0KPiA+
-ID4gT24gMy8xNi8yMCAxOjUzIFBNLCBEZW5pcyBPc3RlcmxhbmQtSGVpbSB3cm90ZToNCj4g
-PiANCj4gPiAuLi4NCj4gPiA+ID4gIA0KPiA+ID4gPiBAQCAtOTIsMTMgKzk2LDI3IEBAIHN0
-YXRpYyBpbnQgbGVkX3B3bV9hZGQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgbGVkX3B3
-bV9wcml2ICpwcml2LA0KPiA+ID4gPiAgDQo+ID4gPiA+ICAJcHdtX2luaXRfc3RhdGUobGVk
-X2RhdGEtPnB3bSwgJmxlZF9kYXRhLT5wd21zdGF0ZSk7DQo+ID4gPiA+ICANCj4gPiA+ID4g
-KwlpZiAobGVkLT5kZWZhdWx0X3N0YXRlID09IExFRFNfUFdNX0RFRlNUQVRFX09OKQ0KPiA+
-ID4gPiArCQlsZWRfZGF0YS0+Y2Rldi5icmlnaHRuZXNzID0gbGVkLT5tYXhfYnJpZ2h0bmVz
-czsNCj4gPiA+ID4gKwllbHNlIGlmIChsZWQtPmRlZmF1bHRfc3RhdGUgPT0gTEVEU19QV01f
-REVGU1RBVEVfS0VFUCkgew0KPiA+ID4gPiArCQl1aW50NjRfdCBicmlnaHRuZXNzOw0KPiA+
-ID4gPiArDQo+ID4gPiA+ICsJCXB3bV9nZXRfc3RhdGUobGVkX2RhdGEtPnB3bSwgJmxlZF9k
-YXRhLT5wd21zdGF0ZSk7DQo+ID4gPiANCj4gPiA+IFRoaXMgc2VlbXMgdG8gbm90IGJlIHJl
-YWRpbmcgdGhlIGRldmljZSBzdGF0ZSwgaS5lLiB3aGF0IHlvdSB0cmllZA0KPiA+ID4gdG8g
-YWRkcmVzcyBieSBkaXJlY3QgY2FsbCB0byBwd20tPmNoaXAtPm9wcy0+Z2V0X3N0YXRlKCkg
-YmVmb3JlLg0KPiA+ID4gDQo+ID4gPiBBbSBJIG1pc3Npbmcgc29tZXRoaW5nPw0KPiA+ID4g
-DQo+ID4gDQo+ID4gd2VsbCwgbm90IHlvdSwgYnV0IEkgbWlzc2VkIGNmYzRjMTg5YmM3MGIx
-YWNjMTdlNmYxYWJmMWRjMWMwYWU4OTBiZDguDQo+ID4gU2luY2UgdGhpcyBjb21taXQgcHdt
-X2dldF9zdGF0ZSgpIGlzIHN1ZmZpY2llbnQuDQo+IA0KPiBJIGFzc3VtZSB5b3UgdGVzdGVk
-IGl0Pw0KPiANCj4gV2l0aCB0aGF0LCBmb3IgdGhlIHdob2xlIHNldDoNCj4gDQo+IEFja2Vk
-LWJ5OiBKYWNlayBBbmFzemV3c2tpIDxqYWNlay5hbmFzemV3c2tpQGdtYWlsLmNvbT4NCj4g
-DQoNCg0KRGllaGwgQ29ubmVjdGl2aXR5IFNvbHV0aW9ucyBHbWJIDQpHZXNjaMOkZnRzZsO8
-aHJ1bmc6IEhvcnN0IExlb25iZXJnZXINClNpdHogZGVyIEdlc2VsbHNjaGFmdDogTsO8cm5i
-ZXJnIC0gUmVnaXN0ZXJnZXJpY2h0OiBBbXRzZ2VyaWNodA0KTsO8cm5iZXJnOiBIUkIgMzIz
-MTUNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KDQpE
-ZXIgSW5oYWx0IGRlciB2b3JzdGVoZW5kZW4gRS1NYWlsIGlzdCBuaWNodCByZWNodGxpY2gg
-YmluZGVuZC4gRGllc2UgRS1NYWlsIGVudGhhZWx0IHZlcnRyYXVsaWNoZSB1bmQvb2RlciBy
-ZWNodGxpY2ggZ2VzY2h1ZXR6dGUgSW5mb3JtYXRpb25lbi4NCkluZm9ybWllcmVuIFNpZSB1
-bnMgYml0dGUsIHdlbm4gU2llIGRpZXNlIEUtTWFpbCBmYWVsc2NobGljaGVyd2Vpc2UgZXJo
-YWx0ZW4gaGFiZW4uIEJpdHRlIGxvZXNjaGVuIFNpZSBpbiBkaWVzZW0gRmFsbCBkaWUgTmFj
-aHJpY2h0Lg0KSmVkZSB1bmVybGF1YnRlIEZvcm0gZGVyIFJlcHJvZHVrdGlvbiwgQmVrYW5u
-dGdhYmUsIEFlbmRlcnVuZywgVmVydGVpbHVuZyB1bmQvb2RlciBQdWJsaWthdGlvbiBkaWVz
-ZXIgRS1NYWlsIGlzdCBzdHJlbmdzdGVucyB1bnRlcnNhZ3QuDQotIEluZm9ybWF0aW9uZW4g
-enVtIERhdGVuc2NodXR6LCBpbnNiZXNvbmRlcmUgenUgSWhyZW4gUmVjaHRlbiwgZXJoYWx0
-ZW4gU2llIHVudGVyIGh0dHBzOi8vd3d3LmRpZWhsLmNvbS9ncm91cC9kZS90cmFuc3BhcmVu
-ei11bmQtaW5mb3JtYXRpb25zcGZsaWNodGVuLw0KDQpUaGUgY29udGVudHMgb2YgdGhlIGFi
-b3ZlIG1lbnRpb25lZCBlLW1haWwgaXMgbm90IGxlZ2FsbHkgYmluZGluZy4gVGhpcyBlLW1h
-aWwgY29udGFpbnMgY29uZmlkZW50aWFsIGFuZC9vciBsZWdhbGx5IHByb3RlY3RlZCBpbmZv
-cm1hdGlvbi4gUGxlYXNlIGluZm9ybSB1cyBpZiB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUt
-bWFpbCBieQ0KbWlzdGFrZSBhbmQgZGVsZXRlIGl0IGluIHN1Y2ggYSBjYXNlLiBFYWNoIHVu
-YXV0aG9yaXplZCByZXByb2R1Y3Rpb24sIGRpc2Nsb3N1cmUsIGFsdGVyYXRpb24sIGRpc3Ry
-aWJ1dGlvbiBhbmQvb3IgcHVibGljYXRpb24gb2YgdGhpcyBlLW1haWwgaXMgc3RyaWN0bHkg
-cHJvaGliaXRlZC4gDQotIEZvciBnZW5lcmFsIGluZm9ybWF0aW9uIG9uIGRhdGEgcHJvdGVj
-dGlvbiBhbmQgeW91ciByZXNwZWN0aXZlIHJpZ2h0cyBwbGVhc2UgdmlzaXQgaHR0cHM6Ly93
-d3cuZGllaGwuY29tL2dyb3VwL2VuL3RyYW5zcGFyZW5jeS1hbmQtaW5mb3JtYXRpb24tb2Js
-aWdhdGlvbnMvDQo=
+This adds basic support for LEDs on the front side of CZ.NIC's Turris
+Omnia router.
+
+There are 12 RGB LEDs. The controller supports HW triggering mode for
+the LEDs, but this driver does not support it yet, and sets all the LEDs
+into SW mode upon probe.
+
+The user can either group all three channels of one RGB LED into one LED
+classdev, or expose each channel as an individual LED classdev. This is
+done by utilizing the 'led-sources' and 'color' DT properties.
+
+In the following example the first RGB LED is exposed as one LED
+classdev with color WHITE, and the second RGB LED is exposed as three
+classdevs, one per each channel:
+	led@0 {
+		reg = <0>;
+		led-sources = <0 1 2>;
+		color = <LED_COLOR_ID_WHITE>;
+	};
+
+	led@1,0 {
+		reg = <1>;
+		led-sources = <3>;
+		color = <LED_COLOR_ID_RED>;
+	};
+
+	led@1,1 {
+		reg = <1>;
+		led-sources = <4>;
+		color = <LED_COLOR_ID_GREEN>;
+	};
+
+	led@1,2 {
+		reg = <1>;
+		led-sources = <5>;
+		color = <LED_COLOR_ID_BLUE>;
+	};
+
+I am not comfortable with the 'reg' property being same for multiple
+nodes. Perhaps the 'reg' property shouldn't be used, since the
+information needed by the driver can be deduced from the 'led-sources'.
+
+Signed-off-by: Marek Behún <marek.behun@nic.cz>
+---
+ drivers/leds/Kconfig             |  14 ++
+ drivers/leds/Makefile            |   1 +
+ drivers/leds/leds-turris-omnia.c | 295 +++++++++++++++++++++++++++++++
+ 3 files changed, 310 insertions(+)
+ create mode 100644 drivers/leds/leds-turris-omnia.c
+
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index d82f1dea3711..c33159370bcb 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -145,6 +145,20 @@ config LEDS_EL15203000
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called leds-el15203000.
+ 
++config LEDS_TURRIS_OMNIA
++	tristate "LED support for CZ.NIC's Turris Omnia"
++	depends on LEDS_CLASS
++	depends on I2C
++	depends on MACH_ARMADA_38X || COMPILE_TEST
++	depends on OF
++	help
++	  This option enables basic support for the LEDs found on the front
++	  side of CZ.NIC's Turris Omnia router. There are 12 RGB LEDs on the
++	  front panel.
++	  This driver does not currently support setting LED colors, only
++	  brightness. Also HW triggering is disabled when the controller is
++	  probed by this driver.
++
+ config LEDS_LM3530
+ 	tristate "LCD Backlight driver for LM3530"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index d7e1107753fb..95feaf4bea81 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -86,6 +86,7 @@ obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
+ obj-$(CONFIG_LEDS_LM3697)		+= leds-lm3697.o
+ obj-$(CONFIG_LEDS_LM36274)		+= leds-lm36274.o
+ obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
++obj-$(CONFIG_LEDS_TURRIS_OMNIA)		+= leds-turris-omnia.o
+ 
+ # LED SPI Drivers
+ obj-$(CONFIG_LEDS_CR0014114)		+= leds-cr0014114.o
+diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
+new file mode 100644
+index 000000000000..7e8345b2ac4f
+--- /dev/null
++++ b/drivers/leds/leds-turris-omnia.c
+@@ -0,0 +1,295 @@
++// SPDX-License-Identifier: GPL-2.0
++//
++// CZ.NIC's Turris Omnia LEDs driver
++//
++// 2020 by Marek Behun <marek.behun@nic.cz>
++
++#include <linux/i2c.h>
++#include <linux/leds.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/of.h>
++#include <uapi/linux/uleds.h>
++#include "leds.h"
++
++#define OMNIA_BOARD_LEDS		12
++
++#define CMD_LED_MODE			3
++#define CMD_LED_MODE_LED(l)		((l) & 0x0f)
++#define CMD_LED_MODE_USER		0x10
++
++#define CMD_LED_STATE			4
++#define CMD_LED_STATE_LED(l)		((l) & 0x0f)
++#define CMD_LED_STATE_ON		0x10
++
++#define CMD_LED_COLOR			5
++#define CMD_LED_SET_BRIGHTNESS		7
++#define CMD_LED_GET_BRIGHTNESS		8
++
++#define OMNIA_CMD			0
++
++#define OMNIA_CMD_LED_COLOR_LED		1
++#define OMNIA_CMD_LED_COLOR_R		2
++#define OMNIA_CMD_LED_COLOR_G		3
++#define OMNIA_CMD_LED_COLOR_B		4
++#define OMNIA_CMD_LED_COLOR_LEN		5
++
++struct omnia_led {
++	struct led_classdev cdev;
++	int reg, color;
++};
++
++#define to_omnia_led(l)	container_of(l, struct omnia_led, cdev)
++
++struct omnia_leds {
++	struct i2c_client *client;
++	struct mutex lock;
++	u8 cache[OMNIA_BOARD_LEDS][3];
++	int nleds;
++	struct omnia_led leds[0];
++};
++
++static int omnia_led_brightness_set_blocking(struct led_classdev *cdev,
++					     enum led_brightness brightness)
++{
++	static const u8 color2cmd[] = {
++		[LED_COLOR_ID_RED] = OMNIA_CMD_LED_COLOR_R,
++		[LED_COLOR_ID_GREEN] = OMNIA_CMD_LED_COLOR_G,
++		[LED_COLOR_ID_BLUE] = OMNIA_CMD_LED_COLOR_B,
++	};
++	struct omnia_leds *leds = dev_get_drvdata(cdev->dev->parent);
++	struct omnia_led *led = to_omnia_led(cdev);
++	u8 buf[OMNIA_CMD_LED_COLOR_LEN], state;
++	int ret;
++
++	mutex_lock(&leds->lock);
++
++	buf[OMNIA_CMD] = CMD_LED_COLOR;
++	buf[OMNIA_CMD_LED_COLOR_LED] = led->reg;
++
++	if (led->color == LED_COLOR_ID_WHITE) {
++		buf[OMNIA_CMD_LED_COLOR_R] = brightness;
++		buf[OMNIA_CMD_LED_COLOR_G] = brightness;
++		buf[OMNIA_CMD_LED_COLOR_B] = brightness;
++	} else {
++		buf[OMNIA_CMD_LED_COLOR_R] = leds->cache[led->reg][0];
++		buf[OMNIA_CMD_LED_COLOR_G] = leds->cache[led->reg][1];
++		buf[OMNIA_CMD_LED_COLOR_B] = leds->cache[led->reg][2];
++		buf[color2cmd[led->color]] = brightness;
++	}
++
++	state = CMD_LED_STATE_LED(led->reg);
++	if (buf[OMNIA_CMD_LED_COLOR_R] || buf[OMNIA_CMD_LED_COLOR_G] ||
++	    buf[OMNIA_CMD_LED_COLOR_B])
++		state |= CMD_LED_STATE_ON;
++
++	ret = i2c_smbus_write_byte_data(leds->client, CMD_LED_STATE, state);
++	if (ret >= 0 && (state & CMD_LED_STATE_ON))
++		ret = i2c_master_send(leds->client, buf, 5);
++
++	leds->cache[led->reg][0] = buf[OMNIA_CMD_LED_COLOR_R];
++	leds->cache[led->reg][1] = buf[OMNIA_CMD_LED_COLOR_G];
++	leds->cache[led->reg][2] = buf[OMNIA_CMD_LED_COLOR_B];
++
++	mutex_unlock(&leds->lock);
++
++	return ret;
++}
++
++static int omnia_led_register(struct omnia_leds *leds,
++			      struct fwnode_handle *node)
++{
++	struct i2c_client *client = leds->client;
++	struct led_init_data init_data = {};
++	struct device *dev = &client->dev;
++	struct omnia_led *led;
++	int ret, nsources, color;
++	u32 reg, led_sources[3];
++
++	led = &leds->leds[leds->nleds];
++
++	ret = fwnode_property_read_u32(node, "reg", &reg);
++	if (ret) {
++		dev_err(dev, "Node %pfw: 'reg' read failed!\n", node);
++		return ret;
++	}
++
++	if (reg >= OMNIA_BOARD_LEDS) {
++		dev_warn(dev, "Node %pfw: invalid 'reg' value %u\n", node, reg);
++		return 0;
++	}
++
++	nsources = fwnode_property_count_u32(node, "led-sources");
++	if (nsources != 1 && nsources != 3) {
++		dev_warn(dev, "Node %pfw: either 1 or 3 'led-sources' must be specified!\n",
++			 node);
++		return 0;
++	}
++
++	ret = fwnode_property_read_u32_array(node, "led-sources", led_sources,
++					     nsources);
++	if (ret) {
++		dev_err(dev, "Node %pfw: 'led-sources' read failed: %i\n",
++			node, ret);
++		return ret;
++	}
++
++	ret = fwnode_property_read_u32(node, "color", &led->color);
++	if (ret) {
++		dev_warn(dev, "Node %pfw: 'color' read failed!\n",
++			 node);
++		return 0;
++	}
++
++	if (nsources == 3) {
++		if (led_sources[0] != 3 * reg ||
++		    led_sources[1] != 3 * reg + 1 ||
++		    led_sources[2] != 3 * reg + 2) {
++			dev_warn(dev, "Node %pfw has invalid 'led-sources'!\n",
++				 node);
++			return 0;
++		}
++
++		color = LED_COLOR_ID_WHITE;
++	} else {
++		const int led_source_to_color[3] = {
++			LED_COLOR_ID_RED,
++			LED_COLOR_ID_GREEN,
++			LED_COLOR_ID_BLUE
++		};
++		color = led_source_to_color[led_sources[0] % 3];
++
++		if (led_sources[0] < 3 * reg || led_sources[0] > 3 * reg + 2) {
++			dev_warn(dev, "Node %pfw has invalid 'led-sources'!\n",
++				 node);
++			return 0;
++		}
++	}
++
++	if (led->color != color) {
++		dev_warn(dev, "Node %pfw: 'color' should be %s!\n", node,
++			 led_colors[color]);
++		return 0;
++	}
++
++	init_data.devicename = "omnia";
++	init_data.fwnode = node;
++	init_data.devname_mandatory = true;
++
++	led->reg = reg;
++	led->cdev.max_brightness = 255;
++	led->cdev.brightness_set_blocking = omnia_led_brightness_set_blocking;
++
++	fwnode_property_read_string(node, "linux,default-trigger",
++				    &led->cdev.default_trigger);
++
++	/* put the LED into software mode */
++	ret = i2c_smbus_write_byte_data(client, CMD_LED_MODE,
++					CMD_LED_MODE_LED(reg) |
++					CMD_LED_MODE_USER);
++	if (ret < 0) {
++		dev_err(dev, "Cannot set LED %pfw to software mode: %i\n", node,
++			ret);
++		return ret;
++	}
++
++	/* disable the LED */
++	ret = i2c_smbus_write_byte_data(client, CMD_LED_STATE,
++						CMD_LED_STATE_LED(reg));
++	if (ret < 0) {
++		dev_err(dev, "Cannot set LED %pfw brightness: %i\n", node, ret);
++		return ret;
++	}
++
++	ret = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
++	if (ret < 0) {
++		dev_err(dev, "Cannot register LED %pfw: %i\n", node, ret);
++		return ret;
++	}
++
++	++leds->nleds;
++
++	return 0;
++}
++
++static int omnia_leds_probe(struct i2c_client *client,
++			    const struct i2c_device_id *id)
++{
++	struct device *dev = &client->dev;
++	struct device_node *np = dev->of_node, *child;
++	struct omnia_leds *leds;
++	int ret, count;
++
++	count = of_get_available_child_count(np);
++	if (!count) {
++		dev_err(dev, "LEDs are not defined in device tree!\n");
++		return -ENODEV;
++	} else if (count > 3 * OMNIA_BOARD_LEDS) {
++		dev_err(dev, "Too many LEDs defined in device tree!\n");
++		return -EINVAL;
++	}
++
++	leds = devm_kzalloc(dev, sizeof(*leds) + count * sizeof(leds->leds[0]),
++			    GFP_KERNEL);
++	if (!leds)
++		return -ENOMEM;
++
++	leds->client = client;
++	i2c_set_clientdata(client, leds);
++
++	mutex_init(&leds->lock);
++
++	for_each_available_child_of_node(np, child) {
++		ret = omnia_led_register(leds, &child->fwnode);
++		if (ret < 0)
++			return ret;
++	}
++
++	return 0;
++}
++
++static int omnia_leds_remove(struct i2c_client *client)
++{
++	u8 buf[OMNIA_CMD_LED_COLOR_LEN];
++
++	/* put all LEDs into default (HW triggered) mode */
++	i2c_smbus_write_byte_data(client, CMD_LED_MODE,
++				  CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
++
++	/* set all LEDs color to [255, 255, 255] */
++	buf[OMNIA_CMD] = CMD_LED_COLOR;
++	buf[OMNIA_CMD_LED_COLOR_LED] = OMNIA_BOARD_LEDS;
++	buf[OMNIA_CMD_LED_COLOR_R] = 255;
++	buf[OMNIA_CMD_LED_COLOR_G] = 255;
++	buf[OMNIA_CMD_LED_COLOR_B] = 255;
++
++	i2c_master_send(client, buf, 5);
++
++	return 0;
++}
++
++static const struct of_device_id of_omnia_leds_match[] = {
++	{ .compatible = "cznic,turris-omnia-leds", },
++	{},
++};
++
++static const struct i2c_device_id omnia_id[] = {
++	{ "omnia", 0 },
++	{ }
++};
++
++static struct i2c_driver omnia_leds_driver = {
++	.probe		= omnia_leds_probe,
++	.remove		= omnia_leds_remove,
++	.id_table	= omnia_id,
++	.driver		= {
++		.name	= "leds-turris-omnia",
++		.of_match_table = of_omnia_leds_match,
++	},
++};
++
++module_i2c_driver(omnia_leds_driver);
++
++MODULE_AUTHOR("Marek Behun <marek.behun@nic.cz>");
++MODULE_DESCRIPTION("CZ.NIC's Turris Omnia LEDs");
++MODULE_LICENSE("GPL v2");
+-- 
+2.24.1
+
