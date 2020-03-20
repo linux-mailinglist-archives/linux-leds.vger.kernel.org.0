@@ -2,121 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FF8318C2DF
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Mar 2020 23:15:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D07E018CC54
+	for <lists+linux-leds@lfdr.de>; Fri, 20 Mar 2020 12:08:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727399AbgCSWPi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Mar 2020 18:15:38 -0400
-Received: from gateway20.websitewelcome.com ([192.185.47.18]:40603 "EHLO
-        gateway20.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727297AbgCSWPi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 19 Mar 2020 18:15:38 -0400
-X-Greylist: delayed 1428 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Mar 2020 18:15:37 EDT
-Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
-        by gateway20.websitewelcome.com (Postfix) with ESMTP id 57418400CCC8E
-        for <linux-leds@vger.kernel.org>; Thu, 19 Mar 2020 15:36:20 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id F34vjzTz61s2xF34vjhrRL; Thu, 19 Mar 2020 16:51:49 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=JEikPqF6NxVfkvZjVP+cGq3DgK8l2GBx5Tnc9nIqPVg=; b=Te9RcnksN6yMkoH3gzTZsI6FL5
-        lrC4AYhR9cB28XuBX4opT8qJPThImwhGDa83tJ/WdSiA1IKTYXtxwNQR/xhHY9BvT2a8aJKaCrg8k
-        V0XCdiIE+1OJU+NsQwnPb+Or2Mw4gBQSIvn4fdcjpvk+V/Pc67TCILpiS4VKeQjNIsVFvuJ0kv5rv
-        FoDBj3i810Ug1Eefcv6d2i4RNJDU4pTnmBDezNEf14buSaWaSCmL13s01irthevxWHMXP8fHwDkEG
-        96QB35O0EqW3U4yShNQ35bO/YfkOgMUoRX2dQgNOvgMBZzKoBeds1Gi22D5T2a+hyOjKhqCGDg2NT
-        Ws9VYm3Q==;
-Received: from cablelink-189-218-116-241.hosts.intercable.net ([189.218.116.241]:53540 helo=embeddedor)
-        by gator4166.hostgator.com with esmtpa (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1jF34s-001noC-VK; Thu, 19 Mar 2020 16:51:47 -0500
-Date:   Thu, 19 Mar 2020 16:51:46 -0500
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH][next] leds: leds-pwm: Replace zero-length array with
- flexible-array member
-Message-ID: <20200319215146.GA24054@embeddedor.com>
+        id S1727295AbgCTLIj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 20 Mar 2020 07:08:39 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35438 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726912AbgCTLIi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 20 Mar 2020 07:08:38 -0400
+Received: by mail-ot1-f67.google.com with SMTP id k26so5583957otr.2
+        for <linux-leds@vger.kernel.org>; Fri, 20 Mar 2020 04:08:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=kuhba0bbR9oJup1oQ7P5tNPZ9FqBHXE57QqcfHgaIHo=;
+        b=qdFBBLXjKzye7Gnzwa+SkZqASgCgnMGeKRQMrqJguOuBtaa+l5Di41GfmmSCVunwIg
+         8vJ98NbdwWWuCt6t0FkMEUW07RK0K1683R+A97zU1ABN4lnZSNkbV4rNNIwJXXYIaMte
+         E98M7yfRRMdjslU/n2NYMDEsUzplnBetjODx683Dnkl38xZXwifJmPbyeisn6qmF2DYC
+         prS4BIfcKjTcHmK9wH+wh1BqJvLLN8eZMtIFuiPUyEh9TVLbDMS/pKc+ek3XtlzsBKUm
+         w48c7I8b6cTTOW3+RDOk/rHgHHRx76fE5dTkt67j5peeEjYx7lMg6Lwf5PoYVuGkcw+J
+         1DmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=kuhba0bbR9oJup1oQ7P5tNPZ9FqBHXE57QqcfHgaIHo=;
+        b=Pd8Cbr5GhewaK4/ehCKSOBaxIEmY0O19XuJPhz3TqMhkGqc/Gm5PKrvaSUxf75EK5D
+         uvg+Hr0IAR0fyWIbsztewJOYZ+OzFXzV97k/U0eUuHnXlYgcTaysOrN4F8wbmNGn0mjj
+         vXH7kirzpHAIla4If+nKfEAnV/tMdwUZXwzbqbe6peYU3pORB4U/5L60OupK80clGndr
+         guwb/49j+HUJNhBShiq4IEITndTqtPDFccThv1QF1zacmBaHKKRZlmCZ6bJbrpnC8qz0
+         8om4v8ye/rlHyRZ+6LlfqddWXXiOzj5dHMIUAzlQgw7PypqrY7t1AKhI61LLcMkqMezw
+         ADGg==
+X-Gm-Message-State: ANhLgQ3nQld7P5nItFLYGeOP8v1em6tZi5ViJDoA/LTnalkfRtoq0LEV
+        m4C7AxQ7PA+PgTso8t9+/j60k/Rj1GbfKoHTBmw=
+X-Google-Smtp-Source: ADFU+vu0Fp/qa5yO7ttU7pl/a0lMxFe5RhKS2Qf0P36OXKobczOKBtBvsgJDIicttvg2hGwWj4WU0F1pjF7HLp3Z1rQ=
+X-Received: by 2002:a9d:282:: with SMTP id 2mr6104706otl.178.1584702518023;
+ Fri, 20 Mar 2020 04:08:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 189.218.116.241
-X-Source-L: No
-X-Exim-ID: 1jF34s-001noC-VK
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: cablelink-189-218-116-241.hosts.intercable.net (embeddedor) [189.218.116.241]:53540
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 73
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Received: by 2002:a4a:c897:0:0:0:0:0 with HTTP; Fri, 20 Mar 2020 04:08:37
+ -0700 (PDT)
+From:   federa bureau of inteligence <federabureauofinteligence@gmail.com>
+Date:   Fri, 20 Mar 2020 11:08:37 +0000
+Message-ID: <CAE9o6LCGFPECwgnUVOcmqSfCfL3EKC6Wt_=AvLUS5Qp+03q4JA@mail.gmail.com>
+Subject: HAPPY SURVIVAL OF CORONAVIRUS
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The current codebase makes use of the zero-length array language
-extension to the C90 standard, but the preferred mechanism to declare
-variable-length types such as these ones is a flexible array member[1][2],
-introduced in C99:
+Dear Sir,
 
-struct foo {
-        int stuff;
-        struct boo array[];
-};
+HAPPY SURVIVAL OF CORONAVIRUS
 
-By making use of the mechanism above, we will get a compiler warning
-in case the flexible array does not occur last in the structure, which
-will help us prevent some kind of undefined behavior bugs from being
-inadvertently introduced[3] to the codebase from now on.
+We are reaching for a very interesting business transaction which we
+feel will of great benefit.We the FBI unit in the western subregion of
+Africa have a fund which we confiscated and lodge it in a bank
 
-Also, notice that, dynamic memory allocations won't be affected by
-this change:
+This fund is worth of $12.5 million dollars.We will need your
+assistance to recieve this fund into your account for investment in
+your country.
 
-"Flexible array members have incomplete type, and so the sizeof operator
-may not be applied. As a quirk of the original implementation of
-zero-length arrays, sizeof evaluates to zero."[1]
+We will need your urgent response for details
 
-This issue was found with the help of Coccinelle.
-
-[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-[2] https://github.com/KSPP/linux/issues/21
-[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
-
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
----
- drivers/leds/leds-pwm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-index 9111cdede0ee..31ac44dfb926 100644
---- a/drivers/leds/leds-pwm.c
-+++ b/drivers/leds/leds-pwm.c
-@@ -28,7 +28,7 @@ struct led_pwm_data {
- 
- struct led_pwm_priv {
- 	int num_leds;
--	struct led_pwm_data leds[0];
-+	struct led_pwm_data leds[];
- };
- 
- static int led_pwm_set(struct led_classdev *led_cdev,
--- 
-2.23.0
-
+Inspector Greg Adams,
+For and on behalf of Cote D'Ivoire FBI
+Tel 00225 6716 6756
