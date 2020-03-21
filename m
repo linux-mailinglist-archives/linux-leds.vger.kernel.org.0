@@ -2,54 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DD2518E3D2
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Mar 2020 19:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9DCD18E3F3
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Mar 2020 20:26:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727224AbgCUSzV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Mar 2020 14:55:21 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51899 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727015AbgCUSzU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Mar 2020 14:55:20 -0400
-Received: by mail-wm1-f66.google.com with SMTP id c187so9992669wme.1
-        for <linux-leds@vger.kernel.org>; Sat, 21 Mar 2020 11:55:18 -0700 (PDT)
+        id S1727558AbgCUT01 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Mar 2020 15:26:27 -0400
+Received: from mail-wr1-f48.google.com ([209.85.221.48]:44616 "EHLO
+        mail-wr1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727264AbgCUT00 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Mar 2020 15:26:26 -0400
+Received: by mail-wr1-f48.google.com with SMTP id m17so2652412wrw.11
+        for <linux-leds@vger.kernel.org>; Sat, 21 Mar 2020 12:26:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NVez25h8GjYvE6vhiUTIuWIqsNnT5tt1WKiWJBFTnYA=;
-        b=GzC4FWSXxsJbccihHyBRwHmslBh15jepqnKscvMvsZOUXhtwTZod6B9i/NWr2aqAam
-         N2xi3lKjM0bLvZWF97qdgMAiqishtTan0AI8wb0PxDmhEc87Xv/LzrfDygLSfzr9R7Wc
-         A0MY1OL5+Jl+OnKUkqr8SC5M6uETcDOQ8MtUVbaT+5wpn7tdA638dArp4d0pzPZ04iAM
-         ATIqRUI7T/XChNr0kYKea2qPdfs0z706UkYVqas5L7LE9u9iWK0LW/sX00DqzvD8EyFR
-         7MjrnSswxxtpt/3bI7yZ4jtNhZSDusZjlCqbvl5+b9raZGQ4dS3aBM7lkv+Pjwuq0a5j
-         zdEg==
+        bh=MNxHT8tz8RM5SL2ax5tb3qxRRiGcqFxFe4uG3RYWBrw=;
+        b=UVPaDUf0jAT0P4Zp/Sp19pWVVmkMFV+RRk8FwtMQ/SH28to9DMR9I0uryOOrh7dY4m
+         3Etyhi909xNXuDKC+qH2/FgUsmjaVwmF1rstq/bsOwlqdZvKjumFSKtF6noysXh5gXco
+         9iZ2RJpAwba7mCqBPyog9ZvlVC2lut0sECmr1mpFW5DzF/gCFjXBekwI68Us/5Q5KnB3
+         WvF+sY1+agdmXPCsJR8Wg3oH2erwtxg4JDZDpGio3wnyf6lD3dl7nieGcD+OEWgGN14w
+         kM8YTzuOEubLQvRGwRJRlpVgBfclktaSZnLuqSt8rBDzHAlRStmEEyxj0wzDksCOETS8
+         Ri0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=NVez25h8GjYvE6vhiUTIuWIqsNnT5tt1WKiWJBFTnYA=;
-        b=FInk2fHx5unOzsjPzlZHi2LpC8Q5Wx9IHBdZ4Lw+PKfuU+r6aqLATzvC6p2uRYrIhR
-         7FadwYbWkgfiKCxqi/gkgyNioL/ilwVcMkU1bdut04hcVnQ/HYjDdCpFCeq9+fcGS8GF
-         S0PZjN2nWegBb6DZzRATWxIu8oAKftvF/eh2vtw+orMeqQs9JL3D2WICEpAkLBYOWIjQ
-         5UCQWj7o/MLq1dHRtiz/EaS/ET66STK7Vk3tLs4Rr/m7DrRPAd3e5jaTi+gpmgzjP/Zk
-         soAO7ZnTI+URVGaS1ETJq0n9PfKeUwWduvyjSiPudDbR3Kd4ovenlEB2A/YcRyUTF72K
-         sMdw==
-X-Gm-Message-State: ANhLgQ3dQ8Qhf+XBuJ4jYBvGmvoGTWv0I6B5PngCwkp/VTbBsb99Fdk+
-        rocx1n9U1Id7yczoC8WbUwEb2DiU
-X-Google-Smtp-Source: ADFU+vt0/Kk+6jFfNGTGjcPOjyhJ/32a5nlxynYIVxW8lWlgiqETlxRZoL7zQ5GonpdSWRpWKzhieg==
-X-Received: by 2002:a1c:acc8:: with SMTP id v191mr18382676wme.185.1584816917785;
-        Sat, 21 Mar 2020 11:55:17 -0700 (PDT)
+        bh=MNxHT8tz8RM5SL2ax5tb3qxRRiGcqFxFe4uG3RYWBrw=;
+        b=KZVM+V1yi9uaqqeDbtq2sl5y/sbq5HZLN8AC2a+smScLsynmhNA/rcAkdLzKz2x7kg
+         0i8+5zkgoMn16oPNYqgf5cpu0M6Cws5nMhobu9sT6PUEeEdadfKxrL7b/wtee9xPBQlT
+         JpChYk32HZAsm6ffxKyI8SlXxpyRKZeLA1GOG2uSv2xnMrnamdFtqxGwhJDSQ0bZyGrM
+         bzmWRheuU9NYG8IMKdqlpu2mktc74feZg5z/DW/7GsE08pyG7e8LNeP1XZS/BV9u4Mhp
+         JpH6csxcIvne0LhFUmkO+ZbcZ+pZ7vTruroAuqEJLeCm5RMqtRdXP1aQjqyXhEvQwIvM
+         52wg==
+X-Gm-Message-State: ANhLgQ3j/7eLfHe+vtROU5ggy5B1UWigNJwQNg3tD3lYB8PFh9XSA5nJ
+        YQqRqkB9tM+XjK6gNPOE17ytvnYP
+X-Google-Smtp-Source: ADFU+vs6W3ZzO1DQi/R919l9zJwkVdpp99PcF+3KOAmjiLZw6Meq+569wJATJCPcVFTGDGB9qn5VzA==
+X-Received: by 2002:adf:fe4c:: with SMTP id m12mr19542733wrs.96.1584818785082;
+        Sat, 21 Mar 2020 12:26:25 -0700 (PDT)
 Received: from [192.168.1.23] (affj62.neoplus.adsl.tpnet.pl. [95.49.139.62])
-        by smtp.gmail.com with ESMTPSA id q4sm16429312wmj.1.2020.03.21.11.55.16
+        by smtp.gmail.com with ESMTPSA id w3sm8852696wrn.31.2020.03.21.12.26.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Mar 2020 11:55:17 -0700 (PDT)
-Subject: Re: [PATCH RFC leds-next] leds: initial support for Turris Omnia LEDs
-To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
-        linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>
-References: <20200319181604.2425-1-marek.behun@nic.cz>
+        Sat, 21 Mar 2020 12:26:24 -0700 (PDT)
+Subject: Re: HW LED triggers again
+To:     Marek Behun <marek.behun@nic.cz>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
+References: <20200320204308.411f8d68@nic.cz>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  xsFNBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -110,12 +109,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  hQNfg9em95lpAK+VOTocke8PSESy3GbEtmoMueW3caSeDHb5dRP6WrndaYhEOzAA/KjuPU7J
  LMXOABOMIq+R38y7e2B3TnVDCrccdZDseFPUWmH0cGCGihH/j2UZG+PImrSDCh3h5MedVHGo
  sI62tmWm0q6lrljwSZmMZ30w1QaGmdFpI3Q6V+nZ7TZldI3x
-Message-ID: <0279d61f-6366-02cf-3d65-93d76e52de93@gmail.com>
-Date:   Sat, 21 Mar 2020 19:55:15 +0100
+Message-ID: <af881e33-8de3-69ad-0214-3ea313ac1db7@gmail.com>
+Date:   Sat, 21 Mar 2020 20:26:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200319181604.2425-1-marek.behun@nic.cz>
+In-Reply-To: <20200320204308.411f8d68@nic.cz>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -126,117 +125,49 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Hi Marek,
 
-Thank you for the patch.
+On 3/20/20 8:43 PM, Marek Behun wrote:
+> Hi Jacek,
+> 
+> I want to open the discussions about HW LED triggers again.
+> The last time (which was almost a year ago, sorry for that) I proposed
+> an API which used the same sysfs trigger file as for regular trigger
+> setting, but the HW triggers were prefixed with "hw:" (and each LED
+> classdev can have different ones).
+> 
+> You wrote:
+> 
+>> I wonder what will be the gain of having hw triggers incorporated
+>> into LED trigger mechanism, if they are meant not be generic
+>> by design? Only the LED class driver exposing a hw trigger
+>> will know how to set it up, and will define protocol via which
+>> the settings will be passed from sysfs to the trigger (const char*
+>> parameter in the hw_trigger_set() op).
+>>
+>> And it has to be that way because hardware triggers are hardware
+>> specific. LED class driver will have to create trigger specific
+>> sysfs files regardless of whether they are to be shown on
+>> trigger avtivation, or will persist for the whole LED class device
+>> lifetime.
+>>
+>> Maybe I'm missing some vital details from the previous discussions,
+>> but this is what's come to my mind now, after analyzing the proposed
+>> design.
+>>
+>> The question is: what problem we solve by exposing non-generic
+>> hw trigger, whose implementation will be in the driver anyway,
+>> instead of just bypassing the trigger mechanism and exposing
+>> the required interface directly?
+> 
+> I would still like to go this way, so my answer to this questions is:
+> - IMO this is simpler for users and existing scripts
+> - the idea is that it should no be possible to set a software trigger
+>   and a hardware trigger at the same time (this would just end up in
+>   more complications), and introducing special hw_trigger file or
+>   something could make users think that you can
 
-On 3/19/20 7:16 PM, Marek Behún wrote:
-> This adds basic support for LEDs on the front side of CZ.NIC's Turris
-> Omnia router.
-> 
-> There are 12 RGB LEDs. The controller supports HW triggering mode for
-> the LEDs, but this driver does not support it yet, and sets all the LEDs
-> into SW mode upon probe.
-> 
-> The user can either group all three channels of one RGB LED into one LED
-> classdev, or expose each channel as an individual LED classdev. This is
-> done by utilizing the 'led-sources' and 'color' DT properties.
-> 
-> In the following example the first RGB LED is exposed as one LED
-> classdev with color WHITE, and the second RGB LED is exposed as three
-> classdevs, one per each channel:
-> 	led@0 {
-> 		reg = <0>;
-> 		led-sources = <0 1 2>;
-> 		color = <LED_COLOR_ID_WHITE>;
-> 	};
-> 
-> 	led@1,0 {
-> 		reg = <1>;
-> 		led-sources = <3>;
-> 		color = <LED_COLOR_ID_RED>;
-> 	};
-> 
-> 	led@1,1 {
-> 		reg = <1>;
-> 		led-sources = <4>;
-> 		color = <LED_COLOR_ID_GREEN>;
-> 	};
-> 
-> 	led@1,2 {
-> 		reg = <1>;
-> 		led-sources = <5>;
-> 		color = <LED_COLOR_ID_BLUE>;
-> 	};
-> 
-> I am not comfortable with the 'reg' property being same for multiple
-> nodes. Perhaps the 'reg' property shouldn't be used, since the
-> information needed by the driver can be deduced from the 'led-sources'.
-
-I agree. You can name the sub-nodes like led0,led1,led2 etc.
-reg is convenient if each sub-node refers to single iout, but
-in this case it is unnecessary complication. You can infer the
-reg in dt parser basing on led-sources.
-
-And we need these bindings in a separate patch adding a new file
-in Documentation/devicetree/bindings/leds.
-
-You should also mention what are the allowed led-sources
-configurations, i.e. I presume that only groups of (0,1,2),
-(2,3,4) etc. are allowed, or a single iout per child node.
-
-[...]
-> +static int omnia_leds_probe(struct i2c_client *client,
-> +			    const struct i2c_device_id *id)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct device_node *np = dev->of_node, *child;
-> +	struct omnia_leds *leds;
-> +	int ret, count;
-> +
-> +	count = of_get_available_child_count(np);
-> +	if (!count) {
-> +		dev_err(dev, "LEDs are not defined in device tree!\n");
-> +		return -ENODEV;
-> +	} else if (count > 3 * OMNIA_BOARD_LEDS) {
-> +		dev_err(dev, "Too many LEDs defined in device tree!\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	leds = devm_kzalloc(dev, sizeof(*leds) + count * sizeof(leds->leds[0]),
-> +			    GFP_KERNEL);
-> +	if (!leds)
-> +		return -ENOMEM;
-> +
-> +	leds->client = client;
-> +	i2c_set_clientdata(client, leds);
-> +
-> +	mutex_init(&leds->lock);
-> +
-> +	for_each_available_child_of_node(np, child) {
-> +		ret = omnia_led_register(leds, &child->fwnode);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int omnia_leds_remove(struct i2c_client *client)
-> +{
-> +	u8 buf[OMNIA_CMD_LED_COLOR_LEN];
-> +
-> +	/* put all LEDs into default (HW triggered) mode */
-> +	i2c_smbus_write_byte_data(client, CMD_LED_MODE,
-> +				  CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
-> +
-> +	/* set all LEDs color to [255, 255, 255] */
-> +	buf[OMNIA_CMD] = CMD_LED_COLOR;
-> +	buf[OMNIA_CMD_LED_COLOR_LED] = OMNIA_BOARD_LEDS;
-> +	buf[OMNIA_CMD_LED_COLOR_R] = 255;
-> +	buf[OMNIA_CMD_LED_COLOR_G] = 255;
-> +	buf[OMNIA_CMD_LED_COLOR_B] = 255;
-
-What is the rationale behind setting all LEDs to max_brighntess
-on driver removal?
+OK, that seems like a decent justification. If you had provided it at
+that time then maybe we would have had generic hw trigger mechanism
+merged a year ago :-).
 
 -- 
 Best regards,
