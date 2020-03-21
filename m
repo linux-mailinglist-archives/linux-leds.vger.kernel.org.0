@@ -2,32 +2,31 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28A3F18DEA8
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Mar 2020 09:15:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A63218DEAC
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Mar 2020 09:16:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728008AbgCUIP6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Mar 2020 04:15:58 -0400
+        id S1728207AbgCUIQB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Mar 2020 04:16:01 -0400
 Received: from enterprise02.smtp.diehl.com ([193.201.238.220]:35341 "EHLO
         enterprise02.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727961AbgCUIP6 (ORCPT
+        by vger.kernel.org with ESMTP id S1728040AbgCUIQA (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 21 Mar 2020 04:15:58 -0400
+        Sat, 21 Mar 2020 04:16:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1584778556; x=1616314556;
+  t=1584778559; x=1616314559;
   h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=fNaOGd71ykhkOab84O0XrMhdHdHgb/7uZ6XyGD7xzNo=;
-  b=beeswZoqj6Y/vCMUZ1Wp2xgU6mKcqfGiSIfv7hIpTKriyrl14C5qSgYl
-   qV/oCp4X6SgzGy44s/NOHIYdSV1JgczvwKbbuDRGkkQHNEkciPnTx3ULa
-   6miJ/1s/bB20LjwwEkke9CUMZjQuloqR+U421hJnF/eMhIUp0yLGbN+gQ
-   YSRwCuwoy2B/J51/i33mu77ttlYQrP2CLSw28+aYTpxUQu4B9kyOuRHZj
-   yNpPJnPLFh5/gvZS+4BduS1vyVgqGOl8KZi9fTNQ5+JjH5hvZF7s3kizO
-   xwubzXLrZJxCsN1ui/k2vH0ac0bT2nVLwBV/kGFKNAIjqjdx62DsTC8e5
-   A==;
-IronPort-SDR: QN054/gFapPR1cVtlOEJiZqDlCAwPlb/8EK4TVbBtiJo+3qyFMchAGjiDqjV2M8Kfd2CmIdaci
- r2DY0PjGpI4g==
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=KperK5pY8kDhUqv+XcVZUo8pjHw5XqETzsLRKfvjUgc=;
+  b=Vl//KZYCLa8h86kj8J8zm0YoffLodTeYvkedYcBq2hf9m1pvGCyd71NA
+   cA04Jyp/uyMGNtXPNBreTbbhAZI1xDcncTD1OavccQAN2QHODk7o773pY
+   Iss8ldl/PgHtbkTkVAxZehr7MraYRDGMETdqkZCeie4e9HFdpyfCfxUgD
+   fEYWHQegSad1LzlkfXyMHhQtPqai/oZoDpDTo2S/B5XNgg+eP8588K43Y
+   oMm709ZHTfn7poVBvhRlaipOKoyN7L7Cc1vj6Z4BaCJ+/tQuK8CxiF+uo
+   JOVZ7yd+li8LPr77jcuWSmryAyu0VW5TWg2VV/4VrRwvGzPZWrnGwfhoH
+   w==;
+IronPort-SDR: QIVQuVDqT7ODlWyKM+cZVX3U80JAGzto8mXohnvsz+/Gl3mdTBGLzoId1Hnq8UieJQbkaC/5I1
+ bXovyx8RG8GQ==
 From:   Denis Osterland-Heim <denis.osterland@diehl.com>
 To:     "dmurphy@ti.com" <dmurphy@ti.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
         "mark.rutland@arm.com" <mark.rutland@arm.com>,
@@ -36,15 +35,12 @@ To:     "dmurphy@ti.com" <dmurphy@ti.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
 CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "Denis Osterland-Heim" <denis.osterland@diehl.com>,
         "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "uwe@kleine-koenig.org" <uwe@kleine-koenig.org>
-Subject: [PATCH v4 3/5] leds: pwm: check result of led_pwm_set() in
- led_pwm_add()
-Thread-Topic: [PATCH v4 3/5] leds: pwm: check result of led_pwm_set() in
- led_pwm_add()
-Thread-Index: AQHV/1jvS39qjeoyFEyBmW+H8QD2bg==
-Date:   Sat, 21 Mar 2020 08:15:52 +0000
-Message-ID: <20200321081321.15614-4-Denis.Osterland@diehl.com>
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: [PATCH v4 2/5] leds: pwm: remove useless pwm_period_ns
+Thread-Topic: [PATCH v4 2/5] leds: pwm: remove useless pwm_period_ns
+Thread-Index: AQHV/1jw0S0BPC/2zkeJqXSW2+rxlw==
+Date:   Sat, 21 Mar 2020 08:15:53 +0000
+Message-ID: <20200321081321.15614-3-Denis.Osterland@diehl.com>
 References: <20200321081321.15614-1-Denis.Osterland@diehl.com>
 In-Reply-To: <20200321081321.15614-1-Denis.Osterland@diehl.com>
 Accept-Language: de-DE, en-US
@@ -53,62 +49,75 @@ X-MS-Has-Attach:
 X-MS-TNEF-Correlator: 
 x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7A1628E3E162584FA7567B765B51EAAE@diehl.internal>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-TrailerSkip: 1
-X-GBS-PROC: byQFdw3ukCM+zy1/poiPc0+a0+k5FkEP7dU6yETXoKGIxEHL1LfZDAUVf0XEZtAp
+X-GBS-PROC: 415AWy8o668fDtCxszluz3Qkyqh7rcy46kDTEvbxZbX6ZbOs5H4UIh8DDIXSwv9+
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-bGVkX3B3bV9zZXQoKSBub3cgcmV0dXJucyBhbiBlcnJvciB3aGVuIHNldHRpbmcgdGhlIFBX
-TSBmYWlscy4NCg0KQ2M6IFV3ZSBLbGVpbmUtS8O2bmlnIDx1d2VAa2xlaW5lLWtvZW5pZy5v
-cmc+DQpTaWduZWQtb2ZmLWJ5OiBEZW5pcyBPc3RlcmxhbmQtSGVpbSA8RGVuaXMuT3N0ZXJs
-YW5kQGRpZWhsLmNvbT4NCi0tLQ0KIGRyaXZlcnMvbGVkcy9sZWRzLXB3bS5jIHwgMTYgKysr
-KysrKysrKystLS0tLQ0KIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCA1IGRl
-bGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9sZWRzL2xlZHMtcHdtLmMgYi9k
-cml2ZXJzL2xlZHMvbGVkcy1wd20uYw0KaW5kZXggNmNhZjhiZWE4Y2Q1Li4wN2VhYjJkOGI3
-YzcgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2xlZHMvbGVkcy1wd20uYw0KKysrIGIvZHJpdmVy
-cy9sZWRzL2xlZHMtcHdtLmMNCkBAIC05MSwxNSArOTEsMjEgQEAgc3RhdGljIGludCBsZWRf
-cHdtX2FkZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBsZWRfcHdtX3ByaXYgKnByaXYs
-DQogCXB3bV9pbml0X3N0YXRlKGxlZF9kYXRhLT5wd20sICZsZWRfZGF0YS0+cHdtc3RhdGUp
-Ow0KIA0KIAlyZXQgPSBkZXZtX2xlZF9jbGFzc2Rldl9yZWdpc3RlcihkZXYsICZsZWRfZGF0
-YS0+Y2Rldik7DQotCWlmIChyZXQgPT0gMCkgew0KLQkJcHJpdi0+bnVtX2xlZHMrKzsNCi0J
-CWxlZF9wd21fc2V0KCZsZWRfZGF0YS0+Y2RldiwgbGVkX2RhdGEtPmNkZXYuYnJpZ2h0bmVz
-cyk7DQotCX0gZWxzZSB7DQorCWlmIChyZXQpIHsNCiAJCWRldl9lcnIoZGV2LCAiZmFpbGVk
-IHRvIHJlZ2lzdGVyIFBXTSBsZWQgZm9yICVzOiAlZFxuIiwNCiAJCQlsZWQtPm5hbWUsIHJl
-dCk7DQorCQlyZXR1cm4gcmV0Ow0KIAl9DQogDQotCXJldHVybiByZXQ7DQorCXJldCA9IGxl
-ZF9wd21fc2V0KCZsZWRfZGF0YS0+Y2RldiwgbGVkX2RhdGEtPmNkZXYuYnJpZ2h0bmVzcyk7
-DQorCWlmIChyZXQpIHsNCisJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIHNldCBsZWQgUFdN
-IHZhbHVlIGZvciAlczogJWQiLA0KKwkJCWxlZC0+bmFtZSwgcmV0KTsNCisJCXJldHVybiBy
-ZXQ7DQorCX0NCisNCisJcHJpdi0+bnVtX2xlZHMrKzsNCisJcmV0dXJuIDA7DQogfQ0KIA0K
-IHN0YXRpYyBpbnQgbGVkX3B3bV9jcmVhdGVfZndub2RlKHN0cnVjdCBkZXZpY2UgKmRldiwg
-c3RydWN0IGxlZF9wd21fcHJpdiAqcHJpdikNCi0tIA0KMi4yNS4xDQoNCg0KDQpEaWVobCBD
-b25uZWN0aXZpdHkgU29sdXRpb25zIEdtYkgNCkdlc2Now6RmdHNmw7xocnVuZzogSG9yc3Qg
-TGVvbmJlcmdlcg0KU2l0eiBkZXIgR2VzZWxsc2NoYWZ0OiBOw7xybmJlcmcgLSBSZWdpc3Rl
-cmdlcmljaHQ6IEFtdHNnZXJpY2h0DQpOw7xybmJlcmc6IEhSQiAzMjMxNQ0KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQoNCkRlciBJbmhhbHQgZGVy
-IHZvcnN0ZWhlbmRlbiBFLU1haWwgaXN0IG5pY2h0IHJlY2h0bGljaCBiaW5kZW5kLiBEaWVz
-ZSBFLU1haWwgZW50aGFlbHQgdmVydHJhdWxpY2hlIHVuZC9vZGVyIHJlY2h0bGljaCBnZXNj
-aHVldHp0ZSBJbmZvcm1hdGlvbmVuLg0KSW5mb3JtaWVyZW4gU2llIHVucyBiaXR0ZSwgd2Vu
-biBTaWUgZGllc2UgRS1NYWlsIGZhZWxzY2hsaWNoZXJ3ZWlzZSBlcmhhbHRlbiBoYWJlbi4g
-Qml0dGUgbG9lc2NoZW4gU2llIGluIGRpZXNlbSBGYWxsIGRpZSBOYWNocmljaHQuDQpKZWRl
-IHVuZXJsYXVidGUgRm9ybSBkZXIgUmVwcm9kdWt0aW9uLCBCZWthbm50Z2FiZSwgQWVuZGVy
-dW5nLCBWZXJ0ZWlsdW5nIHVuZC9vZGVyIFB1Ymxpa2F0aW9uIGRpZXNlciBFLU1haWwgaXN0
-IHN0cmVuZ3N0ZW5zIHVudGVyc2FndC4NCi0gSW5mb3JtYXRpb25lbiB6dW0gRGF0ZW5zY2h1
-dHosIGluc2Jlc29uZGVyZSB6dSBJaHJlbiBSZWNodGVuLCBlcmhhbHRlbiBTaWUgdW50ZXIg
-aHR0cHM6Ly93d3cuZGllaGwuY29tL2dyb3VwL2RlL3RyYW5zcGFyZW56LXVuZC1pbmZvcm1h
-dGlvbnNwZmxpY2h0ZW4vDQoNClRoZSBjb250ZW50cyBvZiB0aGUgYWJvdmUgbWVudGlvbmVk
-IGUtbWFpbCBpcyBub3QgbGVnYWxseSBiaW5kaW5nLiBUaGlzIGUtbWFpbCBjb250YWlucyBj
-b25maWRlbnRpYWwgYW5kL29yIGxlZ2FsbHkgcHJvdGVjdGVkIGluZm9ybWF0aW9uLiBQbGVh
-c2UgaW5mb3JtIHVzIGlmIHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGJ5DQptaXN0
-YWtlIGFuZCBkZWxldGUgaXQgaW4gc3VjaCBhIGNhc2UuIEVhY2ggdW5hdXRob3JpemVkIHJl
-cHJvZHVjdGlvbiwgZGlzY2xvc3VyZSwgYWx0ZXJhdGlvbiwgZGlzdHJpYnV0aW9uIGFuZC9v
-ciBwdWJsaWNhdGlvbiBvZiB0aGlzIGUtbWFpbCBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLiAN
-Ci0gRm9yIGdlbmVyYWwgaW5mb3JtYXRpb24gb24gZGF0YSBwcm90ZWN0aW9uIGFuZCB5b3Vy
-IHJlc3BlY3RpdmUgcmlnaHRzIHBsZWFzZSB2aXNpdCBodHRwczovL3d3dy5kaWVobC5jb20v
-Z3JvdXAvZW4vdHJhbnNwYXJlbmN5LWFuZC1pbmZvcm1hdGlvbi1vYmxpZ2F0aW9ucy8NCg==
+This member seems to was a way to pass PWM period to the LED.
+Since there is no header anymore, this is useless.
+
+Signed-off-by: Denis Osterland-Heim <Denis.Osterland@diehl.com>
+---
+ drivers/leds/leds-pwm.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index e1848e80aeb4..6caf8bea8cd5 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -23,7 +23,6 @@ struct led_pwm {
+ 	const char	*default_trigger;
+ 	u8		active_low;
+ 	unsigned int	max_brightness;
+-	unsigned int	pwm_period_ns;
+ };
+=20
+ struct led_pwm_platform_data {
+@@ -91,9 +90,6 @@ static int led_pwm_add(struct device *dev, struct led_p=
+wm_priv *priv,
+=20
+ 	pwm_init_state(led_data->pwm, &led_data->pwmstate);
+=20
+-	if (!led_data->pwmstate.period)
+-		led_data->pwmstate.period =3D led->pwm_period_ns;
+-
+ 	ret =3D devm_led_classdev_register(dev, &led_data->cdev);
+ 	if (ret =3D=3D 0) {
+ 		priv->num_leds++;
+--=20
+2.25.1
+
+
+
+Diehl Connectivity Solutions GmbH
+Gesch=E4ftsf=FChrung: Horst Leonberger
+Sitz der Gesellschaft: N=FCrnberg - Registergericht: Amtsgericht
+N=FCrnberg: HRB 32315
+_________________________________________________________________________=
+__________________________
+
+Der Inhalt der vorstehenden E-Mail ist nicht rechtlich bindend. Diese E-M=
+ail enthaelt vertrauliche und/oder rechtlich geschuetzte Informationen.
+Informieren Sie uns bitte, wenn Sie diese E-Mail faelschlicherweise erhal=
+ten haben. Bitte loeschen Sie in diesem Fall die Nachricht.
+Jede unerlaubte Form der Reproduktion, Bekanntgabe, Aenderung, Verteilung=
+ und/oder Publikation dieser E-Mail ist strengstens untersagt.
+- Informationen zum Datenschutz, insbesondere zu Ihren Rechten, erhalten =
+Sie unter https://www.diehl.com/group/de/transparenz-und-informationspfli=
+chten/
+
+The contents of the above mentioned e-mail is not legally binding. This e=
+-mail contains confidential and/or legally protected information. Please =
+inform us if you have received this e-mail by
+mistake and delete it in such a case. Each unauthorized reproduction, dis=
+closure, alteration, distribution and/or publication of this e-mail is st=
+rictly prohibited.=20
+- For general information on data protection and your respective rights p=
+lease visit https://www.diehl.com/group/en/transparency-and-information-o=
+bligations/
