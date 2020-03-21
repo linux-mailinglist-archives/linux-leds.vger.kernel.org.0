@@ -2,65 +2,153 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5144E18E2A9
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Mar 2020 16:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3678118E323
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Mar 2020 18:13:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727433AbgCUPqv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Mar 2020 11:46:51 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:56376 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726652AbgCUPqv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Mar 2020 11:46:51 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id F2D0B1C032C; Sat, 21 Mar 2020 16:46:49 +0100 (CET)
-Date:   Sat, 21 Mar 2020 16:46:49 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Johan Jonker <jbx6244@gmail.com>
-Cc:     jacek.anaszewski@gmail.com, dmurphy@ti.com, robh+dt@kernel.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: common: fix example for gpio-leds
-Message-ID: <20200321154649.GH8386@duo.ucw.cz>
-References: <20200313165700.15569-1-jbx6244@gmail.com>
+        id S1727463AbgCURNJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Mar 2020 13:13:09 -0400
+Received: from enterprise02.smtp.diehl.com ([193.201.238.220]:7442 "EHLO
+        enterprise02.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727323AbgCURNJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 21 Mar 2020 13:13:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
+  t=1584810787; x=1616346787;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=XzorpplRT7wtWg9Mxa5ZbR0e6rCEzczO1pqJcaeudQs=;
+  b=ky2Yjy6d1VI8iESi3IEHzaQ+4qVG+0nfmlHlG9RraSJ4qFEmp5enQd40
+   Dia1u2Jnvy5amIe9GoWQpmMZn7y977ZyjcO/5G8OruaKJen1v6sClxK6s
+   PXroE+SBQRTEULcgaelK4bH44dxoAZ8CHyAE2zamExYpb3BZU1LvU0OpJ
+   nwWcknyY2rLAdc6BD5LO3W9XZy6NZS4FcIoX8JjpPQ4sMiTCmgUhqioeQ
+   2BV4jw+nAeadskc0BBAWlCmKcWBNepEhmJGm7Ls4x/q25d6Iw7NhhGCjj
+   w8vUqxEcQTCZsx3oV4YVaQor9gJAkWhy397K22/jXmkxDFmw1r/tqaHrH
+   g==;
+IronPort-SDR: aNRpVEfyM9ENymHOW8HfxflF0n6BwLfsRr2C+buu/tSusspq09kZoA5k4jixo3qrqXx5tOYLQB
+ +fvc1QSAw81Q==
+From:   Denis Osterland-Heim <denis.osterland@diehl.com>
+To:     "pavel@ucw.cz" <pavel@ucw.cz>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "uwe@kleine-koenig.org" <uwe@kleine-koenig.org>
+Subject: Re: [PATCH v4 3/5] leds: pwm: check result of led_pwm_set() in
+ led_pwm_add()
+Thread-Topic: [PATCH v4 3/5] leds: pwm: check result of led_pwm_set() in
+ led_pwm_add()
+Thread-Index: AQHV/1jvS39qjeoyFEyBmW+H8QD2bqhTGRaAgAAfaQA=
+Date:   Sat, 21 Mar 2020 17:13:03 +0000
+Message-ID: <ca0008dcfe0a453fe0bfed3f7aea1206aeb2a93b.camel@diehl.com>
+References: <20200321081321.15614-1-Denis.Osterland@diehl.com>
+         <20200321081321.15614-4-Denis.Osterland@diehl.com>
+         <20200321152037.GB8386@duo.ucw.cz>
+In-Reply-To: <20200321152037.GB8386@duo.ucw.cz>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+x-ms-exchange-messagesentrepresentingtype: 1
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A3C00F7340C55F42BA6248319A4C3658@diehl.internal>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ISKrrfpKsPiF35CV"
-Content-Disposition: inline
-In-Reply-To: <20200313165700.15569-1-jbx6244@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-TrailerSkip: 1
+X-GBS-PROC: byQFdw3ukCM+zy1/poiPc5K2ye5IImf/kUigOoDyhtd7jr7ZKemyoWlP3kfh3WQd
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
---ISKrrfpKsPiF35CV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri 2020-03-13 17:57:00, Johan Jonker wrote:
-> The preferred form for gpio-leds compatible subnodes is:
-> ^led-[0-9a-f]$
-> Fix example by changing led0 and led1 to led-0 and led-1.
->=20
-> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-
-Acked-by: Pavel Machek <pavel@ucw.cz>
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---ISKrrfpKsPiF35CV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXnY26QAKCRAw5/Bqldv6
-8oaTAJ45ChWWxAnpkZnlebtt8+PuNDzWDgCgocAj6aGt8TUO6Ll+Iisfx8tx+ak=
-=TS8d
------END PGP SIGNATURE-----
-
---ISKrrfpKsPiF35CV--
+SGkgUGF2ZWwsDQoNCmhlcmUgaXQgd29ya3MuDQoNCiQgZ2l0IHJlc2V0IC0taGFyZCBvcmln
+aW4vZm9yLW5leHQNCkhFQUQgaXMgbm93IGF0IDAzMjQyNmZmNzczZiBsZWRzOiBsbTM1MzI6
+IG1ha2UgYml0ZmllbGQgJ2VuYWJsZWQnIHVuc2lnbmVkDQokIGN1cmwgLXMgaHR0cHM6Ly9s
+b3JlLmtlcm5lbC5vcmcvcGF0Y2h3b3JrL3BhdGNoLzEyMTM1NDgvbWJveC8gfCBnaXQgYW0N
+CkFwcGx5aW5nOiBsZWRzOiBwd206IGNoZWNrIHJlc3VsdCBvZiBsZWRfcHdtX3NldCgpIGlu
+IGxlZF9wd21fYWRkKCkNCg0KU3RyYW5nZSBpcyB0aGF0IHRoZSBGcm9tOiB0YWcgaW4gN2Ji
+ZWM2YzRiNTFkIGlzIG5vdCBldmFsdWF0ZWQgYXQgeW91ciBzaWRlLg0KV2hlbiBJIGRvIGl0
+LCBJIGdldDoNCg0KJCBnaXQgcmVzZXQgLS1oYXJkIDdhNjMwMzY3NzU5OA0KSEVBRCBpcyBu
+b3cgYXQgN2E2MzAzNjc3NTk4IGxlZHM6IGxlZHMtaXMzMWZsMzJ4eDogUmVwbGFjZSB6ZXJv
+LWxlbmd0aCBhcnJheSB3aXRoIGZsZXhpYmxlLWFycmF5IG1lbWJlcg0KJCBjdXJsIC1zIGh0
+dHBzOi8vbG9yZS5rZXJuZWwub3JnL3BhdGNod29yay9wYXRjaC8xMjEyNzgyL21ib3gvIHwg
+Z2l0IGFtDQpBcHBseWluZzogbGVkczogbGVkcy1wd206IFJlcGxhY2UgemVyby1sZW5ndGgg
+YXJyYXkgd2l0aCBmbGV4aWJsZS1hcnJheSBtZW1iZXINCiQgZ2l0IHNob3cNCmNvbW1pdCBl
+MjQ3YWU5ODJiNWJhMTEzY2M5NjY4YmVjNTc4MTA1NjQ1MTM3ZmIyIChIRUFEIC0+IGZvci1u
+ZXh0KQ0KQXV0aG9yOiBHdXN0YXZvIEEuIFIuIFNpbHZhIDxndXN0YXZvQGVtYmVkZGVkb3Iu
+Y29tPg0KRGF0ZTogICBUaHUgTWFyIDE5IDE2OjUxOjQ2IDIwMjAgLTA1MDANCg0KICAgIGxl
+ZHM6IGxlZHMtcHdtOiBSZXBsYWNlIHplcm8tbGVuZ3RoIGFycmF5IHdpdGggZmxleGlibGUt
+YXJyYXkgbWVtYmVyDQoNClJlZ2FyZHMgRGVuaXMNCg0KQW0gU2Ftc3RhZywgZGVuIDIxLjAz
+LjIwMjAsIDE2OjIwICswMTAwIHNjaHJpZWIgUGF2ZWwgTWFjaGVrOg0KPiBIaSENCj4gDQo+
+ID4gbGVkX3B3bV9zZXQoKSBub3cgcmV0dXJucyBhbiBlcnJvciB3aGVuIHNldHRpbmcgdGhl
+IFBXTSBmYWlscy4NCj4gPiANCj4gPiBDYzogVXdlIEtsZWluZS1Lw7ZuaWcgPHV3ZUBrbGVp
+bmUta29lbmlnLm9yZz4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBEZW5pcyBPc3RlcmxhbmQtSGVp
+bSA8RGVuaXMuT3N0ZXJsYW5kQGRpZWhsLmNvbT4NCj4gDQo+IEkgYXBwbGllZCAxIGFuZCAy
+LCBidXQgMyBmYWlsZWQgZm9yIG1lLiBJJ2xsIHB1c2ggdXBkYXRlZCAtbmV4dCwgY2FuDQo+
+IHlvdSBzZWUgd2hhdCBpcyBnb2luZyBvbiB0aGVyZT8NCj4gDQo+IEJlc3QgcmVnYXJkcywN
+Cj4gCQkJCQkJCQlQYXZlbA0KPiANCj4gPiArKysgYi9kcml2ZXJzL2xlZHMvbGVkcy1wd20u
+Yw0KPiA+IEBAIC05MSwxNSArOTEsMjEgQEAgc3RhdGljIGludCBsZWRfcHdtX2FkZChzdHJ1
+Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBsZWRfcHdtX3ByaXYgKnByaXYsDQo+ID4gIAlwd21f
+aW5pdF9zdGF0ZShsZWRfZGF0YS0+cHdtLCAmbGVkX2RhdGEtPnB3bXN0YXRlKTsNCj4gPiAg
+DQo+ID4gIAlyZXQgPSBkZXZtX2xlZF9jbGFzc2Rldl9yZWdpc3RlcihkZXYsICZsZWRfZGF0
+YS0+Y2Rldik7DQo+ID4gLQlpZiAocmV0ID09IDApIHsNCj4gPiAtCQlwcml2LT5udW1fbGVk
+cysrOw0KPiA+IC0JCWxlZF9wd21fc2V0KCZsZWRfZGF0YS0+Y2RldiwgbGVkX2RhdGEtPmNk
+ZXYuYnJpZ2h0bmVzcyk7DQo+ID4gLQl9IGVsc2Ugew0KPiA+ICsJaWYgKHJldCkgew0KPiA+
+ICAJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIHJlZ2lzdGVyIFBXTSBsZWQgZm9yICVzOiAl
+ZFxuIiwNCj4gPiAgCQkJbGVkLT5uYW1lLCByZXQpOw0KPiA+ICsJCXJldHVybiByZXQ7DQo+
+ID4gIAl9DQo+ID4gIA0KPiA+IC0JcmV0dXJuIHJldDsNCj4gPiArCXJldCA9IGxlZF9wd21f
+c2V0KCZsZWRfZGF0YS0+Y2RldiwgbGVkX2RhdGEtPmNkZXYuYnJpZ2h0bmVzcyk7DQo+ID4g
+KwlpZiAocmV0KSB7DQo+ID4gKwkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gc2V0IGxlZCBQ
+V00gdmFsdWUgZm9yICVzOiAlZCIsDQo+ID4gKwkJCWxlZC0+bmFtZSwgcmV0KTsNCj4gPiAr
+CQlyZXR1cm4gcmV0Ow0KPiA+ICsJfQ0KPiA+ICsNCj4gPiArCXByaXYtPm51bV9sZWRzKys7
+DQo+ID4gKwlyZXR1cm4gMDsNCj4gPiAgfQ0KPiA+ICANCj4gPiAgc3RhdGljIGludCBsZWRf
+cHdtX2NyZWF0ZV9md25vZGUoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QNCj4gPiBsZWRf
+cHdtX3ByaXYgKnByaXYpDQo+ID4gDQo+ID4gVGhlIGNvbnRlbnRzIG9mIHRoZSBhYm92ZSBt
+ZW50aW9uZWQgZS1tYWlsIGlzIG5vdCBsZWdhbGx5DQo+ID4gYmluZGluZy4gVGhpcyBlLW1h
+aWwgY29udGFpbnMgY29uZmlkZW50aWFsIGFuZC9vciBsZWdhbGx5IHByb3RlY3RlZA0KPiA+
+IGluZm9ybWF0aW9uLiBQbGVhc2UgaW5mb3JtIHVzIGlmIHlvdSBoYXZlIHJlY2VpdmVkIHRo
+aXMgZS1tYWlsIGJ5DQo+IA0KPiBUaGlzIGlzIGxpZS4gUGxlYXNlIGRvbid0IGRvIHRoaXMu
+DQo+IAkJCQkJCQkJUGF2ZWwNCj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rDQo+ID4gWjEgU2VjdXJl
+TWFpbCBHYXRld2F5IFByb2Nlc3NpbmcgSW5mbyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfA0KPiANCj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rDQo+ID4gLSBUaGUgbWVzc2FnZSB3
+YXMgc2lnbmVkIGJ5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fA0KPiA+ICAgW05vIEluZm8gYXZhaWxhYmxlXSAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwNCj4gPiAgIFNpZ25hdHVyZSBub3QgdmVyaWZpYWJs
+ZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8DQo+ID4gICAt
+IE1lc3NhZ2UgY29udGVudCBub3QgdmVyaWZpYWJsZSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfA0KPiA+ICAgLSBDZXJ0aWZpY2F0ZSBub3QgdmVyaWZpYWJsZSAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gDQo+ICstLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tKw0KDQoNCkRpZWhsIENvbm5lY3Rpdml0eSBTb2x1dGlvbnMgR21iSA0KR2VzY2jD
+pGZ0c2bDvGhydW5nOiBIb3JzdCBMZW9uYmVyZ2VyDQpTaXR6IGRlciBHZXNlbGxzY2hhZnQ6
+IE7DvHJuYmVyZyAtIFJlZ2lzdGVyZ2VyaWNodDogQW10c2dlcmljaHQNCk7DvHJuYmVyZzog
+SFJCIDMyMzE1DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18NCg0KRGVyIEluaGFsdCBkZXIgdm9yc3RlaGVuZGVuIEUtTWFpbCBpc3QgbmljaHQgcmVj
+aHRsaWNoIGJpbmRlbmQuIERpZXNlIEUtTWFpbCBlbnRoYWVsdCB2ZXJ0cmF1bGljaGUgdW5k
+L29kZXIgcmVjaHRsaWNoIGdlc2NodWV0enRlIEluZm9ybWF0aW9uZW4uDQpJbmZvcm1pZXJl
+biBTaWUgdW5zIGJpdHRlLCB3ZW5uIFNpZSBkaWVzZSBFLU1haWwgZmFlbHNjaGxpY2hlcndl
+aXNlIGVyaGFsdGVuIGhhYmVuLiBCaXR0ZSBsb2VzY2hlbiBTaWUgaW4gZGllc2VtIEZhbGwg
+ZGllIE5hY2hyaWNodC4NCkplZGUgdW5lcmxhdWJ0ZSBGb3JtIGRlciBSZXByb2R1a3Rpb24s
+IEJla2FubnRnYWJlLCBBZW5kZXJ1bmcsIFZlcnRlaWx1bmcgdW5kL29kZXIgUHVibGlrYXRp
+b24gZGllc2VyIEUtTWFpbCBpc3Qgc3RyZW5nc3RlbnMgdW50ZXJzYWd0Lg0KLSBJbmZvcm1h
+dGlvbmVuIHp1bSBEYXRlbnNjaHV0eiwgaW5zYmVzb25kZXJlIHp1IElocmVuIFJlY2h0ZW4s
+IGVyaGFsdGVuIFNpZSB1bnRlciBodHRwczovL3d3dy5kaWVobC5jb20vZ3JvdXAvZGUvdHJh
+bnNwYXJlbnotdW5kLWluZm9ybWF0aW9uc3BmbGljaHRlbi8NCg0KVGhlIGNvbnRlbnRzIG9m
+IHRoZSBhYm92ZSBtZW50aW9uZWQgZS1tYWlsIGlzIG5vdCBsZWdhbGx5IGJpbmRpbmcuIFRo
+aXMgZS1tYWlsIGNvbnRhaW5zIGNvbmZpZGVudGlhbCBhbmQvb3IgbGVnYWxseSBwcm90ZWN0
+ZWQgaW5mb3JtYXRpb24uIFBsZWFzZSBpbmZvcm0gdXMgaWYgeW91IGhhdmUgcmVjZWl2ZWQg
+dGhpcyBlLW1haWwgYnkNCm1pc3Rha2UgYW5kIGRlbGV0ZSBpdCBpbiBzdWNoIGEgY2FzZS4g
+RWFjaCB1bmF1dGhvcml6ZWQgcmVwcm9kdWN0aW9uLCBkaXNjbG9zdXJlLCBhbHRlcmF0aW9u
+LCBkaXN0cmlidXRpb24gYW5kL29yIHB1YmxpY2F0aW9uIG9mIHRoaXMgZS1tYWlsIGlzIHN0
+cmljdGx5IHByb2hpYml0ZWQuIA0KLSBGb3IgZ2VuZXJhbCBpbmZvcm1hdGlvbiBvbiBkYXRh
+IHByb3RlY3Rpb24gYW5kIHlvdXIgcmVzcGVjdGl2ZSByaWdodHMgcGxlYXNlIHZpc2l0IGh0
+dHBzOi8vd3d3LmRpZWhsLmNvbS9ncm91cC9lbi90cmFuc3BhcmVuY3ktYW5kLWluZm9ybWF0
+aW9uLW9ibGlnYXRpb25zLw0K
