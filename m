@@ -2,55 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27A0C18E38C
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Mar 2020 19:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DD2518E3D2
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Mar 2020 19:55:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727192AbgCUSBU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Mar 2020 14:01:20 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:39845 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727033AbgCUSBU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Mar 2020 14:01:20 -0400
-Received: by mail-wr1-f68.google.com with SMTP id h6so11444038wrs.6
-        for <linux-leds@vger.kernel.org>; Sat, 21 Mar 2020 11:01:19 -0700 (PDT)
+        id S1727224AbgCUSzV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Mar 2020 14:55:21 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51899 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727015AbgCUSzU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Mar 2020 14:55:20 -0400
+Received: by mail-wm1-f66.google.com with SMTP id c187so9992669wme.1
+        for <linux-leds@vger.kernel.org>; Sat, 21 Mar 2020 11:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=o1vifvbo/USBGtx5eYXOndU01tSPhTEsjKn29wVTpXA=;
-        b=EgSSbtEYW/eRCCTksy2zc7k7H/74WmqlPfqETWcmXbr0hCj1GMbftXnhG2oUD5ux3U
-         DsW7KjRrBEY/Gt6xVsKa5nxv8T7XL2d/XYe3pRHP5GXzNmLAQ19sMTGI1k2O6ozJnK6P
-         Fx90d84axJzGF1i4i3wCR+Cnk85ejrSHgRdAbyMZjJpFiW8HejzcwcTtLhqquFYEAYgI
-         cQB3VrHy19hWzgW4r8C5c2kkMk6ULFtQ8TvbOmijuyqH1VF1A90JLjfCO1nMFXsKM/Pu
-         3MkQvFvhConNf0RiQi7hexIUlK77O1giopH/czDVtfimpzB562bYEVvSitI5WUs3Oxa8
-         Gr6Q==
+        bh=NVez25h8GjYvE6vhiUTIuWIqsNnT5tt1WKiWJBFTnYA=;
+        b=GzC4FWSXxsJbccihHyBRwHmslBh15jepqnKscvMvsZOUXhtwTZod6B9i/NWr2aqAam
+         N2xi3lKjM0bLvZWF97qdgMAiqishtTan0AI8wb0PxDmhEc87Xv/LzrfDygLSfzr9R7Wc
+         A0MY1OL5+Jl+OnKUkqr8SC5M6uETcDOQ8MtUVbaT+5wpn7tdA638dArp4d0pzPZ04iAM
+         ATIqRUI7T/XChNr0kYKea2qPdfs0z706UkYVqas5L7LE9u9iWK0LW/sX00DqzvD8EyFR
+         7MjrnSswxxtpt/3bI7yZ4jtNhZSDusZjlCqbvl5+b9raZGQ4dS3aBM7lkv+Pjwuq0a5j
+         zdEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=o1vifvbo/USBGtx5eYXOndU01tSPhTEsjKn29wVTpXA=;
-        b=CaLOggv9+OHKhfU5LUzKj7tXMAxwpBGUX3uVdkSAdZM8UPQ1yHNtXxqIGIUlhVMhY8
-         XESqdEC8xWUvj8z8zE0WI6/zH9+nwSpV75jaHPXWTNnEgQo8jqnvlPAqfoQOJasmm+1z
-         HX0GkFbPsNuuZnK9pin/NumSzLjT5qkCbdzRU/55W0uPcVcPHs2wmLCaBrsH3yJXWiDF
-         vp6mHQhUL2Y9fD16CIim5gJk+UvftfJt+TqY170jsTQ653HEFFy3ZyxSK7egEKsLweIG
-         FcMUDY8/RZMeKIWDGOIjb41nfxQTDYxommxq2IGjIKDwfZpZEavW9tIb3IHK9f+TfJbB
-         zAfQ==
-X-Gm-Message-State: ANhLgQ1bBo8gxURwB+A9pqUmpT3cJVddqYbEvpldz0chGUAers0BmOwD
-        RVH1qT/r41iWN+dK9kXy5lRR/zAr
-X-Google-Smtp-Source: ADFU+vt7t8JvzmdO2RykEkdfamhZuBbYqkBHdgemUnjC60AR8B9duRp0htAylBkweywqVbHbdPNaEg==
-X-Received: by 2002:a5d:624f:: with SMTP id m15mr7193518wrv.56.1584813678633;
-        Sat, 21 Mar 2020 11:01:18 -0700 (PDT)
+        bh=NVez25h8GjYvE6vhiUTIuWIqsNnT5tt1WKiWJBFTnYA=;
+        b=FInk2fHx5unOzsjPzlZHi2LpC8Q5Wx9IHBdZ4Lw+PKfuU+r6aqLATzvC6p2uRYrIhR
+         7FadwYbWkgfiKCxqi/gkgyNioL/ilwVcMkU1bdut04hcVnQ/HYjDdCpFCeq9+fcGS8GF
+         S0PZjN2nWegBb6DZzRATWxIu8oAKftvF/eh2vtw+orMeqQs9JL3D2WICEpAkLBYOWIjQ
+         5UCQWj7o/MLq1dHRtiz/EaS/ET66STK7Vk3tLs4Rr/m7DrRPAd3e5jaTi+gpmgzjP/Zk
+         soAO7ZnTI+URVGaS1ETJq0n9PfKeUwWduvyjSiPudDbR3Kd4ovenlEB2A/YcRyUTF72K
+         sMdw==
+X-Gm-Message-State: ANhLgQ3dQ8Qhf+XBuJ4jYBvGmvoGTWv0I6B5PngCwkp/VTbBsb99Fdk+
+        rocx1n9U1Id7yczoC8WbUwEb2DiU
+X-Google-Smtp-Source: ADFU+vt0/Kk+6jFfNGTGjcPOjyhJ/32a5nlxynYIVxW8lWlgiqETlxRZoL7zQ5GonpdSWRpWKzhieg==
+X-Received: by 2002:a1c:acc8:: with SMTP id v191mr18382676wme.185.1584816917785;
+        Sat, 21 Mar 2020 11:55:17 -0700 (PDT)
 Received: from [192.168.1.23] (affj62.neoplus.adsl.tpnet.pl. [95.49.139.62])
-        by smtp.gmail.com with ESMTPSA id b203sm13479692wmc.45.2020.03.21.11.01.17
+        by smtp.gmail.com with ESMTPSA id q4sm16429312wmj.1.2020.03.21.11.55.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Mar 2020 11:01:17 -0700 (PDT)
+        Sat, 21 Mar 2020 11:55:17 -0700 (PDT)
 Subject: Re: [PATCH RFC leds-next] leds: initial support for Turris Omnia LEDs
-To:     Pavel Machek <pavel@ucw.cz>,
-        =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
+        linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>
 References: <20200319181604.2425-1-marek.behun@nic.cz>
- <20200321153444.GE8386@duo.ucw.cz>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  xsFNBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -111,39 +110,133 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  hQNfg9em95lpAK+VOTocke8PSESy3GbEtmoMueW3caSeDHb5dRP6WrndaYhEOzAA/KjuPU7J
  LMXOABOMIq+R38y7e2B3TnVDCrccdZDseFPUWmH0cGCGihH/j2UZG+PImrSDCh3h5MedVHGo
  sI62tmWm0q6lrljwSZmMZ30w1QaGmdFpI3Q6V+nZ7TZldI3x
-Message-ID: <661959c3-cd24-1125-be35-f293212f4fe4@gmail.com>
-Date:   Sat, 21 Mar 2020 19:01:15 +0100
+Message-ID: <0279d61f-6366-02cf-3d65-93d76e52de93@gmail.com>
+Date:   Sat, 21 Mar 2020 19:55:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200321153444.GE8386@duo.ucw.cz>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20200319181604.2425-1-marek.behun@nic.cz>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 3/21/20 4:34 PM, Pavel Machek wrote:
-> Hi!
-> 
->> +	if (led->color != color) {
->> +		dev_warn(dev, "Node %pfw: 'color' should be %s!\n", node,
->> +			 led_colors[color]);
->> +		return 0;
->> +	}
->> +
->> +	init_data.devicename = "omnia";
->> +	init_data.fwnode = node;
->> +	init_data.devname_mandatory = true;
-> 
-> How will this look in the /sys/class/leds?
-> 
-> We don't want to see omnia:xxx:xx there. For the ethernet activity
-> leds, it would be nice to get something like eth0:red:activity...?
+Hi Marek,
 
-devicename and devicename_mandatory should be removed.
+Thank you for the patch.
+
+On 3/19/20 7:16 PM, Marek Behún wrote:
+> This adds basic support for LEDs on the front side of CZ.NIC's Turris
+> Omnia router.
+> 
+> There are 12 RGB LEDs. The controller supports HW triggering mode for
+> the LEDs, but this driver does not support it yet, and sets all the LEDs
+> into SW mode upon probe.
+> 
+> The user can either group all three channels of one RGB LED into one LED
+> classdev, or expose each channel as an individual LED classdev. This is
+> done by utilizing the 'led-sources' and 'color' DT properties.
+> 
+> In the following example the first RGB LED is exposed as one LED
+> classdev with color WHITE, and the second RGB LED is exposed as three
+> classdevs, one per each channel:
+> 	led@0 {
+> 		reg = <0>;
+> 		led-sources = <0 1 2>;
+> 		color = <LED_COLOR_ID_WHITE>;
+> 	};
+> 
+> 	led@1,0 {
+> 		reg = <1>;
+> 		led-sources = <3>;
+> 		color = <LED_COLOR_ID_RED>;
+> 	};
+> 
+> 	led@1,1 {
+> 		reg = <1>;
+> 		led-sources = <4>;
+> 		color = <LED_COLOR_ID_GREEN>;
+> 	};
+> 
+> 	led@1,2 {
+> 		reg = <1>;
+> 		led-sources = <5>;
+> 		color = <LED_COLOR_ID_BLUE>;
+> 	};
+> 
+> I am not comfortable with the 'reg' property being same for multiple
+> nodes. Perhaps the 'reg' property shouldn't be used, since the
+> information needed by the driver can be deduced from the 'led-sources'.
+
+I agree. You can name the sub-nodes like led0,led1,led2 etc.
+reg is convenient if each sub-node refers to single iout, but
+in this case it is unnecessary complication. You can infer the
+reg in dt parser basing on led-sources.
+
+And we need these bindings in a separate patch adding a new file
+in Documentation/devicetree/bindings/leds.
+
+You should also mention what are the allowed led-sources
+configurations, i.e. I presume that only groups of (0,1,2),
+(2,3,4) etc. are allowed, or a single iout per child node.
+
+[...]
+> +static int omnia_leds_probe(struct i2c_client *client,
+> +			    const struct i2c_device_id *id)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct device_node *np = dev->of_node, *child;
+> +	struct omnia_leds *leds;
+> +	int ret, count;
+> +
+> +	count = of_get_available_child_count(np);
+> +	if (!count) {
+> +		dev_err(dev, "LEDs are not defined in device tree!\n");
+> +		return -ENODEV;
+> +	} else if (count > 3 * OMNIA_BOARD_LEDS) {
+> +		dev_err(dev, "Too many LEDs defined in device tree!\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	leds = devm_kzalloc(dev, sizeof(*leds) + count * sizeof(leds->leds[0]),
+> +			    GFP_KERNEL);
+> +	if (!leds)
+> +		return -ENOMEM;
+> +
+> +	leds->client = client;
+> +	i2c_set_clientdata(client, leds);
+> +
+> +	mutex_init(&leds->lock);
+> +
+> +	for_each_available_child_of_node(np, child) {
+> +		ret = omnia_led_register(leds, &child->fwnode);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int omnia_leds_remove(struct i2c_client *client)
+> +{
+> +	u8 buf[OMNIA_CMD_LED_COLOR_LEN];
+> +
+> +	/* put all LEDs into default (HW triggered) mode */
+> +	i2c_smbus_write_byte_data(client, CMD_LED_MODE,
+> +				  CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
+> +
+> +	/* set all LEDs color to [255, 255, 255] */
+> +	buf[OMNIA_CMD] = CMD_LED_COLOR;
+> +	buf[OMNIA_CMD_LED_COLOR_LED] = OMNIA_BOARD_LEDS;
+> +	buf[OMNIA_CMD_LED_COLOR_R] = 255;
+> +	buf[OMNIA_CMD_LED_COLOR_G] = 255;
+> +	buf[OMNIA_CMD_LED_COLOR_B] = 255;
+
+What is the rationale behind setting all LEDs to max_brighntess
+on driver removal?
 
 -- 
 Best regards,
