@@ -2,153 +2,149 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3678118E323
-	for <lists+linux-leds@lfdr.de>; Sat, 21 Mar 2020 18:13:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27A0C18E38C
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Mar 2020 19:01:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727463AbgCURNJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 21 Mar 2020 13:13:09 -0400
-Received: from enterprise02.smtp.diehl.com ([193.201.238.220]:7442 "EHLO
-        enterprise02.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727323AbgCURNJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 21 Mar 2020 13:13:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1584810787; x=1616346787;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=XzorpplRT7wtWg9Mxa5ZbR0e6rCEzczO1pqJcaeudQs=;
-  b=ky2Yjy6d1VI8iESi3IEHzaQ+4qVG+0nfmlHlG9RraSJ4qFEmp5enQd40
-   Dia1u2Jnvy5amIe9GoWQpmMZn7y977ZyjcO/5G8OruaKJen1v6sClxK6s
-   PXroE+SBQRTEULcgaelK4bH44dxoAZ8CHyAE2zamExYpb3BZU1LvU0OpJ
-   nwWcknyY2rLAdc6BD5LO3W9XZy6NZS4FcIoX8JjpPQ4sMiTCmgUhqioeQ
-   2BV4jw+nAeadskc0BBAWlCmKcWBNepEhmJGm7Ls4x/q25d6Iw7NhhGCjj
-   w8vUqxEcQTCZsx3oV4YVaQor9gJAkWhy397K22/jXmkxDFmw1r/tqaHrH
-   g==;
-IronPort-SDR: aNRpVEfyM9ENymHOW8HfxflF0n6BwLfsRr2C+buu/tSusspq09kZoA5k4jixo3qrqXx5tOYLQB
- +fvc1QSAw81Q==
-From:   Denis Osterland-Heim <denis.osterland@diehl.com>
-To:     "pavel@ucw.cz" <pavel@ucw.cz>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "dmurphy@ti.com" <dmurphy@ti.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "uwe@kleine-koenig.org" <uwe@kleine-koenig.org>
-Subject: Re: [PATCH v4 3/5] leds: pwm: check result of led_pwm_set() in
- led_pwm_add()
-Thread-Topic: [PATCH v4 3/5] leds: pwm: check result of led_pwm_set() in
- led_pwm_add()
-Thread-Index: AQHV/1jvS39qjeoyFEyBmW+H8QD2bqhTGRaAgAAfaQA=
-Date:   Sat, 21 Mar 2020 17:13:03 +0000
-Message-ID: <ca0008dcfe0a453fe0bfed3f7aea1206aeb2a93b.camel@diehl.com>
-References: <20200321081321.15614-1-Denis.Osterland@diehl.com>
-         <20200321081321.15614-4-Denis.Osterland@diehl.com>
-         <20200321152037.GB8386@duo.ucw.cz>
-In-Reply-To: <20200321152037.GB8386@duo.ucw.cz>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A3C00F7340C55F42BA6248319A4C3658@diehl.internal>
-Content-Transfer-Encoding: base64
+        id S1727192AbgCUSBU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Mar 2020 14:01:20 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39845 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727033AbgCUSBU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Mar 2020 14:01:20 -0400
+Received: by mail-wr1-f68.google.com with SMTP id h6so11444038wrs.6
+        for <linux-leds@vger.kernel.org>; Sat, 21 Mar 2020 11:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=o1vifvbo/USBGtx5eYXOndU01tSPhTEsjKn29wVTpXA=;
+        b=EgSSbtEYW/eRCCTksy2zc7k7H/74WmqlPfqETWcmXbr0hCj1GMbftXnhG2oUD5ux3U
+         DsW7KjRrBEY/Gt6xVsKa5nxv8T7XL2d/XYe3pRHP5GXzNmLAQ19sMTGI1k2O6ozJnK6P
+         Fx90d84axJzGF1i4i3wCR+Cnk85ejrSHgRdAbyMZjJpFiW8HejzcwcTtLhqquFYEAYgI
+         cQB3VrHy19hWzgW4r8C5c2kkMk6ULFtQ8TvbOmijuyqH1VF1A90JLjfCO1nMFXsKM/Pu
+         3MkQvFvhConNf0RiQi7hexIUlK77O1giopH/czDVtfimpzB562bYEVvSitI5WUs3Oxa8
+         Gr6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=o1vifvbo/USBGtx5eYXOndU01tSPhTEsjKn29wVTpXA=;
+        b=CaLOggv9+OHKhfU5LUzKj7tXMAxwpBGUX3uVdkSAdZM8UPQ1yHNtXxqIGIUlhVMhY8
+         XESqdEC8xWUvj8z8zE0WI6/zH9+nwSpV75jaHPXWTNnEgQo8jqnvlPAqfoQOJasmm+1z
+         HX0GkFbPsNuuZnK9pin/NumSzLjT5qkCbdzRU/55W0uPcVcPHs2wmLCaBrsH3yJXWiDF
+         vp6mHQhUL2Y9fD16CIim5gJk+UvftfJt+TqY170jsTQ653HEFFy3ZyxSK7egEKsLweIG
+         FcMUDY8/RZMeKIWDGOIjb41nfxQTDYxommxq2IGjIKDwfZpZEavW9tIb3IHK9f+TfJbB
+         zAfQ==
+X-Gm-Message-State: ANhLgQ1bBo8gxURwB+A9pqUmpT3cJVddqYbEvpldz0chGUAers0BmOwD
+        RVH1qT/r41iWN+dK9kXy5lRR/zAr
+X-Google-Smtp-Source: ADFU+vt7t8JvzmdO2RykEkdfamhZuBbYqkBHdgemUnjC60AR8B9duRp0htAylBkweywqVbHbdPNaEg==
+X-Received: by 2002:a5d:624f:: with SMTP id m15mr7193518wrv.56.1584813678633;
+        Sat, 21 Mar 2020 11:01:18 -0700 (PDT)
+Received: from [192.168.1.23] (affj62.neoplus.adsl.tpnet.pl. [95.49.139.62])
+        by smtp.gmail.com with ESMTPSA id b203sm13479692wmc.45.2020.03.21.11.01.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Mar 2020 11:01:17 -0700 (PDT)
+Subject: Re: [PATCH RFC leds-next] leds: initial support for Turris Omnia LEDs
+To:     Pavel Machek <pavel@ucw.cz>,
+        =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>
+Cc:     linux-leds@vger.kernel.org
+References: <20200319181604.2425-1-marek.behun@nic.cz>
+ <20200321153444.GE8386@duo.ucw.cz>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <661959c3-cd24-1125-be35-f293212f4fe4@gmail.com>
+Date:   Sat, 21 Mar 2020 19:01:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-TrailerSkip: 1
-X-GBS-PROC: byQFdw3ukCM+zy1/poiPc5K2ye5IImf/kUigOoDyhtd7jr7ZKemyoWlP3kfh3WQd
+In-Reply-To: <20200321153444.GE8386@duo.ucw.cz>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGkgUGF2ZWwsDQoNCmhlcmUgaXQgd29ya3MuDQoNCiQgZ2l0IHJlc2V0IC0taGFyZCBvcmln
-aW4vZm9yLW5leHQNCkhFQUQgaXMgbm93IGF0IDAzMjQyNmZmNzczZiBsZWRzOiBsbTM1MzI6
-IG1ha2UgYml0ZmllbGQgJ2VuYWJsZWQnIHVuc2lnbmVkDQokIGN1cmwgLXMgaHR0cHM6Ly9s
-b3JlLmtlcm5lbC5vcmcvcGF0Y2h3b3JrL3BhdGNoLzEyMTM1NDgvbWJveC8gfCBnaXQgYW0N
-CkFwcGx5aW5nOiBsZWRzOiBwd206IGNoZWNrIHJlc3VsdCBvZiBsZWRfcHdtX3NldCgpIGlu
-IGxlZF9wd21fYWRkKCkNCg0KU3RyYW5nZSBpcyB0aGF0IHRoZSBGcm9tOiB0YWcgaW4gN2Ji
-ZWM2YzRiNTFkIGlzIG5vdCBldmFsdWF0ZWQgYXQgeW91ciBzaWRlLg0KV2hlbiBJIGRvIGl0
-LCBJIGdldDoNCg0KJCBnaXQgcmVzZXQgLS1oYXJkIDdhNjMwMzY3NzU5OA0KSEVBRCBpcyBu
-b3cgYXQgN2E2MzAzNjc3NTk4IGxlZHM6IGxlZHMtaXMzMWZsMzJ4eDogUmVwbGFjZSB6ZXJv
-LWxlbmd0aCBhcnJheSB3aXRoIGZsZXhpYmxlLWFycmF5IG1lbWJlcg0KJCBjdXJsIC1zIGh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL3BhdGNod29yay9wYXRjaC8xMjEyNzgyL21ib3gvIHwg
-Z2l0IGFtDQpBcHBseWluZzogbGVkczogbGVkcy1wd206IFJlcGxhY2UgemVyby1sZW5ndGgg
-YXJyYXkgd2l0aCBmbGV4aWJsZS1hcnJheSBtZW1iZXINCiQgZ2l0IHNob3cNCmNvbW1pdCBl
-MjQ3YWU5ODJiNWJhMTEzY2M5NjY4YmVjNTc4MTA1NjQ1MTM3ZmIyIChIRUFEIC0+IGZvci1u
-ZXh0KQ0KQXV0aG9yOiBHdXN0YXZvIEEuIFIuIFNpbHZhIDxndXN0YXZvQGVtYmVkZGVkb3Iu
-Y29tPg0KRGF0ZTogICBUaHUgTWFyIDE5IDE2OjUxOjQ2IDIwMjAgLTA1MDANCg0KICAgIGxl
-ZHM6IGxlZHMtcHdtOiBSZXBsYWNlIHplcm8tbGVuZ3RoIGFycmF5IHdpdGggZmxleGlibGUt
-YXJyYXkgbWVtYmVyDQoNClJlZ2FyZHMgRGVuaXMNCg0KQW0gU2Ftc3RhZywgZGVuIDIxLjAz
-LjIwMjAsIDE2OjIwICswMTAwIHNjaHJpZWIgUGF2ZWwgTWFjaGVrOg0KPiBIaSENCj4gDQo+
-ID4gbGVkX3B3bV9zZXQoKSBub3cgcmV0dXJucyBhbiBlcnJvciB3aGVuIHNldHRpbmcgdGhl
-IFBXTSBmYWlscy4NCj4gPiANCj4gPiBDYzogVXdlIEtsZWluZS1Lw7ZuaWcgPHV3ZUBrbGVp
-bmUta29lbmlnLm9yZz4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBEZW5pcyBPc3RlcmxhbmQtSGVp
-bSA8RGVuaXMuT3N0ZXJsYW5kQGRpZWhsLmNvbT4NCj4gDQo+IEkgYXBwbGllZCAxIGFuZCAy
-LCBidXQgMyBmYWlsZWQgZm9yIG1lLiBJJ2xsIHB1c2ggdXBkYXRlZCAtbmV4dCwgY2FuDQo+
-IHlvdSBzZWUgd2hhdCBpcyBnb2luZyBvbiB0aGVyZT8NCj4gDQo+IEJlc3QgcmVnYXJkcywN
-Cj4gCQkJCQkJCQlQYXZlbA0KPiANCj4gPiArKysgYi9kcml2ZXJzL2xlZHMvbGVkcy1wd20u
-Yw0KPiA+IEBAIC05MSwxNSArOTEsMjEgQEAgc3RhdGljIGludCBsZWRfcHdtX2FkZChzdHJ1
-Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBsZWRfcHdtX3ByaXYgKnByaXYsDQo+ID4gIAlwd21f
-aW5pdF9zdGF0ZShsZWRfZGF0YS0+cHdtLCAmbGVkX2RhdGEtPnB3bXN0YXRlKTsNCj4gPiAg
-DQo+ID4gIAlyZXQgPSBkZXZtX2xlZF9jbGFzc2Rldl9yZWdpc3RlcihkZXYsICZsZWRfZGF0
-YS0+Y2Rldik7DQo+ID4gLQlpZiAocmV0ID09IDApIHsNCj4gPiAtCQlwcml2LT5udW1fbGVk
-cysrOw0KPiA+IC0JCWxlZF9wd21fc2V0KCZsZWRfZGF0YS0+Y2RldiwgbGVkX2RhdGEtPmNk
-ZXYuYnJpZ2h0bmVzcyk7DQo+ID4gLQl9IGVsc2Ugew0KPiA+ICsJaWYgKHJldCkgew0KPiA+
-ICAJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIHJlZ2lzdGVyIFBXTSBsZWQgZm9yICVzOiAl
-ZFxuIiwNCj4gPiAgCQkJbGVkLT5uYW1lLCByZXQpOw0KPiA+ICsJCXJldHVybiByZXQ7DQo+
-ID4gIAl9DQo+ID4gIA0KPiA+IC0JcmV0dXJuIHJldDsNCj4gPiArCXJldCA9IGxlZF9wd21f
-c2V0KCZsZWRfZGF0YS0+Y2RldiwgbGVkX2RhdGEtPmNkZXYuYnJpZ2h0bmVzcyk7DQo+ID4g
-KwlpZiAocmV0KSB7DQo+ID4gKwkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gc2V0IGxlZCBQ
-V00gdmFsdWUgZm9yICVzOiAlZCIsDQo+ID4gKwkJCWxlZC0+bmFtZSwgcmV0KTsNCj4gPiAr
-CQlyZXR1cm4gcmV0Ow0KPiA+ICsJfQ0KPiA+ICsNCj4gPiArCXByaXYtPm51bV9sZWRzKys7
-DQo+ID4gKwlyZXR1cm4gMDsNCj4gPiAgfQ0KPiA+ICANCj4gPiAgc3RhdGljIGludCBsZWRf
-cHdtX2NyZWF0ZV9md25vZGUoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QNCj4gPiBsZWRf
-cHdtX3ByaXYgKnByaXYpDQo+ID4gDQo+ID4gVGhlIGNvbnRlbnRzIG9mIHRoZSBhYm92ZSBt
-ZW50aW9uZWQgZS1tYWlsIGlzIG5vdCBsZWdhbGx5DQo+ID4gYmluZGluZy4gVGhpcyBlLW1h
-aWwgY29udGFpbnMgY29uZmlkZW50aWFsIGFuZC9vciBsZWdhbGx5IHByb3RlY3RlZA0KPiA+
-IGluZm9ybWF0aW9uLiBQbGVhc2UgaW5mb3JtIHVzIGlmIHlvdSBoYXZlIHJlY2VpdmVkIHRo
-aXMgZS1tYWlsIGJ5DQo+IA0KPiBUaGlzIGlzIGxpZS4gUGxlYXNlIGRvbid0IGRvIHRoaXMu
-DQo+IAkJCQkJCQkJUGF2ZWwNCj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rDQo+ID4gWjEgU2VjdXJl
-TWFpbCBHYXRld2F5IFByb2Nlc3NpbmcgSW5mbyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgfA0KPiANCj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rDQo+ID4gLSBUaGUgbWVzc2FnZSB3
-YXMgc2lnbmVkIGJ5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-fA0KPiA+ICAgW05vIEluZm8gYXZhaWxhYmxlXSAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIHwNCj4gPiAgIFNpZ25hdHVyZSBub3QgdmVyaWZpYWJs
-ZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8DQo+ID4gICAt
-IE1lc3NhZ2UgY29udGVudCBub3QgdmVyaWZpYWJsZSAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfA0KPiA+ICAgLSBDZXJ0aWZpY2F0ZSBub3QgdmVyaWZpYWJsZSAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gDQo+ICstLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tKw0KDQoNCkRpZWhsIENvbm5lY3Rpdml0eSBTb2x1dGlvbnMgR21iSA0KR2VzY2jD
-pGZ0c2bDvGhydW5nOiBIb3JzdCBMZW9uYmVyZ2VyDQpTaXR6IGRlciBHZXNlbGxzY2hhZnQ6
-IE7DvHJuYmVyZyAtIFJlZ2lzdGVyZ2VyaWNodDogQW10c2dlcmljaHQNCk7DvHJuYmVyZzog
-SFJCIDMyMzE1DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18NCg0KRGVyIEluaGFsdCBkZXIgdm9yc3RlaGVuZGVuIEUtTWFpbCBpc3QgbmljaHQgcmVj
-aHRsaWNoIGJpbmRlbmQuIERpZXNlIEUtTWFpbCBlbnRoYWVsdCB2ZXJ0cmF1bGljaGUgdW5k
-L29kZXIgcmVjaHRsaWNoIGdlc2NodWV0enRlIEluZm9ybWF0aW9uZW4uDQpJbmZvcm1pZXJl
-biBTaWUgdW5zIGJpdHRlLCB3ZW5uIFNpZSBkaWVzZSBFLU1haWwgZmFlbHNjaGxpY2hlcndl
-aXNlIGVyaGFsdGVuIGhhYmVuLiBCaXR0ZSBsb2VzY2hlbiBTaWUgaW4gZGllc2VtIEZhbGwg
-ZGllIE5hY2hyaWNodC4NCkplZGUgdW5lcmxhdWJ0ZSBGb3JtIGRlciBSZXByb2R1a3Rpb24s
-IEJla2FubnRnYWJlLCBBZW5kZXJ1bmcsIFZlcnRlaWx1bmcgdW5kL29kZXIgUHVibGlrYXRp
-b24gZGllc2VyIEUtTWFpbCBpc3Qgc3RyZW5nc3RlbnMgdW50ZXJzYWd0Lg0KLSBJbmZvcm1h
-dGlvbmVuIHp1bSBEYXRlbnNjaHV0eiwgaW5zYmVzb25kZXJlIHp1IElocmVuIFJlY2h0ZW4s
-IGVyaGFsdGVuIFNpZSB1bnRlciBodHRwczovL3d3dy5kaWVobC5jb20vZ3JvdXAvZGUvdHJh
-bnNwYXJlbnotdW5kLWluZm9ybWF0aW9uc3BmbGljaHRlbi8NCg0KVGhlIGNvbnRlbnRzIG9m
-IHRoZSBhYm92ZSBtZW50aW9uZWQgZS1tYWlsIGlzIG5vdCBsZWdhbGx5IGJpbmRpbmcuIFRo
-aXMgZS1tYWlsIGNvbnRhaW5zIGNvbmZpZGVudGlhbCBhbmQvb3IgbGVnYWxseSBwcm90ZWN0
-ZWQgaW5mb3JtYXRpb24uIFBsZWFzZSBpbmZvcm0gdXMgaWYgeW91IGhhdmUgcmVjZWl2ZWQg
-dGhpcyBlLW1haWwgYnkNCm1pc3Rha2UgYW5kIGRlbGV0ZSBpdCBpbiBzdWNoIGEgY2FzZS4g
-RWFjaCB1bmF1dGhvcml6ZWQgcmVwcm9kdWN0aW9uLCBkaXNjbG9zdXJlLCBhbHRlcmF0aW9u
-LCBkaXN0cmlidXRpb24gYW5kL29yIHB1YmxpY2F0aW9uIG9mIHRoaXMgZS1tYWlsIGlzIHN0
-cmljdGx5IHByb2hpYml0ZWQuIA0KLSBGb3IgZ2VuZXJhbCBpbmZvcm1hdGlvbiBvbiBkYXRh
-IHByb3RlY3Rpb24gYW5kIHlvdXIgcmVzcGVjdGl2ZSByaWdodHMgcGxlYXNlIHZpc2l0IGh0
-dHBzOi8vd3d3LmRpZWhsLmNvbS9ncm91cC9lbi90cmFuc3BhcmVuY3ktYW5kLWluZm9ybWF0
-aW9uLW9ibGlnYXRpb25zLw0K
+On 3/21/20 4:34 PM, Pavel Machek wrote:
+> Hi!
+> 
+>> +	if (led->color != color) {
+>> +		dev_warn(dev, "Node %pfw: 'color' should be %s!\n", node,
+>> +			 led_colors[color]);
+>> +		return 0;
+>> +	}
+>> +
+>> +	init_data.devicename = "omnia";
+>> +	init_data.fwnode = node;
+>> +	init_data.devname_mandatory = true;
+> 
+> How will this look in the /sys/class/leds?
+> 
+> We don't want to see omnia:xxx:xx there. For the ethernet activity
+> leds, it would be nice to get something like eth0:red:activity...?
+
+devicename and devicename_mandatory should be removed.
+
+-- 
+Best regards,
+Jacek Anaszewski
