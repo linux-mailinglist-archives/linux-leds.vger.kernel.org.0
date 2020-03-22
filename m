@@ -2,227 +2,141 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB35718E75E
-	for <lists+linux-leds@lfdr.de>; Sun, 22 Mar 2020 08:41:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD5CD18E761
+	for <lists+linux-leds@lfdr.de>; Sun, 22 Mar 2020 08:51:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725997AbgCVHlo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 22 Mar 2020 03:41:44 -0400
-Received: from v6.sk ([167.172.42.174]:54702 "EHLO v6.sk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725769AbgCVHln (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 22 Mar 2020 03:41:43 -0400
-Received: from localhost (v6.sk [IPv6:::1])
-        by v6.sk (Postfix) with ESMTP id 8099C60EEE;
-        Sun, 22 Mar 2020 07:41:41 +0000 (UTC)
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Lubomir Rintel <lkundrak@v3.sk>
-Subject: [PATCH v3] leds: ariel: Add driver for status LEDs on Dell Wyse 3020
-Date:   Sun, 22 Mar 2020 08:41:34 +0100
-Message-Id: <20200322074134.79237-1-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.26.0.rc2
+        id S1725997AbgCVHvr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 22 Mar 2020 03:51:47 -0400
+Received: from enterprise01.smtp.diehl.com ([193.201.238.219]:20314 "EHLO
+        enterprise01.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725785AbgCVHvq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 22 Mar 2020 03:51:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
+  t=1584863504; x=1616399504;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=G9fPeJ2Lqaw9tn5k1jmfo2v9WVWFEaR38LGVcXvNiu8=;
+  b=ZE/ngnEK2yOfuMA6dd8I6lzcfMq/e/CvU96WuUmGnge36ML6U02+IocH
+   s3ZQB/jMNzDLF+pcyKIDhLF9GGNI3aBd3a9spUyjQ1dfHZx5EYdIPwVPR
+   eJAzy44dOozuUeOi97m+2NNnqaIT73sgyVGL214vr/59R/iXfPDxXArgc
+   C680iSdzQR6tZdAxqmlVB8ScE+NrzSQq7VUMBi50wm6hH5PzqWtHlCPYx
+   Pe+LffBYQ48RnD8Ttzltu/Ma7j+VNAQORDVF7FbNJ5yEu9uCEezM8IdcP
+   f/03IMlIpkcjqQOzRJ6kaA8R2hfLTePdtsPM267BgpnCxyctLhnBr4i3H
+   w==;
+IronPort-SDR: HyCBZnQ22O9yrMfkr+VoRSHN7lBxg+sXPvpdlWacskhaX3pkrTiY7PkZSLSgApEYAHexp0wqvN
+ biB849/yN0vw==
+From:   Denis Osterland-Heim <denis.osterland@diehl.com>
+To:     "pavel@ucw.cz" <pavel@ucw.cz>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "dmurphy@ti.com" <dmurphy@ti.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "uwe@kleine-koenig.org" <uwe@kleine-koenig.org>
+Subject: Re: [PATCH v4 3/5] leds: pwm: check result of led_pwm_set() in
+ led_pwm_add()
+Thread-Topic: [PATCH v4 3/5] leds: pwm: check result of led_pwm_set() in
+ led_pwm_add()
+Thread-Index: AQHV/1jvS39qjeoyFEyBmW+H8QD2bqhTGRaAgAAfaQCAAPVwAA==
+Date:   Sun, 22 Mar 2020 07:51:31 +0000
+Message-ID: <a8d4d9001288512dbb86169a09bd66c4bd818210.camel@diehl.com>
+References: <20200321081321.15614-1-Denis.Osterland@diehl.com>
+         <20200321081321.15614-4-Denis.Osterland@diehl.com>
+         <20200321152037.GB8386@duo.ucw.cz>
+         <ca0008dcfe0a453fe0bfed3f7aea1206aeb2a93b.camel@diehl.com>
+In-Reply-To: <ca0008dcfe0a453fe0bfed3f7aea1206aeb2a93b.camel@diehl.com>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+x-ms-exchange-messagesentrepresentingtype: 1
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D09A8765BE13E747AAD16A534695901C@diehl.internal>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TrailerSkip: 1
+X-GBS-PROC: byQFdw3ukCM+zy1/poiPczzkKjwjJ2vI2RLubozfMfcVjeQhtB15GwbEeaLReBKi
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This adds support for controlling the LEDs attached to the Embedded
-Controller on a Dell Wyse 3020 "Ariel" board.
-
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-
----
-Changes since v2:
-- Hopefully sending out the correct patch this time...
-
-Changes since v1:
-- Reduce code duplication with a loop
-- Drop "ariel:" prefix from led names
-- Do not print a message after a successful probe
----
- drivers/leds/Kconfig      |  11 ++++
- drivers/leds/Makefile     |   1 +
- drivers/leds/leds-ariel.c | 133 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 145 insertions(+)
- create mode 100644 drivers/leds/leds-ariel.c
-
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index d82f1dea37111..66424ee54cc01 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -83,6 +83,17 @@ config LEDS_APU
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called leds-apu.
- 
-+config LEDS_ARIEL
-+	tristate "Dell Wyse 3020 status LED support"
-+	depends on LEDS_CLASS
-+	depends on (MACH_MMP3_DT && MFD_ENE_KB3930) || COMPILE_TEST
-+	help
-+	  This driver adds support for controlling the front panel status
-+	  LEDs on Dell Wyse 3020 (Ariel) board via the KB3930 Embedded
-+	  Controller.
-+
-+	  Say Y to if your machine is a Dell Wyse 3020 thin client.
-+
- config LEDS_AS3645A
- 	tristate "AS3645A and LM3555 LED flash controllers support"
- 	depends on I2C && LEDS_CLASS_FLASH
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index d7e1107753fb1..bf3b22038d113 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -10,6 +10,7 @@ obj-$(CONFIG_LEDS_TRIGGERS)		+= led-triggers.o
- obj-$(CONFIG_LEDS_88PM860X)		+= leds-88pm860x.o
- obj-$(CONFIG_LEDS_AAT1290)		+= leds-aat1290.o
- obj-$(CONFIG_LEDS_APU)			+= leds-apu.o
-+obj-$(CONFIG_LEDS_ARIEL)		+= leds-ariel.o
- obj-$(CONFIG_LEDS_AS3645A)		+= leds-as3645a.o
- obj-$(CONFIG_LEDS_AN30259A)		+= leds-an30259a.o
- obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
-diff --git a/drivers/leds/leds-ariel.c b/drivers/leds/leds-ariel.c
-new file mode 100644
-index 0000000000000..8fc56722e12f4
---- /dev/null
-+++ b/drivers/leds/leds-ariel.c
-@@ -0,0 +1,133 @@
-+// SPDX-License-Identifier: BSD-2-Clause OR GPL-2.0-or-later
-+/*
-+ * Dell Wyse 3020 a.k.a. "Ariel" Embedded Controller LED Driver
-+ *
-+ * Copyright (C) 2020 Lubomir Rintel
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/leds.h>
-+#include <linux/regmap.h>
-+#include <linux/of_platform.h>
-+
-+enum ec_index {
-+	EC_BLUE_LED	= 0x01,
-+	EC_AMBER_LED	= 0x02,
-+	EC_GREEN_LED	= 0x03,
-+};
-+
-+enum {
-+	EC_LED_OFF	= 0x00,
-+	EC_LED_STILL	= 0x01,
-+	EC_LED_FADE	= 0x02,
-+	EC_LED_BLINK	= 0x03,
-+};
-+
-+struct ariel_led {
-+	struct regmap *ec_ram;
-+	enum ec_index ec_index;
-+	struct led_classdev led_cdev;
-+};
-+
-+#define led_cdev_to_ariel_led(c) container_of(c, struct ariel_led, led_cdev)
-+
-+static enum led_brightness ariel_led_get(struct led_classdev *led_cdev)
-+{
-+	struct ariel_led *led = led_cdev_to_ariel_led(led_cdev);
-+	unsigned int led_status = 0;
-+
-+	if (regmap_read(led->ec_ram, led->ec_index, &led_status))
-+		return LED_OFF;
-+
-+	if (led_status == EC_LED_STILL)
-+		return LED_FULL;
-+	else
-+		return LED_OFF;
-+}
-+
-+static void ariel_led_set(struct led_classdev *led_cdev,
-+			  enum led_brightness brightness)
-+{
-+	struct ariel_led *led = led_cdev_to_ariel_led(led_cdev);
-+
-+	if (brightness == LED_OFF)
-+		regmap_write(led->ec_ram, led->ec_index, EC_LED_OFF);
-+	else
-+		regmap_write(led->ec_ram, led->ec_index, EC_LED_STILL);
-+}
-+
-+static int ariel_blink_set(struct led_classdev *led_cdev,
-+			   unsigned long *delay_on, unsigned long *delay_off)
-+{
-+	struct ariel_led *led = led_cdev_to_ariel_led(led_cdev);
-+
-+	if (*delay_on == 0 && *delay_off == 0)
-+		return -EINVAL;
-+
-+	if (*delay_on == 0) {
-+		regmap_write(led->ec_ram, led->ec_index, EC_LED_OFF);
-+	} else if (*delay_off == 0) {
-+		regmap_write(led->ec_ram, led->ec_index, EC_LED_STILL);
-+	} else {
-+		*delay_on = 500;
-+		*delay_off = 500;
-+		regmap_write(led->ec_ram, led->ec_index, EC_LED_BLINK);
-+	}
-+
-+	return 0;
-+}
-+
-+#define NLEDS 3
-+
-+static int ariel_led_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct ariel_led *leds;
-+	struct regmap *ec_ram;
-+	int ret;
-+	int i;
-+
-+	leds = devm_kcalloc(dev, NLEDS, sizeof(*leds), GFP_KERNEL);
-+	if (!leds)
-+		return -ENOMEM;
-+
-+	ec_ram = dev_get_regmap(dev->parent, "ec_ram");
-+	if (!ec_ram)
-+		return -ENODEV;
-+
-+	leds[0].ec_index = EC_BLUE_LED;
-+	leds[0].led_cdev.name = "blue:power",
-+	leds[0].led_cdev.default_trigger = "default-on";
-+
-+	leds[1].ec_index = EC_AMBER_LED;
-+	leds[1].led_cdev.name = "amber:status",
-+
-+	leds[2].ec_index = EC_GREEN_LED;
-+	leds[2].led_cdev.name = "green:status",
-+	leds[2].led_cdev.default_trigger = "default-on";
-+
-+	for (i = 0; i < NLEDS; i++) {
-+		leds[0].ec_ram = ec_ram;
-+		leds[0].led_cdev.brightness_get = ariel_led_get;
-+		leds[0].led_cdev.brightness_set = ariel_led_set;
-+		leds[0].led_cdev.blink_set = ariel_blink_set;
-+
-+		ret = devm_led_classdev_register(dev, &leds[0].led_cdev);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static struct platform_driver ariel_led_driver = {
-+	.probe = ariel_led_probe,
-+	.driver = {
-+		.name = "dell-wyse-ariel-led",
-+	},
-+};
-+module_platform_driver(ariel_led_driver);
-+
-+MODULE_AUTHOR("Lubomir Rintel <lkundrak@v3.sk>");
-+MODULE_DESCRIPTION("Dell Wyse 3020 Status LEDs Driver");
-+MODULE_LICENSE("Dual BSD/GPL");
--- 
-2.26.0.rc2
-
+SGkgUGF2ZWwsDQoNCkFtIFNhbXN0YWcsIGRlbiAyMS4wMy4yMDIwLCAxODoxMyArMDEwMCBz
+Y2hyaWViIERlbmlzIE9zdGVybGFuZC1IZWltOg0KPiBIaSBQYXZlbCwNCj4gDQo+IGhlcmUg
+aXQgd29ya3MuDQo+IA0KPiAkIGdpdCByZXNldCAtLWhhcmQgb3JpZ2luL2Zvci1uZXh0DQo+
+IEhFQUQgaXMgbm93IGF0IDAzMjQyNmZmNzczZiBsZWRzOiBsbTM1MzI6IG1ha2UgYml0Zmll
+bGQgJ2VuYWJsZWQnIHVuc2lnbmVkDQo+ICQgY3VybCAtcyBodHRwczovL2xvcmUua2VybmVs
+Lm9yZy9wYXRjaHdvcmsvcGF0Y2gvMTIxMzU0OC9tYm94LyB8IGdpdCBhbQ0KPiBBcHBseWlu
+ZzogbGVkczogcHdtOiBjaGVjayByZXN1bHQgb2YgbGVkX3B3bV9zZXQoKSBpbiBsZWRfcHdt
+X2FkZCgpDQo+IA0KSSBoYXZlIGFwcGxpZWQgaXQgdG8gMTBhNmNjZTNjMWExNWU0MGRkN2I2
+OWU2NmU0NzgwNDc2ZTU5MGY2OCB3aXRob3V0IHByb2JsZW1zIGFzIHdlbGwuDQoNCkNhbiB5
+b3UgdXNlIGBnaXQgYW0gLS1zaG93LWN1cnJlbnQtcGF0Y2ggfCBwYXRjaCAtcDEgLS1tZXJn
+ZWAgYW5kIHBvc3QgdGhlIGNvbmZsaWN0cz8NCg0KPiBTdHJhbmdlIGlzIHRoYXQgdGhlIEZy
+b206IHRhZyBpbiA3YmJlYzZjNGI1MWQgaXMgbm90IGV2YWx1YXRlZCBhdCB5b3VyIHNpZGUu
+DQo+IFdoZW4gSSBkbyBpdCwgSSBnZXQ6DQo+IA0KPiAkIGdpdCByZXNldCAtLWhhcmQgN2E2
+MzAzNjc3NTk4DQo+IEhFQUQgaXMgbm93IGF0IDdhNjMwMzY3NzU5OCBsZWRzOiBsZWRzLWlz
+MzFmbDMyeHg6IFJlcGxhY2UgemVyby1sZW5ndGggYXJyYXkgd2l0aCBmbGV4aWJsZS1hcnJh
+eSBtZW1iZXINCj4gJCBjdXJsIC1zIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3BhdGNod29y
+ay9wYXRjaC8xMjEyNzgyL21ib3gvIHwgZ2l0IGFtDQo+IEFwcGx5aW5nOiBsZWRzOiBsZWRz
+LXB3bTogUmVwbGFjZSB6ZXJvLWxlbmd0aCBhcnJheSB3aXRoIGZsZXhpYmxlLWFycmF5IG1l
+bWJlcg0KPiAkIGdpdCBzaG93DQo+IGNvbW1pdCBlMjQ3YWU5ODJiNWJhMTEzY2M5NjY4YmVj
+NTc4MTA1NjQ1MTM3ZmIyIChIRUFEIC0+IGZvci1uZXh0KQ0KPiBBdXRob3I6IEd1c3Rhdm8g
+QS4gUi4gU2lsdmEgPGd1c3Rhdm9AZW1iZWRkZWRvci5jb20+DQo+IERhdGU6ICAgVGh1IE1h
+ciAxOSAxNjo1MTo0NiAyMDIwIC0wNTAwDQo+IA0KPiAgICAgbGVkczogbGVkcy1wd206IFJl
+cGxhY2UgemVyby1sZW5ndGggYXJyYXkgd2l0aCBmbGV4aWJsZS1hcnJheSBtZW1iZXINClNv
+cnJ5IGZvciB0aGF0LCB0aGlzIHdhcyBvbmUgcGF0Y2ggb2ZmLg0KMzk1M2QxOTA4YjJjYzVm
+NTdhNWY5ZWJkN2Y2YjU3MzZhOGUxZmUyNSBpcyB0aGUgb25lIHdpdGggdGhlICJGcm9tOiIg
+bGluZS4NCg0KPiANCj4gUmVnYXJkcyBEZW5pcw0KPiANCj4gQW0gU2Ftc3RhZywgZGVuIDIx
+LjAzLjIwMjAsIDE2OjIwICswMTAwIHNjaHJpZWIgUGF2ZWwgTWFjaGVrOg0KPiA+IEhpIQ0K
+PiA+IA0KLi4uDQo+ID4gPiANCj4gPiA+IFRoZSBjb250ZW50cyBvZiB0aGUgYWJvdmUgbWVu
+dGlvbmVkIGUtbWFpbCBpcyBub3QgbGVnYWxseQ0KPiA+ID4gYmluZGluZy4gVGhpcyBlLW1h
+aWwgY29udGFpbnMgY29uZmlkZW50aWFsIGFuZC9vciBsZWdhbGx5IHByb3RlY3RlZA0KPiA+
+ID4gaW5mb3JtYXRpb24uIFBsZWFzZSBpbmZvcm0gdXMgaWYgeW91IGhhdmUgcmVjZWl2ZWQg
+dGhpcyBlLW1haWwgYnkNCj4gPiANCj4gPiBUaGlzIGlzIGxpZS4gUGxlYXNlIGRvbid0IGRv
+IHRoaXMuDQo+ID4gCQkJCQkJCQlQYXZlbA0KQ29ycG9yYXRlIEV4Y2hhbmdlIHNlcnZlciBh
+dXRvbWF0aWNhbGx5IGFwcGVuZHMgaXQuDQpJIGNhbiBub3Qgc3VwcHJlc3MgaXQsIHNvcnJ5
+Lg0KDQpSZWdhcmRzIERlbmlzDQoNCj4gPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gPiA+IFox
+IFNlY3VyZU1haWwgR2F0ZXdheSBQcm9jZXNzaW5nIEluZm8gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwNCj4gPiANCj4gPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gPiA+IC0g
+VGhlIG1lc3NhZ2Ugd2FzIHNpZ25lZCBieSAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwNCj4gPiA+ICAgW05vIEluZm8gYXZhaWxhYmxlXSAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gPiA+ICAgU2lnbmF0
+dXJlIG5vdCB2ZXJpZmlhYmxlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHwNCj4gPiA+ICAgLSBNZXNzYWdlIGNvbnRlbnQgbm90IHZlcmlmaWFibGUgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gPiA+ICAgLSBDZXJ0aWZpY2F0
+ZSBub3QgdmVyaWZpYWJsZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwNCj4gPiANCj4gPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCg0KDQpEaWVobCBDb25uZWN0aXZp
+dHkgU29sdXRpb25zIEdtYkgNCkdlc2Now6RmdHNmw7xocnVuZzogSG9yc3QgTGVvbmJlcmdl
+cg0KU2l0eiBkZXIgR2VzZWxsc2NoYWZ0OiBOw7xybmJlcmcgLSBSZWdpc3RlcmdlcmljaHQ6
+IEFtdHNnZXJpY2h0DQpOw7xybmJlcmc6IEhSQiAzMjMxNQ0KX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fDQoNCkRlciBJbmhhbHQgZGVyIHZvcnN0ZWhl
+bmRlbiBFLU1haWwgaXN0IG5pY2h0IHJlY2h0bGljaCBiaW5kZW5kLiBEaWVzZSBFLU1haWwg
+ZW50aGFlbHQgdmVydHJhdWxpY2hlIHVuZC9vZGVyIHJlY2h0bGljaCBnZXNjaHVldHp0ZSBJ
+bmZvcm1hdGlvbmVuLg0KSW5mb3JtaWVyZW4gU2llIHVucyBiaXR0ZSwgd2VubiBTaWUgZGll
+c2UgRS1NYWlsIGZhZWxzY2hsaWNoZXJ3ZWlzZSBlcmhhbHRlbiBoYWJlbi4gQml0dGUgbG9l
+c2NoZW4gU2llIGluIGRpZXNlbSBGYWxsIGRpZSBOYWNocmljaHQuDQpKZWRlIHVuZXJsYXVi
+dGUgRm9ybSBkZXIgUmVwcm9kdWt0aW9uLCBCZWthbm50Z2FiZSwgQWVuZGVydW5nLCBWZXJ0
+ZWlsdW5nIHVuZC9vZGVyIFB1Ymxpa2F0aW9uIGRpZXNlciBFLU1haWwgaXN0IHN0cmVuZ3N0
+ZW5zIHVudGVyc2FndC4NCi0gSW5mb3JtYXRpb25lbiB6dW0gRGF0ZW5zY2h1dHosIGluc2Jl
+c29uZGVyZSB6dSBJaHJlbiBSZWNodGVuLCBlcmhhbHRlbiBTaWUgdW50ZXIgaHR0cHM6Ly93
+d3cuZGllaGwuY29tL2dyb3VwL2RlL3RyYW5zcGFyZW56LXVuZC1pbmZvcm1hdGlvbnNwZmxp
+Y2h0ZW4vDQoNClRoZSBjb250ZW50cyBvZiB0aGUgYWJvdmUgbWVudGlvbmVkIGUtbWFpbCBp
+cyBub3QgbGVnYWxseSBiaW5kaW5nLiBUaGlzIGUtbWFpbCBjb250YWlucyBjb25maWRlbnRp
+YWwgYW5kL29yIGxlZ2FsbHkgcHJvdGVjdGVkIGluZm9ybWF0aW9uLiBQbGVhc2UgaW5mb3Jt
+IHVzIGlmIHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGJ5DQptaXN0YWtlIGFuZCBk
+ZWxldGUgaXQgaW4gc3VjaCBhIGNhc2UuIEVhY2ggdW5hdXRob3JpemVkIHJlcHJvZHVjdGlv
+biwgZGlzY2xvc3VyZSwgYWx0ZXJhdGlvbiwgZGlzdHJpYnV0aW9uIGFuZC9vciBwdWJsaWNh
+dGlvbiBvZiB0aGlzIGUtbWFpbCBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLiANCi0gRm9yIGdl
+bmVyYWwgaW5mb3JtYXRpb24gb24gZGF0YSBwcm90ZWN0aW9uIGFuZCB5b3VyIHJlc3BlY3Rp
+dmUgcmlnaHRzIHBsZWFzZSB2aXNpdCBodHRwczovL3d3dy5kaWVobC5jb20vZ3JvdXAvZW4v
+dHJhbnNwYXJlbmN5LWFuZC1pbmZvcm1hdGlvbi1vYmxpZ2F0aW9ucy8NCg==
