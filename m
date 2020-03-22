@@ -2,52 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CFB4618E92C
-	for <lists+linux-leds@lfdr.de>; Sun, 22 Mar 2020 14:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9028418E977
+	for <lists+linux-leds@lfdr.de>; Sun, 22 Mar 2020 15:56:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726583AbgCVNgC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 22 Mar 2020 09:36:02 -0400
-Received: from mail-wm1-f49.google.com ([209.85.128.49]:39480 "EHLO
-        mail-wm1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725970AbgCVNgB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 22 Mar 2020 09:36:01 -0400
-Received: by mail-wm1-f49.google.com with SMTP id a9so8389725wmj.4
-        for <linux-leds@vger.kernel.org>; Sun, 22 Mar 2020 06:35:59 -0700 (PDT)
+        id S1726738AbgCVO4v (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 22 Mar 2020 10:56:51 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:40045 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726470AbgCVO4v (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 22 Mar 2020 10:56:51 -0400
+Received: by mail-wm1-f67.google.com with SMTP id a81so5848885wmf.5;
+        Sun, 22 Mar 2020 07:56:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Zvb6Cf9yc+YZM8hFBq18knAR5TvHXI5xo+q6CnaMSDU=;
-        b=QX0B9FK+FyudQPEMKtEAsgCEt2D1CyAr/FyFDiKpnvRrYfopCrSROUDdVXu6PuBayX
-         hKyrBgD8PhOCs74yLFxkagEwoBJIwbTsEqRmxQqvQurhppsqmT7PHwu7UIfekqIZysTU
-         5cVljMCe1pJ881U4jCV9S4mCcUKGe2WDbXgkQ5gPdTagtw1cclGETUthXm8AoqPZKfnL
-         y9CRUd2EkrrWUDbUTjCYhUmX7R+UTM2D7lrOVQyOzy1Ie0074eYUfHzHiOfeaSfohUYu
-         CpvWGjCX7exyytiuU5q66/KZrUZU79tOvZgeCSxS2VQlvclDfszXGShTvjFzGOqtLCHd
-         Clow==
+        bh=X68Qo+4qHC+f9vKqP0qp4I2iyaYoAkEV5Du4wV9D/yg=;
+        b=aC4298VqnloVotWICqo182X/sv6Bufyeaq2ZK8tjRw4VDTN4ZpxDzyYeFsw2klYTqK
+         Z6l6mRfvjNDIszLKOXsiOx4DEn4owdp2bTrVg11K9Wsdx131AI/zqNXNrizNxFmlFiP/
+         qybmLjMGNowRHpdmC3mTfmBPOsr6mX5CVfHGNr00/thqTiRijbmKXQv9uI8SJATVTN0h
+         E8U4MdQMj5KQRSZkzTa+OqIIejFAyiBADfmN+PDGx61PcHik8k7jVw5U6oVEKfl7zfDb
+         GGJ89DP80w0txKFVZfVsVybzDGptM1QO9ITYQnInm4tF7/QzRuL4n71Ow2tSq5BScDWB
+         A3XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Zvb6Cf9yc+YZM8hFBq18knAR5TvHXI5xo+q6CnaMSDU=;
-        b=gkFytGZLQbhe0vHGC3cLvNwULipsIVi6xsV2s32votRpG97whuu5+Ajz3ZSPw5gfD6
-         w4819GvavRVYNTvlk4zkyhco283SCT0s3srHDbGG4pdnwii3+GAvvVwNsOBAiWhpGk1y
-         Ozy3AfULsMdhfxEKXyYHmw1rc5RulN556x276TV2Y808NV/nk0VTGnibO+lW5I5njJV/
-         pgjIcadCBw4oDdrUCCbr9KB4pn02J/krMdLtqgD0qpi3vaaWyHdqCy/cx+vOXeq4ydYh
-         j/LHefmCGzu9msbqmH2+FGH5an+0cwwP9JWdEAelMQ4E/WO3GzXdvrBrUNOpuJoiinKX
-         A6tQ==
-X-Gm-Message-State: ANhLgQ1sJaqvHURNjqOPKPKBXzEF2GaOJNuBvwMgQEI5TwIjqgg45mqc
-        cPhpe0556dLxd5/f+lzDWQpiUuFp
-X-Google-Smtp-Source: ADFU+vs0z4tuKibumk/VQ4gPtu8ZuhuDiQ4bnSBtJ8q9qRhDy24V9DlCrqEnjjyippPkGWq4p/b6kQ==
-X-Received: by 2002:a7b:cbcf:: with SMTP id n15mr8008878wmi.139.1584884158806;
-        Sun, 22 Mar 2020 06:35:58 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=X68Qo+4qHC+f9vKqP0qp4I2iyaYoAkEV5Du4wV9D/yg=;
+        b=YByTuqRXTNbUiGLZUYdWS5pWrQy6vWD35WHJ1s7rC7mIZ2WHUUmIxP0N80pjw060n7
+         Y3X8VZClHHp8tJZ6dLftgAKX7eFg1LLdJGjjYmdFRNARRZaK9iX/XcT/QBgJuKlxEm97
+         awMV4T/lyaZo0sdxQW9aW8dUEq5yElAH/ZKFv0jyVEvfCrEmBZHclu9y6ZtvOnSXzCEP
+         A7TfeCMixVMyWBwqrg7CA0ao2fEnMBN2LDgQgrzy6bPR8+MH4uUu0LUiM3Xy47nul0J6
+         nmMvPaprlO8+L+5jdJPe6hYmZAEwXAitYmbXX3eTWBm7zYaGSRx+PzuUJL0LKv7jz+qw
+         jQOA==
+X-Gm-Message-State: ANhLgQ30+wlH3iSZgWtbOcnWKm7XrzIH6rsmw3qVRs8Stj+cKJUAkkKx
+        3uinSbBu8ynDMPwB0xK/ywo=
+X-Google-Smtp-Source: ADFU+vtgIFEq1rAWsci9Bw6JFd/xctHNwPUra5HW8bWWSXx8wI9OjOqdE6rc2imYrm+FAcCd3Q15ow==
+X-Received: by 2002:a1c:ba06:: with SMTP id k6mr21009467wmf.136.1584889008168;
+        Sun, 22 Mar 2020 07:56:48 -0700 (PDT)
 Received: from [192.168.1.23] (afam139.neoplus.adsl.tpnet.pl. [95.49.12.139])
-        by smtp.gmail.com with ESMTPSA id f12sm17132622wmh.4.2020.03.22.06.35.57
+        by smtp.gmail.com with ESMTPSA id f9sm19546897wro.47.2020.03.22.07.56.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Mar 2020 06:35:58 -0700 (PDT)
-Subject: Re: Cleanups in "next" tree
-To:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
-References: <20200322115906.GA10623@duo.ucw.cz>
+        Sun, 22 Mar 2020 07:56:47 -0700 (PDT)
+Subject: Re: [PATCH v4 3/5] leds: pwm: check result of led_pwm_set() in
+ led_pwm_add()
+To:     Pavel Machek <pavel@ucw.cz>,
+        Denis Osterland-Heim <denis.osterland@diehl.com>
+Cc:     "dmurphy@ti.com" <dmurphy@ti.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "uwe@kleine-koenig.org" <uwe@kleine-koenig.org>
+References: <20200321081321.15614-1-Denis.Osterland@diehl.com>
+ <20200321081321.15614-4-Denis.Osterland@diehl.com>
+ <20200321152037.GB8386@duo.ucw.cz>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  xsFNBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -108,32 +119,34 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  hQNfg9em95lpAK+VOTocke8PSESy3GbEtmoMueW3caSeDHb5dRP6WrndaYhEOzAA/KjuPU7J
  LMXOABOMIq+R38y7e2B3TnVDCrccdZDseFPUWmH0cGCGihH/j2UZG+PImrSDCh3h5MedVHGo
  sI62tmWm0q6lrljwSZmMZ30w1QaGmdFpI3Q6V+nZ7TZldI3x
-Message-ID: <3a103317-b9fb-5d0f-6944-0114b9af1629@gmail.com>
-Date:   Sun, 22 Mar 2020 14:35:56 +0100
+Message-ID: <566ac991-2e38-6c70-4b07-c8dd78d47a06@gmail.com>
+Date:   Sun, 22 Mar 2020 15:56:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200322115906.GA10623@duo.ucw.cz>
+In-Reply-To: <20200321152037.GB8386@duo.ucw.cz>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Pavel,
-
-On 3/22/20 12:59 PM, Pavel Machek wrote:
+On 3/21/20 4:20 PM, Pavel Machek wrote:
 > Hi!
 > 
-> I've commited some cleanups into LED tree ( git/pavel/linux-leds.git
-> branch for-next ), if someone wants to review them.
+>> led_pwm_set() now returns an error when setting the PWM fails.
+>>
+>> Cc: Uwe Kleine-König <uwe@kleine-koenig.org>
+>> Signed-off-by: Denis Osterland-Heim <Denis.Osterland@diehl.com>
+> 
+> I applied 1 and 2, but 3 failed for me. I'll push updated -next, can
+> you see what is going on there?
 
-You abused your maintainer power by bypassing the usual patch
-submission procedure. Please remove the patches from linux-next
-and submit them officially for discussion. I would have some objections
-to them.
+Check the contents of the patch after writing it on a disk.
+In my case it contains a block of random characters.
+It is probably due to Content-Transfer-Encoding: base64.
 
 -- 
 Best regards,
