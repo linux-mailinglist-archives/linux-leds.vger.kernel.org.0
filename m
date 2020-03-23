@@ -2,103 +2,109 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC36218F890
-	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2020 16:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55B6718F8B6
+	for <lists+linux-leds@lfdr.de>; Mon, 23 Mar 2020 16:36:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727156AbgCWP2U (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 23 Mar 2020 11:28:20 -0400
-Received: from enterprise02.smtp.diehl.com ([193.201.238.220]:10654 "EHLO
-        enterprise02.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727105AbgCWP2U (ORCPT
+        id S1727230AbgCWPgR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 23 Mar 2020 11:36:17 -0400
+Received: from mail26.static.mailgun.info ([104.130.122.26]:49632 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727124AbgCWPgQ (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 23 Mar 2020 11:28:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1584977299; x=1616513299;
-  h=from:to:cc:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=79ymEayEp2gQQw0zEOKdH7KJ1bsGU0lvzPdso8hXutw=;
-  b=LMyDYmnEY57+D5DyzygPNcnQO+IJ/478gaEQfHA8qLyBaWeLrhsy6Rp0
-   v1pKd7162yzn4imTpNL+4yp+i7Kbuk/P6hHOadRMbp7fLRs2HwB3Oo1zY
-   Z3e5RzQpwtTHAcQK866GNHS2wBHQqYA41N5ceE8W0RLPRKJ++Aq7wzD4Z
-   Gd1k/UMBeikIbpubmofxuNh2KVDZrgEYs1/K6j0KiMbLwBc2tFFGOvm2z
-   OkRbBKZmgKDrgG243+Rn47EZo6Qal8a4zZETeQYn+xWTqwGdIZLpkuWK8
-   FHy51IDr0Meg555xy3oWW/eFqITGEGbjM92lqJY8eCCMW8ChuK+KX7nlJ
-   g==;
-IronPort-SDR: qCLHzU+3Pg6ZrXsYFRxf1zKWeHip1iGvQO+Aohs2uxs6K9R8VwQCYaNMDIomtI7YltdNHH8QYA
- OYC0gYzyvOBw==
-From:   Denis Osterland-Heim <denis.osterland@diehl.com>
-To:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-CC:     "uwe@kleine-koenig.org" <uwe@kleine-koenig.org>,
-        Denis Osterland-Heim <denis.osterland@diehl.com>
-Subject: [PATCH v4] leds: pwm: check result of led_pwm_set() in led_pwm_add()
-Thread-Topic: [PATCH v4] leds: pwm: check result of led_pwm_set() in
- led_pwm_add()
-Thread-Index: AQHWASedLNVUQJejAkmePWBrqbOpdg==
-Date:   Mon, 23 Mar 2020 15:27:50 +0000
-Message-ID: <20200323152716.25449-1-Denis.Osterland@diehl.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B762DC22F35A984C9101F24AB489D6D7@diehl.internal>
-Content-Transfer-Encoding: base64
+        Mon, 23 Mar 2020 11:36:16 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1584977776; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=wijimHVzaAPkYdmKEb1ozTEK2M9kYeLXNSo3279w37s=;
+ b=oXhjG3pJVS7H0WMJE+RAaLqMyLYC62nSjyMA8d+YMrKka9UWkI+mB+xMs8Bapas8+g3yYsPk
+ jWl71odnIqMqcjP7pmeTTNSFpC4x8Y2YLAFs76JWvbEVPoyn605Z0hjtYuMnAnSltWb1gUCw
+ Y4H1OIt3hSGR0bRB/JjAiSyf4aE=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyJkODczOCIsICJsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e78d76c.7f9b3ececab0-smtp-out-n03;
+ Mon, 23 Mar 2020 15:36:12 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 9A551C432C2; Mon, 23 Mar 2020 15:36:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: kgunda)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id D7712C433D2;
+        Mon, 23 Mar 2020 15:36:11 +0000 (UTC)
 MIME-Version: 1.0
-X-TrailerSkip: 1
-X-GBS-PROC: 415AWy8o668fDtCxszluz3iFeMqdBQji4a8qx6De20ERVm9ZjsmklqyJZWPG1o6w
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 23 Mar 2020 21:06:11 +0530
+From:   kgunda@codeaurora.org
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        lee.jones@linaro.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, jacek.anaszewski@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-arm-msm-owner@vger.kernel.org
+Subject: Re: [PATCH V3 2/4] backlight: qcom-wled: Add callback functions
+In-Reply-To: <20200311103047.v7rt5ii3saack22a@holly.lan>
+References: <1583760362-26978-1-git-send-email-kgunda@codeaurora.org>
+ <1583760362-26978-3-git-send-email-kgunda@codeaurora.org>
+ <20200310152719.5hpzh6osq22y4qbn@holly.lan>
+ <05ab744dfbd83b6704bd394ce3c3dfc9@codeaurora.org>
+ <20200311103047.v7rt5ii3saack22a@holly.lan>
+Message-ID: <45964027ff388aec97d27f579d96c012@codeaurora.org>
+X-Sender: kgunda@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-bGVkX3B3bV9zZXQoKSBub3cgcmV0dXJucyBhbiBlcnJvciB3aGVuIHNldHRpbmcgdGhlIFBX
-TSBmYWlscy4NCg0KQ2M6IFV3ZSBLbGVpbmUtS8O2bmlnIDx1d2VAa2xlaW5lLWtvZW5pZy5v
-cmc+DQpTaWduZWQtb2ZmLWJ5OiBEZW5pcyBPc3RlcmxhbmQtSGVpbSA8RGVuaXMuT3N0ZXJs
-YW5kQGRpZWhsLmNvbT4NCi0tLQ0KIGRyaXZlcnMvbGVkcy9sZWRzLXB3bS5jIHwgMTYgKysr
-KysrKysrKystLS0tLQ0KIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCA1IGRl
-bGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9sZWRzL2xlZHMtcHdtLmMgYi9k
-cml2ZXJzL2xlZHMvbGVkcy1wd20uYw0KaW5kZXggNmNhZjhiZWE4Y2Q1Li4wN2VhYjJkOGI3
-YzcgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2xlZHMvbGVkcy1wd20uYw0KKysrIGIvZHJpdmVy
-cy9sZWRzL2xlZHMtcHdtLmMNCkBAIC05MSwxNSArOTEsMjEgQEAgc3RhdGljIGludCBsZWRf
-cHdtX2FkZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBsZWRfcHdtX3ByaXYgKnByaXYs
-DQogCXB3bV9pbml0X3N0YXRlKGxlZF9kYXRhLT5wd20sICZsZWRfZGF0YS0+cHdtc3RhdGUp
-Ow0KIA0KIAlyZXQgPSBkZXZtX2xlZF9jbGFzc2Rldl9yZWdpc3RlcihkZXYsICZsZWRfZGF0
-YS0+Y2Rldik7DQotCWlmIChyZXQgPT0gMCkgew0KLQkJcHJpdi0+bnVtX2xlZHMrKzsNCi0J
-CWxlZF9wd21fc2V0KCZsZWRfZGF0YS0+Y2RldiwgbGVkX2RhdGEtPmNkZXYuYnJpZ2h0bmVz
-cyk7DQotCX0gZWxzZSB7DQorCWlmIChyZXQpIHsNCiAJCWRldl9lcnIoZGV2LCAiZmFpbGVk
-IHRvIHJlZ2lzdGVyIFBXTSBsZWQgZm9yICVzOiAlZFxuIiwNCiAJCQlsZWQtPm5hbWUsIHJl
-dCk7DQorCQlyZXR1cm4gcmV0Ow0KIAl9DQogDQotCXJldHVybiByZXQ7DQorCXJldCA9IGxl
-ZF9wd21fc2V0KCZsZWRfZGF0YS0+Y2RldiwgbGVkX2RhdGEtPmNkZXYuYnJpZ2h0bmVzcyk7
-DQorCWlmIChyZXQpIHsNCisJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIHNldCBsZWQgUFdN
-IHZhbHVlIGZvciAlczogJWQiLA0KKwkJCWxlZC0+bmFtZSwgcmV0KTsNCisJCXJldHVybiBy
-ZXQ7DQorCX0NCisNCisJcHJpdi0+bnVtX2xlZHMrKzsNCisJcmV0dXJuIDA7DQogfQ0KIA0K
-IHN0YXRpYyBpbnQgbGVkX3B3bV9jcmVhdGVfZndub2RlKHN0cnVjdCBkZXZpY2UgKmRldiwg
-c3RydWN0IGxlZF9wd21fcHJpdiAqcHJpdikNCi0tIA0KMi4yNS4yDQoNCg0KDQpEaWVobCBD
-b25uZWN0aXZpdHkgU29sdXRpb25zIEdtYkgNCkdlc2Now6RmdHNmw7xocnVuZzogSG9yc3Qg
-TGVvbmJlcmdlcg0KU2l0eiBkZXIgR2VzZWxsc2NoYWZ0OiBOw7xybmJlcmcgLSBSZWdpc3Rl
-cmdlcmljaHQ6IEFtdHNnZXJpY2h0DQpOw7xybmJlcmc6IEhSQiAzMjMxNQ0KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQoNCkRlciBJbmhhbHQgZGVy
-IHZvcnN0ZWhlbmRlbiBFLU1haWwgaXN0IG5pY2h0IHJlY2h0bGljaCBiaW5kZW5kLiBEaWVz
-ZSBFLU1haWwgZW50aGFlbHQgdmVydHJhdWxpY2hlIHVuZC9vZGVyIHJlY2h0bGljaCBnZXNj
-aHVldHp0ZSBJbmZvcm1hdGlvbmVuLg0KSW5mb3JtaWVyZW4gU2llIHVucyBiaXR0ZSwgd2Vu
-biBTaWUgZGllc2UgRS1NYWlsIGZhZWxzY2hsaWNoZXJ3ZWlzZSBlcmhhbHRlbiBoYWJlbi4g
-Qml0dGUgbG9lc2NoZW4gU2llIGluIGRpZXNlbSBGYWxsIGRpZSBOYWNocmljaHQuDQpKZWRl
-IHVuZXJsYXVidGUgRm9ybSBkZXIgUmVwcm9kdWt0aW9uLCBCZWthbm50Z2FiZSwgQWVuZGVy
-dW5nLCBWZXJ0ZWlsdW5nIHVuZC9vZGVyIFB1Ymxpa2F0aW9uIGRpZXNlciBFLU1haWwgaXN0
-IHN0cmVuZ3N0ZW5zIHVudGVyc2FndC4NCi0gSW5mb3JtYXRpb25lbiB6dW0gRGF0ZW5zY2h1
-dHosIGluc2Jlc29uZGVyZSB6dSBJaHJlbiBSZWNodGVuLCBlcmhhbHRlbiBTaWUgdW50ZXIg
-aHR0cHM6Ly93d3cuZGllaGwuY29tL2dyb3VwL2RlL3RyYW5zcGFyZW56LXVuZC1pbmZvcm1h
-dGlvbnNwZmxpY2h0ZW4vDQoNClRoZSBjb250ZW50cyBvZiB0aGUgYWJvdmUgbWVudGlvbmVk
-IGUtbWFpbCBpcyBub3QgbGVnYWxseSBiaW5kaW5nLiBUaGlzIGUtbWFpbCBjb250YWlucyBj
-b25maWRlbnRpYWwgYW5kL29yIGxlZ2FsbHkgcHJvdGVjdGVkIGluZm9ybWF0aW9uLiBQbGVh
-c2UgaW5mb3JtIHVzIGlmIHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGJ5DQptaXN0
-YWtlIGFuZCBkZWxldGUgaXQgaW4gc3VjaCBhIGNhc2UuIEVhY2ggdW5hdXRob3JpemVkIHJl
-cHJvZHVjdGlvbiwgZGlzY2xvc3VyZSwgYWx0ZXJhdGlvbiwgZGlzdHJpYnV0aW9uIGFuZC9v
-ciBwdWJsaWNhdGlvbiBvZiB0aGlzIGUtbWFpbCBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLiAN
-Ci0gRm9yIGdlbmVyYWwgaW5mb3JtYXRpb24gb24gZGF0YSBwcm90ZWN0aW9uIGFuZCB5b3Vy
-IHJlc3BlY3RpdmUgcmlnaHRzIHBsZWFzZSB2aXNpdCBodHRwczovL3d3dy5kaWVobC5jb20v
-Z3JvdXAvZW4vdHJhbnNwYXJlbmN5LWFuZC1pbmZvcm1hdGlvbi1vYmxpZ2F0aW9ucy8NCg==
+On 2020-03-11 16:00, Daniel Thompson wrote:
+> On Wed, Mar 11, 2020 at 12:11:00PM +0530, kgunda@codeaurora.org wrote:
+>> On 2020-03-10 20:57, Daniel Thompson wrote:
+>> > On Mon, Mar 09, 2020 at 06:56:00PM +0530, Kiran Gunda wrote:
+>> > > Add cabc_config, sync_toggle, wled_ovp_fault_status and wled_ovp_delay
+>> > > callback functions to prepare the driver for adding WLED5 support.
+>> > >
+>> > > Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+>> >
+>> > Overall this code would a lot easier to review if
+>> > > ---
+>> > >  drivers/video/backlight/qcom-wled.c | 196
+>> > > +++++++++++++++++++++++-------------
+>> > >  1 file changed, 126 insertions(+), 70 deletions(-)
+>> > >
+>> > > diff --git a/drivers/video/backlight/qcom-wled.c
+>> > > b/drivers/video/backlight/qcom-wled.c
+>> > > index 3d276b3..b73f273 100644
+>> > > --- a/drivers/video/backlight/qcom-wled.c
+>> > > +++ b/drivers/video/backlight/qcom-wled.c
+>> > > @@ -128,6 +128,7 @@ struct wled_config {
+>> > >  	bool cs_out_en;
+>> > >  	bool ext_gen;
+>> > >  	bool cabc;
+>> > > +	bool en_cabc;
+>> >
+>> > Does this ever get set to true?
+>> >
+>> Yes. If user wants use the cabc pin to control the brightness and
+>> use the "qcom,cabc" DT property in the device tree.
+> 
+> That sounds like what you intended the code to do!
+> 
+> Is the code that does this present in the patch? I could not find
+> it.
+> 
+okay... It's my bad. We already have the "cabc" for this. I will remove 
+the en_cabc in
+next series.
+> 
+> Daniel.
