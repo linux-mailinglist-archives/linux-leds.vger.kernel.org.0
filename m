@@ -2,129 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EA64190664
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2020 08:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CADE21909C6
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2020 10:43:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725951AbgCXHgy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Mar 2020 03:36:54 -0400
-Received: from enterprise01.smtp.diehl.com ([193.201.238.219]:15917 "EHLO
-        enterprise01.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725905AbgCXHgy (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 24 Mar 2020 03:36:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1585035411; x=1616571411;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=gRoGjOLINsGJ3jjwlLvKTuAuWfLcRTx6P7HoeAr7OrU=;
-  b=WSRff/tJY5T/qeIFYbUZvaL62s8p3XvlxPZI2Xsx0qF037g6nJosOA7v
-   GqUT2CxyIHhEiAM/i/j85FmHbrdi690AK3PzIb0Q8xrXyUeCqbpCC+Env
-   CUSPrhcmRJywASahcyvs8IQebFFv7ay7nxiCSyvhgkNY31gUsFyFgVcao
-   r2ZiryPZjF/ECyCM5w+JPdK9WFFnKLn8r02qlnuzlA5IlZU02O5NPN4DF
-   QSD4Oer+YR2p4SxO5GODXuD9bwrz5xcx1DGVJ+sjtKauqXIacMP2/cru6
-   a8Mda9XGsgbyVtBkeJ0snq0YntiZb3diBg9rS3NI13gIlnEd5WVFFbEQT
-   w==;
-IronPort-SDR: eytULdbNq6W4hQnvIxCyzwdDL0RgGX0aPvFWMs9U1rdmsP1R9v1p10bn2hk2brZ3GJRh3q3z56
- h9Mw+ToLiq0w==
-From:   Denis Osterland-Heim <denis.osterland@diehl.com>
-To:     "dmurphy@ti.com" <dmurphy@ti.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>
-CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH v4] leds: pwm: check result of led_pwm_set() in
- led_pwm_add()
-Thread-Topic: [PATCH v4] leds: pwm: check result of led_pwm_set() in
- led_pwm_add()
-Thread-Index: AQHWAPNprlb/rYMY0E2oDLJ9oUB47qhWpRAAgACmN4A=
-Date:   Tue, 24 Mar 2020 07:36:47 +0000
-Message-ID: <c8d1e1986c1e0a503d109b7e2e1cff1ef352d2c4.camel@diehl.com>
-References: <20200323091243.23140-1-Denis.Osterland@diehl.com>
-         <e50f13f9-9d96-857f-7b1c-9ef5195be636@gmail.com>
-In-Reply-To: <e50f13f9-9d96-857f-7b1c-9ef5195be636@gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9A0246F3ED2D0545B6AFEACDBAC6ADAB@diehl.internal>
-Content-Transfer-Encoding: base64
+        id S1727124AbgCXJm1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 Mar 2020 05:42:27 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:44776 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727230AbgCXJm1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Mar 2020 05:42:27 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 574CA1C0343; Tue, 24 Mar 2020 10:42:25 +0100 (CET)
+Date:   Tue, 24 Mar 2020 10:42:22 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Nicolas Belin <nbelin@baylibre.com>
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        jacek.anaszewski@gmail.com, dmurphy@ti.com,
+        devicetree@vger.kernel.org, baylibre-upstreaming@groups.io
+Subject: Re: [PATCH v3 3/3] drivers: leds: add support for apa102c leds
+Message-ID: <20200324094222.GA15096@amd>
+References: <1583502010-16210-1-git-send-email-nbelin@baylibre.com>
+ <1583502010-16210-4-git-send-email-nbelin@baylibre.com>
 MIME-Version: 1.0
-X-TrailerSkip: 1
-X-GBS-PROC: PkB65aL1SqtESF35r/jQnxFW96ZwC7qXRqcnFxnxJaj8DxTPThIh/wOle+JCn/jC
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="IS0zKkzwUGydFO0o"
+Content-Disposition: inline
+In-Reply-To: <1583502010-16210-4-git-send-email-nbelin@baylibre.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGkgSmFjZWssDQoNCkFtIE1vbnRhZywgZGVuIDIzLjAzLjIwMjAsIDIyOjQxICswMTAwIHNj
-aHJpZWIgSmFjZWsgQW5hc3pld3NraToNCj4gSGkgRGVuaXMsDQo+IA0KPiBOb3cgaXQgaXMg
-YmV0dGVyLCBpdCBpczoNCj4gQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogcXVvdGVkLXBy
-aW50YWJsZS4NCj4gDQo+IE5vbmV0aGVsZXNzIHRoZXJlIGFyZSBzdGlsbCBzb21lIHByb2Js
-ZW1zIHdpdGggY2hhcnNldC4NCj4gU2VlIGUuZy4gdGhlIGxpbmU6DQo+IA0KPiAiaWYgKHJl
-dCA9M0Q9M0QgMCkgIg0KSSBzZWUNCg0KPiANCj4gQXJlIHlvdSB1c2luZyBnaXQgc2VuZC1l
-bWFpbCBmb3Igc2VuZGluZyBwYXRjaGVzPw0KPiBJIHN1c3BlY3Qgbm90IHNpbmNlIHBhdGNo
-ZXMgYXJyaXZlIHVub3JkZXJlZCBieSB0aGUNCj4gcG9zaXRpb24gaW4gdGhlIHBhdGNoIHNl
-dC4NCldlbGwsIGRlbGl2ZXJ5IHBhdGggaXM6DQpnaXQgc2VuZC1lbWFpbA0KLT4gbG9jYWwg
-cG9zdGZpeA0KLT4gR25vbWUgRXZvbHV0aW9uDQotPiBNUyBFeGNoYW5nZSBzZXJ2ZXINCi0+
-IHlvdXIgc2VydmVycw0KDQpOb3JtYWxseSBpdCB3b3JrcyBxdWl0ZSB3ZWxsLi4uDQoNCkhl
-YWRlcnMgYWZ0ZXIgcG9zdGZpeDoNCk1lc3NhZ2UtSWQ6IDwyMDIwMDMyMzA5MTI0My4yMzE0
-MC0xLURlbmlzLk9zdGVybGFuZEBkaWVobC5jb20+DQpYLU1haWxlcjogZ2l0LXNlbmQtZW1h
-aWwgMi4yNS4yDQpNSU1FLVZlcnNpb246IDEuMA0KQ29udGVudC1UcmFuc2Zlci1FbmNvZGlu
-ZzogOGJpdA0KDQpIZWFkZXJzIGFmdGVyIEV2b2x1dGlvbjoNCk1lc3NhZ2UtSUQ6IDwyMDIw
-MDMyMzA5MTI0My4yMzE0MC0xLURlbmlzLk9zdGVybGFuZEBkaWVobC5jb20+DQpYLU1haWxl
-cjogRXZvbHV0aW9uIDMuMjguNS0wdWJ1bnR1MC4xOC4wNC4xIA0KQ29udGVudC1UcmFuc2Zl
-ci1FbmNvZGluZzogN2JpdA0KQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluDQpNSU1FLVZlcnNp
-b246IDEuMA0KDQpIZWFkZXJzIGFmdGVyIEV4Y2hhbmdlOg0KTWVzc2FnZS1JRDogPDIwMjAw
-MzIzMDkxMjQzLjIzMTQwLTEtRGVuaXMuT3N0ZXJsYW5kQGRpZWhsLmNvbT4NCkFjY2VwdC1M
-YW5ndWFnZTogZGUtREUsIGVuLVVTDQpDb250ZW50LUxhbmd1YWdlOiBlbi1VUw0KWC1NUy1F
-eGNoYW5nZS1Pcmdhbml6YXRpb24tQXV0aEFzOiBJbnRlcm5hbA0KWC1NUy1FeGNoYW5nZS1P
-cmdhbml6YXRpb24tQXV0aE1lY2hhbmlzbTogMDQNClgtTVMtRXhjaGFuZ2UtT3JnYW5pemF0
-aW9uLUF1dGhTb3VyY2U6IFJDREMtTWFpbDE2LmNvcnAuZGllaGwuY29tDQpYLU1TLUhhcy1B
-dHRhY2g6IA0KWC1NUy1FeGNoYW5nZS1Pcmdhbml6YXRpb24tU0NMOiAtMQ0KWC1NUy1UTkVG
-LUNvcnJlbGF0b3I6IA0KeC1tYWlsZXI6IEV2b2x1dGlvbiAzLjI4LjUtMHVidW50dTAuMTgu
-MDQuMSANCkNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD0iaXNvLTg4NTktMSIN
-CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IHF1b3RlZC1wcmludGFibGUNCk1JTUUtVmVy
-c2lvbjogMS4wDQoNClRoaXMgaXMgYWxzbyB3aGVyZSB0aGUgdHJhbnNmb3JtYXRpb24gZnJv
-bSAnXHgzZCcgdG8gIj0zRCIgYW5kICdceDIwJyB0byAiPTIwIiBoYXBwZW5zDQphbmQgaW4g
-dGhlIG9yaWdpbmFsIGNhc2Ugd2hlcmUgdGhlIGJhc2U2NCBlbmNvZGluZyBoYXBwZW5zLg0K
-DQpJIGNhbiByZXByb2R1Y2UgdGhlIHByb2JsZW0gd2l0aCB0aGUgYXBwbHkgb2Ygb3JpZ2lu
-YWwgbWVzc2FnZSBub3cuDQpBdCBmaXJzdCB0cnkgSSB1c2VkICdzYXZlIGFzIG1ib3gnIGZy
-b20gRXZvbHV0aW9uIFVJLCB3aGljaCBkb2VzIHRoZSBjb252ZXJzYXRpb24NCmZyb20gYmFz
-ZTY0IHRvIG5vcm1hbCB0ZXh0LiBXaGVuIEkgY29weSBpdCBsb2NhbCBpbmJveCBJIGNhbiB1
-c2UgdGhlIG9yaWdpbmFsIHZlcnNpb24NCmRpcmVjdGx5IGZyb20gbWFpbGRpci4NCg0KVGhl
-IG1haWwgMS81IGFuZCAyLzUgYWxzbyBoYXZlIHRoZSBjb252ZXJzaW9ucyBmcm9tICdceDIw
-JyB0byAiPTIwIiwgc28gUGF2ZWwgc2hvdWxkIG5vdw0KYmUgYWJsZSB0byBhcHBseSB0aGUg
-cGF0Y2guIEF0IGxlYXN0IEkgY2FuIGRvIHNvLg0KDQpJIGNhbiBhcHBseSB0aGUgYmFzZTY0
-IGVuY29kZSB2ZXJzaW9uIGFzIHdlbGwsIHdpdGg6DQpwYXRjaCAtcDEgPCAuZ2l0L3JlYmFz
-ZS1hcHBseS9wYXRjaA0KYnV0IHdpdGggd2FybmluZzoNCihTdHJpcHBpbmcgdHJhaWxpbmcg
-Q1JzIGZyb20gcGF0Y2g7IHVzZSAtLWJpbmFyeSB0byBkaXNhYmxlLikNCg0KUmVnYXJkcyBE
-ZW5pcw0KDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IEphY2VrIEFuYXN6ZXdza2kNCj4gDQoN
-Cg0KRGllaGwgQ29ubmVjdGl2aXR5IFNvbHV0aW9ucyBHbWJIDQpHZXNjaMOkZnRzZsO8aHJ1
-bmc6IEhvcnN0IExlb25iZXJnZXINClNpdHogZGVyIEdlc2VsbHNjaGFmdDogTsO8cm5iZXJn
-IC0gUmVnaXN0ZXJnZXJpY2h0OiBBbXRzZ2VyaWNodA0KTsO8cm5iZXJnOiBIUkIgMzIzMTUN
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KDQpEZXIg
-SW5oYWx0IGRlciB2b3JzdGVoZW5kZW4gRS1NYWlsIGlzdCBuaWNodCByZWNodGxpY2ggYmlu
-ZGVuZC4gRGllc2UgRS1NYWlsIGVudGhhZWx0IHZlcnRyYXVsaWNoZSB1bmQvb2RlciByZWNo
-dGxpY2ggZ2VzY2h1ZXR6dGUgSW5mb3JtYXRpb25lbi4NCkluZm9ybWllcmVuIFNpZSB1bnMg
-Yml0dGUsIHdlbm4gU2llIGRpZXNlIEUtTWFpbCBmYWVsc2NobGljaGVyd2Vpc2UgZXJoYWx0
-ZW4gaGFiZW4uIEJpdHRlIGxvZXNjaGVuIFNpZSBpbiBkaWVzZW0gRmFsbCBkaWUgTmFjaHJp
-Y2h0Lg0KSmVkZSB1bmVybGF1YnRlIEZvcm0gZGVyIFJlcHJvZHVrdGlvbiwgQmVrYW5udGdh
-YmUsIEFlbmRlcnVuZywgVmVydGVpbHVuZyB1bmQvb2RlciBQdWJsaWthdGlvbiBkaWVzZXIg
-RS1NYWlsIGlzdCBzdHJlbmdzdGVucyB1bnRlcnNhZ3QuDQotIEluZm9ybWF0aW9uZW4genVt
-IERhdGVuc2NodXR6LCBpbnNiZXNvbmRlcmUgenUgSWhyZW4gUmVjaHRlbiwgZXJoYWx0ZW4g
-U2llIHVudGVyIGh0dHBzOi8vd3d3LmRpZWhsLmNvbS9ncm91cC9kZS90cmFuc3BhcmVuei11
-bmQtaW5mb3JtYXRpb25zcGZsaWNodGVuLw0KDQpUaGUgY29udGVudHMgb2YgdGhlIGFib3Zl
-IG1lbnRpb25lZCBlLW1haWwgaXMgbm90IGxlZ2FsbHkgYmluZGluZy4gVGhpcyBlLW1haWwg
-Y29udGFpbnMgY29uZmlkZW50aWFsIGFuZC9vciBsZWdhbGx5IHByb3RlY3RlZCBpbmZvcm1h
-dGlvbi4gUGxlYXNlIGluZm9ybSB1cyBpZiB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFp
-bCBieQ0KbWlzdGFrZSBhbmQgZGVsZXRlIGl0IGluIHN1Y2ggYSBjYXNlLiBFYWNoIHVuYXV0
-aG9yaXplZCByZXByb2R1Y3Rpb24sIGRpc2Nsb3N1cmUsIGFsdGVyYXRpb24sIGRpc3RyaWJ1
-dGlvbiBhbmQvb3IgcHVibGljYXRpb24gb2YgdGhpcyBlLW1haWwgaXMgc3RyaWN0bHkgcHJv
-aGliaXRlZC4gDQotIEZvciBnZW5lcmFsIGluZm9ybWF0aW9uIG9uIGRhdGEgcHJvdGVjdGlv
-biBhbmQgeW91ciByZXNwZWN0aXZlIHJpZ2h0cyBwbGVhc2UgdmlzaXQgaHR0cHM6Ly93d3cu
-ZGllaGwuY29tL2dyb3VwL2VuL3RyYW5zcGFyZW5jeS1hbmQtaW5mb3JtYXRpb24tb2JsaWdh
-dGlvbnMvDQo=
+
+--IS0zKkzwUGydFO0o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri 2020-03-06 14:40:10, Nicolas Belin wrote:
+> Initilial commit in order to support the apa102c RGB leds. The
+
+Initial
+
+> RGB and global brightness management is done by creating 4 leds
+> from the Led Framework per apa102c led.
+>=20
+
+> +
+> +		/* setting a color_id value for each of the 4 components of the
+> +		 * apa102c RGB led. The first component is the global brightness
+> +		 * of the led and thus has no color. The order of the colors
+> +		 * after the global brightness is then blue, green and red
+> +		 * in that order. It corresponds to the order in which the
+> +		 * values are sent using spi
+> +		 */
+> +		rgb_led->component[0].color_id =3D -1; //no color
+
+Please follow codingstyle on comment style and avoid // comments.
+
+Best regards,
+									Pavel
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--IS0zKkzwUGydFO0o
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl551f4ACgkQMOfwapXb+vKNAACdHyKBsVW3v6cli5ZVCgheH7ky
+D3kAnA22fu4Dv4StJjio2r7Ne6PEyWkM
+=IEwh
+-----END PGP SIGNATURE-----
+
+--IS0zKkzwUGydFO0o--
