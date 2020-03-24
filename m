@@ -2,48 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5092C1918CD
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2020 19:20:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F9BD1918CF
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2020 19:20:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727894AbgCXSU3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S1727398AbgCXSU3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Tue, 24 Mar 2020 14:20:29 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:37716 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727834AbgCXSU3 (ORCPT
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:60158 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727835AbgCXSU3 (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Mar 2020 14:20:29 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02OIKOEm076038;
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02OIKOdT011557;
         Tue, 24 Mar 2020 13:20:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
         s=ti-com-17Q1; t=1585074024;
-        bh=J3mZ3nmzF0wHtBE0U1+YbpsX0WsYfOsuVjuEIKOh1Sk=;
-        h=From:To:CC:Subject:Date;
-        b=RPz3pC5/4VDZvh7wc9lDH2YkNVbi2H/P0Kkll4kLJDYYRGyimjc2We0tPzyFGSHhm
-         pLf9a2YgeaJpLrzchk6TDAeMVm3ReDTkQltuvFEAN0jUPEcuLczQMUyWJnPkPJ/gxw
-         vsZJEKLMNkBShWBllg0xKrOwZrRG48GJ8YTAyX6A=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02OIKO6u112968
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        bh=NYV50fzHy4fz8SE/IouUJBoUW3NYh0OXNkuUnT+9Gdg=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=CvpJI/fvv6Sm3oC9MG/iyq1EO/b64nyLG0cnrPFzTtd0eSPh9UDNxu16oMiLBGTms
+         pciLn14wSF3+LbIqqd78w1zoI4Z+dnw3z3tJDgbe5X1vDl8bVUH0QHLBAr2HypLSra
+         n25LFRnXAOKaBQlXfkBUgMtie556ZIb4FHYEumPA=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02OIKOgd076798;
         Tue, 24 Mar 2020 13:20:24 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 24
- Mar 2020 13:20:23 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ Mar 2020 13:20:24 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 24 Mar 2020 13:20:23 -0500
+ Frontend Transport; Tue, 24 Mar 2020 13:20:24 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02OIKNww037641;
-        Tue, 24 Mar 2020 13:20:23 -0500
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02OIKOo3037645;
+        Tue, 24 Mar 2020 13:20:24 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
 CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v18 0/4] Multi Color LED Framework Patches
-Date:   Tue, 24 Mar 2020 13:14:30 -0500
-Message-ID: <20200324181434.24721-1-dmurphy@ti.com>
+Subject: [PATCH v18 1/4] dt: bindings: Add multicolor class dt bindings documention
+Date:   Tue, 24 Mar 2020 13:14:31 -0500
+Message-ID: <20200324181434.24721-2-dmurphy@ti.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200324181434.24721-1-dmurphy@ti.com>
+References: <20200324181434.24721-1-dmurphy@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -53,43 +54,118 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello
+Add DT bindings for the LEDs multicolor class framework.
 
-This is the multi color LED framework.   This framework presents clustered
-colored LEDs into an array and allows the user space to adjust the brightness
-of the cluster using a single file write.  The individual colored LEDs
-intensities are controlled via a single file that is an array of LEDs
-
-A design alternative to having files that have multiple values written to a
-single file is here:
-
-https://lore.kernel.org/patchwork/patch/1186194/
-
-Dan
-
-Dan Murphy (4):
-  dt: bindings: Add multicolor class dt bindings documention
-  dt-bindings: leds: Add multicolor ID to the color ID list
-  leds: Add multicolor ID to the color ID list
-  leds: multicolor: Introduce a multicolor class definition
-
- .../ABI/testing/sysfs-class-led-multicolor    |  51 ++++
- .../bindings/leds/leds-class-multicolor.txt   |  98 ++++++++
- Documentation/leds/index.rst                  |   1 +
- Documentation/leds/leds-class-multicolor.rst  | 110 +++++++++
- drivers/leds/Kconfig                          |  10 +
- drivers/leds/Makefile                         |   1 +
- drivers/leds/led-class-multicolor.c           | 224 ++++++++++++++++++
- drivers/leds/led-core.c                       |   1 +
- include/dt-bindings/leds/common.h             |   3 +-
- include/linux/led-class-multicolor.h          | 124 ++++++++++
- 10 files changed, 622 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
+Signed-off-by: Dan Murphy <dmurphy@ti.com>
+---
+ .../bindings/leds/leds-class-multicolor.txt   | 98 +++++++++++++++++++
+ 1 file changed, 98 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
- create mode 100644 Documentation/leds/leds-class-multicolor.rst
- create mode 100644 drivers/leds/led-class-multicolor.c
- create mode 100644 include/linux/led-class-multicolor.h
 
+diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+new file mode 100644
+index 000000000000..4b1bd82f2a42
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.txt
+@@ -0,0 +1,98 @@
++* Multicolor LED properties
++
++Bindings for multi color LEDs show how to describe current outputs of
++either integrated multi-color LED elements (like RGB, RGBW, RGBWA-UV
++etc.) or standalone LEDs, to achieve logically grouped multi-color LED
++modules. This is achieved by adding multi-led nodes layer to the
++monochrome LED bindings.
++
++The nodes and properties defined in this document are unique to the multicolor
++LED class.  Common LED nodes and properties are inherited from the common.txt
++within this documentation directory.
++
++Required LED child properties:
++	- color : For multicolor LED support this property should be defined as
++		  LED_COLOR_ID_MULTI and further definition can be found in
++		  include/linux/leds/common.h.
++
++led-controller@30 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++	compatible = "ti,lp5024";
++	reg = <0x29>;
++
++	multi-led@1 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		reg = <1>;
++		color = <LED_COLOR_ID_MULTI>;
++		function = LED_FUNCTION_CHARGING;
++
++
++		led@3 {
++			reg = <3>;
++			color = <LED_COLOR_ID_RED>;
++		};
++
++		led@4 {
++			reg = <4>;
++			color = <LED_COLOR_ID_GREEN>;
++		};
++
++		led@5 {
++			reg = <5>;
++			color = <LED_COLOR_ID_BLUE>;
++		};
++	};
++
++	multi-led@2 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		color = <LED_COLOR_ID_MULTI>;
++		function = LED_FUNCTION_ACTIVITY;
++		reg = <2>;
++		ti,led-bank = <2 3 5>;
++
++		led@6 {
++			reg = <0x6>;
++			color = <LED_COLOR_ID_RED>;
++			led-sources = <6 9 15>;
++		};
++
++		led@7 {
++			reg = <0x7>;
++			color = <LED_COLOR_ID_GREEN>;
++			led-sources = <7 10 16>;
++		};
++
++		led@8 {
++			reg = <0x8>;
++			color = <LED_COLOR_ID_BLUE>;
++			led-sources = <8 11 17>;
++		};
++	};
++
++	multi-led@4 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		reg = <4>;
++		color = <LED_COLOR_ID_MULTI>;
++		function = LED_FUNCTION_ACTIVITY;
++
++		led@12 {
++			reg = <12>;
++			color = <LED_COLOR_ID_RED>;
++		};
++
++		led@13 {
++			reg = <13>;
++			color = <LED_COLOR_ID_GREEN>;
++		};
++
++		led@14 {
++			reg = <14>;
++			color = <LED_COLOR_ID_BLUE>;
++		};
++	};
++
++};
 -- 
 2.25.1
 
