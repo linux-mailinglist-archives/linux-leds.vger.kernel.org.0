@@ -2,85 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F64A191988
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2020 19:58:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A308A191A6F
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Mar 2020 21:03:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727715AbgCXS63 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Mar 2020 14:58:29 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:35924 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727630AbgCXS63 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Mar 2020 14:58:29 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02OIwD8x021034;
-        Tue, 24 Mar 2020 13:58:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1585076293;
-        bh=VZRtZMeA2ClsDluKB2wRA7+P+NmbtlpF2v3sLKrmG+I=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=GkVufOe3CA2KLoWFv/g5TE6sl1TbCjzNkOuFqpoFQ7idv9B1+4GOXzyHJk/m+QTbG
-         n7F21fInhXcNZNKF7ckUI+p0K0Ow4NRssQ33OZOMR5Ap1ISFh4OtvEBOjhPLAymTCX
-         KzXZGpF7Ib70Iz49cy4rzmL2/wv6wZuqPX6e/vJA=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02OIwDKw037329
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 24 Mar 2020 13:58:13 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 24
- Mar 2020 13:58:13 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 24 Mar 2020 13:58:13 -0500
-Received: from [10.250.52.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02OIwCh6115881;
-        Tue, 24 Mar 2020 13:58:13 -0500
-Subject: Re: [PATCH v18 4/4] leds: multicolor: Introduce a multicolor class
- definition
-To:     Randy Dunlap <rdunlap@infradead.org>, <jacek.anaszewski@gmail.com>,
-        <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-References: <20200324181434.24721-1-dmurphy@ti.com>
- <20200324181434.24721-5-dmurphy@ti.com>
- <e9d6c050-0ee4-6829-bd23-25e9bbf72774@infradead.org>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <e600d433-7af2-c939-db69-29369180392d@ti.com>
-Date:   Tue, 24 Mar 2020 13:52:24 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1726034AbgCXUCy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 Mar 2020 16:02:54 -0400
+Received: from mail.z3ntu.xyz ([128.199.32.197]:43488 "EHLO mail.z3ntu.xyz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725941AbgCXUCy (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 24 Mar 2020 16:02:54 -0400
+Received: by mail.z3ntu.xyz (Postfix, from userid 182)
+        id 9E195C4449; Tue, 24 Mar 2020 20:02:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1585080171; bh=/w4Mkqq/p7Yx+FSl2Qi+cWkUVMNC7hXtE79ZR06jgtE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=yUFXMjq3KbuU/x8m4BYGrBhfr5aeQMzvSBDoKKd2tjR9ykVTn+5p0lO9VqS8NmBOw
+         zeTOYHelpDXNSaRK3hEW7nf0nUYa+aT3wHg9dG+DfwZS93BtBPOmXjz6/+Zo/HfG/A
+         Ird5xROf7+guwhrcvVytbT84+8WX2lnCCPGHgup8=
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on arch-vps
+X-Spam-Level: 
+X-Spam-Status: No, score=0.9 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        PDS_OTHER_BAD_TLD,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.4
+Received: from g550jk.localnet (80-110-124-168.cgn.dynamic.surfer.at [80.110.124.168])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 0969FC4427;
+        Tue, 24 Mar 2020 20:02:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1585080166; bh=/w4Mkqq/p7Yx+FSl2Qi+cWkUVMNC7hXtE79ZR06jgtE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=U7dVF0wHBqFc8tylF9KkKj21nn41+dcADJY5js4u4lEIgh3iMy5iPwgnwhQFq08nL
+         qJ8BF8Tb7SOSWjfKesNNuOZyVNdLJFi5a235u6h3IEskZLMaHSJlfuoFYZKD1uSf2f
+         4IwrQL9wdPBx4tpnQnCjZNrGymjWB//YZjZZPoMo=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Icenowy Zheng <icenowy@aosc.io>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Shawn Guo <shawnguo@kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH 2/3] dt-bindings: leds: Add binding for sgm3140
+Date:   Tue, 24 Mar 2020 21:02:45 +0100
+Message-ID: <4545531.31r3eYUQgx@g550jk>
+In-Reply-To: <20200323205727.GA4038@bogus>
+References: <20200309203558.305725-1-luca@z3ntu.xyz> <20200309203558.305725-3-luca@z3ntu.xyz> <20200323205727.GA4038@bogus>
 MIME-Version: 1.0
-In-Reply-To: <e9d6c050-0ee4-6829-bd23-25e9bbf72774@infradead.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Randy
+Hi Rob,
 
-On 3/24/20 1:41 PM, Randy Dunlap wrote:
-> On 3/24/20 11:14 AM, Dan Murphy wrote:
->> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->> index d82f1dea3711..37dcdb06a29b 100644
->> --- a/drivers/leds/Kconfig
->> +++ b/drivers/leds/Kconfig
->> @@ -30,6 +30,16 @@ config LEDS_CLASS_FLASH
->>   	  for the flash related features of a LED device. It can be built
->>   	  as a module.
->>   
->> +config LEDS_CLASS_MULTI_COLOR
->> +	tristate "LED Mulit Color LED Class Support"
-> 	              Multi
-> or even	              MultiColor
-> or	              Multicolor
+On Montag, 23. M=E4rz 2020 21:57:27 CET Rob Herring wrote:
+> On Mon, Mar 09, 2020 at 09:35:57PM +0100, Luca Weiss wrote:
+> > Add YAML devicetree binding for SGMICRO SGM3140 charge pump used for
+> > camera flash LEDs.
+> >=20
+> > Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> > ---
+> > Changes since RFC:
+> > - new patch
+> >=20
+> > I'm not sure about the completeness of this binding as it doesn't
+> > mention the led subnode at all.
+> > The only existing led yaml binding is leds/leds-max77650.yaml which
+> > mentions the subnode but duplicates properties from documented in
+> > leds/common.txt.
+>=20
+> It's common.yaml now. Reference it from a child node defined here.
 
-Thanks for the spell check. I cannot believe this made it through so 
-many reviews.  hehe
+Thanks, that helps a lot!
 
-Dan
+>=20
+> >  .../bindings/leds/leds-sgm3140.yaml           | 53 +++++++++++++++++++
+> >  1 file changed, 53 insertions(+)
+> >  create mode 100644
+> >  Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
+
+Regards
+Luca
+
 
