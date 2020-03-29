@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0245B196D82
-	for <lists+linux-leds@lfdr.de>; Sun, 29 Mar 2020 14:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A590196D8B
+	for <lists+linux-leds@lfdr.de>; Sun, 29 Mar 2020 14:54:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727951AbgC2Mr7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 29 Mar 2020 08:47:59 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53862 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727875AbgC2Mr7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 29 Mar 2020 08:47:59 -0400
-Received: by mail-wm1-f66.google.com with SMTP id b12so16707921wmj.3;
-        Sun, 29 Mar 2020 05:47:56 -0700 (PDT)
+        id S1728065AbgC2MyC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 29 Mar 2020 08:54:02 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:42851 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727951AbgC2MyB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 29 Mar 2020 08:54:01 -0400
+Received: by mail-wr1-f67.google.com with SMTP id h15so17586115wrx.9
+        for <linux-leds@vger.kernel.org>; Sun, 29 Mar 2020 05:54:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jRVF1bo6PI0lBFNzYTz6pYAuahARppVlslCm99RAEO0=;
-        b=EJzCH+kBf71D6LKmH2igO9agoI2s6IHLIWBEntZZkSrr3eengkJOBDMwBbJl0jdfPT
-         QGBQSD1jAczjKk10Fgm5cGIow/tJqrU60GKa9fgJBmTKf/ro5cEd5hDdHTuAzFG2AioZ
-         QAGZj7kU48uB9EqkZCs7pAJSmBCzoPu2VbOIUkkoTG63d13cML9PR3DYa9PTIc7010/o
-         qzOlQZfaFUpYzV1tVHSVvGDWpC+1xcK7K3nvS7M0UmWILsPCgBul3tDK8jrjejt/GNSg
-         jQW8RA0N1GMrfrJ8Fz7SETIM0XJI7oaY/pb/28NVhk2B2qwLQYVZCngEQRoo0JWejqqE
-         siFA==
+        bh=9ULzXhLiAYaATPFpvnEalIX5kXyLs1u7brOKKiaSR7o=;
+        b=d4E6hpK5d326/XLdBGg7XHnbgY0IJ7RDh1vduK/f0aeQwyqTg1sbmKPjmEKVe7NReS
+         k9hd8QJ3k9ZJCw+rKefNg8V4/u95t8URgyXurnGJh2bfuc4EuKlktrwBEcqnWlVipBTh
+         nsOhubwRweli/Be+VFFWAKYcTYgYOpAuIQY4M3AfNgcupRR6WaangvzUd7FLA9n94Rcf
+         tSSJ2kR3KhowOrMUE4JQ4sXSLXBdUETSMCvmZtAP/VTucDCa4xTWB4baK5Txq/ozpDZs
+         2fdXs/Aure5+vmTLi69VA/HLwxJsKjPZUZQRiO1LFgh57cLyNxaOSJzMz0OFpBWRXjeC
+         R8Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=jRVF1bo6PI0lBFNzYTz6pYAuahARppVlslCm99RAEO0=;
-        b=lcXs7AeFMxg90B+97peggQWy2zYNE9oLfNX9XXegmJSgh8FXw2rTylzBqwX3DBbqO7
-         gItr5hbHqwfpxj24vAKXsFFUXuvtvi+zwOolEaRH+vr4P/gE5kSHgNLmWT7SKcXCLjQ6
-         8GAtWFWqkq5KEKHWxjPBLdiLMBZz71HuSdS2S/tO3VHAc1ivWhwAchUG9LOFmDjXA7V6
-         j5Mo5xcZrbj2wmQPuVxfId4ZegTxAIhgHarqgpVkLY03ao6FAAonOZFSm1bse60O8Qo9
-         DESzwkOOeykjBMdn9oWmoo/e2LQfEYcq5f118N/sPO/BNdKmm/fn3kAC4Q64fG8qHZIi
-         MEPA==
-X-Gm-Message-State: ANhLgQ1/wQvsReE0CSPuwTAU2GGxdr0LRcY5RGJAGhRHVLfa/Qb+5Dfm
-        wdkLYtcyC/8IXQPnmbuRAvk=
-X-Google-Smtp-Source: ADFU+vs0gvdmi9WeG+NlVXzXlrW7r9jGDY7a9jN2Gr4+zITgAy7L2sJZ/WJa5lyfOkm5DcX3McWTZw==
-X-Received: by 2002:a7b:cbce:: with SMTP id n14mr912657wmi.100.1585486075980;
-        Sun, 29 Mar 2020 05:47:55 -0700 (PDT)
+        bh=9ULzXhLiAYaATPFpvnEalIX5kXyLs1u7brOKKiaSR7o=;
+        b=C7kq8dD7nv99WdQrgVvTGRigVN3XuZ5Plgl1pSv+ZTtMCcMzqScjTNWdT3l18Pfckf
+         S90Qnfo7Ko5lw7wuVbmuiZJbcQDyl9DiqzGh3/bq9Pn7WpfzeGTsBezKpcnqKVtgK5Lj
+         u5vaDPJLN0B05mxPvWhaeNZdXMXt6vtiYR7OF83J3E2lYmu7CRtfMqXl1ObbLog3gOwX
+         nmI3OICtG4WngxlQkj1CZi96KJhOzYqN5Lp5aeBFr/LKUcMisVDRtogdcnIBpRh67ADA
+         /s8kLIRRmkvoF0t7php/Clu+8mpBn6vDnJYyM2rCjLoOubnhkuT73BHdnyb1O5sJLnOa
+         dgQA==
+X-Gm-Message-State: ANhLgQ0OYE0AN2Ej6O9u1OdRhbleVx1H9w1aGD/iP7R37cZVCrVr3vDr
+        HluB9Iemv+NlJjezzeb93mkG6scn
+X-Google-Smtp-Source: ADFU+vv9+6fyE21vcNOGhawWGd1h4ivrL6AlVelyD2qq9DfuLodBHPvmsfUSII1Z02kMdigxSBsafA==
+X-Received: by 2002:a5d:6045:: with SMTP id j5mr9583166wrt.401.1585486439232;
+        Sun, 29 Mar 2020 05:53:59 -0700 (PDT)
 Received: from [192.168.1.23] (afdc26.neoplus.adsl.tpnet.pl. [95.49.80.26])
-        by smtp.gmail.com with ESMTPSA id r15sm18375204wra.19.2020.03.29.05.47.54
+        by smtp.gmail.com with ESMTPSA id b199sm13186326wme.23.2020.03.29.05.53.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Mar 2020 05:47:55 -0700 (PDT)
-Subject: Re: [PATCH v18 4/4] leds: multicolor: Introduce a multicolor class
- definition
-To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg KH <gregkh@linuxfoundation.org>
-References: <20200324181434.24721-1-dmurphy@ti.com>
- <20200324181434.24721-5-dmurphy@ti.com>
- <f43bf4c5-948d-b87f-9b95-98fcfeaae2fa@gmail.com>
- <9a707fe6-31c6-da9e-9372-51ca21bf3c88@ti.com>
+        Sun, 29 Mar 2020 05:53:58 -0700 (PDT)
+Subject: Re: [PATCH RFC leds-next] leds: initial support for Turris Omnia LEDs
+To:     Marek Behun <marek.behun@nic.cz>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+References: <20200319181604.2425-1-marek.behun@nic.cz>
+ <20200321153325.GD8386@duo.ucw.cz>
+ <943a5770-ea9c-24ac-5ab3-a9a24fc6a856@gmail.com>
+ <20200328132729.5e628fe6@nic.cz> <20200328133629.79603fe3@nic.cz>
+ <00b6737b-47f8-7ea4-74b7-eee3d2aefdf3@gmail.com>
+ <20200328182025.0b33200e@nic.cz>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  xsFNBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -114,12 +114,12 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  hQNfg9em95lpAK+VOTocke8PSESy3GbEtmoMueW3caSeDHb5dRP6WrndaYhEOzAA/KjuPU7J
  LMXOABOMIq+R38y7e2B3TnVDCrccdZDseFPUWmH0cGCGihH/j2UZG+PImrSDCh3h5MedVHGo
  sI62tmWm0q6lrljwSZmMZ30w1QaGmdFpI3Q6V+nZ7TZldI3x
-Message-ID: <1263c2f9-3cb3-f919-cce8-53201d64e121@gmail.com>
-Date:   Sun, 29 Mar 2020 14:47:53 +0200
+Message-ID: <7a12c510-605c-b31f-79e6-cccf3e29c682@gmail.com>
+Date:   Sun, 29 Mar 2020 14:53:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <9a707fe6-31c6-da9e-9372-51ca21bf3c88@ti.com>
+In-Reply-To: <20200328182025.0b33200e@nic.cz>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -128,234 +128,30 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dan,
+Hi Marek,
 
-On 3/28/20 10:31 PM, Dan Murphy wrote:
-> Jacek
+On 3/28/20 6:20 PM, Marek Behun wrote:
+> On Sat, 28 Mar 2020 14:01:47 +0100
+> Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
 > 
-> Thanks for the review
-> 
-> On 3/28/20 9:03 AM, Jacek Anaszewski wrote:
->> Hi Dan,
+>> I already proposed adding a "luma" LED class device for similar
+>> case [0], but didn't here any feedback from Pavel so far.
 >>
->> Thanks for the update. The picture would be more complete if
->> the patch set contained a client though.
-> 
-> I was going to send the ones I did but they are pretty dirty from a code
-> stand point.
-> 
-> Besides I would expect the framework to change which then changes the
-> driver code.
-> 
->> Anyway, please find my review remarks below.
+>> [0]
+>> https://lore.kernel.org/linux-leds/1583502010-16210-1-git-send-email-nbelin@baylibre.com/T/#mf52c8d4f68260a445223c26957c61e6267e0932d
 >>
->> On 3/24/20 7:14 PM, Dan Murphy wrote:
->>> Introduce a multicolor class that groups colored LEDs
->>> within a LED node.
->>>
-[...]
->>> +What:        /sys/class/leds/<led>/color_max_intensity
->>> +Date:        March 2020
->>> +KernelVersion:    5.8
->>> +Contact:    Dan Murphy <dmurphy@ti.com>
->>> +Description:    read
->>> +        Maximum intensity level for the LED color within the array.
->>> +        The max intensities for each color must be entered based on the
->>> +        color_index array.
->> I wonder if we should mention here that each LED within a cluster should
->> have the same maximum intensity for linear color lightness calculation
->> via brightness file.
 > 
-> Does it really have to?
-
-Say we have two LEDs:
-
-red, intensity = 255, max_intensity = 255
-green, intensity = 15, max_intensity = 15
-
-If setting global brightness to 127 we have:
-
-led[red].brightness = 127 * 255 / 255 = 127
-led[green].brightness = 127 * 15 / 15 = 15 (cut down to max_intensity)
-
-Clearly for green LED you're not getting a value being a half of
-the intensity range.
-
-In addition to my previous statement, global max_brightness
-should also have the same value as all max color intensities.
-
-[...]
->>> +Directory Layout Example
->>> +========================
->>> +root:/sys/class/leds/multicolor:grouped_leds# ls -lR
->>> +-rw-r--r--    1 root     root          4096 Oct 19 16:16 brightness
->>> +-r--r--r--    1 root     root          4096 Oct 19 16:16 color_index
->>> +-rw-r--r--    1 root     root          4096 Oct 19 16:16
->>> color_intensity
->>> +-r--r--r--    1 root     root          4096 Oct 19 16:16
->>> color_max_intensity
->>> +-r--r--r--    1 root     root          4096 Oct 19 16:16 num_color_leds
->>> +
->>> +Multicolor Class Brightness Control
->>> +===================================
->>> +The multiclor class framework will calculate each monochrome LEDs
->>> intensity.
->>> +
->>> +The brightness level for each LED is calculated based on the color LED
->>> +intensity setting divided by the color LED max intensity setting
->>> multiplied by
->>> +the requested brightness.
->>> +
->>> +led_brightness = brightness * color_intensity/color_max_intensity
->> Maybe some pseudo code would allow for better understanding here:
->>
->> for color in color_intensity
->>      led[color].brightness = brightness *
->>     led[color].intensity / led[color].max_intensity
-> I think this would be fine at least there is a documented equation. I
-> don't think we need to document the code.
-
-You mean what would be fine - my or your solution ? :-)
-
-[...]
->>> +static ssize_t color_intensity_store(struct device *dev,
->>> +                struct device_attribute *intensity_attr,
->>> +                const char *buf, size_t size)
->>> +{
->>> +    struct led_classdev *led_cdev = dev_get_drvdata(dev);
->>> +    struct led_classdev_mc *priv = lcdev_to_mccdev(led_cdev);
->>> +    int nrchars, offset = 0;
->>> +    int intensity_value[LED_COLOR_ID_MAX];
->>> +    int i;
->>> +    ssize_t ret;
->>> +
->>> +    mutex_lock(&led_cdev->led_access);
->>> +
->>> +    for (i = 0; i < priv->num_colors; i++) {
->>> +        ret = sscanf(buf + offset, "%i%n",
->>> +                 &intensity_value[i], &nrchars);
->>> +        if (ret != 1) {
->>> +            dev_err(led_cdev->dev,
->>> +                "Incorrect number of LEDs expected %i values
->>> intensity was not applied\n",
->>> +                priv->num_colors);
->>> +            goto err_out;
->>> +        }
->>> +        offset += nrchars;
->>> +    }
->> I've just realized that moving to single color_intensity file
->> doesn't allow setting all colors together with new brightness
->> atomically. In effect, we will need to pass brightness to this file too,
->> if we want to avoid "interesting" latching via brightenss file.
->>
->> Then we would need to call led_set_brightness() from here as well.
+> Hi Jacek,
 > 
-> Why?  This just caches the intensity of each colored LED.  Then the
-> actual brightness is calculated only when the brightness file is updated.
+> in the case you mentioned there is a one "global" brightness setting per
+> each RGB LED. On Omnia, all 12 RGB LEDs have just one "global"
+> brightness property. Ie. I press the button, and all 12 LEDs glow get
+> dimmer. So there could be a 13th LED device with color LUMA, but what
+> function should it be given in DTS?
 
-And this is wrong. We should be able to set the color with a single
-write.
-
-> This would be an automatic update of the LED and that is not the intent
-> of the intensity file per the documentation.
-
-Documentation needs to be changed then.
-
-> The user should be able to set the colors x number of times before the
-> LED group is actually updated with the brightness.
-
-What benefit would stem from that? In fact we should be able to
-atomically set color in two ways, either via brightness or via
-color_intensity file.
-
-But in previous message I unnecessarily proposed the addition
-of brightness to the color_intensity interface. It is not needed
-since updating color intensities should be considered as setting
-entirely new color and that should reset global brightness to
-max_brightness.
-
-Therefore here we should call at the end:
-
-led_set_brightness(led_cdev, led_cdev->max_brightness);
-
-That will update each color LED with new brightness values which
-will correspond exactly to the color intensities just written.
-
-[...]
->>> diff --git a/include/linux/led-class-multicolor.h
->>> b/include/linux/led-class-multicolor.h
->>> new file mode 100644
->>> index 000000000000..bfbde2e98340
->>> --- /dev/null
->>> +++ b/include/linux/led-class-multicolor.h
->>> @@ -0,0 +1,124 @@
->>> +/* SPDX-License-Identifier: GPL-2.0 */
->>> +/* LED Multicolor class interface
->>> + * Copyright (C) 2019 Texas Instruments Incorporated -
->>> http://www.ti.com/
->>> + */
->>> +
->>> +#ifndef __LINUX_MULTICOLOR_LEDS_H_INCLUDED
->>> +#define __LINUX_MULTICOLOR_LEDS_H_INCLUDED
->>> +
->>> +#include <linux/leds.h>
->>> +#include <dt-bindings/leds/common.h>
->>> +
->>> +struct led_classdev_mc {
->>> +    /* led class device */
->>> +    struct led_classdev led_cdev;
->>> +
->>> +    struct device_attribute color_max_intensity_attr;
->>> +    struct device_attribute color_intensity_attr;
->>> +    struct device_attribute color_index_attr;
->> These are no longer needed as you define attrs statically.
-> Ack
->>> +
->>> +    int color_brightness[LED_COLOR_ID_MAX];
->>> +
->>> +    int color_led_intensity[LED_COLOR_ID_MAX];
->>> +    int color_led_max_intensity[LED_COLOR_ID_MAX];
->>> +    const char *color_index[LED_COLOR_ID_MAX];
->> I think that we should get back to the available_colors bitmask
->> and allow the framework to allocate arrays by itself.
->> And yes, all the above should be pointers.
->>
->> Driver would only need to set led_mcdev->available_colors bits.
-> 
-> Nack to the available_colors.  I did this originally and the issue is
-> that the driver sets the bits in available_colors and no matter what the
-> order is in the DT file the indexing is always red green and blue per
-> the LED_COLORS array.  The framework has no legitimate way to know the
-> order in which the colors were added.
-> 
-> This posed an issue with the LP55xx code as the RGB was defined with
-> different colors assigned to different channels.  Green was 0 blue was 2
-> and red was 6.  So the driver would have to map the channels to the
-> colors.  In forcing the device driver to set the color index it can then
-> map the output channels itself.  The framework should not care what
-> channel is for what color.  In either case the device driver will need
-> to store the color index mapped to the channel output but having the
-> index to color being a 1-1 mapping made the code much simpler for the
-> device driver.
-> 
-> Basically it turned out to be a simple for loop that just stored both
-> channel and color as opposed to having to re-map the colors to indexes.
-> 
-> So for the LP55xx I can get an index of green, blue red and that maps to
-> the channels per the DT.  I don't think the framework should enforce a
-> standard color index array ordering.
-
-OK, if that indeed helps simplifying the code on the driver side.
-But maybe it would be possible to come up with some generic helpers
-for color sub-LEDs initialization?
-
-> If we use the available_colors we don't even need the color_index and we
-> can just pass the available_colors to the user space as a u32 and let
-> the user space figure what colors are available. Which means the user
-> space would assume the order per the LED_COLORS array.
-
-Sysfs should be rather human readable so this would not necessarily
-need to be the case.
+Then, in this particular case, adding devicename prefix for the whole
+family of LEDs would be justified. The question is whether it should be
+hardware related name or rather something different.
 
 -- 
 Best regards,
