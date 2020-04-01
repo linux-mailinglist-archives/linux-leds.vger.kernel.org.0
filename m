@@ -2,154 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06AA2199D4A
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Mar 2020 19:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D687C19A8E8
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Apr 2020 11:51:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726788AbgCaR4X (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 31 Mar 2020 13:56:23 -0400
-Received: from mail-il1-f194.google.com ([209.85.166.194]:41618 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbgCaR4X (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 Mar 2020 13:56:23 -0400
-Received: by mail-il1-f194.google.com with SMTP id t6so16724137ilj.8;
-        Tue, 31 Mar 2020 10:56:22 -0700 (PDT)
+        id S1727620AbgDAJvy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Apr 2020 05:51:54 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40981 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725860AbgDAJvy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Apr 2020 05:51:54 -0400
+Received: by mail-wr1-f65.google.com with SMTP id h9so29737142wrc.8;
+        Wed, 01 Apr 2020 02:51:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0Yp77BX0CNsI0E9W0U3Z3mSHpIexs+AJy6eqRXEJQU0=;
-        b=B1GDjomFsIguNX7u5ig6d7O9ctxoGqf5jc9PgWFWXiCfBP26efSsq7ShChVMjCE/vi
-         6qizsSu1/ENs4cj3b+EAOnd6rOHyNFhrs4OMOOWnX/7G9izb9jDizCUdGeDPG2tsOfm6
-         19l7QT5YifrmVSsVSa0XlhnoLgXEmOsxJ6ZCZgkF2WeYTxgMnagR+Jsy3RZO7ENqUxFw
-         QSl2jCQlA6MVAF9CepySPnGRAJ0bM+8/MrT/twdKVj0814p8qujNTnGfJyCDht8ix2ZL
-         SHIDdVyqaLneoI6BZWRYT18RwKZ8kbrEwHDCvncs2kK+HOmECUfKuorRYb5HOuQeaRe1
-         TFSQ==
-X-Gm-Message-State: ANhLgQ2ja4eDqaRtYkXvBPGRVkd7OOYH4Il5aIpBo10OjWYPmx/qSO3Z
-        Pd8jgMUfMGR+h6QpTeR9TA==
-X-Google-Smtp-Source: ADFU+vtpX68rVrNJUeA4Xd7HfNw0GlkZdMwR56tGbxSge2H9UtVNk87hzwLKVeKvE6Buoj/X3b/XtA==
-X-Received: by 2002:a92:5e14:: with SMTP id s20mr18027047ilb.101.1585677381521;
-        Tue, 31 Mar 2020 10:56:21 -0700 (PDT)
-Received: from rob-hp-laptop ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id x4sm4742966ilj.6.2020.03.31.10.56.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZCD5e/zJXmKAX2xCPUbGFpEcZHshYsLsh9gx/j5UW0I=;
+        b=bi80T+giF68sM8ftFWK9bZPS+hpjXMmcYzSpq1NJje2+6fFydWLm51hR3sCeLTwMBl
+         iQuvSilcSJTLG+lxHWSyZPu8UDAma/VLD6BlQAM9PWvHQUpFOiqCkbikf3FAhdxfUkbi
+         kU5NVIKN/ujxtNU/cN8sGuYh4fASqGaAOCDioUVIo4xth3V5AkGdpGdBnIKc9PPl+dq1
+         58ZJK6HQM1Mkurm6xRGDdGaGpMtRkmImZ6LKTGs6AruxtuzivcvaUrjeC3Stq+OGjKTv
+         hFSjBH33xEk2pEkAnNl6whAmroKh6ZGrVjhFAGwdpVbC5btZL++pHHqLMN8CAEy8iCnJ
+         mndg==
+X-Gm-Message-State: ANhLgQ0aZc+4Py+5HwoYOrbbFiez6clMPblPPpdjDZXVMz2/2xP8XYA6
+        6kj0iw5P207lh7r5ovqRtuA=
+X-Google-Smtp-Source: ADFU+vvyLTq9Vwo1E/Y7vOiZ5MDDMqJghjVelLsqU/ox9sZhwAGPZinVWHQpB0MOJ//7Bng3s1r0qw==
+X-Received: by 2002:a5d:630e:: with SMTP id i14mr25120880wru.260.1585734711210;
+        Wed, 01 Apr 2020 02:51:51 -0700 (PDT)
+Received: from piling.lan (80-71-134-83.u.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id d7sm2154635wrr.77.2020.04.01.02.51.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 10:56:20 -0700 (PDT)
-Received: (nullmailer pid 27986 invoked by uid 1000);
-        Tue, 31 Mar 2020 17:56:19 -0000
-Date:   Tue, 31 Mar 2020 11:56:19 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Kiran Gunda <kgunda@codeaurora.org>
-Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
-        lee.jones@linaro.org, b.zolnierkie@samsung.com,
-        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, mark.rutland@arm.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        linux-arm-msm@vger.kernel.org,
-        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Subject: Re: [PATCH V4 3/4] backlight: qcom-wled: Add WLED5 bindings
-Message-ID: <20200331175619.GA25466@bogus>
-References: <1584985618-25689-1-git-send-email-kgunda@codeaurora.org>
- <1584985618-25689-4-git-send-email-kgunda@codeaurora.org>
+        Wed, 01 Apr 2020 02:51:50 -0700 (PDT)
+From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
+Subject: [PATCH] leds: core: Fix warning message when init_data
+Date:   Wed,  1 Apr 2020 11:51:47 +0200
+Message-Id: <20200401095147.444353-1-ribalda@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1584985618-25689-4-git-send-email-kgunda@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Mar 23, 2020 at 11:16:57PM +0530, Kiran Gunda wrote:
-> Add WLED5 specific bindings.
-> 
+The warning message when a led is renamed due to name collition can fail
+to show proper original name if init_data is used. Eg:
 
-More of the same comments here...
+[    9.073996] leds-gpio a0040000.leds_0: Led (null) renamed to red_led_1 due to name collision
 
-> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
-> Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-> ---
->  .../bindings/leds/backlight/qcom-wled.yaml         | 39 ++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-> index 8a388bf..159115f 100644
-> --- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-> +++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-> @@ -20,6 +20,7 @@ properties:
->         - qcom,pm8941-wled
->         - qcom,pmi8998-wled
->         - qcom,pm660l-wled
-> +       - qcom,pm8150l-wled
->  
->    reg:
->      maxItems: 1
-> @@ -28,10 +29,23 @@ properties:
->      maxItems: 1
->      description:
->        brightness value on boot, value from 0-4095.
-> +      For pm8150l this value vary from 0-4095 or 0-32767
-> +      depending on the brightness control mode. If CABC is
-> +      enabled 0-4095 range is used.
+Fixes: bb4e9af0348d ("leds: core: Add support for composing LED class device names")
+Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+---
+ drivers/leds/led-class.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Constraints.
+diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+index 1fc40e8af75e..3363a6551a70 100644
+--- a/drivers/leds/led-class.c
++++ b/drivers/leds/led-class.c
+@@ -376,7 +376,7 @@ int led_classdev_register_ext(struct device *parent,
+ 
+ 	if (ret)
+ 		dev_warn(parent, "Led %s renamed to %s due to name collision",
+-				led_cdev->name, dev_name(led_cdev->dev));
++				proposed_name, dev_name(led_cdev->dev));
+ 
+ 	if (led_cdev->flags & LED_BRIGHT_HW_CHANGED) {
+ 		ret = led_add_brightness_hw_changed(led_cdev);
+-- 
+2.25.1
 
->      allOf:
->        - $ref: /schemas/types.yaml#/definitions/uint32
->          default: 2048
->  
-> +  max-brightness:
-> +    maxItems: 1
-> +    description:
-> +      Maximum brightness level. Allowed values are,
-> +      for pmi8998 it is  0-4095.
-> +      For pm8150l, this can be either 4095 or 32767.
-
-Constraints!
-
-> +      If CABC is enabled, this is capped to 4095.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-
-Standard property. Assume it has a type definition.'
-
-> +
->    label:
->      maxItems: 1
->      description:
-> @@ -124,6 +138,31 @@ properties:
->        value for PM8941 from 1 to 3. Default 2
->        For PMI8998 from 1 to 4.
->  
-> +  qcom,modulator-sel:
-> +    maxItems: 1
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Selects the modulator used for brightness modulation.
-> +      Allowed values are,
-> +               0 - Modulator A
-> +               1 - Modulator B
-> +      If not specified, then modulator A will be used by default.
-> +      This property is applicable only to WLED5 peripheral.
-> +
-> +  qcom,cabc-sel:
-> +    maxItems: 1
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Selects the CABC pin signal used for brightness modulation.
-> +      Allowed values are,
-> +              0 - CABC disabled
-> +              1 - CABC 1
-> +              2 - CABC 2
-> +              3 - External signal (e.g. LPG) is used for dimming
-> +      This property is applicable only to WLED5 peripheral.
-> +
->    interrupts:
->      maxItems: 2
->      description:
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->  a Linux Foundation Collaborative Project
-> 
