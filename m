@@ -2,145 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE7E419E45A
-	for <lists+linux-leds@lfdr.de>; Sat,  4 Apr 2020 11:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92F2919E54A
+	for <lists+linux-leds@lfdr.de>; Sat,  4 Apr 2020 16:02:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725928AbgDDJ6o (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 4 Apr 2020 05:58:44 -0400
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:55732 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725837AbgDDJ6o (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 4 Apr 2020 05:58:44 -0400
-Received: by mail-pj1-f66.google.com with SMTP id fh8so4212823pjb.5;
-        Sat, 04 Apr 2020 02:58:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ft8HSD7UsUrD7cFjLoCUpLGYHcAoeTVcF8sVzqPS/y8=;
-        b=VXDfgQGb576L8wK7O0C87RvbKj5mqewuepd973cSA2ZixvCL/IuBi9/E+he2oDdr3C
-         51e3ZYKEnSx6uYljwEuILDa/7P5jTnXs1gTrvDhcyYroxcbKjaOidcHR9DOOmPTXkBA6
-         pV0f3bR1q+M67pxacwYhyg3u/IJ+ga+LijyEYnYEc6vNyWm8YcRrfxEiI49465ShXmTL
-         /Z2XuIstFDsQRYB3GWQLFPjyMWgTYSzhHXx8GDBwig4PJ1huWIlcyHt3zwi/zGV2yILc
-         rpstPZ0PY/FPc0Bw9BZqRk895/JvlEA0Ze0dfv67mEwQXuWC12BRLUyoM9CVa+QX3NvE
-         Bf8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ft8HSD7UsUrD7cFjLoCUpLGYHcAoeTVcF8sVzqPS/y8=;
-        b=HxwSp/nm4hn+Z6KZag8b5fO51vPHV43JMQY9ZzGSPQ3rFmFOAUB+Pr78MI9XBrmjfj
-         u85zXcfDmDXsDOakIYktaJNlqfATfCRD/NszoUUsfu+pmxrNCKYtSh+XD8nT6Nlsmvba
-         7oq575WgtRy3VavKw/5oH+iLLcU7oXT21TrXm3fhal7NQ75lcdsiHnHd5TgMVI38zIsV
-         jpDRuPVqqYi8PqDzTSAK7AgA6g8UeRHZvvwnuLKbed7WKiVVKxLo0gwfiRXgdaIBfhOw
-         X1QCzQA5Z9ITUm3PNecGwK6AnwcoHcc3hvBnsQyIzNKGj36FIQA7Lw12CzntsOF+8tFG
-         Hkqg==
-X-Gm-Message-State: AGi0PuauEv8q2yw2XHedw8B0Royt8wQrFPUzssZNch2urGSSlsyW0asq
-        NMjHTwvzv+qYCz81Mqyxt4oE2mr9j2hG/3c4Fi9ZVx61zHMCKg==
-X-Google-Smtp-Source: APiQypKBPJ48Tmyap/R0p+vz2QVBZNYh5Kpz+LJPocOhG7glVfW8vY1reKxEdtwrG2Zg/WY2DjTAxitlaclgogeBvOI=
-X-Received: by 2002:a17:90a:3602:: with SMTP id s2mr14578311pjb.143.1585994323275;
- Sat, 04 Apr 2020 02:58:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200330194757.2645388-1-luca@z3ntu.xyz> <20200330194757.2645388-3-luca@z3ntu.xyz>
-In-Reply-To: <20200330194757.2645388-3-luca@z3ntu.xyz>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 4 Apr 2020 12:58:31 +0300
-Message-ID: <CAHp75Vf6ZS1UGUv-okzzcDNnMtjjBjGbjsXb8w6TmGcgKdhhfA@mail.gmail.com>
+        id S1726396AbgDDOCM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 4 Apr 2020 10:02:12 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:45554 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725837AbgDDOCM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 4 Apr 2020 10:02:12 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 034E1r7f049708;
+        Sat, 4 Apr 2020 09:01:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1586008913;
+        bh=Dif16M2cO1ckD5/rwlaRsCOadJgKCZOjz8Bt7Jkd3uw=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=BFhdntI7uzitDbhQCFRPPUn9U/G5p+zKFLscJPYdE+MWtRcJieVrD4aIp/vgVYbAS
+         voWnUp3c8Emft0JVsRVlYBtXd9wWZ4UestPt575m4cXRUVB23WWxisxVKYbVEq9gsc
+         oYje+ZUFiOXon1ZzarAUt0I9bule1JGyVJTHqivk=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 034E1rpM068279
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sat, 4 Apr 2020 09:01:53 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Sat, 4 Apr
+ 2020 09:01:53 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Sat, 4 Apr 2020 09:01:53 -0500
+Received: from [10.250.52.63] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 034E1rHo043439;
+        Sat, 4 Apr 2020 09:01:53 -0500
 Subject: Re: [PATCH v2 2/2] leds: add sgm3140 driver
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>, Heiko Stuebner <heiko@sntech.de>,
-        Icenowy Zheng <icenowy@aosc.io>,
+To:     Luca Weiss <luca@z3ntu.xyz>, <linux-leds@vger.kernel.org>
+CC:     Heiko Stuebner <heiko@sntech.de>, Icenowy Zheng <icenowy@aosc.io>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Maxime Ripard <mripard@kernel.org>,
         Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ~postmarketos/upstreaming@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
+        Shawn Guo <shawnguo@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <~postmarketos/upstreaming@lists.sr.ht>
+References: <20200330194757.2645388-1-luca@z3ntu.xyz>
+ <20200330194757.2645388-3-luca@z3ntu.xyz>
+ <e29c3fee-068d-c3d7-a0e6-6877a616b3fa@ti.com> <5847770.lOV4Wx5bFT@g550jk>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <abecc052-e432-fe4d-b2dd-eb3a35b754fb@ti.com>
+Date:   Sat, 4 Apr 2020 08:56:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <5847770.lOV4Wx5bFT@g550jk>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Mar 30, 2020 at 10:49 PM Luca Weiss <luca@z3ntu.xyz> wrote:
+Luca
+
+On 4/4/20 4:36 AM, Luca Weiss wrote:
+> + fled_cdev, NULL, 
+<snip>
+>>> +					   &v4l2_sd_cfg);
+>>> +	if (IS_ERR(priv->v4l2_flash)) {
+>>> +		ret = PTR_ERR(priv->v4l2_flash);
+>>> +		goto err;
+>> Not sure why this is here you are not in a for loop and this will fall
+>> through anyway to the err label.
+>>
+> I kept the goto in, in case more code is added below that statement so the
+> author doesn't forget that this error needs to be handled.
+> If wanted I can remove it of course.
 >
-> Add a driver for the SGMICRO SGM3140 Buck/Boost Charge Pump LED driver.
->
-> This device is controlled by two GPIO pins, one for enabling and the
-> second one for switching between torch and flash mode.
+I am ok with all the reasoning in the previous comments.  This one I 
+would say just fall through to out.
 
-...
+If there is other code added after this then it can be added in.
 
-> +config LEDS_SGM3140
-> +       tristate "LED support for the SGM3140"
-> +       depends on LEDS_CLASS_FLASH
-> +       depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+Dan
 
-> +       depends on OF
-
-depends on OF || COMPILE_TEST ?
-But hold on...
-
-...
-
-> +#include <linux/of.h>
-
-Perhaps switch this to property.h and replace OF with more generic
-device property / fwnode API?
-
-...
-
-> +struct sgm3140 {
-> +       bool enabled;
-> +       struct gpio_desc *flash_gpio;
-> +       struct gpio_desc *enable_gpio;
-> +       struct regulator *vin_regulator;
-> +
-> +       /* current timeout in us */
-> +       u32 timeout;
-> +       /* maximum timeout in us */
-> +       u32 max_timeout;
-> +
-
-> +       struct led_classdev_flash fled_cdev;
-
-I guess it might be slightly better to make it first member of the
-struct (I didn't check but the rationale is to put more often used
-members at the beginning to utilize cachelines).
-
-> +       struct v4l2_flash *v4l2_flash;
-> +
-> +       struct timer_list powerdown_timer;
-> +};
-
-...
-
-> +static struct sgm3140 *flcdev_to_sgm3140(struct led_classdev_flash *flcdev)
-> +{
-> +       return container_of(flcdev, struct sgm3140, fled_cdev);
-> +}
-
-...and this becomes a no-op AFAICS (doesn't mean you need to remove it).
-
-...
-
-> +       struct device_node *child_node;
-
-> +       child_node = of_get_next_available_child(pdev->dev.of_node, NULL);
-
-> +       ret = of_property_read_u32(child_node, "flash-max-timeout-us",
-> +                                  &priv->max_timeout);
-
-> +       init_data.fwnode = of_fwnode_handle(child_node);
-
-> +       of_node_put(child_node);
-
-Device property / fwnode API?
-
---
-With Best Regards,
-Andy Shevchenko
