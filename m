@@ -2,222 +2,186 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E154719ECA5
-	for <lists+linux-leds@lfdr.de>; Sun,  5 Apr 2020 18:37:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B8BF19ED66
+	for <lists+linux-leds@lfdr.de>; Sun,  5 Apr 2020 20:45:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbgDEQhA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 5 Apr 2020 12:37:00 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:58904 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726696AbgDEQg7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 5 Apr 2020 12:36:59 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 035Gardi026340;
-        Sun, 5 Apr 2020 11:36:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1586104613;
-        bh=G6SDuQLlnW4lCFkGwgKC3dY+eDXPF0x7H5NXfle18g4=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=pyQYLYsFQ/1CzT5K9GemB0iwOvEqX5OekSyT4de2sNk7i9QWTeclIr6d+wGdSGDeQ
-         2rsyVt0XWPoMWx6eAYB4s/YQH0tqwyrwpjslgJJa6o4SDGMmNtuEREcE4xr5Np7aJ0
-         9eb2+R6OLkSPtfv4hhtIIruqAmd/OgnRlI7seFGY=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 035GarPB100000
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 5 Apr 2020 11:36:53 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Sun, 5 Apr
- 2020 11:36:53 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Sun, 5 Apr 2020 11:36:53 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 035GaqJL013966;
-        Sun, 5 Apr 2020 11:36:52 -0500
-Subject: Re: [PATCH v19 04/18] leds: multicolor: Introduce a multicolor class
- definition
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20200402204311.14998-1-dmurphy@ti.com>
- <20200402204311.14998-5-dmurphy@ti.com>
- <619a1251-d062-b9bf-6752-b867fcaa600b@infradead.org>
- <34b07ce8-6a38-f45c-4624-730f5597f686@ti.com>
- <a6b93d69-a1d5-f515-ee37-6106b50120cf@gmail.com>
- <f09dadc9-f1ed-091b-f241-2f40b48f1117@ti.com>
- <1cbe954e-76fb-9164-6b8c-af4ac70fcd05@infradead.org>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <f842723c-fbce-c7c5-4d1f-78775f2a796a@ti.com>
-Date:   Sun, 5 Apr 2020 11:31:06 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1727242AbgDESpa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 5 Apr 2020 14:45:30 -0400
+Received: from mail.z3ntu.xyz ([128.199.32.197]:53418 "EHLO mail.z3ntu.xyz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726771AbgDESpa (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 5 Apr 2020 14:45:30 -0400
+Received: by mail.z3ntu.xyz (Postfix, from userid 182)
+        id 66D30C4A48; Sun,  5 Apr 2020 18:45:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1586112327; bh=gcwe3ElP/7v212/hOuOpcAarEMfzryBhN3eyrrQNMAs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=QQTY4ckBmuk02vYdyVquWzcGkBYIMht5m93iBxL+mnlWWIIVOoV1JKJSHs36jlVr3
+         CMmiBY7zPdKxSDzdihpa9F2LjaxienpmcK2nsNNL2+7cjdXi0jXNNDtwRX+ztCo8Ya
+         ncJaqP7yE8m7swDvuAqLVNU/ngpNNDu3TN1hrPzw=
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on arch-vps
+X-Spam-Level: 
+X-Spam-Status: No, score=0.9 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        PDS_OTHER_BAD_TLD,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.4
+Received: from g550jk.localnet (80-110-124-168.cgn.dynamic.surfer.at [80.110.124.168])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 02A56C4A0D;
+        Sun,  5 Apr 2020 18:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1586112315; bh=gcwe3ElP/7v212/hOuOpcAarEMfzryBhN3eyrrQNMAs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=thro8YDa0mNSr/5s68+qG0xZMKN7QlPuGqecmo2yOyzEFKtxlKOJtuMMbCcgwwna2
+         3NtganpJu5fSJ5DShL2C7Xl+ZW81M3ooLq8UNc+DlOkRgz5W6n0RW+D+L/Q24NRFir
+         M+yqPtaTmhcqn1tsJbEFCyT2rfrdPhMG6GKRjRrc=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Dan Murphy <dmurphy@ti.com>, Heiko Stuebner <heiko@sntech.de>,
+        Icenowy Zheng <icenowy@aosc.io>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH v2 2/2] leds: add sgm3140 driver
+Date:   Sun, 05 Apr 2020 20:45:14 +0200
+Message-ID: <4437676.LvFx2qVVIh@g550jk>
+In-Reply-To: <CAHp75Vf6ZS1UGUv-okzzcDNnMtjjBjGbjsXb8w6TmGcgKdhhfA@mail.gmail.com>
+References: <20200330194757.2645388-1-luca@z3ntu.xyz> <20200330194757.2645388-3-luca@z3ntu.xyz> <CAHp75Vf6ZS1UGUv-okzzcDNnMtjjBjGbjsXb8w6TmGcgKdhhfA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1cbe954e-76fb-9164-6b8c-af4ac70fcd05@infradead.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Andy,
 
-On 4/5/20 11:28 AM, Randy Dunlap wrote:
-> On 4/5/20 9:18 AM, Dan Murphy wrote:
->> Jacek
->>
->> On 4/5/20 10:08 AM, Jacek Anaszewski wrote:
->>> Dan,
->>>
->>> On 4/3/20 4:39 PM, Dan Murphy wrote:
->>>> Randy
->>>>
->>>> Thanks for the review
->>>>
->>>> On 4/2/20 10:47 PM, Randy Dunlap wrote:
->>>>> Hi,
->>>>> Here are a few changes for you to consider:
->>>>>
->>>>> On 4/2/20 1:42 PM, Dan Murphy wrote:
->>>>>> Introduce a multicolor class that groups colored LEDs
->>>>>> within a LED node.
->>>>>>
->>>>>> The multi color class groups monochrome LEDs and allows controlling two
->>>>>         multicolor
->>>> Ack
->>>>>> aspects of the final combined color: hue and lightness. The former is
->>>>>> controlled via <color>_intensity files and the latter is controlled
->>>>>> via brightness file.
->>>>>>
->>>>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->>>>>> ---
->>>>>> diff --git a/Documentation/leds/leds-class-multicolor.rst
->>>>>> b/Documentation/leds/leds-class-multicolor.rst
->>>>>> new file mode 100644
->>>>>> index 000000000000..5bb004999248
->>>>>> --- /dev/null
->>>>>> +++ b/Documentation/leds/leds-class-multicolor.rst
->>>>>> @@ -0,0 +1,95 @@
->>>>>> +====================================
->>>>>> +Multi Color LED handling under Linux
->>>>>      Multicolor
->>>> Ack
->>>>>> +====================================
->>>>>> +
->>>>>> +Description
->>>>>> +===========
->>>>>> +The multi color class groups monochrome LEDs and allows controlling two
->>>>>          multicolor
->>>> Ack
->>>>>> +aspects of the final combined color: hue and lightness. The former is
->>>>>> +controlled via the color_intensity array file and the latter is
->>>>>> controlled
->>>>>> +via brightness file.
->>>>>> +
->>>>>> +For more details on hue and lightness notions please refer to
->>>>>> +https://en.wikipedia.org/wiki/CIECAM02.
->>>>>> +
->>>>>> +Multicolor Class Control
->>>>>> +========================
->>>>>> +The multicolor class presents files that groups the colors as
->>>>>> indexes in an
->>>>>> +array.  These files are children under the LED parent node created
->>>>>> by the
->>>>>> +led_class framework.  The led_class framework is documented in
->>>>>> led-class.rst
->>>>>> +within this documentation directory.
->>>>>> +
->>>>>> +Each colored LED will be indexed under the color_* files. The order
->>>>>> of the
->>>>>> +colors are arbitrary the color_index file can be read to determine
->>>>>> the color
->>>>>> +to index value.
->>>>>> +
->>>>>> +The color_index file is an array that contains the string list of
->>>>>> the colors as
->>>>>> +they are defined in each color_* array file.
->>>>>> +
->>>>>> +The color_intensity is an array that can be read or written to for the
->>>>>> +individual color intensities.  All elements within this array must
->>>>>> be written in
->>>>>> +order for the color LED intensities to be updated.
->>>>>> +
->>>>>> +The color_max_intensity is an array that can be read to indicate
->>>>>> each color LED
->>>>>> +maximum intensity value.
->>>>>> +
->>>>>> +The num_color_leds file returns the total number of color LEDs that are
->>>>>> +presented in each color_* array.
->>>>>> +
->>>>>> +Directory Layout Example
->>>>>> +========================
->>>>>> +root:/sys/class/leds/multicolor:status# ls -lR
->>>>>> +-rw-r--r--    1 root     root          4096 Oct 19 16:16 brightness
->>>>>> +-r--r--r--    1 root     root          4096 Oct 19 16:16 color_index
->>>>>> +-rw-r--r--    1 root     root          4096 Oct 19 16:16
->>>>>> color_intensity
->>>>>> +-r--r--r--    1 root     root          4096 Oct 19 16:16 num_color_leds
->>>>>> +
->>>>>> +Multicolor Class Brightness Control
->>>>>> +===================================
->>>>>> +The multiclor class framework will calculate each monochrome LEDs
->>>>>> intensity.
->>>>>          multicolor
->>>> Ack
->>>>>> +
->>>>>> +The brightness level for each LED is calculated based on the color LED
->>>>>> +intensity setting divided by the parent max_brightness setting
->>>>>> multiplied by
->>>>>> +the requested brightness.
->>>>>> +
->>>>>> +led_brightness = brightness * color_intensity/max_brightness
->>>>>> +
->>>>>> +Example:
->>>>>> +A user first writes the color_intensity file with the brightness levels
->>>>>> +that for each LED that is necessary to achieve a blueish violet
->>>>>> output from a
->>>>> drop first "that".
->>>> Ack
->>>>>                        that are
->>>>> necessary                                   from an
->>>> Ack and NACK the "from an".  It is from a since R is a consonant
->>> But it sounds like a vowel and this rule for creating articles
->>> "applies to the sound of the letter beginning the word, not just the
->>> letter itself" [0].
->>>
->>> [0] https://www.grammar.com/a-vs-an-when-to-use/
->>>
->> We have had the same internal debate here at work.
->>
->> How does "Red" when you say it sound like a vowel?  It is definitely a "R" sound that is first not a vowel sound.
->>
->> To me "from an RGB" does not sound correct "from a RGB" is actually correct here because R or Red still leads with a consonant in both the sound and letter.
->>
->> If it sounds as if it is beginning with a vowel sound, *use an*.  Like in "an honor" as the h is silent here.  R is not silent in Red or RGB.
-> It depends on how one reads "from a RGB." Do you say/think the letters R G B
-> (I do), or do you think/say red-green-blue?
->
->  From the [0] web page:
->   Articles with Acronyms, a or an
->
-> Finally, the rule applies to acronyms as well. If you pronounce a letter as a letter and it begins with a vowel sound, you should precede it with an. The consonants with vowel sounds include f, h, l, m, n, r, s, and x.
->
->      He flew in an SST. He fired an M‑1. He attended an FDA hearing.
->
-> By the same token, if a vowel letter, with a consonant sound, is pronounced as a letter, you should use a.
->
->      He made a U‑turn.
->
-> Got it? So what is your grade?
->
->      An A? A B? Surely not an F.
->
->
-I will change it.  Its not that big of a change and not worth a 
-continued debate
+On Samstag, 4. April 2020 11:58:31 CEST Andy Shevchenko wrote:
+> On Mon, Mar 30, 2020 at 10:49 PM Luca Weiss <luca@z3ntu.xyz> wrote:
+> > Add a driver for the SGMICRO SGM3140 Buck/Boost Charge Pump LED driver.
+> > 
+> > This device is controlled by two GPIO pins, one for enabling and the
+> > second one for switching between torch and flash mode.
+> 
+> ...
+> 
+> > +config LEDS_SGM3140
+> > +       tristate "LED support for the SGM3140"
+> > +       depends on LEDS_CLASS_FLASH
+> > +       depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+> > 
+> > +       depends on OF
+> 
+> depends on OF || COMPILE_TEST ?
+> But hold on...
+> 
+> ...
+> 
+> > +#include <linux/of.h>
+> 
+> Perhaps switch this to property.h and replace OF with more generic
+> device property / fwnode API?
+> 
 
-Dan
+I didn't find clear documentation on this, the functions in drivers/base/
+property.c can be used instead of the of_* (device tree) functions?
+
+As far as I can tell, the device_property_* functions are supposed to be used 
+for simple "give me a property for this 'struct device*'" while the fwnode_* 
+functions are used as generic equivalent of the of_* functions?
+
+So in this case I can replace 
+
+struct device_node *child_node;
+child_node = of_get_next_available_child(pdev->dev.of_node, NULL);
+
+with
+
+struct fwnode_handle *child_node;
+child_node = fwnode_get_next_available_child_node(pdev->dev.fwnode, NULL);
+
+and then instead of
+
+ret = of_property_read_u32(child_node, "flash-max-timeout-us",
+		   &priv->max_timeout);
+
+use
+
+ret = fwnode_property_read_u32(child_node, "flash-max-timeout-us",
+		            &priv->max_timeout);
+
+and finally instead of
+
+init_data.fwnode = of_fwnode_handle(child_node);
+
+I can probably directly do
+
+init_data.fwnode = child_node;
+
+Does that sound correct?
+
+> ...
+> 
+> > +struct sgm3140 {
+> > +       bool enabled;
+> > +       struct gpio_desc *flash_gpio;
+> > +       struct gpio_desc *enable_gpio;
+> > +       struct regulator *vin_regulator;
+> > +
+> > +       /* current timeout in us */
+> > +       u32 timeout;
+> > +       /* maximum timeout in us */
+> > +       u32 max_timeout;
+> > +
+> > 
+> > +       struct led_classdev_flash fled_cdev;
+> 
+> I guess it might be slightly better to make it first member of the
+> struct (I didn't check but the rationale is to put more often used
+> members at the beginning to utilize cachelines).
+> 
+> > +       struct v4l2_flash *v4l2_flash;
+> > +
+> > +       struct timer_list powerdown_timer;
+> > +};
+> 
+> ...
+> 
+> > +static struct sgm3140 *flcdev_to_sgm3140(struct led_classdev_flash
+> > *flcdev) +{
+> > +       return container_of(flcdev, struct sgm3140, fled_cdev);
+> > +}
+> 
+> ...and this becomes a no-op AFAICS (doesn't mean you need to remove it).
+> 
+> ...
+> 
+> > +       struct device_node *child_node;
+> > 
+> > +       child_node = of_get_next_available_child(pdev->dev.of_node, NULL);
+> > 
+> > +       ret = of_property_read_u32(child_node, "flash-max-timeout-us",
+> > +                                  &priv->max_timeout);
+> > 
+> > +       init_data.fwnode = of_fwnode_handle(child_node);
+> > 
+> > +       of_node_put(child_node);
+> 
+> Device property / fwnode API?
+> 
+> --
+> With Best Regards,
+> Andy Shevchenko
+
+Regards
+Luca
+
+
 
