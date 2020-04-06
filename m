@@ -2,38 +2,33 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 509EC19FFF2
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Apr 2020 23:10:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F007F19FFFC
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Apr 2020 23:13:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725933AbgDFVKG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 Apr 2020 17:10:06 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:44690 "EHLO
+        id S1725995AbgDFVNK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 Apr 2020 17:13:10 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:45032 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbgDFVKG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Apr 2020 17:10:06 -0400
+        with ESMTP id S1725895AbgDFVNK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Apr 2020 17:13:10 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 34C9C1C47EC; Mon,  6 Apr 2020 23:10:05 +0200 (CEST)
-Date:   Mon, 6 Apr 2020 23:10:04 +0200
+        id 403B91C47F0; Mon,  6 Apr 2020 23:13:08 +0200 (CEST)
+Date:   Mon, 6 Apr 2020 23:13:07 +0200
 From:   Pavel Machek <pavel@ucw.cz>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Marek Behun <marek.behun@nic.cz>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH RFC leds-next] leds: initial support for Turris Omnia LEDs
-Message-ID: <20200406211004.GC12611@amd.ucw.cz>
-References: <943a5770-ea9c-24ac-5ab3-a9a24fc6a856@gmail.com>
- <20200328132729.5e628fe6@nic.cz>
- <20200328133629.79603fe3@nic.cz>
- <00b6737b-47f8-7ea4-74b7-eee3d2aefdf3@gmail.com>
- <20200328182025.0b33200e@nic.cz>
- <7a12c510-605c-b31f-79e6-cccf3e29c682@gmail.com>
- <20200402162950.5c2847be@nic.cz>
- <f7e641a1-c113-9c33-f6bb-256a8e59b92e@gmail.com>
- <20200402225730.2e6d9154@nic.cz>
- <34c7c829-b478-1c13-ead8-12c6577febfe@gmail.com>
+Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: core: Fix warning message when init_data
+Message-ID: <20200406211307.GD12611@amd.ucw.cz>
+References: <20200401095147.444353-1-ribalda@kernel.org>
+ <ef851b8f-0232-ab09-482e-ae575fb8dbde@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Qbvjkv9qwOGw/5Fx"
+        protocol="application/pgp-signature"; boundary="P+33d92oIH25kiaB"
 Content-Disposition: inline
-In-Reply-To: <34c7c829-b478-1c13-ead8-12c6577febfe@gmail.com>
+In-Reply-To: <ef851b8f-0232-ab09-482e-ae575fb8dbde@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -41,56 +36,62 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---Qbvjkv9qwOGw/5Fx
+--P+33d92oIH25kiaB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
-
-> >>> so now we have
-> >>>   device:color:function
-> >>> what if we made it so that there was a 4th part of LED name, ie
-> >>>   group:device:color:function
-> >>> ?
-> >>>
-> >>> Would this be a problem? =20
-> >>
-> >> Indeed, the device alone would not be a sufficient differentiator
-> >> since it is possible to have more than one LED controller of the
-> >> same type on the board.
-> >>
-> >> Nonetheless, I'd rather avoid the addition of a new generic section.
-> >> Probably we would have to make it specific to this device.
-> >>
-> >=20
-> > Ok, in that case I will do it so that devicename is "omnia".
-> > devicename_mandatory should be set to true, yes?
+On Wed 2020-04-01 21:49:00, Jacek Anaszewski wrote:
+> Hi Ricardo,
 >=20
-> If you want to have four sections then you must compose LED
-> name yourself and not use new *ext() API. But please hold on,
-> since I suppose Pavel will have something to add to that.
+> Thank you for the patch.
+>=20
+> On 4/1/20 11:51 AM, Ricardo Ribalda Delgado wrote:
+> > The warning message when a led is renamed due to name collition can fail
+> > to show proper original name if init_data is used. Eg:
+> >=20
+> > [    9.073996] leds-gpio a0040000.leds_0: Led (null) renamed to red_led=
+_1 due to name collision
+> >=20
+> > Fixes: bb4e9af0348d ("leds: core: Add support for composing LED class d=
+evice names")
+> > Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+> > ---
+> >  drivers/leds/led-class.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> > index 1fc40e8af75e..3363a6551a70 100644
+> > --- a/drivers/leds/led-class.c
+> > +++ b/drivers/leds/led-class.c
+> > @@ -376,7 +376,7 @@ int led_classdev_register_ext(struct device *parent,
+> > =20
+> >  	if (ret)
+> >  		dev_warn(parent, "Led %s renamed to %s due to name collision",
+> > -				led_cdev->name, dev_name(led_cdev->dev));
+> > +				proposed_name, dev_name(led_cdev->dev));
+> > =20
+> >  	if (led_cdev->flags & LED_BRIGHT_HW_CHANGED) {
+> >  		ret =3D led_add_brightness_hw_changed(led_cdev);
+> >=20
+>=20
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 
-Lets just handle global brightness outside LED subsystem.
-
-And drop the omnia: .. it is useless. For some of your leds it should
-be "ethX:...:activity".
-
-Best regards,
+Thanks, applied.
 									Pavel
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---Qbvjkv9qwOGw/5Fx
+--P+33d92oIH25kiaB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXouarAAKCRAw5/Bqldv6
-8q3AAJwNBgJY/bEDE2Hkh1NB5NsT+FaehQCgiIsuy5UOdhkEQvjDBY8Ybavyv9g=
-=wCKY
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXoubYwAKCRAw5/Bqldv6
+8v9UAJwKQZAnZW36XiePXAyyOrCUgSLxCgCgnW6AbwGI7UI3O8EXyEB+c3tRsOA=
+=61Fb
 -----END PGP SIGNATURE-----
 
---Qbvjkv9qwOGw/5Fx--
+--P+33d92oIH25kiaB--
