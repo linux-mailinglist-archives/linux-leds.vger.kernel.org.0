@@ -2,94 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B39919F1B8
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Apr 2020 10:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E9B819F1CC
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Apr 2020 10:49:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726670AbgDFIkG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 Apr 2020 04:40:06 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:52522 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726533AbgDFIkG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Apr 2020 04:40:06 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 0F7891C4505; Mon,  6 Apr 2020 10:40:05 +0200 (CEST)
-Date:   Mon, 6 Apr 2020 10:40:04 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek Behun <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: [PATCH RFC leds-next] leds: initial support for Turris Omnia LEDs
-Message-ID: <20200406084004.GB31120@duo.ucw.cz>
-References: <20200319181604.2425-1-marek.behun@nic.cz>
- <20200321225342.7651547b@nic.cz>
- <20200321221653.GA13329@amd>
- <20200321233638.587d94cc@nic.cz>
+        id S1726647AbgDFIta (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 Apr 2020 04:49:30 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:52232 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726533AbgDFIta (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Apr 2020 04:49:30 -0400
+Received: by mail-wm1-f65.google.com with SMTP id t203so5263544wmt.2
+        for <linux-leds@vger.kernel.org>; Mon, 06 Apr 2020 01:49:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=hB/cttD2PIQJrbz4bzuL3i++GH0OSgasFqo3xqjEQAo=;
+        b=KlcQa7lIt+n/wVEV8JdYNkiUDQQp+hGTfkU1Mu02PywtjHqp63UeXe/YmyUw018Kdc
+         lpl1WphuIEEQUPCuEbfiYH37JUXWUTrg26Sf4c64ZSxRRDOVgszt6TP6yfeIKKv4bnBC
+         w3jj2IBcjWCz177Pxk5VvdWa2Y40lDC/vS6pXi98sdU+jDGOH7l9ozbD6p+C4Ah8Nsap
+         AB/D6Od+pOXPDjy792trBcGT+iJ0/81trVcYIVx4YxoA9gCgCvFxxtHf0GNkk09CRmxo
+         BTql6k2kwaGkNcIiaIY/53x86i7F0xHwY9eXlCwZPZzQEaMUhBuLdt9X9dmS8LyJB3ZM
+         EsVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=hB/cttD2PIQJrbz4bzuL3i++GH0OSgasFqo3xqjEQAo=;
+        b=Rb9JnVCin3l1p8IaER6UtBnffV2Qx+A7yi2T3vlYKZEGbewish1+91o9+7BKy6XGT2
+         WK2sxoak6i8nZ49W1yFHKqCbI9rn4O2X75Ed+nLiS08+c7snDRd1omAjZN5kXwlfXwja
+         kD7OjGB5Q3rMCTP54PKetgzLMCA48vgPQOILOJPz6aeEjNWActIW4TR/8ozupUoZZrla
+         uz1SdVqWXB6ScbzjSMbM0Nmvs0Jersyag6monUK0+sR8x16w2IaaiZ60OYGyuYkhksPM
+         1mov9tX7OJRly+825G3DGam65NQn7acanRpgGYL6tgxJR6xt21L9BZEjzSHd3v4+92dM
+         LMmQ==
+X-Gm-Message-State: AGi0PuahbgjsxOEXlt2B5+ptRTMVIuoHjLRcZcuXxeBSJNM0CCqvHVUF
+        n/rUqhMkaWR4lJtoJQNmhQiuig==
+X-Google-Smtp-Source: APiQypL6NsZE4UH6W7CHGi4ojlUeqMxw4vdKpXkAYqw432CMd+116S8Nw19uLsayC9FcZNch4FCf5A==
+X-Received: by 2002:a1c:9d84:: with SMTP id g126mr6730754wme.184.1586162968744;
+        Mon, 06 Apr 2020 01:49:28 -0700 (PDT)
+Received: from dell ([2.27.35.179])
+        by smtp.gmail.com with ESMTPSA id t26sm14548888wmj.12.2020.04.06.01.49.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2020 01:49:27 -0700 (PDT)
+Date:   Mon, 6 Apr 2020 09:50:24 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+Cc:     kgunda@codeaurora.org, Rob Herring <robh@kernel.org>,
+        bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, mark.rutland@arm.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        linux-arm-msm@vger.kernel.org,
+        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Subject: Re: [PATCH V4 1/4] backlight: qcom-wled: convert the wled bindings
+ to .yaml format
+Message-ID: <20200406085024.GF30614@dell>
+References: <1584985618-25689-1-git-send-email-kgunda@codeaurora.org>
+ <1584985618-25689-2-git-send-email-kgunda@codeaurora.org>
+ <20200331175401.GA9791@bogus>
+ <ac8f25113a3bb233c11fd7cd9e62c2cf@codeaurora.org>
+ <20200403114651.m6rholzufzqinanc@holly.lan>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="6sX45UoQRIJXqkqR"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200321233638.587d94cc@nic.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200403114651.m6rholzufzqinanc@holly.lan>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Fri, 03 Apr 2020, Daniel Thompson wrote:
 
---6sX45UoQRIJXqkqR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Fri, Apr 03, 2020 at 04:45:49PM +0530, kgunda@codeaurora.org wrote:
+> > On 2020-03-31 23:24, Rob Herring wrote:
+> > > On Mon, Mar 23, 2020 at 11:16:55PM +0530, Kiran Gunda wrote:
+> > > > diff --git
+> > > > a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> > > > b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> > > > new file mode 100644
+> > > > index 0000000..8a388bf
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+> > > > @@ -0,0 +1,184 @@
+> > > > +# SPDX-License-Identifier: GPL-2.0-only
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Binding for Qualcomm Technologies, Inc. WLED driver
+> > > > +
+> > > > +maintainers:
+> > > > +  - Lee Jones <lee.jones@linaro.org>
+> > > 
+> > > Should be the h/w owner (you), not who applies patches.
+> > > 
+> > will address in next post.
+> > <snip>
+> > will address in next post.
+> > <snip>
+> > will address in next post.
+> > <snip>
+> > will address in next post.
+> > <snip>
+> > will address in next post.
+> > <snip>
+> > will address in next post.
+> > <snip>
+> > will address in next post.
+> > <snip>
+> > will address in next post.
+> > <snip>
+> > will address in next post.
+> 
+> If you agree on all points raised I doubt there is any need for a point
+> by point reply since everyone who reads it will have to scroll down
+> simply to find out that you agree on all points.
+> 
+> Better just to acknowledge the feedback and reply to the first one
+> saying you'll agree on all points and will address all feedback in the
+> next revision (and then trim the reply to keep it short).
 
-On Sat 2020-03-21 23:36:38, Marek Behun wrote:
-> On Sat, 21 Mar 2020 23:16:53 +0100
-> Pavel Machek <pavel@ucw.cz> wrote:
->=20
-> > Hi!
-> >=20
-> > > The microcontroller on Turris Omnia supports more settings than just
-> > > LEDs (usb3 port power and input button for example).
-> > >=20
-> > > I am wondering if this approach (registering LED driver to
-> > > communicate with the microcontroller) is correct, since the
-> > > microcontroller can do other things.
-> > >=20
-> > > For Turris Mox firmware I created a driver in
-> > > drivers/firmware/turris-mox-rwtm.c. =20
-> >=20
-> > this should be drivers/platform/turris/, I believe. It is not
-> > _firmware_, is it?
->=20
-> It is code that interacts with the firmware. It already is merged in
-> drivers/firmware/. The raspberrypi firmware interacting drivers is
-> also
+Or better still, just submit the next revision with all the fixes. :)
 
-Everything has firmware these days, so everything is interacting with
-firmware. We have drivers/platform, not drivers/firmware/sata.
-
-drivers/firmware is for firmware that runs on _main_ CPU.
-
-drivers/platform is for talking with embedded controllers (that may
-have their own firmware).
-
-But I suggest you put it all into drivers/leds for now, and then maybe
-move it, because otherwise it will be nightmare for maintainers.
-
-Best regards,
-								Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---6sX45UoQRIJXqkqR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXorq5AAKCRAw5/Bqldv6
-8kO1AJ9vaVCkeEePazUYdxA36WYGt9EQ4QCfSmjhusuGG+8ojHjjc/VHR8OmmUI=
-=pElr
------END PGP SIGNATURE-----
-
---6sX45UoQRIJXqkqR--
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
