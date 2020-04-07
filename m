@@ -2,56 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64AC31A16B8
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Apr 2020 22:23:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F5551A1730
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Apr 2020 23:08:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726277AbgDGUXb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Apr 2020 16:23:31 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:55453 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726370AbgDGUXa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Apr 2020 16:23:30 -0400
-Received: by mail-wm1-f67.google.com with SMTP id e26so3020558wmk.5
-        for <linux-leds@vger.kernel.org>; Tue, 07 Apr 2020 13:23:28 -0700 (PDT)
+        id S1726444AbgDGVIf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Apr 2020 17:08:35 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37231 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbgDGVIf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Apr 2020 17:08:35 -0400
+Received: by mail-wm1-f66.google.com with SMTP id j19so3342336wmi.2;
+        Tue, 07 Apr 2020 14:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=BiCps6vbiZbIIkaC+xH2aIUN8IFOe0u1RbaysaGz3U0=;
-        b=Cn9w5tqlozsHyMLWEnWmMIOxDe9s/huHBxgz1jcEqlhe3t9VJoVprPgyx6JNbyX+2/
-         f2C4rmChEXVtEh57Q9w5VxUyRwdbcaLkXWipkO8/egn3Qcy9p4y9oZoMT0iOnHLxOzvH
-         uGPmHs8dwA9DQZbQf5AFw+9h4fTgJUcQrHIq/pVSDo7hHxENJ20B7IzPpsctcbu2X5Eh
-         ep2aLOeYpOCj2JZ7jxxFbi+YZA2MwbQJxZxFc3O/ywpAvlqG1lg4OCDJ4fVDnIcj0Mw9
-         B2t09PCE614zhhNo3/QdGajUH7oQC/FxaJVcARh5cp3R8id1ofzikT1MaFUlio/4B8mj
-         gcLQ==
+        bh=Nu+B2/w9coH9HPVWoQt6VXSSZZQEj3l54ykzI9s+TtE=;
+        b=Z9ChcA/fJIRtnlXeS0z9quhp9NAlAIzQq9MMBiHAYx+5DKs5Nld+oRXkZDZ8lalTn/
+         MAZMOpT7xmtwqoV/7p295bRHmBEmdA1pqa5qf9UZz/JCdfo8tO4css0gnQBXZQbLwbKW
+         D0fDz1VuZ/TdyMJOzBR/VflJ2P0qNEymRGIGKqvRHxQgCnvifOo6icoE7RojGdS2Y06B
+         AfuJpqWDzy9CIdOUsSng6A0lC1atCwzJEDy/oJgncaREFEzDYpLHnfkecxB4I5PAoKB5
+         gagc3m6I0Lze++uDbwurl4U+1HwpxgYpwJUuOb2/OnhTFDhRpeXkUyuO98LZoH91a0oE
+         /kiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=BiCps6vbiZbIIkaC+xH2aIUN8IFOe0u1RbaysaGz3U0=;
-        b=saVnI9KZrg5fU4vyQjU8n9DYyzrzk21MLA/gydaPjzKedtuJJafoeAYLlVfR4jsJVv
-         yhI4iWFTntITD6tMMtsuUFOQaObjtQ+6C0oUA36YBs+jb/J/kX3n0EDtBXMLgekUMqY8
-         WVV71EriPF7dWtlvTERBdfQXoPee0YIIdfzwnymNS+8uHwHApKhYzaQDwI+ZmuwF2Q6f
-         fCZKP5Ud/cyQMvwhyCbWyKKR3i7FYUiDOqANWtDNLaHtEI1HQWisy2bkSTvcy8UEibJY
-         gkwSXOGYsz3QvWxQK05WTgX+q7jERVQBmQ8L6z/152MUEn63XRNQaWhKlkLZ9gJYLL1/
-         AFOg==
-X-Gm-Message-State: AGi0PuZ48S15uNhXisoSMnYbyD5Qbrkdv76tCs7whnBYfUkKHcRHTkkx
-        8btVDXuUbO+62m66V7UrIpsAFgXz
-X-Google-Smtp-Source: APiQypJTc5uMgoGxesnvLF6tmfEnXhNqH5m2r/n2hIcHqNOTJnngNWjEOlRaQgNzETHYeZxjdBd49g==
-X-Received: by 2002:a1c:f407:: with SMTP id z7mr1035858wma.36.1586291007619;
-        Tue, 07 Apr 2020 13:23:27 -0700 (PDT)
+        bh=Nu+B2/w9coH9HPVWoQt6VXSSZZQEj3l54ykzI9s+TtE=;
+        b=LUpRcJ/yBLhIzNsILhaGw/9evH7aZ4DN2LogGZPF8g3RKMWUE8IZqnZqRO4JNTKV1N
+         SQRyDbRJiyUhMonAUrpMgpX9NzJNS1+adgLtVwIlBMdWSaYb2qxExP2yo7H8DRLCTcaL
+         dQxeZSMFOWw8MD678iQ1pOlHlgYtPu4YxF9/eqxq0kbZcBCp4nvDWt2Fab8SJCXfmQOw
+         hewHlVPDgt/7DQbweak6mb5x68TQlXNdGCnrm49SJWBuXfHlgyTqXG4SrfUJsyhHOa4G
+         23E+E9JvMBBcDmPaX6X/30kyKWldHk4G6s2Av0EBmuLQkC4hShVeO4YzeLRkhQmowM9o
+         58jQ==
+X-Gm-Message-State: AGi0PuZNsip1WuKEgaAp5uzgtNmZtc6ZaHO/Re8EIUc6FLBsuqjmzjoW
+        26vbmDa+N9cqOlDiXUfgCkpCkTD7
+X-Google-Smtp-Source: APiQypJ9iWY+y2MUpm6jn5Jq2XuCdFIVwsxbX38gurI72Xb9r5YHS0T7oLRFlwo5kH4HK+R9+Ha39A==
+X-Received: by 2002:a7b:cfc9:: with SMTP id f9mr1225854wmm.137.1586293709773;
+        Tue, 07 Apr 2020 14:08:29 -0700 (PDT)
 Received: from [192.168.1.23] (acgc191.neoplus.adsl.tpnet.pl. [83.9.230.191])
-        by smtp.gmail.com with ESMTPSA id j31sm26588419wre.36.2020.04.07.13.23.25
+        by smtp.gmail.com with ESMTPSA id a145sm4250639wmd.20.2020.04.07.14.08.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Apr 2020 13:23:26 -0700 (PDT)
-Subject: Re: Cleanups in "next" tree
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org
-References: <20200322115906.GA10623@duo.ucw.cz>
- <3a103317-b9fb-5d0f-6944-0114b9af1629@gmail.com> <20200402225745.GA9830@amd>
- <a4802e70-106b-3476-536f-1d8798ce156f@gmail.com>
- <20200407072854.GA18673@amd.ucw.cz>
+        Tue, 07 Apr 2020 14:08:29 -0700 (PDT)
+Subject: Re: [PATCH v19 04/18] leds: multicolor: Introduce a multicolor class
+ definition
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200402204311.14998-1-dmurphy@ti.com>
+ <20200402204311.14998-5-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  xsFNBFWjfaEBEADd66EQbd6yd8YjG0kbEDT2QIkx8C7BqMXR8AdmA1OMApbfSvEZFT1D/ECR
@@ -112,13 +111,13 @@ Autocrypt: addr=jacek.anaszewski@gmail.com; prefer-encrypt=mutual; keydata=
  hQNfg9em95lpAK+VOTocke8PSESy3GbEtmoMueW3caSeDHb5dRP6WrndaYhEOzAA/KjuPU7J
  LMXOABOMIq+R38y7e2B3TnVDCrccdZDseFPUWmH0cGCGihH/j2UZG+PImrSDCh3h5MedVHGo
  sI62tmWm0q6lrljwSZmMZ30w1QaGmdFpI3Q6V+nZ7TZldI3x
-Message-ID: <7be0ce37-235d-9069-ea6e-1d353cc14729@gmail.com>
-Date:   Tue, 7 Apr 2020 22:23:24 +0200
+Message-ID: <b27b21bf-9a7a-8233-d033-17bae43b297d@gmail.com>
+Date:   Tue, 7 Apr 2020 23:08:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200407072854.GA18673@amd.ucw.cz>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20200402204311.14998-5-dmurphy@ti.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -126,66 +125,101 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 4/7/20 9:28 AM, Pavel Machek wrote:
-> Hi!
-> 
->>> I'm sorry I failed to meet your high expectations... But I don't
->>> believe I done anything completely outside of usual kernel procedures.
->>
->> I believe code review is quite usual kernel procedure.
-> 
-> I don't disagree with that.
-> 
->>> Could you list the patches and objections you have?
->>
->> I already expressed my concerns regarding Turris Omnia patch.
-> 
-> Ok.
-> 
->> My comments regarding remaining patches:
->>
->> - "Make label "white:power" to be consistent with"
->>
->> I disagree here. "system" was OK.
-> 
-> It was too vague... I know the hardware and it is a LED above power
-> button used as a power indicator.
-> 
->> - "Warn about old defines that probably should not be used."
->>
->> Obsolete is only LED_FULL, so the comment is in wrong line
-> 
-> No, all of them are bad. Maybe LED_OFF could be used going forward,
-> but... it is simply easier to write 0. The type is not really an en
-> enumeration, it is brightness, with variable maximum value.
+Dan,
 
-In this case brightness should be turned into an int and the change
-should be applied throughout the whole kernel. Otherwise it is
-questionable - why all enums are made obsolete if the type of struct
-led_classdev's brightness property is still enum led_brightness?
-Do we have some replacement? - one could ask.
+One more nit below.
 
+On 4/2/20 10:42 PM, Dan Murphy wrote:
+> Introduce a multicolor class that groups colored LEDs
+> within a LED node.
 > 
->> - "Group LED functions according to functionality, and add some"
->>
->> You're adding here some random comments referencing obsolete
->> naming. I think that it is enough to say what is current standard.
-> 
-> Ok, I'll drop that part. But I really want to get that documented
-> _somewhere_, because obsolete naming is currently in use, and we won't
-> be able to change it :-(.
+> The multi color class groups monochrome LEDs and allows controlling two
+> aspects of the final combined color: hue and lightness. The former is
+> controlled via <color>_intensity files and the latter is controlled
+> via brightness file.
+[...]
+>  # LED Platform Drivers
+> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
+> new file mode 100644
+> index 000000000000..838b1d679647
+> --- /dev/null
+> +++ b/drivers/leds/led-class-multicolor.c
+> @@ -0,0 +1,206 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// LED Multi Color class interface
+> +// Copyright (C) 2019-20 Texas Instruments Incorporated - http://www.ti.com/
+> +// Author: Dan Murphy <dmurphy@ti.com>
+> +
+> +#include <linux/device.h>
+> +#include <linux/init.h>
+> +#include <linux/led-class-multicolor.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/uaccess.h>
+> +
+> +#include "leds.h"
+> +
+> +int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+> +				 enum led_brightness brightness)
+> +{
+> +	struct led_classdev *led_cdev = &mcled_cdev->led_cdev;
+> +	int i;
+> +
+> +	for (i = 0; i < mcled_cdev->num_colors; i++)
+> +		mcled_cdev->multicolor_info[i].color_brightness = (brightness *
 
-You've pushed it out anyway...
+If you passed temporary array for collecting calculated brightness
+items to this function then you could remove this color_brightness
+field from struct multicolor_info.
 
->> Also, I had a patch [0] describing standard LED functions in my LED
->> naming patch set, but it was not merged. It could be worth getting
->> back to it at this occasion.
-> 
-> I'll take a look.
-> 
-> Best regards,
-> 									Pavel
-> 
+> +					  mcled_cdev->multicolor_info[i].color_led_intensity /
+> +					  led_cdev->max_brightness);
+> +
+> +	return 0;
+[...]
+> +MODULE_AUTHOR("Dan Murphy <dmurphy@ti.com>");
+> +MODULE_DESCRIPTION("Multi Color LED class interface");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
+> new file mode 100644
+> index 000000000000..a6a3715c0d48
+> --- /dev/null
+> +++ b/include/linux/led-class-multicolor.h
+> @@ -0,0 +1,121 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* LED Multicolor class interface
+> + * Copyright (C) 2019-20 Texas Instruments Incorporated - http://www.ti.com/
+> + */
+> +
+> +#ifndef __LINUX_MULTICOLOR_LEDS_H_INCLUDED
+> +#define __LINUX_MULTICOLOR_LEDS_H_INCLUDED
+> +
+> +#include <linux/leds.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +struct led_multicolor_info {
+
+s/led_multicolor_info/led_mc_subled/ ?
+
+> +	int color_index;
+> +	int color_brightness;
+
+This should not be needed.
+
+> +	int color_led_intensity;
+> +	int color_channel;
+> +};
+> +
+> +struct led_classdev_mc {
+> +	/* led class device */
+> +	struct led_classdev led_cdev;
+> +	int num_colors;
+> +
+> +	struct led_multicolor_info multicolor_info[LED_COLOR_ID_MAX];
+
+
+
+> +};
 
 -- 
 Best regards,
