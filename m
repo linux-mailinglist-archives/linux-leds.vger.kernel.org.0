@@ -2,96 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F007F19FFFC
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Apr 2020 23:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 432961A0631
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Apr 2020 07:12:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725995AbgDFVNK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 Apr 2020 17:13:10 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:45032 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725895AbgDFVNK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Apr 2020 17:13:10 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 403B91C47F0; Mon,  6 Apr 2020 23:13:08 +0200 (CEST)
-Date:   Mon, 6 Apr 2020 23:13:07 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: core: Fix warning message when init_data
-Message-ID: <20200406211307.GD12611@amd.ucw.cz>
-References: <20200401095147.444353-1-ribalda@kernel.org>
- <ef851b8f-0232-ab09-482e-ae575fb8dbde@gmail.com>
+        id S1726883AbgDGFMo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Apr 2020 01:12:44 -0400
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:44712 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726882AbgDGFMm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Apr 2020 01:12:42 -0400
+Received: by mail-yb1-f195.google.com with SMTP id 11so1127470ybj.11
+        for <linux-leds@vger.kernel.org>; Mon, 06 Apr 2020 22:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=m9m/DCsFRus/zRmIuphflM5sHyenmkMN/TOEnECOGthbLJHVg8u2+iqtFZpNbyb2/k
+         2tLF//qwyXGtNVJKRleGUy+KbEtVjN+06Aw6FbGL98d5M/QEqB9c9SHaIsBPFlQYoUCh
+         Lj+P9EPUGdvyQRip4KeH3oSvDVhqDTV0IJcbcI66BzYP/b9Y/1y4LF++1q0teLhPl3GM
+         v15gBTxOBB8qvH4CNaCnwdm2sugBL+St8qIlm7SqBWweWj6hdsos1F0mjeWO8qJt64R9
+         xl3tya8AfljNAFdSOkZ4tC7INitomO8JQPFHHcp+JAODUsaup01At9KIYDntXEoTQZb0
+         DmdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=FZvDzPmuW7WPmjDIFF79NOTfhkraA9083ZQyipn79nbBUTaSKRhFemhxNYlPBcb7jv
+         k2Q86vCvyYFFeub8SCHFyq27q5Fm3h9RqNtRhBRr+jUaEOyMTglx063VFO32BvU2Zpfy
+         9CzKp7SXEb4Z83iYh0UDGRUDyGpkMsXARTq2QrFfJkKqCfjQzw6UxiSDGLPZNzks/jAr
+         xXannnn0yUwVDzCJfeYG9hg3SGQFJn/fvtVYdQIYUZtuYuRuk+X7yIXE3RyRsRIp3lCn
+         h2PsgxMy2wEwvjgLfJFfOGv+d2z+fQTYIJbmxS8z/Il8sExCpThdyH2xThO/+bj9squk
+         w8gQ==
+X-Gm-Message-State: AGi0PuaLFmXZytMNi0KNu3t1woEPx/vqSSJjpYsOLnfr/BVeKbcGL5GI
+        KNmFg8LMcielJICXhW8AFc1giWVvfYRdNvubhgP+Tnpk3/Q=
+X-Google-Smtp-Source: APiQypIYXniGQUHEpASwiGNjKth4Cu9ElCz4yjrJ2uXbYBYunhfz0887D/TRydUbTstl7MwaeVftG8QxF1P80ST3qos=
+X-Received: by 2002:ab0:a9:: with SMTP id 38mr504317uaj.61.1586236361040; Mon,
+ 06 Apr 2020 22:12:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="P+33d92oIH25kiaB"
-Content-Disposition: inline
-In-Reply-To: <ef851b8f-0232-ab09-482e-ae575fb8dbde@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:ab0:4929:0:0:0:0:0 with HTTP; Mon, 6 Apr 2020 22:12:40 -0700 (PDT)
+From:   SANDRA DEWI <dewisandra154@gmail.com>
+Date:   Tue, 7 Apr 2020 05:12:40 +0000
+Message-ID: <CABRVPWys0xe4CWBkaU0ZXQW+4d=tjDOjyo8cKohc5-VFkWPkcA@mail.gmail.com>
+Subject: whether this is your correct email address or not
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Dear ,Pastor
 
---P+33d92oIH25kiaB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed 2020-04-01 21:49:00, Jacek Anaszewski wrote:
-> Hi Ricardo,
->=20
-> Thank you for the patch.
->=20
-> On 4/1/20 11:51 AM, Ricardo Ribalda Delgado wrote:
-> > The warning message when a led is renamed due to name collition can fail
-> > to show proper original name if init_data is used. Eg:
-> >=20
-> > [    9.073996] leds-gpio a0040000.leds_0: Led (null) renamed to red_led=
-_1 due to name collision
-> >=20
-> > Fixes: bb4e9af0348d ("leds: core: Add support for composing LED class d=
-evice names")
-> > Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
-> > ---
-> >  drivers/leds/led-class.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> > index 1fc40e8af75e..3363a6551a70 100644
-> > --- a/drivers/leds/led-class.c
-> > +++ b/drivers/leds/led-class.c
-> > @@ -376,7 +376,7 @@ int led_classdev_register_ext(struct device *parent,
-> > =20
-> >  	if (ret)
-> >  		dev_warn(parent, "Led %s renamed to %s due to name collision",
-> > -				led_cdev->name, dev_name(led_cdev->dev));
-> > +				proposed_name, dev_name(led_cdev->dev));
-> > =20
-> >  	if (led_cdev->flags & LED_BRIGHT_HW_CHANGED) {
-> >  		ret =3D led_add_brightness_hw_changed(led_cdev);
-> >=20
->=20
-> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 
-Thanks, applied.
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+I have a client who is an oil business man and he made a fixed deposit
+of $26 million USD in my bank, where I am the director of the branch,
+My client died with his entire family in Jordanian
 
---P+33d92oIH25kiaB
-Content-Type: application/pgp-signature; name="signature.asc"
+50% of the fund will be for the church  for the work of God,the
+balance 50% we share it in the ratio of 50/50. Meaning 50% to you and
+50% for me
 
------BEGIN PGP SIGNATURE-----
+intervention in the Syrian Civil War 2014 leaving behind no next of
+kin. I Propose to present you as next of kin to claim the funds, if
+interested reply me for full details and how we are to
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXoubYwAKCRAw5/Bqldv6
-8v9UAJwKQZAnZW36XiePXAyyOrCUgSLxCgCgnW6AbwGI7UI3O8EXyEB+c3tRsOA=
-=61Fb
------END PGP SIGNATURE-----
 
---P+33d92oIH25kiaB--
+
+proceed to close this deal.
+
+
+
+
+Mrs. Sandra Dewi
+
+
+
+Email  mrsdewi@gmx.com
