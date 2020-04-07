@@ -2,80 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 432961A0631
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Apr 2020 07:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9795D1A0849
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Apr 2020 09:28:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726883AbgDGFMo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Apr 2020 01:12:44 -0400
-Received: from mail-yb1-f195.google.com ([209.85.219.195]:44712 "EHLO
-        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726882AbgDGFMm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Apr 2020 01:12:42 -0400
-Received: by mail-yb1-f195.google.com with SMTP id 11so1127470ybj.11
-        for <linux-leds@vger.kernel.org>; Mon, 06 Apr 2020 22:12:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
-        b=m9m/DCsFRus/zRmIuphflM5sHyenmkMN/TOEnECOGthbLJHVg8u2+iqtFZpNbyb2/k
-         2tLF//qwyXGtNVJKRleGUy+KbEtVjN+06Aw6FbGL98d5M/QEqB9c9SHaIsBPFlQYoUCh
-         Lj+P9EPUGdvyQRip4KeH3oSvDVhqDTV0IJcbcI66BzYP/b9Y/1y4LF++1q0teLhPl3GM
-         v15gBTxOBB8qvH4CNaCnwdm2sugBL+St8qIlm7SqBWweWj6hdsos1F0mjeWO8qJt64R9
-         xl3tya8AfljNAFdSOkZ4tC7INitomO8JQPFHHcp+JAODUsaup01At9KIYDntXEoTQZb0
-         DmdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
-        b=FZvDzPmuW7WPmjDIFF79NOTfhkraA9083ZQyipn79nbBUTaSKRhFemhxNYlPBcb7jv
-         k2Q86vCvyYFFeub8SCHFyq27q5Fm3h9RqNtRhBRr+jUaEOyMTglx063VFO32BvU2Zpfy
-         9CzKp7SXEb4Z83iYh0UDGRUDyGpkMsXARTq2QrFfJkKqCfjQzw6UxiSDGLPZNzks/jAr
-         xXannnn0yUwVDzCJfeYG9hg3SGQFJn/fvtVYdQIYUZtuYuRuk+X7yIXE3RyRsRIp3lCn
-         h2PsgxMy2wEwvjgLfJFfOGv+d2z+fQTYIJbmxS8z/Il8sExCpThdyH2xThO/+bj9squk
-         w8gQ==
-X-Gm-Message-State: AGi0PuaLFmXZytMNi0KNu3t1woEPx/vqSSJjpYsOLnfr/BVeKbcGL5GI
-        KNmFg8LMcielJICXhW8AFc1giWVvfYRdNvubhgP+Tnpk3/Q=
-X-Google-Smtp-Source: APiQypIYXniGQUHEpASwiGNjKth4Cu9ElCz4yjrJ2uXbYBYunhfz0887D/TRydUbTstl7MwaeVftG8QxF1P80ST3qos=
-X-Received: by 2002:ab0:a9:: with SMTP id 38mr504317uaj.61.1586236361040; Mon,
- 06 Apr 2020 22:12:41 -0700 (PDT)
+        id S1727528AbgDGH24 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Apr 2020 03:28:56 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:35970 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726767AbgDGH24 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Apr 2020 03:28:56 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id D92AE1C4A5A; Tue,  7 Apr 2020 09:28:54 +0200 (CEST)
+Date:   Tue, 7 Apr 2020 09:28:54 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-leds@vger.kernel.org
+Subject: Re: Cleanups in "next" tree
+Message-ID: <20200407072854.GA18673@amd.ucw.cz>
+References: <20200322115906.GA10623@duo.ucw.cz>
+ <3a103317-b9fb-5d0f-6944-0114b9af1629@gmail.com>
+ <20200402225745.GA9830@amd>
+ <a4802e70-106b-3476-536f-1d8798ce156f@gmail.com>
 MIME-Version: 1.0
-Received: by 2002:ab0:4929:0:0:0:0:0 with HTTP; Mon, 6 Apr 2020 22:12:40 -0700 (PDT)
-From:   SANDRA DEWI <dewisandra154@gmail.com>
-Date:   Tue, 7 Apr 2020 05:12:40 +0000
-Message-ID: <CABRVPWys0xe4CWBkaU0ZXQW+4d=tjDOjyo8cKohc5-VFkWPkcA@mail.gmail.com>
-Subject: whether this is your correct email address or not
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
+Content-Disposition: inline
+In-Reply-To: <a4802e70-106b-3476-536f-1d8798ce156f@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dear ,Pastor
 
+--rwEMma7ioTxnRzrJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi!
 
-I have a client who is an oil business man and he made a fixed deposit
-of $26 million USD in my bank, where I am the director of the branch,
-My client died with his entire family in Jordanian
+> > I'm sorry I failed to meet your high expectations... But I don't
+> > believe I done anything completely outside of usual kernel procedures.
+>=20
+> I believe code review is quite usual kernel procedure.
 
-50% of the fund will be for the church  for the work of God,the
-balance 50% we share it in the ratio of 50/50. Meaning 50% to you and
-50% for me
+I don't disagree with that.
 
-intervention in the Syrian Civil War 2014 leaving behind no next of
-kin. I Propose to present you as next of kin to claim the funds, if
-interested reply me for full details and how we are to
+> > Could you list the patches and objections you have?
+>=20
+> I already expressed my concerns regarding Turris Omnia patch.
 
+Ok.
 
+> My comments regarding remaining patches:
+>=20
+> - "Make label "white:power" to be consistent with"
+>=20
+> I disagree here. "system" was OK.
 
-proceed to close this deal.
+It was too vague... I know the hardware and it is a LED above power
+button used as a power indicator.
 
+> - "Warn about old defines that probably should not be used."
+>=20
+> Obsolete is only LED_FULL, so the comment is in wrong line
 
+No, all of them are bad. Maybe LED_OFF could be used going forward,
+but... it is simply easier to write 0. The type is not really an en
+enumeration, it is brightness, with variable maximum value.
 
+> - "Group LED functions according to functionality, and add some"
+>=20
+> You're adding here some random comments referencing obsolete
+> naming. I think that it is enough to say what is current standard.
 
-Mrs. Sandra Dewi
+Ok, I'll drop that part. But I really want to get that documented
+_somewhere_, because obsolete naming is currently in use, and we won't
+be able to change it :-(.
 
+> Also, I had a patch [0] describing standard LED functions in my LED
+> naming patch set, but it was not merged. It could be worth getting
+> back to it at this occasion.
 
+I'll take a look.
 
-Email  mrsdewi@gmx.com
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--rwEMma7ioTxnRzrJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXowrtgAKCRAw5/Bqldv6
+8md3AKCKwybQr0rzOq4IrTL2O9mJJg5z5wCfXHzpvm3WD1l2mHn7cCGwPXmJ4wM=
+=2BEK
+-----END PGP SIGNATURE-----
+
+--rwEMma7ioTxnRzrJ--
