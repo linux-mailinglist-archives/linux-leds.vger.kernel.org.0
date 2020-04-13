@@ -1,155 +1,110 @@
 Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A96D1A4970
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Apr 2020 19:42:31 +0200 (CEST)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.lfdr.de (Postfix) with ESMTP id D261F1A65E5
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Apr 2020 13:50:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbgDJRmF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 10 Apr 2020 13:42:05 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34900 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726721AbgDJRmF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Apr 2020 13:42:05 -0400
-Received: by mail-ot1-f68.google.com with SMTP id v2so2549474oto.2;
-        Fri, 10 Apr 2020 10:42:05 -0700 (PDT)
+        id S1728937AbgDMLuP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Apr 2020 07:50:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729146AbgDMLtn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Apr 2020 07:49:43 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05691C0085F3
+        for <linux-leds@vger.kernel.org>; Mon, 13 Apr 2020 04:41:10 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id l1so4368512pff.10
+        for <linux-leds@vger.kernel.org>; Mon, 13 Apr 2020 04:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=qlKWExEze9qCqlwbpw1q4+d2Zjr4ETGVa64TcX+dTlk=;
+        b=HxOaFJZljqXQIeSLw7dw+YeTIVe76Yo57NkC3rYQjPPsruaWLZEetJYgTw7mDA7iYw
+         4KM/sQKuVdxfTyBgHy0QGrcgvhBAp/s2WR+7lhwMEms7c5U3ARzlxX4w9gHN6kyIVCTo
+         InVjjBwajQbgYMLlLr/dGAnfAOq75HLmi2bmQShdg5UrDH6ZNHdmpjirCjsFE3E+W3lI
+         4HPNdhIk9GHy3wOVy8qt79oLhQ3V0WJ+l2R8YfTk5No8OB207Mc1ssyzLdiNdU6iDIon
+         HSnId1sWR9JHq8BkscMOY+TVCS7WuDDdfTSRJRDObUGUY3pKdsd/NGq97n4qtv5szVJr
+         IEMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=p3GtHQTWXIQaFnXHsApCjfV8Rah3qivLPAz5Wv7Len8=;
-        b=WfGq17R3KOlmRk7js0308DuU0DcA8+i9Ulx+l/FFmwtrvpZFKtaljT4T+rwJLmL8tf
-         T1F2r75x3n2yrhPSaiJluY1iaQSYn1ObLVHOd6XvL8uEQkFFFLkMGX5iD4Xg/jRWQDVr
-         Bf9Zy9QMCVxeHAK/Vm3B4H9fC3YTB/SvLz31S8yGIjlJ2/aTVpJmT3AaU6xIINiIbTzZ
-         5PHRSwDMLGBTdtC1gTSfGB7CQPiYgvhhupHW8a8/6cvhGsl7PSMk7mDtuyuUUxwUPSCG
-         2nu3B6uEgnwKhnG4WIEW6Da/r2A3b5lbPH4lrpK/NxhlYJZ2KzNTD1ni0Ni9jHkWCxbN
-         /fmg==
-X-Gm-Message-State: AGi0Pub1L+x5GB98/7rF0GRBYxoXZUTdQA1oEs8qccXxS+AM3sNSRw8S
-        L/9OmOO6K4IOYxtcozXCfg==
-X-Google-Smtp-Source: APiQypLbfE0LHYQU4L4WPZigiXumpsnf69cXj/bKN0IhyHFYdZOnCo6DveWu0AeZFY66o2O86cmTKg==
-X-Received: by 2002:a05:6830:199:: with SMTP id q25mr5250391ota.341.1586540524909;
-        Fri, 10 Apr 2020 10:42:04 -0700 (PDT)
-Received: from rob-hp-laptop (ip-99-203-29-27.pools.spcsdns.net. [99.203.29.27])
-        by smtp.gmail.com with ESMTPSA id i20sm1677495oos.19.2020.04.10.10.41.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2020 10:42:04 -0700 (PDT)
-Received: (nullmailer pid 18322 invoked by uid 1000);
-        Fri, 10 Apr 2020 17:41:42 -0000
-Date:   Fri, 10 Apr 2020 12:41:42 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Icenowy Zheng <icenowy@aosc.io>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Shawn Guo <shawnguo@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v2 1/2] dt-bindings: leds: Add binding for sgm3140
-Message-ID: <20200410174142.GA14153@bogus>
-References: <20200330194757.2645388-1-luca@z3ntu.xyz>
- <20200330194757.2645388-2-luca@z3ntu.xyz>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=qlKWExEze9qCqlwbpw1q4+d2Zjr4ETGVa64TcX+dTlk=;
+        b=kHGMB3DjPO/e1cnHGRFzzs/X7AN0tf5PVW2kkVqpfh+y5yKfNkDg3hFPrggMJMepxm
+         pjt5ZcgulpzWWniigQlRD/nckvFhenv5s/Lpj/Dinpnukx1zyD82AFD2Yh+DYUM+/MM3
+         bjifQX6YvhYyxkjnz+6VrJtP9puwWeH4MKqSijjQ/v6IS4DKX6y6QN87k9xFSQT0quzm
+         vHHDyG99AOAWvujoyE6a3CS2dZiJLe8cnwdpDSx1XuPnz/dTrg2L7v3raY+KAcNOIP8s
+         qH4Z11E6oQxMv8EpRjUik6cMgkG2/6iAYPIcYlV00n9E+vyzqgo2nA63Nsa1TNeFyqt3
+         3bEQ==
+X-Gm-Message-State: AGi0PuYcTkEXSWnqXtWucZbQq7/fXPWY6VTnmjrYQOIM+xLL6QE1QBxa
+        FTJ5QSA6ZHFqRXj97PwILfa89cD+C+KzKzpwql8FKjE=
+X-Google-Smtp-Source: APiQypJ8Xf5JZIaJmuakcegBHklRN/w3ObzOY1fG2hZhiF0393fUgrxf6qaSVcLD5pLEm/4TEQgoj9oGK8tQ5EeyGAU=
+X-Received: by 2002:a05:6e02:c8f:: with SMTP id b15mr14965961ile.35.1586778068198;
+ Mon, 13 Apr 2020 04:41:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200330194757.2645388-2-luca@z3ntu.xyz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a02:5e49:0:0:0:0:0 with HTTP; Mon, 13 Apr 2020 04:41:07
+ -0700 (PDT)
+Reply-To: mgbenin903@gmail.com
+From:   Barrister Robert Richter UN-Attorney at Law Court-Benin 
+        <info.zennitbankplcnigerian@gmail.com>
+Date:   Mon, 13 Apr 2020 13:41:07 +0200
+Message-ID: <CABHzvrm3rWryg1yAooKeHwdxzrKD47PRAEfC+ay1A6i5z3Wdiw@mail.gmail.com>
+Subject: I have already sent you first payment US$5000.00 this morning through
+ MONEY Gram service.it is available to pick up in address now.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Mar 30, 2020 at 09:47:56PM +0200, Luca Weiss wrote:
-> Add YAML devicetree binding for SGMICRO SGM3140 charge pump used for
-> camera flash LEDs.
-> 
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> ---
-> Changes since v1:
-> - Add vin-supply
-> - Add led subnode (common.yaml)
-> 
->  .../bindings/leds/leds-sgm3140.yaml           | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> new file mode 100644
-> index 000000000000..24ca178e5d0a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-sgm3140.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: SGMICRO SGM3140 500mA Buck/Boost Charge Pump LED Driver
-> +
-> +maintainers:
-> +  - Luca Weiss <luca@z3ntu.xyz>
-> +
-> +description: |
-> +  The SGM3140 is a current-regulated charge pump which can regulate two current
-> +  levels for Flash and Torch modes.
-> +
-> +  The data sheet can be found at:
-> +    http://www.sg-micro.com/uploads/soft/20190626/1561535688.pdf
-> +
-> +properties:
-> +  compatible:
-> +    const: sgmicro,sgm3140
-> +
-> +  enable-gpios:
-> +    maxItems: 1
-> +    description: A connection to the 'EN' pin.
-> +
-> +  flash-gpios:
-> +    maxItems: 1
-> +    description: A connection to the 'FLASH' pin.
-> +
-> +  vin-supply:
-> +    description: Regulator providing power to the 'VIN' pin.
-> +
-> +  led:
+ATTN DEAR BENEFICIARY.
 
-Needs 'type: object'
+GOOD NEWS.
 
-With that,
+I have already sent you first payment US$5000.00 this morning through
+MONEY Gram service.it is available to pick up in address now.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+So we advise you to Contact This Money Gram office to pick up your
+transfer $US5000.00 today.
 
-> +    allOf:
-> +      - $ref: common.yaml#
-> +
-> +required:
-> +  - compatible
-> +  - flash-gpios
-> +  - enable-gpios
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    sgm3140 {
-> +        compatible = "sgmicro,sgm3140";
-> +        flash-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* PD24 */
-> +        enable-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>; /* PC3 */
-> +        vin-supply = <&reg_dcdc1>;
-> +
-> +        sgm3140_flash: led {
-> +            function = LED_FUNCTION_FLASH;
-> +            color = <LED_COLOR_ID_WHITE>;
-> +            flash-max-timeout-us = <250000>;
-> +        };
-> +    };
-> -- 
-> 2.26.0
-> 
+
+Note that your compensation payment funds is total amount $US2.800,000
+Million Dollars.We have instructed the Money Gram Agent,Mr. James
+Gadner to keep sending the transfer to you daily, but the maximum
+amount you will be receiving everyday is US$5000.00. Contact Agent now
+to pick up your first payment $US5000.00 immediately.
+
+Contact Person, Mr. James Gadner, Dir. Money Gram Benin.
+Email: mgbenin903@gmail.com
+Telephone Numbers: +229 62819378/ +229 98477762
+
+HERE IS YOUR PAYMENT DETAILS FOR THE FIRST =C2=A3US5000.00 SENT TODAY.
+
+Track View Website link:
+https://secure.moneygram.com/track
+Sender=E2=80=99s First name: David
+Sender=E2=80=99s Last Name: Joiner
+Money Transfer Control Number (MTCN) (REFERENCE)# 26046856
+
+Contact the Mmoney Gram Urgent and reconfirm your address to the
+office before, they will allow you to pick up the transfer today.
+
+HERE IS WHAT REQUIRED OF YOU.
+
+YOUR FULL NAME---------
+ADDRESS--------------
+COUNTRY-----------------------------
+TELEPHONE NUMBERS-----------------
+
+Note, I paid the transfer fee for you, but only you are required to
+send to the office is $75 only,Been Your Payment File activation fee,
+Send once you contact the office,before you can able to pick up your
+transfer today.
+
+Let me know once you pick up first payment today.
+
+Barrister Robert Richter UN-Attorney at Law Court-Benin
