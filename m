@@ -2,79 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 034AF1AA039
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Apr 2020 14:32:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2BF21AA0D5
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Apr 2020 14:33:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S369158AbgDOMXs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 15 Apr 2020 08:23:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40196 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2897229AbgDOLpt (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 15 Apr 2020 07:45:49 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A51A821582;
-        Wed, 15 Apr 2020 11:45:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586951149;
-        bh=yaliotJxvLNaSp02wuihbJu/1ZddBCwFTwSf8FxJC0c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jNeH36HjSXR9Unl8qY/dZBoYALMzZ0oJn8XRVGYx/Zyl3I5N3O3Fu7tEwGiybKYQ9
-         ZPf6efll4U8VxCcOsnS5+rdmxdLbC5jRS1Te8SqbC0DKerf+KwJngUqeXsXWvvB3is
-         5ucSH3M3kk6ecXNb+ORdDIcWFICtHz6H+N28EAsU=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 56/84] leds: core: Fix warning message when init_data
-Date:   Wed, 15 Apr 2020 07:44:13 -0400
-Message-Id: <20200415114442.14166-56-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200415114442.14166-1-sashal@kernel.org>
-References: <20200415114442.14166-1-sashal@kernel.org>
+        id S369607AbgDOMbz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 15 Apr 2020 08:31:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48692 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S369593AbgDOMbw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Apr 2020 08:31:52 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D258AC061A0C
+        for <linux-leds@vger.kernel.org>; Wed, 15 Apr 2020 05:31:51 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id m19so2439653lfq.13
+        for <linux-leds@vger.kernel.org>; Wed, 15 Apr 2020 05:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zH0RTL+TNnlMglnKnwKKDMYeBOlBDieoGnDtsqRFB3g=;
+        b=gPMgqctA+xLaYLoBWjgy9M8UsHOTedAYOue8ILLzCY/dDntfd8InPekuDNjSlZRdOq
+         GK3O3z1rH1r4zmhfQm8tTfkVqWzjW/4kzeseAv6aXSqy2J4B8J3QjSm240KnqFbxV5Pt
+         ozm1VWdmGJKMTy/STQLAgMWuKtkCILYySQhrMViqu1OnRy5+2Slh85R83EjMk5t3b2Rm
+         /iL8MWkkNHwiWmNHgsyasztefZSwEjCIJL5uzr5z0YkL/QofBIV02JzmZ0dvIqKRXX4/
+         zq+bPt6Zeb+UGogvXA/7/PXUO05dJeoAeoGkwCuIMNiNFFiooBTniosJzfZL5vL5wxfZ
+         yZog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zH0RTL+TNnlMglnKnwKKDMYeBOlBDieoGnDtsqRFB3g=;
+        b=apJq7UaNKYwaEYh76GsE0gvJBhEKUVkL8dFIrhCPsBMgIGSibc3/oLXDtHTw2pt5Ej
+         7U58B3Xt7ffmqDVbQe3GxdpuBMUYGGHgo3HDt/qE9bH/LQfvBUkDQRufqpoBxZcPCsYo
+         6BsVv2Cvl6klgrPZ+1ikXdfX8xsYYw8zWf2R+eDN/OQXJ45qvQnfvF3sRE8oIdMbFHPz
+         zQLmEp3C2hvWHdxdjr2/4qs0nZx/nB4TwNs+QG/0uL+DPl66bc+5lE86HE4VlwO6DLTg
+         J1flIjtL3yeN//iwFVwKsTPImCOiT+EKLaamIOmwOwEnH4VhzaQzaNazZt9qjqqL37Td
+         kJYw==
+X-Gm-Message-State: AGi0PubDMLP1yECakUh9573ITe3sr+ge8S3hOwFO7A1opzP5SZqZrqDX
+        n+W9XP0MEBnIlamJnIDp1Ym7lg==
+X-Google-Smtp-Source: APiQypJvApYp88oFOfv0utmKKMLhveTRq5zr9kHx816tbjcOnpgFWFmcQlP2oTybC85R1RSI6YRvUA==
+X-Received: by 2002:ac2:5192:: with SMTP id u18mr2926368lfi.114.1586953910357;
+        Wed, 15 Apr 2020 05:31:50 -0700 (PDT)
+Received: from localhost.localdomain (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
+        by smtp.gmail.com with ESMTPSA id s22sm10041240ljp.69.2020.04.15.05.31.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 05:31:49 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "G . Shark Jeong" <gshark.jeong@gmail.com>
+Subject: [PATCH] leds: lm355x: Drop surplus include
+Date:   Wed, 15 Apr 2020 14:29:45 +0200
+Message-Id: <20200415122945.113112-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Ricardo Ribalda Delgado <ribalda@kernel.org>
+This driver includes <linux/gpio.h> but does not use
+any symbols from that file, so drop the include.
 
-[ Upstream commit 64ed6588c2ea618d3f9ca9d8b365ae4c19f76225 ]
-
-The warning message when a led is renamed due to name collition can fail
-to show proper original name if init_data is used. Eg:
-
-[    9.073996] leds-gpio a0040000.leds_0: Led (null) renamed to red_led_1 due to name collision
-
-Fixes: bb4e9af0348d ("leds: core: Add support for composing LED class device names")
-Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
-Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Signed-off-by: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Cc: G.Shark Jeong <gshark.jeong@gmail.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/leds/led-class.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/leds/leds-lm355x.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 647b1263c5794..d3e83c33783e5 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -281,7 +281,7 @@ int led_classdev_register_ext(struct device *parent,
- 
- 	if (ret)
- 		dev_warn(parent, "Led %s renamed to %s due to name collision",
--				led_cdev->name, dev_name(led_cdev->dev));
-+				proposed_name, dev_name(led_cdev->dev));
- 
- 	if (led_cdev->flags & LED_BRIGHT_HW_CHANGED) {
- 		ret = led_add_brightness_hw_changed(led_cdev);
+diff --git a/drivers/leds/leds-lm355x.c b/drivers/leds/leds-lm355x.c
+index a5abb499574b..11ce05249751 100644
+--- a/drivers/leds/leds-lm355x.c
++++ b/drivers/leds/leds-lm355x.c
+@@ -7,7 +7,6 @@
+ #include <linux/module.h>
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
+-#include <linux/gpio.h>
+ #include <linux/leds.h>
+ #include <linux/slab.h>
+ #include <linux/platform_device.h>
 -- 
-2.20.1
+2.25.2
 
