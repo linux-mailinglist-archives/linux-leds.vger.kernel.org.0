@@ -2,92 +2,147 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59CDC1AFD19
-	for <lists+linux-leds@lfdr.de>; Sun, 19 Apr 2020 20:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1C321B02E3
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Apr 2020 09:27:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726698AbgDSSOl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 19 Apr 2020 14:14:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37082 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726440AbgDSSOk (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 19 Apr 2020 14:14:40 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3440920771;
-        Sun, 19 Apr 2020 18:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587320079;
-        bh=bOt9BTn/I9BtpLW6MYPux7kH7zXf1KQ4OwttSbOUgxw=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=F96kxGnwb5hbRo2uaveExMkh4pG5tmsfXC/X4f7LcIR9NVVk3+CXqwPimCRGIZsLq
-         200DZ+NlYkyxPrNFkbuYootDCzDqqWFu0hJkAVPZpKUAgkDDPBPfI6mIZvHi8k+VtM
-         aJNXnDOzYimf/GSU7Z8wIQIZEF7kJxvbDOxdjZqA=
-Content-Type: text/plain; charset="utf-8"
+        id S1726117AbgDTH1c (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 Apr 2020 03:27:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40530 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725815AbgDTH1c (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 20 Apr 2020 03:27:32 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8171BC061A0C
+        for <linux-leds@vger.kernel.org>; Mon, 20 Apr 2020 00:27:31 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id x18so10814591wrq.2
+        for <linux-leds@vger.kernel.org>; Mon, 20 Apr 2020 00:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=fLd3utKBUqircZ8XSU/jqQ1o3HOdiOgb+Til4epkr7E=;
+        b=Zjs6lkCZP51RU1eaQIhcoO3FB2Z6jXmILC0s2D752dm7NvsQ+tleMbs3JgJ0uCOger
+         E/tjxVQyBlWGd8C8KH6qKSy877jK0dOi4ouglmI3EUeSGLveLxJsg2RtwSK7UMdZjCHW
+         wFmMR6P5iaO2QXH4ksbOgvB+J3KLMVx+AA8FAPieKGTfyyESTZnp60vvRq2mOL1n6k89
+         exxFo80LcTgKlrntlkSIIORBACYyTzHdDPArnuLiOwJFPLXem/gn0Igo6JBXWNAODiUe
+         tLRv8q8+adw+2X8p6HhK3S5Eako2xzmyRKxo0WGwjta/t8GubKM8ali0sa3m5En/fezW
+         12VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=fLd3utKBUqircZ8XSU/jqQ1o3HOdiOgb+Til4epkr7E=;
+        b=C1cxuWgNAwgUlClhA5Sim1b94V8dFKHZWvTCLqDMpuZiVl2jZM3gme1YTB+uPsIC+j
+         KlHRnR1Mr0IW1SEJG23d/AWXf5RXGOPOAuucylVtklSr1yhWD1BkMmT1nKDMi78ztxUq
+         SETm649Tm4Buxwqs9CxXHWSXbaxLn7ynQSY2d6xkJX6yycunFc1L7r+7dQRQ5hdbyU7N
+         XrRDD9RGDWbJR/PcqguM5Bge8jLWJIlSJ9qM8UxlfUw0SlF9zy0gFHDjix3Z5lCd8n/k
+         I+9j96HhlDmHbujDPKHiTvmtWs48FbTuNPfkUeJKpMTxFqH2ZXgiBctmkbSXO0PpGTfp
+         sMzA==
+X-Gm-Message-State: AGi0PuaKgEsY3fYUe5BzCmyeDtRIaQP/qPtrPClB/VczqkMzwpMzGjCF
+        v6dJ26cgJqN9ekasyyNe7WjhlA==
+X-Google-Smtp-Source: APiQypLZ95duN0TVR/SeVUQItXdNoeinc7W1AvPfKzE2PNLYi2bchw8ulFVhIRvX/oUlL+29V+w4Lg==
+X-Received: by 2002:a5d:5224:: with SMTP id i4mr17175368wra.1.1587367650264;
+        Mon, 20 Apr 2020 00:27:30 -0700 (PDT)
+Received: from dell ([95.149.164.107])
+        by smtp.gmail.com with ESMTPSA id v16sm188543wml.30.2020.04.20.00.27.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2020 00:27:29 -0700 (PDT)
+Date:   Mon, 20 Apr 2020 08:27:27 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     kgunda@codeaurora.org
+Cc:     Rob Herring <robh@kernel.org>, bjorn.andersson@linaro.org,
+        jingoohan1@gmail.com, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, mark.rutland@arm.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        linux-arm-msm@vger.kernel.org,
+        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Subject: Re: [PATCH V5 1/4] backlight: qcom-wled: convert the wled bindings
+ to .yaml format
+Message-ID: <20200420072727.GI3737@dell>
+References: <1586274430-28402-1-git-send-email-kgunda@codeaurora.org>
+ <1586274430-28402-2-git-send-email-kgunda@codeaurora.org>
+ <20200415150904.GA11174@bogus>
+ <557e8bd874256271174402b5faba9c90@codeaurora.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200416005549.9683-2-robh@kernel.org>
-References: <20200416005549.9683-1-robh@kernel.org> <20200416005549.9683-2-robh@kernel.org>
-Subject: Re: [PATCH 2/2] dt-bindings: Remove cases of 'allOf' containing a '$ref'
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>, Vinod Koul <vkoul@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Amit Kucheria <amit.kucheria@linaro.org>,
-        Danie l Lezcano <daniel.lezcano@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org
-To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Sun, 19 Apr 2020 11:14:38 -0700
-Message-ID: <158732007844.132238.3936257450130949073@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <557e8bd874256271174402b5faba9c90@codeaurora.org>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Quoting Rob Herring (2020-04-15 17:55:49)
-> json-schema versions draft7 and earlier have a weird behavior in that
-> any keywords combined with a '$ref' are ignored (silently). The correct
-> form was to put a '$ref' under an 'allOf'. This behavior is now changed
-> in the 2019-09 json-schema spec and '$ref' can be mixed with other
-> keywords. The json-schema library doesn't yet support this, but the
-> tooling now does a fixup for this and either way works.
->=20
-> This has been a constant source of review comments, so let's change this
-> treewide so everyone copies the simpler syntax.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/clock/fixed-factor-clock.yaml    |   5 +-
+On Fri, 17 Apr 2020, kgunda@codeaurora.org wrote:
 
-Reviewed-by: Stephen Boyd <sboyd@kernel.org> # clock
+> On 2020-04-15 20:39, Rob Herring wrote:
+> > On Tue, Apr 07, 2020 at 09:17:07PM +0530, Kiran Gunda wrote:
+> > > Convert the qcom-wled bindings from .txt to .yaml format.
+> > > Also replace PM8941 to WLED3 and PMI8998 to WLED4.
+> > > 
+> > > Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+> > > Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+> > > Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+> > > ---
+> > >  .../bindings/leds/backlight/qcom-wled.txt          | 154
+> > > ----------------
+> > >  .../bindings/leds/backlight/qcom-wled.yaml         | 201
+> > > +++++++++++++++++++++
+> > >  2 files changed, 201 insertions(+), 154 deletions(-)
+> > >  delete mode 100644
+> > > Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
+> > >  create mode 100644
+> > > Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+[...]
+
+> > > +        interrupt-names:
+> > > +          items:
+> > > +            - const: ovp
+> > > +            - const: short
+> > 
+> > Move these 2 props to the main section adding a 'minItems: 1'. Then just
+> > define 'minItems: 2' here and 'maxItems: 1' in the 'then' clause.
+> > 
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - label
+> > 
+> > Add:
+> > 
+> > additionalProperties: false
+> > 
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    backlight@d800 {
+> > > +        compatible = "qcom,pm8941-wled";
+> > > +        reg = <0xd800 0x100>;
+> > > +        label = "backlight";
+> > > +
+> > > +        qcom,cs-out;
+> > > +        qcom,current-limit = <20>;
+> > > +        qcom,current-boost-limit = <805>;
+> > > +        qcom,switching-freq = <1600>;
+> > > +        qcom,ovp = <29>;
+> > > +        qcom,num-strings = <2>;
+> > > +        qcom,enabled-strings = <0 1>;
+> > > +     };
+> Thanks for reviewing. I will submit the next revision with all the fixes.
+
+Please trim your replies.
+
+Also, if you agree with all of the review comments, there really is no
+need to reply and/or thank the reviewer.  Simply submit a subsequent
+set with a bumped version indicator.
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
