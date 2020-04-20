@@ -2,147 +2,82 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1C321B02E3
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Apr 2020 09:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 583D41B1145
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Apr 2020 18:17:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726117AbgDTH1c (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 Apr 2020 03:27:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40530 "EHLO
+        id S1726036AbgDTQR3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 Apr 2020 12:17:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725815AbgDTH1c (ORCPT
+        by vger.kernel.org with ESMTP id S1728209AbgDTQR0 (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 20 Apr 2020 03:27:32 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8171BC061A0C
-        for <linux-leds@vger.kernel.org>; Mon, 20 Apr 2020 00:27:31 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id x18so10814591wrq.2
-        for <linux-leds@vger.kernel.org>; Mon, 20 Apr 2020 00:27:31 -0700 (PDT)
+        Mon, 20 Apr 2020 12:17:26 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4639C061A0C
+        for <linux-leds@vger.kernel.org>; Mon, 20 Apr 2020 09:17:24 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id b11so12907743wrs.6
+        for <linux-leds@vger.kernel.org>; Mon, 20 Apr 2020 09:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=fLd3utKBUqircZ8XSU/jqQ1o3HOdiOgb+Til4epkr7E=;
-        b=Zjs6lkCZP51RU1eaQIhcoO3FB2Z6jXmILC0s2D752dm7NvsQ+tleMbs3JgJ0uCOger
-         E/tjxVQyBlWGd8C8KH6qKSy877jK0dOi4ouglmI3EUeSGLveLxJsg2RtwSK7UMdZjCHW
-         wFmMR6P5iaO2QXH4ksbOgvB+J3KLMVx+AA8FAPieKGTfyyESTZnp60vvRq2mOL1n6k89
-         exxFo80LcTgKlrntlkSIIORBACYyTzHdDPArnuLiOwJFPLXem/gn0Igo6JBXWNAODiUe
-         tLRv8q8+adw+2X8p6HhK3S5Eako2xzmyRKxo0WGwjta/t8GubKM8ali0sa3m5En/fezW
-         12VQ==
+         :content-disposition:in-reply-to;
+        bh=lPlsXqCGHYagVYmxec3j/xxnK3oND8ckDanm4J5g6+s=;
+        b=Bc3VkmccqsOZmy8SzqwTXHtw4ju1n3q+E8tqpZL08g24yfYOc29x2qPJOm5bPv7VMv
+         IEz+3ozJmMWTBd04ErA+L4wk/0PjyHp2gejrFY5Hp1yD2/uez5UT5BiJtnb2iaKP2/vs
+         SMSQ9qo0pSxEIrRcKZjgoiC7AmF9J9UhdaxfOXmCw9U+Z7w4klykH6tQCy/7+4as4UVZ
+         6dwxlkXGI1NYgtaY7Zu976/NOzffZXZNDeuwtcNtImP4kZT+274B4qypkT0Y1nH8llDD
+         JsBWFcA+GtHbhUA2Dcnw5yiEJEg8239BHg+veY10eVi55Nn6heaw7SXMjo2wxSsUe+mj
+         guyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=fLd3utKBUqircZ8XSU/jqQ1o3HOdiOgb+Til4epkr7E=;
-        b=C1cxuWgNAwgUlClhA5Sim1b94V8dFKHZWvTCLqDMpuZiVl2jZM3gme1YTB+uPsIC+j
-         KlHRnR1Mr0IW1SEJG23d/AWXf5RXGOPOAuucylVtklSr1yhWD1BkMmT1nKDMi78ztxUq
-         SETm649Tm4Buxwqs9CxXHWSXbaxLn7ynQSY2d6xkJX6yycunFc1L7r+7dQRQ5hdbyU7N
-         XrRDD9RGDWbJR/PcqguM5Bge8jLWJIlSJ9qM8UxlfUw0SlF9zy0gFHDjix3Z5lCd8n/k
-         I+9j96HhlDmHbujDPKHiTvmtWs48FbTuNPfkUeJKpMTxFqH2ZXgiBctmkbSXO0PpGTfp
-         sMzA==
-X-Gm-Message-State: AGi0PuaKgEsY3fYUe5BzCmyeDtRIaQP/qPtrPClB/VczqkMzwpMzGjCF
-        v6dJ26cgJqN9ekasyyNe7WjhlA==
-X-Google-Smtp-Source: APiQypLZ95duN0TVR/SeVUQItXdNoeinc7W1AvPfKzE2PNLYi2bchw8ulFVhIRvX/oUlL+29V+w4Lg==
-X-Received: by 2002:a5d:5224:: with SMTP id i4mr17175368wra.1.1587367650264;
-        Mon, 20 Apr 2020 00:27:30 -0700 (PDT)
-Received: from dell ([95.149.164.107])
-        by smtp.gmail.com with ESMTPSA id v16sm188543wml.30.2020.04.20.00.27.29
+         :mime-version:content-disposition:in-reply-to;
+        bh=lPlsXqCGHYagVYmxec3j/xxnK3oND8ckDanm4J5g6+s=;
+        b=HXZUFd3N3xuFEaH1VfLMyhHBK1nThggmDe6CK9QQW7dl67IkoB13D3GVKyw92fIzp6
+         +iFqfIm6BPByRd5PXro/r5GMdfVy2fa7s8sGzSncA6feqKhLRr+6sJQQXqlCAOfU5KTy
+         V051Ry/HTvfuwH1jcoqemdiX9LmhtFCWiREk7qxBI4tuB97liYX5p2AsHQK27q1alkrL
+         mPzYzxxz2mTYDsT1HLbdhv771HixEjLh+M8fdCK3mM/iSyoG3EMnPTzV34jVQuqnF4ZB
+         Wlq5koTLDBl8/yBpOODF5+DP0w1UC97HMHb2MwVzd57Y5+eEQw51THY0MV4mklzJRHwi
+         J+yg==
+X-Gm-Message-State: AGi0Pubz5zJKvw/7J19P6b5RHmjDl+kmyHU8a5XLIo4CeifOB6qEBubT
+        wJ3/iWIHpNg52EY31QqmnTwnxw==
+X-Google-Smtp-Source: APiQypKrkeOBy7c9A/9ySH8hmTQpSPXDqk6tEE5oq0yFe5+sxi9L2pzoxp9Luyj6lNrqui3ig6qFsw==
+X-Received: by 2002:adf:800e:: with SMTP id 14mr18882781wrk.369.1587399443572;
+        Mon, 20 Apr 2020 09:17:23 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
+        by smtp.gmail.com with ESMTPSA id s9sm1946164wrg.27.2020.04.20.09.17.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2020 00:27:29 -0700 (PDT)
-Date:   Mon, 20 Apr 2020 08:27:27 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     kgunda@codeaurora.org
-Cc:     Rob Herring <robh@kernel.org>, bjorn.andersson@linaro.org,
-        jingoohan1@gmail.com, b.zolnierkie@samsung.com,
-        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, mark.rutland@arm.com,
+        Mon, 20 Apr 2020 09:17:22 -0700 (PDT)
+Date:   Mon, 20 Apr 2020 17:17:20 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Kiran Gunda <kgunda@codeaurora.org>
+Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        lee.jones@linaro.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, jacek.anaszewski@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
         Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Subject: Re: [PATCH V5 1/4] backlight: qcom-wled: convert the wled bindings
- to .yaml format
-Message-ID: <20200420072727.GI3737@dell>
+Subject: Re: [PATCH V5 2/4] backlight: qcom-wled: Add callback functions
+Message-ID: <20200420161720.cuxponga4vxitrwi@holly.lan>
 References: <1586274430-28402-1-git-send-email-kgunda@codeaurora.org>
- <1586274430-28402-2-git-send-email-kgunda@codeaurora.org>
- <20200415150904.GA11174@bogus>
- <557e8bd874256271174402b5faba9c90@codeaurora.org>
+ <1586274430-28402-3-git-send-email-kgunda@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <557e8bd874256271174402b5faba9c90@codeaurora.org>
+In-Reply-To: <1586274430-28402-3-git-send-email-kgunda@codeaurora.org>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 17 Apr 2020, kgunda@codeaurora.org wrote:
+On Tue, Apr 07, 2020 at 09:17:08PM +0530, Kiran Gunda wrote:
+> Add wled_cabc_config, wled_sync_toggle, wled_ovp_fault_status
+> and wled_ovp_delay and wled_auto_detection_required callback
+> functions to prepare the driver for adding WLED5 support.
+> 
+> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+> Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
 
-> On 2020-04-15 20:39, Rob Herring wrote:
-> > On Tue, Apr 07, 2020 at 09:17:07PM +0530, Kiran Gunda wrote:
-> > > Convert the qcom-wled bindings from .txt to .yaml format.
-> > > Also replace PM8941 to WLED3 and PMI8998 to WLED4.
-> > > 
-> > > Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
-> > > Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-> > > Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
-> > > ---
-> > >  .../bindings/leds/backlight/qcom-wled.txt          | 154
-> > > ----------------
-> > >  .../bindings/leds/backlight/qcom-wled.yaml         | 201
-> > > +++++++++++++++++++++
-> > >  2 files changed, 201 insertions(+), 154 deletions(-)
-> > >  delete mode 100644
-> > > Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
-[...]
-
-> > > +        interrupt-names:
-> > > +          items:
-> > > +            - const: ovp
-> > > +            - const: short
-> > 
-> > Move these 2 props to the main section adding a 'minItems: 1'. Then just
-> > define 'minItems: 2' here and 'maxItems: 1' in the 'then' clause.
-> > 
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - label
-> > 
-> > Add:
-> > 
-> > additionalProperties: false
-> > 
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    backlight@d800 {
-> > > +        compatible = "qcom,pm8941-wled";
-> > > +        reg = <0xd800 0x100>;
-> > > +        label = "backlight";
-> > > +
-> > > +        qcom,cs-out;
-> > > +        qcom,current-limit = <20>;
-> > > +        qcom,current-boost-limit = <805>;
-> > > +        qcom,switching-freq = <1600>;
-> > > +        qcom,ovp = <29>;
-> > > +        qcom,num-strings = <2>;
-> > > +        qcom,enabled-strings = <0 1>;
-> > > +     };
-> Thanks for reviewing. I will submit the next revision with all the fixes.
-
-Please trim your replies.
-
-Also, if you agree with all of the review comments, there really is no
-need to reply and/or thank the reviewer.  Simply submit a subsequent
-set with a bumped version indicator.
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
