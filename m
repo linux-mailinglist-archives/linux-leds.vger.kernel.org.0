@@ -2,98 +2,113 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDB9D1B592A
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Apr 2020 12:29:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73E4A1B5F53
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Apr 2020 17:34:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726947AbgDWK3u (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Apr 2020 06:29:50 -0400
-Received: from mail.nic.cz ([217.31.204.67]:58214 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726764AbgDWK3u (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 23 Apr 2020 06:29:50 -0400
-Received: from localhost (unknown [172.20.6.135])
-        by mail.nic.cz (Postfix) with ESMTPSA id 5C9541413E7;
-        Thu, 23 Apr 2020 12:29:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1587637788; bh=PcpMIkBvlu7jNxfuyBUePVujIQu6cnH/0WyG4zCwGPs=;
-        h=Date:From:To;
-        b=t6Pe0Kd4eSY6TwrG+/ILwTHHqOmNUxHc2kXcMSJ9gY3U3RDBmMqW0b/fbvRFpxYs4
-         Zw+/idUV2REEnjgpk+nLAbw0YfOvWaO8oqpo5UA1IH6ha7o7mK1ZV1b1StGO8F2zPW
-         KTfnZiJo1uMQmzbj13OdRCkT8STW3J5xZM09GwAo=
-Date:   Thu, 23 Apr 2020 12:29:47 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: about my trigger-sources work
-Message-ID: <20200423122947.38303f22@nic.cz>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.101.4 at mail
-X-Virus-Status: Clean
+        id S1729246AbgDWPeX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Apr 2020 11:34:23 -0400
+Received: from mail27.static.mailgun.info ([104.130.122.27]:33055 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729136AbgDWPeX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 23 Apr 2020 11:34:23 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1587656063; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=2Kjf6YLoA4OkpyBb4xKWnTXI0yhSWwCZFp3OhQ7ATXg=; b=idsWDIXWtrdn7uuGI2AeuTxNKD3hqk/aIXlnxf5bB0SeLGT3cP99DeJCr2GJ8jWTWRcL8Bj9
+ 6xpGrQv+JVzciSEx8NNI52F2JdFAWkyQl5yJTsdlw0pD435AcMxj+ZnbG57Nn30onZM2EFez
+ 6QEj4c7JpACiBn/x3FL+36uSKb8=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyJkODczOCIsICJsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5ea1b575.7fa7ffca55e0-smtp-out-n03;
+ Thu, 23 Apr 2020 15:34:13 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 18E02C44788; Thu, 23 Apr 2020 15:34:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from kgunda-linux.qualcomm.com (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kgunda)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9A899C433D2;
+        Thu, 23 Apr 2020 15:34:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9A899C433D2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=kgunda@codeaurora.org
+From:   Kiran Gunda <kgunda@codeaurora.org>
+To:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        lee.jones@linaro.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        mark.rutland@arm.com, robh@kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
+Subject: [PATCH V6 0/4] Add support for WLED5
+Date:   Thu, 23 Apr 2020 21:03:33 +0530
+Message-Id: <1587656017-27911-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
-just to let you know and maybe get some feedback or your ideas.
+Currently, WLED driver supports only WLED4 peripherals that is present
+on pmi8998 and pm660L. This patch series  converts the existing WLED4
+bindings from .txt to .yaml format and adds the support for WLED5 peripheral
+that is present on PM8150L.
 
-The documentation
-https://www.kernel.org/doc/Documentation/devicetree/bindings/leds/common.yaml
-specifies that a LED node can have a trigger-sources property to
-specify a list of devices which should be used as a source for that
-LED's activity.
+PM8150L WLED supports the following.
+    - Two modulators and each sink can use any of the modulator
+    - Multiple CABC selection options
+    - Multiple brightness width selection (12 bits to 15 bits)
 
-I am trying to implement this now, since it is not implemented yet in
-common API. The only user of this property is
-drivers/usb/core/ledtrig-usbport.c and they do it on their own.
+Changes from V1:
+	- Rebased on top of the below commit.
+	  backlight: qcom-wled: Fix unsigned comparison to zero
 
-One problem is that different classes of devices can be specified as
-a source, and so they have to be OF-translated differently.
-To solve this I added a new method to struct led_trigger
-	int (*of_xlate_and_set_source)(struct led_classdev *led_cdev,
-				       const struct of_phandle_args *args);
-The purpose is that if a LED trigger can have a source, such as a
-network device, and this device is specified in device tree via
-trigger-sources, the LED subsystem shall parse the trigger-sources
-property and pass it to this method via args. This method then
-translates args into a device (ie a network device) and sets it as a
-source of triggering for this LED.
+Changes from V2:
+	- Addressed Bjorn's comments by splitting the WLED4 changes
+	  in a seperate patch.
+	- Added WLED5 auto calibration support
 
-Another problem is that it is possible (and probable) that the trigger
-source device is not probed yet when LED is being created. We can't use
-probe deferral here, because it is possible that source device won't be
-probed at all, and this should IMO not cause probe fail for the LED
-cdev.
-Now this could be solved in multiple ways:
-- the led trigger subsystem could do it by registering a notifier for
-  when devices are probed. Now I can't find such a notifier existing
-  (there are similar, for when a driver is bound and so on, but we need
-  one for when device is probed), so this would need to be implemented
-  in the core device API
-- the led trigger could do it on its own by registering a notifier for
-  the subsystem on which the device that can be a trigger source for
-  this trigger will live. For example the netdev trigger could register
-  a netdevice notifier, the gpio trigger could register a notifier
-  for the gpio bus (this would probably need to be implemented as in
-  previous point)
-I think the second option is better, because of possibility of more
-specific notifier events (at least one led trigger (netdev) already uses
-netdevice notifier).
+Changes from V3:
+        - Addressed comments from Daniel Thompson and Rob Herring
+        - Seperated the WLED5 bindings from the driver changes
+         - Squashed wled5 auto string detection and wled5 basic changes
+          to avoid the NULL callback function pointer issue.
 
-This work could later also lead to a more sensible naming of the first
-part (device) of LED devices in sysfs, for example:
-When a network device eth0 is set to be a trigger-source for a LED,
-the LED should be called eth0:color:function. I therefore think that it
-should be part of the code of the LED trigger driver to rename the LED,
-when a trigger source is set from OF.
+Changes from V4:
+        - Addressed the yaml formatting comments from Rob Herring.
+        - Addressed the comments from Daniel Thompson on the below patch
+  	  "backlight: qcom-wled: Add callback functions"
 
-What do you think?
+Changes from V5:
+        - This series depends on the below patch.
+          https://lore.kernel.org/patchwork/patch/1226258/
+        - Addressed yaml formatting comments from Rob Herring.
+        - Removed the "wled_ovp_fault_status" callback as per Daniel Thomson
+          suggestion from patch #2.
+        - Addressed comments from Daniel Thomson on patch #4.
 
-Marek
+Kiran Gunda (3):
+  backlight: qcom-wled: convert the wled bindings to .yaml format
+  backlight: qcom-wled: Add callback functions
+  backlight: qcom-wled: Add WLED5 bindings
+
+Subbaraman Narayanamurthy (1):
+  backlight: qcom-wled: Add support for WLED5 peripheral that is present
+    on PM8150L PMICs
+
+ .../bindings/leds/backlight/qcom-wled.txt          | 154 ------
+ .../bindings/leds/backlight/qcom-wled.yaml         | 261 +++++++++
+ drivers/video/backlight/qcom-wled.c                | 589 ++++++++++++++++++---
+ 3 files changed, 777 insertions(+), 227 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
