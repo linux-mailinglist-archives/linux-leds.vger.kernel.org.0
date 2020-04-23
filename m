@@ -2,86 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7FA31B619B
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Apr 2020 19:09:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10AC81B6362
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Apr 2020 20:27:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729805AbgDWRJB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Apr 2020 13:09:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40586 "EHLO
+        id S1730310AbgDWS04 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Apr 2020 14:26:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729719AbgDWRJB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Apr 2020 13:09:01 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E975AC09B044
-        for <linux-leds@vger.kernel.org>; Thu, 23 Apr 2020 10:09:00 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id e26so7211009wmk.5
-        for <linux-leds@vger.kernel.org>; Thu, 23 Apr 2020 10:09:00 -0700 (PDT)
+        with ESMTP id S1730311AbgDWS0y (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Apr 2020 14:26:54 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C9C4C02549C
+        for <linux-leds@vger.kernel.org>; Thu, 23 Apr 2020 11:26:52 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id j7so3282660pgj.13
+        for <linux-leds@vger.kernel.org>; Thu, 23 Apr 2020 11:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=HyYauB8Zb4kPY2jhycDpuK1O3YKpPPWs1jRZhg3W+PY=;
-        b=YIzqtZTQ86QFuC3Fm4NBWsdOm0pT4cBdJ7LP5GP2m1Iy0O7jxZ4FN6lCTA4pC3+xEi
-         h8VeJgo2IBWMDWo+UMx5OdJyoS3Dq7CwWyqIzw+mpQOoXpKhW6CaDct1MaBX0WFNswe8
-         S0Fd49PA/VO1sC7i2qPSiJU2syTaaBJbrhV0dWWNbPVG3KxVQZW1Y6bEZIH9/6cxLJmM
-         L/T1dn/jbwKPs4moZuwT8rK7gg6iiHRx4h358kfomBb7V37Y/DqboBHiSGV8uTjXTW1C
-         2uJGiuc9P3sMJZlpspCAZFLGblsS6gZqFdijjC7UOcFH8G58rHKZgdYuqVqPEKasyViT
-         pdeg==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
+        b=g40sBMuaO0eKdotmx6qgQBl63DKBmrekz5bvyEQHA4wVZtcqrxc+aFVgh/QD84O9VQ
+         7GeGJGwCstc5CQBYUut5JFB/SR9hiHRBoNucBdQ5+M/xcZE7LYnQNVriX94nlJDQQ53M
+         WWNnGuPMmJMtuCxOc6M3BOG48McWyi9pwkfv1qCbwmDhh95byI3UmcGK9ZJ59xQm/kqA
+         giNgZwxUHu+XTIAoqn/uu1orK63Ur+6hMBQW2TB101zb0oJ5HpVThkCq6id/TjpQtg27
+         HPMb1DcYsj7bM6wQaeV1UkPK6mgUhECRFNV10F5zDhvx1RXP4ikb8uuEIGMKOSNWVb51
+         vLew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HyYauB8Zb4kPY2jhycDpuK1O3YKpPPWs1jRZhg3W+PY=;
-        b=g8SPlPMDy3ZhKYsyJdI9PxF69Sxe4yejw7uW+vtd5ObqoUNCGtCToXqXTn/ruO4pS+
-         su5e1QKZV9wtUVa3D+5Jjtyh5jYF0SWtjuhYaMl8oIUVnj2en2YVU2L6jehk3fsEgoIH
-         wCONPfb6ObmPBskFgP0b0YCaSgPHzGXY+6Z18J32wp71OfmeSiYyeqt8foXi6JZ4rpAY
-         eym2A+Xp5Ml5G/tJRPG+3ZLm0W+/Uemln6cdXWTclHQtEJAC2kTbB4zBpH/Q5raVuIrU
-         /4pmjjcOgTMmOw4AxGf4L8Irirj8qHemiD1ofSOWPik+F1bStj998vMGmudYpnp4bz3d
-         Qeew==
-X-Gm-Message-State: AGi0PuaxYhlSFsTSIVW+2kZszAu7A6XsKKMQiAystNc67782BXGnVci5
-        JhijJZ8BW06IFvjidbv+BILGUw==
-X-Google-Smtp-Source: APiQypLTFoqOzEEgVSqQsK2DVwkZLCzK4Qr3KYvzNDTrgnBoJM5h/atmfsvo1wLAjiYN7AmpJR6jMg==
-X-Received: by 2002:a1c:40c4:: with SMTP id n187mr5040344wma.28.1587661739472;
-        Thu, 23 Apr 2020 10:08:59 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
-        by smtp.gmail.com with ESMTPSA id s30sm4475128wrb.67.2020.04.23.10.08.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2020 10:08:58 -0700 (PDT)
-Date:   Thu, 23 Apr 2020 18:08:56 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Kiran Gunda <kgunda@codeaurora.org>
-Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
-        lee.jones@linaro.org, b.zolnierkie@samsung.com,
-        dri-devel@lists.freedesktop.org, jacek.anaszewski@gmail.com,
-        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
-        robh@kernel.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-fbdev@vger.kernel.org,
-        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Subject: Re: [PATCH V6 4/4] backlight: qcom-wled: Add support for WLED5
- peripheral that is present on PM8150L PMICs
-Message-ID: <20200423170856.f4r62iwcg7qtppva@holly.lan>
-References: <1587656017-27911-1-git-send-email-kgunda@codeaurora.org>
- <1587656017-27911-5-git-send-email-kgunda@codeaurora.org>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
+        b=AtWOJscBORoi8KOlrOuHIowLew21R5bqbERgioy75ToiH7f7JtiIdCExqt6BXbJoe2
+         50TpnJuKKEYDzX4WzAwlboQn3tYgB96VN8vdcOC1ompCTfpWkwZ6zbGgINrEnn3eHRqT
+         dSAYJsEPMamla3F9Y4/CHgGIchq41tdUscTb8TWXBe4zV5Z3cquW3y+3K3fmPLvmA+RJ
+         cxALb/ud5SrnYAIBFADmwYzVeDqOzZWL3f5UAeDhiHga1cYbi+ov6e80mw83f4DADWCP
+         0MEiBNiGXgk+jRlug+/n14UvgLmKAOODiXSzFSvfV5f1UMUSeJoA5i7b1Y/jmlRO9EoY
+         YOGQ==
+X-Gm-Message-State: AGi0PubYSmB/u0xj6VtpNofNVAX6f3SVSA2bKsaAtes98zJ30vm8ojjM
+        bk1GPm+9WfGqmr7nYQsc0q0MmhnY4GkTEDi4b5eZEHY=
+X-Google-Smtp-Source: APiQypKZ88CB7WlyCjo0k9+cU4PX0VcggKkKtzSKgRJHkcPGizF0yZXAjzEMBgo6XH4xzBXv0KAOMjPM9p1sgpp6/70=
+X-Received: by 2002:a5e:9416:: with SMTP id q22mr2547966ioj.93.1587666410194;
+ Thu, 23 Apr 2020 11:26:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1587656017-27911-5-git-send-email-kgunda@codeaurora.org>
+Received: by 2002:a02:c845:0:0:0:0:0 with HTTP; Thu, 23 Apr 2020 11:26:49
+ -0700 (PDT)
+Reply-To: boa.benin107@yahoo.com
+From:   "Mrs. Angella Michelle" <info.zennitbankplcnigerian@gmail.com>
+Date:   Thu, 23 Apr 2020 20:26:49 +0200
+Message-ID: <CABHzvr=N78snvtMHePMOa+RLFdcZEjXLPkuhkojt4VoZGNzBsQ@mail.gmail.com>
+Subject: Contact Bank of Africa-Benin to receive your payment funds transfer
+ amount of $12.800.000,00 Million USD,approved this morning by IMF.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 09:03:37PM +0530, Kiran Gunda wrote:
-> From: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-> 
-> PM8150L WLED supports the following:
->     - Two modulators and each sink can use any of the modulator
->     - Multiple CABC selection options from which one can be selected/enabled
->     - Multiple brightness width selection (12 bits to 15 bits)
-> 
-> Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
-
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Attn Dear.
+Contact Bank of Africa-Benin to receive your payment funds transfer amount =
+of
+$12.800.000,00 Million USD,approved this morning by IMF.
+Happy to inform you, we have finally deposited your payment funds
+$12.8 million us dollars with the Paying Bank of Africa-Benin
+to transfer the payment amount of $12.800,000,00 Million Us Dollars to you
+Contact the bank immediately you receive this email now.
+Director Bank of Africa-Benin: Dr. Festus Obiara
+Email id:  boa.benin107@yahoo.com
+Tel/mobile, (229) 62819378
+BOA-BENIN | GROUPE BANK OF AFRICA, boa-benin
+Avenue Jean-Paul II - 08 BP 0879 - Cotonou - B=C3=A9nin
+Phone:(229) 62819378.
+2020 GROUPE BANK OF AFRICA
+Be advised to re-confirm your bank details to this bank as listed.
+Your account Holder's name----------------
+Bank Name----------------------------------------------------------
+Bank address----------------------------------------------
+Account Numbers---------------------------------------
+Rounting-----------------------------------------------------------------
+Your direct Phone Numbers----------------------------------------------
+Note,I have paid the deposit and insurance fees for you
+But the only money you are to send to this bank is $150.00 us dollars
+Been for the wire transfer fees of your funds
+Contact Him now to receive your transfer deposited this morning
+I wait for your reply upon confirmation
+Mrs. Angella Michelle
+Editor, Zenith Bank- Companies Benin
+mrsa9389@gmail.com
