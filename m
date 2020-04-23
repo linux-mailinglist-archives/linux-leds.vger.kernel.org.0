@@ -2,91 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10AC81B6362
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Apr 2020 20:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7F981B66E4
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Apr 2020 00:38:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730310AbgDWS04 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Apr 2020 14:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52810 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730311AbgDWS0y (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Apr 2020 14:26:54 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C9C4C02549C
-        for <linux-leds@vger.kernel.org>; Thu, 23 Apr 2020 11:26:52 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id j7so3282660pgj.13
-        for <linux-leds@vger.kernel.org>; Thu, 23 Apr 2020 11:26:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=g40sBMuaO0eKdotmx6qgQBl63DKBmrekz5bvyEQHA4wVZtcqrxc+aFVgh/QD84O9VQ
-         7GeGJGwCstc5CQBYUut5JFB/SR9hiHRBoNucBdQ5+M/xcZE7LYnQNVriX94nlJDQQ53M
-         WWNnGuPMmJMtuCxOc6M3BOG48McWyi9pwkfv1qCbwmDhh95byI3UmcGK9ZJ59xQm/kqA
-         giNgZwxUHu+XTIAoqn/uu1orK63Ur+6hMBQW2TB101zb0oJ5HpVThkCq6id/TjpQtg27
-         HPMb1DcYsj7bM6wQaeV1UkPK6mgUhECRFNV10F5zDhvx1RXP4ikb8uuEIGMKOSNWVb51
-         vLew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=AtWOJscBORoi8KOlrOuHIowLew21R5bqbERgioy75ToiH7f7JtiIdCExqt6BXbJoe2
-         50TpnJuKKEYDzX4WzAwlboQn3tYgB96VN8vdcOC1ompCTfpWkwZ6zbGgINrEnn3eHRqT
-         dSAYJsEPMamla3F9Y4/CHgGIchq41tdUscTb8TWXBe4zV5Z3cquW3y+3K3fmPLvmA+RJ
-         cxALb/ud5SrnYAIBFADmwYzVeDqOzZWL3f5UAeDhiHga1cYbi+ov6e80mw83f4DADWCP
-         0MEiBNiGXgk+jRlug+/n14UvgLmKAOODiXSzFSvfV5f1UMUSeJoA5i7b1Y/jmlRO9EoY
-         YOGQ==
-X-Gm-Message-State: AGi0PubYSmB/u0xj6VtpNofNVAX6f3SVSA2bKsaAtes98zJ30vm8ojjM
-        bk1GPm+9WfGqmr7nYQsc0q0MmhnY4GkTEDi4b5eZEHY=
-X-Google-Smtp-Source: APiQypKZ88CB7WlyCjo0k9+cU4PX0VcggKkKtzSKgRJHkcPGizF0yZXAjzEMBgo6XH4xzBXv0KAOMjPM9p1sgpp6/70=
-X-Received: by 2002:a5e:9416:: with SMTP id q22mr2547966ioj.93.1587666410194;
- Thu, 23 Apr 2020 11:26:50 -0700 (PDT)
+        id S1726755AbgDWWiW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Apr 2020 18:38:22 -0400
+Received: from vm1.sequanux.org ([188.165.36.56]:53215 "EHLO vm1.sequanux.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726057AbgDWWiV (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 23 Apr 2020 18:38:21 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by vm1.sequanux.org (Postfix) with ESMTP id B3340108124;
+        Fri, 24 Apr 2020 00:38:20 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at vm1.sequanux.org
+Received: from vm1.sequanux.org ([127.0.0.1])
+        by localhost (vm1.sequanux.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id XG-rTuFs_W0y; Fri, 24 Apr 2020 00:38:18 +0200 (CEST)
+Received: from localhost (softwrestling.org [188.165.144.248])
+        by vm1.sequanux.org (Postfix) with ESMTPSA id 946B41080D6;
+        Fri, 24 Apr 2020 00:38:18 +0200 (CEST)
+Date:   Fri, 24 Apr 2020 00:38:18 +0200
+From:   Simon Guinot <simon.guinot@sequanux.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH] leds: netxbig: Convert to use GPIO descriptors
+Message-ID: <20200423223818.GG15254@kw.sim.vm.gnt>
+References: <20200415145139.155663-1-linus.walleij@linaro.org>
+ <20200417125219.GC19028@duo.ucw.cz>
+ <20200417180746.GD15254@kw.sim.vm.gnt>
+ <CACRpkdaBTeVt-Fp2OVOS_T_E1T7q1wTFUDCQ=foN72SdhJnHjw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a02:c845:0:0:0:0:0 with HTTP; Thu, 23 Apr 2020 11:26:49
- -0700 (PDT)
-Reply-To: boa.benin107@yahoo.com
-From:   "Mrs. Angella Michelle" <info.zennitbankplcnigerian@gmail.com>
-Date:   Thu, 23 Apr 2020 20:26:49 +0200
-Message-ID: <CABHzvr=N78snvtMHePMOa+RLFdcZEjXLPkuhkojt4VoZGNzBsQ@mail.gmail.com>
-Subject: Contact Bank of Africa-Benin to receive your payment funds transfer
- amount of $12.800.000,00 Million USD,approved this morning by IMF.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="JIpyCmsTxyPLrmrM"
+Content-Disposition: inline
+In-Reply-To: <CACRpkdaBTeVt-Fp2OVOS_T_E1T7q1wTFUDCQ=foN72SdhJnHjw@mail.gmail.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Attn Dear.
-Contact Bank of Africa-Benin to receive your payment funds transfer amount =
-of
-$12.800.000,00 Million USD,approved this morning by IMF.
-Happy to inform you, we have finally deposited your payment funds
-$12.8 million us dollars with the Paying Bank of Africa-Benin
-to transfer the payment amount of $12.800,000,00 Million Us Dollars to you
-Contact the bank immediately you receive this email now.
-Director Bank of Africa-Benin: Dr. Festus Obiara
-Email id:  boa.benin107@yahoo.com
-Tel/mobile, (229) 62819378
-BOA-BENIN | GROUPE BANK OF AFRICA, boa-benin
-Avenue Jean-Paul II - 08 BP 0879 - Cotonou - B=C3=A9nin
-Phone:(229) 62819378.
-2020 GROUPE BANK OF AFRICA
-Be advised to re-confirm your bank details to this bank as listed.
-Your account Holder's name----------------
-Bank Name----------------------------------------------------------
-Bank address----------------------------------------------
-Account Numbers---------------------------------------
-Rounting-----------------------------------------------------------------
-Your direct Phone Numbers----------------------------------------------
-Note,I have paid the deposit and insurance fees for you
-But the only money you are to send to this bank is $150.00 us dollars
-Been for the wire transfer fees of your funds
-Contact Him now to receive your transfer deposited this morning
-I wait for your reply upon confirmation
-Mrs. Angella Michelle
-Editor, Zenith Bank- Companies Benin
-mrsa9389@gmail.com
+
+--JIpyCmsTxyPLrmrM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Apr 17, 2020 at 10:58:24PM +0200, Linus Walleij wrote:
+> On Fri, Apr 17, 2020 at 8:07 PM Simon Guinot <simon.guinot@sequanux.org> =
+wrote:
+> > On Fri, Apr 17, 2020 at 02:52:19PM +0200, Pavel Machek wrote:
+> > > Hi!
+> > >
+> > > > This converts the NetXbig LED driver to use GPIO descriptors
+> > > > instead of using the legacy interfaces in <linux/of_gpio.h>
+> > > > and <linux/gpio.h> to iteratively parse the device tree for
+> > > > global GPIO numbers.
+> > > >
+> > > > Cc: Simon Guinot <simon.guinot@sequanux.org>
+> > > > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> > >
+> > > Nothing obviously wrong here, but I'd not mind some testing.
+> >
+> > Hi Pavel and Linux,
+> >
+> > If you are not in a hurry, then I'll try it next week.
+>=20
+> No hurry, take the time you need. If it explodes, please help me fix it!
+
+Well, nothing blew up. I successfully tested your patch on a LaCie
+"2Big NAS" board and it appears that the LEDs are working nicely.
+
+Thanks for converting this driver to use the GPIO descriptor API.
+
+Tested-by: Simon Guinot <simon.guinot@sequanux.org>
+
+Simon
+
+--JIpyCmsTxyPLrmrM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEXW8DgovlR3VS5hA0zyg/RDPmszoFAl6iGNkACgkQzyg/RDPm
+szpFFhAA2iFeRw+JVqSTQXVD25lQEPyAXGBorClThslMUBLZVH8tCD23JbHbDh00
+E8oDXWBJz85s8AFgtGL18koIOAqxHOVxf3sEBgl7FE9uHGoC+6/bOpnWcWsp+hdY
+7KCpU0ACEhp5SC/QCs1/yDmywRhLGDY/hO1sf7EADUfwC4ZdFvgVvFYcIvKv9kC4
+BkBsz7LTpToXYVSYUybc0vG/03q33pPO18yhetokAqFXo5g7svbaNUJKmDgiDiRF
+Ws6uDX1WaiGamEpy2z4EpIAdAy6Q6DjBwjyzo5AxKDWFR5s/FyU4wGOYNjjZIF2s
+vx3wVpXy2zDcONKcGPm1hYqt8YMp9t5Ldoe8z5oYsFrllOQ9h+1MbQkZTLpOQ69z
+DRxIlrqQIP6eXYmiErP/6pNUyFdcRHfNEkTO/MBgPLXNOJ5K0uSr8bKbk5nJGlyx
+bhQjerfG9Mz8okqKcS6JhheFuwDXhphXGoFQXqfhP+lfdLs2T/ogXu37o5WSz+6o
+PSoYiWJZHyDPSuMrVsKhH8am+slLQXZKG7UaNcnK4YrMjLdpsb3UIL6b1Ih58GjB
+Lb9feIYUpieV0wIaVkTHvcby9jF288C2cb//MvSsUP7wbjc/yk+TWRkx8BkHOd9y
+ic2tk5v7bSAIWp8sf34dx6WSObk5yb4ikF1PIQ+HVsob2v1eNfk=
+=NAbS
+-----END PGP SIGNATURE-----
+
+--JIpyCmsTxyPLrmrM--
