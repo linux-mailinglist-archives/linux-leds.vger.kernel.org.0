@@ -2,188 +2,188 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 303CD1B75DF
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Apr 2020 14:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADA141B7706
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Apr 2020 15:32:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728051AbgDXMrc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 24 Apr 2020 08:47:32 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:33462 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727809AbgDXMrZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Apr 2020 08:47:25 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03OClLLq013697;
-        Fri, 24 Apr 2020 07:47:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1587732441;
-        bh=apdDrANLzu3j4mUkujpFmPY7KzLCkyN+fjqYmAq9cZ4=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=qyDyO5qLA7f7VoERwOJPG+TRakChQcQtk0NZ6smup6hnZVLdAp1m9CQapRPbz1sFG
-         Pkqkm4T73RGXrOAb3iwq614DEcgl3iQ0GjpdmC/ryNrmKYrSXjOfdl3YmowkRTHJDs
-         D3qnurW1BhQUOj+3bgbOM94CvltkoGuKK1K/VroE=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03OClKcY048204
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 24 Apr 2020 07:47:21 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 24
- Apr 2020 07:47:20 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 24 Apr 2020 07:47:20 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03OClJ7e087059;
-        Fri, 24 Apr 2020 07:47:19 -0500
-Subject: Re: [PATCH v7 2/2] leds: Add control of the voltage/current regulator
- to the LED core
-To:     Pavel Machek <pavel@ucw.cz>, <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20191021174751.4421-1-jjhiblot@ti.com>
- <20191021174751.4421-3-jjhiblot@ti.com> <20191125163738.GC3816@amd>
-From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <50691066-f40e-b690-57e5-8d41b0696f79@ti.com>
-Date:   Fri, 24 Apr 2020 15:47:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726946AbgDXNcy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 Apr 2020 09:32:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726717AbgDXNcx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 24 Apr 2020 09:32:53 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64024C09B045
+        for <linux-leds@vger.kernel.org>; Fri, 24 Apr 2020 06:32:53 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id d17so10803881wrg.11
+        for <linux-leds@vger.kernel.org>; Fri, 24 Apr 2020 06:32:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=0gIO13I1Ae57+qhd2eTd8vOWx23lidFY8DLuBzS0PBY=;
+        b=HXC9cCTXEpM4ZHTwr1tJ6sKgKyIeRdeD1C2rrymX6k75mxHKwWh5k5elYuqjQ8XQP8
+         Nvrm7LNE5FsR5PZkHiwhE+4DxKR5fuGplpKyJSn+qVUkmFeD8NR2fDif8+BaRL7QnjCt
+         0iQ2doWZe2xG3C6GSo4ib2gfB9K0Q5urHTIX/UUmCLc7+im7aJmjpees3u6sw1AeB7EI
+         HoUx5sGUcQYT1mR4DTpDlNaBuELhWs2J9SRSYppJ8LMWw08CpDomgwpsNlj5BhNcPukj
+         J8sCagx85vr1rt6+EdPhqB4RvCkhA0S6gyLVqQu7LIIRKRKc7639zK+QVWlHpHPnTrFT
+         7cWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=0gIO13I1Ae57+qhd2eTd8vOWx23lidFY8DLuBzS0PBY=;
+        b=JovOySsTdYghZ/NuY8TIAG8wpprrD691lvMHlW9eTSrsjUVKo1y+X5yHvc8PIjqwPN
+         l4XLOuipe1WBck8TWICsZpDZgDjngDL37jImjX5ysMLCCxtVgBrtuPFxlS0mMQv2W4LE
+         4Z6nBIowZddv0oV5dNaX07rN8ya2uQC2FIDp1z4Legh5JKUnYFcmUmbq237bgtzGietd
+         Nfj0nU3sCGpQu2MfIAOBiVTDYod3Fmtu6dtjxNQSR+8bnlAJCcqYMQ2Krm4jUDDb2Leq
+         M37qMkcu4MpupiI24ljI3GWnk/VnAgY9YUrXM0MFG0ygbB4J5ixo4OTkmLKhfi3pw5As
+         QBsw==
+X-Gm-Message-State: AGi0Pual05ayJhUIOpAc3YB6unKNaKoqSZl17Wj2dcRjLR+FxxaASd2O
+        0PmTWNAjx5u6E6mYnV0xGZl+k2M9
+X-Google-Smtp-Source: APiQypIV0nTedaB5kdnb0mgKEVogdNyGPlyoNOq7X2FfUVUU9cxGBC+v9D2/SEZrhBzoo5iRgZ5rww==
+X-Received: by 2002:a05:6000:8b:: with SMTP id m11mr11288855wrx.168.1587735171883;
+        Fri, 24 Apr 2020 06:32:51 -0700 (PDT)
+Received: from skynet.lan (33.red-2-137-27.dynamicip.rima-tde.net. [2.137.27.33])
+        by smtp.gmail.com with ESMTPSA id i13sm8310263wro.50.2020.04.24.06.32.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2020 06:32:51 -0700 (PDT)
+From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+To:     linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
+        jonas.gorski@gmail.com, rpurdie@rpsys.net, pavel@ucw.cz
+Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+Subject: [PATCH v2] leds-bcm6328: support second hw blinking interval
+Date:   Fri, 24 Apr 2020 15:32:43 +0200
+Message-Id: <20200424133243.27303-1-noltari@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200424124621.23005-1-noltari@gmail.com>
+References: <20200424124621.23005-1-noltari@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191125163738.GC3816@amd>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Add support for both configurable HW blinking intervals.
 
-On 04/12/2019 14:37, Pavel Machek wrote:
-> Hi!
-> 
->> A LED is usually powered by a voltage/current regulator. Let the LED core
->> know about it. This allows the LED core to turn on or off the power supply
->> as needed.
->>
->> Because turning ON/OFF a regulator might block, it is not done
->> synchronously but done in a workqueue. Turning ON the regulator is
->> always
+Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
+---
+ v2: remove LED from the other interval
 
-JJ had to leave this unfinished, and now I'm trying to pick this work up.
+ drivers/leds/leds-bcm6328.c | 56 ++++++++++++++++++++++++++-----------
+ 1 file changed, 40 insertions(+), 16 deletions(-)
 
-> How will this interact with LEDs that can be used from atomic context?
-
-I think the idea here is that if the LED uses a regulator, and the regulator needs to be enabled, 
-then the whole work is scheduled. If there's no regulator or if the regulator is already enabled, 
-the brightness is set directly.
-
->> +static ssize_t regulator_auto_off_store(struct device *dev,
->> +		struct device_attribute *attr, const char *buf, size_t size)
->> +{
->> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
->> +	ssize_t ret = size;
->> +	bool auto_off;
->> +
->> +	if (strncmp(buf, "enable\n", size) == 0)
->> +		auto_off = true;
->> +	else if (strncmp(buf, "disable\n", size) == 0)
->> +		auto_off = false;
->> +	else
->> +		return -EINVAL;
-> 
-> Sounds like device power management to me. Is it compatible with that?
-
-Can you elaborate what you mean?
-
->> @@ -135,6 +203,8 @@ static void set_brightness_delayed(struct work_struct *ws)
->>   	    (led_cdev->flags & LED_HW_PLUGGABLE)))
->>   		dev_err(led_cdev->dev,
->>   			"Setting an LED's brightness failed (%d)\n", ret);
->> +
->> +	 led_handle_regulator(led_cdev);
->>   }
->>
-> 
-> You only modify set_brigthness_delays, so this will not work at all
-> for non-blocking LEDs, right?
-
-I'm not that familiar with led framework yet, but if setting of the brightness always goes via 
-led_set_brightness_nopm(), then I think this would work for all LEDs, as led_set_brightness_nopm 
-will schedule the work if needed (which goes to set_brightness_delayed).
-
->>   static void led_set_software_blink(struct led_classdev *led_cdev,
->> @@ -189,6 +259,7 @@ static void led_blink_setup(struct led_classdev *led_cdev,
->>   void led_init_core(struct led_classdev *led_cdev)
->>   {
->>   	INIT_WORK(&led_cdev->set_brightness_work, set_brightness_delayed);
->> +	INIT_DELAYED_WORK(&led_cdev->reg_off_work, turn_off_regulator_delayed);
->>   
-> 
-> Could this re-use the workqueue? Many systems will not need
-> regulators, so this is overhead...
-
-You mean re-use the 'set_brightness_work' work? I'm not sure how that would be done, they're a bit 
-different things. set_brightness_work is used to change the context from atomic to non-atomic, and 
-reg_off_work is used to turn the regulator off after a specified delay.
-
->> +			/*
->> +			 * the regulator must  be turned off. This cannot be
-> 
-> Use "The", and fix double spaces between must and be.
-> 
->> +		} else if (regulator_on && old == REG_R_OFF_U_OFF) {
->> +			/*
->> +			 * the regulator must be enabled. This cannot be here
-> 
-> "The"
-> 
->> +		/*
->> +		 * small optimization. Cancel the work that had been started
-> 
-> "Small."
-> 
->> +#include <linux/regulator/consumer.h>
->> +
->> +/*
->> + * The regulator state tracks 2 boolean variables:
->> + * - the state of regulator (or more precisely the state required by
->> + *   led core layer, as many users can interact with the same regulator).
->> + *   It is tracked by bit 0.
->> + * - the state last asked-for by the LED user. It is tracked by bit 1.
->> + */
->> +#define REG_R_ON BIT(0)
->> +#define REG_U_ON BIT(1)
->> +
->> +enum {	REG_R_OFF_U_OFF = 0,
->> +	REG_R_ON_U_OFF = REG_R_ON,
->> +	REG_R_OFF_U_ON = REG_U_ON,
->> +	REG_R_ON_U_ON = REG_R_ON | REG_U_ON
->> +};
-> 
-> That's quite weird use of enum.
-
-Yes, these could as well be defines, if that's what you mean.
-
->> +++ b/include/linux/leds.h
->> @@ -149,6 +149,15 @@ struct led_classdev {
->>   
->>   	/* Ensures consistent access to the LED Flash Class device */
->>   	struct mutex		led_access;
->> +
->> +	/* regulator */
-> 
-> "Regulator".
-
-Fixed this and the other cosmetic changes, thanks!
-
-Overall, I wonder if all this is worth it as this is somewhat complex change, compared to just 
-having the regulator always enabled...
-
-  Tomi
-
+diff --git a/drivers/leds/leds-bcm6328.c b/drivers/leds/leds-bcm6328.c
+index 42e1b7598c3a..a5a57a8d2a1c 100644
+--- a/drivers/leds/leds-bcm6328.c
++++ b/drivers/leds/leds-bcm6328.c
+@@ -24,12 +24,16 @@
+ 
+ #define BCM6328_LED_MAX_COUNT		24
+ #define BCM6328_LED_DEF_DELAY		500
++#define BCM6328_LED_INTERVAL_NUM	2
+ #define BCM6328_LED_INTERVAL_MS		20
+ 
+ #define BCM6328_LED_INTV_MASK		0x3f
+-#define BCM6328_LED_FAST_INTV_SHIFT	6
+-#define BCM6328_LED_FAST_INTV_MASK	(BCM6328_LED_INTV_MASK << \
+-					 BCM6328_LED_FAST_INTV_SHIFT)
++#define BCM6328_LED_INTV1_SHIFT		0
++#define BCM6328_LED_INTV1_MASK		(BCM6328_LED_INTV_MASK << \
++					 BCM6328_LED_INTV1_SHIFT)
++#define BCM6328_LED_INTV2_SHIFT		6
++#define BCM6328_LED_INTV2_MASK		(BCM6328_LED_INTV_MASK << \
++					 BCM6328_LED_INTV2_SHIFT)
+ #define BCM6328_SERIAL_LED_EN		BIT(12)
+ #define BCM6328_SERIAL_LED_MUX		BIT(13)
+ #define BCM6328_SERIAL_LED_CLK_NPOL	BIT(14)
+@@ -45,8 +49,8 @@
+ 
+ #define BCM6328_LED_MODE_MASK		3
+ #define BCM6328_LED_MODE_ON		0
+-#define BCM6328_LED_MODE_FAST		1
+-#define BCM6328_LED_MODE_BLINK		2
++#define BCM6328_LED_MODE_INTV1		1
++#define BCM6328_LED_MODE_INTV2		2
+ #define BCM6328_LED_MODE_OFF		3
+ #define BCM6328_LED_SHIFT(X)		((X) << 1)
+ 
+@@ -127,7 +131,8 @@ static void bcm6328_led_set(struct led_classdev *led_cdev,
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(led->lock, flags);
+-	*(led->blink_leds) &= ~BIT(led->pin);
++	led->blink_leds[0] &= ~BIT(led->pin);
++	led->blink_leds[1] &= ~BIT(led->pin);
+ 	if ((led->active_low && value == LED_OFF) ||
+ 	    (!led->active_low && value != LED_OFF))
+ 		bcm6328_led_mode(led, BCM6328_LED_MODE_ON);
+@@ -176,20 +181,37 @@ static int bcm6328_blink_set(struct led_classdev *led_cdev,
+ 	}
+ 
+ 	spin_lock_irqsave(led->lock, flags);
+-	if (*(led->blink_leds) == 0 ||
+-	    *(led->blink_leds) == BIT(led->pin) ||
+-	    *(led->blink_delay) == delay) {
++	if (led->blink_leds[0] == 0 ||
++	    led->blink_leds[0] == BIT(led->pin) ||
++	    led->blink_delay[0] == delay) {
+ 		unsigned long val;
+ 
+-		*(led->blink_leds) |= BIT(led->pin);
+-		*(led->blink_delay) = delay;
++		led->blink_leds[0] |= BIT(led->pin);
++		led->blink_leds[1] &= ~BIT(led->pin);
++		led->blink_delay[0] = delay;
+ 
+ 		val = bcm6328_led_read(led->mem + BCM6328_REG_INIT);
+-		val &= ~BCM6328_LED_FAST_INTV_MASK;
+-		val |= (delay << BCM6328_LED_FAST_INTV_SHIFT);
++		val &= ~BCM6328_LED_INTV1_MASK;
++		val |= (delay << BCM6328_LED_INTV1_SHIFT);
+ 		bcm6328_led_write(led->mem + BCM6328_REG_INIT, val);
+ 
+-		bcm6328_led_mode(led, BCM6328_LED_MODE_BLINK);
++		bcm6328_led_mode(led, BCM6328_LED_MODE_INTV1);
++		rc = 0;
++	} else if (led->blink_leds[1] == 0 ||
++		   led->blink_leds[1] == BIT(led->pin) ||
++		   led->blink_delay[1] == delay) {
++		unsigned long val;
++
++		led->blink_leds[0] &= ~BIT(led->pin);
++		led->blink_leds[1] |= BIT(led->pin);
++		led->blink_delay[1] = delay;
++
++		val = bcm6328_led_read(led->mem + BCM6328_REG_INIT);
++		val &= ~BCM6328_LED_INTV2_MASK;
++		val |= (delay << BCM6328_LED_INTV2_SHIFT);
++		bcm6328_led_write(led->mem + BCM6328_REG_INIT, val);
++
++		bcm6328_led_mode(led, BCM6328_LED_MODE_INTV2);
+ 		rc = 0;
+ 	} else {
+ 		dev_dbg(led_cdev->dev,
+@@ -358,11 +380,13 @@ static int bcm6328_leds_probe(struct platform_device *pdev)
+ 	if (!lock)
+ 		return -ENOMEM;
+ 
+-	blink_leds = devm_kzalloc(dev, sizeof(*blink_leds), GFP_KERNEL);
++	blink_leds = devm_kcalloc(dev, BCM6328_LED_INTERVAL_NUM,
++				  sizeof(*blink_leds), GFP_KERNEL);
+ 	if (!blink_leds)
+ 		return -ENOMEM;
+ 
+-	blink_delay = devm_kzalloc(dev, sizeof(*blink_delay), GFP_KERNEL);
++	blink_delay = devm_kcalloc(dev, BCM6328_LED_INTERVAL_NUM,
++				   sizeof(*blink_delay), GFP_KERNEL);
+ 	if (!blink_delay)
+ 		return -ENOMEM;
+ 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.20.1
+
