@@ -2,188 +2,231 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADA141B7706
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Apr 2020 15:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53F7C1B81DA
+	for <lists+linux-leds@lfdr.de>; Sat, 25 Apr 2020 00:02:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbgDXNcy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 24 Apr 2020 09:32:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726717AbgDXNcx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 24 Apr 2020 09:32:53 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64024C09B045
-        for <linux-leds@vger.kernel.org>; Fri, 24 Apr 2020 06:32:53 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id d17so10803881wrg.11
-        for <linux-leds@vger.kernel.org>; Fri, 24 Apr 2020 06:32:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0gIO13I1Ae57+qhd2eTd8vOWx23lidFY8DLuBzS0PBY=;
-        b=HXC9cCTXEpM4ZHTwr1tJ6sKgKyIeRdeD1C2rrymX6k75mxHKwWh5k5elYuqjQ8XQP8
-         Nvrm7LNE5FsR5PZkHiwhE+4DxKR5fuGplpKyJSn+qVUkmFeD8NR2fDif8+BaRL7QnjCt
-         0iQ2doWZe2xG3C6GSo4ib2gfB9K0Q5urHTIX/UUmCLc7+im7aJmjpees3u6sw1AeB7EI
-         HoUx5sGUcQYT1mR4DTpDlNaBuELhWs2J9SRSYppJ8LMWw08CpDomgwpsNlj5BhNcPukj
-         J8sCagx85vr1rt6+EdPhqB4RvCkhA0S6gyLVqQu7LIIRKRKc7639zK+QVWlHpHPnTrFT
-         7cWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0gIO13I1Ae57+qhd2eTd8vOWx23lidFY8DLuBzS0PBY=;
-        b=JovOySsTdYghZ/NuY8TIAG8wpprrD691lvMHlW9eTSrsjUVKo1y+X5yHvc8PIjqwPN
-         l4XLOuipe1WBck8TWICsZpDZgDjngDL37jImjX5ysMLCCxtVgBrtuPFxlS0mMQv2W4LE
-         4Z6nBIowZddv0oV5dNaX07rN8ya2uQC2FIDp1z4Legh5JKUnYFcmUmbq237bgtzGietd
-         Nfj0nU3sCGpQu2MfIAOBiVTDYod3Fmtu6dtjxNQSR+8bnlAJCcqYMQ2Krm4jUDDb2Leq
-         M37qMkcu4MpupiI24ljI3GWnk/VnAgY9YUrXM0MFG0ygbB4J5ixo4OTkmLKhfi3pw5As
-         QBsw==
-X-Gm-Message-State: AGi0Pual05ayJhUIOpAc3YB6unKNaKoqSZl17Wj2dcRjLR+FxxaASd2O
-        0PmTWNAjx5u6E6mYnV0xGZl+k2M9
-X-Google-Smtp-Source: APiQypIV0nTedaB5kdnb0mgKEVogdNyGPlyoNOq7X2FfUVUU9cxGBC+v9D2/SEZrhBzoo5iRgZ5rww==
-X-Received: by 2002:a05:6000:8b:: with SMTP id m11mr11288855wrx.168.1587735171883;
-        Fri, 24 Apr 2020 06:32:51 -0700 (PDT)
-Received: from skynet.lan (33.red-2-137-27.dynamicip.rima-tde.net. [2.137.27.33])
-        by smtp.gmail.com with ESMTPSA id i13sm8310263wro.50.2020.04.24.06.32.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2020 06:32:51 -0700 (PDT)
-From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-To:     linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
-        jonas.gorski@gmail.com, rpurdie@rpsys.net, pavel@ucw.cz
-Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-Subject: [PATCH v2] leds-bcm6328: support second hw blinking interval
-Date:   Fri, 24 Apr 2020 15:32:43 +0200
-Message-Id: <20200424133243.27303-1-noltari@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200424124621.23005-1-noltari@gmail.com>
-References: <20200424124621.23005-1-noltari@gmail.com>
+        id S1726032AbgDXWCu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 Apr 2020 18:02:50 -0400
+Received: from v6.sk ([167.172.42.174]:59610 "EHLO v6.sk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725874AbgDXWCt (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 24 Apr 2020 18:02:49 -0400
+Received: from localhost (v6.sk [IPv6:::1])
+        by v6.sk (Postfix) with ESMTP id 44208610A8;
+        Fri, 24 Apr 2020 22:02:47 +0000 (UTC)
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        Lubomir Rintel <lkundrak@v3.sk>
+Subject: [PATCH v4] leds: ariel: Add driver for status LEDs on Dell Wyse 3020
+Date:   Sat, 25 Apr 2020 00:02:40 +0200
+Message-Id: <20200424220240.106055-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add support for both configurable HW blinking intervals.
+This adds support for controlling the LEDs attached to the Embedded
+Controller on a Dell Wyse 3020 "Ariel" board.
 
-Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
+Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+
 ---
- v2: remove LED from the other interval
+Changes since v3:
+- Actually use the loop iterator when registering the LEDs.
+- Move dev_get_regmap() above devm_kcalloc()
 
- drivers/leds/leds-bcm6328.c | 56 ++++++++++++++++++++++++++-----------
- 1 file changed, 40 insertions(+), 16 deletions(-)
+Changes since v2:
+- Hopefully sending out the correct patch this time...
 
-diff --git a/drivers/leds/leds-bcm6328.c b/drivers/leds/leds-bcm6328.c
-index 42e1b7598c3a..a5a57a8d2a1c 100644
---- a/drivers/leds/leds-bcm6328.c
-+++ b/drivers/leds/leds-bcm6328.c
-@@ -24,12 +24,16 @@
+Changes since v1:
+- Reduce code duplication with a loop
+- Drop "ariel:" prefix from led names
+- Do not print a message after a successful probe
+
+ drivers/leds/Kconfig      |  11 ++++
+ drivers/leds/Makefile     |   1 +
+ drivers/leds/leds-ariel.c | 133 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 145 insertions(+)
+ create mode 100644 drivers/leds/leds-ariel.c
+
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index c664d84e1667..a20149e9581f 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -83,6 +83,17 @@ config LEDS_APU
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called leds-apu.
  
- #define BCM6328_LED_MAX_COUNT		24
- #define BCM6328_LED_DEF_DELAY		500
-+#define BCM6328_LED_INTERVAL_NUM	2
- #define BCM6328_LED_INTERVAL_MS		20
- 
- #define BCM6328_LED_INTV_MASK		0x3f
--#define BCM6328_LED_FAST_INTV_SHIFT	6
--#define BCM6328_LED_FAST_INTV_MASK	(BCM6328_LED_INTV_MASK << \
--					 BCM6328_LED_FAST_INTV_SHIFT)
-+#define BCM6328_LED_INTV1_SHIFT		0
-+#define BCM6328_LED_INTV1_MASK		(BCM6328_LED_INTV_MASK << \
-+					 BCM6328_LED_INTV1_SHIFT)
-+#define BCM6328_LED_INTV2_SHIFT		6
-+#define BCM6328_LED_INTV2_MASK		(BCM6328_LED_INTV_MASK << \
-+					 BCM6328_LED_INTV2_SHIFT)
- #define BCM6328_SERIAL_LED_EN		BIT(12)
- #define BCM6328_SERIAL_LED_MUX		BIT(13)
- #define BCM6328_SERIAL_LED_CLK_NPOL	BIT(14)
-@@ -45,8 +49,8 @@
- 
- #define BCM6328_LED_MODE_MASK		3
- #define BCM6328_LED_MODE_ON		0
--#define BCM6328_LED_MODE_FAST		1
--#define BCM6328_LED_MODE_BLINK		2
-+#define BCM6328_LED_MODE_INTV1		1
-+#define BCM6328_LED_MODE_INTV2		2
- #define BCM6328_LED_MODE_OFF		3
- #define BCM6328_LED_SHIFT(X)		((X) << 1)
- 
-@@ -127,7 +131,8 @@ static void bcm6328_led_set(struct led_classdev *led_cdev,
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(led->lock, flags);
--	*(led->blink_leds) &= ~BIT(led->pin);
-+	led->blink_leds[0] &= ~BIT(led->pin);
-+	led->blink_leds[1] &= ~BIT(led->pin);
- 	if ((led->active_low && value == LED_OFF) ||
- 	    (!led->active_low && value != LED_OFF))
- 		bcm6328_led_mode(led, BCM6328_LED_MODE_ON);
-@@ -176,20 +181,37 @@ static int bcm6328_blink_set(struct led_classdev *led_cdev,
- 	}
- 
- 	spin_lock_irqsave(led->lock, flags);
--	if (*(led->blink_leds) == 0 ||
--	    *(led->blink_leds) == BIT(led->pin) ||
--	    *(led->blink_delay) == delay) {
-+	if (led->blink_leds[0] == 0 ||
-+	    led->blink_leds[0] == BIT(led->pin) ||
-+	    led->blink_delay[0] == delay) {
- 		unsigned long val;
- 
--		*(led->blink_leds) |= BIT(led->pin);
--		*(led->blink_delay) = delay;
-+		led->blink_leds[0] |= BIT(led->pin);
-+		led->blink_leds[1] &= ~BIT(led->pin);
-+		led->blink_delay[0] = delay;
- 
- 		val = bcm6328_led_read(led->mem + BCM6328_REG_INIT);
--		val &= ~BCM6328_LED_FAST_INTV_MASK;
--		val |= (delay << BCM6328_LED_FAST_INTV_SHIFT);
-+		val &= ~BCM6328_LED_INTV1_MASK;
-+		val |= (delay << BCM6328_LED_INTV1_SHIFT);
- 		bcm6328_led_write(led->mem + BCM6328_REG_INIT, val);
- 
--		bcm6328_led_mode(led, BCM6328_LED_MODE_BLINK);
-+		bcm6328_led_mode(led, BCM6328_LED_MODE_INTV1);
-+		rc = 0;
-+	} else if (led->blink_leds[1] == 0 ||
-+		   led->blink_leds[1] == BIT(led->pin) ||
-+		   led->blink_delay[1] == delay) {
-+		unsigned long val;
++config LEDS_ARIEL
++	tristate "Dell Wyse 3020 status LED support"
++	depends on LEDS_CLASS
++	depends on (MACH_MMP3_DT && MFD_ENE_KB3930) || COMPILE_TEST
++	help
++	  This driver adds support for controlling the front panel status
++	  LEDs on Dell Wyse 3020 (Ariel) board via the KB3930 Embedded
++	  Controller.
 +
-+		led->blink_leds[0] &= ~BIT(led->pin);
-+		led->blink_leds[1] |= BIT(led->pin);
-+		led->blink_delay[1] = delay;
++	  Say Y to if your machine is a Dell Wyse 3020 thin client.
 +
-+		val = bcm6328_led_read(led->mem + BCM6328_REG_INIT);
-+		val &= ~BCM6328_LED_INTV2_MASK;
-+		val |= (delay << BCM6328_LED_INTV2_SHIFT);
-+		bcm6328_led_write(led->mem + BCM6328_REG_INIT, val);
+ config LEDS_AS3645A
+ 	tristate "AS3645A and LM3555 LED flash controllers support"
+ 	depends on I2C && LEDS_CLASS_FLASH
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index 45235d5fb218..24127f2c4a16 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -12,6 +12,7 @@ obj-$(CONFIG_LEDS_AAT1290)		+= leds-aat1290.o
+ obj-$(CONFIG_LEDS_ADP5520)		+= leds-adp5520.o
+ obj-$(CONFIG_LEDS_AN30259A)		+= leds-an30259a.o
+ obj-$(CONFIG_LEDS_APU)			+= leds-apu.o
++obj-$(CONFIG_LEDS_ARIEL)		+= leds-ariel.o
+ obj-$(CONFIG_LEDS_AS3645A)		+= leds-as3645a.o
+ obj-$(CONFIG_LEDS_ASIC3)		+= leds-asic3.o
+ obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
+diff --git a/drivers/leds/leds-ariel.c b/drivers/leds/leds-ariel.c
+new file mode 100644
+index 000000000000..bb68ba23a7d4
+--- /dev/null
++++ b/drivers/leds/leds-ariel.c
+@@ -0,0 +1,133 @@
++// SPDX-License-Identifier: BSD-2-Clause OR GPL-2.0-or-later
++/*
++ * Dell Wyse 3020 a.k.a. "Ariel" Embedded Controller LED Driver
++ *
++ * Copyright (C) 2020 Lubomir Rintel
++ */
 +
-+		bcm6328_led_mode(led, BCM6328_LED_MODE_INTV2);
- 		rc = 0;
- 	} else {
- 		dev_dbg(led_cdev->dev,
-@@ -358,11 +380,13 @@ static int bcm6328_leds_probe(struct platform_device *pdev)
- 	if (!lock)
- 		return -ENOMEM;
- 
--	blink_leds = devm_kzalloc(dev, sizeof(*blink_leds), GFP_KERNEL);
-+	blink_leds = devm_kcalloc(dev, BCM6328_LED_INTERVAL_NUM,
-+				  sizeof(*blink_leds), GFP_KERNEL);
- 	if (!blink_leds)
- 		return -ENOMEM;
- 
--	blink_delay = devm_kzalloc(dev, sizeof(*blink_delay), GFP_KERNEL);
-+	blink_delay = devm_kcalloc(dev, BCM6328_LED_INTERVAL_NUM,
-+				   sizeof(*blink_delay), GFP_KERNEL);
- 	if (!blink_delay)
- 		return -ENOMEM;
- 
++#include <linux/module.h>
++#include <linux/leds.h>
++#include <linux/regmap.h>
++#include <linux/of_platform.h>
++
++enum ec_index {
++	EC_BLUE_LED	= 0x01,
++	EC_AMBER_LED	= 0x02,
++	EC_GREEN_LED	= 0x03,
++};
++
++enum {
++	EC_LED_OFF	= 0x00,
++	EC_LED_STILL	= 0x01,
++	EC_LED_FADE	= 0x02,
++	EC_LED_BLINK	= 0x03,
++};
++
++struct ariel_led {
++	struct regmap *ec_ram;
++	enum ec_index ec_index;
++	struct led_classdev led_cdev;
++};
++
++#define led_cdev_to_ariel_led(c) container_of(c, struct ariel_led, led_cdev)
++
++static enum led_brightness ariel_led_get(struct led_classdev *led_cdev)
++{
++	struct ariel_led *led = led_cdev_to_ariel_led(led_cdev);
++	unsigned int led_status = 0;
++
++	if (regmap_read(led->ec_ram, led->ec_index, &led_status))
++		return LED_OFF;
++
++	if (led_status == EC_LED_STILL)
++		return LED_FULL;
++	else
++		return LED_OFF;
++}
++
++static void ariel_led_set(struct led_classdev *led_cdev,
++			  enum led_brightness brightness)
++{
++	struct ariel_led *led = led_cdev_to_ariel_led(led_cdev);
++
++	if (brightness == LED_OFF)
++		regmap_write(led->ec_ram, led->ec_index, EC_LED_OFF);
++	else
++		regmap_write(led->ec_ram, led->ec_index, EC_LED_STILL);
++}
++
++static int ariel_blink_set(struct led_classdev *led_cdev,
++			   unsigned long *delay_on, unsigned long *delay_off)
++{
++	struct ariel_led *led = led_cdev_to_ariel_led(led_cdev);
++
++	if (*delay_on == 0 && *delay_off == 0)
++		return -EINVAL;
++
++	if (*delay_on == 0) {
++		regmap_write(led->ec_ram, led->ec_index, EC_LED_OFF);
++	} else if (*delay_off == 0) {
++		regmap_write(led->ec_ram, led->ec_index, EC_LED_STILL);
++	} else {
++		*delay_on = 500;
++		*delay_off = 500;
++		regmap_write(led->ec_ram, led->ec_index, EC_LED_BLINK);
++	}
++
++	return 0;
++}
++
++#define NLEDS 3
++
++static int ariel_led_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct ariel_led *leds;
++	struct regmap *ec_ram;
++	int ret;
++	int i;
++
++	ec_ram = dev_get_regmap(dev->parent, "ec_ram");
++	if (!ec_ram)
++		return -ENODEV;
++
++	leds = devm_kcalloc(dev, NLEDS, sizeof(*leds), GFP_KERNEL);
++	if (!leds)
++		return -ENOMEM;
++
++	leds[0].ec_index = EC_BLUE_LED;
++	leds[0].led_cdev.name = "blue:power",
++	leds[0].led_cdev.default_trigger = "default-on";
++
++	leds[1].ec_index = EC_AMBER_LED;
++	leds[1].led_cdev.name = "amber:status",
++
++	leds[2].ec_index = EC_GREEN_LED;
++	leds[2].led_cdev.name = "green:status",
++	leds[2].led_cdev.default_trigger = "default-on";
++
++	for (i = 0; i < NLEDS; i++) {
++		leds[i].ec_ram = ec_ram;
++		leds[i].led_cdev.brightness_get = ariel_led_get;
++		leds[i].led_cdev.brightness_set = ariel_led_set;
++		leds[i].led_cdev.blink_set = ariel_blink_set;
++
++		ret = devm_led_classdev_register(dev, &leds[i].led_cdev);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static struct platform_driver ariel_led_driver = {
++	.probe = ariel_led_probe,
++	.driver = {
++		.name = "dell-wyse-ariel-led",
++	},
++};
++module_platform_driver(ariel_led_driver);
++
++MODULE_AUTHOR("Lubomir Rintel <lkundrak@v3.sk>");
++MODULE_DESCRIPTION("Dell Wyse 3020 Status LEDs Driver");
++MODULE_LICENSE("Dual BSD/GPL");
 -- 
-2.20.1
+2.26.0
 
