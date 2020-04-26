@@ -2,67 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D49F41B91AC
-	for <lists+linux-leds@lfdr.de>; Sun, 26 Apr 2020 18:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88AB71B91D8
+	for <lists+linux-leds@lfdr.de>; Sun, 26 Apr 2020 18:46:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726230AbgDZQYW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 26 Apr 2020 12:24:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54662 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726146AbgDZQYV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 26 Apr 2020 12:24:21 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18B29C061A0F;
-        Sun, 26 Apr 2020 09:24:21 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id y24so17605685wma.4;
-        Sun, 26 Apr 2020 09:24:21 -0700 (PDT)
+        id S1726150AbgDZQqY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 26 Apr 2020 12:46:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58026 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726143AbgDZQqY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 26 Apr 2020 12:46:24 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35FDEC061A0F;
+        Sun, 26 Apr 2020 09:46:24 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id x25so16885932wmc.0;
+        Sun, 26 Apr 2020 09:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2FSIBGKb8N23CdS4eZEpPYbf1u7aJ6F81ThCyPR7vaM=;
-        b=bG8hqFeMjAs1s7psjEGM8VNstrlaioDV7KG0xPCw/DI7PZVuZPUNxhf92qckFSorPD
-         hSk42AoIjy+G9trimASfQAdNq6SAfJENYu1uyf6xZYuaYuqkBD0r5kOy66gdEyI6Z10M
-         83PAJq4YxvQTigibxBLbTdMkBDtnoeK2RsSzVls/pe9qbSoRd7gg55pmCpPWivCzlLbA
-         jGfBFURtU9jGa0T7Ix6gC2z/pqBhdRPeye1fJoOBsjUHQUxvjQFhwtLECQf60tPbNPX0
-         7UlsJWOAYqBljPhmRYuqKF1CZmO8/7qlAaDJg48ptdGoJSAfOQyTQxsslH8o5rVp1uQf
-         e84A==
+        bh=iUe5NXaxGL1zLQenTHEIL9FKuJd3II5VQVl4t/j1xtQ=;
+        b=Er6hBDhw3YhRy4GKH8lQ9t7X+43g1q9WeAXBpv+FA0ZcBLVz7oRpA4dsAKAvhZM//v
+         /2EVwrBG83DgBersYYSXr490bH0EteJaH+7/8zRvBUVw4erUY5nXg83hxNhfOul68HMZ
+         vJ6ZO49lX6Br4C0pUMyfrhN55KDSepfKSz2QsT4zbde1gOh+ScjwfQcBR0YMqTSgy0+i
+         n0qaff4oQd2NIJYIioEVkeUPVfeg7QKpV5RVRKV2Q/b8K23ILT/QmOIEPmfDvzZJ2DDC
+         PJiPT4yx91nWYVzKpYVX28ck008tWhej6rkoHfr1z+dqurmKaLaMr5/FNwDJJ6/U1buJ
+         wICg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=2FSIBGKb8N23CdS4eZEpPYbf1u7aJ6F81ThCyPR7vaM=;
-        b=fohdVTbCBC1GWhv16QrOZasz8Hyvg2BLwynCccqcA8ZoI+XNkDHcjMk6YdspW9Kr3o
-         9Pn2boSiXpp9ByBuQt2hNsC0NW4TcPdZwE1omKyDd18tRkrQgSxrYDKYOJec6xbRHFjV
-         yyIdQrXf/IJjo6bbQNFUsQgxWYsJ6J/n2wG3hD4eFVjD/o/e/pgYc2vQRiJh4LNxkIK0
-         I1sjDU74YNnlY0xGvrhkFA3jGKWuxrc0DKaJfk+Z8vwXtuC7EpIN8c2T8dS4pF3A+8d4
-         Dw6ZBSxxYMK0ObySGUiwfttasiMqTioKDRyOjza1NcLNTlxQ79ihAQuwFmJGLP9OKdNg
-         Oajw==
-X-Gm-Message-State: AGi0Pubb9Th3ES/UbGrCvzvAWj++nXWZVTAWJmkALrI68Sguk9Pro459
-        2fq31mZQegHcamVqUGzvZipd4+SA
-X-Google-Smtp-Source: APiQypI6O0pVSBPH3EAc6Gt9qNDpExt9txPY19Yu3FivCObpz9U34rAfzu0Mm6JHBF1p+9QkzgHDiw==
-X-Received: by 2002:a1c:c2d6:: with SMTP id s205mr22676525wmf.90.1587918259609;
-        Sun, 26 Apr 2020 09:24:19 -0700 (PDT)
+        bh=iUe5NXaxGL1zLQenTHEIL9FKuJd3II5VQVl4t/j1xtQ=;
+        b=m6mhqiV7SNLT0yAa01W2bKQ1ZIZ/wWsZ27gg0CS2kcpbFGvZnN/zFxE5uQhQ6oGI3C
+         Qkv0Pq0pMT36ZXmDa6SUIZt44ZG/4BoMXFJsp71K2qBH896l8nz/Abk+48gdAYrVmfG2
+         10BlVUECG514mfp3FRLxh96GXeiPQERY+qXO5yV1PVk28jRVSAtRcStG2sSSQBUHZrpq
+         +e/XR1ngvcdjxgOCjlY+CyMUseKUJtmO1z7D3dzcD1CUj1WU0L/Sibja0evaANz9IBaN
+         a0eHkg2P4EC0YNH878tMF0Q6YP57MpEf+zo0rBjB3cYzFKylPan7tNAtKfn981QmQI3c
+         SUbg==
+X-Gm-Message-State: AGi0PuZ5OQ9K8ze6W5jcCzPKC8sGV8powqW1VIyl/oa/B3wVOkIGwGl8
+        IqinS3DzrAnrF+Z30ysd7eHZRMzn
+X-Google-Smtp-Source: APiQypJOpUHwa8HjsjzvzU9Xz3WOtIl/cy0A0L4iTyV8LBoNlUihnGYpv5WD3xy8IXaYwtrOH63JIg==
+X-Received: by 2002:a05:600c:22d3:: with SMTP id 19mr22492121wmg.110.1587919582610;
+        Sun, 26 Apr 2020 09:46:22 -0700 (PDT)
 Received: from [192.168.1.23] (afcl109.neoplus.adsl.tpnet.pl. [95.49.63.109])
-        by smtp.gmail.com with ESMTPSA id e21sm18182225wrc.1.2020.04.26.09.24.18
+        by smtp.gmail.com with ESMTPSA id h1sm12585063wme.42.2020.04.26.09.46.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Apr 2020 09:24:19 -0700 (PDT)
+        Sun, 26 Apr 2020 09:46:22 -0700 (PDT)
 Subject: Re: [PATCH v20 03/17] leds: multicolor: Introduce a multicolor class
  definition
-To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200423155524.13971-1-dmurphy@ti.com>
- <20200423155524.13971-4-dmurphy@ti.com> <20200425202306.GA23926@amd>
+ <20200423155524.13971-4-dmurphy@ti.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <a19ff014-32f1-eb18-ceb6-581503821fcc@gmail.com>
-Date:   Sun, 26 Apr 2020 18:24:17 +0200
+Message-ID: <625e1659-5e8e-f3db-3bdb-7c492dca0403@gmail.com>
+Date:   Sun, 26 Apr 2020 18:46:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200425202306.GA23926@amd>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20200423155524.13971-4-dmurphy@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -70,130 +69,71 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi all,
+Hi Dan,
 
-On 4/25/20 10:23 PM, Pavel Machek wrote:
-> Hi!
+On 4/23/20 5:55 PM, Dan Murphy wrote:
+> Introduce a multicolor class that groups colored LEDs
+> within a LED node.
+> 
+> The multi color class groups monochrome LEDs and allows controlling two
+> aspects of the final combined color: hue and lightness. The former is
+> controlled via color_intensity file and the latter is controlled
+> via brightness file.
+> 
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+> 
+> v20 - Change color_ file names to multi_led, dynamically allocate the
+> multicolor_info struct.  Fixed documentation issues from Randy D.
 > 
 [...]
->> +	for (i = 0; i < mcled_cdev->num_colors; i++)
->> +		mcled_cdev->multicolor_info[i].color_brightness = brightness *
->> +					  mcled_cdev->multicolor_info[i].color_led_intensity /
->> +					  led_cdev->max_brightness;
-> 
-> It would be good to get this under ~80 characters. Perhaps shorter
-> identifiers would help... shortening multicolor_ to mc_?
+> +MODULE_AUTHOR("Dan Murphy <dmurphy@ti.com>");
+> +MODULE_DESCRIPTION("Multi Color LED class interface");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
+> new file mode 100644
+> index 000000000000..7c5befb270f8
+> --- /dev/null
+> +++ b/include/linux/led-class-multicolor.h
+> @@ -0,0 +1,121 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* LED Multicolor class interface
+> + * Copyright (C) 2019-20 Texas Instruments Incorporated - http://www.ti.com/
+> + */
+> +
+> +#ifndef __LINUX_MULTICOLOR_LEDS_H_INCLUDED
+> +#define __LINUX_MULTICOLOR_LEDS_H_INCLUDED
+> +
+> +#include <linux/leds.h>
+> +#include <dt-bindings/leds/common.h>
+> +
+> +struct led_mc_subled {
+> +	int color_index;
+> +	int color_brightness;
+> +	int color_led_intensity;
+> +	int color_channel;
+> +};
+> +
+> +struct led_classdev_mc {
+> +	/* led class device */
+> +	struct led_classdev led_cdev;
+> +	int num_colors;
+> +
+> +	struct led_mc_subled *multicolor_info;
 
+I think mc_subleds (or even subleds alone - we are already in
+led_classdev_*mc*) would be way more informative name for this
+property.
 
-And color_led_intensity to led_intensity.
+And as already proposed in the other message:
 
-> 
->> +static ssize_t multi_led_intensity_store(struct device *dev,
->> +				struct device_attribute *intensity_attr,
->> +				const char *buf, size_t size)
->> +{
->> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
->> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->> +	int nrchars, offset = 0;
->> +	int intensity_value[LED_COLOR_ID_MAX];
->> +	int i;
->> +	ssize_t ret;
->> +
->> +	mutex_lock(&led_cdev->led_access);
->> +
->> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
->> +		ret = sscanf(buf + offset, "%i%n",
->> +			     &intensity_value[i], &nrchars);
->> +		if (ret != 1) {
->> +			dev_err(led_cdev->dev,
-> 
-> dev_dbg, at most. It is user-triggerable.
-> 
->> +				"Incorrect number of LEDs expected %i values intensity was not applied\n",
->> +				mcled_cdev->num_colors);
->> +			goto err_out;
-> 
-> Should not we return -ERRNO to userspace on error?
-> 
->> +		}
->> +		offset += nrchars;
->> +	}
-> 
-> This checks for "not enough" intensities. Do we need check for "too
-> many" intensities?
-> 
->> +static ssize_t multi_led_intensity_show(struct device *dev,
->> +			      struct device_attribute *intensity_attr,
->> +			      char *buf)
->> +{
->> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
->> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->> +	int len = 0;
->> +	int i;
->> +
->> +	for (i = 0; i < mcled_cdev->num_colors; i++)
->> +		len += sprintf(buf + len, "%d ",
->> +			    mcled_cdev->multicolor_info[i].color_led_intensity);
->> +
->> +	len += sprintf(buf + len, "%s", "\n");
-> 
-> This will result in extra " " before end of line.
-> 
-> Please don't use "%s", "\n" to add single character. "\n" would be enough.
-> 
-> 
->> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
->> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->> +	int len = 0;
->> +	int index;
->> +	int i;
->> +
->> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
->> +		index = mcled_cdev->multicolor_info[i].color_index;
->> +		len += sprintf(buf + len, "%s ", led_colors[index]);
->> +	}
->> +
->> +	len += sprintf(buf + len, "%s", "\n");
-> 
-> Same here.
-> 
->> +int led_classdev_multicolor_register_ext(struct device *parent,
->> +				     struct led_classdev_mc *mcled_cdev,
->> +				     struct led_init_data *init_data)
->> +{
->> +	struct led_classdev *led_cdev;
->> +
->> +	if (!mcled_cdev)
->> +		return -EINVAL;
->> +
->> +	if (!mcled_cdev->num_colors)
->> +		return -EINVAL;
-> 
-> if (num_colors > max)... ?
-> 
->> +#ifndef __LINUX_MULTICOLOR_LEDS_H_INCLUDED
->> +#define __LINUX_MULTICOLOR_LEDS_H_INCLUDED
-> 
-> Usual style is "_LINUX_MULTICOLOR_LEDS_H".
-> 
->> +#else
->> +
->> +static inline  int led_classdev_multicolor_register_ext(struct device *parent,
-> 
-> double space after "inline".
-> 
->> +					    struct led_classdev_mc *mcled_cdev,
->> +					    struct led_init_data *init_data)
->> +{
->> +	return -EINVAL;
->> +}
-> 
-> Do we need to include these stubs? I guess it is okay to have them,
-> OTOH I'd expect drivers to depend on MULTICOLOR being available...
+s/color_led_intensity/color_intensity/
 
-Single driver can support both monochrome and multicolor LED class,
-which is chosen basing on DT. In this regard having no-ops for LED mc
-class is justified since it is a superset of monochrome LED class.
+Also, I would like to have just "brightness" instead
+of color_brightness, which is ambiguous. And having brightness
+in this struct led_mc_subled would clearly state that this is
+the value to be written to the hardware similarly as is
+struct led_classdev's brightness for monochrome LEDs.
 
 -- 
 Best regards,
