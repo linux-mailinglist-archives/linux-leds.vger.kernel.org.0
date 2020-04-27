@@ -2,253 +2,135 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94AA61BAE18
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Apr 2020 21:39:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 699351BAE33
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Apr 2020 21:42:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726230AbgD0Tjm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Apr 2020 15:39:42 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:45970 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725919AbgD0Tjm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Apr 2020 15:39:42 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03RJda6S096439;
-        Mon, 27 Apr 2020 14:39:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1588016376;
-        bh=HINJHiVpFvuio0yrVgUBXnCKct71XOyVMRZH21XcGSY=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=Jahvzoou2Iy0O92GIZiQYIFGxJn0nlokcVQqOlx8r6SqEeZPfWO4fLOYMKAVBGRZg
-         aWoCkDEXke/wqhq39aFOsoIg6YOtF+qXSvmppQWvew7PH8Jf5oXn1N/zuQxY6CfoRZ
-         716fHdB1FTbktf5U7hYZqIVxXtcRqmgnSPF1+cWQ=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03RJdaF7090451
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 27 Apr 2020 14:39:36 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 27
- Apr 2020 14:39:36 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 27 Apr 2020 14:39:36 -0500
-Received: from [10.250.52.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03RJdaIQ117900;
-        Mon, 27 Apr 2020 14:39:36 -0500
-Subject: Re: [PATCH v20 03/17] leds: multicolor: Introduce a multicolor class
- definition
-To:     Pavel Machek <pavel@ucw.cz>
-CC:     <jacek.anaszewski@gmail.com>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
+        id S1726768AbgD0Tmj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Apr 2020 15:42:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55430 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726384AbgD0Tmi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 27 Apr 2020 15:42:38 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83032C0610D5;
+        Mon, 27 Apr 2020 12:42:38 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id k13so21999583wrw.7;
+        Mon, 27 Apr 2020 12:42:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=zX/yCU9mpboJUliofvxQr7UBLJDwPoQSlPea6kKg8KM=;
+        b=LFLVnTtCANwmbGx07w7A2d1rWExGrk9F61XItaJsTSdgtxNzlJD2B+Qm4P9Y2WYHLY
+         dmrfieWwyoanVul+nm5Pg+r/X4ueOAXwbyl93hnAZmhz98d6YMtG5V6sI/PnCGbJoM8a
+         H8vtFUqOKKlahPDZoQSI622wRnbibBeVb386AZ6RzE7oPb0OINvtaoLjdqRKEPI/T5JV
+         wRj3wsN27IiZQoLhAsvQJ8IVGy+wvaF4k5YX3RyhVSr/LNC0jCRG7qJiMbypX3+lNGFn
+         x0o5dfDlyJSDqrP1o2a9uF1veIBjiYHzIcffIrGJ+zb/AUNtw95GuER5YX0wXUESQw6c
+         h0jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zX/yCU9mpboJUliofvxQr7UBLJDwPoQSlPea6kKg8KM=;
+        b=Duwwyfd+hA71DCzc9JE9vf18XXHqMd4DHartT2p+WEoLj/e5w7R9teoMzRFP+dtqie
+         V+HOAl+L9olerKoBAuSecpbd+9FTqWraZm5wtlo692V6OS/1xW1L1e/Nq7ylKgys7q26
+         0/fXMIB8XDz/3J8gXQm3e2dF3apwYVKnNzVheKe504KjZ1K+FAstztlzMakN2cwYrVrI
+         WCwyHvUuvq5hp5PINaoPghRzsFf4YXNxPYx2SqdGOc+04hHBKCkGQ2DL3Yrwae9yf9Mr
+         OoRI5kJw2yYE/ohtjQt4yEhatbjV6cevlN1jDZBMU9TYFuQevxmWgtkQ//3BxjH6F6kR
+         cXxw==
+X-Gm-Message-State: AGi0PubI+7ocFM6C+0TmXhV4LTIOqLuWfZlh+sLET36gH80Gt+bLsYpl
+        3GMPOFehwRBrWrvZASR8y1ECM7F3RfY=
+X-Google-Smtp-Source: APiQypIaWZzdNOKJ0UqTJO6QRZHkSwHsWlu2x+vb/32bEwBI7+pOjbNcr/qqtIIR2FCbOePQ3nCXXg==
+X-Received: by 2002:a5d:65cb:: with SMTP id e11mr28396924wrw.402.1588016557029;
+        Mon, 27 Apr 2020 12:42:37 -0700 (PDT)
+Received: from [192.168.1.23] (acft175.neoplus.adsl.tpnet.pl. [83.9.221.175])
+        by smtp.gmail.com with ESMTPSA id v10sm22978999wrq.45.2020.04.27.12.42.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Apr 2020 12:42:36 -0700 (PDT)
+Subject: Re: [PATCH v20 12/17] leds: lp55xx: Add multicolor framework support
+ to lp55xx
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200423155524.13971-1-dmurphy@ti.com>
- <20200423155524.13971-4-dmurphy@ti.com> <20200425202306.GA23926@amd>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <80e20291-0ff2-87e6-8f93-2f37f588b148@ti.com>
-Date:   Mon, 27 Apr 2020 14:33:43 -0500
+ <20200423155524.13971-13-dmurphy@ti.com>
+ <24aa265c-46ca-1643-7781-9ddbf734405b@gmail.com>
+ <4f149443-87f9-ca3f-e131-2b494cbfed84@ti.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <9ebe27ee-4dc5-110a-3897-328f5bbba902@gmail.com>
+Date:   Mon, 27 Apr 2020 21:42:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200425202306.GA23926@amd>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <4f149443-87f9-ca3f-e131-2b494cbfed84@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel
+Dan,
 
-On 4/25/20 3:23 PM, Pavel Machek wrote:
-> Hi!
->
-> ting/sysfs-class-led-multicolor
->> new file mode 100644
->> index 000000000000..ada0dbecfeab
->> --- /dev/null
->> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
->> @@ -0,0 +1,42 @@
->> +What:		/sys/class/leds/<led>/multi_led_index
->> +Date:		March 2020
->> +KernelVersion:	5.8
->> +Contact:	Dan Murphy <dmurphy@ti.com>
->> +Description:	read
->> +		The multi_led_index array, when read, will output the LED colors
->> +		by name as they are indexed in the multi_led_intensity file.
-> Can we make it multi_index? We are already in leds directory, and it
-> is a bit shorter.
-Ack
->> +What:		/sys/class/leds/<led>/num_multi_leds
->> +Date:		March 2020
->> +KernelVersion:	5.8
->> +Contact:	Dan Murphy <dmurphy@ti.com>
->> +Description:	read
->> +		The num_multi_leds indicates the number of LEDs defined in the
->> +		multi_led_intensity and multi_led_index files.
-> Please drop this one.
-Ack
->> +What:		/sys/class/leds/<led>/multi_led_intensity
->> +Date:		March 2020
->> +KernelVersion:	5.8
->> +Contact:	Dan Murphy <dmurphy@ti.com>
->> +Description:	read/write
->> +		Intensity level for the LED color within the array.
->> +		The intensities for each color must be entered based on the
->> +		multi_led_index array.
-> And let this one be multi_intensity.
-Ack
->> +For more details on hue and lightness notions please refer to
->> +https://en.wikipedia.org/wiki/CIECAM02.
-> I'd drop this reference. multi_intensity file controls both hue and
-> saturation AFAICT.
-Ack
->> +Example:
->> +A user first writes the multi_led_intensity file with the brightness levels
->> +for each LED that are necessary to achieve a blueish violet output from a
->> +multicolor LED group.
-> I don't believe we can guarantee that. 255/255/255 will produce
-> different colors on different hardware (not white), and 43/226/138
-> will also produce different colors.
+On 4/27/20 8:17 PM, Dan Murphy wrote:
+> Jacek
+> 
+> On 4/26/20 11:07 AM, Jacek Anaszewski wrote:
+>> Hi Dan,
+>>
+>> One nit below.
+>>
+>> On 4/23/20 5:55 PM, Dan Murphy wrote:
+>>> Add multicolor framework support for the lp55xx family.
+>>>
+>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>>> ---
+>>>   drivers/leds/Kconfig                      |   1 +
+>>>   drivers/leds/leds-lp5521.c                |  14 +-
+>>>   drivers/leds/leds-lp5523.c                |  14 +-
+>>>   drivers/leds/leds-lp5562.c                |  13 +-
+>>>   drivers/leds/leds-lp55xx-common.c         | 178 +++++++++++++++++++---
+>>>   drivers/leds/leds-lp55xx-common.h         |  11 +-
+>>>   drivers/leds/leds-lp8501.c                |  14 +-
+>>>   include/linux/platform_data/leds-lp55xx.h |   8 +
+>>>   8 files changed, 207 insertions(+), 46 deletions(-)
+>>>
+>> [...]
+>>> diff --git a/drivers/leds/leds-lp55xx-common.h 
+>>> b/drivers/leds/leds-lp55xx-common.h
+>>> index b9b1041e8143..a9d7ba3f2fd1 100644
+>>> --- a/drivers/leds/leds-lp55xx-common.h
+>>> +++ b/drivers/leds/leds-lp55xx-common.h
+>>> @@ -12,6 +12,8 @@
+>>>   #ifndef _LEDS_LP55XX_COMMON_H
+>>>   #define _LEDS_LP55XX_COMMON_H
+>>>   +#include <linux/led-class-multicolor.h>
+>>> +
+>>>   enum lp55xx_engine_index {
+>>>       LP55XX_ENGINE_INVALID,
+>>>       LP55XX_ENGINE_1,
+>>> @@ -109,6 +111,9 @@ struct lp55xx_device_config {
+>>>       /* access brightness register */
+>>>       int (*brightness_fn)(struct lp55xx_led *led);
+>>>   +    /* perform brightness value to multiple LEDs */
+>>> +    int (*multicolor_brightness_fn)(struct lp55xx_led *led);
+>>
+>> Isn't some word missing here? IMO it should be rephrased.
+>> Maybe "write multi color brightness to hw" ?
+>>
+> But brightness_fn does not say write_brightness_fn so I think this would 
+> look weird to add write to the function name
 
-I changed it to be a bit more ambiguous.
+I referred to the comment, not to the function name.
+And the comment for brightness_fn is vague IMO.
+So I propose to change both comments:
 
+s/access brightness register/set LED brightness/
+s/perform brightness value to multiple LEDs/
+   set multicolor LED brightness/
 
-> ...
->
->> +cat /sys/class/leds/multicolor:status/multi_led_index
->> +green blue red
-> Hmm. We should really make sure LEDs are ordered as "red green
-> blue". Yes, userspace should support any order, but...
-
-Ordering is not guaranteed since it is based on the DT ordering. I don't 
-think we can mandate that these LEDs be put in order in the DT.
-
-Besides the framework and the device driver do not care what color is 
-where only the user space needs to care.� The FW and device driver only 
-care about the brightness, intensity and channel.
-
-
->
->> +The user can control the brightness of that multicolor LED group by writing the
->> +parent 'brightness' control.  Assuming a parent max_brightness of 255 the user
-> delete "parent", twice?
-Ack
->
->
->> +	for (i = 0; i < mcled_cdev->num_colors; i++)
->> +		mcled_cdev->multicolor_info[i].color_brightness = brightness *
->> +					  mcled_cdev->multicolor_info[i].color_led_intensity /
->> +					  led_cdev->max_brightness;
-> It would be good to get this under ~80 characters. Perhaps shorter
-> identifiers would help... shortening multicolor_ to mc_?
-ACK
->> +static ssize_t multi_led_intensity_store(struct device *dev,
->> +				struct device_attribute *intensity_attr,
->> +				const char *buf, size_t size)
->> +{
->> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
->> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->> +	int nrchars, offset = 0;
->> +	int intensity_value[LED_COLOR_ID_MAX];
->> +	int i;
->> +	ssize_t ret;
->> +
->> +	mutex_lock(&led_cdev->led_access);
->> +
->> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
->> +		ret = sscanf(buf + offset, "%i%n",
->> +			     &intensity_value[i], &nrchars);
->> +		if (ret != 1) {
->> +			dev_err(led_cdev->dev,
-> dev_dbg, at most. It is user-triggerable.
-ACK
->> +				"Incorrect number of LEDs expected %i values intensity was not applied\n",
->> +				mcled_cdev->num_colors);
->> +			goto err_out;
-> Should not we return -ERRNO to userspace on error?
-ACK
->
->> +		}
->> +		offset += nrchars;
->> +	}
-> This checks for "not enough" intensities. Do we need check for "too
-> many" intensities?
-
-We ignore anything greater then mcled_cdev->num_colors.� So if this is 
-set to 3 we only read the first 3 values.
-
-So we cannot read more then what is set by the DT.
-
->
->> +static ssize_t multi_led_intensity_show(struct device *dev,
->> +			      struct device_attribute *intensity_attr,
->> +			      char *buf)
->> +{
->> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
->> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->> +	int len = 0;
->> +	int i;
->> +
->> +	for (i = 0; i < mcled_cdev->num_colors; i++)
->> +		len += sprintf(buf + len, "%d ",
->> +			    mcled_cdev->multicolor_info[i].color_led_intensity);
->> +
->> +	len += sprintf(buf + len, "%s", "\n");
-> This will result in extra " " before end of line.
->
-> Please don't use "%s", "\n" to add single character. "\n" would be enough.
-Ack changed to just sprintf(buf + len, "\n");
->
->> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
->> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->> +	int len = 0;
->> +	int index;
->> +	int i;
->> +
->> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
->> +		index = mcled_cdev->multicolor_info[i].color_index;
->> +		len += sprintf(buf + len, "%s ", led_colors[index]);
->> +	}
->> +
->> +	len += sprintf(buf + len, "%s", "\n");
-> Same here.
-Same as above
->> +int led_classdev_multicolor_register_ext(struct device *parent,
->> +				     struct led_classdev_mc *mcled_cdev,
->> +				     struct led_init_data *init_data)
->> +{
->> +	struct led_classdev *led_cdev;
->> +
->> +	if (!mcled_cdev)
->> +		return -EINVAL;
->> +
->> +	if (!mcled_cdev->num_colors)
->> +		return -EINVAL;
-> if (num_colors > max)... ?
-ACK
->> +#ifndef __LINUX_MULTICOLOR_LEDS_H_INCLUDED
->> +#define __LINUX_MULTICOLOR_LEDS_H_INCLUDED
-> Usual style is "_LINUX_MULTICOLOR_LEDS_H".
-Ack
->> +#else
->> +
->> +static inline  int led_classdev_multicolor_register_ext(struct device *parent,
-> double space after "inline".
-Ack
->> +					    struct led_classdev_mc *mcled_cdev,
->> +					    struct led_init_data *init_data)
->> +{
->> +	return -EINVAL;
->> +}
-> Do we need to include these stubs? I guess it is okay to have them,
-> OTOH I'd expect drivers to depend on MULTICOLOR being available...
-
-Jacek Answered this.
-
-Dan
-
-
-> Best regards,
-> 									Pavel
+-- 
+Best regards,
+Jacek Anaszewski
