@@ -2,32 +2,39 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB1C71BA006
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Apr 2020 11:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FBB01BA06E
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Apr 2020 11:51:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726889AbgD0Jh1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Apr 2020 05:37:27 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:58528 "EHLO
+        id S1727022AbgD0JvF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Apr 2020 05:51:05 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:60140 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726349AbgD0Jh1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Apr 2020 05:37:27 -0400
+        with ESMTP id S1726485AbgD0JvF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Apr 2020 05:51:05 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 23E971C0244; Mon, 27 Apr 2020 11:37:26 +0200 (CEST)
-Date:   Mon, 27 Apr 2020 11:37:25 +0200
+        id 046F01C0244; Mon, 27 Apr 2020 11:51:03 +0200 (CEST)
+Date:   Mon, 27 Apr 2020 11:51:02 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4] leds: ariel: Add driver for status LEDs on Dell Wyse
- 3020
-Message-ID: <20200427093725.GB20954@duo.ucw.cz>
-References: <20200424220240.106055-1-lkundrak@v3.sk>
+To:     Luca Weiss <luca@z3ntu.xyz>
+Cc:     linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Icenowy Zheng <icenowy@aosc.io>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH v3 2/2] leds: add sgm3140 driver
+Message-ID: <20200427095102.GA21572@duo.ucw.cz>
+References: <20200421191354.1443017-1-luca@z3ntu.xyz>
+ <20200421191354.1443017-3-luca@z3ntu.xyz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="s/l3CgOIzMHHjg/5"
+        protocol="application/pgp-signature"; boundary="pWyiEgJYm5f9v55/"
 Content-Disposition: inline
-In-Reply-To: <20200424220240.106055-1-lkundrak@v3.sk>
+In-Reply-To: <20200421191354.1443017-3-luca@z3ntu.xyz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -35,32 +42,81 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---s/l3CgOIzMHHjg/5
+--pWyiEgJYm5f9v55/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat 2020-04-25 00:02:40, Lubomir Rintel wrote:
-> This adds support for controlling the LEDs attached to the Embedded
-> Controller on a Dell Wyse 3020 "Ariel" board.
->=20
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+Hi!
 
-Thanks, applied.
-								Pavel
+> Add a driver for the SGMICRO SGM3140 Buck/Boost Charge Pump LED driver.
+>=20
+> This device is controlled by two GPIO pins, one for enabling and the
+> second one for switching between torch and flash mode.
+>=20
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+
+Thanks, applied, but... I may remove it again.
+
+> +++ b/drivers/leds/leds-sgm3140.c
+> @@ -0,0 +1,320 @@
+> +// SPDX-License-Identifier: GPL-2.0
+
+Would you consider GPL-2+?
+
+> +#if IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS)
+> +static void sgm3140_init_v4l2_flash_config(struct sgm3140 *priv,
+
+Ok.
+
+> +static int sgm3140_probe(struct platform_device *pdev)
+> +{
+=2E..
+> +	led_cdev->brightness_set_blocking =3D sgm3140_brightness_set;
+> +	led_cdev->max_brightness =3D LED_ON;
+
+Don't do this, unless you really have 255 levels of brightness.
+
+> +	/* Create V4L2 Flash subdev */
+> +	priv->v4l2_flash =3D v4l2_flash_init(&pdev->dev,
+> +					   child_node,
+> +					   fled_cdev, NULL,
+> +					   &v4l2_sd_cfg);
+> +	if (IS_ERR(priv->v4l2_flash)) {
+
+Does this need some #ifdef guards?
+
+> +		ret =3D PTR_ERR(priv->v4l2_flash);
+> +		goto err;
+> +	}
+> +
+> +	return ret;
+
+Should this return 0?
+
+> +err:
+> +	fwnode_handle_put(child_node);
+> +	return ret;
+> +}
+
+Does non-error path needs handle_put, too?
+
+Best regards,
+									Pavel
+
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---s/l3CgOIzMHHjg/5
+--pWyiEgJYm5f9v55/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXqan1QAKCRAw5/Bqldv6
-8hE2AJ9Wzkb6ej0KNyPfOpI1b3uHUl2E0wCfatrpKCjXosmLSqEnFKUY4ZXwEAg=
-=4D97
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXqarBgAKCRAw5/Bqldv6
+8tcQAKCWUTuRy7TvgT2+F1Aj1oFotUcn9wCgvlDQBHg5Trhv/KEKFw2CkG70ke8=
+=EEZa
 -----END PGP SIGNATURE-----
 
---s/l3CgOIzMHHjg/5--
+--pWyiEgJYm5f9v55/--
