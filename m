@@ -2,68 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D14B81B9A51
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Apr 2020 10:33:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AA8E1B9B1A
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Apr 2020 10:57:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726566AbgD0Idb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Apr 2020 04:33:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34968 "EHLO
+        id S1726434AbgD0I5L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Apr 2020 04:57:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726003AbgD0Idb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Apr 2020 04:33:31 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A898CC061A0F;
-        Mon, 27 Apr 2020 01:33:30 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id h4so5281408wmb.4;
-        Mon, 27 Apr 2020 01:33:30 -0700 (PDT)
+        with ESMTP id S1726183AbgD0I5K (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Apr 2020 04:57:10 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AA10C061A10;
+        Mon, 27 Apr 2020 01:57:10 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id y24so19562180wma.4;
+        Mon, 27 Apr 2020 01:57:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=to:cc:references:subject:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=w0nU7XWSKjZiq42hI6aJFP/wV037pceDvXS4f3Cj24g=;
-        b=abmztt5gJbmn/okxMUbQZq3wfbR/ooUc1lHRkBzCsYfwqY/b/rQ6IfE9Gdd9IIy0kJ
-         Q6piiNV6rQTZ3K0fPfXalydyufc+WO9ycBQd/npG373tXzphOEqqqYbAZHOcD6ZyHfN/
-         Ki3hCsk/ORwsvcEZV35MfxVEDM9JTddzQZtfGFL00l5UPp0axMtX15HOg2vuCPO9iAv/
-         hanG4dd7nuMjBdgZ5D3FgShsnF0qzJ97w3nN+Up1kfB7WlCXPh9W+xfMbPcsPrCYM3bc
-         lt7WCcTZSzxaDOuOaYaKoA1OmdkYbALxXPoS9XGkcuZNhQ0xEasOL3NOeCZb01+OTxcU
-         nDfw==
+        bh=Jcofdwz9+t05uTAvna4ymutVAwmekuIi4pNGc9/MH88=;
+        b=Q5d4M2jz0Wl+6clQyaBEO2kE27ihpH/n/zKCNoR5NFAAQD625a4A/+auWeg6qrJawA
+         jGR2qBn0JrZnYf7qSaaPjd+QHediUI2IHZMSBuRMhYjEYXJF/abFd8uW6qj3Q4k/2FIc
+         HfOyQQFh7Om6oOkXvwLf00BmlW6ynC3vAylSpTpgjxiaMSxlssL1culT6yEle+zkt+G7
+         VWBMAI6HDXZNoIv1OZLghE1QmeHNhmQ06ca2JAS9uWxvSmCtibky3Aj9f2WMJnQAe9E3
+         Wgo4xlTuB9g6fG1VUUti0HpHlJBu1+C5r6cQlAs1aTEfXIAnzU7vlviA5I9kmmKntLoa
+         86pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:to:cc:references:subject:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=w0nU7XWSKjZiq42hI6aJFP/wV037pceDvXS4f3Cj24g=;
-        b=fCzO0hfb1VLtNfdstsH2smOA0Lc7Kn9y87k/o6+8RzF0UFIE+BbCbPmGSDjHyuCiub
-         bdxszFeD34bskpzjNE+nwuivs0nAXYb+s3wKnpfC0ikXVS6nlU3FcLOOVoBrMg0YdRx4
-         SaUcP2EvkT0lArN2NIJsgDVhieHoYTgwbCJluihIlzJN2GMat4VziIv2LF6kvPc2hVAL
-         K6+JeSqy0eXXt2eSu92QS+sKrBlOBifDd4pTP4GhVZCMsCgvWtCsnUPBOBplIltlJWdB
-         P40rLYduo2f2K1sgPoXL67SkUTNECZ/tr5uKTFkZ5N8UEQOlz1P3Op23l6YjO7I4PbvF
-         ZM1w==
-X-Gm-Message-State: AGi0PuZcC7kFHCAoZlSmF08K0KZbOBn3TrtABbyfWn5p7LwoF/xhbBHX
-        K7eO3TYRHs7BxKf8suB4a/Q=
-X-Google-Smtp-Source: APiQypL9vQ25d/cx9/t2iweoGlzNivVSTWo7XTtXrJ5QP9N9j3FZH6z7MY/kfoDn/0qec5alrYVV6w==
-X-Received: by 2002:a1c:808c:: with SMTP id b134mr26231938wmd.131.1587976409450;
-        Mon, 27 Apr 2020 01:33:29 -0700 (PDT)
+        bh=Jcofdwz9+t05uTAvna4ymutVAwmekuIi4pNGc9/MH88=;
+        b=AKPjCrH4QVE1HqtQef474cgSQ8OqGP/P6gMOb2zC7hbv8jy3NuLf9ODNTNdnZXabN8
+         v7SrTifDwJS73XwSjvw1g8dD26yyNuDauei9T1FIpW3URT6FnynXvzdGxXuMz/nVROJM
+         UZkrIjQPtnGWVK2Nvg3iG+fFhf130xAW/xEGAChAf9TbCKzkP6od2r8FdoIyVGDKCBEy
+         FuzG/1G6eCoNCLqXPC/UFB8UU8X0WpaZdvJj9EqIbUVStcDFnbmSvVuWO4xymPHl4zPO
+         +4QT/v+Yr7xsGwwPjANJUxS2y7C/GKYLJeCUucN5l7hS0UNw1R0znzhtO5f8ES4uz7LQ
+         RH6Q==
+X-Gm-Message-State: AGi0PuZU/RzNQK9cBhVLs7RQtjvCsOSe3SINxDggAfaYJw06HcNx6aNU
+        ebPN9js65/LP5QKwt2QTWmdasevH
+X-Google-Smtp-Source: APiQypIwXrjjInfbjfDk9B1skhirM2+uI+xE5YfNG3+dy/5UjcY8PBtYZfDkyuRvwRt/tiB7c3z8UQ==
+X-Received: by 2002:a05:600c:2046:: with SMTP id p6mr25177578wmg.177.1587977829209;
+        Mon, 27 Apr 2020 01:57:09 -0700 (PDT)
 Received: from [192.168.2.1] (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id x18sm14448554wmi.29.2020.04.27.01.33.28
+        by smtp.gmail.com with ESMTPSA id i129sm15502103wmi.20.2020.04.27.01.57.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Apr 2020 01:33:28 -0700 (PDT)
+        Mon, 27 Apr 2020 01:57:08 -0700 (PDT)
 To:     wens@kernel.org
 Cc:     devicetree@vger.kernel.org, dmurphy@ti.com, heiko@sntech.de,
         jacek.anaszewski@gmail.com, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-rockchip@lists.infradead.org, pavel@ucw.cz,
         robh+dt@kernel.org, wens@csie.org
-References: <20200427073132.29997-2-wens@kernel.org>
-Subject: Re: [PATCH v2 1/3] dt-bindings: leds: common: Drop enumeration for
- linux,default-triggers
+References: <20200427073132.29997-3-wens@kernel.org>
+Subject: Re: [PATCH v2 2/3] arm64: dts: rockchip: rk3399-roc-pc: Fix MMC
+ numbering for LED triggers
 From:   Johan Jonker <jbx6244@gmail.com>
-Message-ID: <4044214d-5385-94b6-d985-e1f824a60c5e@gmail.com>
-Date:   Mon, 27 Apr 2020 10:33:27 +0200
+Message-ID: <684132b8-4a84-8295-474b-38ccb992bba7@gmail.com>
+Date:   Mon, 27 Apr 2020 10:57:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200427073132.29997-2-wens@kernel.org>
+In-Reply-To: <20200427073132.29997-3-wens@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -76,54 +76,73 @@ Hi Chen-Yu,
 
 > From: Chen-Yu Tsai <wens@csie.org>
 > 
-> The bindings currently list a very small subset of valid triggers for
-> LEDs. Since many drivers or subsystems in Linux register custom
-> triggers, the list would become very hard to maintain.
+> With SDIO now enabled, the numbering of the existing MMC host controllers
+> gets incremented by 1, as the SDIO host is the first one.
 > 
-> Instead, just drop the list and allow free form strings.
+> Increment the numbering of the MMC LED triggers to match.
 > 
+> Fixes: cf3c5397835f ("arm64: dts: rockchip: Enable sdio0 and uart0 on rk3399-roc-pc-mezzanine")
 > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 > ---
->  .../devicetree/bindings/leds/common.yaml      | 21 +------------------
->  1 file changed, 1 insertion(+), 20 deletions(-)
+>  arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dts | 8 ++++++++
+>  arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtsi          | 4 ++--
+>  2 files changed, 10 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-> index 4c270fde4567..3b3cdab3fc15 100644
-> --- a/Documentation/devicetree/bindings/leds/common.yaml
-> +++ b/Documentation/devicetree/bindings/leds/common.yaml
-> @@ -79,26 +79,7 @@ properties:
->      description:
->        This parameter, if present, is a string defining the trigger assigned to
->        the LED.
-> -    allOf:
-> -      - $ref: /schemas/types.yaml#definitions/string
-> -    enum:
-> -        # LED will act as a back-light, controlled by the framebuffer system
-> -      - backlight
-> -        # LED will turn on (but for leds-gpio see "default-state" property in
-> -        # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
-> -      - default-on
-> -        # LED "double" flashes at a load average based rate
-> -      - heartbeat
-> -        # LED indicates disk activity
-> -      - disk-activity
-> -        # LED indicates IDE disk activity (deprecated), in new implementations
-> -        # use "disk-activity"
-> -      - ide-disk
-> -        # LED flashes at a fixed, configurable rate
-> -      - timer
-> -        # LED alters the brightness for the specified duration with one software
-> -        # timer (requires "led-pattern" property)
-> -      - pattern
-> +    $ref: /schemas/types.yaml#definitions/string
-
-This makes it free form, but deletes the documentation of options that
-are standard available for people without custom driver.
-Where should that info go?
-
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dts b/arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dts
+> index 2acb3d500fb9..f0686fc276be 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dts
+> +++ b/arch/arm64/boot/dts/rockchip/rk3399-roc-pc-mezzanine.dts
+> @@ -38,6 +38,10 @@ vcc3v3_pcie: vcc3v3-pcie {
+>  	};
+>  };
 >  
->    led-pattern:
->      description: |
+> +&diy_led {
+> +	linux,default-trigger = "mmc2";
+> +};
+> +
+>  &pcie_phy {
+>  	status = "okay";
+>  };
+> @@ -91,3 +95,7 @@ &uart0 {
+>  	pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>;
+>  	status = "okay";
+>  };
+> +
+> +&yellow_led {
+> +	linux,default-trigger = "mmc1";
+> +};
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtsi
+> index 9f225e9c3d54..bc060ac7972d 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3399-roc-pc.dtsi
+> @@ -70,14 +70,14 @@ work-led {
+>  			linux,default-trigger = "heartbeat";
+>  		};
+>  
+
+> -		diy-led {
+> +		diy_led: diy-led {
+
+This changes an existing nodename into something that is still not the
+preferred way. In the current Rockchip dts there are nodenames like
+'work', 'yellow' that causing warnings with the command:
+
+make -k ARCH=arm dtbs_check
+
+Could you give a generic guide line/example, so all these changes are
+treated the same way? As if the naming follows the preferred 'led-0' line.
+
+>  			label = "red:diy";
+>  			gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_HIGH>;
+>  			default-state = "off";
+>  			linux,default-trigger = "mmc1";
+>  		};
+>  
+> -		yellow-led {
+> +		yellow_led: yellow-led {
+>  			label = "yellow:yellow-led";
+>  			gpios = <&gpio0 RK_PA2 GPIO_ACTIVE_HIGH>;
+>  			default-state = "off";
 > -- 
 > 2.26.0
 
