@@ -2,88 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B79CA1BB906
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2020 10:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEDE31BBAF9
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2020 12:17:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726691AbgD1InE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Apr 2020 04:43:04 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:35424 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726573AbgD1InD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Apr 2020 04:43:03 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 5CE801C0265; Tue, 28 Apr 2020 10:43:02 +0200 (CEST)
-Date:   Tue, 28 Apr 2020 10:43:01 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v20 02/17] leds: Add multicolor ID to the color ID list
-Message-ID: <20200428084301.GC20640@amd>
-References: <20200423155524.13971-1-dmurphy@ti.com>
- <20200423155524.13971-3-dmurphy@ti.com>
- <20200425195242.GA1143@bug>
- <003891b8-a697-6d55-3862-5773e23a466a@ti.com>
+        id S1727872AbgD1KQu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Apr 2020 06:16:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50872 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727125AbgD1KQu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 28 Apr 2020 06:16:50 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD961C03C1AB
+        for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2020 03:16:49 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id b11so23956402wrs.6
+        for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2020 03:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Abo6l5Xyc1oYnHFvRioVLnD13zq9Rgb+0iUvfQi/YYI=;
+        b=HitueB7/d1ualBTxbqUTESD3Pre5U2RmejIrTJWs1PwFw2iixni5EB1XiGxTaVKzLW
+         pzKcn3Xj1PpcWFfa69UUG20I2QY9Hjx4EEOen2McVt74aVnKRV6y2A0PJtcfThHgcPw5
+         oK6Al4D10wsEfr0T359Dyrbk2al7twmFMRjrMNXMJcGQvJbLjAnMv6uHJz+BmYR6Pd6Z
+         cw5FibGDqmisikZM7Sa0cp3m2ug0YbjwqI5aKgxne7aMs3sRr2uS32gXNW8CShZwtewk
+         ywABwowwP1RHJG7qay7Ymbnpc366x/+6HlMNcSPoqhESq0Z9ZEshf2vZWRjIeho4tRRk
+         mThg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Abo6l5Xyc1oYnHFvRioVLnD13zq9Rgb+0iUvfQi/YYI=;
+        b=StzhABYR3cEftBOdLk5KworV1fcnRbGjlep7UjCs1ATkiHPELJhvZ/i88+eb3FidHD
+         W0S7de0PQkWq7ADZTbz+yS5txu2S7nGP5nUfbIZbxCKC4PHalDWs/9ols2K9BBmy4V3S
+         hV/HVywH+kWsyzU4jUQOEwB9rwd3CUwxZoN2pkksW48wXJIcJFnp8ILPd3OkQIC4J+vO
+         kMydNim9gNkqnHeteIfNC+A64IfynTs5mJUm/F0UPFxe4QQwE1yfFjDfQqJ8Nprjqn4y
+         AZw0KEo1GOOZzidlZaERx7gMpbnJB75PhfFxq2SoYW69ADj6P+xQHLtLh3hLUhN0W7Dk
+         V3zQ==
+X-Gm-Message-State: AGi0PuYPfiyCgyIPXdzR0woHbhgz9QqQbmRWL3eXvaIkdtfDcI/e17Yt
+        +6g67y0hmOsXgEYYIWqwIxQwKg==
+X-Google-Smtp-Source: APiQypLQ81+f0z7kO0fvBLeVPbuFSG2xYOUnKUA0JEXxXIUa3nlA/ckSrylVIOYt6X2eEAcUV7sWRw==
+X-Received: by 2002:adf:f9c6:: with SMTP id w6mr32720438wrr.341.1588069008454;
+        Tue, 28 Apr 2020 03:16:48 -0700 (PDT)
+Received: from dell ([2.31.163.63])
+        by smtp.gmail.com with ESMTPSA id f23sm2638156wml.4.2020.04.28.03.16.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2020 03:16:47 -0700 (PDT)
+Date:   Tue, 28 Apr 2020 11:16:46 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Kiran Gunda <kgunda@codeaurora.org>
+Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+        daniel.thompson@linaro.org, jacek.anaszewski@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
+        robh@kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dan Murphy <dmurphy@ti.com>, linux-arm-msm@vger.kernel.org,
+        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Subject: Re: [PATCH V6 1/4] backlight: qcom-wled: convert the wled bindings
+ to .yaml format
+Message-ID: <20200428101646.GN3559@dell>
+References: <1587656017-27911-1-git-send-email-kgunda@codeaurora.org>
+ <1587656017-27911-2-git-send-email-kgunda@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="qtZFehHsKgwS5rPz"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <003891b8-a697-6d55-3862-5773e23a466a@ti.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1587656017-27911-2-git-send-email-kgunda@codeaurora.org>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Thu, 23 Apr 2020, Kiran Gunda wrote:
 
---qtZFehHsKgwS5rPz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Convert the qcom-wled bindings from .txt to .yaml format.
+> Also replace PM8941 to WLED3 and PMI8998 to WLED4.
+> 
+> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+> Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+> Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+> ---
+>  .../bindings/leds/backlight/qcom-wled.txt          | 154 ---------------
+>  .../bindings/leds/backlight/qcom-wled.yaml         | 208 +++++++++++++++++++++
+>  2 files changed, 208 insertions(+), 154 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
 
-On Mon 2020-04-27 12:12:18, Dan Murphy wrote:
-> Pavel
->=20
-> On 4/25/20 2:52 PM, Pavel Machek wrote:
-> >On Thu 2020-04-23 10:55:09, Dan Murphy wrote:
-> >>Add a new color ID that is declared as MULTICOLOR as with the
-> >>multicolor framework declaring a definitive color is not accurate
-> >>as the node can contain multiple colors.
-> >>
-> >>Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> >Please merge with previous patch, and you can keep reviews.
->=20
-> Not sure we should do that.=A0 The previous patches deals directly with t=
-he
-> bindings and this is code.
->=20
-> I thought the rule was to keep bindings and code separated.
->=20
-> It made sense to squash the bindings header patch to the bindings document
-> patch but it does not make sense to squash this patch to the bindings.
->=20
-> Please let me know if you want me to proceed with the squash.
+Needs a DT Ack.
 
-Well, OTOH it seems wrong to have array that is only
-half-initialized... But it is not a big deal.
-
-Best regards,
-								Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---qtZFehHsKgwS5rPz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl6n7JUACgkQMOfwapXb+vKOxQCffeMiLO16ErCjGnPSc4HtSVu3
-Bm0An1e04aRx8T6MkLO1cxxUF3Lr2skC
-=iN50
------END PGP SIGNATURE-----
-
---qtZFehHsKgwS5rPz--
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
