@@ -2,54 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEDE31BBAF9
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2020 12:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 316A81BBAFF
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2020 12:17:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727872AbgD1KQu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Apr 2020 06:16:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50872 "EHLO
+        id S1727025AbgD1KRi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Apr 2020 06:17:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727125AbgD1KQu (ORCPT
+        by vger.kernel.org with ESMTP id S1727066AbgD1KRh (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 28 Apr 2020 06:16:50 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD961C03C1AB
-        for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2020 03:16:49 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id b11so23956402wrs.6
-        for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2020 03:16:49 -0700 (PDT)
+        Tue, 28 Apr 2020 06:17:37 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0488EC03C1AD
+        for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2020 03:17:37 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id r26so2239141wmh.0
+        for <linux-leds@vger.kernel.org>; Tue, 28 Apr 2020 03:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Abo6l5Xyc1oYnHFvRioVLnD13zq9Rgb+0iUvfQi/YYI=;
-        b=HitueB7/d1ualBTxbqUTESD3Pre5U2RmejIrTJWs1PwFw2iixni5EB1XiGxTaVKzLW
-         pzKcn3Xj1PpcWFfa69UUG20I2QY9Hjx4EEOen2McVt74aVnKRV6y2A0PJtcfThHgcPw5
-         oK6Al4D10wsEfr0T359Dyrbk2al7twmFMRjrMNXMJcGQvJbLjAnMv6uHJz+BmYR6Pd6Z
-         cw5FibGDqmisikZM7Sa0cp3m2ug0YbjwqI5aKgxne7aMs3sRr2uS32gXNW8CShZwtewk
-         ywABwowwP1RHJG7qay7Ymbnpc366x/+6HlMNcSPoqhESq0Z9ZEshf2vZWRjIeho4tRRk
-         mThg==
+        bh=eV+Th5BniRPcPDXkhwyuSN3cWP7lFrktIHIPo7qrlrI=;
+        b=XW1GVGsXY80vV9DGRufEmge0H/eu4FI2dVz4xVST2VJPpwHCI+o+ddaLSy2ba5Hdkb
+         iuzJp9SdjDDShZQbQuoBoLj0oJsrsqCBxY6Muw7u+ucBbcK5xBtYMI8M8Ai1CZNYSaOk
+         C+bOa6xklbijjdm1mTD/XE2UyPcEXhuKTmAzFTr6zFYpo3ApuM5+g/dZB7qhS8P2gQiw
+         2o//7/l9Vl8nr2/BQyOW4z0QDI6NIx6F1w1MiLc1Xg3zkl++9G1nezfF6luc8TSi9mXu
+         BJLFzjvv4Y+rer9w6mmFQ+0vrLQxmpNOBepAvsq1Rsip66ShlAcn6dURnGimeTrE9yS8
+         hljg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=Abo6l5Xyc1oYnHFvRioVLnD13zq9Rgb+0iUvfQi/YYI=;
-        b=StzhABYR3cEftBOdLk5KworV1fcnRbGjlep7UjCs1ATkiHPELJhvZ/i88+eb3FidHD
-         W0S7de0PQkWq7ADZTbz+yS5txu2S7nGP5nUfbIZbxCKC4PHalDWs/9ols2K9BBmy4V3S
-         hV/HVywH+kWsyzU4jUQOEwB9rwd3CUwxZoN2pkksW48wXJIcJFnp8ILPd3OkQIC4J+vO
-         kMydNim9gNkqnHeteIfNC+A64IfynTs5mJUm/F0UPFxe4QQwE1yfFjDfQqJ8Nprjqn4y
-         AZw0KEo1GOOZzidlZaERx7gMpbnJB75PhfFxq2SoYW69ADj6P+xQHLtLh3hLUhN0W7Dk
-         V3zQ==
-X-Gm-Message-State: AGi0PuYPfiyCgyIPXdzR0woHbhgz9QqQbmRWL3eXvaIkdtfDcI/e17Yt
-        +6g67y0hmOsXgEYYIWqwIxQwKg==
-X-Google-Smtp-Source: APiQypLQ81+f0z7kO0fvBLeVPbuFSG2xYOUnKUA0JEXxXIUa3nlA/ckSrylVIOYt6X2eEAcUV7sWRw==
-X-Received: by 2002:adf:f9c6:: with SMTP id w6mr32720438wrr.341.1588069008454;
-        Tue, 28 Apr 2020 03:16:48 -0700 (PDT)
+        bh=eV+Th5BniRPcPDXkhwyuSN3cWP7lFrktIHIPo7qrlrI=;
+        b=mUOMx6tH7g8ZwBPp8EFRZ9W3vYsgnpEkiqqRh1dxgmuc9ajwePkSVAld1Wci6DqNHb
+         Zn3RV627QdF1/cM44CZfUuowZJbcENdzxq5fGclHNSn5UVDRuCOWJuxiWbPMl8ATB7RZ
+         bOjYpV7gCUl1aAtNImz8xZv0lUoFVlon2sUKLUcdp6VW8m5VSN/klV1BykeHZzX5ZeUS
+         /TeEUR3hBrr4qc8M/yW/CPpaeEM9ph49iR90Yh36va+sXlvv1fSAjh8r25GNRgJmrmmd
+         r8Bm/Y1337KcH4XAFQ4oDlGsp6D0O4zR8CDVDe/YSmbZJv8Tu2R+2YUoNeReqsq52s2e
+         X+8A==
+X-Gm-Message-State: AGi0Pub+AwSeXTtfeZqCPVqH8qRQ5ASswRpTUGyVhNef0d/G19dYrgqf
+        ZDok0EWApg6beU1Z9jPjFSSmCg==
+X-Google-Smtp-Source: APiQypIhzI9nKz44SYFmbAjDlx51uIBdA+B/YRligLSbLzuaLGU6jAYkbx4GpfVkznPLFTaFXUJ2kA==
+X-Received: by 2002:a05:600c:220c:: with SMTP id z12mr3706794wml.84.1588069055751;
+        Tue, 28 Apr 2020 03:17:35 -0700 (PDT)
 Received: from dell ([2.31.163.63])
-        by smtp.gmail.com with ESMTPSA id f23sm2638156wml.4.2020.04.28.03.16.47
+        by smtp.gmail.com with ESMTPSA id 185sm3055694wmc.32.2020.04.28.03.17.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 03:16:47 -0700 (PDT)
-Date:   Tue, 28 Apr 2020 11:16:46 +0100
+        Tue, 28 Apr 2020 03:17:35 -0700 (PDT)
+Date:   Tue, 28 Apr 2020 11:17:33 +0100
 From:   Lee Jones <lee.jones@linaro.org>
 To:     Kiran Gunda <kgunda@codeaurora.org>
 Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
@@ -60,16 +60,15 @@ Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Dan Murphy <dmurphy@ti.com>, linux-arm-msm@vger.kernel.org,
         Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Subject: Re: [PATCH V6 1/4] backlight: qcom-wled: convert the wled bindings
- to .yaml format
-Message-ID: <20200428101646.GN3559@dell>
+Subject: Re: [PATCH V6 3/4] backlight: qcom-wled: Add WLED5 bindings
+Message-ID: <20200428101733.GO3559@dell>
 References: <1587656017-27911-1-git-send-email-kgunda@codeaurora.org>
- <1587656017-27911-2-git-send-email-kgunda@codeaurora.org>
+ <1587656017-27911-4-git-send-email-kgunda@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1587656017-27911-2-git-send-email-kgunda@codeaurora.org>
+In-Reply-To: <1587656017-27911-4-git-send-email-kgunda@codeaurora.org>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
@@ -77,18 +76,14 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 On Thu, 23 Apr 2020, Kiran Gunda wrote:
 
-> Convert the qcom-wled bindings from .txt to .yaml format.
-> Also replace PM8941 to WLED3 and PMI8998 to WLED4.
+> Add WLED5 specific bindings.
 > 
 > Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
 > Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
 > Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
 > ---
->  .../bindings/leds/backlight/qcom-wled.txt          | 154 ---------------
->  .../bindings/leds/backlight/qcom-wled.yaml         | 208 +++++++++++++++++++++
->  2 files changed, 208 insertions(+), 154 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+>  .../bindings/leds/backlight/qcom-wled.yaml         | 59 ++++++++++++++++++++--
+>  1 file changed, 56 insertions(+), 3 deletions(-)
 
 Needs a DT Ack.
 
