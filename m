@@ -2,169 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 838F01BAFFF
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Apr 2020 23:10:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A13E1BB904
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Apr 2020 10:42:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726817AbgD0VKc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Apr 2020 17:10:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40952 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726285AbgD0VKc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 27 Apr 2020 17:10:32 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9340C0610D5;
-        Mon, 27 Apr 2020 14:10:31 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id t14so22197733wrw.12;
-        Mon, 27 Apr 2020 14:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YcKWIY2MXEY9yETNeWA3mpQlFZvVkwPb0tBInR/V9Qo=;
-        b=asN92CUC5fWcrPe0XiJkw+FAPmOPy18UXD8TQ1uD4Xy4Qrpt/AqSfmF92tkL9Wlajc
-         ZcCI9g2j0Fto+f34yJyrhkQ+62WUH51jRqCPCetSvGyWQXF1XOrz2zAx6IlWbutEexWU
-         LtXCwTzcFYksytsDyOkVHovzQyVhvxWMJPl0JIenB0otw81EFeOlUtkWFtcpRDE4zpWj
-         A+KGRIq2ow2PY1y+VPrLZKh++HZCDCBubF1KjM+cAO3s4jTd2xxgWhFcxkzkPQYc2CJb
-         xkAvDuoLiYRxFmOYC5f7TmFJQk20UhrZbsWL/oMAh4Uw30KkqPOXtF7ulUwQBMkXU8fB
-         0lQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YcKWIY2MXEY9yETNeWA3mpQlFZvVkwPb0tBInR/V9Qo=;
-        b=RP2zbjX8OJG+9d8WnBeiRzq6TU/RUnFijOEyEqGGMbm+GmJKtaoosSjJeXxSAziziV
-         Gu96916rSFKGQhhbOAS8qGpuuvIMGxDtV2Xhad+E7Ns9pOemVPjwrEykYgiSQBPADTPx
-         T3+5x7I+s5P9e0pb3szg80DRa8G+Yk8LYSU0eupWQpbF8FW3u3ujU0Uhc41ACnQKGSfN
-         yi2kJFhT0rDcHg6FwbmqSySP7J8O9epPRelhI7Q/jYK0OE2G0CPrMRU4Jfo9kbH8N3sc
-         ElRJGuLqhxnLzWkiKKNgwxIRUJeAwHPKRNTkr/ktqBRmQAYMPpN9zrIDxCQumWMvqrT9
-         k2gQ==
-X-Gm-Message-State: AGi0PuZf3BmSAhYkDKAPiZDb20rtZsPf/82EDf+qQUmsm9IMpkA7zzEy
-        aKQNLCkKKksyzu8PrJMVoiM=
-X-Google-Smtp-Source: APiQypIfnE9TCnw4ISHqihiv2DP5aBYbFtJjGfebMYH2oeRlrafHShe2ZdvRiHMknXIYaPxCeid2mw==
-X-Received: by 2002:a5d:6589:: with SMTP id q9mr27853808wru.136.1588021830326;
-        Mon, 27 Apr 2020 14:10:30 -0700 (PDT)
-Received: from [192.168.1.23] (acft175.neoplus.adsl.tpnet.pl. [83.9.221.175])
-        by smtp.gmail.com with ESMTPSA id q184sm511187wma.25.2020.04.27.14.10.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Apr 2020 14:10:29 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] leds: add sgm3140 driver
-To:     Luca Weiss <luca@z3ntu.xyz>, Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Icenowy Zheng <icenowy@aosc.io>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20200421191354.1443017-1-luca@z3ntu.xyz>
- <20200421191354.1443017-3-luca@z3ntu.xyz> <20200427095102.GA21572@duo.ucw.cz>
- <318932736.Jt2qlLCP7m@g550jk>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <a5b4ddec-e0f9-f8e6-1763-87935569be97@gmail.com>
-Date:   Mon, 27 Apr 2020 23:10:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726925AbgD1ImC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Apr 2020 04:42:02 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:35332 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726904AbgD1ImC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Apr 2020 04:42:02 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 872151C0263; Tue, 28 Apr 2020 10:42:00 +0200 (CEST)
+Date:   Tue, 28 Apr 2020 10:41:59 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v20 03/17] leds: multicolor: Introduce a multicolor class
+ definition
+Message-ID: <20200428084159.GB20640@amd>
+References: <20200423155524.13971-1-dmurphy@ti.com>
+ <20200423155524.13971-4-dmurphy@ti.com>
+ <20200425202306.GA23926@amd>
+ <80e20291-0ff2-87e6-8f93-2f37f588b148@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <318932736.Jt2qlLCP7m@g550jk>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="St7VIuEGZ6dlpu13"
+Content-Disposition: inline
+In-Reply-To: <80e20291-0ff2-87e6-8f93-2f37f588b148@ti.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Luca,
 
-On 4/27/20 9:49 PM, Luca Weiss wrote:
-> On Montag, 27. April 2020 11:51:02 CEST Pavel Machek wrote:
->> Hi!
->>
->>> Add a driver for the SGMICRO SGM3140 Buck/Boost Charge Pump LED driver.
->>>
->>> This device is controlled by two GPIO pins, one for enabling and the
->>> second one for switching between torch and flash mode.
->>>
->>> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
->>
->> Thanks, applied, but... I may remove it again.
->>
->>> +++ b/drivers/leds/leds-sgm3140.c
->>> @@ -0,0 +1,320 @@
->>> +// SPDX-License-Identifier: GPL-2.0
->>
->> Would you consider GPL-2+?
-> 
-> I don't really have a preference either way but GPL-2.0-or-later is fine for
-> me.
-> 
->>
->>> +#if IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS)
->>> +static void sgm3140_init_v4l2_flash_config(struct sgm3140 *priv,
->>
->> Ok.
->>
->>> +static int sgm3140_probe(struct platform_device *pdev)
->>> +{
->>
->> ...
->>
->>> +	led_cdev->brightness_set_blocking = sgm3140_brightness_set;
->>> +	led_cdev->max_brightness = LED_ON;
->>
->> Don't do this, unless you really have 255 levels of brightness.
-> 
-> LED_ON is 1, so the brightness available is 0 - 1.
-> 
->>
->>> +	/* Create V4L2 Flash subdev */
->>> +	priv->v4l2_flash = v4l2_flash_init(&pdev->dev,
->>> +					   child_node,
->>> +					   fled_cdev, NULL,
->>> +					   &v4l2_sd_cfg);
->>> +	if (IS_ERR(priv->v4l2_flash)) {
->>
->> Does this need some #ifdef guards?
-> 
-> v4l2_flash_init has a NULL-returning version when CONFIG_V4L2_FLASH_LED_CLASS
-> is not defined (see https://elixir.bootlin.com/linux/latest/source/include/
-> media/v4l2-flash-led-class.h#L166 )
+--St7VIuEGZ6dlpu13
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Correct.
+Hi!
 
->>
->>> +		ret = PTR_ERR(priv->v4l2_flash);
->>> +		goto err;
->>> +	}
->>> +
->>> +	return ret;
->>
->> Should this return 0?
-> 
-> ret should be 0 here, so it shouldn't matter much.
-> 
->>
->>> +err:
->>> +	fwnode_handle_put(child_node);
->>> +	return ret;
->>> +}
->>
->> Does non-error path needs handle_put, too?
-> 
-> I don't think so, I'm passing child_node to v4l2_flash_init which then saves
-> the pointer to v4l2_subdev->fwnode.
-> 
-> The devm_led_classdev_flash_register_ext function also seems to store the
-> pointer (led_cdev->dev->fwnode = init_data->fwnode; in
-> led_classdev_register_ext)
+> >>+cat /sys/class/leds/multicolor:status/multi_led_index
+> >>+green blue red
+> >Hmm. We should really make sure LEDs are ordered as "red green
+> >blue". Yes, userspace should support any order, but...
+>=20
+> Ordering is not guaranteed since it is based on the DT ordering. I don't
+> think we can mandate that these LEDs be put in order in the DT.
+>=20
+> Besides the framework and the device driver do not care what color is whe=
+re
+> only the user space needs to care.=A0 The FW and device driver only care =
+about
+> the brightness, intensity and channel.
 
-The node needs to be held only during parsing, so you
-have to call fwnode_handle_put() for both paths.
+Ok, lets keep it like this.
 
--- 
+> >>+		offset +=3D nrchars;
+> >>+	}
+> >This checks for "not enough" intensities. Do we need check for "too
+> >many" intensities?
+>=20
+> We ignore anything greater then mcled_cdev->num_colors.=A0 So if this is =
+set
+> to 3 we only read the first 3 values.
+>=20
+> So we cannot read more then what is set by the DT.
+
+Please make it return an error if extra values are passed in.
+
+> >>+static ssize_t multi_led_intensity_show(struct device *dev,
+> >>+			      struct device_attribute *intensity_attr,
+> >>+			      char *buf)
+> >>+{
+> >>+	struct led_classdev *led_cdev =3D dev_get_drvdata(dev);
+> >>+	struct led_classdev_mc *mcled_cdev =3D lcdev_to_mccdev(led_cdev);
+> >>+	int len =3D 0;
+> >>+	int i;
+> >>+
+> >>+	for (i =3D 0; i < mcled_cdev->num_colors; i++)
+> >>+		len +=3D sprintf(buf + len, "%d ",
+> >>+			    mcled_cdev->multicolor_info[i].color_led_intensity);
+> >>+
+> >>+	len +=3D sprintf(buf + len, "%s", "\n");
+> >This will result in extra " " before end of line.
+> >
+> >Please don't use "%s", "\n" to add single character. "\n" would be enoug=
+h.
+> Ack changed to just sprintf(buf + len, "\n");
+
+Also note the extra space before end of line.
+
 Best regards,
-Jacek Anaszewski
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--St7VIuEGZ6dlpu13
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl6n7FcACgkQMOfwapXb+vKdZACeLXsQXKtIiAtVWXrLbVqG9bx9
+HyMAoIjtZeQ2xZ/fsOYK/KPl/KmmnrSC
+=HSyV
+-----END PGP SIGNATURE-----
+
+--St7VIuEGZ6dlpu13--
