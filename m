@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A9091BDD14
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2020 15:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BA641BDD16
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2020 15:04:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727887AbgD2NDp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 29 Apr 2020 09:03:45 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:58062 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727803AbgD2NDm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 Apr 2020 09:03:42 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03TD3d2b082018;
-        Wed, 29 Apr 2020 08:03:39 -0500
+        id S1727911AbgD2NDu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 29 Apr 2020 09:03:50 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:44760 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727803AbgD2NDr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 Apr 2020 09:03:47 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03TD3ieB076978;
+        Wed, 29 Apr 2020 08:03:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1588165419;
-        bh=eZC98OOv+yIv57KbjaihSEZJlpjmT/2aLAV8pvxqq8w=;
+        s=ti-com-17Q1; t=1588165424;
+        bh=bmBuG9jt62UFiiDsKieHCLET4q0si6GpPuir0KvUPKA=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=EisEcIZMldupLi7BFLZVmjDsVJXjJCzpJkzH0Gbl9yX7YyG7WFNKeSG/CySR5Fk+f
-         PDjqjPxAP/ui4cDGM5zg4UUYuXfkiKganm3mdz+oZhVR8Xi8soAmAcZB86Mrgx92HG
-         9YqL24h+VAKGFKKy426nNbNlxx2ufjyuS1R7ELkE=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03TD3d7f047395
+        b=ZXjQfgwhC1YSw5U42metz8Gk7mrBmPFEM1Au66a/KzRLT32gsHb/7Hv7+Y95aDz1p
+         YoYBhwMcPQaYbFt8pCk9MnOOmA0fBWLkfy2/LRrouDMaF47+NL6Zcf5VeiX9Wle9yz
+         ekoZTHc3HpUekHV5zezehGPbhQniSGiBlrNTfMYQ=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03TD3imZ116282
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 29 Apr 2020 08:03:39 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+        Wed, 29 Apr 2020 08:03:44 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 29
- Apr 2020 08:03:39 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ Apr 2020 08:03:44 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 29 Apr 2020 08:03:39 -0500
+ Frontend Transport; Wed, 29 Apr 2020 08:03:44 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03TD3d18041694;
-        Wed, 29 Apr 2020 08:03:39 -0500
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03TD3i1s102676;
+        Wed, 29 Apr 2020 08:03:44 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
 CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v22 14/16] leds: lp55xx: Fix checkpatch file permissions issues
-Date:   Wed, 29 Apr 2020 07:56:29 -0500
-Message-ID: <20200429125631.7044-15-dmurphy@ti.com>
+Subject: [PATCH v22 15/16] leds: lp5523: Fix checkpatch issues in the code
+Date:   Wed, 29 Apr 2020 07:56:30 -0500
+Message-ID: <20200429125631.7044-16-dmurphy@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200429125631.7044-1-dmurphy@ti.com>
 References: <20200429125631.7044-1-dmurphy@ti.com>
@@ -55,102 +55,67 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Fix the checkpatch warnings for the use of the file permission macros.
-In converting the file permissions to the DEVICE_ATTR_XX macros the
-call back function names needed to be updated within the code.
-
-This means that the lp55xx_ needed to be dropped in the name to keep in
-harmony with the ABI documentation.
+Fix checkpatch errors and warnings for the LP5523.c device
+driver.
 
 Acked-by: Pavel Machek <pavel@ucw.cz>
 Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Signed-off-by: Dan Murphy <dmurphy@ti.com>
 ---
- drivers/leds/leds-lp55xx-common.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ drivers/leds/leds-lp5523.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index 19872d1435b3..82c392afeef7 100644
---- a/drivers/leds/leds-lp55xx-common.c
-+++ b/drivers/leds/leds-lp55xx-common.c
-@@ -83,7 +83,7 @@ static int lp55xx_post_init_device(struct lp55xx_chip *chip)
- 	return cfg->post_init_device(chip);
- }
+diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
+index 9776dc72a764..f55d97258d5e 100644
+--- a/drivers/leds/leds-lp5523.c
++++ b/drivers/leds/leds-lp5523.c
+@@ -23,13 +23,13 @@
  
--static ssize_t lp55xx_show_current(struct device *dev,
-+static ssize_t led_current_show(struct device *dev,
- 			    struct device_attribute *attr,
- 			    char *buf)
+ #define LP5523_PROGRAM_LENGTH		32	/* bytes */
+ /* Memory is used like this:
+-   0x00 engine 1 program
+-   0x10 engine 2 program
+-   0x20 engine 3 program
+-   0x30 engine 1 muxing info
+-   0x40 engine 2 muxing info
+-   0x50 engine 3 muxing info
+-*/
++ * 0x00 engine 1 program
++ * 0x10 engine 2 program
++ * 0x20 engine 3 program
++ * 0x30 engine 1 muxing info
++ * 0x40 engine 2 muxing info
++ * 0x50 engine 3 muxing info
++ */
+ #define LP5523_MAX_LEDS			9
+ 
+ /* Registers */
+@@ -326,7 +326,7 @@ static int lp5523_update_program_memory(struct lp55xx_chip *chip,
+ 					const u8 *data, size_t size)
  {
-@@ -92,7 +92,7 @@ static ssize_t lp55xx_show_current(struct device *dev,
- 	return scnprintf(buf, PAGE_SIZE, "%d\n", led->led_current);
- }
- 
--static ssize_t lp55xx_store_current(struct device *dev,
-+static ssize_t led_current_store(struct device *dev,
- 			     struct device_attribute *attr,
- 			     const char *buf, size_t len)
+ 	u8 pattern[LP5523_PROGRAM_LENGTH] = {0};
+-	unsigned cmd;
++	unsigned int cmd;
+ 	char c[3];
+ 	int nrchars;
+ 	int ret;
+@@ -468,6 +468,7 @@ static int lp5523_mux_parse(const char *buf, u16 *mux, size_t len)
+ static void lp5523_mux_to_array(u16 led_mux, char *array)
  {
-@@ -116,7 +116,7 @@ static ssize_t lp55xx_store_current(struct device *dev,
- 	return len;
- }
+ 	int i, pos = 0;
++
+ 	for (i = 0; i < LP5523_MAX_LEDS; i++)
+ 		pos += sprintf(array + pos, "%x", LED_ACTIVE(led_mux, i));
  
--static ssize_t lp55xx_show_max_current(struct device *dev,
-+static ssize_t max_current_show(struct device *dev,
- 			    struct device_attribute *attr,
- 			    char *buf)
- {
-@@ -125,9 +125,8 @@ static ssize_t lp55xx_show_max_current(struct device *dev,
- 	return scnprintf(buf, PAGE_SIZE, "%d\n", led->max_current);
- }
+@@ -506,7 +507,7 @@ static int lp5523_load_mux(struct lp55xx_chip *chip, u16 mux, int nr)
+ 	if (ret)
+ 		return ret;
  
--static DEVICE_ATTR(led_current, S_IRUGO | S_IWUSR, lp55xx_show_current,
--		lp55xx_store_current);
--static DEVICE_ATTR(max_current, S_IRUGO , lp55xx_show_max_current, NULL);
-+static DEVICE_ATTR_RW(led_current);
-+static DEVICE_ATTR_RO(max_current);
+-	ret = lp55xx_write(chip, LP5523_REG_PROG_MEM , (u8)(mux >> 8));
++	ret = lp55xx_write(chip, LP5523_REG_PROG_MEM, (u8)(mux >> 8));
+ 	if (ret)
+ 		return ret;
  
- static struct attribute *lp55xx_led_attrs[] = {
- 	&dev_attr_led_current.attr,
-@@ -272,7 +271,7 @@ static int lp55xx_request_firmware(struct lp55xx_chip *chip)
- 				GFP_KERNEL, chip, lp55xx_firmware_loaded);
- }
- 
--static ssize_t lp55xx_show_engine_select(struct device *dev,
-+static ssize_t select_engine_show(struct device *dev,
- 			    struct device_attribute *attr,
- 			    char *buf)
- {
-@@ -282,7 +281,7 @@ static ssize_t lp55xx_show_engine_select(struct device *dev,
- 	return sprintf(buf, "%d\n", chip->engine_idx);
- }
- 
--static ssize_t lp55xx_store_engine_select(struct device *dev,
-+static ssize_t select_engine_store(struct device *dev,
- 			     struct device_attribute *attr,
- 			     const char *buf, size_t len)
- {
-@@ -324,7 +323,7 @@ static inline void lp55xx_run_engine(struct lp55xx_chip *chip, bool start)
- 		chip->cfg->run_engine(chip, start);
- }
- 
--static ssize_t lp55xx_store_engine_run(struct device *dev,
-+static ssize_t run_engine_store(struct device *dev,
- 			     struct device_attribute *attr,
- 			     const char *buf, size_t len)
- {
-@@ -349,9 +348,8 @@ static ssize_t lp55xx_store_engine_run(struct device *dev,
- 	return len;
- }
- 
--static DEVICE_ATTR(select_engine, S_IRUGO | S_IWUSR,
--		   lp55xx_show_engine_select, lp55xx_store_engine_select);
--static DEVICE_ATTR(run_engine, S_IWUSR, NULL, lp55xx_store_engine_run);
-+static DEVICE_ATTR_RW(select_engine);
-+static DEVICE_ATTR_WO(run_engine);
- 
- static struct attribute *lp55xx_engine_attributes[] = {
- 	&dev_attr_select_engine.attr,
 -- 
 2.25.1
 
