@@ -2,327 +2,162 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 533551BDD18
-	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2020 15:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A431E1BE2DE
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Apr 2020 17:37:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727790AbgD2NEH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 29 Apr 2020 09:04:07 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:36968 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726654AbgD2NEG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 Apr 2020 09:04:06 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 03TD3oC8009119;
-        Wed, 29 Apr 2020 08:03:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1588165430;
-        bh=l5RB1BFBNGs53h/lFYd+NbwK21SIGQnFwb+EHjWJYqg=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=Ne/Ycdi6/EKuSzlkgb+rWDVfdj3HpTf51jDOcNB/4qKU2N8Znc1tfuCk4cZiwYlZY
-         9/cyu0cmWMdBwwyj4J9Bp7Xtf16NUFm61RctW8CGyY2R4mHwFRsWLeuJsF/M10maKJ
-         k/dBRG8YlxZ69wBxndhcjdwdbubGuJcLJ4gBDss4=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 03TD3oXh043498
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 29 Apr 2020 08:03:50 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 29
- Apr 2020 08:03:49 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 29 Apr 2020 08:03:49 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 03TD3nOR073077;
-        Wed, 29 Apr 2020 08:03:49 -0500
-From:   Dan Murphy <dmurphy@ti.com>
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
-Subject: [PATCH v22 16/16] dt: bindings: Update lp55xx binding to recommended LED naming
-Date:   Wed, 29 Apr 2020 07:56:31 -0500
-Message-ID: <20200429125631.7044-17-dmurphy@ti.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200429125631.7044-1-dmurphy@ti.com>
+        id S1726853AbgD2Phb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 29 Apr 2020 11:37:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43790 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726456AbgD2Pha (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 Apr 2020 11:37:30 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81CA7C03C1AD;
+        Wed, 29 Apr 2020 08:37:28 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id e26so2531922wmk.5;
+        Wed, 29 Apr 2020 08:37:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=rlQ2CSVV6XANNoo1iZF8vKF1KcyKLoixPtiCb4LIRmU=;
+        b=UzBVTnboUM1rw6sSV38W0WKxcXHMlyDVGxvSlM+eJKNTZeceQEoiV20qojzMEmljPz
+         9S2TRJyT1FaSwi9l9G9Tv2lqDHvk8PGrzhNRT7M3+QDzqVWITFQzpOB+aRoEcVHk1+Zx
+         bUQu4D/nMUJnNFX+LaStHa9gmtvkhdBMn1p4DQ89cbvBFPsz0gDFGIgsECZTIR5wQz9D
+         iyaqBsyFYMWvVvjFcFXZFjV9p0RAmgF/lSkqFFH7n5do/kC/zmZOnjDZ0gaMnTHzkiNb
+         cITdZ2TpLrcJUaR60kV0FV9Yfigj0/TJte1oCMebG84UdiqohIIuhqzkrcOgg9h/4DcP
+         WJQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rlQ2CSVV6XANNoo1iZF8vKF1KcyKLoixPtiCb4LIRmU=;
+        b=Wg0gC3t+CzldSh6aJRFZZk9q1v71+aIz00d2/+ckvFZDP14xCNtnn3KStL1yi5nqUk
+         T6EjgPeRSGXK0/gKxlYankID/hImk5MV9C8jMnSXn2GBA7OL8u0VjhprzkEG3TK711AP
+         A3qW2+z/Pv13JUQSSYNHoz2AaqRugm1NCG4w52272upjBl3VpIuAZTGxKui0f44JVTN+
+         MXdZ9OAgqm6R9InqzFVBP1mqIMHgh+WEF1Dg2qDslFuYod03R/WpFjwBy/1anQ83NBiE
+         sHAWi+OZFubKmwqEweIZUF11SwNuvTX1IlFcalBPN7twRSiWGmSCljSt2ljgs5+HfEtn
+         J+mQ==
+X-Gm-Message-State: AGi0PuZMOpw5Ck7f6ziqCWsA6Kbxy8pnxXAl1gWFhKLgf+bC5MJPXOP1
+        fSD8qrQAyQ0+p/QmHdnzGDw=
+X-Google-Smtp-Source: APiQypIg8WaDaKeSC+d4Fk1TXb+PTmnDD/c+xUPJUF1So7oC4slxG/rIYm8O+NdsZmPI4F8Zqjf2zw==
+X-Received: by 2002:a1c:ba56:: with SMTP id k83mr3825211wmf.1.1588174647248;
+        Wed, 29 Apr 2020 08:37:27 -0700 (PDT)
+Received: from [192.168.1.23] (afgd208.neoplus.adsl.tpnet.pl. [95.49.159.208])
+        by smtp.gmail.com with ESMTPSA id k14sm31165910wrp.53.2020.04.29.08.37.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2020 08:37:26 -0700 (PDT)
+Subject: Re: [PATCH v22 01/16] dt: bindings: Add multicolor class dt bindings
+ documention
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
 References: <20200429125631.7044-1-dmurphy@ti.com>
+ <20200429125631.7044-2-dmurphy@ti.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <769c19a1-4124-b674-5b03-6100f176768e@gmail.com>
+Date:   Wed, 29 Apr 2020 17:37:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20200429125631.7044-2-dmurphy@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Update the LP55xx DT binding examples to the recommended node
-naming convention.  There are no changes to the DT properties.
+Hi Dan,
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
-CC: Rob Herring <robh+dt@kernel.org>
-CC: Tony Lindgren <tony@atomide.com>
-CC: "Benoît Cousson" <bcousson@baylibre.com>
-CC: Linus Walleij <linus.walleij@linaro.org>
-CC: Shawn Guo <shawnguo@kernel.org>
-CC: Sascha Hauer <s.hauer@pengutronix.de>
-CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-CC: Fabio Estevam <festevam@gmail.com>
-CC: NXP Linux Team <linux-imx@nxp.com>
----
- .../devicetree/bindings/leds/leds-lp55xx.txt  | 58 +++++++++----------
- 1 file changed, 29 insertions(+), 29 deletions(-)
+Thanks for the conversion, but now the binding example is missing.
+In Documentation/devicetree/bindings/leds/common.yaml we do have
+examples.
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.txt b/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
-index 0ccc1efc2499..5475f45ef51f 100644
---- a/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.txt
-@@ -48,7 +48,7 @@ example 1) LP5521
- 'lp5521_pri:channel1' and 'lp5521_pri:channel2', with a heartbeat trigger
- on channel 0.
- 
--lp5521@32 {
-+led-controller@32 {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
- 	compatible = "national,lp5521";
-@@ -56,20 +56,20 @@ lp5521@32 {
- 	label = "lp5521_pri";
- 	clock-mode = /bits/ 8 <2>;
- 
--	chan@0 {
-+	led@0 {
- 		reg = <0>;
- 		led-cur = /bits/ 8 <0x2f>;
- 		max-cur = /bits/ 8 <0x5f>;
- 		linux,default-trigger = "heartbeat";
- 	};
- 
--	chan@1 {
-+	led@1 {
- 		reg = <1>;
- 		led-cur = /bits/ 8 <0x2f>;
- 		max-cur = /bits/ 8 <0x5f>;
- 	};
- 
--	chan@2 {
-+	led@2 {
- 		reg = <2>;
- 		led-cur = /bits/ 8 <0x2f>;
- 		max-cur = /bits/ 8 <0x5f>;
-@@ -88,70 +88,70 @@ ASEL1    ASEL0    Address
-  VEN      GND       34h
-  VEN      VEN       35h
- 
--lp5523@32 {
-+led-controller@32 {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
- 	compatible = "national,lp5523";
- 	reg = <0x32>;
- 	clock-mode = /bits/ 8 <1>;
- 
--	chan@0 {
-+	led@0 {
- 		reg = <0>;
- 		chan-name = "d1";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@1 {
-+	led@1 {
- 		reg = <1>;
- 		chan-name = "d2";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@2 {
-+	led@2 {
- 		reg = <2>;
- 		chan-name = "d3";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@3 {
-+	led@3 {
- 		reg = <3>;
- 		chan-name = "d4";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@4 {
-+	led@4 {
- 		reg = <4>;
- 		chan-name = "d5";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@5 {
-+	led@5 {
- 		reg = <5>;
- 		chan-name = "d6";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@6 {
-+	led@6 {
- 		reg = <6>;
- 		chan-name = "d7";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@7 {
-+	led@7 {
- 		reg = <7>;
- 		chan-name = "d8";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@8 {
-+	led@8 {
- 		reg = <8>;
- 		chan-name = "d9";
- 		led-cur = /bits/ 8 <0x14>;
-@@ -162,35 +162,35 @@ lp5523@32 {
- example 3) LP5562
- 4 channels are defined.
- 
--lp5562@30 {
-+led-controller@30 {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
- 	compatible = "ti,lp5562";
- 	reg = <0x30>;
- 	clock-mode = /bits/8 <2>;
- 
--	chan@0 {
-+	led@0 {
- 		reg = <0>;
- 		chan-name = "R";
- 		led-cur = /bits/ 8 <0x20>;
- 		max-cur = /bits/ 8 <0x60>;
- 	};
- 
--	chan@1 {
-+	led@1 {
- 		reg = <1>;
- 		chan-name = "G";
- 		led-cur = /bits/ 8 <0x20>;
- 		max-cur = /bits/ 8 <0x60>;
- 	};
- 
--	chan@2 {
-+	led@2 {
- 		reg = <2>;
- 		chan-name = "B";
- 		led-cur = /bits/ 8 <0x20>;
- 		max-cur = /bits/ 8 <0x60>;
- 	};
- 
--	chan@3 {
-+	led@3 {
- 		reg = <3>;
- 		chan-name = "W";
- 		led-cur = /bits/ 8 <0x20>;
-@@ -202,7 +202,7 @@ example 4) LP8501
- 9 channels are defined. The 'pwr-sel' is LP8501 specific property.
- Others are same as LP5523.
- 
--lp8501@32 {
-+led-controller@32 {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
- 	compatible = "ti,lp8501";
-@@ -210,63 +210,63 @@ lp8501@32 {
- 	clock-mode = /bits/ 8 <2>;
- 	pwr-sel = /bits/ 8 <3>;	/* D1~9 connected to VOUT */
- 
--	chan@0 {
-+	led@0 {
- 		reg = <0>;
- 		chan-name = "d1";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@1 {
-+	led@1 {
- 		reg = <1>;
- 		chan-name = "d2";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@2 {
-+	led@2 {
- 		reg = <2>;
- 		chan-name = "d3";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@3 {
-+	led@3 {
- 		reg = <3>;
- 		chan-name = "d4";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@4 {
-+	led@4 {
- 		reg = <4>;
- 		chan-name = "d5";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@5 {
-+	led@5 {
- 		reg = <5>;
- 		chan-name = "d6";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@6 {
-+	led@6 {
- 		reg = <6>;
- 		chan-name = "d7";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@7 {
-+	led@7 {
- 		reg = <7>;
- 		chan-name = "d8";
- 		led-cur = /bits/ 8 <0x14>;
- 		max-cur = /bits/ 8 <0x20>;
- 	};
- 
--	chan@8 {
-+	led@8 {
- 		reg = <8>;
- 		chan-name = "d9";
- 		led-cur = /bits/ 8 <0x14>;
--- 
-2.25.1
+Best regards,
+Jacek Anaszewski
+
+On 4/29/20 2:56 PM, Dan Murphy wrote:
+> Add DT bindings for the LEDs multicolor class framework.
+> Add multicolor ID to the color ID list for device tree bindings.
+> 
+> CC: Rob Herring <robh@kernel.org>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>   .../bindings/leds/leds-class-multicolor.yaml  | 34 +++++++++++++++++++
+>   drivers/leds/led-core.c                       |  1 +
+>   include/dt-bindings/leds/common.h             |  3 +-
+>   3 files changed, 37 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+> new file mode 100644
+> index 000000000000..3d4f23d07440
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+> @@ -0,0 +1,34 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-class-multicolor.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Common properties for the multicolor LED class.
+> +
+> +maintainers:
+> +  - Dan Murphy <dmurphy@ti.com>
+> +
+> +description: |
+> +  Bindings for multi color LEDs show how to describe current outputs of
+> +  either integrated multi-color LED elements (like RGB, RGBW, RGBWA-UV
+> +  etc.) or standalone LEDs, to achieve logically grouped multi-color LED
+> +  modules. This is achieved by adding multi-led nodes layer to the
+> +  monochrome LED bindings.
+> +  The nodes and properties defined in this document are unique to the multicolor
+> +  LED class.  Common LED nodes and properties are inherited from the common.txt
+> +  within this documentation directory.
+> +
+> +properties:
+> +  color:
+> +    description: |
+> +      For multicolor LED support this property should be defined as
+> +      LED_COLOR_ID_MULTI and further definition can be found in
+> +      include/linux/leds/common.h.
+> +
+> +required:
+> +  - color
+> +
+> +additionalProperties: false
+> +
+> +...
+> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+> index f1f718dbe0f8..846248a0693d 100644
+> --- a/drivers/leds/led-core.c
+> +++ b/drivers/leds/led-core.c
+> @@ -34,6 +34,7 @@ const char * const led_colors[LED_COLOR_ID_MAX] = {
+>   	[LED_COLOR_ID_VIOLET] = "violet",
+>   	[LED_COLOR_ID_YELLOW] = "yellow",
+>   	[LED_COLOR_ID_IR] = "ir",
+> +	[LED_COLOR_ID_MULTI] = "multicolor",
+>   };
+>   EXPORT_SYMBOL_GPL(led_colors);
+>   
+> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+> index 0ce7dfc00dcb..a463ce6a8794 100644
+> --- a/include/dt-bindings/leds/common.h
+> +++ b/include/dt-bindings/leds/common.h
+> @@ -30,7 +30,8 @@
+>   #define LED_COLOR_ID_VIOLET	5
+>   #define LED_COLOR_ID_YELLOW	6
+>   #define LED_COLOR_ID_IR		7
+> -#define LED_COLOR_ID_MAX	8
+> +#define LED_COLOR_ID_MULTI	8
+> +#define LED_COLOR_ID_MAX	9
+>   
+>   /* Standard LED functions */
+>   /* Keyboard LEDs, usually it would be input4::capslock etc. */
+> 
 
