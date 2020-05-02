@@ -2,66 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 619641C2873
-	for <lists+linux-leds@lfdr.de>; Sat,  2 May 2020 23:51:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A31771C2875
+	for <lists+linux-leds@lfdr.de>; Sat,  2 May 2020 23:51:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728533AbgEBVvW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 2 May 2020 17:51:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42060 "EHLO
+        id S1728552AbgEBVvZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 2 May 2020 17:51:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728523AbgEBVvV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 2 May 2020 17:51:21 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27ABAC061A0C;
-        Sat,  2 May 2020 14:51:21 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id z6so4349703wml.2;
-        Sat, 02 May 2020 14:51:21 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1728523AbgEBVvZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 2 May 2020 17:51:25 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE110C061A0C;
+        Sat,  2 May 2020 14:51:24 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id v8so12468987wma.0;
+        Sat, 02 May 2020 14:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2S0jatiActd4iHZn8JK9XZYvzuI+44RuWLvChb/qjxM=;
-        b=QRhtI39PIRErv3uRRK/QZghTneQ/R3M787Ho1ftb4/rQvUEFHuYJGKpusloHPz5iik
-         VmvqtqSSTAD9fNpg+PHJLVbQr4ijtYCf1S7Y3omCMm7SM62aaWNtlHcY7WRjYqzPpp7D
-         YWDKrg8VC/q36MP4w1le/wZNylS+eFPmTG/no9TqUqCjA+HbYsU3Or/l15a9HFDxMSfr
-         40zBRBauFpdevZ8Vc0DlTVdExB77oZHh2mxsN9tFJYLdKcYdppsSY8T7RavKcOuIHv86
-         q2sgc6jsgnKQkP53sm7v2O0cUdVNmjgug+hWDc8H5sSNikuwxwDc0OJyB5WeKJCw/vXi
-         QPbw==
+        bh=/sUJbHpXs/74rGqujOvXwb+/vrMllmKdL9NZjRA0BV0=;
+        b=eImR+I+los96h312gAuW1ifMwwBPn6C/BovQ638AIvAems6f/ofzcE53IY9zmlQopy
+         yBQqofGsBdPb1V662GRMtnPevHITBq+Ok3qN2KkU88ed25uhIdeNmxN2ynvKGSvbmaZM
+         Bfk/i/JSsbotJ7K/z/r9Asr7atA87IU9Cq7cmLySRYRNB6gYW8xwSUIkUa9HaMC4zUqr
+         sQFPc3xq5wjQ5JlKii2a0ZU3Rmk1MC0BLeskUia/Mow1Wtnz0RC8WObzjsfyD51DeMC5
+         lkBdNvhGfdsV1XxWSUruoj2P2mSUMgpLL2H6i1zUiDTodN5S/Y6kbJUsXLv48yTAW5ZL
+         v86w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=2S0jatiActd4iHZn8JK9XZYvzuI+44RuWLvChb/qjxM=;
-        b=gCBuTwjOY0Fz4qwzde9YeJ/DfxN68MutA7AONxmtkOb31UlV0sHsfJuFWE+7/3ebNM
-         TXYAi8WIUfpvniR13yhsHPPKJcfd3RD5ckWul3rDOj9XPTHWM2HujP9quAn5/tuVQdRm
-         0TqAWnv2oA9VFH1JTPOySc8k3txqs2ChUUBBXtfWjtZ+kcjobG9iDpBlvbNTlWQL93yM
-         uPO2FN6hn8s1QWd/TU/fCgq2waLWiIU3HPAMVOBqgqb5mXMvvpn32HUb6K6n7g9pHyBR
-         vR0kNFReegbAVhCv3YLNnymv2LvhZJjLgHy3SHxHIj9m3VqnPSXNsz7jVFoGViTxDg9/
-         HFqQ==
-X-Gm-Message-State: AGi0PubwYZIRJZJ/d6kZ2i4AB/l8adCe4hTWo2NciYEF048KNr737x+G
-        EURBb1/IKoRNBvoHE5PnryE=
-X-Google-Smtp-Source: APiQypLX5Op7AATFAMQ/aGNElOjyI3n/Tf2O7TCJD/k2g2BfRcJ6WcgUHili5JYS9USFhC3xSdNXUw==
-X-Received: by 2002:a1c:5f56:: with SMTP id t83mr6050457wmb.61.1588456278499;
-        Sat, 02 May 2020 14:51:18 -0700 (PDT)
+        bh=/sUJbHpXs/74rGqujOvXwb+/vrMllmKdL9NZjRA0BV0=;
+        b=OtnRKSWDQWpsi+eKMzh91OGKMB8aTL+Ojc83qEGWVVT7vpkEXBQcSg/PetozzuXX77
+         jWjm2Bj4wzVb7f79/cDdRuaTHMO8xD/QZV0x/3V08rlcdL6mWWxSw8k5KM6qUJ3KlrDK
+         oHbQgjw2kIUP17dGXlF2hsX93aEc5z39XEJ5Zf2TBnmabkNiqxQr42BcnwlFi0I4DohB
+         p6DHCEWAc0A+rZpJRyNWFLddHj6iz3AfY/ICyIXp5u/B68TqOjatOWlCz3IQOhAu4DnJ
+         msoM2pkJJnxB+hdPht9nnevwMa8uLWWpGjCIKhHYscFCoZkBRuMWNQHNco7sPqAQkHvC
+         x8yQ==
+X-Gm-Message-State: AGi0PuapLWNKXSJkH9oKpzII+S8XA3tDXhIfALEAleK4VqC6vv6XTkpV
+        Lke3QsF5FIpWmh2BosvdzBTkBEOWJco=
+X-Google-Smtp-Source: APiQypIQfM3Qwbrh8n55UUQQxqvr5kgN+7FplG9lNj9OlBjeZojSZjEE9TWNRdRa+g/SH8ofQ6kLng==
+X-Received: by 2002:a7b:c390:: with SMTP id s16mr6090233wmj.14.1588456283175;
+        Sat, 02 May 2020 14:51:23 -0700 (PDT)
 Received: from [192.168.1.23] (acen178.neoplus.adsl.tpnet.pl. [83.9.189.178])
-        by smtp.gmail.com with ESMTPSA id k17sm5993595wmi.10.2020.05.02.14.51.16
+        by smtp.gmail.com with ESMTPSA id j22sm11504981wre.84.2020.05.02.14.51.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 May 2020 14:51:17 -0700 (PDT)
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: [PATCH v23 01/16] dt: bindings: Add multicolor class dt bindings
- documention
+        Sat, 02 May 2020 14:51:22 -0700 (PDT)
+Subject: Re: [PATCH v23 02/16] leds: multicolor: Introduce a multicolor class
+ definition
 To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200429202816.26501-1-dmurphy@ti.com>
- <20200429202816.26501-2-dmurphy@ti.com>
-Message-ID: <c38653c7-5c57-4396-147e-e58e52a84830@gmail.com>
-Date:   Sat, 2 May 2020 23:51:15 +0200
+ <20200429202816.26501-3-dmurphy@ti.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <5533a7b4-12b4-90b8-2731-a9cdfbee5e12@gmail.com>
+Date:   Sat, 2 May 2020 23:51:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200429202816.26501-2-dmurphy@ti.com>
+In-Reply-To: <20200429202816.26501-3-dmurphy@ti.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,130 +71,50 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Dan,
 
-Thanks for improving the bindings. Now we have one indentation
-related issue, please look below at the example.
+I've converted drivers/leds/leds-an30259a.c to LED mc framework
+and tested it on Samsung Galaxy S3 (exysnos4412-trats2 board).
+Works as expected. And now the framework usability is indeed neater.
+
+One thing to improve: LED mc based drivers' entries in Kconfig should 
+have this dependency:
+
+depends on LEDS_CLASS_MULTI_COLOR || !LEDS_CLASS_MULTI_COLOR
+
+It is required to enforce building driver as a module if
+LED mc framework is configured as such.
+
+With this (and DT bindings nits) addressed, for patches 1-6:
+
+Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+
+It's been a long journey. Thank you for your determination to drive
+this work to the end.
+
+Best regards,
+Jacek Anaszewski
 
 On 4/29/20 10:28 PM, Dan Murphy wrote:
-> Add DT bindings for the LEDs multicolor class framework.
-> Add multicolor ID to the color ID list for device tree bindings.
+> Introduce a multicolor class that groups colored LEDs
+> within a LED node.
 > 
-> CC: Rob Herring <robh@kernel.org>
-> Acked-by: Pavel Machek <pavel@ucw.cz>
+> The multi color class groups monochrome LEDs and allows controlling two
+> aspects of the final combined color: hue and lightness. The former is
+> controlled via the intensity file and the latter is controlled
+> via brightness file.
+> 
 > Signed-off-by: Dan Murphy <dmurphy@ti.com>
 > ---
->   .../bindings/leds/leds-class-multicolor.yaml  | 70 +++++++++++++++++++
->   drivers/leds/led-core.c                       |  1 +
->   include/dt-bindings/leds/common.h             |  3 +-
->   3 files changed, 73 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> new file mode 100644
-> index 000000000000..e6169ed5ed12
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> @@ -0,0 +1,70 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-class-multicolor.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Common properties for the multicolor LED class.
-> +
-> +maintainers:
-> +  - Dan Murphy <dmurphy@ti.com>
-> +
-> +description: |
-> +  Bindings for multi color LEDs show how to describe current outputs of
-> +  either integrated multi-color LED elements (like RGB, RGBW, RGBWA-UV
-> +  etc.) or standalone LEDs, to achieve logically grouped multi-color LED
-> +  modules. This is achieved by adding multi-led nodes layer to the
-> +  monochrome LED bindings.
-> +  The nodes and properties defined in this document are unique to the multicolor
-> +  LED class.  Common LED nodes and properties are inherited from the common.txt
-> +  within this documentation directory.
-> +
-> +properties:
-> +  color:
-> +    description: |
-> +      For multicolor LED support this property should be defined as
-> +      LED_COLOR_ID_MULTI and further definition can be found in
-> +      include/linux/leds/common.h.
-> +
-> +required:
-> +  - color
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-
-It would look neater if we had an empty line here.
-
-> +        led-controller@14 {
-
-We should have one more level of indentation below
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        compatible = "ti,lp5009";
-> +        reg = <0x14>;
-> +
-> +        multi-led@1 {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +          reg = <1>;
-> +          color = <LED_COLOR_ID_MULTI>;
-> +          function = LED_FUNCTION_CHARGING;
-> +
-> +          led@0 {
-> +            reg = <0>;
-> +            color = <LED_COLOR_ID_RED>;
-> +          };
-> +
-> +          led@1 {
-> +            reg = <1>;
-> +            color = <LED_COLOR_ID_GREEN>;
-> +          };
-> +
-> +          led@2 {
-> +            reg = <2>;
-> +            color = <LED_COLOR_ID_BLUE>;
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +additionalProperties: false
-> +...
-> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-> index f1f718dbe0f8..846248a0693d 100644
-> --- a/drivers/leds/led-core.c
-> +++ b/drivers/leds/led-core.c
-> @@ -34,6 +34,7 @@ const char * const led_colors[LED_COLOR_ID_MAX] = {
->   	[LED_COLOR_ID_VIOLET] = "violet",
->   	[LED_COLOR_ID_YELLOW] = "yellow",
->   	[LED_COLOR_ID_IR] = "ir",
-> +	[LED_COLOR_ID_MULTI] = "multicolor",
->   };
->   EXPORT_SYMBOL_GPL(led_colors);
->   
-> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-> index 0ce7dfc00dcb..a463ce6a8794 100644
-> --- a/include/dt-bindings/leds/common.h
-> +++ b/include/dt-bindings/leds/common.h
-> @@ -30,7 +30,8 @@
->   #define LED_COLOR_ID_VIOLET	5
->   #define LED_COLOR_ID_YELLOW	6
->   #define LED_COLOR_ID_IR		7
-> -#define LED_COLOR_ID_MAX	8
-> +#define LED_COLOR_ID_MULTI	8
-> +#define LED_COLOR_ID_MAX	9
->   
->   /* Standard LED functions */
->   /* Keyboard LEDs, usually it would be input4::capslock etc. */
-> 
-
+>   .../ABI/testing/sysfs-class-led-multicolor    |  34 +++
+>   Documentation/leds/index.rst                  |   1 +
+>   Documentation/leds/leds-class-multicolor.rst  |  86 +++++++
+>   MAINTAINERS                                   |   8 +
+>   drivers/leds/Kconfig                          |  10 +
+>   drivers/leds/Makefile                         |   1 +
+>   drivers/leds/led-class-multicolor.c           | 210 ++++++++++++++++++
+>   include/linux/led-class-multicolor.h          | 121 ++++++++++
+>   8 files changed, 471 insertions(+)
+>   create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
+>   create mode 100644 Documentation/leds/leds-class-multicolor.rst
+>   create mode 100644 drivers/leds/led-class-multicolor.c
+>   create mode 100644 include/linux/led-class-multicolor.h
+[...]
