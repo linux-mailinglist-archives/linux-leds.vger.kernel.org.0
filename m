@@ -2,200 +2,202 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E25B1C454B
-	for <lists+linux-leds@lfdr.de>; Mon,  4 May 2020 20:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A8AC1C46F6
+	for <lists+linux-leds@lfdr.de>; Mon,  4 May 2020 21:22:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731074AbgEDSAx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 4 May 2020 14:00:53 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:47478 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731069AbgEDSAw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 May 2020 14:00:52 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 67F4E1C0220; Mon,  4 May 2020 20:00:49 +0200 (CEST)
-Date:   Mon, 4 May 2020 20:00:49 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     nikitos.tr@gmail.com
-Cc:     dmurphy@ti.com, robh+dt@kernel.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 1/3] leds: add aw2013 driver
-Message-ID: <20200504180049.GA5067@duo.ucw.cz>
-References: <20200504162934.4693-1-nikitos.tr@gmail.com>
+        id S1726338AbgEDTWI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 4 May 2020 15:22:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41634 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725956AbgEDTWH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 May 2020 15:22:07 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D95FC061A0E;
+        Mon,  4 May 2020 12:22:07 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id k1so468865wrx.4;
+        Mon, 04 May 2020 12:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/wXZuQuJ7PnbeHEbQAWzwgKYTStvx6dUW/SJzOsLRoA=;
+        b=CoPxsSKbVK8Wy2jX9jpaEFAsVrKicL9Ky010JZuo5GyRrrfUR4Op0dK5h8ShZrzcMg
+         gLxcPLC5ozW8y8QjOdJ8f7PMGU75X1J1o0kx656eSKn897pq1hYDPq/MfsbjvcwK/b8Q
+         Q7x3E7N0nmFnkjg4HxOKE21Dn9Wg8EvbMABdXxa6gfEPWSLGWHaG7DdIuArpB4AuYOI5
+         +lR40B9lr3PVmcqC/7q+O9M0fgul0UIeJy5b1Zctf7oRtSH45mN+Q79p9r3j3CfyG5ne
+         eZ/VhqehmdrvjrA9ORziKY17794r2OR87FD89jP8booS64hgALT20nJo1Zg28nG4ITeq
+         o64g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/wXZuQuJ7PnbeHEbQAWzwgKYTStvx6dUW/SJzOsLRoA=;
+        b=YLqN1HagPKr7EfQgBX3FvItc1iptbEiUW8ZVkj5JsufEBC1x3MOl+qoqxdpKtCNz6O
+         rsYPBPYxw9y04SRhfN1wx3+wUx+iiC+nODjfyM+Yz0ZGACJOgJWLGtViibJnZZrGBPXp
+         D8/ZYRM09rxowsQcSHgW1cgIbOPZpJJcisuy3OpbRk8UuUCx1BLLRc8v7oNKseFBmJPO
+         YHpJTq/uATekfUEBPyRwbGXGyWjLhrrJsBaquk5akoYzj2OgC1KMbj8en1NKYb9FY/Zq
+         I0TnVgfRwlHoyu2GEgqGZ+R/Cbnn78aQYgrPOhfvtgmbuidyQrbe4Y0TbkFlUX66Vn8+
+         GgFQ==
+X-Gm-Message-State: AGi0PubwUXeuf3qEL7M/RdBKdI1BdPlDq3GrOrDIw2rgxjzP2prngVKh
+        oKMwLUcOiGIqRKx6OqVbwEQ=
+X-Google-Smtp-Source: APiQypJBCnbLLzGmzOZoTeVa2wShRwW4G5kxYHL4fAUySEqBFHKrWXJnqYh9/j/I7jSsqrQlC+zhpg==
+X-Received: by 2002:adf:8563:: with SMTP id 90mr880519wrh.74.1588620126190;
+        Mon, 04 May 2020 12:22:06 -0700 (PDT)
+Received: from [192.168.1.23] (afde147.neoplus.adsl.tpnet.pl. [95.49.82.147])
+        by smtp.gmail.com with ESMTPSA id k17sm630101wmi.10.2020.05.04.12.22.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2020 12:22:05 -0700 (PDT)
+Subject: Re: [PATCH v24 01/16] dt: bindings: Add multicolor class dt bindings
+ documention
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+References: <20200503123215.6449-1-dmurphy@ti.com>
+ <20200503123215.6449-2-dmurphy@ti.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <4a316636-9e24-d74b-df46-ea894b5507b3@gmail.com>
+Date:   Mon, 4 May 2020 21:22:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="/04w6evG8XlLl3ft"
-Content-Disposition: inline
-In-Reply-To: <20200504162934.4693-1-nikitos.tr@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200503123215.6449-2-dmurphy@ti.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Dan,
 
---/04w6evG8XlLl3ft
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> +#define AW2013_NAME "aw2013"
-
-That's.... not really useful define. Make it NAME? Drop it?
-
-> +#define AW2013_TIME_STEP 130
-
-I'd add comment with /* units */.
-
-> +#define STATE_OFF 0
-> +#define STATE_KEEP 1
-> +#define STATE_ON 2
-
-We should add enum into core for this...
-
-> +static int aw2013_chip_init(struct aw2013 *chip)
-> +{
-> +	int i, ret;
+On 5/3/20 2:32 PM, Dan Murphy wrote:
+> Add DT bindings for the LEDs multicolor class framework.
+> Add multicolor ID to the color ID list for device tree bindings.
+> 
+> CC: Rob Herring <robh@kernel.org>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>   .../bindings/leds/leds-class-multicolor.yaml  | 71 +++++++++++++++++++
+>   drivers/leds/led-core.c                       |  1 +
+>   include/dt-bindings/leds/common.h             |  3 +-
+>   3 files changed, 74 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+> new file mode 100644
+> index 000000000000..16ffafc062ad
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+> @@ -0,0 +1,71 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-class-multicolor.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	ret =3D regmap_write(chip->regmap, AW2013_GCR, AW2013_GCR_ENABLE);
-> +	if (ret) {
-> +		dev_err(&chip->client->dev, "Failed to enable the chip: %d\n",
-> +			ret);
-> +		goto error;
-> +	}
+> +title: Common properties for the multicolor LED class.
 > +
-> +	for (i =3D 0; i < chip->num_leds; i++) {
-> +		ret =3D regmap_update_bits(chip->regmap,
-> +					 AW2013_LCFG(chip->leds[i].num),
-> +					 AW2013_LCFG_IMAX_MASK,
-> +					 chip->leds[i].imax);
-> +		if (ret) {
-> +			dev_err(&chip->client->dev,
-> +				"Failed to set maximum current for led %d: %d\n",
-> +				chip->leds[i].num, ret);
-> +			goto error;
-> +		}
-> +	}
+> +maintainers:
+> +  - Dan Murphy <dmurphy@ti.com>
 > +
-> +error:
-> +	return ret;
-> +}
-
-No need for goto if you are just returning.
-
-> +static bool aw2013_chip_in_use(struct aw2013 *chip)
-> +{
-> +	int i;
+> +description: |
+> +  Bindings for multi color LEDs show how to describe current outputs of
+> +  either integrated multi-color LED elements (like RGB, RGBW, RGBWA-UV
+> +  etc.) or standalone LEDs, to achieve logically grouped multi-color LED
+> +  modules. This is achieved by adding multi-led nodes layer to the
+> +  monochrome LED bindings.
+> +  The nodes and properties defined in this document are unique to the multicolor
+> +  LED class.  Common LED nodes and properties are inherited from the common.txt
+> +  within this documentation directory.
 > +
-> +	for (i =3D 0; i < chip->num_leds; i++)
-> +		if (chip->leds[i].cdev.brightness)
-> +			return true;
+> +properties:
+> +  color:
+> +    description: |
+> +      For multicolor LED support this property should be defined as
+> +      LED_COLOR_ID_MULTI and further definition can be found in
+> +      include/linux/leds/common.h.
 > +
-> +	return false;
-> +}
-
-How is this going to interact with ledstate =3D=3D KEEP?
-
-> +static int aw2013_brightness_set(struct led_classdev *cdev,
-> +				 enum led_brightness brightness)
-> +{
-> +	struct aw2013_led *led =3D container_of(cdev, struct aw2013_led, cdev);
-> +	int ret, num;
+> +required:
+> +  - color
 > +
-> +	mutex_lock(&led->chip->mutex);
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
 > +
-> +	if (aw2013_chip_in_use(led->chip)) {
-> +		ret =3D aw2013_chip_enable(led->chip);
-> +		if (ret)
-> +			return ret;
-> +	}
+> +        led-controller@14 {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +          compatible = "ti,lp5009";
+> +          reg = <0x14>; > +
+> +        multi-led@1 {
 
-You are returning with mutex held.
+Whole multi-led subnode is contained in the led-controller
+node, so it must have one more indentation level.
 
-> +	/* Never on - just set to off */
-> +	if (!*delay_on)
-> +		return aw2013_brightness_set(&led->cdev, LED_OFF);
+No need to resend whole patch set, just bump the version
+of this single patch.
+
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +          reg = <1>;
+> +          color = <LED_COLOR_ID_MULTI>;
+> +          function = LED_FUNCTION_CHARGING;
 > +
-> +	/* Never off - just set to brightness */
-> +	if (!*delay_off)
-> +		return aw2013_brightness_set(&led->cdev, led->cdev.brightness);
-
-Is this dance neccessary? Should we do it in the core somewhere?
-
-> +		} else {
-> +			led->imax =3D 1; // 5mA
-> +			dev_info(&client->dev,
-> +				 "DT property led-max-microamp is missing!\n");
-> +		}
-
-Lets remove the exclamation mark.
-
-> +		led->num =3D source;
-> +		led->chip =3D chip;
-> +		led->fwnode =3D of_fwnode_handle(child);
+> +          led@0 {
+> +            reg = <0>;
+> +            color = <LED_COLOR_ID_RED>;
+> +          };
 > +
-> +		if (!of_property_read_string(child, "default-state", &str)) {
-> +			if (!strcmp(str, "on"))
-> +				led->default_state =3D STATE_ON;
-> +			else if (!strcmp(str, "keep"))
-> +				led->default_state =3D STATE_KEEP;
-> +			else
-> +				led->default_state =3D STATE_OFF;
-> +		}
-
-We should really have something in core for this. Should we support
-arbitrary brightness there?
-
-> +static void aw2013_read_current_state(struct aw2013 *chip)
-> +{
-> +	int i, led_on;
+> +          led@1 {
+> +            reg = <1>;
+> +            color = <LED_COLOR_ID_GREEN>;
+> +          };
 > +
-> +	regmap_read(chip->regmap, AW2013_LCTR, &led_on);
+> +          led@2 {
+> +            reg = <2>;
+> +            color = <LED_COLOR_ID_BLUE>;
+> +          };
+> +        };
+> +      };
+> +    };
 > +
-> +	for (i =3D 0; i < chip->num_leds; i++) {
-> +		if (!(led_on & AW2013_LCTR_LE(chip->leds[i].num))) {
-> +			chip->leds[i].cdev.brightness =3D LED_OFF;
-> +			continue;
-> +		}
-> +		regmap_read(chip->regmap, AW2013_REG_PWM(chip->leds[i].num),
-> +			    &chip->leds[i].cdev.brightness);
-> +	}
-> +}
-> +
-> +static void aw2013_init_default_state(struct aw2013_led *led)
-> +{
-> +	switch (led->default_state) {
-> +	case STATE_ON:
-> +		led->cdev.brightness =3D LED_FULL;
-> +		break;
-> +	case STATE_OFF:
-> +		led->cdev.brightness =3D LED_OFF;
-> +	} /* On keep - just set brightness that was retrieved previously */
-> +
-> +	aw2013_brightness_set(&led->cdev, led->cdev.brightness);
-> +}
+> +additionalProperties: false
+> +...
+> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+> index f1f718dbe0f8..846248a0693d 100644
+> --- a/drivers/leds/led-core.c
+> +++ b/drivers/leds/led-core.c
+> @@ -34,6 +34,7 @@ const char * const led_colors[LED_COLOR_ID_MAX] = {
+>   	[LED_COLOR_ID_VIOLET] = "violet",
+>   	[LED_COLOR_ID_YELLOW] = "yellow",
+>   	[LED_COLOR_ID_IR] = "ir",
+> +	[LED_COLOR_ID_MULTI] = "multicolor",
+>   };
+>   EXPORT_SYMBOL_GPL(led_colors);
+>   
+> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+> index 0ce7dfc00dcb..a463ce6a8794 100644
+> --- a/include/dt-bindings/leds/common.h
+> +++ b/include/dt-bindings/leds/common.h
+> @@ -30,7 +30,8 @@
+>   #define LED_COLOR_ID_VIOLET	5
+>   #define LED_COLOR_ID_YELLOW	6
+>   #define LED_COLOR_ID_IR		7
+> -#define LED_COLOR_ID_MAX	8
+> +#define LED_COLOR_ID_MULTI	8
+> +#define LED_COLOR_ID_MAX	9
+>   
+>   /* Standard LED functions */
+>   /* Keyboard LEDs, usually it would be input4::capslock etc. */
+> 
 
-Aha; I guess this makes "keeping" the state to work. Do you really
-need that functionality?
-
-Pretty nice driver, thanks.
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---/04w6evG8XlLl3ft
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXrBYUQAKCRAw5/Bqldv6
-8vgWAJ9WeR5dGSlwHlUTp6MxPEwVtyx+6wCgj7lyJGhIoXq2ucnLkhPzBdInxUU=
-=U8CV
------END PGP SIGNATURE-----
-
---/04w6evG8XlLl3ft--
+-- 
+Best regards,
+Jacek Anaszewski
