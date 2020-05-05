@@ -2,101 +2,227 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 238FB1C58E7
-	for <lists+linux-leds@lfdr.de>; Tue,  5 May 2020 16:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC8741C5EA6
+	for <lists+linux-leds@lfdr.de>; Tue,  5 May 2020 19:19:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730518AbgEEOTi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 May 2020 10:19:38 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:35865 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730509AbgEEOTh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 May 2020 10:19:37 -0400
-Received: from localhost.localdomain ([149.172.19.189]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1MQ5f4-1jj5Pt12Lw-00M5Po; Tue, 05 May 2020 16:19:29 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Bryan Wu <bryan.wu@canonical.com>,
-        "G.Shark Jeong" <gshark.jeong@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Dan Murphy <dmurphy@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH] leds: lm355x: avoid enum conversion warning
-Date:   Tue,  5 May 2020 16:19:17 +0200
-Message-Id: <20200505141928.923428-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.26.0
+        id S1729380AbgEERTg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 May 2020 13:19:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49908 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729199AbgEERTg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 May 2020 13:19:36 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B4FC061A0F;
+        Tue,  5 May 2020 10:19:35 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id g10so1989685lfj.13;
+        Tue, 05 May 2020 10:19:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=fN8WwnE2LRlNaf6M77DU0dZatEfeAbfUlEhfB3nkRns=;
+        b=ar+YQC5+IzrhOrKTrrxeYt4gi+AFiDPYHMrHdE4YM6SBENqFc/X0mJch+2br09u24E
+         WZVB70SwBtqZfVWpSzMOYGg1rlGFYBCp9LVn8RaTDKXJgmDZj7cklL4gA9Ov3emQRwvA
+         izQyeHIf8CzcbAIhDZCq9HFAvBo2hBXCNC2/SVR7f5i5F/oDsW1O/Bah8HtLhSU2y7Vf
+         U3dER7ZjwMdYmuj2URglq9scPEMEQ6ZVOlqjBsuPx/ZGPvn2gvTgopUXaP4NekIbNRBE
+         6KyjZ7QwokC1coozpMxNzczcFhzJLQ2oIdVc7BoAsoVtgnJDSn0P0bCb7lzw7oM1XCYk
+         A/NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=fN8WwnE2LRlNaf6M77DU0dZatEfeAbfUlEhfB3nkRns=;
+        b=tXWLLGJxQF7tBBkrNNXPI4iNM4kKZoXrtN3GNJGGuwtnTXaovodPD9KRdz6xKr5CYE
+         fuXIESbxs+4XsfssLsqvAbOOKd2s4N+IuoTTs9Rq1X4xvr/15x6w6ipbH8pgpDBwbpqg
+         ylatmtzbbv1y/zaeEEySEqIwruyPlbSM3rWlmKB8QVHYVMs6CZ21gss4nEaip1Wee+6c
+         BLBH2jPpArUVhyw4oMb4P9YjJ9rvC/NgX6BKPeWiMh+VOugoSSMmUOgC66CU0pSse4DJ
+         120pUNfG7Kmy8EjFXnhdciHGtl5uonLBu6X6ZRXOF7LBd5TBT4F/NBlMs+Cz2r+GsuR3
+         TfeA==
+X-Gm-Message-State: AGi0PuZtcN3Yv4Lvk194TQNj6C5Hjgxx3X9cx7hTd818xJPbUbuZdahl
+        bkvy1QLZa59nnA3gwE9nXzk=
+X-Google-Smtp-Source: APiQypKsDr/pXwmUHR9eebHAaQ5nZ+uWqcSwO9LcijLmL2O2nr4OqLhlTriiwsBdbnsr4MUqCEuPMA==
+X-Received: by 2002:a19:c6c1:: with SMTP id w184mr2354137lff.20.1588699173876;
+        Tue, 05 May 2020 10:19:33 -0700 (PDT)
+Received: from ?IPv6:2a01:540:22b8:4400:dc3e:d899:ae3f:7683? ([2a01:540:22b8:4400:dc3e:d899:ae3f:7683])
+        by smtp.gmail.com with ESMTPSA id b1sm2625832lfb.22.2020.05.05.10.19.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2020 10:19:33 -0700 (PDT)
+Subject: Re: [PATCH 1/3] leds: add aw2013 driver
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     dmurphy@ti.com, robh+dt@kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+References: <20200504162934.4693-1-nikitos.tr@gmail.com>
+ <20200504180049.GA5067@duo.ucw.cz>
+From:   Nikita Travkin <nikitos.tr@gmail.com>
+Message-ID: <acbc956a-6cd8-97ca-545a-07533e43b7b7@gmail.com>
+Date:   Tue, 5 May 2020 22:19:31 +0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8c1rln3Kq+ivHGqkg2GjteXs+tFwdFKG9L+pvtz20Yvkk7lUTum
- M25UzVJbdYcq7ohrTpNLAOZIqHtFWqtgc3b4hHiXfauZKeANowG6k+QyVNQCY+5FK+K78S1
- 05XCV16fA34XPdn3Tyb+A98U77hSgYpBI2oZoWVL/Y0jR7y7+ntFJicuzGD1mXJiN+Zb7fu
- Xo5eiu66cDyuihcvKu7iw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:phYNzzBjcXE=:Iave2708yJSgJvBUtn6/KT
- JMWiFu6p/CXzgogeRhk5DQyieZ70JW+4w5IF02TuOpm7BcNZjy4W95XrC4i87emqDQf5G4DOS
- kHJh36T96za4u797haipn31pTZZWD++i3ZuvEHcbqEi/O4Lj1CBgaa9bA+xdpZ2FEsTgLZXgb
- l43uRks07wGNsPminHbnhGKPvhi+ta0Tsqb55S1ga6pcb3UIT7PGbpu6bffJtgkSCwUleF2qv
- SZXEdRvLSFLFjwj4bqgAELaDU9bPdB/By4V4urKx3ZGy1NVpVQJ7+XfLK5E8eVsSPdh00h9MA
- TGbID6OUFHeT50i5Zl9SydaoLIhNx2r6kjldIGrsawjoP9shYpcVOMJOGsoUL+XOQxo822uSW
- vRtG0qcvHWGwGoW2cQ6yYd20HCoVPnY1+31GHg5gfPfBsca6zInZOvAsofXJ2RxvKje3yQW/o
- N17AM1PkvKsBye0G9QkCb105cX1FW2y4MrTXPn30bfW8Ntdbt3BJaBVdLWHjNxrR0myOmWOOR
- 8H+kx8Xub90nt8dFDf0lIGdnoE/UPQZs0y3n9fNY0JARdaSPnFwvVQVXsNZgziqZBK8DjgSud
- 8YA9NgHvz5RRi/jpdbyy5O0eSPEkaO7AQCHVfKBT4AujsNK7MX87KbPOvRC2Ce+30L7luPj8b
- P/U/5WsaLH09Ao69hgPH33YJ3Dt9TXOhwlPV4UTQrWvOtn8GjYAcmZSGlTXiy3IeDQ3zTOAqV
- rRxPf9XbUeaq5uouAzA60SIvdVc5TuLM3sRpPUMotR0rakXgOFQQL5txcTeX/SxzHtiFZz5gF
- 617u+Owhm28e42do5nQ2qaBvYfrX9C5YY64zWFIKF9aan8H5KA=
+In-Reply-To: <20200504180049.GA5067@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-clang points out that doing arithmetic between diffent enums is usually
-a mistake:
+> Hi!
+>
+>> +#define AW2013_NAME "aw2013"
+> That's.... not really useful define. Make it NAME? Drop it?
+Will drop it as well as (unnecessary) lines it is used in.
+>> +#define AW2013_TIME_STEP 130
+> I'd add comment with /* units */.
+Will add.
+>> +#define STATE_OFF 0
+>> +#define STATE_KEEP 1
+>> +#define STATE_ON 2
+> We should add enum into core for this...
+>
+>> +static int aw2013_chip_init(struct aw2013 *chip)
+>> +{
+>> +	int i, ret;
+>> +
+>> +	ret = regmap_write(chip->regmap, AW2013_GCR, AW2013_GCR_ENABLE);
+>> +	if (ret) {
+>> +		dev_err(&chip->client->dev, "Failed to enable the chip: %d\n",
+>> +			ret);
+>> +		goto error;
+>> +	}
+>> +
+>> +	for (i = 0; i < chip->num_leds; i++) {
+>> +		ret = regmap_update_bits(chip->regmap,
+>> +					 AW2013_LCFG(chip->leds[i].num),
+>> +					 AW2013_LCFG_IMAX_MASK,
+>> +					 chip->leds[i].imax);
+>> +		if (ret) {
+>> +			dev_err(&chip->client->dev,
+>> +				"Failed to set maximum current for led %d: %d\n",
+>> +				chip->leds[i].num, ret);
+>> +			goto error;
+>> +		}
+>> +	}
+>> +
+>> +error:
+>> +	return ret;
+>> +}
+> No need for goto if you are just returning.
+Will change it.
+>> +static bool aw2013_chip_in_use(struct aw2013 *chip)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < chip->num_leds; i++)
+>> +		if (chip->leds[i].cdev.brightness)
+>> +			return true;
+>> +
+>> +	return false;
+>> +}
+> How is this going to interact with ledstate == KEEP?
+>
+>> +static int aw2013_brightness_set(struct led_classdev *cdev,
+>> +				 enum led_brightness brightness)
+>> +{
+>> +	struct aw2013_led *led = container_of(cdev, struct aw2013_led, cdev);
+>> +	int ret, num;
+>> +
+>> +	mutex_lock(&led->chip->mutex);
+>> +
+>> +	if (aw2013_chip_in_use(led->chip)) {
+>> +		ret = aw2013_chip_enable(led->chip);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+> You are returning with mutex held.
+Will fix.
+>> +	/* Never on - just set to off */
+>> +	if (!*delay_on)
+>> +		return aw2013_brightness_set(&led->cdev, LED_OFF);
+>> +
+>> +	/* Never off - just set to brightness */
+>> +	if (!*delay_off)
+>> +		return aw2013_brightness_set(&led->cdev, led->cdev.brightness);
+> Is this dance neccessary? Should we do it in the core somewhere?
+Right now blink_set() can be called with either delay_on or delay_off
+being zero.
 
-drivers/leds/leds-lm355x.c:167:28: warning: bitwise operation between different enumeration types ('enum lm355x_tx2' and 'enum lm355x_ntc') [-Wenum-enum-conversion]
-                reg_val = pdata->pin_tx2 | pdata->ntc_pin;
-                          ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-drivers/leds/leds-lm355x.c:178:28: warning: bitwise operation between different enumeration types ('enum lm355x_tx2' and 'enum lm355x_ntc') [-Wenum-enum-conversion]
-                reg_val = pdata->pin_tx2 | pdata->ntc_pin | pdata->pass_mode;
-                          ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+Passing zero into calculations I do later will result in garbage so
+I'm trying to avoid it.
 
-In this driver, it is intentional, so add a cast to hide the false-positive
-warning. It appears to be the only instance of this warning at the moment.
+Core could probably handle situation where both are zero (This way
+default values will be shared across all drivers) and if only
+delay_on is zero it could disable led and the blink mode. (As if
+brightness was set to 0)
+In case where only delay_off is zero it's a bit more complicated
+since driver should disable blinking but leave led on if it was
+blinking already.
 
-Fixes: b98d13c72592 ("leds: Add new LED driver for lm355x chips")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/leds/leds-lm355x.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+That also means that my current solution is a bit broken since changing
+delay_off to zero while led is already blinking will call brightness_set
+without clearing the mode bit so the led will still blink.
 
-diff --git a/drivers/leds/leds-lm355x.c b/drivers/leds/leds-lm355x.c
-index 11ce05249751..b2eb2e1e9c04 100644
---- a/drivers/leds/leds-lm355x.c
-+++ b/drivers/leds/leds-lm355x.c
-@@ -164,18 +164,19 @@ static int lm355x_chip_init(struct lm355x_chip_data *chip)
- 	/* input and output pins configuration */
- 	switch (chip->type) {
- 	case CHIP_LM3554:
--		reg_val = pdata->pin_tx2 | pdata->ntc_pin;
-+		reg_val = (u32)pdata->pin_tx2 | (u32)pdata->ntc_pin;
- 		ret = regmap_update_bits(chip->regmap, 0xE0, 0x28, reg_val);
- 		if (ret < 0)
- 			goto out;
--		reg_val = pdata->pass_mode;
-+		reg_val = (u32)pdata->pass_mode;
- 		ret = regmap_update_bits(chip->regmap, 0xA0, 0x04, reg_val);
- 		if (ret < 0)
- 			goto out;
- 		break;
- 
- 	case CHIP_LM3556:
--		reg_val = pdata->pin_tx2 | pdata->ntc_pin | pdata->pass_mode;
-+		reg_val = (u32)pdata->pin_tx2 | (u32)pdata->ntc_pin |
-+		          (u32)pdata->pass_mode;
- 		ret = regmap_update_bits(chip->regmap, 0x0A, 0xC4, reg_val);
- 		if (ret < 0)
- 			goto out;
--- 
-2.26.0
-
+For now I will fix that and leave all those checks in place.
+>> +		} else {
+>> +			led->imax = 1; // 5mA
+>> +			dev_info(&client->dev,
+>> +				 "DT property led-max-microamp is missing!\n");
+>> +		}
+> Lets remove the exclamation mark.
+Will do.
+>> +		led->num = source;
+>> +		led->chip = chip;
+>> +		led->fwnode = of_fwnode_handle(child);
+>> +
+>> +		if (!of_property_read_string(child, "default-state", &str)) {
+>> +			if (!strcmp(str, "on"))
+>> +				led->default_state = STATE_ON;
+>> +			else if (!strcmp(str, "keep"))
+>> +				led->default_state = STATE_KEEP;
+>> +			else
+>> +				led->default_state = STATE_OFF;
+>> +		}
+> We should really have something in core for this. Should we support
+> arbitrary brightness there?
+Not sure if there is good dt property for that.
+>> +static void aw2013_read_current_state(struct aw2013 *chip)
+>> +{
+>> +	int i, led_on;
+>> +
+>> +	regmap_read(chip->regmap, AW2013_LCTR, &led_on);
+>> +
+>> +	for (i = 0; i < chip->num_leds; i++) {
+>> +		if (!(led_on & AW2013_LCTR_LE(chip->leds[i].num))) {
+>> +			chip->leds[i].cdev.brightness = LED_OFF;
+>> +			continue;
+>> +		}
+>> +		regmap_read(chip->regmap, AW2013_REG_PWM(chip->leds[i].num),
+>> +			    &chip->leds[i].cdev.brightness);
+>> +	}
+>> +}
+>> +
+>> +static void aw2013_init_default_state(struct aw2013_led *led)
+>> +{
+>> +	switch (led->default_state) {
+>> +	case STATE_ON:
+>> +		led->cdev.brightness = LED_FULL;
+>> +		break;
+>> +	case STATE_OFF:
+>> +		led->cdev.brightness = LED_OFF;
+>> +	} /* On keep - just set brightness that was retrieved previously */
+>> +
+>> +	aw2013_brightness_set(&led->cdev, led->cdev.brightness);
+>> +}
+> Aha; I guess this makes "keeping" the state to work. Do you really
+> need that functionality?
+I don't need that. On some theoretical device the chip could be
+enabled by bootloader but I consider that unlikely. I can drop
+support for keeping state. It would be then easier to get rid of
+"default_state" and "fwnode" in device struct. Should I?
+>
+> Pretty nice driver, thanks.
+>
+> 									Pavel
