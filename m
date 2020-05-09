@@ -2,98 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CC091C9CFB
-	for <lists+linux-leds@lfdr.de>; Thu,  7 May 2020 23:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0857D1CBE0F
+	for <lists+linux-leds@lfdr.de>; Sat,  9 May 2020 08:31:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726268AbgEGVJ5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 7 May 2020 17:09:57 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:40690 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726218AbgEGVJ5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 7 May 2020 17:09:57 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 38AD11C0257; Thu,  7 May 2020 23:09:55 +0200 (CEST)
-Date:   Thu, 7 May 2020 23:09:54 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Xing Zhang <Xing.Zhang@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v1] Add support for MediaTek regulator vibrator driver
-Message-ID: <20200507210954.GB19557@duo.ucw.cz>
-References: <20200429081759.26964-1-Xing.Zhang@mediatek.com>
- <20200507174519.GD1216@bug>
- <49089bf3-d64b-2a50-269c-623a6ea9c14c@gmail.com>
+        id S1728901AbgEIGbN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 9 May 2020 02:31:13 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:44698 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726115AbgEIGbN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 9 May 2020 02:31:13 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 93F6381CBEAC0A11A6BE;
+        Sat,  9 May 2020 14:31:09 +0800 (CST)
+Received: from euler.huawei.com (10.175.101.6) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Sat, 9 May 2020 14:30:58 +0800
+From:   Hongbo Yao <yaohongbo@huawei.com>
+To:     <jansimon.moeller@gmx.de>, <jacek.anaszewski@gmail.com>,
+        <pavel@ucw.cz>
+CC:     <yaohongbo@huawei.com>, <chenzhou10@huawei.com>,
+        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
+Subject: [PATCH -next] leds: blinkm: remove set but not used variable
+Date:   Sat, 9 May 2020 22:23:57 +0800
+Message-ID: <20200509142357.33702-1-yaohongbo@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="cvVnyQ+4j833TQvp"
-Content-Disposition: inline
-In-Reply-To: <49089bf3-d64b-2a50-269c-623a6ea9c14c@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Fixes gcc '-Wunused-but-set-variable' warning:
+drivers/leds/leds-blinkm.c:483:6: warning: variable ‘ret’ set
+but not used [-Wunused-but-set-variable]
+  int ret;
 
---cvVnyQ+4j833TQvp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Hongbo Yao <yaohongbo@huawei.com>
+---
+ drivers/leds/leds-blinkm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-On Thu 2020-05-07 22:45:35, Jacek Anaszewski wrote:
-> Hi Pavel,
->=20
-> On 5/7/20 7:45 PM, Pavel Machek wrote:
-> > Hi!
-> >=20
-> > > This patchset add regulator vibrator driver for MTK Soc. The driver
-> > > controls vibrator through regulator's enable and disable.
-> >=20
-> > We'd prefer not to have vibrators in led subsystem.
-> >=20
-> > >=20
-> > > Xing Zhang (3):
-> > >    dt-bindings: add regulator vibrator documentation
-> > >    arm64: mediatek: Add regulator vibrator support
-> > >    Vibrator: Add regulator vibrator driver
-> > >=20
-> > >   .../bindings/leds/regulator-vibrator.txt      |  39 ++
-> > >   arch/arm64/configs/defconfig                  |   1 +
-> > >   drivers/leds/Kconfig                          |  10 +
-> > >   drivers/leds/Makefile                         |   1 +
-> > >   drivers/leds/regulator-vibrator.c             | 450 +++++++++++++++=
-+++
-> >=20
-> > OTOH, connecting LED to regulator might make some sense. I can take the=
- driver with
-> > vibrator functionality stripped, provided it is named the usual way...
->=20
-> We already had an attempt of solving this in more generic way [0],
-> but you opposed then [1]. Just for the record.
+diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
+index e11fe1788242..a493ee0e0fc7 100644
+--- a/drivers/leds/leds-blinkm.c
++++ b/drivers/leds/leds-blinkm.c
+@@ -480,9 +480,8 @@ static int blinkm_led_blue_set(struct led_classdev *led_cdev,
+ 
+ static void blinkm_init_hw(struct i2c_client *client)
+ {
+-	int ret;
+-	ret = blinkm_transfer_hw(client, BLM_STOP_SCRIPT);
+-	ret = blinkm_transfer_hw(client, BLM_GO_RGB);
++	blinkm_transfer_hw(client, BLM_STOP_SCRIPT);
++	blinkm_transfer_hw(client, BLM_GO_RGB);
+ }
+ 
+ static int blinkm_test_run(struct i2c_client *client)
+-- 
+2.17.1
 
-That's something different. led-regulator.c might be
-acceptable. Special code to support vibrator quirks... not so much.
-
-Best regards,
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---cvVnyQ+4j833TQvp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXrR5IgAKCRAw5/Bqldv6
-8rhUAJwNZ8AJbpTJwM0okF7XO54EiI6dkQCfdJRagMkst3LRHughjgIVPDh4RiA=
-=07yZ
------END PGP SIGNATURE-----
-
---cvVnyQ+4j833TQvp--
