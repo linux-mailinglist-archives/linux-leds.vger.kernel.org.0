@@ -2,424 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9D8C1CE4F4
-	for <lists+linux-leds@lfdr.de>; Mon, 11 May 2020 22:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B2691CE4EF
+	for <lists+linux-leds@lfdr.de>; Mon, 11 May 2020 22:01:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729786AbgEKUDI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 11 May 2020 16:03:08 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:54104 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727873AbgEKUDI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 May 2020 16:03:08 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04BK2t0c102748;
-        Mon, 11 May 2020 15:02:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1589227375;
-        bh=rSlxzr/4n0hn2JPYUhWXBmytokAWTHY64/it8ApNwgg=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=wtxL5HTQPi8EdeJvosnsYsLV7ePsaAJ+msUsesNWZR3zyh9rwY4JcrQEuMLZupy1v
-         w2/oFddQUQxZ5f+jD7/NJR5or6W56xScB3N7+IRWcOqJLCvVgo2i4prB04u7ess0Hc
-         eP9RyT2YxNepNeCmHd5FPf5QMkeylQpoWGk8LeqM=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04BK2t7x008607
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 11 May 2020 15:02:55 -0500
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 11
- May 2020 15:02:55 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 11 May 2020 15:02:55 -0500
-Received: from [10.250.52.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04BK2tFi054496;
-        Mon, 11 May 2020 15:02:55 -0500
-Subject: Re: [PATCH v2 2/2] leds: initial support for Turris Omnia LEDs
-To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
-        <linux-leds@vger.kernel.org>
-CC:     Pavel Machek <pavel@ucw.cz>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
+        id S1731391AbgEKUB4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 11 May 2020 16:01:56 -0400
+Received: from mail.nic.cz ([217.31.204.67]:35230 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727873AbgEKUB4 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 11 May 2020 16:01:56 -0400
+Received: from localhost (unknown [172.20.6.135])
+        by mail.nic.cz (Postfix) with ESMTPSA id 5251B140BC1;
+        Mon, 11 May 2020 22:01:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1589227312; bh=G1i4RlD1KQ7SE6SG1r4ZvNUCjO6vFfHPemGroJMPjAQ=;
+        h=Date:From:To;
+        b=dXNaa0/eoQ3lC8U6veU4gafPVVc4gFJjHsqH+Q/noVJBHv7E/xoGiI/0wD2UPxFxV
+         eIYiAZqW6kG4iV2H3BmXwkOzohcMxl6MgTispZsX6oZQOeG2s2KzEGL0hPHhACXE3H
+         fl5ASopLjJA1AG6rO9I/t4grdgOwQK77XnXhd4Z0=
+Date:   Mon, 11 May 2020 22:01:51 +0200
+From:   Marek Behun <marek.behun@nic.cz>
+To:     linux-leds@vger.kernel.org
+Cc:     Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: add cznic,turris-omnia-leds
+ binding
+Message-ID: <20200511220151.24985832@nic.cz>
+In-Reply-To: <20200511194354.GA15606@bogus>
 References: <20200423065100.2652-1-marek.behun@nic.cz>
- <20200423065100.2652-3-marek.behun@nic.cz>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <b6bc27c9-e34c-36c0-f5c0-73f4ed7b9429@ti.com>
-Date:   Mon, 11 May 2020 14:54:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        <20200423065100.2652-2-marek.behun@nic.cz>
+        <20200511194354.GA15606@bogus>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200423065100.2652-3-marek.behun@nic.cz>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Mon, 11 May 2020 14:43:54 -0500
+Rob Herring <robh@kernel.org> wrote:
+
+> On Thu, Apr 23, 2020 at 08:50:59AM +0200, Marek Beh=C3=BAn wrote:
+> > Add device-tree bindings documentation for Turris Omnia RGB LEDs.
+> >=20
+> > ...
+> >
+> > +properties:
+> > +  compatible:
+> > +    const: cznic,turris-omnia-leds
+> > +
+> > +  reg:
+> > +    description: I2C slave address of the microcontroller.
+> > +    maxItems: 1
+> > +
+> > +patternProperties:
+> > +  "^led[0-9][0-9]?$": =20
+>=20
+> 'led-' is preferred. And numbering is usually hex.
+>
+> What's the numbering here based on? Might be better to use 'reg' (and a=20
+> unit-address) rather than led-sources. led-sources was for cases where=20
+> the control interface (defined by reg) could have differing regulators=20
+> connected to the LEDs.
+
+Jacek, Pavel, it seems that it would be better if I just rewrote the
+driver into Dan's multicolor API. It would solve Rob's complaint and
+could be merged once multicolor framework is...
+
 Marek
-
-On 4/23/20 1:51 AM, Marek Behún wrote:
-> This adds basic support for LEDs on the front side of CZ.NIC's Turris
-> Omnia router.
->
-> There are 12 RGB LEDs. The controller supports HW triggering mode for
-> the LEDs, but this driver does not support it yet, and sets all the LEDs
-> into SW mode upon probe.
->
-> The user can either group all three channels of one RGB LED into one LED
-> classdev, or expose each channel as an individual LED classdev. This is
-> done by utilizing the 'led-sources' and 'color' DT properties.
-
-I think this would be a good candidate for the multicolor framework.  It 
-would make the registration, brightness caching and color mapping easier
-
-We are waiting on maintainer feedback for this.
-
-https://lore.kernel.org/patchwork/project/lkml/list/?series=441958
-
-But until then comments below
-
->
-> Signed-off-by: Marek Behún <marek.behun@nic.cz>
-> ---
->   drivers/leds/Kconfig             |  11 ++
->   drivers/leds/Makefile            |   1 +
->   drivers/leds/leds-turris-omnia.c | 285 +++++++++++++++++++++++++++++++
->   3 files changed, 297 insertions(+)
->   create mode 100644 drivers/leds/leds-turris-omnia.c
->
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index c664d84e1667..7663a5cd9fb5 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -145,6 +145,17 @@ config LEDS_EL15203000
->   	  To compile this driver as a module, choose M here: the module
->   	  will be called leds-el15203000.
->   
-> +config LEDS_TURRIS_OMNIA
-> +	tristate "LED support for CZ.NIC's Turris Omnia"
-> +	depends on LEDS_CLASS
-> +	depends on I2C
-REGMAP?
-> +	depends on MACH_ARMADA_38X || COMPILE_TEST
-Why is tied to a Marvel processor?
-> +	depends on OF
-> +	help
-> +	  This option enables basic support for the LEDs found on the front
-> +	  side of CZ.NIC's Turris Omnia router. There are 12 RGB LEDs on the
-> +	  front panel.
-> +
->   config LEDS_LM3530
->   	tristate "LCD Backlight driver for LM3530"
->   	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index 45235d5fb218..fd61421f7d40 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -83,6 +83,7 @@ obj-$(CONFIG_LEDS_TCA6507)		+= leds-tca6507.o
->   obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
->   obj-$(CONFIG_LEDS_TLC591XX)		+= leds-tlc591xx.o
->   obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
-> +obj-$(CONFIG_LEDS_TURRIS_OMNIA)		+= leds-turris-omnia.o
->   obj-$(CONFIG_LEDS_WM831X_STATUS)	+= leds-wm831x-status.o
->   obj-$(CONFIG_LEDS_WM8350)		+= leds-wm8350.o
->   obj-$(CONFIG_LEDS_WRAP)			+= leds-wrap.o
-> diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-> new file mode 100644
-> index 000000000000..aafb4be9b225
-> --- /dev/null
-> +++ b/drivers/leds/leds-turris-omnia.c
-> @@ -0,0 +1,285 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * CZ.NIC's Turris Omnia LEDs driver
-> + *
-> + * 2020 by Marek Behun <marek.behun@nic.cz>
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/leds.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of.h>
-> +#include <uapi/linux/uleds.h>
-> +#include "leds.h"
-> +
-> +#define OMNIA_BOARD_LEDS		12
-> +
-> +#define CMD_LED_MODE			3
-> +#define CMD_LED_MODE_LED(l)		((l) & 0x0f)
-> +#define CMD_LED_MODE_USER		0x10
-> +
-> +#define CMD_LED_STATE			4
-> +#define CMD_LED_STATE_LED(l)		((l) & 0x0f)
-> +#define CMD_LED_STATE_ON		0x10
-> +
-> +#define CMD_LED_COLOR			5
-> +#define CMD_LED_SET_BRIGHTNESS		7
-> +#define CMD_LED_GET_BRIGHTNESS		8
-> +
-> +#define OMNIA_CMD			0
-> +
-> +#define OMNIA_CMD_LED_COLOR_LED		1
-> +#define OMNIA_CMD_LED_COLOR_R		2
-> +#define OMNIA_CMD_LED_COLOR_G		3
-> +#define OMNIA_CMD_LED_COLOR_B		4
-> +#define OMNIA_CMD_LED_COLOR_LEN		5
-> +
-> +struct omnia_led {
-> +	struct led_classdev cdev;
-> +	int reg, color;
-> +};
-> +
-> +#define to_omnia_led(l)	container_of(l, struct omnia_led, cdev)
-> +
-> +struct omnia_leds {
-> +	struct i2c_client *client;
-> +	struct mutex lock;
-> +	u8 cache[OMNIA_BOARD_LEDS][3];
-> +	int nleds;
-> +	struct omnia_led leds[0];
-No need for the [0] in the flexible array
-> +};
-> +
-> +static int omnia_led_brightness_set_blocking(struct led_classdev *cdev,
-> +					     enum led_brightness brightness)
-> +{
-> +	static const u8 color2cmd[] = {
-> +		[LED_COLOR_ID_RED] = OMNIA_CMD_LED_COLOR_R,
-> +		[LED_COLOR_ID_GREEN] = OMNIA_CMD_LED_COLOR_G,
-> +		[LED_COLOR_ID_BLUE] = OMNIA_CMD_LED_COLOR_B,
-> +	};
-> +	struct omnia_leds *leds = dev_get_drvdata(cdev->dev->parent);
-> +	struct omnia_led *led = to_omnia_led(cdev);
-> +	u8 buf[OMNIA_CMD_LED_COLOR_LEN], state;
-> +	int ret;
-> +
-> +	mutex_lock(&leds->lock);
-> +
-> +	buf[OMNIA_CMD] = CMD_LED_COLOR;
-> +	buf[OMNIA_CMD_LED_COLOR_LED] = led->reg;
-> +
-> +	if (led->color == LED_COLOR_ID_WHITE) {
-> +		buf[OMNIA_CMD_LED_COLOR_R] = brightness;
-> +		buf[OMNIA_CMD_LED_COLOR_G] = brightness;
-> +		buf[OMNIA_CMD_LED_COLOR_B] = brightness;
-> +	} else {
-> +		buf[OMNIA_CMD_LED_COLOR_R] = leds->cache[led->reg][0];
-> +		buf[OMNIA_CMD_LED_COLOR_G] = leds->cache[led->reg][1];
-> +		buf[OMNIA_CMD_LED_COLOR_B] = leds->cache[led->reg][2];
-> +		buf[color2cmd[led->color]] = brightness;
-> +	}
-> +
-> +	state = CMD_LED_STATE_LED(led->reg);
-> +	if (buf[OMNIA_CMD_LED_COLOR_R] || buf[OMNIA_CMD_LED_COLOR_G] ||
-> +	    buf[OMNIA_CMD_LED_COLOR_B])
-> +		state |= CMD_LED_STATE_ON;
-> +
-> +	ret = i2c_smbus_write_byte_data(leds->client, CMD_LED_STATE, state);
-> +	if (ret >= 0 && (state & CMD_LED_STATE_ON))
-> +		ret = i2c_master_send(leds->client, buf, 5);
-No check on ret?
-> +
-> +	leds->cache[led->reg][0] = buf[OMNIA_CMD_LED_COLOR_R];
-> +	leds->cache[led->reg][1] = buf[OMNIA_CMD_LED_COLOR_G];
-> +	leds->cache[led->reg][2] = buf[OMNIA_CMD_LED_COLOR_B];
-> +
-> +	mutex_unlock(&leds->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int omnia_led_register(struct omnia_leds *leds,
-> +			      struct fwnode_handle *node)
-> +{
-> +	struct i2c_client *client = leds->client;
-> +	struct led_init_data init_data = {};
-> +	struct device *dev = &client->dev;
-> +	struct omnia_led *led;
-> +	int ret, nsources, color;
-> +	u32 led_sources[3];
-> +
-> +	led = &leds->leds[leds->nleds];
-> +
-> +	nsources = fwnode_property_count_u32(node, "led-sources");
-> +	if (nsources != 1 && nsources != 3) {
-> +		dev_warn(dev,
-> +			 "Node %pfw: 'led-sources' must contain either 1 or 3 items!\n",
-> +			 node);
-> +		return 0;
-> +	}
-> +
-> +	ret = fwnode_property_read_u32_array(node, "led-sources", led_sources,
-> +					     nsources);
-> +	if (ret) {
-> +		dev_err(dev, "Node %pfw: 'led-sources' read failed: %i\n",
-> +			node, ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = fwnode_property_read_u32(node, "color", &led->color);
-> +	if (ret) {
-> +		dev_warn(dev, "Node %pfw: 'color' read failed!\n",
-> +			 node);
-> +		return 0;
-> +	}
-> +
-> +	if (nsources == 3) {
-> +		if ((led_sources[0] % 3) != 0 ||
-> +		    led_sources[1] != led_sources[0] + 1 ||
-> +		    led_sources[2] != led_sources[0] + 2 ||
-> +		    led_sources[2] >= OMNIA_BOARD_LEDS * 3) {
-> +			dev_warn(dev, "Node %pfw has invalid 'led-sources'!\n",
-> +				 node);
-> +			return 0;
-> +		}
-> +
-> +		color = LED_COLOR_ID_WHITE;
-> +	} else {
-> +		const int led_source_to_color[3] = {
-> +			LED_COLOR_ID_RED,
-> +			LED_COLOR_ID_GREEN,
-> +			LED_COLOR_ID_BLUE
-> +		};
-> +		color = led_source_to_color[led_sources[0] % 3];
-> +
-> +		if (led_sources[0] >= OMNIA_BOARD_LEDS * 3) {
-> +			dev_warn(dev, "Node %pfw has invalid 'led-sources'!\n",
-> +				 node);
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	if (led->color != color) {
-> +		dev_warn(dev, "Node %pfw: 'color' should be %s!\n", node,
-> +			 led_colors[color]);
-> +		return 0;
-> +	}
-> +
-> +	init_data.fwnode = node;
-> +
-> +	led->reg = led_sources[0] / 3;
-> +	led->cdev.max_brightness = 255;
-> +	led->cdev.brightness_set_blocking = omnia_led_brightness_set_blocking;
-> +
-> +	fwnode_property_read_string(node, "linux,default-trigger",
-> +				    &led->cdev.default_trigger);
-> +
-> +	/* put the LED into software mode */
-> +	ret = i2c_smbus_write_byte_data(client, CMD_LED_MODE,
-> +					CMD_LED_MODE_LED(led->reg) |
-> +					CMD_LED_MODE_USER);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Cannot set LED %pfw to software mode: %i\n", node,
-> +			ret);
-> +		return ret;
-> +	}
-> +
-> +	/* disable the LED */
-> +	ret = i2c_smbus_write_byte_data(client, CMD_LED_STATE,
-> +						CMD_LED_STATE_LED(led->reg));
-> +	if (ret < 0) {
-> +		dev_err(dev, "Cannot set LED %pfw brightness: %i\n", node, ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Cannot register LED %pfw: %i\n", node, ret);
-> +		return ret;
-> +	}
-> +
-> +	++leds->nleds;
-> +
-> +	return 0;
-> +}
-> +
-> +static int omnia_leds_probe(struct i2c_client *client,
-> +			    const struct i2c_device_id *id)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct device_node *np = dev->of_node, *child;
-> +	struct omnia_leds *leds;
-> +	int ret, count;
-> +
-> +	count = of_get_available_child_count(np);
-device_get_child_node_count(&client->dev);
-> +	if (!count) {
-> +		dev_err(dev, "LEDs are not defined in device tree!\n");
-> +		return -ENODEV;
-> +	} else if (count > 3 * OMNIA_BOARD_LEDS) {
-> +		dev_err(dev, "Too many LEDs defined in device tree!\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	leds = devm_kzalloc(dev, sizeof(*leds) + count * sizeof(leds->leds[0]),
-> +			    GFP_KERNEL);
-You can use this macro for flexible arrays struct_size(led, leds, count),
-> +	if (!leds)
-> +		return -ENOMEM;
-> +
-> +	leds->client = client;
-> +	i2c_set_clientdata(client, leds);
-> +
-> +	mutex_init(&leds->lock);
-> +
-> +	for_each_available_child_of_node(np, child) {
-> +		ret = omnia_led_register(leds, &child->fwnode);
-> +		if (ret < 0)
-if (ret) I don't see ret returning > 0
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int omnia_leds_remove(struct i2c_client *client)
-> +{
-> +	u8 buf[OMNIA_CMD_LED_COLOR_LEN];
-> +
-> +	/* put all LEDs into default (HW triggered) mode */
-> +	i2c_smbus_write_byte_data(client, CMD_LED_MODE,
-> +				  CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
-> +
-> +	/* set all LEDs color to [255, 255, 255] */
-> +	buf[OMNIA_CMD] = CMD_LED_COLOR;
-> +	buf[OMNIA_CMD_LED_COLOR_LED] = OMNIA_BOARD_LEDS;
-> +	buf[OMNIA_CMD_LED_COLOR_R] = 255;
-> +	buf[OMNIA_CMD_LED_COLOR_G] = 255;
-> +	buf[OMNIA_CMD_LED_COLOR_B] = 255;
-> +
-> +	i2c_master_send(client, buf, 5);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id of_omnia_leds_match[] = {
-> +	{ .compatible = "cznic,turris-omnia-leds", },
-> +	{},
-> +};
-> +
-> +static const struct i2c_device_id omnia_id[] = {
-> +	{ "omnia", 0 },
-> +	{ }
-> +};
-> +
-> +static struct i2c_driver omnia_leds_driver = {
-> +	.probe		= omnia_leds_probe,
-> +	.remove		= omnia_leds_remove,
-> +	.id_table	= omnia_id,
-> +	.driver		= {
-> +		.name	= "leds-turris-omnia",
-> +		.of_match_table = of_omnia_leds_match,
-> +	},
-> +};
-> +
-> +module_i2c_driver(omnia_leds_driver);
-> +
-> +MODULE_AUTHOR("Marek Behun <marek.behun@nic.cz>");
-> +MODULE_DESCRIPTION("CZ.NIC's Turris Omnia LEDs");
-> +MODULE_LICENSE("GPL v2");
