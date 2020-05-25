@@ -2,65 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A2DD1DFA17
-	for <lists+linux-leds@lfdr.de>; Sat, 23 May 2020 20:01:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 892141E0C25
+	for <lists+linux-leds@lfdr.de>; Mon, 25 May 2020 12:49:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388263AbgEWSA6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 23 May 2020 14:00:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55816 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387903AbgEWSAj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 23 May 2020 14:00:39 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238DFC08C5C2
-        for <linux-leds@vger.kernel.org>; Sat, 23 May 2020 11:00:39 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id z18so10993468qto.2
-        for <linux-leds@vger.kernel.org>; Sat, 23 May 2020 11:00:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=F3NMDrR9dummcUXdRfruEEfbIS6yB2vx68nB8Asq/5Q=;
-        b=vhvRG4iP0p/cCM0/gHqK0xx0MaMNF3/azTtn5P0fCT1b4XLjGRAoR85FXgvwYtowP6
-         J1ev3dPiedOMtPyOzUYmKFEqsj6BkIi2lR8s0YRNLylOZ8MbeWQpwNTWDXPX57LUrKeO
-         FLL54WToKnc9WyFCTQNZdn8yjuqVF61dsdwJrbIWn1f8+mXNgwQXd1Xox425XdFJLCTr
-         UNYtD5Mkr7J8HytQpl125rrGiBWdOVTtdeDic18s2v1Ex5H4EMrCDseWe8z8QJUA2DPl
-         pMcmWf9nM5lni1dYRbVMyTKtLHSFCzrJM5oRvB7Hp9K31CMWsqtaG47ZQbJG6ZEre6uU
-         kwNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=F3NMDrR9dummcUXdRfruEEfbIS6yB2vx68nB8Asq/5Q=;
-        b=Z7ta7zAtp42dAudaey0FFJWWV/8lVy9RUHKP9lYcIBXLypIFz8qWw4iAOFDEiVzAzH
-         AuA1zB+jzvOIGi7e9H8Edt5JfM8wXLvRi+GuRSTwUDVeYFYijyEcIKUusp+t3BoEJo4H
-         bVxg8ISY9pSxnLCRrwVR38myKeLNOZRgjB3NaLJQlyM5vlQ225SiS96+8BCECPJILrzA
-         2aZqmq1ZyXuma+9N4KwlDv9UkUmrHDZ1UC6RaFcnbUSusaWpJfeHt9oqWkiHK9CjIoOi
-         nnyTJqluZiHSxMb6ZGcGMWIZJpmHbzHPMdbK/B2fbBXqmN+kMW8VYqoYjUiY/sOObkx2
-         ocdw==
-X-Gm-Message-State: AOAM533eV7h1gu2sUGzyn69/cLyuw6unqyZaII5faIhsawkKJecOFODj
-        ciwiNMSbIjZ/wLtL/AZDLm0Yq4oL6805gfEWUKg=
-X-Google-Smtp-Source: ABdhPJw4JSLl4s8hKmdikxPHOZTjp7LuShJQWo5DKJXfhdyHNpRWrWLXX1iWw/azZwGF2Nz0kU5bTrWvyq5YmK6naS0=
-X-Received: by 2002:ac8:1e16:: with SMTP id n22mr21502226qtl.78.1590256838401;
- Sat, 23 May 2020 11:00:38 -0700 (PDT)
+        id S2389522AbgEYKts (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 25 May 2020 06:49:48 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:40716 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389484AbgEYKts (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 25 May 2020 06:49:48 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 84E591C0256; Mon, 25 May 2020 12:49:46 +0200 (CEST)
+Date:   Mon, 25 May 2020 12:49:45 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Hongbo Yao <yaohongbo@huawei.com>
+Cc:     jansimon.moeller@gmx.de, jacek.anaszewski@gmail.com,
+        chenzhou10@huawei.com, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH -next] leds: blinkm: remove set but not used variable
+Message-ID: <20200525104945.GA27989@amd>
+References: <20200509142357.33702-1-yaohongbo@huawei.com>
 MIME-Version: 1.0
-Received: by 2002:a37:9fd3:0:0:0:0:0 with HTTP; Sat, 23 May 2020 11:00:37
- -0700 (PDT)
-Reply-To: mrs.chantala2055@gmail.com
-From:   mrs chantal <mrs.chantalas1@gmail.com>
-Date:   Sat, 23 May 2020 18:00:37 +0000
-Message-ID: <CAMdkyyDY_0O7YgysHCjgRTJ=8-B7XurK7o1razRHDVOjgr2V2g@mail.gmail.com>
-Subject: jjCompliment
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="azLHFNyN32YCQGCU"
+Content-Disposition: inline
+In-Reply-To: <20200509142357.33702-1-yaohongbo@huawei.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-     Compliment of the day to you. I am Mrs.CHANTAL I am sending this brief
-    letter to solicit your partnership to transfer $13.5 Million US
-    Dollars.I shall send you more information and procedures when I receive
-    positive response From you. Please send me a message in My private
-    email address is ( mrschantal066@gmail.com  )
-    Best Regards
-    MrS.Chantal
+
+--azLHFNyN32YCQGCU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat 2020-05-09 22:23:57, Hongbo Yao wrote:
+> Fixes gcc '-Wunused-but-set-variable' warning:
+> drivers/leds/leds-blinkm.c:483:6: warning: variable =E2=80=98ret=E2=80=99=
+ set
+> but not used [-Wunused-but-set-variable]
+>   int ret;
+
+Should error be propagated?
+								Pavel
+							=09
+
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Hongbo Yao <yaohongbo@huawei.com>
+> ---
+>  drivers/leds/leds-blinkm.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
+> index e11fe1788242..a493ee0e0fc7 100644
+> --- a/drivers/leds/leds-blinkm.c
+> +++ b/drivers/leds/leds-blinkm.c
+> @@ -480,9 +480,8 @@ static int blinkm_led_blue_set(struct led_classdev *l=
+ed_cdev,
+> =20
+>  static void blinkm_init_hw(struct i2c_client *client)
+>  {
+> -	int ret;
+> -	ret =3D blinkm_transfer_hw(client, BLM_STOP_SCRIPT);
+> -	ret =3D blinkm_transfer_hw(client, BLM_GO_RGB);
+> +	blinkm_transfer_hw(client, BLM_STOP_SCRIPT);
+> +	blinkm_transfer_hw(client, BLM_GO_RGB);
+>  }
+> =20
+>  static int blinkm_test_run(struct i2c_client *client)
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--azLHFNyN32YCQGCU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl7LoskACgkQMOfwapXb+vKRLQCfTW75g1n1akDEJ892GY+dT3fo
+Ei4AoIFaJwilTcqvq6wj9im5fmu4flXX
+=FG0N
+-----END PGP SIGNATURE-----
+
+--azLHFNyN32YCQGCU--
