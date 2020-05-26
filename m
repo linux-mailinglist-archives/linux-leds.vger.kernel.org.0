@@ -2,28 +2,27 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B36CC1E1D88
-	for <lists+linux-leds@lfdr.de>; Tue, 26 May 2020 10:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 578A31E1E44
+	for <lists+linux-leds@lfdr.de>; Tue, 26 May 2020 11:20:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729387AbgEZImy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 26 May 2020 04:42:54 -0400
-Received: from smtp.asem.it ([151.1.184.197]:57600 "EHLO smtp.asem.it"
+        id S1731605AbgEZJU6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 26 May 2020 05:20:58 -0400
+Received: from smtp.asem.it ([151.1.184.197]:63461 "EHLO smtp.asem.it"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728380AbgEZImy (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 26 May 2020 04:42:54 -0400
-X-Greylist: delayed 304 seconds by postgrey-1.27 at vger.kernel.org; Tue, 26 May 2020 04:42:53 EDT
+        id S1728837AbgEZJU6 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 26 May 2020 05:20:58 -0400
 Received: from webmail.asem.it
         by asem.it (smtp.asem.it)
         (SecurityGateway 6.5.2)
-        with ESMTP id SG000280135.MSG 
-        for <linux-leds@vger.kernel.org>; Tue, 26 May 2020 10:37:47 +0200S
+        with ESMTP id SG000280340.MSG 
+        for <linux-leds@vger.kernel.org>; Tue, 26 May 2020 11:20:54 +0200S
 Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
  (172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1261.35; Tue, 26
- May 2020 10:37:44 +0200
+ May 2020 11:20:53 +0200
 Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
  (172.16.16.44) with Microsoft SMTP Server id 15.1.1261.35 via Frontend
- Transport; Tue, 26 May 2020 10:37:44 +0200
+ Transport; Tue, 26 May 2020 11:20:53 +0200
 From:   Flavio Suligoi <f.suligoi@asem.it>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
@@ -31,14 +30,14 @@ To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
 CC:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Flavio Suligoi <f.suligoi@asem.it>
 Subject: [PATCH] dt-bindings: leds: fix macro names for pca955x
-Date:   Tue, 26 May 2020 10:37:43 +0200
-Message-ID: <20200526083743.21372-1-f.suligoi@asem.it>
+Date:   Tue, 26 May 2020 11:20:52 +0200
+Message-ID: <20200526092052.24172-1-f.suligoi@asem.it>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
 X-SGSPF-Result: none (smtp.asem.it)
-X-SGOP-RefID: str=0001.0A090207.5ECCD559.0079,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0 (_st=1 _vt=0 _iwf=0)
+X-SGOP-RefID: str=0001.0A09020D.5ECCDF75.004F,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0 (_st=1 _vt=0 _iwf=0)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
