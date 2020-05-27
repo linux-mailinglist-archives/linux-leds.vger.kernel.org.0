@@ -2,125 +2,234 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34AF51E34F7
-	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2020 03:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 012151E3522
+	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2020 03:59:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727045AbgE0BtF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 26 May 2020 21:49:05 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:35661 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727041AbgE0BtF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 May 2020 21:49:05 -0400
-Received: by mail-io1-f66.google.com with SMTP id s18so10297518ioe.2;
-        Tue, 26 May 2020 18:49:04 -0700 (PDT)
+        id S1726308AbgE0B7I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 26 May 2020 21:59:08 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:39280 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725267AbgE0B7I (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 May 2020 21:59:08 -0400
+Received: by mail-io1-f65.google.com with SMTP id c8so3895779iob.6;
+        Tue, 26 May 2020 18:59:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=NpFq0R0aWjAOVLGwhQJ2XIanByWj7TpCd6S10cJEALk=;
-        b=ehLhdobTilPxhRKmxjuoc82vpr/YACLkJRS9VQ6rineCgdisQmKDlKtCc8XIwwCo5L
-         +5kXdJB5o8toyHqyDngXAF6NzPtcAAGCHtWf/bXIW6KVfNAy5gtGEN/OoK0SDk0shMGV
-         bJ3OpRp3zdIcdUOzEyAudcJ4+0wIjHvaOLVyGLxJmFtKSZcoKcpr/r0F2vbT0Rw5JiEu
-         2mandnBPZc5tdPcwUAGQLzvXeMrRsayxK9Ac9eZtBGqwKGdVWCkyK8MCUmz19ragAvHj
-         8To4k12ii+TznF93il90DrMTlluk9E1UK7vBK16naLUN9afYU9QiEt6P8+yPFvggbSe2
-         3psw==
-X-Gm-Message-State: AOAM530ckeTaJlQtf7fF5+TvPuBWFTLH0mPZJznlPaLoFx/QjnHWEiz3
-        RaQ/Ady1lFATlOtcmp8gWZV2Cbk=
-X-Google-Smtp-Source: ABdhPJwnUd9gtPnPbiK2tnmPcj4pMtkePhPFVkdrcrLBI+LLU1Mcp7uTqwffmLKF1kyjD8RFzL2RBQ==
-X-Received: by 2002:a6b:5c19:: with SMTP id z25mr2942857ioh.119.1590544143956;
-        Tue, 26 May 2020 18:49:03 -0700 (PDT)
+        bh=R+jzqtNB5xm+Ue2rdM+xkw/J/Y2layqw+i3JC1m8y3A=;
+        b=JM5pUwohrVsgvBRteM1yVcPdjxaoVnsJsSnPIWEpePqCknaANwhi818own9fYEomM/
+         jWGL83b3eX30wg/NT0F7mUE37RvPPnJcVyLBQTr2xs0pT2AoFzLsP4ARplrox4cFqR0o
+         eQDzCFPRxCSMNw4dSLirubNSOwfRaknkTFpjSpGf5F1jgeFdznBrpFVgkADo6Y02Tc/g
+         pmUDoLNWZXErcEA6yMcNfXkWy+8oBNXPKsB1/ZQKT5gNGX8WkmMu1cqP8sQ1TiLOclK9
+         EQNM/X2XGt3baJpipkdGJb6PFXRaZ2e35SY4NZeMBdyrxNnZ67TDE4BHEPZ3QeewEsoe
+         Hm/w==
+X-Gm-Message-State: AOAM533zIGpc6qnC4E39qdyaFfL30wwr1vmJyQXvhvVOsxHnMkKZYixg
+        HHHQGaIXM5krl88fTgd/cOxJ6Hw=
+X-Google-Smtp-Source: ABdhPJxt6tM3SKfxvvzsNk2fSThE+onTc7lraTfA1vFnx7JR9NSjWgV4NajWOz9SI46gdlbrZPzwhg==
+X-Received: by 2002:a02:8309:: with SMTP id v9mr1462161jag.71.1590544746878;
+        Tue, 26 May 2020 18:59:06 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id h23sm633451ioj.39.2020.05.26.18.49.03
+        by smtp.gmail.com with ESMTPSA id u2sm606192ion.50.2020.05.26.18.59.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2020 18:49:03 -0700 (PDT)
-Received: (nullmailer pid 874370 invoked by uid 1000);
-        Wed, 27 May 2020 01:49:02 -0000
-Date:   Tue, 26 May 2020 19:49:02 -0600
+        Tue, 26 May 2020 18:59:06 -0700 (PDT)
+Received: (nullmailer pid 889963 invoked by uid 1000);
+        Wed, 27 May 2020 01:59:05 -0000
+Date:   Tue, 26 May 2020 19:59:05 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Dan Murphy <dmurphy@ti.com>
 Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz,
         devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v25 01/16] dt: bindings: Add multicolor class dt bindings
- documention
-Message-ID: <20200527014902.GA859634@bogus>
+Subject: Re: [PATCH v25 03/16] dt: bindings: lp50xx: Introduce the lp50xx
+ family of RGB drivers
+Message-ID: <20200527015905.GA874676@bogus>
 References: <20200526164652.2331-1-dmurphy@ti.com>
- <20200526164652.2331-2-dmurphy@ti.com>
+ <20200526164652.2331-4-dmurphy@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200526164652.2331-2-dmurphy@ti.com>
+In-Reply-To: <20200526164652.2331-4-dmurphy@ti.com>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, May 26, 2020 at 11:46:37AM -0500, Dan Murphy wrote:
-> Add DT bindings for the LEDs multicolor class framework.
-> Add multicolor ID to the color ID list for device tree bindings.
+On Tue, May 26, 2020 at 11:46:39AM -0500, Dan Murphy wrote:
+> Introduce the bindings for the Texas Instruments LP5036, LP5030, LP5024,
+> LP5018, LP5012 and LP5009 RGB LED device driver.  The LP5036/30/24/18/12/9
+> can control RGB LEDs individually or as part of a control bank group.
+> These devices have the ability to adjust the mixing control for the RGB
+> LEDs to obtain different colors independent of the overall brightness of
+> the LED grouping.
 > 
-> CC: Rob Herring <robh@kernel.org>
-> Acked-by: Pavel Machek <pavel@ucw.cz>
+> Datasheet:
+> http://www.ti.com/lit/ds/symlink/lp5012.pdf
+> http://www.ti.com/lit/ds/symlink/lp5024.pdf
+> http://www.ti.com/lit/ds/symlink/lp5036.pdf
+> 
 > Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 > Signed-off-by: Dan Murphy <dmurphy@ti.com>
 > ---
->  .../bindings/leds/leds-class-multicolor.yaml  | 71 +++++++++++++++++++
->  drivers/leds/led-core.c                       |  1 +
->  include/dt-bindings/leds/common.h             |  3 +-
->  3 files changed, 74 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+>  .../devicetree/bindings/leds/leds-lp50xx.yaml | 180 ++++++++++++++++++
+>  1 file changed, 180 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+> diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
 > new file mode 100644
-> index 000000000000..fa6ea8e5c46b
+> index 000000000000..a2ea03e07f6d
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: GPL-2.0
-
-Dual license new bindings please.
-
-GPL-2.0-only OR BSD-2-Clause
-
+> +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+> @@ -0,0 +1,180 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/leds/leds-class-multicolor.yaml#
+> +$id: http://devicetree.org/schemas/leds/leds-lp50xx.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Common properties for the multicolor LED class.
+> +title: LED driver for LP50XX RGB LED from Texas Instruments.
 > +
 > +maintainers:
 > +  - Dan Murphy <dmurphy@ti.com>
 > +
 > +description: |
-> +  Bindings for multi color LEDs show how to describe current outputs of
-> +  either integrated multi-color LED elements (like RGB, RGBW, RGBWA-UV
-> +  etc.) or standalone LEDs, to achieve logically grouped multi-color LED
-> +  modules. This is achieved by adding multi-led nodes layer to the
-> +  monochrome LED bindings.
-> +  The nodes and properties defined in this document are unique to the multicolor
-> +  LED class.  Common LED nodes and properties are inherited from the common.txt
-> +  within this documentation directory.
+> +  The LP50XX is multi-channel, I2C RGB LED Drivers that can group RGB LEDs into
+> +  a LED group or control them individually.
+> +
+> +  The difference in these RGB LED drivers is the number of supported RGB
+> +  modules.
+> +
+> +  For more product information please see the link below:
+> +  http://www.ti.com/lit/ds/symlink/lp5012.pdf
+> +  http://www.ti.com/lit/ds/symlink/lp5024.pdf
+> +  http://www.ti.com/lit/ds/symlink/lp5036.pdf
 > +
 > +properties:
-> +  color:
-> +    description: |
-> +      For multicolor LED support this property should be defined as
-> +      LED_COLOR_ID_MULTI and further definition can be found in
-> +      include/linux/leds/common.h.
+> +  compatible:
+> +     oneOf:
+> +      - const: ti,lp5009
+> +      - const: ti,lp5012
+> +      - const: ti,lp5018
+> +      - const: ti,lp5024
+> +      - const: ti,lp5030
+> +      - const: ti,lp5036
 
-This should have:
-
-const: X  # LED_COLOR_ID_MULTI
-
-It can't use the define, so you have to use the value.
+Use enum rather than oneOf+const.
 
 > +
+> +  reg:
+> +    maxItems: 1
+> +    description:
+> +      I2C slave address
+> +      lp5009/12 - 0x14, 0x15, 0x16, 0x17
+> +      lp5018/24 - 0x28, 0x29, 0x2a, 0x2b
+> +      lp5030/36 - 0x30, 0x31, 0x32, 0x33
+> +
+> +  enable-gpios:
+> +    description: GPIO pin to enable/disable the device.
+
+How many? (maxItems: 1)
+
+> +
+> +  vled-supply:
+> +    description: LED supply.
+> +
+> +  child-node:
+
+This literally requires a node called 'child-node'. Not what you want.
+
+You need a $ref to the multi-color schema in here and then only define 
+what's specific to this chip.
+
+> +    type: object
+> +    properties:
+> +      reg:
+> +        description: This is the LED module number.
+
+Constraints?
+
+> +
+> +      color:
+> +        description: Must be LED_COLOR_ID_MULTI
+> +
+> +      function:
+> +        description: see Documentation/devicetree/bindings/leds/common.txt
+> +
+> +      ti,led-bank:
+> +        description:
+> +          This property denotes the LED module numbers that will be controlled as
+> +          a single RGB cluster.  Each LED module number will be controlled by a
+> +          single LED class instance.
+> +          There can only be one instance of the ti,led-bank
+> +          property for each device node.  This is a required node is the LED
+> +          modules are to be backed.
+> +        $ref: /schemas/types.yaml#definitions/uint32-array
+
+What is reg then? Some made up index? Can't you do:
+
+reg = <1 2 3>;
+led@1 {};
+led@2 {};
+led@2 {};
+
+> +
+> +    required:
+> +      - reg
+> +      - color
+> +      - function
+> +
+> +  grandchild-node:
+
+Again, no.
+
+> +    type: object
+> +    properties:
+> +      reg:
+> +        description:
+> +          A single entry denoting the LED output that controls the monochrome LED.
+
+Constraints?
+
+> +
+> +      color:
+> +        description:
+> +          see Documentation/devicetree/bindings/leds/common.txt
+
+Have you read this file recently? Don't add new references to it. (And 
+generally freeform references to other files are wrong with schemas).
+
+> +
+> +      led-sources:
+> +        description:
+> +          see Documentation/devicetree/bindings/leds/common.txt
+> +          The LED outputs associated with the LED modules are defined in Table 1
+> +          of the corresponding data sheets.
+> +          LP5009 - 3 Total RGB cluster LED outputs 0-2
+> +          LP5012 - 4 Total RGB cluster LED outputs 0-3
+> +          LP5018 - 6 Total RGB cluster LED outputs 0-5
+> +          LP5024 - 8 Total RGB cluster LED outputs 0-7
+> +          LP5030 - 10 Total RGB cluster LED outputs 0-9
+> +          LP5036 - 12 Total RGB cluster LED outputs 0-11
+> +
+> +      label:
+> +        description: |
+> +          Optional node - see Documentation/devicetree/bindings/leds/common.txt
+> +
+> +      linux,default-trigger:
+> +        description: |
+> +          Optional node - see Documentation/devicetree/bindings/leds/common.txt
+> +
+> +    required:
+> +      - reg
+> +      - color
+> +
 > +required:
-> +  - color
+> +  - compatible
+> +  - reg
 > +
 > +examples:
 > +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
 > +    #include <dt-bindings/leds/common.h>
 > +    i2c {
 > +        #address-cells = <1>;
@@ -131,11 +240,8 @@ It can't use the define, so you have to use the value.
 > +          #size-cells = <0>;
 > +          compatible = "ti,lp5009";
 > +          reg = <0x14>;
-> +
+> +          enable-gpios = <&gpio1 16>;
 > +          multi-led@1 {
-
-Define $nodename must be 'multi-led(@[0-9a-f]+)?'
-
 > +            #address-cells = <1>;
 > +            #size-cells = <0>;
 > +            reg = <1>;
@@ -143,14 +249,8 @@ Define $nodename must be 'multi-led(@[0-9a-f]+)?'
 > +            function = LED_FUNCTION_CHARGING;
 > +
 > +            led@0 {
-
-Then the schema should define child nodes named 'led'.
-
 > +              reg = <0>;
 > +              color = <LED_COLOR_ID_RED>;
-
-I assume in this case 'reg' and 'color' need to be defined as required?
-
 > +            };
 > +
 > +            led@1 {
@@ -163,40 +263,37 @@ I assume in this case 'reg' and 'color' need to be defined as required?
 > +              color = <LED_COLOR_ID_BLUE>;
 > +            };
 > +          };
-> +        };
+> +
+> +          multi-led@2 {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            reg = <2>;
+> +            color = <LED_COLOR_ID_MULTI>;
+> +            function = LED_FUNCTION_STANDBY;
+> +            ti,led-bank = <2 3 5>;
+> +
+> +            led@6 {
+> +              reg = <0x6>;
+> +              color = <LED_COLOR_ID_RED>;
+> +              led-sources = <6 9 15>;
+> +            };
+> +
+> +            led@7 {
+> +              reg = <0x7>;
+> +              color = <LED_COLOR_ID_GREEN>;
+> +              led-sources = <7 10 16>;
+> +            };
+> +
+> +            led@8 {
+> +              reg = <0x8>;
+> +              color = <LED_COLOR_ID_BLUE>;
+> +              led-sources = <8 11 17>;
+> +            };
+> +         };
+> +       };
 > +    };
 > +
-> +additionalProperties: false
 > +...
-> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-
-This isn't a binding file. Belongs in another patch.
-
-> index f1f718dbe0f8..846248a0693d 100644
-> --- a/drivers/leds/led-core.c
-> +++ b/drivers/leds/led-core.c
-> @@ -34,6 +34,7 @@ const char * const led_colors[LED_COLOR_ID_MAX] = {
->  	[LED_COLOR_ID_VIOLET] = "violet",
->  	[LED_COLOR_ID_YELLOW] = "yellow",
->  	[LED_COLOR_ID_IR] = "ir",
-> +	[LED_COLOR_ID_MULTI] = "multicolor",
->  };
->  EXPORT_SYMBOL_GPL(led_colors);
->  
-> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-> index 0ce7dfc00dcb..a463ce6a8794 100644
-> --- a/include/dt-bindings/leds/common.h
-> +++ b/include/dt-bindings/leds/common.h
-> @@ -30,7 +30,8 @@
->  #define LED_COLOR_ID_VIOLET	5
->  #define LED_COLOR_ID_YELLOW	6
->  #define LED_COLOR_ID_IR		7
-> -#define LED_COLOR_ID_MAX	8
-> +#define LED_COLOR_ID_MULTI	8
-> +#define LED_COLOR_ID_MAX	9
->  
->  /* Standard LED functions */
->  /* Keyboard LEDs, usually it would be input4::capslock etc. */
 > -- 
 > 2.25.1
 > 
