@@ -2,74 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CD9E1E45FE
-	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2020 16:35:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0F061E46F0
+	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2020 17:05:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389261AbgE0OfT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 27 May 2020 10:35:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42028 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389205AbgE0OfT (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 27 May 2020 10:35:19 -0400
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C4497207D8;
-        Wed, 27 May 2020 14:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590590118;
-        bh=ZHtlGUdsxIEBDD/xsBrVNKXYYZ2i+BMLqDQbWpUZlVQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Kt7Bifq9PQAYdyS3oLP+3AgwaXJKnTd/D+XY1nMLTXHODDtOt1bkd6DfpX/XIaNKV
-         fiYm/Qr1XeJTcMpgvZRUiNpotgeHbumz8wl33tmu2JUojuQpdudrDlv3dOauHw9X/H
-         6HDd5bFq5NQuqMSJl73ny0fdoFgRbm3IHn22lA5s=
-Received: by mail-ot1-f44.google.com with SMTP id 63so19312581oto.8;
-        Wed, 27 May 2020 07:35:18 -0700 (PDT)
-X-Gm-Message-State: AOAM531C4wCKDOmD+m0HkDpi5DEaJGprO3YWd165t7zBOmvs0XCt7dyV
-        /BdrSPLXZWjWK2Fe7QwpwjIRqneoXqETUNnoWQ==
-X-Google-Smtp-Source: ABdhPJzgO0PBm+/AfLe7jnde5ihC21UEs5rp32++DKs0id2GuWNq7IxMhIZjtQ7ntkOjM6vINFi6FRy20LlfhlOWQyM=
-X-Received: by 2002:a05:6830:18d9:: with SMTP id v25mr4556571ote.107.1590590118113;
- Wed, 27 May 2020 07:35:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200526164652.2331-1-dmurphy@ti.com> <20200526164652.2331-2-dmurphy@ti.com>
- <20200527014902.GA859634@bogus> <20200527133948.GA5011@amd>
-In-Reply-To: <20200527133948.GA5011@amd>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 27 May 2020 08:35:06 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+rS=awLC_maPGjeWhh1Sb9U31xfvLecVe9sPTh83eDBw@mail.gmail.com>
-Message-ID: <CAL_Jsq+rS=awLC_maPGjeWhh1Sb9U31xfvLecVe9sPTh83eDBw@mail.gmail.com>
-Subject: Re: [PATCH v25 01/16] dt: bindings: Add multicolor class dt bindings documention
+        id S2389445AbgE0PFl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 27 May 2020 11:05:41 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:54320 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389316AbgE0PFl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 27 May 2020 11:05:41 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04RF5aPc038795;
+        Wed, 27 May 2020 10:05:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1590591936;
+        bh=gFdGje1XRt56yWr2NSWkBVQQ++h4DofQvUPzQIlD/tY=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=Rg8aWjyEpbTpryMACNiDZkZHMGpD3Gbp+TcuXmgh1mhO5/ZyCdoDrCVHgcu1RG/31
+         6Q+rbPXf+QDb2psv+iBaL8jLCMQZiz4Yjc5aAoBJe67kidu6EN3jxsJlRDXvjht4EL
+         9iIQtTfNI9X+gnd3VI5bnKSaEVGTkmd1tywZnzKc=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04RF5ZPL097368
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 27 May 2020 10:05:36 -0500
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 27
+ May 2020 10:05:35 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 27 May 2020 10:05:35 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04RF5W3p120957;
+        Wed, 27 May 2020 10:05:33 -0500
+Subject: Re: [PATCH v25 03/16] dt: bindings: lp50xx: Introduce the lp50xx
+ family of RGB drivers
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        devicetree@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+CC:     <jacek.anaszewski@gmail.com>, <robh@kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200526164652.2331-1-dmurphy@ti.com>
+ <20200526164652.2331-4-dmurphy@ti.com> <20200527135848.GB5011@amd>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <d22658c2-07e2-74e6-dc2b-4b64fd9789dd@ti.com>
+Date:   Wed, 27 May 2020 10:05:32 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20200527135848.GB5011@amd>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, May 27, 2020 at 7:39 AM Pavel Machek <pavel@ucw.cz> wrote:
->
+Pavel
+
+On 5/27/20 8:58 AM, Pavel Machek wrote:
 > Hi!
 >
-> Thanks for reviews!
 >
-> > > +additionalProperties: false
-> > > +...
-> > > diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-> >
-> > This isn't a binding file. Belongs in another patch.
+>> +          There can only be one instance of the ti,led-bank
+>> +          property for each device node.  This is a required node is the LED
+>> +          modules are to be backed.
+> I don't understand the second sentence. Pretty sure it is not valid
+> english.
+
+
+If I make these changes is this still viable for 5.8 or would you then 
+go into 5.9?
+
+I mean v25 patchset was around for about 3+ weeks and now I have more 
+changes.
+
+Dan
+
 >
-> These constants are directly related to the binding. It makes sense to
-> go in one patch...
-
-Yes, the header does go in this patch, but kernel subsystem files do not.
-
-Part of the reason for separating is we generate a DT only repository
-which filters out all the kernel code. Ideally this is just filtering
-out commits and the commit messages still make sense.
-
-Rob
+> Best regards,
+> 								Pavel
+> 								
