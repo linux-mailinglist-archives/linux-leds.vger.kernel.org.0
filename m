@@ -2,90 +2,107 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41DCD1E352A
-	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2020 04:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0B661E43F8
+	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2020 15:39:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725891AbgE0CBF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 26 May 2020 22:01:05 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:35816 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725267AbgE0CBE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 May 2020 22:01:04 -0400
-Received: by mail-io1-f68.google.com with SMTP id s18so10319090ioe.2;
-        Tue, 26 May 2020 19:01:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=F/zr+LlqqJd93CeXOiLT1YGsNK37J/3f8I4dWqfZ2nM=;
-        b=uJg0lG9/1Qf1t0ih98IXFnBNSRlPIXjCBfNo1+UgwwNtNpNzKoycidhnERneQRk0vp
-         J9CRNyJrCB2FQk1Zxf1CTAuzXsueS/XbPqa7xlC341vOhrIWgexPKnYWodexSMewu9x3
-         /xWrA32Sm2EuPLmG55LP3KN5IcjJnOOvrRflXZeAo/Ep9PCBCdyjBOSJecxCvKJO81sA
-         xdo7CeIn2NELgJrQsAoyoQ4Jwr+RF8WC9O7XEu2hPNxMd1p2peHvz/WIKkvHmlA6w4y2
-         IYMO6C5YwkcXmbJocFohp66vT1QeNkVkRp5vz1r3WuVT6uslxIXvwvb6RdvdoXyty6mP
-         I9Nw==
-X-Gm-Message-State: AOAM530ipNAMsAp1HS7oHcnduwByewmNXPjYkXz3HF9LMBTA4YCPmFhb
-        soXQUlFP3i2n00b3ZnWbSA==
-X-Google-Smtp-Source: ABdhPJwRexlF8h8MO/YVoG7aR1AUg21O8r+BKhpOleaMogFSyAPl5WyD3V2M+xTsWmdUSSnnNOKsdw==
-X-Received: by 2002:a05:6638:252:: with SMTP id w18mr3797053jaq.17.1590544863696;
-        Tue, 26 May 2020 19:01:03 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id y13sm655527iob.51.2020.05.26.19.01.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2020 19:01:02 -0700 (PDT)
-Received: (nullmailer pid 893153 invoked by uid 1000);
-        Wed, 27 May 2020 02:01:01 -0000
-Date:   Tue, 26 May 2020 20:01:01 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz,
+        id S2388503AbgE0Njv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 27 May 2020 09:39:51 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:46978 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387682AbgE0Nju (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 27 May 2020 09:39:50 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 2EB6E1C0300; Wed, 27 May 2020 15:39:49 +0200 (CEST)
+Date:   Wed, 27 May 2020 15:39:48 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dan Murphy <dmurphy@ti.com>, jacek.anaszewski@gmail.com,
         devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
-Subject: Re: [PATCH v25 06/16] dt: bindings: lp55xx: Update binding for
- Multicolor Framework
-Message-ID: <20200527020101.GA891065@bogus>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v25 01/16] dt: bindings: Add multicolor class dt bindings
+ documention
+Message-ID: <20200527133948.GA5011@amd>
 References: <20200526164652.2331-1-dmurphy@ti.com>
- <20200526164652.2331-7-dmurphy@ti.com>
+ <20200526164652.2331-2-dmurphy@ti.com>
+ <20200527014902.GA859634@bogus>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="liOOAslEiF7prFVr"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200526164652.2331-7-dmurphy@ti.com>
+In-Reply-To: <20200527014902.GA859634@bogus>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, May 26, 2020 at 11:46:42AM -0500, Dan Murphy wrote:
-> Update the DT binding to include the properties to use the
-> multicolor framework for the devices that use the LP55xx
-> framework.
-> 
-> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> CC: Tony Lindgren <tony@atomide.com>
-> CC: "Benoît Cousson" <bcousson@baylibre.com>
-> CC: Linus Walleij <linus.walleij@linaro.org>
-> CC: Shawn Guo <shawnguo@kernel.org>
-> CC: Sascha Hauer <s.hauer@pengutronix.de>
-> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-> CC: Fabio Estevam <festevam@gmail.com>
-> CC: NXP Linux Team <linux-imx@nxp.com>
-> ---
->  .../devicetree/bindings/leds/leds-lp55xx.txt  | 149 +++++++++++++++---
->  1 file changed, 124 insertions(+), 25 deletions(-)
 
-Convert this to schema first because it's going to need to reference 
-the multi-color schema.
+--liOOAslEiF7prFVr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rob
+Hi!
+
+Thanks for reviews!
+
+> > +additionalProperties: false
+> > +...
+> > diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+>=20
+> This isn't a binding file. Belongs in another patch.
+
+These constants are directly related to the binding. It makes sense to
+go in one patch...
+
+Best regards,
+								Pavel
+
+> > index f1f718dbe0f8..846248a0693d 100644
+> > --- a/drivers/leds/led-core.c
+> > +++ b/drivers/leds/led-core.c
+> > @@ -34,6 +34,7 @@ const char * const led_colors[LED_COLOR_ID_MAX] =3D {
+> >  	[LED_COLOR_ID_VIOLET] =3D "violet",
+> >  	[LED_COLOR_ID_YELLOW] =3D "yellow",
+> >  	[LED_COLOR_ID_IR] =3D "ir",
+> > +	[LED_COLOR_ID_MULTI] =3D "multicolor",
+> >  };
+> >  EXPORT_SYMBOL_GPL(led_colors);
+> > =20
+> > diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/le=
+ds/common.h
+> > index 0ce7dfc00dcb..a463ce6a8794 100644
+> > --- a/include/dt-bindings/leds/common.h
+> > +++ b/include/dt-bindings/leds/common.h
+> > @@ -30,7 +30,8 @@
+> >  #define LED_COLOR_ID_VIOLET	5
+> >  #define LED_COLOR_ID_YELLOW	6
+> >  #define LED_COLOR_ID_IR		7
+> > -#define LED_COLOR_ID_MAX	8
+> > +#define LED_COLOR_ID_MULTI	8
+> > +#define LED_COLOR_ID_MAX	9
+> > =20
+> >  /* Standard LED functions */
+> >  /* Keyboard LEDs, usually it would be input4::capslock etc. */
+> > --=20
+> > 2.25.1
+> >=20
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--liOOAslEiF7prFVr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl7ObaQACgkQMOfwapXb+vKDUQCgvKwSBIpK3Ho7ZIPhCUNgU/kp
+toUAnjGIr5U3J+haA7vXpJm0QHecHNkG
+=Ow+v
+-----END PGP SIGNATURE-----
+
+--liOOAslEiF7prFVr--
