@@ -2,99 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F04721E47C2
-	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2020 17:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD2F51E4B5C
+	for <lists+linux-leds@lfdr.de>; Wed, 27 May 2020 19:05:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729806AbgE0Plb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 27 May 2020 11:41:31 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:39752 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726807AbgE0Plb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 27 May 2020 11:41:31 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04RFfHNS004860;
-        Wed, 27 May 2020 10:41:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1590594077;
-        bh=XEcyKsm3Rvw5vHQRvm9JNFUY7jNND4xv6Zl3osWxia4=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=opcEzKyTMkkG0XF+VgSiPrcP3DJbkmqd1I0/Vglf0UZFuy21+0EUMovBZ/efmrMb7
-         ELXWMY0DlMVITW3WPKDNqH//uRxcrHA7YijL8Qti5jID2M2hAVD71nPPcv41apJkii
-         RJDWaIHBMXi201HP+47oJKtD/BnkFW/qSsym4XuY=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04RFfHmk094289;
-        Wed, 27 May 2020 10:41:17 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 27
- May 2020 10:41:16 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 27 May 2020 10:41:17 -0500
-Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04RFfGA3097665;
-        Wed, 27 May 2020 10:41:16 -0500
-Subject: Re: [PATCH v25 06/16] dt: bindings: lp55xx: Update binding for
- Multicolor Framework
-To:     Rob Herring <robh@kernel.org>
-CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Tony Lindgren <tony@atomide.com>,
-        =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>
-References: <20200526164652.2331-1-dmurphy@ti.com>
- <20200526164652.2331-7-dmurphy@ti.com> <20200527020101.GA891065@bogus>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <7ff61c4a-0d74-a206-2255-21ee3c7a4357@ti.com>
-Date:   Wed, 27 May 2020 10:41:15 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1731101AbgE0RFA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 27 May 2020 13:05:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53140 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726978AbgE0RE7 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 27 May 2020 13:04:59 -0400
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 64C4220890;
+        Wed, 27 May 2020 17:04:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590599099;
+        bh=QrRQgXxxJ63vZq31dxWJOpXXtjXrN47jMut59lAdhhE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZELDOLFfWjUSMiPpsOIL+bfRkPqpUhd1RzHpynSc+IqAYV3B4TQzhBDh/hjNHlaER
+         zSCxTfrx+M48Wvhl+b1XI7Jog4/rPMJsw/8sd/+murItayBJzaSvAhIBcoezdlHEZV
+         bVZInSDO/RWrUu6s2ZDx2C3LmOn4xuoLQftDGM4s=
+Received: by mail-ot1-f42.google.com with SMTP id u23so100715otq.10;
+        Wed, 27 May 2020 10:04:59 -0700 (PDT)
+X-Gm-Message-State: AOAM531c5WLvn9nied//CGS5+x5A38pcl61X+eOrRkSrHgYQ6LjfZ09u
+        UxEf2MoJvUlLehWC/nVDQD702AqZhl+9gcAZIg==
+X-Google-Smtp-Source: ABdhPJxhrJavKUHM5x9pqsCda+ALmNJDjhk8EtNPXvR0b64+JsptO0YtuOMTTuRXh5oLXhzzBNvT36fiDwmer89Ghu0=
+X-Received: by 2002:a05:6830:3104:: with SMTP id b4mr5433914ots.192.1590599098693;
+ Wed, 27 May 2020 10:04:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200527020101.GA891065@bogus>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200511111128.16210-1-nikitos.tr@gmail.com> <20200518221435.GA6734@bogus>
+ <20200525105236.GB27989@amd>
+In-Reply-To: <20200525105236.GB27989@amd>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 27 May 2020 11:04:47 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJOMzjO_caip6-eXGWoPOWhPcyqfEpBXd2PLyH2OO7RAw@mail.gmail.com>
+Message-ID: <CAL_JsqJOMzjO_caip6-eXGWoPOWhPcyqfEpBXd2PLyH2OO7RAw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add Shanghai Awinic
+ Technology Co., Ltd.
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     nikitos.tr@gmail.com, Dan Murphy <dmurphy@ti.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Mon, May 25, 2020 at 4:52 AM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> On Mon 2020-05-18 16:14:35, Rob Herring wrote:
+> > On Mon, 11 May 2020 16:11:26 +0500,  wrote:
+> > > From: Nikita Travkin <nikitos.tr@gmail.com>
+> > >
+> > > Add the "awinic" vendor prefix for Shanghai Awinic Technology Co., Ltd.
+> > > Website: https://www.awinic.com/
+> > >
+> > > Signed-off-by: Nikita Travkin <nikitos.tr@gmail.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> >
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+>
+> I can take 2/ and 3/ of the series, but I believe we'll get conflicts
+> if I change vendor-prefixes.yaml in the LED tree. Can you take this
+> one?
+
+Okay, applied.
+
 Rob
-
-On 5/26/20 9:01 PM, Rob Herring wrote:
-> On Tue, May 26, 2020 at 11:46:42AM -0500, Dan Murphy wrote:
->> Update the DT binding to include the properties to use the
->> multicolor framework for the devices that use the LP55xx
->> framework.
->>
->> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
->> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->> CC: Tony Lindgren <tony@atomide.com>
->> CC: "Benoît Cousson" <bcousson@baylibre.com>
->> CC: Linus Walleij <linus.walleij@linaro.org>
->> CC: Shawn Guo <shawnguo@kernel.org>
->> CC: Sascha Hauer <s.hauer@pengutronix.de>
->> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
->> CC: Fabio Estevam <festevam@gmail.com>
->> CC: NXP Linux Team <linux-imx@nxp.com>
->> ---
->>   .../devicetree/bindings/leds/leds-lp55xx.txt  | 149 +++++++++++++++---
->>   1 file changed, 124 insertions(+), 25 deletions(-)
-> Convert this to schema first because it's going to need to reference
-> the multi-color schema.
-
-OK.  This seems to be my life recently converting txt to yaml ;)
-
-Dan
-
-
-> Rob
