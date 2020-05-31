@@ -2,66 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69CAB1E8510
-	for <lists+linux-leds@lfdr.de>; Fri, 29 May 2020 19:36:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B522D1E9A01
+	for <lists+linux-leds@lfdr.de>; Sun, 31 May 2020 21:06:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726924AbgE2RgR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 29 May 2020 13:36:17 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:46945 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728062AbgE2RgP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 29 May 2020 13:36:15 -0400
-Received: by mail-il1-f195.google.com with SMTP id h3so3251437ilh.13;
-        Fri, 29 May 2020 10:36:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+vldnj1A/A3DB6U9SQBWonFdPuOH0+2SZoMnNU6BJCY=;
-        b=II2Q3vIN8TseP2BdYARKsz50LyWiVH7k3ubfvt591B/r5ayZFYoBaYjIGSt4oEDsqH
-         H38qJIgMAJBb7Mpuji6JMMatG5Qtd3Q3+r2fqVmdQTpBC1hSGt6ZpucTQQ/ACg1I5YwT
-         sjGozx170hLitaZp64J68Pihmkq/7dLFckS+j8NHrMQrOwrzRs4y1xAZeE0oLEcECS/p
-         EDCqvLqv28sfUXQ6Vmb4aBbmVI98hmaHVkgTJn9mjXoYeo5G/VWO4i5UZMCnuIhB2cvp
-         uJXzJ2/R1tujvBK91hqM8/DjE8PbhiwogZbvEvBNZ2iL2K+zGZt4TU8Y8l4GJpnqUOPB
-         lswA==
-X-Gm-Message-State: AOAM533esXrcxeXrWlHHpGOa2S834o84RI0y42GVlsoLXKU635Vsd500
-        lntslRILk1Njr7Lf/dXYrZ5m/0c=
-X-Google-Smtp-Source: ABdhPJw0D9Aj4dJOagyxhADhUi0We3v2dIBpchp7r06PGdMsavEqNpTwmfpl5+OcDOLyr+R5c/ad9g==
-X-Received: by 2002:a6b:7c45:: with SMTP id b5mr7568415ioq.31.1590773240343;
-        Fri, 29 May 2020 10:27:20 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id p75sm5083828ilb.23.2020.05.29.10.27.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2020 10:27:19 -0700 (PDT)
-Received: (nullmailer pid 2610380 invoked by uid 1000);
-        Fri, 29 May 2020 17:27:18 -0000
-Date:   Fri, 29 May 2020 11:27:18 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Flavio Suligoi <f.suligoi@asem.it>
-Cc:     linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        devicetree@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: fix macro names for pca955x
-Message-ID: <20200529172718.GA2610321@bogus>
-References: <20200526092052.24172-1-f.suligoi@asem.it>
+        id S1726081AbgEaTG1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 31 May 2020 15:06:27 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:33996 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726008AbgEaTG1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 31 May 2020 15:06:27 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id D46641C0BD2; Sun, 31 May 2020 21:06:25 +0200 (CEST)
+Date:   Sun, 31 May 2020 21:06:25 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, robh@kernel.org,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v25 03/16] dt: bindings: lp50xx: Introduce the lp50xx
+ family of RGB drivers
+Message-ID: <20200531190625.GA30537@duo.ucw.cz>
+References: <20200526164652.2331-1-dmurphy@ti.com>
+ <20200526164652.2331-4-dmurphy@ti.com>
+ <20200527135848.GB5011@amd>
+ <d22658c2-07e2-74e6-dc2b-4b64fd9789dd@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="0F1p//8PRICkK4MW"
 Content-Disposition: inline
-In-Reply-To: <20200526092052.24172-1-f.suligoi@asem.it>
+In-Reply-To: <d22658c2-07e2-74e6-dc2b-4b64fd9789dd@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 26 May 2020 11:20:52 +0200, Flavio Suligoi wrote:
-> The documentation reports the wrong macro names
-> related to the pca9532 instead of the pca955x
-> 
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> ---
->  Documentation/devicetree/bindings/leds/leds-pca955x.txt | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
 
-Acked-by: Rob Herring <robh@kernel.org>
+--0F1p//8PRICkK4MW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> > > +          There can only be one instance of the ti,led-bank
+> > > +          property for each device node.  This is a required node is=
+ the LED
+> > > +          modules are to be backed.
+> > I don't understand the second sentence. Pretty sure it is not valid
+> > english.
+>=20
+>=20
+> If I make these changes is this still viable for 5.8 or would you then go
+> into 5.9?
+
+It really depends if we get -rc8 or not, and if you'll need to do any
+changes to C code or not...
+
+Best regards,
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--0F1p//8PRICkK4MW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iFwEABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXtQAMQAKCRAw5/Bqldv6
+8mQ5AKCI6rJP7GSF+oHRZ4o+yuS6YCo22wCYnf0LlvVWugPqDe1HSeX9u2IF6Q==
+=LIhM
+-----END PGP SIGNATURE-----
+
+--0F1p//8PRICkK4MW--
