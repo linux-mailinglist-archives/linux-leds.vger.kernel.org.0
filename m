@@ -2,84 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE3631EC47B
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Jun 2020 23:44:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CA611ECC4A
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Jun 2020 11:15:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727032AbgFBVop (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 2 Jun 2020 17:44:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58618 "EHLO mail.kernel.org"
+        id S1726419AbgFCJPZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 3 Jun 2020 05:15:25 -0400
+Received: from smtp.asem.it ([151.1.184.197]:54582 "EHLO smtp.asem.it"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726130AbgFBVop (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 2 Jun 2020 17:44:45 -0400
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DB9B32072F;
-        Tue,  2 Jun 2020 21:44:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591134285;
-        bh=RD9EKSCos9t5KWXaUrSg2lxghv7osMiq6fJVWqm1DcM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=wndE0u+oyr1lH3hL5DSdXt0ghMpCarEAbNp2SXxd2ztDhnsDj18IIlvsqx3RFBThK
-         aC0A1ElckfSo3V9CEcNpClimk5drm+H5oi61IWEWz+jKhS8m8nL7TNHP8qf5PwMwfe
-         6wnUGwncf0PwgQunRETVXjzRmGWhx15D3skuDh0A=
-Received: by mail-oi1-f182.google.com with SMTP id x202so12923690oix.11;
-        Tue, 02 Jun 2020 14:44:44 -0700 (PDT)
-X-Gm-Message-State: AOAM531b1qnjF1U90WwLdRC32HWqQk2Kq5Q4v0MQPb8Je0EyquHeGn93
-        iPu4GAVBD4O7Re+iK9kLjm1ZfUJpxrOJvmRcAw==
-X-Google-Smtp-Source: ABdhPJyeT+tuBgCUMDYUN5j0DvXJ8oPU/gX6Ew9CsUYdJY/L4SylbM54wz1QNKunxx/7K8jnj3AcaYYeBSm8iWfGR+0=
-X-Received: by 2002:a05:6808:7cb:: with SMTP id f11mr4493977oij.152.1591134284288;
- Tue, 02 Jun 2020 14:44:44 -0700 (PDT)
+        id S1725355AbgFCJPY (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 3 Jun 2020 05:15:24 -0400
+Received: from webmail.asem.it
+        by asem.it (smtp.asem.it)
+        (SecurityGateway 6.5.2)
+        with ESMTP id SG000293951.MSG 
+        for <linux-leds@vger.kernel.org>; Wed, 03 Jun 2020 11:15:19 +0200S
+Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
+ (172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 3 Jun
+ 2020 11:15:17 +0200
+Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
+ (172.16.16.44) with Microsoft SMTP Server id 15.1.1979.3 via Frontend
+ Transport; Wed, 3 Jun 2020 11:15:17 +0200
+From:   Flavio Suligoi <f.suligoi@asem.it>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh@kernel.org>
+CC:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Flavio Suligoi <f.suligoi@asem.it>
+Subject: [PATCH v1] dt-bindings: leds: fix macro names for pca955x
+Date:   Wed, 3 Jun 2020 11:15:16 +0200
+Message-ID: <20200603091516.31907-1-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200526164652.2331-1-dmurphy@ti.com> <20200526164652.2331-2-dmurphy@ti.com>
- <20200527014902.GA859634@bogus> <20200527133948.GA5011@amd>
- <CAL_Jsq+rS=awLC_maPGjeWhh1Sb9U31xfvLecVe9sPTh83eDBw@mail.gmail.com> <20200602200436.GA6535@amd>
-In-Reply-To: <20200602200436.GA6535@amd>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 2 Jun 2020 15:44:32 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLaycpi4EtXK-7GV49fm0GbPmPsrNwz2WSBFFO_zdQG0Q@mail.gmail.com>
-Message-ID: <CAL_JsqLaycpi4EtXK-7GV49fm0GbPmPsrNwz2WSBFFO_zdQG0Q@mail.gmail.com>
-Subject: Re: [PATCH v25 01/16] dt: bindings: Add multicolor class dt bindings documention
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        devicetree@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
+X-SGSPF-Result: none (smtp.asem.it)
+X-SGOP-RefID: str=0001.0A090207.5ED76A26.004C,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0 (_st=1 _vt=0 _iwf=0)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Jun 2, 2020 at 2:04 PM Pavel Machek <pavel@ucw.cz> wrote:
->
-> On Wed 2020-05-27 08:35:06, Rob Herring wrote:
-> > On Wed, May 27, 2020 at 7:39 AM Pavel Machek <pavel@ucw.cz> wrote:
-> > >
-> > > Hi!
-> > >
-> > > Thanks for reviews!
-> > >
-> > > > > +additionalProperties: false
-> > > > > +...
-> > > > > diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-> > > >
-> > > > This isn't a binding file. Belongs in another patch.
-> > >
-> > > These constants are directly related to the binding. It makes sense to
-> > > go in one patch...
-> >
-> > Yes, the header does go in this patch, but kernel subsystem files do not.
-> >
-> > Part of the reason for separating is we generate a DT only repository
-> > which filters out all the kernel code. Ideally this is just filtering
-> > out commits and the commit messages still make sens
->
-> Well, but the patch can't be split like that. Otherwise we risk null
-> pointer dereferences when one part is applied but not the second one.
+The documentation reports the wrong macro names
+related to the pca9532 instead of the pca955x
 
-There's no risk because you are supposed to apply both patches. I
-don't apply binding patches that are a part of a series like this.
+Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+Acked-by: Rob Herring <robh@kernel.org>
+---
 
-Rob
+v1: add "Acked-by: Rob Herring <robh@kernel.org>"
+
+ Documentation/devicetree/bindings/leds/leds-pca955x.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-pca955x.txt b/Documentation/devicetree/bindings/leds/leds-pca955x.txt
+index 7984efb767b4..7a5830f8d5ab 100644
+--- a/Documentation/devicetree/bindings/leds/leds-pca955x.txt
++++ b/Documentation/devicetree/bindings/leds/leds-pca955x.txt
+@@ -26,9 +26,9 @@ LED sub-node properties:
+ 		from 0 to 15 for the pca9552
+ 		from 0 to  3 for the pca9553
+ - type: (optional) either
+-	PCA9532_TYPE_NONE
+-	PCA9532_TYPE_LED
+-	PCA9532_TYPE_GPIO
++	PCA955X_TYPE_NONE
++	PCA955X_TYPE_LED
++	PCA955X_TYPE_GPIO
+ 	see dt-bindings/leds/leds-pca955x.h (default to LED)
+ - label : (optional)
+ 	see Documentation/devicetree/bindings/leds/common.txt
+-- 
+2.17.1
+
