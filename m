@@ -2,103 +2,141 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76BBA1EEDC2
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Jun 2020 00:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 370EA1EEDDC
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Jun 2020 00:40:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726398AbgFDWfZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 4 Jun 2020 18:35:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44986 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726171AbgFDWfY (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 4 Jun 2020 18:35:24 -0400
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AC44E207D0;
-        Thu,  4 Jun 2020 22:35:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591310123;
-        bh=MEOgu/bZys0u6+e1umJ8QePVm2Ua1OaSBE4AWlWpoQg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BE/cimWL1fxy2xDBjfBdbGWHjejXHv+zobgC3vWXLf6g7cBqxIYp6OPWSRKn7npbJ
-         AkT21BNXT/LHUigkFl2RnBEMRGlAANYhXzWc4tt8o+Gf0EAUynRaZ3JODmdMKkOJVx
-         uoEojIOOqAiv5F77Uw0elTvUl2yfo/mq3UB7+LtI=
-Received: by mail-ot1-f46.google.com with SMTP id k15so6093932otp.8;
-        Thu, 04 Jun 2020 15:35:23 -0700 (PDT)
-X-Gm-Message-State: AOAM533sD7BiCgStOWpO0B0JHbb9tvyL2rS9UB3QOJwAqlOccH2WQptD
-        MdcRGZ3QPI8kPk832RrvS4T+R9/Wi1RhQd1atQ==
-X-Google-Smtp-Source: ABdhPJzkQ0ECUGnTkq9aILlT8NpeEXpYUdHrewIf+FkntnjfP0WzjzXVahCaByGUnjlH4byjrUqVIMhUJuUYcnWRjxs=
-X-Received: by 2002:a05:6830:3104:: with SMTP id b4mr5557846ots.192.1591310123034;
- Thu, 04 Jun 2020 15:35:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200526164652.2331-1-dmurphy@ti.com> <20200526164652.2331-2-dmurphy@ti.com>
- <20200527014902.GA859634@bogus> <20200527133948.GA5011@amd>
- <CAL_Jsq+rS=awLC_maPGjeWhh1Sb9U31xfvLecVe9sPTh83eDBw@mail.gmail.com>
- <20200602200436.GA6535@amd> <CAL_JsqLaycpi4EtXK-7GV49fm0GbPmPsrNwz2WSBFFO_zdQG0Q@mail.gmail.com>
- <20200604125111.GA7222@duo.ucw.cz>
-In-Reply-To: <20200604125111.GA7222@duo.ucw.cz>
+        id S1728357AbgFDWka (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 4 Jun 2020 18:40:30 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:46814 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726257AbgFDWk3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Jun 2020 18:40:29 -0400
+Received: by mail-il1-f194.google.com with SMTP id h3so7678882ilh.13;
+        Thu, 04 Jun 2020 15:40:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QSWJtBAUksQhYjVR4MqtPJiG9vZ0QWl17k304282+yo=;
+        b=nOMuXFccSwTQbDtjhyHRtBosOpzmpFrlcodz/o8tmbmvEWMD0GAmUNnI9zqfSKZxZQ
+         GvCet3wJPlQpe14Se+tYZhI8BQ54uSijNf2qMHynHUBlDZibin05A8QEr2R+hoOemST6
+         +yiWyN72x4YlE4Pue61g/PBimwoABudL6IiXUPfPgvUF/VLl+gMKD60yCo3j+Pl/24K+
+         RJwRaIwrC0D/N4uk1TAnimPJDMCv8+CGMLLuuaGnhiXr4Q1+JGA58h4ZPRoxYl5gVd8v
+         2fU2ANiyBCV0n/8oE20FrjhR6XyG8C2Np71pmr7E6EouvW2t5gOZqtkIYDNzM1xjGpLv
+         no5g==
+X-Gm-Message-State: AOAM531sHEyS8ChPgfCnw+//J/JfK3dwFW9t+aZ6bNUEAlzVWJvvophe
+        XZ1hWTXqmU6ReXXvWxXr5A==
+X-Google-Smtp-Source: ABdhPJxSU/8J1NfPj12uv47E8987Ap2yupPj3T/Vh7G4ZPwcM0DtSmCtJunelRjPYxjuO0JY+H/r7A==
+X-Received: by 2002:a05:6e02:4a7:: with SMTP id e7mr6028078ils.180.1591310428449;
+        Thu, 04 Jun 2020 15:40:28 -0700 (PDT)
+Received: from xps15 ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id p15sm2014072ilj.15.2020.06.04.15.40.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2020 15:40:27 -0700 (PDT)
+Received: (nullmailer pid 4174434 invoked by uid 1000);
+        Thu, 04 Jun 2020 22:40:26 -0000
+Date:   Thu, 4 Jun 2020 16:40:26 -0600
 From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 4 Jun 2020 16:35:11 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJ1XOYXyqj_VO2cFigVT=k5NTX3BO6RsDqQ-+pDBNJsrw@mail.gmail.com>
-Message-ID: <CAL_JsqJ1XOYXyqj_VO2cFigVT=k5NTX3BO6RsDqQ-+pDBNJsrw@mail.gmail.com>
-Subject: Re: [PATCH v25 01/16] dt: bindings: Add multicolor class dt bindings documention
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        devicetree@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, pavel@ucw.cz,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v26 01/15] dt: bindings: Add multicolor class dt bindings
+ documention
+Message-ID: <20200604224026.GA4153787@bogus>
+References: <20200604120504.32425-1-dmurphy@ti.com>
+ <20200604120504.32425-2-dmurphy@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200604120504.32425-2-dmurphy@ti.com>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Jun 4, 2020 at 6:51 AM Pavel Machek <pavel@ucw.cz> wrote:
->
-> On Tue 2020-06-02 15:44:32, Rob Herring wrote:
-> > On Tue, Jun 2, 2020 at 2:04 PM Pavel Machek <pavel@ucw.cz> wrote:
-> > >
-> > > On Wed 2020-05-27 08:35:06, Rob Herring wrote:
-> > > > On Wed, May 27, 2020 at 7:39 AM Pavel Machek <pavel@ucw.cz> wrote:
-> > > > >
-> > > > > Hi!
-> > > > >
-> > > > > Thanks for reviews!
-> > > > >
-> > > > > > > +additionalProperties: false
-> > > > > > > +...
-> > > > > > > diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-> > > > > >
-> > > > > > This isn't a binding file. Belongs in another patch.
-> > > > >
-> > > > > These constants are directly related to the binding. It makes sense to
-> > > > > go in one patch...
-> > > >
-> > > > Yes, the header does go in this patch, but kernel subsystem files do not.
-> > > >
-> > > > Part of the reason for separating is we generate a DT only repository
-> > > > which filters out all the kernel code. Ideally this is just filtering
-> > > > out commits and the commit messages still make sens
-> > >
-> > > Well, but the patch can't be split like that. Otherwise we risk null
-> > > pointer dereferences when one part is applied but not the second one.
-> >
-> > There's no risk because you are supposed to apply both patches. I
-> > don't apply binding patches that are a part of a series like this.
->
-> Yes, this is always guaranteed to happen, because "git bisect"
-> understand patch series. Oh, wait.
+On Thu, Jun 04, 2020 at 07:04:50AM -0500, Dan Murphy wrote:
+> Add DT bindings for the LEDs multicolor class framework.
+> Add multicolor ID to the color ID list for device tree bindings.
+> 
+> CC: Rob Herring <robh@kernel.org>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> ---
+>  .../bindings/leds/leds-class-multicolor.yaml  | 39 +++++++++++++++++++
+>  include/dt-bindings/leds/common.h             |  3 +-
+>  2 files changed, 41 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+> new file mode 100644
+> index 000000000000..6cab2a1405e1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+> @@ -0,0 +1,39 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-class-multicolor.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Common properties for the multicolor LED class.
+> +
+> +maintainers:
+> +  - Dan Murphy <dmurphy@ti.com>
+> +
+> +description: |
+> +  Bindings for multi color LEDs show how to describe current outputs of
+> +  either integrated multi-color LED elements (like RGB, RGBW, RGBWA-UV
+> +  etc.) or standalone LEDs, to achieve logically grouped multi-color LED
+> +  modules. This is achieved by adding multi-led nodes layer to the
+> +  monochrome LED bindings.
+> +  The nodes and properties defined in this document are unique to the multicolor
+> +  LED class.  Common LED nodes and properties are inherited from the common.txt
+> +  within this documentation directory.
+> +
+> +patternProperties:
+> +  "^multi-led@([0-9a-f])$":
+> +    type: object
+> +    description: Represents the LEDs that are to be grouped.
+> +    properties:
+> +      #allOf:
+> +        #- $ref: "common.yaml#"
 
-What!? If the binding patch with the header comes first, how would
-bisect build the driver change without the header?
+Why is this commented out? Other than it is wrong. Uncommented, this 
+would be defining a DT property called 'allOf'.
 
-> Patches are supposed to be correct on their own. If your repository
-> filtering can not handle that, you need to fix that...
+You can drop 'allOf' now. '$ref' should be at the level of 'properties'.
 
-I'm just asking you to follow the process that *everyone* else is
-following and works. It's not really about the repository filtering.
-That doesn't care. A binding ABI is defined by the schema and any
-defines it has. That is the logical unit that stands on its own.
+> +
+> +      color:
+> +        $ref: /schemas/types.yaml#definitions/uint32
 
-Rob
+common.yaml already defines the type, so drop this.
+
+> +        const: 8  # LED_COLOR_ID_MULTI
+> +        description: |
+> +          For multicolor LED support this property should be defined as
+> +          LED_COLOR_ID_MULTI which can be found in include/linux/leds/common.h.
+> +
+> +    required:
+> +      - color
+> +...
+> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+> index 0ce7dfc00dcb..a463ce6a8794 100644
+> --- a/include/dt-bindings/leds/common.h
+> +++ b/include/dt-bindings/leds/common.h
+> @@ -30,7 +30,8 @@
+>  #define LED_COLOR_ID_VIOLET	5
+>  #define LED_COLOR_ID_YELLOW	6
+>  #define LED_COLOR_ID_IR		7
+> -#define LED_COLOR_ID_MAX	8
+> +#define LED_COLOR_ID_MULTI	8
+> +#define LED_COLOR_ID_MAX	9
+>  
+>  /* Standard LED functions */
+>  /* Keyboard LEDs, usually it would be input4::capslock etc. */
+> -- 
+> 2.26.2
+> 
