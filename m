@@ -2,47 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29CDF1EE3E4
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Jun 2020 14:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33CFD1EE3E7
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Jun 2020 14:05:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728188AbgFDMEl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 4 Jun 2020 08:04:41 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:48770 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728016AbgFDMEl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Jun 2020 08:04:41 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 054C4a9Z086454;
-        Thu, 4 Jun 2020 07:04:36 -0500
+        id S1728076AbgFDMFS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 4 Jun 2020 08:05:18 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:49180 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728016AbgFDMFS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Jun 2020 08:05:18 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 054C5EBK129980;
+        Thu, 4 Jun 2020 07:05:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1591272276;
+        s=ti-com-17Q1; t=1591272314;
         bh=nnUHfuhIWwZ11cEfZZZuz86wJU3xA23f/562Xl1x8YU=;
         h=From:To:CC:Subject:Date;
-        b=DTUTUMKUBJYPK1UFHXWZlla8TwDZcArzcYJyeZtfrhGPMdUVN7n4uQ6fAG/tHpXsM
-         i3qjMR0Q4WLfg1vxcAeTnB7zjqtQDba7FQjgwyj+ObpBE7nnpPCs24AP82wDrC9vWb
-         /zuJoMvXFwE/BMSO4Il6bOZNABOKRexZZ32S1VUo=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 054C4aOt034240
+        b=BGdQkrGxrUvj09GOz0TBxKkqSwC8dNRJjPezkGYqo5hDI4twfZ3nQu+Trh+GTHHbj
+         Os2oR28HB8SLqWtA3cOR1lqu4S1QigoZEEX4ujYBfK2Kw2azm0QDZcxyn9iiFl4tlP
+         T0pmuIn1J6eKoXnwtZhO0TeOJW34G7s5nHpe3RAI=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 054C5E46053028
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 4 Jun 2020 07:04:36 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+        Thu, 4 Jun 2020 07:05:14 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 4 Jun
- 2020 07:04:36 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 07:05:13 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 4 Jun 2020 07:04:36 -0500
+ Frontend Transport; Thu, 4 Jun 2020 07:05:13 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 054C4aAS025386;
-        Thu, 4 Jun 2020 07:04:36 -0500
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 054C5DGi065408;
+        Thu, 4 Jun 2020 07:05:13 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
 CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v26 00/15] Multicolor Framework v25
-Date:   Thu, 4 Jun 2020 07:04:15 -0500
-Message-ID: <20200604120430.32366-1-dmurphy@ti.com>
+Subject: [PATCH v26 00/15] Multicolor Framework v26
+Date:   Thu, 4 Jun 2020 07:04:49 -0500
+Message-ID: <20200604120504.32425-1-dmurphy@ti.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
