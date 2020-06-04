@@ -2,28 +2,40 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF87B1EE453
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Jun 2020 14:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BF0C1EE4C7
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Jun 2020 14:51:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728321AbgFDMTI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 4 Jun 2020 08:19:08 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:43626 "EHLO
+        id S1726221AbgFDMvN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 4 Jun 2020 08:51:13 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:48010 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727944AbgFDMTH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Jun 2020 08:19:07 -0400
+        with ESMTP id S1725926AbgFDMvN (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Jun 2020 08:51:13 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 1D19A1C0BD2; Thu,  4 Jun 2020 14:19:06 +0200 (CEST)
-Date:   Thu, 4 Jun 2020 14:19:05 +0200
+        id 8005E1C0BD2; Thu,  4 Jun 2020 14:51:11 +0200 (CEST)
+Date:   Thu, 4 Jun 2020 14:51:11 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
-Subject: [GIT PULL] LEDs changes for v5.8-rc1
-Message-ID: <20200604121905.GA4931@duo.ucw.cz>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dan Murphy <dmurphy@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v25 01/16] dt: bindings: Add multicolor class dt bindings
+ documention
+Message-ID: <20200604125111.GA7222@duo.ucw.cz>
+References: <20200526164652.2331-1-dmurphy@ti.com>
+ <20200526164652.2331-2-dmurphy@ti.com>
+ <20200527014902.GA859634@bogus>
+ <20200527133948.GA5011@amd>
+ <CAL_Jsq+rS=awLC_maPGjeWhh1Sb9U31xfvLecVe9sPTh83eDBw@mail.gmail.com>
+ <20200602200436.GA6535@amd>
+ <CAL_JsqLaycpi4EtXK-7GV49fm0GbPmPsrNwz2WSBFFO_zdQG0Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="nFreZHaLTZJo0R7j"
+        protocol="application/pgp-signature"; boundary="envbJBWh7q8WU6mo"
 Content-Disposition: inline
+In-Reply-To: <CAL_JsqLaycpi4EtXK-7GV49fm0GbPmPsrNwz2WSBFFO_zdQG0Q@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -31,94 +43,63 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---nFreZHaLTZJo0R7j
+--envbJBWh7q8WU6mo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
+On Tue 2020-06-02 15:44:32, Rob Herring wrote:
+> On Tue, Jun 2, 2020 at 2:04 PM Pavel Machek <pavel@ucw.cz> wrote:
+> >
+> > On Wed 2020-05-27 08:35:06, Rob Herring wrote:
+> > > On Wed, May 27, 2020 at 7:39 AM Pavel Machek <pavel@ucw.cz> wrote:
+> > > >
+> > > > Hi!
+> > > >
+> > > > Thanks for reviews!
+> > > >
+> > > > > > +additionalProperties: false
+> > > > > > +...
+> > > > > > diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+> > > > >
+> > > > > This isn't a binding file. Belongs in another patch.
+> > > >
+> > > > These constants are directly related to the binding. It makes sense=
+ to
+> > > > go in one patch...
+> > >
+> > > Yes, the header does go in this patch, but kernel subsystem files do =
+not.
+> > >
+> > > Part of the reason for separating is we generate a DT only repository
+> > > which filters out all the kernel code. Ideally this is just filtering
+> > > out commits and the commit messages still make sens
+> >
+> > Well, but the patch can't be split like that. Otherwise we risk null
+> > pointer dereferences when one part is applied but not the second one.
+>=20
+> There's no risk because you are supposed to apply both patches. I
+> don't apply binding patches that are a part of a series like this.
 
-  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+Yes, this is always guaranteed to happen, because "git bisect"
+understand patch series. Oh, wait.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
-leds-5.8-rc1
-
-for you to fetch changes up to 59ea3c9faf3235b66bc31ca883d59ce58b8b2b27:
-
-  leds: add aw2013 driver (2020-05-25 12:56:39 +0200)
-
-----------------------------------------------------------------
-LEDs pull request for 5.8-rc1.
-
-New drivers: aw2013, sgm3140, ariel, and some fixes. Nothing much to
-see here, next release should be more interesting.
-
-----------------------------------------------------------------
-Colin Ian King (1):
-      leds: trigger: remove redundant assignment to variable ret
-
-Denis Osterland-Heim (1):
-      leds: pwm: check result of led_pwm_set() in led_pwm_add()
-
-Linus Walleij (5):
-      leds: lm355x: Drop surplus include
-      leds: lp3952: Include the right header
-      leds: lt3593: Drop surplus include
-      leds: tca6507: Include the right header
-      leds: netxbig: Convert to use GPIO descriptors
-
-Lubomir Rintel (1):
-      leds: ariel: Add driver for status LEDs on Dell Wyse 3020
-
-Luca Weiss (2):
-      dt-bindings: leds: Add binding for sgm3140
-      leds: add sgm3140 driver
-
-Nikita Travkin (2):
-      dt-bindings: leds: Add binding for aw2013
-      leds: add aw2013 driver
-
-Tomi Valkeinen (1):
-      leds: tlc591xxt: hide error on EPROBE_DEFER
-
- .../devicetree/bindings/leds/leds-aw2013.yaml      |  91 +++++
- .../devicetree/bindings/leds/leds-sgm3140.yaml     |  62 +++
- drivers/leds/Kconfig                               |  29 ++
- drivers/leds/Makefile                              |   3 +
- drivers/leds/leds-ariel.c                          | 133 +++++++
- drivers/leds/leds-aw2013.c                         | 436 +++++++++++++++++=
-++++
- drivers/leds/leds-lm355x.c                         |   1 -
- drivers/leds/leds-lp3952.c                         |   2 +-
- drivers/leds/leds-lt3593.c                         |   1 -
- drivers/leds/leds-netxbig.c                        | 148 +++----
- drivers/leds/leds-pwm.c                            |  16 +-
- drivers/leds/leds-sgm3140.c                        | 320 +++++++++++++++
- drivers/leds/leds-tca6507.c                        |   2 +-
- drivers/leds/leds-tlc591xx.c                       |   5 +-
- drivers/leds/trigger/ledtrig-timer.c               |   4 +-
- 15 files changed, 1173 insertions(+), 80 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/leds/leds-aw2013.yaml
- create mode 100644 Documentation/devicetree/bindings/leds/leds-sgm3140.yaml
- create mode 100644 drivers/leds/leds-ariel.c
- create mode 100644 drivers/leds/leds-aw2013.c
- create mode 100644 drivers/leds/leds-sgm3140.c
+Patches are supposed to be correct on their own. If your repository
+filtering can not handle that, you need to fix that...
 
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---nFreZHaLTZJo0R7j
+--envbJBWh7q8WU6mo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXtjmuQAKCRAw5/Bqldv6
-8u48AJ47Nco4fZbvtuQJwKDHcNHcgKOSRwCgtQoaxP2tbH7XobuH4CGyLtEFCNY=
-=Asf1
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXtjuPwAKCRAw5/Bqldv6
+8jSDAJoC/expAKsQ5LCTCYIQ6CmDKUaorQCfduMu1F4bMFrldhHCCKp48N1qVy4=
+=Hk8c
 -----END PGP SIGNATURE-----
 
---nFreZHaLTZJo0R7j--
+--envbJBWh7q8WU6mo--
