@@ -2,48 +2,46 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FF051EE3EB
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Jun 2020 14:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02E091EE3ED
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Jun 2020 14:05:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728176AbgFDMFs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 4 Jun 2020 08:05:48 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:49260 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728016AbgFDMFr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Jun 2020 08:05:47 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 054C5h5X130093;
-        Thu, 4 Jun 2020 07:05:43 -0500
+        id S1728265AbgFDMFw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 4 Jun 2020 08:05:52 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:58272 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728262AbgFDMFw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Jun 2020 08:05:52 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 054C5neL052185;
+        Thu, 4 Jun 2020 07:05:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1591272343;
-        bh=EWxQOTdquKiGXVbUW++vKLogUoZ+htBApj2/SlPCfN4=;
+        s=ti-com-17Q1; t=1591272349;
+        bh=V2VikCqHW+vjr+5pGiSTht8WRqjdCKy+EM301kkEwzI=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=guJr0YSTMe/2v7IY+lvLxGyZ8fmyK6u8l4nMxk3sgURiUicgFV/QBJ0nmkyAvap+J
-         UaKn9W0qEMe/ICBJHQOLWZs1XNP7XvKTJnmVoeSPuz3a8svvxnGBeoZWbKIEhmc77S
-         HM3Eraccjzkb30D103TMdwcQdPE73jAjYKpJM1YU=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 054C5hG2035893
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 4 Jun 2020 07:05:43 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+        b=yZCvDeSwRD+L9Iq47qmvZRpTIzG9d6Eq2oB7XTMVpo+KRUILkshzHbTEYeP4X2PdT
+         rDdFkStd8JoONABmxRrZC813eIpIyTqqAbRW6gR6hP0bDMy/ySA2XHC4jeBuKk1kcp
+         p4dKC0/L7hdL/PGiMbER0GWvCUtOR9AxgjOr5pSE=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 054C5nLb059358;
+        Thu, 4 Jun 2020 07:05:49 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 4 Jun
- 2020 07:05:43 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 07:05:48 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 4 Jun 2020 07:05:43 -0500
+ Frontend Transport; Thu, 4 Jun 2020 07:05:48 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 054C5hNj015782;
-        Thu, 4 Jun 2020 07:05:43 -0500
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 054C5mqQ066049;
+        Thu, 4 Jun 2020 07:05:48 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
 CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v26 01/15] dt: bindings: Add multicolor class dt bindings documention
-Date:   Thu, 4 Jun 2020 07:04:50 -0500
-Message-ID: <20200604120504.32425-2-dmurphy@ti.com>
+        <linux-kernel@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
+Subject: [PATCH v26 02/15] leds: Add multicolor ID to the color ID list
+Date:   Thu, 4 Jun 2020 07:04:51 -0500
+Message-ID: <20200604120504.32425-3-dmurphy@ti.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200604120504.32425-1-dmurphy@ti.com>
 References: <20200604120504.32425-1-dmurphy@ti.com>
@@ -56,78 +54,27 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add DT bindings for the LEDs multicolor class framework.
-Add multicolor ID to the color ID list for device tree bindings.
+Add a new color ID that is declared as MULTICOLOR as with the
+multicolor framework declaring a definitive color is not accurate
+as the node can contain multiple colors.
 
-CC: Rob Herring <robh@kernel.org>
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Signed-off-by: Dan Murphy <dmurphy@ti.com>
 ---
- .../bindings/leds/leds-class-multicolor.yaml  | 39 +++++++++++++++++++
- include/dt-bindings/leds/common.h             |  3 +-
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+ drivers/leds/led-core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-new file mode 100644
-index 000000000000..6cab2a1405e1
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-@@ -0,0 +1,39 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/leds-class-multicolor.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Common properties for the multicolor LED class.
-+
-+maintainers:
-+  - Dan Murphy <dmurphy@ti.com>
-+
-+description: |
-+  Bindings for multi color LEDs show how to describe current outputs of
-+  either integrated multi-color LED elements (like RGB, RGBW, RGBWA-UV
-+  etc.) or standalone LEDs, to achieve logically grouped multi-color LED
-+  modules. This is achieved by adding multi-led nodes layer to the
-+  monochrome LED bindings.
-+  The nodes and properties defined in this document are unique to the multicolor
-+  LED class.  Common LED nodes and properties are inherited from the common.txt
-+  within this documentation directory.
-+
-+patternProperties:
-+  "^multi-led@([0-9a-f])$":
-+    type: object
-+    description: Represents the LEDs that are to be grouped.
-+    properties:
-+      #allOf:
-+        #- $ref: "common.yaml#"
-+
-+      color:
-+        $ref: /schemas/types.yaml#definitions/uint32
-+        const: 8  # LED_COLOR_ID_MULTI
-+        description: |
-+          For multicolor LED support this property should be defined as
-+          LED_COLOR_ID_MULTI which can be found in include/linux/leds/common.h.
-+
-+    required:
-+      - color
-+...
-diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-index 0ce7dfc00dcb..a463ce6a8794 100644
---- a/include/dt-bindings/leds/common.h
-+++ b/include/dt-bindings/leds/common.h
-@@ -30,7 +30,8 @@
- #define LED_COLOR_ID_VIOLET	5
- #define LED_COLOR_ID_YELLOW	6
- #define LED_COLOR_ID_IR		7
--#define LED_COLOR_ID_MAX	8
-+#define LED_COLOR_ID_MULTI	8
-+#define LED_COLOR_ID_MAX	9
+diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+index f1f718dbe0f8..846248a0693d 100644
+--- a/drivers/leds/led-core.c
++++ b/drivers/leds/led-core.c
+@@ -34,6 +34,7 @@ const char * const led_colors[LED_COLOR_ID_MAX] = {
+ 	[LED_COLOR_ID_VIOLET] = "violet",
+ 	[LED_COLOR_ID_YELLOW] = "yellow",
+ 	[LED_COLOR_ID_IR] = "ir",
++	[LED_COLOR_ID_MULTI] = "multicolor",
+ };
+ EXPORT_SYMBOL_GPL(led_colors);
  
- /* Standard LED functions */
- /* Keyboard LEDs, usually it would be input4::capslock etc. */
 -- 
 2.26.2
 
