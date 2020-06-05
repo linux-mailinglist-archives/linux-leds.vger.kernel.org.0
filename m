@@ -2,76 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28AAD1EEEA2
-	for <lists+linux-leds@lfdr.de>; Fri,  5 Jun 2020 02:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 326E01EF712
+	for <lists+linux-leds@lfdr.de>; Fri,  5 Jun 2020 14:11:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726021AbgFEAIN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 4 Jun 2020 20:08:13 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:47892 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725986AbgFEAIM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Jun 2020 20:08:12 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 055087U2054849;
-        Thu, 4 Jun 2020 19:08:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1591315687;
-        bh=++12NsWfNAE1WdHSBzqK4FR7Dn3ydGwcqrGJYz2e2pI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=ACbAsT+1VauWyX7TcES5XowHiveifLsXSMcDqCckGEUYvxmW2pjsrqvGLz0ePXL5s
-         Kc3qm4r7syRvoWJ+98LRzfQIK26v7ukfAZp184uSMYt5zULQWJfxyigPN9qxXfImcX
-         LOgN3N9ClRBl8f/BvNBMdQYtTCDfUMFsukqyehy0=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 055087F3015042
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 4 Jun 2020 19:08:07 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 4 Jun
- 2020 19:08:07 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 4 Jun 2020 19:08:07 -0500
-Received: from [10.250.52.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 055086gQ023905;
-        Thu, 4 Jun 2020 19:08:07 -0500
-Subject: Re: [PATCH v26 06/15] dt-bindings: leds: Convert leds-lp55xx to yaml
+        id S1726482AbgFEMLV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 5 Jun 2020 08:11:21 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:48862 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbgFEMLU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 5 Jun 2020 08:11:20 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 3A9011C0BD2; Fri,  5 Jun 2020 14:11:19 +0200 (CEST)
+Date:   Fri, 5 Jun 2020 14:11:18 +0200
+From:   Pavel Machek <pavel@ucw.cz>
 To:     Rob Herring <robh@kernel.org>
-CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200604120504.32425-1-dmurphy@ti.com>
- <20200604120504.32425-7-dmurphy@ti.com> <20200604230456.GA6520@bogus>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <f8d648cc-9ff6-33a7-6da9-300a6b5b7d1c@ti.com>
-Date:   Thu, 4 Jun 2020 19:08:06 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Cc:     Dan Murphy <dmurphy@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v25 01/16] dt: bindings: Add multicolor class dt bindings
+ documention
+Message-ID: <20200605121118.GC31680@duo.ucw.cz>
+References: <20200526164652.2331-1-dmurphy@ti.com>
+ <20200526164652.2331-2-dmurphy@ti.com>
+ <20200527014902.GA859634@bogus>
+ <20200527133948.GA5011@amd>
+ <CAL_Jsq+rS=awLC_maPGjeWhh1Sb9U31xfvLecVe9sPTh83eDBw@mail.gmail.com>
+ <20200602200436.GA6535@amd>
+ <CAL_JsqLaycpi4EtXK-7GV49fm0GbPmPsrNwz2WSBFFO_zdQG0Q@mail.gmail.com>
+ <20200604125111.GA7222@duo.ucw.cz>
+ <CAL_JsqJ1XOYXyqj_VO2cFigVT=k5NTX3BO6RsDqQ-+pDBNJsrw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200604230456.GA6520@bogus>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="i7F3eY7HS/tUJxUd"
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqJ1XOYXyqj_VO2cFigVT=k5NTX3BO6RsDqQ-+pDBNJsrw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Rob
 
-On 6/4/20 6:04 PM, Rob Herring wrote:
-> On Thu, Jun 04, 2020 at 07:04:55AM -0500, Dan Murphy wrote:
->> Convert the leds-lp55xx.txt to yaml binding.
+--i7F3eY7HS/tUJxUd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I will fix all your comments.
 
-But why does your BOT have checkpatch warnings?
+> > > There's no risk because you are supposed to apply both patches. I
+> > > don't apply binding patches that are a part of a series like this.
+> >
+> > Yes, this is always guaranteed to happen, because "git bisect"
+> > understand patch series. Oh, wait.
+>=20
+> What!? If the binding patch with the header comes first, how would
+> bisect build the driver change without the header?
 
-https://gitlab.com/robherring/linux-dt-review/-/jobs/581282098/artifacts/file/checkpatch-1303471.log
+The driver is already in tree, and includes array of strings. When you
+change the define, you need to update the array, too, because you
+don't want to have invalid value in there.
 
-Is this because checkpatch thinks the .txt file is invalid?
+> > Patches are supposed to be correct on their own. If your repository
+> > filtering can not handle that, you need to fix that...
+>=20
+> I'm just asking you to follow the process that *everyone* else is
+> following and works. It's not really about the repository filtering.
+> That doesn't care. A binding ABI is defined by the schema and any
+> defines it has. That is the logical unit that stands on its own.
 
-Dan
+It does not work in this case.
 
+Best regards,
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--i7F3eY7HS/tUJxUd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXto2ZgAKCRAw5/Bqldv6
+8rBGAKCkPxiODKIJjKg68MpWT85olQkZqACgqZJOnmhVx7xwFXtkwTDiHMAe8mM=
+=vUEk
+-----END PGP SIGNATURE-----
+
+--i7F3eY7HS/tUJxUd--
