@@ -2,176 +2,123 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 070A71F07F2
-	for <lists+linux-leds@lfdr.de>; Sat,  6 Jun 2020 18:39:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62BAC1F086D
+	for <lists+linux-leds@lfdr.de>; Sat,  6 Jun 2020 21:59:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728714AbgFFQjQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 6 Jun 2020 12:39:16 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:52184 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727989AbgFFQjQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 6 Jun 2020 12:39:16 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 056GdAlG058684;
-        Sat, 6 Jun 2020 11:39:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1591461550;
-        bh=Ugkz7GYUu48jS3AIMTbMtgHcCWZimFbSV4I8Cr+DtBg=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=BU0izaRHATiWN35Wg2Df2Ox5hCwcgza3HRm5z2lGMOQc+netXofbEZICjHLhevZ+R
-         HLi1/pIPXWNWMjCDSYN++udPRbsyzF2lf9+5lPNwmZYI8JgC86MXRTJCqTQuwvRlJi
-         zijc/ZlmuluC4A8WxNxTclprd8QZ1p85SYF7NOeo=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 056GdA1g080324
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 6 Jun 2020 11:39:10 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Sat, 6 Jun
- 2020 11:39:10 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Sat, 6 Jun 2020 11:39:10 -0500
-Received: from [10.250.52.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 056Gd9Bv041871;
-        Sat, 6 Jun 2020 11:39:10 -0500
+        id S1728432AbgFFT7m (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 6 Jun 2020 15:59:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728229AbgFFT7l (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 6 Jun 2020 15:59:41 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38B64C03E96A;
+        Sat,  6 Jun 2020 12:59:41 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id k11so13896714ejr.9;
+        Sat, 06 Jun 2020 12:59:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=n5XWxTbu49klTKh2OV1xwSrup891qcSS3M98k2q6wzs=;
+        b=bSGIPCGFYpQplqdBDclrszoeF5pyhcx6S+wIRfcQu/G4/SFH80rDHzkwmphCDZ6UFO
+         m01JiC8oKBG8tGDEVHlbV2efJOLblFM+rMVn7GwbM8XdnGHflCJtCXR3OSjy3HegQ/4A
+         Jsqn0+nmWUDhqmAuZoX/p749Bint1svFLDUaDQarA8WSiddXJgj+lwJJP3siqfhp5v51
+         FaRKnlAV9GmiZVG/CpeRJ8FEkMnIN9HKeeTZMq5rj4UP2Rvr2KWGLEN2M9XgyErxch7G
+         UtY+oinumc93T8wm2lD1niYj7yivi6oTUEG7fM5Quz68ah0BY8NOc1MWAqVGIT7iM26B
+         +UTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=n5XWxTbu49klTKh2OV1xwSrup891qcSS3M98k2q6wzs=;
+        b=buZOWWJc/h2oYzO/oDX8oh6gzvgX2d0ofX5NkqPl9sS6xZ1TW6FVvZAHwrlz2hyblc
+         fnf6qtJrjQy/DAA//a/1BjcYm0PT+lGU6RxevQPkztxaznuflKK27VJdNPa3g6xpgTsg
+         fEcCZ33IrhWS0REorZEAi3DtNXT+ogBEQh3K9xhCp+LWKm3LJ5Pfp9ksKGXVYz7K8thZ
+         /WSfrVxeW/+bn/ffDUFYRepv2szIxl6U+8C+Qz4J+psvSvJIrHf0QEtA65WFERWCgcqy
+         /EpvTZ0hhpGeVGJMDjRvWIjn9XTX4FnuelulAkdn6z8fe1v+o57rtTjpZzNwYWI+MUXD
+         RtbQ==
+X-Gm-Message-State: AOAM530ur93Rk8ld3PXRlXXU3vEDAvJvLm2R32bfTue1UPeiu2a72GV7
+        ceP6DWjyQWkG2yDnpacy+BGLxtXL
+X-Google-Smtp-Source: ABdhPJwXMA7ZLUaMLk1avqpZMTY4TtEV3VlReQVsStdY4Z2Tyn0cFunI//SB1V20iNokJijzxpQZfg==
+X-Received: by 2002:a17:907:4096:: with SMTP id nm6mr14445477ejb.4.1591473579565;
+        Sat, 06 Jun 2020 12:59:39 -0700 (PDT)
+Received: from ?IPv6:2a01:110f:b59:fd00:e442:880b:6e2c:2ebd? ([2a01:110f:b59:fd00:e442:880b:6e2c:2ebd])
+        by smtp.gmail.com with ESMTPSA id cd17sm6726607ejb.115.2020.06.06.12.59.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 Jun 2020 12:59:38 -0700 (PDT)
 Subject: Re: [PATCH v26 03/15] leds: multicolor: Introduce a multicolor class
  definition
-To:     Pavel Machek <pavel@ucw.cz>
-CC:     <jacek.anaszewski@gmail.com>, <devicetree@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To:     Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>
+Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 References: <20200604120504.32425-1-dmurphy@ti.com>
  <20200604120504.32425-4-dmurphy@ti.com> <20200606155324.GA21130@amd>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <92d71058-a75b-fd3f-59b1-5133be1c21b5@ti.com>
-Date:   Sat, 6 Jun 2020 11:39:09 -0500
+ <92d71058-a75b-fd3f-59b1-5133be1c21b5@ti.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <a8cb3d33-7a7d-82ee-e598-0f48368677cd@gmail.com>
+Date:   Sat, 6 Jun 2020 21:59:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200606155324.GA21130@amd>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <92d71058-a75b-fd3f-59b1-5133be1c21b5@ti.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavek
+Dan,
 
-Thanks for the review
-
-On 6/6/20 10:53 AM, Pavel Machek wrote:
-> Hi!
->
->> Introduce a multicolor class that groups colored LEDs
->> within a LED node.
+On 6/6/20 6:39 PM, Dan Murphy wrote:
+> Pavek
+> 
+> Thanks for the review
+> 
+> On 6/6/20 10:53 AM, Pavel Machek wrote:
+>> Hi!
 >>
->> The multi color class groups monochrome LEDs and allows controlling two
->> aspects of the final combined color: hue and lightness. The former is
->> controlled via the intensity file and the latter is controlled
->> via brightness file.
->>
->> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
->> new file mode 100644
->> index 000000000000..7d33a82a4b07
->> --- /dev/null
->> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
->> @@ -0,0 +1,34 @@
->> +What:		/sys/class/leds/<led>/brightness
->> +Date:		March 2020
->> +KernelVersion:	5.8
->> +Contact:	Dan Murphy <dmurphy@ti.com>
->> +Description:	read/write
->> +		Writing to this file will update all LEDs within the group to a
->> +		calculated percentage of what each color LED intensity is set
->> +		to. The percentage is calculated for each grouped LED via the
->> +		equation below:
->> +		led_brightness = brightness * multi_intensity/max_brightness
->> +
->> +		For additional details please refer to
->> +		Documentation/leds/leds-class-multicolor.rst.
->> +
->> +		The value of the color is from 0 to
->> +		/sys/class/leds/<led>/max_brightness.
-> It is not too clear to me what "color" means here.
->
-> It would be worth mentioning that this is single integer.
+>>> Introduce a multicolor class that groups colored LEDs
+>>> within a LED node.
+>>>
+>>> The multi color class groups monochrome LEDs and allows controlling two
+>>> aspects of the final combined color: hue and lightness. The former is
+>>> controlled via the intensity file and the latter is controlled
+>>> via brightness file.
+>>>
+>>> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>>> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor 
+>>> b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>>> new file mode 100644
+[...]
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -9533,6 +9533,14 @@ F:    Documentation/devicetree/bindings/leds/
+>>>   F:    drivers/leds/
+>>>   F:    include/linux/leds.h
+>>> +LED MULTICOLOR FRAMEWORK
+>>> +M:    Dan Murphy <dmurphy@ti.com>
+>>> +L:    linux-leds@vger.kernel.org
+>> I'd like to be mentioned here, too. "M: Pavel Machek
+>> <pavel@ucw.cz>". And I'm not sure if I should be taking MAINTAINER
+>> file update through a LED tree. Should definitely go to separate
+>> patch.
+> 
+> Oh definitely.  I thought it was implied that you and Jacek are both 
+> Maintainers as well.
+> 
+> I will add you but will wait to see if Jacek wants to be added.
 
-OK I will update this
+Actually I don't think that we need to add this separate entry
+for LED multicolor class. This is still under LED subsystem,
+and I didn't add anything for LED class flash.
 
+> I will separate this out and make it a separate patch
 
->> +What:		/sys/class/leds/<led>/multi_index
->> +Date:		March 2020
->> +KernelVersion:	5.8
->> +Contact:	Dan Murphy <dmurphy@ti.com>
->> +Description:	read
->> +		The multi_index array, when read, will output the LED colors
->> +		by name as they are indexed in the multi_intensity file.
-> This should specify that it is array of strings.
-
-Yeah this sounds better
-
-
->> +What:		/sys/class/leds/<led>/multi_intensity
->> +Date:		March 2020
->> +KernelVersion:	5.8
->> +Contact:	Dan Murphy <dmurphy@ti.com>
->> +Description:	read/write
->> +		Intensity level for the LED color within the array.
->> +		The intensities for each color must be entered based on the
->> +		multi_index array.
-> I'd mention here that it is array of integers, and what the maximum
-> values are.
-
-Same here.  I will indicate max value cannot exceed max_brightness
-
-But that was what the max_intensity file was for in prior patchsets.
-
->
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -9533,6 +9533,14 @@ F:	Documentation/devicetree/bindings/leds/
->>   F:	drivers/leds/
->>   F:	include/linux/leds.h
->>   
->> +LED MULTICOLOR FRAMEWORK
->> +M:	Dan Murphy <dmurphy@ti.com>
->> +L:	linux-leds@vger.kernel.org
-> I'd like to be mentioned here, too. "M: Pavel Machek
-> <pavel@ucw.cz>". And I'm not sure if I should be taking MAINTAINER
-> file update through a LED tree. Should definitely go to separate
-> patch.
-
-Oh definitely.  I thought it was implied that you and Jacek are both 
-Maintainers as well.
-
-I will add you but will wait to see if Jacek wants to be added.
-
-I will separate this out and make it a separate patch
-
-
->
->> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->> index 9cdc4cfc5d11..fe7d90d4fa23 100644
->> --- a/drivers/leds/Kconfig
->> +++ b/drivers/leds/Kconfig
->> @@ -30,6 +30,16 @@ config LEDS_CLASS_FLASH
->>   	  for the flash related features of a LED device. It can be built
->>   	  as a module.
->>   
->> +config LEDS_CLASS_MULTI_COLOR
->> +	tristate "LED MultiColor LED Class Support"
-> "LED MultiColor Class Support"
-
-OK.
-
-Dan
-
->
-> Best regards,
-> 									Pavel
+-- 
+Best regards,
+Jacek Anaszewski
