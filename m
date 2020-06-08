@@ -2,91 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44D851F1FB6
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Jun 2020 21:27:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17E5B1F2007
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Jun 2020 21:39:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726412AbgFHT1A (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Jun 2020 15:27:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60114 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726410AbgFHT07 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Jun 2020 15:26:59 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 840E1C08C5C2;
-        Mon,  8 Jun 2020 12:26:59 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id l27so19666331ejc.1;
-        Mon, 08 Jun 2020 12:26:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=D7Eyh5N8pfz8EauteHf9HhIuXtnavNBLFRX9oAYhLG4=;
-        b=Lvo87ggH0byI+EyFYeL9exdQR3LbVzsKH2h6PmUE+rmE+0e3M4YgFFl8VPqazKK0Y5
-         QHLle9/lo+oVZE8TnMD5Rrags132AHtHfLtuR8qSg4uR89DQ0wvk3RkNqFuOiRBp5vdL
-         e24zTkTdY8ypHG+/PdnOZAdS9/Er1utyS6kXgMlX2lczE7rhHQ/c/Dmy/GKmJOGJ/ZH6
-         ka+2UIz6KzumGzc5aVK3hQh1bMyyBLY3ojk/v1k7D4KzA2HQHtwt3KbZTtPKMACg+UJn
-         lD7GCJu+P1FPiMlRDTByodK46ElqiXysoOuqK1baFqbjsnhgWkwGU9Ua1kYaHL/m3rS8
-         AV/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=D7Eyh5N8pfz8EauteHf9HhIuXtnavNBLFRX9oAYhLG4=;
-        b=hHy8ezfIxxKu7xiojpxIRqtO0on1vVduYj3hWIDCvpt+1pUacaMAZab6EZ7qFz+IQm
-         GoACsdiy3fYrbyKuvYdVRrAYc0NxVIuHH+Qv9+UDRbwfbishvtplAbS/5rzYW60Z1MSs
-         Be9+tAwWf+5QcHWziPmOoxuC8h/OF4CG1PDMXq6xEnVGII0VrC606/vvjlqe19xev1uk
-         0pWpV10dzhxjyc6MV3r/S6zuuN3uOHUaiDTk8reu5iO68cPGrzEdnlsPz+JhsNwxA2BM
-         Dy2hWtkTF+bp9X+QQi7kdvFXGVuF9bZPFcuprJ8itimZJHhSpZi1HgZV617XjZd9y82X
-         B1dw==
-X-Gm-Message-State: AOAM530IWkcN40yuo/NFA2KNRMC6244qws8brj4Ii4VCNFWMm6L8xio9
-        J07p14k+FWk92CCKNPYpwsM=
-X-Google-Smtp-Source: ABdhPJzKdGR87+lnaQjbSaNUsM9U4WQQgOWNUnvPSebnC0vCrDe0wbhkME+OG2sOJY0cWuAAYJvXTA==
-X-Received: by 2002:a17:907:42d5:: with SMTP id ng5mr22394995ejb.164.1591644418324;
-        Mon, 08 Jun 2020 12:26:58 -0700 (PDT)
-Received: from ?IPv6:2a01:110f:b59:fd00:3c4b:24e0:3c3a:dc89? ([2a01:110f:b59:fd00:3c4b:24e0:3c3a:dc89])
-        by smtp.gmail.com with ESMTPSA id p13sm13051946edq.50.2020.06.08.12.26.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jun 2020 12:26:57 -0700 (PDT)
-Subject: Re: [PATCH v3 2/3] leds: pwm: add support for default-state device
- property
-To:     Denis Osterland-Heim <denis.osterland@diehl.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dmurphy@ti.com" <dmurphy@ti.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>
-References: <20200316124851.6303-1-Denis.Osterland@diehl.com>
- <20200316124851.6303-3-Denis.Osterland@diehl.com>
- <bee4d31f-1f00-c621-f93c-f49207e406d6@gmail.com>
- <e2835f58aead3ca85ad47e9769b393addcd19f2a.camel@diehl.com>
- <13d593fb-053e-c6de-3237-ec3b6d1c82c5@gmail.com>
- <278a6d81562d4642631fa003c59c4e4876050f54.camel@diehl.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <d1bfbe95-ca09-b1f4-0947-e06a7d29ef79@gmail.com>
-Date:   Mon, 8 Jun 2020 21:26:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1726537AbgFHTjc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Jun 2020 15:39:32 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:52688 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726406AbgFHTjb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Jun 2020 15:39:31 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 058JdOuJ007940;
+        Mon, 8 Jun 2020 14:39:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1591645164;
+        bh=p3el6r3iFT6tyZHvcT3VOEaphwFqZKjosskfvLkSjGk=;
+        h=From:To:CC:Subject:Date;
+        b=vEdlapUcZ/2jZ8g4lNgHQ5neWHy2f5C7YvL4i0o2stJLQcNd4EbHCHY8zrSDV3icb
+         mx363Y8nQwi0GgCtLDn8harxtX8o+W0IZscx8lALnmjwTxokRidCOTfdT0xTjtNk62
+         eN34AxThRFxkZXqugNaqLgUlDCqbZpLNnAbaAPhY=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 058JdOkj002245
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 8 Jun 2020 14:39:24 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 8 Jun
+ 2020 14:39:24 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 8 Jun 2020 14:39:24 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 058JdOZ1061651;
+        Mon, 8 Jun 2020 14:39:24 -0500
+From:   Dan Murphy <dmurphy@ti.com>
+To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
+CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
+Subject: [PATCH v27 00/15] Multicolor Framework v27
+Date:   Mon, 8 Jun 2020 14:39:02 -0500
+Message-ID: <20200608193917.13084-1-dmurphy@ti.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <278a6d81562d4642631fa003c59c4e4876050f54.camel@diehl.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Dennis,
+Hello
 
-On 6/8/20 8:32 AM, Denis Osterland-Heim wrote:
-> Hi Jacek,
-> 
-> is your ack still valid for the new versions of the patch-set?
-> Due to the changes I made, I am not sure.
+This is the multi color LED framework.   This framework presents clustered
+colored LEDs into an array and allows the user space to adjust the brightness
+of the cluster using a single file write.  The individual colored LEDs
+intensities are controlled via a single file that is an array of LEDs
 
-Yes, you can keep it.
+Dan
+
+Dan Murphy (15):
+  dt: bindings: Add multicolor class dt bindings documention
+  leds: Add multicolor ID to the color ID list
+  leds: multicolor: Introduce a multicolor class definition
+  dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers
+  leds: lp50xx: Add the LP50XX family of the RGB LED driver
+  dt-bindings: leds: Convert leds-lp55xx to yaml
+  ARM: dts: n900: Add reg property to the LP5523 channel node
+  ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node
+  ARM: dts: ste-href: Add reg property to the LP5521 channel nodes
+  leds: lp55xx: Convert LED class registration to devm_*
+  leds: lp55xx: Add multicolor framework support to lp55xx
+  leds: lp5523: Update the lp5523 code to add multicolor brightness
+    function
+  leds: lp5521: Add multicolor framework multicolor brightness support
+  leds: lp55xx: Fix file permissions to use DEVICE_ATTR macros
+  leds: lp5523: Fix various formatting issues in the code
+
+ .../ABI/testing/sysfs-class-led-multicolor    |  36 +
+ .../bindings/leds/leds-class-multicolor.yaml  |  37 +
+ .../devicetree/bindings/leds/leds-lp50xx.yaml | 130 +++
+ .../devicetree/bindings/leds/leds-lp55xx.txt  | 228 -----
+ .../devicetree/bindings/leds/leds-lp55xx.yaml | 218 +++++
+ Documentation/leds/index.rst                  |   1 +
+ Documentation/leds/leds-class-multicolor.rst  |  88 ++
+ arch/arm/boot/dts/imx6dl-yapp4-common.dtsi    |  14 +-
+ arch/arm/boot/dts/omap3-n900.dts              |  29 +-
+ arch/arm/boot/dts/ste-href.dtsi               |  22 +-
+ drivers/leds/Kconfig                          |  24 +
+ drivers/leds/Makefile                         |   2 +
+ drivers/leds/led-class-multicolor.c           | 210 +++++
+ drivers/leds/led-core.c                       |   1 +
+ drivers/leds/leds-lp50xx.c                    | 783 ++++++++++++++++++
+ drivers/leds/leds-lp5521.c                    |  43 +-
+ drivers/leds/leds-lp5523.c                    |  62 +-
+ drivers/leds/leds-lp5562.c                    |  22 +-
+ drivers/leds/leds-lp55xx-common.c             | 212 +++--
+ drivers/leds/leds-lp55xx-common.h             |  16 +-
+ drivers/leds/leds-lp8501.c                    |  23 +-
+ include/dt-bindings/leds/common.h             |   3 +-
+ include/linux/led-class-multicolor.h          | 121 +++
+ include/linux/platform_data/leds-lp55xx.h     |   8 +
+ 24 files changed, 1978 insertions(+), 355 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-lp55xx.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+ create mode 100644 Documentation/leds/leds-class-multicolor.rst
+ create mode 100644 drivers/leds/led-class-multicolor.c
+ create mode 100644 drivers/leds/leds-lp50xx.c
+ create mode 100644 include/linux/led-class-multicolor.h
 
 -- 
-Best regards,
-Jacek Anaszewski
+2.26.2
+
