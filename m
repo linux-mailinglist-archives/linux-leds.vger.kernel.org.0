@@ -2,127 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FD441F1B0C
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Jun 2020 16:34:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 069381F1E96
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Jun 2020 19:51:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729989AbgFHOeo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Jun 2020 10:34:44 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:54668 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729938AbgFHOeo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Jun 2020 10:34:44 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 058EYdI4052568;
-        Mon, 8 Jun 2020 09:34:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1591626879;
-        bh=IvroNvkykC8zcJI+F1zuPF8QbKPd7StRndcYgZ65grA=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=IuwnBwurWedFUz+osjjpcYVfPppVNah3HxmzdMBaf6znUGkgbkiiQvykLlLMdds2C
-         Izb00KhJJN3wYPHFpqiEtCYVNEAclTVrsquHlgoK4x+xy9nlS5ZL3asPGrQf7yXp1d
-         zyIS7uDOzvlBEmSBU3I67njqRnG2HsHFKt6vVn9A=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 058EYdFn115128
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 8 Jun 2020 09:34:39 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 8 Jun
- 2020 09:34:39 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 8 Jun 2020 09:34:39 -0500
-Received: from [10.250.52.63] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 058EYcOV027551;
-        Mon, 8 Jun 2020 09:34:38 -0500
-Subject: Re: [PATCH v26 03/15] leds: multicolor: Introduce a multicolor class
- definition
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200604120504.32425-1-dmurphy@ti.com>
- <20200604120504.32425-4-dmurphy@ti.com> <20200606155324.GA21130@amd>
- <92d71058-a75b-fd3f-59b1-5133be1c21b5@ti.com>
- <a8cb3d33-7a7d-82ee-e598-0f48368677cd@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <02cf192f-1948-74a5-f2ef-6c2146422ecb@ti.com>
-Date:   Mon, 8 Jun 2020 09:34:33 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1730464AbgFHRvM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Jun 2020 13:51:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41816 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726097AbgFHRvK (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 8 Jun 2020 13:51:10 -0400
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0F0CE20775;
+        Mon,  8 Jun 2020 17:51:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591638670;
+        bh=D3wXppTORQC+JC0dFtrdJuZe1H4pJQ8bCoTFA0U9esw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=s2AR2Yrg/tJxynRmYNFBC6UXPd8+EqR744bap35dWc+yAqhWlbSSNSqCkGx+KvwzN
+         Ae8CjtbPpIoe3NwZ6bCYWQ8n5Q8pblA8VuRdz23DNBuskDG1e7DZHNAA2tho0c9Pbt
+         XHHIZV4VahsfNehm/kKb4FtyB9oV+rZWgzUW9pLo=
+Received: by mail-ot1-f52.google.com with SMTP id 69so14373441otv.2;
+        Mon, 08 Jun 2020 10:51:10 -0700 (PDT)
+X-Gm-Message-State: AOAM532UNvwMZT22kcRKQeXo7GqU6iIhdMKoI2Tzx/Hp1l56NykAWT08
+        OekTuDRAQIQVjIi2UhqKbuz0gM/Io6uqul/puA==
+X-Google-Smtp-Source: ABdhPJxe0EkadgRIWouviW9EZkoWQwgnCT0eAlnT5eiamTIRGqJZGjSFGRHmq77px3PI9IxPj0Gq8fbQMt6pPNoMHBY=
+X-Received: by 2002:a05:6830:3104:: with SMTP id b4mr18915553ots.192.1591638669404;
+ Mon, 08 Jun 2020 10:51:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a8cb3d33-7a7d-82ee-e598-0f48368677cd@gmail.com>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200604120504.32425-1-dmurphy@ti.com> <20200604120504.32425-7-dmurphy@ti.com>
+ <20200604230456.GA6520@bogus> <f8d648cc-9ff6-33a7-6da9-300a6b5b7d1c@ti.com>
+In-Reply-To: <f8d648cc-9ff6-33a7-6da9-300a6b5b7d1c@ti.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 8 Jun 2020 11:50:57 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK6Wy1=T6vLn9dNd5tiK-_MdGcWEJWeJT8KCqqRXQ5eVw@mail.gmail.com>
+Message-ID: <CAL_JsqK6Wy1=T6vLn9dNd5tiK-_MdGcWEJWeJT8KCqqRXQ5eVw@mail.gmail.com>
+Subject: Re: [PATCH v26 06/15] dt-bindings: leds: Convert leds-lp55xx to yaml
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek
-
-On 6/6/20 2:59 PM, Jacek Anaszewski wrote:
-> Dan,
+On Thu, Jun 4, 2020 at 6:08 PM Dan Murphy <dmurphy@ti.com> wrote:
 >
-> On 6/6/20 6:39 PM, Dan Murphy wrote:
->> Pavek
->>
->> Thanks for the review
->>
->> On 6/6/20 10:53 AM, Pavel Machek wrote:
->>> Hi!
->>>
->>>> Introduce a multicolor class that groups colored LEDs
->>>> within a LED node.
->>>>
->>>> The multi color class groups monochrome LEDs and allows controlling 
->>>> two
->>>> aspects of the final combined color: hue and lightness. The former is
->>>> controlled via the intensity file and the latter is controlled
->>>> via brightness file.
->>>>
->>>> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
->>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
->>>> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor 
->>>> b/Documentation/ABI/testing/sysfs-class-led-multicolor
->>>> new file mode 100644
-> [...]
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -9533,6 +9533,14 @@ F: Documentation/devicetree/bindings/leds/
->>>>   F:    drivers/leds/
->>>>   F:    include/linux/leds.h
->>>> +LED MULTICOLOR FRAMEWORK
->>>> +M:    Dan Murphy <dmurphy@ti.com>
->>>> +L:    linux-leds@vger.kernel.org
->>> I'd like to be mentioned here, too. "M: Pavel Machek
->>> <pavel@ucw.cz>". And I'm not sure if I should be taking MAINTAINER
->>> file update through a LED tree. Should definitely go to separate
->>> patch.
->>
->> Oh definitely.  I thought it was implied that you and Jacek are both 
->> Maintainers as well.
->>
->> I will add you but will wait to see if Jacek wants to be added.
+> Rob
 >
-> Actually I don't think that we need to add this separate entry
-> for LED multicolor class. This is still under LED subsystem,
-> and I didn't add anything for LED class flash.
+> On 6/4/20 6:04 PM, Rob Herring wrote:
+> > On Thu, Jun 04, 2020 at 07:04:55AM -0500, Dan Murphy wrote:
+> >> Convert the leds-lp55xx.txt to yaml binding.
+>
+> I will fix all your comments.
+>
+> But why does your BOT have checkpatch warnings?
+>
+> https://gitlab.com/robherring/linux-dt-review/-/jobs/581282098/artifacts/file/checkpatch-1303471.log
+>
+> Is this because checkpatch thinks the .txt file is invalid?
 
-We only need this because I am not a maintainer of the LED flash class 
-or the LED class.
+Because there's a bug in checkpatch.pl on handling these conversion patches.
 
-But since I authored the code it only made sense to add me as a 
-maintainer for this specific class.
+checkpatch.pl runs mainly because it was easy for me to setup and get
+integrated into the patchwork checks.
 
-You are one of the maintainers of the LED subsystem and wrote the Flash 
-class so your maintainer ship is implied and you will be CC'd for all 
-patches.
-
-This will not be the case for the multi color class
-
-Dan
-
+Rob
