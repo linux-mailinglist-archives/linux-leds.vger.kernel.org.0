@@ -2,120 +2,145 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD9BC1F202A
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Jun 2020 21:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 542421F2037
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Jun 2020 21:41:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbgFHTkm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Jun 2020 15:40:42 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:35302 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726778AbgFHTkl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Jun 2020 15:40:41 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 058Jecvg004394;
-        Mon, 8 Jun 2020 14:40:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1591645238;
-        bh=4Fus+1STo6fJcdmND8htjDFw0u7LkR/zKPWh9+ob2Js=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=jgxBh18BRXNxtOVN+dkaLeVc0KgWztjTkxiSQoOL7RHSHMGGWjIDNkbTKRjeMyfcj
-         99YPZBkjsoHREymYny5s3zfzfYdPwCOjYS0GZVXamOB238k6bmZVM/+y4XZbj9RnV4
-         ueMZHzkGA46pI3VyLYUc1Ph2r1XWzUCU7dKvbyPU=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 058Jec0n030550
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 8 Jun 2020 14:40:38 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 8 Jun
- 2020 14:40:37 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 8 Jun 2020 14:40:37 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 058Jebog070894;
-        Mon, 8 Jun 2020 14:40:37 -0500
-From:   Dan Murphy <dmurphy@ti.com>
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>
-CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v27 15/15] leds: lp5523: Fix various formatting issues in the code
-Date:   Mon, 8 Jun 2020 14:39:17 -0500
-Message-ID: <20200608193917.13084-16-dmurphy@ti.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200608193917.13084-1-dmurphy@ti.com>
-References: <20200608193917.13084-1-dmurphy@ti.com>
+        id S1726490AbgFHTlX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Jun 2020 15:41:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34134 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726412AbgFHTlW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Jun 2020 15:41:22 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69CA7C08C5C2;
+        Mon,  8 Jun 2020 12:41:22 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id y13so19690997eju.2;
+        Mon, 08 Jun 2020 12:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=4kmZUeusJdNud0HCb7ueQ/Vi2HXEelB2QgLF2ZGR80w=;
+        b=VflLQYTMjXi/w5TxYoprAtKO2+ggHN6ZzZJIZjSu4dKlus3U6mZbG0vykZRnaFr9QZ
+         v6V52ODQHs//T7XU/5RviTxyyZTmK3MNXiB1c4hG/NlMWkrpbP4aweI4YHpklvGv7tWq
+         o5Kip+rTMG4MzO6dx3sSe0x3SqCEAYGDZdQ+G+uzosXwWaDFxTinA51TudEXGJKZgo57
+         gUIYxq7/cA/3Ma+xSfWLyr0dLsz6C5o9+/RKTd0T6sd5eNvXx1V0zMpZh0NkmgQXphAH
+         gcz3E4UFBFmB+wNuDhkQJP+1QgnYZ+UHKov3u2rfDqvjgZk3G/25KE26v2PoxLFQ9DuN
+         57Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=4kmZUeusJdNud0HCb7ueQ/Vi2HXEelB2QgLF2ZGR80w=;
+        b=ooVjcrfsZfr9nHdGydG7fObqP77123TL5TQfiApGN4jz3DfUE2+TMvbDSJr4dOPlzO
+         NJna3cs1LgRYayipvKsxnP0w6595y/LuZ/CfL66+k+WWz85IJ35m74NtsZR/M4V+eiy+
+         fBDDWG+D4oe4UpKsHsPR/XmHBtFmCpUgxP0g17Tb5mW/X/dFIacLBVnVKVV9WlrhHYct
+         8/8NUtF1KlbEyott7CahycplIhCR9WVpO8+AQtWGZyLfbw8gqkuaSlgpvk6wjJMz9UbA
+         2CqWhu7s4o320F7lnrHvDAmFmcB97ZNxquSo2ZBHKYEiwx7xIN+efvolaX6dxxOt8Q9c
+         IXVg==
+X-Gm-Message-State: AOAM532DrullY+tVmyosaXT3QHPEgU96p9QWCw9l8oNXdIRWNhbenMog
+        ha26kG0rsirxtSAT/FohhkyeF9Dx
+X-Google-Smtp-Source: ABdhPJwybXymJla3noiMugVepJec5T8PxwtZlWhFxWE+GECRjjdjDJSCaJQNQHklcg33FC+JgKasmA==
+X-Received: by 2002:a17:906:5617:: with SMTP id f23mr21049232ejq.331.1591645280784;
+        Mon, 08 Jun 2020 12:41:20 -0700 (PDT)
+Received: from ?IPv6:2a01:110f:b59:fd00:3c4b:24e0:3c3a:dc89? ([2a01:110f:b59:fd00:3c4b:24e0:3c3a:dc89])
+        by smtp.gmail.com with ESMTPSA id v7sm12948430edq.82.2020.06.08.12.41.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jun 2020 12:41:20 -0700 (PDT)
+Subject: Re: [PATCH v26 03/15] leds: multicolor: Introduce a multicolor class
+ definition
+To:     Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>
+Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200604120504.32425-1-dmurphy@ti.com>
+ <20200604120504.32425-4-dmurphy@ti.com> <20200606155324.GA21130@amd>
+ <92d71058-a75b-fd3f-59b1-5133be1c21b5@ti.com>
+ <a8cb3d33-7a7d-82ee-e598-0f48368677cd@gmail.com>
+ <02cf192f-1948-74a5-f2ef-6c2146422ecb@ti.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <5bb77966-70d7-3331-1487-bb2af1b4b755@gmail.com>
+Date:   Mon, 8 Jun 2020 21:41:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <02cf192f-1948-74a5-f2ef-6c2146422ecb@ti.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Fix checkpatch errors and warnings for the LP5523.c device
-driver.
+Dan,
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
----
- drivers/leds/leds-lp5523.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+On 6/8/20 4:34 PM, Dan Murphy wrote:
+> Jacek
+> 
+> On 6/6/20 2:59 PM, Jacek Anaszewski wrote:
+>> Dan,
+>>
+>> On 6/6/20 6:39 PM, Dan Murphy wrote:
+>>> Pavek
+>>>
+>>> Thanks for the review
+>>>
+>>> On 6/6/20 10:53 AM, Pavel Machek wrote:
+>>>> Hi!
+>>>>
+>>>>> Introduce a multicolor class that groups colored LEDs
+>>>>> within a LED node.
+>>>>>
+>>>>> The multi color class groups monochrome LEDs and allows controlling 
+>>>>> two
+>>>>> aspects of the final combined color: hue and lightness. The former is
+>>>>> controlled via the intensity file and the latter is controlled
+>>>>> via brightness file.
+>>>>>
+>>>>> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+>>>>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+>>>>> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor 
+>>>>> b/Documentation/ABI/testing/sysfs-class-led-multicolor
+>>>>> new file mode 100644
+>> [...]
+>>>>> --- a/MAINTAINERS
+>>>>> +++ b/MAINTAINERS
+>>>>> @@ -9533,6 +9533,14 @@ F: Documentation/devicetree/bindings/leds/
+>>>>>   F:    drivers/leds/
+>>>>>   F:    include/linux/leds.h
+>>>>> +LED MULTICOLOR FRAMEWORK
+>>>>> +M:    Dan Murphy <dmurphy@ti.com>
+>>>>> +L:    linux-leds@vger.kernel.org
+>>>> I'd like to be mentioned here, too. "M: Pavel Machek
+>>>> <pavel@ucw.cz>". And I'm not sure if I should be taking MAINTAINER
+>>>> file update through a LED tree. Should definitely go to separate
+>>>> patch.
+>>>
+>>> Oh definitely.  I thought it was implied that you and Jacek are both 
+>>> Maintainers as well.
+>>>
+>>> I will add you but will wait to see if Jacek wants to be added.
+>>
+>> Actually I don't think that we need to add this separate entry
+>> for LED multicolor class. This is still under LED subsystem,
+>> and I didn't add anything for LED class flash.
+> 
+> We only need this because I am not a maintainer of the LED flash class 
+> or the LED class.
+> 
+> But since I authored the code it only made sense to add me as a 
+> maintainer for this specific class.
+> 
+> You are one of the maintainers of the LED subsystem and wrote the Flash 
+> class so your maintainer ship is implied and you will be CC'd for all 
+> patches.
+> 
+> This will not be the case for the multi color class
 
-diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-index 9776dc72a764..f55d97258d5e 100644
---- a/drivers/leds/leds-lp5523.c
-+++ b/drivers/leds/leds-lp5523.c
-@@ -23,13 +23,13 @@
- 
- #define LP5523_PROGRAM_LENGTH		32	/* bytes */
- /* Memory is used like this:
--   0x00 engine 1 program
--   0x10 engine 2 program
--   0x20 engine 3 program
--   0x30 engine 1 muxing info
--   0x40 engine 2 muxing info
--   0x50 engine 3 muxing info
--*/
-+ * 0x00 engine 1 program
-+ * 0x10 engine 2 program
-+ * 0x20 engine 3 program
-+ * 0x30 engine 1 muxing info
-+ * 0x40 engine 2 muxing info
-+ * 0x50 engine 3 muxing info
-+ */
- #define LP5523_MAX_LEDS			9
- 
- /* Registers */
-@@ -326,7 +326,7 @@ static int lp5523_update_program_memory(struct lp55xx_chip *chip,
- 					const u8 *data, size_t size)
- {
- 	u8 pattern[LP5523_PROGRAM_LENGTH] = {0};
--	unsigned cmd;
-+	unsigned int cmd;
- 	char c[3];
- 	int nrchars;
- 	int ret;
-@@ -468,6 +468,7 @@ static int lp5523_mux_parse(const char *buf, u16 *mux, size_t len)
- static void lp5523_mux_to_array(u16 led_mux, char *array)
- {
- 	int i, pos = 0;
-+
- 	for (i = 0; i < LP5523_MAX_LEDS; i++)
- 		pos += sprintf(array + pos, "%x", LED_ACTIVE(led_mux, i));
- 
-@@ -506,7 +507,7 @@ static int lp5523_load_mux(struct lp55xx_chip *chip, u16 mux, int nr)
- 	if (ret)
- 		return ret;
- 
--	ret = lp55xx_write(chip, LP5523_REG_PROG_MEM , (u8)(mux >> 8));
-+	ret = lp55xx_write(chip, LP5523_REG_PROG_MEM, (u8)(mux >> 8));
- 	if (ret)
- 		return ret;
- 
+scripts/get_maintainer.pl returns yourself as well for LED drivers.
+But it's up to you.
+
 -- 
-2.26.2
-
+Best regards,
+Jacek Anaszewski
