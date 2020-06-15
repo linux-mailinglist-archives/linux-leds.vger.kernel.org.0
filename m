@@ -2,55 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CC371FA127
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Jun 2020 22:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D28141FA12C
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Jun 2020 22:16:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731495AbgFOUQb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 Jun 2020 16:16:31 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:51526 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731017AbgFOUQb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Jun 2020 16:16:31 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05FKGNmD094522;
-        Mon, 15 Jun 2020 15:16:23 -0500
+        id S1731518AbgFOUQm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 15 Jun 2020 16:16:42 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:47178 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731508AbgFOUQj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Jun 2020 16:16:39 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05FKGS8B080467;
+        Mon, 15 Jun 2020 15:16:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1592252183;
-        bh=8IVrLn2oGajwW9HenWpKeQ4KhS7i7iRwTrL7dy0Erd8=;
+        s=ti-com-17Q1; t=1592252188;
+        bh=Jf6MKK966/6Olzk1qJChUoSjiHhXr8OEtTXC2DBLRbo=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=qQJq5VzYKHHv+HEdl6Yg2NLYcBJcsk7lbpHS1xSH/n98uhy/XoAq+EhRw7pbSrUv0
-         J1UwQQkCQG8k6vo3/wPUkL43hDsDIYwXGFtVJoZqK5h3ZaBiENKEBLI8UwPZeWsOdT
-         yhaV/Y29FSIV28LhMebVa7my+wkajIz7opEzgYXU=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05FKGNow129440
+        b=OPeX0WDPoCVisPu3o/y93yW3hDauFWdISGd4N1VXUzyR8P6IAYIQ5qpW6jnuzazmp
+         2vYOHPkdXYp3wMVEKCGPwOd1WvxaWuqhh5e+/ClBeqSreNZZ5+/JHaxSwGRrA7c7uZ
+         k+RUj4Wro+soRRDgsDWBwwsmlstGo76GhLNK7BJ0=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05FKGST0086429
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 15 Jun 2020 15:16:23 -0500
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 15 Jun 2020 15:16:28 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 15
- Jun 2020 15:16:23 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2020 15:16:28 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 15 Jun 2020 15:16:23 -0500
+ Frontend Transport; Mon, 15 Jun 2020 15:16:28 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05FKGM9A015099;
-        Mon, 15 Jun 2020 15:16:22 -0500
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05FKGSLr075003;
+        Mon, 15 Jun 2020 15:16:28 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh@kernel.org>
 CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>,
-        Tony Lindgren <tony@atomide.com>,
-        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>
-Subject: [RESEND PATCH v27 07/15] ARM: dts: n900: Add reg property to the LP5523 channel node
-Date:   Mon, 15 Jun 2020 15:15:14 -0500
-Message-ID: <20200615201522.19677-8-dmurphy@ti.com>
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>
+Subject: [RESEND PATCH v27 08/15] ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node
+Date:   Mon, 15 Jun 2020 15:15:15 -0500
+Message-ID: <20200615201522.19677-9-dmurphy@ti.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200615201522.19677-1-dmurphy@ti.com>
 References: <20200615201522.19677-1-dmurphy@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -63,100 +66,58 @@ accommodation this allows the LEDs to be placed on any channel
 and allow designs to skip channels as opposed to requiring
 sequential order.
 
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
-Acked-by: Tony Lindgren <tony@atomide.com>
-CC: Tony Lindgren <tony@atomide.com>
-CC: "Benoît Cousson" <bcousson@baylibre.com>
 Acked-by: Pavel Machek <pavel@ucw.cz>
+Signed-off-by: Dan Murphy <dmurphy@ti.com>
+CC: Shawn Guo <shawnguo@kernel.org>
+CC: Sascha Hauer <s.hauer@pengutronix.de>
+CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+CC: Fabio Estevam <festevam@gmail.com>
+CC: NXP Linux Team <linux-imx@nxp.com>
 ---
- arch/arm/boot/dts/omap3-n900.dts | 29 ++++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
+ arch/arm/boot/dts/imx6dl-yapp4-common.dtsi | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/omap3-n900.dts b/arch/arm/boot/dts/omap3-n900.dts
-index 4089d97405c9..ebe93b06b4f7 100644
---- a/arch/arm/boot/dts/omap3-n900.dts
-+++ b/arch/arm/boot/dts/omap3-n900.dts
-@@ -618,63 +618,74 @@ indicator {
- 	};
- 
- 	lp5523: lp5523@32 {
+diff --git a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
+index 2b9423d55c37..77aa90640052 100644
+--- a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
++++ b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
+@@ -258,29 +258,35 @@ leds: led-controller@30 {
+ 		reg = <0x30>;
+ 		clock-mode = /bits/ 8 <1>;
+ 		status = "disabled";
 +		#address-cells = <1>;
 +		#size-cells = <0>;
- 		compatible = "national,lp5523";
- 		reg = <0x32>;
- 		clock-mode = /bits/ 8 <0>; /* LP55XX_CLOCK_AUTO */
- 		enable-gpio = <&gpio2 9 GPIO_ACTIVE_HIGH>; /* 41 */
  
 -		chan0 {
 +		chan@0 {
- 			chan-name = "lp5523:kb1";
- 			led-cur = /bits/ 8 <50>;
- 			max-cur = /bits/ 8 <100>;
+ 			chan-name = "R";
+ 			led-cur = /bits/ 8 <0x20>;
+ 			max-cur = /bits/ 8 <0x60>;
 +			reg = <0>;
  		};
  
 -		chan1 {
 +		chan@1 {
- 			chan-name = "lp5523:kb2";
- 			led-cur = /bits/ 8 <50>;
- 			max-cur = /bits/ 8 <100>;
+ 			chan-name = "G";
+ 			led-cur = /bits/ 8 <0x20>;
+ 			max-cur = /bits/ 8 <0x60>;
 +			reg = <1>;
  		};
  
 -		chan2 {
 +		chan@2 {
- 			chan-name = "lp5523:kb3";
- 			led-cur = /bits/ 8 <50>;
- 			max-cur = /bits/ 8 <100>;
+ 			chan-name = "B";
+ 			led-cur = /bits/ 8 <0x20>;
+ 			max-cur = /bits/ 8 <0x60>;
 +			reg = <2>;
  		};
  
 -		chan3 {
 +		chan@3 {
- 			chan-name = "lp5523:kb4";
- 			led-cur = /bits/ 8 <50>;
- 			max-cur = /bits/ 8 <100>;
+ 			chan-name = "W";
+ 			led-cur = /bits/ 8 <0x0>;
+ 			max-cur = /bits/ 8 <0x0>;
 +			reg = <3>;
- 		};
- 
--		chan4 {
-+		chan@4 {
- 			chan-name = "lp5523:b";
- 			led-cur = /bits/ 8 <50>;
- 			max-cur = /bits/ 8 <100>;
-+			reg = <4>;
- 		};
- 
--		chan5 {
-+		chan@5 {
- 			chan-name = "lp5523:g";
- 			led-cur = /bits/ 8 <50>;
- 			max-cur = /bits/ 8 <100>;
-+			reg = <5>;
- 		};
- 
--		chan6 {
-+		chan@6 {
- 			chan-name = "lp5523:r";
- 			led-cur = /bits/ 8 <50>;
- 			max-cur = /bits/ 8 <100>;
-+			reg = <6>;
- 		};
- 
--		chan7 {
-+		chan@7 {
- 			chan-name = "lp5523:kb5";
- 			led-cur = /bits/ 8 <50>;
- 			max-cur = /bits/ 8 <100>;
-+			reg = <7>;
- 		};
- 
--		chan8 {
-+		chan@8 {
- 			chan-name = "lp5523:kb6";
- 			led-cur = /bits/ 8 <50>;
- 			max-cur = /bits/ 8 <100>;
-+			reg = <8>;
  		};
  	};
  
