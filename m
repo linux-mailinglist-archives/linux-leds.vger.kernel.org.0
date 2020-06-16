@@ -2,48 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4A971FA442
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2020 01:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 846851FAEB2
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Jun 2020 12:54:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbgFOXga convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Mon, 15 Jun 2020 19:36:30 -0400
-Received: from mail.bnv.gob.ve ([201.249.200.115]:41372 "EHLO
-        correo.bnv.gob.ve" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726774AbgFOXg3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Jun 2020 19:36:29 -0400
-Received: from localhost (localhost.bnv.gob.ve [127.0.0.1])
-        by correo.bnv.gob.ve (Postfix) with ESMTP id 67E273633AA7;
-        Mon, 15 Jun 2020 17:55:09 -0400 (-04)
-Received: from correo.bnv.gob.ve ([127.0.0.1])
-        by localhost (correo.bnv.gob.ve [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id bDqahYJnknEw; Mon, 15 Jun 2020 17:55:09 -0400 (-04)
-Received: from localhost (localhost.bnv.gob.ve [127.0.0.1])
-        by correo.bnv.gob.ve (Postfix) with ESMTP id 0F1F93633AA9;
-        Mon, 15 Jun 2020 17:55:09 -0400 (-04)
-X-Virus-Scanned: amavisd-new at bnv.gob.ve
-Received: from correo.bnv.gob.ve ([127.0.0.1])
-        by localhost (correo.bnv.gob.ve [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id eJlmcY9OFcj3; Mon, 15 Jun 2020 17:55:09 -0400 (-04)
-Received: from [10.122.16.20] (unknown [105.12.7.63])
-        by correo.bnv.gob.ve (Postfix) with ESMTPSA id EB7B03633A85;
-        Mon, 15 Jun 2020 17:54:57 -0400 (-04)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1727966AbgFPKyk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Jun 2020 06:54:40 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:53754 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725901AbgFPKyj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Jun 2020 06:54:39 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id A00DE1C0BD2; Tue, 16 Jun 2020 12:54:38 +0200 (CEST)
+Date:   Tue, 16 Jun 2020 12:54:29 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v27 03/15] leds: multicolor: Introduce a multicolor class
+ definition
+Message-ID: <20200616105429.GI1718@bug>
+References: <20200608193917.13084-1-dmurphy@ti.com>
+ <20200608193917.13084-4-dmurphy@ti.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: donation of Euro 2,000,000.00.
-To:     Recipients <manuel@info.com>
-From:   "manuel franco" <manuel@info.com>
-Date:   Mon, 15 Jun 2020 23:54:49 +0200
-Reply-To: manuelfrancospende22@gmail.com
-Message-Id: <20200615215457.EB7B03633A85@correo.bnv.gob.ve>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200608193917.13084-4-dmurphy@ti.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-You have a donation of Euro 2,000,000.00.
+Hi!
 
-My name is Manuel Franco from the United States.
+> +static ssize_t multi_intensity_show(struct device *dev,
+> +			      struct device_attribute *intensity_attr,
+> +			      char *buf)
+> +{
+> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+> +	int len = 0;
+> +	int i;
+> +
+> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
+> +		len += sprintf(buf + len, "%d",
+> +			       mcled_cdev->subled_info[i].intensity);
+> +		if (i < mcled_cdev->num_colors)
+> +			len += sprintf(buf + len, " ");
 
-I won the America lottery worth $768 million and I am donating a portion of it to just 5 lucky people and a few Orphanage homes as a memorandum of goodwill to humanity.email: manuelfrancospende@gmail.com
+Always false, AFAICT.
+
+									Pavel
