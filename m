@@ -2,71 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BB4D2035CF
-	for <lists+linux-leds@lfdr.de>; Mon, 22 Jun 2020 13:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DB4020370E
+	for <lists+linux-leds@lfdr.de>; Mon, 22 Jun 2020 14:42:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727114AbgFVLhC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 22 Jun 2020 07:37:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58600 "EHLO
+        id S1727883AbgFVMmR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 22 Jun 2020 08:42:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727060AbgFVLhB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 22 Jun 2020 07:37:01 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C01C061794
-        for <linux-leds@vger.kernel.org>; Mon, 22 Jun 2020 04:37:01 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id k8so13363366edq.4
-        for <linux-leds@vger.kernel.org>; Mon, 22 Jun 2020 04:37:01 -0700 (PDT)
+        with ESMTP id S1727865AbgFVMmR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 22 Jun 2020 08:42:17 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1573FC061794;
+        Mon, 22 Jun 2020 05:42:17 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id m21so13478990eds.13;
+        Mon, 22 Jun 2020 05:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YpOLcl2gkuP01BkXaG4tX8g6bftSWcqdqux8r46eq2o=;
-        b=vh4E3GlSWXwDwCQXRBUI6iUCo9Jsvd6yH0CO1tFVMvFImhMCsrdCdk5UDz1YOIpAF4
-         BO2fA+ybpp/JQ/ucG5MPBPX+F8O6y3e47ldhPiMEY8gsukpgYg/ZgW332jzMyxXeWp+z
-         5z1Ru8WUUcAQKARBSAD3+2xxe9qC9zDKqwA+6RIdgpvPjko7F7LPN/gOoA0RXiawsYwx
-         BVTZ3rB19mHpHXpnZkuCYZ/wkxZl2rAAhoswNpcWiLF/1cIR+sqX59fQ/74I5mN7QqKI
-         wa7oGPe9ou2pLSFo1uJv2mdPgJrIvCgI11pfWbjPssztegA9lb+jwJibsFrvShO2roK+
-         vzGA==
+        bh=mu6VeqCASEiuhRz0q1C6CUsALhu2QbWsAKX0g1pGGUU=;
+        b=jvZM8CIuqTfTr4MeZm6B1/AEogjayZusgd+hj7/qJouomAjYB3w3DrtDzyAKVPIYg3
+         3p6mWhZaFR6e7FvOTdA3U3vaQnonCUUIGQOrkyFN8R6TuNVrJUDBvdVLYKOtOophsrhw
+         tTNc/yOkawmCdm6Xq9Xk/adjXBZsf838sp6sYtay6OB6/5ixJqfGqaOS1YH6OKfFZPqq
+         PM6Pd5cQZOQ2NcYPld+51Pht/9zFRIj0ATJXm6rrAf1pD/3vNo559mhA6jxVa3rd7Ndz
+         aq6OmgkDGcB8h+0khpz5nNjhIYgrq5M2W0iFeO2R2x0FE30V34M7lPZe8YtafWhQm3hk
+         whlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=YpOLcl2gkuP01BkXaG4tX8g6bftSWcqdqux8r46eq2o=;
-        b=qlWlkKUrVxxMOGKhN23kdpTccQaXELiv73wXGePxID9E88ZFFImH1zAQEjpri9AK3T
-         4VZHwaBO52NVw0xCV5fxC1OMLmGLsMfJE35Yur+ZbvM93OUzbKVq4aonEQr7IkzGdhtU
-         /Nh/Nxkfpjzcq19hUfk3eXDQ8PSgpW22a30KFD/kQFLG12PVufSFd9ex9Yisddk3E9Wi
-         TKsmWLDz3/J2lvCr499HhOT2g0u//gVX43hb2K64LUi8sz7U7yTM58TTSdpdXRkWof9A
-         iH41laCQAiQ0UHbiQeQtLPwu1gJvJueAsENsoTfcUEcIgo7y2YkOL5/T41aHJbr5MiNW
-         +xLQ==
-X-Gm-Message-State: AOAM531SB8KKfBPxhSCKt5if6OqeEUr5RSToSM/A6aKnraA4hepxOeTo
-        68T1M6Fnu2Zzvh0ImKypcAy/FQyT
-X-Google-Smtp-Source: ABdhPJyfPn9SIT1mtGE26p6Jk2g9rH9H6Isu1Cs4LvJ/9uV9WpJp9e4zuIoavFsGDSVcy2Euaq9LOQ==
-X-Received: by 2002:aa7:c41a:: with SMTP id j26mr16691096edq.13.1592825819653;
-        Mon, 22 Jun 2020 04:36:59 -0700 (PDT)
+        bh=mu6VeqCASEiuhRz0q1C6CUsALhu2QbWsAKX0g1pGGUU=;
+        b=duINeSkjh7X56o78AqghEHjWNcfFapDwVDF3o8F80nZ/IxG1VAExaMGTmO6Y3UMcok
+         Y1iZ/b3tt1EA1NrAPiJVNssdggAJZfzRdHuwso4DwZ5KO9LyoB754cLR2gPhRhCqQJLP
+         7CnPyFANrIzvO+LRawLfKafo+1AnxR/koeXT/WyiNNQAGiatDq02GesJDFe2+DDW1bXJ
+         MVw4UAW3b7C/p4frLEuLk13bgeJypCAlDM8jPQE2Db+30ly73VE8zgghz5T9Z8OzqmGV
+         mZLKJ10WfegfVsfNJEjik730IV6mYh9/3Ja3qHtXWvBdati2/jF5tcijsYcAxeTGvrgP
+         F7Rw==
+X-Gm-Message-State: AOAM53277/R36RJ9PX+ld8KXgIxHifHO3DbQEin51IzVM0H5SrgZdgxd
+        Mz4DXqqz+milS+TKFORdXKksiYlz
+X-Google-Smtp-Source: ABdhPJzYcPRPlpRsYl7rsf0f/iNrA1Mb1plSDGE+NtTXZ4dJzcXmeRsCf17s6Hosr6qbDeo5JoOatw==
+X-Received: by 2002:a50:e047:: with SMTP id g7mr2599254edl.290.1592829735416;
+        Mon, 22 Jun 2020 05:42:15 -0700 (PDT)
 Received: from ?IPv6:2a01:110f:b59:fd00:a1e8:1586:8683:3d86? ([2a01:110f:b59:fd00:a1e8:1586:8683:3d86])
-        by smtp.gmail.com with ESMTPSA id o7sm12727572edj.52.2020.06.22.04.36.56
+        by smtp.gmail.com with ESMTPSA id kt4sm2006231ejb.48.2020.06.22.05.42.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2020 04:36:58 -0700 (PDT)
-Subject: Re: Leds-gpio discarding the entries in /sys/class/leds : Linux
- 5.4.38
-To:     Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
-Cc:     pavel@ucw.cz, dmurphy@ti.com, linux-leds@vger.kernel.org
-References: <D70F5F6A-ECDB-41DE-AA3C-A2A93C9EC702@linux.vnet.ibm.com>
- <124c90ad-e239-d5e8-4c86-be96e7aa7c26@gmail.com>
- <6644A4B6-E6DA-413B-97CA-1E4D199D52CE@linux.vnet.ibm.com>
- <4b7e95e5-0889-1502-2f0b-796874f90083@gmail.com>
- <1084104E-3840-4BCE-A58F-8447DFC214FD@linux.vnet.ibm.com>
- <0391e655-d6ef-b459-0c8c-b65d232006c4@gmail.com>
- <C3359491-9196-466B-85FD-C85957F342DE@linux.vnet.ibm.com>
+        Mon, 22 Jun 2020 05:42:14 -0700 (PDT)
+Subject: Re: [RESEND PATCH v27 11/15] leds: lp55xx: Add multicolor framework
+ support to lp55xx
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <346b0a22-12ce-150c-a7a1-fb1d066a4c16@gmail.com>
-Date:   Mon, 22 Jun 2020 13:36:52 +0200
+To:     Dan Murphy <dmurphy@ti.com>, pavel@ucw.cz, robh@kernel.org
+Cc:     kbuild-all@lists.01.org, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200615201522.19677-12-dmurphy@ti.com>
+ <202006180032.JW0i39C6%lkp@intel.com>
+ <0a8a6f57-678d-b1b9-41e5-5e58c15cfe6b@ti.com>
+ <58ad7723-131f-6930-00d7-1144c993110c@gmail.com>
+ <fc1ae702-0734-973d-9e3c-22b8f8d5c873@ti.com>
+ <fc410dfb-70d1-1b8b-3b6d-0de1c6c84ec2@gmail.com>
+ <56823113-4875-4813-8627-84b0d1792391@ti.com>
+ <bd603f01-2c1b-6167-d88c-3895c1bfdf6c@gmail.com>
+ <fad98aa3-cec6-3cde-951f-fa2b57c26d03@gmail.com>
+ <04473d1d-5cd8-7d1f-7c5d-8d8b582df464@ti.com>
+ <1f5dd2f9-01c7-1f74-9b93-0ae2a6dac915@gmail.com>
+ <69c01524-c4a4-55c8-578e-24b26bc863b8@ti.com>
+ <52d2c06a-d4ab-b9b2-b1d3-d5f81780cd7f@gmail.com>
+Message-ID: <9a396176-c6e8-c403-df10-ee94ff5f0ebd@gmail.com>
+Date:   Mon, 22 Jun 2020 14:42:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <C3359491-9196-466B-85FD-C85957F342DE@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <52d2c06a-d4ab-b9b2-b1d3-d5f81780cd7f@gmail.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
@@ -74,151 +81,289 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 6/22/20 1:07 PM, Vishwanatha Subbanna wrote:
-> Hi Jacek,
+Dan,
+
+On 6/21/20 10:24 PM, Jacek Anaszewski wrote:
+> Dan,
 > 
->> On 22-Jun-2020, at 4:24 PM, Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
+> On 6/21/20 4:12 PM, Dan Murphy wrote:
+>> Jacek
 >>
->> Hi Vishwanatha,
->>
->> On 6/22/20 8:58 AM, Vishwanatha Subbanna wrote:
->>> Thank you very much Jacek.
->>>> On 22-Jun-2020, at 3:12 AM, Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
+>> On 6/19/20 5:10 PM, Jacek Anaszewski wrote:
+>>> Dan,
+>>>
+>>> On 6/19/20 6:35 PM, Dan Murphy wrote:
+>>>> Jacek
 >>>>
->>>> Hi Vishwanatha,
->>>>
->>>> On 6/20/20 7:25 PM, Vishwanatha Subbanna wrote:
->>>>> Hi Jacek,
->>>>> Thank you very much for the quick response. Greatly appreciate that.
->>>>
->>>> You're welcome.
->>>>
->>>>>> On 20-Jun-2020, at 3:27 AM, Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
+>>>> On 6/18/20 6:26 PM, Jacek Anaszewski wrote:
+>>>>> On 6/19/20 12:09 AM, Jacek Anaszewski wrote:
+>>>>>> Dan,
 >>>>>>
->>>>>> Hi Vishwanatha,
+>>>>>> On 6/18/20 11:44 PM, Dan Murphy wrote:
+>>>>>>> Jacek
+>>>>>>>
+>>>>>>> On 6/18/20 4:21 PM, Jacek Anaszewski wrote:
+>>>>>>>> Dan,
+>>>>>>>>
+>>>>>>>> On 6/18/20 12:33 AM, Dan Murphy wrote:
+>>>>>>>>> Jacek
+>>>>>>>>>
+>>>>>>>>> On 6/17/20 4:41 PM, Jacek Anaszewski wrote:
+>>>>>>>>>> Dan,
+>>>>>>>>>>
+>>>>>>>>>> On 6/17/20 9:22 PM, Dan Murphy wrote:
+>>>>>>>>>>> Pavel/Jacek
+>>>>>>>>>>>
+>>>>>>>>>>> On 6/17/20 11:28 AM, kernel test robot wrote:
+>>>>>>>>>>>> Hi Dan,
+>>>>>>>>>>>>
+>>>>>>>>>>>> I love your patch! Yet something to improve:
+>>>>>>>>>>>>
+>>>>>>>>>>>> [auto build test ERROR on pavel-linux-leds/for-next]
+>>>>>>>>>>>> [cannot apply to j.anaszewski-leds/for-next]
+>>>>>>>>>>>> [if your patch is applied to the wrong git tree, please drop 
+>>>>>>>>>>>> us a note to help
+>>>>>>>>>>>> improve the system. BTW, we also suggest to use '--base' 
+>>>>>>>>>>>> option to specify the
+>>>>>>>>>>>> base tree in git format-patch, please see 
+>>>>>>>>>>>> https://stackoverflow.com/a/37406982]
+>>>>>>>>>>>>
+>>>>>>>>>>>> url: 
+>>>>>>>>>>>> https://github.com/0day-ci/linux/commits/Dan-Murphy/Multicolor-Framework-v27/20200616-042217 
+>>>>>>>>>>>>
+>>>>>>>>>>>> base: 
+>>>>>>>>>>>> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git 
+>>>>>>>>>>>> for-next
+>>>>>>>>>>>> config: ia64-randconfig-r015-20200617 (attached as .config)
+>>>>>>>>>>>> compiler: ia64-linux-gcc (GCC) 9.3.0
+>>>>>>>>>>>> reproduce (this is a W=1 build):
+>>>>>>>>>>>>          wget 
+>>>>>>>>>>>> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross 
+>>>>>>>>>>>> -O ~/bin/make.cross
+>>>>>>>>>>>>          chmod +x ~/bin/make.cross
+>>>>>>>>>>>>          # save the attached .config to linux build tree
+>>>>>>>>>>>>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 
+>>>>>>>>>>>> make.cross ARCH=ia64
+>>>>>>>>>>>>
+>>>>>>>>>>>> If you fix the issue, kindly add following tag as appropriate
+>>>>>>>>>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>>>>>>>>>>
+>>>>>>>>>>>> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>>>>>>>>>>>>
+>>>>>>>>>>>> ia64-linux-ld: drivers/leds/leds-lp55xx-common.o: in 
+>>>>>>>>>>>> function `lp55xx_set_mc_brightness':
+>>>>>>>>>>>>>> drivers/leds/leds-lp55xx-common.c:146: undefined reference 
+>>>>>>>>>>>>>> to `led_mc_calc_color_components'
+>>>>>>>>>>>> ia64-linux-ld: drivers/leds/leds-lp55xx-common.o: in 
+>>>>>>>>>>>> function `devm_led_classdev_multicolor_register':
+>>>>>>>>>>>>>> include/linux/led-class-multicolor.h:74: undefined 
+>>>>>>>>>>>>>> reference to `devm_led_classdev_multicolor_register_ext'
+>>>>>>>>>>>> vim +146 drivers/leds/leds-lp55xx-common.c
+>>>>>>>>>>>>
+>>>>>>>>>>>>     138
+>>>>>>>>>>>>     139    static int lp55xx_set_mc_brightness(struct 
+>>>>>>>>>>>> led_classdev *cdev,
+>>>>>>>>>>>>     140                        enum led_brightness brightness)
+>>>>>>>>>>>>     141    {
+>>>>>>>>>>>>     142        struct led_classdev_mc *mc_dev = 
+>>>>>>>>>>>> lcdev_to_mccdev(cdev);
+>>>>>>>>>>>>     143        struct lp55xx_led *led = 
+>>>>>>>>>>>> mcled_cdev_to_led(mc_dev);
+>>>>>>>>>>>>     144        struct lp55xx_device_config *cfg = 
+>>>>>>>>>>>> led->chip->cfg;
+>>>>>>>>>>>>     145
+>>>>>>>>>>>>   > 146 led_mc_calc_color_components(&led->mc_cdev, 
+>>>>>>>>>>>> brightness);
+>>>>>>>>>>>>     147        return cfg->multicolor_brightness_fn(led);
+>>>>>>>>>>>>     148
+>>>>>>>>>>>
+>>>>>>>>>>> Well this was a mess to figure out.
+>>>>>>>>>>>
+>>>>>>>>>>> The only fix I can figure out here is to remove the
+>>>>>>>>>>>
+>>>>>>>>>>>      depends on LEDS_CLASS_MULTI_COLOR || 
+>>>>>>>>>>> !LEDS_CLASS_MULTI_COLOR
+>>>>>>>>>>>
+>>>>>>>>>>> from each child device and add
+>>>>>>>>>>>
+>>>>>>>>>>>      select LEDS_CLASS_MULTI_COLOR
+>>>>>>>>>>>
+>>>>>>>>>>> to the LP55XX_COMMON
+>>>>>>>>>>>
+>>>>>>>>>>> This way the Multi color framework will inherit the symbol 
+>>>>>>>>>>> that was set by the COMMON flag which is inherited by 
+>>>>>>>>>>> majority from the child flags.
+>>>>>>>>>>
+>>>>>>>>>> Did you try this?
+>>>>>>>>>>
+>>>>>>>>>> --- a/drivers/leds/Kconfig
+>>>>>>>>>> +++ b/drivers/leds/Kconfig
+>>>>>>>>>> @@ -398,6 +398,7 @@ config LEDS_LP50XX
+>>>>>>>>>>  config LEDS_LP55XX_COMMON
+>>>>>>>>>>         tristate "Common Driver for TI/National 
+>>>>>>>>>> LP5521/5523/55231/5562/8501"
+>>>>>>>>>>         depends on LEDS_LP5521 || LEDS_LP5523 || LEDS_LP5562 
+>>>>>>>>>> || LEDS_LP8501
+>>>>>>>>>> +       depends on LEDS_CLASS_MULTI_COLOR || 
+>>>>>>>>>> !LEDS_CLASS_MULTI_COLOR
+>>>>>>>>>>         depends on OF
+>>>>>>>>>>         select FW_LOADER
+>>>>>>>>>>         select FW_LOADER_USER_HELPER
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>> Yes I did
+>>>>>>>>>
+>>>>>>>>> That gave unmet dependencies.
+>>>>>>>>>
+>>>>>>>>> WARNING: unmet direct dependencies detected for LEDS_LP55XX_COMMON
+>>>>>>>>>    Depends on [m]: NEW_LEDS [=y] && (LEDS_LP5521 [=n] || 
+>>>>>>>>> LEDS_LP5523 [=m] || LEDS_LP5562 [=y] || LEDS_LP8501 [=y]) && 
+>>>>>>>>> (LEDS_CLASS_MULTI_COLOR [=m] || !LEDS_CLASS_MULTI_COLOR [=m]) 
+>>>>>>>>> && OF [=y]
+>>>>>>>>>    Selected by [y]:
+>>>>>>>>>    - LEDS_LP5562 [=y] && NEW_LEDS [=y] && LEDS_CLASS [=y] && 
+>>>>>>>>> I2C [=y]
+>>>>>>>>>    - LEDS_LP8501 [=y] && NEW_LEDS [=y] && LEDS_CLASS [=y] && 
+>>>>>>>>> I2C [=y]
+>>>>>>>>>    Selected by [m]:
+>>>>>>>>>    - LEDS_LP5523 [=m] && NEW_LEDS [=y] && LEDS_CLASS [=y] && 
+>>>>>>>>> I2C [=y] && (LEDS_CLASS_MULTI_COLOR [=m] || 
+>>>>>>>>> !LEDS_CLASS_MULTI_COLOR [=m])
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> When I was testing that yesterday I also had the same warning at 
+>>>>>>>> some
+>>>>>>>> point of testing different Kconfig setups, but with what I 
+>>>>>>>> showed above
+>>>>>>>> it ceased to appear. Now every time I am doing "make oldconfig" the
+>>>>>>>> CONFIG_LEDS_LP55XX_COMMON=y entry gets changed to =m with the 
+>>>>>>>> config
+>>>>>>>> from the test bot.
+>>>>>>>>
+>>>>>>> That is not what I saw in my testing especially after doing a 
+>>>>>>> distclean
 >>>>>>
->>>>>> Please refer to Documentation/devicetree/bindings/leds/leds-pca955x.txt.
+>>>>>> Could you please give your exact steps after "make distclean" and
+>>>>>> copying test bot config to the kernel root directory?
 >>>>>>
->>>>>> At first glance I don't get why you have gpio-leds node, which is for
->>>>>> leds-gpio driver.
->>>>> Not sure I understood it right.. But if you are asking me why I have "leds {"  and â€œgpio-ledsâ€ in there, then it is to get the entries in /sys/class/leds.
->>>>> The GPIOs from PCA9552 are connected to LED. Also, that is how we have had in the past, and that worked.
->>>>> Example: https://github.com/openbmc/linux/blob/dev-5.4/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts#L115
+>>>>>> Also, please share the toolchain you're using for tests.
+>>>>>
+>>>>> Actually at this stage the toolchain is of lesser relevance.
+>>>>>
+>>>>> I've tried once more and indeed the problem shows up.
+>>>>>
+>>>>> It is caused by the driver entries doing
+>>>>>
+>>>>> "select LEDS_LP55XX_COMMON".
+>>>>>
+>>>>> Select sets config to "y" so it conflicts with
+>>>>> "depends on LEDS_CLASS_MULTI_COLOR || !LEDS_CLASS_MULTI_COLOR"
+>>>>> in the "config LEDS_LP55XX_COMMON".
+>>>>>
+>>>>> Your proposed fix will block the possibility of building
+>>>>> LED_CLASS_MULTI_COLOR as a module when LP55XX drivers
+>>>>> are enabled so this is also not an option.
+>>>>>
+>>>>> Solving this riddle will require some more thinking.
+>>>>> I haven't analyzed it in detail but maybe "imply" statement from
+>>>>> kconfig-language.rst could help somehow here. 
 >>>>
->>>> Thanks. Yeah, that looks OK, I had to take closer look at the driver.
+>>>> The multicolor framework will build as a module if the LED_CLASS is 
+>>>> defined as a module.
 >>>>
->>>>> The problem I am running into is for : https://github.com/openbmc/linux/blob/dev-5.4/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
->>>>>>
->>>>>> On 6/19/20 3:34 PM, Vishwanatha Subbanna wrote:
->>>>>>> Hello,
->>>>>>> I am Vishwanath, working with IBM and looking for your help on one of the issues that I am running into. Would really appreciate help on this. I run Linux 5.4.38
->>>>>>> I have 2 number of PCA9552 chips, one on the Planar and other on the card that is optionally pluggable. The optional card must be plugged prior to booting and is not hot pluggable. In my experiment, I am running *without* the optional card plugged in.
->>>>>>> In the device tree, I have a "leds {" section that looks like below for the PCA9552 that is on the planar and everything works fine and I can see /sys/class/leds/fan0
->>>>>>>   leds {
->>>>>>>          compatible = "gpio-ledsâ€;
->>>>>>>          fan0 {
->>>>>>>              retain-state-shutdown;
->>>>>>>              default-state = "keep";
->>>>>>>              gpios = <&pca0 0 GPIO_ACTIVE_LOW>;
->>>>>>>          };
->>>>>>> };
->>>>>>> &i2c7 {
->>>>>>>      status = "okayâ€;
->>>>>>>      pca0: pca9552@61 {
->>>>>>>         compatible = "nxp,pca9552";
->>>>>>>          reg = <0x61>;
->>>>>>>          #address-cells = <1>;
->>>>>>>          #size-cells = <0>;
->>>>>>>          gpio-controller;
->>>>>>>          #gpio-cells = <2>;
->>>>>>>          gpio@0 {
->>>>>>>              reg = <0>;
->>>>>>>              type = <PCA955X_TYPE_GPIO>;
->>>>>>>       	};
->>>>>>>      };
->>>>>>> };
->>>>>>> Similarly, if I update the device tree entry for PCA9552 for the card that is optionally pluggable, then I donâ€™t see any leds entries in /sys/class/leds.
->>>>>>
->>>>>> Please share your DT node after the update.
->>>>>>
->>>>> Pasting the GPIO_0 entry only here for brevity.
->>>>> leds {
->>>>>          compatible = "gpio-ledsâ€;
->>>>>          fan0 {
->>>>>              retain-state-shutdown;
->>>>>              default-state = "keep";
->>>>>              gpios = <&pca0 0 GPIO_ACTIVE_LOW>;
->>>>>          };
->>>>>          nvmeslot0 {
->>>>>              retain-state-shutdown;
->>>>>              default-state = "keep";
->>>>>              gpios = <&pca1 0 GPIO_ACTIVE_LOW>;
->>>>>          };
->>>>> };
->>>>> &i2c7 {
->>>>>      status = "okayâ€;
->>>>>      pca0: pca9552@61 {
->>>>>         compatible = "nxp,pca9552";
->>>>>          reg = <0x61>;
->>>>>          #address-cells = <1>;
->>>>>          #size-cells = <0>;
->>>>>          gpio-controller;
->>>>>          #gpio-cells = <2>;
->>>>>          gpio@0 {
->>>>>              reg = <0>;
->>>>>              type = <PCA955X_TYPE_GPIO>;
->>>>>       	};
->>>>>      };
->>>>> };
->>>>> &i2c13
->>>>> {
->>>>>      pca1: pca9552@60 {
->>>>>         compatible = "nxp,pca9552";
->>>>>         reg = <0x60>;
->>>>>         #address-cells = <1>;
->>>>>         #size-cells = <0>;
->>>>>         gpio-controller;
->>>>>         #gpio-cells = <2>;
->>>>>         gpio@0 {
->>>>>             reg = <0>;
->>>>>             type = <PCA955X_TYPE_GPIO>;
->>>>>         };
->>>>>      };
->>>>> };
->>>>> Thanks
->>>>> !! Vishwa !!
->>>>>>> I donâ€™t even see â€œfan0â€ that is on the PCA9552 on planar also. I was expecting that I should see â€œ/sys/class/leds/fan0â€.
->>>>>>> However, I could see all the entries in â€œ/proc/device-tree/ledsâ€.
->>>>>>> Data from the failure.
->>>>>>> [    7.895757] leds-pca955x 7-0061: leds-pca955x: Using pca9552 16-bit LED driver at slave address 0x61
->>>>>>> [    7.907659] leds-pca955x 7-0061: gpios 168...183
->>>>
->>>> It is weird that you don't see "fan0" LED since this gpio seems to have
->>>> been properly registered according to this log.
->>>>
->>> This is exactly what I donâ€™t understand. I would expect â€œfan0â€ to appear in /sys/class/leds. Is there any reason why this might not be appearing ?..
->>
->> OK, now the reason is clear to me. If leds-gpio driver fails to register
->> any of the LEDs found in DT node it returns with an error from the
->> probe(), which results in unregistering any of the LEDs registered in
->> the previous iteration steps.
->>
->> Look at the function gpio_leds_create() in
->> drivers/leds/leds-gpio.c.
->>
->> Probably it is devm_fwnode_get_gpiod_from_child() that fails
->> while parsing nvmeslot0 node.
+>>>> See attached test_defconfig
+>>>
+>>> But it will be impossible to enable CONFIG_LEDS_LP50XX without
+>>> CONFIG_LEDS_CLASS_MULTI_COLOR if you will remove
+>>>
+>>> depends on LEDS_CLASS_MULTI_COLOR || !LEDS_CLASS_MULTI_COLOR.
+>>>
+>> I was not removing the dependency for the LP50xx only the LP55xx.
 > 
-> Is this how it is designed or a bug ?.. From a system standpoint, not having an optional card results in not seeing the ones that are present on the system.
-> Would you think it is worthwhile to modify to not chuck off what is existing because something optional is not plugged in ?.. I believe the I2C driver handles this scenario by putting an error message but still consumes what is present.
+> It was my typo, I meant LP55XX.
+> 
+>>
+>>> This is actually why the above entry was needed.
+>>>
+>>> LP55XX drivers have to work also without multicolor class.
+>>>
+>> Well I am not sure how else to resolve this problem.  Because the 
+>> LP55xx has multi level dependencies.
+>>
+>> Only the LP55xx_common has the dependency on the MC framework. The 
+>> device drivers do not.
+>>
+>> The issue is the mixing and matching of the MC fw as a module vs the 
+>> LP55XX_COMMON as a built-in.
+> 
+> The simplest solution is to avoid selecting LP55XX_COMMON in favor
+> of making child drivers depending on it. Of course, maybe there exists
+> some trickier option to keep the selection, but I would have to play
+> a bit more with it to be sure.
 
-Well, this code is in mainline for some time and we cannot guarantee
-the someone does not rely on this behavior.
+Yep, this seems to be the only viable solution.
 
-You mentioned, that your card is not hot-pluggable so it is even more
-justified to treat the two hardware setups as demanding a separate DT.
+My proposed change to the Kconfig:
 
-Otherwise you could probably employ DT overlays mechanism.
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index adfa762cb291..10de7d237ffd 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -397,10 +397,10 @@ config LEDS_LP50XX
+
+  config LEDS_LP55XX_COMMON
+         tristate "Common Driver for TI/National 
+LP5521/5523/55231/5562/8501"
+-       depends on LEDS_LP5521 || LEDS_LP5523 || LEDS_LP5562 || LEDS_LP8501
+         depends on OF
+         select FW_LOADER
+         select FW_LOADER_USER_HELPER
++       depends on LEDS_CLASS_MULTI_COLOR || !LEDS_CLASS_MULTI_COLOR
+         help
+           This option supports common operations for 
+LP5521/5523/55231/5562/8501
+           devices.
+@@ -408,8 +408,7 @@ config LEDS_LP55XX_COMMON
+  config LEDS_LP5521
+         tristate "LED Support for N.S. LP5521 LED driver chip"
+         depends on LEDS_CLASS && I2C
+-       depends on LEDS_CLASS_MULTI_COLOR || !LEDS_CLASS_MULTI_COLOR
+-       select LEDS_LP55XX_COMMON
++       depends on LEDS_LP55XX_COMMON
+         help
+           If you say yes here you get support for the National 
+Semiconductor
+           LP5521 LED driver. It is 3 channel chip with programmable 
+engines.
+@@ -419,8 +418,7 @@ config LEDS_LP5521
+  config LEDS_LP5523
+         tristate "LED Support for TI/National LP5523/55231 LED driver chip"
+         depends on LEDS_CLASS && I2C
+-       depends on LEDS_CLASS_MULTI_COLOR || !LEDS_CLASS_MULTI_COLOR
+-       select LEDS_LP55XX_COMMON
++       depends on LEDS_LP55XX_COMMON
+         help
+           If you say yes here you get support for TI/National Semiconductor
+           LP5523/55231 LED driver.
+@@ -431,7 +429,7 @@ config LEDS_LP5523
+  config LEDS_LP5562
+         tristate "LED Support for TI LP5562 LED driver chip"
+         depends on LEDS_CLASS && I2C
+-       select LEDS_LP55XX_COMMON
++       depends on LEDS_LP55XX_COMMON
+         help
+           If you say yes here you get support for TI LP5562 LED driver.
+           It is 4 channels chip with programmable engines.
+@@ -441,7 +439,7 @@ config LEDS_LP5562
+  config LEDS_LP8501
+         tristate "LED Support for TI LP8501 LED driver chip"
+         depends on LEDS_CLASS && I2C
+-       select LEDS_LP55XX_COMMON
++       depends on LEDS_LP55XX_COMMON
+         help
+           If you say yes here you get support for TI LP8501 LED driver.
+           It is 9 channel chip with programmable engines.
+
 
 -- 
 Best regards,
