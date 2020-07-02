@@ -2,121 +2,126 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C552211522
-	for <lists+linux-leds@lfdr.de>; Wed,  1 Jul 2020 23:28:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F5A1211B7D
+	for <lists+linux-leds@lfdr.de>; Thu,  2 Jul 2020 07:20:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727817AbgGAV2f (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 1 Jul 2020 17:28:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbgGAV2f (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Jul 2020 17:28:35 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36AA0C08C5C1;
-        Wed,  1 Jul 2020 14:28:35 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id dr13so26564710ejc.3;
-        Wed, 01 Jul 2020 14:28:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2y7y+Op5oyWYys3aPK2F6xIGs6iua31K9nYNmwmPnoM=;
-        b=g/lWe6IOtLO3rB1CxjsEcUq3cjJkeGrLeHIZFNFNgeNfCQ5HpBdaty+X1cOkhYRZ5V
-         kJVaPllB4ziNS9bU1AUITNm2fdPD4s/g2Mdl5Wqdj5pB+Fa6TXJruEG69iH+tKoTEXXN
-         MWy3uSRApMakoGx20EFsR0TQUVIijiTFFTF7md87TPFe1y3EbUNqVoCu0MfBvxpIFFmW
-         qgO/B33CbRxfFmZSue5/aCek25iw585DuAtW9B2L5+WA7Snwnltui6XjlukZ0POYw/Bg
-         5VoazkFd1QtjEgd1x3PerBj7SgM9zfDUkd5nP1BoS0S7zwI0Oep62F2M70Euw0BOp/ls
-         +ysQ==
+        id S1726244AbgGBFU2 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Thu, 2 Jul 2020 01:20:28 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:60339 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725872AbgGBFU1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 2 Jul 2020 01:20:27 -0400
+Received: from mail-pf1-f200.google.com ([209.85.210.200])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1jqre5-0003nn-73
+        for linux-leds@vger.kernel.org; Thu, 02 Jul 2020 05:20:25 +0000
+Received: by mail-pf1-f200.google.com with SMTP id y69so18160464pfg.9
+        for <linux-leds@vger.kernel.org>; Wed, 01 Jul 2020 22:20:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2y7y+Op5oyWYys3aPK2F6xIGs6iua31K9nYNmwmPnoM=;
-        b=B9omv4d2l7QpcMbbLTwgCzJEYXaD3EWPBTNDoTIzGcK9zOQvmqwaD4K/pqNe5Qn9yC
-         T2fWXvRbNTRJx/CRz2/vozQaMqU2JSqmNNYbsHGMhRAACl9IrK5+EBLqS22nyaUkfjZo
-         OzljPrtjc7HbFij8An3r1d5lWfEawxT1F/WUGCCLT5QouH5QtcyMtbyxQwfLYF263SX7
-         CiUZz403MJPvzJEMqPQArRnKcXZBy47zn/J7MuCt1c+YO7JEuRA9jMYmalM2x+/5pabi
-         idMsSIKrBUjFlb78VOGLuLqrDdQQNXdpikwVYni+cdhkLU9TwQGzvkx5HY5iCaImYt/u
-         s8VA==
-X-Gm-Message-State: AOAM532AW3oi3oGyonpJP1wI7TS2utMmQM4iN9IlI7Af7SZ5f6y0R5Jk
-        0JbSun22Pnz9Uh6GTzXpHJPi6VDF
-X-Google-Smtp-Source: ABdhPJw3B2rMNk/DR5I6qjhCKexLix74eE5PGlG5zIl9//yDFNfM9XmhobXQiyiCyYNlyPe39SpAlw==
-X-Received: by 2002:a17:906:6959:: with SMTP id c25mr24373759ejs.375.1593638913724;
-        Wed, 01 Jul 2020 14:28:33 -0700 (PDT)
-Received: from ?IPv6:2a01:110f:b59:fd00:9c13:a547:3fe2:ec95? ([2a01:110f:b59:fd00:9c13:a547:3fe2:ec95])
-        by smtp.gmail.com with ESMTPSA id j89sm7698816edb.20.2020.07.01.14.28.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Jul 2020 14:28:33 -0700 (PDT)
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=6e32vjSNKDV1WWSzS/D6MXycMTkb/C1potgYwNx0dnw=;
+        b=aMGtbi/BbgnaSivrUlDMZtS6yux+UaxX4xbHSPobnkIgajW0lPgReStP5TNf0Zlu2Z
+         wVKJNcicoUnpCtMer3axFBW4o101nj1tY3SUXLj5rqbta3q3qNOA/OfyYHBNHhrRD16A
+         R/TBa1SEpVM5YF3La0I+zhtYIM3i2dYYkOi279oa6kMGtH6PHHRImiuf8iP5wIHuVFpA
+         5MfOSpR+MBCKWuLu9F+yuVziwNLFPhzGhxvFrboszMdUqk8nFCW69ymX4/9kG1TVZcmC
+         aPemtMHclLjcEGUJ9ph75WzoNtqDwPGM2BKGcELcCb6+kkHYbQP4P6CpBD6JXLxjO/Dv
+         L00g==
+X-Gm-Message-State: AOAM531qfuu6P2DY2lyUIYf59VCw/lAuovdrzpRTRfOk7ayin0O9XKXo
+        yWRfhCjwjYVpIDZKoS9esPEDsHW+c7fnC1GimpZa50U2TQf+2DgXlDK+BXFFuiTSUlbH+lE6VU9
+        9E03S1jKyHl0StSnhWjVJuAhR+wEb57rM0NDkHp0=
+X-Received: by 2002:a17:902:8204:: with SMTP id x4mr19055747pln.16.1593667223899;
+        Wed, 01 Jul 2020 22:20:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxE1DSUfFIceznr3PtH7TjS1qSOYNMqQsM3HOgI6x3SHa8gkiMPjMvGWgqs93wUsfWDu9bs7g==
+X-Received: by 2002:a17:902:8204:: with SMTP id x4mr19055738pln.16.1593667223604;
+        Wed, 01 Jul 2020 22:20:23 -0700 (PDT)
+Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
+        by smtp.gmail.com with ESMTPSA id q7sm7378860pfn.23.2020.07.01.22.20.21
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 01 Jul 2020 22:20:23 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
 Subject: Re: [PATCH] leds: core: Use blocking op for system suspend
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>, pavel@ucw.cz
-Cc:     anthony.wong@canonical.com, Dan Murphy <dmurphy@ti.com>,
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <38622f5a-4518-cdb4-d1ca-581f470ce797@gmail.com>
+Date:   Thu, 2 Jul 2020 13:20:21 +0800
+Cc:     pavel@ucw.cz, anthony.wong@canonical.com,
+        Dan Murphy <dmurphy@ti.com>,
         "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Message-Id: <75B39716-5795-4F19-BC74-A4C21F99B85E@canonical.com>
 References: <20200701093541.14191-1-kai.heng.feng@canonical.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <38622f5a-4518-cdb4-d1ca-581f470ce797@gmail.com>
-Date:   Wed, 1 Jul 2020 23:28:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200701093541.14191-1-kai.heng.feng@canonical.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ <38622f5a-4518-cdb4-d1ca-581f470ce797@gmail.com>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Kai-Heng,
 
-Thank you for the patch.
 
-On 7/1/20 11:35 AM, Kai-Heng Feng wrote:
-> Sometimes LED won't be turned off by LED_CORE_SUSPENDRESUME flag upon
-> system suspend.
-
-Just out of curiosity - are you experiencing that on some hardware?
-
-> led_set_brightness_nopm() uses schedule_work() to set LED brightness.
-> However, there's no guarantee that the scheduled work gets executed
-> because no one calls flush_scheduled_work().
+> On Jul 2, 2020, at 05:28, Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
 > 
-> As flush_scheduled_work() may affect other drivers' suspend routines,
-> take a more contained approach which uses blocking op to make sure the
-> LED gets turned off.
+> Hi Kai-Heng,
 > 
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> ---
->   drivers/leds/led-core.c | 5 +++++
->   1 file changed, 5 insertions(+)
+> Thank you for the patch.
 > 
-> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-> index f1f718dbe0f8..9a5bfcd7a704 100644
-> --- a/drivers/leds/led-core.c
-> +++ b/drivers/leds/led-core.c
-> @@ -269,6 +269,11 @@ EXPORT_SYMBOL_GPL(led_set_brightness);
->   void led_set_brightness_nopm(struct led_classdev *led_cdev,
->   			      enum led_brightness value)
->   {
-> +
-> +	if (led_cdev->flags & LED_SUSPENDED &&
-> +	    !__led_set_brightness_blocking(led_cdev, value))
-> +		return;
-> +
+> On 7/1/20 11:35 AM, Kai-Heng Feng wrote:
+>> Sometimes LED won't be turned off by LED_CORE_SUSPENDRESUME flag upon
+>> system suspend.
+> 
+> Just out of curiosity - are you experiencing that on some hardware?
 
-This function is "nopm" for a reason - we do not make here any
-pm management related operations.
+Yes, mute and micmute LED on laptops sometimes are still on during suspend-to-idle.
 
-Instead of that, please just add
+> 
+>> led_set_brightness_nopm() uses schedule_work() to set LED brightness.
+>> However, there's no guarantee that the scheduled work gets executed
+>> because no one calls flush_scheduled_work().
+>> As flush_scheduled_work() may affect other drivers' suspend routines,
+>> take a more contained approach which uses blocking op to make sure the
+>> LED gets turned off.
+>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>> ---
+>>  drivers/leds/led-core.c | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+>> index f1f718dbe0f8..9a5bfcd7a704 100644
+>> --- a/drivers/leds/led-core.c
+>> +++ b/drivers/leds/led-core.c
+>> @@ -269,6 +269,11 @@ EXPORT_SYMBOL_GPL(led_set_brightness);
+>>  void led_set_brightness_nopm(struct led_classdev *led_cdev,
+>>  			      enum led_brightness value)
+>>  {
+>> +
+>> +	if (led_cdev->flags & LED_SUSPENDED &&
+>> +	    !__led_set_brightness_blocking(led_cdev, value))
+>> +		return;
+>> +
+> 
+> This function is "nopm" for a reason - we do not make here any
+> pm management related operations.
+> 
+> Instead of that, please just add
+> 
+> flush_work(&led_cdev->set_brightness_work);
+> 
+> at the end of led_classdev_suspend()
+> 
+> in drivers/leds/led-class.c.
 
-flush_work(&led_cdev->set_brightness_work);
+Right, will send v2.
 
-at the end of led_classdev_suspend()
+Kai-Heng
 
-in drivers/leds/led-class.c.
+> 
+> -- 
+> Best regards,
+> Jacek Anaszewski
 
--- 
-Best regards,
-Jacek Anaszewski
