@@ -2,86 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBAFF214886
-	for <lists+linux-leds@lfdr.de>; Sat,  4 Jul 2020 22:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED37C21533C
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Jul 2020 09:21:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726669AbgGDUHY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 4 Jul 2020 16:07:24 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:49756 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726643AbgGDUHY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 4 Jul 2020 16:07:24 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 4D0C11C0BD2; Sat,  4 Jul 2020 22:07:21 +0200 (CEST)
-Date:   Sat, 4 Jul 2020 22:07:20 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        linux-kernel@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH RFC] leds: Add support for per-LED device triggers
-Message-ID: <20200704200720.GA24405@amd>
-References: <20200702144712.1994685-1-megous@megous.com>
- <20200704120459.GE16083@amd>
- <20200704121737.xiwcqzsfuzy3k3qf@core.my.home>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="3V7upXqbjpZ4EhLz"
-Content-Disposition: inline
-In-Reply-To: <20200704121737.xiwcqzsfuzy3k3qf@core.my.home>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        id S1728862AbgGFHVW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Mon, 6 Jul 2020 03:21:22 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16934 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728225AbgGFHVV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Jul 2020 03:21:21 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06671Q4S173121;
+        Mon, 6 Jul 2020 03:21:13 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 322kcx3h7y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 06 Jul 2020 03:21:13 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06671bFN173897;
+        Mon, 6 Jul 2020 03:21:12 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 322kcx3h78-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 06 Jul 2020 03:21:12 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+        by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0667GG8O031359;
+        Mon, 6 Jul 2020 07:21:11 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma02fra.de.ibm.com with ESMTP id 322hd8219v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 06 Jul 2020 07:21:10 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0667IWQV58917274
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 6 Jul 2020 07:18:32 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A270FA405D;
+        Mon,  6 Jul 2020 07:19:53 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 67460A4053;
+        Mon,  6 Jul 2020 07:19:52 +0000 (GMT)
+Received: from [9.199.61.209] (unknown [9.199.61.209])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Mon,  6 Jul 2020 07:19:52 +0000 (GMT)
+From:   Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
+Content-Type: text/plain;
+        charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Query on using leds-gpio driver on a. GPIO with ACTIVE_HIGH
+Message-Id: <30E1B20C-676E-45E2-9394-643262B5D04A@linux.vnet.ibm.com>
+Date:   Mon, 6 Jul 2020 12:49:50 +0530
+Cc:     Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, pavel@ucw.cz,
+        dmurphy@ti.com, linux-leds@vger.kernel.org
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-07-06_03:2020-07-06,2020-07-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
+ spamscore=0 cotscore=-2147483648 mlxlogscore=999 mlxscore=0 malwarescore=0
+ clxscore=1015 bulkscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2007060051
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hello,
 
---3V7upXqbjpZ4EhLz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I have been a user of “leds-gpio” driver to manage the LEDs on IBM servers. So far, all these LEDs that were controlled by GPIO were ACTIVE_LOW.
 
-Hi!
+Example from DTS.
 
-> > > Add support for registering per-LED device trigger.
-> > >=20
-> > > Names of private triggers need to be globally unique, but may clash
-> > > with other private triggers. This is enforced during trigger
-> >=20
-> > Globally unique name is going to be a problem, no? If you have two
-> > keyboards with automatical backlight support...
->=20
-> Only globally unique in a sense that they must not clash with non
-> per-LED trigger names. So you can have two keyboards with 'self-working'
-> trigger on their LED devices in sysfs.
->=20
-> This requirement only comes from the fact that this shares the
-> same sysfs configuration interface as regular non-private triggers.
+        fan3 {
+            retain-state-shutdown;
+            default-state = "keep";
+            gpios = <&pca0 3 GPIO_ACTIVE_LOW>;
+        };
 
-Ok. That looks sane.
+I wanted to know if it makes any difference to the user if the GPIO is ACTIVE_HIGH. I read through https://www.kernel.org/doc/Documentation/gpio/board.txt and it seemed we should be able to use it.
 
-And if you tweak code a bit (don't compare pointers to struct led;
-have struct hw_trigger_group, and compare pointers to that), you
-should be able to fix the uglyness Marek mentioned without major changes.
+However, going through https://github.com/torvalds/linux/blob/master/drivers/leds/leds-pca955x.c, I am not quite sure if the ACTIVE_HIGH can be used same as ACTIVE_LOW since I saw these :
 
-Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
 
---3V7upXqbjpZ4EhLz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+#define PCA955X_LS_LED_ON	0x0	/* Output LOW */
+#define PCA955X_LS_LED_OFF	0x1	/* Output HI-Z */
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+#define PCA955X_GPIO_HIGH	LED_OFF
+#define PCA955X_GPIO_LOW	LED_FULL
 
-iEYEARECAAYFAl8A4XgACgkQMOfwapXb+vLbsgCgvokoJmSQ7pb80ed7OiSTkrex
-pGUAoK0jV5UJHvqnGrfAtKVpolFF98nO
-=SesQ
------END PGP SIGNATURE-----
 
---3V7upXqbjpZ4EhLz--
+This will be my DT entry : 
+
+        fan3 {
+            retain-state-shutdown;
+            default-state = "keep";
+            gpios = <&pca0 3 GPIO_ACTIVE_HIGH>;
+        };
+
+Will I be able to use the same “leds-gpio” interfaces irrespective of GPIO_LOW / GPIO_HIGH ? 
+
+I use these interfaces today:
+
+echo 255 > brightness —> Turn Solid_ON
+echo 0 > brightness —> Turn OFF
+echo “timer” > trigger —> Initiate Blink
+echo “none” > trigger —> Terminate Blink
+
+
+Thank you,
+
+!! Vishwa !
