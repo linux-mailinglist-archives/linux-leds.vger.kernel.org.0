@@ -2,116 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED37C21533C
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Jul 2020 09:21:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CF6C215748
+	for <lists+linux-leds@lfdr.de>; Mon,  6 Jul 2020 14:32:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728862AbgGFHVW convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Mon, 6 Jul 2020 03:21:22 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16934 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728225AbgGFHVV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Jul 2020 03:21:21 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06671Q4S173121;
-        Mon, 6 Jul 2020 03:21:13 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 322kcx3h7y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Jul 2020 03:21:13 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 06671bFN173897;
-        Mon, 6 Jul 2020 03:21:12 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 322kcx3h78-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Jul 2020 03:21:12 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
-        by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0667GG8O031359;
-        Mon, 6 Jul 2020 07:21:11 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-        by ppma02fra.de.ibm.com with ESMTP id 322hd8219v-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Jul 2020 07:21:10 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0667IWQV58917274
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 6 Jul 2020 07:18:32 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A270FA405D;
-        Mon,  6 Jul 2020 07:19:53 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 67460A4053;
-        Mon,  6 Jul 2020 07:19:52 +0000 (GMT)
-Received: from [9.199.61.209] (unknown [9.199.61.209])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon,  6 Jul 2020 07:19:52 +0000 (GMT)
-From:   Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
-Content-Type: text/plain;
-        charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Query on using leds-gpio driver on a. GPIO with ACTIVE_HIGH
-Message-Id: <30E1B20C-676E-45E2-9394-643262B5D04A@linux.vnet.ibm.com>
-Date:   Mon, 6 Jul 2020 12:49:50 +0530
-Cc:     Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, pavel@ucw.cz,
-        dmurphy@ti.com, linux-leds@vger.kernel.org
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-07-06_03:2020-07-06,2020-07-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- spamscore=0 cotscore=-2147483648 mlxlogscore=999 mlxscore=0 malwarescore=0
- clxscore=1015 bulkscore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2007060051
+        id S1728953AbgGFMcT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 6 Jul 2020 08:32:19 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:60996 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728414AbgGFMcT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Jul 2020 08:32:19 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 066CW0dl027058;
+        Mon, 6 Jul 2020 07:32:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1594038720;
+        bh=zFAm7cgzQI8dO5tnF4ApS2fDkJ0/QyQP2WUW5IlgemM=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=xHayLRE3JMhI6U+jg58sUNv8RgyFElvL2pBV4IFewVr3n+hWPqBRQl0lyXumc9bbY
+         QoNCC8EQmJEYEUtB4csoqZuLFB76uEc1iYAzBYWFb4kCpzR9XKH22M9yjgFxeoJ9kA
+         2uXBRL9ro9kfulWHnwkgCg1IWlp2kKJgz6Gz6OHo=
+Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 066CW0S9066434
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 6 Jul 2020 07:32:00 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 6 Jul
+ 2020 07:32:00 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 6 Jul 2020 07:31:59 -0500
+Received: from [10.250.32.229] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 066CVx60070054;
+        Mon, 6 Jul 2020 07:31:59 -0500
+Subject: Re: [PATCH v29 00/16] Multicolor Framework v29
+To:     Pavel Machek <pavel@ucw.cz>, <marek.behun@nic.cz>
+CC:     <jacek.anaszewski@gmail.com>, <robh@kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20200622185919.2131-1-dmurphy@ti.com>
+ <20200704124729.GA20088@amd>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <e25dd902-da3f-37ca-c9bc-f4ab42019281@ti.com>
+Date:   Mon, 6 Jul 2020 07:31:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200704124729.GA20088@amd>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello,
+Pavel
 
-I have been a user of “leds-gpio” driver to manage the LEDs on IBM servers. So far, all these LEDs that were controlled by GPIO were ACTIVE_LOW.
+On 7/4/20 7:47 AM, Pavel Machek wrote:
+> Hi!
+>
+>> This is the multi color LED framework.   This framework presents clustered
+>> colored LEDs into an array and allows the user space to adjust the brightness
+>> of the cluster using a single file write.  The individual colored LEDs
+>> intensities are controlled via a single file that is an array of LEDs
+>>
+>> Change to the LEDs Kconfig to fix dependencies on the LP55XX_COMMON.
+>> Added update to the u8500_defconfig
+> Marek, would you be willing to look over this series?
+>
+> Dan, can we please get it in the order
+>
+> 1) fixes first
+>
+> 2) changes needed for multicolor but not depending on dt acks
+>
+> 3) dt changes
+>
+> 4) rest?
+>
+> This is the order it should have been in the first place, and I'd like
+> to get fixes applied, and perhaps some of the preparation.
 
-Example from DTS.
+This will depend on if there are comments.� If I have to push a v30 then 
+I will reorder.
 
-        fan3 {
-            retain-state-shutdown;
-            default-state = "keep";
-            gpios = <&pca0 3 GPIO_ACTIVE_LOW>;
-        };
+If not then there would be no reason to re-order these.
 
-I wanted to know if it makes any difference to the user if the GPIO is ACTIVE_HIGH. I read through https://www.kernel.org/doc/Documentation/gpio/board.txt and it seemed we should be able to use it.
-
-However, going through https://github.com/torvalds/linux/blob/master/drivers/leds/leds-pca955x.c, I am not quite sure if the ACTIVE_HIGH can be used same as ACTIVE_LOW since I saw these :
-
-
-#define PCA955X_LS_LED_ON	0x0	/* Output LOW */
-#define PCA955X_LS_LED_OFF	0x1	/* Output HI-Z */
-
-#define PCA955X_GPIO_HIGH	LED_OFF
-#define PCA955X_GPIO_LOW	LED_FULL
-
-
-This will be my DT entry : 
-
-        fan3 {
-            retain-state-shutdown;
-            default-state = "keep";
-            gpios = <&pca0 3 GPIO_ACTIVE_HIGH>;
-        };
-
-Will I be able to use the same “leds-gpio” interfaces irrespective of GPIO_LOW / GPIO_HIGH ? 
-
-I use these interfaces today:
-
-echo 255 > brightness —> Turn Solid_ON
-echo 0 > brightness —> Turn OFF
-echo “timer” > trigger —> Initiate Blink
-echo “none” > trigger —> Terminate Blink
+Dan
 
 
-Thank you,
-
-!! Vishwa !
