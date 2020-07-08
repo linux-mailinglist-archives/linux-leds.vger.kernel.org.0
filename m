@@ -2,41 +2,41 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44A85218A79
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Jul 2020 16:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09DAB218A7C
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Jul 2020 16:56:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729714AbgGHOzg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 Jul 2020 10:55:36 -0400
-Received: from mail.nic.cz ([217.31.204.67]:54666 "EHLO mail.nic.cz"
+        id S1729689AbgGHO4W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 8 Jul 2020 10:56:22 -0400
+Received: from mail.nic.cz ([217.31.204.67]:55036 "EHLO mail.nic.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729741AbgGHOzg (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 8 Jul 2020 10:55:36 -0400
+        id S1729625AbgGHO4W (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 8 Jul 2020 10:56:22 -0400
 Received: from dellmb (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTPSA id 44221140622;
-        Wed,  8 Jul 2020 16:55:34 +0200 (CEST)
+        by mail.nic.cz (Postfix) with ESMTPSA id 1682C13F695;
+        Wed,  8 Jul 2020 16:56:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1594220134; bh=pcOEVBBXLme8pBsSc+0KgUc76HeovH3+0MKTHCfjTxg=;
+        t=1594220180; bh=giCnF4goR1Cb9ewxi13p5MAhs9JmU9oUD5KGQ3U//Yk=;
         h=Date:From:To;
-        b=MPyOasUVkNgrJvHaBkQksWOKKns807KCu+6LPbATJbVVqTMdWhxoqsqVqDyJRWQ1f
-         mRBJLHcYgEI1r7W4us+ZX+At9CCpaUA+c12jpJ5jA2CsPN0lpRV0TMxWn2pwPW8Qcg
-         Si/F104um95rTFWldWIDb8Sxo66Rg/81552KZ98E=
-Date:   Wed, 8 Jul 2020 16:55:33 +0200
+        b=h7o61047UMvbF+/3ewFKec5zBgGUDjUmm8FTMSMt+fBuXTZk7j2mC+GvoZZfqwwF2
+         vQvnLMi5USDjMNzjwJVVHqoo+KCBdks8elMqxfchRFGuX9iIH0j9vgxzfXh3FzlLK9
+         YMSHS0y3ZcsjoqBIxSDGlaNfmgTUf80LXMLzo5dU=
+Date:   Wed, 8 Jul 2020 16:56:19 +0200
 From:   Marek =?ISO-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-To:     =?UTF-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-Cc:     linux-kernel@vger.kernel.org,
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Ondrej Jirman <megous@megous.com>, linux-kernel@vger.kernel.org,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Dan Murphy <dmurphy@ti.com>,
         "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>
 Subject: Re: [PATCH RFC] leds: Add support for per-LED device triggers
-Message-ID: <20200708165533.12f1949f@dellmb>
-In-Reply-To: <20200703130809.h4mvhwbdiymuo5pn@core.my.home>
+Message-ID: <20200708165619.0321d3db@dellmb>
+In-Reply-To: <20200704125900.GA20503@amd>
 References: <20200702144712.1994685-1-megous@megous.com>
         <20200703120602.457cff1a@dellmb.labs.office.nic.cz>
-        <20200703130809.h4mvhwbdiymuo5pn@core.my.home>
+        <20200704125900.GA20503@amd>
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
         USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
@@ -47,88 +47,68 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Ondrej,
+On Sat, 4 Jul 2020 14:59:00 +0200
+Pavel Machek <pavel@ucw.cz> wrote:
 
-I overlooked your reply in my inbox, sorry this took so long.
+> Hi!
+> 
+> > Some criticism to this approach to HW triggers:
+> > - every hw trigger for each LED has to be registered via current
+> > trigger API. This will grow code size and memory footprint once
+> > this API is widely used
+> > - one HW trigger can only master one LED device (via private_led
+> >   member). So if I have, for example an ethernet switch with 8
+> > ports, and each port has 2 LEDs, and each LED has 10 possible HW
+> > triggering mechanisms, with your proposed API one would need to
+> > register 8*2*10 = 160 triggers  
+> 
+> Well, code is simple, and so far I have seen 2 HW triggering
+> mechanisms, not 10. Maybe we should have a function to regiter a hw
+> trigger for a LED, so that internal implementation can be changed
+> more easily.
+> 
+> Ondrej: You already have code using this, right? Can we get an
+> example?
+> 
+> > I too have been thinking about an API for HW LED triggers, and I
+> > tinkered with it a little. Some time ago I sent some emails, with
+> > subjects:
+> >   "RFC: LED hw triggering API"
+> >   "about my trigger-sources work"  
+> 
+> Perhaps it is time to send them one more time, so Ondrej can say if it
+> works for him/looks okay for him?
+> 
+> > My current thoughts about how HW LED triggers could work nicely is
+> > as such:
+> >   - these members (maybe with different names) shall be added to
+> > struct led_classdev:
+> >       available_hw_triggers()
+> >         - shall return a NULL terminated list of HW trigger names
+> >           available for this LED
+> >       set_hw_trigger()
+> >         - sets HW trigger for this LED. The LED triggering API shall
+> >           call this method after previous LED trigger is unset. If
+> >           called with NULL parameter, unsets HW trigger
+> >       current_hw_trigger
+> >         - name of the currently set HW LED trigger for this LED
+> >   - the driver registering the LED cdev informs abouth the LED being
+> >     capable of HW triggering - members available_hw_triggers and
+> >     set_hw_trigger must be set
+> >   - SW LED trigger and HW LED trigger are mutualy exclusive on one
+> > LED
+> >   - the trigger file in sysfs (/sys/class/leds/LED/trigger) shall
+> > first list the available SW triggers, and then available hw
+> > triggers for this LED, prefixed with "hw:"
+> >     When written, if the written trigger name starts with "hw:",
+> >     instead of setting SW trigger, a HW trigger is set via
+> >     set_hw_trigger() method  
+> 
+> This does not sound bad, either.
+> 
+> Best regards,
+> 								Pavel
 
-On Fri, 3 Jul 2020 15:08:09 +0200
-Ond=C5=99ej Jirman <megous@megous.com> wrote:
-
-> Do you have such a switch? Also what's your real usecase?
-
-Yes, on Turris MOX three 8-port ethernet switches can be plugged,
-resulting in 24 ethernet ports, each having 2 LEDs.
-The current driver does not expose these LEDs via sysfs, but I want to
-add the support there. Each of these LEDs can be controlled by
-software, or can be put into one of these HW controlled modes:
-  - Link (with three submodes: 10/100, Gb, 10Gb)
-  - Link activity (again with three submodes as above)
-  - PTP activity
-  - Force blink
-
-> My usecase is a PMIC which has either a user-controllable or
-> self-working mode for a single LED it controls. I want to be able to
-> switch between those quickly and easily.
-
-I understand your usecase completely. This is the same thing I want. I
-just have reservations about how you want to implement this.
-
+Hi Pavel
+I shall try to implement this and send a proposal within 2 weeks.
 Marek
-
-> I want the LED to be mostly controlled by PMIC, because that way PMIC
-> can signal events that are not exposed to OS like overvoltage,
-> overheating, etc. ... all automagically, but also be able to control
-> it sometimes via SW (for non PMIC related notifications, eg.).
->=20
-> So in my mindset LED is either controlled by Linux via various SW
-> triggers, or it's self-working in some arbitrary device specific
-> configuration that doesn't need any passing of the data via CPU for
-> the LED to reflect some HW state.
->=20
-> So I'd expose a 'hw-trigger' only on the LED device that allows this,
-> that you can select among all the other regular triggers as you do
-> now, and then configure its precise mode/options in sysfs (on the
-> trigger kobj). The driver would come with some sane device specific
-> defaults for the self-working mode.
->=20
-> User can then select hw-trigger, in the triggers and would get a nice
-> PMIC LED behavior controlled by HW, or a common LED behavior of the
-> ehternet port, or on the wireless card, or whatever.
->=20
-> From the perspective of this use case the interface is nice and
-> generic:
->=20
-> - you set LED to hw-trigger mode on boot
-> - you set trigger to none and poke the LED with a pattern you want
-> for the notification and put it back to hw-trigger mode again
-> afterwards
->=20
-> We can standardize on hw-trigger, or self-controlled, or some other
-> name for this kind of private LED trigger, and then the userspace
-> would not need to even care about the specific LED device type, when
-> sitching between SW controlled and self-working modes.
->=20
-> You'd be able to take SW control of the ethernet PHY controlled LEDs
-> this way just the same as the PMIC LED with the same interface,
-> described above. And if you don't like the default self-controled
-> mode, you can change it via sysfs attributes on the trigger.
->=20
-> It would also allow the user to switch between SW and HW control,
-> without having to remember the previous HW triggering mode, because
-> that could be persisted by the LED HW trigger device. So you can go
-> back to previous HW triggering mode just by 'echo hw-trigger >
-> your-led/trigger'.
->=20
-> I've read through the discussions, and this seems like a workable
-> interface.
->=20
-> Most of the LED devices would just add one extra private trigger to
-> the triggers_list, so it would not explode in the way you describe
-> above.
->=20
-> Also benefit of this approach is that it fits quite nicely with the
-> existing code, and requires minimal changes. The trigger already
-> allows for specifying sysfs attributes, too.
->=20
-> regards,
-> 	o.
