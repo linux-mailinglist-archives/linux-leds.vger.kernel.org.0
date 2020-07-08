@@ -2,88 +2,133 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E3852189F2
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Jul 2020 16:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44A85218A79
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Jul 2020 16:55:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729665AbgGHOR5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 Jul 2020 10:17:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48484 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729468AbgGHOR5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Jul 2020 10:17:57 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A699C061A0B;
-        Wed,  8 Jul 2020 07:17:57 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 36E98BC0D9;
-        Wed,  8 Jul 2020 14:17:54 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     riku.voipio@iki.fi, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        dmurphy@ti.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] Replace HTTP links with HTTPS ones: PCA9532 LED DRIVER
-Date:   Wed,  8 Jul 2020 16:17:47 +0200
-Message-Id: <20200708141747.14732-1-grandmaster@al2klimov.de>
+        id S1729714AbgGHOzg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 8 Jul 2020 10:55:36 -0400
+Received: from mail.nic.cz ([217.31.204.67]:54666 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729741AbgGHOzg (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 8 Jul 2020 10:55:36 -0400
+Received: from dellmb (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
+        by mail.nic.cz (Postfix) with ESMTPSA id 44221140622;
+        Wed,  8 Jul 2020 16:55:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1594220134; bh=pcOEVBBXLme8pBsSc+0KgUc76HeovH3+0MKTHCfjTxg=;
+        h=Date:From:To;
+        b=MPyOasUVkNgrJvHaBkQksWOKKns807KCu+6LPbATJbVVqTMdWhxoqsqVqDyJRWQ1f
+         mRBJLHcYgEI1r7W4us+ZX+At9CCpaUA+c12jpJ5jA2CsPN0lpRV0TMxWn2pwPW8Qcg
+         Si/F104um95rTFWldWIDb8Sxo66Rg/81552KZ98E=
+Date:   Wed, 8 Jul 2020 16:55:33 +0200
+From:   Marek =?ISO-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
+To:     =?UTF-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH RFC] leds: Add support for per-LED device triggers
+Message-ID: <20200708165533.12f1949f@dellmb>
+In-Reply-To: <20200703130809.h4mvhwbdiymuo5pn@core.my.home>
+References: <20200702144712.1994685-1-megous@megous.com>
+        <20200703120602.457cff1a@dellmb.labs.office.nic.cz>
+        <20200703130809.h4mvhwbdiymuo5pn@core.my.home>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++
-X-Spam-Level: ******
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spam: Yes
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+Hi Ondrej,
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+I overlooked your reply in my inbox, sorry this took so long.
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
+On Fri, 3 Jul 2020 15:08:09 +0200
+Ond=C5=99ej Jirman <megous@megous.com> wrote:
 
- If there are any URLs to be removed completely or at least not HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
+> Do you have such a switch? Also what's your real usecase?
 
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
+Yes, on Turris MOX three 8-port ethernet switches can be plugged,
+resulting in 24 ethernet ports, each having 2 LEDs.
+The current driver does not expose these LEDs via sysfs, but I want to
+add the support there. Each of these LEDs can be controlled by
+software, or can be put into one of these HW controlled modes:
+  - Link (with three submodes: 10/100, Gb, 10Gb)
+  - Link activity (again with three submodes as above)
+  - PTP activity
+  - Force blink
 
- If you apply the patch, please let me know.
+> My usecase is a PMIC which has either a user-controllable or
+> self-working mode for a single LED it controls. I want to be able to
+> switch between those quickly and easily.
 
+I understand your usecase completely. This is the same thing I want. I
+just have reservations about how you want to implement this.
 
- drivers/leds/leds-pca9532.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Marek
 
-diff --git a/drivers/leds/leds-pca9532.c b/drivers/leds/leds-pca9532.c
-index 7d515d5e57bd..74ce273a768d 100644
---- a/drivers/leds/leds-pca9532.c
-+++ b/drivers/leds/leds-pca9532.c
-@@ -5,7 +5,7 @@
-  * Copyright (C) 2011 Jan Weitzel
-  * Copyright (C) 2008 Riku Voipio
-  *
-- * Datasheet: http://www.nxp.com/documents/data_sheet/PCA9532.pdf
-+ * Datasheet: https://www.nxp.com/documents/data_sheet/PCA9532.pdf
-  */
- 
- #include <linux/module.h>
--- 
-2.27.0
-
+> I want the LED to be mostly controlled by PMIC, because that way PMIC
+> can signal events that are not exposed to OS like overvoltage,
+> overheating, etc. ... all automagically, but also be able to control
+> it sometimes via SW (for non PMIC related notifications, eg.).
+>=20
+> So in my mindset LED is either controlled by Linux via various SW
+> triggers, or it's self-working in some arbitrary device specific
+> configuration that doesn't need any passing of the data via CPU for
+> the LED to reflect some HW state.
+>=20
+> So I'd expose a 'hw-trigger' only on the LED device that allows this,
+> that you can select among all the other regular triggers as you do
+> now, and then configure its precise mode/options in sysfs (on the
+> trigger kobj). The driver would come with some sane device specific
+> defaults for the self-working mode.
+>=20
+> User can then select hw-trigger, in the triggers and would get a nice
+> PMIC LED behavior controlled by HW, or a common LED behavior of the
+> ehternet port, or on the wireless card, or whatever.
+>=20
+> From the perspective of this use case the interface is nice and
+> generic:
+>=20
+> - you set LED to hw-trigger mode on boot
+> - you set trigger to none and poke the LED with a pattern you want
+> for the notification and put it back to hw-trigger mode again
+> afterwards
+>=20
+> We can standardize on hw-trigger, or self-controlled, or some other
+> name for this kind of private LED trigger, and then the userspace
+> would not need to even care about the specific LED device type, when
+> sitching between SW controlled and self-working modes.
+>=20
+> You'd be able to take SW control of the ethernet PHY controlled LEDs
+> this way just the same as the PMIC LED with the same interface,
+> described above. And if you don't like the default self-controled
+> mode, you can change it via sysfs attributes on the trigger.
+>=20
+> It would also allow the user to switch between SW and HW control,
+> without having to remember the previous HW triggering mode, because
+> that could be persisted by the LED HW trigger device. So you can go
+> back to previous HW triggering mode just by 'echo hw-trigger >
+> your-led/trigger'.
+>=20
+> I've read through the discussions, and this seems like a workable
+> interface.
+>=20
+> Most of the LED devices would just add one extra private trigger to
+> the triggers_list, so it would not explode in the way you describe
+> above.
+>=20
+> Also benefit of this approach is that it fits quite nicely with the
+> existing code, and requires minimal changes. The trigger already
+> allows for specifying sysfs attributes, too.
+>=20
+> regards,
+> 	o.
