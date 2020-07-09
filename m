@@ -2,87 +2,121 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2F2F21A957
-	for <lists+linux-leds@lfdr.de>; Thu,  9 Jul 2020 22:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEEAF21AA10
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Jul 2020 23:59:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726509AbgGIUvR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Jul 2020 16:51:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50306 "EHLO
+        id S1726269AbgGIV7S (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Jul 2020 17:59:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726260AbgGIUvQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jul 2020 16:51:16 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B7DAC08C5CE;
-        Thu,  9 Jul 2020 13:51:16 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id m16so108191pls.5;
-        Thu, 09 Jul 2020 13:51:16 -0700 (PDT)
+        with ESMTP id S1726213AbgGIV7R (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Jul 2020 17:59:17 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C94AC08C5CE
+        for <linux-leds@vger.kernel.org>; Thu,  9 Jul 2020 14:59:17 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id bm28so1043174edb.2
+        for <linux-leds@vger.kernel.org>; Thu, 09 Jul 2020 14:59:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6aAUMrDgu/dRMO1PKFcJzl15krQUj9/NrmpmX2igbSU=;
-        b=QLAM8adNoWwlxAY3sKExkNjz7ranKdOekEgyi9t/Sjm1NULpynsg98SCvqGKj++2my
-         IK6ockcKb2udy/ZF5A5MSGWuMXga8YnRQfwMlegNJLeMokYho+ff0W/PU+kagdruvlXN
-         9gkP+eAM5WjaKP96HoniGYjaNKLpDPvFyQT2H1OFmpiP/4SzVsYo3F9vJoOESX7nhgHg
-         z1uJVBFWOPaPNtXVby+4aZ67Ytn5WneI4d5WL6X2FVAZoECT+cfFbRB0DPMAY+V7JMGo
-         ohQCrGq+5zpYfdb5EivFa/KEV6oa4C/xLRl7xx7z5q04HZE18PRyhet427kCuxzbd+PE
-         IBKg==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=OxrZOzHbEor9to0nrlJocP/5Zuo+MSWeinZqDZd+gjU=;
+        b=GI+IiJtfk+unqbse6tf84DkhwYMKWA4tcHgDRghIXscO5AANv9flZRH78abRtD7XMu
+         j3CUdF8OUrEMm4XJL6DJWBvrzL/Jc9xrMEAhHe/FvpPuJZxj73Bjda9gNVyRg/ulN69p
+         bIWVS03ZfQ1k0ShOxOQDxaRUp+u6KQv1V+/rsHhzHBXOPMvtE46AlC3A3KZcT8qpewyh
+         h2PeSBkKI1/r0EKoIkDDAOtC0SW1XAdpekv3SrnkoWU2RH30mNpmeoDMUTttr+bIuOVC
+         1VIT04rE3QA41XeC6of9AKXi7eppAa2MYe12Vktu+cvHbV8AuiN9m2vUHyTs6gysqtL9
+         lmEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6aAUMrDgu/dRMO1PKFcJzl15krQUj9/NrmpmX2igbSU=;
-        b=ZWHl+OHnnrviZisTXNCcx1BccUg1ffmY1YZn4XV3+zxDoBiLm/fAsmexMITtX9j09+
-         e5Xr2IE+07KArNUGlee6XKDVOC/rQw6jocho1zo5SiEhmBkZ/qicrpox/T6Uaa/2q2vd
-         pf/aTaLRUvxoT9yCufCjVpDcdTecaoieP+EMf9I/gyXXZ/m+culCsHrACAMweTv71QLS
-         PkkqYa05RREOCNXdrdvAO8WSlI2A6JoPvViU5EpP1+SMMTRqXNRvx4TdA3fFn2EeT56c
-         p4vP5p4SKEc37YvuP0TLDcYRiL90ktO+VRnv2ueP59IP/5CHhdSZRk0GGMbrQkTIHpp9
-         bBOQ==
-X-Gm-Message-State: AOAM530UOZHZrlWBV+DG7rCMbvBRB73HsUvRRXf/ZXwa8wqAwnXWyP4E
-        4sJPtgNzWDhnP7Yxh+Hiqwm0ZCTbHuyUZH4Gpxe5gidE
-X-Google-Smtp-Source: ABdhPJxsjKxantzTRftMX6bNh0Ka3ytqBm/pi7VsMJfjHY2qg0YOKAp3gqWXkrp8PGXSVI7piz191sxizMiURXgpxig=
-X-Received: by 2002:a17:902:8491:: with SMTP id c17mr47735913plo.262.1594327876126;
- Thu, 09 Jul 2020 13:51:16 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=OxrZOzHbEor9to0nrlJocP/5Zuo+MSWeinZqDZd+gjU=;
+        b=JOPEuQCT/mnGlKL6XX1egC7b56E1iqamNSq8SWlG2UQGBTYKolCwy02m+qU25l3U9w
+         VEkn01MCqUSPX6RjVpWQaMedTTt4n16kpUNz6W8iOlP9aYL/WWHptnyk18tSZHqVt6rF
+         U+XZJEJTbn3PFo+HdGBjcESc0aUsEONgIMCy6Rh+7gaqUER3gyDlbNdifSDcYMtlaLM1
+         D0Ad5+u4tA3hpBfYNol5AxJjQllYcrbq7ZJGhEY9vBv/3+Wr7sW/OGtUj/YFPguWw1fq
+         RhwBu7FS7T0hC4WOJQSF+XP7EUQblVuXi7hAXZAKujaknrMX2kg4Xf4sgnZbuDSRtHRG
+         i2Yg==
+X-Gm-Message-State: AOAM532SbD7/H9TdZz+IHv8J7Z1gI5OGCftzB6JMcjWEUPKNi0V8MXxo
+        7A+DzzsOgUKGn+iPz5TkM4dlW/lMTcU=
+X-Google-Smtp-Source: ABdhPJx3vifeZwgf5aLRerKUbBzuQVhQ4fc3fsA1UrtE4HDNuSEUa4UgmphCYC+u3uUXxm4VRyYocA==
+X-Received: by 2002:a50:ee8a:: with SMTP id f10mr54312203edr.383.1594331955921;
+        Thu, 09 Jul 2020 14:59:15 -0700 (PDT)
+Received: from ?IPv6:2a01:110f:b59:fd00:2066:8db:696f:8073? ([2a01:110f:b59:fd00:2066:8db:696f:8073])
+        by smtp.gmail.com with ESMTPSA id ce19sm2500982ejb.24.2020.07.09.14.59.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2020 14:59:15 -0700 (PDT)
+Subject: Re: Query on using leds-gpio driver on a. GPIO with ACTIVE_HIGH
+To:     Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>, pavel@ucw.cz,
+        dmurphy@ti.com, linux-leds@vger.kernel.org
+References: <30E1B20C-676E-45E2-9394-643262B5D04A@linux.vnet.ibm.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <7a6f99d7-efaf-8771-9272-5fb5a555823f@gmail.com>
+Date:   Thu, 9 Jul 2020 23:59:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200709201220.13736-1-eajames@linux.ibm.com> <20200709201220.13736-3-eajames@linux.ibm.com>
-In-Reply-To: <20200709201220.13736-3-eajames@linux.ibm.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 9 Jul 2020 23:50:59 +0300
-Message-ID: <CAHp75VcE9skpqa32bZ4AAcOa08WYSqqZodnveLSF+sZej5KnWw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] leds: pca955x: Add an IBM software implementation of
- the PCA9552 chip
-To:     Eddie James <eajames@linux.ibm.com>
-Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Dan Murphy <dmurphy@ti.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        vishwa@linux.ibm.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <30E1B20C-676E-45E2-9394-643262B5D04A@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Jul 9, 2020 at 11:16 PM Eddie James <eajames@linux.ibm.com> wrote:
->
-> IBM created an implementation of the PCA9552 on a PIC16F
-> microcontroller. The I2C device addresses are different from the
-> hardware PCA9552, so add a new compatible string and associated
-> platform data to be able to probe this device.
+Hi Vishwanatha,
 
-This is weird. I would rather expect ibm prefix with corresponding part number.
+On 7/6/20 9:19 AM, Vishwanatha Subbanna wrote:
+> Hello,
+> 
+> I have been a user of “leds-gpio” driver to manage the LEDs on IBM servers. So far, all these LEDs that were controlled by GPIO were ACTIVE_LOW.
+> 
+> Example from DTS.
+> 
+>          fan3 {
+>              retain-state-shutdown;
+>              default-state = "keep";
+>              gpios = <&pca0 3 GPIO_ACTIVE_LOW>;
+>          };
+> 
+> I wanted to know if it makes any difference to the user if the GPIO is ACTIVE_HIGH. I read through https://www.kernel.org/doc/Documentation/gpio/board.txt and it seemed we should be able to use it.
+> 
+> However, going through https://github.com/torvalds/linux/blob/master/drivers/leds/leds-pca955x.c, I am not quite sure if the ACTIVE_HIGH can be used same as ACTIVE_LOW since I saw these :
+> 
+> 
+> #define PCA955X_LS_LED_ON	0x0	/* Output LOW */
+> #define PCA955X_LS_LED_OFF	0x1	/* Output HI-Z */
+> 
+> #define PCA955X_GPO_HIGH	LED_OFF
+> #define PCA955X_GPIO_LOW	LED_FULL
+> 
+> 
+> This will be my DT entry :
+> 
+>          fan3 {
+>              retain-state-shutdown;
+>              default-state = "keep";
+>              gpios = <&pca0 3 GPIO_ACTIVE_HIGH>;
+>          };
+> 
+> Will I be able to use the same “leds-gpio” interfaces irrespective of GPIO_LOW / GPIO_HIGH ?
+> 
+> I use these interfaces today:
+> 
+> echo 255 > brightness —> Turn Solid_ON
+> echo 0 > brightness —> Turn OFF
+> echo “timer” > trigger —> Initiate Blink
+> echo “none” > trigger —> Terminate Blink
 
-> +       pca9552_ibm,
+ From what I can see in gpiolib sources GPIO_ACTIVE_LOW results
+in reversing the logic, i.e. pca955x_gpio_set_value() will
+be passed 0 when setting gpio to 1.
 
-> +       [pca9552_ibm] = {
-
-> +       { "pca9552-ibm", pca9552_ibm },
-
-> +       { .compatible = "nxp,pca9552-ibm", .data = (void *)pca9552_ibm },
-
+Experience doesn't corroborate that?
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Best regards,
+Jacek Anaszewski
