@@ -2,35 +2,32 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D78321C618
-	for <lists+linux-leds@lfdr.de>; Sat, 11 Jul 2020 22:24:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7308421C61F
+	for <lists+linux-leds@lfdr.de>; Sat, 11 Jul 2020 22:30:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727838AbgGKUYX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 11 Jul 2020 16:24:23 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:36066 "EHLO
+        id S1726961AbgGKU3s (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 11 Jul 2020 16:29:48 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:36364 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727099AbgGKUYX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 11 Jul 2020 16:24:23 -0400
+        with ESMTP id S1726780AbgGKU3s (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 11 Jul 2020 16:29:48 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 371561C0BD2; Sat, 11 Jul 2020 22:24:20 +0200 (CEST)
-Date:   Sat, 11 Jul 2020 22:24:19 +0200
+        id 6AA9B1C0BD2; Sat, 11 Jul 2020 22:29:45 +0200 (CEST)
+Date:   Sat, 11 Jul 2020 22:29:45 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Dan Murphy <dmurphy@ti.com>, robh@kernel.org,
+To:     Dan Murphy <dmurphy@ti.com>, marek.behun@nic.cz
+Cc:     jacek.anaszewski@gmail.com, robh@kernel.org,
         devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v29 13/16] leds: lp5523: Update the lp5523 code to add
- multicolor brightness function
-Message-ID: <20200711202419.GA18347@duo.ucw.cz>
+Subject: Re: [PATCH v29 00/16] Multicolor Framework v29
+Message-ID: <20200711202944.GA19108@duo.ucw.cz>
 References: <20200622185919.2131-1-dmurphy@ti.com>
- <20200622185919.2131-14-dmurphy@ti.com>
- <20200711155749.GB22715@amd>
- <c9e20136-7226-2feb-b017-0a0742867f93@gmail.com>
+ <20200704124729.GA20088@amd>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
+        protocol="application/pgp-signature"; boundary="4Ckj6UjgE2iN1+kY"
 Content-Disposition: inline
-In-Reply-To: <c9e20136-7226-2feb-b017-0a0742867f93@gmail.com>
+In-Reply-To: <20200704124729.GA20088@amd>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -38,46 +35,56 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---2fHTh5uZTiUOsy+g
+--4Ckj6UjgE2iN1+kY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat 2020-07-11 19:19:22, Jacek Anaszewski wrote:
-> On 7/11/20 5:57 PM, Pavel Machek wrote:
-> > Hi!
-> >=20
-> > > Add the multicolor brightness call back to support the multicolor
-> > > framework.  This call back allows setting  brightness on grouped chan=
-nels
-> >=20
-> > Extra space before "brightness".
+On Sat 2020-07-04 14:47:29, Pavel Machek wrote:
+> Hi!
 >=20
-> And before "This".
+> > This is the multi color LED framework.   This framework presents cluste=
+red
+> > colored LEDs into an array and allows the user space to adjust the brig=
+htness
+> > of the cluster using a single file write.  The individual colored LEDs
+> > intensities are controlled via a single file that is an array of LEDs
+> >=20
+> > Change to the LEDs Kconfig to fix dependencies on the LP55XX_COMMON.
+> > Added update to the u8500_defconfig
+>=20
+> Marek, would you be willing to look over this series?
+>=20
+> Dan, can we please get it in the order
+>=20
+> 1) fixes first
+>=20
+> 2) changes needed for multicolor but not depending on dt acks
+>=20
+> 3) dt changes
+>=20
+> 4) rest?
 
-That one is intentional, I believe.
+Actually, one more request. I believe I won't be able to take at least
+some of the ARM: dts stuff... not everything is acked. Please put that
+last.
 
-https://www.independent.co.uk/life-style/gadgets-and-tech/news/one-space-or=
--two-spaces-after-a-full-stop-scientists-have-finally-found-the-answer-a833=
-7646.html
-
-We are using fixed width fonts, so typewriter rules still apply here.
-
-Best regards,
+Thank you,
 									Pavel
+
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---2fHTh5uZTiUOsy+g
+--4Ckj6UjgE2iN1+kY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXwof8wAKCRAw5/Bqldv6
-8rAyAJ4hPt7IgHlyAtBRG2ArOmyZ8Mj29QCggA8ecmn08QOBVK7ziUsCW4evjuI=
-=RSa+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXwohOAAKCRAw5/Bqldv6
+8sPyAJ97i6Ntm4lIfSIJO0apJgNpU2HrZwCghh4yCOPhIh9uclm0dxx8ShyVEss=
+=GqAJ
 -----END PGP SIGNATURE-----
 
---2fHTh5uZTiUOsy+g--
+--4Ckj6UjgE2iN1+kY--
