@@ -2,22 +2,22 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B92C021CBC0
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 00:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF24C21CBEB
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 00:38:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727110AbgGLWM2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 12 Jul 2020 18:12:28 -0400
-Received: from vps.xff.cz ([195.181.215.36]:59712 "EHLO vps.xff.cz"
+        id S1727906AbgGLWiY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Jul 2020 18:38:24 -0400
+Received: from vps.xff.cz ([195.181.215.36]:60010 "EHLO vps.xff.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727099AbgGLWM1 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 12 Jul 2020 18:12:27 -0400
+        id S1727795AbgGLWiX (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 12 Jul 2020 18:38:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-        t=1594591945; bh=p8Ou+/ReAlGiGL/G8va0szvgGl7G4nS7JBPLpKZvUPE=;
+        t=1594593502; bh=Xigmr0d8RiWHpj+rKd7rR7nm7Mkg5Q6RCUpm13dySSE=;
         h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
-        b=kheohcW0vIIzh6Sckg9Z6N+Japwgb2QBS7EhuClXZKloJZpCXBdK41vEJrMETogfY
-         K0KTjFC0xGon0vHFbjfCQYg5nX6/jmEj/41ZoIzSyyPB7LqOxDnq9CBrUdeYz4Mp6/
-         WybyvZDnqQAn4eGJQfSodbe/BO8lblAsK6griekU=
-Date:   Mon, 13 Jul 2020 00:12:25 +0200
+        b=HxXwcjYsfwgeupqtWRr40RLGElsrT1XB/Kjjl5ZhqBYAX3qVkyG/fSz7S7EKQpD3m
+         5jv77JnR9NfCnZbU0bqk4iGcEQm8WMqKqJRg1dnewNqGHR21Em/PcHQ4hgWKpKZR9P
+         g29V4+OxVTHKS5PIF1mGn7rJwsxY8VYtzXTZ+IKg=
+Date:   Mon, 13 Jul 2020 00:38:21 +0200
 From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
 To:     Pavel Machek <pavel@ucw.cz>
 Cc:     linux-kernel@vger.kernel.org,
@@ -26,7 +26,7 @@ Cc:     linux-kernel@vger.kernel.org,
         "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
         marek.behun@nic.cz
 Subject: Re: [PATCH RFC] leds: Add support for per-LED device triggers
-Message-ID: <20200712221225.jkfof4edsveoidhm@core.my.home>
+Message-ID: <20200712223821.742ljr4qxdrx3aqv@core.my.home>
 Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
         Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -50,111 +50,15 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Pavel,
+Hello,
 
 On Sun, Jul 12, 2020 at 09:11:11PM +0200, Pavel Machek wrote:
 > Hi!
 > 
-> > > > > > Some LED controllers may come with an internal HW triggering mechanism
-> > > > > > for the LED and an ability to switch between user control of the LED,
-> > > > > > or the internal control. One such example is AXP20X PMIC, that allows
-> > > > > > wither for user control of the LED, or for internal control based on
-> > > > > > the state of the battery charger.
-> > > > > > 
-> > > > > > Add support for registering per-LED device trigger.
-> > > > > > 
-> > > > > > Names of private triggers need to be globally unique, but may clash
-> > > > > > with other private triggers. This is enforced during trigger
-> > > > > > registration. Developers can register private triggers just like
-> > > > > > the normal triggers, by setting private_led to a classdev
-> > > > > > of the LED the trigger is associated with.
-> > > > > 
-> > > > > What about this? Should address Marek's concerns about resource use...
-> > > > 
-> > > > What concerns? Marek's concerns seem to be about case where we register
-> > > > a trigger for (each led * self-working configuration) which I admit
-> > > > can be quite a lot of triggers if there are many functions. But that's
-> > > > not my proposal.
-> > > > 
-> > > > My proposal is to only register on trigger per LED at most. So on my
-> > > > system that's 1 extra trigger and on Marek's system that'd be 48 new
-> > > > triggers. Neither seems like a meaningful problem from resource
-> > > > use perspective.
-> > > 
-> > > So.. 48 triggers on Marek's systems means I'll not apply your patch.
-> > > 
-> > > Please take a look at my version, it is as simple and avoids that
-> > > problem.
-> > 
-> > I would, but I don't see your version linked or mentioned in this
-> > thread.
-> 
-> Ah! Sorry about that. Here it is. (I verified it compiles in the
-> meantime).
-> 
-> Best regards,
-> 								Pavel
-> 
-> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-> index 79e30d2cb7a5..e8333675959c 100644
-> --- a/drivers/leds/led-triggers.c
-> +++ b/drivers/leds/led-triggers.c
-> @@ -27,6 +27,12 @@ LIST_HEAD(trigger_list);
->  
->   /* Used by LED Class */
->  
-> +static inline bool
-> +trigger_relevant(struct led_classdev *led_cdev, struct led_trigger *trig)
-> +{
-> +	return !trig->trigger_type || trig->trigger_type == led_cdev->trigger_type;
-> +}
-> +
->  ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
->  			  struct bin_attribute *bin_attr, char *buf,
->  			  loff_t pos, size_t count)
-> @@ -50,7 +56,8 @@ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
->  
->  	down_read(&triggers_list_lock);
->  	list_for_each_entry(trig, &trigger_list, next_trig) {
-> -		if (sysfs_streq(buf, trig->name)) {
-> +		if (sysfs_streq(buf, trig->name) &&
-> +		    trigger_relevant(led_cdev, trig)) {
->  			down_write(&led_cdev->trigger_lock);
->  			led_trigger_set(led_cdev, trig);
->  			up_write(&led_cdev->trigger_lock);
-> @@ -96,6 +103,9 @@ static int led_trigger_format(char *buf, size_t size,
->  		bool hit = led_cdev->trigger &&
->  			!strcmp(led_cdev->trigger->name, trig->name);
->  
-> +		if (!trigger_relevant(led_cdev, trig))
-> +			continue;
-> +
->  		len += led_trigger_snprintf(buf + len, size - len,
->  					    " %s%s%s", hit ? "[" : "",
->  					    trig->name, hit ? "]" : "");
-> @@ -243,7 +253,8 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
->  	down_read(&triggers_list_lock);
->  	down_write(&led_cdev->trigger_lock);
->  	list_for_each_entry(trig, &trigger_list, next_trig) {
-> -		if (!strcmp(led_cdev->default_trigger, trig->name)) {
-> +		if (!strcmp(led_cdev->default_trigger, trig->name) &&
-> +		    trigger_relevant(led_cdev, trig)) {
->  			led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
->  			led_trigger_set(led_cdev, trig);
->  			break;
-> @@ -280,7 +291,8 @@ int led_trigger_register(struct led_trigger *trig)
->  	down_write(&triggers_list_lock);
->  	/* Make sure the trigger's name isn't already in use */
->  	list_for_each_entry(_trig, &trigger_list, next_trig) {
-> -		if (!strcmp(_trig->name, trig->name)) {
-> +		if (!strcmp(_trig->name, trig->name) &&
-> +		    (!_trig->private_led || _trig->private_led == trig->private_led)) {
->  			up_write(&triggers_list_lock);
->  			return -EEXIST;
+
+[....]
+
 >  		}
-
-This would not compile, probably some stale code.
-
 > diff --git a/include/linux/leds.h b/include/linux/leds.h
 > index 2451962d1ec5..cba52714558f 100644
 > --- a/include/linux/leds.h
@@ -190,7 +94,13 @@ This would not compile, probably some stale code.
 >  	rwlock_t	  leddev_list_lock;
 >  	struct list_head  led_cdevs;
 
-I like this proposal. I'll try to use it in my code. Thank you!
+So after trying to use this, this seems to disallow the use of multiple HW
+triggers per LED. That's fine by me, because using one HW sysfs configured
+trigger per LED that use case is my proposal, but is it desireable in general?
+
+Drivers would be forced to use just one HW trigger + sysfs config, instead
+of having freedom between choosing either that or expressing multiple hw
+triggering modes via multiple differently named HW triggers.
 
 regards,
 	o.
