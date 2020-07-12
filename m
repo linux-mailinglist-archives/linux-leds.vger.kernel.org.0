@@ -2,31 +2,22 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38DCE21C81F
-	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 10:43:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCFD121C824
+	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 10:51:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728408AbgGLIn4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 12 Jul 2020 04:43:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32820 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725974AbgGLIn4 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 12 Jul 2020 04:43:56 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0FBEC206F4;
-        Sun, 12 Jul 2020 08:43:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594543435;
-        bh=22sV2MagMmijC5jLGB+iBOFAm/AVasieEZPd64yd1fs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DRgGTQSSupucv9ZBmwj4sElmGyb4FjlfugP19PVIFD1FFuq1pgwDfzVOflaRp8vJD
-         jHMKXKq5T5jkc0r5FH5PPj2nshal6aI69KN+femZ0MXChU7hIBFPeaVwW6buCVx3dx
-         1OqlctSANgEK0KMa4otrP9XS6HxyXkVO/bcz2OhM=
-Date:   Sun, 12 Jul 2020 10:43:52 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Pavel Machek <pavel@denx.de>
-Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        id S1728070AbgGLIvC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Jul 2020 04:51:02 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:51972 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727777AbgGLIvC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 12 Jul 2020 04:51:02 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id AC08A1C0BD2; Sun, 12 Jul 2020 10:50:59 +0200 (CEST)
+Date:   Sun, 12 Jul 2020 10:50:59 +0200
+From:   Pavel Machek <pavel@denx.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Pavel Machek <pavel@denx.de>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Dan Murphy <dmurphy@ti.com>, Jiri Slaby <jslaby@suse.com>,
@@ -34,28 +25,54 @@ Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?=
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
         Johan Hovold <johan@kernel.org>
 Subject: Re: [PATCH v7 3/3] leds: trigger: implement a tty trigger
-Message-ID: <20200712084352.GA175558@kroah.com>
+Message-ID: <20200712085059.GA13495@amd>
 References: <20200707165958.16522-1-u.kleine-koenig@pengutronix.de>
  <20200707165958.16522-4-u.kleine-koenig@pengutronix.de>
  <20200712082453.GI8295@amd>
+ <20200712084352.GA175558@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="9amGYk9869ThD9tj"
 Content-Disposition: inline
-In-Reply-To: <20200712082453.GI8295@amd>
+In-Reply-To: <20200712084352.GA175558@kroah.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Jul 12, 2020 at 10:24:53AM +0200, Pavel Machek wrote:
-> > +++ b/drivers/leds/trigger/ledtrig-tty.c
-> > @@ -0,0 +1,192 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> 
-> 2.0+ is preffered.
 
-No it is not, that's up to the developer.
+--9amGYk9869ThD9tj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+On Sun 2020-07-12 10:43:52, Greg Kroah-Hartman wrote:
+> On Sun, Jul 12, 2020 at 10:24:53AM +0200, Pavel Machek wrote:
+> > > +++ b/drivers/leds/trigger/ledtrig-tty.c
+> > > @@ -0,0 +1,192 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> >=20
+> > 2.0+ is preffered.
+>=20
+> No it is not, that's up to the developer.
 
-greg k-h
+For code I maintain, yes it is.
+								Pavel
+--=20
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+
+--9amGYk9869ThD9tj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl8KzvMACgkQMOfwapXb+vJg0gCgiaHo248bMnC/ER1wS0CSxqGG
+PR8Anjb6IckYrVJmK2nIuQvvbra8cq0L
+=0XQO
+-----END PGP SIGNATURE-----
+
+--9amGYk9869ThD9tj--
