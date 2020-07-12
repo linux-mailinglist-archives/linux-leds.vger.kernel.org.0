@@ -2,199 +2,185 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C0F721CB84
-	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 23:10:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DC3221CB91
+	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 23:27:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729397AbgGLVKD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 12 Jul 2020 17:10:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37784 "EHLO
+        id S1729398AbgGLV1P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Jul 2020 17:27:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729020AbgGLVKD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 12 Jul 2020 17:10:03 -0400
-X-Greylist: delayed 239 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 12 Jul 2020 14:10:03 PDT
-Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 103E4C061794
-        for <linux-leds@vger.kernel.org>; Sun, 12 Jul 2020 14:10:03 -0700 (PDT)
-Received: from localhost (unknown [172.20.6.135])
-        by mail.nic.cz (Postfix) with ESMTPSA id 9B0851409F2;
-        Sun, 12 Jul 2020 23:10:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1594588201; bh=AXsAQ00im1dBSWjGHBbi6ub/aO46gj06mSMMisx+SwU=;
-        h=Date:From:To;
-        b=sEDKjswbXXkqD7crJCA/YWAVNrdRpg2PyC+qSfzaZHrkU5GDwjusXbZDgvyAtake5
-         hDF2K35lkRCr//rcLV3yVeLUuKlWdggbOJRXm9tv6aRnycDXtlMH1R65MbEZksebtk
-         i2VOf19aHhVfeay6ijw9q/+Sje+o+6Ph7zOIxFL0=
-Date:   Sun, 12 Jul 2020 23:10:01 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     =?UTF-8?B?T25kxZllag==?= Jirman <megous@megous.com>,
-        linux-kernel@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH RFC] leds: Add support for per-LED device triggers
-Message-ID: <20200712231001.7c1060e4@nic.cz>
-In-Reply-To: <20200712191111.GA20592@amd>
-References: <20200702144712.1994685-1-megous@megous.com>
-        <20200711100409.GA18901@amd>
-        <20200711210111.5ysijhexgyzyr7u7@core.my.home>
-        <20200712072554.GC4721@duo.ucw.cz>
-        <20200712134911.r3lig4hgyqhmslth@core.my.home>
-        <20200712191111.GA20592@amd>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        with ESMTP id S1728986AbgGLV1P (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 12 Jul 2020 17:27:15 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7D9AC061794;
+        Sun, 12 Jul 2020 14:27:14 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id a1so4649944edt.10;
+        Sun, 12 Jul 2020 14:27:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=W76jVfxrTuIoZAkYpgqaF7QYNtH8+hF3xcWuK3L4NXU=;
+        b=fObt6Sr7OHrYonZDkr9pOq08Aft0DuzQWFynrZ9nOJmji4YmH8LvXtn93+V+2/bBGB
+         UGX8B7+rcAo/1jUdHV4KNK/rXGOGKU+AhsVcJkzzSeB3U9jHpOideWlnHx6kFTrEiN1a
+         xhx3suN/JBZIKpwqpWNq7kQpMNiE4MIZuHS4I/3dg8DQhwlUKhLxJ4VdW8yhVbU2aoL8
+         AlVFxKrCzfzCLEeAxZXVvRTHlz+Mu838Qf+VEz/2DStkcKN8++pZTTCUuK6rOiBunVE9
+         LvhL1wMYKqzZvqQ6zqt5RIDOTTTLgy6M/lE2aVsr0YzOsMj+CcHCjDFfLwy4Z3V0qQc2
+         h8UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=W76jVfxrTuIoZAkYpgqaF7QYNtH8+hF3xcWuK3L4NXU=;
+        b=IXf1f2Uz+kV8fz8W4FVdRFcO1VK+/TCpSuKaVKsXdHoX1qzGIdTiTpICKNCRriGo9d
+         qLyIFxTMK86SiciZyM4Pg/1uTZlgMhzgOcU3EQNIpkvJaqXxq1TcWhN0taqowsw1uaEc
+         5I5YGFdsFYjqTbictkNyMU18oal/eQmQP90dkkR8yzHbhksG4vkJ0FcwcEA/CMCDNj5t
+         lMQS3NWmbyvRH7+9Ef5wchHiWk+FvYNtRdLIMU4HZew+FgFTbnv4DHmKEil1G8fcecWo
+         hr9mik75XW7if8N0huejiwa60Q6FaVOrpeuMH/h93ZUkhN2p7w6ksEQ22OanE8D6eUlq
+         x5VA==
+X-Gm-Message-State: AOAM530GlgGXh6qZtcnx3lMIe7hvQAbpOPLvPbu9R6lTyx+aosejoufN
+        zjPc4pu9nOBzVom1cSJqWWI8wZz6
+X-Google-Smtp-Source: ABdhPJyo0x7bRRExYweVLKjr4RL7y3u1jEiiRm2bgsGVFkHO7XzbdfDv64wQExU06pJoFjWe0+qtPA==
+X-Received: by 2002:aa7:dc46:: with SMTP id g6mr82771516edu.194.1594589231593;
+        Sun, 12 Jul 2020 14:27:11 -0700 (PDT)
+Received: from ?IPv6:2a01:110f:b59:fd00:416b:3fd:d547:2e80? ([2a01:110f:b59:fd00:416b:3fd:d547:2e80])
+        by smtp.gmail.com with ESMTPSA id u13sm9857400eds.10.2020.07.12.14.27.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jul 2020 14:27:11 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: add cznic,turris-omnia-leds
+ binding
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
+        linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20200712210601.5239-1-marek.behun@nic.cz>
+ <20200712210601.5239-2-marek.behun@nic.cz>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <4609c389-4be6-0987-5078-725b43153596@gmail.com>
+Date:   Sun, 12 Jul 2020 23:27:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+In-Reply-To: <20200712210601.5239-2-marek.behun@nic.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 12 Jul 2020 21:11:11 +0200
-Pavel Machek <pavel@ucw.cz> wrote:
+Hi Marek,
 
-> Hi!
+Thank you for the patch. One note below.
+
+On 7/12/20 11:06 PM, Marek Behún wrote:
+> Add device-tree bindings documentation for Turris Omnia RGB LEDs.
 > 
-> > > > > > Some LED controllers may come with an internal HW triggering mechanism
-> > > > > > for the LED and an ability to switch between user control of the LED,
-> > > > > > or the internal control. One such example is AXP20X PMIC, that allows
-> > > > > > wither for user control of the LED, or for internal control based on
-> > > > > > the state of the battery charger.
-> > > > > > 
-> > > > > > Add support for registering per-LED device trigger.
-> > > > > > 
-> > > > > > Names of private triggers need to be globally unique, but may clash
-> > > > > > with other private triggers. This is enforced during trigger
-> > > > > > registration. Developers can register private triggers just like
-> > > > > > the normal triggers, by setting private_led to a classdev
-> > > > > > of the LED the trigger is associated with.  
-> > > > > 
-> > > > > What about this? Should address Marek's concerns about resource use...  
-> > > > 
-> > > > What concerns? Marek's concerns seem to be about case where we register
-> > > > a trigger for (each led * self-working configuration) which I admit
-> > > > can be quite a lot of triggers if there are many functions. But that's
-> > > > not my proposal.
-> > > > 
-> > > > My proposal is to only register on trigger per LED at most. So on my
-> > > > system that's 1 extra trigger and on Marek's system that'd be 48 new
-> > > > triggers. Neither seems like a meaningful problem from resource
-> > > > use perspective.  
-> > > 
-> > > So.. 48 triggers on Marek's systems means I'll not apply your patch.
-> > > 
-> > > Please take a look at my version, it is as simple and avoids that
-> > > problem.  
-> > 
-> > I would, but I don't see your version linked or mentioned in this
-> > thread.  
+> Signed-off-by: Marek Behún <marek.behun@nic.cz>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> ---
+>   .../leds/cznic,turris-omnia-leds.yaml         | 82 +++++++++++++++++++
+>   1 file changed, 82 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
 > 
-> Ah! Sorry about that. Here it is. (I verified it compiles in the
-> meantime).
-> 
-> Best regards,
-> 								Pavel
-> 
-> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-> index 79e30d2cb7a5..e8333675959c 100644
-> --- a/drivers/leds/led-triggers.c
-> +++ b/drivers/leds/led-triggers.c
-> @@ -27,6 +27,12 @@ LIST_HEAD(trigger_list);
->  
->   /* Used by LED Class */
->  
-> +static inline bool
-> +trigger_relevant(struct led_classdev *led_cdev, struct led_trigger *trig)
-> +{
-> +	return !trig->trigger_type || trig->trigger_type == led_cdev->trigger_type;
-> +}
+> diff --git a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+> new file mode 100644
+> index 000000000000..9817ea3ac69b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/cznic,turris-omnia-leds.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
->  			  struct bin_attribute *bin_attr, char *buf,
->  			  loff_t pos, size_t count)
-> @@ -50,7 +56,8 @@ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
->  
->  	down_read(&triggers_list_lock);
->  	list_for_each_entry(trig, &trigger_list, next_trig) {
-> -		if (sysfs_streq(buf, trig->name)) {
-> +		if (sysfs_streq(buf, trig->name) &&
-> +		    trigger_relevant(led_cdev, trig)) {
->  			down_write(&led_cdev->trigger_lock);
->  			led_trigger_set(led_cdev, trig);
->  			up_write(&led_cdev->trigger_lock);
-> @@ -96,6 +103,9 @@ static int led_trigger_format(char *buf, size_t size,
->  		bool hit = led_cdev->trigger &&
->  			!strcmp(led_cdev->trigger->name, trig->name);
->  
-> +		if (!trigger_relevant(led_cdev, trig))
-> +			continue;
+> +title: CZ.NIC's Turris Omnia LEDs driver
 > +
->  		len += led_trigger_snprintf(buf + len, size - len,
->  					    " %s%s%s", hit ? "[" : "",
->  					    trig->name, hit ? "]" : "");
-> @@ -243,7 +253,8 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
->  	down_read(&triggers_list_lock);
->  	down_write(&led_cdev->trigger_lock);
->  	list_for_each_entry(trig, &trigger_list, next_trig) {
-> -		if (!strcmp(led_cdev->default_trigger, trig->name)) {
-> +		if (!strcmp(led_cdev->default_trigger, trig->name) &&
-> +		    trigger_relevant(led_cdev, trig)) {
->  			led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
->  			led_trigger_set(led_cdev, trig);
->  			break;
-> @@ -280,7 +291,8 @@ int led_trigger_register(struct led_trigger *trig)
->  	down_write(&triggers_list_lock);
->  	/* Make sure the trigger's name isn't already in use */
->  	list_for_each_entry(_trig, &trigger_list, next_trig) {
-> -		if (!strcmp(_trig->name, trig->name)) {
-> +		if (!strcmp(_trig->name, trig->name) &&
-> +		    (!_trig->private_led || _trig->private_led == trig->private_led)) {
->  			up_write(&triggers_list_lock);
->  			return -EEXIST;
->  		}
-> diff --git a/include/linux/leds.h b/include/linux/leds.h
-> index 2451962d1ec5..cba52714558f 100644
-> --- a/include/linux/leds.h
-> +++ b/include/linux/leds.h
-> @@ -57,6 +57,10 @@ struct led_init_data {
->  	bool devname_mandatory;
->  };
->  
-> +struct led_hw_trigger_type {
-> +	int dummy;
-> +}
+> +maintainers:
+> +  - Marek Behún <marek.behun@nic.cz>
 > +
->  struct led_classdev {
->  	const char		*name;
->  	enum led_brightness	 brightness;
-> @@ -150,6 +154,8 @@ struct led_classdev {
->  
->  	/* Ensures consistent access to the LED Flash Class device */
->  	struct mutex		led_access;
+> +description:
+> +  This module adds support for the RGB LEDs found on the fron panel of the
+> +  Turris Omnia router. There are 12 RGB LEDs, they are controlled by device's
+> +  microcontroller with which the system communicates via I2C. Each LED is
+> +  described as a subnode of this I2C device.
 > +
-> +	struct led_hw_trigger_type *trigger_type;
->  };
->  
->  /**
-> @@ -345,6 +351,9 @@ struct led_trigger {
->  	int		(*activate)(struct led_classdev *led_cdev);
->  	void		(*deactivate)(struct led_classdev *led_cdev);
->  
-> +	/* LED-private triggers have this set. */
-> +	struct led_hw_trigger_type *trigger_type;
+> +properties:
+> +  compatible:
+> +    const: cznic,turris-omnia-leds
 > +
->  	/* LEDs under control by this trigger (for simple triggers) */
->  	rwlock_t	  leddev_list_lock;
->  	struct list_head  led_cdevs;
+> +  reg:
+> +    description: I2C slave address of the microcontroller.
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^multi-led[0-9a-f]$":
+> +    type: object
+> +    allOf:
+> +      - $ref: leds-class-multicolor.yaml#
+> +    description:
+> +      This node represents one of the RGB LED devices on Turris Omnia.
+> +
+> +    properties:
+> +      reg:
+> +        minimum: 0
+> +        maximum: 11
+> +        description:
+> +          This property identifies one of the LEDs on the front panel of the
+> +          Turris Omnia router.
+> +
+> +    required:
+> +      - reg
+> +
+> +examples:
+> +  - |
+> +
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        led-controller@2b {
+> +            compatible = "cznic,turris-omnia-leds";
+> +            reg = <0x2b>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            multi-led@0 {
+> +                reg = <0>;
+> +                color = <LED_COLOR_ID_MULTI>;
+> +                function = LED_FUNCTION_POWER;
+
+Please provide child nodes for each color LED. Let's stick
+to the bindings closely and not make any deviations from
+the beginning.
+
+> +                linux,default-trigger = "heartbeat";
+> +            };
+> +
+> +            multi-led@a {
+> +                reg = <0xa>;
+> +                color = <LED_COLOR_ID_MULTI>;
+> +                function = LED_FUNCTION_INDICATOR;
+> +                function-enumerator = <1>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
 > 
 
-Hmm, this could actually work and is nicer than my proposal, since it
-does not require to differentiate between a HW and SW trigger when
-changing them.
-
-Marek
+-- 
+Best regards,
+Jacek Anaszewski
