@@ -2,41 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 343E621CB80
-	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 23:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C0F721CB84
+	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 23:10:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729020AbgGLVGI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 12 Jul 2020 17:06:08 -0400
-Received: from mail.nic.cz ([217.31.204.67]:35370 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729398AbgGLVGI (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 12 Jul 2020 17:06:08 -0400
-Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id 84911140A3D;
-        Sun, 12 Jul 2020 23:06:02 +0200 (CEST)
+        id S1729397AbgGLVKD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Jul 2020 17:10:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37784 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729020AbgGLVKD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 12 Jul 2020 17:10:03 -0400
+X-Greylist: delayed 239 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 12 Jul 2020 14:10:03 PDT
+Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 103E4C061794
+        for <linux-leds@vger.kernel.org>; Sun, 12 Jul 2020 14:10:03 -0700 (PDT)
+Received: from localhost (unknown [172.20.6.135])
+        by mail.nic.cz (Postfix) with ESMTPSA id 9B0851409F2;
+        Sun, 12 Jul 2020 23:10:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1594587962; bh=0iyJPcxE3rvj2J6yHVEtEBn6csPJa95cjAzJrdRpZeA=;
-        h=From:To:Date;
-        b=jxX54ocU/awdz2NYMbFw1cxG1F95QJ1g5LluDsWN0oLAtBCKtO/CFSJz4MMiKwcTq
-         Rl4ly5At1/y0nGnhu6prK7F9ZKb9HFKq5JU8Mo8QNKbk259oL2orxjWQcThFdpQi+m
-         KVNqIQ6Z9ioEIppzwGyhn+XJ0CjaYwjseMMN0BS0=
-From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-To:     linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, jacek.anaszewski@gmail.com,
+        t=1594588201; bh=AXsAQ00im1dBSWjGHBbi6ub/aO46gj06mSMMisx+SwU=;
+        h=Date:From:To;
+        b=sEDKjswbXXkqD7crJCA/YWAVNrdRpg2PyC+qSfzaZHrkU5GDwjusXbZDgvyAtake5
+         hDF2K35lkRCr//rcLV3yVeLUuKlWdggbOJRXm9tv6aRnycDXtlMH1R65MbEZksebtk
+         i2VOf19aHhVfeay6ijw9q/+Sje+o+6Ph7zOIxFL0=
+Date:   Sun, 12 Jul 2020 23:10:01 +0200
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     =?UTF-8?B?T25kxZllag==?= Jirman <megous@megous.com>,
+        linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-Subject: [PATCH v3 2/2] leds: initial support for Turris Omnia LEDs
-Date:   Sun, 12 Jul 2020 23:06:01 +0200
-Message-Id: <20200712210601.5239-3-marek.behun@nic.cz>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200712210601.5239-1-marek.behun@nic.cz>
-References: <20200712210601.5239-1-marek.behun@nic.cz>
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH RFC] leds: Add support for per-LED device triggers
+Message-ID: <20200712231001.7c1060e4@nic.cz>
+In-Reply-To: <20200712191111.GA20592@amd>
+References: <20200702144712.1994685-1-megous@megous.com>
+        <20200711100409.GA18901@amd>
+        <20200711210111.5ysijhexgyzyr7u7@core.my.home>
+        <20200712072554.GC4721@duo.ucw.cz>
+        <20200712134911.r3lig4hgyqhmslth@core.my.home>
+        <20200712191111.GA20592@amd>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Spam-Status: No, score=0.00
-X-Spamd-Bar: /
 X-Virus-Scanned: clamav-milter 0.102.2 at mail
 X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
@@ -44,359 +55,146 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This adds basic support for LEDs on the front side of CZ.NIC's Turris
-Omnia router.
+On Sun, 12 Jul 2020 21:11:11 +0200
+Pavel Machek <pavel@ucw.cz> wrote:
 
-There are 12 RGB LEDs. The controller supports HW triggering mode for
-the LEDs, but this driver does not support it yet, and sets all the LEDs
-defined in device-tree into SW mode upon probe.
+> Hi!
+> 
+> > > > > > Some LED controllers may come with an internal HW triggering mechanism
+> > > > > > for the LED and an ability to switch between user control of the LED,
+> > > > > > or the internal control. One such example is AXP20X PMIC, that allows
+> > > > > > wither for user control of the LED, or for internal control based on
+> > > > > > the state of the battery charger.
+> > > > > > 
+> > > > > > Add support for registering per-LED device trigger.
+> > > > > > 
+> > > > > > Names of private triggers need to be globally unique, but may clash
+> > > > > > with other private triggers. This is enforced during trigger
+> > > > > > registration. Developers can register private triggers just like
+> > > > > > the normal triggers, by setting private_led to a classdev
+> > > > > > of the LED the trigger is associated with.  
+> > > > > 
+> > > > > What about this? Should address Marek's concerns about resource use...  
+> > > > 
+> > > > What concerns? Marek's concerns seem to be about case where we register
+> > > > a trigger for (each led * self-working configuration) which I admit
+> > > > can be quite a lot of triggers if there are many functions. But that's
+> > > > not my proposal.
+> > > > 
+> > > > My proposal is to only register on trigger per LED at most. So on my
+> > > > system that's 1 extra trigger and on Marek's system that'd be 48 new
+> > > > triggers. Neither seems like a meaningful problem from resource
+> > > > use perspective.  
+> > > 
+> > > So.. 48 triggers on Marek's systems means I'll not apply your patch.
+> > > 
+> > > Please take a look at my version, it is as simple and avoids that
+> > > problem.  
+> > 
+> > I would, but I don't see your version linked or mentioned in this
+> > thread.  
+> 
+> Ah! Sorry about that. Here it is. (I verified it compiles in the
+> meantime).
+> 
+> Best regards,
+> 								Pavel
+> 
+> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+> index 79e30d2cb7a5..e8333675959c 100644
+> --- a/drivers/leds/led-triggers.c
+> +++ b/drivers/leds/led-triggers.c
+> @@ -27,6 +27,12 @@ LIST_HEAD(trigger_list);
+>  
+>   /* Used by LED Class */
+>  
+> +static inline bool
+> +trigger_relevant(struct led_classdev *led_cdev, struct led_trigger *trig)
+> +{
+> +	return !trig->trigger_type || trig->trigger_type == led_cdev->trigger_type;
+> +}
+> +
+>  ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+>  			  struct bin_attribute *bin_attr, char *buf,
+>  			  loff_t pos, size_t count)
+> @@ -50,7 +56,8 @@ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+>  
+>  	down_read(&triggers_list_lock);
+>  	list_for_each_entry(trig, &trigger_list, next_trig) {
+> -		if (sysfs_streq(buf, trig->name)) {
+> +		if (sysfs_streq(buf, trig->name) &&
+> +		    trigger_relevant(led_cdev, trig)) {
+>  			down_write(&led_cdev->trigger_lock);
+>  			led_trigger_set(led_cdev, trig);
+>  			up_write(&led_cdev->trigger_lock);
+> @@ -96,6 +103,9 @@ static int led_trigger_format(char *buf, size_t size,
+>  		bool hit = led_cdev->trigger &&
+>  			!strcmp(led_cdev->trigger->name, trig->name);
+>  
+> +		if (!trigger_relevant(led_cdev, trig))
+> +			continue;
+> +
+>  		len += led_trigger_snprintf(buf + len, size - len,
+>  					    " %s%s%s", hit ? "[" : "",
+>  					    trig->name, hit ? "]" : "");
+> @@ -243,7 +253,8 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
+>  	down_read(&triggers_list_lock);
+>  	down_write(&led_cdev->trigger_lock);
+>  	list_for_each_entry(trig, &trigger_list, next_trig) {
+> -		if (!strcmp(led_cdev->default_trigger, trig->name)) {
+> +		if (!strcmp(led_cdev->default_trigger, trig->name) &&
+> +		    trigger_relevant(led_cdev, trig)) {
+>  			led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
+>  			led_trigger_set(led_cdev, trig);
+>  			break;
+> @@ -280,7 +291,8 @@ int led_trigger_register(struct led_trigger *trig)
+>  	down_write(&triggers_list_lock);
+>  	/* Make sure the trigger's name isn't already in use */
+>  	list_for_each_entry(_trig, &trigger_list, next_trig) {
+> -		if (!strcmp(_trig->name, trig->name)) {
+> +		if (!strcmp(_trig->name, trig->name) &&
+> +		    (!_trig->private_led || _trig->private_led == trig->private_led)) {
+>  			up_write(&triggers_list_lock);
+>  			return -EEXIST;
+>  		}
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index 2451962d1ec5..cba52714558f 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -57,6 +57,10 @@ struct led_init_data {
+>  	bool devname_mandatory;
+>  };
+>  
+> +struct led_hw_trigger_type {
+> +	int dummy;
+> +}
+> +
+>  struct led_classdev {
+>  	const char		*name;
+>  	enum led_brightness	 brightness;
+> @@ -150,6 +154,8 @@ struct led_classdev {
+>  
+>  	/* Ensures consistent access to the LED Flash Class device */
+>  	struct mutex		led_access;
+> +
+> +	struct led_hw_trigger_type *trigger_type;
+>  };
+>  
+>  /**
+> @@ -345,6 +351,9 @@ struct led_trigger {
+>  	int		(*activate)(struct led_classdev *led_cdev);
+>  	void		(*deactivate)(struct led_classdev *led_cdev);
+>  
+> +	/* LED-private triggers have this set. */
+> +	struct led_hw_trigger_type *trigger_type;
+> +
+>  	/* LEDs under control by this trigger (for simple triggers) */
+>  	rwlock_t	  leddev_list_lock;
+>  	struct list_head  led_cdevs;
+> 
 
-This driver uses the multi color LED framework.
+Hmm, this could actually work and is nicer than my proposal, since it
+does not require to differentiate between a HW and SW trigger when
+changing them.
 
-Signed-off-by: Marek Behún <marek.behun@nic.cz>
----
- drivers/leds/Kconfig             |  11 ++
- drivers/leds/Makefile            |   1 +
- drivers/leds/leds-turris-omnia.c | 296 +++++++++++++++++++++++++++++++
- 3 files changed, 308 insertions(+)
- create mode 100644 drivers/leds/leds-turris-omnia.c
-
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 04e0cb39f92e..0f960ecdd950 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -176,6 +176,17 @@ config LEDS_EL15203000
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called leds-el15203000.
- 
-+config LEDS_TURRIS_OMNIA
-+	tristate "LED support for CZ.NIC's Turris Omnia"
-+	depends on LEDS_CLASS_MULTI_COLOR
-+	depends on I2C
-+	depends on MACH_ARMADA_38X || COMPILE_TEST
-+	depends on OF
-+	help
-+	  This option enables basic support for the LEDs found on the front
-+	  side of CZ.NIC's Turris Omnia router. There are 12 RGB LEDs on the
-+	  front panel.
-+
- config LEDS_LM3530
- 	tristate "LCD Backlight driver for LM3530"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 68c05faec99e..0dcea0322fd3 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -88,6 +88,7 @@ obj-$(CONFIG_LEDS_TCA6507)		+= leds-tca6507.o
- obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
- obj-$(CONFIG_LEDS_TLC591XX)		+= leds-tlc591xx.o
- obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
-+obj-$(CONFIG_LEDS_TURRIS_OMNIA)		+= leds-turris-omnia.o
- obj-$(CONFIG_LEDS_WM831X_STATUS)	+= leds-wm831x-status.o
- obj-$(CONFIG_LEDS_WM8350)		+= leds-wm8350.o
- obj-$(CONFIG_LEDS_WRAP)			+= leds-wrap.o
-diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-new file mode 100644
-index 000000000000..0aa79abf0ed4
---- /dev/null
-+++ b/drivers/leds/leds-turris-omnia.c
-@@ -0,0 +1,296 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * CZ.NIC's Turris Omnia LEDs driver
-+ *
-+ * 2020 by Marek Behun <marek.behun@nic.cz>
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/led-class-multicolor.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of.h>
-+#include "leds.h"
-+
-+#define OMNIA_BOARD_LEDS		12
-+
-+#define CMD_LED_MODE			3
-+#define CMD_LED_MODE_LED(l)		((l) & 0x0f)
-+#define CMD_LED_MODE_USER		0x10
-+
-+#define CMD_LED_STATE			4
-+#define CMD_LED_STATE_LED(l)		((l) & 0x0f)
-+#define CMD_LED_STATE_ON		0x10
-+
-+#define CMD_LED_COLOR			5
-+#define CMD_LED_SET_BRIGHTNESS		7
-+#define CMD_LED_GET_BRIGHTNESS		8
-+
-+#define OMNIA_CMD			0
-+
-+#define OMNIA_CMD_LED_COLOR_LED		1
-+#define OMNIA_CMD_LED_COLOR_R		2
-+#define OMNIA_CMD_LED_COLOR_G		3
-+#define OMNIA_CMD_LED_COLOR_B		4
-+#define OMNIA_CMD_LED_COLOR_LEN		5
-+
-+struct omnia_led {
-+	struct led_classdev_mc mc_cdev;
-+	struct mc_subled subled_info[3];
-+	int reg;
-+};
-+
-+#define to_omnia_led(l)		container_of(l, struct omnia_led, mc_cdev)
-+
-+struct omnia_leds {
-+	struct i2c_client *client;
-+	struct mutex lock;
-+	int nleds;
-+	struct omnia_led leds[0];
-+};
-+
-+static int omnia_led_brightness_set_blocking(struct led_classdev *cdev,
-+					     enum led_brightness brightness)
-+{
-+	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
-+	struct omnia_leds *leds = dev_get_drvdata(cdev->dev->parent);
-+	struct omnia_led *led = to_omnia_led(mc_cdev);
-+	u8 buf[OMNIA_CMD_LED_COLOR_LEN], state;
-+	int ret;
-+
-+	led_mc_calc_color_components(&led->mc_cdev, brightness);
-+
-+	mutex_lock(&leds->lock);
-+
-+	buf[OMNIA_CMD] = CMD_LED_COLOR;
-+	buf[OMNIA_CMD_LED_COLOR_LED] = led->reg;
-+	buf[OMNIA_CMD_LED_COLOR_R] = mc_cdev->subled_info[0].brightness;
-+	buf[OMNIA_CMD_LED_COLOR_G] = mc_cdev->subled_info[1].brightness;
-+	buf[OMNIA_CMD_LED_COLOR_B] = mc_cdev->subled_info[2].brightness;
-+
-+	state = CMD_LED_STATE_LED(led->reg);
-+	if (buf[OMNIA_CMD_LED_COLOR_R] || buf[OMNIA_CMD_LED_COLOR_G] || buf[OMNIA_CMD_LED_COLOR_B])
-+		state |= CMD_LED_STATE_ON;
-+
-+	ret = i2c_smbus_write_byte_data(leds->client, CMD_LED_STATE, state);
-+	if (ret >= 0 && (state & CMD_LED_STATE_ON))
-+		ret = i2c_master_send(leds->client, buf, 5);
-+
-+	mutex_unlock(&leds->lock);
-+
-+	return ret;
-+}
-+
-+static int omnia_led_register(struct omnia_leds *leds, struct device_node *np)
-+{
-+	struct i2c_client *client = leds->client;
-+	struct led_init_data init_data = {};
-+	struct device *dev = &client->dev;
-+	struct led_classdev *cdev;
-+	struct omnia_led *led;
-+	int ret, color;
-+
-+	led = &leds->leds[leds->nleds];
-+
-+	ret = of_property_read_u32(np, "reg", &led->reg);
-+	if (ret || led->reg >= OMNIA_BOARD_LEDS) {
-+		dev_warn(dev,
-+			 "Node %pOF: must contain 'reg' property with values between 0 and %i\n",
-+			 np, OMNIA_BOARD_LEDS - 1);
-+		return 0;
-+	}
-+
-+	ret = of_property_read_u32(np, "color", &color);
-+	if (ret || color != LED_COLOR_ID_MULTI) {
-+		dev_warn(dev,
-+			 "Node %pOF: must contain 'color' property with value LED_COLOR_ID_MULTI\n",
-+			 np);
-+		return 0;
-+	}
-+
-+	led->subled_info[0].color_index = LED_COLOR_ID_RED;
-+	led->subled_info[0].channel = 0;
-+	led->subled_info[1].color_index = LED_COLOR_ID_GREEN;
-+	led->subled_info[1].channel = 1;
-+	led->subled_info[2].color_index = LED_COLOR_ID_BLUE;
-+	led->subled_info[2].channel = 2;
-+
-+	led->mc_cdev.subled_info = led->subled_info;
-+	led->mc_cdev.num_colors = 3;
-+
-+	init_data.fwnode = &np->fwnode;
-+
-+	cdev = &led->mc_cdev.led_cdev;
-+	cdev->max_brightness = 255;
-+	cdev->brightness_set_blocking = omnia_led_brightness_set_blocking;
-+
-+	of_property_read_string(np, "linux,default-trigger", &cdev->default_trigger);
-+
-+	/* put the LED into software mode */
-+	ret = i2c_smbus_write_byte_data(client, CMD_LED_MODE,
-+					CMD_LED_MODE_LED(led->reg) |
-+					CMD_LED_MODE_USER);
-+	if (ret < 0) {
-+		dev_err(dev, "Cannot set LED %pOF to software mode: %i\n", np, ret);
-+		return ret;
-+	}
-+
-+	/* disable the LED */
-+	ret = i2c_smbus_write_byte_data(client, CMD_LED_STATE, CMD_LED_STATE_LED(led->reg));
-+	if (ret < 0) {
-+		dev_err(dev, "Cannot set LED %pOF brightness: %i\n", np, ret);
-+		return ret;
-+	}
-+
-+	ret = devm_led_classdev_multicolor_register_ext(dev, &led->mc_cdev, &init_data);
-+	if (ret < 0) {
-+		dev_err(dev, "Cannot register LED %pOF: %i\n", np, ret);
-+		return ret;
-+	}
-+
-+	++leds->nleds;
-+
-+	return 0;
-+}
-+
-+/*
-+ * On the front panel of the Turris Omnia router there is also a button which can be used to control
-+ * the intensity of all the LEDs at once, so that if they are too bright, user can dim them.
-+ * The microcontroller cycles between 8 levels of this global brightness (from 100% to 0%), but this
-+ * setting can have any integer value between 0 and 100.
-+ * It is usable to be able to change this value from software, so that it does not start at 100%
-+ * after every power on and annoy the user.
-+ * We expose this setting via a sysfs attribute file called "brightness". This file lives in the
-+ * device directory of the LED controller, not an individual LED, so it should not confuse users.
-+ */
-+static ssize_t brightness_show(struct device *dev, struct device_attribute *a, char *buf)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct omnia_leds *leds = i2c_get_clientdata(client);
-+	int ret;
-+
-+	mutex_lock(&leds->lock);
-+	ret = i2c_smbus_read_byte_data(client, CMD_LED_GET_BRIGHTNESS);
-+	mutex_unlock(&leds->lock);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	return sprintf(buf, "%d\n", ret);
-+}
-+
-+static ssize_t brightness_store(struct device *dev, struct device_attribute *a, const char *buf,
-+				size_t count)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct omnia_leds *leds = i2c_get_clientdata(client);
-+	unsigned int brightness;
-+	int ret;
-+
-+	if (sscanf(buf, "%u", &brightness) != 1)
-+		return -EINVAL;
-+
-+	if (brightness > 100)
-+		return -EINVAL;
-+
-+	mutex_lock(&leds->lock);
-+	ret = i2c_smbus_write_byte_data(client, CMD_LED_SET_BRIGHTNESS, (u8) brightness);
-+	mutex_unlock(&leds->lock);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	return count;
-+}
-+static DEVICE_ATTR_RW(brightness);
-+
-+static struct attribute *omnia_led_controller_attrs[] = {
-+	&dev_attr_brightness.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(omnia_led_controller);
-+
-+static int omnia_leds_probe(struct i2c_client *client,
-+			    const struct i2c_device_id *id)
-+{
-+	struct device *dev = &client->dev;
-+	struct device_node *np = dev->of_node, *child;
-+	struct omnia_leds *leds;
-+	int ret, count;
-+
-+	count = of_get_available_child_count(np);
-+	if (!count) {
-+		dev_err(dev, "LEDs are not defined in device tree!\n");
-+		return -ENODEV;
-+	} else if (count > OMNIA_BOARD_LEDS) {
-+		dev_err(dev, "Too many LEDs defined in device tree!\n");
-+		return -EINVAL;
-+	}
-+
-+	leds = devm_kzalloc(dev, sizeof(*leds) + count * sizeof(leds->leds[0]),
-+			    GFP_KERNEL);
-+	if (!leds)
-+		return -ENOMEM;
-+
-+	leds->client = client;
-+	i2c_set_clientdata(client, leds);
-+
-+	mutex_init(&leds->lock);
-+
-+	for_each_available_child_of_node(np, child) {
-+		ret = omnia_led_register(leds, child);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	if (devm_device_add_groups(dev, omnia_led_controller_groups))
-+		dev_warn(dev, "Could not add attribute group!\n");
-+
-+	return 0;
-+}
-+
-+static int omnia_leds_remove(struct i2c_client *client)
-+{
-+	u8 buf[OMNIA_CMD_LED_COLOR_LEN];
-+
-+	/* put all LEDs into default (HW triggered) mode */
-+	i2c_smbus_write_byte_data(client, CMD_LED_MODE,
-+				  CMD_LED_MODE_LED(OMNIA_BOARD_LEDS));
-+
-+	/* set all LEDs color to [255, 255, 255] */
-+	buf[OMNIA_CMD] = CMD_LED_COLOR;
-+	buf[OMNIA_CMD_LED_COLOR_LED] = OMNIA_BOARD_LEDS;
-+	buf[OMNIA_CMD_LED_COLOR_R] = 255;
-+	buf[OMNIA_CMD_LED_COLOR_G] = 255;
-+	buf[OMNIA_CMD_LED_COLOR_B] = 255;
-+
-+	i2c_master_send(client, buf, 5);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id of_omnia_leds_match[] = {
-+	{ .compatible = "cznic,turris-omnia-leds", },
-+	{},
-+};
-+
-+static const struct i2c_device_id omnia_id[] = {
-+	{ "omnia", 0 },
-+	{ }
-+};
-+
-+static struct i2c_driver omnia_leds_driver = {
-+	.probe		= omnia_leds_probe,
-+	.remove		= omnia_leds_remove,
-+	.id_table	= omnia_id,
-+	.driver		= {
-+		.name	= "leds-turris-omnia",
-+		.of_match_table = of_omnia_leds_match,
-+	},
-+};
-+
-+module_i2c_driver(omnia_leds_driver);
-+
-+MODULE_AUTHOR("Marek Behun <marek.behun@nic.cz>");
-+MODULE_DESCRIPTION("CZ.NIC's Turris Omnia LEDs");
-+MODULE_LICENSE("GPL v2");
--- 
-2.26.2
-
+Marek
