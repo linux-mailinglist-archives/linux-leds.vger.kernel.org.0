@@ -2,89 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51B1421C847
-	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 11:32:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1C3321C993
+	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 15:49:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728354AbgGLJcB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 12 Jul 2020 05:32:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44566 "EHLO mail.kernel.org"
+        id S1728886AbgGLNtO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Jul 2020 09:49:14 -0400
+Received: from vps.xff.cz ([195.181.215.36]:55000 "EHLO vps.xff.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728341AbgGLJcA (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 12 Jul 2020 05:32:00 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 72F7720720;
-        Sun, 12 Jul 2020 09:31:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594546320;
-        bh=QbBUjOO2ONnvgGnMB4P8D8RHlpRM3HwBtK8P2s+FuHo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DIOaCGD1+bjKJDJVKTV/O8HAFx/9ay39kyDx/3wyN+HoGE6tTP/yDj48Mz9D1nOrY
-         NcF/EMHdvhav34JEa8FoC9yPWjPHQsDxtCoSjNQlNiqv7SRq9ZqLOhXXE9qhdYIrbY
-         PvQ8mAXR4UcmxQWkXeaZKzzcDZQuy0ybtVVu0ClU=
-Date:   Sun, 12 Jul 2020 11:31:55 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Pavel Machek <pavel@denx.de>
-Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
+        id S1728861AbgGLNtO (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 12 Jul 2020 09:49:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+        t=1594561752; bh=XvLcOxUWR9hqFcJloysEBIdGyf9K07fFo/kigqU6iic=;
+        h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
+        b=sFk1Nqx9YZy3QbA+VLrwwPKmXDszKuOWpY1PlORUBzNlAQRMRGSXHnxvyBIF12nbN
+         aBHd+8/m9Tbah/Hw0K/iZht8n9rB0jPDahT1rHNNw9awM/JNySNZ4OZ/lVjAvGoSz3
+         f/ieb8aHXWNRgzInQ8amSkDLXK1zX3ed2BmeaITE=
+Date:   Sun, 12 Jul 2020 15:49:11 +0200
+From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-kernel@vger.kernel.org,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Jiri Slaby <jslaby@suse.com>,
-        kernel@pengutronix.de, linux-serial@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH v7 3/3] leds: trigger: implement a tty trigger
-Message-ID: <20200712093155.GA179963@kroah.com>
-References: <20200707165958.16522-1-u.kleine-koenig@pengutronix.de>
- <20200707165958.16522-4-u.kleine-koenig@pengutronix.de>
- <20200712082453.GI8295@amd>
- <20200712084352.GA175558@kroah.com>
- <20200712085059.GA13495@amd>
- <20200712090217.GA177304@kroah.com>
- <20200712090731.GB13495@amd>
+        Dan Murphy <dmurphy@ti.com>,
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
+        marek.behun@nic.cz
+Subject: Re: [PATCH RFC] leds: Add support for per-LED device triggers
+Message-ID: <20200712134911.r3lig4hgyqhmslth@core.my.home>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
+        marek.behun@nic.cz
+References: <20200702144712.1994685-1-megous@megous.com>
+ <20200711100409.GA18901@amd>
+ <20200711210111.5ysijhexgyzyr7u7@core.my.home>
+ <20200712072554.GC4721@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200712090731.GB13495@amd>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200712072554.GC4721@duo.ucw.cz>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Jul 12, 2020 at 11:07:31AM +0200, Pavel Machek wrote:
-> On Sun 2020-07-12 11:02:17, Greg Kroah-Hartman wrote:
-> > On Sun, Jul 12, 2020 at 10:50:59AM +0200, Pavel Machek wrote:
-> > > On Sun 2020-07-12 10:43:52, Greg Kroah-Hartman wrote:
-> > > > On Sun, Jul 12, 2020 at 10:24:53AM +0200, Pavel Machek wrote:
-> > > > > > +++ b/drivers/leds/trigger/ledtrig-tty.c
-> > > > > > @@ -0,0 +1,192 @@
-> > > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > 
-> > > > > 2.0+ is preffered.
-> > > > 
-> > > > No it is not, that's up to the developer.
-> > > 
-> > > For code I maintain, yes it is.
+Hello,
+
+On Sun, Jul 12, 2020 at 09:25:54AM +0200, Pavel Machek wrote:
+> On Sat 2020-07-11 23:01:11, Ondřej Jirman wrote:
+> > Hello Pavel,
 > > 
-> > That's up to the developer of the code, not the maintainer, as the
-> > maintainer is not the copyright holder of it.  For new files, it is up
-> > to the author of that code.  No maintainer should impose a license rule
-> > like this on their subsystem, that's just not ok at all.  The only
-> > "rule" is that it is compatible with GPLv2, nothing else.
+> > On Sat, Jul 11, 2020 at 12:04:09PM +0200, Pavel Machek wrote:
+> > > Hi!
+> > > 
+> > > > Some LED controllers may come with an internal HW triggering mechanism
+> > > > for the LED and an ability to switch between user control of the LED,
+> > > > or the internal control. One such example is AXP20X PMIC, that allows
+> > > > wither for user control of the LED, or for internal control based on
+> > > > the state of the battery charger.
+> > > > 
+> > > > Add support for registering per-LED device trigger.
+> > > > 
+> > > > Names of private triggers need to be globally unique, but may clash
+> > > > with other private triggers. This is enforced during trigger
+> > > > registration. Developers can register private triggers just like
+> > > > the normal triggers, by setting private_led to a classdev
+> > > > of the LED the trigger is associated with.
+> > > 
+> > > What about this? Should address Marek's concerns about resource use...
+> > 
+> > What concerns? Marek's concerns seem to be about case where we register
+> > a trigger for (each led * self-working configuration) which I admit
+> > can be quite a lot of triggers if there are many functions. But that's
+> > not my proposal.
+> > 
+> > My proposal is to only register on trigger per LED at most. So on my
+> > system that's 1 extra trigger and on Marek's system that'd be 48 new
+> > triggers. Neither seems like a meaningful problem from resource
+> > use perspective.
 > 
-> No, see for example device tree rules.
+> So.. 48 triggers on Marek's systems means I'll not apply your patch.
+> 
+> Please take a look at my version, it is as simple and avoids that
+> problem.
 
-Note, I don't agree with that rule, and if you have noticed, it's not
-really enforced.
+I would, but I don't see your version linked or mentioned in this thread.
 
-> Plus, IIRC it was you who asked the developer to "doublecheck with
-> their legal" when you seen GPL-2.0+.  You can't really prevent me from
-> doing the same.
+thank you and regards,
+	o.
 
-Asking to verify that a specific license is what they really want it to
-be and they know the ramifications of it is NOT the same as saying "For
-code in the subsystem I maintain it has to be GPLv2+".
+> If it works for you, you can submit it properly and I'll likely accept
+> it.
+> 
+> Best regards,
+> 									Pavel
+> -- 
+> (english) http://www.livejournal.com/~pavelmachek
+> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
 
-thanks,
 
-greg k-h
