@@ -2,106 +2,201 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4C0621CBBE
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 00:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B92C021CBC0
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 00:12:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727906AbgGLWLz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 12 Jul 2020 18:11:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47238 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727838AbgGLWLz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 12 Jul 2020 18:11:55 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AAAEC061794;
-        Sun, 12 Jul 2020 15:11:55 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id y10so13194530eje.1;
-        Sun, 12 Jul 2020 15:11:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lLj/bs7AsTeL4aQLydn/QJv9f9oPPwS3qEKRHPI9MFU=;
-        b=g1kGe88jxl8niV1GOLtWC+yCUgxTT0olqyW4tR2UBJsTuO1yBqofIKAcbF3s6M4+e4
-         RssnyRuD9sa/mChrJJrHSL5rjvEH0C+qGOrU8ivDykRcQuUdJpU6G+LZbgChkvikxqhu
-         ImRm3CXyhOZFovfNhJiuGGBEqsFmaUzmSTg3Omhs6HbvFSjBGQYJs3ajfNeZEznS87pF
-         r2qsokgRkNsNQuY6CPOdNGYaDR5+QQ5Zu6MWw/1OGnARy+kwPYz/sxQClCy8uqwgzKxZ
-         iH/onMYvih7ms2TnZqumuCcp0TjoW6YCpY6QeJ6AcpAEwssJq/XrbFwSrCWLZ09qHe03
-         W1dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lLj/bs7AsTeL4aQLydn/QJv9f9oPPwS3qEKRHPI9MFU=;
-        b=WsvLWZtozFbNk0VX1E5fga+3+6nT8/bMclo5KGMs6urhB9zohSEZemiVwaW9Vh8XK3
-         q7lFMoz9oqkhRPZPH4glQ4GxSUGsTuzN12IsAOX5mur+6l4xZILGsRAxFPCxnIs0xf5Q
-         aO9vrpwLASrTHB8ae0VzZhL9mwynbEjp5LPiNc0J9XDJydenJ8a3+BxnTnalBFuT8oFr
-         5x0qkojuFPh197yWCnxZdbCjxkyxQvjOY78jVjgN+GHIpzSao5NQwH9nIumywDhEXSPs
-         KBKvMXpZ+0XvswybYRfng1xQXkgE+lzv59lubJhLqP7p0K9RK3s/rWM1VeM11Fa15EiU
-         CiMw==
-X-Gm-Message-State: AOAM5303cCGNZxSN5J7r0pmToIkUQH1S4RAyjI/6nfWxajY+qI+Owkeb
-        Be7oDiWBhT5zI9ORNSjHFAgcsyIG
-X-Google-Smtp-Source: ABdhPJzHux4LUj0AkhYEAJf7mPkaMRH/nvN45sVsX1HkLEAhVoDnqU/M6bC0S4cLaNPMQDSV+FZrKA==
-X-Received: by 2002:a17:906:c943:: with SMTP id fw3mr69762031ejb.55.1594591913750;
-        Sun, 12 Jul 2020 15:11:53 -0700 (PDT)
-Received: from ?IPv6:2a01:110f:b59:fd00:416b:3fd:d547:2e80? ([2a01:110f:b59:fd00:416b:3fd:d547:2e80])
-        by smtp.gmail.com with ESMTPSA id w20sm10216188eds.21.2020.07.12.15.11.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Jul 2020 15:11:53 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: add cznic,turris-omnia-leds
- binding
-To:     Marek Behun <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org
-References: <20200712210601.5239-1-marek.behun@nic.cz>
- <20200712210601.5239-2-marek.behun@nic.cz>
- <4609c389-4be6-0987-5078-725b43153596@gmail.com>
- <20200712234035.213348aa@nic.cz>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <ff707d34-8fc0-342e-3df2-e96e5493004b@gmail.com>
-Date:   Mon, 13 Jul 2020 00:11:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727110AbgGLWM2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Jul 2020 18:12:28 -0400
+Received: from vps.xff.cz ([195.181.215.36]:59712 "EHLO vps.xff.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727099AbgGLWM1 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 12 Jul 2020 18:12:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+        t=1594591945; bh=p8Ou+/ReAlGiGL/G8va0szvgGl7G4nS7JBPLpKZvUPE=;
+        h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
+        b=kheohcW0vIIzh6Sckg9Z6N+Japwgb2QBS7EhuClXZKloJZpCXBdK41vEJrMETogfY
+         K0KTjFC0xGon0vHFbjfCQYg5nX6/jmEj/41ZoIzSyyPB7LqOxDnq9CBrUdeYz4Mp6/
+         WybyvZDnqQAn4eGJQfSodbe/BO8lblAsK6griekU=
+Date:   Mon, 13 Jul 2020 00:12:25 +0200
+From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
+        marek.behun@nic.cz
+Subject: Re: [PATCH RFC] leds: Add support for per-LED device triggers
+Message-ID: <20200712221225.jkfof4edsveoidhm@core.my.home>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
+        marek.behun@nic.cz
+References: <20200702144712.1994685-1-megous@megous.com>
+ <20200711100409.GA18901@amd>
+ <20200711210111.5ysijhexgyzyr7u7@core.my.home>
+ <20200712072554.GC4721@duo.ucw.cz>
+ <20200712134911.r3lig4hgyqhmslth@core.my.home>
+ <20200712191111.GA20592@amd>
 MIME-Version: 1.0
-In-Reply-To: <20200712234035.213348aa@nic.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200712191111.GA20592@amd>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 7/12/20 11:40 PM, Marek Behun wrote:
-> On Sun, 12 Jul 2020 23:27:07 +0200
-> Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
-> 
->>> +            multi-led@0 {
->>> +                reg = <0>;
->>> +                color = <LED_COLOR_ID_MULTI>;
->>> +                function = LED_FUNCTION_POWER;
->>
->> Please provide child nodes for each color LED. Let's stick
->> to the bindings closely and not make any deviations from
->> the beginning.
-> 
-> Why? It would make sense if there were devices using this controller
-> having other configuration, but on Omnia, all LEDs are RGB.
-> 
-> Also, if I do this, should I also make the driver check in the probe
-> function whether the per-channel child nodes are correct? Eg. if they
-> are always three: one for red, one for green and one for blue? Or
-> should the driver ignore this and only the device tree binding specify
-> it?
-> 
-> Because the way the driver is written now, it only registers
-> multi-color RGB LEDs.
+Hello Pavel,
 
-This is not RGB framework, but multicolor framework. It is not justified
-to pretend that RGB is default. Unless you would state that clearly in
-the comment in DT, but that should be agreed upon with Rob.
+On Sun, Jul 12, 2020 at 09:11:11PM +0200, Pavel Machek wrote:
+> Hi!
+> 
+> > > > > > Some LED controllers may come with an internal HW triggering mechanism
+> > > > > > for the LED and an ability to switch between user control of the LED,
+> > > > > > or the internal control. One such example is AXP20X PMIC, that allows
+> > > > > > wither for user control of the LED, or for internal control based on
+> > > > > > the state of the battery charger.
+> > > > > > 
+> > > > > > Add support for registering per-LED device trigger.
+> > > > > > 
+> > > > > > Names of private triggers need to be globally unique, but may clash
+> > > > > > with other private triggers. This is enforced during trigger
+> > > > > > registration. Developers can register private triggers just like
+> > > > > > the normal triggers, by setting private_led to a classdev
+> > > > > > of the LED the trigger is associated with.
+> > > > > 
+> > > > > What about this? Should address Marek's concerns about resource use...
+> > > > 
+> > > > What concerns? Marek's concerns seem to be about case where we register
+> > > > a trigger for (each led * self-working configuration) which I admit
+> > > > can be quite a lot of triggers if there are many functions. But that's
+> > > > not my proposal.
+> > > > 
+> > > > My proposal is to only register on trigger per LED at most. So on my
+> > > > system that's 1 extra trigger and on Marek's system that'd be 48 new
+> > > > triggers. Neither seems like a meaningful problem from resource
+> > > > use perspective.
+> > > 
+> > > So.. 48 triggers on Marek's systems means I'll not apply your patch.
+> > > 
+> > > Please take a look at my version, it is as simple and avoids that
+> > > problem.
+> > 
+> > I would, but I don't see your version linked or mentioned in this
+> > thread.
+> 
+> Ah! Sorry about that. Here it is. (I verified it compiles in the
+> meantime).
+> 
+> Best regards,
+> 								Pavel
+> 
+> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+> index 79e30d2cb7a5..e8333675959c 100644
+> --- a/drivers/leds/led-triggers.c
+> +++ b/drivers/leds/led-triggers.c
+> @@ -27,6 +27,12 @@ LIST_HEAD(trigger_list);
+>  
+>   /* Used by LED Class */
+>  
+> +static inline bool
+> +trigger_relevant(struct led_classdev *led_cdev, struct led_trigger *trig)
+> +{
+> +	return !trig->trigger_type || trig->trigger_type == led_cdev->trigger_type;
+> +}
+> +
+>  ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+>  			  struct bin_attribute *bin_attr, char *buf,
+>  			  loff_t pos, size_t count)
+> @@ -50,7 +56,8 @@ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+>  
+>  	down_read(&triggers_list_lock);
+>  	list_for_each_entry(trig, &trigger_list, next_trig) {
+> -		if (sysfs_streq(buf, trig->name)) {
+> +		if (sysfs_streq(buf, trig->name) &&
+> +		    trigger_relevant(led_cdev, trig)) {
+>  			down_write(&led_cdev->trigger_lock);
+>  			led_trigger_set(led_cdev, trig);
+>  			up_write(&led_cdev->trigger_lock);
+> @@ -96,6 +103,9 @@ static int led_trigger_format(char *buf, size_t size,
+>  		bool hit = led_cdev->trigger &&
+>  			!strcmp(led_cdev->trigger->name, trig->name);
+>  
+> +		if (!trigger_relevant(led_cdev, trig))
+> +			continue;
+> +
+>  		len += led_trigger_snprintf(buf + len, size - len,
+>  					    " %s%s%s", hit ? "[" : "",
+>  					    trig->name, hit ? "]" : "");
+> @@ -243,7 +253,8 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
+>  	down_read(&triggers_list_lock);
+>  	down_write(&led_cdev->trigger_lock);
+>  	list_for_each_entry(trig, &trigger_list, next_trig) {
+> -		if (!strcmp(led_cdev->default_trigger, trig->name)) {
+> +		if (!strcmp(led_cdev->default_trigger, trig->name) &&
+> +		    trigger_relevant(led_cdev, trig)) {
+>  			led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
+>  			led_trigger_set(led_cdev, trig);
+>  			break;
+> @@ -280,7 +291,8 @@ int led_trigger_register(struct led_trigger *trig)
+>  	down_write(&triggers_list_lock);
+>  	/* Make sure the trigger's name isn't already in use */
+>  	list_for_each_entry(_trig, &trigger_list, next_trig) {
+> -		if (!strcmp(_trig->name, trig->name)) {
+> +		if (!strcmp(_trig->name, trig->name) &&
+> +		    (!_trig->private_led || _trig->private_led == trig->private_led)) {
+>  			up_write(&triggers_list_lock);
+>  			return -EEXIST;
+>  		}
 
--- 
-Best regards,
-Jacek Anaszewski
+This would not compile, probably some stale code.
+
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index 2451962d1ec5..cba52714558f 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -57,6 +57,10 @@ struct led_init_data {
+>  	bool devname_mandatory;
+>  };
+>  
+> +struct led_hw_trigger_type {
+> +	int dummy;
+> +}
+> +
+>  struct led_classdev {
+>  	const char		*name;
+>  	enum led_brightness	 brightness;
+> @@ -150,6 +154,8 @@ struct led_classdev {
+>  
+>  	/* Ensures consistent access to the LED Flash Class device */
+>  	struct mutex		led_access;
+> +
+> +	struct led_hw_trigger_type *trigger_type;
+>  };
+>  
+>  /**
+> @@ -345,6 +351,9 @@ struct led_trigger {
+>  	int		(*activate)(struct led_classdev *led_cdev);
+>  	void		(*deactivate)(struct led_classdev *led_cdev);
+>  
+> +	/* LED-private triggers have this set. */
+> +	struct led_hw_trigger_type *trigger_type;
+> +
+>  	/* LEDs under control by this trigger (for simple triggers) */
+>  	rwlock_t	  leddev_list_lock;
+>  	struct list_head  led_cdevs;
+
+I like this proposal. I'll try to use it in my code. Thank you!
+
+regards,
+	o.
+
+> -- 
+> (english) http://www.livejournal.com/~pavelmachek
+> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+
+
