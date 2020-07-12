@@ -2,909 +2,209 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5733D21CAA1
-	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 19:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEC4821CB11
+	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 21:11:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728859AbgGLRVK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 12 Jul 2020 13:21:10 -0400
-Received: from lists.nic.cz ([217.31.204.67]:52564 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728844AbgGLRVJ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 12 Jul 2020 13:21:09 -0400
-Received: from localhost (unknown [172.20.6.135])
-        by mail.nic.cz (Postfix) with ESMTPSA id CC6E413F695;
-        Sun, 12 Jul 2020 19:21:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1594574463; bh=wlqpYB0z2R55EkBmFIqfnA8ek4fJ0pNTSqP499FtLm0=;
-        h=Date:From:To;
-        b=UmF5c7n95rnDBFRQQY2phsUErQSstm/DNJKkUNCwmvDiHOsRLowHwjrlnI8ClZWtw
-         MHDCL0e9aQg4481O0Tx718gSkuu9yOEY5qQzFGJK3GCOsh5zoEokRAOQzrmfvMHElq
-         YNHaEv13bwl192CqbkDijcVWUYPLcNuKXjvc58yI=
-Date:   Sun, 12 Jul 2020 19:21:03 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh@kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v29 05/16] leds: lp50xx: Add the LP50XX family of the
- RGB LED driver
-Message-ID: <20200712192103.5e24ed2a@nic.cz>
-In-Reply-To: <20200622185919.2131-6-dmurphy@ti.com>
-References: <20200622185919.2131-1-dmurphy@ti.com>
-        <20200622185919.2131-6-dmurphy@ti.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1729162AbgGLTLR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Jul 2020 15:11:17 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:46962 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729122AbgGLTLR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 12 Jul 2020 15:11:17 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id DDD1E1C0BD2; Sun, 12 Jul 2020 21:11:11 +0200 (CEST)
+Date:   Sun, 12 Jul 2020 21:11:11 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>,
+        marek.behun@nic.cz
+Subject: Re: [PATCH RFC] leds: Add support for per-LED device triggers
+Message-ID: <20200712191111.GA20592@amd>
+References: <20200702144712.1994685-1-megous@megous.com>
+ <20200711100409.GA18901@amd>
+ <20200711210111.5ysijhexgyzyr7u7@core.my.home>
+ <20200712072554.GC4721@duo.ucw.cz>
+ <20200712134911.r3lig4hgyqhmslth@core.my.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
+Content-Disposition: inline
+In-Reply-To: <20200712134911.r3lig4hgyqhmslth@core.my.home>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Dan, one bug in this driver, see below.
 
-On Mon, 22 Jun 2020 13:59:08 -0500
-Dan Murphy <dmurphy@ti.com> wrote:
+--SUOF0GtieIMvvwua
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Introduce the LP5036/30/24/18/12/9 RGB LED driver.
-> The difference in these parts are the number of
-> LED outputs where the:
-> 
-> LP5036 can control 36 LEDs
-> LP5030 can control 30 LEDs
-> LP5024 can control 24 LEDs
-> LP5018 can control 18 LEDs
-> LP5012 can control 12 LEDs
-> LP5009 can control 9 LEDs
-> 
-> The device has the ability to group LED output into control banks
-> so that multiple LED banks can be controlled with the same mixing and
-> brightness.  Inversely the LEDs can also be controlled independently.
-> 
-> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
->  drivers/leds/Kconfig       |  11 +
->  drivers/leds/Makefile      |   1 +
->  drivers/leds/leds-lp50xx.c | 783 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 795 insertions(+)
->  create mode 100644 drivers/leds/leds-lp50xx.c
-> 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 0d034453eeb9..68f63d1a7d48 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -384,6 +384,17 @@ config LEDS_LP3952
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called leds-lp3952.
->  
-> +config LEDS_LP50XX
-> +	tristate "LED Support for TI LP5036/30/24/18/12/9 LED driver chip"
-> +	depends on LEDS_CLASS && REGMAP_I2C
-> +	depends on LEDS_CLASS_MULTI_COLOR || !LEDS_CLASS_MULTI_COLOR
-> +	help
-> +	  If you say yes here you get support for the Texas Instruments
-> +	  LP5036, LP5030, LP5024, LP5018, LP5012 and LP5009 LED driver.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called leds-lp50xx.
-> +
->  config LEDS_LP55XX_COMMON
->  	tristate "Common Driver for TI/National LP5521/5523/55231/5562/8501"
->  	depends on LEDS_LP5521 || LEDS_LP5523 || LEDS_LP5562 || LEDS_LP8501
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index 53a752c32e67..68c05faec99e 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -49,6 +49,7 @@ obj-$(CONFIG_LEDS_LM3697)		+= leds-lm3697.o
->  obj-$(CONFIG_LEDS_LOCOMO)		+= leds-locomo.o
->  obj-$(CONFIG_LEDS_LP3944)		+= leds-lp3944.o
->  obj-$(CONFIG_LEDS_LP3952)		+= leds-lp3952.o
-> +obj-$(CONFIG_LEDS_LP50XX)		+= leds-lp50xx.o
->  obj-$(CONFIG_LEDS_LP5521)		+= leds-lp5521.o
->  obj-$(CONFIG_LEDS_LP5523)		+= leds-lp5523.o
->  obj-$(CONFIG_LEDS_LP5562)		+= leds-lp5562.o
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> new file mode 100644
-> index 000000000000..407c2f42bac2
-> --- /dev/null
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -0,0 +1,783 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// TI LP50XX LED chip family driver
-> +// Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-> +
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/init.h>
-> +#include <linux/leds.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of.h>
-> +#include <linux/of_gpio.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/slab.h>
-> +#include <uapi/linux/uleds.h>
-> +
-> +#include <linux/led-class-multicolor.h>
-> +
-> +#include "leds.h"
-> +
-> +#define LP50XX_DEV_CFG0		0x00
-> +#define LP50XX_DEV_CFG1		0x01
-> +#define LP50XX_LED_CFG0		0x02
-> +
-> +/* LP5009 and LP5012 registers */
-> +#define LP5012_BNK_BRT		0x03
-> +#define LP5012_BNKA_CLR		0x04
-> +#define LP5012_BNKB_CLR		0x05
-> +#define LP5012_BNKC_CLR		0x06
-> +#define LP5012_LED0_BRT		0x07
-> +#define LP5012_LED1_BRT		0x08
-> +#define LP5012_LED2_BRT		0x09
-> +#define LP5012_LED3_BRT		0x0a
-> +#define LP5012_OUT0_CLR		0x0b
-> +#define LP5012_OUT1_CLR		0x0c
-> +#define LP5012_OUT2_CLR		0x0d
-> +#define LP5012_OUT3_CLR		0x0e
-> +#define LP5012_OUT4_CLR		0x0f
-> +#define LP5012_OUT5_CLR		0x10
-> +#define LP5012_OUT6_CLR		0x11
-> +#define LP5012_OUT7_CLR		0x12
-> +#define LP5012_OUT8_CLR		0x13
-> +#define LP5012_OUT9_CLR		0x14
-> +#define LP5012_OUT10_CLR	0x15
-> +#define LP5012_OUT11_CLR	0x16
-> +#define LP5012_RESET		0x17
-> +
-> +/* LP5018 and LP5024 registers */
-> +#define LP5024_BNK_BRT		0x03
-> +#define LP5024_BNKA_CLR		0x04
-> +#define LP5024_BNKB_CLR		0x05
-> +#define LP5024_BNKC_CLR		0x06
-> +#define LP5024_LED0_BRT		0x07
-> +#define LP5024_LED1_BRT		0x08
-> +#define LP5024_LED2_BRT		0x09
-> +#define LP5024_LED3_BRT		0x0a
-> +#define LP5024_LED4_BRT		0x0b
-> +#define LP5024_LED5_BRT		0x0c
-> +#define LP5024_LED6_BRT		0x0d
-> +#define LP5024_LED7_BRT		0x0e
-> +
-> +#define LP5024_OUT0_CLR		0x0f
-> +#define LP5024_OUT1_CLR		0x10
-> +#define LP5024_OUT2_CLR		0x11
-> +#define LP5024_OUT3_CLR		0x12
-> +#define LP5024_OUT4_CLR		0x13
-> +#define LP5024_OUT5_CLR		0x14
-> +#define LP5024_OUT6_CLR		0x15
-> +#define LP5024_OUT7_CLR		0x16
-> +#define LP5024_OUT8_CLR		0x17
-> +#define LP5024_OUT9_CLR		0x18
-> +#define LP5024_OUT10_CLR	0x19
-> +#define LP5024_OUT11_CLR	0x1a
-> +#define LP5024_OUT12_CLR	0x1b
-> +#define LP5024_OUT13_CLR	0x1c
-> +#define LP5024_OUT14_CLR	0x1d
-> +#define LP5024_OUT15_CLR	0x1e
-> +#define LP5024_OUT16_CLR	0x1f
-> +#define LP5024_OUT17_CLR	0x20
-> +#define LP5024_OUT18_CLR	0x21
-> +#define LP5024_OUT19_CLR	0x22
-> +#define LP5024_OUT20_CLR	0x23
-> +#define LP5024_OUT21_CLR	0x24
-> +#define LP5024_OUT22_CLR	0x25
-> +#define LP5024_OUT23_CLR	0x26
-> +#define LP5024_RESET		0x27
-> +
-> +/* LP5030 and LP5036 registers */
-> +#define LP5036_LED_CFG1		0x03
-> +#define LP5036_BNK_BRT		0x04
-> +#define LP5036_BNKA_CLR		0x05
-> +#define LP5036_BNKB_CLR		0x06
-> +#define LP5036_BNKC_CLR		0x07
-> +#define LP5036_LED0_BRT		0x08
-> +#define LP5036_LED1_BRT		0x09
-> +#define LP5036_LED2_BRT		0x0a
-> +#define LP5036_LED3_BRT		0x0b
-> +#define LP5036_LED4_BRT		0x0c
-> +#define LP5036_LED5_BRT		0x0d
-> +#define LP5036_LED6_BRT		0x0e
-> +#define LP5036_LED7_BRT		0x0f
-> +#define LP5036_LED8_BRT		0x10
-> +#define LP5036_LED9_BRT		0x11
-> +#define LP5036_LED10_BRT	0x12
-> +#define LP5036_LED11_BRT	0x13
-> +
-> +#define LP5036_OUT0_CLR		0x14
-> +#define LP5036_OUT1_CLR		0x15
-> +#define LP5036_OUT2_CLR		0x16
-> +#define LP5036_OUT3_CLR		0x17
-> +#define LP5036_OUT4_CLR		0x18
-> +#define LP5036_OUT5_CLR		0x19
-> +#define LP5036_OUT6_CLR		0x1a
-> +#define LP5036_OUT7_CLR		0x1b
-> +#define LP5036_OUT8_CLR		0x1c
-> +#define LP5036_OUT9_CLR		0x1d
-> +#define LP5036_OUT10_CLR	0x1e
-> +#define LP5036_OUT11_CLR	0x1f
-> +#define LP5036_OUT12_CLR	0x20
-> +#define LP5036_OUT13_CLR	0x21
-> +#define LP5036_OUT14_CLR	0x22
-> +#define LP5036_OUT15_CLR	0x23
-> +#define LP5036_OUT16_CLR	0x24
-> +#define LP5036_OUT17_CLR	0x25
-> +#define LP5036_OUT18_CLR	0x26
-> +#define LP5036_OUT19_CLR	0x27
-> +#define LP5036_OUT20_CLR	0x28
-> +#define LP5036_OUT21_CLR	0x29
-> +#define LP5036_OUT22_CLR	0x2a
-> +#define LP5036_OUT23_CLR	0x2b
-> +#define LP5036_OUT24_CLR	0x2c
-> +#define LP5036_OUT25_CLR	0x2d
-> +#define LP5036_OUT26_CLR	0x2e
-> +#define LP5036_OUT27_CLR	0x2f
-> +#define LP5036_OUT28_CLR	0x30
-> +#define LP5036_OUT29_CLR	0x31
-> +#define LP5036_OUT30_CLR	0x32
-> +#define LP5036_OUT31_CLR	0x33
-> +#define LP5036_OUT32_CLR	0x34
-> +#define LP5036_OUT33_CLR	0x35
-> +#define LP5036_OUT34_CLR	0x36
-> +#define LP5036_OUT35_CLR	0x37
-> +#define LP5036_RESET		0x38
-> +
-> +#define LP50XX_SW_RESET		0xff
-> +#define LP50XX_CHIP_EN		BIT(6)
-> +
-> +/* There are 3 LED outputs per bank */
-> +#define LP50XX_LEDS_PER_MODULE	3
-> +
-> +#define LP5009_MAX_LED_MODULES	2
-> +#define LP5012_MAX_LED_MODULES	4
-> +#define LP5018_MAX_LED_MODULES	6
-> +#define LP5024_MAX_LED_MODULES	8
-> +#define LP5030_MAX_LED_MODULES	10
-> +#define LP5036_MAX_LED_MODULES	12
-> +
-> +#define LP5009_MAX_LEDS	(LP5009_MAX_LED_MODULES * LP50XX_LEDS_PER_MODULE)
-> +#define LP5012_MAX_LEDS	(LP5012_MAX_LED_MODULES * LP50XX_LEDS_PER_MODULE)
-> +#define LP5018_MAX_LEDS	(LP5018_MAX_LED_MODULES * LP50XX_LEDS_PER_MODULE)
-> +#define LP5024_MAX_LEDS	(LP5024_MAX_LED_MODULES * LP50XX_LEDS_PER_MODULE)
-> +#define LP5030_MAX_LEDS	(LP5030_MAX_LED_MODULES * LP50XX_LEDS_PER_MODULE)
-> +#define LP5036_MAX_LEDS	(LP5036_MAX_LED_MODULES * LP50XX_LEDS_PER_MODULE)
-> +
-> +static const struct reg_default lp5012_reg_defs[] = {
-> +	{LP50XX_DEV_CFG0, 0x0},
-> +	{LP50XX_DEV_CFG1, 0x3c},
-> +	{LP50XX_LED_CFG0, 0x0},
-> +	{LP5012_BNK_BRT, 0xff},
-> +	{LP5012_BNKA_CLR, 0x0f},
-> +	{LP5012_BNKB_CLR, 0x0f},
-> +	{LP5012_BNKC_CLR, 0x0f},
-> +	{LP5012_LED0_BRT, 0x0f},
-> +	{LP5012_LED1_BRT, 0xff},
-> +	{LP5012_LED2_BRT, 0xff},
-> +	{LP5012_LED3_BRT, 0xff},
-> +	{LP5012_OUT0_CLR, 0x0f},
-> +	{LP5012_OUT1_CLR, 0x00},
-> +	{LP5012_OUT2_CLR, 0x00},
-> +	{LP5012_OUT3_CLR, 0x00},
-> +	{LP5012_OUT4_CLR, 0x00},
-> +	{LP5012_OUT5_CLR, 0x00},
-> +	{LP5012_OUT6_CLR, 0x00},
-> +	{LP5012_OUT7_CLR, 0x00},
-> +	{LP5012_OUT8_CLR, 0x00},
-> +	{LP5012_OUT9_CLR, 0x00},
-> +	{LP5012_OUT10_CLR, 0x00},
-> +	{LP5012_OUT11_CLR, 0x00},
-> +	{LP5012_RESET, 0x00}
-> +};
-> +
-> +static const struct reg_default lp5024_reg_defs[] = {
-> +	{LP50XX_DEV_CFG0, 0x0},
-> +	{LP50XX_DEV_CFG1, 0x3c},
-> +	{LP50XX_LED_CFG0, 0x0},
-> +	{LP5024_BNK_BRT, 0xff},
-> +	{LP5024_BNKA_CLR, 0x0f},
-> +	{LP5024_BNKB_CLR, 0x0f},
-> +	{LP5024_BNKC_CLR, 0x0f},
-> +	{LP5024_LED0_BRT, 0x0f},
-> +	{LP5024_LED1_BRT, 0xff},
-> +	{LP5024_LED2_BRT, 0xff},
-> +	{LP5024_LED3_BRT, 0xff},
-> +	{LP5024_LED4_BRT, 0xff},
-> +	{LP5024_LED5_BRT, 0xff},
-> +	{LP5024_LED6_BRT, 0xff},
-> +	{LP5024_LED7_BRT, 0xff},
-> +	{LP5024_OUT0_CLR, 0x0f},
-> +	{LP5024_OUT1_CLR, 0x00},
-> +	{LP5024_OUT2_CLR, 0x00},
-> +	{LP5024_OUT3_CLR, 0x00},
-> +	{LP5024_OUT4_CLR, 0x00},
-> +	{LP5024_OUT5_CLR, 0x00},
-> +	{LP5024_OUT6_CLR, 0x00},
-> +	{LP5024_OUT7_CLR, 0x00},
-> +	{LP5024_OUT8_CLR, 0x00},
-> +	{LP5024_OUT9_CLR, 0x00},
-> +	{LP5024_OUT10_CLR, 0x00},
-> +	{LP5024_OUT11_CLR, 0x00},
-> +	{LP5024_OUT12_CLR, 0x00},
-> +	{LP5024_OUT13_CLR, 0x00},
-> +	{LP5024_OUT14_CLR, 0x00},
-> +	{LP5024_OUT15_CLR, 0x00},
-> +	{LP5024_OUT16_CLR, 0x00},
-> +	{LP5024_OUT17_CLR, 0x00},
-> +	{LP5024_OUT18_CLR, 0x00},
-> +	{LP5024_OUT19_CLR, 0x00},
-> +	{LP5024_OUT20_CLR, 0x00},
-> +	{LP5024_OUT21_CLR, 0x00},
-> +	{LP5024_OUT22_CLR, 0x00},
-> +	{LP5024_OUT23_CLR, 0x00},
-> +	{LP5024_RESET, 0x00}
-> +};
-> +
-> +static const struct reg_default lp5036_reg_defs[] = {
-> +	{LP50XX_DEV_CFG0, 0x0},
-> +	{LP50XX_DEV_CFG1, 0x3c},
-> +	{LP50XX_LED_CFG0, 0x0},
-> +	{LP5036_LED_CFG1, 0x0},
-> +	{LP5036_BNK_BRT, 0xff},
-> +	{LP5036_BNKA_CLR, 0x0f},
-> +	{LP5036_BNKB_CLR, 0x0f},
-> +	{LP5036_BNKC_CLR, 0x0f},
-> +	{LP5036_LED0_BRT, 0x0f},
-> +	{LP5036_LED1_BRT, 0xff},
-> +	{LP5036_LED2_BRT, 0xff},
-> +	{LP5036_LED3_BRT, 0xff},
-> +	{LP5036_LED4_BRT, 0xff},
-> +	{LP5036_LED5_BRT, 0xff},
-> +	{LP5036_LED6_BRT, 0xff},
-> +	{LP5036_LED7_BRT, 0xff},
-> +	{LP5036_OUT0_CLR, 0x0f},
-> +	{LP5036_OUT1_CLR, 0x00},
-> +	{LP5036_OUT2_CLR, 0x00},
-> +	{LP5036_OUT3_CLR, 0x00},
-> +	{LP5036_OUT4_CLR, 0x00},
-> +	{LP5036_OUT5_CLR, 0x00},
-> +	{LP5036_OUT6_CLR, 0x00},
-> +	{LP5036_OUT7_CLR, 0x00},
-> +	{LP5036_OUT8_CLR, 0x00},
-> +	{LP5036_OUT9_CLR, 0x00},
-> +	{LP5036_OUT10_CLR, 0x00},
-> +	{LP5036_OUT11_CLR, 0x00},
-> +	{LP5036_OUT12_CLR, 0x00},
-> +	{LP5036_OUT13_CLR, 0x00},
-> +	{LP5036_OUT14_CLR, 0x00},
-> +	{LP5036_OUT15_CLR, 0x00},
-> +	{LP5036_OUT16_CLR, 0x00},
-> +	{LP5036_OUT17_CLR, 0x00},
-> +	{LP5036_OUT18_CLR, 0x00},
-> +	{LP5036_OUT19_CLR, 0x00},
-> +	{LP5036_OUT20_CLR, 0x00},
-> +	{LP5036_OUT21_CLR, 0x00},
-> +	{LP5036_OUT22_CLR, 0x00},
-> +	{LP5036_OUT23_CLR, 0x00},
-> +	{LP5036_OUT24_CLR, 0x00},
-> +	{LP5036_OUT25_CLR, 0x00},
-> +	{LP5036_OUT26_CLR, 0x00},
-> +	{LP5036_OUT27_CLR, 0x00},
-> +	{LP5036_OUT28_CLR, 0x00},
-> +	{LP5036_OUT29_CLR, 0x00},
-> +	{LP5036_OUT30_CLR, 0x00},
-> +	{LP5036_OUT31_CLR, 0x00},
-> +	{LP5036_OUT32_CLR, 0x00},
-> +	{LP5036_OUT33_CLR, 0x00},
-> +	{LP5036_OUT34_CLR, 0x00},
-> +	{LP5036_OUT35_CLR, 0x00},
-> +	{LP5036_RESET, 0x00}
-> +};
-> +
-> +static const struct regmap_config lp5012_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +
-> +	.max_register = LP5012_RESET,
-> +	.reg_defaults = lp5012_reg_defs,
-> +	.num_reg_defaults = ARRAY_SIZE(lp5012_reg_defs),
-> +	.cache_type = REGCACHE_RBTREE,
-> +};
-> +
-> +static const struct regmap_config lp5024_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +
-> +	.max_register = LP5024_RESET,
-> +	.reg_defaults = lp5024_reg_defs,
-> +	.num_reg_defaults = ARRAY_SIZE(lp5024_reg_defs),
-> +	.cache_type = REGCACHE_RBTREE,
-> +};
-> +
-> +static const struct regmap_config lp5036_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +
-> +	.max_register = LP5036_RESET,
-> +	.reg_defaults = lp5036_reg_defs,
-> +	.num_reg_defaults = ARRAY_SIZE(lp5036_reg_defs),
-> +	.cache_type = REGCACHE_RBTREE,
-> +};
-> +
-> +enum lp50xx_model {
-> +	LP5009,
-> +	LP5012,
-> +	LP5018,
-> +	LP5024,
-> +	LP5030,
-> +	LP5036,
-> +};
-> +
-> +/*
-> + * struct lp50xx_chip_info -
-> + * @num_leds: number of LED outputs available on the device
-> + * @led_brightness0_reg: first brightness register of the device
-> + * @mix_out0_reg: first color mix register of the device
-> + * @bank_brt_reg: bank brightness register
-> + * @bank_mix_reg: color mix register
-> + * @reset_reg: device reset register
-> + */
-> +struct lp50xx_chip_info {
-> +	const struct regmap_config *lp50xx_regmap_config;
-> +	int model_id;
-> +	u8 max_modules;
-> +	u8 num_leds;
-> +	u8 led_brightness0_reg;
-> +	u8 mix_out0_reg;
-> +	u8 bank_brt_reg;
-> +	u8 bank_mix_reg;
-> +	u8 reset_reg;
-> +};
-> +
-> +static const struct lp50xx_chip_info lp50xx_chip_info_tbl[] = {
-> +	[LP5009] = {
-> +		.model_id = LP5009,
-> +		.max_modules = LP5009_MAX_LED_MODULES,
-> +		.num_leds = LP5009_MAX_LEDS,
-> +		.led_brightness0_reg = LP5012_LED0_BRT,
-> +		.mix_out0_reg = LP5012_OUT0_CLR,
-> +		.bank_brt_reg = LP5012_BNK_BRT,
-> +		.bank_mix_reg = LP5012_BNKA_CLR,
-> +		.reset_reg = LP5012_RESET,
-> +		.lp50xx_regmap_config = &lp5012_regmap_config,
-> +	},
-> +	[LP5012] = {
-> +		.model_id = LP5012,
-> +		.max_modules = LP5012_MAX_LED_MODULES,
-> +		.num_leds = LP5012_MAX_LEDS,
-> +		.led_brightness0_reg = LP5012_LED0_BRT,
-> +		.mix_out0_reg = LP5012_OUT0_CLR,
-> +		.bank_brt_reg = LP5012_BNK_BRT,
-> +		.bank_mix_reg = LP5012_BNKA_CLR,
-> +		.reset_reg = LP5012_RESET,
-> +		.lp50xx_regmap_config = &lp5012_regmap_config,
-> +	},
-> +	[LP5018] = {
-> +		.model_id = LP5018,
-> +		.max_modules = LP5018_MAX_LED_MODULES,
-> +		.num_leds = LP5018_MAX_LEDS,
-> +		.led_brightness0_reg = LP5024_LED0_BRT,
-> +		.mix_out0_reg = LP5024_OUT0_CLR,
-> +		.bank_brt_reg = LP5024_BNK_BRT,
-> +		.bank_mix_reg = LP5024_BNKA_CLR,
-> +		.reset_reg = LP5024_RESET,
-> +		.lp50xx_regmap_config = &lp5024_regmap_config,
-> +	},
-> +	[LP5024] = {
-> +		.model_id = LP5024,
-> +		.max_modules = LP5024_MAX_LED_MODULES,
-> +		.num_leds = LP5024_MAX_LEDS,
-> +		.led_brightness0_reg = LP5024_LED0_BRT,
-> +		.mix_out0_reg = LP5024_OUT0_CLR,
-> +		.bank_brt_reg = LP5024_BNK_BRT,
-> +		.bank_mix_reg = LP5024_BNKA_CLR,
-> +		.reset_reg = LP5024_RESET,
-> +		.lp50xx_regmap_config = &lp5024_regmap_config,
-> +	},
-> +	[LP5030] = {
-> +		.model_id = LP5030,
-> +		.max_modules = LP5030_MAX_LED_MODULES,
-> +		.num_leds = LP5030_MAX_LEDS,
-> +		.led_brightness0_reg = LP5036_LED0_BRT,
-> +		.mix_out0_reg = LP5036_OUT0_CLR,
-> +		.bank_brt_reg = LP5036_BNK_BRT,
-> +		.bank_mix_reg = LP5036_BNKA_CLR,
-> +		.reset_reg = LP5036_RESET,
-> +		.lp50xx_regmap_config = &lp5036_regmap_config,
-> +	},
-> +	[LP5036] = {
-> +		.model_id = LP5036,
-> +		.max_modules = LP5036_MAX_LED_MODULES,
-> +		.num_leds = LP5036_MAX_LEDS,
-> +		.led_brightness0_reg = LP5036_LED0_BRT,
-> +		.mix_out0_reg = LP5036_OUT0_CLR,
-> +		.bank_brt_reg = LP5036_BNK_BRT,
-> +		.bank_mix_reg = LP5036_BNKA_CLR,
-> +		.reset_reg = LP5036_RESET,
-> +		.lp50xx_regmap_config = &lp5036_regmap_config,
-> +	},
-> +};
-> +
-> +struct lp50xx_led {
-> +	struct led_classdev led_dev;
-> +	struct led_classdev_mc mc_cdev;
-> +	struct lp50xx *priv;
-> +	unsigned long bank_modules;
-> +	int led_intensity[LP50XX_LEDS_PER_MODULE];
-> +	u8 ctrl_bank_enabled;
-> +	int led_number;
-> +};
-> +
-> +/**
-> + * struct lp50xx -
-> + * @enable_gpio: hardware enable gpio
-> + * @regulator: LED supply regulator pointer
-> + * @client: pointer to the I2C client
-> + * @regmap: device register map
-> + * @dev: pointer to the devices device struct
-> + * @lock: lock for reading/writing the device
-> + * @chip_info: chip specific information (ie num_leds)
-> + * @num_of_banked_leds: holds the number of banked LEDs
-> + * @leds: array of LED strings
-> + */
-> +struct lp50xx {
-> +	struct gpio_desc *enable_gpio;
-> +	struct regulator *regulator;
-> +	struct i2c_client *client;
-> +	struct regmap *regmap;
-> +	struct device *dev;
-> +	struct mutex lock;
-> +	const struct lp50xx_chip_info *chip_info;
-> +	int num_of_banked_leds;
-> +
-> +	/* This needs to be at the end of the struct */
-> +	struct lp50xx_led leds[];
-> +};
-> +
-> +static struct lp50xx_led *mcled_cdev_to_led(struct led_classdev_mc *mc_cdev)
-> +{
-> +	return container_of(mc_cdev, struct lp50xx_led, mc_cdev);
-> +}
-> +
-> +static int lp50xx_brightness_set(struct led_classdev *cdev,
-> +			     enum led_brightness brightness)
-> +{
-> +	struct led_classdev_mc *mc_dev = lcdev_to_mccdev(cdev);
-> +	struct lp50xx_led *led = mcled_cdev_to_led(mc_dev);
-> +	const struct lp50xx_chip_info *led_chip = led->priv->chip_info;
-> +	u8 led_offset, reg_val;
-> +	int ret = 0;
-> +	int i;
-> +
-> +	mutex_lock(&led->priv->lock);
-> +	if (led->ctrl_bank_enabled)
-> +		reg_val = led_chip->bank_brt_reg;
-> +	else
-> +		reg_val = led_chip->led_brightness0_reg +
-> +			  led->led_number;
-> +
-> +	ret = regmap_write(led->priv->regmap, reg_val, brightness);
-> +	if (ret) {
-> +		dev_err(&led->priv->client->dev,
-> +			"Cannot write brightness value %d\n", ret);
-> +		goto out;
-> +	}
-> +
-> +	for (i = 0; i < led->mc_cdev.num_colors; i++) {
-> +		if (led->ctrl_bank_enabled) {
-> +			reg_val = led_chip->bank_mix_reg + i;
-> +		} else {
-> +			led_offset = (led->led_number * 3) + i;
-> +			reg_val = led_chip->mix_out0_reg + led_offset;
-> +		}
-> +
-> +		ret = regmap_write(led->priv->regmap, reg_val,
-> +				   mc_dev->subled_info[i].intensity);
-> +		if (ret) {
-> +			dev_err(&led->priv->client->dev,
-> +				"Cannot write intensity value %d\n", ret);
-> +			goto out;
-> +		}
-> +	}
-> +out:
-> +	mutex_unlock(&led->priv->lock);
-> +	return ret;
-> +}
-> +
-> +static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[])
-> +{
-> +	u8 led_config_lo, led_config_hi;
-> +	u32 bank_enable_mask = 0;
-> +	int ret;
-> +	int i;
-> +
-> +	for (i = 0; i < priv->chip_info->max_modules; i++) {
-> +		if (led_banks[i])
-> +			bank_enable_mask |= (1 << led_banks[i]);
-> +	}
-> +
-> +	led_config_lo = (u8)(bank_enable_mask & 0xff);
-> +	led_config_hi = (u8)(bank_enable_mask >> 8) & 0xff;
-> +
-> +	ret = regmap_write(priv->regmap, LP50XX_LED_CFG0, led_config_lo);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (priv->chip_info->model_id >= LP5030)
-> +		ret = regmap_write(priv->regmap, LP5036_LED_CFG1,
-> +				   led_config_hi);
-> +
-> +	return ret;
-> +}
-> +
-> +static int lp50xx_reset(struct lp50xx *priv)
-> +{
-> +	if (priv->enable_gpio)
-> +		return gpiod_direction_output(priv->enable_gpio, 1);
-> +	else
-> +		return regmap_write(priv->regmap, priv->chip_info->reset_reg,
-> +				    LP50XX_SW_RESET);
-> +}
-> +
-> +static int lp50xx_enable_disable(struct lp50xx *priv, u8 enable_disable)
-> +{
-> +	return regmap_write(priv->regmap, LP50XX_DEV_CFG0, enable_disable);
-> +}
-> +
-> +static int lp50xx_probe_dt(struct lp50xx *priv)
-> +{
-> +	u32 led_banks[LP5036_MAX_LED_MODULES] = {0};
-> +	struct fwnode_handle *child = NULL;
-> +	struct fwnode_handle *led_node = NULL;
-> +	struct led_init_data init_data = {};
-> +	struct led_classdev *led_cdev;
-> +	struct mc_subled *mc_led_info;
-> +	struct lp50xx_led *led;
-> +	int num_colors;
-> +	u32 color_id;
-> +	int led_number;
-> +	size_t i = 0;
-> +	int ret = -EINVAL;
-> +
-> +	priv->enable_gpio = devm_gpiod_get_optional(priv->dev,
-> +						   "enable", GPIOD_OUT_LOW);
-> +	if (IS_ERR(priv->enable_gpio)) {
-> +		ret = PTR_ERR(priv->enable_gpio);
-> +		dev_err(&priv->client->dev, "Failed to get enable gpio: %d\n",
-> +			ret);
-> +		return ret;
-> +	}
-> +
-> +	priv->regulator = devm_regulator_get(priv->dev, "vled");
-> +	if (IS_ERR(priv->regulator))
-> +		priv->regulator = NULL;
-> +
-> +	device_for_each_child_node(priv->dev, child) {
-> +		led = &priv->leds[i];
-> +		ret = fwnode_property_count_u32(child, "reg");
-> +		if (ret < 0) {
-> +			dev_err(&priv->client->dev,
-> +					"reg property is invalid\n");
-> +			return -EINVAL;
-> +		}
-> +		if (ret > 1) {
-> +			priv->num_of_banked_leds = ret;
-> +			if (priv->num_of_banked_leds >
-> +			    priv->chip_info->max_modules) {
-> +				dev_err(&priv->client->dev,
-> +					"reg property is invalid\n");
-> +				ret = -EINVAL;
-> +				fwnode_handle_put(child);
-> +				goto child_out;
-> +			}
-> +
-> +			ret = fwnode_property_read_u32_array(child,
-> +							     "reg",
-> +							     led_banks,
-> +							     ret);
-> +			if (ret) {
-> +				dev_err(&priv->client->dev,
-> +					"reg property is missing\n");
-> +				fwnode_handle_put(child);
-> +				goto child_out;
-> +			}
-> +
-> +			ret = lp50xx_set_banks(priv, led_banks);
-> +			if (ret) {
-> +				dev_err(&priv->client->dev,
-> +					"Cannot setup banked LEDs\n");
-> +				fwnode_handle_put(child);
-> +				goto child_out;
-> +			}
-> +			led->ctrl_bank_enabled = 1;
-> +
-> +		} else {
-> +			ret = fwnode_property_read_u32(child, "reg",
-> +					       &led_number);
-> +			if (ret) {
-> +				dev_err(&priv->client->dev,
-> +					"led reg property missing\n");
-> +				fwnode_handle_put(child);
-> +				goto child_out;
-> +			}
-> +
-> +			if (led_number > priv->chip_info->num_leds) {
-> +				dev_err(&priv->client->dev,
-> +					"led-sources property is invalid\n");
-> +				ret = -EINVAL;
-> +				fwnode_handle_put(child);
-> +				goto child_out;
-> +			}
-> +
-> +			led->led_number = led_number;
-> +		}
-> +
-> +		init_data.fwnode = child;
-> +		fwnode_property_read_string(child, "linux,default-trigger",
-> +				    &led->led_dev.default_trigger);
+Hi!
 
-The led_dev property of struct lp50xx_led is used only here and in the
-property definition. I don't think it is being read anywhere else. You
-need to save default trigger below, into led_cdev. And you can remove
-the led_dev property from struct lp50xx_led.
+> > > > > Some LED controllers may come with an internal HW triggering mech=
+anism
+> > > > > for the LED and an ability to switch between user control of the =
+LED,
+> > > > > or the internal control. One such example is AXP20X PMIC, that al=
+lows
+> > > > > wither for user control of the LED, or for internal control based=
+ on
+> > > > > the state of the battery charger.
+> > > > >=20
+> > > > > Add support for registering per-LED device trigger.
+> > > > >=20
+> > > > > Names of private triggers need to be globally unique, but may cla=
+sh
+> > > > > with other private triggers. This is enforced during trigger
+> > > > > registration. Developers can register private triggers just like
+> > > > > the normal triggers, by setting private_led to a classdev
+> > > > > of the LED the trigger is associated with.
+> > > >=20
+> > > > What about this? Should address Marek's concerns about resource use=
+=2E..
+> > >=20
+> > > What concerns? Marek's concerns seem to be about case where we regist=
+er
+> > > a trigger for (each led * self-working configuration) which I admit
+> > > can be quite a lot of triggers if there are many functions. But that's
+> > > not my proposal.
+> > >=20
+> > > My proposal is to only register on trigger per LED at most. So on my
+> > > system that's 1 extra trigger and on Marek's system that'd be 48 new
+> > > triggers. Neither seems like a meaningful problem from resource
+> > > use perspective.
+> >=20
+> > So.. 48 triggers on Marek's systems means I'll not apply your patch.
+> >=20
+> > Please take a look at my version, it is as simple and avoids that
+> > problem.
+>=20
+> I would, but I don't see your version linked or mentioned in this
+> thread.
 
-Marek
+Ah! Sorry about that. Here it is. (I verified it compiles in the
+meantime).
 
-> +		num_colors = 0;
-> +
-> +		/* There are only 3 LEDs per module otherwise they should be
-> +		 * banked which also is presented as 3 LEDs
-> +		 */
-> +		mc_led_info = devm_kcalloc(priv->dev, LP50XX_LEDS_PER_MODULE,
-> +					   sizeof(*mc_led_info), GFP_KERNEL);
-> +		if (!mc_led_info)
-> +			return -ENOMEM;
-> +
-> +		fwnode_for_each_child_node(child, led_node) {
-> +			ret = fwnode_property_read_u32(led_node, "color",
-> +						       &color_id);
-> +			if (ret)
-> +				dev_err(priv->dev, "Cannot read color\n");
-> +
-> +			mc_led_info[num_colors].color_index = color_id;
-> +			num_colors++;
-> +		}
-> +
-> +		led->priv = priv;
-> +		led->mc_cdev.num_colors = num_colors;
-> +		led->mc_cdev.subled_info = mc_led_info;
-> +		led_cdev = &led->mc_cdev.led_cdev;
-> +		led_cdev->brightness_set_blocking = lp50xx_brightness_set;
-> +		ret = devm_led_classdev_multicolor_register_ext(&priv->client->dev,
-> +						       &led->mc_cdev,
-> +						       &init_data);
-> +		if (ret) {
-> +			dev_err(&priv->client->dev, "led register err: %d\n",
-> +				ret);
-> +			fwnode_handle_put(child);
-> +			goto child_out;
-> +		}
-> +		i++;
-> +	}
-> +
-> +child_out:
-> +	return ret;
-> +}
-> +
-> +static int lp50xx_probe(struct i2c_client *client,
-> +			const struct i2c_device_id *id)
-> +{
-> +	struct lp50xx *led;
-> +	int count;
-> +	int ret;
-> +
-> +	count = device_get_child_node_count(&client->dev);
-> +	if (!count) {
-> +		dev_err(&client->dev, "LEDs are not defined in device tree!");
-> +		return -ENODEV;
-> +	}
-> +
-> +	led = devm_kzalloc(&client->dev, struct_size(led, leds, count),
-> +			   GFP_KERNEL);
-> +	if (!led)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&led->lock);
-> +	led->client = client;
-> +	led->dev = &client->dev;
-> +	led->chip_info = &lp50xx_chip_info_tbl[id->driver_data];
-> +	i2c_set_clientdata(client, led);
-> +	led->regmap = devm_regmap_init_i2c(client,
-> +					led->chip_info->lp50xx_regmap_config);
-> +	if (IS_ERR(led->regmap)) {
-> +		ret = PTR_ERR(led->regmap);
-> +		dev_err(&client->dev, "Failed to allocate register map: %d\n",
-> +			ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = lp50xx_reset(led);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = lp50xx_probe_dt(led);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return lp50xx_enable_disable(led, LP50XX_CHIP_EN);
-> +}
-> +
-> +static int lp50xx_remove(struct i2c_client *client)
-> +{
-> +	struct lp50xx *led = i2c_get_clientdata(client);
-> +	int ret;
-> +
-> +	ret = lp50xx_enable_disable(led, LP50XX_CHIP_EN);
-> +	if (ret) {
-> +		dev_err(&led->client->dev, "Failed to disable regulator\n");
-> +		return ret;
-> +	}
-> +
-> +	if (led->enable_gpio)
-> +		gpiod_direction_output(led->enable_gpio, 0);
-> +
-> +	if (led->regulator) {
-> +		ret = regulator_disable(led->regulator);
-> +		if (ret)
-> +			dev_err(&led->client->dev,
-> +				"Failed to disable regulator\n");
-> +	}
-> +
-> +	mutex_destroy(&led->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct i2c_device_id lp50xx_id[] = {
-> +	{ "lp5009", LP5009 },
-> +	{ "lp5012", LP5012 },
-> +	{ "lp5018", LP5018 },
-> +	{ "lp5024", LP5024 },
-> +	{ "lp5030", LP5030 },
-> +	{ "lp5036", LP5036 },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, lp50xx_id);
-> +
-> +static const struct of_device_id of_lp50xx_leds_match[] = {
-> +	{ .compatible = "ti,lp5009", .data = (void *)LP5009 },
-> +	{ .compatible = "ti,lp5012", .data = (void *)LP5012 },
-> +	{ .compatible = "ti,lp5018", .data = (void *)LP5018 },
-> +	{ .compatible = "ti,lp5024", .data = (void *)LP5024 },
-> +	{ .compatible = "ti,lp5030", .data = (void *)LP5030 },
-> +	{ .compatible = "ti,lp5036", .data = (void *)LP5036 },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, of_lp50xx_leds_match);
-> +
-> +static struct i2c_driver lp50xx_driver = {
-> +	.driver = {
-> +		.name	= "lp50xx",
-> +		.of_match_table = of_lp50xx_leds_match,
-> +	},
-> +	.probe		= lp50xx_probe,
-> +	.remove		= lp50xx_remove,
-> +	.id_table	= lp50xx_id,
-> +};
-> +module_i2c_driver(lp50xx_driver);
-> +
-> +MODULE_DESCRIPTION("Texas Instruments LP50XX LED driver");
-> +MODULE_AUTHOR("Dan Murphy <dmurphy@ti.com>");
-> +MODULE_LICENSE("GPL v2");
+Best regards,
+								Pavel
 
+diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+index 79e30d2cb7a5..e8333675959c 100644
+--- a/drivers/leds/led-triggers.c
++++ b/drivers/leds/led-triggers.c
+@@ -27,6 +27,12 @@ LIST_HEAD(trigger_list);
+=20
+  /* Used by LED Class */
+=20
++static inline bool
++trigger_relevant(struct led_classdev *led_cdev, struct led_trigger *trig)
++{
++	return !trig->trigger_type || trig->trigger_type =3D=3D led_cdev->trigger=
+_type;
++}
++
+ ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+ 			  struct bin_attribute *bin_attr, char *buf,
+ 			  loff_t pos, size_t count)
+@@ -50,7 +56,8 @@ ssize_t led_trigger_write(struct file *filp, struct kobje=
+ct *kobj,
+=20
+ 	down_read(&triggers_list_lock);
+ 	list_for_each_entry(trig, &trigger_list, next_trig) {
+-		if (sysfs_streq(buf, trig->name)) {
++		if (sysfs_streq(buf, trig->name) &&
++		    trigger_relevant(led_cdev, trig)) {
+ 			down_write(&led_cdev->trigger_lock);
+ 			led_trigger_set(led_cdev, trig);
+ 			up_write(&led_cdev->trigger_lock);
+@@ -96,6 +103,9 @@ static int led_trigger_format(char *buf, size_t size,
+ 		bool hit =3D led_cdev->trigger &&
+ 			!strcmp(led_cdev->trigger->name, trig->name);
+=20
++		if (!trigger_relevant(led_cdev, trig))
++			continue;
++
+ 		len +=3D led_trigger_snprintf(buf + len, size - len,
+ 					    " %s%s%s", hit ? "[" : "",
+ 					    trig->name, hit ? "]" : "");
+@@ -243,7 +253,8 @@ void led_trigger_set_default(struct led_classdev *led_c=
+dev)
+ 	down_read(&triggers_list_lock);
+ 	down_write(&led_cdev->trigger_lock);
+ 	list_for_each_entry(trig, &trigger_list, next_trig) {
+-		if (!strcmp(led_cdev->default_trigger, trig->name)) {
++		if (!strcmp(led_cdev->default_trigger, trig->name) &&
++		    trigger_relevant(led_cdev, trig)) {
+ 			led_cdev->flags |=3D LED_INIT_DEFAULT_TRIGGER;
+ 			led_trigger_set(led_cdev, trig);
+ 			break;
+@@ -280,7 +291,8 @@ int led_trigger_register(struct led_trigger *trig)
+ 	down_write(&triggers_list_lock);
+ 	/* Make sure the trigger's name isn't already in use */
+ 	list_for_each_entry(_trig, &trigger_list, next_trig) {
+-		if (!strcmp(_trig->name, trig->name)) {
++		if (!strcmp(_trig->name, trig->name) &&
++		    (!_trig->private_led || _trig->private_led =3D=3D trig->private_led)=
+) {
+ 			up_write(&triggers_list_lock);
+ 			return -EEXIST;
+ 		}
+diff --git a/include/linux/leds.h b/include/linux/leds.h
+index 2451962d1ec5..cba52714558f 100644
+--- a/include/linux/leds.h
++++ b/include/linux/leds.h
+@@ -57,6 +57,10 @@ struct led_init_data {
+ 	bool devname_mandatory;
+ };
+=20
++struct led_hw_trigger_type {
++	int dummy;
++}
++
+ struct led_classdev {
+ 	const char		*name;
+ 	enum led_brightness	 brightness;
+@@ -150,6 +154,8 @@ struct led_classdev {
+=20
+ 	/* Ensures consistent access to the LED Flash Class device */
+ 	struct mutex		led_access;
++
++	struct led_hw_trigger_type *trigger_type;
+ };
+=20
+ /**
+@@ -345,6 +351,9 @@ struct led_trigger {
+ 	int		(*activate)(struct led_classdev *led_cdev);
+ 	void		(*deactivate)(struct led_classdev *led_cdev);
+=20
++	/* LED-private triggers have this set. */
++	struct led_hw_trigger_type *trigger_type;
++
+ 	/* LEDs under control by this trigger (for simple triggers) */
+ 	rwlock_t	  leddev_list_lock;
+ 	struct list_head  led_cdevs;
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--SUOF0GtieIMvvwua
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl8LYE8ACgkQMOfwapXb+vJdiQCeJ4trCd2rs4k4OMeb0h+YAMBw
+ZUUAn1AK61+/gdi35YuNtLNw6hamB5Qb
+=3ItD
+-----END PGP SIGNATURE-----
+
+--SUOF0GtieIMvvwua--
