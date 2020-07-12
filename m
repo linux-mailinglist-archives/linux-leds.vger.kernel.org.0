@@ -2,71 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E748821C812
-	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 10:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38DCE21C81F
+	for <lists+linux-leds@lfdr.de>; Sun, 12 Jul 2020 10:43:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728070AbgGLI2U (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 12 Jul 2020 04:28:20 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:50526 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725974AbgGLI2T (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 12 Jul 2020 04:28:19 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 2C39F1C0BD2; Sun, 12 Jul 2020 10:28:17 +0200 (CEST)
-Date:   Sun, 12 Jul 2020 10:28:16 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: Re: [PATCH][next] leds: gpio: Use struct_size() in devm_kzalloc()
-Message-ID: <20200712082816.GB12285@amd>
-References: <20200619221403.GA12097@embeddedor>
+        id S1728408AbgGLIn4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Jul 2020 04:43:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32820 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725974AbgGLIn4 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 12 Jul 2020 04:43:56 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0FBEC206F4;
+        Sun, 12 Jul 2020 08:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594543435;
+        bh=22sV2MagMmijC5jLGB+iBOFAm/AVasieEZPd64yd1fs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DRgGTQSSupucv9ZBmwj4sElmGyb4FjlfugP19PVIFD1FFuq1pgwDfzVOflaRp8vJD
+         jHMKXKq5T5jkc0r5FH5PPj2nshal6aI69KN+femZ0MXChU7hIBFPeaVwW6buCVx3dx
+         1OqlctSANgEK0KMa4otrP9XS6HxyXkVO/bcz2OhM=
+Date:   Sun, 12 Jul 2020 10:43:52 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Pavel Machek <pavel@denx.de>
+Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Jiri Slaby <jslaby@suse.com>,
+        kernel@pengutronix.de, linux-serial@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v7 3/3] leds: trigger: implement a tty trigger
+Message-ID: <20200712084352.GA175558@kroah.com>
+References: <20200707165958.16522-1-u.kleine-koenig@pengutronix.de>
+ <20200707165958.16522-4-u.kleine-koenig@pengutronix.de>
+ <20200712082453.GI8295@amd>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="/NkBOFFp2J2Af1nK"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200619221403.GA12097@embeddedor>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200712082453.GI8295@amd>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Sun, Jul 12, 2020 at 10:24:53AM +0200, Pavel Machek wrote:
+> > +++ b/drivers/leds/trigger/ledtrig-tty.c
+> > @@ -0,0 +1,192 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> 
+> 2.0+ is preffered.
 
---/NkBOFFp2J2Af1nK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No it is not, that's up to the developer.
 
-On Fri 2020-06-19 17:14:03, Gustavo A. R. Silva wrote:
-> Make use of the struct_size() helper instead of an open-coded version
-> in order to avoid any potential type mistakes. Also, remove unnecessary
-> function sizeof_gpio_leds_priv().
->=20
-> This code was detected with the help of Coccinelle and, audited and
-> fixed manually.
->=20
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+thanks,
 
-Thanks, applied.
-							Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---/NkBOFFp2J2Af1nK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl8KyaAACgkQMOfwapXb+vIxPACeMwqbV6ognQ842m9RCMe1jf61
-43QAn2DTgcddgx0du0EsXNVu80K7AZK/
-=0HiM
------END PGP SIGNATURE-----
-
---/NkBOFFp2J2Af1nK--
+greg k-h
