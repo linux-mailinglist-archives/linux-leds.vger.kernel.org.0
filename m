@@ -2,217 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14BB421D935
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 16:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1E2A21D97F
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 17:06:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730172AbgGMOva (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Jul 2020 10:51:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729659AbgGMOv1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jul 2020 10:51:27 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A09CC061755;
-        Mon, 13 Jul 2020 07:51:27 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 2AAAEBC09E;
-        Mon, 13 Jul 2020 14:51:24 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
-        robh+dt@kernel.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] leds: Replace HTTP links with HTTPS ones
-Date:   Mon, 13 Jul 2020 16:51:15 +0200
-Message-Id: <20200713145115.35121-1-grandmaster@al2klimov.de>
+        id S1729593AbgGMPGh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Jul 2020 11:06:37 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:40078 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729581AbgGMPGg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jul 2020 11:06:36 -0400
+Received: by mail-io1-f68.google.com with SMTP id l17so2297265iok.7;
+        Mon, 13 Jul 2020 08:06:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JdA6x59diKndbVEgzMdD3TbDSGTvGCxliznaVc9RcrA=;
+        b=mpsdXfT1HliMTr5rNDdf0RCAYdc0IDCmg4L0tlfpKlkVaF7Iz7vPCPo0iYyBdyOmh9
+         NKIdIhwlUVfLZzWk+Lt3qmk0SqTnxu134asiLzroK56azYEKb+LtzT8Gat7SmHvELpWu
+         l6s7KLfrMR0PCIfMJ8Bx45wEJFgTY73KX/UVfKXtHKqKztTtSMJjFUzzFmUT94imEd7Y
+         tM4v3lJ44zKGNryJjomeEQPSLYx4gXroZrV9BrHz77MyT8+itj85iC6In8SInLh6Nf5E
+         CUyuqyKznchrocPXjC0TRxuIcJK0WvcBmZHKg4dcLPpgcwlY5KFTEGKx7wN8x4EdDBlU
+         Rydg==
+X-Gm-Message-State: AOAM5329XB7oONRHIzXKNrrraUNeEwRiDaCGiN23kvKLBU/A2XN9g3HN
+        CxiW8zDEOg3hYqfUcC9McBz2VJ7uHw==
+X-Google-Smtp-Source: ABdhPJwpwMci6wh3k6kp2CGyI4RcxsBTCyXWV5bOJUtLkejQTonttC5Wmv2DKJsDiQy9rLu6kgAmJg==
+X-Received: by 2002:a02:5806:: with SMTP id f6mr515595jab.136.1594652796095;
+        Mon, 13 Jul 2020 08:06:36 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id u15sm7760078iog.18.2020.07.13.08.06.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2020 08:06:35 -0700 (PDT)
+Received: (nullmailer pid 183937 invoked by uid 1000);
+        Mon, 13 Jul 2020 15:06:34 -0000
+Date:   Mon, 13 Jul 2020 09:06:34 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Marek Behun <marek.behun@nic.cz>, linux-leds@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: add cznic,turris-omnia-leds
+ binding
+Message-ID: <20200713150634.GA176775@bogus>
+References: <20200712210601.5239-1-marek.behun@nic.cz>
+ <20200712210601.5239-2-marek.behun@nic.cz>
+ <4609c389-4be6-0987-5078-725b43153596@gmail.com>
+ <20200712234035.213348aa@nic.cz>
+ <ff707d34-8fc0-342e-3df2-e96e5493004b@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: ++++++
-X-Spam-Level: ******
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
-X-Spam: Yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ff707d34-8fc0-342e-3df2-e96e5493004b@gmail.com>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+On Mon, Jul 13, 2020 at 12:11:51AM +0200, Jacek Anaszewski wrote:
+> On 7/12/20 11:40 PM, Marek Behun wrote:
+> > On Sun, 12 Jul 2020 23:27:07 +0200
+> > Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
+> > 
+> > > > +            multi-led@0 {
+> > > > +                reg = <0>;
+> > > > +                color = <LED_COLOR_ID_MULTI>;
+> > > > +                function = LED_FUNCTION_POWER;
+> > > 
+> > > Please provide child nodes for each color LED. Let's stick
+> > > to the bindings closely and not make any deviations from
+> > > the beginning.
+> > 
+> > Why? It would make sense if there were devices using this controller
+> > having other configuration, but on Omnia, all LEDs are RGB.
+> > 
+> > Also, if I do this, should I also make the driver check in the probe
+> > function whether the per-channel child nodes are correct? Eg. if they
+> > are always three: one for red, one for green and one for blue? Or
+> > should the driver ignore this and only the device tree binding specify
+> > it?
+> > 
+> > Because the way the driver is written now, it only registers
+> > multi-color RGB LEDs.
+> 
+> This is not RGB framework, but multicolor framework. It is not justified
+> to pretend that RGB is default. Unless you would state that clearly in
+> the comment in DT, but that should be agreed upon with Rob.
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+If the LEDs are fixed in h/w and never vary for this controller, then 
+they don't need to be in DT. However, is it really possible that a 
+channel only supports 1 color of LED? I don't think so.
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
-
- If there are any URLs to be removed completely or at least not just HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
-
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
-
- If you apply the patch, please let me know.
-
- Sorry again to all maintainers who complained about subject lines.
- Now I realized that you want an actually perfect prefixes,
- not just subsystem ones.
- I tried my best...
- And yes, *I could* (at least half-)automate it.
- Impossible is nothing! :)
-
-
- Documentation/devicetree/bindings/leds/leds-lm3532.txt  | 2 +-
- Documentation/devicetree/bindings/leds/leds-lm3601x.txt | 4 ++--
- Documentation/devicetree/bindings/leds/leds-lm36274.txt | 2 +-
- Documentation/devicetree/bindings/leds/leds-lm3692x.txt | 2 +-
- Documentation/devicetree/bindings/leds/leds-lm3697.txt  | 2 +-
- Documentation/devicetree/bindings/leds/leds-lp8860.txt  | 2 +-
- drivers/leds/leds-lm3532.c                              | 4 ++--
- drivers/leds/leds-lm3601x.c                             | 2 +-
- drivers/leds/leds-lm36274.c                             | 2 +-
- drivers/leds/leds-lm3692x.c                             | 2 +-
- drivers/leds/leds-lm3697.c                              | 2 +-
- 11 files changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/leds/leds-lm3532.txt b/Documentation/devicetree/bindings/leds/leds-lm3532.txt
-index 53793213dd52..097490a5ff91 100644
---- a/Documentation/devicetree/bindings/leds/leds-lm3532.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lm3532.txt
-@@ -102,4 +102,4 @@ led-controller@38 {
- };
- 
- For more product information please see the links below:
--http://www.ti.com/product/LM3532
-+https://www.ti.com/product/LM3532
-diff --git a/Documentation/devicetree/bindings/leds/leds-lm3601x.txt b/Documentation/devicetree/bindings/leds/leds-lm3601x.txt
-index 095dafb6ec7f..17e940025dc2 100644
---- a/Documentation/devicetree/bindings/leds/leds-lm3601x.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lm3601x.txt
-@@ -47,5 +47,5 @@ led-controller@64 {
- }
- 
- For more product information please see the links below:
--http://www.ti.com/product/LM36010
--http://www.ti.com/product/LM36011
-+https://www.ti.com/product/LM36010
-+https://www.ti.com/product/LM36011
-diff --git a/Documentation/devicetree/bindings/leds/leds-lm36274.txt b/Documentation/devicetree/bindings/leds/leds-lm36274.txt
-index 39c230d59a4d..de6f4931fb31 100644
---- a/Documentation/devicetree/bindings/leds/leds-lm36274.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lm36274.txt
-@@ -82,4 +82,4 @@ lm36274@11 {
- };
- 
- For more product information please see the link below:
--http://www.ti.com/lit/ds/symlink/lm36274.pdf
-+https://www.ti.com/lit/ds/symlink/lm36274.pdf
-diff --git a/Documentation/devicetree/bindings/leds/leds-lm3692x.txt b/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
-index 501468aa4d38..b1103d961d6c 100644
---- a/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lm3692x.txt
-@@ -62,4 +62,4 @@ led-controller@36 {
- }
- 
- For more product information please see the link below:
--http://www.ti.com/lit/ds/snvsa29/snvsa29.pdf
-+https://www.ti.com/lit/ds/snvsa29/snvsa29.pdf
-diff --git a/Documentation/devicetree/bindings/leds/leds-lm3697.txt b/Documentation/devicetree/bindings/leds/leds-lm3697.txt
-index 63992d732959..221b37b6049b 100644
---- a/Documentation/devicetree/bindings/leds/leds-lm3697.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lm3697.txt
-@@ -70,4 +70,4 @@ led-controller@36 {
- }
- 
- For more product information please see the link below:
--http://www.ti.com/lit/ds/symlink/lm3697.pdf
-+https://www.ti.com/lit/ds/symlink/lm3697.pdf
-diff --git a/Documentation/devicetree/bindings/leds/leds-lp8860.txt b/Documentation/devicetree/bindings/leds/leds-lp8860.txt
-index 9863220db4ba..8bb25749a3da 100644
---- a/Documentation/devicetree/bindings/leds/leds-lp8860.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lp8860.txt
-@@ -47,4 +47,4 @@ led-controller@2d {
- }
- 
- For more product information please see the link below:
--http://www.ti.com/product/lp8860-q1
-+https://www.ti.com/product/lp8860-q1
-diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
-index aa9bf8cda673..946ad67eaecb 100644
---- a/drivers/leds/leds-lm3532.c
-+++ b/drivers/leds/leds-lm3532.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- // TI LM3532 LED driver
--// Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
--// http://www.ti.com/lit/ds/symlink/lm3532.pdf
-+// Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com/
-+// https://www.ti.com/lit/ds/symlink/lm3532.pdf
- 
- #include <linux/i2c.h>
- #include <linux/leds.h>
-diff --git a/drivers/leds/leds-lm3601x.c b/drivers/leds/leds-lm3601x.c
-index fce89f2a2d92..d0e1d4814042 100644
---- a/drivers/leds/leds-lm3601x.c
-+++ b/drivers/leds/leds-lm3601x.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- // Flash and torch driver for Texas Instruments LM3601X LED
- // Flash driver chip family
--// Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+// Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
- 
- #include <linux/delay.h>
- #include <linux/i2c.h>
-diff --git a/drivers/leds/leds-lm36274.c b/drivers/leds/leds-lm36274.c
-index 836b60c9a2b8..59360482e7ba 100644
---- a/drivers/leds/leds-lm36274.c
-+++ b/drivers/leds/leds-lm36274.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- // TI LM36274 LED chip family driver
--// Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-+// Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com/
- 
- #include <linux/bitops.h>
- #include <linux/device.h>
-diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
-index 28a51aeb28de..e1e2d2b64a56 100644
---- a/drivers/leds/leds-lm3692x.c
-+++ b/drivers/leds/leds-lm3692x.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- // TI LM3692x LED chip family driver
--// Copyright (C) 2017-18 Texas Instruments Incorporated - http://www.ti.com/
-+// Copyright (C) 2017-18 Texas Instruments Incorporated - https://www.ti.com/
- 
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
-diff --git a/drivers/leds/leds-lm3697.c b/drivers/leds/leds-lm3697.c
-index 872d26f9706a..024983088d59 100644
---- a/drivers/leds/leds-lm3697.c
-+++ b/drivers/leds/leds-lm3697.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- // TI LM3697 LED chip family driver
--// Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+// Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
- 
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
--- 
-2.27.0
-
+Rob
