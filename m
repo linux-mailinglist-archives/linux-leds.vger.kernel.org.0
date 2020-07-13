@@ -2,39 +2,39 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07FE121DAA6
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 17:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EBA021DA90
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 17:46:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730098AbgGMPqI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Jul 2020 11:46:08 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:55498 "EHLO
+        id S1730221AbgGMPqS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Jul 2020 11:46:18 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:55508 "EHLO
         lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729703AbgGMPqH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jul 2020 11:46:07 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06DFjue7018926;
+        with ESMTP id S1730180AbgGMPqM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jul 2020 11:46:12 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06DFju71018930;
         Mon, 13 Jul 2020 10:45:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
         s=ti-com-17Q1; t=1594655156;
-        bh=Ft/vpKavegaSOwgXdMXU+We4iz7JjFR+3FyWfDhdY4Y=;
+        bh=guAebOmRuPZn0pCzc4snOkbfY7Zfn23fU9q10KQYjVc=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=P6+mPopc2QZwnRdtEfd8Koa8jkbmJJ23L7P92KDWOj8C3V1lEa0WF3HCO1ZUQ++NK
-         vh/8u9Q87PdR2DVBVYFYHV9St9ZcEDhrzz9qiIp2qX64Ktnoon9/DjaN3SyoI1xAw/
-         PzqgWLPAHvFsdJx0DU94wiJINSzNOCWXg+/3Ygdw=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06DFjurW058381
+        b=bKxou/eNtjIIKQ5jUVoAvJGfc6fiscGCgGUNmQgaseFDCnV9viGrZc5MCUDgIHVXl
+         GcM1XJf0kf2NJmO0Z9mSZR6j4GRWK/Nf4SJpWFEGFrUvlZFAOSwfRM1hX7BXQGudEo
+         DfwH10Uu2enkmyVWMz3t7Iu+APjOKeZKfz2AeI6U=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06DFjuhi066826
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
         Mon, 13 Jul 2020 10:45:56 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 13
  Jul 2020 10:45:56 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
  Frontend Transport; Mon, 13 Jul 2020 10:45:56 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06DFjucK032964;
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06DFjukX033617;
         Mon, 13 Jul 2020 10:45:56 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh@kernel.org>,
@@ -42,9 +42,9 @@ To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh@kernel.org>,
 CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>, Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v30 02/16] leds: lp5523: Fix various formatting issues in the code
-Date:   Mon, 13 Jul 2020 10:45:30 -0500
-Message-ID: <20200713154544.1683-3-dmurphy@ti.com>
+Subject: [PATCH v30 03/16] dt: bindings: Add multicolor class dt bindings documention
+Date:   Mon, 13 Jul 2020 10:45:31 -0500
+Message-ID: <20200713154544.1683-4-dmurphy@ti.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200713154544.1683-1-dmurphy@ti.com>
 References: <20200713154544.1683-1-dmurphy@ti.com>
@@ -57,67 +57,77 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Fix checkpatch errors and warnings for the LP5523.c device
-driver.
+Add DT bindings for the LEDs multicolor class framework.
+Add multicolor ID to the color ID list for device tree bindings.
 
+CC: Rob Herring <robh@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 Acked-by: Pavel Machek <pavel@ucw.cz>
 Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Signed-off-by: Dan Murphy <dmurphy@ti.com>
 ---
- drivers/leds/leds-lp5523.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ .../bindings/leds/leds-class-multicolor.yaml  | 37 +++++++++++++++++++
+ include/dt-bindings/leds/common.h             |  3 +-
+ 2 files changed, 39 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
 
-diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-index d0b931a136b9..8518de957b48 100644
---- a/drivers/leds/leds-lp5523.c
-+++ b/drivers/leds/leds-lp5523.c
-@@ -23,13 +23,13 @@
- 
- #define LP5523_PROGRAM_LENGTH		32	/* bytes */
- /* Memory is used like this:
--   0x00 engine 1 program
--   0x10 engine 2 program
--   0x20 engine 3 program
--   0x30 engine 1 muxing info
--   0x40 engine 2 muxing info
--   0x50 engine 3 muxing info
--*/
-+ * 0x00 engine 1 program
-+ * 0x10 engine 2 program
-+ * 0x20 engine 3 program
-+ * 0x30 engine 1 muxing info
-+ * 0x40 engine 2 muxing info
-+ * 0x50 engine 3 muxing info
-+ */
- #define LP5523_MAX_LEDS			9
- 
- /* Registers */
-@@ -326,7 +326,7 @@ static int lp5523_update_program_memory(struct lp55xx_chip *chip,
- 					const u8 *data, size_t size)
- {
- 	u8 pattern[LP5523_PROGRAM_LENGTH] = {0};
--	unsigned cmd;
-+	unsigned int cmd;
- 	char c[3];
- 	int nrchars;
- 	int ret;
-@@ -468,6 +468,7 @@ static int lp5523_mux_parse(const char *buf, u16 *mux, size_t len)
- static void lp5523_mux_to_array(u16 led_mux, char *array)
- {
- 	int i, pos = 0;
+diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+new file mode 100644
+index 000000000000..b55e1f1308a4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
+@@ -0,0 +1,37 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/leds-class-multicolor.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	for (i = 0; i < LP5523_MAX_LEDS; i++)
- 		pos += sprintf(array + pos, "%x", LED_ACTIVE(led_mux, i));
++title: Common properties for the multicolor LED class.
++
++maintainers:
++  - Dan Murphy <dmurphy@ti.com>
++
++description: |
++  Bindings for multi color LEDs show how to describe current outputs of
++  either integrated multi-color LED elements (like RGB, RGBW, RGBWA-UV
++  etc.) or standalone LEDs, to achieve logically grouped multi-color LED
++  modules. This is achieved by adding multi-led nodes layer to the
++  monochrome LED bindings.
++  The nodes and properties defined in this document are unique to the multicolor
++  LED class.  Common LED nodes and properties are inherited from the common.txt
++  within this documentation directory.
++
++patternProperties:
++  "^multi-led@([0-9a-f])$":
++    type: object
++    description: Represents the LEDs that are to be grouped.
++    properties:
++      color:
++        const: 8  # LED_COLOR_ID_MULTI
++        description: |
++          For multicolor LED support this property should be defined as
++          LED_COLOR_ID_MULTI which can be found in include/linux/leds/common.h.
++
++    $ref: "common.yaml#"
++
++    required:
++      - color
++...
+diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+index 0ce7dfc00dcb..a463ce6a8794 100644
+--- a/include/dt-bindings/leds/common.h
++++ b/include/dt-bindings/leds/common.h
+@@ -30,7 +30,8 @@
+ #define LED_COLOR_ID_VIOLET	5
+ #define LED_COLOR_ID_YELLOW	6
+ #define LED_COLOR_ID_IR		7
+-#define LED_COLOR_ID_MAX	8
++#define LED_COLOR_ID_MULTI	8
++#define LED_COLOR_ID_MAX	9
  
-@@ -506,7 +507,7 @@ static int lp5523_load_mux(struct lp55xx_chip *chip, u16 mux, int nr)
- 	if (ret)
- 		return ret;
- 
--	ret = lp55xx_write(chip, LP5523_REG_PROG_MEM , (u8)(mux >> 8));
-+	ret = lp55xx_write(chip, LP5523_REG_PROG_MEM, (u8)(mux >> 8));
- 	if (ret)
- 		return ret;
- 
+ /* Standard LED functions */
+ /* Keyboard LEDs, usually it would be input4::capslock etc. */
 -- 
 2.27.0
 
