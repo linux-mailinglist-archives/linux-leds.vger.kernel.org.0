@@ -2,99 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8024921D044
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 09:12:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB28721D3B7
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 12:26:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbgGMHM6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Jul 2020 03:12:58 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:53478 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725818AbgGMHM6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jul 2020 03:12:58 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 321031C0BDD; Mon, 13 Jul 2020 09:12:56 +0200 (CEST)
-Date:   Mon, 13 Jul 2020 09:12:55 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek Behun <marek.behun@nic.cz>
-Cc:     =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        linux-kernel@vger.kernel.org,
+        id S1727890AbgGMK0N (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Jul 2020 06:26:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46800 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729390AbgGMK0K (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jul 2020 06:26:10 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9863C061794
+        for <linux-leds@vger.kernel.org>; Mon, 13 Jul 2020 03:26:09 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1juves-0006lX-6S; Mon, 13 Jul 2020 12:26:02 +0200
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1juver-0008D8-6D; Mon, 13 Jul 2020 12:26:01 +0200
+Date:   Mon, 13 Jul 2020 12:26:00 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Pavel Machek <pavel@denx.de>
+Cc:     kernel@pengutronix.de,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        "open list:LED SUBSYSTEM" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH RFC] leds: Add support for per-LED device triggers
-Message-ID: <20200713071255.GB30654@amd>
-References: <20200702144712.1994685-1-megous@megous.com>
- <20200711100409.GA18901@amd>
- <20200711210111.5ysijhexgyzyr7u7@core.my.home>
- <20200712072554.GC4721@duo.ucw.cz>
- <20200712134911.r3lig4hgyqhmslth@core.my.home>
- <20200712191111.GA20592@amd>
- <20200712223821.742ljr4qxdrx3aqv@core.my.home>
- <20200713011544.0adc51f1@nic.cz>
- <20200713011841.25904273@nic.cz>
+        linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>,
+        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
+Subject: Re: [PATCH v7 3/3] leds: trigger: implement a tty trigger
+Message-ID: <20200713102600.ts672o72krjky5gi@pengutronix.de>
+References: <20200707165958.16522-1-u.kleine-koenig@pengutronix.de>
+ <20200707165958.16522-4-u.kleine-koenig@pengutronix.de>
+ <20200712082453.GI8295@amd>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="s/l3CgOIzMHHjg/5"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="p7sgu6f4s3srokfq"
 Content-Disposition: inline
-In-Reply-To: <20200713011841.25904273@nic.cz>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200712082453.GI8295@amd>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---s/l3CgOIzMHHjg/5
-Content-Type: text/plain; charset=utf-8
+--p7sgu6f4s3srokfq
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon 2020-07-13 01:18:41, Marek Behun wrote:
-> On Mon, 13 Jul 2020 01:15:44 +0200
-> Marek Behun <marek.behun@nic.cz> wrote:
+Hello Pavel,
+
+On Sun, Jul 12, 2020 at 10:24:53AM +0200, Pavel Machek wrote:
+> > +++ b/drivers/leds/trigger/ledtrig-tty.c
+> > @@ -0,0 +1,192 @@
+> > +// SPDX-License-Identifier: GPL-2.0
 >=20
-> > On Mon, 13 Jul 2020 00:38:21 +0200
-> > Ond=C5=99ej Jirman <megous@megous.com> wrote:
-> >=20
-> > > So after trying to use this, this seems to disallow the use of multip=
-le HW
-> > > triggers per LED. That's fine by me, because using one HW sysfs confi=
-gured
-> > > trigger per LED that use case is my proposal, but is it desireable in=
- general? =20
-> >=20
-> > Why? If you register one LED and several triggers, all sharing the same
-> > trigger_type pointer, I think it should work.
-> >=20
-> > Marek
+> 2.0+ is preffered.
+
+My employer requests GPL-2.0-only for kernel code.
+
+> > +	while (firstrun ||
+> > +	       icount.rx !=3D trigger_data->rx ||
+> > +	       icount.tx !=3D trigger_data->tx) {
+> > +
+> > +		led_set_brightness(trigger_data->led_cdev, LED_ON);
+> > +
+> > +		msleep(100);
+> > +
+> > +		led_set_brightness(trigger_data->led_cdev, LED_OFF);
 >=20
-> The problem arises when I have two LEDs and two HW triggers, and the
-> hardware allows setting one HW trigger on both LEDs and other HW
-> trigger only on one LED. But this could simply be ignored - the
-> set_trigger function could simply return -ENOTSUPP or something.
+> Is this good idea inside workqueue?
 
-In this case you should have two trigger_type pointers (since two LEDs
-are different), and yes, you'll have duplication for one of the
-triggers. I don't think thats a problem.
+What is "this"? The msleep? Calling led_set_brightness? What would you
+recommend instead? Maybe led_set_brightness_nosleep()?
 
-Best regards,
+> > +		trigger_data->rx =3D icount.rx;
+> > +		trigger_data->tx =3D icount.tx;
+> > +		firstrun =3D false;
+> > +
+> > +		ret =3D tty_get_icount(trigger_data->tty, &icount);
+> > +		if (ret)
+> > +			return;
+>=20
+> Unbalanced locking.
 
-								Pavel
+indeed, will fix and resend after the above issues are resolved.
+
+Best regards
+Uwe
+
 --=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---s/l3CgOIzMHHjg/5
+--p7sgu6f4s3srokfq
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
 
-iEYEARECAAYFAl8MCXcACgkQMOfwapXb+vI3EACfTTWAUjxR+z+O0wW07CTZg6nY
-OyQAnRovoM7dyl5LTNqQyJETm6JPstLb
-=M34O
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl8MNrYACgkQwfwUeK3K
+7AmjaAgAhJ4ZfU4c7r1CzUjNGOMKD/u6/lkeH+6PbKNRLQA7PLSdkfAvfUitzLVH
+p7CsYj4YavhWXRO9i3p7PDgMUUPeUWdpMq1pYBPOKspahP5hSDjI7ncvgOwhI4Ot
+ANXhLG4jvYlMXa5054nHcPzSkPi5d30If4bg9et+F0+2dTRuVgiIibc5SDXHeOpJ
+a0XKR6gLIog9F4ufu8H71Rz+eA/qK26xbvksv8OWpupLmi+EIg4ijsXiA1Iqgc4R
+gnHYG7cu2oeyXJSXrHitK0415ZT0S//vMZrMPRQvWHiiLhjpYqJTHHpiP3oFTTyu
+REWG/lIOh2q0yDn7dE7+yFG4oQt8sg==
+=lxZ0
 -----END PGP SIGNATURE-----
 
---s/l3CgOIzMHHjg/5--
+--p7sgu6f4s3srokfq--
