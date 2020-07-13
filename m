@@ -2,126 +2,157 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC55D21DA7C
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 17:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A53621DA7F
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Jul 2020 17:46:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729920AbgGMPqA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Jul 2020 11:46:00 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:45302 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729644AbgGMPqA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jul 2020 11:46:00 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06DFjjDC000681;
-        Mon, 13 Jul 2020 10:45:45 -0500
+        id S1729644AbgGMPqF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Jul 2020 11:46:05 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:54978 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730029AbgGMPqF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Jul 2020 11:46:05 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06DFjpBd038963;
+        Mon, 13 Jul 2020 10:45:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1594655145;
-        bh=BXLaxwIJXLV+Ac4q6dmalYN8p6JTcCD3nvyE4KBB/JA=;
-        h=From:To:CC:Subject:Date;
-        b=WBZpXP0+LbdNAOMDQxe3/d69cFWxMB7ZGaSMf1wpmEOu3+rzo1NcuxTxVg/MHGPJY
-         6HziO5gs+ar4FWc4Fmlc31wkSsZk+rFyiI9k+j1VDW+fDuZ+TnkAXyfZigXnadm4HQ
-         IyVmMBpt7W9KIuYwy9zbiwL3kn4JuZM6rwp3EYEs=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06DFjjX6130634
+        s=ti-com-17Q1; t=1594655151;
+        bh=fixhIkoPgG+a/gbgj4pHNFrof0wf1XPrapzgiwGlOI4=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=i8DpPYeLHkdKNBxOj6WzSlVWyn950+rFHFcfLi1/wG9WZQZ1UGzkrsfXrxu9tq4YL
+         oZMwkOBawDE5aMBr5GhZONG+4FADkgDQDgAZaAVypF/YNATU2Iw9Gyr9F6ZshtZaZy
+         nRUZHWLwjMTojSDcQufl+OuOUxLe92EsyZb+uHuo=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06DFjpDv058308
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 13 Jul 2020 10:45:45 -0500
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 13 Jul 2020 10:45:51 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 13
- Jul 2020 10:45:45 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ Jul 2020 10:45:51 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 13 Jul 2020 10:45:45 -0500
+ Frontend Transport; Mon, 13 Jul 2020 10:45:50 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06DFjjwm033372;
-        Mon, 13 Jul 2020 10:45:45 -0500
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06DFjooc032891;
+        Mon, 13 Jul 2020 10:45:50 -0500
 From:   Dan Murphy <dmurphy@ti.com>
 To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh@kernel.org>,
         <marek.behun@nic.cz>
 CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>, Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v30 00/16] Multicolor Framework v30
-Date:   Mon, 13 Jul 2020 10:45:28 -0500
-Message-ID: <20200713154544.1683-1-dmurphy@ti.com>
+Subject: [PATCH v30 01/16] leds: lp55xx: Fix file permissions to use DEVICE_ATTR macros
+Date:   Mon, 13 Jul 2020 10:45:29 -0500
+Message-ID: <20200713154544.1683-2-dmurphy@ti.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200713154544.1683-1-dmurphy@ti.com>
+References: <20200713154544.1683-1-dmurphy@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello
+Fix the checkpatch warnings for the use of the file permission macros.
+In converting the file permissions to the DEVICE_ATTR_XX macros the
+call back function names needed to be updated within the code.
 
-This is the multi color LED framework.   This framework presents clustered
-colored LEDs into an array and allows the user space to adjust the brightness
-of the cluster using a single file write.  The individual colored LEDs
-intensities are controlled via a single file that is an array of LEDs
+This means that the lp55xx_ needed to be dropped in the name to keep in
+harmony with the ABI documentation.
 
-Fixed documentation, removed adding a space when reading intensity and index,
-update LP50xx to store trigger directly into led_cdev added RB's by Rob H.
+Acked-by: Pavel Machek <pavel@ucw.cz>
+Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Signed-off-by: Dan Murphy <dmurphy@ti.com>
+---
+ drivers/leds/leds-lp55xx-common.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-Dan
-
-Dan Murphy (16):
-  leds: lp55xx: Fix file permissions to use DEVICE_ATTR macros
-  leds: lp5523: Fix various formatting issues in the code
-  dt: bindings: Add multicolor class dt bindings documention
-  leds: Add multicolor ID to the color ID list
-  leds: multicolor: Introduce a multicolor class definition
-  dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers
-  leds: lp50xx: Add the LP50XX family of the RGB LED driver
-  dt-bindings: leds: Convert leds-lp55xx to yaml
-  leds: lp55xx: Convert LED class registration to devm_*
-  leds: lp55xx: Add multicolor framework support to lp55xx
-  ARM: defconfig: u8500: Add LP55XX_COMMON config flag
-  leds: lp5523: Update the lp5523 code to add multicolor brightness
-    function
-  leds: lp5521: Add multicolor framework multicolor brightness support
-  ARM: dts: n900: Add reg property to the LP5523 channel node
-  ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node
-  ARM: dts: ste-href: Add reg property to the LP5521 channel nodes
-
- .../ABI/testing/sysfs-class-led-multicolor    |  35 +
- .../bindings/leds/leds-class-multicolor.yaml  |  37 +
- .../devicetree/bindings/leds/leds-lp50xx.yaml | 130 +++
- .../devicetree/bindings/leds/leds-lp55xx.txt  | 228 -----
- .../devicetree/bindings/leds/leds-lp55xx.yaml | 220 +++++
- Documentation/leds/index.rst                  |   1 +
- Documentation/leds/leds-class-multicolor.rst  |  86 ++
- arch/arm/boot/dts/imx6dl-yapp4-common.dtsi    |  14 +-
- arch/arm/boot/dts/omap3-n900.dts              |  29 +-
- arch/arm/boot/dts/ste-href.dtsi               |  22 +-
- arch/arm/configs/u8500_defconfig              |   1 +
- drivers/leds/Kconfig                          |  32 +-
- drivers/leds/Makefile                         |   2 +
- drivers/leds/led-class-multicolor.c           | 204 +++++
- drivers/leds/led-core.c                       |   1 +
- drivers/leds/leds-lp50xx.c                    | 784 ++++++++++++++++++
- drivers/leds/leds-lp5521.c                    |  43 +-
- drivers/leds/leds-lp5523.c                    |  62 +-
- drivers/leds/leds-lp5562.c                    |  22 +-
- drivers/leds/leds-lp55xx-common.c             | 212 +++--
- drivers/leds/leds-lp55xx-common.h             |  16 +-
- drivers/leds/leds-lp8501.c                    |  23 +-
- include/dt-bindings/leds/common.h             |   3 +-
- include/linux/led-class-multicolor.h          | 121 +++
- include/linux/platform_data/leds-lp55xx.h     |   7 +
- 25 files changed, 1975 insertions(+), 360 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-class-led-multicolor
- create mode 100644 Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
- create mode 100644 Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-lp55xx.txt
- create mode 100644 Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
- create mode 100644 Documentation/leds/leds-class-multicolor.rst
- create mode 100644 drivers/leds/led-class-multicolor.c
- create mode 100644 drivers/leds/leds-lp50xx.c
- create mode 100644 include/linux/led-class-multicolor.h
-
+diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
+index 1354965ac866..3d0bc4dcd9f2 100644
+--- a/drivers/leds/leds-lp55xx-common.c
++++ b/drivers/leds/leds-lp55xx-common.c
+@@ -77,7 +77,7 @@ static int lp55xx_post_init_device(struct lp55xx_chip *chip)
+ 	return cfg->post_init_device(chip);
+ }
+ 
+-static ssize_t lp55xx_show_current(struct device *dev,
++static ssize_t led_current_show(struct device *dev,
+ 			    struct device_attribute *attr,
+ 			    char *buf)
+ {
+@@ -86,7 +86,7 @@ static ssize_t lp55xx_show_current(struct device *dev,
+ 	return scnprintf(buf, PAGE_SIZE, "%d\n", led->led_current);
+ }
+ 
+-static ssize_t lp55xx_store_current(struct device *dev,
++static ssize_t led_current_store(struct device *dev,
+ 			     struct device_attribute *attr,
+ 			     const char *buf, size_t len)
+ {
+@@ -110,7 +110,7 @@ static ssize_t lp55xx_store_current(struct device *dev,
+ 	return len;
+ }
+ 
+-static ssize_t lp55xx_show_max_current(struct device *dev,
++static ssize_t max_current_show(struct device *dev,
+ 			    struct device_attribute *attr,
+ 			    char *buf)
+ {
+@@ -119,9 +119,8 @@ static ssize_t lp55xx_show_max_current(struct device *dev,
+ 	return scnprintf(buf, PAGE_SIZE, "%d\n", led->max_current);
+ }
+ 
+-static DEVICE_ATTR(led_current, S_IRUGO | S_IWUSR, lp55xx_show_current,
+-		lp55xx_store_current);
+-static DEVICE_ATTR(max_current, S_IRUGO , lp55xx_show_max_current, NULL);
++static DEVICE_ATTR_RW(led_current);
++static DEVICE_ATTR_RO(max_current);
+ 
+ static struct attribute *lp55xx_led_attrs[] = {
+ 	&dev_attr_led_current.attr,
+@@ -224,7 +223,7 @@ static int lp55xx_request_firmware(struct lp55xx_chip *chip)
+ 				GFP_KERNEL, chip, lp55xx_firmware_loaded);
+ }
+ 
+-static ssize_t lp55xx_show_engine_select(struct device *dev,
++static ssize_t select_engine_show(struct device *dev,
+ 			    struct device_attribute *attr,
+ 			    char *buf)
+ {
+@@ -234,7 +233,7 @@ static ssize_t lp55xx_show_engine_select(struct device *dev,
+ 	return sprintf(buf, "%d\n", chip->engine_idx);
+ }
+ 
+-static ssize_t lp55xx_store_engine_select(struct device *dev,
++static ssize_t select_engine_store(struct device *dev,
+ 			     struct device_attribute *attr,
+ 			     const char *buf, size_t len)
+ {
+@@ -276,7 +275,7 @@ static inline void lp55xx_run_engine(struct lp55xx_chip *chip, bool start)
+ 		chip->cfg->run_engine(chip, start);
+ }
+ 
+-static ssize_t lp55xx_store_engine_run(struct device *dev,
++static ssize_t run_engine_store(struct device *dev,
+ 			     struct device_attribute *attr,
+ 			     const char *buf, size_t len)
+ {
+@@ -301,9 +300,8 @@ static ssize_t lp55xx_store_engine_run(struct device *dev,
+ 	return len;
+ }
+ 
+-static DEVICE_ATTR(select_engine, S_IRUGO | S_IWUSR,
+-		   lp55xx_show_engine_select, lp55xx_store_engine_select);
+-static DEVICE_ATTR(run_engine, S_IWUSR, NULL, lp55xx_store_engine_run);
++static DEVICE_ATTR_RW(select_engine);
++static DEVICE_ATTR_WO(run_engine);
+ 
+ static struct attribute *lp55xx_engine_attributes[] = {
+ 	&dev_attr_select_engine.attr,
 -- 
 2.27.0
 
