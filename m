@@ -2,129 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFBB7222AE9
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Jul 2020 20:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D2C7222B52
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Jul 2020 20:57:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729648AbgGPSV1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 16 Jul 2020 14:21:27 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:40388 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728402AbgGPSV0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 16 Jul 2020 14:21:26 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06GIL7sx062632;
-        Thu, 16 Jul 2020 13:21:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1594923667;
-        bh=AtFpbFN/pk3H2W7tsZe1q1Dl9Qhx5ZausPpl8TMz2w4=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=h+AjHwpyp4eMvnTj4HGj+tpJAeKcUL6O9GmQbCRsX9bpe4dge1SQYtQaSSCAYynp+
-         fJ7CnQEYRVLUJ/+2tatpBeZyBsgHUs/7CzZC6V/z5XvmIiIuCBOXUDwngsd+sO3XJb
-         BrM6hbvwnWcNJq2Tr7Ze+X5pOpVfDf1ZoZCnJB7g=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06GIL7No122919
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 16 Jul 2020 13:21:07 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 16
- Jul 2020 13:21:06 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 16 Jul 2020 13:21:06 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06GIL6ME128238;
-        Thu, 16 Jul 2020 13:21:06 -0500
-From:   Dan Murphy <dmurphy@ti.com>
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh@kernel.org>,
-        <marek.behun@nic.cz>
-CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v31 12/12] ARM: dts: ste-href: Add reg property to the LP5521 channel nodes
-Date:   Thu, 16 Jul 2020 13:20:07 -0500
-Message-ID: <20200716182007.18389-13-dmurphy@ti.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200716182007.18389-1-dmurphy@ti.com>
-References: <20200716182007.18389-1-dmurphy@ti.com>
+        id S1729366AbgGPS5D (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 16 Jul 2020 14:57:03 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:39326 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728163AbgGPS5D (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 16 Jul 2020 14:57:03 -0400
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1jw93n-005UW2-Ba; Thu, 16 Jul 2020 20:56:47 +0200
+Date:   Thu, 16 Jul 2020 20:56:47 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        jacek.anaszewski@gmail.com, Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        netdev@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC leds + net-next 0/3] Add support for LEDs on Marvell
+ PHYs
+Message-ID: <20200716185647.GA1308244@lunn.ch>
+References: <20200716171730.13227-1-marek.behun@nic.cz>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20200716171730.13227-1-marek.behun@nic.cz>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add the reg property to each channel node.  This update is
-to accommodate the multicolor framework.  In addition to the
-accommodation this allows the LEDs to be placed on any channel
-and allow designs to skip channels as opposed to requiring
-sequential order.
+On Thu, Jul 16, 2020 at 07:17:27PM +0200, Marek Behún wrote:
+> Hello,
+> 
+> this RFC series should apply on both net-next/master and Pavel's
+> linux-leds/for-master tree.
+> 
+> This adds support for LED's connected to some Marvell PHYs.
+> 
+> LEDs are specified via device-tree. Example:
 
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
-CC: Linus Walleij <linus.walleij@linaro.org>
-Acked-by: Pavel Machek <pavel@ucw.cz>
----
- arch/arm/boot/dts/ste-href.dtsi | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+Hi Marek
 
-diff --git a/arch/arm/boot/dts/ste-href.dtsi b/arch/arm/boot/dts/ste-href.dtsi
-index 33e3b0b3c53d..ff47cbf6ed3b 100644
---- a/arch/arm/boot/dts/ste-href.dtsi
-+++ b/arch/arm/boot/dts/ste-href.dtsi
-@@ -58,16 +58,21 @@ lp5521@33 {
- 				reg = <0x33>;
- 				label = "lp5521_pri";
- 				clock-mode = /bits/ 8 <2>;
--				chan0 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				chan@0 {
-+					reg = <0>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 					linux,default-trigger = "heartbeat";
- 				};
--				chan1 {
-+				chan@1 {
-+					reg = <1>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 				};
--				chan2 {
-+				chan@2 {
-+					reg = <2>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 				};
-@@ -77,15 +82,20 @@ lp5521@34 {
- 				reg = <0x34>;
- 				label = "lp5521_sec";
- 				clock-mode = /bits/ 8 <2>;
--				chan0 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				chan@0 {
-+					reg = <0>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 				};
--				chan1 {
-+				chan@1 {
-+					reg = <1>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 				};
--				chan2 {
-+				chan@2 {
-+					reg = <2>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 				};
--- 
-2.27.0
+I've been playing with something similar, off and on, mostly off.
 
+Take a look at
+
+https://github.com/lunn/linux v5.4-rc6-hw-led-triggers
+
+The binding i have is pretty much the same, since we are both
+following the common LED binding. I see no problems with this.
+
+> This is achieved by extending the LED trigger API with LED-private triggers.
+> The proposal for this is based on work by Ondrej and Pavel.
+
+So what i did here was allow triggers to be registered against a
+specific LED. The /sys/class/leds/<LED>/trigger lists both the generic
+triggers and the triggers for this specific LED. Phylib can then
+register a trigger for each blink reason that specific LED can
+perform. Which does result in a lot of triggers. Especially when you
+start talking about a 10 port switch each with 2 LEDs.
+
+I still have some open issues...
+
+1) Polarity. It would be nice to be able to configure the polarity of
+the LED in the bindings.
+
+2) PHY LEDs which are not actually part of the PHY. Most of the
+Marvell Ethernet switches have inbuilt PHYs, which are driven by the
+Marvell PHY driver. The Marvell PHY driver has no idea the PHY is
+inside a switch, it is just a PHY.  However, the LEDs are not
+controlled via PHY registers, but Switch registers. So the switch
+driver is going to end up controlling these LEDs. It would be good to
+be able to share as much code as possible, keep the naming consistent,
+and keep the user API the same.
+
+3) Some PHYs cannot control the LEDs independently. Or they have modes
+which configure two or more LEDs. The Marvell PHYs are like
+this. There are something like ~10 blink modes which are
+independent. And then there are 4 modes which control multiple LEDs.
+There is no simple way to support this with Linux LEDs which assume
+the LEDs are fully independent. I suspect we simply cannot support
+these combined modes.
+
+As a PHY maintainer, i would like to see a solution which makes use of
+Linux LEDs. I don't really care who's code it is, and feel free to
+borrow my code, or ideas, or ignore it.
+
+      Andrew
