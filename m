@@ -2,177 +2,125 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00B8422268C
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Jul 2020 17:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E20C2228D6
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Jul 2020 19:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728385AbgGPPKS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 16 Jul 2020 11:10:18 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:41654 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728150AbgGPPKS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 16 Jul 2020 11:10:18 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06GFAAjr102655;
-        Thu, 16 Jul 2020 10:10:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1594912210;
-        bh=MuC1mrGD+6kFJ+XNShFDWlSuTcu/XarBjg4fbxwV/QM=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=c0AK/jN6A09iPlLK/JzmrdCxOZmFSpbcPlku0s+TD/91yCLNHJhqzTXhuR2z8R8vU
-         8AmhL8LMwllskX9JJVQ1maqb7pgjXpclc9pMm3RZKnII3jdNaKW49DpKXT6QsziXSK
-         TuRP7+6wIp0VopP2lHuWUtSbvl4NV/fD/5HeUub8=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06GFAAuw096948
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 16 Jul 2020 10:10:10 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 16
- Jul 2020 10:10:09 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 16 Jul 2020 10:10:09 -0500
-Received: from [10.250.32.229] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06GFA933008409;
-        Thu, 16 Jul 2020 10:10:09 -0500
-Subject: Re: [PATCH v5 2/3] leds: initial support for Turris Omnia LEDs
-To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
-        <linux-leds@vger.kernel.org>
-CC:     Pavel Machek <pavel@ucw.cz>, <jacek.anaszewski@gmail.com>
-References: <20200716114047.22943-1-marek.behun@nic.cz>
- <20200716114047.22943-3-marek.behun@nic.cz>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <3c500c32-a97f-3fa9-cb32-2c3c263e6988@ti.com>
-Date:   Thu, 16 Jul 2020 10:10:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728867AbgGPRRr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 16 Jul 2020 13:17:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728885AbgGPRRd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 16 Jul 2020 13:17:33 -0400
+Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5846BC061755;
+        Thu, 16 Jul 2020 10:17:33 -0700 (PDT)
+Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
+        by mail.nic.cz (Postfix) with ESMTP id E1900140A85;
+        Thu, 16 Jul 2020 19:17:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1594919851; bh=XOAfNxH04Dfv8nWGDodRl3W9aRo3avZUgZgHgn5hpn4=;
+        h=From:To:Date;
+        b=kUvNiNFvr235PstZgBkhO+fqGWxiiaUdRMn8KfQa9MBotIBOF1KG4SkdDmJV7Xjqq
+         HySlUuwxNcos160kngDFQyR17PehN9c1BI+5pLbwFNt+EpxA6Jn58IvUIdwexb1X17
+         PONsZn+A/BZ4Tk+f5C5cxDFWOC2watM+/tMrR13I=
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+To:     linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, jacek.anaszewski@gmail.com,
+        Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megous@megous.com>,
+        netdev@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+Subject: [PATCH RFC leds + net-next 0/3] Add support for LEDs on Marvell PHYs
+Date:   Thu, 16 Jul 2020 19:17:27 +0200
+Message-Id: <20200716171730.13227-1-marek.behun@nic.cz>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200716114047.22943-3-marek.behun@nic.cz>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Spam-Status: No, score=0.00
+X-Spamd-Bar: /
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hello,
+
+this RFC series should apply on both net-next/master and Pavel's
+linux-leds/for-master tree.
+
+This adds support for LED's connected to some Marvell PHYs.
+
+LEDs are specified via device-tree. Example:
+
+ethernet-phy@1 {
+	reg = <1>;
+
+	leds {
+		led@0 {
+			reg = <0>;
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_LINK;
+			linux,default-trigger = "hw:1000/100/10/nolink";
+		};
+
+		led@1 {
+			reg = <1>;
+			color = <LED_COLOR_ID_YELLOW>;
+			function = LED_FUNCTION_ACTIVITY;
+			linux,default-trigger = "hw:act/noact";
+		};
+	};
+};
+
+Since Marvell PHYs can control the LEDs themselves in various modes,
+we need to be able to switch between them or disable them.
+
+This is achieved by extending the LED trigger API with LED-private triggers.
+The proposal for this is based on work by Ondrej and Pavel, but after writing
+this support for Marvell PHYs I am not very happy how this turned out:
+- this LED-private triggers API works by registering triggers with specific
+  private trigger type. If this trigger type is defined for a trigger, only
+  those LEDs will be able to set this trigger which also have this trigger type.
+  (Both structs led_classdev and led_trigger have member trigger_type)
+- on Marvell PHYs each LED can have up to 8 different triggers
+- currently the driver supports up to 6 LEDs, since at least 88E1340 support
+  6 LEDs
+- almost every LED supports some mode which is not supported by at least one
+  other LED
+- this leads to the following dillema:
+  1. either we support one trigger type across the driver, but then the
+     /sys/class/leds/<LED>/trigger file will also list HW triggers not
+     supported by this specific LED,
+  2. or we add 6 trigger types, each different one LED, and register up to
+     8 HW triggers for each trigger type, which results in up to 48 triggers
+     per this driver.
+  In this proposal alternative 1 is taken and when unsupported HW trigger
+  is requested by writing to /sys/class/leds/<LED>/trigger file, the write
+  system call returns -EOPNOTSUPP.
+- therefore I think that this is not the correct way how to implement
+  LED-private triggers, and instead an approach as desribed in [1].
+  What do you people think?
+
 Marek
 
-On 7/16/20 6:40 AM, Marek Behún wrote:
-> This adds basic support for LEDs on the front side of CZ.NIC's Turris
-> Omnia router.
->
-> There are 12 RGB LEDs. The controller supports HW triggering mode for
-> the LEDs, but this driver does not support it yet, and sets all the LEDs
-> defined in device-tree into SW mode upon probe.
->
-> This driver uses the multi color LED framework.
+Marek Behún (3):
+  leds: trigger: add support for LED-private device triggers
+  leds: trigger: return error value if .activate() failed
+  net: phy: marvell: add support for PHY LEDs via LED class
 
-As Pavel pointed out to me
+ drivers/leds/led-triggers.c |  32 ++--
+ drivers/net/phy/Kconfig     |   7 +
+ drivers/net/phy/marvell.c   | 307 +++++++++++++++++++++++++++++++++++-
+ include/linux/leds.h        |  10 ++
+ 4 files changed, 346 insertions(+), 10 deletions(-)
 
-s/multi color/multicolor
-
-
-> Signed-off-by: Marek Behún <marek.behun@nic.cz>
-> ---
->   drivers/leds/Kconfig             |  11 ++
->   drivers/leds/Makefile            |   1 +
->   drivers/leds/leds-turris-omnia.c | 293 +++++++++++++++++++++++++++++++
->   3 files changed, 305 insertions(+)
->   create mode 100644 drivers/leds/leds-turris-omnia.c
->
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 0d034453eeb9..125349824bb6 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -176,6 +176,17 @@ config LEDS_EL15203000
->   	  To compile this driver as a module, choose M here: the module
->   	  will be called leds-el15203000.
->   
-> +config LEDS_TURRIS_OMNIA
-> +	tristate "LED support for CZ.NIC's Turris Omnia"
-> +	depends on LEDS_CLASS_MULTI_COLOR
-> +	depends on I2C
-> +	depends on MACH_ARMADA_38X || COMPILE_TEST
-> +	depends on OF
-> +	help
-> +	  This option enables basic support for the LEDs found on the front
-> +	  side of CZ.NIC's Turris Omnia router. There are 12 RGB LEDs on the
-> +	  front panel.
-> +
->   config LEDS_LM3530
->   	tristate "LCD Backlight driver for LM3530"
->   	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index 53a752c32e67..664ca1d719c4 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -87,6 +87,7 @@ obj-$(CONFIG_LEDS_TCA6507)		+= leds-tca6507.o
->   obj-$(CONFIG_LEDS_TI_LMU_COMMON)	+= leds-ti-lmu-common.o
->   obj-$(CONFIG_LEDS_TLC591XX)		+= leds-tlc591xx.o
->   obj-$(CONFIG_LEDS_TPS6105X)		+= leds-tps6105x.o
-> +obj-$(CONFIG_LEDS_TURRIS_OMNIA)		+= leds-turris-omnia.o
->   obj-$(CONFIG_LEDS_WM831X_STATUS)	+= leds-wm831x-status.o
->   obj-$(CONFIG_LEDS_WM8350)		+= leds-wm8350.o
->   obj-$(CONFIG_LEDS_WRAP)			+= leds-wrap.o
-> diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-> new file mode 100644
-> index 000000000000..c735e837ef48
-> --- /dev/null
-> +++ b/drivers/leds/leds-turris-omnia.c
-> @@ -0,0 +1,293 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * CZ.NIC's Turris Omnia LEDs driver
-> + *
-> + * 2020 by Marek Behun <marek.behun@nic.cz>
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/led-class-multicolor.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of.h>
-> +#include "leds.h"
-> +
-> +#define OMNIA_BOARD_LEDS		12
-> +#define OMNIA_LED_NUM_CHANNELS		3
-> +
-> +#define CMD_LED_MODE			3
-> +#define CMD_LED_MODE_LED(l)		((l) & 0x0f)
-> +#define CMD_LED_MODE_USER		0x10
-> +
-> +#define CMD_LED_STATE			4
-> +#define CMD_LED_STATE_LED(l)		((l) & 0x0f)
-> +#define CMD_LED_STATE_ON		0x10
-> +
-> +#define CMD_LED_COLOR			5
-> +#define CMD_LED_SET_BRIGHTNESS		7
-> +#define CMD_LED_GET_BRIGHTNESS		8
-> +
-> +#define OMNIA_CMD			0
-> +
-> +#define OMNIA_CMD_LED_COLOR_LED		1
-> +#define OMNIA_CMD_LED_COLOR_R		2
-> +#define OMNIA_CMD_LED_COLOR_G		3
-> +#define OMNIA_CMD_LED_COLOR_B		4
-> +#define OMNIA_CMD_LED_COLOR_LEN		5
-> +
-> +struct omnia_led {
-> +	struct led_classdev_mc mc_cdev;
-> +	struct mc_subled subled_info[OMNIA_LED_NUM_CHANNELS];
-> +	int reg;
-> +};
-> +
-> +#define to_omnia_led(l)			container_of(l, struct omnia_led, mc_cdev)
-> +
-
-Still funky spacing here
-
-Otherwise
-
-Reviewed-by: Dan Murphy <dmurphy@ti.com>
-
+-- 
+2.26.2
 
