@@ -2,103 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5F9F221526
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Jul 2020 21:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 094BA221E64
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Jul 2020 10:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726785AbgGOTcf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 15 Jul 2020 15:32:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41828 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726479AbgGOTce (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Jul 2020 15:32:34 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33568C061755;
-        Wed, 15 Jul 2020 12:32:34 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id n26so3430982ejx.0;
-        Wed, 15 Jul 2020 12:32:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+qRKnkS0l/5+dReHrPFaB3lJpeJ/drPMSf8yw4099q4=;
-        b=km99CtKFXqmaMoFN/9hZ2vfU3M9rn9VXa0Wddi68s8J9FsBJ8mWSLNO5DBIuGn65+P
-         Laa+wzzJWf4NO8vfEFptU9T1uqWWVuMD88WeO+GvXICa6TSRX0pG0CqHSLS5IILRGOPK
-         N0sVitdg01ogrDBvGLmTD4fPMmZjj1mpWEfa3ZCaH/3GaYyF5UeOyJjp+KheigZ6YrMZ
-         mkJtq8+gfL+RUteDOpmEBaV2JtHCvmkZ4t+FW3Usy5KZ7oPyHC20bf8t3AvIds2VLQ+T
-         lmgvOvSsDG6j3j30M+znQ5JbDeJvCAnT/HR4Uqlw2hi0XKpMvmzErSL0+FQpc4jSTfOU
-         Up7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+qRKnkS0l/5+dReHrPFaB3lJpeJ/drPMSf8yw4099q4=;
-        b=EYYyl7DZp3cyECvpQ/U1MzxO+R9cyfFX3LGe5ElRvcVK6wlkuNTHmndzsln/q8GbVF
-         c1jkejYGSF+I8UZuNJWFUkt2NIoRxHLSe4ZjqLatrLZmxHXeU4oPrQx0s0KVc/PR59v+
-         BBehOkmNtXPfCmzLpBPD8VQmyeHB0gedCOySbv6ikZoNOZ6FpjOSefGSKJKFQMRrptGn
-         670AOh4BMDz7sohb4TIuwWIL1yQG83aQk6QX89E/vwkTPk/+q/dQ6LTxq19tAffzzUih
-         MDr1cLmvFwTUHg2m2tUH8Nz5/JM6TON/CKP58c7GZdUVCcxy3p1iOik2x45+exZlYCCr
-         kzow==
-X-Gm-Message-State: AOAM5329bzPmacQShMTzu29LpuN/QosadCMg5oZMOshoXgPLQruvBUjG
-        iK/gIVoozqRlIDkZssoy9kqae1o4
-X-Google-Smtp-Source: ABdhPJyg6GYM0hmAM0FigvjKQ2H3ifxf3ZIbxnOmQoCXVh4NMOSzihd1rNORYEVslV757YPGB1xB9A==
-X-Received: by 2002:a17:906:6dda:: with SMTP id j26mr518486ejt.336.1594841551741;
-        Wed, 15 Jul 2020 12:32:31 -0700 (PDT)
-Received: from ?IPv6:2a01:110f:b59:fd00:4863:80a3:c4db:39e? ([2a01:110f:b59:fd00:4863:80a3:c4db:39e])
-        by smtp.gmail.com with ESMTPSA id a25sm2989970eds.77.2020.07.15.12.32.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jul 2020 12:32:30 -0700 (PDT)
-Subject: Re: [PATCH] leds: add NCT6795D driver
-To:     Alexandre Courbot <gnurou@gmail.com>, Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-leds@vger.kernel.org
-References: <20200713134114.137265-1-gnurou@gmail.com>
- <20200714223344.GA20740@amd>
- <CAAVeFuKomLcAue9rGXhK3Uc=H+v9ZLBA84Ozr_rZDRQMYeC=dg@mail.gmail.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <17fe52a2-73ff-b547-8a59-5df009c929c8@gmail.com>
-Date:   Wed, 15 Jul 2020 21:32:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726843AbgGPIbK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 16 Jul 2020 04:31:10 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:37060 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725932AbgGPIbI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 16 Jul 2020 04:31:08 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 2A7671C0BDE; Thu, 16 Jul 2020 10:31:05 +0200 (CEST)
+Date:   Thu, 16 Jul 2020 10:31:04 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, robh@kernel.org, marek.behun@nic.cz,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v30 05/16] leds: multicolor: Introduce a multicolor class
+ definition
+Message-ID: <20200716083104.GA30361@amd>
+References: <20200713154544.1683-1-dmurphy@ti.com>
+ <20200713154544.1683-6-dmurphy@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAVeFuKomLcAue9rGXhK3Uc=H+v9ZLBA84Ozr_rZDRQMYeC=dg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
+Content-Disposition: inline
+In-Reply-To: <20200713154544.1683-6-dmurphy@ti.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Alexandre,
 
-On 7/15/20 3:54 AM, Alexandre Courbot wrote:
-> Hi Pavel,
-> 
-> On Wed, Jul 15, 2020 at 7:33 AM Pavel Machek <pavel@ucw.cz> wrote:
->>
->> Hi!
->>
->>> Add support for the LED feature of the NCT6795D chip found on some
->>> motherboards, notably MSI ones. The LEDs are typically used using a
->>> RGB connector so this driver creates one LED device for each color
->>> component.
->>
->> Ok, let me take a look. What entries does it present in /sys?
-> 
-> Right now these 3 directories in /sys/class/leds:
-> 
-> nct6795d:blue:
-> nct6795d:green:
-> nct6795d:red:
-> 
-> with the usual suspects `brightness` and `max_brightness` in each. I
-> am not 100% sure I got the names right so please let me know if that
-> is not correct.
+--vtzGhvizbBRQ85DL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You miss LED function, that should be in the second section.
+Hi!
 
--- 
+First, let's substitute multi.color -> multicolor globally,
+LEDS_CLASS_MULTI_COLOR is most visible example of this. Please also
+decide whether it is MultiColor or multicolor, and make it consistent.
+
+> Introduce a multicolor class that groups colored LEDs
+> within a LED node.
+>=20
+> The multi color class groups monochrome LEDs and allows controlling two
+
+For example here. Plus, the LEDs are not neccessarily monochrome, we
+support white LEDs, too. Let's use "simple LEDs"?
+
+> aspects of the final combined color: hue and lightness. The former is
+> controlled via the intensity file and the latter is controlled
+> via brightness file.
+
+> +	depends on LEDS_CLASS
+> +	help
+> +	  This option enables the multicolor LED sysfs class in /sys/class/leds.
+> +	  It wraps LED class and adds multicolor LED specific sysfs attributes
+> +	  and kernel internal API to it. You'll need this to provide support
+> +	  for multicolor LEDs that are grouped together. This class is not
+> +	  intended for single color LEDs. It can be built as a module.
+
+"single color" -> "simple"?
+
+> +	/* account for the new line at the end of the buffer */
+> +	offset++;
+> +	if (offset < size) {
+> +		ret =3D -EINVAL;
+> +		goto err_out;
+> +	}
+
+"new line" -> "newline", and actually check that character you are
+skipping is newline. Someone could put '%' in there...
+
+> +		if (i < mcled_cdev->num_colors - 1)
+> +			len +=3D sprintf(buf + len, " ");
+> +	len +=3D sprintf(buf + len, "\n");
+
+Using sprintf for single character has... quite a lot of
+overhead. Something like buf[len++] =3D '\n' would be
+simpler/shorter/better. Please fix all relevant places.
+
+Note I already applied patches 1-4.
+
 Best regards,
-Jacek Anaszewski
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--vtzGhvizbBRQ85DL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl8QEEgACgkQMOfwapXb+vLCTACff5DIlTEKpnar18gbrYa/V9pA
++DEAnRF2FZd5xx4tNyqdWG9UCEZzwJhe
+=HdIg
+-----END PGP SIGNATURE-----
+
+--vtzGhvizbBRQ85DL--
