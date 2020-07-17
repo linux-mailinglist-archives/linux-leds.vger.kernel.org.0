@@ -2,97 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D2C7222B52
-	for <lists+linux-leds@lfdr.de>; Thu, 16 Jul 2020 20:57:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FE5F223025
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Jul 2020 03:00:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729366AbgGPS5D (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 16 Jul 2020 14:57:03 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:39326 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728163AbgGPS5D (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 16 Jul 2020 14:57:03 -0400
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1jw93n-005UW2-Ba; Thu, 16 Jul 2020 20:56:47 +0200
-Date:   Thu, 16 Jul 2020 20:56:47 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        jacek.anaszewski@gmail.com, Dan Murphy <dmurphy@ti.com>,
-        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        netdev@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC leds + net-next 0/3] Add support for LEDs on Marvell
- PHYs
-Message-ID: <20200716185647.GA1308244@lunn.ch>
-References: <20200716171730.13227-1-marek.behun@nic.cz>
+        id S1726316AbgGQBAx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 16 Jul 2020 21:00:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726138AbgGQBAx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 16 Jul 2020 21:00:53 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E72D5C061755;
+        Thu, 16 Jul 2020 18:00:52 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id x9so10608882ljc.5;
+        Thu, 16 Jul 2020 18:00:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PvwLgS93w4+R3M4B0OHgO9HiGM5AwA5/GRoIcW5VUB0=;
+        b=XimmIqy1Cpd2ffFk9jhtDl8EZFsThbzRDSvXNcjYLKO/PQ6L2bl0FP7E9db8wcCyIN
+         bR29iJjplPcRpuVuX9ZSX+wRuyjhLoWLSFZ6UtYC3Ic/P2qXX86VMd7/qHPtxgV7irY7
+         LG4hHHRYQR9uwjKU2GLfdRnerCM/mcNht41ej5nwJS6hjAXIr2lxXX4pIJ7CY/tGuReO
+         BYt70AD4k6Him75EJBrkdsEINZ5gFFhejURewIGrhLKe8zd95wSm9NLu2I7ppHkJzj89
+         rnFSBZDMpWwo0cgoiGl+IdU/gB5Cq/WnPB6X8j6PytOiZISrcklQVU3ltGiIlx7UUWBb
+         KWNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PvwLgS93w4+R3M4B0OHgO9HiGM5AwA5/GRoIcW5VUB0=;
+        b=F5qCMJtAxbd0e+n9DqSIBLNPxGevTJHgPi0iI9JfT22Y+YO6QXVi8hAsVYutIpZZFN
+         nfdkHiJ0Y2Rz//1aeWc2+GCO8If4yVN5QmBQYnmGIRjS2Dxgy+kSbqUqie3QcmuEenn3
+         yZE4/kUN8YO2pYarKwBOSk87zSq2qwm9jSRa5fghrngDq/5bG1HVmwWnDse82KGLRG2I
+         NyTdhEDh7gg5lcKbbP0oZLerbjfvAY+HrkhroWwm4h/lnFuHLG4c8NYlDUwDlirJ9sZL
+         6GpJriUc7gNsbxFDusJsgLl/vy+5H9ODkNsuOpMAg7uNG/S9xzgjJtyu+u+ANgycZLch
+         RqeQ==
+X-Gm-Message-State: AOAM530cStcC3gvhL5sPUApRsV0g9+eZ+EJFJSMveGoIItyDd+mNS55a
+        TkuvM91Vv8GT9ipn3Pus+aKRmJKCeEHxxtFXyO4=
+X-Google-Smtp-Source: ABdhPJzcDpSaZohCviRaojC+61vdJ6m4dlmgVTY7D/t7xjtmh4BSiX1WpdAgEwIkCWpC3cJz98IScuzW9wngmU/0Iss=
+X-Received: by 2002:a2e:9144:: with SMTP id q4mr3406706ljg.84.1594947651117;
+ Thu, 16 Jul 2020 18:00:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200716171730.13227-1-marek.behun@nic.cz>
+References: <20200713134114.137265-1-gnurou@gmail.com> <20200714223344.GA20740@amd>
+ <CAAVeFuKomLcAue9rGXhK3Uc=H+v9ZLBA84Ozr_rZDRQMYeC=dg@mail.gmail.com> <17fe52a2-73ff-b547-8a59-5df009c929c8@gmail.com>
+In-Reply-To: <17fe52a2-73ff-b547-8a59-5df009c929c8@gmail.com>
+From:   Alexandre Courbot <gnurou@gmail.com>
+Date:   Fri, 17 Jul 2020 10:00:39 +0900
+Message-ID: <CAAVeFuJQCp7Fpqx3nUHMy29Jw1pLNoQtxRw3qxfEf3YKnrm0fw@mail.gmail.com>
+Subject: Re: [PATCH] leds: add NCT6795D driver
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 07:17:27PM +0200, Marek Behún wrote:
-> Hello,
-> 
-> this RFC series should apply on both net-next/master and Pavel's
-> linux-leds/for-master tree.
-> 
-> This adds support for LED's connected to some Marvell PHYs.
-> 
-> LEDs are specified via device-tree. Example:
+Hi Jacek,
 
-Hi Marek
+On Thu, Jul 16, 2020 at 4:32 AM Jacek Anaszewski
+<jacek.anaszewski@gmail.com> wrote:
+>
+> Hi Alexandre,
+>
+> On 7/15/20 3:54 AM, Alexandre Courbot wrote:
+> > Hi Pavel,
+> >
+> > On Wed, Jul 15, 2020 at 7:33 AM Pavel Machek <pavel@ucw.cz> wrote:
+> >>
+> >> Hi!
+> >>
+> >>> Add support for the LED feature of the NCT6795D chip found on some
+> >>> motherboards, notably MSI ones. The LEDs are typically used using a
+> >>> RGB connector so this driver creates one LED device for each color
+> >>> component.
+> >>
+> >> Ok, let me take a look. What entries does it present in /sys?
+> >
+> > Right now these 3 directories in /sys/class/leds:
+> >
+> > nct6795d:blue:
+> > nct6795d:green:
+> > nct6795d:red:
+> >
+> > with the usual suspects `brightness` and `max_brightness` in each. I
+> > am not 100% sure I got the names right so please let me know if that
+> > is not correct.
+>
+> You miss LED function, that should be in the second section.
 
-I've been playing with something similar, off and on, mostly off.
-
-Take a look at
-
-https://github.com/lunn/linux v5.4-rc6-hw-led-triggers
-
-The binding i have is pretty much the same, since we are both
-following the common LED binding. I see no problems with this.
-
-> This is achieved by extending the LED trigger API with LED-private triggers.
-> The proposal for this is based on work by Ondrej and Pavel.
-
-So what i did here was allow triggers to be registered against a
-specific LED. The /sys/class/leds/<LED>/trigger lists both the generic
-triggers and the triggers for this specific LED. Phylib can then
-register a trigger for each blink reason that specific LED can
-perform. Which does result in a lot of triggers. Especially when you
-start talking about a 10 port switch each with 2 LEDs.
-
-I still have some open issues...
-
-1) Polarity. It would be nice to be able to configure the polarity of
-the LED in the bindings.
-
-2) PHY LEDs which are not actually part of the PHY. Most of the
-Marvell Ethernet switches have inbuilt PHYs, which are driven by the
-Marvell PHY driver. The Marvell PHY driver has no idea the PHY is
-inside a switch, it is just a PHY.  However, the LEDs are not
-controlled via PHY registers, but Switch registers. So the switch
-driver is going to end up controlling these LEDs. It would be good to
-be able to share as much code as possible, keep the naming consistent,
-and keep the user API the same.
-
-3) Some PHYs cannot control the LEDs independently. Or they have modes
-which configure two or more LEDs. The Marvell PHYs are like
-this. There are something like ~10 blink modes which are
-independent. And then there are 4 modes which control multiple LEDs.
-There is no simple way to support this with Linux LEDs which assume
-the LEDs are fully independent. I suspect we simply cannot support
-these combined modes.
-
-As a PHY maintainer, i would like to see a solution which makes use of
-Linux LEDs. I don't really care who's code it is, and feel free to
-borrow my code, or ideas, or ignore it.
-
-      Andrew
+The reason for not having a function at the moment is that I took a
+look at include/dt-bindings/leds/common.h and could not find any
+function that could reasonably apply. This basically controls a RGB
+connector on the motherboard which serves no particular function - you
+can plug a RGB fan or anything else you want and control it in any
+fashion. Is there a function that applies to this use-case?
