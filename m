@@ -2,201 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13707225D45
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Jul 2020 13:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2CD6225E1F
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Jul 2020 14:07:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728482AbgGTLU3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 Jul 2020 07:20:29 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:40974 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727790AbgGTLU3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Jul 2020 07:20:29 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 1262B1C0BE2; Mon, 20 Jul 2020 13:20:28 +0200 (CEST)
-Date:   Mon, 20 Jul 2020 13:20:27 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
-        Dan Murphy <dmurphy@ti.com>,
-        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        netdev@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC leds + net-next 1/3] leds: trigger: add support for
- LED-private device triggers
-Message-ID: <20200720112027.GB12916@amd>
-References: <20200716171730.13227-1-marek.behun@nic.cz>
- <20200716171730.13227-2-marek.behun@nic.cz>
+        id S1728553AbgGTMH0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 Jul 2020 08:07:26 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:57820 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728568AbgGTMHZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Jul 2020 08:07:25 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06KC74kU075321;
+        Mon, 20 Jul 2020 07:07:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1595246824;
+        bh=aj1lP0WZkkMDqqRJkTAmBFSAqvwrbFH5xh9UNbjJztU=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=eT8ph3GfR3hfkfZT/7C7F7eo0fkPxyj2yM9xX7MH8byXRnwwh5U23XN/8Rcwbc1GQ
+         eStItNoISCEBVyoayZ3pq9FZ8h+imd5dTaP3iKXmiL68jHKY1nyieY0K4mGmU2Dt5b
+         uOrb517DHFe+RNyLitdud984xaIMjz+IoI9DQuL4=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06KC74Zi071107;
+        Mon, 20 Jul 2020 07:07:04 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 20
+ Jul 2020 07:07:03 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 20 Jul 2020 07:07:03 -0500
+Received: from [10.250.32.229] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06KC73tp015469;
+        Mon, 20 Jul 2020 07:07:03 -0500
+Subject: Re: [PATCH v31 01/12] leds: multicolor: Introduce a multicolor class
+ definition
+To:     Pavel Machek <pavel@ucw.cz>
+CC:     <jacek.anaszewski@gmail.com>, <robh@kernel.org>,
+        <marek.behun@nic.cz>, <devicetree@vger.kernel.org>,
+        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20200716182007.18389-1-dmurphy@ti.com>
+ <20200716182007.18389-2-dmurphy@ti.com> <20200720095409.GA13137@amd>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <95708f01-0db6-ed25-e087-2d95f28fe509@ti.com>
+Date:   Mon, 20 Jul 2020 07:07:03 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="DBIVS5p969aUjpLe"
-Content-Disposition: inline
-In-Reply-To: <20200716171730.13227-2-marek.behun@nic.cz>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200720095409.GA13137@amd>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Pavel
 
---DBIVS5p969aUjpLe
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 7/20/20 4:54 AM, Pavel Machek wrote:
+> Hi!
+>
+>> Introduce a multicolor class that groups colored LEDs
+>> within a LED node.
+>>
+>> The multicolor class groups monochrome LEDs and allows controlling two
+>> aspects of the final combined color: hue and lightness. The former is
+>> controlled via the intensity file and the latter is controlled
+>> via brightness file.
+>>
+>> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+>> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> Thanks, applied and pushed out.
 
-Hi!
+Thank you. What about the patches for the users?
 
-> Some LED controllers may come with an internal HW triggering mechanism
-> for the LED and the ability to switch between SW control and the
-> internal HW control. This includes most PHYs, various ethernet switches,
-> the Turris Omnia LED controller or AXP20X PMIC.
->=20
-> This adds support for registering such triggers.
->=20
-> This code is based on work by Pavel Machek <pavel@ucw.cz> and
-> Ond=C5=99ej Jirman <megous@megous.com>.
->=20
-> Signed-off-by: Marek Beh=C3=BAn <marek.behun@nic.cz>
+>> +====================================
+>> +MultiColor LED handling under Linux
+>> +====================================
+> ...
+>> +Multicolor Class Control
+>> +========================
+> AFAICT The first one should be "Multicolor" for consistency.
+>
+>> +config LEDS_CLASS_MULTICOLOR
+>> +	tristate "LED MultiColor Class Support"
+> Here too.
+>
+> Can you send a followup patch to fix it up?
 
-Looks good to me. I'll likely apply it soon...
+Will send a patch to fix it up but not sure if I should send as part of 
+this series or separately?
 
-Best regards,
-								Pavel
+Because I am not sure if you are going to apply the remaining patches up 
+to the DTs
+
+Dan
 
 
-> ---
->  drivers/leds/led-triggers.c | 26 ++++++++++++++++++++------
->  include/linux/leds.h        | 10 ++++++++++
->  2 files changed, 30 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-> index 79e30d2cb7a5..81e758d5a048 100644
-> --- a/drivers/leds/led-triggers.c
-> +++ b/drivers/leds/led-triggers.c
-> @@ -27,6 +27,12 @@ LIST_HEAD(trigger_list);
-> =20
->   /* Used by LED Class */
-> =20
-> +static inline bool
-> +trigger_relevant(struct led_classdev *led_cdev, struct led_trigger *trig)
-> +{
-> +	return !trig->trigger_type || trig->trigger_type =3D=3D led_cdev->trigg=
-er_type;
-> +}
-> +
->  ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
->  			  struct bin_attribute *bin_attr, char *buf,
->  			  loff_t pos, size_t count)
-> @@ -50,7 +56,7 @@ ssize_t led_trigger_write(struct file *filp, struct kob=
-ject *kobj,
-> =20
->  	down_read(&triggers_list_lock);
->  	list_for_each_entry(trig, &trigger_list, next_trig) {
-> -		if (sysfs_streq(buf, trig->name)) {
-> +		if (sysfs_streq(buf, trig->name) && trigger_relevant(led_cdev, trig)) {
->  			down_write(&led_cdev->trigger_lock);
->  			led_trigger_set(led_cdev, trig);
->  			up_write(&led_cdev->trigger_lock);
-> @@ -93,8 +99,12 @@ static int led_trigger_format(char *buf, size_t size,
->  				       led_cdev->trigger ? "none" : "[none]");
-> =20
->  	list_for_each_entry(trig, &trigger_list, next_trig) {
-> -		bool hit =3D led_cdev->trigger &&
-> -			!strcmp(led_cdev->trigger->name, trig->name);
-> +		bool hit;
-> +
-> +		if (!trigger_relevant(led_cdev, trig))
-> +			continue;
-> +
-> +		hit =3D led_cdev->trigger && !strcmp(led_cdev->trigger->name, trig->na=
-me);
-> =20
->  		len +=3D led_trigger_snprintf(buf + len, size - len,
->  					    " %s%s%s", hit ? "[" : "",
-> @@ -243,7 +253,8 @@ void led_trigger_set_default(struct led_classdev *led=
-_cdev)
->  	down_read(&triggers_list_lock);
->  	down_write(&led_cdev->trigger_lock);
->  	list_for_each_entry(trig, &trigger_list, next_trig) {
-> -		if (!strcmp(led_cdev->default_trigger, trig->name)) {
-> +		if (!strcmp(led_cdev->default_trigger, trig->name) &&
-> +		    trigger_relevant(led_cdev, trig)) {
->  			led_cdev->flags |=3D LED_INIT_DEFAULT_TRIGGER;
->  			led_trigger_set(led_cdev, trig);
->  			break;
-> @@ -280,7 +291,9 @@ int led_trigger_register(struct led_trigger *trig)
->  	down_write(&triggers_list_lock);
->  	/* Make sure the trigger's name isn't already in use */
->  	list_for_each_entry(_trig, &trigger_list, next_trig) {
-> -		if (!strcmp(_trig->name, trig->name)) {
-> +		if (!strcmp(_trig->name, trig->name) &&
-> +		    (trig->trigger_type =3D=3D _trig->trigger_type ||
-> +		     !trig->trigger_type || !_trig->trigger_type)) {
->  			up_write(&triggers_list_lock);
->  			return -EEXIST;
->  		}
-> @@ -294,7 +307,8 @@ int led_trigger_register(struct led_trigger *trig)
->  	list_for_each_entry(led_cdev, &leds_list, node) {
->  		down_write(&led_cdev->trigger_lock);
->  		if (!led_cdev->trigger && led_cdev->default_trigger &&
-> -			    !strcmp(led_cdev->default_trigger, trig->name)) {
-> +		    !strcmp(led_cdev->default_trigger, trig->name) &&
-> +		    trigger_relevant(led_cdev, trig)) {
->  			led_cdev->flags |=3D LED_INIT_DEFAULT_TRIGGER;
->  			led_trigger_set(led_cdev, trig);
->  		}
-> diff --git a/include/linux/leds.h b/include/linux/leds.h
-> index 2451962d1ec5..6a8d6409c993 100644
-> --- a/include/linux/leds.h
-> +++ b/include/linux/leds.h
-> @@ -57,6 +57,10 @@ struct led_init_data {
->  	bool devname_mandatory;
->  };
-> =20
-> +struct led_hw_trigger_type {
-> +	int dummy;
-> +};
-> +
->  struct led_classdev {
->  	const char		*name;
->  	enum led_brightness	 brightness;
-> @@ -141,6 +145,9 @@ struct led_classdev {
->  	void			*trigger_data;
->  	/* true if activated - deactivate routine uses it to do cleanup */
->  	bool			activated;
-> +
-> +	/* LEDs that have private triggers have this set */
-> +	struct led_hw_trigger_type	*trigger_type;
->  #endif
-> =20
->  #ifdef CONFIG_LEDS_BRIGHTNESS_HW_CHANGED
-> @@ -345,6 +352,9 @@ struct led_trigger {
->  	int		(*activate)(struct led_classdev *led_cdev);
->  	void		(*deactivate)(struct led_classdev *led_cdev);
-> =20
-> +	/* LED-private triggers have this set */
-> +	struct led_hw_trigger_type *trigger_type;
-> +
->  	/* LEDs under control by this trigger (for simple triggers) */
->  	rwlock_t	  leddev_list_lock;
->  	struct list_head  led_cdevs;
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---DBIVS5p969aUjpLe
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl8VffsACgkQMOfwapXb+vLp/gCeMtMMSvEjqFCokvWeugfa/eSu
-D38AniUHyDzcR/0UVqRmGSszhklWHjka
-=BIyE
------END PGP SIGNATURE-----
-
---DBIVS5p969aUjpLe--
+> Best regards,
+> 									Pavel
