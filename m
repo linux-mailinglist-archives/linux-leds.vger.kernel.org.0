@@ -2,105 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2CD6225E1F
-	for <lists+linux-leds@lfdr.de>; Mon, 20 Jul 2020 14:07:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5A2E22606B
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Jul 2020 15:08:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728553AbgGTMH0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 20 Jul 2020 08:07:26 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:57820 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728568AbgGTMHZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Jul 2020 08:07:25 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06KC74kU075321;
-        Mon, 20 Jul 2020 07:07:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1595246824;
-        bh=aj1lP0WZkkMDqqRJkTAmBFSAqvwrbFH5xh9UNbjJztU=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=eT8ph3GfR3hfkfZT/7C7F7eo0fkPxyj2yM9xX7MH8byXRnwwh5U23XN/8Rcwbc1GQ
-         eStItNoISCEBVyoayZ3pq9FZ8h+imd5dTaP3iKXmiL68jHKY1nyieY0K4mGmU2Dt5b
-         uOrb517DHFe+RNyLitdud984xaIMjz+IoI9DQuL4=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06KC74Zi071107;
-        Mon, 20 Jul 2020 07:07:04 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 20
- Jul 2020 07:07:03 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 20 Jul 2020 07:07:03 -0500
-Received: from [10.250.32.229] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06KC73tp015469;
-        Mon, 20 Jul 2020 07:07:03 -0500
-Subject: Re: [PATCH v31 01/12] leds: multicolor: Introduce a multicolor class
- definition
-To:     Pavel Machek <pavel@ucw.cz>
-CC:     <jacek.anaszewski@gmail.com>, <robh@kernel.org>,
-        <marek.behun@nic.cz>, <devicetree@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200716182007.18389-1-dmurphy@ti.com>
- <20200716182007.18389-2-dmurphy@ti.com> <20200720095409.GA13137@amd>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <95708f01-0db6-ed25-e087-2d95f28fe509@ti.com>
-Date:   Mon, 20 Jul 2020 07:07:03 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726389AbgGTNHR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 Jul 2020 09:07:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbgGTNHR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Jul 2020 09:07:17 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99C7DC061794;
+        Mon, 20 Jul 2020 06:07:16 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id q7so20197035ljm.1;
+        Mon, 20 Jul 2020 06:07:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ymY7bvSHAJPgttfYe/X0Y958NcBp8ONSAlYkWgs6kvk=;
+        b=Q9du8PourQ/zCbj715sh6bkHP0KiwBKVtf9jaoIN+pCmnzRhXok7nZPbYAV6MNgY7y
+         GaKxflvweVHAvqaNS5DFlZA1GPN41u4di8H/uTdZKCbGZN8LEHxIjO0htBnbk+m/c+VE
+         HSxImCxDS8sj4+PXqWldH0KnCpR/qYuK+abWQRJsafV7/lNdldYzReOeHW6q1Lyu7cpI
+         yn9wVq4hHm/9lqCMI1+T9DJvkdNZFkWqwH26pUSAbo0hYRztU94cRavLrgKY1x73BlNy
+         xeqEHzYhYm4ZuKYaLJwWpyixuTWu4dGIAUCaXYIUDX6usVVeNPnwvUrZT1W1rUCGfX9E
+         twwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ymY7bvSHAJPgttfYe/X0Y958NcBp8ONSAlYkWgs6kvk=;
+        b=U5ovYzjj5DtqWKtF9E7X50xGKHJrFRAVlae8Q6RP+CUGcCkPHs1DYVdnaBbt+zyvRP
+         SNXxDVZEg6UKkBKKbqaQiL6wdrOGAj4G+DJEUHAYZpEwcZq3LOQSjj2vXPlI/3+xVxbc
+         cmDUQ5PyOlzVSw3DqPEhvGWYtBxvlx9/sEE+Tr6HbAKbykP5oIK93kvWhvtBRczAqYHB
+         5XKsZJqtiUPdv5UdLuk0l7He4Gbz8D4/8R4F7OGXV56+kpB7bmzBdoqVr3wKROP9QVj1
+         GwB9wp+cd4KefcL6+9eBbhe/Ipd2pLOkJ8WQFoWv+Oo1Ca64qJaLlt43uumBmoCYDHne
+         VQNg==
+X-Gm-Message-State: AOAM530ONf6UBzarj5qPX6ZoT+qbW7CwaOPYoBnEEn/GA/UIhIo/PtYz
+        u0i0n6D2sZamShvtj4Dmv3Ziog/36w+Xqkvpt2s=
+X-Google-Smtp-Source: ABdhPJx1KQhD69pAXC6l9UhWaRZajWb5l0u55JjB5eIGKfcApbPINm/9n4ylJVwoywq1eQXFvSd3K2F6+YFWhILVTV4=
+X-Received: by 2002:a2e:a16e:: with SMTP id u14mr10050313ljl.321.1595250434734;
+ Mon, 20 Jul 2020 06:07:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200720095409.GA13137@amd>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200713134114.137265-1-gnurou@gmail.com> <20200714223344.GA20740@amd>
+ <CAAVeFuKomLcAue9rGXhK3Uc=H+v9ZLBA84Ozr_rZDRQMYeC=dg@mail.gmail.com>
+ <17fe52a2-73ff-b547-8a59-5df009c929c8@gmail.com> <CAAVeFuJQCp7Fpqx3nUHMy29Jw1pLNoQtxRw3qxfEf3YKnrm0fw@mail.gmail.com>
+ <20200717074410.GA8895@amd> <756fa49f-bf67-0447-cf45-1358b66c40f8@gmail.com>
+In-Reply-To: <756fa49f-bf67-0447-cf45-1358b66c40f8@gmail.com>
+From:   Alexandre Courbot <gnurou@gmail.com>
+Date:   Mon, 20 Jul 2020 22:07:03 +0900
+Message-ID: <CAAVeFuLxKO9nJ+1GDuAr+-Z_BQMZpEVD46F2j=dZ3hDUv-eE=A@mail.gmail.com>
+Subject: Re: [PATCH] leds: add NCT6795D driver
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel
-
-On 7/20/20 4:54 AM, Pavel Machek wrote:
-> Hi!
+On Sat, Jul 18, 2020 at 4:25 AM Jacek Anaszewski
+<jacek.anaszewski@gmail.com> wrote:
+> >
+> >> The reason for not having a function at the moment is that I took a
+> >> look at include/dt-bindings/leds/common.h and could not find any
+> >> function that could reasonably apply. This basically controls a RGB
+> >> connector on the motherboard which serves no particular function - you
+> >> can plug a RGB fan or anything else you want and control it in any
+> >> fashion. Is there a function that applies to this use-case?
 >
->> Introduce a multicolor class that groups colored LEDs
->> within a LED node.
->>
->> The multicolor class groups monochrome LEDs and allows controlling two
->> aspects of the final combined color: hue and lightness. The former is
->> controlled via the intensity file and the latter is controlled
->> via brightness file.
->>
->> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
->> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> Thanks, applied and pushed out.
-
-Thank you. What about the patches for the users?
-
->> +====================================
->> +MultiColor LED handling under Linux
->> +====================================
-> ...
->> +Multicolor Class Control
->> +========================
-> AFAICT The first one should be "Multicolor" for consistency.
+> According to common LED bindings you should propose a new function
+> if none of the existing ones fits your needs.
 >
->> +config LEDS_CLASS_MULTICOLOR
->> +	tristate "LED MultiColor Class Support"
-> Here too.
+> > This is normally used for motherboard lightning, right? I believe this
+> > is getting common on gaming boards, and we want common support for
+> > that.
 >
-> Can you send a followup patch to fix it up?
+> I agree.
 
-Will send a patch to fix it up but not sure if I should send as part of 
-this series or separately?
+These boards are indeed far from being a rarity so having a function
+for them (maybe named LED_FUNCTION_RGB_HEADER?) makes sense IMHO. I'll
+submit a patch for that with the next revision.
 
-Because I am not sure if you are going to apply the remaining patches up 
-to the DTs
+Speaking of which, after looking at the multicolor patchset it is
+pretty obvious that it would be a much better way to expose this RGB
+header, so I think I will wait until it is merged and adapt the driver
+to use it.
 
-Dan
-
-
-> Best regards,
-> 									Pavel
+Thanks for the feedback!
+Alex.
