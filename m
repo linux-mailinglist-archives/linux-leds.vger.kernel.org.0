@@ -2,80 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 298A4228075
-	for <lists+linux-leds@lfdr.de>; Tue, 21 Jul 2020 15:00:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35B92228979
+	for <lists+linux-leds@lfdr.de>; Tue, 21 Jul 2020 21:48:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728249AbgGUM72 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 21 Jul 2020 08:59:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40322 "EHLO
+        id S1730902AbgGUTs0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 21 Jul 2020 15:48:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728235AbgGUM70 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Jul 2020 08:59:26 -0400
-Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3976CC0619D9
-        for <linux-leds@vger.kernel.org>; Tue, 21 Jul 2020 05:59:26 -0700 (PDT)
-Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id DF5B41409FC;
-        Tue, 21 Jul 2020 14:59:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1595336364; bh=IQReeDJ9c8I9/xKdViVi48C2pN777OMUIhXFTeEMiOM=;
-        h=From:To:Date;
-        b=oYvWg2r2TdCeEcvnf927VQ0H9h9mGnIWLbGxnlIAFBCaLs/vu11bZjJ2JfZJQjETl
-         FLJyXWEtcEjYNP65dIFNColtXjFOO4CIUviVZN+9z/wQ+bdYCknjaW0qJK+bEAaU7n
-         UQJ61vB48LP3oJavTcBcJcMJaOqDY4wFz6uKnUqY=
-From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-To:     linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, jacek.anaszewski@gmail.com,
-        Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-Subject: [PATCH v6 3/3] Documentation: ABI: leds-turris-omnia: document sysfs attribute
-Date:   Tue, 21 Jul 2020 14:59:22 +0200
-Message-Id: <20200721125922.10979-4-marek.behun@nic.cz>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200721125922.10979-1-marek.behun@nic.cz>
-References: <20200721125922.10979-1-marek.behun@nic.cz>
+        with ESMTP id S1730994AbgGUTsY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 21 Jul 2020 15:48:24 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 879ABC061794
+        for <linux-leds@vger.kernel.org>; Tue, 21 Jul 2020 12:48:24 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1jxyFO-0001s2-C9; Tue, 21 Jul 2020 21:48:18 +0200
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1jxyFL-0002S5-Pn; Tue, 21 Jul 2020 21:48:15 +0200
+Date:   Tue, 21 Jul 2020 21:48:15 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-serial@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        kernel@pengutronix.de, Jiri Slaby <jslaby@suse.com>,
+        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
+Subject: Re: [PATCH v7 3/3] leds: trigger: implement a tty trigger
+Message-ID: <20200721194815.mmkqccrkbgrly4xz@pengutronix.de>
+References: <20200707165958.16522-1-u.kleine-koenig@pengutronix.de>
+ <20200707165958.16522-4-u.kleine-koenig@pengutronix.de>
+ <20200714071355.GY3453@localhost>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Spam-Status: No, score=0.00
-X-Spamd-Bar: /
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zvqjc74lbtmuk5mp"
+Content-Disposition: inline
+In-Reply-To: <20200714071355.GY3453@localhost>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Document the global brightness attribute for the Turris Omnia LED
-controller.
 
-Signed-off-by: Marek Behún <marek.behun@nic.cz>
----
- .../testing/sysfs-class-led-driver-turris-omnia    | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-class-led-driver-turris-omnia
+--zvqjc74lbtmuk5mp
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/ABI/testing/sysfs-class-led-driver-turris-omnia b/Documentation/ABI/testing/sysfs-class-led-driver-turris-omnia
-new file mode 100644
-index 000000000000..795a5de12fc1
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-class-led-driver-turris-omnia
-@@ -0,0 +1,14 @@
-+What:		/sys/class/leds/<led>/device/brightness
-+Date:		July 2020
-+KernelVersion:	5.9
-+Contact:	Marek Behún <marek.behun@nic.cz>
-+Description:	(RW) On the front panel of the Turris Omnia router there is also
-+		a button which can be used to control the intensity of all the
-+		LEDs at once, so that if they are too bright, user can dim them.
-+
-+		The microcontroller cycles between 8 levels of this global
-+		brightness (from 100% to 0%), but this setting can have any
-+		integer value between 0 and 100. It is therefore convenient to be
-+		able to change this setting from software.
-+
-+		Format: %i
--- 
-2.26.2
+Hello Johan,
 
+On Tue, Jul 14, 2020 at 09:13:55AM +0200, Johan Hovold wrote:
+> On Tue, Jul 07, 2020 at 06:59:58PM +0200, Uwe Kleine-K=F6nig wrote:
+> > +	while (firstrun ||
+> > +	       icount.rx !=3D trigger_data->rx ||
+> > +	       icount.tx !=3D trigger_data->tx) {
+> > +
+> > +		led_set_brightness(trigger_data->led_cdev, LED_ON);
+> > +
+> > +		msleep(100);
+> > +
+> > +		led_set_brightness(trigger_data->led_cdev, LED_OFF);
+> > +
+> > +		trigger_data->rx =3D icount.rx;
+> > +		trigger_data->tx =3D icount.tx;
+> > +		firstrun =3D false;
+> > +
+> > +		ret =3D tty_get_icount(trigger_data->tty, &icount);
+> > +		if (ret)
+> > +			return;
+> > +	}
+>=20
+> Haven't looked at the latest proposal in detail, but this looks broken
+> as you can potentially loop indefinitely in a worker thread, and with no
+> way to stop the trigger (delayed work).
+
+I don't think that potentially looping indefinitely is a problem, but
+indeed it should drop the lock during each iteration. Will think about
+how to adapt.
+
+Thanks
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--zvqjc74lbtmuk5mp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl8XRnwACgkQwfwUeK3K
+7Amnzgf7B6qXFayz/hez5dZd56jkGWR2qylUkUhIOVrcN2Hy/4LQVN19AQApbKxm
+yJenogV8p+3pTPsMPlhmUUI3+XxCCkroJBiLfWM8RFFUWX9TSq4CcDLRT9yTR3xs
+EmUdBFsiSyo2TbSyodkrrIh94Z67X9dTLfBscPQ0efohhnZwvkfN/AUYv0it+OOI
+Ey2kTi2hDQiVLjuHqjGzis3BBTNZ+dEtiVWxG1PSspVQS+SVkK3NYLs1EOyyQK2e
+35egTCI/Pu5AE0r5lGTmedJY4r3FJ8/ryv4XU/EGdksRbstsDIBG5URpDO9qFgh1
+PbgnINd7pMuotKk05cWlSNfAt9INrw==
+=p7Zb
+-----END PGP SIGNATURE-----
+
+--zvqjc74lbtmuk5mp--
