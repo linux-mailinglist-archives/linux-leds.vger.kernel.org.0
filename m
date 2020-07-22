@@ -2,67 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8C72229642
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Jul 2020 12:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4732229831
+	for <lists+linux-leds@lfdr.de>; Wed, 22 Jul 2020 14:26:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731610AbgGVKef (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 Jul 2020 06:34:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43496 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726153AbgGVKef (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Jul 2020 06:34:35 -0400
-Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EED5C0619DC
-        for <linux-leds@vger.kernel.org>; Wed, 22 Jul 2020 03:34:35 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id E2359140527;
-        Wed, 22 Jul 2020 12:34:31 +0200 (CEST)
-Date:   Wed, 22 Jul 2020 12:34:31 +0200
-From:   Marek Behun <marek.behun@nic.cz>
+        id S1726525AbgGVM04 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 22 Jul 2020 08:26:56 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:36506 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726161AbgGVM0z (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 22 Jul 2020 08:26:55 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06MCQbwV092506;
+        Wed, 22 Jul 2020 07:26:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1595420797;
+        bh=1wP4G7MooADMavVojqi6pALDQyDsRy6rEAIKe4yjHOw=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=TEujInQmBuVFM2RzBDMoO3xqsQ9niVglkU6w2kUPo/V5RYpECbEiiAB7uCa4ruUHw
+         QLFsl9wxfGBFwdur+f44FOPPN+WFbWIf6gnZQQpOUyaiZmiNIXgkUHBjZkjIlp/Ohr
+         JAqPwpvRt5FXNMsVKzxB50IeGKd9c690yoQyHhaA=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06MCQbW4120900
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 22 Jul 2020 07:26:37 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 22
+ Jul 2020 07:26:37 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 22 Jul 2020 07:26:37 -0500
+Received: from [10.250.35.192] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06MCQbcQ024135;
+        Wed, 22 Jul 2020 07:26:37 -0500
+Subject: Re: [PATCH v31 03/12] leds: lp50xx: Add the LP50XX family of the RGB
+ LED driver
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
-        Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH v6 2/3] leds: initial support for Turris Omnia LEDs
-Message-ID: <20200722123431.46b95739@nic.cz>
-In-Reply-To: <20200722071542.GB8984@amd>
-References: <20200721125922.10979-1-marek.behun@nic.cz>
-        <20200721125922.10979-3-marek.behun@nic.cz>
-        <20200722071542.GB8984@amd>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+CC:     <jacek.anaszewski@gmail.com>, <robh@kernel.org>,
+        <marek.behun@nic.cz>, <devicetree@vger.kernel.org>,
+        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20200716182007.18389-1-dmurphy@ti.com>
+ <20200716182007.18389-4-dmurphy@ti.com> <20200721210554.GC5966@amd>
+ <c774fab9-124b-da2e-6f7c-614f34322942@ti.com> <20200722071055.GA8984@amd>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <c4e2b2db-483f-27ef-9869-3b0c56d0d8ba@ti.com>
+Date:   Wed, 22 Jul 2020 07:26:37 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200722071055.GA8984@amd>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 22 Jul 2020 09:15:42 +0200
-Pavel Machek <pavel@ucw.cz> wrote:
+Pavel
 
+On 7/22/20 2:10 AM, Pavel Machek wrote:
 > Hi!
-> 
-> > +
-> > +/*
-> > + * On the front panel of the Turris Omnia router there is also a button which can be used to control
-> > + * the intensity of all the LEDs at once, so that if they are too bright, user can dim them.
-> > + * The microcontroller cycles between 8 levels of this global brightness (from 100% to 0%), but this
-> > + * setting can have any integer value between 0 and 100. It is therefore convenient to be able to
-> > + * change this setting from software.
-> > + * We expose this setting via a sysfs attribute file called "brightness". This file lives in the
-> > + * device directory of the LED controller, not an individual LED, so it should not confuse users.
-> > + */  
-> 
-> Lets keep comments formatted to 80 columns. This overflew my screen
-> and is unreadable.
-> 							Pavel
+>
+>>>> +			ret = fwnode_property_read_u32_array(child,
+>>>> +							     "reg",
+>>>> +							     led_banks,
+>>>> +							     ret);
+>>> Move this to subfunction to reduce the indentation? (Or, just refactor
+>>> it somehow).
+>> Actually I can just put it all on the same line since the 80 character
+>> requirement is relaxed.
+> No.
+>
+> You have too long and too complex function, with too many blocks
+> inside each other. Please fix it.
 
-OK. But you are aware that default limit was increased to 100 columns,
-right?
+I will refactor
 
-Marek
+Dan
+
+
