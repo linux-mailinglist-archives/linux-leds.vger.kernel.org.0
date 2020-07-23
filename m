@@ -2,94 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AE6622B8C4
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Jul 2020 23:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 861DB22B8CA
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Jul 2020 23:38:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726368AbgGWVfs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Jul 2020 17:35:48 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:52272 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726033AbgGWVfs (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 23 Jul 2020 17:35:48 -0400
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1jyisF-006aCj-2o; Thu, 23 Jul 2020 23:35:31 +0200
-Date:   Thu, 23 Jul 2020 23:35:31 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        jacek.anaszewski@gmail.com, Dan Murphy <dmurphy@ti.com>,
-        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        netdev@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC leds + net-next v2 1/1] net: phy: marvell: add
- support for PHY LEDs via LED class
-Message-ID: <20200723213531.GK1553578@lunn.ch>
-References: <20200723181319.15988-1-marek.behun@nic.cz>
- <20200723181319.15988-2-marek.behun@nic.cz>
+        id S1726368AbgGWVil (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Jul 2020 17:38:41 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:41436 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726033AbgGWVil (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Jul 2020 17:38:41 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id A258E1C0BD5; Thu, 23 Jul 2020 23:38:38 +0200 (CEST)
+Date:   Thu, 23 Jul 2020 23:38:38 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek Behun <marek.behun@nic.cz>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
+Subject: Re: [PATCH] leds: add orange color
+Message-ID: <20200723213838.a6intg3rxu6v6vxr@duo.ucw.cz>
+References: <20200723125751.4045-1-marek.behun@nic.cz>
+ <20200723193908.GA26165@amd>
+ <57981a86-dd1b-09ee-8035-4c84d4c990df@gmail.com>
+ <30b1f173-c687-9fe2-92bd-fc53f776cb77@gmail.com>
+ <20200723201657.nb5dm2aqmjnizmpq@duo.ucw.cz>
+ <8b36be51-3a75-458d-4fed-d730621e1547@gmail.com>
+ <20200723203953.iijldzbnfqh36mex@duo.ucw.cz>
+ <854ee2f0-4dd1-b665-f216-bff33ab3b571@gmail.com>
+ <20200723210452.c63oup3k7w4icqc6@duo.ucw.cz>
+ <20200723231755.6b6476c0@nic.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="onv5t7tqvj5pzvca"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200723181319.15988-2-marek.behun@nic.cz>
+In-Reply-To: <20200723231755.6b6476c0@nic.cz>
+User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 08:13:19PM +0200, Marek Behún wrote:
-> This patch adds support for controlling the LEDs connected to several
-> families of Marvell PHYs via Linux' LED API. These families are:
-> 88E1112, 88E1121R, 88E1240, 88E1340S, 88E1510 and 88E1545. More can be
-> added.
-> 
-> The code reads LEDs definitions from the device-tree node of the PHY.
-> 
-> Since the LEDs can be controlled by hardware, we add one LED-private LED
-> trigger named "hw-control". This trigger is private and displayed only
-> for Marvell PHY LEDs.
-> 
-> When this driver is activated, another sysfs file is created in that
-> LEDs sysfs directory, names "hw_control". This file contains space
-> separated list of possible HW controlled modes for this LED. The one
-> which is selected is enclosed by square brackets. To change HW control
-> mode the user has to write the name of desired mode to this "hw_control"
-> file.
-> 
-> This patch does not yet add support for compound LED modes. This could
-> be achieved via the LED multicolor framework (which is not yet in
-> upstream).
-> 
-> Settings such as HW blink rate or pulse stretch duration are not yet
-> supported, nor are LED polarity settings.
 
-Hi Marek
+--onv5t7tqvj5pzvca
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I expect some of this should be moved into the phylib core. We don't
-want each PHY inventing its own way to do this. The core should
-provide a framework and the PHY driver fills in the gaps.
+Hi!
 
-Take a look at for example mscc_main.c and its LED information. It has
-pretty similar hardware to the Marvell. And microchip.c also has LED
-handling, etc.
+> > > > ...but really, unless there's device where there are leds of
+> > > > yellow/orange color... it may be easier to keep the current list. =
+=20
+> > >=20
+> > > Yellow has been available since the inception of the led_colors array,
+> > > so if we have that, then why we should not have orange? =20
+> >=20
+> > I fear people will confuse yellow and orange.
+>=20
+> LOL, so I looked into schematics and the manufacturer of the ethernet
+> port cage calls the LED yellow. So apparently I confused it with
+> orange... :D
 
-> +static int _marvell_led_brightness_set(struct led_classdev *cdev, enum led_brightness brightness,
-> +				       bool check_trigger)
+Apparently orange LEDs do exist (and some call them amber) as do
+violet, pink, greenish-blue, ...
 
-Please avoid _ functions. 
+But... let's not extend the list unless we have good reason.
 
-> +{
-> +	struct phy_device *phydev = to_phy_device(cdev->dev->parent);
-> +	struct marvell_phy_led *led = to_marvell_phy_led(cdev);
-> +	u8 val;
-> +
-> +	/* don't do anything if HW control is enabled */
-> +	if (check_trigger && cdev->trigger == &marvell_hw_led_trigger)
-> +		return 0;
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-I thought the brightness file disappeared when a trigger takes
-over. So is this possible?
+--onv5t7tqvj5pzvca
+Content-Type: application/pgp-signature; name="signature.asc"
 
-      Andrew
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXxoDXgAKCRAw5/Bqldv6
+8vCAAJ90mVxLRRiP6RrCoi7OtZn+b2B5PQCgnjKQMQrMoDm19mmTJ2fu+G2Q/DE=
+=0b9N
+-----END PGP SIGNATURE-----
+
+--onv5t7tqvj5pzvca--
