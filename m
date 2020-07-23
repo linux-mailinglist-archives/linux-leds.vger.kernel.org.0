@@ -2,181 +2,154 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5822F229D75
-	for <lists+linux-leds@lfdr.de>; Wed, 22 Jul 2020 18:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF75A22AF9D
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Jul 2020 14:41:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727840AbgGVQrv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 22 Jul 2020 12:47:51 -0400
-Received: from enterprise02.smtp.diehl.com ([193.201.238.220]:29195 "EHLO
-        enterprise02.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726535AbgGVQru (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 22 Jul 2020 12:47:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1595436467; x=1626972467;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=uML9Ysv3kZpwkpNLr+MiM2b+8UoZXXX9n6P9LCBR8OA=;
-  b=B6gh9+qDelrygi8CCW85BZm29ZVe5JmXS5yOVOvbwlexupw0J0iqvG6U
-   Y15t58YstDD7GSUCuguiyUgPiUZhKeJQRtg28SnRadMJS0QsSDhZoxrLA
-   CpS6zumL8HQ/CEKfkY0wMlq5vwpTCSrtw2xOSwe8QI3DU+9ALJ7YgMcIH
-   IZfTGWgmm8ZnR1TLbq3O/0bM8BBh4aRK83W7Inxe7RCi3xj+vAElT2D6E
-   fD57nouUjz4IT2JWcuW/rqF7jqTEgHNmKDPkYyyZLjpLiOJHctJ4egCad
-   ObA0nYI37vjNurXdamvqHwEop/AfWcID6nEhdDuX/ZnM++O1dKO3yBgOm
-   g==;
-IronPort-SDR: aYf/3gG+uHeJJMRfl1CJaDkQ/tYC/rPM6W2bFl0i78pARQgthcBljTEKb24++lEg14VZK/AxaV
- QxsP34dIWkPA==
-X-IronPort-AV: E=Sophos;i="5.75,383,1589234400"; 
-   d="scan'208";a="64697848"
-From:   Denis Osterland-Heim <denis.osterland@diehl.com>
-To:     "pavel@ucw.cz" <pavel@ucw.cz>
-CC:     "dmurphy@ti.com" <dmurphy@ti.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v6 1/2] leds: pwm: add support for default-state device
- property
-Thread-Topic: [PATCH v6 1/2] leds: pwm: add support for default-state device
- property
-Thread-Index: AQHWWNjSQP2LVtchSU+nfhnriNBYUKkTjt+AgAAti4A=
-Date:   Wed, 22 Jul 2020 16:47:43 +0000
-Message-ID: <30273eb26b83665183bc5fe24c74db36dfaed979.camel@diehl.com>
-References: <20200713054259.7608-1-Denis.Osterland@diehl.com>
-         <20200713054259.7608-2-Denis.Osterland@diehl.com>
-         <20200722140443.6cagitx3dozgjazh@duo.ucw.cz>
-In-Reply-To: <20200722140443.6cagitx3dozgjazh@duo.ucw.cz>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C5AC6598AAB9594CAAC94D3C2DCDD4B3@diehl.internal>
-Content-Transfer-Encoding: base64
+        id S1728946AbgGWMlC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Jul 2020 08:41:02 -0400
+Received: from lists.nic.cz ([217.31.204.67]:38004 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728692AbgGWMlC (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 23 Jul 2020 08:41:02 -0400
+Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
+        by mail.nic.cz (Postfix) with ESMTPSA id C20B1140527;
+        Thu, 23 Jul 2020 14:41:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1595508060; bh=/+hTSYLOnYliKcpz5jfbvtVHUzu6SymPaYyGoAc0gf4=;
+        h=Date:From:To;
+        b=b7xpT4uGeBJYUcxDiWPuTtFTzAChjrHi5ywymGSAxu0mKOWH4bAkzNy7w16+nq7Zh
+         ALZ19TJhgaN380bFX4/udJfHbINQSAJBPWhjwhEBq2KBwbMnBrlymuswbjLFsMng6C
+         wdFHxKKdTLMxvWZBJI8flGootV5lWEjB6DSQyJOU=
+Date:   Thu, 23 Jul 2020 14:41:00 +0200
+From:   Marek =?ISO-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        jacek.anaszewski@gmail.com, Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?Q?Ond?= =?UTF-8?Q?=C5=99ej?= Jirman <megous@megous.com>,
+        netdev@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC leds + net-next 0/3] Add support for LEDs on Marvell
+ PHYs
+Message-ID: <20200723144100.647afbb4@dellmb.labs.office.nic.cz>
+In-Reply-To: <20200716185647.GA1308244@lunn.ch>
+References: <20200716171730.13227-1-marek.behun@nic.cz>
+        <20200716185647.GA1308244@lunn.ch>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-TrailerSkip: 1
-X-GBS-PROC: PkB65aL1SqtESF35r/jQnwg7bHDqWvOEQyMXX5o+P0vfd4SPGo6GltfXhHMOeBAF
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGkgUGF2ZWwsDQoNCkFtIE1pdHR3b2NoLCBkZW4gMjIuMDcuMjAyMCwgMTY6MDQgKzAyMDAg
-c2NocmllYiBQYXZlbCBNYWNoZWs6DQo+ID4gVGhpcyBwYXRjaCBhZGRzIHN1cHBvcnQgZm9y
-ICJkZWZhdWx0LXN0YXRlIiBkZXZpY2V0cmVlIHByb3BlcnR5LCB3aGljaA0KPiA+IGFsbG93
-cyB0byBkZWZlciBwd20gaW5pdCB0byBmaXJzdCB1c2Ugb2YgbGVkLg0KPiA+IA0KPiA+IFRo
-aXMgYWxsb3dzIHRvIGNvbmZpZ3VyZSB0aGUgUFdNIGVhcmx5IGluIGJvb3Rsb2FkZXIgdG8g
-bGV0IHRoZSBMRUQNCj4gPiBibGluayB1bnRpbCBhbiBhcHBsaWNhdGlvbiBpbiBMaW51eCB1
-c2Vyc3BhY2Ugc2V0cyBzb21ldGhpbmcgZGlmZmVyZW50Lg0KPiA+IA0KPiA+IFNpZ25lZC1v
-ZmYtYnk6IERlbmlzIE9zdGVybGFuZC1IZWltIDxEZW5pcy5Pc3RlcmxhbmRAZGllaGwuY29t
-Pg0KPiA+IEFja2VkLWJ5OiBKYWNlayBBbmFzemV3c2tpIDxqYWNlay5hbmFzemV3c2tpQGdt
-YWlsLmNvbT4NCj4gPiArI2RlZmluZSBMRURTX1BXTV9ERUZTVEFURV9PRkYJMA0KPiA+ICsj
-ZGVmaW5lIExFRFNfUFdNX0RFRlNUQVRFX09OCTENCj4gPiArI2RlZmluZSBMRURTX1BXTV9E
-RUZTVEFURV9LRUVQCTINCj4gDQo+IFR1cm4gdGhpcyBpbnRvIGVudW07IG5vIG5lZWQgZm9y
-IHByZWZpeCBhcyB0aGlzIGlzIHByaXZhdGUgdG8gdGhlIGRyaXZlci4NCj4gDQo+ID4gIHN0
-cnVjdCBsZWRfcHdtIHsNCj4gPiAgCWNvbnN0IGNoYXIJKm5hbWU7DQo+ID4gIAljb25zdCBj
-aGFyCSpkZWZhdWx0X3RyaWdnZXI7DQo+ID4gIAl1OAkJYWN0aXZlX2xvdzsNCj4gPiArCXU4
-CQlkZWZhdWx0X3N0YXRlOw0KPiA+ICAJdW5zaWduZWQgaW50CW1heF9icmlnaHRuZXNzOw0K
-PiA+ICB9Ow0KPiA+ICANCj4gPiBAQCAtODgsNyArOTMsMzAgQEAgc3RhdGljIGludCBsZWRf
-cHdtX2FkZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBsZWRfcHdtX3ByaXYgKnByaXYs
-DQo+ID4gIA0KPiA+ICAJbGVkX2RhdGEtPmNkZXYuYnJpZ2h0bmVzc19zZXRfYmxvY2tpbmcg
-PSBsZWRfcHdtX3NldDsNCj4gPiAgDQo+ID4gLQlwd21faW5pdF9zdGF0ZShsZWRfZGF0YS0+
-cHdtLCAmbGVkX2RhdGEtPnB3bXN0YXRlKTsNCj4gPiArCS8qIGluaXQgUFdNIHN0YXRlICov
-DQo+ID4gKwlpZiAobGVkLT5kZWZhdWx0X3N0YXRlID09IExFRFNfUFdNX0RFRlNUQVRFX0tF
-RVApIHsNCj4gPiArCQlwd21fZ2V0X3N0YXRlKGxlZF9kYXRhLT5wd20sICZsZWRfZGF0YS0+
-cHdtc3RhdGUpOw0KPiA+ICsJCWlmICghbGVkX2RhdGEtPnB3bXN0YXRlLnBlcmlvZCkgew0K
-PiA+ICsJCQlsZWQtPmRlZmF1bHRfc3RhdGUgPSBMRURTX1BXTV9ERUZTVEFURV9PRkY7DQo+
-ID4gKwkJCWRldl93YXJuKGRldiwNCj4gPiArCQkJCSJmYWlsZWQgdG8gcmVhZCBwZXJpb2Qg
-Zm9yICVzLCBkZWZhdWx0IHRvIG9mZiIsDQo+ID4gKwkJCQlsZWQtPm5hbWUpOw0KPiA+ICsJ
-CX0NCj4gPiArCX0NCj4gPiArCWlmIChsZWQtPmRlZmF1bHRfc3RhdGUgIT0gTEVEU19QV01f
-REVGU1RBVEVfS0VFUCkNCj4gPiArCQlwd21faW5pdF9zdGF0ZShsZWRfZGF0YS0+cHdtLCAm
-bGVkX2RhdGEtPnB3bXN0YXRlKTsNCj4gPiArDQo+ID4gKwkvKiBzZXQgYnJpZ2h0bmVzcyAq
-Lw0KPiA+ICsJaWYgKGxlZC0+ZGVmYXVsdF9zdGF0ZSA9PSBMRURTX1BXTV9ERUZTVEFURV9P
-TikNCj4gPiArCQlsZWRfZGF0YS0+Y2Rldi5icmlnaHRuZXNzID0gbGVkLT5tYXhfYnJpZ2h0
-bmVzczsNCj4gPiArCWVsc2UgaWYgKGxlZC0+ZGVmYXVsdF9zdGF0ZSA9PSBMRURTX1BXTV9E
-RUZTVEFURV9LRUVQKSB7DQo+ID4gKwkJdWludDY0X3QgYnJpZ2h0bmVzczsNCj4gPiArDQo+
-ID4gKwkJYnJpZ2h0bmVzcyA9IGxlZC0+bWF4X2JyaWdodG5lc3M7DQo+ID4gKwkJYnJpZ2h0
-bmVzcyAqPSBsZWRfZGF0YS0+cHdtc3RhdGUuZHV0eV9jeWNsZTsNCj4gPiArCQlkb19kaXYo
-YnJpZ2h0bmVzcywgbGVkX2RhdGEtPnB3bXN0YXRlLnBlcmlvZCk7DQo+ID4gKwkJbGVkX2Rh
-dGEtPmNkZXYuYnJpZ2h0bmVzcyA9IGJyaWdodG5lc3M7DQo+ID4gKwl9DQo+IA0KPiBUcnkg
-dG8gY2xlYW4gdGhpcyB1cC4uLiBzd2l0Y2goKSBtaWdodCBoZWxwLiBNYXliZSB0d28gb2Yg
-dGhlbS4NCmxvb2tzIHBvc3NpYmxlLCBsZXRzIHNlZSBpZiBpdCBpbXByb3ZlcyByZWFkYWJp
-bGl0eQ0KDQo+IA0KPiA+IEBAIC0xMzQsNiArMTY2LDE2IEBAIHN0YXRpYyBpbnQgbGVkX3B3
-bV9jcmVhdGVfZndub2RlKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGxlZF9wd21fcHJp
-diAqcHJpdikNCj4gPiAgCQlmd25vZGVfcHJvcGVydHlfcmVhZF91MzIoZndub2RlLCAibWF4
-LWJyaWdodG5lc3MiLA0KPiA+ICAJCQkJCSAmbGVkLm1heF9icmlnaHRuZXNzKTsNCj4gPiAg
-DQo+ID4gKwkJaWYgKCFmd25vZGVfcHJvcGVydHlfcmVhZF9zdHJpbmcoZndub2RlLCAiZGVm
-YXVsdC1zdGF0ZSIsDQo+ID4gKwkJCQkJCSAmc3RhdGUpKSB7DQo+ID4gKwkJCWlmICghc3Ry
-Y21wKHN0YXRlLCAia2VlcCIpKQ0KPiA+ICsJCQkJbGVkLmRlZmF1bHRfc3RhdGUgPSBMRURT
-X1BXTV9ERUZTVEFURV9LRUVQOw0KPiA+ICsJCQllbHNlIGlmICghc3RyY21wKHN0YXRlLCAi
-b24iKSkNCj4gPiArCQkJCWxlZC5kZWZhdWx0X3N0YXRlID0gTEVEU19QV01fREVGU1RBVEVf
-T047DQo+ID4gKwkJCWVsc2UNCj4gPiArCQkJCWxlZC5kZWZhdWx0X3N0YXRlID0gTEVEU19Q
-V01fREVGU1RBVEVfT0ZGOw0KPiA+ICsJCX0NCj4gDQo+IEFjdHVhbGx5Li4uIE1vdmUgdGhl
-IGVudW0gdG8gY29yZSwgYW5kIGFkZCBoZWxwZXIgZm9yIHRoaXMuIFdlIGRvbid0DQo+IHdh
-bnQgdG8gc2VlIHRoaXMgZHVwbGljYXRlZC4NCkkgdGhpbmsgSSBzaG91bGQgcHV0IHRoZSBy
-ZWZhY3RvcmluZyBpbnRvIGEgc2VwYXJhdGUgcGF0Y2guDQoNClRoaXMgY29kZSBkdXBsaWNh
-dGVzIGxlZHMtZ3Bpbywgd2hpY2ggdXNlcyB0aGUgTEVEU19HUElPX0RFRlNUQVRFXyogZGVm
-aW5lcywNCmRlZmluZWQgaW4gaW5jbHVkZS9saW51eC9sZWRzLmguDQpUaGUgSSBpZGVhIHdh
-cyB0byBsZXQgZ3BpbyBpdHMgZGVmaW5lcyBhbmQgYWRkIGR0IGNvbXBhdGlibGUgZGVmaW5l
-cyBmb3IgbGVkcy1wd20uDQpCdXQgaXQgd291bGQgYmUgdXNlZnVsIHRvIGhhdmUgYSBjb21t
-b24gZnVuY3Rpb24sIHllcy4NCg0KSXQgbG9va3MgbGlrZSBhIGVudW0gbGVkc19kZWZhdWx0
-X3N0YXRlIHdpdGggdGhlIGRlZmluZSBmb3IgbGVkcy1ncGlvIGNoYW5nZWQNCnRvIHRoZSBu
-ZXcgZW51bSBpbiBsaW51eC9sZWRzLmggYW5kIGEgbmV3IGZ1bmN0aW9uIGRlY2xhcmF0aW9u
-IGxlZHNfZGVmc3RhdGVfZ2V0KCkNCmluIGxlZHMvbGVkcy5oLCB3aXRoIHRoZSBpbXBsZW1l
-bnRhdGlvbiBsZWQtY29yZS5jLiBBbmQgbGVkcy1ncGlvIGFuZCBsZWRzLXB3bQ0Kd2lsbCB0
-aGVuIGluY2x1ZGUgbGVkcy9sZWRzLmggdG8gdXNlIGxlZHNfZGVmc3RhdGVfZ2V0KCkuDQoN
-Cj4gDQo+ID4gVGhlIGNvbnRlbnRzIG9mIHRoZSBhYm92ZSBtZW50aW9uZWQgZS1tYWlsIGlz
-IG5vdCBsZWdhbGx5IGJpbmRpbmcuIFRoaXMgZS1tYWlsIGNvbnRhaW5zIGNvbmZpZGVudGlh
-bCBhbmQvb3IgbGVnYWxseSBwcm90ZWN0ZWQgaW5mb3JtYXRpb24uIFBsZWFzZSBpbmZvcm0g
-dXMgaWYgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgYnkNCj4gPiBtaXN0YWtlIGFu
-ZCBkZWxldGUgaXQgaW4gc3VjaCBhIGNhc2UuIEVhY2ggdW5hdXRob3JpemVkIHJlcHJvZHVj
-dGlvbiwgZGlzY2xvc3VyZSwgYWx0ZXJhdGlvbiwgZGlzdHJpYnV0aW9uIGFuZC9vciBwdWJs
-aWNhdGlvbiBvZiB0aGlzIGUtbWFpbCBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLiANCj4gPiAt
-IEZvciBnZW5lcmFsIGluZm9ybWF0aW9uIG9uIGRhdGEgcHJvdGVjdGlvbiBhbmQgeW91ciBy
-ZXNwZWN0aXZlIHJpZ2h0cyBwbGVhc2UgdmlzaXQgaHR0cHM6Ly93d3cuZGllaGwuY29tL2dy
-b3VwL2VuL3RyYW5zcGFyZW5jeS1hbmQtaW5mb3JtYXRpb24tb2JsaWdhdGlvbnMvDQo+IA0K
-PiBHZXQgcmlkIG9mIHRoaXMuDQpteSBmb3JjZSBpcyBub3Qgc3Ryb25nIGVub3VnaC4uLg0K
-DQpSZWdhcmRzLCBEZW5pcw0KDQo+IAkJCQkJCQkJCVBhdmVsDQo+ICstLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tKw0KPiA+IFoxIFNlY3VyZU1haWwgR2F0ZXdheSBQcm9jZXNzaW5nIEluZm8gICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gDQo+ICstLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0K
-PiA+IC0gVGhlIG1lc3NhZ2Ugd2FzIHNpZ25lZCBieSAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHwNCj4gPiAgIFtObyBJbmZvIGF2YWlsYWJsZV0gICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8DQo+ID4gICBTaWdu
-YXR1cmUgbm90IHZlcmlmaWFibGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgfA0KPiA+ICAgLSBNZXNzYWdlIGNvbnRlbnQgbm90IHZlcmlmaWFibGUgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gPiAgIC0gQ2VydGlmaWNhdGUg
-bm90IHZlcmlmaWFibGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
-DQo+IA0KPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCg0KDQpEaWVobCBDb25uZWN0aXZpdHkgU29s
-dXRpb25zIEdtYkgNCkdlc2Now6RmdHNmw7xocnVuZzogSG9yc3QgTGVvbmJlcmdlcg0KU2l0
-eiBkZXIgR2VzZWxsc2NoYWZ0OiBOw7xybmJlcmcgLSBSZWdpc3RlcmdlcmljaHQ6IEFtdHNn
-ZXJpY2h0DQpOw7xybmJlcmc6IEhSQiAzMjMxNQ0KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fDQoNCkRlciBJbmhhbHQgZGVyIHZvcnN0ZWhlbmRlbiBF
-LU1haWwgaXN0IG5pY2h0IHJlY2h0bGljaCBiaW5kZW5kLiBEaWVzZSBFLU1haWwgZW50aGFl
-bHQgdmVydHJhdWxpY2hlIHVuZC9vZGVyIHJlY2h0bGljaCBnZXNjaHVldHp0ZSBJbmZvcm1h
-dGlvbmVuLg0KSW5mb3JtaWVyZW4gU2llIHVucyBiaXR0ZSwgd2VubiBTaWUgZGllc2UgRS1N
-YWlsIGZhZWxzY2hsaWNoZXJ3ZWlzZSBlcmhhbHRlbiBoYWJlbi4gQml0dGUgbG9lc2NoZW4g
-U2llIGluIGRpZXNlbSBGYWxsIGRpZSBOYWNocmljaHQuDQpKZWRlIHVuZXJsYXVidGUgRm9y
-bSBkZXIgUmVwcm9kdWt0aW9uLCBCZWthbm50Z2FiZSwgQWVuZGVydW5nLCBWZXJ0ZWlsdW5n
-IHVuZC9vZGVyIFB1Ymxpa2F0aW9uIGRpZXNlciBFLU1haWwgaXN0IHN0cmVuZ3N0ZW5zIHVu
-dGVyc2FndC4NCi0gSW5mb3JtYXRpb25lbiB6dW0gRGF0ZW5zY2h1dHosIGluc2Jlc29uZGVy
-ZSB6dSBJaHJlbiBSZWNodGVuLCBlcmhhbHRlbiBTaWUgdW50ZXIgaHR0cHM6Ly93d3cuZGll
-aGwuY29tL2dyb3VwL2RlL3RyYW5zcGFyZW56LXVuZC1pbmZvcm1hdGlvbnNwZmxpY2h0ZW4v
-DQoNClRoZSBjb250ZW50cyBvZiB0aGUgYWJvdmUgbWVudGlvbmVkIGUtbWFpbCBpcyBub3Qg
-bGVnYWxseSBiaW5kaW5nLiBUaGlzIGUtbWFpbCBjb250YWlucyBjb25maWRlbnRpYWwgYW5k
-L29yIGxlZ2FsbHkgcHJvdGVjdGVkIGluZm9ybWF0aW9uLiBQbGVhc2UgaW5mb3JtIHVzIGlm
-IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGJ5DQptaXN0YWtlIGFuZCBkZWxldGUg
-aXQgaW4gc3VjaCBhIGNhc2UuIEVhY2ggdW5hdXRob3JpemVkIHJlcHJvZHVjdGlvbiwgZGlz
-Y2xvc3VyZSwgYWx0ZXJhdGlvbiwgZGlzdHJpYnV0aW9uIGFuZC9vciBwdWJsaWNhdGlvbiBv
-ZiB0aGlzIGUtbWFpbCBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLiANCi0gRm9yIGdlbmVyYWwg
-aW5mb3JtYXRpb24gb24gZGF0YSBwcm90ZWN0aW9uIGFuZCB5b3VyIHJlc3BlY3RpdmUgcmln
-aHRzIHBsZWFzZSB2aXNpdCBodHRwczovL3d3dy5kaWVobC5jb20vZ3JvdXAvZW4vdHJhbnNw
-YXJlbmN5LWFuZC1pbmZvcm1hdGlvbi1vYmxpZ2F0aW9ucy8NCg==
+On Thu, 16 Jul 2020 20:56:47 +0200
+Andrew Lunn <andrew@lunn.ch> wrote:
+
+> On Thu, Jul 16, 2020 at 07:17:27PM +0200, Marek Beh=FAn wrote:
+> > Hello,
+> >=20
+> > this RFC series should apply on both net-next/master and Pavel's
+> > linux-leds/for-master tree.
+> >=20
+> > This adds support for LED's connected to some Marvell PHYs.
+> >=20
+> > LEDs are specified via device-tree. Example: =20
+>=20
+> Hi Marek
+>=20
+> I've been playing with something similar, off and on, mostly off.
+>=20
+> Take a look at
+>=20
+> https://github.com/lunn/linux v5.4-rc6-hw-led-triggers
+>=20
+> The binding i have is pretty much the same, since we are both
+> following the common LED binding. I see no problems with this.
+>=20
+> > This is achieved by extending the LED trigger API with LED-private
+> > triggers. The proposal for this is based on work by Ondrej and
+> > Pavel. =20
+>=20
+> So what i did here was allow triggers to be registered against a
+> specific LED. The /sys/class/leds/<LED>/trigger lists both the generic
+> triggers and the triggers for this specific LED. Phylib can then
+> register a trigger for each blink reason that specific LED can
+> perform. Which does result in a lot of triggers. Especially when you
+> start talking about a 10 port switch each with 2 LEDs.
+>=20
+> I still have some open issues...
+>
+
+Hi Andrew,
+
+Pavel Machek has applied support for LED private triggers yesterday,
+see
+https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/commit=
+/?h=3Dfor-next&id=3D93690cdf3060c61dfce813121d0bfc055e7fa30d
+
+The way this is handled has this issue - it results in a lot of
+triggers, if we want each possible control to have its own trigger in
+the sysfs trigger file. But as Ondrej pointed out, we can just register
+one "hw-control" device trigger, and have its activation create another
+file/files via which the user can select which type of HW control he
+wants to activate. Something similar is done in netdev trigger.
+
+I don't like it much, but this is what can be done if we want to
+avoid having lots of triggers registered.
+
+> 1) Polarity. It would be nice to be able to configure the polarity of
+> the LED in the bindings.
+
+Yes, and also the DUAL mode and everything else.
+
+> 2) PHY LEDs which are not actually part of the PHY. Most of the
+> Marvell Ethernet switches have inbuilt PHYs, which are driven by the
+> Marvell PHY driver. The Marvell PHY driver has no idea the PHY is
+> inside a switch, it is just a PHY.  However, the LEDs are not
+> controlled via PHY registers, but Switch registers. So the switch
+> driver is going to end up controlling these LEDs. It would be good to
+> be able to share as much code as possible, keep the naming consistent,
+> and keep the user API the same.
+
+I know about this - in fact I want this solved for Turris MOX, which
+has one 1518 PHY and can have up to three switches connected - I want
+every LED to be configurable by userspace.
+
+The internal PHY of the switch can be identified in the marvell phy
+driver not to register any LEDs. Then the switch LEDs can be controlled
+by the switch driver. I don't think we are able to share much of the
+code, since the access to these registers is different from the LED
+registers in the PHY, and register values are also different. The only
+think which could be shared are names of the trigger, I think. But I
+will look into this and prepare a patch series that will share as much
+code as is reasonable.
+
+> 3) Some PHYs cannot control the LEDs independently. Or they have modes
+> which configure two or more LEDs. The Marvell PHYs are like
+> this. There are something like ~10 blink modes which are
+> independent. And then there are 4 modes which control multiple LEDs.
+> There is no simple way to support this with Linux LEDs which assume
+> the LEDs are fully independent. I suspect we simply cannot support
+> these combined modes.
+
+I know about these modes, I have func specs for several differnet
+Marvell PHYs and switches opened and have read about the LED systems.
+I intend to do this so that all corner cases are considere.
+
+> As a PHY maintainer, i would like to see a solution which makes use of
+> Linux LEDs. I don't really care who's code it is, and feel free to
+> borrow my code, or ideas, or ignore it.
+>=20
+>       Andrew
+
+Wait a few days and I shall send another proposal.
+
+Marek
