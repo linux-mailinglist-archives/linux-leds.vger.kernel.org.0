@@ -2,19 +2,19 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C496922B8D9
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Jul 2020 23:46:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 286EA22B9D2
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Jul 2020 00:53:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726368AbgGWVqS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Jul 2020 17:46:18 -0400
-Received: from lists.nic.cz ([217.31.204.67]:54856 "EHLO mail.nic.cz"
+        id S1726723AbgGWWxw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Jul 2020 18:53:52 -0400
+Received: from lists.nic.cz ([217.31.204.67]:52042 "EHLO mail.nic.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726304AbgGWVqS (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 23 Jul 2020 17:46:18 -0400
+        id S1726390AbgGWWxv (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 23 Jul 2020 18:53:51 -0400
 Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id 11126140954;
-        Thu, 23 Jul 2020 23:46:16 +0200 (CEST)
-Date:   Thu, 23 Jul 2020 23:46:15 +0200
+        by mail.nic.cz (Postfix) with ESMTPSA id A35D51409A4;
+        Fri, 24 Jul 2020 00:53:49 +0200 (CEST)
+Date:   Fri, 24 Jul 2020 00:53:49 +0200
 From:   Marek Behun <marek.behun@nic.cz>
 To:     Andrew Lunn <andrew@lunn.ch>
 Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
@@ -27,7 +27,7 @@ Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH RFC leds + net-next v2 1/1] net: phy: marvell: add
  support for PHY LEDs via LED class
-Message-ID: <20200723234615.1af24bb0@nic.cz>
+Message-ID: <20200724005349.2e90a247@nic.cz>
 In-Reply-To: <20200723213531.GK1553578@lunn.ch>
 References: <20200723181319.15988-1-marek.behun@nic.cz>
         <20200723181319.15988-2-marek.behun@nic.cz>
@@ -36,7 +36,7 @@ X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
         USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
 X-Virus-Scanned: clamav-milter 0.102.2 at mail
@@ -49,14 +49,22 @@ X-Mailing-List: linux-leds@vger.kernel.org
 On Thu, 23 Jul 2020 23:35:31 +0200
 Andrew Lunn <andrew@lunn.ch> wrote:
 
-> I thought the brightness file disappeared when a trigger takes
-> over. So is this possible?
+> Hi Marek
 > 
->       Andrew
+> I expect some of this should be moved into the phylib core. We don't
+> want each PHY inventing its own way to do this. The core should
+> provide a framework and the PHY driver fills in the gaps.
+> 
+> Take a look at for example mscc_main.c and its LED information. It has
+> pretty similar hardware to the Marvell. And microchip.c also has LED
+> handling, etc.
 
-It does not disappear nor should it. When you have a LED with 10 levels
-of brightness, you want to be able to configure with which brightness
-it blinks when controlled by a trigger. SW triggers use that brightness
-which was stored into the brightness file when blinking the LED.
+OK, this makes sense. I will have to think about this a little.
+
+My main issue though is whether one "hw-control" trigger should be
+registered via LED API and the specific mode should be chosen via
+another sysfs file as in this RFC, or whether each HW control mode
+should have its own trigger. The second solution would either result in
+a lot of registered triggers or complicate LED API, though...
 
 Marek
