@@ -2,81 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E03422AFC2
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Jul 2020 14:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFFCD22B0AD
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Jul 2020 15:40:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726714AbgGWM5y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Jul 2020 08:57:54 -0400
-Received: from lists.nic.cz ([217.31.204.67]:51770 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726521AbgGWM5y (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 23 Jul 2020 08:57:54 -0400
-Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id 5D48514082C;
-        Thu, 23 Jul 2020 14:57:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1595509072; bh=jWfEplKWTQ1CURpa79zyUZZwjlwz9DrAahqdWtsQU3k=;
-        h=From:To:Date;
-        b=HNsy8UGrjdqem1oQ9tZ2XJsVr9DLlSZgSEnf+Q1EB8rqs6EOa2mC8YClm1c5RVcTL
-         07bvsrAW8M/7cvEdWcrE5QH819faPFubZurF1xtWUFCB06IwZk7zOxfZo9GbrBwzC+
-         ufS68gHcBo942051Ne7B7Di7/E6ZxzyWgc1UAhrQ=
-From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-To:     linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, jacek.anaszewski@gmail.com,
-        Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-Subject: [PATCH] leds: add orange color
-Date:   Thu, 23 Jul 2020 14:57:51 +0200
-Message-Id: <20200723125751.4045-1-marek.behun@nic.cz>
-X-Mailer: git-send-email 2.26.2
+        id S1728265AbgGWNk1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Jul 2020 09:40:27 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:46922 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728066AbgGWNk0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Jul 2020 09:40:26 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06NDeAFl097701;
+        Thu, 23 Jul 2020 08:40:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1595511610;
+        bh=93PAb3rdnNuCAbhj8PCtfgeay7I68iTO1Kagpn+eA/c=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=MTdYypGtzeCv6gnVkGQ1muYkKbnJCJ/2s7TR61dHhOaw5NSwSZ1+l7rC1+4jCVi2W
+         rYWQ7TMsQe++aTZt/fO0cbhENkNvED17gBU8p0w5QSNrHhn3lONMWtIKFJASJp2dJ/
+         4VyVBqrleWuACZfpoX49chFej5/PNuAyWNYfNW5o=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06NDeA2t030807
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 23 Jul 2020 08:40:10 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 23
+ Jul 2020 08:40:09 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 23 Jul 2020 08:40:09 -0500
+Received: from [10.250.35.192] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06NDe97U080447;
+        Thu, 23 Jul 2020 08:40:09 -0500
+Subject: Re: [PATCH] leds: add orange color
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
+        <linux-leds@vger.kernel.org>
+CC:     Pavel Machek <pavel@ucw.cz>, <jacek.anaszewski@gmail.com>
+References: <20200723125751.4045-1-marek.behun@nic.cz>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <1a8a489b-95e0-58a6-5454-1c45a7ef156c@ti.com>
+Date:   Thu, 23 Jul 2020 08:40:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200723125751.4045-1-marek.behun@nic.cz>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Spam-Status: No, score=0.00
-X-Spamd-Bar: /
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Many network devices have LEDs with green and orange color, instead of
-green and yellow.
+Marek
 
-Signed-off-by: Marek Behún <marek.behun@nic.cz>
----
- drivers/leds/led-core.c           | 1 +
- include/dt-bindings/leds/common.h | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+On 7/23/20 7:57 AM, Marek Behún wrote:
+> Many network devices have LEDs with green and orange color, instead of
+> green and yellow.
 
-diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-index 846248a0693d..6503d0d66fc6 100644
---- a/drivers/leds/led-core.c
-+++ b/drivers/leds/led-core.c
-@@ -35,6 +35,7 @@ const char * const led_colors[LED_COLOR_ID_MAX] = {
- 	[LED_COLOR_ID_YELLOW] = "yellow",
- 	[LED_COLOR_ID_IR] = "ir",
- 	[LED_COLOR_ID_MULTI] = "multicolor",
-+	[LED_COLOR_ID_ORANGE] = "orange",
- };
- EXPORT_SYMBOL_GPL(led_colors);
- 
-diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-index a463ce6a8794..28b00ecc4645 100644
---- a/include/dt-bindings/leds/common.h
-+++ b/include/dt-bindings/leds/common.h
-@@ -31,7 +31,8 @@
- #define LED_COLOR_ID_YELLOW	6
- #define LED_COLOR_ID_IR		7
- #define LED_COLOR_ID_MULTI	8
--#define LED_COLOR_ID_MAX	9
-+#define LED_COLOR_ID_ORANGE	9
-+#define LED_COLOR_ID_MAX	10
- 
- /* Standard LED functions */
- /* Keyboard LEDs, usually it would be input4::capslock etc. */
--- 
-2.26.2
+Can't we use amber?
+
+Dan
 
