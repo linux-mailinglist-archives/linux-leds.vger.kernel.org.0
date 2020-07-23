@@ -2,39 +2,39 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 861DB22B8CA
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Jul 2020 23:38:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 930C322B8D4
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Jul 2020 23:44:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726368AbgGWVil (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Jul 2020 17:38:41 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:41436 "EHLO
+        id S1726368AbgGWVoN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Jul 2020 17:44:13 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:41800 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726033AbgGWVil (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Jul 2020 17:38:41 -0400
+        with ESMTP id S1726115AbgGWVoN (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Jul 2020 17:44:13 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id A258E1C0BD5; Thu, 23 Jul 2020 23:38:38 +0200 (CEST)
-Date:   Thu, 23 Jul 2020 23:38:38 +0200
+        id CF01B1C0BD5; Thu, 23 Jul 2020 23:44:10 +0200 (CEST)
+Date:   Thu, 23 Jul 2020 23:44:10 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek Behun <marek.behun@nic.cz>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH] leds: add orange color
-Message-ID: <20200723213838.a6intg3rxu6v6vxr@duo.ucw.cz>
-References: <20200723125751.4045-1-marek.behun@nic.cz>
- <20200723193908.GA26165@amd>
- <57981a86-dd1b-09ee-8035-4c84d4c990df@gmail.com>
- <30b1f173-c687-9fe2-92bd-fc53f776cb77@gmail.com>
- <20200723201657.nb5dm2aqmjnizmpq@duo.ucw.cz>
- <8b36be51-3a75-458d-4fed-d730621e1547@gmail.com>
- <20200723203953.iijldzbnfqh36mex@duo.ucw.cz>
- <854ee2f0-4dd1-b665-f216-bff33ab3b571@gmail.com>
- <20200723210452.c63oup3k7w4icqc6@duo.ucw.cz>
- <20200723231755.6b6476c0@nic.cz>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>,
+        linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
+        Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        netdev@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC leds + net-next v2 1/1] net: phy: marvell: add
+ support for PHY LEDs via LED class
+Message-ID: <20200723214410.jf4vwj3vnymzqngw@duo.ucw.cz>
+References: <20200723181319.15988-1-marek.behun@nic.cz>
+ <20200723181319.15988-2-marek.behun@nic.cz>
+ <20200723213531.GK1553578@lunn.ch>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="onv5t7tqvj5pzvca"
+        protocol="application/pgp-signature"; boundary="fkrsjbmmzh66h3mu"
 Content-Disposition: inline
-In-Reply-To: <20200723231755.6b6476c0@nic.cz>
+In-Reply-To: <20200723213531.GK1553578@lunn.ch>
 User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -42,46 +42,45 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---onv5t7tqvj5pzvca
+--fkrsjbmmzh66h3mu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
-> > > > ...but really, unless there's device where there are leds of
-> > > > yellow/orange color... it may be easier to keep the current list. =
-=20
-> > >=20
-> > > Yellow has been available since the inception of the led_colors array,
-> > > so if we have that, then why we should not have orange? =20
-> >=20
-> > I fear people will confuse yellow and orange.
+> > +{
+> > +	struct phy_device *phydev =3D to_phy_device(cdev->dev->parent);
+> > +	struct marvell_phy_led *led =3D to_marvell_phy_led(cdev);
+> > +	u8 val;
+> > +
+> > +	/* don't do anything if HW control is enabled */
+> > +	if (check_trigger && cdev->trigger =3D=3D &marvell_hw_led_trigger)
+> > +		return 0;
 >=20
-> LOL, so I looked into schematics and the manufacturer of the ethernet
-> port cage calls the LED yellow. So apparently I confused it with
-> orange... :D
+> I thought the brightness file disappeared when a trigger takes
+> over. So is this possible?
 
-Apparently orange LEDs do exist (and some call them amber) as do
-violet, pink, greenish-blue, ...
+No.
 
-But... let's not extend the list unless we have good reason.
-
-Best regards,
+When trigger is set, brightness controls "maximum" brightness LED can
+have (and can turn trigger off by setting brightness to 0). Interface
+is ... not quite nice.
 									Pavel
+
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---onv5t7tqvj5pzvca
+--fkrsjbmmzh66h3mu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXxoDXgAKCRAw5/Bqldv6
-8vCAAJ90mVxLRRiP6RrCoi7OtZn+b2B5PQCgnjKQMQrMoDm19mmTJ2fu+G2Q/DE=
-=0b9N
+iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXxoEqgAKCRAw5/Bqldv6
+8hefAJ9ac5IueIkjdIjwb5RWM/zSWJpK2ACgmDEAOcfipS2uJLurnNQ+/XjYO2o=
+=+YWF
 -----END PGP SIGNATURE-----
 
---onv5t7tqvj5pzvca--
+--fkrsjbmmzh66h3mu--
