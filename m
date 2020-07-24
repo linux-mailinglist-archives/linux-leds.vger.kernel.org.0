@@ -2,69 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 286EA22B9D2
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Jul 2020 00:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C59F022C309
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Jul 2020 12:24:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726723AbgGWWxw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Jul 2020 18:53:52 -0400
-Received: from lists.nic.cz ([217.31.204.67]:52042 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726390AbgGWWxv (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 23 Jul 2020 18:53:51 -0400
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id A35D51409A4;
-        Fri, 24 Jul 2020 00:53:49 +0200 (CEST)
-Date:   Fri, 24 Jul 2020 00:53:49 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        id S1726483AbgGXKYG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 Jul 2020 06:24:06 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:44534 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726329AbgGXKYF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Jul 2020 06:24:05 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id A08C61C0BD2; Fri, 24 Jul 2020 12:24:03 +0200 (CEST)
+Date:   Fri, 24 Jul 2020 12:24:03 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek Behun <marek.behun@nic.cz>
+Cc:     Andrew Lunn <andrew@lunn.ch>, linux-leds@vger.kernel.org,
         jacek.anaszewski@gmail.com, Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?B?T25k?= =?UTF-8?B?xZllag==?= Jirman 
-        <megous@megous.com>, netdev@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        netdev@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Gregory Clement <gregory.clement@bootlin.com>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH RFC leds + net-next v2 1/1] net: phy: marvell: add
  support for PHY LEDs via LED class
-Message-ID: <20200724005349.2e90a247@nic.cz>
-In-Reply-To: <20200723213531.GK1553578@lunn.ch>
+Message-ID: <20200724102403.wyuteeql3jn5xouw@duo.ucw.cz>
 References: <20200723181319.15988-1-marek.behun@nic.cz>
-        <20200723181319.15988-2-marek.behun@nic.cz>
-        <20200723213531.GK1553578@lunn.ch>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ <20200723181319.15988-2-marek.behun@nic.cz>
+ <20200723213531.GK1553578@lunn.ch>
+ <20200724005349.2e90a247@nic.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
-        USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="ysrch4gnwfoyfyze"
+Content-Disposition: inline
+In-Reply-To: <20200724005349.2e90a247@nic.cz>
+User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 23 Jul 2020 23:35:31 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
 
-> Hi Marek
-> 
-> I expect some of this should be moved into the phylib core. We don't
-> want each PHY inventing its own way to do this. The core should
-> provide a framework and the PHY driver fills in the gaps.
-> 
-> Take a look at for example mscc_main.c and its LED information. It has
-> pretty similar hardware to the Marvell. And microchip.c also has LED
-> handling, etc.
+--ysrch4gnwfoyfyze
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK, this makes sense. I will have to think about this a little.
+Hi!
 
-My main issue though is whether one "hw-control" trigger should be
-registered via LED API and the specific mode should be chosen via
-another sysfs file as in this RFC, or whether each HW control mode
-should have its own trigger. The second solution would either result in
-a lot of registered triggers or complicate LED API, though...
+> > I expect some of this should be moved into the phylib core. We don't
+> > want each PHY inventing its own way to do this. The core should
+> > provide a framework and the PHY driver fills in the gaps.
+> >=20
+> > Take a look at for example mscc_main.c and its LED information. It has
+> > pretty similar hardware to the Marvell. And microchip.c also has LED
+> > handling, etc.
+>=20
+> OK, this makes sense. I will have to think about this a little.
+>=20
+> My main issue though is whether one "hw-control" trigger should be
+> registered via LED API and the specific mode should be chosen via
+> another sysfs file as in this RFC, or whether each HW control mode
+> should have its own trigger. The second solution would either result in
+> a lot of registered triggers or complicate LED API, though...
 
-Marek
+If you register say 5 triggers.... that's okay. If you do like 1024
+additional triggers (it happened before!)... well please don't.
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--ysrch4gnwfoyfyze
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXxq2wwAKCRAw5/Bqldv6
+8u7ZAJ9lXMT7/Hz6EZY8muVKbQEzv3r8uwCdFNbG/KOaa+zUTk9YHdfH0Ah3YZU=
+=wMRI
+-----END PGP SIGNATURE-----
+
+--ysrch4gnwfoyfyze--
