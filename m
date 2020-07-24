@@ -2,48 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B045222C910
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Jul 2020 17:29:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D80A122CB58
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Jul 2020 18:46:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726887AbgGXP3e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 24 Jul 2020 11:29:34 -0400
-Received: from [125.140.134.231] ([125.140.134.231]:53505 "EHLO
-        WIN-DAONO245HJF" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726842AbgGXP3d (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Jul 2020 11:29:33 -0400
-Received: from User ([66.154.113.229]) by WIN-DAONO245HJF with Microsoft SMTPSVC(8.5.9600.16384);
-         Sat, 25 Jul 2020 00:23:30 +0900
-Reply-To: <christopherwang36@gmail.com>
-From:   "CHRISTOPHER WANG" <christopherwang36@gmail.com>
-Subject: INVESTMENT
-Date:   Fri, 24 Jul 2020 08:23:47 -0700
+        id S1726689AbgGXQqH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 Jul 2020 12:46:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726639AbgGXQqG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Jul 2020 12:46:06 -0400
+Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A8E4C0619E4;
+        Fri, 24 Jul 2020 09:46:06 -0700 (PDT)
+Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
+        by mail.nic.cz (Postfix) with ESMTP id 0E8FB140801;
+        Fri, 24 Jul 2020 18:46:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1595609164; bh=uVEK4+lNEwNHSkbt4FwgcwamVpjAjW9xrSCBYvsp+fU=;
+        h=From:To:Date;
+        b=ODIqmaFrBnepS5Ewc5sPX8LbJbZF9jV0HzWrF6sj74qVeThg0sfnxINPFQX4IcoMd
+         wA9vybKY8uvLq/lfdMVaoyPsEPXTebXNnnLF0DfFdihRSnNDfN0rsizFHzPJ9L4LZi
+         7g8MmCnLPQ5I/KzGmdUT8IUmHnN9cZ/IFl8PySnk=
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+To:     netdev@vger.kernel.org
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        jacek.anaszewski@gmail.com, Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+Subject: [PATCH RFC leds + net-next v3 0/2] Add support for LEDs on Marvell PHYs
+Date:   Fri, 24 Jul 2020 18:46:01 +0200
+Message-Id: <20200724164603.29148-1-marek.behun@nic.cz>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <WIN-DAONO245HJFccxl008ef90c@WIN-DAONO245HJF>
-X-OriginalArrivalTime: 24 Jul 2020 15:23:30.0473 (UTC) FILETIME=[62EAF190:01D661CE]
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Spam-Status: No, score=0.00
+X-Spamd-Bar: /
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi,
 
+this is v3 of my RFC adding support for LEDs connected to Marvell PHYs.
 
-Good day,
+Please note that if you want to test this, you still need to first apply
+the patch adding the LED private triggers support from Pavel's tree.
+https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/commit/?h=for-next&id=93690cdf3060c61dfce813121d0bfc055e7fa30d
 
-You were recommended by a mutual associate. I write you regarding an investment of bearer bonds I made on behalf of a client. 
+Changes since v2:
+- to share code with other drivers which may want to also offer PHY HW
+  control of LEDs some of the code was refactored and now resides in
+  phy_hw_led_mode.c. This code is compiled in when config option
+  LED_TRIGGER_PHY_HW is enabled. Drivers wanting to offer PHY HW control
+  of LEDs should depend on this option.
+- the "hw-control" trigger is renamed to "phydev-hw-mode" and is
+  registered by the code in phy_hw_led_mode.c
+- the "hw_control" sysfs file is renamed to "hw_mode"
+- struct phy_driver is extended by three methods to support PHY HW LED
+  control
+- I renamed the various HW control modes offeret by Marvell PHYs to
+  conform to other Linux mode names, for example the "1000/100/10/else"
+  mode was renamed to "1Gbps/100Mbps/10Mbps", or "recv/else" was renamed
+  to "rx" (this is the name of the mode in netdev trigger).
 
-       The investment was made in 2009 and has been under my management. The said investor is deceased. The window is now available to assign these bonds to any name or company of my choice. I have all the necessary information to achieve this within 10 banking days.
-      
-       The total value of the bond is 100million pounds sterling, in a million pound denominations.
-      
-        If you can handle this, do contact me at your earliest convenience via my email christopherwang36@gmail.com
-So we can discuss the final details Thank you.
- 
-Mr CHRISTOPHER WANG
+Marek
+
+Marek Behún (2):
+  net: phy: add API for LEDs controlled by PHY HW
+  net: phy: marvell: add support for PHY LEDs via LED class
+
+ drivers/net/phy/Kconfig           |  10 +
+ drivers/net/phy/Makefile          |   1 +
+ drivers/net/phy/marvell.c         | 364 ++++++++++++++++++++++++++++++
+ drivers/net/phy/phy_hw_led_mode.c |  96 ++++++++
+ include/linux/phy.h               |  15 ++
+ 5 files changed, 486 insertions(+)
+ create mode 100644 drivers/net/phy/phy_hw_led_mode.c
+
+-- 
+2.26.2
+
