@@ -2,36 +2,26 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5090922C31A
-	for <lists+linux-leds@lfdr.de>; Fri, 24 Jul 2020 12:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F60422C329
+	for <lists+linux-leds@lfdr.de>; Fri, 24 Jul 2020 12:32:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbgGXK3G (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 24 Jul 2020 06:29:06 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:44866 "EHLO
+        id S1726520AbgGXKcB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 24 Jul 2020 06:32:01 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:45022 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726329AbgGXK3F (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Jul 2020 06:29:05 -0400
+        with ESMTP id S1726329AbgGXKcA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Jul 2020 06:32:00 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 2AACD1C0BD2; Fri, 24 Jul 2020 12:29:02 +0200 (CEST)
-Date:   Fri, 24 Jul 2020 12:29:01 +0200
+        id 6BD571C0BD2; Fri, 24 Jul 2020 12:31:58 +0200 (CEST)
+Date:   Fri, 24 Jul 2020 12:31:58 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
-        Dan Murphy <dmurphy@ti.com>,
-        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        netdev@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC leds + net-next v2 0/1] Add support for LEDs on
- Marvell PHYs
-Message-ID: <20200724102901.qp65rtkxucauglsp@duo.ucw.cz>
-References: <20200723181319.15988-1-marek.behun@nic.cz>
+To:     linux-leds@vger.kernel.org
+Subject: TODO list for LED subsystem in near future
+Message-ID: <20200724103158.g32wtdmirki3urlr@duo.ucw.cz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="pj7n3lfazigoupyj"
+        protocol="application/pgp-signature"; boundary="iwpish57cw2ikszx"
 Content-Disposition: inline
-In-Reply-To: <20200723181319.15988-1-marek.behun@nic.cz>
 User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -39,84 +29,67 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---pj7n3lfazigoupyj
-Content-Type: text/plain; charset=iso-8859-1
+--iwpish57cw2ikszx
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu 2020-07-23 20:13:18, Marek Beh=FAn wrote:
-> Hi,
->=20
-> this is v2 of my RFC adding support for LEDs connected to Marvell PHYs.
->=20
-> The LED subsystem patches are not contained:
-> - the patch adding support for LED private triggers is already accepted
->   in Pavel Machek's for-next tree.
->   If you want to try this patch on top of net-next, please also apply
->   https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/co=
-mmit/?h=3Dfor-next&id=3D93690cdf3060c61dfce813121d0bfc055e7fa30d
-> - the other led-trigger patch is not needed in this version of the RFC
->=20
-> The main difference from v1 is that only one trigger, named
-> "hw-control", is added to the /sys/class/leds/<LED>/trigger file.
->=20
-> When this trigger is activated, another file called "hw_control" is
-> created in the /sys/class/leds/<LED>/ directory. This file lists
-> available HW control modes for this LED in the same way the trigger
-> file does for triggers.
->=20
-> Example:
->=20
->   # cd /sys/class/leds/eth0\:green\:link/
->   # cat trigger
->   [none] hw-control timer oneshot heartbeat ...
->   # echo hw-control >trigger
+Hi!
 
-Make this "hw-phy-mode" or something. hw-control is a bit too generic.
-
->   # cat trigger
->   none [hw-control] timer oneshot heartbeat ...
->   # cat hw_control
->   link/nolink link/act/nolink 1000/100/10/nolink act/noact
->   blink-act/noact transmit/notransmit copperlink/else [1000/else]
->   force-hi-z force-blink
->   # echo 1000/100/10/nolink >hw_control
->   # cat hw_control
->   link/nolink link/act/nolink [1000/100/10/nolink] act/noact
->   blink-act/noact transmit/notransmit copperlink/else 1000/else
->   force-hi-z force-blink
->=20
-> The benefit here is that only one trigger is registered via LED API.
-> I guess there are other PHY drivers which too support HW controlled
-> blinking modes. So of this way of controlling PHY LED HW controlled
-> modes is accepted, the code creating the hw-control trigger and
-> hw_control file should be made into library code so that it can be
-> reused.
->=20
-> What do you think?
-
-So.. you have 10 of them right now. I guess both hw_control and making
-it into the trigger directly is acceptable here.
-
-In future, would you expect having software "1000/100/10/nolink"
-triggers I could activate on my scrollock LED (or on GPIO controlled
-LEDs) to indicate network activity?
+Here's a bit of todos. I'm thinking about putting in into the tree as
+drivers/leds/TODO. Comments? Someone willing to help?
 
 Best regards,
-									Pavel
+								Pavel
+
+-*- org -*-
+
+* Review atomicity requirements in LED subsystem
+
+Calls that may and that may not block are mixed in same structure, and
+semantics is sometimes non-intuitive. (For example blink callback may
+not sleep.) Review the requirements for any bugs and document them
+clearly.
+
+* LED names are still a mess
+
+No two LEDs have same name, so the names are probably unusable for the
+userland. Nudge authors into creating common LED names for common
+functionality.
+
+? Perhaps check for known LED names during boot, and warn if there are
+LEDs not on the list?
+
+* Split drivers into subdirectories
+
+The number of drivers is getting big, and driver for on/off LED on a
+i/o port is really quite different from camera flash LED, which is
+really different from driver for RGB color LED that can run its own
+microcode. Split the drivers somehow.
+
+* Figure out what to do with RGB leds
+
+Multicolor does not really know about LED color. In particular,
+there's no way to make LED "white".
+
+RGB LEDs are quite common, and it would be good to be able to turn LED
+white and to turn it into any arbitrary color. It is essential that
+userspace is able to set arbitrary colors, and it might be good to
+have that ability from kernel, too... to allow full-color triggers.
+
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---pj7n3lfazigoupyj
+--iwpish57cw2ikszx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXxq37QAKCRAw5/Bqldv6
-8s8VAKCscET8lo4WWmkdRQg79/ZmaIn60wCgjFAt0j1QgaN7Erm+//4upTRKchY=
-=k67K
+iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXxq4ngAKCRAw5/Bqldv6
+8m+6AJ4xguNsi+XVKciX89XDZR714EaWOgCeNVAGPtj+1rO64kHMQj6MnXfpfDE=
+=SgCN
 -----END PGP SIGNATURE-----
 
---pj7n3lfazigoupyj--
+--iwpish57cw2ikszx--
