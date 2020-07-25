@@ -2,80 +2,139 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A410522D841
-	for <lists+linux-leds@lfdr.de>; Sat, 25 Jul 2020 16:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC22722D84A
+	for <lists+linux-leds@lfdr.de>; Sat, 25 Jul 2020 17:04:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727036AbgGYO4K (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 25 Jul 2020 10:56:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48700 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726567AbgGYO4K (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 25 Jul 2020 10:56:10 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1C79C08C5C0
-        for <linux-leds@vger.kernel.org>; Sat, 25 Jul 2020 07:56:09 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id g11so1031568ejr.0
-        for <linux-leds@vger.kernel.org>; Sat, 25 Jul 2020 07:56:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
-        bh=Z3BO379AIIOQgwO3FCcZpz1irg2T698dYZqqZ6uG+R4=;
-        b=tLdQphfJzsVs9dJ2Glsq2n5VdjG1lRATm6bxyUBb27Dch67O62baUNJo/untsiHJSZ
-         BPpQPAVJqkp+glVjPi5umUBc9fbT6Pj2lrotfhMrcPMR9NAlf1npGa/vRjGlKxriVrYT
-         GACmDPnCqmoh6O346YthLBMpOyqs2cW8g+7aFpDigBBkygHDwrTBRleB+Jrnd3YrtprR
-         drf7qCqYbQf+8CmIZDjFejZwfeSrwnMKwMfRQqvoh4yn3J9mD7dDfqhlDMNekD7RuGeI
-         q+pRM6LUaQQsYg9neVCqiCbwS9ifDndBqX497Npz6hgW9oNHCRKjiyKoFyV8RdcVPACp
-         v5Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:cc;
-        bh=Z3BO379AIIOQgwO3FCcZpz1irg2T698dYZqqZ6uG+R4=;
-        b=Wb21A7lDUWazHbclfOzqWRxs1rdMpR+LmqYjT+tyKCa3d5rlCiDw8CDyq7uALyyAe4
-         8OeBQffD3jjnsElYEFtifgL8CPNDO89nX/+Jm6a01EwOKMI32MxAwCE0de0up1vaqWZy
-         8cd22P8b16qxnIjj0dRS0GtzJpJl0mGUPxgatIb8dCCYNBe3KJrbjCEDXKYKkC06eEG3
-         c0scFQmXbSig1rXo/f724hTkL+Ape2wGKH66X7RP4wUxUXPo0RNlNuLxGSNru6XcJ3k4
-         sZGeZGasy1fmxwDxm4vgkMaCKFjgcDz6syrvD6Fca2uXEGMsqQJlXOxeJ9ZitfLutpF4
-         BiwA==
-X-Gm-Message-State: AOAM5306CUka/pEzJhP9VnBCV9YMIotmdFrd04MFFf7vYJnGqMu854f3
-        QLV1xv0ktGBnRiOiFNRIzCH4S2REgvSLoeyDulM=
-X-Received: by 2002:a17:906:b787:: with SMTP id dt7mt11099291ejb.320.1595688968572;
- Sat, 25 Jul 2020 07:56:08 -0700 (PDT)
+        id S1726652AbgGYPEG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 25 Jul 2020 11:04:06 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:55192 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726567AbgGYPEF (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 25 Jul 2020 11:04:05 -0400
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1jzLiA-006oxX-TN; Sat, 25 Jul 2020 17:03:42 +0200
+Date:   Sat, 25 Jul 2020 17:03:42 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Marek Behun <marek.behun@nic.cz>
+Cc:     Pavel Machek <pavel@ucw.cz>, netdev@vger.kernel.org,
+        linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
+        Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC leds + net-next v3 2/2] net: phy: marvell: add
+ support for PHY LEDs via LED class
+Message-ID: <20200725150342.GG1472201@lunn.ch>
+References: <20200724164603.29148-1-marek.behun@nic.cz>
+ <20200724164603.29148-3-marek.behun@nic.cz>
+ <20200725092339.GB29492@amd>
+ <20200725113450.0d4c936b@nic.cz>
 MIME-Version: 1.0
-References: <20200724213659.273599-1-martin.botka1@gmail.com> <20200724213659.273599-3-martin.botka1@gmail.com>
-In-Reply-To: <20200724213659.273599-3-martin.botka1@gmail.com>
-From:   Martin Botka <martin.botka1@gmail.com>
-Date:   Sat, 25 Jul 2020 16:55:33 +0200
-Message-ID: <CADQ2G_G7N_iH523urk3wOieZ0bT7O88Vnnbq6r_h9A4GLXQ5Nw@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/6] pwm: core: Add option to config PWM duty/period
- with u64 data length
-Cc:     Fenglin Wu <fenglinw@codeaurora.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200725113450.0d4c936b@nic.cz>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello,
+On Sat, Jul 25, 2020 at 11:34:50AM +0200, Marek Behun wrote:
+> On Sat, 25 Jul 2020 11:23:39 +0200
+> Pavel Machek <pavel@ucw.cz> wrote:
+> 
+> > Hi!
+> > 
+> > > +static const struct marvell_led_mode_info marvell_led_mode_info[] = {
+> > > +	{ "link",			{ 0x0,  -1, 0x0,  -1,  -1,  -1, }, 0 },
+> > > +	{ "link/act",			{ 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, }, 0 },
+> > > +	{ "1Gbps/100Mbps/10Mbps",	{ 0x2,  -1,  -1,  -1,  -1,  -1, }, 0 },  
+> > 
+> > is this "1Gbps-10Mbps"?
+> 
+> Most of these modes mean "ON on event", eg
+>   "link" means ON when link up, else OFF. "
+>   "tx" means ON on when transmitting, else OFF
+>   "act" means ON when activity, else OFF
+>   "copper" means ON when copper link up, else OFF
+> but some are blinking modes
+>   "blink-act" means BLINK when activity, else OFF
+> 
+> Some modes can do ON and BLINK, these have one '/' in their name
+>   "link/act" means ON when link up, BLINK on activity, else OFF
+>   "link/rx" means ON when link up, BLINK on receive, else OFF
+> 
+> there is one mode, "1Gbps/100Mbps/10Mbps", which behaves differently:
+>   blinks 3 times when linked on 1Gbps
+>   blinks 2 times when linked on 100Mbps
+>   blinks 1 time when linked on 10Mbps
+> (and this blinking is repeating, ie blinks 3 times, pause, blinks 3 times,
+> pause)
+> 
+> Some modes are disjunctive:
+>   "100Mbps-fiber" means ON when linked on 100Mbps or via fiber, else OFF
 
-As can be seen this divides llu by llu in few warnings and error.
-At the time of sending i didn't realize it but this fails on 32 bit
-architectures.
+Hi Marek
 
-So i would like to ask how would you like this fixed ?
-Using macro or some other way ?
+I would be good to added this to the sysfs documentation.
 
-Thank you.
+> > > +	{ "act",			{ 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, }, 0 },
+> > > +	{ "blink-act",			{ 0x4, 0x4, 0x4, 0x4, 0x4, 0x4, }, 0 },
+> > > +	{ "tx",				{ 0x5,  -1, 0x5,  -1, 0x5, 0x5, }, 0 },
+> > > +	{ "tx",				{  -1,  -1,  -1, 0x5,  -1,  -1, }, L3V5_TRANS },
+> > > +	{ "rx",				{  -1,  -1,  -1,  -1, 0x0, 0x0, }, 0 },
+> > > +	{ "rx",				{  -1, 0x0,  -1,  -1,  -1,  -1, }, L1V0_RECV },
 
-Best regards,
-Martin
+To be consistent these four probably should have the blink- prefix. Or
+it could be /tx, /rx ?
+
+> > > +	{ "copper",			{ 0x6,  -1,  -1,  -1,  -1,  -1, }, 0 },
+> > > +	{ "copper",			{  -1, 0x0,  -1,  -1,  -1,  -1, }, L1V0_COPPER },
+> > > +	{ "1Gbps",			{ 0x7,  -1,  -1,  -1,  -1,  -1, }, 0 },
+> > > +	{ "link/rx",			{  -1, 0x2,  -1, 0x2, 0x2, 0x2, }, 0 },
+> > > +	{ "100Mbps-fiber",		{  -1, 0x5,  -1,  -1,  -1,  -1, }, L1V5_100_FIBER },
+> > > +	{ "100Mbps-10Mbps",		{  -1, 0x5,  -1,  -1,  -1,  -1, }, L1V5_100_10 },
+> > > +	{ "1Gbps-100Mbps",		{  -1, 0x6,  -1,  -1,  -1,  -1, }, 0 },
+> > > +	{ "1Gbps-10Mbps",		{  -1,  -1, 0x6, 0x6,  -1,  -1, }, 0 },
+> > > +	{ "100Mbps",			{  -1, 0x7,  -1,  -1,  -1,  -1, }, 0 },
+> > > +	{ "10Mbps",			{  -1,  -1, 0x7,  -1,  -1,  -1, }, 0 },
+> > > +	{ "fiber",			{  -1,  -1,  -1, 0x0,  -1,  -1, }, L3V0_FIBER },
+> > > +	{ "fiber",			{  -1,  -1,  -1, 0x7,  -1,  -1, }, L3V7_FIBER },
+> > > +	{ "FullDuplex",			{  -1,  -1,  -1, 0x7,  -1,  -1, }, L3V7_DUPLEX },
+> > > +	{ "FullDuplex",			{  -1,  -1,  -1,  -1, 0x6, 0x6, }, 0 },
+> > > +	{ "FullDuplex/collision",	{  -1,  -1,  -1,  -1, 0x7, 0x7, }, 0 },
+> > > +	{ "FullDuplex/collision",	{  -1,  -1, 0x2,  -1,  -1,  -1, }, L2V2_DUPLEX },
+> > > +	{ "ptp",			{  -1,  -1, 0x2,  -1,  -1,  -1, }, L2V2_PTP },
+> > > +	{ "init",			{  -1,  -1, 0x2,  -1,  -1,  -1, }, L2V2_INIT },
+> > > +	{ "los",			{  -1,  -1,  -1, 0x0,  -1,  -1, }, L3V0_LOS },
+> > > +	{ "hi-z",			{ 0xa, 0xa, 0xa, 0xa, 0xa, 0xa, }, 0 },
+> > > +	{ "blink",			{ 0xb, 0xb, 0xb, 0xb, 0xb, 0xb, }, 0 },
+> > > +};  
+> > 
+> > Certainly more documentation will be required here, what "ptp" setting
+> > does, for example, is not very obvious to me.
+> 
+> "ptp" means it will light up when the PTP functionality is enabled on
+> the PHY and a PTP packet is received.
+
+Does hi-z mean off? In the implementation i did, i did not list off
+and on as triggers. I instead used them for untriggered
+brightness. That allowed the software triggers to work, so i had the
+PHY blinking the heartbeat etc. But i had to make it optional, since a
+quick survey of datasheets suggested not all PHYs support simple
+on/off control.
+
+Something beyond the scope of this patchset is implementing etHool -p
+
+       -p --identify
+              Initiates adapter-specific action intended to enable an operator to
+	      easily identify the adapter by sight. Typically this involves  blink‐
+              ing one or more LEDs on the specific network port.
+
+If we have software controlled on/off, then a software trigger seems
+like i good way to do this.
+
+     Andrew
