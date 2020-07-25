@@ -2,73 +2,109 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5B6F22D1FB
-	for <lists+linux-leds@lfdr.de>; Sat, 25 Jul 2020 00:49:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69DF822D66A
+	for <lists+linux-leds@lfdr.de>; Sat, 25 Jul 2020 11:21:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726512AbgGXWte (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 24 Jul 2020 18:49:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40944 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726274AbgGXWte (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 24 Jul 2020 18:49:34 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BBE5C0619D3;
-        Fri, 24 Jul 2020 15:49:34 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id f12so11453592eja.9;
-        Fri, 24 Jul 2020 15:49:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ruy2+B9ZZKH4K6WjRKkPrWIIYd3py0bPMSuod75K2xg=;
-        b=OVdocFiJ3RunCCxhcQyhF1JxaPYTN52ibTYsTQVyKg7pDxB7rspwF+lt9dc70gDacK
-         w+caEqA5XVQ87C5Fx8cyphtZgDZggqme7c1YK9RzCt611B5PzZV7fbNDf1E+w84ejSsD
-         /RUD0YHYS88ecsYQPhBDQmFKMeL3C6hWxSbA4Kz5azHoZ+ivtS2UC6gf77/HaH4OpnB8
-         4xRtpv1IcbvVHWiRSRqsXr5zyesuEgR2MPJonelH++tQuOxsN4BlJJ/Pcz4Mn1SgL5iE
-         0BH2quN/DfL97zTvwiZRttoIGfFMiJGjCIaVclfkv4nIqgE79Hmey5k9JKfbgjKtmeCX
-         ledA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ruy2+B9ZZKH4K6WjRKkPrWIIYd3py0bPMSuod75K2xg=;
-        b=s03POVoRI0n/DlH4xB2uC2Abp3AUgJbiLF8vLUJCOrWJ4whz+6JMyrQBikR5Wip9qx
-         p1qenlZVjbZlJ8fS3OzuBo8PsNxlEbUYO/qDGGAFMmaurcEdhFN+VDuZlK5c9vhZ/A0z
-         y70ZK3+FXYlulGsdu54Vb6ivLm91xm8P+cbpBg8BvQ6Ciyub0ST2COCkUPbc+XeF/Tw7
-         OIv5Ge0xBJyFAxRzMMwrAEm/51L7BWlmBuZn0O50+Je4WyIbU0L2mxFqmqzx62t7HHA5
-         uSZtv8iD0eOJFvhY3rcZcwHVUJqfMJk1S4YKsGMQGHubyTLtzgM9CbTleinj2K/qb2+Y
-         98Tw==
-X-Gm-Message-State: AOAM533so+n8bK31ONviDn8HVadxo2jMGOeG/WG2EAJ15Eiw04qKZgYZ
-        3FTGMB6LoaNCuYkzgNLHEMAXouGARbGsXre5h3s=
-X-Google-Smtp-Source: ABdhPJy5TKAFOGKYV5rdBfG7ETfl4Br479kihtuWYEdoj1AtvocztuLNqhM2LdQk5RdTaNnDHorCfmenJcZMA2qBVTA=
-X-Received: by 2002:a17:906:b787:: with SMTP id dt7mr10649901ejb.320.1595630972919;
- Fri, 24 Jul 2020 15:49:32 -0700 (PDT)
+        id S1726753AbgGYJV0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 25 Jul 2020 05:21:26 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:39636 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726663AbgGYJV0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 25 Jul 2020 05:21:26 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id C608C1C0BD6; Sat, 25 Jul 2020 11:21:24 +0200 (CEST)
+Date:   Sat, 25 Jul 2020 11:21:24 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
+Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        jacek.anaszewski@gmail.com, Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC leds + net-next v3 1/2] net: phy: add API for LEDs
+ controlled by PHY HW
+Message-ID: <20200725092124.GA29492@amd>
+References: <20200724164603.29148-1-marek.behun@nic.cz>
+ <20200724164603.29148-2-marek.behun@nic.cz>
 MIME-Version: 1.0
-References: <20200724213659.273599-1-martin.botka1@gmail.com>
- <20200724220516.GA21965@amd> <CADQ2G_Fvyyh6-foswczkQgX54rH6oH-m8xyS6Qp2yS6D5L4Q9A@mail.gmail.com>
- <20200724223252.GC21965@amd>
-In-Reply-To: <20200724223252.GC21965@amd>
-From:   Martin Botka <martin.botka1@gmail.com>
-Date:   Sat, 25 Jul 2020 00:48:58 +0200
-Message-ID: <CADQ2G_FD6CuexZ2NBWnNnh_rLRDtZj4_Jzwt673CDB75z-6ZXg@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/6] Add QCOM pwm-lpg and tri-led drivers
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
+Content-Disposition: inline
+In-Reply-To: <20200724164603.29148-2-marek.behun@nic.cz>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> First copy was ok. Second had broken formatting. Both were plaintext
-> AFAICT.
 
-It's just that gmail was telling me that it didn't send it to some of
-the email addresses because i forgot to check the "Use plain text" in
-Gmail.
+--SUOF0GtieIMvvwua
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> Many PHYs support various HW control modes for LEDs connected directly
+> to them.
+>=20
+> This code adds a new private LED trigger called phydev-hw-mode. When
+> this trigger is enabled for a LED, the various HW control modes which
+> the PHY supports for given LED can be get/set via hw_mode sysfs file.
+>=20
+> A PHY driver wishing to utilize this API needs to register the LEDs on
+> its own and set the .trigger_type member of LED classdev to
+> &phy_hw_led_trig_type. It also needs to implement the methods
+> .led_iter_hw_mode, .led_set_hw_mode and .led_get_hw_mode in struct
+> phydev.
+>=20
+> Signed-off-by: Marek Beh=FAn <marek.behun@nic.cz>
+
+Nothing too wrong.
+
+New sysfs file will require documentation.
+
+Plus I wonder: should we have single hw_mode file? It seems many
+different "bits" fit inside. Would it be possible to split it further,
+and have bits saying:
+
+"I want the LED to be on if link is 10Mbps".
+"I want the LED to be on if link is 100Mbps".
+"I want the LED to be on if link is 1000Mbps".
+"I want the LED to blink on tx".
+"I want the LED to blink on rx".
+
+?
+
++       { "1Gbps/100Mbps/10Mbps",       { 0x2,  -1,  -1,  -1,  -1,
++       { "1Gbps",                      { 0x7,  -1,  -1,  -1,  -1,
++       { "100Mbps-fiber",              {  -1, 0x5,  -1,  -1,  -1,
++       { "100Mbps-10Mbps",             {  -1, 0x5,  -1,  -1,  -1,
++       { "1Gbps-100Mbps",              {  -1, 0x6,  -1,  -1,  -1,
++       { "1Gbps-10Mbps",               {  -1,  -1, 0x6, 0x6,  -1,
++       { "100Mbps",                    {  -1, 0x7,  -1,  -1,  -1,
++       { "10Mbps",                     {  -1,  -1, 0x7,  -1,  -1,
+
+Best regards,
+									Pavel
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--SUOF0GtieIMvvwua
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl8b+ZQACgkQMOfwapXb+vLd1wCgkhr97O6BTEL5wiuKLQeoZNvE
+js4AmwavbkmSO264vnR6adMUl7+kGKuq
+=j2nQ
+-----END PGP SIGNATURE-----
+
+--SUOF0GtieIMvvwua--
