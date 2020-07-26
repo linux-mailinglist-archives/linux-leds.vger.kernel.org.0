@@ -2,131 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 395F222D9EC
-	for <lists+linux-leds@lfdr.de>; Sat, 25 Jul 2020 22:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39DB522DD75
+	for <lists+linux-leds@lfdr.de>; Sun, 26 Jul 2020 11:04:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727994AbgGYU6o (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 25 Jul 2020 16:58:44 -0400
-Received: from mail.nic.cz ([217.31.204.67]:40542 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727818AbgGYU6o (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 25 Jul 2020 16:58:44 -0400
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id 77C9C140713;
-        Sat, 25 Jul 2020 22:58:41 +0200 (CEST)
-Date:   Sat, 25 Jul 2020 22:58:40 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, jacek.anaszewski@gmail.com,
-        Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?B?T25kxZllag==?= Jirman <megous@megous.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC leds + net-next v3 2/2] net: phy: marvell: add
- support for PHY LEDs via LED class
-Message-ID: <20200725225840.4202dcac@nic.cz>
-In-Reply-To: <20200725184846.GO1472201@lunn.ch>
-References: <20200724164603.29148-1-marek.behun@nic.cz>
-        <20200724164603.29148-3-marek.behun@nic.cz>
-        <20200725172318.GK1472201@lunn.ch>
-        <20200725200224.3f03c041@nic.cz>
-        <20200725184846.GO1472201@lunn.ch>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726072AbgGZJEf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 26 Jul 2020 05:04:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48552 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725848AbgGZJEf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 26 Jul 2020 05:04:35 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF266C0619D2;
+        Sun, 26 Jul 2020 02:04:34 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id k27so7751796pgm.2;
+        Sun, 26 Jul 2020 02:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aHrlTd85XWK3pOyfmvZVnMsTMYRkRM8sEaTNqMrlEeE=;
+        b=EiWMvIYCNZgUKEDR7GpvZnnTJeeR7ZjPdWr8N1i8AoOH7JGkF8PT+QofBwapvlO8dv
+         6hnoUmoHjdjfRXtLJJCo+pHnYu3InarkFRdO/uDqc5c98Jdq07D8sG9/JqTRsGUoZ5s8
+         2PFEIfeDDU3b0y3FTYlKwL1x0ZEV+X0SD8mWE/KWYci1QlbCTRq0BIB5TmKqt08n7Qt4
+         QBubCt8GTHUwAkN1uza4fnADPYGc1pxnPmFDjPUFgLQjbW1ZlN0p2Gqw4zFoKZAVX7Fr
+         hT4dZwdYIiHkfyNEtN4au4s1LpNUsOwQ5STEld5fyAfxxQdz8ze2Mce12kGxOJE3gQir
+         vO1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aHrlTd85XWK3pOyfmvZVnMsTMYRkRM8sEaTNqMrlEeE=;
+        b=Yf3ItFlPJoSPw0KlwbMjBFOwfzH8O5DIwkKPOImVUP06yB45umGuRx+SvuhwRxJ02X
+         KlfTIbEc/jzROu4UbCM8xjnnsQF12/azsY0OxY8fnpiBEnYMjCQmMTsDcznIGDQblUQU
+         YXgn0/eHCJhAtnnVed8tU35A02pHiKZDGEhcooU0UYfbnYHw1ZnAlxxTcHRopiOcbkIx
+         rSKbpWYiqDrgLbknRQGkejtTQoG+S+E81XOdSQb0/ELczM/CURdsrGvvLvvrg0VTtAq4
+         HKrJ93+3PZEbdXq23Zt7/yy8b7tbYSj8nqFqMtXgVTjkZgGqAaweD8L7bMjkkee44akl
+         2lGQ==
+X-Gm-Message-State: AOAM532cmVqYPg/kLeKb4M5urVi6MCASpDwyZdTzCOKDN0cLhUOemUW8
+        UUDPX9qojDOgsJv/uQe6zLLQYFZ1dAM4lXUMzGpY8axa5eY=
+X-Google-Smtp-Source: ABdhPJx44ZrFZhNwXvgVe5Vd2Tea/ss8TkWcGSr7Z4Vl0BaVUKWkQCX6jehzcWJuvlQufdTtdrXtQWmbeKdaJx7L/2A=
+X-Received: by 2002:aa7:8bcb:: with SMTP id s11mr15288366pfd.170.1595754274348;
+ Sun, 26 Jul 2020 02:04:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
-        USER_IN_WHITELIST shortcircuit=ham autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+References: <20200724213659.273599-1-martin.botka1@gmail.com> <20200724213659.273599-3-martin.botka1@gmail.com>
+In-Reply-To: <20200724213659.273599-3-martin.botka1@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 26 Jul 2020 12:04:18 +0300
+Message-ID: <CAHp75VdJ14p+_+XqxrgRrjXF7m6L4nGr5vB03NTM=0xjgw4c7Q@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/6] pwm: core: Add option to config PWM duty/period
+ with u64 data length
+To:     Martin Botka <martin.botka1@gmail.com>
+Cc:     Fenglin Wu <fenglinw@codeaurora.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-pwm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 25 Jul 2020 20:48:46 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
+On Sat, Jul 25, 2020 at 12:40 AM Martin Botka <martin.botka1@gmail.com> wrote:
+>
+> From: Fenglin Wu <fenglinw@codeaurora.org>
+>
+> Currently, PWM core driver provides interfaces for configuring PWM
+> period and duty length in nanoseconds with an integer data type, so
+> the max period can be only set to ~2.147 seconds. Add interfaces which
+> can set PWM period and duty with u64 data type to remove this
+> limitation.
 
-> > > > +#if 0
-> > > > +	/* LED_COLOR_ID_MULTI is not yet merged in Linus' tree */
-> > > > +	/* TODO: Support DUAL MODE */
-> > > > +	if (color == LED_COLOR_ID_MULTI) {
-> > > > +		phydev_warn(phydev, "node %pOF: This driver does not yet support multicolor LEDs\n",
-> > > > +			    np);
-> > > > +		return -ENOTSUPP;
-> > > > +	}
-> > > > +#endif    
-> > > 
-> > > Code getting committed should not be using #if 0. Is the needed code
-> > > in the LED tree? Do we want to consider a stable branch of the LED
-> > > tree which DaveM can pull into net-next? Or do you want to wait until
-> > > the next merge cycle?  
-> > 
-> > That's why this is RFC. But yes, I would like to have this merged for
-> > 5.9, so maybe we should ask Dave. Is this common? Do we also need to
-> > tell Pavel or how does this work?  
-> 
-> The Pavel needs to create a stable branch. DaveM then merges that
-> branch into net-next. Your patches can then be merged. When Linus
-> pulls the two branches, led and net-next, git sees the exact same
-> patches twice, and simply drops them from the second pull request.
-> 
-> So you need to ask Pavel and DaveM if they are willing to do this.
-> 
-> > > > +	init_data.fwnode = &np->fwnode;
-> > > > +	init_data.devname_mandatory = true;
-> > > > +	init_data.devicename = phydev->attached_dev ? netdev_name(phydev->attached_dev) : "";    
-> > > 
-> > > This we need to think about. Are you running this on a system with
-> > > systemd? Does the interface have a name like enp2s0? Does the LED get
-> > > registered before or after systemd renames it from eth0 to enp2s0?  
-> > 
-> > Yes, well, this should be discussed also with LED guys. I don't suppose
-> > that renaming the sysfs symlink on interface rename event is
-> > appropriate, but who knows?
-> > The interfaces are platform specific, on mvebu. They aren't connected
-> > via PCI, so their names remain eth0, eth1 ...  
-> 
-> But the Marvell driver is used with more than just mvebu. And we need
-> this generic. There are USB Ethernet dongles which used phylib. They
-> will get their interfaces renamed to include the MAC address, etc.
-> 
-> It is possible to hook the notifier so we know when an interface is
-> renamed. We can then either destroy and re-create the LED, or if the
-> LED framework allows it, rename it.
-> 
-> Or we avoid interface names all together and stick with the phy name,
-> which is stable. To make it more user friendly, you could create
-> additional symlinks. We already have /sys/class/net/ethX/phydev
-> linking into sys/bus/mdio_bus/devices/.. .  We could add
-> /sys/class/net/ethX/ledY linking into /sys/class/led/...
-> 
-> It would also be possible to teach ethtool about LEDs, so that it
-> follows the symbolic links, and manipulates the LED class files.
+And all divisions go mad on 32-bit CPU, right?
+Please, if you thought about it carefully, update a commit message to
+clarify that.
 
-I will propose rename of the LED name on interface rename event.
-
-> > I also want this code to be generalized somehow so that it can be
-> > reused. The problem is that I want to have support for DUAL mode, which
-> > is Marvell specific, and a DUAL LED needs to be defined in device tree.  
-> 
-> It sounds like you first need to teach the LED core about dual LEDs
-> and triggers which affect two LEDs..
-
-This is already done. DUAL LEDs will be handled by the multicolor LED
-framework which also is already in Pavel's tree. The problem is that if
-we make PHY LEDs OF parsing code generic in phy-core, it will also need
-to be robust enough to take care of DUAL LEDs OF parsing. That is
-something which is Marvell specific. It is possible that some other
-vendor also manufactures PHYs with something like that, but the LEDs
-on other PHYs may have different maximum value of brightness, or
-additional configurations which will need to be in device tree...
-
-But I will try to make it generic and then we will see where it goes...
-
-Marek
-
+-- 
+With Best Regards,
+Andy Shevchenko
