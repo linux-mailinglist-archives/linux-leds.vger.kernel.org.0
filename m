@@ -2,103 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5811C22E7C9
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Jul 2020 10:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D23822E829
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Jul 2020 10:45:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726269AbgG0IeQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Jul 2020 04:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbgG0IeP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Jul 2020 04:34:15 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D53C061794
-        for <linux-leds@vger.kernel.org>; Mon, 27 Jul 2020 01:34:15 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1jzyaI-0000ik-4Y; Mon, 27 Jul 2020 10:34:10 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1jzyaG-0001dX-V7; Mon, 27 Jul 2020 10:34:08 +0200
-Date:   Mon, 27 Jul 2020 10:34:08 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Martin Botka <martin.botka1@gmail.com>
-Cc:     Fenglin Wu <fenglinw@codeaurora.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-pwm@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH RFC 2/6] pwm: core: Add option to config PWM duty/period
- with u64 data length
-Message-ID: <20200727083408.jqm72hty62w7kxdc@pengutronix.de>
-References: <20200724213659.273599-1-martin.botka1@gmail.com>
- <20200724213659.273599-3-martin.botka1@gmail.com>
- <CAHp75VdJ14p+_+XqxrgRrjXF7m6L4nGr5vB03NTM=0xjgw4c7Q@mail.gmail.com>
- <CADQ2G_HkiAZx8OhfQ_jeizveMaB-QN9dfN6Tcwfk9XuF97rmOg@mail.gmail.com>
- <CADQ2G_HYTE6cd=PM2JzCTadkPe2DDb8dxObPdPJtz1626ktE9Q@mail.gmail.com>
- <20200727075243.cjkxblsivgnn6jsk@pengutronix.de>
- <CADQ2G_GcYh13CGbApCqvi3xcHU-Ur2ej98VccKFOUSOZPrQZnQ@mail.gmail.com>
+        id S1726151AbgG0IpE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Jul 2020 04:45:04 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:35272 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726228AbgG0IpD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Jul 2020 04:45:03 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id CC3631C0BDE; Mon, 27 Jul 2020 10:45:00 +0200 (CEST)
+Date:   Mon, 27 Jul 2020 10:45:00 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     marek.behun@nic.cz, jacek.anaszewski@gmail.com, dmurphy@ti.com,
+        linux-leds@vger.kernel.org
+Subject: We have multicolor, but should we turn it into RGB?
+Message-ID: <20200727084500.GA15237@amd>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="lvdzfpf3t7glasbo"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
 Content-Disposition: inline
-In-Reply-To: <CADQ2G_GcYh13CGbApCqvi3xcHU-Ur2ej98VccKFOUSOZPrQZnQ@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---lvdzfpf3t7glasbo
-Content-Type: text/plain; charset=iso-8859-1
+--Dxnq1zWXvFF0Q93v
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hello Martin,
+Hi!
 
-On Mon, Jul 27, 2020 at 09:58:01AM +0200, Martin Botka wrote:
-> > I hit "reply-to-all" and the mail only was sent to you because you wrote
-> > to only me.
->=20
-> Yes my reply was only to you. But your original message was sent only to =
-me too.
-> So when i clicked reply to all it was only you as you sent it only to me.
+Multicolor is a bit too abstract. Yes, we can have
+Green-Magenta-Ultraviolet LED, but so far all the LEDs we support are
+RGB, and not even RGB-White or RGB-Yellow variants emerged.
 
-Oh indeed. Bummer, and I was so sure to always reply to all :-|
+Multicolor is not a good fit for RGB LED. It does not really know
+about LED color.  In particular, there's no way to make LED "white".
 
-Best regards
-Uwe
+Userspace is interested in knowing "this LED can produce arbitrary
+color", which not all multicolor LEDs can.
 
+	Proposal: let's add "rgb" to led_colors in
+	drivers/leds/led-core.c, add corresponding device tree
+	defines, and use that, instead of multicolor for RGB LEDs.
+
+	We really need to do that now; "white" stuff can wait.
+
+RGB LEDs are quite common, and it would be good to be able to turn LED
+white and to turn it into any arbitrary color. It is essential that
+userspace is able to set arbitrary colors, and it might be good to
+have that ability from kernel, too... to allow full-color triggers.
+
+Best regads,
+									Pavel
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
---lvdzfpf3t7glasbo
+--Dxnq1zWXvFF0Q93v
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl8ekX0ACgkQwfwUeK3K
-7AnF8Af/auMYk0XSqHjSdH6o5BpdaRw4k2nwyrLlpPbA1EAo1doDPo+5qggDDEEI
-Hhasvj30vEfKAP5PHmRcwHSacAYoUrLgzL9vrO3VLDrSfq1+xPoR2oZNyvEwyNjY
-ORMuV/aXEqcOgjfqciLl/qjMouS5RFyMryESdDULaQTPtIPNJGtFAL63cWibRVB2
-jh8JDB9F/rijp8QsmEDDqEMVSyjbLoGWHdQJvbbd3N9Xy8Rke6Iob+AUXulnFzaC
-q1sOJT3ypUjDhMhvxNBUSMVto8pKUUPZfuJosWBWDpWmAA1Bqi93FvTNyAGKeo4E
-D7Ne9+lzuKLmtH6bwgskg/LCNtlsRA==
-=VGmX
+iEYEARECAAYFAl8elAwACgkQMOfwapXb+vJUuwCggeiJPOu/l3+ayxLi6DY50zXq
+6LQAnRy20Y0iz9FiAfY/ZaZ5qD5xWRop
+=UarI
 -----END PGP SIGNATURE-----
 
---lvdzfpf3t7glasbo--
+--Dxnq1zWXvFF0Q93v--
