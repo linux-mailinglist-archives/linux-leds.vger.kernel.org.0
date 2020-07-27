@@ -2,59 +2,29 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B542922E69E
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Jul 2020 09:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3318322E6F1
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Jul 2020 09:52:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726444AbgG0HdK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Jul 2020 03:33:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
+        id S1726270AbgG0Hwy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Jul 2020 03:52:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726116AbgG0HdK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Jul 2020 03:33:10 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DB74C0619D2;
-        Mon, 27 Jul 2020 00:33:10 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id c2so5517874edx.8;
-        Mon, 27 Jul 2020 00:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=95o2SL2yS+OJ42B7vx7vpE8aa2uvVeEjtGJk2w185hM=;
-        b=reT1y3UM0/eHiiOk8AjpyJEGO5IZw7wNJAYn9rDmVsKIMJPwGvujG9/JMiuIrosiZv
-         WyGZ4ADs5yhYnEBDvFEk+7Ve2c3jVQ4nuUKG1PsFfuKwcoBw7jS89lEQRLKj+wkF+f6K
-         YMo1wEaBR6SMBzWfnfSoOHmwSovsord7w9qtESgRyXIQoD/GJgOJor0fh+C+ncsdtd7f
-         ZAfZDHto385Fr1/D4UlfZj5S9Zgq9jg8ur/NISYj3PQizB4ILuL2NzIc743IXwduuUyj
-         LjGWhBnJ4OwUsAUhNyh3H5ZRgOc5YObSNQkjkzWfkzZwVdsKarf6IVET9AviCzhzBnf9
-         /hkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=95o2SL2yS+OJ42B7vx7vpE8aa2uvVeEjtGJk2w185hM=;
-        b=meqPkt9zEPYGrlxkx4svzRJZJd+zs3p1Rvnveri3rjDgPFRcrO1rUfYr5bOMqWlSfz
-         LwjvKtD09d3G1iOVCueSvB3uSoXeMtq6j9v9meBo074PY46SPXEU8n9j3VC3VpZXZdxr
-         TpbKEkJCMqwI9CWm4nSJWU7xD+zRr9Fg7Nvd7sC0y6pUp8R/3eCht+xfhP4fR0sXkId9
-         +3d5Fu6OsbVFyB2iBtIaSkn1kW+blejiZJgzl6XNGACMxH0sdDoMCBHsSsHqlp8mOTNs
-         37OroRoh9N69Cr/ttgC/sK0soILi3Zx+W0jdz9h8hdQdzditVqCNE0gN79oSInm8hp8y
-         HKXQ==
-X-Gm-Message-State: AOAM530YrittIk+mswE/gUoZTFhzQmRRAiuJp8FuXTVRim0edjV/DCM7
-        k4946zEAfIZ/kAwVLDXgGTIO2YBjjyVqI4NMej7qAoZN
-X-Google-Smtp-Source: ABdhPJyY4JZi0jBFS9XuIKOB3L/gBL5RfEZTypoj8YM0d14GZMRw8scieVd3NJU8rhon6bN52FrwzCZzwxF6z8BX+HY=
-X-Received: by 2002:a05:6402:d06:: with SMTP id eb6mr19513491edb.211.1595835188988;
- Mon, 27 Jul 2020 00:33:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200724213659.273599-1-martin.botka1@gmail.com>
- <20200724213659.273599-3-martin.botka1@gmail.com> <CAHp75VdJ14p+_+XqxrgRrjXF7m6L4nGr5vB03NTM=0xjgw4c7Q@mail.gmail.com>
- <CADQ2G_HkiAZx8OhfQ_jeizveMaB-QN9dfN6Tcwfk9XuF97rmOg@mail.gmail.com> <CADQ2G_HYTE6cd=PM2JzCTadkPe2DDb8dxObPdPJtz1626ktE9Q@mail.gmail.com>
-In-Reply-To: <CADQ2G_HYTE6cd=PM2JzCTadkPe2DDb8dxObPdPJtz1626ktE9Q@mail.gmail.com>
-From:   Martin Botka <martin.botka1@gmail.com>
-Date:   Mon, 27 Jul 2020 09:32:31 +0200
-Message-ID: <CADQ2G_HF+eBgNJVgFS4OP2FBOHvvPE6rkPz3vjSG7PZ3qm3igw@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/6] pwm: core: Add option to config PWM duty/period
- with u64 data length
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
+        with ESMTP id S1726211AbgG0Hwy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Jul 2020 03:52:54 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E71B8C0619D2
+        for <linux-leds@vger.kernel.org>; Mon, 27 Jul 2020 00:52:53 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1jzxwC-00040Z-QA; Mon, 27 Jul 2020 09:52:44 +0200
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1jzxwB-0008Oq-Im; Mon, 27 Jul 2020 09:52:43 +0200
+Date:   Mon, 27 Jul 2020 09:52:43 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Martin Botka <martin.botka1@gmail.com>
 Cc:     Fenglin Wu <fenglinw@codeaurora.org>,
         Konrad Dybcio <konradybcio@gmail.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -67,12 +37,88 @@ Cc:     Fenglin Wu <fenglinw@codeaurora.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-pwm@vger.kernel.org,
         Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH RFC 2/6] pwm: core: Add option to config PWM duty/period
+ with u64 data length
+Message-ID: <20200727075243.cjkxblsivgnn6jsk@pengutronix.de>
+References: <20200724213659.273599-1-martin.botka1@gmail.com>
+ <20200724213659.273599-3-martin.botka1@gmail.com>
+ <CAHp75VdJ14p+_+XqxrgRrjXF7m6L4nGr5vB03NTM=0xjgw4c7Q@mail.gmail.com>
+ <CADQ2G_HkiAZx8OhfQ_jeizveMaB-QN9dfN6Tcwfk9XuF97rmOg@mail.gmail.com>
+ <CADQ2G_HYTE6cd=PM2JzCTadkPe2DDb8dxObPdPJtz1626ktE9Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="mpvmemv5yw3hvfa3"
+Content-Disposition: inline
+In-Reply-To: <CADQ2G_HYTE6cd=PM2JzCTadkPe2DDb8dxObPdPJtz1626ktE9Q@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+
+--mpvmemv5yw3hvfa3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello Martin,
+
+On Mon, Jul 27, 2020 at 09:29:19AM +0200, Martin Botka wrote:
+> On Sat, Jul 25, 2020 at 09:12:23PM +0200, Martin Botka wrote:
+> >> > Note there is already a series that changes these values to u64. See
+> >> > a9d887dc1c60ed67f2271d66560cdcf864c4a578 in linux-next.
+> >>
+> >> Amazing. But isn't there the same issue with it as this one where this
+> >> would fail to build on 32 bit architecture?
+> >
+> > In theory all these cases are coped for. I didn't see any problems yet,
+> > so I still assume also the 32 bit archs are fine.
+>=20
+> OK then all is fine. I will drop the patch in V2.
+>=20
+> Also Uwe i just realized that you sent the original message and also
+> this reply only to me and not to anyone else.
 > Could you please send the messages also to everyone else ?
 
-Next time of course.
+I hit "reply-to-all" and the mail only was sent to you because you wrote
+to only me.
+
+Also threading is somehow strange because your reply to my mail (with
+
+	Message-Id: 20200727070411.ovkuwm76vuw3heo7@pengutronix.de
+
+) has
+
+	In-Reply-To: <CADQ2G_HkiAZx8OhfQ_jeizveMaB-QN9dfN6Tcwfk9XuF97rmOg@mail.gma=
+il.com>
+
+=2E So I assume all the strange things happened on your side until proved
+otherwise. :-)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--mpvmemv5yw3hvfa3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl8eh8cACgkQwfwUeK3K
+7AmqRgf+LF2ACIQRbyfDBMtCAu02MQT3NxAZnOjqpQDAAHorTjQai+jQc33k+CZV
+KZR0cLROaFcfgDQnBtDglqbfboTEOlIhxsSMRtNpE5tiDVhORIVgvw0xr1UNR9A5
+UZIPcfC3P6CuGZAwOJOLQsmCKwLAu+FZNrQA0pLRrhadwkh9UEff09J+quoycHCX
+2PEmSoOfux9TG0GO8OTYC6tLI6BTkcyM/6NaJO2RCSlOwFBkQHxpETrI++qD3FpE
+lON/IgXogThGKOnDjkPWLdR3QtEE+ExFnO3SGgPS5/nkeyToKd1hjZ3xbvfwUUld
+Ob3rwCEjGhInxkeIni5Fqe96oqbBnA==
+=Sbbf
+-----END PGP SIGNATURE-----
+
+--mpvmemv5yw3hvfa3--
