@@ -2,30 +2,31 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8477923037D
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Jul 2020 09:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E345B2304A7
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Jul 2020 09:53:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727033AbgG1HIN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Jul 2020 03:08:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52030 "EHLO
+        id S1727833AbgG1HxH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Jul 2020 03:53:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726981AbgG1HIN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Jul 2020 03:08:13 -0400
+        with ESMTP id S1727777AbgG1HxG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 28 Jul 2020 03:53:06 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F63FC061794
-        for <linux-leds@vger.kernel.org>; Tue, 28 Jul 2020 00:08:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B6DFC061794
+        for <linux-leds@vger.kernel.org>; Tue, 28 Jul 2020 00:53:06 -0700 (PDT)
 Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
         by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1k0JiV-0003di-9B; Tue, 28 Jul 2020 09:08:03 +0200
+        id 1k0KPz-0000Xc-1D; Tue, 28 Jul 2020 09:52:59 +0200
 Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
         (envelope-from <ukl@pengutronix.de>)
-        id 1k0JiT-0004YI-RR; Tue, 28 Jul 2020 09:08:01 +0200
-Date:   Tue, 28 Jul 2020 09:08:01 +0200
+        id 1k0KPx-0005ju-OS; Tue, 28 Jul 2020 09:52:57 +0200
+Date:   Tue, 28 Jul 2020 09:52:57 +0200
 From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To:     Martin Botka <martin.botka1@gmail.com>
 Cc:     Fenglin Wu <fenglinw@codeaurora.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -35,18 +36,17 @@ Cc:     Fenglin Wu <fenglinw@codeaurora.org>,
         devicetree <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-pwm@vger.kernel.org
-Subject: Re: [PATCH RFC 3/6] pwm: pwm-qti-lpg: Add PWM driver for QTI LPG
- module
-Message-ID: <20200728070801.evcfnq25a2f5d55r@pengutronix.de>
+Subject: Re: [PATCH RCC 1/6] pwm: Add different PWM output types support
+Message-ID: <20200728075257.efhsju2odehpbv6f@pengutronix.de>
 References: <20200724213659.273599-1-martin.botka1@gmail.com>
- <20200724213659.273599-4-martin.botka1@gmail.com>
- <20200727200954.pzw6swdboa65474i@pengutronix.de>
- <CADQ2G_EMUdf2BEwjDOCyz_ccMTsjMBM3GmpRe+n6V9-DJGr-Kg@mail.gmail.com>
+ <20200724213659.273599-2-martin.botka1@gmail.com>
+ <20200727201034.dkc6qkkbte6qeiba@pengutronix.de>
+ <CADQ2G_GxpWk1AK4OQPZZuk=vCmostC4vEGSHjj01WMzFxpD7CA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="65wsexfumroshxqm"
+        protocol="application/pgp-signature"; boundary="ffexrllbpegueh2g"
 Content-Disposition: inline
-In-Reply-To: <CADQ2G_EMUdf2BEwjDOCyz_ccMTsjMBM3GmpRe+n6V9-DJGr-Kg@mail.gmail.com>
+In-Reply-To: <CADQ2G_GxpWk1AK4OQPZZuk=vCmostC4vEGSHjj01WMzFxpD7CA@mail.gmail.com>
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
@@ -57,131 +57,61 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---65wsexfumroshxqm
+--ffexrllbpegueh2g
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hello Martin,
 
-On Mon, Jul 27, 2020 at 11:16:57PM +0200, Martin Botka wrote:
+On Mon, Jul 27, 2020 at 10:56:31PM +0200, Martin Botka wrote:
 > Mo 27. 7. 2020 at 22:10 Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.d=
 e> wrote:
-> >
-> > On Fri, Jul 24, 2020 at 11:36:53PM +0200, Martin Botka wrote:
-> > > From: Fenglin Wu <fenglinw@codeaurora.org>
-> > >
-> > > Add pwm_chip to support QTI LPG module and export LPG channels as
-> > > PWM devices for consumer drivers' usage.
-> > >
-> > > Signed-off-by: Fenglin Wu <fenglinw@codeaurora.org>
-> > > [martin.botka1@gmail.com: Fast-forward the driver from kernel 4.14 to=
- 5.8]
-> > > Signed-off-by: Martin Botka <martin.botka1@gmail.com>
-> > > ---
-> > >  drivers/pwm/Kconfig       |   10 +
-> > >  drivers/pwm/Makefile      |    1 +
-> > >  drivers/pwm/pwm-qti-lpg.c | 1284 +++++++++++++++++++++++++++++++++++=
-++
-> > >  3 files changed, 1295 insertions(+)
-> > >  create mode 100644 drivers/pwm/pwm-qti-lpg.c
-> > >
-> > > diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-> > > index cb8d739067d2..8a52d6884a9a 100644
-> > > --- a/drivers/pwm/Kconfig
-> > > +++ b/drivers/pwm/Kconfig
-> > > @@ -399,6 +399,16 @@ config PWM_RCAR
-> > >         To compile this driver as a module, choose M here: the module
-> > >         will be called pwm-rcar.
-> > >
-> > > +config PWM_QTI_LPG
-> > > +     tristate "Qualcomm Technologies, Inc. LPG driver"
-> > > +     depends on  MFD_SPMI_PMIC && OF
-> > > +     help
-> > > +       This driver supports the LPG (Light Pulse Generator) module f=
-ound in
-> > > +       Qualcomm Technologies, Inc. PMIC chips. Each LPG channel can =
-be
-> > > +       configured to operate in PWM mode to output a fixed amplitude=
- with
-> > > +       variable duty cycle or in LUT (Look up table) mode to output =
-PWM
-> > > +       signal with a modulated amplitude.
-> > > +
-> > >  config PWM_RENESAS_TPU
-> > >       tristate "Renesas TPU PWM support"
-> > >       depends on ARCH_RENESAS || COMPILE_TEST
-> > > diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-> > > index a59c710e98c7..3555a6aa3f33 100644
-> > > --- a/drivers/pwm/Makefile
-> > > +++ b/drivers/pwm/Makefile
-> > > @@ -37,6 +37,7 @@ obj-$(CONFIG_PWM_PCA9685)   +=3D pwm-pca9685.o
-> > >  obj-$(CONFIG_PWM_PUV3)               +=3D pwm-puv3.o
-> > >  obj-$(CONFIG_PWM_PXA)                +=3D pwm-pxa.o
-> > >  obj-$(CONFIG_PWM_RCAR)               +=3D pwm-rcar.o
-> > > +obj-$(CONFIG_PWM_QTI_LPG)    +=3D pwm-qti-lpg.o
-> >
-> > Please keep this list alphabetically sorted.
->=20
-> OK
->=20
-> >
-> > >  obj-$(CONFIG_PWM_RENESAS_TPU)        +=3D pwm-renesas-tpu.o
-> > >  obj-$(CONFIG_PWM_ROCKCHIP)   +=3D pwm-rockchip.o
-> > >  obj-$(CONFIG_PWM_SAMSUNG)    +=3D pwm-samsung.o
-> > > diff --git a/drivers/pwm/pwm-qti-lpg.c b/drivers/pwm/pwm-qti-lpg.c
-> > > new file mode 100644
-> > > index 000000000000..d24c3b3a3d8c
-> > > --- /dev/null
-> > > +++ b/drivers/pwm/pwm-qti-lpg.c
-> > > @@ -0,0 +1,1284 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > On Fri, Jul 24, 2020 at 11:36:51PM +0200, Martin Botka wrote:
 > > > +/*
-> > > + * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+> > > + * pwm_output_type_support()
+> > > + * @pwm: PWM device
+> > > + *
+> > > + * Returns:  output types supported by the PWM device
 > > > + */
-> > > +
-> > > +#define pr_fmt(fmt) "%s: " fmt, __func__
+> > > +static inline int pwm_get_output_type_supported(struct pwm_device *p=
+wm)
+> > > +{
+> > > +     if (pwm->chip->ops->get_output_type_supported !=3D NULL)
+> > > +             return pwm->chip->ops->get_output_type_supported(pwm->c=
+hip, pwm);
+> > > +     else
+> > > +             return PWM_OUTPUT_FIXED;
+> > > +}
 > >
-> > This smells like debug stuff. Please drop this.
+> > I don't like this "advertising" for specific functions. I'd prefer to
+> > handle this in .apply(), fix all drivers to return -ESOMETHING when the
+> > request cannot be fulfilled.
 >=20
-> What do you mean ?
-> The #define pr_fmt(fmt) or the tons of REG definitions ?
+> I will have to disagree on this one. As the functions are called in
+> multiple places it would just make mess in the driver.
 
-Either drop pr_fmt or at least don't have __func__ in it. This doesn't
-belong into the kernel log (in the non-debug case at least).
-(For debugging I like:
+Note this is something where (I think) I don't agree with Thierry
+either. This popped up just yesterday, see
 
-	#define pr_fmt(fmt) "%s:%d: " fmt, __func__, __LINE__
+	https://www.spinics.net/lists/linux-pwm/msg13290.html
 
-which helps finding the right printk line in the code from a given
-output in functions with many printks.)
+For sure I want at most one such function per driver, so if we really
+want to go this path and introduce a capability indicator, this should
+be named differently and have a different prototype.
 
-I don't mind the REG definitions, though aligning the values vertically
-is common.
+> As the driver is even now not exactly the definition of clean driver i
+> would not like to make it even more messy.
 
-> > > +static const struct pwm_ops qpnp_lpg_pwm_ops =3D {
-> > > +     .config =3D qpnp_lpg_pwm_config,
-> > > +     .config_extend =3D qpnp_lpg_pwm_config_extend,
-> > > +     .get_output_type_supported =3D qpnp_lpg_pwm_output_types_suppor=
-ted,
-> > > +     .set_output_type =3D qpnp_lpg_pwm_set_output_type,
-> > > +     .set_output_pattern =3D qpnp_lpg_pwm_set_output_pattern,
-> > > +     .enable =3D qpnp_lpg_pwm_enable,
-> > > +     .disable =3D qpnp_lpg_pwm_disable,
+> > Having said that I wonder if this output pattern is a common enough
+> > property to add support for it in the PWM framework.
 > >
-> > As already noted in the former patch: Please implement .apply() and
-> > .get_state().
 >=20
-> So drop:
->     .get_output_type_supported =3D qpnp_lpg_pwm_output_types_supported,
->     .set_output_type =3D qpnp_lpg_pwm_set_output_type,
->     .set_output_pattern =3D qpnp_lpg_pwm_set_output_pattern,
->=20
-> Ad implement implement .apply and .get_state if i understood you correctl=
-y.
-> Right ?
+> I have gotten an email from Guru Das Srinagesh regarding this exact
+> issue you are pointing to. Yes the output pattern will be dropped in
+> V2.
 
-ack
+That's good.
 
 Best regards
 Uwe
@@ -190,19 +120,19 @@ Uwe
 Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
 Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---65wsexfumroshxqm
+--ffexrllbpegueh2g
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl8fzs4ACgkQwfwUeK3K
-7Ak/YAf9FSlak+4n7XI61g7I4xuJ3J9+gwsKT9NvQ5nPGRpTWMcpgRBLUtTN7hQe
-bsJTuOqQwYX7F2tIZOUXHfED/EB5maLbAlMEVvsukBc9Igmt1SZktjnL/XZWiVKK
-auVqqp1q30K1Sq+rbZPkrhRjzY0PZkE9/UqE0TDEuwAg8FjZfbsg4MummLiQfWuk
-FH7Z94j5Q/CcoGq/pDaK8/fur2Z0s1ea2UDh+GIGjoLHnMz5i5CcqYg5MrdfzTKn
-3u/42Jy60r2SWDGkF7F1ghfoxsTlKPc2Auv40DFo+D448mNm//j0nQ6/ilF+wGFf
-jcUQdplt8Pdx+VfXcAMAd6IJ95p3QQ==
-=WSc0
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl8f2VYACgkQwfwUeK3K
+7Alnywf/SIGQWkLjR0aBwi+oKzPM6FMrSXE1VRXH1Z3ME+VOpYebHm6ovqTZzC7k
+Ipjlp6pBDOdTr9Ul9WM0m/4S0hIyhy5uFoWVz/hyYiWJZI5ap/6uJejptxkhFM5c
+HXtbKDII0lsA7PtRD/eOkxLyyQpsTpCVTcGHfd0JXMMAcSFaKRQNhxzhi+opTU9A
+1MUL2cAqOucGsvi/H6prnAMSK5fE7Q2AW+LFr5o4/csFSETILkghWqnI13jSJde9
+KTDWojmDkOyrZeV7uK0A4QgkJdivbgt1H1mRVPKbjvQkYc771OgGfclOD6b2WG16
+3mFFN+NWq8PKvHunB/GRzRRI5uw8CA==
+=VgSE
 -----END PGP SIGNATURE-----
 
---65wsexfumroshxqm--
+--ffexrllbpegueh2g--
