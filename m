@@ -2,179 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0725023111F
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Jul 2020 19:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 891EA2311EF
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Jul 2020 20:47:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732092AbgG1RuD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Jul 2020 13:50:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54062 "EHLO mail.kernel.org"
+        id S1729199AbgG1Sre (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Jul 2020 14:47:34 -0400
+Received: from mout.gmx.net ([212.227.17.22]:34695 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732090AbgG1RuC (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 28 Jul 2020 13:50:02 -0400
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C6D5320672;
-        Tue, 28 Jul 2020 17:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595958601;
-        bh=byYf4n24gG30dDjG0DGS0JChGwLpUbdOj8i0b4TqC/Q=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uJ0hjuFxbnwJXoWGsFvDs6oXz4ouq3vcrTJJNRyFeTmQgBw1eBdYUVm2mdzN4fUEi
-         uFKZ0/+nv5EvZWpQmuY/TeIT7TjtnjG7VqH46OJ0m9sa6Ads/hHXR8sNluRCOjZN7T
-         sHBN2GTm90yzKSIOZWZYerRKXN7Jdtm9IFTYbV/4=
-Received: by mail-ot1-f47.google.com with SMTP id a26so6708812otf.1;
-        Tue, 28 Jul 2020 10:50:01 -0700 (PDT)
-X-Gm-Message-State: AOAM533jWCFtUWejqTXGHC7zxl/gRDIpyChgGX1mk3zKRjWQvRukp2o5
-        XF2s6ZIa03mttGC6MnpidOnDz1F3HyrWV34oww==
-X-Google-Smtp-Source: ABdhPJwnob32C1OTcPvHYivi0P0PQWPlxJg4WIlfcnnn1HSONcxx//qW0Q77idqYpQ40uu95Ubs/HGmML6exbzi/voo=
-X-Received: by 2002:a05:6830:1b79:: with SMTP id d25mr6508259ote.107.1595958601154;
- Tue, 28 Jul 2020 10:50:01 -0700 (PDT)
+        id S1729005AbgG1Srd (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 28 Jul 2020 14:47:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1595962052;
+        bh=bKIR/ECQqrXDShzFUESdOf0WYZ27UPEFoEqt55tPFhY=;
+        h=X-UI-Sender-Class:From:To:Subject:Date;
+        b=ObtLNzJ++Qa4lyjVQzeUcA608OpuAYGPNxXCORqAznA7ahEMB85vBfLSI4FGVg4Ax
+         jsvKUpqHpCSpFmxVqHmUUlUatJNFfsdUf9m/1xoxNmAGHRQBiEvex54tJedcdKrCX8
+         kt4Up5y8VZyYcIWccpCdjqqO/WUkaN6ePMSQqCjs=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [188.192.120.146] ([188.192.120.146]) by web-mail.gmx.net
+ (3c-app-gmx-bap12.server.lan [172.19.172.82]) (via HTTP); Tue, 28 Jul 2020
+ 20:47:32 +0200
 MIME-Version: 1.0
-References: <20200723125320.3572-1-marek.behun@nic.cz> <20200723125320.3572-2-marek.behun@nic.cz>
-In-Reply-To: <20200723125320.3572-2-marek.behun@nic.cz>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 28 Jul 2020 11:49:49 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLszuOeEeRf-uXtdi_QMw=ydMnD_E6_F34Tk30YGZO=LQ@mail.gmail.com>
-Message-ID: <CAL_JsqLszuOeEeRf-uXtdi_QMw=ydMnD_E6_F34Tk30YGZO=LQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/3] dt-bindings: leds: add cznic,turris-omnia-leds binding
-To:     =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>
-Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <trinity-ff7f1644-b76d-424b-9a6f-8caaf9961ffe-1595962052162@3c-app-gmx-bap12>
+From:   truart@gmx.de
+To:     linux-leds@vger.kernel.org
+Subject: led block trigger patch
+Content-Type: text/plain; charset=UTF-8
+Date:   Tue, 28 Jul 2020 20:47:32 +0200
+Importance: normal
+Sensitivity: Normal
+X-Priority: 3
+X-Provags-ID: V03:K1:NN3lEdNYHr791c5f25zkMf2IHxk+/W9XBTdLIlgGrliGnTrjGZUbW2pmOpfA55hcUscND
+ 1wJ5BmI0TcL7+wFnMptoL3hGhsSDuDp9tT3yzEYRPuT5ol+e0tVdCfcIcAxbjUS9Au6N6zlz56Mh
+ 1gvLIzKuDKCgkmdBpkWeQyCroG4WJfpMkBZ84zVSL8uZT8tbL6kRMrOe9iYuDaU06O2jis8DXz2Y
+ WICwIf/bSoo08B7mSu1eeIbAIm0TB7g7/Ao2xh9ijDPYo1HcNzh8Gfhpf3A4sRKOmQjtK7V/UrSH
+ Rc=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LVas9VvHxB0=:l/8rqdJd8SV+UTXPeTVTeU
+ ze+IQshw8Iq6mvWWyypuGb2n69yX1bjHlZq7sudIFaE/tQNI7vn/Lx9P9vFeva1WDyeXCAh6m
+ i0Rwh/aCd+B8q4lOCd7IWAy5e8ntkRHwBgEaiBZ8C7pUrDxigxJdbQ1+pRIcrVzL5UrhOqtYj
+ t5/GqKj/1QsCS4hUMgha8eLprcoG/f1/mBVmGAUsWp4BCJ+h355pHXF9dDzVUyNU58xr7fUsk
+ 7mbcCT0uIecE43Klc0HKGbtyw6kOAaFGfMcF141MIO1pEQ5TEupNUsQpLE0KM3kj9BYtQzBdt
+ 8brQJ7rzuROgLDJfLPvh3lFPb8Dsk5t8uXVed9jQ99mVcyNMt5grflRpCYnG6/4ECs1E+Rjic
+ cWVJICHHqvtM6LNNZatkSsmRo22zt13Mqj0xFJ6EdOJrL1hNbsMSMtHfoPzkFngCI7FDMzHKC
+ hVMUVkx2YsCt7XO1P1hKYLNP70F01Is4Lh9JqPQlyRt+xUO23UDxXxsVq+QnXc4QcmxqnoCoA
+ Ng3jercsEUeGBp/BvXaXNZpmRf46wf7Q1G6gGSsJquf5RiqB2/ndiBO/kxQIs8T2jqKQat0Hp
+ 4O6YfIHLWUI/P6EnKQlQ9kG5qyi6Uf7xCYavAe8r7gS+tX3XyxZK3eNA/sxQpglTJQH5eIJ9j
+ tPTJRUTQMCYfNUdRh5l4nlWz1OAX9oD8gX8n5TGeYUgi1Ow==
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 6:53 AM Marek Beh=C3=BAn <marek.behun@nic.cz> wrote=
-:
->
-> Add device-tree bindings documentation for Turris Omnia RGB LEDs.
->
-> Signed-off-by: Marek Beh=C3=BAn <marek.behun@nic.cz>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> ---
->  .../leds/cznic,turris-omnia-leds.yaml         | 90 +++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/cznic,turris-o=
-mnia-leds.yaml
->
-> diff --git a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-le=
-ds.yaml b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.ya=
-ml
-> new file mode 100644
-> index 000000000000..24ad1446445e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
-> @@ -0,0 +1,90 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/cznic,turris-omnia-leds.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: CZ.NIC's Turris Omnia LEDs driver
-> +
-> +maintainers:
-> +  - Marek Beh=C3=BAn <marek.behun@nic.cz>
-> +
-> +description:
-> +  This module adds support for the RGB LEDs found on the front panel of =
-the
-> +  Turris Omnia router. There are 12 RGB LEDs that are controlled by a
-> +  microcontroller that communicates via the I2C bus. Each LED is describ=
-ed
-> +  as a subnode of this I2C device.
-> +
-> +properties:
-> +  compatible:
-> +    const: cznic,turris-omnia-leds
-> +
-> +  reg:
-> +    description: I2C slave address of the microcontroller.
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^multi-led[0-9a-f]$":
+Hej hej,
 
-Doesn't match the example:
+I already asked on the linux-block list, but that was likely the wrong place, so I try here.
 
-Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.example.dt.y=
-aml:
-led-controller@2b: 'multi-led@0', 'multi-led@a' do not match any of
-the regexes: '^multi-led[0-9a-f]$', 'pinctrl-[0-9]+'
+All our new thinkpads are missing a hard disk led, and when trying to use some keyboard led it turned out that this is not really working. The LED is either just blinking or showing nothing. When googling we found https://www.spinics.net/lists/linux-scsi/msg132286.html
+All the laptops have nvme disks, so this is exactly what we need. But it seems to be missing in the latest kernel.
 
-> +    type: object
-> +    allOf:
-> +      - $ref: leds-class-multicolor.yaml#
-> +    description:
-> +      This node represents one of the RGB LED devices on Turris Omnia.
-> +      No subnodes need to be added for subchannels since this controller=
- only
-> +      supports RGB LEDs.
-> +
-> +    properties:
-> +      reg:
-> +        minimum: 0
-> +        maximum: 11
-> +        description:
-> +          This property identifies one of the LEDs on the front panel of=
- the
-> +          Turris Omnia router.
-> +
-> +    required:
-> +      - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    i2c0 {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        led-controller@2b {
-> +            compatible =3D "cznic,turris-omnia-leds";
-> +            reg =3D <0x2b>;
-> +            #address-cells =3D <1>;
-> +            #size-cells =3D <0>;
-> +
-> +            multi-led@0 {
-> +                /*
-> +                 * No subnodes are needed, this controller only supports=
- RGB
-> +                 * LEDs.
-> +                 */
-> +                reg =3D <0>;
-> +                color =3D <LED_COLOR_ID_MULTI>;
-> +                function =3D LED_FUNCTION_POWER;
-> +                linux,default-trigger =3D "heartbeat";
-> +            };
-> +
-> +            multi-led@a {
-> +                reg =3D <0xa>;
-> +                color =3D <LED_COLOR_ID_MULTI>;
-> +                function =3D LED_FUNCTION_INDICATOR;
-> +                function-enumerator =3D <1>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> --
-> 2.26.2
->
+So may I ask what happened to this patch? Is it scheduled for being added? It's definitely needed as every new notebook I'm aware of doesn't have hard disk leds while nvme disks are default for most new notebooks now. So linux should be able to show disk traffic not only for ide and sata but also for up-to-date disk technologies. Any chance we get that patch? Is there a place to vote for a patch?
+
+Thanks!
+Michael
