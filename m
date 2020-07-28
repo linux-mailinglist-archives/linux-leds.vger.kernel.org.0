@@ -2,19 +2,19 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29801230F0C
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Jul 2020 18:18:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03E8E230F38
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Jul 2020 18:28:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731335AbgG1QSR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Jul 2020 12:18:17 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:60186 "EHLO vps0.lunn.ch"
+        id S1731366AbgG1Q2X (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 28 Jul 2020 12:28:23 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:60222 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730810AbgG1QSR (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 28 Jul 2020 12:18:17 -0400
+        id S1731118AbgG1Q2X (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 28 Jul 2020 12:28:23 -0400
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
         (envelope-from <andrew@lunn.ch>)
-        id 1k0SIi-007J3m-Gm; Tue, 28 Jul 2020 18:18:00 +0200
-Date:   Tue, 28 Jul 2020 18:18:00 +0200
+        id 1k0SSe-007J8b-6l; Tue, 28 Jul 2020 18:28:16 +0200
+Date:   Tue, 28 Jul 2020 18:28:16 +0200
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
 Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
@@ -27,46 +27,52 @@ Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH RFC leds + net-next v4 1/2] net: phy: add API for LEDs
  controlled by PHY HW
-Message-ID: <20200728161800.GJ1705504@lunn.ch>
+Message-ID: <20200728162816.GK1705504@lunn.ch>
 References: <20200728150530.28827-1-marek.behun@nic.cz>
  <20200728150530.28827-2-marek.behun@nic.cz>
+ <20200728171128.61c7193b@dellmb.labs.office.nic.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200728150530.28827-2-marek.behun@nic.cz>
+In-Reply-To: <20200728171128.61c7193b@dellmb.labs.office.nic.cz>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> +static int of_phy_register_led(struct phy_device *phydev, struct device_node *np)
-> +{
-> +	struct led_init_data init_data = {};
-> +	struct phy_device_led *led;
-> +	u32 reg;
-> +	int ret;
-> +
-> +	ret = of_property_read_u32(np, "reg", &reg);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	led = devm_kzalloc(&phydev->mdio.dev, sizeof(struct phy_device_led), GFP_KERNEL);
-> +	if (!led)
-> +		return -ENOMEM;
-> +
-> +	led->cdev.brightness_set_blocking = phy_led_brightness_set;
-> +	led->cdev.trigger_type = &phy_hw_led_trig_type;
-> +	led->addr = reg;
-> +
-> +	of_property_read_string(np, "linux,default-trigger", &led->cdev.default_trigger);
+> > @@ -736,6 +777,16 @@ struct phy_driver {
+> >  	int (*set_loopback)(struct phy_device *dev, bool enable);
+> >  	int (*get_sqi)(struct phy_device *dev);
+> >  	int (*get_sqi_max)(struct phy_device *dev);
+> > +
+> > +	/* PHY LED support */
+> > +	int (*led_init)(struct phy_device *dev, struct
+> > phy_device_led *led);
+> > +	int (*led_brightness_set)(struct phy_device *dev, struct
+> > phy_device_led *led,
+> > +				  enum led_brightness brightness);
+> > +	const char *(*led_iter_hw_mode)(struct phy_device *dev,
+> > struct phy_device_led *led,
+> > +					void **	iter);
+> > +	int (*led_set_hw_mode)(struct phy_device *dev, struct
+> > phy_device_led *led,
+> > +			       const char *mode);
+> > +	const char *(*led_get_hw_mode)(struct phy_device *dev,
+> > struct phy_device_led *led); };
+> >  #define to_phy_driver(d)
+> > container_of(to_mdio_common_driver(d),		\ struct
+> > phy_driver, mdiodrv)
+> 
+> The problem here is that the same code will have to be added to DSA
+> switch ops structure, which is not OK.
 
-Hi Marek
+Not necessarily. DSA drivers do have access to the phydev structure.
 
-I think we need one more optional property. If the trigger has been
-set to the PHY hardware trigger, we then should be able to set which
-of the different blink patterns we want the LED to use. I guess most
-users will never actually make use of the sys/class/led interface, if
-the default in device tree is sensible. But that requires DT can fully
-configure the LED.
+I think putting these members into a structure is a good idea. That
+structure can be part of phy_driver and initialised just like other
+members. But on probing the phy, it can be copied over to the
+phy_device structure. And we can provide an API which DSA drivers can
+use to register there own structure of ops to be placed into
+phy_device, which would call into the DSA driver.
 
-   Andrew
+      Andrew
