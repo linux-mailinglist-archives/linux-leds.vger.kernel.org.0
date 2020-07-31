@@ -2,66 +2,196 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 891EA2311EF
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Jul 2020 20:47:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ADDC2349A2
+	for <lists+linux-leds@lfdr.de>; Fri, 31 Jul 2020 18:51:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729199AbgG1Sre (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 28 Jul 2020 14:47:34 -0400
-Received: from mout.gmx.net ([212.227.17.22]:34695 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729005AbgG1Srd (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 28 Jul 2020 14:47:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1595962052;
-        bh=bKIR/ECQqrXDShzFUESdOf0WYZ27UPEFoEqt55tPFhY=;
-        h=X-UI-Sender-Class:From:To:Subject:Date;
-        b=ObtLNzJ++Qa4lyjVQzeUcA608OpuAYGPNxXCORqAznA7ahEMB85vBfLSI4FGVg4Ax
-         jsvKUpqHpCSpFmxVqHmUUlUatJNFfsdUf9m/1xoxNmAGHRQBiEvex54tJedcdKrCX8
-         kt4Up5y8VZyYcIWccpCdjqqO/WUkaN6ePMSQqCjs=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [188.192.120.146] ([188.192.120.146]) by web-mail.gmx.net
- (3c-app-gmx-bap12.server.lan [172.19.172.82]) (via HTTP); Tue, 28 Jul 2020
- 20:47:32 +0200
+        id S1732693AbgGaQvZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 31 Jul 2020 12:51:25 -0400
+Received: from enterprise02.smtp.diehl.com ([193.201.238.220]:9804 "EHLO
+        enterprise02.smtp.diehl.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729889AbgGaQvY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 31 Jul 2020 12:51:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
+  t=1596214283; x=1627750283;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=PnG/70h3N6CUU/w/e7k1IYI8X1CoGva2b7M2lG2roMI=;
+  b=Cbap8GNSb0qAX/vXWJN6SEzJ9ArnMgXOpowlhR4nKzuzCJypl1iTInDq
+   LkBVh7XIr8FtYqDsC+JYx0QYkj8+12fDSapqipCFrLeEHilYmbyQvFBsF
+   q8rj19jhdW4Odjb7FVNoJPfKDglNZr9oTU/33VvbhOHufzFSDtnQ/1B98
+   dkogQbnNsRc3YPbLNps1LEya93+c4Q62NZNBH2P3qPQcxoF59n5PnQHDA
+   t+Mfy1XMcuD5HRJAaM1oVe0sz5dQxqyO5CgWx/Qx7gHiWoJMzTUNqLMpg
+   8e7ouepean8bI+en2Td1y/wXqqrUIigVJ5MQf/pXWvDjQd70u2N6g7QW/
+   A==;
+IronPort-SDR: c++el8NUJrlHUh1xhQe/nCUJSEVUfk2gmcldw0I8fQeS5K3gwdhXLr930psWvWkQkIeqj7bJz+
+ wWFE0wxgHSig==
+X-IronPort-AV: E=Sophos;i="5.75,418,1589234400"; 
+   d="scan'208";a="65153517"
+From:   Denis Osterland-Heim <denis.osterland@diehl.com>
+To:     "dmurphy@ti.com" <dmurphy@ti.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Denis Osterland-Heim" <denis.osterland@diehl.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: [PATCH v7 2/3] leds: pwm: add support for default-state device
+ property
+Thread-Topic: [PATCH v7 2/3] leds: pwm: add support for default-state device
+ property
+Thread-Index: AQHWZ1rQnUk9+R6ZtE2N61cPqWWIHQ==
+Date:   Fri, 31 Jul 2020 16:51:19 +0000
+Message-ID: <20200731164945.19515-3-Denis.Osterland@diehl.com>
+References: <20200731164945.19515-1-Denis.Osterland@diehl.com>
+In-Reply-To: <20200731164945.19515-1-Denis.Osterland@diehl.com>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+x-ms-exchange-messagesentrepresentingtype: 1
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Message-ID: <trinity-ff7f1644-b76d-424b-9a6f-8caaf9961ffe-1595962052162@3c-app-gmx-bap12>
-From:   truart@gmx.de
-To:     linux-leds@vger.kernel.org
-Subject: led block trigger patch
-Content-Type: text/plain; charset=UTF-8
-Date:   Tue, 28 Jul 2020 20:47:32 +0200
-Importance: normal
-Sensitivity: Normal
-X-Priority: 3
-X-Provags-ID: V03:K1:NN3lEdNYHr791c5f25zkMf2IHxk+/W9XBTdLIlgGrliGnTrjGZUbW2pmOpfA55hcUscND
- 1wJ5BmI0TcL7+wFnMptoL3hGhsSDuDp9tT3yzEYRPuT5ol+e0tVdCfcIcAxbjUS9Au6N6zlz56Mh
- 1gvLIzKuDKCgkmdBpkWeQyCroG4WJfpMkBZ84zVSL8uZT8tbL6kRMrOe9iYuDaU06O2jis8DXz2Y
- WICwIf/bSoo08B7mSu1eeIbAIm0TB7g7/Ao2xh9ijDPYo1HcNzh8Gfhpf3A4sRKOmQjtK7V/UrSH
- Rc=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LVas9VvHxB0=:l/8rqdJd8SV+UTXPeTVTeU
- ze+IQshw8Iq6mvWWyypuGb2n69yX1bjHlZq7sudIFaE/tQNI7vn/Lx9P9vFeva1WDyeXCAh6m
- i0Rwh/aCd+B8q4lOCd7IWAy5e8ntkRHwBgEaiBZ8C7pUrDxigxJdbQ1+pRIcrVzL5UrhOqtYj
- t5/GqKj/1QsCS4hUMgha8eLprcoG/f1/mBVmGAUsWp4BCJ+h355pHXF9dDzVUyNU58xr7fUsk
- 7mbcCT0uIecE43Klc0HKGbtyw6kOAaFGfMcF141MIO1pEQ5TEupNUsQpLE0KM3kj9BYtQzBdt
- 8brQJ7rzuROgLDJfLPvh3lFPb8Dsk5t8uXVed9jQ99mVcyNMt5grflRpCYnG6/4ECs1E+Rjic
- cWVJICHHqvtM6LNNZatkSsmRo22zt13Mqj0xFJ6EdOJrL1hNbsMSMtHfoPzkFngCI7FDMzHKC
- hVMUVkx2YsCt7XO1P1hKYLNP70F01Is4Lh9JqPQlyRt+xUO23UDxXxsVq+QnXc4QcmxqnoCoA
- Ng3jercsEUeGBp/BvXaXNZpmRf46wf7Q1G6gGSsJquf5RiqB2/ndiBO/kxQIs8T2jqKQat0Hp
- 4O6YfIHLWUI/P6EnKQlQ9kG5qyi6Uf7xCYavAe8r7gS+tX3XyxZK3eNA/sxQpglTJQH5eIJ9j
- tPTJRUTQMCYfNUdRh5l4nlWz1OAX9oD8gX8n5TGeYUgi1Ow==
+X-TrailerSkip: 1
+X-GBS-PROC: PkB65aL1SqtESF35r/jQnxtgDjFz6f85lRVDwolbbm+Kx4tdAa60veLkqW/uXjTm
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hej hej,
+This patch adds support for =22default-state=22 devicetree property, whic=
+h
+allows to defer pwm init to first use of led.
 
-I already asked on the linux-block list, but that was likely the wrong place, so I try here.
+This allows to configure the PWM early in bootloader to let the LED
+blink until an application in Linux userspace sets something different.
 
-All our new thinkpads are missing a hard disk led, and when trying to use some keyboard led it turned out that this is not really working. The LED is either just blinking or showing nothing. When googling we found https://www.spinics.net/lists/linux-scsi/msg132286.html
-All the laptops have nvme disks, so this is exactly what we need. But it seems to be missing in the latest kernel.
+Signed-off-by: Denis Osterland-Heim <Denis.Osterland@diehl.com>
+Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+---
+ drivers/leds/leds-pwm.c | 49 ++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 43 insertions(+), 6 deletions(-)
 
-So may I ask what happened to this patch? Is it scheduled for being added? It's definitely needed as every new notebook I'm aware of doesn't have hard disk leds while nvme disks are default for most new notebooks now. So linux should be able to show disk traffic not only for ide and sata but also for up-to-date disk technologies. Any chance we get that patch? Is there a place to vote for a patch?
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index ef7b91bd2064..0c0470c90d5d 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -17,11 +17,13 @@
+ #include <linux/err.h>
+ #include <linux/pwm.h>
+ #include <linux/slab.h>
++#include =22leds.h=22
+=20
+ struct led_pwm {
+ 	const char	*name;
+ 	const char	*default_trigger;
+ 	u8		active_low;
++	u8		default_state;
+ 	unsigned int	max_brightness;
+ };
+=20
+@@ -88,7 +90,38 @@ static int led_pwm_add(struct device *dev, struct led_=
+pwm_priv *priv,
+=20
+ 	led_data->cdev.brightness_set_blocking =3D led_pwm_set;
+=20
+-	pwm_init_state(led_data->pwm, &led_data->pwmstate);
++	/* init PWM state */
++	switch (led->default_state) {
++	case LEDS_DEFSTATE_KEEP:
++		pwm_get_state(led_data->pwm, &led_data->pwmstate);
++		if (led_data->pwmstate.period)
++			break;
++		led->default_state =3D LEDS_DEFSTATE_OFF;
++		dev_warn(dev,
++			=22failed to read period for %s, default to off=22,
++			led->name);
++		fallthrough;
++	default:
++		pwm_init_state(led_data->pwm, &led_data->pwmstate);
++		break;
++	}
++
++	/* set brightness */
++	switch (led->default_state) {
++	case LEDS_DEFSTATE_ON:
++		led_data->cdev.brightness =3D led->max_brightness;
++		break;
++	case LEDS_DEFSTATE_KEEP:
++		{
++		uint64_t brightness;
++
++		brightness =3D led->max_brightness;
++		brightness *=3D led_data->pwmstate.duty_cycle;
++		do_div(brightness, led_data->pwmstate.period);
++		led_data->cdev.brightness =3D brightness;
++		}
++		break;
++	}
+=20
+ 	ret =3D devm_led_classdev_register(dev, &led_data->cdev);
+ 	if (ret) {
+@@ -97,11 +130,13 @@ static int led_pwm_add(struct device *dev, struct le=
+d_pwm_priv *priv,
+ 		return ret;
+ 	}
+=20
+-	ret =3D led_pwm_set(&led_data->cdev, led_data->cdev.brightness);
+-	if (ret) {
+-		dev_err(dev, =22failed to set led PWM value for %s: %d=22,
+-			led->name, ret);
+-		return ret;
++	if (led->default_state !=3D LEDS_DEFSTATE_KEEP) {
++		ret =3D led_pwm_set(&led_data->cdev, led_data->cdev.brightness);
++		if (ret) {
++			dev_err(dev, =22failed to set led PWM value for %s: %d=22,
++				led->name, ret);
++			return ret;
++		}
+ 	}
+=20
+ 	priv->num_leds++;
+@@ -134,6 +169,8 @@ static int led_pwm_create_fwnode(struct device *dev, =
+struct led_pwm_priv *priv)
+ 		fwnode_property_read_u32(fwnode, =22max-brightness=22,
+ 					 &led.max_brightness);
+=20
++		led.default_state =3D led_init_default_state_get(fwnode);
++
+ 		ret =3D led_pwm_add(dev, priv, &led, fwnode);
+ 		if (ret) {
+ 			fwnode_handle_put(fwnode);
+--=20
+2.28.0
 
-Thanks!
-Michael
+
+
+Diehl Connectivity Solutions GmbH
+Gesch=E4ftsf=FChrung: Horst Leonberger
+Sitz der Gesellschaft: N=FCrnberg - Registergericht: Amtsgericht
+N=FCrnberg: HRB 32315
+_________________________________________________________________________=
+__________________________
+
+Der Inhalt der vorstehenden E-Mail ist nicht rechtlich bindend. Diese E-M=
+ail enthaelt vertrauliche und/oder rechtlich geschuetzte Informationen.
+Informieren Sie uns bitte, wenn Sie diese E-Mail faelschlicherweise erhal=
+ten haben. Bitte loeschen Sie in diesem Fall die Nachricht.
+Jede unerlaubte Form der Reproduktion, Bekanntgabe, Aenderung, Verteilung=
+ und/oder Publikation dieser E-Mail ist strengstens untersagt.
+- Informationen zum Datenschutz, insbesondere zu Ihren Rechten, erhalten =
+Sie unter https://www.diehl.com/group/de/transparenz-und-informationspfli=
+chten/
+
+The contents of the above mentioned e-mail is not legally binding. This e=
+-mail contains confidential and/or legally protected information. Please =
+inform us if you have received this e-mail by
+mistake and delete it in such a case. Each unauthorized reproduction, dis=
+closure, alteration, distribution and/or publication of this e-mail is st=
+rictly prohibited.=20
+- For general information on data protection and your respective rights p=
+lease visit https://www.diehl.com/group/en/transparency-and-information-o=
+bligations/
