@@ -2,104 +2,113 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA81123A2BC
-	for <lists+linux-leds@lfdr.de>; Mon,  3 Aug 2020 12:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3285923A3BB
+	for <lists+linux-leds@lfdr.de>; Mon,  3 Aug 2020 14:02:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725948AbgHCKam (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 Aug 2020 06:30:42 -0400
-Received: from m12-11.163.com ([220.181.12.11]:49845 "EHLO m12-11.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725933AbgHCKam (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 3 Aug 2020 06:30:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id; bh=QJHCOddwJcC9lTJOiH
-        oPrd47VTm47RKffasxqfRctE4=; b=qZifY37z5/MsHAjEFUrfWMGPBMr8btv8fd
-        UYF6QqXrAxICXfwfoOGghW82AkTF9h01TjRnJKEU2C0L8P8sVk6TGgjUPzZKNhr5
-        58rtG3AXGE+X/Oi6jaGZzmcfQkvjZJw2cy7O8rRv1k3REysa4HIDki4kT1Nghilc
-        yNxwO0bOk=
-Received: from localhost.localdomain (unknown [58.33.79.182])
-        by smtp7 (Coremail) with SMTP id C8CowAA3FLEb5ydf1tATBg--.63493S2;
-        Mon, 03 Aug 2020 18:29:54 +0800 (CST)
-From:   Grant Feng <von81@163.com>
-To:     von81@163.com, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        dmurphy@ti.com, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1] leds: is31fl32xx: Add sdb pin and generate a 5ms low pulse when startup
-Date:   Mon,  3 Aug 2020 18:29:35 +0800
-Message-Id: <20200803102935.24364-1-von81@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: C8CowAA3FLEb5ydf1tATBg--.63493S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AF17trykZw1fWrWfKF4DArb_yoW8ArW5pF
-        4DCFy5Jr45AryfKwnrZF4UZFy3Jay8JFyDtFWfC34ay3W2k3sYqFyvkryqv3Z8XF95uay5
-        ZFs8tFs8Cr48Zw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jwhL8UUUUU=
-X-Originating-IP: [58.33.79.182]
-X-CM-SenderInfo: xyrqmii6rwjhhfrp/1tbiNwJ1OlWBhi8+4AAAsZ
+        id S1725965AbgHCMCT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 Aug 2020 08:02:19 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:35230 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726276AbgHCMBq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Aug 2020 08:01:46 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 8C1E61C0BD4; Mon,  3 Aug 2020 14:01:42 +0200 (CEST)
+Date:   Mon, 3 Aug 2020 14:01:42 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     marek.behun@nic.cz, jacek.anaszewski@gmail.com, dmurphy@ti.com,
+        linux-leds@vger.kernel.org
+Subject: [PATCH] Add multicolor to the list.
+Message-ID: <20200803120142.llmwjyfh5adsq4yw@duo.ucw.cz>
+References: <20200727084500.GA15237@amd>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="fcvfhp6fn7ui4ooj"
+Content-Disposition: inline
+In-Reply-To: <20200727084500.GA15237@amd>
+User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-generate a 5ms low pulse on sdb pin when startup, then the chip
-becomes more stable in the complex EM environment.
 
-Signed-off-by: Grant Feng <von81@163.com>
----
- drivers/leds/leds-is31fl32xx.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+--fcvfhp6fn7ui4ooj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-index cd768f991da1..e0f8734223c0 100644
---- a/drivers/leds/leds-is31fl32xx.c
-+++ b/drivers/leds/leds-is31fl32xx.c
-@@ -16,6 +16,8 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
- 
- /* Used to indicate a device has no such register */
- #define IS31FL32XX_REG_NONE 0xFF
-@@ -43,6 +45,7 @@ struct is31fl32xx_led_data {
- struct is31fl32xx_priv {
- 	const struct is31fl32xx_chipdef *cdef;
- 	struct i2c_client *client;
-+	struct gpio_desc *sdb_pin;
- 	unsigned int num_leds;
- 	struct is31fl32xx_led_data leds[];
+
+commit ddfd8931c942a64c1ebdd7b93a4f18c84bd3b97b
+Author: Pavel Machek <pavel@ucw.cz>
+Date:   Mon Aug 3 13:20:06 2020 +0200
+
+    Multicolor is a bit too abstract. Yes, we can have
+    Green-Magenta-Ultraviolet LED, but so far all the LEDs we support are
+    RGB, and not even RGB-White or RGB-Yellow variants emerged.
+   =20
+    Multicolor is not a good fit for RGB LED. It does not really know
+    about LED color.  In particular, there's no way to make LED "white".
+   =20
+    Userspace is interested in knowing "this LED can produce arbitrary
+    color", which not all multicolor LEDs can.
+   =20
+    Signed-off-by: Pavel Machek <pavel@ucw.cz>
+
+diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+index 846248a0693d..a6dce01dbd5e 100644
+--- a/drivers/leds/led-core.c
++++ b/drivers/leds/led-core.c
+@@ -35,6 +35,7 @@ const char * const led_colors[LED_COLOR_ID_MAX] =3D {
+ 	[LED_COLOR_ID_YELLOW] =3D "yellow",
+ 	[LED_COLOR_ID_IR] =3D "ir",
+ 	[LED_COLOR_ID_MULTI] =3D "multicolor",
++	[LED_COLOR_ID_RGB] =3D "rgb",
  };
-@@ -405,6 +408,15 @@ static int is31fl32xx_parse_dt(struct device *dev,
- 		priv->num_leds++;
- 	}
- 
-+	priv->sdb_pin = gpiod_get(dev, "sdb", GPIOD_ASIS);
-+	if (IS_ERR(priv->sdb_pin)) {
-+		dev_warn(dev, "failed to get SDB GPIO, try default\r\n");
-+	} else {
-+		gpiod_direction_output(priv->sdb_pin, 0);
-+		mdelay(5);
-+		gpiod_direction_output(priv->sdb_pin, 1);
-+	}
-+
- 	return 0;
- 
- err:
-@@ -453,11 +465,11 @@ static int is31fl32xx_probe(struct i2c_client *client,
- 	priv->cdef = cdef;
- 	i2c_set_clientdata(client, priv);
- 
--	ret = is31fl32xx_init_regs(priv);
-+	ret = is31fl32xx_parse_dt(dev, priv);
+ EXPORT_SYMBOL_GPL(led_colors);
+=20
+diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-c=
+ommon.c
+index af14e2b2d577..56210f4ad919 100644
+--- a/drivers/leds/leds-lp55xx-common.c
++++ b/drivers/leds/leds-lp55xx-common.c
+@@ -638,7 +638,7 @@ static int lp55xx_parse_logical_led(struct device_node =
+*np,
  	if (ret)
  		return ret;
- 
--	ret = is31fl32xx_parse_dt(dev, priv);
-+	ret = is31fl32xx_init_regs(priv);
- 	if (ret)
- 		return ret;
- 
--- 
-2.17.1
+=20
+-	if (led_color =3D=3D LED_COLOR_ID_MULTI)
++	if (led_color =3D=3D LED_COLOR_ID_RGB)
+ 		return lp55xx_parse_multi_led(np, cfg, child_number);
+=20
+ 	ret =3D  lp55xx_parse_common_child(np, cfg, child_number, &chan_nr);
+diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/c=
+ommon.h
+index a463ce6a8794..52b619d44ba2 100644
+--- a/include/dt-bindings/leds/common.h
++++ b/include/dt-bindings/leds/common.h
+@@ -30,8 +30,10 @@
+ #define LED_COLOR_ID_VIOLET	5
+ #define LED_COLOR_ID_YELLOW	6
+ #define LED_COLOR_ID_IR		7
+-#define LED_COLOR_ID_MULTI	8
+-#define LED_COLOR_ID_MAX	9
++#define LED_COLOR_ID_MULTI	8	/* For multicolor LEDs */
++#define LED_COLOR_ID_RGB	9	/* For multicolor LEDs that can do arbitrary co=
+lor,
++					   so this would include RGBW and similar */
++#define LED_COLOR_ID_MAX	10
+=20
+ /* Standard LED functions */
+ /* Keyboard LEDs, usually it would be input4::capslock etc. */
 
+--fcvfhp6fn7ui4ooj
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXyf8pgAKCRAw5/Bqldv6
+8tWQAJ42iFHmLJecI1u0IrgkQTvhdRHUSwCfS5kc9OJQxJxFzoi01nFQDmor2nQ=
+=4Cha
+-----END PGP SIGNATURE-----
+
+--fcvfhp6fn7ui4ooj--
