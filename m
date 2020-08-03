@@ -2,104 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7DF223A3CA
-	for <lists+linux-leds@lfdr.de>; Mon,  3 Aug 2020 14:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96BBC23A8E2
+	for <lists+linux-leds@lfdr.de>; Mon,  3 Aug 2020 16:51:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725965AbgHCMEz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 Aug 2020 08:04:55 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:35418 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726693AbgHCMEq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Aug 2020 08:04:46 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id D9E0F1C0BD4; Mon,  3 Aug 2020 14:04:43 +0200 (CEST)
-Date:   Mon, 3 Aug 2020 14:04:43 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>
-Cc:     jacek.anaszewski@gmail.com, dmurphy@ti.com,
-        linux-leds@vger.kernel.org
-Subject: turris-omnia: fixes needed was Re: We have multicolor, but should we
- turn it into RGB?
-Message-ID: <20200803120443.23rsjhxnl4f3xuox@duo.ucw.cz>
-References: <20200727084500.GA15237@amd>
- <20200727114048.32f36c59@dellmb.labs.office.nic.cz>
- <20200727105226.GA17807@amd>
- <20200727132144.2ba06aea@dellmb.labs.office.nic.cz>
+        id S1726817AbgHCOvG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 Aug 2020 10:51:06 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60096 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726189AbgHCOvG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Aug 2020 10:51:06 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 073Ea1wr095836;
+        Mon, 3 Aug 2020 10:50:59 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 32pkehjkp1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 03 Aug 2020 10:50:59 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 073EaBaV096607;
+        Mon, 3 Aug 2020 10:50:59 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 32pkehjknf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 03 Aug 2020 10:50:59 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+        by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 073Enifb015875;
+        Mon, 3 Aug 2020 14:50:57 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+        by ppma02wdc.us.ibm.com with ESMTP id 32n018rtn9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 03 Aug 2020 14:50:57 +0000
+Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+        by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 073Eorf064618862
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 3 Aug 2020 14:50:53 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9B7DA136051;
+        Mon,  3 Aug 2020 14:50:56 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1A41213605D;
+        Mon,  3 Aug 2020 14:50:56 +0000 (GMT)
+Received: from ghost4.ibm.com (unknown [9.163.93.250])
+        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Mon,  3 Aug 2020 14:50:55 +0000 (GMT)
+From:   Eddie James <eajames@linux.ibm.com>
+To:     linux-leds@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        robh+dt@kernel.org, dmurphy@ti.com, pavel@ucw.cz,
+        jacek.anaszewski@gmail.com, vishwa@linux.ibm.com,
+        andy.shevchenko@gmail.com, eajames@linux.ibm.com
+Subject: [PATCH v2 0/2] leds: pca955x: Add IBM software implemenation of the PCA9552 chip
+Date:   Mon,  3 Aug 2020 09:50:53 -0500
+Message-Id: <20200803145055.5203-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="sri4gp3tgjjdhwah"
-Content-Disposition: inline
-In-Reply-To: <20200727132144.2ba06aea@dellmb.labs.office.nic.cz>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-08-03_13:2020-08-03,2020-08-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 adultscore=0 phishscore=0 spamscore=0 impostorscore=0
+ bulkscore=0 mlxscore=0 clxscore=1015 mlxlogscore=753 suspectscore=1
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008030110
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+IBM created an implementation of the PCA9552 on a PIC16F
+microcontroller. The I2C device addresses are different from the
+hardware PCA9552, so add a new compatible string and associated
+platform data to be able to probe this device, and document the new
+string.
 
---sri4gp3tgjjdhwah
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes since v1:
+ - Switch the vendor part of the compatible string to ibm
+ - Change the enum in the driver to be ibm_<part no>
 
-Hi!
+Eddie James (2):
+  dt-bindings: leds: pca955x: Add IBM implementation compatible string
+  leds: pca955x: Add an IBM software implementation of the PCA9552 chip
 
-> > +++ b/drivers/leds/leds-turris-omnia.c
-> > @@ -94,15 +94,15 @@ static int omnia_led_register(struct i2c_client
-> > *client, struct omnia_led *led, dev_warn(dev,
-> >  			 "Node %pOF: must contain 'reg' property
-> > with values between 0 and %i\n", np, OMNIA_BOARD_LEDS - 1);
-> > -		return 0;
-> > +		return 0; /* FIXME: should return 0/errrno */
-> >  	}
-> > =20
-> >  	ret =3D of_property_read_u32(np, "color", &color);
-> > -	if (ret || color !=3D LED_COLOR_ID_MULTI) {
-> > +	if (ret || color !=3D LED_COLOR_ID_RGB) {
-> >  		dev_warn(dev,
-> > -			 "Node %pOF: must contain 'color' property
-> > with value LED_COLOR_ID_MULTI\n",
-> > +			 "Node %pOF: must contain 'color' property
-> > with value LED_COLOR_ID_RGB\n", np);
-> > -		return 0;
-> > +		return 0; /* FIXME: should return 0/errrno */
-> >  	}
-> > =20
-> >  	led->subled_info[0].color_index =3D LED_COLOR_ID_RED;
-> > @@ -145,7 +145,7 @@ static int omnia_led_register(struct i2c_client
-> > *client, struct omnia_led *led, return ret;
-> >  	}
-> > =20
-> > -	return 1;
-> > +	return 1; /* FIXME: should return 0/errrno */
-> >  }
-> > =20
-> >  /*
+ Documentation/devicetree/bindings/leds/leds-pca955x.txt | 1 +
+ drivers/leds/leds-pca955x.c                             | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-> Yes, if you want to have RGB as a special case of multicolor so that in
-> the future we can work on color curves or something, this could work
+-- 
+2.24.0
 
-Ok, let's do that.
-
-Could you review return value of omnia_led_register() [see the patch
-above]? AFAICT it is buggy.
-
-I'd like to push the driver to Linus in few days...
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---sri4gp3tgjjdhwah
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXyf9WwAKCRAw5/Bqldv6
-8lRwAJoClnXBGwSXJ1T9+rW56nQnHk+mywCeLnXBY9pFO54JMPg9R0/PcymWo/w=
-=DdBK
------END PGP SIGNATURE-----
-
---sri4gp3tgjjdhwah--
