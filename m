@@ -2,127 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9F7E23A8E5
-	for <lists+linux-leds@lfdr.de>; Mon,  3 Aug 2020 16:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73EB523AAAD
+	for <lists+linux-leds@lfdr.de>; Mon,  3 Aug 2020 18:43:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728288AbgHCOvH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 Aug 2020 10:51:07 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35070 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728224AbgHCOvH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Aug 2020 10:51:07 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 073EcNX9020207;
-        Mon, 3 Aug 2020 10:51:01 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 32pkyfsce4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 03 Aug 2020 10:51:01 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 073EcWkq021051;
-        Mon, 3 Aug 2020 10:51:00 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 32pkyfscdp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 03 Aug 2020 10:51:00 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
-        by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 073EnrmE005097;
-        Mon, 3 Aug 2020 14:50:59 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
-        by ppma05wdc.us.ibm.com with ESMTP id 32nxe47h64-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 03 Aug 2020 14:50:59 +0000
-Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 073EotnQ35258822
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 3 Aug 2020 14:50:55 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BA103136051;
-        Mon,  3 Aug 2020 14:50:57 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4EED9136060;
-        Mon,  3 Aug 2020 14:50:57 +0000 (GMT)
-Received: from ghost4.ibm.com (unknown [9.163.93.250])
-        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Mon,  3 Aug 2020 14:50:57 +0000 (GMT)
-From:   Eddie James <eajames@linux.ibm.com>
-To:     linux-leds@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        robh+dt@kernel.org, dmurphy@ti.com, pavel@ucw.cz,
-        jacek.anaszewski@gmail.com, vishwa@linux.ibm.com,
-        andy.shevchenko@gmail.com, eajames@linux.ibm.com
-Subject: [PATCH v2 2/2] leds: pca955x: Add an IBM software implementation of the PCA9552 chip
-Date:   Mon,  3 Aug 2020 09:50:55 -0500
-Message-Id: <20200803145055.5203-3-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200803145055.5203-1-eajames@linux.ibm.com>
-References: <20200803145055.5203-1-eajames@linux.ibm.com>
+        id S1726511AbgHCQmd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 Aug 2020 12:42:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53630 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725945AbgHCQmd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 Aug 2020 12:42:33 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56D1EC06174A;
+        Mon,  3 Aug 2020 09:42:33 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id z5so20192478pgb.6;
+        Mon, 03 Aug 2020 09:42:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Xdp/fS6+v2ditkJk+cvQMgK9TUqlS62v6zpMnXOv3Ic=;
+        b=a7MqE6FIile7iIvKc0LEMZJMZ6mV1ZL3hknPiZcAHiLJZJVxqLexKXD7MUs4PplR1k
+         32tgmF4SfgrHJDOiSxssO06fHJJU2C0I3z3YIyYXntvBRx5Y/eU7XbilTMMT6KQ65rDR
+         Fa4nsG/JJ/HRkbYr8blHKxHZ2JZ4km4rb/SInDaPLRiyac0407/0kMVuErVAGusfJ7NB
+         wLIHJ7wlCx+F2Av/UvG8cloZM9VRMUr6nuPyLZ+HcNFi8D+DV5kS6kdiOXeRYO6v+xre
+         FKbJmQ7nSvTLIvBS+5Fgn2BXAZIaEq4cQVM2Y6ch8o9/gIfZR5OSv/J4WL8Hfjwmmd6x
+         Wm0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Xdp/fS6+v2ditkJk+cvQMgK9TUqlS62v6zpMnXOv3Ic=;
+        b=rdG4jbsyrsLLgnMYuhYN9cQrOtEAakbG5hI8lYnFZIev20N93bHYAPOO81mJgC8gev
+         TSfZZw90hI0DsbDQTnaiC1np/Y/NAprvxJQzkWHqTOprTJzHzrtkuo4spYc37zhXoIvM
+         VDtvvMPPQqKAlncIA1fMY3MbaB9dKbRGY3z4wBh4UP8edUdha7LWTmev4IhlihAKD6JR
+         kqpETh9YYqvIH+J9P3Uw2mNvnuYguNsjN4oy9n16DCUuo+t46/lPh6ntiyD1w8n16hCT
+         fMwO/DBzvDUwbsUuXELkjQeMZ/ZMwHVjICLuNB5pHSLD871Gov1xS3jhRXVZZL1Dq7HY
+         vkyw==
+X-Gm-Message-State: AOAM5337igv9+Pre58yc8pKs5QvyPLs31CNulbBblo2qptlUsB690pC7
+        MV0vEgzIyj2ElOO+9u6paBtt1f7R6nTLTPsZa1I=
+X-Google-Smtp-Source: ABdhPJyLd0xKU1fFXwew/qnMkherfYLTaf5EOHygn2taxpTZTjjFC3duVTdf5UT0qujpqNr/70s7InpKhau8tw1JCjM=
+X-Received: by 2002:a62:758f:: with SMTP id q137mr16020137pfc.170.1596472952830;
+ Mon, 03 Aug 2020 09:42:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-08-03_13:2020-08-03,2020-08-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
- clxscore=1015 lowpriorityscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 suspectscore=1 bulkscore=0 spamscore=0 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008030106
+References: <20200803145055.5203-1-eajames@linux.ibm.com> <20200803145055.5203-3-eajames@linux.ibm.com>
+In-Reply-To: <20200803145055.5203-3-eajames@linux.ibm.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 3 Aug 2020 19:42:17 +0300
+Message-ID: <CAHp75VevG65uuE4Vv49tSdvpNnxE7AC7W_QR2s8twCPZ=4da_g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] leds: pca955x: Add an IBM software implementation
+ of the PCA9552 chip
+To:     Eddie James <eajames@linux.ibm.com>
+Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Dan Murphy <dmurphy@ti.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        vishwa@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-IBM created an implementation of the PCA9552 on a PIC16F
-microcontroller. The I2C device addresses are different from the
-hardware PCA9552, so add a new compatible string and associated
-platform data to be able to probe this device.
+On Mon, Aug 3, 2020 at 5:51 PM Eddie James <eajames@linux.ibm.com> wrote:
+>
+> IBM created an implementation of the PCA9552 on a PIC16F
+> microcontroller. The I2C device addresses are different from the
+> hardware PCA9552, so add a new compatible string and associated
+> platform data to be able to probe this device.
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
-Reviewed-by: Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
----
- drivers/leds/leds-pca955x.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+...
 
-diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-index 131f8e922ade..7087ca4592fc 100644
---- a/drivers/leds/leds-pca955x.c
-+++ b/drivers/leds/leds-pca955x.c
-@@ -65,6 +65,7 @@ enum pca955x_type {
- 	pca9550,
- 	pca9551,
- 	pca9552,
-+	ibm_pca9552,
- 	pca9553,
- };
- 
-@@ -90,6 +91,11 @@ static struct pca955x_chipdef pca955x_chipdefs[] = {
- 		.slv_addr	= /* 1100xxx */ 0x60,
- 		.slv_addr_shift	= 3,
- 	},
-+	[ibm_pca9552] = {
-+		.bits		= 16,
-+		.slv_addr	= /* 0110xxx */ 0x30,
-+		.slv_addr_shift	= 3,
-+	},
- 	[pca9553] = {
- 		.bits		= 4,
- 		.slv_addr	= /* 110001x */ 0x62,
-@@ -101,6 +107,7 @@ static const struct i2c_device_id pca955x_id[] = {
- 	{ "pca9550", pca9550 },
- 	{ "pca9551", pca9551 },
- 	{ "pca9552", pca9552 },
-+	{ "ibm-pca9552", ibm_pca9552 },
- 	{ "pca9553", pca9553 },
- 	{ }
- };
-@@ -412,6 +419,7 @@ static const struct of_device_id of_pca955x_match[] = {
- 	{ .compatible = "nxp,pca9550", .data = (void *)pca9550 },
- 	{ .compatible = "nxp,pca9551", .data = (void *)pca9551 },
- 	{ .compatible = "nxp,pca9552", .data = (void *)pca9552 },
-+	{ .compatible = "ibm,pca9552", .data = (void *)ibm_pca9552 },
- 	{ .compatible = "nxp,pca9553", .data = (void *)pca9553 },
- 	{},
- };
+>         pca9550,
+>         pca9551,
+>         pca9552,
+> +       ibm_pca9552,
+>         pca9553,
+
+I would rather not mix like this, but use alpha order, for example.
+It's better to read and see which devices are supported by vendor.
+
+...
+
+>         },
+
+> +       [ibm_pca9552] = {
+
+> +       },
+>         [pca9553] = {
+
+Ditto.
+
+...
+
+>         { "pca9550", pca9550 },
+>         { "pca9551", pca9551 },
+>         { "pca9552", pca9552 },
+> +       { "ibm-pca9552", ibm_pca9552 },
+>         { "pca9553", pca9553 },
+
+Ditto.
+
+...
+
+>         { .compatible = "nxp,pca9550", .data = (void *)pca9550 },
+>         { .compatible = "nxp,pca9551", .data = (void *)pca9551 },
+>         { .compatible = "nxp,pca9552", .data = (void *)pca9552 },
+> +       { .compatible = "ibm,pca9552", .data = (void *)ibm_pca9552 },
+>         { .compatible = "nxp,pca9553", .data = (void *)pca9553 },
+
+Ditto.
+
 -- 
-2.24.0
-
+With Best Regards,
+Andy Shevchenko
