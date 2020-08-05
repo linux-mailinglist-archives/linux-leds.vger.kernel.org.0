@@ -2,60 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C93523D3C2
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Aug 2020 00:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC86A23D3C5
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Aug 2020 00:05:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbgHEWCp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 5 Aug 2020 18:02:45 -0400
-Received: from mail.z3ntu.xyz ([128.199.32.197]:56934 "EHLO mail.z3ntu.xyz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726422AbgHEWCo (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 5 Aug 2020 18:02:44 -0400
-X-Greylist: delayed 345 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 Aug 2020 18:02:44 EDT
-Received: by mail.z3ntu.xyz (Postfix, from userid 182)
-        id 32292C5184; Wed,  5 Aug 2020 21:56:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1596664618; bh=NuNyAs9jR4nNycuJMOPU4mJBO5vKUuhZe/x2ivQcxFY=;
-        h=From:To:Subject:Date;
-        b=Zn334Py/2GCmMw5XNapaS8BMynlRWRw0BrEgwqWUbTx2OXPMMJgbJQLjufFnRk5XO
-         Guuq1j80FUVG3AbKQNkT3jq+z5+qq1/m1WHyKpRQRqT5YAwd5ZknJ8sxzmavJdEREi
-         a9hzntzJ6+9fm9ICVKyAxpRpfh9Ue56BCeRYiWI0=
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on arch-vps
-X-Spam-Level: *
-X-Spam-Status: No, score=1.9 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
-        FROM_SUSPICIOUS_NTLD_FP,PDS_OTHER_BAD_TLD,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.4
-Received: from g550jk.localnet (80-110-125-173.cgn.dynamic.surfer.at [80.110.125.173])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 76002C4CBD
-        for <linux-leds@vger.kernel.org>; Wed,  5 Aug 2020 21:56:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1596664616; bh=NuNyAs9jR4nNycuJMOPU4mJBO5vKUuhZe/x2ivQcxFY=;
-        h=From:To:Subject:Date;
-        b=HfCJFp11cYzsFwusQHj3d7553oad9jt3xysQBairE5Ujfn18vCaqqNKaR2eJhG8hP
-         Taq0+EoFmA/rowuEcH5L9ZHpUvjaZv8GybHHPtXtQQbP4JjW2Zu+AE7yR6fofCpQgF
-         KUBipiFR5vGrNEXRak+0mmFK7F7EMNwFwS2ih2Bo=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     linux-leds@vger.kernel.org
-Subject: Multicolor leds-gpio
-Date:   Wed, 05 Aug 2020 23:56:55 +0200
-Message-ID: <2530787.iFCFyWWcSu@g550jk>
+        id S1726087AbgHEWFt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 5 Aug 2020 18:05:49 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:54262 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725830AbgHEWFt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 5 Aug 2020 18:05:49 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 87C131C0BDE; Thu,  6 Aug 2020 00:05:47 +0200 (CEST)
+Date:   Thu, 6 Aug 2020 00:05:47 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Luca Weiss <luca@z3ntu.xyz>
+Cc:     linux-leds@vger.kernel.org
+Subject: Re: Multicolor leds-gpio
+Message-ID: <20200805220547.mkjtuzcitwrb6whn@duo.ucw.cz>
+References: <2530787.iFCFyWWcSu@g550jk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="logec6u6cothvgzu"
+Content-Disposition: inline
+In-Reply-To: <2530787.iFCFyWWcSu@g550jk>
+User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
-would it be possible to make the leds-gpio driver compatible with the new 
-multicolor framework for a light that's composed of 3 leds (red, green, blue) 
-and where each led is controlled via a gpio (so it can produce 8 different 
-colors)? As far as I can tell leds-gpio is too generic to support that but 
-please correct me if I'm wrong. What's the way forward here for this use case? 
-The same probably also applies to leds-pwm.
-Regards
-Luca
 
+--logec6u6cothvgzu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi!
+
+> would it be possible to make the leds-gpio driver compatible with the new=
+=20
+> multicolor framework for a light that's composed of 3 leds (red, green, b=
+lue)=20
+> and where each led is controlled via a gpio (so it can produce 8 differen=
+t=20
+> colors)? As far as I can tell leds-gpio is too generic to support that bu=
+t=20
+> please correct me if I'm wrong. What's the way forward here for this use =
+case?=20
+> The same probably also applies to leds-pwm.
+
+For pwm it definitely makes sense.
+
+For gpio... well, I'm not sure you'll get useful colors that way. You
+can probably still do multicolor, yes.
+
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--logec6u6cothvgzu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXystOwAKCRAw5/Bqldv6
+8kh9AJ9qB0aueYxJPC/HQ5aFhS8KUN8udwCdEUG/2hJPAMqigxhS7Vh5jR+l28k=
+=80zD
+-----END PGP SIGNATURE-----
+
+--logec6u6cothvgzu--
