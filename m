@@ -2,66 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 052DA23C250
-	for <lists+linux-leds@lfdr.de>; Wed,  5 Aug 2020 01:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7636923CD6F
+	for <lists+linux-leds@lfdr.de>; Wed,  5 Aug 2020 19:30:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727871AbgHDXwb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 4 Aug 2020 19:52:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726011AbgHDXw2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 4 Aug 2020 19:52:28 -0400
-X-Greylist: delayed 86248 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 04 Aug 2020 16:52:27 PDT
-Received: from dockerbox (unknown [IPv6:2001:4800:7817:101:be76:4eff:fe04:a215])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BC72FC061756;
-        Tue,  4 Aug 2020 16:52:27 -0700 (PDT)
-Received: from 127.0.0.1 (localhost [127.0.0.1])
-        by dockerbox (Postfix) with SMTP id 6F4DA5EC5A;
-        Mon,  7 Oct 2019 19:30:12 -0500 (CDT)
-Received: from [32.188.209.113] by 127.0.0.1 with SMTP; Mon, 07 Oct 2019 18:22:17 -0600
-Message-ID: <80v-q$4-o4pqyq0@6eeih174.p55>
-From:   "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
-Reply-To: "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
-To:     linkos@binet.lv
-Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA
-Date:   Mon, 07 Oct 19 18:22:17 GMT
-X-Mailer: Microsoft Outlook Express 5.00.2615.200
+        id S1728419AbgHERaG convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Wed, 5 Aug 2020 13:30:06 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:36646 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728068AbgHER1i (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 5 Aug 2020 13:27:38 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 343591C0BDE; Wed,  5 Aug 2020 19:27:36 +0200 (CEST)
+Date:   Wed, 5 Aug 2020 19:27:35 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: Remove myself as LED subsystem maintainer
+Message-ID: <20200805172735.GB1118@bug>
+References: <20200804101525.7235-1-jacek.anaszewski@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="_.A4476ECDD73A3"
-X-Priority: 3
-X-MSMail-Priority: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20200804101525.7235-1-jacek.anaszewski@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi!
 
---_.A4476ECDD73A3
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
+> It don't have enough time for reviewing patches and thus don't
+> want to be listed as regular LED maintainer. Nonetheless I may still
+> give a review from time to time.
 
-Greetings
+Thanks for all the good work you did maintaining LEDs over the years!
 
-My name is Barrister Hans Erich.
+> Signed-off-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 
-I have a client who is interested to invest in your country, she is a well=
- known politician in her country and deserve a lucrative investment partne=
-rship with you outside her country without any delay   Please can you mana=
-ge such investment please Kindly reply for further details.
+Acked-by: Pavel Machek <pavel@ucw.cz>
 
-Your full names --------
+(I'm not sure what the process is here, do I take it through the LED tree?)
 
-
-Your urgent response will be appreciated
-
-Thank you and God bless you.
-
-Barrister Hans Erich
-
-Yours sincerely,
-Barrister Hans Erich
-CONTACT: hanserich9helmut@gmail.com
-
---_.A4476ECDD73A3--
-
+Best regards,
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
