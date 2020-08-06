@@ -2,15 +2,15 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C460923DD06
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Aug 2020 18:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81E7323DC83
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Aug 2020 18:53:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729079AbgHFQ7Y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 6 Aug 2020 12:59:24 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:56840 "EHLO
+        id S1728721AbgHFQxW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 6 Aug 2020 12:53:22 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:56292 "EHLO
         fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728970AbgHFQ7X (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Aug 2020 12:59:23 -0400
+        with ESMTP id S1729231AbgHFQwy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Aug 2020 12:52:54 -0400
 Received: from lelv0266.itg.ti.com ([10.180.67.225])
         by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 076F15Ev107938;
         Thu, 6 Aug 2020 10:01:05 -0500
@@ -57,5 +57,53 @@ Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
+
+Grant
+
+On 8/6/20 1:21 AM, Grant Feng wrote:
+> generate a 5ms low pulse on sdb pin when startup, then the chip
+> becomes more stable in the complex EM environment.
+>
+> Signed-off-by: Grant Feng <von81@163.com>
+> ---
+>   drivers/leds/leds-is31fl319x.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+>
+> diff --git a/drivers/leds/leds-is31fl319x.c b/drivers/leds/leds-is31fl319x.c
+> index ca6634b8683c..b4f70002cec9 100644
+> --- a/drivers/leds/leds-is31fl319x.c
+> +++ b/drivers/leds/leds-is31fl319x.c
+> @@ -16,6 +16,8 @@
+>   #include <linux/of_device.h>
+>   #include <linux/regmap.h>
+>   #include <linux/slab.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+>   
+>   /* register numbers */
+>   #define IS31FL319X_SHUTDOWN		0x00
+> @@ -61,6 +63,7 @@
+>   struct is31fl319x_chip {
+>   	const struct is31fl319x_chipdef *cdef;
+>   	struct i2c_client               *client;
+> +	struct gpio_desc		*sdb_pin;
+>   	struct regmap                   *regmap;
+>   	struct mutex                    lock;
+>   	u32                             audio_gain_db;
+> @@ -265,6 +268,15 @@ static int is31fl319x_parse_dt(struct device *dev,
+>   		is31->audio_gain_db = min(is31->audio_gain_db,
+>   					  IS31FL319X_AUDIO_GAIN_DB_MAX);
+>   
+> +	is31->sdb_pin = gpiod_get(dev, "sdb", GPIOD_ASIS);
+
+Since this is optional maybe use devm_gpiod_get_optional.
+
+If this is required for stability then if the GPIO is not present then 
+the parse_dt should return the error.
+
+And use the devm_gpiod_get call.  Otherwise you are missing the 
+gpiod_put when exiting or removing the driver.
+
+Dan
 
 
