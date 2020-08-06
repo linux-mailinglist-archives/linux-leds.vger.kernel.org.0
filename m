@@ -2,76 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E4FC23D6DD
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Aug 2020 08:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C460923DD06
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Aug 2020 18:59:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728028AbgHFGiB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 6 Aug 2020 02:38:01 -0400
-Received: from m12-15.163.com ([220.181.12.15]:32968 "EHLO m12-15.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726051AbgHFGiA (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 6 Aug 2020 02:38:00 -0400
-X-Greylist: delayed 939 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 Aug 2020 02:37:57 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id; bh=b4Vljfz11N5B3BsXB/
-        jU+jLNNdpMd3l8kupGK/FIHnQ=; b=SN5MGle4MIp3KSKXRDPu290DgzSt7dTQJD
-        fGhFwn8vRFwNlRWqFKLxUn2oEe0BV14NgDRduHZobrliuXmYHOJ//xfcrpLKwMIP
-        59FW5K294r5swrb4TWJ8RACE+6l2YZtwag5bk3BtF9mRAlrnhko4xTdMAarFnO+B
-        bwUdHtark=
-Received: from localhost.localdomain (unknown [58.33.126.62])
-        by smtp11 (Coremail) with SMTP id D8CowADnbcp1oStf0rT5EQ--.55997S3;
-        Thu, 06 Aug 2020 14:21:48 +0800 (CST)
-From:   Grant Feng <von81@163.com>
-To:     von81@163.com, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        dmurphy@ti.com, robh+dt@kernel.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] DT: leds: Add an optional property named 'sdb-gpios'
-Date:   Thu,  6 Aug 2020 14:21:30 +0800
-Message-Id: <20200806062130.25187-2-von81@163.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200806062130.25187-1-von81@163.com>
+        id S1729079AbgHFQ7Y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 6 Aug 2020 12:59:24 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:56840 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728970AbgHFQ7X (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 Aug 2020 12:59:23 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 076F15Ev107938;
+        Thu, 6 Aug 2020 10:01:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1596726065;
+        bh=SsDht611ujdkNQFc6BFSfYMna5LmuK9AurW2tYiBVyU=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=IydTJGkvBiT7VaX6EBJOe1Z1CzhZiR6dHukbm9n8mlGN/ogWpgM04AcWOGWWqilRV
+         aVoxk2TSG5yjqHjWygESa/KQksSSpl/nyd+5j9Y0f+uKkuyeyay94f0K+0S0ahvi4w
+         a3NIvRw6BmqgBwxkkKa4qNyqzlfEDuB14CS9L//w=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 076F15G0015172
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 6 Aug 2020 10:01:05 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 6 Aug
+ 2020 10:01:05 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 6 Aug 2020 10:01:05 -0500
+Received: from [10.250.38.37] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 076F14J2050834;
+        Thu, 6 Aug 2020 10:01:04 -0500
+Subject: Re: [PATCH 1/2] leds: is31fl319x: Add sdb pin and generate a 5ms low
+ pulse when startup
+To:     Grant Feng <von81@163.com>, <jacek.anaszewski@gmail.com>,
+        <pavel@ucw.cz>, <robh+dt@kernel.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20200806062130.25187-1-von81@163.com>
-X-CM-TRANSID: D8CowADnbcp1oStf0rT5EQ--.55997S3
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKw4fCFWfXFW7XFy3XrWfAFb_yoWkKFX_G3
-        Z7JrsFqas8uF1vgr4qvr15Wr43Cr47AF1kCw15ZF48Aw1fXas09FZ7t34Yyr15WFZxurZx
-        C3ykCr4qqr17GjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU0_Oz5UUUUU==
-X-Originating-IP: [58.33.126.62]
-X-CM-SenderInfo: xyrqmii6rwjhhfrp/1tbiNxx4OlWBhkubuAAAsT
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <7c828160-bef6-45b5-60d1-85c6074953c4@ti.com>
+Date:   Thu, 6 Aug 2020 10:00:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200806062130.25187-1-von81@163.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
-
-The chip enters hardware shutdown when the SDB pin is pulled low.
-The chip releases hardware shutdown when the SDB pin is pulled high.
-
-Signed-off-by: Grant Feng <von81@163.com>
----
- Documentation/devicetree/bindings/leds/leds-is31fl319x.txt | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt b/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-index fc2603484544..e8bef4be57dc 100644
---- a/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-@@ -16,6 +16,7 @@ Optional properties:
- - audio-gain-db : audio gain selection for external analog modulation input.
- 	Valid values: 0 - 21, step by 3 (rounded down)
- 	Default: 0
-+- sdb-gpios : Specifier of the GPIO connected to SDB pin.
- 
- Each led is represented as a sub-node of the issi,is31fl319x device.
- There can be less leds subnodes than the chip can support but not more.
-@@ -44,6 +45,7 @@ fancy_leds: leds@65 {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
- 	reg = <0x65>;
-+	sdb-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
- 
- 	red_aux: led@1 {
- 		label = "red:aux";
--- 
-2.17.1
 
 
