@@ -2,75 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC86A23D3C5
-	for <lists+linux-leds@lfdr.de>; Thu,  6 Aug 2020 00:05:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2161923D5AA
+	for <lists+linux-leds@lfdr.de>; Thu,  6 Aug 2020 05:08:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbgHEWFt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 5 Aug 2020 18:05:49 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:54262 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbgHEWFt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 5 Aug 2020 18:05:49 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 87C131C0BDE; Thu,  6 Aug 2020 00:05:47 +0200 (CEST)
-Date:   Thu, 6 Aug 2020 00:05:47 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Luca Weiss <luca@z3ntu.xyz>
-Cc:     linux-leds@vger.kernel.org
-Subject: Re: Multicolor leds-gpio
-Message-ID: <20200805220547.mkjtuzcitwrb6whn@duo.ucw.cz>
-References: <2530787.iFCFyWWcSu@g550jk>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="logec6u6cothvgzu"
-Content-Disposition: inline
-In-Reply-To: <2530787.iFCFyWWcSu@g550jk>
-User-Agent: NeoMutt/20180716
+        id S1727083AbgHFDIN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 5 Aug 2020 23:08:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58770 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727045AbgHFDIN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 5 Aug 2020 23:08:13 -0400
+Subject: Re: [GIT PULL] LEDs changes for v5.9-rc1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596683292;
+        bh=u328AGYVGNQ25L1MSNT96DWiLFdpHDjM2YuMOJ/gqCU=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=IKMqISo4NEo6AUsriAgXULGoXq5024ClL/4S17EGIlgZLlABBN8K2nfux7xdYNYu7
+         8pUiNnHMKf0nAb+JFk30t1Az32ragJr5eLvi0rfRZ27bQeYBB0iW9IE0CIUEuPC1KT
+         dMYmiozpZMPFChaVIz1fEktAFMmwwKlG800qDBLo=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20200805213329.GA15090@duo.ucw.cz>
+References: <20200805213329.GA15090@duo.ucw.cz>
+X-PR-Tracked-List-Id: <linux-leds.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20200805213329.GA15090@duo.ucw.cz>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.9-rc1
+X-PR-Tracked-Commit-Id: bba37471de2d7733b0deef57e03c47fa97a284a7
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e4a7b2dc35d9582c253cf5e6d6c3605aabc7284d
+Message-Id: <159668329245.23142.18018972892801501372.pr-tracker-bot@kernel.org>
+Date:   Thu, 06 Aug 2020 03:08:12 +0000
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+The pull request you sent on Wed, 5 Aug 2020 23:33:29 +0200:
 
---logec6u6cothvgzu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.9-rc1
 
-Hi!
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e4a7b2dc35d9582c253cf5e6d6c3605aabc7284d
 
-> would it be possible to make the leds-gpio driver compatible with the new=
-=20
-> multicolor framework for a light that's composed of 3 leds (red, green, b=
-lue)=20
-> and where each led is controlled via a gpio (so it can produce 8 differen=
-t=20
-> colors)? As far as I can tell leds-gpio is too generic to support that bu=
-t=20
-> please correct me if I'm wrong. What's the way forward here for this use =
-case?=20
-> The same probably also applies to leds-pwm.
+Thank you!
 
-For pwm it definitely makes sense.
-
-For gpio... well, I'm not sure you'll get useful colors that way. You
-can probably still do multicolor, yes.
-
-Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---logec6u6cothvgzu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXystOwAKCRAw5/Bqldv6
-8kh9AJ9qB0aueYxJPC/HQ5aFhS8KUN8udwCdEUG/2hJPAMqigxhS7Vh5jR+l28k=
-=80zD
------END PGP SIGNATURE-----
-
---logec6u6cothvgzu--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
