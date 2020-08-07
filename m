@@ -2,35 +2,36 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D468023E8C9
-	for <lists+linux-leds@lfdr.de>; Fri,  7 Aug 2020 10:21:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B351B23E9BF
+	for <lists+linux-leds@lfdr.de>; Fri,  7 Aug 2020 11:07:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726979AbgHGIVl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Aug 2020 04:21:41 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:56346 "EHLO
+        id S1727783AbgHGJG6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 7 Aug 2020 05:06:58 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:35376 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726542AbgHGIVl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Aug 2020 04:21:41 -0400
+        with ESMTP id S1726788AbgHGJG6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 Aug 2020 05:06:58 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 9A4DD1C0BD9; Fri,  7 Aug 2020 10:21:38 +0200 (CEST)
-Date:   Fri, 7 Aug 2020 10:21:38 +0200
+        id AE7051C0BD9; Fri,  7 Aug 2020 11:06:53 +0200 (CEST)
+Date:   Fri, 7 Aug 2020 11:06:53 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Denis Osterland-Heim <denis.osterland@diehl.com>
-Cc:     "dmurphy@ti.com" <dmurphy@ti.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v7 1/3] leds: move default_state read from fwnode to core
-Message-ID: <20200807082138.6y4sumchphjb6elw@duo.ucw.cz>
-References: <20200731164945.19515-1-Denis.Osterland@diehl.com>
- <20200731164945.19515-2-Denis.Osterland@diehl.com>
+To:     Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>
+Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        jacek.anaszewski@gmail.com, Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC leds + net-next v4 0/2] Add support for LEDs on
+ Marvell PHYs
+Message-ID: <20200807090653.ihnt2arywqtpdzjg@duo.ucw.cz>
+References: <20200728150530.28827-1-marek.behun@nic.cz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="mt2cj253mqgb5vz4"
+        protocol="application/pgp-signature"; boundary="tuqlwx4lnotoz6lx"
 Content-Disposition: inline
-In-Reply-To: <20200731164945.19515-2-Denis.Osterland@diehl.com>
+In-Reply-To: <20200728150530.28827-1-marek.behun@nic.cz>
 User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
@@ -38,51 +39,54 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---mt2cj253mqgb5vz4
+--tuqlwx4lnotoz6lx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
-> Signed-off-by: Denis Osterland-Heim <Denis.Osterland@diehl.com>
+> this is v4 of my RFC adding support for LEDs connected to Marvell PHYs.
+>=20
+> Please note that if you want to test this, you still need to first apply
+> the patch adding the LED private triggers support from Pavel's tree.
+> https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/comm=
+it/?h=3Dfor-next&id=3D93690cdf3060c61dfce813121d0bfc055e7fa30d
+>=20
+> What I still don't like about this is that the LEDs created by the code
+> don't properly support device names. LEDs should have name in format
+> "device:color:function", for example "eth0:green:activity".
+>=20
+> The code currently looks for attached netdev for a given PHY, but
+> at the time this happens there is no netdev attached, so the LEDs gets
+> names without the device part (ie ":green:activity").
+>=20
+> This can be addressed in next version by renaming the LED when a netdev
+> is attached to the PHY, but first a API for LED device renaming needs to
+> be proposed. I am going to try to do that. This would also solve the
+> same problem when userspace renames an interface.
+>=20
+> And no, I don't want phydev name there.
 
-This tells me you:
-
-1) you are probably not copyright owner
-
-2) you want your company to promise not to sue people, in a legally
-binding way.
-
-> The contents of the above mentioned e-mail is not legally
->  binding. This e-mail contains confidential and/or legally protected
->  information. Please inform us if you have received this e-mail by
-
-This tells me:
-
-1) your company and/or lawyers are not ... people I'd like to meet
-
-2) you can not make promises for your company.
-
-Please talk to your legal department and / or make someone who _can_
-make promises submit the patch.
+Ummm. Can we get little more explanation on that? I fear that LED
+device renaming will be tricky and phydev would work around that
+nicely.
 
 Best regards,
-
-									Pavel
+								Pavel
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---mt2cj253mqgb5vz4
+--tuqlwx4lnotoz6lx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXy0PEgAKCRAw5/Bqldv6
-8oLqAJ9I763m3DLrubBReUSP2UxpcD84NACfR65GCIxR9sMl3RHNzipfo32YkT0=
-=fNIR
+iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXy0ZrQAKCRAw5/Bqldv6
+8o/UAJ9nvd57fgnTIHmdYW/OH4c5swwXJQCguYTbyQen7XuCNSviqkB7ZxmHeYs=
+=WH64
 -----END PGP SIGNATURE-----
 
---mt2cj253mqgb5vz4--
+--tuqlwx4lnotoz6lx--
