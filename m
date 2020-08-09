@@ -2,75 +2,72 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0D6523F631
-	for <lists+linux-leds@lfdr.de>; Sat,  8 Aug 2020 05:38:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23B8223FBE7
+	for <lists+linux-leds@lfdr.de>; Sun,  9 Aug 2020 02:14:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726299AbgHHDiT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 Aug 2020 23:38:19 -0400
-Received: from m12-15.163.com ([220.181.12.15]:53170 "EHLO m12-15.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726200AbgHHDiS (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 7 Aug 2020 23:38:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id; bh=b4Vljfz11N5B3BsXB/
-        jU+jLNNdpMd3l8kupGK/FIHnQ=; b=qA5UwQJunYoKky7jyzdoOO7BiUiDJnfUpl
-        7FnzlXWMXhvNw0BXLLz2bFds0T3r/8u83UnJyKo3X0BVbvZRFPa/jb7If7+yosA7
-        eYh5A2j92mSxH/0QYsnSZfVYQ8wLOdv5U8h3l2ruH2EdsgFb9punixbmRP/vFaes
-        t0rAZ+ffs=
-Received: from localhost.localdomain (unknown [58.33.126.62])
-        by smtp11 (Coremail) with SMTP id D8CowACnoqoHHi5fN_NeEw--.35350S3;
-        Sat, 08 Aug 2020 11:37:50 +0800 (CST)
-From:   Grant Feng <von81@163.com>
-To:     von81@163.com, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        dmurphy@ti.com, robh+dt@kernel.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] leds: Add an optional property named 'sdb-gpios'
-Date:   Sat,  8 Aug 2020 11:37:31 +0800
-Message-Id: <20200808033731.15695-2-von81@163.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200808033731.15695-1-von81@163.com>
-References: <20200808033731.15695-1-von81@163.com>
-X-CM-TRANSID: D8CowACnoqoHHi5fN_NeEw--.35350S3
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKw4fCFWfXFW7XFy3XrWfAFb_yoWkKFX_G3
-        Z7JrsFqas8uF1vgr4qvr15Wr43Cr47AF1kCw15ZF48Aw1fXas09FZ7t34Yyr15WFZxurZx
-        C3ykCr4qqr17GjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU09qXPUUUUU==
-X-Originating-IP: [58.33.126.62]
-X-CM-SenderInfo: xyrqmii6rwjhhfrp/xtbBiA96OlaD8Fa+wAAAsK
+        id S1725988AbgHIAOV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 8 Aug 2020 20:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44360 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725950AbgHIAOV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 8 Aug 2020 20:14:21 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9320CC061756
+        for <linux-leds@vger.kernel.org>; Sat,  8 Aug 2020 17:14:20 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id kq25so5851103ejb.3
+        for <linux-leds@vger.kernel.org>; Sat, 08 Aug 2020 17:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:mime-version:content-transfer-encoding
+         :content-description:subject:to:from:date:reply-to;
+        bh=IqFQAMj9YAqdAub1Iy6pJc/J8JTv9pU5rCFx5IyFw/Y=;
+        b=f4jf4sofZJ94oqMOzDNfKXEsDQPp0JDF4MP/wKVbLT1ZRpgTtEgZx/D2nUb6je3HpT
+         pIMiII2HV8bZV0wVmCBYtOPT5A2B/lTo333eCVXLF6N7CHBK7JSwxdLmmjMOMS8dspRY
+         faGT/wwo8SSGIdc/CUgew78bz4IL0qPRAiYo7xJqTucedfG/tgTKMNn/J9dfPMWiQ22G
+         12Qn6Q7It/8u0rjRMy1miIV7UKVX7wOp5rBOgwApQcYu2txjn4BGsMH3eZRzTcm/vDdD
+         yxz/lF/N58+X1OE7wSvtUXjDVCxmDgy3hAVM8dwfTYqXurujt0wZ1rwUKTTwmTsNFFPf
+         dfGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:mime-version
+         :content-transfer-encoding:content-description:subject:to:from:date
+         :reply-to;
+        bh=IqFQAMj9YAqdAub1Iy6pJc/J8JTv9pU5rCFx5IyFw/Y=;
+        b=GUVfyKzUkd0PrEGxv4z7lAv3vkOd2tDb+DC71UBvSvIdjTKBjdSyD9gnM1kBEOLYaE
+         YXeH9ovCKfStNE3vIQ8ud27FMV4qjeRCtsh3LVyH4Z+9L6XJunV6+7x/jcRh57izyeXu
+         BH/2A3nyYIQfGfLuJrt0AephCGy6hJW3EeUUc3kJMG6PeOG5rMlvUHZd9ySjaJDA3Rra
+         wF7mRlUxZH8+KckUTmtIl0KmYIuI0EXI51P3BbYQh5dzbv95R6RfvsrNHAnmHwOHTpHX
+         vrH7MH2qPWv3sWRsbRGxvubVP/haWvoNWdPwOpK+/3JNlHcQubkFGyw5s13dkVYOlvGY
+         eAPw==
+X-Gm-Message-State: AOAM530ZDsJZbQLQ15IWP0xFsNXFlFZ70pxa6rFzgHXnpoAqEoVvhkW1
+        2YO5QSu33s6wyjUIOROhExY=
+X-Google-Smtp-Source: ABdhPJz1SNZcY0bcdhc8MC/0n/9/JiWsAaoaCpsjP+7+iMzVnOLUECzx7QOzmBpUSxqxjLNu1g/boA==
+X-Received: by 2002:a17:906:c04d:: with SMTP id bm13mr15365409ejb.321.1596932059014;
+        Sat, 08 Aug 2020 17:14:19 -0700 (PDT)
+Received: from [192.168.0.108] ([196.171.37.220])
+        by smtp.gmail.com with ESMTPSA id dk28sm8788609edb.90.2020.08.08.17.14.14
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Sat, 08 Aug 2020 17:14:18 -0700 (PDT)
+Message-ID: <5f2f3fda.1c69fb81.f881a.67d2@mx.google.com>
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Hello
+To:     Recipients <kpandekomi@gmail.com>
+From:   "Sophia" <kpandekomi@gmail.com>
+Date:   Sun, 09 Aug 2020 00:14:02 +0000
+Reply-To: sophiawillians00@gmail.com
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The chip enters hardware shutdown when the SDB pin is pulled low.
-The chip releases hardware shutdown when the SDB pin is pulled high.
+Hello Dear,
 
-Signed-off-by: Grant Feng <von81@163.com>
----
- Documentation/devicetree/bindings/leds/leds-is31fl319x.txt | 2 ++
- 1 file changed, 2 insertions(+)
+How are you doing.
+My name is Sophia Williams
+Please reply, so that we can know more better =
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt b/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-index fc2603484544..e8bef4be57dc 100644
---- a/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-@@ -16,6 +16,7 @@ Optional properties:
- - audio-gain-db : audio gain selection for external analog modulation input.
- 	Valid values: 0 - 21, step by 3 (rounded down)
- 	Default: 0
-+- sdb-gpios : Specifier of the GPIO connected to SDB pin.
- 
- Each led is represented as a sub-node of the issi,is31fl319x device.
- There can be less leds subnodes than the chip can support but not more.
-@@ -44,6 +45,7 @@ fancy_leds: leds@65 {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
- 	reg = <0x65>;
-+	sdb-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
- 
- 	red_aux: led@1 {
- 		label = "red:aux";
--- 
-2.17.1
-
-
+and share photos,
+Thank you.
