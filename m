@@ -2,72 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23B8223FBE7
-	for <lists+linux-leds@lfdr.de>; Sun,  9 Aug 2020 02:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EA9B23FF43
+	for <lists+linux-leds@lfdr.de>; Sun,  9 Aug 2020 18:32:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725988AbgHIAOV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 8 Aug 2020 20:14:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44360 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725950AbgHIAOV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 8 Aug 2020 20:14:21 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9320CC061756
-        for <linux-leds@vger.kernel.org>; Sat,  8 Aug 2020 17:14:20 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id kq25so5851103ejb.3
-        for <linux-leds@vger.kernel.org>; Sat, 08 Aug 2020 17:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:mime-version:content-transfer-encoding
-         :content-description:subject:to:from:date:reply-to;
-        bh=IqFQAMj9YAqdAub1Iy6pJc/J8JTv9pU5rCFx5IyFw/Y=;
-        b=f4jf4sofZJ94oqMOzDNfKXEsDQPp0JDF4MP/wKVbLT1ZRpgTtEgZx/D2nUb6je3HpT
-         pIMiII2HV8bZV0wVmCBYtOPT5A2B/lTo333eCVXLF6N7CHBK7JSwxdLmmjMOMS8dspRY
-         faGT/wwo8SSGIdc/CUgew78bz4IL0qPRAiYo7xJqTucedfG/tgTKMNn/J9dfPMWiQ22G
-         12Qn6Q7It/8u0rjRMy1miIV7UKVX7wOp5rBOgwApQcYu2txjn4BGsMH3eZRzTcm/vDdD
-         yxz/lF/N58+X1OE7wSvtUXjDVCxmDgy3hAVM8dwfTYqXurujt0wZ1rwUKTTwmTsNFFPf
-         dfGQ==
+        id S1726289AbgHIQcf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 9 Aug 2020 12:32:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39435 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726236AbgHIQce (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 9 Aug 2020 12:32:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1596990751;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=PsMQY7jSXY4+oAbixnAnftAfol98FgMKGuspJ+Q9XFk=;
+        b=gn5d3KbxZXnqPmkMLQZMVQUIdxIgETEUjnhMVaJL6HhkY1uhUY5UK4FHJ8/dM9D0bgxAIE
+        NfSG2es6+0tyGOWp7dWeiTBXyg/1yWRBOEqAwcyrDU8m2oOyiN8m5q8MwyolE/r6Iwl3in
+        VAbIr3fY0aDvHsp4WOtek6NPqeh6uUU=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-h36S9TT_MmGEm8-DjBC4Zw-1; Sun, 09 Aug 2020 12:32:27 -0400
+X-MC-Unique: h36S9TT_MmGEm8-DjBC4Zw-1
+Received: by mail-qv1-f71.google.com with SMTP id j8so5689937qvu.3
+        for <linux-leds@vger.kernel.org>; Sun, 09 Aug 2020 09:32:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:mime-version
-         :content-transfer-encoding:content-description:subject:to:from:date
-         :reply-to;
-        bh=IqFQAMj9YAqdAub1Iy6pJc/J8JTv9pU5rCFx5IyFw/Y=;
-        b=GUVfyKzUkd0PrEGxv4z7lAv3vkOd2tDb+DC71UBvSvIdjTKBjdSyD9gnM1kBEOLYaE
-         YXeH9ovCKfStNE3vIQ8ud27FMV4qjeRCtsh3LVyH4Z+9L6XJunV6+7x/jcRh57izyeXu
-         BH/2A3nyYIQfGfLuJrt0AephCGy6hJW3EeUUc3kJMG6PeOG5rMlvUHZd9ySjaJDA3Rra
-         wF7mRlUxZH8+KckUTmtIl0KmYIuI0EXI51P3BbYQh5dzbv95R6RfvsrNHAnmHwOHTpHX
-         vrH7MH2qPWv3sWRsbRGxvubVP/haWvoNWdPwOpK+/3JNlHcQubkFGyw5s13dkVYOlvGY
-         eAPw==
-X-Gm-Message-State: AOAM530ZDsJZbQLQ15IWP0xFsNXFlFZ70pxa6rFzgHXnpoAqEoVvhkW1
-        2YO5QSu33s6wyjUIOROhExY=
-X-Google-Smtp-Source: ABdhPJz1SNZcY0bcdhc8MC/0n/9/JiWsAaoaCpsjP+7+iMzVnOLUECzx7QOzmBpUSxqxjLNu1g/boA==
-X-Received: by 2002:a17:906:c04d:: with SMTP id bm13mr15365409ejb.321.1596932059014;
-        Sat, 08 Aug 2020 17:14:19 -0700 (PDT)
-Received: from [192.168.0.108] ([196.171.37.220])
-        by smtp.gmail.com with ESMTPSA id dk28sm8788609edb.90.2020.08.08.17.14.14
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Sat, 08 Aug 2020 17:14:18 -0700 (PDT)
-Message-ID: <5f2f3fda.1c69fb81.f881a.67d2@mx.google.com>
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Hello
-To:     Recipients <kpandekomi@gmail.com>
-From:   "Sophia" <kpandekomi@gmail.com>
-Date:   Sun, 09 Aug 2020 00:14:02 +0000
-Reply-To: sophiawillians00@gmail.com
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=PsMQY7jSXY4+oAbixnAnftAfol98FgMKGuspJ+Q9XFk=;
+        b=D+FT1MsIGDxbaDEwuWDRl+Xaq0x0mFrFvz4N5qrTm4XPtyBz1PjAgQV8gNISaWiqnL
+         /5ViyoWptjOqcfzyy6hKwb06DMPsVxOi9Y4IuVG3Zsrvh3j065zlPqA0obTudHzgpHSD
+         b0Uehv8d4+QZX7uuyFIxokBAoM2K26uajHAQDCr7v9Pd8T/MGaWNgfZSqejqk8ny0XIs
+         OCYFKBfxZEw9VIi38T1kPH9VXZo8Ai4tRcQjYVZ1KqwIAJ1l+Rx7Qf2zEsfA1jjTSETR
+         o0Yz+ItNTZiWSCwasxLqgcewRN1wElfBoxwcJN1vhY0p1XwLwLamdpZZWe0sK5kW8xtr
+         yUig==
+X-Gm-Message-State: AOAM531i8r3UkvKx3LsUS8nYI0RWuCjWhnJtBTk/bWdeWaTvDhRG6cYy
+        gjmNS7x98hChiZbTvVZ5tw8vaTFnJiuvXyc+IaXilQvKKtZWzZjBwJo459SDcitKxoQFkncIVpY
+        Xxn6kooDyVqP/aMV6TOPIJw==
+X-Received: by 2002:a05:6214:290:: with SMTP id l16mr24599891qvv.187.1596990747394;
+        Sun, 09 Aug 2020 09:32:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxma2GBDDu2oNvsxHZ9yvLuxWvPbRyHyBBHUXJQyxP4tzEslX0cuIqMV03P+K7mAvDDQKZmWw==
+X-Received: by 2002:a05:6214:290:: with SMTP id l16mr24599873qvv.187.1596990747159;
+        Sun, 09 Aug 2020 09:32:27 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id y3sm8304604qkd.132.2020.08.09.09.32.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Aug 2020 09:32:26 -0700 (PDT)
+From:   trix@redhat.com
+To:     sean.wang@mediatek.com, pavel@ucw.cz, dmurphy@ti.com,
+        matthias.bgg@gmail.com, jacek.anaszewski@gmail.com
+Cc:     linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] leds: mt6323: move period calculation
+Date:   Sun,  9 Aug 2020 09:32:21 -0700
+Message-Id: <20200809163221.32413-1-trix@redhat.com>
+X-Mailer: git-send-email 2.18.1
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Dear,
+From: Tom Rix <trix@redhat.com>
 
-How are you doing.
-My name is Sophia Williams
-Please reply, so that we can know more better =
+clang static analysis reports this problem
 
-and share photos,
-Thank you.
+leds-mt6323.c:275:12: warning: Division by zero
+        duty_hw = MT6323_CAL_HW_DUTY(*delay_on, period);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is because period can be 0.
+
+	period = *delay_on + *delay_off;
+
+There is a later check that *delay_on/off are valid.
+
+	if (!*delay_on && !*delay_off) {
+		*delay_on = 500;
+		*delay_off = 500;
+	}
+
+Setting the delay_on/off means period needs to be recalculated
+anyway.  So move the period statements after this check.
+
+Fixes: 216ec6cc4c19 ("leds: Add LED support for MT6323 PMIC")
+
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/leds/leds-mt6323.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/leds/leds-mt6323.c b/drivers/leds/leds-mt6323.c
+index 2a13e3161bf4..7b240771e45b 100644
+--- a/drivers/leds/leds-mt6323.c
++++ b/drivers/leds/leds-mt6323.c
+@@ -248,15 +248,6 @@ static int mt6323_led_set_blink(struct led_classdev *cdev,
+ 	u8 duty_hw;
+ 	int ret;
+ 
+-	/*
+-	 * Units are in ms, if over the hardware able
+-	 * to support, fallback into software blink
+-	 */
+-	period = *delay_on + *delay_off;
+-
+-	if (period > MT6323_MAX_PERIOD)
+-		return -EINVAL;
+-
+ 	/*
+ 	 * LED subsystem requires a default user
+ 	 * friendly blink pattern for the LED so using
+@@ -268,6 +259,15 @@ static int mt6323_led_set_blink(struct led_classdev *cdev,
+ 		*delay_off = 500;
+ 	}
+ 
++	/*
++	 * Units are in ms, if over the hardware able
++	 * to support, fallback into software blink
++	 */
++	period = *delay_on + *delay_off;
++
++	if (period > MT6323_MAX_PERIOD)
++		return -EINVAL;
++
+ 	/*
+ 	 * Calculate duty_hw based on the percentage of period during
+ 	 * which the led is ON.
+-- 
+2.18.1
+
