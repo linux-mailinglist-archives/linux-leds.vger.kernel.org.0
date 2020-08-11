@@ -2,68 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BA42240301
-	for <lists+linux-leds@lfdr.de>; Mon, 10 Aug 2020 09:53:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09C90241994
+	for <lists+linux-leds@lfdr.de>; Tue, 11 Aug 2020 12:20:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726473AbgHJHxZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 10 Aug 2020 03:53:25 -0400
-Received: from mout.gmx.net ([212.227.15.15]:50997 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725894AbgHJHxY (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 10 Aug 2020 03:53:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1597046002;
-        bh=BGHmVmfzxxMHSYOMNFzjJTk9r5x5nYy5OZvRCZMmU4k=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=IliGgpwaIVYKWcZ9vN6orqAjP1GTVBvCB1ybG1oAK3ZpXISi5+E7ky6v1B8fHvqt0
-         ABcAkXRine2eRjNcNEO8SOpUaaRToYqdcan8YSCu7b0DIY3aAWxHCCV8n0AF0dWnUW
-         9yZjJA7OmXXkkioiIDdA6H3ltTCrp+hX7EtcreWc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [188.192.120.146] ([188.192.120.146]) by web-mail.gmx.net
- (3c-app-gmx-bs28.server.lan [172.19.170.80]) (via HTTP); Mon, 10 Aug 2020
- 09:53:22 +0200
+        id S1728571AbgHKKUb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 Aug 2020 06:20:31 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:52836 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728448AbgHKKUb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 Aug 2020 06:20:31 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id BB2661C0BD8; Tue, 11 Aug 2020 12:20:28 +0200 (CEST)
+Date:   Tue, 11 Aug 2020 12:20:28 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     jacek.anaszewski@gmail.com, robh@kernel.org, marek.behun@nic.cz,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v32 1/6] dt: bindings: lp50xx: Introduce the lp50xx
+ family of RGB drivers
+Message-ID: <20200811102028.tjea7oqbzb5jjqip@duo.ucw.cz>
+References: <20200722153146.8767-1-dmurphy@ti.com>
+ <20200722153146.8767-2-dmurphy@ti.com>
 MIME-Version: 1.0
-Message-ID: <trinity-17812215-fb10-4c73-b0d7-47c2235386a7-1597046002173@3c-app-gmx-bs28>
-From:   truart@gmx.de
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org
-Subject: Aw: Re: led block trigger patch
-Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 10 Aug 2020 09:53:22 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20200810073359.GA15023@amd>
-References: <trinity-ff7f1644-b76d-424b-9a6f-8caaf9961ffe-1595962052162@3c-app-gmx-bap12>
- <50db75e2-d53c-ce8b-bd00-1099be0e2e74@ifi.lmu.de>
- <trinity-bc8857f4-cee1-4b95-a4fd-cc817119a95c-1597042087357@3c-app-gmx-bap76>
- <20200810073359.GA15023@amd>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:IQpL7K0Cy+IpSf2MfT76vbmeU3k6fxRtmW/H/1G//1Sn7fC9kpJYcfH4+mxeLCqtBok+F
- pwoSrBY2YXHjzt3UnCR/VmZqYefHEWiSgMZv8AUW2bK37DZ5lXmcX0yoWXhzLqS+9cpSXgBJEg7x
- z4DmLIvtyMKURhHU3SQ8xFahaAO1DW/dUWoE3PSr8EYiEH60Z3oU4dcQoTRe/Z+apQfz3fbG/Teb
- a2ow94JmR2V+D7+ODf4aKip1qoGJprHcCIhIWp1ZlyyqddVDgum6iWjDJwSPF7f6uHT3Tuj+B7xI
- mw=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lNssb8FWNuU=:4VhzewpptawWaQvEVm8Dt0
- lPuFfI04e9GQD2HSzzTXHgkbgwNnSU8Ssv9XGU9Mz2BoEOdpqaYHtDX87k191hizL+YwHgk/Q
- 1/nGmJ63+7Sw/h1RrkdT5dOw5qguX5iK51puyr/MJNuxP5FOjzv5J1DkiVb0kGJqcIehz4+te
- 5jYomJ4p6dAWNy4Ba+02vKXM7SqXHLwLxFXVMWfmL/DtJ84mpyy7qwd+Wh3h/pEZgbcRGUQJJ
- QTHFbsSS8DRMrK0z1nfX8Iedcx2rhwN8tHNPOMBYkE1DwvQGLpTSbHNO+VLPi55eXhfFh0tX6
- TV40eju560J0aDSgFdKwVsSTRCxTIXlNX551BadgWXC3U5Bly44D6Ywiq1Np3eo+zLaLTxIzE
- Fdklsar5YFlo9XH1Whp0CEgAsBzhvgpYkgz+1naiRAvfola0Stpv8YcIBpsr7L60ZpKMdOWKK
- WqwXFG4chikg4/sYkXPMRCh5A4blShjKtoU367fX6y47AmcCz4mxEhU09/4C97WKVPN43iGll
- ZIhd35Mxh1GtaLyQVtuiUuODaxJNB/QWd3ZYOXZAr/FQOWgiVo1qeo5y2gx0vjOH8bQCwmzJH
- dOniCRPPp/OwszZEPPsFZUost9TCyx9esY74U75bBcx+PqxI86BMjJJzrh7eZF4GbklPOZjW2
- 7ExZzQY75AZw8zhMyMejhKLQ0DfMuboytmHak0wKmwJnxwA==
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="7jkgene5vcu5zbvy"
+Content-Disposition: inline
+In-Reply-To: <20200722153146.8767-2-dmurphy@ti.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> What was the point of me reviewing the old patch when you are not
-> going to fix it? That was not very constructive.
 
-I'm sorry :( I really didn't mean to cause unneccessary work for anyone!
-Michael
+--7jkgene5vcu5zbvy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+On Wed 2020-07-22 10:31:41, Dan Murphy wrote:
+> Introduce the bindings for the Texas Instruments LP5036, LP5030, LP5024,
+> LP5018, LP5012 and LP5009 RGB LED device driver.  The LP5036/30/24/18/12/9
+> can control RGB LEDs individually or as part of a control bank group.
+> These devices have the ability to adjust the mixing control for the RGB
+> LEDs to obtain different colors independent of the overall brightness of
+> the LED grouping.
+>=20
+> Datasheet:
+> http://www.ti.com/lit/ds/symlink/lp5012.pdf
+> http://www.ti.com/lit/ds/symlink/lp5024.pdf
+> http://www.ti.com/lit/ds/symlink/lp5036.pdf
+>=20
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+
+Acked-by: Pavel Machek <pavel@ucw.cz>
+
+> +           multi-led@1 {
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <0>;
+> +               reg =3D <0x1>;
+> +               color =3D <LED_COLOR_ID_MULTI>;
+> +               function =3D LED_FUNCTION_CHARGING;
+
+These are just examples, but we should really separate "MULTI" colors
+and "RGB".
+
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--7jkgene5vcu5zbvy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXzJw7AAKCRAw5/Bqldv6
+8pbSAJ9s18t0lQR7n0nNMX/9cwncEkoDIwCgvjSqotB88Nj3mVWhq3SbaHJ4yq4=
+=k3hG
+-----END PGP SIGNATURE-----
+
+--7jkgene5vcu5zbvy--
