@@ -2,77 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19BA7242F5C
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Aug 2020 21:33:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3587242F93
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Aug 2020 21:50:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726574AbgHLTdC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Aug 2020 15:33:02 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:42704 "EHLO
+        id S1726542AbgHLTun (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 Aug 2020 15:50:43 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:44528 "EHLO
         lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726531AbgHLTdC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Aug 2020 15:33:02 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07CJWted106805;
-        Wed, 12 Aug 2020 14:32:55 -0500
+        with ESMTP id S1726512AbgHLTum (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Aug 2020 15:50:42 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07CJoQqV110975;
+        Wed, 12 Aug 2020 14:50:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1597260775;
-        bh=1EW1OwfLbnIn6nn3Pcy0uYF/8AosEYu2FExcNrqoGvo=;
+        s=ti-com-17Q1; t=1597261826;
+        bh=T0TvMRXLEYd7VyqjQ3n8OazCVX9xX3llTyDlXEMt8FM=;
         h=From:To:CC:Subject:Date;
-        b=Dzcq8VsGzzadMpEJ0qY/ryBydU1TzxOXmjA9xwrva09hV+cg+m3TZ3wk+cIzRmOTY
-         P9ifs19pOmwVRnUzIjwvhibcy160ZHSpE/cU6Z5NaXdNUtDK5Ny0IxLLaLtM6b+ChS
-         PK8hZyPrVqc5Tr5qD6LaTV3WCZdJ93LplJTuYD5w=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07CJWtw6024876
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 12 Aug 2020 14:32:55 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+        b=qi6quTcdTqtPa8SKIm7fGhi/eSbGBIxLANVZODNqQxIVVp9G58hhuM3rpd16uShTh
+         LSjXa8h1MwUhWvfgBRkb8OSy2I/1joEVsTVpws8JogBoDhCECGPMe1a7PF1sJ01GG+
+         DL+G0pky918/+t/SluvfK9ckSpT4C6uOhJ9FVx54=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07CJoQxl125945;
+        Wed, 12 Aug 2020 14:50:26 -0500
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 12
- Aug 2020 14:32:55 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2020 14:50:26 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 12 Aug 2020 14:32:55 -0500
+ Frontend Transport; Wed, 12 Aug 2020 14:50:26 -0500
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07CJWsvi013991;
-        Wed, 12 Aug 2020 14:32:54 -0500
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07CJoQAc109760;
+        Wed, 12 Aug 2020 14:50:26 -0500
 From:   Dan Murphy <dmurphy@ti.com>
-To:     <pavel@ucw.cz>, <robh@kernel.org>
+To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh@kernel.org>,
+        <marek.behun@nic.cz>
 CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH] dt: bindings: lp55xx: Updte yaml examples with new color ID
-Date:   Wed, 12 Aug 2020 14:32:48 -0500
-Message-ID: <20200812193248.11325-1-dmurphy@ti.com>
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, Dan Murphy <dmurphy@ti.com>
+Subject: [PATCH v33 0/6] LP50xx addition and remainder Multicolor patches
+Date:   Wed, 12 Aug 2020 14:50:14 -0500
+Message-ID: <20200812195020.13568-1-dmurphy@ti.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Update the binding examples for the color ID to LED_COLOR_ID_RGB
+Hello
 
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
----
- Documentation/devicetree/bindings/leds/leds-lp55xx.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+These are the final patches from the original multicolor framework patchset.
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-index b1bb3feb0f4d..89f69d62493e 100644
---- a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-@@ -189,7 +189,7 @@ examples:
-                #address-cells = <1>;
-                #size-cells = <0>;
-                reg = <0x2>;
--               color = <LED_COLOR_ID_MULTI>;
-+               color = <LED_COLOR_ID_RGB>;
-                function = LED_FUNCTION_STANDBY;
-                linux,default-trigger = "heartbeat";
- 
+Changes made were to the LP50xx to rework regmap_defaults to eliminate used
+only once #defines.  Also fixed putting the child node in the dt parsing and
+changed regmap regcache type to flat.
+
+Dan
+
+Dan Murphy (6):
+  dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers
+  leds: lp50xx: Add the LP50XX family of the RGB LED driver
+  ARM: defconfig: u8500: Add LP55XX_COMMON config flag
+  ARM: dts: n900: Add reg property to the LP5523 channel node
+  ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node
+  ARM: dts: ste-href: Add reg property to the LP5521 channel nodes
+
+ .../devicetree/bindings/leds/leds-lp50xx.yaml | 130 ++++
+ arch/arm/boot/dts/imx6dl-yapp4-common.dtsi    |  14 +-
+ arch/arm/boot/dts/omap3-n900.dts              |  29 +-
+ arch/arm/boot/dts/ste-href.dtsi               |  22 +-
+ arch/arm/configs/u8500_defconfig              |   1 +
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-lp50xx.c                    | 634 ++++++++++++++++++
+ 8 files changed, 823 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+ create mode 100644 drivers/leds/leds-lp50xx.c
+
 -- 
 2.28.0
 
