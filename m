@@ -2,129 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61A8C242FA9
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Aug 2020 21:51:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07FD6242FB9
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Aug 2020 21:57:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726611AbgHLTvO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Aug 2020 15:51:14 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:51570 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726639AbgHLTvG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Aug 2020 15:51:06 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07CJoque048116;
-        Wed, 12 Aug 2020 14:50:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1597261852;
-        bh=5DtYodbcELFvKoyVfWIDGdKf8jLd3lr9u9RLJrv6ZxA=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=Yy0O/4F0Uv6NdHRgGj4vlQfkKThq/zImKb+p+/ZN9D7LX3e09KnHZhyjAMmcIjEQq
-         yRNocdJGGgIDknFtCaY9+XkRAGF3iYVmoUIpGzxmgOV3mYH6aGRCbj8ru5yNbEpewV
-         x4HaNNK/ofC8x1iAlkWPpqb2tyrUviczPe9kJZWs=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07CJoqeQ048977
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 12 Aug 2020 14:50:52 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 12
- Aug 2020 14:50:52 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 12 Aug 2020 14:50:52 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07CJoqJB110063;
-        Wed, 12 Aug 2020 14:50:52 -0500
-From:   Dan Murphy <dmurphy@ti.com>
-To:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh@kernel.org>,
-        <marek.behun@nic.cz>
-CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v33 6/6] ARM: dts: ste-href: Add reg property to the LP5521 channel nodes
-Date:   Wed, 12 Aug 2020 14:50:20 -0500
-Message-ID: <20200812195020.13568-7-dmurphy@ti.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200812195020.13568-1-dmurphy@ti.com>
-References: <20200812195020.13568-1-dmurphy@ti.com>
+        id S1726547AbgHLT5u (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 Aug 2020 15:57:50 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:42672 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbgHLT5u (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Aug 2020 15:57:50 -0400
+Received: by mail-io1-f68.google.com with SMTP id j8so4315276ioe.9;
+        Wed, 12 Aug 2020 12:57:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kab3fJEGlaryZqDRGGlxJtcNETlXr7INQvI/406t8ks=;
+        b=EAPArnwhFis36563pJCNjGeQEWWNzY4Tfv2Vll8NHzCQrmhwXtJF4MUGWHjMmHLEyG
+         3jwuMuDlkssikY6JH52JGrC6H9t2Pvf0M5R8JzyknNBGt5KI0ihsrmhaxoigUJ0T3RVb
+         BbDmS5Ip/K2K9aRG+R3AVCJNTmWTqkp6viO6KC8dOXKSliE1uRsmU1ZII2mz0KC1U/Xo
+         pAQAsTjW4RpxaTOtjhdckb0GyT2f5NP52z73/Mv5MrCorMeXrFrpn61LmzBnH+xA+q79
+         fnKP1ICHQ0ER4Ejs6OmvLkVJG8dbhz5czftMo9JPkOc5qUkQjQNdyscPDIiOpjW+8sRG
+         9Stg==
+X-Gm-Message-State: AOAM530/Y5sRhxojVCg3FkhUaEDsRbwwYEu31b/+blBM8V27Q5f2hDOm
+        fJhfxE8jdsW9xakqjECTXg==
+X-Google-Smtp-Source: ABdhPJwzpL961/Irwkpqn3yX+BNDUPZybfwlzFyzjc/fzyX1p6PXT4P353J1oWl99TjZkpU5dwnvxA==
+X-Received: by 2002:a02:a905:: with SMTP id n5mr1230537jam.64.1597262269251;
+        Wed, 12 Aug 2020 12:57:49 -0700 (PDT)
+Received: from xps15 ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id s26sm1426908ioc.13.2020.08.12.12.57.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2020 12:57:48 -0700 (PDT)
+Received: (nullmailer pid 2605750 invoked by uid 1000);
+        Wed, 12 Aug 2020 19:57:47 -0000
+Date:   Wed, 12 Aug 2020 13:57:47 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Eddie James <eajames@linux.ibm.com>
+Cc:     vishwa@linux.ibm.com, andy.shevchenko@gmail.com,
+        robh+dt@kernel.org, linux-leds@vger.kernel.org, pavel@ucw.cz,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dmurphy@ti.com, jacek.anaszewski@gmail.com
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: pca955x: Add IBM
+ implementation compatible string
+Message-ID: <20200812195747.GA2605701@bogus>
+References: <20200803145055.5203-1-eajames@linux.ibm.com>
+ <20200803145055.5203-2-eajames@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200803145055.5203-2-eajames@linux.ibm.com>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add the reg property to each channel node.  This update is
-to accommodate the multicolor framework.  In addition to the
-accommodation this allows the LEDs to be placed on any channel
-and allow designs to skip channels as opposed to requiring
-sequential order.
+On Mon, 03 Aug 2020 09:50:54 -0500, Eddie James wrote:
+> IBM created an implementation of the PCA9552 on a PIC16F
+> microcontroller. Document the new compatible string for this device.
+> 
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  Documentation/devicetree/bindings/leds/leds-pca955x.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
-CC: Linus Walleij <linus.walleij@linaro.org>
-Acked-by: Pavel Machek <pavel@ucw.cz>
----
- arch/arm/boot/dts/ste-href.dtsi | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
-
-diff --git a/arch/arm/boot/dts/ste-href.dtsi b/arch/arm/boot/dts/ste-href.dtsi
-index 33e3b0b3c53d..ff47cbf6ed3b 100644
---- a/arch/arm/boot/dts/ste-href.dtsi
-+++ b/arch/arm/boot/dts/ste-href.dtsi
-@@ -58,16 +58,21 @@ lp5521@33 {
- 				reg = <0x33>;
- 				label = "lp5521_pri";
- 				clock-mode = /bits/ 8 <2>;
--				chan0 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				chan@0 {
-+					reg = <0>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 					linux,default-trigger = "heartbeat";
- 				};
--				chan1 {
-+				chan@1 {
-+					reg = <1>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 				};
--				chan2 {
-+				chan@2 {
-+					reg = <2>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 				};
-@@ -77,15 +82,20 @@ lp5521@34 {
- 				reg = <0x34>;
- 				label = "lp5521_sec";
- 				clock-mode = /bits/ 8 <2>;
--				chan0 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				chan@0 {
-+					reg = <0>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 				};
--				chan1 {
-+				chan@1 {
-+					reg = <1>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 				};
--				chan2 {
-+				chan@2 {
-+					reg = <2>;
- 					led-cur = /bits/ 8 <0x2f>;
- 					max-cur = /bits/ 8 <0x5f>;
- 				};
--- 
-2.28.0
-
+Acked-by: Rob Herring <robh@kernel.org>
