@@ -2,106 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69D3D242CCD
-	for <lists+linux-leds@lfdr.de>; Wed, 12 Aug 2020 18:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19BA7242F5C
+	for <lists+linux-leds@lfdr.de>; Wed, 12 Aug 2020 21:33:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbgHLQAp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 Aug 2020 12:00:45 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:44740 "EHLO
+        id S1726574AbgHLTdC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 Aug 2020 15:33:02 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:42704 "EHLO
         lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726540AbgHLQAp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Aug 2020 12:00:45 -0400
+        with ESMTP id S1726531AbgHLTdC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 Aug 2020 15:33:02 -0400
 Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07CG0T8O050082;
-        Wed, 12 Aug 2020 11:00:29 -0500
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07CJWted106805;
+        Wed, 12 Aug 2020 14:32:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1597248029;
-        bh=02ZEbPG60T+9TFX2JsaFFkktquPFZf1Si0VmO18RfTI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=H9w2mY6fm2wsqTgq5ZDyXKbESuoPz5xCTPTw7JcD1v+0frmNswa+/P16xRDrueRTq
-         BxxFRwmDae62UFwrI9pzsW/wOURR2wYtkG3oZNYI7RGKvUfxmRGQXdkeCabpSxLYXz
-         u0UE60yVj57QY2U2dVV0MljMtnwdtj0hAe30Rsus=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07CG0Tlf109184
+        s=ti-com-17Q1; t=1597260775;
+        bh=1EW1OwfLbnIn6nn3Pcy0uYF/8AosEYu2FExcNrqoGvo=;
+        h=From:To:CC:Subject:Date;
+        b=Dzcq8VsGzzadMpEJ0qY/ryBydU1TzxOXmjA9xwrva09hV+cg+m3TZ3wk+cIzRmOTY
+         P9ifs19pOmwVRnUzIjwvhibcy160ZHSpE/cU6Z5NaXdNUtDK5Ny0IxLLaLtM6b+ChS
+         PK8hZyPrVqc5Tr5qD6LaTV3WCZdJ93LplJTuYD5w=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07CJWtw6024876
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 12 Aug 2020 11:00:29 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+        Wed, 12 Aug 2020 14:32:55 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 12
- Aug 2020 11:00:29 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2020 14:32:55 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 12 Aug 2020 11:00:29 -0500
-Received: from [10.250.38.37] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07CG0Sa2007723;
-        Wed, 12 Aug 2020 11:00:29 -0500
-Subject: Re: [PATCH v32 2/6] leds: lp50xx: Add the LP50XX family of the RGB
- LED driver
-To:     Pavel Machek <pavel@ucw.cz>
-CC:     <jacek.anaszewski@gmail.com>, <robh@kernel.org>,
-        <marek.behun@nic.cz>, <devicetree@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200722153146.8767-1-dmurphy@ti.com>
- <20200722153146.8767-3-dmurphy@ti.com>
- <20200811105413.r2m2f7bubuz55rrt@duo.ucw.cz>
- <935119fa-6d1f-8e99-51f9-87966b4d03ad@ti.com> <20200811220109.GA9105@amd>
- <3ce38a31-a4f0-4cd7-ad09-6bdad27e6756@ti.com> <20200811222602.GA10181@amd>
+ Frontend Transport; Wed, 12 Aug 2020 14:32:55 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07CJWsvi013991;
+        Wed, 12 Aug 2020 14:32:54 -0500
 From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <5efcba1b-995e-b6fd-9004-fbafaae5b8a3@ti.com>
-Date:   Wed, 12 Aug 2020 11:00:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+To:     <pavel@ucw.cz>, <robh@kernel.org>
+CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>
+Subject: [PATCH] dt: bindings: lp55xx: Updte yaml examples with new color ID
+Date:   Wed, 12 Aug 2020 14:32:48 -0500
+Message-ID: <20200812193248.11325-1-dmurphy@ti.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200811222602.GA10181@amd>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel
+Update the binding examples for the color ID to LED_COLOR_ID_RGB
 
-On 8/11/20 5:26 PM, Pavel Machek wrote:
-> Hi!
->
->>>> Well it depends on where we want to create the default cache values.
->>>>
->>>> Either we run through a for..loop during driver probe and delay device start
->>>> up or we keep the simple arrays and increase the driver total size.
->>> for loop will be better.
->>>
->>> Plus, REGCACHE_RBTREE is very likely overkill.
->> Well if I eliminate the reg_cache then I can eliminate the defaults too.
-> I'm not asking for that. But please investigate REGCACHE_FLAT.
->
-> 									Pavel
+Signed-off-by: Dan Murphy <dmurphy@ti.com>
+---
+ Documentation/devicetree/bindings/leds/leds-lp55xx.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-After looking at this a loop makes no sense here.  The regmap call back 
-values are determined at build time not during runtime.
-
-Adding a loop here makes the code more complex just to reduce the 
-overall LoC.  In adding the loop the reg_default array will have to be 
-re-allocated and copied at run time and then be expanded to include the 
-additional values.
-
-And the regmap defaults call backs will need to be updated to reflect 
-the new values.  And these are part of a const struct because the 
-devm_regmap_init declares the config as a const.
-
-     .reg_defaults = lp5012_reg_defs,
-     .num_reg_defaults = ARRAY_SIZE(lp5012_reg_defs),
-
-So I am not sure that adding a loop here just to eliminate some LoC is 
-adding any value here.  I can remove the #defines for the unused runtime 
-registers and hard code the additional register addresses in the default 
-array.  That will at least eliminate some LoC and reduce the object size.
-
-I have no issue with using the REGCACHE_FLAT so I will make that change.
-
-Dan
+diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+index b1bb3feb0f4d..89f69d62493e 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+@@ -189,7 +189,7 @@ examples:
+                #address-cells = <1>;
+                #size-cells = <0>;
+                reg = <0x2>;
+-               color = <LED_COLOR_ID_MULTI>;
++               color = <LED_COLOR_ID_RGB>;
+                function = LED_FUNCTION_STANDBY;
+                linux,default-trigger = "heartbeat";
+ 
+-- 
+2.28.0
 
