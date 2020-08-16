@@ -2,96 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33BE72457FF
-	for <lists+linux-leds@lfdr.de>; Sun, 16 Aug 2020 16:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EBFE24597F
+	for <lists+linux-leds@lfdr.de>; Sun, 16 Aug 2020 22:41:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729559AbgHPOau (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 16 Aug 2020 10:30:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57142 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729531AbgHPO3U (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 16 Aug 2020 10:29:20 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3DBDC061364
-        for <linux-leds@vger.kernel.org>; Sun, 16 Aug 2020 07:28:36 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id c19so11598533wmd.1
-        for <linux-leds@vger.kernel.org>; Sun, 16 Aug 2020 07:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=NAKDDu3zYGlp6/1rTFA3zLXzfLNUWElMFpld1DGXTqZ3f2C1G5vMMGgQBtzYdv61gR
-         j0gW2VjYzcAEQEK9JcrA+yGSHFEXNhE9RNkaz3uxkanP37gacJrIVytgT7/c7zGkA2Dy
-         XJB3L8ToVDoWAD9Rvm7U849RIrxncLk9xI9S/Uu5ZGT/cXsim2IUQmYeZsKFSBsv6kJT
-         3kDR9KLYjND6JPpx0YTAndrQaTelzP3558OkivI4ykhj79/nak1F6z80uX1/EQIXmTKV
-         I+kUa6Zt2XAbNuMItIuLndMdaWWyo32PYvWKoOywYCMLUV2UDlYdbpJ66arhF+MiPCa0
-         yMKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=eSroN9/pgeJhV+BtNILEMJ5ODx7o9jx8IRp0WWk3AzEBGuir0NABLo1r+50ME5vo8N
-         DVA6mNBmlyjB77lcyRXYEp9oFmkfIYeIPVFdQeYLu6yGDt2jUkWfHAnaSMdZwAxwS57S
-         w0HUuRXDWgK9JEJ2oYjtDxfS1tii7gKNyAN6EcVK6Tyh4juxMqQaU0TVn4PEdxpvXGLy
-         /mH9Ych8FdRkPOlLunNs1oUlUjR91nNfZe7KL9O68YWPWo09qn9vcRSnN4q5/D3rBNKN
-         NbCNjGuaWaCj00r1DiwP6dGRGdd9DvN0EyiYrRab42bvlMu2WfxB2rjtl5un8KJnE0xM
-         RnIQ==
-X-Gm-Message-State: AOAM530W94CMEYJyPJOx8hOKLZvBGZYSBiKDA+GkXe0BaAfDEtZgaipF
-        XpbAcYcdn9FKGJs75jNhQBuphfCZfC/Xjhs0Y/uB/vqKjIs=
-X-Google-Smtp-Source: ABdhPJydZZ8FQlFGmrB/EDLy0Z8gH5X03F6EFXypW4K1vf8iv94WhLhI3iwPKgeJEaRZZocHWED4lUmYPOBkTFPeX+4=
-X-Received: by 2002:a1c:a1c7:: with SMTP id k190mr10461870wme.1.1597588111746;
- Sun, 16 Aug 2020 07:28:31 -0700 (PDT)
+        id S1726331AbgHPUlW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Sun, 16 Aug 2020 16:41:22 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:38386 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726314AbgHPUlW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 16 Aug 2020 16:41:22 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 34E941C0BB5; Sun, 16 Aug 2020 22:41:19 +0200 (CEST)
+Date:   Sun, 16 Aug 2020 22:41:18 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "xing.zhang" <xing.zhang@mediatek.com>
+Cc:     Luotao Fu <l.fu@pengutronix.de>,
+        "; Jacek Anaszewski" <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org
+Subject: Re: leds-pwm  driver further requirement discussion
+Message-ID: <20200816204118.GA1481@bug>
+References: <1597377070.2687.35.camel@mbjsdccf07>
 MIME-Version: 1.0
-Received: by 2002:a5d:6cd3:0:0:0:0:0 with HTTP; Sun, 16 Aug 2020 07:28:30
- -0700 (PDT)
-Reply-To: sctnld11170@tlen.pl
-From:   "Mr. Scott Donald" <confianzayrentabilidad@gmail.com>
-Date:   Sun, 16 Aug 2020 07:28:30 -0700
-Message-ID: <CANrrfX7wwL97G=jb--8nb9jH8oRO8T90L6NGSfg1HfnzMyyHcw@mail.gmail.com>
-Subject: Hello, Please
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <1597377070.2687.35.camel@mbjsdccf07>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
---=20
-Dear Friend,
+Hi!
 
-I'm Mr. Scott Donald a Successful businessMan dealing with
-Exportation, I got your mail contact through search to let you know my
-intension and my Ugly Situation Am a dying Man here in Los Angeles
-California Hospital Bed in (USA), I Lost my Wife and my only Daughter
-for Covid-19 and I also have a problem in my Health and I can die
-anytime I Know,
+>     We have used leds-pwm driver to control led in some mediatek IC, but
+> we have some further requirement, and want to add some common functions
+> for this driver, could you give us some suggestions?
+>     For dts, we want to add led-bits and trans-bits, led-bits represents
+> the led bits(8->255, 10->1023) from user space, trans-bits represents
+> the led hardware IC bits.
 
-I have a project that I am about to hand over to you. and I already
-instructed the Bankia S.A. Madrid, Spain(BSA) to transfer my fund sum
-of =C2=A33,7M GBP. Equivalent to =E2=82=AC4,077,033.91 EUR, to you as to en=
-able you
-to give 50% of this fund to Charitable Home in your State and take 50%
-don't think otherwise and why would anybody send someone you barely
-know to help you deliver a message, help me do this for the happiness
-of my soul and for God to mercy me and my Family and give Us a good
-place.
+First, please make sure there is no existing functionality that can be used. If not, please
+use something like "max brightness", not bits.
 
-please, do as I said there was someone from your State that I deeply
-love so very very much and I miss her so badly I have no means to
-reach any Charitable Home there. that is why I go for a personal
-search of the Country and State and I got your mail contact through
-search to let you know my Bitterness and please, help me is getting
-Dark I ask my Doctor to help me keep you notice failure for me to
-reach you in person Your urgent Response, here is my Doctor Whats-app
-Number for urgent notice +13019692737
+>     For function, we want to add led event notify, one event is for led
+> brightness change, the other one is for led shutdown.
+>     We also want to add setMaxBrightness function and setLedBrightness
+> function for other module to call.
 
-Hope To Hear From You. I'm sending this email to you for the second
-time yet no response from you.
+Umm. No?
 
-My Regards.
+Best regards,
 
-Mr. Scott Donald
-CEO
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
