@@ -2,59 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EBFE24597F
-	for <lists+linux-leds@lfdr.de>; Sun, 16 Aug 2020 22:41:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 184BB24682E
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Aug 2020 16:13:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726331AbgHPUlW convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Sun, 16 Aug 2020 16:41:22 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:38386 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726314AbgHPUlW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 16 Aug 2020 16:41:22 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 34E941C0BB5; Sun, 16 Aug 2020 22:41:19 +0200 (CEST)
-Date:   Sun, 16 Aug 2020 22:41:18 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     "xing.zhang" <xing.zhang@mediatek.com>
-Cc:     Luotao Fu <l.fu@pengutronix.de>,
-        "; Jacek Anaszewski" <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org
-Subject: Re: leds-pwm  driver further requirement discussion
-Message-ID: <20200816204118.GA1481@bug>
-References: <1597377070.2687.35.camel@mbjsdccf07>
+        id S1728842AbgHQONw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 17 Aug 2020 10:13:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728512AbgHQONv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Aug 2020 10:13:51 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9104C061389
+        for <linux-leds@vger.kernel.org>; Mon, 17 Aug 2020 07:13:50 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id g19so17891972ejc.9
+        for <linux-leds@vger.kernel.org>; Mon, 17 Aug 2020 07:13:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=+z524mDmvYq+baR0BWogYM0GjW8snYS+Z6ogchoEokY=;
+        b=Zwdn9UsKEJdx7ytDnrkNrwaVroMdn4Qz4X+0PcDK8/Beojfj4BxRdSz3Wm5sIvFFIJ
+         R+xhFVwJzZh19YW/bgKnqVIaQEfUT0S4m2zcyWR2MkB2woh0NPOJPEQYv4q9gJlreBOQ
+         WgwajmJNFv1nQSoZV4jyE5glA+gEZ8FirnzeU4gslD9C+lvb3+PzdspTP68h+2WySFwD
+         CcwlgF8Rc/lKg2bqmIIaJXhgWvL9wQejjsAkfWRelA0BXcvc/hRo4rNIV+3vpYGtDJv8
+         6FPktF4I967X5xQa3OZ4Efxklsv/WOEdgS4y2BQ9KyeFU+HZVTKWBy26xGsKapM/gUfm
+         GGpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=+z524mDmvYq+baR0BWogYM0GjW8snYS+Z6ogchoEokY=;
+        b=JPQg0EoJ42VSjqw1SkqoekI8yjgiAr4BYZ0lyzJQWvoE9Mtiiu3rFrXUYes01IIufa
+         hPQH3RgM/OEyCyRE9YyCepvm7HnAxGbB7YcR+IUvm9YfGjVpMueKe3cmiAweC+R7dDt9
+         Y6cHgpSIQSunZqQY2bvHyAJMjmJChU1s6otbVH+5WdX0bcE5lTRVunWlY1530ewodhHL
+         U8WASG18sBkLWlACXpmBVRCkTiG9O0icxVC/7767G3At8hqhwolfwU50yFuz8X/Pf4US
+         eL+gMZQvl/rlHPfi03nLf+tsG8Am2qwO8WE7gzzLgX+WUUHz0LKjDdAx+5x5lv29eGVP
+         abhQ==
+X-Gm-Message-State: AOAM533kBdRmWTfLZATJ+8yxTkEoSb106+NPPX0nz4fT9onmE4nMvBQp
+        zuVIcJwQZ+f9bu6NdVHsFnRZeukGIJUpqHEXSIk=
+X-Google-Smtp-Source: ABdhPJz76wZnqpEIJEQNIn9vhodLaNRY0qU7SciT4ztca3pNWa4lcuqL6sGqzNoBi5ub2xNdrsQbp5PpoqAGUBhKVk0=
+X-Received: by 2002:a17:906:1604:: with SMTP id m4mr14936215ejd.6.1597673629655;
+ Mon, 17 Aug 2020 07:13:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <1597377070.2687.35.camel@mbjsdccf07>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Received: by 2002:a54:3b51:0:0:0:0:0 with HTTP; Mon, 17 Aug 2020 07:13:49
+ -0700 (PDT)
+Reply-To: mrs.sophia202@list.ru
+From:   "Mrs. Sophia Robin" <misszainab.yusuf@gmail.com>
+Date:   Mon, 17 Aug 2020 07:13:49 -0700
+Message-ID: <CAHGeQ16gqOb7uYzNDaUCMmMidwjkjfsOQg67TAZ89EUpwMQQ+A@mail.gmail.com>
+Subject: Hello My Dearest
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi!
+Hello My Dearest
 
->     We have used leds-pwm driver to control led in some mediatek IC, but
-> we have some further requirement, and want to add some common functions
-> for this driver, could you give us some suggestions?
->     For dts, we want to add led-bits and trans-bits, led-bits represents
-> the led bits(8->255, 10->1023) from user space, trans-bits represents
-> the led hardware IC bits.
+Please I appeal to you to exercise a little patience and read through
+my mail carefully, I am contacting you personally for investment
+assistance and a long term business relationship in your Country.
 
-First, please make sure there is no existing functionality that can be used. If not, please
-use something like "max brightness", not bits.
+I am Mrs. Sophia Robin a citizen of the united state of America; I
+work in HSBC Bank in Milan Italy as a Telex Manager charge of wire
+transfer and online banking department.
 
->     For function, we want to add led event notify, one event is for led
-> brightness change, the other one is for led shutdown.
->     We also want to add setMaxBrightness function and setLedBrightness
-> function for other module to call.
+I am contacting you for an important and  urgent business transaction,
+I  want the bank to transfer the money left by Dr. Cheng Chao,  A
+Chinese  Politicians who  died, March 17th 2020 without any trace of
+his family member,  he used our bank to launder money overseas through
+the help of their Political advisers. And most of the funds which they
+transferred out of the shores of China were gold and oil money that
+was supposed to have been used to develop the continent.
 
-Umm. No?
+Can you invest this money and also help the poor? The amount value at
+($15.5million Dollars), left in his account still unclaimed, if you
+know that you are capable to invest this fund into any  profitable
+business in your country kindly send me your details information as
+listed below to enable me draft you an application form of claim which
+you are going to fill with your bank account detail necessary and
+contact the HSBC Bank in Italy  for immediate transfer of the Amounted
+sum into your bank account direct  Or open an online banking for you.
 
-Best regards,
+Percentage share will be 60, for me/ 40, for you.
 
-									Pavel
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+(1) Your full name..................................................
+(2) Your address....................................................
+(3) Your Nationality.................................................
+(4) Your Age / Sex.....................................................
+(5) Your Occupation............................................
+(6) Your marital status......................................
+(7) Your direct telephone number..................
+(8) your ID Card.......................................
+
+Thanks with my best regards.
+Mrs. Sophia Robin
+Telex / Online Banking Manager
+Milan Italy  (H.S.B.C)
