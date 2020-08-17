@@ -2,87 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0081A247491
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Aug 2020 21:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01FC924780F
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Aug 2020 22:25:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731802AbgHQTLy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 17 Aug 2020 15:11:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730883AbgHQTLk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Aug 2020 15:11:40 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9119FC061389;
-        Mon, 17 Aug 2020 12:11:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:Cc:From:To:Sender:Reply-To:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=PkZn/PaagAcCwbgw5BUloqjClJwD2M7BqojCnadMl0I=; b=YQv9v4L5lj3mNuq1mmrEsKMOD2
-        GB0RAIgLMVH113uBQVGNMBFKK9Lk8gfl6QfGnLxQr5Ozb7FaJ7daGDVkcMELb7TcU2YXkUHcSoPqm
-        MVtDc2uANpWnuuk+4F79HxG6GooQP9WWL7jVlHyBt97Mdqv6ry6cHCmrOICzzH1KKb1rXjczbPbou
-        n5eIzEfNohUGJ7+kF4+QM7wqd8LPU2m+fF82pJehSXYCcGCYDkir7K+Rd8wMfKxz8XxED1ls+66e/
-        RBtcA4WCl7ncrAoaswaX188m9FEUMZWbifdyi1+fCPti7rUvTD+SxVP0Aal+KxPiDQnJqpcoSQiGO
-        6iK9LOpQ==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k7kXc-0000Wf-A4; Mon, 17 Aug 2020 19:11:33 +0000
-To:     LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Cc:     Milo Kim <milo.kim@ti.com>
-Subject: [PATCH] leds: LP55XX_COMMON needs to depend on LEDS_CLASS
-Message-ID: <0ad9338b-e2da-e269-db49-b448977bdc83@infradead.org>
-Date:   Mon, 17 Aug 2020 12:11:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727116AbgHQUZM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 17 Aug 2020 16:25:12 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:39384 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726228AbgHQUZM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Aug 2020 16:25:12 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id B40CA1C0BB6; Mon, 17 Aug 2020 22:25:08 +0200 (CEST)
+Date:   Mon, 17 Aug 2020 22:25:08 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Eddie James <eajames@linux.ibm.com>, vishwa@linux.ibm.com,
+        andy.shevchenko@gmail.com, robh+dt@kernel.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dmurphy@ti.com,
+        jacek.anaszewski@gmail.com
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: pca955x: Add IBM
+ implementation compatible string
+Message-ID: <20200817202508.GA13123@amd>
+References: <20200803145055.5203-1-eajames@linux.ibm.com>
+ <20200803145055.5203-2-eajames@linux.ibm.com>
+ <20200812195747.GA2605701@bogus>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="2oS5YaxWCcQjTEyO"
+Content-Disposition: inline
+In-Reply-To: <20200812195747.GA2605701@bogus>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
 
-With these kernel configs:
-CONFIG_LEDS_CLASS=m
-# CONFIG_LEDS_CLASS_MULTICOLOR is not set
-CONFIG_LEDS_LP55XX_COMMON=y
-CONFIG_LEDS_LP5521=m
-CONFIG_LEDS_LP5562=m
+--2oS5YaxWCcQjTEyO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-leds-lp55xx-common.c has a build error because it is builtin and
-calls an interface that is built as a loadable module (due to
-LEDS_CLASS=m). By making LEDS_LP55XX_COMMON depend on LEDS_CLASS,
-this config combination cannot happen, thus preventing the build error.
+On Wed 2020-08-12 13:57:47, Rob Herring wrote:
+> On Mon, 03 Aug 2020 09:50:54 -0500, Eddie James wrote:
+> > IBM created an implementation of the PCA9552 on a PIC16F
+> > microcontroller. Document the new compatible string for this device.
+> >=20
+> > Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> > ---
+> >  Documentation/devicetree/bindings/leds/leds-pca955x.txt | 1 +
+> >  1 file changed, 1 insertion(+)
+>=20
+> Acked-by: Rob Herring <robh@kernel.org>
 
-ld: drivers/leds/leds-lp55xx-common.o: in function `lp55xx_register_leds':
-leds-lp55xx-common.c:(.text+0xc5f): undefined reference to `devm_led_classdev_register_ext'
+Thanks, I applied the series.
 
-Fixes: 33b3a561f417 ("leds: support new LP8501 device - another LP55xx common")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Dan Murphy <dmurphy@ti.com>
-Cc: Milo Kim <milo.kim@ti.com>
-Cc: linux-leds@vger.kernel.org
----
-The Fixes: tag might be incorrect...  I also considered:
-92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
- drivers/leds/Kconfig |    1 +
- 1 file changed, 1 insertion(+)
+--2oS5YaxWCcQjTEyO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
---- linux-next-20200817.orig/drivers/leds/Kconfig
-+++ linux-next-20200817/drivers/leds/Kconfig
-@@ -397,6 +397,7 @@ config LEDS_LP3952
- 
- config LEDS_LP55XX_COMMON
- 	tristate "Common Driver for TI/National LP5521/5523/55231/5562/8501"
-+	depends on LEDS_CLASS
- 	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
- 	depends on OF
- 	depends on I2C
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
+iEYEARECAAYFAl8656QACgkQMOfwapXb+vJ/vgCggeE9wN9rcZ//IBVRvJwgJupz
+L5cAoKKJ85ZMJGg6Sf/GbCNP2talpcIQ
+=wI1t
+-----END PGP SIGNATURE-----
+
+--2oS5YaxWCcQjTEyO--
