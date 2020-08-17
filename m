@@ -2,100 +2,87 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 184BB24682E
-	for <lists+linux-leds@lfdr.de>; Mon, 17 Aug 2020 16:13:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0081A247491
+	for <lists+linux-leds@lfdr.de>; Mon, 17 Aug 2020 21:12:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728842AbgHQONw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 17 Aug 2020 10:13:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50312 "EHLO
+        id S1731802AbgHQTLy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 17 Aug 2020 15:11:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728512AbgHQONv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Aug 2020 10:13:51 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9104C061389
-        for <linux-leds@vger.kernel.org>; Mon, 17 Aug 2020 07:13:50 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id g19so17891972ejc.9
-        for <linux-leds@vger.kernel.org>; Mon, 17 Aug 2020 07:13:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=+z524mDmvYq+baR0BWogYM0GjW8snYS+Z6ogchoEokY=;
-        b=Zwdn9UsKEJdx7ytDnrkNrwaVroMdn4Qz4X+0PcDK8/Beojfj4BxRdSz3Wm5sIvFFIJ
-         R+xhFVwJzZh19YW/bgKnqVIaQEfUT0S4m2zcyWR2MkB2woh0NPOJPEQYv4q9gJlreBOQ
-         WgwajmJNFv1nQSoZV4jyE5glA+gEZ8FirnzeU4gslD9C+lvb3+PzdspTP68h+2WySFwD
-         CcwlgF8Rc/lKg2bqmIIaJXhgWvL9wQejjsAkfWRelA0BXcvc/hRo4rNIV+3vpYGtDJv8
-         6FPktF4I967X5xQa3OZ4Efxklsv/WOEdgS4y2BQ9KyeFU+HZVTKWBy26xGsKapM/gUfm
-         GGpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=+z524mDmvYq+baR0BWogYM0GjW8snYS+Z6ogchoEokY=;
-        b=JPQg0EoJ42VSjqw1SkqoekI8yjgiAr4BYZ0lyzJQWvoE9Mtiiu3rFrXUYes01IIufa
-         hPQH3RgM/OEyCyRE9YyCepvm7HnAxGbB7YcR+IUvm9YfGjVpMueKe3cmiAweC+R7dDt9
-         Y6cHgpSIQSunZqQY2bvHyAJMjmJChU1s6otbVH+5WdX0bcE5lTRVunWlY1530ewodhHL
-         U8WASG18sBkLWlACXpmBVRCkTiG9O0icxVC/7767G3At8hqhwolfwU50yFuz8X/Pf4US
-         eL+gMZQvl/rlHPfi03nLf+tsG8Am2qwO8WE7gzzLgX+WUUHz0LKjDdAx+5x5lv29eGVP
-         abhQ==
-X-Gm-Message-State: AOAM533kBdRmWTfLZATJ+8yxTkEoSb106+NPPX0nz4fT9onmE4nMvBQp
-        zuVIcJwQZ+f9bu6NdVHsFnRZeukGIJUpqHEXSIk=
-X-Google-Smtp-Source: ABdhPJz76wZnqpEIJEQNIn9vhodLaNRY0qU7SciT4ztca3pNWa4lcuqL6sGqzNoBi5ub2xNdrsQbp5PpoqAGUBhKVk0=
-X-Received: by 2002:a17:906:1604:: with SMTP id m4mr14936215ejd.6.1597673629655;
- Mon, 17 Aug 2020 07:13:49 -0700 (PDT)
+        with ESMTP id S1730883AbgHQTLk (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 Aug 2020 15:11:40 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9119FC061389;
+        Mon, 17 Aug 2020 12:11:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:Cc:From:To:Sender:Reply-To:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=PkZn/PaagAcCwbgw5BUloqjClJwD2M7BqojCnadMl0I=; b=YQv9v4L5lj3mNuq1mmrEsKMOD2
+        GB0RAIgLMVH113uBQVGNMBFKK9Lk8gfl6QfGnLxQr5Ozb7FaJ7daGDVkcMELb7TcU2YXkUHcSoPqm
+        MVtDc2uANpWnuuk+4F79HxG6GooQP9WWL7jVlHyBt97Mdqv6ry6cHCmrOICzzH1KKb1rXjczbPbou
+        n5eIzEfNohUGJ7+kF4+QM7wqd8LPU2m+fF82pJehSXYCcGCYDkir7K+Rd8wMfKxz8XxED1ls+66e/
+        RBtcA4WCl7ncrAoaswaX188m9FEUMZWbifdyi1+fCPti7rUvTD+SxVP0Aal+KxPiDQnJqpcoSQiGO
+        6iK9LOpQ==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k7kXc-0000Wf-A4; Mon, 17 Aug 2020 19:11:33 +0000
+To:     LKML <linux-kernel@vger.kernel.org>, linux-leds@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Cc:     Milo Kim <milo.kim@ti.com>
+Subject: [PATCH] leds: LP55XX_COMMON needs to depend on LEDS_CLASS
+Message-ID: <0ad9338b-e2da-e269-db49-b448977bdc83@infradead.org>
+Date:   Mon, 17 Aug 2020 12:11:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Received: by 2002:a54:3b51:0:0:0:0:0 with HTTP; Mon, 17 Aug 2020 07:13:49
- -0700 (PDT)
-Reply-To: mrs.sophia202@list.ru
-From:   "Mrs. Sophia Robin" <misszainab.yusuf@gmail.com>
-Date:   Mon, 17 Aug 2020 07:13:49 -0700
-Message-ID: <CAHGeQ16gqOb7uYzNDaUCMmMidwjkjfsOQg67TAZ89EUpwMQQ+A@mail.gmail.com>
-Subject: Hello My Dearest
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello My Dearest
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Please I appeal to you to exercise a little patience and read through
-my mail carefully, I am contacting you personally for investment
-assistance and a long term business relationship in your Country.
+With these kernel configs:
+CONFIG_LEDS_CLASS=m
+# CONFIG_LEDS_CLASS_MULTICOLOR is not set
+CONFIG_LEDS_LP55XX_COMMON=y
+CONFIG_LEDS_LP5521=m
+CONFIG_LEDS_LP5562=m
 
-I am Mrs. Sophia Robin a citizen of the united state of America; I
-work in HSBC Bank in Milan Italy as a Telex Manager charge of wire
-transfer and online banking department.
+leds-lp55xx-common.c has a build error because it is builtin and
+calls an interface that is built as a loadable module (due to
+LEDS_CLASS=m). By making LEDS_LP55XX_COMMON depend on LEDS_CLASS,
+this config combination cannot happen, thus preventing the build error.
 
-I am contacting you for an important and  urgent business transaction,
-I  want the bank to transfer the money left by Dr. Cheng Chao,  A
-Chinese  Politicians who  died, March 17th 2020 without any trace of
-his family member,  he used our bank to launder money overseas through
-the help of their Political advisers. And most of the funds which they
-transferred out of the shores of China were gold and oil money that
-was supposed to have been used to develop the continent.
+ld: drivers/leds/leds-lp55xx-common.o: in function `lp55xx_register_leds':
+leds-lp55xx-common.c:(.text+0xc5f): undefined reference to `devm_led_classdev_register_ext'
 
-Can you invest this money and also help the poor? The amount value at
-($15.5million Dollars), left in his account still unclaimed, if you
-know that you are capable to invest this fund into any  profitable
-business in your country kindly send me your details information as
-listed below to enable me draft you an application form of claim which
-you are going to fill with your bank account detail necessary and
-contact the HSBC Bank in Italy  for immediate transfer of the Amounted
-sum into your bank account direct  Or open an online banking for you.
+Fixes: 33b3a561f417 ("leds: support new LP8501 device - another LP55xx common")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Dan Murphy <dmurphy@ti.com>
+Cc: Milo Kim <milo.kim@ti.com>
+Cc: linux-leds@vger.kernel.org
+---
+The Fixes: tag might be incorrect...  I also considered:
+92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
 
-Percentage share will be 60, for me/ 40, for you.
+ drivers/leds/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
 
-(1) Your full name..................................................
-(2) Your address....................................................
-(3) Your Nationality.................................................
-(4) Your Age / Sex.....................................................
-(5) Your Occupation............................................
-(6) Your marital status......................................
-(7) Your direct telephone number..................
-(8) your ID Card.......................................
+--- linux-next-20200817.orig/drivers/leds/Kconfig
++++ linux-next-20200817/drivers/leds/Kconfig
+@@ -397,6 +397,7 @@ config LEDS_LP3952
+ 
+ config LEDS_LP55XX_COMMON
+ 	tristate "Common Driver for TI/National LP5521/5523/55231/5562/8501"
++	depends on LEDS_CLASS
+ 	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
+ 	depends on OF
+ 	depends on I2C
 
-Thanks with my best regards.
-Mrs. Sophia Robin
-Telex / Online Banking Manager
-Milan Italy  (H.S.B.C)
