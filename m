@@ -2,86 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A69D9248E6B
-	for <lists+linux-leds@lfdr.de>; Tue, 18 Aug 2020 21:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCB4624A825
+	for <lists+linux-leds@lfdr.de>; Wed, 19 Aug 2020 23:06:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726585AbgHRTHC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 18 Aug 2020 15:07:02 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:49516 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726435AbgHRTHC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 18 Aug 2020 15:07:02 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07IJ6teI012213;
-        Tue, 18 Aug 2020 14:06:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1597777615;
-        bh=ATT9YzBtFfOv6tpYe6xqvgONf4ZLmPGq3Z7H+UA4wq8=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=VBQLhkMmzhTnD3FER2HDMQbJDIv+qAZi+y0679ddInmb8qZF2jnzHs1cCw4G6bc7t
-         00aFty27gkNRGCbW+lXZCCaF8XiSRVv7kU3jRcSLiVYkLEcxCWCJFBp0eEaHYNjJXi
-         8HypjwHbTUTO+20io0KUxNaB5N2rF4pfa5twIz4E=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07IJ6tCl079230;
-        Tue, 18 Aug 2020 14:06:55 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 18
- Aug 2020 14:06:55 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 18 Aug 2020 14:06:54 -0500
-Received: from [10.250.38.37] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07IJ6sbK107852;
-        Tue, 18 Aug 2020 14:06:54 -0500
-Subject: Re: [PATCH] dt: bindings: lp55xx: Updte yaml examples with new color
- ID
-To:     <pavel@ucw.cz>, <robh@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200812193248.11325-1-dmurphy@ti.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <df82c0f7-8ea6-04f6-6da1-018dac7e4c6b@ti.com>
-Date:   Tue, 18 Aug 2020 14:06:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727093AbgHSVGC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 Aug 2020 17:06:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55374 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726841AbgHSVGA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 Aug 2020 17:06:00 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30B0CC061383
+        for <linux-leds@vger.kernel.org>; Wed, 19 Aug 2020 14:06:00 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id y2so17939928ljc.1
+        for <linux-leds@vger.kernel.org>; Wed, 19 Aug 2020 14:05:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dFTOnPtDPtEvUDpUSHyqI2ZnkphwbLJTVI5Opdc/0TE=;
+        b=kQ6qOHnWDOmwJ0vlEkI3ORG5pFju8yQvcEnR7IiYJOjCIe0AnY7hNruws/YVPoBUfv
+         X6nfxs7V5ggO0J+DPHNkmL6zLu2Ww4vBt7TC65pIZ6wb1c5B2ItTQfI1ICjoCd7YwfJX
+         PsidhmNFtkJKjRafF3tEbcWPpx8GuH0aSJGxM555yQdyJfKlVE86j0iQ5aEfRLagVYXx
+         lCGmBjmfj1GfKaw/2Vt4bLcHtdITO3DkJD+JhUEGFVNoLrc/Orz9o7ekh2xCyJsgr2tH
+         cg1e0bnicalm3I7Q1lXqNpTRTbP7skvyU1x1eRdm0SGlcOzDvQDfxL0B+uPHAM6l5z2A
+         ZzRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dFTOnPtDPtEvUDpUSHyqI2ZnkphwbLJTVI5Opdc/0TE=;
+        b=JwES70JCebQaH+720rDbH5VXNvRA7kGz8X65zBEX9W0SAD7+fM1XPoS9juYfbuWpOh
+         ExNuGSGyNUS3CEaAC1avL0a7AiEx7WhZBLRdkNZ6lr+Lq8lXTVjnXN8vb9Jlyak9d1tI
+         eTVelHdACtf12zLGuPmI/WQyQuGKBEj5qHNyU9xLUk2k8W0DCw7cVF3SzBm8cAdl8pYT
+         kzitN1d8OBM10IrzZMa65ZsavVNavLT26FshcPBux1SmV0tpZLeWGNYTvfHNAIiIvD72
+         f/O7h1iEopFm/gT1N64z2zUfijc1+aGTW2WuFTX8sNpIbDxogfb6DMfX3zldpzk6q9hq
+         uxYQ==
+X-Gm-Message-State: AOAM531ezyHgURSndcbMGp2i2LGZ/i4o2VlFimzQeAO1cPN8Yy/ueXCQ
+        7QHWlQI3TTOOHLMKbrkdRtrdXRfIEn7zey2op+2GPQ==
+X-Google-Smtp-Source: ABdhPJxJuuL0E5As02w+E0Y6Qv7IfQ8YJeKtg4XnoyFF7kGJWq96/akkY89gebYJVjnCTCDKMsYsDpG2PW6zUVAt3qs=
+X-Received: by 2002:a2e:4e09:: with SMTP id c9mr39538ljb.283.1597871158426;
+ Wed, 19 Aug 2020 14:05:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200812193248.11325-1-dmurphy@ti.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200812090711.2644688-1-linus.walleij@linaro.org> <e8d27b57-ac17-29e4-0e43-b72d7447d43a@gmail.com>
+In-Reply-To: <e8d27b57-ac17-29e4-0e43-b72d7447d43a@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 19 Aug 2020 23:05:47 +0200
+Message-ID: <CACRpkdYcKthp9_482ptL7YSitN-YUU4_u57ra25Ko4_-102JaQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: leds: Add DT binding for Richtek RT8515
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        newbytee@protonmail.com, Stephan Gerhold <stephan@gerhold.net>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel
+On Thu, Aug 13, 2020 at 11:06 PM Jacek Anaszewski
+<jacek.anaszewski@gmail.com> wrote:
 
-On 8/12/20 2:32 PM, Dan Murphy wrote:
-> Update the binding examples for the color ID to LED_COLOR_ID_RGB
+> > +  led:
+> > +    type: object
+> > +    $ref: common.yaml#
+(...)
+> > +        led {
+> > +            function = LED_FUNCTION_FLASH;
+> > +            color = <LED_COLOR_ID_WHITE>;
+> > +            flash-max-timeout-us = <250000>;
 >
-> Signed-off-by: Dan Murphy <dmurphy@ti.com>
-> ---
->   Documentation/devicetree/bindings/leds/leds-lp55xx.yaml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-> index b1bb3feb0f4d..89f69d62493e 100644
-> --- a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-> +++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-> @@ -189,7 +189,7 @@ examples:
->                  #address-cells = <1>;
->                  #size-cells = <0>;
->                  reg = <0x2>;
-> -               color = <LED_COLOR_ID_MULTI>;
-> +               color = <LED_COLOR_ID_RGB>;
->                  function = LED_FUNCTION_STANDBY;
->                  linux,default-trigger = "heartbeat";
->   
+> Constraints for this property are needed above.
 
-Don't forget this simple update to the LP55xx yaml file.
+Can you elaborate on what you expect this to look like?
+The property is from common.yaml, so should that be
+extended with a constraint?
 
-Dan
-
+Yours,
+Linus Walleij
