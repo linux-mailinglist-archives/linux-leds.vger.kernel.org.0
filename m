@@ -2,119 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C971F24ED95
-	for <lists+linux-leds@lfdr.de>; Sun, 23 Aug 2020 16:10:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7790424EF20
+	for <lists+linux-leds@lfdr.de>; Sun, 23 Aug 2020 20:07:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727769AbgHWOKZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 23 Aug 2020 10:10:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726912AbgHWOKI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 23 Aug 2020 10:10:08 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B89BCC0613ED;
-        Sun, 23 Aug 2020 07:10:07 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id f26so6725602ljc.8;
-        Sun, 23 Aug 2020 07:10:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=35wLUHHiL0jcYl7dr+ydbL6W/M+IENF1DgF9AQYM8t8=;
-        b=ViEZr59xlFFxHAnvxlgRZc5ssiXQT0tzUGBTDv4KYhMnBX4cL3HYXEhKeV4X6q53mZ
-         Gsa/A5B34Coz+f9z5jB8hRMsbh4soP1UUqGjvUzx5WX4pYY38a2jEqINeekxEGxNq737
-         ssRpEZ+FRFKBIbZ+lG7mUfRcSB+fFprInOdoEa+iUzJC1+WxIrnKAYPYLi93IZM9Bgsa
-         n7TEZLWkHPo0eLDn4nv5HqsPKHh207111jOcsknhv2FJ/+MutqkNnR1I7GHpVXtTozHS
-         2k2u5b9QlNVmBvtMMVzbXmWDlpolC4Omgsu+gPNiv7uQ1CoK04RG7d1TMg/gOeQneZ7Y
-         kJqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=35wLUHHiL0jcYl7dr+ydbL6W/M+IENF1DgF9AQYM8t8=;
-        b=TTxZehyuqs65e1M+axUL//z7yukLfnQkzsJ7DrQQrasBUC/fFCbbsu2NSrKsJ4b8nZ
-         2qmd1rkGpekQN/QYkgjMw3949T7VnbpMWznhBjCnVCLGHWtKUJ++HywlT4H2AZJnHOLa
-         vaJpNXKbWHqYPvFEUqAmJRCVGZ5tNhhBAUv3eQ7vja0Mw0Dl4vnTQcQejBkEw2OJv2cq
-         uNZ2UKS1pPE6f34xhXcmA46e1YsmABJjJXRFOTKIudwLsNp4ofLRL63WUvFXcX0mEMOT
-         QXxLscGder8cCHhTMKCvzusrAyvXFy0qHDhevo3jXMgbEFm4j7kwsyR87i22+PRmz3Rm
-         hn/A==
-X-Gm-Message-State: AOAM531BfQkNz1DfAiwfdamGYeM9+VwLVTLmLo86ik7hQUak+r09Lz6V
-        rkg3F8PCNttHq3oWq9eTYEQ=
-X-Google-Smtp-Source: ABdhPJzU2EqrkTFmH1289oQBf1AS7N5fRURLGWkSQCB7ihkYlFD87c3JcUWU8O9Fzhze9kCZLws/Lg==
-X-Received: by 2002:a2e:9557:: with SMTP id t23mr676484ljh.85.1598191806202;
-        Sun, 23 Aug 2020 07:10:06 -0700 (PDT)
-Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.gmail.com with ESMTPSA id b17sm1641342ljp.9.2020.08.23.07.10.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2020 07:10:05 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        id S1725977AbgHWSHR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 23 Aug 2020 14:07:17 -0400
+Received: from mail.v3.sk ([167.172.186.51]:42430 "EHLO shell.v3.sk"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725867AbgHWSHR (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 23 Aug 2020 14:07:17 -0400
+X-Greylist: delayed 389 seconds by postgrey-1.27 at vger.kernel.org; Sun, 23 Aug 2020 14:07:15 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 3E84CDF106;
+        Sun, 23 Aug 2020 17:59:46 +0000 (UTC)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id uzF78zdjqwmD; Sun, 23 Aug 2020 17:59:45 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 759FDDFA6B;
+        Sun, 23 Aug 2020 17:59:44 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id uf-79zAqGnZt; Sun, 23 Aug 2020 17:59:44 +0000 (UTC)
+Received: from localhost (unknown [109.183.109.54])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id DC182DF106;
+        Sun, 23 Aug 2020 17:59:43 +0000 (UTC)
+Date:   Sun, 23 Aug 2020 20:00:41 +0200
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Lubomir Rintel <lkundrak@v3.sk>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1 6/6] ARM: tegra: acer-a500: Add Embedded Controller
-Date:   Sun, 23 Aug 2020 17:08:46 +0300
-Message-Id: <20200823140846.19299-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200823140846.19299-1-digetx@gmail.com>
+        Sebastian Reichel <sre@kernel.org>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 5/6] dt-bindings: mfd: ene-kb3930: Document
+ power-supplies and monitored-battery properties
+Message-ID: <20200823180041.GB209852@demiurge.local>
 References: <20200823140846.19299-1-digetx@gmail.com>
+ <20200823140846.19299-6-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200823140846.19299-6-digetx@gmail.com>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This patch adds device-tree node for the Embedded Controller which is
-found on the Picasso board. The Embedded Controller itself is ENE KB930,
-it provides functions like battery-gauge/LED/GPIO/etc and it uses firmware
-that is specifically customized for the Acer A500 device.
+Hi,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+On Sun, Aug 23, 2020 at 05:08:45PM +0300, Dmitry Osipenko wrote:
+> Battery could be connected to the controller and in this case controller
+> will provide a battery-monitor function.
+> 
+> The power-supplies phandle property is needed in order to describe the
+> power supply which is used for charging of the battery, this allows to
+> determine whither battery is charging or discharging, depending on the
+> supply state.
+> 
+> The monitored-battery phandle provides information about the battery cell
+> characteristics.
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index 2d683c9a1a5d..f92712e4bd34 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -502,6 +502,16 @@ panel_ddc: i2c@1 {
- 			reg = <1>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-+
-+			embedded-controller@58 {
-+				compatible = "acer,a500-iconia-ec", "ene,kb930";
-+				reg = <0x58>;
-+
-+				system-power-controller;
-+
-+				monitored-battery = <&bat1010>;
-+				power-supplies = <&mains>;
-+			};
- 		};
- 	};
- 
-@@ -780,6 +790,13 @@ backlight: backlight {
- 		default-brightness-level = <20>;
- 	};
- 
-+	bat1010: battery-2s1p {
-+		compatible = "simple-battery";
-+		charge-full-design-microamp-hours = <3260000>;
-+		energy-full-design-microwatt-hours = <24000000>;
-+		operating-range-celsius = <0 40>;
-+	};
-+
- 	/* PMIC has a built-in 32KHz oscillator which is used by PMC */
- 	clk32k_in: clock@0 {
- 		compatible = "fixed-clock";
--- 
-2.27.0
+I believe it would be better if you created a new binding document
+instead of reusing this one -- the hardware part iseems to be a
+different one and the firmware it runs seems to be behaving totally
+differently than the usual ENE firmware [1].
 
+[1] This eneec.c seems to be coming from ENE, so I'm assuming it's a
+    good enough description of how their firmware behaves:
+    https://git.kernel.org/pub/scm/linux/kernel/git/lkundrak/linux-mmp3-dell-ariel.git/tree/drivers/input/serio/eneec.c
+
+Cheers
+Lubo
+
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  .../devicetree/bindings/mfd/ene-kb3930.yaml    | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/ene-kb3930.yaml b/Documentation/devicetree/bindings/mfd/ene-kb3930.yaml
+> index 5a1c4a959d9c..435728054f3a 100644
+> --- a/Documentation/devicetree/bindings/mfd/ene-kb3930.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/ene-kb3930.yaml
+> @@ -29,6 +29,8 @@ properties:
+>      description: GPIO used with the shutdown protocol on Ariel
+>      maxItems: 2
+>  
+> +  monitored-battery: true
+> +  power-supplies: true
+>    system-power-controller: true
+>  
+>  required:
+> @@ -41,6 +43,19 @@ examples:
+>    - |
+>      #include <dt-bindings/gpio/gpio.h>
+>  
+> +    battery: battery-cell {
+> +            compatible = "simple-battery";
+> +            charge-full-design-microamp-hours = <3260000>;
+> +            energy-full-design-microwatt-hours = <24000000>;
+> +            operating-range-celsius = <0 40>;
+> +    };
+> +
+> +    mains: ac-adapter {
+> +      compatible = "gpio-charger";
+> +      charger-type = "mains";
+> +      gpios = <&gpio 125 GPIO_ACTIVE_LOW>;
+> +    };
+> +
+>      i2c {
+>        #address-cells = <1>;
+>        #size-cells = <0>;
+> @@ -52,6 +67,9 @@ examples:
+>  
+>          off-gpios = <&gpio 126 GPIO_ACTIVE_HIGH>,
+>                      <&gpio 127 GPIO_ACTIVE_HIGH>;
+> +
+> +        monitored-battery = <&battery>;
+> +        power-supplies = <&mains>;
+>        };
+>      };
+>  
+> -- 
+> 2.27.0
+> 
