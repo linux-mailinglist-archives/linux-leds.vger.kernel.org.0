@@ -2,107 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C392D24FB39
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Aug 2020 12:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 300BC24FBA2
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Aug 2020 12:39:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726138AbgHXKRK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 24 Aug 2020 06:17:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50556 "EHLO
+        id S1726716AbgHXKjh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 24 Aug 2020 06:39:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725906AbgHXKRE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Aug 2020 06:17:04 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 766D3C061573;
-        Mon, 24 Aug 2020 03:17:03 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id y2so8986403ljc.1;
-        Mon, 24 Aug 2020 03:17:03 -0700 (PDT)
+        with ESMTP id S1725999AbgHXKjc (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Aug 2020 06:39:32 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8098AC061573
+        for <linux-leds@vger.kernel.org>; Mon, 24 Aug 2020 03:39:30 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id dp2so5947304ejc.4
+        for <linux-leds@vger.kernel.org>; Mon, 24 Aug 2020 03:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EO6NpAg0w4GDPViUfV2sBM0Yy3icsdCv6CnK4KTImqc=;
-        b=NVxFQX8hvxJpgbMYgWDP8ljVHy+fJWPMXrej1XIN0mQJrxqZqZ7rZ7q5Jr3ijgyGlf
-         T3OdrM5cuz0hbZsZDGoiDq6Qac6igGMQUNV8ExM7LTC0YIBGX9lNSqiEeB8rxnqeUu2W
-         /m2pfPwGkZ/XhhspBiEDuDE82+a5usjw734uegAh6VfTqoirraDGyDeuPQRyHEI8vdqs
-         Gq/wyUmgCK6/o0p8Z+REYA4rkSupFZ8tMdvOe5iyVLRkONnmKN11ajMV3MQLSiewiWwt
-         7Rx4vkTe3vIO/BL5NR7FylxG9n/shFmmXbMS19pVax/PyPZHWUY5v1v57bfQIZBn2+M5
-         EjEw==
+        d=monstr-eu.20150623.gappssmtp.com; s=20150623;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ukMwQbFzoefCOQGMwd5tNOLCJom6+rFwugwx1XLvVhQ=;
+        b=OKOZVfLtBPUQaSY8S/kiqZI1LtxJpC5QwAGngsZI9ptvoV1fUCg73/s4JvMTEgeKtP
+         C4ngkApYwyHlXbdLUjyChv/qIiKaPTq5u933l8w65YEy3ssLtOBourQLAa5pEwvvuwhy
+         M7tXLISkTI5Nq0klHvO/IJFzGKLWFncnSO7b7ZZJQGaMMrKLefnC0BBH04TLdJg4hmSS
+         7panJBcTFZ+6TgIQzGIaY0ZY+t62EEaSVeVmvNNHx7Mmk1J84F8FN3NBiS6Yrb2jDvjo
+         LX88e4Jr1EcUhLwaVjGlDq7ooHJ2PgWgnlDQgO/Y+qItrZ8Jb6+pmULe3D1Po+X7P9Q6
+         VGRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EO6NpAg0w4GDPViUfV2sBM0Yy3icsdCv6CnK4KTImqc=;
-        b=Ptnh0JCIMkprXszF2tofnoE7WrYg//iRatLCSPwaMgPHv9nAftKbcKjAn5MGwGggxc
-         J1BIKzXOGBHT1/EEjqE2sOPwTLu0reEjZNTzHHR0HAcwscEikmtvDMfLEmlYFhGtUZWt
-         m2dGHxYvbJUVQ1aMOYO3p4LEYYYeA6N2u+NJsyn6M/D+JKD12QRIpj7KsaoHMzSPbhCr
-         cRd3IJsMsbNpgmGaVLLQQfOCCFHXNUIuS5f/76XPh29bL5ZlHz25s3NdDUvMMyAlXR9s
-         37ug/CZYQEerG7u09gGM+q085p2e8Wy86NwL4sPBFAq+ZJs3w3lw+bMxRZ7NF+xQQMQq
-         w9BQ==
-X-Gm-Message-State: AOAM533RpymZKFV7KXN2SF17hMf8AI23Noqj7+GDiqUcxnvONOaf3goI
-        a65dU8vxx0BpphHL2ak6NX7BrNcpAjA=
-X-Google-Smtp-Source: ABdhPJy/u/4LLu9r4mhcxwDPpCC7JjeLfk00HvQSpyKtVoG0ldd1sVtB6GCZfVC6S4L1b5e/fmkjSg==
-X-Received: by 2002:a2e:b708:: with SMTP id j8mr2411912ljo.375.1598264217513;
-        Mon, 24 Aug 2020 03:16:57 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id t18sm2111855ljc.126.2020.08.24.03.16.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2020 03:16:56 -0700 (PDT)
-Subject: Re: [PATCH v1 3/6] leds: Add driver for Acer Iconia Tab A500
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Lubomir Rintel <lkundrak@v3.sk>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200823140846.19299-1-digetx@gmail.com>
- <20200823140846.19299-4-digetx@gmail.com>
- <20200823223434.cjxo762ehxgo4caz@duo.ucw.cz>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c7d37174-1dcd-206d-01ac-eb95aa0b5dc8@gmail.com>
-Date:   Mon, 24 Aug 2020 13:16:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=ukMwQbFzoefCOQGMwd5tNOLCJom6+rFwugwx1XLvVhQ=;
+        b=VYUI58PV7SkFiCgw5bd46dKRtZ0RFORR80H4TEemxq5qR9kcSkxmP1AeFFdNBTHMyI
+         i/tC2FWPFPWSTZDhHRJUcQIlUma2ztrx7K4K949N3jd6xsTvcvkbdCxKIJtKlaBpcIsr
+         5s2jMIdUPaZCc5llkuQ6D6p8INrg1gUKZcCeEiX//SayxIMfCamWwPV/qgRMkYG2AMLu
+         bKr7sGkhX3+Q27XGXKcF/Pwy0XDfm5U5rEwNNt83OCIXh5RN27AG1lmqzJ2rHOIOCkPQ
+         YTHDfGcod+HtkYZqrdp8s3TIMaV0pgmweGEW5mk0fA4gFlRnBDIAFf2mkZrrnFIVWsB4
+         3VNA==
+X-Gm-Message-State: AOAM531ECxRSPcJFMYaH07jQZi64DPNwelWHgO8GJY+Za7BeFAzzERlb
+        OuSDSH89hHWhTobwvBynajsbxg==
+X-Google-Smtp-Source: ABdhPJx2QX66kk/ftCuLrvWMzSkGHZJhYNF2AjMArcrqP3X/wkz3LaZ2ICBbOMFaC0m5rzYzh04a3g==
+X-Received: by 2002:a17:906:4b0d:: with SMTP id y13mr4865906eju.39.1598265569390;
+        Mon, 24 Aug 2020 03:39:29 -0700 (PDT)
+Received: from localhost (nat-35.starnet.cz. [178.255.168.35])
+        by smtp.gmail.com with ESMTPSA id e4sm8870919edv.73.2020.08.24.03.39.28
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 24 Aug 2020 03:39:28 -0700 (PDT)
+From:   Michal Simek <michal.simek@xilinx.com>
+To:     linux-kernel@vger.kernel.org, monstr@monstr.eu,
+        michal.simek@xilinx.com, git@xilinx.com
+Cc:     Dan Murphy <dmurphy@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: [PATCH] dt-bindings: leds: common: Add missing triggers
+Date:   Mon, 24 Aug 2020 12:39:27 +0200
+Message-Id: <f24b081ad7f4695c039cfb9256aae8a522797fcf.1598265564.git.michal.simek@xilinx.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200823223434.cjxo762ehxgo4caz@duo.ucw.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-24.08.2020 01:34, Pavel Machek пишет:
-> On Sun 2020-08-23 17:08:43, Dmitry Osipenko wrote:
->> Acer Iconia Tab A500 is an Android tablet device which has two LEDs
->> embedded into the Power Button. Orange LED indicates "battery charging"
->> status and white LED indicates "wake-up/charge-done" status. The new LED
->> driver provides control over both LEDs to userspace.
-> 
-> Hmm. If the ENE controller is similar to other devices, should it also
-> share LED driver?
-> 
-> And I guess the cdev names should be different based on info above (I
-> gave you wrong suggestions before)... and they probably should be
-> parsed from the device tree.
+Xilinx ZynqMP zcu100/ultra96 v1 defines additional triggers which are not
+covered by common.yaml. The patch adds missing triggers for this platform.
 
-The ENE controller hardware is the same on all devices that use it, but
-firmware isn't the same and apparently every vendor invents its own
-thing in regards to the firmware because firmware features and interface
-varies vastly from device to device. Hence, unfortunately, usually there
-is very little compatibility even if devices come form the same vendor
+Signed-off-by: Michal Simek <michal.simek@xilinx.com>
+---
 
-AFAIK, the ENE controller provides some compatibility on x86 machines
-via ACPI EC standard, but this doesn't apply to the ARM devices.
+There are a lot of other triggers which are missing but the patch focus on
+fixing my platform
+---
+ Documentation/devicetree/bindings/leds/common.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-I know that Acer A200 should be able to re-use the A500 EC driver as-is,
-but A200 is pretty much the same device as A500, so it's not surprising.
-IIRC, A200 model only misses back camera in comparison to A500. Hence
-there shouldn't be a need to parse the names from a device-tree, but
-I'll try to double-check it to be sure.
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index a2a541bca73c..c3d728a06782 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -82,6 +82,8 @@ properties:
+     enum:
+         # LED will act as a back-light, controlled by the framebuffer system
+       - backlight
++        # LED indicates enabling power for bluetooth device
++      - bluetooth-power
+         # LED will turn on (but for leds-gpio see "default-state" property in
+         # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
+       - default-on
+@@ -97,6 +99,9 @@ properties:
+         # LED alters the brightness for the specified duration with one software
+         # timer (requires "led-pattern" property)
+       - pattern
++        # LED flashes based on networking activity on tx and rx channels
++      - phy0tx
++      - phy0rx
+ 
+   led-pattern:
+     description: |
+-- 
+2.28.0
 
-Thanks!
