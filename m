@@ -2,114 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B27DC24FBBE
-	for <lists+linux-leds@lfdr.de>; Mon, 24 Aug 2020 12:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC88E24FCB6
+	for <lists+linux-leds@lfdr.de>; Mon, 24 Aug 2020 13:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726750AbgHXKns (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 24 Aug 2020 06:43:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54734 "EHLO
+        id S1726624AbgHXLjO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 24 Aug 2020 07:39:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726704AbgHXKnl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Aug 2020 06:43:41 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA60FC0613ED
-        for <linux-leds@vger.kernel.org>; Mon, 24 Aug 2020 03:43:40 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id k20so7663502wmi.5
-        for <linux-leds@vger.kernel.org>; Mon, 24 Aug 2020 03:43:40 -0700 (PDT)
+        with ESMTP id S1727034AbgHXLiv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 Aug 2020 07:38:51 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41DEEC061573;
+        Mon, 24 Aug 2020 04:38:40 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id i10so9230876ljn.2;
+        Mon, 24 Aug 2020 04:38:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=vfeJpdo+reXlUp8I9Xltf/bKT4P5/2EZI29RPHRcGTo=;
-        b=zYrP/1bzSHAaUnEcj4HL//n+vYvLSDc9feOiIUJl31IuKVau98RwHMSK/ozNps5bTR
-         oYKfl5nukEcPBR6oPloC6dUWnJMYinAJ5ZTA0uCMCnjENm12q3qNJLyM9fX7fpZsWKwf
-         sAjPWWliJ59AzuScUI1swcfCyVp7j0p8T+bs9qKTAtSAIjqsg799vQKGdoz1rKObLU80
-         SnesywaeXAUN22biSQs84mCq1cEZwFAayZBmrDkSk+3c1GHDVa2eLVFKtTdmZE4yO4bU
-         pDA3wJDt5ycrQrRl1889ScC1ZC/OoaxJjElqCH337TWJtCl4rjt6zn/82C+A0UGm+nIp
-         4SzA==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=COA2OoHledK6LxvVEpN2e5CT6+lH8tSEYYTfZmmyU+4=;
+        b=SR0SwN7M6dpgYK7DRYbwwCnClbUHBxGuJ5fyR4tdZrmskdS7xDOrOepiBGL5BqJ+s1
+         4qcix95iMTmwpAxwxcm9fOFJgwQECfE4mxvs47NM/OiEdmbqLuA8AE0LgOEAj6/b9Bh9
+         MFSL/6FpM99suqavlWe7Zbeg//rTkahk9GGG6CwXaD35Lni8Mdb/quypDi4t9iLjfo4r
+         J6Ne7zqRLtsCcOO5HgXSPq7kmFEuLySeXTu1JfiuJL9HixZBlA7sRd5I+gOiii+B+1zv
+         dtJEZvJyJYoIlr/3HPsoY+MC1VWNZqgXwZqErbMhf7eSQ5TUZdffF0sj0Cn1vtdZLCjR
+         In9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=vfeJpdo+reXlUp8I9Xltf/bKT4P5/2EZI29RPHRcGTo=;
-        b=Cx/36psdur4wY3FTWpbMPZPZ81yZF9K0It/LCK/k/lpXdHm494NdOvxVjnToVoMeI0
-         Il8CfwzOW7jO6vEVH5iGsaDwAgK/YDbetv/eZxBDeQEZh6byDYKJvQwXNhWmtwkCWJqr
-         jj8CZMugraeFXn+H7oLV1JfX9MkccFi3fyw3dS3SjNKGxCKnyUTkGwpMh/12sjsB2wZJ
-         iAWhBqTj4SFCH3qbWxrYgkv0K80qOKWkFXcd/C//Sk5RP8gSID5saxgRWczXvTkcFoeM
-         IR4H/Vu1z5qWVZtdzVZ0c2v8B/9QgkrjYpa3DipuY7xcBNrqSMzmmo0riMZuhoDJ5mYz
-         sHoQ==
-X-Gm-Message-State: AOAM532f5HY/fZQjPOXPZKzYNKW/5b2c79unW+qGYwK6NtSYRvycVvhc
-        MPnB2NHqCsJNDMfrBBa/q+APwg==
-X-Google-Smtp-Source: ABdhPJyv9b5avO7XGdhprlSuqd/FKoiXA07sKRZlFBmahtp9hFgwnfD9BWbBCvoEh+hvSuNaA8PC7w==
-X-Received: by 2002:a1c:68c3:: with SMTP id d186mr5179539wmc.68.1598265818867;
-        Mon, 24 Aug 2020 03:43:38 -0700 (PDT)
-Received: from dell ([95.149.164.62])
-        by smtp.gmail.com with ESMTPSA id f9sm1783125wrm.5.2020.08.24.03.43.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 03:43:38 -0700 (PDT)
-Date:   Mon, 24 Aug 2020 11:43:36 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Lubomir Rintel <lkundrak@v3.sk>, Rob Herring <robh+dt@kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=COA2OoHledK6LxvVEpN2e5CT6+lH8tSEYYTfZmmyU+4=;
+        b=fERC0izN1MZ4w1houtQn78zjYtkMaL0rhP9Btg0clkZD6VIpYkq+uPrC4QHyJkABj6
+         fL6foyqKZRmrrZNjD8+bqunDVAKyuuxanMhU4R6MIX4CQH4pzkEXzlM9R8SxgZZ/ix9f
+         5jGduoouvJrk3d1sYBQUmapDW5FunI3qOgtBzw8ahNZELkiKUv4qVyM7qyBRtsKKVLcC
+         PJofxX1JvUxZmoYi4SfBUqufY1mv4N9Nf8+MEaAJ7MZVLEplBQf9w+QHhDvh/mzNqoEg
+         o+nfjrK1K8F5qr8uyr6VkfUeiTenn1ggImeO9FIq9dG/CWGd2fpSD1zvPACc6B9yHRlH
+         VmwA==
+X-Gm-Message-State: AOAM533kLhWt69OIBDons0FFRbrH4VVvhbg2X5uEJb7E7X4Tyt+1cIAt
+        tG/48JTJk4L17BRfARpvBUwwFJOb2Ls=
+X-Google-Smtp-Source: ABdhPJxsOi1noSnwLv7Tf5DhsoD96d7iPEV0CBG6t4E1gTnBmk7t6lPxQXly/bV+TJiX2fyz+avHIg==
+X-Received: by 2002:a05:651c:1349:: with SMTP id j9mr2317590ljb.392.1598269118514;
+        Mon, 24 Aug 2020 04:38:38 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id h23sm2129796lji.139.2020.08.24.04.38.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Aug 2020 04:38:37 -0700 (PDT)
+Subject: Re: [PATCH v1 3/6] leds: Add driver for Acer Iconia Tab A500
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Sebastian Reichel <sre@kernel.org>, devicetree@vger.kernel.org,
+        Dan Murphy <dmurphy@ti.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Lubomir Rintel <lkundrak@v3.sk>, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/6] mfd: Add driver for Embedded Controller found on
- Acer Iconia Tab A500
-Message-ID: <20200824104336.GK3248864@dell>
 References: <20200823140846.19299-1-digetx@gmail.com>
- <20200823140846.19299-2-digetx@gmail.com>
- <20200823181653.GC209852@demiurge.local>
- <82abab10-9af6-a9c4-b241-d5a3af5b588d@gmail.com>
- <20200824073331.GG3248864@dell>
- <f12d287a-f088-4c43-479d-5c044e554b30@gmail.com>
+ <20200823140846.19299-4-digetx@gmail.com>
+ <20200823223037.5fkeg5ai6hry3axj@duo.ucw.cz>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <31e11f94-41cc-9181-cd08-95a074f3487b@gmail.com>
+Date:   Mon, 24 Aug 2020 14:38:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200823223037.5fkeg5ai6hry3axj@duo.ucw.cz>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f12d287a-f088-4c43-479d-5c044e554b30@gmail.com>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 24 Aug 2020, Dmitry Osipenko wrote:
-
-> 24.08.2020 10:33, Lee Jones пишет:
-> >> ...
-> >>>> +static struct a500_ec *a500_ec_scratch;
-> >>>
-> >>> If this is only used for power_off, please rename it. I've been told to
-> >>> do so in my driver: https://lore.kernel.org/lkml/20200519104933.GX271301@dell/
-> >>
-> >> I don't mind to rename the variable, but not sure whether it will be a
-> >> worthwhile change since _scratch is also a common naming scheme among
-> >> MFD drivers. Please see max77620_scratch for example, which I added
-> >> about a year ago.
-> > 
-> > If something is used once, it does not make it 'common'.
-> > 
-> > Not sure how this slipped my notice before, but I don't like it.
-> > 
-> > Ensure any global struct used for power_off only includes items
-> > required for this purpose.  It's unfortunate this API requires a
-> > global variable at all.
-> > 
+24.08.2020 01:30, Pavel Machek пишет:
+>> +	orange_led->cdev.name = "power-button-orange";
 > 
-> Okay! I'll change it in the v2, thanks!
-> 
-> Thierry Reding was working on the shutdown API which should replace the
-> global variables, unfortunately he doesn't have enough time to finish
-> that work yet.
+> "orange:power" -- or what is this LED usually used for?
 
-That would be really good. :)
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+The orange LED is supposed to indicate that battery is charging up.
