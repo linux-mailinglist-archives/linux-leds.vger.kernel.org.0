@@ -2,122 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27A272513D6
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Aug 2020 10:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3C302513D5
+	for <lists+linux-leds@lfdr.de>; Tue, 25 Aug 2020 10:08:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727793AbgHYIIs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Aug 2020 04:08:48 -0400
-Received: from m12-11.163.com ([220.181.12.11]:38754 "EHLO m12-11.163.com"
+        id S1725936AbgHYIIo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 Aug 2020 04:08:44 -0400
+Received: from m12-11.163.com ([220.181.12.11]:38465 "EHLO m12-11.163.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725890AbgHYIIs (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 25 Aug 2020 04:08:48 -0400
+        id S1725890AbgHYIIn (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 25 Aug 2020 04:08:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id; bh=uzJQefAboauO6PTuM2
-        6KoCfp7NDYLyFh9K9UE5Px/BM=; b=kRmTEwWNKXXJnJulcK9KWXwmwC3JvpNYPp
-        AugMKjabHJSXa4Ew+Ck677FL3jgjHYBV2N4/b9EncsBAHCRNThWmTPuO1r+487GF
-        O1PiiOQCuRt1HEmxpaxHl4CUO42evvO2IAGPRZQq4zl2y8wsPdEOOVG7QOy2ykah
-        ZAg04EZeE=
+        s=s110527; h=From:Subject:Date:Message-Id; bh=G2OJv28gTelM13Lm7C
+        9HowOCR4AZItrH4dcNL0B8Ex8=; b=nr6iwu32JLeJPujrfQrjdLIEqvGaA/9WOa
+        sB7vj8yTUGjs6XKZ41b8sHuLY31Eunc3qypQTehB4etoUO6NmyE8Sk9Iu+57jM2N
+        0nv4346fSSa8SPOaEGBTD7ZLi9rNxmJbuB7tS+9VhPNe8O+t78uQBCIc5g+kmTWK
+        nm5ESjVEs=
 Received: from localhost.localdomain (unknown [58.33.102.45])
-        by smtp7 (Coremail) with SMTP id C8CowAD3rDXqxkRfAWr+DA--.63807S2;
-        Tue, 25 Aug 2020 16:08:15 +0800 (CST)
+        by smtp7 (Coremail) with SMTP id C8CowAD3rDXqxkRfAWr+DA--.63807S3;
+        Tue, 25 Aug 2020 16:08:17 +0800 (CST)
 From:   Grant Feng <von81@163.com>
 To:     von81@163.com, jacek.anaszewski@gmail.com, pavel@ucw.cz,
         dmurphy@ti.com, robh+dt@kernel.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/2] leds: is31fl32xx: Add shutdown pin and generate a 5ms low pulse when startup
-Date:   Tue, 25 Aug 2020 16:07:57 +0800
-Message-Id: <20200825080758.5283-1-von81@163.com>
+Subject: [PATCH v3 2/2] leds: Add an optional property named 'shutdown-gpios'
+Date:   Tue, 25 Aug 2020 16:07:58 +0800
+Message-Id: <20200825080758.5283-2-von81@163.com>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: C8CowAD3rDXqxkRfAWr+DA--.63807S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AF17trWUCr1rGr17JFW3trb_yoW8KFW7pF
-        4qkFy5Ar4YvrWxKwnrAF4UZFy3A348JF4DtFWxC3y3J3W2krn0qFy0yryqv3W5WFZ5uay5
-        AF4DKF15Gr48Aw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jwsqXUUUUU=
+In-Reply-To: <20200825080758.5283-1-von81@163.com>
+References: <20200825080758.5283-1-von81@163.com>
+X-CM-TRANSID: C8CowAD3rDXqxkRfAWr+DA--.63807S3
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKw4fCFWfXFW7XFy3XrWfAFb_yoWkJFb_Ja
+        4xCr4IgFZ8uF4vg3WDZr1avr48Cw4xAr1DCa1IqF18Zw1xt3sIgF92qw1Yyr1UGana9r13
+        Ca97KFyUJ3ZrKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU0AcTDUUUUU==
 X-Originating-IP: [58.33.102.45]
-X-CM-SenderInfo: xyrqmii6rwjhhfrp/1tbiUQ+LOlWBQf6LUgAAsd
+X-CM-SenderInfo: xyrqmii6rwjhhfrp/1tbiNxKLOlWBhwgskQAAsy
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-generate a 5ms low pulse on shutdown pin when startup, then the chip
-becomes more stable in the complex EM environment.
+The chip enters hardware shutdown when the SDB pin is pulled low.
+The chip releases hardware shutdown when the SDB pin is pulled high.
 
 Signed-off-by: Grant Feng <von81@163.com>
 ---
- drivers/leds/leds-is31fl32xx.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+ Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-index cd768f991da1..946ad2f71e00 100644
---- a/drivers/leds/leds-is31fl32xx.c
-+++ b/drivers/leds/leds-is31fl32xx.c
-@@ -16,6 +16,8 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
+diff --git a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
+index 926c2117942c..ee761abb98a7 100644
+--- a/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
++++ b/Documentation/devicetree/bindings/leds/leds-is31fl32xx.txt
+@@ -15,6 +15,8 @@ Required properties:
+ - reg: I2C slave address
+ - address-cells : must be 1
+ - size-cells : must be 0
++- shutdown-gpios : (optional)
++  Specifier of the GPIO connected to SDB pin of the chip.
  
- /* Used to indicate a device has no such register */
- #define IS31FL32XX_REG_NONE 0xFF
-@@ -43,6 +45,7 @@ struct is31fl32xx_led_data {
- struct is31fl32xx_priv {
- 	const struct is31fl32xx_chipdef *cdef;
- 	struct i2c_client *client;
-+	struct gpio_desc *shutdown_gpio;
- 	unsigned int num_leds;
- 	struct is31fl32xx_led_data leds[];
- };
-@@ -282,11 +285,17 @@ static int is31fl32xx_software_shutdown(struct is31fl32xx_priv *priv,
- 	return 0;
- }
+ LED sub-node properties:
+ - reg : LED channel number (1..N)
+@@ -31,6 +33,7 @@ is31fl3236: led-controller@3c {
+ 	reg = <0x3c>;
+ 	#address-cells = <1>;
+ 	#size-cells = <0>;
++	shutdown-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
  
--static int is31fl32xx_init_regs(struct is31fl32xx_priv *priv)
-+static int is31fl32xx_init(struct is31fl32xx_priv *priv)
- {
- 	const struct is31fl32xx_chipdef *cdef = priv->cdef;
- 	int ret;
- 
-+	if (priv->shutdown_gpio) {
-+		gpiod_direction_output(priv->shutdown_gpio, 0);
-+		mdelay(5);
-+		gpiod_direction_output(priv->shutdown_gpio, 1);
-+	}
-+
- 	ret = is31fl32xx_reset_regs(priv);
- 	if (ret)
- 		return ret;
-@@ -372,6 +381,15 @@ static int is31fl32xx_parse_dt(struct device *dev,
- 	struct device_node *child;
- 	int ret = 0;
- 
-+	priv->shutdown_gpio = devm_gpiod_get_optional(dev,
-+						"shutdown",
-+						GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->shutdown_gpio)) {
-+		ret = PTR_ERR(priv->shutdown_gpio);
-+		dev_err(dev, "Failed to get shutdown gpio: %d\n", ret);
-+		return ret;
-+	}
-+
- 	for_each_child_of_node(dev->of_node, child) {
- 		struct is31fl32xx_led_data *led_data =
- 			&priv->leds[priv->num_leds];
-@@ -453,11 +471,11 @@ static int is31fl32xx_probe(struct i2c_client *client,
- 	priv->cdef = cdef;
- 	i2c_set_clientdata(client, priv);
- 
--	ret = is31fl32xx_init_regs(priv);
-+	ret = is31fl32xx_parse_dt(dev, priv);
- 	if (ret)
- 		return ret;
- 
--	ret = is31fl32xx_parse_dt(dev, priv);
-+	ret = is31fl32xx_init(priv);
- 	if (ret)
- 		return ret;
- 
+ 	led@1 {
+ 		reg = <1>;
 -- 
 2.17.1
 
