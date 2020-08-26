@@ -2,71 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A54C2531EC
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Aug 2020 16:50:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71A6B2533B5
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Aug 2020 17:30:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727950AbgHZOua (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 26 Aug 2020 10:50:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36172 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727945AbgHZOuZ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 26 Aug 2020 10:50:25 -0400
-Received: from localhost.localdomain (unknown [194.230.155.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 618632177B;
-        Wed, 26 Aug 2020 14:50:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598453424;
-        bh=hYmpse77FeS+EBcR36wkPeggezQprfRAztxgJRbgDMk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cUPEd8i8eChq/x6xaKepI7J9w3XFS28759FRErtadof6D0/HjChrNSu7dSN86jmmx
-         cC9vL8wEP5WM1vQfBiDKcLPAzysg5CYOXS6swEcubXV4JVHOxE90dThA9CoLnp8ugS
-         JniYwYNzlHHW6vxhOhGENmwhW5DEcNQGIotDaiFo=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 4/4] leds: tlc591xx: Simplify with dev_err_probe()
-Date:   Wed, 26 Aug 2020 16:50:13 +0200
-Message-Id: <20200826145013.10230-4-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200826145013.10230-1-krzk@kernel.org>
-References: <20200826145013.10230-1-krzk@kernel.org>
+        id S1727877AbgHZPav (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 Aug 2020 11:30:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727056AbgHZPav (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Aug 2020 11:30:51 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F08BCC061756;
+        Wed, 26 Aug 2020 08:30:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=xlfXHnuuH2gInBuzkBHVhLFG54fPY1/qexAoARTTtw4=; b=RaQnXZB20d4JOEFetCvG5MTO5c
+        m6j1A2coIXyNV4KKTq3oTb8hkh9riRf+BmXobcnLKbvwdpC/wA/mc4Yi4CMHhXjjKfx2O1vRA+kYt
+        NOu7FaDqiOl1OMZZPrsNQqb9AJf+Glllx9hjPwHnYZki+JcM9MVqtULJK8GIVpF/xyr/JaxPczdrp
+        2m0LnJ6mtqKdDS74P929XjsyCn0JKWATMoTJdR6qk1tnnrPe+rBebTU5adIMFEya7FvRVOiDA5KnR
+        rzlWZ/o9XTQwZCWxpEDUt9OZpt4s2sXniVTLUMjthgf6jHQ8DpeeMERpsrEm7xz+I0ZAoQlfVsNTz
+        4d4DeJTA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kAxNs-0004uD-AB; Wed, 26 Aug 2020 15:30:44 +0000
+Subject: Re: [PATCH 1/2] leds: mt6360: Add LED driver for MT6360
+To:     Gene Chen <gene.chen.richtek@gmail.com>,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, matthias.bgg@gmail.com
+Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
+        shufan_lee@richtek.com, cy_huang@richtek.com,
+        benjamin.chao@mediatek.com
+References: <1598441840-15226-1-git-send-email-gene.chen.richtek@gmail.com>
+ <1598441840-15226-2-git-send-email-gene.chen.richtek@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f35bf9c1-6397-3369-954d-fe05d77438cd@infradead.org>
+Date:   Wed, 26 Aug 2020 08:30:37 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <1598441840-15226-2-git-send-email-gene.chen.richtek@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Common pattern of handling deferred probe can be simplified with
-dev_err_probe().  Less code and also it prints the error value.
+On 8/26/20 4:37 AM, Gene Chen wrote:
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index 1c181df..ce95ead 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -271,6 +271,17 @@ config LEDS_MT6323
+>  	  This option enables support for on-chip LED drivers found on
+>  	  Mediatek MT6323 PMIC.
+>  
+> +config LEDS_MT6360
+> +	tristate "LED Support for Mediatek MT6360 PMIC"
+> +	depends on LEDS_CLASS_FLASH && OF
+> +	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+> +	depends on MFD_MT6360
+> +	help
+> +	  This option enables support for dual Flash LED drivers found on
+> +	  Mediatek MT6360 PMIC.
+> +	  Support Torch and Strobe mode independently current source.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- drivers/leds/leds-tlc591xx.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+	  Supports                      independently of current source.
 
-diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index 0929f1275814..1dc14051639c 100644
---- a/drivers/leds/leds-tlc591xx.c
-+++ b/drivers/leds/leds-tlc591xx.c
-@@ -213,12 +213,10 @@ tlc591xx_probe(struct i2c_client *client,
- 		led->ldev.max_brightness = TLC591XX_MAX_BRIGHTNESS;
- 		err = devm_led_classdev_register_ext(dev, &led->ldev,
- 						     &init_data);
--		if (err < 0) {
--			if (err != -EPROBE_DEFER)
--				dev_err(dev, "couldn't register LED %s\n",
--					led->ldev.name);
--			return err;
--		}
-+		if (err < 0)
-+			return dev_err_probe(dev, err,
-+					     "couldn't register LED %s\n",
-+					     led->ldev.name);
- 	}
- 	return 0;
- }
+I'm guessing on that ending; I wasn't sure what was intended, but it doesn't
+make sense as posted.
+
+
+> +	  Include Low-VF and short protection.
+
+	  Includes
+
+> +
+>  config LEDS_S3C24XX
+>  	tristate "LED Support for Samsung S3C24XX GPIO LEDs"
+>  	depends on LEDS_CLASS
+
+
+thanks.
 -- 
-2.17.1
-
+~Randy
