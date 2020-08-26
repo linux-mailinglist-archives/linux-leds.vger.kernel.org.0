@@ -2,95 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B7112526EC
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Aug 2020 08:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 124D3252A51
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Aug 2020 11:37:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726750AbgHZGeT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 26 Aug 2020 02:34:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41436 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725786AbgHZGeT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Aug 2020 02:34:19 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8AD2C061574;
-        Tue, 25 Aug 2020 23:34:18 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id m22so1023548ljj.5;
-        Tue, 25 Aug 2020 23:34:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lgWQaoUOmck1zKDSkfP/KU2pBuaR71IA8RK6LfmWfiU=;
-        b=BStScc7SEeJUXWtFIaOczGlfItuM9LUgot65Loa+CmcdSSPsyajCEedCUQudaWZm9z
-         2TzbozcX2s/U8pizJdFJ+iQHlu/IhWgEvwKuCgyC/MTXQeXCEY9o8LLux0T3CdD3AtA7
-         tn14pPv210JrLNqMSWzcgvPTGInmDCtX8eZLXqXRf084qdVH4xCMb2EOnB8WKBLC3VRG
-         FRkDG01aQbahppWVUqjzkW/AhJzBAulb4Z/WFkm+l3/BZX4cpFEVGo6mwDXX/OOz+YAe
-         ACwf6a462wehrJUZoFH9LB6jP6Fab5BbOOGEV3pyp5UTLFeayZmjFIssirme/7grvq3y
-         Rxlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lgWQaoUOmck1zKDSkfP/KU2pBuaR71IA8RK6LfmWfiU=;
-        b=Qfm57taGOyea3w6577o3CZYagCbbZPg7ZpnDklL5R5Qzlbm3vgQe+d3o2X8I1tyZLu
-         VuwZrNrTW/YmJpSz4wgh865BCqs2KeUKcEyK3JMnHUAH7XUAbHb2H/TZFxgWBcUIr2Ud
-         4nt+4bi9KC/WXeF86G0uvRtrva8I5rq/DuX9KtOa38i//Khmi3d8CFHccMZnPve0tcu0
-         yq/ieTMW/G72sAvNBVbIbcrQbZUdU+GvjXUaUZXhYPmPoFs57FclcLN9PlJdj6eA+H36
-         rcC8SdFmsD6oREuwbyLgPglDHf1bZfIw4utuux17/bvvUYFrE5c+/aGyuvg5HV8F5dHF
-         0rNg==
-X-Gm-Message-State: AOAM532Orx5Jx7Nj660Uso8BzBA3nvzMFHBmfuT1F0VvTeeV/7UZoTJ0
-        gT0ZRD1SICELQvpbjmI3mKstGHgyTpE=
-X-Google-Smtp-Source: ABdhPJzPxuktg7pPrBXmouq95t70LJMDgatsUj53Twb1MRVQoKDhxeCz9r165MKz6Y5g35tPP6YkBw==
-X-Received: by 2002:a05:651c:88:: with SMTP id 8mr6808046ljq.277.1598423656911;
-        Tue, 25 Aug 2020 23:34:16 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id q5sm315641lfn.92.2020.08.25.23.34.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2020 23:34:16 -0700 (PDT)
-Subject: Re: [PATCH v1 2/6] power: supply: Add battery gauge driver for Acer
- Iconia Tab A500
-To:     Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Lubomir Rintel <lkundrak@v3.sk>, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200823140846.19299-1-digetx@gmail.com>
- <20200823140846.19299-3-digetx@gmail.com>
- <20200824140718.apoavlny6hlkm2ql@earth.universe>
- <31ec6865-4a33-bde8-73a6-20c188ec2ee7@gmail.com>
- <20200824213859.6o3q5i2kvtk44lqi@earth.universe>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <bc5e828c-67ce-0c9e-e8e7-19a532145cfa@gmail.com>
-Date:   Wed, 26 Aug 2020 09:34:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200824213859.6o3q5i2kvtk44lqi@earth.universe>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1728067AbgHZJhx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 Aug 2020 05:37:53 -0400
+Received: from mail.thorsis.com ([92.198.35.195]:50379 "EHLO mail.thorsis.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728289AbgHZJhp (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 26 Aug 2020 05:37:45 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.thorsis.com (Postfix) with ESMTP id 6C7ED46E1;
+        Wed, 26 Aug 2020 11:37:42 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
+Received: from mail.thorsis.com ([127.0.0.1])
+        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Wtvtf5oFOyjP; Wed, 26 Aug 2020 11:37:42 +0200 (CEST)
+Received: by mail.thorsis.com (Postfix, from userid 109)
+        id 3E5BE471B; Wed, 26 Aug 2020 11:37:41 +0200 (CEST)
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RELAYS,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.2
+Received: from adahl by ada.ifak-system.com with local (Exim 4.92)
+        (envelope-from <ada@thorsis.com>)
+        id 1kArs9-0007Yb-BO; Wed, 26 Aug 2020 11:37:37 +0200
+From:   Alexander Dahl <ada@thorsis.com>
+To:     linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-kernel@vger.kernel.org, Alexander Dahl <post@lespocky.de>
+Subject: [PATCH] leds: pwm: Allow automatic labels for DT based devices
+Date:   Wed, 26 Aug 2020 11:37:37 +0200
+Message-Id: <20200826093737.29008-1-ada@thorsis.com>
 Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-25.08.2020 00:38, Sebastian Reichel пишет:
-> Hi,
-...
->> Hello, Sebastian! The battery isn't hot-swappable on A500, but it also
->> should be okay to always re-read the serialno. I'll consider removing
->> the caching in the v2, thanks.
-> 
-> I assumed it would be hot-swappable because of a500_battery_get_presence().
-> If it's not hot-swappable, the caching is fine.
+From: Alexander Dahl <post@lespocky.de>
 
-The battery could be disconnected from the motherboard, but this
-requires to have device disassembled.
+If LEDs are configured through device tree and the property 'label' is
+omitted, the label is supposed to be generated from the properties
+'function' and 'color' if present.  While this works fine for e.g. the
+'leds-gpio' driver, it did not for 'leds-pwm'.
 
-Okay, I'll keep the caching.
+The reason is, you get this label naming magic only if you add a LED
+device through 'devm_led_classdev_register_ext()' and pass a pointer to
+the current device tree node.  The approach to fix this was adopted from
+the 'leds-gpio' driver.
 
-Thanks!
+For the following node from dts the LED appeared as 'led5' in sysfs
+before and as 'red:debug' after this change.
+
+        pwm_leds {
+                compatible = "pwm-leds";
+
+                led5 {
+                        function = LED_FUNCTION_DEBUG;
+                        color = <LED_COLOR_ID_RED>;
+                        pwms = <&pwm0 2 10000000 0>;
+                        max-brightness = <127>;
+
+                        linux,default-trigger = "heartbeat";
+                        panic-indicator;
+                };
+        };
+
+Signed-off-by: Alexander Dahl <post@lespocky.de>
+---
+
+Notes:
+    v1: based on v5.9-rc2, backport on v5.4.59 also works
+
+ drivers/leds/leds-pwm.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index ef7b91bd2064..a27a1d75a3e9 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -65,6 +65,7 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+ 		       struct led_pwm *led, struct fwnode_handle *fwnode)
+ {
+ 	struct led_pwm_data *led_data = &priv->leds[priv->num_leds];
++	struct led_init_data init_data = {};
+ 	int ret;
+ 
+ 	led_data->active_low = led->active_low;
+@@ -90,7 +91,13 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+ 
+ 	pwm_init_state(led_data->pwm, &led_data->pwmstate);
+ 
+-	ret = devm_led_classdev_register(dev, &led_data->cdev);
++	if (fwnode) {
++		init_data.fwnode = fwnode;
++		ret = devm_led_classdev_register_ext(dev, &led_data->cdev,
++						     &init_data);
++	} else {
++		ret = devm_led_classdev_register(dev, &led_data->cdev);
++	}
+ 	if (ret) {
+ 		dev_err(dev, "failed to register PWM led for %s: %d\n",
+ 			led->name, ret);
+-- 
+2.27.0
+
