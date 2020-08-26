@@ -2,75 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E88725141C
-	for <lists+linux-leds@lfdr.de>; Tue, 25 Aug 2020 10:23:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B7112526EC
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Aug 2020 08:34:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728245AbgHYIXh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 Aug 2020 04:23:37 -0400
-Received: from m12-18.163.com ([220.181.12.18]:46358 "EHLO m12-18.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725924AbgHYIXg (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 25 Aug 2020 04:23:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id; bh=I+iIic8fam574pYtic
-        8pIXKP8q5gxngdUz2v8fQklcE=; b=BJtKaDY6oun/P0l/EP/VlOMdvjUG4CmN7j
-        QmtH6RxK4By7oJu8L8MbNVm87vd0noPyApbkKFkIELh45zpU9AmUS8x1h/4f3wrE
-        MuS7V1TCIU4KRY7qLB1MqDwNNoXXerL1nnKMWVfYDIEVPTYCQc8TW5zB4v7lfMF7
-        oltYV4Jwo=
-Received: from localhost.localdomain (unknown [58.33.102.45])
-        by smtp14 (Coremail) with SMTP id EsCowADn7pY5ykRf0ZtgKw--.56943S3;
-        Tue, 25 Aug 2020 16:22:25 +0800 (CST)
-From:   Grant Feng <von81@163.com>
-To:     von81@163.com, jacek.anaszewski@gmail.com, pavel@ucw.cz,
-        dmurphy@ti.com, robh+dt@kernel.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] DT: leds: Add an optional property named 'shutdown-gpios'
-Date:   Tue, 25 Aug 2020 16:22:06 +0800
-Message-Id: <20200825082206.26575-2-von81@163.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200825082206.26575-1-von81@163.com>
-References: <20200825082206.26575-1-von81@163.com>
-X-CM-TRANSID: EsCowADn7pY5ykRf0ZtgKw--.56943S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWrKw4fCFWfXFW7XFy3XrWfAFb_yoW8Jr43pr
-        ZrCF10y3sIqFW7K3y8ta4UJ348XF4kAF17KFs7JFyxGF1Dur9aqaySkwn8X3WUJrWIvayF
-        vFs5KFW8t347Ar7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jSwZ7UUUUU=
-X-Originating-IP: [58.33.102.45]
-X-CM-SenderInfo: xyrqmii6rwjhhfrp/1tbiRAGLOlSIgmZ4dQAAsB
+        id S1726750AbgHZGeT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 Aug 2020 02:34:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41436 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725786AbgHZGeT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Aug 2020 02:34:19 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8AD2C061574;
+        Tue, 25 Aug 2020 23:34:18 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id m22so1023548ljj.5;
+        Tue, 25 Aug 2020 23:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lgWQaoUOmck1zKDSkfP/KU2pBuaR71IA8RK6LfmWfiU=;
+        b=BStScc7SEeJUXWtFIaOczGlfItuM9LUgot65Loa+CmcdSSPsyajCEedCUQudaWZm9z
+         2TzbozcX2s/U8pizJdFJ+iQHlu/IhWgEvwKuCgyC/MTXQeXCEY9o8LLux0T3CdD3AtA7
+         tn14pPv210JrLNqMSWzcgvPTGInmDCtX8eZLXqXRf084qdVH4xCMb2EOnB8WKBLC3VRG
+         FRkDG01aQbahppWVUqjzkW/AhJzBAulb4Z/WFkm+l3/BZX4cpFEVGo6mwDXX/OOz+YAe
+         ACwf6a462wehrJUZoFH9LB6jP6Fab5BbOOGEV3pyp5UTLFeayZmjFIssirme/7grvq3y
+         Rxlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lgWQaoUOmck1zKDSkfP/KU2pBuaR71IA8RK6LfmWfiU=;
+        b=Qfm57taGOyea3w6577o3CZYagCbbZPg7ZpnDklL5R5Qzlbm3vgQe+d3o2X8I1tyZLu
+         VuwZrNrTW/YmJpSz4wgh865BCqs2KeUKcEyK3JMnHUAH7XUAbHb2H/TZFxgWBcUIr2Ud
+         4nt+4bi9KC/WXeF86G0uvRtrva8I5rq/DuX9KtOa38i//Khmi3d8CFHccMZnPve0tcu0
+         yq/ieTMW/G72sAvNBVbIbcrQbZUdU+GvjXUaUZXhYPmPoFs57FclcLN9PlJdj6eA+H36
+         rcC8SdFmsD6oREuwbyLgPglDHf1bZfIw4utuux17/bvvUYFrE5c+/aGyuvg5HV8F5dHF
+         0rNg==
+X-Gm-Message-State: AOAM532Orx5Jx7Nj660Uso8BzBA3nvzMFHBmfuT1F0VvTeeV/7UZoTJ0
+        gT0ZRD1SICELQvpbjmI3mKstGHgyTpE=
+X-Google-Smtp-Source: ABdhPJzPxuktg7pPrBXmouq95t70LJMDgatsUj53Twb1MRVQoKDhxeCz9r165MKz6Y5g35tPP6YkBw==
+X-Received: by 2002:a05:651c:88:: with SMTP id 8mr6808046ljq.277.1598423656911;
+        Tue, 25 Aug 2020 23:34:16 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id q5sm315641lfn.92.2020.08.25.23.34.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Aug 2020 23:34:16 -0700 (PDT)
+Subject: Re: [PATCH v1 2/6] power: supply: Add battery gauge driver for Acer
+ Iconia Tab A500
+To:     Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Lubomir Rintel <lkundrak@v3.sk>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200823140846.19299-1-digetx@gmail.com>
+ <20200823140846.19299-3-digetx@gmail.com>
+ <20200824140718.apoavlny6hlkm2ql@earth.universe>
+ <31ec6865-4a33-bde8-73a6-20c188ec2ee7@gmail.com>
+ <20200824213859.6o3q5i2kvtk44lqi@earth.universe>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <bc5e828c-67ce-0c9e-e8e7-19a532145cfa@gmail.com>
+Date:   Wed, 26 Aug 2020 09:34:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200824213859.6o3q5i2kvtk44lqi@earth.universe>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The chip enters hardware shutdown when the SDB pin is pulled low.
-The chip releases hardware shutdown when the SDB pin is pulled high.
+25.08.2020 00:38, Sebastian Reichel пишет:
+> Hi,
+...
+>> Hello, Sebastian! The battery isn't hot-swappable on A500, but it also
+>> should be okay to always re-read the serialno. I'll consider removing
+>> the caching in the v2, thanks.
+> 
+> I assumed it would be hot-swappable because of a500_battery_get_presence().
+> If it's not hot-swappable, the caching is fine.
 
-Signed-off-by: Grant Feng <von81@163.com>
----
- Documentation/devicetree/bindings/leds/leds-is31fl319x.txt | 2 ++
- 1 file changed, 2 insertions(+)
+The battery could be disconnected from the motherboard, but this
+requires to have device disassembled.
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt b/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-index fc2603484544..676d43ec8169 100644
---- a/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-is31fl319x.txt
-@@ -16,6 +16,7 @@ Optional properties:
- - audio-gain-db : audio gain selection for external analog modulation input.
- 	Valid values: 0 - 21, step by 3 (rounded down)
- 	Default: 0
-+- shutdown-gpios : Specifier of the GPIO connected to SDB pin of the chip.
- 
- Each led is represented as a sub-node of the issi,is31fl319x device.
- There can be less leds subnodes than the chip can support but not more.
-@@ -44,6 +45,7 @@ fancy_leds: leds@65 {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
- 	reg = <0x65>;
-+	shutdown-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
- 
- 	red_aux: led@1 {
- 		label = "red:aux";
--- 
-2.17.1
+Okay, I'll keep the caching.
 
-
+Thanks!
