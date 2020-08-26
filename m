@@ -2,108 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 124D3252A51
-	for <lists+linux-leds@lfdr.de>; Wed, 26 Aug 2020 11:37:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26FC6252C9A
+	for <lists+linux-leds@lfdr.de>; Wed, 26 Aug 2020 13:40:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728067AbgHZJhx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 26 Aug 2020 05:37:53 -0400
-Received: from mail.thorsis.com ([92.198.35.195]:50379 "EHLO mail.thorsis.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728289AbgHZJhp (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 26 Aug 2020 05:37:45 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.thorsis.com (Postfix) with ESMTP id 6C7ED46E1;
-        Wed, 26 Aug 2020 11:37:42 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
-Received: from mail.thorsis.com ([127.0.0.1])
-        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Wtvtf5oFOyjP; Wed, 26 Aug 2020 11:37:42 +0200 (CEST)
-Received: by mail.thorsis.com (Postfix, from userid 109)
-        id 3E5BE471B; Wed, 26 Aug 2020 11:37:41 +0200 (CEST)
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RELAYS,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.2
-Received: from adahl by ada.ifak-system.com with local (Exim 4.92)
-        (envelope-from <ada@thorsis.com>)
-        id 1kArs9-0007Yb-BO; Wed, 26 Aug 2020 11:37:37 +0200
-From:   Alexander Dahl <ada@thorsis.com>
-To:     linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-kernel@vger.kernel.org, Alexander Dahl <post@lespocky.de>
-Subject: [PATCH] leds: pwm: Allow automatic labels for DT based devices
-Date:   Wed, 26 Aug 2020 11:37:37 +0200
-Message-Id: <20200826093737.29008-1-ada@thorsis.com>
-Content-Transfer-Encoding: 8bit
+        id S1729057AbgHZLjx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 Aug 2020 07:39:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59990 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728992AbgHZLh3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 Aug 2020 07:37:29 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8FBBC061756;
+        Wed, 26 Aug 2020 04:37:28 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id z18so756749pjr.2;
+        Wed, 26 Aug 2020 04:37:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=8soih7ZxN39aNjkTCbL3poEBD4/UNqwDrB6uxoTytTU=;
+        b=a4kvzWmO8jtGJVQYuSq1G+cXV23TSB5ZzHJjuG0JOBeKi/R8IEB/qOR26gSrDElDXG
+         ZAerrY/Pa8CT2fSuFA9MLiHuTWFR3bbuzeyt2beKXyUbjCALT0LayevgzJ9w5rtMp3Nh
+         SfEGPgeaBy/11OOomsVR8fT3Wkd6L5f6vf2WloNM6PdXH7kQCphTYPsOxzBL/owxjjuW
+         j6KmvH6F0+L4ZKgaZfT6JjrnAy0vXSueDHC/xzFwNO2HBkLPXVNI+YlDGvobIvqjUz7Q
+         Gr23ZiXDTHrFa2sZMZzuKJcq1cYjZk/vNRp4j1erZ6HW/QEVO04bbDZswylV63WdA38r
+         i44A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=8soih7ZxN39aNjkTCbL3poEBD4/UNqwDrB6uxoTytTU=;
+        b=lcMN3zFxQF0FWBOQg9iOOE1KyMXtwXRo+9Bw/kw0uI5S4OIMpU83Nwr21sruS1cnlo
+         103CZZa5KuiF2qSYPTmaeVCLk7Vdsk3A8Iu+ZYleCePFv4aSpYT1pjuoXRTpJOnvkvaU
+         KsGoSobc1IO41ZaaPWLmZ+Ufy1UuMlzJCEeJtaIY/rzswCf10eHMcVf5LTsh6P6TyEU1
+         QdgX/7h44aeaai5GnmaPwY6+k7O8+B2cUleUqWtvbZXR8Ax8+P2+kfiH7g3L5jSRFFln
+         zMXcUBZczl1uXKtGF4rZn37K/rSLtXy+3M23BLxYngkzY9ikN8rIV1NVl0+n3lrl2l43
+         2XMA==
+X-Gm-Message-State: AOAM5324UVAGpHi6d35sQw/xVD2qRC9FV9M8jpTwQQMKZy3rWSNwrmum
+        qMoE2hjwkOAvCDLe9IxYrro=
+X-Google-Smtp-Source: ABdhPJySGi7F+fERC98gHqZLstD866hBK2wxBVxBmVDj6SLjsGOKgupRRUayD5xVky4hYDXfEZJ9FA==
+X-Received: by 2002:a17:902:b20e:: with SMTP id t14mr11873691plr.58.1598441847811;
+        Wed, 26 Aug 2020 04:37:27 -0700 (PDT)
+Received: from localhost.localdomain ([2402:7500:56a:2197:d2eb:7e49:dfa1:a882])
+        by smtp.gmail.com with ESMTPSA id x5sm2591047pfj.1.2020.08.26.04.37.24
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 26 Aug 2020 04:37:27 -0700 (PDT)
+From:   Gene Chen <gene.chen.richtek@gmail.com>
+To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, matthias.bgg@gmail.com
+Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
+        shufan_lee@richtek.com, cy_huang@richtek.com,
+        benjamin.chao@mediatek.com
+Subject: [PATCH 0/2] leds: mt6360: Add LED driver for MT6360
+Date:   Wed, 26 Aug 2020 19:37:18 +0800
+Message-Id: <1598441840-15226-1-git-send-email-gene.chen.richtek@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Alexander Dahl <post@lespocky.de>
+In-Reply-To: 
 
-If LEDs are configured through device tree and the property 'label' is
-omitted, the label is supposed to be generated from the properties
-'function' and 'color' if present.  While this works fine for e.g. the
-'leds-gpio' driver, it did not for 'leds-pwm'.
+This patch series add MT6360 LED support contains driver and binding document
 
-The reason is, you get this label naming magic only if you add a LED
-device through 'devm_led_classdev_register_ext()' and pass a pointer to
-the current device tree node.  The approach to fix this was adopted from
-the 'leds-gpio' driver.
+Gene Chen (2)
+ leds: mt6360: Add LED driver for MT6360
+ dt-bindings: leds: Add bindings for MT6360 LED
 
-For the following node from dts the LED appeared as 'led5' in sysfs
-before and as 'red:debug' after this change.
-
-        pwm_leds {
-                compatible = "pwm-leds";
-
-                led5 {
-                        function = LED_FUNCTION_DEBUG;
-                        color = <LED_COLOR_ID_RED>;
-                        pwms = <&pwm0 2 10000000 0>;
-                        max-brightness = <127>;
-
-                        linux,default-trigger = "heartbeat";
-                        panic-indicator;
-                };
-        };
-
-Signed-off-by: Alexander Dahl <post@lespocky.de>
----
-
-Notes:
-    v1: based on v5.9-rc2, backport on v5.4.59 also works
-
- drivers/leds/leds-pwm.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-index ef7b91bd2064..a27a1d75a3e9 100644
---- a/drivers/leds/leds-pwm.c
-+++ b/drivers/leds/leds-pwm.c
-@@ -65,6 +65,7 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
- 		       struct led_pwm *led, struct fwnode_handle *fwnode)
- {
- 	struct led_pwm_data *led_data = &priv->leds[priv->num_leds];
-+	struct led_init_data init_data = {};
- 	int ret;
- 
- 	led_data->active_low = led->active_low;
-@@ -90,7 +91,13 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
- 
- 	pwm_init_state(led_data->pwm, &led_data->pwmstate);
- 
--	ret = devm_led_classdev_register(dev, &led_data->cdev);
-+	if (fwnode) {
-+		init_data.fwnode = fwnode;
-+		ret = devm_led_classdev_register_ext(dev, &led_data->cdev,
-+						     &init_data);
-+	} else {
-+		ret = devm_led_classdev_register(dev, &led_data->cdev);
-+	}
- 	if (ret) {
- 		dev_err(dev, "failed to register PWM led for %s: %d\n",
- 			led->name, ret);
--- 
-2.27.0
+ Documentation/devicetree/bindings/leds/leds-mt6360.yaml |   50 +
+ drivers/leds/Kconfig                                    |   11 
+ drivers/leds/Makefile                                   |    1 
+ drivers/leds/leds-mt6360.c                              |  680 ++++++++++++++++
+ 4 files changed, 742 insertions(+)
 
