@@ -2,97 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B972255098
-	for <lists+linux-leds@lfdr.de>; Thu, 27 Aug 2020 23:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 672F725516A
+	for <lists+linux-leds@lfdr.de>; Fri, 28 Aug 2020 00:58:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726120AbgH0Vcz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 27 Aug 2020 17:32:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39610 "EHLO
+        id S1728010AbgH0W6f (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 27 Aug 2020 18:58:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726073AbgH0Vcy (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Aug 2020 17:32:54 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39291C061264;
-        Thu, 27 Aug 2020 14:32:53 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id n26so1779754edv.13;
-        Thu, 27 Aug 2020 14:32:52 -0700 (PDT)
+        with ESMTP id S1727909AbgH0W6f (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 Aug 2020 18:58:35 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04CF6C061232
+        for <linux-leds@vger.kernel.org>; Thu, 27 Aug 2020 15:58:34 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id t6so8286002ljk.9
+        for <linux-leds@vger.kernel.org>; Thu, 27 Aug 2020 15:58:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=q92TxcF2bF3OBrhpEZ4r/j4Ss+4Z6EqFXSY8+h0zQ58=;
-        b=CeuV59MD5wT4ZeW8ysub9lGWmMUhVQwM//kZqZV3p9gBQfufzzq1j+LUA+jVm2u6vc
-         Q8UlrOMKO4bE2afAFTWz9qmtpoibOm0dSoxFTxrGocEurWsF/vHy/cTQcAAAeIooEg/7
-         iQ+IHjRwsA8wmPoHJaK5NoYbSUezA8jKxlwIX97raFXV+/FmO335SB+epy+7c9do2GVk
-         nXINmE3N6eHNW5qinXgjUg2+cdwm0e4JjzifQ/+JnuJuNu+Nedh8yKYHLT6urRtpKZPm
-         2zkzlcS5f6RO59BkRmpHnlwp4KL6pBGJRw61RUvmyAuIOmzQ2paKta8VtuD7g6CwgeOn
-         XE1Q==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oCzQ+/wqUikD+aAl1YCGu3tQueIna1hb5C2fVP7BNbI=;
+        b=Y8WUm2uDoCL7HpKSQPP7HHTEM/UxNU6XPbQU7wOQD0rYehdyN0NcZxd89TVTeL8/tQ
+         O6knIodyMnqPlNkhEcEgJMS0NswYyXYpAX5SZ9oh7sWc6eJXKK/1Ui2SZLbpuGhzlEL5
+         Lfz2Lqb6wwCfI+qbzGRoJlAv/NdYlII4qR2a+BQrH2qMksXam9K2Nb4EpBO9kGLTJyzL
+         puWHKvjt4HX1ZQ5PDXBFdwD96dhbzvOdNU5kFTP08+PLNzCnsi/V84ilmmHZ1mOnLFoC
+         SIjewu3Vovoni2EMSZSYka8Jy3EjJj+19aZwx9YJKgeHTEIa9jHEqb3gr3J2YUya8gsp
+         AxbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=q92TxcF2bF3OBrhpEZ4r/j4Ss+4Z6EqFXSY8+h0zQ58=;
-        b=UrQyl5oiZoHQrYWkqd/KegOdnpukj3xUHKhpZnsRhvtoSnYu5R8/pPBvGO2aU2a88E
-         3NhjKBNJ29CZAWYesdU9IqBuUffTa1IOmWq9aIUZHqmQ6F3RutUlWFBYu4EaH5WXD1aS
-         eZx8FjJ6f5O1F71WKdSGSVExg0Ww9W/SJmOZSPVkEB13pvx0zZLxKRAnyEW3kjo5rJTD
-         hI4brf5b/aD/J38+FqC5DQcKotp3g7ljBxo+nrtvw2Q0GyEn+4u5hG6sW5V1Jtk0udMG
-         d6u3tyR8HSp254KlgaoSeGWWZNoClpPOMOoPIqmLG3h03vMjDy3UlP1Ca4JdN0zYxVGJ
-         p4pA==
-X-Gm-Message-State: AOAM530XWkCQVSg3ebmoQRW5KP6fixprczBTmqP2/7ZmYN5qW2nlxIgC
-        TapUwIntqLNSV+WbCScF8LuOmE1KkW4=
-X-Google-Smtp-Source: ABdhPJxmpwB7LortCu0lNKqMMPjr/mVyTV3HwYYddAcM9JnoMS8TgfQ04DFMAgvbi1if/WT7NtcOfA==
-X-Received: by 2002:a05:6402:2:: with SMTP id d2mr21864641edu.221.1598563969143;
-        Thu, 27 Aug 2020 14:32:49 -0700 (PDT)
-Received: from ?IPv6:2a01:110f:b59:fd00:a137:4925:7b50:2e1c? ([2a01:110f:b59:fd00:a137:4925:7b50:2e1c])
-        by smtp.gmail.com with ESMTPSA id i35sm2345152edi.41.2020.08.27.14.32.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Aug 2020 14:32:48 -0700 (PDT)
-Subject: Re: [PATCH 0/2] leds: mt6360: Add LED driver for MT6360
-To:     Gene Chen <gene.chen.richtek@gmail.com>, pavel@ucw.cz,
-        matthias.bgg@gmail.com
-Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-References: <1598441840-15226-1-git-send-email-gene.chen.richtek@gmail.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <8ec2100d-7156-b8a3-b730-1ec48f88d610@gmail.com>
-Date:   Thu, 27 Aug 2020 23:32:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oCzQ+/wqUikD+aAl1YCGu3tQueIna1hb5C2fVP7BNbI=;
+        b=EDf0DWIUySkK6EYTj2YzftxEhLScdnz8EwLvgGbqdISjfU1DaFciVKLcCMScxSPO/B
+         WsgcKnh42R6mICEbhIAIhDl9301AvM/PsxMAmmfo1Ah94BmIesnrlJwAU21l5wGcw3lP
+         7rwOhZAnzZjUm3Ila2UhJcUuS0NY5vv9qhcSHKaPYuBfwzm47wDXrj6/AFZLl6KDbTR4
+         75VJFVsPosNEc7PBrbzcG/FT+/nmTCA/06rk2gWnFmoBRyZKNosOATOhMJvU2dVv8trg
+         mPSVUX2nuQhSUCzF0QGgpCCQTAtswVoJWvfxnuWP0DRy16QCiK8lBdR9/XiVybVk16Aj
+         lkJQ==
+X-Gm-Message-State: AOAM530JbuPPR2ByiWE9Wqa09OAhsZvWEjz5UKFEkewNfvf72T2nZl8E
+        ArtSSmjydBJfCa0OKZujulwgfJ7NXUBySa6mZyJoug==
+X-Google-Smtp-Source: ABdhPJz1AxU61I8U3K9H6NnKFR2hKoTTR/TjK+UC3pD/9X+pK6Kc4nN8lO1KSarHy0CMR1IU4DoNa1V7WmiMy5TpZW4=
+X-Received: by 2002:a2e:4e09:: with SMTP id c9mr11119691ljb.283.1598569113336;
+ Thu, 27 Aug 2020 15:58:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1598441840-15226-1-git-send-email-gene.chen.richtek@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200812195020.13568-1-dmurphy@ti.com> <20200812195020.13568-7-dmurphy@ti.com>
+In-Reply-To: <20200812195020.13568-7-dmurphy@ti.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 28 Aug 2020 00:58:22 +0200
+Message-ID: <CACRpkdY1pCcUONFhEXeyXa3f+JFB=Wg1nSB-qRJF5njM=L+CVw@mail.gmail.com>
+Subject: Re: [PATCH v33 6/6] ARM: dts: ste-href: Add reg property to the
+ LP5521 channel nodes
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
+        =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-He Gene,
+On Wed, Aug 12, 2020 at 9:50 PM Dan Murphy <dmurphy@ti.com> wrote:
 
-Please resend the set with updated version (I suppose it should be v3).
+> Add the reg property to each channel node.  This update is
+> to accommodate the multicolor framework.  In addition to the
+> accommodation this allows the LEDs to be placed on any channel
+> and allow designs to skip channels as opposed to requiring
+> sequential order.
+>
+> Signed-off-by: Dan Murphy <dmurphy@ti.com>
+> CC: Linus Walleij <linus.walleij@linaro.org>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
 
-On 8/26/20 1:37 PM, Gene Chen wrote:
-> In-Reply-To:
-> 
-> This patch series add MT6360 LED support contains driver and binding document
-> 
-> Gene Chen (2)
->   leds: mt6360: Add LED driver for MT6360
->   dt-bindings: leds: Add bindings for MT6360 LED
-> 
->   Documentation/devicetree/bindings/leds/leds-mt6360.yaml |   50 +
->   drivers/leds/Kconfig                                    |   11
->   drivers/leds/Makefile                                   |    1
->   drivers/leds/leds-mt6360.c                              |  680 ++++++++++++++++
->   4 files changed, 742 insertions(+)
-> 
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
--- 
-Best regards,
-Jacek Anaszewski
+I don't knof if I should just apply these two patches or if there are
+dependencies that need to go in first. I guess yes?
+
+Yours,
+Linus Walleij
