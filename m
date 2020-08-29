@@ -2,67 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85C092562E5
-	for <lists+linux-leds@lfdr.de>; Sat, 29 Aug 2020 00:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5BDE2565AD
+	for <lists+linux-leds@lfdr.de>; Sat, 29 Aug 2020 09:48:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726584AbgH1WUi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 Aug 2020 18:20:38 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:35474 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726386AbgH1WUh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 Aug 2020 18:20:37 -0400
-Received: by mail-il1-f196.google.com with SMTP id q14so1982396ilm.2;
-        Fri, 28 Aug 2020 15:20:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=84tiJNvqXLzWGNNKW4M8qslA98P8c5Z+XOkx6/PTE94=;
-        b=Gvg2Up2dBSUOnwl5REcqowZ2JYOnoEybsi1bhghEh1g1LdW8k/hZTdLM19fTMzwG9H
-         sTgR1ClSlXOTdHJog8EwzdtEIUBgNIk5IFQAgqFmXUzuT6QMcZYqTWlpkJAxunvPGeqs
-         HNtiZ4p3TISvum74JKTAzGh4dIe/g+XdEnmbMhqtYoQGpNn6FpB8WjOO95og4ZuI5evB
-         Qab/fDdEs/FZAAxjLeox1OXabPyf1O6AlZ9rgG/Y4RHYSwlxnJidzhzp5DbcToIcIv0Q
-         +UHg2CLdHJLKjlHky+mOSClDdL62TqiNqWzW8osUdiMLl4tWz8PYAyI0imi+NgPeJvU5
-         nFLw==
-X-Gm-Message-State: AOAM531Tuy0S0PWMDfQoV1D91+k4WkdHb2FcqcCvTG0Gc/cXHzJGaNLz
-        91rX7c1Ud/+KkcvLvCTr+Q==
-X-Google-Smtp-Source: ABdhPJzCtRKSR3U3/rpXQVJxYIvZY+tOqpqfk8joLqp/qOw1Q/Iywr+mAqA/6IsF4a2siLlyxHqGFQ==
-X-Received: by 2002:a92:48da:: with SMTP id j87mr902382ilg.78.1598653236093;
-        Fri, 28 Aug 2020 15:20:36 -0700 (PDT)
-Received: from xps15 ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id 3sm352652ily.31.2020.08.28.15.20.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2020 15:20:35 -0700 (PDT)
-Received: (nullmailer pid 3507112 invoked by uid 1000);
-        Fri, 28 Aug 2020 22:20:33 -0000
-Date:   Fri, 28 Aug 2020 16:20:33 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Grant Feng <von81@163.com>
-Cc:     linux-kernel@vger.kernel.org, jacek.anaszewski@gmail.com,
-        pavel@ucw.cz, linux-leds@vger.kernel.org, robh+dt@kernel.org,
-        dmurphy@ti.com, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] DT: leds: Add an optional property named
- 'shutdown-gpios'
-Message-ID: <20200828222033.GA3506139@bogus>
-References: <20200825082206.26575-1-von81@163.com>
- <20200825082206.26575-2-von81@163.com>
+        id S1726105AbgH2HsD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 29 Aug 2020 03:48:03 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:54852 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726056AbgH2HsC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 29 Aug 2020 03:48:02 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id C36621C0B80; Sat, 29 Aug 2020 09:47:59 +0200 (CEST)
+Date:   Sat, 29 Aug 2020 09:47:58 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        Shirish.S@amd.com, Andy Shevchenko <andy@infradead.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        "Lee, Chun-Yi" <jlee@suse.com>, Rajat Jain <rajatja@google.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/2] Input: i8042 - Prevent intermixing i8042 commands
+Message-ID: <20200829074758.GA16838@amd>
+References: <20200827135205.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="BXVAT5kNtrzKuDFl"
 Content-Disposition: inline
-In-Reply-To: <20200825082206.26575-2-von81@163.com>
+In-Reply-To: <20200827135205.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 25 Aug 2020 16:22:06 +0800, Grant Feng wrote:
-> The chip enters hardware shutdown when the SDB pin is pulled low.
-> The chip releases hardware shutdown when the SDB pin is pulled high.
-> 
-> Signed-off-by: Grant Feng <von81@163.com>
-> ---
->  Documentation/devicetree/bindings/leds/leds-is31fl319x.txt | 2 ++
->  1 file changed, 2 insertions(+)
-> 
 
-Acked-by: Rob Herring <robh@kernel.org>
+--BXVAT5kNtrzKuDFl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu 2020-08-27 13:52:22, Raul E Rangel wrote:
+> The i8042_mutex must be held by writers of the AUX and KBD ports, as
+> well as users of i8042_command. There were a lot of users of
+> i8042_command that were not calling i8042_lock_chip/i8042_unlock_chip.
+> This resulted in i8042_commands being issues in between PS/2
+> transactions.
+>=20
+> This change moves the mutex lock into i8042_command and removes the
+> burden of locking the mutex from the callers.
+>=20
+> It is expected that the i8042_mutex is locked before calling
+> i8042_aux_write or i8042_kbd_write. This is currently done by the PS/2
+> layer via ps2_begin_command and ps2_end_command. Other modules
+> (serio_raw) do not currently lock the mutex, so there is still a
+> possibility for intermixed commands.
+
+
+> @@ -343,10 +330,14 @@ int i8042_command(unsigned char *param, int command)
+>  	unsigned long flags;
+>  	int retval;
+> =20
+> +	mutex_lock(&i8042_mutex);
+> +
+>  	spin_lock_irqsave(&i8042_lock, flags);
+>  	retval =3D __i8042_command(param, command);
+>  	spin_unlock_irqrestore(&i8042_lock, flags);
+> =20
+> +	 mutex_unlock(&i8042_mutex);
+> +
+>  	return retval;
+
+There's something wrong with whitespace here. Checkpatch?
+									Pavel
+								=09
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--BXVAT5kNtrzKuDFl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl9KCC4ACgkQMOfwapXb+vLRLQCZAVRSNB7AWmLMpShfbIqQb9g7
+e2kAn0k5vjeRzWluElrV5q2QcU+nhqJy
+=TVRR
+-----END PGP SIGNATURE-----
+
+--BXVAT5kNtrzKuDFl--
