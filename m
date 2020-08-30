@@ -2,105 +2,141 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AB91256D68
-	for <lists+linux-leds@lfdr.de>; Sun, 30 Aug 2020 13:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92DB2256FC6
+	for <lists+linux-leds@lfdr.de>; Sun, 30 Aug 2020 20:55:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbgH3LLi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 30 Aug 2020 07:11:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56278 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725845AbgH3LLf (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 30 Aug 2020 07:11:35 -0400
-Received: from localhost.localdomain (unknown [194.230.155.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A526E20757;
-        Sun, 30 Aug 2020 11:11:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598785894;
-        bh=gXODkDbcQF17NTHovr6nEh8zgdaj1s2Ph6JY/EZmbC8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=q+yk8voUyPk3N9ED0KyO0ZcI+jgV0Na/1bJfDfEYX+UjR+kFBDCXdw8n0NhVz160b
-         ohi2ic/pU1ivI8S3Ajf5U0LSOd+t56I/edrUOuDciMQQ1+61F/WXYOD4mbBf5Cvrd3
-         tiUuEnYyZvUgH85v6TYrZXfrWUcn80NWehkWo+A4=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        id S1726454AbgH3SzG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 30 Aug 2020 14:55:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726282AbgH3SzE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 30 Aug 2020 14:55:04 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D957DC061573;
+        Sun, 30 Aug 2020 11:55:03 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id d2so2318593lfj.1;
+        Sun, 30 Aug 2020 11:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KB/orVYY3/iyi1+OEIa3l5Zb1NRAkevYQaE0xhLNDhY=;
+        b=VGHVZ9FEWLfnTHug243P4hrtTxperC/kE3E0vF1ZeYaI0NEfmOXsDz/tlFNOyyoXJO
+         VHVbFyRVRpJGdnfBBnhG5nIx4FwKXEfDs4oPII6dsE354utxZJavTfqHr2bERsDWi19N
+         5ffZpKRR7KeVCo2el9CMtjXlZ/zj+KTbnPWgb+fhnUNsFSvOg+4Q+G28wxoRfD92xGeP
+         zJQAlhJW73evGxJ+4MwHpo5qjU/vI7OzbB8Xu1ei0lpV0r2q1by9iOAULtX9cXi2cCt5
+         d2SiqViqCGZI+ZjjcBe8ays+IdqFBa7y0JfZHzs5diwS3G9QFRrUHws/dkwBLl8oQpWf
+         eBLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KB/orVYY3/iyi1+OEIa3l5Zb1NRAkevYQaE0xhLNDhY=;
+        b=qSZ8OmOeIP7SDgIn9MBEUlg3r72XdAnQsF0TYiZqjOGGM8kEhBnV7gCNeYLl4J/+j9
+         ixK3u+YPRgNZKvuJhQN2gRWA91vE9QF8t/aU7Q9YBtkZL7ojNoUoKuM70KkFvnAqJqlH
+         AxVBEj8TsS7pz9hal5C3ZOMElkPlouurDFLl8PtziyG7kugHGLNH7DmzpAQzyZ3ESTcY
+         ZbIKthr0p1VwAQ+lMCWWPPLGNEnjhoFk0C84MbqGO54cGIULc7+ehVmFeRdVVo9SD61e
+         fR5HoGipL9mwoVG7FiRRhLEHr0DvVXEstoXjCjAeegBHj42IzWmYTgA3CtOC63ih+Z7V
+         7RhQ==
+X-Gm-Message-State: AOAM5304v27W9h2U5wX0UUpU897ZC/qs7dMZdmjLP6fOqSs40imRJuhY
+        +zm2rvHJQoSy6nTdJtq8PRY=
+X-Google-Smtp-Source: ABdhPJxGQoR/UevvS7mGsEvM7E+6XaqGsRNUGzs6zBl/GWHaA1SVMDWljN1/Xw5Fab/puIiqg7EYNw==
+X-Received: by 2002:ac2:4d0f:: with SMTP id r15mr3955240lfi.114.1598813702322;
+        Sun, 30 Aug 2020 11:55:02 -0700 (PDT)
+Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.gmail.com with ESMTPSA id n21sm21630ljc.89.2020.08.30.11.55.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2020 11:55:01 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Mark Brown <broonie@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH] dt-bindings: leds: common: Add mmc0 as default trigger
-Date:   Sun, 30 Aug 2020 13:11:15 +0200
-Message-Id: <20200830111115.32623-1-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2 0/6] Introduce Embedded Controller driver for Acer A500
+Date:   Sun, 30 Aug 2020 21:53:50 +0300
+Message-Id: <20200830185356.5365-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-MMC could be a default trigger so add a pattern to match it and fix
-dtbs_check warnings like:
+Hello!
 
-  arch/arm/boot/dts/exynos4412-odroidx.dt.yaml: leds: led2:linux,default-trigger:0:
-    'mmc0' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
-    From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
+This series adds support for the Embedded Controller which is found on
+Acer Iconia Tab A500 (Android tablet device).
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- .../devicetree/bindings/leds/common.yaml      | 39 ++++++++++---------
- 1 file changed, 20 insertions(+), 19 deletions(-)
+The Embedded Controller is ENE KB930 and it's running firmware customized
+for the A500. The firmware interface may be reused by some other sibling
+Acer tablets, although none of those tablets are supported in upstream yet.
+Please review and apply, thanks in advance!
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index a2a541bca73c..6b38f9f3792c 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -78,25 +78,26 @@ properties:
-       This parameter, if present, is a string defining the trigger assigned to
-       the LED.
-     $ref: /schemas/types.yaml#definitions/string
--
--    enum:
--        # LED will act as a back-light, controlled by the framebuffer system
--      - backlight
--        # LED will turn on (but for leds-gpio see "default-state" property in
--        # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
--      - default-on
--        # LED "double" flashes at a load average based rate
--      - heartbeat
--        # LED indicates disk activity
--      - disk-activity
--        # LED indicates IDE disk activity (deprecated), in new implementations
--        # use "disk-activity"
--      - ide-disk
--        # LED flashes at a fixed, configurable rate
--      - timer
--        # LED alters the brightness for the specified duration with one software
--        # timer (requires "led-pattern" property)
--      - pattern
-+    oneOf:
-+      - enum:
-+            # LED will act as a back-light, controlled by the framebuffer system
-+          - backlight
-+            # LED will turn on (but for leds-gpio see "default-state" property in
-+            # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
-+          - default-on
-+            # LED "double" flashes at a load average based rate
-+          - heartbeat
-+            # LED indicates disk activity
-+          - disk-activity
-+            # LED indicates IDE disk activity (deprecated), in new implementations
-+            # use "disk-activity"
-+          - ide-disk
-+            # LED flashes at a fixed, configurable rate
-+          - timer
-+            # LED alters the brightness for the specified duration with one software
-+            # timer (requires "led-pattern" property)
-+          - pattern
-+      - pattern: "^mmc[0-9]+$"
- 
-   led-pattern:
-     description: |
+Changelog:
+
+v2: - Factored out KB930 device-tree binding into a separate file, like it
+      was suggested by Lubomir Rintel.
+
+    - Switched to use regmap API like it was suggested by Lubomir Rintel.
+
+    - Added patch "regmap: Use flexible sleep" which allows not to hog
+      CPU while LED is switching state.
+
+    - Corrected MODULE_LICENSE to use "GPL" in all patches.
+
+    - Corrected MFD driver Kconfig entry like it was suggested by
+      Lubomir Rintel, it now depends on I2C.
+
+    - Switched to use I2C probe_new() in the MFD driver.
+
+    - Renamed the global pm_off variable, like it was suggested by
+      Lubomir Rintel and Lee Jones.
+
+    - Dropped serial number from the battery driver because I realized
+      that it's not a battery serial, but a device serial.
+
+    - Battery driver now uses dev_err_probe(), like it was suggested by
+      Sebastian Reichel.
+
+    - Dropped legacy LED_ON usage from the LED driver and renamed the
+      LEDs, like it was suggested by Pavel Machek. I also checked whether
+      LED-name customization via device-tree could be needed by other
+      potentially compatible devices and it shouldn't be needed, anyways it
+      won't be difficult to extend the code even if I'm wrong.
+
+Dmitry Osipenko (6):
+  dt-bindings: mfd: Add ENE KB930 Embedded Controller binding
+  regmap: Use flexible sleep
+  mfd: Add driver for Embedded Controller found on Acer Iconia Tab A500
+  power: supply: Add battery gauge driver for Acer Iconia Tab A500
+  leds: Add driver for Acer Iconia Tab A500
+  ARM: tegra: acer-a500: Add Embedded Controller
+
+ .../devicetree/bindings/mfd/ene-kb930.yaml    |  66 ++++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |  17 +
+ drivers/base/regmap/regmap.c                  |   4 +-
+ drivers/leds/Kconfig                          |   7 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-acer-a500.c                 | 130 ++++++++
+ drivers/mfd/Kconfig                           |  12 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/acer-ec-a500.c                    | 203 ++++++++++++
+ drivers/power/supply/Kconfig                  |   6 +
+ drivers/power/supply/Makefile                 |   1 +
+ drivers/power/supply/acer_a500_battery.c      | 297 ++++++++++++++++++
+ 12 files changed, 743 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/ene-kb930.yaml
+ create mode 100644 drivers/leds/leds-acer-a500.c
+ create mode 100644 drivers/mfd/acer-ec-a500.c
+ create mode 100644 drivers/power/supply/acer_a500_battery.c
+
 -- 
-2.17.1
+2.27.0
 
