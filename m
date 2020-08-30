@@ -2,139 +2,105 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5C10256D10
-	for <lists+linux-leds@lfdr.de>; Sun, 30 Aug 2020 11:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AB91256D68
+	for <lists+linux-leds@lfdr.de>; Sun, 30 Aug 2020 13:11:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726264AbgH3JWS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 30 Aug 2020 05:22:18 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:52972 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725869AbgH3JWS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 30 Aug 2020 05:22:18 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id B3D8C1C0B81; Sun, 30 Aug 2020 11:22:13 +0200 (CEST)
-Date:   Sun, 30 Aug 2020 11:22:12 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
-        netdev@vger.kernel.org, linux-leds@vger.kernel.org,
-        jacek.anaszewski@gmail.com, Dan Murphy <dmurphy@ti.com>,
-        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
+        id S1726276AbgH3LLi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 30 Aug 2020 07:11:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725845AbgH3LLf (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 30 Aug 2020 07:11:35 -0400
+Received: from localhost.localdomain (unknown [194.230.155.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A526E20757;
+        Sun, 30 Aug 2020 11:11:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598785894;
+        bh=gXODkDbcQF17NTHovr6nEh8zgdaj1s2Ph6JY/EZmbC8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=q+yk8voUyPk3N9ED0KyO0ZcI+jgV0Na/1bJfDfEYX+UjR+kFBDCXdw8n0NhVz160b
+         ohi2ic/pU1ivI8S3Ajf5U0LSOd+t56I/edrUOuDciMQQ1+61F/WXYOD4mbBf5Cvrd3
+         tiUuEnYyZvUgH85v6TYrZXfrWUcn80NWehkWo+A4=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC leds + net-next v4 0/2] Add support for LEDs on
- Marvell PHYs
-Message-ID: <20200830092212.GA6861@duo.ucw.cz>
-References: <20200728150530.28827-1-marek.behun@nic.cz>
- <20200807090653.ihnt2arywqtpdzjg@duo.ucw.cz>
- <20200807132920.GB2028541@lunn.ch>
- <20200829224351.GA29564@duo.ucw.cz>
- <20200829233641.GC2966560@lunn.ch>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
-Content-Disposition: inline
-In-Reply-To: <20200829233641.GC2966560@lunn.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH] dt-bindings: leds: common: Add mmc0 as default trigger
+Date:   Sun, 30 Aug 2020 13:11:15 +0200
+Message-Id: <20200830111115.32623-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+MMC could be a default trigger so add a pattern to match it and fix
+dtbs_check warnings like:
 
---6c2NcOVqGQ03X4Wi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  arch/arm/boot/dts/exynos4412-odroidx.dt.yaml: leds: led2:linux,default-trigger:0:
+    'mmc0' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
+    From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
 
-Hi!
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ .../devicetree/bindings/leds/common.yaml      | 39 ++++++++++---------
+ 1 file changed, 20 insertions(+), 19 deletions(-)
 
-> > > The phydev name is not particularly nice:
-> > >=20
-> > > !mdio-mux!mdio@1!switch@0!mdio:00
-=2E..
-> > > 400d0000.ethernet-1:00
-> > > 400d0000.ethernet-1:01
-> > > fixed-0:00
-> >=20
-> > Not nice, I see. In particular, it contains ":"... which would be a
-> > problem.
-> >=20
-> > > The interface name are:
-> > >=20
-> > > 1: lo:
-> > > 2: eth0:
-> > > 3: eth1:
-=2E..
-> > > 13: optical3@eth1:
-> > > 14: optical4@eth1:
-> >=20
-> > OTOH... renaming LEDs when interface is renamed... sounds like a
-> > disaster, too.
->=20
-> I don't think it is. The stack has all the needed support. There is a
-> notification before the rename, and another notification after the
-> rename. Things like bonding, combing two interfaces into one and load
-> balancing, etc. hook these notifiers. There is plenty of examples to
-> follow. What i don't know about is the lifetime of files under
-> /sys/class/led, does the destroying of an LED block while one of the
-> files is open?.
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index a2a541bca73c..6b38f9f3792c 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -78,25 +78,26 @@ properties:
+       This parameter, if present, is a string defining the trigger assigned to
+       the LED.
+     $ref: /schemas/types.yaml#definitions/string
+-
+-    enum:
+-        # LED will act as a back-light, controlled by the framebuffer system
+-      - backlight
+-        # LED will turn on (but for leds-gpio see "default-state" property in
+-        # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
+-      - default-on
+-        # LED "double" flashes at a load average based rate
+-      - heartbeat
+-        # LED indicates disk activity
+-      - disk-activity
+-        # LED indicates IDE disk activity (deprecated), in new implementations
+-        # use "disk-activity"
+-      - ide-disk
+-        # LED flashes at a fixed, configurable rate
+-      - timer
+-        # LED alters the brightness for the specified duration with one software
+-        # timer (requires "led-pattern" property)
+-      - pattern
++    oneOf:
++      - enum:
++            # LED will act as a back-light, controlled by the framebuffer system
++          - backlight
++            # LED will turn on (but for leds-gpio see "default-state" property in
++            # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
++          - default-on
++            # LED "double" flashes at a load average based rate
++          - heartbeat
++            # LED indicates disk activity
++          - disk-activity
++            # LED indicates IDE disk activity (deprecated), in new implementations
++            # use "disk-activity"
++          - ide-disk
++            # LED flashes at a fixed, configurable rate
++          - timer
++            # LED alters the brightness for the specified duration with one software
++            # timer (requires "led-pattern" property)
++          - pattern
++      - pattern: "^mmc[0-9]+$"
+ 
+   led-pattern:
+     description: |
+-- 
+2.17.1
 
-Well, there may be no problems on the networking side, but I'd prefer
-not to make LED side more complex. Files could be open, and userland
-could have assumptions about LEDs not changing names...
-
-> > > You could make a good guess at matching to two together, but it is
-> > > error prone. Phys are low level things which the user is not really
-> > > involved in. They interact with interface names. ethtool, ip, etc, all
-> > > use interface names. In fact, i don't know of any tool which uses
-> > > phydev names.
-> >=20
-> > So... proposal:
-> >=20
-> > Users should not be dealing with sysfs interface directly, anyway. We
-> > should have a tool for that. It can live in kernel/tools somewhere, I
-> > guess.
->=20
-> We already have one, ethtool(1).=20
-
-Well... ethtool is for networking, we'll want to have a ledtool, too :-).
-
-> > Would we name leds phy0:... (with simple incrementing number), and
-> > expose either interface name or phydev name as a attribute?
-> >=20
-> > So user could do
-> >=20
-> > cat /sys/class/leds/phy14:green:foobar/netdev
-> > lan5@eth1:
->=20
-> Which is the wrong way around. ethtool will be passed the interface
-> name and an PHY descriptor of some sort, and it has to go search
-> through all the LEDs to find the one with this attribute. I would be
-> much more likely to add a sysfs link from
-> /sys/class/net/lan5/phy:left:green to
-> /sys/class/leds/phy14:left:green.
-
-Okay, that might be even better, as it provides links in the more
-useful direction.
-
-Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---6c2NcOVqGQ03X4Wi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX0tvxAAKCRAw5/Bqldv6
-8gIVAJ9SudFhekKjKm3bC/uDVNilGxzJygCfZrfUDL9p+GGWmvf90udFglMRUcg=
-=fgw1
------END PGP SIGNATURE-----
-
---6c2NcOVqGQ03X4Wi--
