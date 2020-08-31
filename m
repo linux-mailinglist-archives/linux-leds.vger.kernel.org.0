@@ -2,182 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ADD12570F2
-	for <lists+linux-leds@lfdr.de>; Mon, 31 Aug 2020 00:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F85F257665
+	for <lists+linux-leds@lfdr.de>; Mon, 31 Aug 2020 11:20:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726453AbgH3W4R (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 30 Aug 2020 18:56:17 -0400
-Received: from mail.nic.cz ([217.31.204.67]:52906 "EHLO mail.nic.cz"
+        id S1727810AbgHaJUT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 31 Aug 2020 05:20:19 -0400
+Received: from mail.thorsis.com ([92.198.35.195]:49826 "EHLO mail.thorsis.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726179AbgH3W4Q (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 30 Aug 2020 18:56:16 -0400
-Received: from localhost (unknown [172.20.6.135])
-        by mail.nic.cz (Postfix) with ESMTPSA id B75E713FFFB;
-        Mon, 31 Aug 2020 00:56:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1598828173; bh=YTHzXCb4ZdLDojUITwXuoxdvQt+Vc8tV3tMINYete5U=;
-        h=Date:From:To;
-        b=InX6j2UTCOUnMtb9JVcZ9l5pcOhbEsqQeJ2i3YIu1gIyKt42g/+/fTn6s2oeHsAw2
-         cuOyst+9NclOWosVIaZ21Dkv4OBHY66dLpB7E7I1UYjgW80nxl8APYORpN4Om+VSG4
-         9W+8v+0fBFlZSVwsIsf7MwdsvGqBzXJH+4TOCsNY=
-Date:   Mon, 31 Aug 2020 00:56:13 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+        id S1725829AbgHaJUS (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 31 Aug 2020 05:20:18 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.thorsis.com (Postfix) with ESMTP id 7B580324E;
+        Mon, 31 Aug 2020 11:20:16 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
+Received: from mail.thorsis.com ([127.0.0.1])
+        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id V1NgYPgywrN7; Mon, 31 Aug 2020 11:20:16 +0200 (CEST)
+Received: by mail.thorsis.com (Postfix, from userid 109)
+        id 4936B3614; Mon, 31 Aug 2020 11:20:16 +0200 (CEST)
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RECEIVED,
+        NO_RELAYS autolearn=unavailable autolearn_force=no version=3.4.2
+From:   Alexander Dahl <ada@thorsis.com>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        jacek.anaszewski@gmail.com, Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?B?T25k?= =?UTF-8?B?xZllag==?= Jirman 
-        <megous@megous.com>, Russell King <linux@armlinux.org.uk>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH RFC leds + net-next v4 0/2] Add support for LEDs on
- Marvell PHYs
-Message-ID: <20200831005613.3c00215a@nic.cz>
-In-Reply-To: <2b3604bf88082f8d8f6d21707907eff757b49362.camel@ew.tq-group.com>
-References: <20200728150530.28827-1-marek.behun@nic.cz>
-        <2b3604bf88082f8d8f6d21707907eff757b49362.camel@ew.tq-group.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        Dan Murphy <dmurphy@ti.com>, linux-kernel@vger.kernel.org,
+        Alexander Dahl <post@lespocky.de>
+Subject: Re: [PATCH] leds: pwm: Allow automatic labels for DT based devices
+Date:   Mon, 31 Aug 2020 11:20:09 +0200
+Message-ID: <1837645.vzTIdMnA0P@ada>
+In-Reply-To: <eff509d5-a5f7-0d5d-b39c-aac364e53aca@gmail.com>
+References: <20200826093737.29008-1-ada@thorsis.com> <7920560.iacgkFlgr8@ada> <eff509d5-a5f7-0d5d-b39c-aac364e53aca@gmail.com>
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 25 Aug 2020 10:13:59 +0200
-Matthias Schiffer <matthias.schiffer@ew.tq-group.com> wrote:
+Hello Jacek,
 
-> On Tue, 2020-07-28 at 17:05 +0200, Marek Beh=C3=BAn wrote:
-> > Hi,
+Am Freitag, 28. August 2020, 22:43:02 CEST schrieb Jacek Anaszewski:
+> On 8/28/20 9:00 AM, Alexander Dahl wrote:
+> > Am Donnerstag, 27. August 2020, 23:28:45 CEST schrieb Jacek Anaszewski:
+> >> This part looks good, but corresponding update of
+> >> Documentation/devicetree/bindings/leds/leds-pwm.txt is needed as well.
 > >=20
-> > this is v4 of my RFC adding support for LEDs connected to Marvell
-> > PHYs.
-> >=20
-> > Please note that if you want to test this, you still need to first
-> > apply
-> > the patch adding the LED private triggers support from Pavel's tree.
-> >  =20
-> https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/comm=
-it/?h=3Dfor-next&id=3D93690cdf3060c61dfce813121d0bfc055e7fa30d
-> >=20
-> > What I still don't like about this is that the LEDs created by the
-> > code
-> > don't properly support device names. LEDs should have name in format
-> > "device:color:function", for example "eth0:green:activity".
-> >=20
-> > The code currently looks for attached netdev for a given PHY, but
-> > at the time this happens there is no netdev attached, so the LEDs
-> > gets
-> > names without the device part (ie ":green:activity").
-> >=20
-> > This can be addressed in next version by renaming the LED when a
-> > netdev
-> > is attached to the PHY, but first a API for LED device renaming needs
-> > to
-> > be proposed. I am going to try to do that. This would also solve the
-> > same problem when userspace renames an interface.
-> >=20
-> > And no, I don't want phydev name there. =20
+> > I'm not sure, what needs updating. The properties 'function' and 'color'
+> > are already documented in
+> > Documentation/devicetree/bindings/leds/common.yaml =E2=80=A6 the only t=
+hing I can
+> > think of here is updating the examples? That would be nice, as would be
+> > updating to yaml, but I don't see the strong relation, yet.
+> It is necessary to tell the user that given driver is capable of
+> utilizing a property. I thought of something like in commit [0].
 >=20
+> >> It would be good to switch to yaml by this occassion.
+> >=20
+> > Is there some guidance on that in general?
 >=20
-> Hello Marek,
->=20
-> thanks for your patches - Andrew suggested me to have a look at them as
-> I'm currently trying to add LED trigger support to the TI DP83867 PHY.
->=20
-> Is there already a plan to add support for polarity and similiar
-> settings, at least to the generic part of your changes?
->=20
+> I am not aware of, but surely sooner or later all bindings will
+> need to be unified. Touching the file is always a good opportunity
+> to address that. It's up to you, though.
 
-Hello Matthias,
+This update from txt to yaml is a manual task and after reading [1] and som=
+e=20
+other examples, I tried to come up with something.  I pushed the WIP to my=
+=20
+GitHub tree and will run the checks recommended by [1] later in the evening=
+=2E =20
+If that goes well, I'll send a v2 series.
 
-sorry for answering with delay, I somehow overlooked your email.
-Yes, I plan to add some basic platform data properties (like polarity)
-in the generic part.
+> [0]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/Do
+> cumentation/devicetree/bindings/leds/leds-lm3692x.txt?id=3D4dcbc8f8c59f4b=
+618d6
+> 51f5ba884ee5bf562c8de
 
-> In the TI DP83867, there are 2 separate settings for each LED:
->=20
-> - Trigger event
-> - Polarity or override (active-high/active-low/force-high/force-low -
-> the latter two would be used for led_brightness_set)
-> - (There is also a 3rd register that defines the blink frequency, but
-> as it allows only a single setting for all LEDs, I would ignore it for
-> now)
+Well okay, that was for the old format, but I see what you mean.
 
-I think that blink frequency should be in the generic part as well.
+Greets
+Alex
 
->=20
-> At least the per-LED polarity setting would be essential to have for
-> this feature to be useful for our TQ-Systems mainboards with TI PHYs.
->=20
+[1] https://www.kernel.org/doc/html/latest/devicetree/writing-schema.html
 
-I will try to send new version next week (starting 7th September).
 
-Marek
-
->=20
-> Kind regards,
-> Matthias
->=20
->=20
->=20
-> >=20
-> > Changes since v3:
-> > - addressed some of Andrew's suggestions
-> > - phy_hw_led_mode.c renamed to phy_led.c
-> > - the DT reading code is now also generic, moved to phy_led.c and
-> > called
-> >   from phy_probe
-> > - the function registering the phydev-hw-mode trigger is now called
-> > from
-> >   phy_device.c function phy_init before registering genphy drivers
-> > - PHY LED functionality now depends on CONFIG_LEDS_TRIGGERS
-> >=20
-> > Changes since v2:
-> > - to share code with other drivers which may want to also offer PHY
-> > HW
-> >   control of LEDs some of the code was refactored and now resides in
-> >   phy_hw_led_mode.c. This code is compiled in when config option
-> >   LED_TRIGGER_PHY_HW is enabled. Drivers wanting to offer PHY HW
-> > control
-> >   of LEDs should depend on this option.
-> > - the "hw-control" trigger is renamed to "phydev-hw-mode" and is
-> >   registered by the code in phy_hw_led_mode.c
-> > - the "hw_control" sysfs file is renamed to "hw_mode"
-> > - struct phy_driver is extended by three methods to support PHY HW
-> > LED
-> >   control
-> > - I renamed the various HW control modes offeret by Marvell PHYs to
-> >   conform to other Linux mode names, for example the
-> > "1000/100/10/else"
-> >   mode was renamed to "1Gbps/100Mbps/10Mbps", or "recv/else" was
-> > renamed
-> >   to "rx" (this is the name of the mode in netdev trigger).
-> >=20
-> > Marek
-> >=20
-> >=20
-> > Marek Beh=C3=BAn (2):
-> >   net: phy: add API for LEDs controlled by PHY HW
-> >   net: phy: marvell: add support for PHY LEDs via LED class
-> >=20
-> >  drivers/net/phy/Kconfig      |   4 +
-> >  drivers/net/phy/Makefile     |   1 +
-> >  drivers/net/phy/marvell.c    | 287
-> > +++++++++++++++++++++++++++++++++++
-> >  drivers/net/phy/phy_device.c |  25 ++-
-> >  drivers/net/phy/phy_led.c    | 176 +++++++++++++++++++++
-> >  include/linux/phy.h          |  51 +++++++
-> >  6 files changed, 537 insertions(+), 7 deletions(-)
-> >  create mode 100644 drivers/net/phy/phy_led.c
-> >  =20
->=20
 
