@@ -2,116 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F350257A9C
-	for <lists+linux-leds@lfdr.de>; Mon, 31 Aug 2020 15:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64FD325832F
+	for <lists+linux-leds@lfdr.de>; Mon, 31 Aug 2020 23:03:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727103AbgHaNkH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 31 Aug 2020 09:40:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726503AbgHaNkC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 31 Aug 2020 09:40:02 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F4AC061755
-        for <linux-leds@vger.kernel.org>; Mon, 31 Aug 2020 06:40:01 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id c10so5470456edk.6
-        for <linux-leds@vger.kernel.org>; Mon, 31 Aug 2020 06:40:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lddw3bdok3hAy1F/tQ2gv6hGO+6x8VFGDH1TfahaMjg=;
-        b=gBplDfQqLrkZ52/3bG7dQRrqKdekFZEh45gXZ5MsUHY486B3HK7oI65JYt4l0R3ldF
-         GNHW/tXR1MVsKES6Wqf1COb7UnAT3ZaQw63tIRNa5/T4qs0h8OMmXCsfgazVyJK79l8t
-         jn385EO8CLCYrRbQ23bb6Sth0ZtPsuO6k4k7A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lddw3bdok3hAy1F/tQ2gv6hGO+6x8VFGDH1TfahaMjg=;
-        b=GvC/1mh+0MLsGAnfsjm5UkE/5iSwms6KZTw8Xs9k4XqzJZljsziP4Ib40ygE7AwBW5
-         nW1x89rttXT+a6ogyfAdaCVqwdzs4iV8wIZdyUNCU/nXiTdh/zQYe1Mlnvb8gd9+FIG6
-         sSS5QxpDJSGv7UHaT3g83xAlsO5t0AwJ+xZUbsC0Mk3rJrM4l9vIBRBlV8FuS+kKeJyU
-         xJprPqv2rUXo4gU0cT3hiDBq7bJ4yq3R4Ud3Sfgva2x1j7+hdcdjuPaKNytw4UxTZ5Sc
-         caQ+BnlHBEDr7DkxTXmcp6TPbvdIeADWhVm+s8wB7KgdabT87VltxJQj+wcOah9u+rgv
-         +CHA==
-X-Gm-Message-State: AOAM533fN+0sA6YCmn8b+u2nB7Ma4N8Yhm7EP0jnk2RF2uQoDGhPkE3+
-        cp3+t1+kRHizkHpbYixuijbZXPBkOQ3Yeg==
-X-Google-Smtp-Source: ABdhPJyy9Hf8Aqq5g7rmcKKcb4iE8ZpTTo23RdY2XZoOzwccohM9YS0xDdbZMEVWvJgpVF2UOxlUkw==
-X-Received: by 2002:a50:c3c4:: with SMTP id i4mr1333594edf.244.1598881199998;
-        Mon, 31 Aug 2020 06:39:59 -0700 (PDT)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
-        by smtp.gmail.com with ESMTPSA id l7sm2370350ejc.25.2020.08.31.06.39.56
-        for <linux-leds@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Aug 2020 06:39:58 -0700 (PDT)
-Received: by mail-ej1-f49.google.com with SMTP id a26so8599418ejc.2
-        for <linux-leds@vger.kernel.org>; Mon, 31 Aug 2020 06:39:56 -0700 (PDT)
-X-Received: by 2002:a17:907:7292:: with SMTP id dt18mr1291762ejc.512.1598881195924;
- Mon, 31 Aug 2020 06:39:55 -0700 (PDT)
+        id S1730169AbgHaVDv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 31 Aug 2020 17:03:51 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:60641 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727019AbgHaVDu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 31 Aug 2020 17:03:50 -0400
+Received: from methusalix.internal.home.lespocky.de ([92.117.54.199]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MkYLW-1ksD3D0AV4-00m5Go; Mon, 31 Aug 2020 23:03:33 +0200
+Received: from lemmy.internal.home.lespocky.de ([192.168.243.176] helo=lemmy.home.lespocky.de)
+        by methusalix.internal.home.lespocky.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <alex@home.lespocky.de>)
+        id 1kCqxd-0003pQ-Il; Mon, 31 Aug 2020 23:03:30 +0200
+Received: (nullmailer pid 28155 invoked by uid 2001);
+        Mon, 31 Aug 2020 21:03:29 -0000
+From:   Alexander Dahl <post@lespocky.de>
+To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        Alexander Dahl <ada@thorsis.com>,
+        Alexander Dahl <post@lespocky.de>
+Subject: [PATCH v2 0/2] leds: pwm: Make automatic labels work
+Date:   Mon, 31 Aug 2020 23:02:29 +0200
+Message-Id: <20200831210232.28052-1-post@lespocky.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200827135205.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
- <20200829074758.GA16838@amd>
-In-Reply-To: <20200829074758.GA16838@amd>
-From:   Raul Rangel <rrangel@chromium.org>
-Date:   Mon, 31 Aug 2020 07:39:44 -0600
-X-Gmail-Original-Message-ID: <CAHQZ30CuWSzaMNYSfh6Zr12Q1=GA_Yqpg0jaePDkFQjgsDDBPg@mail.gmail.com>
-Message-ID: <CAHQZ30CuWSzaMNYSfh6Zr12Q1=GA_Yqpg0jaePDkFQjgsDDBPg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Input: i8042 - Prevent intermixing i8042 commands
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "S, Shirish" <Shirish.S@amd.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        "Lee, Chun-Yi" <jlee@suse.com>, Rajat Jain <rajatja@google.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scan-Signature: ad2a6dfffa3c54d786fac54cb1795fd5
+X-Spam-Score: -2.4 (--)
+X-Provags-ID: V03:K1:tg9wxDQ6YEt1M1K6RtRpsEbXznLx5mI9gVYjX+JClg81c4uZwLE
+ YW1E0R86vH9a30GOBkrFuZzKSY+73iS6LIeleV7oV9aq2EwvMr0eWIE9/dpYM6UW7ra4J5y
+ z+CaEMXeFq/0zY4lbjsiHHGfbB7v4+9hP2xVyyxuBuOkINejkQ6xwK5BDGOLahbYlzj+N/l
+ sdWj27hKpE+j0s7E3ValQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:THVtx+oo+0Y=:+Cz3jj5VZo8Pxf0bW0H4jW
+ 4eYqaKHaA6n4u+CjDh99uK/E69P/gQ0Fe1JE5s7DYS3N6mHMxYKiCikWa0ixLG32LmbIukWy6
+ mOHuTPsx1kUNgviNkdFyyUHzOkUpe48dB/TPQVUetmnRp6T/4D/aNnmVENOGB63u1TMfHkdPz
+ VGlar3vNEY8CjzHbUMDeVTr4c/K7QDKi0Wc6NEEykdjc1zAbp6vhjrmaJteDwpxlW3buX0gfD
+ DG8NtBgFTAUfhrSTwSZdgZ76342SyGd8Ue2OiMEbKWRKaZQPMMoDPcPUxTwFxAd4hRZWNseHB
+ uMl6kn14Fzk/cnayiaidRKy7fFjh8J0sRICh5RZDhBH0L/OzTptSZjDH9x6+piEv/XavrAjDU
+ n8kldoVPqbMSmFCCefppBs2YFjb8Ec5kTTr9pGBzqOtwyFNEywyoszv9eStgampD0KsR/Lkpl
+ Zg0IGu8BB8qaAJpxe7FUC5b8g2Pg18PvottKxA9Le3n/7bSpr9CSlQ10OS80627PzDGkrVqGt
+ frYIh2NWacIZvSSc2B4okFnDI3gzv4gI0uIEQ0RYucTRBNVUhOeztP8V+q0GcgHEXsYzxCgep
+ FG3gPMyXFPXupo4wMr4dsxJyVmWXfRhIay4tYmMKxNxYmvPwx9bSa2Zwuz/MO/cXuCqA6IHmJ
+ FQOpQy5qLf5xKBEBdHeau0xBVnGqaQ3Jz+izAVsBoc/cCDoIvLyKoMYNe4kP7sF6bYwWjGpPD
+ Tf4U+PmnkjR7jOapMRFRoyKHH1ctQeX+aSb0ATtIRSmb4c3UNtcQ/5Gl4pV8uH3+szUf4Lktw
+ hM0m/hUaXgo5PScFr/bpEOBhN6+0ehnsHf6Fy2MDflZk2hZEfe+TvPc0DHudWM7yQz7w9Nd
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, Aug 29, 2020 at 1:48 AM Pavel Machek <pavel@ucw.cz> wrote:
->
-> On Thu 2020-08-27 13:52:22, Raul E Rangel wrote:
-> > The i8042_mutex must be held by writers of the AUX and KBD ports, as
-> > well as users of i8042_command. There were a lot of users of
-> > i8042_command that were not calling i8042_lock_chip/i8042_unlock_chip.
-> > This resulted in i8042_commands being issues in between PS/2
-> > transactions.
-> >
-> > This change moves the mutex lock into i8042_command and removes the
-> > burden of locking the mutex from the callers.
-> >
-> > It is expected that the i8042_mutex is locked before calling
-> > i8042_aux_write or i8042_kbd_write. This is currently done by the PS/2
-> > layer via ps2_begin_command and ps2_end_command. Other modules
-> > (serio_raw) do not currently lock the mutex, so there is still a
-> > possibility for intermixed commands.
->
->
-> > @@ -343,10 +330,14 @@ int i8042_command(unsigned char *param, int command)
-> >       unsigned long flags;
-> >       int retval;
-> >
-> > +     mutex_lock(&i8042_mutex);
-> > +
-> >       spin_lock_irqsave(&i8042_lock, flags);
-> >       retval = __i8042_command(param, command);
-> >       spin_unlock_irqrestore(&i8042_lock, flags);
-> >
-> > +      mutex_unlock(&i8042_mutex);
-> > +
-> >       return retval;
->
-> There's something wrong with whitespace here. Checkpatch?
->                                                                         Pavel
-It's fixed in the v2 patch: https://patchwork.kernel.org/patch/11741855/
+Hei hei,
 
-Thanks
+for leds-gpio you can use the properties 'function' and 'color' in the
+devicetree node and omit 'label', the label is constructed
+automatically.  This is a common feature supposed to be working for all
+LED drivers.  However it did not yet work for the 'leds-pwm' driver.
+This series fixes the driver and takes the opportunity to update the
+dt-bindings accordingly.
+
+v1: based on v5.9-rc2, backport on v5.4.59 tested and working
+
+v2: based on v5.9-rc3, added the dt-bindings update patch
+
+Greets
+Alex
+
+Alexander Dahl (2):
+  leds: pwm: Allow automatic labels for DT based devices
+  dt-bindings: leds: Convert pwm to yaml
+
+ .../devicetree/bindings/leds/leds-pwm.txt     | 50 -----------
+ .../devicetree/bindings/leds/leds-pwm.yaml    | 85 +++++++++++++++++++
+ drivers/leds/leds-pwm.c                       |  9 +-
+ 3 files changed, 93 insertions(+), 51 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.yaml
+
+-- 
+2.20.1
+
