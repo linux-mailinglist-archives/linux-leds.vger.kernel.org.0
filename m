@@ -2,107 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80BE525D868
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Sep 2020 14:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D271425DDF2
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Sep 2020 17:40:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730172AbgIDMHO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 4 Sep 2020 08:07:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729741AbgIDMHN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Sep 2020 08:07:13 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26A02C061244;
-        Fri,  4 Sep 2020 05:07:13 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id w3so7640241ljo.5;
-        Fri, 04 Sep 2020 05:07:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qArgLGR5u08jxqjeiIaKBsm2Gby+9FNWFXKhm4/XNe8=;
-        b=WSRbN12q9LW1Lj8lPIpnEH31mQEURVGd3tAVeqqpORt/L7v2MClTqOe3bm5ACJ4ZY5
-         kBeKWCEB9W2g7A9vlHe4jqeQW6yQOC1N8VElCh4+IpZF+Ysb3QZosgJ65dd1Xmog2JA9
-         FsrUQjpwoSOp9NtWfVqG6M9cIioux3TV2tXmZU33dVBV6vKTvG1bOQZmdld0tFt6oXr/
-         U2ou93Jm0rYmfnMeHBWiJEJRBdbV5Nv2zTO9K5t8Vz60EIIDUUJHeLDKzr4PI8Q8B6s2
-         ogHUQBEsfuXNFPfOR9mB+AxHaZe/iit5Wzq+WDw/rIqNySKMLfW7lV/iTDOMEvcwe3Be
-         MyYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qArgLGR5u08jxqjeiIaKBsm2Gby+9FNWFXKhm4/XNe8=;
-        b=mYk8MrWdL76TJSYvtlnSTwyp2zx0uedMyxCplu4jsyTZSiTPpwmw7tYnMMkKd9FUtf
-         QJ2SWWr2p6QyStM2xAIvJPmv35m0dEOabYzjmFcyvRxqsctoo8cdXyzavnvlS5S5w6My
-         QW0Tu/mZbp24BFcVShM9YL1qVUbcthM+y0EnRxfY0/r69aLiHP4hk8EIPWKl4KjokJZS
-         etBYkedJw6UKLtu20XVJiIpHw9owPSalNWhwvzOrFq48vW/TRuFD3zpfuvJ48HPUVVz8
-         sKsqvjySwP9J/MKU9szsLihXV2AwrE98Xxk7Yt7fOVre6Nat6zbQfgBWlYBTIgKlOWvR
-         b4DQ==
-X-Gm-Message-State: AOAM532mbLswa/DxjoaL0fo/Cwgae2bpfdsZgHK6Wo/ZvxcJBLwmyZk3
-        YcMZSa4mBmeDHfVM1MBUykI7b6AGSMg=
-X-Google-Smtp-Source: ABdhPJyyU60zq5tUu6ycbGZKp2YIc7fIwrUFaiI0p1yTQHkL7RZ5ksQ1SgtGs9RFEJegTpoNeBtUIA==
-X-Received: by 2002:a2e:a16c:: with SMTP id u12mr3251357ljl.266.1599221231300;
-        Fri, 04 Sep 2020 05:07:11 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id l16sm1261285ljb.72.2020.09.04.05.07.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Sep 2020 05:07:10 -0700 (PDT)
+        id S1726111AbgIDPkW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 4 Sep 2020 11:40:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39906 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725984AbgIDPkV (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 4 Sep 2020 11:40:21 -0400
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D35A32083B;
+        Fri,  4 Sep 2020 15:40:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599234021;
+        bh=UAR/0+WFmx8OVQKEUwR8M1ofPElVR/g3UzxICkFCKa4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=XXSyBms+Ca+wqhd/Owwo8OB3AEqdJWufDnkclusdhZfyjyemCCzGb13/xxFFrb9TD
+         Fe96Rax76Q56c9WfwykrKBT9XDVkIp+LJNE1A3HJW3e5Ve5rg1S7AFxQF0nnVf9tq6
+         xFmAvBOpL4zY2mpE9zoyOI4e+QYjjAPUaNrXVOZ8=
+Received: by mail-ot1-f49.google.com with SMTP id i4so6269733ota.2;
+        Fri, 04 Sep 2020 08:40:20 -0700 (PDT)
+X-Gm-Message-State: AOAM533cl7hIIW55Xh1k5dF2U3zMZ1cy/IJ7R5K1wT6K8ISZ/4HiIwbd
+        TzCCfHALMjZ3x2qKG+d4sWQQOO9rqaoYadqqEw==
+X-Google-Smtp-Source: ABdhPJw1oaweJSOxp/Hs5WNuevPNIBfXtJv/Gk75Q/8Ya70E8+SBi0EbnW3JC3c/w3BVO1X3ug9F5KaKGeMyOUtsdss=
+X-Received: by 2002:a9d:6b0d:: with SMTP id g13mr5930304otp.129.1599234019987;
+ Fri, 04 Sep 2020 08:40:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200830185356.5365-1-digetx@gmail.com> <20200830185356.5365-2-digetx@gmail.com>
+ <20200903161022.GA2707794@bogus> <790dbb23-7422-887a-3f11-5ae55bb916fa@gmail.com>
+In-Reply-To: <790dbb23-7422-887a-3f11-5ae55bb916fa@gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 4 Sep 2020 09:40:07 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+Ue72jJ9gurcG0f_R+gGVC77dErhgbKpB_p40buUewLg@mail.gmail.com>
+Message-ID: <CAL_Jsq+Ue72jJ9gurcG0f_R+gGVC77dErhgbKpB_p40buUewLg@mail.gmail.com>
 Subject: Re: [PATCH v2 1/6] dt-bindings: mfd: Add ENE KB930 Embedded
  Controller binding
-To:     Rob Herring <robh@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Pavel Machek <pavel@ucw.cz>, Lubomir Rintel <lkundrak@v3.sk>,
         Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
-        linux-tegra@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Dan Murphy <dmurphy@ti.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org
-References: <20200830185356.5365-1-digetx@gmail.com>
- <20200830185356.5365-2-digetx@gmail.com> <20200903161022.GA2707794@bogus>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <790dbb23-7422-887a-3f11-5ae55bb916fa@gmail.com>
-Date:   Fri, 4 Sep 2020 15:07:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200903161022.GA2707794@bogus>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Sebastian Reichel <sre@kernel.org>,
+        "open list:THERMAL" <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-03.09.2020 19:10, Rob Herring пишет:
-> On Sun, 30 Aug 2020 21:53:51 +0300, Dmitry Osipenko wrote:
->> Add binding document for the ENE KB930 Embedded Controller.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  .../devicetree/bindings/mfd/ene-kb930.yaml    | 66 +++++++++++++++++++
->>  1 file changed, 66 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/mfd/ene-kb930.yaml
->>
-> 
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/ene-kb930.example.dt.yaml: battery-cell: 'operating-range-celsius' does not match any of the regexes: '^ocv-capacity-table-[0-9]+$', 'pinctrl-[0-9]+'
-> 	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/power/supply/battery.yaml
-> 
-> 
-> See https://patchwork.ozlabs.org/patch/1354004
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure dt-schema is up to date:
-> 
-> pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-> 
-> Please check and re-submit.
-> 
+On Fri, Sep 4, 2020 at 6:07 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 03.09.2020 19:10, Rob Herring =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Sun, 30 Aug 2020 21:53:51 +0300, Dmitry Osipenko wrote:
+> >> Add binding document for the ENE KB930 Embedded Controller.
+> >>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  .../devicetree/bindings/mfd/ene-kb930.yaml    | 66 ++++++++++++++++++=
++
+> >>  1 file changed, 66 insertions(+)
+> >>  create mode 100644 Documentation/devicetree/bindings/mfd/ene-kb930.ya=
+ml
+> >>
+> >
+> >
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> >
+> > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mf=
+d/ene-kb930.example.dt.yaml: battery-cell: 'operating-range-celsius' does n=
+ot match any of the regexes: '^ocv-capacity-table-[0-9]+$', 'pinctrl-[0-9]+=
+'
+> >       From schema: /builds/robherring/linux-dt-review/Documentation/dev=
+icetree/bindings/power/supply/battery.yaml
+> >
+> >
+> > See https://patchwork.ozlabs.org/patch/1354004
+> >
+> > If you already ran 'make dt_binding_check' and didn't see the above
+> > error(s), then make sure dt-schema is up to date:
+> >
+> > pip3 install git+https://github.com/devicetree-org/dt-schema.git@master=
+ --upgrade
+> >
+> > Please check and re-submit.
+> >
+>
+> Apparently bot uses outdated kernel.
 
-Apparently bot uses outdated kernel.
+It's on v5.9-rc2. The scripts don't know your base/dependencies and
+neither did I because you didn't mention anything here. I do review
+the errors before spamming people.
+
+Rob
