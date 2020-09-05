@@ -2,51 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C068925E7B9
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Sep 2020 15:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B609C25E7B8
+	for <lists+linux-leds@lfdr.de>; Sat,  5 Sep 2020 15:06:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728628AbgIENGm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 5 Sep 2020 09:06:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42018 "EHLO
+        id S1728623AbgIENGi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 5 Sep 2020 09:06:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728580AbgIENFw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 5 Sep 2020 09:05:52 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26624C06125C
+        with ESMTP id S1728583AbgIENFx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 5 Sep 2020 09:05:53 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC4B3C06125F
         for <linux-leds@vger.kernel.org>; Sat,  5 Sep 2020 06:05:52 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id q21so8579065edv.1
+Received: by mail-ej1-x641.google.com with SMTP id m22so12057216eje.10
         for <linux-leds@vger.kernel.org>; Sat, 05 Sep 2020 06:05:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sartura-hr.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jbNBYJsjrynxmZsMzET80D74Cg5aetkjCqBMZs1glRY=;
-        b=yNmUINmza9k+RTgHaXMy9Nuzc7/Hknt1zLTOYz8J0YBb/k1wMa/DF9mtRS8KmG5DsN
-         aH6Mw2N0dAXjyO4lcED2y0TJLSY9W/hpSoo2jpOnhHDar7nIuTraTNSJy4tC/s58vmtd
-         P2ysE6piC+hgCLm4v6M2Ds7sj8sLNeAIZIrnoyJAxlRI933pSVhLsXnNbf56NJJkJEyN
-         KJMhB0+Pgk6Yw/QYdM8Up/luP1ZG9e4g8b8d8hn4Ocp9dL7WUAtZMA1bBX/AmPMP5sMu
-         dhxV+bKeXkGVzH+3LBni/9wJBMPsu3SSYJ2xgXIQxczvS5t53Do4TbWRaCAVkrbC3Guc
-         l35A==
+        bh=Xl1nZLcljWKorqUvDwgUa0UsWvHQM15ZTxSDh1SpSqY=;
+        b=W2udFh6H0fGb8JExN0UWSQKlS1DXkIQk+M5Vh1Bxng3XsDPo+2GqxNedSbYBRa9sY/
+         1Xw9OqrUfNym3M8yBAkbzDm0OdHQ8Y2dHfZ5Uqjo327lfiEZE67lQZIqRDyLH6miYfC3
+         7qakdhViyk3tnojIH5yqWu54lCBmzLfEVg0/nS/PnlFP+JV7eIiT+/9hrzXrVbVAdbLY
+         3J9oNt2uvtxvJBo1pn6qRA1NQp/2HettB/EQEqaPGi4ml4GMzZTboxIWt4R+aT/td1yi
+         T/EWJHY4aE09QaFf78AT3i+nStB7is6zb8SMi5WhSuMMGAg7cO8fRchx3fa+Jc2Dqmi5
+         e1vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jbNBYJsjrynxmZsMzET80D74Cg5aetkjCqBMZs1glRY=;
-        b=cr8pQgDgSEZcBWR8XrsNWvnIuGjFSkmGbe1JF5hMgSuN6rzLBljsI0tRseVayIjSbN
-         lhG61xG3cgTU7QvZ6o0rP8etxUPh+mql4+5Zq3/EGf/J9n+AJ+9XRE4NH9sl2ZlYKqeZ
-         v7J3o7Wj3Ke1KlH/P/TYzd0sFB05WjRqUgbCiOrIQ1neEjjkxTLBxR7Hwd+I4RE6t5t9
-         rEy7PVKM0YMBBtWAeX+lYHxnYdJ1tSDW6bdyS6XzmWfguele7uVslWTk1jJZgBpxobDt
-         ZQytEtLfbpZCJyShHTr1H7t9/7qNfgLxE3Svy4HI8BEuG0+OQd/xLsrnd0nVFL3VW9I6
-         0HUg==
-X-Gm-Message-State: AOAM532DQ4hRszjfhpNZdqhf8ov9QtVpDO7MEJjGldJo2XebWcILu7jJ
-        6Hal+1xzcjxXK7CmPQUjMZXsX+byj0bHVAx0
-X-Google-Smtp-Source: ABdhPJx/V0WmQvcU6/X0stOthigOnu+n8tOJtymLLR8nAcOmKK+z71JQtoB5PH2Cw0lJ8uSxHMD4+Q==
-X-Received: by 2002:a50:d304:: with SMTP id g4mr13254256edh.248.1599311149280;
-        Sat, 05 Sep 2020 06:05:49 -0700 (PDT)
+        bh=Xl1nZLcljWKorqUvDwgUa0UsWvHQM15ZTxSDh1SpSqY=;
+        b=P5pce0OhRk70GwKP4Z+4TUsiYG3f7MqlY6dQFoM1wNGND/Y9x7LM/aoZEpGax3fG8a
+         43GSkZ7M+Z41voEQ24EnUlRumC34gKpChuFWjLWyqauv4BmK0BfC4DEMvnjaHDg+qG1W
+         b9u6P8pcFtu6jY4tyXYUqJCQu20gw6NrpmPKUpZZNcmqUTrOMmZT8GfDtghbXBsggX1B
+         wAcefgSjtUr82+sbVvmf/v1PTEfJ9Ys8RMsvfdITIBD1y1e6IbyeqwA+Uo8u4P6TII9G
+         5to7bMk1muYcIODE1spS/lZZq7opIi0SZW0c6pYjVAQYV5Wp6U/GAemI+e1L+YKASFcv
+         OtiQ==
+X-Gm-Message-State: AOAM531RDt0EExL/Ji5H2Fu0HB5hWUOedzQkruKIYI/JmUGZ2XD12Szi
+        cD76UkV98pTshNMEGPk9dhMdRd9R2LMebieW
+X-Google-Smtp-Source: ABdhPJyn57saXGT3ibN2UnRya8QVjZ6lQI//dqkrhaGWTC5szTQdkMmJg4BwGuFqYw4OfEn6NtZA7g==
+X-Received: by 2002:a17:906:841a:: with SMTP id n26mr12101849ejx.213.1599311151406;
+        Sat, 05 Sep 2020 06:05:51 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:ee2:4b0d:3002:290:faff:fe54:449c])
-        by smtp.gmail.com with ESMTPSA id s18sm9372655ejd.54.2020.09.05.06.05.47
+        by smtp.gmail.com with ESMTPSA id s18sm9372655ejd.54.2020.09.05.06.05.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2020 06:05:48 -0700 (PDT)
+        Sat, 05 Sep 2020 06:05:50 -0700 (PDT)
 From:   Luka Kovacic <luka.kovacic@sartura.hr>
 To:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
@@ -54,9 +54,9 @@ Cc:     lee.jones@linaro.org, pavel@ucw.cz, dmurphy@ti.com,
         robh+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
         andrew@lunn.ch, jason@lakedaemon.net, gregory.clement@bootlin.com,
         luka.perkov@sartura.hr, Luka Kovacic <luka.kovacic@sartura.hr>
-Subject: [PATCH 5/7] Documentation/ABI: Add iei-wt61p803-puzzle driver sysfs interface documentation
-Date:   Sat,  5 Sep 2020 15:03:34 +0200
-Message-Id: <20200905130336.967622-6-luka.kovacic@sartura.hr>
+Subject: [PATCH 6/7] MAINTAINERS: Add an entry for the iEi WT61P803 PUZZLE driver
+Date:   Sat,  5 Sep 2020 15:03:35 +0200
+Message-Id: <20200905130336.967622-7-luka.kovacic@sartura.hr>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200905130336.967622-1-luka.kovacic@sartura.hr>
 References: <20200905130336.967622-1-luka.kovacic@sartura.hr>
@@ -67,87 +67,38 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add the iei-wt61p803-puzzle driver sysfs interface documentation to allow
-monitoring and control of the microcontroller from user space.
+Add an entry for the iEi WT61P803 PUZZLE driver (MFD, HWMON, LED drivers).
 
 Signed-off-by: Luka Kovacic <luka.kovacic@sartura.hr>
 Cc: Luka Perkov <luka.perkov@sartura.hr>
 ---
- .../stable/sysfs-driver-iei-wt61p803-puzzle   | 65 +++++++++++++++++++
- 1 file changed, 65 insertions(+)
- create mode 100644 Documentation/ABI/stable/sysfs-driver-iei-wt61p803-puzzle
+ MAINTAINERS | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/Documentation/ABI/stable/sysfs-driver-iei-wt61p803-puzzle b/Documentation/ABI/stable/sysfs-driver-iei-wt61p803-puzzle
-new file mode 100644
-index 000000000000..36fca70d66ef
---- /dev/null
-+++ b/Documentation/ABI/stable/sysfs-driver-iei-wt61p803-puzzle
-@@ -0,0 +1,65 @@
-+What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/mac_address_*
-+Date:		September 2020
-+Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-+Description:	Read the internal iEi WT61P803 PUZZLE MCU MAC address values.
-+		These are factory assigned and can be changed.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e4647c84c987..01a85d753d81 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8436,6 +8436,19 @@ F:	include/net/nl802154.h
+ F:	net/ieee802154/
+ F:	net/mac802154/
+ 
++IEI WT61P803 M801 MFD DRIVER
++M:	Luka Kovacic <luka.kovacic@sartura.hr>
++L:	linux-kernel@vger.kernel.org
++S:	Maintained
++F:	Documentation/ABI/stable/sysfs-driver-iei-wt61p803-puzzle
++F:	Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
++F:	Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
++F:	Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
++F:	drivers/hwmon/iei-wt61p803-puzzle-hwmon.c
++F:	drivers/leds/leds-iei-wt61p803-puzzle.c
++F:	drivers/mfd/iei-wt61p803-puzzle.c
++F:	include/linux/mfd/iei-wt61p803-puzzle.h
 +
-+What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/serial_number
-+Date:		September 2020
-+Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-+Description:	Read the internal iEi WT61P803 PUZZLE MCU serial number.
-+		This value is factory assigned and can be changed.
-+
-+What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/version
-+Date:		September 2020
-+Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-+Description:	Read the internal iEi WT61P803 PUZZLE MCU version.
-+		This value is read only.
-+
-+What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/protocol_version
-+Date:		September 2020
-+Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-+Description:	Read the internal iEi WT61P803 PUZZLE MCU protocol version.
-+		This value is read only.
-+
-+What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/power_loss_recovery
-+Date:		September 2020
-+Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-+Description:	Read the iEi WT61P803 PUZZLE MCU power loss recovery value.
-+		This value is read write.
-+		Value mapping: 0 - Always-On, 1 - Always-Off, 2 - Always-AC, 3 - Always-WA
-+
-+What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/bootloader_mode
-+Date:		September 2020
-+Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-+Description:	Read whether the MCU is in bootloader mode.
-+		This value is read only.
-+
-+What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/power_status
-+Date:		September 2020
-+Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-+Description:	Read the iEi WT61P803 PUZZLE MCU power status. Power status indicates
-+		the power on method.
-+		This value is read only.
-+		Value mapping (bitwise list):
-+		0x80 - Null
-+		0x40 - Firmware flag
-+		0x20 - Power loss detection flag (powered off)
-+		0x10 - Power loss detection flag (AC mode)
-+		0x08 - Button power on
-+		0x04 - WOL power on
-+		0x02 - RTC alarm power on
-+		0x01 - AC recover power on
-+
-+What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/build_info
-+Date:		September 2020
-+Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-+Description:	Read the iEi WT61P803 PUZZLE MCU firmware build date.
-+		This value is read only.
-+		Format: yyyy/mm/dd hh:mm
-+
-+What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/ac_recovery_status
-+Date:		September 2020
-+Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-+Description:	Read the iEi WT61P803 PUZZLE MCU AC recovery status.
-+		This value is read only.
+ IFE PROTOCOL
+ M:	Yotam Gigi <yotam.gi@gmail.com>
+ M:	Jamal Hadi Salim <jhs@mojatatu.com>
 -- 
 2.20.1
 
