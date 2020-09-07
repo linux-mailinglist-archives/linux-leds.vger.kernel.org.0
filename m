@@ -2,119 +2,99 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CF4125F060
-	for <lists+linux-leds@lfdr.de>; Sun,  6 Sep 2020 21:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD1D325F289
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Sep 2020 06:35:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726657AbgIFTv5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 6 Sep 2020 15:51:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41366 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726493AbgIFTva (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 6 Sep 2020 15:51:30 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ADC5C061756;
-        Sun,  6 Sep 2020 12:51:28 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id d15so5546574lfq.11;
-        Sun, 06 Sep 2020 12:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=35wLUHHiL0jcYl7dr+ydbL6W/M+IENF1DgF9AQYM8t8=;
-        b=Oobg5koT9Ox8v79M5WhWmKiVhX59pyNIUp9/wkzJHs3WGEBM3+96r9IBtOQktr1S/d
-         QnHjBaLyyhA2oWdyy1KBBJULvt16SxQxcsaE/iUac+Eb1nPlamVSUD5vhGuXl5SSbe11
-         TZKFDHVz7icmCrmH3fnIR4gwjbADsDpZhue2J8nRWMnKk8GLaxP9CRFnZYkgrqdS7emM
-         hsUN+OmSZnxiSEnQaxJ+UBuYxlYjDMDKm9VHwRcoo8aogoVFWVLxtpwEftu4ChkP2XVe
-         QejLkAIFhFCu6RS0q1Y+Qg1F1176Dk+blJNhugmazRt/Rm/1qHBqUZCSvCRB7YYCXLLq
-         2B1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=35wLUHHiL0jcYl7dr+ydbL6W/M+IENF1DgF9AQYM8t8=;
-        b=c9xP2TlLGJoyHP4mb33u8AzR/THQCw4x4tEMJSQ/ohg4NAjWzasJ2ijBPg3sVZLEnS
-         M3PrpEo0UFft78XjG2ibAVh69kUhI3eQRk9+ynYf8uBvLawASxOHm8MefOpDWzJSdeYD
-         T1XkaZRU4JGwiCshBwKNjKO+03KSSh8YpA1Fz6PBn57JhSKVHyXIrPfB7XSd8OYPeitf
-         3fklXST9RCehisA72W8qHUIs8zAMC0ZRQzrlHih8SvY5XMb6mhsqH6Un0zF42WoEl+ZW
-         YO/XUT1PH1t9G1sufBIL8RVsoXDjrJfEw1IaHlMzLod8LWMjWli3MWmiVrABcnFl2Hyp
-         vOOQ==
-X-Gm-Message-State: AOAM533ciFEBd13uEkkpUafX5Y45NdVI6JqWXdIf4Xf7Y4XuL6ZIE3gE
-        KrSpBSZOjX8r5qDU4hFBqyg=
-X-Google-Smtp-Source: ABdhPJz1lqvoiCo/WdRrNpCNNEaDozq2pMzlNdc8l1vYlS76MU5hhy2Z1yaXF0kfHPjprP58FS8jTw==
-X-Received: by 2002:a19:6411:: with SMTP id y17mr8719678lfb.199.1599421887058;
-        Sun, 06 Sep 2020 12:51:27 -0700 (PDT)
-Received: from localhost.localdomain (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.gmail.com with ESMTPSA id b7sm4942574lfq.36.2020.09.06.12.51.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2020 12:51:26 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        id S1726328AbgIGEfq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 7 Sep 2020 00:35:46 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:50567 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725798AbgIGEfo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 7 Sep 2020 00:35:44 -0400
+Received: from methusalix.internal.home.lespocky.de ([109.250.103.148]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mz9EL-1kSX8A19FL-00wDcn; Mon, 07 Sep 2020 06:35:25 +0200
+Received: from lemmy.internal.home.lespocky.de ([192.168.243.176] helo=lemmy.home.lespocky.de)
+        by methusalix.internal.home.lespocky.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <alex@home.lespocky.de>)
+        id 1kF8s9-0003Dm-FZ; Mon, 07 Sep 2020 06:35:22 +0200
+Received: (nullmailer pid 3024 invoked by uid 2001);
+        Mon, 07 Sep 2020 04:35:17 -0000
+From:   Alexander Dahl <post@lespocky.de>
+To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Lubomir Rintel <lkundrak@v3.sk>
-Cc:     devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/5] ARM: tegra: acer-a500: Add Embedded Controller
-Date:   Sun,  6 Sep 2020 22:51:03 +0300
-Message-Id: <20200906195103.1347-6-digetx@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200906195103.1347-1-digetx@gmail.com>
-References: <20200906195103.1347-1-digetx@gmail.com>
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        Alexander Dahl <ada@thorsis.com>,
+        Alexander Dahl <post@lespocky.de>
+Subject: [PATCH v3 0/2] leds: pwm: Make automatic labels work
+Date:   Mon,  7 Sep 2020 06:34:57 +0200
+Message-Id: <20200907043459.2961-1-post@lespocky.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scan-Signature: 2c58665afdcdd1fd53023359626f008f
+X-Spam-Score: -2.8 (--)
+X-Provags-ID: V03:K1:ScF1MQBk/AxpO1TWNpfRufpoudosd15+nmSnLm6gHtoc7zrSKvF
+ jW14Xh+XfCi7fdwBHt/UW3VFVWXOQCDH/+QJeiddO+MiKU3XDiXFWww16P1YYA5Jvqg97Fl
+ bkpf72GS1tLcMXmT/5u8+xCSs6I/aR+ShysJmJEmE5bse1LbV9hM0LA/YQAOXO5bG3wg3z2
+ qpAaQfgoBgnyjKD1YzZIA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VpvWmfjSw+o=:nkm2EC8sQhLHJ5EPlDcbNo
+ 4sim7YjjgHexPfF4upka/bWF/Nv8AwBDLZFZNc7G1nYy9y47nprnfmJLNrRj9RA2HfH/c7UYp
+ GNv5wKhv1rVrsQ+2sXqgw7xdVdgxbda7Df4xRyYvC7wx5TxhK9Gco1BuieaolmDebaQrPnGLe
+ AfQ5TdIV9VbdMX5Nbla9Z2Qn/xO/5fXctw4gKtwsvsDgU+Ao3xckvUS3URaEC8nMBAPZ2RHcG
+ haNCgZx1UxcZAK0ekpyp0Yxek1yh7ZQs1j+6eu9nRaI/plWyvlpcNEvFBUuJh9TmC+pI4XcgB
+ MuDRhtJLt2K7drs6vWescGjk3NxTtyVA9P+Gp8wrYINs1MFikfjfunCZkcQGgzmUyNr9lkgWo
+ aolvlp877zjcj4AtoZoQYx47tF3663mRtRN1A9dbDwdGCNc/yS5NA5WyZfTVM89qp7DPtFV7A
+ nO689lyjfa/wsXK7x8FDAdNL9hvS0uZI5x0r7hxTnp/33KaOj2VNifvS9zhQDezApyF2CUbas
+ 0zi2mvZ9/AeHjRn144CF9ENktHNvd35UJzZh9ugTH3Ytp1IyuaTAKZTImMidL8QmYGNZUAmsb
+ jiVY/EOFPc+zxl6sIDL3F8IMfR1Op7VIowB2RdsL2ygjlfeFAGom/gE9/VO/Rw0I/bpI6MTbu
+ z9kIJa9/O5qkt+ASWu+pfZ013XZoqoWLSjUTCF/hXS3D28bU5i8spvKsFZ+Qy0uJFtOqrsAEz
+ g3L1uA5kKY4QDjDKY8ZZ7V/g/uaMSnmDRU/oqcmHRMErff1lkZucja5iCb6rx2lZiKcutb9HW
+ CoNdDyFXNaJbBWCh28vhvaLi1it0wYGBkD8ljxY5tXpuOwMynzXPR6ecSURFtn4coYi4BPy
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This patch adds device-tree node for the Embedded Controller which is
-found on the Picasso board. The Embedded Controller itself is ENE KB930,
-it provides functions like battery-gauge/LED/GPIO/etc and it uses firmware
-that is specifically customized for the Acer A500 device.
+Hei hei,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+for leds-gpio you can use the properties 'function' and 'color' in the
+devicetree node and omit 'label', the label is constructed
+automatically.  This is a common feature supposed to be working for all
+LED drivers.  However it did not yet work for the 'leds-pwm' driver.
+This series fixes the driver and takes the opportunity to update the
+dt-bindings accordingly.
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index 2d683c9a1a5d..f92712e4bd34 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -502,6 +502,16 @@ panel_ddc: i2c@1 {
- 			reg = <1>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-+
-+			embedded-controller@58 {
-+				compatible = "acer,a500-iconia-ec", "ene,kb930";
-+				reg = <0x58>;
-+
-+				system-power-controller;
-+
-+				monitored-battery = <&bat1010>;
-+				power-supplies = <&mains>;
-+			};
- 		};
- 	};
- 
-@@ -780,6 +790,13 @@ backlight: backlight {
- 		default-brightness-level = <20>;
- 	};
- 
-+	bat1010: battery-2s1p {
-+		compatible = "simple-battery";
-+		charge-full-design-microamp-hours = <3260000>;
-+		energy-full-design-microwatt-hours = <24000000>;
-+		operating-range-celsius = <0 40>;
-+	};
-+
- 	/* PMIC has a built-in 32KHz oscillator which is used by PMC */
- 	clk32k_in: clock@0 {
- 		compatible = "fixed-clock";
+v3:
+- rebased on v5.9-rc4
+- changed license of .yaml file to recommended one
+- added Acked-by
+
+v2:
+- rebased on v5.9-rc3
+- added the dt-bindings update patch
+
+v1:
+- based on v5.9-rc2
+- backport on v5.4.59 tested and working
+
+Greets
+Alex
+
+Alexander Dahl (2):
+  leds: pwm: Allow automatic labels for DT based devices
+  dt-bindings: leds: Convert pwm to yaml
+
+ .../devicetree/bindings/leds/leds-pwm.txt     | 50 -----------
+ .../devicetree/bindings/leds/leds-pwm.yaml    | 85 +++++++++++++++++++
+ drivers/leds/leds-pwm.c                       |  9 +-
+ 3 files changed, 93 insertions(+), 51 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.yaml
+
 -- 
-2.27.0
+2.20.1
 
