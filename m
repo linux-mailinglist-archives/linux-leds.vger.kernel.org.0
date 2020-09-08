@@ -2,79 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E31F725F9E2
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Sep 2020 13:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31A4E26075A
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Sep 2020 02:03:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728988AbgIGLu4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 7 Sep 2020 07:50:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46918 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729161AbgIGLuj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 7 Sep 2020 07:50:39 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB2CCC061575
-        for <linux-leds@vger.kernel.org>; Mon,  7 Sep 2020 04:50:38 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id t23so15815799ljc.3
-        for <linux-leds@vger.kernel.org>; Mon, 07 Sep 2020 04:50:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OprOp2em24X5m4o3PUof0yAN4YU+uTpPGAtCtWvXlNA=;
-        b=NaTzQpnWPET6m3hR4pMK+Fv+kYVcmvBc6HSvONrngdeQJAY5jSkF4I7Rh04pSSR5JH
-         f3s0qTUgVu8be6iyHOy5mo9ylnHUElRgWhD/DigPwM7XyshB28wNYN7Z+Zs1cZ3Wwc/P
-         muwbagslDBfXwYh1+Fb6Lh8Nl0efiAfVx3EWChUD1IgdKa86sd+l7Y04ox7i7MY4jwty
-         HGLaf1ULo8tpy3SATPrT9caiKm+MvfFuAbhI/acNo40ltH6M1kNuSjyeu6rRY3MUPB9R
-         uRaP0Qb09D7AbVkgl5uDt/qBs/jUl3yFSUjc8BpBcqOQBKmFXWO+SBJEL9ziVzUmJDsQ
-         OzXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OprOp2em24X5m4o3PUof0yAN4YU+uTpPGAtCtWvXlNA=;
-        b=QYIaYscavNF+rKJ5o7IVynaVEmcUr2Zyyv179fAzHFaMh3jzoixsrFfcuvAOxmn2DK
-         t/WFonCCVawq+PZn04a+tDZY9l37l7E7V9aiiTdFRYGZRTWOj+r33Yxvs9D5OrMGva0E
-         ghHVJ7mboqdef197IVP4iTLHLeqYSDFhpOYLDuXgYD6d5jro6dyYVSRebwYXFBCA6Dpj
-         qu/GlerCTX6DM0eSst03XailC3mLvLI7PQQgzTI/WB5yKnzcxlay0DrFMzy7yx5ZiYav
-         1W+DsgYhM7yFRX2Iwo8UL5jx15gv9s0CiO/UAUgaf4A4CjP/1yS4hyOQ2B+sCVZIXCNE
-         Nj3A==
-X-Gm-Message-State: AOAM530ZJfhWKMPcnvqpiobnW2I86J9VGRpnsf8C7mzabRz7575wHBtW
-        US6fIYHpX+ExetLqj3EiYzFjuv4Yu/XgXI95mXIAoQ==
-X-Google-Smtp-Source: ABdhPJwvpzbst+CDx7Bzy8imZV6B8N4xGrr79yQL6ltKSsY4hsLQN+7461X7PW78zu3yPdvlRnWCw9G/oLrn1pHgrlU=
-X-Received: by 2002:a2e:9d04:: with SMTP id t4mr10548159lji.293.1599479433311;
- Mon, 07 Sep 2020 04:50:33 -0700 (PDT)
+        id S1728158AbgIHADN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 7 Sep 2020 20:03:13 -0400
+Received: from lists.nic.cz ([217.31.204.67]:51548 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727058AbgIHADE (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 7 Sep 2020 20:03:04 -0400
+Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:8982:ed8c:62b1:c0c8])
+        by mail.nic.cz (Postfix) with ESMTP id 14FA413FE1D;
+        Tue,  8 Sep 2020 02:03:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1599523381; bh=5uc6QNheLhW6rBuFDbnXLsqtJ1gV72KMTLNYptWDCq0=;
+        h=From:To:Date;
+        b=At+7dKwR0KZj9znd1QgFPjoaPTcq4G5psHRbgfDBvsbePOPWLnFFGbr4EVwEv39pZ
+         lOz0w95BpvY73W1dfWOtUd1SbCnjiX5CDldN5RGSGDEjKJp539o0FyHLPLooLa4UOY
+         dNFzJdcbg8+blHwfl9kSQjliVGYV90lYYHTeJJZQ=
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+To:     netdev@vger.kernel.org
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+Subject: [PATCH net-next v1 0/3] Add support for LEDs on Marvell PHYs
+Date:   Tue,  8 Sep 2020 02:02:57 +0200
+Message-Id: <20200908000300.6982-1-marek.behun@nic.cz>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200812195020.13568-1-dmurphy@ti.com> <20200812195020.13568-7-dmurphy@ti.com>
- <CACRpkdY1pCcUONFhEXeyXa3f+JFB=Wg1nSB-qRJF5njM=L+CVw@mail.gmail.com> <f253bf11-3422-4f49-fce3-ac6b51d91c25@ti.com>
-In-Reply-To: <f253bf11-3422-4f49-fce3-ac6b51d91c25@ti.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 7 Sep 2020 13:50:22 +0200
-Message-ID: <CACRpkdbSWdkZzHZ65jqz3=u=zLH1xivx_7+kwKDvK+58FKP0Ww@mail.gmail.com>
-Subject: Re: [PATCH v33 6/6] ARM: dts: ste-href: Add reg property to the
- LP5521 channel nodes
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Spam-Status: No, score=0.00
+X-Spamd-Bar: /
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Aug 28, 2020 at 8:39 PM Dan Murphy <dmurphy@ti.com> wrote:
+Hi,
 
-> > I don't knof if I should just apply these two patches or if there are
-> > dependencies that need to go in first. I guess yes?
->
-> I believe all dependencies have been met for these
+after 4 RFC versions I am now sending these patches for real.
 
-OK I applied this patch to the Ux500 tree!
+The code applies on net-next.
 
-Yours,
-Linus Walleij
+Changes since RFC v4:
+- added device-tree binding documentation 
+- the OF code now checks for linux,default-hw-mode property so that
+  default HW mode can be set in device tree (like linux,default-trigger)
+  (this was suggested by Andrew)
+- the OF code also checks for enable-active-high and led-open-drain
+  properties, and the marvell PHY driver now understands uses these
+  settings when initializing the LEDs
+- the LED operations were moved to their own struct phy_device_led_ops
+- a new member was added into struct phy_device: phyindex. This is an
+  incrementing integer, new for each registered phy_device. This is used
+  for a simple naming scheme for the devicename part of a LED, as was
+  suggested in a discussion by Andrew and Pavel. A PHY controlled LED
+  now has a name in form:
+    phy%i:color:function
+  When a PHY is attached to a netdevice, userspace can control available
+  PHY controlled LEDs via /sys/class/net/<ifname>/phydev/leds/
+- legacy LED configuration in Marvell PHY driver (in function
+  marvell_config_led) now writes only to registers which do not
+  correspond to any registered LED
+
+Changes since RFC v3:
+- addressed some of Andrew's suggestions
+- phy_hw_led_mode.c renamed to phy_led.c
+- the DT reading code is now also generic, moved to phy_led.c and called
+  from phy_probe
+- the function registering the phydev-hw-mode trigger is now called from
+  phy_device.c function phy_init before registering genphy drivers
+- PHY LED functionality now depends on CONFIG_LEDS_TRIGGERS
+
+Changes since RFC v2:
+- to share code with other drivers which may want to also offer PHY HW
+  control of LEDs some of the code was refactored and now resides in
+  phy_hw_led_mode.c. This code is compiled in when config option
+  LED_TRIGGER_PHY_HW is enabled. Drivers wanting to offer PHY HW control
+  of LEDs should depend on this option.
+- the "hw-control" trigger is renamed to "phydev-hw-mode" and is
+  registered by the code in phy_hw_led_mode.c
+- the "hw_control" sysfs file is renamed to "hw_mode"
+- struct phy_driver is extended by three methods to support PHY HW LED
+  control
+- I renamed the various HW control modes offeret by Marvell PHYs to
+  conform to other Linux mode names, for example the "1000/100/10/else"
+  mode was renamed to "1Gbps/100Mbps/10Mbps", or "recv/else" was renamed
+  to "rx" (this is the name of the mode in netdev trigger).
+
+Marek Behún (3):
+  dt-bindings: net: ethernet-phy: add description for PHY LEDs
+  net: phy: add API for LEDs controlled by ethernet PHY chips
+  net: phy: marvell: add support for LEDs controlled by Marvell PHYs
+
+ .../devicetree/bindings/net/ethernet-phy.yaml |  31 ++
+ drivers/net/phy/Kconfig                       |   4 +
+ drivers/net/phy/Makefile                      |   1 +
+ drivers/net/phy/marvell.c                     | 309 +++++++++++++++++-
+ drivers/net/phy/phy_device.c                  |  28 +-
+ drivers/net/phy/phy_led.c                     | 224 +++++++++++++
+ include/linux/phy.h                           |  91 ++++++
+ 7 files changed, 679 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/net/phy/phy_led.c
+
+-- 
+2.26.2
+
