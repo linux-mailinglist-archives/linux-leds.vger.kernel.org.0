@@ -2,75 +2,72 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8CFC261F12
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Sep 2020 21:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BE17261E1E
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Sep 2020 21:47:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730475AbgIHT6m (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Sep 2020 15:58:42 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:47486 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730176AbgIHPfm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Sep 2020 11:35:42 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 088EEO62040774;
-        Tue, 8 Sep 2020 09:14:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1599574464;
-        bh=362EVhcP1ExwtmVZiQkIb5x6Yg4rPvLgH1gDwH3m8P4=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=kIRfaUoIMVEntv78JAUsTIXtMMJEhxv7cGcQV8JdKjfYyvxEslm6+klfuWWV8PCji
-         zXvd7SD3ie+BbiWV0LoSzILEcIvwQ7D/nhiJMtSZDoxYy7eL5A09dUrxLA0zSTK9Yx
-         71o1uqiBsnwjDYle0QVuf2+aBoI6F3mZmWhdjAOs=
-Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 088EEOLZ045543
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 8 Sep 2020 09:14:24 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 8 Sep
- 2020 09:14:24 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 8 Sep 2020 09:14:24 -0500
-Received: from [10.250.38.37] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 088EEOFG106227;
-        Tue, 8 Sep 2020 09:14:24 -0500
-Subject: Re: [PATCH v3 0/2] leds: mt6360: Add LED driver for MT6360
-To:     Gene Chen <gene.chen.richtek@gmail.com>,
-        <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
-        <matthias.bgg@gmail.com>
-CC:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <gene_chen@richtek.com>,
-        <Wilma.Wu@mediatek.com>, <shufan_lee@richtek.com>,
-        <cy_huang@richtek.com>, <benjamin.chao@mediatek.com>
-References: <1599474459-20853-1-git-send-email-gene.chen.richtek@gmail.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <b8d090b7-ef47-d434-1af1-2afbc2ad30ae@ti.com>
-Date:   Tue, 8 Sep 2020 09:14:24 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1730895AbgIHTrV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 8 Sep 2020 15:47:21 -0400
+Received: from mail-il1-f195.google.com ([209.85.166.195]:41278 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732466AbgIHTqZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Sep 2020 15:46:25 -0400
+Received: by mail-il1-f195.google.com with SMTP id w8so64366ilj.8;
+        Tue, 08 Sep 2020 12:46:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mxfloW/du0FtuXMc7fb1vC2lzA6jvn4y8s0XgOBsOH8=;
+        b=joOjemVdVg0rGYRBaxijCTLyXC1ABGQPRe2gGbBUAEeW+XdFTLbfsLdUrHUAMbqeHa
+         oANjBrc104blQkYAqloN0iea2d/qzIolkNLff/850DXgQqsWxBWc4IJltjG8eJtdFJnr
+         r2ujezMXMyzaIX2441IwVKZADWUpknZb1nzX/FhKUZ0kEZC21ZfwsqXhNAZ56z87SRrf
+         5OLc3+muMIirACPQfYHEIdXptd7YkCBrlMP4TZCLmd7LK2Be+aSPMy0bk7Qorm6r2Qvi
+         5lUIYdMA+4HtZpjmgLTkKZIoKjZ3g2jSrCUyoYwbz2XC5w5vz81wSDG4aJAPtwFXX5Z+
+         t2kQ==
+X-Gm-Message-State: AOAM531BCW2pmni1AlM7C/nchenW/oiYV+XC2M3LTPBLTN4NkzS9kRmQ
+        PCLP2GLl9vlSj2/KfFoyBw==
+X-Google-Smtp-Source: ABdhPJwfXlbhewMkiRkSXUg2HnOofi1QqFbxJeOtWC0GyonQWdvBxG98pU6ZFKLbPgzI9eeJYtTL3A==
+X-Received: by 2002:a92:6b04:: with SMTP id g4mr376411ilc.192.1599594384637;
+        Tue, 08 Sep 2020 12:46:24 -0700 (PDT)
+Received: from xps15 ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id t10sm135379iog.49.2020.09.08.12.46.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 12:46:24 -0700 (PDT)
+Received: (nullmailer pid 788543 invoked by uid 1000);
+        Tue, 08 Sep 2020 19:46:22 -0000
+Date:   Tue, 8 Sep 2020 13:46:22 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        linux-leds@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+        Dan Murphy <dmurphy@ti.com>
+Subject: Re: [PATCH v3 1/5] dt-bindings: mfd: Add ENE KB930 Embedded
+ Controller binding
+Message-ID: <20200908194622.GA788479@bogus>
+References: <20200906195103.1347-1-digetx@gmail.com>
+ <20200906195103.1347-2-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1599474459-20853-1-git-send-email-gene.chen.richtek@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200906195103.1347-2-digetx@gmail.com>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Gene
+On Sun, 06 Sep 2020 22:50:59 +0300, Dmitry Osipenko wrote:
+> Add binding document for the ENE KB930 Embedded Controller.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  .../devicetree/bindings/mfd/ene-kb930.yaml    | 66 +++++++++++++++++++
+>  1 file changed, 66 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ene-kb930.yaml
+> 
 
-On 9/7/20 5:27 AM, Gene Chen wrote:
-> In-Reply-To:
->
-> This patch series add MT6360 LED support contains driver and binding document
-
-I cannot find the v2 patch series for this.
-
-Dan
-
+Reviewed-by: Rob Herring <robh@kernel.org>
