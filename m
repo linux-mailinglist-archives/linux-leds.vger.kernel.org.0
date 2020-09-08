@@ -2,71 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7566B262299
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 00:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2D5226229E
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 00:25:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729799AbgIHWXh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Sep 2020 18:23:37 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:44514 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728463AbgIHWXg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Sep 2020 18:23:36 -0400
-Received: by mail-io1-f66.google.com with SMTP id g128so1047100iof.11;
-        Tue, 08 Sep 2020 15:23:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pt89njDU8e4/fbO7SJk1YbCeJ909hdsNBc8rF5Xpv1M=;
-        b=OzD7Upr5Who957KwUclwvweJ6VxCj6d9kQePXhQY7M9w6A1xepPC6ufVWXFl5JfrhC
-         HzBSizQ/+/Btxcx/IASZKLVrc4UNIp0FhSxzlkn5mTfHmFujkwN93UkDOCHL2b7twNWb
-         lD0Ax5x2/M9ahoCmy1RHH4dQvxyn7iD45WDcjLkybxWt4qn5wLX7SJ/iV8Xd7dRlksgj
-         otWW6Wn11UbCfnXTlbWVlevMRrB4wdRLJ1ilZ4bfpZ+6JL58i+CalqWfdqTJ06pzZf4W
-         xiLhTNoiHHYA0CJyWVX2iascNAsSkTbpGikl5hF2YLh9rryCYYAsT82lY/TVT5BzwE3S
-         zvYA==
-X-Gm-Message-State: AOAM532NjfM7NS6n3oSlvFJD4SHbwy/F2n0IVZBM9FmVXSEluGfgVqrT
-        Cc+5QgDkseLnu0sV6gtogw==
-X-Google-Smtp-Source: ABdhPJxi4fYO/P+mmYN2uZyKydZ32DDpmu+T5BVeero1Ps8B2oa3MBm/hTePXEn+m6yQn65exFoMxA==
-X-Received: by 2002:a02:6995:: with SMTP id e143mr1169560jac.78.1599603815597;
-        Tue, 08 Sep 2020 15:23:35 -0700 (PDT)
-Received: from xps15 ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id v14sm331519iol.17.2020.09.08.15.23.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 15:23:35 -0700 (PDT)
-Received: (nullmailer pid 1042217 invoked by uid 1000);
-        Tue, 08 Sep 2020 22:23:33 -0000
-Date:   Tue, 8 Sep 2020 16:23:33 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Michal Simek <michal.simek@xilinx.com>
-Cc:     linux-kernel@vger.kernel.org, monstr@monstr.eu, git@xilinx.com,
-        Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: common: Add missing triggers
-Message-ID: <20200908222333.GA1008378@bogus>
-References: <f24b081ad7f4695c039cfb9256aae8a522797fcf.1598265564.git.michal.simek@xilinx.com>
+        id S1729753AbgIHWZv convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Tue, 8 Sep 2020 18:25:51 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:59638 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729622AbgIHWZs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Sep 2020 18:25:48 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id CEECC1C0B87; Wed,  9 Sep 2020 00:25:45 +0200 (CEST)
+Date:   Wed, 9 Sep 2020 00:25:44 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Gene Chen <gene.chen.richtek@gmail.com>
+Cc:     jacek.anaszewski@gmail.com, robh+dt@kernel.org,
+        matthias.bgg@gmail.com, dmurphy@ti.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
+        shufan_lee@richtek.com, cy_huang@richtek.com,
+        benjamin.chao@mediatek.com
+Subject: Re: [PATCH v3 1/2] leds: mt6360: Add LED driver for MT6360
+Message-ID: <20200908222544.GF1005@bug>
+References: <1599474459-20853-1-git-send-email-gene.chen.richtek@gmail.com>
+ <1599474459-20853-2-git-send-email-gene.chen.richtek@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f24b081ad7f4695c039cfb9256aae8a522797fcf.1598265564.git.michal.simek@xilinx.com>
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <1599474459-20853-2-git-send-email-gene.chen.richtek@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Aug 24, 2020 at 12:39:27PM +0200, Michal Simek wrote:
-> Xilinx ZynqMP zcu100/ultra96 v1 defines additional triggers which are not
-> covered by common.yaml. The patch adds missing triggers for this platform.
+Hi!
+
+> From: Gene Chen <gene_chen@richtek.com>
 > 
-> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
+> Add MT6360 LED driver include 2-channel Flash LED with torch/strobe mode,
+> and 4-channel RGB LED support Register/Flash/Breath Mode
+> 
+> Signed-off-by: Gene Chen <gene_chen@richtek.com>
 > ---
+>  drivers/leds/Kconfig       |  11 +
+>  drivers/leds/Makefile      |   1 +
+>  drivers/leds/leds-mt6360.c | 681 +++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 693 insertions(+)
+>  create mode 100644 drivers/leds/leds-mt6360.c
 > 
-> There are a lot of other triggers which are missing but the patch focus on
-> fixing my platform
+> +	help
+> +	  This option enables support for dual Flash LED drivers found on
+> +	  Mediatek MT6360 PMIC.
+> +	  Independent current sources supply for each flash LED support torch and strobe mode.
+> +	  Includes Low-VF and short protection.
+> +
 
-The idea was to standardize these and not add a bunch of similar ones. 
-Also, there's the 'function' property which is preferred as well as the 
-trigger source binding now to better associate LEDs with specific h/w.
+80 columns. And perhaps user does not need to know about protections... and actually
+about independend sources, either.
 
-Rob
+"Enable this for RGB LED and flash LED support on..."?
+
+> +static int mt6360_torch_brightness_set(struct led_classdev *lcdev, enum led_brightness level)
+> +{
+> +	struct mt6360_led *led = container_of(lcdev, struct mt6360_led, flash.led_cdev);
+> +	struct mt6360_priv *priv = led->priv;
+> +	u32 enable_mask = MT6360_TORCHEN_MASK | MT6360_FLCSEN_MASK(led->led_no);
+> +	u32 val = (level) ? MT6360_FLCSEN_MASK(led->led_no) : 0;
+> +	u32 prev = priv->fled_torch_used, curr;
+> +	int ret;
+> +
+> +	dev_dbg(lcdev->dev, "[%d] brightness %d\n", led->led_no, level);
+> +	if (priv->fled_strobe_used) {
+> +		dev_warn(lcdev->dev, "Please disable strobe first [%d]\n", priv->fled_strobe_used);
+> +		return -EINVAL;
+> +	}
+
+So... how does its userland interface look like?
+
+Best regards,
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
