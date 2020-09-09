@@ -2,145 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC01D2637C7
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 22:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9E6726380A
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 22:56:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729781AbgIIUsW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Sep 2020 16:48:22 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:39014 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730021AbgIIUsU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Sep 2020 16:48:20 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 3DD4C1C0B87; Wed,  9 Sep 2020 22:48:16 +0200 (CEST)
-Date:   Wed, 9 Sep 2020 22:48:15 +0200
-From:   Pavel Machek <pavel@ucw.cz>
+        id S1730021AbgIIU4c (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Sep 2020 16:56:32 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:37228 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729941AbgIIU4c (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Sep 2020 16:56:32 -0400
+Received: by mail-il1-f194.google.com with SMTP id b17so3692114ilh.4;
+        Wed, 09 Sep 2020 13:56:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=q00VE50B8xJP+HSBXFHIpu0Gw7Wz20ZIBGmaaL0kq8Q=;
+        b=TiApGSQFPfFnpqheg5V3m+NQgHdxWplnBYgaAkxMzJqeImPL9jCjhJRJGZHn18A2Z7
+         4BbBnZFnj0z6uQa00HKR3EQwqfgIIPzP5k1kiGA7UFRwTbOnHe8fKTqHxi7zDTEikC6x
+         ys4bEzPbGyay3g+m+FktOmhrV4N+xS2Z0uJTdZCpTqQSQXxykNnDAAjS0k6Q4SYd+6fA
+         p0PswvHnov0Rn2HVmuTRrz14CdlyxGQy4FzRN2QVRGIno+/1FBEdLbFZQBw/BiqdLYmv
+         CrZM++7e6FO7MKFqDRE99Opb1RNBxn7JPhQWQ5meVgfcfNf7am0dC73UfY3bvW+5P+7/
+         86QA==
+X-Gm-Message-State: AOAM532rquEcW7ttRQGNabDxwl57rCWDRXRVVvjNFzaPtsaeYW1Yjv5f
+        EZC9Q80ceUgumadB+FnV1w==
+X-Google-Smtp-Source: ABdhPJyRAAxofQvHmZQAc2mmsb8kK8Muc7VoHcjUpOXg21heO7buqjy9KWGWlb6HvMEpF7nA9U9rjg==
+X-Received: by 2002:a05:6e02:673:: with SMTP id l19mr5283707ilt.225.1599684989408;
+        Wed, 09 Sep 2020 13:56:29 -0700 (PDT)
+Received: from xps15 ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id u81sm2090317ilc.52.2020.09.09.13.56.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2020 13:56:28 -0700 (PDT)
+Received: (nullmailer pid 3061959 invoked by uid 1000);
+        Wed, 09 Sep 2020 20:56:15 -0000
+Date:   Wed, 9 Sep 2020 14:56:15 -0600
+From:   Rob Herring <robh@kernel.org>
 To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>,
-        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+Cc:     Rob Herring <robh+dt@kernel.org>, Dan Murphy <dmurphy@ti.com>,
+        Andrew Lunn <andrew@lunn.ch>,
         Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH net-next + leds v2 2/7] leds: add generic API for LEDs
- that can be controlled by hardware
-Message-ID: <20200909204815.GB20388@amd>
+        Russell King <linux@armlinux.org.uk>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH net-next + leds v2 1/7] dt-bindings: leds: document
+ binding for HW controlled LEDs
+Message-ID: <20200909205615.GA3056507@bogus>
 References: <20200909162552.11032-1-marek.behun@nic.cz>
- <20200909162552.11032-3-marek.behun@nic.cz>
+ <20200909162552.11032-2-marek.behun@nic.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ADZbWkCsHQ7r3kzd"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200909162552.11032-3-marek.behun@nic.cz>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200909162552.11032-2-marek.behun@nic.cz>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
---ADZbWkCsHQ7r3kzd
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> Many an ethernet PHY (and other chips) supports various HW control modes
-> for LEDs connected directly to them.
-
-I guess this should be
-
-"Many ethernet PHYs (and other chips) support various HW control modes
-for LEDs connected directly to them."
-
-> This API registers a new private LED trigger called dev-hw-mode. When
-> this trigger is enabled for a LED, the various HW control modes which
-> are supported by the device for given LED can be get/set via hw_mode
-> sysfs file.
->=20
-> Signed-off-by: Marek Beh=FAn <marek.behun@nic.cz>
+On Wed, 09 Sep 2020 18:25:46 +0200, Marek Behún wrote:
+> Document binding for LEDs connected to and controlled by various chips
+> (such as ethernet PHY chips).
+> 
+> Signed-off-by: Marek Behún <marek.behun@nic.cz>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
 > ---
->  .../sysfs-class-led-trigger-dev-hw-mode       |   8 +
->  drivers/leds/Kconfig                          |  10 +
+>  .../leds/linux,hw-controlled-leds.yaml        | 99 +++++++++++++++++++
+>  1 file changed, 99 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/linux,hw-controlled-leds.yaml
+> 
 
-I guess this should live in drivers/leds/trigger/ledtrig-hw.c . I'd
-call the trigger just "hw"...
 
-> +Contact:	Marek Beh=FAn <marek.behun@nic.cz>
-> +		linux-leds@vger.kernel.org
-> +Description:	(W) Set the HW control mode of this LED. The various availa=
-ble HW control modes
-> +		    are specific per device to which the LED is connected to and per L=
-ED itself.
-> +		(R) Show the available HW control modes and the currently selected one.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-80 columns :-) (and please fix that globally, at least at places where
-it is easy, like comments).
+Error: Documentation/devicetree/bindings/leds/linux,hw-controlled-leds.example.dts:34.33-41 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:342: Documentation/devicetree/bindings/leds/linux,hw-controlled-leds.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1366: dt_binding_check] Error 2
 
-> +	return 0;
-> +err_free:
-> +	devm_kfree(dev, led);
-> +	return ret;
-> +}
 
-No need for explicit free with devm_ infrastructure?
+See https://patchwork.ozlabs.org/patch/1360778
 
-> +	cur_mode =3D led->ops->led_get_hw_mode(dev->parent, led);
-> +
-> +	for (mode =3D led->ops->led_iter_hw_mode(dev->parent, led, &iter);
-> +	     mode;
-> +	     mode =3D led->ops->led_iter_hw_mode(dev->parent, led, &iter)) {
-> +		bool sel;
-> +
-> +		sel =3D cur_mode && !strcmp(mode, cur_mode);
-> +
-> +		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "%s%s%s ", sel ? "[" : =
-"", mode,
-> +				 sel ? "]" : "");
-> +	}
-> +
-> +	if (buf[len - 1] =3D=3D ' ')
-> +		buf[len - 1] =3D '\n';
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
 
-Can this ever be false? Are you accessing buf[-1] in such case?
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
 
-> +int of_register_hw_controlled_leds(struct device *dev, const char *devic=
-ename,
-> +				   const struct hw_controlled_led_ops *ops);
-> +int hw_controlled_led_brightness_set(struct led_classdev *cdev, enum led=
-_brightness brightness);
-> +
+Please check and re-submit.
 
-Could we do something like hw_controlled_led -> hw_led to keep
-verbosity down and line lengths reasonable? Or hwc_led?
-
-> +extern struct led_hw_trigger_type hw_control_led_trig_type;
-> +extern struct led_trigger hw_control_led_trig;
-> +
-> +#else /* !IS_ENABLED(CONFIG_LEDS_HW_CONTROLLED) */
-
-CONFIG_LEDS_HWC? Or maybe CONFIG_LEDTRIG_HW?
-
-Best regards,
-									Pavel
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---ADZbWkCsHQ7r3kzd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl9ZP48ACgkQMOfwapXb+vLwZQCfYh+LPNKqjNBysaBhnmN2tuNz
-s0kAmwRZTEfv7ZWdx/OVgOPKU2VXE4z4
-=ABk9
------END PGP SIGNATURE-----
-
---ADZbWkCsHQ7r3kzd--
