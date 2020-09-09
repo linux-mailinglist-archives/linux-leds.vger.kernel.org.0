@@ -2,105 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E1F02631C4
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 18:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35A46263240
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 18:38:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731087AbgIIQ0P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Sep 2020 12:26:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56148 "EHLO
+        id S1731029AbgIIQif (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Sep 2020 12:38:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731022AbgIIQ0G (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Sep 2020 12:26:06 -0400
-Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DA41C061795;
-        Wed,  9 Sep 2020 09:26:05 -0700 (PDT)
-Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id D5423140A7D;
-        Wed,  9 Sep 2020 18:25:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1599668755; bh=ETijTD2hHqyWxW2zwXhqdFU5Xk5g005codDN5mEO12w=;
-        h=From:To:Date;
-        b=fCs8lADvaSZx/tRW4It7vvjDQqLxXSf0ofh5ycAqs4qKwAnJ4M6nEOm7C/kWYjWzS
-         ldSpXT1S247pBH6u+pIBV4mjNWMCYm3h+/2ed8WqrHa7K9IgMbq5PVpQOMQnqiu28j
-         QeqYGFpVaS3hXsCIXMtHtGEsFgOywhS5gt+T5jio=
-From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-To:     netdev@vger.kernel.org
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megous@megous.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-Subject: [PATCH net-next + mvebu v2 7/7] arm64: dts: armada-3720-turris-mox: add nodes for ethernet PHY LEDs
-Date:   Wed,  9 Sep 2020 18:25:52 +0200
-Message-Id: <20200909162552.11032-8-marek.behun@nic.cz>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200909162552.11032-1-marek.behun@nic.cz>
-References: <20200909162552.11032-1-marek.behun@nic.cz>
+        with ESMTP id S1731082AbgIIQhP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Sep 2020 12:37:15 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A532C061346;
+        Wed,  9 Sep 2020 06:52:39 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id n3so1346340pjq.1;
+        Wed, 09 Sep 2020 06:52:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ijCapkR9xLuIbyX+brDKlgI4YJ2GKv1b98NiflJOr8c=;
+        b=TQpvhIB8mAoPHnxUUYHYKh2Ojvveec7c3l080EdGK6DjVlkNL7tt/oXWaOi12qruOJ
+         ORV2aFSYWalR+IXpmNVrbLUQMg/Q55iVMlFlxCIjsCKVAoz2OVuMIVCkE/0Ff3m+PO/g
+         OswWzMFWgr2ukwyRUkIn3t0iWJS9OopSbCdVbJMyIArhz9tzwEm44GCURB/hJk91s0/t
+         IUyaFEhqjDuHP46OGkZ2Gcr9dp7J9UCSEo3hSkyCtHer6bab9RmesX8lnkr449IBu7Nr
+         xFYmK6adO1SjRkCLXaYjA3y2sRciVPZkgzEw1z+eG4nn3CleWdtKNDm/yLzM2DPvE+fc
+         C3jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ijCapkR9xLuIbyX+brDKlgI4YJ2GKv1b98NiflJOr8c=;
+        b=CglJo5YTMwhZy6U/qo+JoIXISbuolyyt7myATNBC3mKtQ8KD1D82kt4OEzlfgGqide
+         EnEhXDrBScygWoLIaxmfoF0xo3iTKAmLDIHF3AA+seH8HAT16kHuCHveBXiXJoNLtBRg
+         e2igbncgiPTkmrJJgOgOy217F9Q98u6mkBwdeNsLQCxba5DxzcX4KtDBoTY+VAZXRjsh
+         JeuMlhmQeOMN9ebNUyAFhnty86hn/gpZ9r9mQLcWFBb78eVL45/YvIlVdVz295+HyiFc
+         9EEqhAwsIQqhSGrbTz/Nd08IBkVIxjR2RduxQWrsU1nZeb0HSgIUmFDzrbKr6K3GneKl
+         Ni8g==
+X-Gm-Message-State: AOAM531HH9pqd3h36lP/O+pmmNmmB0U48Tmd1Zd3osG/oXyd4friVn9S
+        yMk0ZmjGv5NNm2mZoBXgR5WHVJYgKvsrF/swyRyKj2oocmJmUA==
+X-Google-Smtp-Source: ABdhPJxlkAfs7B9JEE/N2GFojP20lgwfdq5VPigaVxLUUrzzdVSRxRi6pB9QGT8N3cLXmxdkUNF42Nav5QPJpu2ug4U=
+X-Received: by 2002:a17:90b:fc4:: with SMTP id gd4mr931343pjb.129.1599659558356;
+ Wed, 09 Sep 2020 06:52:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Spam-Status: No, score=0.00
-X-Spamd-Bar: /
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+References: <20200905130336.967622-1-luka.kovacic@sartura.hr>
+ <20200905130336.967622-5-luka.kovacic@sartura.hr> <CAHp75VfwPa9zL6HCz+qqXJ1rK2JB=ewRiK1qdrgsyxixA5R5Lg@mail.gmail.com>
+ <20200909103638.GB9222@amd>
+In-Reply-To: <20200909103638.GB9222@amd>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 9 Sep 2020 16:52:20 +0300
+Message-ID: <CAHp75VcV6Tn8dVjWhOW7bfcjwA_Vabw91FJ=OYit3e1rvPp1qQ@mail.gmail.com>
+Subject: Re: [PATCH 4/7] drivers: leds: Add the iEi WT61P803 PUZZLE LED driver
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Luka Kovacic <luka.kovacic@sartura.hr>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-hwmon@vger.kernel.org,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Lee Jones <lee.jones@linaro.org>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        luka.perkov@sartura.hr
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add nodes for the green and yellow LEDs that are connected to the
-ethernet PHY chip on Turris MOX A.
+On Wed, Sep 9, 2020 at 1:36 PM Pavel Machek <pavel@ucw.cz> wrote:
+> > > Add support for the iEi WT61P803 PUZZLE LED driver.
+> > > Currently only the front panel power LED is supported.
+> > >
+> > > This driver depends on the iEi WT61P803 PUZZLE MFD driver.
+> >
+> > Can we make it OF independent?
+> > See below how to achieve this.
+>
+> Is there reason to believe this will be found in non-OF systems?
 
-Signed-off-by: Marek Behún <marek.behun@nic.cz>
----
- .../dts/marvell/armada-3720-turris-mox.dts    | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
+It's one aspect. Another one is to give a better example to anybody
+who might use this to copy'n'paste from. I believe that most of the
+LED drivers can appear on non-DT systems.
 
-diff --git a/arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dts b/arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dts
-index f3a678e0fd99b..6da03b6c69c0a 100644
---- a/arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dts
-+++ b/arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dts
-@@ -9,6 +9,7 @@
- #include <dt-bindings/bus/moxtet.h>
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/input/input.h>
-+#include <dt-bindings/leds/common.h>
- #include "armada-372x.dtsi"
- 
- / {
-@@ -273,6 +274,28 @@ &mdio {
- 
- 	phy1: ethernet-phy@1 {
- 		reg = <1>;
-+
-+		leds {
-+			compatible = "linux,hw-controlled-leds";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			led@0 {
-+				reg = <0>;
-+				color = <LED_COLOR_ID_GREEN>;
-+				function = LED_FUNCTION_STATUS;
-+				linux,default-trigger = "dev-hw-mode";
-+				linux,default-hw-mode = "1Gbps/100Mbps/10Mbps";
-+			};
-+
-+			led@1 {
-+				reg = <1>;
-+				color = <LED_COLOR_ID_YELLOW>;
-+				function = LED_FUNCTION_ACTIVITY;
-+				linux,default-trigger = "dev-hw-mode";
-+				linux,default-hw-mode = "blink-act";
-+			};
-+		};
- 	};
- 
- 	/* switch nodes are enabled by U-Boot if modules are present */
 -- 
-2.26.2
-
+With Best Regards,
+Andy Shevchenko
