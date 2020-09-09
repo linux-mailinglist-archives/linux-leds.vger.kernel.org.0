@@ -2,94 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E21582638EB
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 00:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FEC526393F
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 00:39:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726714AbgIIWUl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Sep 2020 18:20:41 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:47132 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726440AbgIIWUl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Sep 2020 18:20:41 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 00D601C0B85; Thu, 10 Sep 2020 00:20:37 +0200 (CEST)
-Date:   Thu, 10 Sep 2020 00:20:37 +0200
-From:   Pavel Machek <pavel@ucw.cz>
+        id S1726489AbgIIWjp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Sep 2020 18:39:45 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:53618 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726642AbgIIWjo (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 9 Sep 2020 18:39:44 -0400
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1kG8kX-00DzJD-0p; Thu, 10 Sep 2020 00:39:33 +0200
+Date:   Thu, 10 Sep 2020 00:39:33 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
 To:     Marek Behun <marek.behun@nic.cz>
 Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
         Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
         "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH net-next + leds v2 2/7] leds: add generic API for LEDs
- that can be controlled by hardware
-Message-ID: <20200909222037.GA25392@amd>
+Subject: Re: [PATCH net-next + leds v2 0/7] PLEASE REVIEW: Add support for
+ LEDs on Marvell PHYs
+Message-ID: <20200909223933.GM3290129@lunn.ch>
 References: <20200909162552.11032-1-marek.behun@nic.cz>
- <20200909162552.11032-3-marek.behun@nic.cz>
- <20200909204815.GB20388@amd>
- <20200909232016.138bd1db@nic.cz>
- <20200909214009.GA16084@ucw.cz>
- <20200910001526.48a978c4@nic.cz>
+ <20200909214259.GL3290129@lunn.ch>
+ <20200910001152.34de9a2d@nic.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="HlL+5n6rz5pIUxbD"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200910001526.48a978c4@nic.cz>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200910001152.34de9a2d@nic.cz>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+> They are in /sys/class/net/eth0/phydev/leds by default, because they
+> are children of the PHY device and are of `leds` class, and the PHY
+> subsystem creates a symlink `phydev` when PHY is attached to the
+> interface.
+> They are in /sys/class/leds/ as symlinks, because AFAIK everything in
+> /sys/class/<CLASS>/ is a symlink...
+> 
+> > Have you played with network namespaces? What happens with
+> > 
+> > ip netns add ns1
+> > 
+> > ip link set eth0 netns ns1
+> > 
+> >    Andrew
+> 
+> If you move eth0 to other network namespace, naturally the
+> /sys/class/net/eth0 symlink will disappear, as will the directory it
+> pointed to.
+> 
+> The symlink phydev does will disappear from /sys/class/net/eth0/
+> directory after eth0 is moved to ns1, and is lost. It does not return
+> even if eth0 is moved back to root namespace.
 
---HlL+5n6rz5pIUxbD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, i just played with this. I would say that is an existing bug. The
+link would still work in the namespace, since the mdio_bus is not net
+namespace aware and remains accessible from all namespaces.
 
-On Thu 2020-09-10 00:15:26, Marek Behun wrote:
-> On Wed, 9 Sep 2020 23:40:09 +0200
-> Pavel Machek <pavel@ucw.cz> wrote:
->=20
-> > > >=20
-> > > > 80 columns :-) (and please fix that globally, at least at places wh=
-ere
-> > > > it is easy, like comments).
-> > > >  =20
-> > >=20
-> > > Linux is at 100 columns now since commit bdc48fa11e46, commited by
-> > > Linus. See
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
-mmit/scripts/checkpatch.pl?h=3Dv5.9-rc4&id=3Dbdc48fa11e46f867ea4d75fa59ee87=
-a7f48be144
-> > > There was actually an article about this on Phoronix, I think. =20
-> >=20
-> > It is not. Checkpatch no longer warns about it, but 80 columns is
-> > still preffered, see Documentation/process/coding-style.rst . Plus,
-> > you want me to take the patch, not Linus.
->=20
-> Very well, I shall rewrap it to 80 columns :)
-
-And thou shalt wrap to 80 columns ever after!
-									Pavel
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---HlL+5n6rz5pIUxbD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl9ZVTUACgkQMOfwapXb+vLIvgCgoTckspcpoaiUIXVqhLkHIvoy
-qEgAn3Lqj4ZT3FPSc8J+5WEU4d05rqZ/
-=nEE1
------END PGP SIGNATURE-----
-
---HlL+5n6rz5pIUxbD--
+	Andrew
