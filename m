@@ -2,91 +2,170 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35A46263240
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 18:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A24C9263227
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 18:36:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731029AbgIIQif (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Sep 2020 12:38:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57990 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731082AbgIIQhP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Sep 2020 12:37:15 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A532C061346;
-        Wed,  9 Sep 2020 06:52:39 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id n3so1346340pjq.1;
-        Wed, 09 Sep 2020 06:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ijCapkR9xLuIbyX+brDKlgI4YJ2GKv1b98NiflJOr8c=;
-        b=TQpvhIB8mAoPHnxUUYHYKh2Ojvveec7c3l080EdGK6DjVlkNL7tt/oXWaOi12qruOJ
-         ORV2aFSYWalR+IXpmNVrbLUQMg/Q55iVMlFlxCIjsCKVAoz2OVuMIVCkE/0Ff3m+PO/g
-         OswWzMFWgr2ukwyRUkIn3t0iWJS9OopSbCdVbJMyIArhz9tzwEm44GCURB/hJk91s0/t
-         IUyaFEhqjDuHP46OGkZ2Gcr9dp7J9UCSEo3hSkyCtHer6bab9RmesX8lnkr449IBu7Nr
-         xFYmK6adO1SjRkCLXaYjA3y2sRciVPZkgzEw1z+eG4nn3CleWdtKNDm/yLzM2DPvE+fc
-         C3jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ijCapkR9xLuIbyX+brDKlgI4YJ2GKv1b98NiflJOr8c=;
-        b=CglJo5YTMwhZy6U/qo+JoIXISbuolyyt7myATNBC3mKtQ8KD1D82kt4OEzlfgGqide
-         EnEhXDrBScygWoLIaxmfoF0xo3iTKAmLDIHF3AA+seH8HAT16kHuCHveBXiXJoNLtBRg
-         e2igbncgiPTkmrJJgOgOy217F9Q98u6mkBwdeNsLQCxba5DxzcX4KtDBoTY+VAZXRjsh
-         JeuMlhmQeOMN9ebNUyAFhnty86hn/gpZ9r9mQLcWFBb78eVL45/YvIlVdVz295+HyiFc
-         9EEqhAwsIQqhSGrbTz/Nd08IBkVIxjR2RduxQWrsU1nZeb0HSgIUmFDzrbKr6K3GneKl
-         Ni8g==
-X-Gm-Message-State: AOAM531HH9pqd3h36lP/O+pmmNmmB0U48Tmd1Zd3osG/oXyd4friVn9S
-        yMk0ZmjGv5NNm2mZoBXgR5WHVJYgKvsrF/swyRyKj2oocmJmUA==
-X-Google-Smtp-Source: ABdhPJxlkAfs7B9JEE/N2GFojP20lgwfdq5VPigaVxLUUrzzdVSRxRi6pB9QGT8N3cLXmxdkUNF42Nav5QPJpu2ug4U=
-X-Received: by 2002:a17:90b:fc4:: with SMTP id gd4mr931343pjb.129.1599659558356;
- Wed, 09 Sep 2020 06:52:38 -0700 (PDT)
+        id S1731073AbgIIQ0L (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Sep 2020 12:26:11 -0400
+Received: from mail.nic.cz ([217.31.204.67]:34622 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731052AbgIIQ0D (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 9 Sep 2020 12:26:03 -0400
+Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
+        by mail.nic.cz (Postfix) with ESMTP id C2F08140A64;
+        Wed,  9 Sep 2020 18:25:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1599668754; bh=GiMyA6x4ElsGNt3VmolCaxWgc8p8+8SuvAMrXWbJfso=;
+        h=From:To:Date;
+        b=f87YnBrkbGhc0mIVSyThy0I8tEFadbY7bRevzKURZ9u8FsqdUpA2/lTT/7rnUADVz
+         YpnEVtE4a7UcqDL5SUwko8Q7h8/8pJC0mgawuhLM6VqjkGqnUJPvleJRn4k2ROwRdS
+         kCtCRgAacYXe2/ZszbGkdU37lhlonyDym53MpG/s=
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+To:     netdev@vger.kernel.org
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: [PATCH net-next + leds v2 1/7] dt-bindings: leds: document binding for HW controlled LEDs
+Date:   Wed,  9 Sep 2020 18:25:46 +0200
+Message-Id: <20200909162552.11032-2-marek.behun@nic.cz>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200909162552.11032-1-marek.behun@nic.cz>
+References: <20200909162552.11032-1-marek.behun@nic.cz>
 MIME-Version: 1.0
-References: <20200905130336.967622-1-luka.kovacic@sartura.hr>
- <20200905130336.967622-5-luka.kovacic@sartura.hr> <CAHp75VfwPa9zL6HCz+qqXJ1rK2JB=ewRiK1qdrgsyxixA5R5Lg@mail.gmail.com>
- <20200909103638.GB9222@amd>
-In-Reply-To: <20200909103638.GB9222@amd>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 9 Sep 2020 16:52:20 +0300
-Message-ID: <CAHp75VcV6Tn8dVjWhOW7bfcjwA_Vabw91FJ=OYit3e1rvPp1qQ@mail.gmail.com>
-Subject: Re: [PATCH 4/7] drivers: leds: Add the iEi WT61P803 PUZZLE LED driver
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Luka Kovacic <luka.kovacic@sartura.hr>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hwmon@vger.kernel.org,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        luka.perkov@sartura.hr
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Spam-Status: No, score=0.00
+X-Spamd-Bar: /
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Sep 9, 2020 at 1:36 PM Pavel Machek <pavel@ucw.cz> wrote:
-> > > Add support for the iEi WT61P803 PUZZLE LED driver.
-> > > Currently only the front panel power LED is supported.
-> > >
-> > > This driver depends on the iEi WT61P803 PUZZLE MFD driver.
-> >
-> > Can we make it OF independent?
-> > See below how to achieve this.
->
-> Is there reason to believe this will be found in non-OF systems?
+Document binding for LEDs connected to and controlled by various chips
+(such as ethernet PHY chips).
 
-It's one aspect. Another one is to give a better example to anybody
-who might use this to copy'n'paste from. I believe that most of the
-LED drivers can appear on non-DT systems.
+Signed-off-by: Marek Behún <marek.behun@nic.cz>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: devicetree@vger.kernel.org
+---
+ .../leds/linux,hw-controlled-leds.yaml        | 99 +++++++++++++++++++
+ 1 file changed, 99 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/linux,hw-controlled-leds.yaml
 
+diff --git a/Documentation/devicetree/bindings/leds/linux,hw-controlled-leds.yaml b/Documentation/devicetree/bindings/leds/linux,hw-controlled-leds.yaml
+new file mode 100644
+index 0000000000000..eaf6e5d80c5f5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/linux,hw-controlled-leds.yaml
+@@ -0,0 +1,99 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/linux,hw-controlled-leds.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LEDs that can be controlled by hardware (eg. by an ethernet PHY chip)
++
++maintainers:
++  - Marek Behún <marek.behun@nic.cz>
++
++description:
++  Many an ethernet PHY (and other chips) supports various HW control modes
++  for LEDs connected directly to them. With this binding such LEDs can be
++  described.
++
++properties:
++  compatible:
++    const: linux,hw-controlled-leds
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++patternProperties:
++  "^led@[0-9a-f]+$":
++    type: object
++    allOf:
++      - $ref: common.yaml#
++    description:
++      This node represents a LED device connected to a chip that can control
++      the LED in various HW controlled modes.
++
++    properties:
++      reg:
++        maxItems: 1
++        description:
++          This property identifies the LED to the chip the LED is connected to
++          (eg. an ethernet PHY chip can have multiple LEDs connected to it).
++
++      enable-active-high:
++        description:
++          Polarity of LED is active high. If missing, assumed default is active
++          low.
++        type: boolean
++
++      led-tristate:
++        description:
++          LED pin is tristate type. If missing, assumed false.
++        type: boolean
++
++      linux,default-hw-mode:
++        description:
++          This parameter, if present, specifies the default HW triggering mode
++          of the LED when LED trigger is set to `dev-hw-mode`.
++          Available values are specific per device the LED is connected to and
++          per LED itself.
++        $ref: /schemas/types.yaml#definitions/string
++
++    required:
++      - reg
++
++additionalProperties: false
++
++examples:
++  - |
++
++    #include <dt-bindings/leds/common.h>
++
++    ethernet-phy@0 {
++        compatible = "ethernet-phy-ieee802.3-c45";
++        reg = <0>;
++
++        leds {
++            compatible = "linux,hw-controlled-leds";
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            led@0 {
++                reg = <0>;
++                color = <LED_COLOR_ID_GREEN>;
++                function = <LED_FUNCTION_STATUS>;
++                linux,default-trigger = "dev-hw-mode";
++                linux,default-hw-mode = "1Gbps";
++            };
++
++            led@1 {
++                reg = <1>;
++                color = <LED_COLOR_ID_YELLOW>;
++                function = <LED_FUNCTION_ACTIVITY>;
++                linux,default-trigger = "dev-hw-mode";
++                linux,default-hw-mode = "activity";
++            };
++        };
++    };
++
++...
 -- 
-With Best Regards,
-Andy Shevchenko
+2.26.2
+
