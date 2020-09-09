@@ -2,112 +2,124 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3843F26361A
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 20:34:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13986263633
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 20:44:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728611AbgIISef (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Sep 2020 14:34:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48016 "EHLO
+        id S1726408AbgIISn6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Sep 2020 14:43:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725975AbgIISee (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Sep 2020 14:34:34 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A2DEC061573
-        for <linux-leds@vger.kernel.org>; Wed,  9 Sep 2020 11:34:34 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id d18so4230291iop.13
-        for <linux-leds@vger.kernel.org>; Wed, 09 Sep 2020 11:34:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cc1mTJ4YBbjlfzPf25X2vuH8TH88kzjymIjnYwRDABQ=;
-        b=cc2Qt1f4dpUC0QpPCXg+9Y9XLHMA8xk6SiF4s5nmfrtFNkxDNTaG9UecXJsuyI+qKu
-         4uk4C9AxB33jv2tLG4CDXx6E8VpPQAeLG/oD9Jy7QsgmSfWzrRmK9QJHt+tZ2KnrJPEN
-         l1l7iHZWQXFC62PlvMDliggM6kXjdhhSib5wbP7JRdAIBVceTg+n0crB7GqY9SqwmSgy
-         3g2tQrPYRRWyMKaQiFKxUcMG6DxHO7x263SxL4be5W6CzxtNbAVbt8f+j8zm1MDX/8Vq
-         6N5BN/J1ZZCK0KUuyeiSBa4vAMF+V75zVCllRN6ERTjnW1/ltYGFkU9V0OufLgeRg6X8
-         Cnbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cc1mTJ4YBbjlfzPf25X2vuH8TH88kzjymIjnYwRDABQ=;
-        b=EzdXekRfiaH1YvVuxLd5llNtsS2lV/bt9pO6aCrWo3JUt0x5iNIrvX93kCgXk0eTro
-         CjPlZPYKFo31SIpvyN/yKvqha2XMQE70qZ7YpV1191dREHnCh8yvp9o5Jhm/COxnq+zI
-         MgI36glgJThWytZL7hVWkpD7MF4Oy19xp8Cgt2MuUpxghKaNl/onZZRidIalBsxnfi8n
-         PzpK4ldQI6D3SLwNSEdT8PxNeOD2P4QRJD8QKxw1gSQQI4ihZRKZdFjzZmuQy4pMsWMD
-         8LnY+EVV9icvPpIJcbRPfNFDZybPpI6HLS/XCkruoYR9fS6RcQ357FK/xjWpkxMgFu9K
-         4L+w==
-X-Gm-Message-State: AOAM531EHLfOjS2nEn8UUqxH/O2fec6Ip8rNN7n03tK2l9vIaV107UIm
-        TsBOazCBNxb2oDGfiiQNLt8ogdyPMhKnbFBDghY3aw==
-X-Google-Smtp-Source: ABdhPJxYIuKJ2FPIIDSc4fLvVsbvhDs4vwhRgTwzcnsP3YQbp/Eiiw42aHUKGWVr36iO8wKIwRx2XebS9rnI749AuKw=
-X-Received: by 2002:a6b:bc82:: with SMTP id m124mr4580365iof.172.1599676473721;
- Wed, 09 Sep 2020 11:34:33 -0700 (PDT)
+        with ESMTP id S1726399AbgIISn6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Sep 2020 14:43:58 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21915C061573;
+        Wed,  9 Sep 2020 11:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=EaCCaUS/GA5zKTWx+EqB8AflyC7OJgYop8KOzI5rmeE=; b=GomwRcHmRkv+TFrVR0WQdaBrR0
+        IdVlKI/PUaruAuCEPKQBmtZ7JZL4we75h3/irAUxJ5gsU6M6mTs94C2fOhTV5pfIxcT3EddDzUl3v
+        bu8NKjOCp53mKvhHgrfPPxWkyrooRmtL8rXlsAQoHv7o2YfeSyCdsDl3NgWQ472DZXJGPePZ55nSQ
+        2OKgY8UtasfDK043LRoY1nwBTIYe2u5DI6qP7K08HwvybWJBo+CFTJ2p/0tzGYKZYGX/OGo7ChH74
+        BOTNo89H1Y+r6WmkB5DnHB9RsbMya/p7/YqieedDFsC5IKr9tKeJzgWaoH852g0zCtGTfYU7xTrVI
+        PBNIWO2Q==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kG549-0005ns-Am; Wed, 09 Sep 2020 18:43:34 +0000
+Subject: Re: [PATCH net-next + leds v2 2/7] leds: add generic API for LEDs
+ that can be controlled by hardware
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>
+Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?Q?Ond=c5=99ej_Jirman?= <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        "David S. Miller" <davem@davemloft.net>
+References: <20200909162552.11032-1-marek.behun@nic.cz>
+ <20200909162552.11032-3-marek.behun@nic.cz>
+ <84bfc0ce-752d-9d1f-1043-fabe4cc25b15@infradead.org>
+ <20200909203121.73bfcfa1@dellmb.labs.office.nic.cz>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <444169ca-cfd7-dcb5-3ce6-59d3bfea6190@infradead.org>
+Date:   Wed, 9 Sep 2020 11:43:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200905130336.967622-1-luka.kovacic@sartura.hr>
- <20200905130336.967622-5-luka.kovacic@sartura.hr> <CAHp75VfwPa9zL6HCz+qqXJ1rK2JB=ewRiK1qdrgsyxixA5R5Lg@mail.gmail.com>
- <20200909103638.GB9222@amd> <CAHp75VcV6Tn8dVjWhOW7bfcjwA_Vabw91FJ=OYit3e1rvPp1qQ@mail.gmail.com>
-In-Reply-To: <CAHp75VcV6Tn8dVjWhOW7bfcjwA_Vabw91FJ=OYit3e1rvPp1qQ@mail.gmail.com>
-From:   =?UTF-8?B?THVrYSBLb3ZhxI1pxI0=?= <luka.kovacic@sartura.hr>
-Date:   Wed, 9 Sep 2020 20:34:22 +0200
-Message-ID: <CADZsf3ZH5BAJO_0+sWtXfZuOMdOmJGFWaU_AmgOt0wDjt2_U0g@mail.gmail.com>
-Subject: Re: [PATCH 4/7] drivers: leds: Add the iEi WT61P803 PUZZLE LED driver
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hwmon@vger.kernel.org,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Luka Perkov <luka.perkov@sartura.hr>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200909203121.73bfcfa1@dellmb.labs.office.nic.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello everyone,
+On 9/9/20 11:31 AM, Marek Behún wrote:
+> On Wed, 9 Sep 2020 11:20:00 -0700
+> Randy Dunlap <rdunlap@infradead.org> wrote:
+> 
+>> Hi,
+>>
+>> On 9/9/20 9:25 AM, Marek Behún wrote:
+>>> Many an ethernet PHY (and other chips) supports various HW control
+>>> modes for LEDs connected directly to them.
+>>>
+>>> This patch adds a generic API for registering such LEDs when
+>>> described in device tree. This API also exposes generic way to
+>>> select between these hardware control modes.
+>>>
+>>> This API registers a new private LED trigger called dev-hw-mode.
+>>> When this trigger is enabled for a LED, the various HW control
+>>> modes which are supported by the device for given LED can be
+>>> get/set via hw_mode sysfs file.
+>>>
+>>> Signed-off-by: Marek Behún <marek.behun@nic.cz>
+>>> ---
+>>>  .../sysfs-class-led-trigger-dev-hw-mode       |   8 +
+>>>  drivers/leds/Kconfig                          |  10 +
+>>>  drivers/leds/Makefile                         |   1 +
+>>>  drivers/leds/leds-hw-controlled.c             | 227
+>>> ++++++++++++++++++ include/linux/leds-hw-controlled.h            |
+>>> 74 ++++++ 5 files changed, 320 insertions(+)
+>>>  create mode 100644
+>>> Documentation/ABI/testing/sysfs-class-led-trigger-dev-hw-mode
+>>> create mode 100644 drivers/leds/leds-hw-controlled.c create mode
+>>> 100644 include/linux/leds-hw-controlled.h 
+>>
+>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+>>> index 1c181df24eae4..5e47ab21aafb4 100644
+>>> --- a/drivers/leds/Kconfig
+>>> +++ b/drivers/leds/Kconfig
+>>> @@ -49,6 +49,16 @@ config LEDS_BRIGHTNESS_HW_CHANGED
+>>>  
+>>>  	  See Documentation/ABI/testing/sysfs-class-led for
+>>> details. 
+>>> +config LEDS_HW_CONTROLLED
+>>> +	bool "API for LEDs that can be controlled by hardware"
+>>> +	depends on LEDS_CLASS  
+>>
+>> 	depends on OF || COMPILE_TEST
+>> ?
+>>
+> 
+> I specifically did not add OF dependency so that this can be also used
+> on non-OF systems. A device driver may register such LED itself...
+> That's why hw_controlled_led_brightness_set symbol is exported.
+> 
+> Do you think I shouldn't do it?
 
-I'm sending the email again, as I didn't send it as plain text
-earlier, sorry.
+I have no problem with it as it is.
 
-Thanks for the comments, I'll review them and fix the issues.
+>>> +	select LEDS_TRIGGERS
+>>> +	help
+>>> +	  This option enables support for a generic API via which
+>>> other drivers
+>>> +	  can register LEDs that can be put into hardware
+>>> controlled mode, eg.  
 
-This is currently the only iEi Puzzle series device that is using this
-microcontroller. Their Intel-based platforms most likely will not use
-this MCU, as they resorted to using more standard components there.
+thanks.
+-- 
+~Randy
 
-Some upcoming iEi Puzzle ARM-based boards might also implement this
-microcontroller, so I do agree that using the new API would be beneficial
-to future proof the driver.
-
-Kind regards,
-Luka
-
-On Wed, Sep 9, 2020 at 3:52 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Wed, Sep 9, 2020 at 1:36 PM Pavel Machek <pavel@ucw.cz> wrote:
-> > > > Add support for the iEi WT61P803 PUZZLE LED driver.
-> > > > Currently only the front panel power LED is supported.
-> > > >
-> > > > This driver depends on the iEi WT61P803 PUZZLE MFD driver.
-> > >
-> > > Can we make it OF independent?
-> > > See below how to achieve this.
-> >
-> > Is there reason to believe this will be found in non-OF systems?
->
-> It's one aspect. Another one is to give a better example to anybody
-> who might use this to copy'n'paste from. I believe that most of the
-> LED drivers can appear on non-DT systems.
->
-> --
-> With Best Regards,
-> Andy Shevchenko
