@@ -2,402 +2,187 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9A79263180
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 18:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA57D2631C3
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 18:26:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730785AbgIIQQc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Sep 2020 12:16:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730996AbgIIQMt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Sep 2020 12:12:49 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2F61C061344;
-        Wed,  9 Sep 2020 06:48:51 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id u13so2127771pgh.1;
-        Wed, 09 Sep 2020 06:48:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4HvDFPexsr3s8vYjArlu6gd3N2WqfJ+OIg8egu/XCac=;
-        b=J72MnFFZPk8u2206qNOtZ8zlPYgrR+X7pVkPWdPhSDSmCOfDa0MEJnRcCwc5XFw0mm
-         Sb1lV3OennBIkiQRhc1R9Cqh98lBtOaDVB+fAUD+z3jcJIBgQ+Oh/oqMMqSJJm1WVdD9
-         14VbNIjhy1+L+Uj5j7VEF9gFJyNVZKbjv4K7dQom9wlg+yNZhsFThmEKa+XBh0dg9f5W
-         19K0E481CVGu3OHopl8TAG3T7AASPx7+BNMyuozy8TwCOs9JHgphikRfA3TPcsQBkMnh
-         ggETmYwWv//F/4g6KmFxUq5LFmeDeHnVgtvaWehFZqCyo+/+kL+okh/+UiDa3eBd+AaW
-         wCcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4HvDFPexsr3s8vYjArlu6gd3N2WqfJ+OIg8egu/XCac=;
-        b=gOd+9JyN/jSl8wdefoSxgaSHu9OElxQCcbCz7/fG98EHUFjyXXBCiNgfqIrIlxfS0O
-         qYdEiOka+sDjCtVbt7U3GBBw7zFMe0BMZSiMugSgxtVsr3UepmL3q2OTVCB2eokIhv4g
-         Ce9TPcO4jrytFGjMfQFlG3ZXkhbVeuEHJyOPtdnFkOyF9ajeH4xXHhcpHgss8XKz488r
-         96MB8E9tE8OQy8kcOmTfCWurp32j3c6MFQ4pJHI62QAy8vBdjCzVksflpUtdWO+rOc7X
-         kfzw1tWBnRbrdMU2SMawLYoezg3oj7hyHeaKVb8euqusAFCV7LRp7NxXSdeKcBFGkefU
-         mcaQ==
-X-Gm-Message-State: AOAM531dN9pvz0GJgprt+osMLPmeClXDAqqwlJokF8i0ngtUxBlVwf90
-        dlC4qWsyLmpwOIrYmptbHBXMeBIybN/b2yrVUOU=
-X-Google-Smtp-Source: ABdhPJwjGN/noYtRq/MK1sDgwwqkVhBVfELDCJ83d3DmuK7PnZsQ3TAXDjKUtQ6RdtWZMOqD40lzOcLYlIZiBWGiE+k=
-X-Received: by 2002:aa7:800c:: with SMTP id j12mr889318pfi.130.1599659331306;
- Wed, 09 Sep 2020 06:48:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <1599474459-20853-1-git-send-email-gene.chen.richtek@gmail.com> <1599474459-20853-2-git-send-email-gene.chen.richtek@gmail.com>
-In-Reply-To: <1599474459-20853-2-git-send-email-gene.chen.richtek@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 9 Sep 2020 16:48:33 +0300
-Message-ID: <CAHp75VdLDvoQicP1nLnjOiit6qjaw9n7+LuJ-J3MtaoHUOa_2g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] leds: mt6360: Add LED driver for MT6360
-To:     Gene Chen <gene.chen.richtek@gmail.com>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        id S1731077AbgIIQ0O (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Sep 2020 12:26:14 -0400
+Received: from lists.nic.cz ([217.31.204.67]:34602 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731047AbgIIQ0D (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 9 Sep 2020 12:26:03 -0400
+Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
+        by mail.nic.cz (Postfix) with ESMTP id 8AA9E140A42;
+        Wed,  9 Sep 2020 18:25:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1599668754; bh=Byqhpkt88AGMr7fbJQ6x5kqirnMwwK568K6GogkECRY=;
+        h=From:To:Date;
+        b=kJ2MEVTPZ3gj1RWjziMeqw89exEkd7fW7wELHVUdD53018wV1xLWpTAS0Od/BbWxU
+         KVslhDJqPz+EA5luY2kIRBT+d0pqLy3WX0mS8+gzeT3wQmspUK0xXkZCn9fr6pe2kE
+         xU1DsH4OFKUSc303J/M0KnafEFih6wYzLjDVUCyU=
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+To:     netdev@vger.kernel.org
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+        =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+Subject: [PATCH net-next + leds v2 0/7] PLEASE REVIEW: Add support for LEDs on Marvell PHYs
+Date:   Wed,  9 Sep 2020 18:25:45 +0200
+Message-Id: <20200909162552.11032-1-marek.behun@nic.cz>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Spam-Status: No, score=0.00
+X-Spamd-Bar: /
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Sep 7, 2020 at 1:31 PM Gene Chen <gene.chen.richtek@gmail.com> wrote:
->
-> From: Gene Chen <gene_chen@richtek.com>
->
-> Add MT6360 LED driver include 2-channel Flash LED with torch/strobe mode,
-> and 4-channel RGB LED support Register/Flash/Breath Mode
-
-I'm wondering why you don't use struct led_classdev_flash.
-
-...
-
-> +//
-> +// Copyright (C) 2020 MediaTek Inc.
-> +//
-
-Do you really need these two // lines?
-
-...
-
-> +enum {
-> +       MT6360_LED_ISNK1 = 0,
-> +       MT6360_LED_ISNK2,
-> +       MT6360_LED_ISNK3,
-> +       MT6360_LED_ISNK4,
-> +       MT6360_LED_FLASH1,
-> +       MT6360_LED_FLASH2,
-
-> +       MT6360_MAX_LEDS,
-
-No comma for terminator entry.
-
-> +};
-
-...
-
-> +#define MT6360_ISNK_MASK               0x1F
-
-GENMASK()
-
-...
-
-> +#define MT6360_ITORCH_MIN              25000
-> +#define MT6360_ITORCH_STEP             12500
-> +#define MT6360_ITORCH_MAX              400000
-> +#define MT6360_ISTRB_MIN               50000
-> +#define MT6360_ISTRB_STEP              12500
-> +#define MT6360_ISTRB_MAX               1500000
-> +#define MT6360_STRBTO_MIN              64000
-> +#define MT6360_STRBTO_STEP             32000
-> +#define MT6360_STRBTO_MAX              2432000
-
-Add unit suffixes, please.
-
-...
-
-> +#define FLED_TORCH_FLAG_MASK           0x0c
-
-> +#define FLED_STROBE_FLAG_MASK          0x03
-
-GENMASK()
-
-...
-
-> +       dev_dbg(lcdev->dev, "[%d] brightness %d\n", led->led_no, level);
-
-Not production noise.
-
-...
-
-> +       ret = regmap_update_bits(priv->regmap, MT6360_REG_RGBEN, enable_mask, val);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return 0;
-
-return regmap...
-
-> +       u32 val = (level) ? MT6360_FLCSEN_MASK(led->led_no) : 0;
-
-Why parens?
-
-...
-
-> +       dev_dbg(lcdev->dev, "[%d] brightness %d\n", led->led_no, level);
-
-Noise.
-
-...
-
-> +       if (priv->fled_strobe_used) {
-> +               dev_warn(lcdev->dev, "Please disable strobe first [%d]\n", priv->fled_strobe_used);
-> +               return -EINVAL;
-
-Hmm... Shouldn't be guaranteed by some framework?
-
-...
-
-> +               curr = prev & (~BIT(led->led_no));
-
-Too many parens.
-
-...
-
-> +static int mt6360_strobe_brightness_set(struct led_classdev_flash *fl_cdev, u32 brightness)
-> +{
-> +       struct mt6360_led *led = container_of(fl_cdev, struct mt6360_led, flash);
-> +       struct led_classdev *lcdev = &fl_cdev->led_cdev;
-> +
-
-> +       dev_dbg(lcdev->dev, "[%d] strobe brightness %d\n", led->led_no, brightness);
-
-Noise. Point of this entire function?
-
-> +       return 0;
-> +}
-
-...
-
-> +       dev_dbg(lcdev->dev, "[%d] strobe state %d\n", led->led_no, state);
-
-Noise.
-
-If you wish to do it right, add trace events to the framework.
-
-...
-
-> +       if (priv->fled_torch_used) {
-
-> +               dev_warn(lcdev->dev, "Please disable torch first [0x%x]\n", priv->fled_torch_used);
-
-Again, why the warning? Can this be a part of the framework?
-
-> +               return -EINVAL;
-> +       }
-
-...
-
-> +               curr = prev & (~BIT(led->led_no));
-
-Too many parens.
-
-...
-
-> +       if (!prev && curr)
-> +               usleep_range(5000, 6000);
-> +       else if (prev && !curr)
-> +               udelay(500);
-
-These delays must be explained.
-
-...
-
-> +       if (led->led_no == MT6360_LED_FLASH1) {
-> +               strobe_timeout_mask = MT6360_FLED1STRBTO_MASK;
-> +               fled_short_mask = MT6360_FLED1SHORT_MASK;
-
-> +
-
-Redundant blank line.
-
-> +       } else {
-> +               strobe_timeout_mask = MT6360_FLED2STRBTO_MASK;
-> +               fled_short_mask = MT6360_FLED2SHORT_MASK;
-> +       }
-
-...
-
-> +static int mt6360_flash_external_strobe_set(struct v4l2_flash *v4l2_flash, bool enable)
-> +{
-> +       struct led_classdev_flash *flash = v4l2_flash->fled_cdev;
-> +       struct mt6360_led *led = container_of(flash, struct mt6360_led, flash);
-> +       struct mt6360_priv *priv = led->priv;
-
-> +       u32 enable_mask = MT6360_FLCSEN_MASK(led->led_no);
-
-enable_mask -> mask
-  u32 value = enable ? mask : 0;
-
-> +       int ret;
-> +
-> +       ret = regmap_update_bits(priv->regmap, MT6360_REG_FLEDEN, enable_mask,
-
-> +                                enable ? enable_mask : 0);
-
-  ret =  ... mask, value);
-
-> +       if (ret)
-> +               return ret;
-> +
-> +       if (enable)
-> +               priv->fled_strobe_used |= BIT(led->led_no);
-> +       else
-> +               priv->fled_strobe_used &= (~BIT(led->led_no));
-
-Too many parens.
-
-> +
-> +       return 0;
-> +}
-
-...
-
-> +       s->val = s->max = (s->min) + (lcdev->max_brightness - 1) * s->step;
-
-Ditto.
-
-...
-
-> +static void clamp_align(u32 *v, u32 min, u32 max, u32 step)
-
-Can we keep a similar API, i.e. return a new value rather than update old?
-
-> +{
-
-> +       *v = clamp_val(*v, min, max);
-
-I would rather use a temporary variable (and it actually will be
-required with above).
-
-> +       if (step > 1)
-> +               *v = (*v - min) / step * step + min;
-
-Sounds like open coded rounddown().
-
-> +}
-
-...
-
-> +       lcdev->max_brightness = (val - MT6360_ITORCH_MIN) / MT6360_ITORCH_STEP + 1;
-
-DIV_ROUND_UP(val - MT6360_ITORCH_MIN, MT6360_ITORCH_STEP) ?
-
-...
-
-> +static int mt6360_init_common_properties(struct mt6360_led *led, struct led_init_data *init_data)
-> +{
-> +       const char *str;
-> +
-> +       if (!fwnode_property_read_string(init_data->fwnode, "default-state", &str)) {
-> +               if (!strcmp(str, "on"))
-> +                       led->default_state = STATE_ON;
-> +               else if (!strcmp(str, "keep"))
-> +                       led->default_state = STATE_KEEP;
-
-> +               else
-
-I wouldn't allow some garbage to be off.
-
-> +                       led->default_state = STATE_OFF;
-> +       }
-
-What about
-
-static const char * const states = { "on", "keep", "off" };
-
-int ret;
-
-ret = match_string(states, ARRAY_SIZE(states), str);
-if (ret)
- ...
-
-default_state = ret;
-
-?
-
-> +       return 0;
-> +}
-
-...
-
-> +static int mt6360_led_probe(struct platform_device *pdev)
-> +{
-> +       struct mt6360_priv *priv;
-> +       struct fwnode_handle *child;
-> +       int i, ret;
-> +
-
-> +       priv->regmap = dev_get_regmap(pdev->dev.parent, NULL);
-> +       if (!priv->regmap) {
-> +               dev_err(&pdev->dev, "Failed to get parent regmap\n");
-> +               return -ENODEV;
-> +       }
-
-...
-
-> +out:
-
-out_flash_leds_release: ?
-
-> +       for (i = MT6360_LED_FLASH1; i <= MT6360_LED_FLASH2; i++) {
-> +               struct mt6360_led *led = priv->leds[i];
-> +
-> +               if (led && led->v4l2_flash)
-> +                       v4l2_flash_release(led->v4l2_flash);
-> +
-> +       }
-
-...
-
-> +static int mt6360_led_remove(struct platform_device *pdev)
-> +{
-> +       struct mt6360_priv *priv = platform_get_drvdata(pdev);
-> +       int i;
-> +
-> +       for (i = MT6360_LED_FLASH1; i <= MT6360_LED_FLASH2; i++) {
-> +               struct mt6360_led *led = priv->leds[i];
-> +
-> +               if (led && led->v4l2_flash)
-> +                       v4l2_flash_release(led->v4l2_flash);
-> +
-> +       }
-
-Looks like a code duplication.
-
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct of_device_id __maybe_unused mt6360_led_of_id[] = {
-> +       { .compatible = "mediatek,mt6360-led", },
-
-> +       {},
-
-No need comma.
-
-> +};
-
+Hello Andrew and Pavel,
+
+please review these patches adding support for HW controlled LEDs.
+The main difference from previous version is that the API is now generalized
+and lives in drivers/leds, so that part needs to be reviewed (and maybe even
+applied) by Pavel.
+
+As discussed previously between you two, I made it so that the devicename
+part of the LED is now in the form `ethernet-phy%i` when the LED is probed
+for an ethernet PHY. Userspace utility wanting to control LEDs for a specific
+network interface can access them via /sys/class/net/eth0/phydev/leds:
+
+  mox ~ # ls /sys/class/net/eth0/phydev/leds
+  ethernet-phy0:green:status  ethernet-phy0:yellow:activity
+
+  mox ~ # ls /sys/class/net/eth0/phydev/leds/ethernet-phy0:green:status
+  brightness  device  hw_mode  max_brightness  power  subsystem  trigger  uevent
+
+  mox ~ # cat /sys/class/net/eth0/phydev/leds/ethernet-phy0:green:status/trigger
+  none [dev-hw-mode] timer oneshot heartbeat default-on mmc0 mmc1
+
+  mox ~ # cat /sys/class/net/eth0/phydev/leds/ethernet-phy0:green:status/hw_mode
+  link link/act [1Gbps/100Mbps/10Mbps] act blink-act tx copper 1Gbps blink
+
+Thank you.
+
+Marek
+
+PS: After this series is applied, we can update some device trees of various
+devices which use the `marvell,reg-init` property to initialize LEDs into
+specific modes so that instead of using `marvell,reg-init` they can register
+LEDs via this subsystem. The `marvell,reg-init` property does not comply with
+the idea that the device tree should only describe how devices are connected
+to each other on the board. Maybe this property could then be proclaimed as
+legacy and a warning could be printed if it is used.
+
+Changes since v1:
+- the HW controlled LEDs API is now generalized (so not only for ethernet
+  PHYs), and lives in drivers/leds/leds-hw-controlled.c.
+  I did this because I am thinking forward for when I'll be adding support
+  for LEDs connected to Marvell ethernet switches (mv88e6xxx driver).
+  The LEDs there should be described as descendants of the `port` nodes, not
+  `phy` nodes, because:
+    - some ports don't have PHYs and yet can have LEDs
+    - some ports have SERDES PHYs which are currently not described in any
+      way in device-tree
+    - some LEDs can be made to blink on activity/other event on multiple
+      ports at once
+- hence the private LED trigger was renamed from `phydev-hw-mode` to
+  `dev-hw-mode`
+- the `led-open-drain` DT property was renamed to `led-tristate` property,
+  because I learned that the two things mean something different and in
+  Marvell PHYs the polarity on off state can be put into tristate mode, not
+  open drain mode
+- the devicename part of PHY LEDs is now in the format `ethernet-phy%i`,
+  instead of `phy%i`
+- the code adding `phyindex` member to struct phy_device is now in separate
+  patch
+- YAML device-tree binding schema for HW controlled LEDs now lives in it's
+  own file and the ethernet-phy.yaml file now contains a reference to the
+  this schema
+- added a patch adding nodes for PHY controlled LEDs for Turris MOX' device
+  tree
+
+Changes since RFC v4:
+- added device-tree binding documentation.
+- the OF code now checks for linux,default-hw-mode property so that
+  default HW mode can be set in device tree (like linux,default-trigger)
+  (this was suggested by Andrew)
+- the OF code also checks for enable-active-high and led-open-drain
+  properties, and the marvell PHY driver now understands uses these
+  settings when initializing the LEDs
+- the LED operations were moved to their own struct phy_device_led_ops
+- a new member was added into struct phy_device: phyindex. This is an
+  incrementing integer, new for each registered phy_device. This is used
+  for a simple naming scheme for the devicename part of a LED, as was
+  suggested in a discussion by Andrew and Pavel. A PHY controlled LED
+  now has a name in form:
+    phy%i:color:function
+  When a PHY is attached to a netdevice, userspace can control available
+  PHY controlled LEDs via /sys/class/net/<ifname>/phydev/leds/
+- legacy LED configuration in Marvell PHY driver (in function
+  marvell_config_led) now writes only to registers which do not
+  correspond to any registered LED
+
+Changes since RFC v3:
+- addressed some of Andrew's suggestions
+- phy_hw_led_mode.c renamed to phy_led.c
+- the DT reading code is now also generic, moved to phy_led.c and called
+  from phy_probe
+- the function registering the phydev-hw-mode trigger is now called from
+  phy_device.c function phy_init before registering genphy drivers
+- PHY LED functionality now depends on CONFIG_LEDS_TRIGGERS
+
+Changes since RFC v2:
+- to share code with other drivers which may want to also offer PHY HW
+  control of LEDs some of the code was refactored and now resides in
+  phy_hw_led_mode.c. This code is compiled in when config option
+  LED_TRIGGER_PHY_HW is enabled. Drivers wanting to offer PHY HW control
+  of LEDs should depend on this option.
+- the "hw-control" trigger is renamed to "phydev-hw-mode" and is
+  registered by the code in phy_hw_led_mode.c
+- the "hw_control" sysfs file is renamed to "hw_mode"
+- struct phy_driver is extended by three methods to support PHY HW LED
+  control
+- I renamed the various HW control modes offeret by Marvell PHYs to
+  conform to other Linux mode names, for example the "1000/100/10/else"
+  mode was renamed to "1Gbps/100Mbps/10Mbps", or "recv/else" was renamed
+  to "rx" (this is the name of the mode in netdev trigger).
+
+Marek Behún (7):
+  dt-bindings: leds: document binding for HW controlled LEDs
+  leds: add generic API for LEDs that can be controlled by hardware
+  net: phy: add simple incrementing phyindex member to phy_device struct
+  dt-bindings: net: ethernet-phy: add description for PHY LEDs
+  net: phy: add support for LEDs controlled by ethernet PHY chips
+  net: phy: marvell: add support for LEDs controlled by Marvell PHYs
+  arm64: dts: armada-3720-turris-mox: add nodes for ethernet PHY LEDs
+
+ .../sysfs-class-led-trigger-dev-hw-mode       |   8 +
+ .../leds/linux,hw-controlled-leds.yaml        |  99 ++++++
+ .../devicetree/bindings/net/ethernet-phy.yaml |   8 +
+ .../dts/marvell/armada-3720-turris-mox.dts    |  23 ++
+ drivers/leds/Kconfig                          |  10 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-hw-controlled.c             | 227 +++++++++++++
+ drivers/net/phy/marvell.c                     | 314 +++++++++++++++++-
+ drivers/net/phy/phy_device.c                  | 106 ++++++
+ include/linux/leds-hw-controlled.h            |  74 +++++
+ include/linux/phy.h                           |   7 +
+ 11 files changed, 875 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-dev-hw-mode
+ create mode 100644 Documentation/devicetree/bindings/leds/linux,hw-controlled-leds.yaml
+ create mode 100644 drivers/leds/leds-hw-controlled.c
+ create mode 100644 include/linux/leds-hw-controlled.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.26.2
+
