@@ -2,107 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6900E262BAC
-	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 11:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6B3F262BCC
+	for <lists+linux-leds@lfdr.de>; Wed,  9 Sep 2020 11:27:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728207AbgIIJWa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Sep 2020 05:22:30 -0400
-Received: from mail.thorsis.com ([92.198.35.195]:42873 "EHLO mail.thorsis.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726708AbgIIJW3 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 9 Sep 2020 05:22:29 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.thorsis.com (Postfix) with ESMTP id 2D8D5356E;
-        Wed,  9 Sep 2020 11:22:27 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
-Received: from mail.thorsis.com ([127.0.0.1])
-        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id enPhrRHJ5ZnP; Wed,  9 Sep 2020 11:22:27 +0200 (CEST)
-Received: by mail.thorsis.com (Postfix, from userid 109)
-        id 0EC1F3DEB; Wed,  9 Sep 2020 11:22:26 +0200 (CEST)
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RECEIVED,
-        NO_RELAYS autolearn=unavailable autolearn_force=no version=3.4.2
-From:   Alexander Dahl <ada@thorsis.com>
-To:     Pavel Machek <pavel@ucw.cz>
+        id S1725917AbgIIJ1a (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 9 Sep 2020 05:27:30 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:54496 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725826AbgIIJ13 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Sep 2020 05:27:29 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 716721C0B87; Wed,  9 Sep 2020 11:27:26 +0200 (CEST)
+Date:   Wed, 9 Sep 2020 11:27:25 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Alexander Dahl <ada@thorsis.com>
 Cc:     linux-leds@vger.kernel.org,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Alexander Dahl <post@lespocky.de>, devicetree@vger.kernel.org,
         Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 0/2] leds: pwm: Make automatic labels work
-Date:   Wed, 09 Sep 2020 11:22:18 +0200
-Message-ID: <1670070.OCB1Fln39h@ada>
-In-Reply-To: <20200909090033.GD10891@amd>
-References: <20200831210232.28052-1-post@lespocky.de> <2019500.FJf2EgCAKA@ada> <20200909090033.GD10891@amd>
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Message-ID: <20200909092725.GD14289@amd>
+References: <20200831210232.28052-1-post@lespocky.de>
+ <2019500.FJf2EgCAKA@ada>
+ <20200909090033.GD10891@amd>
+ <1670070.OCB1Fln39h@ada>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="uxuisgdDHaNETlh8"
+Content-Disposition: inline
+In-Reply-To: <1670070.OCB1Fln39h@ada>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Pavel,
 
-Am Mittwoch, 9. September 2020, 11:00:33 CEST schrieb Pavel Machek:
-> Hi!
-> 
-> > > > for leds-gpio you can use the properties 'function' and 'color' in the
-> > > > devicetree node and omit 'label', the label is constructed
-> > > > automatically.  This is a common feature supposed to be working for
-> > > > all
-> > > > LED drivers.  However it did not yet work for the 'leds-pwm' driver.
-> > > > This series fixes the driver and takes the opportunity to update the
-> > > > dt-bindings accordingly.
-> > > > 
-> > > > v1: based on v5.9-rc2, backport on v5.4.59 tested and working
-> > > > 
-> > > > v2: based on v5.9-rc3, added the dt-bindings update patch
-> > > > 
-> > > > Greets
-> > > > Alex
-> > > > 
-> > > > Alexander Dahl (2):
-> > > >    leds: pwm: Allow automatic labels for DT based devices
-> > > >    dt-bindings: leds: Convert pwm to yaml
-> > > >   
-> > > >   .../devicetree/bindings/leds/leds-pwm.txt     | 50 -----------
-> > > >   .../devicetree/bindings/leds/leds-pwm.yaml    | 85
-> > > >   +++++++++++++++++++
-> > > >   drivers/leds/leds-pwm.c                       |  9 +-
-> > > >   3 files changed, 93 insertions(+), 51 deletions(-)
-> > > >   delete mode 100644
-> > > >   Documentation/devicetree/bindings/leds/leds-pwm.txt
-> > > >   create mode 100644
-> > > >   Documentation/devicetree/bindings/leds/leds-pwm.yaml
-> > > 
-> > > For both patches:
-> > > 
-> > > Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> > 
-> > I'd like to make a v3 and change the license of the .yaml file to
-> > "(GPL-2.0- only OR BSD-2-Clause)" as suggested by checkpatch and [1]. 
-> > Can I keep your Acked-by for that?
-> > 
-> > Besides: those suggestions are obviously valid for new bindings.  What
-> > about old bindings (.txt), which had no explicit SPDX tag or license note
-> > before? What license would apply there?  Is the .yaml file technically
-> > new, when it was mostly just converted from .txt?
-> 
-> If it is based on previous .txt binding, you have to respect previous
-> author's license. That probably means GPL-2.0 only.
+--uxuisgdDHaNETlh8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Probably?
+Hi!
 
-> Alternatively, you can contact original author(s) to get permission to
-> relicense under (GPL-2.0-only OR BSD-2-Clause).
+> > > Besides: those suggestions are obviously valid for new bindings.  What
+> > > about old bindings (.txt), which had no explicit SPDX tag or license =
+note
+> > > before? What license would apply there?  Is the .yaml file technically
+> > > new, when it was mostly just converted from .txt?
+> >=20
+> > If it is based on previous .txt binding, you have to respect previous
+> > author's license. That probably means GPL-2.0 only.
+>=20
+> Probably?
 
-Judging from your feedback on v3, there will be a v4 anyways, so I contacted 
-Peter Ujfalusi, who added the original .txt binding back in 2012 (merged in 
-2013).
+I have not checked exact licensing situation of that text, have not
+decided if it was copyrightable in the first place, and am not a
+lawyer.
 
-Thanks for your feedback
-Alex
+So... probably :-).
 
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
+--uxuisgdDHaNETlh8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl9Yn/0ACgkQMOfwapXb+vKBNwCaAiwL8PTenU6t8p0eeFTwOAFZ
+zDwAnjLM5GgoSjCflS2WRK1odwSIbLDD
+=vCS3
+-----END PGP SIGNATURE-----
+
+--uxuisgdDHaNETlh8--
