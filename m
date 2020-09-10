@@ -2,61 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C666264582
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 13:51:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB4B9264584
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 13:51:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730358AbgIJLvp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 10 Sep 2020 07:51:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59132 "EHLO
+        id S1730166AbgIJLvz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Sep 2020 07:51:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729455AbgIJLsz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Sep 2020 07:48:55 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A6FC0617A0;
-        Thu, 10 Sep 2020 04:35:11 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id j34so4088504pgi.7;
-        Thu, 10 Sep 2020 04:35:11 -0700 (PDT)
+        with ESMTP id S1729779AbgIJLsp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Sep 2020 07:48:45 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1CBC061573;
+        Thu, 10 Sep 2020 04:46:26 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id z19so4467737pfn.8;
+        Thu, 10 Sep 2020 04:46:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OAIIi6uo3XgXFJ7QsLwLusqGAN4H6rcenY71bNI/1l8=;
-        b=rW+wPK6uNUbrUcprGE+bQuCpqDWnZ0VJbYkiOw/LceoiimtmO+K5zGaJ8VH0fntmp+
-         60B98AoB2KqakAI4TCQ0uZ4WWLuPJehYgr5Srs+vOTsO7s8hRxHwTPM9ARbWajgphq2B
-         eWF9fHapKu16Jsi6TEfaoFS4dpvFBS9QK41CJGk+o7RlAABDvo/dM9b4B650BS9FLS4p
-         yMJaz5yYQL0WEuCDL8GAudTrpDIShQA3TuQLtjqRDVN0d9IrSXJcdxiN51NAOtaJEQnw
-         oxKzVKa1VyeWniKn9nW3b/8r4kUc1kNt9Z6dWm93DAtQAozF65v8SL+LPP/lanfG6nC1
-         uJPg==
+         :cc:content-transfer-encoding;
+        bh=Nw0E6gxQ2hI2c4XtcGgjWtuM2BIER2w0GyM871TVHiE=;
+        b=TA0eyE+C1G8SDT1g5ewoXGJN+Pte1ilhz6PSvNsNQH/mV4ErK+fr1FKYJ9wwPMZILn
+         Ed9l1+V5/pBZwg5KGPHzH1iXJCdMvytO1u91dfuuG+lMPlsArNoDH+qw7TUyX0uiGSc+
+         VXGaMnOwU72TeQuVxi9MIWYcowk6asEF0ZqZ6tufgjirVCiWVm3rsYZnUaRnh+2shh/z
+         NQ5hL/IDyaxFs4dIWHN7DIGNG7A0eZwb+btta7syG8UFhXCh07oWcy4FrSD7DXR2tKnY
+         TDOBpN1OMQz5PcPCCq662olaEJv89X4VHgMO5GRUc3beDuHuLwWCgHU6dTHXkIVBnwib
+         RRIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OAIIi6uo3XgXFJ7QsLwLusqGAN4H6rcenY71bNI/1l8=;
-        b=AVRtOUlyEtkWC05Ly0x2EA/ZMpiF9mfyFgBbhgy6OabeH/qYVZS46eBG2J9AC5inPk
-         x79tqJKgL/bl8QfbN7+XB/nLXQ/a8bRsDlU3bn+1cS+Whr+Y948kquUtpW2PieL/TMkL
-         /q+A9RvrXJ8tmhxdoqZOMnHKaAFhPx9rXSYIio3FrgyR143GSML4x3CJdz1/dbCE0y2u
-         3YTa5+6TemGf88r1/7E7aMQqYkXz/DGPsE/TLt3bZxFeXWje+HsDWWAm1/dKWCvjpSr5
-         e8gd1EWNSt9a3ETSCw3Tkb8HtTPOBN7f1NbnYsXCdO4EfuyUC4PoCnhCkSVUZsP/Hqop
-         Hxeg==
-X-Gm-Message-State: AOAM531VgFbtO40dx9PjEYnrxLbOd9r8Uurn+XvPBkfWbfluZqRVkIaq
-        SvN1I7on697jT5TALTrHfacCfqwGMR1vM2zdA7o=
-X-Google-Smtp-Source: ABdhPJyA7xJQIZk5VHdsH5jeJ1GijVp07O14SJTxho9owohQ9HM6j6M0zAQbtOSB3XzQ6HyGQ+uJhc1FwEQ8T7FSZbs=
-X-Received: by 2002:a63:ec4c:: with SMTP id r12mr4042041pgj.74.1599737711469;
- Thu, 10 Sep 2020 04:35:11 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Nw0E6gxQ2hI2c4XtcGgjWtuM2BIER2w0GyM871TVHiE=;
+        b=KurtnkqvzfgvUeTd3yApv+ZEop9d9SIxU9LWF/bNji6+5vpHrMrZfR9tM7wIMiK1/U
+         u9OuayzLNA74+qi6hoTnSzVXDx1gZtAkFE+N3g31L+2g8c4jVwzEI38QZ3kQsWPMVuwi
+         ssk1XdRIKUl5QjIlQoihMFNvsZ86J+cABYU1lbUofJBjJ6OZiCydfI1to2lxIHk2ORGZ
+         OTtKfVjUpN70qCTNweLbBKSYRioAWUzD80lzGfwjQ2vX15INQyry0f+Z426GFvvXXflw
+         uwxzPGqfxa93ddYHZ5nlRfyJxO87uJkd7tttUH/H4Krhj7h0EM8GTXF3YubJkx7lTjCA
+         riMQ==
+X-Gm-Message-State: AOAM530Dk1Aw+2VCL+KrETO6PCM623ZiSzUNsTcqPhS6Kl9ZN2FXoErF
+        UyADLFFmBPuWVlTCCCqyYrTF6i3PxdEYd49dXts=
+X-Google-Smtp-Source: ABdhPJwpLTvKve2riypUG+0ME7LX2XWWhl8ZwU5Y5Lg5Cj0ecvXaABCi2XmCtinoJjzwlOm6SQanVtnbYUXx1NFPLMs=
+X-Received: by 2002:a63:ec4c:: with SMTP id r12mr4068361pgj.74.1599738385970;
+ Thu, 10 Sep 2020 04:46:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <1599474459-20853-1-git-send-email-gene.chen.richtek@gmail.com>
  <1599474459-20853-2-git-send-email-gene.chen.richtek@gmail.com>
- <CAHp75VdLDvoQicP1nLnjOiit6qjaw9n7+LuJ-J3MtaoHUOa_2g@mail.gmail.com>
- <CAE+NS35FETQ9ASJeYP=Sa8dm7ohRBcdAwUioCAnHPY2TiD4pNA@mail.gmail.com> <20200910081814.GB28357@amd>
-In-Reply-To: <20200910081814.GB28357@amd>
+ <CAHp75VdLDvoQicP1nLnjOiit6qjaw9n7+LuJ-J3MtaoHUOa_2g@mail.gmail.com> <CAE+NS35FETQ9ASJeYP=Sa8dm7ohRBcdAwUioCAnHPY2TiD4pNA@mail.gmail.com>
+In-Reply-To: <CAE+NS35FETQ9ASJeYP=Sa8dm7ohRBcdAwUioCAnHPY2TiD4pNA@mail.gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 10 Sep 2020 14:34:54 +0300
-Message-ID: <CAHp75Vds75jP47Fy78gxrg05J-CYQ7yD_EiDqizKkcW5rHL_RA@mail.gmail.com>
+Date:   Thu, 10 Sep 2020 14:46:08 +0300
+Message-ID: <CAHp75VdeqiMdm=zS7W9sfu7=hVFMo0NV6kTOZ_q6UNq9jFcNuA@mail.gmail.com>
 Subject: Re: [PATCH v3 1/2] leds: mt6360: Add LED driver for MT6360
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Gene Chen <gene.chen.richtek@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Gene Chen <gene.chen.richtek@gmail.com>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Dan Murphy <dmurphy@ti.com>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
@@ -69,53 +67,61 @@ Cc:     Gene Chen <gene.chen.richtek@gmail.com>,
         shufan_lee@richtek.com, cy_huang@richtek.com,
         benjamin.chao@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 11:18 AM Pavel Machek <pavel@ucw.cz> wrote:
+On Thu, Sep 10, 2020 at 11:11 AM Gene Chen <gene.chen.richtek@gmail.com> wr=
+ote:
+> Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2020=E5=B9=B49=E6=
+=9C=889=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=889:48=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+> > On Mon, Sep 7, 2020 at 1:31 PM Gene Chen <gene.chen.richtek@gmail.com> =
+wrote:
+> > > From: Gene Chen <gene_chen@richtek.com>
 
 ...
 
-> > > > +enum {
-> > > > +       MT6360_LED_ISNK1 = 0,
-> > > > +       MT6360_LED_ISNK2,
-> > > > +       MT6360_LED_ISNK3,
-> > > > +       MT6360_LED_ISNK4,
-> > > > +       MT6360_LED_FLASH1,
-> > > > +       MT6360_LED_FLASH2,
-> > >
-> > > > +       MT6360_MAX_LEDS,
-> > >
-> > > No comma for terminator entry.
-> > >
+> > > +       if (priv->fled_strobe_used) {
+> > > +               dev_warn(lcdev->dev, "Please disable strobe first [%d=
+]\n", priv->fled_strobe_used);
+> > > +               return -EINVAL;
 > >
-> > ACK
+> > Hmm... Shouldn't be guaranteed by some framework?
+> >
 >
-> Actually, that comma is fine. Its absence would be fine, too.
+> Because both Flash LED use single logically control.
+> It doesn't exist one LED is torch mode, and the other is strobe mode.
 
-It is slightly better not to have to prevent (theoretical) rebase or
-other similar issues when a new item can go behind the terminator. In
-such a case compiler can easily tell you if something is wrong.
-
-> > > > +};
+You mean you have always an attribute for hardware even if it doesn't
+support a feature?
+Can you consider hiding attributes?
 
 ...
 
-> > > > +static const struct of_device_id __maybe_unused mt6360_led_of_id[] = {
-> > > > +       { .compatible = "mediatek,mt6360-led", },
-> > >
-> > > > +       {},
-> > >
-> > > No need comma.
+> > > +       lcdev->max_brightness =3D (val - MT6360_ITORCH_MIN) / MT6360_=
+ITORCH_STEP + 1;
 > >
-> > ACK
+> > DIV_ROUND_UP(val - MT6360_ITORCH_MIN, MT6360_ITORCH_STEP) ?
+> >
 >
-> It is also no hurting comma.
+> This is mapping 0~val to 1~max_brightness as level.
+> I convert val below MT6360_ITORCH_STEP to 1 for ignore max_brightness
+> =3D 0, because 0 means disable.
+> There is a little difference from DIV_ROUND_UP.
 
-Same explanation. It doesn't hurt per se, but its absence might serve a purpose.
+What div_round_up does is
+(x + y - 1) / y
+What do you do
 
--- 
+x / y + 1 =3D (x + y)/y =3D ((x + 1) + y - 1)/y =3D DIV_ROUND_UP(x+1,y)
+
+So, DIV_ROUND_UP(val - MT6360_ITORCH_MIN + 1, MT6360_ITORCH_STEP) ?
+
+(yes I made classical off-by-one error)
+
+--=20
 With Best Regards,
 Andy Shevchenko
