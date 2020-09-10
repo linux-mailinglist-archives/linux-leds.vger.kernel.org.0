@@ -2,126 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB4B9264584
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 13:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 150ED2645E5
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 14:22:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730166AbgIJLvz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 10 Sep 2020 07:51:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58804 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729779AbgIJLsp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Sep 2020 07:48:45 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1CBC061573;
-        Thu, 10 Sep 2020 04:46:26 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id z19so4467737pfn.8;
-        Thu, 10 Sep 2020 04:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Nw0E6gxQ2hI2c4XtcGgjWtuM2BIER2w0GyM871TVHiE=;
-        b=TA0eyE+C1G8SDT1g5ewoXGJN+Pte1ilhz6PSvNsNQH/mV4ErK+fr1FKYJ9wwPMZILn
-         Ed9l1+V5/pBZwg5KGPHzH1iXJCdMvytO1u91dfuuG+lMPlsArNoDH+qw7TUyX0uiGSc+
-         VXGaMnOwU72TeQuVxi9MIWYcowk6asEF0ZqZ6tufgjirVCiWVm3rsYZnUaRnh+2shh/z
-         NQ5hL/IDyaxFs4dIWHN7DIGNG7A0eZwb+btta7syG8UFhXCh07oWcy4FrSD7DXR2tKnY
-         TDOBpN1OMQz5PcPCCq662olaEJv89X4VHgMO5GRUc3beDuHuLwWCgHU6dTHXkIVBnwib
-         RRIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Nw0E6gxQ2hI2c4XtcGgjWtuM2BIER2w0GyM871TVHiE=;
-        b=KurtnkqvzfgvUeTd3yApv+ZEop9d9SIxU9LWF/bNji6+5vpHrMrZfR9tM7wIMiK1/U
-         u9OuayzLNA74+qi6hoTnSzVXDx1gZtAkFE+N3g31L+2g8c4jVwzEI38QZ3kQsWPMVuwi
-         ssk1XdRIKUl5QjIlQoihMFNvsZ86J+cABYU1lbUofJBjJ6OZiCydfI1to2lxIHk2ORGZ
-         OTtKfVjUpN70qCTNweLbBKSYRioAWUzD80lzGfwjQ2vX15INQyry0f+Z426GFvvXXflw
-         uwxzPGqfxa93ddYHZ5nlRfyJxO87uJkd7tttUH/H4Krhj7h0EM8GTXF3YubJkx7lTjCA
-         riMQ==
-X-Gm-Message-State: AOAM530Dk1Aw+2VCL+KrETO6PCM623ZiSzUNsTcqPhS6Kl9ZN2FXoErF
-        UyADLFFmBPuWVlTCCCqyYrTF6i3PxdEYd49dXts=
-X-Google-Smtp-Source: ABdhPJwpLTvKve2riypUG+0ME7LX2XWWhl8ZwU5Y5Lg5Cj0ecvXaABCi2XmCtinoJjzwlOm6SQanVtnbYUXx1NFPLMs=
-X-Received: by 2002:a63:ec4c:: with SMTP id r12mr4068361pgj.74.1599738385970;
- Thu, 10 Sep 2020 04:46:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <1599474459-20853-1-git-send-email-gene.chen.richtek@gmail.com>
- <1599474459-20853-2-git-send-email-gene.chen.richtek@gmail.com>
- <CAHp75VdLDvoQicP1nLnjOiit6qjaw9n7+LuJ-J3MtaoHUOa_2g@mail.gmail.com> <CAE+NS35FETQ9ASJeYP=Sa8dm7ohRBcdAwUioCAnHPY2TiD4pNA@mail.gmail.com>
-In-Reply-To: <CAE+NS35FETQ9ASJeYP=Sa8dm7ohRBcdAwUioCAnHPY2TiD4pNA@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 10 Sep 2020 14:46:08 +0300
-Message-ID: <CAHp75VdeqiMdm=zS7W9sfu7=hVFMo0NV6kTOZ_q6UNq9jFcNuA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] leds: mt6360: Add LED driver for MT6360
-To:     Gene Chen <gene.chen.richtek@gmail.com>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        id S1730618AbgIJMWV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Sep 2020 08:22:21 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:41312 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730244AbgIJMUL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Sep 2020 08:20:11 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 9ADC91C0B9C; Thu, 10 Sep 2020 14:20:02 +0200 (CEST)
+Date:   Thu, 10 Sep 2020 14:20:02 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
+Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
         Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH net-next + leds v2 3/7] net: phy: add simple incrementing
+ phyindex member to phy_device struct
+Message-ID: <20200910122002.GA7907@duo.ucw.cz>
+References: <20200909162552.11032-1-marek.behun@nic.cz>
+ <20200909162552.11032-4-marek.behun@nic.cz>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="82I3+IH0IqGh5yIs"
+Content-Disposition: inline
+In-Reply-To: <20200909162552.11032-4-marek.behun@nic.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 11:11 AM Gene Chen <gene.chen.richtek@gmail.com> wr=
-ote:
-> Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2020=E5=B9=B49=E6=
-=9C=889=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=889:48=E5=AF=AB=E9=81=
-=93=EF=BC=9A
-> > On Mon, Sep 7, 2020 at 1:31 PM Gene Chen <gene.chen.richtek@gmail.com> =
-wrote:
-> > > From: Gene Chen <gene_chen@richtek.com>
 
-...
+--82I3+IH0IqGh5yIs
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > > +       if (priv->fled_strobe_used) {
-> > > +               dev_warn(lcdev->dev, "Please disable strobe first [%d=
-]\n", priv->fled_strobe_used);
-> > > +               return -EINVAL;
-> >
-> > Hmm... Shouldn't be guaranteed by some framework?
-> >
->
-> Because both Flash LED use single logically control.
-> It doesn't exist one LED is torch mode, and the other is strobe mode.
+Hi!
 
-You mean you have always an attribute for hardware even if it doesn't
-support a feature?
-Can you consider hiding attributes?
+> names are not suited for this, since in some situations a PHY device
+> name can look like this
+>   d0032004.mdio-mii:01
+> or even like this
+>   /soc/internal-regs@d0000000/mdio@32004/switch0@10/mdio:08
+> Clearly this cannot be used as the `device` part of a LED name.
+>=20
+> Signed-off-by: Marek Beh=FAn <marek.behun@nic.cz>
+> ---
+>  drivers/net/phy/phy_device.c | 3 +++
+>  include/linux/phy.h          | 3 +++
+>  2 files changed, 6 insertions(+)
+>=20
+> diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+> index 8adfbad0a1e8f..38f56d39f1229 100644
+> --- a/drivers/net/phy/phy_device.c
+> +++ b/drivers/net/phy/phy_device.c
+> @@ -9,6 +9,7 @@
+> =20
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> =20
+> +#include <linux/atomic.h>
+>  #include <linux/bitmap.h>
+>  #include <linux/delay.h>
+>  #include <linux/errno.h>
+> @@ -892,6 +893,7 @@ EXPORT_SYMBOL(get_phy_device);
+>   */
+>  int phy_device_register(struct phy_device *phydev)
+>  {
+> +	static atomic_t phyindex;
+>  	int err;
+> =20
+>  	err =3D mdiobus_register_device(&phydev->mdio);
 
-...
+I'd put the static out of the function... for greater visibility.
 
-> > > +       lcdev->max_brightness =3D (val - MT6360_ITORCH_MIN) / MT6360_=
-ITORCH_STEP + 1;
-> >
-> > DIV_ROUND_UP(val - MT6360_ITORCH_MIN, MT6360_ITORCH_STEP) ?
-> >
->
-> This is mapping 0~val to 1~max_brightness as level.
-> I convert val below MT6360_ITORCH_STEP to 1 for ignore max_brightness
-> =3D 0, because 0 means disable.
-> There is a little difference from DIV_ROUND_UP.
-
-What div_round_up does is
-(x + y - 1) / y
-What do you do
-
-x / y + 1 =3D (x + y)/y =3D ((x + 1) + y - 1)/y =3D DIV_ROUND_UP(x+1,y)
-
-So, DIV_ROUND_UP(val - MT6360_ITORCH_MIN + 1, MT6360_ITORCH_STEP) ?
-
-(yes I made classical off-by-one error)
+Otherwise: Reviewed-by: Pavel Machek <pavel@ucw.cz>
 
 --=20
-With Best Regards,
-Andy Shevchenko
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--82I3+IH0IqGh5yIs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX1oZ8gAKCRAw5/Bqldv6
+8lBYAJ9tS6CVdgWfqKytotcj0k55tsWyTwCggMTOOpigKRw1boHuGHYIF6icthI=
+=pvlr
+-----END PGP SIGNATURE-----
+
+--82I3+IH0IqGh5yIs--
