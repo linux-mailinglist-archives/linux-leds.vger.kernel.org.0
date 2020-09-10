@@ -2,70 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE0732651B8
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 23:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1861B2650FA
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 22:37:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730269AbgIJOsC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 10 Sep 2020 10:48:02 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:55232 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730669AbgIJOrK (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 10 Sep 2020 10:47:10 -0400
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1kGNqf-00E57e-Cn; Thu, 10 Sep 2020 16:46:53 +0200
-Date:   Thu, 10 Sep 2020 16:46:53 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-Cc:     Pavel Machek <pavel@ucw.cz>, netdev@vger.kernel.org,
-        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        Russell King <linux@armlinux.org.uk>,
+        id S1726931AbgIJUhf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Sep 2020 16:37:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56380 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726911AbgIJUbU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Sep 2020 16:31:20 -0400
+Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79508C061573;
+        Thu, 10 Sep 2020 13:31:19 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id B671E13FD86;
+        Thu, 10 Sep 2020 22:31:12 +0200 (CEST)
+Date:   Thu, 10 Sep 2020 22:31:12 +0200
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
+        netdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?B?T25kxZllag==?= Jirman <megous@megous.com>,
         linux-kernel@vger.kernel.org,
         Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
         "David S. Miller" <davem@davemloft.net>
 Subject: Re: [PATCH net-next + leds v2 6/7] net: phy: marvell: add support
  for LEDs controlled by Marvell PHYs
-Message-ID: <20200910144653.GA3354160@lunn.ch>
+Message-ID: <20200910223112.26b57dd6@nic.cz>
+In-Reply-To: <20200910183435.GC1551@shell.armlinux.org.uk>
 References: <20200909162552.11032-1-marek.behun@nic.cz>
- <20200909162552.11032-7-marek.behun@nic.cz>
- <20200910122341.GC7907@duo.ucw.cz>
- <20200910131541.GD3316362@lunn.ch>
- <20200910161522.3cf3ad63@dellmb.labs.office.nic.cz>
+        <20200909162552.11032-7-marek.behun@nic.cz>
+        <20200910122341.GC7907@duo.ucw.cz>
+        <20200910131541.GD3316362@lunn.ch>
+        <20200910182434.GA22845@duo.ucw.cz>
+        <20200910183154.GF3354160@lunn.ch>
+        <20200910183435.GC1551@shell.armlinux.org.uk>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200910161522.3cf3ad63@dellmb.labs.office.nic.cz>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> Moreover I propose (and am willing to do) this:
->   Rewrite phy_led_trigger so that it registers one trigger, `phydev`.
->   The identifier of the PHY which should be source of the trigger can be
->   set via a separate sysfs file, `device_name`, like in netdev trigger.
->   The linked speed on which the trigger should light the LED will be
->   selected via sysfs file `mode` (or do you propose another name?
->   `trigger_on` or something?)
-> 
->   Example:
->     # cd /sys/class/leds/<LED>
->     # echo phydev >trigger
->     # echo XYZ >device_name
->     # cat mode
->     1Gbps 100Mbps 10Mbps
->     # echo 1Gbps >mode
->     # cat mode
->     [1Gbps] 100Mbps 10Mbps
-> 
->   Also the code should be moved from driver/net/phy to
->   drivers/leds/trigger.
-> 
->   The old API can be declared deprecated or removed, but outright
->   removal may cause some people to complain.
+On Thu, 10 Sep 2020 19:34:35 +0100
+Russell King - ARM Linux admin <linux@armlinux.org.uk> wrote:
 
-This is ABI, so you cannot remove it, or change it. You can however
-add to it, in a backwards compatible way.
+> On Thu, Sep 10, 2020 at 08:31:54PM +0200, Andrew Lunn wrote:
+> > Generally the driver will default to the hardware reset blink
+> > pattern. There are a few PHY drivers which change this at probe, but
+> > not many. The silicon defaults are pretty good.  
+> 
+> The "right" blink pattern can be a matter of how the hardware is
+> wired.  For example, if you have bi-colour LEDs and the PHY supports
+> special bi-colour mixing modes.
+> 
 
-    Andrew
+Have you seen such, Russell? This could be achieved via the multicolor
+LED framework, but I don't have a device which uses such LEDs, so I
+did not write support for this in the Marvell PHY driver.
+
+(I guess I could test it though, since on my device LED0 and LED1
+are used, and this to can be put into bi-colour LED mode.)
