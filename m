@@ -2,72 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECB042650C2
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 22:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE0732651B8
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 23:00:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726480AbgIJU1H (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 10 Sep 2020 16:27:07 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:35970 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726781AbgIJUZO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Sep 2020 16:25:14 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 62CDA1C0B76; Thu, 10 Sep 2020 22:25:10 +0200 (CEST)
-Date:   Thu, 10 Sep 2020 22:25:10 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Gene Chen <gene.chen.richtek@gmail.com>, robh+dt@kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-Subject: Re: [PATCH v3 1/2] leds: mt6360: Add LED driver for MT6360
-Message-ID: <20200910202510.GB18431@ucw.cz>
-References: <1599474459-20853-1-git-send-email-gene.chen.richtek@gmail.com>
- <1599474459-20853-2-git-send-email-gene.chen.richtek@gmail.com>
- <20200908222544.GF1005@bug>
- <CAE+NS34h9qbdHkYDYDnHGgk+9mFNTRpKEMKNEFZ+Secf6JyoZg@mail.gmail.com>
- <20200910122958.GF7907@duo.ucw.cz>
- <489fc92f-f6f5-839e-e417-7761d404e6ae@gmail.com>
+        id S1730269AbgIJOsC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Sep 2020 10:48:02 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:55232 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730669AbgIJOrK (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 10 Sep 2020 10:47:10 -0400
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1kGNqf-00E57e-Cn; Thu, 10 Sep 2020 16:46:53 +0200
+Date:   Thu, 10 Sep 2020 16:46:53 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
+Cc:     Pavel Machek <pavel@ucw.cz>, netdev@vger.kernel.org,
+        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH net-next + leds v2 6/7] net: phy: marvell: add support
+ for LEDs controlled by Marvell PHYs
+Message-ID: <20200910144653.GA3354160@lunn.ch>
+References: <20200909162552.11032-1-marek.behun@nic.cz>
+ <20200909162552.11032-7-marek.behun@nic.cz>
+ <20200910122341.GC7907@duo.ucw.cz>
+ <20200910131541.GD3316362@lunn.ch>
+ <20200910161522.3cf3ad63@dellmb.labs.office.nic.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <489fc92f-f6f5-839e-e417-7761d404e6ae@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200910161522.3cf3ad63@dellmb.labs.office.nic.cz>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi!
-
-> > > 1. set FLED1 brightness
-> > > # echo 1 > /sys/class/leds/white:flash1/flash_brightness
-> > > 2. enable FLED1 strobe
-> > > # echo 1 > /sys/class/leds/white:flash1/flash_strobe
-> > > 3 . turn off FLED1 strobe (just used to gaurantee the strobe mode
-> > > flash leds must be turned off)
-> > > # echo 0 > /sys/class/leds/white:flash1/flash_strobe
-> > 
-> > I believe I'd preffer only exposing torch functionality in
-> > /sys/class/leds. .. strobe can be supported using v4l2 APIs.
+> Moreover I propose (and am willing to do) this:
+>   Rewrite phy_led_trigger so that it registers one trigger, `phydev`.
+>   The identifier of the PHY which should be source of the trigger can be
+>   set via a separate sysfs file, `device_name`, like in netdev trigger.
+>   The linked speed on which the trigger should light the LED will be
+>   selected via sysfs file `mode` (or do you propose another name?
+>   `trigger_on` or something?)
 > 
-> Actually having LED flash class without strobe is pointless.
-> If you looked at led_classdev_flash_register_ext() you would see that
-> it fails with uninitialized strobe_set op. And V4L2 API for strobing
-> flash calls strobe_set from LED flash class beneath.
+>   Example:
+>     # cd /sys/class/leds/<LED>
+>     # echo phydev >trigger
+>     # echo XYZ >device_name
+>     # cat mode
+>     1Gbps 100Mbps 10Mbps
+>     # echo 1Gbps >mode
+>     # cat mode
+>     [1Gbps] 100Mbps 10Mbps
 > 
-> That was the idea behind LED and V4L2 flash API unification - there
-> is one hardware driver needed, the V4L2 Flash layer just takes over
-> control over it when needed.
+>   Also the code should be moved from driver/net/phy to
+>   drivers/leds/trigger.
+> 
+>   The old API can be declared deprecated or removed, but outright
+>   removal may cause some people to complain.
 
-I agree that one driver is enough.
+This is ABI, so you cannot remove it, or change it. You can however
+add to it, in a backwards compatible way.
 
-But we should not need flash_strobe file in sysfs. Simply use V4L2 for
-that.
-
-Best regards,
-								Pavel
+    Andrew
