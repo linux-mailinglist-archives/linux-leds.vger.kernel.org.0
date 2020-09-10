@@ -2,122 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A119A2650AE
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 22:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49C492650A9
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Sep 2020 22:24:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726812AbgIJUZN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 10 Sep 2020 16:25:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55152 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726828AbgIJUXZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Sep 2020 16:23:25 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72470C061756;
-        Thu, 10 Sep 2020 13:23:22 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id a12so7645397eds.13;
-        Thu, 10 Sep 2020 13:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=dW7YjxHc1ZzJ6SX3ZapZTyVcg2BZ2MrVhHy85wYAM7s=;
-        b=Md9/FDi2UjXqMZ/r9zTDvWPc7EStWF1BrZkVX0n0rB6Plr9i6GajBhtdIytxV3tKuX
-         rgEuLKaAvTuXJnRCs8eDnunMlw7oe9kT+MLG4tXOH6el8N3ZQwISu5/L/Bu9YEtUicla
-         iOhWNNLMURqUJ+LO3LLtuDmtQvpHsdwz+WDLjF0vvuDVySEH1qig9lfrF6nu2cVQGcQr
-         I/87h+NoyYId+iaX2/sZQrMw342JCxOwhgjf+hW2vos7DOoRnmVTIjgUEBcOe2Qow6v3
-         u4UxPzPTvmwMl5FZv9AvU3DuxVXQU+vpkM6rEpSe99BS+70BxtwObtsc056guNjXKbmx
-         Mwjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=dW7YjxHc1ZzJ6SX3ZapZTyVcg2BZ2MrVhHy85wYAM7s=;
-        b=iI74UfLJe5BosuLAaH8M6rBgEGu3kEIe6sr02T/KLlORmyDMPscfva1fvJpTUlME9e
-         hUnjrTYyNvPU4HfMZjxyOp0+zjLyU9twd1YrJo0sWgzBDNDMRGKAtmm3NXO5ksSkkZgZ
-         Xl1zmfS83tUn1x3CiFx5UQoWGJDw5a3Lnoqsnx6P43jcXWMpDV4bZRH1JFpYPoIvGKso
-         5k86UUJd6komcV9iHgVAkCf04m9TfBYQ3Mz+DbDY4GrOvHA/aPWgoHAJWNJu59LKaNyP
-         +6d9pOptRm54R5EdbMJSRwYX/OANOPIv5oCOCV1bOVXqxXkVmLlrZonLRnenqdw9GLNU
-         Oixw==
-X-Gm-Message-State: AOAM530/BRECKKYQ2FZ90bCGv8/DK6lASR3Tti+Vyid9+Pi0cmhGiVst
-        XX023RHeMdbb/yhTNTu1IZ4=
-X-Google-Smtp-Source: ABdhPJz5MaQV71/AFS75F/hFw0qE/EwQO1ZoaAl2WyDBhKG+riuqvQJ28JycZSAGOmthz7MbQu3otw==
-X-Received: by 2002:aa7:dc16:: with SMTP id b22mr11083008edu.252.1599769401165;
-        Thu, 10 Sep 2020 13:23:21 -0700 (PDT)
-Received: from ?IPv6:2a01:110f:b59:fd00:a856:4fc0:9f1:73f6? ([2a01:110f:b59:fd00:a856:4fc0:9f1:73f6])
-        by smtp.gmail.com with ESMTPSA id dh3sm8455572edb.84.2020.09.10.13.23.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2020 13:23:20 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] leds: mt6360: Add LED driver for MT6360
-To:     Pavel Machek <pavel@ucw.cz>,
-        Gene Chen <gene.chen.richtek@gmail.com>
-Cc:     robh+dt@kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-References: <1599474459-20853-1-git-send-email-gene.chen.richtek@gmail.com>
- <1599474459-20853-2-git-send-email-gene.chen.richtek@gmail.com>
- <20200908222544.GF1005@bug>
- <CAE+NS34h9qbdHkYDYDnHGgk+9mFNTRpKEMKNEFZ+Secf6JyoZg@mail.gmail.com>
- <20200910122958.GF7907@duo.ucw.cz>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <489fc92f-f6f5-839e-e417-7761d404e6ae@gmail.com>
-Date:   Thu, 10 Sep 2020 22:23:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1725844AbgIJUY2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Sep 2020 16:24:28 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:35842 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725807AbgIJUYP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Sep 2020 16:24:15 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id C628D1C0B76; Thu, 10 Sep 2020 22:23:45 +0200 (CEST)
+Date:   Thu, 10 Sep 2020 22:23:45 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek =?iso-8859-2?Q?Beh=FAn?= <marek.behun@nic.cz>
+Cc:     Andrew Lunn <andrew@lunn.ch>, netdev@vger.kernel.org,
+        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        =?iso-8859-2?Q?Ond=F8ej?= Jirman <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH net-next + leds v2 6/7] net: phy: marvell: add support
+ for LEDs controlled by Marvell PHYs
+Message-ID: <20200910202345.GA18431@ucw.cz>
+References: <20200909162552.11032-1-marek.behun@nic.cz>
+ <20200909162552.11032-7-marek.behun@nic.cz>
+ <20200910122341.GC7907@duo.ucw.cz>
+ <20200910131541.GD3316362@lunn.ch>
+ <20200910161522.3cf3ad63@dellmb.labs.office.nic.cz>
 MIME-Version: 1.0
-In-Reply-To: <20200910122958.GF7907@duo.ucw.cz>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200910161522.3cf3ad63@dellmb.labs.office.nic.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/10/20 2:29 PM, Pavel Machek wrote:
-> Hi!
-> 
->>>> +{
->>>> +     struct mt6360_led *led = container_of(lcdev, struct mt6360_led, flash.led_cdev);
->>>> +     struct mt6360_priv *priv = led->priv;
->>>> +     u32 enable_mask = MT6360_TORCHEN_MASK | MT6360_FLCSEN_MASK(led->led_no);
->>>> +     u32 val = (level) ? MT6360_FLCSEN_MASK(led->led_no) : 0;
->>>> +     u32 prev = priv->fled_torch_used, curr;
->>>> +     int ret;
->>>> +
->>>> +     dev_dbg(lcdev->dev, "[%d] brightness %d\n", led->led_no, level);
->>>> +     if (priv->fled_strobe_used) {
->>>> +             dev_warn(lcdev->dev, "Please disable strobe first [%d]\n", priv->fled_strobe_used);
->>>> +             return -EINVAL;
->>>> +     }
->>>
->>> So... how does its userland interface look like?
->>>
->>
->> 1. set FLED1 brightness
->> # echo 1 > /sys/class/leds/white:flash1/flash_brightness
->> 2. enable FLED1 strobe
->> # echo 1 > /sys/class/leds/white:flash1/flash_strobe
->> 3 . turn off FLED1 strobe (just used to gaurantee the strobe mode
->> flash leds must be turned off)
->> # echo 0 > /sys/class/leds/white:flash1/flash_strobe
-> 
-> I believe I'd preffer only exposing torch functionality in
-> /sys/class/leds. .. strobe can be supported using v4l2 APIs.
+Hi!
 
-Actually having LED flash class without strobe is pointless.
-If you looked at led_classdev_flash_register_ext() you would see that
-it fails with uninitialized strobe_set op. And V4L2 API for strobing
-flash calls strobe_set from LED flash class beneath.
+> Okay, so the netdev trigger offers modes `link`, `rx`, `tx`.
+> You can enable/disable either of these (via separate sysfs files). `rx`
+> and `tx` blink the LED, `link` turns the LED on if the interface is
+> linked.
 
-That was the idea behind LED and V4L2 flash API unification - there
-is one hardware driver needed, the V4L2 Flash layer just takes over
-control over it when needed.
+I wonder if people really need separate rx and tx, but... this sounds
+reasonable.
 
--- 
+> The phy_led_trigger subsystem works differently. Instead of registering
+> one trigger (like netdev) it registers one trigger per PHY device and
+> per speed. So for a PHY with name XYZ and supported speeds 1Gbps,
+> 100Mbps, 10Mbps it registers 3 triggers:
+>   XYZ:1Gbps XYZ:100Mbps XYZ:10Mbps
+
+That is not reasonable.
+
+> I propose that at least these HW modes should be available (and
+> documented) for ethernet PHY controlled LEDs:
+
+Ok, and which of these will you actually use?
+
+>   mode to determine link on:
+>     - `link`
+>   mode for activity (these should blink):
+>     - `activity` (both rx and tx), `rx`, `tx`
+>   mode for link (on) and activity (blink)
+>     - `link/activity`, maybe `link/rx` and `link/tx`
+>   mode for every supported speed:
+>     - `1Gbps`, `100Mbps`, `10Mbps`, ...
+>   mode for every supported cable type:
+>     - `copper`, `fiber`, ... (are there others?)
+
+That's ... way too many options.
+
+Can we do it like netdev trigger? link? yes/no. rx? yes/no. tx? yes/no.
+
+If displaying link only for certain speeds is useful, have link_min
+and link_max, specifying values in Mbps? Default would be link_min ==
+0, and link_max = 25000, so it would react on any link speed.
+
+Is mode for cable type really useful? Then we should have link_fiber?
+yes/no. link_copper? yes/no.
+
+>   mode that allows the user to determine link speed
+>     - `speed` (or maybe `linkspeed` ?)
+>     - on some Marvell PHYs the speed can be determined by how fast
+>       the LED is blinking (ie. 1Gbps blinks with default blinking
+>       frequency, 100Mbps with half blinking frequeny of 1Gbps, 10Mbps
+>       of half blinking frequency of 100Mbps)
+>     - on other Marvell PHYs this is instead:
+>       1Gpbs blinks 3 times, pause, 3 times, pause, ...
+>       100Mpbs blinks 2 times, pause, 2 times, pause, ...
+>       10Mpbs blinks 1 time, pause, 1 time, pause, ...
+>     - we don't need to differentiate these modes with different names,
+>       because the important thing is just that this mode allows the
+>       user to determine the speed from how the LED blinks
+
+I'd be very careful. Userspace should know what they are asking
+for. I'd propose simply ignoring this feature.
+
+>   mode to just force blinking - `blink`
+
+We already have different support for blinking in LED subsystem. Lets use that.
+
 Best regards,
-Jacek Anaszewski
+									Pavel
