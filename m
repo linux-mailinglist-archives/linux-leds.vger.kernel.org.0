@@ -2,134 +2,121 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 082B22669FC
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Sep 2020 23:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E625266A08
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Sep 2020 23:26:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725855AbgIKVVj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 11 Sep 2020 17:21:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32768 "EHLO
+        id S1725816AbgIKV0s (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 11 Sep 2020 17:26:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725815AbgIKVVg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Sep 2020 17:21:36 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74181C061573;
-        Fri, 11 Sep 2020 14:21:36 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id j2so820488eds.9;
-        Fri, 11 Sep 2020 14:21:36 -0700 (PDT)
+        with ESMTP id S1725815AbgIKV0r (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Sep 2020 17:26:47 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28486C061573;
+        Fri, 11 Sep 2020 14:26:47 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id a12so11543546eds.13;
+        Fri, 11 Sep 2020 14:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=AdOFtW4+OTIfp7Vou5995FqSxqsP8JuVzsLCHo5nrGw=;
-        b=iwx2YXfAln6p3+zUP1hzFoV8htJuprZmjPd2GMeVHLV95xIUBZ0d5kbG/zN0idAJZR
-         CW420ks8syqWX+2MiN9x1egEJbYq6ia6v6uBT4Mn6BGQZ501QvqklbRxxbPomAkdHG2s
-         VH+TyXl/AifpbFN2iDgXavo7b2SXiy9kbQOo4LdGoT2SYQdx87zlsOnUkH/a2RyziGnq
-         q17UG/ZDvz+FSf5JCOpBjuiSczlBwJz7ESoPAjKHsFu2nvXFV1CDhOSEHk+tgaIamwow
-         hEMXayvrrYu7sm1LSaOfY6zeTQiaYSQ2n0owQeMkDo3DKVSa/naw+QHhfeyBS502+0QX
-         CCSQ==
+        bh=r3EJ/Ksz7XcLQJCTNqdi7sJEakcRZ8RCxklKxp4HF2Y=;
+        b=s+WSqz4oDlukAHiTWLgvtTMhTe+5CIHIX0GX+q6q/DrgI3WS75X1PhN2Ny430K8WSF
+         2Nxkw5F4MIytGPV1tlMED93OX99jXRvvKr+6I1iJorCIfozIKY6JRDBuvmVxLNx0lof9
+         77btAd7wSY/pIoywPh213fvq7E9bqL9LaHjmLQI6yUt4vKFDJS0a/EmInHa9FF0S+LzA
+         oopGoDoIohB+5Ey19FReYDxNymJuHPVXfzbIvt8YBtqZfgV9MFwyew+hZYn5rp6XBgRx
+         Q7V7Yk4t3uF1nKuraIBQYV1UOgDS9Rj6+XW1m80yWvg3Rsn0CGxu7yHrKEw9oqmxqUTU
+         Zrcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=AdOFtW4+OTIfp7Vou5995FqSxqsP8JuVzsLCHo5nrGw=;
-        b=EA9lkMLKoFy6y8HFTFjoApDrYTu/805hzooA9ukspGzlfMnCIeATcm9KrNq5YmJTMr
-         IZDF6LF7cZ8tWCpGdNQgXLNv8MjFlWrDO3r7+sHebSB9HoNzUHBFtnkULC+y3QRhe+31
-         nIbHUNqUVCjDpCp/CmY7yf7Ad3IXhMN61s+Jq5kak4M9DhY8Izz4G7HMGItdKATAzjHL
-         luvwmk/6eGBTYo8zaeKOzPHJPrICsE0p4GyRYw14HHeClpIZ1hpkNDMkRe89giGlLGOt
-         XdzASL13yCv2qlrsVBko5b5y67ymqGSmDQejVaSHr8wAaL0cHU77fN5gty6+ZF7Q1I51
-         q1Lg==
-X-Gm-Message-State: AOAM530uhhUK+kZ9NLCiAxkxw+5yg3IxOu3U+DaNcF8btUrNwGyHJdtL
-        cJ1/qSn9ysZXmMkKWyknLOY=
-X-Google-Smtp-Source: ABdhPJwjd7y5MMCMMarDa3tCNp2fu5QkfRwhlPlnzt92v+gipu179RrQr1jgubq+d5d0CcG2FGf/+g==
-X-Received: by 2002:aa7:d296:: with SMTP id w22mr4581288edq.327.1599859295171;
-        Fri, 11 Sep 2020 14:21:35 -0700 (PDT)
+        bh=r3EJ/Ksz7XcLQJCTNqdi7sJEakcRZ8RCxklKxp4HF2Y=;
+        b=oIc+EznXfQYhQMSYS0V1/dnQSJJ3q8rjgBlwcFw9MTul6yj3gaUzhGzbCOZo1K2iq5
+         rU+M3HG2pLCRu4GM555C6rAISwIVLPzCFfXzWBEINp06eIUAOqcJNW1LPZH22gK95T46
+         DThHYo/lR5E0Z1IlkH2bDgZgeinoCZi8fvjVu5EBmdGtUgvInk110Gx3HhMyn19K5frD
+         9xvuHGMo7sXOCSLdfyBOfeQorzdRZ0FtJlL5E+sLKndSgkVe8deu91w2fnBRMGBTYNg0
+         ZxwmKkA8BIV+29wYiGwgFS06LN15RxtUe3LQclqTsO5JIiZT2qdHTo4OCZUB+rRZCX4e
+         PoRQ==
+X-Gm-Message-State: AOAM532XeGr+Wx5JX+7cVRfcrRqxW1X5P3+j+rOfBbCLEw5qZ9vgMVU8
+        m+suXK+VVyTdjZWINL3Zsos=
+X-Google-Smtp-Source: ABdhPJwY0lELgdKl+vuRtrtkNdjLQEPngs4dNY8DJ4LNqWTNInwWFm5V+vWNOsUm14D8Jwfd2Yv1bg==
+X-Received: by 2002:a50:fe0f:: with SMTP id f15mr4499342edt.235.1599859605858;
+        Fri, 11 Sep 2020 14:26:45 -0700 (PDT)
 Received: from ?IPv6:2a01:110f:b59:fd00:e953:3254:5e71:3177? ([2a01:110f:b59:fd00:e953:3254:5e71:3177])
-        by smtp.gmail.com with ESMTPSA id z18sm2200844ejb.92.2020.09.11.14.21.33
+        by smtp.gmail.com with ESMTPSA id o3sm2605182edt.79.2020.09.11.14.26.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 14:21:34 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] leds: mt6360: Add LED driver for MT6360
-To:     Gene Chen <gene.chen.richtek@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     robh+dt@kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-References: <1599474459-20853-1-git-send-email-gene.chen.richtek@gmail.com>
- <1599474459-20853-2-git-send-email-gene.chen.richtek@gmail.com>
- <559a568e-3a2e-33c6-43aa-547a18f8e26b@gmail.com> <20200911070503.GA9818@amd>
- <CAE+NS34aKmu0tjnCPg3nF_vB0ELKsKwZSOeEXsm5V9aPAqqSbQ@mail.gmail.com>
+        Fri, 11 Sep 2020 14:26:45 -0700 (PDT)
+Subject: Re: [PATCH v4 1/3] leds: Require valid fwnode pointer for composing
+ name
+To:     Alexander Dahl <post@lespocky.de>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Alexander Dahl <ada@thorsis.com>
+References: <20200911154004.28354-1-post@lespocky.de>
+ <20200911154004.28354-2-post@lespocky.de>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <7e67c8f7-7f79-72f8-05bc-022ed0655a3f@gmail.com>
-Date:   Fri, 11 Sep 2020 23:21:32 +0200
+Message-ID: <6652b897-5044-713b-6f06-83d07be0dba7@gmail.com>
+Date:   Fri, 11 Sep 2020 23:26:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAE+NS34aKmu0tjnCPg3nF_vB0ELKsKwZSOeEXsm5V9aPAqqSbQ@mail.gmail.com>
+In-Reply-To: <20200911154004.28354-2-post@lespocky.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/11/20 1:24 AM, Gene Chen wrote:
-> Pavel Machek <pavel@ucw.cz> 於 2020年9月11日 週五 下午3:05寫道：
->>
->> Hi!
->>
->>>> +{
->>>> +    struct mt6360_led *led = container_of(lcdev, struct mt6360_led, flash.led_cdev);
->>>> +    struct mt6360_priv *priv = led->priv;
->>>> +    u32 enable_mask = MT6360_TORCHEN_MASK | MT6360_FLCSEN_MASK(led->led_no);
->>>> +    u32 val = (level) ? MT6360_FLCSEN_MASK(led->led_no) : 0;
->>>> +    u32 prev = priv->fled_torch_used, curr;
->>>> +    int ret;
->>>> +
->>>> +    dev_dbg(lcdev->dev, "[%d] brightness %d\n", led->led_no, level);
->>>> +    if (priv->fled_strobe_used) {
->>>> +            dev_warn(lcdev->dev, "Please disable strobe first [%d]\n", priv->fled_strobe_used);
->>>
->>> Doesn't hardware handle that? IOW, what happens when you have enabled
->>> both torch and flash? If flash just overrides torch mode, than you
->>> should not prevent enabling torch in this case.
->>
->> Yep, this is strange/confusing... and was reason why I asked for not
->> supporting strobe from sysfs.
->>
->> Could I get you to remove code you are not commenting at when
->> reviewing?
->>
+Hi Alexander,
+
+On 9/11/20 5:40 PM, Alexander Dahl wrote:
+> The function 'led_compose_name()' is called in
+> 'led_classdev_register_ext(()' only and in its implementation it always
+> parses the fwnode passed with the init_data struct.  If there's no
+> fwnode, EINVAL is returned and 'led_classdev_register_ext()' returns
+> early.
 > 
-> MT6360 FLED register define is STROBE_EN/TORCH_EN/CS1/CS2 (current
-> source) 4 bits.
-> The STROBE_EN/TORCH_EN is shared by FLED1 and FLED2.
-> If I want to enable FLED1 torch mode, I set TORCH_EN and CS1
-> If I want to enable FLED2 strobe mode, I set STROBE_EN and CS2
-> For example I set FLED1 torch, then I set FLED2 strobe.
-> When I set FLED2 strobe, I will see the strobe current is FLED2 add
-> FLED1 current which is not I want.
-> So I need disable FLED1 torch first.
-> Considering every circumstances is complicated when share same H/W
-> logic control.
-> And the other problem is torch mode switch to strobe mode needs ramp
-> time because strobe and torch mode can't be co-exist.
+> If this is detected early the same fallback mechanism can be used , as
+> if init_data itself is NULL.  This will allow drivers to pass fully
+> populated 'init_data' or sparse initialized 'init_data' with a NULL
+> fwnode in a more elegant way with only one function call.
+> 
+> Fixes: bb4e9af0348d ("leds: core: Add support for composing LED class device names")
+> Suggested-by: Pavel Machek <pavel@ucw.cz>
+> Signed-off-by: Alexander Dahl <post@lespocky.de>
+> ---
+> 
+> Notes:
+>      v4:
+>        * added this patch to series (Suggested-by: Pavel Machek)
+> 
+>   drivers/leds/led-class.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index cc3929f858b6..3da50c7ecfe7 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -346,7 +346,7 @@ int led_classdev_register_ext(struct device *parent,
+>   	const char *proposed_name = composed_name;
+>   	int ret;
+>   
+> -	if (init_data) {
+> +	if (init_data && init_data->fwnode) {
 
-Thank you for the explanation. So we have to keep your guards
-but I would return -EBUSY instead of -EINVAL.
+This does not cover the case when we don't have fwnode but we
+have init_data->default_label that led_compose_name() can make use of.
 
-This would be also consistent with what
-drivers/media/v4l2-core/v4l2-flash-led-class.c
-does in its v4l2_flash_s_ctrl(), case V4L2_CID_FLASH_STROBE - it returns
--EBUSY if __software_strobe_mode_inactive() returns false.
-
-The advantage of V4L2 Flash interface is that it has LED_MODE that
-can be set to torch or flash, but in LED subsystem we don't have
-the counterpart.
+>   		if (init_data->devname_mandatory && !init_data->devicename) {
+>   			dev_err(parent, "Mandatory device name is missing");
+>   			return -EINVAL;
+> 
 
 -- 
 Best regards,
