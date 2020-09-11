@@ -2,94 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90F6E2666F9
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Sep 2020 19:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AC622669D0
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Sep 2020 22:56:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726350AbgIKRgO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 11 Sep 2020 13:36:14 -0400
-Received: from lists.nic.cz ([217.31.204.67]:38016 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725994AbgIKMxd (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 11 Sep 2020 08:53:33 -0400
-Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTPSA id A6E96140868;
-        Fri, 11 Sep 2020 14:53:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1599828795; bh=httgpWCNHkS6Y7iHmeNNUnrdcyZV1boIageh9o40vZ4=;
-        h=Date:From:To;
-        b=UC0k2g4qfycx8IkCGvz+bWxdO3Uu5A3QSu8OayTPy5cUNaOI0zJhCv++kOhhGtj+O
-         4BJAjIjfhhxnOn0IA+OXklkEyilSSOUkXzWx2ZRP/ZmHbwMPC6OekH5meoZeeBRzZW
-         k7KZmOV2mTvAX+MI1JYuqmTg51pd3YUoxOpLKWMA=
-Date:   Fri, 11 Sep 2020 14:53:15 +0200
-From:   Marek =?ISO-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
-        netdev@vger.kernel.org, linux-leds@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        linux-kernel@vger.kernel.org,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH net-next + leds v2 6/7] net: phy: marvell: add support
- for LEDs controlled by Marvell PHYs
-Message-ID: <20200911145315.0492ec5c@dellmb.labs.office.nic.cz>
-In-Reply-To: <20200910214454.GE1551@shell.armlinux.org.uk>
-References: <20200909162552.11032-1-marek.behun@nic.cz>
-        <20200909162552.11032-7-marek.behun@nic.cz>
-        <20200910122341.GC7907@duo.ucw.cz>
-        <20200910131541.GD3316362@lunn.ch>
-        <20200910182434.GA22845@duo.ucw.cz>
-        <20200910183154.GF3354160@lunn.ch>
-        <20200910183435.GC1551@shell.armlinux.org.uk>
-        <20200910223112.26b57dd6@nic.cz>
-        <20200910214454.GE1551@shell.armlinux.org.uk>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1725816AbgIKU4S (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 11 Sep 2020 16:56:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57108 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725811AbgIKU4P (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Sep 2020 16:56:15 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADB4AC061573;
+        Fri, 11 Sep 2020 13:56:14 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id ay8so11476786edb.8;
+        Fri, 11 Sep 2020 13:56:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=EN1aXepR2pAjS7TkWhKDjvai8AQzIN3Al8VaNg0aZds=;
+        b=FDN5aR1mZNsEYGXCC1BPMBu0sm0hScQh2NjkB1fe3oZh5VizOrUpX/nnaUi4GgW5va
+         L+LDwSSw9Qw/DpnuvmcdBJi6SbQwk3quhgcGiQqSBUIyeCSl7RHdwo49O18KQTsMjIop
+         qDAcEgE7JoYcKXoh8woTdO8sumbjYbkyObegcVrcj3VouezYf+YgwmhTIhSEqit2Ou4Y
+         koNwrjHNpGH0dnpObyb9djReB7CKAn7StrNDCyV3qt2Gn/6kEAJMKdMGlYW2+sSQhQy0
+         qpX5oREBRaYK1lSFTy9AafMj8EdNSntKJ0pm4znDC7YvDZKVW5LnuiDKLfxOhAp38OBJ
+         xAog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=EN1aXepR2pAjS7TkWhKDjvai8AQzIN3Al8VaNg0aZds=;
+        b=slxw/Dr3tYqVODZsvURBCJgqsx2gvItxY4eIjZt/ctZwTi6inArKPLhVbo3jqVl1UF
+         0olq57AhKuJdKMcWlJIR5jrRo7LH+QmHuH4WZY12MlQmFuPb8W3T9Cfy3nVBZ5HIl8ZI
+         Y0biCkVhJWg3/K3OJ/4Btfg1qk7AHLneziU+YPhuSxr4l1JBGSGz+Fug7mu49bR0jH/d
+         qf1mJ0qdOrw3vShBol9NND17C7QED7ZyFKGo5sdRdn/W+uVs1vJ2rETIMVK6J/y+pmHV
+         R7yeckwknH8aWLdguWSLIxBJvvCtXbm8jPFSi2lzkdqqtudvVbEjZZFyyUW/BRal4uf9
+         TS8g==
+X-Gm-Message-State: AOAM5332JDAk6J/FDOai1XchPTQFL5MTPpRbDtmgYHehYUcnWO/zc0JN
+        hD4ol9xb9DXdyQWVXigRxB8=
+X-Google-Smtp-Source: ABdhPJwKOgIOcTcY6QqbJuRaVpQD5wA5CYwL5XmcohJ38wSTiq2WLVPUbKFzW9xX6/uwSYLc+ep2Pw==
+X-Received: by 2002:a50:8c24:: with SMTP id p33mr4421467edp.330.1599857773391;
+        Fri, 11 Sep 2020 13:56:13 -0700 (PDT)
+Received: from ?IPv6:2a01:110f:b59:fd00:e953:3254:5e71:3177? ([2a01:110f:b59:fd00:e953:3254:5e71:3177])
+        by smtp.gmail.com with ESMTPSA id i17sm2151979ejy.79.2020.09.11.13.56.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Sep 2020 13:56:12 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] leds: mt6360: Add LED driver for MT6360
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Gene Chen <gene.chen.richtek@gmail.com>, robh+dt@kernel.org,
+        matthias.bgg@gmail.com, dmurphy@ti.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
+        shufan_lee@richtek.com, cy_huang@richtek.com,
+        benjamin.chao@mediatek.com
+References: <1599474459-20853-1-git-send-email-gene.chen.richtek@gmail.com>
+ <1599474459-20853-2-git-send-email-gene.chen.richtek@gmail.com>
+ <559a568e-3a2e-33c6-43aa-547a18f8e26b@gmail.com> <20200911070503.GA9818@amd>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <d2721bb7-6f0e-19af-41b9-0f3ae95cf4f9@gmail.com>
+Date:   Fri, 11 Sep 2020 22:56:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200911070503.GA9818@amd>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 10 Sep 2020 22:44:54 +0100
-Russell King - ARM Linux admin <linux@armlinux.org.uk> wrote:
+Hi Pavel,
 
-> On Thu, Sep 10, 2020 at 10:31:12PM +0200, Marek Behun wrote:
-> > On Thu, 10 Sep 2020 19:34:35 +0100
-> > Russell King - ARM Linux admin <linux@armlinux.org.uk> wrote:
-> >   
-> > > On Thu, Sep 10, 2020 at 08:31:54PM +0200, Andrew Lunn wrote:  
-> > > > Generally the driver will default to the hardware reset blink
-> > > > pattern. There are a few PHY drivers which change this at
-> > > > probe, but not many. The silicon defaults are pretty good.    
-> > > 
-> > > The "right" blink pattern can be a matter of how the hardware is
-> > > wired.  For example, if you have bi-colour LEDs and the PHY
-> > > supports special bi-colour mixing modes.
-> > >   
-> > 
-> > Have you seen such, Russell? This could be achieved via the
-> > multicolor LED framework, but I don't have a device which uses such
-> > LEDs, so I did not write support for this in the Marvell PHY driver.
-> > 
-> > (I guess I could test it though, since on my device LED0 and LED1
-> > are used, and this to can be put into bi-colour LED mode.)  
+On 9/11/20 9:05 AM, Pavel Machek wrote:
+> Hi!
 > 
-> I haven't, much to my dismay. The Macchiatobin would have been ideal -
-> the 10G RJ45s have bi-colour on one side and green on the other. It
-> would have been useful if they were wired to support the PHYs bi-
-> colour mode.
+>>> +{
+>>> +	struct mt6360_led *led = container_of(lcdev, struct mt6360_led, flash.led_cdev);
+>>> +	struct mt6360_priv *priv = led->priv;
+>>> +	u32 enable_mask = MT6360_TORCHEN_MASK | MT6360_FLCSEN_MASK(led->led_no);
+>>> +	u32 val = (level) ? MT6360_FLCSEN_MASK(led->led_no) : 0;
+>>> +	u32 prev = priv->fled_torch_used, curr;
+>>> +	int ret;
+>>> +
+>>> +	dev_dbg(lcdev->dev, "[%d] brightness %d\n", led->led_no, level);
+>>> +	if (priv->fled_strobe_used) {
+>>> +		dev_warn(lcdev->dev, "Please disable strobe first [%d]\n", priv->fled_strobe_used);
+>>
+>> Doesn't hardware handle that? IOW, what happens when you have enabled
+>> both torch and flash? If flash just overrides torch mode, than you
+>> should not prevent enabling torch in this case.
+> 
+> Yep, this is strange/confusing... and was reason why I asked for not
+> supporting strobe from sysfs.
+
+What you say now is even more confusing when we look at your ack
+under this patch:
+
+commit 7aea8389a77abf9fde254aca2434a605c7704f58
+Author: Jacek Anaszewski <j.anaszewski@samsung.com>
+Date:   Fri Jan 9 07:22:51 2015 -0800
+
+     leds: Add LED Flash class extension to the LED subsystem
+
+     Some LED devices support two operation modes - torch and flash.
+     This patch provides support for flash LED devices in the LED subsystem
+     by introducing new sysfs attributes and kernel internal interface.
+     The attributes being introduced are: flash_brightness, flash_strobe,
+     flash_timeout, max_flash_timeout, max_flash_brightness, flash_fault,
+     flash_sync_strobe and available_sync_leds. All the flash related
+     features are placed in a separate module.
+
+     The modifications aim to be compatible with V4L2 framework requirements
+     related to the flash devices management. The design assumes that V4L2
+     sub-device can take of the LED class device control and communicate
+     with it through the kernel internal interface. When V4L2 Flash 
+sub-device
+     file is opened, the LED class device sysfs interface is made
+     unavailable.
+
+     Signed-off-by: Jacek Anaszewski <j.anaszewski@samsung.com>
+     Acked-by: Kyungmin Park <kyungmin.park@samsung.com>
+     Cc: Richard Purdie <rpurdie@rpsys.net>
+     Acked-by: Pavel Machek <pavel@ucw.cz>
+     Signed-off-by: Bryan Wu <cooloney@gmail.com>
+
+
+> Could I get you to remove code you are not commenting at when
+> reviewing?
+> 
+>>> +MODULE_AUTHOR("Gene Chen <gene_chen@richtek.com>");
+>>> +MODULE_DESCRIPTION("MT6360 Led Driver");
+> 
+> Led -> LED.
+> 
+> 									Pavel
 > 
 
-I have access to a Macchiatobin here at work. I am willing to add
-support for bicolor LEDs, but only after we solve and merge this first
-proposal.
-
-Marek
+-- 
+Best regards,
+Jacek Anaszewski
