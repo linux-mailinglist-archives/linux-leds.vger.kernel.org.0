@@ -2,48 +2,47 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 446EB2666F7
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Sep 2020 19:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90F6E2666F9
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Sep 2020 19:36:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725942AbgIKMxp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 11 Sep 2020 08:53:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37784 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725980AbgIKMwR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Sep 2020 08:52:17 -0400
-Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 316C4C061756;
-        Fri, 11 Sep 2020 05:52:15 -0700 (PDT)
+        id S1726350AbgIKRgO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 11 Sep 2020 13:36:14 -0400
+Received: from lists.nic.cz ([217.31.204.67]:38016 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725994AbgIKMxd (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 11 Sep 2020 08:53:33 -0400
 Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTPSA id 16469140854;
-        Fri, 11 Sep 2020 14:52:12 +0200 (CEST)
+        by mail.nic.cz (Postfix) with ESMTPSA id A6E96140868;
+        Fri, 11 Sep 2020 14:53:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1599828732; bh=FQBrLZyjtqOWsYrOkoBZhbIGm6CcKwNST13WWl6Abic=;
+        t=1599828795; bh=httgpWCNHkS6Y7iHmeNNUnrdcyZV1boIageh9o40vZ4=;
         h=Date:From:To;
-        b=xzKaYk8B+ogEJa3dLTY0z2qVUOhw/JO4fnzug+rzs2yfm0mNkvc+yDY9WZDdyu7/4
-         S0DvbTsSvc/U6qPT3PeGjxcEAw5lnYnmGpo6IFjF0uwdJVA10cHCzyGeMBnoYurSCY
-         2CLx5hMeVePD6dbE22AYRpHH8KKV1sFCh0rt2HlM=
-Date:   Fri, 11 Sep 2020 14:52:11 +0200
+        b=UC0k2g4qfycx8IkCGvz+bWxdO3Uu5A3QSu8OayTPy5cUNaOI0zJhCv++kOhhGtj+O
+         4BJAjIjfhhxnOn0IA+OXklkEyilSSOUkXzWx2ZRP/ZmHbwMPC6OekH5meoZeeBRzZW
+         k7KZmOV2mTvAX+MI1JYuqmTg51pd3YUoxOpLKWMA=
+Date:   Fri, 11 Sep 2020 14:53:15 +0200
 From:   Marek =?ISO-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-To:     Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Cc:     Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
         netdev@vger.kernel.org, linux-leds@vger.kernel.org,
         Dan Murphy <dmurphy@ti.com>,
         =?UTF-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        Russell King <linux@armlinux.org.uk>,
         linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
         "David S. Miller" <davem@davemloft.net>
 Subject: Re: [PATCH net-next + leds v2 6/7] net: phy: marvell: add support
  for LEDs controlled by Marvell PHYs
-Message-ID: <20200911145211.0bc3942b@dellmb.labs.office.nic.cz>
-In-Reply-To: <3d4dd05f2597c66fb429580095eed91c2b3be76a.camel@ew.tq-group.com>
+Message-ID: <20200911145315.0492ec5c@dellmb.labs.office.nic.cz>
+In-Reply-To: <20200910214454.GE1551@shell.armlinux.org.uk>
 References: <20200909162552.11032-1-marek.behun@nic.cz>
         <20200909162552.11032-7-marek.behun@nic.cz>
         <20200910122341.GC7907@duo.ucw.cz>
         <20200910131541.GD3316362@lunn.ch>
-        <20200910161522.3cf3ad63@dellmb.labs.office.nic.cz>
-        <20200910150040.GB3354160@lunn.ch>
-        <3d4dd05f2597c66fb429580095eed91c2b3be76a.camel@ew.tq-group.com>
+        <20200910182434.GA22845@duo.ucw.cz>
+        <20200910183154.GF3354160@lunn.ch>
+        <20200910183435.GC1551@shell.armlinux.org.uk>
+        <20200910223112.26b57dd6@nic.cz>
+        <20200910214454.GE1551@shell.armlinux.org.uk>
 X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -59,128 +58,38 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 11 Sep 2020 09:12:01 +0200
-Matthias Schiffer <matthias.schiffer@ew.tq-group.com> wrote:
+On Thu, 10 Sep 2020 22:44:54 +0100
+Russell King - ARM Linux admin <linux@armlinux.org.uk> wrote:
 
-> On Thu, 2020-09-10 at 17:00 +0200, Andrew Lunn wrote:
-> > > I propose that at least these HW modes should be available (and
-> > > documented) for ethernet PHY controlled LEDs:
-> > >   mode to determine link on:
-> > >     - `link`
-> > >   mode for activity (these should blink):
-> > >     - `activity` (both rx and tx), `rx`, `tx`
-> > >   mode for link (on) and activity (blink)
-> > >     - `link/activity`, maybe `link/rx` and `link/tx`
-> > >   mode for every supported speed:
-> > >     - `1Gbps`, `100Mbps`, `10Mbps`, ...
-> > >   mode for every supported cable type:
-> > >     - `copper`, `fiber`, ... (are there others?)  
-> > 
-> > In theory, there is AUI and BNC, but no modern device will have
-> > these.
+> On Thu, Sep 10, 2020 at 10:31:12PM +0200, Marek Behun wrote:
+> > On Thu, 10 Sep 2020 19:34:35 +0100
+> > Russell King - ARM Linux admin <linux@armlinux.org.uk> wrote:
 > >   
-> > >   mode that allows the user to determine link speed
-> > >     - `speed` (or maybe `linkspeed` ?)
-> > >     - on some Marvell PHYs the speed can be determined by how fast
-> > >       the LED is blinking (ie. 1Gbps blinks with default blinking
-> > >       frequency, 100Mbps with half blinking frequeny of 1Gbps,
-> > > 10Mbps
-> > >       of half blinking frequency of 100Mbps)
-> > >     - on other Marvell PHYs this is instead:
-> > >       1Gpbs blinks 3 times, pause, 3 times, pause, ...
-> > >       100Mpbs blinks 2 times, pause, 2 times, pause, ...
-> > >       10Mpbs blinks 1 time, pause, 1 time, pause, ...
-> > >     - we don't need to differentiate these modes with different
-> > > names,
-> > >       because the important thing is just that this mode allows
-> > > the user to determine the speed from how the LED blinks
-> > >   mode to just force blinking
-> > >     - `blink`
-> > > The nice thing is that all this can be documented and done in
-> > > software
-> > > as well.  
+> > > On Thu, Sep 10, 2020 at 08:31:54PM +0200, Andrew Lunn wrote:  
+> > > > Generally the driver will default to the hardware reset blink
+> > > > pattern. There are a few PHY drivers which change this at
+> > > > probe, but not many. The silicon defaults are pretty good.    
+> > > 
+> > > The "right" blink pattern can be a matter of how the hardware is
+> > > wired.  For example, if you have bi-colour LEDs and the PHY
+> > > supports special bi-colour mixing modes.
+> > >   
 > > 
-> > Have you checked include/dt-bindings/net/microchip-lan78xx.h and
-> > mscc-phy-vsc8531.h ? If you are defining something generic, we need
-> > to
-> > make sure the majority of PHYs can actually do it. There is no
-> > standardization in this area. I'm sure there is some similarity,
-> > there
-> > is only so many ways you can blink an LED, but i suspect we need a
-> > mixture of standardized modes which we hope most PHYs implement, and
-> > the option to support hardware specific modes.
+> > Have you seen such, Russell? This could be achieved via the
+> > multicolor LED framework, but I don't have a device which uses such
+> > LEDs, so I did not write support for this in the Marvell PHY driver.
 > > 
-> >     Andrew  
+> > (I guess I could test it though, since on my device LED0 and LED1
+> > are used, and this to can be put into bi-colour LED mode.)  
 > 
-> 
-> FWIW, these are the LED HW trigger modes supported by the TI DP83867
-> PHY:
-> 
-> - Receive Error
-> - Receive Error or Transmit Error
-
-Does somebody use this? I would just omit these.
-
-> - Link established, blink for transmit or receive activity
-
-`link/activity`
-
-> - Full duplex
-
-Not needed for now, I think.
-
-> - 100/1000BT link established
-> - 10/100BT link established
-
-Disjunctive modes can go f*** themselves :)
-
-> - 10BT link established
-> - 100BT link established
-> - 1000BT link established
-
-`10Mbps`, `100Mbps`, `1Gbps`
-
-> - Collision detected
-
-Not needed for now.
-
-> - Receive activity
-> - Transmit activity
-
-`rx/tx`
-
-> - Receive or Transmit activity
-
-`activity`
-
-> - Link established
-
-`link`
-
-> 
-> AFAIK, the "Link established, blink for transmit or receive activity"
-> is the only trigger that involves blinking; all other modes simply
-> make the LED light up when the condition is met. Setting the output
-> level in software is also possible.
-> 
-> Regarding the option to emulate unsupported HW triggers in software,
-> two questions come to my mind:
-> 
-> - Do all PHYs support manual setting of the LED level, or are the PHYs
-> that can only work with HW triggers?
-> - Is setting PHY registers always efficiently possible, or should SW
-> triggers be avoided in certain cases? I'm thinking about setups like
-> mdio-gpio. I guess this can only become an issue for triggers that
-> blink.
-
-The software trigger do not have to work with the LED connected to the
-PHY. Any other LED on the system can be used. Only the information
-about link and speed must come from the PHY, and kernel does have this
-information already, either by polling or from interrupt.
-
-> 
-> 
-> Kind regards,
-> Matthias
+> I haven't, much to my dismay. The Macchiatobin would have been ideal -
+> the 10G RJ45s have bi-colour on one side and green on the other. It
+> would have been useful if they were wired to support the PHYs bi-
+> colour mode.
 > 
 
+I have access to a Macchiatobin here at work. I am willing to add
+support for bicolor LEDs, but only after we solve and merge this first
+proposal.
+
+Marek
