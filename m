@@ -2,78 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42BAE26765F
-	for <lists+linux-leds@lfdr.de>; Sat, 12 Sep 2020 01:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70F8E26773C
+	for <lists+linux-leds@lfdr.de>; Sat, 12 Sep 2020 04:24:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725889AbgIKXKx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 11 Sep 2020 19:10:53 -0400
-Received: from mail.nic.cz ([217.31.204.67]:60790 "EHLO mail.nic.cz"
+        id S1725765AbgILCYO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 11 Sep 2020 22:24:14 -0400
+Received: from m12-14.163.com ([220.181.12.14]:33449 "EHLO m12-14.163.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725856AbgIKXKv (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 11 Sep 2020 19:10:51 -0400
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id E3B751409C6;
-        Sat, 12 Sep 2020 01:10:45 +0200 (CEST)
-Date:   Sat, 12 Sep 2020 01:10:45 +0200
-From:   Marek Behun <marek.behun@nic.cz>
+        id S1725562AbgILCYN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 11 Sep 2020 22:24:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=QMo56
+        RhklZ2LepW7CTmbVzItjGLs4oQqQgOIOoy4EJ0=; b=jl3DmpbkJvv1blArBxvUR
+        LxxlyFr2VK6eun+wAVTY9itRY7EWNDq0WLcGY9i9b5ltDexaxs80TArIg6GCpUNL
+        L0926CxhVA1RVQ2NGQBblWAnGIo1ztwHOpvsclrTnklDecmvH8fB3OP36cXTBRUm
+        R/eOBHzwty6GA1r7fMSYuI=
+Received: from [192.168.1.166] (unknown [58.33.126.61])
+        by smtp10 (Coremail) with SMTP id DsCowADHzVEsMVxf83FjKg--.8433S2;
+        Sat, 12 Sep 2020 10:23:41 +0800 (CST)
+Subject: Re: [PATCH v3 1/2] leds: is31fl319x: Add shutdown pin and generate a
+ 5ms low pulse when startup
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        netdev@vger.kernel.org, linux-leds@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?B?T25k?= =?UTF-8?B?xZllag==?= Jirman 
-        <megous@megous.com>, linux-kernel@vger.kernel.org,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Yet another ethernet PHY LED control proposal
-Message-ID: <20200912011045.35bad071@nic.cz>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Cc:     jacek.anaszewski@gmail.com, dmurphy@ti.com, robh+dt@kernel.org,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200825082206.26575-1-von81@163.com>
+ <20200909091825.GA14289@amd>
+From:   Grant Feng <von81@163.com>
+Message-ID: <68948033-6d74-a10f-c81f-ee65a528032d@163.com>
+Date:   Sat, 12 Sep 2020 10:23:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+In-Reply-To: <20200909091825.GA14289@amd>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: DsCowADHzVEsMVxf83FjKg--.8433S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+        VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUyPkuUUUUU
+X-Originating-IP: [58.33.126.61]
+X-CM-SenderInfo: xyrqmii6rwjhhfrp/1tbiNw2dOlWBh8RtKAAAsP
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello,
+Thanks for the info.
 
-I have been thinking about another way to implement ABI for HW control
-of ethernet PHY connected LEDs.
+Best regards,
 
-This proposal is inspired by the fact that for some time there is a
-movement in the kernel to do transparent HW offloading of things (DSA
-is an example of that).
+                                                 Grant
 
-So currently we have the `netdev` trigger. When this is enabled for a
-LED, new files will appear in that LED's sysfs directory:
-  - `device_name` where user is supposed to write interface name
-  - `link` if set to 1, the LED will be ON if the interface is linked
-  - `rx` if set to 1, the LED will blink on receive event
-  - `tx` if set to 1, the LED will blink on transmit event
-  - `interval` specifies duration of the LED blink
+On 2020-09-09 17:18, Pavel Machek wrote:
+> On Tue 2020-08-25 16:22:05, Grant Feng wrote:
+>> generate a 5ms low pulse on shutdown pin when startup, then the chip
+>> becomes more stable in the complex EM environment.
+> Thanks, I applied the series.
+>
+> Best regards,
+> 								Pavel
+> 								
 
-Now what is interesting is that almost all combinations of link/rx/tx
-settings are offloadable to a Marvell PHY! (Not to all LEDs, though...)
-
-So what if we abandoned the idea of a `hw` trigger, and instead just
-allowed a LED trigger to be offloadable, if that specific LED supports
-it?
-
-For the HW mode for different speed we can just expand the `link` sysfs
-file ABI, so that if user writes a specific speed to this file, instead
-of just "1", the LED will be on if the interface is linked on that
-specific speed. Or maybe another sysfs file could be used for "light on
-N mbps" setting...
-
-Afterwards we can figure out other possible modes.
-
-What do you think?
-
-Marek
