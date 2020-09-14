@@ -2,27 +2,27 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A16592699D7
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Sep 2020 01:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B95C82699DC
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Sep 2020 01:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726040AbgINXmA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 14 Sep 2020 19:42:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38792 "EHLO
+        id S1726073AbgINXmB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 14 Sep 2020 19:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725994AbgINXl4 (ORCPT
+        with ESMTP id S1726028AbgINXl4 (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Sep 2020 19:41:56 -0400
-Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CAB0C06174A;
-        Mon, 14 Sep 2020 16:41:54 -0700 (PDT)
+Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9236C06178A;
+        Mon, 14 Sep 2020 16:41:55 -0700 (PDT)
 Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id EBB6F140A9E;
-        Tue, 15 Sep 2020 01:41:48 +0200 (CEST)
+        by mail.nic.cz (Postfix) with ESMTP id 1E690140AAB;
+        Tue, 15 Sep 2020 01:41:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1600126909; bh=P1qqA6kviRKjp2OK9u0xbL5be5xWvGGAA5YUHrLIfOI=;
+        t=1600126909; bh=RGwHFtnPqsz9dYjQRQ8Hck/hiD/YUNSzQaG9K/s+tJ0=;
         h=From:To:Date;
-        b=ca6Y7KPK55qOT2dPVrgb/i75tNRvJrBvIOSwsQ9/IrKy5HFpoe5gNuH7jmJaIxI+i
-         qzXdzlTbXTNeeW9YF9kTMCHZFlIKI3wPg+IRsxxM1zE0roM/n4LqMy3MmLwdUsHwP3
-         1fB8XP05V7IXPR3ejXWa2wpzdhJ1mE+Ohm+NbLGk=
+        b=xjNxACHxEHKgbhe53ygc1MpNEwqj0txgGAuUi7l7DwbtZXlE91yMIX/CqYn++2VDR
+         Y6TwHwrPUYfsFyFM8IRP62V3K9ewjag7wxqidIJ5iQaG/pVSQCrMdHbTiucchTxlQc
+         lbXfM5AwdVyXAYtkFsDzb5KkD8nzidZ/Fo4N69AQ=
 From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
 To:     linux-leds@vger.kernel.org
 Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
@@ -30,11 +30,14 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Russell King <linux@armlinux.org.uk>,
         Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
         Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-Subject: [PATCH leds + devicetree v1 0/2] Parse DT property `trigger-sources` for netdev LED trigger
-Date:   Tue, 15 Sep 2020 01:41:46 +0200
-Message-Id: <20200914234148.19837-1-marek.behun@nic.cz>
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: [PATCH leds + devicetree v1 1/2] leds: trigger: add DT `trigger-sources` validating method
+Date:   Tue, 15 Sep 2020 01:41:47 +0200
+Message-Id: <20200914234148.19837-2-marek.behun@nic.cz>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200914234148.19837-1-marek.behun@nic.cz>
+References: <20200914234148.19837-1-marek.behun@nic.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -48,61 +51,97 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Currently we use the `linux,default-trigger` device tree property of a
+LED to define the default trigger which should be activated for a LED.
 
-the `trigger-sources` LED DT property is currently only implemented
-for ledtrig-usbport.
+But the LED device tree binding also documents the `trigger-sources`
+property, which specifies the source device which should be triggering
+the LED.
 
-Lets implement it for the netdev LED trigger.
+The `trigger-sources` property is currently implemented only in
+drivers/usb/core/ledtrig-usbport.c.
 
-In this proposal the specific netdev LED trigger mode is determined
-from the `function` LED DT property.
+Lets add a method to struct led_trigger which, if implemented, can check
+whether this trigger should be enabled as default. This check shall be
+done by checking whether the specified `trigger-sources` refers to a
+device compatible with the trigger.
 
-Example:
-  eth0: ethernet@30000 {
-    compatible = "xyz";
-    #trigger-source-cells = <0>;
-  };
+Signed-off-by: Marek Behún <marek.behun@nic.cz>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: devicetree@vger.kernel.org
+---
+ drivers/leds/led-triggers.c | 26 ++++++++++++++++++--------
+ include/linux/leds.h        |  6 ++++++
+ 2 files changed, 24 insertions(+), 8 deletions(-)
 
-  led {
-    color = <LED_COLOR_ID_GREEN>;
-    function = LED_FUNCTION_LINK;
-    trigger-sources = <&eth0>;
-  };
-
-When led is registered, the netdev trigger is automatically activated
-and set to light the LED on if eth0 is linked.
-
-Please let me know if this binding is OK, or if the binding should
-instead of the `function` property determine the trigger settings from
-arguments of the `trigger-sources` property :
-  led {
-    color = <LED_COLOR_ID_GREEN>;
-    trigger-sources = <&eth0 (NETDEV_ATTR_LINK | NETDEV_ATTR_RX)>;
-  };
-
-I prefer the first binding, since we already have the `function`
-property. Multiple modes can be achieved by string array, but this is
-not yet implemented:
-  led {
-    color = <LED_COLOR_ID_GREEN>;
-    function = LED_FUNCTION_LINK, LED_FUNCTION_ACTIVITY;
-    trigger-sources = <&eth0>;
-  };
-
-Marek
-
-Marek Behún (2):
-  leds: trigger: add DT `trigger-source` validating method
-  leds: trigger: netdev: allow parsing `trigger-sources` from device
-    tree
-
- drivers/leds/led-triggers.c           | 26 +++++---
- drivers/leds/trigger/ledtrig-netdev.c | 91 ++++++++++++++++++++++++++-
- include/dt-bindings/leds/common.h     |  1 +
- include/linux/leds.h                  |  6 ++
- 4 files changed, 115 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+index 91da90cfb11d9..c96577f0bfe97 100644
+--- a/drivers/leds/led-triggers.c
++++ b/drivers/leds/led-triggers.c
+@@ -243,18 +243,30 @@ void led_trigger_remove(struct led_classdev *led_cdev)
+ }
+ EXPORT_SYMBOL_GPL(led_trigger_remove);
+ 
++static bool trigger_is_default(struct led_classdev *led_cdev,
++			       struct led_trigger *trig)
++{
++	if (!trigger_relevant(led_cdev, trig))
++		return false;
++
++	if (led_cdev->default_trigger &&
++	    !strcmp(led_cdev->default_trigger, trig->name))
++		return true;
++
++	if (trig->has_valid_source && trig->has_valid_source(led_cdev))
++		return true;
++
++	return false;
++}
++
+ void led_trigger_set_default(struct led_classdev *led_cdev)
+ {
+ 	struct led_trigger *trig;
+ 
+-	if (!led_cdev->default_trigger)
+-		return;
+-
+ 	down_read(&triggers_list_lock);
+ 	down_write(&led_cdev->trigger_lock);
+ 	list_for_each_entry(trig, &trigger_list, next_trig) {
+-		if (!strcmp(led_cdev->default_trigger, trig->name) &&
+-		    trigger_relevant(led_cdev, trig)) {
++		if (trigger_is_default(led_cdev, trig)) {
+ 			led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
+ 			led_trigger_set(led_cdev, trig);
+ 			break;
+@@ -306,9 +318,7 @@ int led_trigger_register(struct led_trigger *trig)
+ 	down_read(&leds_list_lock);
+ 	list_for_each_entry(led_cdev, &leds_list, node) {
+ 		down_write(&led_cdev->trigger_lock);
+-		if (!led_cdev->trigger && led_cdev->default_trigger &&
+-		    !strcmp(led_cdev->default_trigger, trig->name) &&
+-		    trigger_relevant(led_cdev, trig)) {
++		if (!led_cdev->trigger && trigger_is_default(led_cdev, trig)) {
+ 			led_cdev->flags |= LED_INIT_DEFAULT_TRIGGER;
+ 			led_trigger_set(led_cdev, trig);
+ 		}
+diff --git a/include/linux/leds.h b/include/linux/leds.h
+index 6a8d6409c993e..4cbb826e4bec4 100644
+--- a/include/linux/leds.h
++++ b/include/linux/leds.h
+@@ -352,6 +352,12 @@ struct led_trigger {
+ 	int		(*activate)(struct led_classdev *led_cdev);
+ 	void		(*deactivate)(struct led_classdev *led_cdev);
+ 
++	/*
++	 * Check whether LED has defined valid source for this trigger.
++	 * If yes, this trigger should be set as default trigger for LED.
++	 */
++	bool		(*has_valid_source)(struct led_classdev *led_cdev);
++
+ 	/* LED-private triggers have this set */
+ 	struct led_hw_trigger_type *trigger_type;
+ 
 -- 
 2.26.2
 
