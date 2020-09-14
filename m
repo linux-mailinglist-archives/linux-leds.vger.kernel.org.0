@@ -2,125 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 943582694A7
-	for <lists+linux-leds@lfdr.de>; Mon, 14 Sep 2020 20:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 543452696A6
+	for <lists+linux-leds@lfdr.de>; Mon, 14 Sep 2020 22:30:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726007AbgINSUQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 14 Sep 2020 14:20:16 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:33216 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725957AbgINSUN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Sep 2020 14:20:13 -0400
-Received: by mail-il1-f195.google.com with SMTP id x2so531230ilm.0;
-        Mon, 14 Sep 2020 11:20:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=fdtDbq+D2wXO2AxeziDQlx8lKWQCn+eKp58GeSBc8HI=;
-        b=Ftl6V+Cq0t6FXqm5i0EIFs+5gdCQGXTrQawphpIBkzNemEOpp0efTfyyTU0YFN73Dd
-         fyWadD8cD1vKQ6jkbJTOStMFJwa87YJznkx9/NaoEbkfByYPpZlrYmI2nz02982bJUjL
-         H+fBOQAddAT92doesxaJf5VJ8731JLCC1LP0M0MARCkDTX43mR+2YnAvnH8lf2zbBxkX
-         uIwXNPreNiCXCNGwI/1lJ+bhKYfigUVMgVCM0ANiHxYM2WFrraW9I3FPYkcozlpGZqnp
-         IkymxpYsNpwwRFZLyETlDN2KBy7epBfmj85mqTCYrXesyTWNU+Yqf+1IDEbWjIuE5LwV
-         XEcw==
-X-Gm-Message-State: AOAM530qyPwW8tx0ZWVM2JaDp7SP9fya31fE8bXnEJTfetJeI8Hz0JRf
-        F+uSVj0WZRNdlgM8FOmxlq+Vi2PZjwt0
-X-Google-Smtp-Source: ABdhPJyaLnrvBR1GirLP6z7PnAvaEZSPl/7FkU07rnTPTggjjrfaUZoZ9Dtaxv533+HXIQmc4RkcFg==
-X-Received: by 2002:a92:7984:: with SMTP id u126mr13816635ilc.139.1600107611878;
-        Mon, 14 Sep 2020 11:20:11 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id v20sm7265643ile.42.2020.09.14.11.20.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 11:20:11 -0700 (PDT)
-Received: (nullmailer pid 4178218 invoked by uid 1000);
-        Mon, 14 Sep 2020 18:20:10 -0000
-Date:   Mon, 14 Sep 2020 12:20:10 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: common: Add mmc0 as default trigger
-Message-ID: <20200914182010.GA4172388@bogus>
-References: <20200830111115.32623-1-krzk@kernel.org>
+        id S1726133AbgINUah (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 14 Sep 2020 16:30:37 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:52572 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726308AbgINUaZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 14 Sep 2020 16:30:25 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 9D1521C0B79; Mon, 14 Sep 2020 22:30:21 +0200 (CEST)
+Date:   Mon, 14 Sep 2020 22:30:06 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek Behun <marek.behun@nic.cz>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+        netdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: Yet another ethernet PHY LED control proposal
+Message-ID: <20200914203006.GA20984@duo.ucw.cz>
+References: <20200912011045.35bad071@nic.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
 Content-Disposition: inline
-In-Reply-To: <20200830111115.32623-1-krzk@kernel.org>
+In-Reply-To: <20200912011045.35bad071@nic.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Aug 30, 2020 at 01:11:15PM +0200, Krzysztof Kozlowski wrote:
-> MMC could be a default trigger so add a pattern to match it and fix
-> dtbs_check warnings like:
-> 
->   arch/arm/boot/dts/exynos4412-odroidx.dt.yaml: leds: led2:linux,default-trigger:0:
->     'mmc0' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-activity', 'ide-disk', 'timer', 'pattern']
->     From schema: Documentation/devicetree/bindings/leds/leds-gpio.yaml
 
-The preference is to move from 'linux,default-trigger' to 'function' 
-with some standardization of the names or use the trigger-source binding.
+--BOKacYhQ+x31HxR3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  .../devicetree/bindings/leds/common.yaml      | 39 ++++++++++---------
->  1 file changed, 20 insertions(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-> index a2a541bca73c..6b38f9f3792c 100644
-> --- a/Documentation/devicetree/bindings/leds/common.yaml
-> +++ b/Documentation/devicetree/bindings/leds/common.yaml
-> @@ -78,25 +78,26 @@ properties:
->        This parameter, if present, is a string defining the trigger assigned to
->        the LED.
->      $ref: /schemas/types.yaml#definitions/string
-> -
-> -    enum:
-> -        # LED will act as a back-light, controlled by the framebuffer system
-> -      - backlight
-> -        # LED will turn on (but for leds-gpio see "default-state" property in
-> -        # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
-> -      - default-on
-> -        # LED "double" flashes at a load average based rate
-> -      - heartbeat
-> -        # LED indicates disk activity
-> -      - disk-activity
-> -        # LED indicates IDE disk activity (deprecated), in new implementations
-> -        # use "disk-activity"
-> -      - ide-disk
-> -        # LED flashes at a fixed, configurable rate
-> -      - timer
-> -        # LED alters the brightness for the specified duration with one software
-> -        # timer (requires "led-pattern" property)
-> -      - pattern
-> +    oneOf:
-> +      - enum:
-> +            # LED will act as a back-light, controlled by the framebuffer system
-> +          - backlight
-> +            # LED will turn on (but for leds-gpio see "default-state" property in
-> +            # Documentation/devicetree/bindings/leds/leds-gpio.yaml)
-> +          - default-on
-> +            # LED "double" flashes at a load average based rate
-> +          - heartbeat
-> +            # LED indicates disk activity
-> +          - disk-activity
-> +            # LED indicates IDE disk activity (deprecated), in new implementations
-> +            # use "disk-activity"
-> +          - ide-disk
-> +            # LED flashes at a fixed, configurable rate
-> +          - timer
-> +            # LED alters the brightness for the specified duration with one software
-> +            # timer (requires "led-pattern" property)
-> +          - pattern
-> +      - pattern: "^mmc[0-9]+$"
->  
->    led-pattern:
->      description: |
-> -- 
-> 2.17.1
-> 
+Hi!
+
+> I have been thinking about another way to implement ABI for HW control
+> of ethernet PHY connected LEDs.
+>=20
+> This proposal is inspired by the fact that for some time there is a
+> movement in the kernel to do transparent HW offloading of things (DSA
+> is an example of that).
+
+And it is good proposal.
+
+> So currently we have the `netdev` trigger. When this is enabled for a
+> LED, new files will appear in that LED's sysfs directory:
+>   - `device_name` where user is supposed to write interface name
+>   - `link` if set to 1, the LED will be ON if the interface is linked
+>   - `rx` if set to 1, the LED will blink on receive event
+>   - `tx` if set to 1, the LED will blink on transmit event
+>   - `interval` specifies duration of the LED blink
+>=20
+> Now what is interesting is that almost all combinations of link/rx/tx
+> settings are offloadable to a Marvell PHY! (Not to all LEDs, though...)
+>=20
+> So what if we abandoned the idea of a `hw` trigger, and instead just
+> allowed a LED trigger to be offloadable, if that specific LED supports
+> it?
+>=20
+> For the HW mode for different speed we can just expand the `link` sysfs
+> file ABI, so that if user writes a specific speed to this file, instead
+> of just "1", the LED will be on if the interface is linked on that
+> specific speed. Or maybe another sysfs file could be used for "light on
+> N mbps" setting...
+>=20
+> Afterwards we can figure out other possible modes.
+>=20
+> What do you think?
+
+If this can be implemented (and it probably can) it is the best
+solution :-).
+
+Best regards,
+								Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--BOKacYhQ+x31HxR3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX1/SzgAKCRAw5/Bqldv6
+8nyOAKCXZm+yb0nWq0MRdfDiltwvT2EfXACgrPumGW+HW9kr2bppVAtd5dXx9Ro=
+=G7da
+-----END PGP SIGNATURE-----
+
+--BOKacYhQ+x31HxR3--
