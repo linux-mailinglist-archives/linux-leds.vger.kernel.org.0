@@ -2,95 +2,133 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B307026AF7D
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Sep 2020 23:23:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D2C326AFAC
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Sep 2020 23:38:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728089AbgIOVXk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 15 Sep 2020 17:23:40 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:39648 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727928AbgIOVXK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Sep 2020 17:23:10 -0400
-Received: by mail-io1-f66.google.com with SMTP id b6so5806703iof.6;
-        Tue, 15 Sep 2020 14:23:00 -0700 (PDT)
+        id S1728150AbgIOVgm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 15 Sep 2020 17:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44654 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728149AbgIOVfa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Sep 2020 17:35:30 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA81AC06174A;
+        Tue, 15 Sep 2020 14:35:29 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id n22so4513003edt.4;
+        Tue, 15 Sep 2020 14:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=zYZu7AP7WKQMUwX+s8Baq3r1FNAJckxzLU8aedZLdh4=;
+        b=pQ9rUCXTUXQn6+Rgg9NiaktaiZwG3hpypdqH/VcPCAOYzWgOl5Xyh36Q2bUSEkn284
+         3KbDVq7+dB9/VZ5cgaGRwvi0oZZjYcnnJycG+JTaws/Yp6WDa+6lbra0Om+QA3jDx4kj
+         /7izJJ86gcBMauYXtbjQyiCByG8GWoChIY+fxUlojt/UVQ33Ue61jYk6U514srSjk/AA
+         I4ymrlCgynC+HEGEhvrOLRDVxZZEyT0e5RR0jKaTgn9kZlQZBYnc0utWZcC28+htSv+Y
+         6QRv1+xrDt/BVqUUI9wav4tjYrbSCB9r0F8PRrlhxZWWzjGjv9vlRyjFAKCGlVl2qhPx
+         GGrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=wQZoizpiPLGiWQ+sE3lJKxQsllW2m6IJcrK0e1QXhyw=;
-        b=fh7ndsZVurfS7wulK4qqtHuquzkUsx7bPUEiOdwdz1AujsrYyoQTnVOyLgasSk9VvL
-         QCHfOs18Kc0GLcIwFvq1vYVIKsOW/Zm5+Mu1W7A0fm0ghaqj7shdsNlOJTE0ZuZ9A8Bw
-         E/yDgKXF7uLVsIqwxzJ8h46P9igAQsE/zoLVzBSu4yWpn4aMutkYcPWTIP3qwf6g56W1
-         Ng6TZK6HE5bk3ryGgIRI0F0cVvN3B8cHahEaxcKc7hfgcwSBOZTlFjwkNyN7UJOjou4O
-         pBcMZbF+k2JzrhjU9GchKARhxD3wixdiDc/qCmfIE2W6rlnZHxjWWL45o1n4fuwB3AaH
-         hhgw==
-X-Gm-Message-State: AOAM532nWk1pl2zPgkJmQrLC0jfLPRRSO3oZi3HYOX/7sKI5bLQ5a4ux
-        8bTYkB9MFIwa2LP4V0CPqxaP1chJ4cmofCQ=
-X-Google-Smtp-Source: ABdhPJyqXU4D2bORpccxrVnlGtibgK6DID++IvrTcULScTmL0RCY140ebogp6NPOdNP4bWwlWD94Qg==
-X-Received: by 2002:a6b:6d07:: with SMTP id a7mr16456350iod.82.1600204979821;
-        Tue, 15 Sep 2020 14:22:59 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id w13sm9523010ilg.65.2020.09.15.14.22.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 14:22:59 -0700 (PDT)
-Received: (nullmailer pid 2530840 invoked by uid 1000);
-        Tue, 15 Sep 2020 21:22:58 -0000
-Date:   Tue, 15 Sep 2020 15:22:58 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH leds] dt-bindings: leds: cznic,turris-omnia-leds: fix
- error in binding
-Message-ID: <20200915212258.GA2525921@bogus>
-References: <20200915005426.15957-1-marek.behun@nic.cz>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zYZu7AP7WKQMUwX+s8Baq3r1FNAJckxzLU8aedZLdh4=;
+        b=FoDi6vb2oXEt3UePRzeTl3N6pjAn/32GzoCRWsfVNGXa9EMg5aR/Oo6HZToUQKfrAK
+         qMhQLh8KxyXt5OdZL40o8x2tOz6r526/cTO5K7xdsHWCCr3Li0UkwIkftAQc0OGTYWyq
+         V1EAW9b1/cOkXVfl5g33os9KGJ1QWi1HxkP+0PmRvDY+uUnejse37JaCjAtRdrhxW3ok
+         fwEDDyT2gjZ2kZhuBf486cyYPq9UZHzf7xAooCyNvV4KQBF+mUW/riqsmpwSfJzxLVpb
+         19/YBzC+ysz7HySd0LbNIVIYxXUJpeWqI1UlSCjsMxRZJiXK1bn4VwJCcVul9tp3fuea
+         z5ug==
+X-Gm-Message-State: AOAM533oUPQv/uwbHYsZcYKqsmrUl+ioviU4zI7oLgIOac2r1RIPzxmA
+        lt4p+wcjMELEvgMK0yGXsi9zzNRcpWE=
+X-Google-Smtp-Source: ABdhPJx4cq8Bfgz0qvLfYh+1YC1vhuSBV3HnLLxodexKKwwoFQRmAq3XmzPZh3KkFfAa1R6QZQCmYA==
+X-Received: by 2002:aa7:ce19:: with SMTP id d25mr24674880edv.189.1600205728365;
+        Tue, 15 Sep 2020 14:35:28 -0700 (PDT)
+Received: from ?IPv6:2a01:110f:b59:fd00:dd41:db23:e250:edba? ([2a01:110f:b59:fd00:dd41:db23:e250:edba])
+        by smtp.gmail.com with ESMTPSA id f21sm12697704edw.83.2020.09.15.14.35.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2020 14:35:27 -0700 (PDT)
+Subject: Re: [PATCH leds + devicetree v2 2/2] leds: trigger: netdev: parse
+ `trigger-sources` from device tree
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
+        linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?Q?Ond=c5=99ej_Jirman?= <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20200915152616.20591-1-marek.behun@nic.cz>
+ <20200915152616.20591-3-marek.behun@nic.cz>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <03fc62d8-eeaa-7b74-5ed9-7e482ea6b888@gmail.com>
+Date:   Tue, 15 Sep 2020 23:35:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20200915152616.20591-3-marek.behun@nic.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200915005426.15957-1-marek.behun@nic.cz>
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 02:54:26AM +0200, Marek Behún wrote:
-> There is a bug in the device tree binding for cznic,turris-omnia-leds
-> which causes make dt_binding_check to complain.
+Hi Marek,
+
+On 9/15/20 5:26 PM, Marek BehÃºn wrote:
+> Allow setting netdev LED trigger as default when given LED DT node has
+> the `trigger-sources` property pointing to a node corresponding to a
+> network device.
 > 
-> The reason is that the multi-led property binding's regular expression
-> does not contain the `@` character, while the example nodes do.
+> The specific netdev trigger mode is determined from the `function` LED
+> property.
 > 
-> Fix this, and also allow for longer address in property name.
+> Example:
+>    eth0: ethernet@30000 {
+>      compatible = "xyz";
+>      #trigger-source-cells = <0>;
+>    };
 > 
-> Signed-off-by: Marek Behún <marek.behun@nic.cz>
+>    led {
+>      color = <LED_COLOR_ID_GREEN>;
+>      function = LED_FUNCTION_LINK;
+>      trigger-sources = <&eth0>;
+>    };
+> 
+> Signed-off-by: Marek BehÃºn <marek.behun@nic.cz>
 > Cc: Rob Herring <robh+dt@kernel.org>
 > Cc: devicetree@vger.kernel.org
-> Cc: Pavel Machek <pavel@ucw.cz>
 > ---
->  .../devicetree/bindings/leds/cznic,turris-omnia-leds.yaml       | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/leds/trigger/ledtrig-netdev.c | 80 ++++++++++++++++++++++++++-
+>   include/dt-bindings/leds/common.h     |  1 +
+>   2 files changed, 80 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
-> index 24ad1446445ea..486ab27d75f2f 100644
-> --- a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
-> +++ b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
-> @@ -30,7 +30,7 @@ properties:
->      const: 0
->  
->  patternProperties:
-> -  "^multi-led[0-9a-f]$":
-> +  "^multi-led@[0-9a-f]+$":
+> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+> index d5e774d830215..99fc2f0c68e12 100644
+> --- a/drivers/leds/trigger/ledtrig-netdev.c
+> +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> @@ -20,6 +20,7 @@
+[...]
 
-There are only 12 LEDs on the device based on the description and 'reg', 
-so 'b' is the max unit-address.
+>   static int netdev_trig_activate(struct led_classdev *led_cdev)
+>   {
+>   	struct led_netdev_data *trigger_data;
+> @@ -414,10 +479,17 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
+>   	trigger_data->last_activity = 0;
+>   
+>   	led_set_trigger_data(led_cdev, trigger_data);
+> +	netdev_trig_of_parse(led_cdev, trigger_data);
 
-I can fixup when applying: "^multi-led@[0-9a-b]$"
+Please be aware of LED_INIT_DEFAULT_TRIGGER flag - it would make
+sense to use it here so as not to unnecessarily call
+netdev_trig_of_parse(), which makes sense only if trigger will be
+default, I presume.
 
->      type: object
->      allOf:
->        - $ref: leds-class-multicolor.yaml#
-> -- 
-> 2.26.2
-> 
+See timer_trig_activate() in  drivers/leds/trigger/ledtrig-timer.c
+for reference.
+
+-- 
+Best regards,
+Jacek Anaszewski
