@@ -2,42 +2,41 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19DD526AD63
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Sep 2020 21:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4542526AD64
+	for <lists+linux-leds@lfdr.de>; Tue, 15 Sep 2020 21:21:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727683AbgIOTVp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 15 Sep 2020 15:21:45 -0400
-Received: from mailout.pepperl-fuchs.com ([185.28.7.214]:38220 "EHLO
+        id S1727709AbgIOTVq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 15 Sep 2020 15:21:46 -0400
+Received: from mailout.pepperl-fuchs.com ([185.28.7.214]:38219 "EHLO
         mailout.pepperl-fuchs.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727886AbgIOTVk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Sep 2020 15:21:40 -0400
+        with ESMTP id S1727771AbgIOTVl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Sep 2020 15:21:41 -0400
+X-Greylist: delayed 528 seconds by postgrey-1.27 at vger.kernel.org; Tue, 15 Sep 2020 15:21:39 EDT
 Received: from pfde-ex2.EU.P-F.BIZ (pfde-ex2.eu.p-f.biz [172.24.5.162])
-        by mailout.pepperl-fuchs.com (Postfix) with ESMTP id 8154282A39;
+        by mailout.pepperl-fuchs.com (Postfix) with ESMTP id 7412682976;
         Tue, 15 Sep 2020 21:12:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=de.pepperl-fuchs.com;
         s=mail; t=1600197169;
-        bh=T7oIZxaZBsofqbaAn2FHYk3t7jwaD46SQAZWwbJajoY=;
+        bh=zf9QxKMNzZ5jIH+u98LimxEMyPEwIfem0PoLphl0yVA=;
         h=From:To:CC:Subject:Date;
-        b=E7ZBGfQ5X7IQsSC2sJkViX5SECWa9UsbMDFn4swwdw3REGo+Tcfwwm24WvGghwYFJ
-         4o8ke43bkfwl+CI6Zt/i9RHHNtZdPI5dWlF8X1BLoVvMT8clNYJBnVpKrqnnV+N+ic
-         MfCpYYqqSQWupqzYKhB2KDwepLhqGEtE1Cp0siyI=
+        b=OIt3VGVukVaR6M27Y2nkHp2SyJ9X1v1ybeJ/Ojieus9d+xfVdKn8MCOqiNXZTzCB3
+         f1fYKdHbBDYUxEFFQYnQFyb9DtvOZ6jDLniLAUtWdHr4xq2JL2iiCLhl2bHQS62aoC
+         29zh6opwQHCVjHVBQwSdrfBChoI0rJohneaaM8GU=
 Received: from pfde-ex2.EU.P-F.BIZ (172.24.5.162) by pfde-ex2.EU.P-F.BIZ
  (172.24.5.162) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Tue, 15 Sep
  2020 21:12:46 +0200
 Received: from pfde-ex2.EU.P-F.BIZ ([fe80::1d2f:1056:2cb8:d231]) by
  pfde-ex2.EU.P-F.BIZ ([fe80::1d2f:1056:2cb8:d231%2]) with mapi id
- 15.01.1847.007; Tue, 15 Sep 2020 21:12:45 +0200
+ 15.01.1847.007; Tue, 15 Sep 2020 21:12:46 +0200
 From:   Moll Markus <mmoll@de.pepperl-fuchs.com>
 To:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-CC:     Pavel Machek <pavel@ucw.cz>, Riku Voipio <riku.voipio@iki.fi>
-Subject: [PATCH 1/2] leds: pca9532: correct shift computation in
- pca9532_getled
-Thread-Topic: [PATCH 1/2] leds: pca9532: correct shift computation in
- pca9532_getled
-Thread-Index: AdaLkmsbzQ8eoUz8SVikaYSmpwCdhA==
-Date:   Tue, 15 Sep 2020 19:12:45 +0000
-Message-ID: <6a16ba71ed624748b6601933397e697e@de.pepperl-fuchs.com>
+CC:     Riku Voipio <riku.voipio@iki.fi>, Pavel Machek <pavel@ucw.cz>
+Subject: [PATCH 2/2] leds: pca9532: use mask and shift helper macros
+Thread-Topic: [PATCH 2/2] leds: pca9532: use mask and shift helper macros
+Thread-Index: AdaLk9H+b+IDHNwES3aPM/LBy/MH6Q==
+Date:   Tue, 15 Sep 2020 19:12:46 +0000
+Message-ID: <517672dc62754eafb8e57ec731402236@de.pepperl-fuchs.com>
 Accept-Language: de-DE, en-US
 Content-Language: de-DE
 X-MS-Has-Attach: 
@@ -52,40 +51,63 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Each led occupies two bits in the register, so the required shift is
-LED_NUM(id) * 2, exactly as in pca9532_setled. Furthermore, irrelevant
-higher bits need to be masked appropriately.
-
-The function is used to implement 'default-status =3D "keep"', which did
-not work properly before.
+Each led setting occupies two bits in a corresponding led register.
+Accessing these bits requires shifting and masking. The new helper
+macros concentrate the computation of those masks in one place.
 
 Signed-off-by: Markus Moll <mmoll@de.pepperl-fuchs.com>
 ---
- drivers/leds/leds-pca9532.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+
+ drivers/leds/leds-pca9532.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/leds/leds-pca9532.c b/drivers/leds/leds-pca9532.c
-index 7d515d5e57b..d822ffcdbae 100644
+index d822ffcdbae..890f19d3c62 100644
 --- a/drivers/leds/leds-pca9532.c
 +++ b/drivers/leds/leds-pca9532.c
-@@ -260,7 +260,7 @@ static enum pca9532_state pca9532_getled(struct pca9532=
+@@ -27,6 +27,8 @@
+ #define PCA9532_REG_PWM(m, i)(PCA9532_REG_OFFSET(m) + 0x2 + (i) * 2)
+ #define LED_REG(m, led)(PCA9532_REG_OFFSET(m) + 0x5 + (led >> 2))
+ #define LED_NUM(led)(led & 0x3)
++#define LED_SHIFT(led)(LED_NUM(led) * 2)
++#define LED_MASK(led)(0x3 << LED_SHIFT(led))
+
+ #define ldev_to_led(c)       container_of(c, struct pca9532_led, ldev)
+
+@@ -162,9 +164,9 @@ static void pca9532_setled(struct pca9532_led *led)
+ mutex_lock(&data->update_lock);
+ reg =3D i2c_smbus_read_byte_data(client, LED_REG(maxleds, led->id));
+ /* zero led bits */
+-reg =3D reg & ~(0x3<<LED_NUM(led->id)*2);
++reg =3D reg & ~LED_MASK(led->id);
+ /* set the new value */
+-reg =3D reg | (led->state << LED_NUM(led->id)*2);
++reg =3D reg | (led->state << LED_SHIFT(led->id));
+ i2c_smbus_write_byte_data(client, LED_REG(maxleds, led->id), reg);
+ mutex_unlock(&data->update_lock);
+ }
+@@ -260,7 +262,7 @@ static enum pca9532_state pca9532_getled(struct pca9532=
 _led *led)
 
  mutex_lock(&data->update_lock);
  reg =3D i2c_smbus_read_byte_data(client, LED_REG(maxleds, led->id));
--ret =3D reg >> LED_NUM(led->id)/2;
-+ret =3D (reg >> LED_NUM(led->id) * 2) & 0x3;
+-ret =3D (reg >> LED_NUM(led->id) * 2)&0x3;
++ret =3D (reg & LED_MASK(led->id)) >> LED_SHIFT(led->id);
  mutex_unlock(&data->update_lock);
  return ret;
  }
 --
 2.25.1
 
+
 i.A. Dr. Markus Moll
 Pepperl+Fuchs SE
 Gesch=E4ftsbereich VT-IVC
 Lilienthalstra=DFe 200
 68307 Mannheim
+Telefon: +49 621 776 - 4282
+
+
 
 
 Pepperl+Fuchs SE, Mannheim
