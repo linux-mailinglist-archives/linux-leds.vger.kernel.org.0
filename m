@@ -2,46 +2,37 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D53726B2DA
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Sep 2020 00:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AA3A26B551
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Sep 2020 01:42:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727592AbgIOWyg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 15 Sep 2020 18:54:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727304AbgIOP1W (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Sep 2020 11:27:22 -0400
-Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E4AC061351;
-        Tue, 15 Sep 2020 08:26:27 -0700 (PDT)
-Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id 0ABB9140A47;
-        Tue, 15 Sep 2020 17:26:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1600183583; bh=dv65+eYU8SaWgkfiQtVpIM3HXhYU67+hTnWMa0Ts9NI=;
-        h=From:To:Date;
-        b=SWjmxoV4EYZG3f5jRX9ldVCv4wr+nX/2ntXxCUE7/fY4HEcJCD4cXaKFCHYTZKAF6
-         6+IZobur0QfblPQr2RVm2O9Ldn5McHTiw0AUqAlm1YHHCGnYiyp6kCTxjeuL1I0BHd
-         OE5FEjh7OakE+d7S9eoWLDTgSMIpvspIjCuwuRJc=
-From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-To:     linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megous@megous.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-Subject: [PATCH leds + devicetree v2 0/2] Parse DT property `trigger-sources` for netdev LED trigger
-Date:   Tue, 15 Sep 2020 17:26:14 +0200
-Message-Id: <20200915152616.20591-1-marek.behun@nic.cz>
-X-Mailer: git-send-email 2.26.2
+        id S1727023AbgIOXmH convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Tue, 15 Sep 2020 19:42:07 -0400
+Received: from mail.nic.cz ([217.31.204.67]:54312 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727480AbgIOXlz (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 15 Sep 2020 19:41:55 -0400
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id B22111409FB;
+        Wed, 16 Sep 2020 01:41:53 +0200 (CEST)
+Date:   Wed, 16 Sep 2020 01:41:53 +0200
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH leds] dt-bindings: leds: cznic,turris-omnia-leds: fix
+ error in binding
+Message-ID: <20200916014153.4dbb05d6@nic.cz>
+In-Reply-To: <20200915212258.GA2525921@bogus>
+References: <20200915005426.15957-1-marek.behun@nic.cz>
+        <20200915212258.GA2525921@bogus>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Spam-Status: No, score=0.00
-X-Spamd-Bar: /
 X-Virus-Scanned: clamav-milter 0.102.2 at mail
 X-Virus-Status: Clean
 Sender: linux-leds-owner@vger.kernel.org
@@ -49,70 +40,42 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+On Tue, 15 Sep 2020 15:22:58 -0600
+Rob Herring <robh@kernel.org> wrote:
 
-this is v2.
-
-Changes since v1:
-- fixed problems with v1 reported by kernel test robot
-- created helper functions of_led_count_trigger_sources and
-  of_led_get_trigger_source
-
-Below is description from v1:
-
-The `trigger-sources` LED DT property is currently only implemented
-for ledtrig-usbport.
-
-Lets implement it for the netdev LED trigger.
-
-In this proposal the specific netdev LED trigger mode is determined
-from the `function` LED DT property.
-
-Example:
-  eth0: ethernet@30000 {
-    compatible = "xyz";
-    #trigger-source-cells = <0>;
-  };
-
-  led {
-    color = <LED_COLOR_ID_GREEN>;
-    function = LED_FUNCTION_LINK;
-    trigger-sources = <&eth0>;
-  };
-
-When led is registered, the netdev trigger is automatically activated
-and set to light the LED on if eth0 is linked.
-
-Please let me know if this binding is OK, or if the binding should
-instead of the `function` property determine the trigger settings from
-arguments of the `trigger-sources` property :
-  led {
-    color = <LED_COLOR_ID_GREEN>;
-    trigger-sources = <&eth0 (NETDEV_ATTR_LINK | NETDEV_ATTR_RX)>;
-  };
-
-I prefer the first binding, since we already have the `function`
-property. Multiple modes can be achieved by string array, but this is
-not yet implemented:
-  led {
-    color = <LED_COLOR_ID_GREEN>;
-    function = LED_FUNCTION_LINK, LED_FUNCTION_ACTIVITY;
-    trigger-sources = <&eth0>;
-  };
+> On Tue, Sep 15, 2020 at 02:54:26AM +0200, Marek Behún wrote:
+> > There is a bug in the device tree binding for cznic,turris-omnia-leds
+> > which causes make dt_binding_check to complain.
+> > 
+> > The reason is that the multi-led property binding's regular expression
+> > does not contain the `@` character, while the example nodes do.
+> > 
+> > Fix this, and also allow for longer address in property name.
+> > 
+> > Signed-off-by: Marek Behún <marek.behun@nic.cz>
+> > Cc: Rob Herring <robh+dt@kernel.org>
+> > Cc: devicetree@vger.kernel.org
+> > Cc: Pavel Machek <pavel@ucw.cz>
+> > ---
+> >  .../devicetree/bindings/leds/cznic,turris-omnia-leds.yaml       | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+> > index 24ad1446445ea..486ab27d75f2f 100644
+> > --- a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+> > +++ b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
+> > @@ -30,7 +30,7 @@ properties:
+> >      const: 0
+> >  
+> >  patternProperties:
+> > -  "^multi-led[0-9a-f]$":
+> > +  "^multi-led@[0-9a-f]+$":  
+> 
+> There are only 12 LEDs on the device based on the description and 'reg', 
+> so 'b' is the max unit-address.
+> 
+> I can fixup when applying: "^multi-led@[0-9a-b]$"
+> 
+Please do, thanks.
 
 Marek
-
-Marek Behún (2):
-  leds: trigger: add trigger sources validating method and helper
-    functions
-  leds: trigger: netdev: parse `trigger-sources` from device tree
-
- drivers/leds/led-triggers.c           | 68 ++++++++++++++++++++---
- drivers/leds/trigger/ledtrig-netdev.c | 80 ++++++++++++++++++++++++++-
- include/dt-bindings/leds/common.h     |  1 +
- include/linux/leds.h                  | 25 +++++++++
- 4 files changed, 165 insertions(+), 9 deletions(-)
-
--- 
-2.26.2
-
