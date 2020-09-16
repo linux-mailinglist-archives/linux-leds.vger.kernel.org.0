@@ -2,29 +2,38 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AA3A26B551
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Sep 2020 01:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 304A526B702
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Sep 2020 02:15:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727023AbgIOXmH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Tue, 15 Sep 2020 19:42:07 -0400
-Received: from mail.nic.cz ([217.31.204.67]:54312 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727480AbgIOXlz (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 15 Sep 2020 19:41:55 -0400
+        id S1727050AbgIPAPw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Tue, 15 Sep 2020 20:15:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41228 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726736AbgIPAPp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Sep 2020 20:15:45 -0400
+Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44535C06174A;
+        Tue, 15 Sep 2020 17:15:45 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id B22111409FB;
-        Wed, 16 Sep 2020 01:41:53 +0200 (CEST)
-Date:   Wed, 16 Sep 2020 01:41:53 +0200
+        by mail.nic.cz (Postfix) with ESMTPSA id 20D78140A47;
+        Wed, 16 Sep 2020 02:15:38 +0200 (CEST)
+Date:   Wed, 16 Sep 2020 02:15:37 +0200
 From:   Marek Behun <marek.behun@nic.cz>
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH leds] dt-bindings: leds: cznic,turris-omnia-leds: fix
- error in binding
-Message-ID: <20200916014153.4dbb05d6@nic.cz>
-In-Reply-To: <20200915212258.GA2525921@bogus>
-References: <20200915005426.15957-1-marek.behun@nic.cz>
-        <20200915212258.GA2525921@bogus>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?B?T25kxZllag==?= Jirman <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH leds + devicetree v2 2/2] leds: trigger: netdev: parse
+ `trigger-sources` from device tree
+Message-ID: <20200916021537.106a29e5@nic.cz>
+In-Reply-To: <03fc62d8-eeaa-7b74-5ed9-7e482ea6b888@gmail.com>
+References: <20200915152616.20591-1-marek.behun@nic.cz>
+        <20200915152616.20591-3-marek.behun@nic.cz>
+        <03fc62d8-eeaa-7b74-5ed9-7e482ea6b888@gmail.com>
 X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -40,42 +49,85 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 15 Sep 2020 15:22:58 -0600
-Rob Herring <robh@kernel.org> wrote:
+On Tue, 15 Sep 2020 23:35:25 +0200
+Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
 
-> On Tue, Sep 15, 2020 at 02:54:26AM +0200, Marek Behún wrote:
-> > There is a bug in the device tree binding for cznic,turris-omnia-leds
-> > which causes make dt_binding_check to complain.
+> Hi Marek,
+> 
+> On 9/15/20 5:26 PM, Marek Behún wrote:
+> > Allow setting netdev LED trigger as default when given LED DT node has
+> > the `trigger-sources` property pointing to a node corresponding to a
+> > network device.
 > > 
-> > The reason is that the multi-led property binding's regular expression
-> > does not contain the `@` character, while the example nodes do.
+> > The specific netdev trigger mode is determined from the `function` LED
+> > property.
 > > 
-> > Fix this, and also allow for longer address in property name.
+> > Example:
+> >    eth0: ethernet@30000 {
+> >      compatible = "xyz";
+> >      #trigger-source-cells = <0>;
+> >    };
+> > 
+> >    led {
+> >      color = <LED_COLOR_ID_GREEN>;
+> >      function = LED_FUNCTION_LINK;
+> >      trigger-sources = <&eth0>;
+> >    };
 > > 
 > > Signed-off-by: Marek Behún <marek.behun@nic.cz>
 > > Cc: Rob Herring <robh+dt@kernel.org>
 > > Cc: devicetree@vger.kernel.org
-> > Cc: Pavel Machek <pavel@ucw.cz>
 > > ---
-> >  .../devicetree/bindings/leds/cznic,turris-omnia-leds.yaml       | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >   drivers/leds/trigger/ledtrig-netdev.c | 80 ++++++++++++++++++++++++++-
+> >   include/dt-bindings/leds/common.h     |  1 +
+> >   2 files changed, 80 insertions(+), 1 deletion(-)
 > > 
-> > diff --git a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
-> > index 24ad1446445ea..486ab27d75f2f 100644
-> > --- a/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
-> > +++ b/Documentation/devicetree/bindings/leds/cznic,turris-omnia-leds.yaml
-> > @@ -30,7 +30,7 @@ properties:
-> >      const: 0
-> >  
-> >  patternProperties:
-> > -  "^multi-led[0-9a-f]$":
-> > +  "^multi-led@[0-9a-f]+$":  
+> > diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+> > index d5e774d830215..99fc2f0c68e12 100644
+> > --- a/drivers/leds/trigger/ledtrig-netdev.c
+> > +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> > @@ -20,6 +20,7 @@  
+> [...]
 > 
-> There are only 12 LEDs on the device based on the description and 'reg', 
-> so 'b' is the max unit-address.
+> >   static int netdev_trig_activate(struct led_classdev *led_cdev)
+> >   {
+> >   	struct led_netdev_data *trigger_data;
+> > @@ -414,10 +479,17 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
+> >   	trigger_data->last_activity = 0;
+> >   
+> >   	led_set_trigger_data(led_cdev, trigger_data);
+> > +	netdev_trig_of_parse(led_cdev, trigger_data);  
 > 
-> I can fixup when applying: "^multi-led@[0-9a-b]$"
+> Please be aware of LED_INIT_DEFAULT_TRIGGER flag - it would make
+> sense to use it here so as not to unnecessarily call
+> netdev_trig_of_parse(), which makes sense only if trigger will be
+> default, I presume.
 > 
-Please do, thanks.
+> See timer_trig_activate() in  drivers/leds/trigger/ledtrig-timer.c
+> for reference.
+> 
+
+Hmmm. Jacek, all the triggers that work with the macro
+LED_INIT_DEFAULT_TRIGGER are oneshot, timer and pattern.
+If this macro is set, they all call pattern_init function where they
+read led-pattern from fwnode.
+
+But there is no device tree in Linux sources using this property.
+In fact the command
+  git grep led-pattern
+yields only 2 files:
+  Documentation/devicetree/bindings/leds/common.yaml
+  drivers/leds/led-core.c
+
+What is the purpose if no device tree uses this property? Is this used
+from other fwnode sources, like acpi or efi?
+
+The reason why I am asking this is that the `led-pattern` property in
+device tree goes against the principle of device tree, that it
+shouldn't set settings settable from userspace, only describe the
+devices on the system and how they are connected to each other.
+
+This is the same reason why multi-CPU DSA proposals which proposed to
+set mappings between CPU ports and user ports were rejected...
 
 Marek
