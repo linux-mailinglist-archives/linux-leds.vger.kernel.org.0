@@ -2,82 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 222A226BB96
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Sep 2020 06:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BED1C26C60C
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Sep 2020 19:31:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726079AbgIPEsN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 16 Sep 2020 00:48:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55180 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726069AbgIPEsJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Sep 2020 00:48:09 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3273C06174A
-        for <linux-leds@vger.kernel.org>; Tue, 15 Sep 2020 21:48:09 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id a19so5196591ilq.10
-        for <linux-leds@vger.kernel.org>; Tue, 15 Sep 2020 21:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=ED3lx+kwU0inDNGcCmyEX9CWBzuv7bcPK4RBun7XBaA=;
-        b=YiBvYfNTUfy73Tbji7Mli3j/MLbyp6Kbqs0VGqRGRyxqnVeSLcNlLAsElWzphD1lwE
-         1Q48Kp3gvL3tgtEZZzcBikyS8emzdwj+ryEA6XJGQD+BNIHFMg+3WEZytOKJ143NLBQM
-         8+d9vEqRm6TvXOsdd7OXvOuzQWYNNLY73s7mL0bcYIwj+xmE/zu6trYZXuz3WnfUnCi/
-         jyJWBHrwo6tv+R6kV6oECl6xjaIOE4NRN51hjyV2H34CZcd8f3dpSsHMaOdoeKK3Y5xQ
-         iKn6O4RT7e+6k9OtxXhzqUhZf0dPGtEGMdCcD3zsHURQvZi9alwqUuV6qT5PHRJ/wd5J
-         Gmcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=ED3lx+kwU0inDNGcCmyEX9CWBzuv7bcPK4RBun7XBaA=;
-        b=ArpRcwPXD2v7ETIOS9/X8Iqi4v40PaFN+ywSEaYR75S6XIWhj6nhJLvYTmFdEr+IvH
-         r0iwnP32ZVC2eu6of2sAftcCyKlmORthpbyey+R8v7kdcnUXVRe+Xp3pcz7aLJOao/Ur
-         XedxrCHmNFNbBFbYO6PF9pTD/1HpF6Lg3nRcFWenA6bHRj5s7zH3MXZaRIgKyy0Iw9/7
-         vPGM9soC6Oo5Uz9PD1+HA6snbr97kzaXbiprGjYQrHQOcUQ6x9/Mfi8LnAQnNYr/o1qr
-         JsKPqIRZQfDdCPs1RbWMULif7wlCrlhi4DumJy++MB6xi5HsfehN9iuP4WlpyWuNApP+
-         eD2Q==
-X-Gm-Message-State: AOAM531wiKhA3twRUJk1zIW2bmz3WsLXKFqao3rhp20cg+QuHnq0CBMo
-        kQjhPNQ7iacY2onsTRyerKX00kALg0/9mJ6FYcc=
-X-Google-Smtp-Source: ABdhPJxsU7DJUvMnwSyHyg6VoQJl12kiAgJn+Mm5n0GpvJ5MoTVUfMYqWAdarPXXcKUojwo4ioCijEUbzmT5Wkwte9A=
-X-Received: by 2002:a92:c506:: with SMTP id r6mr5316552ilg.292.1600231688422;
- Tue, 15 Sep 2020 21:48:08 -0700 (PDT)
+        id S1727102AbgIPRbH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 16 Sep 2020 13:31:07 -0400
+Received: from mx009.vodafonemail.xion.oxcs.net ([153.92.174.39]:38115 "EHLO
+        mx009.vodafonemail.xion.oxcs.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727143AbgIPRaR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 16 Sep 2020 13:30:17 -0400
+Received: from vsmx002.vodafonemail.xion.oxcs.net (unknown [192.168.75.192])
+        by mta-6-out.mta.xion.oxcs.net (Postfix) with ESMTP id 52172605F75;
+        Wed, 16 Sep 2020 11:14:12 +0000 (UTC)
+Received: from app-33.app.xion.oxcs.net (app-33.app.xion.oxcs.net [10.10.1.33])
+        by mta-6-out.mta.xion.oxcs.net (Postfix) with ESMTPA id 0B5F7605F72;
+        Wed, 16 Sep 2020 11:14:05 +0000 (UTC)
+Date:   Wed, 16 Sep 2020 13:14:05 +0200 (CEST)
+From:   Markus Moll <moll.markus@arcor.de>
+To:     linux-leds@vger.kernel.org
+Cc:     Riku Voipio <riku.voipio@iki.fi>, Pavel Machek <pavel@ucw.cz>
+Message-ID: <2101433321.26224.1600254845932@mail.vodafone.de>
+In-Reply-To: <1023311712.12962.1600197989828@mail.vodafone.de>
+References: <1023311712.12962.1600197989828@mail.vodafone.de>
+Subject: [PATCH 2/2] dt: bindings: pca9532: add description of pwm and psc
+ properties
 MIME-Version: 1.0
-Received: by 2002:a02:cb03:0:0:0:0:0 with HTTP; Tue, 15 Sep 2020 21:48:07
- -0700 (PDT)
-Reply-To: ghaziahmed@myself.com
-From:   "Mr.Ghazi Ahmed" <ghazia500@gmail.com>
-Date:   Tue, 15 Sep 2020 21:48:07 -0700
-Message-ID: <CAOo=X59wKAF7Cayw7_FtR3g6Pmka99Dy=yRsv-ersS6Hr=aABA@mail.gmail.com>
-Subject: YOUR URGENT RESPONSE IS NEEDED
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Medium
+X-Mailer: Open-Xchange Mailer v7.8.4-Rev73
+X-Originating-Client: open-xchange-appsuite
+X-VADE-STATUS: LEGIT
 Sender: linux-leds-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-I have a business proposal in the tune of $10.2m USD for you to handle
-with me. I have opportunity to transfer this abandon fund to your bank
-account in your country which belongs to our client.
+These new properties allow users to configure the PWM when the device is
+probed. This is useful for e.g. uninterrupted blinking during boot.
 
-I am inviting you in this transaction where this money can be shared
-between us at ratio of 50/50% and help the needy around us don=E2=80=99t be
-afraid of anything I am with you I will instruct you what you will do
-to maintain this fund.
+Signed-off-by: Markus Moll <mmoll@de.pepperl-fuchs.com>
+---
 
-Please kindly contact me with your information's if you are interested
-in this tranasction for more details(ghaziahmed@myself.com)
+Resending this patch as it seems the first attempt wasn't successful.
+Apologies if you received this patch twice.
 
-1. Your Full Name.....................
-2. Your Address......................
-3. Your Country of Origin.............
-4. What do you do for living ...............
-5. Your Age..........................
-6. Gender.........................
-7. Your ID card copy and telephone number for easy communication...........=
-....
+ .../devicetree/bindings/leds/leds-pca9532.txt | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Mr.Ghazi Ahmed
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-pca9532.txt b/Documentation/devicetree/bindings/leds/leds-pca9532.txt
+index f769c52e364..3aa05eca9df 100644
+--- a/Documentation/devicetree/bindings/leds/leds-pca9532.txt
++++ b/Documentation/devicetree/bindings/leds/leds-pca9532.txt
+@@ -11,6 +11,14 @@ Required properties:
+ "nxp,pca9533"
+ - reg - I2C slave address
+ 
++Optional properties:
++ - nxp,pwm: array of two 8-bit values specifying the blink duty cycle
++ fractions of each pwm (default )
++ The duty cycle is pwm/256.
++ - nxp,psc: array of two 8-bit values specifying the blink period of
++ each pwm (default )
++ The period is (psc+1)/152 seconds.
++
+ Each led is represented as a sub-node of the nxp,pca9530.
+
+ Optional sub-node properties:
+@@ -26,6 +34,8 @@ Example:
+ leds: pca9530@60 {
+ compatible = "nxp,pca9530";
+ reg = ;
++ nxp,pwm = /bits/ 8 ; // 50% duty cycle
++ nxp,psc = /bits/ 8 ; // 1Hz and 4Hz, respectively
+ 
+ red-power {
+ label = "pca:red:power";
+-- 
+2.25.1
