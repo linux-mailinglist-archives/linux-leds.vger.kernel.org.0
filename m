@@ -2,177 +2,188 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45AF526CEAC
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Sep 2020 00:23:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A0C826CF81
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Sep 2020 01:18:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726426AbgIPWXZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 16 Sep 2020 18:23:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50366 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726509AbgIPWXE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Sep 2020 18:23:04 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47B7DC0698CB;
-        Wed, 16 Sep 2020 14:46:20 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id b79so35953wmb.4;
-        Wed, 16 Sep 2020 14:46:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=TNpE8CsFREeG+K3tpZiiQgAwxej8kRutW10++Eia95s=;
-        b=qUU6yFVJRDlWK9CY+8guaWsYeP60NzWm/lnQA3EFdwZt0FU1T+e9ykYk5vtfKkdoan
-         XNODn7OEREMUstes0cqJW7w0PdLvXbnZBqw0UsgdedtmZzkoEv2oBDvPlegn2LWWscJG
-         Ntd4SYFqpGJVyOSEIuIc5n31jBBVYVW8V8lpPG7j9wbQxPz2CPM+BANxZX+OimjzmINO
-         YznL4wH5lPYDnfFvMcu2OODynQx/OxPiOu8o2fSqx99kxZf4HVlKvEcHbj6Ot7z6o+rW
-         K3W06p1lpiujNJ+URykhFGjvqDB3MqkrKrnkpjCifPNsrL/sl7v2/HFMS7Jxi/hrGqnI
-         rYJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=TNpE8CsFREeG+K3tpZiiQgAwxej8kRutW10++Eia95s=;
-        b=NbmPt3gBieSgUnyCsXeC44/zupeBsKewD2+RI0Jcy2rbU1jxkZR2p5l/eFNrIeP6kZ
-         iSfsBjrgCA3t2EwK2VpKTRHwt2CyqT6Pdgb6/rr+8+BNUyZRbZBhQdMIOLzcwGFJWX0o
-         Zl7F2xnC1tbh1hPk4MSDfzt2ld8N08L3mrEOxD3cjpk6xpNTeD5QAXJXrHdQJkxzQBH9
-         I0zPc7msjXMMDsiY8/zE2UIphtGzvmrak7SQZXvBdvp2qMu0Yh5bsmyRls3P3METmaT1
-         c/gIXAu+i2ektslUKtXWinqvWZM9yny2jBtkvWihLuUvLAbAF1f0zgDPV0o5MvL99nxA
-         6tsw==
-X-Gm-Message-State: AOAM531QrBXgD7WP6xCICaclo5JlYxYqpo77EuoGWjpc7eTL3VabADH8
-        tAqrp96I7Fx89NBeImFre/TVJi4+4jk=
-X-Google-Smtp-Source: ABdhPJzNU4/fp+far1eG+SMuTa/7iTYewsQLdl+VhryRPrpgapQ0aczaIoElQDmRLf6UhkioPr8tYQ==
-X-Received: by 2002:a7b:c847:: with SMTP id c7mr6829763wml.149.1600292778569;
-        Wed, 16 Sep 2020 14:46:18 -0700 (PDT)
-Received: from ?IPv6:2a01:110f:b59:fd00:454d:4013:90b:5314? ([2a01:110f:b59:fd00:454d:4013:90b:5314])
-        by smtp.gmail.com with ESMTPSA id n14sm7348572wmi.33.2020.09.16.14.46.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2020 14:46:17 -0700 (PDT)
-Subject: Re: [PATCH leds + devicetree v2 2/2] leds: trigger: netdev: parse
- `trigger-sources` from device tree
-To:     Marek Behun <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?Q?Ond=c5=99ej_Jirman?= <megous@megous.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-References: <20200915152616.20591-1-marek.behun@nic.cz>
- <20200915152616.20591-3-marek.behun@nic.cz>
- <03fc62d8-eeaa-7b74-5ed9-7e482ea6b888@gmail.com>
- <20200916021537.106a29e5@nic.cz>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <16947964-1185-ca1b-38b6-f9829bde4105@gmail.com>
-Date:   Wed, 16 Sep 2020 23:46:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726610AbgIPXQz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 16 Sep 2020 19:16:55 -0400
+Received: from mail.nic.cz ([217.31.204.67]:53728 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726338AbgIPXQy (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 16 Sep 2020 19:16:54 -0400
+Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
+        by mail.nic.cz (Postfix) with ESMTP id EE03A14087C;
+        Thu, 17 Sep 2020 01:16:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1600298212; bh=Qzc2oeb5j3zVH60aJj9N0ARs+prgEmmPeOQqVCkt/KE=;
+        h=From:To:Date;
+        b=SLUTaYh2xQ9QgjWtW1B+v0AoTBW9QbFJefLZ+s7jVFr0pyu2inlJNRAdlDeNGlqX8
+         ZqjibhVIwWjLoOX+Rdd59vQfjronAaTPxPhdJGzL7cn7POB4xCu2C2Hs/cSh03ReUD
+         JmLz+PnowTwfplSWZjsfd3VG5z/vUrMw5TA2BTVk=
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
+To:     linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megous@megous.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
+        =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        David Rivshin <drivshin@allworx.com>,
+        "H . Nikolaus Schaller" <hns@goldelico.com>,
+        Jaedon Shin <jaedon.shin@gmail.com>,
+        John Crispin <john@phrozen.org>,
+        Kevin Cernekee <cernekee@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Simon Guinot <sguinot@lacie.com>,
+        Simon Guinot <simon.guinot@sequanux.org>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Vincent Donnefort <vdonnefort@gmail.com>
+Subject: [PATCH leds v1 00/10] Start moving parsing of `linux,default-trigger` to LED core (a cleanup of LED drivers)
+Date:   Thu, 17 Sep 2020 01:16:40 +0200
+Message-Id: <20200916231650.11484-1-marek.behun@nic.cz>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200916021537.106a29e5@nic.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Spam-Status: No, score=0.00
+X-Spamd-Bar: /
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/16/20 2:15 AM, Marek Behun wrote:
-> On Tue, 15 Sep 2020 23:35:25 +0200
-> Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
-> 
->> Hi Marek,
->>
->> On 9/15/20 5:26 PM, Marek Behún wrote:
->>> Allow setting netdev LED trigger as default when given LED DT node has
->>> the `trigger-sources` property pointing to a node corresponding to a
->>> network device.
->>>
->>> The specific netdev trigger mode is determined from the `function` LED
->>> property.
->>>
->>> Example:
->>>     eth0: ethernet@30000 {
->>>       compatible = "xyz";
->>>       #trigger-source-cells = <0>;
->>>     };
->>>
->>>     led {
->>>       color = <LED_COLOR_ID_GREEN>;
->>>       function = LED_FUNCTION_LINK;
->>>       trigger-sources = <&eth0>;
->>>     };
->>>
->>> Signed-off-by: Marek Behún <marek.behun@nic.cz>
->>> Cc: Rob Herring <robh+dt@kernel.org>
->>> Cc: devicetree@vger.kernel.org
->>> ---
->>>    drivers/leds/trigger/ledtrig-netdev.c | 80 ++++++++++++++++++++++++++-
->>>    include/dt-bindings/leds/common.h     |  1 +
->>>    2 files changed, 80 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
->>> index d5e774d830215..99fc2f0c68e12 100644
->>> --- a/drivers/leds/trigger/ledtrig-netdev.c
->>> +++ b/drivers/leds/trigger/ledtrig-netdev.c
->>> @@ -20,6 +20,7 @@
->> [...]
->>
->>>    static int netdev_trig_activate(struct led_classdev *led_cdev)
->>>    {
->>>    	struct led_netdev_data *trigger_data;
->>> @@ -414,10 +479,17 @@ static int netdev_trig_activate(struct led_classdev *led_cdev)
->>>    	trigger_data->last_activity = 0;
->>>    
->>>    	led_set_trigger_data(led_cdev, trigger_data);
->>> +	netdev_trig_of_parse(led_cdev, trigger_data);
->>
->> Please be aware of LED_INIT_DEFAULT_TRIGGER flag - it would make
->> sense to use it here so as not to unnecessarily call
->> netdev_trig_of_parse(), which makes sense only if trigger will be
->> default, I presume.
->>
->> See timer_trig_activate() in  drivers/leds/trigger/ledtrig-timer.c
->> for reference.
->>
-> 
-> Hmmm. Jacek, all the triggers that work with the macro
-> LED_INIT_DEFAULT_TRIGGER are oneshot, timer and pattern.
-> If this macro is set, they all call pattern_init function where they
-> read led-pattern from fwnode.
+Hi,
 
-The fact that they all call pattern_init() does not mean that
-the use of flag is limited only to this type of triggers.
+this series is also available at
+  https://git.kernel.org/pub/scm/linux/kernel/git/kabel/linux.git/log/?h=leds-cleanup-for-pavel
 
-It has been introduced to allow initialization of default trigger
-with required parameters, but in the same time, not to enforce
-the same initial parameters each next time the trigger is set
-for the LED.
+this is a cleanup of some LED subsystem drivers. The main reason behind
+this is that I wanted to avoid code repetition by moving the parsing
+of `linux,default-trigger` DT property from specific drivers to LED
+core. Before this series 32 drivers parse this property (31 in
+drivers/leds and one in drivers/input/keyboard/cap11xx.c).
+After applying this series only 10 drivers are parsing this property.
 
-> 
-> But there is no device tree in Linux sources using this property.
-> In fact the command
->    git grep led-pattern
-> yields only 2 files:
->    Documentation/devicetree/bindings/leds/common.yaml
->    drivers/leds/led-core.c
-> 
-> What is the purpose if no device tree uses this property? Is this used
-> from other fwnode sources, like acpi or efi?
+The reason is that in discussion [1] Rob Herring says that
+`linux,default-trigger` DT property is deprecated in favor of the
+`function` DT property. This makes sense in a way since DT should not
+be Linux specific.
 
-This is mainly useful for debugging purposes, probably that's why
-it is not present in official dts files yet.
+After all drivers are converted we can maybe start work on slow
+deprecation of this property. I do realize that we can't take it away,
+but we can at least convert device trees in Linux repository to stop
+using it in favor of `function` (and for default-on trigger in favor
+of the `default-state` DT property), and print a deprecation warning
+to the user when this `linux,default-trigger` property is present.
 
-> The reason why I am asking this is that the `led-pattern` property in
-> device tree goes against the principle of device tree, that it
-> shouldn't set settings settable from userspace, only describe the
-> devices on the system and how they are connected to each other.
+I wanted to prepare the way for slow deprecation of the DT property,
+but it turns out that it is more difficult.
 
-If that was a hard principle then we wouldn't have properties like
-linux,default-trigger. I have once asked Rob about that - see the reply
-at the and of message [0].
+The first thing I wanted to do was to move the parsing of the
+`linux,default-trigger` property to LED core. Currently many drivers
+do this themselves. But it can't be moved that simply.
 
-[0] https://lore.kernel.org/linux-leds/20181025195444.GA12737@bogus/
+The first patch in this series adds the parsing of this DT property
+into led_classdev_register_ext. If fwnode is given in init_data, the
+property is read. This patch also removes the parsing of this property
+from drivers where led_classdev_register_ext is already called. These
+are:
+  an30259a, aw2013, cr0014114, el15203000, gpio, lm3532, lm3692x,
+  lp8860, lt3593, tlc591xx and turris-omnia.
+
+Patches 2 to 6 do a simple conversion of some drivers to use
+led_classdev_register_ext. These drivers are:
+  bcm6328, bcm6358, lm3697, max77650, mt6323 and pm8058.
+
+In patches 7 to 10 I did a bigger refactor: either they first parsed
+all LED nodes and only after that started registering them, or they
+used too deep nesting or were weird in some other ways:
+  is31fl32xx, is31fl319x, lm36274 and ns2.
+
+There is still a long way to go: some drivers still use the old
+platform_data framework (which has a different structure for every
+driver) instead of device properties via fwnode_* functions or OF).
+
+Some of these can be changed to use device tree only, since they
+already support it and the platform_data isn't used by anything in
+the kernel (for example tca6507 can work with platform_data but
+there is no board definition using it, all usage is via DT).
+
+Some will be harder, because the platform_data code is still used
+(pca9532 is used in arch/arm/mach-iop32x/n2100.c). Even this can
+be done by converting the drivers to use fwnode_* API and converting
+the mach code to use swnodes. I shall look into this later.
+
+This series is compile tested on top of Pavel's tree. Since I
+obviously don't have the various hardware that this code touches,
+I am unable to test it. I therefore add maintainers and authors of
+these drivers to Cc.
+
+Marek
+
+[1] https://lore.kernel.org/linux-leds/20200909235819.0b0fe7ce@nic.cz/T/#m3b6c154f49d0467a707c0f9a552ec87bcbd89df2
+
+Cc: Álvaro Fernández Rojas <noltari@gmail.com>
+Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Dan Murphy <dmurphy@ti.com>
+Cc: David Rivshin <drivshin@allworx.com>
+Cc: H. Nikolaus Schaller <hns@goldelico.com>
+Cc: Jaedon Shin <jaedon.shin@gmail.com>
+Cc: John Crispin <john@phrozen.org>
+Cc: Kevin Cernekee <cernekee@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Ryder Lee <ryder.lee@mediatek.com>
+Cc: Sean Wang <sean.wang@mediatek.com>
+Cc: Simon Guinot <sguinot@lacie.com>
+Cc: Simon Guinot <simon.guinot@sequanux.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
+Cc: Vincent Donnefort <vdonnefort@gmail.com>
+
+Marek Behún (10):
+  leds: parse linux,default-trigger DT property in LED core
+  leds: bcm6328, bcm6358: use struct led_init_data when registering
+  leds: lm3697: use struct led_init_data when registering
+  leds: max77650: use struct led_init_data when registering
+  leds: mt6323: use struct led_init_data when registering
+  leds: pm8058: use struct led_init_data when registering
+  leds: is31fl32xx: use struct led_init_data when registering
+  leds: is31fl319x: use struct led_init_data when registering
+  leds: lm36274: use struct led_init_data when registering
+  leds: ns2: refactor and use struct led_init_data
+
+ drivers/leds/Kconfig             |   2 +-
+ drivers/leds/led-class.c         |   5 +
+ drivers/leds/leds-an30259a.c     |   3 -
+ drivers/leds/leds-aw2013.c       |   3 -
+ drivers/leds/leds-bcm6328.c      |  10 +-
+ drivers/leds/leds-bcm6358.c      |  10 +-
+ drivers/leds/leds-cr0014114.c    |   3 -
+ drivers/leds/leds-el15203000.c   |   3 -
+ drivers/leds/leds-gpio.c         |   3 -
+ drivers/leds/leds-is31fl319x.c   | 204 ++++++++---------
+ drivers/leds/leds-is31fl32xx.c   |  95 +++-----
+ drivers/leds/leds-lm3532.c       |   3 -
+ drivers/leds/leds-lm36274.c      | 100 +++++----
+ drivers/leds/leds-lm3692x.c      |   3 -
+ drivers/leds/leds-lm3697.c       |  18 +-
+ drivers/leds/leds-lp8860.c       |   4 -
+ drivers/leds/leds-lt3593.c       |   3 -
+ drivers/leds/leds-max77650.c     |  24 +-
+ drivers/leds/leds-mt6323.c       |  13 +-
+ drivers/leds/leds-ns2.c          | 361 ++++++++++---------------------
+ drivers/leds/leds-pm8058.c       |  38 ++--
+ drivers/leds/leds-tlc591xx.c     |   2 -
+ drivers/leds/leds-turris-omnia.c |   2 -
+ 23 files changed, 337 insertions(+), 575 deletions(-)
 
 -- 
-Best regards,
-Jacek Anaszewski
+2.26.2
+
