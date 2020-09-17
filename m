@@ -2,588 +2,180 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F9E626CF6C
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Sep 2020 01:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BD2B26D038
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Sep 2020 02:53:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727195AbgIPXRK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 16 Sep 2020 19:17:10 -0400
-Received: from mail.nic.cz ([217.31.204.67]:53892 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726893AbgIPXRA (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 16 Sep 2020 19:17:00 -0400
-Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id EA474140A58;
-        Thu, 17 Sep 2020 01:16:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1600298214; bh=hPnWGs2q5PFRo5FDwTXlR9YN6IAg3hwXMFWRWoJSnvc=;
-        h=From:To:Date;
-        b=EI53iMGNI6kRO/PcvRoJNCNao/x5RKaRi3VBpA0VwTviaMUg/ssKNiJr6tvbrtY6J
-         Tte//AH6K9oebIwxUEXa7DgAosjiqJS/OUXuVs/vpyTR05jdJV8JklzVdMZV/3DfNQ
-         a7V0QBoMEgyGIA3xJAKkni0ZJbARJLRFrW5NLcVc=
-From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-To:     linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megous@megous.com>,
+        id S1726054AbgIQAxB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 16 Sep 2020 20:53:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45314 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726040AbgIQAxA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Sep 2020 20:53:00 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD7FAC061354
+        for <linux-leds@vger.kernel.org>; Wed, 16 Sep 2020 17:46:30 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id z26so432555oih.12
+        for <linux-leds@vger.kernel.org>; Wed, 16 Sep 2020 17:46:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=xPfF/+vHZ8xULDak5kE3Di70hl+PzaH5PBbg6iuyFFM=;
+        b=Zbt3vPlHy3YASoVcQRtmExxjDK9LYi8zfmrC+8SVKZwsmZrRDgo3laAVlvKH/05dNd
+         zXIr/6NLQ52gEsE5syvHRvxlZkUCJ1v4YyHIeRV7jXyGvxzNWzDlaSQMeKklDyLAxOYc
+         v40p05Y/X8G/EhRRP0LgSWLb//JPsAgaaSvokwHYCMiAS7/y7PVrTVmsjd+bIVuum/FC
+         yLC3Sx4RRtIyvKNkNqQby4x9ii2xJbaQuVM+FS7If4XInO7mbscnYZVRZH7j7gGxKFO9
+         2BszYiF9xEN3nz+IhfoOShY4FTKBy1UIAdthCZP8p2sMkwkgNvESkXGkstd1V2UmHEpo
+         tKcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=xPfF/+vHZ8xULDak5kE3Di70hl+PzaH5PBbg6iuyFFM=;
+        b=aw997hQK8fCkyG6/5DIsI15EZymhGkwKBmqCFOQPwufTlKuET78Ip9ibqirof1UCAI
+         qZiY97L++pWG3Fh8+q2eII2PFnXYaC8NCGo+i6tccnn4CyaRGAPYW3BQ4UX5NTKoCsJw
+         hIBrAucj3C2LZdTSkrdw4QRz0VqS/d/Tg1RP5bkuvliuD2rt3ELXIFJHRe+ZVADL+r+U
+         66gXheiwFoOj2ohlG16jSZwsYpHZjPFlS8hOZBYEo16LpDWIw7WyO8lkY4QUZfwUq7b2
+         SbZQdJW60AG+LgX4h5210w3yxwTJ61ytNgp+WBen1AD95mcl9VIwXyIuTId0UjS3XJQ4
+         3hsA==
+X-Gm-Message-State: AOAM533rghEoSDn8uaQxqGycTpQKYa1JTIMmdBVfDXh2tZugQMHmJ+/z
+        hDF/Qi4uJ1wgrUwmwXzlbdvEcQ==
+X-Google-Smtp-Source: ABdhPJyvdeAESwOnVofeOkEEXJbZoFus3jAmQOAYorS8U5WznmT9jpjEZek/Y/mXG1+xL43TucnVqg==
+X-Received: by 2002:aca:2301:: with SMTP id e1mr5001999oie.177.1600303590034;
+        Wed, 16 Sep 2020 17:46:30 -0700 (PDT)
+Received: from yoga ([2605:6000:e5cb:c100:7cad:6eff:fec8:37e4])
+        by smtp.gmail.com with ESMTPSA id j34sm262867otc.15.2020.09.16.17.46.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2020 17:46:29 -0700 (PDT)
+Date:   Wed, 16 Sep 2020 19:46:25 -0500
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Marek Beh?n <marek.behun@nic.cz>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>,
+        Ond??ej Jirman <megous@megous.com>,
         linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         devicetree@vger.kernel.org,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
-        Simon Guinot <simon.guinot@sequanux.org>,
-        Simon Guinot <sguinot@lacie.com>,
-        Vincent Donnefort <vdonnefort@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
         Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH leds v1 10/10] leds: ns2: refactor and use struct led_init_data
-Date:   Thu, 17 Sep 2020 01:16:50 +0200
-Message-Id: <20200916231650.11484-11-marek.behun@nic.cz>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200916231650.11484-1-marek.behun@nic.cz>
+Subject: Re: [PATCH leds v1 06/10] leds: pm8058: use struct led_init_data
+ when registering
+Message-ID: <20200917004625.GJ1893@yoga>
 References: <20200916231650.11484-1-marek.behun@nic.cz>
+ <20200916231650.11484-7-marek.behun@nic.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Spam-Status: No, score=0.00
-X-Spamd-Bar: /
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+In-Reply-To: <20200916231650.11484-7-marek.behun@nic.cz>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-By using struct led_init_data when registering we do not need to parse
-`label` DT property nor `linux,default-trigger` property.
+On Wed 16 Sep 18:16 CDT 2020, Marek Beh?n wrote:
 
-Also, move forward from platform data to device tree only:
-since commit c7896490dd1a ("leds: ns2: Absorb platform data") the
-platform data structure is absorbed into the driver, because nothing
-else in the source tree used it. Since nobody complained and all usage
-of this driver is via device tree, refactor the code to work with
-device tree only. As Linus Walleij wrote, the device tree should be the
-way forward anyway.
+> By using struct led_init_data when registering we do not need to parse
+> `label` DT property nor `linux,default-trigger` property.
+> 
+> Signed-off-by: Marek Behún <marek.behun@nic.cz>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+>  drivers/leds/leds-pm8058.c | 38 +++++++++++++++++++-------------------
+>  1 file changed, 19 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-pm8058.c b/drivers/leds/leds-pm8058.c
+> index 7869ccdf70ce6..f6190e4af60fe 100644
+> --- a/drivers/leds/leds-pm8058.c
+> +++ b/drivers/leds/leds-pm8058.c
+> @@ -87,36 +87,37 @@ static enum led_brightness pm8058_led_get(struct led_classdev *cled)
+>  
+>  static int pm8058_led_probe(struct platform_device *pdev)
+>  {
+> +	struct led_init_data init_data = {};
+> +	struct device *dev = &pdev->dev;
+> +	enum led_brightness maxbright;
+> +	struct device_node *np;
+>  	struct pm8058_led *led;
+> -	struct device_node *np = pdev->dev.of_node;
+> -	int ret;
+>  	struct regmap *map;
+>  	const char *state;
+> -	enum led_brightness maxbright;
+> +	int ret;
+>  
+> -	led = devm_kzalloc(&pdev->dev, sizeof(*led), GFP_KERNEL);
+> +	led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
 
-Also build this driver if COMPILE_TEST is enabled.
+The pdev->dev -> dev and of_node changes are reasonable, but shouldn't
+be part of this patch. It simply makes it hard to reason about he actual
+change.
 
-Signed-off-by: Marek BehÃºn <marek.behun@nic.cz>
-Cc: Simon Guinot <simon.guinot@sequanux.org>
-Cc: Simon Guinot <sguinot@lacie.com>
-Cc: Vincent Donnefort <vdonnefort@gmail.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/leds/Kconfig    |   2 +-
- drivers/leds/leds-ns2.c | 361 ++++++++++++----------------------------
- 2 files changed, 112 insertions(+), 251 deletions(-)
+Please respin this with only the introduction of led_init_data.
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 4f6464a169d57..58c33636afdbf 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -644,7 +644,7 @@ config LEDS_MC13783
- config LEDS_NS2
- 	tristate "LED support for Network Space v2 GPIO LEDs"
- 	depends on LEDS_CLASS
--	depends on MACH_KIRKWOOD || MACH_ARMADA_370
-+	depends on MACH_KIRKWOOD || MACH_ARMADA_370 || COMPILE_TEST
- 	default y
- 	help
- 	  This option enables support for the dual-GPIO LEDs found on the
-diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
-index bd806e7c8017b..6a5d326c5bddc 100644
---- a/drivers/leds/leds-ns2.c
-+++ b/drivers/leds/leds-ns2.c
-@@ -30,20 +30,6 @@ struct ns2_led_modval {
- 	int			slow_level;
- };
- 
--struct ns2_led {
--	const char	*name;
--	const char	*default_trigger;
--	struct gpio_desc *cmd;
--	struct gpio_desc *slow;
--	int		num_modes;
--	struct ns2_led_modval *modval;
--};
--
--struct ns2_led_platform_data {
--	int		num_leds;
--	struct ns2_led	*leds;
--};
--
- /*
-  * The Network Space v2 dual-GPIO LED is wired to a CPLD. Three different LED
-  * modes are available: off, on and SATA activity blinking. The LED modes are
-@@ -51,7 +37,7 @@ struct ns2_led_platform_data {
-  * for the command/slow GPIOs corresponds to a LED mode.
-  */
- 
--struct ns2_led_data {
-+struct ns2_led {
- 	struct led_classdev	cdev;
- 	struct gpio_desc	*cmd;
- 	struct gpio_desc	*slow;
-@@ -62,95 +48,81 @@ struct ns2_led_data {
- 	struct ns2_led_modval	*modval;
- };
- 
--static int ns2_led_get_mode(struct ns2_led_data *led_dat,
--			    enum ns2_led_modes *mode)
-+static int ns2_led_get_mode(struct ns2_led *led, enum ns2_led_modes *mode)
- {
--	int i;
--	int ret = -EINVAL;
--	int cmd_level;
--	int slow_level;
--
--	cmd_level = gpiod_get_value_cansleep(led_dat->cmd);
--	slow_level = gpiod_get_value_cansleep(led_dat->slow);
--
--	for (i = 0; i < led_dat->num_modes; i++) {
--		if (cmd_level == led_dat->modval[i].cmd_level &&
--		    slow_level == led_dat->modval[i].slow_level) {
--			*mode = led_dat->modval[i].mode;
--			ret = 0;
--			break;
-+	int i, cmd_level, slow_level;
-+
-+	cmd_level = gpiod_get_value_cansleep(led->cmd);
-+	slow_level = gpiod_get_value_cansleep(led->slow);
-+
-+	for (i = 0; i < led->num_modes; i++) {
-+		if (cmd_level == led->modval[i].cmd_level &&
-+		    slow_level == led->modval[i].slow_level) {
-+			*mode = led->modval[i].mode;
-+			return 0;
- 		}
- 	}
- 
--	return ret;
-+	return -EINVAL;
- }
- 
--static void ns2_led_set_mode(struct ns2_led_data *led_dat,
--			     enum ns2_led_modes mode)
-+static void ns2_led_set_mode(struct ns2_led *led, enum ns2_led_modes mode)
- {
- 	int i;
--	bool found = false;
- 	unsigned long flags;
- 
--	for (i = 0; i < led_dat->num_modes; i++)
--		if (mode == led_dat->modval[i].mode) {
--			found = true;
-+	for (i = 0; i < led->num_modes; i++)
-+		if (mode == led->modval[i].mode)
- 			break;
--		}
- 
--	if (!found)
-+	if (i == led->num_modes)
- 		return;
- 
--	write_lock_irqsave(&led_dat->rw_lock, flags);
-+	write_lock_irqsave(&led->rw_lock, flags);
- 
--	if (!led_dat->can_sleep) {
--		gpiod_set_value(led_dat->cmd,
--				led_dat->modval[i].cmd_level);
--		gpiod_set_value(led_dat->slow,
--				led_dat->modval[i].slow_level);
-+	if (!led->can_sleep) {
-+		gpiod_set_value(led->cmd, led->modval[i].cmd_level);
-+		gpiod_set_value(led->slow, led->modval[i].slow_level);
- 		goto exit_unlock;
- 	}
- 
--	gpiod_set_value_cansleep(led_dat->cmd, led_dat->modval[i].cmd_level);
--	gpiod_set_value_cansleep(led_dat->slow, led_dat->modval[i].slow_level);
-+	gpiod_set_value_cansleep(led->cmd, led->modval[i].cmd_level);
-+	gpiod_set_value_cansleep(led->slow, led->modval[i].slow_level);
- 
- exit_unlock:
--	write_unlock_irqrestore(&led_dat->rw_lock, flags);
-+	write_unlock_irqrestore(&led->rw_lock, flags);
- }
- 
- static void ns2_led_set(struct led_classdev *led_cdev,
- 			enum led_brightness value)
- {
--	struct ns2_led_data *led_dat =
--		container_of(led_cdev, struct ns2_led_data, cdev);
-+	struct ns2_led *led = container_of(led_cdev, struct ns2_led, cdev);
- 	enum ns2_led_modes mode;
- 
- 	if (value == LED_OFF)
- 		mode = NS_V2_LED_OFF;
--	else if (led_dat->sata)
-+	else if (led->sata)
- 		mode = NS_V2_LED_SATA;
- 	else
- 		mode = NS_V2_LED_ON;
- 
--	ns2_led_set_mode(led_dat, mode);
-+	ns2_led_set_mode(led, mode);
- }
- 
- static int ns2_led_set_blocking(struct led_classdev *led_cdev,
--			enum led_brightness value)
-+				enum led_brightness value)
- {
- 	ns2_led_set(led_cdev, value);
- 	return 0;
- }
- 
--static ssize_t ns2_led_sata_store(struct device *dev,
--				  struct device_attribute *attr,
--				  const char *buff, size_t count)
-+static ssize_t sata_store(struct device *dev, struct device_attribute *attr,
-+			  const char *buff, size_t count)
- {
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
--	struct ns2_led_data *led_dat =
--		container_of(led_cdev, struct ns2_led_data, cdev);
--	int ret;
-+	struct ns2_led *led = container_of(led_cdev, struct ns2_led, cdev);
- 	unsigned long enable;
-+	int ret;
- 
- 	ret = kstrtoul(buff, 10, &enable);
- 	if (ret < 0)
-@@ -158,34 +130,33 @@ static ssize_t ns2_led_sata_store(struct device *dev,
- 
- 	enable = !!enable;
- 
--	if (led_dat->sata == enable)
-+	if (led->sata == enable)
- 		goto exit;
- 
--	led_dat->sata = enable;
-+	led->sata = enable;
- 
- 	if (!led_get_brightness(led_cdev))
- 		goto exit;
- 
- 	if (enable)
--		ns2_led_set_mode(led_dat, NS_V2_LED_SATA);
-+		ns2_led_set_mode(led, NS_V2_LED_SATA);
- 	else
--		ns2_led_set_mode(led_dat, NS_V2_LED_ON);
-+		ns2_led_set_mode(led, NS_V2_LED_ON);
- 
- exit:
- 	return count;
- }
- 
--static ssize_t ns2_led_sata_show(struct device *dev,
--				 struct device_attribute *attr, char *buf)
-+static ssize_t sata_show(struct device *dev, struct device_attribute *attr,
-+			 char *buf)
- {
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
--	struct ns2_led_data *led_dat =
--		container_of(led_cdev, struct ns2_led_data, cdev);
-+	struct ns2_led *led = container_of(led_cdev, struct ns2_led, cdev);
- 
--	return sprintf(buf, "%d\n", led_dat->sata);
-+	return sprintf(buf, "%d\n", led->sata);
- }
- 
--static DEVICE_ATTR(sata, 0644, ns2_led_sata_show, ns2_led_sata_store);
-+static DEVICE_ATTR_RW(sata);
- 
- static struct attribute *ns2_led_attrs[] = {
- 	&dev_attr_sata.attr,
-@@ -193,147 +164,101 @@ static struct attribute *ns2_led_attrs[] = {
- };
- ATTRIBUTE_GROUPS(ns2_led);
- 
--static int
--create_ns2_led(struct platform_device *pdev, struct ns2_led_data *led_dat,
--	       const struct ns2_led *template)
-+static int ns2_led_register(struct device *dev, struct ns2_led *led,
-+			    struct device_node *np)
- {
--	int ret;
-+	struct led_init_data init_data = {};
-+	struct ns2_led_modval *modval;
- 	enum ns2_led_modes mode;
-+	int ret, nmodes, i;
-+
-+	led->cmd = devm_gpiod_get_from_of_node(dev, np, "cmd-gpio", 0,
-+					       GPIOD_ASIS, np->name);
-+	if (IS_ERR(led->cmd))
-+		return PTR_ERR(led->cmd);
-+
-+	led->slow = devm_gpiod_get_from_of_node(dev, np, "slow-gpio", 0,
-+						GPIOD_ASIS, np->name);
-+	if (IS_ERR(led->slow))
-+		return PTR_ERR(led->slow);
-+
-+	ret = of_property_count_u32_elems(np, "modes-map");
-+	if (ret <= 0 || ret % 3) {
-+		dev_err(dev, "Missing or malformed modes-map in node %pOF\n",
-+			np);
-+		return ret < 0 ? ret : -EINVAL;
-+	}
-+
-+	nmodes = ret / 3;
-+	modval = devm_kcalloc(dev, nmodes, sizeof(*modval), GFP_KERNEL);
-+	if (!modval)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < nmodes; ++i) {
-+		u32 val;
-+
-+		of_property_read_u32_index(np, "modes-map", 3 * i, &val);
-+		modval[i].mode = val;
-+		of_property_read_u32_index(np, "modes-map", 3 * i + 1, &val);
-+		modval[i].cmd_level = val;
-+		of_property_read_u32_index(np, "modes-map", 3 * i + 2, &val);
-+		modval[i].slow_level = val;
-+	}
-+
-+	led->num_modes = nmodes;
-+	led->modval = modval;
- 
--	rwlock_init(&led_dat->rw_lock);
--
--	led_dat->cdev.name = template->name;
--	led_dat->cdev.default_trigger = template->default_trigger;
--	led_dat->cdev.blink_set = NULL;
--	led_dat->cdev.flags |= LED_CORE_SUSPENDRESUME;
--	led_dat->cdev.groups = ns2_led_groups;
--	led_dat->cmd = template->cmd;
--	led_dat->slow = template->slow;
--	led_dat->can_sleep = gpiod_cansleep(led_dat->cmd) |
--				gpiod_cansleep(led_dat->slow);
--	if (led_dat->can_sleep)
--		led_dat->cdev.brightness_set_blocking = ns2_led_set_blocking;
-+	rwlock_init(&led->rw_lock);
-+
-+	led->cdev.flags |= LED_CORE_SUSPENDRESUME;
-+	led->cdev.groups = ns2_led_groups;
-+	led->can_sleep = gpiod_cansleep(led->cmd) || gpiod_cansleep(led->slow);
-+	if (led->can_sleep)
-+		led->cdev.brightness_set_blocking = ns2_led_set_blocking;
- 	else
--		led_dat->cdev.brightness_set = ns2_led_set;
--	led_dat->modval = template->modval;
--	led_dat->num_modes = template->num_modes;
-+		led->cdev.brightness_set = ns2_led_set;
- 
--	ret = ns2_led_get_mode(led_dat, &mode);
-+	ret = ns2_led_get_mode(led, &mode);
- 	if (ret < 0)
- 		return ret;
- 
- 	/* Set LED initial state. */
--	led_dat->sata = (mode == NS_V2_LED_SATA) ? 1 : 0;
--	led_dat->cdev.brightness =
--		(mode == NS_V2_LED_OFF) ? LED_OFF : LED_FULL;
-+	led->sata = (mode == NS_V2_LED_SATA) ? 1 : 0;
-+	led->cdev.brightness = (mode == NS_V2_LED_OFF) ? LED_OFF : LED_FULL;
- 
--	ret = led_classdev_register(&pdev->dev, &led_dat->cdev);
--	if (ret < 0)
--		return ret;
-+	init_data.fwnode = of_fwnode_handle(np);
- 
--	return 0;
--}
-+	ret = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to register LED for node %pOF\n", np);
- 
--static void delete_ns2_led(struct ns2_led_data *led_dat)
--{
--	led_classdev_unregister(&led_dat->cdev);
-+	return ret;
- }
- 
--#ifdef CONFIG_OF_GPIO
--/*
-- * Translate OpenFirmware node properties into platform_data.
-- */
--static int
--ns2_leds_get_of_pdata(struct device *dev, struct ns2_led_platform_data *pdata)
-+static int ns2_led_probe(struct platform_device *pdev)
- {
--	struct device_node *np = dev->of_node;
-+	struct device *dev = &pdev->dev;
- 	struct device_node *child;
--	struct ns2_led *led, *leds;
--	int ret, num_leds = 0;
-+	struct ns2_led *leds;
-+	int count, ret;
- 
--	num_leds = of_get_child_count(np);
--	if (!num_leds)
-+	count = device_get_child_node_count(dev);
-+	if (count < 1) {
-+		dev_err(dev, "Device has no child nodes\n");
- 		return -ENODEV;
-+	}
- 
--	leds = devm_kcalloc(dev, num_leds, sizeof(struct ns2_led),
--			    GFP_KERNEL);
-+	leds = devm_kzalloc(dev, array_size(count, sizeof(*leds)), GFP_KERNEL);
- 	if (!leds)
- 		return -ENOMEM;
- 
--	led = leds;
--	for_each_child_of_node(np, child) {
--		const char *string;
--		int i, num_modes;
--		struct ns2_led_modval *modval;
--		struct gpio_desc *gd;
--
--		ret = of_property_read_string(child, "label", &string);
--		led->name = (ret == 0) ? string : child->name;
--
--		gd = gpiod_get_from_of_node(child, "cmd-gpio", 0,
--					    GPIOD_ASIS, led->name);
--		if (IS_ERR(gd)) {
--			ret = PTR_ERR(gd);
--			goto err_node_put;
--		}
--		led->cmd = gd;
--		gd = gpiod_get_from_of_node(child, "slow-gpio", 0,
--					    GPIOD_ASIS, led->name);
--		if (IS_ERR(gd)) {
--			ret = PTR_ERR(gd);
--			goto err_node_put;
--		}
--		led->slow = gd;
--
--		ret = of_property_read_string(child, "linux,default-trigger",
--					      &string);
--		if (ret == 0)
--			led->default_trigger = string;
--
--		ret = of_property_count_u32_elems(child, "modes-map");
--		if (ret < 0 || ret % 3) {
--			dev_err(dev,
--				"Missing or malformed modes-map property\n");
--			ret = -EINVAL;
--			goto err_node_put;
--		}
--
--		num_modes = ret / 3;
--		modval = devm_kcalloc(dev,
--				      num_modes,
--				      sizeof(struct ns2_led_modval),
--				      GFP_KERNEL);
--		if (!modval) {
--			ret = -ENOMEM;
--			goto err_node_put;
--		}
--
--		for (i = 0; i < num_modes; i++) {
--			of_property_read_u32_index(child,
--						"modes-map", 3 * i,
--						(u32 *) &modval[i].mode);
--			of_property_read_u32_index(child,
--						"modes-map", 3 * i + 1,
--						(u32 *) &modval[i].cmd_level);
--			of_property_read_u32_index(child,
--						"modes-map", 3 * i + 2,
--						(u32 *) &modval[i].slow_level);
--		}
--
--		led->num_modes = num_modes;
--		led->modval = modval;
--
--		led++;
-+	for_each_available_child_of_node(dev_of_node(dev), child) {
-+		ret = ns2_led_register(dev, leds++, child);
-+		if (ret)
-+			return ret;
- 	}
- 
--	pdata->leds = leds;
--	pdata->num_leds = num_leds;
--
- 	return 0;
--
--err_node_put:
--	of_node_put(child);
--	return ret;
- }
- 
- static const struct of_device_id of_ns2_leds_match[] = {
-@@ -341,73 +266,9 @@ static const struct of_device_id of_ns2_leds_match[] = {
- 	{},
- };
- MODULE_DEVICE_TABLE(of, of_ns2_leds_match);
--#endif /* CONFIG_OF_GPIO */
--
--struct ns2_led_priv {
--	int num_leds;
--	struct ns2_led_data leds_data[];
--};
--
--static int ns2_led_probe(struct platform_device *pdev)
--{
--	struct ns2_led_platform_data *pdata = dev_get_platdata(&pdev->dev);
--	struct ns2_led_priv *priv;
--	int i;
--	int ret;
--
--#ifdef CONFIG_OF_GPIO
--	if (!pdata) {
--		pdata = devm_kzalloc(&pdev->dev,
--				     sizeof(struct ns2_led_platform_data),
--				     GFP_KERNEL);
--		if (!pdata)
--			return -ENOMEM;
--
--		ret = ns2_leds_get_of_pdata(&pdev->dev, pdata);
--		if (ret)
--			return ret;
--	}
--#else
--	if (!pdata)
--		return -EINVAL;
--#endif /* CONFIG_OF_GPIO */
--
--	priv = devm_kzalloc(&pdev->dev, struct_size(priv, leds_data, pdata->num_leds), GFP_KERNEL);
--	if (!priv)
--		return -ENOMEM;
--	priv->num_leds = pdata->num_leds;
--
--	for (i = 0; i < priv->num_leds; i++) {
--		ret = create_ns2_led(pdev, &priv->leds_data[i],
--				     &pdata->leds[i]);
--		if (ret < 0) {
--			for (i = i - 1; i >= 0; i--)
--				delete_ns2_led(&priv->leds_data[i]);
--			return ret;
--		}
--	}
--
--	platform_set_drvdata(pdev, priv);
--
--	return 0;
--}
--
--static int ns2_led_remove(struct platform_device *pdev)
--{
--	int i;
--	struct ns2_led_priv *priv;
--
--	priv = platform_get_drvdata(pdev);
--
--	for (i = 0; i < priv->num_leds; i++)
--		delete_ns2_led(&priv->leds_data[i]);
--
--	return 0;
--}
- 
- static struct platform_driver ns2_led_driver = {
- 	.probe		= ns2_led_probe,
--	.remove		= ns2_led_remove,
- 	.driver		= {
- 		.name		= "leds-ns2",
- 		.of_match_table	= of_match_ptr(of_ns2_leds_match),
--- 
-2.26.2
+Thanks,
+Bjorn
 
+>  	if (!led)
+>  		return -ENOMEM;
+>  
+> -	led->ledtype = (u32)(unsigned long)of_device_get_match_data(&pdev->dev);
+> +	led->ledtype = (u32)(unsigned long)device_get_match_data(dev);
+>  
+> -	map = dev_get_regmap(pdev->dev.parent, NULL);
+> +	map = dev_get_regmap(dev->parent, NULL);
+>  	if (!map) {
+> -		dev_err(&pdev->dev, "Parent regmap unavailable.\n");
+> +		dev_err(dev, "Parent regmap unavailable.\n");
+>  		return -ENXIO;
+>  	}
+>  	led->map = map;
+>  
+> +	np = dev_of_node(dev);
+> +
+>  	ret = of_property_read_u32(np, "reg", &led->reg);
+>  	if (ret) {
+> -		dev_err(&pdev->dev, "no register offset specified\n");
+> +		dev_err(dev, "no register offset specified\n");
+>  		return -EINVAL;
+>  	}
+>  
+>  	/* Use label else node name */
+> -	led->cdev.name = of_get_property(np, "label", NULL) ? : np->name;
+> -	led->cdev.default_trigger =
+> -		of_get_property(np, "linux,default-trigger", NULL);
+>  	led->cdev.brightness_set = pm8058_led_set;
+>  	led->cdev.brightness_get = pm8058_led_get;
+>  	if (led->ledtype == PM8058_LED_TYPE_COMMON)
+> @@ -142,14 +143,13 @@ static int pm8058_led_probe(struct platform_device *pdev)
+>  	    led->ledtype == PM8058_LED_TYPE_FLASH)
+>  		led->cdev.flags	= LED_CORE_SUSPENDRESUME;
+>  
+> -	ret = devm_led_classdev_register(&pdev->dev, &led->cdev);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "unable to register led \"%s\"\n",
+> -			led->cdev.name);
+> -		return ret;
+> -	}
+> +	init_data.fwnode = of_fwnode_handle(np);
+> +
+> +	ret = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
+> +	if (ret)
+> +		dev_err(dev, "Failed to register LED for node %pOF\n", np);
+>  
+> -	return 0;
+> +	return ret;
+>  }
+>  
+>  static const struct of_device_id pm8058_leds_id_table[] = {
+> @@ -173,7 +173,7 @@ static struct platform_driver pm8058_led_driver = {
+>  	.probe		= pm8058_led_probe,
+>  	.driver		= {
+>  		.name	= "pm8058-leds",
+> -		.of_match_table = pm8058_leds_id_table,
+> +		.of_match_table = of_match_ptr(pm8058_leds_id_table),
+>  	},
+>  };
+>  module_platform_driver(pm8058_led_driver);
+> -- 
+> 2.26.2
+> 
