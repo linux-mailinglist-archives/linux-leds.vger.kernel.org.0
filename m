@@ -2,24 +2,24 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5447C26E8AA
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 00:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB1D326E8A7
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 00:35:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbgIQWfR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S1726677AbgIQWfR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Thu, 17 Sep 2020 18:35:17 -0400
-Received: from mail.nic.cz ([217.31.204.67]:36162 "EHLO mail.nic.cz"
+Received: from lists.nic.cz ([217.31.204.67]:35560 "EHLO mail.nic.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726273AbgIQWeN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        id S1726302AbgIQWeN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
         Thu, 17 Sep 2020 18:34:13 -0400
 Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id BEBBA142057;
-        Fri, 18 Sep 2020 00:33:59 +0200 (CEST)
+        by mail.nic.cz (Postfix) with ESMTP id 0267F142059;
+        Fri, 18 Sep 2020 00:34:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1600382039; bh=r26L0sWbFofPCK5+uBb+ErS6T+5q3senbfA1NrJl0WA=;
+        t=1600382040; bh=/t1nSFHylk9lL02X5X71l6V/n4Ec26C/fK5mF77jSUw=;
         h=From:To:Date;
-        b=WyufPwDEgDkCFWxv20zn7pofIKA0QKGszWLW5eamCBLQKlpm+lSvW8E1dqkiSRLRw
-         E/LV7r+cW8SakWeX55LBvqMKynu93PJQTvOEvE4ECZfD2GhWnGFsYkjQJ9TMEkT9QP
-         Av3Y6cTGg83/7m8QsbxyzQihngDokMnpZ56ZD/YE=
+        b=QePUZ4WSxKcsjqjbBBPydWuWluzIw8q2qPiQR3I1HI9esw5BzC/DRPS0jxb4Ue3zS
+         bH0HY+FC4ol75s5YIQhNI30Cv8kE1z496SU7FKVyu6omwL39RH0PX7+ZD734EcHI5t
+         /6KEFXuoNgXUqr2anma4vNT8fUWKFBC+jO/qJ+7E=
 From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
 To:     linux-leds@vger.kernel.org
 Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
@@ -32,9 +32,9 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Vincent Donnefort <vdonnefort@gmail.com>,
         Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
         Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH leds v2 36/50] leds: ns2: use devres LED registering function
-Date:   Fri, 18 Sep 2020 00:33:24 +0200
-Message-Id: <20200917223338.14164-37-marek.behun@nic.cz>
+Subject: [PATCH leds v2 37/50] leds: ns2: alloc simple array instead of struct ns2_led_priv
+Date:   Fri, 18 Sep 2020 00:33:25 +0200
+Message-Id: <20200917223338.14164-38-marek.behun@nic.cz>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200917223338.14164-1-marek.behun@nic.cz>
 References: <20200917223338.14164-1-marek.behun@nic.cz>
@@ -50,8 +50,9 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-By using devres version of LED registering function we can remove the
-.remove method from this driver. The probe method also gets simpler.
+Since .remove method is not needed now that we use devres, there is no
+need to remember the number of LEDs in struct ns2_led_priv. Alloc simple
+array of ns2_led_data structs.
 
 Signed-off-by: Marek Behún <marek.behun@nic.cz>
 Cc: Simon Guinot <simon.guinot@sequanux.org>
@@ -60,67 +61,57 @@ Cc: Vincent Donnefort <vdonnefort@gmail.com>
 Cc: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
 Cc: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/leds/leds-ns2.c | 30 ++----------------------------
- 1 file changed, 2 insertions(+), 28 deletions(-)
+ drivers/leds/leds-ns2.c | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
-index 22d38c83b6dca..1a7ef66464b5d 100644
+index 1a7ef66464b5d..8cd020b340840 100644
 --- a/drivers/leds/leds-ns2.c
 +++ b/drivers/leds/leds-ns2.c
-@@ -227,16 +227,7 @@ create_ns2_led(struct platform_device *pdev, struct ns2_led_data *led_dat,
- 	led_dat->cdev.brightness =
- 		(mode == NS_V2_LED_OFF) ? LED_OFF : LED_FULL;
+@@ -334,15 +334,10 @@ static const struct of_device_id of_ns2_leds_match[] = {
+ MODULE_DEVICE_TABLE(of, of_ns2_leds_match);
+ #endif /* CONFIG_OF_GPIO */
  
--	ret = led_classdev_register(&pdev->dev, &led_dat->cdev);
--	if (ret < 0)
--		return ret;
+-struct ns2_led_priv {
+-	int num_leds;
+-	struct ns2_led_data leds_data[];
+-};
 -
--	return 0;
--}
--
--static void delete_ns2_led(struct ns2_led_data *led_dat)
--{
--	led_classdev_unregister(&led_dat->cdev);
-+	return devm_led_classdev_register(&pdev->dev, &led_dat->cdev);
- }
+ static int ns2_led_probe(struct platform_device *pdev)
+ {
+ 	struct ns2_led_platform_data *pdata = dev_get_platdata(&pdev->dev);
+-	struct ns2_led_priv *priv;
++	struct ns2_led_data *leds;
+ 	int i;
+ 	int ret;
  
- #ifdef CONFIG_OF_GPIO
-@@ -380,11 +371,8 @@ static int ns2_led_probe(struct platform_device *pdev)
- 	for (i = 0; i < priv->num_leds; i++) {
- 		ret = create_ns2_led(pdev, &priv->leds_data[i],
- 				     &pdata->leds[i]);
--		if (ret < 0) {
--			for (i = i - 1; i >= 0; i--)
--				delete_ns2_led(&priv->leds_data[i]);
-+		if (ret < 0)
+@@ -363,20 +358,18 @@ static int ns2_led_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ #endif /* CONFIG_OF_GPIO */
+ 
+-	priv = devm_kzalloc(&pdev->dev, struct_size(priv, leds_data, pdata->num_leds), GFP_KERNEL);
+-	if (!priv)
++	leds = devm_kzalloc(&pdev->dev, array_size(sizeof(*leds),
++						   pdata->num_leds),
++			    GFP_KERNEL);
++	if (!leds)
+ 		return -ENOMEM;
+-	priv->num_leds = pdata->num_leds;
+ 
+-	for (i = 0; i < priv->num_leds; i++) {
+-		ret = create_ns2_led(pdev, &priv->leds_data[i],
+-				     &pdata->leds[i]);
++	for (i = 0; i < pdata->num_leds; i++) {
++		ret = create_ns2_led(pdev, &leds[i], &pdata->leds[i]);
+ 		if (ret < 0)
  			return ret;
--		}
  	}
  
- 	platform_set_drvdata(pdev, priv);
-@@ -392,22 +380,8 @@ static int ns2_led_probe(struct platform_device *pdev)
+-	platform_set_drvdata(pdev, priv);
+-
  	return 0;
  }
  
--static int ns2_led_remove(struct platform_device *pdev)
--{
--	int i;
--	struct ns2_led_priv *priv;
--
--	priv = platform_get_drvdata(pdev);
--
--	for (i = 0; i < priv->num_leds; i++)
--		delete_ns2_led(&priv->leds_data[i]);
--
--	return 0;
--}
--
- static struct platform_driver ns2_led_driver = {
- 	.probe		= ns2_led_probe,
--	.remove		= ns2_led_remove,
- 	.driver		= {
- 		.name		= "leds-ns2",
- 		.of_match_table	= of_match_ptr(of_ns2_leds_match),
 -- 
 2.26.2
 
