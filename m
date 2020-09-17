@@ -2,24 +2,24 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5669726E898
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 00:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47A3C26E88A
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 00:34:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726154AbgIQWe6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Sep 2020 18:34:58 -0400
-Received: from lists.nic.cz ([217.31.204.67]:35608 "EHLO mail.nic.cz"
+        id S1726510AbgIQWef (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 17 Sep 2020 18:34:35 -0400
+Received: from mail.nic.cz ([217.31.204.67]:35700 "EHLO mail.nic.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726333AbgIQWeR (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 17 Sep 2020 18:34:17 -0400
+        id S1726338AbgIQWeS (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 17 Sep 2020 18:34:18 -0400
 Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id F0E8014206A;
-        Fri, 18 Sep 2020 00:34:01 +0200 (CEST)
+        by mail.nic.cz (Postfix) with ESMTP id 3675414206C;
+        Fri, 18 Sep 2020 00:34:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1600382042; bh=HVFvswxzbeVibIz+rP76hH502Bso/ThNxjGcG/8nNV4=;
+        t=1600382042; bh=E+ZKKlISSwDQf/4ZiNjvyLvW12BvjFajZwQ6LoiY+JE=;
         h=From:To:Date;
-        b=OgRyHIN4ZntvYawIHcV9oepEUjzkurpVyXAsBiIag0UAKc/AJYNVmoHqth+gL9aE6
-         fGEgVLnwsDmbX1ZNHJ6PIN+fFvAriiYLfgcj3yG5lGBCNmditTucb376OE1NuEEuk4
-         gakDBjOyDocE5bKG4jtve7zPjm83te4dRZl695SA=
+        b=bZ19GVVCbIEI75Z/bxdlit47JBgBBfNr2aPy6Y/N8k4nDzjA4weJfaHTTZRk4YRDA
+         szuGCMu52h1PpTtP0RJrjkZQiFhX1GWzroHsNpJ7VjwwZnr/mYIfrnK0EC3+N6QWdT
+         75J8thrYcEbyEbOFMz82E5p+KimKFsRKYqZZtRxM=
 From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
 To:     linux-leds@vger.kernel.org
 Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
@@ -32,9 +32,9 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Vincent Donnefort <vdonnefort@gmail.com>,
         Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
         Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH leds v2 46/50] leds: ns2: remove unneeded variable
-Date:   Fri, 18 Sep 2020 00:33:34 +0200
-Message-Id: <20200917223338.14164-47-marek.behun@nic.cz>
+Subject: [PATCH leds v2 47/50] leds: ns2: cosmetic: use reverse christmas tree
+Date:   Fri, 18 Sep 2020 00:33:35 +0200
+Message-Id: <20200917223338.14164-48-marek.behun@nic.cz>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200917223338.14164-1-marek.behun@nic.cz>
 References: <20200917223338.14164-1-marek.behun@nic.cz>
@@ -50,8 +50,8 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-No need to use variable found, we can determine whether the mode was
-found by comparing iterator variable to its limit.
+Only a cosmetic change: use reverse christmas tree variables
+declaration.
 
 Signed-off-by: Marek Behún <marek.behun@nic.cz>
 Cc: Simon Guinot <simon.guinot@sequanux.org>
@@ -60,32 +60,60 @@ Cc: Vincent Donnefort <vdonnefort@gmail.com>
 Cc: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
 Cc: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/leds/leds-ns2.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/leds/leds-ns2.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
-index 9d9c9ff4dce61..e94bb8535f0a7 100644
+index e94bb8535f0a7..40f36c53d9e87 100644
 --- a/drivers/leds/leds-ns2.c
 +++ b/drivers/leds/leds-ns2.c
-@@ -71,16 +71,13 @@ static int ns2_led_get_mode(struct ns2_led *led, enum ns2_led_modes *mode)
+@@ -50,9 +50,9 @@ struct ns2_led {
+ 
+ static int ns2_led_get_mode(struct ns2_led *led, enum ns2_led_modes *mode)
+ {
+-	int i;
+-	int cmd_level;
+ 	int slow_level;
++	int cmd_level;
++	int i;
+ 
+ 	cmd_level = gpiod_get_value_cansleep(led->cmd);
+ 	slow_level = gpiod_get_value_cansleep(led->slow);
+@@ -70,8 +70,8 @@ static int ns2_led_get_mode(struct ns2_led *led, enum ns2_led_modes *mode)
+ 
  static void ns2_led_set_mode(struct ns2_led *led, enum ns2_led_modes mode)
  {
- 	int i;
--	bool found = false;
+-	int i;
  	unsigned long flags;
++	int i;
  
  	for (i = 0; i < led->num_modes; i++)
--		if (mode == led->modval[i].mode) {
--			found = true;
-+		if (mode == led->modval[i].mode)
- 			break;
--		}
+ 		if (mode == led->modval[i].mode)
+@@ -123,9 +123,11 @@ static ssize_t ns2_led_sata_store(struct device *dev,
+ 				  const char *buff, size_t count)
+ {
+ 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+-	struct ns2_led *led = container_of(led_cdev, struct ns2_led, cdev);
+-	int ret;
+ 	unsigned long enable;
++	struct ns2_led *led;
++	int ret;
++
++	led = container_of(led_cdev, struct ns2_led, cdev);
  
--	if (!found)
-+	if (i == led->num_modes)
- 		return;
+ 	ret = kstrtoul(buff, 10, &enable);
+ 	if (ret < 0)
+@@ -154,7 +156,9 @@ static ssize_t ns2_led_sata_show(struct device *dev,
+ 				 struct device_attribute *attr, char *buf)
+ {
+ 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+-	struct ns2_led *led = container_of(led_cdev, struct ns2_led, cdev);
++	struct ns2_led *led;
++
++	led = container_of(led_cdev, struct ns2_led, cdev);
  
- 	write_lock_irqsave(&led->rw_lock, flags);
+ 	return sprintf(buf, "%d\n", led->sata);
+ }
 -- 
 2.26.2
 
