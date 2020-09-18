@@ -2,87 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9141A26E935
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 00:59:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D678026F180
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 04:52:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726002AbgIQW7V (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Sep 2020 18:59:21 -0400
-Received: from mail-proxyout-mua-31.websupport.eu ([37.9.172.181]:55812 "EHLO
-        mail-proxyout-mua-31.websupport.eu" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725886AbgIQW7U (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 17 Sep 2020 18:59:20 -0400
-X-Greylist: delayed 378 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 18:59:19 EDT
-Received: from in-2.websupport.sk (unknown [10.10.2.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727486AbgIRCvm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 17 Sep 2020 22:51:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59512 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728073AbgIRCIU (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:08:20 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail-proxyout-mua-31.websupport.eu (Postfix) with ESMTPS id D76A4BEED7;
-        Fri, 18 Sep 2020 00:52:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=blackhole.sk;
-        s=mail; t=1600383179;
-        bh=1bsHg7QEcrqHq2OVpZYecuhWKG10VHToHH+y8lx7CT4=;
-        h=Date:From:To:Cc:Subject;
-        b=qRgNrW8Y2Zch5lCT2SUYU9tsqc8xbiscGqpTt4V/y2UY+LehphoR/BB8FywlO9cKF
-         wsV+nWHbHixJO1n0UVoha8LVvj1NQCglvccjmPWk2P6hf/KEzfbgC4XRQhEGAuw9Q5
-         ZDoHKlGRZF2Y9+Cb9EPoD3V75Rl6rjNkKJMISZzU=
-Received: from localhost (otava-0257.koleje.cuni.cz [78.128.181.4])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: kabel@blackhole.sk)
-        by in-2.websupport.sk (Postfix) with ESMTPSA id 4Bssgb3RJ8z40X2M;
-        Fri, 18 Sep 2020 00:52:59 +0200 (CEST)
-Date:   Fri, 18 Sep 2020 00:52:58 +0200
-From:   Marek Behun <kabel@blackhole.sk>
-To:     Simon Guinot <simon.guinot@sequanux.org>,
-        Simon Guinot <sguinot@lacie.com>,
-        Vincent Donnefort <vdonnefort@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        by mail.kernel.org (Postfix) with ESMTPSA id 38CD223A04;
+        Fri, 18 Sep 2020 02:08:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600394899;
+        bh=RuHzoO7xlF64Rg2hxhbru7L2etZcn5Mmcuz6f9Y0ZKE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=c01k5xs/k29hqF3IOy5SFNWeK8ijAwU88SCVza9cpnVyRhAN0PsoA3kB2MET79foD
+         UdvRpWAY7P/EVDvIngCJDhUSQVOcZpy66zgklN651nTSx/NnVO2KyG2/1DtxF9ZRkB
+         Xxzfix5ro/sEnDgFu1dFpWWptvhh010MmVVSv7dM=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Oleh Kravchenko <oleg@kaa.org.ua>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Sasha Levin <sashal@kernel.org>,
         linux-leds@vger.kernel.org
-Subject: question about Network Space v2 LED driver
-Message-ID: <20200918005258.44c0bfc6@blackhole.sk>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Subject: [PATCH AUTOSEL 4.19 013/206] leds: mlxreg: Fix possible buffer overflow
+Date:   Thu, 17 Sep 2020 22:04:49 -0400
+Message-Id: <20200918020802.2065198-13-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200918020802.2065198-1-sashal@kernel.org>
+References: <20200918020802.2065198-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Out-Rspamd-Queue-Id: 4Bssgb3RJ8z40X2M
-Authentication-Results: in-2.websupport.sk;
-        auth=pass smtp.auth=kabel@blackhole.sk smtp.mailfrom=kabel@blackhole.sk
-X-Out-Rspamd-Server: mail-antispam-5
-X-Out-Spamd-Result: default: False [-3.10 / 24.00];
-         ARC_NA(0.00)[];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         FREEMAIL_ENVRCPT(0.00)[gmail.com];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         RCPT_COUNT_FIVE(0.00)[6];
-         FREEMAIL_TO(0.00)[sequanux.org,lacie.com,gmail.com,linaro.org];
-         RCVD_COUNT_ZERO(0.00)[0];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         ASN(0.00)[asn:2852, ipnet:78.128.128.0/17, country:CZ];
-         MID_RHS_MATCH_FROM(0.00)[];
-         BAYES_HAM(-3.00)[99.99%]
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+From: Oleh Kravchenko <oleg@kaa.org.ua>
 
-the leds-ns2 kernel driver has allows 3 modes for a LED:
-  OFF, ON and blinking on SATA activity
+[ Upstream commit 7c6082b903ac28dc3f383fba57c6f9e7e2594178 ]
 
-This third mode is activated via another sysfs file in the LED device
-sysfs directory: /sys/class/leds/<LED>/sata.
+Error was detected by PVS-Studio:
+V512 A call of the 'sprintf' function will lead to overflow of
+the buffer 'led_data->led_cdev_name'.
 
-Since we now support LED private HW triggers, it would be better if
-this was rewritten to use this new API.
+Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Acked-by: Pavel Machek <pavel@ucw.cz>
+Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+Signed-off-by: Pavel Machek <pavel@ucw.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/leds/leds-mlxreg.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The question is how many people use this mode and may complain if we
-change this sysfs ABI?
+diff --git a/drivers/leds/leds-mlxreg.c b/drivers/leds/leds-mlxreg.c
+index 1ee48cb21df95..022e973dc7c31 100644
+--- a/drivers/leds/leds-mlxreg.c
++++ b/drivers/leds/leds-mlxreg.c
+@@ -209,8 +209,8 @@ static int mlxreg_led_config(struct mlxreg_led_priv_data *priv)
+ 			brightness = LED_OFF;
+ 			led_data->base_color = MLXREG_LED_GREEN_SOLID;
+ 		}
+-		sprintf(led_data->led_cdev_name, "%s:%s", "mlxreg",
+-			data->label);
++		snprintf(led_data->led_cdev_name, sizeof(led_data->led_cdev_name),
++			 "mlxreg:%s", data->label);
+ 		led_cdev->name = led_data->led_cdev_name;
+ 		led_cdev->brightness = brightness;
+ 		led_cdev->max_brightness = LED_ON;
+-- 
+2.25.1
 
-Another question is whether the LED supports another HW blinking mode,
-or just SATA? How is this wired on the board?
-
-Marek
