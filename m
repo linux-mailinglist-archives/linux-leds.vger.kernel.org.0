@@ -2,35 +2,34 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0287270325
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 19:22:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E477270376
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 19:43:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726384AbgIRRWc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Sep 2020 13:22:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54432 "EHLO
+        id S1726007AbgIRRnS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Sep 2020 13:43:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726115AbgIRRW2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Sep 2020 13:22:28 -0400
-Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D469C0613CE;
-        Fri, 18 Sep 2020 10:22:28 -0700 (PDT)
+        with ESMTP id S1725955AbgIRRnS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Sep 2020 13:43:18 -0400
+Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1255BC0613CE
+        for <linux-leds@vger.kernel.org>; Fri, 18 Sep 2020 10:43:18 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id D51AF140925;
-        Fri, 18 Sep 2020 19:22:26 +0200 (CEST)
-Date:   Fri, 18 Sep 2020 19:22:26 +0200
+        by mail.nic.cz (Postfix) with ESMTPSA id 4421B140A76;
+        Fri, 18 Sep 2020 19:43:16 +0200 (CEST)
+Date:   Fri, 18 Sep 2020 19:43:15 +0200
 From:   Marek Behun <marek.behun@nic.cz>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     <linux-leds@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        =?UTF-8?B?T25kxZllag==?= Jirman <megous@megous.com>,
-        <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH leds v2 15/50] leds: lm3697: cosmetic change: use helper
- variable, reverse christmas tree
-Message-ID: <20200918192226.43f28370@nic.cz>
-In-Reply-To: <7d91fc92-0b56-afd6-a948-c25be9bfed38@ti.com>
-References: <20200917223338.14164-1-marek.behun@nic.cz>
-        <20200917223338.14164-16-marek.behun@nic.cz>
-        <7d91fc92-0b56-afd6-a948-c25be9bfed38@ti.com>
+To:     Simon Guinot <simon.guinot@sequanux.org>
+Cc:     Simon Guinot <sguinot@lacie.com>,
+        Vincent Donnefort <vdonnefort@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        linux-leds@vger.kernel.org
+Subject: Re: question about Network Space v2 LED driver
+Message-ID: <20200918194315.61fd8f43@nic.cz>
+In-Reply-To: <20200918134201.GF29951@kw.sim.vm.gnt>
+References: <20200918005258.44c0bfc6@blackhole.sk>
+        <20200918134201.GF29951@kw.sim.vm.gnt>
 X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -45,17 +44,86 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 18 Sep 2020 06:47:20 -0500
-Dan Murphy <dmurphy@ti.com> wrote:
+On Fri, 18 Sep 2020 15:42:01 +0200
+Simon Guinot <simon.guinot@sequanux.org> wrote:
 
+> On Fri, Sep 18, 2020 at 12:52:58AM +0200, Marek Behun wrote:
+> > Hi,  
 > 
-> Reviewed-by: Dan Murphy <dmurphy@ti.com>
+> Hi Marek,
 > 
+> > 
+> > the leds-ns2 kernel driver has allows 3 modes for a LED:
+> >   OFF, ON and blinking on SATA activity
+> > 
+> > This third mode is activated via another sysfs file in the LED device
+> > sysfs directory: /sys/class/leds/<LED>/sata.
+> > 
+> > Since we now support LED private HW triggers, it would be better if
+> > this was rewritten to use this new API.  
 > 
+> It sounds like a great idea.
+> 
+> > 
+> > The question is how many people use this mode and may complain if we
+> > change this sysfs ABI?  
+> 
+> Not a lot IMHO. This LED devices are found in some LaCie/Seagate NAS.
+> Most of them, such as the Seagate NAS 4-Bay (Marvell Armada 370 SoC)
+> are supported by the Debian distribution. For the users I have been in
+> contact with, I am pretty confident they should be able to deal with
+> this changes. They already dealt with worse.
+> 
+> Another user is the Seagate NAS distribution. And this user will be
+> happy to switch to the new ABI.
+> 
+> > 
+> > Another question is whether the LED supports another HW blinking mode,
+> > or just SATA? How is this wired on the board?  
+> 
+> Three different LED modes are available: off, on and SATA activity
+> blinking. The LED modes are controlled through two GPIOs (command and
+> slow): each combination of values for the command/slow GPIOs corresponds
+> to a LED mode.
+> 
+> For an example, have a look at the leds-ns2 DT node in the
+> armada-370-seagate-nas-4bay.dts file.
+> 
+> The only hardware blinking mechanism for this LED device is SATA.
+> Basically the SATA blinking signal is built from the SATA pin activity
+> of the HDD. This signal is a little bit reworked by some electronic
+> components in order to produce a blinking rate OK for the human eye.
+> 
+> Hope this helps.
+> 
+> Simon
 
-Dan,
+I apologize, I accidentaly sent the question from my private e-mail :)
 
-could you also review patch 14/50? That one is also lm3697 and this one
-depends on it.
+Simon, thanks for the info.
+
+Another question: Is there only one disk on this device?
+
+The reason why I am asking is this:
+  We already have disk-activity trigger. I would like to implement a
+  generic LED trigger offloading API, so that if user chooses
+  disk-activity and the LED can offload that to hardware, it wil.
+
+  But the disk-activity trigger blinks the LED on activity of any
+  disk, you can't choose one as in the netdev trigger.
+  
+  If it is possible to have only one disk on that device (which is
+  improbable if there are USB ports) than implementing offloading will
+  be trivial.
+
+  If not, than we would need to allow disk-activity trigger to select
+  the disk as well. This is probably good anyway.
+
+Are you willing to work on this with me? At least reviewing and testing
+patches?
+
+Are you anywhere on IRC or another real-time chat, XMPP for example?
+
+Thanks.
 
 Marek
