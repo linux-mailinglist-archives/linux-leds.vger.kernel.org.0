@@ -2,38 +2,24 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2549126F9BC
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 11:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC33126F9F3
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 12:10:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726156AbgIRJ6j (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Sep 2020 05:58:39 -0400
-Received: from mga01.intel.com ([192.55.52.88]:8132 "EHLO mga01.intel.com"
+        id S1726456AbgIRKKK convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Fri, 18 Sep 2020 06:10:10 -0400
+Received: from lists.nic.cz ([217.31.204.67]:33800 "EHLO mail.nic.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726115AbgIRJ6i (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 18 Sep 2020 05:58:38 -0400
-IronPort-SDR: xo7Dkotoieh324yOb8EuIfQaISSC1ppYU+XGhLu6dFrNZNBcBM6u4MgIhqLnxuNJPhGoUsqKbl
- WXQR9QZDkSrw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="177994163"
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; 
-   d="scan'208";a="177994163"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 02:58:37 -0700
-IronPort-SDR: DM20wbBrmnoRBgQ0MDZp4J4CXwPRFPXD8sJB+wqEsS0O65H4KHh/Oe1K/7Yo0CyhbYM2YRrZpa
- jAH1COn3YC4Q==
-X-IronPort-AV: E=Sophos;i="5.77,274,1596524400"; 
-   d="scan'208";a="344694904"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 02:58:31 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id DD46A20815; Fri, 18 Sep 2020 12:57:59 +0300 (EEST)
-Date:   Fri, 18 Sep 2020 12:57:59 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Marek Behun <marek.behun@nic.cz>
+        id S1725882AbgIRKKJ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 18 Sep 2020 06:10:09 -0400
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id 2791B140A87;
+        Fri, 18 Sep 2020 12:10:06 +0200 (CEST)
+Date:   Fri, 18 Sep 2020 12:10:05 +0200
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         Dan Murphy <dmurphy@ti.com>,
-        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        =?UTF-8?B?T25kxZllag==?= Jirman <megous@megous.com>,
         linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         devicetree@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -46,61 +32,73 @@ Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         Baolin Wang <baolin.wang7@gmail.com>,
         Chunyan Zhang <zhang.lyra@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
         <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH leds v2 05/50] leds: various: guard of_match_table member
- value with of_match_ptr
-Message-ID: <20200918095759.GG26842@paasikivi.fi.intel.com>
+Subject: Re: [PATCH leds v2 05/50] leds: various: guard of_match_table
+ member value with of_match_ptr
+Message-ID: <20200918121005.1d805335@nic.cz>
+In-Reply-To: <20200918095759.GG26842@paasikivi.fi.intel.com>
 References: <20200917223338.14164-1-marek.behun@nic.cz>
- <20200917223338.14164-6-marek.behun@nic.cz>
- <20200918061500.GD26842@paasikivi.fi.intel.com>
- <20200918112058.6d3b0d5d@nic.cz>
+        <20200917223338.14164-6-marek.behun@nic.cz>
+        <20200918061500.GD26842@paasikivi.fi.intel.com>
+        <20200918112058.6d3b0d5d@nic.cz>
+        <20200918095759.GG26842@paasikivi.fi.intel.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200918112058.6d3b0d5d@nic.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Sep 18, 2020 at 11:20:58AM +0200, Marek Behun wrote:
-> On Fri, 18 Sep 2020 09:15:00 +0300
-> Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> 
-> > Hi Marek,
-> > 
-> > On Fri, Sep 18, 2020 at 12:32:53AM +0200, Marek Behún wrote:
-> > > Change
-> > >   .of_match_table = xxx,
-> > > to
-> > >   .of_match_table = of_match_ptr(xxx),
-> > > in various drivers.
+On Fri, 18 Sep 2020 12:57:59 +0300
+Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+
+> On Fri, Sep 18, 2020 at 11:20:58AM +0200, Marek Behun wrote:
+> > On Fri, 18 Sep 2020 09:15:00 +0300
+> > Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> >   
+> > > Hi Marek,
 > > > 
-> > > This should be standard even for drivers that depend on OF.  
+> > > On Fri, Sep 18, 2020 at 12:32:53AM +0200, Marek BehÃºn wrote:  
+> > > > Change
+> > > >   .of_match_table = xxx,
+> > > > to
+> > > >   .of_match_table = of_match_ptr(xxx),
+> > > > in various drivers.
+> > > > 
+> > > > This should be standard even for drivers that depend on OF.    
+> > > 
+> > > After this patch, none of these drivers will work on ACPI systems anymore.  
+> 
+> ^
+> 
+> If CONFIG_OF is disabled, that is.
+> 
 > > 
-> > After this patch, none of these drivers will work on ACPI systems anymore.
-
-^
-
-If CONFIG_OF is disabled, that is.
-
+> > Hi Sakari,
+> > 
+> > I don't understand. Why not? Does ACPI subsystem parse of_match_table
+> > as well?  
 > 
-> Hi Sakari,
+> It does. The compatible string is used the same way as in DT for matching
+> devices with "PRP0001" _HID or _CID.
 > 
-> I don't understand. Why not? Does ACPI subsystem parse of_match_table
-> as well?
+> Please read Documentation/firmware-guide/acpi/enumeration.rst .
+> 
+> IOW, you can safely do the above only for drivers that depend on OF in
+> Kconfig. Otherwise you'll probably break something.
+> 
 
-It does. The compatible string is used the same way as in DT for matching
-devices with "PRP0001" _HID or _CID.
+Sakari, thank you for the pointer to the docs.
+I thought that of_match_table is used only by OF (hence the name).
 
-Please read Documentation/firmware-guide/acpi/enumeration.rst .
-
-IOW, you can safely do the above only for drivers that depend on OF in
-Kconfig. Otherwise you'll probably break something.
-
--- 
-Sakari Ailus
+Marek
