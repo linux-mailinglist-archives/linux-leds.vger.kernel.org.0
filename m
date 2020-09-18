@@ -2,79 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 363D826F480
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 05:15:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC2F26F5CA
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 08:15:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726681AbgIRDOw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Sep 2020 23:14:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45976 "EHLO mail.kernel.org"
+        id S1726044AbgIRGPK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Sep 2020 02:15:10 -0400
+Received: from mga11.intel.com ([192.55.52.93]:13106 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726477AbgIRCBo (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 17 Sep 2020 22:01:44 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7B79C235F8;
-        Fri, 18 Sep 2020 02:01:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600394501;
-        bh=5oHdL/SvUebyxDWf8Sl4MMKGthfafe7CIrkoDOYf8F8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KgaP3XbYXb1e4ajAwbwKISlL5T68+ujhDdIByM79eqQq2ROo/G5TFb2quPhlZDXtZ
-         juBl7Gdr+nIWFT2rF0+gSl5uthdkpUcw5j8YNE0KZcCH2ZbivtY4oH2XNZuIa9fxi5
-         zEqEouzDsIulRhaNygU3Xo7Jqmigk2/KD7tQWvn0=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Oleh Kravchenko <oleg@kaa.org.ua>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 025/330] leds: mlxreg: Fix possible buffer overflow
-Date:   Thu, 17 Sep 2020 21:56:05 -0400
-Message-Id: <20200918020110.2063155-25-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200918020110.2063155-1-sashal@kernel.org>
-References: <20200918020110.2063155-1-sashal@kernel.org>
+        id S1726022AbgIRGPK (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 18 Sep 2020 02:15:10 -0400
+IronPort-SDR: jeDSxMVcU5lko8yRIl+tMleUWk9TFGoWopf+2i56J3WPPi4EYUgXKSv0Gd3e0d6TML0CgAmnLp
+ jq5rewbk1o2w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="157260707"
+X-IronPort-AV: E=Sophos;i="5.77,273,1596524400"; 
+   d="scan'208";a="157260707"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 23:15:08 -0700
+IronPort-SDR: riPwM3NP52txiavt/pPSqmqhMUVTPj8iAM6ZS9GNMcnm82YEpR68Ab/8u+gJDnWeDjNgydcr7P
+ CuQ7HJ4nnvfQ==
+X-IronPort-AV: E=Sophos;i="5.77,273,1596524400"; 
+   d="scan'208";a="320503919"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 23:15:02 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 444EF20815; Fri, 18 Sep 2020 09:15:00 +0300 (EEST)
+Date:   Fri, 18 Sep 2020 09:15:00 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH leds v2 05/50] leds: various: guard of_match_table member
+ value with of_match_ptr
+Message-ID: <20200918061500.GD26842@paasikivi.fi.intel.com>
+References: <20200917223338.14164-1-marek.behun@nic.cz>
+ <20200917223338.14164-6-marek.behun@nic.cz>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200917223338.14164-6-marek.behun@nic.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Oleh Kravchenko <oleg@kaa.org.ua>
+Hi Marek,
 
-[ Upstream commit 7c6082b903ac28dc3f383fba57c6f9e7e2594178 ]
+On Fri, Sep 18, 2020 at 12:32:53AM +0200, Marek Behún wrote:
+> Change
+>   .of_match_table = xxx,
+> to
+>   .of_match_table = of_match_ptr(xxx),
+> in various drivers.
+> 
+> This should be standard even for drivers that depend on OF.
 
-Error was detected by PVS-Studio:
-V512 A call of the 'sprintf' function will lead to overflow of
-the buffer 'led_data->led_cdev_name'.
+After this patch, none of these drivers will work on ACPI systems anymore.
 
-Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
-Signed-off-by: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/leds/leds-mlxreg.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+How many of them really depend on OF?
 
-diff --git a/drivers/leds/leds-mlxreg.c b/drivers/leds/leds-mlxreg.c
-index cabe379071a7c..82aea1cd0c125 100644
---- a/drivers/leds/leds-mlxreg.c
-+++ b/drivers/leds/leds-mlxreg.c
-@@ -228,8 +228,8 @@ static int mlxreg_led_config(struct mlxreg_led_priv_data *priv)
- 			brightness = LED_OFF;
- 			led_data->base_color = MLXREG_LED_GREEN_SOLID;
- 		}
--		sprintf(led_data->led_cdev_name, "%s:%s", "mlxreg",
--			data->label);
-+		snprintf(led_data->led_cdev_name, sizeof(led_data->led_cdev_name),
-+			 "mlxreg:%s", data->label);
- 		led_cdev->name = led_data->led_cdev_name;
- 		led_cdev->brightness = brightness;
- 		led_cdev->max_brightness = LED_ON;
 -- 
-2.25.1
+Regards,
 
+Sakari Ailus
