@@ -2,26 +2,25 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E03B8270B00
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Sep 2020 07:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83090270B01
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Sep 2020 07:45:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726119AbgISFpf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 19 Sep 2020 01:45:35 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:43765 "EHLO
+        id S1726321AbgISFpj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 19 Sep 2020 01:45:39 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:59377 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbgISFpf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Sep 2020 01:45:35 -0400
-X-Greylist: delayed 780 seconds by postgrey-1.27 at vger.kernel.org; Sat, 19 Sep 2020 01:45:34 EDT
+        with ESMTP id S1726054AbgISFpj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Sep 2020 01:45:39 -0400
 Received: from methusalix.internal.home.lespocky.de ([92.117.44.159]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MtfeD-1kcPbe3KyF-00v676; Sat, 19 Sep 2020 07:32:13 +0200
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1N0nOF-1ke2RV0sfF-00wooU; Sat, 19 Sep 2020 07:32:20 +0200
 Received: from lemmy.internal.home.lespocky.de ([192.168.243.176] helo=lemmy.home.lespocky.de)
         by methusalix.internal.home.lespocky.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <alex@home.lespocky.de>)
-        id 1kJVTm-0004mv-6F; Sat, 19 Sep 2020 07:32:11 +0200
-Received: (nullmailer pid 7638 invoked by uid 2001);
-        Sat, 19 Sep 2020 05:32:09 -0000
+        id 1kJVTt-0004nF-K2; Sat, 19 Sep 2020 07:32:18 +0200
+Received: (nullmailer pid 7641 invoked by uid 2001);
+        Sat, 19 Sep 2020 05:32:17 -0000
 From:   Alexander Dahl <post@lespocky.de>
 To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
 Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -30,96 +29,133 @@ Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Peter Ujfalusi <peter.ujfalusi@ti.com>,
         =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
         Alexander Dahl <ada@thorsis.com>,
-        Alexander Dahl <post@lespocky.de>
-Subject: [PATCH v5 0/3] leds: pwm: Make automatic labels work
-Date:   Sat, 19 Sep 2020 07:31:42 +0200
-Message-Id: <20200919053145.7564-1-post@lespocky.de>
+        Alexander Dahl <post@lespocky.de>,
+        Denis Osterland-Heim <denis.osterland@diehl.com>
+Subject: [PATCH v5 1/3] leds: pwm: Remove platform_data support
+Date:   Sat, 19 Sep 2020 07:31:43 +0200
+Message-Id: <20200919053145.7564-2-post@lespocky.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200919053145.7564-1-post@lespocky.de>
+References: <20200919053145.7564-1-post@lespocky.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scan-Signature: 3b5b4ff3ca3583cb7f12014899502a35
+X-Scan-Signature: 4bf9351666375fa7ad51de20efbfb169
 X-Spam-Score: -2.9 (--)
-X-Provags-ID: V03:K1:lq4IJsOe1g2SSinIL81Ac6vmNVDBhOTg7BqnGfzcGHy4V6soo2J
- uH7qOPwmitn/GQitYIFZWIVY4BTvpHXF7nwqQQBpeI0Ae4zjy5POOAyulbsr3gzIRmuA2yw
- tzEH9RyzvShIpJGZ1ykaVN+C4r8ePANfO5VjeF3NoX44AAfTnQN5DjEAMQnXsiggkmhNOMd
- AH9NOWXHnumPpVajy67EQ==
+X-Provags-ID: V03:K1:ZapwOjmSjjVYc3LmLhMI3dSVtvP2XiO/5ktb3Tr2uTUx0YpWQPt
+ t1eZHLdQadXU+YYjDWSA1BJD3onv11nsn4VGz+dl4rNkHZsSrgwAAZkVffoAj3en7Y3Dcxn
+ WDOxyHDuYOwtodFrTnGsCKN6UWsqlhelLySCHfFcdXrH4xRjW0y1aWWdl7gT8osNfVekBFf
+ Psp3QF9uFsysCmTEuRa+A==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gnHs68amGnY=:VSrlcf9W5TJlXhsenUwuKN
- HeozVt3iH3lWYD6yjMEJSch83arRnaFdF64UrdBkef6ywGbTYOd6k0yxQ3b8AUecV2CwB8eEX
- Yzv1YjAIUVt/RVdG/6ZC6Hmjd8OKq5/CzUfZNbt+ktIfjb/GaMZsQd+Ih5CB41uxL/L7+fHWU
- x2Ejf8MaugQ9kNcYBSI6qwAEL06blzPZvjKlnRVZSwcwz9egeMymmk1d6aZ6Ip5HSvPlrquuJ
- nDxxpAxkJuhEnda5Ui8n8xcEWZ7HIJnhPvmQWqWI5DPvIxoKi9Isc19Hf38XW+lIyklfQzoo+
- CeklTaFJ+99m2XTL29owAwFaXvRtSTcdnJIqWIBHOXMXNodhAToV/XAKyXvrExoKXMQq31D3q
- efKYSsybp7ZAHCZQDSgCfWnq6DvXRNeYqqkFsi5aTfTXidEWDJ25Gec5KFG+Lmljn20CxNed7
- 3nDD08DQhFTz4MyFSyKAsa1L9DBFoStR9BER6E6cYyNtqSdf+4aCke8yAM2gGX6k4a9IQ536t
- CZMXvyN+paVb7KEhJYXOv1boiHOKC/huFfpU0ere+e8zCB7fM+jAa9cliejtXCFoNUlnWI8rz
- zDYjQ0sg3WRyt9UUXOuO3L2Y3KUd5938Wez82e4LlRcEFZBr7M2F3b7Hh9ArOMsX0d7pW0rPc
- OHRDDyCM6hzqWa0YrS+l3zYyxAgCOYihJC6bXv+hRr9owxJ1ixqZDqp7aMa6jZWhnU6XOHvmF
- is/lEaCdq/1pCe57Z5nwcSWnkByMAwhxLH7dZU7fZp8r6b3HJFmwHK17QrksqSRGxRbN6GRWy
- opBaDTjuydQKnieduAQRBy2tGprM4U5JCDfo+1crFkTw1vqDay8TyWfmGRMrNw+XvPvpzmk
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NE+LY5/+wtw=:jynDN0i9tG/sDxNaF6gynw
+ PgX3yUk1FwMiMfQkZdhFC8nZp9FjQsZieR23OglQYhIQaPMqopX+e/E2LxfNknkH861xeppCR
+ iveS7zRrrRmLMvoJZbp80jOmW1m7eJqzSIb9Afleb3YXpdNofJb3nWfTYKsDBIjHDFe6hHlVl
+ ZL+VwDPOTue3WpTNkOcJVu5Ys0CL5eH2YlHYvowaotuRaVjH4DXjsviDSdP/A+D8pj8eV/GZT
+ uFXkAnr0b/gAds1cZ0PdZr8a3DPtrGtCX/0qPCBNnT9JqCnSttMcNk9ya17VG8W/os+l0npgu
+ w11jXxM+/Omjf5r080Lmmtyoa6U6osUW8vMU8vduXydUgQs5cXr4QHHn+4h4EmHi6DTCjcgLu
+ YeOufNwkUNke5OxocG7IjyBPZnltxi31NAyeT0LAU9//o3mwjEBtEwlH8j2YprwpQNMYG+Shh
+ IfLPzsevktz+ejHt3iefN7xCz2ZDKSMYitpsDwbHenFkLZDDtd+2B5guWT7EkGRWxK+HkOaxr
+ XEkgInirybe9IrqvZUFAIWiSbOducCQT8S7Adph+ryWxlyHBD9o4eniQ7Sl8/lB9Za50OILD9
+ sna9wKePjjnLbP0xuRPPGM5wI3GghPEMgl1CCkicEHnlqTeRLKQ8qK+/nQV/99mHn/hlVu0X6
+ vnN9vdlgrHzBg12HUaj1ge275B8r6VFgYHrONMNjeofc+HLniPNXaRD6isqVJxRISylGAGcv1
+ nMdLFNyPpTvUWKw8kFeMjuhHeNMNSiN1P4WdXFXor8Ebnz/mWdpDfMX5d/B8oeoqdTNDGDsCC
+ szjg+Crgdf0R11l1+QDvAPY88Rf5eta9E23YIaBgLOTF98vQDMVgi6R/G5k/0XnkLHJe32J
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hei hei,
+Since commit 141f15c66d94 ("leds: pwm: remove header") that platform
+interface is not usable from outside and there seems to be no in tree
+user anymore.  All in-tree users of the leds-pwm driver seem to use DT
+currently.  Getting rid of the old platform interface will allow the
+leds-pwm driver to switch over from 'devm_led_classdev_register()' to
+'devm_led_classdev_register_ext()' later.
 
-for leds-gpio you can use the properties 'function' and 'color' in the
-devicetree node and omit 'label', the label is constructed
-automatically.  This is a common feature supposed to be working for all
-LED drivers.  However it did not yet work for the 'leds-pwm' driver.
+Signed-off-by: Alexander Dahl <post@lespocky.de>
+Cc: Denis Osterland-Heim <denis.osterland@diehl.com>
+Cc: Marek Behún <marek.behun@nic.cz>
+---
 
-This series removes platform_data support for the leds-pwm driver and
-takes the opportunity to update the leds-pwm dt-bindings accordingly.
+Notes:
+    v5:
+     * added this patch to series (replacing another patch with a not
+       working, different approach)
 
-v5 was tested on a at91 sama5d2 based platform with LEDs connected to
-GPIO and PWM.
+ drivers/leds/leds-pwm.c | 30 +++++-------------------------
+ 1 file changed, 5 insertions(+), 25 deletions(-)
 
-Greets
-Alex
-
-v5:
-- replaced patch 1/3 by a new patch removing platform_data support for
-  the leds-pwm driver
-- little rewording of commit message in patch 2/3
-- updated patch 3/3 based on feedback by Rob Herring
-- added Marek Behún to Cc, because he also works on removing
-  platform_data support
-- rebased series on pavel/for-next
-
-v4:
-- added led-class patch handling fwnode passing differently (patch 1/3)
-- adapted leds-pwm patch to new led-class (patch 2/3)
-- contacted original author of leds-pwm dt binding on license issue
-  (patch 3/3)
-
-v3:
-- series rebased on v5.9-rc4
-- changed license of .yaml file to recommended one (patch 2/2)
-- added Acked-by to both patches
-
-v2:
-- series rebased on v5.9-rc3
-- added the dt-bindings update patch (2/2)
-
-v1:
-- based on v5.9-rc2
-- backport on v5.4.59 tested and working
-
-Alexander Dahl (3):
-  leds: pwm: Remove platform_data support
-  leds: pwm: Allow automatic labels for DT based devices
-  dt-bindings: leds: Convert pwm to yaml
-
- .../devicetree/bindings/leds/leds-pwm.txt     | 50 -----------
- .../devicetree/bindings/leds/leds-pwm.yaml    | 82 +++++++++++++++++++
- drivers/leds/leds-pwm.c                       | 33 ++------
- 3 files changed, 89 insertions(+), 76 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.txt
- create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.yaml
-
-
-base-commit: 03eb2ca44a95105d1482d5e7471016cf8b383f97
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index e35a97c1d828..4e9954f8f7eb 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -25,11 +25,6 @@ struct led_pwm {
+ 	unsigned int	max_brightness;
+ };
+ 
+-struct led_pwm_platform_data {
+-	int		num_leds;
+-	struct led_pwm	*leds;
+-};
+-
+ struct led_pwm_data {
+ 	struct led_classdev	cdev;
+ 	struct pwm_device	*pwm;
+@@ -61,6 +56,7 @@ static int led_pwm_set(struct led_classdev *led_cdev,
+ 	return pwm_apply_state(led_dat->pwm, &led_dat->pwmstate);
+ }
+ 
++__attribute__((nonnull))
+ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+ 		       struct led_pwm *led, struct fwnode_handle *fwnode)
+ {
+@@ -74,10 +70,7 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+ 	led_data->cdev.max_brightness = led->max_brightness;
+ 	led_data->cdev.flags = LED_CORE_SUSPENDRESUME;
+ 
+-	if (fwnode)
+-		led_data->pwm = devm_fwnode_pwm_get(dev, fwnode, NULL);
+-	else
+-		led_data->pwm = devm_pwm_get(dev, led->name);
++	led_data->pwm = devm_fwnode_pwm_get(dev, fwnode, NULL);
+ 	if (IS_ERR(led_data->pwm))
+ 		return dev_err_probe(dev, PTR_ERR(led_data->pwm),
+ 				     "unable to request PWM for %s\n",
+@@ -143,15 +136,11 @@ static int led_pwm_create_fwnode(struct device *dev, struct led_pwm_priv *priv)
+ 
+ static int led_pwm_probe(struct platform_device *pdev)
+ {
+-	struct led_pwm_platform_data *pdata = dev_get_platdata(&pdev->dev);
+ 	struct led_pwm_priv *priv;
+-	int count, i;
+ 	int ret = 0;
++	int count;
+ 
+-	if (pdata)
+-		count = pdata->num_leds;
+-	else
+-		count = device_get_child_node_count(&pdev->dev);
++	count = device_get_child_node_count(&pdev->dev);
+ 
+ 	if (!count)
+ 		return -EINVAL;
+@@ -161,16 +150,7 @@ static int led_pwm_probe(struct platform_device *pdev)
+ 	if (!priv)
+ 		return -ENOMEM;
+ 
+-	if (pdata) {
+-		for (i = 0; i < count; i++) {
+-			ret = led_pwm_add(&pdev->dev, priv, &pdata->leds[i],
+-					  NULL);
+-			if (ret)
+-				break;
+-		}
+-	} else {
+-		ret = led_pwm_create_fwnode(&pdev->dev, priv);
+-	}
++	ret = led_pwm_create_fwnode(&pdev->dev, priv);
+ 
+ 	if (ret)
+ 		return ret;
 -- 
 2.20.1
 
