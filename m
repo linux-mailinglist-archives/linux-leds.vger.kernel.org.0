@@ -2,31 +2,34 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B5E4270FE9
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Sep 2020 20:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE84D270FE5
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Sep 2020 20:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726575AbgISSDJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 19 Sep 2020 14:03:09 -0400
-Received: from mail.nic.cz ([217.31.204.67]:52644 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726502AbgISSDJ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 19 Sep 2020 14:03:09 -0400
+        id S1726593AbgISSDK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 19 Sep 2020 14:03:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726502AbgISSDK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Sep 2020 14:03:10 -0400
+Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26725C0613CE
+        for <linux-leds@vger.kernel.org>; Sat, 19 Sep 2020 11:03:10 -0700 (PDT)
 Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id 5B976140A7F;
+        by mail.nic.cz (Postfix) with ESMTP id 7E164140A84;
         Sat, 19 Sep 2020 20:03:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1600538586; bh=M94NQEYxOEI8MV4Jxv5nXxeGOUP99OKbgtmoNh5U1b8=;
+        t=1600538586; bh=xfJxCa1ZtShObzL/Z8DhVsAsRoT0kI2V3U/K6GeORYQ=;
         h=From:To:Date;
-        b=qfzLMrBHbr7OK610bEyLsdaoVWlqsSU4x4meraGgQ4K6qsKQz0FnHNhaBsPmB8ck7
-         s6jv85YmsWH0iaLsf9ra7G6x2W1YTicvK1/egXyWCNJtDsEdsREEtg7RLASsaiHDsm
-         3vkumk+5NUOwlPxzucJrCPkRITtDGNcG96cEjQAg=
+        b=oqS2dOS9s5y/Jc5XcSaMS9n2unpi8BR45uEM7whE2bTiHvrsWVCQczDXLrmwyBCXJ
+         lemhQgpX3pio8bo2R1Z40xrJU3e7xLd6pl3Dx/zrwJX8WGv+7PuwhX0zbSbqHvwWE3
+         hFtotwXHWMaPupGzIRWcq5mwWszdp/YELtmuDpDA=
 From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
 To:     linux-leds@vger.kernel.org
 Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
-Subject: [PATCH leds v3 6/9] leds: lm36274: use devres LED registering function
-Date:   Sat, 19 Sep 2020 20:03:01 +0200
-Message-Id: <20200919180304.2885-7-marek.behun@nic.cz>
+Subject: [PATCH leds v3 7/9] leds: lm3532: don't parse label DT property
+Date:   Sat, 19 Sep 2020 20:03:02 +0200
+Message-Id: <20200919180304.2885-8-marek.behun@nic.cz>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200919180304.2885-1-marek.behun@nic.cz>
 References: <20200919180304.2885-1-marek.behun@nic.cz>
@@ -42,56 +45,59 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Now that the potential use-after-free issue is resolved we can use
-devres for LED registration in this driver.
-
-By using devres version of LED registering function we can remove the
-.remove method from this driver.
+This driver uses extended LED registration, so we do not need to parse
+the `label` DT property on our own.
 
 Signed-off-by: Marek Behún <marek.behun@nic.cz>
-Cc: Dan Murphy <dmurphy@ti.com>
 ---
- drivers/leds/leds-lm36274.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ drivers/leds/leds-lm3532.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/drivers/leds/leds-lm36274.c b/drivers/leds/leds-lm36274.c
-index 74c236d1a60c8..10a63b7f2ecce 100644
---- a/drivers/leds/leds-lm36274.c
-+++ b/drivers/leds/leds-lm36274.c
-@@ -142,7 +142,8 @@ static int lm36274_probe(struct platform_device *pdev)
- 	chip->led_dev.max_brightness = MAX_BRIGHTNESS_11BIT;
- 	chip->led_dev.brightness_set_blocking = lm36274_brightness_set;
+diff --git a/drivers/leds/leds-lm3532.c b/drivers/leds/leds-lm3532.c
+index 946ad67eaecb7..9b6973217cc0b 100644
+--- a/drivers/leds/leds-lm3532.c
++++ b/drivers/leds/leds-lm3532.c
+@@ -129,7 +129,6 @@ struct lm3532_als_data {
+  * @full_scale_current - The full-scale current setting for the current sink.
+  * @led_strings - The LED strings supported in this array
+  * @enabled - Enabled status
+- * @label - LED label
+  */
+ struct lm3532_led {
+ 	struct led_classdev led_dev;
+@@ -142,7 +141,6 @@ struct lm3532_led {
+ 	int full_scale_current;
+ 	unsigned int enabled:1;
+ 	u32 led_strings[LM3532_MAX_CONTROL_BANKS];
+-	char label[LED_MAX_NAME_SIZE];
+ };
  
--	ret = led_classdev_register_ext(chip->dev, &chip->led_dev, &init_data);
-+	ret = devm_led_classdev_register_ext(chip->dev, &chip->led_dev,
-+					     &init_data);
- 	if (ret)
- 		dev_err(chip->dev, "Failed to register LED for node %pfw\n",
- 			init_data.fwnode);
-@@ -152,15 +153,6 @@ static int lm36274_probe(struct platform_device *pdev)
- 	return ret;
- }
+ /**
+@@ -548,7 +546,6 @@ static int lm3532_parse_node(struct lm3532_data *priv)
+ {
+ 	struct fwnode_handle *child = NULL;
+ 	struct lm3532_led *led;
+-	const char *name;
+ 	int control_bank;
+ 	u32 ramp_time;
+ 	size_t i = 0;
+@@ -646,16 +643,7 @@ static int lm3532_parse_node(struct lm3532_data *priv)
+ 		fwnode_property_read_string(child, "linux,default-trigger",
+ 					    &led->led_dev.default_trigger);
  
--static int lm36274_remove(struct platform_device *pdev)
--{
--	struct lm36274 *chip = platform_get_drvdata(pdev);
+-		ret = fwnode_property_read_string(child, "label", &name);
+-		if (ret)
+-			snprintf(led->label, sizeof(led->label),
+-				"%s::", priv->client->name);
+-		else
+-			snprintf(led->label, sizeof(led->label),
+-				 "%s:%s", priv->client->name, name);
 -
--	led_classdev_unregister(&chip->led_dev);
--
--	return 0;
--}
--
- static const struct of_device_id of_lm36274_leds_match[] = {
- 	{ .compatible = "ti,lm36274-backlight", },
- 	{},
-@@ -169,7 +161,6 @@ MODULE_DEVICE_TABLE(of, of_lm36274_leds_match);
+ 		led->priv = priv;
+-		led->led_dev.name = led->label;
+ 		led->led_dev.brightness_set_blocking = lm3532_brightness_set;
  
- static struct platform_driver lm36274_driver = {
- 	.probe  = lm36274_probe,
--	.remove = lm36274_remove,
- 	.driver = {
- 		.name = "lm36274-leds",
- 	},
+ 		ret = devm_led_classdev_register_ext(priv->dev, &led->led_dev, &idata);
 -- 
 2.26.2
 
