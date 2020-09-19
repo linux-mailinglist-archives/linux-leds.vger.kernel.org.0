@@ -2,24 +2,27 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BA492710FB
-	for <lists+linux-leds@lfdr.de>; Sun, 20 Sep 2020 00:15:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9AA72710F9
+	for <lists+linux-leds@lfdr.de>; Sun, 20 Sep 2020 00:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbgISWPz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 19 Sep 2020 18:15:55 -0400
-Received: from mail.nic.cz ([217.31.204.67]:50116 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726617AbgISWPy (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        id S1726753AbgISWPy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Sat, 19 Sep 2020 18:15:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39502 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726740AbgISWPy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Sep 2020 18:15:54 -0400
+Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53518C0613CF
+        for <linux-leds@vger.kernel.org>; Sat, 19 Sep 2020 15:15:54 -0700 (PDT)
 Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id A2CDB140A95;
+        by mail.nic.cz (Postfix) with ESMTP id D54D9140A98;
         Sun, 20 Sep 2020 00:15:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1600553751; bh=ciK44SgWm/0erGft2af72dTBuEF0hx6Ckl3+Gl9aV+g=;
+        t=1600553752; bh=l5EZnvD0y3TF1B58/iFHlosNxgMfoWrFOqjt3P7RTFQ=;
         h=From:To:Date;
-        b=YsI9W0foU8Z88sij9Ib/K+YioDPTfl+ZxmB1QrVh4Qr5J/iuOcM6e3UepzLKb/E5/
-         OVjw2SoCsdHopHqQkBlHlTYDwcynth/w1XtVpaH5a7kVYDf61jfwiZ/B0bsCt+4QLR
-         bEw5VyUAvNMYEOHWJn8H8v9xTcj2J/fLdyYHn6ZE=
+        b=pS5OnIlLoySwCSvP59eGRB0VIuuFRZILAb6UOAzAVdDG/33MqCZlw2qSqaGVkbsgH
+         Gl4ovi5CoF8JBBWmnlSpHp8fBVr9RMz8i+98e10b4BDoHvRP15iGsG9CvOYtYXG1nL
+         su2uwyeFvnr3IFr2I3gPtVZjZ2UsvcWuzRycrBrs=
 From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
 To:     linux-leds@vger.kernel.org
 Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
@@ -27,9 +30,9 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         NeilBrown <neilb@suse.de>,
         Linus Walleij <linus.walleij@linaro.org>,
         "H . Nikolaus Schaller" <hns@goldelico.com>
-Subject: [PATCH leds + devicetree 11/13] leds: tca6507: fail on reg value conflict
-Date:   Sun, 20 Sep 2020 00:15:46 +0200
-Message-Id: <20200919221548.29984-12-marek.behun@nic.cz>
+Subject: [PATCH leds + devicetree 12/13] leds: tca6507: set registers to zero before LEDs/GPIOs registration
+Date:   Sun, 20 Sep 2020 00:15:47 +0200
+Message-Id: <20200919221548.29984-13-marek.behun@nic.cz>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200919221548.29984-1-marek.behun@nic.cz>
 References: <20200919221548.29984-1-marek.behun@nic.cz>
@@ -45,48 +48,43 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Fail if two child nodes have the same `reg` property value.
+The LED registering functions can internally call brightness changes. If
+we zero the registers only after LEDs are registered, then the values
+set by registration code are lost.
+
+Therefore set chip's registers to zero before registering LEDs/GPIOs.
 
 Signed-off-by: Marek Behún <marek.behun@nic.cz>
 Cc: NeilBrown <neilb@suse.de>
 Cc: Linus Walleij <linus.walleij@linaro.org>
 Cc: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- drivers/leds/leds-tca6507.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/leds/leds-tca6507.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/leds/leds-tca6507.c b/drivers/leds/leds-tca6507.c
-index 77a36e4da2508..e32e628f2e460 100644
+index e32e628f2e460..ad4af6b6e94c7 100644
 --- a/drivers/leds/leds-tca6507.c
 +++ b/drivers/leds/leds-tca6507.c
-@@ -643,7 +643,7 @@ static int tca6507_register_gpios(struct device *dev,
- static int tca6507_register_leds_and_gpios(struct device *dev,
- 					   struct tca6507_chip *tca)
- {
--	unsigned long gpio_bitmap = 0;
-+	unsigned long gpio_bitmap = 0, led_bitmap = 0;
- 	struct fwnode_handle *child;
- 	int count, ret;
+@@ -732,14 +732,14 @@ static int tca6507_probe(struct i2c_client *client,
+ 	spin_lock_init(&tca->lock);
+ 	i2c_set_clientdata(client, tca);
  
-@@ -662,12 +662,18 @@ static int tca6507_register_leds_and_gpios(struct device *dev,
- 			dev_err(dev, "Invalid 'reg' property for node %pfw\n",
- 				child);
- 			goto err;
-+		} else if ((gpio_bitmap | led_bitmap) & BIT(reg)) {
-+			dev_err(dev, "LED channel already used for node %pfw\n",
-+				child);
-+			goto err;
- 		}
++	/* set all registers to known state - zero */
++	tca->reg_set = 0x7f;
++	tca6507_work(&tca->work);
++
+ 	err = tca6507_register_leds_and_gpios(dev, tca);
+ 	if (err)
+ 		return err;
  
- 		if (fwnode_property_match_string(child, "compatible",
- 						 "gpio") >= 0) {
- 			gpio_bitmap |= BIT(reg);
- 			continue;
-+		} else {
-+			led_bitmap |= BIT(reg);
- 		}
+-	/* set all registers to known state - zero */
+-	tca->reg_set = 0x7f;
+-	schedule_work(&tca->work);
+-
+ 	return 0;
+ }
  
- 		led = &tca->leds[reg];
 -- 
 2.26.2
 
