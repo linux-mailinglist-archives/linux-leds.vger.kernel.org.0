@@ -2,128 +2,124 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E477270376
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Sep 2020 19:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E03B8270B00
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Sep 2020 07:45:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726007AbgIRRnS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Sep 2020 13:43:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57612 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725955AbgIRRnS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Sep 2020 13:43:18 -0400
-Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1255BC0613CE
-        for <linux-leds@vger.kernel.org>; Fri, 18 Sep 2020 10:43:18 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id 4421B140A76;
-        Fri, 18 Sep 2020 19:43:16 +0200 (CEST)
-Date:   Fri, 18 Sep 2020 19:43:15 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Simon Guinot <simon.guinot@sequanux.org>
-Cc:     Simon Guinot <sguinot@lacie.com>,
-        Vincent Donnefort <vdonnefort@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
-        linux-leds@vger.kernel.org
-Subject: Re: question about Network Space v2 LED driver
-Message-ID: <20200918194315.61fd8f43@nic.cz>
-In-Reply-To: <20200918134201.GF29951@kw.sim.vm.gnt>
-References: <20200918005258.44c0bfc6@blackhole.sk>
-        <20200918134201.GF29951@kw.sim.vm.gnt>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726119AbgISFpf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 19 Sep 2020 01:45:35 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:43765 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbgISFpf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Sep 2020 01:45:35 -0400
+X-Greylist: delayed 780 seconds by postgrey-1.27 at vger.kernel.org; Sat, 19 Sep 2020 01:45:34 EDT
+Received: from methusalix.internal.home.lespocky.de ([92.117.44.159]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MtfeD-1kcPbe3KyF-00v676; Sat, 19 Sep 2020 07:32:13 +0200
+Received: from lemmy.internal.home.lespocky.de ([192.168.243.176] helo=lemmy.home.lespocky.de)
+        by methusalix.internal.home.lespocky.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <alex@home.lespocky.de>)
+        id 1kJVTm-0004mv-6F; Sat, 19 Sep 2020 07:32:11 +0200
+Received: (nullmailer pid 7638 invoked by uid 2001);
+        Sat, 19 Sep 2020 05:32:09 -0000
+From:   Alexander Dahl <post@lespocky.de>
+To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
+        Alexander Dahl <ada@thorsis.com>,
+        Alexander Dahl <post@lespocky.de>
+Subject: [PATCH v5 0/3] leds: pwm: Make automatic labels work
+Date:   Sat, 19 Sep 2020 07:31:42 +0200
+Message-Id: <20200919053145.7564-1-post@lespocky.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scan-Signature: 3b5b4ff3ca3583cb7f12014899502a35
+X-Spam-Score: -2.9 (--)
+X-Provags-ID: V03:K1:lq4IJsOe1g2SSinIL81Ac6vmNVDBhOTg7BqnGfzcGHy4V6soo2J
+ uH7qOPwmitn/GQitYIFZWIVY4BTvpHXF7nwqQQBpeI0Ae4zjy5POOAyulbsr3gzIRmuA2yw
+ tzEH9RyzvShIpJGZ1ykaVN+C4r8ePANfO5VjeF3NoX44AAfTnQN5DjEAMQnXsiggkmhNOMd
+ AH9NOWXHnumPpVajy67EQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gnHs68amGnY=:VSrlcf9W5TJlXhsenUwuKN
+ HeozVt3iH3lWYD6yjMEJSch83arRnaFdF64UrdBkef6ywGbTYOd6k0yxQ3b8AUecV2CwB8eEX
+ Yzv1YjAIUVt/RVdG/6ZC6Hmjd8OKq5/CzUfZNbt+ktIfjb/GaMZsQd+Ih5CB41uxL/L7+fHWU
+ x2Ejf8MaugQ9kNcYBSI6qwAEL06blzPZvjKlnRVZSwcwz9egeMymmk1d6aZ6Ip5HSvPlrquuJ
+ nDxxpAxkJuhEnda5Ui8n8xcEWZ7HIJnhPvmQWqWI5DPvIxoKi9Isc19Hf38XW+lIyklfQzoo+
+ CeklTaFJ+99m2XTL29owAwFaXvRtSTcdnJIqWIBHOXMXNodhAToV/XAKyXvrExoKXMQq31D3q
+ efKYSsybp7ZAHCZQDSgCfWnq6DvXRNeYqqkFsi5aTfTXidEWDJ25Gec5KFG+Lmljn20CxNed7
+ 3nDD08DQhFTz4MyFSyKAsa1L9DBFoStR9BER6E6cYyNtqSdf+4aCke8yAM2gGX6k4a9IQ536t
+ CZMXvyN+paVb7KEhJYXOv1boiHOKC/huFfpU0ere+e8zCB7fM+jAa9cliejtXCFoNUlnWI8rz
+ zDYjQ0sg3WRyt9UUXOuO3L2Y3KUd5938Wez82e4LlRcEFZBr7M2F3b7Hh9ArOMsX0d7pW0rPc
+ OHRDDyCM6hzqWa0YrS+l3zYyxAgCOYihJC6bXv+hRr9owxJ1ixqZDqp7aMa6jZWhnU6XOHvmF
+ is/lEaCdq/1pCe57Z5nwcSWnkByMAwhxLH7dZU7fZp8r6b3HJFmwHK17QrksqSRGxRbN6GRWy
+ opBaDTjuydQKnieduAQRBy2tGprM4U5JCDfo+1crFkTw1vqDay8TyWfmGRMrNw+XvPvpzmk
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 18 Sep 2020 15:42:01 +0200
-Simon Guinot <simon.guinot@sequanux.org> wrote:
+Hei hei,
 
-> On Fri, Sep 18, 2020 at 12:52:58AM +0200, Marek Behun wrote:
-> > Hi,  
-> 
-> Hi Marek,
-> 
-> > 
-> > the leds-ns2 kernel driver has allows 3 modes for a LED:
-> >   OFF, ON and blinking on SATA activity
-> > 
-> > This third mode is activated via another sysfs file in the LED device
-> > sysfs directory: /sys/class/leds/<LED>/sata.
-> > 
-> > Since we now support LED private HW triggers, it would be better if
-> > this was rewritten to use this new API.  
-> 
-> It sounds like a great idea.
-> 
-> > 
-> > The question is how many people use this mode and may complain if we
-> > change this sysfs ABI?  
-> 
-> Not a lot IMHO. This LED devices are found in some LaCie/Seagate NAS.
-> Most of them, such as the Seagate NAS 4-Bay (Marvell Armada 370 SoC)
-> are supported by the Debian distribution. For the users I have been in
-> contact with, I am pretty confident they should be able to deal with
-> this changes. They already dealt with worse.
-> 
-> Another user is the Seagate NAS distribution. And this user will be
-> happy to switch to the new ABI.
-> 
-> > 
-> > Another question is whether the LED supports another HW blinking mode,
-> > or just SATA? How is this wired on the board?  
-> 
-> Three different LED modes are available: off, on and SATA activity
-> blinking. The LED modes are controlled through two GPIOs (command and
-> slow): each combination of values for the command/slow GPIOs corresponds
-> to a LED mode.
-> 
-> For an example, have a look at the leds-ns2 DT node in the
-> armada-370-seagate-nas-4bay.dts file.
-> 
-> The only hardware blinking mechanism for this LED device is SATA.
-> Basically the SATA blinking signal is built from the SATA pin activity
-> of the HDD. This signal is a little bit reworked by some electronic
-> components in order to produce a blinking rate OK for the human eye.
-> 
-> Hope this helps.
-> 
-> Simon
+for leds-gpio you can use the properties 'function' and 'color' in the
+devicetree node and omit 'label', the label is constructed
+automatically.  This is a common feature supposed to be working for all
+LED drivers.  However it did not yet work for the 'leds-pwm' driver.
 
-I apologize, I accidentaly sent the question from my private e-mail :)
+This series removes platform_data support for the leds-pwm driver and
+takes the opportunity to update the leds-pwm dt-bindings accordingly.
 
-Simon, thanks for the info.
+v5 was tested on a at91 sama5d2 based platform with LEDs connected to
+GPIO and PWM.
 
-Another question: Is there only one disk on this device?
+Greets
+Alex
 
-The reason why I am asking is this:
-  We already have disk-activity trigger. I would like to implement a
-  generic LED trigger offloading API, so that if user chooses
-  disk-activity and the LED can offload that to hardware, it wil.
+v5:
+- replaced patch 1/3 by a new patch removing platform_data support for
+  the leds-pwm driver
+- little rewording of commit message in patch 2/3
+- updated patch 3/3 based on feedback by Rob Herring
+- added Marek Behún to Cc, because he also works on removing
+  platform_data support
+- rebased series on pavel/for-next
 
-  But the disk-activity trigger blinks the LED on activity of any
-  disk, you can't choose one as in the netdev trigger.
-  
-  If it is possible to have only one disk on that device (which is
-  improbable if there are USB ports) than implementing offloading will
-  be trivial.
+v4:
+- added led-class patch handling fwnode passing differently (patch 1/3)
+- adapted leds-pwm patch to new led-class (patch 2/3)
+- contacted original author of leds-pwm dt binding on license issue
+  (patch 3/3)
 
-  If not, than we would need to allow disk-activity trigger to select
-  the disk as well. This is probably good anyway.
+v3:
+- series rebased on v5.9-rc4
+- changed license of .yaml file to recommended one (patch 2/2)
+- added Acked-by to both patches
 
-Are you willing to work on this with me? At least reviewing and testing
-patches?
+v2:
+- series rebased on v5.9-rc3
+- added the dt-bindings update patch (2/2)
 
-Are you anywhere on IRC or another real-time chat, XMPP for example?
+v1:
+- based on v5.9-rc2
+- backport on v5.4.59 tested and working
 
-Thanks.
+Alexander Dahl (3):
+  leds: pwm: Remove platform_data support
+  leds: pwm: Allow automatic labels for DT based devices
+  dt-bindings: leds: Convert pwm to yaml
 
-Marek
+ .../devicetree/bindings/leds/leds-pwm.txt     | 50 -----------
+ .../devicetree/bindings/leds/leds-pwm.yaml    | 82 +++++++++++++++++++
+ drivers/leds/leds-pwm.c                       | 33 ++------
+ 3 files changed, 89 insertions(+), 76 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.yaml
+
+
+base-commit: 03eb2ca44a95105d1482d5e7471016cf8b383f97
+-- 
+2.20.1
+
