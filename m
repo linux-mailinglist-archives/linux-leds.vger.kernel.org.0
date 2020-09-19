@@ -2,27 +2,27 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 627EE2710F6
+	by mail.lfdr.de (Postfix) with ESMTP id 9F8A62710F7
 	for <lists+linux-leds@lfdr.de>; Sun, 20 Sep 2020 00:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726738AbgISWPy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S1726755AbgISWPy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Sat, 19 Sep 2020 18:15:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39492 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726740AbgISWPy (ORCPT
+        with ESMTP id S1726749AbgISWPy (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Sep 2020 18:15:54 -0400
 Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C46A4C0613CF
-        for <linux-leds@vger.kernel.org>; Sat, 19 Sep 2020 15:15:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13FC3C0613CE
+        for <linux-leds@vger.kernel.org>; Sat, 19 Sep 2020 15:15:54 -0700 (PDT)
 Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTP id 1AC77140A8B;
+        by mail.nic.cz (Postfix) with ESMTP id 421C0140A84;
         Sun, 20 Sep 2020 00:15:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1600553751; bh=THU05AS8cM8S66T0HM2dKmIyx2xbBNwDT60pTXBwSK0=;
+        t=1600553751; bh=vzSvdQrOWGNH1dxpbdbbhheFqh4N+DKhDr+pGP0PLTA=;
         h=From:To:Date;
-        b=mNMB3a9vj0iCXkHgCm2Jao/o2dGiuD8aLJjPUEIpRDm5GoSrRUZreLDvLjO+LAUne
-         TQnFHC0C6cZ5tt0TOUAEwKW71XIPi3sGsGXWcAU/qGLbauuaLXDjU3VC4KP7lpBaMW
-         88EyrgAWc2rZVAUT69v4dItAi1mBbPr6VmX1XPYQ=
+        b=CpB1sL+1jKziJblJ6kj2JWsy7lhBHkdNLzyCkQHFv8wuu+z2VWUKaj5H5fYPOAWZ/
+         UzkUPcuIBVxVNlRoY8j7VJIWNi47aCTbqg3B087s5UyVKq/qSfNKVaeyem09PEBhsu
+         MLvCqKDrIGZ0gDwjlgtYCLuR+9ZJJwVAmV6ANaMc=
 From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>
 To:     linux-leds@vger.kernel.org
 Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
@@ -30,9 +30,9 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         NeilBrown <neilb@suse.de>,
         Linus Walleij <linus.walleij@linaro.org>,
         "H . Nikolaus Schaller" <hns@goldelico.com>
-Subject: [PATCH leds + devicetree 08/13] leds: tca6507: remove binding comment
-Date:   Sun, 20 Sep 2020 00:15:43 +0200
-Message-Id: <20200919221548.29984-9-marek.behun@nic.cz>
+Subject: [PATCH leds + devicetree 09/13] leds: tca6507: use devres for LED and gpiochip registration
+Date:   Sun, 20 Sep 2020 00:15:44 +0200
+Message-Id: <20200919221548.29984-10-marek.behun@nic.cz>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200919221548.29984-1-marek.behun@nic.cz>
 References: <20200919221548.29984-1-marek.behun@nic.cz>
@@ -48,46 +48,111 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Remove the binding comment at the beginning. The information for
-platdata is now obsolete and DT binding is documented in device-tree
-bindings.
+By using devres for LED and gpiochip registration the driver gets
+simpler.
 
 Signed-off-by: Marek Behún <marek.behun@nic.cz>
 Cc: NeilBrown <neilb@suse.de>
 Cc: Linus Walleij <linus.walleij@linaro.org>
 Cc: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- drivers/leds/leds-tca6507.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ drivers/leds/leds-tca6507.c | 36 +++++-------------------------------
+ 1 file changed, 5 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/leds/leds-tca6507.c b/drivers/leds/leds-tca6507.c
-index e9c7c19481702..03858b61c7af1 100644
+index 03858b61c7af1..e2be615855ae3 100644
 --- a/drivers/leds/leds-tca6507.c
 +++ b/drivers/leds/leds-tca6507.c
-@@ -69,23 +69,6 @@
-  * defaulted.  Similarly the banks know if each time was explicit or a
-  * default.  Defaults are permitted to be changed freely - they are
-  * not recognised when matching.
-- *
-- *
-- * An led-tca6507 device must be provided with platform data or
-- * configured via devicetree.
-- *
-- * The platform-data lists for each output: the name, default trigger,
-- * and whether the signal is being used as a GPIO rather than an LED.
-- * 'struct led_plaform_data' is used for this.  If 'name' is NULL, the
-- * output isn't used.  If 'flags' is TCA6507_MAKE_GPIO, the output is
-- * a GPO.  The "struct led_platform_data" can be embedded in a "struct
-- * tca6507_platform_data" which adds a 'gpio_base' for the GPIOs, and
-- * a 'setup' callback which is called once the GPIOs are available.
-- *
-- * When configured via devicetree there is one child for each output.
-- * The "reg" determines the output number and "compatible" determines
-- * whether it is an LED or a GPIO.  "linux,default-trigger" can set a
-- * default trigger.
-  */
+@@ -613,7 +613,7 @@ static int tca6507_register_gpios(struct device *dev,
+ 				  struct tca6507_chip *tca,
+ 				  unsigned long gpio_bitmap)
+ {
+-	int i, gpios, ret;
++	int i, gpios;
  
- #include <linux/module.h>
+ 	if (!gpio_bitmap)
+ 		return 0;
+@@ -631,17 +631,7 @@ static int tca6507_register_gpios(struct device *dev,
+ #ifdef CONFIG_OF_GPIO
+ 	tca->gpio.of_node = of_node_get(dev_of_node(dev));
+ #endif
+-	ret = gpiochip_add_data(&tca->gpio, tca);
+-	if (ret)
+-		tca->gpio.ngpio = 0;
+-
+-	return ret;
+-}
+-
+-static void tca6507_remove_gpio(struct tca6507_chip *tca)
+-{
+-	if (tca->gpio.ngpio)
+-		gpiochip_remove(&tca->gpio);
++	return devm_gpiochip_add_data(dev, &tca->gpio, tca);
+ }
+ #else /* CONFIG_GPIOLIB */
+ static int tca6507_register_gpios(struct device *dev,
+@@ -650,9 +640,6 @@ static int tca6507_register_gpios(struct device *dev,
+ {
+ 	return 0;
+ }
+-static void tca6507_remove_gpio(struct tca6507_chip *tca)
+-{
+-}
+ #endif /* CONFIG_GPIOLIB */
+ 
+ static int tca6507_register_leds_and_gpios(struct device *dev,
+@@ -699,7 +686,7 @@ static int tca6507_register_leds_and_gpios(struct device *dev,
+ 		led->led_cdev.brightness_set = tca6507_brightness_set;
+ 		led->led_cdev.blink_set = tca6507_blink_set;
+ 		led->bank = -1;
+-		ret = led_classdev_register(dev, &led->led_cdev);
++		ret = devm_led_classdev_register(dev, &led->led_cdev);
+ 		if (ret) {
+ 			dev_err(dev, "Failed to register LED for node %pfw\n",
+ 				child);
+@@ -725,7 +712,7 @@ static int tca6507_probe(struct i2c_client *client,
+ 	struct device *dev = &client->dev;
+ 	struct i2c_adapter *adapter;
+ 	struct tca6507_chip *tca;
+-	int err, i;
++	int err;
+ 
+ 	adapter = client->adapter;
+ 
+@@ -743,32 +730,19 @@ static int tca6507_probe(struct i2c_client *client,
+ 
+ 	err = tca6507_register_leds_and_gpios(dev, tca);
+ 	if (err)
+-		goto exit;
++		return err;
+ 
+ 	/* set all registers to known state - zero */
+ 	tca->reg_set = 0x7f;
+ 	schedule_work(&tca->work);
+ 
+ 	return 0;
+-exit:
+-	for (i = 0; i < NUM_LEDS; ++i)
+-		if (tca->leds[i].led_cdev.name)
+-			led_classdev_unregister(&tca->leds[i].led_cdev);
+-
+-	return err;
+ }
+ 
+ static int tca6507_remove(struct i2c_client *client)
+ {
+-	int i;
+ 	struct tca6507_chip *tca = i2c_get_clientdata(client);
+-	struct tca6507_led *tca_leds = tca->leds;
+ 
+-	for (i = 0; i < NUM_LEDS; i++) {
+-		if (tca_leds[i].led_cdev.name)
+-			led_classdev_unregister(&tca_leds[i].led_cdev);
+-	}
+-	tca6507_remove_gpio(tca);
+ 	cancel_work_sync(&tca->work);
+ 
+ 	return 0;
 -- 
 2.26.2
 
