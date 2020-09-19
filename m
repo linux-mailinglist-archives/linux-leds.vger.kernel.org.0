@@ -2,60 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B7D2270CF7
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Sep 2020 12:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06FD9270DCF
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Sep 2020 13:58:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726159AbgISKYK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 19 Sep 2020 06:24:10 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:46766 "EHLO
+        id S1726097AbgISL6v (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 19 Sep 2020 07:58:51 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:57052 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726041AbgISKYK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Sep 2020 06:24:10 -0400
+        with ESMTP id S1726041AbgISL6u (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Sep 2020 07:58:50 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id DED531C0B85; Sat, 19 Sep 2020 12:24:07 +0200 (CEST)
-Date:   Sat, 19 Sep 2020 12:24:07 +0200
+        id C23DF1C0B7F; Sat, 19 Sep 2020 13:58:47 +0200 (CEST)
+Date:   Sat, 19 Sep 2020 13:58:47 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Liu Shixin <liushixin2@huawei.com>
-Cc:     Riku Voipio <riku.voipio@iki.fi>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] leds: pca9532 - simplify the return expression of
- pca9532_remove
-Message-ID: <20200919102407.GE16109@duo.ucw.cz>
-References: <20200919100853.1639215-1-liushixin2@huawei.com>
+To:     Moll Markus <mmoll@de.pepperl-fuchs.com>
+Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        Riku Voipio <riku.voipio@iki.fi>
+Subject: Re: [PATCH 1/2] leds: pca9532: correct shift computation in
+ pca9532_getled
+Message-ID: <20200919115847.GA21747@duo.ucw.cz>
+References: <6a16ba71ed624748b6601933397e697e@de.pepperl-fuchs.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="HnQK338I3UIa/qiP"
+        protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
 Content-Disposition: inline
-In-Reply-To: <20200919100853.1639215-1-liushixin2@huawei.com>
+In-Reply-To: <6a16ba71ed624748b6601933397e697e@de.pepperl-fuchs.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---HnQK338I3UIa/qiP
+--bp/iNruPH9dso1Pn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat 2020-09-19 18:08:53, Liu Shixin wrote:
-> Simplify the return expression.
+Hi!
 
-Thanks, applied.
-								Pavel
+> Each led occupies two bits in the register, so the required shift is
+> LED_NUM(id) * 2, exactly as in pca9532_setled. Furthermore, irrelevant
+> higher bits need to be masked appropriately.
+>=20
+> The function is used to implement 'default-status =3D "keep"', which did
+> not work properly before.
+
+Actually, dropping "keep" support if noone uses it would be best.
+
+I can take the patch, too, but it makes sense to merge the two.
+
+> Important Information:
+> This e-mail message including its attachments contains confidential
+
+=2E..and send it without this trailer.
+
+Best regards,
+									Pavel
 --=20
 (english) http://www.livejournal.com/~pavelmachek
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---HnQK338I3UIa/qiP
+--bp/iNruPH9dso1Pn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2XcRwAKCRAw5/Bqldv6
-8t/OAJ9vDLHVN5taNr4s4eTZBrXlzwuJCACfV9Te+3hcR2Wn2xa3JGo3RDn3FTw=
-=jDcG
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2XydwAKCRAw5/Bqldv6
+8nhRAJ9d9fTC5fQa3zV5NeceO6DRErE+1ACePA0LGN6AyQ9WnEoGySDWz4a/du0=
+=Fu74
 -----END PGP SIGNATURE-----
 
---HnQK338I3UIa/qiP--
+--bp/iNruPH9dso1Pn--
