@@ -2,82 +2,82 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE7CD27103F
-	for <lists+linux-leds@lfdr.de>; Sat, 19 Sep 2020 21:31:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4848D271077
+	for <lists+linux-leds@lfdr.de>; Sat, 19 Sep 2020 22:31:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726688AbgISTbp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 19 Sep 2020 15:31:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:45407 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbgISTbo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Sep 2020 15:31:44 -0400
-X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sat, 19 Sep 2020 15:31:44 EDT
-Received: from buildfff.adridolf.com ([188.192.134.246]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M8hlZ-1kONCS3KFt-004nXT; Sat, 19 Sep 2020 21:26:41 +0200
-From:   Adrian Schmutzler <freifunk@adrianschmutzler.de>
-To:     linux-leds@vger.kernel.org,
-        Adrian Schmutzler <freifunk@adrianschmutzler.de>
-Subject: [PATCH v2 2/2] dt-bindings: leds: add LED_FUNCTION_RSSI
-Date:   Sat, 19 Sep 2020 21:24:27 +0200
-Message-Id: <20200919192427.57033-2-freifunk@adrianschmutzler.de>
-X-Mailer: git-send-email 2.20.1
+        id S1726575AbgISUbg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 19 Sep 2020 16:31:36 -0400
+Received: from lists.nic.cz ([217.31.204.67]:55186 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726520AbgISUbg (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 19 Sep 2020 16:31:36 -0400
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id 6B05713FDC0;
+        Sat, 19 Sep 2020 22:31:34 +0200 (CEST)
+Date:   Sat, 19 Sep 2020 22:31:34 +0200
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Adrian Schmutzler <freifunk@adrianschmutzler.de>
+Cc:     linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: add LED_FUNCTION for
+ wlan2g/wlan5g
+Message-ID: <20200919223134.2371459c@nic.cz>
 In-Reply-To: <20200919192427.57033-1-freifunk@adrianschmutzler.de>
 References: <20200919192427.57033-1-freifunk@adrianschmutzler.de>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Qjb+Jis3UvWPd5J+vLhYLtiL19xO1dLdbixjbcbPsZXoW2X0R5y
- mF/ptCSf7QAuSd8fJWjMWyq4jnFdAgHGHfZc5kaMzYMdbAMcOhVbFYmscgQYk2oOyjwfj5R
- +uJJmXIZZbXtkyH1wD8PuYhKKSUUkcVMoiRq9FKSV2kRiv2+f9Wj4Wqd4HOuB2qVWeE2MPO
- M9MauqaHX48bF2APAPsDQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GkTG740L4Ok=:1st+LG5Sata8IfaRy0uday
- lqqJLtjG4umqTv4aG1xZYieNZNRYmfLDnJm32mjRU76w0bPBLL5J/qcXW2WD9eOwOJ/z0/KQK
- SSxk2/EfPtlZ7m5FP43jEq3qLpW0oz9Nv2hcBd3hHoGJo5c5eHIq2yqsIDmHuXyHuAU8/bcih
- 2/kFi2zM1onanwJZh/lXruMcD+jWHQhBozJk9JaMj1umN5yqjtnLHNcwUfb7LYitP3cdslxgj
- 5FGG/xbuBa7+R5mvm/1sM+BqcaNRH3H20yxtENybeFWVq98+gijDb8eiVF0rYVhwP+sPQ8UlW
- PDe9Kv7JK91P243ejhF/yhNjdxKFNiOUPxBW8PgM+AE1C32GtsQIgDuMbYK7eDY8urCPkthn8
- ulQi/xff20j40zC+xg/1URGxB5+Qb7SABQZy/W6pkOEcEjUzuXJXhIcjs3RgEtbo5wzj2V0Tm
- nt21wyoDcqkJIAgFKN/CpNtvjBilhippFao2Tq2TvOx/Q3qQKnKtWzLlaxzXCklxKVFRns+mQ
- RRf8q1z2Cc7Vc7anKl0YXX2D3T9BLWhGV7B5OX4M8rbCoHmz9MMkbsXL41E98++7BDkMJ2pNG
- I1uVdDgkgC1JuytRIZrv9SA6rohS7wVXxSWyB8Y/hkCz2FMC7epYSYG4oWxg7lQqX6VhL7Oqk
- WE6j7Z/LoxHOcXmLBUBlxnfjgN8u9p2336k3UeUFpEveiHw/Xn7I0KjzV93D5zE7q7ayfNk5B
- rVncPpHxP+oJWiqoqQIQSxEJyls7OqxNrqDQNdsgIVBokXJUvCbPtybVwE70etIsGNxBwdfJF
- tKxYK0Ylv8g52HB07YkwAS2mKludA/of++UdA1R6hmoaMFwPlfYyxTOZtT6DpUz6i0zb8DVX7
- yXFrXlwIbvnhmJl6ZP3Q==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Several consumer "routers" and CPE devices have dedicated LEDs to
-show the received signal strength indicator (RSSI). This is
-different from the "WLAN" LEDs that just show enabled/disabled
-state and sometimes rx/tx activity.
+On Sat, 19 Sep 2020 21:24:26 +0200
+Adrian Schmutzler <freifunk@adrianschmutzler.de> wrote:
 
-Add a LED function for these LEDs.
+> Many consumer "routers" have dedicated LEDs for specific WiFi bands,
+> e.g. one for 2.4 GHz and one for 5 GHz. These LEDs specifically
+> indicate the state of the relevant band, so the latter should be
+> included in the function name. LED_FUNCTION_WLAN will remain for
+> general cases or when the LED is used for more than one band.
+> 
+> This essentially is equivalent to how we use LED_FUNCTION_LAN and
+> LED_FUNCTION_WAN instead of just having LED_FUNCTION_ETHERNET.
 
-Signed-off-by: Adrian Schmutzler <freifunk@adrianschmutzler.de>
+Dont. If you want the LED name to inform the user about the WiFi
+device it is being triggered on, it instead should come from the
+devicename part:
+  "wlan0:blue:activity"
 
----
+In fact the function should not be "wlan" (nor "wlan2g" or "wlan5g", but
+"activity".
 
-Changes in v2:
-none
----
- include/dt-bindings/leds/common.h | 1 +
- 1 file changed, 1 insertion(+)
+I am going to try to work on this subsystem so that if trigger source
+of the LED is set to a WiFi device and function is set to activity, the
+LED shall blink on wifi activity.
 
-diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-index debbd406ff17..c4821a44e422 100644
---- a/include/dt-bindings/leds/common.h
-+++ b/include/dt-bindings/leds/common.h
-@@ -81,6 +81,7 @@
- #define LED_FUNCTION_MTD "mtd"
- #define LED_FUNCTION_PANIC "panic"
- #define LED_FUNCTION_PROGRAMMING "programming"
-+#define LED_FUNCTION_RSSI "rssi"
- #define LED_FUNCTION_RX "rx"
- #define LED_FUNCTION_SD "sd"
- #define LED_FUNCTION_STANDBY "standby"
--- 
-2.20.1
+This way we can also avoid using the `linux,default-trigger` property
+in favour of `function`, i.e. if I have:
 
+   wlan0: wifi@12300 {
+     compatible = "some-wifi";
+     #trigger-source-cells = <0>;
+   }
+
+   led {
+     color = <LED_COLOR_ID_BLUE>;
+     function = LED_FUNCTION_ACTIVITY;
+     trigger-sources = <&wlan0>;
+   };
+
+Than this will automatically name the LED as
+  wlan0:blue:activity
+and if the corresponding trigger is available, it should set the
+trigger even if no `linux,default-trigger` property is present.
+
+Marek
