@@ -2,70 +2,69 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F162727166B
-	for <lists+linux-leds@lfdr.de>; Sun, 20 Sep 2020 19:45:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C351B271670
+	for <lists+linux-leds@lfdr.de>; Sun, 20 Sep 2020 19:50:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726253AbgITRpD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 20 Sep 2020 13:45:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47986 "EHLO
+        id S1726109AbgITRt5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 20 Sep 2020 13:49:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725858AbgITRpD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 20 Sep 2020 13:45:03 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37960C061755
-        for <linux-leds@vger.kernel.org>; Sun, 20 Sep 2020 10:45:03 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id p9so14636802ejf.6
-        for <linux-leds@vger.kernel.org>; Sun, 20 Sep 2020 10:45:03 -0700 (PDT)
+        with ESMTP id S1725858AbgITRt5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 20 Sep 2020 13:49:57 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5D0AC061755;
+        Sun, 20 Sep 2020 10:49:56 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id l17so10617703edq.12;
+        Sun, 20 Sep 2020 10:49:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5JpaZVzY//RCuGukhL2ByWmxjNt65zbykozqYSBiZ8Q=;
-        b=QTxrCBsG8fLc5rovCXh6vHRQcvT6aAEAccmcZUi1lF3KiQG0ejndjv6BHjFmFkHgfA
-         +/aeqrid5BxhavbM3QnVrd8DO6YDP7pAVX4+MmSqDv6fLoZS1PWypOHIJvGXtL+uNtUs
-         /WGFcCC0Anw2GfUrWPpb20UoLsvIpqrPDMLv0+3y6aAaWwlTxigsmXxFcpa8kykY4Naz
-         q32wi/DvBwxCfflE927bqnTGHyituJVUHj6O4YNfMtrtFPQZi0DO4nlyD/rhR3elOksW
-         8+iecbHrDCuaZ6kodfBTLshO2H7Fl+ulwaPlmeCQUaPjvteoZ1/ARd4Vr+YtLlo5SaSJ
-         I5kQ==
+        bh=yC2IsBfWzK7ZQ09LtojSvZoD4EQg7HI9mq1hIWS4J6A=;
+        b=BiJUwRFgcR3h/6Hkbk1y6UKhj2QBXzgbO2d4orYpKa91odNUZpH2+LO31ez24ulNn/
+         AwMXA6nhZ2Vujxu34JmOoDoXUL6N9VjENiWD1sUf01iopp63a4Qfp8YlekBMMHQZWzYu
+         XR5U5IDTT0SZoNNpvpdtx4Lcp/IxvZVzMZoInzdb1AqYRkdlofsEzPZ593RdRQoOGVJx
+         DqhZp1G2cxEjLaKWIsVEWgf0ZiOcxSHZl+hoDofL74bAmpaOh2/qr2x3MPdyh4sq5N32
+         QO1W3D1Lq/udrB2rt0iLy75BLmTC7bdzCAMs12sGSnuGV7dSHFBx6j7ADhYAx2Cpbm3L
+         cUfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=5JpaZVzY//RCuGukhL2ByWmxjNt65zbykozqYSBiZ8Q=;
-        b=jbOuKN9AP7EXAY8YLsCooPUVVclkygvP0XJP86TEl41bUsHFCq+3pVidpIZLkZV4pC
-         u2CStGYmdDrNYmeHIB24EYj59XIxs3TDLPCT2INnpMhBo0fgJamsiT/pVkHLdFsocA0H
-         Lxh2beTxrtqnOngcPZvTPwykSbapEiRGSRZToYEJk+xgSuSBOuWQx5LbCjV6BuqkeQxK
-         OZrlA1MV75WGIkg5Ida8h6f7P9oWwOeZRKO26Qh6FesqxgAprl568p/Tv/q6Sq924TdZ
-         jJInu3/hdSBoA1MApgvkk6KWNYjMTETTfKcmdBlhZCvcuA7Ypn40Lu+BISInRMGJU1SH
-         GwNQ==
-X-Gm-Message-State: AOAM5305sijOkRPUkXop5KHnngAd7IJJ4Gi4leBY6GmjnqRi772XFWfz
-        QyT15aypvqpfNt6BIrblnr6+igbvF7U=
-X-Google-Smtp-Source: ABdhPJzzgy4+2tOBfGnsY7Js6vGcOxjrzNSGh6LcgjZNw35dvxlOmyKjNUyeMDa4bMSLvmv1LoHqnw==
-X-Received: by 2002:a17:906:a002:: with SMTP id p2mr9054352ejy.399.1600623901549;
-        Sun, 20 Sep 2020 10:45:01 -0700 (PDT)
+        bh=yC2IsBfWzK7ZQ09LtojSvZoD4EQg7HI9mq1hIWS4J6A=;
+        b=LzKpwD8jpuq4J22O+A7LkkjNjDiaHZu7vLzxb+1CpFZoMEV3PcEtrWfb3XQdhyEZpN
+         KKG/NeCMaNICt04fYvAXEcf3r2DVuQcVMBsEPvu1J5Sqv+rd2YtQQfa2QWtjRtDz3tdw
+         kStOVbYIyWWcCPPCi0c60+gkQ2wnOqrLk27gzG+u9kcMnfgOx9GE+5bvnQpsLkVPNNu9
+         XHFoWpQ/fSwH6AmRapOVNMIGhI6h+1Udzy9JC6t0ba9jY16n37eL8KASOUf9YbBx7Pft
+         //V6rg4P/WrRyYtQTVEYBam0tXKhceWBHguggSBN6SUpc14PSr13B6ffGcNBmA6Ai1Zo
+         TjWw==
+X-Gm-Message-State: AOAM530TlPPe+6Kg2HSVnf6oq1HaQ1JE/kQS75TNWHa3tfSM6HJmuWwH
+        fhZVYs2LnrM3lA2Sz7FqqjCHMV9nBEQ=
+X-Google-Smtp-Source: ABdhPJzYZQOxxiDWmwSjz1ZfxP7A8zCvb/AhvdOUgHx1t3dn4BR5oNZkwLEST9JnQWZAGUmmEH9TwA==
+X-Received: by 2002:aa7:cb44:: with SMTP id w4mr49144986edt.139.1600624195080;
+        Sun, 20 Sep 2020 10:49:55 -0700 (PDT)
 Received: from ?IPv6:2a01:110f:b59:fd00:1879:e534:7e37:5e55? ([2a01:110f:b59:fd00:1879:e534:7e37:5e55])
-        by smtp.gmail.com with ESMTPSA id dt8sm6528826ejc.113.2020.09.20.10.45.00
+        by smtp.gmail.com with ESMTPSA id si28sm7057547ejb.95.2020.09.20.10.49.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Sep 2020 10:45:01 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] dt-bindings: leds: add LED_FUNCTION for
- wlan2g/wlan5g
+        Sun, 20 Sep 2020 10:49:54 -0700 (PDT)
+Subject: Re: ledtrig-cpu: Limit to 4 CPUs
 To:     Marek Behun <marek.behun@nic.cz>
-Cc:     Adrian Schmutzler <freifunk@adrianschmutzler.de>,
-        linux-leds@vger.kernel.org
-References: <20200919192427.57033-1-freifunk@adrianschmutzler.de>
- <20200919223134.2371459c@nic.cz>
- <946e7a49-db74-8d2d-0ac8-5075d20f41f3@gmail.com>
- <20200920153707.70164720@nic.cz>
- <5ae6b9f4-3c9b-3a47-5738-585b28d841c5@gmail.com>
- <20200920172848.3e49d613@nic.cz>
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        dmurphy@ti.com,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20200919093833.GA14326@duo.ucw.cz>
+ <27e19ac9-4bc0-2945-3985-6cd6bb5407df@gmail.com>
+ <20200920173905.237c314e@nic.cz>
+ <91f1caa7-8005-6c8f-ce7c-84e5c8cee5f8@gmail.com>
+ <20200920193357.3d797a46@nic.cz>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <8a14bce6-ae0d-d714-b431-786b2696bd88@gmail.com>
-Date:   Sun, 20 Sep 2020 19:44:59 +0200
+Message-ID: <2cf83322-0f9f-6d7e-02d0-c2e6d773921f@gmail.com>
+Date:   Sun, 20 Sep 2020 19:49:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200920172848.3e49d613@nic.cz>
+In-Reply-To: <20200920193357.3d797a46@nic.cz>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -73,73 +72,110 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/20/20 5:28 PM, Marek Behun wrote:
-> On Sun, 20 Sep 2020 16:59:01 +0200
+On 9/20/20 7:33 PM, Marek Behun wrote:
+> On Sun, 20 Sep 2020 18:55:28 +0200
 > Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
-[...]
-
+> 
+>> On 9/20/20 5:39 PM, Marek Behun wrote:
+>>> On Sun, 20 Sep 2020 16:15:09 +0200
+>>> Jacek Anaszewski <jacek.anaszewski@gmail.com> wrote:
+>>>    
+>>>> Hi Pavel,
+>>>>
+>>>> On 9/19/20 11:38 AM, Pavel Machek wrote:
+>>>>> commit 318681d3e019e39354cc6c2155a7fd1bb8e8084d
+>>>>> Author: Pavel Machek <pavel@ucw.cz>
+>>>>> Date:   Sat Sep 19 11:34:58 2020 +0200
+>>>>>
+>>>>>        ledtrig-cpu: Limit to 4 CPUs
+>>>>>        
+>>>>>        Some machines have thousands of CPUs... and trigger mechanisms was not
+>>>>>        really meant for thousands of triggers. I doubt anyone uses this
+>>>>>        trigger on many-CPU machine; but if they do, they'll need to do it
+>>>>>        properly.
+>>>>>        
+>>>>>        Signed-off-by: Pavel Machek <pavel@ucw.cz>
+>>>>>
+>>>>> diff --git a/drivers/leds/trigger/ledtrig-cpu.c b/drivers/leds/trigger/ledtrig-cpu.c
+>>>>> index 869976d1b734..b7e00b09b137 100644
+>>>>> --- a/drivers/leds/trigger/ledtrig-cpu.c
+>>>>> +++ b/drivers/leds/trigger/ledtrig-cpu.c
+>>>>> @@ -2,14 +2,18 @@
+>>>>>     /*
+>>>>>      * ledtrig-cpu.c - LED trigger based on CPU activity
+>>>>>      *
+>>>>> - * This LED trigger will be registered for each possible CPU and named as
+>>>>> - * cpu0, cpu1, cpu2, cpu3, etc.
+>>>>> + * This LED trigger will be registered for first four CPUs and named
+>>>>> + * as cpu0, cpu1, cpu2, cpu3. There's additional trigger called cpu that
+>>>>> + * is on when any CPU is active.
+>>>>> + *
+>>>>> + * If you want support for arbitrary number of CPUs, make it one trigger,
+>>>>> + * with additional sysfs file selecting which CPU to watch.
+>>>>>      *
+>>>>>      * It can be bound to any LED just like other triggers using either a
+>>>>>      * board file or via sysfs interface.
+>>>>>      *
+>>>>>      * An API named ledtrig_cpu is exported for any user, who want to add CPU
+>>>>> - * activity indication in their code
+>>>>> + * activity indication in their code.
+>>>>>      *
+>>>>>      * Copyright 2011 Linus Walleij <linus.walleij@linaro.org>
+>>>>>      * Copyright 2011 - 2012 Bryan Wu <bryan.wu@canonical.com>
+>>>>> @@ -145,6 +149,9 @@ static int __init ledtrig_cpu_init(void)
+>>>>>     	for_each_possible_cpu(cpu) {
+>>>>>     		struct led_trigger_cpu *trig = &per_cpu(cpu_trig, cpu);
+>>>>>     
+>>>>> +		if (cpu > 4)
+>>>>
+>>>> NACK. The workaround for this trigger was implemented for a reason -
+>>>> to make it working on platforms with arbitrary number of logical cpus.
+>>>> I've got 8, so I am discriminated now. Not saying, that it precludes
+>>>> trigger registration with no single line of warning.
+>>>> Regardless of that - you have no guarantee that you're not breaking
+>>>> anyone - "I doubt" is not a sufficient argument.
+>>>>   
+>>>
+>>> If that is the case Jacek, I would try 16 and then see if people
+>>> complain. Do you really think that someone sets a specific LED to
+>>> trigger on activity on CPU id > 16?
 >>
->> In case of my mt7601u dongle it looks like below:
+>> I have an access to the machine with 80 cpus, so I could once
+>> get surprised not being able to find cpuN triggers not being
+>> listed among available triggers.
 >>
->> /sys/class/leds/mt7601u-phy2$ cat trigger
->> none kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock kbd-shiftlock
->> kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock kbd-shiftrlock
->> kbd-ctrlllock kbd-ctrlrlock usb-gadget usb-host timer disk-activity
->> disk-read disk-write ide-disk mtd nand-disk heartbeat cpu cpu0 cpu1 cpu2
->> cpu3 cpu4 cpu5 cpu6 cpu7 panic pattern rfkill-any rfkill-none rfkill2
->> phy2rx phy2tx phy2assoc phy2radio [phy2tpt]
+>> And say that I have a solution where I install 80 userspace LEDs
+>> (drivers/leds/uleds.c) and register them on each cpuN triggers to get
+>> notifications on how cpus work.
+> 
+> Hi Jacek,
+> 
+> I understand (and Pavel does for sure too) that many people
+> currently have that possibility, that they have access to machines with
+> many CPUs and many LEDs. We also understand that currently it is
+> possible for users to set 1847th LED to trigger on activity on CPU ID
+> 1337. What we are suggesting is that practically no one uses this, and
+> for those 10 people who do, well it would be better for them to migrate
+> to new ABI than for kernel developers having forever maintain this
+> legacy ABI.
+> 
+> Legacy drivers get removed from kernel from time to time, if no one
+> uses them. So I think Pavel's proposal (although I may not agree with
+> the limit 4) has some merit. If we try this, and someone complains, we
+> can then discuss. If we don't try, we may never know.
+
+Just go ahead without my ack. I just wanted not to let it go without
+any discussion. At least we leave a trace...
+
+>>> If you do not agree, then I think we should implement a "cpu" trigger
+>>> where the cpu ID (or maybe mask of multiple CPUs) is configurable via
+>>> another sysfs file. And then declare current cpu trigger (with names
+>>> "cpu%d") as legacy.
 >>
-> 
-> (This is another thing that is wrong: there should be only phy, or
-> wireless-phy trigger, and the mode (rx/tx/assoc/radio) and device
-> (phy0, phy1, ...) should be set via device_name file, as in netdev
-> trigger. Can we reimplement it and leave this ABI under configuration
-> option _LEAGACY?).
-
-I agree.
-
->> IMO if LED is not physically integrated with any device, then it should
->> not be named after the device that is to be initially associated with
->> via trigger. This association can be later changed in userspace, which
->> will render the name invalid. And current associated device can be read
->> by reading triggers sysfs file, provided that the trigger conveys
->> that information like in case of presented above phy* triggers.
-> 
-> There are devices which have LEDs connected via a LED controller for
-> example via I2C bus, but the individual LEDs are dedicated (in the way
-> that there is an icon or text written on the device's case next to each
-> LED). In this case the trigger-source should be defined in device tree
-> in such a way that it aligns with the manufacturer's intended function
-> of the LED. And in this case I think the devicename part of the LED
-> should be derived from this trigger source.
-
-Agreed about trigger source, but I'd rather not go for consulting LED
-name with trigger source. Actually I was considering that back then,
-but it turned out to be troublesome as if would have required
-implementing that mechanism for associations with all subsystems.
-
-And also you would need an intermediary layer to allow asynchronous
-matching of LEDs with their trigger sources (something like
-drivers/media/v4l2-core/v4l2-async.c). This would be an overkill.
-
-> 
-> Sure, if for example an ethernet PHY registers its LEDs, it can
-> hardcode init_data.devicename to "ethernet-phyN" or something like
-> that. But for LEDs on a generic LED controller...
-> 
-> I think we should get opinions from other people in this.
-> 
->> OTOH, a LED with devicename describing its physical location will
->> not change this location, even after changing the trigger
->> (or trigger source), thus it proves correct to have fixed devicename
->> section for the LED, but only if it is a part of some other pluggable
->> device.
+>> Yes, we can do that, and even mark the cpu trigger as legacy but we
+>> cannot prevent people from using it if that was present in kernel
+>> for many years.
 >>
->> [0]
->> https://lore.kernel.org/linux-leds/20190609190803.14815-27-jacek.anaszewski@gmail.com/
->>
-> 
-> Marek
 > 
 
 -- 
