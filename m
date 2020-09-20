@@ -2,55 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3949427184F
-	for <lists+linux-leds@lfdr.de>; Sun, 20 Sep 2020 23:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5698C271850
+	for <lists+linux-leds@lfdr.de>; Sun, 20 Sep 2020 23:46:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726221AbgITVpf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 20 Sep 2020 17:45:35 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:49376 "EHLO
+        id S1726221AbgITVqv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 20 Sep 2020 17:46:51 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:49526 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbgITVpf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 20 Sep 2020 17:45:35 -0400
+        with ESMTP id S1726126AbgITVqu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 20 Sep 2020 17:46:50 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 3FECD1C0B7A; Sun, 20 Sep 2020 23:45:33 +0200 (CEST)
-Date:   Sun, 20 Sep 2020 23:45:32 +0200
+        id 31DDD1C0B7A; Sun, 20 Sep 2020 23:46:48 +0200 (CEST)
+Date:   Sun, 20 Sep 2020 23:46:47 +0200
 From:   Pavel Machek <pavel@ucw.cz>
 To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
-Subject: Re: [PATCH leds v3 6/9] leds: lm36274: use devres LED registering
- function
-Message-ID: <20200920214532.GB31397@duo.ucw.cz>
-References: <20200919180304.2885-1-marek.behun@nic.cz>
- <20200919180304.2885-7-marek.behun@nic.cz>
+Cc:     linux-leds@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>, dmurphy@ti.com,
+        linux-kernel@vger.kernel.org, Antonio Ospite <ao2@ao2.it>
+Subject: Re: [PATCH leds] leds: regulator: remove driver
+Message-ID: <20200920214647.GC31397@duo.ucw.cz>
+References: <20200920204203.17148-1-marek.behun@nic.cz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Pd0ReVV5GZGQvF3a"
+        protocol="application/pgp-signature"; boundary="H8ygTp4AXg6deix2"
 Content-Disposition: inline
-In-Reply-To: <20200919180304.2885-7-marek.behun@nic.cz>
+In-Reply-To: <20200920204203.17148-1-marek.behun@nic.cz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---Pd0ReVV5GZGQvF3a
+--H8ygTp4AXg6deix2
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
-
-> Now that the potential use-after-free issue is resolved we can use
-> devres for LED registration in this driver.
+On Sun 2020-09-20 22:42:03, Marek Beh=FAn wrote:
+> The leds-regulator driver only supports the old platform data binding
+> and no in-tree code uses it. It also seems that no OpenWRT board uses
+> it.
 >=20
-> By using devres version of LED registering function we can remove the
-> .remove method from this driver.
->=20
-> Signed-off-by: Marek Beh=FAn <marek.behun@nic.cz>
-> Cc: Dan Murphy <dmurphy@ti.com>
+> Remove this driver.
 
-AFAICT this one is buggy, I sent explanation before. Why are you
-resubmitting it?
+Lets keep this one. Connecting LED directly to regulator simply makes
+sense.
+
+Best regards,
 
 								Pavel
 --=20
@@ -58,14 +56,14 @@ resubmitting it?
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---Pd0ReVV5GZGQvF3a
+--H8ygTp4AXg6deix2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2fNfAAKCRAw5/Bqldv6
-8ihHAJ0csKvjQ/5Ptq8fnzk29TeQy+Z1wACgni2LiJI9ChMT0HXmU250JEZI9V4=
-=qC4Q
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2fNxwAKCRAw5/Bqldv6
+8n+gAKCBEyhXpLLso5cZ7smH5TyWDzyN0gCgqjmDjXQVKYxudktyepJM/DYN5s4=
+=fPkY
 -----END PGP SIGNATURE-----
 
---Pd0ReVV5GZGQvF3a--
+--H8ygTp4AXg6deix2--
