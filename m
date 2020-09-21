@@ -2,165 +2,120 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65FDE271F41
-	for <lists+linux-leds@lfdr.de>; Mon, 21 Sep 2020 11:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7B3E27243A
+	for <lists+linux-leds@lfdr.de>; Mon, 21 Sep 2020 14:53:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726471AbgIUJtI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 21 Sep 2020 05:49:08 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:38043 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726343AbgIUJtI (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 21 Sep 2020 05:49:08 -0400
-Received: from desktop ([188.192.134.246]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MO9r5-1k55uO1kdt-00OVme; Mon, 21 Sep 2020 11:49:01 +0200
-From:   "Adrian Schmutzler" <mail@adrianschmutzler.de>
-To:     "'Pavel Machek'" <pavel@ucw.cz>,
-        "'Marek Behun'" <marek.behun@nic.cz>
-Cc:     <linux-leds@vger.kernel.org>
-References: <00ab01d68eca$d2d4fcc0$787ef640$@adrianschmutzler.de> <20200920110810.GA15219@duo.ucw.cz> <00f701d68fa6$2778ce60$766a6b20$@adrianschmutzler.de> <20200921030044.304f0d5c@nic.cz> <20200921083106.GA13539@ucw.cz>
-In-Reply-To: <20200921083106.GA13539@ucw.cz>
-Subject: RE: How to name multiple LEDs of the same type and color
-Date:   Mon, 21 Sep 2020 11:49:00 +0200
-Message-ID: <003e01d68ffc$6f36c800$4da45800$@adrianschmutzler.de>
-X-Mailer: Microsoft Outlook 15.0
+        id S1726898AbgIUMxs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 21 Sep 2020 08:53:48 -0400
+Received: from vm1.sequanux.org ([188.165.36.56]:48371 "EHLO vm1.sequanux.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726395AbgIUMxr (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 21 Sep 2020 08:53:47 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by vm1.sequanux.org (Postfix) with ESMTP id 03AB21085E1;
+        Mon, 21 Sep 2020 14:53:46 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at vm1.sequanux.org
+Received: from vm1.sequanux.org ([127.0.0.1])
+        by localhost (vm1.sequanux.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id U7ldmjyxRVTX; Mon, 21 Sep 2020 14:53:43 +0200 (CEST)
+Received: from localhost (softwrestling.org [188.165.144.248])
+        by vm1.sequanux.org (Postfix) with ESMTPSA id D50811080EF;
+        Mon, 21 Sep 2020 14:53:43 +0200 (CEST)
+Date:   Mon, 21 Sep 2020 14:53:43 +0200
+From:   Simon Guinot <simon.guinot@sequanux.org>
+To:     Marek Behun <marek.behun@nic.cz>
+Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, Simon Guinot <sguinot@lacie.com>,
+        Vincent Donnefort <vdonnefort@gmail.com>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH leds v1 10/10] leds: ns2: refactor and use struct
+ led_init_data
+Message-ID: <20200921125343.GA4828@kw.sim.vm.gnt>
+References: <20200916231650.11484-1-marek.behun@nic.cz>
+ <20200916231650.11484-11-marek.behun@nic.cz>
+ <20200918130206.GE29951@kw.sim.vm.gnt>
+ <20200918191405.516b51ff@nic.cz>
 MIME-Version: 1.0
-Thread-Index: AQH6fbD/TLEvHSp6SoMFxV6GY5Lq3ALon7unAlHc+kIB1ca9cQI99J3IqOCJfHA=
-Content-Language: de
-Content-Type: multipart/signed;
-        protocol="application/pgp-signature";
-        micalg=pgp-sha256;
-        boundary="=-=ygaQuA429SJy2e=-="
-X-Provags-ID: V03:K1:AJfrd8GTwa3cFeYXBcikxBg7fl+CNtMqSGtIF4sH0Z9noth/+We
- IbKq1If1nvjTAvSbR86ouEYHDGxE9zbhR5446EJfIZ5P92V7zos8KQDciQL47eLSgHqxl3g
- 4o0g6TG4FA0EpHOLVsviHbGOM7vHRJKIRxyresGZ5x1dpMS3I8RmQsinjFKdAmy5J2Bji6f
- hlvOSivQvOtDYJrM1mvmA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BMDTJWsTWzM=:wHPUM+vCNdrZgpzIAZBwld
- qgNCgWJ5mHFnScvudKU5WKA8It/KSyz/Avemypoc1r1wTPmeeCJbCQJqq18LpzBs+bP+DCNWx
- AyRBYbkJuzM24gBzeRc3nWrhzpRSOPUp1bkZFHHTnCNczeMKNOX7LccP0tNtx91s1v44WHVUU
- U1lpvwYA4X5/EWoFgXmnOepaal12VOQLy+DvHJJ3HF1F7JbAbWscP2BAI09+uMAR89SYxQ/yf
- arBAy7VOjbaHqex0m5NOvq6UU+xgdQt0tz74V6/lzz/uP8cEzPsl8iCt3pqF5bPeV4Cs8akDk
- 4vRPbKvnWYpYMTqYbB7kcUqV/2k4WkSDF4IOWbWoEKuLzuCuffvhJzh5JHn3aF6ylvkeSOF3f
- vRqQrC2ung80VuLpn5gMxKnrk61M+dUjQN8tcc0CoR78nxSP+pQ6fP24dZ59L+ilgxs4C/4g5
- SPO/g3qJ/0jXT7YVLRBg+Qo9s5D8jRx8i1adcNVIBc53hpB6tkuQXx9PJMdsQ6OUFi0SSyvQs
- c9A60VtMZJPH0p9hTkN4SEgAonfi0lm3CRQ9ql3lNagqmqe4Q435h0I1uiMgDjpxbMysG/KGL
- QcFDniD8gfc8DMCcnK81n6Yi+JfzLwELchbFAsGCFbRRAFIofV2oQ9DTV0cZ7XE372/6gQjqc
- lg9/ftUSUnPTgkfYZnrpDhsyjUrL9TZA/CT842V1fiBQbY8nCx+TYQbCpDBTPqfcOx+Ccpjxg
- 4t4UHHjyXC2YE7OHfjXic0r0ny3AlIRG7czEcUpWqjEHt3nb28tu8evQScRf/rXqkr1XAsMOH
- kqBNAjTjsNgWV9i/wLzgW8QcE3Yr6vUZMpaMPeyj+OWkYWSUt6hZHfu/dXmqCFlu3bBoOGEGg
- FNFwvtmnpiod2GMYy0yw==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="KsGdsel6WgEHnImy"
+Content-Disposition: inline
+In-Reply-To: <20200918191405.516b51ff@nic.cz>
+User-Agent: Mutt/1.6.0 (2016-04-01)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This is a multipart message in MIME format.
 
---=-=ygaQuA429SJy2e=-=
-Content-Type: text/plain;
-	charset="utf-8"
+--KsGdsel6WgEHnImy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-> -----Original Message-----
-> From: Pavel Machek [mailto:pavel@ucw.cz]
-> Sent: Montag, 21. September 2020 10:31
-> To: Marek Behun <marek.behun@nic.cz>
-> Cc: Adrian Schmutzler <mail@adrianschmutzler.de>; linux-
-> leds@vger.kernel.org
-> Subject: Re: How to name multiple LEDs of the same type and color
+On Fri, Sep 18, 2020 at 07:14:05PM +0200, Marek Behun wrote:
+> On Fri, 18 Sep 2020 15:02:06 +0200
+> Simon Guinot <simon.guinot@sequanux.org> wrote:
 >=20
-> Hi!
+> > On Thu, Sep 17, 2020 at 01:16:50AM +0200, Marek Beh=C3=BAn wrote:
+> >=20
+> > Hi Marek,
+> >=20
+> > > By using struct led_init_data when registering we do not need to parse
+> > > `label` DT property nor `linux,default-trigger` property.
+> > >=20
+> > > Also, move forward from platform data to device tree only:
+> > > since commit c7896490dd1a ("leds: ns2: Absorb platform data") the
+> > > platform data structure is absorbed into the driver, because nothing
+> > > else in the source tree used it. Since nobody complained and all usag=
+e =20
+> >=20
+> > Well, I probably should have...
+> >=20
+> > I am using this driver on the Seagate Superbee NAS devices. This devices
+> > are based on a x86 SoC. Since I have been unable to get from the ODM the
+> > LED information written in the ACPI tables, then platform data are used
+> > to pass the LED description to the driver.
+> >=20
+> > The support of this boards is not available mainline yet but it is still
+> > on my todo list. So that's why I am complaining right now :) If it is
+> > not too much trouble I'd like to keep platform data support in this
+> > driver.
+> >=20
+> > Thanks in advance.
+> >=20
+> > Simon
+> >=20
 >=20
->=20
-> > > My main interest here was/is that I started to evaluate how OpenWrt c=
-an
-> migrate from LED labels to the "new" color/function syntax and to me the =
-rssi
-> leds are a dedicated type that should be supported.
-> > > So I fear I won't be helpful for the implementation of RSSI leds in t=
-he
-> kernel in general.
->=20
-> Yep, I guess staying with old "label" is the right solution for you for n=
-ow.
->=20
-> > > For the three leds vs. set of leds discussion: Note that we are inter=
-ested
-> in (and already do) exposing each LED to the user individually (in user-s=
-pace
-> via sysfs), so the user can redefine the purpose of the LED freely based =
-on
-> his/her desire. Therefore, a total abstraction of the set of LEDs as a si=
-ngle
-> entity would be detrimental for us here.
-> > >
-> >
-> > This is interesting. How does this work? Better signal =3D> faster
-> > blinking?
->=20
-> I suspect it is "no signal" -> "all LEDs off". "weak signal" -> "one LED =
-on",
-> "medium signal" -> "two LEDs on", "string signal" -> "three LEDs on".
+> Simon, what if we refactored the driver to use fwnode API instead of OF
+> API? Then if it is impossible for you to write DTS for that device,
+> instead of platform data you could implement your device via swnode
+> fwnodes. :)
 
-Indeed, it's just on/off, no blinking. We essentially mirror the behavior o=
-f OEM firmwares in this case.
+Yes. That would be perfect.
 
-The signal strength where one LED is active is defined in a config file by =
-defining a range within 1 to 100.
+Simon
 
-E.g. rssilow (1 < signal < 100), rssimediumlow (25 < signal < 100), rssimed=
-iumhigh (50 < signal < 100), rssihigh (75 < signal < 100)
-
-Therefore, the more LEDs you see, the better your RSSI is. Note that LEDs m=
-ight have different (fixed) colors, i.e. low is red, mediumlow is amber, an=
-d the other two are green.
-
-Some vendors do it differently of course and have one LED "position" where =
-the color changes, or LEDs go off again for high RSSI or whatever, but my e=
-xample should be the most abundant case.
-
-FYI:
-
-Device example: https://dl.ubnt.com/datasheets/picostationm/picom2hp_DS.pdf
-
-OpenWrt rssileds code: https://github.com/openwrt/openwrt/blob/master/packa=
-ge/network/utils/rssileds/src/rssileds.c
-
-Hope this helps.
-
-Best
-
-Adrian
-
->=20
-> Best regards,
-> 								Pavel
->=20
-
---=-=ygaQuA429SJy2e=-=
-Content-Type: application/pgp-signature;
-	name="openpgp-digital-signature.asc"
-Content-Transfer-Encoding: 7bit
+--KsGdsel6WgEHnImy
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEESgN6p2H3WoMOAf81oNyKO7qxAnAFAl9odwgACgkQoNyKO7qx
-AnDvhQ//XcxkMNG3oZ9EL+vwOcR6weR1Y/3kyk5Bw1owmn+OQYVh/v45BBCHQIsE
-/0jcr887HF/Mmhhsy1U0RQB8mePzHUISVmzHNGDTn+Rrn+K64fJirUOQZ5CQac0O
-TpFtARJwjKCTZ0Omw+Dr2I4ANu35Hi/5jcrBg/h1dm/wKqSRS2azP2A/T8y1Lzlh
-Pxv7zX4iN9XEALScHvvc1boL4+D8ltRN+IwrBM9xEUmWZYALSWvTKGFQmzi2C7Lf
-0IUnIp+8+r3sTS2ISo1lgL3sV75+lIXAe+vWzCr0ZBKxkA1d7mPvsA4J8NYjCrvr
-k61Y5cpKAiuTyKDeanlFbeePBkWgN8CsgvIdfQNi7snz9qdlRoY3s30oX6FLz8h1
-hQez0JVvWZQuJUZeGxF7LD3WOWYPJVKv+AGfpxB5fAQv9JRJwrVu7Gdbqf2EgIwb
-BLqS/vJRl1stlCqryqC2YJWrMknzlLMWLg6+3kB7bxmozYqgVVWgVdx6UkRY+/5v
-KbXHv5wjoe1ywR+GAFFxoLhscprd1fLsLsBzYuvHb+H6kbMA1jtuam5jCX9DIYOu
-huduph+tT9v77bGZ4ykllgWnTgB7FQfOlZO4J8Y7+UEnEKV9NGQzNEKcVq0XbMAI
-AAzKqSufEM7ShiiMF2kxFHkktF89FESugPtDqP6yr2nLWyHfEb0=
-=j+2W
+iQIzBAEBCgAdFiEEXW8DgovlR3VS5hA0zyg/RDPmszoFAl9oolcACgkQzyg/RDPm
+szrExxAAjNpMeco55YZIg8vi5pc3s8jKk0RzlVCx0U8kugJzjUN0Uh+WVGgelNpY
+5b+z1qe9m893rke8AueMJZMPraHrL585c2JWatYHeGfyoEXG+e4Uwba9XfRF1xj/
+vdAc/OZJSAF1ZMiJIZ6sQ385dr06MP7KEFCHwy1HVquohMVEjAHfXfG9WMamaQLX
+XRb43iuJP3WBiR3LVJ19q/bAoArcyF+My4WB3vbuv3MnV0fOWSmglX6Hbl078w2K
+qnBwB3u1+A0oXVGCndKUeHxFTscJBLPoKPdMmE0TI8QQOaey4rSmyAivBuCeANby
+Z3LpPNX8b2kffxD/zVTQrzxnHMTpnZeKt46zlanYAK46ks0/d8yZEbIgYlC6oVI2
+tFwH8bzieitdHYXoJ+d0V5Ac9G6NPODmKw5gh0F4PXr5R2x77M8k4mYFiXwgpR+q
+YEziR+Fi3iYiKNFGqQ2cZRNmJ+QhhOb1OH8lpH53etIVHs6Hy+FSuZoNJf2rLRDh
+BW4wIqOaHd91sf931DXJhKKrKsECH89/OLcr52OT3zL8ieOC5mgLiXaMRjL76YbC
+r8gKajpIZS+zdF7ecUVXFRtegyTj1xhZY53YT+3nZqSvpb7w7MP9JaInC1kaDg0A
+sXyq+GFw6grikNHJFmqlRPT25g28aLFFDHny9+Grb5goEktLKTc=
+=/jex
 -----END PGP SIGNATURE-----
 
-
---=-=ygaQuA429SJy2e=-=--
-
+--KsGdsel6WgEHnImy--
