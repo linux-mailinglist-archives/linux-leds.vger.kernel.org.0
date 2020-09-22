@@ -2,146 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF4E02745DF
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Sep 2020 17:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B7742746B6
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Sep 2020 18:32:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726749AbgIVP7A convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Tue, 22 Sep 2020 11:59:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51596 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726566AbgIVP67 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Sep 2020 11:58:59 -0400
-Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1EF3C061755
-        for <linux-leds@vger.kernel.org>; Tue, 22 Sep 2020 08:58:59 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id 01B5314094B;
-        Tue, 22 Sep 2020 17:58:57 +0200 (CEST)
-Date:   Tue, 22 Sep 2020 17:58:56 +0200
-From:   Marek Behun <marek.behun@nic.cz>
+        id S1726629AbgIVQcU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Sep 2020 12:32:20 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:56132 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726508AbgIVQcU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Sep 2020 12:32:20 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 28F5C1C0B76; Tue, 22 Sep 2020 18:32:18 +0200 (CEST)
+Date:   Tue, 22 Sep 2020 18:32:17 +0200
+From:   Pavel Machek <pavel@ucw.cz>
 To:     Dan Murphy <dmurphy@ti.com>
-Cc:     <linux-leds@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH leds v3 2/9] leds: lm36274: don't iterate through
- children since there is only one
-Message-ID: <20200922175856.7efeb161@nic.cz>
-In-Reply-To: <a2db44c8-9153-3b0e-b3fe-cb96821116ab@ti.com>
+Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH leds v3 1/9] leds: lm36274: cosmetic: rename lm36274_data
+ to chip
+Message-ID: <20200922163217.GA25550@duo.ucw.cz>
 References: <20200919180304.2885-1-marek.behun@nic.cz>
-        <20200919180304.2885-3-marek.behun@nic.cz>
-        <a2db44c8-9153-3b0e-b3fe-cb96821116ab@ti.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ <20200919180304.2885-2-marek.behun@nic.cz>
+ <a5e6ff92-ebe9-f977-f5eb-21447fc6016a@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="nFreZHaLTZJo0R7j"
+Content-Disposition: inline
+In-Reply-To: <a5e6ff92-ebe9-f977-f5eb-21447fc6016a@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 22 Sep 2020 10:42:49 -0500
-Dan Murphy <dmurphy@ti.com> wrote:
 
-> Hello
-> 
-> On 9/19/20 1:02 PM, Marek Behún wrote:
-> > Do not use device_for_each_child_node. Since this driver works only with
-> > once child node present, use device_get_next_child_node instead.
-> > This also saves one level of indentation.
-> >
-> > Signed-off-by: Marek Behún <marek.behun@nic.cz>
-> > Cc: Dan Murphy <dmurphy@ti.com>
-> > ---
-> >   drivers/leds/leds-lm36274.c | 50 +++++++++++++++++--------------------
-> >   1 file changed, 23 insertions(+), 27 deletions(-)
-> >
-> > diff --git a/drivers/leds/leds-lm36274.c b/drivers/leds/leds-lm36274.c
-> > index 4a9f786bb9727..e0fce74a76675 100644
-> > --- a/drivers/leds/leds-lm36274.c
-> > +++ b/drivers/leds/leds-lm36274.c
-> > @@ -72,40 +72,36 @@ static int lm36274_parse_dt(struct lm36274 *chip)
-> >   	char label[LED_MAX_NAME_SIZE];
-> >   	struct device *dev = &chip->pdev->dev;
-> >   	const char *name;
-> > -	int child_cnt;
-> > -	int ret = -EINVAL;
-> > +	int ret;
-> >   
-> >   	/* There should only be 1 node */
-> > -	child_cnt = device_get_child_node_count(dev);
-> > -	if (child_cnt != 1)
-> > +	if (device_get_child_node_count(dev) != 1)
-> >   		return -EINVAL;
-> >   
-> > -	device_for_each_child_node(dev, child) {
-> > -		ret = fwnode_property_read_string(child, "label", &name);
-> > -		if (ret)
-> > -			snprintf(label, sizeof(label), "%s::",
-> > -				 chip->pdev->name);
-> > -		else
-> > -			snprintf(label, sizeof(label), "%s:%s",
-> > -				 chip->pdev->name, name);
-> > -
-> > -		chip->num_leds = fwnode_property_count_u32(child, "led-sources");
-> > -		if (chip->num_leds <= 0)
-> > -			return -ENODEV;
-> > -
-> > -		ret = fwnode_property_read_u32_array(child, "led-sources",
-> > -						     chip->led_sources,
-> > -						     chip->num_leds);
-> > -		if (ret) {
-> > -			dev_err(dev, "led-sources property missing\n");
-> > -			return ret;
-> > -		}
-> > -
-> > -		fwnode_property_read_string(child, "linux,default-trigger",
-> > -					    &chip->led_dev.default_trigger);
-> > +	child = device_get_next_child_node(dev, NULL);
-> > +
-> > +	ret = fwnode_property_read_string(child, "label", &name);
-> > +	if (ret)
-> > +		snprintf(label, sizeof(label), "%s::", chip->pdev->name);
-> > +	else
-> > +		snprintf(label, sizeof(label), "%s:%s", chip->pdev->name, name);
-> >   
-> > +	chip->num_leds = fwnode_property_count_u32(child, "led-sources");
-> > +	if (chip->num_leds <= 0)
-> > +		return -ENODEV;
-> > +
-> > +	ret = fwnode_property_read_u32_array(child, "led-sources",
-> > +					     chip->led_sources, chip->num_leds);
-> > +	if (ret) {
-> > +		dev_err(dev, "led-sources property missing\n");
-> > +		return ret;
-> >   	}
-> >   
-> > +	fwnode_property_read_string(child, "linux,default-trigger",
-> > +				    &chip->led_dev.default_trigger);
-> > +
-> > +	fwnode_handle_put(child);
-> > +
-> >   	chip->lmu_data.regmap = chip->regmap;
-> >   	chip->lmu_data.max_brightness = MAX_BRIGHTNESS_11BIT;
-> >   	chip->lmu_data.msb_brightness_reg = LM36274_REG_BRT_MSB;  
-> 
-> Question is this device on a piece of hardware you are testing on?
+--nFreZHaLTZJo0R7j
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-No, unfortunately. But this driver is rather simple, in comparison to
-the others.
+On Tue 2020-09-22 10:39:34, Dan Murphy wrote:
+> Marek
+>=20
+> On 9/19/20 1:02 PM, Marek Beh=FAn wrote:
+> > Rename this variable so that it is easier to read and easier to write in
+> > 80 columns. Also rename variable of this type in lm36274_brightness_set
+> > from led to chip, to be consistent.
+>=20
+> This patch seems a bit unnecessary.=A0 The current variables fit fine wit=
+h 80
+> columns.
 
-As Linus said:
-  "If it compiles, it is good; if it boots up, it is perfect."
-:D
+I like this patch... result is easier to read.
 
-So if someone tested it, it would be perfect.
+Best regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-Marek
+--nFreZHaLTZJo0R7j
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Just wondering how you functionally tested all these changes you submitted
-> 
-> Reviewed-by: Dan Murphy <dmurphy@ti.com>
-> 
+-----BEGIN PGP SIGNATURE-----
 
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX2onEQAKCRAw5/Bqldv6
+8sC5AKC+VwM3oDTtifiNxUA/T5ps1kTmGgCdGqoJsHNh45VMOQXas3pJxvlQViw=
+=/7Ec
+-----END PGP SIGNATURE-----
+
+--nFreZHaLTZJo0R7j--
