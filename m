@@ -2,110 +2,72 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2262A274546
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Sep 2020 17:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEB67274582
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Sep 2020 17:39:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726737AbgIVP3D (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 22 Sep 2020 11:29:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55956 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726566AbgIVP27 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 22 Sep 2020 11:28:59 -0400
-Received: from localhost.localdomain (unknown [194.230.155.191])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 332D7214F1;
-        Tue, 22 Sep 2020 15:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600788539;
-        bh=27J/qBjEJpMQ8FBjYAVH6iBhxNoGncMH/j8Wfds65Pk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PUADNSFPFhR29EDiZ/Ij/9aOCJMuqQD/tfx+RF+4ktGbqIa574a09TU2HgTYkAgHI
-         IBI43/uVuc/fDA4alYxxp1xhvSuyZG75OL/ch4cfeUkqHCjw0N8hUXlGplF+DensSJ
-         fFcIES1zzv27+KfI4PjVOCCdKSMMXJn6bMWx+0VI=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Mark Brown <broonie@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-iio@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Cc:     Dan Murphy <dmurphy@ti.com>
-Subject: [PATCH v2] MAINTAINERS: add Dan Murphy as TP LP8xxx drivers maintainer
-Date:   Tue, 22 Sep 2020 17:28:39 +0200
-Message-Id: <20200922152839.2744-1-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        id S1726834AbgIVPju (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Sep 2020 11:39:50 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:48768 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726566AbgIVPjs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Sep 2020 11:39:48 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08MFdZ0x124882;
+        Tue, 22 Sep 2020 10:39:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1600789175;
+        bh=Lm3q++uDY+gEpOeA5Qh4BLf1y6REKLm6A/cSKCVwLJg=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=hrQ1UDWMJwzGYbw+3sJLIe6taKnxTDG+g0TeijZO73zM+F3wTAQSLi9gfBj90OzKi
+         DZld2XEFb7IkckVGEl5L/br02J33bz2uDYvn63+Y9U/QDoA+y6eXCBamejn0A7TrLX
+         LYXSFiDpQDSzpn9AWVzCYvEEscP/ZxSJQ74cTXTU=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08MFdZeD079762
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 22 Sep 2020 10:39:35 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 22
+ Sep 2020 10:39:35 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 22 Sep 2020 10:39:35 -0500
+Received: from [10.250.71.177] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08MFdYJ9056382;
+        Tue, 22 Sep 2020 10:39:34 -0500
+Subject: Re: [PATCH leds v3 1/9] leds: lm36274: cosmetic: rename lm36274_data
+ to chip
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
+        <linux-leds@vger.kernel.org>
+CC:     Pavel Machek <pavel@ucw.cz>
+References: <20200919180304.2885-1-marek.behun@nic.cz>
+ <20200919180304.2885-2-marek.behun@nic.cz>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <a5e6ff92-ebe9-f977-f5eb-21447fc6016a@ti.com>
+Date:   Tue, 22 Sep 2020 10:39:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200919180304.2885-2-marek.behun@nic.cz>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Milo Kim's email in TI bounces with permanent error (550: Invalid
-recipient).  Last email from him on LKML was in 2017.  Move Milo Kim to
-credits and add Dan Murphy from TI to look after:
- - TI LP855x backlight driver,
- - TI LP8727 charger driver,
- - TI LP8788 MFD (ADC, LEDs, charger and regulator) drivers.
+Marek
 
-Cc: Dan Murphy <dmurphy@ti.com>
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+On 9/19/20 1:02 PM, Marek Behún wrote:
+> Rename this variable so that it is easier to read and easier to write in
+> 80 columns. Also rename variable of this type in lm36274_brightness_set
+> from led to chip, to be consistent.
 
----
+This patch seems a bit unnecessary.  The current variables fit fine with 
+80 columns.
 
-Changes since v1:
-1. Add Dan Murphy, do not remove the entries.
----
- CREDITS     | 3 +++
- MAINTAINERS | 6 +++---
- 2 files changed, 6 insertions(+), 3 deletions(-)
+Dan
 
-diff --git a/CREDITS b/CREDITS
-index 1df63cdf71df..46384b11f258 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -1910,6 +1910,9 @@ S: 660 Harvard Ave. #7
- S: Santa Clara, CA 95051
- S: USA
- 
-+N: Milo Kim
-+D: TI LP855x, LP8727 and LP8788 drivers
-+
- N: Russell King
- E: rmk@arm.linux.org.uk
- D: Linux/arm integrator, maintainer & hacker
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5b9621ca2b31..bcd2fdf0dbf2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17472,20 +17472,20 @@ F:	sound/soc/codecs/isabelle*
- F:	sound/soc/codecs/lm49453*
- 
- TI LP855x BACKLIGHT DRIVER
--M:	Milo Kim <milo.kim@ti.com>
-+M:	Dan Murphy <dmurphy@ti.com>
- S:	Maintained
- F:	Documentation/driver-api/backlight/lp855x-driver.rst
- F:	drivers/video/backlight/lp855x_bl.c
- F:	include/linux/platform_data/lp855x.h
- 
- TI LP8727 CHARGER DRIVER
--M:	Milo Kim <milo.kim@ti.com>
-+M:	Dan Murphy <dmurphy@ti.com>
- S:	Maintained
- F:	drivers/power/supply/lp8727_charger.c
- F:	include/linux/platform_data/lp8727.h
- 
- TI LP8788 MFD DRIVER
--M:	Milo Kim <milo.kim@ti.com>
-+M:	Dan Murphy <dmurphy@ti.com>
- S:	Maintained
- F:	drivers/iio/adc/lp8788_adc.c
- F:	drivers/leds/leds-lp8788.c
--- 
-2.17.1
 
