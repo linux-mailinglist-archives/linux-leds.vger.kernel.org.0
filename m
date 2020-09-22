@@ -2,88 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B66E82748E1
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Sep 2020 21:13:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0F9B27491D
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Sep 2020 21:28:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726603AbgIVTM5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 22 Sep 2020 15:12:57 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:33406 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726608AbgIVTMz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Sep 2020 15:12:55 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08MJClHt107258;
-        Tue, 22 Sep 2020 14:12:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1600801967;
-        bh=y4/JxdSatLeQsQ0g5+/LJy1SK1eOoFkr7iJzasfQCcI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=w7g5bM9ehNsrvh/PBtZobH06E9p+rTEJJtGjN1SsXyzBwL26dtCRk6cn5x0sG8PWM
-         YoOTakenx+CL28KdWCWajdrEIyB5DxKF4k6VVnxDq4x9djHgif2tpeVvN3uswk++R5
-         5fWA8yCcQoGRfdpzCmXeNeg2OdNSy7Et+/kIfjhU=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08MJClw3126503
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 22 Sep 2020 14:12:47 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 22
- Sep 2020 14:12:46 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 22 Sep 2020 14:12:46 -0500
-Received: from [10.250.36.1] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08MJCk4C060038;
-        Tue, 22 Sep 2020 14:12:46 -0500
-Subject: Re: [PATCH leds v3 2/9] leds: lm36274: don't iterate through children
- since there is only one
-To:     Marek Behun <marek.behun@nic.cz>
-CC:     <linux-leds@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>
-References: <20200919180304.2885-1-marek.behun@nic.cz>
- <20200919180304.2885-3-marek.behun@nic.cz>
- <a2db44c8-9153-3b0e-b3fe-cb96821116ab@ti.com>
- <20200922175856.7efeb161@nic.cz>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <35780840-fd1e-2a51-c338-b568345c254d@ti.com>
-Date:   Tue, 22 Sep 2020 14:12:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726603AbgIVT2q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Sep 2020 15:28:46 -0400
+Received: from vsmx011.vodafonemail.xion.oxcs.net ([153.92.174.89]:53517 "EHLO
+        vsmx011.vodafonemail.xion.oxcs.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726583AbgIVT2p (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 22 Sep 2020 15:28:45 -0400
+X-Greylist: delayed 343 seconds by postgrey-1.27 at vger.kernel.org; Tue, 22 Sep 2020 15:28:45 EDT
+Received: from vsmx003.vodafonemail.xion.oxcs.net (unknown [192.168.75.197])
+        by mta-5-out.mta.xion.oxcs.net (Postfix) with ESMTP id 53D2F59D43C;
+        Tue, 22 Sep 2020 19:28:44 +0000 (UTC)
+Received: from app-43.app.xion.oxcs.net (app-43.app.xion.oxcs.net [10.10.1.43])
+        by mta-7-out.mta.xion.oxcs.net (Postfix) with ESMTPA id E9F13539A02;
+        Tue, 22 Sep 2020 19:28:35 +0000 (UTC)
+Date:   Tue, 22 Sep 2020 21:28:35 +0200 (CEST)
+From:   Markus Moll <moll.markus@arcor.de>
+To:     Riku Voipio <riku.voipio@iki.fi>, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org
+Message-ID: <718260256.101908.1600802915869@mail.vodafone.de>
+Subject: [PATCH v1] leds: pca9532: correct shift computation in
+ pca9532_getled
 MIME-Version: 1.0
-In-Reply-To: <20200922175856.7efeb161@nic.cz>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Priority: 3
+Importance: Medium
+X-Mailer: Open-Xchange Mailer v7.8.4-Rev73
+X-Originating-Client: open-xchange-appsuite
+X-VADE-STATUS: LEGIT
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Marek
+Each led setting occupies two bits in a corresponding led register.
+Accessing these bits requires shifting and masking, which was
+implemented incorrectly in pca9532_getled. Two new helper macros
+concentrate the computation of those masks in one place.
 
-On 9/22/20 10:58 AM, Marek Behun wrote:
-> On Tue, 22 Sep 2020 10:42:49 -0500
-> Dan Murphy <dmurphy@ti.com> wrote:
->
->> <snip>
->> Question is this device on a piece of hardware you are testing on?
-> No, unfortunately. But this driver is rather simple, in comparison to
-> the others.
->
-> As Linus said:
->    "If it compiles, it is good; if it boots up, it is perfect."
-> :D
->
-> So if someone tested it, it would be perfect.
+Signed-off-by: Markus Moll <mmoll@de.pepperl-fuchs.com>
+---
+ drivers/leds/leds-pca9532.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Not sure how a comment made in 1998 applies to the state of the kernel 
-today.
-
-With this much change to the driver there should have been some level of 
-functional testing.
-
-So I pulled out my hardware and gave it a whirl. Gave my TB on the 
-LM36274 patches.
-
-Dan
-
+diff --git a/drivers/leds/leds-pca9532.c b/drivers/leds/leds-pca9532.c
+index 41229f775d3..d37fd9577d4 100644
+--- a/drivers/leds/leds-pca9532.c
++++ b/drivers/leds/leds-pca9532.c
+@@ -27,6 +27,8 @@
+ #define PCA9532_REG_PWM(m, i)	(PCA9532_REG_OFFSET(m) + 0x2 + (i) * 2)
+ #define LED_REG(m, led)		(PCA9532_REG_OFFSET(m) + 0x5 + (led >> 2))
+ #define LED_NUM(led)		(led & 0x3)
++#define LED_SHIFT(led)		(LED_NUM(led) * 2)
++#define LED_MASK(led)		(0x3 << LED_SHIFT(led))
+ 
+ #define ldev_to_led(c)       container_of(c, struct pca9532_led, ldev)
+ 
+@@ -162,9 +164,9 @@ static void pca9532_setled(struct pca9532_led *led)
+ 	mutex_lock(&data->update_lock);
+ 	reg = i2c_smbus_read_byte_data(client, LED_REG(maxleds, led->id));
+ 	/* zero led bits */
+-	reg = reg & ~(0x3<<LED_NUM(led->id)*2);
++	reg = reg & ~LED_MASK(led->id);
+ 	/* set the new value */
+-	reg = reg | (led->state << LED_NUM(led->id)*2);
++	reg = reg | (led->state << LED_SHIFT(led->id));
+ 	i2c_smbus_write_byte_data(client, LED_REG(maxleds, led->id), reg);
+ 	mutex_unlock(&data->update_lock);
+ }
+@@ -260,7 +262,7 @@ static enum pca9532_state pca9532_getled(struct pca9532_led *led)
+ 
+ 	mutex_lock(&data->update_lock);
+ 	reg = i2c_smbus_read_byte_data(client, LED_REG(maxleds, led->id));
+-	ret = reg >> LED_NUM(led->id)/2;
++	ret = (reg & LED_MASK(led->id)) >> LED_SHIFT(led->id);
+ 	mutex_unlock(&data->update_lock);
+ 	return ret;
+ }
+-- 
+2.25.1
