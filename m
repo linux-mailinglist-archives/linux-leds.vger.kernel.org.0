@@ -2,246 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C11112745D9
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Sep 2020 17:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF4E02745DF
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Sep 2020 17:59:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbgIVP5w (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 22 Sep 2020 11:57:52 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:45368 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726566AbgIVP5w (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Sep 2020 11:57:52 -0400
-Received: by mail-il1-f195.google.com with SMTP id h2so17779140ilo.12;
-        Tue, 22 Sep 2020 08:57:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XzdQt2fbGJ07/mVXnEKw0znAD4B8l/q6hSkfeIR8Pcg=;
-        b=QBSHxd86eS1IAvGDzyyhhTVJTE9IuZtXorRQB2WAgmHv4ZUpjxy4i4iYeZPyE9PGKO
-         3tYtJ8vhZcqzTbAasnAYcKoTm2BUnFZzHIHHzVtR24ywMKhrcEqBi8To1u2zSYtEeX/N
-         z4SkicFNl8Qus51MN8Tebsww2nPn49m7/A5FW/jXxSGpvnEJ8GbRfaMpX1S1eyB7tnVL
-         GZewanMO3v/ExZwnRcCRvWbQyga4aPZmAfulWvRU2hIEkx8DeX24Suyky57CF8bIc/IP
-         P5wEsl9zb0JZrda1SZ9YMdCGeC8Tia8yBmq/NKE0Eyb65lesLi1X61lk2BUpYkmgWJnh
-         FbCQ==
-X-Gm-Message-State: AOAM530Ds/AnZPVOFoNvCBWdVFz7tkpOcRHifDujanWy+umoN66wYdhn
-        5uib2fwmQ3zBzyu1qIzxSQ==
-X-Google-Smtp-Source: ABdhPJzYIbZMV2yNi0fEB/MYpK+RsjCgduxlERu5RInrUMHlEmPWHDJ+/AEiLmQTmIxQkyIshIT3Eg==
-X-Received: by 2002:a92:5f94:: with SMTP id i20mr5039260ill.106.1600790270562;
-        Tue, 22 Sep 2020 08:57:50 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id 9sm9147242ilj.83.2020.09.22.08.57.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2020 08:57:50 -0700 (PDT)
-Received: (nullmailer pid 2757662 invoked by uid 1000);
-        Tue, 22 Sep 2020 15:57:47 -0000
-Date:   Tue, 22 Sep 2020 09:57:47 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Alexander Dahl <post@lespocky.de>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-kernel@vger.kernel.org,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
-        Alexander Dahl <ada@thorsis.com>
-Subject: Re: [PATCH v5 3/3] dt-bindings: leds: Convert pwm to yaml
-Message-ID: <20200922155747.GA2734659@bogus>
-References: <20200919053145.7564-1-post@lespocky.de>
- <20200919053145.7564-4-post@lespocky.de>
+        id S1726749AbgIVP7A convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Tue, 22 Sep 2020 11:59:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51596 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726566AbgIVP67 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 22 Sep 2020 11:58:59 -0400
+Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1EF3C061755
+        for <linux-leds@vger.kernel.org>; Tue, 22 Sep 2020 08:58:59 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id 01B5314094B;
+        Tue, 22 Sep 2020 17:58:57 +0200 (CEST)
+Date:   Tue, 22 Sep 2020 17:58:56 +0200
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     <linux-leds@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH leds v3 2/9] leds: lm36274: don't iterate through
+ children since there is only one
+Message-ID: <20200922175856.7efeb161@nic.cz>
+In-Reply-To: <a2db44c8-9153-3b0e-b3fe-cb96821116ab@ti.com>
+References: <20200919180304.2885-1-marek.behun@nic.cz>
+        <20200919180304.2885-3-marek.behun@nic.cz>
+        <a2db44c8-9153-3b0e-b3fe-cb96821116ab@ti.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200919053145.7564-4-post@lespocky.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, Sep 19, 2020 at 07:31:45AM +0200, Alexander Dahl wrote:
-> The example was adapted slightly to make use of the 'function' and
-> 'color' properties.  License discussed with the original author.
-> 
-> Suggested-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Signed-off-by: Alexander Dahl <post@lespocky.de>
-> Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>
-> ---
-> 
-> Notes:
->     v4 -> v5:
->       * updated based on feedback by Rob Herring
->       * removed Acked-by
->     
->     v3 -> v4:
->       * added Cc to original author of the binding
->     
->     v2 -> v3:
->       * changed license identifier to recommended one
->       * added Acked-by
->     
->     v2:
->       * added this patch to series (Suggested-by: Jacek Anaszewski)
-> 
->  .../devicetree/bindings/leds/leds-pwm.txt     | 50 -----------
->  .../devicetree/bindings/leds/leds-pwm.yaml    | 82 +++++++++++++++++++
->  2 files changed, 82 insertions(+), 50 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-pwm.txt b/Documentation/devicetree/bindings/leds/leds-pwm.txt
-> deleted file mode 100644
-> index 6c6583c35f2f..000000000000
-> --- a/Documentation/devicetree/bindings/leds/leds-pwm.txt
-> +++ /dev/null
-> @@ -1,50 +0,0 @@
-> -LED connected to PWM
-> -
-> -Required properties:
-> -- compatible : should be "pwm-leds".
-> -
-> -Each LED is represented as a sub-node of the pwm-leds device.  Each
-> -node's name represents the name of the corresponding LED.
-> -
-> -LED sub-node properties:
-> -- pwms : PWM property to point to the PWM device (phandle)/port (id) and to
-> -  specify the period time to be used: <&phandle id period_ns>;
-> -- pwm-names : (optional) Name to be used by the PWM subsystem for the PWM device
-> -  For the pwms and pwm-names property please refer to:
-> -  Documentation/devicetree/bindings/pwm/pwm.txt
-> -- max-brightness : Maximum brightness possible for the LED
-> -- active-low : (optional) For PWMs where the LED is wired to supply
-> -  rather than ground.
-> -- label :  (optional)
-> -  see Documentation/devicetree/bindings/leds/common.txt
-> -- linux,default-trigger :  (optional)
-> -  see Documentation/devicetree/bindings/leds/common.txt
-> -
-> -Example:
-> -
-> -twl_pwm: pwm {
-> -	/* provides two PWMs (id 0, 1 for PWM1 and PWM2) */
-> -	compatible = "ti,twl6030-pwm";
-> -	#pwm-cells = <2>;
-> -};
-> -
-> -twl_pwmled: pwmled {
-> -	/* provides one PWM (id 0 for Charing indicator LED) */
-> -	compatible = "ti,twl6030-pwmled";
-> -	#pwm-cells = <2>;
-> -};
-> -
-> -pwmleds {
-> -	compatible = "pwm-leds";
-> -	kpad {
-> -		label = "omap4::keypad";
-> -		pwms = <&twl_pwm 0 7812500>;
-> -		max-brightness = <127>;
-> -	};
-> -
-> -	charging {
-> -		label = "omap4:green:chrg";
-> -		pwms = <&twl_pwmled 0 7812500>;
-> -		max-brightness = <255>;
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/leds/leds-pwm.yaml b/Documentation/devicetree/bindings/leds/leds-pwm.yaml
-> new file mode 100644
-> index 000000000000..c9316811c7f1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-pwm.yaml
-> @@ -0,0 +1,82 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-pwm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: LEDs connected to PWM
-> +
-> +maintainers:
-> +  - Pavel Machek <pavel@ucw.cz>
-> +
-> +description:
-> +  Each LED is represented as a sub-node of the pwm-leds device.  Each
-> +  node's name represents the name of the corresponding LED.
-> +
-> +properties:
-> +  compatible:
-> +    const: pwm-leds
-> +
-> +patternProperties:
-> +  "^led(-[0-9a-f]+)?$":
-> +    type: object
-> +
-> +    $ref: common.yaml#
-> +
-> +    properties:
-> +      pwms:
-> +        maxItems: 1
-> +
-> +      pwm-names: true
-> +
-> +      max-brightness:
-> +        description:
-> +          Maximum brightness possible for the LED
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +      active-low:
-> +        description:
-> +          For PWMs where the LED is wired to supply rather than ground.
-> +        type: boolean
-> +
-> +    required:
-> +      - pwms
-> +      - max-brightness
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    twl_pwm: pwm {
-> +        /* provides two PWMs (id 0, 1 for PWM1 and PWM2) */
-> +        compatible = "ti,twl6030-pwm";
-> +        #pwm-cells = <2>;
-> +    };
-> +
-> +    twl_pwmled: pwmled {
-> +        /* provides one PWM (id 0 for Charing indicator LED) */
-> +        compatible = "ti,twl6030-pwmled";
-> +        #pwm-cells = <2>;
-> +    };
+On Tue, 22 Sep 2020 10:42:49 -0500
+Dan Murphy <dmurphy@ti.com> wrote:
 
-It would be best to just remove these 2 nodes. The provider is not 
-really relevant here and these will likely have schema errors when 
-there's a schema for them. For example, they should be child nodes of 
-the TWL6030 device.
-
-> +
-> +    pwm_leds {
-
-Use generic node names:
-
-led-controller {
-
-> +        compatible = "pwm-leds";
-> +
-> +        led-1 {
-> +            label = "omap4::keypad";
-> +            pwms = <&twl_pwm 0 7812500>;
-> +            max-brightness = <127>;
-> +        };
-> +
-> +        led-2 {
-> +            color = <LED_COLOR_ID_GREEN>;
-> +            function = LED_FUNCTION_CHARGING;
-> +            pwms = <&twl_pwmled 0 7812500>;
-> +            max-brightness = <255>;
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> 2.20.1
+> Hello
 > 
+> On 9/19/20 1:02 PM, Marek Behún wrote:
+> > Do not use device_for_each_child_node. Since this driver works only with
+> > once child node present, use device_get_next_child_node instead.
+> > This also saves one level of indentation.
+> >
+> > Signed-off-by: Marek Behún <marek.behun@nic.cz>
+> > Cc: Dan Murphy <dmurphy@ti.com>
+> > ---
+> >   drivers/leds/leds-lm36274.c | 50 +++++++++++++++++--------------------
+> >   1 file changed, 23 insertions(+), 27 deletions(-)
+> >
+> > diff --git a/drivers/leds/leds-lm36274.c b/drivers/leds/leds-lm36274.c
+> > index 4a9f786bb9727..e0fce74a76675 100644
+> > --- a/drivers/leds/leds-lm36274.c
+> > +++ b/drivers/leds/leds-lm36274.c
+> > @@ -72,40 +72,36 @@ static int lm36274_parse_dt(struct lm36274 *chip)
+> >   	char label[LED_MAX_NAME_SIZE];
+> >   	struct device *dev = &chip->pdev->dev;
+> >   	const char *name;
+> > -	int child_cnt;
+> > -	int ret = -EINVAL;
+> > +	int ret;
+> >   
+> >   	/* There should only be 1 node */
+> > -	child_cnt = device_get_child_node_count(dev);
+> > -	if (child_cnt != 1)
+> > +	if (device_get_child_node_count(dev) != 1)
+> >   		return -EINVAL;
+> >   
+> > -	device_for_each_child_node(dev, child) {
+> > -		ret = fwnode_property_read_string(child, "label", &name);
+> > -		if (ret)
+> > -			snprintf(label, sizeof(label), "%s::",
+> > -				 chip->pdev->name);
+> > -		else
+> > -			snprintf(label, sizeof(label), "%s:%s",
+> > -				 chip->pdev->name, name);
+> > -
+> > -		chip->num_leds = fwnode_property_count_u32(child, "led-sources");
+> > -		if (chip->num_leds <= 0)
+> > -			return -ENODEV;
+> > -
+> > -		ret = fwnode_property_read_u32_array(child, "led-sources",
+> > -						     chip->led_sources,
+> > -						     chip->num_leds);
+> > -		if (ret) {
+> > -			dev_err(dev, "led-sources property missing\n");
+> > -			return ret;
+> > -		}
+> > -
+> > -		fwnode_property_read_string(child, "linux,default-trigger",
+> > -					    &chip->led_dev.default_trigger);
+> > +	child = device_get_next_child_node(dev, NULL);
+> > +
+> > +	ret = fwnode_property_read_string(child, "label", &name);
+> > +	if (ret)
+> > +		snprintf(label, sizeof(label), "%s::", chip->pdev->name);
+> > +	else
+> > +		snprintf(label, sizeof(label), "%s:%s", chip->pdev->name, name);
+> >   
+> > +	chip->num_leds = fwnode_property_count_u32(child, "led-sources");
+> > +	if (chip->num_leds <= 0)
+> > +		return -ENODEV;
+> > +
+> > +	ret = fwnode_property_read_u32_array(child, "led-sources",
+> > +					     chip->led_sources, chip->num_leds);
+> > +	if (ret) {
+> > +		dev_err(dev, "led-sources property missing\n");
+> > +		return ret;
+> >   	}
+> >   
+> > +	fwnode_property_read_string(child, "linux,default-trigger",
+> > +				    &chip->led_dev.default_trigger);
+> > +
+> > +	fwnode_handle_put(child);
+> > +
+> >   	chip->lmu_data.regmap = chip->regmap;
+> >   	chip->lmu_data.max_brightness = MAX_BRIGHTNESS_11BIT;
+> >   	chip->lmu_data.msb_brightness_reg = LM36274_REG_BRT_MSB;  
+> 
+> Question is this device on a piece of hardware you are testing on?
+
+No, unfortunately. But this driver is rather simple, in comparison to
+the others.
+
+As Linus said:
+  "If it compiles, it is good; if it boots up, it is perfect."
+:D
+
+So if someone tested it, it would be perfect.
+
+Marek
+
+> Just wondering how you functionally tested all these changes you submitted
+> 
+> Reviewed-by: Dan Murphy <dmurphy@ti.com>
+> 
+
