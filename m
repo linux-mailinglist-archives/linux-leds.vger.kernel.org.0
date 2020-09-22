@@ -2,85 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4AFD273B73
-	for <lists+linux-leds@lfdr.de>; Tue, 22 Sep 2020 09:08:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0AEC273E9E
+	for <lists+linux-leds@lfdr.de>; Tue, 22 Sep 2020 11:37:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729707AbgIVHIx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 22 Sep 2020 03:08:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56160 "EHLO mail.kernel.org"
+        id S1726353AbgIVJhc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 22 Sep 2020 05:37:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41818 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728526AbgIVHIx (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 22 Sep 2020 03:08:53 -0400
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726341AbgIVJhb (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 22 Sep 2020 05:37:31 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 403EE23A1E;
-        Tue, 22 Sep 2020 07:08:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A79F320C09;
+        Tue, 22 Sep 2020 09:37:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600758532;
-        bh=Q9EIerF2YpUp4pwyWgck/zaWlyKSSyBy1o2vS+YkpDw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=yLaNCV3E1ni8PMWPJKhZHUP5zyH9/RIGelJRkhz0XnXaoRSXGqrVYlGa0h+1p08wj
-         HdDbxtzf7mwTjYGAOiSG1Iq/iO3UwI5pvEaiJD8F+G7WAMD//GA1WuWb8TLttRJNWO
-         rbgd3Rs+Si3uwTfnnPpxh3Rc9JzaXSGwbSJQ+2HY=
-Received: by mail-ej1-f52.google.com with SMTP id q13so21254299ejo.9;
-        Tue, 22 Sep 2020 00:08:52 -0700 (PDT)
-X-Gm-Message-State: AOAM533no99YWwAw10XMK+FpbGbhm4KDQ76GbNDv3XenSYz9Npnv52eE
-        Nhrj48JnVBjKUUJA3sfJ2x9kkAgxcR8TjbM0H14=
-X-Google-Smtp-Source: ABdhPJz5Bpo4sLZx+VgODKy1nNTRF0OkATsG2D8nukSvGgRjPsORZPEEbE8mlh2UulqYR1jQq3wGmko6aeeETpH/EZQ=
-X-Received: by 2002:a17:907:724f:: with SMTP id ds15mr3277198ejc.119.1600758530722;
- Tue, 22 Sep 2020 00:08:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200921210233.21449-1-krzk@kernel.org> <20200921210610.GA5338@amd>
-In-Reply-To: <20200921210610.GA5338@amd>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Tue, 22 Sep 2020 09:08:37 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPdwQc86H-S=C4v_1VCbd7RhC2Soepj_2LqG1e_E_bgAug@mail.gmail.com>
-Message-ID: <CAJKOXPdwQc86H-S=C4v_1VCbd7RhC2Soepj_2LqG1e_E_bgAug@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: move Milo Kim to credits
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jonathan Cameron <jic23@kernel.org>, Dan Murphy <dmurphy@ti.com>,
-        Lee Jones <lee.jones@linaro.org>,
+        s=default; t=1600767451;
+        bh=fHtEteBsD0utS+5Z4pAiitprR0KWEh/ch/SvniGloaw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gSAYlWDaOIl/yKeumXTxuJFUA578UlndAMW7YZFdRBlg2TcN1VLRMkkxHu5B8UBZh
+         vG8i+3zaJleLgaqR9y3jEothnNvma2k8YnZgj2cEgkrH2TUsPHWRjXCiX/eSydzVW9
+         S1xBIUc319XXKE/pRx5GZuyEpoz1eZHVwsk66+ro=
+Date:   Tue, 22 Sep 2020 10:36:37 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Jonathan Cameron <jic23@kernel.org>,
+        Dan Murphy <dmurphy@ti.com>, Lee Jones <lee.jones@linaro.org>,
         Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
         Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
         linux-iio@vger.kernel.org,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
         linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] MAINTAINERS: move Milo Kim to credits
+Message-ID: <20200922093637.GK4792@sirena.org.uk>
+References: <20200921210233.21449-1-krzk@kernel.org>
+ <20200921210610.GA5338@amd>
+ <CAJKOXPdwQc86H-S=C4v_1VCbd7RhC2Soepj_2LqG1e_E_bgAug@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="fLj60tP2PZ34xyqD"
+Content-Disposition: inline
+In-Reply-To: <CAJKOXPdwQc86H-S=C4v_1VCbd7RhC2Soepj_2LqG1e_E_bgAug@mail.gmail.com>
+X-Cookie: Love thy neighbor, tune thy piano.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 21 Sep 2020 at 23:06, Pavel Machek <pavel@ucw.cz> wrote:
->
-> Hi!
->
-> > Milo Kim's email in TI bounces with permanent error (550: Invalid
-> > recipient).  Last email from him on LKML was in 2017.  Move Milo Kim to
-> > credits and remove the separate driver entries for:
-> >
-> >  - TI LP855x backlight driver,
-> >  - TI LP8727 charger driver,
-> >  - TI LP8788 MFD (ADC, LEDs, charger and regulator) drivers.
-> >
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
->
-> I believe normal way would be to mark the entries "orphaned", not to
-> drop them altogether. Plus, I believe someone from TI is likely to
-> step up.
 
-These are entries for specific drivers so they are covered by the
-subsystem maintainers. You believe someone will step up, I believe if
-these were important for TI, they would find the person some time ago,
-so the emails won't bounce... This was similar with BQ chargers where
-Andrew's email was bouncing and after a few weeks it was fixed. To me
-it looks like TI does not have any priority in maintaining separate
-driver entries so what is the point to keep orphaned driver-entry? It
-is not the case where we have an orphaned subsystem and we look for a
-person to handle it...
+--fLj60tP2PZ34xyqD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best regards,
-Krzysztof
+On Tue, Sep 22, 2020 at 09:08:37AM +0200, Krzysztof Kozlowski wrote:
+> On Mon, 21 Sep 2020 at 23:06, Pavel Machek <pavel@ucw.cz> wrote:
+
+> > I believe normal way would be to mark the entries "orphaned", not to
+> > drop them altogether. Plus, I believe someone from TI is likely to
+> > step up.
+
+> These are entries for specific drivers so they are covered by the
+> subsystem maintainers. You believe someone will step up, I believe if
+> these were important for TI, they would find the person some time ago,
+> so the emails won't bounce... This was similar with BQ chargers where
+
+It's fairly common for mobile parts to get dropped relatively quickly as
+the technology moves fairly quickly in that market, I think a lot of teh
+parts that Milo was working on were mobile ones.
+
+--fLj60tP2PZ34xyqD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl9pxaUACgkQJNaLcl1U
+h9A8jgf/XwLmQCXqZi5d6aBUz5PAPdLGA5vnKQNpz0j7xmPhp7r6AFolVSpZjpv+
+OR988o11WmSsyfe5qZyZpyF+XpudRx6dEJn20LSVy6ljt79fiofT8KiEnsUVFOMQ
+YnHce9WMKartib/dSshAafpmpEMqdE32At6GsymdPjMaolh1ziq/tek/q3i8vbP0
++4t1TFHElfhwvY0p97fBY0PGrlYaFXX8N2vLciXSPP1gqGPXi6MXP9RKgEx0Ctd7
+OpLmehc0nogMoHz0zx5Jz15eoG1hgGKhsBX/igQzrGkDBW3qX1/kRpwBUcjhx8xv
+WiSF/GE4ac5w5JnVvhAdamxUJDVtKQ==
+=Gqfl
+-----END PGP SIGNATURE-----
+
+--fLj60tP2PZ34xyqD--
