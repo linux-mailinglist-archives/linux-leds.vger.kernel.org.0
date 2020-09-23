@@ -2,93 +2,81 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B604D2759C5
-	for <lists+linux-leds@lfdr.de>; Wed, 23 Sep 2020 16:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEA83275DEE
+	for <lists+linux-leds@lfdr.de>; Wed, 23 Sep 2020 18:53:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726516AbgIWOS5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 23 Sep 2020 10:18:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58130 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726151AbgIWOS4 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 23 Sep 2020 10:18:56 -0400
-Received: from dellmb.labs.office.nic.cz (nat-1.nic.cz [217.31.205.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 962E723119;
-        Wed, 23 Sep 2020 14:18:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600870736;
-        bh=/iXTLQPXwNgZ5wPaXUNmRBdx1vO/FphGVq3Gqs29qKY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YB47pjoMBmk4Oxu8L/1na4JOue6ACjQsxDCUFfDFnNFdKTws1ygorYyjRZJ795CVL
-         fBZyPV9xRYbu7F90wAqaWpzRGO9uHJQKnlffxjrOxJB27vMHEWCoNl/asxa8QC88wm
-         DQf0G6VmoRD6bPj0NyOqoistaXD5zeVmgUwfx8DU=
-From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-To:     linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, dmurphy@ti.com,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
-        Simon Guinot <simon.guinot@sequanux.org>
-Subject: [PATCH leds 2/2] leds: ns2: do not guard OF match pointer with of_match_ptr
-Date:   Wed, 23 Sep 2020 16:18:40 +0200
-Message-Id: <20200923141840.6333-3-kabel@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200923141840.6333-1-kabel@kernel.org>
-References: <20200923141840.6333-1-kabel@kernel.org>
+        id S1726466AbgIWQxq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 23 Sep 2020 12:53:46 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:37638 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726381AbgIWQxq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 23 Sep 2020 12:53:46 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08NGrYUc073873;
+        Wed, 23 Sep 2020 11:53:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1600880014;
+        bh=v/OdQtLrwg8yFHMiXDvciypEO6WxHuaqhFeT3aUYHVk=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=bPXmP2CUn6HstssqRQAJHuvz8dGAJpgOb44WcJiChOvDH5JjqhtpWwfpiqSfRM3Pw
+         pa0uVcKlGFPxYYoMhQMmlLsSOiqovFxNpf+k/wp06OeNuSt03GhjMTxwMOle+5eVV3
+         CTu99N+bQ8HczmerxJF38khSQ3FO4mQuVekEsCmI=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08NGrYso032957
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 23 Sep 2020 11:53:34 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 23
+ Sep 2020 11:53:34 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 23 Sep 2020 11:53:34 -0500
+Received: from [10.250.36.88] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08NGrXwg008341;
+        Wed, 23 Sep 2020 11:53:33 -0500
+Subject: Re: [PATCH v2] MAINTAINERS: add Dan Murphy as TP LP8xxx drivers
+ maintainer
+To:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        <linux-iio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        <linux-leds@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>
+References: <20200922152839.2744-1-krzk@kernel.org>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <fe4609b5-5aab-46ed-5280-9a4742b97fe5@ti.com>
+Date:   Wed, 23 Sep 2020 11:53:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200922152839.2744-1-krzk@kernel.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Do not match OF match pointer with of_match_ptr, so that even if
-CONFIG_OF is disabled, the driver can still be bound via another method.
+Hello
 
-Move definition of of_ns2_leds_match just before ns2_led_driver
-definition, since it is not needed sooner.
+On 9/22/20 10:28 AM, Krzysztof Kozlowski wrote:
+> Milo Kim's email in TI bounces with permanent error (550: Invalid
+> recipient).  Last email from him on LKML was in 2017.  Move Milo Kim to
+> credits and add Dan Murphy from TI to look after:
+>   - TI LP855x backlight driver,
+>   - TI LP8727 charger driver,
+>   - TI LP8788 MFD (ADC, LEDs, charger and regulator) drivers.
+>
+> Cc: Dan Murphy <dmurphy@ti.com>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Signed-off-by: Marek Behún <kabel@kernel.org>
-Cc: Simon Guinot <simon.guinot@sequanux.org>
----
- drivers/leds/leds-ns2.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/leds/leds-ns2.c b/drivers/leds/leds-ns2.c
-index 427b5059206a5..4ea6e61aacddf 100644
---- a/drivers/leds/leds-ns2.c
-+++ b/drivers/leds/leds-ns2.c
-@@ -239,12 +239,6 @@ static int ns2_led_register(struct device *dev, struct fwnode_handle *node,
- 	return ret;
- }
- 
--static const struct of_device_id of_ns2_leds_match[] = {
--	{ .compatible = "lacie,ns2-leds", },
--	{},
--};
--MODULE_DEVICE_TABLE(of, of_ns2_leds_match);
--
- static int ns2_led_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -272,11 +266,17 @@ static int ns2_led_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct of_device_id of_ns2_leds_match[] = {
-+	{ .compatible = "lacie,ns2-leds", },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, of_ns2_leds_match);
-+
- static struct platform_driver ns2_led_driver = {
- 	.probe		= ns2_led_probe,
- 	.driver		= {
- 		.name		= "leds-ns2",
--		.of_match_table	= of_match_ptr(of_ns2_leds_match),
-+		.of_match_table	= of_ns2_leds_match,
- 	},
- };
- 
--- 
-2.26.2
+Acked-by: Dan Murphy <dmurphy@ti.com>
 
