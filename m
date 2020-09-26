@@ -2,125 +2,172 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AD772799A6
-	for <lists+linux-leds@lfdr.de>; Sat, 26 Sep 2020 15:27:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18C162799BE
+	for <lists+linux-leds@lfdr.de>; Sat, 26 Sep 2020 15:47:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727408AbgIZN1U (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 26 Sep 2020 09:27:20 -0400
-Received: from vm1.sequanux.org ([188.165.36.56]:50611 "EHLO vm1.sequanux.org"
+        id S1726309AbgIZNrL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 26 Sep 2020 09:47:11 -0400
+Received: from vm1.sequanux.org ([188.165.36.56]:50662 "EHLO vm1.sequanux.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725208AbgIZN1U (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 26 Sep 2020 09:27:20 -0400
+        id S1726244AbgIZNrL (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 26 Sep 2020 09:47:11 -0400
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by vm1.sequanux.org (Postfix) with ESMTP id 3A9B91085FD;
-        Sat, 26 Sep 2020 15:27:19 +0200 (CEST)
+        by vm1.sequanux.org (Postfix) with ESMTP id 9F2321085FD;
+        Sat, 26 Sep 2020 15:47:09 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at vm1.sequanux.org
 Received: from vm1.sequanux.org ([127.0.0.1])
         by localhost (vm1.sequanux.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id qQfBZDFjpb96; Sat, 26 Sep 2020 15:27:17 +0200 (CEST)
+        with ESMTP id UOytG_biRnex; Sat, 26 Sep 2020 15:47:07 +0200 (CEST)
 Received: from localhost (softwrestling.org [188.165.144.248])
-        by vm1.sequanux.org (Postfix) with ESMTPSA id EE50910812B;
-        Sat, 26 Sep 2020 15:27:16 +0200 (CEST)
-Date:   Sat, 26 Sep 2020 15:27:16 +0200
+        by vm1.sequanux.org (Postfix) with ESMTPSA id EB80410812B;
+        Sat, 26 Sep 2020 15:47:06 +0200 (CEST)
+Date:   Sat, 26 Sep 2020 15:47:06 +0200
 From:   Simon Guinot <simon.guinot@sequanux.org>
-To:     Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>
 Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        dmurphy@ti.com
-Subject: Re: [PATCH leds 1/2] leds: ns2: convert to fwnode API
-Message-ID: <20200926132716.GI4828@kw.sim.vm.gnt>
-References: <20200923141840.6333-1-kabel@kernel.org>
- <20200923141840.6333-2-kabel@kernel.org>
+        Dan Murphy <dmurphy@ti.com>,
+        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org,
+        =?utf-8?B?w4FsdmFybyBGZXJuw6FuZGV6?= Rojas <noltari@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andrey Utkin <andrey_utkin@fastmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Baolin Wang <baolin.wang@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Christian Mauderer <oss@c-mauderer.de>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Daniel Mack <daniel@caiaq.de>,
+        David Rivshin <drivshin@allworx.com>,
+        Grant Feng <von81@163.com>,
+        Haojian Zhuang <haojian.zhuang@marvell.com>,
+        "H . Nikolaus Schaller" <hns@goldelico.com>,
+        Jaedon Shin <jaedon.shin@gmail.com>,
+        John Crispin <john@phrozen.org>,
+        Kevin Cernekee <cernekee@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Milo Kim <milo.kim@ti.com>, NeilBrown <neilb@suse.de>,
+        Nikita Travkin <nikitos.tr@gmail.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Philippe Retornaz <philippe.retornaz@epfl.ch>,
+        Riku Voipio <riku.voipio@iki.fi>,
+        Rod Whitby <rod@whitby.id.au>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Simon Guinot <sguinot@lacie.com>,
+        Simon Shields <simon@lineageos.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Bogendoerfer <tbogendoerfer@suse.de>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Vasant Hegde <hegdevasant@linux.vnet.ibm.com>,
+        Vincent Donnefort <vdonnefort@gmail.com>,
+        Xiaotong Lu <xiaotong.lu@spreadtrum.com>
+Subject: Re: [PATCH leds v2 00/50] Start moving parsing of
+ `linux,default-trigger` to LED core (a cleanup of LED drivers)
+Message-ID: <20200926134706.GJ4828@kw.sim.vm.gnt>
+References: <20200917223338.14164-1-marek.behun@nic.cz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="r5lq+205vWdkqwtk"
+        protocol="application/pgp-signature"; boundary="WR+jf/RUebEcofwt"
 Content-Disposition: inline
-In-Reply-To: <20200923141840.6333-2-kabel@kernel.org>
+In-Reply-To: <20200917223338.14164-1-marek.behun@nic.cz>
 User-Agent: Mutt/1.6.0 (2016-04-01)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---r5lq+205vWdkqwtk
+--WR+jf/RUebEcofwt
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2020 at 04:18:39PM +0200, Marek Beh=C3=BAn wrote:
-> Convert from OF api to fwnode API, so that it is possible to bind this
-> driver without device-tree.
+On Fri, Sep 18, 2020 at 12:32:48AM +0200, Marek Beh=C3=BAn wrote:
+> Hi,
 >=20
-> The fwnode API does not expose a function to read a specific element of
-> an array. We therefore change the types of the ns2_led_modval structure
-> so that we can read the whole modval array with one fwnode call.
+> this series is also available at [1].
 >=20
-> Signed-off-by: Marek Beh=C3=BAn <kabel@kernel.org>
-> Cc: Simon Guinot <simon.guinot@sequanux.org>
-> ---
->  drivers/leds/leds-ns2.c | 60 ++++++++++++++++++++---------------------
->  1 file changed, 29 insertions(+), 31 deletions(-)
+> This is v2, you can read cover letter of v1 at [2] (togehter with
+> explanation of why I did this).
+>=20
+> Changes since v1:
+> - split big changes into several patches of little changes
+> - added many cosmetic fixes (helper variables, reversal christmas tree
+>   variables declaration, ...)
+> - fixed some bugs in various drivers (memory leaks, iteration over
+>   unavailable OF nodes)
+> - made some drivers compilable when COMPILE_TEST=3Dy (since allyesconfig
+>   did not compile them). Not all though, some still don't compile with
+>   allyesconfig
+> - the commit that moves parsing of `linux,default-trigger` property from
+>   drivers to LED core is now last in the series, instead of first
+>=20
+> Marek
+>=20
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/kabel/linux.git/log/?=
+h=3Dleds-cleanup-for-pavel
+> [2] https://lore.kernel.org/linux-leds/20200916231650.11484-1-marek.behun=
+@nic.cz/T/#m826493318174b0f38a3d4ba107092b5420ce440c
 
 =2E..
 
-> -static int ns2_led_register(struct device *dev, struct device_node *np,
-> +static int ns2_led_register(struct device *dev, struct fwnode_handle *no=
-de,
->  			    struct ns2_led *led)
->  {
->  	struct led_init_data init_data =3D {};
->  	struct ns2_led_modval *modval;
->  	enum ns2_led_modes mode;
-> -	int nmodes, ret, i;
-> +	int nmodes, ret;
-> =20
-> -	led->cmd =3D devm_gpiod_get_from_of_node(dev, np, "cmd-gpio", 0,
-> -					       GPIOD_ASIS, np->name);
-> +	led->cmd =3D devm_fwnode_gpiod_get_index(dev, node, "cmd-gpio", 0,
-> +					       GPIOD_ASIS,
-> +					       fwnode_get_name(node));
->  	if (IS_ERR(led->cmd))
->  		return PTR_ERR(led->cmd);
-> =20
-> -	led->slow =3D devm_gpiod_get_from_of_node(dev, np, "slow-gpio", 0,
-> -						GPIOD_ASIS, np->name);
-> +	led->slow =3D devm_fwnode_gpiod_get_index(dev, node, "slow-gpio", 0,
-> +						GPIOD_ASIS,
-> +						fwnode_get_name(node));
+>   leds: ns2: use devres LED registering function
+>   leds: ns2: alloc simple array instead of struct ns2_led_priv
+>   leds: ns2: support OF probing only, forget platdata
+>   leds: ns2: move parsing of one LED into separate function
+>   leds: ns2: use devres API for getting GPIO descriptors
+>   leds: ns2: cosmetic structure rename
+>   leds: ns2: cosmetic variable rename
+>   leds: ns2: cosmetic change
+>   leds: ns2: cosmetic change: use helper variable
+>   leds: ns2: register LED immediately after parsing DT properties
+>   leds: ns2: remove unneeded variable
+>   leds: ns2: cosmetic: use reverse christmas tree
+>   leds: ns2: reorder headers alphabetically
+>   leds: ns2: use struct led_init_data when registering
+>   leds: parse linux,default-trigger DT property in LED core
 
 Hi Marek,
 
-You need to remove the "-gpio" suffix for the con_id parameter. It is
-automatically and systematically appended in the fwnode_gpiod_get_index
-function...
+For all the patches applying to the leds-ns2 driver:
 
-With this change, I can confirm that the led-ns2 driver is still working
-using the DT path after applying the two fwnode patches (merged on the
-top of the "linux,default-trigger" series). I tested it on a d2 Network
-board.
+Reviewed-by: Simon Guinot <simon.guinot@sequanux.org>
+Tested-by: Simon Guinot <simon.guinot@sequanux.org>
 
-I need a little bit more time to test the fwnode support on my x86
-boards (with board setup files).=20
+Thanks for it. The driver is looking way better.
 
 Simon
 
---r5lq+205vWdkqwtk
+--WR+jf/RUebEcofwt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEXW8DgovlR3VS5hA0zyg/RDPmszoFAl9vQbQACgkQzyg/RDPm
-szoRWg/+JK4dhtzQdoAUzSNpmNgEb4+ws2vI4YkfF6LNnXnEWaIlUN0toZZ688Yx
-2uSUXIjJSNxavIT9HFBp1A1X+Nz1AdRv8coIb6UAJKI8Vj/XXnj7XH7jdTuvX3a5
-VrYdVq3kqDplKEm0b2gI34heoU0VhzEc21dMPmQy5pkBTIzX2Or3Wl9FaGPwJ4kz
-8g80a61CanQaR1Ozhf5EIOYYv5hUvrnon++jtJfdMM8rXduoPeSa6OBRXvVncO3Y
-oZSKwaKBCF+yeF5uw+B/EUdQcX0ZihtXyKS6UjxmKQu6XOmdLbc9Cg/50EH/y21G
-uC3CHhtcLunMJGnd/GkD9f/EEF+W1Y61NNR80SjPuMFYhSsKU0p1/F9PCEEIXx2O
-do/EU32A0CsSW0d1pC9iUHNxqA5JSoPL1qLjzsXe3EjD5IE5hBB2sWBy94RsupWK
-bal47Ep8vrQHBY2x5P4HVaO78XtjWjYGeyc39tNO/OPTs5rilAPmO5+UTBE/NtAL
-nradZiN75iCfCHLU+vyMwg8R7XSyGAMFv/xicxtrmFf41Tsx1LP1jx1E9bH22vMq
-1Al0/omL1JMFe9575Nqbi7kcun6CQ9GydOd+9p6fZq5HHpYMCGyIhVUYRrMAGtI+
-4rvhEjv9JDuVfqd4I+DhwOWkdnCXWTuY8bCjApLTQvDr5KtU05U=
-=qlJO
+iQIzBAEBCgAdFiEEXW8DgovlR3VS5hA0zyg/RDPmszoFAl9vRloACgkQzyg/RDPm
+szpYlxAA2tv+ztwuTqGVHf0MAJV7dd+lrcA7E7bj++L3tVr20iUB44pmcvgX0qqr
+y4UJWuBP9RDoPc3DmVhKljALA+EbzX0QSHT5LXayTmdykZaLEF5zCl9Ki79/+vvv
+kVwZFU5n/RNaig98ZqbjsyMtjYsaIgC1ImOveMoUU4hUgxJMJX6h31yQPB3hxid5
+edYEUNIOpIN1n74N9NKikBBhxPIiGfA9Q4XoQ0w2LNjIHXyrjdtk+tV1ymAb0/Uw
+WSpMGnmNdgzwy48iYlBZndP771XhYvFl3mZv+FcKsS1qs21jLFQUdk6ZsRd6aEVT
+JyXxUOizOIJRw4KGVHIILbfkIwct9Is5H+9bhlK5HzvgkhqBGAa50cvgDIQrndI2
+a7rJAwd0KfxcxfvfHw4iJMRDdQ/QXIRVyKE3m5/hTdwq4p6a91tTAemtgODHQGlN
+S6NF8GyHK2yWCkv6N2zx/tmZkcJOyAvD6rMNtBZdQCfyvv5Qx83T7UckYHzZEeo1
+oHRrHs4quQ6KNQHYv9y8Y6W6SN2tkfZTNzBv0YxF6Jl/q0hYrLw6D8VAhRsErHQy
+1OVrZQoxXUL4X5etjRJoXJdp2Guzrh2iIUJtlRlHeS4Vc2brMc1s1Xym0SN4XIgR
+/67wH+ybeKolA5cpHas++693+x7J8dp8S2rvXvY6SuyOYyMcLBY=
+=MzSs
 -----END PGP SIGNATURE-----
 
---r5lq+205vWdkqwtk--
+--WR+jf/RUebEcofwt--
