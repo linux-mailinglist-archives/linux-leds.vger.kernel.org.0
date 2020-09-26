@@ -2,146 +2,144 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90711279BDB
-	for <lists+linux-leds@lfdr.de>; Sat, 26 Sep 2020 20:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72774279C16
+	for <lists+linux-leds@lfdr.de>; Sat, 26 Sep 2020 21:17:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730055AbgIZSZZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 26 Sep 2020 14:25:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58370 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726183AbgIZSZY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 26 Sep 2020 14:25:24 -0400
-Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C974C0613CE;
-        Sat, 26 Sep 2020 11:25:24 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id 239CB140A6F;
-        Sat, 26 Sep 2020 20:25:22 +0200 (CEST)
-Date:   Sat, 26 Sep 2020 20:25:21 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Luka Kovacic <luka.kovacic@sartura.hr>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org,
-        lee.jones@linaro.org, pavel@ucw.cz, dmurphy@ti.com,
-        robh+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
-        andrew@lunn.ch, jason@lakedaemon.net, gregory.clement@bootlin.com,
-        luka.perkov@sartura.hr, robert.marko@sartura.hr
-Subject: Re: [PATCH v2 5/7] Documentation/ABI: Add iei-wt61p803-puzzle
- driver sysfs interface documentation
-Message-ID: <20200926202521.100d17f8@nic.cz>
-In-Reply-To: <20200926135514.26189-6-luka.kovacic@sartura.hr>
-References: <20200926135514.26189-1-luka.kovacic@sartura.hr>
-        <20200926135514.26189-6-luka.kovacic@sartura.hr>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1729106AbgIZTRR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 26 Sep 2020 15:17:17 -0400
+Received: from mga01.intel.com ([192.55.52.88]:8561 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726183AbgIZTRR (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 26 Sep 2020 15:17:17 -0400
+IronPort-SDR: fEsqAAZ8o8KYhvGNeXDfoU53sTzhn8SJL7ofJYUoCiCDnv6+LogUZyS92LYaTOXxp9HDaO34NC
+ yw0PTa3iO6nA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9756"; a="179945301"
+X-IronPort-AV: E=Sophos;i="5.77,307,1596524400"; 
+   d="scan'208";a="179945301"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2020 12:17:17 -0700
+IronPort-SDR: HTD+MvfiSLLdySKVrqE+Vunpc6mhvWs1KOUtHm4m7rP0E6SKUaWeqV+StBi+6ZFIpQ1PE25/tX
+ /jRDHWofLzUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,307,1596524400"; 
+   d="scan'208";a="383964675"
+Received: from lkp-server01.sh.intel.com (HELO 2dda29302fe3) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 26 Sep 2020 12:17:14 -0700
+Received: from kbuild by 2dda29302fe3 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kMFh3-0000Ye-S0; Sat, 26 Sep 2020 19:17:13 +0000
+Date:   Sun, 27 Sep 2020 03:16:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Luka Kovacic <luka.kovacic@sartura.hr>,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, lee.jones@linaro.org, pavel@ucw.cz,
+        dmurphy@ti.com, robh+dt@kernel.org, jdelvare@suse.com,
+        linux@roeck-us.net
+Subject: [RFC PATCH] drivers: mfd: iei_wt61p803_puzzle_checksum() can be
+ static
+Message-ID: <20200926191618.GA12056@2adff5953e79>
+References: <20200926135514.26189-3-luka.kovacic@sartura.hr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200926135514.26189-3-luka.kovacic@sartura.hr>
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 26 Sep 2020 15:55:12 +0200
-Luka Kovacic <luka.kovacic@sartura.hr> wrote:
 
-> Add the iei-wt61p803-puzzle driver sysfs interface documentation to allow
-> monitoring and control of the microcontroller from user space.
-> 
-> Signed-off-by: Luka Kovacic <luka.kovacic@sartura.hr>
-> Cc: Luka Perkov <luka.perkov@sartura.hr>
-> Cc: Robert Marko <robert.marko@sartura.hr>
-> ---
->  .../stable/sysfs-driver-iei-wt61p803-puzzle   | 65 +++++++++++++++++++
->  1 file changed, 65 insertions(+)
->  create mode 100644 Documentation/ABI/stable/sysfs-driver-iei-wt61p803-puzzle
-> 
-> diff --git a/Documentation/ABI/stable/sysfs-driver-iei-wt61p803-puzzle b/Documentation/ABI/stable/sysfs-driver-iei-wt61p803-puzzle
-> new file mode 100644
-> index 000000000000..36fca70d66ef
-> --- /dev/null
-> +++ b/Documentation/ABI/stable/sysfs-driver-iei-wt61p803-puzzle
+Signed-off-by: kernel test robot <lkp@intel.com>
+---
+ iei-wt61p803-puzzle.c |   18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-I think this should go to testing, not stable. It should go to stable
-only after it is stable for some time.
-
-> @@ -0,0 +1,65 @@
-> +What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/mac_address_*
-> +Date:		September 2020
-> +Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-> +Description:	Read the internal iEi WT61P803 PUZZLE MCU MAC address values.
-> +		These are factory assigned and can be changed.
-> +
-> +What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/serial_number
-> +Date:		September 2020
-> +Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-> +Description:	Read the internal iEi WT61P803 PUZZLE MCU serial number.
-> +		This value is factory assigned and can be changed.
-> +
-
-Please use (RO) and (RW) prefixes before the Description, instead of
-writing "This value is read only", i.e.:
-  Description: (RO) Internal ... serial number.
-
-JFI: Why can these values be changed? Shouldn't they be burned into OTP?
-
-Marek
-
-> +What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/version
-> +Date:		September 2020
-> +Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-> +Description:	Read the internal iEi WT61P803 PUZZLE MCU version.
-> +		This value is read only.
-> +
-> +What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/protocol_version
-> +Date:		September 2020
-> +Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-> +Description:	Read the internal iEi WT61P803 PUZZLE MCU protocol version.
-> +		This value is read only.
-> +
-> +What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/power_loss_recovery
-> +Date:		September 2020
-> +Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-> +Description:	Read the iEi WT61P803 PUZZLE MCU power loss recovery value.
-> +		This value is read write.
-> +		Value mapping: 0 - Always-On, 1 - Always-Off, 2 - Always-AC, 3 - Always-WA
-> +
-> +What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/bootloader_mode
-> +Date:		September 2020
-> +Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-> +Description:	Read whether the MCU is in bootloader mode.
-> +		This value is read only.
-> +
-> +What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/power_status
-> +Date:		September 2020
-> +Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-> +Description:	Read the iEi WT61P803 PUZZLE MCU power status. Power status indicates
-> +		the power on method.
-> +		This value is read only.
-> +		Value mapping (bitwise list):
-> +		0x80 - Null
-> +		0x40 - Firmware flag
-> +		0x20 - Power loss detection flag (powered off)
-> +		0x10 - Power loss detection flag (AC mode)
-> +		0x08 - Button power on
-> +		0x04 - WOL power on
-> +		0x02 - RTC alarm power on
-> +		0x01 - AC recover power on
-> +
-> +What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/build_info
-> +Date:		September 2020
-> +Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-> +Description:	Read the iEi WT61P803 PUZZLE MCU firmware build date.
-> +		This value is read only.
-> +		Format: yyyy/mm/dd hh:mm
-> +
-> +What:		/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/ac_recovery_status
-> +Date:		September 2020
-> +Contact:	Luka Kovacic <luka.kovacic@sartura.hr>
-> +Description:	Read the iEi WT61P803 PUZZLE MCU AC recovery status.
-> +		This value is read only.
-
+diff --git a/drivers/mfd/iei-wt61p803-puzzle.c b/drivers/mfd/iei-wt61p803-puzzle.c
+index 5cba010ac9b963..f803222fc8e56f 100644
+--- a/drivers/mfd/iei-wt61p803-puzzle.c
++++ b/drivers/mfd/iei-wt61p803-puzzle.c
+@@ -118,7 +118,7 @@ struct iei_wt61p803_puzzle {
+ 	struct mutex lock;
+ };
+ 
+-unsigned char iei_wt61p803_puzzle_checksum(unsigned char *buf, size_t len)
++static unsigned char iei_wt61p803_puzzle_checksum(unsigned char *buf, size_t len)
+ {
+ 	unsigned char checksum = 0;
+ 	unsigned int i;
+@@ -302,7 +302,7 @@ int iei_wt61p803_puzzle_write_command(struct iei_wt61p803_puzzle *mcu,
+ }
+ EXPORT_SYMBOL_GPL(iei_wt61p803_puzzle_write_command);
+ 
+-int iei_wt61p803_puzzle_buzzer(struct iei_wt61p803_puzzle *mcu, bool long_beep)
++static int iei_wt61p803_puzzle_buzzer(struct iei_wt61p803_puzzle *mcu, bool long_beep)
+ {
+ 	unsigned char buzzer_short_cmd[4] = {
+ 		IEI_WT61P803_PUZZLE_CMD_HEADER_START,
+@@ -341,7 +341,7 @@ int iei_wt61p803_puzzle_buzzer(struct iei_wt61p803_puzzle *mcu, bool long_beep)
+ 	return ret;
+ }
+ 
+-int iei_wt61p803_puzzle_get_version(struct iei_wt61p803_puzzle *mcu)
++static int iei_wt61p803_puzzle_get_version(struct iei_wt61p803_puzzle *mcu)
+ {
+ 	struct device *dev = &mcu->serdev->dev;
+ 	unsigned char version_cmd[3] = {
+@@ -420,7 +420,7 @@ int iei_wt61p803_puzzle_get_version(struct iei_wt61p803_puzzle *mcu)
+ 	return ret;
+ }
+ 
+-int iei_wt61p803_puzzle_get_mcu_status(struct iei_wt61p803_puzzle *mcu)
++static int iei_wt61p803_puzzle_get_mcu_status(struct iei_wt61p803_puzzle *mcu)
+ {
+ 	unsigned char mcu_status_cmd[5] = {
+ 		IEI_WT61P803_PUZZLE_CMD_HEADER_START,
+@@ -469,7 +469,7 @@ int iei_wt61p803_puzzle_get_mcu_status(struct iei_wt61p803_puzzle *mcu)
+ 	return ret;
+ }
+ 
+-int iei_wt61p803_puzzle_get_serial_number(struct iei_wt61p803_puzzle *mcu)
++static int iei_wt61p803_puzzle_get_serial_number(struct iei_wt61p803_puzzle *mcu)
+ {
+ 	struct device *dev = &mcu->serdev->dev;
+ 	unsigned char serial_number_cmd[5] = {
+@@ -496,7 +496,7 @@ int iei_wt61p803_puzzle_get_serial_number(struct iei_wt61p803_puzzle *mcu)
+ 
+ }
+ 
+-int iei_wt61p803_puzzle_write_serial_number(struct iei_wt61p803_puzzle *mcu,
++static int iei_wt61p803_puzzle_write_serial_number(struct iei_wt61p803_puzzle *mcu,
+ 		unsigned char serial_number[36])
+ {
+ 	struct device *dev = &mcu->serdev->dev;
+@@ -544,7 +544,7 @@ int iei_wt61p803_puzzle_write_serial_number(struct iei_wt61p803_puzzle *mcu,
+ 	return ret;
+ }
+ 
+-int iei_wt61p803_puzzle_get_mac_addresses(struct iei_wt61p803_puzzle *mcu)
++static int iei_wt61p803_puzzle_get_mac_addresses(struct iei_wt61p803_puzzle *mcu)
+ {
+ 	struct device *dev = &mcu->serdev->dev;
+ 	unsigned char mac_address_cmd[5] = {
+@@ -581,7 +581,7 @@ int iei_wt61p803_puzzle_get_mac_addresses(struct iei_wt61p803_puzzle *mcu)
+ 	return ret;
+ }
+ 
+-int iei_wt61p803_puzzle_write_mac_address(struct iei_wt61p803_puzzle *mcu,
++static int iei_wt61p803_puzzle_write_mac_address(struct iei_wt61p803_puzzle *mcu,
+ 		unsigned char mac_address[17], int mac_address_idx)
+ {
+ 	struct device *dev = &mcu->serdev->dev;
+@@ -630,7 +630,7 @@ int iei_wt61p803_puzzle_write_mac_address(struct iei_wt61p803_puzzle *mcu,
+ 	return ret;
+ }
+ 
+-int iei_wt61p803_puzzle_write_power_loss_recovery(struct iei_wt61p803_puzzle *mcu,
++static int iei_wt61p803_puzzle_write_power_loss_recovery(struct iei_wt61p803_puzzle *mcu,
+ 		int power_loss_recovery_action)
+ {
+ 	unsigned char power_loss_recovery_cmd[5] = {
