@@ -2,172 +2,137 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18C162799BE
-	for <lists+linux-leds@lfdr.de>; Sat, 26 Sep 2020 15:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4B9A2799CD
+	for <lists+linux-leds@lfdr.de>; Sat, 26 Sep 2020 15:55:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726309AbgIZNrL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 26 Sep 2020 09:47:11 -0400
-Received: from vm1.sequanux.org ([188.165.36.56]:50662 "EHLO vm1.sequanux.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726244AbgIZNrL (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 26 Sep 2020 09:47:11 -0400
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by vm1.sequanux.org (Postfix) with ESMTP id 9F2321085FD;
-        Sat, 26 Sep 2020 15:47:09 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at vm1.sequanux.org
-Received: from vm1.sequanux.org ([127.0.0.1])
-        by localhost (vm1.sequanux.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id UOytG_biRnex; Sat, 26 Sep 2020 15:47:07 +0200 (CEST)
-Received: from localhost (softwrestling.org [188.165.144.248])
-        by vm1.sequanux.org (Postfix) with ESMTPSA id EB80410812B;
-        Sat, 26 Sep 2020 15:47:06 +0200 (CEST)
-Date:   Sat, 26 Sep 2020 15:47:06 +0200
-From:   Simon Guinot <simon.guinot@sequanux.org>
-To:     Marek =?utf-8?B?QmVow7pu?= <marek.behun@nic.cz>
-Cc:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>,
-        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org,
-        =?utf-8?B?w4FsdmFybyBGZXJuw6FuZGV6?= Rojas <noltari@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andrey Utkin <andrey_utkin@fastmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Baolin Wang <baolin.wang@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Christian Mauderer <oss@c-mauderer.de>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Daniel Mack <daniel@caiaq.de>,
-        David Rivshin <drivshin@allworx.com>,
-        Grant Feng <von81@163.com>,
-        Haojian Zhuang <haojian.zhuang@marvell.com>,
-        "H . Nikolaus Schaller" <hns@goldelico.com>,
-        Jaedon Shin <jaedon.shin@gmail.com>,
-        John Crispin <john@phrozen.org>,
-        Kevin Cernekee <cernekee@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Milo Kim <milo.kim@ti.com>, NeilBrown <neilb@suse.de>,
-        Nikita Travkin <nikitos.tr@gmail.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Philippe Retornaz <philippe.retornaz@epfl.ch>,
-        Riku Voipio <riku.voipio@iki.fi>,
-        Rod Whitby <rod@whitby.id.au>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Simon Guinot <sguinot@lacie.com>,
-        Simon Shields <simon@lineageos.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Bogendoerfer <tbogendoerfer@suse.de>,
-        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Vasant Hegde <hegdevasant@linux.vnet.ibm.com>,
-        Vincent Donnefort <vdonnefort@gmail.com>,
-        Xiaotong Lu <xiaotong.lu@spreadtrum.com>
-Subject: Re: [PATCH leds v2 00/50] Start moving parsing of
- `linux,default-trigger` to LED core (a cleanup of LED drivers)
-Message-ID: <20200926134706.GJ4828@kw.sim.vm.gnt>
-References: <20200917223338.14164-1-marek.behun@nic.cz>
+        id S1725208AbgIZNzh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 26 Sep 2020 09:55:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726183AbgIZNzh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 26 Sep 2020 09:55:37 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BAF5C0613D3
+        for <linux-leds@vger.kernel.org>; Sat, 26 Sep 2020 06:55:37 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id g4so5405184edk.0
+        for <linux-leds@vger.kernel.org>; Sat, 26 Sep 2020 06:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RA7LUkzddUd10nvHC0mfviDAxL46W59IEg0s0KDNnzs=;
+        b=hTMQSlxvuCL0c49x8QB5ZMUNX37toENDh2UPYetCeFdxc/RzFEHzeKZgQRME5O6BpR
+         +uH2UlGRxOKi5JwNmMfVokQyyuYkzNk7C+qOKYysEvLNqWN/27yNGB16l+LXyVOzOkId
+         RD4hF35RI00hLNSBzeOu4cnLfsiJJm0ffkE5bH0/ykPvGvbbSCA72Eq0kV5JguHOyQTI
+         5AetR0I/1/B+NQ0Lw5qntq0C8CilpfiNNz2Pmpv1UR0ZlV7wXg2Onr3d97MxJjCjJhHk
+         6QPv6MAW1xbJ+utWtyoB1PT4yiNWlLj52ngC6mVU3SxFK/uT9PmfUhkgOO4GF7EcP+iQ
+         ntUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RA7LUkzddUd10nvHC0mfviDAxL46W59IEg0s0KDNnzs=;
+        b=o8a1zHih+NndrmgwRJlQD4iwkbonPvi0mdrOrBA1CvjwY/s3EfXWtxvAZPiYcEkfzV
+         Vmm61GlbSrGotYm8kdoA5A5K7v49rKalaIJgtHQa1v83ZowiMeHQc1XNSpvlN/E/9tvv
+         t9thfm4tBnWyqzWESq7bMqOiL1ugmndl9KBp5MDxehGT8wwPI3C7SJf8iIXXqDjc1WIJ
+         UXUbgrjnBmGEElKGx++J+4IP4KbNTE9VOf6/BGzCwSWfe6SlrADDOVMYGvpLY5czXqIp
+         CQrYGIj/XUkzSYwIUwIP/9dj3U2GFQZd2TufnMU1Qx0swOKGtoztwColnofh7vbFWPE6
+         x50A==
+X-Gm-Message-State: AOAM531ix/wi1mNxY5xr2QYTLRgH64UIGWNJxlndgA9HjJTkzbPnD7sb
+        qKWvCAo2d57YsYWoDGBilV8phA==
+X-Google-Smtp-Source: ABdhPJzKYLKSJnB3/61ROxyjU6eOetHd+J/JlS3If2tE69OqdnCx9TbEf9TRq06FrqrMo+oLxr8ivw==
+X-Received: by 2002:a05:6402:5:: with SMTP id d5mr6483588edu.376.1601128535538;
+        Sat, 26 Sep 2020 06:55:35 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:ee2:4b0d:3001:fbc5:498b:ed6d:cfac])
+        by smtp.gmail.com with ESMTPSA id oq8sm4165700ejb.32.2020.09.26.06.55.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Sep 2020 06:55:34 -0700 (PDT)
+From:   Luka Kovacic <luka.kovacic@sartura.hr>
+To:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-leds@vger.kernel.org
+Cc:     lee.jones@linaro.org, pavel@ucw.cz, dmurphy@ti.com,
+        robh+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
+        andrew@lunn.ch, jason@lakedaemon.net, gregory.clement@bootlin.com,
+        luka.perkov@sartura.hr, robert.marko@sartura.hr,
+        Luka Kovacic <luka.kovacic@sartura.hr>
+Subject: [PATCH v2 0/7] Add support for the iEi Puzzle-M801 board
+Date:   Sat, 26 Sep 2020 15:55:07 +0200
+Message-Id: <20200926135514.26189-1-luka.kovacic@sartura.hr>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="WR+jf/RUebEcofwt"
-Content-Disposition: inline
-In-Reply-To: <20200917223338.14164-1-marek.behun@nic.cz>
-User-Agent: Mutt/1.6.0 (2016-04-01)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+This patchset adds support for the iEi Puzzle-M801 1U Rackmount Network
+Appliance and for the iEi WT61P803 PUZZLE microcontroller, which enables
+some board specific features like fan and LED control, system power
+management and temperature sensor reading.
 
---WR+jf/RUebEcofwt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The platform is based on the popular Marvell Armada 8040 SoC and supports
+up to 16 GB of DDR4 2400 MHz ECC RAM.
+It has a PCIe x16 slot (x2 lanes only) and an M.2 type B slot.
 
-On Fri, Sep 18, 2020 at 12:32:48AM +0200, Marek Beh=C3=BAn wrote:
-> Hi,
->=20
-> this series is also available at [1].
->=20
-> This is v2, you can read cover letter of v1 at [2] (togehter with
-> explanation of why I did this).
->=20
-> Changes since v1:
-> - split big changes into several patches of little changes
-> - added many cosmetic fixes (helper variables, reversal christmas tree
->   variables declaration, ...)
-> - fixed some bugs in various drivers (memory leaks, iteration over
->   unavailable OF nodes)
-> - made some drivers compilable when COMPILE_TEST=3Dy (since allyesconfig
->   did not compile them). Not all though, some still don't compile with
->   allyesconfig
-> - the commit that moves parsing of `linux,default-trigger` property from
->   drivers to LED core is now last in the series, instead of first
->=20
-> Marek
->=20
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/kabel/linux.git/log/?=
-h=3Dleds-cleanup-for-pavel
-> [2] https://lore.kernel.org/linux-leds/20200916231650.11484-1-marek.behun=
-@nic.cz/T/#m826493318174b0f38a3d4ba107092b5420ce440c
+External chassis ports:
+2x 10 GbE SFP+
+4x 1 GbE (Marvell 88E1512P)
+2x USB 3.0
+1x RJ45 serial port
 
-=2E..
+All notable board components are supported in this patchset.
 
->   leds: ns2: use devres LED registering function
->   leds: ns2: alloc simple array instead of struct ns2_led_priv
->   leds: ns2: support OF probing only, forget platdata
->   leds: ns2: move parsing of one LED into separate function
->   leds: ns2: use devres API for getting GPIO descriptors
->   leds: ns2: cosmetic structure rename
->   leds: ns2: cosmetic variable rename
->   leds: ns2: cosmetic change
->   leds: ns2: cosmetic change: use helper variable
->   leds: ns2: register LED immediately after parsing DT properties
->   leds: ns2: remove unneeded variable
->   leds: ns2: cosmetic: use reverse christmas tree
->   leds: ns2: reorder headers alphabetically
->   leds: ns2: use struct led_init_data when registering
->   leds: parse linux,default-trigger DT property in LED core
+Changes for v2:
+   - Use LAAs for local-mac-address and match reg values
+   - Code styling changes
+   - Error handling moved to the end of the function
+   - Define all magic numbers in the main header file
+   - Convert the driver to make it OF independent
+   - Refactor hwmon to use devm_hwmon_device_register_with_info()
+   - Reduce the number of mutex locks
+   - Allocate memory once for the response buffer
+   - Reduce managed memory allocations
 
-Hi Marek,
+Luka Kovacic (7):
+  dt-bindings: Add iEi vendor prefix and iEi WT61P803 PUZZLE driver
+    bindings
+  drivers: mfd: Add a driver for iEi WT61P803 PUZZLE MCU
+  drivers: hwmon: Add the iEi WT61P803 PUZZLE HWMON driver
+  drivers: leds: Add the iEi WT61P803 PUZZLE LED driver
+  Documentation/ABI: Add iei-wt61p803-puzzle driver sysfs interface
+    documentation
+  MAINTAINERS: Add an entry for the iEi WT61P803 PUZZLE driver
+  arm64: dts: marvell: Add a device tree for the iEi Puzzle-M801 board
 
-For all the patches applying to the leds-ns2 driver:
+ .../stable/sysfs-driver-iei-wt61p803-puzzle   |   65 +
+ .../hwmon/iei,wt61p803-puzzle-hwmon.yaml      |   41 +
+ .../leds/iei,wt61p803-puzzle-leds.yaml        |   48 +
+ .../bindings/mfd/iei,wt61p803-puzzle.yaml     |   82 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |   13 +
+ arch/arm64/boot/dts/marvell/Makefile          |    1 +
+ .../dts/marvell/armada-8040-puzzle-m801.dts   |  519 ++++++++
+ drivers/hwmon/Kconfig                         |    8 +
+ drivers/hwmon/Makefile                        |    1 +
+ drivers/hwmon/iei-wt61p803-puzzle-hwmon.c     |  511 ++++++++
+ drivers/leds/Kconfig                          |    8 +
+ drivers/leds/Makefile                         |    1 +
+ drivers/leds/leds-iei-wt61p803-puzzle.c       |  174 +++
+ drivers/mfd/Kconfig                           |    8 +
+ drivers/mfd/Makefile                          |    1 +
+ drivers/mfd/iei-wt61p803-puzzle.c             | 1069 +++++++++++++++++
+ include/linux/mfd/iei-wt61p803-puzzle.h       |   69 ++
+ 18 files changed, 2621 insertions(+)
+ create mode 100644 Documentation/ABI/stable/sysfs-driver-iei-wt61p803-puzzle
+ create mode 100644 Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
+ create mode 100644 Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
+ create mode 100644 arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dts
+ create mode 100644 drivers/hwmon/iei-wt61p803-puzzle-hwmon.c
+ create mode 100644 drivers/leds/leds-iei-wt61p803-puzzle.c
+ create mode 100644 drivers/mfd/iei-wt61p803-puzzle.c
+ create mode 100644 include/linux/mfd/iei-wt61p803-puzzle.h
 
-Reviewed-by: Simon Guinot <simon.guinot@sequanux.org>
-Tested-by: Simon Guinot <simon.guinot@sequanux.org>
+-- 
+2.26.2
 
-Thanks for it. The driver is looking way better.
-
-Simon
-
---WR+jf/RUebEcofwt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEXW8DgovlR3VS5hA0zyg/RDPmszoFAl9vRloACgkQzyg/RDPm
-szpYlxAA2tv+ztwuTqGVHf0MAJV7dd+lrcA7E7bj++L3tVr20iUB44pmcvgX0qqr
-y4UJWuBP9RDoPc3DmVhKljALA+EbzX0QSHT5LXayTmdykZaLEF5zCl9Ki79/+vvv
-kVwZFU5n/RNaig98ZqbjsyMtjYsaIgC1ImOveMoUU4hUgxJMJX6h31yQPB3hxid5
-edYEUNIOpIN1n74N9NKikBBhxPIiGfA9Q4XoQ0w2LNjIHXyrjdtk+tV1ymAb0/Uw
-WSpMGnmNdgzwy48iYlBZndP771XhYvFl3mZv+FcKsS1qs21jLFQUdk6ZsRd6aEVT
-JyXxUOizOIJRw4KGVHIILbfkIwct9Is5H+9bhlK5HzvgkhqBGAa50cvgDIQrndI2
-a7rJAwd0KfxcxfvfHw4iJMRDdQ/QXIRVyKE3m5/hTdwq4p6a91tTAemtgODHQGlN
-S6NF8GyHK2yWCkv6N2zx/tmZkcJOyAvD6rMNtBZdQCfyvv5Qx83T7UckYHzZEeo1
-oHRrHs4quQ6KNQHYv9y8Y6W6SN2tkfZTNzBv0YxF6Jl/q0hYrLw6D8VAhRsErHQy
-1OVrZQoxXUL4X5etjRJoXJdp2Guzrh2iIUJtlRlHeS4Vc2brMc1s1Xym0SN4XIgR
-/67wH+ybeKolA5cpHas++693+x7J8dp8S2rvXvY6SuyOYyMcLBY=
-=MzSs
------END PGP SIGNATURE-----
-
---WR+jf/RUebEcofwt--
