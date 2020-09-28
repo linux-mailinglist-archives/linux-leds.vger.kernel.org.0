@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9426827A941
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Sep 2020 10:04:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B50427A952
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Sep 2020 10:11:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbgI1IDo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 28 Sep 2020 04:03:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36714 "EHLO
+        id S1726458AbgI1ILS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 28 Sep 2020 04:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726776AbgI1IDl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 28 Sep 2020 04:03:41 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC4AC0613D0
-        for <linux-leds@vger.kernel.org>; Mon, 28 Sep 2020 01:03:40 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id m6so168734wrn.0
-        for <linux-leds@vger.kernel.org>; Mon, 28 Sep 2020 01:03:40 -0700 (PDT)
+        with ESMTP id S1726420AbgI1ILS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 28 Sep 2020 04:11:18 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26D08C0613CE
+        for <linux-leds@vger.kernel.org>; Mon, 28 Sep 2020 01:11:18 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id x14so120509wrl.12
+        for <linux-leds@vger.kernel.org>; Mon, 28 Sep 2020 01:11:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=5c8rGgT34CWyrrefDHjKaJQ7725a47R5T6yl0/KLFHg=;
-        b=fU0HlbH+nbIGIOjrcnRQVUlq9lbF4G31CCW0J9WPKlPTQg0NhBfiHMqx4TkhPksRcA
-         LTE6UAFUxEG1dKIVrpBWsNpNq4bX1QoihUFRvwRRM/d308rZG5GGaztuRKwR8K2UXSvL
-         ORGURPz8UXzksxYLSY3ed5c6U+lvCLJ46h5IqnHkZGD6Rj6IQQznXe3CPaaAeBk+D0Ld
-         YAvH267wpjAwZQP9WaEJnMCV3P1ccVxv0lPLEIT1InJi9zWUAjKiGgH1SIAQ4spBsy80
-         nuZYehv89mt7o+ZSAaEdtwIsrAsEWs+pwfnW51OZGyRrSljdDkwzrqVAcH7R2yhLirA2
-         6iRg==
+        bh=3Om8AM0og3VSpQeTBf6KDEd6fTvU4EBwksk93Od+7XE=;
+        b=zP8NYXRey8PZiMa7RFwghBPT2Dc4+Ur8JaLQI+2+KYxtrdBbqWKx48YjuRKHPPWSOU
+         5xt7FKRwGDHAE6z93txxJTSUOg+C2tezWbuztJ4rhH/vOdkhrzQcCqXphX+RhSOKcgTG
+         6QAWX0bDLdtsqTxL1B7NLqf/8PGxGoiO3IQNcVmQ9q5AQ2iK8KRW2lTNC0snqyRBKmg5
+         PPVCceUSJ9eW3Yp8Dvf7mcmYfSuGALqaTJ/TSog6tXvL8mhKsuLKzytTgabdr1S0kWZh
+         DSyectg7UHR8he9nZWUernPUsT+eUWdd3KIxmED2ynqZouc6//KO7mas53rIuEziLJmg
+         FteA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=5c8rGgT34CWyrrefDHjKaJQ7725a47R5T6yl0/KLFHg=;
-        b=m6aS0Gac2sbifyEFoiQx8eiZDiCfCjuJpFgedUMaESMgEhKvErtx0HjQrRzkQiN4TI
-         zgCBccHGh2dWY78B37kEJM73Q3odBj1GYO7wtz0JkFdJl1clfrjbMJblp+nZ/TO1Z0OF
-         DgMiG+aPMlUjbGJsnJkJruIuqa++JiL6qd/Uw78nyA/cjnPLMFDz8T61RLCYvKfbRt0Q
-         9jgjLzpGr1zwDPLR/NLJVnVL9nWMZe7nw0V1vf4X+AEwZqjiJcw3dGF4bGq0cQhYtvrk
-         tsAcDSliyxOy1V+DxngdrdN9e/LGgCAt6tha7vW7fTnROGmpbrt9XKCC53VvX+VG2eU5
-         tbhA==
-X-Gm-Message-State: AOAM532alWsA2HVMcJMFadqsSCTc2lBWz8dKGVpgr7WWz/aE0wGb6nTY
-        s3Evypcv00d1iBCO1mDAFxf0XQ==
-X-Google-Smtp-Source: ABdhPJzsjgZytiFI1ScdwSKUycH1MXJBoSICwLH5dRRY6GyOMI2AG7qvjd8CxzvjehVNec6TMp7Gbw==
-X-Received: by 2002:adf:a418:: with SMTP id d24mr279994wra.80.1601280219307;
-        Mon, 28 Sep 2020 01:03:39 -0700 (PDT)
+        bh=3Om8AM0og3VSpQeTBf6KDEd6fTvU4EBwksk93Od+7XE=;
+        b=DhwSU6VZaAAVkyD6uCc6psC/5JorUklV/RLE6SU3FE+5+DSCZ4hNAVjDHl+iTPDh6r
+         7kf3YiCJzeykJvvGmBwVkkMLk7gVLNVZFpnprv182BYZlOrQnrw8aI4F5AqnjnnIpd0P
+         8YSRbKaB+roTrkPeJ+bdwTD5LuFAkjhtq4NzouB7cgcXy3d+H+pKJA7lWsDtncmLU8E/
+         FmiH79hJ9YD4Ibpe/V+6yVus3p7eETDaxT+YAUzba8cKTibQu/P2ciGZUms7cCnH1uO6
+         AAkU5vySzor61bA7MgIHfW0hp2zLLr29Pbh6qsEZTIYMD6xuvNIpeZbkjkngWmxKXox3
+         oibg==
+X-Gm-Message-State: AOAM532xkStQtKfH7Qo04O8pNf5lBrOxas0/DEJTQb4psSUxnz8U2LA6
+        pLhkEYJNnOlljAzOnQErBLIurA==
+X-Google-Smtp-Source: ABdhPJx4wZkzF3Cjm+E8FPeYtfeDpEEWLUCh5tL5TcU4QxwFiQSUEj89+dCLi1uscJNz2vM2DABLlg==
+X-Received: by 2002:adf:fa02:: with SMTP id m2mr240193wrr.273.1601280676803;
+        Mon, 28 Sep 2020 01:11:16 -0700 (PDT)
 Received: from dell ([91.110.221.154])
-        by smtp.gmail.com with ESMTPSA id 11sm189813wmi.14.2020.09.28.01.03.37
+        by smtp.gmail.com with ESMTPSA id c4sm222217wme.27.2020.09.28.01.11.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 01:03:38 -0700 (PDT)
-Date:   Mon, 28 Sep 2020 09:03:36 +0100
+        Mon, 28 Sep 2020 01:11:16 -0700 (PDT)
+Date:   Mon, 28 Sep 2020 09:11:14 +0100
 From:   Lee Jones <lee.jones@linaro.org>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Marek Behun <marek.behun@nic.cz>, linux-leds@vger.kernel.org,
@@ -72,62 +72,76 @@ Cc:     Marek Behun <marek.behun@nic.cz>, linux-leds@vger.kernel.org,
         Mark Brown <broonie@kernel.org>
 Subject: Re: [PATCH leds v2 05/50] leds: various: guard of_match_table member
  value with of_match_ptr
-Message-ID: <20200928080336.GA4637@dell>
+Message-ID: <20200928081114.GB4637@dell>
 References: <20200917223338.14164-1-marek.behun@nic.cz>
  <20200917223338.14164-6-marek.behun@nic.cz>
  <20200918061500.GD26842@paasikivi.fi.intel.com>
  <20200918112058.6d3b0d5d@nic.cz>
  <20200918095759.GG26842@paasikivi.fi.intel.com>
+ <20200928080336.GA4637@dell>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200918095759.GG26842@paasikivi.fi.intel.com>
+In-Reply-To: <20200928080336.GA4637@dell>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 18 Sep 2020, Sakari Ailus wrote:
+On Mon, 28 Sep 2020, Lee Jones wrote:
 
-> On Fri, Sep 18, 2020 at 11:20:58AM +0200, Marek Behun wrote:
-> > On Fri, 18 Sep 2020 09:15:00 +0300
-> > Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> > 
-> > > Hi Marek,
+> On Fri, 18 Sep 2020, Sakari Ailus wrote:
+> 
+> > On Fri, Sep 18, 2020 at 11:20:58AM +0200, Marek Behun wrote:
+> > > On Fri, 18 Sep 2020 09:15:00 +0300
+> > > Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
 > > > 
-> > > On Fri, Sep 18, 2020 at 12:32:53AM +0200, Marek Behún wrote:
-> > > > Change
-> > > >   .of_match_table = xxx,
-> > > > to
-> > > >   .of_match_table = of_match_ptr(xxx),
-> > > > in various drivers.
+> > > > Hi Marek,
 > > > > 
-> > > > This should be standard even for drivers that depend on OF.  
-> > > 
-> > > After this patch, none of these drivers will work on ACPI systems anymore.
-> 
-> ^
-> 
-> If CONFIG_OF is disabled, that is.
-
-What?  of_match_ptr() is designed to change depending on OF or !OF.
-
-Are you confusing this with acpi_match_table()?
-
-> > Hi Sakari,
+> > > > On Fri, Sep 18, 2020 at 12:32:53AM +0200, Marek Behún wrote:
+> > > > > Change
+> > > > >   .of_match_table = xxx,
+> > > > > to
+> > > > >   .of_match_table = of_match_ptr(xxx),
+> > > > > in various drivers.
+> > > > > 
+> > > > > This should be standard even for drivers that depend on OF.  
+> > > > 
+> > > > After this patch, none of these drivers will work on ACPI systems anymore.
 > > 
-> > I don't understand. Why not? Does ACPI subsystem parse of_match_table
-> > as well?
+> > ^
+> > 
+> > If CONFIG_OF is disabled, that is.
 > 
-> It does. The compatible string is used the same way as in DT for matching
-> devices with "PRP0001" _HID or _CID.
+> What?  of_match_ptr() is designed to change depending on OF or !OF.
 > 
-> Please read Documentation/firmware-guide/acpi/enumeration.rst .
+> Are you confusing this with acpi_match_table()?
 
-Could you allude to the specific line you are referencing please?
+Okay, I just grepped the kernel and found some OF matching in the ACPI
+bus code.  This seems odd to be (at first sight at least).  I'm not
+entirely sure how this is supposed to work, but when you disable OF,
+one could reasonably expect any matching utilising OF based tables to
+be disabled too.
 
-> IOW, you can safely do the above only for drivers that depend on OF in
-> Kconfig. Otherwise you'll probably break something.
+Not using of_match_ptr() on ACPI enabled platforms sounds batty to
+me.  If this is valid, perhaps the of_match_ptr()semantics should be
+changed to include ACPI.
+
+> > > Hi Sakari,
+> > > 
+> > > I don't understand. Why not? Does ACPI subsystem parse of_match_table
+> > > as well?
+> > 
+> > It does. The compatible string is used the same way as in DT for matching
+> > devices with "PRP0001" _HID or _CID.
+> > 
+> > Please read Documentation/firmware-guide/acpi/enumeration.rst .
+> 
+> Could you allude to the specific line you are referencing please?
+> 
+> > IOW, you can safely do the above only for drivers that depend on OF in
+> > Kconfig. Otherwise you'll probably break something.
+> 
 
 -- 
 Lee Jones [李琼斯]
