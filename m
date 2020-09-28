@@ -2,131 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E3E227AAE8
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Sep 2020 11:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA1627AC68
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Sep 2020 13:05:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726665AbgI1Jhq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 28 Sep 2020 05:37:46 -0400
-Received: from mga07.intel.com ([134.134.136.100]:57449 "EHLO mga07.intel.com"
+        id S1726573AbgI1LFN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 28 Sep 2020 07:05:13 -0400
+Received: from mail.thorsis.com ([92.198.35.195]:58959 "EHLO mail.thorsis.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726573AbgI1Jhq (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 28 Sep 2020 05:37:46 -0400
-IronPort-SDR: RzH+KJLeFLsHzISHZ8XxRJrO+YuhijVXafDEa6n2HbJ7ziecep3xqJYvX2oIo/fxm13xXJ/xNH
- BJZwRIbSssHA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9757"; a="226115560"
-X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; 
-   d="scan'208";a="226115560"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 02:37:45 -0700
-IronPort-SDR: FmBYh7J3ODuTzBO2WMNYSdVb2e1r18oVHokD32Z5WGhv4Bwoxs9B/oeb5l+FwVbZmjfzdwLSus
- A2Yq2G+KIpzA==
-X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; 
-   d="scan'208";a="456755403"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 02:37:40 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 40DFA207A0; Mon, 28 Sep 2020 12:37:38 +0300 (EEST)
-Date:   Mon, 28 Sep 2020 12:37:38 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Marek Behun <marek.behun@nic.cz>, linux-leds@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        id S1726564AbgI1LFN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 28 Sep 2020 07:05:13 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.thorsis.com (Postfix) with ESMTP id ECF36356D;
+        Mon, 28 Sep 2020 13:05:11 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
+Received: from mail.thorsis.com ([127.0.0.1])
+        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id SFeq2_G8OJ3c; Mon, 28 Sep 2020 13:05:11 +0200 (CEST)
+Received: by mail.thorsis.com (Postfix, from userid 109)
+        id C896B36BC; Mon, 28 Sep 2020 13:05:11 +0200 (CEST)
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RECEIVED,
+        NO_RELAYS autolearn=unavailable autolearn_force=no version=3.4.2
+From:   Alexander Dahl <ada@thorsis.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Alexander Dahl <post@lespocky.de>, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        linux-acpi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: Re: [PATCH leds v2 05/50] leds: various: guard of_match_table member
- value with of_match_ptr
-Message-ID: <20200928093738.GA26842@paasikivi.fi.intel.com>
-References: <20200917223338.14164-1-marek.behun@nic.cz>
- <20200917223338.14164-6-marek.behun@nic.cz>
- <20200918061500.GD26842@paasikivi.fi.intel.com>
- <20200918112058.6d3b0d5d@nic.cz>
- <20200918095759.GG26842@paasikivi.fi.intel.com>
- <20200928080336.GA4637@dell>
- <20200928081114.GB4637@dell>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200928081114.GB4637@dell>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Marek =?ISO-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
+        Denis Osterland-Heim <denis.osterland@diehl.com>
+Subject: Re: [PATCH v5 1/3] leds: pwm: Remove platform_data support
+Date:   Mon, 28 Sep 2020 13:04:59 +0200
+Message-ID: <11962635.BNa8PrgvAO@ada>
+In-Reply-To: <20200919094418.GC12294@duo.ucw.cz>
+References: <20200919053145.7564-1-post@lespocky.de> <20200919053145.7564-2-post@lespocky.de> <20200919094418.GC12294@duo.ucw.cz>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Lee,
+Hello Pavel,
 
-On Mon, Sep 28, 2020 at 09:11:14AM +0100, Lee Jones wrote:
-> On Mon, 28 Sep 2020, Lee Jones wrote:
-> 
-> > On Fri, 18 Sep 2020, Sakari Ailus wrote:
+Am Samstag, 19. September 2020, 11:44:18 CEST schrieb Pavel Machek:
+> > Since commit 141f15c66d94 ("leds: pwm: remove header") that platform
+> > interface is not usable from outside and there seems to be no in tree
+> > user anymore.  All in-tree users of the leds-pwm driver seem to use DT
+> > currently.  Getting rid of the old platform interface will allow the
+> > leds-pwm driver to switch over from 'devm_led_classdev_register()' to
+> > 'devm_led_classdev_register_ext()' later.
 > > 
-> > > On Fri, Sep 18, 2020 at 11:20:58AM +0200, Marek Behun wrote:
-> > > > On Fri, 18 Sep 2020 09:15:00 +0300
-> > > > Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> > > > 
-> > > > > Hi Marek,
-> > > > > 
-> > > > > On Fri, Sep 18, 2020 at 12:32:53AM +0200, Marek Behún wrote:
-> > > > > > Change
-> > > > > >   .of_match_table = xxx,
-> > > > > > to
-> > > > > >   .of_match_table = of_match_ptr(xxx),
-> > > > > > in various drivers.
-> > > > > > 
-> > > > > > This should be standard even for drivers that depend on OF.  
-> > > > > 
-> > > > > After this patch, none of these drivers will work on ACPI systems anymore.
-> > > 
-> > > ^
-> > > 
-> > > If CONFIG_OF is disabled, that is.
+> > @@ -61,6 +56,7 @@ static int led_pwm_set(struct led_classdev *led_cdev,
 > > 
-> > What?  of_match_ptr() is designed to change depending on OF or !OF.
+> >  	return pwm_apply_state(led_dat->pwm, &led_dat->pwmstate);
+> >  
+> >  }
 > > 
-> > Are you confusing this with acpi_match_table()?
+> > +__attribute__((nonnull))
+> > 
+> >  static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+> >  
+> >  		       struct led_pwm *led, struct fwnode_handle *fwnode)
+> >  
+> >  {
 > 
-> Okay, I just grepped the kernel and found some OF matching in the ACPI
-> bus code.  This seems odd to be (at first sight at least).  I'm not
-> entirely sure how this is supposed to work, but when you disable OF,
-> one could reasonably expect any matching utilising OF based tables to
-> be disabled too.
-
-There's really no reason having to enable the entire OF framework just to
-allow compatible string matching.
-
+> This normally goes elsewhere -- right? I'd expect:
 > 
-> Not using of_match_ptr() on ACPI enabled platforms sounds batty to
-> me.  If this is valid, perhaps the of_match_ptr()semantics should be
-> changed to include ACPI.
+> 
+>   static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+>   		       struct led_pwm *led, struct fwnode_handle *fwnode)
+> 	  __attribute__((nonnull))
 
-That'd be one option, yes. But not all drivers that work on both OF and
-ACPI rely on the compatible strings on ACPI.
+I found both variants in kernel code.  I can live with both variants and have 
+no strong preference.
 
-Another option could be adding a new macro, to set that table on both OF
-and ACPI when needed? It could be called e.g. of_acpi_match_ptr(), for
-instance.
+My initial intention to add it was to get a compiler warning in case someone 
+does not pass a fwnode here, e.g. when using that old platform_data approach 
+(which is supposed to be removed with this patch).  You might call it a self 
+check on my own changes.  I can also drop that attribute if you don't want 
+that kind of stuff in linux-leds.
 
-Cc also linux-acpi list and Rafael.
+Greets
+Alex
 
--- 
-Regards,
 
-Sakari Ailus
+
