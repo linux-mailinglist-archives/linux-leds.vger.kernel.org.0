@@ -2,91 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4A1627C19D
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Sep 2020 11:48:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8330127CEC1
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Sep 2020 15:14:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727755AbgI2JsW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Sep 2020 05:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49330 "EHLO
+        id S1728675AbgI2NOQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Sep 2020 09:14:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727468AbgI2JsV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Sep 2020 05:48:21 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0355C0613D0
-        for <linux-leds@vger.kernel.org>; Tue, 29 Sep 2020 02:48:21 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id x23so3958104wmi.3
-        for <linux-leds@vger.kernel.org>; Tue, 29 Sep 2020 02:48:21 -0700 (PDT)
+        with ESMTP id S1728394AbgI2NOQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Sep 2020 09:14:16 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00A8DC061755
+        for <linux-leds@vger.kernel.org>; Tue, 29 Sep 2020 06:14:15 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id z19so5473687lfr.4
+        for <linux-leds@vger.kernel.org>; Tue, 29 Sep 2020 06:14:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Fdw78sqmIZjRFiiGoYeaH8/l+grtKt5JqjIyTHzrRCE=;
-        b=L0x7zsAyjtHZLNzl6I6wyAR3Te0YtIRHzIMQo0zs/HsqKBPDtAyhe/SvzjGENd5o6B
-         LD+rqrkV3F3Xg95fgoTFdRiMCHYJD3NwpQ4hCbQ0B1qxTi97Zbvcj9cEXoOq1sZHdoqP
-         GMP5wbANsXwzs0BLTvpEJBzFXRG3vAcqLurY6OdO4N+NnJXMsEOwDt7ADgkZF3hl+sgX
-         BdlP5axXz4FEZrg/rfolgDMac3EQ81fOOyBxB8WzOHd8K338zi363Jq8UI3fHAYGhyen
-         MnRSd1xO3/z2/c1KPfS6lVHiJGo/S4+alOFCAlLpP6ZWC8m9ShM3L0LFYkl8QO+/xred
-         qnTw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=piitBn56RFrmTdzxKCgKMNMaG7buUtqj3U42tB2+R4o=;
+        b=IyfH3BiA5+wCdKa78wiauvoqqjIP0kgktaFhQDORIlk135uvO+yH9+O759+Jh4KoVl
+         StMrJQzpS3a6Z/XwYLdCLO4BkX6S8cZOSHC3B9gjano+pB4G8s9l2Iu5m0upEISh1Zap
+         xJrWF04vvjmyzVD+UM54WcU1aWBeECKkm2WhIpLzfdHiVHX1N0me93/CWFaY5UzGJZ5+
+         lIuYDE881RWZJPCQ2RKIXXo5VoBb97bpEfOm0aZlLHeY/AIujZl5wtMDO8mRizVxB93o
+         irM667NOqXeL7MkxlmHDQiUPpdXYjSYmleUZpuUHASkyHUWGegY32wUO1tcPqSIobt2H
+         s1kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Fdw78sqmIZjRFiiGoYeaH8/l+grtKt5JqjIyTHzrRCE=;
-        b=cr8fZdsC+CXbThkf8EEYcV7cJuOn+Ssvc//Pbckuu7kbvHRy/J0SrejJKqR2oszPe6
-         aSzxacbR9Y8E9Q1IEK10sILPnkNQPcLOJr+4PNIy7bfYfUTk5ChQ1Du6afXu9M1mgafC
-         7HMxP2Dx5g8gwsXm0TPdhvYWsrqQwPk6DJcx33uA8vMayJEzR6cxrZRacSF+Pq/+eS0X
-         0aL3eiyOAE4boeEkOp3wJDYSGNnMwyIH+QqqAWmg6IZ/+RJQPkXDx4Vym2tfWP9osA2I
-         ygY1URxdcs9N9Q/wclzIg+h68TZCJSxygM94w6caJ8AMQRWqvrJMAg9D3d/c7INQvbKA
-         FWRg==
-X-Gm-Message-State: AOAM530gcCiO8tM8df5wETBWmeVrufqF5GsiABlSSs5sooEk9QB020sJ
-        A7IFIsJxiy7gy5RT7pN6jBqHwf6g6Fs0qA==
-X-Google-Smtp-Source: ABdhPJy8/VfZsThqju8D1wItGHyjGpjH9KZQIJKAnvUKhpHuo+NezaITAxPGQ1lQHzqDHLCVSBA3yg==
-X-Received: by 2002:a7b:cf30:: with SMTP id m16mr3626898wmg.0.1601372900362;
-        Tue, 29 Sep 2020 02:48:20 -0700 (PDT)
-Received: from dell ([91.110.221.236])
-        by smtp.gmail.com with ESMTPSA id p9sm2375565wmg.34.2020.09.29.02.48.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2020 02:48:19 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 10:48:17 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
-        Phil Blundell <pb@handhelds.org>,
-        Samuel Ortiz <sameo@openedhand.com>
-Subject: Re: [PATCH mfd] mfd: asic3: build if COMPILE_TEST=y
-Message-ID: <20200929094817.GE6148@dell>
-References: <20200917193140.5324-1-marek.behun@nic.cz>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=piitBn56RFrmTdzxKCgKMNMaG7buUtqj3U42tB2+R4o=;
+        b=WFcgrVRF3fJ8zjyFSeom1ObTd8d3mOivztygHj+4AKdRgnV/ft24CFNTN8ODUKIpLu
+         mZHweBD1NL5J9UACeqeqnEv/97kmB8869Pi56qSNP0vrfijKIsC8CET7huVygyy47eCp
+         3PMD/ngOZaEIe9trqKDlUKshQxajaJ3bn86ody1YqShsrhVmv5dMUw4Mltk3+GecwKtq
+         QXHV1QwBClItDPoY/g9NEuBbunjqpwUA7faJ+bH19U5FIXARnwoZIBWkXWv5ROPpMp0D
+         656MXQazOW1vChzMohT0yePvGPA2lkNbL664DSwrANGEcMc5HLiL+H1CLcc3U5buxL0E
+         vG0w==
+X-Gm-Message-State: AOAM532GQXIurAMVbjd9/LVVg1G2dqFVqEVRg39cRtK2b+60q/fVxLCl
+        UT2SQqMBDC/Xx6QZBbdv0t3OUbP9bPYNNKX8Higl3x+l9RnD/Q==
+X-Google-Smtp-Source: ABdhPJxY4OEBdIMXAC+O0qUm0tc5dMP1R9SEC02dP2BrQkPZJ3RAutobx0kzrmLiGeQblFQgjQNjRRJWB1Z5bZVzZiY=
+X-Received: by 2002:a19:6419:: with SMTP id y25mr1128689lfb.333.1601385254443;
+ Tue, 29 Sep 2020 06:14:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200917193140.5324-1-marek.behun@nic.cz>
+References: <20200917223338.14164-1-marek.behun@nic.cz> <20200917223338.14164-21-marek.behun@nic.cz>
+In-Reply-To: <20200917223338.14164-21-marek.behun@nic.cz>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 29 Sep 2020 15:14:03 +0200
+Message-ID: <CACRpkdaQSQYNECsH=W4qsS2J3+iyWrgPxgC1jRpVMYRqyZaYkw@mail.gmail.com>
+Subject: Re: [PATCH leds v2 20/50] leds: pm8058: use struct led_init_data when registering
+To:     =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>
+Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megous@megous.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 17 Sep 2020, Marek Behún wrote:
+On Fri, Sep 18, 2020 at 12:33 AM Marek Beh=C3=BAn <marek.behun@nic.cz> wrot=
+e:
 
-> Build this driver on another platforms if COMPILE_TEST=y. Another
-> drivers may depend on this, for example leds-asic3.
-> 
-> Signed-off-by: Marek Behún <marek.behun@nic.cz>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Phil Blundell <pb@handhelds.org>
-> Cc: Samuel Ortiz <sameo@openedhand.com>
-> ---
->  drivers/mfd/Kconfig | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> By using struct led_init_data when registering we do not need to parse
+> `label` DT property. Moreover `label` is deprecated and if it is not
+> present but `color` and `function` are, LED core will compose a name
+> from these properties instead.
+>
+> Signed-off-by: Marek Beh=C3=BAn <marek.behun@nic.cz>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-Seems fine.  At least on first blush.
+For this and the other PM8058 patches:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-Applied, thanks.
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Yours,
+Linus Walleij
