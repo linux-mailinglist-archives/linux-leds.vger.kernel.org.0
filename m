@@ -2,15 +2,15 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0B6B27BC53
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Sep 2020 07:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1594527BC4D
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Sep 2020 07:14:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725283AbgI2FRC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Sep 2020 01:17:02 -0400
-Received: from mga02.intel.com ([134.134.136.20]:33648 "EHLO mga02.intel.com"
+        id S1725283AbgI2FOp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Sep 2020 01:14:45 -0400
+Received: from mga02.intel.com ([134.134.136.20]:33152 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726268AbgI2FRB (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 29 Sep 2020 01:17:01 -0400
+        id S1725355AbgI2FOp (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 29 Sep 2020 01:14:45 -0400
 IronPort-SDR: 3pxtfPXKWMPwc9JJKAPC/y7jTSZYR32ELoc1mHMyBc9lzORPkQDK3gteTyr7s4W23d04yUnOHU
  VjfYoDJeoc9g==
 X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="149773567"
