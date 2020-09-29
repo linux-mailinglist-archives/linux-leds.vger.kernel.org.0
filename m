@@ -2,78 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5DB927CEED
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Sep 2020 15:19:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A578127D038
+	for <lists+linux-leds@lfdr.de>; Tue, 29 Sep 2020 15:59:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728879AbgI2NTM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 29 Sep 2020 09:19:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54150 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729685AbgI2NTL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 29 Sep 2020 09:19:11 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C3B6C061755
-        for <linux-leds@vger.kernel.org>; Tue, 29 Sep 2020 06:19:10 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id b22so5431408lfs.13
-        for <linux-leds@vger.kernel.org>; Tue, 29 Sep 2020 06:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=huQkybx6xgiq5ep9b9Z6Jtj2GnVGOT0GbWv7KTvCyh8=;
-        b=xdYI4ibCan97ChhlfM77mX6NFjK5wHySjOI734naaiHZNaRwIi6Pq8xtR8g+J1mhEv
-         EDb1DOuwvB32vuQNC7Ix3C8S9GArvfsUasL5XHGub8169Sqhdkd/AldTls2hIki8/0fR
-         OFCBf3+ERSpOT/Bl7xQ80b0geLc8dDJ4UNZzAKRovbPuk3wBsIDC198OpBMwub+z9nrp
-         UDGTjraNCCtDBLsIVKa6iBZCX8ajkMkmZYtAT9Fjqqlk3YB7YYlaF/uNrKbyQJxkza2p
-         Avj6YAnFlpxzQETkB4wX9nG502vVOkHSVL5mNkkT/hmhBoZgxJkJ4+LywDPbe4pS3JWi
-         f6+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=huQkybx6xgiq5ep9b9Z6Jtj2GnVGOT0GbWv7KTvCyh8=;
-        b=V+RUENIhA7tllRz/7/ROgVsQ1IQE7UB4295MpiT3/31H4tdjFCm1MP4Gih3EDUtx/w
-         oADdrm/6VbIs587pZaP7t72QtIJFoeD+Ey41zEg6T+GdqViwcDyngTeKcWjwWQxcY408
-         2c6W2FL8DVy5XJVdL+OklYMI0VNbsI8m6llj6PyPDw73SQJ2vsNkzD9ySLJHT6ygRHyn
-         m8P6nk7llMFmTMoBhmMX6FIHgPwUmaLctWbljUZvpIT+J3CwpFCFEzu+Xqlkes19QM4o
-         zllgRGPUOTkAecboyWxJ5BEioopus9xC9P+8dBnTjsUcXV9R0RD+frzDnJrUnIJoosCg
-         matw==
-X-Gm-Message-State: AOAM532tB1R4+05OLvlXxlbUkazw4q7wdHc1jygjzZmLv9W1qvBBesWY
-        wu8fBtaXKbveQRvdQnUrDYTWTRxlXCDrtwcTpaOeNqc9+USwpw==
-X-Google-Smtp-Source: ABdhPJza9HV3omevT/bn+0MI0JUAtnbQxKTJMyk0so8b8tN6xV09ehJkIW9tNM0izhgnFJdXIxfzxbnL7zTrXAGsrLE=
-X-Received: by 2002:a05:6512:370b:: with SMTP id z11mr1121199lfr.571.1601385548910;
- Tue, 29 Sep 2020 06:19:08 -0700 (PDT)
+        id S1730496AbgI2N6i (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 29 Sep 2020 09:58:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44118 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731265AbgI2N61 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 29 Sep 2020 09:58:27 -0400
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 66FA621D46;
+        Tue, 29 Sep 2020 13:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601387905;
+        bh=ZfFWzKaQTELYwaowWT+nxgqvHBHuAqvdqFBwu7lGebo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=pERYnnpsZdy4ZJOch3jWlcvjcjATbfaENV5K7hqDnNfNKcWhHAQNm5URh2u1B8M97
+         Sc5FrDvMmoMg/0L8ugpuPoyzHexmjLs8wFSiEACRz3znoWb1eodNokj/oDov/m/6uO
+         0wNxTbriN9AiDGVgPxwnmWQOeZ96YvrSYqDLyBEM=
+Received: by mail-oi1-f171.google.com with SMTP id v20so5564424oiv.3;
+        Tue, 29 Sep 2020 06:58:25 -0700 (PDT)
+X-Gm-Message-State: AOAM533MVfbIlyPJdGRl5ZgZYLaRvYYie+ekutKrAHwN3VD+IJn0thfL
+        Pj8ZUqYxEvvb10klv0wx99Av6v4Bc7pJVYTphQ==
+X-Google-Smtp-Source: ABdhPJwuGaBuY6f+C76GL/T4SITu8Nm2VKpq9AJlmXHIZPrDsTNctbUNKJdam5OQHIF/5Vdeq0/IoQdwQb/41j5Njm4=
+X-Received: by 2002:a05:6808:10e:: with SMTP id b14mr2740132oie.152.1601387904518;
+ Tue, 29 Sep 2020 06:58:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200919221548.29984-1-marek.behun@nic.cz> <20200919221548.29984-2-marek.behun@nic.cz>
-In-Reply-To: <20200919221548.29984-2-marek.behun@nic.cz>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 29 Sep 2020 15:18:57 +0200
-Message-ID: <CACRpkdbhfJrct+xb4p70cjzQEd9JNLOAbKRopA0H0B-M5xRjqQ@mail.gmail.com>
-Subject: Re: [PATCH leds + devicetree 01/13] leds: tca6507: Absorb platform data
-To:     =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>
-Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
+References: <20200919053145.7564-1-post@lespocky.de> <20200919053145.7564-4-post@lespocky.de>
+ <20200922155747.GA2734659@bogus> <23920329.U7EUVLB22C@ada>
+In-Reply-To: <23920329.U7EUVLB22C@ada>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 29 Sep 2020 08:58:13 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKYWC82OB9OVtwsBnKHpfDfRYATdYfGXc0hiQ2kAgoKJg@mail.gmail.com>
+Message-ID: <CAL_JsqKYWC82OB9OVtwsBnKHpfDfRYATdYfGXc0hiQ2kAgoKJg@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] dt-bindings: leds: Convert pwm to yaml
+To:     Alexander Dahl <ada@thorsis.com>
+Cc:     Alexander Dahl <post@lespocky.de>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        NeilBrown <neilb@suse.de>,
-        "H . Nikolaus Schaller" <hns@goldelico.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Sep 20, 2020 at 12:15 AM Marek Beh=C3=BAn <marek.behun@nic.cz> wrot=
-e:
-
-> The only in-tree usage of this driver is via device-tree. No on else
-> includes linux/leds-tca6507.h, so absorb the definition of platdata
-> structure.
+On Tue, Sep 29, 2020 at 2:39 AM Alexander Dahl <ada@thorsis.com> wrote:
 >
-> Signed-off-by: Marek Beh=C3=BAn <marek.behun@nic.cz>
-> Cc: NeilBrown <neilb@suse.de>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: H. Nikolaus Schaller <hns@goldelico.com>
+> Hei hei,
+>
+> Am Dienstag, 22. September 2020, 17:57:47 CEST schrieb Rob Herring:
+> > Use generic node names:
+> >
+> > led-controller {
+> >
+> > > +        compatible =3D "pwm-leds";
+> > > +
+> > > +        led-1 {
+> > > +            label =3D "omap4::keypad";
+> > > +            pwms =3D <&twl_pwm 0 7812500>;
+> > > +            max-brightness =3D <127>;
+> > > +        };
+> > > +
+> > > +        led-2 {
+> > > +            color =3D <LED_COLOR_ID_GREEN>;
+> > > +            function =3D LED_FUNCTION_CHARGING;
+> > > +            pwms =3D <&twl_pwmled 0 7812500>;
+> > > +            max-brightness =3D <255>;
+> > > +        };
+> > > +    };
+> > > +
+> > > +...
+>
+> This is clear for the "one led-controller" case.  However, when trying to=
+ fix
+> those node names in existing .dts files, I wondered how those should be n=
+amed
+> for multiple, different led-controllers, e.g. one using "pwm-leds" and an=
+other
+> one using "gpio-leds"?
+>
+> See arch/arm/boot/dts/at91-kizbox3-hs.dts for example, the nodes are call=
+ed
+> "pwm_leds" and "leds" currently.  If both were part of a .dtsi and both n=
+amed
+> the same, you could not overwrite/complement those in a .dts file includi=
+ng
+> that .dtsi due to a name conflict.
+>
+> Just append a numerical index like this?
+>
+>   led-controller-1 {
+>     =E2=80=A6
+>   };
+>
+>   led-controller-2 {
+>     =E2=80=A6
+>   };
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Yes, that's generally what we've been doing.
 
-Yours,
-Linus Walleij
+Rob
