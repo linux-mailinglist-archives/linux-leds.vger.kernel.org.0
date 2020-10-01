@@ -2,99 +2,82 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F25EC27F63B
-	for <lists+linux-leds@lfdr.de>; Thu,  1 Oct 2020 01:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C6D728027C
+	for <lists+linux-leds@lfdr.de>; Thu,  1 Oct 2020 17:22:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732104AbgI3XsM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 30 Sep 2020 19:48:12 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:48931 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732077AbgI3XsL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Sep 2020 19:48:11 -0400
-Received: from methusalix.internal.home.lespocky.de ([92.117.51.117]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MgRYd-1ku3qH3u3T-00hvd8; Thu, 01 Oct 2020 01:47:55 +0200
-Received: from lemmy.internal.home.lespocky.de ([192.168.243.176] helo=lemmy.home.lespocky.de)
-        by methusalix.internal.home.lespocky.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.94)
-        (envelope-from <alex@home.lespocky.de>)
-        id 1kNlp9-0007aF-MT; Thu, 01 Oct 2020 01:47:52 +0200
-Received: (nullmailer pid 7817 invoked by uid 2001);
-        Wed, 30 Sep 2020 23:47:51 -0000
-From:   Alexander Dahl <post@lespocky.de>
-To:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org
+        id S1732498AbgJAPWT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 1 Oct 2020 11:22:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37852 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732342AbgJAPWT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 1 Oct 2020 11:22:19 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C31AC0613D0;
+        Thu,  1 Oct 2020 08:22:17 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id a3so7862057ejy.11;
+        Thu, 01 Oct 2020 08:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=HoIzt4luxNMRncgYUJgF/hrsLcD9YCcpUexpLitKXBo=;
+        b=qdjH7Ti/HvtqGQpFSMw0Fsuw9Kj4+6ua8k1cpxYlw4o6XOhUGjBJsMLbeifphhZmpC
+         rKCsU4vVJQRgVaVGelUyj+nqCXC2E4RroQm4WhZ1ufMwbMQN/g+TTcd87FPrHvpMuKC9
+         63gZhG0GuorM92KWPIvfPuuV52275Dgqg/Wcsb5VmtKbT4SSsjYsjuCjRqXEvb9aIkg6
+         xk9AfhPrR14Qw0ndG9I4JgE4i11LzsvkGp7mAG+1r5TPxxqsmde/zPQfdWEbhP4jqzxb
+         Nv2p9sgTEhtDGE3g/Qy/x90kMPRfklKWDZqPH0o0qovQWxFlOP+DfTN4ITJvlTspULSZ
+         f75g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=HoIzt4luxNMRncgYUJgF/hrsLcD9YCcpUexpLitKXBo=;
+        b=ohlCbSoJ0coD02SyWbh/VG/alXonrlVialZZtqH6EwD6YlIJp8LsLF5UpkgiJOxjob
+         tGbIvM/p35SuBq+arpbFWh0vrwNf3VxCY3KXZvSqPtKAUop/9D3NekU5VzaAe6kOPbus
+         s4fVg7vAy1lEIQaxS0o9jbVdZTyfSgivZjwP4admB47Cx7WXrCZ+7HRnS16MniVOapOx
+         UrGq64vsk6ahreabegv3IPBpP00fVvF4c28Fqs6HUeHLmRZQI6pk3Yojqmhaga1HcMhc
+         n0Yc8uuAClDci/WckfyA7WoCyArpC8madrDiIpe3kN1hzOos7ypzV3k7TWJaGrYntHs6
+         4E0A==
+X-Gm-Message-State: AOAM531NJRhMMY7s2SRQXz6+FiIoZV9BvtIVE7YY8IUb5N5ksuSkQu0u
+        wFwa1g+4gpITV25Fc9+XLfAI6380blE0rA==
+X-Google-Smtp-Source: ABdhPJz4O60VU6XyO7VdMH1JS2bW36AWBbn9ny5fhwFCwnSYh7MdWaXsp0606UcP1kh2IXdIbs6Efg==
+X-Received: by 2002:a17:906:14c9:: with SMTP id y9mr9095332ejc.523.1601565736206;
+        Thu, 01 Oct 2020 08:22:16 -0700 (PDT)
+Received: from [192.168.1.110] (abab147.neoplus.adsl.tpnet.pl. [83.6.165.147])
+        by smtp.gmail.com with ESMTPSA id v25sm4266120edr.29.2020.10.01.08.22.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Oct 2020 08:22:15 -0700 (PDT)
+Subject: Re: [PATCH v4 3/4] arm64: dts: qcom: msm8996: Add mpp and lpg blocks
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>
 Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Alexander Dahl <ada@thorsis.com>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Alexander Dahl <post@lespocky.de>
-Subject: [PATCH v6 7/7] MIPS: DTS: img: Fix schema warnings for pwm-leds
-Date:   Thu,  1 Oct 2020 01:46:37 +0200
-Message-Id: <20200930234637.7573-8-post@lespocky.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200930234637.7573-1-post@lespocky.de>
-References: <20200930234637.7573-1-post@lespocky.de>
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Martin Botka <martin.botka1@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+References: <20200929031544.1000204-1-bjorn.andersson@linaro.org>
+ <20200929031544.1000204-4-bjorn.andersson@linaro.org>
+From:   Konrad Dybcio <konradybcio@gmail.com>
+Message-ID: <424f7b71-fb7e-fb45-c449-987ec3578290@gmail.com>
+Date:   Thu, 1 Oct 2020 17:22:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scan-Signature: 47063c0bd3b0440d119657da58bc7562
-X-Spam-Score: -2.9 (--)
-X-Provags-ID: V03:K1:0IUo1RRU7aAo8lMj4tzZs2tdPUuRWx/DVg9fWHk99XurY6GYSNC
- hi0k4Y+6Rvd2A96ObtnJkZ9b7FaJC8oTKeQjrqDQoiAJi59zcVISDFtcTQC5r9ppEjXMxT5
- 9JZqTtubXCNiBVhQw98FxKkqHLFjh1VvJjlQu5KTRSOTFE3yj4N8WYGh5qJoe9yvg0/N+ST
- 0mF0lowsi3Ph4kHDEtMIg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hvz3tk245Nc=:g/QpxKPbn4M8s0R+crrBqj
- I2VmIhXT0H7hfD8iolSFiF5pfJk1jjHCbJDejpW5i0xcUHXHkdYYHUrgIB3eI9wb+b/7vg5os
- xvWLdtfnoYeBwjaw24UwhpEDoqWI2Stidl9ttPKsn2XyTzFoAqCWkXn5Y6yLtWSwu+YxKnbsR
- CE3a6lcZ5kEq+sR2ILpVKekK9s4DRQWL6sQANVGACBsgkAeObJ8FC97ZZHv0GcygW2c2nnc9U
- +wMVs+C/roYWYmcllk45fidSri4t03BmK+fmDA1k+/nuUMAlovJP7Pp9qwaMUIM34eh0pKIyP
- 8QtBnQEMIRFWTpM9uAsL1jj78mPi6XvnhhyBIzPXuFQhZ12cwrc40RWV6MklzwnCLIA7toh38
- Y+XvrZm1Em/xkAUE7duoH/OhVXEL3WAR2UlLSKZBNRPCzlypMfupOpqitnWzWQVbv4lvmaTAo
- Ds5kC4JTHvuLe3lg8LzBGi5GT0z3dfrfy55HpxqB1bKDuj/mg7YdbrWIJ9qVQJOvPOYah0voW
- 9r8BeiDejdWckpDWwy56KFtzd/mXRFJWOI4WbLeSvWoFrzg5ssp4AXIpYO6Y2rKaJ4vf+wP8J
- eZzHp7dKotPf2kJs60pqfdQ22V7kBtUSqO0ku+MOnATpx6GxR3nsRkWFjtpbzUUstBNc5bVFj
- AD2Y5Kp6KE5e31OJ7uFLHs0qwhSMD1rFunKe7UBse8Ja9COyvP63eXD3P1MiD60/LqogT8+MO
- IAY8Rc3GLJd2YsoER8rtHAf6PP10Xb+FQFK+2gu6aBl8oLVX+kwiKHyNukJ+MB5i0op1yAnlb
- fECpu3O/2vxpuM4an/qjA4csLsG9xhGj14Gdptg8z0hrmD7UhYQRJRhkzNpGlzDPsCCg0D3
+In-Reply-To: <20200929031544.1000204-4-bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The node names for devices using the pwm-leds driver follow a certain
-naming scheme (now).
+Hi, 
 
-Signed-off-by: Alexander Dahl <post@lespocky.de>
----
+Just a nitpick: the title says "qcom: msm8996", whereas the file being changed is pm(i)8994.dtsi. This also applies to most msm8992/94 platforms, as the PMIC was used there too.
 
-Notes:
-    v6:
-      * added this patch to series
-
- arch/mips/boot/dts/img/pistachio_marduk.dts | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/arch/mips/boot/dts/img/pistachio_marduk.dts b/arch/mips/boot/dts/img/pistachio_marduk.dts
-index bf69da96dc8b..a8708783f04b 100644
---- a/arch/mips/boot/dts/img/pistachio_marduk.dts
-+++ b/arch/mips/boot/dts/img/pistachio_marduk.dts
-@@ -46,9 +46,10 @@
- 		regulator-max-microvolt = <1800000>;
- 	};
- 
--	leds {
-+	led-controller {
- 		compatible = "pwm-leds";
--		heartbeat {
-+
-+		led-1 {
- 			label = "marduk:red:heartbeat";
- 			pwms = <&pwm 3 300000>;
- 			max-brightness = <255>;
--- 
-2.20.1
-
+Konrad
