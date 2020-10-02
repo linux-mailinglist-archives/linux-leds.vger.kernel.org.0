@@ -2,97 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 824A72810CA
-	for <lists+linux-leds@lfdr.de>; Fri,  2 Oct 2020 12:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A5BC281B85
+	for <lists+linux-leds@lfdr.de>; Fri,  2 Oct 2020 21:21:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726569AbgJBKxJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 2 Oct 2020 06:53:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38644 "EHLO mail.kernel.org"
+        id S2388402AbgJBTVy convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Fri, 2 Oct 2020 15:21:54 -0400
+Received: from mx.metalurgs.lv ([81.198.125.103]:65054 "EHLO mx.metalurgs.lv"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725920AbgJBKxH (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 2 Oct 2020 06:53:07 -0400
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ED1C520874;
-        Fri,  2 Oct 2020 10:53:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601635986;
-        bh=WUSRRX+XBvVTYHzBDRPQz4PtaU7zhX11OBofs03lu7w=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=yvX1A3cLWsjS1cWSyIRSg+WJmwZtSfrDcvyV/NeaKNl7GPsIy0voCxFZ/rOk4Gpmn
-         2KaO/nUo6AwHYxAo8duM5tiz9TubUPDXXY5lD8rnJHuHCrD3KuX85XjN3soizDcz8B
-         jOf84bE2XRGR0Trvh3UMgzg0dT6cjmceAFfHiP3o=
-Received: by mail-ej1-f53.google.com with SMTP id qp15so1340345ejb.3;
-        Fri, 02 Oct 2020 03:53:05 -0700 (PDT)
-X-Gm-Message-State: AOAM531uTpfRhMMc+fyakJH6fjIgtpx0vsvhK0xfgJKCC4B/ZYBuPTAC
-        MlIgMtYN4QKyeHjuqKKzXmT9MLkU/ep84CiL9zA=
-X-Google-Smtp-Source: ABdhPJz2njtnLuaxs13sg4hhwWj46P8QK/G+8vH63FlRpE0n16xuRCvITpEi9m8uB+qnlenWJGhPhUHCNrXOYo6xhlo=
-X-Received: by 2002:a17:906:1984:: with SMTP id g4mr1573436ejd.119.1601635984516;
- Fri, 02 Oct 2020 03:53:04 -0700 (PDT)
+        id S2388392AbgJBTVx (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 2 Oct 2020 15:21:53 -0400
+X-Greylist: delayed 442 seconds by postgrey-1.27 at vger.kernel.org; Fri, 02 Oct 2020 15:21:50 EDT
+Received: from mx.metalurgs.lv (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id 0318D62B27
+        for <linux-leds@vger.kernel.org>; Fri,  2 Oct 2020 22:14:50 +0300 (EEST)
+Received: from kas30pipe.localhost (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id D62AC62B22
+        for <linux-leds@vger.kernel.org>; Fri,  2 Oct 2020 22:14:49 +0300 (EEST)
+Received: by mx.metalurgs.lv (Postfix, from userid 1005)
+        id 104CB62AD8; Fri,  2 Oct 2020 22:14:48 +0300 (EEST)
+Received: from [100.64.1.74] (unknown [190.15.125.50])
+        (Authenticated sender: admin)
+        by mx.metalurgs.lv (Postfix) with ESMTPA id BC81862A95;
+        Fri,  2 Oct 2020 22:14:42 +0300 (EEST)
 MIME-Version: 1.0
-References: <20200930234637.7573-1-post@lespocky.de> <20200930234637.7573-3-post@lespocky.de>
- <CAJKOXPe7Tg+5ESsdPGks_Aqj+zQH4-asC839FseWp0OCJbT4Mw@mail.gmail.com> <9895379.VNsV0mSTfq@ada>
-In-Reply-To: <9895379.VNsV0mSTfq@ada>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Fri, 2 Oct 2020 12:52:52 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPcTstvUuy-CnJbOGxiONLx2V2hfpnR0H4gS=4v+C1udtQ@mail.gmail.com>
-Message-ID: <CAJKOXPcTstvUuy-CnJbOGxiONLx2V2hfpnR0H4gS=4v+C1udtQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/7] dt-bindings: leds: Convert pwm to yaml
-To:     Alexander Dahl <ada@thorsis.com>
-Cc:     linux-leds@vger.kernel.org, Alexander Dahl <post@lespocky.de>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Description: Mail message body
+To:     Recipients <financialcapability6@gmail.com>
+From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
+Date:   Fri, 02 Oct 2020 16:14:33 -0300
+Reply-To: binmurrah@gmail.com
+X-SpamTest-Envelope-From: financialcapability6@gmail.com
+X-SpamTest-Group-ID: 00000000
+X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
+X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
+X-SpamTest-Info: {DATE: unreal year}
+X-SpamTest-Method: none
+X-SpamTest-Rate: 55
+X-SpamTest-Status: Not detected
+X-SpamTest-Status-Extended: not_detected
+X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
+Message-ID: <20201002191449.104CB62AD8@mx.metalurgs.lv>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
+Subject: Low Rate Loan.
+X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
+         bases: 20140401 #7726142, check: 20201002 notchecked
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 2 Oct 2020 at 12:46, Alexander Dahl <ada@thorsis.com> wrote:
->
-> Hei hei,
->
-> Am Freitag, 2. Oktober 2020, 11:31:09 CEST schrieb Krzysztof Kozlowski:
-> > On Thu, 1 Oct 2020 at 01:52, Alexander Dahl <post@lespocky.de> wrote:
-> > > The example was adapted in the following ways:
-> > >
-> > > - make use of the now supported 'function' and 'color' properties
-> > > - remove pwm nodes, those are documented elsewhere
-> > > - tweake node names to be matched by new dtschema rules
-> >
-> > tweak? or align?
->
-> Depends on if schema actually checks it (child nodes) or if it's just DT
-> policy (parent node).  I'll reword in v7.
->
-> > > License was discussed with the original author.
-> >
-> > Since you relicense their work, you need an ack or signed off from
-> > every author. You cannot just say "I discussed" and post it. That way
-> > I could pretend (lie) I talked to Linus and try to relicense Linux to
-> > BSD...
->
-> I know.  Peter promised to give his Ack publicly on the list back when I
-> worked on v2 or v3, so he is in Cc since then, but apparently he did not yet
-> post it. ;-)
->
-> > You need acks/SoB from Peter and Russel.
->
-> Well, I should add Russel in v7, too, then.
+Hello Dear,
 
-Yes, please.
+We are Investment Company offering Corporate and Personal
+Loan at 3% Interest Rate for a duration of 10Years.
 
-For the patch itself:
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+We also pay 1% commission to brokers, who introduce project
+owners for finance or other opportunities.
 
-Best regards,
-Krzysztof
+Please get back to me if you are interested for more
+details.
+
+Yours faithfully,
+Hashim Bin 
