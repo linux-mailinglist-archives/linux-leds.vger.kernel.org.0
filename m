@@ -2,98 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EC922829FB
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Oct 2020 11:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D300D282BC5
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Oct 2020 18:15:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725946AbgJDJ64 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 4 Oct 2020 05:58:56 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:49770 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725825AbgJDJ64 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 4 Oct 2020 05:58:56 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 802831C0B79; Sun,  4 Oct 2020 11:58:54 +0200 (CEST)
-Date:   Sun, 4 Oct 2020 11:58:53 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek Beh??n <marek.behun@nic.cz>
-Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
-        Dan Murphy <dmurphy@ti.com>,
-        Ond??ej Jirman <megous@megous.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Subject: Re: [PATCH net-next v1 2/3] net: phy: add API for LEDs controlled by
- ethernet PHY chips
-Message-ID: <20201004095852.GB1104@bug>
-References: <20200908000300.6982-1-marek.behun@nic.cz>
- <20200908000300.6982-3-marek.behun@nic.cz>
+        id S1726231AbgJDQPc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 4 Oct 2020 12:15:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48318 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726083AbgJDQPc (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 4 Oct 2020 12:15:32 -0400
+Received: from localhost (unknown [171.61.67.142])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 61CEB2068D;
+        Sun,  4 Oct 2020 16:15:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601828131;
+        bh=ipIbwBDHbGx7U/nYVtWvwEV/y7/NQhikV5Ng+1S41wo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BkrFjq5pesVDCZqCgigvVGnAkYU3kAenXEVcy0C+EYf4QSa7nY/PHBghx8c3UJ+K0
+         V7wA5EiZjeOgOA1F0vSfPpr62TK79z4/hmO6HvTvKyMEs+fXYkKqMHx+Zl0SJ9Rz3x
+         kkipw8CWwDYt7zwpufpGFZLd9NoEY63vruFFDBV0=
+Date:   Sun, 4 Oct 2020 21:45:26 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Another round of adding missing
+ 'additionalProperties'
+Message-ID: <20201004161526.GA2968@vkoul-mobl>
+References: <20201002234143.3570746-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200908000300.6982-3-marek.behun@nic.cz>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20201002234143.3570746-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi!
+On 02-10-20, 18:41, Rob Herring wrote:
 
-> Many an ethernet PHY supports various HW control modes for LEDs
-> connected directly to the PHY chip.
-> 
-> This patch adds code for registering such LEDs when described in device
-> tree and also adds a new private LED trigger called phydev-hw-mode.
-> When this trigger is enabled for a LED, the various HW control modes
-> which are supported by the PHY for given LED cat be get/set via hw_mode
-> sysfs file.
-> 
-> A PHY driver wishing to utilize this API needs to implement all the
-> methods in the phy_device_led_ops structure.
-> 
-> Signed-off-by: Marek Beh??n <marek.behun@nic.cz>
+>  .../phy/amlogic,meson-g12a-usb2-phy.yaml      |  2 ++
+>  .../bindings/phy/qcom,ipq806x-usb-phy-hs.yaml |  2 ++
+>  .../bindings/phy/qcom,ipq806x-usb-phy-ss.yaml |  2 ++
+>  .../bindings/phy/qcom,qusb2-phy.yaml          |  1 +
+>  .../bindings/phy/qcom-usb-ipq4019-phy.yaml    |  2 ++
 
+For phy changes:
 
->  	select MDIO_I2C
->  
-> +config PHY_LEDS
-> +	bool
-> +	default y if LEDS_TRIGGERS
-> +
->  comment "MII PHY device drivers"
->  
->  config AMD_PHY
+Acked-By: Vinod Koul <vkoul@kernel.org>
 
-> +/* drivers/net/phy/phy_hw_led_mode.c
-> + *
-
-Stale comment.
-
-> +	init_data.fwnode = &np->fwnode;
-> +	init_data.devname_mandatory = true;
-> +	snprintf(devicename, sizeof(devicename), "phy%d", phydev->phyindex);
-> +	init_data.devicename = devicename;
-> +
-> +	ret = phydev->led_ops->led_init(phydev, led, &pdata);
-> +	if (ret < 0)
-> +		goto err_free;
-> +
-> +	ret = devm_led_classdev_register_ext(&phydev->mdio.dev, &led->cdev, &init_data);
-> +	if (ret < 0)
-> +		goto err_free;
-> +
-> +	led->flags |= PHY_DEVICE_LED_REGISTERED;
-> +
-> +	return 0;
-> +err_free:
-> +	devm_kfree(&phydev->mdio.dev, led);
-> +	return ret;
-
-devm should take care of freeing, right?
-
-Plus, format comments to 80 colums. checkpatch no longer warns, but rule still exists.
-
-Best regards,
-									Pavel
 -- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+~Vinod
