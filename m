@@ -2,133 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E9882824D8
-	for <lists+linux-leds@lfdr.de>; Sat,  3 Oct 2020 16:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EC922829FB
+	for <lists+linux-leds@lfdr.de>; Sun,  4 Oct 2020 11:58:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725794AbgJCOnT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 3 Oct 2020 10:43:19 -0400
-Received: from w1.tutanota.de ([81.3.6.162]:48906 "EHLO w1.tutanota.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725787AbgJCOnT (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 3 Oct 2020 10:43:19 -0400
-Received: from w3.tutanota.de (unknown [192.168.1.164])
-        by w1.tutanota.de (Postfix) with ESMTP id D88B5FA0440;
-        Sat,  3 Oct 2020 14:43:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1601736195;
-        s=s1; d=tutanota.com;
-        h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
-        bh=6WyTEoXuKf0olD8hSeaW5OFlnE+TW4/q7RwsOuaz+qM=;
-        b=PjFzWMpMp5M0G7gbXo5sOdoVQjUs+xRoIYbSzwk5Wd+YQUjxn0bIZoQVC2+xnj7p
-        sWyKKt62/C8gImT+F1M8xDpxP6Sg2T5yw1DAG8Q4Pc+XtssXDoiPnOTKs2i3NuSKgHF
-        8bA4t4bAAtku44tUtfBPrtL3dkd9r253trBNbgwihVOuAhXxT6bzcDosD4KUHJlmDvv
-        fUCMm+ujy+AjWA5hMfiy4oS8yNC4oFsBiR1ZFahUr/wWcrqY2fkLM+tbUXGXUpGLn/G
-        vlloBJsFMehe2eIch7ve8JHPpPXTrfIjecxpFg5j8fi9CN5aw/3EjBLv1GneQhd7Noz
-        8/P07FuSag==
-Date:   Sat, 3 Oct 2020 16:43:15 +0200 (CEST)
-From:   ultracoolguy@tutanota.com
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     marek.behun@nic.cz, Dmurphy <dmurphy@ti.com>,
-        Linux Leds <linux-leds@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Message-ID: <MIiufXs--3-2@tutanota.com>
-In-Reply-To: <20201003135600.GA25460@duo.ucw.cz>
-References: <MIiYgay--3-2@tutanota.com> <20201003135600.GA25460@duo.ucw.cz>
-Subject: Re: [PATCH] leds: lm3697: Fix out-of-bound access
+        id S1725946AbgJDJ64 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 4 Oct 2020 05:58:56 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:49770 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725825AbgJDJ64 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 4 Oct 2020 05:58:56 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 802831C0B79; Sun,  4 Oct 2020 11:58:54 +0200 (CEST)
+Date:   Sun, 4 Oct 2020 11:58:53 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek Beh??n <marek.behun@nic.cz>
+Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        Dan Murphy <dmurphy@ti.com>,
+        Ond??ej Jirman <megous@megous.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>, linux-kernel@vger.kernel.org,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Subject: Re: [PATCH net-next v1 2/3] net: phy: add API for LEDs controlled by
+ ethernet PHY chips
+Message-ID: <20201004095852.GB1104@bug>
+References: <20200908000300.6982-1-marek.behun@nic.cz>
+ <20200908000300.6982-3-marek.behun@nic.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200908000300.6982-3-marek.behun@nic.cz>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi!
 
->I'll need your real name to apply a patch.
+> Many an ethernet PHY supports various HW control modes for LEDs
+> connected directly to the PHY chip.
+> 
+> This patch adds code for registering such LEDs when described in device
+> tree and also adds a new private LED trigger called phydev-hw-mode.
+> When this trigger is enabled for a LED, the various HW control modes
+> which are supported by the PHY for given LED cat be get/set via hw_mode
+> sysfs file.
+> 
+> A PHY driver wishing to utilize this API needs to implement all the
+> methods in the phy_device_led_ops structure.
+> 
+> Signed-off-by: Marek Beh??n <marek.behun@nic.cz>
 
-My real name is Gabriel David.
 
->Ok, so I assume this is only problem with certain device trees, and
-not a problem with dts' in mainline?
+>  	select MDIO_I2C
+>  
+> +config PHY_LEDS
+> +	bool
+> +	default y if LEDS_TRIGGERS
+> +
+>  comment "MII PHY device drivers"
+>  
+>  config AMD_PHY
 
-Yes.=20
-Here's the current node I'm using that causes this bug:
+> +/* drivers/net/phy/phy_hw_led_mode.c
+> + *
 
-&i2c_5 {
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 status =3D "ok";
+Stale comment.
 
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ti_lm3697@36 {
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible =
-=3D "ti,lm3697";
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #address-ce=
-lls =3D <1>;
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #size-cells=
- =3D <0>;
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg =3D <0x=
-36>;
+> +	init_data.fwnode = &np->fwnode;
+> +	init_data.devname_mandatory = true;
+> +	snprintf(devicename, sizeof(devicename), "phy%d", phydev->phyindex);
+> +	init_data.devicename = devicename;
+> +
+> +	ret = phydev->led_ops->led_init(phydev, led, &pdata);
+> +	if (ret < 0)
+> +		goto err_free;
+> +
+> +	ret = devm_led_classdev_register_ext(&phydev->mdio.dev, &led->cdev, &init_data);
+> +	if (ret < 0)
+> +		goto err_free;
+> +
+> +	led->flags |= PHY_DEVICE_LED_REGISTERED;
+> +
+> +	return 0;
+> +err_free:
+> +	devm_kfree(&phydev->mdio.dev, led);
+> +	return ret;
 
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 led@1 {
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg =3D <1>;
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 led-sources =3D <0 1 2>;
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ti,brightness-resolution =3D <2047>;
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 label =3D "white:backlight";
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-};
+devm should take care of freeing, right?
 
->This is not trivial patch, no need to cc trivial tree. OTOH Ccing
-Marek who did a lot of cleanups in -next might be useful. Doing that
-now.
+Plus, format comments to 80 colums. checkpatch no longer warns, but rule still exists.
 
-Sorry for that. Gonna CC Marek from now on.
-
-Btw thanks for the quick response!
-
-Oct 3, 2020, 13:56 by pavel@ucw.cz:
-
-> Hi!
->
->> Signed-off-by: Ultracoolguy <ultracoolguy@tutanota.com>
->>
->
-> I'll need your real name to apply a patch.
->
->> Hi, all. This is a patch fixing an out-of-bounds error due to lm3697_ini=
-t expecting the device tree to use both control banks.=C2=A0 This fixes it =
-by adding a new variable that will hold the number of used banks.
->>
->> Panic caused by this bug:
->>
->> <7>[=C2=A0=C2=A0=C2=A0 3.059893] CPU: 3 PID: 1 Comm: swapper/0 Tainted: =
-G=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 W=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 5.9.0-rc7-postmarketos-qcom-msm8953 #71
->>
->
-> Ok, so I assume this is only problem with certain device trees, and
-> not a problem with dts' in mainline?
->
-> This is not trivial patch, no need to cc trivial tree. OTOH Ccing
-> Marek who did a lot of cleanups in -next might be useful. Doing that
-> now.
->
-> Best regards,
->
->  Pavel
-> --=20
-> (english) http://www.livejournal.com/~pavelmachek
-> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/b=
-log.html
->
-
+Best regards,
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
