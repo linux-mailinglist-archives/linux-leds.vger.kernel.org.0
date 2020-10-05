@@ -2,277 +2,204 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F36E284081
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Oct 2020 22:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3DA22840AD
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Oct 2020 22:29:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729545AbgJEURR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 5 Oct 2020 16:17:17 -0400
-Received: from w1.tutanota.de ([81.3.6.162]:57686 "EHLO w1.tutanota.de"
+        id S1729684AbgJEU3X (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 5 Oct 2020 16:29:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51490 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729424AbgJEURR (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 5 Oct 2020 16:17:17 -0400
-Received: from w3.tutanota.de (unknown [192.168.1.164])
-        by w1.tutanota.de (Postfix) with ESMTP id 5B74AFA039C;
-        Mon,  5 Oct 2020 20:17:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1601929034;
-        s=s1; d=tutanota.com;
-        h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:Sender;
-        bh=5XkgnlTQd6WOQwVSkuER00n9lY+TXOpzZWQXdMuVeu8=;
-        b=3+V/+nnk9UjaeE++DjqVTiDy0cEDRuOWJV+UZ2VVvumti86F02083uk6TM24h0SB
-        erg0c9owFXX2ZEz8TLwBsdKc46Wb5gXUvPB90dtFWxqyNc3ibOI5PXQj9fIaEndqYIU
-        G6JFNoRTmxCjxegxyjejRCkmcr9KcyIBO8QzGCpRQqXNlT28fyDYWrqKxehtwTUl+Fj
-        w5l7P9jzMcruKoYyvCiJgL9vpQB684ME10zwymnhSMFosoxIMKJWRQzNG8eaUoNKDkt
-        xfwqJHmHaDQZ8I3c80m935HOi8ZBYbSVm3fhlAWc5ajRBB2JE47UPSMe5B/ZtFCZGIe
-        PJ8kLAMuMw==
-Date:   Mon, 5 Oct 2020 22:17:14 +0200 (CEST)
-From:   ultracoolguy@tutanota.com
-To:     Pavel <pavel@ucw.cz>, Dmurphy <dmurphy@ti.com>
-Cc:     Marek Behun <kabel@blackhole.sk>,
-        Linux Leds <linux-leds@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Message-ID: <MIuPIKy--3-2@tutanota.com>
-Subject: [PATCH] lm3697: Rename struct into more appropiate name
+        id S1729575AbgJEU3V (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 5 Oct 2020 16:29:21 -0400
+Received: from localhost (p54b33598.dip0.t-ipconnect.de [84.179.53.152])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4CCD32100A;
+        Mon,  5 Oct 2020 20:29:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601929760;
+        bh=CY8NqwoVQ25QxGoVqPI6StG/ZplQMdc5HDso6arArXo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IAQGZH829noPSNM2cZ1jm/jbS+7T503wG9x/AZUWWP2n3Pg2wGypVyMaS3fKZcMYB
+         Ea6Ur4RMIOEayysWQOCHXCoKmViXancH5KHZDAu5uc5mAKVPb7rn0HFH2ULioIDlS1
+         6LHXpcLLAuibafU7o/srB/FAdz59EYbjBZljJeUI=
+Date:   Mon, 5 Oct 2020 22:29:10 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>, dmaengine@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Richard Weinberger <richard@nod.at>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: Add missing 'unevaluatedProperties'
+Message-ID: <20201005202910.GA1397@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Andrew Lunn <andrew@lunn.ch>, Bjorn Helgaas <bhelgaas@google.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>, dmaengine@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Richard Weinberger <richard@nod.at>,
+        Sam Ravnborg <sam@ravnborg.org>, Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Vinod Koul <vkoul@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-watchdog@vger.kernel.org
+References: <20201005183830.486085-1-robh@kernel.org>
+ <20201005183830.486085-2-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-        boundary="----=_Part_71042_2087577313.1601929034359"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
+Content-Disposition: inline
+In-Reply-To: <20201005183830.486085-2-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-------=_Part_71042_2087577313.1601929034359
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Subject says it all. This rename was briefly discussed in this other patch: https://www.spinics.net/lists/linux-leds/msg16865.html (I don't know another way to link to emails, so I'll just use this archive).
+--sdtB3X0nJg68CQEu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Feel free to suggest another name for the commit; that was just the better name I could come up with :/ .
+On Mon, Oct 05, 2020 at 01:38:27PM -0500, Rob Herring wrote:
+> This doesn't yet do anything in the tools, but make it explicit so we can
+> check either 'unevaluatedProperties' or 'additionalProperties' is present
+> in schemas.
+>=20
+> 'unevaluatedProperties' is appropriate when including another schema (via
+> '$ref') and all possible properties and/or child nodes are not
+> explicitly listed in the schema with the '$ref'.
+>=20
+> This is in preparation to add a meta-schema to check for missing
+> 'unevaluatedProperties' or 'additionalProperties'. This has been a
+> constant source of review issues.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
+I trust you, so for I2C:
 
-
-
-
-------=_Part_71042_2087577313.1601929034359
-Content-Type: text/x-patch; charset=us-ascii; 
-	name=0001-lm3697-Rename-struct-into-more-appropriate-name.patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; 
-	filename=0001-lm3697-Rename-struct-into-more-appropriate-name.patch
-
-From 5e0b0aa5f5c1e9a6837151fdeb08b56757c8bc31 Mon Sep 17 00:00:00 2001
-From: Gabriel David <ultracoolguy@tutanota.com>
-Date: Mon, 5 Oct 2020 15:16:34 -0400
-Subject: [PATCH] lm3697: Rename struct into more appropriate name
-
-The mentioned struct is lm3697_led, which is now lm3697_bank.
-The pointers referring to it were also renamed.
-
-Signed-off-by: Gabriel David <ultracoolguy@tutanota.com>
----
- drivers/leds/leds-lm3697.c | 78 +++++++++++++++++++-------------------
- 1 file changed, 39 insertions(+), 39 deletions(-)
-
-diff --git a/drivers/leds/leds-lm3697.c b/drivers/leds/leds-lm3697.c
-index 7d216cdb9..287165097 100644
---- a/drivers/leds/leds-lm3697.c
-+++ b/drivers/leds/leds-lm3697.c
-@@ -39,7 +39,7 @@
- #define LM3697_MAX_CONTROL_BANKS 2
- 
- /**
-- * struct lm3697_led -
-+ * struct lm3697_bank -
-  * @hvled_strings: Array of LED strings associated with a control bank
-  * @label: LED label
-  * @led_dev: LED class device
-@@ -48,7 +48,7 @@
-  * @control_bank: Control bank the LED is associated to. 0 is control bank A
-  *		   1 is control bank B
-  */
--struct lm3697_led {
-+struct lm3697_bank {
- 	u32 hvled_strings[LM3697_MAX_LED_STRINGS];
- 	char label[LED_MAX_NAME_SIZE];
- 	struct led_classdev led_dev;
-@@ -80,7 +80,7 @@ struct lm3697 {
- 	int bank_cfg;
- 	int num_banks;
- 
--	struct lm3697_led leds[];
-+	struct lm3697_bank banks[];
- };
- 
- static const struct reg_default lm3697_reg_defs[] = {
-@@ -113,32 +113,32 @@ static const struct regmap_config lm3697_regmap_config = {
- static int lm3697_brightness_set(struct led_classdev *led_cdev,
- 				enum led_brightness brt_val)
- {
--	struct lm3697_led *led = container_of(led_cdev, struct lm3697_led,
-+	struct lm3697_bank *bank = container_of(led_cdev, struct lm3697_bank,
- 					      led_dev);
--	int ctrl_en_val = (1 << led->control_bank);
--	struct device *dev = led->priv->dev;
-+	int ctrl_en_val = (1 << bank->control_bank);
-+	struct device *dev = bank->priv->dev;
- 	int ret;
- 
--	mutex_lock(&led->priv->lock);
-+	mutex_lock(&bank->priv->lock);
- 
- 	if (brt_val == LED_OFF) {
--		ret = regmap_update_bits(led->priv->regmap, LM3697_CTRL_ENABLE,
-+		ret = regmap_update_bits(bank->priv->regmap, LM3697_CTRL_ENABLE,
- 					 ctrl_en_val, ~ctrl_en_val);
- 		if (ret) {
- 			dev_err(dev, "Cannot write ctrl register\n");
- 			goto brightness_out;
- 		}
- 
--		led->enabled = LED_OFF;
-+		bank->enabled = LED_OFF;
- 	} else {
--		ret = ti_lmu_common_set_brightness(&led->lmu_data, brt_val);
-+		ret = ti_lmu_common_set_brightness(&bank->lmu_data, brt_val);
- 		if (ret) {
- 			dev_err(dev, "Cannot write brightness\n");
- 			goto brightness_out;
- 		}
- 
--		if (!led->enabled) {
--			ret = regmap_update_bits(led->priv->regmap,
-+		if (!bank->enabled) {
-+			ret = regmap_update_bits(bank->priv->regmap,
- 						 LM3697_CTRL_ENABLE,
- 						 ctrl_en_val, ctrl_en_val);
- 			if (ret) {
-@@ -146,19 +146,19 @@ static int lm3697_brightness_set(struct led_classdev *led_cdev,
- 				goto brightness_out;
- 			}
- 
--			led->enabled = brt_val;
-+			bank->enabled = brt_val;
- 		}
- 	}
- 
- brightness_out:
--	mutex_unlock(&led->priv->lock);
-+	mutex_unlock(&bank->priv->lock);
- 	return ret;
- }
- 
- static int lm3697_init(struct lm3697 *priv)
- {
- 	struct device *dev = priv->dev;
--	struct lm3697_led *led;
-+	struct lm3697_bank *bank;
- 	int i, ret;
- 
- 	if (priv->enable_gpio) {
-@@ -182,8 +182,8 @@ static int lm3697_init(struct lm3697 *priv)
- 		dev_err(dev, "Cannot write OUTPUT config\n");
- 
- 	for (i = 0; i < priv->num_banks; i++) {
--		led = &priv->leds[i];
--		ret = ti_lmu_common_set_ramp(&led->lmu_data);
-+		bank = &priv->banks[i];
-+		ret = ti_lmu_common_set_ramp(&bank->lmu_data);
- 		if (ret)
- 			dev_err(dev, "Setting the ramp rate failed\n");
- 	}
-@@ -195,7 +195,7 @@ static int lm3697_probe_dt(struct lm3697 *priv)
- {
- 	struct fwnode_handle *child = NULL;
- 	struct device *dev = priv->dev;
--	struct lm3697_led *led;
-+	struct lm3697_bank *bank;
- 	int ret = -EINVAL;
- 	int control_bank;
- 	size_t i = 0;
-@@ -230,42 +230,42 @@ static int lm3697_probe_dt(struct lm3697 *priv)
- 			goto child_out;
- 		}
- 
--		led = &priv->leds[i];
-+		bank = &priv->banks[i];
- 
--		ret = ti_lmu_common_get_brt_res(dev, child, &led->lmu_data);
-+		ret = ti_lmu_common_get_brt_res(dev, child, &bank->lmu_data);
- 		if (ret)
- 			dev_warn(dev,
- 				 "brightness resolution property missing\n");
- 
--		led->control_bank = control_bank;
--		led->lmu_data.regmap = priv->regmap;
--		led->lmu_data.runtime_ramp_reg = LM3697_CTRL_A_RAMP +
-+		bank->control_bank = control_bank;
-+		bank->lmu_data.regmap = priv->regmap;
-+		bank->lmu_data.runtime_ramp_reg = LM3697_CTRL_A_RAMP +
- 						 control_bank;
--		led->lmu_data.msb_brightness_reg = LM3697_CTRL_A_BRT_MSB +
--						   led->control_bank * 2;
--		led->lmu_data.lsb_brightness_reg = LM3697_CTRL_A_BRT_LSB +
--						   led->control_bank * 2;
-+		bank->lmu_data.msb_brightness_reg = LM3697_CTRL_A_BRT_MSB +
-+						   bank->control_bank * 2;
-+		bank->lmu_data.lsb_brightness_reg = LM3697_CTRL_A_BRT_LSB +
-+						   bank->control_bank * 2;
- 
--		led->num_leds = fwnode_property_count_u32(child, "led-sources");
--		if (led->num_leds > LM3697_MAX_LED_STRINGS) {
-+		bank->num_leds = fwnode_property_count_u32(child, "led-sources");
-+		if (bank->num_leds > LM3697_MAX_LED_STRINGS) {
- 			dev_err(dev, "Too many LED strings defined\n");
- 			continue;
- 		}
- 
- 		ret = fwnode_property_read_u32_array(child, "led-sources",
--						    led->hvled_strings,
--						    led->num_leds);
-+						    bank->hvled_strings,
-+						    bank->num_leds);
- 		if (ret) {
- 			dev_err(dev, "led-sources property missing\n");
- 			fwnode_handle_put(child);
- 			goto child_out;
- 		}
- 
--		for (j = 0; j < led->num_leds; j++)
-+		for (j = 0; j < bank->num_leds; j++)
- 			priv->bank_cfg |=
--				(led->control_bank << led->hvled_strings[j]);
-+				(bank->control_bank << bank->hvled_strings[j]);
- 
--		ret = ti_lmu_common_get_ramp_params(dev, child, &led->lmu_data);
-+		ret = ti_lmu_common_get_ramp_params(dev, child, &bank->lmu_data);
- 		if (ret)
- 			dev_warn(dev, "runtime-ramp properties missing\n");
- 
-@@ -274,11 +274,11 @@ static int lm3697_probe_dt(struct lm3697 *priv)
- 		/* for backwards compatibility if `label` is not present */
- 		init_data.default_label = ":";
- 
--		led->priv = priv;
--		led->led_dev.max_brightness = led->lmu_data.max_brightness;
--		led->led_dev.brightness_set_blocking = lm3697_brightness_set;
-+		bank->priv = priv;
-+		bank->led_dev.max_brightness = bank->lmu_data.max_brightness;
-+		bank->led_dev.brightness_set_blocking = lm3697_brightness_set;
- 
--		ret = devm_led_classdev_register_ext(dev, &led->led_dev,
-+		ret = devm_led_classdev_register_ext(dev, &bank->led_dev,
- 						     &init_data);
- 		if (ret) {
- 			dev_err(dev, "led register err: %d\n", ret);
-@@ -307,7 +307,7 @@ static int lm3697_probe(struct i2c_client *client,
- 		return -ENODEV;
- 	}
- 
--	led = devm_kzalloc(dev, struct_size(led, leds, count), GFP_KERNEL);
-+	led = devm_kzalloc(dev, struct_size(led, banks, count), GFP_KERNEL);
- 	if (!led)
- 		return -ENOMEM;
- 
--- 
-2.28.0
+Acked-by: Wolfram Sang <wsa@kernel.org>
 
 
-------=_Part_71042_2087577313.1601929034359--
+--sdtB3X0nJg68CQEu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl97ghIACgkQFA3kzBSg
+KbYJ5RAAjJS4BOtSb0VfyQOja2YZWdMWRFXBU1L1D+ACpJcI62QbNvUHo23Ro50c
+vepNyfgedwO30jW0i1gziEm0wZQiuW0P0Kxdyx+wb06krLMdMVsi/m1Yas0tKHmt
+82rwOyQR5NEpkLJQtPz5+9C6qT/rubui/EjpViUGojHSE3hZfXyd+nxS9FM+l89L
+M3hBX9C4Xtgp2bKC1DRxrv8ts6/mPD/d6hh9FLz+2XV9KkefVttwQhb9QIjUhFwq
+9opGCMByjookdg563dQswbd/eQYTz976tdEYNyE4xr8HSuPSYL9pvpVKzCq4ryEt
+Qt2/tWvS3fppcEOT9wAqoFbP61sHL+uvpBmUKt71lVx9anRMynypLKmcG4c+vB9a
+7n79V/eAMfFYwRbYPn9u6dM3ZFU7kgngof9KiVKH72NiSSZIARkrpXcU8A2InG0Q
+mAIapWr5Vosr2iMQlCUft8lBhVzLURMFF40TqIk/L1BqtqhjsHM/rPMUQY2Vlouk
+6FL6v3IAqMhlVgGEJvCyw0p1GnFW0zvFbR+YiWejLCbVYe2zqxHhC6KmACEzyz+v
+vopR4fJnQq7TRMaQPBzZpS59mQILCd+cHY1BbhtjuqO3lzon9BgTDNHxq1MWn8SI
+5W0HC2V5ruQigH4motf4QjGzdPL84FgykA6jGarTgyEQ/bB8/CQ=
+=33gN
+-----END PGP SIGNATURE-----
+
+--sdtB3X0nJg68CQEu--
