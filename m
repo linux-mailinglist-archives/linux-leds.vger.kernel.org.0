@@ -2,154 +2,115 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D9E4283A95
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Oct 2020 17:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63CA8283B16
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Oct 2020 17:40:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728013AbgJEPfn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 5 Oct 2020 11:35:43 -0400
-Received: from w1.tutanota.de ([81.3.6.162]:58116 "EHLO w1.tutanota.de"
+        id S1728683AbgJEPjh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 5 Oct 2020 11:39:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42716 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727705AbgJEPfl (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 5 Oct 2020 11:35:41 -0400
-Received: from w3.tutanota.de (unknown [192.168.1.164])
-        by w1.tutanota.de (Postfix) with ESMTP id 76F0AFA0409;
-        Mon,  5 Oct 2020 15:35:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1601912138;
-        s=s1; d=tutanota.com;
-        h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
-        bh=SQ7PPtdszXSdouVfMwi6At92x1cFP7TUpv38XEqLah8=;
-        b=aAzw5EaXfDUXCX+g0Ni7Pr+sWwte1VfgxsM1iEUarobxj7SnXfXtK+14r073hwHl
-        urwrDEElYnFoSWx1s1Gd41jISFQ/autPccnpzmWk3HmIp8t0IvBXPbAnA+tRZD6EGGA
-        GsHCKGvQuhy4rhvxEg2aDTrFynw79SFUXX6h124xM2nUpTHC0y6PyzB4BrXSOgoCoG/
-        +IeftMkRzP1zMw4IOsUM3Ai4YxDTrO6hMXPvWNnUBZoSJ25tiKovucX8wP33FyfNBFC
-        znjrGeFWDmj2U30IKRrqDcz03LfGcaEauTJC9WagdGv4y0nrbGr9PHeMmRlLrqIAAmz
-        ZHH45GVhVw==
-Date:   Mon, 5 Oct 2020 17:35:38 +0200 (CEST)
-From:   ultracoolguy@tutanota.com
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     Marek Behun <kabel@blackhole.sk>, Pavel <pavel@ucw.cz>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Linux Leds <linux-leds@vger.kernel.org>
-Message-ID: <MItOR9Z--3-2@tutanota.com>
-In-Reply-To: <966c3f39-1310-dd60-6f33-0d9464ed2ff1@ti.com>
-References: <MIiYgay--3-2@tutanota.com> <20201005141334.36d9441a@blackhole.sk> <MIt2NiS--3-2@tutanota.com> <3c5fce56-8604-a7d5-1017-8a075f67061e@ti.com> <MItBqjy--3-2@tutanota.com> <966c3f39-1310-dd60-6f33-0d9464ed2ff1@ti.com>
-Subject: Re: [PATCH] leds: lm3697: Fix out-of-bound access
+        id S1727972AbgJEPjW (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 5 Oct 2020 11:39:22 -0400
+Received: from earth.universe (dyndsl-095-033-158-146.ewe-ip-backbone.de [95.33.158.146])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1CD5C2085B;
+        Mon,  5 Oct 2020 15:39:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601912361;
+        bh=YDa9qgcYN/rLvsHl7wxHnDzXxyPxrajJMh139W2bTQc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Yt3ruZa68573tch0c/Ho1ALzHfCpTDMLesbdlPmWRDYNKB50IT55EoZp87fsRkzgz
+         7+6j5JNoNjJ3AsqOjA1un0djegx8x339kHr5uakI101R3J4o5G+KgoyioglXZXg5dL
+         Bxy38eyfhsJbMySPsKZTFlatV3r6LR8AuCR8oLYA=
+Received: by earth.universe (Postfix, from userid 1000)
+        id 1CDCB3C0C87; Mon,  5 Oct 2020 17:39:19 +0200 (CEST)
+Date:   Mon, 5 Oct 2020 17:39:19 +0200
+From:   Sebastian Reichel <sre@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-iio@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-clk@vger.kernel.org,
+        linux-leds@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-rockchip@lists.infradead.org, linux-serial@vger.kernel.org,
+        linux-mips@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        openipmi-developer@lists.sourceforge.net,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-hwmon@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
+        Liam Girdwood <lgirdwood@gmail.com>, linux-spi@vger.kernel.org,
+        Vinod Koul <vkoul@kernel.org>, netdev@vger.kernel.org,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Another round of adding missing
+ 'additionalProperties'
+Message-ID: <20201005153919.llmcjbz4hiqvzd4x@earth.universe>
+References: <20201002234143.3570746-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-        boundary="----=_Part_57540_1049994367.1601912138472"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ruzfmjzmyxibtjj5"
+Content-Disposition: inline
+In-Reply-To: <20201002234143.3570746-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-------=_Part_57540_1049994367.1601912138472
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Well, the major benefit I see is that it makes the driver slightly more readable. However I'm fine with whatever you guys decide.
+--ruzfmjzmyxibtjj5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'll attach the patch with the struct renaming removed just in case.
+On Fri, Oct 02, 2020 at 06:41:43PM -0500, Rob Herring wrote:
+> Another round of wack-a-mole. The json-schema default is additional
+> unknown properties are allowed, but for DT all properties should be
+> defined.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>=20
+> I'll take this thru the DT tree.
+>=20
+>  [...]
+>  .../bindings/power/supply/cw2015_battery.yaml |  2 ++
+>  .../bindings/power/supply/rohm,bd99954.yaml   |  8 ++++++++
+> [...]
 
+Acked-by: Sebastian Reichel <sre@kernel.org>
 
+-- Sebastian
 
-Oct 5, 2020, 14:41 by dmurphy@ti.com:
+--ruzfmjzmyxibtjj5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Gabriel
->
-> On 10/5/20 9:38 AM, ultracoolguy@tutanota.com wrote:
->
->> I understand. So I should leave it like it was and do the rename in another patch?
->>
->
-> You should do the fix in one patch and leave the structure name alone.
->
-> The structure naming if fine and has no benefit and actually will make it more difficult for others to backport future fixes.
->
-> Unless Pavel finds benefit in accepting the structure rename.
->
-> Dan
->
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl97PhAACgkQ2O7X88g7
++pqkbg/9HQHD97P7Thh0rG2tNf/oTuwqdbqpGz8XffiIbWso3SaAukPavFc/b34T
+Bhf9ldAe4Jy7Sz8qDavKYO8qMWOF8av5Je5ajNG3fFmRAO28Jz1vcRsxn7JiTvlU
+SnlrNgxMlppGfzCt59G/IH6GyJVUVhZduf1HhaterbutugRNLE6LKY85rtwPlCR6
+d4+sJE+gKYJmNhxj1XYyVrXoWQs22IA8nJggb2g2l5nHfFolffKHFRXTX5Ax7WFL
+vhm/uSgz/4T9RyObm3lx4ODSSZqC3oc1E0DR3jf97rWH6xGUVFuJoAtE5ZpS5AJt
+uC3k2QQJ8mCt5fUA+khtnS4DIsF07uOzd5Hbex8NcXiFnlO/9GYWlmGXxlAnhdrk
+vSk8jlPgslc4xKpae1y8DFQiMndd9+1g0b4ZOJ6RnhaNpnOoFOIIPmC2ViRnQ8/0
+kv5w7Hop2CIxAYj3Jk1IzlmtbmJeQt39ya7uHNJhV2ISd8P3AmrkcNedPd8OV7MO
+7DrV+n/aKjH2gLYX0+377iH59APbluDQd64e+iDir2L5PP4BWXmyMOGqZ+Od7ScJ
+YT7hlpoKPVwZ1lqta77S7LDpYrRtyv8Ce5EsFineimEc1b4N51GTMh6lDPIGVcXz
+Xa1GC6kpGXU9Cx39fOb5K64cnrJ5Whplgiyv+4xd1suU1q25CZM=
+=XHTx
+-----END PGP SIGNATURE-----
 
-------=_Part_57540_1049994367.1601912138472
-Content-Type: text/x-patch; charset=us-ascii; 
-	name=0001-leds-lm3697-Fix-out-of-bound-access.patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; 
-	filename=0001-leds-lm3697-Fix-out-of-bound-access.patch
-
-From ee004d26bb2f91491141aa06f5518cc411711ff0 Mon Sep 17 00:00:00 2001
-From: Ultracoolguy <ultracoolguy@tutanota.com>
-Date: Fri, 2 Oct 2020 18:27:00 -0400
-Subject: [PATCH] leds:lm3697:Fix out-of-bound access
-
-If both led banks aren't used in device tree,
-an out-of-bounds condition in lm3697_init occurs
-because of the for loop assuming that all the banks are used.
-Fix it by adding a variable that contains the number of used banks.
----
- drivers/leds/leds-lm3697.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/leds/leds-lm3697.c b/drivers/leds/leds-lm3697.c
-index 024983088d59..bd53450050b2 100644
---- a/drivers/leds/leds-lm3697.c
-+++ b/drivers/leds/leds-lm3697.c
-@@ -78,8 +78,9 @@ struct lm3697 {
- 	struct mutex lock;
- 
- 	int bank_cfg;
-+	int num_banks;
- 
--	struct lm3697_led leds[];
-+	struct lm3697_led banks[];
- };
- 
- static const struct reg_default lm3697_reg_defs[] = {
-@@ -180,8 +181,8 @@ static int lm3697_init(struct lm3697 *priv)
- 	if (ret)
- 		dev_err(&priv->client->dev, "Cannot write OUTPUT config\n");
- 
--	for (i = 0; i < LM3697_MAX_CONTROL_BANKS; i++) {
--		led = &priv->leds[i];
-+	for (i = 0; i < priv->num_banks; i++) {
-+		led = &priv->banks[i];
- 		ret = ti_lmu_common_set_ramp(&led->lmu_data);
- 		if (ret)
- 			dev_err(&priv->client->dev, "Setting the ramp rate failed\n");
-@@ -228,7 +229,7 @@ static int lm3697_probe_dt(struct lm3697 *priv)
- 			goto child_out;
- 		}
- 
--		led = &priv->leds[i];
-+		led = &priv->banks[i];
- 
- 		ret = ti_lmu_common_get_brt_res(&priv->client->dev,
- 						child, &led->lmu_data);
-@@ -307,16 +308,17 @@ static int lm3697_probe(struct i2c_client *client,
- 	int ret;
- 
- 	count = device_get_child_node_count(&client->dev);
--	if (!count) {
--		dev_err(&client->dev, "LEDs are not defined in device tree!");
--		return -ENODEV;
-+	if (!count || count > LM3697_MAX_CONTROL_BANKS) {
-+		return -EINVAL;
- 	}
- 
--	led = devm_kzalloc(&client->dev, struct_size(led, leds, count),
-+	led = devm_kzalloc(&client->dev, struct_size(led, banks, count),
- 			   GFP_KERNEL);
- 	if (!led)
- 		return -ENOMEM;
- 
-+	led->num_banks = count;
-+
- 	mutex_init(&led->lock);
- 	i2c_set_clientdata(client, led);
- 
--- 
-2.28.0
-
-
-------=_Part_57540_1049994367.1601912138472--
+--ruzfmjzmyxibtjj5--
