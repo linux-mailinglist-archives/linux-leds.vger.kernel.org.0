@@ -2,74 +2,99 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A84CF28380A
-	for <lists+linux-leds@lfdr.de>; Mon,  5 Oct 2020 16:42:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DFDE2838B5
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Oct 2020 17:01:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726200AbgJEOmA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 5 Oct 2020 10:42:00 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:44812 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726070AbgJEOl7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 5 Oct 2020 10:41:59 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 095EfJoK107006;
-        Mon, 5 Oct 2020 09:41:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1601908879;
-        bh=F2fRX3F6phFrNzXyEO5ny8eJjv4EnilGQEx3qSo1EYA=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=u7RAyaTFMVOMPDuG4pThU3VF9HyHIiDH+8qFYw9HnWTAVHq/1vqjfTzMYyrX4Vcv7
-         AcyKS7LW3VZcHb0nNU8BVgA59C04FAp6pE3QUcKmMzO3lloroRKp9JreSEjQO9VueI
-         BBpZv4qknhXwikkIR1iFTwRI8xoZHnrqt+qeheOM=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 095EfJQX092644
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 5 Oct 2020 09:41:19 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 5 Oct
- 2020 09:41:19 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 5 Oct 2020 09:41:19 -0500
-Received: from [10.250.71.177] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 095EfHYV099554;
-        Mon, 5 Oct 2020 09:41:17 -0500
-Subject: Re: [PATCH] leds: lm3697: Fix out-of-bound access
-To:     <ultracoolguy@tutanota.com>
-CC:     Marek Behun <kabel@blackhole.sk>, Pavel <pavel@ucw.cz>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Linux Leds <linux-leds@vger.kernel.org>
-References: <MIiYgay--3-2@tutanota.com> <20201005141334.36d9441a@blackhole.sk>
- <MIt2NiS--3-2@tutanota.com> <3c5fce56-8604-a7d5-1017-8a075f67061e@ti.com>
- <MItBqjy--3-2@tutanota.com>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <966c3f39-1310-dd60-6f33-0d9464ed2ff1@ti.com>
-Date:   Mon, 5 Oct 2020 09:41:16 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726513AbgJEPBr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 5 Oct 2020 11:01:47 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:37172 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725981AbgJEPBq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 5 Oct 2020 11:01:46 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 3DF5F1C0B7C; Mon,  5 Oct 2020 17:01:43 +0200 (CEST)
+Date:   Mon, 5 Oct 2020 17:01:42 +0200
+From:   Pavel Machek <pavel@denx.de>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Another round of adding missing
+ 'additionalProperties'
+Message-ID: <20201005150142.GA28675@duo.ucw.cz>
+References: <20201002234143.3570746-1-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <MItBqjy--3-2@tutanota.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="xHFwDpU9dbj6ez1V"
+Content-Disposition: inline
+In-Reply-To: <20201002234143.3570746-1-robh@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Gabriel
 
-On 10/5/20 9:38 AM, ultracoolguy@tutanota.com wrote:
-> I understand. So I should leave it like it was and do the rename in another patch?
+--xHFwDpU9dbj6ez1V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You should do the fix in one patch and leave the structure name alone.
+Hi!
 
-The structure naming if fine and has no benefit and actually will make 
-it more difficult for others to backport future fixes.
+> Another round of wack-a-mole. The json-schema default is additional
+> unknown properties are allowed, but for DT all properties should be
+> defined.
 
-Unless Pavel finds benefit in accepting the structure rename.
+for leds:
 
-Dan
+Acked-by: Pavel Machek <pavel@ucw.cz>
 
+I assume you apply it..?
+								Pavel
+							=09
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--xHFwDpU9dbj6ez1V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX3s1VgAKCRAw5/Bqldv6
+8owIAKDAkiq29W/tD49n7es9bNcHQLqXywCfWHIfHZ6OrlZTPZUQgy45PCK/EKM=
+=qVmv
+-----END PGP SIGNATURE-----
+
+--xHFwDpU9dbj6ez1V--
