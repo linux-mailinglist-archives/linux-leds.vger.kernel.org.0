@@ -2,659 +2,758 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC7B42849E6
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 12:00:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F8D22849EF
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 12:00:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726138AbgJFKAT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 6 Oct 2020 06:00:19 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2958 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725891AbgJFKAR (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 6 Oct 2020 06:00:17 -0400
-Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id 4248B9F26FE3FA31B20E;
-        Tue,  6 Oct 2020 11:00:12 +0100 (IST)
-Received: from localhost (10.52.123.13) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 6 Oct 2020
- 11:00:10 +0100
-Date:   Tue, 6 Oct 2020 10:58:22 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        "Andrew Lunn" <andrew@lunn.ch>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        <dmaengine@vger.kernel.org>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        <dri-devel@lists.freedesktop.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Lars-Peter Clausen" <lars@metafoo.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "Marc Zyngier" <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-        "Mathieu Poirier" <mathieu.poirier@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        "MyungJoo Ham" <myungjoo.ham@samsung.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Peter Meerwald-Stadler" <pmeerw@pmeerw.net>,
-        Richard Weinberger <richard@nod.at>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Vignesh Raghavendra" <vigneshr@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        "Wim Van Sebroeck" <wim@linux-watchdog.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-can@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mips@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-        <linux-mtd@lists.infradead.org>, <linux-pci@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-rtc@vger.kernel.org>,
-        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-watchdog@vger.kernel.org>
-Subject: Re: [PATCH 2/4] dt-bindings: Use 'additionalProperties' instead of
- 'unevaluatedProperties'
-Message-ID: <20201006095822.00005f32@Huawei.com>
-In-Reply-To: <20201005183830.486085-3-robh@kernel.org>
-References: <20201005183830.486085-1-robh@kernel.org>
-        <20201005183830.486085-3-robh@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S1725943AbgJFKAb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 6 Oct 2020 06:00:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50752 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725891AbgJFKAZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Oct 2020 06:00:25 -0400
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F52BC061755
+        for <linux-leds@vger.kernel.org>; Tue,  6 Oct 2020 03:00:25 -0700 (PDT)
+Received: by mail-il1-x141.google.com with SMTP id t7so5255334ilf.10
+        for <linux-leds@vger.kernel.org>; Tue, 06 Oct 2020 03:00:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hQHsvq5s/usix1Y+RrLdvKjrHr+kE4Gbu8UHsQhlG78=;
+        b=1QzSMtSzTx2Bw1H8c2eJ765c5iY4w7Sjhkd/Q5YW9HZiE4wLiGo6SYmvE99d9U8j1j
+         1SQlbNsvgpcC/2guKOffRAZmtlsnz/evot5wnwx+Vcdux4oJbCnwJXvYdWbOHyj7Qu+J
+         B5bfIad5uEbZpcKe0BLybkV+rHb2Zdlb2W80R5xjDJ1EVlRsoiIS2XNvntoXBEZRvUjg
+         75sHiMQAQkxSbDLnGblChvRt9236mr5uzq5e+1XDUwClJ5wpt/SCRF6ImHYPlWs70Qa8
+         I5ZsMozvorSQed4pokhUYTrEBACgYxCoOImFqjU1EdiHAQHb2OlKBp7Q2WKKgNBJs3lo
+         E67w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hQHsvq5s/usix1Y+RrLdvKjrHr+kE4Gbu8UHsQhlG78=;
+        b=k0awVIldel7J7Lex5dyoN4dMxZ/eBqKF3VhxHHdqt22bMWqR0Q70uQIN2I2y/zZXUs
+         fPN+1PD/9J6aEwfCb59gpWMgbcjdMj3nM7GKBPxQ/3DH9WqO8tCnTSIqePYbVcXPZzzz
+         WJSCWNTeIdNDGuSUbHmVR7tr1eCrdUcWes6r3IU3Cv9OI5N6wmsIqVsy8yVnYiB5eVQG
+         wY3GtvbmQj2NAoqasePnjcKwlN/+s07LJqVXmjlVwemu8bys9qcwoklwlOA5uarevvLH
+         Fl9o0H7nK5jhHyqwaIpKM+zBQJN3khkySQ2skAg1G5n8WsdZ5shRGCiSDV9LTx/n6c5n
+         lXeg==
+X-Gm-Message-State: AOAM531+6cH0zDQcgqmW2xpWw8lVf+jP+Hho6nXJWDq7KST6iJ16QaMy
+        bx32iJXcxRWG5VeYVgJuFb6zEU87HnjBj2u7q7OdcA==
+X-Google-Smtp-Source: ABdhPJwsFBc09twuMsYzI3tcAUD/HnLA3n5A8ajF8pR1JVtTyA7YPLWhKw7Sj2aXf1gJvdIPtlsQ8x4hFlj5v0zpK3Q=
+X-Received: by 2002:a92:cd11:: with SMTP id z17mr2840347iln.201.1601978424196;
+ Tue, 06 Oct 2020 03:00:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.123.13]
-X-ClientProxiedBy: lhreml716-chm.china.huawei.com (10.201.108.67) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+References: <20200930203134.GA239959@roeck-us.net>
+In-Reply-To: <20200930203134.GA239959@roeck-us.net>
+From:   Luka Kovacic <luka.kovacic@sartura.hr>
+Date:   Tue, 6 Oct 2020 12:00:13 +0200
+Message-ID: <CADZsf3YC4W2TXr1iCh4qOnVgSf12TaY25GwSfACa150S0OSLGg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/7] drivers: hwmon: Add the iEi WT61P803 PUZZLE HWMON driver
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-hwmon@vger.kernel.org,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, Andrew Lunn <andrew@lunn.ch>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Luka Perkov <luka.perkov@sartura.hr>,
+        Robert Marko <robert.marko@sartura.hr>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 5 Oct 2020 13:38:28 -0500
-Rob Herring <robh@kernel.org> wrote:
+On Wed, Sep 30, 2020 at 10:31 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On Sat, Sep 26, 2020 at 03:55:10PM +0200, Luka Kovacic wrote:
+> > Add the iEi WT61P803 PUZZLE HWMON driver, that handles the fan speed
+> > control via PWM, reading fan speed and reading on-board temperature
+> > sensors.
+> >
+> > The driver registers a HWMON device and a simple thermal cooling device to
+> > enable in-kernel fan management.
+> >
+> > This driver depends on the iEi WT61P803 PUZZLE MFD driver.
+> >
+> > Signed-off-by: Luka Kovacic <luka.kovacic@sartura.hr>
+> > Cc: Luka Perkov <luka.perkov@sartura.hr>
+> > Cc: Robert Marko <robert.marko@sartura.hr>
+> > ---
+> >  drivers/hwmon/Kconfig                     |   8 +
+> >  drivers/hwmon/Makefile                    |   1 +
+> >  drivers/hwmon/iei-wt61p803-puzzle-hwmon.c | 511 ++++++++++++++++++++++
+> >  3 files changed, 520 insertions(+)
+> >  create mode 100644 drivers/hwmon/iei-wt61p803-puzzle-hwmon.c
+> >
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index 8dc28b26916e..ff279df9bf40 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -722,6 +722,14 @@ config SENSORS_IBMPOWERNV
+> >         This driver can also be built as a module. If so, the module
+> >         will be called ibmpowernv.
+> >
+> > +config SENSORS_IEI_WT61P803_PUZZLE_HWMON
+> > +     tristate "iEi WT61P803 PUZZLE MFD HWMON Driver"
+> > +     depends on MFD_IEI_WT61P803_PUZZLE
+> > +     help
+> > +       The iEi WT61P803 PUZZLE MFD HWMON Driver handles reading fan speed
+> > +       and writing fan PWM values. It also supports reading on-board
+> > +       temperature sensors.
+> > +
+> >  config SENSORS_IIO_HWMON
+> >       tristate "Hwmon driver that uses channels specified via iio maps"
+> >       depends on IIO
+> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> > index a8f4b35b136b..b0afb2d6896f 100644
+> > --- a/drivers/hwmon/Makefile
+> > +++ b/drivers/hwmon/Makefile
+> > @@ -83,6 +83,7 @@ obj-$(CONFIG_SENSORS_HIH6130)       += hih6130.o
+> >  obj-$(CONFIG_SENSORS_ULTRA45)        += ultra45_env.o
+> >  obj-$(CONFIG_SENSORS_I5500)  += i5500_temp.o
+> >  obj-$(CONFIG_SENSORS_I5K_AMB)        += i5k_amb.o
+> > +obj-$(CONFIG_SENSORS_IEI_WT61P803_PUZZLE_HWMON) += iei-wt61p803-puzzle-hwmon.o
+> >  obj-$(CONFIG_SENSORS_IBMAEM) += ibmaem.o
+> >  obj-$(CONFIG_SENSORS_IBMPEX) += ibmpex.o
+> >  obj-$(CONFIG_SENSORS_IBMPOWERNV)+= ibmpowernv.o
+> > diff --git a/drivers/hwmon/iei-wt61p803-puzzle-hwmon.c b/drivers/hwmon/iei-wt61p803-puzzle-hwmon.c
+> > new file mode 100644
+> > index 000000000000..2691b943936b
+> > --- /dev/null
+> > +++ b/drivers/hwmon/iei-wt61p803-puzzle-hwmon.c
+> > @@ -0,0 +1,511 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/* iEi WT61P803 PUZZLE MCU HWMON Driver
+> > + *
+> > + * Copyright (C) 2020 Sartura Ltd.
+> > + * Author: Luka Kovacic <luka.kovacic@sartura.hr>
+> > + */
+> > +
+> > +#include <linux/err.h>
+> > +#include <linux/hwmon-sysfs.h>
+> > +#include <linux/hwmon.h>
+> > +#include <linux/interrupt.h>
+> > +#include <linux/irq.h>
+> > +#include <linux/math64.h>
+> > +#include <linux/mfd/iei-wt61p803-puzzle.h>
+> > +#include <linux/mod_devicetable.h>
+> > +#include <linux/module.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/property.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/thermal.h>
+> > +
+> > +#define IEI_WT61P803_PUZZLE_HWMON_MAX_TEMP_NUM 2
+> > +#define IEI_WT61P803_PUZZLE_HWMON_MAX_FAN_NUM 5
+> > +#define IEI_WT61P803_PUZZLE_HWMON_MAX_PWM_NUM 2
+> > +#define IEI_WT61P803_PUZZLE_HWMON_MAX_PWM_VAL 255
+> > +
+> > +/**
+> > + * struct iei_wt61p803_puzzle_thermal_cooling_device - Thermal cooling device instance
+> > + *
+> > + * @mcu_hwmon:               MCU HWMON struct pointer
+> > + * @tcdev:           Thermal cooling device pointer
+> > + * @name:            Thermal cooling device name
+> > + * @pwm_channel:     PWM channel (0 or 1)
+> > + * @cooling_levels:  Thermal cooling device cooling levels
+> > + */
+> > +struct iei_wt61p803_puzzle_thermal_cooling_device {
+> > +     struct iei_wt61p803_puzzle_hwmon *mcu_hwmon;
+> > +     struct thermal_cooling_device *tcdev;
+> > +     char name[THERMAL_NAME_LENGTH];
+> > +     int pwm_channel;
+> > +     u8 *cooling_levels;
+> > +};
+> > +
+> > +/**
+> > + * struct iei_wt61p803_puzzle_hwmon - MCU HWMON Driver
+> > + *
+> > + * @mcu:                             MCU struct pointer
+> > + * @lock                             General member lock
+> > + * @response_buffer                  Global MCU response buffer allocation
+> > + * @temp_sensor_val:                 Temperature sensor values
+> > + * @fan_speed_val:                   FAN speed (RPM) values
+> > + * @pwm_val:                         PWM values (0-255)
+> > + * @thermal_cooling_dev_present:     Per-channel thermal cooling device control
+> > + * @cdev:                            Per-channel thermal cooling device private structure
+> > + */
+> > +struct iei_wt61p803_puzzle_hwmon {
+> > +     struct iei_wt61p803_puzzle *mcu;
+> > +     struct mutex lock;
+> > +     unsigned char *response_buffer;
+> > +     int temp_sensor_val[IEI_WT61P803_PUZZLE_HWMON_MAX_TEMP_NUM];
+> > +     int fan_speed_val[IEI_WT61P803_PUZZLE_HWMON_MAX_FAN_NUM];
+> > +     int pwm_val[IEI_WT61P803_PUZZLE_HWMON_MAX_PWM_NUM];
+> > +     bool thermal_cooling_dev_present[IEI_WT61P803_PUZZLE_HWMON_MAX_PWM_NUM];
+> > +     struct iei_wt61p803_puzzle_thermal_cooling_device
+> > +             *cdev[IEI_WT61P803_PUZZLE_HWMON_MAX_PWM_NUM];
+> > +};
+> > +
+> > +#define raw_temp_to_milidegree_celsius(x) ((int)((x - 0x80)*1000))
+>
+> Spaces around '*', please, and (x). checkpatch --strict will tell about it.
+>
+> > +static int iei_wt61p803_puzzle_read_temp_sensor
+> > +(struct iei_wt61p803_puzzle_hwmon *mcu_hwmon, int channel, int *value)
+>
+> Odd multi-line alignment. Please use either
+>
+> static int
+> iei_wt61p803_puzzle_read_temp_sensor(struct iei_wt61p803_puzzle_hwmon *mcu_hwmon, int channel,
+>                                      int *value)
+>
+> or
+>
+> static int iei_wt61p803_puzzle_read_temp_sensor(struct iei_wt61p803_puzzle_hwmon *mcu_hwmon,
+>                                                 int channel, int *value)
+>
+> There are lots of those in this driver. Please run
+> checkpatch --strict and fix what it reports.
+>
+> > +{
+> > +     int ret;
+> > +     size_t reply_size = 0;
+> > +     unsigned char *resp_buf = mcu_hwmon->response_buffer;
+> > +     unsigned char temp_sensor_ntc_cmd[4] = {
+> > +             IEI_WT61P803_PUZZLE_CMD_HEADER_START,
+> > +             IEI_WT61P803_PUZZLE_CMD_TEMP,
+> > +             IEI_WT61P803_PUZZLE_CMD_TEMP_ALL
+> > +     };
+> > +
+> > +     if (channel > 1 && channel < 0)
+> > +             return -EINVAL;
+>
+> Unnecessary range check.
+>
+> > +
+> > +     mutex_lock(&mcu_hwmon->lock);
+> > +     ret = iei_wt61p803_puzzle_write_command(mcu_hwmon->mcu,
+> > +                     temp_sensor_ntc_cmd, sizeof(temp_sensor_ntc_cmd),
+> > +                     resp_buf, &reply_size);
+>
+>         if (ret < 0)
+>                 goto unlock;
+>
+> > +     if (!ret) {
+> > +             /* Check the number of NTC values (should be 0x32/'2') */
+> > +             if (resp_buf[3] == 0x32) {
+> > +                     /* Write values to the struct */
+> > +                     mcu_hwmon->temp_sensor_val[0] =
+> > +                             raw_temp_to_milidegree_celsius(resp_buf[4]);
+> > +                     mcu_hwmon->temp_sensor_val[1] =
+> > +                             raw_temp_to_milidegree_celsius(resp_buf[5]);
+>
+> What is the point of storing the return values in mcu_hwmon->temp_sensor_val[] ?
+>
+> > +             }
+> > +
+>
+> Unnecessary empty line. checkpatch --strict reports this.
+>
+> > +     }
+> > +     *value = mcu_hwmon->temp_sensor_val[channel];
+>
+> unlock:
+>
+> > +     mutex_unlock(&mcu_hwmon->lock);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +#define raw_fan_val_to_rpm(x, y) ((int)(((x)<<8|(y))/2)*60)
+> > +static int iei_wt61p803_puzzle_read_fan_speed
+> > +(struct iei_wt61p803_puzzle_hwmon *mcu_hwmon, int channel, int *value)
+> > +{
+> > +     int ret;
+> > +     size_t reply_size = 0;
+> > +     unsigned char *resp_buf = mcu_hwmon->response_buffer;
+> > +     unsigned char fan_speed_cmd[4] = {
+> > +             IEI_WT61P803_PUZZLE_CMD_HEADER_START,
+> > +             IEI_WT61P803_PUZZLE_CMD_FAN,
+> > +             IEI_WT61P803_PUZZLE_CMD_FAN_RPM_0
+> > +     };
+> > +
+> > +     switch (channel) {
+> > +     case 0:
+> > +             fan_speed_cmd[2] = IEI_WT61P803_PUZZLE_CMD_FAN_RPM_0;
+> > +             break;
+> > +     case 1:
+> > +             fan_speed_cmd[2] = IEI_WT61P803_PUZZLE_CMD_FAN_RPM_1;
+> > +             break;
+> > +     case 2:
+> > +             fan_speed_cmd[2] = IEI_WT61P803_PUZZLE_CMD_FAN_RPM_2;
+> > +             break;
+> > +     case 3:
+> > +             fan_speed_cmd[2] = IEI_WT61P803_PUZZLE_CMD_FAN_RPM_3;
+> > +             break;
+> > +     case 4:
+> > +             fan_speed_cmd[2] = IEI_WT61P803_PUZZLE_CMD_FAN_RPM_4;
+> > +             break;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+>
+> This would be much simpler written as
+>
+> static const u8 fan_speed_cmds[] = {
+>         IEI_WT61P803_PUZZLE_CMD_FAN_RPM_0,
+>         IEI_WT61P803_PUZZLE_CMD_FAN_RPM_1,
+>         IEI_WT61P803_PUZZLE_CMD_FAN_RPM_2,
+>         IEI_WT61P803_PUZZLE_CMD_FAN_RPM_3,
+>         IEI_WT61P803_PUZZLE_CMD_FAN_RPM_4
+> };
+>         ...
+>
+>         fan_speed_cmd[2] = fan_speed_cmds[channel];
+>
+> > +
+> > +     mutex_lock(&mcu_hwmon->lock);
+> > +     ret = iei_wt61p803_puzzle_write_command(mcu_hwmon->mcu, fan_speed_cmd,
+> > +                     sizeof(fan_speed_cmd), resp_buf, &reply_size);
+>
+>         if (ret < 0)
+>                 goto unlock;
+>
+> > +     if (!ret)
+> > +             mcu_hwmon->fan_speed_val[channel] = raw_fan_val_to_rpm(resp_buf[3],
+> > +                             resp_buf[4]);
+> > +
+> > +     *value = mcu_hwmon->fan_speed_val[channel];
+>
+> What exactly is the point of storing the result in
+> mcu_hwmon->fan_speed_val[channel] ?
+>
+> I won't comment about similar code again, but please drop any such
+> unnecessary arrays.
+>
+> > +     mutex_unlock(&mcu_hwmon->lock);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int iei_wt61p803_puzzle_write_pwm_channel
+> > +(struct iei_wt61p803_puzzle_hwmon *mcu_hwmon, int channel, long pwm_set_val)
+> > +{
+> > +     int ret;
+> > +     size_t reply_size = 0;
+> > +     unsigned char *resp_buf = mcu_hwmon->response_buffer;
+> > +     unsigned char pwm_set_cmd[6] = {
+> > +             IEI_WT61P803_PUZZLE_CMD_HEADER_START,
+> > +             IEI_WT61P803_PUZZLE_CMD_FAN,
+> > +             IEI_WT61P803_PUZZLE_CMD_FAN_PWM_WRITE,
+> > +             IEI_WT61P803_PUZZLE_CMD_FAN_PWM_0,
+> > +             0x00
+> > +     };
+> > +
+> > +     switch (channel) {
+> > +     case 0:
+> > +             pwm_set_cmd[3] = IEI_WT61P803_PUZZLE_CMD_FAN_PWM_0;
+> > +             break;
+> > +     case 1:
+> > +             pwm_set_cmd[3] = IEI_WT61P803_PUZZLE_CMD_FAN_PWM_1;
+> > +             break;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+>
+> Same as above - it would be much simpler to have IEI_WT61P803_PUZZLE_CMD_FAN_PWM_0
+> and IEI_WT61P803_PUZZLE_CMD_FAN_PWM_1 in an array and get it from there.
+> The range check is unnecessary.
+>
+> > +
+> > +     if (pwm_set_val < 0 || pwm_set_val > IEI_WT61P803_PUZZLE_HWMON_MAX_PWM_VAL)
+> > +             return -EINVAL;
+> > +
+> > +     /* Add the PWM value to the command */
+> > +     pwm_set_cmd[4] = (char)pwm_set_val;
+>
+> I think this typecast is quite unnecessary. Besides, it is wrong, since the
+> value is an unsigned char.
+>
+> > +
+> > +     mutex_lock(&mcu_hwmon->lock);
+> > +     ret = iei_wt61p803_puzzle_write_command(mcu_hwmon->mcu, pwm_set_cmd,
+> > +                     sizeof(pwm_set_cmd), resp_buf, &reply_size);
+>
+>         if (ret < 0)
+>                 goto unlock;
+>
+> > +     if (!ret) {
+> > +             /* Store the PWM value */
+>
+> What for ?
+>
+> Ah yes, I think I finally get it: All this odd handling is to be able to ignore
+> errors. But that is not acceptable. If there is an error, report it to the user.
+> You can't really claim no error to the user when the value wasn't stored.
+>
+> > +             if (resp_buf[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_START &&
+> > +                             resp_buf[1] == IEI_WT61P803_PUZZLE_CMD_RESPONSE_OK &&
+> > +                             resp_buf[2] == IEI_WT61P803_PUZZLE_CHECKSUM_RESPONSE_OK)
+> > +                     mcu_hwmon->pwm_val[channel] = (int)pwm_set_val;
+> > +     }
+> > +     mutex_unlock(&mcu_hwmon->lock);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int iei_wt61p803_puzzle_read_pwm_channel
+> > +(struct iei_wt61p803_puzzle_hwmon *mcu_hwmon, int channel, int *value)
+> > +{
+> > +     int ret;
+> > +     size_t reply_size = 0;
+> > +     unsigned char *resp_buf = mcu_hwmon->response_buffer;
+> > +     unsigned char pwm_get_cmd[5] = {
+> > +             IEI_WT61P803_PUZZLE_CMD_HEADER_START,
+> > +             IEI_WT61P803_PUZZLE_CMD_FAN,
+> > +             IEI_WT61P803_PUZZLE_CMD_FAN_PWM_READ,
+> > +             IEI_WT61P803_PUZZLE_CMD_FAN_PWM_0
+> > +     };
+> > +
+> > +     switch (channel) {
+> > +     case 0:
+> > +             pwm_get_cmd[3] = IEI_WT61P803_PUZZLE_CMD_FAN_PWM_0;
+> > +             break;
+> > +     case 1:
+> > +             pwm_get_cmd[3] = IEI_WT61P803_PUZZLE_CMD_FAN_PWM_1;
+> > +             break;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+>
+> Same comments as before.
+>
+> > +
+> > +     mutex_lock(&mcu_hwmon->lock);
+> > +     ret = iei_wt61p803_puzzle_write_command(mcu_hwmon->mcu, pwm_get_cmd,
+> > +                     sizeof(pwm_get_cmd), resp_buf, &reply_size);
+> > +     if (!ret) {
+> > +             /* Store the PWM value */
+> > +             if (resp_buf[2] == IEI_WT61P803_PUZZLE_CMD_FAN_PWM_READ)
+> > +                     mcu_hwmon->pwm_val[channel] = (int)resp_buf[3];
+> > +     }
+>
+> Same comments as before.
+>
+> > +     *value = mcu_hwmon->pwm_val[channel];
+> > +     mutex_unlock(&mcu_hwmon->lock);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int iei_wt61p803_puzzle_read(struct device *dev, enum hwmon_sensor_types type,
+> > +             u32 attr, int channel, long *val)
+> > +{
+> > +     struct iei_wt61p803_puzzle_hwmon *mcu_hwmon =
+> > +             dev_get_drvdata(dev->parent);
+> > +     int ret, value;
+> > +
+> > +     switch (type) {
+> > +     case hwmon_pwm:
+> > +             if (attr != hwmon_pwm_input)
+> > +                     return -ENODEV;
+> > +             ret = iei_wt61p803_puzzle_read_pwm_channel(mcu_hwmon, channel, &value);
+> > +             if (ret)
+> > +                     return ret;
+> > +             *val = (long)value;
+> > +             return ret;
+> > +     case hwmon_fan:
+> > +             if (attr != hwmon_fan_input)
+> > +                     return -ENODEV;
+> > +             ret = iei_wt61p803_puzzle_read_fan_speed(mcu_hwmon, channel, &value);
+> > +             if (ret)
+> > +                     return ret;
+> > +             *val = (long)value;
+>
+> Unncecssary typecast. Plase check all typecasts and keep only those which
+> are really needed (if there are any).
+>
+> > +             return ret;
+>
+> ret is 0 here.
+>
+> > +     case hwmon_temp:
+> > +             if (attr != hwmon_temp_input)
+> > +                     return -ENODEV;
+> > +             ret = iei_wt61p803_puzzle_read_temp_sensor(mcu_hwmon, channel, &value);
+> > +             if (ret)
+> > +                     return ret;
+> > +             *val = (long)value;
+> > +             return ret;
+>
+> ret is 0 here. That is sprinkled through the code. Please
+> replace with "return 0;" everywhere.
+>
+> > +     default:
+> > +             return -ENODEV;
+> > +     }
+> > +}
+> > +
+> > +static int iei_wt61p803_puzzle_write(struct device *dev, enum hwmon_sensor_types type,
+> > +             u32 attr, int channel, long val)
+> > +{
+> > +     struct iei_wt61p803_puzzle_hwmon *mcu_hwmon =
+> > +             dev_get_drvdata(dev->parent);
+> > +
+> > +     switch (type) {
+> > +     case hwmon_pwm:
+> > +             if (attr != hwmon_pwm_input)
+> > +                     return -ENODEV;
+> > +             if (mcu_hwmon->thermal_cooling_dev_present[channel]) {
+> > +                     /*
+> > +                      * The Thermal Framework has already claimed this specific PWM
+> > +                      * channel.
+> > +                      */
+> > +                     return -EBUSY;
+> > +             }
+> This won't happen (the attribute is read-only in this case), and the check is
+> therefore unnecessary and just adds confusion.
+>
+> > +             return iei_wt61p803_puzzle_write_pwm_channel(mcu_hwmon, channel, val);
+> > +     default:
+> > +             return -ENODEV;
+> > +     }
+>
+> Unless there is a plan to make other types writable, this switch statement
+> is unnecessary. Only pwm attributes are writeable, after all, so the code
+> won't be called for anything else.
+>
+> > +}
+> > +
+> > +static umode_t iei_wt61p803_puzzle_is_visible(const void *data,
+> > +             enum hwmon_sensor_types type, u32 attr, int channel)
+> > +{
+> > +     const struct iei_wt61p803_puzzle_hwmon *mcu_hwmon = data;
+> > +
+> > +     switch (type) {
+> > +     case hwmon_pwm:
+> > +             switch (attr) {
+> > +             case hwmon_pwm_input:
+> > +                     if (mcu_hwmon->thermal_cooling_dev_present[channel])
+> > +                             return 0444;
+> > +                     return 0644;
+> > +             default:
+> > +                     return 0;
+> > +             }
+> > +     case hwmon_fan:
+> > +             switch (attr) {
+> > +             case hwmon_fan_input:
+> > +                     return 0444;
+> > +             default:
+> > +                     return 0;
+> > +             }
+> > +     case hwmon_temp:
+> > +             switch (attr) {
+> > +             case hwmon_temp_input:
+> > +                     return 0444;
+> > +             default:
+> > +                     return 0;
+> > +             }
+> > +     default:
+> > +             return 0;
+> > +     }
+> > +}
+> > +
+> > +static const struct hwmon_ops iei_wt61p803_puzzle_hwmon_ops = {
+> > +     .is_visible = iei_wt61p803_puzzle_is_visible,
+> > +     .read = iei_wt61p803_puzzle_read,
+> > +     .write = iei_wt61p803_puzzle_write,
+> > +};
+> > +
+> > +static const struct hwmon_channel_info *iei_wt61p803_puzzle_info[] = {
+> > +     HWMON_CHANNEL_INFO(pwm,
+> > +                     HWMON_PWM_INPUT,
+> > +                     HWMON_PWM_INPUT),
+> > +     HWMON_CHANNEL_INFO(fan,
+> > +                     HWMON_F_INPUT,
+> > +                     HWMON_F_INPUT,
+> > +                     HWMON_F_INPUT,
+> > +                     HWMON_F_INPUT,
+> > +                     HWMON_F_INPUT),
+> > +     HWMON_CHANNEL_INFO(temp,
+> > +                     HWMON_T_INPUT,
+> > +                     HWMON_T_INPUT),
+> > +     NULL
+> > +};
+> > +
+> > +static const struct hwmon_chip_info iei_wt61p803_puzzle_chip_info = {
+> > +     .ops = &iei_wt61p803_puzzle_hwmon_ops,
+> > +     .info = iei_wt61p803_puzzle_info,
+> > +};
+> > +
+> > +static int iei_wt61p803_puzzle_get_max_state
+> > +(struct thermal_cooling_device *tcdev, unsigned long *state)
+> > +{
+> > +     *state = IEI_WT61P803_PUZZLE_HWMON_MAX_PWM_VAL;
+> > +
+> > +     return 0;
+> > +}
+> > +static int iei_wt61p803_puzzle_get_cur_state
+> > +(struct thermal_cooling_device *tcdev, unsigned long *state)
+> > +{
+> > +     struct iei_wt61p803_puzzle_thermal_cooling_device *cdev = tcdev->devdata;
+> > +     struct iei_wt61p803_puzzle_hwmon *mcu_hwmon = cdev->mcu_hwmon;
+> > +
+> > +     int ret, value;
+> > +
+> > +     if (!mcu_hwmon)
+> > +             return -EINVAL;
+> > +
+> > +     ret = iei_wt61p803_puzzle_read_pwm_channel(mcu_hwmon,
+> > +                     cdev->pwm_channel, &value);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     *state = (unsigned long)value;
+> > +
+> > +     return 0;
+> > +}
+>
+> Missing empty line. checkpatch --strict reports this.
+>
+> > +static int iei_wt61p803_puzzle_set_cur_state
+> > +(struct thermal_cooling_device *tcdev, unsigned long state)
+> > +{
+> > +     struct iei_wt61p803_puzzle_thermal_cooling_device *cdev = tcdev->devdata;
+> > +     struct iei_wt61p803_puzzle_hwmon *mcu_hwmon = cdev->mcu_hwmon;
+> > +
+> > +     if (!mcu_hwmon)
+> > +             return -EINVAL;
+> > +
+> > +     return iei_wt61p803_puzzle_write_pwm_channel(mcu_hwmon,
+> > +                     cdev->pwm_channel, state);
+> > +}
+> > +static const struct thermal_cooling_device_ops iei_wt61p803_puzzle_cooling_ops = {
+> > +     .get_max_state = iei_wt61p803_puzzle_get_max_state,
+> > +     .get_cur_state = iei_wt61p803_puzzle_get_cur_state,
+> > +     .set_cur_state = iei_wt61p803_puzzle_set_cur_state,
+> > +};
+> > +
+> > +static int iei_wt61p803_puzzle_enable_thermal_cooling_dev
+> > +(struct device *dev, struct fwnode_handle *child, struct iei_wt61p803_puzzle_hwmon *mcu_hwmon)
+> > +{
+> > +     u32 pwm_channel;
+> > +     int ret, num_levels;
+> > +
+> > +     struct iei_wt61p803_puzzle_thermal_cooling_device *cdev;
+> > +
+> > +     ret = fwnode_property_read_u32(child, "reg", &pwm_channel);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     mutex_lock(&mcu_hwmon->lock);
+> > +     mcu_hwmon->thermal_cooling_dev_present[pwm_channel] = true;
+> > +     mutex_unlock(&mcu_hwmon->lock);
+> > +
+> > +     num_levels = fwnode_property_read_u8_array(child, "cooling-levels", NULL, 0);
+> > +     if (num_levels > 0) {
+> > +             cdev = devm_kzalloc(dev, sizeof(*cdev), GFP_KERNEL);
+> > +             if (!cdev)
+> > +                     return -ENOMEM;
+> > +
+> > +             cdev->cooling_levels = devm_kzalloc(dev, num_levels, GFP_KERNEL);
+> > +             if (!cdev->cooling_levels)
+> > +                     return -ENOMEM;
+> > +
+> > +             ret = fwnode_property_read_u8_array(child, "cooling-levels",
+> > +                             cdev->cooling_levels, num_levels);
+> > +             if (ret) {
+> > +                     dev_err(dev, "Couldn't read property 'cooling-levels'");
+> > +                     return ret;
+> > +             }
+> > +
+> > +             snprintf(cdev->name, THERMAL_NAME_LENGTH, "iei_wt61p803_puzzle_%d", pwm_channel);
+> > +
+> > +             cdev->tcdev = devm_thermal_of_cooling_device_register(dev, NULL,
+> > +                             cdev->name, cdev, &iei_wt61p803_puzzle_cooling_ops);
+> > +             if (IS_ERR(cdev->tcdev))
+> > +                     return PTR_ERR(cdev->tcdev);
+> > +
+> > +             cdev->mcu_hwmon = mcu_hwmon;
+> > +             cdev->pwm_channel = pwm_channel;
+> > +
+> > +             mutex_lock(&mcu_hwmon->lock);
+> > +             mcu_hwmon->cdev[pwm_channel] = cdev;
+> > +             mutex_unlock(&mcu_hwmon->lock);
+> > +     }
+> > +     return 0;
+> > +}
+> > +
+> > +static int iei_wt61p803_puzzle_hwmon_probe(struct platform_device *pdev)
+> > +{
+> > +     struct device *dev = &pdev->dev;
+> > +     struct fwnode_handle *child;
+> > +     struct iei_wt61p803_puzzle_hwmon *mcu_hwmon;
+> > +     struct iei_wt61p803_puzzle *mcu = dev_get_drvdata(dev->parent);
+> > +     struct device *hwmon_dev;
+> > +     int ret;
+> > +
+> > +     mcu_hwmon = devm_kzalloc(dev, sizeof(*mcu_hwmon), GFP_KERNEL);
+> > +     if (!mcu_hwmon)
+> > +             return -ENOMEM;
+> > +
+> > +     mcu_hwmon->response_buffer = devm_kzalloc(dev,
+> > +                     IEI_WT61P803_PUZZLE_BUF_SIZE, GFP_KERNEL);
+> > +     if (!mcu_hwmon->response_buffer)
+> > +             return -ENOMEM;
+> > +
+> > +     mcu_hwmon->mcu = mcu;
+> > +     mutex_init(&mcu_hwmon->lock);
+> > +     platform_set_drvdata(pdev, mcu_hwmon);
+> > +
+> > +     hwmon_dev = devm_hwmon_device_register_with_info(dev,
+> > +                                     "iei_wt61p803_puzzle",
+> > +                                     mcu_hwmon,
+> > +                                     &iei_wt61p803_puzzle_chip_info,
+> > +                                     NULL);
+> > +
+> > +     /* Control fans via PWM lines via Linux Kernel */
+> > +     if (IS_ENABLED(CONFIG_THERMAL)) {
+> > +             device_for_each_child_node(dev, child) {
+> > +                     ret = iei_wt61p803_puzzle_enable_thermal_cooling_dev(dev, child, mcu_hwmon);
+> > +                     if (ret) {
+> > +                             dev_err(dev, "Enabling the PWM fan failed\n");
+> > +                             fwnode_handle_put(child);
+> > +                             return ret;
+> > +                     }
+> > +             }
+> > +     }
+> > +     return 0;
+> > +}
+> > +
+> > +static const struct of_device_id iei_wt61p803_puzzle_hwmon_id_table[] = {
+> > +     { .compatible = "iei,wt61p803-puzzle-hwmon" },
+> > +     {}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, iei_wt61p803_puzzle_hwmon_id_table);
+> > +
+> > +static struct platform_driver iei_wt61p803_puzzle_hwmon_driver = {
+> > +     .driver = {
+> > +             .name = "iei-wt61p803-puzzle-hwmon",
+> > +             .of_match_table = iei_wt61p803_puzzle_hwmon_id_table,
+> > +     },
+> > +     .probe = iei_wt61p803_puzzle_hwmon_probe,
+> > +};
+> > +
+> > +module_platform_driver(iei_wt61p803_puzzle_hwmon_driver);
+> > +
+> > +MODULE_DESCRIPTION("iEi WT61P803 PUZZLE MCU HWMON Driver");
+> > +MODULE_AUTHOR("Luka Kovacic <luka.kovacic@sartura.hr>");
+> > +MODULE_LICENSE("GPL");
+> > --
+> > 2.26.2
+> >
 
-> In cases where we don't reference another schema, 'additionalProperties'
-> can be used instead. This is preferred for now as 'unevaluatedProperties'
-> support isn't implemented yet.
-> 
-> In a few cases, this means adding some missing property definitions of
-> which most are for SPI bus properties. 'unevaluatedProperties' is not going
-> to work for the SPI bus properties anyways as they are evaluated from the
-> parent node, not the SPI child node.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Hello Guenter,
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Thanks for reviewing the patch.
+I'll resolve the code styling issues, fix the error handling, and
+other issues you
+have pointed out.
 
-> ---
->  .../devicetree/bindings/clock/baikal,bt1-ccu-div.yaml  |  6 +++++-
->  .../devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml  |  2 +-
->  .../devicetree/bindings/clock/imx8m-clock.yaml         |  2 +-
->  .../devicetree/bindings/hwmon/baikal,bt1-pvt.yaml      |  4 ++--
->  .../devicetree/bindings/iio/accel/adi,adis16240.yaml   |  4 +++-
->  .../devicetree/bindings/iio/accel/adi,adxl345.yaml     |  4 +++-
->  .../devicetree/bindings/iio/accel/adi,adxl372.yaml     |  4 +++-
->  .../devicetree/bindings/iio/adc/adi,ad7124.yaml        |  4 +++-
->  .../devicetree/bindings/iio/adc/adi,ad7192.yaml        |  4 +++-
->  .../devicetree/bindings/iio/adc/adi,ad7292.yaml        |  4 +++-
->  .../devicetree/bindings/iio/adc/adi,ad7606.yaml        |  6 +++++-
->  .../devicetree/bindings/iio/adc/adi,ad7923.yaml        |  4 +++-
->  .../devicetree/bindings/iio/adc/maxim,max1241.yaml     |  4 +++-
->  .../devicetree/bindings/iio/dac/adi,ad5770r.yaml       | 10 +++++++++-
->  .../devicetree/bindings/iio/frequency/adf4371.yaml     |  4 +++-
->  .../devicetree/bindings/iio/imu/adi,adis16460.yaml     |  4 +++-
->  .../devicetree/bindings/iio/imu/adi,adis16475.yaml     |  2 +-
->  .../devicetree/bindings/iio/imu/bosch,bmi160.yaml      |  4 +++-
->  .../devicetree/bindings/iio/imu/nxp,fxos8700.yaml      |  4 +++-
->  .../bindings/interrupt-controller/mti,gic.yaml         |  2 +-
->  .../devicetree/bindings/mfd/cirrus,lochnagar.yaml      | 10 +++++++++-
->  .../bindings/mfd/ti,j721e-system-controller.yaml       |  5 ++++-
->  .../devicetree/bindings/misc/olpc,xo1.75-ec.yaml       |  4 +++-
->  .../opp/allwinner,sun50i-h6-operating-points.yaml      |  4 +++-
->  .../bindings/regulator/qcom-labibb-regulator.yaml      |  2 +-
->  .../devicetree/bindings/timer/snps,dw-apb-timer.yaml   |  2 +-
->  26 files changed, 82 insertions(+), 27 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-div.yaml b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-div.yaml
-> index 2821425ee445..bd4cefbb1244 100644
-> --- a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-div.yaml
-> +++ b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-div.yaml
-> @@ -134,7 +134,11 @@ properties:
->    "#reset-cells":
->      const: 1
->  
-> -unevaluatedProperties: false
-> +  clocks: true
-> +
-> +  clock-names: true
-> +
-> +additionalProperties: false
->  
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
-> index 97131bfa6f87..624984d51c10 100644
-> --- a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
-> +++ b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
-> @@ -101,7 +101,7 @@ properties:
->    clock-names:
->      const: ref_clk
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/clock/imx8m-clock.yaml b/Documentation/devicetree/bindings/clock/imx8m-clock.yaml
-> index 31e7cc9693c3..625f573a7b90 100644
-> --- a/Documentation/devicetree/bindings/clock/imx8m-clock.yaml
-> +++ b/Documentation/devicetree/bindings/clock/imx8m-clock.yaml
-> @@ -96,7 +96,7 @@ allOf:
->              - const: clk_ext3
->              - const: clk_ext4
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    # Clock Control Module node:
-> diff --git a/Documentation/devicetree/bindings/hwmon/baikal,bt1-pvt.yaml b/Documentation/devicetree/bindings/hwmon/baikal,bt1-pvt.yaml
-> index 84ae4cdd08ed..00a6511354e6 100644
-> --- a/Documentation/devicetree/bindings/hwmon/baikal,bt1-pvt.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/baikal,bt1-pvt.yaml
-> @@ -79,7 +79,7 @@ properties:
->        minimum: 0
->        maximum: 7130
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  required:
->    - compatible
-> @@ -99,7 +99,7 @@ examples:
->  
->        interrupts = <GIC_SHARED 31 IRQ_TYPE_LEVEL_HIGH>;
->  
-> -      baikal,pvt-temp-trim-millicelsius = <1000>;
-> +      baikal,pvt-temp-offset-millicelsius = <1000>;
->  
->        clocks = <&ccu_sys>, <&ccu_sys>;
->        clock-names = "ref", "pclk";
-> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adis16240.yaml b/Documentation/devicetree/bindings/iio/accel/adi,adis16240.yaml
-> index 8589b722028d..4fcbfd93e218 100644
-> --- a/Documentation/devicetree/bindings/iio/accel/adi,adis16240.yaml
-> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adis16240.yaml
-> @@ -25,12 +25,14 @@ properties:
->    interrupts:
->      maxItems: 1
->  
-> +  spi-max-frequency: true
-> +
->  required:
->    - compatible
->    - reg
->    - interrupts
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml b/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> index 591ca32181b0..11d32a288535 100644
-> --- a/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> @@ -32,6 +32,8 @@ properties:
->  
->    spi-cpol: true
->  
-> +  spi-max-frequency: true
-> +
->    interrupts:
->      maxItems: 1
->  
-> @@ -40,7 +42,7 @@ required:
->    - reg
->    - interrupts
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adxl372.yaml b/Documentation/devicetree/bindings/iio/accel/adi,adxl372.yaml
-> index 64f275c8e2d9..38b59b6454ce 100644
-> --- a/Documentation/devicetree/bindings/iio/accel/adi,adxl372.yaml
-> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adxl372.yaml
-> @@ -25,12 +25,14 @@ properties:
->    interrupts:
->      maxItems: 1
->  
-> +  spi-max-frequency: true
-> +
->  required:
->    - compatible
->    - reg
->    - interrupts
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
-> index d0d2880626c2..f1c574c896cb 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
-> @@ -52,6 +52,8 @@ properties:
->    avdd-supply:
->      description: avdd supply can be used as reference for conversion.
->  
-> +  spi-max-frequency: true
-> +
->  required:
->    - compatible
->    - reg
-> @@ -108,7 +110,7 @@ patternProperties:
->        - reg
->        - diff-channels
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-> index ed363a796e50..e0cc3b2e8957 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-> @@ -30,6 +30,8 @@ properties:
->  
->    spi-cpha: true
->  
-> +  spi-max-frequency: true
-> +
->    clocks:
->      maxItems: 1
->      description: phandle to the master clock (mclk)
-> @@ -92,7 +94,7 @@ required:
->    - spi-cpol
->    - spi-cpha
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
-> index 55e973c6449c..108d202b288f 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
-> @@ -30,6 +30,8 @@ properties:
->  
->    spi-cpha: true
->  
-> +  spi-max-frequency: true
-> +
->    '#address-cells':
->      const: 1
->  
-> @@ -63,7 +65,7 @@ patternProperties:
->      required:
->        - reg
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-> index 014b020ed0c2..73775174cf57 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-> @@ -31,6 +31,10 @@ properties:
->  
->    spi-cpha: true
->  
-> +  spi-cpol: true
-> +
-> +  spi-max-frequency: true
-> +
->    avcc-supply: true
->  
->    interrupts:
-> @@ -102,7 +106,7 @@ required:
->    - interrupts
->    - adi,conversion-start-gpios
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7923.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7923.yaml
-> index 2a17641faed5..e82194974eea 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7923.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7923.yaml
-> @@ -43,11 +43,13 @@ properties:
->    '#size-cells':
->      const: 0
->  
-> +  spi-max-frequency: true
-> +
->  required:
->    - compatible
->    - reg
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/adc/maxim,max1241.yaml b/Documentation/devicetree/bindings/iio/adc/maxim,max1241.yaml
-> index 181213b862db..4c7e0d94bff1 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/maxim,max1241.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/maxim,max1241.yaml
-> @@ -39,13 +39,15 @@ properties:
->        thus enabling power-down mode.
->      maxItems: 1
->  
-> +  spi-max-frequency: true
-> +
->  required:
->    - compatible
->    - reg
->    - vdd-supply
->    - vref-supply
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/dac/adi,ad5770r.yaml b/Documentation/devicetree/bindings/iio/dac/adi,ad5770r.yaml
-> index faef288b7148..fb2c48fc7ce4 100644
-> --- a/Documentation/devicetree/bindings/iio/dac/adi,ad5770r.yaml
-> +++ b/Documentation/devicetree/bindings/iio/dac/adi,ad5770r.yaml
-> @@ -49,6 +49,14 @@ properties:
->        asserted during driver probe.
->      maxItems: 1
->  
-> +  spi-max-frequency: true
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
->    channel@0:
->      description: Represents an external channel which are
->        connected to the DAC. Channel 0 can act both as a current
-> @@ -130,7 +138,7 @@ required:
->    - channel@4
->    - channel@5
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/frequency/adf4371.yaml b/Documentation/devicetree/bindings/iio/frequency/adf4371.yaml
-> index 11d445f7010e..6b3a611e1cf1 100644
-> --- a/Documentation/devicetree/bindings/iio/frequency/adf4371.yaml
-> +++ b/Documentation/devicetree/bindings/iio/frequency/adf4371.yaml
-> @@ -40,13 +40,15 @@ properties:
->        output stage will shut down until the ADF4371/ADF4372 achieves lock as
->        measured by the digital lock detect circuitry.
->  
-> +  spi-max-frequency: true
-> +
->  required:
->    - compatible
->    - reg
->    - clocks
->    - clock-names
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/imu/adi,adis16460.yaml b/Documentation/devicetree/bindings/iio/imu/adi,adis16460.yaml
-> index 07c8ed4ee0f1..340be256f283 100644
-> --- a/Documentation/devicetree/bindings/iio/imu/adi,adis16460.yaml
-> +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16460.yaml
-> @@ -25,6 +25,8 @@ properties:
->  
->    spi-cpol: true
->  
-> +  spi-max-frequency: true
-> +
->    interrupts:
->      maxItems: 1
->  
-> @@ -33,7 +35,7 @@ required:
->    - reg
->    - interrupts
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml b/Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml
-> index c29385697bbf..79fba1508e89 100644
-> --- a/Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml
-> +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml
-> @@ -116,7 +116,7 @@ allOf:
->        dependencies:
->          adi,sync-mode: [ clocks ]
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/imu/bosch,bmi160.yaml b/Documentation/devicetree/bindings/iio/imu/bosch,bmi160.yaml
-> index 4f215399c8df..6e73cd889b5c 100644
-> --- a/Documentation/devicetree/bindings/iio/imu/bosch,bmi160.yaml
-> +++ b/Documentation/devicetree/bindings/iio/imu/bosch,bmi160.yaml
-> @@ -46,11 +46,13 @@ properties:
->    mount-matrix:
->      description: an optional 3x3 mounting rotation matrix
->  
-> +  spi-max-frequency: true
-> +
->  required:
->    - compatible
->    - reg
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/iio/imu/nxp,fxos8700.yaml b/Documentation/devicetree/bindings/iio/imu/nxp,fxos8700.yaml
-> index 716731c2b794..479e7065d4eb 100644
-> --- a/Documentation/devicetree/bindings/iio/imu/nxp,fxos8700.yaml
-> +++ b/Documentation/devicetree/bindings/iio/imu/nxp,fxos8700.yaml
-> @@ -36,11 +36,13 @@ properties:
->    drive-open-drain:
->      type: boolean
->  
-> +  spi-max-frequency: true
-> +
->  required:
->    - compatible
->    - reg
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/mti,gic.yaml b/Documentation/devicetree/bindings/interrupt-controller/mti,gic.yaml
-> index ce6aaff15214..039e08af98bb 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/mti,gic.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/mti,gic.yaml
-> @@ -95,7 +95,7 @@ properties:
->  
->      additionalProperties: false
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/mfd/cirrus,lochnagar.yaml b/Documentation/devicetree/bindings/mfd/cirrus,lochnagar.yaml
-> index 7a616577ac63..c00ad3e21c21 100644
-> --- a/Documentation/devicetree/bindings/mfd/cirrus,lochnagar.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/cirrus,lochnagar.yaml
-> @@ -130,6 +130,14 @@ properties:
->      type: object
->      $ref: /schemas/pinctrl/cirrus,lochnagar.yaml#
->  
-> +  lochnagar-hwmon:
-> +    type: object
-> +    $ref: /schemas/hwmon/cirrus,lochnagar.yaml#
-> +
-> +  lochnagar-sc:
-> +    type: object
-> +    $ref: /schemas/sound/cirrus,lochnagar.yaml#
-> +
->    VDDCORE:
->      description:
->        Initialisation data for the VDDCORE regulator, which supplies the
-> @@ -249,7 +257,7 @@ required:
->    - lochnagar-clk
->    - lochnagar-pinctrl
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/mfd/ti,j721e-system-controller.yaml b/Documentation/devicetree/bindings/mfd/ti,j721e-system-controller.yaml
-> index da3d9ab758b9..19fcf59fd2fe 100644
-> --- a/Documentation/devicetree/bindings/mfd/ti,j721e-system-controller.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/ti,j721e-system-controller.yaml
-> @@ -30,6 +30,9 @@ properties:
->        - const: syscon
->        - const: simple-mfd
->  
-> +  reg:
-> +    maxItems: 1
-> +
->    "#address-cells":
->      const: 1
->  
-> @@ -54,7 +57,7 @@ required:
->    - "#size-cells"
->    - ranges
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml b/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml
-> index e75d77beec6a..ade733cd60f7 100644
-> --- a/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml
-> +++ b/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml
-> @@ -28,11 +28,13 @@ properties:
->      description: GPIO uspecifier of the CMD pin
->      maxItems: 1
->  
-> +  spi-cpha: true
-> +
->  required:
->    - compatible
->    - cmd-gpios
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> index aef87a33a7c9..aeff2bd774dd 100644
-> --- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> +++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
-> @@ -31,6 +31,8 @@ properties:
->        Documentation/devicetree/bindings/nvmem/nvmem.txt and also
->        examples below.
->  
-> +  opp-shared: true
-> +
->  required:
->    - compatible
->    - nvmem-cells
-> @@ -53,7 +55,7 @@ patternProperties:
->  
->      unevaluatedProperties: false
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
-> index fb111e2d5b99..53853ec20fe2 100644
-> --- a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
-> +++ b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
-> @@ -47,7 +47,7 @@ properties:
->  required:
->    - compatible
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  examples:
->    - |
-> diff --git a/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml b/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
-> index 7b39e3204fb3..2fc617377e2c 100644
-> --- a/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
-> +++ b/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
-> @@ -45,7 +45,7 @@ properties:
->        frequency in HZ, but is defined only for the backwards compatibility
->        with the picoxcell platform.
->  
-> -unevaluatedProperties: false
-> +additionalProperties: false
->  
->  required:
->    - compatible
-
-
+Kind regards,
+Luka
