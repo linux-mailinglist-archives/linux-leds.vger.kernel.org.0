@@ -2,121 +2,156 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E46772850C1
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 19:26:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D85328548C
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Oct 2020 00:28:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725947AbgJFR02 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 6 Oct 2020 13:26:28 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:55150 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725902AbgJFR02 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Oct 2020 13:26:28 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 08C401C0B8B; Tue,  6 Oct 2020 19:26:26 +0200 (CEST)
-Date:   Tue, 6 Oct 2020 19:26:10 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek Behun <kabel@blackhole.sk>
-Cc:     Dan Murphy <dmurphy@ti.com>, ultracoolguy@tutanota.com,
-        Linux Leds <linux-leds@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH] leds: lm3697: Fix out-of-bound access
-Message-ID: <20201006172610.GA1836@duo.ucw.cz>
-References: <MItBqjy--3-2@tutanota.com>
- <966c3f39-1310-dd60-6f33-0d9464ed2ff1@ti.com>
- <MItOR9Z--3-2@tutanota.com>
- <20201005164808.slrtmsvmw4pvwppm@falbala.internal.home.lespocky.de>
- <MItjEho--3-2@tutanota.com>
- <20201005173227.GA6431@duo.ucw.cz>
- <20201006093356.6d25b280@blackhole.sk>
- <MIxm3uX--3-2@tutanota.com>
- <144aa75a-4369-cd81-d7dc-2354a9afd7c5@ti.com>
- <20201006164101.2c3fa0d7@blackhole.sk>
+        id S1727082AbgJFW14 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 6 Oct 2020 18:27:56 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33698 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726323AbgJFW14 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Oct 2020 18:27:56 -0400
+Received: by mail-ot1-f68.google.com with SMTP id t15so428098otk.0;
+        Tue, 06 Oct 2020 15:27:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=bIxfwcUKhwWi5PXEHY2oibtjWm53f5qOOJ6d+hhSij8=;
+        b=lQlcfl6ttx/kRd+oJdSUjrKcdM6Xo9OQEa/6y8r7y588RTWRMk5/KzZ5SFT32fBBGC
+         M2lmnQp5A12GD8nCUpe48V+AwesNiShKp70dwy2fcrOh/CJK+5CpNwPlG1hfTXdLQsWw
+         y+8Wel8UQLVLbnWdGbfW7FOZPIXCRJjm8i6+ZEBwGf9hdfu1V+VsMV1kKdyegJf/c6tx
+         2vvh6E/0w3pajSv82neWpsYALMZjJc7hOBC75YtafnC8BSo/2axzz2PV35/wcFimk5Db
+         5PaCCbRCD7JADFc9WFMN3AtUTuk2BmEYkNfIt1Dqv+w0xEk2hDSg3na5wsN6JKm8ch1B
+         ORfQ==
+X-Gm-Message-State: AOAM530lkJYn0fS7pnihxedg87TpjsFFx5BuQ8RCQEdTLbMBG3+UWa5u
+        2UoFCV5A6Tvp1tGBXloKxS3KMeAQ5eTZ
+X-Google-Smtp-Source: ABdhPJxRwMszI2DlfXiX8dwjERn3YfMK8ci9QTyyCK5c1CqJYSx11XCGap5FgjPbZZOpuJCAn1RIGg==
+X-Received: by 2002:a05:6830:138f:: with SMTP id d15mr85548otq.342.1602023275282;
+        Tue, 06 Oct 2020 15:27:55 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id t5sm96136otl.22.2020.10.06.15.27.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2020 15:27:54 -0700 (PDT)
+Received: (nullmailer pid 2969307 invoked by uid 1000);
+        Tue, 06 Oct 2020 22:27:53 -0000
+Date:   Tue, 6 Oct 2020 17:27:53 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Alexander Dahl <ada@thorsis.com>
+Cc:     Jeff LaBundy <jeff@labundy.com>, Alexander Dahl <post@lespocky.de>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v7 03/12] dt-bindings: mfd: Fix schema warnings for
+ pwm-leds
+Message-ID: <20201006222753.GA2965477@bogus>
+References: <20201005203451.9985-1-post@lespocky.de>
+ <20201005203451.9985-4-post@lespocky.de>
+ <20201006021729.GA4822@labundy.com>
+ <3367098.sbkyfNuaKI@ada>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="2oS5YaxWCcQjTEyO"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201006164101.2c3fa0d7@blackhole.sk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3367098.sbkyfNuaKI@ada>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Tue, Oct 06, 2020 at 08:34:23AM +0200, Alexander Dahl wrote:
+> Hello Jeff,
+> 
+> Am Dienstag, 6. Oktober 2020, 04:17:29 CEST schrieb Jeff LaBundy:
+> > Hi Alexander,
+> > 
+> > On Mon, Oct 05, 2020 at 10:34:42PM +0200, Alexander Dahl wrote:
+> > > The node names for devices using the pwm-leds driver follow a certain
+> > > naming scheme (now).  Parent node name is not enforced, but recommended
+> > > by DT project.
+> > > 
+> > >   DTC     Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml
+> > >   CHECK   Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml
+> > > 
+> > > /home/alex/build/linux/Documentation/devicetree/bindings/mfd/iqs62x.exampl
+> > > e.dt.yaml: pwmleds: 'panel' does not match any of the regexes:
+> > > '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'> 
+> > >         From schema:
+> > >         /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/
+> > >         leds-pwm.yaml> 
+> > > Signed-off-by: Alexander Dahl <post@lespocky.de>
+> > > ---
+> > > 
+> > > Notes:
+> > >     v6 -> v7:
+> > >       * added warning message to commit message (Krzysztof Kozlowski)
+> > >     
+> > >     v6:
+> > >       * added this patch to series
+> > >  
+> > >  Documentation/devicetree/bindings/mfd/iqs62x.yaml | 5 +++--
+> > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/mfd/iqs62x.yaml
+> > > b/Documentation/devicetree/bindings/mfd/iqs62x.yaml index
+> > > 541b06d80e73..92dc48a8dfa7 100644
+> > > --- a/Documentation/devicetree/bindings/mfd/iqs62x.yaml
+> > > +++ b/Documentation/devicetree/bindings/mfd/iqs62x.yaml
+> > > 
+> > > @@ -90,10 +90,11 @@ examples:
+> > >              };
+> > >      
+> > >      };
+> > > 
+> > > -    pwmleds {
+> > > +    led-controller {
+> > > 
+> > >              compatible = "pwm-leds";
+> > > 
+> > > -            panel {
+> > > +            led-1 {
+> > > +                    label = "panel";
+> > > 
+> > >                      pwms = <&iqs620a_pwm 0 1000000>;
+> > >                      max-brightness = <255>;
+> > >              
+> > >              };
+> > 
+> > I like the consistency this brings. My only feedback is that in the other
+> > examples I found (common.yaml and leds-gpio.yaml), the children count off
+> > from 0 (e.g. led-0) instead of 1 as your series appears to.
+> 
+> You're right.  And that's also the same in leds-lp50xx.yaml and … well I did 
+> not look close enough, maybe the numbering scheme on the PCB on my desk 
+> confused me.
 
---2oS5YaxWCcQjTEyO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If you can tie the numbering to the PCB, then do that.
 
-Hi!
+> Okay, we are already talking about starting index.  What about the parent 
+> node's "led-controller" then in case there are more than one?  IIRC Rob 
+> acknowledged starting from 1 like "led-controller-1", "led-controller-2" and 
+> so on.
 
-> > >> By the way I just realized that the DT binding in this driver seems
-> > >> incorrect to me.
-> > >>
-> > >> The controller logically supports 3 LED strings, each having
-> > >> configurable control bank. =20
-> >=20
-> > There are two control banks. You can connect the HVLED outputs to eithe=
-r=20
-> > control bank A or B there is no individual control of the LED strings.
-> >=20
-> >=20
-> > >> But the DT binding supports 2 DT nodes, one for each control bank
-> > >> (identified by the `reg` property) and then `led-sources` says which
-> > >> string should be controlled by given bank.
-> > >>
-> > >> But taking in mind that DT should describe how devices are connected=
- to
-> > >> each other, I think the child nodes in the binding should instead
-> > >> describe the 3 supported LED strings... =20
-> >=20
-> > The outputs in this case are virtual outputs which are the banks (A and=
- B).
-> >=20
-> > Since the device is bank controlled the actual current sinks are not=20
-> > defined thus making the the banks the actual outputs.
-> >=20
-> > This is why the 'reg' property defines the control bank either A or B=
-=20
-> > and the led-sources indicates the strings associated with the control b=
-ank.
+No, I'd assume we start at 0.
 
-> Dan, I looked at the datasheet, I understand this.
->=20
-> Nonetheless, device tree should describe how devices are connected to
-> each other. The chip has 3 pins for 3 LED strings.
-
-Well, device tree is not a device schematics...
-
-> If this controller should be able to support 3 LED strings via 3
-> outputs, the device tree binding nodes should, in my opinion, describe
-> each pin connected string. The nodes should maybe even be called
-> 'led-string@N' where N is from [0, 1, 2].
->=20
-> The fact that the device is bank controlled and there are only two
-> banks (and it is configurable by which bank each LED string is
-> controlled) is more relevant to the driver, not as much to device tree
-> binding.
-
-Seems to me like two independend LEDs, and I'd describe it as
-such. The fact that it goes over 3 wires is just a implementation
-detail. Lets keep it simple...
-
-Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---2oS5YaxWCcQjTEyO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX3yosgAKCRAw5/Bqldv6
-8sF6AJ9djAsB19pw03xFkkLaSd7uT/tGFQCgoXaT2KSu0s7VLgQyScGaV1t+698=
-=4/S2
------END PGP SIGNATURE-----
-
---2oS5YaxWCcQjTEyO--
+> > That's not a huge deal; it simply seems more consistent to count from the
+> > first index allowed by the regex (0). The patch is still fine, and so:
+> > 
+> > Acked-by: Jeff LaBundy <jeff@labundy.com>
+> 
+> Thanks.
+> 
+> I'm not sure how many more iterations of this series we will need, at least 
+> one for the binding license acks I guess, so I could also adapt the child node 
+> indexes in schema and actual dts files in v8 or so.
+> 
+> Greets
+> Alex
+> 
+> 
+> 
