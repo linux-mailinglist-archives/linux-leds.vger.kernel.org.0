@@ -2,119 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA725284A0F
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 12:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AE56284B3C
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 14:00:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbgJFKCb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 6 Oct 2020 06:02:31 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2959 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725939AbgJFKC3 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 6 Oct 2020 06:02:29 -0400
-Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id 339F145D8CC503B2B5EB;
-        Tue,  6 Oct 2020 11:02:25 +0100 (IST)
-Received: from localhost (10.52.123.13) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 6 Oct 2020
- 11:02:22 +0100
-Date:   Tue, 6 Oct 2020 11:00:36 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        "Andrew Lunn" <andrew@lunn.ch>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        <dmaengine@vger.kernel.org>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        <dri-devel@lists.freedesktop.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Lars-Peter Clausen" <lars@metafoo.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "Marc Zyngier" <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-        "Mathieu Poirier" <mathieu.poirier@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        "MyungJoo Ham" <myungjoo.ham@samsung.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Peter Meerwald-Stadler" <pmeerw@pmeerw.net>,
-        Richard Weinberger <richard@nod.at>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Vignesh Raghavendra" <vigneshr@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        "Wim Van Sebroeck" <wim@linux-watchdog.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-can@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mips@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-        <linux-mtd@lists.infradead.org>, <linux-pci@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-rtc@vger.kernel.org>,
-        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-watchdog@vger.kernel.org>
-Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
- in common schemas
-Message-ID: <20201006100036.00007ec7@Huawei.com>
-In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
-References: <20201005183830.486085-1-robh@kernel.org>
-        <20201005183830.486085-5-robh@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S1726304AbgJFMAA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 6 Oct 2020 08:00:00 -0400
+Received: from w1.tutanota.de ([81.3.6.162]:48786 "EHLO w1.tutanota.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726123AbgJFMAA (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 6 Oct 2020 08:00:00 -0400
+Received: from w3.tutanota.de (unknown [192.168.1.164])
+        by w1.tutanota.de (Postfix) with ESMTP id 01CBBFA00CD;
+        Tue,  6 Oct 2020 11:59:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1601985597;
+        s=s1; d=tutanota.com;
+        h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
+        bh=eltae3HoBYMjsE66URtFxvFlqumsCh3qkPeDnLne2qI=;
+        b=aDZcpUr6utvoZZIyEaLQi9roRWGZVSD5O2iymFuscOX6D524owNwxeU+mvMcni6u
+        pzOSVokopJAlDNRAZJ2Yr5Z8slGFsJquQNp2cUxYxBHMSPJRIivRyWdhOD8vjNDd2Wx
+        ZVL0Icg/zftENBZuIY8C9D086vZp6FQvI8GTH8k8NPLjSY92Q9hq5rYyAobWiQWI0XX
+        s3Ha4GqUtuytEEjUJ92u4xjMMTKkOk2B8OR5JOnaEf3Y6eof8coTYoOiKa3u0ZKXkL5
+        GIh4ig0KJo5yNnqhIQTpP/khNp9dZKGuPUupA7VYi35Gb+FsHqdSBcdM5/ZRrrIpKma
+        t/BM5EUB/Q==
+Date:   Tue, 6 Oct 2020 13:59:57 +0200 (CEST)
+From:   ultracoolguy@tutanota.com
+To:     Marek Behun <kabel@blackhole.sk>
+Cc:     Pavel <pavel@ucw.cz>, Dmurphy <dmurphy@ti.com>,
+        Linux Leds <linux-leds@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Message-ID: <MIxm3uX--3-2@tutanota.com>
+In-Reply-To: <20201006093356.6d25b280@blackhole.sk>
+References: <20201005141334.36d9441a@blackhole.sk> <MIt2NiS--3-2@tutanota.com> <3c5fce56-8604-a7d5-1017-8a075f67061e@ti.com> <MItBqjy--3-2@tutanota.com> <966c3f39-1310-dd60-6f33-0d9464ed2ff1@ti.com> <MItOR9Z--3-2@tutanota.com> <20201005164808.slrtmsvmw4pvwppm@falbala.internal.home.lespocky.de> <MItjEho--3-2@tutanota.com> <20201005173227.GA6431@duo.ucw.cz> <20201006093356.6d25b280@blackhole.sk>
+Subject: Re: [PATCH] leds: lm3697: Fix out-of-bound access
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.123.13]
-X-ClientProxiedBy: lhreml716-chm.china.huawei.com (10.201.108.67) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 5 Oct 2020 13:38:30 -0500
-Rob Herring <robh@kernel.org> wrote:
+While I do agree with you that having the child nodes be led strings make more sense, would it be possible to have, for example, three strings controlled by the same label?
 
-> In order to add meta-schema checks for additional/unevaluatedProperties
-> being present, all schema need to make this explicit. As common/shared
-> schema are included by other schemas, they should always allow for
-> additionalProperties.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Oct 6, 2020, 07:33 by kabel@blackhole.sk:
 
->  Documentation/devicetree/bindings/iio/common.yaml            | 2 ++
-For IIO
-
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->  ...
-
+> By the way I just realized that the DT binding in this driver seems
+> incorrect to me.
+>
+> The controller logically supports 3 LED strings, each having
+> configurable control bank.
+>
+> But the DT binding supports 2 DT nodes, one for each control bank
+> (identified by the `reg` property) and then `led-sources` says which
+> string should be controlled by given bank.
+>
+> But taking in mind that DT should describe how devices are connected to
+> each other, I think the child nodes in the binding should instead
+> describe the 3 supported LED strings...
+>
+> Marek
+>
 
