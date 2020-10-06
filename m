@@ -2,109 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CEE62846AF
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 09:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5FCC28475D
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 09:34:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727043AbgJFHAa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 6 Oct 2020 03:00:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51148 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727221AbgJFHAY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Oct 2020 03:00:24 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3533CC0613D8
-        for <linux-leds@vger.kernel.org>; Tue,  6 Oct 2020 00:00:23 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id w5so12137589wrp.8
-        for <linux-leds@vger.kernel.org>; Tue, 06 Oct 2020 00:00:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Oe7zU6gzISKBUmakEze1jPjt4AoCrxJWUb32hirWtf4=;
-        b=duVae73qGXrIWn0dA9Y2ba0eTvLVJldQbfNGMJhbCGq9paoehFS47xcK9OLpCkH4WF
-         NqBrFaENJwbrU/th8XmIkh1VS1vd2oH1s1pXzDf2b99Cb/bAZ5mIsHV6ptmyF1OBtQBy
-         GT9rg4w2n4Isj8jXnTNnLi+Aw/L7SFWFx72v0bNTNomBvhPxjgr+pR8su7g3MDB9LEtn
-         /vLB/qwXlI19SAUsjJySvCczuoNdnCBTeLhRqUeV/ScZadUIhYWFwLaiDoYkjoSe+gXj
-         C3HqfoAXjTKslZ5dKtYyztKJYZ9eX7NM47nSfo4FbYcgGC7bh2R2dMJAzlKCSNaNoWRF
-         iUUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Oe7zU6gzISKBUmakEze1jPjt4AoCrxJWUb32hirWtf4=;
-        b=YZMiarvnm6vFRquTVW+OqlZCAmXdgppJ8FnfKNs4G5RnqfhcL05A2uMDfqvdiOiIf3
-         knur9k4cWMuqybLZHifwwGJiNU6uDGoIF6Yq5AWccPVUqTUVXEoXdb82yfJETm2I6SEG
-         EFf1pdVfL7JB7MixesVSu4lkbeLRzIO/wPEeOOBpj7S4ZCah/L1D2MRn1+BZL4BHxAUX
-         GjYRF5sw2+GUUDiUGsxcnvW/alQkoMuBTtyAAtPzWhTEH6S5TgpO1s8ul9g1NvqA4/Iz
-         mDOpN2/c80M9iCBv1ir284hU1Qeuh0In5PRTQFzAhGrvosZi3mbBbBCzD+TUwbqw1eJ1
-         Iypw==
-X-Gm-Message-State: AOAM5318vlzRCCvJgBq+sWbE6OWXtVohrZ2Dv1/voGaZ3yyxDhR7+L5l
-        sXnb8i700VBHzL6FIcYQo+G+eA==
-X-Google-Smtp-Source: ABdhPJzRpE6n88xNVq3Fk+xQSff8QQNC8n1c0b7ajSoy19OwpevLFHK5HQwgX5M07UqJkIIa/Io0cQ==
-X-Received: by 2002:adf:bb43:: with SMTP id x3mr3174885wrg.250.1601967621811;
-        Tue, 06 Oct 2020 00:00:21 -0700 (PDT)
-Received: from dell ([91.110.221.236])
-        by smtp.gmail.com with ESMTPSA id o186sm2537036wmb.12.2020.10.06.00.00.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2020 00:00:21 -0700 (PDT)
-Date:   Tue, 6 Oct 2020 08:00:13 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Another round of adding missing
- 'additionalProperties'
-Message-ID: <20201006070013.GA6148@dell>
-References: <20201002234143.3570746-1-robh@kernel.org>
+        id S1726670AbgJFHeB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 6 Oct 2020 03:34:01 -0400
+Received: from mail-proxyout-mua-31.websupport.eu ([37.9.172.181]:36839 "EHLO
+        mail-proxyout-mua-31.websupport.eu" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725912AbgJFHeB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Oct 2020 03:34:01 -0400
+Received: from in-6.websupport.sk (unknown [10.10.2.106])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail-proxyout-mua-31.websupport.eu (Postfix) with ESMTPS id E961FBD950;
+        Tue,  6 Oct 2020 09:33:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=blackhole.sk;
+        s=mail; t=1601969638;
+        bh=g16ndeR1v5UyIw6wOFXSrYYQyb7E3w7vC+bVV8Uebfc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References;
+        b=NHpJ+zwAbbf459X1ipY0xENkVig+15g8Lj3v6r3KH1aMEygwHGzsFaI7Rot0JupkX
+         W8Hx83WeEaRiWSSdsDMx1D5Ii3mztLayt4NVzJmXJDEMttxAoHz8cLe6de/wgPqdcP
+         pYoVYsUtJtRcnoPu4imbI9EA0z6Hr2YvcHocvHyU=
+Received: from localhost (otava-0257.koleje.cuni.cz [78.128.181.4])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: kabel@blackhole.sk)
+        by in-6.websupport.sk (Postfix) with ESMTPSA id 4C58NP4NdKz12N53;
+        Tue,  6 Oct 2020 09:33:57 +0200 (CEST)
+Date:   Tue, 6 Oct 2020 09:33:56 +0200
+From:   Marek Behun <kabel@blackhole.sk>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     ultracoolguy@tutanota.com, Alexander Dahl <post@lespocky.de>,
+        Dmurphy <dmurphy@ti.com>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        Linux Leds <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH] leds: lm3697: Fix out-of-bound access
+Message-ID: <20201006093356.6d25b280@blackhole.sk>
+In-Reply-To: <20201005173227.GA6431@duo.ucw.cz>
+References: <MIiYgay--3-2@tutanota.com>
+        <20201005141334.36d9441a@blackhole.sk>
+        <MIt2NiS--3-2@tutanota.com>
+        <3c5fce56-8604-a7d5-1017-8a075f67061e@ti.com>
+        <MItBqjy--3-2@tutanota.com>
+        <966c3f39-1310-dd60-6f33-0d9464ed2ff1@ti.com>
+        <MItOR9Z--3-2@tutanota.com>
+        <20201005164808.slrtmsvmw4pvwppm@falbala.internal.home.lespocky.de>
+        <MItjEho--3-2@tutanota.com>
+        <20201005173227.GA6431@duo.ucw.cz>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201002234143.3570746-1-robh@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Out-Rspamd-Queue-Id: 4C58NP4NdKz12N53
+Authentication-Results: in-6.websupport.sk;
+        auth=pass smtp.auth=kabel@blackhole.sk smtp.mailfrom=kabel@blackhole.sk
+X-Out-Rspamd-Server: mail-antispam-5
+X-Out-Spamd-Result: default: False [-3.10 / 24.00];
+         ARC_NA(0.00)[];
+         GENERIC_REPUTATION(0.00)[-0.57995165379285];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         MIME_GOOD(-0.10)[text/plain];
+         RCPT_COUNT_FIVE(0.00)[6];
+         FUZZY_BLOCKED(0.00)[rspamd.com];
+         RCVD_COUNT_ZERO(0.00)[0];
+         FROM_EQ_ENVFROM(0.00)[];
+         MIME_TRACE(0.00)[0:+];
+         ASN(0.00)[asn:2852, ipnet:78.128.128.0/17, country:CZ];
+         MID_RHS_MATCH_FROM(0.00)[];
+         BAYES_HAM(-3.00)[99.99%]
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 02 Oct 2020, Rob Herring wrote:
+By the way I just realized that the DT binding in this driver seems
+incorrect to me.
 
-> Another round of wack-a-mole. The json-schema default is additional
-> unknown properties are allowed, but for DT all properties should be
-> defined.
+The controller logically supports 3 LED strings, each having
+configurable control bank.
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
+But the DT binding supports 2 DT nodes, one for each control bank
+(identified by the `reg` property) and then `led-sources` says which
+string should be controlled by given bank.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+But taking in mind that DT should describe how devices are connected to
+each other, I think the child nodes in the binding should instead
+describe the 3 supported LED strings...
+
+Marek
