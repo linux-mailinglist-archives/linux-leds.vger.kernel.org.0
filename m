@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E0C328467A
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 08:58:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48A2A28468E
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 08:59:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727118AbgJFG6e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 6 Oct 2020 02:58:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50796 "EHLO
+        id S1727066AbgJFG7b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 6 Oct 2020 02:59:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726849AbgJFG6a (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Oct 2020 02:58:30 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9007C0613DD
-        for <linux-leds@vger.kernel.org>; Mon,  5 Oct 2020 23:58:28 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id d4so1727000wmd.5
-        for <linux-leds@vger.kernel.org>; Mon, 05 Oct 2020 23:58:28 -0700 (PDT)
+        with ESMTP id S1727192AbgJFG7Y (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Oct 2020 02:59:24 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACDA6C0613DF
+        for <linux-leds@vger.kernel.org>; Mon,  5 Oct 2020 23:59:23 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id e17so3432345wru.12
+        for <linux-leds@vger.kernel.org>; Mon, 05 Oct 2020 23:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=hye8oZPllXv0LLz+UWG2B82nJ6IN2QnHfKrsEX8XCOU=;
-        b=jn2dIC4KneJcMCE5DY3o93rmWgdTmK7NJWwKNWGocC7HbxwqveIdxS9nVru8ryq+P9
-         s4//ef94qJ6Y8ujWnpglPZlIlD6sJ33blfTKKcaCdwJolql9IFEUfzJMHCTe1JnaG8Iw
-         b+YeHxV9DI6DSD3tgOAF3IaWem5VxRfAN0ODuGo/qw2A8ReI6qDWtdlFFibEvRuFiEoQ
-         dhilbFbgvuG8V67ydtdAffL1xmKMRbv76Ctys34uqkoMVb3gFX2RETn3H/bHFtSxghuV
-         ji7JhUukKOJOEajfS3LrzYX2Rf2L6FpU2JZ9jHfMZk5oQaZMZKMZfy/k1RR5/u729NJu
-         K0HA==
+        bh=CJt8sMvkLfzd8pVfQzeKwrD9wQt2ezco6HzjCXU2Seg=;
+        b=JxVBGe9v20fI1rWZ+LblFSymah+5lDcEzko2dpzuxH2sV76ZNSZuJMvGzdxBOU4EEE
+         016bYoBGw9BoWO2uYbYpJh2Spqfe+txcbLLwj0dDMlR/N5yVsSaJVMqeu9en2rycu/TT
+         n1jnC4KuJCiEYEIdFvD/egT0iBvuzR0aC8sGAuxTCPbkVANitwk76rko2yla+Dj7q7e8
+         sZCK0Cx3psrp4tVRMioIbzifJSWNfJENU2wQrZHVs830d0ZwDclsCeY3DZLdaTt0c5D8
+         BR0YmsLI9C2kzSZ+GpT1D4lBMiJpvLvJ21dr2n2+YN+vRiNGtA+lOfa8qajAa2TyKNwy
+         4j1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=hye8oZPllXv0LLz+UWG2B82nJ6IN2QnHfKrsEX8XCOU=;
-        b=dCKv5uyK6C6pEij97pXGWl2Ti5koEhSUAzN/va9kpNIRbyzt+m15fpLSwodUuR+RvY
-         8OEFR9fGQD2AEVdm5u2mnhgDYkRPrK5dJ5IQSR0URVo8bfa8TopxPVF/clRJYdVG6ZW4
-         HxnpauoZ8lR7UswL+Hx3thn51iP7RgDcRg0BvQzf4ah6uwwbf3uJLx7Q05RKBzfFwS8x
-         6bUudPEasuAiQqx6ecG6zrpkFMgdm8nF/jQmgRsoa6E7MTMr2XWwvME5zMv9DTt6Dsgv
-         Fod5SHDoGYVdfGqj7w3pxGAyYcg0YkdSv8TLDFSaE+zkEeElwYVXiZpFWUYYUcCBnTEz
-         AJyQ==
-X-Gm-Message-State: AOAM533iR3SxF3AGstv69Nrub4meyUgXV/HUT1cWXN+VrJ2foGs+gJ6R
-        eNWqlCX9Pc3wOG3wIudcVivrHA==
-X-Google-Smtp-Source: ABdhPJxsvKtzCqkv4fxGZg3y/AIgf4rU1S8D4EatsKLRXGnqjE4r6Ftdz8iBdl2gfcmAi+GG7YDezw==
-X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr3211564wms.77.1601967506851;
-        Mon, 05 Oct 2020 23:58:26 -0700 (PDT)
+        bh=CJt8sMvkLfzd8pVfQzeKwrD9wQt2ezco6HzjCXU2Seg=;
+        b=cyrXBQldekNoN4kJbHfjOfC9ifs/ZGCqpWmx/ZDIsSjJBh3eKKwt0y2xMFQLLgpG4A
+         kd+ejOmfrQ84kmzP1YPIldswHzsADs4J6BGSAA40abe6SaIGRYVNN7lXbNxXp2Hmrc10
+         ctkxHC56bjieVINBoyCiKLFX9gRdfI9cwJh06C91IBXHn8o2FFuGobvBUt52Ad7+f9ut
+         cNBwbII7aoBnKCySrkd4sYdfIAgNjii8UjOtLwq760pyoHxo4/nIk2/hNnj8BQpHsOhq
+         4rbSWxNzZvokdmtf62Ble2z+TeJstzeFTanDOnEL3qr4vWl5w/AH00exUmNKxf+Pjpgl
+         IGYQ==
+X-Gm-Message-State: AOAM531qCpmQS2Ku4dppvrPJ49CO+YvkyQyV/0f/h5lNxYtYPRc3Ogn7
+        RJvb/hrOtfxysmmmudW+1iynsA==
+X-Google-Smtp-Source: ABdhPJw9aVlQCFJI6s9KKSTQz6LD1w2/gTI0uxeBSfs6H68t2v5l2G/j/zLB0TtAX8AL+VsxEknjwQ==
+X-Received: by 2002:adf:eac6:: with SMTP id o6mr3347103wrn.117.1601967562086;
+        Mon, 05 Oct 2020 23:59:22 -0700 (PDT)
 Received: from dell ([91.110.221.236])
-        by smtp.gmail.com with ESMTPSA id u12sm3158245wrt.81.2020.10.05.23.58.23
+        by smtp.gmail.com with ESMTPSA id m3sm2805162wrs.83.2020.10.05.23.59.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2020 23:58:26 -0700 (PDT)
-Date:   Tue, 6 Oct 2020 07:58:20 +0100
+        Mon, 05 Oct 2020 23:59:21 -0700 (PDT)
+Date:   Tue, 6 Oct 2020 07:59:18 +0100
 From:   Lee Jones <lee.jones@linaro.org>
 To:     Rob Herring <robh@kernel.org>
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -110,26 +110,30 @@ Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
         linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
- in common schemas
-Message-ID: <20201006065820.GY6148@dell>
+Subject: Re: [PATCH 2/4] dt-bindings: Use 'additionalProperties' instead of
+ 'unevaluatedProperties'
+Message-ID: <20201006065918.GZ6148@dell>
 References: <20201005183830.486085-1-robh@kernel.org>
- <20201005183830.486085-5-robh@kernel.org>
+ <20201005183830.486085-3-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
+In-Reply-To: <20201005183830.486085-3-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 On Mon, 05 Oct 2020, Rob Herring wrote:
 
-> In order to add meta-schema checks for additional/unevaluatedProperties
-> being present, all schema need to make this explicit. As common/shared
-> schema are included by other schemas, they should always allow for
-> additionalProperties.
+> In cases where we don't reference another schema, 'additionalProperties'
+> can be used instead. This is preferred for now as 'unevaluatedProperties'
+> support isn't implemented yet.
+> 
+> In a few cases, this means adding some missing property definitions of
+> which most are for SPI bus properties. 'unevaluatedProperties' is not going
+> to work for the SPI bus properties anyways as they are evaluated from the
+> parent node, not the SPI child node.
 
 Acked-by: Lee Jones <lee.jones@linaro.org>
 
