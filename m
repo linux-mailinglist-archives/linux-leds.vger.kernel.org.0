@@ -2,92 +2,172 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5FCC28475D
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 09:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 704D128477F
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Oct 2020 09:38:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726670AbgJFHeB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 6 Oct 2020 03:34:01 -0400
-Received: from mail-proxyout-mua-31.websupport.eu ([37.9.172.181]:36839 "EHLO
-        mail-proxyout-mua-31.websupport.eu" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725912AbgJFHeB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Oct 2020 03:34:01 -0400
-Received: from in-6.websupport.sk (unknown [10.10.2.106])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail-proxyout-mua-31.websupport.eu (Postfix) with ESMTPS id E961FBD950;
-        Tue,  6 Oct 2020 09:33:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=blackhole.sk;
-        s=mail; t=1601969638;
-        bh=g16ndeR1v5UyIw6wOFXSrYYQyb7E3w7vC+bVV8Uebfc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References;
-        b=NHpJ+zwAbbf459X1ipY0xENkVig+15g8Lj3v6r3KH1aMEygwHGzsFaI7Rot0JupkX
-         W8Hx83WeEaRiWSSdsDMx1D5Ii3mztLayt4NVzJmXJDEMttxAoHz8cLe6de/wgPqdcP
-         pYoVYsUtJtRcnoPu4imbI9EA0z6Hr2YvcHocvHyU=
-Received: from localhost (otava-0257.koleje.cuni.cz [78.128.181.4])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: kabel@blackhole.sk)
-        by in-6.websupport.sk (Postfix) with ESMTPSA id 4C58NP4NdKz12N53;
-        Tue,  6 Oct 2020 09:33:57 +0200 (CEST)
-Date:   Tue, 6 Oct 2020 09:33:56 +0200
-From:   Marek Behun <kabel@blackhole.sk>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     ultracoolguy@tutanota.com, Alexander Dahl <post@lespocky.de>,
-        Dmurphy <dmurphy@ti.com>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Linux Leds <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH] leds: lm3697: Fix out-of-bound access
-Message-ID: <20201006093356.6d25b280@blackhole.sk>
-In-Reply-To: <20201005173227.GA6431@duo.ucw.cz>
-References: <MIiYgay--3-2@tutanota.com>
-        <20201005141334.36d9441a@blackhole.sk>
-        <MIt2NiS--3-2@tutanota.com>
-        <3c5fce56-8604-a7d5-1017-8a075f67061e@ti.com>
-        <MItBqjy--3-2@tutanota.com>
-        <966c3f39-1310-dd60-6f33-0d9464ed2ff1@ti.com>
-        <MItOR9Z--3-2@tutanota.com>
-        <20201005164808.slrtmsvmw4pvwppm@falbala.internal.home.lespocky.de>
-        <MItjEho--3-2@tutanota.com>
-        <20201005173227.GA6431@duo.ucw.cz>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1727235AbgJFHh7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 6 Oct 2020 03:37:59 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:36572 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725912AbgJFHh6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Oct 2020 03:37:58 -0400
+Received: by mail-ot1-f65.google.com with SMTP id 60so11408196otw.3;
+        Tue, 06 Oct 2020 00:37:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8+YGZEZXCDlVSYcoSNcJ9v6pHT8JdkLtCN5s+E2ToaQ=;
+        b=L3b/PWChkoqoS3sM68KkIks1b0cT9jMiy6dEJ9WER5VSr4OUBijAy2r0ZZDu964yjz
+         VfYs+kttlFUUP4B0e2mPea0gSV3iwIyp/iscNyRT6mHVtn8iPaLkWHSACJPMMBwj+eSl
+         utbFbKULMEnBeRrgiJxKhsqHpC0l88y4yzNFHScB/x1qHcvrT7e4I0yjt3x/Sann2q4h
+         y6EQVsfVkoKicpJiyuAJVQuixqzSrEfdShe63f3CfTQY76y4JWp4uaRykmsJ7mzqt11b
+         pwyHr5l4guJHbdpXDUG3lkH7L8LwjJrWNf7+Z0I8N80RMqyHFPxvrMulIJw3KWT1NFHX
+         8Wcw==
+X-Gm-Message-State: AOAM530TkVNGXR8CUhM7L2hbvAP7zPSf1zQWRsPH5X4MYux3okdjemRq
+        M09bV9zRdfkzREB3AYB0zIRmbB0IPlE+jS+LjT4=
+X-Google-Smtp-Source: ABdhPJz2bCZlgB6we6A9AWlaXsOI2O+CwxUcnmKhPrIVPza5tGmo+mK6C98Ugzjy2W9HQnh3L0gpSmpM+xs5ujOFQMY=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr2082078otc.145.1601969875043;
+ Tue, 06 Oct 2020 00:37:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Out-Rspamd-Queue-Id: 4C58NP4NdKz12N53
-Authentication-Results: in-6.websupport.sk;
-        auth=pass smtp.auth=kabel@blackhole.sk smtp.mailfrom=kabel@blackhole.sk
-X-Out-Rspamd-Server: mail-antispam-5
-X-Out-Spamd-Result: default: False [-3.10 / 24.00];
-         ARC_NA(0.00)[];
-         GENERIC_REPUTATION(0.00)[-0.57995165379285];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         RCPT_COUNT_FIVE(0.00)[6];
-         FUZZY_BLOCKED(0.00)[rspamd.com];
-         RCVD_COUNT_ZERO(0.00)[0];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         ASN(0.00)[asn:2852, ipnet:78.128.128.0/17, country:CZ];
-         MID_RHS_MATCH_FROM(0.00)[];
-         BAYES_HAM(-3.00)[99.99%]
+References: <20201005183830.486085-1-robh@kernel.org> <20201005183830.486085-2-robh@kernel.org>
+In-Reply-To: <20201005183830.486085-2-robh@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 6 Oct 2020 09:37:43 +0200
+Message-ID: <CAMuHMdXjBSzbs4yAPJ-XUTBRZWKN61hO8vQ1-nGN5nAo7JnV-w@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: Add missing 'unevaluatedProperties'
+To:     Rob Herring <robh@kernel.org>
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        linux-iio@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Sebastian Reichel <sre@kernel.org>, linux-ide@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        linux-leds@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+        linux-rtc@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-hwmon@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-can@vger.kernel.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Richard Weinberger <richard@nod.at>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-By the way I just realized that the DT binding in this driver seems
-incorrect to me.
+Hi Rob,
 
-The controller logically supports 3 LED strings, each having
-configurable control bank.
+On Mon, Oct 5, 2020 at 8:39 PM Rob Herring <robh@kernel.org> wrote:
+> This doesn't yet do anything in the tools, but make it explicit so we can
+> check either 'unevaluatedProperties' or 'additionalProperties' is present
+> in schemas.
+>
+> 'unevaluatedProperties' is appropriate when including another schema (via
+> '$ref') and all possible properties and/or child nodes are not
+> explicitly listed in the schema with the '$ref'.
+>
+> This is in preparation to add a meta-schema to check for missing
+> 'unevaluatedProperties' or 'additionalProperties'. This has been a
+> constant source of review issues.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-But the DT binding supports 2 DT nodes, one for each control bank
-(identified by the `reg` property) and then `led-sources` says which
-string should be controlled by given bank.
+Thanks for your patch!
 
-But taking in mind that DT should describe how devices are connected to
-each other, I think the child nodes in the binding should instead
-describe the 3 supported LED strings...
+>  Documentation/devicetree/bindings/bus/renesas,bsc.yaml       | 2 ++
+>  .../bindings/memory-controllers/renesas,rpc-if.yaml          | 2 ++
+>  Documentation/devicetree/bindings/net/renesas,ether.yaml     | 2 ++
+>  Documentation/devicetree/bindings/serial/renesas,hscif.yaml  | 2 ++
+>  Documentation/devicetree/bindings/serial/renesas,sci.yaml    | 2 ++
+>  Documentation/devicetree/bindings/serial/renesas,scif.yaml   | 2 ++
+>  Documentation/devicetree/bindings/serial/renesas,scifa.yaml  | 2 ++
+>  Documentation/devicetree/bindings/serial/renesas,scifb.yaml  | 2 ++
+>  Documentation/devicetree/bindings/spi/renesas,hspi.yaml      | 2 ++
+>  Documentation/devicetree/bindings/spi/renesas,rspi.yaml      | 2 ++
+>  Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml  | 2 ++
 
-Marek
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
+> +++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+> @@ -85,6 +85,8 @@ required:
+>    - clocks
+>    - pinctrl-0
+>
+> +unevaluatedProperties: false
+
+This one has received an "additionalProperties: false" in commit
+41506bff84f1563e ("dt-bindings: net: renesas, ether: Improve schema validation")
+in net-next, which you probably want to remove.
+
+> +
+>  examples:
+>    # Lager board
+>    - |
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
