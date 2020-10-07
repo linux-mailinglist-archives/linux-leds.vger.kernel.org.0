@@ -2,79 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BDB9285EFD
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Oct 2020 14:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6692285F05
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Oct 2020 14:22:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728230AbgJGMVJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 7 Oct 2020 08:21:09 -0400
-Received: from mail.nic.cz ([217.31.204.67]:49850 "EHLO mail.nic.cz"
+        id S1728311AbgJGMV6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 7 Oct 2020 08:21:58 -0400
+Received: from w1.tutanota.de ([81.3.6.162]:40080 "EHLO w1.tutanota.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728192AbgJGMUw (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 7 Oct 2020 08:20:52 -0400
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id 14A2F140A77;
-        Wed,  7 Oct 2020 14:20:50 +0200 (CEST)
-Date:   Wed, 7 Oct 2020 14:20:49 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Vadim Pasternak <vadimp@nvidia.com>, jacek.anaszewski@gmail.com,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH led-next 1/1] leds: mlxreg: Allow multi-instantiation of
- same name LED for modular systems
-Message-ID: <20201007142049.02d8c3ba@nic.cz>
-In-Reply-To: <20201007113105.GE12224@duo.ucw.cz>
-References: <20201006165850.17790-1-vadimp@nvidia.com>
-        <20201007113105.GE12224@duo.ucw.cz>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1728232AbgJGMV6 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 7 Oct 2020 08:21:58 -0400
+Received: from w3.tutanota.de (unknown [192.168.1.164])
+        by w1.tutanota.de (Postfix) with ESMTP id 76573FBB3C4;
+        Wed,  7 Oct 2020 12:21:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1602073316;
+        s=s1; d=tutanota.com;
+        h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
+        bh=gNU20v49DNc2tImiHmQOA4skJFG1Bim7XIhKqq2df+k=;
+        b=wp6+YwO2o5OqQ/Qn3eeoDuBTqET8gqymPsFMhGZSxlhug0RHhKGdnHBVYK0i7fkQ
+        O4ndUlpX728SRu9E5BgzpvHY6d8zMXJYcp4qBd48c9n3R0nfttkr4M+hYDSAKHpE8fl
+        vOMTWiU+JxIRZQXiUPeBYRS3JMHWfdB4G8uTuS85LFSWiNjEgUsC+eRpp77IjlOkYY+
+        pJDtPcBgpXr6kBBtyArdZHNM24pRls7MoCHN/vZAMI9d4BEAi9GWaxb8cQVj59pKGjN
+        7MHqXKhnY7g4JVYcVSJlKHmf34eiSaAAZErK/6oy+d/r8w/wYDxDrwoqfixD3OtP41+
+        fuWwiOvITw==
+Date:   Wed, 7 Oct 2020 14:21:56 +0200 (CEST)
+From:   ultracoolguy@tutanota.com
+To:     Marek Behun <kabel@blackhole.sk>
+Cc:     Pavel <pavel@ucw.cz>, Dmurphy <dmurphy@ti.com>,
+        Linux Leds <linux-leds@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Message-ID: <MJ2-gcy----2@tutanota.com>
+In-Reply-To: <20201007012600.3b3e7779@blackhole.sk>
+References: <MIuPIKy--3-2@tutanota.com> <20201007012600.3b3e7779@blackhole.sk>
+Subject: Re: [PATCH] lm3697: Rename struct into more appropiate name
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 7 Oct 2020 13:31:05 +0200
-Pavel Machek <pavel@ucw.cz> wrote:
+The reason I didn't use git send-mail earlier is because Tutanota doesn't supports SMTP and Protonmail requires a paid account for using SMTP/IMAP. However, I made an account creation request for Disroot(which does support SMTP for free), so when/if the account gets created I'll send future patches through there.
+Oct 6, 2020, 23:26 by kabel@blackhole.sk:
 
-> On Tue 2020-10-06 19:58:50, Vadim Pasternak wrote:
-> > It could be more than one instance of LED with the same name in the
-> > modular systems. For example, "status" or "uid" LED can be located
-> > on chassis and on each line card of modular system.
-> > In order to avoid conflicts with duplicated names, append platform
-> > device Id, which is unquie, to LED name after driver name.
-> > Thus, for example, "status" LED on chassis is to be called, like it is
-> > called now on non modular systems, on which platform device Id is not
-> > specified: "mlxreg:status:green". While for the line cards LEDs it will
-> > be called like: "mlxreg48:status:green", "mlxreg66:status:green",
-> > etcetera.
-> 
-> No.
-> 
-> You really should not have mlxreg: in the LED label. It is useless.
-> 
-> Make it so that LEDs on main body are ":foo:bar", and LEDs on the
-> expansion card has something reasonable as the device part.
-> 
-> Best regards,
-> 								Pavel
+> On Mon, 5 Oct 2020 22:17:14 +0200 (CEST)
+> ultracoolguy@tutanota.com wrote:
+>
+>> Subject says it all. This rename was briefly discussed in this other patch: https://www.spinics.net/lists/linux-leds/msg16865.html (I don't know another way to link to emails, so I'll just use this archive).
+>>
+>> Feel free to suggest another name for the commit; that was just the better name I could come up with :/ .
+>>
+>>
+>>
+>
+> Gabriel,
+>
+> the subject of the patch should be
+>  leds: lm3697: Rename struct into more appropiate name
+> ("leds: " is prefixed). Look at history
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/drivers/leds?h=v5.9-rc8
+>
+> The commit message should mention why you are renaming the type
+> (something like "to be semantically more correct, since that structure
+> represents LED control bank as described by the datasheet").
+>
+> Also it seems that you are using git format-patch for generating patch
+> files, but you are sending these patches as regular e-mail attachements.
+> You should instead use git send-email, as is normally required
+> for kernel patches (and they would also appear in patchwork
+> (https://patches.linaro.org/project/linux-leds/list/). Please look at
+> https://www.kernel.org/doc/html/v4.17/process/submitting-patches.html
+> and https://git-send-email.io/.
+>
+> Marek
+>
 
-Moreover the LED core, if there are more LEDs with same color and
-function, constructs labels in the form
-  [device:]color:function-functionenumerator
-so if we want your driver to align with other LED drivers, you should put
-the enumerator at the end of the label
-  green:status-48
-  green:status-66
-...
-
-Pavel, the LED core does not put the ':' symbol at the beginning if
-there is no devicename. The LED name is only "color:function". Should
-this change?
-
-Marek
