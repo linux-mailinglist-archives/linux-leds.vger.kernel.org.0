@@ -2,101 +2,118 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 717E528589D
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Oct 2020 08:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A592285C03
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Oct 2020 11:46:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727307AbgJGG0C (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 7 Oct 2020 02:26:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46006 "EHLO mail.kernel.org"
+        id S1727147AbgJGJqa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 7 Oct 2020 05:46:30 -0400
+Received: from mail.z3ntu.xyz ([128.199.32.197]:60252 "EHLO mail.z3ntu.xyz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725970AbgJGG0C (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 7 Oct 2020 02:26:02 -0400
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AC69221531;
-        Wed,  7 Oct 2020 06:26:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602051961;
-        bh=9J6pd4Urt8nLaYajtW0xX9CVZZNmrwIcH02wFm6GCzo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=cjP10fipeHTdrU/XdlnBVJ7nEBd1DP/mHTZ4wefjHHoLp9lxNvYU9bP5xkqznMJxe
-         wdl3FjyjprNsFoIgfs4MvjUw8+2mX9yOGKdDx/q7PdKmPRqW4i18tmFXSJXv87xb/w
-         jYTrYjlyVbMDlYgJfvP/m4NxZ5TcwBYezWVwQrWs=
-Received: by mail-ed1-f53.google.com with SMTP id t21so925268eds.6;
-        Tue, 06 Oct 2020 23:26:00 -0700 (PDT)
-X-Gm-Message-State: AOAM530pnQbCX/Wfw4gFW4sJnl0D9pyL7OzzwdjDQTdcsuEfdSR6ObD4
-        oavjcPDY2io3rAY8m8nUo3P5JNDVPiUI/ffdeZo=
-X-Google-Smtp-Source: ABdhPJzlgSjYiE8Nro65NAUBEhu5or+8YJ/UtMdDrVp9y+cPmyFnaghXEP0Rg3rNv4h1igGfmvWPgDizOURlpLSk7PM=
-X-Received: by 2002:a50:a452:: with SMTP id v18mr1834674edb.143.1602051959063;
- Tue, 06 Oct 2020 23:25:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201005203451.9985-1-post@lespocky.de> <20201005203451.9985-8-post@lespocky.de>
-In-Reply-To: <20201005203451.9985-8-post@lespocky.de>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Wed, 7 Oct 2020 08:25:47 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPcGXpbJDxLZ1ygi+4c==Lbxt_QA+HZ0Kn7Aq3jjh2YHDg@mail.gmail.com>
-Message-ID: <CAJKOXPcGXpbJDxLZ1ygi+4c==Lbxt_QA+HZ0Kn7Aq3jjh2YHDg@mail.gmail.com>
-Subject: Re: [PATCH v7 07/12] ARM: dts: exynos: Fix schema warnings for pwm-leds
-To:     Alexander Dahl <post@lespocky.de>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Alexander Dahl <ada@thorsis.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
-        Kukjin Kim <kgene@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726411AbgJGJqa (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 7 Oct 2020 05:46:30 -0400
+X-Greylist: delayed 314 seconds by postgrey-1.27 at vger.kernel.org; Wed, 07 Oct 2020 05:46:28 EDT
+Received: by mail.z3ntu.xyz (Postfix, from userid 182)
+        id 8B5E3C7196; Wed,  7 Oct 2020 09:41:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1602063673; bh=G58nxDXR85aKAm9KZdsGVsJleTDCbz79NyrWb3uEyXY=;
+        h=Cc:Subject:From:To:Date:In-Reply-To;
+        b=nssfBIoByvP+3EH8HJuENhBQuGQTosfme+khCz5ttbYEyLd78Tns6n+r4cV4JfDxm
+         wy0lUjTBOkxGZizXrUTo/HZyCgQ6vgOmYd2Dl8Csxx1xkVPJIfCjkc6d4BIqDcVZ0I
+         2vy3Z8F7bZoZVY6eeB0nYQ9yX5E59hiF4rGCiHXc=
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on arch-vps
+X-Spam-Level: 
+X-Spam-Status: No, score=0.9 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        PDS_OTHER_BAD_TLD,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.4
+Received: from localhost (arch-vps [128.199.32.197])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 56ED9C4CF4;
+        Wed,  7 Oct 2020 09:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1602063670; bh=G58nxDXR85aKAm9KZdsGVsJleTDCbz79NyrWb3uEyXY=;
+        h=Cc:Subject:From:To:Date:In-Reply-To;
+        b=KKS8sIN1+vS6ETBIO+nKA9RcB493ngK2y7IMwGZaazCBBxwrViO4xq7AtWUo/aYjo
+         cXV6RfG7Ouk0NCyObeT5ynmMRocAhiuz4TEmukpj+X4BMAbFGCEy0Gmo9iIrzIYpRX
+         eOTbzPqkkEVD23ITtVw0Llo5t2J9nm+UyQez7qtQ=
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Cc:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>
+Subject: Re: [PATCH v4 2/4] leds: Add driver for Qualcomm LPG
+From:   "Luca Weiss" <luca@z3ntu.xyz>
+To:     "Bjorn Andersson" <bjorn.andersson@linaro.org>,
+        "Pavel Machek" <pavel@ucw.cz>, "Dan Murphy" <dmurphy@ti.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Andy Gross" <agross@kernel.org>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        "Lee Jones" <lee.jones@linaro.org>,
+        "Martin Botka" <martin.botka1@gmail.com>
+Date:   Wed, 07 Oct 2020 09:40:45 +0000
+Message-Id: <C66K5YFY5LGN.1S3H72H0QQQAI@arch-vps>
+In-Reply-To: <20200929031544.1000204-3-bjorn.andersson@linaro.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 5 Oct 2020 at 22:36, Alexander Dahl <post@lespocky.de> wrote:
+Hi Bjorn,
+
+On Mon Sep 28, 2020 at 8:15 PM, Bjorn Andersson wrote:
+> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
+> PMICs from Qualcomm. It can operate on fixed parameters or based on a
+> lookup-table, altering the duty cycle over time - which provides the
+> means for e.g. hardware assisted transitions of LED brightness.
 >
-> The node names for devices using the pwm-leds driver follow a certain
-> naming scheme (now).  Parent node name is not enforced, but recommended
-> by DT project.
->
->   DTC     arch/arm/boot/dts/exynos5410-odroidxu.dt.yaml
->   CHECK   arch/arm/boot/dts/exynos5410-odroidxu.dt.yaml
-> /home/alex/build/linux/arch/arm/boot/dts/exynos5410-odroidxu.dt.yaml: pwmleds: 'blueled', 'greenled' do not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
->         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
->   DTC     arch/arm/boot/dts/exynos5422-odroidhc1.dt.yaml
->   CHECK   arch/arm/boot/dts/exynos5422-odroidhc1.dt.yaml
-> /home/alex/build/linux/arch/arm/boot/dts/exynos5422-odroidhc1.dt.yaml: pwmleds: 'blueled' does not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
->         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
->   DTC     arch/arm/boot/dts/exynos5422-odroidxu3.dt.yaml
->   CHECK   arch/arm/boot/dts/exynos5422-odroidxu3.dt.yaml
-> /home/alex/build/linux/arch/arm/boot/dts/exynos5422-odroidxu3.dt.yaml: pwmleds: 'blueled', 'greenled' do not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
->         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
->   DTC     arch/arm/boot/dts/exynos5422-odroidxu3-lite.dt.yaml
->   CHECK   arch/arm/boot/dts/exynos5422-odroidxu3-lite.dt.yaml
-> /home/alex/build/linux/arch/arm/boot/dts/exynos5422-odroidxu3-lite.dt.yaml: pwmleds: 'blueled', 'greenled' do not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
->         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
->   DTC     arch/arm/boot/dts/exynos5422-odroidxu4.dt.yaml
->   CHECK   arch/arm/boot/dts/exynos5422-odroidxu4.dt.yaml
-> /home/alex/build/linux/arch/arm/boot/dts/exynos5422-odroidxu4.dt.yaml: pwmleds: 'blueled' does not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
->         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
->
-> Signed-off-by: Alexander Dahl <post@lespocky.de>
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > ---
 >
-> Notes:
->     v6 -> v7:
->       * split up patch (one per sub arch)
->       * added actual warnings to commit message
+> Changes since v3:
+> - Adopt multicolor model
+> - Simplified hw_pattern implementation
 >
->  arch/arm/boot/dts/exynos5422-odroidhc1.dts      |  4 ++--
->  arch/arm/boot/dts/exynos5422-odroidxu4.dts      |  4 ++--
->  arch/arm/boot/dts/exynos54xx-odroidxu-leds.dtsi | 11 ++++++-----
->  3 files changed, 10 insertions(+), 9 deletions(-)
+> drivers/leds/Kconfig | 9 +
+> drivers/leds/Makefile | 1 +
+> drivers/leds/leds-qcom-lpg.c | 1213 ++++++++++++++++++++++++++++++++++
+> 3 files changed, 1223 insertions(+)
+> create mode 100644 drivers/leds/leds-qcom-lpg.c
 
-Looks OK but it is too late for this cycle. I'll pick it up after merge window.
+<snip>
 
-Best regards,
-Krzysztof
+> +static int lpg_pwm_request(struct pwm_chip *chip, struct pwm_device
+> *pwm)
+> +{
+> + struct lpg *lpg =3D container_of(chip, struct lpg, pwm);
+> + struct lpg_channel *chan =3D &lpg->channels[pwm->hwpwm];
+> +
+> + return chan->in_use ? -EBUSY : 0;
+> +}
+> +
+> +static int lpg_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> + const struct pwm_state *state)
+> +{
+> + struct lpg *lpg =3D container_of(chip, struct lpg, pwm);
+> + struct lpg_channel *chan =3D &lpg->channels[pwm->hwpwm];
+> +
+> + lpg_calc_freq(chan, state->period / NSEC_PER_USEC);
+> + lpg_calc_duty(chan, state->duty_cycle / NSEC_PER_USEC);
+
+As written on IRC this has to be wrapped div_u64() to compile on arm32;
+should also fix the buildbot failure.
+
+> + chan->enabled =3D state->enabled;
+> +
+> + lpg_apply(chan);
+> +
+> + triled_set(lpg, chan->triled_mask, chan->enabled);
+> +
+> + return 0;
+> +}
+
+Other than that, this works great on msm8974-fairphone-fp2 (pm8941)
+with reg 7 (red), 6 (green) & 5 (blue). Thanks for updating this
+patchset!
+
+Regards
+Luca
