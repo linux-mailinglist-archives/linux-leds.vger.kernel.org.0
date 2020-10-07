@@ -2,67 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38529285D49
-	for <lists+linux-leds@lfdr.de>; Wed,  7 Oct 2020 12:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A213285E15
+	for <lists+linux-leds@lfdr.de>; Wed,  7 Oct 2020 13:28:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728215AbgJGKtv convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Wed, 7 Oct 2020 06:49:51 -0400
-Received: from mx.metalurgs.lv ([81.198.125.103]:56676 "EHLO mx.metalurgs.lv"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728217AbgJGKtv (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 7 Oct 2020 06:49:51 -0400
-Received: from mx.metalurgs.lv (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id D2BFE651C8
-        for <linux-leds@vger.kernel.org>; Wed,  7 Oct 2020 13:49:49 +0300 (EEST)
-Received: from kas30pipe.localhost (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id 6EBB164FA9
-        for <linux-leds@vger.kernel.org>; Wed,  7 Oct 2020 13:49:49 +0300 (EEST)
-Received: by mx.metalurgs.lv (Postfix, from userid 1005)
-        id 8980163A52; Wed,  7 Oct 2020 13:49:48 +0300 (EEST)
-Received: from [100.64.1.74] (unknown [190.15.125.55])
-        (Authenticated sender: admin)
-        by mx.metalurgs.lv (Postfix) with ESMTPA id B05D5627CC;
-        Wed,  7 Oct 2020 13:49:41 +0300 (EEST)
+        id S1727559AbgJGL17 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 7 Oct 2020 07:27:59 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:59568 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726129AbgJGL16 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 7 Oct 2020 07:27:58 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id BB2F61C0BAE; Wed,  7 Oct 2020 13:27:56 +0200 (CEST)
+Date:   Wed, 7 Oct 2020 13:27:56 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Luka Kovacic <luka.kovacic@sartura.hr>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-leds@vger.kernel.org, lee.jones@linaro.org, dmurphy@ti.com,
+        robh+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net,
+        marek.behun@nic.cz, luka.perkov@sartura.hr, robert.marko@sartura.hr
+Subject: Re: [PATCH v4 4/6] drivers: leds: Add the iEi WT61P803 PUZZLE LED
+ driver
+Message-ID: <20201007112756.GD12224@duo.ucw.cz>
+References: <20201007004901.39859-1-luka.kovacic@sartura.hr>
+ <20201007004901.39859-5-luka.kovacic@sartura.hr>
 MIME-Version: 1.0
-Content-Description: Mail message body
-To:     Recipients <financialcapability6@gmail.com>
-From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
-Date:   Wed, 07 Oct 2020 07:49:33 -0300
-Reply-To: hmurrah39@gmail.com
-X-SpamTest-Envelope-From: financialcapability6@gmail.com
-X-SpamTest-Group-ID: 00000000
-X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
-X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
-X-SpamTest-Info: {DATE: unreal year}
-X-SpamTest-Method: none
-X-SpamTest-Rate: 55
-X-SpamTest-Status: Not detected
-X-SpamTest-Status-Extended: not_detected
-X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
-Message-ID: <20201007104948.8980163A52@mx.metalurgs.lv>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
-Subject: Low Rate Loan./mmm,
-X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
-         bases: 20140401 #7726142, check: 20201007 notchecked
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="fXStkuK2IQBfcDe+"
+Content-Disposition: inline
+In-Reply-To: <20201007004901.39859-5-luka.kovacic@sartura.hr>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Dear,
 
+--fXStkuK2IQBfcDe+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
+Hi!
 
+> Add support for the iEi WT61P803 PUZZLE LED driver.
+> Currently only the front panel power LED is supported.
+>=20
+> This driver depends on the iEi WT61P803 PUZZLE MFD driver.
 
-We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
+> +static int iei_wt61p803_puzzle_led_brightness_set_blocking(struct led_cl=
+assdev *cdev,
+> +							   enum led_brightness brightness)
+> +{
+> +	struct iei_wt61p803_puzzle_led *priv =3D cdev_to_iei_wt61p803_puzzle_le=
+d(cdev);
+> +	unsigned char *resp_buf =3D priv->response_buffer;
+> +	unsigned char led_power_cmd[5] =3D {
+> +		IEI_WT61P803_PUZZLE_CMD_HEADER_START,
+> +		IEI_WT61P803_PUZZLE_CMD_LED,
+> +		IEI_WT61P803_PUZZLE_CMD_LED_POWER,
+> +		(char)IEI_LED_OFF
+> +	};
+> +	size_t reply_size;
+> +
+> +	mutex_lock(&priv->lock);
+> +	if (brightness =3D=3D LED_OFF) {
+> +		led_power_cmd[3] =3D (char)IEI_LED_OFF;
+> +		priv->led_power_state =3D LED_OFF;
+> +	} else {
+> +		led_power_cmd[3] =3D (char)IEI_LED_ON;
+> +		priv->led_power_state =3D LED_ON;
+> +	}
+> +	mutex_unlock(&priv->lock);
 
+Are you sure you need the mutex?
 
-Please get back to me if you are interested for more
+> +	ret =3D devm_led_classdev_register_ext(dev, &priv->cdev, &init_data);
+> +	if (ret) {
+> +		dev_err(dev, "Could not register LED\n");
+> +		goto err_child_node;
+> +	}
+> +	return 0;
+> +err_child_node:
+> +	fwnode_handle_put(child);
+> +	return ret;
+> +}
 
-details.
+Is the fwnode_handle_put(child); missing in non-error path somewhere?
 
+> +MODULE_LICENSE("GPL");
 
-Yours faithfully,
+Make sure this is consistent with file header. GPLv2+, if you can.
 
-Hashim Murrah
+Best regards,
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--fXStkuK2IQBfcDe+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX32mPAAKCRAw5/Bqldv6
+8qoDAJsGLSdnj7pS5+jNN106nqxPCn+sIwCgjgVV9LxT/eQ1kyFjPAxMgU23t+U=
+=NwvO
+-----END PGP SIGNATURE-----
+
+--fXStkuK2IQBfcDe+--
