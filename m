@@ -2,93 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EABE1287293
-	for <lists+linux-leds@lfdr.de>; Thu,  8 Oct 2020 12:32:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FB1E2873D4
+	for <lists+linux-leds@lfdr.de>; Thu,  8 Oct 2020 14:11:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727273AbgJHKcS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 8 Oct 2020 06:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48286 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725917AbgJHKcS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 8 Oct 2020 06:32:18 -0400
-Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E57A2C061755
-        for <linux-leds@vger.kernel.org>; Thu,  8 Oct 2020 03:32:17 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id 5A4B9140A25;
-        Thu,  8 Oct 2020 12:32:15 +0200 (CEST)
-Date:   Thu, 8 Oct 2020 12:32:14 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Vadim Pasternak <vadimp@nvidia.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH led-next 1/1] leds: mlxreg: Allow multi-instantiation of
- same name LED for modular systems
-Message-ID: <20201008123214.2a5de507@nic.cz>
-In-Reply-To: <DM6PR12MB3898D2BDC4AC32036E792548AF0B0@DM6PR12MB3898.namprd12.prod.outlook.com>
-References: <20201006165850.17790-1-vadimp@nvidia.com>
-        <20201007113105.GE12224@duo.ucw.cz>
-        <20201007142049.02d8c3ba@nic.cz>
-        <DM6PR12MB38986A442F12A2DFB5769235AF0B0@DM6PR12MB3898.namprd12.prod.outlook.com>
-        <20201008075619.GB32424@amd>
-        <DM6PR12MB389877E86421231E18EF7DCDAF0B0@DM6PR12MB3898.namprd12.prod.outlook.com>
-        <20201008105550.44fa3165@nic.cz>
-        <DM6PR12MB3898D2BDC4AC32036E792548AF0B0@DM6PR12MB3898.namprd12.prod.outlook.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1725882AbgJHMLA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 8 Oct 2020 08:11:00 -0400
+Received: from w1.tutanota.de ([81.3.6.162]:54158 "EHLO w1.tutanota.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725852AbgJHMK7 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 8 Oct 2020 08:10:59 -0400
+Received: from w3.tutanota.de (unknown [192.168.1.164])
+        by w1.tutanota.de (Postfix) with ESMTP id A2BDFFBF4CB;
+        Thu,  8 Oct 2020 12:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1602159057;
+        s=s1; d=tutanota.com;
+        h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
+        bh=pTaGEEATW9dJCr5qgH388eK98QN7MnVFy+nvAOMbdso=;
+        b=E1DXk4t9Px12QbLTqkyvLqmRr+zTD41xB6Gbkz9avAk0je6UmUYeSQTnlKzBBZMA
+        93Xu1UHvaU9LYRyY1Xnr8Lcsx7lk4SjBhn/P27yWNSv779nDryRdGNVpPmdBh96CKAW
+        klZa6SecNUycuTZwOydhKOqOZfGDRpW5lBwRGa2aBvn7w/+3OEfK394/xJpM+xOnjCd
+        BWdr9uuCPdT1ZVbhTLM4q0WhlHaQD3dbHEARCDtSpsU1f5WTXom+9kzK9p0J9POCDAa
+        ZZZYPtuNBqjl4C3dZ6dcdKMEpSq4GDRgCQpoEqOACez0CM2DKrf16hQ0PRpUD5CtSOk
+        u0WyNYYccg==
+Date:   Thu, 8 Oct 2020 14:10:57 +0200 (CEST)
+From:   ultracoolguy@tutanota.com
+To:     Dan Murphy <dmurphy@ti.com>, Pavel <pavel@ucw.cz>
+Cc:     Marek Behun <kabel@blackhole.sk>,
+        Linux Leds <linux-leds@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Message-ID: <MJ76lXD--3-2@tutanota.com>
+In-Reply-To: <346621c1-757e-d182-d290-877fccc8b4aa@ti.com>
+References: <MIuPIKy--3-2@tutanota.com> <20201007012600.3b3e7779@blackhole.sk> <MJ2-gcy----2@tutanota.com> <346621c1-757e-d182-d290-877fccc8b4aa@ti.com>
+Subject: Re: [PATCH] lm3697: Rename struct into more appropiate name
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> > 
-> > Vadim, the LED core constructs names in form
-> >   device:color:function-enumerator
-> > so if you must have number there, IMO it should be
-> >   mlxreg:green:status-48
-> >   mlxreg:green:status-56
-> >   ...  
-> 
-> But why you consider it as function enumerator?
-> For example card48, card56 are two different devices
-> of same type.
-> Both have 'status' LED.
+Gotcha.
 
-OK this is a fair point.
+From now on I'm gonna respond with this new email: ultracoolguy@disroot.org .
 
-I was thinking such because in my mind I had this idea that for an
-ethernet switch with interfaces lan0 - lan4 it would make sense to use
-the LED_FUNCTION_LAN function with function enumerator. But thinking
-about this now again makes me wonder if instead the lan0 - lan4 should
-be devicenames instead, since normally they are network interface names.
+Oct 7, 2020, 14:56 by dmurphy@ti.com:
 
-Vadim, the reason why Pavel and I think that mlxreg (or mlxregN) is not
-valid devicename part (although mlxreg has to stay since many users
-already depend on it, as you say), is that the mlxreg name is not
-exposed anywhere else in Linux from userspace point of view.
+> Gabriel
+>
+> On 10/7/20 7:21 AM, ultracoolguy@tutanota.com wrote:
+>
+>> The reason I didn't use git send-mail earlier is because Tutanota doesn't supports SMTP and Protonmail requires a paid account for using SMTP/IMAP. However, I made an account creation request for Disroot(which does support SMTP for free), so when/if the account gets created I'll send future patches through there.
+>> Oct 6, 2020, 23:26 by kabel@blackhole.sk:
+>>
+> Also please note top posting on emails is not preferred. As you will find in the LED domain bottom posts and trimming emails to what is being commented on is preferred.
+>
+> As demonstrated.
+>
+> Dan
+>
 
-Devicename eth0 is okay, because it is network interface name.
-Devicename sda would be okay, because everyone knows it is a block
-device and you can access it via /dev/sda.
-Devicename hci0 would be okay because it is bluetooth interface
-accessible via hcitool.
-Devicenames mtd0, kbd0, mouse0 would be okay, I think.
-
-But mlxreg is not accessible via anything else in the system. Unless
-your systems also have something like /dev/mlxreg, that is.
-
-Do the LEDs on these cards only indicate status of the cards
-themselves as a whole? Or are there LEDs on these cards dedicated to
-their peripherals? For example if there is an ethernet port with LEDs on
-one of these cards, the devicename part for these LEDs should be of the
-device of that ethernet port, not mlxreg...
-
-Marek
