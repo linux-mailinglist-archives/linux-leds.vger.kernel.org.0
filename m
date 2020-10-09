@@ -2,94 +2,129 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE5B7289019
-	for <lists+linux-leds@lfdr.de>; Fri,  9 Oct 2020 19:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34AB62898CD
+	for <lists+linux-leds@lfdr.de>; Fri,  9 Oct 2020 22:08:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732941AbgJIRgf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 9 Oct 2020 13:36:35 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:38864 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732880AbgJIRgT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Oct 2020 13:36:19 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id B4C5D1C0B88; Fri,  9 Oct 2020 19:36:17 +0200 (CEST)
-Date:   Fri, 9 Oct 2020 19:36:17 +0200
-From:   Pavel Machek <pavel@denx.de>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        linux-leds@vger.kernel.org, dmurphy@ti.com
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 3/3] ARM: dts: r8a7742-iwg21d-q7: Enable SD2 LED
- indication
-Message-ID: <20201009173617.GA31847@duo.ucw.cz>
-References: <20200907155541.2011-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200907155541.2011-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20201009073349.GD10335@amd>
- <CA+V-a8tEtQwfz=NstFdBXdJiSy4-QJDoT5HjOh1kgUbuFpgs4g@mail.gmail.com>
+        id S2390410AbgJIUIk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 9 Oct 2020 16:08:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49410 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389072AbgJIUGQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 9 Oct 2020 16:06:16 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F472C0613D6;
+        Fri,  9 Oct 2020 13:06:16 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id j30so9560204lfp.4;
+        Fri, 09 Oct 2020 13:06:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=9ZK8UsrFVqX81y+hI5p39GDyrhSmvCaWHxPB2+b1688=;
+        b=U/y5ZpohCmv/ti9knT0oocZYLOwRbCJEEFFOqyKLDYW80386EBywSSgcDGhnIT1Ccc
+         H7M1vRmBvJbXQXmST9EgrJs0zlU8htyj6kSPsJ7D0bR0C5WlWhcHMQdLqU4LfocChVaE
+         GoQbcby4SCO97HhQHEFYI+w8vUAmxjpqVhfHZXoL8zepCYkyTPCYInZxeD9ySSVl+pFj
+         cgsT74h8Aoqx+tkVkBbw+ks1wP+KC00Pkuq2WvJoFzmhx+qqDz3qClvO9VZnL6JdIK8+
+         oBmqXSjHEuTrVI3dyrZ7uWbfw3EunuedVYKRH17ohUt09x/95zBlkJlg4C6YUasJQkOu
+         scNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9ZK8UsrFVqX81y+hI5p39GDyrhSmvCaWHxPB2+b1688=;
+        b=n8GVCSK9vzQbNdIQhquHKokunkBGwp/FfKqZpRLN8v1j9YtsLUocFgZ3Q9YNVk/Ox8
+         iPE08k3eagARcO7E155SVyxO1vAsj8fnBaJt+NkfLqbydjnFT3hiw8VYsnAu7PAveCdu
+         4gLTqWxfwZz924yqb1loKHw6L1o551956UBE2EfEzKrUWVLwBTYlOBPrHmCwViunz05b
+         I5QGqsPXQKTVmyd4UDNaXVNwUAIQxL1DDE+M74w8EATYaz74qZxaOMp++e6P1JZxXMrC
+         1VYFjbu8KXFeWahi8YJetVNuWnfqGyNAZmK8AGpntw0Fo98awW6yqHsL/eIp6ii47fOU
+         frvQ==
+X-Gm-Message-State: AOAM530h8sOkVXJtqKDV7mIJ9f40A2C7RIcvAeMcJeoA/HKKu2j4jICj
+        h1aOl0ZgZOkKmnYcaTDpWs+5D22+TEM=
+X-Google-Smtp-Source: ABdhPJwSC+c115moWCXPrNR4bzBFEDnP6BoD9NZ+Xj0Jai+vyFJhaH3LCzHFI33GWcYyr90/aF9O9w==
+X-Received: by 2002:ac2:47fc:: with SMTP id b28mr4576329lfp.454.1602273974509;
+        Fri, 09 Oct 2020 13:06:14 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-91-252.nat.spd-mgts.ru. [109.252.91.252])
+        by smtp.googlemail.com with ESMTPSA id e17sm1870925ljn.18.2020.10.09.13.06.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Oct 2020 13:06:13 -0700 (PDT)
+Subject: Re: [PATCH v3 1/5] dt-bindings: mfd: Add ENE KB930 Embedded
+ Controller binding
+To:     Sebastian Reichel <sre@kernel.org>
+Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Lubomir Rintel <lkundrak@v3.sk>, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200906195103.1347-1-digetx@gmail.com>
+ <20200906195103.1347-2-digetx@gmail.com>
+ <20201008230032.a2mgd3yymxbbreqo@earth.universe>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <2027587e-084d-8125-9830-6ff07bbe7f2d@gmail.com>
+Date:   Fri, 9 Oct 2020 23:06:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="PNTmBPCT7hxwcZjr"
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8tEtQwfz=NstFdBXdJiSy4-QJDoT5HjOh1kgUbuFpgs4g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201008230032.a2mgd3yymxbbreqo@earth.universe>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+09.10.2020 02:00, Sebastian Reichel пишет:
+> Hi,
+> 
+> On Sun, Sep 06, 2020 at 10:50:59PM +0300, Dmitry Osipenko wrote:
+>> Add binding document for the ENE KB930 Embedded Controller.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  .../devicetree/bindings/mfd/ene-kb930.yaml    | 66 +++++++++++++++++++
+>>  1 file changed, 66 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/mfd/ene-kb930.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/mfd/ene-kb930.yaml b/Documentation/devicetree/bindings/mfd/ene-kb930.yaml
+>> new file mode 100644
+>> index 000000000000..635c8966ca22
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/mfd/ene-kb930.yaml
+>> @@ -0,0 +1,66 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/mfd/ene-kb930.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: ENE KB930 Embedded Controller bindings
+>> +
+>> +description: |
+>> +  This binding describes the ENE KB930 Embedded Controller attached to an
+>> +  I2C bus.
+>> +
+>> +maintainers:
+>> +  - Dmitry Osipenko <digetx@gmail.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - enum:
+>> +        - acer,a500-iconia-ec # Acer A500 Iconia tablet device
+>> +      - enum:
+>> +        - ene,kb930
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  monitored-battery: true
+> 
+> ^^^ this is not being used by your battery driver. Do you plan
+> to use it in the future or is it a copy&paste mistake? :)
 
---PNTmBPCT7hxwcZjr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> Thank you for the review.
-
-Note I'm LED maintainer.
-
-> > > +     leds {
-> > > +             compatible =3D "gpio-leds";
-> > > +
-> > > +             sdhi2_led {
-> > > +                     label =3D "sdio-led";
-> >
-> > This should use appropriate label... probably mmc1:green:activity.
-> >
-> $ grep -nr mmc | grep -i activity
-> $ grep -nr  sd | grep -i activity
->=20
-> Results in 0 outputs in dts folder.
-
-Well, so does
-
-grep -ri label.*sdio-led arch/arm*
-
-:-). Feel free to suggest other name following documentation in
-Documentation/leds/leds-class.rst .
-
-(And yes, we have lot of work to get this to some kind of consistent
-state).
-
-								Pavel
---=20
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-
---PNTmBPCT7hxwcZjr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX4CfkQAKCRAw5/Bqldv6
-8vDQAKCmQ65JgESIKoQueOHDnt0GT/ed+wCeMw4yFiNFb92i8yk1tZxZ7oqqZFg=
-=d6V6
------END PGP SIGNATURE-----
-
---PNTmBPCT7hxwcZjr--
+Hello, this is correct that driver doesn't use monitored-battery info,
+but I was thinking that it's good to have anyways in the device-tree
+because this completes hardware description + the gauge driver isn't
+aware about maximal battery temperature. Hence it may become useful and
+it doesn't hurt to have that additional information about battery cell.
