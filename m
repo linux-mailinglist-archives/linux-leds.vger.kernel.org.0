@@ -2,108 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A1EA28D34E
-	for <lists+linux-leds@lfdr.de>; Tue, 13 Oct 2020 19:50:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABA2C28D355
+	for <lists+linux-leds@lfdr.de>; Tue, 13 Oct 2020 19:53:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726573AbgJMRuv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 13 Oct 2020 13:50:51 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:36556 "EHLO
+        id S1726819AbgJMRxa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 13 Oct 2020 13:53:30 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:36990 "EHLO
         fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725899AbgJMRuu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Oct 2020 13:50:50 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09DHoZ8P073278;
-        Tue, 13 Oct 2020 12:50:35 -0500
+        with ESMTP id S1726747AbgJMRxa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 13 Oct 2020 13:53:30 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09DHrBvg074183;
+        Tue, 13 Oct 2020 12:53:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1602611435;
-        bh=JMlBT3SOiTVkNTVQ570eNx88MSuuCsNQRAZUhrNTppg=;
-        h=From:To:CC:Subject:Date;
-        b=Xx0MnzYph2Nr+1AySAF8M1//FJLZa9FwRxcXo1GIUSfJNiUcMY5xmzubUIBtOqgAl
-         oCMJh6rnn9lIpWi0IrHjJY4Aep518D2EmFbiTnlFtki89oJhzIolJ4t/WMGlJqlQ0x
-         5PBab+WAow+LpYhzkAUQpe6kveWvTl7x1nofNaRc=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09DHoZsV003382
+        s=ti-com-17Q1; t=1602611591;
+        bh=FBiVGwoGX+2mUnA4sFmVWy34xUiW+AdWJW1G01o5UV4=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=PxlkB6W5UkUdhHF0rEt3joHxxmA/YoJqbNOqLK0vrs3/acz6+IKRTZ40Qt6LH9Bd2
+         2HumgB1WcXMd/MU3kspuU9NFStl8lkDtca+CSMTe2vDQTDhAkHyjrfM5ZHiVgmO4Ob
+         KhMb/YAGqcoImUQz3Cb483vkMDJrs+T9kUgHLkCA=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09DHrBnD025384
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 13 Oct 2020 12:50:35 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+        Tue, 13 Oct 2020 12:53:11 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 13
- Oct 2020 12:50:35 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ Oct 2020 12:53:11 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 13 Oct 2020 12:50:35 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09DHoYTp091558;
-        Tue, 13 Oct 2020 12:50:35 -0500
+ Frontend Transport; Tue, 13 Oct 2020 12:53:11 -0500
+Received: from [10.250.67.63] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09DHrAvE096079;
+        Tue, 13 Oct 2020 12:53:10 -0500
+Subject: Re: [PATCH 2/6] dt-bindings: mfd: google,cros-ec: explicitly allow
+ additional properties
+To:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        linux-leds <linux-leds@vger.kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Mark Brown <broonie@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <20201013160845.1772-1-thunder.leizhen@huawei.com>
+ <20201013160845.1772-3-thunder.leizhen@huawei.com>
 From:   Dan Murphy <dmurphy@ti.com>
-To:     <pavel@ucw.cz>, <robh+dt@kernel.org>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Dan Murphy <dmurphy@ti.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH] dt-bindings: leds: Update devicetree documents for ID_RGB
-Date:   Tue, 13 Oct 2020 12:50:34 -0500
-Message-ID: <20201013175034.25911-1-dmurphy@ti.com>
-X-Mailer: git-send-email 2.27.0
+Message-ID: <d2457f7a-625f-b046-9cfa-8f920de07377@ti.com>
+Date:   Tue, 13 Oct 2020 12:53:10 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+In-Reply-To: <20201013160845.1772-3-thunder.leizhen@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Update the leds/common.yaml to indicate that the max color ID is 9.
-Reflect the same change in the leds-class-multicolor.yaml
+Zhen
 
-Reported-by: Zhen Lei <thunder.leizhen@huawei.com>
-Signed-off-by: Dan Murphy <dmurphy@ti.com>
----
- Documentation/devicetree/bindings/leds/common.yaml       | 2 +-
- .../devicetree/bindings/leds/leds-class-multicolor.yaml  | 9 +++++----
- 2 files changed, 6 insertions(+), 5 deletions(-)
+On 10/13/20 11:08 AM, Zhen Lei wrote:
+> There are so many properties have not been described in this yaml file,
+> and a lot of errors will be reported. Especially, some yaml files such as
+> google,cros-ec-typec.yaml, extcon-usbc-cros-ec.yaml can not pass the
+> self-check, because of the examples. So temporarily allow additional
+> properties to keep the comprehensive dt_binding_check result clean.
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index a2a541bca73c..0c9f912dfee6 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -43,7 +43,7 @@ properties:
-       LED_COLOR_ID available, add a new one.
-     $ref: /schemas/types.yaml#definitions/uint32
-     minimum: 0
--    maximum: 8
-+    maximum: 9
- 
-   function-enumerator:
-     description:
-diff --git a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-index b55e1f1308a4..f8032e863ecb 100644
---- a/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-class-multicolor.yaml
-@@ -16,7 +16,7 @@ description: |
-   modules. This is achieved by adding multi-led nodes layer to the
-   monochrome LED bindings.
-   The nodes and properties defined in this document are unique to the multicolor
--  LED class.  Common LED nodes and properties are inherited from the common.txt
-+  LED class.  Common LED nodes and properties are inherited from the common.yaml
-   within this documentation directory.
- 
- patternProperties:
-@@ -25,10 +25,11 @@ patternProperties:
-     description: Represents the LEDs that are to be grouped.
-     properties:
-       color:
--        const: 8  # LED_COLOR_ID_MULTI
-+        const: 9  # LED_COLOR_ID_RGB
-         description: |
--          For multicolor LED support this property should be defined as
--          LED_COLOR_ID_MULTI which can be found in include/linux/leds/common.h.
-+          For multicolor LED support this property should be defined as either
-+          LED_COLOR_ID_RGB or LED_COLOR_ID_MULTI which can be found in
-+          include/linux/leds/common.h.
- 
-     $ref: "common.yaml#"
- 
--- 
-2.28.0.585.ge1cfff676549
+My preference is to fix the binding to pass the checks and not just work 
+around the issues. Working around the issues may mean the issues never 
+get fixed.
+
+Dan
 
