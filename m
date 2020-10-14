@@ -2,107 +2,260 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47B3328DF6A
-	for <lists+linux-leds@lfdr.de>; Wed, 14 Oct 2020 12:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47FCE28DF93
+	for <lists+linux-leds@lfdr.de>; Wed, 14 Oct 2020 13:06:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730423AbgJNKwY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 14 Oct 2020 06:52:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54386 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725922AbgJNKwX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Oct 2020 06:52:23 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41965C0613D2
-        for <linux-leds@vger.kernel.org>; Wed, 14 Oct 2020 03:52:23 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id l2so3215661lfk.0
-        for <linux-leds@vger.kernel.org>; Wed, 14 Oct 2020 03:52:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=K+Bm1q8Wd1o8LXJJfeloOHhF8l9fz3lJzW7zhkVyulA=;
-        b=HRq+149oYRUHEa0ZlPFC+B8N0Z73OpNT7e49YRhUhzYTlBiXsL3s1O/i5yCzYjJFSG
-         qv73V41puLT/Od3m8j1N7zxlJZB0e9iMKLU3xZqBmxt+DfbmSrQMM92bU2N4zHLiz9Of
-         TUJDeu3gaYQm4u6+fzeB+OB6ny4TD96kta5YpMT6HevRLAZYkRHO25PwzRBXvqyalgEW
-         yF+UwqsO1w/oo1nglIALVOUmmjnzuqofH+qA09a3NQbwe6w4tZc4Nnn8xVM4f7JecKZ8
-         2DVBRsLbkX7XgB0XTqxv1sOElv7ovGIaYokuhr45VvcF2u878mu/3Aw1uGzcOeqyBMZ0
-         l1Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=K+Bm1q8Wd1o8LXJJfeloOHhF8l9fz3lJzW7zhkVyulA=;
-        b=cEVevO45AsXOHuJL28Vwm0vKzOQVYORIQGI28+NwfEnz4R+6G4PIZnSW3kqNJaYs6m
-         6U5aTRmAQ87fp7tvgGrQCRf7rjxMzI9+aPfSoObCy398ycqw/LPW3xEhV7/xxGdBvUYs
-         zBzkf6aQPQdEphwaS/abtI+Ok+aPtO8Huu8vm17Fq9VdX9fjn9Pl4QVb3iJLPddSBdIx
-         O7GdYmYwo6ZWizr1R7ZFsS6lp162aIje5eRt4iD5ollJHzp9f6mIR1s21uHHbhnpojOH
-         yC9NqnYy12zhvWlDNImFjMRCBtvTVqcQOJyghZjRG1ozAQEzhJXSfDR6lCZKC12PSWCn
-         J3uA==
-X-Gm-Message-State: AOAM5326N8uBUzrznX8TeiRYWYugtIcsNGwUIskpEOzAzUkaw/ICH1iP
-        gYUxGiR9zAtcpBvaB7RJn2hUtXws2HyYy4cWmOaBlw==
-X-Google-Smtp-Source: ABdhPJxAChlb/T6jV0dJCIy/l94YXNy1w3RwYSAAHWPRr2RwihUzfact8MV5Qnw31p8MBBd2NKsS4sAekGvnOmi2Cvg=
-X-Received: by 2002:a19:e55:: with SMTP id 82mr1099586lfo.571.1602672741685;
- Wed, 14 Oct 2020 03:52:21 -0700 (PDT)
+        id S1729134AbgJNLGA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 14 Oct 2020 07:06:00 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:51244 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725922AbgJNLGA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Oct 2020 07:06:00 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 9498B1C0B87; Wed, 14 Oct 2020 13:05:56 +0200 (CEST)
+Date:   Wed, 14 Oct 2020 13:05:56 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+Subject: [GIT PULL] LEDs changes for v5.10-rc1
+Message-ID: <20201014110556.GA19009@duo.ucw.cz>
 MIME-Version: 1.0
-References: <20200812090711.2644688-1-linus.walleij@linaro.org>
- <20200812090711.2644688-2-linus.walleij@linaro.org> <c45a2758-cb43-2ccb-4056-ed25d73fa3f8@gmail.com>
-In-Reply-To: <c45a2758-cb43-2ccb-4056-ed25d73fa3f8@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 14 Oct 2020 12:52:10 +0200
-Message-ID: <CACRpkdYgf8OPc2EqmPu=O2dr+ns4e3kTGyVi3A2Thd9v1wQGuA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] leds: rt8515: Add Richtek RT8515 LED driver
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        newbytee@protonmail.com, Stephan Gerhold <stephan@gerhold.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jakub!
 
-thanks for the review. I fixed all comments but I have a problem
-with the below:
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 13, 2020 at 11:04 PM Jacek Anaszewski
-<jacek.anaszewski@gmail.com> wrote:
-> On 8/12/20 11:07 AM, Linus Walleij wrote:
+The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
-> > +     /* Init flash intensity setting */
-> > +     s = &v4l2_sd_cfg->intensity;
-> > +     s->min = 0;
-> > +     s->max = rt->fled.led_cdev.max_brightness;
-> > +     s->step = 1;
->
-> struct v4l2_flash_config's intensity property tells V4L2 flash framework
-> how to convert LED class brightness levels to microamperes used by
-> the V4L2 flash subdevice.
->
-> See max77693_init_v4l2_flash_config() in drivers/leds/leds-max77693.c
-> for a reference.
+  Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
 
-I understand, but I'm a bit of lost here, because I do not have
-any datsheet for the Richtek RT8515. The outoftree code
-that exists for example for Asus Zenfone:
-https://github.com/ZenfoneArea/android_kernel_asus_zenfone5/blob/master/linux/modules/camera/drivers/media/i2c/rt8515.c
+are available in the Git repository at:
 
-The intensity is set to min/max in percent
-(0-100%) so the numerals 1-100 step 1 so
-the same as the brightness.
+  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
+leds-5.10-rc1
 
-Is the V4L2 API such defined that if you don't know
-what microamperes that correspond to a certain setting
-it is better to simply not implement it? I can certainly
-remove it.
+for you to fetch changes up to 19d2e0cef0b14f8c7210162f58327485f5fa7c51:
 
-I don't quite understand why V4L2 needs to control this
-in uA but I suppose they have a good reason. It however
-creates a really high bar for out-of-tree code from
-non-cooperative vendors. I'll try to send a mail to
-Richtek and ask for the datasheet though, stranger things
-have happened.
+  leds: pwm: Remove platform_data support (2020-10-07 12:02:58 +0200)
 
-Yours,
-Linus Walleij
+----------------------------------------------------------------
+Pull request for 5.10-rc1.
+
+Quite a lot of stuff is going on here. Great cleanups/fixes from Marek
+and others are biggest part.
+
+I limited CPU LED trigger to 8 CPUs, because it was willing to
+register 1024 "triggers" on machine with 1024 CPUs. I don't believe it
+will cause any problems, but we can raise the limit if it does.
+
+----------------------------------------------------------------
+Alexander Dahl (2):
+      leds: pwm: Allow automatic labels for DT based devices
+      leds: pwm: Remove platform_data support
+
+Dan Murphy (5):
+      dt: bindings: lp50xx: Introduce the lp50xx family of RGB drivers
+      leds: lp50xx: Add the LP50XX family of the RGB LED driver
+      dt: bindings: lp55xx: Updte yaml examples with new color ID
+      leds: lm3532: Fix warnings for undefined parameters
+      leds: lm36274: Fix warning for undefined parameters
+
+Dmitry Osipenko (1):
+      leds: Add driver for Acer Iconia Tab A500
+
+Eddie James (2):
+      dt-bindings: leds: pca955x: Add IBM implementation compatible string
+      leds: pca955x: Add an IBM software implementation of the PCA9552 chip
+
+Gabriel David (1):
+      leds: lm3697: Fix out-of-bound access
+
+Grant Feng (2):
+      leds: is31fl319x: Add shutdown pin and generate a 5ms low pulse when =
+startup
+      DT: leds: Add an optional property named 'shutdown-gpios'
+
+Krzysztof Kozlowski (5):
+      leds: s3c24xx: Remove unused machine header include
+      leds: lm3692x: Simplify with dev_err_probe()
+      leds: pwm: Simplify with dev_err_probe()
+      leds: sgm3140: Simplify with dev_err_probe()
+      leds: tlc591xx: Simplify with dev_err_probe()
+
+Liu Shixin (1):
+      leds: pca9532 - simplify the return expression of pca9532_remove
+
+Marek Beh=FAn (55):
+      leds: various: compile if COMPILE_TEST=3Dy
+      leds: ip30: compile if COMPILE_TEST=3Dy
+      leds: various: use device_get_match_data
+      leds: various: use dev_of_node(dev) instead of dev->of_node
+      leds: lt3593: do not rewrite .of_node of new LED device to wrong value
+      leds: various: use only available OF children
+      leds: various: fix OF node leaks
+      leds: bcm6328, bcm6358: use devres LED registering function
+      leds: bcm6328, bcm6358: use struct led_init_data when registering
+      leds: lm3697: use struct led_init_data when registering
+      leds: lm3697: cosmetic change: use helper variable, reverse christmas=
+ tree
+      leds: max77650: use struct led_init_data when registering
+      leds: mt6323: use struct led_init_data when registering
+      leds: mt6323: cosmetic change: use helper variable
+      leds: pm8058: use struct led_init_data when registering
+      leds: pm8058: cosmetic change: use helper variable
+      leds: pm8058: cosmetic change: no need to return in if guard
+      leds: is31fl32xx: use struct led_init_data when registering
+      leds: ns2: use devres LED registering function
+      leds: ns2: alloc simple array instead of struct ns2_led_priv
+      leds: ns2: support OF probing only, forget platdata
+      leds: ns2: move parsing of one LED into separate function
+      leds: ns2: use devres API for getting GPIO descriptors
+      leds: ns2: cosmetic structure rename
+      leds: ns2: cosmetic variable rename
+      leds: ns2: cosmetic change
+      leds: ns2: cosmetic change: use helper variable
+      leds: ns2: register LED immediately after parsing DT properties
+      leds: ns2: remove unneeded variable
+      leds: ns2: use struct led_init_data when registering
+      leds: lm36274: cosmetic: rename lm36274_data to chip
+      leds: lm36274: don't iterate through children since there is only one
+      leds: lm36274: use struct led_init_data when registering
+      leds: lm36274: do not set chip settings in DT parsing function
+      leds: lm36274: use platform device as parent of LED
+      leds: lm36274: use devres LED registering function
+      leds: lm3532: don't parse label DT property
+      leds: syscon: use struct led_init_data when registering
+      leds: parse linux,default-trigger DT property in LED core
+      leds: tca6507: Absorb platform data
+      leds: tca6507: use fwnode API instead of OF
+      leds: tca6507: fix potential zero passed to ERR_PTR
+      leds: pca963x: cosmetic: use helper variables, better indentation
+      leds: pca963x: use devres LED registering function
+      leds: pca963x: cosmetic: rename variables
+      leds: pca963x: cosmetic: rename variables
+      leds: pca963x: use flexible array
+      dt-bindings: leds: tca6507: convert to YAML
+      leds: tca6507: do not set GPIO names
+      leds: tca6507: cosmetic change: use helper variable
+      leds: tca6507: remove binding comment
+      leds: pca963x: register LEDs immediately after parsing, get rid of pl=
+atdata
+      leds: pca963x: use struct led_init_data when registering
+      leds: ns2: convert to fwnode API
+      leds: ns2: do not guard OF match pointer with of_match_ptr
+
+Markus Moll (2):
+      leds: pca9532: correct shift computation in pca9532_getled
+      leds: pca9532: read pwm settings from device tree
+
+Pavel Machek (5):
+      leds: we don't want people to use LED subsystem for vibrations
+      leds: sgm3140: fix led->LED for consistency
+      leds: tca6507: fix warning triggered by fwnode conversion.
+      leds: TODO: Add documentation about possible subsystem improvements
+      ledtrig-cpu: Limit to 8 CPUs
+
+Randy Dunlap (1):
+      leds: LP55XX_COMMON needs to depend on LEDS_CLASS
+
+Tobias Jordan (1):
+      leds: tlc591xx: fix leak of device node iterator
+
+Tom Rix (1):
+      leds: mt6323: move period calculation
+
+ .../devicetree/bindings/leds/leds-is31fl319x.txt   |   2 +
+ .../devicetree/bindings/leds/leds-lp50xx.yaml      | 130 +++++
+ .../devicetree/bindings/leds/leds-lp55xx.yaml      |   2 +-
+ .../devicetree/bindings/leds/leds-pca955x.txt      |   1 +
+ Documentation/devicetree/bindings/leds/tca6507.txt |  49 --
+ .../devicetree/bindings/leds/ti,tca6507.yaml       | 134 +++++
+ Documentation/leds/ledtrig-transient.rst           |   7 -
+ drivers/leds/Kconfig                               |  31 +-
+ drivers/leds/Makefile                              |   2 +
+ drivers/leds/TODO                                  |  75 +++
+ drivers/leds/led-class.c                           |   5 +
+ drivers/leds/leds-88pm860x.c                       |   6 +-
+ drivers/leds/leds-aat1290.c                        |   2 +-
+ drivers/leds/leds-acer-a500.c                      | 129 +++++
+ drivers/leds/leds-an30259a.c                       |   7 +-
+ drivers/leds/leds-aw2013.c                         |  11 +-
+ drivers/leds/leds-bcm6328.c                        |  11 +-
+ drivers/leds/leds-bcm6358.c                        |  11 +-
+ drivers/leds/leds-cpcap.c                          |   7 +-
+ drivers/leds/leds-cr0014114.c                      |   3 -
+ drivers/leds/leds-el15203000.c                     |   3 -
+ drivers/leds/leds-gpio.c                           |   3 -
+ drivers/leds/leds-ip30.c                           |   1 +
+ drivers/leds/leds-is31fl319x.c                     |  32 +-
+ drivers/leds/leds-is31fl32xx.c                     |  33 +-
+ drivers/leds/leds-ktd2692.c                        |   4 +-
+ drivers/leds/leds-lm3532.c                         |  65 +--
+ drivers/leds/leds-lm36274.c                        | 133 ++---
+ drivers/leds/leds-lm3692x.c                        |  14 +-
+ drivers/leds/leds-lm3697.c                         | 100 ++--
+ drivers/leds/leds-lp50xx.c                         | 631 +++++++++++++++++=
+++++
+ drivers/leds/leds-lp5521.c                         |   2 +-
+ drivers/leds/leds-lp5523.c                         |   2 +-
+ drivers/leds/leds-lp5562.c                         |   2 +-
+ drivers/leds/leds-lp55xx-common.c                  |  14 +-
+ drivers/leds/leds-lp8501.c                         |   2 +-
+ drivers/leds/leds-lp8860.c                         |   6 +-
+ drivers/leds/leds-lt3593.c                         |   6 +-
+ drivers/leds/leds-max77650.c                       |  24 +-
+ drivers/leds/leds-max77693.c                       |   2 +-
+ drivers/leds/leds-mc13783.c                        |   8 +-
+ drivers/leds/leds-mt6323.c                         |  38 +-
+ drivers/leds/leds-netxbig.c                        |   6 +-
+ drivers/leds/leds-ns2.c                            | 346 ++++-------
+ drivers/leds/leds-pca9532.c                        |  24 +-
+ drivers/leds/leds-pca955x.c                        |   8 +
+ drivers/leds/leds-pca963x.c                        | 399 ++++++-------
+ drivers/leds/leds-pm8058.c                         |  33 +-
+ drivers/leds/leds-powernv.c                        |   2 +-
+ drivers/leds/leds-pwm.c                            |  49 +-
+ drivers/leds/leds-s3c24xx.c                        |   2 -
+ drivers/leds/leds-sc27xx-bltc.c                    |   6 +-
+ drivers/leds/leds-sgm3140.c                        |  29 +-
+ drivers/leds/leds-spi-byte.c                       |  11 +-
+ drivers/leds/leds-syscon.c                         |  13 +-
+ drivers/leds/leds-tca6507.c                        | 116 ++--
+ drivers/leds/leds-tlc591xx.c                       |  24 +-
+ drivers/leds/leds-turris-omnia.c                   |   8 +-
+ drivers/leds/trigger/ledtrig-cpu.c                 |  13 +-
+ include/linux/leds-tca6507.h                       |  21 -
+ include/linux/platform_data/leds-pca963x.h         |  35 --
+ 61 files changed, 1791 insertions(+), 1104 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/tca6507.txt
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,tca6507.yaml
+ create mode 100644 drivers/leds/TODO
+ create mode 100644 drivers/leds/leds-acer-a500.c
+ create mode 100644 drivers/leds/leds-lp50xx.c
+ delete mode 100644 include/linux/leds-tca6507.h
+ delete mode 100644 include/linux/platform_data/leds-pca963x.h
+
+
+
+--zhXaljGHf11kAtnf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX4bblAAKCRAw5/Bqldv6
+8lNGAJ9U1JIZjV4ZUf1ItaDTYJZ+nmpNywCfZuN2r8bFIPrWN04l2NoH0veNiaw=
+=3Jkc
+-----END PGP SIGNATURE-----
+
+--zhXaljGHf11kAtnf--
