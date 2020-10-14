@@ -2,100 +2,107 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20B1428DBBC
-	for <lists+linux-leds@lfdr.de>; Wed, 14 Oct 2020 10:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47B3328DF6A
+	for <lists+linux-leds@lfdr.de>; Wed, 14 Oct 2020 12:52:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727014AbgJNIiB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 14 Oct 2020 04:38:01 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:58222 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726269AbgJNIiB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Oct 2020 04:38:01 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 75E1B1C0B87; Wed, 14 Oct 2020 10:37:59 +0200 (CEST)
-Date:   Wed, 14 Oct 2020 10:37:58 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Udo van den Heuvel <udovdh@xs4all.nl>
-Cc:     Takashi Iwai <tiwai@suse.de>, Randy Dunlap <rdunlap@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        moderated for non-subscribers <alsa-devel@alsa-project.org>
-Subject: Re: disabling CONFIG_LED_CLASS (SND_HDA_CODEC_REALTEK)
-Message-ID: <20201014083758.GB31728@amd>
-References: <1e6b1961-9e9b-5f82-86a1-bf838cb68f55@xs4all.nl>
- <d7774b58-caf5-5bd8-845d-a5d45aaef4c6@infradead.org>
- <s5hblh5mele.wl-tiwai@suse.de>
- <s5ha6wpmei5.wl-tiwai@suse.de>
- <20201014075853.GB29881@amd>
- <056a8933-378f-30f2-c7af-5514d93d3c36@xs4all.nl>
- <20201014081116.GC29881@amd>
- <2be6e184-97d4-a2b1-a500-6ea3528cff37@xs4all.nl>
- <20201014082752.GA31728@amd>
- <9cf705b9-1fca-2445-43de-916b13b9103f@xs4all.nl>
+        id S1730423AbgJNKwY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 14 Oct 2020 06:52:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725922AbgJNKwX (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Oct 2020 06:52:23 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41965C0613D2
+        for <linux-leds@vger.kernel.org>; Wed, 14 Oct 2020 03:52:23 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id l2so3215661lfk.0
+        for <linux-leds@vger.kernel.org>; Wed, 14 Oct 2020 03:52:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=K+Bm1q8Wd1o8LXJJfeloOHhF8l9fz3lJzW7zhkVyulA=;
+        b=HRq+149oYRUHEa0ZlPFC+B8N0Z73OpNT7e49YRhUhzYTlBiXsL3s1O/i5yCzYjJFSG
+         qv73V41puLT/Od3m8j1N7zxlJZB0e9iMKLU3xZqBmxt+DfbmSrQMM92bU2N4zHLiz9Of
+         TUJDeu3gaYQm4u6+fzeB+OB6ny4TD96kta5YpMT6HevRLAZYkRHO25PwzRBXvqyalgEW
+         yF+UwqsO1w/oo1nglIALVOUmmjnzuqofH+qA09a3NQbwe6w4tZc4Nnn8xVM4f7JecKZ8
+         2DVBRsLbkX7XgB0XTqxv1sOElv7ovGIaYokuhr45VvcF2u878mu/3Aw1uGzcOeqyBMZ0
+         l1Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=K+Bm1q8Wd1o8LXJJfeloOHhF8l9fz3lJzW7zhkVyulA=;
+        b=cEVevO45AsXOHuJL28Vwm0vKzOQVYORIQGI28+NwfEnz4R+6G4PIZnSW3kqNJaYs6m
+         6U5aTRmAQ87fp7tvgGrQCRf7rjxMzI9+aPfSoObCy398ycqw/LPW3xEhV7/xxGdBvUYs
+         zBzkf6aQPQdEphwaS/abtI+Ok+aPtO8Huu8vm17Fq9VdX9fjn9Pl4QVb3iJLPddSBdIx
+         O7GdYmYwo6ZWizr1R7ZFsS6lp162aIje5eRt4iD5ollJHzp9f6mIR1s21uHHbhnpojOH
+         yC9NqnYy12zhvWlDNImFjMRCBtvTVqcQOJyghZjRG1ozAQEzhJXSfDR6lCZKC12PSWCn
+         J3uA==
+X-Gm-Message-State: AOAM5326N8uBUzrznX8TeiRYWYugtIcsNGwUIskpEOzAzUkaw/ICH1iP
+        gYUxGiR9zAtcpBvaB7RJn2hUtXws2HyYy4cWmOaBlw==
+X-Google-Smtp-Source: ABdhPJxAChlb/T6jV0dJCIy/l94YXNy1w3RwYSAAHWPRr2RwihUzfact8MV5Qnw31p8MBBd2NKsS4sAekGvnOmi2Cvg=
+X-Received: by 2002:a19:e55:: with SMTP id 82mr1099586lfo.571.1602672741685;
+ Wed, 14 Oct 2020 03:52:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="CUfgB8w4ZwR/yMy5"
-Content-Disposition: inline
-In-Reply-To: <9cf705b9-1fca-2445-43de-916b13b9103f@xs4all.nl>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <20200812090711.2644688-1-linus.walleij@linaro.org>
+ <20200812090711.2644688-2-linus.walleij@linaro.org> <c45a2758-cb43-2ccb-4056-ed25d73fa3f8@gmail.com>
+In-Reply-To: <c45a2758-cb43-2ccb-4056-ed25d73fa3f8@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 14 Oct 2020 12:52:10 +0200
+Message-ID: <CACRpkdYgf8OPc2EqmPu=O2dr+ns4e3kTGyVi3A2Thd9v1wQGuA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] leds: rt8515: Add Richtek RT8515 LED driver
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        newbytee@protonmail.com, Stephan Gerhold <stephan@gerhold.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Jakub!
 
---CUfgB8w4ZwR/yMy5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks for the review. I fixed all comments but I have a problem
+with the below:
 
-On Wed 2020-10-14 10:34:21, Udo van den Heuvel wrote:
-> On 14-10-2020 10:27, Pavel Machek wrote:
-> >> One should have thought about stuff beforehand.
-> >=20
-> > We did. And decided this is best solution.
->=20
-> Then the thought process went awry.
->=20
-> >> The non-selectability is not my fault.
-> >=20
-> > It also does not affect you in any way.
->=20
-> It does.
-> /boot fills up even sooner thanks to this unused code.
-> Compiles last longer because of this unused code.
+On Thu, Aug 13, 2020 at 11:04 PM Jacek Anaszewski
+<jacek.anaszewski@gmail.com> wrote:
+> On 8/12/20 11:07 AM, Linus Walleij wrote:
 
-Have you measured how much slower and how much bigger it is? Do you
-understand that you propose to make source code bigger and slower to
-compile for everyone else?
+> > +     /* Init flash intensity setting */
+> > +     s = &v4l2_sd_cfg->intensity;
+> > +     s->min = 0;
+> > +     s->max = rt->fled.led_cdev.max_brightness;
+> > +     s->step = 1;
+>
+> struct v4l2_flash_config's intensity property tells V4L2 flash framework
+> how to convert LED class brightness levels to microamperes used by
+> the V4L2 flash subdevice.
+>
+> See max77693_init_v4l2_flash_config() in drivers/leds/leds-max77693.c
+> for a reference.
 
-You are filling my inbox.
+I understand, but I'm a bit of lost here, because I do not have
+any datsheet for the Richtek RT8515. The outoftree code
+that exists for example for Asus Zenfone:
+https://github.com/ZenfoneArea/android_kernel_asus_zenfone5/blob/master/linux/modules/camera/drivers/media/i2c/rt8515.c
 
-> > Feel free to go to the mic LED discussion to see why we did it like
-> > this. Then you can come up with better solution for problem at hand.
->=20
-> I did not think of forcing code onto somebody. Someone else did.
-> This is effectively the effect of the LEDs thing.
+The intensity is set to min/max in percent
+(0-100%) so the numerals 1-100 step 1 so
+the same as the brightness.
 
-Without understanding what was decided and why, this discussion is not
-useful.
+Is the V4L2 API such defined that if you don't know
+what microamperes that correspond to a certain setting
+it is better to simply not implement it? I can certainly
+remove it.
 
+I don't quite understand why V4L2 needs to control this
+in uA but I suppose they have a good reason. It however
+creates a really high bar for out-of-tree code from
+non-cooperative vendors. I'll try to send a mail to
+Richtek and ask for the datasheet though, stranger things
+have happened.
 
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---CUfgB8w4ZwR/yMy5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl+GuOYACgkQMOfwapXb+vJMOACeINaNJ284URcw5rkEnAaaBLD3
-AUkAoK9ipT87VRbgXSFTZYc9dMa1g4go
-=0WBC
------END PGP SIGNATURE-----
-
---CUfgB8w4ZwR/yMy5--
+Yours,
+Linus Walleij
