@@ -2,80 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8494A28EFB1
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Oct 2020 11:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B00E728F3F4
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Oct 2020 15:54:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729902AbgJOJ4e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 15 Oct 2020 05:56:34 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:38676 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727165AbgJOJ4d (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 15 Oct 2020 05:56:33 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 0093655E78CD6B281545;
-        Thu, 15 Oct 2020 17:56:28 +0800 (CST)
-Received: from [127.0.0.1] (10.174.177.134) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 15 Oct 2020
- 17:56:23 +0800
-Subject: Re: [PATCH 5/6] ARM: dts: mmp2-olpc-xo-1-75: explicitly add
- #address-cells=<0> for slave mode
-To:     Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>,
-        linux-leds <linux-leds@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Benson Leung <bleung@chromium.org>,
-        "Enric Balletbo i Serra" <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Mark Brown <broonie@kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-References: <20201013160845.1772-1-thunder.leizhen@huawei.com>
- <20201013160845.1772-6-thunder.leizhen@huawei.com>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <03484922-1044-0a57-980e-85e1de768915@huawei.com>
-Date:   Thu, 15 Oct 2020 17:56:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1730236AbgJONx6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 15 Oct 2020 09:53:58 -0400
+Received: from edge.kilargo.pl ([77.252.52.110]:24065 "EHLO edge.kilargo.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729735AbgJONx6 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 15 Oct 2020 09:53:58 -0400
+X-Greylist: delayed 601 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Oct 2020 09:53:22 EDT
+Received: from mail.kilargo.pl (77.252.52.107) by edge.kilargo.pl
+ (77.252.52.109) with Microsoft SMTP Server (TLS) id 8.3.485.1; Thu, 15 Oct
+ 2020 15:41:40 +0200
+Received: from User (185.248.12.71) by MAIL.kilargo.pl (172.22.0.36) with
+ Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 15 Oct 2020 14:54:55 +0200
+Reply-To: <kim.leang2011@yahoo.com>
+From:   Kim Leang <mechanik@kilargo.pl>
+Subject: Greeting! !!
+Date:   Thu, 15 Oct 2020 15:54:58 +0300
 MIME-Version: 1.0
-In-Reply-To: <20201013160845.1772-6-thunder.leizhen@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset="Windows-1251"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.177.134]
-X-CFilter-Loop: Reflected
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <b8fd632900dc4ad4a113512e7781e06f@mail.kilargo.pl>
+To:     Undisclosed recipients:;
+X-Originating-IP: [185.248.12.71]
+X-ClientProxiedBy: mail.kilargo.pl (172.22.0.36) To MAIL.kilargo.pl
+ (172.22.0.36)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A295AAB9B6B647163
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Lubomir:
- Can you review this patch? The results of all other patches are clear.
+Greeting!
 
+I am contacting you to receive and share with me an abandoned fund ( $21,537.000.00 ) left in our bank by a deceased customer. I was going through the Internet search when I found your email address. My name is Mr. Kim Leang.
 
-On 2020/10/14 0:08, Zhen Lei wrote:
-> Delete the old property "#address-cells" and then explicitly add it with
-> zero value. The value of "#size-cells" is already zero, so keep it no
-> change.
-> 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> ---
->  arch/arm/boot/dts/mmp2-olpc-xo-1-75.dts | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/mmp2-olpc-xo-1-75.dts b/arch/arm/boot/dts/mmp2-olpc-xo-1-75.dts
-> index f1a41152e9dd70d..be88b6e551d58e9 100644
-> --- a/arch/arm/boot/dts/mmp2-olpc-xo-1-75.dts
-> +++ b/arch/arm/boot/dts/mmp2-olpc-xo-1-75.dts
-> @@ -224,7 +224,7 @@
->  
->  &ssp3 {
->  	/delete-property/ #address-cells;
-> -	/delete-property/ #size-cells;
-> +	#address-cells = <0>;
->  	spi-slave;
->  	status = "okay";
->  	ready-gpio = <&gpio 125 GPIO_ACTIVE_HIGH>;
-> 
+I want to utilize this opportunity and make use of this fund if I should present your name to the bank to stand as his business associate/ trustee for the fund to be released to you via Visa card for easy withdrawals in any VISA ATM machine anywhere in the World.
 
+The bank will also give you international online transfer options. With these you can transfer the funds without any risk.
+
+Should you be interested in working with me in this project? Please reply back and let's benefit from this golden opportunity.You are my first contact. I shall wait a few days and if I do not hear from you, I shall look for another person.
+
+Thanks and have a nice day,
+Mr. Kim Leang.
