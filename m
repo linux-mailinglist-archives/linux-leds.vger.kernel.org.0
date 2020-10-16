@@ -2,74 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86F5C28FB3A
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Oct 2020 00:33:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7330B290545
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Oct 2020 14:37:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731636AbgJOWdJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 15 Oct 2020 18:33:09 -0400
-Received: from mga17.intel.com ([192.55.52.151]:50389 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730352AbgJOWdJ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 15 Oct 2020 18:33:09 -0400
-IronPort-SDR: ukFtMdvhaGvea59Lw4LcnrcjBipHoCY8T2BMi7LakdHaqA04cjkq2OcGsx98fcO5PHdKWGudSC
- BgzXwhUCW8Uw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="146327629"
-X-IronPort-AV: E=Sophos;i="5.77,380,1596524400"; 
-   d="scan'208";a="146327629"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2020 15:33:08 -0700
-IronPort-SDR: jV+GInFu3HUKxAHj+n0syZqRxNl2VkMilsYqxBc4ldyL1YTp8hgjOoWMmk8tlgJQLWgsc7vmDz
- yx006Sl5k6bQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,380,1596524400"; 
-   d="scan'208";a="531437319"
-Received: from lkp-server01.sh.intel.com (HELO 5003fa193bf3) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 15 Oct 2020 15:33:05 -0700
-Received: from kbuild by 5003fa193bf3 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kTBo0-00008C-Sg; Thu, 15 Oct 2020 22:33:04 +0000
-Date:   Fri, 16 Oct 2020 06:32:03 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>
-Cc:     kbuild-all@lists.01.org, Johan Hovold <johan@kernel.org>,
-        linux-leds@vger.kernel.org, linux-serial@vger.kernel.org,
-        kernel@pengutronix.de, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] leds: trigger: ledtrig_tty can be static
-Message-ID: <20201015223203.GA33862@68c68aa7e201>
-References: <20201012123358.1475928-4-u.kleine-koenig@pengutronix.de>
+        id S2407607AbgJPMh1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 16 Oct 2020 08:37:27 -0400
+Received: from cpanel.giganet.cl ([190.96.78.139]:39766 "EHLO
+        cpanel.giganet.cl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407562AbgJPMhY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Oct 2020 08:37:24 -0400
+X-Greylist: delayed 20782 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Oct 2020 08:37:10 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=dplgrout.cl
+        ; s=default; h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:
+        Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=TrgUs68YRs3neP+PfrvGhLoeMXh3YzKv5z9oCWPJ0m4=; b=m/ABHCVvyLYD2QkkwOjuWUgGFG
+        i9BJXsIic9wHOFEzjhXFPbcsR2XTWptcrmKLSqDrJOV7hGJM6za5nSEFhd4CC/+eaHHsgS48/E2jM
+        qvMpEeazlOlIrwSs4xM+Zdf/REorOK5GVU6ZAJUjCzQuCMv9dTVBPKuexZxj1Qoi2hPLiQ576Ik0L
+        XzwzerIXphINfmlVQ0r0UMIuChB1Vcn201QVmD2skB/Nh9D/yp0E95Av9ZMQq7ln6H0uEUnu/2/5Y
+        /CHuMEs39xrrgaYDtG7jTh3PfukIIcCJEs3b52/mZokA1w+tDL1dp0MaV2Z+qYj+Bzs13o0ru0vv/
+        Mq733mMw==;
+Received: from [::1] (port=55048 helo=cpanel.giganet.cl)
+        by cpanel.giganet.cl with esmtpa (Exim 4.93)
+        (envelope-from <info@controlypotencia.com>)
+        id 1kTJ7f-0009vt-N3; Fri, 16 Oct 2020 03:21:51 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201012123358.1475928-4-u.kleine-koenig@pengutronix.de>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Date:   Fri, 16 Oct 2020 03:21:50 -0300
+From:   Ying Chongan <info@controlypotencia.com>
+To:     undisclosed-recipients:;
+Subject: Investment opportunity
+Reply-To: yingchongan@zohomail.com
+User-Agent: Roundcube Webmail/1.4.8
+Message-ID: <e70e5a6e462f92c7f06eea146a612430@controlypotencia.com>
+X-Sender: info@controlypotencia.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel.giganet.cl
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - controlypotencia.com
+X-Get-Message-Sender-Via: cpanel.giganet.cl: authenticated_id: mariapaz.lopez@dplgrout.cl
+X-Authenticated-Sender: cpanel.giganet.cl: mariapaz.lopez@dplgrout.cl
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Greetings,
 
-Signed-off-by: kernel test robot <lkp@intel.com>
----
- ledtrig-tty.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This email is for an opportunity to invest in any lucrative business in 
+your country.
 
-diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
-index 806548e33cd874..09cba818fb65c7 100644
---- a/drivers/leds/trigger/ledtrig-tty.c
-+++ b/drivers/leds/trigger/ledtrig-tty.c
-@@ -174,7 +174,7 @@ static void ledtrig_tty_deactivate(struct led_classdev *led_cdev)
- 	kfree(trigger_data);
- }
- 
--struct led_trigger ledtrig_tty = {
-+static struct led_trigger ledtrig_tty = {
- 	.name = "tty",
- 	.activate = ledtrig_tty_activate,
- 	.deactivate = ledtrig_tty_deactivate,
+We offer a quick loan at low interest rate, if you are interested, 
+please reply to yingchongan@gmail.com for more details.
+
+Sincerely: Ying Chongan
