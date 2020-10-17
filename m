@@ -2,126 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F84F2906FB
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Oct 2020 16:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DF38290F36
+	for <lists+linux-leds@lfdr.de>; Sat, 17 Oct 2020 07:30:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387689AbgJPOOE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 16 Oct 2020 10:14:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52542 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2395282AbgJPOOD (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 16 Oct 2020 10:14:03 -0400
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7339321527;
-        Fri, 16 Oct 2020 14:14:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602857642;
-        bh=/Wy1dqxW7oC6Qye976pyOHB3NEyzVajEMIVxWnNoiWI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GvfirHosPoQlrZ9dHvK/MiR7ld0pnZ1gIqpgnPDdlppchrxHv71dL73zET/FkkRbX
-         tpqynbY8hwuhIjWFSMFkHjBO9r32xo2deIPkDs7E/9OfxpB5pjmz47kNzImHNVhmWP
-         Gky4SSBzFgYnYuDePGs3dGZiWfdwrzyOS730N2ug=
-Received: by mail-oi1-f180.google.com with SMTP id h10so2597082oie.5;
-        Fri, 16 Oct 2020 07:14:02 -0700 (PDT)
-X-Gm-Message-State: AOAM5332Zt9j9+/2e3ssCOcDCWxTZ2BFwwWZRU0xSKaHVO8SRA8RNBNQ
-        it5k5E9hTlDFu4inXIjklq1Mv4BeEcGzLm2SBg==
-X-Google-Smtp-Source: ABdhPJwvkvemmhvQLSwCQm4gpIYMftfka7WMIAmWLyZGAJSnJ52MchXcPRDmVK7L+Va3qkbuIITfwhAYwzEjNkMAFBA=
-X-Received: by 2002:aca:4c52:: with SMTP id z79mr2691947oia.147.1602857641568;
- Fri, 16 Oct 2020 07:14:01 -0700 (PDT)
+        id S2411689AbgJQFaD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 17 Oct 2020 01:30:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52246 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2411651AbgJQF3p (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Oct 2020 01:29:45 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E27CC05BD35
+        for <linux-leds@vger.kernel.org>; Fri, 16 Oct 2020 22:20:17 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id k68so107957otk.10
+        for <linux-leds@vger.kernel.org>; Fri, 16 Oct 2020 22:20:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yoJyq6OLL3E5x13cNBRugp0CPYddMVHysDILDRGaDnk=;
+        b=WsQ5NKNWEQyp/lNHV86huvvV1ORT8c4bxu11FIMcxzdN+z/DjV9sC7OrCC8H8YX4wr
+         6CVtKlfUDTKTeGXtV6SRK+rVWrRC6f14KCwaFeE7Add7TS9AUJBsDMwAU47lHrT8kAba
+         xQ+PQBHv8dVCdKn9r4SKcSQvMkRKy9uefLQhwdwu3pvXuiaeYB6q1/9eJo+5G1ipaTH1
+         YiOWgNg1Dl0z6ISfgO8Y13BIsmIiQ2+vFKl4tsF2zvpmWJBjSXrD8EwgzeAO1wnQYY9i
+         S1Y5Aqm1n15nBdah8hSoPZ+LqZuv8A5pvbIvizzTXuZXNnHvYtfKmdAtykiy/TGtIIOm
+         rBsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yoJyq6OLL3E5x13cNBRugp0CPYddMVHysDILDRGaDnk=;
+        b=hAXHKZXCvvCOsNRI6cm56L8pbX9JA2MJ17qq4UFGDwvw4sJ3HJEqCComkVVc1nxhg7
+         TxpycDr4RUguy+FNk+eXGTTTAzz+gSwMEOLHEexI3Xu4/2b1q8t6pKtfyL1E9suH/6tj
+         wRdU0f/l/gNJG+F5GRj4kKcFyFvBQx7yyEGxtoNdbh+aB5xWkevaBMxO/6Qfdrk1Jc2l
+         0zl6d2jkAGE/0kLZSdJfW/Wy+yEz281uP9e0gkvGXggbRuQvzLAHXfspWL9dHdkP3Zvv
+         d5Sd1IsrFQty6FiwHTodzXTDjGkGAcKWv/ULYfHl6jz8GmybZmPZKd5UjM41orF5+GTp
+         iqEg==
+X-Gm-Message-State: AOAM5308lMK8hCuya+h7oyVsQv6TSccRbCVUSFc6XUbA6D05UunqOpyB
+        X1Z35ir0jfJPYZIU6G3FvkVf5A==
+X-Google-Smtp-Source: ABdhPJz/PYEQ27V6dj+y6ecyGo++ehAUJb2XYgGhMfsvY4XVD97JcbWmXfJf+e8G+BCOzG7Vv3gQQw==
+X-Received: by 2002:a9d:34d:: with SMTP id 71mr4689442otv.251.1602912016658;
+        Fri, 16 Oct 2020 22:20:16 -0700 (PDT)
+Received: from localhost.localdomain (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id f2sm1572769ots.64.2020.10.16.22.20.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 22:20:15 -0700 (PDT)
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Martin Botka <martin.botka1@gmail.com>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: [PATCH v5 0/4] Qualcomm Light Pulse Generator
+Date:   Fri, 16 Oct 2020 22:20:53 -0700
+Message-Id: <20201017052057.2698588-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20201013160845.1772-1-thunder.leizhen@huawei.com>
- <20201013160845.1772-7-thunder.leizhen@huawei.com> <bda5f620-7140-51fb-fadd-6ebd3c0db935@ti.com>
- <4f5f9b55-9fad-9318-82d4-6b258643738b@huawei.com> <20201014135019.GA1563910@bogus>
- <49b680f8-d7d7-8ea3-894c-73cbfacc5ba4@huawei.com>
-In-Reply-To: <49b680f8-d7d7-8ea3-894c-73cbfacc5ba4@huawei.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 16 Oct 2020 09:13:49 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJKOeZybxnu+Z2ugaGwebrnbtmJ8n0st-=n3NbAf9_pyw@mail.gmail.com>
-Message-ID: <CAL_JsqJKOeZybxnu+Z2ugaGwebrnbtmJ8n0st-=n3NbAf9_pyw@mail.gmail.com>
-Subject: Re: [PATCH 6/6] dt-bindings: misc: correct the property name
- cmd-gpios to cmd-gpio
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
-        linux-leds <linux-leds@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Mark Brown <broonie@kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Oct 14, 2020 at 10:23 PM Leizhen (ThunderTown)
-<thunder.leizhen@huawei.com> wrote:
->
->
->
-> On 2020/10/14 21:50, Rob Herring wrote:
-> > On Wed, Oct 14, 2020 at 09:29:26AM +0800, Leizhen (ThunderTown) wrote:
-> >>
-> >>
-> >> On 2020/10/14 1:32, Dan Murphy wrote:
-> >>> Zhen
-> >>>
-> >>> On 10/13/20 11:08 AM, Zhen Lei wrote:
-> >>>> The property name used in arch/arm/boot/dts/mmp2-olpc-xo-1-75.dts is
-> >>>> cmd-gpio.
-> >>>>
-> >>>> arch/arm/boot/dts/mmp2-olpc-xo-1-75.dts:235:
-> >>>> cmd-gpio = <&gpio 155 GPIO_ACTIVE_HIGH>;
-> >>>>
-> >>>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> >>>> ---
-> >>>>   Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml | 6 +++---
-> >>>>   1 file changed, 3 insertions(+), 3 deletions(-)
-> >>>>
-> >>>> diff --git a/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml b/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml
-> >>>> index b3c45c046ba5e37..c7a06a9650db2ed 100644
-> >>>> --- a/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml
-> >>>> +++ b/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml
-> >>>> @@ -24,7 +24,7 @@ properties:
-> >>>>     compatible:
-> >>>>       const: olpc,xo1.75-ec
-> >>>>   -  cmd-gpios:
-> >>>> +  cmd-gpio:
-> >>>
-> >>> Preference is gpios not gpio. But Rob H accept or reject
-> >>
-> >> Look at the search result below. It seems that the driver have not been merged into mainline.
-> >
-> > Yes, in drivers/platform/olpc/olpc-xo175-ec.c.
-> >
-> > Your mistake is the gpiod api takes just 'cmd' as the GPIO core handles
-> > both forms.
->
-> OK, thanks for your information. I have found that it defined by gpio_suffixes[].
->
-> >
-> >> But the property name is really used as cmd-gpio at mmp2-olpc-xo-1-75.dts:235, I don't think
-> >> the mmp2-olpc-xo-1-75.dts can make a mistake. Otherwise, the driver will not work properly.
-> >> Meanwhile, Both names cmd-gpios and cmd-gpio seem to be in use. But I prefer cmd-gpio, after
-> >> all, only one gpio is assigned now. The motorola,cmd-gpios add "s" because it contains 3 gpio.
-> >
-> > The preference is it is always '-gpios' just like it's always
-> > 'interrupts' or 'clocks'.
-> >
-> > However, whether to change this is really up to the OLPC folks. Given
-> > the driver has always supported both forms, it should be okay to change
-> > the dts. Though there could be other users besides the kernel.
->
-> If both "cmd-gpios" and "cmd-gpio" are supported, should we use enum to list both
-> of them in yaml? or use patternProperties?
+This series introduces a generic pattern interface in the LED class and
+a driver for the Qualcomm Light Pulse Generator.
 
-No, we pick one or the other. Given Lubomir is okay with a dts change,
-we should use just 'cmd-gpios'.
+It seems like it's been almost 3 years since I posted v3, which was hung
+up on the lack of conclusion on the hw_pattern and multicolor support.
+Now that those are concluded I hope we can make some progress on the LPG
+support again.
 
-Rob
+The dts patches are included in the series as "examples", ultimately my
+expectation is that the dt binding and driver patches are picked up
+through the leds tree, while Andy or myself take the dts patches.
+
+Bjorn Andersson (4):
+  dt-bindings: leds: Add Qualcomm Light Pulse Generator binding
+  leds: Add driver for Qualcomm LPG
+  arm64: dts: qcom: pm(i)8994: Add mpp and lpg blocks
+  arm64: dts: qcom: Add user LEDs on db820c
+
+ .../bindings/leds/leds-qcom-lpg.yaml          |  170 +++
+ arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi  |   49 +
+ arch/arm64/boot/dts/qcom/pm8994.dtsi          |    9 +
+ arch/arm64/boot/dts/qcom/pmi8994.dtsi         |   20 +
+ drivers/leds/Kconfig                          |    9 +
+ drivers/leds/Makefile                         |    1 +
+ drivers/leds/leds-qcom-lpg.c                  | 1206 +++++++++++++++++
+ 7 files changed, 1464 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+ create mode 100644 drivers/leds/leds-qcom-lpg.c
+
+-- 
+2.28.0
+
