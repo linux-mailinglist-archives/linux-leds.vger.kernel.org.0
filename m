@@ -2,51 +2,51 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DF38290F36
-	for <lists+linux-leds@lfdr.de>; Sat, 17 Oct 2020 07:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3827B290F2D
+	for <lists+linux-leds@lfdr.de>; Sat, 17 Oct 2020 07:29:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411689AbgJQFaD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 17 Oct 2020 01:30:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52246 "EHLO
+        id S2411630AbgJQF3y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 17 Oct 2020 01:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2411651AbgJQF3p (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Oct 2020 01:29:45 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E27CC05BD35
-        for <linux-leds@vger.kernel.org>; Fri, 16 Oct 2020 22:20:17 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id k68so107957otk.10
-        for <linux-leds@vger.kernel.org>; Fri, 16 Oct 2020 22:20:17 -0700 (PDT)
+        with ESMTP id S2411656AbgJQF3q (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 17 Oct 2020 01:29:46 -0400
+Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6369C05BD38
+        for <linux-leds@vger.kernel.org>; Fri, 16 Oct 2020 22:20:18 -0700 (PDT)
+Received: by mail-oo1-xc43.google.com with SMTP id w25so1147916oos.10
+        for <linux-leds@vger.kernel.org>; Fri, 16 Oct 2020 22:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yoJyq6OLL3E5x13cNBRugp0CPYddMVHysDILDRGaDnk=;
-        b=WsQ5NKNWEQyp/lNHV86huvvV1ORT8c4bxu11FIMcxzdN+z/DjV9sC7OrCC8H8YX4wr
-         6CVtKlfUDTKTeGXtV6SRK+rVWrRC6f14KCwaFeE7Add7TS9AUJBsDMwAU47lHrT8kAba
-         xQ+PQBHv8dVCdKn9r4SKcSQvMkRKy9uefLQhwdwu3pvXuiaeYB6q1/9eJo+5G1ipaTH1
-         YiOWgNg1Dl0z6ISfgO8Y13BIsmIiQ2+vFKl4tsF2zvpmWJBjSXrD8EwgzeAO1wnQYY9i
-         S1Y5Aqm1n15nBdah8hSoPZ+LqZuv8A5pvbIvizzTXuZXNnHvYtfKmdAtykiy/TGtIIOm
-         rBsg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9e/IBYO317qxh+k1PgUNvYuepVlTAW7gAlmjMH8Is2Y=;
+        b=bLxO1DyD7WvKNbZ1qoNgdML8S06NyThXquGQr4XnUlUt9D4aVwZhUg0gExq4WLd4XB
+         moDieBVHzm0EFujGt5u7mdbuXsOR4fm7sHvpnkiLPCWTIgY66YAincSyXbmuMcDGuqKi
+         R6DHtHmCUuFVXmREnQqhl5wAsiiQLVFw+v7z/TfIqolMUQcFepstkBmPlZGHP4+exHvk
+         pijkfCU+QyiOtC3wm0MA5tdZbusHUv2L7bFUufXqVnIfHd/96x2u7h0owK6oSnG7uQJP
+         +C1pASGGslJtcalIIRC4vYTb67Os481jQ8802H+N6KqIz8EMTOEmNEaWrbYpfk/L/izs
+         YkIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yoJyq6OLL3E5x13cNBRugp0CPYddMVHysDILDRGaDnk=;
-        b=hAXHKZXCvvCOsNRI6cm56L8pbX9JA2MJ17qq4UFGDwvw4sJ3HJEqCComkVVc1nxhg7
-         TxpycDr4RUguy+FNk+eXGTTTAzz+gSwMEOLHEexI3Xu4/2b1q8t6pKtfyL1E9suH/6tj
-         wRdU0f/l/gNJG+F5GRj4kKcFyFvBQx7yyEGxtoNdbh+aB5xWkevaBMxO/6Qfdrk1Jc2l
-         0zl6d2jkAGE/0kLZSdJfW/Wy+yEz281uP9e0gkvGXggbRuQvzLAHXfspWL9dHdkP3Zvv
-         d5Sd1IsrFQty6FiwHTodzXTDjGkGAcKWv/ULYfHl6jz8GmybZmPZKd5UjM41orF5+GTp
-         iqEg==
-X-Gm-Message-State: AOAM5308lMK8hCuya+h7oyVsQv6TSccRbCVUSFc6XUbA6D05UunqOpyB
-        X1Z35ir0jfJPYZIU6G3FvkVf5A==
-X-Google-Smtp-Source: ABdhPJz/PYEQ27V6dj+y6ecyGo++ehAUJb2XYgGhMfsvY4XVD97JcbWmXfJf+e8G+BCOzG7Vv3gQQw==
-X-Received: by 2002:a9d:34d:: with SMTP id 71mr4689442otv.251.1602912016658;
-        Fri, 16 Oct 2020 22:20:16 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9e/IBYO317qxh+k1PgUNvYuepVlTAW7gAlmjMH8Is2Y=;
+        b=h8WMeavv7KIKCV4lnQaHHtENheWAQ1mLQJx8EjQJ7pWFq+Cssizk1leDH0USwhobFb
+         b9UmTsgw13Mndbv3UMAK/9T1eWIotraf42AYv3wh7wKQSXVAqPUnLkP2aEYO6+PkF6b5
+         7o3J/EyTm1W1ZPaTEa7wtNShcEQy1il05vbpM3dE61dyYxCMJ1eYu3mt/Zpqou8YS1F6
+         itbyrRXnc24kayJNdBJDaI1MVzTwtIJ40xEGwY0uXIOwVo456dYafoAdzLIJNgeh1oxg
+         FJkfI9xqXtXdx7IihsLTofHlebGWiBAeb8A1WLItNV5amKgxGbgzBPYQGyyGoRqzGZR1
+         J9aw==
+X-Gm-Message-State: AOAM532LSMLKUREKNRwBiJn/s+E/Pd/KlzKOKbEysE50IHd0s/e7GPnk
+        qESqBclP3QHymuwrzhF1LY0jWw==
+X-Google-Smtp-Source: ABdhPJwQqm5S0AzDUW5rkgNpkeYRRBP0fX2RJNYHWemLAyHX8mF1SGm5s8tmjHHwkVuryF+KzABJ4Q==
+X-Received: by 2002:a4a:9fd1:: with SMTP id b17mr5228553oom.86.1602912017986;
+        Fri, 16 Oct 2020 22:20:17 -0700 (PDT)
 Received: from localhost.localdomain (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id f2sm1572769ots.64.2020.10.16.22.20.14
+        by smtp.gmail.com with ESMTPSA id f2sm1572769ots.64.2020.10.16.22.20.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 22:20:15 -0700 (PDT)
+        Fri, 16 Oct 2020 22:20:17 -0700 (PDT)
 From:   Bjorn Andersson <bjorn.andersson@linaro.org>
 To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -59,45 +59,210 @@ To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
 Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-pwm@vger.kernel.org
-Subject: [PATCH v5 0/4] Qualcomm Light Pulse Generator
-Date:   Fri, 16 Oct 2020 22:20:53 -0700
-Message-Id: <20201017052057.2698588-1-bjorn.andersson@linaro.org>
+Subject: [PATCH v5 1/4] dt-bindings: leds: Add Qualcomm Light Pulse Generator binding
+Date:   Fri, 16 Oct 2020 22:20:54 -0700
+Message-Id: <20201017052057.2698588-2-bjorn.andersson@linaro.org>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201017052057.2698588-1-bjorn.andersson@linaro.org>
+References: <20201017052057.2698588-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This series introduces a generic pattern interface in the LED class and
-a driver for the Qualcomm Light Pulse Generator.
+This adds the binding document describing the three hardware blocks
+related to the Light Pulse Generator found in a wide range of Qualcomm
+PMICs.
 
-It seems like it's been almost 3 years since I posted v3, which was hung
-up on the lack of conclusion on the hw_pattern and multicolor support.
-Now that those are concluded I hope we can make some progress on the LPG
-support again.
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
 
-The dts patches are included in the series as "examples", ultimately my
-expectation is that the dt binding and driver patches are picked up
-through the leds tree, while Andy or myself take the dts patches.
+Changes since v4:
+- Dropped quotes around power-source
+- Moved "multi-led" to properties
+- Corrected tab-indented line in example
 
-Bjorn Andersson (4):
-  dt-bindings: leds: Add Qualcomm Light Pulse Generator binding
-  leds: Add driver for Qualcomm LPG
-  arm64: dts: qcom: pm(i)8994: Add mpp and lpg blocks
-  arm64: dts: qcom: Add user LEDs on db820c
-
- .../bindings/leds/leds-qcom-lpg.yaml          |  170 +++
- arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi  |   49 +
- arch/arm64/boot/dts/qcom/pm8994.dtsi          |    9 +
- arch/arm64/boot/dts/qcom/pmi8994.dtsi         |   20 +
- drivers/leds/Kconfig                          |    9 +
- drivers/leds/Makefile                         |    1 +
- drivers/leds/leds-qcom-lpg.c                  | 1206 +++++++++++++++++
- 7 files changed, 1464 insertions(+)
+ .../bindings/leds/leds-qcom-lpg.yaml          | 170 ++++++++++++++++++
+ 1 file changed, 170 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
- create mode 100644 drivers/leds/leds-qcom-lpg.c
 
+diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+new file mode 100644
+index 000000000000..5ccf0f3d8f1b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+@@ -0,0 +1,170 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm Light Pulse Generator
++
++maintainers:
++  - Bjorn Andersson <bjorn.andersson@linaro.org>
++
++description: >
++  The Qualcomm Light Pulse Generator consists of three different hardware blocks;
++  a ramp generator with lookup table, the light pulse generator and a three
++  channel current sink. These blocks are found in a wide range of Qualcomm PMICs.
++
++properties:
++  compatible:
++    enum:
++      - qcom,pm8916-pwm
++      - qcom,pm8941-lpg
++      - qcom,pm8994-lpg
++      - qcom,pmi8994-lpg
++      - qcom,pmi8998-lpg
++
++  "#pwm-cells":
++    const: 2
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  qcom,power-source:
++    $ref: /schemas/types.yaml#definitions/uint32
++    description: >
++      power-source used to drive the output, as defined in the datasheet.
++      Should be specified if the TRILED block is present
++    enum:
++      - 0
++      - 1
++      - 3
++
++  multi-led:
++    type: object
++    $ref: leds-class-multicolor.yaml#
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      "^led@[0-9a-f]$":
++        type: object
++        $ref: common.yaml#
++
++        properties:
++          "qcom,dtest":
++            $ref: /schemas/types.yaml#definitions/uint32-array
++            description: >
++              configures the output into an internal test line of the pmic. Specified
++              by a list of u32 pairs, one pair per channel, where each pair denotes the
++              test line to drive and the second configures how the value should be
++              outputed, as defined in the datasheet
++            minItems: 2
++            maxItems: 2
++
++        required:
++          - reg
++
++patternProperties:
++  "^led@[0-9a-f]$":
++    type: object
++    $ref: common.yaml#
++    properties:
++      "qcom,dtest":
++        $ref: /schemas/types.yaml#definitions/uint32-array
++        description: >
++          configures the output into an internal test line of the pmic. Specified
++          by a list of u32 pairs, one pair per channel, where each pair denotes the
++          test line to drive and the second configures how the value should be
++          outputed, as defined in the datasheet
++        minItems: 2
++        maxItems: 2
++
++    required:
++      - reg
++
++required:
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    lpg {
++      compatible = "qcom,pmi8994-lpg";
++
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      qcom,power-source = <1>;
++
++      led@1 {
++        reg = <1>;
++        label = "green:user1";
++      };
++
++      led@2 {
++        reg = <2>;
++        label = "green:user0";
++        default-state = "on";
++      };
++
++      led@3 {
++        reg = <3>;
++        label = "green:user2";
++      };
++
++      led@4 {
++        reg = <4>;
++        label = "green:user3";
++
++        qcom,dtest = <4 1>;
++      };
++    };
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    lpg {
++      compatible = "qcom,pmi8994-lpg";
++
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      qcom,power-source = <1>;
++
++      multi-led {
++        color = <LED_COLOR_ID_MULTI>;
++        label = "rgb:notification";
++
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led@1 {
++          reg = <1>;
++          color = <LED_COLOR_ID_RED>;
++        };
++
++        led@2 {
++          reg = <2>;
++          color = <LED_COLOR_ID_GREEN>;
++        };
++
++        led@3 {
++          reg = <3>;
++          color = <LED_COLOR_ID_BLUE>;
++        };
++      };
++    };
++  - |
++    lpg {
++      compatible = "qcom,pm8916-pwm";
++      #pwm-cells = <2>;
++    };
++...
 -- 
 2.28.0
 
