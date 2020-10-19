@@ -2,91 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E6FD292622
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Oct 2020 12:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8886292633
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Oct 2020 13:08:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726588AbgJSK66 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 19 Oct 2020 06:58:58 -0400
-Received: from mail.nic.cz ([217.31.204.67]:42118 "EHLO mail.nic.cz"
+        id S1727535AbgJSLIN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 19 Oct 2020 07:08:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59750 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725776AbgJSK66 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 19 Oct 2020 06:58:58 -0400
-Received: from dellmb.labs.office.nic.cz (unknown [IPv6:2001:1488:fffe:6:cac7:3539:7f1f:463])
-        by mail.nic.cz (Postfix) with ESMTPSA id 7D33D13FFC2;
-        Mon, 19 Oct 2020 12:58:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1603105136; bh=FLr+kjAv6yLD8bqjEwLyprnEfz/mXe2f1830qS+iF0A=;
-        h=Date:From:To;
-        b=mBLaCSEteSW/F3f9hFbWoHi9mMcq3c8B9laIMisAPFqFlKgUaMZHFpd7Lt2fHlmtp
-         /2EVm7TlcXNofS8NSGd90jxiIY415NdHZJ5HedyfjjmzDjxKC3hMK85A6DN0O9fVoe
-         NO2hOCjWn268C+tu3IzYLK7nTNervKHXUQDVtsP0=
-Date:   Mon, 19 Oct 2020 12:58:56 +0200
-From:   Marek =?ISO-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
-To:     Udo van den Heuvel <udovdh@xs4all.nl>
-Cc:     Takashi Iwai <tiwai@suse.de>, Randy Dunlap <rdunlap@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        moderated for non-subscribers <alsa-devel@alsa-project.org>,
-        Pavel Machek <pavel@ucw.cz>
-Subject: Re: disabling CONFIG_LED_CLASS (SND_HDA_CODEC_REALTEK)
-Message-ID: <20201019125856.02cebbee@dellmb.labs.office.nic.cz>
-In-Reply-To: <d8e450ef-cde9-b799-88e9-8ed9940b95fe@xs4all.nl>
-References: <1e6b1961-9e9b-5f82-86a1-bf838cb68f55@xs4all.nl>
-        <d7774b58-caf5-5bd8-845d-a5d45aaef4c6@infradead.org>
-        <s5hblh5mele.wl-tiwai@suse.de>
-        <s5ha6wpmei5.wl-tiwai@suse.de>
-        <20201014075853.GB29881@amd>
-        <056a8933-378f-30f2-c7af-5514d93d3c36@xs4all.nl>
-        <20201014081116.GC29881@amd>
-        <2be6e184-97d4-a2b1-a500-6ea3528cff37@xs4all.nl>
-        <20201014082752.GA31728@amd>
-        <9cf705b9-1fca-2445-43de-916b13b9103f@xs4all.nl>
-        <20201014083758.GB31728@amd>
-        <d8e450ef-cde9-b799-88e9-8ed9940b95fe@xs4all.nl>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1725776AbgJSLIN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 19 Oct 2020 07:08:13 -0400
+Received: from dellmb.labs.office.nic.cz (nat-1.nic.cz [217.31.205.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A5AAE2224D;
+        Mon, 19 Oct 2020 11:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603105692;
+        bh=wTqomPJqNndOe6Hv0QPS2Hs3atNqzi42c13z3Zg+0OM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=nDUGVjR8fRtUYQHbBhZJccFJObd4PZ3DVKMa6h/F3Ic9BafaApjQaq3/f5FSeL729
+         VrpuSVx5gk5GBtFRftcD7jV2T8wStn2C8p4iSKhx6SYCIcQ/QFtmIRlXlEx3czeRo0
+         4rP3e4HwVxABmsTDZDqE+HpurjsOrHoGOFvdFSx0=
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+To:     linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH leds] Documentation: leds: remove invalidated information
+Date:   Mon, 19 Oct 2020 13:08:08 +0200
+Message-Id: <20201019110808.10689-1-kabel@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 19 Oct 2020 10:35:12 +0200
-Udo van den Heuvel <udovdh@xs4all.nl> wrote:
+The contents of the Future Development section of leds-class
+Documentation was invalidated when support for LED-private triggers
+was merged. Remove this section.
 
-> People,
-> 
-> At https://www.kernel.org/doc/html/latest/leds/leds-class.html we can
-> read that the LEDS code supposedly optimizes away when certain
-> conditions are met.
-> Especially the Realtek HDA driver *unconditionally* (as found in
-> 5.9.1) *wants* to enable LED functionality.
-> I.e.: if this blockade is lifted in the source tree then I can live
-> with the 'is optimized out' predictions, assuming that gcc (from
-> Fedora 32) can do this.
-> So the request is clear; we're almost there.
-> Please make it so that the compiler can do the 'optimize away' work
-> bij changing a tad in the Realtek HDA driver, along the lines of the
-> patch sent to me earlier or something even more beautiful.
-> 
-> Thanks in advance and kind regards,
-> Udo
+Signed-off-by: Marek Behún <kabel@kernel.org>
+Fixes: 93690cdf3060 ("leds: trigger: add support for LED-private device...")
+---
+ Documentation/leds/leds-class.rst | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-Udo,
+diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
+index a0708d3f3d0b..cd155ead8703 100644
+--- a/Documentation/leds/leds-class.rst
++++ b/Documentation/leds/leds-class.rst
+@@ -177,13 +177,3 @@ The LED Trigger core cannot be a module as the simple trigger functions
+ would cause nightmare dependency issues. I see this as a minor issue
+ compared to the benefits the simple trigger functionality brings. The
+ rest of the LED subsystem can be modular.
+-
+-
+-Future Development
+-==================
+-
+-At the moment, a trigger can't be created specifically for a single LED.
+-There are a number of cases where a trigger might only be mappable to a
+-particular LED (ACPI?). The addition of triggers provided by the LED driver
+-should cover this option and be possible to add without breaking the
+-current interface.
+-- 
+2.26.2
 
-The documentation says that LED trigger code optimises away, not LED
-core.
-
-But yes, something similar could maybe be done for the whole LED
-class... (maybe!)
-
-BTW, you are welcome to propose a patch as well, since it seems that
-nobody else is interested as much as you are in this :)
-
-Marek
