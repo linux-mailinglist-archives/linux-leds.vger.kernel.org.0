@@ -2,303 +2,158 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A92F291FED
-	for <lists+linux-leds@lfdr.de>; Sun, 18 Oct 2020 22:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A1AC2923B9
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Oct 2020 10:35:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725776AbgJRUk4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 18 Oct 2020 16:40:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45102 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728614AbgJRUkm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 18 Oct 2020 16:40:42 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F837C0613CE
-        for <linux-leds@vger.kernel.org>; Sun, 18 Oct 2020 13:40:42 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1kUFTl-0002ZB-RC; Sun, 18 Oct 2020 22:40:33 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1kUFTk-0007In-KA; Sun, 18 Oct 2020 22:40:32 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>
-Cc:     kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>, linux-leds@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: [PATCH v9 3/3] leds: trigger: implement a tty trigger
-Date:   Sun, 18 Oct 2020 22:40:22 +0200
-Message-Id: <20201018204022.910815-4-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201018204022.910815-1-u.kleine-koenig@pengutronix.de>
-References: <20201018204022.910815-1-u.kleine-koenig@pengutronix.de>
+        id S1729059AbgJSIfV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 19 Oct 2020 04:35:21 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:34571 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728871AbgJSIfV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 19 Oct 2020 04:35:21 -0400
+Received: from cust-57f2be97 ([IPv6:fc0c:c196:c6c4:fdf1:aa47:ab6:e251:d2a8])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id UQdMkcxTkghRkUQdNkr5dO; Mon, 19 Oct 2020 10:35:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1603096516; bh=Dxlb943mpAZem9qguDW/aZj239fOnb9kmxA8tQ1N2pE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=HDsiYK424WLIPaq++W+HFCe0keMCSCRMnX+H0tgR1v2VYJkdzIQ0jC27Z6A1anmdn
+         PiK6d/AJYqXF7OqE5vrTzMWlaX7ej9zN5qLiqiOsdACk5OYmuV7Gk37p7zBcS50XBP
+         h8iDg+3BC0bgqA0FsQPJcbvtMwvnQ80537AOcbTChKfLYu7ot+oxUf1Br+3k60Ig/2
+         hhsWKUIT9zp7IqX0EXPqtEha4i4GGGd65vmLZY9uYFzKM1TDHSk7fM6ufnNfK+Eq2w
+         wTvFddOfxmKH+xqtd4rlvpYrcyoAENV0zYCJEfBnK6K3jyGENHGBmrMTLp+ZbkMLfz
+         y+QlKm9Z/b1bQ==
+Subject: Re: disabling CONFIG_LED_CLASS (SND_HDA_CODEC_REALTEK)
+To:     Takashi Iwai <tiwai@suse.de>, Randy Dunlap <rdunlap@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        moderated for non-subscribers <alsa-devel@alsa-project.org>
+Cc:     Pavel Machek <pavel@ucw.cz>
+References: <1e6b1961-9e9b-5f82-86a1-bf838cb68f55@xs4all.nl>
+ <d7774b58-caf5-5bd8-845d-a5d45aaef4c6@infradead.org>
+ <s5hblh5mele.wl-tiwai@suse.de> <s5ha6wpmei5.wl-tiwai@suse.de>
+ <20201014075853.GB29881@amd> <056a8933-378f-30f2-c7af-5514d93d3c36@xs4all.nl>
+ <20201014081116.GC29881@amd> <2be6e184-97d4-a2b1-a500-6ea3528cff37@xs4all.nl>
+ <20201014082752.GA31728@amd> <9cf705b9-1fca-2445-43de-916b13b9103f@xs4all.nl>
+ <20201014083758.GB31728@amd>
+From:   Udo van den Heuvel <udovdh@xs4all.nl>
+Autocrypt: addr=udovdh@xs4all.nl; prefer-encrypt=mutual; keydata=
+ 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
+Organization: hierzo
+Message-ID: <d8e450ef-cde9-b799-88e9-8ed9940b95fe@xs4all.nl>
+Date:   Mon, 19 Oct 2020 10:35:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20201014083758.GB31728@amd>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+X-CMAE-Envelope: MS4xfMhtmd72LSRj834vWkYq/ZQfiQkrT50q1y4It/03aF6gdz7QKHIgeBqLQogKoObCMiz/quhJtfdNXP5vNe3M1cyzweTd2ICUL0pdUCZTB+E0Y9Gav88j
+ qbTUEm061VZLSBu8/IEcCtoiFy4xxHqWWmWykxCZYTL3CCdtpYnVV+y5EA306c5WG4ukdS3OFHZy2kMGc+beiW5nrINvGzajei1qPDD5z11e0xFsjiMBaBd2
+ 29uyS6MCLtpmKepOPYTCviHk13ywKMj5m6946iFypI23anw4XYVDjIJi2VijNV0Vi/AJFNCqtEYJqsDqkysyL6cQWggnmAvrijAxhAqt/jfdAWM0BOj81AFd
+ ga3mNh3JJrMha22SjmiMYxyfXpE7vDkSWlG9okY0hZFcmRnw2srOn/lHiY243pOQg3LnGBCIIONUjOYtw97+vuAYKXwK5A==
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Usage is as follows:
+People,
 
-	myled=ledname
-	tty=ttyS0
+At https://www.kernel.org/doc/html/latest/leds/leds-class.html we can
+read that the LEDS code supposedly optimizes away when certain
+conditions are met.
+Especially the Realtek HDA driver *unconditionally* (as found in 5.9.1)
+*wants* to enable LED functionality.
+I.e.: if this blockade is lifted in the source tree then I can live with
+the 'is optimized out' predictions, assuming that gcc (from Fedora 32)
+can do this.
+So the request is clear; we're almost there.
+Please make it so that the compiler can do the 'optimize away' work bij
+changing a tad in the Realtek HDA driver, along the lines of the patch
+sent to me earlier or something even more beautiful.
 
-	echo tty > /sys/class/leds/$myled/trigger
-	echo $tty > /sys/class/leds/$myled/ttyname
+Thanks in advance and kind regards,
+Udo
 
-. When this new trigger is active it periodically checks the tty's
-statistics and when it changed since the last check the led is flashed
-once.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- .../ABI/testing/sysfs-class-led-trigger-tty   |   6 +
- drivers/leds/trigger/Kconfig                  |   9 +
- drivers/leds/trigger/Makefile                 |   1 +
- drivers/leds/trigger/ledtrig-tty.c            | 184 ++++++++++++++++++
- 4 files changed, 200 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-tty
- create mode 100644 drivers/leds/trigger/ledtrig-tty.c
 
-diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-tty b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-new file mode 100644
-index 000000000000..5c53ce3ede36
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
-@@ -0,0 +1,6 @@
-+What:		/sys/class/leds/<led>/ttyname
-+Date:		Jul 2020
-+KernelVersion:	5.8
-+Contact:	linux-leds@vger.kernel.org
-+Description:
-+		Specifies the tty device name of the triggering tty
-diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
-index ce9429ca6dde..b77a01bd27f4 100644
---- a/drivers/leds/trigger/Kconfig
-+++ b/drivers/leds/trigger/Kconfig
-@@ -144,4 +144,13 @@ config LEDS_TRIGGER_AUDIO
- 	  the audio mute and mic-mute changes.
- 	  If unsure, say N
- 
-+config LEDS_TRIGGER_TTY
-+	tristate "LED Trigger for TTY devices"
-+	depends on TTY
-+	help
-+	  This allows LEDs to be controlled by activity on ttys which includes
-+	  serial devices like /dev/ttyS0.
-+
-+	  When build as a module this driver will be called ledtrig-tty.
-+
- endif # LEDS_TRIGGERS
-diff --git a/drivers/leds/trigger/Makefile b/drivers/leds/trigger/Makefile
-index 733a83e2a718..25c4db97cdd4 100644
---- a/drivers/leds/trigger/Makefile
-+++ b/drivers/leds/trigger/Makefile
-@@ -15,3 +15,4 @@ obj-$(CONFIG_LEDS_TRIGGER_PANIC)	+= ledtrig-panic.o
- obj-$(CONFIG_LEDS_TRIGGER_NETDEV)	+= ledtrig-netdev.o
- obj-$(CONFIG_LEDS_TRIGGER_PATTERN)	+= ledtrig-pattern.o
- obj-$(CONFIG_LEDS_TRIGGER_AUDIO)	+= ledtrig-audio.o
-+obj-$(CONFIG_LEDS_TRIGGER_TTY)		+= ledtrig-tty.o
-diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
-new file mode 100644
-index 000000000000..e249ac24fe78
---- /dev/null
-+++ b/drivers/leds/trigger/ledtrig-tty.c
-@@ -0,0 +1,184 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/delay.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/tty.h>
-+#include <uapi/linux/serial.h>
-+
-+struct ledtrig_tty_data {
-+	struct led_classdev *led_cdev;
-+	struct delayed_work dwork;
-+	struct mutex mutex;
-+	const char *ttyname;
-+	struct tty_struct *tty;
-+	int rx, tx;
-+};
-+
-+static void ledtrig_tty_halt(struct ledtrig_tty_data *trigger_data)
-+{
-+	cancel_delayed_work_sync(&trigger_data->dwork);
-+}
-+
-+static void ledtrig_tty_restart(struct ledtrig_tty_data *trigger_data)
-+{
-+	schedule_delayed_work(&trigger_data->dwork, 0);
-+}
-+
-+static ssize_t ttyname_show(struct device *dev,
-+			    struct device_attribute *attr, char *buf)
-+{
-+	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
-+	ssize_t len = 0;
-+
-+	mutex_lock(&trigger_data->mutex);
-+
-+	if (trigger_data->ttyname)
-+		len = sprintf(buf, "%s\n", trigger_data->ttyname);
-+
-+	mutex_unlock(&trigger_data->mutex);
-+
-+	return len;
-+}
-+
-+static ssize_t ttyname_store(struct device *dev,
-+			     struct device_attribute *attr, const char *buf,
-+			     size_t size)
-+{
-+	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
-+	char *ttyname;
-+	ssize_t ret = size;
-+
-+	ledtrig_tty_halt(trigger_data);
-+
-+	mutex_lock(&trigger_data->mutex);
-+
-+	if (size > 0 && buf[size - 1] == '\n')
-+		size -= 1;
-+
-+	if (size) {
-+		ttyname = kmemdup_nul(buf, size, GFP_KERNEL);
-+		if (!ttyname) {
-+			ret = -ENOMEM;
-+			goto out_unlock;
-+		}
-+	} else {
-+		ttyname = NULL;
-+	}
-+
-+	kfree(trigger_data->ttyname);
-+	tty_kref_put(trigger_data->tty);
-+	trigger_data->tty = NULL;
-+
-+	trigger_data->ttyname = ttyname;
-+
-+out_unlock:
-+	mutex_unlock(&trigger_data->mutex);
-+
-+	if (ttyname)
-+		ledtrig_tty_restart(trigger_data);
-+
-+	return ret;
-+}
-+static DEVICE_ATTR_RW(ttyname);
-+
-+static void ledtrig_tty_work(struct work_struct *work)
-+{
-+	struct ledtrig_tty_data *trigger_data =
-+		container_of(work, struct ledtrig_tty_data, dwork.work);
-+	struct serial_icounter_struct icount;
-+	int ret;
-+
-+	mutex_lock(&trigger_data->mutex);
-+
-+	BUG_ON(!trigger_data->ttyname);
-+
-+	/* try to get the tty corresponding to $ttyname */
-+	if (!trigger_data->tty) {
-+		dev_t devno;
-+		struct tty_struct *tty;
-+		int ret;
-+
-+		ret = tty_dev_name_to_number(trigger_data->ttyname, &devno);
-+		if (ret < 0)
-+			/*
-+			 * A device with this name might appear later, so keep
-+			 * retrying.
-+			 */
-+			goto out;
-+
-+		tty = tty_kopen_shared(devno);
-+		if (IS_ERR(tty) || !tty)
-+			/* What to do? retry or abort */
-+			goto out;
-+
-+		trigger_data->tty = tty;
-+	}
-+
-+	ret = tty_get_icount(trigger_data->tty, &icount);
-+	if (ret) {
-+		mutex_unlock(&trigger_data->mutex);
-+		dev_info(trigger_data->tty->dev, "Failed to get icount, stopped polling\n");
-+		mutex_unlock(&trigger_data->mutex);
-+		return;
-+	}
-+
-+	if (icount.rx != trigger_data->rx ||
-+	    icount.tx != trigger_data->tx) {
-+		led_set_brightness(trigger_data->led_cdev, LED_ON);
-+
-+		trigger_data->rx = icount.rx;
-+		trigger_data->tx = icount.tx;
-+	} else {
-+		led_set_brightness(trigger_data->led_cdev, LED_OFF);
-+	}
-+
-+out:
-+	mutex_unlock(&trigger_data->mutex);
-+	schedule_delayed_work(&trigger_data->dwork, msecs_to_jiffies(100));
-+}
-+
-+static struct attribute *ledtrig_tty_attrs[] = {
-+	&dev_attr_ttyname.attr,
-+	NULL
-+};
-+ATTRIBUTE_GROUPS(ledtrig_tty);
-+
-+static int ledtrig_tty_activate(struct led_classdev *led_cdev)
-+{
-+	struct ledtrig_tty_data *trigger_data;
-+
-+	trigger_data = kzalloc(sizeof(*trigger_data), GFP_KERNEL);
-+	if (!trigger_data)
-+		return -ENOMEM;
-+
-+	led_set_trigger_data(led_cdev, trigger_data);
-+
-+	INIT_DELAYED_WORK(&trigger_data->dwork, ledtrig_tty_work);
-+	trigger_data->led_cdev = led_cdev;
-+	mutex_init(&trigger_data->mutex);
-+
-+	return 0;
-+}
-+
-+static void ledtrig_tty_deactivate(struct led_classdev *led_cdev)
-+{
-+	struct ledtrig_tty_data *trigger_data = led_get_trigger_data(led_cdev);
-+
-+	cancel_delayed_work_sync(&trigger_data->dwork);
-+
-+	kfree(trigger_data);
-+}
-+
-+static struct led_trigger ledtrig_tty = {
-+	.name = "tty",
-+	.activate = ledtrig_tty_activate,
-+	.deactivate = ledtrig_tty_deactivate,
-+	.groups = ledtrig_tty_groups,
-+};
-+module_led_trigger(ledtrig_tty);
-+
-+MODULE_AUTHOR("Uwe Kleine-König <u.kleine-koenig@pengutronix.de>");
-+MODULE_DESCRIPTION("UART LED trigger");
-+MODULE_LICENSE("GPL v2");
--- 
-2.28.0
+On 14-10-2020 10:37, Pavel Machek wrote:
+> On Wed 2020-10-14 10:34:21, Udo van den Heuvel wrote:
+>> On 14-10-2020 10:27, Pavel Machek wrote:
+>>>> One should have thought about stuff beforehand.
+>>>
+>>> We did. And decided this is best solution.
+>>
+>> Then the thought process went awry.
+>>
+>>>> The non-selectability is not my fault.
+>>>
+>>> It also does not affect you in any way.
+>>
+>> It does.
+>> /boot fills up even sooner thanks to this unused code.
+>> Compiles last longer because of this unused code.
+> 
+> Have you measured how much slower and how much bigger it is? Do you
+> understand that you propose to make source code bigger and slower to
+> compile for everyone else?
+> 
+> You are filling my inbox.
+> 
+>>> Feel free to go to the mic LED discussion to see why we did it like
+>>> this. Then you can come up with better solution for problem at hand.
+>>
+>> I did not think of forcing code onto somebody. Someone else did.
+>> This is effectively the effect of the LEDs thing.
+> 
+> Without understanding what was decided and why, this discussion is not
+> useful.
+> 
+> 
+> 									Pavel
+> 
 
