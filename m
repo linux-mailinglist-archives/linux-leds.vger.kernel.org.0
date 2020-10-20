@@ -2,174 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 620C7293BC3
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Oct 2020 14:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 907C7293F84
+	for <lists+linux-leds@lfdr.de>; Tue, 20 Oct 2020 17:24:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406251AbgJTMgN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 20 Oct 2020 08:36:13 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:47486 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406246AbgJTMgM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Oct 2020 08:36:12 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 04A411C0B8D; Tue, 20 Oct 2020 14:36:10 +0200 (CEST)
-Date:   Tue, 20 Oct 2020 14:36:09 +0200
-From:   Pavel Machek <pavel@denx.de>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        linux-leds@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v9 3/3] leds: trigger: implement a tty trigger
-Message-ID: <20201020123609.GD19856@duo.ucw.cz>
-References: <20201018204022.910815-1-u.kleine-koenig@pengutronix.de>
- <20201018204022.910815-4-u.kleine-koenig@pengutronix.de>
+        id S2408723AbgJTPYl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 20 Oct 2020 11:24:41 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41282 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728246AbgJTPYk (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Oct 2020 11:24:40 -0400
+Received: by mail-ot1-f67.google.com with SMTP id n15so2041015otl.8;
+        Tue, 20 Oct 2020 08:24:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=skxRshqOr5D6Nh058eMGdzOj0cEeQrCjIUNkB4DmNrA=;
+        b=KElqckfPGagRQ14Q+FfIyCzozVn1dw5V2P1bYaRQknmEAFK+MHP7ktISoxwHoXHua1
+         KrZ1YYOIFu+D6fcPMPcijp9BZNxLnYN2owehKit3UjjpRPG+aYzny5wcVEQ9IakVL+3/
+         EM7gpgPpatBGb+gRkqNgSyGK+HUwPniS3z4jaF86wM1becbVlsU1MUiLAvjVN4qA+zvk
+         53jiuIp37oXOD77I97SrmYlnzm+xJbAXN8mlZMKgwgkfI0jDx1cOnPgnHRqkEPEDmAf+
+         Ud12sWFEb8zHBaYb9FSTxxweNu/Oe3cFBDd0HEw8wIOgu/HOXlsjYHm+LKrARxsCEHnj
+         2cTw==
+X-Gm-Message-State: AOAM532NBvrOelKRVCeQFwEsgO38lk6gGV5A+sLKer5e0nYlJWIwH62w
+        +ZFjIZYkYfP0MgBEQUShNQ==
+X-Google-Smtp-Source: ABdhPJwZMveXwWTGOGHruCazq1Q9Nlj9oKfbTJAKUfSfdEcZCMgvrdLxZBbnqT8CPKWT50uyuxFSPg==
+X-Received: by 2002:a05:6830:1345:: with SMTP id r5mr1979825otq.6.1603207479790;
+        Tue, 20 Oct 2020 08:24:39 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id f18sm506620otp.10.2020.10.20.08.24.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2020 08:24:38 -0700 (PDT)
+Received: (nullmailer pid 867552 invoked by uid 1000);
+        Tue, 20 Oct 2020 15:24:37 -0000
+Date:   Tue, 20 Oct 2020 10:24:37 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Luka Kovacic <luka.kovacic@sartura.hr>
+Cc:     robert.marko@sartura.hr, linux-kernel@vger.kernel.org,
+        linux@roeck-us.net, robh+dt@kernel.org, pavel@ucw.cz,
+        linux-leds@vger.kernel.org, marek.behun@nic.cz,
+        luka.perkov@sartura.hr, andy.shevchenko@gmail.com, dmurphy@ti.com,
+        linux-hwmon@vger.kernel.org, jdelvare@suse.com,
+        devicetree@vger.kernel.org, lee.jones@linaro.org
+Subject: Re: [PATCH v6 1/6] dt-bindings: Add iEi vendor prefix and iEi
+ WT61P803 PUZZLE driver bindings
+Message-ID: <20201020152437.GB866676@bogus>
+References: <20201019221859.56680-1-luka.kovacic@sartura.hr>
+ <20201019221859.56680-2-luka.kovacic@sartura.hr>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Xm/fll+QQv+hsKip"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201018204022.910815-4-u.kleine-koenig@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201019221859.56680-2-luka.kovacic@sartura.hr>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
---Xm/fll+QQv+hsKip
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> Usage is as follows:
->=20
-> 	myled=3Dledname
-> 	tty=3DttyS0
->=20
-> 	echo tty > /sys/class/leds/$myled/trigger
-> 	echo $tty > /sys/class/leds/$myled/ttyname
->=20
-> . When this new trigger is active it periodically checks the tty's
-> statistics and when it changed since the last check the led is flashed
-> once.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+On Tue, 20 Oct 2020 00:18:54 +0200, Luka Kovacic wrote:
+> Add the iEi WT61P803 PUZZLE Device Tree bindings for MFD, HWMON and LED
+> drivers. A new vendor prefix is also added accordingly for
+> IEI Integration Corp.
+> 
+> Signed-off-by: Luka Kovacic <luka.kovacic@sartura.hr>
+> Cc: Luka Perkov <luka.perkov@sartura.hr>
+> Cc: Robert Marko <robert.marko@sartura.hr>
 > ---
-
-> +static ssize_t ttyname_show(struct device *dev,
-> +			    struct device_attribute *attr, char *buf)
-> +{
-> +	struct ledtrig_tty_data *trigger_data =3D led_trigger_get_drvdata(dev);
-> +	ssize_t len =3D 0;
-
-Unused value. Not sure if some checker will complain.
-
-> +static ssize_t ttyname_store(struct device *dev,
-> +			     struct device_attribute *attr, const char *buf,
-> +			     size_t size)
-> +{
-> +	struct ledtrig_tty_data *trigger_data =3D led_trigger_get_drvdata(dev);
-> +	char *ttyname;
-> +	ssize_t ret =3D size;
-
-> +	ledtrig_tty_halt(trigger_data);
-> +
-> +	mutex_lock(&trigger_data->mutex);
-> +
-> +	if (size > 0 && buf[size - 1] =3D=3D '\n')
-> +		size -=3D 1;
-> +
-> +	if (size) {
-> +		ttyname =3D kmemdup_nul(buf, size, GFP_KERNEL);
-> +		if (!ttyname) {
-> +			ret =3D -ENOMEM;
-> +			goto out_unlock;
-
-If this happens, you return error to the user and
-trigger_data->ttyname remains with the old value, but trigger is now
-stopped. That is not exactly consistent.
+>  .../hwmon/iei,wt61p803-puzzle-hwmon.yaml      | 41 ++++++++++
+>  .../leds/iei,wt61p803-puzzle-leds.yaml        | 45 ++++++++++
+>  .../bindings/mfd/iei,wt61p803-puzzle.yaml     | 82 +++++++++++++++++++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+>  4 files changed, 170 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
+>  create mode 100644 Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
+>  create mode 100644 Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
+> 
 
 
-> +static void ledtrig_tty_work(struct work_struct *work)
-> +{
-> +	struct ledtrig_tty_data *trigger_data =3D
-> +		container_of(work, struct ledtrig_tty_data, dwork.work);
-> +	struct serial_icounter_struct icount;
-> +	int ret;
-> +
-> +	mutex_lock(&trigger_data->mutex);
-> +
-> +	BUG_ON(!trigger_data->ttyname);
-> +
-> +	/* try to get the tty corresponding to $ttyname */
-> +	if (!trigger_data->tty) {
-> +		dev_t devno;
-> +		struct tty_struct *tty;
-> +		int ret;
-> +
-> +		ret =3D tty_dev_name_to_number(trigger_data->ttyname, &devno);
-> +		if (ret < 0)
-> +			/*
-> +			 * A device with this name might appear later, so keep
-> +			 * retrying.
-> +			 */
-> +			goto out;
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Poll every 100 msec... Hmm.... Okay, I guess?
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.example.dt.yaml: iei-wt61p803-puzzle-hwmon: fan-group@0:cooling-levels: [[64, 102, 170, 230, 250]] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.example.dt.yaml: iei-wt61p803-puzzle-hwmon: fan-group@1:cooling-levels: [[64, 102, 170, 230, 250]] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
 
-> +	ret =3D tty_get_icount(trigger_data->tty, &icount);
-> +	if (ret) {
-> +		mutex_unlock(&trigger_data->mutex);
-> +		dev_info(trigger_data->tty->dev, "Failed to get icount, stopped pollin=
-g\n");
-> +		mutex_unlock(&trigger_data->mutex);
 
-Eh?
+See https://patchwork.ozlabs.org/patch/1384521
 
-> +		return;
-> +	}
-> +
-> +	if (icount.rx !=3D trigger_data->rx ||
-> +	    icount.tx !=3D trigger_data->tx) {
-> +		led_set_brightness(trigger_data->led_cdev, LED_ON);
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
 
-Are you sure about LED_ON here? It should use current brightness
-selected by brightness file...
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
 
-> +static int ledtrig_tty_activate(struct led_classdev *led_cdev)
-> +{
-> +	struct ledtrig_tty_data *trigger_data;
-> +
-> +	trigger_data =3D kzalloc(sizeof(*trigger_data), GFP_KERNEL);
-> +	if (!trigger_data)
-> +		return -ENOMEM;
-> +
-> +	led_set_trigger_data(led_cdev, trigger_data);
-> +
-> +	INIT_DELAYED_WORK(&trigger_data->dwork, ledtrig_tty_work);
-> +	trigger_data->led_cdev =3D led_cdev;
-> +	mutex_init(&trigger_data->mutex);
+Please check and re-submit.
 
-How is this protected from concurrent access from sysfs?
-
-Best regards,
-							Pavel
-
---=20
-http://www.livejournal.com/~pavelmachek
-
---Xm/fll+QQv+hsKip
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX47ZuQAKCRAw5/Bqldv6
-8jLcAJ4yb82/HCdd/XZfoeI9zFLNCZgJagCgiWsD9kePtsTio6g9/pFmCBGVfN4=
-=WDRg
------END PGP SIGNATURE-----
-
---Xm/fll+QQv+hsKip--
