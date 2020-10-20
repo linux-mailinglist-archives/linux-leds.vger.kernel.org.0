@@ -2,297 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1156293F99
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Oct 2020 17:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEE092941E5
+	for <lists+linux-leds@lfdr.de>; Tue, 20 Oct 2020 20:08:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408709AbgJTPaT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 20 Oct 2020 11:30:19 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:35873 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728082AbgJTPaT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Oct 2020 11:30:19 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 32so2092558otm.3;
-        Tue, 20 Oct 2020 08:30:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=OwH982ml02PB39h27WKHfvcBlSDlxjx0YfyUyxqPQdQ=;
-        b=qKMukdr6FLW0PHUA2KbA//r3FMPhMBSO9YcbXInjQHzwMrzhpSfDj095jqANgXZm0t
-         DfBjtJ+0ojaY6eI/tEoirauYh1TJ2f+D0A8pAQZG29hhfeILnfyhFWZo0mZT4iyuj/Xe
-         zTb6FobmqzOmVklnf4mIYT2yL4od0U6oKG8bsWWlNL237CNZU88PRlRy6XSdSI5Csrqd
-         RGaIvV4Jc7cqxKolqc7hWdnYG2I0tN452hsvFrnkpzgVFBR2/a2FBt9cSnRhQh8ACGLK
-         EczTe+ZZTpeFCJde/VPROIg4zSh91OYFV+mwmsft1aLWD3RDYJSNrfz/IsZqtRyngK8U
-         xITA==
-X-Gm-Message-State: AOAM533v1TBjPB/ULEv/LPJfEVpQI6nPydJlD8Y4JjigD9zK8O0kWrNL
-        UVxojfsDvHQmo/ED09og1w==
-X-Google-Smtp-Source: ABdhPJzd664UX8xPntib+NhSio45LJ1JnqXAueqBmlqFbhnTAvh50wB5sFT7zq9cIPSwVWMcZSlJOA==
-X-Received: by 2002:a9d:2a88:: with SMTP id e8mr2035204otb.122.1603207817732;
-        Tue, 20 Oct 2020 08:30:17 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id b6sm519426otl.37.2020.10.20.08.30.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2020 08:30:16 -0700 (PDT)
-Received: (nullmailer pid 874932 invoked by uid 1000);
-        Tue, 20 Oct 2020 15:30:16 -0000
-Date:   Tue, 20 Oct 2020 10:30:16 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Luka Kovacic <luka.kovacic@sartura.hr>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        lee.jones@linaro.org, pavel@ucw.cz, dmurphy@ti.com,
-        jdelvare@suse.com, linux@roeck-us.net, marek.behun@nic.cz,
-        luka.perkov@sartura.hr, andy.shevchenko@gmail.com,
-        robert.marko@sartura.hr
-Subject: Re: [PATCH v6 1/6] dt-bindings: Add iEi vendor prefix and iEi
- WT61P803 PUZZLE driver bindings
-Message-ID: <20201020153016.GC866676@bogus>
-References: <20201019221859.56680-1-luka.kovacic@sartura.hr>
- <20201019221859.56680-2-luka.kovacic@sartura.hr>
+        id S2387948AbgJTSIP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 20 Oct 2020 14:08:15 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:38148 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387945AbgJTSIP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Oct 2020 14:08:15 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 77C111C0B7F; Tue, 20 Oct 2020 20:08:13 +0200 (CEST)
+Date:   Tue, 20 Oct 2020 20:08:13 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "Bollinger, Seth" <Seth.Bollinger@digi.com>
+Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Seth Bollinger <seth.boll@gmail.com>
+Subject: Re: Strange timer LED behavior
+Message-ID: <20201020180813.GA25906@duo.ucw.cz>
+References: <A2C38AF0-0CE8-4312-8329-54B7E9653223@digi.com>
+ <20201019140617.GA25480@duo.ucw.cz>
+ <3D108EE8-F4B6-490B-9B97-59B8E008F63B@digi.com>
+ <2A80CF0E-1022-4673-86E8-12BF0696708E@digi.com>
+ <20201020122149.GA19856@duo.ucw.cz>
+ <DF67F732-7B99-4C32-A7E9-4595E2B1E82A@digi.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
 Content-Disposition: inline
-In-Reply-To: <20201019221859.56680-2-luka.kovacic@sartura.hr>
+In-Reply-To: <DF67F732-7B99-4C32-A7E9-4595E2B1E82A@digi.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Oct 20, 2020 at 12:18:54AM +0200, Luka Kovacic wrote:
-> Add the iEi WT61P803 PUZZLE Device Tree bindings for MFD, HWMON and LED
-> drivers. A new vendor prefix is also added accordingly for
-> IEI Integration Corp.
-> 
-> Signed-off-by: Luka Kovacic <luka.kovacic@sartura.hr>
-> Cc: Luka Perkov <luka.perkov@sartura.hr>
-> Cc: Robert Marko <robert.marko@sartura.hr>
-> ---
->  .../hwmon/iei,wt61p803-puzzle-hwmon.yaml      | 41 ++++++++++
->  .../leds/iei,wt61p803-puzzle-leds.yaml        | 45 ++++++++++
->  .../bindings/mfd/iei,wt61p803-puzzle.yaml     | 82 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  4 files changed, 170 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
->  create mode 100644 Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
->  create mode 100644 Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
-> new file mode 100644
-> index 000000000000..37f0030df237
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
-> @@ -0,0 +1,41 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/iei,wt61p803-puzzle-hwmon.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: iEi WT61P803 PUZZLE MCU HWMON module from IEI Integration Corp.
-> +
-> +maintainers:
-> +  - Luka Kovacic <luka.kovacic@sartura.hr>
-> +
-> +description: |
-> +  This module is a part of the iEi WT61P803 PUZZLE MFD device. For more details
-> +  see Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml.
-> +
-> +  The HWMON module is a sub-node of the MCU node in the Device Tree.
-> +
-> +properties:
-> +  compatible:
-> +    const: iei,wt61p803-puzzle-hwmon
-> +
-> +patternProperties:
-> +  "^fan-group@[0-1]$":
-> +    type: object
-> +    properties:
-> +      reg:
-> +        minimum: 0
-> +        maximum: 1
-> +        description:
-> +          Fan group ID
 
-Blank line between properties.
+--rwEMma7ioTxnRzrJ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +      cooling-levels:
-> +        maxItems: 255
-> +        description:
-> +          Cooling levels for the fans (PWM value mapping)
-> +    description: |
-> +      Properties for each fan group.
-> +    required:
-> +      - reg
-> +
-> +required:
-> +  - compatible
+Hi!
 
-additionalProperties: false
+> >>>> Yep. It allows hardware to provide different values if it can only
+> >>>> blink at fixed rate.
+> >>>=20
+> >>> Ok, I understand how hardware might make a different choice, but in t=
+his scenario we=E2=80=99re using software to blink, so everything is handle=
+d by the kernel.  Also, if the interface is hardware enabled, isn=E2=80=99t=
+ the path at line 177 used (which returns before the default is set)?
+> >>=20
+> >> Why should software blink need to select a default rate since it shoul=
+d be able to handle all requests (even 0, 0)?
+> >>=20
+> >=20
+> > How can software blink at "0, 0"?
+>=20
+> This would mean, don=E2=80=99t blink.  :).
 
-> diff --git a/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml b/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
-> new file mode 100644
-> index 000000000000..0d353e5803bf
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
-> @@ -0,0 +1,45 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/iei,wt61p803-puzzle-leds.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: iEi WT61P803 PUZZLE MCU LED module from IEI Integration Corp.
-> +
-> +maintainers:
-> +  - Luka Kovacic <luka.kovacic@sartura.hr>
-> +
-> +description: |
-> +  This module is a part of the iEi WT61P803 PUZZLE MFD device. For more details
-> +  see Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml.
-> +
-> +  The LED module is a sub-node of the MCU node in the Device Tree.
-> +
-> +properties:
-> +  compatible:
-> +    const: iei,wt61p803-puzzle-leds
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^led@0$":
+Can't change that now.
 
-Fixed string, not a pattern. Do you plan to add more? Define the schema 
-to what the h/w supports, not current driver support.
+> Since we=E2=80=99re using sysfs, we need to update those values in 2 FS w=
+rites.  It appears that the sysfs is reordering the writes, so we can=E2=80=
+=99t control what value is written when, so it glitches for us.  We change =
+off first, then on, but the order of the calls in the kernel is on first (w=
+ith off already 0), the kernel changes values to default, then the off is w=
+ritten, leaving on with a value of 500 (we set it to 0) and off with the va=
+lue we wanted.
+>
 
-> +    type: object
-> +    $ref: common.yaml
-> +    description: |
-> +      Properties for a single LED.
-> +
-> +    properties:
-> +      reg:
-> +        description:
-> +          Index of the LED. Only one LED is supported at the moment.
-> +        minimum: 0
-> +        maximum: 0
-> +
-> +required:
-> +  - compatible
-> +  - "#address-cells"
-> +  - "#size-cells"
+Aha, okay, so races are bad and patch to fix them would be probably accepte=
+d.
 
-additionalProperties: false
+> Is there a way to avoid this?  Even if we write the on value twice,
+>  it will flash for 500ms at least once=E2=80=A6
 
-> diff --git a/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml b/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
-> new file mode 100644
-> index 000000000000..79a232d75093
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
-> @@ -0,0 +1,82 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/iei,wt61p803-puzzle.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: iEi WT61P803 PUZZLE MCU from IEI Integration Corp.
-> +
-> +maintainers:
-> +  - Luka Kovacic <luka.kovacic@sartura.hr>
-> +
-> +description: |
-> +  iEi WT61P803 PUZZLE MCU is embedded in some iEi Puzzle series boards.
-> +  It's used for controlling system power states, fans, LEDs and temperature
-> +  sensors.
-> +
-> +  For Device Tree bindings of other sub-modules (HWMON, LEDs) refer to the
-> +  binding documents under the respective subsystem directories.
-> +
-> +properties:
-> +  compatible:
-> +    const: iei,wt61p803-puzzle
-> +
-> +  current-speed:
-> +    description:
-> +      Serial bus speed in bps
-> +    maxItems: 1
-> +
-> +  enable-beep: true
-> +
-> +  iei-wt61p803-hwmon:
+There should be. Can you simply write new values to on and off,
+without writing zeros there?
 
-Just 'hwmon'
+If not, can you use 1 instead of zero?
 
-> +    $ref: ../hwmon/iei,wt61p803-puzzle-hwmon.yaml
-> +
-> +  leds:
-> +    $ref: ../leds/iei,wt61p803-puzzle-leds.yaml
-> +
-> +required:
-> +  - compatible
-> +  - current-speed
+>=20
+> I tried setting the trigger to none, but of course this disabled the disp=
+lay settings and setting the trigger to timer ends up flashing at the defau=
+lt rate, which is also what we don=E2=80=99t want.
+>
 
-additionalProperties: false
+If there's no reasonable value to change the frequency, we'll need to
+fix that.
 
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +    serial {
-> +        status = "okay";
-> +        mcu {
-> +            compatible = "iei,wt61p803-puzzle";
-> +            current-speed = <115200>;
-> +            enable-beep;
-> +
-> +            leds {
-> +                compatible = "iei,wt61p803-puzzle-leds";
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                led@0 {
-> +                    reg = <0>;
-> +                    function = LED_FUNCTION_POWER;
-> +                    color = <LED_COLOR_ID_BLUE>;
-> +                };
-> +            };
-> +
-> +            iei-wt61p803-puzzle-hwmon {
-> +                compatible = "iei,wt61p803-puzzle-hwmon";
-> +
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                fan-group@0 {
-> +                    #cooling-cells = <2>;
-> +                    reg = <0x00>;
-> +                    cooling-levels = <64 102 170 230 250>;
-> +                };
-> +
-> +                fan-group@1 {
-> +                    #cooling-cells = <2>;
-> +                    reg = <0x01>;
-> +                    cooling-levels = <64 102 170 230 250>;
-> +                };
-> +            };
-> +        };
-> +    };
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 63996ab03521..5f2595f0b2ad 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -467,6 +467,8 @@ patternProperties:
->      description: IC Plus Corp.
->    "^idt,.*":
->      description: Integrated Device Technologies, Inc.
-> +  "^iei,.*":
-> +    description: IEI Integration Corp.
->    "^ifi,.*":
->      description: Ingenieurburo Fur Ic-Technologie (I/F/I)
->    "^ilitek,.*":
-> -- 
-> 2.26.2
-> 
+Best regards,
+							Pavel
+
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--rwEMma7ioTxnRzrJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX48njQAKCRAw5/Bqldv6
+8i94AJ9JbnPKCnYdItnBtsw2cZugca0UPgCfa5s8crsE27GBABzCNmavCDrjQ8g=
+=u/u4
+-----END PGP SIGNATURE-----
+
+--rwEMma7ioTxnRzrJ--
