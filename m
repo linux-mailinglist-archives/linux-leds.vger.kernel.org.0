@@ -2,158 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A56BE29535A
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Oct 2020 22:12:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6F4E29536E
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Oct 2020 22:24:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2505149AbgJUUMB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Oct 2020 16:12:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33566 "EHLO
+        id S2505286AbgJUUX7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Oct 2020 16:23:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2505140AbgJUULx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Oct 2020 16:11:53 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9AC5C0613D2
-        for <linux-leds@vger.kernel.org>; Wed, 21 Oct 2020 13:11:53 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id m128so3437882oig.7
-        for <linux-leds@vger.kernel.org>; Wed, 21 Oct 2020 13:11:53 -0700 (PDT)
+        with ESMTP id S2505285AbgJUUX7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Oct 2020 16:23:59 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1197C0613CE
+        for <linux-leds@vger.kernel.org>; Wed, 21 Oct 2020 13:23:57 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id u8so5140200ejg.1
+        for <linux-leds@vger.kernel.org>; Wed, 21 Oct 2020 13:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=h3IjEKBycl4AdV4pHmY8x7WaZ0Ptwe7SpKSP+5fA0v0=;
-        b=Bsil/4/VIe8KiAFM+fsJ3dsLu5fJ+LYGHFp8iH99zcx6Djp2uzo6FD2YjXSd82lkVg
-         piz/Xirt+WifCSz0l7gLClPZiP14tb0WYUyQ1zMTlVmshXF5Pz67/vDfyp2wt9XTPsFA
-         Fki4xWfLpSGf3CdTu/ToVli9ItQoWdBLKslbw39xMVutqkMO5lA39tyHb0vI3OtID41X
-         G7EuxKdKKEWeAa1c1hB4lNV0Et9TDTU7mqWIovKwHX1KCyWvWgOWqKJpPaMRWW8ursu2
-         CFBMyaLzPkkNQwauUzoy+G+anTLhUQY3fTNYAeSL6JKYR/OZo6RewIblcuW9ngtEzREg
-         XCLg==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=VOMYR7I6tppRcm25XJ3IlnDwPcHal3U4V1WTzXEskaY=;
+        b=Y+MAi+WSl6+RlrT1iMeBLZ5AFgfqerxp0B53ACbs5J4+S4aHR90Bb+9AIHzgTkxN/0
+         ZO1iXwStYMIEw2CGsnGSliOKHh296mHseCyUONo0UPmAaIlR9KAaNEuHxUEQ7jEBCXvj
+         sjM9DNB+kFfYY0DW3/Ng/HVqO41h2DVCICPXZW0oHv2etmU8SKDo4NcGOBm71MYuJdnT
+         vHf/JfKM5odmZtGL4UKnvBy/fQRlBYhBKRjeN3WW7RQMS30xT3uQU/Jk9RJZWO51ndOe
+         LQ74XMBvbfIvvEvqkSqP1Z7ZXGc6c/I5r9+B1Lw8cjtMv9B01MsfehnVBtawFDFJ7m4i
+         MYoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=h3IjEKBycl4AdV4pHmY8x7WaZ0Ptwe7SpKSP+5fA0v0=;
-        b=cnMQz/SBWG22w8faJggu7ILnnLYw4pnEXB06fBdeOYz8OfE0cfuwT73SHyMZtAlDQa
-         WppHb09cXEC2a/OsoyGB/TRLqJ5kN5O9h9fW8uOARmiQ+Lng0h0G5eAazIJMtQqPNKPA
-         2U79NMQiHH2HuwvP/OOr0baqSys2FAFTTqcAMokQUBn3SEhZfsZ2/3+HyUQ39xJbuRRx
-         VloAZzEn4DBwW3v39wbdDq56582C3qRpREQqztRKwXUvCjT0uUbjFmfk88g8sp6DigUH
-         ZaQbSiuJtCQ9Q2Sukk9UFAWB7nJUNiVON1SaKMtZOder12c71658bubHDIXbtc0mf+KA
-         QnBA==
-X-Gm-Message-State: AOAM531+MOYaqqgyYTMc7OXWSHae3599+BMDBhocUXFd2ZwT6EvfphrZ
-        a1XWtGaesZAnC6xEuPtZAOKFmg==
-X-Google-Smtp-Source: ABdhPJwpXwGpMMY0lOzWhIQyAznwBP9uD5c44odQWyNTc7tB26G8V2bFUSw/A6eCXg3EraLWJUhDoQ==
-X-Received: by 2002:aca:442:: with SMTP id 63mr3195841oie.111.1603311113085;
-        Wed, 21 Oct 2020 13:11:53 -0700 (PDT)
-Received: from localhost.localdomain (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id t5sm838166otl.22.2020.10.21.13.11.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2020 13:11:52 -0700 (PDT)
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Martin Botka <martin.botka1@gmail.com>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: [PATCH v6 4/4] arm64: dts: qcom: Add user LEDs on db820c
-Date:   Wed, 21 Oct 2020 13:12:24 -0700
-Message-Id: <20201021201224.3430546-5-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201021201224.3430546-1-bjorn.andersson@linaro.org>
-References: <20201021201224.3430546-1-bjorn.andersson@linaro.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VOMYR7I6tppRcm25XJ3IlnDwPcHal3U4V1WTzXEskaY=;
+        b=gAalGEZR3DUzcrgouijxft67GxWUP47Mwwv0bkgcv3Y+jRxELCtppnSNPPhw0VTEM5
+         5tLwTFVTcJg1seEyduymFR8o8NIvKNE+j54xRMqRIfvlW2E1yYcqgwwTz3DZXMErtd/R
+         bJbmPF2oZytCed4trjc8TT67Fndr51cPti0eUkyLiquSgk9Q0Z/oyW2hoKIFgC3HOzi9
+         YDG2ZIw+woXp7dFI3IEIZHobMNUu6DpADPFbtob9UHZcigexUxWd88PdIcv4vSZk8BL6
+         h/g9jv8FuNKU9omf0cNL3COUz71rodySoVi2OdSHpxiRwzLramJScOUobph6ysJ193W9
+         Ui2w==
+X-Gm-Message-State: AOAM533i1uyN9XORTx4CKABf9CHOW133Iaen3A65aHS+5/ow63sldB9C
+        2hvGUFymCsocsTsIy4m/pgE=
+X-Google-Smtp-Source: ABdhPJwRMrG3Utr47rR/pDD6tDonfj/Cpf0xCThixcJU77k8sWoLwdyBNuZSzyZBI+fdKkPgtbwrQg==
+X-Received: by 2002:a17:906:564d:: with SMTP id v13mr5502258ejr.217.1603311836347;
+        Wed, 21 Oct 2020 13:23:56 -0700 (PDT)
+Received: from ?IPv6:2a01:110f:b59:fd00:599f:b8ad:89c7:99e7? ([2a01:110f:b59:fd00:599f:b8ad:89c7:99e7])
+        by smtp.gmail.com with ESMTPSA id q25sm2708298eja.86.2020.10.21.13.23.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Oct 2020 13:23:55 -0700 (PDT)
+Subject: Re: Strange timer LED behavior
+To:     "Bollinger, Seth" <Seth.Bollinger@digi.com>,
+        Pavel Machek <pavel@ucw.cz>
+Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Seth Bollinger <seth.boll@gmail.com>
+References: <A2C38AF0-0CE8-4312-8329-54B7E9653223@digi.com>
+ <20201019140617.GA25480@duo.ucw.cz>
+ <3D108EE8-F4B6-490B-9B97-59B8E008F63B@digi.com>
+ <2A80CF0E-1022-4673-86E8-12BF0696708E@digi.com>
+ <20201020122149.GA19856@duo.ucw.cz>
+ <DF67F732-7B99-4C32-A7E9-4595E2B1E82A@digi.com>
+ <20201020180813.GA25906@duo.ucw.cz>
+ <CF36FC5F-6FA9-4797-A6D6-6533D795DAD1@digi.com>
+ <20201020183300.GB25906@duo.ucw.cz>
+ <78785807-3DB7-4A70-B135-2B20A260EA57@digi.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <1a86fe05-d8a3-b4b9-4065-b31abce287e2@gmail.com>
+Date:   Wed, 21 Oct 2020 22:23:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <78785807-3DB7-4A70-B135-2B20A260EA57@digi.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The db820c has 4 "user LEDs", all connected to the PMI8994. The first
-three are connected to the three current sinks provided by the TRILED
-and the fourth is connected to MPP2.
+Hi Seth,
 
-By utilizing the DTEST bus the MPP is fed the control signal from the
-fourth LPG block, providing a consistent interface to the user.
+On 10/20/20 8:35 PM, Bollinger, Seth wrote:
+> 
+>>>
+>>> In this case we’re switching from on:86400, off:0 -> on:0, off:86400.  We write off first, then on using fwrite() to a file.  From the trace, it looks like on is always stored first.  So, the first store is on:0, off:0 for a brief period (enough to trigger the default), and then off is stored.  We’re already trying to not have them not both be zero at the same time.  I tried putting fflush() between them, but that didn’t help.  I suppose we could try to sleep some period of time, but this seems bad as well.  Maybe write and read to verify the value is correctly stored?
+>>>
+>>
+>> I don't understand. Why would you use blink with on:86400, off:0?
+> 
+> In this case we’re using the api to turn the LED on and off, without blinking (in this case only).
+> 
+>>
+>>>> If there's no reasonable value to change the frequency, we'll need to
+>>>> fix that.
+>>>
+>>> I think if we could control the delays with trigger set to none, then we could set the delays and enable the timer trigger for a no glitch operation.  I suppose if there was a timer-off trigger, that would work as well, but seems kind of silly.
+>>>
+>>
+>> You may want to look at ledtrig-transient and ledtrig-oneshot...?
+> 
+> Ok, I’ll take a look.  Thanks!
 
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
+You might want to check also ledtrig-pattern and paragraph 2.
+of its documentation [0].
 
-Changes since v5:
-- None
+[0] Documentation/devicetree/bindings/leds/leds-trigger-pattern.txt
 
- arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi | 49 ++++++++++++++++++++
- 1 file changed, 49 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi b/arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi
-index defcbd15edf9..7e51677d256e 100644
---- a/arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi
-+++ b/arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi
-@@ -8,6 +8,7 @@
- #include "pmi8994.dtsi"
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/leds/common.h>
- #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
- #include <dt-bindings/sound/qcom,q6afe.h>
- #include <dt-bindings/sound/qcom,q6asm.h>
-@@ -682,6 +683,54 @@ pinconf {
- 	};
- };
- 
-+&pmi8994_mpps {
-+	pmi8994_mpp2_userled4: mpp2-userled4 {
-+		pins = "mpp2";
-+		function = "sink";
-+
-+		output-low;
-+		qcom,dtest = <4>;
-+	};
-+};
-+
-+&pmi8994_lpg {
-+	qcom,power-source = <1>;
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pmi8994_mpp2_userled4>;
-+
-+	status = "okay";
-+
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	led@1 {
-+		reg = <1>;
-+		label = "green:user1";
-+
-+		linux,default-trigger = "heartbeat";
-+		default-state = "on";
-+	};
-+
-+	led@2 {
-+		reg = <2>;
-+		label = "green:user0";
-+		default-state = "on";
-+	};
-+
-+	led@3 {
-+		reg = <3>;
-+		label = "green:user2";
-+	};
-+
-+	led@4 {
-+		reg = <4>;
-+		label = "green:user3";
-+
-+		qcom,dtest = <4 1>;
-+	};
-+};
-+
- &pmi8994_spmi_regulators {
- 	vdd_gfx: s2@1700 {
- 		reg = <0x1700 0x100>;
 -- 
-2.28.0
-
+Best regards,
+Jacek Anaszewski
