@@ -2,132 +2,140 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FFDB2944B5
-	for <lists+linux-leds@lfdr.de>; Tue, 20 Oct 2020 23:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63B1129495E
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Oct 2020 10:33:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389754AbgJTVrC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 20 Oct 2020 17:47:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51598 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389617AbgJTVrC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Oct 2020 17:47:02 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5B5C0613CE;
-        Tue, 20 Oct 2020 14:47:02 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id h24so4956305ejg.9;
-        Tue, 20 Oct 2020 14:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fT5KwI1u6PV8EmjtyHpKqwjn8VqaBxGqgtD+UYm6G/w=;
-        b=Gs/w6JM7zA6yL1ixdYo1xR++QcsTBl9aPPPmTi4LPCXqtcDSCsqlk25SUycBw5BAPq
-         lshXIwVAyQmQeHnMmNOE4CAcNnWfUuah3dultc6A7qA546Dis3N/2bSsJ3iLNk7GG4PQ
-         Kq93Z/YksnxpG+6FLS5CU3NfXpn/ogqMrYxkiDrpJoyPi6BmQCECe9wVFBdwoAbl0SMa
-         01zrWTokETo5D6DzICgTxTe3pr7X1PmIFDgQxYUV5/PPk3grP87lbA5a7CRpYguw72Hs
-         7Aa9lBvIOaZszZoF6bNXzNag+O+25IzLyZForF8uJ8pyrOXwU9gurtOPWxZzXXtcAwQ/
-         pe1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fT5KwI1u6PV8EmjtyHpKqwjn8VqaBxGqgtD+UYm6G/w=;
-        b=KhYM+vYvzKYOIoqE2TNN3A7vtBpTS1itNBAZFZKfmglDRzos0zVBX/5ACLmerwbcF+
-         WjEm01RxsLg0T+ZduwgaZLSxgubZcpGNJ464A7Q9LXQS4HdSh1eH3KO3ivxjD4MBckbz
-         WQrI12N0hvIZB/jggYJ9Ls7W8yOI/j446mgRaL2DzeycsfiO37lwv6aNx2rauXZt/IFH
-         /zH7/2ybY/JvrNry/alc99zajWmPSHYL03vfY8P2ZcQMi5TTCqw5J5SXJyfbKExYGkBJ
-         Le1UANZAlXUP4cBeYecX0bEfHPrxzOvXuVe933G81KJuTPHsvbD+xJ/C5usrEcuOp8xO
-         4Hog==
-X-Gm-Message-State: AOAM533ixAtHcl53nSnvTxBMEcgILRrMD8/8piYc8jDubkKFUv5oCfSg
-        n0eRVOnHFLQFE3iMd6ahVkpNpFGn1ac=
-X-Google-Smtp-Source: ABdhPJzR95k+qiXGnZue7DquJHpX6z+X0kmVYYGtiPcjz51ZgZ/tz2/zilEua/Slair4hem1PZTnaA==
-X-Received: by 2002:a17:906:1e95:: with SMTP id e21mr190796ejj.355.1603230420970;
-        Tue, 20 Oct 2020 14:47:00 -0700 (PDT)
-Received: from ?IPv6:2a01:110f:b59:fd00:7dff:cc5e:4622:485f? ([2a01:110f:b59:fd00:7dff:cc5e:4622:485f])
-        by smtp.gmail.com with ESMTPSA id p2sm107051ejd.34.2020.10.20.14.46.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Oct 2020 14:47:00 -0700 (PDT)
-Subject: Re: [PATCH v5 2/2] leds: mt6360: Add LED driver for MT6360
-To:     Gene Chen <gene.chen.richtek@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-References: <1602034966-3524-1-git-send-email-gene.chen.richtek@gmail.com>
- <1602034966-3524-3-git-send-email-gene.chen.richtek@gmail.com>
- <5a9b31c4-739c-06fc-2015-ed474993ad22@gmail.com>
- <CAE+NS35Y41mFKNhj+54BeeSYFu2J9BtvMWOxyMcf9a==39cbdA@mail.gmail.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <8925db23-5cc4-3c5f-932a-461fe6450dad@gmail.com>
-Date:   Tue, 20 Oct 2020 23:46:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        id S2436952AbgJUIdj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Oct 2020 04:33:39 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:41634 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2395270AbgJUIdi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Oct 2020 04:33:38 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id B410F1C0B77; Wed, 21 Oct 2020 10:33:34 +0200 (CEST)
+Date:   Wed, 21 Oct 2020 10:33:34 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Vadim Pasternak <vadimp@nvidia.com>
+Cc:     Marek Behun <marek.behun@nic.cz>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH led-next 1/1] leds: mlxreg: Allow multi-instantiation of
+ same name LED for modular systems
+Message-ID: <20201021083334.GA29124@duo.ucw.cz>
+References: <20201006165850.17790-1-vadimp@nvidia.com>
+ <20201007113105.GE12224@duo.ucw.cz>
+ <20201007142049.02d8c3ba@nic.cz>
+ <DM6PR12MB38986A442F12A2DFB5769235AF0B0@DM6PR12MB3898.namprd12.prod.outlook.com>
+ <20201008075619.GB32424@amd>
+ <DM6PR12MB389877E86421231E18EF7DCDAF0B0@DM6PR12MB3898.namprd12.prod.outlook.com>
+ <20201008105550.44fa3165@nic.cz>
+ <DM6PR12MB3898D2BDC4AC32036E792548AF0B0@DM6PR12MB3898.namprd12.prod.outlook.com>
+ <20201008123214.2a5de507@nic.cz>
+ <DM6PR12MB38989BFE9D1967C69E397A6BAF070@DM6PR12MB3898.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <CAE+NS35Y41mFKNhj+54BeeSYFu2J9BtvMWOxyMcf9a==39cbdA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="ew6BAiZeqk4r7MaW"
+Content-Disposition: inline
+In-Reply-To: <DM6PR12MB38989BFE9D1967C69E397A6BAF070@DM6PR12MB3898.namprd12.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 10/20/20 8:44 AM, Gene Chen wrote:
-> Jacek Anaszewski <jacek.anaszewski@gmail.com> 於 2020年10月9日 週五 上午5:51寫道：
->>
->> Hi Gene,
->>
->> On 10/7/20 3:42 AM, Gene Chen wrote:
->>> From: Gene Chen <gene_chen@richtek.com>
->>>
->>> Add MT6360 LED driver include 2-channel Flash LED with torch/strobe mode,
->>> 3-channel RGB LED support Register/Flash/Breath Mode, and 1-channel for
->>> moonlight LED.
->>>
->>> Signed-off-by: Gene Chen <gene_chen@richtek.com>
->>> ---
->>>    drivers/leds/Kconfig       |  12 +
->>>    drivers/leds/Makefile      |   1 +
->>>    drivers/leds/leds-mt6360.c | 783 +++++++++++++++++++++++++++++++++++++++++++++
->>>    3 files changed, 796 insertions(+)
->>>    create mode 100644 drivers/leds/leds-mt6360.c
->>>
->>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->>> index 1c181df..c7192dd 100644
->>> --- a/drivers/leds/Kconfig
->>> +++ b/drivers/leds/Kconfig
->>> @@ -271,6 +271,18 @@ config LEDS_MT6323
->>>          This option enables support for on-chip LED drivers found on
->>>          Mediatek MT6323 PMIC.
->>>
->>> +config LEDS_MT6360
->>> +     tristate "LED Support for Mediatek MT6360 PMIC"
->>> +     depends on LEDS_CLASS_FLASH && OF
->>> +     depends on LEDS_CLASS_MULTICOLOR
->>
->> Since CONFIG_LED_CLASS_MULTICOLOR can be turned off you need to have
->> below instead:
->>
->> depends on LEDS_CLASS_MULTICOLOR || !!LEDS_CLASS_MULTICOLOR
->>
->> Unless you want to prevent enabling the driver without RGB LED,
->> but that does not seem to be reasonable at first glance.
->>
-> 
-> May I change to "select LEDS_CLASS_MULTICOLOR"?
-> I suppose RGB always use multicolor mode.
 
-You will also have moonlight LED that will not need multicolor
-framework. Is it somehow troublesome to keep "depends on"?
+--ew6BAiZeqk4r7MaW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
+Hi!
+
+> > > But why you consider it as function enumerator?
+> > > For example card48, card56 are two different devices of same type.
+> > > Both have 'status' LED.
+> >=20
+> > OK this is a fair point.
+> >=20
+> > I was thinking such because in my mind I had this idea that for an ethe=
+rnet
+> > switch with interfaces lan0 - lan4 it would make sense to use the
+> > LED_FUNCTION_LAN function with function enumerator. But thinking about
+> > this now again makes me wonder if instead the lan0 - lan4 should be
+> > devicenames instead, since normally they are network interface names.
+> >=20
+> > Vadim, the reason why Pavel and I think that mlxreg (or mlxregN) is not
+> > valid devicename part (although mlxreg has to stay since many users
+> > already depend on it, as you say), is that the mlxreg name is not expos=
+ed
+> > anywhere else in Linux from userspace point of view.
+> >=20
+> > Devicename eth0 is okay, because it is network interface name.
+> > Devicename sda would be okay, because everyone knows it is a block devi=
+ce
+> > and you can access it via /dev/sda.
+> > Devicename hci0 would be okay because it is bluetooth interface accessi=
+ble
+> > via hcitool.
+> > Devicenames mtd0, kbd0, mouse0 would be okay, I think.
+> >=20
+> > But mlxreg is not accessible via anything else in the system. Unless yo=
+ur
+> > systems also have something like /dev/mlxreg, that is.
+> >=20
+> > Do the LEDs on these cards only indicate status of the cards themselves=
+ as a
+> > whole? Or are there LEDs on these cards dedicated to their peripherals?=
+ For
+> > example if there is an ethernet port with LEDs on one of these cards, t=
+he
+> > devicename part for these LEDs should be of the device of that ethernet
+> > port, not mlxreg...
+>=20
+> Hi Marek,
+>=20
+> Each line card must have 'status' LED, indicating status of line card its=
+elf.
+> User can set non-green in case some there are some alarms on different de=
+vices,
+> equipped on this line card. It can be set blink during line card initiali=
+zation.
+>=20
+> Line card could be equipped with UID LED. User can set this LED in order =
+to
+> find physical location of line card. Sometimes it's hard to see the stick=
+er on
+> chassis.
+>=20
+> Line card also equipped with per port LED, but those LEDs are handled by =
+FW.
+>=20
+> So, the device in this case is 'line card'.
+>=20
+> In my previous reply I suggest name 'fru' stands for the filed replaceabl=
+e unit.
+> This is not something, that is exposed in '/dev', but it describes any re=
+placeable
+> unit within the system.
+
+So.. you'd use the LED to locate right PCI card, or the LED would
+indicate that whole card is failing, etc...?
+
+Could we use pci00:1b.0 as the device name? (same as lspci). Probably
+replace : with _...
+
 Best regards,
-Jacek Anaszewski
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--ew6BAiZeqk4r7MaW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX4/yXgAKCRAw5/Bqldv6
+8tO2AJ0dQkN+4Nun8eXL1VNMf0FOLZTezwCdGMTiAfqOutpUHZ68wpRM+h8TzEs=
+=jxm2
+-----END PGP SIGNATURE-----
+
+--ew6BAiZeqk4r7MaW--
