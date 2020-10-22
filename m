@@ -2,110 +2,87 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6EED2954F3
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Oct 2020 00:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99741295C68
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Oct 2020 12:06:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2506928AbgJUWvQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Oct 2020 18:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58138 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2506931AbgJUWvP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Oct 2020 18:51:15 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CB8CC0613D4
-        for <linux-leds@vger.kernel.org>; Wed, 21 Oct 2020 15:51:15 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id r127so5108248lff.12
-        for <linux-leds@vger.kernel.org>; Wed, 21 Oct 2020 15:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ICAICiNyo+EcMXjUhGuIhiIEersvXHJzVxJKSGdteTM=;
-        b=JvEnR4tRFXIYdCbHscJ9GWGxDi1dIvLHNzdffaWokQS90FA379cJx6I0wR6OTYc9MU
-         LozDzCnTj1m1z1Lg4A7aeelciFHB2pX4jMoZOSL8TlKc0UQqZVqAn7U1HC8XAW2CKmww
-         mwIOr6qRvdlu+UafFTCmErP8b7lily5r007/nvhIscJMpU1IIygLdFXFQDWKOcnNnEs0
-         wNezxZ02hf+8buYD8gsaeGnpsXDBfUdJmvoHwmdEsWERiPFXOxpOF8C9zau7gnckrDA8
-         kBhnv8N1HzgMPS0wUQQ3oy/Y6togiveG0YjjcHsYxRbvtpK1J7SllcM/OE6V0YO2jTmo
-         RUjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ICAICiNyo+EcMXjUhGuIhiIEersvXHJzVxJKSGdteTM=;
-        b=VAJDMkaMFnpAtJvwQfyEbfnADkOLzOmtwACKMQhWt1A7t3RmOVDSk3uuzaTI60HiYK
-         hdeA/iomFJR7yDoHxp5v78iDb+uJqf3padIZh8EtSa3qbzgmfmDPOIv2v/YyCK74dqxr
-         9G+vS0a3Pk3KF4OgH1YO99yKSZbe+GF1Nug4Ku1JHpXS1Y2VxhXjOyMFZR9jCHXybHQM
-         lprB5vN9gdmI1QRFjlAM8ZxMPN6r882/n9GCXr73Y+EfLSjqAO1ZgvkqqZzI6I12oq9A
-         l6D6V8h8MRhcYkqaBJ78Kv4OZMxJxeIj4PMvt8aHgGaLseISz3QMpVDTUgVjj7yV1dae
-         tvGQ==
-X-Gm-Message-State: AOAM532ZAY/6eoahUy6Yuaf3rcXzUzdxrIYrrQHZp7yp8hfRNzSTkxtl
-        qOX9YCLyjUF31y0FgoJYJqctDQ==
-X-Google-Smtp-Source: ABdhPJzz/fJNgntQdkyZa7dPBtnccqsA/OUhtXZDmFk4rqyua01TQTFC5361SXrKHbvGEhnuT8xdCg==
-X-Received: by 2002:a19:f518:: with SMTP id j24mr1903146lfb.307.1603320673622;
-        Wed, 21 Oct 2020 15:51:13 -0700 (PDT)
-Received: from eriador.lan ([188.162.64.195])
-        by smtp.gmail.com with ESMTPSA id h11sm652062ljc.21.2020.10.21.15.51.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2020 15:51:12 -0700 (PDT)
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: [PATCH 5/5] arm64: dts: qrb5165-rb5: declare tri-led user leds
-Date:   Thu, 22 Oct 2020 01:51:00 +0300
-Message-Id: <20201021225100.162795-6-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201021225100.162795-1-dmitry.baryshkov@linaro.org>
-References: <20201021225100.162795-1-dmitry.baryshkov@linaro.org>
+        id S2896283AbgJVKGt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 22 Oct 2020 06:06:49 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:35596 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2896266AbgJVKGt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Oct 2020 06:06:49 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id D9B541C0B78; Thu, 22 Oct 2020 12:06:46 +0200 (CEST)
+Date:   Thu, 22 Oct 2020 12:06:46 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "Bollinger, Seth" <Seth.Bollinger@digi.com>
+Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Seth Bollinger <seth.boll@gmail.com>
+Subject: Re: Strange timer LED behavior
+Message-ID: <20201022100646.GA26350@duo.ucw.cz>
+References: <3D108EE8-F4B6-490B-9B97-59B8E008F63B@digi.com>
+ <2A80CF0E-1022-4673-86E8-12BF0696708E@digi.com>
+ <20201020122149.GA19856@duo.ucw.cz>
+ <DF67F732-7B99-4C32-A7E9-4595E2B1E82A@digi.com>
+ <20201020180813.GA25906@duo.ucw.cz>
+ <CF36FC5F-6FA9-4797-A6D6-6533D795DAD1@digi.com>
+ <20201020183300.GB25906@duo.ucw.cz>
+ <78785807-3DB7-4A70-B135-2B20A260EA57@digi.com>
+ <20201020184054.GC25906@duo.ucw.cz>
+ <31E37AC2-589B-41F0-B7AA-9E520160F8A6@digi.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+Content-Disposition: inline
+In-Reply-To: <31E37AC2-589B-41F0-B7AA-9E520160F8A6@digi.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Qualcomm RB5 platform uses Light Pulse Generator tri-led block to drive
-three green leds. Add device nodes defining those leds.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+--IJpNTDwzlM2Ie8A6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-index 01708d84fdf6..04eff24f9d71 100644
---- a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-+++ b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-@@ -1014,6 +1014,29 @@ &pm8150_rtc {
- 	status = "okay";
- };
- 
-+&pm8150l_lpg {
-+	status = "okay";
-+
-+	led@1 {
-+		reg = <1>;
-+		label = "green:user0";
-+
-+		linux,default-trigger = "heartbeat";
-+		default-state = "on";
-+	};
-+
-+	led@2 {
-+		reg = <2>;
-+		label = "green:user1";
-+		default-state = "on";
-+	};
-+
-+	led@3 {
-+		reg = <3>;
-+		label = "green:user2";
-+	};
-+};
-+
- &qupv3_id_0 {
- 	status = "okay";
- };
--- 
-2.28.0
+Hi!
 
+> > Yeah. Don't do that! :-). For solid on/solid off, just turn the
+> > trigger off. For blinking, use timer trigger.
+>=20
+> If I want to go from on or off to flashing, I need to set the timer trigg=
+er, which results in a 500 ms flash rate until the real rates are set.  Thi=
+s results in a noticeably different first blink.  I guess we=E2=80=99re loo=
+king for smooth control of the LED.
+>
+
+Okay, that's fair requirement, I guess.
+
+If you have proposals how to solve this in a nice way, go ahead.
+
+As a hack...
+
+I believe you can go from on to off like this:
+
+on:9999,off:0 -> on:9999,off:1 -> on:1,off:9999 -> on:0,off:9999.
+
+(And I believe we should document this somewhere).
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--IJpNTDwzlM2Ie8A6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX5FZtgAKCRAw5/Bqldv6
+8kWoAJ9XicjirlWd/qjK46D/SbI1kkA46QCfdj9+G3+i/3+09PIO7AtgtuzilBg=
+=TJcT
+-----END PGP SIGNATURE-----
+
+--IJpNTDwzlM2Ie8A6--
