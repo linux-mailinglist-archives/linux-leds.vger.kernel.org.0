@@ -2,325 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFE59297922
-	for <lists+linux-leds@lfdr.de>; Fri, 23 Oct 2020 23:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A110A297967
+	for <lists+linux-leds@lfdr.de>; Sat, 24 Oct 2020 00:48:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756984AbgJWVy4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 23 Oct 2020 17:54:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43046 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1756979AbgJWVyz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Oct 2020 17:54:55 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E733C0613D2
-        for <linux-leds@vger.kernel.org>; Fri, 23 Oct 2020 14:54:55 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id n6so3648493ioc.12
-        for <linux-leds@vger.kernel.org>; Fri, 23 Oct 2020 14:54:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=56bfN3uJs3f7SgK7i6vxzLuv9/DdNtFNz9LeALJjPvM=;
-        b=f+joyHDNj+in9AUfcjbD8RcG0XdjyrU90iri/e7bpDvKniQkUlkRH5jp8dt3ofPP/j
-         XmUjzI55kpuCqqBi4CzuK91SlSih0BZAt4NDZnZWNJ2l53vjiq+X2X34ENGo+GTeYH/t
-         xQPhIwl/pW/sspG49MGrdrCMl3tV9KRghvgzTOxJh7od1iSwGZbK5ROzuq+cgWEyGa1n
-         RisWjhTa9bW4OpC780eUc+V+PW+v/jcnQ7M+7BoikemPgMKuaGNsjCz00CBPeys6dFZr
-         Tv9Tkd4fHV9F7OTt5crxsdGMOd7yzsDSInBQI2vQFdsYL5DmfxuFirzFmICtSgY775Ll
-         btCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=56bfN3uJs3f7SgK7i6vxzLuv9/DdNtFNz9LeALJjPvM=;
-        b=ZOLy+KHugRQOhNkm3aunlvutVeVSvXTgkkIpXVbANQZeU6vBcCOoRC1m6aQlKMlumh
-         UnNkNwTW6chsfE71wf+9HnUVjwWm6Z0zv+Gags1PAP71YMY4CzZd6SrK9HNbQFwEGz5E
-         HZu3GEHiTmsmjRzh3aE+NYd+j6LsV8MBLk9wXBzazCD5Nf2ne3k5CJVtMM7WLmc9Qabr
-         dyRciDHerOeaIzEmKfLeO0AVmTmQGov3gEw2La5nZnm5wcYUJcoAI4icKON6k6QKyW8v
-         4k00KG964kfWT6l53AcKS3JUjbSP7gtT7umZUUfX1JlGoUt7tAcEMJmDtvSNo+7oDpJ0
-         CwHw==
-X-Gm-Message-State: AOAM531H/92Jl2J0D5XY2iejWFgIqMCsHBKwiUMlv1eYxTyZhWKhNV2H
-        4ASeiUBODAC0p9yIDso6k//APywzdTZSas359nhjWw==
-X-Google-Smtp-Source: ABdhPJySx07Ku4+36MeK6pUWuxqhnmjoUh0str1rf1jS2fCSAXTBAChblFDcoDoQX52tIbE4yFg+HSy4NCRnmxJk5js=
-X-Received: by 2002:a5d:9813:: with SMTP id a19mr3450738iol.194.1603490094450;
- Fri, 23 Oct 2020 14:54:54 -0700 (PDT)
+        id S1758355AbgJWWss (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 23 Oct 2020 18:48:48 -0400
+Received: from mail.z3ntu.xyz ([128.199.32.197]:45476 "EHLO mail.z3ntu.xyz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1758354AbgJWWsr (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 23 Oct 2020 18:48:47 -0400
+Received: by mail.z3ntu.xyz (Postfix, from userid 182)
+        id 8FB6DC72DB; Fri, 23 Oct 2020 22:48:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1603493325; bh=9QylOst88qmIKbi24iDZJMCrYnGPoE0UiB9RlCsxFQ8=;
+        h=From:To:Cc:Subject:Date;
+        b=HVeDY2pMXcaxX1XCmGXjkUTKodIoz6rdWVZyGLbgwv8oC2XYIoHjkl2ffxH0cqZ0o
+         ij78hgVqB29ZxktLpaNOKuv4hIyjevaovkTilpSCBl0DSGG7mlz4LiLqoNAi1dpi/l
+         vSekiJ60Y4OwsmdgmyikQCsjBs6DtcNm793rEpX0=
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on arch-vps
+X-Spam-Level: *
+X-Spam-Status: No, score=1.9 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        FROM_SUSPICIOUS_NTLD_FP,PDS_OTHER_BAD_TLD,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.4
+Received: from g550jk.localnet (80-110-125-173.cgn.dynamic.surfer.at [80.110.125.173])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 3E532C7284;
+        Fri, 23 Oct 2020 22:48:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1603493323; bh=9QylOst88qmIKbi24iDZJMCrYnGPoE0UiB9RlCsxFQ8=;
+        h=From:To:Cc:Subject:Date;
+        b=O8/BuNXlPPyRsxIruFt4kL/dHk2ScaWMnB8QubcPF8mJZi/nlzOh7m5+0K1jyR0W0
+         qandpnXlkoq+tDCNHv6qyDXQ6W2AZuv5fAXxLEEVqYEmLgo9X0nXksaWWL/jmPjOeW
+         ryp7MZV1JSG2TLyjkkE0lGU8Jox5qBxBM5CYAgwQ=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Linux LED Subsystem <linux-leds@vger.kernel.org>
+Cc:     bjorn.andersson@linaro.org
+Subject: Clarification regarding multicolor leds
+Date:   Sat, 24 Oct 2020 00:48:42 +0200
+Message-ID: <24145961.oFyDssk0vh@g550jk>
 MIME-Version: 1.0
-References: <20201019221859.56680-1-luka.kovacic@sartura.hr>
- <20201019221859.56680-2-luka.kovacic@sartura.hr> <20201020153016.GC866676@bogus>
-In-Reply-To: <20201020153016.GC866676@bogus>
-From:   Luka Kovacic <luka.kovacic@sartura.hr>
-Date:   Fri, 23 Oct 2020 23:54:43 +0200
-Message-ID: <CADZsf3ZwgOxP4ZVasdohjw_ky8L-Oqha_wjONtz6AeRSGH6NzA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/6] dt-bindings: Add iEi vendor prefix and iEi
- WT61P803 PUZZLE driver bindings
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hwmon@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Marek Behun <marek.behun@nic.cz>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Robert Marko <robert.marko@sartura.hr>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Rob,
+Hi,
+I'm currently experimenting with the qcom lpg[0] which is a driver for the rgb 
+notification led found on e.g. Snapdragon 801 devices (and many more), 
+specifically my example is about the Fairphone 2 (msm8974-fairphone-fp2).
 
-On Tue, Oct 20, 2020 at 5:30 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Tue, Oct 20, 2020 at 12:18:54AM +0200, Luka Kovacic wrote:
-> > Add the iEi WT61P803 PUZZLE Device Tree bindings for MFD, HWMON and LED
-> > drivers. A new vendor prefix is also added accordingly for
-> > IEI Integration Corp.
-> >
-> > Signed-off-by: Luka Kovacic <luka.kovacic@sartura.hr>
-> > Cc: Luka Perkov <luka.perkov@sartura.hr>
-> > Cc: Robert Marko <robert.marko@sartura.hr>
-> > ---
-> >  .../hwmon/iei,wt61p803-puzzle-hwmon.yaml      | 41 ++++++++++
-> >  .../leds/iei,wt61p803-puzzle-leds.yaml        | 45 ++++++++++
-> >  .../bindings/mfd/iei,wt61p803-puzzle.yaml     | 82 +++++++++++++++++++
-> >  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
-> >  4 files changed, 170 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
-> > new file mode 100644
-> > index 000000000000..37f0030df237
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
-> > @@ -0,0 +1,41 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/hwmon/iei,wt61p803-puzzle-hwmon.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: iEi WT61P803 PUZZLE MCU HWMON module from IEI Integration Corp.
-> > +
-> > +maintainers:
-> > +  - Luka Kovacic <luka.kovacic@sartura.hr>
-> > +
-> > +description: |
-> > +  This module is a part of the iEi WT61P803 PUZZLE MFD device. For more details
-> > +  see Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml.
-> > +
-> > +  The HWMON module is a sub-node of the MCU node in the Device Tree.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: iei,wt61p803-puzzle-hwmon
-> > +
-> > +patternProperties:
-> > +  "^fan-group@[0-1]$":
-> > +    type: object
-> > +    properties:
-> > +      reg:
-> > +        minimum: 0
-> > +        maximum: 1
-> > +        description:
-> > +          Fan group ID
->
-> Blank line between properties.
->
-> > +      cooling-levels:
-> > +        maxItems: 255
-> > +        description:
-> > +          Cooling levels for the fans (PWM value mapping)
-> > +    description: |
-> > +      Properties for each fan group.
-> > +    required:
-> > +      - reg
-> > +
-> > +required:
-> > +  - compatible
->
-> additionalProperties: false
->
-> > diff --git a/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml b/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
-> > new file mode 100644
-> > index 000000000000..0d353e5803bf
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
-> > @@ -0,0 +1,45 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/leds/iei,wt61p803-puzzle-leds.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: iEi WT61P803 PUZZLE MCU LED module from IEI Integration Corp.
-> > +
-> > +maintainers:
-> > +  - Luka Kovacic <luka.kovacic@sartura.hr>
-> > +
-> > +description: |
-> > +  This module is a part of the iEi WT61P803 PUZZLE MFD device. For more details
-> > +  see Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml.
-> > +
-> > +  The LED module is a sub-node of the MCU node in the Device Tree.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: iei,wt61p803-puzzle-leds
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 0
-> > +
-> > +patternProperties:
-> > +  "^led@0$":
->
-> Fixed string, not a pattern. Do you plan to add more? Define the schema
-> to what the h/w supports, not current driver support.
+[0] https://lore.kernel.org/lkml/20201021201224.3430546-1-bjorn.andersson@linaro.org/
 
-The microcontroller software itself currently supports many different GPIOs
-which could in the future, in different board implementations be repurposed as
-LEDs.
+My dts is looking like the following (abbreviated):
 
-Do I keep the pattern in this case?
+    [in lpg node]
+    multi-led {
+        color = <LED_COLOR_ID_MULTI>;
+        function = LED_FUNCTION_STATUS;
+        ....
+    };
 
->
-> > +    type: object
-> > +    $ref: common.yaml
-> > +    description: |
-> > +      Properties for a single LED.
-> > +
-> > +    properties:
-> > +      reg:
-> > +        description:
-> > +          Index of the LED. Only one LED is supported at the moment.
-> > +        minimum: 0
-> > +        maximum: 0
-> > +
-> > +required:
-> > +  - compatible
-> > +  - "#address-cells"
-> > +  - "#size-cells"
->
-> additionalProperties: false
->
-> > diff --git a/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml b/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
-> > new file mode 100644
-> > index 000000000000..79a232d75093
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
-> > @@ -0,0 +1,82 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/mfd/iei,wt61p803-puzzle.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: iEi WT61P803 PUZZLE MCU from IEI Integration Corp.
-> > +
-> > +maintainers:
-> > +  - Luka Kovacic <luka.kovacic@sartura.hr>
-> > +
-> > +description: |
-> > +  iEi WT61P803 PUZZLE MCU is embedded in some iEi Puzzle series boards.
-> > +  It's used for controlling system power states, fans, LEDs and temperature
-> > +  sensors.
-> > +
-> > +  For Device Tree bindings of other sub-modules (HWMON, LEDs) refer to the
-> > +  binding documents under the respective subsystem directories.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: iei,wt61p803-puzzle
-> > +
-> > +  current-speed:
-> > +    description:
-> > +      Serial bus speed in bps
-> > +    maxItems: 1
-> > +
-> > +  enable-beep: true
-> > +
-> > +  iei-wt61p803-hwmon:
->
-> Just 'hwmon'
->
-> > +    $ref: ../hwmon/iei,wt61p803-puzzle-hwmon.yaml
-> > +
-> > +  leds:
-> > +    $ref: ../leds/iei,wt61p803-puzzle-leds.yaml
-> > +
-> > +required:
-> > +  - compatible
-> > +  - current-speed
->
-> additionalProperties: false
->
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/leds/common.h>
-> > +    serial {
-> > +        status = "okay";
-> > +        mcu {
-> > +            compatible = "iei,wt61p803-puzzle";
-> > +            current-speed = <115200>;
-> > +            enable-beep;
-> > +
-> > +            leds {
-> > +                compatible = "iei,wt61p803-puzzle-leds";
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +
-> > +                led@0 {
-> > +                    reg = <0>;
-> > +                    function = LED_FUNCTION_POWER;
-> > +                    color = <LED_COLOR_ID_BLUE>;
-> > +                };
-> > +            };
-> > +
-> > +            iei-wt61p803-puzzle-hwmon {
-> > +                compatible = "iei,wt61p803-puzzle-hwmon";
-> > +
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +
-> > +                fan-group@0 {
-> > +                    #cooling-cells = <2>;
-> > +                    reg = <0x00>;
-> > +                    cooling-levels = <64 102 170 230 250>;
-> > +                };
-> > +
-> > +                fan-group@1 {
-> > +                    #cooling-cells = <2>;
-> > +                    reg = <0x01>;
-> > +                    cooling-levels = <64 102 170 230 250>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > index 63996ab03521..5f2595f0b2ad 100644
-> > --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > @@ -467,6 +467,8 @@ patternProperties:
-> >      description: IC Plus Corp.
-> >    "^idt,.*":
-> >      description: Integrated Device Technologies, Inc.
-> > +  "^iei,.*":
-> > +    description: IEI Integration Corp.
-> >    "^ifi,.*":
-> >      description: Ingenieurburo Fur Ic-Technologie (I/F/I)
-> >    "^ilitek,.*":
-> > --
-> > 2.26.2
-> >
+I'm comparing this to the PinePhone where the leds are defined as follows:
 
-I will resolve the mentioned issues in the next patchset.
+    [in gpio-leds node]
+    blue {
+        function = LED_FUNCTION_INDICATOR;
+        color = <LED_COLOR_ID_BLUE>;
+    };
+    
+    green {
+        function = LED_FUNCTION_INDICATOR;
+        color = <LED_COLOR_ID_GREEN>;
+    };
+    
+    red {
+        function = LED_FUNCTION_INDICATOR;
+        color = <LED_COLOR_ID_RED>;
+    };
 
-Kind regards,
-Luka
+(sidenote: the LED_FUNCTION_INDICATOR should probably also be 
+LED_FUNCTION_STATUS there; the dts was made before the better descriptions for 
+the defines have been added)
+
+This gets the following directories created in /sys/class/leds/:
+
+    blue:indicator
+    green:indicator
+    red:indicator
+
+But with the multicolor led on the Fairphone 2 only a directory with the name 
+of "multi-led" gets created which I would have expected to be 
+"multicolor:status" instead.
+
+
+What's further confusing me is that include/dt-bindings/leds/common.h states 
+(reformatted for clarity):
+
+/* For multicolor LEDs */
+#define LED_COLOR_ID_MULTI	8
+
+/* For multicolor LEDs that can do arbitrary color, so this would include RGBW 
+and similar */
+#define LED_COLOR_ID_RGB	9
+
+It sounds like these comments are the wrong way around as it says that RGB 
+does RGBW & others while MULTI is normal RGB?
+
+I have also found this commit[1] while browsing through lkml which seems to 
+validate my suspicions that _ID_RGB should be used normally? This commit seems 
+have been applied early September but hasn't been merged in the 5.10 merge 
+window?
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/
+commit/?h=for-next&id=3d93edc77515c6f51fa9bbbe2185e2ec32bad024
+
+But drivers/leds/led-core.c also states "We want to label LEDs that can 
+produce full range of colors as RGB, not multicolor" - not sure what "full 
+range" means here.
+
+Thanks for reading through my long email and I'd appreciate any clarification 
+on the situation!
+Regards,
+Luca
+
+
