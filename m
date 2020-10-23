@@ -2,94 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7D2D296546
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Oct 2020 21:25:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE1742973B2
+	for <lists+linux-leds@lfdr.de>; Fri, 23 Oct 2020 18:28:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S370191AbgJVTZi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 22 Oct 2020 15:25:38 -0400
-Received: from mail.z3ntu.xyz ([128.199.32.197]:56162 "EHLO mail.z3ntu.xyz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S370187AbgJVTZh (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 22 Oct 2020 15:25:37 -0400
-Received: by mail.z3ntu.xyz (Postfix, from userid 182)
-        id 7DD85C7218; Thu, 22 Oct 2020 19:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1603394734; bh=AFNcYWN73jXXlPkynUL1liT45MKc2/cfgOevOqrJe2E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=jFyZz9aLvJfIjb3HAGm7dQFw6S49OGVQwJGZm2EVINeXUKCAZXRXs3Ps79kPq8TWZ
-         kqwjhpOlg2fWiWJBDcQ1jkpskQHOCLv2d9b5p+fklGrR/uEjMYpyh1QEXbaqvPOF1x
-         vBDolVSKGVoKZtGSR8kD0xd2mfffLeLM3P62pldY=
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on arch-vps
-X-Spam-Level: 
-X-Spam-Status: No, score=0.9 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
-        PDS_OTHER_BAD_TLD,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.4
-Received: from g550jk.localnet (80-110-125-173.cgn.dynamic.surfer.at [80.110.125.173])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 45380C669B;
-        Thu, 22 Oct 2020 19:25:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1603394732; bh=AFNcYWN73jXXlPkynUL1liT45MKc2/cfgOevOqrJe2E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=qOGdj963fPa7D28jT90vH01qDZdMKfXkWrKzTnfvFQKODGxLTncuwHeX0wintU3yz
-         5jbmpTgkEQJhtbJyiCYyQZ0L4sAWnena+v+J4EhSyQE124ZoItW4fBiPPu/AOgCRXD
-         6JvaCLuQ/lFecpHws0Bvk1g1cZ1toEy/N9A51lME=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
+        id S1750591AbgJWQ21 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 23 Oct 2020 12:28:27 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:42272 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S371933AbgJWQ20 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 23 Oct 2020 12:28:26 -0400
+Received: by mail-oi1-f194.google.com with SMTP id 16so2458579oix.9;
+        Fri, 23 Oct 2020 09:28:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2/F4gcPmqW9k3gfZUEuVT5UA/z/NAFC4iSRG11LIn+c=;
+        b=Uqz+rcI5WVlo49bCzJieO7mRqmcOWlCa8GyfLmjVjJyuT8JpDeGwVM2tpPJo6leKpt
+         JxRJ3W7zT5sAYndFLM7y46R0dITEVu7pnasoUs1uAszPHOIsUyCgZ9KdzB+lkx6iOMfx
+         fG49TPK3Ndj+bwdFCVVTJ170kkP/5pQDneXRSOArofjwonS3xNvr/S617Jfm/YXyMmdh
+         PLYfdgg3tkvH0+7WEzuP8INtbD96GePjgF4v4QuEe859gIyL7wwc3GeI2RJk5+gKV+hc
+         TN2tJtwNxk2CKeJzSoQBEF6Hf1U3gZnVr0CVabnGXtUKsFXtdM5v8ESerZn2htVcPXIx
+         5D6g==
+X-Gm-Message-State: AOAM5327mpeOqm/R8S4MI1WamDTSScaLGGfna2fS99VSHYwhXGXS2zRj
+        GOZTWbG0mfVkg9wUGeS47A==
+X-Google-Smtp-Source: ABdhPJwe2qFcFHOCLXfp3Qrfl3ZtYE+6ZoVPO+xoTzzWaoe7uJCZB+rDCGHpJkSp9Bs/iJoaQtD+yA==
+X-Received: by 2002:aca:f084:: with SMTP id o126mr2397685oih.104.1603470506162;
+        Fri, 23 Oct 2020 09:28:26 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id e76sm601380oib.16.2020.10.23.09.28.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2020 09:28:25 -0700 (PDT)
+Received: (nullmailer pid 2820622 invoked by uid 1000);
+        Fri, 23 Oct 2020 16:28:24 -0000
+Date:   Fri, 23 Oct 2020 11:28:24 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Martin Botka <martin.botka1@gmail.com>,
-        linux-arm-msm@vger.kernel.org
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pwm@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: Re: [PATCH v6 2/4] leds: Add driver for Qualcomm LPG
-Date:   Thu, 22 Oct 2020 21:25:31 +0200
-Message-ID: <7499087.fvuViRk2k7@g550jk>
-In-Reply-To: <20201021201224.3430546-3-bjorn.andersson@linaro.org>
-References: <20201021201224.3430546-1-bjorn.andersson@linaro.org> <20201021201224.3430546-3-bjorn.andersson@linaro.org>
+        Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 1/5] dt-bindings: leds: leds-qcom-lpg: add pm8150[bl]
+ compatible strings
+Message-ID: <20201023162824.GA2820586@bogus>
+References: <20201021225100.162795-1-dmitry.baryshkov@linaro.org>
+ <20201021225100.162795-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201021225100.162795-2-dmitry.baryshkov@linaro.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Bjorn,
-
-On Mittwoch, 21. Oktober 2020 22:12:22 CEST Bjorn Andersson wrote:
-> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
-> PMICs from Qualcomm. It can operate on fixed parameters or based on a
-> lookup-table, altering the duty cycle over time - which provides the
-> means for e.g. hardware assisted transitions of LED brightness.
+On Thu, 22 Oct 2020 01:50:56 +0300, Dmitry Baryshkov wrote:
+> Add two more compatible strings for Light Pulse Generator blocks as
+> found on PM8150B and PM8150A/L chips.
 > 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
+>  Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Changes since v5:
-> - Make sure to not used the state of the last channel in a group to
-> determine if the current sink should be active for all channels in the
-> group. - Replacement of unsigned -1 with UINT_MAX
-> - Work around potential overflow by using larger data types, instead of
-> separate code paths - Use cpu_to_l16() rather than hand rolling them
-> - Minor style cleanups
-> 
->  drivers/leds/Kconfig         |    9 +
->  drivers/leds/Makefile        |    1 +
->  drivers/leds/leds-qcom-lpg.c | 1190 ++++++++++++++++++++++++++++++++++
->  3 files changed, 1200 insertions(+)
->  create mode 100644 drivers/leds/leds-qcom-lpg.c
 
-Tested on msm8974 (pm8941) on the Fairphone 2, works great there!
-
-Tested-by: Luca Weiss <luca@z3ntu.xyz>
-
-Regards
-Luca
-
-
+Acked-by: Rob Herring <robh@kernel.org>
