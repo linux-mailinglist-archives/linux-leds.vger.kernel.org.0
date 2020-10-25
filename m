@@ -2,338 +2,133 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73EE2297FCE
-	for <lists+linux-leds@lfdr.de>; Sun, 25 Oct 2020 02:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1FCB298160
+	for <lists+linux-leds@lfdr.de>; Sun, 25 Oct 2020 11:54:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1766588AbgJYB0W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 24 Oct 2020 21:26:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1766589AbgJYB0V (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 24 Oct 2020 21:26:21 -0400
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2517C0613D2
-        for <linux-leds@vger.kernel.org>; Sat, 24 Oct 2020 18:26:21 -0700 (PDT)
-Received: by mail-il1-x141.google.com with SMTP id p9so5000494ilr.1
-        for <linux-leds@vger.kernel.org>; Sat, 24 Oct 2020 18:26:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VxZ3UxYxPemlnwMfICb3ouhVPNv37y0m3jFPS6sTZAI=;
-        b=z1/9xfa0xNt9bKy6jznsVmPFDEft1KY6ada9+geUK3QxnnX9QmdrHGdxvctK2NBZB1
-         4o6nAEiUYnrLrcC9+0okKny0+z4ntOu86oDV+bntPBd2imDzjloNtMpswPOEwnDs7mjF
-         t8Wh/B+g6zWtIKuXce4nhueNoWlx65Pl0pMHX1gYxfeyAc8l6nrgKWGDzc0Q6sHiXKI0
-         cujDKrUPvoKFULaR4INtdxCt7tQfEIKlTzNOEPnvMXYDGag8tze/uwSw1fNPHZtsCYMC
-         WxyfZX2e9ANHngGx5sgrJCj+fGaeIUYDrX6akqLBHPADD6nntQKdJ32Wi48LdaINFxxF
-         YgkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VxZ3UxYxPemlnwMfICb3ouhVPNv37y0m3jFPS6sTZAI=;
-        b=raQOU6tmdwCKhvaki6C4zBSSVBShAFf0bAZRISYsopSV5Wp1MBzC6G1Kk4UWVqMLcO
-         G6aAsBdZvuLPQIHkYssPr8QjDP8qfQavew0kEankSlmYDs2WEqv2leFS/6E90Y8g2yGx
-         J2v94AST8PFAvbTzUcqKeBqklZmH7XEmCxt9nZdrWuOJeGULcRmZNN6wEicg4nKZj56f
-         Wd46779IVbZ0JjpkOn6aaerdTdLsENiwVkCuEzC9Wqwe4MCYDYrYPdNFVdR1VKs9XJWf
-         HGLPbjuDgxytyIfQlP8n4DOzbdXSLcHw1HSBFDsCtt4uu8kBs0bbk5zcVH5GwYMz8UmD
-         fM7A==
-X-Gm-Message-State: AOAM5334CBhQo/it1qNkNvD1d4Y8PDIlv42CGEALM/wrMAPcIFc9LlPQ
-        oX4V9rfkZg+bHWbM+NvyjIzFoiRqwe8PW8EaakOxWA==
-X-Google-Smtp-Source: ABdhPJyQ5F1jYZX1GW3RGMs0me1Sbr5z1qRVTDsOlzdRwvUaGoafecphAFiH9UrCRY+479pEq5XNthpQ3n8Sowkp/ug=
-X-Received: by 2002:a92:1e02:: with SMTP id e2mr6770636ile.294.1603589180763;
- Sat, 24 Oct 2020 18:26:20 -0700 (PDT)
+        id S1415316AbgJYKy5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 25 Oct 2020 06:54:57 -0400
+Received: from mail.z3ntu.xyz ([128.199.32.197]:55380 "EHLO mail.z3ntu.xyz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1415315AbgJYKy4 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 25 Oct 2020 06:54:56 -0400
+Received: by mail.z3ntu.xyz (Postfix, from userid 182)
+        id 2B3B3C4714; Sun, 25 Oct 2020 10:54:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1603623294; bh=xE4oIqCqU+X7jXWVw6nVPCb6ZHCg8ImuMwGFrOZrO5k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=Am86pYkkTNY2Nh5k1GGFaKLYX1A7Y0HCSX/Jg06eRE91j14Pyg8AoSny77t+maJ6F
+         F9JU/EWTjx6bP/cSU04HAK0h+EUw0yUGXhOZ4eRCOvAhsPbmQfWQw5prLK5vCsfdSf
+         2M8h8HjfvRKp6IOiIiw5zJhgo3GkcCS540eomaT8=
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on arch-vps
+X-Spam-Level: 
+X-Spam-Status: No, score=0.9 required=5.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        PDS_OTHER_BAD_TLD,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.4
+Received: from g550jk.localnet (91-115-27-239.adsl.highway.telekom.at [91.115.27.239])
+        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 9295EC4700;
+        Sun, 25 Oct 2020 10:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+        t=1603623291; bh=xE4oIqCqU+X7jXWVw6nVPCb6ZHCg8ImuMwGFrOZrO5k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=a4upOd3uYtlGEAyOjURRYtCpEEdPX+CAI6DowBJGqYxn0M1/3IsTh8+W8RC4qg/9N
+         GsjgTap40J3TeggfPBRaGk/cNojN09fdBJmOzeLlvVqr862Ru2oS1dnNkkXzxrwJ6D
+         S4uwzKeKiWl7KmasstTQ01XKFj4NESO6bY/xKn6g=
+From:   Luca Weiss <luca@z3ntu.xyz>
+To:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     bjorn.andersson@linaro.org
+Subject: Re: Clarification regarding multicolor leds
+Date:   Sun, 25 Oct 2020 11:54:50 +0100
+Message-ID: <2299544.FhU3MROB3G@g550jk>
+In-Reply-To: <534b4937-b7ec-fc63-325a-c8e1e268b85b@gmail.com>
+References: <24145961.oFyDssk0vh@g550jk> <534b4937-b7ec-fc63-325a-c8e1e268b85b@gmail.com>
 MIME-Version: 1.0
-References: <20201019221859.56680-1-luka.kovacic@sartura.hr>
- <20201019221859.56680-4-luka.kovacic@sartura.hr> <CAHp75VdnOJKwvZUOsj3bbT8tK9uZN=NufDrdhUvS886bNUpWhA@mail.gmail.com>
- <CADZsf3ZmeUZppsJaR7bT8y16L3Mj12tUfzo=hkV4nFgjN64Jqw@mail.gmail.com>
-In-Reply-To: <CADZsf3ZmeUZppsJaR7bT8y16L3Mj12tUfzo=hkV4nFgjN64Jqw@mail.gmail.com>
-From:   Luka Kovacic <luka.kovacic@sartura.hr>
-Date:   Sun, 25 Oct 2020 02:26:09 +0100
-Message-ID: <CADZsf3Yp7LvZU7DNaOBP6KDx3cdV-fqsg74cMzXxSV1Rc+tt4g@mail.gmail.com>
-Subject: Re: [PATCH v6 3/6] drivers: hwmon: Add the iEi WT61P803 PUZZLE HWMON driver
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hwmon@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Andy,
+Hi Jacek
 
-On Fri, Oct 23, 2020 at 11:47 PM Luka Kovacic <luka.kovacic@sartura.hr> wrote:
->
-> Hi Andy,
->
-> On Tue, Oct 20, 2020 at 10:59 AM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> >
-> > On Tue, Oct 20, 2020 at 1:19 AM Luka Kovacic <luka.kovacic@sartura.hr> wrote:
-> > >
-> > > Add the iEi WT61P803 PUZZLE HWMON driver, that handles the fan speed
-> > > control via PWM, reading fan speed and reading on-board temperature
-> > > sensors.
-> > >
-> > > The driver registers a HWMON device and a simple thermal cooling device to
-> > > enable in-kernel fan management.
-> > >
-> > > This driver depends on the iEi WT61P803 PUZZLE MFD driver.
-> >
-> > ...
-> >
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/* iEi WT61P803 PUZZLE MCU HWMON Driver
-> >
-> > Shouldn't be
-> > /*
-> >  * IEI ...
-> >
-> > ?
-> >
-> > ...
-> >
-> > > +/**
-> > > + * struct iei_wt61p803_puzzle_thermal_cooling_device - Thermal cooling device instance
-> >
-> > > + *
-> >
-> > Please, remove all these blank lines in kernel doc descriptions.
-> >
-> > > + * @mcu_hwmon:         MCU HWMON struct pointer
-> > > + * @tcdev:             Thermal cooling device pointer
-> > > + * @name:              Thermal cooling device name
-> > > + * @pwm_channel:       PWM channel (0 or 1)
-> > > + * @cooling_levels:    Thermal cooling device cooling levels
-> > > + */
-> >
-> > ...
-> >
-> > > +struct iei_wt61p803_puzzle_hwmon {
-> > > +       struct iei_wt61p803_puzzle *mcu;
-> > > +       unsigned char *response_buffer;
-> > > +       bool thermal_cooling_dev_present[IEI_WT61P803_PUZZLE_HWMON_MAX_PWM_NUM];
-> > > +       struct iei_wt61p803_puzzle_thermal_cooling_device
-> > > +               *cdev[IEI_WT61P803_PUZZLE_HWMON_MAX_PWM_NUM];
-> >
-> > Isn't this constant a bit too long? Perhaps drop NUM (MAX would
-> > suffice I think) for a starter.
->
-> Okay, I'll drop NUM.
->
-> >
-> > > +};
-> >
-> > ...
-> >
-> > > +       static unsigned char temp_sensor_ntc_cmd[4] = {
-> > > +               IEI_WT61P803_PUZZLE_CMD_HEADER_START,
-> > > +               IEI_WT61P803_PUZZLE_CMD_TEMP,
-> > > +               IEI_WT61P803_PUZZLE_CMD_TEMP_ALL
-> >
-> > + comma.
-> >
-> > > +       };
-> >
-> > Why not to be consistent with the rest assignments, choose either
-> > above form, or like you have done in the below functions.
->
-> Assignments, where the array content will not be modified with custom
-> values are done as above.
-> Although I could change these to the other form, if that makes it clearer.
+On Samstag, 24. Oktober 2020 21:34:38 CET Jacek Anaszewski wrote:
+> Hi Luca,
+> 
+> On 10/24/20 12:48 AM, Luca Weiss wrote:
+> > Hi,
+> > I'm currently experimenting with the qcom lpg[0] which is a driver for the
+> > rgb notification led found on e.g. Snapdragon 801 devices (and many
+> > more), specifically my example is about the Fairphone 2
+> > (msm8974-fairphone-fp2).
+> > 
+> > [0]
+> > https://lore.kernel.org/lkml/20201021201224.3430546-1-bjorn.andersson@lin
+> > aro.org/> 
+> > My dts is looking like the following (abbreviated):
+> >      [in lpg node]
+> >      multi-led {
+> >      
+> >          color = <LED_COLOR_ID_MULTI>;
+> >          function = LED_FUNCTION_STATUS;
+> >          ....
+> >      
+> >      };
+> > 
+> > I'm comparing this to the PinePhone where the leds are defined as follows:
+> >      [in gpio-leds node]
+> >      blue {
+> >      
+> >          function = LED_FUNCTION_INDICATOR;
+> >          color = <LED_COLOR_ID_BLUE>;
+> >      
+> >      };
+> >      
+> >      green {
+> >      
+> >          function = LED_FUNCTION_INDICATOR;
+> >          color = <LED_COLOR_ID_GREEN>;
+> >      
+> >      };
+> >      
+> >      red {
+> >      
+> >          function = LED_FUNCTION_INDICATOR;
+> >          color = <LED_COLOR_ID_RED>;
+> >      
+> >      };
+> > 
+> > (sidenote: the LED_FUNCTION_INDICATOR should probably also be
+> > LED_FUNCTION_STATUS there; the dts was made before the better descriptions
+> > for the defines have been added)
+> > 
+> > This gets the following directories created in /sys/class/leds/:
+> >      blue:indicator
+> >      green:indicator
+> >      red:indicator
+> > 
+> > But with the multicolor led on the Fairphone 2 only a directory with the
+> > name of "multi-led" gets created which I would have expected to be
+> > "multicolor:status" instead.
+> 
+> This is because the driver from patch set [0] does not use *ext()
+> multicolor registration API, but follows old-fashion LED name
+> initialization via 'name' property of struct led_classdev, which is
+> initialized to DT 'label' value or DT node name if the former is absent.
 
-I sent out a new patchset that fixes all of the mentioned points,
-except this one.
-I'd like to keep the assignments, which aren't changed later in the
-code assigned,
-when the variable is defined.
+Right, I remember now having done something similar with my sgm3140 flash led 
+driver half a year ago, thanks for the reminder!
+With the qcom-lpg driver using the _ext function it works as expected.
 
-Kind regards,
-Luka
+@Bjorn I've prepared a diff for your patches at
+https://public.z3ntu.xyz/tmp/lpg.diff where 
+1. LED_COLOR_ID_MULTI is replaced with LED_COLOR_ID_RGB based on these emails
+2. The example in the documentation uses LED_FUNCTION_STATUS (see description 
+for the constant in include/dt-bindings/leds/common.h)
+3. The _ext registration api now gets used, see e.g. commit 5b4b723c483f
 
->
-> > Also, why 4?
->
-> 1 additional character is always required, as this array is passed by reference
-> to the iei_wt61p803_puzzle_write_command() function, which requires it to
-> store a calculated checksum of the array content.
->
-> This is done to avoid unnecessary copying of the array inside the MFD driver.
->
-> The checksum is a part of the command, so the driver and the MCU can check
-> the integrity of the sent data.
->
-> >
-> > > +       size_t reply_size = 0;
-> >
-> > How is it used in all these functions?
->
-> I will add an additional check for the size of the received reply, as
-> it should be fixed.
->
-> >
-> > > +       int ret;
-> > > +
-> > > +       ret = iei_wt61p803_puzzle_write_command(mcu_hwmon->mcu, temp_sensor_ntc_cmd,
-> > > +                                               sizeof(temp_sensor_ntc_cmd), resp_buf,
-> > > +                                               &reply_size);
-> > > +
-> > > +       if (ret)
-> > > +               return ret;
-> > > +
-> > > +       /* Check the number of NTC values (should be 0x32/'2') */
-> >
-> > > +       if (resp_buf[3] != 0x32)
-> >
-> > Instead of comment in the parentheses, just do it here
-> > " != '2')"
-> >
-> > > +               return -EIO;
-> >
-> > ...
-> >
-> > > +static int iei_wt61p803_puzzle_read(struct device *dev, enum hwmon_sensor_types type,
-> > > +                                   u32 attr, int channel, long *val)
-> > > +{
-> > > +       struct iei_wt61p803_puzzle_hwmon *mcu_hwmon = dev_get_drvdata(dev->parent);
-> > > +       int ret;
-> > > +
-> > > +       switch (type) {
-> > > +       case hwmon_pwm:
-> >
-> > > +               ret = iei_wt61p803_puzzle_read_pwm_channel(mcu_hwmon, channel, val);
-> > > +               return ret;
-> >
-> >   return iei_...(...);
-> > in all such cases.
-> >
-> > > +       case hwmon_fan:
-> > > +               ret = iei_wt61p803_puzzle_read_fan_speed(mcu_hwmon, channel, val);
-> > > +               return ret;
-> > > +       case hwmon_temp:
-> > > +               ret = iei_wt61p803_puzzle_read_temp_sensor(mcu_hwmon, channel, val);
-> > > +               return ret;
-> > > +       default:
-> > > +               return -EINVAL;
-> > > +       }
-> > > +}
-> >
-> > ...
-> >
-> > > +static umode_t iei_wt61p803_puzzle_is_visible(const void *data, enum hwmon_sensor_types type,
-> > > +                                             u32 attr, int channel)
-> > > +{
-> > > +       switch (type) {
-> > > +       case hwmon_pwm:
-> >
-> > > +               switch (attr) {
-> > > +               case hwmon_pwm_input:
-> > > +                       return 0644;
-> > > +               default:
-> > > +                       return 0;
-> > > +               }
-> >
-> > Isn't too long for
-> >   if (attr == ...)
-> >     return 0644;
-> >   break;
-> >
-> > ...see below...
-> >
-> > > +       case hwmon_fan:
-> > > +               switch (attr) {
-> > > +               case hwmon_fan_input:
-> > > +                       return 0444;
-> > > +               default:
-> > > +                       return 0;
-> > > +               }
-> > > +       case hwmon_temp:
-> > > +               switch (attr) {
-> > > +               case hwmon_temp_input:
-> > > +                       return 0444;
-> > > +               default:
-> > > +                       return 0;
-> > > +               }
-> >
-> > > +       default:
-> > > +               return 0;
-> >
-> > break;
-> >
-> > > +       }
-> >
-> > return 0;
-> >
-> > ?
-> >
-> > > +}
-> >
-> > ...
-> >
-> > > +       mcu_hwmon->thermal_cooling_dev_present[pwm_channel] = true;
-> > > +
-> >
-> > > +       num_levels = fwnode_property_read_u8_array(child, "cooling-levels", NULL, 0);
-> >
-> > fwnode_property_count_u8()
-> >
-> > > +       if (num_levels > 0) {
-> >
-> > You can improve readability by reducing indentation level via
-> > replacement to negative conditional.
-> >
-> > > +               cdev = devm_kzalloc(dev, sizeof(*cdev), GFP_KERNEL);
-> > > +               if (!cdev)
-> > > +                       return -ENOMEM;
-> > > +
-> > > +               cdev->cooling_levels = devm_kzalloc(dev, num_levels, GFP_KERNEL);
-> >
-> > For the sake of cleaness, shouldn't it be devm_kmalloc_array() ?
-> > (Note, zeroing is not needed if you read entire array)
->
-> I agree, this can be converted to devm_kmalloc_array().
->
-> >
-> > > +               if (!cdev->cooling_levels)
-> > > +                       return -ENOMEM;
-> > > +
-> > > +               ret = fwnode_property_read_u8_array(child, "cooling-levels",
-> > > +                                                   cdev->cooling_levels,
-> > > +                                                   num_levels);
-> > > +               if (ret) {
-> > > +                       dev_err(dev, "Couldn't read property 'cooling-levels'");
-> > > +                       return ret;
-> > > +               }
-> > > +
-> > > +               snprintf(cdev->name, THERMAL_NAME_LENGTH, "iei_wt61p803_puzzle_%d", pwm_channel);
-> > > +
-> > > +               cdev->tcdev = devm_thermal_of_cooling_device_register(dev, NULL,
-> > > +                               cdev->name, cdev, &iei_wt61p803_puzzle_cooling_ops);
-> > > +               if (IS_ERR(cdev->tcdev))
-> > > +                       return PTR_ERR(cdev->tcdev);
-> > > +
-> > > +               cdev->mcu_hwmon = mcu_hwmon;
-> > > +               cdev->pwm_channel = pwm_channel;
-> > > +
-> > > +               mcu_hwmon->cdev[pwm_channel] = cdev;
-> > > +       }
-> > > +       return 0;
-> > > +}
-> >
-> > --
-> > With Best Regards,
-> > Andy Shevchenko
->
-> I'll fix the issues you have mentioned above in the next patchset.
->
-> Kind regards,
-> Luka
+Thanks for your help, really appreciate it!
+Regards
+Luca
+
+
