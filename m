@@ -2,76 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C36E02990E7
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Oct 2020 16:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F582995A2
+	for <lists+linux-leds@lfdr.de>; Mon, 26 Oct 2020 19:45:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1783704AbgJZPTv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 26 Oct 2020 11:19:51 -0400
-Received: from mail-ej1-f66.google.com ([209.85.218.66]:33082 "EHLO
-        mail-ej1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1783347AbgJZPTv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 26 Oct 2020 11:19:51 -0400
-Received: by mail-ej1-f66.google.com with SMTP id c15so14178640ejs.0;
-        Mon, 26 Oct 2020 08:19:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UVCULFh/HSUomtNcBIFR0JMZ7sMmUjhTNpFI+1qIyFQ=;
-        b=srN5VM0TT2gcHKYehOQsyh/wiLk/7rh6a6UAwl5rYNz8T8i8iTsJSMH8RqWN8nWfFA
-         pHMbR459cGMtc5NXZRW4v62BZl7zEr8a1x8fJOpUZS1akonSzaHuXxjxn9+kYIg4wu7h
-         hABUGo3EjYYCNCdVvjjrtRFxua3vuxnYC2D0Q6rwXOEkR6+6+uBpqaZJuKFBcTpXjGdR
-         nQn+tFA4C1+lmsO8UhVWrPzoNwAGqSBQj3fQJHkKR1sNKowYbASKv9RI85Zqx5lHj0jk
-         yJGS5B9PEXAIRWef5cU8dsX6DSzmrknvAsD0AnS12r6tJKAzGfv4RCtoogDG0lZWMLLX
-         kQXA==
+        id S1790253AbgJZSpf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 26 Oct 2020 14:45:35 -0400
+Received: from mail-ej1-f67.google.com ([209.85.218.67]:35356 "EHLO
+        mail-ej1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2443743AbgJZSpf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 26 Oct 2020 14:45:35 -0400
+Received: by mail-ej1-f67.google.com with SMTP id p5so15159792ejj.2;
+        Mon, 26 Oct 2020 11:45:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UVCULFh/HSUomtNcBIFR0JMZ7sMmUjhTNpFI+1qIyFQ=;
-        b=IA7tiKShsQ0wFQ6P4P3KsHfoPQzKvRr9+wAXXczrWFOwXtgYlyj9DZ6bWRpbgyduC2
-         ueMu9dePt23aMTFKD1TIkSAzKQU0bmWT4XTg9HJ5K7miHmRgsikTSJSOIBocLUoOSoaT
-         cxx97KF8e4PmTgi/rYOrxSLLf0HsnChFdImgMgU3CYpKI/YXVWkdUDAApWQzU+/ZclZK
-         qNnOHXQDAi5xPy9xWL6sUFhEN9TrnPyfKBkQaUB6MEtt35RqyMgLU89DrngjLX/VkGg3
-         KObiwnmndCgQ2Wzsj0e0etoNbnwVHafMsenz+NW6cbHYsGrfVjrJfDfE4ZkjEk3WCbtV
-         dymw==
-X-Gm-Message-State: AOAM530btNtGLRb3B8uXCThCaUcxXD5doUSXCAd6pj0YFk+dAYcTISbY
-        Y5r2jO5HnOITFbgWI7Kr+bOKA3shxSKOkhrPx4Y=
-X-Google-Smtp-Source: ABdhPJxz32SJlXbJzg1AvE3KciOuVRJCIGRb970HxJSINrxzNG5+n4Glj6b28kxu4+056TYmISLJNAvPhkH16cUVLTg=
-X-Received: by 2002:a17:906:564d:: with SMTP id v13mr16878992ejr.217.1603725587392;
- Mon, 26 Oct 2020 08:19:47 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gz0y0Kg1cNPHrgAtv63xzsEjT/xY3FlDGvII1tKwfUQ=;
+        b=PbdjV1CJtx3TSD04ncdklvDN55aF/mjlpKZQBWu68n6ti+srP5yeznvkkFSkHWWJUm
+         QkWMdYBZAR/NAiMerX3RAiIGQddHAjFZu9c//HOymD33CA3yjeTudXeFbzLE8/NBCwuw
+         +GRHMswbB+yYAPUH4bv2Cn0WPKjuef8v91/TVYdaKLP6CXGwBd8KJqsYc21QoroOzddO
+         cbJsL+Oqnds6mzXtUr9t2A4j5uaYxt7rg5O1fZEgEnPzYJrLcXYlicTkdsZxqP7yQMwO
+         mJEbLtZ+sJLpCMNPMTgH0FwtmpClUpPJId1t/0DwGfzXZhcyC1CYf/SgriyYSRjvhGZY
+         5WNg==
+X-Gm-Message-State: AOAM531+6PWVC7h4JZVNzfxOkb4HeSel+XYcPdEsJCdt2HsEL9wP9EYt
+        uNnoDi1EeFsPa/7MrAb3qXY=
+X-Google-Smtp-Source: ABdhPJwbHdC4xSeWIGeRgEm2uDYFTmmY8iCHzyomd4336nfeex1zjqBAeuLflDpHoOwgQbTXL2PdDQ==
+X-Received: by 2002:a17:906:4803:: with SMTP id w3mr11735021ejq.406.1603737931324;
+        Mon, 26 Oct 2020 11:45:31 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.184])
+        by smtp.googlemail.com with ESMTPSA id p14sm5615176eds.35.2020.10.26.11.45.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2020 11:45:29 -0700 (PDT)
+Date:   Mon, 26 Oct 2020 19:45:27 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Alexander Dahl <post@lespocky.de>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Alexander Dahl <ada@thorsis.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+        Kukjin Kim <kgene@kernel.org>
+Subject: Re: [PATCH v7 07/12] ARM: dts: exynos: Fix schema warnings for
+ pwm-leds
+Message-ID: <20201026184527.GA165725@kozik-lap>
+References: <20201005203451.9985-1-post@lespocky.de>
+ <20201005203451.9985-8-post@lespocky.de>
 MIME-Version: 1.0
-References: <20201017052057.2698588-1-bjorn.andersson@linaro.org>
- <20201017052057.2698588-3-bjorn.andersson@linaro.org> <CADQ2G_Exk7+uXMcoyFu-VOcSf48Qjvg9KUCm0P6yXdQn8K_3wQ@mail.gmail.com>
- <20201026082732.GB8884@duo.ucw.cz> <CADQ2G_FeBFVa+ep5N8QGMLWrMKEwQf6J2Gu0FmQYf+n942hGew@mail.gmail.com>
- <20201026151105.GB10480@duo.ucw.cz>
-In-Reply-To: <20201026151105.GB10480@duo.ucw.cz>
-From:   Martin Botka <martin.botka1@gmail.com>
-Date:   Mon, 26 Oct 2020 16:19:36 +0100
-Message-ID: <CADQ2G_EX700e2OzZ3s14cd_RiChbOU_MwiF+uR7HmSxzfQ4Yuw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/4] leds: Add driver for Qualcomm LPG
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201005203451.9985-8-post@lespocky.de>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi!
+On Mon, Oct 05, 2020 at 10:34:46PM +0200, Alexander Dahl wrote:
+> The node names for devices using the pwm-leds driver follow a certain
+> naming scheme (now).  Parent node name is not enforced, but recommended
+> by DT project.
+> 
+>   DTC     arch/arm/boot/dts/exynos5410-odroidxu.dt.yaml
+>   CHECK   arch/arm/boot/dts/exynos5410-odroidxu.dt.yaml
+> /home/alex/build/linux/arch/arm/boot/dts/exynos5410-odroidxu.dt.yaml: pwmleds: 'blueled', 'greenled' do not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+>         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
 
-> I was trying to use obviously bogus numbers to make you to specify
-> which patches you reviewed :-).
+Please trim the error logs in the future. No need to paste all warnings,
+just one or two from the same type of error.  Also your local path
+leading to Linux repo should be removed.
 
-Ahhhh now that makes much more sense.
+Thanks, applied.
 
-I reviewed patch 2.
-Tho from the quick look i dont see anything wrong with the DTS changes either.
+Best regards,
+Krzysztof
+
