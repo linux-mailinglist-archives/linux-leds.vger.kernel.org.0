@@ -2,187 +2,135 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 049B429A7CD
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Oct 2020 10:27:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D291129A7DB
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Oct 2020 10:29:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2894380AbgJ0J1g (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Oct 2020 05:27:36 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:45601 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408373AbgJ0J1g (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Oct 2020 05:27:36 -0400
-Received: by mail-lj1-f196.google.com with SMTP id t13so791534ljk.12;
-        Tue, 27 Oct 2020 02:27:34 -0700 (PDT)
+        id S2895046AbgJ0J3E (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Oct 2020 05:29:04 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:34627 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2895029AbgJ0J3E (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Oct 2020 05:29:04 -0400
+Received: by mail-ot1-f67.google.com with SMTP id k3so556054otp.1;
+        Tue, 27 Oct 2020 02:29:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=K2NtbP1umVFTWI1Q3UevvPc06v6h6+rr/VTYbTyZHFY=;
-        b=SRX5GeGuzAee0bOFMO5fLIu4Mlc0dtGgkj3Vaiz/hnionsvpM7sJfHtgkybKf3s1h/
-         fUGUQHVlKhmEtRRN0tYim7JcHeWIeRwhi2bpmDYlgCcuLXOYQXSVbTMo1tG/exFy7yFS
-         RjHaF94ihcM+D0bwDUwypWuvB/7u5Ak6bFaduBLv5rDVtwd7BHwVP6KNPP4Yj/9TTTFR
-         4qJxNSbSe9oi92r9GMPY15TfCwLZh8O1C6YL3n6aIQOn1gOQDAT5Qt60V4c96wntGTRp
-         l7pplas0lkZO8I0WP+LNvVtMa9/u2ktZbyJYnXHD5cABERpN3iu45soUNvPSJCNe6RrG
-         Y1RA==
+        bh=sgFjZIObLui97V1pIxflfNxV2YXVCYIopn9YOyvuSZ0=;
+        b=Krr4jShPctiCY36G2WXzjkwBkSSXI15qqafmMA7Nny9kb2qGvsfFbBVMeMhiWeKU7r
+         9Our9rSmPOq1P8DYMd1fbvlOLvh/YNaH6gGipsT00sY160lepyETkMwogA37DnRcTX8q
+         qvKrgk60Myw4VC/iS9AHE5aAxFrrKOnYvdfcnUHoQrXnE3X8LrlLuab4C91Mixz2Tqwe
+         V7rYK9GuTgeHR0gGG1NziQuhlo6pqfzVZ4P27u9usOGdU9RVsKqVWhEelF9ep8hYFa4f
+         5kULVUTujC/6/RoT7gFGmWyKJQs+JbDY2HdhMIzioIBqd739uzx/Wt7AxZoD5ZgUsMKc
+         IUoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=K2NtbP1umVFTWI1Q3UevvPc06v6h6+rr/VTYbTyZHFY=;
-        b=rqc1HQmxhdqstpK1Dx3T4tw3zJAroo07Y2KyyMeoqEjbCUdnyaF8zUVfCHFZUlZNOa
-         vBkglb0Z9VgKs++OxhRiNNSPB8zjmwz5qB3TOy9+UtRqsc/tU8xUpafocI/9Eedd3kyK
-         WS9mgtg28zPmTrjdRlAvNTTF4WaKmWxXz20UKvzPuaGLhdOyRUUbHPBQCfW02lsplDbv
-         pXtHdlNtYb3XViFUdMCsh4o6ju396qXCVQccK+kdkFb/uyqfdUHGjwNSuP8E9zUeJ6Ml
-         t1Q55tbzZx3ZfX23tvo5KSCOKLjpLZIbSJ+Nzhb+z6cOqqv5z8XwqLbgDuCDAVJzF+xG
-         Ms5w==
-X-Gm-Message-State: AOAM530N1+AqbVbwJrEdgF0g1PFDiEQk1x/FDfMqGu0+dZLUJruvwO1d
-        6GeURsnVnOA6ephhQRT5d1OZ7535k+xWzWRBFJ4=
-X-Google-Smtp-Source: ABdhPJxEejzje6L5pObRW4g0OJBS56IDDCtvxEJU6XIZpaLRTLK9iiRsNwJhyqh5yYMw1qFU4SY4+hsGeRh+C/MM/dg=
-X-Received: by 2002:a2e:a547:: with SMTP id e7mr725164ljn.283.1603790853283;
- Tue, 27 Oct 2020 02:27:33 -0700 (PDT)
+        bh=sgFjZIObLui97V1pIxflfNxV2YXVCYIopn9YOyvuSZ0=;
+        b=YvwZpnvh2/WfZ4Yc0eW9Zx/YzPr9jZj0vAMTZ4gc1kLbbdX8TsN/UbB2YAud9EjvuZ
+         RA2+OtQ171jsiShI4OvkwBZpZuLwZh+6E/UN57YkjedIk1T3HPLIHhLNQbpXnTmZfiUt
+         BKb3wOW1HpQGclf9mLbEvLnu/Rj8IhloNEClFVO/ecmNXaJRyUyhlspFTphaUUa+Z4in
+         7Z/XLT9IVrLuQ6BViByxqtvb5j4CzpaNYVDXAiYuRHophoQ4MGLuzQ1TfPBS7jdHn3GC
+         bK/4KXPSquqONj2/0e5vB1M6IgED2GDWZSVvq5SmS0qeXFOvdI9tAZo6fk6/fILONsVc
+         n4Bw==
+X-Gm-Message-State: AOAM5314eri9hwT0crhA2Zb1fWpkp7/Agi384S/WG+KQyvuoCvyg3/j6
+        qXEL3Nq05+ALOxge979szX9nhAZElKHQy8ADn5I=
+X-Google-Smtp-Source: ABdhPJxpYV4rEorf2QEsAUwlP2G0D0Aeuljy4KNnLX1qLc2TcDwV6guRYjpFyNnOtSOQ8cug34OzBCRBEvTuWa4UEE0=
+X-Received: by 2002:a9d:6d15:: with SMTP id o21mr858982otp.232.1603790943415;
+ Tue, 27 Oct 2020 02:29:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <1603784069-24114-1-git-send-email-u0084500@gmail.com> <20201027082900.GA21354@amd>
-In-Reply-To: <20201027082900.GA21354@amd>
-From:   ChiYuan Huang <u0084500@gmail.com>
-Date:   Tue, 27 Oct 2020 17:27:21 +0800
-Message-ID: <CADiBU3915nyB2OE_bqPy8kVqPhKbdTpBe8ay_ZAoFwuJoL-BfQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] leds: rt4505: Add support for Richtek RT4505 flash
- led controller
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     dmurphy@ti.com, robh+dt@kernel.org, linux-leds@vger.kernel.org,
-        lkml <linux-kernel@vger.kernel.org>,
-        cy_huang <cy_huang@richtek.com>, devicetree@vger.kernel.org
+References: <1602034966-3524-1-git-send-email-gene.chen.richtek@gmail.com>
+ <1602034966-3524-3-git-send-email-gene.chen.richtek@gmail.com>
+ <5a9b31c4-739c-06fc-2015-ed474993ad22@gmail.com> <CAE+NS35Y41mFKNhj+54BeeSYFu2J9BtvMWOxyMcf9a==39cbdA@mail.gmail.com>
+ <8925db23-5cc4-3c5f-932a-461fe6450dad@gmail.com>
+In-Reply-To: <8925db23-5cc4-3c5f-932a-461fe6450dad@gmail.com>
+From:   Gene Chen <gene.chen.richtek@gmail.com>
+Date:   Tue, 27 Oct 2020 17:28:51 +0800
+Message-ID: <CAE+NS379bgtRotqzioR+Ya3mE1kZrKfe9qV=W2p=hH7Omrn8Hw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] leds: mt6360: Add LED driver for MT6360
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
+        shufan_lee@richtek.com, cy_huang@richtek.com,
+        benjamin.chao@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel Machek <pavel@ucw.cz> =E6=96=BC 2020=E5=B9=B410=E6=9C=8827=E6=97=A5 =
-=E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=884:29=E5=AF=AB=E9=81=93=EF=BC=9A
+Jacek Anaszewski <jacek.anaszewski@gmail.com> =E6=96=BC 2020=E5=B9=B410=E6=
+=9C=8821=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=885:47=E5=AF=AB=E9=81=
+=93=EF=BC=9A
 >
-> Hi!
->
-> > From: ChiYuan Huang <cy_huang@richtek.com>
+> On 10/20/20 8:44 AM, Gene Chen wrote:
+> > Jacek Anaszewski <jacek.anaszewski@gmail.com> =E6=96=BC 2020=E5=B9=B410=
+=E6=9C=889=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=885:51=E5=AF=AB=E9=
+=81=93=EF=BC=9A
+> >>
+> >> Hi Gene,
+> >>
+> >> On 10/7/20 3:42 AM, Gene Chen wrote:
+> >>> From: Gene Chen <gene_chen@richtek.com>
+> >>>
+> >>> Add MT6360 LED driver include 2-channel Flash LED with torch/strobe m=
+ode,
+> >>> 3-channel RGB LED support Register/Flash/Breath Mode, and 1-channel f=
+or
+> >>> moonlight LED.
+> >>>
+> >>> Signed-off-by: Gene Chen <gene_chen@richtek.com>
+> >>> ---
+> >>>    drivers/leds/Kconfig       |  12 +
+> >>>    drivers/leds/Makefile      |   1 +
+> >>>    drivers/leds/leds-mt6360.c | 783 +++++++++++++++++++++++++++++++++=
+++++++++++++
+> >>>    3 files changed, 796 insertions(+)
+> >>>    create mode 100644 drivers/leds/leds-mt6360.c
+> >>>
+> >>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> >>> index 1c181df..c7192dd 100644
+> >>> --- a/drivers/leds/Kconfig
+> >>> +++ b/drivers/leds/Kconfig
+> >>> @@ -271,6 +271,18 @@ config LEDS_MT6323
+> >>>          This option enables support for on-chip LED drivers found on
+> >>>          Mediatek MT6323 PMIC.
+> >>>
+> >>> +config LEDS_MT6360
+> >>> +     tristate "LED Support for Mediatek MT6360 PMIC"
+> >>> +     depends on LEDS_CLASS_FLASH && OF
+> >>> +     depends on LEDS_CLASS_MULTICOLOR
+> >>
+> >> Since CONFIG_LED_CLASS_MULTICOLOR can be turned off you need to have
+> >> below instead:
+> >>
+> >> depends on LEDS_CLASS_MULTICOLOR || !!LEDS_CLASS_MULTICOLOR
+> >>
+> >> Unless you want to prevent enabling the driver without RGB LED,
+> >> but that does not seem to be reasonable at first glance.
+> >>
 > >
-> > Add support for RT4505 flash led controller. It can support up to 1.5A
-> > flash current with hardware timeout and low input voltage
-> > protection.
+> > May I change to "select LEDS_CLASS_MULTICOLOR"?
+> > I suppose RGB always use multicolor mode.
 >
-> Please use upper-case "LED" everywhere.
+> You will also have moonlight LED that will not need multicolor
+> framework. Is it somehow troublesome to keep "depends on"?
 >
-> This should be 2nd in the series, after DT changes.
-Sure, will ack in next series patch.
->
-> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > ---
-> >  drivers/leds/Kconfig       |  11 ++
-> >  drivers/leds/Makefile      |   1 +
-> >  drivers/leds/leds-rt4505.c | 397 +++++++++++++++++++++++++++++++++++++=
-++++++++
-> >  3 files changed, 409 insertions(+)
-> >  create mode 100644 drivers/leds/leds-rt4505.c
->
-> Lets put this into drivers/leds/flash/. (Yes, you'll have to create
-> it).
-OK
->
->
-> > +     help
-> > +       This option enables support for the RT4505 flash led controller=
-.
->
-> Information where it is used would be welcome here.
-How about to add the below line for the extra information?
-Usually used to company with the camera device on smartphone/tablet product=
-s
->
-> > +       It can support up to 1.5A flash strobe current with hardware ti=
-meout
-> > +       and low input voltage protection.
->
-> This does not / should not be here.
-OK
-> > +
-> > +static int rt4505_torch_brightness_set(struct led_classdev *lcdev, enu=
-m led_brightness level)
-> > +{
->
-> 80 columns, where easy.
-I'll review all source code to meet the 80 column limit.
->
-> > +     struct rt4505_priv *priv =3D container_of(lcdev, struct rt4505_pr=
-iv, flash.led_cdev);
-> > +     u32 val =3D 0;
-> > +     int ret;
-> > +
-> > +     mutex_lock(&priv->lock);
-> > +
-> > +     if (level !=3D LED_OFF) {
-> > +             ret =3D regmap_update_bits(priv->regmap, RT4505_REG_ILED,=
- RT4505_ITORCH_MASK,
-> > +                                      (level - 1) << RT4505_ITORCH_SHI=
-FT);
-> > +             if (ret)
-> > +                     goto unlock;
-> > +
-> > +             val =3D RT4505_TORCH_SET;
-> > +     }
-> > +
-> > +     ret =3D regmap_update_bits(priv->regmap, RT4505_REG_ENABLE, RT450=
-5_ENABLE_MASK, val);
-> > +
-> > +unlock:
-> > +     mutex_unlock(&priv->lock);
-> > +     return ret;
-> > +}
->
-> Why is the locking needed? What will the /sys/class/leds interface
-> look like on system with your flash?
 
-The original thought is because there's still another way to control
-flash like as v4l2.
-But after reviewing the source code, led sysfs node will be protected
-by led_cdev->led_access.
-And V4L2 flash will also be protected by v4l2_fh_is_singular API.
-I think the whole locking in the source code code may be removed. Right?
->
-> > +static int rt4505_flash_strobe_get(struct led_classdev_flash *fled_cde=
-v, bool *state)
-> > +{
-> > +     struct rt4505_priv *priv =3D container_of(fled_cdev, struct rt450=
-5_priv, flash);
-> > +     u32 val;
-> > +     int ret;
-> > +
-> > +     mutex_lock(&priv->lock);
-> > +
-> > +     ret =3D regmap_read(priv->regmap, RT4505_REG_ENABLE, &val);
-> > +     if (ret)
-> > +             goto unlock;
-> > +
-> > +     *state =3D ((val & RT4505_FLASH_GET) =3D=3D RT4505_FLASH_GET) ? t=
-rue : false;
->
-> No need for ? ... part.
-Do you mean this function is not needed? If yes, it can be removed.
-But if it removed, led sysfs flash_strobe show will be not supported.
->
-> > +static bool rt4505_is_accessible_reg(struct device *dev, unsigned int =
-reg)
-> > +{
-> > +     if (reg =3D=3D RT4505_REG_RESET || (reg >=3D RT4505_REG_CONFIG  &=
-& reg <=3D RT4505_REG_FLAGS))
-> > +             return true;
->
-> Make this two stagements.
-Like as the below one?? Or separate it into two if case.
-if (reg =3D=3D RT4505_REG_RESET ||
-       reg >=3D RT4505_REG_CONFIG  && reg <=3D RT4505_REG_FLAGS))
->
-> Otherwise... looks like easy simple driver, thanks.
->
-> Best regards,
->                                                                 Pavel
+If only use ML LED and FLED,  DTSI will only define ML LED and FLED.
+Therefore, the drivers probe will not register rgb multicolor device.
+I will remove "depends", use "select" instead.
+
 > --
-> http://www.livejournal.com/~pavelmachek
+> Best regards,
+> Jacek Anaszewski
