@@ -2,425 +2,135 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4863B2999F1
-	for <lists+linux-leds@lfdr.de>; Mon, 26 Oct 2020 23:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8180029A525
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Oct 2020 08:03:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394876AbgJZWyr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 26 Oct 2020 18:54:47 -0400
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:52274 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394871AbgJZWyr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 26 Oct 2020 18:54:47 -0400
-Received: by mail-pj1-f65.google.com with SMTP id o1so4012166pjt.2;
-        Mon, 26 Oct 2020 15:54:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ybg1/5U+SLFSAFY4Gzm8yOXjUCgQtBZ81JyKW3EFc9I=;
-        b=eGoz52hw8AawscTN5v3UBvzesNH/5L/Tc1FpHCjPcVjN/YuUCnO0EUAPnEEhlhPN0I
-         +Ot2awnOY5KsNgSXHUOF1egfjF/10xj0/c+mt+xR7h+Wu4Gn0HJHP9xDD3oB0AOSTPD2
-         2o6VaolUi/6P1Qiyrk9ZkGtAS1nLdErI+uf9oSEJdZ/TiMheWnc9poIq8hFO2lxga4Bz
-         KCPjtoEMl/jJU9BwsNUhoUGWuEvAKg/1ogDJVdrEqL2GsET3dF4LBLGHQBhJC7TiogQl
-         ItzhELPypGh1ubkLhMQK8enFLj0uSxQzYmDG98fzVL/9fcLjZcSlPzTn/H+qkSMp06Yn
-         28Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ybg1/5U+SLFSAFY4Gzm8yOXjUCgQtBZ81JyKW3EFc9I=;
-        b=qES6Kw99nwfbkb81rEQwtluNy1yPJlZqJqvohdBWXIEW+dnXuo57WPwOonAHhHOw64
-         fggjI7PdubXaPHJffUir1gvjgpALUNlMzF0B21h9zHmWxfwvb9Wr/OF/H8lgMk+zsQP2
-         z37ifubITeKbQqKD6EQYOLDWFgaQUMdMV2BiYGJTFLi1kkoPzSyx/Hxy/12uw0Q+GTmI
-         Ty676sEtM8hdoSNRDpY17iSkJbr8Nl8lS8ZJftFZ3nSS0GCpBRL5sCLBQIetiQZQ6LQe
-         cnZuE0saRZxK/nClSBw+aw7Adq7TilgJsvIwYZwTcn/IRQ2evNyTEPbtH5XTWFL6DAPH
-         R2ag==
-X-Gm-Message-State: AOAM532eArAT52Fswam8BeBml/d5innVcqmb6rloMi8JVi3C31wLE+yp
-        urTrru8mrsW6ZqHKO05MVqBzBSRDnSk3OwPwXa5b2gn7/Pw=
-X-Google-Smtp-Source: ABdhPJzpsC3hXY2gqf3UEt9wN3AkGr3wW5/cC++uOFANRubiY/zHt+F9RuRVokc6IOV8W9U3wLbjeXN7Kigp+CCj3Vk=
-X-Received: by 2002:a17:90a:fb92:: with SMTP id cp18mr23227348pjb.228.1603752886070;
- Mon, 26 Oct 2020 15:54:46 -0700 (PDT)
+        id S2507075AbgJ0HDo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Oct 2020 03:03:44 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:45731 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2409081AbgJ0HDo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Oct 2020 03:03:44 -0400
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[127.0.0.1])
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <a.fatoum@pengutronix.de>)
+        id 1kXJ1C-00019L-Kr; Tue, 27 Oct 2020 08:03:42 +0100
+Subject: Re: [Linux-stm32] [PATCH v7 10/12] ARM: dts: stm32: Fix schema
+ warnings for pwm-leds
+To:     Alexander Dahl <post@lespocky.de>, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        Alexander Dahl <ada@thorsis.com>, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org
+References: <20201005203451.9985-1-post@lespocky.de>
+ <20201005203451.9985-11-post@lespocky.de>
+From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
+Message-ID: <b387bda8-3643-1d27-4996-2aa4dc94d69f@pengutronix.de>
+Date:   Tue, 27 Oct 2020 08:03:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201025005916.64747-1-luka.kovacic@sartura.hr> <20201025005916.64747-3-luka.kovacic@sartura.hr>
-In-Reply-To: <20201025005916.64747-3-luka.kovacic@sartura.hr>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 27 Oct 2020 00:54:29 +0200
-Message-ID: <CAHp75Vd81cK+nhJ1fxgRC6cEKnBELVA9UtT8VPvq7nbHEdhecQ@mail.gmail.com>
-Subject: Re: [PATCH v7 2/6] drivers: mfd: Add a driver for IEI WT61P803 PUZZLE MCU
-To:     Luka Kovacic <luka.kovacic@sartura.hr>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hwmon@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
-        luka.perkov@sartura.hr, robert.marko@sartura.hr
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201005203451.9985-11-post@lespocky.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Oct 25, 2020 at 3:59 AM Luka Kovacic <luka.kovacic@sartura.hr> wrote:
->
-> Add a driver for the IEI WT61P803 PUZZLE microcontroller, used in some
-> IEI Puzzle series devices. The microcontroller controls system power,
-> temperature sensors, fans and LEDs.
->
-> This driver implements the core functionality for device communication
-> over the system serial (serdev bus). It handles MCU messages and the
-> internal MCU properties. Some properties can be managed over sysfs.
-
-...
-
-> +#include <asm/unaligned.h>
-
-asm/* usually go after linux/*.
-If you get a comment against one place in your series it implies to
-check the other potential places to address.
-
-> +#include <linux/atomic.h>
-
-> +#include <linux/delay.h>
-> +#include <linux/delay.h>
-
-Delay should delay :-)
-
-> +#include <linux/export.h>
-> +#include <linux/init.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mfd/iei-wt61p803-puzzle.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-
-> +#include <linux/of_device.h>
-
-Don't see a user of this, but of_platform.h seems to be missed.
-
-> +#include <linux/property.h>
-> +#include <linux/sched.h>
-> +#include <linux/serdev.h>
-> +#include <linux/slab.h>
-> +#include <linux/sysfs.h>
-
-...
-
-> +#define IEI_WT61P803_PUZZLE_MAX_COMMAND_LENGTH (20 + 2)
-
-Since it uses formula, can you add a comment explaining what is the
-meaning of each argument?
-
-...
-
-> +enum iei_wt61p803_puzzle_reply_state {
-> +       FRAME_OK = 0x00,
-> +       FRAME_PROCESSING = 0x01,
-> +       FRAME_STRUCT_EMPTY = 0xFF,
-> +       FRAME_TIMEOUT = 0xFE
-
-Hmm, why not ordered?
-
-> +};
-
-...
-
-> +struct iei_wt61p803_puzzle_mcu_version {
-> +       char version[IEI_WT61P803_PUZZLE_VERSION_VERSION_LENGTH + 1];
-> +       char build_info[IEI_WT61P803_PUZZLE_VERSION_BUILD_INFO_LENGTH + 1];
-> +       bool bootloader_mode;
-> +       char protocol_version[IEI_WT61P803_PUZZLE_VERSION_PROTOCOL_VERSION_LENGTH + 1];
-> +       char serial_number[IEI_WT61P803_PUZZLE_VERSION_SN_LENGTH + 1];
-> +       char mac_address[8][IEI_WT61P803_PUZZLE_VERSION_MAC_LENGTH + 1];
-
-Perhaps additional constant to include (presumably) NUL ?
-
-Also, what about 8?
-
-> +};
-
-...
-
-> +struct iei_wt61p803_puzzle {
-> +       struct serdev_device *serdev;
-
-> +       struct kobject *kobj;
-
-It's quite strange you need this,
-
-> +       struct mutex reply_lock;
-> +       struct mutex bus_lock;
-> +       struct iei_wt61p803_puzzle_reply *reply;
-> +       struct iei_wt61p803_puzzle_mcu_version version;
-> +       struct iei_wt61p803_puzzle_mcu_status status;
-> +       unsigned char *response_buffer;
-> +       struct mutex lock;
-> +};
-
-...
-
-> +static int iei_wt61p803_puzzle_recv_buf(struct serdev_device *serdev,
-> +                                       const unsigned char *data, size_t size)
-> +{
-> +       struct iei_wt61p803_puzzle *mcu = serdev_device_get_drvdata(serdev);
-> +       int ret;
-> +
-> +       ret = iei_wt61p803_puzzle_process_resp(mcu, (unsigned char *)data, size);
-
-Dropping const, why?
-
-> +       /* Return the number of processed bytes if function returns error */
-> +       if (ret < 0)
-
-> +               return (int)size;
-
-Will be interesting result, maybe you wanted other way around?
-
-> +       return ret;
-> +}
-
-...
-
-> +       dev_err(dev, "%s: Command response timed out. Retries: %d", __func__, retry_count);
-
-Drop __func__, it should not be critical for properly formulated
-messages (for debug Dynamic Debug may take care of this at run time).
-
-
-> +       return -ETIMEDOUT;
-
-...
-
-> +       struct device *dev = &mcu->serdev->dev;
-> +       int ret;
-
-> +       int len = (int)size;
-
-Why len can't be size_t?
-
-Can it be also organized in reversed xmas tree order?
-
-...
-
-> +       ret = serdev_device_write(mcu->serdev, cmd, len, IEI_WT61P803_PUZZLE_GENERAL_TIMEOUT);
-
-> +
-
-Not a competition for LOCs, please drop unneeded blank lines here and there.
-
-> +       if (ret < 0) {
-> +               mutex_unlock(&mcu->bus_lock);
-> +               return ret;
-> +       }
-
-> +       if (!mcu->reply) {
-> +               ret = -EFAULT;
-
-Why this error code?
-
-> +               goto exit;
-> +       }
-
-...
-
-> +exit:
-
-Perhaps
-exit_unlock:
-?
-
-> +       mutex_unlock(&mcu->lock);
-> +       return ret;
-
-...
-
-> +       sprintf(mcu->version.version, "v%c.%c%c%c", rb[2], rb[3], rb[4], rb[5]);
-
-Can be '%.3s' for the second part, but it's up to you.
-
-...
-
-> +       sprintf(mcu->version.build_info, "%c%c/%c%c/%c%c%c%c %c%c:%c%c",
-> +               rb[8], rb[9], rb[6], rb[7], rb[2],
-> +               rb[3], rb[4], rb[5], rb[10], rb[11],
-> +               rb[12], rb[13]);
-
-Ditto.
-
-...
-
-> +       sprintf(mcu->version.protocol_version, "v%c.%c%c%c%c%c",
-> +               rb[7], rb[6], rb[5], rb[4], rb[3], rb[2]);
-
-Ditto.
-
-...
-
-> +err:
-
-err_unlock: ?
-
-> +       mutex_unlock(&mcu->lock);
-> +       return ret;
-
-...
-
-> +       /* Response format:
-> +        * (IDX RESPONSE)
-> +        * 0    @
-> +        * 1    O
-> +        * 2    S
-> +        * 3    S
-> +        * ...
-> +        * 5    AC Recovery Status Flag
-> +        * ...
-> +        * 10   Power Loss Recovery
-> +        * ...
-> +        * 19   Power Status (system power on method)
-> +        * 20   XOR checksum
-> +        */
-
-Shouldn't be rather defined data structure for response?
-
-...
-
-> +       size_t reply_size = 0;
-
-Dummy?
-
-...
-
-> +       sprintf(mcu->version.serial_number, "%.*s",
-> +               IEI_WT61P803_PUZZLE_VERSION_SN_LENGTH, resp_buf + 4);
-
-Shouldn't you check for reply_size to be big enough?
-
-...
-
-> +               serial_number_header[2] = 0x0 + (0xC) * sn_counter;
-
-Why capital, why in parentheses?
-
-...
-
-> +               memcpy(serial_number_cmd + 4, serial_number + (0xC) * sn_counter, 0xC);
-
-Ditto.
-
-...
-
-> +               serial_number_cmd[sizeof(serial_number_cmd) - 1] = 0;
-
-You defined X+1 to then use sizeof() -1? Hmm...
-
-...
-
-> +               if (!(resp_buf[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_START &&
-> +                     resp_buf[1] == IEI_WT61P803_PUZZLE_CMD_RESPONSE_OK &&
-> +                     resp_buf[2] == IEI_WT61P803_PUZZLE_CHECKSUM_RESPONSE_OK)) {
-> +                       ret = -EPROTO;
-> +                       goto err;
-> +               }
-
-I think it would be better to define data structure for replies and
-then check would be as simple as memcmp().
-
-...
-
-> +               if (reply_size < 22) {
-
-Looking at the code organisation it seems to me like if (reply_size <
-sizeof(struct_of_this_type_of_reply)).
-
-> +                       ret = -EIO;
-> +                       goto err;
-> +               }
-
-...
-
-> +       mac_address_header[2] = 0x24 + (0x11) * mac_address_idx;
-
-Why in parentheses?
-
-...
-
-> +       /* Concat mac_address_header, mac_address to mac_address_cmd */
-> +       memcpy(mac_address_cmd, mac_address_header, 4);
-> +       memcpy(mac_address_cmd + 4, mac_address, 17);
-
-Yeah, much easier to use specific field names instead of this 4 / + 4, 17, ...
-
-...
-
-> +       ret = snprintf(cmd_buf, sizeof(cmd_buf), "%d", power_loss_recovery_action);
-> +       if (ret < 0)
-> +               return ret;
-
-...
-
-> +       power_loss_recovery_cmd[3] = cmd_buf[0];
-
-One decimal (most significant) digit?! Isn't it a bit ambiguous?
-
-...
-
-> +#define sysfs_container(dev) \
-> +       (container_of((dev)->kobj.parent, struct device, kobj))
-> +
-> +static ssize_t version_show(struct device *dev, struct device_attribute *attr,
-> +                           char *buf)
-> +{
-> +       struct device *dev_container = sysfs_container(dev);
-> +       struct iei_wt61p803_puzzle *mcu = dev_get_drvdata(dev_container);
-> +
-> +       return sprintf(buf, "%s\n", mcu->version.version);
-> +}
-> +static DEVICE_ATTR_RO(version);
-
-I believe we have better approach than this. dev_groups, for example.
-
-...
-
-> +       if ((int)count != IEI_WT61P803_PUZZLE_VERSION_SN_LENGTH + 1)
-> +               return -EINVAL;
-
-You need to revisit all of these strange castings here and there. It
-should be really rear to have explicit castings in C.
-
-...
-
-> +       memcpy(serial_number, (unsigned char *)buf, IEI_WT61P803_PUZZLE_VERSION_SN_LENGTH);
-
-This casting is not need. Basically any casting from or to void * is not needed.
-
-...
-
-> +       dev_info(dev, "Driver baud rate: %d", baud);
-
-Why being so noisy, how does it help user? Doesn't serdev has a
-facility to show this rather basic stuff?
-
-...
-
-> +       dev_info(dev, "MCU version: %s", mcu->version.version);
-> +       dev_info(dev, "MCU firmware build info: %s", mcu->version.build_info);
-> +       dev_info(dev, "MCU in bootloader mode: %s",
-> +                mcu->version.bootloader_mode ? "true" : "false");
-> +       dev_info(dev, "MCU protocol version: %s", mcu->version.protocol_version);
-
-How all of this can be useful for *working* case?
-
-...
-
-> +       ret = iei_wt61p803_puzzle_sysfs_create(dev, mcu);
-
-No check?
-
-...
-
-Have I missed ABI documentation?
+Hello Alexander,
+
+On 10/5/20 10:34 PM, Alexander Dahl wrote:
+> The node names for devices using the pwm-leds driver follow a certain
+> naming scheme (now).  Parent node name is not enforced, but recommended
+> by DT project.
+> 
+>   DTC     arch/arm/boot/dts/stm32mp157c-lxa-mc1.dt.yaml
+>   CHECK   arch/arm/boot/dts/stm32mp157c-lxa-mc1.dt.yaml
+> /home/alex/build/linux/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dt.yaml: led-rgb: 'led-blue', 'led-green', 'led-red' do not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+>         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+> 
+> Signed-off-by: Alexander Dahl <post@lespocky.de>
+
+Acked-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+
+But got two questions below:
+
+> ---
+> 
+> Notes:
+>     v6 -> v7:
+>       * split up patch (one per sub arch)
+>       * added actual warnings to commit message
+> 
+>  arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts b/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
+> index 5700e6b700d3..25d548cb975b 100644
+> --- a/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
+> +++ b/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
+> @@ -36,34 +36,34 @@
+>  		stdout-path = &uart4;
+>  	};
+>  
+> -	led-act {
+> +	led-controller-1 {
+>  		compatible = "gpio-leds";
+>  
+> -		led-green {
+> +		led-1 {
+>  			label = "mc1:green:act";
+>  			gpios = <&gpioa 13 GPIO_ACTIVE_LOW>;
+>  			linux,default-trigger = "heartbeat";
+>  		};
+>  	};
+>  
+> -	led-rgb {
+> +	led-controller-2 {
+
+Is a single RGB LED really a controller?
+
+>  		compatible = "pwm-leds";
+>  
+> -		led-red {
+> +		led-2 {
+
+Shouldn't this have been led-1 as well or is the numbering "global" ?
+
+>  			label = "mc1:red:rgb";
+>  			pwms = <&leds_pwm 1 1000000 0>;
+>  			max-brightness = <255>;
+>  			active-low;
+>  		};
+>  
+> -		led-green {
+> +		led-3 {
+>  			label = "mc1:green:rgb";
+>  			pwms = <&leds_pwm 2 1000000 0>;
+>  			max-brightness = <255>;
+>  			active-low;
+>  		};
+>  
+> -		led-blue {
+> +		led-4 {
+>  			label = "mc1:blue:rgb";
+>  			pwms = <&leds_pwm 3 1000000 0>;
+>  			max-brightness = <255>;
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
