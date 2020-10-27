@@ -2,135 +2,214 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D291129A7DB
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Oct 2020 10:29:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F35F29A907
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Oct 2020 11:07:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2895046AbgJ0J3E (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Oct 2020 05:29:04 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:34627 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2895029AbgJ0J3E (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Oct 2020 05:29:04 -0400
-Received: by mail-ot1-f67.google.com with SMTP id k3so556054otp.1;
-        Tue, 27 Oct 2020 02:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=sgFjZIObLui97V1pIxflfNxV2YXVCYIopn9YOyvuSZ0=;
-        b=Krr4jShPctiCY36G2WXzjkwBkSSXI15qqafmMA7Nny9kb2qGvsfFbBVMeMhiWeKU7r
-         9Our9rSmPOq1P8DYMd1fbvlOLvh/YNaH6gGipsT00sY160lepyETkMwogA37DnRcTX8q
-         qvKrgk60Myw4VC/iS9AHE5aAxFrrKOnYvdfcnUHoQrXnE3X8LrlLuab4C91Mixz2Tqwe
-         V7rYK9GuTgeHR0gGG1NziQuhlo6pqfzVZ4P27u9usOGdU9RVsKqVWhEelF9ep8hYFa4f
-         5kULVUTujC/6/RoT7gFGmWyKJQs+JbDY2HdhMIzioIBqd739uzx/Wt7AxZoD5ZgUsMKc
-         IUoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=sgFjZIObLui97V1pIxflfNxV2YXVCYIopn9YOyvuSZ0=;
-        b=YvwZpnvh2/WfZ4Yc0eW9Zx/YzPr9jZj0vAMTZ4gc1kLbbdX8TsN/UbB2YAud9EjvuZ
-         RA2+OtQ171jsiShI4OvkwBZpZuLwZh+6E/UN57YkjedIk1T3HPLIHhLNQbpXnTmZfiUt
-         BKb3wOW1HpQGclf9mLbEvLnu/Rj8IhloNEClFVO/ecmNXaJRyUyhlspFTphaUUa+Z4in
-         7Z/XLT9IVrLuQ6BViByxqtvb5j4CzpaNYVDXAiYuRHophoQ4MGLuzQ1TfPBS7jdHn3GC
-         bK/4KXPSquqONj2/0e5vB1M6IgED2GDWZSVvq5SmS0qeXFOvdI9tAZo6fk6/fILONsVc
-         n4Bw==
-X-Gm-Message-State: AOAM5314eri9hwT0crhA2Zb1fWpkp7/Agi384S/WG+KQyvuoCvyg3/j6
-        qXEL3Nq05+ALOxge979szX9nhAZElKHQy8ADn5I=
-X-Google-Smtp-Source: ABdhPJxpYV4rEorf2QEsAUwlP2G0D0Aeuljy4KNnLX1qLc2TcDwV6guRYjpFyNnOtSOQ8cug34OzBCRBEvTuWa4UEE0=
-X-Received: by 2002:a9d:6d15:: with SMTP id o21mr858982otp.232.1603790943415;
- Tue, 27 Oct 2020 02:29:03 -0700 (PDT)
+        id S2897316AbgJ0KGV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Oct 2020 06:06:21 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:49419 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2897315AbgJ0KGV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Oct 2020 06:06:21 -0400
+Received: from methusalix.internal.home.lespocky.de ([92.117.33.129]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MAwPZ-1ki3E72ZmD-00BOoU; Tue, 27 Oct 2020 11:05:50 +0100
+Received: from falbala.internal.home.lespocky.de ([192.168.243.94])
+        by methusalix.internal.home.lespocky.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <post@lespocky.de>)
+        id 1kXLrL-0000bl-4B; Tue, 27 Oct 2020 11:05:45 +0100
+Date:   Tue, 27 Oct 2020 11:05:38 +0100
+From:   Alexander Dahl <post@lespocky.de>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     Alexander Dahl <post@lespocky.de>, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        Alexander Dahl <ada@thorsis.com>, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org
+Subject: Re: [Linux-stm32] [PATCH v7 10/12] ARM: dts: stm32: Fix schema
+ warnings for pwm-leds
+Message-ID: <20201027100536.cpfizc67gwrolp2z@falbala.internal.home.lespocky.de>
+Mail-Followup-To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, Alexander Dahl <ada@thorsis.com>,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org
+References: <20201005203451.9985-1-post@lespocky.de>
+ <20201005203451.9985-11-post@lespocky.de>
+ <b387bda8-3643-1d27-4996-2aa4dc94d69f@pengutronix.de>
 MIME-Version: 1.0
-References: <1602034966-3524-1-git-send-email-gene.chen.richtek@gmail.com>
- <1602034966-3524-3-git-send-email-gene.chen.richtek@gmail.com>
- <5a9b31c4-739c-06fc-2015-ed474993ad22@gmail.com> <CAE+NS35Y41mFKNhj+54BeeSYFu2J9BtvMWOxyMcf9a==39cbdA@mail.gmail.com>
- <8925db23-5cc4-3c5f-932a-461fe6450dad@gmail.com>
-In-Reply-To: <8925db23-5cc4-3c5f-932a-461fe6450dad@gmail.com>
-From:   Gene Chen <gene.chen.richtek@gmail.com>
-Date:   Tue, 27 Oct 2020 17:28:51 +0800
-Message-ID: <CAE+NS379bgtRotqzioR+Ya3mE1kZrKfe9qV=W2p=hH7Omrn8Hw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] leds: mt6360: Add LED driver for MT6360
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="2ljgzjfbsktyrri5"
+Content-Disposition: inline
+In-Reply-To: <b387bda8-3643-1d27-4996-2aa4dc94d69f@pengutronix.de>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Scan-Signature: 1f50ff0161e86bf11bda3e1dba359304
+X-Spam-Score: -2.9 (--)
+X-Provags-ID: V03:K1:Vw9aMrR0R/XXJTGOFUzp7IBcBAkiGMqAM1t7QjnnPJIB4tAv3Tf
+ biGI/Y9Kx4IzMWVs8CTnpIVo6Rx8pNhfQMBsFdqSdhRF3/ZkK4UIpr2Ngy1dTMTNx3cIW49
+ FPtefmmaTSx7dv/2+ImPa+ZELp4S8PH7JuTvgQeGjXJtT3vYwvawOACjeVAiyGTIDHvYR80
+ Iy9TSDhI+aVB4SK0TjAoQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HqZLSuoekkY=:SvZzN96a5ayfkn3Sd0dhcn
+ 94L8r93QyLGiiU1GbFug9GWtryfQG4Q5JFULv8JY+KQRvrAO6pMaFuLes5ey2thR/0ibB9pCk
+ MmOeFekZdHfjuQfFYnY+jtfEnE6qPQLzb+H9MHX62FYxDngNh4Na1R8nT3G6ZHbsr8ABNrpl6
+ SP42oLbI2A0bQbWEhKgk2/MjAp85oA9yra4rK5i+VAv49w74vyEjdUHqLPmGHmawvRBT6/3nl
+ qPRHT8Lr/BpYRQfu9WUEwf5v/Em76yuBL3JXS3MwcIahHa/2oYNYIGHt1qdyPrPIvr58+UimT
+ IgPycdIeZabfgzg191w7d6yiM7Us3efJ6YzVAKl06d302L6jA2QoNLVEF5sCi6p9w/ITOosGD
+ T77Ve7HB8kwsxhliXDSAUJRW/PpFGrR7mtQsWRg1T5TvKPgtvYU6iv44MgZ+3
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek Anaszewski <jacek.anaszewski@gmail.com> =E6=96=BC 2020=E5=B9=B410=E6=
-=9C=8821=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=885:47=E5=AF=AB=E9=81=
-=93=EF=BC=9A
->
-> On 10/20/20 8:44 AM, Gene Chen wrote:
-> > Jacek Anaszewski <jacek.anaszewski@gmail.com> =E6=96=BC 2020=E5=B9=B410=
-=E6=9C=889=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=885:51=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> >>
-> >> Hi Gene,
-> >>
-> >> On 10/7/20 3:42 AM, Gene Chen wrote:
-> >>> From: Gene Chen <gene_chen@richtek.com>
-> >>>
-> >>> Add MT6360 LED driver include 2-channel Flash LED with torch/strobe m=
-ode,
-> >>> 3-channel RGB LED support Register/Flash/Breath Mode, and 1-channel f=
-or
-> >>> moonlight LED.
-> >>>
-> >>> Signed-off-by: Gene Chen <gene_chen@richtek.com>
-> >>> ---
-> >>>    drivers/leds/Kconfig       |  12 +
-> >>>    drivers/leds/Makefile      |   1 +
-> >>>    drivers/leds/leds-mt6360.c | 783 +++++++++++++++++++++++++++++++++=
-++++++++++++
-> >>>    3 files changed, 796 insertions(+)
-> >>>    create mode 100644 drivers/leds/leds-mt6360.c
-> >>>
-> >>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> >>> index 1c181df..c7192dd 100644
-> >>> --- a/drivers/leds/Kconfig
-> >>> +++ b/drivers/leds/Kconfig
-> >>> @@ -271,6 +271,18 @@ config LEDS_MT6323
-> >>>          This option enables support for on-chip LED drivers found on
-> >>>          Mediatek MT6323 PMIC.
-> >>>
-> >>> +config LEDS_MT6360
-> >>> +     tristate "LED Support for Mediatek MT6360 PMIC"
-> >>> +     depends on LEDS_CLASS_FLASH && OF
-> >>> +     depends on LEDS_CLASS_MULTICOLOR
-> >>
-> >> Since CONFIG_LED_CLASS_MULTICOLOR can be turned off you need to have
-> >> below instead:
-> >>
-> >> depends on LEDS_CLASS_MULTICOLOR || !!LEDS_CLASS_MULTICOLOR
-> >>
-> >> Unless you want to prevent enabling the driver without RGB LED,
-> >> but that does not seem to be reasonable at first glance.
-> >>
-> >
-> > May I change to "select LEDS_CLASS_MULTICOLOR"?
-> > I suppose RGB always use multicolor mode.
->
-> You will also have moonlight LED that will not need multicolor
-> framework. Is it somehow troublesome to keep "depends on"?
->
 
-If only use ML LED and FLED,  DTSI will only define ML LED and FLED.
-Therefore, the drivers probe will not register rgb multicolor device.
-I will remove "depends", use "select" instead.
+--2ljgzjfbsktyrri5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> --
-> Best regards,
-> Jacek Anaszewski
+Hello Ahmad,
+
+thanks for your feedback, comments below.
+
+On Tue, Oct 27, 2020 at 08:03:40AM +0100, Ahmad Fatoum wrote:
+> Hello Alexander,
+>=20
+> On 10/5/20 10:34 PM, Alexander Dahl wrote:
+> > The node names for devices using the pwm-leds driver follow a certain
+> > naming scheme (now).  Parent node name is not enforced, but recommended
+> > by DT project.
+> >=20
+> >   DTC     arch/arm/boot/dts/stm32mp157c-lxa-mc1.dt.yaml
+> >   CHECK   arch/arm/boot/dts/stm32mp157c-lxa-mc1.dt.yaml
+> > /home/alex/build/linux/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dt.yaml: l=
+ed-rgb: 'led-blue', 'led-green', 'led-red' do not match any of the regexes:=
+ '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+> >         From schema: /home/alex/src/linux/leds/Documentation/devicetree=
+/bindings/leds/leds-pwm.yaml
+> >=20
+> > Signed-off-by: Alexander Dahl <post@lespocky.de>
+>=20
+> Acked-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+>=20
+> But got two questions below:
+>=20
+> > ---
+> >=20
+> > Notes:
+> >     v6 -> v7:
+> >       * split up patch (one per sub arch)
+> >       * added actual warnings to commit message
+> >=20
+> >  arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts b/arch/arm/boot/=
+dts/stm32mp157c-lxa-mc1.dts
+> > index 5700e6b700d3..25d548cb975b 100644
+> > --- a/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
+> > +++ b/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
+> > @@ -36,34 +36,34 @@
+> >  		stdout-path =3D &uart4;
+> >  	};
+> > =20
+> > -	led-act {
+> > +	led-controller-1 {
+> >  		compatible =3D "gpio-leds";
+> > =20
+> > -		led-green {
+> > +		led-1 {
+> >  			label =3D "mc1:green:act";
+> >  			gpios =3D <&gpioa 13 GPIO_ACTIVE_LOW>;
+> >  			linux,default-trigger =3D "heartbeat";
+> >  		};
+> >  	};
+> > =20
+> > -	led-rgb {
+> > +	led-controller-2 {
+>=20
+> Is a single RGB LED really a controller?
+
+I just followed the recommendations by Rob here.=20
+
+> >  		compatible =3D "pwm-leds";
+> > =20
+> > -		led-red {
+> > +		led-2 {
+>=20
+> Shouldn't this have been led-1 as well or is the numbering "global" ?
+
+Also good question. This numbering is for dts only, it usually does
+not correspond with LEDs on the board, so it could be numbered per
+led-controller as well?
+
+Greets
+Alex
+
+>=20
+> >  			label =3D "mc1:red:rgb";
+> >  			pwms =3D <&leds_pwm 1 1000000 0>;
+> >  			max-brightness =3D <255>;
+> >  			active-low;
+> >  		};
+> > =20
+> > -		led-green {
+> > +		led-3 {
+> >  			label =3D "mc1:green:rgb";
+> >  			pwms =3D <&leds_pwm 2 1000000 0>;
+> >  			max-brightness =3D <255>;
+> >  			active-low;
+> >  		};
+> > =20
+> > -		led-blue {
+> > +		led-4 {
+> >  			label =3D "mc1:blue:rgb";
+> >  			pwms =3D <&leds_pwm 3 1000000 0>;
+> >  			max-brightness =3D <255>;
+> >=20
+>=20
+> --=20
+> Pengutronix e.K.                           |                             |
+> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--=20
+/"\ ASCII RIBBON | =BBWith the first link, the chain is forged. The first
+\ / CAMPAIGN     | speech censured, the first thought forbidden, the
+ X  AGAINST      | first freedom denied, chains us all irrevocably.=AB
+/ \ HTML MAIL    | (Jean-Luc Picard, quoting Judge Aaron Satie)
+
+--2ljgzjfbsktyrri5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEwo7muQJjlc+Prwj6NK3NAHIhXMYFAl+X8OwACgkQNK3NAHIh
+XMZUCBAAppmo4xZ1dQjN/xRLRcEKPicklMKgdZM2Y7qXbj8/g/pLNccy0Bm8Te42
++YhzNYJYedg+l+0zp9woMXHJXDHQhPR50Jb7e2guhZ8vw1kTGw4CUy7vbYDB4PN/
+dy4779zWgpc5623/kuRWUdMg/xY5vKbFXjlYbGxeg9WvjIkSgs4k99tofZS/S279
+0ehKX0l0T4RRge+RZBjj1wgrBFdSJEfgMqygeHNWIWgXBbZdlRe9Vp05wkKlfmZd
+llZiDT0CedpeUffQz3Bm4nSYS6awb874rAOukG3sdfIBs8BI7r42c3A2uUsNgtCT
+SFdaBoNc1XlUJgNfj6oH/KR0CUnJ65B0D+B64ZFU4WwhVXdcdjNOCgAUwOaGaWCA
+VFeoHJns9um5ObsiFS6BfW6lZxidSecOzI4NIMLuAnxD91PqwrQ3cmZYFrU2Cl41
+2kkqyV4OqbVmsYzNnASqeITTgJZ/v3QzYrNcpw1ORjR+gjkWS9qs7+97QYDEzgBD
+EpyXEAQIf3OMCaw3tLZX4hnYrZmlVEKxiqWoGcMN9QNg/ykB3CDMDi5CCwWN94xl
+sEi7LxQ6Boxl5p0xxkdhgbyzbDFp7ya+x3fbFnmQ09vGAfniT9/9QoMOl5aFJi79
+Tg6ONSx9fTN9zgbeXibeyB/+6e6Sqpu5vLMTnn+4KJ2ypZ8vQUs=
+=tczc
+-----END PGP SIGNATURE-----
+
+--2ljgzjfbsktyrri5--
