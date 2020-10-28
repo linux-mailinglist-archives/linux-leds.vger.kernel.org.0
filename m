@@ -2,172 +2,160 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA82029C1C6
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Oct 2020 18:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FEE329D32E
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Oct 2020 22:41:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1819192AbgJ0R2W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Oct 2020 13:28:22 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:54138 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1819190AbgJ0R2T (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Oct 2020 13:28:19 -0400
-Received: by mail-wm1-f68.google.com with SMTP id d78so2143077wmd.3;
-        Tue, 27 Oct 2020 10:28:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jHNrAaSQ3QPMQMLs/NiD36NA12e7sFRL6CjasTy60tY=;
-        b=sRONzpWbOTrTbXWLhwnjJ4pSlr9TlSsb0qJD+a4NOoGC3sHh2dK/CgSLDY+Kir7phZ
-         LVHY3joN3uGKNM5fpcFjslSJzqk5jTDD31JLy7gwx+As8wd64ZNSKCMcAqUzIGHY2m4n
-         7pQdkvmexEfaBbVPGIwKGfjs3umIdU6H1cPr8mDWxsKXoutN8Y7kRGsPcKNCf2R47eEp
-         IOuiMrDoVtRiBzbtwHatEJoGJVcMtMAzRCT3/MxLaPppSf4KsQal1vqEOEBfOJ8kUD6C
-         2zgyYj16PENWBrtRdxTF6HHFDPd94vRxJhwmL5VFZCX1u7aG2kr32e9p3ba2arBedtU0
-         RvKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jHNrAaSQ3QPMQMLs/NiD36NA12e7sFRL6CjasTy60tY=;
-        b=GnqQg0eSvGGuD32uH1mAVrCrJenD66HdGnjXktATav+vtfV0+mXjgCds1jK2c9+A8E
-         s1o5VB/KViSNNtGXfwWDuykbfqKpAmzy1+pgMCGAH/VldA0+R8bEi1FK9WkJNJj8uv1E
-         JlkmxiVc1BJybqY8Mmb0fWgNY22MxDCRDD0vgksVUDT21WeQfI6k3eeCjxnEIYQTrqCf
-         4GDN1yR0t47uMunqNWY9g3nxVOhm2Og8x4M8EzRXNPraDleSobCn7wnQtdx24ibt+IFj
-         efJxEgVfbt9kogfQ8ESsgP+nDRh7SrAHMeR4tO62P4UijBExtYLKAi30CBr4jKjYUkil
-         QG6g==
-X-Gm-Message-State: AOAM531uhcu4+zBX2kv1MeOrE4qQ4rn5N+/L9+7mZ9PSKoTaJKDkcgDe
-        v7MsLaYHndum0cImBTmunfI=
-X-Google-Smtp-Source: ABdhPJwOyy0uznYALf7m26/ANTk1qCm2a4G5ZZqF1+WWAI9V86Ho3xQ3yfOEOJmZZdLM1DktsR8VWQ==
-X-Received: by 2002:a7b:cc8b:: with SMTP id p11mr3977468wma.100.1603819696811;
-        Tue, 27 Oct 2020 10:28:16 -0700 (PDT)
-Received: from ?IPv6:2a01:110f:b59:fd00:659b:3847:24e3:b881? ([2a01:110f:b59:fd00:659b:3847:24e3:b881])
-        by smtp.gmail.com with ESMTPSA id b5sm2807131wrs.97.2020.10.27.10.28.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2020 10:28:16 -0700 (PDT)
-Subject: Re: [PATCH v5 2/2] leds: mt6360: Add LED driver for MT6360
-To:     Gene Chen <gene.chen.richtek@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-References: <1602034966-3524-1-git-send-email-gene.chen.richtek@gmail.com>
- <1602034966-3524-3-git-send-email-gene.chen.richtek@gmail.com>
- <5a9b31c4-739c-06fc-2015-ed474993ad22@gmail.com>
- <CAE+NS35Y41mFKNhj+54BeeSYFu2J9BtvMWOxyMcf9a==39cbdA@mail.gmail.com>
- <8925db23-5cc4-3c5f-932a-461fe6450dad@gmail.com>
- <CAE+NS379bgtRotqzioR+Ya3mE1kZrKfe9qV=W2p=hH7Omrn8Hw@mail.gmail.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <1bb76c54-14af-6c78-4623-77c6678b262e@gmail.com>
-Date:   Tue, 27 Oct 2020 18:28:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAE+NS379bgtRotqzioR+Ya3mE1kZrKfe9qV=W2p=hH7Omrn8Hw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1727336AbgJ1VlW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Oct 2020 17:41:22 -0400
+Received: from mail.thorsis.com ([92.198.35.195]:57588 "EHLO mail.thorsis.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725601AbgJ1VlT (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 28 Oct 2020 17:41:19 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.thorsis.com (Postfix) with ESMTP id E87BE1DAB;
+        Wed, 28 Oct 2020 08:34:49 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
+Received: from mail.thorsis.com ([127.0.0.1])
+        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id GP4IZOfp6VRq; Wed, 28 Oct 2020 08:34:49 +0100 (CET)
+Received: by mail.thorsis.com (Postfix, from userid 109)
+        id C2C943F0C; Wed, 28 Oct 2020 08:34:48 +0100 (CET)
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RECEIVED,
+        NO_RELAYS autolearn=unavailable autolearn_force=no version=3.4.2
+From:   Alexander Dahl <ada@thorsis.com>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-leds@vger.kernel.org
+Subject: Re: [Linux-stm32] [PATCH v7 10/12] ARM: dts: stm32: Fix schema warnings for pwm-leds
+Date:   Wed, 28 Oct 2020 08:34:38 +0100
+Message-ID: <5231529.NqohY00Rok@ada>
+In-Reply-To: <f6ed201d-51b6-f278-7a95-3e3e49dc19ee@pengutronix.de>
+References: <20201005203451.9985-1-post@lespocky.de> <20201027100536.cpfizc67gwrolp2z@falbala.internal.home.lespocky.de> <f6ed201d-51b6-f278-7a95-3e3e49dc19ee@pengutronix.de>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 10/27/20 10:28 AM, Gene Chen wrote:
-> Jacek Anaszewski <jacek.anaszewski@gmail.com> 於 2020年10月21日 週三 上午5:47寫道：
->>
->> On 10/20/20 8:44 AM, Gene Chen wrote:
->>> Jacek Anaszewski <jacek.anaszewski@gmail.com> 於 2020年10月9日 週五 上午5:51寫道：
->>>>
->>>> Hi Gene,
->>>>
->>>> On 10/7/20 3:42 AM, Gene Chen wrote:
->>>>> From: Gene Chen <gene_chen@richtek.com>
->>>>>
->>>>> Add MT6360 LED driver include 2-channel Flash LED with torch/strobe mode,
->>>>> 3-channel RGB LED support Register/Flash/Breath Mode, and 1-channel for
->>>>> moonlight LED.
->>>>>
->>>>> Signed-off-by: Gene Chen <gene_chen@richtek.com>
->>>>> ---
->>>>>     drivers/leds/Kconfig       |  12 +
->>>>>     drivers/leds/Makefile      |   1 +
->>>>>     drivers/leds/leds-mt6360.c | 783 +++++++++++++++++++++++++++++++++++++++++++++
->>>>>     3 files changed, 796 insertions(+)
->>>>>     create mode 100644 drivers/leds/leds-mt6360.c
->>>>>
->>>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->>>>> index 1c181df..c7192dd 100644
->>>>> --- a/drivers/leds/Kconfig
->>>>> +++ b/drivers/leds/Kconfig
->>>>> @@ -271,6 +271,18 @@ config LEDS_MT6323
->>>>>           This option enables support for on-chip LED drivers found on
->>>>>           Mediatek MT6323 PMIC.
->>>>>
->>>>> +config LEDS_MT6360
->>>>> +     tristate "LED Support for Mediatek MT6360 PMIC"
->>>>> +     depends on LEDS_CLASS_FLASH && OF
->>>>> +     depends on LEDS_CLASS_MULTICOLOR
->>>>
->>>> Since CONFIG_LED_CLASS_MULTICOLOR can be turned off you need to have
->>>> below instead:
->>>>
->>>> depends on LEDS_CLASS_MULTICOLOR || !!LEDS_CLASS_MULTICOLOR
+Hello Ahmad,
 
-My typo here, should be one "!":
+Am Dienstag, 27. Oktober 2020, 11:58:10 CET schrieb Ahmad Fatoum:
+> Hello,
+>=20
+> On 10/27/20 11:05 AM, Alexander Dahl wrote:
+> > Hello Ahmad,
+> >=20
+> > thanks for your feedback, comments below.
+> >=20
+> >>> -	led-rgb {
+> >>> +	led-controller-2 {
+> >>=20
+> >> Is a single RGB LED really a controller?
+> >=20
+> > I just followed the recommendations by Rob here.
+>=20
+> Do you happen to know if the new multicolor LED support could be used her=
+e?
 
-depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
+AFAIK not yet. The multicolor class should be ready and it is used by some=
+=20
+drivers for I=B2C connected LED controllers, but if I understood Pavel=20
+correctly, additional work has to be done for a gpio and/or pwm multicolor=
+=20
+driver. See this thread from August for example:
 
-And you should also have
+https://lore.kernel.org/linux-leds/2530787.iFCFyWWcSu@g550jk/
 
-depends on LEDS_CLASS_FLASH || !LEDS_CLASS_FLASH
+>=20
+> I find it unfortunate that the device tree loses information relevant to
+> humans to adhere to a fixed nomenclature. Apparently led-controller isn't
+> even codified in the YAML binding (It's just in the examples). If you
+> respin, please add a comment that this is a single RGB led. I'd prefer to
+> keep the information in the DTB as well though.
 
-But to make it work correctly you would have to add registration
-stubs to include/linux/led-class-flash.h similarly to LED mc stubs
-in include/linux/led-class-multicolor.h.
+The "new" attributes 'function' and 'color' attributes should cover this=20
+information. IIRC those were introduced sometime before v5.4 and documentat=
+ion=20
+is in the leds/common.yaml binding. I don't see it in the scope of this pat=
+ch=20
+series, but if we would merge this warning fix first, the information is lo=
+st,=20
+so maybe those attributes should be added before?=20
 
->>>>
->>>> Unless you want to prevent enabling the driver without RGB LED,
->>>> but that does not seem to be reasonable at first glance.
->>>>
->>>
->>> May I change to "select LEDS_CLASS_MULTICOLOR"?
->>> I suppose RGB always use multicolor mode.
->>
->> You will also have moonlight LED that will not need multicolor
->> framework. Is it somehow troublesome to keep "depends on"?
->>
-> 
-> If only use ML LED and FLED,  DTSI will only define ML LED and FLED.
-> Therefore, the drivers probe will not register rgb multicolor device.
+My heuristics on that would be looking at the label and if there's a distin=
+ct=20
+color in it, add the color property. I could do that for all pwm LEDs known=
+ to=20
+the tree currently. That would be a bigger task for GPIO leds though. ;-)
 
-Please test your use case again with my fixed "depends on".
+>=20
+> >>>  		compatible =3D "pwm-leds";
+> >>>=20
+> >>> -		led-red {
+> >>> +		led-2 {
+> >>=20
+> >> Shouldn't this have been led-1 as well or is the numbering "global" ?
+> >=20
+> > Also good question. This numbering is for dts only, it usually does
+> > not correspond with LEDs on the board, so it could be numbered per
+> > led-controller as well?
+>=20
+> I'd prefer that it starts by 1. That way it's aligned with PWM channel
+> ID.
 
-In case when there is only ML LED and FLED in the DT it should
-register both devices if LEDS_CLASS_FLASH is turned on.
-Multicolor framework has nothing to do in this case.
+Ack.
 
-But if you additionally had MC LED node, then it should
-be registered only if LEDS_CLASS_MULTICOLOR is enabled.
+>=20
+> Thanks for fixing the dtschema warnings by the way!
 
-Similarly, when FLED node is present, but LEDS_CLASS_FLASH
-is off, and LEDS_CLASS_MULTICOLOR is on, the driver should still
-compile, but register only LED MC device (if its node is present).
+Well, I "introduced" them by converting the leds-pwm binding to yaml (not=20
+merged yet), so I could as well fix the warnings then? ;-)
 
-Possible should be also the case when both LEDS_CLASS_FLASH
-and LEDS_CLASS_MULTICOLOR are off. Then only LED class device
-for ML LED will be registered (provided there is ML DT node).
-But to make it possible you should have also "depends on LEDS_CLASS"
-in the Kconfig entry.
+Greets
+Alex
 
-> I will remove "depends", use "select" instead.
+>=20
+> Cheers,
+> Ahmad
+>=20
+> > Greets
+> > Alex
+> >=20
+> >>>  			label =3D "mc1:red:rgb";
+> >>>  			pwms =3D <&leds_pwm 1 1000000 0>;
+> >>>  			max-brightness =3D <255>;
+> >>>  			active-low;
+> >>>  	=09
+> >>>  		};
+> >>>=20
+> >>> -		led-green {
+> >>> +		led-3 {
+> >>>=20
+> >>>  			label =3D "mc1:green:rgb";
+> >>>  			pwms =3D <&leds_pwm 2 1000000 0>;
+> >>>  			max-brightness =3D <255>;
+> >>>  			active-low;
+> >>>  	=09
+> >>>  		};
+> >>>=20
+> >>> -		led-blue {
+> >>> +		led-4 {
+> >>>=20
+> >>>  			label =3D "mc1:blue:rgb";
+> >>>  			pwms =3D <&leds_pwm 3 1000000 0>;
+> >>>  			max-brightness =3D <255>;
 
--- 
-Best regards,
-Jacek Anaszewski
+
+=2D-=20
+
+
+
