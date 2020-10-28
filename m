@@ -2,312 +2,161 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5937329D2D6
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Oct 2020 22:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E1E629D754
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Oct 2020 23:23:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726863AbgJ1VhE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Oct 2020 17:37:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54602 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726849AbgJ1VhE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:37:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603921021;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3PN8li90MQEODpG7uKAlxNFFjh3wZGx6qB1VA0YAdTY=;
-        b=STLAEU3XcaJALN5ShQPxpH6YHzJS44qfrjxl+4nEqf4KfTjKak7XAzSwRYuwM1v3B3PS8W
-        C+ULVCK2eJkh1CA1G92v5v1urHJZ0KNs0WmaLHwpEm96JmyNXFGtg/dKfAdgOv4cT45RDR
-        XHsDdq76tMtocVM2z9m4SISQZRaYeFA=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-Z2XMEMomOb2iht6LEyo21A-1; Wed, 28 Oct 2020 16:35:13 -0400
-X-MC-Unique: Z2XMEMomOb2iht6LEyo21A-1
-Received: by mail-ej1-f70.google.com with SMTP id mm21so287655ejb.18
-        for <linux-leds@vger.kernel.org>; Wed, 28 Oct 2020 13:35:13 -0700 (PDT)
+        id S1732141AbgJ1WXP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Oct 2020 18:23:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732707AbgJ1WWp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Oct 2020 18:22:45 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E02C0613D1;
+        Wed, 28 Oct 2020 15:22:45 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id v6so752666lfa.13;
+        Wed, 28 Oct 2020 15:22:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Y4rpBP1ZPK1NF+eOD5UawQX3qZnudBwJVDTqXuwDYuI=;
+        b=Lk09YH0K7QSeRT59OEL7O/tpVQW9qQIQA6PqEjePyJ8pyIlRrn0VTpvwd/2xBMu4+i
+         KLXGBA1bFJ5PG3PpkvvikY4209uKnSw4gtDWZqWjE7QLYtq1zChbdcKAFCw5sLjESct3
+         //q5NKoK11rdVejEdDqHRJpp/t04rLTbYPpOwtBShE+A+uwW5/9rTKLAE/wlTpCRW51m
+         xa/8rvrPAYccTBIF9uijdOQD5EcpdUW0ahGX2HQSeama5fbFV29x/qmiPX7GdX8jRZdw
+         J3VMjqkz+lI3iYJZkqwEjqeE1ggFw19sh7CYbrqh3y3DNXu7RuE5PrCor2cUnZbZZPOs
+         5GXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3PN8li90MQEODpG7uKAlxNFFjh3wZGx6qB1VA0YAdTY=;
-        b=KTDf3IhlO4O2yO4AvriH9aE2CINga1Z0y5ZazWOq+ZApc+rqMJvEhA4O7tZUKp7rFx
-         Ch8JbYbtUiWh6fd76UZlBMir5+1yRb40Kvzk/kGyay8IyS1baK9mrZp2diwOuH9phMRd
-         PPbzhEi3IqajXuIawLmf1uWvJLeAHhd8iggQMsE/EFlExwmSiJTqmXWsFb1Onzg7/Ri8
-         KKgbpl6fT1oLlQ5CUrOO8a/d87grIRtANys5X8kFTfU4Gsd8jDuyHoPrqS+tP1v5U2qD
-         fgimAl7ioOam2BE9GwuryZeT2HCvQC8faL7xjCzeV/u5Y9ggrr0jh/KyJtCIWLBXaBs2
-         1opw==
-X-Gm-Message-State: AOAM5314TcfH1z7J4cA4RaT68r9gld5hJClQD/52k+iRfIJTnEWrCmdi
-        5DK4+AoyWGMnqhqP6QhEo+oQ/WFBdXYbfT870JwrpKBoN4L7lrl659RnsUHnZpw7nS2qYD+tof3
-        YlZneIPuVcpiGHltvVJXDTA==
-X-Received: by 2002:a50:fd17:: with SMTP id i23mr727346eds.50.1603917312282;
-        Wed, 28 Oct 2020 13:35:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQpVmMC85/uYP4ywhmAg3+8R38d2cO03kqeV9fRLbZDvJODVlNFcG/q/XwN/ngYqbeqRwSnQ==
-X-Received: by 2002:a50:fd17:: with SMTP id i23mr727328eds.50.1603917311967;
-        Wed, 28 Oct 2020 13:35:11 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id a1sm421062edk.52.2020.10.28.13.35.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2020 13:35:11 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] Input: i8042 - Prevent intermixing i8042 commands
-To:     Raul E Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com, Shirish.S@amd.com,
-        Andy Shevchenko <andy@infradead.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        "Lee, Chun-Yi" <jlee@suse.com>, Pavel Machek <pavel@ucw.cz>,
-        Rajat Jain <rajatja@google.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-References: <20200827144112.v2.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <00524d2b-b734-ffd4-0d99-e8cbda8510b3@redhat.com>
-Date:   Wed, 28 Oct 2020 21:35:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Y4rpBP1ZPK1NF+eOD5UawQX3qZnudBwJVDTqXuwDYuI=;
+        b=J/e6ZCyfXPnU9eYuMWYCL7H7HSZWQeCaHAjzeEEkFChp9pXRzlTvj7RrM7tcfSH1ZM
+         5wtnb9ULhFejY7SW6WGxedrZH3wdPyk2RcMM5H8ucPvW/gsBX3o+k47Me+0ZSUoTz9VD
+         oUV9Csk2hz7G+Ncm/R4h+6/TVoVIP4SyArWeE4+Wzis/qYib7tMV6Qo+qrn9ccmDH1Tf
+         9HZH5Q42plUBQxReY129236i2GUweJopkpVPMmBtBiIj/WHfEqXfL/6bCCihkW3zOzHA
+         G814hdz8wmkKV2lekXJEn+kUDmQJd5di8rIgg/RrjAlnwGXuK3+7LxuQ3pmCOwT2Y6NJ
+         IqVw==
+X-Gm-Message-State: AOAM530YYrETouGYKbX7NCVIoC7h5qm2ZsF990Y7/YeEiMb2fmH3zUDG
+        bVmlpq77wfbH6ia767IbLF8t+rkvs8MOAgotQ4iLtywGvsMZAA==
+X-Google-Smtp-Source: ABdhPJwdFGTiXplqLoOuussnpBWtDMVIJVe3olbx+/4H+yRTt7pXt4u0mQjspK/IrGb3onaZ1pgCSji5V9oXxGITpOM=
+X-Received: by 2002:a2e:b0e4:: with SMTP id h4mr2809532ljl.119.1603883687259;
+ Wed, 28 Oct 2020 04:14:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200827144112.v2.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1603784069-24114-1-git-send-email-u0084500@gmail.com>
+ <20201027082900.GA21354@amd> <b0f5b3c8-bebd-eeb6-20b2-15529816720c@gmail.com>
+ <CADiBU3_x=9wvPv4_YxWx4H_ecV7Kbt5ur91SDv+unH4z2hzS_Q@mail.gmail.com> <e49d4119-48da-9dba-bbbe-b688cf28bfb8@gmail.com>
+In-Reply-To: <e49d4119-48da-9dba-bbbe-b688cf28bfb8@gmail.com>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Wed, 28 Oct 2020 19:14:35 +0800
+Message-ID: <CADiBU3-y4PMtedP7fe22LW_x6bnsbyUYUHb+tNTZctJ=1wTYbA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] leds: rt4505: Add support for Richtek RT4505 flash
+ led controller
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, dmurphy@ti.com, robh+dt@kernel.org,
+        linux-leds@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>,
+        cy_huang <cy_huang@richtek.com>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
-
-Quick self intro: I have take over drivers/platform/x86
-maintainership from Andy; and I'm working my way through
-the backlog of old patches in patchwork:
-https://patchwork.kernel.org/project/platform-driver-x86/list/
-
-On 8/27/20 10:41 PM, Raul E Rangel wrote:
-> The i8042_mutex must be held by writers of the AUX and KBD ports, as
-> well as users of i8042_command. There were a lot of users of
-> i8042_command that were not calling i8042_lock_chip/i8042_unlock_chip.
-> This resulted in i8042_commands being issues in between PS/2
-> transactions.
-> 
-> This change moves the mutex lock into i8042_command and removes the
-> burden of locking the mutex from the callers.
-> 
-> It is expected that the i8042_mutex is locked before calling
-> i8042_aux_write or i8042_kbd_write. This is currently done by the PS/2
-> layer via ps2_begin_command and ps2_end_command. Other modules
-> (serio_raw) do not currently lock the mutex, so there is still a
-> possibility for intermixed commands.
-> 
-> Link: https://lore.kernel.org/linux-input/CAHQZ30ANTeM-pgdYZ4AbgxsnevBJnJgKZ1Kg+Uy8oSXZUvz=og@mail.gmail.com
-> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
-
-Patch looks good to me, you can add my:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-(for both the drivers/platform/x86 bits and in general).
-
-Dmitry, feel free to merge this through the input tree, I don't
-expect the touched pdx86 parts to see any changes this cycle.
-
-Regards,
-
-Hans
-
-
-
-
-
-> ---
-> Tested this on a device with only a PS/2 keyboard. I was able to do
-> 1200+ suspend/resume cycles.
-> 
-> Also tested this on a device with a PS/2 keyboard and a PS/2 mouse.
-> I was able to do 250+ iterations with out problems.
-> 
-> Changes in v2:
-> - Fixed bad indent
-> - Added Link: tag
-> - Removed left over rc variable
-> 
->  drivers/input/serio/i8042.c         | 29 ++++++++++++++---------------
->  drivers/leds/leds-clevo-mail.c      |  9 ---------
->  drivers/platform/x86/acer-wmi.c     |  2 --
->  drivers/platform/x86/amilo-rfkill.c |  6 +-----
->  include/linux/i8042.h               | 10 ----------
->  5 files changed, 15 insertions(+), 41 deletions(-)
-> 
-> diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-> index 0dddf273afd94..65ca6b47f41e8 100644
-> --- a/drivers/input/serio/i8042.c
-> +++ b/drivers/input/serio/i8042.c
-> @@ -137,8 +137,7 @@ static DEFINE_SPINLOCK(i8042_lock);
->  
->  /*
->   * Writers to AUX and KBD ports as well as users issuing i8042_command
-> - * directly should acquire i8042_mutex (by means of calling
-> - * i8042_lock_chip() and i8042_unlock_ship() helpers) to ensure that
-> + * directly should acquire i8042_mutex to ensure that
->   * they do not disturb each other (unfortunately in many i8042
->   * implementations write to one of the ports will immediately abort
->   * command that is being processed by another port).
-> @@ -173,18 +172,6 @@ static irqreturn_t i8042_interrupt(int irq, void *dev_id);
->  static bool (*i8042_platform_filter)(unsigned char data, unsigned char str,
->  				     struct serio *serio);
->  
-> -void i8042_lock_chip(void)
-> -{
-> -	mutex_lock(&i8042_mutex);
-> -}
-> -EXPORT_SYMBOL(i8042_lock_chip);
-> -
-> -void i8042_unlock_chip(void)
-> -{
-> -	mutex_unlock(&i8042_mutex);
-> -}
-> -EXPORT_SYMBOL(i8042_unlock_chip);
-> -
->  int i8042_install_filter(bool (*filter)(unsigned char data, unsigned char str,
->  					struct serio *serio))
->  {
-> @@ -343,10 +330,14 @@ int i8042_command(unsigned char *param, int command)
->  	unsigned long flags;
->  	int retval;
->  
-> +	mutex_lock(&i8042_mutex);
-> +
->  	spin_lock_irqsave(&i8042_lock, flags);
->  	retval = __i8042_command(param, command);
->  	spin_unlock_irqrestore(&i8042_lock, flags);
->  
-> +	mutex_unlock(&i8042_mutex);
-> +
->  	return retval;
->  }
->  EXPORT_SYMBOL(i8042_command);
-> @@ -379,10 +370,18 @@ static int i8042_kbd_write(struct serio *port, unsigned char c)
->  static int i8042_aux_write(struct serio *serio, unsigned char c)
->  {
->  	struct i8042_port *port = serio->port_data;
-> +	unsigned long flags;
-> +	int retval = 0;
-> +
-> +	spin_lock_irqsave(&i8042_lock, flags);
->  
-> -	return i8042_command(&c, port->mux == -1 ?
-> +	retval = __i8042_command(&c, port->mux == -1 ?
->  					I8042_CMD_AUX_SEND :
->  					I8042_CMD_MUX_SEND + port->mux);
-> +
-> +	spin_unlock_irqrestore(&i8042_lock, flags);
-> +
-> +	return retval;
->  }
->  
->  
-> diff --git a/drivers/leds/leds-clevo-mail.c b/drivers/leds/leds-clevo-mail.c
-> index f512e99b976b1..6c3d7e54f95cf 100644
-> --- a/drivers/leds/leds-clevo-mail.c
-> +++ b/drivers/leds/leds-clevo-mail.c
-> @@ -95,17 +95,12 @@ MODULE_DEVICE_TABLE(dmi, clevo_mail_led_dmi_table);
->  static void clevo_mail_led_set(struct led_classdev *led_cdev,
->  				enum led_brightness value)
->  {
-> -	i8042_lock_chip();
-> -
->  	if (value == LED_OFF)
->  		i8042_command(NULL, CLEVO_MAIL_LED_OFF);
->  	else if (value <= LED_HALF)
->  		i8042_command(NULL, CLEVO_MAIL_LED_BLINK_0_5HZ);
->  	else
->  		i8042_command(NULL, CLEVO_MAIL_LED_BLINK_1HZ);
-> -
-> -	i8042_unlock_chip();
-> -
->  }
->  
->  static int clevo_mail_led_blink(struct led_classdev *led_cdev,
-> @@ -114,8 +109,6 @@ static int clevo_mail_led_blink(struct led_classdev *led_cdev,
->  {
->  	int status = -EINVAL;
->  
-> -	i8042_lock_chip();
-> -
->  	if (*delay_on == 0 /* ms */ && *delay_off == 0 /* ms */) {
->  		/* Special case: the leds subsystem requested us to
->  		 * chose one user friendly blinking of the LED, and
-> @@ -142,8 +135,6 @@ static int clevo_mail_led_blink(struct led_classdev *led_cdev,
->  		       *delay_on, *delay_off);
->  	}
->  
-> -	i8042_unlock_chip();
-> -
->  	return status;
->  }
->  
-> diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-> index 60c18f21588dd..6cb6f800503b2 100644
-> --- a/drivers/platform/x86/acer-wmi.c
-> +++ b/drivers/platform/x86/acer-wmi.c
-> @@ -1044,9 +1044,7 @@ static acpi_status WMID_set_u32(u32 value, u32 cap)
->  			return AE_BAD_PARAMETER;
->  		if (quirks->mailled == 1) {
->  			param = value ? 0x92 : 0x93;
-> -			i8042_lock_chip();
->  			i8042_command(&param, 0x1059);
-> -			i8042_unlock_chip();
->  			return 0;
->  		}
->  		break;
-> diff --git a/drivers/platform/x86/amilo-rfkill.c b/drivers/platform/x86/amilo-rfkill.c
-> index 493e169c8f615..c981c6e07ff94 100644
-> --- a/drivers/platform/x86/amilo-rfkill.c
-> +++ b/drivers/platform/x86/amilo-rfkill.c
-> @@ -28,12 +28,8 @@
->  static int amilo_a1655_rfkill_set_block(void *data, bool blocked)
->  {
->  	u8 param = blocked ? A1655_WIFI_OFF : A1655_WIFI_ON;
-> -	int rc;
->  
-> -	i8042_lock_chip();
-> -	rc = i8042_command(&param, A1655_WIFI_COMMAND);
-> -	i8042_unlock_chip();
-> -	return rc;
-> +	return i8042_command(&param, A1655_WIFI_COMMAND);
->  }
->  
->  static const struct rfkill_ops amilo_a1655_rfkill_ops = {
-> diff --git a/include/linux/i8042.h b/include/linux/i8042.h
-> index 0261e2fb36364..1c081081c161d 100644
-> --- a/include/linux/i8042.h
-> +++ b/include/linux/i8042.h
-> @@ -55,8 +55,6 @@ struct serio;
->  
->  #if defined(CONFIG_SERIO_I8042) || defined(CONFIG_SERIO_I8042_MODULE)
->  
-> -void i8042_lock_chip(void);
-> -void i8042_unlock_chip(void);
->  int i8042_command(unsigned char *param, int command);
->  int i8042_install_filter(bool (*filter)(unsigned char data, unsigned char str,
->  					struct serio *serio));
-> @@ -65,14 +63,6 @@ int i8042_remove_filter(bool (*filter)(unsigned char data, unsigned char str,
->  
->  #else
->  
-> -static inline void i8042_lock_chip(void)
-> -{
-> -}
-> -
-> -static inline void i8042_unlock_chip(void)
-> -{
-> -}
-> -
->  static inline int i8042_command(unsigned char *param, int command)
->  {
->  	return -ENODEV;
-> 
-
+Jacek Anaszewski <jacek.anaszewski@gmail.com> =E6=96=BC 2020=E5=B9=B410=E6=
+=9C=8828=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=887:07=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+>
+> On 10/28/20 5:57 AM, ChiYuan Huang wrote:
+> > Hi,
+> >
+> > Jacek Anaszewski <jacek.anaszewski@gmail.com> =E6=96=BC 2020=E5=B9=B410=
+=E6=9C=8828=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8812:40=E5=AF=AB=E9=
+=81=93=EF=BC=9A
+> >>
+> >> Hi Pavel, ChiYuan,
+> >>
+> >> On 10/27/20 9:29 AM, Pavel Machek wrote:
+> >>> Hi!
+> >>>
+> >>>> From: ChiYuan Huang <cy_huang@richtek.com>
+> >>>>
+> >>>> Add support for RT4505 flash led controller. It can support up to 1.=
+5A
+> >>>> flash current with hardware timeout and low input voltage
+> >>>> protection.
+> >>>
+> >>> Please use upper-case "LED" everywhere.
+> >>>
+> >>> This should be 2nd in the series, after DT changes.
+> >>>
+> >>>> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> >>>> ---
+> >>>>    drivers/leds/Kconfig       |  11 ++
+> >>>>    drivers/leds/Makefile      |   1 +
+> >>>>    drivers/leds/leds-rt4505.c | 397 ++++++++++++++++++++++++++++++++=
++++++++++++++
+> >>>>    3 files changed, 409 insertions(+)
+> >>>>    create mode 100644 drivers/leds/leds-rt4505.c
+> >> [...]
+> >>>> +static int rt4505_torch_brightness_set(struct led_classdev *lcdev, =
+enum led_brightness level)
+> >>>> +{
+> >>>
+> >>> 80 columns, where easy.
+> >>>
+> >>>> +    struct rt4505_priv *priv =3D container_of(lcdev, struct rt4505_=
+priv, flash.led_cdev);
+> >>>> +    u32 val =3D 0;
+> >>>> +    int ret;
+> >>>> +
+> >>>> +    mutex_lock(&priv->lock);
+> >>>> +
+> >>>> +    if (level !=3D LED_OFF) {
+> >>>> +            ret =3D regmap_update_bits(priv->regmap, RT4505_REG_ILE=
+D, RT4505_ITORCH_MASK,
+> >>>> +                                     (level - 1) << RT4505_ITORCH_S=
+HIFT);
+> >>>> +            if (ret)
+> >>>> +                    goto unlock;
+> >>>> +
+> >>>> +            val =3D RT4505_TORCH_SET;
+> >>>> +    }
+> >>>> +
+> >>>> +    ret =3D regmap_update_bits(priv->regmap, RT4505_REG_ENABLE, RT4=
+505_ENABLE_MASK, val);
+> >>>> +
+> >>>> +unlock:
+> >>>> +    mutex_unlock(&priv->lock);
+> >>>> +    return ret;
+> >>>> +}
+> >>>
+> >>> Why is the locking needed? What will the /sys/class/leds interface
+> >>> look like on system with your flash?
+> >>
+> >> The locking is needed since this can be called via led_set_brightness(=
+)
+> >> from any place in the kernel, and especially from triggers.
+> >>From this case, It means only led classdev
+> > brihtness_get/brightness_set need to be protected.
+> > I search led_flash_classdev, it only can be controlled via sysfs or V4l=
+2.
+> > Like as described in last mail, flash related operation is protected
+> > by led access_lock and v4l2 framework.
+> > I'll keep the locking only in led classdev brightness_get/brightness_se=
+t API.
+> > If I misunderstand something, please help to point out.
+>
+> Locking have to be used consistently for each access to the resource
+> being protected with the lock. Otherwise you can end up in a situation
+> when rt4505_torch_brightness_set and rt4505_flash_brightness_set will
+> try concurrently alter hardware state. Regardless of how harmful could
+> it be in case of this particular device it is certainly against
+> programming rules.
+>
+Sure, any resource access must be protected.
+I'll keep the locking like as the original patch.
+Thx.
+> --
+> Best regards,
+> Jacek Anaszewski
