@@ -2,300 +2,143 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE9C029D777
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Oct 2020 23:24:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FB8429D988
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Oct 2020 23:56:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732560AbgJ1WVt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Oct 2020 18:21:49 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:42937 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732554AbgJ1WVs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Oct 2020 18:21:48 -0400
-Received: by mail-oi1-f195.google.com with SMTP id c72so1202441oig.9;
-        Wed, 28 Oct 2020 15:21:47 -0700 (PDT)
+        id S2389785AbgJ1Wz0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Oct 2020 18:55:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732667AbgJ1Wxu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Oct 2020 18:53:50 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E451C0613CF;
+        Wed, 28 Oct 2020 15:53:49 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id y16so1058605ljk.1;
+        Wed, 28 Oct 2020 15:53:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=rC3edYnrhzYXvFCRGJWXwN8vFaoNf3fqgIxQT06XjcQ=;
+        b=CsflZFC1EVOpFXsLvx03rEdAi0iyhCRvqTZ7CHxBsqWiMSZwrojs6yXI6ipBE30H6k
+         OZWhlJEJ4h+j0Aq1+hsmRQDOLVsbkJh/jxvedR7aG0SeM6rCHa9mNa4nSDe4Od5tbpPT
+         5gagk1hV08PbY2tmSdCOeA1AOe+kWy3VcYOoWslYV8xVJBq2td1xCKbmbJw/7r1z1l7n
+         PjJypUkg+oC8mKi+0mnQSuCnBXWfMVqWO7uv6Dty2LpIA/shjFjy/anAxywKyl3WxdOi
+         3fR4+StH6xMkK6gBAtIGa8rRbJpK8tFoQRODf+YLIB1xHfnfOfuc69l+NB8sGKpxxwyt
+         3IaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3FPqNiWpyJWR2RO8qqRZUJxOLByr4FPKW4y6gjhX+88=;
-        b=bZpF8NA5lHfqIkwUQcJ3ZFdi/mg5jp8LthyT18/5qQz5q3N9laW4KWOigiEA5bN1LG
-         uG6hmqkvCAI+qmpXnY/ruU6IN30h1+vrKLB/PZESSzva7k9w0qj1fST6wizovusMSacA
-         ywViFfABWzdjg5vnalmptZeY9ApJfqolW93ivhvzzGTLHy85b5ydoIQko/bWdpMVxXCP
-         H0E2hjTSy3WvP2kTKLXIJVcrep9dRTPzjNdFSpVoCATa04HnEuaGql9CtRGqlK1P/8t2
-         s6BrO1/GzgGUwfS4SzvW+pxK9rnMwAkkyh8Ypf4s20262/wCbiezypYU6PWzNVR0qm/+
-         x/yQ==
-X-Gm-Message-State: AOAM533eRSbMTnDvNgmTb43bRJ/q3ryjTkX5i9T2w0kb07Lifoa3JcBR
-        rmvEA0DYbwEGTdRNOr3vE8mab0IVyg==
-X-Google-Smtp-Source: ABdhPJwqFp0VwO3RQlI96HN4SQKFMpm9/BrVeRqyHckoyjaF8uBGYDltrDek/jATlUmUqqIHH8LVmw==
-X-Received: by 2002:aca:f543:: with SMTP id t64mr5600081oih.91.1603898135968;
-        Wed, 28 Oct 2020 08:15:35 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id w189sm2751603oif.5.2020.10.28.08.15.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 08:15:35 -0700 (PDT)
-Received: (nullmailer pid 4039976 invoked by uid 1000);
-        Wed, 28 Oct 2020 15:15:34 -0000
-Date:   Wed, 28 Oct 2020 10:15:34 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Luka Kovacic <luka.kovacic@sartura.hr>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        lee.jones@linaro.org, pavel@ucw.cz, dmurphy@ti.com,
-        jdelvare@suse.com, linux@roeck-us.net, marek.behun@nic.cz,
-        luka.perkov@sartura.hr, andy.shevchenko@gmail.com,
-        robert.marko@sartura.hr
-Subject: Re: [PATCH v7 1/6] dt-bindings: Add IEI vendor prefix and IEI
- WT61P803 PUZZLE driver bindings
-Message-ID: <20201028151534.GA4034363@bogus>
-References: <20201025005916.64747-1-luka.kovacic@sartura.hr>
- <20201025005916.64747-2-luka.kovacic@sartura.hr>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rC3edYnrhzYXvFCRGJWXwN8vFaoNf3fqgIxQT06XjcQ=;
+        b=rUzr7ov0JH0QCvBObWbHknIP1XdYF4FZSQO5PrOYMh57/iBtCyQnGtFcU5XUOJ2/6H
+         epFrj7x2QEB5aZE7mzFwlec/6yhjAXhTFWVGXkQYiTNEDXO4Hjn4MDRJshqQ43gcwn+y
+         yW3CrZxW4zcW66jbnEolv1gmoQqTQcrI/EOp/1yww4WZsDVIAFvmUqXQDrUiZIvscvOy
+         t9NHtqNbc6YAsgHt+wPmsjJpxwHafNnc9P0YmU/OSBDih8tOdCVZaGVNFcLRIoK3mErU
+         BzDftsqDzLtslhtAC9Iq5s8QU811FnrsG1HSCPyQ2Uubb722eQqJcQ8dKpSkDsETZdxY
+         Gn9Q==
+X-Gm-Message-State: AOAM531OJIUTmp6qnBkWW/UNiFw7dtwIXWAwqbOxC8SEbmk6su4Gc0mK
+        P4Krxaw0XBvhQ3cKrRpt8Tq7CHX687H/OpMYJWZbTlmdeiydxw==
+X-Google-Smtp-Source: ABdhPJxAsroU0VHqaY55EGB7GG0qb1U75bFxdIuKXL6hovDSKNC0EmGz3z+m282ND9pzHs03g7U2AVxSVlh1yXKUDH4=
+X-Received: by 2002:ac2:57c7:: with SMTP id k7mr2096036lfo.20.1603861074212;
+ Tue, 27 Oct 2020 21:57:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201025005916.64747-2-luka.kovacic@sartura.hr>
+References: <1603784069-24114-1-git-send-email-u0084500@gmail.com>
+ <20201027082900.GA21354@amd> <b0f5b3c8-bebd-eeb6-20b2-15529816720c@gmail.com>
+In-Reply-To: <b0f5b3c8-bebd-eeb6-20b2-15529816720c@gmail.com>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Wed, 28 Oct 2020 12:57:42 +0800
+Message-ID: <CADiBU3_x=9wvPv4_YxWx4H_ecV7Kbt5ur91SDv+unH4z2hzS_Q@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] leds: rt4505: Add support for Richtek RT4505 flash
+ led controller
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, dmurphy@ti.com, robh+dt@kernel.org,
+        linux-leds@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>,
+        cy_huang <cy_huang@richtek.com>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Oct 25, 2020 at 02:59:11AM +0200, Luka Kovacic wrote:
-> Add the IEI WT61P803 PUZZLE Device Tree bindings for MFD, HWMON and LED
-> drivers. A new vendor prefix is also added accordingly for
-> IEI Integration Corp.
-> 
-> Signed-off-by: Luka Kovacic <luka.kovacic@sartura.hr>
-> Cc: Luka Perkov <luka.perkov@sartura.hr>
-> Cc: Robert Marko <robert.marko@sartura.hr>
-> ---
->  .../hwmon/iei,wt61p803-puzzle-hwmon.yaml      | 53 ++++++++++++
->  .../leds/iei,wt61p803-puzzle-leds.yaml        | 45 ++++++++++
->  .../bindings/mfd/iei,wt61p803-puzzle.yaml     | 83 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  4 files changed, 183 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
->  create mode 100644 Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
->  create mode 100644 Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
-> new file mode 100644
-> index 000000000000..c24a24e90495
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/iei,wt61p803-puzzle-hwmon.yaml
-> @@ -0,0 +1,53 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/iei,wt61p803-puzzle-hwmon.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: IEI WT61P803 PUZZLE MCU HWMON module from IEI Integration Corp.
-> +
-> +maintainers:
-> +  - Luka Kovacic <luka.kovacic@sartura.hr>
-> +
-> +description: |
-> +  This module is a part of the IEI WT61P803 PUZZLE MFD device. For more details
-> +  see Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml.
-> +
-> +  The HWMON module is a sub-node of the MCU node in the Device Tree.
-> +
-> +properties:
-> +  compatible:
-> +    const: iei,wt61p803-puzzle-hwmon
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^fan-group@[0-1]$":
-> +    type: object
-> +    properties:
-> +      reg:
-> +        minimum: 0
-> +        maximum: 1
-> +        description:
-> +          Fan group ID
-> +
-> +      cooling-levels:
-> +        minItems: 1
-> +        maxItems: 255
-> +        description:
-> +          Cooling levels for the fans (PWM value mapping)
-> +    description: |
-> +      Properties for each fan group.
-> +    required:
-> +      - reg
-> +
-> +required:
-> +  - compatible
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties: false
-> diff --git a/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml b/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
-> new file mode 100644
-> index 000000000000..bbf264c13189
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/iei,wt61p803-puzzle-leds.yaml
-> @@ -0,0 +1,45 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/iei,wt61p803-puzzle-leds.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: IEI WT61P803 PUZZLE MCU LED module from IEI Integration Corp.
-> +
-> +maintainers:
-> +  - Luka Kovacic <luka.kovacic@sartura.hr>
-> +
-> +description: |
-> +  This module is a part of the IEI WT61P803 PUZZLE MFD device. For more details
-> +  see Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml.
-> +
-> +  The LED module is a sub-node of the MCU node in the Device Tree.
-> +
-> +properties:
-> +  compatible:
-> +    const: iei,wt61p803-puzzle-leds
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  "led@0":
-> +    type: object
-> +    $ref: common.yaml
-> +    description: |
-> +      Properties for a single LED.
-> +    properties:
-> +      reg:
-> +        description:
-> +          Index of the LED. Only one LED is supported at the moment.
-> +        minimum: 0
-> +        maximum: 0
+Hi,
 
-'const: 0' instead.
-
-> +
-> +required:
-> +  - compatible
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties: false
-> diff --git a/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml b/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
-> new file mode 100644
-> index 000000000000..64264c664c48
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/iei,wt61p803-puzzle.yaml
-> @@ -0,0 +1,83 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/iei,wt61p803-puzzle.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: IEI WT61P803 PUZZLE MCU from IEI Integration Corp.
-> +
-> +maintainers:
-> +  - Luka Kovacic <luka.kovacic@sartura.hr>
-> +
-> +description: |
-> +  IEI WT61P803 PUZZLE MCU is embedded in some IEI Puzzle series boards.
-> +  It's used for controlling system power states, fans, LEDs and temperature
-> +  sensors.
-> +
-> +  For Device Tree bindings of other sub-modules (HWMON, LEDs) refer to the
-> +  binding documents under the respective subsystem directories.
-> +
-> +properties:
-> +  compatible:
-> +    const: iei,wt61p803-puzzle
-> +
-> +  current-speed:
-> +    description:
-> +      Serial bus speed in bps
-> +    maxItems: 1
-> +
-> +  enable-beep: true
-
-Needs a vendor prefix, description, and type.
-
-> +
-> +  hwmon:
-> +    $ref: ../hwmon/iei,wt61p803-puzzle-hwmon.yaml
-> +
-> +  leds:
-> +    $ref: ../leds/iei,wt61p803-puzzle-leds.yaml
-> +
-> +required:
-> +  - compatible
-> +  - current-speed
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +    serial {
-> +        status = "okay";
-
-Don't show status in examples.
-
-> +        mcu {
-> +            compatible = "iei,wt61p803-puzzle";
-> +            current-speed = <115200>;
-> +            enable-beep;
-> +
-> +            leds {
-> +                compatible = "iei,wt61p803-puzzle-leds";
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                led@0 {
-> +                    reg = <0>;
-> +                    function = LED_FUNCTION_POWER;
-> +                    color = <LED_COLOR_ID_BLUE>;
-> +                };
-> +            };
-> +
-> +            hwmon {
-> +                compatible = "iei,wt61p803-puzzle-hwmon";
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                fan-group@0 {
-> +                    #cooling-cells = <2>;
-> +                    reg = <0x00>;
-> +                    cooling-levels = <64 102 170 230 250>;
-> +                };
-> +
-> +                fan-group@1 {
-> +                    #cooling-cells = <2>;
-> +                    reg = <0x01>;
-> +                    cooling-levels = <64 102 170 230 250>;
-> +                };
-> +            };
-> +        };
-> +    };
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 63996ab03521..5f2595f0b2ad 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -467,6 +467,8 @@ patternProperties:
->      description: IC Plus Corp.
->    "^idt,.*":
->      description: Integrated Device Technologies, Inc.
-> +  "^iei,.*":
-> +    description: IEI Integration Corp.
->    "^ifi,.*":
->      description: Ingenieurburo Fur Ic-Technologie (I/F/I)
->    "^ilitek,.*":
-> -- 
-> 2.26.2
-> 
+Jacek Anaszewski <jacek.anaszewski@gmail.com> =E6=96=BC 2020=E5=B9=B410=E6=
+=9C=8828=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8812:40=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+>
+> Hi Pavel, ChiYuan,
+>
+> On 10/27/20 9:29 AM, Pavel Machek wrote:
+> > Hi!
+> >
+> >> From: ChiYuan Huang <cy_huang@richtek.com>
+> >>
+> >> Add support for RT4505 flash led controller. It can support up to 1.5A
+> >> flash current with hardware timeout and low input voltage
+> >> protection.
+> >
+> > Please use upper-case "LED" everywhere.
+> >
+> > This should be 2nd in the series, after DT changes.
+> >
+> >> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> >> ---
+> >>   drivers/leds/Kconfig       |  11 ++
+> >>   drivers/leds/Makefile      |   1 +
+> >>   drivers/leds/leds-rt4505.c | 397 +++++++++++++++++++++++++++++++++++=
+++++++++++
+> >>   3 files changed, 409 insertions(+)
+> >>   create mode 100644 drivers/leds/leds-rt4505.c
+> [...]
+> >> +static int rt4505_torch_brightness_set(struct led_classdev *lcdev, en=
+um led_brightness level)
+> >> +{
+> >
+> > 80 columns, where easy.
+> >
+> >> +    struct rt4505_priv *priv =3D container_of(lcdev, struct rt4505_pr=
+iv, flash.led_cdev);
+> >> +    u32 val =3D 0;
+> >> +    int ret;
+> >> +
+> >> +    mutex_lock(&priv->lock);
+> >> +
+> >> +    if (level !=3D LED_OFF) {
+> >> +            ret =3D regmap_update_bits(priv->regmap, RT4505_REG_ILED,=
+ RT4505_ITORCH_MASK,
+> >> +                                     (level - 1) << RT4505_ITORCH_SHI=
+FT);
+> >> +            if (ret)
+> >> +                    goto unlock;
+> >> +
+> >> +            val =3D RT4505_TORCH_SET;
+> >> +    }
+> >> +
+> >> +    ret =3D regmap_update_bits(priv->regmap, RT4505_REG_ENABLE, RT450=
+5_ENABLE_MASK, val);
+> >> +
+> >> +unlock:
+> >> +    mutex_unlock(&priv->lock);
+> >> +    return ret;
+> >> +}
+> >
+> > Why is the locking needed? What will the /sys/class/leds interface
+> > look like on system with your flash?
+>
+> The locking is needed since this can be called via led_set_brightness()
+> from any place in the kernel, and especially from triggers.
+From this case, It means only led classdev
+brihtness_get/brightness_set need to be protected.
+I search led_flash_classdev, it only can be controlled via sysfs or V4l2.
+Like as described in last mail, flash related operation is protected
+by led access_lock and v4l2 framework.
+I'll keep the locking only in led classdev brightness_get/brightness_set AP=
+I.
+If I misunderstand something, please help to point out.
+Thx.
+>
+> --
+> Best regards,
+> Jacek Anaszewski
