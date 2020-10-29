@@ -2,80 +2,61 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B59329F3F2
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Oct 2020 19:16:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0DC829F410
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Oct 2020 19:26:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725833AbgJ2SQ0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Oct 2020 14:16:26 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:36698 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725840AbgJ2SQZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Oct 2020 14:16:25 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 450341C0B7C; Thu, 29 Oct 2020 19:16:24 +0100 (CET)
-Date:   Thu, 29 Oct 2020 19:16:23 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 2/5] leds: qcom-lpg: add support for pm8150[bl] leds
-Message-ID: <20201029181623.GF26053@duo.ucw.cz>
-References: <20201021225100.162795-1-dmitry.baryshkov@linaro.org>
- <20201021225100.162795-3-dmitry.baryshkov@linaro.org>
+        id S1725840AbgJ2S0E (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Oct 2020 14:26:04 -0400
+Received: from mail.nic.cz ([217.31.204.67]:35660 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725785AbgJ2S0E (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 29 Oct 2020 14:26:04 -0400
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id 5947B140835;
+        Thu, 29 Oct 2020 19:26:02 +0100 (CET)
+Date:   Thu, 29 Oct 2020 19:25:55 +0100
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Yu Kuai <yukuai3@huawei.com>, linus.walleij@linaro.org,
+        j.anaszewski@samsung.com, simon.guinot@sequanux.org,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        yi.zhang@huawei.com
+Subject: Re: [PATCH] leds: various: add missing put_device() call in
+ netxbig_leds_get_of_pdata()
+Message-ID: <20201029192555.36834608@nic.cz>
+In-Reply-To: <20201029174952.GB26053@duo.ucw.cz>
+References: <20201029092305.900767-1-yukuai3@huawei.com>
+        <20201029174952.GB26053@duo.ucw.cz>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Wb5NtZlyOqqy58h0"
-Content-Disposition: inline
-In-Reply-To: <20201021225100.162795-3-dmitry.baryshkov@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Thu, 29 Oct 2020 18:49:52 +0100
+Pavel Machek <pavel@ucw.cz> wrote:
 
---Wb5NtZlyOqqy58h0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> 
+> Thanks, applied.
+> 
+> But it seems to me similar handling is needed in "success" paths, no?
+> 
+> Best regards,
+> 								Pavel
 
-Hi!
+Pavel, the subject of this commit is wrong.
+It should begin with
+  leds: netxbig:
+instead of
+  leds: various:
+since the patch does not touch various drivers, only one: netxbig.
 
-> Add support for the LPG/PWM block found on newer PMICs: PM8150B and
-> PM8150A/L.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/leds/leds-qcom-lpg.c | 68 ++++++++++++++++++++++++++++++++----
->  1 file changed, 61 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/leds/leds-qcom-lpg.c b/drivers/leds/leds-qcom-lpg.c
-> index 86131a65d2c5..4d24e0c973d6 100644
-> --- a/drivers/leds/leds-qcom-lpg.c
-> +++ b/drivers/leds/leds-qcom-lpg.c
-> @@ -48,6 +48,8 @@ struct lpg_data;
->   * @lut_bitmap:	allocation bitmap for LUT entries
->   * @triled_base: base address of the TRILED block (optional)
->   * @triled_src:	power-source for the TRILED
-> + * @triled_no_atc_ctl:	true if there is no TRI_LED_ATC_CTL register
-> + * @triled_no_src_sel:	true if there is no TRI_LED_SRC_SEL register
-
-Please make logic the other way around. ... triled_has_atc_ctl.
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---Wb5NtZlyOqqy58h0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX5sG9wAKCRAw5/Bqldv6
-8sEiAJ9K2UA9erz7P3IYw9npZ2MKUROJ/wCcDk3HHP6eTsKa1rg8qOEmRM8UpM8=
-=WCEj
------END PGP SIGNATURE-----
-
---Wb5NtZlyOqqy58h0--
+Marek
