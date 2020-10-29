@@ -2,315 +2,284 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1E7929EB62
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Oct 2020 13:13:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D33E29ED64
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Oct 2020 14:46:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725957AbgJ2MNk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Oct 2020 08:13:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44178 "EHLO
+        id S1727365AbgJ2Nqf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Oct 2020 09:46:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725950AbgJ2MNj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Oct 2020 08:13:39 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC409C0613CF;
-        Thu, 29 Oct 2020 05:13:37 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id j5so1202383plk.7;
-        Thu, 29 Oct 2020 05:13:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=g7ZEDn15eyX1XeDKP5z4w+qUietYP3YvKn3vn65Qc0E=;
-        b=O2pvzOa6S8Ybvb5XjV0uWYBlsA0GFMm/Fk4bNuSnxqvWH2klL3473TfX0MZyOgcePE
-         jg3q9vIfonz4peRj1NOB1YUc4W71MW3LdI/NQwdBbbmd4XqRcXUV1S4ljy8JQOl6mAEG
-         Xf5JS3240Uryy+dhpli9H8oOWCNO7m2sdR/hVKtjr7PCEBJvi6ubTKvP9lYJn1fa9hZr
-         cPvHaF8m2rq9GVetErmhoh32E8orcecbnAcEyru+Jc3qaW94VZwcTZilRjG5PWSQ4/sj
-         ojkw20qNPhYXrxCU3ykudE17BfgKwyFicVr4BzDVio5FjeUfx1NA1FKHZJiOeFl9kiqU
-         QYEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g7ZEDn15eyX1XeDKP5z4w+qUietYP3YvKn3vn65Qc0E=;
-        b=tA7RT1osyr3AFlvqHouZMp5ZqgifwVbhnE8IBd9rKmW5SCx+BNg9kquLB8S8S+knN1
-         b7audU6/MCJZ+yRos760PhTdclnbMcRrFzqRo/jjagSMhA8mHV27MWcXa0iXw5eKoGP/
-         oqIrJHVxFDJHK70TF6+5y9hk0Ga8odI8r/NFcJwk9Gkz44lbe8/SjqxlowLxXKvtW5Z8
-         ouTHZOhSbloUC9UWF9lpwTPgm2qloL3zuZ4mb4sKpJfA6wxTFBQgsui4FIrPWIbZh2pB
-         JhrBYQEpeKfGRKgz6RKk9jUoi9o3fk105eehYrfGxZEocmM6LRIuhO2F9KruVu7A1n1y
-         l3OA==
-X-Gm-Message-State: AOAM530PpxNpj0oUh2cwVaC7ew9aAPaPssEOlJiHMWWrcpXTxyGzy3wH
-        sWI0Opv8sl6Fezs8kr8U6Lr+374+nG+YykaLD8g=
-X-Google-Smtp-Source: ABdhPJzQQtn9Lo5eT93NIA8y7EekBZVWR4mP9HtmRZxaja3G5tyjp2t60dDkJGJjK/oCSRSJHS6rB5KPpuR6HNPNgvY=
-X-Received: by 2002:a17:902:bc4a:b029:d6:7ef9:689c with SMTP id
- t10-20020a170902bc4ab02900d67ef9689cmr3858929plz.21.1603973617254; Thu, 29
- Oct 2020 05:13:37 -0700 (PDT)
+        with ESMTP id S1726354AbgJ2Nqf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Oct 2020 09:46:35 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC599C0613D3;
+        Thu, 29 Oct 2020 06:46:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=cSTsxDYLnXEEi/bDWUeAA20te1rJNVjNLggcXmbtZpQ=; b=XhUb+9X5JMWVorM4JHpoQ7L3c
+        AiUG1AryewCQipJ01tUvPuHknKuaIrwrLP6ZXuZXs/oD8Bh/wZrZovvYrMop17PDqM6/USIW2pUUD
+        umeOebeU4JGnmlVdsho1/rbxzTzmR36nWoPKdVF/cS/Ixz9EubS/wlFCmkLc1s0dwgtIBpNbCTthj
+        OGlL4pHZSq6Z1s4V0D/PZtQWWL1+2i5Ykl0ZKf5OlUxQUmiemIAvBUpvqt1BeXrkDiT25CoH0Xdjt
+        O4P8O/bfqdcv2y8Xb1crnRD6S15I68jz5RalozAoTAaK5LcE0TRm+2WU8TO1uIelV+a0u1QGLSDt8
+        gUmkphwwQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:52480)
+        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1kY8G7-0004Rb-Ip; Thu, 29 Oct 2020 13:46:31 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1kY8G6-0006AN-Hy; Thu, 29 Oct 2020 13:46:30 +0000
+Date:   Thu, 29 Oct 2020 13:46:30 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Alexander Dahl <post@lespocky.de>
+Cc:     Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Alexander Dahl <ada@thorsis.com>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v7 02/12] dt-bindings: leds: Convert pwm to yaml
+Message-ID: <20201029134630.GE1559@shell.armlinux.org.uk>
+References: <20201005203451.9985-1-post@lespocky.de>
+ <20201005203451.9985-3-post@lespocky.de>
+ <20201028203953.eafmzeqba76qjlf2@falbala.internal.home.lespocky.de>
 MIME-Version: 1.0
-References: <20201017052057.2698588-1-bjorn.andersson@linaro.org>
- <20201017052057.2698588-3-bjorn.andersson@linaro.org> <CAHp75VeVbK1Wx2BEPghtEbEghqDAF2jFFN9=ARLEw-rvTUZ3yw@mail.gmail.com>
- <20201020042403.GE6705@builder.lan>
-In-Reply-To: <20201020042403.GE6705@builder.lan>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 29 Oct 2020 14:14:26 +0200
-Message-ID: <CAHp75Vde5Qfe-Ycn69J_-8=GPpxChkp+L4WgrUsp+uK=NMdHug@mail.gmail.com>
-Subject: Re: [PATCH v5 2/4] leds: Add driver for Qualcomm LPG
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "Uwe Kleine-K?nig" <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Martin Botka <martin.botka1@gmail.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201028203953.eafmzeqba76qjlf2@falbala.internal.home.lespocky.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Oct 20, 2020 at 7:29 AM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
-> On Sun 18 Oct 15:12 CDT 2020, Andy Shevchenko wrote:
-> > On Sat, Oct 17, 2020 at 8:41 AM Bjorn Andersson
-> > <bjorn.andersson@linaro.org> wrote:
+On Wed, Oct 28, 2020 at 09:39:54PM +0100, Alexander Dahl wrote:
+> Hello,
+> 
+> Peter, Russel, could you please give your Acked-by or Signed-off-by on
+> this patch?  Your ack is needed, because the license is now explicitly
+> set (it was not explicit before), and you were the contributors to
+> this binding before the conversion to yaml.
 
-...
+For the license change only:
 
-> > > +static int lpg_lut_store(struct lpg *lpg, struct led_pattern *pattern,
-> > > +                        size_t len, unsigned int *lo_idx, unsigned int *hi_idx)
-> > > +{
-> > > +       unsigned int idx;
-> > > +       u8 val[2];
-> >
-> > __be16 val;
-> >
-> > > +       int i;
-> > > +
-> > > +       /* Hardware does not behave when LO_IDX == HI_IDX */
-> > > +       if (len == 1)
-> > > +               return -EINVAL;
-> > > +
-> > > +       idx = bitmap_find_next_zero_area(lpg->lut_bitmap, lpg->lut_size,
-> > > +                                        0, len, 0);
-> > > +       if (idx >= lpg->lut_size)
-> > > +               return -ENOMEM;
-> > > +
-> > > +       for (i = 0; i < len; i++) {
-> > > +               val[0] = pattern[i].brightness & 0xff;
-> > > +               val[1] = pattern[i].brightness >> 8;
-> >
-> > cpu_to_be16();
-> >
->
-> I like it, but isn't that a le16?
+Acked-by: Russell King <rmk+kernel@armlinux.org.uk>
 
-Oh, yes.
+(Please drop the Cc attributation in the commit to
+linux@armlinux.org.uk thanks.)
 
-> > > +               regmap_bulk_write(lpg->map,
-> > > +                                 lpg->lut_base + LPG_LUT_REG(idx + i), val, 2);
-> > > +       }
-> > > +
-> > > +       bitmap_set(lpg->lut_bitmap, idx, len);
-> > > +
-> > > +       *lo_idx = idx;
-> > > +       *hi_idx = idx + len - 1;
-> > > +
-> > > +       return 0;
-> > > +}
+> 
+> Thanks and Greets
+> Alex
+> 
+> On Mon, Oct 05, 2020 at 10:34:41PM +0200, Alexander Dahl wrote:
+> > The example was adapted in the following ways:
+> > 
+> > - make use of the now supported 'function' and 'color' properties
+> > - remove pwm nodes, those are documented elsewhere
+> > - align node names to new dt schema rules and dt recommendations
+> > 
+> > License was not explicitly set before.  The license set now is
+> > recommended by DT project.
+> > 
+> > Suggested-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> > Signed-off-by: Alexander Dahl <post@lespocky.de>
+> > Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>
+> > Cc: Russell King <linux@armlinux.org.uk>
+> > ---
+> > 
+> > Notes:
+> >     NOTE: Due to license set/change this needs Acked-by or Signed-off-by from:
+> >       * Peter Ujfalusi
+> >       * Russell King
+> >     
+> >     That was discussed already with Peter (original author), still waiting
+> >     for Acked-by though …
+> >     
+> >     Changelog
+> >     ---------
+> >     v6 -> v7:
+> >       * added Reviewed-by (Krzysztof Kozlowski)
+> >       * reworded commit message (suggested by Krzysztof)
+> >       * added Reviewed-by (Rob Herring)
+> >     
+> >     v5 -> v6:
+> >       * removed pwm nodes from example (Rob)
+> >       * renamed led-controller node in example (Rob)
+> >     
+> >     v4 -> v5:
+> >       * updated based on feedback by Rob Herring
+> >       * removed Acked-by
+> >     
+> >     v3 -> v4:
+> >       * added Cc to original author of the binding
+> >     
+> >     v2 -> v3:
+> >       * changed license identifier to recommended one
+> >       * added Acked-by
+> >     
+> >     v2:
+> >       * added this patch to series (Suggested-by: Jacek Anaszewski)
+> > 
+> >  .../devicetree/bindings/leds/leds-pwm.txt     | 50 -------------
+> >  .../devicetree/bindings/leds/leds-pwm.yaml    | 70 +++++++++++++++++++
+> >  2 files changed, 70 insertions(+), 50 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.txt
+> >  create mode 100644 Documentation/devicetree/bindings/leds/leds-pwm.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/leds/leds-pwm.txt b/Documentation/devicetree/bindings/leds/leds-pwm.txt
+> > deleted file mode 100644
+> > index 6c6583c35f2f..000000000000
+> > --- a/Documentation/devicetree/bindings/leds/leds-pwm.txt
+> > +++ /dev/null
+> > @@ -1,50 +0,0 @@
+> > -LED connected to PWM
+> > -
+> > -Required properties:
+> > -- compatible : should be "pwm-leds".
+> > -
+> > -Each LED is represented as a sub-node of the pwm-leds device.  Each
+> > -node's name represents the name of the corresponding LED.
+> > -
+> > -LED sub-node properties:
+> > -- pwms : PWM property to point to the PWM device (phandle)/port (id) and to
+> > -  specify the period time to be used: <&phandle id period_ns>;
+> > -- pwm-names : (optional) Name to be used by the PWM subsystem for the PWM device
+> > -  For the pwms and pwm-names property please refer to:
+> > -  Documentation/devicetree/bindings/pwm/pwm.txt
+> > -- max-brightness : Maximum brightness possible for the LED
+> > -- active-low : (optional) For PWMs where the LED is wired to supply
+> > -  rather than ground.
+> > -- label :  (optional)
+> > -  see Documentation/devicetree/bindings/leds/common.txt
+> > -- linux,default-trigger :  (optional)
+> > -  see Documentation/devicetree/bindings/leds/common.txt
+> > -
+> > -Example:
+> > -
+> > -twl_pwm: pwm {
+> > -	/* provides two PWMs (id 0, 1 for PWM1 and PWM2) */
+> > -	compatible = "ti,twl6030-pwm";
+> > -	#pwm-cells = <2>;
+> > -};
+> > -
+> > -twl_pwmled: pwmled {
+> > -	/* provides one PWM (id 0 for Charing indicator LED) */
+> > -	compatible = "ti,twl6030-pwmled";
+> > -	#pwm-cells = <2>;
+> > -};
+> > -
+> > -pwmleds {
+> > -	compatible = "pwm-leds";
+> > -	kpad {
+> > -		label = "omap4::keypad";
+> > -		pwms = <&twl_pwm 0 7812500>;
+> > -		max-brightness = <127>;
+> > -	};
+> > -
+> > -	charging {
+> > -		label = "omap4:green:chrg";
+> > -		pwms = <&twl_pwmled 0 7812500>;
+> > -		max-brightness = <255>;
+> > -	};
+> > -};
+> > diff --git a/Documentation/devicetree/bindings/leds/leds-pwm.yaml b/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+> > new file mode 100644
+> > index 000000000000..fe4d5fd25913
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+> > @@ -0,0 +1,70 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/leds-pwm.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: LEDs connected to PWM
+> > +
+> > +maintainers:
+> > +  - Pavel Machek <pavel@ucw.cz>
+> > +
+> > +description:
+> > +  Each LED is represented as a sub-node of the pwm-leds device.  Each
+> > +  node's name represents the name of the corresponding LED.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: pwm-leds
+> > +
+> > +patternProperties:
+> > +  "^led(-[0-9a-f]+)?$":
+> > +    type: object
+> > +
+> > +    $ref: common.yaml#
+> > +
+> > +    properties:
+> > +      pwms:
+> > +        maxItems: 1
+> > +
+> > +      pwm-names: true
+> > +
+> > +      max-brightness:
+> > +        description:
+> > +          Maximum brightness possible for the LED
+> > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > +
+> > +      active-low:
+> > +        description:
+> > +          For PWMs where the LED is wired to supply rather than ground.
+> > +        type: boolean
+> > +
+> > +    required:
+> > +      - pwms
+> > +      - max-brightness
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +
+> > +    #include <dt-bindings/leds/common.h>
+> > +
+> > +    led-controller {
+> > +        compatible = "pwm-leds";
+> > +
+> > +        led-1 {
+> > +            label = "omap4::keypad";
+> > +            pwms = <&twl_pwm 0 7812500>;
+> > +            max-brightness = <127>;
+> > +        };
+> > +
+> > +        led-2 {
+> > +            color = <LED_COLOR_ID_GREEN>;
+> > +            function = LED_FUNCTION_CHARGING;
+> > +            pwms = <&twl_pwmled 0 7812500>;
+> > +            max-brightness = <255>;
+> > +        };
+> > +    };
+> > +
+> > +...
+> > -- 
+> > 2.20.1
+> 
+> -- 
+> /"\ ASCII RIBBON | »With the first link, the chain is forged. The first
+> \ / CAMPAIGN     | speech censured, the first thought forbidden, the
+>  X  AGAINST      | first freedom denied, chains us all irrevocably.«
+> / \ HTML MAIL    | (Jean-Luc Picard, quoting Judge Aaron Satie)
 
-...
 
-> > > +               period_n = (period_us * NSEC_PER_USEC) >> 6;
-> > > +               n = 6;
-> > > +       } else {
-> > > +               period_n = (period_us >> 9) * NSEC_PER_USEC;
-> > > +               n = 9;
-
-> > Why inconsistency in branches? Can you rather derive n and calculate
-> > only once like
-> >
-> >            period_n = (period_us >> n) * NSEC_PER_USEC;
-> >
-> > ?
->
-> I inherited this piece from the downstream driver and I assume that the
-> purpose was to avoid loss of precision. I will review this and if
-> nothing else it seems like I would be able to cast period_us to more
-> bits, do the multiply and then shift - in both cases.
-
-Understood. Yes, please check if precision doesn't suffer and update
-accordingly.
-
-...
-
-> > > +static void lpg_calc_duty(struct lpg_channel *chan, unsigned int duty_us)
-> > > +{
-> > > +       unsigned long max = (1 << chan->pwm_size) - 1;
-> >
-> > BIT() ?
-
-Actually if you don't use BIT() here (or U suffix) it is UB for pwm_size == 31.
-
-> >
-> > > +       unsigned long val;
-> > > +
-> > > +       /* Figure out pwm_value with overflow handling */
-> >
-> > > +       if (duty_us < 1 << (sizeof(val) * 8 - chan->pwm_size))
-> >
-> > BITS_PER_TYPE, but actually BITS_PER_LONG here.
-> >
-> > BIT(BITS_PER_LONG - ...)
-> >
->
-> Again, this seems to just be a question of avoiding overflow of the 32
-> bit duty_us. I'll double check the math here as well.
-
-Can pwm_size be equal to 0?
-
-> > > +               val = (duty_us << chan->pwm_size) / chan->period_us;
-> > > +       else
-> > > +               val = duty_us / (chan->period_us >> chan->pwm_size);
-> > > +
-> > > +       if (val > max)
-> > > +               val = max;
-> > > +
-> > > +       chan->pwm_value = val;
-> > > +}
-
-...
-
-> > > +static int lpg_blink_set(struct lpg_led *led,
-> > > +                        unsigned long delay_on, unsigned long delay_off)
-> > > +{
-> > > +       struct lpg_channel *chan;
-> > > +       unsigned int period_us;
-> > > +       unsigned int duty_us;
-> > > +       int i;
-> > > +
-> > > +       if (!delay_on && !delay_off) {
-> > > +               delay_on = 500;
-> > > +               delay_off = 500;
-> > > +       }
-> >
-> > Homegrown duty cycle?
-> > I mean, why simply not to pass the duty cycle in percentage in the first place?
->
-> Can you explain what you're saying here.
-
-Why not to use duty cycle (in %) and period (in us) as a parameter to
-the function directly?
-
-> > > +       duty_us = delay_on * USEC_PER_MSEC;
-> > > +       period_us = (delay_on + delay_off) * USEC_PER_MSEC;
-> > > +
-> > > +       for (i = 0; i < led->num_channels; i++) {
-> > > +               chan = led->channels[i];
-> > > +
-> > > +               lpg_calc_freq(chan, period_us);
-> > > +               lpg_calc_duty(chan, duty_us);
-> > > +
-> > > +               chan->enabled = true;
-> > > +               chan->ramp_enabled = false;
-> > > +
-> > > +               lpg_apply(chan);
-> > > +       }
-> > > +
-> > > +       return 0;
-> > > +}
-
-...
-
-> > Can you rather create a generic one under lib/ or start include/linux/math.h ?
-
-> Forgot about this, but I've seen one on LKML, will find it and work on
-> getting that accepted.
-
-Note, I have submitted the patch that splits out math.h from kernel.h
-(it's in Andrew's quilt and in Linux Next as of today), you may send a
-follow up patch that adds this functionality.
-
-...
-
-> > > +       ret = of_property_read_u32(np, "color", &color);
-> > > +       if (ret < 0 && ret != -EINVAL)
-> >
-> > This check is fishy. Either you have optional property or not, in the
-> > latter case return any error code.
-> >
->
-> There's three possible outcomes here:
-> 1) We found _one_ integer in the property, color is assigned and 0 is
-> returned.
-
-I didn't get this. Doesn't your YAML schema say that it must be a
-single integer?
-
-> 2) We found no property named "color", -EINVAL is returned without color
-> being modified.
-> 3) We found a property but it wasn't a single u32 value so a negative
-> error (not EINVAL) is returned.
->
-> > > +               return ret;
-> > > +
-> > > +       chan->color = color;
-> >
-> > So, it may be -EINVAL?!
-> >
->
-> So color will either be the value or the property color, or if omitted
-> LED_COLOR_ID_GREEN.
-
-If property is optional, we do simple
-
-ret = of_read_property_...(&x);
-if (ret)
- x = default_value;
-
-Otherwise simple
-ret = ...
-if (ret)
-  return ret;
-
-is sufficient.
-
-What you have done is a little bit unusual.
-
-...
-
-> > > +       ret = of_property_read_u32_array(np, "qcom,dtest", dtest, 2);
-> > > +       if (ret < 0 && ret != -EINVAL) {
-> > > +               dev_err(lpg->dev, "malformed qcom,dtest of %pOFn\n", np);
-> > > +               return ret;
-> > > +       } else if (!ret) {
-> > > +               chan->dtest_line = dtest[0];
-> > > +               chan->dtest_value = dtest[1];
-> > > +       }
-> >
-> > Ditto.
-> >
->
-> We're in !ret and as such dtest is initialized.
-
-As above.
-
-...
-
-> > > +       ret = of_property_read_u32(np, "color", &color);
-> > > +       if (ret < 0 && ret != -EINVAL)
-> > > +               return ret;
-> >
-> > Ditto.
-> >
->
-> As above, if no property color is specified, color remains 0 here which
-> is not LED_COLOR_ID_MULTI and this is a single channel LED without its
-> color specified.
-
-As above.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
