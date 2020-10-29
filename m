@@ -2,84 +2,172 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 022EF29F3E7
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Oct 2020 19:14:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A785929F3EB
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Oct 2020 19:14:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725747AbgJ2SN7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Oct 2020 14:13:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59756 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725792AbgJ2SN6 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 29 Oct 2020 14:13:58 -0400
-Received: from localhost (otava-0257.koleje.cuni.cz [78.128.181.4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 65934207EA;
-        Thu, 29 Oct 2020 18:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603995238;
-        bh=3Tg21T6d2Yee8/eZC90KsbI3cyUJW44IbXMMwvoXA9A=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HI5UixmsZAWL2AvIso+0q4vfgLoEANYWuOs+I7zuJ+LKuDY2SU8M/YW1OUlCsStPU
-         kWHgMoOWnEAERflS8YAnQyR8rQO111DpnzKoJa/3lYqPOxKtvM/JHuTiq6aUl03MhR
-         DM66j/zOOp3S7etwOwrHyTHz/jiCmI8dV1O1yvrQ=
-Date:   Thu, 29 Oct 2020 19:13:47 +0100
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Ben Whitten <ben.whitten@gmail.com>, linux-leds@vger.kernel.org
-Subject: Re: ledtrig netdev: what is the purpose of spinlock usage?
-Message-ID: <20201029191347.6d509614@kernel.org>
-In-Reply-To: <20201029174529.GA26053@duo.ucw.cz>
-References: <20201029070000.15472666@kernel.org>
-        <20201029174529.GA26053@duo.ucw.cz>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1725963AbgJ2SOC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Oct 2020 14:14:02 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:36326 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725792AbgJ2SOB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Oct 2020 14:14:01 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id D080F1C0B7A; Thu, 29 Oct 2020 19:13:57 +0100 (CET)
+Date:   Thu, 29 Oct 2020 19:13:57 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Martin Botka <martin.botka1@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v6 2/4] leds: Add driver for Qualcomm LPG
+Message-ID: <20201029181357.GE26053@duo.ucw.cz>
+References: <20201021201224.3430546-1-bjorn.andersson@linaro.org>
+ <20201021201224.3430546-3-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="TD8GDToEDw0WLGOL"
+Content-Disposition: inline
+In-Reply-To: <20201021201224.3430546-3-bjorn.andersson@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 29 Oct 2020 18:45:29 +0100
-Pavel Machek <pavel@ucw.cz> wrote:
 
-> Hi!
-> 
-> > since you are the original author of netdev LED trigger, I guess this
-> > question should go to you. Why are spinlocks used as locks in the
-> > netdev trigger code? Is this for performance? Would it be a drastic
-> > performance hit to use mutexes?  
-> 
-> Triggers can be called from interrupt context, IIRC, and many simple
-> LEDs can be operated from interrupt context, too.
-> 
-> Thus you need spinlocks...
-> 
-> Best regards,
-> 								Pavel
+--TD8GDToEDw0WLGOL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Pavel,
+Hi!
 
-the set_baseline_state function in netdev trigger is guarded by a
-spinlock only when reading/writing device_name attribute and in
-netdev notify callback.
+> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
+> PMICs from Qualcomm. It can operate on fixed parameters or based on a
+> lookup-table, altering the duty cycle over time - which provides the
+> means for e.g. hardware assisted transitions of LED brightness.
+>=20
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+>=20
+> Changes since v5:
+> - Make sure to not used the state of the last channel in a group to deter=
+mine
+>   if the current sink should be active for all channels in the group.
+> - Replacement of unsigned -1 with UINT_MAX
+> - Work around potential overflow by using larger data types, instead of s=
+eparate code paths
+> - Use cpu_to_l16() rather than hand rolling them
+> - Minor style cleanups
+>=20
+>  drivers/leds/Kconfig         |    9 +
+>  drivers/leds/Makefile        |    1 +
+>  drivers/leds/leds-qcom-lpg.c | 1190 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 1200 insertions(+)
+>  create mode 100644 drivers/leds/leds-qcom-lpg.c
 
-netdev_trig_notify can for example put the device away on
-NETDEV_UNREGISTER event, and if someone was reading/writing the
-device_name at the same time netdev_trig_notify is manipulating
-netdevice pointer, it could break. So my guess for the lock is that it
-is used because of this.
+Let's put this into drivers/leds/rgb/. You may need to create it.
 
-It is possible that netdev_trig_notify can be called from interrupt
-context, I will have to look into this.
 
-Anyway for the trigger_offload() method to be able to communicate with
-PHYs I need the set_baseline_state function not to be called from
-within spinlock. Otherwise the drivers implementing this method would
-get too complicated. Would it be allright if on netdev event (link up,
-link down, netdev changename, netdev unregister) the set_baseline_state
-was called from a work, instead of directly from the spinlock?
+> +static int lpg_lut_store(struct lpg *lpg, struct led_pattern *pattern,
+> +			 size_t len, unsigned int *lo_idx, unsigned int *hi_idx)
+> +{
+> +	unsigned int idx;
+> +	__le16 val;
 
-I will send a patch proposing and explaining this.
+No need for __XX variants outside of headers meant for userspace.
 
-Marek
+> +#define LPG_ENABLE_GLITCH_REMOVAL	BIT(5)
+> +
+> +static void lpg_enable_glitch(struct lpg_channel *chan)
+> +{
+> +	struct lpg *lpg =3D chan->lpg;
+> +
+> +	regmap_update_bits(lpg->map, chan->base + PWM_TYPE_CONFIG_REG,
+> +			   LPG_ENABLE_GLITCH_REMOVAL, 0);
+> +}
+> +
+> +static void lpg_disable_glitch(struct lpg_channel *chan)
+> +{
+> +	struct lpg *lpg =3D chan->lpg;
+> +
+> +	regmap_update_bits(lpg->map, chan->base + PWM_TYPE_CONFIG_REG,
+> +			   LPG_ENABLE_GLITCH_REMOVAL,
+> +			   LPG_ENABLE_GLITCH_REMOVAL);
+> +}
+
+Helper functions for single register write is kind of overkill...
+
+> +static int lpg_blink_set(struct lpg_led *led,
+> +			 unsigned long delay_on, unsigned long delay_off)
+> +{
+> +	struct lpg_channel *chan;
+> +	unsigned int period_us;
+> +	unsigned int duty_us;
+> +	int i;
+> +
+> +	if (!delay_on && !delay_off) {
+> +		delay_on =3D 500;
+> +		delay_off =3D 500;
+> +	}
+
+Aren't you supposed to modify the values passed to you, so that
+userspace knows what the default rate is?
+
+
+> +	ret =3D lpg_lut_store(lpg, pattern, len, &lo_idx, &hi_idx);
+> +	if (ret < 0)
+> +		goto out;
+
+Just do direct return.
+
+> +out:
+> +	return ret;
+> +}
+
+> +static const struct pwm_ops lpg_pwm_ops =3D {
+> +	.request =3D lpg_pwm_request,
+> +	.apply =3D lpg_pwm_apply,
+> +	.owner =3D THIS_MODULE,
+> +};
+> +
+> +static int lpg_add_pwm(struct lpg *lpg)
+> +{
+> +	int ret;
+> +
+> +	lpg->pwm.base =3D -1;
+> +	lpg->pwm.dev =3D lpg->dev;
+> +	lpg->pwm.npwm =3D lpg->num_channels;
+> +	lpg->pwm.ops =3D &lpg_pwm_ops;
+> +
+> +	ret =3D pwmchip_add(&lpg->pwm);
+> +	if (ret)
+> +		dev_err(lpg->dev, "failed to add PWM chip: ret %d\n", ret);
+> +
+> +	return ret;
+> +}
+
+Do we need to do this? I'd rather have LED driver, than LED+PWM
+driver...
+
+Best regards,
+							Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--TD8GDToEDw0WLGOL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX5sGZQAKCRAw5/Bqldv6
+8jjrAJ4guFpAcsPC95xJrR4r3t4uMKbBGACgpj6Cfs0rkR02mKrJQpcllvY1vwU=
+=QegQ
+-----END PGP SIGNATURE-----
+
+--TD8GDToEDw0WLGOL--
