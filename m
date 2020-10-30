@@ -2,206 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42DA12A00A0
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Oct 2020 10:01:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA1ED2A0194
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Oct 2020 10:38:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbgJ3JBH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 30 Oct 2020 05:01:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39832 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725784AbgJ3JBG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Oct 2020 05:01:06 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DF0C0613CF;
-        Fri, 30 Oct 2020 01:51:51 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id y186so5960391oia.3;
-        Fri, 30 Oct 2020 01:51:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=EYFsizROf5nBI3vjm3lc9058B7pQE1IZ4TMUM0yjHO0=;
-        b=nrNLVNGDC4oTXZzPTuj6ZR2IgS0RpSwQa6MzJT2M14RHlHusbs8N/KdjeQODIa69Fq
-         ZdSQ2+n4cipmdbZwOOHTgWsz/9K9056sO7RK6KwOPOg+CNEjITywQSQxgEzCZVFDmooV
-         HfjseyEiG122IWq13MGtUc3gpURvmvQ23oFXZkO5bAqMj/eti7fpL3VJlmHzrj8Pn0ul
-         i804miWfazPue1rTOMFnYjkM6PYEAdPsvCvCHy1x0R06Zywbj8icMgN6LLZiNdHdDmN3
-         TBV/YXettblZhpCdF0/9QtbjT4Td9+kE5uNNmlverT0JjOhrhQlVOJUhUeQjtTwsEBH6
-         IsDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=EYFsizROf5nBI3vjm3lc9058B7pQE1IZ4TMUM0yjHO0=;
-        b=np6zQhoEhZBwPw8HVpj1zcqWcN2YPjLlotfli4QdgX3N5Ei/gjPiWiT/6DsilXHCBQ
-         9B3mFM2NPo6bLmHjRYQI6TO3ooyzp3zZ9A6ydiLZU93LuaZzjvZ5Oesc0heSnTtV62th
-         dFaT2Z3ZgEPhQ5i6zqh6MTfFoAnz7OI8EmRFzrDUVK1sGsSKBv/JXor9Q12fKPMUdU2g
-         oVJ+MF0oAKNgDmTlUFoARY1SHbKsVQpK3M+ex4Rv5iopdVqXWEuVrKrC2G0Yj4NT6/3a
-         dHLNSyAOZ0XBNEx8SmWOnQDO8MJ902aEdsHXKPnYswwGzvxDnDPKSlxPbjHXdoh3npMn
-         6RPQ==
-X-Gm-Message-State: AOAM5329oAdMDbWI6jWDRe6MimL1pwIZeVTY4EGjVIzMc6KP+1Ljx3BG
-        /SgEQbDOadQb2KXWohg6OSFtpofW9uzmargoxncxuPdtkXI=
-X-Google-Smtp-Source: ABdhPJx9L8WP509ApHzlkJwOOPZ2gkvUW+8ERNKkSL/KG2e7sSxeTIuKtZ55i3auP6YV2QGpiqwTKhXntRWz+/14P6I=
-X-Received: by 2002:aca:4c8d:: with SMTP id z135mr891137oia.23.1604047910543;
- Fri, 30 Oct 2020 01:51:50 -0700 (PDT)
+        id S1726014AbgJ3Jip (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 30 Oct 2020 05:38:45 -0400
+Received: from server.msgroupspa.com ([185.149.113.111]:51676 "EHLO
+        server.msgroupspa.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725876AbgJ3Jip (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Oct 2020 05:38:45 -0400
+X-Greylist: delayed 5217 seconds by postgrey-1.27 at vger.kernel.org; Fri, 30 Oct 2020 05:38:43 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=msgroupspa.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=3BjszAdjdwh6ODONGTLpdHevYAw+ieapPsfeqclh2zA=; b=YKWL8852O9iMgXvi0XNrgshAs/
+        uRHxo2CSxtUL5OY5MWCgNhjhNqQqfD6yhSboebcByFys5IvTlO3JTuBKwhsEv/aFH3kd6d52AWyCE
+        Obdu4B1G43UMNNeZu1BE8TskOT3nTyu8FUx2L0YhhH014nIhiiPFYkH/SkQ7PGTC4d4I1LQ0z/8fJ
+        gKhcNr8M/qhfkx4ne6X7WS8Q2zulZU/Fccn9rSy8YR2Ir3lYq2HasCVOqnT8VGRP9SImfec2a2Tiw
+        AQatu+vCPx5YxWjbyKrXryYJDzehlxvo+oET67++meM4NdqxoJJFiM6tsr/BCUV2eYKeBySn2U5b7
+        Y50aH53g==;
+Received: from [::1] (port=39462 helo=server.msgroupspa.com)
+        by server.msgroupspa.com with esmtpa (Exim 4.93)
+        (envelope-from <no-reply@msgroupspa.com>)
+        id 1kYQmF-0006DT-Np; Fri, 30 Oct 2020 17:32:55 +0800
 MIME-Version: 1.0
-References: <1602034966-3524-1-git-send-email-gene.chen.richtek@gmail.com>
- <1602034966-3524-3-git-send-email-gene.chen.richtek@gmail.com>
- <5a9b31c4-739c-06fc-2015-ed474993ad22@gmail.com> <CAE+NS35Y41mFKNhj+54BeeSYFu2J9BtvMWOxyMcf9a==39cbdA@mail.gmail.com>
- <8925db23-5cc4-3c5f-932a-461fe6450dad@gmail.com> <CAE+NS379bgtRotqzioR+Ya3mE1kZrKfe9qV=W2p=hH7Omrn8Hw@mail.gmail.com>
- <1bb76c54-14af-6c78-4623-77c6678b262e@gmail.com>
-In-Reply-To: <1bb76c54-14af-6c78-4623-77c6678b262e@gmail.com>
-From:   Gene Chen <gene.chen.richtek@gmail.com>
-Date:   Fri, 30 Oct 2020 16:51:38 +0800
-Message-ID: <CAE+NS35z7_ZUdm6gRNw2z7Ozs+1A8_Vtj_9x-F65RLd4QqDFDA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] leds: mt6360: Add LED driver for MT6360
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date:   Fri, 30 Oct 2020 17:32:55 +0800
+From:   "Mr. Francois Pinault" <no-reply@msgroupspa.com>
+To:     undisclosed-recipients:;
+Subject: Hello
+Reply-To: francoispinault1936@outlook.com
+User-Agent: Roundcube Webmail/1.4.8
+Message-ID: <c05d08e096d5118de7c1addfd3892abf@msgroupspa.com>
+X-Sender: no-reply@msgroupspa.com
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server.msgroupspa.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - msgroupspa.com
+X-Get-Message-Sender-Via: server.msgroupspa.com: authenticated_id: no-reply@msgroupspa.com
+X-Authenticated-Sender: server.msgroupspa.com: no-reply@msgroupspa.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Jacek Anaszewski <jacek.anaszewski@gmail.com> =E6=96=BC 2020=E5=B9=B410=E6=
-=9C=8828=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=881:28=E5=AF=AB=E9=81=
-=93=EF=BC=9A
->
-> On 10/27/20 10:28 AM, Gene Chen wrote:
-> > Jacek Anaszewski <jacek.anaszewski@gmail.com> =E6=96=BC 2020=E5=B9=B410=
-=E6=9C=8821=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=885:47=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> >>
-> >> On 10/20/20 8:44 AM, Gene Chen wrote:
-> >>> Jacek Anaszewski <jacek.anaszewski@gmail.com> =E6=96=BC 2020=E5=B9=B4=
-10=E6=9C=889=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=885:51=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> >>>>
-> >>>> Hi Gene,
-> >>>>
-> >>>> On 10/7/20 3:42 AM, Gene Chen wrote:
-> >>>>> From: Gene Chen <gene_chen@richtek.com>
-> >>>>>
-> >>>>> Add MT6360 LED driver include 2-channel Flash LED with torch/strobe=
- mode,
-> >>>>> 3-channel RGB LED support Register/Flash/Breath Mode, and 1-channel=
- for
-> >>>>> moonlight LED.
-> >>>>>
-> >>>>> Signed-off-by: Gene Chen <gene_chen@richtek.com>
-> >>>>> ---
-> >>>>>     drivers/leds/Kconfig       |  12 +
-> >>>>>     drivers/leds/Makefile      |   1 +
-> >>>>>     drivers/leds/leds-mt6360.c | 783 ++++++++++++++++++++++++++++++=
-+++++++++++++++
-> >>>>>     3 files changed, 796 insertions(+)
-> >>>>>     create mode 100644 drivers/leds/leds-mt6360.c
-> >>>>>
-> >>>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> >>>>> index 1c181df..c7192dd 100644
-> >>>>> --- a/drivers/leds/Kconfig
-> >>>>> +++ b/drivers/leds/Kconfig
-> >>>>> @@ -271,6 +271,18 @@ config LEDS_MT6323
-> >>>>>           This option enables support for on-chip LED drivers found=
- on
-> >>>>>           Mediatek MT6323 PMIC.
-> >>>>>
-> >>>>> +config LEDS_MT6360
-> >>>>> +     tristate "LED Support for Mediatek MT6360 PMIC"
-> >>>>> +     depends on LEDS_CLASS_FLASH && OF
-> >>>>> +     depends on LEDS_CLASS_MULTICOLOR
-> >>>>
-> >>>> Since CONFIG_LED_CLASS_MULTICOLOR can be turned off you need to have
-> >>>> below instead:
-> >>>>
-> >>>> depends on LEDS_CLASS_MULTICOLOR || !!LEDS_CLASS_MULTICOLOR
->
-> My typo here, should be one "!":
->
-> depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
->
-> And you should also have
->
-> depends on LEDS_CLASS_FLASH || !LEDS_CLASS_FLASH
->
-> But to make it work correctly you would have to add registration
-> stubs to include/linux/led-class-flash.h similarly to LED mc stubs
-> in include/linux/led-class-multicolor.h.
->
-> >>>>
-> >>>> Unless you want to prevent enabling the driver without RGB LED,
-> >>>> but that does not seem to be reasonable at first glance.
-> >>>>
-> >>>
-> >>> May I change to "select LEDS_CLASS_MULTICOLOR"?
-> >>> I suppose RGB always use multicolor mode.
-> >>
-> >> You will also have moonlight LED that will not need multicolor
-> >> framework. Is it somehow troublesome to keep "depends on"?
-> >>
-> >
-> > If only use ML LED and FLED,  DTSI will only define ML LED and FLED.
-> > Therefore, the drivers probe will not register rgb multicolor device.
->
-> Please test your use case again with my fixed "depends on".
->
-> In case when there is only ML LED and FLED in the DT it should
-> register both devices if LEDS_CLASS_FLASH is turned on.
-> Multicolor framework has nothing to do in this case.
->
-> But if you additionally had MC LED node, then it should
-> be registered only if LEDS_CLASS_MULTICOLOR is enabled.
->
-> Similarly, when FLED node is present, but LEDS_CLASS_FLASH
-> is off, and LEDS_CLASS_MULTICOLOR is on, the driver should still
-> compile, but register only LED MC device (if its node is present).
->
 
-I think this case only register LED device, not LED "MC" device.
-Because our FLASH is not a multicolor device.
 
-> Possible should be also the case when both LEDS_CLASS_FLASH
-> and LEDS_CLASS_MULTICOLOR are off. Then only LED class device
-> for ML LED will be registered (provided there is ML DT node).
-> But to make it possible you should have also "depends on LEDS_CLASS"
-> in the Kconfig entry.
->
+-- 
+NOTE: If you Received this message in your spam / bulk folder, That is 
+Because of the restrictions Implemented by your Internet Service 
+Provider, I (François Pinault) urge you to treat it Genuinely.
+*******************************************
 
-According to your suggestion,
-depends on LED_CLASS && LEDS_CLASS_FLASH && OF
-depends on LEDS_CLASS_MULTICOLOR || !!LEDS_CLASS_MULTICOLOR
-depends on LEDS_CLASS_FLASH || !LEDS_CLASS_FLASH
-depends on MFD_MT6360
+Hello, I am Mr. François Pinault, i made a donation worth of £800,000.00 
+Pounds to you. You can verify my profile on Wikipedia or Forbes:
 
-and source code add constraint
+https://www.forbes.com/profile/francois-pinault/
+or
+https://en.wikipedia.org/wiki/Fran%C3%A7ois_Pinault
 
-#if IS_ENABLED(CONFIG_LEDS_CLASS_MULTICOLOR)
-    ret =3D devm_led_classdev_multicolor_register_ext(parent, &led->rgb,
-init_data);
-#endif
+For more information, Kindly contact me as soon as possible on this 
+email: francoispinault1936@outlook.com
 
-#if IS_ENABLED(CONFIG_LEDS_CLASS_FLASH)
-    ret =3D devm_led_classdev_flash_register_ext(parent, &led->flash, init_=
-data);
-#endif
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-Or Should I seperate two drivers?
-one for RGB LED, one for ML LED and FLED
-
-> > I will remove "depends", use "select" instead.
->
-> --
-> Best regards,
-> Jacek Anaszewski
+Yours sincerely,
+Mr. François Pinault
