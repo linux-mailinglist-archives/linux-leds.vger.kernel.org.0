@@ -2,52 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D98129FCDD
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Oct 2020 06:02:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9B7429FF07
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Oct 2020 08:46:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725775AbgJ3FCj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 30 Oct 2020 01:02:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59662 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725771AbgJ3FCj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Oct 2020 01:02:39 -0400
-Received: from mail.nic.cz (lists.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64053C0613CF
-        for <linux-leds@vger.kernel.org>; Thu, 29 Oct 2020 22:02:39 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id B42141409B1;
-        Fri, 30 Oct 2020 06:02:36 +0100 (CET)
-Date:   Fri, 30 Oct 2020 06:02:29 +0100
-From:   Marek Behun <marek.behun@nic.cz>
-To:     linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>
-Subject: led_classdev->dev is a pointer. Do we want to change it?
-Message-ID: <20201030060229.25610754@nic.cz>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726004AbgJ3Hqa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 30 Oct 2020 03:46:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55756 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725780AbgJ3Hqa (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 30 Oct 2020 03:46:30 -0400
+Received: from dragon (80.251.214.228.16clouds.com [80.251.214.228])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9EF0320719;
+        Fri, 30 Oct 2020 07:46:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604043989;
+        bh=XbzJCs+1Vbu1sG68hX1A1BQWrwJAMbx09Z0EixXEc0s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mVO09EOEVQDhIxqmOhZvn3m9RP1yKZhwB2NqZzP00ErBPlqSxU8VLeGJL+iVw4kbj
+         DewkGZl/M3Nti9Ore8fBGWeevRbV3MJC+iGEhas49jvcEG/fLOnj8t5ple5dCiw5BW
+         P1ipVg/apt56gRauVDsYN2Vz7SHtae83kdV+RQZ8=
+Date:   Fri, 30 Oct 2020 15:46:17 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Alexander Dahl <post@lespocky.de>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Alexander Dahl <ada@thorsis.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Russell King <linux@armlinux.org.uk>
+Subject: Re: [PATCH v7 08/12] ARM: dts: imx: Fix schema warnings for pwm-leds
+Message-ID: <20201030074616.GI28755@dragon>
+References: <20201005203451.9985-1-post@lespocky.de>
+ <20201005203451.9985-9-post@lespocky.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201005203451.9985-9-post@lespocky.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel,
+On Mon, Oct 05, 2020 at 10:34:47PM +0200, Alexander Dahl wrote:
+> The node names for devices using the pwm-leds driver follow a certain
+> naming scheme (now).  Parent node name is not enforced, but recommended
+> by DT project.
+> 
+>   DTC     arch/arm/boot/dts/imx53-ppd.dt.yaml
+>   CHECK   arch/arm/boot/dts/imx53-ppd.dt.yaml
+> /home/alex/build/linux/arch/arm/boot/dts/imx53-ppd.dt.yaml: leds-brightness: 'alarm-brightness' does not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+>         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+>   DTC     arch/arm/boot/dts/imx6dl-cubox-i.dt.yaml
+>   CHECK   arch/arm/boot/dts/imx6dl-cubox-i.dt.yaml
+> /home/alex/build/linux/arch/arm/boot/dts/imx6dl-cubox-i.dt.yaml: pwmleds: 'front' does not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+>         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+>   DTC     arch/arm/boot/dts/imx6dl-cubox-i-emmc-som-v15.dt.yaml
+>   CHECK   arch/arm/boot/dts/imx6dl-cubox-i-emmc-som-v15.dt.yaml
+> /home/alex/build/linux/arch/arm/boot/dts/imx6dl-cubox-i-emmc-som-v15.dt.yaml: pwmleds: 'front' does not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+>         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+>   DTC     arch/arm/boot/dts/imx6dl-cubox-i-som-v15.dt.yaml
+>   CHECK   arch/arm/boot/dts/imx6dl-cubox-i-som-v15.dt.yaml
+> /home/alex/build/linux/arch/arm/boot/dts/imx6dl-cubox-i-som-v15.dt.yaml: pwmleds: 'front' does not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+>         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+>   DTC     arch/arm/boot/dts/imx6sx-softing-vining-2000.dt.yaml
+>   CHECK   arch/arm/boot/dts/imx6sx-softing-vining-2000.dt.yaml
+> /home/alex/build/linux/arch/arm/boot/dts/imx6sx-softing-vining-2000.dt.yaml: pwmleds: 'blue', 'green', 'red' do not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+>         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+> 
+> Signed-off-by: Alexander Dahl <post@lespocky.de>
 
-various device classes in kernel embed struct device by value, instead
-of as a pointer (for example struct mdio_device or struct net_device).
-
-Would you be interested in this for struct led_classdev, or do you
-prefer struct led_classdev to have the underlying struct device as a
-pointer?
-
-The benefit would be that dev->priv would be free to use by the LED
-driver directly. Currently this pointer points to the struct
-led_classdev.
-
-Marek
+Applied, thanks.
