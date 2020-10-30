@@ -2,77 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F69C29FA3E
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Oct 2020 02:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DD0929FA41
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Oct 2020 02:07:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725926AbgJ3BHV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Oct 2020 21:07:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51602 "EHLO
+        id S1726046AbgJ3BHW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Oct 2020 21:07:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbgJ3BHV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Oct 2020 21:07:21 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E5ACC0613D2
-        for <linux-leds@vger.kernel.org>; Thu, 29 Oct 2020 18:07:20 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id v6so5693630lfa.13
-        for <linux-leds@vger.kernel.org>; Thu, 29 Oct 2020 18:07:20 -0700 (PDT)
+        with ESMTP id S1725771AbgJ3BHW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Oct 2020 21:07:22 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08AA7C0613D3
+        for <linux-leds@vger.kernel.org>; Thu, 29 Oct 2020 18:07:22 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id x6so5170391ljd.3
+        for <linux-leds@vger.kernel.org>; Thu, 29 Oct 2020 18:07:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UL66Jvu0unFnQHvzD+yrX2vJU4SUteLOavhBLQABAN4=;
-        b=DywXxuJbvX4JdeIAQM8rLDQ55TZyVFW68rLCpGM++7lZU0NkcNJRjPBU3Q7EvDI+W9
-         754YxkIQFWGQGd2YMSVNFgDok9g1pqYivTRi68NCrW13sYBXG/FcN3YsUvVYAGs6kwUZ
-         RXsj5z2St8miZfbTMZ+SrfDK7G9h8tkw2VRzgJhfCLJlbnCWrDf8ZGHIjNSxVdFdM3SB
-         r1OT4goYzHnSAoJyRNz/gUhlAbcLlgSf6ozT+oraUhCYq3nGcglnPjFGkJFddXx/9f0q
-         QIDK9rAWIcZhVuIpF3YX6BSe3x0bRKzIMm3KDV2tBwEA2oAybbPIxvqCMG0x7z33UDWF
-         LLsg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=zzF+iD2bQtsVAEAnO2ufhYknySXRFrdpCxNsou50eyA=;
+        b=je1ZvvYry/NJgExvAEw0TUT67uPAXNEHkdvRgMqiDF3uVrrHeogsZaPoApMb68NJf9
+         0OFBiT/WqDdXCYscYN6HlZwzFVRbZklDMfkA/ZSG/9gOPavBVZlG7NcuwxZReGGS650G
+         0J13WH7ozOrQ62sSjGPOeNuZlF99yIcHA5IXJACPgOrQ7ijHnqeUmJ3Mh17/QAHgtMSk
+         aobnEO/qWNmJfnKKmwU5jSQuMISh6J5HKJm7UTn6lpv+C3PqFx4wdvuy3k9WNYgNUngh
+         l0A2LD/Shm/gH4Qyuc3yNnIK4HZ4o1BegAlGWQ06O7vqvVGSQtfegfZCicua2ss6d/Lh
+         o9RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UL66Jvu0unFnQHvzD+yrX2vJU4SUteLOavhBLQABAN4=;
-        b=uU5Hmy6vGqGOlS3l+w1mkvH7IXn11Ti1BY0Q3dqZ3Jdp11smYU04SKL9bzNqJRbWka
-         Tf0uxTOAK08DoPbVozJ0tcx0G7KEX1KsuHzaiAODMwvgX5aUIPgLiuS2uK2iPfN72uG/
-         +DSmfcxL2MbC9MjriIJS1NnDEf8Y0dpsvAVZVYHB0aRRl8TVwMu/s2KNPF3zkb9NNMdT
-         v27GcxVmYZ53zSH6D5cXLLH57Byh+xDZajvvdLm5z6gO7Zn+Exp4QMtnir2jCVl+V9uZ
-         oqoYLhocYWLP5EIYsJvPCMnRsJZdyPCLipV/EDRG8xNwfnlrtOZXMFfE4XbLVayC2JBz
-         EeGg==
-X-Gm-Message-State: AOAM530Nd4QlH7InO3mE1/zCw5wF5W+X2hrltkRW5VkWy7tD04vXw97q
-        IypsjKq70QMqPzyDcKwBfoC38NZFsFro4OO2
-X-Google-Smtp-Source: ABdhPJxVnkcn0bP0CpdDM9gDXgCCHH7IbjyqQYXyNvieHuBfbONwn4wSw3zeUdtvK1ItqvQ2i0XrVw==
-X-Received: by 2002:a19:c58:: with SMTP id 85mr2798895lfm.322.1604020038848;
-        Thu, 29 Oct 2020 18:07:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=zzF+iD2bQtsVAEAnO2ufhYknySXRFrdpCxNsou50eyA=;
+        b=RFTpyBYZv+rKb3Pxr1IlLZihC+U+IX7/3gwxK+XZCMWBfN8NAbeQY5JDog825G8gfz
+         GEPYjnKk0g25hKjEm9bouTPqpLMcVnezagGlwjUgbfycgmcs4j1yNNe2T0Q1trUeHwJ6
+         YQs3CL6T5V0ClV8TiqMheuFONAFKruLw6oYx42hH/85L9Xh71kKX8kgyivXTs0A6rpAw
+         MBZdhOP2hTSidwVxOLCf/oaC9/FvxUOYIvt/ZFSWHINYiBiBv0BbNLbg5m/qefpShI/Z
+         uXgish5Q4ggJ6/Q1jGkbnGlcbk5Ide02PqFOHZwJ7+xKLCqujA+rX06WXO8S9X16tAbF
+         oTzg==
+X-Gm-Message-State: AOAM533ylNrdSTgI7t5wm7M1uCc4lutRqmbU7WLUi/I80UrseQdBCNh5
+        etKfzuRSAy4D+7CrbdWDAwKVZQ==
+X-Google-Smtp-Source: ABdhPJzbX8Mvkqnvj67XhvIU50pcIFgdBIpv9KZgdQFiTDPX9pqlOfzMvB+26ALvTYx8NS9UQ4u8Wg==
+X-Received: by 2002:a2e:b0e4:: with SMTP id h4mr2708905ljl.119.1604020040402;
+        Thu, 29 Oct 2020 18:07:20 -0700 (PDT)
 Received: from eriador.lan ([188.162.64.219])
-        by smtp.gmail.com with ESMTPSA id c6sm447130lfm.226.2020.10.29.18.07.17
+        by smtp.gmail.com with ESMTPSA id c6sm447130lfm.226.2020.10.29.18.07.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2020 18:07:18 -0700 (PDT)
+        Thu, 29 Oct 2020 18:07:19 -0700 (PDT)
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
         Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
 Cc:     linux-leds@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 0/5] Qualcomm LPG support for PM8150b/l
-Date:   Fri, 30 Oct 2020 04:07:08 +0300
-Message-Id: <20201030010713.247009-1-dmitry.baryshkov@linaro.org>
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 1/5] dt-bindings: leds: leds-qcom-lpg: add pm8150[bl] compatible strings
+Date:   Fri, 30 Oct 2020 04:07:09 +0300
+Message-Id: <20201030010713.247009-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201030010713.247009-1-dmitry.baryshkov@linaro.org>
+References: <20201030010713.247009-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This patchset brings support for LPG blocks on Qualcomm's PM8150[BL]
-PMIC chips, see [1]. PM8150L support was tested on RB5 platform.
+Add two more compatible strings for Light Pulse Generator blocks as
+found on PM8150B and PM8150A/L chips.
 
-This patchset can be folded into the aforementioned series, if Bjorn
-would like to, or it can go as a separate instance.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes since v1:
- - Changed lpg data fields to use 'triled_has_foo_ctl' rather than
-   'triled_no_foo_ctl'
-
-[1] https://lore.kernel.org/linux-arm-msm/20201021201224.3430546-1-bjorn.andersson@linaro.org/
-
-
+diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+index 5ccf0f3d8f1b..0474f1d998ff 100644
+--- a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+@@ -17,6 +17,8 @@ description: >
+ properties:
+   compatible:
+     enum:
++      - qcom,pm8150b-lpg
++      - qcom,pm8150l-lpg
+       - qcom,pm8916-pwm
+       - qcom,pm8941-lpg
+       - qcom,pm8994-lpg
+-- 
+2.28.0
 
