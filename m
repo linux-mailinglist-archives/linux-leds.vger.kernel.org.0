@@ -2,204 +2,131 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 834572A28E6
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Nov 2020 12:18:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 907182A3304
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Nov 2020 19:30:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728359AbgKBLSZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Nov 2020 06:18:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728317AbgKBLSX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Nov 2020 06:18:23 -0500
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A6DC0617A6;
-        Mon,  2 Nov 2020 03:18:22 -0800 (PST)
-Received: by mail-pg1-x542.google.com with SMTP id 62so3226923pgg.12;
-        Mon, 02 Nov 2020 03:18:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+MIXEkaPvd+9Nl/3v8IX3DE8ILYKxiL+WZEl2aSsPzQ=;
-        b=B+jKXi4BJFhu7JS7Gsd0UtDcbO4S3DA93rB+zwxobWwQBysTJDYrh76qIOE0oHKWnB
-         Q2MTH0+CIiUaMSmw/I7MPjWidchn3evd+YYAPsUxH2wNGcCuUJaXE1zm+nYaEASHi0et
-         gKsSdyAT8yDRKEMVxTZNn6FI53kNZJ+Lr1HbPwvVfkXlEzW/pMR91I4Fe/D2lZIOayhq
-         kb31fvfnb4WKoZ0S1Fxr1A4pLd5iZ8ijDdDckMiw7gq7qFL1OeO+MnGyCAlEv3g/oaPn
-         Dnr2vHGfqyluQG4G1l9oT1mZIXxui1K/O8xQ/7Y2WNLqdvU2GgJQtlflm8mViULvAT7+
-         0b3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+MIXEkaPvd+9Nl/3v8IX3DE8ILYKxiL+WZEl2aSsPzQ=;
-        b=fDWAizz3mvYbHmf4B7eCqgWg+U6CUuLBUve21EksqJeSeTWzxwBrpwCa+2byemspII
-         jEynMMI+5mIu2jPgtT/raFIn4kfHF9DzNKg24tFhBfhg8RDetec/Y/+nnHPx6rZfIek7
-         cfkKgd0cYeei+Qsm+iHXNJcK1QjIk0miHPeruOdGmfWfajBn8YZ9hAhFWOOu9zvhOsVc
-         1ZpkPI4JOpVqZQAjQbCxPupwnYcNI0kpp3XB/E3JI/y+c/U7sqODNPFUb/kAMTPAs3rh
-         9nxwOyvEf983L9yWMei1EQWDKQVcE7D/szBNKDG+5YZaB+7v1qWxZ0wWrTNYOVD4eUzG
-         hZ1Q==
-X-Gm-Message-State: AOAM5334cv4RU/PkFtXFQ66Usf6+tFjCg6gqmQ1OzJk9pNks6XZFd+IE
-        UFgVvdMczAEhga84HwzQauuAnKzd3dObcJvM4kc=
-X-Google-Smtp-Source: ABdhPJzy8FgUUD7Bk78EG0I/HO29QfuSMPIYsqMmX0zaRrJfN//t8govXn+wNFyKhlCZU1bi/05m/yBmAu9l9U3QYBY=
-X-Received: by 2002:a17:90a:fb92:: with SMTP id cp18mr17558180pjb.228.1604315901720;
- Mon, 02 Nov 2020 03:18:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20201025005916.64747-1-luka.kovacic@sartura.hr>
- <20201025005916.64747-3-luka.kovacic@sartura.hr> <CAHp75Vd81cK+nhJ1fxgRC6cEKnBELVA9UtT8VPvq7nbHEdhecQ@mail.gmail.com>
- <CADZsf3ZtQyEK6diz6W=6tZz+=Toyj_XYU33At0JiLutsuRrizA@mail.gmail.com>
-In-Reply-To: <CADZsf3ZtQyEK6diz6W=6tZz+=Toyj_XYU33At0JiLutsuRrizA@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 2 Nov 2020 13:19:10 +0200
-Message-ID: <CAHp75VdiLg6br=nztormkiXcS5CZVDxcG8i0mUv2X799zpYq5A@mail.gmail.com>
-Subject: Re: [PATCH v7 2/6] drivers: mfd: Add a driver for IEI WT61P803 PUZZLE MCU
-To:     Luka Kovacic <luka.kovacic@sartura.hr>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hwmon@vger.kernel.org,
+        id S1726114AbgKBSai (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Nov 2020 13:30:38 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:47366 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725789AbgKBSai (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Nov 2020 13:30:38 -0500
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A2IU65f075772;
+        Mon, 2 Nov 2020 12:30:06 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1604341806;
+        bh=eyikvyOADXRmirW8NUXz20t+vqM77BxXUZpx1lg31Aw=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=JMK1sYJavYyvttH9hBYlQVtvuHh2Ato7nnuy4s7QJuAdFb/LRnob/ap/8QXocHU1A
+         CZ5KWA232p5kYBGNF56PO2JvlcoQdKLKgyjGNZNnvvRS99FTEKfYQCfXN6PvslKkhl
+         1BBT9Jw7+AYnSEJ1JDp1UifdpKbRg1OjS+a1UfpA=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A2IU6Ya054554
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 2 Nov 2020 12:30:06 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 2 Nov
+ 2020 12:30:06 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 2 Nov 2020 12:30:05 -0600
+Received: from [10.250.36.55] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A2IU5AF082833;
+        Mon, 2 Nov 2020 12:30:05 -0600
+Subject: Re: [PATCH v7 0/6] Add support for the IEI WT61P803 PUZZLE MCU
+To:     Luka Kovacic <luka.kovacic@sartura.hr>, Pavel Machek <pavel@ucw.cz>
+CC:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
         devicetree <devicetree@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
+        Marek Behun <marek.behun@nic.cz>,
         Luka Perkov <luka.perkov@sartura.hr>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
         Robert Marko <robert.marko@sartura.hr>
-Content-Type: text/plain; charset="UTF-8"
+References: <20201025005916.64747-7-luka.kovacic@sartura.hr>
+ <20201025005916.64747-6-luka.kovacic@sartura.hr>
+ <20201025005916.64747-5-luka.kovacic@sartura.hr>
+ <20201025005916.64747-4-luka.kovacic@sartura.hr>
+ <20201025005916.64747-3-luka.kovacic@sartura.hr>
+ <20201025005916.64747-2-luka.kovacic@sartura.hr>
+ <20201025005916.64747-1-luka.kovacic@sartura.hr>
+ <20201029180105.GD26053@duo.ucw.cz>
+ <CADZsf3YE3d=dtMVVYHL91Z1WFcpNN4vyJJ6RG7VnJ2V-DqE+wQ@mail.gmail.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <7821443b-ddbc-fc92-b990-14d116dda853@ti.com>
+Date:   Mon, 2 Nov 2020 12:29:59 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CADZsf3YE3d=dtMVVYHL91Z1WFcpNN4vyJJ6RG7VnJ2V-DqE+wQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Nov 1, 2020 at 3:22 PM Luka Kovacic <luka.kovacic@sartura.hr> wrote:
-> On Mon, Oct 26, 2020 at 11:54 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Sun, Oct 25, 2020 at 3:59 AM Luka Kovacic <luka.kovacic@sartura.hr> wrote:
+Hello
 
-...
-
-> > > +#include <linux/of_device.h>
-> >
-> > Don't see a user of this, but of_platform.h seems to be missed.
+On 11/1/20 3:56 AM, Luka Kovacic wrote:
+> Hello Pavel,
 >
-> Okay, I'll add it.
-> I'm still using devm_of_platform_populate() in iei_wt61p803_puzzle_probe().
-
-Yes, and that's why I have mentioned of_platform.h above.
-
-...
-
-> > > +       struct kobject *kobj;
-> >
-> > It's quite strange you need this,
+> On Thu, Oct 29, 2020 at 7:01 PM Pavel Machek <pavel@ucw.cz> wrote:
+>> Hi!
+>>
+>>> +What:                /sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/power_status
+>>> +Date:                September 2020
+>>> +Contact:     Luka Kovacic <luka.kovacic@sartura.hr>
+>>> +Description: (RO) Power status indicates the host platform power on method.
+>>> +             Value mapping (bitwise list):
+>>> +             0x80 - Null
+>>> +             0x40 - Firmware flag
+>>> +             0x20 - Power loss detection flag (powered off)
+>>> +             0x10 - Power loss detection flag (AC mode)
+>>> +             0x08 - Button power on
+>>> +             0x04 - WOL power on
+>>> +             0x02 - RTC alarm power on
+>>> +             0x01 - AC recover power on
+>> It would be nice to put this into standard place somewhere. Many
+>> machines will want to expose this information.
+> As this is specific to this microcontroller and to how it encodes
+> these values, I don't see a need to change this.
+> This isn't used anywhere else.
 >
-> This is used in iei_wt61p803_puzzle_sysfs_create() and
-> iei_wt61p803_puzzle_sysfs_remove() to clean up afterwards.
+>> If not, at least spell out WoL, as it is not that common of acronym.
+> Okay.
 
-I didn't get why you need this in the first place.
+WoL is a very common acronym especially in the networking space
 
-...
+But the overall this section does not make sense
 
-> > > +       /* Return the number of processed bytes if function returns error */
-> > > +       if (ret < 0)
-> >
-> > > +               return (int)size;
-> >
-> > Will be interesting result, maybe you wanted other way around?
->
-> That is intentional.
-> A single frame is concatenated in the iei_wt61p803_puzzle_process_resp()
-> function. In case we find ourselves in an unknown state, an error is
-> returned there.
->
-> We want to discard the remaining incoming data, since the frame this
-> data belongs
-> to is broken anyway.
+The description says that it indicates platform power on method but what 
+is NULL power on? There are flags for power loss detection.
 
-Elaborate in the comment.
+Does the RTC mean that the processor real time clock woke up the uC? Or 
+that the internal RTC woke up the controller?
 
-> > > +       return ret;
+And for the 
+/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/ac_recovery_status 
+what are those values?
 
-...
+It seems like some ABI's are documented well with formats and others are 
+just described without a format.
 
-> > > +err:
-> >
-> > err_unlock: ?
->
-> I use goto only in case there is also a mutex to unlock, so I don't see why
-> to change this.
+For instance
 
-The comment was about clarification of what is done at this label.
+/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/version the format 
+of this version is not described but 
+/sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/build_info is.
 
-> > > +       mutex_unlock(&mcu->lock);
-> > > +       return ret;
 
-...
+Dan
 
-> > > +       /* Response format:
-> > > +        * (IDX RESPONSE)
-> > > +        * 0    @
-> > > +        * 1    O
-> > > +        * 2    S
-> > > +        * 3    S
-> > > +        * ...
-> > > +        * 5    AC Recovery Status Flag
-> > > +        * ...
-> > > +        * 10   Power Loss Recovery
-> > > +        * ...
-> > > +        * 19   Power Status (system power on method)
-> > > +        * 20   XOR checksum
-> > > +        */
-> >
-> > Shouldn't be rather defined data structure for response?
->
-> Every response, apart from the standard headers and a checksum
-> at the end is completely different and I don't see a good way to
-> standardize that in some other way.
-
-And that's my point. Provide data structures for all responses you are
-taking care of.
-It will be way better documentation and understanding of this IPC.
-
-...
-
-> > > +               if (!(resp_buf[0] == IEI_WT61P803_PUZZLE_CMD_HEADER_START &&
-> > > +                     resp_buf[1] == IEI_WT61P803_PUZZLE_CMD_RESPONSE_OK &&
-> > > +                     resp_buf[2] == IEI_WT61P803_PUZZLE_CHECKSUM_RESPONSE_OK)) {
-> > > +                       ret = -EPROTO;
-> > > +                       goto err;
-> > > +               }
-> >
-> > I think it would be better to define data structure for replies and
-> > then check would be as simple as memcmp().
->
-> I'd keep this as is, because the replies are different a lot of the times.
-> Especially when the reply isn't just an ACK.
-
-How do you know the type of the reply? Can't you provide a data
-structure which will have necessary fields to recognize this?
-
-...
-
-> > > +       power_loss_recovery_cmd[3] = cmd_buf[0];
-> >
-> > One decimal (most significant) digit?! Isn't it a bit ambiguous?
->
-> The power_loss_recovery_action can only have a value of 0 - 4.
-> My understanding is that if I give snprintf a buffer of size 1, it will
-> truncate the one character to make space for NUL.
-
-Why to bother with snprintf()? hex_asc[] would be sufficient. But my
-point that the code is fragile. If it ever gets 15, you will get 1.
-
-...
-
-> I can reduce this, but I'd just like to log the baud rate and the
-> firmware build info.
-
-> These two could be useful in a kernel log, if something doesn't work.
-
-FW build info is definitely good to have, but don't you have other
-means to retrieve baud rate?
-
--- 
-With Best Regards,
-Andy Shevchenko
