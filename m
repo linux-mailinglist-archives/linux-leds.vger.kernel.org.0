@@ -2,103 +2,159 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E517B2A355C
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Nov 2020 21:46:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAE472A3697
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Nov 2020 23:36:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727057AbgKBUqQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Nov 2020 15:46:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51522 "EHLO
+        id S1726655AbgKBWgw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Nov 2020 17:36:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726506AbgKBUox (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Nov 2020 15:44:53 -0500
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59CD1C0617A6;
-        Mon,  2 Nov 2020 12:44:53 -0800 (PST)
-Received: by mail-ej1-x642.google.com with SMTP id 7so20763995ejm.0;
-        Mon, 02 Nov 2020 12:44:53 -0800 (PST)
+        with ESMTP id S1725820AbgKBWgv (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Nov 2020 17:36:51 -0500
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A5DBC061A47
+        for <linux-leds@vger.kernel.org>; Mon,  2 Nov 2020 14:36:51 -0800 (PST)
+Received: by mail-il1-x142.google.com with SMTP id n5so14408092ile.7
+        for <linux-leds@vger.kernel.org>; Mon, 02 Nov 2020 14:36:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZQv/n+Pc9gBufpL9P6pIO2ZINXQcbOdsmattdguwTpU=;
-        b=UTrUitm/iFhoWSEF85q+yqCp6MJqJjJgTV8nE8lIAXmJsobPMZjm8SKfw+m2lYCgVZ
-         tvd94mMJ4JAt5GX7E3u3WSAn3ghS/JybNRh6Wshh+/S2aKCH7VxF2X/mqpq804FPQeEA
-         /K+6bi9gEg5hUU00OVeSV2itQq96P+ZVqfiRQt1+KgvzaPv0NMCuzSEcsjUJZAZHdBtf
-         TLyj/TFTfjZYkoaqTylAm/ne4oYCNYXxRLGEIMQMbINzbH6Vl6nlcIt5RDHa+x0grlsm
-         coTWqIXrgQT3xtXUdnwvQg2XMMGVLUaM6E7lx47IWrWqh5VJGMzhDfP0hSMRZg1c2LcA
-         xAVQ==
+        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=l5uJS/jEKGLUY7/54yb7PsXjkj4P5AmY3KEzFYsfwHE=;
+        b=n6SP1ZMbkWoENlJDPiZ38Zcls5wfXCuU3IkRB7Xtq2Wp8wZHPQcxUvJSIZkszw4Jn7
+         o12UhWs69zVLd3cN1Az8bfLmqi3RLv5zGfKQ9JY/54iLiTr2Cb9cVvRQwts1P90eOXHm
+         0gdiC6U2wt/rGxcRuQE6OioCzZOtIbJDlWWH87qSyG9qU2JpEjrFmoUovx7eLVQ0tCt9
+         93W+hxDdSMJXhnuT8n62qY3ogMh+BxPSanvS2UoEa+rO2eorIxW/yzrtWszx6Gb9Ar6/
+         hV8bnN/akU4cFVnW6o+qLwYIs6lwmPmzv/CED8tOSn91Uvn8/RplY6TWm3cpuo20Uhgi
+         NdIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZQv/n+Pc9gBufpL9P6pIO2ZINXQcbOdsmattdguwTpU=;
-        b=HmwAmXDeQnGQ+iMBU5BbvFN/8mNoDlP6ZLYPFNMHGCM14jKCk95yDIO8rF45W6pb/6
-         obWDKmoxQkZnKj0PKsazDQVlGOCzWtWCRh112Pzl/OBw0fw5ShYYxRr97JBd+nF+7bua
-         M3C9qM+85U2wMh61wjonkwlJ4fhGYiyaToqKp3Sv5Ay/oUVBzFB9j/k9e5kl8wTNG408
-         ZA5O0CfGgjthbP2Y5THsgcP0268lwlKWheJpgJiyE5LtbYuAFg9y4P6USAgauZo/gKq9
-         kGUKIhUqF8u3SWUre8FS+bkHt6saC/EmUAbPOHnuLQlqTDEvC8i6w3ktx2DMHzcMhT2m
-         P5fQ==
-X-Gm-Message-State: AOAM533gGBx68ydS65MA210GUD4FyYnqpCljDy5FoeSGBSxGVrkP2LED
-        /nWK/XhAVOh3Y96D6hdZ9ie8VvGPFdg=
-X-Google-Smtp-Source: ABdhPJzYXHsBLvi55P1UZFx56hbwWS3tJBwAzM3b0wkhceNV4ZIflZenWgtXLCtu2uycKweqMlQdWw==
-X-Received: by 2002:a17:906:7805:: with SMTP id u5mr7762253ejm.379.1604349891925;
-        Mon, 02 Nov 2020 12:44:51 -0800 (PST)
-Received: from ?IPv6:2a01:110f:b59:fd00:f8a5:eb38:336d:d2dc? ([2a01:110f:b59:fd00:f8a5:eb38:336d:d2dc])
-        by smtp.gmail.com with ESMTPSA id u14sm10821756edv.6.2020.11.02.12.44.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2020 12:44:51 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] leds: rt4505: Add support for Richtek RT4505 flash
- LED controller
-To:     cy_huang <u0084500@gmail.com>, pavel@ucw.cz, dmurphy@ti.com,
-        robh+dt@kernel.org
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        cy_huang@richtek.com, devicetree@vger.kernel.org
-References: <1604284946-16254-1-git-send-email-u0084500@gmail.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <3cf3ee50-3dd8-d3b1-66a9-cea2ba487de3@gmail.com>
-Date:   Mon, 2 Nov 2020 21:44:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l5uJS/jEKGLUY7/54yb7PsXjkj4P5AmY3KEzFYsfwHE=;
+        b=HzuUqiJiqDL5SN8iFt04jfCyKT716mCRlZYs/mSH9qzwNPCsyYRrwt9+Xkaow+YhH0
+         YN1r2Zg2YLolanZ0aX20yoCCOKcID3r7+mjSJ1dZMj5ArPLvYNxnVxM95qQyrN7kxlgg
+         gtY7uDfkY2xqcuSOpNUltJy7F+H3b+cyuxwDrsY6NWZn1Gbh1oMwo9vBnes+SeVJ856e
+         kEyf3DzT3+kblpMGcnY8tKqJfxZWYEDuH2hDWUi3Z0ZWYiDFiyF1Qw16jTIU/NLHDP3x
+         dYeHII9e1RMpVyDZ1eYY5ybODlmb0BqzzoLw4nak86CymQ2ZyIOCDnLRh16rJ38O/hE5
+         tlxA==
+X-Gm-Message-State: AOAM533LzupPoC9xysNP1+TegSm/0eR921jG8fMD3u/eSfGwwRAlP1KY
+        ffc1czgaEwvqxxt2F4QWLFeE7NSo0rAbKyar6z0VmQ==
+X-Google-Smtp-Source: ABdhPJxyEOymgPpG0rZw8fAZSubOjDL6U1YtbHy3VgZ5EYhSsP0I8io3+caw3bttxxZDVONhTIHsurRHMlzScADBZPo=
+X-Received: by 2002:a92:41cf:: with SMTP id o198mr12656899ila.262.1604356610897;
+ Mon, 02 Nov 2020 14:36:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1604284946-16254-1-git-send-email-u0084500@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201025005916.64747-7-luka.kovacic@sartura.hr>
+ <20201025005916.64747-6-luka.kovacic@sartura.hr> <20201025005916.64747-5-luka.kovacic@sartura.hr>
+ <20201025005916.64747-4-luka.kovacic@sartura.hr> <20201025005916.64747-3-luka.kovacic@sartura.hr>
+ <20201025005916.64747-2-luka.kovacic@sartura.hr> <20201025005916.64747-1-luka.kovacic@sartura.hr>
+ <20201029180105.GD26053@duo.ucw.cz> <CADZsf3YE3d=dtMVVYHL91Z1WFcpNN4vyJJ6RG7VnJ2V-DqE+wQ@mail.gmail.com>
+ <7821443b-ddbc-fc92-b990-14d116dda853@ti.com>
+In-Reply-To: <7821443b-ddbc-fc92-b990-14d116dda853@ti.com>
+From:   Luka Kovacic <luka.kovacic@sartura.hr>
+Date:   Mon, 2 Nov 2020 23:36:39 +0100
+Message-ID: <CADZsf3atet+Y7xfCey=R6hk+hQ0Za5Om8PFD7KcS6m3fVaLLFA@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] Add support for the IEI WT61P803 PUZZLE MCU
+To:     Dan Murphy <dmurphy@ti.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-hwmon@vger.kernel.org,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Marek Behun <marek.behun@nic.cz>,
+        Luka Perkov <luka.perkov@sartura.hr>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Robert Marko <robert.marko@sartura.hr>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi ChiYuan,
+Hello,
 
-On 11/2/20 3:42 AM, cy_huang wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Add support for RT4505 flash LED controller. It can support up to 1.5A
-> flash current with hardware timeout and low input voltage protection.
-> 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
-> Changes since v1 to v2
-> 
-> - Create flash directory into drvers/leds.
-> - Coding style fix to meet 80 charactors per line limit.
-> - Refine the description in the Kconfig help text.
-> - Change all descriptions for 'led' text to uppercase 'LED'.
-> 
-> ---
->   drivers/leds/Kconfig             |   2 +
->   drivers/leds/Makefile            |   3 +
->   drivers/leds/flash/Kconfig       |  17 ++
->   drivers/leds/flash/Makefile      |   2 +
->   drivers/leds/flash/leds-rt4505.c | 430 +++++++++++++++++++++++++++++++++++++++
->   5 files changed, 454 insertions(+)
->   create mode 100644 drivers/leds/flash/Kconfig
->   create mode 100644 drivers/leds/flash/Makefile
->   create mode 100644 drivers/leds/flash/leds-rt4505.c
+On Mon, Nov 2, 2020 at 7:30 PM Dan Murphy <dmurphy@ti.com> wrote:
+>
+> Hello
+>
+> On 11/1/20 3:56 AM, Luka Kovacic wrote:
+> > Hello Pavel,
+> >
+> > On Thu, Oct 29, 2020 at 7:01 PM Pavel Machek <pavel@ucw.cz> wrote:
+> >> Hi!
+> >>
+> >>> +What:                /sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/power_status
+> >>> +Date:                September 2020
+> >>> +Contact:     Luka Kovacic <luka.kovacic@sartura.hr>
+> >>> +Description: (RO) Power status indicates the host platform power on method.
+> >>> +             Value mapping (bitwise list):
+> >>> +             0x80 - Null
+> >>> +             0x40 - Firmware flag
+> >>> +             0x20 - Power loss detection flag (powered off)
+> >>> +             0x10 - Power loss detection flag (AC mode)
+> >>> +             0x08 - Button power on
+> >>> +             0x04 - WOL power on
+> >>> +             0x02 - RTC alarm power on
+> >>> +             0x01 - AC recover power on
+> >> It would be nice to put this into standard place somewhere. Many
+> >> machines will want to expose this information.
+> > As this is specific to this microcontroller and to how it encodes
+> > these values, I don't see a need to change this.
+> > This isn't used anywhere else.
+> >
+> >> If not, at least spell out WoL, as it is not that common of acronym.
+> > Okay.
+>
+> WoL is a very common acronym especially in the networking space
 
-Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+By WOL I meant Wake-on-LAN, I will spell out the whole acronym.
 
--- 
-Best regards,
-Jacek Anaszewski
+>
+> But the overall this section does not make sense
+>
+> The description says that it indicates platform power on method but what
+> is NULL power on? There are flags for power loss detection.
+
+I will clarify the value mapping and try to replicate some of these states
+so I can write a better description.
+
+>
+> Does the RTC mean that the processor real time clock woke up the uC? Or
+> that the internal RTC woke up the controller?
+
+These are all related to the platform as a whole.
+So the Marvell SoC and all of the required peripherals are turned on.
+
+>
+> And for the
+> /sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/ac_recovery_status
+> what are those values?
+
+These values indicate whether the board has been shut down gracefully and
+whether it has been powered on automatically (when power came back) or by
+pressing the power button.
+I will also extend the documentation with the value mapping for this.
+
+>
+> It seems like some ABI's are documented well with formats and others are
+> just described without a format.
+>
+> For instance
+>
+> /sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/version the format
+> of this version is not described but
+> /sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/build_info is.
+
+I left out the version format descriptions as they are in the recognizable
+format and all of them are quite arbitrary (e.g. v1.000).
+
+>
+>
+> Dan
+>
+
+Kind regards,
+Luka
