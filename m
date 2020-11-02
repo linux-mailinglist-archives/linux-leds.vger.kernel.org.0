@@ -2,119 +2,103 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF23A2A33A3
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Nov 2020 20:05:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E517B2A355C
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Nov 2020 21:46:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726245AbgKBTFW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Nov 2020 14:05:22 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:55634 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726070AbgKBTFW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Nov 2020 14:05:22 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A2J4tCK090030;
-        Mon, 2 Nov 2020 13:04:55 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1604343895;
-        bh=5tRMuI4IpHf1UGKQ0FX7HKxoAuFmHgXM+99BquEoqeQ=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=ggelSvtgDDRuW4CMvo+Iw9Izw7BC+WSigYtaq1xtzvG53MXaKDO0L9pH4kAXD1Q+d
-         xki3YeA1fTtwYc1oeabLOND5+E/2cZBvZ1Sx0Z+1kcqytpAr8E0ENOf4g3ixruZS+C
-         S9UERohYSzHi4Lw/TVOGoWrBVfFlRsj11B7d4SwU=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A2J4tqC110866
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 2 Nov 2020 13:04:55 -0600
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 2 Nov
- 2020 13:04:55 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 2 Nov 2020 13:04:55 -0600
-Received: from [10.250.36.55] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A2J4sru015342;
-        Mon, 2 Nov 2020 13:04:54 -0600
-Subject: Re: [PATCH v7 0/6] Add support for the IEI WT61P803 PUZZLE MCU
-To:     Pavel Machek <pavel@ucw.cz>
-CC:     Luka Kovacic <luka.kovacic@sartura.hr>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        <linux-hwmon@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Marek Behun <marek.behun@nic.cz>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Robert Marko <robert.marko@sartura.hr>
-References: <20201025005916.64747-7-luka.kovacic@sartura.hr>
- <20201025005916.64747-6-luka.kovacic@sartura.hr>
- <20201025005916.64747-5-luka.kovacic@sartura.hr>
- <20201025005916.64747-4-luka.kovacic@sartura.hr>
- <20201025005916.64747-3-luka.kovacic@sartura.hr>
- <20201025005916.64747-2-luka.kovacic@sartura.hr>
- <20201025005916.64747-1-luka.kovacic@sartura.hr>
- <20201029180105.GD26053@duo.ucw.cz>
- <CADZsf3YE3d=dtMVVYHL91Z1WFcpNN4vyJJ6RG7VnJ2V-DqE+wQ@mail.gmail.com>
- <7821443b-ddbc-fc92-b990-14d116dda853@ti.com>
- <20201102190335.GA25451@duo.ucw.cz>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <3d9058ca-d64e-5e55-d032-5860456e5d9a@ti.com>
-Date:   Mon, 2 Nov 2020 13:04:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727057AbgKBUqQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Nov 2020 15:46:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726506AbgKBUox (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Nov 2020 15:44:53 -0500
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59CD1C0617A6;
+        Mon,  2 Nov 2020 12:44:53 -0800 (PST)
+Received: by mail-ej1-x642.google.com with SMTP id 7so20763995ejm.0;
+        Mon, 02 Nov 2020 12:44:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZQv/n+Pc9gBufpL9P6pIO2ZINXQcbOdsmattdguwTpU=;
+        b=UTrUitm/iFhoWSEF85q+yqCp6MJqJjJgTV8nE8lIAXmJsobPMZjm8SKfw+m2lYCgVZ
+         tvd94mMJ4JAt5GX7E3u3WSAn3ghS/JybNRh6Wshh+/S2aKCH7VxF2X/mqpq804FPQeEA
+         /K+6bi9gEg5hUU00OVeSV2itQq96P+ZVqfiRQt1+KgvzaPv0NMCuzSEcsjUJZAZHdBtf
+         TLyj/TFTfjZYkoaqTylAm/ne4oYCNYXxRLGEIMQMbINzbH6Vl6nlcIt5RDHa+x0grlsm
+         coTWqIXrgQT3xtXUdnwvQg2XMMGVLUaM6E7lx47IWrWqh5VJGMzhDfP0hSMRZg1c2LcA
+         xAVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZQv/n+Pc9gBufpL9P6pIO2ZINXQcbOdsmattdguwTpU=;
+        b=HmwAmXDeQnGQ+iMBU5BbvFN/8mNoDlP6ZLYPFNMHGCM14jKCk95yDIO8rF45W6pb/6
+         obWDKmoxQkZnKj0PKsazDQVlGOCzWtWCRh112Pzl/OBw0fw5ShYYxRr97JBd+nF+7bua
+         M3C9qM+85U2wMh61wjonkwlJ4fhGYiyaToqKp3Sv5Ay/oUVBzFB9j/k9e5kl8wTNG408
+         ZA5O0CfGgjthbP2Y5THsgcP0268lwlKWheJpgJiyE5LtbYuAFg9y4P6USAgauZo/gKq9
+         kGUKIhUqF8u3SWUre8FS+bkHt6saC/EmUAbPOHnuLQlqTDEvC8i6w3ktx2DMHzcMhT2m
+         P5fQ==
+X-Gm-Message-State: AOAM533gGBx68ydS65MA210GUD4FyYnqpCljDy5FoeSGBSxGVrkP2LED
+        /nWK/XhAVOh3Y96D6hdZ9ie8VvGPFdg=
+X-Google-Smtp-Source: ABdhPJzYXHsBLvi55P1UZFx56hbwWS3tJBwAzM3b0wkhceNV4ZIflZenWgtXLCtu2uycKweqMlQdWw==
+X-Received: by 2002:a17:906:7805:: with SMTP id u5mr7762253ejm.379.1604349891925;
+        Mon, 02 Nov 2020 12:44:51 -0800 (PST)
+Received: from ?IPv6:2a01:110f:b59:fd00:f8a5:eb38:336d:d2dc? ([2a01:110f:b59:fd00:f8a5:eb38:336d:d2dc])
+        by smtp.gmail.com with ESMTPSA id u14sm10821756edv.6.2020.11.02.12.44.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2020 12:44:51 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] leds: rt4505: Add support for Richtek RT4505 flash
+ LED controller
+To:     cy_huang <u0084500@gmail.com>, pavel@ucw.cz, dmurphy@ti.com,
+        robh+dt@kernel.org
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        cy_huang@richtek.com, devicetree@vger.kernel.org
+References: <1604284946-16254-1-git-send-email-u0084500@gmail.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <3cf3ee50-3dd8-d3b1-66a9-cea2ba487de3@gmail.com>
+Date:   Mon, 2 Nov 2020 21:44:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201102190335.GA25451@duo.ucw.cz>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1604284946-16254-1-git-send-email-u0084500@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello
+Hi ChiYuan,
 
-On 11/2/20 1:03 PM, Pavel Machek wrote:
-> On Mon 2020-11-02 12:29:59, Dan Murphy wrote:
->> Hello
->>
->> On 11/1/20 3:56 AM, Luka Kovacic wrote:
->>> Hello Pavel,
->>>
->>> On Thu, Oct 29, 2020 at 7:01 PM Pavel Machek <pavel@ucw.cz> wrote:
->>>> Hi!
->>>>
->>>>> +What:                /sys/bus/serial/devices/.../iei_wt61p803_puzzle_core/power_status
->>>>> +Date:                September 2020
->>>>> +Contact:     Luka Kovacic <luka.kovacic@sartura.hr>
->>>>> +Description: (RO) Power status indicates the host platform power on method.
->>>>> +             Value mapping (bitwise list):
->>>>> +             0x80 - Null
->>>>> +             0x40 - Firmware flag
->>>>> +             0x20 - Power loss detection flag (powered off)
->>>>> +             0x10 - Power loss detection flag (AC mode)
->>>>> +             0x08 - Button power on
->>>>> +             0x04 - WOL power on
->>>>> +             0x02 - RTC alarm power on
->>>>> +             0x01 - AC recover power on
->>>> It would be nice to put this into standard place somewhere. Many
->>>> machines will want to expose this information.
->>> As this is specific to this microcontroller and to how it encodes
->>> these values, I don't see a need to change this.
->>> This isn't used anywhere else.
->>>
->>>> If not, at least spell out WoL, as it is not that common of acronym.
->>> Okay.
->> WoL is a very common acronym especially in the networking space
-> WoL is common. WOL is not. Better spell it out.
+On 11/2/20 3:42 AM, cy_huang wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add support for RT4505 flash LED controller. It can support up to 1.5A
+> flash current with hardware timeout and low input voltage protection.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+> Changes since v1 to v2
+> 
+> - Create flash directory into drvers/leds.
+> - Coding style fix to meet 80 charactors per line limit.
+> - Refine the description in the Kconfig help text.
+> - Change all descriptions for 'led' text to uppercase 'LED'.
+> 
+> ---
+>   drivers/leds/Kconfig             |   2 +
+>   drivers/leds/Makefile            |   3 +
+>   drivers/leds/flash/Kconfig       |  17 ++
+>   drivers/leds/flash/Makefile      |   2 +
+>   drivers/leds/flash/leds-rt4505.c | 430 +++++++++++++++++++++++++++++++++++++++
+>   5 files changed, 454 insertions(+)
+>   create mode 100644 drivers/leds/flash/Kconfig
+>   create mode 100644 drivers/leds/flash/Makefile
+>   create mode 100644 drivers/leds/flash/leds-rt4505.c
 
-Agreed. Especially if WOL does not mean Wake On Lan
+Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 
-Dan
-
-
+-- 
+Best regards,
+Jacek Anaszewski
