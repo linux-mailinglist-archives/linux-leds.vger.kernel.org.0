@@ -2,99 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 691962A8665
-	for <lists+linux-leds@lfdr.de>; Thu,  5 Nov 2020 19:48:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 112CB2A99F0
+	for <lists+linux-leds@lfdr.de>; Fri,  6 Nov 2020 17:58:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727836AbgKESs6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 5 Nov 2020 13:48:58 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40113 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726801AbgKESs6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Nov 2020 13:48:58 -0500
-Received: by mail-ot1-f68.google.com with SMTP id 79so2386283otc.7;
-        Thu, 05 Nov 2020 10:48:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kCbG7E0XHBwO7XlEyC5EZYYga3b3NzADkcQOrZiRfRI=;
-        b=FKg0uGLMDR0TQEIRVcjkutECVm7DGbQAAMwlgiaPgzJu3p+rdncEj/0sJb5F9aBf/C
-         HCda64oVteXvP3v3rw4PN+MHlETXBt3su05RbBSmo1TLMlfwaIi38u6ZXlDAU4+O7dej
-         tSS0994bBmlaFgJi87FcAd8kb8kAfd2OD4DHCSDeMiGKg8XHnH3wtnzqzO7LNMVS16Ya
-         /oxugZrkU2ONP8goPmp726r8LGqik3RfXimGdk8j1n7vsmsafGhaoAsMyJ2CQFhV6fTt
-         3zr1PW9uRfdsmMNqQeC21rqYdT5GIgwJX+anx3VOzbBnkyutho3cAJyJJqrERgzsApVb
-         /fDg==
-X-Gm-Message-State: AOAM530oNhNXj6gbXI5N4P+L+Hoyx8JoJnd4hNgFw1IuxcGeht4hC5/C
-        JWnN9OWvdRS+COkBNfsJ8Q==
-X-Google-Smtp-Source: ABdhPJxFPwLW0bZMkojwYhyhhzC53CrQs4WQrvax050FzKnpQZxnL4bBIyvSxktijzoUe3BwhZNdJQ==
-X-Received: by 2002:a9d:550c:: with SMTP id l12mr2641433oth.91.1604602136863;
-        Thu, 05 Nov 2020 10:48:56 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 15sm537635ooy.36.2020.11.05.10.48.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 10:48:56 -0800 (PST)
-Received: (nullmailer pid 1621199 invoked by uid 1000);
-        Thu, 05 Nov 2020 18:48:55 -0000
-Date:   Thu, 5 Nov 2020 12:48:55 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>
-Cc:     dmurphy@ti.com, yixin.zhu@intel.com, linux-leds@vger.kernel.org,
-        pavel@ucw.cz, robh+dt@kernel.org, devicetree@vger.kernel.org,
-        malliamireddy009@gmail.com, linux-kernel@vger.kernel.org,
-        cheol.yong.kim@intel.com, qi-ming.wu@intel.com
-Subject: Re: [PATCH v1 1/2] dt-bindings: leds: Add bindings for intel LGM SOC
-Message-ID: <20201105184855.GB1620536@bogus>
-References: <c9c963a2d03fbd03bd21f71f3d776ac5800cf6cc.1604331498.git.mallikarjunax.reddy@linux.intel.com>
+        id S1726176AbgKFQ6R (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 6 Nov 2020 11:58:17 -0500
+Received: from mail-03.mail-europe.com ([91.134.188.129]:39210 "EHLO
+        mail-03.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726034AbgKFQ6Q (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 6 Nov 2020 11:58:16 -0500
+Date:   Fri, 06 Nov 2020 16:58:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1604681891;
+        bh=Cxw7DayELvc3qFiSUFsEDeHz2abSz8ZKKvShcAZzGs4=;
+        h=Date:To:From:Cc:Reply-To:Subject:From;
+        b=V4ecOcfMwrzQwVVAadDcFFrVquVfAX0sNE4d9AXx0HTmHp07Oqs6LkIksFi/PCg+b
+         3N3YwWdZenhBVBvceDB/vW3a1sQcnZK3rH7dAcd8SUOgzvVievVXdIBC8v+lr4ecxR
+         GA64X6Cue7yH99ws87Hh7lMGTV3LQH9z7GN2NRLk=
+To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+        <nfraprado@protonmail.com>
+Cc:     linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        Brian Masney <masneyb@onstation.org>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        Russell King <linux@armlinux.org.uk>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
+        andrealmeid@collabora.com
+Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+          <nfraprado@protonmail.com>
+Subject: [RFC PATCH 0/3] Add support for the flash LED on Nexus 5
+Message-ID: <20201106165737.1029106-1-nfraprado@protonmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9c963a2d03fbd03bd21f71f3d776ac5800cf6cc.1604331498.git.mallikarjunax.reddy@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 05 Nov 2020 17:43:50 +0800, Amireddy Mallikarjuna reddy wrote:
-> Add DT bindings YAML schema for SSO controller driver
-> of Lightning Mountain(LGM) SoC.
-> 
-> Signed-off-by: Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>
-> ---
->  .../devicetree/bindings/leds/leds-lgm.yaml         | 116 +++++++++++++++++++++
->  1 file changed, 116 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-lgm.yaml
-> 
+Hi,
 
+this patch series adds support for the flash LED on Nexus 5.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+The first patch adds the driver for the QPNP flash LED. The code for the dr=
+iver
+was ported from [1], which was for the 3.4 kernel. That driver originally
+supported multiple LED types: WLED, Flash/Torch, RGB, MPP and KPDBL as desc=
+ribed
+in [2], but this port only contains support for Flash/Torch, and the code f=
+or
+the others was removed just because it was easier to test. Also, it was
+originally an SPMI driver, but here I made it into a platform driver that
+matches an SPMI device and uses regmap to read and write on the addresses.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:14:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:18:3: [warning] wrong indentation: expected 3 but found 2 (indentation)
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:21:3: [warning] wrong indentation: expected 3 but found 2 (indentation)
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:29:3: [warning] wrong indentation: expected 3 but found 2 (indentation)
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:34:3: [warning] wrong indentation: expected 3 but found 2 (indentation)
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:40:3: [warning] wrong indentation: expected 3 but found 2 (indentation)
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:45:5: [warning] wrong indentation: expected 3 but found 4 (indentation)
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:47:8: [warning] wrong indentation: expected 6 but found 7 (indentation)
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:57:16: [warning] wrong indentation: expected 14 but found 15 (indentation)
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:78:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
-./Documentation/devicetree/bindings/leds/leds-lgm.yaml:87:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
+The second patch adds the driver as a module in qcom's defconfig, which is =
+the
+one used by the Nexus 5.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-lgm.example.dt.yaml: ssogpio@E0D40000: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-lgm.yaml
+The third patch adds the relevant nodes to Nexus 5's device tree. These nod=
+es
+were copied from [3] and [4], only changing the flash-boost-supply and
+torch-boost-supply properties to point to the regulator nodes already defin=
+ed
+upstream at qcom-pm8941.dtsi. Again, I'm not sure if the nodes should be ke=
+pt on
+separate .dtsi as they were downstream, I just did what was easier for test=
+ing.
 
+The flash LED can be tested on a Nexus 5 with the following:
 
-See https://patchwork.ozlabs.org/patch/1394849
+To turn the LED on:
+echo 1 > /sys/class/leds/led\:flash_torch/brightness
 
-The base for the patch is generally the last rc1. Any dependencies
-should be noted.
+To turn the LED on only for a couple seconds:
+echo 1 > /sys/class/leds/led\:flash_0/brightness
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+From what I understand flash and torch correspond to the same LED, but flas=
+h
+only stays on for a couple seconds and uses a different voltage regulator.
+I'm not sure why there are both flash_0 and flash_1. Both seem to do the sa=
+me.
 
-pip3 install dtschema --upgrade
+My questions are: Is there something fundamentally wrong with this patch se=
+ries?
+Is it okay to have the driver only support the flash LEDs from QPNP (at lea=
+st
+for the time being)?
+But also please give me any other feedback.
 
-Please check and re-submit.
+Thanks,
+N=C3=ADcolas
+
+[1] https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/drivers/leds/le=
+ds-qpnp.c
+[2] https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/Documentation/d=
+evicetree/bindings/leds/leds-qpnp.txt
+[3] https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/arch/arm/boot/d=
+ts/msm-pm8941.dtsi
+[4] https://github.com/AICP/kernel_lge_hammerhead/blob/n7.1/arch/arm/boot/d=
+ts/msm8974-leds.dtsi
+My tree: https://gitlab.com/nfraprado/linux/
+
+N=C3=ADcolas F. R. A. Prado (3):
+  leds: Add driver for QPNP flash led
+  ARM: qcom_defconfig: Add QPNP flash LED support
+  ARM: dts: qcom: msm8974-hammerhead: Add support for the flash LED
+
+ .../qcom-msm8974-lge-nexus5-hammerhead.dts    |   56 +
+ arch/arm/configs/qcom_defconfig               |    1 +
+ drivers/leds/Kconfig                          |    9 +
+ drivers/leds/Makefile                         |    1 +
+ drivers/leds/leds-qpnp.c                      | 1351 +++++++++++++++++
+ 5 files changed, 1418 insertions(+)
+ create mode 100644 drivers/leds/leds-qpnp.c
+
+--=20
+2.29.2
+
 
