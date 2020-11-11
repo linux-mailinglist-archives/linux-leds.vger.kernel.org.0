@@ -2,132 +2,155 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C49662AE08A
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Nov 2020 21:14:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4417A2AE55E
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Nov 2020 02:14:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730468AbgKJUOq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Nov 2020 15:14:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58342 "EHLO
+        id S1732568AbgKKBOZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Nov 2020 20:14:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726307AbgKJUOq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Nov 2020 15:14:46 -0500
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C5FAC0613D1
-        for <linux-leds@vger.kernel.org>; Tue, 10 Nov 2020 12:14:46 -0800 (PST)
-Received: by mail-io1-xd44.google.com with SMTP id u21so15633078iol.12
-        for <linux-leds@vger.kernel.org>; Tue, 10 Nov 2020 12:14:46 -0800 (PST)
+        with ESMTP id S1732123AbgKKBOY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Nov 2020 20:14:24 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1AA5C0613D1
+        for <linux-leds@vger.kernel.org>; Tue, 10 Nov 2020 17:14:23 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id r9so844259lfn.11
+        for <linux-leds@vger.kernel.org>; Tue, 10 Nov 2020 17:14:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=LcGHI5HLTTMixiAoo4DwvdYmU5XWNIEPWiELjO+QW7Y=;
-        b=UMpcvPcjlLhh/kl5mvTfd50lcLioF3hMJ3jOu6/aMUZXHLGcTwvS1+TMHy/M2b1+BO
-         w4AoJQVRln8SBbIHpkfDVh6JBlDmSNWhlRKyzGsSny9MdOp63eo/6RAm6nk2cq55ek6p
-         MsHNuJ0MRZyB5CMbcPDhlooJFaHaAaVcYMwHzJ7Nx3k/G3PRvNlCmrM+DLbhi66Fspml
-         fPktd6wG14MGC5gS7CbKnKGw6sEEwWFaHi7CivlT2av+mmJVYAGOaQjf149Rt5FxZqz/
-         8aysjOEOvnul07C0FBmTv1JXjy5PWuEDVfyB6GS3SrqaXcKSIkmEJyFZgrGML3wesK7m
-         c3Qg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K9XBUYhR2UM3o5JW2bLsoKZhteJffpc0EMzzkZ12vrU=;
+        b=PqWe0YWuTcOTlgUfpZFss7Jov1FIYRzUvvdoVxG+fHvnGDpWZ1V5zg3/Jw4zzy0D7f
+         NDLUnTW8HfsM5IfYWcrZj0JTEp+m7RNX23gVM5ZFSojdvUhdswtkQog/NBbSFPoMGdYI
+         5d+CrTzDDPzp1kYGLPkkRKoLjc+7iaMFDJwB4ChFPuhqXkMzXf5EQUoWU46nSJEepKm/
+         o8o1T+n6AXiHc3IMJ1HAYsI6zVMkUM+ovSw/v6mz/nU0OL4BYPqaCpJrj+G+pkr2TzPR
+         /1QTr02v3z5wDsIqrcSWUzcgX7ndIqTqfXTm5j5BkMUs6vNkWlXt0VtTIbr6vOE5qTBY
+         COPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LcGHI5HLTTMixiAoo4DwvdYmU5XWNIEPWiELjO+QW7Y=;
-        b=fVBoc2U/rhomBDP/6iTsf6BFDDGaqDCENzkNSHVZuGTwNLaojDbgnh310mbKw+NX5c
-         SdeQKPZWOsQcqyDnHum94fNiW2D3OrHT2VRm/DkmtKCSW/gZmjrTsNld6+EHcIcuJcYE
-         rhyyBoBNXrcJWpOwxxSzPCCtJ/aremeEyvzKmAAVAGOLm74y8z0yZvoXq+czyTuDXUQG
-         7U+kax0a/MimMWZ7lGEzuyxpmkkzF79DwK91Dq3fjrvxuGQbVnQdwn43HFWwAmWDMmVv
-         O4yyo/k5AylvC7fRmY5MBACCnZNzM9QGr4K0Y7DturXL1ltGNWGXQfPX8l2aH01zO7gA
-         z/hw==
-X-Gm-Message-State: AOAM532sj2qEvLl/XWLqdTrqqZPaRcTATSMPs2zLwyzeJCPTcv7/oCxm
-        /eQitK/mm/HlTl8wqqdmYyXN2RvizecGdT6e0XrZzQ==
-X-Google-Smtp-Source: ABdhPJxJ5nCLlaslCGZ7rFMK8sVF6fRf6ubFOx1K9c+PBlOt2+l8gZJm22j48T4dN13f9n/gOQ/tqr7wSsDzhgVdI+I=
-X-Received: by 2002:a02:c64f:: with SMTP id k15mr17291198jan.75.1605039285501;
- Tue, 10 Nov 2020 12:14:45 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K9XBUYhR2UM3o5JW2bLsoKZhteJffpc0EMzzkZ12vrU=;
+        b=cFbH//SZ1o+aGKbpK+R355IUCp9cXshqm+u8WhOHKx+DwrUxlKLsapa0p67bTCzhw5
+         O7wU1VwlKV3MBc6jQiGF5HLsuWKXynSVXgXgUjPH4crdJbPWc2JonUvEZOS/rUYN+DBw
+         hJKbfaHxVXqxui5oqo6AEV6arvyZPRVUsyfrJ4b5kxj6UvtHugfMX9x3RMTPN8q/XMU5
+         AiW5qCvt/cy5xgExjQQ5Qf7oP+qxVJr+O+i/jP1GgmByU8zMVdR8h5hzGafliOl2K6HJ
+         AXqhRqlAYQTJl8oXFEvAvdaRu23+VVLwebXSz4q+sFgYAX8xCIoQbYcGn9hqTn4qwtJX
+         4hTA==
+X-Gm-Message-State: AOAM53051Z8kSKwlquv6XED982wjFsHdAJGQlBq/+pdFSsT0rdIERFlZ
+        nL2cOGg3rmU5b2o4FazWJJdfzg==
+X-Google-Smtp-Source: ABdhPJx/s8//eZsR2mDWaE+/rGMrjsWcZks+Waz1MsuzmfCH+rO72bB0gt+TU3NBkomdrJuAZGx7ig==
+X-Received: by 2002:a19:587:: with SMTP id 129mr7610447lff.189.1605057262147;
+        Tue, 10 Nov 2020 17:14:22 -0800 (PST)
+Received: from localhost.bredbandsbolaget (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+        by smtp.gmail.com with ESMTPSA id r9sm47836ljd.23.2020.11.10.17.14.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2020 17:14:21 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, newbytee@protonmail.com,
+        Stephan Gerhold <stephan@gerhold.net>,
+        devicetree@vger.kernel.org
+Subject: [PATCH 1/2 v3] dt-bindings: leds: Add DT binding for Richtek RT8515
+Date:   Wed, 11 Nov 2020 02:14:16 +0100
+Message-Id: <20201111011417.2275501-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201019221859.56680-3-luka.kovacic@sartura.hr>
- <202010201049.3V7m9mtx-lkp@intel.com> <20201104152227.GM4488@dell>
-In-Reply-To: <20201104152227.GM4488@dell>
-From:   Luka Kovacic <luka.kovacic@sartura.hr>
-Date:   Tue, 10 Nov 2020 21:14:34 +0100
-Message-ID: <CADZsf3ZW2kvqoq=fnuYajRHtSOZzjL7O-Ycmif6d_Jucd3nFJQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/6] drivers: mfd: Add a driver for iEi WT61P803 PUZZLE MCU
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     kernel test robot <lkp@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hwmon@vger.kernel.org,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>, kbuild-all@lists.01.org,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello,
+Add a YAML devicetree binding for the Richtek RT8515
+dual channel flash/torch LED driver.
 
-On Wed, Nov 4, 2020 at 4:22 PM Lee Jones <lee.jones@linaro.org> wrote:
->
-> On Tue, 20 Oct 2020, kernel test robot wrote:
->
-> > Hi Luka,
-> >
-> > Thank you for the patch! Perhaps something to improve:
-> >
-> > [auto build test WARNING on hwmon/hwmon-next]
-> > [also build test WARNING on v5.9]
-> > [cannot apply to pavel-linux-leds/for-next lee-mfd/for-mfd-next next-20=
-201016]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch]
-> >
-> > url:    https://github.com/0day-ci/linux/commits/Luka-Kovacic/Add-suppo=
-rt-for-the-iEi-WT61P803-PUZZLE-MCU/20201020-062048
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-st=
-aging.git hwmon-next
-> > config: ia64-randconfig-r002-20201020 (attached as .config)
-> > compiler: ia64-linux-gcc (GCC) 9.3.0
-> > reproduce (this is a W=3D1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
-bin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://github.com/0day-ci/linux/commit/855e7cca9db335136d095=
-55f9983d7245fca1f4b
-> >         git remote add linux-review https://github.com/0day-ci/linux
-> >         git fetch --no-tags linux-review Luka-Kovacic/Add-support-for-t=
-he-iEi-WT61P803-PUZZLE-MCU/20201020-062048
-> >         git checkout 855e7cca9db335136d09555f9983d7245fca1f4b
-> >         # save the attached .config to linux build tree
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cr=
-oss ARCH=3Dia64
-> >
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> > >> drivers/mfd/iei-wt61p803-puzzle.c:311:5: warning: no previous protot=
-ype for 'iei_wt61p803_puzzle_buzzer' [-Wmissing-prototypes]
-> >      311 | int iei_wt61p803_puzzle_buzzer(struct iei_wt61p803_puzzle *m=
-cu, bool long_beep)
-> >          |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> This bot has been complaining about this patch since at least v3.
->
-> Are you going to fix the issue?  Or is it moot?
+Cc: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: newbytee@protonmail.com
+Cc: Stephan Gerhold <stephan@gerhold.net>
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v2->v3:
+- Add Sakari to CC
+- Resend
+ChangeLog v1->v2:
+- Explicitly inherit function, color and flash-max-timeout-us
+  from common.yaml
+- Add "led" node as required.
+---
+ .../bindings/leds/richtek,rt8515.yaml         | 59 +++++++++++++++++++
+ 1 file changed, 59 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
 
-Yes, I'll fix the issue in the next patchset.
+diff --git a/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml b/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+new file mode 100644
+index 000000000000..0d8bb635370c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+@@ -0,0 +1,59 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/richtek,rt8515.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Richtek RT8515 1.5A dual channel LED driver
++
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
++
++description: |
++  The Richtek RT8515 is a dual channel (two mode) LED driver that
++  supports driving a white LED in flash or torch mode.
++
++properties:
++  compatible:
++    const: richtek,rt8515
++
++  enf-gpios:
++    maxItems: 1
++    description: A connection to the 'ENF' (enable flash) pin.
++
++  ent-gpios:
++    maxItems: 1
++    description: A connection to the 'ENT' (enable torch) pin.
++
++  led:
++    type: object
++    $ref: common.yaml#
++    properties:
++      function: true
++      color: true
++      flash-max-timeout-us: true
++
++required:
++  - compatible
++  - ent-gpios
++  - enf-gpios
++  - led
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/leds/common.h>
++
++    led-controller {
++        compatible = "richtek,rt8515";
++        enf-gpios = <&gpio4 12 GPIO_ACTIVE_HIGH>;
++        ent-gpios = <&gpio4 13 GPIO_ACTIVE_HIGH>;
++
++        led {
++            function = LED_FUNCTION_FLASH;
++            color = <LED_COLOR_ID_WHITE>;
++            flash-max-timeout-us = <250000>;
++        };
++    };
+-- 
+2.26.2
 
->
-> --
-> Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
-> Senior Technical Lead - Developer Services
-> Linaro.org =E2=94=82 Open source software for Arm SoCs
-> Follow Linaro: Facebook | Twitter | Blog
-
-Kind regards,
-Luka
