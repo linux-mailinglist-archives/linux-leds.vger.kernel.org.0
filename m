@@ -2,137 +2,238 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC56B2B02AE
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Nov 2020 11:26:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30FA12B0483
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Nov 2020 12:57:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727773AbgKLK00 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Nov 2020 05:26:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49452 "EHLO
+        id S1728228AbgKLL5V (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Nov 2020 06:57:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727762AbgKLK0Z (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Nov 2020 05:26:25 -0500
-Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 934FBC0613D1;
-        Thu, 12 Nov 2020 02:26:25 -0800 (PST)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id EAB10634C24;
-        Thu, 12 Nov 2020 12:24:43 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kd9mX-0004Ki-4c; Thu, 12 Nov 2020 12:24:45 +0200
-Date:   Thu, 12 Nov 2020 12:24:45 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        newbytee@protonmail.com, Stephan Gerhold <stephan@gerhold.net>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2 v3] leds: rt8515: Add Richtek RT8515 LED driver
-Message-ID: <20201112102444.GB6899@valkosipuli.retiisi.org.uk>
-References: <20201111011417.2275501-1-linus.walleij@linaro.org>
- <20201111011417.2275501-2-linus.walleij@linaro.org>
- <20201111113848.GX6899@valkosipuli.retiisi.org.uk>
- <CACRpkdYK+X==Xm3AfymV_HEaZHOvPS-LtCLKZXc2jmzV7KUZoQ@mail.gmail.com>
- <20201111165503.GZ6899@valkosipuli.retiisi.org.uk>
- <CACRpkdYvfxWE83O+4OAKx02kJK5XRBCLN0rFPjBYheQ65n4urA@mail.gmail.com>
+        with ESMTP id S1728184AbgKLL4x (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Nov 2020 06:56:53 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E5BEC0613D1
+        for <linux-leds@vger.kernel.org>; Thu, 12 Nov 2020 03:56:52 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id f11so7993673lfs.3
+        for <linux-leds@vger.kernel.org>; Thu, 12 Nov 2020 03:56:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2QnFX94ue+MfUcZEh811vnO774W9JyKEs6qXHdD7T6s=;
+        b=S22X0xD4Oq76x0B/GT0nueMl18VR4qJt2SNmPXKqeWc8UKg6kPL3fyGoaV2LWTK8jx
+         dDTCl2gOYfvv8mwyyEaSvT5FAF20wj2en61DghZjYyglEM55lym3rOXo4DE3zwoLZfhu
+         7kSJuORfsKSYTRGrqEQmfksmos1wCENuuS1rF0Usn+DM0CACglczSL8Xt0eZ5Cavq3Ue
+         8R6JYFVqAAcpthrlwTWVXzo6SPGMEE3E2Uzns7hbHmmfotteVtbssTTq7dADQ9T+ChbO
+         Pp2ZrzNOstE8jv5WZoF8/BBXM/343O21vdBgmPQFPHbg4WdP/q/XqdigwLPf8wXifRo7
+         ZXgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2QnFX94ue+MfUcZEh811vnO774W9JyKEs6qXHdD7T6s=;
+        b=s4H6KB9xfLdw/XpIt8CjcUJ2KbhijXDeCiNweOPHz0ABL+e804FxKY0jkGvYQ+Ck0Z
+         Pw0TQ/DU+aJuebAIig0RE+QoaNhlbyCK94dCLbHHexdyrV1zJrJDuJk3MK+regI7vfaK
+         flTPHqq/1dOWsN+uL1IuWQAGMcgCT8g4E9nui0MCh5cmpCQZO+JR4V3AGAXQyGD1fdLz
+         RM8heybrdCH9G6A25ekdbvS7xB9sUEhHsZNMG7FSW+Z1WLuBZlr7uQrv3bYn44eWSw/Q
+         CIiuFJFYZqSRgw96g+yBkBhDWg2sfuJngz+SH78Q2myRQwey7XpbRbnNtv1I093pLGxe
+         4s8g==
+X-Gm-Message-State: AOAM532/URVVQr8uXsaWZJ98w0iyzmzSXFl4sOLH6CNoeldCGLO6KlVh
+        ENPPFKpVZEkOHsIm+4EXmIjrvvN3uQbPVw==
+X-Google-Smtp-Source: ABdhPJzF529uyx3/2mb9dv20cuXcbVHoUUik5NdvECpoIC6r6k0i0Xwq9a+wk4XCbTohLgsxglVEUw==
+X-Received: by 2002:a19:be13:: with SMTP id o19mr8527924lff.445.1605182211115;
+        Thu, 12 Nov 2020 03:56:51 -0800 (PST)
+Received: from localhost.bredbandsbolaget (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+        by smtp.gmail.com with ESMTPSA id v4sm534624lfa.309.2020.11.12.03.56.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2020 03:56:50 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, newbytee@protonmail.com,
+        Stephan Gerhold <stephan@gerhold.net>,
+        phone-devel@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH 1/2 v4] dt-bindings: leds: Add DT binding for Richtek RT8515
+Date:   Thu, 12 Nov 2020 12:56:45 +0100
+Message-Id: <20201112115646.2562467-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdYvfxWE83O+4OAKx02kJK5XRBCLN0rFPjBYheQ65n4urA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Linus,
+Add a YAML devicetree binding for the Richtek RT8515
+dual channel flash/torch LED driver.
 
-On Wed, Nov 11, 2020 at 11:07:53PM +0100, Linus Walleij wrote:
-> On Wed, Nov 11, 2020 at 5:56 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> > On Wed, Nov 11, 2020 at 05:34:58PM +0100, Linus Walleij wrote:
-> 
-> > > The way I understand it is that this component contains its own
-> > > current regulation electronic. You request a brightness
-> > > between 1-100 and it will support this range (no external
-> > > current boost). And as a user that is "all you need to know".
-> > >
-> > > Isn't this problem more prevalent when you have some kind of
-> > > external current-regulator that you need to program?
-> > >
-> > > This component draws its power directly from VBAT (the main
-> > > battery) so regulating how much of that it takes is up to the
-> > > component.
-> > >
-> > > I could think of the component brightness being a problem if
-> > > the flash is embedded in some kind of plastic that cannot
-> > > take the heat though, but I haven't seen any code trying to
-> > > hold it down for this reason. I suppose the component
-> > > datasheet (that I don't have) specifies all these things...
-> >
-> > The LED is different from the LED driver. If you happen to have a LED with
-> > smaller maximum current than the LED driver can provide, the software has
-> > to limit the current the driver provides, or hardware damage will result.
-> >
-> > This is why virtually all flash LED drivers have these properties.
-> 
-> Hm you're right of course.
-> 
-> I did some research, the flash driver in the RT8515
-> appears to be somewhat clever.
-> 
-> Here is a schematic picture from the LG P970 service
-> manual where you can see the connections from the RT8515
-> to the LED:
-> https://dflund.se/~triad/images/rt8515.jpg
-> 
-> On this image you can see that there are two resistors connected
-> from the pins "RFS" and "RTS" to ground.
-> 
-> RFS (resistance flash setting?) is 20 kOhm
-> RTS (resistance torch setting?) is 39 kOhm
-> 
-> Some sleuthing finds us the RT9387A which we have a datasheet for:
-> https://static5.arrow.com/pdfs/2014/7/27/8/21/12/794/rtt_/manual/94download_ds.jspprt9387a.jspprt9387a.pdf
-> This apparently works the same way so now we have a
-> RT9387A driver as well.
-> 
-> The two resistances control the max current for flash
-> and torch, with I = 5500 / R, up to 700 mA.
-> For 20 and 39 kOhm this means
-> 
-> ImaxFlash = 275 mA
-> ImaxTorch = 141 mA
-> 
-> So the max current is actually hardwired into the
-> circuit.
+Cc: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: newbytee@protonmail.com
+Cc: Stephan Gerhold <stephan@gerhold.net>
+Cc: phone-devel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v3->v4:
+- Add DT attributes for the RFS and RTS resistors, so that
+  the hardware-defined maximum current can be determined.
+- Add torch-max-microamp to the common bindings so we can
+  set an attribute for the max microamp in torch mode.
+- Add flash-max-microamp and torch-max-microamp as optional
+  to the LED node.
+- Slot in some elabortative descriptions of the new
+  properties and describe what the hardware is doing.
+- Cc phone-devel@vger.kernel.org
+ChangeLog v2->v3:
+- Add Sakari to CC
+- Resend
+ChangeLog v1->v2:
+- Explicitly inherit function, color and flash-max-timeout-us
+  from common.yaml
+- Add "led" node as required.
+---
+ .../devicetree/bindings/leds/common.yaml      |   6 +
+ .../bindings/leds/richtek,rt8515.yaml         | 111 ++++++++++++++++++
+ 2 files changed, 117 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
 
-Nice; thanks for digging into this! Interesting indeed, I have to admit
-I've only seen software limited implementations up to now.
-
-So here it's indeed not necessary to know the limits to operate the device
-safely, and the limits would (or could) remain for the user interface's
-purpose only (from driver PoV).
-
-> 
-> The setting of brightness is done with the pulse train,
-> but it is a PWM dimmer setting on top of the max
-> current.
-> 
-> So I'll just put in these max currents (assuming they
-> are using the same equation).
-
-Sounds good.
-
-I think it'd be nice to have the limits, but they could be optional --- it
-might not be always possible to know them in general case. I wonder if
-anyone else has thoughts on this.
-
-Cc'ing also linux-media.
-
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index 08b6700ca61e..28bdf09b4af4 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -151,6 +151,12 @@ properties:
+       Maximum flash LED supply current in microamperes. Required for flash LED
+       nodes with configurable current.
+ 
++  torch-max-microamp:
++    description:
++      Maximum flash LED supply current in microamperes, when the flash LED is
++      used as a torch (flashlight). This is usually lower than the flash mode
++      maximum current, if the LED supports torch mode.
++
+   flash-max-timeout-us:
+     description:
+       Maximum timeout in microseconds after which the flash LED is turned off.
+diff --git a/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml b/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+new file mode 100644
+index 000000000000..5f65a20b997d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+@@ -0,0 +1,111 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/richtek,rt8515.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Richtek RT8515 1.5A dual channel LED driver
++
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
++
++description: |
++  The Richtek RT8515 is a dual channel (two mode) LED driver that
++  supports driving a white LED in flash or torch mode. The maximum
++  current for each mode is defined in hardware using two resistors
++  RFS and RTS.
++
++properties:
++  compatible:
++    const: richtek,rt8515
++
++  enf-gpios:
++    maxItems: 1
++    description: A connection to the 'ENF' (enable flash) pin.
++
++  ent-gpios:
++    maxItems: 1
++    description: A connection to the 'ENT' (enable torch) pin.
++
++  richtek,rfs:
++    maxItems: 1
++    minimum: 7680
++    maximum: 367000
++    description: The resistance value of the RFS resisitor. This
++      resistors limits the maximum flash current. This must be set
++      for the property flash-max-microamp to work, the RFS resistor
++      defines the range of the dimmer setting (brightness) of the
++      flash LED.
++
++  richtek,rts:
++    maxItems: 1
++    minimum: 7680
++    maximum: 367000
++    description: The resistance value of the RTS resisitor. This
++      resistors limits the maximum torch current. This must be set
++      for the property torch-max-microamp to work, the RTS resistor
++      defines the range of the dimmer setting (brightness) of the
++      torch LED.
++
++  led:
++    type: object
++    $ref: common.yaml#
++    properties:
++      function: true
++      color: true
++      flash-max-timeout-us: true
++
++      flash-max-microamp:
++        maximum: 700000
++        description: The maximum current for flash mode
++          is hardwired to the component using the RFS resistor to
++          ground. The maximum hardware current setting is calculated
++          according to the formula Imax = 5500 / RFS. The lowest
++          allowed resistance value is 7.86 kOhm giving an absolute
++          maximum current of 700mA. By setting this attribute in
++          the device tree, you can further restrict the maximum
++          current below the hardware limit. This requires the RFS
++          to be defined as it defines the maximum range.
++
++      torch-max-microamp:
++        maximum: 700000
++        description: The maximum current for torch mode
++          is hardwired to the component using the RTS resistor to
++          ground. The maximum hardware current setting is calculated
++          according to the formula Imax = 5500 / RTS. The lowest
++          allowed resistance value is 7.86 kOhm giving an absolute
++          maximum current of 700mA. By setting this attribute in
++          the device tree, you can further restrict the maximum
++          current below the hardware limit. This requires the RTS
++          to be defined as it defines the maximum range.
++
++required:
++  - compatible
++  - ent-gpios
++  - enf-gpios
++  - led
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/leds/common.h>
++
++    led-controller {
++        compatible = "richtek,rt8515";
++        enf-gpios = <&gpio4 12 GPIO_ACTIVE_HIGH>;
++        ent-gpios = <&gpio4 13 GPIO_ACTIVE_HIGH>;
++        richtek,rfs = <16000>;
++        richtek,rts = <100000>;
++
++        led {
++            function = LED_FUNCTION_FLASH;
++            color = <LED_COLOR_ID_WHITE>;
++            flash-max-timeout-us = <250000>;
++            flash-max-microamp = <150000>;
++            torch-max-microamp = <25000>;
++        };
++    };
++
++...
 -- 
-Kind regards,
+2.26.2
 
-Sakari Ailus
