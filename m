@@ -2,55 +2,44 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C41F42B080D
-	for <lists+linux-leds@lfdr.de>; Thu, 12 Nov 2020 16:04:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7A762B08BE
+	for <lists+linux-leds@lfdr.de>; Thu, 12 Nov 2020 16:46:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728345AbgKLPEL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 12 Nov 2020 10:04:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36240 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728258AbgKLPEL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 12 Nov 2020 10:04:11 -0500
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A68AC0613D6
-        for <linux-leds@vger.kernel.org>; Thu, 12 Nov 2020 07:04:11 -0800 (PST)
-Received: by mail-lj1-x242.google.com with SMTP id l10so6521091lji.4
-        for <linux-leds@vger.kernel.org>; Thu, 12 Nov 2020 07:04:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PqQlHiuYUatfOqpgijrt0IA2zZaSoWtcPhGii9yQJ5I=;
-        b=jh4/qQF+3Diolsbr2KAyPiWXD1jmAv6Z9OcymVmeaPhJYWpAgWyxJl282YoiV/PYoH
-         wVIunQqKv491Fl/qunTQ4wQwO7KMoBUFFSWqGYWTIQrwHWvfjwD2hspJotJLQDx6nHxO
-         yG3rLvzt6szYGM+xqL79fPVynvPWNb2vTFhJqNgPamPSkDDlM4Ix/B/6frcCGthFR2/p
-         Ky92rkG/G6K2Rt8vXFRlKEzEHl3LU/fVCxWjW8a84UBsjBu+784ip7GFqfBCKOSrpvRw
-         iAe63/hVPtAUE38MoXwG9owLNwfPX86PUALzV4mUekN7Tm4+6SiKrdi/OHNXec5979wc
-         ulGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PqQlHiuYUatfOqpgijrt0IA2zZaSoWtcPhGii9yQJ5I=;
-        b=M2Dtbzq60v59TC3GIyISH2ta8bhkWb2tzzdtDN6JzOGTlwZLlIIvg0xY3aObzjA0nQ
-         DdwF4Y4Cps57bcZ6OaHqRHN6Qsab1hcc+WGrI/lyrB7LK1U5wvBvzZoeSvgiZsDlpdxq
-         RgjT/6fPCROVINrG+RVEriC10vNNLEg0GM2AlUSd5dDkZtAh855uie9rg3xjr+FJN/o1
-         HH7SsccTkdUCzpsCe/d5X0qeQjQqQlg7SDUfC0sYXkb90Zma3medekjqapXVUmVtgYBJ
-         qp6lJ77naOLfjNmnATG56/sujY5bD/Q40ZKeTa7w7fjP2xi4WaHZVQURayeW438HGqNt
-         BPVg==
-X-Gm-Message-State: AOAM5304ykV6JUDPiA0PWryVCMYAJvQivkQ895BdzYCjFMuwbj3ybFKP
-        qbVrhTyiUCkaqsKQPgqGyZSL6bTC4aBk8WlBMDBVUg==
-X-Google-Smtp-Source: ABdhPJzmhGR8JAFRuT8nxqoTnfgPvAXeagFyA/3/N21escorOKerGh6l6tFqSn5Ew3fmCBTMp+rsY73VhtG2MflPQWI=
-X-Received: by 2002:a2e:8604:: with SMTP id a4mr12978622lji.100.1605193448120;
- Thu, 12 Nov 2020 07:04:08 -0800 (PST)
+        id S1728793AbgKLPqA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 12 Nov 2020 10:46:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51536 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728750AbgKLPp7 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 12 Nov 2020 10:45:59 -0500
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F094B2224A;
+        Thu, 12 Nov 2020 15:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605195958;
+        bh=uedioChmpjX+rYYatjJTIqC28httXXTj7mTg0k5ibY0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=FWSbf6uwaVU4Xm/6UDHgNU5HBpbAU+X28ap/afQNMZctuC694B3L7U/G/0wz1S9jl
+         6ECn2yi38Ym089qRc6Md3Ns5FTL/rLNEW6gkYWa9mpz18sjuEpy1O9TzukIye3UDuX
+         Ai+BVrlFmVegSBDJZpQAz5A7ht+2XHrrs2q3jXvg=
+Received: by mail-ot1-f49.google.com with SMTP id a15so6004560otf.5;
+        Thu, 12 Nov 2020 07:45:57 -0800 (PST)
+X-Gm-Message-State: AOAM53322+zMEuBf2Gzcpp3L6UEHDijsqsetc9sLQU5jEYpsZAZi/w/w
+        t9ESBzBfWVhVOJn+LdwFjpbJVW4n7ypK0TkG0Q==
+X-Google-Smtp-Source: ABdhPJzD+QJuIKJODRkmIOSEt7UHTD9ojZDt9bzfTQpijq/kH6OQ6Bg2UVX/XBm3s05J7Rba7bTOxHXaZgKoJ8c26VM=
+X-Received: by 2002:a05:6830:2f8:: with SMTP id r24mr21898398ote.129.1605195957153;
+ Thu, 12 Nov 2020 07:45:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20201112115646.2562467-1-linus.walleij@linaro.org> <20201112145846.GA3588803@bogus>
-In-Reply-To: <20201112145846.GA3588803@bogus>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Nov 2020 16:03:56 +0100
-Message-ID: <CACRpkdbciyjbe6p-ckvXezyVvaExgdq8T2soqAhVPQQpCWmFpA@mail.gmail.com>
+References: <20201112115646.2562467-1-linus.walleij@linaro.org>
+ <20201112145846.GA3588803@bogus> <CACRpkdbciyjbe6p-ckvXezyVvaExgdq8T2soqAhVPQQpCWmFpA@mail.gmail.com>
+In-Reply-To: <CACRpkdbciyjbe6p-ckvXezyVvaExgdq8T2soqAhVPQQpCWmFpA@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 12 Nov 2020 09:45:45 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK91Pd=iZhMb8EYHgaMNgxaQ7xpO_9TP_i+Q-i_UTFQPg@mail.gmail.com>
+Message-ID: <CAL_JsqK91Pd=iZhMb8EYHgaMNgxaQ7xpO_9TP_i+Q-i_UTFQPg@mail.gmail.com>
 Subject: Re: [PATCH 1/2 v4] dt-bindings: leds: Add DT binding for Richtek RT8515
-To:     Rob Herring <robh@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         newbytee@protonmail.com,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
@@ -66,25 +55,40 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 3:58 PM Rob Herring <robh@kernel.org> wrote:
+On Thu, Nov 12, 2020 at 9:04 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> On Thu, Nov 12, 2020 at 3:58 PM Rob Herring <robh@kernel.org> wrote:
+>
+> > My bot found errors running 'make dt_binding_check' on your patch:
+>
+> I have a real hard time even testing YAML bindings after updating to the lates
+> dtschema, I just get so many errors from all over the tree and then it stops:
+>
+> make[3]: *** [../Documentation/devicetree/bindings/Makefile:59:
+> Documentation/devicetree/bindings/processed-schema-examples.json]
 
-> My bot found errors running 'make dt_binding_check' on your patch:
+I assume there was some error message more useful before this.
 
-I have a real hard time even testing YAML bindings after updating to the lates
-dtschema, I just get so many errors from all over the tree and then it stops:
+> Error 123
+> make[3]: Target '__build' not remade because of errors.
+> make[2]: *** [/var/linus/linux-nomadik/Makefile:1364: dt_binding_check] Error 2
+> make[2]: Leaving directory '/var/linus/linux-nomadik/build-ux500'
+> make[1]: *** [Makefile:185: __sub-make] Error 2
+> make[1]: Target 'dt_binding_check' not remade because of errors.
+> make[1]: Leaving directory '/var/linus/linux-nomadik'
+> make: *** [ux500.mak:573: check-bindings] Error 2
+>
+> Is it necessary to run on linux-next to test schema/DTS for the moment?
 
-make[3]: *** [../Documentation/devicetree/bindings/Makefile:59:
-Documentation/devicetree/bindings/processed-schema-examples.json]
-Error 123
-make[3]: Target '__build' not remade because of errors.
-make[2]: *** [/var/linus/linux-nomadik/Makefile:1364: dt_binding_check] Error 2
-make[2]: Leaving directory '/var/linus/linux-nomadik/build-ux500'
-make[1]: *** [Makefile:185: __sub-make] Error 2
-make[1]: Target 'dt_binding_check' not remade because of errors.
-make[1]: Leaving directory '/var/linus/linux-nomadik'
-make: *** [ux500.mak:573: check-bindings] Error 2
+next and rc3 are broken thanks to flexcan changes that should be v5.11
+material. next pretty much always has something warning. It's like
+maintainers just apply bindings without checking or something. rc2 and
+rc1 should be good.
 
-Is it necessary to run on linux-next to test schema/DTS for the moment?
+You can see current master and next builds here:
 
-Yours,
-Linus Walleij
+https://gitlab.com/robherring/linux-dt-bindings/-/jobs
+
+You can also use 'make -k' to get all the warnings/errors.
+
+Rob
