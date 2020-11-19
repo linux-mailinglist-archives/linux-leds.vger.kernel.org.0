@@ -2,96 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 355092B9C70
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Nov 2020 22:05:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A34882B9CAC
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Nov 2020 22:11:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725951AbgKSVDT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Nov 2020 16:03:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40182 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725853AbgKSVDT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Nov 2020 16:03:19 -0500
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DACEC0613CF;
-        Thu, 19 Nov 2020 13:03:19 -0800 (PST)
-Received: by mail-ed1-x544.google.com with SMTP id v22so7304075edt.9;
-        Thu, 19 Nov 2020 13:03:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=z+6guBZn9GHmdHYk8ZmUrPsCpMGVrAJ66ziNvmZxoyA=;
-        b=Cak6NKWhvWwm87Bj0XHStuYGSzcAzR3vwi8cod/Z519qxht6kEtXz7I34XZOH/fqIa
-         AWDnlXQw0Tik0Jh+Vk6mXoZbCXPY/DsVFFFE5BYo4PYx4AnFJobLcYza4Hax0QRQt0bp
-         qBtfCyOcK7qtMlbs7L/6dOXmP08YDieUuVmibrQ7qZJw5i4SsUGGb8SXEeaX4cL0piOh
-         Qq9/vTMUOnfSf52e4stWPzb1iKYxzyLYmCs5CDH52L1aHKHl1cUh2XMkcqGKpnj3SXnm
-         4jZMxPVUA8rskSFcyIpTAwWz9QmmzGzORokUafH9sStWRGmcayfnoN0stKhZTUuid9KR
-         1Yig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=z+6guBZn9GHmdHYk8ZmUrPsCpMGVrAJ66ziNvmZxoyA=;
-        b=I37L/0r9WrFIqSZfS5WcS2pWQMrxoqUeOa/HN9zxUMgxrmSULAjsXc2tfPYc3FJZKi
-         r7RexzVkVS17ofF0CP392L++y0x5EHOgRmePZjXUgrQOAvY4LvnDLYAe09j9E7Eo+tA7
-         ZUK3llS02q/tmg1TnRpaG5BHuWZcSZtH9aVCMR2Pk1b5rIezfTBXj+96O0YFCDn0RDbz
-         nr7ci2jBtjlX2IoaiGrm4zZIKJ2LXtwdyb7BX4WmJKAMtyIO2OKx1MxtfXUXzya9sXyl
-         Jeb94FcgVOAH2R4qL077XrtXxBpfCBDIPYFrHRrEc9eaM04UOa4jKkh0mj2I4dzQFQV5
-         pXag==
-X-Gm-Message-State: AOAM532a4Qga8fLkEcl37VXLLLv5AoYMDikSdH5abx/M9wSaQXWz4AX3
-        9c4B8nvQt1y3qYFQt7ZJNuA=
-X-Google-Smtp-Source: ABdhPJwtMZKYg/8ElqODRGOr6xTnw62vC6bOi+oR6icynu4UyKAd85htDro+/oWjVAG5J8PU/pHF5A==
-X-Received: by 2002:a05:6402:8d5:: with SMTP id d21mr2613263edz.11.1605819797950;
-        Thu, 19 Nov 2020 13:03:17 -0800 (PST)
-Received: from ?IPv6:2a01:110f:b59:fd00:5807:584b:19c8:e7be? ([2a01:110f:b59:fd00:5807:584b:19c8:e7be])
-        by smtp.gmail.com with ESMTPSA id p1sm286020edx.4.2020.11.19.13.03.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2020 13:03:16 -0800 (PST)
-Subject: Re: [PATCH v7 2/5] dt-bindings: leds: Add LED_COLOR_ID_MOONLIGHT
- definitions
-To:     Pavel Machek <pavel@ucw.cz>,
-        Gene Chen <gene.chen.richtek@gmail.com>
-Cc:     robh+dt@kernel.org, matthias.bgg@gmail.com, dmurphy@ti.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-References: <1605696462-391-1-git-send-email-gene.chen.richtek@gmail.com>
- <1605696462-391-3-git-send-email-gene.chen.richtek@gmail.com>
- <20201118213712.GA22371@amd>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <6068b1e3-a4c8-6c7d-d33d-f2238e905e43@gmail.com>
-Date:   Thu, 19 Nov 2020 22:03:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        id S1726544AbgKSVKi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Nov 2020 16:10:38 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:36598 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726224AbgKSVKi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Nov 2020 16:10:38 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AJLAMpo113729;
+        Thu, 19 Nov 2020 15:10:22 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1605820222;
+        bh=Aa9owdtChBq0Vud6FElifszzVskd35I01WdLJoXGt6Y=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=CNLibd4Pbgu+wJ8eCiQFCeVs7NkcwXdjwDMr08Vl7wTwn0KRTgaVNKKzULj3DHA0i
+         5fc6OI5m9hVpffkzEpg27gRYs9xw3/hBOgB5Jg89CaLNq3zEOUlZ1t42CpKxi9QU3z
+         Iy15Bafvc8f00VtwhFJ/qKShePgKCmYKWm7Rcf6Q=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AJLAMwk071440
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 19 Nov 2020 15:10:22 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 19
+ Nov 2020 15:10:22 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 19 Nov 2020 15:10:22 -0600
+Received: from [10.250.70.26] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AJLAM99021659;
+        Thu, 19 Nov 2020 15:10:22 -0600
+Subject: Re: [PATCH v2] leds: lp50xx: add missing fwnode_handle_put in error
+ handling case
+To:     Qinglang Miao <miaoqinglang@huawei.com>,
+        Pavel Machek <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20201119070841.712-1-miaoqinglang@huawei.com>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <978b21a3-57da-e49f-975c-f803a18d1b7a@ti.com>
+Date:   Thu, 19 Nov 2020 15:10:22 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201118213712.GA22371@amd>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
+In-Reply-To: <20201119070841.712-1-miaoqinglang@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Pavel, Gene,
+Hello
 
-On 11/18/20 10:37 PM, Pavel Machek wrote:
-> Hi!
-> 
->> From: Gene Chen <gene_chen@richtek.com>
->>
->> Add LED_COLOR_ID_MOONLIGHT definitions
-> 
-> Why is moonlight a color? Camera flashes are usually white, no?
-> 
-> At least it needs a comment...
-
-That's my fault, In fact I should have asked about adding
-LED_FUNCTION_MOONLIGHT, it was evidently too late for me that evening...
-
--- 
-Best regards,
-Jacek Anaszewski
+On 11/19/20 1:08 AM, Qinglang Miao wrote:
+> Fix to set ret and goto child_out for fwnode_handle_put(child)
+> in the error handling case rather than simply return, as done
+> elsewhere in this function.
+>
+> Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB LED driver")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Suggested-by: Pavel Machek <pavel@ucw.cz>
+> Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+> ---
+>   v2: forget to set ret on v1
+>
+>   drivers/leds/leds-lp50xx.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+> index 5fb4f24ae..f13117eed 100644
+> --- a/drivers/leds/leds-lp50xx.c
+> +++ b/drivers/leds/leds-lp50xx.c
+> @@ -487,8 +487,10 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
+>   		 */
+>   		mc_led_info = devm_kcalloc(priv->dev, LP50XX_LEDS_PER_MODULE,
+>   					   sizeof(*mc_led_info), GFP_KERNEL);
+> -		if (!mc_led_info)
+> -			return -ENOMEM;
+> +		if (!mc_led_info) {
+> +			ret = -ENOMEM;
+> +			goto child_out;
+> +		}
+>   
+>   		fwnode_for_each_child_node(child, led_node) {
+>   			ret = fwnode_property_read_u32(led_node, "color",
+Reviewed-by: Dan Murphy <dmurphy@ti.com>
