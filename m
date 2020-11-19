@@ -2,54 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 569E92B9DAE
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Nov 2020 23:31:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C36B82B9DE0
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Nov 2020 23:56:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726698AbgKSW3l (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Nov 2020 17:29:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53426 "EHLO
+        id S1726260AbgKSW4E (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 19 Nov 2020 17:56:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726536AbgKSW3k (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Nov 2020 17:29:40 -0500
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC50C0613CF;
-        Thu, 19 Nov 2020 14:29:40 -0800 (PST)
-Received: by mail-ej1-x644.google.com with SMTP id a16so10193478ejj.5;
-        Thu, 19 Nov 2020 14:29:40 -0800 (PST)
+        with ESMTP id S1726234AbgKSW4E (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Nov 2020 17:56:04 -0500
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12158C0613CF;
+        Thu, 19 Nov 2020 14:56:04 -0800 (PST)
+Received: by mail-ed1-x541.google.com with SMTP id cq7so7580067edb.4;
+        Thu, 19 Nov 2020 14:56:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YE+NfLWS5nN0QpwMQoDKHvzm/h0QK+Pd5fMfxxvArlQ=;
-        b=sJZ8PspcKQvHwdsuWkKA6BzPZ9GjaqKhwq99gFjNplm0+Qv1GtbjlG7kTfD9RPhgPN
-         kWatUjM6i4M1JHZ1CVojXI+gG51faLdWhKHQ6iLZilY6OfKY3/WsekzgVWpPU+5i22lQ
-         SvBwm24uppGA92+X5EB9YW/23or4D2XlSQjCA6HFuQJpk9Tf/OheMz/SAlo7JxjdWh95
-         9pGTr4z+zIM/EEoAjnSVHDFdNL6wIacksV96CIQ/Q3tVODUXRDIUnKtie+1rtgSt0AXF
-         LZbUWNPUaBO8bqwxuv8eDfZm2k5+fVsA8kfjfahqUudEHKQdT9X5B0lTJ/f/Ypowlbmx
-         NLkg==
+        bh=5eqjYwEZ98jSZ4sIfy98oOLOZL2ZZaBhBxuzzcS6ds4=;
+        b=RVFgh01TuNnGRg9e1I2TSwvc9mWqYjyGdBh8ZZRJa+fO5GhbYu6Rz+IjmSJ8dzpXET
+         NMqrkFs1jKFR15yDSQj6CvOwtZSv3yFwCKngMxkQ95OKiJxW0j6flYtxeoVSTZnsAgKA
+         uoS5tIdR9OtPHOpTUdWL95O2snY/RYhEseIxlcll2CatQkU/caDVn/2LTFBgGsDn42gf
+         QbmorFCYPuw4MTtx4iErHB18im3R4tNzDm7ayVqxoPCLogh3iazE04OVMtsvEn1deXiM
+         sK4mDJc3IbjqSh/SRZVIv3Pc6T1I6N/IGLKYbZttlh0xAhcuW8Xo1g7vsiWeW0l3iByg
+         iizQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=YE+NfLWS5nN0QpwMQoDKHvzm/h0QK+Pd5fMfxxvArlQ=;
-        b=U5wU+vemz1zrtQjvSk/hgnUNrvLotsYZyrogiSR66c1nYaHpBck9fpwrkAFH1SQJf0
-         iQUWflzdbBNpo2Spg1qgGVPynwgjQ5NAoUoelULcVMUwYscMDJCkMCQuK0dsVXgEJHpX
-         10enmHmL0SHvVeBJn4SbPRs1lIAYrofdzn6PHM+ziMCAxud5adb7db2zS9yOkPHP2h9s
-         rY7vVwIf4ZohK0vW3UMqyqLtNhR5DOLZg71xLqg09nByUW/9Cs4fGXXYWnLKsF75SPI2
-         8uUVkEzn42IXvstmGDb8q3SEvjk0TEgepk+UoPLRcAFRMSEK8+KJmKHwjAIc9N7FTU8M
-         DC4w==
-X-Gm-Message-State: AOAM533K41hQxtdu2PH5htPiqA6Wp7E80WL7Rby00pPQv6M03mCvvA/Q
-        OMxTJZcW5J7sgSFMRS9zqco=
-X-Google-Smtp-Source: ABdhPJw2rQ1fkucfU+GA3P4pJqvB9mWFBRySbizNIECPrFVzfhykidWs/IvGPgG7CDECBB9djxnpqg==
-X-Received: by 2002:a17:906:c1c3:: with SMTP id bw3mr28934986ejb.126.1605824979191;
-        Thu, 19 Nov 2020 14:29:39 -0800 (PST)
+        bh=5eqjYwEZ98jSZ4sIfy98oOLOZL2ZZaBhBxuzzcS6ds4=;
+        b=oCwjwp2LNXluKG+q3Ns2MXcP1Yu2z3kQWp7Z7TFDgo9eGAYSEhHeV1cmSdzhUtumpl
+         ytBDvGD+x6w0k2ujgUvQ6Xzl0pqyzF5W+AWaQgC4E3y1p6ciYSiihfQln75LowjxXPTc
+         2ce6xg8v8fnwDFaztWI/58k72p6h31MUUEyzvkbbVJgHTG8VieFvQXPgMmn52Bt97n5H
+         9Ooj0zkENVJo/KqOPnV3kQt13EbLN2nUc8mLQqqoZJtkqLY8YHkD+lw62+5AdpUM3icN
+         IQqy9F/qH97gjX57xi7SmEzuAAWSJOYSxDp9WTKPoUUYR1wU4cj6uLWCJ04MBP/xVJHE
+         Wo4A==
+X-Gm-Message-State: AOAM533Ys26//HjqrNGuIpM8EAZiH+SAQE+Z7tNEEhLmVXzWQk6SybJF
+        WG59rlFVJMHZYBY2zz/qoLw=
+X-Google-Smtp-Source: ABdhPJzLlYaF17/SdQJKv+opOtZ+2ug5eJVRXwbx+0bRly313igL8YqWJ3fZnN2DxuIpDu9d61FItA==
+X-Received: by 2002:aa7:c508:: with SMTP id o8mr33219975edq.339.1605826562782;
+        Thu, 19 Nov 2020 14:56:02 -0800 (PST)
 Received: from ?IPv6:2a01:110f:b59:fd00:5807:584b:19c8:e7be? ([2a01:110f:b59:fd00:5807:584b:19c8:e7be])
-        by smtp.gmail.com with ESMTPSA id rn2sm400989ejb.94.2020.11.19.14.29.37
+        by smtp.gmail.com with ESMTPSA id w7sm431066ejz.43.2020.11.19.14.56.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2020 14:29:38 -0800 (PST)
-Subject: Re: [PATCH v7 1/5] leds: flash: Add flash registration with undefined
- CONFIG_LEDS_CLASS_FLASH
+        Thu, 19 Nov 2020 14:56:02 -0800 (PST)
+Subject: Re: [PATCH v7 5/5] leds: mt6360: Add LED driver for MT6360
 To:     Gene Chen <gene.chen.richtek@gmail.com>, pavel@ucw.cz,
         robh+dt@kernel.org, matthias.bgg@gmail.com
 Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
@@ -59,14 +58,14 @@ Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
         shufan_lee@richtek.com, cy_huang@richtek.com,
         benjamin.chao@mediatek.com
 References: <1605696462-391-1-git-send-email-gene.chen.richtek@gmail.com>
- <1605696462-391-2-git-send-email-gene.chen.richtek@gmail.com>
+ <1605696462-391-6-git-send-email-gene.chen.richtek@gmail.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <3164b1ed-9e47-88cd-d492-ff5a9243e5ef@gmail.com>
-Date:   Thu, 19 Nov 2020 23:29:36 +0100
+Message-ID: <f36fbe3a-1857-081a-a9c8-9ddf9769298c@gmail.com>
+Date:   Thu, 19 Nov 2020 23:55:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.2
 MIME-Version: 1.0
-In-Reply-To: <1605696462-391-2-git-send-email-gene.chen.richtek@gmail.com>
+In-Reply-To: <1605696462-391-6-git-send-email-gene.chen.richtek@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -79,93 +78,108 @@ Hi Gene,
 On 11/18/20 11:47 AM, Gene Chen wrote:
 > From: Gene Chen <gene_chen@richtek.com>
 > 
-> Add flash registration with undefined CONFIG_LEDS_CLASS_FLASH
+> Add MT6360 LED driver include 2-channel Flash LED with torch/strobe mode,
+> 3-channel RGB LED support Register/Flash/Breath Mode, and 1-channel for
+> moonlight LED.
 > 
 > Signed-off-by: Gene Chen <gene_chen@richtek.com>
 > ---
->   include/linux/led-class-flash.h | 36 ++++++++++++++++++++++++++++++++++++
->   1 file changed, 36 insertions(+)
+>   drivers/leds/Kconfig       |  13 +
+>   drivers/leds/Makefile      |   1 +
+>   drivers/leds/leds-mt6360.c | 808 +++++++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 822 insertions(+)
+>   create mode 100644 drivers/leds/leds-mt6360.c
 > 
-> diff --git a/include/linux/led-class-flash.h b/include/linux/led-class-flash.h
-> index 21a3358..4f56c28 100644
-> --- a/include/linux/led-class-flash.h
-> +++ b/include/linux/led-class-flash.h
-> @@ -85,6 +85,7 @@ static inline struct led_classdev_flash *lcdev_to_flcdev(
->   	return container_of(lcdev, struct led_classdev_flash, led_cdev);
->   }
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index 1c181df..4f533bc 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -271,6 +271,19 @@ config LEDS_MT6323
+>   	  This option enables support for on-chip LED drivers found on
+>   	  Mediatek MT6323 PMIC.
 >   
-> +#if IS_ENABLED(CONFIG_LEDS_CLASS_FLASH)
->   /**
->    * led_classdev_flash_register_ext - register a new object of LED class with
->    *				     init data and with support for flash LEDs
-> @@ -127,6 +128,41 @@ static inline int devm_led_classdev_flash_register(struct device *parent,
->   void devm_led_classdev_flash_unregister(struct device *parent,
->   					struct led_classdev_flash *fled_cdev);
->   
-> +#else
+> +config LEDS_MT6360
+> +	tristate "LED Support for Mediatek MT6360 PMIC"
+> +	depends on LEDS_CLASS && OF
+> +	depends on LEDS_CLASS_FLASH || !LEDS_CLASS_FLASH
+> +	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
+> +	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+> +	depends on MFD_MT6360
+> +	help
+> +	  This option enables support for dual Flash LED drivers found on
+> +	  Mediatek MT6360 PMIC.
+> +	  Independent current sources supply for each flash LED support torch
+> +	  and strobe mode.
 > +
-> +static inline int led_classdev_flash_register_ext(struct device *parent,
-> +				    struct led_classdev_flash *fled_cdev,
-> +				    struct led_init_data *init_data)
+>   config LEDS_S3C24XX
+>   	tristate "LED Support for Samsung S3C24XX GPIO LEDs"
+>   	depends on LEDS_CLASS
+> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> index c2c7d7a..5596427 100644
+> --- a/drivers/leds/Makefile
+> +++ b/drivers/leds/Makefile
+> @@ -66,6 +66,7 @@ obj-$(CONFIG_LEDS_MIKROTIK_RB532)	+= leds-rb532.o
+>   obj-$(CONFIG_LEDS_MLXCPLD)		+= leds-mlxcpld.o
+>   obj-$(CONFIG_LEDS_MLXREG)		+= leds-mlxreg.o
+>   obj-$(CONFIG_LEDS_MT6323)		+= leds-mt6323.o
+> +obj-$(CONFIG_LEDS_MT6360)		+= leds-mt6360.o
+>   obj-$(CONFIG_LEDS_NET48XX)		+= leds-net48xx.o
+>   obj-$(CONFIG_LEDS_NETXBIG)		+= leds-netxbig.o
+>   obj-$(CONFIG_LEDS_NIC78BX)		+= leds-nic78bx.o
+> diff --git a/drivers/leds/leds-mt6360.c b/drivers/leds/leds-mt6360.c
+> new file mode 100644
+> index 0000000..8432901
+> --- /dev/null
+> +++ b/drivers/leds/leds-mt6360.c
+> @@ -0,0 +1,808 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+[...]
+> +static int mt6360_fault_get(struct led_classdev_flash *fl_cdev, u32 *fault)
 > +{
-> +	return -EINVAL;
+> +	struct mt6360_led *led = container_of(fl_cdev, struct mt6360_led, flash);
+> +	struct mt6360_priv *priv = led->priv;
+> +	u16 fled_stat;
+> +	unsigned int chg_stat, strobe_timeout_mask, fled_short_mask;
+> +	u32 rfault = 0;
+> +	int ret;
 
-s/-EINVAL/0/
+You need mutex here as well because you're making two readouts and
+you have to assure atomicity of this operation.
 
-The goal here is to assure that client will not fail when using no-op.
-
+> +	ret = regmap_read(priv->regmap, MT6360_REG_CHGSTAT2, &chg_stat);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_raw_read(priv->regmap, MT6360_REG_FLEDSTAT1, &fled_stat, sizeof(fled_stat));
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (led->led_no == MT6360_LED_FLASH1) {
+> +		strobe_timeout_mask = MT6360_FLED1STRBTO_MASK;
+> +		fled_short_mask = MT6360_FLED1SHORT_MASK;
+> +	} else {
+> +		strobe_timeout_mask = MT6360_FLED2STRBTO_MASK;
+> +		fled_short_mask = MT6360_FLED2SHORT_MASK;
+> +	}
+> +
+> +	if (chg_stat & MT6360_FLEDCHGVINOVP_MASK)
+> +		rfault |= LED_FAULT_INPUT_VOLTAGE;
+> +
+> +	if (fled_stat & strobe_timeout_mask)
+> +		rfault |= LED_FAULT_TIMEOUT;
+> +
+> +	if (fled_stat & fled_short_mask)
+> +		rfault |= LED_FAULT_SHORT_CIRCUIT;
+> +
+> +	if (fled_stat & MT6360_FLEDLVF_MASK)
+> +		rfault |= LED_FAULT_UNDER_VOLTAGE;
+> +
+> +	*fault = rfault;
+> +	return 0;
 > +}
 > +
-> +static inline int led_classdev_flash_register(struct device *parent,
-> +					   struct led_classdev_flash *fled_cdev)
-> +{
-> +	return led_classdev_flash_register_ext(parent, fled_cdev, NULL);
-> +}
-
-This function should be placed after #ifdef block because its
-shape is the same for both cases.
-
-> +static inline void led_classdev_flash_unregister(struct led_classdev_flash *fled_cdev) {};
-> +static inline int devm_led_classdev_flash_register_ext(struct device *parent,
-> +				     struct led_classdev_flash *fled_cdev,
-> +				     struct led_init_data *init_data)
-> +{
-> +	return -EINVAL;
-
-/-EINVAL/0/
-
-Please do the same fix in all no-ops in the led-class-multicolor.h,
-as we've discussed.
-
-> +}
-> +
-> +static inline int devm_led_classdev_flash_register(struct device *parent,
-> +				     struct led_classdev_flash *fled_cdev)
-> +{
-> +	return devm_led_classdev_flash_register_ext(parent, fled_cdev, NULL);
-> +}
-
-
-This function should also be placed after #ifdef block.
-Please make the same optimizations in the led-class-multicolor.h as you
-are at it.
-
-> +
-> +void devm_led_classdev_flash_unregister(struct device *parent,
-
-s/void/static inline void/
-
-That's the reason why you got warning from buildbot.
-
-> +					struct led_classdev_flash *fled_cdev)
-> +{};
-> +
-> +#endif  /* IS_ENABLED(CONFIG_LEDS_CLASS_FLASH) */
-> +
->   /**
->    * led_set_flash_strobe - setup flash strobe
->    * @fled_cdev: the flash LED to set strobe on
-> 
+[...]
 
 -- 
 Best regards,
