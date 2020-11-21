@@ -2,185 +2,236 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C36B82B9DE0
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Nov 2020 23:56:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33ED52BBF2F
+	for <lists+linux-leds@lfdr.de>; Sat, 21 Nov 2020 14:28:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726260AbgKSW4E (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 19 Nov 2020 17:56:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726234AbgKSW4E (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 19 Nov 2020 17:56:04 -0500
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12158C0613CF;
-        Thu, 19 Nov 2020 14:56:04 -0800 (PST)
-Received: by mail-ed1-x541.google.com with SMTP id cq7so7580067edb.4;
-        Thu, 19 Nov 2020 14:56:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5eqjYwEZ98jSZ4sIfy98oOLOZL2ZZaBhBxuzzcS6ds4=;
-        b=RVFgh01TuNnGRg9e1I2TSwvc9mWqYjyGdBh8ZZRJa+fO5GhbYu6Rz+IjmSJ8dzpXET
-         NMqrkFs1jKFR15yDSQj6CvOwtZSv3yFwCKngMxkQ95OKiJxW0j6flYtxeoVSTZnsAgKA
-         uoS5tIdR9OtPHOpTUdWL95O2snY/RYhEseIxlcll2CatQkU/caDVn/2LTFBgGsDn42gf
-         QbmorFCYPuw4MTtx4iErHB18im3R4tNzDm7ayVqxoPCLogh3iazE04OVMtsvEn1deXiM
-         sK4mDJc3IbjqSh/SRZVIv3Pc6T1I6N/IGLKYbZttlh0xAhcuW8Xo1g7vsiWeW0l3iByg
-         iizQ==
+        id S1727702AbgKUN1v (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 21 Nov 2020 08:27:51 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:35549 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727668AbgKUN1v (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 21 Nov 2020 08:27:51 -0500
+Received: by mail-qt1-f196.google.com with SMTP id t5so9353440qtp.2;
+        Sat, 21 Nov 2020 05:27:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5eqjYwEZ98jSZ4sIfy98oOLOZL2ZZaBhBxuzzcS6ds4=;
-        b=oCwjwp2LNXluKG+q3Ns2MXcP1Yu2z3kQWp7Z7TFDgo9eGAYSEhHeV1cmSdzhUtumpl
-         ytBDvGD+x6w0k2ujgUvQ6Xzl0pqyzF5W+AWaQgC4E3y1p6ciYSiihfQln75LowjxXPTc
-         2ce6xg8v8fnwDFaztWI/58k72p6h31MUUEyzvkbbVJgHTG8VieFvQXPgMmn52Bt97n5H
-         9Ooj0zkENVJo/KqOPnV3kQt13EbLN2nUc8mLQqqoZJtkqLY8YHkD+lw62+5AdpUM3icN
-         IQqy9F/qH97gjX57xi7SmEzuAAWSJOYSxDp9WTKPoUUYR1wU4cj6uLWCJ04MBP/xVJHE
-         Wo4A==
-X-Gm-Message-State: AOAM533Ys26//HjqrNGuIpM8EAZiH+SAQE+Z7tNEEhLmVXzWQk6SybJF
-        WG59rlFVJMHZYBY2zz/qoLw=
-X-Google-Smtp-Source: ABdhPJzLlYaF17/SdQJKv+opOtZ+2ug5eJVRXwbx+0bRly313igL8YqWJ3fZnN2DxuIpDu9d61FItA==
-X-Received: by 2002:aa7:c508:: with SMTP id o8mr33219975edq.339.1605826562782;
-        Thu, 19 Nov 2020 14:56:02 -0800 (PST)
-Received: from ?IPv6:2a01:110f:b59:fd00:5807:584b:19c8:e7be? ([2a01:110f:b59:fd00:5807:584b:19c8:e7be])
-        by smtp.gmail.com with ESMTPSA id w7sm431066ejz.43.2020.11.19.14.56.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2020 14:56:02 -0800 (PST)
-Subject: Re: [PATCH v7 5/5] leds: mt6360: Add LED driver for MT6360
-To:     Gene Chen <gene.chen.richtek@gmail.com>, pavel@ucw.cz,
-        robh+dt@kernel.org, matthias.bgg@gmail.com
-Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-References: <1605696462-391-1-git-send-email-gene.chen.richtek@gmail.com>
- <1605696462-391-6-git-send-email-gene.chen.richtek@gmail.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <f36fbe3a-1857-081a-a9c8-9ddf9769298c@gmail.com>
-Date:   Thu, 19 Nov 2020 23:55:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UlMTvQzViguAqFA+h2243IpAoQUVhvfvaewRLi7CYBw=;
+        b=UghY6WJHeK421XIrkrIV/L6IuAJqfaNmwRFfYGcO6W5MYw0lthJ5hqCetotZ2KcYW+
+         72x1Z6xYOhaTYxlP5MdqBJ2GYteHkIsbuk3lgfGit8Gjk3Bry6i/m4W77VLz+zOiZkHt
+         z3KFwby+7XCzldva2BG/d6SNuXInrlra9AD1na5tvNI8GKIFuFJxJcdWYmiyd+6n6hJb
+         5N2PbVonYKP2nDSVgryu1XLETWAX6oR8Km1oYdYn4gIO4Ze1Di8ZRML9V1Ric6qBDUSc
+         gFvnsW4kVYOVn2nfnURW3f06RzuMsh1FefChHKb2eJhCdg3OapTATl9GhwFPiUA7AQqC
+         W38A==
+X-Gm-Message-State: AOAM530GzYMZal0R+KatJ1e+sqGoDLIKsX6NhUclbQAGUP8GcnpGixfw
+        j+BHh6IkvjVz+eYRy89ntQ==
+X-Google-Smtp-Source: ABdhPJxPf0PJQhqnPJF1nzc7GnT/AfZz/pTuxO2gDzPihvKyYwmNthXrAeHVJ7c7eAxyLbFTD2ILTg==
+X-Received: by 2002:aed:2043:: with SMTP id 61mr10298811qta.191.1605965269158;
+        Sat, 21 Nov 2020 05:27:49 -0800 (PST)
+Received: from xps15 ([172.58.99.237])
+        by smtp.gmail.com with ESMTPSA id b17sm3941101qkl.123.2020.11.21.05.27.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Nov 2020 05:27:48 -0800 (PST)
+Received: (nullmailer pid 2125198 invoked by uid 1000);
+        Sat, 21 Nov 2020 13:27:42 -0000
+Date:   Sat, 21 Nov 2020 07:27:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        newbytee@protonmail.com, Stephan Gerhold <stephan@gerhold.net>,
+        phone-devel@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2 v5] dt-bindings: leds: Add DT binding for Richtek
+ RT8515
+Message-ID: <20201121132742.GA2121607@robh.at.kernel.org>
+References: <20201113124239.2667502-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1605696462-391-6-git-send-email-gene.chen.richtek@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201113124239.2667502-1-linus.walleij@linaro.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Gene,
-
-On 11/18/20 11:47 AM, Gene Chen wrote:
-> From: Gene Chen <gene_chen@richtek.com>
+On Fri, Nov 13, 2020 at 01:42:38PM +0100, Linus Walleij wrote:
+> Add a YAML devicetree binding for the Richtek RT8515
+> dual channel flash/torch LED driver.
 > 
-> Add MT6360 LED driver include 2-channel Flash LED with torch/strobe mode,
-> 3-channel RGB LED support Register/Flash/Breath Mode, and 1-channel for
-> moonlight LED.
-> 
-> Signed-off-by: Gene Chen <gene_chen@richtek.com>
+> Cc: Sakari Ailus <sakari.ailus@iki.fi>
+> Cc: newbytee@protonmail.com
+> Cc: Stephan Gerhold <stephan@gerhold.net>
+> Cc: phone-devel@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->   drivers/leds/Kconfig       |  13 +
->   drivers/leds/Makefile      |   1 +
->   drivers/leds/leds-mt6360.c | 808 +++++++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 822 insertions(+)
->   create mode 100644 drivers/leds/leds-mt6360.c
+> ChangeLog v4->v5:
+> - Fix the RFS/RTS resistors to reference the u32 schema.
+> - Fix resisitor speling error.
+> ChangeLog v3->v4:
+> - Add DT attributes for the RFS and RTS resistors, so that
+>   the hardware-defined maximum current can be determined.
+> - Add torch-max-microamp to the common bindings so we can
+>   set an attribute for the max microamp in torch mode.
+> - Add flash-max-microamp and torch-max-microamp as optional
+>   to the LED node.
+> - Slot in some elabortative descriptions of the new
+>   properties and describe what the hardware is doing.
+> - Cc phone-devel@vger.kernel.org
+> ChangeLog v2->v3:
+> - Add Sakari to CC
+> - Resend
+> ChangeLog v1->v2:
+> - Explicitly inherit function, color and flash-max-timeout-us
+>   from common.yaml
+> - Add "led" node as required.
+> ---
+>  .../devicetree/bindings/leds/common.yaml      |   6 +
+>  .../bindings/leds/richtek,rt8515.yaml         | 111 ++++++++++++++++++
+>  2 files changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
 > 
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index 1c181df..4f533bc 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -271,6 +271,19 @@ config LEDS_MT6323
->   	  This option enables support for on-chip LED drivers found on
->   	  Mediatek MT6323 PMIC.
->   
-> +config LEDS_MT6360
-> +	tristate "LED Support for Mediatek MT6360 PMIC"
-> +	depends on LEDS_CLASS && OF
-> +	depends on LEDS_CLASS_FLASH || !LEDS_CLASS_FLASH
-> +	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
-> +	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
-> +	depends on MFD_MT6360
-> +	help
-> +	  This option enables support for dual Flash LED drivers found on
-> +	  Mediatek MT6360 PMIC.
-> +	  Independent current sources supply for each flash LED support torch
-> +	  and strobe mode.
+> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+> index f1211e7045f1..92fa90b4a671 100644
+> --- a/Documentation/devicetree/bindings/leds/common.yaml
+> +++ b/Documentation/devicetree/bindings/leds/common.yaml
+> @@ -151,6 +151,12 @@ properties:
+>        Maximum flash LED supply current in microamperes. Required for flash LED
+>        nodes with configurable current.
+>  
+> +  torch-max-microamp:
+> +    description:
+> +      Maximum flash LED supply current in microamperes, when the flash LED is
+> +      used as a torch (flashlight). This is usually lower than the flash mode
+> +      maximum current, if the LED supports torch mode.
 > +
->   config LEDS_S3C24XX
->   	tristate "LED Support for Samsung S3C24XX GPIO LEDs"
->   	depends on LEDS_CLASS
-> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-> index c2c7d7a..5596427 100644
-> --- a/drivers/leds/Makefile
-> +++ b/drivers/leds/Makefile
-> @@ -66,6 +66,7 @@ obj-$(CONFIG_LEDS_MIKROTIK_RB532)	+= leds-rb532.o
->   obj-$(CONFIG_LEDS_MLXCPLD)		+= leds-mlxcpld.o
->   obj-$(CONFIG_LEDS_MLXREG)		+= leds-mlxreg.o
->   obj-$(CONFIG_LEDS_MT6323)		+= leds-mt6323.o
-> +obj-$(CONFIG_LEDS_MT6360)		+= leds-mt6360.o
->   obj-$(CONFIG_LEDS_NET48XX)		+= leds-net48xx.o
->   obj-$(CONFIG_LEDS_NETXBIG)		+= leds-netxbig.o
->   obj-$(CONFIG_LEDS_NIC78BX)		+= leds-nic78bx.o
-> diff --git a/drivers/leds/leds-mt6360.c b/drivers/leds/leds-mt6360.c
+>    flash-max-timeout-us:
+>      description:
+>        Maximum timeout in microseconds after which the flash LED is turned off.
+> diff --git a/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml b/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
 > new file mode 100644
-> index 0000000..8432901
+> index 000000000000..b1f69277c5d3
 > --- /dev/null
-> +++ b/drivers/leds/leds-mt6360.c
-> @@ -0,0 +1,808 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> +++ b/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+> @@ -0,0 +1,111 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/richtek,rt8515.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-[...]
-> +static int mt6360_fault_get(struct led_classdev_flash *fl_cdev, u32 *fault)
-> +{
-> +	struct mt6360_led *led = container_of(fl_cdev, struct mt6360_led, flash);
-> +	struct mt6360_priv *priv = led->priv;
-> +	u16 fled_stat;
-> +	unsigned int chg_stat, strobe_timeout_mask, fled_short_mask;
-> +	u32 rfault = 0;
-> +	int ret;
+> +title: Richtek RT8515 1.5A dual channel LED driver
+> +
+> +maintainers:
+> +  - Linus Walleij <linus.walleij@linaro.org>
+> +
+> +description: |
+> +  The Richtek RT8515 is a dual channel (two mode) LED driver that
+> +  supports driving a white LED in flash or torch mode. The maximum
+> +  current for each mode is defined in hardware using two resistors
+> +  RFS and RTS.
+> +
+> +properties:
+> +  compatible:
+> +    const: richtek,rt8515
+> +
+> +  enf-gpios:
+> +    maxItems: 1
+> +    description: A connection to the 'ENF' (enable flash) pin.
+> +
+> +  ent-gpios:
+> +    maxItems: 1
+> +    description: A connection to the 'ENT' (enable torch) pin.
+> +
+> +  richtek,rfs:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 7680
+> +    maximum: 367000
+> +    description: The resistance value of the RFS resistor. This
 
-You need mutex here as well because you're making two readouts and
-you have to assure atomicity of this operation.
+Units? Add a defined unit suffix to the property name and you can drop 
+the type.
 
-> +	ret = regmap_read(priv->regmap, MT6360_REG_CHGSTAT2, &chg_stat);
-> +	if (ret)
-> +		return ret;
+> +      resistors limits the maximum flash current. This must be set
+> +      for the property flash-max-microamp to work, the RFS resistor
+> +      defines the range of the dimmer setting (brightness) of the
+> +      flash LED.
 > +
-> +	ret = regmap_raw_read(priv->regmap, MT6360_REG_FLEDSTAT1, &fled_stat, sizeof(fled_stat));
-> +	if (ret)
-> +		return ret;
+> +  richtek,rts:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 7680
+> +    maximum: 367000
+> +    description: The resistance value of the RTS resistor. This
+> +      resistors limits the maximum torch current. This must be set
+> +      for the property torch-max-microamp to work, the RTS resistor
+> +      defines the range of the dimmer setting (brightness) of the
+> +      torch LED.
 > +
-> +	if (led->led_no == MT6360_LED_FLASH1) {
-> +		strobe_timeout_mask = MT6360_FLED1STRBTO_MASK;
-> +		fled_short_mask = MT6360_FLED1SHORT_MASK;
-> +	} else {
-> +		strobe_timeout_mask = MT6360_FLED2STRBTO_MASK;
-> +		fled_short_mask = MT6360_FLED2SHORT_MASK;
-> +	}
+> +  led:
+> +    type: object
+> +    $ref: common.yaml#
+> +    properties:
+> +      function: true
+> +      color: true
+> +      flash-max-timeout-us: true
 > +
-> +	if (chg_stat & MT6360_FLEDCHGVINOVP_MASK)
-> +		rfault |= LED_FAULT_INPUT_VOLTAGE;
+> +      flash-max-microamp:
+> +        maximum: 700000
+> +        description: The maximum current for flash mode
+> +          is hardwired to the component using the RFS resistor to
+> +          ground. The maximum hardware current setting is calculated
+> +          according to the formula Imax = 5500 / RFS. The lowest
+> +          allowed resistance value is 7.86 kOhm giving an absolute
+> +          maximum current of 700mA. By setting this attribute in
+> +          the device tree, you can further restrict the maximum
+> +          current below the hardware limit. This requires the RFS
+> +          to be defined as it defines the maximum range.
 > +
-> +	if (fled_stat & strobe_timeout_mask)
-> +		rfault |= LED_FAULT_TIMEOUT;
+> +      torch-max-microamp:
+> +        maximum: 700000
+> +        description: The maximum current for torch mode
+> +          is hardwired to the component using the RTS resistor to
+> +          ground. The maximum hardware current setting is calculated
+> +          according to the formula Imax = 5500 / RTS. The lowest
+> +          allowed resistance value is 7.86 kOhm giving an absolute
+> +          maximum current of 700mA. By setting this attribute in
+> +          the device tree, you can further restrict the maximum
+> +          current below the hardware limit. This requires the RTS
+> +          to be defined as it defines the maximum range.
 > +
-> +	if (fled_stat & fled_short_mask)
-> +		rfault |= LED_FAULT_SHORT_CIRCUIT;
+> +required:
+> +  - compatible
+> +  - ent-gpios
+> +  - enf-gpios
+> +  - led
 > +
-> +	if (fled_stat & MT6360_FLEDLVF_MASK)
-> +		rfault |= LED_FAULT_UNDER_VOLTAGE;
+> +additionalProperties: false
 > +
-> +	*fault = rfault;
-> +	return 0;
-> +}
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/leds/common.h>
 > +
-[...]
-
--- 
-Best regards,
-Jacek Anaszewski
+> +    led-controller {
+> +        compatible = "richtek,rt8515";
+> +        enf-gpios = <&gpio4 12 GPIO_ACTIVE_HIGH>;
+> +        ent-gpios = <&gpio4 13 GPIO_ACTIVE_HIGH>;
+> +        richtek,rfs = <16000>;
+> +        richtek,rts = <100000>;
+> +
+> +        led {
+> +            function = LED_FUNCTION_FLASH;
+> +            color = <LED_COLOR_ID_WHITE>;
+> +            flash-max-timeout-us = <250000>;
+> +            flash-max-microamp = <150000>;
+> +            torch-max-microamp = <25000>;
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> 2.26.2
+> 
