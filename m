@@ -2,54 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A534F2C3265
-	for <lists+linux-leds@lfdr.de>; Tue, 24 Nov 2020 22:16:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E09A2C3323
+	for <lists+linux-leds@lfdr.de>; Tue, 24 Nov 2020 22:39:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730122AbgKXVPZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 24 Nov 2020 16:15:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49834 "EHLO
+        id S1732663AbgKXVib (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 24 Nov 2020 16:38:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728492AbgKXVPZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Nov 2020 16:15:25 -0500
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0276C0613D6;
-        Tue, 24 Nov 2020 13:15:24 -0800 (PST)
-Received: by mail-ej1-x643.google.com with SMTP id f23so14344ejk.2;
-        Tue, 24 Nov 2020 13:15:24 -0800 (PST)
+        with ESMTP id S1731491AbgKXVia (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 24 Nov 2020 16:38:30 -0500
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A9AC061A4D;
+        Tue, 24 Nov 2020 13:38:29 -0800 (PST)
+Received: by mail-ej1-x641.google.com with SMTP id mc24so63908ejb.6;
+        Tue, 24 Nov 2020 13:38:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=w1qiBNDdA1JwHw+2ZKcim6vrSTIhQv+8rDMvJ+E/JrQ=;
-        b=kB+JIj6u4ow4o9fOz1GCL4oA8OsRunaz/tLguMU6KPdHTamjb0OfniiJjyeu8yJEdA
-         AeX9sTZ8Vbjqsyx5jQTLdXQfienb1ojx0Xet2YY3X18T37cNyr0OCSNXJYGKT0mXIhbU
-         TTnqyqP+tMM9UgQbhDgaK0eCjyFrQDNZU0Tv8/PSEjZzWUGLiwUKS8DQfUzzL1MSWDlk
-         loGdrZvHX/GSUGQqynhVkJxnhwCSht/W2QPf/i02wSm1t87Rzf3og4hcgAQwPkcck6FW
-         WNJ+W5DQDs7kZ/oYNf9lfLHrs8lumLy/vv4m8fE/aiMzezk2jyXE0hCEw13W3P8WyQbP
-         ThxQ==
+        bh=iQio4Ne00oWRLO53kOiJ6PJC/Dr9Xmg8gf3qp82R6SI=;
+        b=tfyNznt7z8kE5BWQGQcZEExW/qZBtg4t3865yVSNR8vlIDnL1AzvjhxYVTFSC2Pc5y
+         ytZWCs+5+/FYVzg+R+hxN8CRV9eACwQPq3V6G+RQgUEebVloawO6RPLfId+zXOddXeXK
+         4W42xKjJ9eDsI2K5N6LczjlBHdNAGAZysnbLJ0KTXyQp9rTIClSDVvb6WOm6qbHPUt3j
+         xZNNYJRLqoxxgVM2Ob7vVBgdd1EPCQt80UXlRUDrSxpXnjbWafUobGyngEknLVQCCjGb
+         NCOP8cG5PaWbhpUy33aukbnO32PkOFhURyXDLDoI6TyvRIbbdm6e81QwdPC/YdyeVZDK
+         U1Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=w1qiBNDdA1JwHw+2ZKcim6vrSTIhQv+8rDMvJ+E/JrQ=;
-        b=VanvfpqRneCGqWpajjHmkQ+KJTCYc9ES/p33cUREdhMssM2XJ582QibceTTrQgUP3b
-         K2a1aOqRNIXOvLPZVXz/wb1mRr3sryYXiSwxnulc2fkAwt0r3uy4oHxcKmM3Em8ZM5+G
-         amUQTRwQvBr/hJMPtRiTEpm4IjWkzRh2czr3rV/UDAeNHQfPLNN42o8QUtXd5FLjb13C
-         7BEaaqdKAvoH6QQL5kmms33ZVOcdkdMp+w0CGXkwXQwyEmetqiee3Ns2sVhk45QPBvkm
-         pbnjrOIiHKBWCv0l8otbXOZ3sROicPoyy7m5y1eBO7sG6IWZWSpUWdX6iND+ZnZoX9F0
-         FDPA==
-X-Gm-Message-State: AOAM530cOkP2lkc7QRQ0435O6P2M6JYDbi5ah9pkq74QVCGL+DGTRe8W
-        HprJa63Afpp9VYTSYTYiMiw=
-X-Google-Smtp-Source: ABdhPJzYs+ib7boCpe0azznlmvJsLrs8rSJXM0GayRzIyyD7uhJFKjTe3LSeK1BW6W6MACfIua3Zew==
-X-Received: by 2002:a17:906:5847:: with SMTP id h7mr344686ejs.124.1606252523461;
-        Tue, 24 Nov 2020 13:15:23 -0800 (PST)
+        bh=iQio4Ne00oWRLO53kOiJ6PJC/Dr9Xmg8gf3qp82R6SI=;
+        b=VvjvQIoQ50ayLHhB5HxpB6ycTaI8L0suoC/sUrywcJB+cbiqkSUw8pipaXF4HX6+TK
+         l5wL0PRVkt1siPHj47XiaDmhU4qbpL+mH6wscuROLsT33hluW7OhWElJz67W/bcuWxlQ
+         yZ9Gzv3ktR6SoXJwqbg+PRwJuC04cygHFavct0N66ELiJhgyyT9qL19t3dT0M8Zubh0o
+         CLOagWpWpRzklWWwpwMFd1ntmm65YKGurgs8kdmqK4MufEGDVWljp/Onrgcf0JbObEg+
+         Zli6GSmcc9vxQIbMzgNQGm6Al+5h/8rNk4W9lwSwJZaNLwLXCO7VmpJuQ6DNqkULlMN0
+         EkwA==
+X-Gm-Message-State: AOAM533nSqfWNvtWIGxROXr7p1DIREIWGOrosrBIZNa2LGgfmN9TcV9W
+        +hseSIFz23Qfmmrf2HN/hLU=
+X-Google-Smtp-Source: ABdhPJykTb408PecV0yt6X9lQn51yoRJmiwXBgwIkczHmEgrGAEDMshHi1tKnOetfrRhVUD5rJRkpw==
+X-Received: by 2002:a17:906:4a91:: with SMTP id x17mr411974eju.126.1606253908473;
+        Tue, 24 Nov 2020 13:38:28 -0800 (PST)
 Received: from ?IPv6:2a01:110f:b59:fd00:b507:ec4b:7acf:a836? ([2a01:110f:b59:fd00:b507:ec4b:7acf:a836])
-        by smtp.gmail.com with ESMTPSA id gf6sm94382ejb.80.2020.11.24.13.15.21
+        by smtp.gmail.com with ESMTPSA id k12sm122131ejz.48.2020.11.24.13.38.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2020 13:15:22 -0800 (PST)
-Subject: Re: [PATCH v7 1/5] leds: flash: Add flash registration with undefined
- CONFIG_LEDS_CLASS_FLASH
+        Tue, 24 Nov 2020 13:38:27 -0800 (PST)
+Subject: Re: [PATCH v7 2/5] dt-bindings: leds: Add LED_COLOR_ID_MOONLIGHT
+ definitions
 To:     Gene Chen <gene.chen.richtek@gmail.com>
 Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
@@ -64,74 +64,98 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         shufan_lee@richtek.com, cy_huang@richtek.com,
         benjamin.chao@mediatek.com
 References: <1605696462-391-1-git-send-email-gene.chen.richtek@gmail.com>
- <1605696462-391-2-git-send-email-gene.chen.richtek@gmail.com>
- <3164b1ed-9e47-88cd-d492-ff5a9243e5ef@gmail.com>
- <CAE+NS350vuY1qNwn4_7ow8Z22_DfHrJAnKX1dsFM_WbaHziZiw@mail.gmail.com>
- <5c4a5780-afec-fa7f-307e-b969192ec677@gmail.com>
- <CAE+NS36yU_ho5eV=j2rd36XqGXBKj3d8KP-bsrCCnWvxzV3Afw@mail.gmail.com>
+ <1605696462-391-3-git-send-email-gene.chen.richtek@gmail.com>
+ <20201118213712.GA22371@amd> <6068b1e3-a4c8-6c7d-d33d-f2238e905e43@gmail.com>
+ <20201119215721.GA5337@amd> <0700c32d-643b-fedb-06f0-21547b18205d@gmail.com>
+ <CAE+NS363BpytNGZzfZHLa7KLKL8gjGj14oNvRi3oaH9KT79REg@mail.gmail.com>
+ <25fef924-634d-7f60-7e1d-0290d1701fab@gmail.com>
+ <CAE+NS34vDejgf8Ydfer_rY25qaG-DQQ5H-9-Er+Shz0=UF-EzA@mail.gmail.com>
 From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <e792dbfc-4b98-058d-bbe5-fd556463a757@gmail.com>
-Date:   Tue, 24 Nov 2020 22:15:20 +0100
+Message-ID: <31804c28-fa2b-9b1d-2d10-63de70d2fbd8@gmail.com>
+Date:   Tue, 24 Nov 2020 22:38:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAE+NS36yU_ho5eV=j2rd36XqGXBKj3d8KP-bsrCCnWvxzV3Afw@mail.gmail.com>
+In-Reply-To: <CAE+NS34vDejgf8Ydfer_rY25qaG-DQQ5H-9-Er+Shz0=UF-EzA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 11/24/20 7:08 AM, Gene Chen wrote:
-[...]
->>>> This function should be placed after #ifdef block because its
->>>> shape is the same for both cases.
+On 11/24/20 8:33 AM, Gene Chen wrote:
+> Jacek Anaszewski <jacek.anaszewski@gmail.com> 於 2020年11月24日 週二 上午4:52寫道：
+>>
+>> On 11/23/20 4:00 AM, Gene Chen wrote:
+>>> Jacek Anaszewski <jacek.anaszewski@gmail.com> 於 2020年11月20日 週五 上午6:26寫道：
 >>>>
->>>>> +static inline void led_classdev_flash_unregister(struct led_classdev_flash *fled_cdev) {};
->>>>> +static inline int devm_led_classdev_flash_register_ext(struct device *parent,
->>>>> +                                  struct led_classdev_flash *fled_cdev,
->>>>> +                                  struct led_init_data *init_data)
->>>>> +{
->>>>> +     return -EINVAL;
+>>>> On 11/19/20 10:57 PM, Pavel Machek wrote:
+>>>>> On Thu 2020-11-19 22:03:14, Jacek Anaszewski wrote:
+>>>>>> Hi Pavel, Gene,
+>>>>>>
+>>>>>> On 11/18/20 10:37 PM, Pavel Machek wrote:
+>>>>>>> Hi!
+>>>>>>>
+>>>>>>>> From: Gene Chen <gene_chen@richtek.com>
+>>>>>>>>
+>>>>>>>> Add LED_COLOR_ID_MOONLIGHT definitions
+>>>>>>>
+>>>>>>> Why is moonlight a color? Camera flashes are usually white, no?
+>>>>>>>
+>>>>>>> At least it needs a comment...
+>>>>>>
+>>>>>> That's my fault, In fact I should have asked about adding
+>>>>>> LED_FUNCTION_MOONLIGHT, it was evidently too late for me that evening...
+>>>>>
+>>>>> Aha, that makes more sense.
+>>>>>
+>>>>> But please let's call it "torch" if we do that, as that is already
+>>>>> used in kernel sources... and probably in the interface, too:
 >>>>
->>>> /-EINVAL/0/
+>>>> I'd say that torch is something different that moonlight,
+>>>> but we would need more input from Gene to learn more about
+>>>> the nature of light emitted by ML LED on his device.
 >>>>
->>>> Please do the same fix in all no-ops in the led-class-multicolor.h,
->>>> as we've discussed.
+>>>> Please note that torch is usually meant as the other mode of
+>>>> flash LED (sometimes it is called "movie mode"), which is already
+>>>> handled by brightness file of LED class flash device (i.e. its LED class
+>>>> subset), and which also maps to v4l2-flash TORCH mode.
 >>>>
 >>>
->>> I think return -EINVAL is correct, because I should register flash
->>> light device if I define FLED in DTS node.
-
-OK, I think I'm getting your concerns now. So you're only partially
-correct - the driver should register flash LED device if there is
-corresponding node in DT, but only if CONFIG_LEDS_CLASS_FLASH is 
-enabled. In case it is disabled the no-op will come into play
-and return 0, allowing the probe() to proceed as if the registration
-succeeded.
-
- From the driver point of view nothing changes, except that flash LED
-ops will not be called afterwards. This is common pattern. If in doubt
-skim through the headers in include/linux.
-
+>>> It's used to front camera fill light.
+>>> More brightness than screen backlight, and more soft light than flash.
+>>> I think LED_ID_COLOR_WHITE is okay.
 >>
->> I don't quite follow your logic here.
+>> So why in v6 you assigned LED_COLOR_ID_AMBER to it?
 >>
->> No-op function's purpose is to simplify the code on the caller's side.
->> Therefore it should report success.
+>> Regardless of that, now we're talking about LED function - you chose
+>> LED_FUNCTION_INDICATOR for it, but inferring from your above description
+>> - it certainly doesn't fit here.
 >>
->> Please return 0 from it.
+>> Also register names, containing part "ML" indicate that this LED's
+>> intended function is moonlinght, which your description somehow
+>> corroborates.
+>>
+>> Moonlight LEDs become ubiquitous nowadays so sooner or later we will
+>> need to add this function anyway [0].
+>>
+>> [0]
+>> https://landscapelightingoakville.com/what-is-moon-lighting-and-why-does-it-remain-so-popular/
 >>
 > 
-> Just like those functions in led-class-multicolor.h, caller may use
-> return value to check whether FLED is registered successfully or not.
-> For this case, is returning 0 a little bit misleading?
+> We use term "Moonlight" as reference says
+> "When you are trying to imitate moonlight you need to use low voltage,
+> softer lighting. You don’t want something that’s too bright"
+> which is focus on brightness instead of color.
+> 
+> So we surpose Moonlight can be white or amber.
+> 
+> Should I add LED_FUNCTION_MOONLIGHT and set LED_COLOR_ID_WHITE?
 
-Please note that I've already admitted that led-class-multicolor.h
-class is buggy and should also be fixed to return 0 from its no-ops.
-Please apply the "s/-EINVAL/0/" fixes to it as well - your driver will
-need that.
+Regarding the function - yes, the reference backs that up.
+Regarding the color - if you feel that it properly describes the
+LED color then go for it.
 
 -- 
 Best regards,
