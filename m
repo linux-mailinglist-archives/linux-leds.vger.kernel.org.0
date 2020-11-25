@@ -2,86 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BE982C4199
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Nov 2020 15:02:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 867B12C41F6
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Nov 2020 15:16:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729118AbgKYOCM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 25 Nov 2020 09:02:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35570 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729016AbgKYOCM (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Nov 2020 09:02:12 -0500
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 363C1C0613D4;
-        Wed, 25 Nov 2020 06:02:12 -0800 (PST)
-Received: by mail-qv1-xf42.google.com with SMTP id 62so932406qva.11;
-        Wed, 25 Nov 2020 06:02:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tuQTPEPzh1AZcVg5jmG+k/nKzbHIALiXXxPpLH80tKc=;
-        b=EXa5of5XK163ARA/6PUqQGoWHsk2cSH3e0eV1CF44ruqTfXQzPJWVdpZDuCTYGzvGI
-         +F3+9atgx579QkVmLVd1S5ahIyB1JX0egA0j8+S+Eb4OC6UK//qDgZ25TZQ0KDvucemJ
-         4jBo3wJ8AUqVyBLBQzbOQEjW6ExFQgyZd7m5LrEy2iP0Dv8xpPKIl1GxHhYqm8XetZ8t
-         kPcnCvombuoRTZkF9A9p+LqYRJYSrwt30RLfYMCqAfDGoUwwVQxFBbw8Fl0A/J79UcLL
-         vlpGL9AKiz/L7YEEyVUTgox4un9/V2TQOBLUKA/ereesexw1DfSelSt+QRauj9e19udi
-         Yi4A==
+        id S1725792AbgKYOPZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 25 Nov 2020 09:15:25 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:40006 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725838AbgKYOPY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Nov 2020 09:15:24 -0500
+Received: from mail-wr1-f69.google.com ([209.85.221.69])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <andrea.righi@canonical.com>)
+        id 1khvZn-0001KQ-I9
+        for linux-leds@vger.kernel.org; Wed, 25 Nov 2020 14:15:19 +0000
+Received: by mail-wr1-f69.google.com with SMTP id v5so830501wrr.0
+        for <linux-leds@vger.kernel.org>; Wed, 25 Nov 2020 06:15:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=tuQTPEPzh1AZcVg5jmG+k/nKzbHIALiXXxPpLH80tKc=;
-        b=bPuMNvMgR38Weg8ZDB0d0/ORYC+c2C8qHWhHmibDOmr9wtEiVnsMefrO1dskLVwIud
-         O97AzxsIfavXcJ/qPx0XygsZ/TFawaqdpYyFfbVGJjE0tElMTFyugFkxJw+uN773aJeD
-         KEft8VXITFts03ikMS39khEm3D6yZuJkOnhX169zga0aTueD3ZqafwU+LQC1Yy8Hzi5g
-         dHhvK8Vi5vurLFpWOVtgeCWXRD8eoE1gBwCWFoaBGXDzXCSeffaHGZgecpW64GKffEUK
-         HEkKEETt5zS4rgVC8mzcjItoomMzXYIH0CBPKV5EVzXtaO15IdIm+2hPooXf7BgLzm3E
-         l8/w==
-X-Gm-Message-State: AOAM532Xi/UTLPPzP5Yns1sgndRIpKPq4ViAo7ZlxnOQkl5iikHAhBgt
-        IdFLEzv+GK3SvIvt7ssd32Y=
-X-Google-Smtp-Source: ABdhPJxpIFvQ5qHjr9pRzPh6JraYQK+xHKwF32GksPbzSGzudmS6tc6+LcctHjLdOhPd34tT3aFGBQ==
-X-Received: by 2002:ad4:4d84:: with SMTP id cv4mr3774528qvb.14.1606312931297;
-        Wed, 25 Nov 2020 06:02:11 -0800 (PST)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id z19sm2455819qtu.51.2020.11.25.06.02.10
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Nov 2020 06:02:10 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 761B927C006B;
-        Wed, 25 Nov 2020 09:02:06 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 25 Nov 2020 09:02:06 -0500
-X-ME-Sender: <xms:3WO-X5sUNbxHUV0oYJ4M4gnaj7tpQQ0dQFsGIkMq7JmmZFwhgc5BYA>
-    <xme:3WO-Xyck94NKCkwf-NtlO_1opg7t9lj80cXG9YlWP4-Fr2HY3gGyNwMy-ikZjQtYr
-    zjfLktBvxpAHxkXRw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudehtddgiedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    goufhushhpvggtthffohhmrghinhculdegledmnecujfgurhepfffhvffukfhfgggtuggj
-    sehttdertddttddvnecuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvg
-    hnghesghhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepteegteeludegveeujeeg
-    fefhueffudehkefhueegieevffdvfeefheeihfeluddvnecuffhomhgrihhnpehkvghrnh
-    gvlhdrohhrghdplhhivhgvjhhouhhrnhgrlhdrtghomhenucfkphepudeijedrvddvtddr
-    vddruddvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeeh
-    tdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmse
-    hfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:3WO-X8zGCViHRkwIEFrcppTlo4KFvTxAw-SfQm05sNLJsVhKT3BXxA>
-    <xmx:3WO-XwNZuLV9Kigx-cyat0vBtAFMm-gTw8MVppPCQeMOnaupCvZJxw>
-    <xmx:3WO-X59cfuTVIZmH_y9RY1AsplstOpA0ZAphaq5qb3KH6wIR_pVxyA>
-    <xmx:3mO-X0YnmnaePBIdDp9YA-Su3TeTUMkWJv9GNjivIAYpM24fIwm-sA>
-Received: from localhost (unknown [167.220.2.126])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 675FB328005A;
-        Wed, 25 Nov 2020 09:02:05 -0500 (EST)
-Date:   Wed, 25 Nov 2020 22:01:26 +0800
-From:   Boqun Feng <boqun.feng@gmail.com>
+        bh=ANI9CN/JLVXllK8ak45GoB7ekO0ZE4FMb4P6jGjhdrQ=;
+        b=tmFVlHuU0QXMX3MABeMpIVSIxVFLJ0xrUxdJRfzR6r3bPc5vznDbofPGKrVoTv+Trc
+         HyOKWeesTLevHFAiJlIZEQsREXnQD8VqDJBC8Fw/hMdSNrXg8sGo+fwyGurZQqzdnFKU
+         UVjw0a1PVyunoB8dTqCugPRVOfVaumEQIaaYgd4WoOrbqS19HNumBLEu0fgTvcTEeYKZ
+         Yf4Jzq3GC9Z7JTZ07csbLEOMZprl8rMyu3vDWAuKEJu8WWSvkcvLcn0O7HJ/b0eLGuIc
+         fXj4AQt5LXLP+wtcslwA8pn+WcjHGjzs1NhmI9ZfCwEJhayPszadg+nLNlCCsgkhyS6R
+         UAZw==
+X-Gm-Message-State: AOAM530VTknzb2CyTIbcCnnm/CBADqkD1YzfiVWUiIU87yNlzm7t3DVX
+        qI3SCt9sKh4xocGf7ZKVF6EHvX4eE11a08VyJxeNHoCWu4rDmCNQTC8edF2SGbu62CHxLsSFtvY
+        5PJaXtCnf/tJyxofvpGGlM7BErZmlA/zll4Evi4I=
+X-Received: by 2002:a5d:4046:: with SMTP id w6mr4508712wrp.51.1606313719120;
+        Wed, 25 Nov 2020 06:15:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy346UBsHS/yDvNhjFwj/LwN6KBFCgRSB4R+3u8bbhw3STFzbaFfw4dQyS/aRKddtae2OHrZA==
+X-Received: by 2002:a5d:4046:: with SMTP id w6mr4508681wrp.51.1606313718763;
+        Wed, 25 Nov 2020 06:15:18 -0800 (PST)
+Received: from localhost (host-79-35-122-236.retail.telecomitalia.it. [79.35.122.236])
+        by smtp.gmail.com with ESMTPSA id n126sm4675525wmn.21.2020.11.25.06.15.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 06:15:18 -0800 (PST)
+Date:   Wed, 25 Nov 2020 15:15:17 +0100
+From:   Andrea Righi <andrea.righi@canonical.com>
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Andrea Righi <andrea.righi@canonical.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Cc:     Boqun Feng <boqun.feng@gmail.com>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] leds: trigger: fix potential deadlock with libata
-Message-ID: <20201125140126.GH3025@boqun-archlinux>
+Message-ID: <20201125141517.GA73489@xps-13-7390>
 References: <20201102104152.GG9930@xps-13-7390>
  <20201125124648.GJ29328@amd>
 MIME-Version: 1.0
@@ -91,6 +58,8 @@ In-Reply-To: <20201125124648.GJ29328@amd>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
+
+Hi Pavel,
 
 On Wed, Nov 25, 2020 at 01:46:48PM +0100, Pavel Machek wrote:
 > Hi!
@@ -311,44 +280,21 @@ On Wed, Nov 25, 2020 at 01:46:48PM +0100, Pavel Machek wrote:
 > drivers/leds/led-triggers.c:   read_lock(&trig->leddev_list_lock);
 > drivers/leds/led-triggers.c:   read_unlock(&trig->leddev_list_lock);
 > 
-
-I think so, if you mean the read_{un,}lock in led_trigger_blink_setup()
-also need to convert to irq-safe version ;-)
-
-Regards,
-Boqun
-
 > Best regards,
-> 								Pavel
-> 
-> > ---
-> >  drivers/leds/led-triggers.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-> > index 91da90cfb11d..16d1a93a10a8 100644
-> > --- a/drivers/leds/led-triggers.c
-> > +++ b/drivers/leds/led-triggers.c
-> > @@ -378,14 +378,15 @@ void led_trigger_event(struct led_trigger *trig,
-> >  			enum led_brightness brightness)
-> >  {
-> >  	struct led_classdev *led_cdev;
-> > +	unsigned long flags;
-> >  
-> >  	if (!trig)
-> >  		return;
-> >  
-> > -	read_lock(&trig->leddev_list_lock);
-> > +	read_lock_irqsave(&trig->leddev_list_lock, flags);
-> >  	list_for_each_entry(led_cdev, &trig->led_cdevs, trig_list)
-> >  		led_set_brightness(led_cdev, brightness);
-> > -	read_unlock(&trig->leddev_list_lock);
-> > +	read_unlock_irqrestore(&trig->leddev_list_lock, flags);
-> >  }
-> >  EXPORT_SYMBOL_GPL(led_trigger_event);
-> >  
-> 
-> -- 
-> http://www.livejournal.com/~pavelmachek
 
+I think also led_trigger_blink_setup() needs to use irqsave/irqrestore,
+in fact:
 
+$ git grep "led_trigger_blink("
+drivers/leds/led-triggers.c:void led_trigger_blink(struct led_trigger *trig,
+drivers/power/supply/power_supply_leds.c:               led_trigger_blink(psy->charging_blink_full_solid_trig,
+include/linux/leds.h:void led_trigger_blink(struct led_trigger *trigger, unsigned long *delay_on,
+include/linux/leds.h:static inline void led_trigger_blink(struct led_trigger *trigger,
+
+power_supply_leds.c is using led_trigger_blink() from a workqueue
+context, so potentially the same deadlock condition can also happen.
+
+Let me know if you want me to send a new patch to include also this
+case.
+
+-Andrea
