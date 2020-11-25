@@ -2,88 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A01F02C3FBA
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Nov 2020 13:18:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DCE42C3FC0
+	for <lists+linux-leds@lfdr.de>; Wed, 25 Nov 2020 13:18:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728792AbgKYMRB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 25 Nov 2020 07:17:01 -0500
-Received: from mga18.intel.com ([134.134.136.126]:6412 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727626AbgKYMRB (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 25 Nov 2020 07:17:01 -0500
-IronPort-SDR: ocSDS+G1wxfbf+yl52PTXPXubbuEmkA4dhT3rHhwz6w8whSZSdGhtCviyo/FZZ5jITM90oAY6t
- bo8407441Wgg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9815"; a="159888983"
-X-IronPort-AV: E=Sophos;i="5.78,368,1599548400"; 
-   d="scan'208";a="159888983"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2020 04:17:00 -0800
-IronPort-SDR: Xm8ijyUR1Zfd8mPqv7w3FUG+/mbI67hYd6Tl4m/i+IgfTv+RkyotzZO8ykcx92Ba8AJiZ6WZ74
- WOSnUcmQRYPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,368,1599548400"; 
-   d="scan'208";a="432939088"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 25 Nov 2020 04:16:57 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 25 Nov 2020 14:16:57 +0200
-Date:   Wed, 25 Nov 2020 14:16:57 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        dmurphy@ti.com, jacek.anaszewski@gmail.com,
+        id S1726139AbgKYMSZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 25 Nov 2020 07:18:25 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:42790 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726009AbgKYMSY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 25 Nov 2020 07:18:24 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 0918E1C0B7D; Wed, 25 Nov 2020 13:18:22 +0100 (CET)
+Date:   Wed, 25 Nov 2020 13:18:21 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek Behun <marek.behun@nic.cz>
+Cc:     Yu Kuai <yukuai3@huawei.com>, linus.walleij@linaro.org,
+        j.anaszewski@samsung.com, simon.guinot@sequanux.org,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] leds: lp50xx: Fix an error handling path in
- 'lp50xx_probe_dt()'
-Message-ID: <20201125121657.GH1008337@kuha.fi.intel.com>
-References: <20200922210515.385099-1-christophe.jaillet@wanadoo.fr>
- <20200923133510.GJ4282@kadam>
- <faa49efc-5ba5-b6bd-b486-2f7c4611219b@wanadoo.fr>
- <20200924064932.GP18329@kadam>
- <20200928115301.GB3987353@kuha.fi.intel.com>
- <20201125104629.GE25562@amd>
+        yi.zhang@huawei.com
+Subject: Re: [PATCH] leds: various: add missing put_device() call in
+ netxbig_leds_get_of_pdata()
+Message-ID: <20201125121821.GE29328@amd>
+References: <20201029092305.900767-1-yukuai3@huawei.com>
+ <20201029174952.GB26053@duo.ucw.cz>
+ <20201029192555.36834608@nic.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="84ND8YJRMFlzkrP4"
 Content-Disposition: inline
-In-Reply-To: <20201125104629.GE25562@amd>
+In-Reply-To: <20201029192555.36834608@nic.cz>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Nov 25, 2020 at 11:46:29AM +0100, Pavel Machek wrote:
-> Hi!
-> 
-> > > > > I have been trying to teach Smatch to understand reference counting so
-> > > > > it can discover these kinds of bugs automatically.
-> > > > > 
-> > > > > I don't know how software_node_get_next_child() can work when it doesn't
-> > > > > call kobject_get().  This sort of bug would have been caught in testing
-> > > > > because it affects the success path so I must be reading the code wrong.
-> > > > > 
-> > > > 
-> > > > I had the same reading of the code and thought that I was missing something
-> > > > somewhere.
-> > > > 
-> > > > There is the same question about 'acpi_get_next_subnode' which is also a
-> > > > '.get_next_child_node' function, without any ref counting, if I'm correct.
-> > > > 
-> > > 
-> > > Yeah, but there aren't any ->get/put() ops for the acpi_get_next_subnode()
-> > > stuff so it's not a problem.  (Presumably there is some other sort of
-> > > refcounting policy there).
-> > 
-> > OK, so I guess we need to make software_node_get_next_child()
-> > mimic the behaviour of of_get_next_available_child(), and not
-> > acpi_get_next_subnode(). Does the attached patch work?
-> 
-> Does not sound unreasonable. Did it get solved, somehow?
 
-Has anybody tested my patch?
+--84ND8YJRMFlzkrP4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+On Thu 2020-10-29 19:25:55, Marek Behun wrote:
+> On Thu, 29 Oct 2020 18:49:52 +0100
+> Pavel Machek <pavel@ucw.cz> wrote:
+>=20
+> >=20
+> > Thanks, applied.
+> >=20
+> > But it seems to me similar handling is needed in "success" paths, no?
+>=20
+> Pavel, the subject of this commit is wrong.
+> It should begin with
+>   leds: netxbig:
+> instead of
+>   leds: various:
+> since the patch does not touch various drivers, only one: netxbig.
 
--- 
-heikki
+Ok, thanks, fixed.
+
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--84ND8YJRMFlzkrP4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl++S40ACgkQMOfwapXb+vKUkQCgjw/yynoYzEGuTziszPDTjh80
+vYQAoIjdPNOR2if9nSPpHtcLApqnPAQ5
+=vBUq
+-----END PGP SIGNATURE-----
+
+--84ND8YJRMFlzkrP4--
