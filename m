@@ -2,301 +2,151 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A77E2C70FA
-	for <lists+linux-leds@lfdr.de>; Sat, 28 Nov 2020 22:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B3472C7164
+	for <lists+linux-leds@lfdr.de>; Sat, 28 Nov 2020 22:57:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726314AbgK1Vum (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 28 Nov 2020 16:50:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42388 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732050AbgK1S53 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 28 Nov 2020 13:57:29 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1A28C02A1B1;
-        Sat, 28 Nov 2020 07:14:04 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id g14so8676071wrm.13;
-        Sat, 28 Nov 2020 07:14:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vcBAq8l9akkx7hiqsbsodZQlENoGjUTUGwJDEMJ5H5w=;
-        b=PUBeUmRMGX/Xbl+Ywb0x3hXxKJjlBdYKeJSfABQvEpkKvEZ/YkHwe6+ZSix190Qvne
-         Kk7uETaXo12l9CzUui/7kE2hzBbInTumJmXn4zyYCCo6ZjdpoBEH1MkXdNiJjdUqsM/+
-         tAu3jNzwnhbSKEIF+orqI8eBWQZX4RQhJAHfLZb1sJNqspByZ73zHgT7DRgYfrfKmRV2
-         Gz0uZh0cltQoA6ESbEyixJ/rN/MHgag1QXFJ6xmy3GA2QpJVYyU07odWFaURpJeUv2aG
-         WyDR7QPENB9cof90pqwiNa59DOKrhb1+4KnGLUye+hoyBFXNJHVwSPgTgNrHXoIarvdC
-         5Fgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vcBAq8l9akkx7hiqsbsodZQlENoGjUTUGwJDEMJ5H5w=;
-        b=RuBlZgh5825cetphVeSVWypg+82p3KxLYnfNEoDy8iiEvkVK13mE6I3kkUzsne4S0V
-         fsU/QOPuS3VpSLkE9BHG+UMkwLUKzVGZdxAZM6QZrSVlhUqlkTAvqUqbDudQcREHicWA
-         2OR6EyRzKF2Kaa1VnM7rL838U8/kISs4NHVQw/2atrZ5zGii6++qaknw6WmAwG7vS5sb
-         /GCBbuBqziQOvzMTqgVTN2lTMmcB3HPILoFzoSOhDuZTppoh52wE+GlwbFS8vzbLIJ7y
-         /mW6wPcJRjs6GvbdwMsLYVhbkZFkpdcuM1IkkqkPbMWwhJ2g27R9JxlbrK9Co+aEkE2O
-         5jgw==
-X-Gm-Message-State: AOAM532OBDXLZTyqP535KG31rhLP9yMmt8kxo58t9OSF5kcTFY+0Kz30
-        fgB+KYyaNkj0RLNIDcliFaQ=
-X-Google-Smtp-Source: ABdhPJw3WQq7/V2A0KHFajRCBx38ILUo9wCCsNh/EzXkokKCcgsZlrlARAHdzYhdLSpUMzF1aQnqgg==
-X-Received: by 2002:adf:f3d1:: with SMTP id g17mr18139379wrp.201.1606576442892;
-        Sat, 28 Nov 2020 07:14:02 -0800 (PST)
-Received: from ?IPv6:2a01:110f:b59:fd00:7c3e:7544:88c3:e387? ([2a01:110f:b59:fd00:7c3e:7544:88c3:e387])
-        by smtp.gmail.com with ESMTPSA id d17sm20079784wro.62.2020.11.28.07.14.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Nov 2020 07:14:02 -0800 (PST)
-Subject: Re: [PATCH v10 5/6] dt-bindings: leds: Add bindings for MT6360 LED
-To:     Gene Chen <gene.chen.richtek@gmail.com>, pavel@ucw.cz,
-        robh+dt@kernel.org, matthias.bgg@gmail.com
-Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, cy_huang@richtek.com,
-        benjamin.chao@mediatek.com
-References: <1606447736-7944-1-git-send-email-gene.chen.richtek@gmail.com>
- <1606447736-7944-6-git-send-email-gene.chen.richtek@gmail.com>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <8a2f252a-7cbd-401f-75a3-f42bba93fdd7@gmail.com>
-Date:   Sat, 28 Nov 2020 16:13:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S2391374AbgK1V5Q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 28 Nov 2020 16:57:16 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:47487 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387418AbgK1V5M (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 28 Nov 2020 16:57:12 -0500
+Received: from methusalix.internal.home.lespocky.de ([92.117.45.147]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MdwRi-1kAL7K2rmY-00b77Y; Sat, 28 Nov 2020 22:54:20 +0100
+Received: from lemmy.internal.home.lespocky.de ([192.168.243.175] helo=lemmy.home.lespocky.de)
+        by methusalix.internal.home.lespocky.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <alex@home.lespocky.de>)
+        id 1kj8AZ-00027T-9a; Sat, 28 Nov 2020 22:54:16 +0100
+Received: (nullmailer pid 4070 invoked by uid 2001);
+        Sat, 28 Nov 2020 21:54:14 -0000
+From:   Alexander Dahl <post@lespocky.de>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Alexander Dahl <ada@thorsis.com>, linux-leds@vger.kernel.org,
+        Alexander Dahl <post@lespocky.de>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org
+Subject: [PATCH v8 0/5] leds: pwm: Make automatic labels work
+Date:   Sat, 28 Nov 2020 22:53:48 +0100
+Message-Id: <20201128215353.3991-1-post@lespocky.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1606447736-7944-6-git-send-email-gene.chen.richtek@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scan-Signature: e9056562e10c809dee3344e50e145a1f
+X-Spam-Score: -2.9 (--)
+X-Provags-ID: V03:K1:QBfiUPuOf14kX4Nz47jAYJt1cUoOTDn1E/pEQC0D93UIwKSk9LO
+ pApkfselXX82TbxUTNh8KHQ+CU+2c4pzwJtAt9bworExKtWkMMo11sQBGbbaRZV4CvXMvnA
+ 9YBrjc9ERoyaWnteYtxeb1ArUz7jfIMFuB3eBRAU64w3d7VMMmtayx6rnaFNch45egLYrE8
+ ndlA9RHZPJuId6tbeCmew==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:db2FVXCJ0IQ=:rGUF+QkkUhs0EKaPyIQuUg
+ ybFnHRPwkBnLFoJzP1nJuiDJYGMjkgvpHNfYJxhkOZGHhhqCNRb0Ltb6SZlhGIYo9iYB/4GV/
+ 4hCM3Vpve/XfUOsEGEpDlviPUYPXT+dRUt+wvBYHXc9TFbAJKTYR0QXj33O1ix2/YHCZRiFMS
+ 13KuMpQPkCGx3Y9ZbSTiEEW4els06BHzfagxTp1J+uTDlYI2xG0g8t1MOgFafvkwk0EEHc6K8
+ ZyoznGlLSkcEWOEJgdDfnffdgfsM2u+zzIfNIF+RXTUvJV5Ij1AgcURwSHcbZqBEC5zjUs+p6
+ sprAnKWfh3tMH+DBc8RM0osqot7HMr6L633xcdNiBzLSws/ycSa1TWmphHF/JLCakwdGNVq+b
+ 6V9cGMQzbwbU8Ae1QPCF5ke3HFEBTQDThzImW9foPNqjDdH9no6dCZ1GYks3quFcTwkKsosxR
+ tdtiik2UTg==
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Gene,
+Hei hei,
 
-On 11/27/20 4:28 AM, Gene Chen wrote:
-> From: Gene Chen <gene_chen@richtek.com>
-> 
-> Add bindings document for LED support on MT6360 PMIC
-> 
-> Signed-off-by: Gene Chen <gene_chen@richtek.com>
-> ---
->   .../devicetree/bindings/leds/leds-mt6360.yaml      | 164 +++++++++++++++++++++
->   1 file changed, 164 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/leds/leds-mt6360.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-mt6360.yaml b/Documentation/devicetree/bindings/leds/leds-mt6360.yaml
-> new file mode 100644
-> index 0000000..b2ffbc6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-mt6360.yaml
-> @@ -0,0 +1,164 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-mt6360.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: LED driver for MT6360 PMIC from MediaTek Integrated.
-> +
-> +maintainers:
-> +  - Gene Chen <gene_chen@richtek.com>
-> +
-> +description: |
-> +  This module is part of the MT6360 MFD device.
-> +  see Documentation/devicetree/bindings/mfd/mt6360.yaml
-> +  Add MT6360 LED driver include 2-channel Flash LED with torch/strobe mode,
-> +  and 4-channel RGB LED support Register/Flash/Breath Mode
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt6360-led
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^led@[0-6]$":
-> +    type: object
-> +    $ref: common.yaml#
-> +    description:
-> +      Properties for a single LED.
-> +
-> +    properties:
-> +      reg:
-> +        description: Index of the LED.
-> +        enum:
-> +          - 0 # LED output INDICATOR1_RED
-> +          - 1 # LED output INDICATOR1_GREEN
-> +          - 2 # LED output INDICATOR1_BLUE
-> +          - 3 # LED output INDICATOR2_
-These LED output descriptions look odd.
-In the driver you have:
+these are the not yet taken patches from a series which originally fixed
+a minor issue in the leds pwm driver, then migrated the leds pwm dts
+docs to yaml (by request), and then fixed all the dts files triggering
+warnings on those new bindings.  The remaining five patches now only fix
+warnings, the base fix and the yaml conversion is already taken by
+subsystem maintainers.  Although this is only dts content now, I rebased
+it on the current for-next tree of the leds subsystem maintainer,
+because that contains the yaml-conversion changeset.
 
-enum {
-     MT6360_LED_ISNK1 = 0,
-     MT6360_LED_ISNK2,
-     MT6360_LED_ISNK3,
-     MT6360_LED_ISNKML
-     ...
+Series changelog below …
 
-I think the same names should be used for DT reg property documentation:
+Greets
+Alex
 
-- 0 # LED output ISNK1
-- 1 # LED output ISNK2
-- 2 # LED output ISNK3
-- 3 # LED output ISNKML
+v8:
+- rebased series on recent pavel/for-next (post v5.10-rc1)
+- removed already applied patches
+- added Acked-by on patch 1/5
+- updated patch 3/5 based on comments by Ahmad Fatoum
 
-Here you're describing hardware, i.e. current sinks as they are
-defined in the device documentation, and not the functions you're
-assigning in DT to the connected LEDs.
+v7:
+- rebased series on recent pavel/for-next
+- split up arm dts patch by arm sub arch (suggested by Krzysztof Kozlowski)
+- added multiple Reviewed-by tags
+- slightly reworded commit messages (suggested by Krzysztof Kozlowski)
+- added actual dtbs_check warnings to commit messages
+- added Russell King to Cc for binding conversion patch (because license)
 
-> +          - 4 # LED output FLED1
-> +          - 5 # LED output FLED2
-> +          - 6 # LED output MULTICOLOR
+v6:
+- rebased series on recent pavel/for-next
+- added Reviewed-by from Marek to patch 1
+- patch 2 from v5 was picked by Pavel and is already in his for-next
+  branch
+- previous patch 3/3 (now 2/7) was reworked based on feedback by Rob
+- added more dt patches fixing warnings after binding conversion to yaml
+
+v5:
+- replaced patch 1/3 by a new patch removing platform_data support for
+  the leds-pwm driver
+- little rewording of commit message in patch 2/3
+- updated patch 3/3 based on feedback by Rob Herring
+- added Marek Behún to Cc, because he also works on removing
+  platform_data support
+- rebased series on pavel/for-next
+
+v4:
+- added led-class patch handling fwnode passing differently (patch 1/3)
+- adapted leds-pwm patch to new led-class (patch 2/3)
+- contacted original author of leds-pwm dt binding on license issue
+  (patch 3/3)
+
+v3:
+- series rebased on v5.9-rc4
+- changed license of .yaml file to recommended one (patch 2/2)
+- added Acked-by to both patches
+
+v2:
+- series rebased on v5.9-rc3
+- added the dt-bindings update patch (2/2)
+
+v1:
+- based on v5.9-rc2
+- backport on v5.4.59 tested and working
+
+Cc: linux-leds@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-mips@vger.kernel.org
 
 
-This last enum is also disputable, since it is driver specific, and not
-hardware specific. Actually you should rather check LED color id and
-basing on that treat the LED as multicolor (for LED_COLOR_ID_RGB).
-See drivers/leds/leds-lp55xx-common.c for a reference.
+Alexander Dahl (5):
+  dt-bindings: mfd: Fix schema warnings for pwm-leds
+  ARM: dts: berlin: Fix schema warnings for pwm-leds
+  ARM: dts: stm32: Fix schema warnings for pwm-leds
+  arm64: dts: meson: Fix schema warnings for pwm-leds
+  MIPS: DTS: img: Fix schema warnings for pwm-leds
 
-> +unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> + - |
-> +   #include <dt-bindings/leds/common.h>
-> +   led-controller {
-> +     compatible = "mediatek,mt6360-led";
-> +     #address-cells = <1>;
-> +     #size-cells = <0>;
-> +
-> +     led@3 {
-> +       reg = <3>;
-> +       function 
+ Documentation/devicetree/bindings/mfd/iqs62x.yaml   |  5 +++--
+ arch/arm/boot/dts/berlin2cd-google-chromecast.dts   |  6 +++---
+ arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts           | 13 +++++++------
+ .../boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dts |  4 ++--
+ .../boot/dts/amlogic/meson-gxm-khadas-vim2.dts      |  4 ++--
+ arch/arm64/boot/dts/amlogic/meson-sm1-sei610.dts    |  8 ++++----
+ arch/mips/boot/dts/img/pistachio_marduk.dts         |  5 +++--
+ 7 files changed, 24 insertions(+), 21 deletions(-)
 
-= LED_FUNCTION_MOONLIGHT;
-> +       color = <LED_COLOR_ID_WHITE>;
-> +       led-max-microamp = <150000>;
-> +     };
-> +     led@4 {
-> +       reg = <4>;
-> +       function = LED_FUNCTION_FLASH;
-> +       color = <LED_COLOR_ID_WHITE>;
-> +       function-enumerator = <1>;
-> +       led-max-microamp = <200000>;
-> +       flash-max-microamp = <500000>;
-> +       flash-max-timeout-us = <1024000>;
-> +     };
-> +     led@5 {
-> +       reg = <5>;
-> +       function = LED_FUNCTION_FLASH;
-> +       color = <LED_COLOR_ID_WHITE>;
-> +       function-enumerator = <2>;
-> +       led-max-microamp = <200000>;
-> +       flash-max-microamp = <500000>;
-> +       flash-max-timeout-us = <1024000>;
-> +     };
-> +     led@6 {
-> +       reg = <6>;
-> +       function = LED_FUNCTION_INDICATOR;
-> +       color = <LED_COLOR_ID_RGB>;
-> +       led-max-microamp = <24000>;
-> +       #address-cells = <1>;
-> +       #size-cells = <0>;
-> +
-> +       led@0 {
-> +         reg = <0>;
-> +         function = LED_FUNCTION_INDICATOR;
 
-The function is unused in case of the multicolor subleds.
-Please drop it from here.
-
-> +         color = <LED_COLOR_ID_RED>;
-> +       };
-> +       led@1 {
-> +         reg = <1>;
-> +         function = LED_FUNCTION_INDICATOR;
-
-Ditto.
-
-> +         color = <LED_COLOR_ID_GREEN>;
-> +       };
-> +       led@2 {
-> +         reg = <2>;
-> +         function = LED_FUNCTION_INDICATOR;
-
-Ditto.
-
-> +         color = <LED_COLOR_ID_BLUE>;
-> +       };
-> +     };
-> +   };
-> +
-> + - |
-> +
-> +   led-controller {
-> +     compatible = "mediatek,mt6360-led";
-> +     #address-cells = <1>;
-> +     #size-cells = <0>;
-> +
-> +     led@0 {
-> +       reg = <0>;
-> +       function = LED_FUNCTION_INDICATOR;
-> +       color = <LED_COLOR_ID_RED>;
-> +       led-max-microamp = <24000>;
-> +     };
-> +     led@1 {
-> +       reg = <1>;
-> +       function = LED_FUNCTION_INDICATOR;
-> +       color = <LED_COLOR_ID_GREEN>;
-> +       led-max-microamp = <24000>;
-> +     };
-> +     led@2 {
-> +       reg = <2>;
-> +       function = LED_FUNCTION_INDICATOR;
-> +       color = <LED_COLOR_ID_BLUE>;
-> +       led-max-microamp = <24000>;
-> +     };
-> +     led@3 {
-> +       reg = <3>;
-> +       function = LED_FUNCTION_MOONLIGHT;
-> +       color = <LED_COLOR_ID_WHITE>;
-> +       led-max-microamp = <150000>;
-> +     };
-> +     led@4 {
-> +       reg = <4>;
-> +       function = LED_FUNCTION_FLASH;
-> +       color = <LED_COLOR_ID_WHITE>;
-> +       function-enumerator = <1>;
-> +       led-max-microamp = <200000>;
-> +       flash-max-microamp = <500000>;
-> +       flash-max-timeout-us = <1024000>;
-> +     };
-> +     led@5 {
-> +       reg = <5>;
-> +       function = LED_FUNCTION_FLASH;
-> +       color = <LED_COLOR_ID_WHITE>;
-> +       function-enumerator = <2>;
-> +       led-max-microamp = <200000>;
-> +       flash-max-microamp = <500000>;
-> +       flash-max-timeout-us = <1024000>;
-> +     };
-> +   };
-> +...
-> 
-
+base-commit: 98650b0874171cc443251f7b369d3b1544db9d4e
 -- 
-Best regards,
-Jacek Anaszewski
+2.20.1
+
