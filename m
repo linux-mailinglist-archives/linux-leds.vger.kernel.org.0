@@ -2,57 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A1702C7C4E
-	for <lists+linux-leds@lfdr.de>; Mon, 30 Nov 2020 02:20:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D475D2C8B35
+	for <lists+linux-leds@lfdr.de>; Mon, 30 Nov 2020 18:35:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727055AbgK3BTx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 29 Nov 2020 20:19:53 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:9069 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726520AbgK3BTx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 29 Nov 2020 20:19:53 -0500
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CknRz1yRZzLxCn;
-        Mon, 30 Nov 2020 09:18:39 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 30 Nov 2020 09:19:09 +0800
-From:   Tian Tao <tiantao6@hisilicon.com>
-To:     <pavel@ucw.cz>, <dmurphy@ti.com>
-CC:     <linux-leds@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] leds: lm3533: Switch to using the new API kobj_to_dev()
-Date:   Mon, 30 Nov 2020 09:19:28 +0800
-Message-ID: <1606699168-49894-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+        id S2387673AbgK3Reb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 30 Nov 2020 12:34:31 -0500
+Received: from mail-io1-f67.google.com ([209.85.166.67]:39257 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387692AbgK3Reb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 30 Nov 2020 12:34:31 -0500
+Received: by mail-io1-f67.google.com with SMTP id j23so12609937iog.6;
+        Mon, 30 Nov 2020 09:34:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=B8WQC1B/ybLTFuUDD6wQDsUH4CVJeOnw5YrNPlfBilM=;
+        b=SAlTdO+BKoUU2E/WPkPUZ5j1CDH++PPUEPurEJIa/3HNlH2jwbX795IphBSp+kRZkj
+         D8WVV75HZIviKnQxTThJPhECy1aySsCbGxwEdzrfwuxf067OTH7kAzsB8ox/FnJpBPsV
+         USPWlA9zbotA1GdbN68Rb7wKKviO4lNs5jtbYnVunyEBNPt70JZpcO2FW+8otg5aTKQ+
+         +zCi/ppaWrMFFd2CgzA2OOjRi4ymXYNu2Y+QnMJBaH27PAONHRH4L2h8+O0708e9I+g5
+         81JwHJYzemXsXK7HLLguTTlHGDRChMrpMvNM7zuBt8dxvQvfTcKO26Zr2A8UepSYQW9u
+         +d6A==
+X-Gm-Message-State: AOAM532hLD2HwDikicDlshHWWCS5zAhicP17Q/rE9sH4n0uOQxhLfoM/
+        FaIuE+GJnGbOFExw5w4yDA==
+X-Google-Smtp-Source: ABdhPJywT5iLKdkjFtGlm/c/VnI4j+umxG0XmUInig+hKMPcQAtPBEa0/BK6Xapdk9l+dq7ClqR6oQ==
+X-Received: by 2002:a5d:9753:: with SMTP id c19mr17155179ioo.111.1606757630169;
+        Mon, 30 Nov 2020 09:33:50 -0800 (PST)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id q5sm7909850ilg.62.2020.11.30.09.33.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Nov 2020 09:33:48 -0800 (PST)
+Received: (nullmailer pid 2679137 invoked by uid 1000);
+        Mon, 30 Nov 2020 17:33:46 -0000
+Date:   Mon, 30 Nov 2020 10:33:46 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Gene Chen <gene.chen.richtek@gmail.com>
+Cc:     linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
+        Wilma.Wu@mediatek.com, benjamin.chao@mediatek.com,
+        devicetree@vger.kernel.org, gene_chen@richtek.com,
+        shufan_lee@richtek.com, dmurphy@ti.com,
+        linux-mediatek@lists.infradead.org, robh+dt@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        matthias.bgg@gmail.com, cy_huang@richtek.com, pavel@ucw.cz
+Subject: Re: [PATCH v10 5/6] dt-bindings: leds: Add bindings for MT6360 LED
+Message-ID: <20201130173346.GA2678817@robh.at.kernel.org>
+References: <1606447736-7944-1-git-send-email-gene.chen.richtek@gmail.com>
+ <1606447736-7944-6-git-send-email-gene.chen.richtek@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1606447736-7944-6-git-send-email-gene.chen.richtek@gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-fixed the following coccicheck:
-drivers/leds/leds-lm3533.c:611:60-61: WARNING opportunity for kobj_to_dev().
+On Fri, 27 Nov 2020 11:28:55 +0800, Gene Chen wrote:
+> From: Gene Chen <gene_chen@richtek.com>
+> 
+> Add bindings document for LED support on MT6360 PMIC
+> 
+> Signed-off-by: Gene Chen <gene_chen@richtek.com>
+> ---
+>  .../devicetree/bindings/leds/leds-mt6360.yaml      | 164 +++++++++++++++++++++
+>  1 file changed, 164 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-mt6360.yaml
+> 
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/leds/leds-lm3533.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/leds/leds-lm3533.c b/drivers/leds/leds-lm3533.c
-index b3edee7..9791166 100644
---- a/drivers/leds/leds-lm3533.c
-+++ b/drivers/leds/leds-lm3533.c
-@@ -608,7 +608,7 @@ static struct attribute *lm3533_led_attributes[] = {
- static umode_t lm3533_led_attr_is_visible(struct kobject *kobj,
- 					     struct attribute *attr, int n)
- {
--	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct device *dev = kobj_to_dev(kobj);
- 	struct led_classdev *led_cdev = dev_get_drvdata(dev);
- 	struct lm3533_led *led = to_lm3533_led(led_cdev);
- 	umode_t mode = attr->mode;
--- 
-2.7.4
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/leds/leds-mt6360.yaml:57:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
+
+dtschema/dtc warnings/errors:
+
+
+See https://patchwork.ozlabs.org/patch/1406971
+
+The base for the patch is generally the last rc1. Any dependencies
+should be noted.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
