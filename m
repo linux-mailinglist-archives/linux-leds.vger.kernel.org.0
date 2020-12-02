@@ -2,50 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D6272CBAFB
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Dec 2020 11:50:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E94E2CBAF7
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Dec 2020 11:50:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388736AbgLBKry (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Dec 2020 05:47:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36560 "EHLO
+        id S2388674AbgLBKrw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Dec 2020 05:47:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388717AbgLBKrw (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Dec 2020 05:47:52 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE09EC0617A6;
-        Wed,  2 Dec 2020 02:47:06 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id i38so790986pgb.5;
-        Wed, 02 Dec 2020 02:47:06 -0800 (PST)
+        with ESMTP id S1726032AbgLBKru (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Dec 2020 05:47:50 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F2C0C0617A7;
+        Wed,  2 Dec 2020 02:47:10 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id n10so681746pgv.8;
+        Wed, 02 Dec 2020 02:47:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=p0JP7C0xlsVyWNi+wA1zhFtAvLDEH/NgpOed0jz9w0E=;
-        b=LuL/ISrlnUyz61vEuqciCm8pEDG2XCpxAW5g/Y2wyQXl8B6Cjgl5MiXtSPZE8K1GVN
-         x4jQF8ewGW6ACZ9H9B5rLcTTh4q2s7ar+6RUWxhqWQ1wFsYZY1LQjEMSn9JDR4UgiGNh
-         sExYEcHbclUNDkAERBB4DrYD97dmTO6h21PLP4tCSsg5CqRmHCPzTIBQFv5xespkkGsA
-         8XSXgpTyY409JILJvmzutm+jKP/G2ymOhwaikjF8QsiIAHu1C50D/ma8UXWRkXt7xpI5
-         wJ/Y6QsWZQ5jrhFsoDIHE+JN1mP6pfvZYGHznLWK6hPEBftjon6hgyVOqYXZlI+8Yz3O
-         tGEg==
+        bh=S08RLDHwV3/dF7+XO13dHwF7/fsUpwvF4WzmBuKer30=;
+        b=aciiHc72jqq8XQ+Q0YVw9dIM/ys8K2Pzi0MCbGxcy759pmCxb917oUBJlciBulnElj
+         QcTJqHL1hjszzyI+RfvqAG8DPVJ69alEWwVHuMWMUwvlzzn4BtVavYj5IjhIdAzBI604
+         4b2UtcgMMEKvcHIAWrfK6wHQFXqey9SXCzAeFDZrr9tjlcje0tZEAAPMywoEp/UY7gwm
+         SORP3Q+ZLx/JhZ93fDSaDvRG8eaCYcxnzZ4uRMbLAWXt9Nmmd98lw4kdS8QExO5cGm9S
+         s1udav6Ngb14Xf73odPLxlC0h9Igzu3a6wxa68myfqhvEgpdNWJ159Hz34xh09uggDMj
+         eMOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=p0JP7C0xlsVyWNi+wA1zhFtAvLDEH/NgpOed0jz9w0E=;
-        b=Yfj2J8UYb60vgHRLjikXZLHLllXUs4onSJH0m/NbA37fewN3Wuy5dQizQPjdnaDhbj
-         8BlWpO3izT7sLJ9QUCA1E8VBmhISn4k9WJ8UkAN4V9/QP9vH5wwsY+QD1tzK98RVQ1Y8
-         phCPUndmkMLPuLCF/jD++9BZ7CVwsRVNqBkoQVzR7cyyKCnm9wEL67qMNzxzKXBYF4Vh
-         doVIhVC0Ri4GJ4wpgVyrwvU/r5udYYsSucsnWSeY3k4rVLkGWaumf7qYRQvWJiX9jSoE
-         CGhEgIZmAUwhzdkCj//i/XL4AcTFrsRectLim1MuKG0B0zAdYhDr2wfHeC15Srixumgm
-         daUA==
-X-Gm-Message-State: AOAM533+lVw25zlRHSENQf6dIzRKNFJBwMEOjvHI18I9k8nzkj/fhRGZ
-        npno0jyO3lYVJ0HbXSbtuJiov4zbvVstVQ==
-X-Google-Smtp-Source: ABdhPJyeY2WV1nLUcEzBdz84Q6ciSbRyG3hkgQz3aYDs6YblKSXhLv1wGLdo94QUyXRbe4tzOmj+TA==
-X-Received: by 2002:a62:e212:0:b029:19d:8cff:f179 with SMTP id a18-20020a62e2120000b029019d8cfff179mr1635734pfi.44.1606906026411;
-        Wed, 02 Dec 2020 02:47:06 -0800 (PST)
+        bh=S08RLDHwV3/dF7+XO13dHwF7/fsUpwvF4WzmBuKer30=;
+        b=DuXIE5rf6ycEcNdXSK7zTdQbF79ALMwXxe/CW1FUL4ogEX3RCtBMCATPLoHDkSYkJ9
+         J+oMZdYxPXp8+FIaLeJUP5eTz2zuHJErxJRsQi3lPXQd9do3NN+R6H65kwZJMG24VpKL
+         PhSpnXkMbAAtGJJuWjXAv3ljmodQE+lmqDLcXdmye/lWZLkDdCoSxa4UQe6RguQIDifS
+         AnV93zT1Pa8quGHSaMeCSj8O8dfxK6lRhVF9DP2zxgpmFOvDxi9flbbc/0L23odLgGAL
+         Jjluou+hETnUKJpNCam+qO/FDWU9HWsPq3L5NR6rs6nTSEZUB7ZAVocdtPTEkokpq2fG
+         BYhg==
+X-Gm-Message-State: AOAM531aXpZ78MirX4VJEGHzATHUoPaz0AFODNZlT3VovoktZQbH9idN
+        hDTJMLTqSuZYg+xBLonZi6C2jYKFGu8U0w==
+X-Google-Smtp-Source: ABdhPJxHXKcGzMzqQaAgF8Vi7ulrYj4m6vrcieyqHrgNSrGzEuoK+vN8FEATbJfXGvam6Cfw61NCZA==
+X-Received: by 2002:a63:1a02:: with SMTP id a2mr2041901pga.359.1606906030231;
+        Wed, 02 Dec 2020 02:47:10 -0800 (PST)
 Received: from localhost.localdomain ([2402:7500:561:5929:abfa:5e69:aaf7:6f59])
-        by smtp.gmail.com with ESMTPSA id e14sm1648109pjt.17.2020.12.02.02.47.02
+        by smtp.gmail.com with ESMTPSA id e14sm1648109pjt.17.2020.12.02.02.47.06
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Dec 2020 02:47:06 -0800 (PST)
+        Wed, 02 Dec 2020 02:47:09 -0800 (PST)
 From:   Gene Chen <gene.chen.richtek@gmail.com>
 To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
         matthias.bgg@gmail.com
@@ -55,9 +55,9 @@ Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
         gene_chen@richtek.com, Wilma.Wu@mediatek.com,
         shufan_lee@richtek.com, cy_huang@richtek.com,
         benjamin.chao@mediatek.com
-Subject: [PATCH v11 2/5] leds: flash: Fix multicolor no-ops registration by return 0
-Date:   Wed,  2 Dec 2020 18:46:48 +0800
-Message-Id: <1606906011-25633-3-git-send-email-gene.chen.richtek@gmail.com>
+Subject: [PATCH v11 3/5] dt-bindings: leds: Add LED_FUNCTION_MOONLIGHT definitions
+Date:   Wed,  2 Dec 2020 18:46:49 +0800
+Message-Id: <1606906011-25633-4-git-send-email-gene.chen.richtek@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1606906011-25633-1-git-send-email-gene.chen.richtek@gmail.com>
 References: <1606906011-25633-1-git-send-email-gene.chen.richtek@gmail.com>
@@ -67,99 +67,27 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 From: Gene Chen <gene_chen@richtek.com>
 
-Fix multicolor no-ops registration by return 0,
-and move the same registration functions outside of #ifdef block.
+Add LED_FUNCTION_MOONLIGHT definitions
 
 Signed-off-by: Gene Chen <gene_chen@richtek.com>
 Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- include/linux/led-class-multicolor.h | 42 +++++++++++++-----------------------
- 1 file changed, 15 insertions(+), 27 deletions(-)
+ include/dt-bindings/leds/common.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
-index 5116f9a..210d57b 100644
---- a/include/linux/led-class-multicolor.h
-+++ b/include/linux/led-class-multicolor.h
-@@ -44,12 +44,6 @@ int led_classdev_multicolor_register_ext(struct device *parent,
- 					    struct led_classdev_mc *mcled_cdev,
- 					    struct led_init_data *init_data);
- 
--static inline int led_classdev_multicolor_register(struct device *parent,
--					    struct led_classdev_mc *mcled_cdev)
--{
--	return led_classdev_multicolor_register_ext(parent, mcled_cdev, NULL);
--}
--
- /**
-  * led_classdev_multicolor_unregister - unregisters an object of led_classdev
-  *					class with support for multicolor LEDs
-@@ -68,13 +62,6 @@ int devm_led_classdev_multicolor_register_ext(struct device *parent,
- 					  struct led_classdev_mc *mcled_cdev,
- 					  struct led_init_data *init_data);
- 
--static inline int devm_led_classdev_multicolor_register(struct device *parent,
--				     struct led_classdev_mc *mcled_cdev)
--{
--	return devm_led_classdev_multicolor_register_ext(parent, mcled_cdev,
--							 NULL);
--}
--
- void devm_led_classdev_multicolor_unregister(struct device *parent,
- 					    struct led_classdev_mc *mcled_cdev);
- #else
-@@ -83,27 +70,33 @@ static inline int led_classdev_multicolor_register_ext(struct device *parent,
- 					    struct led_classdev_mc *mcled_cdev,
- 					    struct led_init_data *init_data)
- {
--	return -EINVAL;
--}
--
--static inline int led_classdev_multicolor_register(struct device *parent,
--					    struct led_classdev_mc *mcled_cdev)
--{
--	return led_classdev_multicolor_register_ext(parent, mcled_cdev, NULL);
-+	return 0;
- }
- 
- static inline void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev) {};
- static inline int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
- 					       enum led_brightness brightness)
- {
--	return -EINVAL;
-+	return 0;
- }
- 
- static inline int devm_led_classdev_multicolor_register_ext(struct device *parent,
- 					  struct led_classdev_mc *mcled_cdev,
- 					  struct led_init_data *init_data)
- {
--	return -EINVAL;
-+	return 0;
-+}
-+
-+static inline void devm_led_classdev_multicolor_unregister(struct device *parent,
-+					    struct led_classdev_mc *mcled_cdev)
-+{};
-+
-+#endif  /* IS_ENABLED(CONFIG_LEDS_CLASS_MULTICOLOR) */
-+
-+static inline int led_classdev_multicolor_register(struct device *parent,
-+					    struct led_classdev_mc *mcled_cdev)
-+{
-+	return led_classdev_multicolor_register_ext(parent, mcled_cdev, NULL);
- }
- 
- static inline int devm_led_classdev_multicolor_register(struct device *parent,
-@@ -113,9 +106,4 @@ static inline int devm_led_classdev_multicolor_register(struct device *parent,
- 							 NULL);
- }
- 
--static inline void devm_led_classdev_multicolor_unregister(struct device *parent,
--					    struct led_classdev_mc *mcled_cdev)
--{};
--
--#endif  /* IS_ENABLED(CONFIG_LEDS_CLASS_MULTICOLOR) */
- #endif	/* _LINUX_MULTICOLOR_LEDS_H_INCLUDED */
+diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+index 52b619d..843e65d 100644
+--- a/include/dt-bindings/leds/common.h
++++ b/include/dt-bindings/leds/common.h
+@@ -78,6 +78,7 @@
+ #define LED_FUNCTION_INDICATOR "indicator"
+ #define LED_FUNCTION_LAN "lan"
+ #define LED_FUNCTION_MAIL "mail"
++#define LED_FUNCTION_MOONLIGHT "moonlight"
+ #define LED_FUNCTION_MTD "mtd"
+ #define LED_FUNCTION_PANIC "panic"
+ #define LED_FUNCTION_PROGRAMMING "programming"
 -- 
 2.7.4
 
