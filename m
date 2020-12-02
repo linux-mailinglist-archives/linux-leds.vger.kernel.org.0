@@ -2,50 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C28932CBAF2
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Dec 2020 11:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D6272CBAFB
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Dec 2020 11:50:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388642AbgLBKrn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Dec 2020 05:47:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36546 "EHLO
+        id S2388736AbgLBKry (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Dec 2020 05:47:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728747AbgLBKrn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Dec 2020 05:47:43 -0500
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB98DC0613D6;
-        Wed,  2 Dec 2020 02:47:02 -0800 (PST)
-Received: by mail-pj1-x1041.google.com with SMTP id r9so785645pjl.5;
-        Wed, 02 Dec 2020 02:47:02 -0800 (PST)
+        with ESMTP id S2388717AbgLBKrw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Dec 2020 05:47:52 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE09EC0617A6;
+        Wed,  2 Dec 2020 02:47:06 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id i38so790986pgb.5;
+        Wed, 02 Dec 2020 02:47:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=4grD7Th+x9uvL3+IHonwI2oI5c9zZZYb+5MfV4KDZ/E=;
-        b=NbrG0HmRxUlFj01zCj+adifxjH851sNK+NABxKu5JOC36B/1HLW7UIQ3wA03x4b+m9
-         QUkJK90CK6fXT5lkVQFCmDqKc8mQP3bcilYM/6RMZ0YfjueA2c4zSdbrllmI1FAFcwlN
-         plZ0dzQc8TfGYPghz+rm4NO+AWqLW2dd9syOXarD2GulJwTpIbxjvQ1f3FYZzZSwPbyF
-         5j1M/3CGw66tpHOp17JnhgZn3mTk7txZji2/RjF3H5RlYjCLxMrZDfrJ+kZVl4doxKra
-         ViUHiyOsuqXf6FTiLy0tT7y6zDr57zo33jzBKKcuQdzZNK8ZgFWjm4wuPZ2KuxCXMrdI
-         king==
+        bh=p0JP7C0xlsVyWNi+wA1zhFtAvLDEH/NgpOed0jz9w0E=;
+        b=LuL/ISrlnUyz61vEuqciCm8pEDG2XCpxAW5g/Y2wyQXl8B6Cjgl5MiXtSPZE8K1GVN
+         x4jQF8ewGW6ACZ9H9B5rLcTTh4q2s7ar+6RUWxhqWQ1wFsYZY1LQjEMSn9JDR4UgiGNh
+         sExYEcHbclUNDkAERBB4DrYD97dmTO6h21PLP4tCSsg5CqRmHCPzTIBQFv5xespkkGsA
+         8XSXgpTyY409JILJvmzutm+jKP/G2ymOhwaikjF8QsiIAHu1C50D/ma8UXWRkXt7xpI5
+         wJ/Y6QsWZQ5jrhFsoDIHE+JN1mP6pfvZYGHznLWK6hPEBftjon6hgyVOqYXZlI+8Yz3O
+         tGEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=4grD7Th+x9uvL3+IHonwI2oI5c9zZZYb+5MfV4KDZ/E=;
-        b=KYCQEr0hBd8M5hvnJdRRVp1tsJqSzhnjQdG92sEmn+oZ9A8gtLZXHf+FzcREchzYks
-         KQAR3sIuFpB8NPJuW2YOL65hiVP/ucihco3kSS5jiAzsUoiVxQHBsUjmROf7e4QLtMCu
-         ZF2Q8hZBFhklmEiMjarIsu9zsZ6CUsZx/nyelu6BH6M6P+YYkttRY3TpzRt+IWhNE8XJ
-         Had86/4uaHEKOmIfGDiUjzxat0vlvDJD7dWW8pH+ebE/Di2Vq9XElCV+P0S6C1XTOwd3
-         QJXIl8Qk5yDBVc7KZzDclCkBzQ6/Ann+79hgtcE7ve0vIETVonIFQFngJ4vX864y++/T
-         6l9g==
-X-Gm-Message-State: AOAM530XDkG6vHT2EHUgon2vpSbcD3czxTlAYor49MF59dX53emjCSOh
-        +EhxgSOXCEsRrJL+n71PRU67SHv7xr94Ww==
-X-Google-Smtp-Source: ABdhPJw/B4TIQ1bEUAq8yNpgeFKDVh2BkooOMI6EB/ae4bRBYDMQcFYzjNU+uEjwWpNtEiQxs+mBKw==
-X-Received: by 2002:a17:902:7d94:b029:da:53c:f7cb with SMTP id a20-20020a1709027d94b02900da053cf7cbmr1942874plm.69.1606906022553;
-        Wed, 02 Dec 2020 02:47:02 -0800 (PST)
+        bh=p0JP7C0xlsVyWNi+wA1zhFtAvLDEH/NgpOed0jz9w0E=;
+        b=Yfj2J8UYb60vgHRLjikXZLHLllXUs4onSJH0m/NbA37fewN3Wuy5dQizQPjdnaDhbj
+         8BlWpO3izT7sLJ9QUCA1E8VBmhISn4k9WJ8UkAN4V9/QP9vH5wwsY+QD1tzK98RVQ1Y8
+         phCPUndmkMLPuLCF/jD++9BZ7CVwsRVNqBkoQVzR7cyyKCnm9wEL67qMNzxzKXBYF4Vh
+         doVIhVC0Ri4GJ4wpgVyrwvU/r5udYYsSucsnWSeY3k4rVLkGWaumf7qYRQvWJiX9jSoE
+         CGhEgIZmAUwhzdkCj//i/XL4AcTFrsRectLim1MuKG0B0zAdYhDr2wfHeC15Srixumgm
+         daUA==
+X-Gm-Message-State: AOAM533+lVw25zlRHSENQf6dIzRKNFJBwMEOjvHI18I9k8nzkj/fhRGZ
+        npno0jyO3lYVJ0HbXSbtuJiov4zbvVstVQ==
+X-Google-Smtp-Source: ABdhPJyeY2WV1nLUcEzBdz84Q6ciSbRyG3hkgQz3aYDs6YblKSXhLv1wGLdo94QUyXRbe4tzOmj+TA==
+X-Received: by 2002:a62:e212:0:b029:19d:8cff:f179 with SMTP id a18-20020a62e2120000b029019d8cfff179mr1635734pfi.44.1606906026411;
+        Wed, 02 Dec 2020 02:47:06 -0800 (PST)
 Received: from localhost.localdomain ([2402:7500:561:5929:abfa:5e69:aaf7:6f59])
-        by smtp.gmail.com with ESMTPSA id e14sm1648109pjt.17.2020.12.02.02.46.58
+        by smtp.gmail.com with ESMTPSA id e14sm1648109pjt.17.2020.12.02.02.47.02
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Dec 2020 02:47:02 -0800 (PST)
+        Wed, 02 Dec 2020 02:47:06 -0800 (PST)
 From:   Gene Chen <gene.chen.richtek@gmail.com>
 To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
         matthias.bgg@gmail.com
@@ -55,9 +55,9 @@ Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
         gene_chen@richtek.com, Wilma.Wu@mediatek.com,
         shufan_lee@richtek.com, cy_huang@richtek.com,
         benjamin.chao@mediatek.com
-Subject: [PATCH v11 1/5] leds: flash: Add flash registration with undefined CONFIG_LEDS_CLASS_FLASH
-Date:   Wed,  2 Dec 2020 18:46:47 +0800
-Message-Id: <1606906011-25633-2-git-send-email-gene.chen.richtek@gmail.com>
+Subject: [PATCH v11 2/5] leds: flash: Fix multicolor no-ops registration by return 0
+Date:   Wed,  2 Dec 2020 18:46:48 +0800
+Message-Id: <1606906011-25633-3-git-send-email-gene.chen.richtek@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1606906011-25633-1-git-send-email-gene.chen.richtek@gmail.com>
 References: <1606906011-25633-1-git-send-email-gene.chen.richtek@gmail.com>
@@ -67,88 +67,99 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 From: Gene Chen <gene_chen@richtek.com>
 
-Add flash registration with undefined CONFIG_LEDS_CLASS_FLASH,
+Fix multicolor no-ops registration by return 0,
 and move the same registration functions outside of #ifdef block.
 
 Signed-off-by: Gene Chen <gene_chen@richtek.com>
 Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 ---
- include/linux/led-class-flash.h | 42 ++++++++++++++++++++++++++++++++---------
- 1 file changed, 33 insertions(+), 9 deletions(-)
+ include/linux/led-class-multicolor.h | 42 +++++++++++++-----------------------
+ 1 file changed, 15 insertions(+), 27 deletions(-)
 
-diff --git a/include/linux/led-class-flash.h b/include/linux/led-class-flash.h
-index 21a3358..612b4ca 100644
---- a/include/linux/led-class-flash.h
-+++ b/include/linux/led-class-flash.h
-@@ -85,6 +85,7 @@ static inline struct led_classdev_flash *lcdev_to_flcdev(
- 	return container_of(lcdev, struct led_classdev_flash, led_cdev);
- }
+diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
+index 5116f9a..210d57b 100644
+--- a/include/linux/led-class-multicolor.h
++++ b/include/linux/led-class-multicolor.h
+@@ -44,12 +44,6 @@ int led_classdev_multicolor_register_ext(struct device *parent,
+ 					    struct led_classdev_mc *mcled_cdev,
+ 					    struct led_init_data *init_data);
  
-+#if IS_ENABLED(CONFIG_LEDS_CLASS_FLASH)
- /**
-  * led_classdev_flash_register_ext - register a new object of LED class with
-  *				     init data and with support for flash LEDs
-@@ -98,12 +99,6 @@ int led_classdev_flash_register_ext(struct device *parent,
- 				    struct led_classdev_flash *fled_cdev,
- 				    struct led_init_data *init_data);
- 
--static inline int led_classdev_flash_register(struct device *parent,
--					   struct led_classdev_flash *fled_cdev)
+-static inline int led_classdev_multicolor_register(struct device *parent,
+-					    struct led_classdev_mc *mcled_cdev)
 -{
--	return led_classdev_flash_register_ext(parent, fled_cdev, NULL);
+-	return led_classdev_multicolor_register_ext(parent, mcled_cdev, NULL);
 -}
 -
  /**
-  * led_classdev_flash_unregister - unregisters an object of led_classdev class
-  *				   with support for flash LEDs
-@@ -118,15 +113,44 @@ int devm_led_classdev_flash_register_ext(struct device *parent,
- 				     struct led_init_data *init_data);
+  * led_classdev_multicolor_unregister - unregisters an object of led_classdev
+  *					class with support for multicolor LEDs
+@@ -68,13 +62,6 @@ int devm_led_classdev_multicolor_register_ext(struct device *parent,
+ 					  struct led_classdev_mc *mcled_cdev,
+ 					  struct led_init_data *init_data);
  
- 
-+void devm_led_classdev_flash_unregister(struct device *parent,
-+					struct led_classdev_flash *fled_cdev);
-+
-+#else
-+
-+static inline int led_classdev_flash_register_ext(struct device *parent,
-+				    struct led_classdev_flash *fled_cdev,
-+				    struct led_init_data *init_data)
-+{
-+	return 0;
-+}
-+
-+static inline void led_classdev_flash_unregister(struct led_classdev_flash *fled_cdev) {};
-+static inline int devm_led_classdev_flash_register_ext(struct device *parent,
-+				     struct led_classdev_flash *fled_cdev,
-+				     struct led_init_data *init_data)
-+{
-+	return 0;
-+}
-+
-+static inline void devm_led_classdev_flash_unregister(struct device *parent,
-+					struct led_classdev_flash *fled_cdev)
-+{};
-+
-+#endif  /* IS_ENABLED(CONFIG_LEDS_CLASS_FLASH) */
-+
-+static inline int led_classdev_flash_register(struct device *parent,
-+					   struct led_classdev_flash *fled_cdev)
-+{
-+	return led_classdev_flash_register_ext(parent, fled_cdev, NULL);
-+}
-+
- static inline int devm_led_classdev_flash_register(struct device *parent,
- 				     struct led_classdev_flash *fled_cdev)
+-static inline int devm_led_classdev_multicolor_register(struct device *parent,
+-				     struct led_classdev_mc *mcled_cdev)
+-{
+-	return devm_led_classdev_multicolor_register_ext(parent, mcled_cdev,
+-							 NULL);
+-}
+-
+ void devm_led_classdev_multicolor_unregister(struct device *parent,
+ 					    struct led_classdev_mc *mcled_cdev);
+ #else
+@@ -83,27 +70,33 @@ static inline int led_classdev_multicolor_register_ext(struct device *parent,
+ 					    struct led_classdev_mc *mcled_cdev,
+ 					    struct led_init_data *init_data)
  {
- 	return devm_led_classdev_flash_register_ext(parent, fled_cdev, NULL);
+-	return -EINVAL;
+-}
+-
+-static inline int led_classdev_multicolor_register(struct device *parent,
+-					    struct led_classdev_mc *mcled_cdev)
+-{
+-	return led_classdev_multicolor_register_ext(parent, mcled_cdev, NULL);
++	return 0;
  }
  
--void devm_led_classdev_flash_unregister(struct device *parent,
--					struct led_classdev_flash *fled_cdev);
+ static inline void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev) {};
+ static inline int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+ 					       enum led_brightness brightness)
+ {
+-	return -EINVAL;
++	return 0;
+ }
+ 
+ static inline int devm_led_classdev_multicolor_register_ext(struct device *parent,
+ 					  struct led_classdev_mc *mcled_cdev,
+ 					  struct led_init_data *init_data)
+ {
+-	return -EINVAL;
++	return 0;
++}
++
++static inline void devm_led_classdev_multicolor_unregister(struct device *parent,
++					    struct led_classdev_mc *mcled_cdev)
++{};
++
++#endif  /* IS_ENABLED(CONFIG_LEDS_CLASS_MULTICOLOR) */
++
++static inline int led_classdev_multicolor_register(struct device *parent,
++					    struct led_classdev_mc *mcled_cdev)
++{
++	return led_classdev_multicolor_register_ext(parent, mcled_cdev, NULL);
+ }
+ 
+ static inline int devm_led_classdev_multicolor_register(struct device *parent,
+@@ -113,9 +106,4 @@ static inline int devm_led_classdev_multicolor_register(struct device *parent,
+ 							 NULL);
+ }
+ 
+-static inline void devm_led_classdev_multicolor_unregister(struct device *parent,
+-					    struct led_classdev_mc *mcled_cdev)
+-{};
 -
- /**
-  * led_set_flash_strobe - setup flash strobe
-  * @fled_cdev: the flash LED to set strobe on
+-#endif  /* IS_ENABLED(CONFIG_LEDS_CLASS_MULTICOLOR) */
+ #endif	/* _LINUX_MULTICOLOR_LEDS_H_INCLUDED */
 -- 
 2.7.4
 
