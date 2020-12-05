@@ -2,54 +2,45 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE3422CF836
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Dec 2020 01:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A46922CFB66
+	for <lists+linux-leds@lfdr.de>; Sat,  5 Dec 2020 14:01:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731050AbgLEArC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 4 Dec 2020 19:47:02 -0500
-Received: from vsm-gw.hyogo-dai.ac.jp ([202.244.76.12]:49526 "EHLO
-        vsm-gw.hyogo-dai.ac.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726485AbgLEAq5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Dec 2020 19:46:57 -0500
-X-Greylist: delayed 14573 seconds by postgrey-1.27 at vger.kernel.org; Fri, 04 Dec 2020 19:46:41 EST
-Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [202.244.77.11])
-        by vsm-gw.hyogo-dai.ac.jp (Postfix) with ESMTP id 274A31A5589;
-        Sat,  5 Dec 2020 04:44:55 +0900 (JST)
-Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [127.0.0.1])
-        by postfix.imss71 (Postfix) with ESMTP id E5C39838858;
-        Sat,  5 Dec 2020 04:44:54 +0900 (JST)
-Received: from hyogo-dai.ac.jp (unknown [202.244.77.11])
-        by humans-kc.hyogo-dai.ac.jp (Postfix) with SMTP id B84F6838260;
-        Sat,  5 Dec 2020 04:44:54 +0900 (JST)
-MIME-Version: 1.0
-Message-ID: <20201204194454.00002B21.0147@hyogo-dai.ac.jp>
-Date:   Sat, 05 Dec 2020 04:44:54 +0900
-From:   "Dr.Raymond" <tabata@hyogo-dai.ac.jp>
-To:     <infocarferr1@aim.com>
-Reply-To: <infocarfer@aim.com>
-Subject: I am Vice Chairman of Hang Seng Bank, Dr. Raymond Chien
-         Kuo Fung I have Important Matter to Discuss with you concerning
-         my late client. Died without a NEXT OF KIN. Send me your private
-         email for full details information. 
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MAILER: Active! mail
-X-TM-AS-MML: disable
-X-TM-AS-Product-Ver: IMSS-7.1.0.1808-8.2.0.1013-25446.007
-X-TM-AS-Result: No--4.326-5.0-31-10
-X-imss-scan-details: No--4.326-5.0-31-10
-X-TM-AS-User-Approved-Sender: No
-X-TMASE-MatchedRID: +T4Z3mpR0x5ITndh1lLRASsOycAMAhSTkCM77ifYafsBLhz6t76Ce/bj
-        Enpjm61/Gf23dqZJjE4Erxo5p8V1/E1+zyfzlN7y/sToY2qzpx7w5nZ/qYg41XEWw1TkKAjcYff
-        qdBtG2ocgOkCKsW/kbuunGEBqPil++coAzulIP8gMTyJMXCOBhj9BWL7GG0LsKrauXd3MZDUZaR
-        NzIP3XI5u3uLPgwbAMH5RdHnhWfwyq9gpuf+A6coDeeVSgzszVDx5n520Z3eZyT7DDRtYlKaWBy
-        ZE9nSaC/rhfyjvqkZu/pNa4BidtZEMMprcbiest
+        id S1726645AbgLEM6p (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 5 Dec 2020 07:58:45 -0500
+Received: from mx-n04.wc2.phx1.stabletransit.com ([207.246.242.250]:45964 "HELO
+        mx-n04.wc2.phx1.stabletransit.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with SMTP id S1726042AbgLEM55 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 5 Dec 2020 07:57:57 -0500
+X-Greylist: delayed 495 seconds by postgrey-1.27 at vger.kernel.org; Sat, 05 Dec 2020 07:57:47 EST
+Received: by mx-n04.wc2.phx1.stabletransit.com (Postfix, from userid 114)
+        id B2C38180836; Sat,  5 Dec 2020 06:34:08 -0600 (CST)
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
+        mx-n04.wc2.phx1.stabletransit.com
+X-Spam-Level: *****
+X-Spam-Status: No, score=5.1 required=6.0 tests=BAYES_50,DKIM_ADSP_CUSTOM_MED,
+        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,
+        PP_MIME_FAKE_ASCII_TEXT,SHORT_SHORTNER,UNPARSEABLE_RELAY,URIBL_BLOCKED
+        autolearn=no autolearn_force=no version=3.4.2
+X-Spam-Virus: No
+Received: from php-v120.wc2.phx1.stabletransit.com (unknown [10.40.206.156])
+        by mx-n04.wc2.phx1.stabletransit.com (Postfix) with ESMTP id A9469180834
+        for <linux-leds@vger.kernel.org>; Sat,  5 Dec 2020 06:34:07 -0600 (CST)
+Received: from nutricalfgel.com (uid 3156662)
+        (envelope-from nutricalfgel.com@php-v120.wc2.phx1.stabletransit.com)
+        id 4305c
+        by php-v120.wc2.phx1.stabletransit.com (DragonFly Mail Agent v0.11);
+        Sat, 05 Dec 2020 06:34:07 -0600
+To:     linux-leds@vger.kernel.org
+Subject: Thank You From Production Plus LLC
+X-PHP-Originating-Script: 3156662:phpemail.php
+From:   productionplusllc@gmail.com
+Date:   Sat, 05 Dec 2020 06:34:07 -0600
+Message-Id: <5fcb7e3f.4305c.3a1189e4@php-v120.wc2.phx1.stabletransit.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-infocarfer@aim.com
+📍 Take our survey next & follow instructions to get your $100 PayPal Gift Card! go to the site: http://bit.do/gifree100?y1e 📍, Thank you for submiting your question or comment to Production Plus LLC.
+If needed, we will respond back as soon as possible.
 
-
-
+Production Plus LLC
