@@ -2,138 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06EE32D0ACD
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Dec 2020 07:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 866C92D0E0E
+	for <lists+linux-leds@lfdr.de>; Mon,  7 Dec 2020 11:34:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725816AbgLGGlX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 7 Dec 2020 01:41:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52150 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725681AbgLGGlW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 7 Dec 2020 01:41:22 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD76BC0613D0;
-        Sun,  6 Dec 2020 22:40:36 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id f17so8077505pge.6;
-        Sun, 06 Dec 2020 22:40:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Nst2sbdvR9A2joKvbm5iRIPSSamR5cjpmMutrZgXWuE=;
-        b=BBhb+gHY/v594+7w5xZMW0Vx6+jo64Vf7QlAwFBywKj8V9JZ0UqtC6/dXamNMQtuhI
-         BzJakTQKRRUwVba3FQFQkfG+gOrfHHAE4b3f38bqspqDFHcCaHcVF00ZOdI7nn7rMVlh
-         Y25ApKBw1evE/in0+NF7GpI/4drzEr8iI/sTWqCGgdmZvAc2Vwpbt5b6HlAF96J0sv/K
-         E7Wb3gvbWAH3d2+0y03kdO/HpUQlUzUEEHAf7Wx2dO5sdXA9WUZ2bnODVRjGHMclhzaI
-         WKzFNL9ltGpK9W619eMfdm7ScERddPcncpvHr7WsjAmZ7z34+DtsmvPN1ErbP4dh71hb
-         GGhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Nst2sbdvR9A2joKvbm5iRIPSSamR5cjpmMutrZgXWuE=;
-        b=NR3DzL9cu4rvu+uwCKc2Ke/zWh80Z3qEbPMyzikAWorogh1lcqxY1XA3YvkHwK2RIU
-         cyjA64WnYdB7aG1/cKxj85Kn0L3kZrfOl7Zzp1YKl1nsh25bTy1YnnvtIoVELWfjcwvC
-         Qdg6CJizHXh1uxZh9IxrUzNWtr78lENGbJi8ftTwmvqAyodM5vP0CtECTsRKOCe3dFWx
-         nXDMsaemA2r3uBv88827d3BDdyUMQp90bE+Is1m0YvOA4C/w2byBRGtPooB4dSfhfslf
-         ToLmwVx7aVRRlWHRanS34LO0Ln2BIQ14xSwaxN6E2q1K4YpVeHzWCphfZhRuK+TscJ1V
-         1f5w==
-X-Gm-Message-State: AOAM532Xn0bJ0UMeX4/JS8En0OPxuod+PPs2z5cwMO2g+Jx3qJsvWZwt
-        489Xl/En5Ibwgrl2AD1cBH0=
-X-Google-Smtp-Source: ABdhPJxBhCwvs4f6nnR2aF2ZFzOS3Bkv+UbCZXKSAlusmN+5H9F7vOpSRrSDGaSvj0DAfXAe/4UbGA==
-X-Received: by 2002:a17:902:bc88:b029:da:f94c:dcd1 with SMTP id bb8-20020a170902bc88b02900daf94cdcd1mr3179339plb.81.1607323236192;
-        Sun, 06 Dec 2020 22:40:36 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id x23sm12786597pfo.209.2020.12.06.22.40.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Dec 2020 22:40:35 -0800 (PST)
-Date:   Sun, 6 Dec 2020 22:40:32 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Raul E Rangel <rrangel@chromium.org>
-Cc:     linux-input@vger.kernel.org, Shirish.S@amd.com,
-        Andy Shevchenko <andy@infradead.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        "Lee, Chun-Yi" <jlee@suse.com>, Pavel Machek <pavel@ucw.cz>,
-        Rajat Jain <rajatja@google.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] Input: i8042 - Prevent intermixing i8042 commands
-Message-ID: <X83OYA0TaUszBD1y@google.com>
-References: <20200827144112.v2.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
+        id S1726653AbgLGKd7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 7 Dec 2020 05:33:59 -0500
+Received: from elvis.franken.de ([193.175.24.41]:54211 "EHLO elvis.franken.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726567AbgLGKd6 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 7 Dec 2020 05:33:58 -0500
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1kmDpT-00058D-00; Mon, 07 Dec 2020 11:33:15 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id A2790C02EA; Mon,  7 Dec 2020 11:32:21 +0100 (CET)
+Date:   Mon, 7 Dec 2020 11:32:21 +0100
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     Alexander Dahl <post@lespocky.de>
+Cc:     Rob Herring <robh+dt@kernel.org>, Alexander Dahl <ada@thorsis.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org, linux-mips@vger.kernel.org,
+        James Hartley <james.hartley@sondrel.com>,
+        Rahul Bedarkar <rahulbedarkar89@gmail.com>
+Subject: Re: [PATCH v8 5/5] MIPS: DTS: img: Fix schema warnings for pwm-leds
+Message-ID: <20201207103221.GA15686@alpha.franken.de>
+References: <20201128215353.3991-1-post@lespocky.de>
+ <20201128215353.3991-6-post@lespocky.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200827144112.v2.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
+In-Reply-To: <20201128215353.3991-6-post@lespocky.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Raul,
-
-On Thu, Aug 27, 2020 at 02:41:53PM -0600, Raul E Rangel wrote:
-> The i8042_mutex must be held by writers of the AUX and KBD ports, as
-> well as users of i8042_command. There were a lot of users of
-> i8042_command that were not calling i8042_lock_chip/i8042_unlock_chip.
-> This resulted in i8042_commands being issues in between PS/2
-> transactions.
+On Sat, Nov 28, 2020 at 10:53:53PM +0100, Alexander Dahl wrote:
+> The node names for devices using the pwm-leds driver follow a certain
+> naming scheme (now).  Parent node name is not enforced, but recommended
+> by DT project.
 > 
-> This change moves the mutex lock into i8042_command and removes the
-> burden of locking the mutex from the callers.
+> Signed-off-by: Alexander Dahl <post@lespocky.de>
+> ---
+> 
+> Notes:
+>     v7 -> v8:
+>       * rebased on v5.10-rc1
+>     
+>     v6 -> v7:
+>       * added another explaining sentence to commit message
+>     
+>     v6:
+>       * added this patch to series
+> 
+>  arch/mips/boot/dts/img/pistachio_marduk.dts | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 
-I think there is a benefit for allowing users issue a sequence of
-commands to i8042 without interruptions, so I would prefer keeping
-i8042_[un]lock_chip() in place.
+applied to mips-next.
 
-Given that the issue you were observing was caused by i8042_port_close()
-interfering with probing, maybe we could do something like this:
-
-
-diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-index abae23af0791..aff871001eda 100644
---- a/drivers/input/serio/i8042.c
-+++ b/drivers/input/serio/i8042.c
-@@ -344,6 +344,8 @@ int i8042_command(unsigned char *param, int command)
- 	unsigned long flags;
- 	int retval;
- 
-+	lockdep_assert_held(&i8042_mutex);
-+
- 	if (!i8042_present)
- 		return -1;
- 
-@@ -364,6 +366,8 @@ static int i8042_kbd_write(struct serio *port, unsigned char c)
- 	unsigned long flags;
- 	int retval = 0;
- 
-+	lockdep_assert_held(&i8042_mutex);
-+
- 	spin_lock_irqsave(&i8042_lock, flags);
- 
- 	if (!(retval = i8042_wait_write())) {
-@@ -411,6 +415,8 @@ static void i8042_port_close(struct serio *serio)
- 		port_name = "KBD";
- 	}
- 
-+	i8042_lock_chip();
-+
- 	i8042_ctr &= ~irq_bit;
- 	if (i8042_command(&i8042_ctr, I8042_CMD_CTL_WCTR))
- 		pr_warn("Can't write CTR while closing %s port\n", port_name);
-@@ -422,6 +428,8 @@ static void i8042_port_close(struct serio *serio)
- 	if (i8042_command(&i8042_ctr, I8042_CMD_CTL_WCTR))
- 		pr_err("Can't reactivate %s port\n", port_name);
- 
-+	i8042_unlock_chip();
-+
- 	/*
- 	 * See if there is any data appeared while we were messing with
- 	 * port state.
-
-
-Thanks.
+Thomas.
 
 -- 
-Dmitry
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
