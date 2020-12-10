@@ -2,146 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 521D42D5165
-	for <lists+linux-leds@lfdr.de>; Thu, 10 Dec 2020 04:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B04FD2D5386
+	for <lists+linux-leds@lfdr.de>; Thu, 10 Dec 2020 07:02:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729136AbgLJDct (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 9 Dec 2020 22:32:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44346 "EHLO
+        id S1728565AbgLJGCT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 10 Dec 2020 01:02:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729219AbgLJDcs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 9 Dec 2020 22:32:48 -0500
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AEA2C0613D6
-        for <linux-leds@vger.kernel.org>; Wed,  9 Dec 2020 19:32:08 -0800 (PST)
-Received: by mail-pg1-x542.google.com with SMTP id e2so2914265pgi.5
-        for <linux-leds@vger.kernel.org>; Wed, 09 Dec 2020 19:32:08 -0800 (PST)
+        with ESMTP id S1727004AbgLJGCT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Dec 2020 01:02:19 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EEF9C0613D6;
+        Wed,  9 Dec 2020 22:01:39 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id f9so3015228pfc.11;
+        Wed, 09 Dec 2020 22:01:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=kei1zI7Wc1yA9DIt1u6wEo8G7ei+JB/TuTW/pNfEG38=;
-        b=GXW8aihJdzl/BXXv+P3XGw3leUud7Fus0B3jXf8co2YxUx7CxB7wwgkxkgTAhRDc3n
-         N4+9lVP50nG43dew+HEw2geYOqZtcn3hCJahGwvPUfUvxr52HWsdsE8pdtOsHkz9HHVx
-         FqW21EY2dq5i9P/B+xWHVfGmkfoNdCbwEY7ySLvXfNKqa5hsl6P6vQh+puxHMfTtTPoO
-         HB6ydqFv+nYyV2LS91STJWoW7jrwgtqW2w6UUSu3RQ4c67kNz5HEA6LeykLwnznZKJBO
-         2nBi1FRFVQO5gvfJqSX51BkSLJ3uq1jtuljmqgzLvEnNHWlBKDezfBz7aRzsdzVUhhqu
-         +lFg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=AzWxFLY7pNZaeT3/xb0mQOVSBc85yc1XVJMoO/4h93Y=;
+        b=btBGJnNwXko0u3o32l76Eel7YEXjoyDFa8RM0+X3IeXp+pNa3Ch6hQzyeJzN9TT/Yf
+         A+gOWSRu2PF8aDRFLAHSVd4uYi+imtTAwiu2DlrEW7kgLVCF+vhTqLxMoyMpGqRk6XHI
+         aj3ykPytUxyEKFHtUIWMdLAIkj6ZfTk3lOX4ABHgzszT122safOjd/iiMaZ/gXR3y32c
+         1nfVJL1/Fwp3cAQf1LvzPu0c+gfhFDU2TDRDxlZXKNIdMPuJzK6rF0Ppkv3WEoYYMPwS
+         E2Rv9aWRdSr35nbqESK5bW4iSLs/P+BOJPYaUtvbPe6+pL4jkyUIXILPYfc1zdcI/fey
+         9k4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kei1zI7Wc1yA9DIt1u6wEo8G7ei+JB/TuTW/pNfEG38=;
-        b=bZ4HjpidrLW/aSbpMHoMUYJzTiVCqpuF1m4YgLcdEmSpCKu3U2G41uF3g9G+Giq+mn
-         hzbrJ/F8EPdwhgMvUx6wYOr/SlSQB7pCy++W1iogAM1yFTPVOkfVvknTdyvZ1BP5Ddqr
-         gamXpZzzTkMscH24OwYsLMb8ilKocuaK7L3N0rfZdlsN9/QQDWL4UFYg+KATokFShQE/
-         Rq/+8J/NTJ5MGL8Ohd1qZjnjjbswG34Yqlf2gTUyi3zn1SAL1s2Y5umKSwoMPazx8hi9
-         iha6WhuLu8gvDQfsfx62jJKypkIh9BvBdwzyT20LZfunwkkQef4ChwFp4RypGtWNhTvP
-         xN9Q==
-X-Gm-Message-State: AOAM530fiOiL6yuyWqz+RfsjNF7p6ttedNqB029TnZ4V85Jvag8gtz5y
-        /dE4OBEh4g4JGl+8AIOOKunA
-X-Google-Smtp-Source: ABdhPJzhwTaG20AqfqOFYAIot99tvXjpCBa9y5FySoibVEXxG91zkufEi3DI3EfSwl/CD6db7xR3Jw==
-X-Received: by 2002:a17:90a:d145:: with SMTP id t5mr840291pjw.104.1607571128145;
-        Wed, 09 Dec 2020 19:32:08 -0800 (PST)
-Received: from thinkpad ([103.59.133.81])
-        by smtp.gmail.com with ESMTPSA id w9sm3932422pjq.0.2020.12.09.19.32.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Dec 2020 19:32:07 -0800 (PST)
-Date:   Thu, 10 Dec 2020 09:01:57 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-leds <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Darshak Patel <darshak.patel@einfochips.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Guodong Xu <guodong.xu@linaro.org>,
-        Wei Xu <xuwei5@hisilicon.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Marian-Cristian Rotariu 
-        <marian-cristian.rotariu.rb@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH 1/1] dt-bindings: leds: add onboard LED triggers of
- 96Boards
-Message-ID: <20201210033157.GA6466@thinkpad>
-References: <20201210031203.1901-1-thunder.leizhen@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201210031203.1901-1-thunder.leizhen@huawei.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=AzWxFLY7pNZaeT3/xb0mQOVSBc85yc1XVJMoO/4h93Y=;
+        b=Q/CNE1F/u3Ks7qQt6LadlqK/dEuldM6eZFN2mSuY7DqhOiBvDZ1nsIz+b5AOBQ6/XX
+         4CRNXFw9fNO6VtPxhGnHuU4+aw2UIKxF/YvZgS9pP0W2PD8qAjCsgZ3dHSevrkBZ2ok0
+         QeMxGXW0N/KUn4USR55TtI4LAuZ3jK8AEpgdXb+kP8RNgPX0iScdGKns47fXo4pVMwaQ
+         QbKjG1MkTslf5IGUddimOxQTvOgdmpKa3G4JAZftTY3MfbHeoN4aeHu0irdwFuG4DSzg
+         DyAP+pfO0sSGBRaQTOMkHWpaHVo8HX4EyAwVXWHJ2Ynbo3YARIJqlyE0nwQfY0ZzXtp6
+         ZL3w==
+X-Gm-Message-State: AOAM530UHNXyjVZR+Rw7sNNN+ls6Dnut9HOIdzuvAN8yswx6ISk5wX03
+        hdSaqcriNzLJb2Y4vVApTFc=
+X-Google-Smtp-Source: ABdhPJzsiSmV/F5GXNMJ0EE1mhNhLiUyLcgxJWbJljMbl4eSmJ2tg6JTjzwr+yzn4pnjrykJQYAL7w==
+X-Received: by 2002:a17:90b:a04:: with SMTP id gg4mr5911162pjb.8.1607580099216;
+        Wed, 09 Dec 2020 22:01:39 -0800 (PST)
+Received: from localhost.localdomain ([2402:7500:568:b3ad:229b:9ee7:b946:7876])
+        by smtp.gmail.com with ESMTPSA id j19sm4355377pff.74.2020.12.09.22.01.33
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Dec 2020 22:01:37 -0800 (PST)
+From:   Gene Chen <gene.chen.richtek@gmail.com>
+To:     jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        matthias.bgg@gmail.com
+Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
+        shufan_lee@richtek.com, cy_huang@richtek.com,
+        benjamin.chao@mediatek.com
+Subject: [PATCH v12 0/5] leds: mt6360: Add LED driver for MT6360
+Date:   Thu, 10 Dec 2020 14:00:52 +0800
+Message-Id: <1607580057-4408-1-git-send-email-gene.chen.richtek@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+This patch series add MT6360 LED support contains driver and binding document
 
-On Thu, Dec 10, 2020 at 11:12:03AM +0800, Zhen Lei wrote:
-> For all 96Boards, the following standard is used for onboard LEDs.
-> 
-> green:user1  default-trigger: heartbeat
-> green:user2  default-trigger: mmc0/disk-activity(onboard-storage)
-> green:user3  default-trigger: mmc1 (SD-card)
-> green:user4  default-trigger: none, panic-indicator
-> yellow:wlan  default-trigger: phy0tx
-> blue:bt      default-trigger: hci0-power
-> 
-> Link to 96Boards CE Specification: https://linaro.co/ce-specification
-> 
+Gene Chen (5)
+ leds: flash: Add flash registration with undefined CONFIG_LEDS_CLASS_FLASH
+ leds: flash: Fix multicolor no-ops registration by return 0
+ dt-bindings: leds: Add LED_COLOR_ID_MOONLIGHT definitions
+ dt-bindings: leds: Add bindings for MT6360 LED
+ leds: mt6360: Add LED driver for MT6360
 
-This is just a board configuration and there is absolutely no need to document
-this in common LED binding. But if your intention is to document the missing
-triggers, then you should look at the patch I submitted long ago.
+ Documentation/devicetree/bindings/leds/leds-mt6360.yaml |  159 +++
+ drivers/leds/Kconfig                                    |   13 
+ drivers/leds/Makefile                                   |    1 
+ drivers/leds/leds-mt6360.c                              |  827 ++++++++++++++++
+ include/dt-bindings/leds/common.h                       |    1 
+ include/linux/led-class-flash.h                         |   42 
+ include/linux/led-class-multicolor.h                    |   42 
+ 7 files changed, 1049 insertions(+), 36 deletions(-)
 
-https://lore.kernel.org/patchwork/patch/1146359/
+changelogs between v1 & v2
+ - add led driver with mfd
 
-Maybe I should resubmit it again in YAML format. (thanks for reminding me :P)
+changelogs between v2 & v3
+ - independent add led driver
+ - add dt-binding document
+ - refactor macros definition for easy to debug
+ - parse device tree by fwnode
+ - use devm*ext to register led class device
 
-Thanks,
-Mani
+changelogs between v3 & v4
+ - fix binding document description
+ - use GENMASK and add unit postfix to definition
+ - isink register led class device
 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> Cc: Darshak Patel <darshak.patel@einfochips.com>
-> Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Dong Aisheng <aisheng.dong@nxp.com>
-> Cc: Guodong Xu <guodong.xu@linaro.org>
-> Cc: Wei Xu <xuwei5@hisilicon.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Cc: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Heiko Stuebner <heiko@sntech.de>
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-> index f1211e7045f12f3..525752d6c5c84fd 100644
-> --- a/Documentation/devicetree/bindings/leds/common.yaml
-> +++ b/Documentation/devicetree/bindings/leds/common.yaml
-> @@ -97,6 +97,16 @@ properties:
->          # LED alters the brightness for the specified duration with one software
->          # timer (requires "led-pattern" property)
->        - pattern
-> +        #For all 96Boards, Green, disk-activity(onboard-storage)
-> +      - mmc0
-> +        #For all 96Boards, Green, SD-card
-> +      - mmc1
-> +        #For all 96Boards, Green, panic-indicator
-> +      - none
-> +        #For all 96Boards, Yellow, WiFi activity LED
-> +      - phy0tx
-> +        #For all 96Boards, Blue, Bluetooth activity LED
-> +      - hci0-power
->  
->    led-pattern:
->      description: |
-> -- 
-> 1.8.3
-> 
-> 
+changelogs between v4 & v5
+ - change rgb isink to multicolor control
+ - add binding reference to mfd yaml
+
+changelogs between v5 & v6
+ - Use DT to decide RGB LED is multicolor device or indicator device only
+
+changelogs between v6 & v7
+ - Add binding multicolor device sample code
+ - Add flash ops mutex lock
+ - Remove V4L2 init with indicator device
+
+changelogs between v7 & v8
+ - Add mutex for led fault get ops
+ - Fix flash and multicolor no-ops return 0
+ - Add LED_FUNCTION_MOONLIGHT
+
+changelogs between v8 & v9
+ - reuse api in flash and multicolor header
+
+changelogs between v9 & v10
+ - add comment for reuse registration functions in flash and multicolor
+
+changelogs between v10 & v11
+ - match dt-binding reg property comment to the functionality name
+ - remove exist patch in linux-next
+ - dicide multicolor channel by color definitiion
+
+changelogs between v11 & v12
+ - Fix print size_t by %lu
+ - Fix dt-binding name regular experssion
+
