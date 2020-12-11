@@ -2,82 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9AFF2D6ED5
-	for <lists+linux-leds@lfdr.de>; Fri, 11 Dec 2020 04:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C2C22D7623
+	for <lists+linux-leds@lfdr.de>; Fri, 11 Dec 2020 14:00:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732479AbgLKDqQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 10 Dec 2020 22:46:16 -0500
-Received: from mail-oo1-f67.google.com ([209.85.161.67]:44719 "EHLO
-        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390347AbgLKDqC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 10 Dec 2020 22:46:02 -0500
-Received: by mail-oo1-f67.google.com with SMTP id n20so1823087ooq.11;
-        Thu, 10 Dec 2020 19:45:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UiGfYqcd3SIOWPESdDXiPXkRmItmUwrRrvjwRsZsNew=;
-        b=nNa5aCV+uMjqkgJsdp1+qlcauGi98VRi1FAKRHxQqXRypivxeqI+tUjEy83RqItlMN
-         9lISbWAsLLBTpnJJj5/f14xGee7VI6jrsdM3z6ZvCL1qSJg6bhnyg0wAds+MGjpyESt0
-         zQ7PWCXbjMIiFdzD70/HFkj3OKH6OhQOzpt5l6WH+Zr1dRZvCgZdRcm0e6eKGQ5A/94I
-         zwfa3LMCMpQHHQNFG9ZXnsdHGgm/STyyjej/FFwtb5hbnQl1AlvL3qKcbahrr62buOro
-         dwRqdPl0QPT/I89fvJmq//ftTskN60Lbq73lFaEJPd4tdMxhTGCPixrBKyF/BV5ye25c
-         ZfMQ==
-X-Gm-Message-State: AOAM530fdmwH/5nZy1FKEm1ZCz3EQGC7856NXP/ANO6m5xtUTpqmpLiV
-        vKlZhLRrJ9qogwiY3iBvtQ==
-X-Google-Smtp-Source: ABdhPJyHT5ivvuA3SblzSQql+tmjj3ba0cwmrrDluItDwViRUrTLaIxum8iXelZMmOXx+9wdG0085g==
-X-Received: by 2002:a4a:3e42:: with SMTP id t63mr8464406oot.32.1607658320972;
-        Thu, 10 Dec 2020 19:45:20 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 8sm1597094oii.45.2020.12.10.19.45.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 19:45:20 -0800 (PST)
-Received: (nullmailer pid 3600883 invoked by uid 1000);
-        Fri, 11 Dec 2020 03:45:19 -0000
-Date:   Thu, 10 Dec 2020 21:45:19 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>
-Cc:     cheol.yong.kim@intel.com, dmurphy@ti.com,
-        malliamireddy009@gmail.com, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, pavel@ucw.cz, qi-ming.wu@intel.com,
-        yixin.zhu@intel.com, robh+dt@kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add bindings for Intel LGM SoC
-Message-ID: <20201211034519.GA3600828@robh.at.kernel.org>
-References: <49ebc8e27958cb77cde36e5f95ad530803259907.1607591119.git.mallikarjunax.reddy@linux.intel.com>
+        id S2405954AbgLKM6p (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 11 Dec 2020 07:58:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405977AbgLKM62 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 11 Dec 2020 07:58:28 -0500
+Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A257AC0613D3;
+        Fri, 11 Dec 2020 04:57:47 -0800 (PST)
+Received: from localhost (unknown [172.20.6.135])
+        by mail.nic.cz (Postfix) with ESMTPSA id 8EC22140A85;
+        Fri, 11 Dec 2020 13:57:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1607691464; bh=XxSgouCReAfpmA+hWhEGm9ZmSmoHdWCMFQka3gjL/kM=;
+        h=Date:From:To;
+        b=FjFqw9rZqhlsyqZt9b85eyrq+HFUp5ZRDNZF5RBckv7qQebzAaIDM2aWttAWWvgOm
+         WwDHDTPqrMIVN3td27fCw42NxypjbqNsq86+eAA+I0wZofzIfjpif2PQ/5oa2lavjF
+         gOX/sw/OtwTC68MkaWpYALK89qtD/Hs3TlQLxhqA=
+Date:   Fri, 11 Dec 2020 13:56:28 +0100
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Abanoub Sameh <abanoubsameh8@gmail.com>
+Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Abanoub Sameh <abanoubsameh@protonmail.com>,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] leds: led-core: Get rid of enum led_brightness
+Message-ID: <20201211135628.1fe1af79@nic.cz>
+In-Reply-To: <20201211014840.1554095-1-abanoubsameh@protonmail.com>
+References: <20201211014840.1554095-1-abanoubsameh@protonmail.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <49ebc8e27958cb77cde36e5f95ad530803259907.1607591119.git.mallikarjunax.reddy@linux.intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 10 Dec 2020 17:12:11 +0800, Amireddy Mallikarjuna reddy wrote:
-> Add DT bindings YAML schema for SSO controller driver
-> of Lightning Mountain (LGM) SoC.
-> 
-> Signed-off-by: Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>
-> ---
-> v1:
-> - Initial version.
-> 
-> v2:
-> - Fix bot errors (wrong indentation).
-> - Spell out LGM and SSO.
-> - Remove vendor specific name for LED properites.
-> - removed deprecating property "label"
-> - Include 'reg', 'function' & 'color' properties.
-> 
-> v3:
-> - Included full names(maintainers).
-> - changed compatible SoC specific.
-> - Remove redundant properties.
-> - Updated vendor prefix and unit suffix to properties.
-> ---
->  .../devicetree/bindings/leds/leds-lgm.yaml    | 113 ++++++++++++++++++
->  1 file changed, 113 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-lgm.yaml
-> 
+On Fri, 11 Dec 2020 03:48:40 +0200
+Abanoub Sameh <abanoubsameh8@gmail.com> wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> This gets rid of enum led_brightness in the main led files,
+> because it is deprecated, and an int can be used instead,
+> or maybe even a uint8_t since it only goes up to 255.
+> Next we can also patch the other files to get rid of it completely.
+
+1. unsigned int should be used IMO
+  - using int may force all implementers to check for negative value
+    and return -EINVAL, which is stupid
+  - some LED controllers may offer more than 8bit brightness value, so
+    no uint8_t
+2. I think we should remove all usages with one commit
+
+Marek
