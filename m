@@ -2,69 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF3AF2D8C72
-	for <lists+linux-leds@lfdr.de>; Sun, 13 Dec 2020 09:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 463A42D9044
+	for <lists+linux-leds@lfdr.de>; Sun, 13 Dec 2020 20:47:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405183AbgLMIvy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 13 Dec 2020 03:51:54 -0500
-Received: from smtprelay0076.hostedemail.com ([216.40.44.76]:38286 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728170AbgLMIvr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 13 Dec 2020 03:51:47 -0500
-X-Greylist: delayed 646 seconds by postgrey-1.27 at vger.kernel.org; Sun, 13 Dec 2020 03:51:47 EST
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave02.hostedemail.com (Postfix) with ESMTP id 3959D1800084D
-        for <linux-leds@vger.kernel.org>; Sun, 13 Dec 2020 08:40:55 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay02.hostedemail.com (Postfix) with ESMTP id 172151E06;
-        Sun, 13 Dec 2020 08:40:14 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2693:2828:3138:3139:3140:3141:3142:3352:3622:3865:3867:3870:3871:3872:3873:3874:4321:5007:6691:7514:10004:10400:10848:11232:11658:11914:12297:12740:12760:12895:13069:13311:13357:13439:14181:14659:14721:21080:21627,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: neck30_631061227410
-X-Filterd-Recvd-Size: 1954
-Received: from XPS-9350.home (unknown [47.151.137.21])
-        (Authenticated sender: joe@perches.com)
-        by omf07.hostedemail.com (Postfix) with ESMTPA;
-        Sun, 13 Dec 2020 08:40:11 +0000 (UTC)
-Message-ID: <3ce8fa0c0d7a2c38b532bd4944f4158cfa0db072.camel@perches.com>
+        id S1726455AbgLMTri (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 13 Dec 2020 14:47:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725308AbgLMTrh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 13 Dec 2020 14:47:37 -0500
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1C01C0613CF;
+        Sun, 13 Dec 2020 11:46:57 -0800 (PST)
+Received: by mail-yb1-xb43.google.com with SMTP id o144so13014877ybc.0;
+        Sun, 13 Dec 2020 11:46:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=W1lkJR6Tf0DSnFojsG7MMX8zHLQgDTQjXzhBTEJ/2jw=;
+        b=PG7d8+k0vVH/CZnexGwEEFsg8otWhpWCqHVRmhwgJLNIp1T8mhMgEzeSStTtnbXq4Z
+         SJBHXkfB2VA/8WHiN5bMuGY8/Jwnkqgnq3minO/aG+sfx3KY1K8dL//FE5UiNcmObpAB
+         NIAtJlTu1Ai0gJuCLbiO6ottS7Ak+cYWQms/+qOqvWRY40qRuC+66sEMFI3tW3dpaXRd
+         544K2rKZVYywsThZYPkY1EvFawo7ljVDBR6eF40WC/hmath2DSunXP9jRMD3ZsxEE928
+         DgXtpH9a7k6k3IbT7SYJSR0UIFJ1rrenEmv/bnuTBg0QY/y3Uv+Dt8SNmpeJWyinvOv2
+         HrZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=W1lkJR6Tf0DSnFojsG7MMX8zHLQgDTQjXzhBTEJ/2jw=;
+        b=GuUW+K1CljGubUwMP/tlYSEdtt36owhXIh36sKzY15RAg77xqIikVdfCSCb7v5iPBC
+         ssTiMH+qRTzCURuI2nRq2fow3QBMAReifif0ePy89/Z8PjKJ0JSnPtT/6Zockh64Vifm
+         NPHEITEYQT4/k5CePAtgNxop9heaVco4ItrHza77r1mPyoOwd4GYwWIgkbBx0x8iUvel
+         6Wp7pccW5mZ8Gvgdz4Sy/01lbu6VAFdVd+tbj10r3xJ/egpapsSeEPVUMiW+VZq3JjpY
+         1UBJmudaPmq6uAcEna5te57ywut2auCWa/FHUG7I3O5aYAOPGOcwWU+RAvelBMrA75Mk
+         t0iw==
+X-Gm-Message-State: AOAM532NYyrF34oh6K4LDYYtqiMJl+0t5K/5LPt/VazQ898FHisgTDiK
+        N89YLB6/lfBbrmvZg62zDh793ZOpBYyP7GD++4kt+OoT
+X-Google-Smtp-Source: ABdhPJxhpX6GnebHkY3TuhpxGk7g9frp5gRKb3YlxLsRdnIolUVmruMsUd3PNtzc+vvVWRINN1Ad1krS5cke2/HYjEI=
+X-Received: by 2002:a25:50a:: with SMTP id 10mr8558198ybf.115.1607888816911;
+ Sun, 13 Dec 2020 11:46:56 -0800 (PST)
+MIME-Version: 1.0
+References: <20201212195548.231494-1-dwaipayanray1@gmail.com>
+ <CAKXUXMx9EnhWhGAJf4ousAgkxDUrN=g2zGaPEk6ijJYse7VJaQ@mail.gmail.com>
+ <CABJPP5BeB-aXDDk-8vy-8dOaNaM5jitx6QWKtV7Y3zXM5DgvUA@mail.gmail.com> <3ce8fa0c0d7a2c38b532bd4944f4158cfa0db072.camel@perches.com>
+In-Reply-To: <3ce8fa0c0d7a2c38b532bd4944f4158cfa0db072.camel@perches.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sun, 13 Dec 2020 20:46:46 +0100
+Message-ID: <CANiq72kOE3Y0Jji=igG_vqu0MoZyGeJJSfNWwj3ZA4oSikG9eQ@mail.gmail.com>
 Subject: Re: [PATCH] leds: Use DEVICE_ATTR_{RW, RO, WO} macros
-From:   Joe Perches <joe@perches.com>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     linux-leds@vger.kernel.org,
+To:     Joe Perches <joe@perches.com>
+Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-leds@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-kernel-mentees@lists.linuxfoundation.org
-Date:   Sun, 13 Dec 2020 00:40:10 -0800
-In-Reply-To: <CABJPP5BeB-aXDDk-8vy-8dOaNaM5jitx6QWKtV7Y3zXM5DgvUA@mail.gmail.com>
-References: <20201212195548.231494-1-dwaipayanray1@gmail.com>
-         <CAKXUXMx9EnhWhGAJf4ousAgkxDUrN=g2zGaPEk6ijJYse7VJaQ@mail.gmail.com>
-         <CABJPP5BeB-aXDDk-8vy-8dOaNaM5jitx6QWKtV7Y3zXM5DgvUA@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 2020-12-13 at 13:48 +0530, Dwaipayan Ray wrote:
-> On Sun, Dec 13, 2020 at 1:31 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-[]
-> > Will you also add a checkpatch rule to identify other DEVICE_ATTR(...)
-> > that can be adjusted to the refined macros, so that checkpatch informs
-> > other submitters as well?
-> > 
-> I think a checkpatch rule for this already exists. But it cannot automatically
-> rename the function names. That might be the only drawback we got.
-> Probably clang-format could fix these automatically.
+On Sun, Dec 13, 2020 at 7:21 PM Joe Perches <joe@perches.com> wrote:
+>
+> clang-format is not a tool to rewrite code only neaten its layout.
+>
+> coccinelle _might_ be able to do this for limited cases where the
+> show function is in the same compilation unit/file, but even then
+> it would not be a trivial script.
 
-clang-format is not a tool to rewrite code only neaten its layout.
++1 The most robust approach, but the one that is most involved, would
+be a clang-tidy check.
 
-coccinelle _might_ be able to do this for limited cases where the
-show function is in the same compilation unit/file, but even then
-it would not be a trivial script.
-
-
+Cheers,
+Miguel
