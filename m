@@ -2,86 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 619C42DC910
-	for <lists+linux-leds@lfdr.de>; Wed, 16 Dec 2020 23:42:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9E912DC970
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Dec 2020 00:12:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727829AbgLPWmD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 16 Dec 2020 17:42:03 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:52662 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727164AbgLPWmC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 16 Dec 2020 17:42:02 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 89B401C0BB7; Wed, 16 Dec 2020 23:41:19 +0100 (CET)
-Date:   Wed, 16 Dec 2020 23:41:19 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Ivan Mikhaylov <i.mikhaylov@yadro.com>, marek.behun@nic.cz,
-        linux-leds@vger.kernel.org
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Add LED mode behavior/select properties and handle
-Message-ID: <20201216224118.GA31740@amd>
-References: <20201209140501.17415-1-i.mikhaylov@yadro.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
-Content-Disposition: inline
-In-Reply-To: <20201209140501.17415-1-i.mikhaylov@yadro.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        id S1727896AbgLPXLe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 16 Dec 2020 18:11:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56422 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728529AbgLPXLd (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 16 Dec 2020 18:11:33 -0500
+Subject: Re: [GIT PULL] LEDs changes for v5.11-rc1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608160253;
+        bh=atO6XRT3h09vgDVfNPOGFhIdV4mbhGmhbDSF+zCvlaw=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=mBFJtb/eez46OcznP7mypXvmwntO4MKzUtw7rbE4YlfuNg0Lc0qEaLqwm9+imoNkx
+         lXdBnD8Pc4B6v4omoyUYjYXaoLLgZw9F5LAVtFjipjmvlWoo+7ijsk5epmHTRuwp9o
+         HUpukw8IQXskmBnKAkOnK84BDV+7XiDKgG2BoJOBex+qvR6F+lE8SbRR1PVt3qwnOd
+         OBp9h8qNNyltz3spgbwjYSSq7JxgV3iZNjOu6Oct8B0F86Sime6ogMDEUMFaaOWwhl
+         WATirM5mjeC/fr0DqWKH0gIjMEf0F5sTd/2uGzNCakKc5gDdh+df/K+53aFGjw7EM4
+         ylOnpFNE1rDwA==
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20201216154155.GA10814@duo.ucw.cz>
+References: <20201216154155.GA10814@duo.ucw.cz>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20201216154155.GA10814@duo.ucw.cz>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.11-rc1
+X-PR-Tracked-Commit-Id: 98650b0874171cc443251f7b369d3b1544db9d4e
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 945433be3677955255fabecbf1076c17864ff9da
+Message-Id: <160816025307.24445.2437579460406974044.pr-tracker-bot@kernel.org>
+Date:   Wed, 16 Dec 2020 23:10:53 +0000
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+The pull request you sent on Wed, 16 Dec 2020 16:41:55 +0100:
 
---6TrnltStXW4iwmi0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.11-rc1
 
-Hi!
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/945433be3677955255fabecbf1076c17864ff9da
 
-> In KSZ9131 PHY it is possible to control LEDs blink behavior via
-> LED mode behavior and select registers. Add DTS properties plus handles
-> of them inside micrel PHY driver.
->=20
-> I've some concerns about passing raw register values into LED mode
-> select and behavior. It can be passed via array like in microchip
-> driver(Documentation/devicetree/bindings/net/microchip,lan78xx.txt).
-> There is the problem in this particular driver - there is a lot of other =
-PHYs
-> and led mode behavior/select states may intersect, that's the reason why
-> I did it this way. Is there any good ways to make it look more
-> properly?
+Thank you!
 
-Lets... not do this?
-
-We have a LED subsystem which should probably control the LEDs... so
-user can specify behaviours at run-time, instead of them being
-hard-coded in the device tree.
-
-Plus, LED subsystem will use same interface for networks LEDs as for
-=2E.. other LEDs.
-
-Best regards,
-									Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---6TrnltStXW4iwmi0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl/ajQ4ACgkQMOfwapXb+vJkFgCggsCdZ7gIF83/69L3RoId265i
-3U0AoK8IrS8opXUCI3h/8leg09mxtTTY
-=Yvel
------END PGP SIGNATURE-----
-
---6TrnltStXW4iwmi0--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
