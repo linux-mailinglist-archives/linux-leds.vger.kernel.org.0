@@ -2,65 +2,61 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D42F2DDA58
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Dec 2020 21:53:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54DDD2DDA5D
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Dec 2020 21:55:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726917AbgLQUwY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Dec 2020 15:52:24 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:44140 "EHLO
+        id S1729111AbgLQUyE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 17 Dec 2020 15:54:04 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:44258 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725988AbgLQUwY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Dec 2020 15:52:24 -0500
+        with ESMTP id S1727253AbgLQUyE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Dec 2020 15:54:04 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id C77711C0B7D; Thu, 17 Dec 2020 21:51:39 +0100 (CET)
-Date:   Thu, 17 Dec 2020 21:51:39 +0100
+        id 791B11C0B7D; Thu, 17 Dec 2020 21:53:21 +0100 (CET)
+Date:   Thu, 17 Dec 2020 21:53:21 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org, dmurphy@ti.com
-Subject: Re: [PATCH v2] leds: Use DEVICE_ATTR_{RW, RO, WO} macros
-Message-ID: <20201217205139.GA27883@duo.ucw.cz>
-References: <20201214054205.5263-1-dwaipayanray1@gmail.com>
+To:     Zheng Yongjun <zhengyongjun3@huawei.com>
+Cc:     marek.behun@nic.cz, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 -next] leds: ss4200: simplify the return expression of
+ register_nasgpio_led()
+Message-ID: <20201217205321.GB27883@duo.ucw.cz>
+References: <20201214063149.1970-1-zhengyongjun3@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="jI8keyz6grp/JLjh"
+        protocol="application/pgp-signature"; boundary="ZoaI/ZTpAVc4A5k6"
 Content-Disposition: inline
-In-Reply-To: <20201214054205.5263-1-dwaipayanray1@gmail.com>
+In-Reply-To: <20201214063149.1970-1-zhengyongjun3@huawei.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---jI8keyz6grp/JLjh
+--ZoaI/ZTpAVc4A5k6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
-
-> Instead of open coding DEVICE_ATTR() defines, use the
-> DEVICE_ATTR_RW(), DEVICE_ATTR_WO(), and DEVICE_ATTR_RO()
-> macros.
+On Mon 2020-12-14 14:31:49, Zheng Yongjun wrote:
+> Simplify the return expression.
 >=20
-> This required a few functions to be renamed, but the functionality
-> itself is unchanged.
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
 
 Thanks, applied.
 								Pavel
-							=09
+
 --=20
 http://www.livejournal.com/~pavelmachek
 
---jI8keyz6grp/JLjh
+--ZoaI/ZTpAVc4A5k6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX9vE2wAKCRAw5/Bqldv6
-8oczAKCz6icf73jdIi6aH6CPpLRzv7IIZgCeP4obrTCBsKSaLRrxZeFZ2+JH/vQ=
-=b7N8
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX9vFQQAKCRAw5/Bqldv6
+8nLbAKCiV3t4iTpt6TN6HhuA1IOJtJu30wCfSonIb75cBifsX0O/waEkfscwgok=
+=K6G7
 -----END PGP SIGNATURE-----
 
---jI8keyz6grp/JLjh--
+--ZoaI/ZTpAVc4A5k6--
