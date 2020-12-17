@@ -2,59 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B9B82DDA68
-	for <lists+linux-leds@lfdr.de>; Thu, 17 Dec 2020 21:57:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ACDA2DDAA5
+	for <lists+linux-leds@lfdr.de>; Thu, 17 Dec 2020 22:14:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727088AbgLQU4V (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Dec 2020 15:56:21 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:44440 "EHLO
+        id S1727055AbgLQVOD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 17 Dec 2020 16:14:03 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:46018 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728966AbgLQU4V (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Dec 2020 15:56:21 -0500
+        with ESMTP id S1727106AbgLQVOD (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Dec 2020 16:14:03 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 68CF11C0B7D; Thu, 17 Dec 2020 21:55:38 +0100 (CET)
-Date:   Thu, 17 Dec 2020 21:55:38 +0100
+        id 647A21C0B7D; Thu, 17 Dec 2020 22:13:20 +0100 (CET)
+Date:   Thu, 17 Dec 2020 22:13:20 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Zheng Yongjun <zhengyongjun3@huawei.com>
+To:     Tian Tao <tiantao6@hisilicon.com>
 Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] leds: leds-ariel: convert comma to semicolon
-Message-ID: <20201217205538.GA28574@duo.ucw.cz>
-References: <20201214134545.4884-1-zhengyongjun3@huawei.com>
+Subject: Re: [PATCH] leds: lm3533: Switch to using the new API kobj_to_dev()
+Message-ID: <20201217211320.GC28574@duo.ucw.cz>
+References: <1606699168-49894-1-git-send-email-tiantao6@hisilicon.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
+        protocol="application/pgp-signature"; boundary="PuGuTyElPB9bOcsM"
 Content-Disposition: inline
-In-Reply-To: <20201214134545.4884-1-zhengyongjun3@huawei.com>
+In-Reply-To: <1606699168-49894-1-git-send-email-tiantao6@hisilicon.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---BOKacYhQ+x31HxR3
+--PuGuTyElPB9bOcsM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon 2020-12-14 21:45:45, Zheng Yongjun wrote:
-> Replace a comma between expression statements by a semicolon.
+On Mon 2020-11-30 09:19:28, Tian Tao wrote:
+> fixed the following coccicheck:
+> drivers/leds/leds-lm3533.c:611:60-61: WARNING opportunity for kobj_to_dev=
+().
 >=20
-> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 
 Thanks, applied.
-								Pavel
+									Pavel
+
+
 --=20
 http://www.livejournal.com/~pavelmachek
 
---BOKacYhQ+x31HxR3
+--PuGuTyElPB9bOcsM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX9vFygAKCRAw5/Bqldv6
-8u/UAKCGvesjjqLvx1DwF8TnnD3NBBNQ3ACgoSWE7ABfS1jw6ltZYS4aoZ681nY=
-=Dxke
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX9vJ8AAKCRAw5/Bqldv6
+8l3cAJ0ewF5zwnc6+SRno7L5YJKqITs/8QCfTFLOmvph6YadrkTgtwOUrHHaGL4=
+=OTT5
 -----END PGP SIGNATURE-----
 
---BOKacYhQ+x31HxR3--
+--PuGuTyElPB9bOcsM--
