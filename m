@@ -2,91 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D08D2DDBB7
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Dec 2020 00:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C20572DE143
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Dec 2020 11:43:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730665AbgLQXAo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 17 Dec 2020 18:00:44 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:54902 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730054AbgLQXAo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 17 Dec 2020 18:00:44 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 821971C0B7D; Thu, 17 Dec 2020 23:59:46 +0100 (CET)
-Date:   Thu, 17 Dec 2020 23:59:43 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     'Marek Behun' <marek.behun@nic.cz>,
-        Abanoub Sameh <abanoubsameh8@gmail.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Abanoub Sameh <abanoubsameh@protonmail.com>,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] leds: led-core: Get rid of enum led_brightness
-Message-ID: <20201217225942.GA8241@amd>
-References: <20201211014840.1554095-1-abanoubsameh@protonmail.com>
- <20201211135628.1fe1af79@nic.cz>
- <2ae41868b2604a489927b5903529afb4@AcuMS.aculab.com>
+        id S1728248AbgLRKnh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Dec 2020 05:43:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389127AbgLRKng (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Dec 2020 05:43:36 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B0A7C061285
+        for <linux-leds@vger.kernel.org>; Fri, 18 Dec 2020 02:42:55 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1kqDDk-00006v-RX; Fri, 18 Dec 2020 11:42:48 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1kqDDj-0004hN-Jz; Fri, 18 Dec 2020 11:42:47 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>
+Cc:     linux-serial@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        Johan Hovold <johan@kernel.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+Subject: [PATCH v10 0/3] leds: trigger: implement a tty trigger
+Date:   Fri, 18 Dec 2020 11:42:43 +0100
+Message-Id: <20201218104246.591315-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ZPt4rx8FFjLCG7dd"
-Content-Disposition: inline
-In-Reply-To: <2ae41868b2604a489927b5903529afb4@AcuMS.aculab.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+From: Uwe Kleine-König <uwe@kleine-koenig.org>
 
---ZPt4rx8FFjLCG7dd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Hi!
+here comes v10 of this series. Changes compared to v9 sent with
+Message-Id: 20201018204022.910815-1-u.kleine-koenig@pengutronix.de in
+October:
 
-> > On Fri, 11 Dec 2020 03:48:40 +0200
-> > Abanoub Sameh <abanoubsameh8@gmail.com> wrote:
-> >=20
-> > > This gets rid of enum led_brightness in the main led files,
-> > > because it is deprecated, and an int can be used instead,
-> > > or maybe even a uint8_t since it only goes up to 255.
-> > > Next we can also patch the other files to get rid of it completely.
-> >=20
-> > 1. unsigned int should be used IMO
-> >   - using int may force all implementers to check for negative value
-> >     and return -EINVAL, which is stupid
-> >   - some LED controllers may offer more than 8bit brightness value, so
-> >     no uint8_t
->=20
-> More than 8 bits would be good.
-> While not really relevant for actual 'brightness' it allows
-> for 'strange' things be encoded in the brightness field.
+ - Bump date and kernel version in ABI doc
+ - Fix double unlock in error path; found by Pavel
+ - Don't stop the workqueue in ttyname_store() to
+   fix error behaviour on memory allocation failure.
+   Now it continues with the previous configuration instead of
+   stopping. Also found by Pavel.
 
-I have headlamp which can do 0.1lumens to 750lumens. Some go down to
-0.01 lumens. More than 8 bits definitely makes sense.
+Unaddressed review comments by Pavel are:
 
-Display backlights also need great ranges.
+ - Unused assignment to len in ttyname_show
+   This is wrong
+ - "Poll every 100 msec... Hmm.... Okay, I guess?"
+   Yes, I think there is no way around this given the trigger uses
+   polling. There is no easy way to get notified instead.
+ - "Are you sure about LED_ON [in the worker]? It should use current
+   brightness selected by brightness file..."
+   I found no consistent behaviour in other triggers. ledtrig-gpio
+   implements a dedicated "desired_brightness" sysfs file, several use
+   led_cdev->blink_brightness (via led_trigger_blink_oneshot),
+   ledtrig-cpu uses led_trigger_event with LED_FULL.
+ - "How is [the data initialized in ledtrig_tty_activate()] protected
+   from concurrent access from sysfs?"
+   I think there is no need to protect this. But I'm not sure I
+   understood the question correctly, so please recheck and if needed
+   point out the problem you see in more detail.
 
-> While extra parameters could be added, they are only really usable
-> by code that knows they are present.
-> So encoding in the 'brightness' sort of makes sense.
+Uwe Kleine-König (3):
+  tty: rename tty_kopen() and add new function tty_kopen_shared()
+  tty: new helper function tty_get_icount()
+  leds: trigger: implement a tty trigger
 
-No.
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
+ .../ABI/testing/sysfs-class-led-trigger-tty   |   6 +
+ drivers/accessibility/speakup/spk_ttyio.c     |   2 +-
+ drivers/leds/trigger/Kconfig                  |   9 +
+ drivers/leds/trigger/Makefile                 |   1 +
+ drivers/leds/trigger/ledtrig-tty.c            | 188 ++++++++++++++++++
+ drivers/tty/tty_io.c                          |  85 ++++++--
+ include/linux/tty.h                           |   7 +-
+ 7 files changed, 273 insertions(+), 25 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-tty
+ create mode 100644 drivers/leds/trigger/ledtrig-tty.c
 
---ZPt4rx8FFjLCG7dd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-- 
+2.29.2
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl/b4t4ACgkQMOfwapXb+vLCvwCfQaX9fJwM0k0zZHrmFS8c8AS7
-udMAniG4GbiBy7E61PVgFrlWfMn5E7+k
-=LUnF
------END PGP SIGNATURE-----
-
---ZPt4rx8FFjLCG7dd--
