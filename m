@@ -2,26 +2,26 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C20572DE143
-	for <lists+linux-leds@lfdr.de>; Fri, 18 Dec 2020 11:43:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 161702DE16A
+	for <lists+linux-leds@lfdr.de>; Fri, 18 Dec 2020 11:44:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728248AbgLRKnh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 18 Dec 2020 05:43:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
+        id S2389197AbgLRKoR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 18 Dec 2020 05:44:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389127AbgLRKng (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Dec 2020 05:43:36 -0500
+        with ESMTP id S2389177AbgLRKoR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 18 Dec 2020 05:44:17 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B0A7C061285
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55CA8C0611CA
         for <linux-leds@vger.kernel.org>; Fri, 18 Dec 2020 02:42:55 -0800 (PST)
 Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1kqDDk-00006v-RX; Fri, 18 Dec 2020 11:42:48 +0100
+        id 1kqDDk-00006w-RO; Fri, 18 Dec 2020 11:42:48 +0100
 Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1kqDDj-0004hN-Jz; Fri, 18 Dec 2020 11:42:47 +0100
+        id 1kqDDj-0004hQ-Pd; Fri, 18 Dec 2020 11:42:47 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -30,12 +30,13 @@ To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Jiri Slaby <jslaby@suse.com>
 Cc:     linux-serial@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-        Johan Hovold <johan@kernel.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-Subject: [PATCH v10 0/3] leds: trigger: implement a tty trigger
-Date:   Fri, 18 Dec 2020 11:42:43 +0100
-Message-Id: <20201218104246.591315-1-u.kleine-koenig@pengutronix.de>
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH v10 1/3] tty: rename tty_kopen() and add new function tty_kopen_shared()
+Date:   Fri, 18 Dec 2020 11:42:44 +0100
+Message-Id: <20201218104246.591315-2-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201218104246.591315-1-u.kleine-koenig@pengutronix.de>
+References: <20201218104246.591315-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -47,56 +48,139 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Uwe Kleine-König <uwe@kleine-koenig.org>
+Introduce a new function tty_kopen_shared() that yields a struct
+tty_struct. The semantic difference to tty_kopen() is that the tty is
+expected to be used already. So rename tty_kopen() to
+tty_kopen_exclusive() for clearness, adapt the single user and put the
+common code in a new static helper function.
 
-Hello,
+tty_kopen_shared is to be used to implement an LED trigger for tty
+devices in one of the next patches.
 
-here comes v10 of this series. Changes compared to v9 sent with
-Message-Id: 20201018204022.910815-1-u.kleine-koenig@pengutronix.de in
-October:
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/accessibility/speakup/spk_ttyio.c |  2 +-
+ drivers/tty/tty_io.c                      | 56 +++++++++++++++--------
+ include/linux/tty.h                       |  5 +-
+ 3 files changed, 42 insertions(+), 21 deletions(-)
 
- - Bump date and kernel version in ABI doc
- - Fix double unlock in error path; found by Pavel
- - Don't stop the workqueue in ttyname_store() to
-   fix error behaviour on memory allocation failure.
-   Now it continues with the previous configuration instead of
-   stopping. Also found by Pavel.
-
-Unaddressed review comments by Pavel are:
-
- - Unused assignment to len in ttyname_show
-   This is wrong
- - "Poll every 100 msec... Hmm.... Okay, I guess?"
-   Yes, I think there is no way around this given the trigger uses
-   polling. There is no easy way to get notified instead.
- - "Are you sure about LED_ON [in the worker]? It should use current
-   brightness selected by brightness file..."
-   I found no consistent behaviour in other triggers. ledtrig-gpio
-   implements a dedicated "desired_brightness" sysfs file, several use
-   led_cdev->blink_brightness (via led_trigger_blink_oneshot),
-   ledtrig-cpu uses led_trigger_event with LED_FULL.
- - "How is [the data initialized in ledtrig_tty_activate()] protected
-   from concurrent access from sysfs?"
-   I think there is no need to protect this. But I'm not sure I
-   understood the question correctly, so please recheck and if needed
-   point out the problem you see in more detail.
-
-Uwe Kleine-König (3):
-  tty: rename tty_kopen() and add new function tty_kopen_shared()
-  tty: new helper function tty_get_icount()
-  leds: trigger: implement a tty trigger
-
- .../ABI/testing/sysfs-class-led-trigger-tty   |   6 +
- drivers/accessibility/speakup/spk_ttyio.c     |   2 +-
- drivers/leds/trigger/Kconfig                  |   9 +
- drivers/leds/trigger/Makefile                 |   1 +
- drivers/leds/trigger/ledtrig-tty.c            | 188 ++++++++++++++++++
- drivers/tty/tty_io.c                          |  85 ++++++--
- include/linux/tty.h                           |   7 +-
- 7 files changed, 273 insertions(+), 25 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-tty
- create mode 100644 drivers/leds/trigger/ledtrig-tty.c
-
+diff --git a/drivers/accessibility/speakup/spk_ttyio.c b/drivers/accessibility/speakup/spk_ttyio.c
+index 6284aff434a1..835d17455fcd 100644
+--- a/drivers/accessibility/speakup/spk_ttyio.c
++++ b/drivers/accessibility/speakup/spk_ttyio.c
+@@ -152,7 +152,7 @@ static int spk_ttyio_initialise_ldisc(struct spk_synth *synth)
+ 	if (ret)
+ 		return ret;
+ 
+-	tty = tty_kopen(dev);
++	tty = tty_kopen_exclusive(dev);
+ 	if (IS_ERR(tty))
+ 		return PTR_ERR(tty);
+ 
+diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+index 56ade99ef99f..d0c1f97adc17 100644
+--- a/drivers/tty/tty_io.c
++++ b/drivers/tty/tty_io.c
+@@ -1873,22 +1873,7 @@ static struct tty_driver *tty_lookup_driver(dev_t device, struct file *filp,
+ 	return driver;
+ }
+ 
+-/**
+- *	tty_kopen	-	open a tty device for kernel
+- *	@device: dev_t of device to open
+- *
+- *	Opens tty exclusively for kernel. Performs the driver lookup,
+- *	makes sure it's not already opened and performs the first-time
+- *	tty initialization.
+- *
+- *	Returns the locked initialized &tty_struct
+- *
+- *	Claims the global tty_mutex to serialize:
+- *	  - concurrent first-time tty initialization
+- *	  - concurrent tty driver removal w/ lookup
+- *	  - concurrent tty removal from driver table
+- */
+-struct tty_struct *tty_kopen(dev_t device)
++static struct tty_struct *tty_kopen(dev_t device, int shared)
+ {
+ 	struct tty_struct *tty;
+ 	struct tty_driver *driver;
+@@ -1903,7 +1888,7 @@ struct tty_struct *tty_kopen(dev_t device)
+ 
+ 	/* check whether we're reopening an existing tty */
+ 	tty = tty_driver_lookup_tty(driver, NULL, index);
+-	if (IS_ERR(tty))
++	if (IS_ERR(tty) || shared)
+ 		goto out;
+ 
+ 	if (tty) {
+@@ -1921,7 +1906,42 @@ struct tty_struct *tty_kopen(dev_t device)
+ 	tty_driver_kref_put(driver);
+ 	return tty;
+ }
+-EXPORT_SYMBOL_GPL(tty_kopen);
++
++/**
++ *	tty_kopen_exclusive	-	open a tty device for kernel
++ *	@device: dev_t of device to open
++ *
++ *	Opens tty exclusively for kernel. Performs the driver lookup,
++ *	makes sure it's not already opened and performs the first-time
++ *	tty initialization.
++ *
++ *	Returns the locked initialized &tty_struct
++ *
++ *	Claims the global tty_mutex to serialize:
++ *	  - concurrent first-time tty initialization
++ *	  - concurrent tty driver removal w/ lookup
++ *	  - concurrent tty removal from driver table
++ */
++struct tty_struct *tty_kopen_exclusive(dev_t device)
++{
++	return tty_kopen(device, 0);
++}
++EXPORT_SYMBOL_GPL(tty_kopen_exclusive);
++
++/**
++ *	tty_kopen_shared	-	open a tty device for shared in-kernel use
++ *	@device: dev_t of device to open
++ *
++ *	Opens an already existing tty for in-kernel use. Compared to
++ *	tty_kopen_exclusive() above it doesn't ensure to be the only user.
++ *
++ *	Locking is identical to tty_kopen() above.
++ */
++struct tty_struct *tty_kopen_shared(dev_t device)
++{
++	return tty_kopen(device, 1);
++}
++EXPORT_SYMBOL_GPL(tty_kopen_shared);
+ 
+ /**
+  *	tty_open_by_driver	-	open a tty device
+diff --git a/include/linux/tty.h b/include/linux/tty.h
+index eb33d948788c..7c3b5f156f03 100644
+--- a/include/linux/tty.h
++++ b/include/linux/tty.h
+@@ -417,7 +417,8 @@ extern struct tty_struct *get_current_tty(void);
+ /* tty_io.c */
+ extern int __init tty_init(void);
+ extern const char *tty_name(const struct tty_struct *tty);
+-extern struct tty_struct *tty_kopen(dev_t device);
++extern struct tty_struct *tty_kopen_exclusive(dev_t device);
++extern struct tty_struct *tty_kopen_shared(dev_t device);
+ extern void tty_kclose(struct tty_struct *tty);
+ extern int tty_dev_name_to_number(const char *name, dev_t *number);
+ extern int tty_ldisc_lock(struct tty_struct *tty, unsigned long timeout);
+@@ -442,7 +443,7 @@ static inline int __init tty_init(void)
+ { return 0; }
+ static inline const char *tty_name(const struct tty_struct *tty)
+ { return "(none)"; }
+-static inline struct tty_struct *tty_kopen(dev_t device)
++static inline struct tty_struct *tty_kopen_exclusive(dev_t device)
+ { return ERR_PTR(-ENODEV); }
+ static inline void tty_kclose(struct tty_struct *tty)
+ { }
 -- 
 2.29.2
 
