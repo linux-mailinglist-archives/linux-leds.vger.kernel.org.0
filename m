@@ -2,17 +2,17 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36FB32DF36E
+	by mail.lfdr.de (Postfix) with ESMTP id A3C482DF36F
 	for <lists+linux-leds@lfdr.de>; Sun, 20 Dec 2020 04:47:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727002AbgLTDp4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S1727109AbgLTDp4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Sat, 19 Dec 2020 22:45:56 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:10053 "EHLO
+Received: from szxga05-in.huawei.com ([45.249.212.191]:10052 "EHLO
         szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726912AbgLTDp4 (ORCPT
+        with ESMTP id S1726923AbgLTDp4 (ORCPT
         <rfc822;linux-leds@vger.kernel.org>); Sat, 19 Dec 2020 22:45:56 -0500
 Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cz7ks2xkczM6xs;
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cz7ks2h6JzM6xk;
         Sun, 20 Dec 2020 11:44:21 +0800 (CST)
 Received: from use12-sp2.huawei.com (10.67.189.174) by
  DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
@@ -23,10 +23,12 @@ To:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
         <keescook@chromium.org>, <gpiccoli@canonical.com>,
         <penguin-kernel@i-love.sakura.ne.jp>, <rdunlap@infradead.org>
 CC:     <nixiaoming@huawei.com>, <wangle6@huawei.com>
-Subject: [PATCH v2 0/4] panic: Add new API in_panic_state()
-Date:   Sun, 20 Dec 2020 11:45:01 +0800
-Message-ID: <20201220034505.113118-1-nixiaoming@huawei.com>
+Subject: [PATCH v2 1/4] panic: Add new API in_panic_state()
+Date:   Sun, 20 Dec 2020 11:45:02 +0800
+Message-ID: <20201220034505.113118-2-nixiaoming@huawei.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201220034505.113118-1-nixiaoming@huawei.com>
+References: <20201220034505.113118-1-nixiaoming@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -46,30 +48,41 @@ current system is in panic state:
 Duplicate code snippets exist, and the timing judgment is relatively lag.
 Therefore, consider extracting the new API: bool in_panic_state(void).
 
-----------------
+Signed-off-by: Xiaoming Ni <nixiaoming@huawei.com>
+---
+ include/linux/kernel.h | 1 +
+ kernel/panic.c         | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-v2: Rename api to in_panic_state as recommended by Pavel Machek, Tetsuo
- Handa, Randy Dunlap.
-
-v1: https://lore.kernel.org/lkml/20201218114406.61906-1-nixiaoming@huawei.com/
-  API name: is_being_panic
-----------------
-
-Xiaoming Ni (4):
-  panic: Add new API in_panic_state()
-  hung_task: Replace "did_panic" with in_panic_state()
-  leds:trigger:ledtrig-activity Replace "panic_detected" with
-    in_panic_state()
-  leds:trigger:ledtrig-heartbeat: Replace "panic_heartbeats" with
-    in_panic_state()
-
- drivers/leds/trigger/ledtrig-activity.c  | 19 +------------------
- drivers/leds/trigger/ledtrig-heartbeat.c | 19 +------------------
- include/linux/kernel.h                   |  1 +
- kernel/hung_task.c                       | 17 +----------------
- kernel/panic.c                           |  6 ++++++
- 5 files changed, 10 insertions(+), 52 deletions(-)
-
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index f7902d8c1048..c9a9078157b6 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -167,6 +167,7 @@ void __might_fault(const char *file, int line);
+ static inline void might_fault(void) { }
+ #endif
+ 
++extern bool in_panic_state(void);
+ extern struct atomic_notifier_head panic_notifier_list;
+ extern long (*panic_blink)(int state);
+ __printf(1, 2)
+diff --git a/kernel/panic.c b/kernel/panic.c
+index 332736a72a58..351627883a04 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -125,6 +125,12 @@ void __weak crash_smp_send_stop(void)
+ 
+ atomic_t panic_cpu = ATOMIC_INIT(PANIC_CPU_INVALID);
+ 
++bool in_panic_state(void)
++{
++	return (atomic_read(&panic_cpu) != PANIC_CPU_INVALID);
++}
++EXPORT_SYMBOL(in_panic_state);
++
+ /*
+  * A variant of panic() called from NMI context. We return if we've already
+  * panicked on this CPU. If another CPU already panicked, loop in
 -- 
 2.27.0
 
