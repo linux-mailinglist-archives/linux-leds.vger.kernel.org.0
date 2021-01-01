@@ -2,115 +2,109 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F4732E7FD7
-	for <lists+linux-leds@lfdr.de>; Thu, 31 Dec 2020 13:19:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F23572E83EF
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Jan 2021 15:21:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726261AbgLaMSu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 31 Dec 2020 07:18:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56066 "EHLO
+        id S1727135AbhAAOUi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 1 Jan 2021 09:20:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726071AbgLaMSt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 31 Dec 2020 07:18:49 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3427C061573
-        for <linux-leds@vger.kernel.org>; Thu, 31 Dec 2020 04:18:08 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id r4so7119257wmh.5
-        for <linux-leds@vger.kernel.org>; Thu, 31 Dec 2020 04:18:08 -0800 (PST)
+        with ESMTP id S1726257AbhAAOUh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Jan 2021 09:20:37 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAC67C061575
+        for <linux-leds@vger.kernel.org>; Fri,  1 Jan 2021 06:19:56 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id h205so49173912lfd.5
+        for <linux-leds@vger.kernel.org>; Fri, 01 Jan 2021 06:19:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=7SqcNl5KWJPGbXH65bKbbN1vtS8pHNjLIp3wmAVPS+8=;
-        b=F0Ty4zFCDW5DJIvU7G6DHJocno5RtfsBgnYkYnGMSK88ObGi0268Fnw/DLUJdepaxW
-         A6ZQM3J5FWnOBndRIGfHhgmNDZ8q4i3o5tf84GZU3fndsYVjgVqrCelSI1OkFUpHDDV3
-         OG9x14ceTTBlV+ytPQUQywLl0XlZMZvNir9NDn8eLY69sZY2NRW3Q7u+rIsAJ0/zRxGm
-         E4uhdTVSWJSPn2/ljRClFbQZ4B/9efeoO1O8+hCOTBZEjGOgaQwN8E7EGQEPNITYr81Z
-         qBQZdcB+FgEMd4ZvsrgDxCWat9IM7yeyBuU0v5X9ow3No6WxvbHtTKgq+G4vcCsHcGZK
-         8QUA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=QsPmcpPsnbLYhOMm5UbpDdIc3jRbIuXMnc0dIdfRJHg=;
+        b=ErisSbaPcB8BB4XhBaWiauqo6oXZ2o5NsyVejRrRaKper3qCdYovSNVlXPD3wRx1xB
+         UFwuAu4cpmxBx+mRF7I7XoC1BKvwvLnvuK1PpXRKuLEWxrP9GvrUlmZLJ93tADwZxdyY
+         +b9Ce0wgIDopTSu5KBkkoRIHjCIrQp2SmxDdTKljJzHZzaYpFO8BWikWDK2tXiynpi/Y
+         ayxFzMP5kebCNJvMaiH9BugTZs1fD4mB9U+6Q2J/3i982m/x7bKORtkO3EmFk+kttqrZ
+         i6nwdpUIimpvx3Bc/HiB9YgWmjB88ghyc9bOXY0PAvZTcGzypsqNyKJs/PYXqCjj0K59
+         433A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=7SqcNl5KWJPGbXH65bKbbN1vtS8pHNjLIp3wmAVPS+8=;
-        b=GrUCmimemh1QZVYmc4HBmbL6xnIsPbJLHtuMqKnI8Q9vn1qTVqrxLi5a12qv/NWSa1
-         jONsaFdEJIgyfmBVMoXW91BmfyoUcacglBVc58ZiNaJhxZrOTD6o3kygV8Tm6XXLLH9v
-         7OoX7C4LCF4y5/MuWmpBJNY/1i/7h4Yv/KURzuG6AR651tVz6mn7W5kUx8J0s6FtsNI3
-         3dnEtlZbBJizXn//457pCkmj/xEzLVAzC8x1EgwTiR6eufxrZmIXHjOnNrHz1OBD69oP
-         FDbzUKsmMm0EMw63ZJGs2fIB94c+4hNLSMVTP2zx/w5ZOZoBqQsJNTiYoJEmOI0jtDTW
-         wwww==
-X-Gm-Message-State: AOAM532yRDXrO3NuvrTsp3nL2xM0muUu91Cr0rIC184xKX4FNcsWmnSB
-        hw8joqva/jCk5UaNrwGFUL2iSw==
-X-Google-Smtp-Source: ABdhPJyZpFCcTny/kpxj+lNXYT/J5a5zwnln/azNAkSLIx5BERCKXlTb9EROUOzJtMiXDd6c5BrYzg==
-X-Received: by 2002:a1c:4d0a:: with SMTP id o10mr11923999wmh.185.1609417086646;
-        Thu, 31 Dec 2020 04:18:06 -0800 (PST)
-Received: from dell ([91.110.221.133])
-        by smtp.gmail.com with ESMTPSA id a62sm12743892wmf.7.2020.12.31.04.18.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Dec 2020 04:18:05 -0800 (PST)
-Date:   Thu, 31 Dec 2020 12:18:03 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Alexander Dahl <post@lespocky.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Alexander Dahl <ada@thorsis.com>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-amlogic@lists.infradead.org, Jeff LaBundy <jeff@labundy.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v9 1/4] dt-bindings: mfd: Fix schema warnings for pwm-leds
-Message-ID: <20201231121803.GC4413@dell>
-References: <20201228163217.32520-1-post@lespocky.de>
- <20201228163217.32520-2-post@lespocky.de>
- <20201230185439.GC25903@duo.ucw.cz>
- <20201231083317.GB4413@dell>
- <20201231093945.GA22962@amd>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=QsPmcpPsnbLYhOMm5UbpDdIc3jRbIuXMnc0dIdfRJHg=;
+        b=DMV2za8UddGxEZyDr1Faj3k7EbcIhTY4WPqZxJ3UdhyHI4FBXg8IliuthkoPqkHkI5
+         IJ/v0XZpedqtjDp0RXfspH/yk/mt2NJl3asc3acoe2/e0cd7/Pg5Z/sna8s3Z/1H8W8o
+         hoh1miNI9N6woe7Mc79w9QIb4ZyIWgCeQ5v3X/lYZJC1qQINa1+mOadjpXkpuVccUGxB
+         HzXnlIn/MJCJ9D5bPX9in5Zzz3BF2Ws8OaDRDJNxgRrlk5L4eesBN4iLQUqRNs7zi4sE
+         IH1B8hmr/jRDdH5iyuxlZAc+9BES1du25LrincHN6zS+VkzURaleRqiiESAPpMjfEFM3
+         wYxQ==
+X-Gm-Message-State: AOAM530uiTO/SxJdQFSOzfr7svI6s0E5vNmROAki5hfBs9QsD2lqb6Dr
+        luI8K76lho4cj+IhkNCycldpGnWFDlsCrC62OS6kSBzasuI8pw==
+X-Google-Smtp-Source: ABdhPJxjCnV8DIPwpx74Q8C5a9/BZjmLvCTVWXleQYJzFd8wFli1vcpOuHDFfoh4HZJiP/V09zBm24OUcYJkBpc5Fmk=
+X-Received: by 2002:a05:6512:3f3:: with SMTP id n19mr28579606lfq.586.1609510795503;
+ Fri, 01 Jan 2021 06:19:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201231093945.GA22962@amd>
+References: <20201201101350.1401956-1-linus.walleij@linaro.org>
+ <20201201101350.1401956-2-linus.walleij@linaro.org> <20201230190907.GE25903@duo.ucw.cz>
+In-Reply-To: <20201230190907.GE25903@duo.ucw.cz>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 1 Jan 2021 15:19:44 +0100
+Message-ID: <CACRpkdYtcmLc3GsJA8H0g_G55Cnffn2Tm2da6UOqyv2DSn_UXQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2 v7] leds: rt8515: Add Richtek RT8515 LED driver
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, newbytee@protonmail.com,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        phone-devel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 31 Dec 2020, Pavel Machek wrote:
+Hi Pavel,
 
-> Hi!
-> 
-> > > > The node names for devices using the pwm-leds driver follow a certain
-> > > > naming scheme (now).  Parent node name is not enforced, but recommended
-> > > > by DT project.
-> > > > 
-> > > >   DTC     Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml
-> > > >   CHECK   Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml
-> > > > /home/alex/build/linux/Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml: pwmleds: 'panel' does not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
-> > > >         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
-> > > > 
-> > > > Signed-off-by: Alexander Dahl <post@lespocky.de>
-> > > > Acked-by: Jeff LaBundy <jeff@labundy.com>
-> > > > Acked-by: Rob Herring <robh@kernel.org>
-> > > 
-> > > Thanks, applied.
-> > 
-> > Sorry, what?
-> > 
-> > Applied to what tree?
-> 
-> I took it to (local copy) of leds-next tree on. But now I realised it
-> is mfd, not a LED patch, so I undone that. Sorry for the confusion.
-> 
-> Anyway, patch still looks good to me:
-> 
-> Acked-by: Pavel Machek <pavel@ucw.cz>
+will send a new version with some minor tweaks!
 
-Thanks Pavel.
+On Wed, Dec 30, 2020 at 8:09 PM Pavel Machek <pavel@ucw.cz> wrote:
 
-I plan on taking this next week.
+> > +     if (ret1 || ret2) {
+> > +             dev_err(rt->dev,
+> > +                     "either %s or %s missing from DT, using HW max\n"=
+,
+> > +                     resistance, max_ua_prop);
+> > +             max_ma =3D RT8515_MAX_IOUT_MA;
+> > +             max_intensity =3D hw_max;
+> > +             goto out_assign_max;
+> > +     }
+>
+> I'd go with some minimum values if we don't have complete information
+> from devicetree.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+I think this is safe because of the way the current limiting
+resistors work, the device is designed to have hardware
+constraints on currents. The max brightness is the max
+current as limited by hardware. It is not possible to break
+this LED with software.
+
+Of course someone could have mounted the LED in violation
+of the manual but ... we can't protect for everything I think.
+
+The resistances etc is mainly here to give v4l an idea of the
+current since V4L is a current-oriented API. Not a good fit
+in this case, but with these DT properties we can make it fit
+somewhat so ... =C2=AF\_(=E3=83=84)_/=C2=AF
+
+> > +MODULE_LICENSE("GPL v2");
+>
+> v2+, iirc?
+
+It seems GPL-2.0-or-late just use "GPL" as license so I changed
+to that.
+
+Yours,
+Linus Walleij
