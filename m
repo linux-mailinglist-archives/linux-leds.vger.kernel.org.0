@@ -2,109 +2,240 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F23572E83EF
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Jan 2021 15:21:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CDAC2E894C
+	for <lists+linux-leds@lfdr.de>; Sun,  3 Jan 2021 00:17:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727135AbhAAOUi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 1 Jan 2021 09:20:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40212 "EHLO
+        id S1726881AbhABXQC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 2 Jan 2021 18:16:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726257AbhAAOUh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Jan 2021 09:20:37 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAC67C061575
-        for <linux-leds@vger.kernel.org>; Fri,  1 Jan 2021 06:19:56 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id h205so49173912lfd.5
-        for <linux-leds@vger.kernel.org>; Fri, 01 Jan 2021 06:19:56 -0800 (PST)
+        with ESMTP id S1726807AbhABXQB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 2 Jan 2021 18:16:01 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B71C061573
+        for <linux-leds@vger.kernel.org>; Sat,  2 Jan 2021 15:15:20 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id h22so56130228lfu.2
+        for <linux-leds@vger.kernel.org>; Sat, 02 Jan 2021 15:15:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=QsPmcpPsnbLYhOMm5UbpDdIc3jRbIuXMnc0dIdfRJHg=;
-        b=ErisSbaPcB8BB4XhBaWiauqo6oXZ2o5NsyVejRrRaKper3qCdYovSNVlXPD3wRx1xB
-         UFwuAu4cpmxBx+mRF7I7XoC1BKvwvLnvuK1PpXRKuLEWxrP9GvrUlmZLJ93tADwZxdyY
-         +b9Ce0wgIDopTSu5KBkkoRIHjCIrQp2SmxDdTKljJzHZzaYpFO8BWikWDK2tXiynpi/Y
-         ayxFzMP5kebCNJvMaiH9BugTZs1fD4mB9U+6Q2J/3i982m/x7bKORtkO3EmFk+kttqrZ
-         i6nwdpUIimpvx3Bc/HiB9YgWmjB88ghyc9bOXY0PAvZTcGzypsqNyKJs/PYXqCjj0K59
-         433A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9u5iq0kakVYuhYGTXnHBQdkf9ffgnEBS99aL91HMqDo=;
+        b=MUFfk9CS9fx2VjHaXZWTy6GR3mmpUKsZ5EOCcU2em3GuTF62+u03OyZ8n5rYX3Hzo9
+         lMkp8FmS2/40hEJL66NEf/IA+tOLSdKwcKhGNLEvjeOmwb1PQqbxi0VKYMiL2YHfIEnN
+         PWCdaDLldw4Ao+FmunpMXDc1VF3vbJZKiUnQ/5etxu55/0PXOUBeq6iGji91OZomG7Jv
+         hNbrNVyy8wO6WusIow2dhDGiXURbZRH4374scdT7XygMpZEUU9UVONV2CgWx1nI4kYLV
+         CelvX2H7QL8ahpjzopZ2lRgRp9dvin+xT574GLTy1I4rUpHKxCIxxzCJCctdGbZFsfGm
+         APUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=QsPmcpPsnbLYhOMm5UbpDdIc3jRbIuXMnc0dIdfRJHg=;
-        b=DMV2za8UddGxEZyDr1Faj3k7EbcIhTY4WPqZxJ3UdhyHI4FBXg8IliuthkoPqkHkI5
-         IJ/v0XZpedqtjDp0RXfspH/yk/mt2NJl3asc3acoe2/e0cd7/Pg5Z/sna8s3Z/1H8W8o
-         hoh1miNI9N6woe7Mc79w9QIb4ZyIWgCeQ5v3X/lYZJC1qQINa1+mOadjpXkpuVccUGxB
-         HzXnlIn/MJCJ9D5bPX9in5Zzz3BF2Ws8OaDRDJNxgRrlk5L4eesBN4iLQUqRNs7zi4sE
-         IH1B8hmr/jRDdH5iyuxlZAc+9BES1du25LrincHN6zS+VkzURaleRqiiESAPpMjfEFM3
-         wYxQ==
-X-Gm-Message-State: AOAM530uiTO/SxJdQFSOzfr7svI6s0E5vNmROAki5hfBs9QsD2lqb6Dr
-        luI8K76lho4cj+IhkNCycldpGnWFDlsCrC62OS6kSBzasuI8pw==
-X-Google-Smtp-Source: ABdhPJxjCnV8DIPwpx74Q8C5a9/BZjmLvCTVWXleQYJzFd8wFli1vcpOuHDFfoh4HZJiP/V09zBm24OUcYJkBpc5Fmk=
-X-Received: by 2002:a05:6512:3f3:: with SMTP id n19mr28579606lfq.586.1609510795503;
- Fri, 01 Jan 2021 06:19:55 -0800 (PST)
-MIME-Version: 1.0
-References: <20201201101350.1401956-1-linus.walleij@linaro.org>
- <20201201101350.1401956-2-linus.walleij@linaro.org> <20201230190907.GE25903@duo.ucw.cz>
-In-Reply-To: <20201230190907.GE25903@duo.ucw.cz>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9u5iq0kakVYuhYGTXnHBQdkf9ffgnEBS99aL91HMqDo=;
+        b=c9PBT2l0eKX2XRln8v1g8qYfCpiyJkdu8z2B6wYG4sIllvjuscw/Ts2D9icW2UaFSa
+         dHS/ezGwSo2fyMMScbansb1D3zWxoKV8ecMFHFhDQGM8kiDf0Kr9j3BCaWSH6+q0win3
+         PhpiSLJ+4VS94CpUOcvcT9gcbaSpEe3p8jojd+Lu77UopTxt9aRzy/PpK7OzpzxtAg5P
+         IzG/foFnoNj3TFwIULIBAHIr4DnoesihvmY+aebs/k8fOMbPND1DjxPb//ngKgFlR9rA
+         9rtIuJFA6f3D8r6oDOyd7ABnpgdKZ6vgmTKCrSvjkdmX2vBu62pGE7VFqtsTnF7O0yso
+         4fjA==
+X-Gm-Message-State: AOAM530T1JXMOdX0596ibm8lIrTGMyTH6h+zX52aKtWDbJ0AUHFpUcQ0
+        LctR9opQteGVL68xqemy9WR3mAJuAImaPw==
+X-Google-Smtp-Source: ABdhPJxmzHUIr58FJHaHzsPt+OG8rCwS6vmlqmBDuEodSdZcFJDmb+pcc+K/jwAABr3P/dGaPUkZ2g==
+X-Received: by 2002:a19:6901:: with SMTP id e1mr28116772lfc.335.1609629318794;
+        Sat, 02 Jan 2021 15:15:18 -0800 (PST)
+Received: from localhost.localdomain (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+        by smtp.gmail.com with ESMTPSA id 204sm6833732lfj.269.2021.01.02.15.15.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Jan 2021 15:15:18 -0800 (PST)
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 1 Jan 2021 15:19:44 +0100
-Message-ID: <CACRpkdYtcmLc3GsJA8H0g_G55Cnffn2Tm2da6UOqyv2DSn_UXQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2 v7] leds: rt8515: Add Richtek RT8515 LED driver
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
         Sakari Ailus <sakari.ailus@iki.fi>, newbytee@protonmail.com,
         Stephan Gerhold <stephan@gerhold.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        phone-devel@vger.kernel.org,
+        phone-devel@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH 1/2 v9] dt-bindings: leds: Add DT binding for Richtek RT8515
+Date:   Sun,  3 Jan 2021 00:15:09 +0100
+Message-Id: <20210102231510.2068851-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Pavel,
+Add a YAML devicetree binding for the Richtek RT8515
+dual channel flash/torch LED driver.
 
-will send a new version with some minor tweaks!
+Cc: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: newbytee@protonmail.com
+Cc: Stephan Gerhold <stephan@gerhold.net>
+Cc: phone-devel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v8->v9:
+- No changes, resend with the driver.
+ChangeLog v7->v8:
+- Add additionalProperties: fals to the leds subnode
+- Fix the bug in the example.
+- Collect Rob's Reviewed-by.
+ChangeLog v6->v7:
+- Use led-max-microamp for the torch mode max current.
+- Drop the torch-specific new property from common.yaml in
+  favor of this property.
+- Collect Sakari's review tag.
+ChangeLog v5->v6:
+- Use the suffix -ohms for the resistor values as this gets
+  recognized by default by dtschema and is nominal.
+ChangeLog v4->v5:
+- Fix the RFS/RTS resistors to reference the u32 schema.
+- Fix resisitor speling error.
+ChangeLog v3->v4:
+- Add DT attributes for the RFS and RTS resistors, so that
+  the hardware-defined maximum current can be determined.
+- Add torch-max-microamp to the common bindings so we can
+  set an attribute for the max microamp in torch mode.
+- Add flash-max-microamp and torch-max-microamp as optional
+  to the LED node.
+- Slot in some elabortative descriptions of the new
+  properties and describe what the hardware is doing.
+- Cc phone-devel@vger.kernel.org
+ChangeLog v2->v3:
+- Add Sakari to CC
+- Resend
+ChangeLog v1->v2:
+- Explicitly inherit function, color and flash-max-timeout-us
+  from common.yaml
+- Add "led" node as required.
+---
+ .../bindings/leds/richtek,rt8515.yaml         | 111 ++++++++++++++++++
+ 1 file changed, 111 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
 
-On Wed, Dec 30, 2020 at 8:09 PM Pavel Machek <pavel@ucw.cz> wrote:
+diff --git a/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml b/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+new file mode 100644
+index 000000000000..68c328eec03b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+@@ -0,0 +1,111 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/richtek,rt8515.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Richtek RT8515 1.5A dual channel LED driver
++
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
++
++description: |
++  The Richtek RT8515 is a dual channel (two mode) LED driver that
++  supports driving a white LED in flash or torch mode. The maximum
++  current for each mode is defined in hardware using two resistors
++  RFS and RTS.
++
++properties:
++  compatible:
++    const: richtek,rt8515
++
++  enf-gpios:
++    maxItems: 1
++    description: A connection to the 'ENF' (enable flash) pin.
++
++  ent-gpios:
++    maxItems: 1
++    description: A connection to the 'ENT' (enable torch) pin.
++
++  richtek,rfs-ohms:
++    minimum: 7680
++    maximum: 367000
++    description: The resistance value of the RFS resistor. This
++      resistors limits the maximum flash current. This must be set
++      for the property flash-max-microamp to work, the RFS resistor
++      defines the range of the dimmer setting (brightness) of the
++      flash LED.
++
++  richtek,rts-ohms:
++    minimum: 7680
++    maximum: 367000
++    description: The resistance value of the RTS resistor. This
++      resistors limits the maximum torch current. This must be set
++      for the property torch-max-microamp to work, the RTS resistor
++      defines the range of the dimmer setting (brightness) of the
++      torch LED.
++
++  led:
++    type: object
++    $ref: common.yaml#
++    properties:
++      function: true
++      color: true
++      flash-max-timeout-us: true
++
++      flash-max-microamp:
++        maximum: 700000
++        description: The maximum current for flash mode
++          is hardwired to the component using the RFS resistor to
++          ground. The maximum hardware current setting is calculated
++          according to the formula Imax = 5500 / RFS. The lowest
++          allowed resistance value is 7.86 kOhm giving an absolute
++          maximum current of 700mA. By setting this attribute in
++          the device tree, you can further restrict the maximum
++          current below the hardware limit. This requires the RFS
++          to be defined as it defines the maximum range.
++
++      led-max-microamp:
++        maximum: 700000
++        description: The maximum current for torch mode
++          is hardwired to the component using the RTS resistor to
++          ground. The maximum hardware current setting is calculated
++          according to the formula Imax = 5500 / RTS. The lowest
++          allowed resistance value is 7.86 kOhm giving an absolute
++          maximum current of 700mA. By setting this attribute in
++          the device tree, you can further restrict the maximum
++          current below the hardware limit. This requires the RTS
++          to be defined as it defines the maximum range.
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - ent-gpios
++  - enf-gpios
++  - led
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/leds/common.h>
++
++    led-controller {
++        compatible = "richtek,rt8515";
++        enf-gpios = <&gpio4 12 GPIO_ACTIVE_HIGH>;
++        ent-gpios = <&gpio4 13 GPIO_ACTIVE_HIGH>;
++        richtek,rfs-ohms = <16000>;
++        richtek,rts-ohms = <100000>;
++
++        led {
++            function = LED_FUNCTION_FLASH;
++            color = <LED_COLOR_ID_WHITE>;
++            flash-max-timeout-us = <250000>;
++            flash-max-microamp = <150000>;
++            led-max-microamp = <25000>;
++        };
++    };
++
++...
+-- 
+2.29.2
 
-> > +     if (ret1 || ret2) {
-> > +             dev_err(rt->dev,
-> > +                     "either %s or %s missing from DT, using HW max\n"=
-,
-> > +                     resistance, max_ua_prop);
-> > +             max_ma =3D RT8515_MAX_IOUT_MA;
-> > +             max_intensity =3D hw_max;
-> > +             goto out_assign_max;
-> > +     }
->
-> I'd go with some minimum values if we don't have complete information
-> from devicetree.
-
-I think this is safe because of the way the current limiting
-resistors work, the device is designed to have hardware
-constraints on currents. The max brightness is the max
-current as limited by hardware. It is not possible to break
-this LED with software.
-
-Of course someone could have mounted the LED in violation
-of the manual but ... we can't protect for everything I think.
-
-The resistances etc is mainly here to give v4l an idea of the
-current since V4L is a current-oriented API. Not a good fit
-in this case, but with these DT properties we can make it fit
-somewhat so ... =C2=AF\_(=E3=83=84)_/=C2=AF
-
-> > +MODULE_LICENSE("GPL v2");
->
-> v2+, iirc?
-
-It seems GPL-2.0-or-late just use "GPL" as license so I changed
-to that.
-
-Yours,
-Linus Walleij
