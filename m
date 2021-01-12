@@ -2,99 +2,109 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25E4D2F15C3
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Jan 2021 14:45:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 748A72F2F3B
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Jan 2021 13:38:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387615AbhAKNog (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 11 Jan 2021 08:44:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56018 "EHLO
+        id S1726451AbhALMh6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 12 Jan 2021 07:37:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731796AbhAKNoe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 Jan 2021 08:44:34 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73FC3C061786;
-        Mon, 11 Jan 2021 05:43:53 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id jx16so24741983ejb.10;
-        Mon, 11 Jan 2021 05:43:53 -0800 (PST)
+        with ESMTP id S1732988AbhALMh6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 12 Jan 2021 07:37:58 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80DB0C061575;
+        Tue, 12 Jan 2021 04:37:17 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id y187so1974011wmd.3;
+        Tue, 12 Jan 2021 04:37:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=TqQMMmVG//s097FZcK6S1d+MUdnJBT3N8IWJdlGCSdY=;
-        b=vQ7xg/NMs8B/jW9COLAiIpNiEJ+21BdjvoLnazkLt9/lR13If2ikF5RZJksFN0Dkoo
-         C0zqtI4JCm9GWfi/CnjsDhI23DQE22A6bgR9PF4vRW7MkpPcJj/AfIk/3yfLeBcsdnrl
-         Yxa9K6+wwF493HZ7SArizr69FpCLfQl6lpgliMFGI+kKl21Gl8bYrR6g9FSUpBY5PsE3
-         tGUj1wkuFyjj1ZdM3ORq7/uzV+J+9E46Sk41CqgvwrUGYV7JHTTfAzR2DYg1oKwxXg5l
-         95cO6WK6GrEoNp+J3zEoxppuEPX80yVLWxK08AgEQL/vFBuUgkRl+BMTYNyireUNYVig
-         F/YA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=zMd+XHnFId1Wgsed2jprrzroN/fiYe/FbbKUqXbc1O0=;
+        b=aWA3DhcWQA4MMreD6ZpfYBr9Teauz1ija7KFv0t8RsCuZ3BgBrC4psZs8ddKqaLHB2
+         EO05spt+UYI/Qr+5fbAOB7i9a+iY7CV0ZJjLJzMQYYUPAJihDA0T3QC5Sbfz6lWBCzH/
+         /XAPI0j+Ozy2pTr9of7gGDBbkx0VAmByJleOS+Esmo5Ge8JaHy4ztwrCW64L4agiq/kN
+         HYlBLDRW0h6CdZrfGdwC/3aXBcXuaJlarGOV2kNXaLricmUn+sSztl/+NxdnEA7rT7s2
+         o2f0OOpmiUjX3DPyR7Q18jfa43bLapYMzi7XObUWHV4bcY1GirEU6n2pbcgOn1Lx/mmm
+         gw3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TqQMMmVG//s097FZcK6S1d+MUdnJBT3N8IWJdlGCSdY=;
-        b=dA886S/8gKGJScICiiMhsQDVcDs7yXMRws7AodAdW6A34rnzYKHqBAPeMc1OnbSxIN
-         /y8w0V5f23i2OV/eqi96ipfpildcKQjqrx3Cq44UmCADUdkDoqKE0NtUorPL1apoYAvm
-         vPqeaSevdY1ZuV6hTcYqDB+7vgyxrf8Q05zOTo/lbaA1c0WkBODsuWRpwfBuLiGe/wQT
-         s7ddCkFscOyvLccnb+6zvpKNR8kRrZrpw/aO0nB1Hl5j8hH+b3jyYHe+MfWtZ1FLcJQF
-         04mBDeZ/vqP5H8ocYZezmzTmHxM01ihtQECiG9YxqpR4RXBs3WSCOCNiGz8LRQJ53aSK
-         eamg==
-X-Gm-Message-State: AOAM532/2G4h2sMoeaAjxhcE9Rq5fZ+Z0TQEVqv09bvUporakHisUWXT
-        6rn/hdi8c5GxqC4ExXReOV0=
-X-Google-Smtp-Source: ABdhPJxqhexf4kPL914wqbd3XhrF0WLk2Dmhk3wPJ0oFcVMccX9vwvzyZgV6p+0xwhhjVShAmlSr8g==
-X-Received: by 2002:a17:906:7689:: with SMTP id o9mr5102315ejm.324.1610372632156;
-        Mon, 11 Jan 2021 05:43:52 -0800 (PST)
-Received: from skbuf (5-12-227-87.residential.rdsnet.ro. [5.12.227.87])
-        by smtp.gmail.com with ESMTPSA id t26sm7120228eji.22.2021.01.11.05.43.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 05:43:51 -0800 (PST)
-Date:   Mon, 11 Jan 2021 15:43:49 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     DENG Qingfang <dqfext@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-gpio@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zMd+XHnFId1Wgsed2jprrzroN/fiYe/FbbKUqXbc1O0=;
+        b=i/g/FnNZwdzOqreURI1ozo5qE5zXU3GlHXdfW78wlEfjTvui2HHnH0jTFXrwHaiiVF
+         lkTQ0upMRV4YLgB4xBOEcK5hNtiTOkio5Uq3UTanU4D4dbZvg2fZ4+woDJ+EDAftf371
+         Xb5oAgtPCBFYSrrSRKPncejQnC2oziGHwInGW4CaYfKWTaP0iqoppHOZ0oA88xqWb3yD
+         l3n0RA1OCLg39uUnhF/7DBflatBSRJNFXCi2OWnUFshLOFIS2bDXh/WlmCBSzlBT2XjV
+         7fLTTTXMKRW06BPT4CSdbY7rDmxT36lofENiljlzi5+p+HSjhULp63SjYwp7o4dnX+7k
+         MKng==
+X-Gm-Message-State: AOAM533W5UWo3FXe+2iSZo7Nb05D5/adHP4wLJxrlmopdZUzUI4kMWyy
+        8JmJl/LBzIEzN1UL0utasO4=
+X-Google-Smtp-Source: ABdhPJzZkIBM3vrqBllD/XocErsVNCfAdadbHNNKk+/k3bsFTvdI16XOCSkzqQsfYYoGVSRaasxoaA==
+X-Received: by 2002:a05:600c:20f:: with SMTP id 15mr3446491wmi.36.1610455036332;
+        Tue, 12 Jan 2021 04:37:16 -0800 (PST)
+Received: from ziggy.stardust ([213.195.126.134])
+        by smtp.gmail.com with ESMTPSA id o74sm4107446wme.36.2021.01.12.04.37.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Jan 2021 04:37:15 -0800 (PST)
+Subject: Re: [PATCH v13 5/5] leds: mt6360: Add LED driver for MT6360
+To:     Gene Chen <gene.chen.richtek@gmail.com>,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org
+Cc:     dmurphy@ti.com, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Frank Wunderlich <frank-w@public-files.de>,
-        =?utf-8?B?UmVuw6k=?= van Dorst <opensource@vdorst.com>
-Subject: Re: [PATCH net-next 0/2] dsa: add MT7530 GPIO support
-Message-ID: <20210111134349.vdhyebdllbaakukk@skbuf>
-References: <20210111054428.3273-1-dqfext@gmail.com>
+        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
+        shufan_lee@richtek.com, cy_huang@richtek.com,
+        benjamin.chao@mediatek.com
+References: <1608547554-6602-1-git-send-email-gene.chen.richtek@gmail.com>
+ <1608547554-6602-6-git-send-email-gene.chen.richtek@gmail.com>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+Message-ID: <1e752ae6-f973-11c3-1780-d11d2af497be@gmail.com>
+Date:   Tue, 12 Jan 2021 13:37:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210111054428.3273-1-dqfext@gmail.com>
+In-Reply-To: <1608547554-6602-6-git-send-email-gene.chen.richtek@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 01:44:26PM +0800, DENG Qingfang wrote:
-> MT7530's LED controller can be used as GPIO controller. Add support for
-> it.
-> 
-> DENG Qingfang (2):
->   dt-bindings: net: dsa: add MT7530 GPIO controller binding
->   drivers: net: dsa: mt7530: MT7530 optional GPIO support
-> 
->  .../devicetree/bindings/net/dsa/mt7530.txt    |  6 ++
->  drivers/net/dsa/mt7530.c                      | 96 +++++++++++++++++++
->  drivers/net/dsa/mt7530.h                      | 20 ++++
->  3 files changed, 122 insertions(+)
-> 
-> -- 
-> 2.25.1
 
-Adding GPIO and LED maintainers to also have a look.
-https://patchwork.kernel.org/project/netdevbpf/cover/20210111054428.3273-1-dqfext@gmail.com/
+
+On 21/12/2020 11:45, Gene Chen wrote:
+> From: Gene Chen <gene_chen@richtek.com>
+[...]
+> +
+> +static const struct of_device_id __maybe_unused mt6360_led_of_id[] = {
+> +	{ .compatible = "mediatek,mt6360-led", },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, mt6360_led_of_id);
+> +
+
+I think we should fix MFD code to not need to use a DT binding here. See [1].
+
+Regards,
+Matthias
+
+[1] https://lore.kernel.org/linux-mediatek/20210111164118.GE4728@sirena.org.uk/
+
+
+> +static struct platform_driver mt6360_led_driver = {
+> +	.driver = {
+> +		.name = "mt6360-led",
+> +		.of_match_table = mt6360_led_of_id,
+> +	},
+> +	.probe = mt6360_led_probe,
+> +	.remove = mt6360_led_remove,
+> +};
+> +module_platform_driver(mt6360_led_driver);
+> +
+> +MODULE_AUTHOR("Gene Chen <gene_chen@richtek.com>");
+> +MODULE_DESCRIPTION("MT6360 LED Driver");
+> +MODULE_LICENSE("GPL v2");
+> 
