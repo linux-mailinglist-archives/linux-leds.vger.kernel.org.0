@@ -2,114 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68F5E2F4702
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Jan 2021 10:03:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 755432F4FA7
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Jan 2021 17:16:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727340AbhAMJBS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 13 Jan 2021 04:01:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29034 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727389AbhAMJBR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 13 Jan 2021 04:01:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610528390;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QuTRToQJZ9ENJOQ+foe03ejm+/o+GM2tw6NDRHaUP34=;
-        b=MDpfO/Bm5WKjkN8+DTYLaDe/SB62GyFDmH/vZanD6JjyWW+cCXQlbJkThnNltc2vCnVWQy
-        mEOVssmKpYb7kMP1pPSjD6Oz3bTuVdpUW/ggVlWiZ2XPYaOEE6sunun/2xDX1qFggRZ+nh
-        Q7SyyCio1ljCKNnHoB1uCtcuCzOUCe8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-jNnMw4duOOaLbHvckZcudg-1; Wed, 13 Jan 2021 03:59:46 -0500
-X-MC-Unique: jNnMw4duOOaLbHvckZcudg-1
-Received: by mail-ej1-f69.google.com with SMTP id gs3so639208ejb.5
-        for <linux-leds@vger.kernel.org>; Wed, 13 Jan 2021 00:59:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QuTRToQJZ9ENJOQ+foe03ejm+/o+GM2tw6NDRHaUP34=;
-        b=b0+Lzb9W6ypZK0lx9Sk9xRrbnBqcFcfpJnHTdeN0aAqkuNqoxeiOK98vnaKA/oya1Q
-         PFg1ZrW8YcDDmh5/h0LP7+YJjnL2ZAQ/Mxn/VeDxHrXKsYDd6KVWq6GJNaSRhR9KFF23
-         mX1yKDTlcSznbQE0j2HDWbTO/QhrNJwtaLE2l5XwCmzXTPEG2MsvoT+4YT/H/cV3GNhe
-         6vbK7my7KwyJVlpvRP2u1w2yxzKQh5zUnUj6wopWYQFXXmi04ZmGrtWJ+XGBBZ0/nMHA
-         t0u0DlaAPM5wRq9dp6N1OAWomUqnjJZ2nGC/OoqTk1MPBYPXG3+VpRoxHz57zAKy22rU
-         XssA==
-X-Gm-Message-State: AOAM532yQheE1RxoZSmU6dgDjx29NVV5Oh+oyj2LHzGjCxLvWb4o7/Cb
-        dId0w73xvuJ9VGTgkASila+uOgw6w5tHRqSEqRdpfCjUYuHmaGb67eUGG95gKLTJVBNFZ4fjtLJ
-        bS63c2EBy5j4aZorNByB0oA==
-X-Received: by 2002:a17:906:adce:: with SMTP id lb14mr825176ejb.502.1610528385584;
-        Wed, 13 Jan 2021 00:59:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyFa+J3n+6YPkg6zlbrlGTjqx+UvGVawy0I7OSetvR0OSlaqpYHVx5JIy3LcDri33K59tFgZQ==
-X-Received: by 2002:a17:906:adce:: with SMTP id lb14mr825165ejb.502.1610528385451;
-        Wed, 13 Jan 2021 00:59:45 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
-        by smtp.gmail.com with ESMTPSA id ga11sm441697ejb.34.2021.01.13.00.59.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jan 2021 00:59:44 -0800 (PST)
-Subject: Re: 5.11 new lockdep warning related to led-class code (also may
- involve ata / piix controller)
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jens Axboe <axboe@kernel.dk>, Dan Murphy <dmurphy@ti.com>,
-        linux-ide@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <b204637d-3b72-8320-8a62-f075467d8681@redhat.com>
- <20210112223015.GB28214@duo.ucw.cz>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <f344f1db-1a7a-0a80-1cb1-f9c3fbf83abd@redhat.com>
-Date:   Wed, 13 Jan 2021 09:59:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1727072AbhAMQPg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 13 Jan 2021 11:15:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42396 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726003AbhAMQPg (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 13 Jan 2021 11:15:36 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5477D23339;
+        Wed, 13 Jan 2021 16:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1610554494;
+        bh=rAxbfr1yH9EfqpiSDkdLoshUOly8OCUxRatOfRqD8+U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=c5P/ND0CGFBaf8j3KWnNJIQpMlnKQ1qsjdMYt1VaNwyDUqEQKp3IJAarwo0tyRwfb
+         VjdJx/wgcMMjUcARj5rnP3a35UzRqqIjGgqyHJlyIGqL0CiuobhgUtNI6hvH5pBijF
+         nKjUhHRaS3zMx0Y7o7aj3EhxUDx0+JFD/yj8cAv8=
+Date:   Wed, 13 Jan 2021 17:16:00 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Jiri Slaby <jslaby@suse.com>, linux-serial@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v10 3/3] leds: trigger: implement a tty trigger
+Message-ID: <X/8cwD51DYhzRdDO@kroah.com>
+References: <20201218104246.591315-1-u.kleine-koenig@pengutronix.de>
+ <20201218104246.591315-4-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20210112223015.GB28214@duo.ucw.cz>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201218104246.591315-4-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
-
-On 1/12/21 11:30 PM, Pavel Machek wrote:
-> Hi!
+On Fri, Dec 18, 2020 at 11:42:46AM +0100, Uwe Kleine-König wrote:
+> Usage is as follows:
 > 
->> Booting a 5.11-rc2 kernel with lockdep enabled inside a virtualbox vm (which still
->> emulates good old piix ATA controllers) I get the below lockdep splat early on during boot:
->>
->> This seems to be led-class related but also seems to have a (P)ATA
->> part to it. To the best of my knowledge this is a new problem in
->> 5.11 .
+> 	myled=ledname
+> 	tty=ttyS0
 > 
-> This is on my for-next branch:
+> 	echo tty > /sys/class/leds/$myled/trigger
+> 	echo $tty > /sys/class/leds/$myled/ttyname
 > 
-> commit 9a5ad5c5b2d25508996f10ee6b428d5df91d9160 (HEAD -> for-next, origin/for-next)
+> . When this new trigger is active it periodically checks the tty's
+> statistics and when it changed since the last check the led is flashed
+> once.
 > 
->     leds: trigger: fix potential deadlock with libata
->     
->     We have the following potential deadlock condition:
->     
->      ========================================================
->      WARNING: possible irq lock inversion dependency detected
->      5.10.0-rc2+ #25 Not tainted
->      --------------------------------------------------------
->      swapper/3/0 just changed the state of lock:
->      ffff8880063bd618 (&host->lock){-...}-{2:2}, at: ata_bmdma_interrupt+0x27/0x200
->      but this lock took another, HARDIRQ-READ-unsafe lock in the past:
->       (&trig->leddev_list_lock){.+.?}-{2:2}
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>  .../ABI/testing/sysfs-class-led-trigger-tty   |   6 +
+>  drivers/leds/trigger/Kconfig                  |   9 +
+>  drivers/leds/trigger/Makefile                 |   1 +
+>  drivers/leds/trigger/ledtrig-tty.c            | 188 ++++++++++++++++++
+>  4 files changed, 204 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-tty
+>  create mode 100644 drivers/leds/trigger/ledtrig-tty.c
 > 
-> If I'm not mistaken, that should fix your issue.
+> diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-tty b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
+> new file mode 100644
+> index 000000000000..2bf6b24e781b
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-class-led-trigger-tty
+> @@ -0,0 +1,6 @@
+> +What:		/sys/class/leds/<led>/ttyname
+> +Date:		Dec 2020
+> +KernelVersion:	5.10
+> +Contact:	linux-leds@vger.kernel.org
+> +Description:
+> +		Specifies the tty device name of the triggering tty
+> diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
+> index ce9429ca6dde..b77a01bd27f4 100644
+> --- a/drivers/leds/trigger/Kconfig
+> +++ b/drivers/leds/trigger/Kconfig
+> @@ -144,4 +144,13 @@ config LEDS_TRIGGER_AUDIO
+>  	  the audio mute and mic-mute changes.
+>  	  If unsure, say N
+>  
+> +config LEDS_TRIGGER_TTY
+> +	tristate "LED Trigger for TTY devices"
+> +	depends on TTY
+> +	help
+> +	  This allows LEDs to be controlled by activity on ttys which includes
+> +	  serial devices like /dev/ttyS0.
+> +
+> +	  When build as a module this driver will be called ledtrig-tty.
+> +
+>  endif # LEDS_TRIGGERS
+> diff --git a/drivers/leds/trigger/Makefile b/drivers/leds/trigger/Makefile
+> index 733a83e2a718..25c4db97cdd4 100644
+> --- a/drivers/leds/trigger/Makefile
+> +++ b/drivers/leds/trigger/Makefile
+> @@ -15,3 +15,4 @@ obj-$(CONFIG_LEDS_TRIGGER_PANIC)	+= ledtrig-panic.o
+>  obj-$(CONFIG_LEDS_TRIGGER_NETDEV)	+= ledtrig-netdev.o
+>  obj-$(CONFIG_LEDS_TRIGGER_PATTERN)	+= ledtrig-pattern.o
+>  obj-$(CONFIG_LEDS_TRIGGER_AUDIO)	+= ledtrig-audio.o
+> +obj-$(CONFIG_LEDS_TRIGGER_TTY)		+= ledtrig-tty.o
+> diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
+> new file mode 100644
+> index 000000000000..c1e87c0d23c3
+> --- /dev/null
+> +++ b/drivers/leds/trigger/ledtrig-tty.c
+> @@ -0,0 +1,188 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/delay.h>
+> +#include <linux/leds.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/tty.h>
+> +#include <uapi/linux/serial.h>
+> +
+> +struct ledtrig_tty_data {
+> +	struct led_classdev *led_cdev;
+> +	struct delayed_work dwork;
+> +	struct mutex mutex;
+> +	const char *ttyname;
+> +	struct tty_struct *tty;
+> +	int rx, tx;
+> +};
+> +
+> +static void ledtrig_tty_halt(struct ledtrig_tty_data *trigger_data)
+> +{
+> +	cancel_delayed_work_sync(&trigger_data->dwork);
+> +}
 
-I can confirm that this fixes things, thanks.
+This causes the following build warning with the patch applied:
 
-I assume that this will be part of some future 5.11 fixes pull-req?
+drivers/leds/trigger/ledtrig-tty.c:19:13: warning: ‘ledtrig_tty_halt’ defined but not used [-Wunused-function]
+   19 | static void ledtrig_tty_halt(struct ledtrig_tty_data *trigger_data)
+      |             ^~~~~~~~~~~~~~~~
 
-Regards,
+Can you fix this up and just resend this patch (the other 2 are already
+in my tree), so that I can queue it up?
 
-Hans
+thanks,
 
+greg k-h
