@@ -2,105 +2,125 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48BF22F5DDC
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Jan 2021 10:39:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEE012F5E44
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Jan 2021 11:05:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728317AbhANJhW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Jan 2021 04:37:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58342 "EHLO
+        id S1726858AbhANKD5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 14 Jan 2021 05:03:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728272AbhANJhU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jan 2021 04:37:20 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72BA1C061795
-        for <linux-leds@vger.kernel.org>; Thu, 14 Jan 2021 01:36:34 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id 6so7210957ejz.5
-        for <linux-leds@vger.kernel.org>; Thu, 14 Jan 2021 01:36:34 -0800 (PST)
+        with ESMTP id S1728199AbhANKD4 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jan 2021 05:03:56 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF4C4C061757
+        for <linux-leds@vger.kernel.org>; Thu, 14 Jan 2021 02:03:16 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id 91so5116543wrj.7
+        for <linux-leds@vger.kernel.org>; Thu, 14 Jan 2021 02:03:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4WPhESZ2Ino1UQ+7G+F0v8AM8oEjEHY5bkl74A+HS9U=;
-        b=SHJ9j/iZ90wmHmG96hK7ogsn+S7r1luxoBa6keVoDk4NWbSCNnoALijDtih8olEzBp
-         eDDDm4LvTYIbIOa9nrF326FdHiHrMyGHEI0TXd3HrkbhFqbAVtF/7e5WQUgCknaSHz2x
-         oaFoSLatWj55lgEdC8DqqwywnwvJxqk6B9c+akWMvuSp2zsd7hpbZ5o5I5aijPmm7V6s
-         zwK4nJ3wNqC2p35i6MuadpL+gY2FguImFJ1W8Ikba4vihJrR/AQPmBP33UibkinQaJwF
-         Qv9v/EYxpCWlszMU3oHqnTK2fSoOvRL037tvswAb4X2vqXIa3f/aG5y1lQsta3pccOjm
-         akZA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=oVf5kDc7i4gGrzg222CFywiTCholDlEVEzBooRbeXN8=;
+        b=lNr9TM2KRK50yFUSVqvQRC2+d8NR6/ezTC8nz87RztuEm0sg8oFVZ8y/GwJu5fmbuy
+         fYHUI2RWogLsikN9SnHQipAiHDGDc1iscx3mN0jbaxwjTcDQ0ZVtTW8fUsLtiGBQW1Q1
+         AKfeQ1ODq0/1MA3AOJBalS1gNW0n1axzkT2WZXyba4RRsLVzZn2saNJpv/dEYHRUicJF
+         cy5rlCwzCpe0zLOzmTd1UhR5H8lUdW/NIPwujCtBAv7zdrfaCFXLG4Tew5MNdkvkGGm0
+         1fvVpBLtBl0dMLy8xB3oQ4gsFCDJ3uv0n491bAWkFkP/SVR3QtNXDcjHubOMox2quEnn
+         hbJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4WPhESZ2Ino1UQ+7G+F0v8AM8oEjEHY5bkl74A+HS9U=;
-        b=mEsBbg8KdVhAGmaoVbWi/GE4ZBEXLgLZ800QFT73dPcceD6gR9r7CRu+gIoGtrpZly
-         n0bLEVXttqg8g7qK1vo5SePhFO9CUk+CktzeA2o9wvww+0Lohs9F4T60UorNCt0H6IAU
-         nOD0zYWFwo92HAkQMe76qMVO4sA+DafFQAjP56v5h08GdlWvewTa/M3oNTJeMzx5kv9k
-         Rq/QcdSaIAcKETkbMLlu57GdFa41llYx6z2Zc35zCC5Mox29t3quUOfB0MJAGm/3SYBd
-         +9XWzKE89zYjtrY2/7+r5qfPJTynZ1/VafokEuGNs7QpLiXabxAhBPzJLonBNyJrfy3w
-         wJXA==
-X-Gm-Message-State: AOAM530ELX1DtZlY4S4BOMqI3eXRauU3If2HFRq5Ps1f7QLSle6pod5k
-        y92wobLMNCGVh5DZ9EJgtTV3pqWJPSAIwZCLI4eJzw==
-X-Google-Smtp-Source: ABdhPJyrveNlmYlJtZwqPTnLW1uRvgk2qAwIeuLIPI8/FEwrO+3RCMe8L28l1DrM60nxOvEbNEfYmHp69hbWY7kCXSc=
-X-Received: by 2002:a17:906:19c3:: with SMTP id h3mr4605167ejd.429.1610616993048;
- Thu, 14 Jan 2021 01:36:33 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=oVf5kDc7i4gGrzg222CFywiTCholDlEVEzBooRbeXN8=;
+        b=rBbvCIT0m0wno8UbI9mLWWHuxTCpz7qpadupplCKxzbodhvKR7o03wn3vVYZj6sxts
+         3gkOaAjf747oCAUh+6V1QnnnWIoNFFmKRXmxPTgMYHLmGMbNEnb+yOfJgSuCiGeQVYaC
+         oP+uv93jLrfRIjE4cMWwmzwdKXkiK1eIjUdOJvthQNhGImwumPVblAai7wDRyWhNvqUr
+         65EBVDU5fBDY5XXD1Rj9Qt9VBHs6bNXUze6oGl1aOHxnEuyGoLSDXFFj3kkBb+4dziaN
+         5uLQo48wuhQnJTpgOfwJ/KQgTmHhc5TLUsE3rlTj1C9a1jU3vSczLdDN1lHgwPUU3OGj
+         nJSg==
+X-Gm-Message-State: AOAM5338GuGeBABJKYvFol+OM6tRavvEE7lv7Z0kJvXFHqH/PyA51ZGt
+        VfHPhsSeknqkDkmv/B+kICd9wQ==
+X-Google-Smtp-Source: ABdhPJx/ZTFqNdbwMrPPQXGb4a5AARaWdvmncwYK2q1w7//JoVyn/n68+kesxeF+gvUR8rMoynCXCw==
+X-Received: by 2002:adf:ef06:: with SMTP id e6mr6917001wro.231.1610618595259;
+        Thu, 14 Jan 2021 02:03:15 -0800 (PST)
+Received: from dell ([91.110.221.178])
+        by smtp.gmail.com with ESMTPSA id b3sm2474771wrn.70.2021.01.14.02.03.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jan 2021 02:03:14 -0800 (PST)
+Date:   Thu, 14 Jan 2021 10:03:12 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Alexander Dahl <post@lespocky.de>
+Cc:     Rob Herring <robh+dt@kernel.org>, Alexander Dahl <ada@thorsis.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-amlogic@lists.infradead.org, Jeff LaBundy <jeff@labundy.com>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v9 1/4] dt-bindings: mfd: Fix schema warnings for pwm-leds
+Message-ID: <20210114100312.GL3975472@dell>
+References: <20201228163217.32520-1-post@lespocky.de>
+ <20201228163217.32520-2-post@lespocky.de>
 MIME-Version: 1.0
-References: <20210111054428.3273-1-dqfext@gmail.com> <20210111134349.vdhyebdllbaakukk@skbuf>
-In-Reply-To: <20210111134349.vdhyebdllbaakukk@skbuf>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Thu, 14 Jan 2021 10:36:22 +0100
-Message-ID: <CAMpxmJWi=BPvXyE_m0dyfmhuK76wYjVTtmvVEk7xSfPcaTYbkA@mail.gmail.com>
-Subject: Re: [PATCH net-next 0/2] dsa: add MT7530 GPIO support
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     DENG Qingfang <dqfext@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Russell King <linux@armlinux.org.uk>,
-        netdev <netdev@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC..." 
-        <linux-mediatek@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Frank Wunderlich <frank-w@public-files.de>,
-        =?UTF-8?Q?Ren=C3=A9_van_Dorst?= <opensource@vdorst.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201228163217.32520-2-post@lespocky.de>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 2:43 PM Vladimir Oltean <olteanv@gmail.com> wrote:
->
-> On Mon, Jan 11, 2021 at 01:44:26PM +0800, DENG Qingfang wrote:
-> > MT7530's LED controller can be used as GPIO controller. Add support for
-> > it.
-> >
-> > DENG Qingfang (2):
-> >   dt-bindings: net: dsa: add MT7530 GPIO controller binding
-> >   drivers: net: dsa: mt7530: MT7530 optional GPIO support
-> >
-> >  .../devicetree/bindings/net/dsa/mt7530.txt    |  6 ++
-> >  drivers/net/dsa/mt7530.c                      | 96 +++++++++++++++++++
-> >  drivers/net/dsa/mt7530.h                      | 20 ++++
-> >  3 files changed, 122 insertions(+)
-> >
-> > --
-> > 2.25.1
->
-> Adding GPIO and LED maintainers to also have a look.
-> https://patchwork.kernel.org/project/netdevbpf/cover/20210111054428.3273-1-dqfext@gmail.com/
+On Mon, 28 Dec 2020, Alexander Dahl wrote:
 
-Can you resend the series with GPIO maintainers in CC?
+> The node names for devices using the pwm-leds driver follow a certain
+> naming scheme (now).  Parent node name is not enforced, but recommended
+> by DT project.
+> 
+>   DTC     Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml
+>   CHECK   Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml
+> /home/alex/build/linux/Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml: pwmleds: 'panel' does not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+>         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+> 
+> Signed-off-by: Alexander Dahl <post@lespocky.de>
+> Acked-by: Jeff LaBundy <jeff@labundy.com>
+> Acked-by: Rob Herring <robh@kernel.org>
+> ---
+> 
+> Notes:
+>     v8 -> v9:
+>       * added forgotten Acked-by (Jeff LaBundy)
+>       * rebased on v5.11-rc1
+>     
+>     v7 -> v8:
+>       * rebased on recent pavel/for-next (post v5.10-rc1)
+>       * added Acked-by (Rob Herring)
+>     
+>     v6 -> v7:
+>       * added warning message to commit message (Krzysztof Kozlowski)
+>     
+>     v6:
+>       * added this patch to series
+> 
+>  Documentation/devicetree/bindings/mfd/iqs62x.yaml | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 
-Bart
+Failed to apply:
+
+Applying: dt-bindings: mfd: Fix schema warnings for pwm-leds
+Using index info to reconstruct a base tree...
+M	Documentation/devicetree/bindings/mfd/iqs62x.yaml
+/home/lee/projects/linux/kernel/.git/worktrees/mfd/rebase-apply/patch:34: indent with spaces.
+            led-1 {
+/home/lee/projects/linux/kernel/.git/worktrees/mfd/rebase-apply/patch:35: indent with spaces.
+                    label = "panel";
+warning: 2 lines add whitespace errors.
+Falling back to patching base and 3-way merge...
+Auto-merging Documentation/devicetree/bindings/mfd/iqs62x.yaml
+CONFLICT (content): Merge conflict in Documentation/devicetree/bindings/mfd/iqs62x.yaml
+Recorded preimage for 'Documentation/devicetree/bindings/mfd/iqs62x.yaml'
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
