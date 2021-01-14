@@ -2,125 +2,156 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEE012F5E44
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Jan 2021 11:05:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA0BC2F656F
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Jan 2021 17:08:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbhANKD5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Jan 2021 05:03:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35868 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728199AbhANKD4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Jan 2021 05:03:56 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF4C4C061757
-        for <linux-leds@vger.kernel.org>; Thu, 14 Jan 2021 02:03:16 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id 91so5116543wrj.7
-        for <linux-leds@vger.kernel.org>; Thu, 14 Jan 2021 02:03:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=oVf5kDc7i4gGrzg222CFywiTCholDlEVEzBooRbeXN8=;
-        b=lNr9TM2KRK50yFUSVqvQRC2+d8NR6/ezTC8nz87RztuEm0sg8oFVZ8y/GwJu5fmbuy
-         fYHUI2RWogLsikN9SnHQipAiHDGDc1iscx3mN0jbaxwjTcDQ0ZVtTW8fUsLtiGBQW1Q1
-         AKfeQ1ODq0/1MA3AOJBalS1gNW0n1axzkT2WZXyba4RRsLVzZn2saNJpv/dEYHRUicJF
-         cy5rlCwzCpe0zLOzmTd1UhR5H8lUdW/NIPwujCtBAv7zdrfaCFXLG4Tew5MNdkvkGGm0
-         1fvVpBLtBl0dMLy8xB3oQ4gsFCDJ3uv0n491bAWkFkP/SVR3QtNXDcjHubOMox2quEnn
-         hbJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=oVf5kDc7i4gGrzg222CFywiTCholDlEVEzBooRbeXN8=;
-        b=rBbvCIT0m0wno8UbI9mLWWHuxTCpz7qpadupplCKxzbodhvKR7o03wn3vVYZj6sxts
-         3gkOaAjf747oCAUh+6V1QnnnWIoNFFmKRXmxPTgMYHLmGMbNEnb+yOfJgSuCiGeQVYaC
-         oP+uv93jLrfRIjE4cMWwmzwdKXkiK1eIjUdOJvthQNhGImwumPVblAai7wDRyWhNvqUr
-         65EBVDU5fBDY5XXD1Rj9Qt9VBHs6bNXUze6oGl1aOHxnEuyGoLSDXFFj3kkBb+4dziaN
-         5uLQo48wuhQnJTpgOfwJ/KQgTmHhc5TLUsE3rlTj1C9a1jU3vSczLdDN1lHgwPUU3OGj
-         nJSg==
-X-Gm-Message-State: AOAM5338GuGeBABJKYvFol+OM6tRavvEE7lv7Z0kJvXFHqH/PyA51ZGt
-        VfHPhsSeknqkDkmv/B+kICd9wQ==
-X-Google-Smtp-Source: ABdhPJx/ZTFqNdbwMrPPQXGb4a5AARaWdvmncwYK2q1w7//JoVyn/n68+kesxeF+gvUR8rMoynCXCw==
-X-Received: by 2002:adf:ef06:: with SMTP id e6mr6917001wro.231.1610618595259;
-        Thu, 14 Jan 2021 02:03:15 -0800 (PST)
-Received: from dell ([91.110.221.178])
-        by smtp.gmail.com with ESMTPSA id b3sm2474771wrn.70.2021.01.14.02.03.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jan 2021 02:03:14 -0800 (PST)
-Date:   Thu, 14 Jan 2021 10:03:12 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Alexander Dahl <post@lespocky.de>
-Cc:     Rob Herring <robh+dt@kernel.org>, Alexander Dahl <ada@thorsis.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-amlogic@lists.infradead.org, Jeff LaBundy <jeff@labundy.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v9 1/4] dt-bindings: mfd: Fix schema warnings for pwm-leds
-Message-ID: <20210114100312.GL3975472@dell>
+        id S1728832AbhANQIb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 14 Jan 2021 11:08:31 -0500
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:6518 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726287AbhANQIb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 14 Jan 2021 11:08:31 -0500
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10EG2FYd022831;
+        Thu, 14 Jan 2021 17:07:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=0JgJHsNz7hWotQHqsv9MMXYM5L07hf3AqCxxBPFoW4Q=;
+ b=h8mvkBIrZsVp552w8KbS9voQPbwMg9AQvXWDx5P+FlbZI9gzuga/OhxbY5RiAPunuUUy
+ eiO23uCDtWANMLrfBsmjDTEE3CcH4uguKFNpazXIIAKGBLUqxy8LoTtYOYmB/8XON+Yb
+ zES/86Fp6UrHKoluozSCQGAjKjt5cA2u8qhvP6EawJwcHSPlzMtnJL8oai+rBqTnNRmc
+ AeaLaFAApILwKkBHv1kUZWK3FrJFkPGKpneLTV5/NXwSVw+Pt+tQwUaMVxKrG6v3jhWO
+ F/QCF/QeC/RNy4pXKxbWFNuL4jWhBGGPRAr4FJWfEWTS86eIKT12kc7YjW6Vrx/h5ZOj bA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 35y5gxdyeh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 14 Jan 2021 17:07:44 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C1F3C10002A;
+        Thu, 14 Jan 2021 17:07:42 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A8FEF2ADA18;
+        Thu, 14 Jan 2021 17:07:42 +0100 (CET)
+Received: from lmecxl0912.lme.st.com (10.75.127.49) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 14 Jan
+ 2021 17:07:41 +0100
+Subject: Re: [PATCH v9 3/4] ARM: dts: stm32: Fix schema warnings for pwm-leds
+To:     Alexander Dahl <post@lespocky.de>, Rob Herring <robh+dt@kernel.org>
+CC:     <devicetree@vger.kernel.org>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Alexander Dahl <ada@thorsis.com>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-leds@vger.kernel.org>
 References: <20201228163217.32520-1-post@lespocky.de>
- <20201228163217.32520-2-post@lespocky.de>
+ <20201228163217.32520-4-post@lespocky.de>
+From:   Alexandre TORGUE <alexandre.torgue@foss.st.com>
+Message-ID: <f9277cd5-9898-ab6f-20bd-a0476068ea12@foss.st.com>
+Date:   Thu, 14 Jan 2021 17:07:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201228163217.32520-2-post@lespocky.de>
+In-Reply-To: <20201228163217.32520-4-post@lespocky.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
+ definitions=2021-01-14_05:2021-01-14,2021-01-14 signatures=0
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 28 Dec 2020, Alexander Dahl wrote:
+Hi Alexander
 
+On 12/28/20 5:32 PM, Alexander Dahl wrote:
 > The node names for devices using the pwm-leds driver follow a certain
 > naming scheme (now).  Parent node name is not enforced, but recommended
 > by DT project.
 > 
->   DTC     Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml
->   CHECK   Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml
-> /home/alex/build/linux/Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml: pwmleds: 'panel' does not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
->         From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+>    DTC     arch/arm/boot/dts/stm32mp157c-lxa-mc1.dt.yaml
+>    CHECK   arch/arm/boot/dts/stm32mp157c-lxa-mc1.dt.yaml
+> /home/alex/build/linux/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dt.yaml: led-rgb: 'led-blue', 'led-green', 'led-red' do not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+>          From schema: /home/alex/src/linux/leds/Documentation/devicetree/bindings/leds/leds-pwm.yaml
 > 
 > Signed-off-by: Alexander Dahl <post@lespocky.de>
-> Acked-by: Jeff LaBundy <jeff@labundy.com>
-> Acked-by: Rob Herring <robh@kernel.org>
+> Acked-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+
+Applied on stm32-next.
+
+Thanks.
+Alex
+
 > ---
 > 
 > Notes:
->     v8 -> v9:
->       * added forgotten Acked-by (Jeff LaBundy)
->       * rebased on v5.11-rc1
->     
->     v7 -> v8:
->       * rebased on recent pavel/for-next (post v5.10-rc1)
->       * added Acked-by (Rob Herring)
->     
->     v6 -> v7:
->       * added warning message to commit message (Krzysztof Kozlowski)
->     
->     v6:
->       * added this patch to series
+>      v8 -> v9:
+>        * added Acked-by (Ahmad Fatoum)
+>        * rebased on v5.11-rc1
+>      
+>      v7 -> v8:
+>        * rebased on recent pavel/for-next (post v5.10-rc1)
+>        * updated indexes and added comment (Ahmad Fatoum)
+>      
+>      v6 -> v7:
+>        * split up patch (one per sub arch)
+>        * added actual warnings to commit message
 > 
->  Documentation/devicetree/bindings/mfd/iqs62x.yaml | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-
-Failed to apply:
-
-Applying: dt-bindings: mfd: Fix schema warnings for pwm-leds
-Using index info to reconstruct a base tree...
-M	Documentation/devicetree/bindings/mfd/iqs62x.yaml
-/home/lee/projects/linux/kernel/.git/worktrees/mfd/rebase-apply/patch:34: indent with spaces.
-            led-1 {
-/home/lee/projects/linux/kernel/.git/worktrees/mfd/rebase-apply/patch:35: indent with spaces.
-                    label = "panel";
-warning: 2 lines add whitespace errors.
-Falling back to patching base and 3-way merge...
-Auto-merging Documentation/devicetree/bindings/mfd/iqs62x.yaml
-CONFLICT (content): Merge conflict in Documentation/devicetree/bindings/mfd/iqs62x.yaml
-Recorded preimage for 'Documentation/devicetree/bindings/mfd/iqs62x.yaml'
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+>   arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts b/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
+> index cda8e871f999..1e9bf7eea0f1 100644
+> --- a/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
+> +++ b/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
+> @@ -36,34 +36,35 @@
+>   		stdout-path = &uart4;
+>   	};
+>   
+> -	led-act {
+> +	led-controller-0 {
+>   		compatible = "gpio-leds";
+>   
+> -		led-green {
+> +		led-0 {
+>   			label = "mc1:green:act";
+>   			gpios = <&gpioa 13 GPIO_ACTIVE_LOW>;
+>   			linux,default-trigger = "heartbeat";
+>   		};
+>   	};
+>   
+> -	led-rgb {
+> +	led-controller-1 {
+>   		compatible = "pwm-leds";
+>   
+> -		led-red {
+> +		/* led-1 to led-3 are part of a single RGB led */
+> +		led-1 {
+>   			label = "mc1:red:rgb";
+>   			pwms = <&leds_pwm 1 1000000 0>;
+>   			max-brightness = <255>;
+>   			active-low;
+>   		};
+>   
+> -		led-green {
+> +		led-2 {
+>   			label = "mc1:green:rgb";
+>   			pwms = <&leds_pwm 2 1000000 0>;
+>   			max-brightness = <255>;
+>   			active-low;
+>   		};
+>   
+> -		led-blue {
+> +		led-3 {
+>   			label = "mc1:blue:rgb";
+>   			pwms = <&leds_pwm 3 1000000 0>;
+>   			max-brightness = <255>;
+> 
