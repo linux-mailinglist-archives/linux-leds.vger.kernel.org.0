@@ -2,109 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99E38300D57
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Jan 2021 21:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9609300F14
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Jan 2021 22:44:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730694AbhAVUGq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Jan 2021 15:06:46 -0500
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:40191 "EHLO
-        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729171AbhAVUGi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Jan 2021 15:06:38 -0500
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from vadimp@nvidia.com)
-        with SMTP; 22 Jan 2021 21:59:04 +0200
-Received: from r-build-lowlevel.mtr.labs.mlnx. (r-build-lowlevel.mtr.labs.mlnx [10.209.0.190])
-        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 10MJx4KH023837;
-        Fri, 22 Jan 2021 21:59:04 +0200
-From:   Vadim Pasternak <vadimp@nvidia.com>
-To:     jacek.anaszewski@gmail.com, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, Vadim Pasternak <vadimp@nvidia.com>
-Subject: [PATCH led-next v3 1/1] leds: mlxreg: Allow multi-instantiation of same name LED for modular systems
-Date:   Fri, 22 Jan 2021 21:59:03 +0200
-Message-Id: <20210122195903.11474-1-vadimp@nvidia.com>
-X-Mailer: git-send-email 2.11.0
+        id S1729226AbhAVVm5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 22 Jan 2021 16:42:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60570 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728474AbhAVVlB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Jan 2021 16:41:01 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D789C061786
+        for <linux-leds@vger.kernel.org>; Fri, 22 Jan 2021 13:40:21 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id v67so9581174lfa.0
+        for <linux-leds@vger.kernel.org>; Fri, 22 Jan 2021 13:40:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fVQGipISqL+GidmgskuqE54mrZNWSegyyQUFD/qGixM=;
+        b=DBYc+xh+//BuisFJO7Qj1/JPZY3GmA6Q6VyAQhmchMrcnNdQgI3jZFePMXCHUuaEGg
+         5RGO80cSZyrTGMfD5NST6y8FzE5ZHd23XF5yoG3UYaBQDzFj4EBslBBv+RMkVdaje+V7
+         1w8G104HZiAVP9Xw4H9rO76cPe9oNYOh3DJhL4jOXrv0KPDJz0j53J/JhIHOT3M43fAm
+         w0FEQ+PVt5C4c9c+XLzX44lm3z0UUqXZrPr489pWycIYpyiq4GPqoBcsQfZi8tPWdPI3
+         PJGhLhoQrjfWBxZf2vgIATJgsgdEu5EAdBl5KswwMCDnuF9udk8RL7pcv6HehjvmkuOr
+         eezw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fVQGipISqL+GidmgskuqE54mrZNWSegyyQUFD/qGixM=;
+        b=nxvi4xh0I9jiPVAI1LBJ6BKNsHGt1Yzk8EvNAEtWRZGPtzNvhLBRgcdD7qp15S7MFZ
+         tftVsRc3OkEljnnmvZVL9ITIAAvtMQN/QKgELiAQGn89/xX56xDPvseYTIpoaJoRePnI
+         d04MFoFhHHbFjBHRLkyB+ykExxopemCGQ0ttDflfFFtSu3UnTdt2RGJ+w4Hyf+BVeIV8
+         z0maCR/rBUf2eSGAKEJdJTP0hFG9sh07R3xgf7i84ytSrBDKyptUFqVXL3P4xulXh95+
+         GNexBKq5QiJ1nchZQGFNInvgdco13qnIxiQQddN4SyzE5d0ndp2Ls4iG+9JsM7aoa2sY
+         /SGQ==
+X-Gm-Message-State: AOAM530IsPA/fMu/4BTHL7X0NU8PQg9iIFugPlRuT3QHJLvbtSeqHo4g
+        8GwYtaWIigFb5CKSAt4z+P1qeJWKzZ+4FLF+6UUQ8w==
+X-Google-Smtp-Source: ABdhPJxfbwAudp1weWzfAaiCkKvD4TAjwf6Rim6UybIVL3cqXpXKCe6HdRAIpeeYqM+DRPelpzMSFkQEYdi9Ys2JH6I=
+X-Received: by 2002:a05:6512:3238:: with SMTP id f24mr3247513lfe.29.1611351619532;
+ Fri, 22 Jan 2021 13:40:19 -0800 (PST)
+MIME-Version: 1.0
+References: <20210102231510.2068851-1-linus.walleij@linaro.org> <20210102231510.2068851-2-linus.walleij@linaro.org>
+In-Reply-To: <20210102231510.2068851-2-linus.walleij@linaro.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 22 Jan 2021 22:40:08 +0100
+Message-ID: <CACRpkdbihCo+OYuu8ffokOO=eXeTDAYG1k91dFh+2HGh0jQCWQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2 v9] leds: rt8515: Add Richtek RT8515 LED driver
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, newbytee@protonmail.com,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        phone-devel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-It could be more than one instance of LED with the same name in the
-modular systems. For example, "status" or "uid" LED can be located
-on chassis and on each line card of modular system.
-In order to avoid conflicts with duplicated names, append platform
-device Id, which is unique, to LED name after driver name.
-Thus, for example, "status" LED on chassis is to be called, like it is
-called now on non-modular systems, on which platform device Id is not
-specified: "mlxreg:status:green". While for the line cards LEDs it will
-be called like: "pcicard48:status:green", "ibcard66:status:green",
-"nvlinkcard68:status:green", etcetera. Where line card prefix is
-specified according to the type of bus connecting line card to the
-chassis: PCI, InfiniBand, NVLink and so on.
+Hi LED folks,
 
-LED driver works on top of register space of the programmable devices
-(CPLD or FPGA), providing the logic for LED control. The programmable
-devices on the line cards are connected through I2C bus and LED driver
-will work over I2C. On main board programmable device is connected
-through LPC, and LED driver works over LPC.
+I think this version has covered all review comments, at least it's been silent,
+can the driver be merged?
 
-The motivation it to provide support for new modular systems which
-could be equipped with the different types of replaceable line cards
-and management board.
-
-Line cards are connected to the chassis through I2C interface for the
-chassis management operations and through PCIe for the networking
-operations. Future line cards could be connected to the chassis through
-InfiniBand fabric, instead of PCIe.
-
-The first type of line card supports 16x100GbE QSFP28 Ethernet ports.
-Those line cards equipped with the programmable devices aimed for
-system control of Nvidia Ethernet switch ASIC control, Nvidia FPGA,
-Nvidia gearboxes (PHYs).
-The next coming  card generations are supposed to support:
-- Line cards with 8x200Gbe QSFP28 Ethernet ports.
-- Line cards with 4x400Gbe QSFP-DD Ethernet ports.
-- Smart cards equipped with Nvidia ARM CPU for offloading and for fast
-  access to the storage (EBoF).
-- Fabric cards for inter-connection.
-
-Signed-off-by: Vadim Pasternak <vadimp@nvidia.com>
----
-v2->v3:
- Changes added after comments from Pavel.
- - Use prefix to specify type of connectivity for particular line card.
-v1->v2:
- Changes added after discussion with Pavel and Marek.
- - Change device name for line cards from "mlxreg" to "card".
- - Extend commit text - add more explanations.
----
- drivers/leds/leds-mlxreg.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/leds/leds-mlxreg.c b/drivers/leds/leds-mlxreg.c
-index 82aea1cd0c12..afc9070485da 100644
---- a/drivers/leds/leds-mlxreg.c
-+++ b/drivers/leds/leds-mlxreg.c
-@@ -228,8 +228,19 @@ static int mlxreg_led_config(struct mlxreg_led_priv_data *priv)
- 			brightness = LED_OFF;
- 			led_data->base_color = MLXREG_LED_GREEN_SOLID;
- 		}
--		snprintf(led_data->led_cdev_name, sizeof(led_data->led_cdev_name),
--			 "mlxreg:%s", data->label);
-+
-+		/*
-+		 * Id greater than zero is used for LEDs located on replaceable unit,
-+		 * like line card or fabric card. In this case Id is set to I2C bus
-+		 * number. Otherwise LEDs located on the main board. The field "identity"
-+		 * specifies the type of bus connecting line card to the chassis.
-+		 */
-+		if (priv->pdev->id > 0)
-+			sprintf(led_data->led_cdev_name, "%scard%d:%s", led_pdata->identity,
-+				priv->pdev->id, data->label);
-+		else
-+			sprintf(led_data->led_cdev_name, "%s:%s", "mlxreg",
-+				data->label);
- 		led_cdev->name = led_data->led_cdev_name;
- 		led_cdev->brightness = brightness;
- 		led_cdev->max_brightness = LED_ON;
--- 
-2.11.0
-
+Yours,
+Linus Walleij
