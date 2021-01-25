@@ -2,86 +2,121 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6CDB302C52
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Jan 2021 21:15:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95504303628
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Jan 2021 07:02:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726753AbhAYUO0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 25 Jan 2021 15:14:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35340 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726420AbhAYUOP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 25 Jan 2021 15:14:15 -0500
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45F73C061573;
-        Mon, 25 Jan 2021 12:13:35 -0800 (PST)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4DPgz71gwVzQlRT;
-        Mon, 25 Jan 2021 21:13:07 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dylanvanassche.be;
-        s=MBO0001; t=1611605585;
+        id S1729650AbhAZGCN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 26 Jan 2021 01:02:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43364 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728728AbhAYNRG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 25 Jan 2021 08:17:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611580538;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=fW70VQsfx1iS6yKV+TnS95XSsveNmLFJUkcB4V1UMko=;
-        b=nr0Qj+ICbleoKF4cbGXuxJwGnVzGYA17FBTzKYwo71sItjoDWBZA0gokKOmwExoNNN1ZyY
-        sDOHaB1iiTNHT2AGGC/eKJ5UV/rdO59j4G0um0Ess+Lw4XDJYwoZ9oeve4gifOG8ftP13+
-        D7ck8MqXOZFBoyip7IoGXOhpZ4TgL9V1f/jPjQsznbpiqZmMGSCmsfRXoT2o3rAbOeR94W
-        kFnIzODu/AZF+hdqox9mZT9QH2lwKcLZLz8b0/bRm/Fmv+V2/IXk52nl/ZXEz9V16u0GQD
-        JfYEfLQDGvKqbqkUECZsyT3RDsDNjtydVj3MPJ1ZeN+vGKBMRWSx1TdVv8PtBQ==
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
-        with ESMTP id kv44TnqRXBQh; Mon, 25 Jan 2021 21:13:04 +0100 (CET)
-From:   Dylan Van Assche <me@dylanvanassche.be>
-To:     pavel@ucw.cz, dmurphy@ti.com, linux-leds@vger.kernel.org,
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zk+cDfpXiHs1Bh3TfFQZWkcbmPZsVlpZuvJJS/EQ6Po=;
+        b=i6hbh4mMS4PU+aIxz46QU1p07dlBkJj9MUqdJLwJss1h6a+OO0RVLSa+rZUP8IoyCH894Y
+        MFDDegHdw/tYd16Rzt63Woz8LCiavakVbCvKAeoMzSnqxwVHVT7dq6ckyP6DXlI6U5Szm8
+        zSss/TImBbRHKUMofw0kxnjLOuxWAi0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-HBiyTB3KMNacKcqw-ZC46Q-1; Mon, 25 Jan 2021 08:15:36 -0500
+X-MC-Unique: HBiyTB3KMNacKcqw-ZC46Q-1
+Received: by mail-ej1-f72.google.com with SMTP id k3so3718927ejr.16
+        for <linux-leds@vger.kernel.org>; Mon, 25 Jan 2021 05:15:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zk+cDfpXiHs1Bh3TfFQZWkcbmPZsVlpZuvJJS/EQ6Po=;
+        b=EP/ZL+hugEh/PRTz39VqOWntTdgEoGDVfcB1LYo85K2asJ1UW/tPmEkBEsHx3/8/0K
+         sM5jalJ2CQGRRB1SjyCuUfeYI7oPGKN3PkFtrtL7kk7vH6Iu6qtPlBwYq1ZzfFUZMapq
+         9/YdXjwrbX4WOyCuVHkyP70vq8I8asZEB4aopWafBiOp0D3S6L2t8N27NBtYyJ4IK8o6
+         uO9qGdIENK5DUYT1NRnmfFCsrC+Q4gHDEloSt2A3JGnyMLEei9JtPmPIJ9IGl27opzv+
+         piLSWX4Gt3NgMRVWOpjQd+i3pe/SxCKBcuITgwnLZREagCd/KrJG/rL2DyT3V5L6A3ho
+         4M2Q==
+X-Gm-Message-State: AOAM530BrLLy0soVlNuz3at81lgCjpR+rXvUPo7kEBDr6OyXsSnuvVO2
+        O1e8pQ3zR+6k2jQbwDK1Y2BJs2216UUWoPYU1Di6NWlJ6cSS5E3ptwHLCCew2N7xCv9kP9ebSHl
+        ZacsX0ULaPPqq8/B324rJ2Q==
+X-Received: by 2002:a17:906:b1c8:: with SMTP id bv8mr354516ejb.208.1611580535371;
+        Mon, 25 Jan 2021 05:15:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyvQdimcsf4hmIorymsHFeWn5I8TSKTGJ63eSmv/qM83Gr9092hZygNLpR0RqnI3yHtfgV5tQ==
+X-Received: by 2002:a17:906:b1c8:: with SMTP id bv8mr354504ejb.208.1611580535234;
+        Mon, 25 Jan 2021 05:15:35 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
+        by smtp.gmail.com with ESMTPSA id bc6sm10636598edb.52.2021.01.25.05.15.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Jan 2021 05:15:34 -0800 (PST)
+Subject: Re: 5.11 new lockdep warning related to led-class code (also may
+ involve ata / piix controller)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Jens Axboe <axboe@kernel.dk>, Dan Murphy <dmurphy@ti.com>,
+        linux-ide@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Dylan Van Assche <me@dylanvanassche.be>
-Subject: [PATCH v3] leds: gpio: Set max brightness to 1
-Date:   Mon, 25 Jan 2021 21:08:57 +0100
-Message-Id: <20210125200856.1976-1-me@dylanvanassche.be>
+References: <b204637d-3b72-8320-8a62-f075467d8681@redhat.com>
+ <20210112223015.GB28214@duo.ucw.cz>
+ <f344f1db-1a7a-0a80-1cb1-f9c3fbf83abd@redhat.com>
+Message-ID: <0ec34bca-f7e0-8954-c253-d07ed6b71b80@redhat.com>
+Date:   Mon, 25 Jan 2021 14:15:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-SPAM-Probability: 
-X-Rspamd-Score: -6.11 / 15.00 / 15.00
-X-Rspamd-Queue-Id: 4FD791848
-X-Rspamd-UID: 40e9dc
+In-Reply-To: <f344f1db-1a7a-0a80-1cb1-f9c3fbf83abd@redhat.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-GPIO LEDs only know 2 states: ON or OFF and do not have PWM capabilities.
-However, the max brightness is reported as 255.
+Hi,
 
-This patch sets the max brightness value of a GPIO controlled LED to 1.
+On 1/13/21 9:59 AM, Hans de Goede wrote:
+> Hi,
+> 
+> On 1/12/21 11:30 PM, Pavel Machek wrote:
+>> Hi!
+>>
+>>> Booting a 5.11-rc2 kernel with lockdep enabled inside a virtualbox vm (which still
+>>> emulates good old piix ATA controllers) I get the below lockdep splat early on during boot:
+>>>
+>>> This seems to be led-class related but also seems to have a (P)ATA
+>>> part to it. To the best of my knowledge this is a new problem in
+>>> 5.11 .
+>>
+>> This is on my for-next branch:
+>>
+>> commit 9a5ad5c5b2d25508996f10ee6b428d5df91d9160 (HEAD -> for-next, origin/for-next)
+>>
+>>     leds: trigger: fix potential deadlock with libata
+>>     
+>>     We have the following potential deadlock condition:
+>>     
+>>      ========================================================
+>>      WARNING: possible irq lock inversion dependency detected
+>>      5.10.0-rc2+ #25 Not tainted
+>>      --------------------------------------------------------
+>>      swapper/3/0 just changed the state of lock:
+>>      ffff8880063bd618 (&host->lock){-...}-{2:2}, at: ata_bmdma_interrupt+0x27/0x200
+>>      but this lock took another, HARDIRQ-READ-unsafe lock in the past:
+>>       (&trig->leddev_list_lock){.+.?}-{2:2}
+>>
+>> If I'm not mistaken, that should fix your issue.
+> 
+> I can confirm that this fixes things, thanks.
+> 
+> I assume that this will be part of some future 5.11 fixes pull-req?
 
-Tested on my PinePhone 1.2.
+This *regression* fix seems to still have not landed in 5.11-rc5, can
+we please get this on its way to Linus ?
 
-Signed-off-by: Dylan Van Assche <me@dylanvanassche.be>
----
-v2 drops an obsolete change in include/linux/leds.h
-v3 simplifies the patch for better readability
+Regards,
 
- drivers/leds/leds-gpio.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
-index 93f5b1b60fde..242bb38cadee 100644
---- a/drivers/leds/leds-gpio.c
-+++ b/drivers/leds/leds-gpio.c
-@@ -96,7 +96,9 @@ static int create_gpio_led(const struct gpio_led *template,
- 	} else {
- 		state = (template->default_state == LEDS_GPIO_DEFSTATE_ON);
- 	}
--	led_dat->cdev.brightness = state ? LED_FULL : LED_OFF;
-+	led_dat->cdev.brightness = state;
-+	led_dat->cdev.max_brightness = 1;
-+
- 	if (!template->retain_state_suspended)
- 		led_dat->cdev.flags |= LED_CORE_SUSPENDRESUME;
- 	if (template->panic_indicator)
--- 
-2.30.0
+Hans
 
