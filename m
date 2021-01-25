@@ -2,109 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61ED6300FBE
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Jan 2021 23:16:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6CDB302C52
+	for <lists+linux-leds@lfdr.de>; Mon, 25 Jan 2021 21:15:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729320AbhAVWQd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Jan 2021 17:16:33 -0500
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:39733 "EHLO
-        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729583AbhAVT7w (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Jan 2021 14:59:52 -0500
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from vadimp@nvidia.com)
-        with SMTP; 22 Jan 2021 21:59:04 +0200
-Received: from r-build-lowlevel.mtr.labs.mlnx. (r-build-lowlevel.mtr.labs.mlnx [10.209.0.190])
-        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 10MJx4KH023837;
-        Fri, 22 Jan 2021 21:59:04 +0200
-From:   Vadim Pasternak <vadimp@nvidia.com>
-To:     jacek.anaszewski@gmail.com, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, Vadim Pasternak <vadimp@nvidia.com>
-Subject: [PATCH led-next v3 1/1] leds: mlxreg: Allow multi-instantiation of same name LED for modular systems
-Date:   Fri, 22 Jan 2021 21:59:03 +0200
-Message-Id: <20210122195903.11474-1-vadimp@nvidia.com>
-X-Mailer: git-send-email 2.11.0
+        id S1726753AbhAYUO0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 25 Jan 2021 15:14:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35340 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726420AbhAYUOP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 25 Jan 2021 15:14:15 -0500
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45F73C061573;
+        Mon, 25 Jan 2021 12:13:35 -0800 (PST)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4DPgz71gwVzQlRT;
+        Mon, 25 Jan 2021 21:13:07 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dylanvanassche.be;
+        s=MBO0001; t=1611605585;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=fW70VQsfx1iS6yKV+TnS95XSsveNmLFJUkcB4V1UMko=;
+        b=nr0Qj+ICbleoKF4cbGXuxJwGnVzGYA17FBTzKYwo71sItjoDWBZA0gokKOmwExoNNN1ZyY
+        sDOHaB1iiTNHT2AGGC/eKJ5UV/rdO59j4G0um0Ess+Lw4XDJYwoZ9oeve4gifOG8ftP13+
+        D7ck8MqXOZFBoyip7IoGXOhpZ4TgL9V1f/jPjQsznbpiqZmMGSCmsfRXoT2o3rAbOeR94W
+        kFnIzODu/AZF+hdqox9mZT9QH2lwKcLZLz8b0/bRm/Fmv+V2/IXk52nl/ZXEz9V16u0GQD
+        JfYEfLQDGvKqbqkUECZsyT3RDsDNjtydVj3MPJ1ZeN+vGKBMRWSx1TdVv8PtBQ==
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
+        with ESMTP id kv44TnqRXBQh; Mon, 25 Jan 2021 21:13:04 +0100 (CET)
+From:   Dylan Van Assche <me@dylanvanassche.be>
+To:     pavel@ucw.cz, dmurphy@ti.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Dylan Van Assche <me@dylanvanassche.be>
+Subject: [PATCH v3] leds: gpio: Set max brightness to 1
+Date:   Mon, 25 Jan 2021 21:08:57 +0100
+Message-Id: <20210125200856.1976-1-me@dylanvanassche.be>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-MBO-SPAM-Probability: 
+X-Rspamd-Score: -6.11 / 15.00 / 15.00
+X-Rspamd-Queue-Id: 4FD791848
+X-Rspamd-UID: 40e9dc
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-It could be more than one instance of LED with the same name in the
-modular systems. For example, "status" or "uid" LED can be located
-on chassis and on each line card of modular system.
-In order to avoid conflicts with duplicated names, append platform
-device Id, which is unique, to LED name after driver name.
-Thus, for example, "status" LED on chassis is to be called, like it is
-called now on non-modular systems, on which platform device Id is not
-specified: "mlxreg:status:green". While for the line cards LEDs it will
-be called like: "pcicard48:status:green", "ibcard66:status:green",
-"nvlinkcard68:status:green", etcetera. Where line card prefix is
-specified according to the type of bus connecting line card to the
-chassis: PCI, InfiniBand, NVLink and so on.
+GPIO LEDs only know 2 states: ON or OFF and do not have PWM capabilities.
+However, the max brightness is reported as 255.
 
-LED driver works on top of register space of the programmable devices
-(CPLD or FPGA), providing the logic for LED control. The programmable
-devices on the line cards are connected through I2C bus and LED driver
-will work over I2C. On main board programmable device is connected
-through LPC, and LED driver works over LPC.
+This patch sets the max brightness value of a GPIO controlled LED to 1.
 
-The motivation it to provide support for new modular systems which
-could be equipped with the different types of replaceable line cards
-and management board.
+Tested on my PinePhone 1.2.
 
-Line cards are connected to the chassis through I2C interface for the
-chassis management operations and through PCIe for the networking
-operations. Future line cards could be connected to the chassis through
-InfiniBand fabric, instead of PCIe.
-
-The first type of line card supports 16x100GbE QSFP28 Ethernet ports.
-Those line cards equipped with the programmable devices aimed for
-system control of Nvidia Ethernet switch ASIC control, Nvidia FPGA,
-Nvidia gearboxes (PHYs).
-The next coming  card generations are supposed to support:
-- Line cards with 8x200Gbe QSFP28 Ethernet ports.
-- Line cards with 4x400Gbe QSFP-DD Ethernet ports.
-- Smart cards equipped with Nvidia ARM CPU for offloading and for fast
-  access to the storage (EBoF).
-- Fabric cards for inter-connection.
-
-Signed-off-by: Vadim Pasternak <vadimp@nvidia.com>
+Signed-off-by: Dylan Van Assche <me@dylanvanassche.be>
 ---
-v2->v3:
- Changes added after comments from Pavel.
- - Use prefix to specify type of connectivity for particular line card.
-v1->v2:
- Changes added after discussion with Pavel and Marek.
- - Change device name for line cards from "mlxreg" to "card".
- - Extend commit text - add more explanations.
----
- drivers/leds/leds-mlxreg.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+v2 drops an obsolete change in include/linux/leds.h
+v3 simplifies the patch for better readability
 
-diff --git a/drivers/leds/leds-mlxreg.c b/drivers/leds/leds-mlxreg.c
-index 82aea1cd0c12..afc9070485da 100644
---- a/drivers/leds/leds-mlxreg.c
-+++ b/drivers/leds/leds-mlxreg.c
-@@ -228,8 +228,19 @@ static int mlxreg_led_config(struct mlxreg_led_priv_data *priv)
- 			brightness = LED_OFF;
- 			led_data->base_color = MLXREG_LED_GREEN_SOLID;
- 		}
--		snprintf(led_data->led_cdev_name, sizeof(led_data->led_cdev_name),
--			 "mlxreg:%s", data->label);
+ drivers/leds/leds-gpio.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
+index 93f5b1b60fde..242bb38cadee 100644
+--- a/drivers/leds/leds-gpio.c
++++ b/drivers/leds/leds-gpio.c
+@@ -96,7 +96,9 @@ static int create_gpio_led(const struct gpio_led *template,
+ 	} else {
+ 		state = (template->default_state == LEDS_GPIO_DEFSTATE_ON);
+ 	}
+-	led_dat->cdev.brightness = state ? LED_FULL : LED_OFF;
++	led_dat->cdev.brightness = state;
++	led_dat->cdev.max_brightness = 1;
 +
-+		/*
-+		 * Id greater than zero is used for LEDs located on replaceable unit,
-+		 * like line card or fabric card. In this case Id is set to I2C bus
-+		 * number. Otherwise LEDs located on the main board. The field "identity"
-+		 * specifies the type of bus connecting line card to the chassis.
-+		 */
-+		if (priv->pdev->id > 0)
-+			sprintf(led_data->led_cdev_name, "%scard%d:%s", led_pdata->identity,
-+				priv->pdev->id, data->label);
-+		else
-+			sprintf(led_data->led_cdev_name, "%s:%s", "mlxreg",
-+				data->label);
- 		led_cdev->name = led_data->led_cdev_name;
- 		led_cdev->brightness = brightness;
- 		led_cdev->max_brightness = LED_ON;
+ 	if (!template->retain_state_suspended)
+ 		led_dat->cdev.flags |= LED_CORE_SUSPENDRESUME;
+ 	if (template->panic_indicator)
 -- 
-2.11.0
+2.30.0
 
