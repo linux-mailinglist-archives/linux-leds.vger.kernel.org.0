@@ -2,53 +2,53 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1739F305E4B
-	for <lists+linux-leds@lfdr.de>; Wed, 27 Jan 2021 15:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75257305E50
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Jan 2021 15:30:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232110AbhA0O3h (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 27 Jan 2021 09:29:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44244 "EHLO
+        id S233119AbhA0OaL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 27 Jan 2021 09:30:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233783AbhA0O3D (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 27 Jan 2021 09:29:03 -0500
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FDBFC061573
-        for <linux-leds@vger.kernel.org>; Wed, 27 Jan 2021 06:28:23 -0800 (PST)
-Received: by mail-oi1-x22f.google.com with SMTP id p5so2297430oif.7
-        for <linux-leds@vger.kernel.org>; Wed, 27 Jan 2021 06:28:23 -0800 (PST)
+        with ESMTP id S231194AbhA0O36 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 27 Jan 2021 09:29:58 -0500
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79AC0C06174A
+        for <linux-leds@vger.kernel.org>; Wed, 27 Jan 2021 06:29:18 -0800 (PST)
+Received: by mail-oi1-x230.google.com with SMTP id w8so2330369oie.2
+        for <linux-leds@vger.kernel.org>; Wed, 27 Jan 2021 06:29:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=uZa34iNLZXzZFgCkFyw7+98Rs100rokiObLD8pmRuUY=;
-        b=yHqCtsgEWEiNMgr3d8KZv+/5sk6UJ89UeB9BAL3BFj9o4ADvdN6+u8tG5k/Gl6GYZc
-         CRTLYHmkqbDMJNBBwu7ATXI3LVZ3IK1o5GUuZQ9dXt+kr1DddbDURJoAlR+ccpYq7+4A
-         9ge0Bsdk//cV/+T4qkXpLSfOjbt3IAIrsi3GWAnheW2ESPhOLsekKEYyrL27yP4Ck5bD
-         QhvOwdZJwS+PDNLXLl4FG6NXmo50Luqyb8czBlyzMcmrqvaE0UGMbopQaONAfs6e6gqU
-         vsJnALNRxfYLw91zQ8zZ8Fw4qBkiuLDwVC84tuO3Xl6VVIjahKvxSMsMbFYtMBLqXe6x
-         qBGA==
+        bh=4id04Ce+fp/e8CTiMx3Sr5ui4DlY1xAuBgKbADQCYHs=;
+        b=FKfbCeJ016u5l9An/csG2m8Rg9KIwa1az5mkdyLz6vQD2H/ZLDX22a136QcU+sX+cC
+         macnEmVGvuGkhW6ADkL6d9AAr5+hnIauK2CY+P0c6syRwiE5ZQU5q7kNiUyey9krm/oQ
+         m9Njx2D0OJq+8Q1+0FO6uD+0o/wk2QgjxoI4+cXkelu/17hwikos1fPqbWoSmH8PfY16
+         iIeiuM2T/fmzueo3KiysSr0fDpjQFl6+tD9/H0kXS5MlSGWfQvS5M6G/eiOC7P4Q2vdN
+         7nTY49ZpUCrJ540N8TLfzFqbltgcamSnpNtghTT7hGXnqYOCJ79YIzWGkCzw/CVIqEnP
+         5qZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=uZa34iNLZXzZFgCkFyw7+98Rs100rokiObLD8pmRuUY=;
-        b=Zdivn8bxcL55Wv/by67iBKFzQVJMYGmZhJwtN/A5DFKDkSbjvr8BaKpGibsszOD4PO
-         h6/HL8h6Ux9TwODKn95Z3AFT9y6erDLETL5XAa6e5bySpB9F39oajYId6v3b8TkT/4CS
-         Wm2G/Ffc4khAtdu+o53qwjqWlYRFYXYe6o5DQEmgs84k18Kt6eTxAzN1Hiyzf+MAo+7M
-         TxJfFFr/CuhQOPQvRQeunwPw6UQu+woA1wx4GYC/lHB/E3cmNa23ARfLBrIRtUJWoDRD
-         ayfwwMoT8/l9hWr9bfOzWELNhe40EQmMDxK3I466KrWSNWM1n/EQZOfK7ND6ZcK/0X+E
-         3nww==
-X-Gm-Message-State: AOAM533BZ63U/IcgqmSIDv/yvRQ82FhSK2WLXaI1uvvt4T6YW3LfOPQg
-        Fyqftr8aud07hCd2MTuC9cr8Cg==
-X-Google-Smtp-Source: ABdhPJyhQ4wAJpSym7gzJXvKfZnElEhvu5w+a0f37qggO3T/TY6IL6fTsq4O7xKUQ5kuB6KwcLlssA==
-X-Received: by 2002:aca:1a17:: with SMTP id a23mr3323036oia.120.1611757702385;
-        Wed, 27 Jan 2021 06:28:22 -0800 (PST)
+        bh=4id04Ce+fp/e8CTiMx3Sr5ui4DlY1xAuBgKbADQCYHs=;
+        b=Aljrwd58zhS2hBjv9ZTKuhdbOoKX8xWkON8OODxoWDG0XKs2SSEePphWfe2dk69p1f
+         G/MSJrrnCmTmffJTxKYO58a6ohvqUupGNc4vAK99vnobzcJyahPRbXsN92w0pqem/j5y
+         o0TA5Ob0ncVSPtutaHl54VQOzlxD8qNsRj7K4KRaTpdIIXWPvR6D8NyAi4JhLdwrGD5i
+         gIWHm50Pqk01G9s0l2ra1pi8keNl/MtkwirHag//iDvx8VLIOEOaEJ3BR4UrsOYDTjfp
+         PRzVun4P8FL+UXuIepo4g+PXtws7X9kHQcU4nYs/VYSLocVNoS5WzEr8Sz1FHOANbYhg
+         knyA==
+X-Gm-Message-State: AOAM531TTYKjXuNv80kUrUELFoOE+z58RWnWHHZXfHOGxdp7QKfCeWjq
+        z8y7lFZEuylwP7MLnruUzQZm2g==
+X-Google-Smtp-Source: ABdhPJwb2/m3MU/zw67FfMAeQmwXNthxIFKhH0xwTluKN9VbYYGvTbrGNUpiIuOT6X0+/4woOhNIrA==
+X-Received: by 2002:aca:d643:: with SMTP id n64mr3351850oig.151.1611757757891;
+        Wed, 27 Jan 2021 06:29:17 -0800 (PST)
 Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id 68sm380107otr.16.2021.01.27.06.28.21
+        by smtp.gmail.com with ESMTPSA id e14sm443934oou.19.2021.01.27.06.29.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 06:28:21 -0800 (PST)
-Date:   Wed, 27 Jan 2021 08:28:19 -0600
+        Wed, 27 Jan 2021 06:29:17 -0800 (PST)
+Date:   Wed, 27 Jan 2021 08:29:15 -0600
 From:   Bjorn Andersson <bjorn.andersson@linaro.org>
 To:     "N?colas F. R. A. Prado" <nfraprado@protonmail.com>
 Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
@@ -63,172 +63,55 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         linux-kernel@vger.kernel.org,
         ~postmarketos/upstreaming@lists.sr.ht,
         lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
-Subject: Re: [PATCH v2 1/4] dt-bindings: leds: Add binding for qcom-spmi-flash
-Message-ID: <YBF4g3Oh8x24jfzX@builder.lan>
+Subject: Re: [PATCH v2 3/4] ARM: qcom_defconfig: Enable QCOM SPMI Flash LEDs
+Message-ID: <YBF4u3Q59GMARSlm@builder.lan>
 References: <20210126140240.1517044-1-nfraprado@protonmail.com>
- <20210126140240.1517044-2-nfraprado@protonmail.com>
+ <20210126140240.1517044-4-nfraprado@protonmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210126140240.1517044-2-nfraprado@protonmail.com>
+In-Reply-To: <20210126140240.1517044-4-nfraprado@protonmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue 26 Jan 08:04 CST 2021, N?colas F. R. A. Prado wrote:
+On Tue 26 Jan 08:06 CST 2021, N?colas F. R. A. Prado wrote:
 
-> Add devicetree binding for QCOM SPMI Flash LEDs, which are part of
-> PM8941, and are used both as lantern and camera flash.
+> Enable module for the Qualcomm SPMI Flash LEDs present on the PM8941
+> PMIC.
 > 
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@protonmail.com>
 > ---
 > Changes in v2:
-> - Add this commit
+> - Enabled CONFIG_LEDS_CLASS_FLASH since the driver now depends on it.
 > 
->  .../bindings/leds/leds-qcom-spmi-flash.yaml   | 94 +++++++++++++++++++
->  .../dt-bindings/leds/leds-qcom-spmi-flash.h   | 15 +++
->  2 files changed, 109 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-spmi-flash.yaml
->  create mode 100644 include/dt-bindings/leds/leds-qcom-spmi-flash.h
+>  arch/arm/configs/qcom_defconfig | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-spmi-flash.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-spmi-flash.yaml
-> new file mode 100644
-> index 000000000000..169716e14f67
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-spmi-flash.yaml
-> @@ -0,0 +1,94 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-qcom-spmi-flash.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm SPMI Flash LEDs
-> +
-> +maintainers:
-> +  - Nícolas F. R. A. Prado <nfraprado@protonmail.com>
-> +
-> +description: |
-> +  The Qualcomm SPMI Flash LEDs are part of Qualcomm PMICs and are used primarily
-> +  as a camera or video flash. They can also be used as a lantern when on torch
-> +  mode.
-> +  The PMIC is connected to Host processor via SPMI bus.
-> +
-> +properties:
-> +  compatible:
-> +    const: qcom,spmi-flash
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  flash-boost-supply:
-> +    description: SMBB regulator for LED flash mode
-> +
-> +  torch-boost-supply:
-> +    description: SMBB regulator for LED torch mode
-> +
-> +patternProperties:
-> +  "^led[0-1]$":
-> +    type: object
-> +    $ref: common.yaml#
-> +
-> +    properties:
-> +      qcom,clamp-curr:
-> +        description: current to clamp at, in uA
-> +        $ref: /schemas/types.yaml#definitions/uint32
-> +
-> +      qcom,headroom:
-> +        description: |
-> +          headroom to use. Use one of QCOM_SPMI_FLASH_HEADROOM_* defined in
-> +          include/dt-bindings/leds/leds-qcom-spmi-flash.h
+> diff --git a/arch/arm/configs/qcom_defconfig b/arch/arm/configs/qcom_defconfig
+> index f6e9675f639c..05cacc59087e 100644
+> --- a/arch/arm/configs/qcom_defconfig
+> +++ b/arch/arm/configs/qcom_defconfig
+> @@ -202,6 +202,7 @@ CONFIG_MMC_SDHCI_PLTFM=y
+>  CONFIG_MMC_SDHCI_MSM=y
+>  CONFIG_NEW_LEDS=y
+>  CONFIG_LEDS_CLASS=y
+> +CONFIG_LEDS_CLASS_FLASH=y
 
-Please make the unit of this property millivolts, instead of describing
-it indirectly using the defines in the header file.
-
-> +        $ref: /schemas/types.yaml#definitions/uint32
-> +        minimum: 0
-> +        maximum: 3
-
-And you can then list out the valid values here.
-
-> +
-> +      qcom,startup-dly:
-> +        description: |
-> +          delay before flashing. Use one of QCOM_SPMI_FLASH_STARTUP_DLY_*
-> +          defined in include/dt-bindings/leds/leds-qcom-spmi-flash.h
-
-As above, please describe this in microseconds.
-
-> +        $ref: /schemas/types.yaml#definitions/uint32
-> +        minimum: 0
-> +        maximum: 3
-> +
-> +      qcom,safety-timer:
-> +        description: include for safety timer use, otherwise watchdog timer will be used
-> +        type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - flash-boost-supply
-> +  - torch-boost-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +    #include <dt-bindings/leds/leds-qcom-spmi-flash.h>
-> +
-> +    qcom,leds@d300 {
-
-Please no "qcom," in the node name.
+This doesn't seem critical to boot the system, can we make it =m?
 
 Regards,
 Bjorn
 
-> +        compatible = "qcom,spmi-flash";
-> +        reg = <0xd300 0x100>;
-> +        flash-boost-supply = <&pm8941_5vs1>;
-> +        torch-boost-supply = <&pm8941_5v>;
-> +
-> +        led0 {
-> +            led-sources = <0>;
-> +            function = LED_FUNCTION_FLASH;
-> +            color = <LED_COLOR_ID_WHITE>;
-> +            led-max-microamp = <200000>;
-> +            flash-max-microamp = <1000000>;
-> +            flash-max-timeout-us = <1280000>;
-> +            default-state = "off";
-> +            qcom,clamp-curr = <200000>;
-> +            qcom,headroom = <QCOM_SPMI_FLASH_HEADROOM_500MV>;
-> +            qcom,startup-dly = <QCOM_SPMI_FLASH_STARTUP_DLY_128US>;
-> +            qcom,safety-timer;
-> +        };
-> +    };
-> +...
-> diff --git a/include/dt-bindings/leds/leds-qcom-spmi-flash.h b/include/dt-bindings/leds/leds-qcom-spmi-flash.h
-> new file mode 100644
-> index 000000000000..8bd54a8e831d
-> --- /dev/null
-> +++ b/include/dt-bindings/leds/leds-qcom-spmi-flash.h
-> @@ -0,0 +1,15 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _DT_BINDINGS_LEDS_QCOM_SPMI_FLASH_H
-> +#define _DT_BINDINGS_LEDS_QCOM_SPMI_FLASH_H
-> +
-> +#define QCOM_SPMI_FLASH_HEADROOM_250MV	0
-> +#define QCOM_SPMI_FLASH_HEADROOM_300MV	1
-> +#define QCOM_SPMI_FLASH_HEADROOM_400MV	2
-> +#define QCOM_SPMI_FLASH_HEADROOM_500MV	3
-> +
-> +#define QCOM_SPMI_FLASH_STARTUP_DLY_10US	0
-> +#define QCOM_SPMI_FLASH_STARTUP_DLY_32US	1
-> +#define QCOM_SPMI_FLASH_STARTUP_DLY_64US	2
-> +#define QCOM_SPMI_FLASH_STARTUP_DLY_128US	3
-> +
-> +#endif
+>  CONFIG_LEDS_GPIO=y
+>  CONFIG_LEDS_PM8058=y
+>  CONFIG_LEDS_TRIGGERS=y
+> @@ -284,3 +285,4 @@ CONFIG_DYNAMIC_DEBUG=y
+>  CONFIG_DEBUG_INFO=y
+>  CONFIG_MAGIC_SYSRQ=y
+>  # CONFIG_SCHED_DEBUG is not set
+> +CONFIG_LEDS_QCOM_SPMI_FLASH=m
 > -- 
 > 2.30.0
 > 
