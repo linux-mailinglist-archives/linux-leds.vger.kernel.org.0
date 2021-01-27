@@ -2,125 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22DA3303FC0
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Jan 2021 15:10:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D686305189
+	for <lists+linux-leds@lfdr.de>; Wed, 27 Jan 2021 05:57:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405570AbhAZOI6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 26 Jan 2021 09:08:58 -0500
-Received: from mail-02.mail-europe.com ([51.89.119.103]:58828 "EHLO
-        mail-02.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405745AbhAZOIg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 Jan 2021 09:08:36 -0500
-Date:   Tue, 26 Jan 2021 14:06:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1611670025;
-        bh=salyD/WHDIurAfXLaRdlHjy/N3gO/EgJ38mXhbWj+8A=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=q+HTsB7Uqut7TDSqzeqkeRLfypg5t9zC4sq5LSGRFXYLjJ4ngWqoirWhUky/juxGQ
-         rN7eNCEZGezvPUctVw4/tc5Rbg+bY8AbpHw33S4jL4mdDogThy2JFU+eLWJNfBLAma
-         fJu7BQd7ZQmcn9HjcaXfniqfIEedKnoIcXypjjEw=
-To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        Brian Masney <masneyb@onstation.org>,
-        Luca Weiss <luca@z3ntu.xyz>,
-        Russell King <linux@armlinux.org.uk>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
-Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: [PATCH v2 4/4] ARM: dts: qcom: pm8941: Add nodes for QCOM SPMI Flash LEDs
-Message-ID: <20210126140240.1517044-5-nfraprado@protonmail.com>
-In-Reply-To: <20210126140240.1517044-1-nfraprado@protonmail.com>
-References: <20210126140240.1517044-1-nfraprado@protonmail.com>
+        id S234704AbhA0E5M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 26 Jan 2021 23:57:12 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:11601 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S316661AbhA0Bja (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 Jan 2021 20:39:30 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DQR6X5XNFz15sSR;
+        Wed, 27 Jan 2021 09:37:08 +0800 (CST)
+Received: from [127.0.0.1] (10.174.176.220) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.498.0; Wed, 27 Jan 2021
+ 09:38:16 +0800
+Subject: Re: [PATCH v2] dt-bindings: leds: Document commonly used LED triggers
+To:     Rob Herring <robh@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC:     <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <dmurphy@ti.com>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-leds@vger.kernel.org>
+References: <20201210082449.30586-1-manivannan.sadhasivam@linaro.org>
+ <20201214223621.GA2493849@robh.at.kernel.org>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <30f805f7-81c0-49e5-7ad6-7509ad0b4b4a@huawei.com>
+Date:   Wed, 27 Jan 2021 09:38:15 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+In-Reply-To: <20201214223621.GA2493849@robh.at.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.220]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add the necessary devicetree nodes for the Qualcomm SPMI Flash LEDs
-present in PM8941.
+Hi Manivannan:
+  Do you have time to prepare v3? Hope it can be applied into v5.12
 
-Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
----
-Changes in v2:
-- Moved from hammerhead dts to pm8941 dtsi, as it was this way downstream
-- Now using values from leds-qcom-spmi-flash.h
 
- arch/arm/boot/dts/qcom-pm8941.dtsi | 38 ++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
-
-diff --git a/arch/arm/boot/dts/qcom-pm8941.dtsi b/arch/arm/boot/dts/qcom-pm=
-8941.dtsi
-index c1f2012d1c8b..89309d3c777c 100644
---- a/arch/arm/boot/dts/qcom-pm8941.dtsi
-+++ b/arch/arm/boot/dts/qcom-pm8941.dtsi
-@@ -2,6 +2,8 @@
- #include <dt-bindings/iio/qcom,spmi-vadc.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/spmi/spmi.h>
-+#include <dt-bindings/leds/common.h>
-+#include <dt-bindings/leds/leds-qcom-spmi-flash.h>
-=20
- &spmi_bus {
-=20
-@@ -189,5 +191,41 @@ pm8941_5vs2: 5vs2 {
- =09=09=09=09regulator-initial-mode =3D <1>;
- =09=09=09};
- =09=09};
-+
-+=09=09qcom,spmi-flash@d300 {
-+=09=09=09status =3D "okay";
-+
-+=09=09=09compatible =3D "qcom,spmi-flash";
-+=09=09=09reg =3D <0xd300 0x100>;
-+=09=09=09flash-boost-supply =3D <&pm8941_5vs1>;
-+=09=09=09torch-boost-supply =3D <&pm8941_5v>;
-+=09=09=09pm8941_flash0: led0 {
-+=09=09=09=09led-sources =3D <0>;
-+=09=09=09=09function =3D LED_FUNCTION_FLASH;
-+=09=09=09=09color =3D <LED_COLOR_ID_WHITE>;
-+=09=09=09=09led-max-microamp =3D <200000>;
-+=09=09=09=09flash-max-microamp =3D <1000000>;
-+=09=09=09=09flash-max-timeout-us =3D <1280000>;
-+=09=09=09=09default-state =3D "off";
-+=09=09=09=09qcom,clamp-curr =3D <200000>;
-+=09=09=09=09qcom,headroom =3D <QCOM_SPMI_FLASH_HEADROOM_500MV>;
-+=09=09=09=09qcom,startup-dly =3D <QCOM_SPMI_FLASH_STARTUP_DLY_128US>;
-+=09=09=09=09qcom,safety-timer;
-+=09=09=09};
-+
-+=09=09=09pm8941_flash1: led1 {
-+=09=09=09=09led-sources =3D <1>;
-+=09=09=09=09function =3D LED_FUNCTION_FLASH;
-+=09=09=09=09color =3D <LED_COLOR_ID_WHITE>;
-+=09=09=09=09led-max-microamp =3D <200000>;
-+=09=09=09=09flash-max-microamp =3D <1000000>;
-+=09=09=09=09flash-max-timeout-us =3D <1280000>;
-+=09=09=09=09default-state =3D "off";
-+=09=09=09=09qcom,clamp-curr =3D <200000>;
-+=09=09=09=09qcom,headroom =3D <QCOM_SPMI_FLASH_HEADROOM_500MV>;
-+=09=09=09=09qcom,startup-dly =3D <QCOM_SPMI_FLASH_STARTUP_DLY_128US>;
-+=09=09=09=09qcom,safety-timer;
-+=09=09=09};
-+=09=09};
- =09};
- };
---=20
-2.30.0
-
+On 2020/12/15 6:36, Rob Herring wrote:
+> On Thu, Dec 10, 2020 at 01:54:49PM +0530, Manivannan Sadhasivam wrote:
+>> This commit documents the LED triggers used commonly in the SoCs. Not
+>> all triggers are documented as some of them are very application specific.
+>> Most of the triggers documented here are currently used in devicetrees
+>> of many SoCs.
+> 
+> The idea with recent LED binding changes is to move away from 
+> 'linux,default-trigger' to 'function' and 'trigger-sources' and to have 
+> some sort of standardized names.
+> 
+>>
+>> While at it, let's also sort the triggers in ascending order.
+> 
+> I'm not sure we want that. Probably better to keep related functions 
+> together.
+> 
+>>
+>> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+>> ---
+>>
+>> Changes in v2:
+>>
+>> * Added more triggers, fixed the regex
+>> * Sorted triggers in ascending order
+>>
+>>  .../devicetree/bindings/leds/common.yaml      | 78 ++++++++++++++-----
+>>  1 file changed, 60 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+>> index f1211e7045f1..3c2e2208c1da 100644
+>> --- a/Documentation/devicetree/bindings/leds/common.yaml
+>> +++ b/Documentation/devicetree/bindings/leds/common.yaml
 
