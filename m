@@ -2,99 +2,87 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0691309B43
-	for <lists+linux-leds@lfdr.de>; Sun, 31 Jan 2021 10:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 162DC309E55
+	for <lists+linux-leds@lfdr.de>; Sun, 31 Jan 2021 20:45:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230256AbhAaJvL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 31 Jan 2021 04:51:11 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:54940 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230151AbhAaJo3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 31 Jan 2021 04:44:29 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id C835D1C0B80; Sun, 31 Jan 2021 10:42:55 +0100 (CET)
-Date:   Sun, 31 Jan 2021 10:42:55 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
-Subject: [GIT PULL] LEDs chagnes for v5.11-rc
-Message-ID: <20210131094255.GA31740@duo.ucw.cz>
+        id S231222AbhAaTkE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 31 Jan 2021 14:40:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40206 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231169AbhAaTgR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 31 Jan 2021 14:36:17 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B959C061A29
+        for <linux-leds@vger.kernel.org>; Sun, 31 Jan 2021 11:27:02 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id q12so19825450lfo.12
+        for <linux-leds@vger.kernel.org>; Sun, 31 Jan 2021 11:27:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=b1V81F4Ydn2puqMz42w9oFOyXtkAUVLX+Y3b7UfXRik=;
+        b=fvoAu1c3foj39EJDfYIrFi9b8IYHukEGKSWMl+vmSkZ/AEuX/lganByfWLNtAojHdz
+         TV1i88wTX5AY0k6Y8rU2EVA+4ywlDvR1IlpKI35n4zWIHlBBpy38GCk930ppb99eNrtr
+         1V7YXKQdirWWp01taNS51RKLPgDDb7g9V+8Ls=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=b1V81F4Ydn2puqMz42w9oFOyXtkAUVLX+Y3b7UfXRik=;
+        b=KLPqJqsLrrtq17X6X8X6oXC31MCNyBJwYnvQPhAYALtrNyEjBC2iLQB2HKDtNitALW
+         mx7AwnKB1s8MlOhpqxtMQ/WBO0mR0weRiOg9v4Ys9/vRZOiEltsNSoxAKKCmAl3UZTs5
+         eyhKkY/pFmcJaThQUHVshUaFWAu2q6l2W9m2UU7s01VMxWjE7beBcLmnoxRTIdOj/YuU
+         5ewGPnL4ec0M5Qjxm1ojINdu4+rAlEtR+FQQXzCHP+XSskECDHtGIRksv7fIPZ6Lafvy
+         IFeLOU99yWBg0T44CvanYPYrQ965qningSUO2fDfschB5/JnPmcUlN5uGkvPfXlZFzQp
+         gCMw==
+X-Gm-Message-State: AOAM530x2gwQ2mJmrbjcgqcRqm4B38BxUc3NDewybzRRPFt4bRFubzv0
+        DuPcKQMB+/70RS4gJ1AYnTTtvuj/0q+FAw==
+X-Google-Smtp-Source: ABdhPJzbTr0YIyboFVPrpPBeDD6N7DmXfW53noqcmxQfKa8kVqDWo/ZJGTqVV3DyGCYvl7tv6gqvQw==
+X-Received: by 2002:ac2:42d1:: with SMTP id n17mr6625713lfl.76.1612121220200;
+        Sun, 31 Jan 2021 11:27:00 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id t4sm3559513ljc.50.2021.01.31.11.26.58
+        for <linux-leds@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Jan 2021 11:26:59 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id h12so19821297lfp.9
+        for <linux-leds@vger.kernel.org>; Sun, 31 Jan 2021 11:26:58 -0800 (PST)
+X-Received: by 2002:a05:6512:516:: with SMTP id o22mr6263102lfb.487.1612121218644;
+ Sun, 31 Jan 2021 11:26:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="VS++wcV0S1rZb1Fb"
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210131094255.GA31740@duo.ucw.cz>
+In-Reply-To: <20210131094255.GA31740@duo.ucw.cz>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun, 31 Jan 2021 11:26:42 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wih0mO6E4cvrAypwPu6xe--DziANaRmqhoRgdX9cM0shw@mail.gmail.com>
+Message-ID: <CAHk-=wih0mO6E4cvrAypwPu6xe--DziANaRmqhoRgdX9cM0shw@mail.gmail.com>
+Subject: Re: [GIT PULL] LEDs chagnes for v5.11-rc
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Sun, Jan 31, 2021 at 1:43 AM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> This pull is due to "leds: trigger: fix potential deadlock with
+> libata" -- people find the warn annoying. It also contains new driver
+> (still should be okay late in -rcs, right?) and two trivial fixes.
 
---VS++wcV0S1rZb1Fb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I've pulled it, but please don't add new drivers in -rc's.
 
-This pull is due to "leds: trigger: fix potential deadlock with
-libata" -- people find the warn annoying. It also contains new driver
-(still should be okay late in -rcs, right?) and two trivial fixes.
+Yes, we traditionally accepted them as hardware enablement, but
+honestly, our development cycles are so reliable and consistent these
+days that it makes very little sense any more.
 
-Best regards,
-								Pavel
+So aim for just new device ID additions rather than new drivers,
+unless it's some *hugely* popular hardware that actually causes
+problems for people bootstrapping the system (ie things like a disk or
+network driver from a major company that is expected to actually be
+widely available and an actual issue for people trying to install
+Linux on their own).
 
-The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
-
-  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ for-r=
-c-5.11
-
-for you to fetch changes up to e1c6edcbea13de025c3406645b4cce4ac3baf973:
-
-  leds: rt8515: Add Richtek RT8515 LED driver (2021-01-31 10:38:03 +0100)
-
-----------------------------------------------------------------
-Andrea Righi (1):
-      leds: trigger: fix potential deadlock with libata
-
-Linus Walleij (2):
-      dt-bindings: leds: Add DT binding for Richtek RT8515
-      leds: rt8515: Add Richtek RT8515 LED driver
-
-Zheng Yongjun (2):
-      leds: leds-lm3533: convert comma to semicolon
-      leds: leds-ariel: convert comma to semicolon
-
- .../devicetree/bindings/leds/richtek,rt8515.yaml   | 111 ++++++
- drivers/leds/Kconfig                               |   3 +
- drivers/leds/Makefile                              |   3 +
- drivers/leds/flash/Kconfig                         |  15 +
- drivers/leds/flash/Makefile                        |   3 +
- drivers/leds/flash/leds-rt8515.c                   | 397 +++++++++++++++++=
-++++
- drivers/leds/led-triggers.c                        |  10 +-
- drivers/leds/leds-ariel.c                          |   6 +-
- drivers/leds/leds-lm3533.c                         |   2 +-
- 9 files changed, 542 insertions(+), 8 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/leds/richtek,rt8515.y=
-aml
- create mode 100644 drivers/leds/flash/Kconfig
- create mode 100644 drivers/leds/flash/Makefile
- create mode 100644 drivers/leds/flash/leds-rt8515.c
-
---=20
-http://www.livejournal.com/~pavelmachek
-
---VS++wcV0S1rZb1Fb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYBZ7nwAKCRAw5/Bqldv6
-8kv+AJ9u60IV/4XVsv2wwLJOQnGGVxvfZACghfBloNL51XaXBlbAYKrgQoOt5H8=
-=Br7k
------END PGP SIGNATURE-----
-
---VS++wcV0S1rZb1Fb--
+                   Linus
