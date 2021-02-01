@@ -2,64 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86BDF30CEF9
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Feb 2021 23:36:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1172A30A5F7
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Feb 2021 11:58:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235760AbhBBWeZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 2 Feb 2021 17:34:25 -0500
-Received: from [20.39.40.203] ([20.39.40.203]:61037 "EHLO optinix.in"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S230091AbhBBWeU (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 2 Feb 2021 17:34:20 -0500
-dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
-        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
-        b=Z/qoYR5e93G/1E5Uh8tLreepyziGYShILI7fcXozE97A3DqZKBadv9kcBZBcmHZnqAUcLkt0g+COxgI6WqJ5gdfKqksQSW540KJaAE4DNiZ+EZYtErJhsiZnZCgjfp9yI8W2dpgN2EsH5zUvgVY6Bl2MWU8ziaGqy1DCXSk4DXXi+2CTtkJX9uQrf2ohPvP7bhav6zr4dJxTQjQYoopWjV3h9j7RqQq/UIXqX3VBjVDZARoXQTZUB0KN0A
-        F7X8DeijiSCFEdYkkdQwasjHi3K0B6KloKBXegK0TgQ39PHt5t2MVnmtmeZadY0DbdImfujjk25mqjLTG700JJRoTl9A==
-Received: from User (Unknown [52.231.31.5])
-        by optinix.in with ESMTP
-        ; Sat, 30 Jan 2021 02:14:15 +0000
-Message-ID: <B0CC978E-0149-4652-A2D0-17DE1F49BCC1@optinix.in>
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <support@digitalsol.in>
-Subject: Re:read
-Date:   Sat, 30 Jan 2021 02:14:13 -0000
+        id S233227AbhBAK53 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 1 Feb 2021 05:57:29 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:57062 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232290AbhBAK5I (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 1 Feb 2021 05:57:08 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 853FF1C0B78; Mon,  1 Feb 2021 11:56:25 +0100 (CET)
+Date:   Mon, 1 Feb 2021 11:56:25 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>
+Subject: Re: [GIT PULL] LEDs chagnes for v5.11-rc
+Message-ID: <20210201105625.GB23135@duo.ucw.cz>
+References: <20210131094255.GA31740@duo.ucw.cz>
+ <CAHk-=wih0mO6E4cvrAypwPu6xe--DziANaRmqhoRgdX9cM0shw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="nVMJ2NtxeReIH9PS"
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wih0mO6E4cvrAypwPu6xe--DziANaRmqhoRgdX9cM0shw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello,
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+--nVMJ2NtxeReIH9PS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+Hi!
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+On Sun 2021-01-31 11:26:42, Linus Torvalds wrote:
+> On Sun, Jan 31, 2021 at 1:43 AM Pavel Machek <pavel@ucw.cz> wrote:
+> >
+> > This pull is due to "leds: trigger: fix potential deadlock with
+> > libata" -- people find the warn annoying. It also contains new driver
+> > (still should be okay late in -rcs, right?) and two trivial fixes.
+>=20
+> I've pulled it, but please don't add new drivers in -rc's.
+>=20
+> Yes, we traditionally accepted them as hardware enablement, but
+> honestly, our development cycles are so reliable and consistent these
+> days that it makes very little sense any more.
 
-Regards,
-Ms. Reem.
+Ok, makes sense.
 
+> So aim for just new device ID additions rather than new drivers,
+> unless it's some *hugely* popular hardware that actually causes
+> problems for people bootstrapping the system (ie things like a disk or
+> network driver from a major company that is expected to actually be
+> widely available and an actual issue for people trying to install
+> Linux on their own).
+
+Well, this is for most important piece of hardware today,
+PinePhone. Too bad it is only for its flash LED.
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--nVMJ2NtxeReIH9PS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYBfeWQAKCRAw5/Bqldv6
+8vF7AKCa1lddbzfxGCxztMTe9KXhVgngAACeJ/RnxBEig0g3RDOdS+RsQ8Kpfuc=
+=TYWK
+-----END PGP SIGNATURE-----
+
+--nVMJ2NtxeReIH9PS--
