@@ -2,125 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCF6D30D950
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Feb 2021 12:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B388430DBC9
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Feb 2021 14:51:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234392AbhBCL4s (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 3 Feb 2021 06:56:48 -0500
-Received: from mx2.suse.de ([195.135.220.15]:44332 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234170AbhBCL4p (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 3 Feb 2021 06:56:45 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id B2493AEE7;
-        Wed,  3 Feb 2021 11:56:02 +0000 (UTC)
-Message-ID: <fcf4d0934a1523975c325c9911c1830a2121b27a.camel@suse.de>
-Subject: Re: [PATCH 3/3] dt-bindings: Fix errors in 'if' schemas
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Daniel Palmer <daniel@thingy.jp>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Joel Stanley <joel@jms.id.au>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Vincent Cheng <vincent.cheng.xh@renesas.com>,
-        linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-watchdog@vger.kernel.org,
-        Eric Anholt <eric@anholt.net>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-        linux-mmc@vger.kernel.org
-Date:   Wed, 03 Feb 2021 12:55:58 +0100
-In-Reply-To: <20210202205544.24812-3-robh@kernel.org>
-References: <20210202205544.24812-1-robh@kernel.org>
-         <20210202205544.24812-3-robh@kernel.org>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-5GqMeNDA14mTF3lYuG5p"
-User-Agent: Evolution 3.38.3 
+        id S231740AbhBCNuo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 3 Feb 2021 08:50:44 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:38482 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230123AbhBCNun (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 3 Feb 2021 08:50:43 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 113Dnfnb065738;
+        Wed, 3 Feb 2021 07:49:41 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1612360181;
+        bh=j6icRAuTZgy1AtJAEQIOxn7n/y4lnVdH9Vjvn+YesGI=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=mua55PK9ZobR4t0zc/U1M/HaDWdHiB+Qb9V4lUK27I2nYvf8s8B7mIFVt3I3r976i
+         4PVA1oDLx3Qu87uOKefLoBg7AFYwspsoJA0dxpmlp098Ie96aoFI6Nq4Nrmv0aD5OJ
+         afs2IlIHTCIGqnoL6GOFFwuL8FSc6MGnzS4LvidM=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 113DnfZN107665
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 3 Feb 2021 07:49:41 -0600
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 3 Feb
+ 2021 07:49:40 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 3 Feb 2021 07:49:41 -0600
+Received: from [10.250.39.117] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 113DneOw033189;
+        Wed, 3 Feb 2021 07:49:40 -0600
+Subject: Re: [PATCH 2/2] leds: lp50xx: remove unused regulator
+To:     Pavel Machek <pavel@ucw.cz>,
+        Sven Schuchmann <schuchmann@schleissheimer.de>
+CC:     Rob Herring <robh+dt@kernel.org>, <linux-leds@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20210203083408.2534-1-schuchmann@schleissheimer.de>
+ <20210203090249.GA14154@amd>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <2e9dff78-7fde-404d-6fad-6aeedf1145d1@ti.com>
+Date:   Wed, 3 Feb 2021 07:49:35 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210203090249.GA14154@amd>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Pavel
 
---=-5GqMeNDA14mTF3lYuG5p
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2/3/21 3:02 AM, Pavel Machek wrote:
+> On Wed 2021-02-03 08:34:08, Sven Schuchmann wrote:
+>> The regulator for vled-supply is unused in the driver.
+>> It is just assigned from DT and disabled in lp50xx_remove.
+>> So the code can be removed from the driver.
+> Dan, what is going on here? Do we need to also enable the regulator,
+> or is the removal correct thing to do?
+>
+I think it would be better to do an enable as opposed to removing the code.
 
-On Tue, 2021-02-02 at 14:55 -0600, Rob Herring wrote:
-> Properties in if/then schemas weren't getting checked by the meta-schemas=
-.
-> Enabling meta-schema checks finds several errors.
->=20
-> The use of an 'items' schema (as opposed to the list form) is wrong in
-> some cases as it applies to all entries. 'contains' is the correct schema
-> to use in the case of multiple entries.
->=20
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> Cc: Florian Fainelli <f.fainelli@gmail.com>
-> Cc: Ray Jui <rjui@broadcom.com>
-> Cc: Scott Branden <sbranden@broadcom.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> Cc: Kishon Vijay Abraham I <kishon@ti.com>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: linux-crypto@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-leds@vger.kernel.org
-> Cc: linux-mmc@vger.kernel.org
-> Cc: linux-gpio@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+This would be needed especially in applications that have to meet strict 
+power management requirements.
 
-Reviewed-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Users may want to disable or enable the regulator during suspend/resume. 
+Otherwise it would be considered always-on and the regulator does not 
+need to be populated.
 
-
---=-5GqMeNDA14mTF3lYuG5p
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmAaj04ACgkQlfZmHno8
-x/7Bywf9Ghk5CuwNSJHbRiqlKJ1q12tWeWcLF7LmZIFgm2sawjY0skG82SyJfJow
-cwKef8GMfZ51OrlO4VmeoOJ1sK8zmq6rkPz24dgE0Fe82CRAXneaxyr+m19SOgll
-vmrtNrEQpRqlVrOTo4A2jAufrJtStlw2VAy0jJT/QlRlyRwArJoUskuIqwNzj7wF
-KbgUjHD7GbVhRHlbfhsY7TdO6MYB4iKQek7IgiYoK8lB8TexlKr2ygDdBj1aXs4u
-omTYdJANyOFSbFAmnWfl3ScKeyS7lVHPUZybV6rHp6YDt+k1vjRivIzZXOLXrv14
-i2YyoJudc8K5ZBi0AE6j2Y0njKpi9A==
-=vnPw
------END PGP SIGNATURE-----
-
---=-5GqMeNDA14mTF3lYuG5p--
+Dan
 
