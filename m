@@ -2,130 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0608E30D5CB
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Feb 2021 10:06:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A4B730D883
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Feb 2021 12:25:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233096AbhBCJD4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 3 Feb 2021 04:03:56 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:40898 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233105AbhBCJDk (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 3 Feb 2021 04:03:40 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id B241B1C0B79; Wed,  3 Feb 2021 10:02:50 +0100 (CET)
-Date:   Wed, 3 Feb 2021 10:02:50 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Sven Schuchmann <schuchmann@schleissheimer.de>
-Cc:     Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] leds: lp50xx: remove unused regulator
-Message-ID: <20210203090249.GA14154@amd>
-References: <20210203083408.2534-1-schuchmann@schleissheimer.de>
+        id S234222AbhBCLXb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 3 Feb 2021 06:23:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34424 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234198AbhBCLXI (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 3 Feb 2021 06:23:08 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B73E164DE8;
+        Wed,  3 Feb 2021 11:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612351346;
+        bh=wGQw7gT3qnKCIXEO+rxqRvVbPbNtV92xRV2Pv+Ej3+o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MrJAtf5mnK1C4Q4ZyKjla2kAdXf633/lnbrk7VmF4rTw8ELv9cY7AI3lYFHz5IvTs
+         gW1JO8UMu0KWxpiE11pDElcoFi2aScKR/6EtEhTveStAUFXYmhZ/2VkMZcgd1/0YfE
+         ni15CbrfkH0uB9TmCzEv5FfL+g5ymnw5CEbyZXJD4ppEFij+lOdgpYmtLPj5YnxQt2
+         S89UXBGzveoZJe7weH0eyO7487Q9x29lPyzQEfs7eq9AcnO8mCcpuFXjNyVKHYr8yx
+         p+BAk8A9gP2L8aa7Eyu5laiQUOjkYC5JRKTNmmv8FsKcsF1NgygkcixHo6F7gFSZQG
+         dH3CVM+A3lgnQ==
+Date:   Wed, 3 Feb 2021 16:52:22 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Boyd <sboyd@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Daniel Palmer <daniel@thingy.jp>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Vincent Cheng <vincent.cheng.xh@renesas.com>,
+        linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-watchdog@vger.kernel.org,
+        Eric Anholt <eric@anholt.net>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        linux-mmc@vger.kernel.org
+Subject: Re: [PATCH 3/3] dt-bindings: Fix errors in 'if' schemas
+Message-ID: <20210203112222.GO2771@vkoul-mobl>
+References: <20210202205544.24812-1-robh@kernel.org>
+ <20210202205544.24812-3-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203083408.2534-1-schuchmann@schleissheimer.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20210202205544.24812-3-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
---yrj/dFKFPuw6o+aM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed 2021-02-03 08:34:08, Sven Schuchmann wrote:
-> The regulator for vled-supply is unused in the driver.
-> It is just assigned from DT and disabled in lp50xx_remove.
-> So the code can be removed from the driver.
-
-Dan, what is going on here? Do we need to also enable the regulator,
-or is the removal correct thing to do?
-
-Best regards,
-							Pavel
-
-
-> Part 1 updates the documentation
-> Part 2 removes the code
->=20
-> Signed-off-by: Sven Schuchmann <schuchmann@schleissheimer.de>
->=20
+On 02-02-21, 14:55, Rob Herring wrote:
+> Properties in if/then schemas weren't getting checked by the meta-schemas.
+> Enabling meta-schema checks finds several errors.
+> 
+> The use of an 'items' schema (as opposed to the list form) is wrong in
+> some cases as it applies to all entries. 'contains' is the correct schema
+> to use in the case of multiple entries.
+> 
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Eric Anholt <eric@anholt.net>
+> Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> Cc: Florian Fainelli <f.fainelli@gmail.com>
+> Cc: Ray Jui <rjui@broadcom.com>
+> Cc: Scott Branden <sbranden@broadcom.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: linux-crypto@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-leds@vger.kernel.org
+> Cc: linux-mmc@vger.kernel.org
+> Cc: linux-gpio@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/leds/leds-lp50xx.c | 14 --------------
->  1 file changed, 14 deletions(-)
->=20
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> index f13117eed976..b0871495bae3 100644
-> --- a/drivers/leds/leds-lp50xx.c
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -11,7 +11,6 @@
->  #include <linux/of.h>
->  #include <linux/of_gpio.h>
->  #include <linux/regmap.h>
-> -#include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  #include <uapi/linux/uleds.h>
-> =20
-> @@ -275,7 +274,6 @@ struct lp50xx_led {
->  /**
->   * struct lp50xx -
->   * @enable_gpio: hardware enable gpio
-> - * @regulator: LED supply regulator pointer
->   * @client: pointer to the I2C client
->   * @regmap: device register map
->   * @dev: pointer to the devices device struct
-> @@ -286,7 +284,6 @@ struct lp50xx_led {
->   */
->  struct lp50xx {
->  	struct gpio_desc *enable_gpio;
-> -	struct regulator *regulator;
->  	struct i2c_client *client;
->  	struct regmap *regmap;
->  	struct device *dev;
-> @@ -462,10 +459,6 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->  		return ret;
->  	}
-> =20
-> -	priv->regulator =3D devm_regulator_get(priv->dev, "vled");
-> -	if (IS_ERR(priv->regulator))
-> -		priv->regulator =3D NULL;
-> -
->  	device_for_each_child_node(priv->dev, child) {
->  		led =3D &priv->leds[i];
->  		ret =3D fwnode_property_count_u32(child, "reg");
-> @@ -583,13 +576,6 @@ static int lp50xx_remove(struct i2c_client *client)
->  		return ret;
->  	}
-> =20
-> -	if (led->regulator) {
-> -		ret =3D regulator_disable(led->regulator);
-> -		if (ret)
-> -			dev_err(&led->client->dev,
-> -				"Failed to disable regulator\n");
-> -	}
-> -
->  	mutex_destroy(&led->lock);
-> =20
->  	return 0;
+>  .../devicetree/bindings/crypto/allwinner,sun8i-ce.yaml   | 3 +--
+>  .../devicetree/bindings/display/brcm,bcm2835-hvs.yaml    | 2 +-
+>  Documentation/devicetree/bindings/leds/ti,tca6507.yaml   | 1 +
+>  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml  | 2 +-
+>  Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml | 3 +--
+>  .../devicetree/bindings/phy/renesas,usb2-phy.yaml        | 5 ++---
 
---=20
-http://www.livejournal.com/~pavelmachek
+For phy:
 
---yrj/dFKFPuw6o+aM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Acked-By: Vinod Koul <vkoul@kernel.org>
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmAaZrkACgkQMOfwapXb+vJVAACePCdJ0/J96bFqKYIylfKvj3YI
-aVQAn3Or6tou+NWIQCpTFM7mtRe3R7XT
-=O55N
------END PGP SIGNATURE-----
-
---yrj/dFKFPuw6o+aM--
+-- 
+~Vinod
