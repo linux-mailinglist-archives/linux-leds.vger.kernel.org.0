@@ -2,94 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6B3A30F55E
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Feb 2021 15:51:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3FF830F575
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Feb 2021 15:56:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236851AbhBDOtO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 4 Feb 2021 09:49:14 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:43674 "EHLO
+        id S236924AbhBDOyH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 4 Feb 2021 09:54:07 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:44224 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236725AbhBDOs3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Feb 2021 09:48:29 -0500
+        with ESMTP id S236910AbhBDOwp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 4 Feb 2021 09:52:45 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 6E8E21C0B77; Thu,  4 Feb 2021 15:47:28 +0100 (CET)
-Date:   Thu, 4 Feb 2021 15:47:28 +0100
+        id 046081C0B77; Thu,  4 Feb 2021 15:52:02 +0100 (CET)
+Date:   Thu, 4 Feb 2021 15:52:01 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Dan Murphy <dmurphy@ti.com>
-Cc:     Sven Schuchmann <schuchmann@schleissheimer.de>,
-        Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] leds: lp50xx: remove unused regulator
-Message-ID: <20210204144728.GA14305@duo.ucw.cz>
-References: <20210203083408.2534-1-schuchmann@schleissheimer.de>
- <20210203090249.GA14154@amd>
- <2e9dff78-7fde-404d-6fad-6aeedf1145d1@ti.com>
- <20210203142336.GA12369@duo.ucw.cz>
- <0ddd5bdf-0484-3c20-1b6e-5573d1ff90f6@ti.com>
+To:     Sven Schuchmann <schuchmann@schleissheimer.de>
+Cc:     Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] leds: lp50xx: add setting of default intensity
+ from DT
+Message-ID: <20210204145201.GB14305@duo.ucw.cz>
+References: <20210204143726.27977-1-schuchmann@schleissheimer.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
+        protocol="application/pgp-signature"; boundary="i9LlY+UWpKt15+FH"
 Content-Disposition: inline
-In-Reply-To: <0ddd5bdf-0484-3c20-1b6e-5573d1ff90f6@ti.com>
+In-Reply-To: <20210204143726.27977-1-schuchmann@schleissheimer.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---sdtB3X0nJg68CQEu
+--i9LlY+UWpKt15+FH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed 2021-02-03 10:02:00, Dan Murphy wrote:
-> Pavel
->=20
-> On 2/3/21 8:23 AM, Pavel Machek wrote:
-> > On Wed 2021-02-03 07:49:35, Dan Murphy wrote:
-> > > Pavel
-> > >=20
-> > > On 2/3/21 3:02 AM, Pavel Machek wrote:
-> > > > On Wed 2021-02-03 08:34:08, Sven Schuchmann wrote:
-> > > > > The regulator for vled-supply is unused in the driver.
-> > > > > It is just assigned from DT and disabled in lp50xx_remove.
-> > > > > So the code can be removed from the driver.
-> > > > Dan, what is going on here? Do we need to also enable the regulator,
-> > > > or is the removal correct thing to do?
-> > > >=20
-> > > I think it would be better to do an enable as opposed to removing the=
- code.
-> > >=20
-> > > This would be needed especially in applications that have to meet str=
-ict
-> > > power management requirements.
-> > >=20
-> > > Users may want to disable or enable the regulator during suspend/resu=
-me.
-> > > Otherwise it would be considered always-on and the regulator does not=
- need
-> > > to be populated.
-> > Do you have set up where this is needed and you can test this? Will
-> > you submit the fixes?
->=20
-> No I use an always on regulator in my setup. I have no managed supplies
-> exposed.
+Hi!
 
-Hmm, that is not ideal :-(. Can you try to provide patch, anyway?
+> In order to use a multicolor-led together with a trigger
+> the led needs to have an intensity set to see something.
+> The trigger changes the brightness of the led but if there
+> is no intensity we actually see nothing.
+>=20
+> This patch adds the ability to set the default intensity
+> of each multi-led node so that it is turned on from DT.
+> If no intensity is given the led will be initialized
+> with full intensity.
+>=20
+> Part 1 updates the documentation.
+> Part 2 removes an unused variable.
+> Part 3 sets the initial intensity to full.
+> Part 4 reads the default intensity from DT
+>=20
+
+> diff --git a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml b/Do=
+cumentation/devicetree/bindings/leds/leds-lp50xx.yaml
+> index c192b5feadc7..2bc25b2fc94d 100644
+> --- a/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+> +++ b/Documentation/devicetree/bindings/leds/leds-lp50xx.yaml
+> @@ -65,6 +65,11 @@ patternProperties:
+>            This property denotes the LED module number(s) that is used on=
+ the
+>            for the child node.  The LED modules can either be used stand =
+alone
+>            or grouped into a module bank.
+> +      default-intensity:
+> +        minItems: 1
+> +        maxItems: 3
+> +        description:
+
+Do we need more than three for RGBW and similar?
+
+> +          The default intensity the multi-led gets initialised with.
+> =20
+>      patternProperties:
+>        "(^led-[0-9a-f]$|led)":
+> @@ -99,6 +104,7 @@ examples:
+>                 reg =3D <0x1>;
+>                 color =3D <LED_COLOR_ID_RGB>;
+>                 function =3D LED_FUNCTION_CHARGING;
+> +               default-intensity =3D <100 0 0>;
+> =20
+>                 led-0 {
+>                     color =3D <LED_COLOR_ID_RED>;
+
+Should this go to leds-class-multicolor.yaml ? Can you make example
+<255 120 0> or something like that, so make it clear it is not
+percent?
 
 Best regards,
 								Pavel
+
 --=20
 http://www.livejournal.com/~pavelmachek
 
---sdtB3X0nJg68CQEu
+--i9LlY+UWpKt15+FH
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYBwJAAAKCRAw5/Bqldv6
-8sggAJ4zBz1csm1BfQrxFGY4y05ScEhujQCgj4moxaLa/wt98rt3OYfnoCuDJO4=
-=+oon
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYBwKEQAKCRAw5/Bqldv6
+8qDCAJ9wflBRRZLYVi6BEgHlTAhwQYyZVACfVYEypKKZM7iaduwzItW6tQ1Cgx0=
+=fnWV
 -----END PGP SIGNATURE-----
 
---sdtB3X0nJg68CQEu--
+--i9LlY+UWpKt15+FH--
