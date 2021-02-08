@@ -2,145 +2,65 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0D0631201C
-	for <lists+linux-leds@lfdr.de>; Sat,  6 Feb 2021 21:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5148E312BC7
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Feb 2021 09:33:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbhBFU7Y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 6 Feb 2021 15:59:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48132 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbhBFU7X (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 6 Feb 2021 15:59:23 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E49EC06174A;
-        Sat,  6 Feb 2021 12:58:43 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id s18so11750383ljg.7;
-        Sat, 06 Feb 2021 12:58:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fODc4Y13jnUgYFxRk0/SlJ0oEOTVWjVViI6j6TXwrmA=;
-        b=i+BNW/3lPIn8qBEL4dJSYVVoNBe4G3m2fgH7TV4qRli2Y4zuXfrL3ikjrrJSXN9QOV
-         /jx3qFgEgkW+O7Gl44iV8Vi3upllIZM4E2ARLbwYwztquYKNqOGjsor5pdhM8G8dx1C1
-         bqw6EKRkRC51ozp047gC4F2wIBPE/O2iVcpAUOkCoD3oCzOY4NzC9fkdQZL3gGeI8cYC
-         3hCFf/DBMCKnopIFFpORPEg8kciDMfINbpVT2nUvJ2W1glufCsg4bkGr7iN3vNQgexUs
-         dL1a++FA+Mh8vP8liREDQuw0Ewsjbq+A6ZWdFDV/K51vKCH2hQOxq39Rm/Y+F9I+SxK5
-         8RUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fODc4Y13jnUgYFxRk0/SlJ0oEOTVWjVViI6j6TXwrmA=;
-        b=IBWliyORz+uqgxjXBHQ0pZDtFdSRCu0TV71mA0ccCXvwNTZCUB0NCZKElZrGKLbAOq
-         czK9LPIEvKY4Xa+oSSv8wAIq37HbbcWFNDoML5uo9Y0pyAKJ2enIuvW0xvIpQC/0SXIF
-         hHYJWpD0fV0/7ZotBH8L0kS6JLRWDLkcRpV1nj+josW030wDCw7OlUNYTJ0lESHPlDYi
-         Yza2Y+OYk3hdGSK4LBTFog0cF5Qq/qRhF9C41ZNmoIpt4wqlSKFZoiM7j/oqz7/3DxcU
-         ZHXc5tw5QwLau0kMNb04encKal5vx50fEuzT3hiVJFD7wAcbBnaUJpwVa4VabVuD+DYo
-         MeTA==
-X-Gm-Message-State: AOAM532132npUc0fQgrD09OwR9TiykG3ZOFrXtqhq6G8zZgb5WiLd9iH
-        Rab2yV/kurl35nQ6chdZy2ZmECumMTQ=
-X-Google-Smtp-Source: ABdhPJz0+XIQ0VmKOXwuXGw+Yp6c6LpRsX19zuZPttNlimegwkGn6w0xU0Bd08AOaN/VgftdtgH/Fg==
-X-Received: by 2002:a2e:8444:: with SMTP id u4mr1155075ljh.342.1612645121429;
-        Sat, 06 Feb 2021 12:58:41 -0800 (PST)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id b39sm1376435ljf.68.2021.02.06.12.58.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Feb 2021 12:58:40 -0800 (PST)
-Subject: Re: AW: [PATCH v2 1/4] leds: lp50xx: add setting of default intensity
- from DT
-To:     Sven Schuchmann <schuchmann@schleissheimer.de>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20210204143726.27977-1-schuchmann@schleissheimer.de>
- <20210204145201.GB14305@duo.ucw.cz>
- <DB8P190MB063482D8E38C0529AD16A4D5D9B29@DB8P190MB0634.EURP190.PROD.OUTLOOK.COM>
- <20210205102338.GA27854@amd> <c107d3b9-2141-7cad-837a-f8ef107df61c@gmail.com>
- <DB8P190MB06344FAD6492E56D28A4E916D9B19@DB8P190MB0634.EURP190.PROD.OUTLOOK.COM>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <d5631e35-cd62-106f-2ec4-de3163367bc0@gmail.com>
-Date:   Sat, 6 Feb 2021 21:58:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S230159AbhBHIaW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Feb 2021 03:30:22 -0500
+Received: from smtp-18d.idc2.mandic.com.br ([177.70.124.135]:19146 "EHLO
+        smtp-18.idc2.mandic.com.br" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230012AbhBHIaJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Feb 2021 03:30:09 -0500
+Received: by smtp-18.smtp.mandic.prv (Postfix, from userid 491)
+        id 5BC52607E9FB; Mon,  8 Feb 2021 05:29:22 -0300 (-03)
+Received: from smtp-18.idc2.mandic.com.br (ifsmtp2 [192.168.1.38])
+        by smtp-18.smtp.mandic.prv (Postfix) with ESMTPS id C1044607AAA4;
+        Mon,  8 Feb 2021 05:29:16 -0300 (-03)
+Received: from User (unknown [52.235.38.23])
+        by smtp-18.smtp.mandic.prv (Postfix) with ESMTPA id 78375465E268;
+        Mon,  8 Feb 2021 05:26:42 -0300 (-03)
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <stefy@macrometrica.com.br>
+Subject: Re:reply
+Date:   Mon, 8 Feb 2021 08:29:15 -0000
 MIME-Version: 1.0
-In-Reply-To: <DB8P190MB06344FAD6492E56D28A4E916D9B19@DB8P190MB0634.EURP190.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain;
+        charset="Windows-1251"
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+X-Mandic-Auth: DYB6x5JcyVot9snxiAasWC73cfc93V+pC3vUrorm87+eXbqAUeEHL0ZNPgpM50IYQeUbiYx0PkMIK2oavHcOOA==
+X-Mandic-Sender: stefy@macrometrica.com.br
+Message-Id: <20210208082916.C1044607AAA4@smtp-18.smtp.mandic.prv>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Sven,
+Hello,
 
-On 2/6/21 2:14 PM, Sven Schuchmann wrote:
-> Hello Dan,
-> 
->> Von: Jacek Anaszewski <jacek.anaszewski@gmail.com>
->> Gesendet: Freitag, 5. Februar 2021 19:37
->> Hi Pavel,
->>
->> On 2/5/21 11:23 AM, Pavel Machek wrote:
->>> Hi!
->>>
->>>>>>        patternProperties:
->>>>>>          "(^led-[0-9a-f]$|led)":
->>>>>> @@ -99,6 +104,7 @@ examples:
->>>>>>                   reg = <0x1>;
->>>>>>                   color = <LED_COLOR_ID_RGB>;
->>>>>>                   function = LED_FUNCTION_CHARGING;
->>>>>> +               default-intensity = <100 0 0>;
->>
->> How will you know which array position is for which child LED?
->> I presume DT child nodes are not guaranteed to be parsed in the order
->> of declaration?
-> 
-> I tried to fiddle this out, but it seems Jacek is right over here.
-> The multi-led definition looks like this (from the documentation leds-lp50xx.yaml)
-> 
->          multi-led@1 {
->                 #address-cells = <1>;
->                 #size-cells = <0>;
->                 reg = <0x1>;
->                 color = <LED_COLOR_ID_RGB>;
->                 function = LED_FUNCTION_CHARGING;
-> 
->                 led-0 {
->                     color = <LED_COLOR_ID_RED>;
->                 };
-> 
->                 led-1 {
->                     color = <LED_COLOR_ID_GREEN>;
->                 };
-> 
->                 led-2 {
->                     color = <LED_COLOR_ID_BLUE>;
->                 };
->            };
-> 
-> But it seems that the color definition of each led is ignored.
-> By ignored I mean the driver does not take care which color
-> is at which position. So if I change led-0 to be LED_COLOR_ID_BLUE
-> and led-2 to be LED_COLOR_ID_RED nothing will change if I write
-> from userspace. Could you help to clarify?
-> Then it is even hard to know which led to set with default-intensity.
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-See Documentation/ABI/testing/sysfs-class-led-multicolor and
-documentation of multi_index and multi_intensity files.
-It is the multi_index file that tells what is the order of colors
-in the multi_intensity file.
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
 
-And that depends on the order of enumeration of the nodes by DT parser.
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
 
-> Also it seems that the enumeration of the multi-leds should
-> start with multi-led@0 (and not 1 as in the documentation).
-
-The @unit-address part of node name must match the first address
-specified in the reg property of the node, so this is correct.
--- 
-Best regards,
-Jacek Anaszewski
+Regards,
+Ms. Reem.
