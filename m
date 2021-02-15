@@ -2,131 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30DEC31BAF3
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Feb 2021 15:25:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4372831BB10
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Feb 2021 15:30:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229816AbhBOOXn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 Feb 2021 09:23:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229779AbhBOOXl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Feb 2021 09:23:41 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B032C06178A
-        for <linux-leds@vger.kernel.org>; Mon, 15 Feb 2021 06:22:20 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id v7so9064138wrr.12
-        for <linux-leds@vger.kernel.org>; Mon, 15 Feb 2021 06:22:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=cNvVdIdxlGj+Sfuamem72Qeix0oXAhgklbIFT61Vzrw=;
-        b=bmcYji8KmCDbksc8hp2MPVH5eDhkXRgtiRRfCRq6DoX2SEzAHyOlzQ8MimKicYZ9xC
-         7T87ysTFuAlWQw/+jY0Gid3ydZ+2hT460y3G8h1X2uC2a78MZckm5G4Noz+gW+rkep05
-         lVKA9dNP2HfcTsfjRTtZvbrLf5wmJAOZE4k+2Dh5baeQhavOwAiNWxaC6o6QaM9+8zP/
-         54JW0GJMfUMwO2nQg8Py25NO45SApbJ8njSeJ1SDZgXnhEmwi6VtSn2qwARAwFplSZgV
-         KZrsU//AhVGco7TlybPeYe9+BZSj0rvHalZIUlQ4kyX3keUE81D19FNWvFN39+PVh+bZ
-         YcFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=cNvVdIdxlGj+Sfuamem72Qeix0oXAhgklbIFT61Vzrw=;
-        b=m8fFgfdixbRvAmdomP9ANzSyXCtVGAMesm/NkcyIO5NqUabMNla/WecX044Hquh+3v
-         Zh6xu8b3pqyWU3PbAszULnTcTfb/RPYqzqGIOZ6KNruojsIRsoGaxx6xmSIunz+f7BVW
-         TKLpMbtVKKEbBZ3BP/31Emd6pC36Mr4PRkWCzM0k+oJ8msBWeP4TWE0oewftbTuTstjZ
-         ylXWPoJvL0Nu7zb5OD1gdXzIOYFRsy4qSwR2Rnkhac+ipAYvrvSN0Um4D0UgwRwqgKCt
-         sAv2+o1xv+5lHK4Jrb6TETBVhmz3qYNKeV4opfU7+O2RFfTtedq+ImSuEOznPHPCUuns
-         hcvQ==
-X-Gm-Message-State: AOAM532l5d2y34TfG0K8F0igaapt2L/HOAg8c7OVy5EpZRtTp3xRBvV7
-        qYOlNQoacZ+8wKCC/zaM9OBgVw==
-X-Google-Smtp-Source: ABdhPJyvLoPzpqgceTkmdirn2jBoo7kyNUoI9xyniMGSW3yxHYUlh/mGG05y681DGTzNHzaIx7MD9w==
-X-Received: by 2002:adf:fc4c:: with SMTP id e12mr19808318wrs.106.1613398938553;
-        Mon, 15 Feb 2021 06:22:18 -0800 (PST)
-Received: from dell ([91.110.221.146])
-        by smtp.gmail.com with ESMTPSA id f14sm17218090wmg.28.2021.02.15.06.22.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 06:22:18 -0800 (PST)
-Date:   Mon, 15 Feb 2021 14:22:16 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>, linux-pwm@vger.kernel.org,
-        linux-fbdev <linux-fbdev@vger.kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Linux PM <linux-pm@vger.kernel.org>, linux-iio@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v4] MAINTAINERS: move Milo Kim to credits
-Message-ID: <20210215142216.GA4770@dell>
-References: <20210212163229.68270-1-krzk@kernel.org>
- <20210215085241.GG179940@dell>
- <CACvgo53wn84G8wuyF++=bwtjnVzVB31BA2_JBWnihnwinSFD7A@mail.gmail.com>
+        id S229888AbhBOOaR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 15 Feb 2021 09:30:17 -0500
+Received: from lists.nic.cz ([217.31.204.67]:36680 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229627AbhBOOaR (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 15 Feb 2021 09:30:17 -0500
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id 30AC513F62D;
+        Mon, 15 Feb 2021 15:29:35 +0100 (CET)
+Date:   Mon, 15 Feb 2021 15:29:34 +0100
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Roderick Colenbrander <roderick@gaikai.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>, dmitry.torokhov@gmail.com,
+        pobm@protonmail.com, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH v6 00/4] HID: new driver for PS5 'DualSense' controller
+Message-ID: <20210215152934.62e134a3@nic.cz>
+In-Reply-To: <20210215004549.135251-1-roderick@gaikai.com>
+References: <20210215004549.135251-1-roderick@gaikai.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACvgo53wn84G8wuyF++=bwtjnVzVB31BA2_JBWnihnwinSFD7A@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 15 Feb 2021, Emil Velikov wrote:
+On Sun, 14 Feb 2021 16:45:45 -0800
+Roderick Colenbrander <roderick@gaikai.com> wrote:
 
-> Greetings everyone,
+> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 > 
-> On Mon, 15 Feb 2021 at 08:52, Lee Jones <lee.jones@linaro.org> wrote:
-> >
-> > On Fri, 12 Feb 2021, Krzysztof Kozlowski wrote:
-> >
-> > > Milo Kim's email in TI bounces with permanent error (550: Invalid
-> > > recipient).  Last email from him on LKML was in 2017.  Move Milo Kim to
-> > > credits and remove the separate driver entries for:
-> > >  - TI LP855x backlight driver,
-> > >  - TI LP8727 charger driver,
-> > >  - TI LP8788 MFD (ADC, LEDs, charger and regulator) drivers.
-> > >
-> > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > > Cc: Mark Brown <broonie@kernel.org>
-> > > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > > Cc: Jingoo Han <jingoohan1@gmail.com>
-> > > Cc: Lee Jones <lee.jones@linaro.org>
-> > > Cc: Pavel Machek <pavel@ucw.cz>
-> > > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > > Cc: Sebastian Reichel <sre@kernel.org>
-> > > Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> > >
-> > > ---
-> > >
-> > > Dear Lee,
-> > >
-> > > Could you take care about this patch?
-> >
-> > Yes, but I'll be sending out my pull-request for v5.12 in the next
-> > couple of days (maybe even today if I can find some time), so this
-> > will have to wait until v5.13.
-> >
-> Would it make sense to keep the MAINTAINERS entries as "orphan"?
-> Checking with linux-next, the drivers are still present in-tree.
+> Hi,
+> 
+> Recently Sony released a HID driver for the new PlayStation 5 controller
+> 'DualSense'. Pavel Machek noticed the driver got staged for "-next" and asked
+> me to share the LED patches to linux-leds as well.
+> 
+> The LED patches I'm sharing are patch 6, 9, 11, 12 from the v6 hid-playstation
+> series as originally posted to linux-input. The driver in its full form can be
+> found on "hid.git/log/?h=for-5.12/playstation".
+> 
 
-Please see:
+Hi,
 
- https://lore.kernel.org/patchwork/patch/1379016/
+OK I see you described the purpose of these LEDs here, please ignore
+that one question in my reply to patch 1/4.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> Finally, the DualSense has a audio mute LED and a mute button. The mute button is
+> expected to mute the internal microphone of the DualSense. The mute behavior
+> is handled driver side and the driver then also programs the LED. From user space
+> perspective the LED is read-only.
+
+The audio mute LED should not be read-only from userspace. Instead a
+LED trigger should be assigned by default, audio-micmute / audio-mute.
+
+With this trigger the LED subsystem will handle setting brightness of
+the LED according to whether the audio is muted or not.
+
+This trigger is currently simple, though. It is system wide - it
+is impossible to configure it to report only on the state of a
+specific microphone. But the trigger driver can be extended if this is needed.
+
+Marek
