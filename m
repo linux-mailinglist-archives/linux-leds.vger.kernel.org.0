@@ -2,132 +2,202 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43F2131C170
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Feb 2021 19:22:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25D6E31C42D
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Feb 2021 00:01:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230147AbhBOSWU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 Feb 2021 13:22:20 -0500
-Received: from mail.nic.cz ([217.31.204.67]:45998 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229996AbhBOSWI (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 15 Feb 2021 13:22:08 -0500
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id ECB11140A60;
-        Mon, 15 Feb 2021 19:21:24 +0100 (CET)
-Date:   Mon, 15 Feb 2021 19:21:24 +0100
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Roderick Colenbrander <roderick@gaikai.com>
+        id S229668AbhBOXBY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 15 Feb 2021 18:01:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50446 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229662AbhBOXBW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Feb 2021 18:01:22 -0500
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C060C061574
+        for <linux-leds@vger.kernel.org>; Mon, 15 Feb 2021 15:00:42 -0800 (PST)
+Received: by mail-qt1-x82b.google.com with SMTP id o21so5966348qtr.3
+        for <linux-leds@vger.kernel.org>; Mon, 15 Feb 2021 15:00:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JvE/meSnSzBUHxjA37G3fitD+WZ6bXS3ShAbDM/I+R8=;
+        b=rzdC54VwYpXHZmNTpGHut+EZwemXIsNpG+x5vEVfZv35T8Bpx6pPkw0cTKxW6LvWuM
+         xUBGTZzTIcb14jsIXELESW7CFa6HtvmSW8hB6PP+ejUrxgAcJQvYqlqX9RzlbNcQnILQ
+         wgO5395xL/ySlWQEYNnp77FMU0Hn+GZK6b9KkhMnQaeVN1DtGMkjAJA/o7ZBcR0ggvRr
+         kPo7GBDI2CNUq9qUSpts6UYLHWCTTz719xCMzsHXmsOgT4Gl/HJSHWcMLjvjRs+Nzb8t
+         H1GymHecVqVVRq0mpIHM/JomSiOtb1NrqqW+ak8g0PIe4pijDAo2LToNoPk+rqT7/Feg
+         4UQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JvE/meSnSzBUHxjA37G3fitD+WZ6bXS3ShAbDM/I+R8=;
+        b=NPKB8s3GWlGRxbn/LqT17vUTma2htXQs83+EDx1e6xeKrjP7IEn7wD3fQjmyGk5sOv
+         +222gZJmkQGzJt+vgBNfhtBb0z12kcL7UH1yQlRPrObe6agD0VRxvIbjO6/I17uWVGSe
+         +xvqHRrbCRbv0jWJdcUAllgFXlKZZZJcCQuzWnjut53EgRONjb2cZWMshG0FJJZtAr6b
+         bzThVDwBE5PAyDYMY9hg4pahZIVpJ2CyVlYwcaTYqvfHIl++3d4ndJ7gllJTXDT1GHgE
+         PghdigXq6vIXS1q1WBa8la9aOXMF0QhoiuEUugMR7yFU7gVn/7yQXKWhsYb2tyagoeqe
+         Wxjw==
+X-Gm-Message-State: AOAM53244ftAp0zuUefAieXDbUQ7uFpm0DxuT84CBkm1i339ri8xRG11
+        hRQBOdj/sG4EdN2qWn0By6wbf3wjrBUk2Gh3sXAtDw==
+X-Google-Smtp-Source: ABdhPJzOMWkifrQGVzv0CIXVtZmJIpLXGgwwKhVjj/LxcZNPsk1zyWvdzxzORCeSU715nq2hoJxEjpJRwf5MRQy8XHk=
+X-Received: by 2002:ac8:1408:: with SMTP id k8mr16512324qtj.204.1613430041562;
+ Mon, 15 Feb 2021 15:00:41 -0800 (PST)
+MIME-Version: 1.0
+References: <20210215004549.135251-1-roderick@gaikai.com> <20210215004549.135251-4-roderick@gaikai.com>
+In-Reply-To: <20210215004549.135251-4-roderick@gaikai.com>
+From:   Roderick Colenbrander <roderick@gaikai.com>
+Date:   Mon, 15 Feb 2021 15:00:30 -0800
+Message-ID: <CANndSK=52kV50SsDzhEg78m67AFhNoz=Z4H1=pFyHLzAJj-YBQ@mail.gmail.com>
+Subject: Re: [PATCH v6 3/4] HID: playstation: add DualSense player LEDs support.
+To:     Marek Behun <marek.behun@nic.cz>
 Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         linux-leds@vger.kernel.org,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v6 1/4] HID: playstation: add DualSense lightbar support
-Message-ID: <20210215192124.7a6c8c9d@nic.cz>
-In-Reply-To: <CANndSKkVAFJzf58CNYw_j0QY7hd4umOMn5Cs6U3JnK6TozWdEQ@mail.gmail.com>
-References: <20210215004549.135251-1-roderick@gaikai.com>
-        <20210215004549.135251-2-roderick@gaikai.com>
-        <20210215143144.060fdbe6@nic.cz>
-        <CANndSKmSP7rdsrMuwRapQkDru75TxN9zbDUbvOj_5hrQpskmJg@mail.gmail.com>
-        <20210215165518.16033bb6@nic.cz>
-        <CANndSKkVAFJzf58CNYw_j0QY7hd4umOMn5Cs6U3JnK6TozWdEQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 15 Feb 2021 09:51:15 -0800
-Roderick Colenbrander <roderick@gaikai.com> wrote:
+Hi Marek,
 
-> On Mon, Feb 15, 2021 at 7:55 AM Marek Behun <marek.behun@nic.cz> wrote:
-> >
-> > On Mon, 15 Feb 2021 07:36:58 -0800
-> > Roderick Colenbrander <roderick@gaikai.com> wrote:
-> >  
-> > > Hi Marek,
-> > >
-> > > On Mon, Feb 15, 2021 at 5:31 AM Marek Behun <marek.behun@nic.cz> wrote:  
-> > > >
-> > > > On Sun, 14 Feb 2021 16:45:46 -0800
-> > > > Roderick Colenbrander <roderick@gaikai.com> wrote:
-> > > >  
-> > > > > +     led_cdev->name = devm_kasprintf(&hdev->dev, GFP_KERNEL, "playstation::%pMR::rgb",
-> > > > > +                     ps_dev->mac_address);  
-> > > > ...  
-> > > > > +     ret = devm_led_classdev_multicolor_register(&hdev->dev, lightbar_mc_dev);  
-> > > >
-> > > > The LED subsystem has a predefined schema by which LED names should
-> > > > look like:
-> > > >   devicename:color:function
-> > > > (Not all fields are required, but the order must be preserved. The ':'
-> > > >  character should be used only as separator of these fields, so not MAC
-> > > >  addresses in these names, it will confuse userspace parsers.)
-> > > > See Documentation/leds/leds-class.rst
-> > > >
-> > > > The devicename part should not be "playstation". It should be something
-> > > > otherwise recognizable from userspace. For example an mmc indicator has
-> > > > devicename "mmc0", keyboard capslock LED can have devicename "input0"...
-> > > >
-> > > > In your case the name should be something like:
-> > > >   input3:rgb:indicator  
-> > >
-> > > Naming is a little bit tricky. The LEDs as well as other sysfs nodes
-> > > are added to the 'parent' HID device, not the input devices. In case
-> > > of DualSense it is actually implemented as a composite device with
-> > > mulitple input devices (gamepad, touchpad and motion sensors) per HID
-> > > device. The device name of HID devices seems to be something like:
-> > > <bus>:<vendor_id>:<product_id>:<some other id> e.g. for DualSense USB
-> > > 0003:054C:0CE6.0029 or Bluetooth 0005:054C:0CE6.002B
-> > >
-> > > This is I guess why many HID devices in general pick their own names
-> > > (and not all have need to have input devices I guess). Though Benjamin
-> > > and Jiri know better.
-> > >
-> > > I'm not sure what naming could make sense here. The previous Sony
-> > > driver for PlayStation devices used: HID_name "::red" for e.g. red LED
-> > > on DualShock 4.  
-> >
-> > We have to find a reasonable devicename here. If each joystick registers
-> > multiple input devices, it cannot be "input%d". I suppose there isn't
-> > an API for grouping mulitple input devices toghether into inputgroups.
-> > Maybe it could be in the format "joystick%d".  
-> 
-> Yeah, there is no inputgroups mechanism.  It could use some type of
-> joystick name if that's what desired. However, there is no common ID
-> code. Individual drivers are sometimes calculating their own IDs
-> (hid-nintendo, hid-sony, hid-playstation and xpad I think). At least
-> for hid-sony/hid-playstation the use case for tracking IDs is for a
-> part to prevent duplicate devices as you can connect your device using
-> both bluetooth and USB. So would be "ps-joystick0"
-> 
-> At the HID layer there does seem to be a unique ID, but it is only
-> exposed in the name string: This is how the name is constructed:
->      dev_set_name(&hdev->dev, "%04X:%04X:%04X.%04X", hdev->bus,
->              hdev->vendor, hdev->product, atomic_inc_return(&id));
-> 
-> This ID is HID specific, but not all input devices use HID.
-> 
-> I'm not entirely sure what makes sense...
+On Sun, Feb 14, 2021 at 4:46 PM Roderick Colenbrander
+<roderick@gaikai.com> wrote:
+>
+> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+>
+> The DualSense features 5 player LEDs below its touchpad, which are
+> meant as player id indications. This patch exposes the player LEDs
+> as individual LEDs.
+>
+> Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> ---
+>  drivers/hid/hid-playstation.c | 60 ++++++++++++++++++++++++++++++++++-
+>  1 file changed, 59 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+> index c436ac8f7a6f..2d96785c397d 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
+> @@ -112,6 +112,7 @@ struct ps_led_info {
+>  #define DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE BIT(1)
+>  #define DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE BIT(2)
+>  #define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS BIT(3)
+> +#define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE BIT(4)
+>  #define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE BIT(1)
+>  #define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE BIT(4)
+>  #define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT BIT(1)
+> @@ -157,6 +158,11 @@ struct dualsense {
+>         bool last_btn_mic_state;
+>         struct led_classdev mute_led;
+>
+> +       /* Player leds */
+> +       bool update_player_leds;
+> +       uint8_t player_leds_state;
+> +       struct led_classdev player_leds[5];
+> +
+>         struct work_struct output_worker;
+>         void *output_report_dmabuf;
+>         uint8_t output_seq; /* Sequence number for output report. */
+> @@ -778,6 +784,35 @@ static void dualsense_mute_led_set_brightness(struct led_classdev *led, enum led
+>
+>  }
+>
+> +static enum led_brightness dualsense_player_led_get_brightness(struct led_classdev *led)
+> +{
+> +       struct hid_device *hdev = to_hid_device(led->dev->parent);
+> +       struct dualsense *ds = hid_get_drvdata(hdev);
+> +
+> +       return !!(ds->player_leds_state & BIT(led - ds->player_leds));
+> +}
+> +
+> +static void dualsense_player_led_set_brightness(struct led_classdev *led, enum led_brightness value)
+> +{
+> +       struct hid_device *hdev = to_hid_device(led->dev->parent);
+> +       struct dualsense *ds = hid_get_drvdata(hdev);
+> +       unsigned long flags;
+> +       unsigned int led_index;
+> +
+> +       spin_lock_irqsave(&ds->base.lock, flags);
+> +
+> +       led_index = led - ds->player_leds;
+> +       if (value == LED_OFF)
+> +               ds->player_leds_state &= ~BIT(led_index);
+> +       else
+> +               ds->player_leds_state |= BIT(led_index);
+> +
+> +       ds->update_player_leds = true;
+> +       spin_unlock_irqrestore(&ds->base.lock, flags);
+> +
+> +       schedule_work(&ds->output_worker);
+> +}
+> +
+>  static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_output_report *rp,
+>                 void *buf)
+>  {
+> @@ -870,6 +905,13 @@ static void dualsense_output_worker(struct work_struct *work)
+>                 ds->update_lightbar = false;
+>         }
+>
+> +       if (ds->update_player_leds) {
+> +               common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE;
+> +               common->player_leds = ds->player_leds_state;
+> +
+> +               ds->update_player_leds = false;
+> +       }
+> +
+>         if (ds->update_mic_mute) {
+>                 common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE;
+>                 common->mute_button_led = ds->mic_muted;
+> @@ -1119,12 +1161,20 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+>         struct dualsense *ds;
+>         struct ps_device *ps_dev;
+>         uint8_t max_output_report_size;
+> -       int ret;
+> +       int i, ret;
+>
+>         static const struct ps_led_info mute_led_info = {
+>                 "micmute", dualsense_mute_led_get_brightness, dualsense_mute_led_set_brightness
+>         };
+>
+> +       static const struct ps_led_info player_leds_info[] = {
+> +               { "led1", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
+> +               { "led2", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
+> +               { "led3", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
+> +               { "led4", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
+> +               { "led5", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness }
+> +       };
+> +
+>         ds = devm_kzalloc(&hdev->dev, sizeof(*ds), GFP_KERNEL);
+>         if (!ds)
+>                 return ERR_PTR(-ENOMEM);
+> @@ -1206,6 +1256,14 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+>         if (ret)
+>                 goto err;
+>
+> +       for (i = 0; i < ARRAY_SIZE(player_leds_info); i++) {
+> +               const struct ps_led_info *led_info = &player_leds_info[i];
+> +
+> +               ret = ps_led_register(ps_dev, &ds->player_leds[i], led_info);
+> +               if (ret < 0)
+> +                       goto err;
+> +       }
+> +
+>         return &ds->base;
+>
+>  err:
+> --
+> 2.26.2
+>
 
-So all HIDs can be uniqely determined via this atomic_inc_return(&id),
-but it is only stored in string form as part of device name.
+What is the desired naming for these player LEDs? There is not an
+officially designed function based on DT bindings. So far they used
+"playstation::mac::ledX". When changing the naming scheme towards
+"hid" and removing MAC, they would be: "hid%d::led1" etcetera.
 
-Send a patch to hid-core to make this atomic_inc_return(&id) also be
-stored into struct hid_device as an integer, not only as a part
-of the device name string.
-
-Then use "hid%d" as the devicename for this LED, with %d substituted
-with this ID.
-
-Marek
+Thanks,
+Roderick
