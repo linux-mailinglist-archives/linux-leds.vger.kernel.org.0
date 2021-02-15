@@ -2,94 +2,113 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 238F831BA6C
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Feb 2021 14:35:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F254E31BADC
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Feb 2021 15:19:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229802AbhBONfE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 Feb 2021 08:35:04 -0500
-Received: from lists.nic.cz ([217.31.204.67]:40690 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230218AbhBONcu (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 15 Feb 2021 08:32:50 -0500
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id 06030140A94;
-        Mon, 15 Feb 2021 14:31:45 +0100 (CET)
-Date:   Mon, 15 Feb 2021 14:31:44 +0100
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Roderick Colenbrander <roderick@gaikai.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>, dmitry.torokhov@gmail.com,
-        pobm@protonmail.com, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v6 1/4] HID: playstation: add DualSense lightbar support
-Message-ID: <20210215143144.060fdbe6@nic.cz>
-In-Reply-To: <20210215004549.135251-2-roderick@gaikai.com>
-References: <20210215004549.135251-1-roderick@gaikai.com>
-        <20210215004549.135251-2-roderick@gaikai.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S229908AbhBOOTJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 15 Feb 2021 09:19:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51418 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229802AbhBOOTI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Feb 2021 09:19:08 -0500
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A64EC061574;
+        Mon, 15 Feb 2021 06:18:28 -0800 (PST)
+Received: by mail-ua1-x92f.google.com with SMTP id c44so2411120uad.12;
+        Mon, 15 Feb 2021 06:18:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JkNyAS6eMcPhEpMPKFlNgf2kOWM3dGOcbf1ISpcwe/c=;
+        b=jGZyyVVCYMk0D78xryAnvDALibBeg4qMklKuLcrr12J8ReHaXad2+IHXRrFKFUZb/i
+         DeKddPdxdk3ie2ope8DivM/4H2ebX88PjicM50fmm6dK9kAStN3NAkYRXzsw8pvY8y0g
+         3c/tyd5xCYQd9XF99JvigikmhQYrEzRGa+iaxcyTMz68t9O5P5J+/Lk+x8PRAx5jJEe5
+         ORQNmoHumTAJBzSQkHc4HQmqoK2MJe135Vjx6dWSwrEV/RYlW7w1XWhApmJwr34Yoa9N
+         LSYPO82fyPgdoopQihoHWuwPkFTgj9swrEPLPN22kgRfJOCbbIjIB3gqNtvQDFUeyruX
+         xEeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JkNyAS6eMcPhEpMPKFlNgf2kOWM3dGOcbf1ISpcwe/c=;
+        b=pPPsgNEqwZqoac9545Hj8pdHm2ZwrE9HI1i2PwoovSSzGovh550m8cQeRuwx1indAR
+         V71Q85MemIUfyIkPH6nnZpSqZmQCXVuIWAksu8xovHhSxkFR8K2ChJN8G5VlJh4vLbgU
+         G+iS2B48EyV6pNnbiQ5BXYVCyNStbN4tNW2YSHr8V1G9l7dH2oJPn3zz7hjKGhJoRQak
+         /k7j1PIkmYrVWnuO+UCZUKy0jxGPmmNRLrsCnEkGbOmXDuJxH9I+uiDOGyp2IQYk2wsU
+         jxCvysLKcnutzwHwh/I73ac+I0aTc23B1wSul2mM3CuayVIGM9TjAZwxcadl6jy4aRpq
+         od+g==
+X-Gm-Message-State: AOAM530zDPtlbTK5Z7NlQ0OtY92lFzlB5bNt6OF784Qj/aG+AGlwGnij
+        ZrjG6P/givH2QzYq3+Uqocl0cud9BHEaWBDCckY=
+X-Google-Smtp-Source: ABdhPJxu3LvnHPyEAD8T9tnva6iCu0otMcb/YaxTz98zbbc5OoSlhfJkCg/5MtqtrqsJew8ycUpaymlmtDUYA4Ygsz8=
+X-Received: by 2002:ab0:5b0e:: with SMTP id u14mr8636749uae.19.1613398706639;
+ Mon, 15 Feb 2021 06:18:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+References: <20210212163229.68270-1-krzk@kernel.org> <20210215085241.GG179940@dell>
+In-Reply-To: <20210215085241.GG179940@dell>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Mon, 15 Feb 2021 14:18:15 +0000
+Message-ID: <CACvgo53wn84G8wuyF++=bwtjnVzVB31BA2_JBWnihnwinSFD7A@mail.gmail.com>
+Subject: Re: [PATCH v4] MAINTAINERS: move Milo Kim to credits
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>, linux-pwm@vger.kernel.org,
+        linux-fbdev <linux-fbdev@vger.kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Linux PM <linux-pm@vger.kernel.org>, linux-iio@vger.kernel.org,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 14 Feb 2021 16:45:46 -0800
-Roderick Colenbrander <roderick@gaikai.com> wrote:
+Greetings everyone,
 
-> +	led_cdev->name = devm_kasprintf(&hdev->dev, GFP_KERNEL, "playstation::%pMR::rgb",
-> +			ps_dev->mac_address);
-...
-> +	ret = devm_led_classdev_multicolor_register(&hdev->dev, lightbar_mc_dev);
+On Mon, 15 Feb 2021 at 08:52, Lee Jones <lee.jones@linaro.org> wrote:
+>
+> On Fri, 12 Feb 2021, Krzysztof Kozlowski wrote:
+>
+> > Milo Kim's email in TI bounces with permanent error (550: Invalid
+> > recipient).  Last email from him on LKML was in 2017.  Move Milo Kim to
+> > credits and remove the separate driver entries for:
+> >  - TI LP855x backlight driver,
+> >  - TI LP8727 charger driver,
+> >  - TI LP8788 MFD (ADC, LEDs, charger and regulator) drivers.
+> >
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > Cc: Mark Brown <broonie@kernel.org>
+> > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > Cc: Jingoo Han <jingoohan1@gmail.com>
+> > Cc: Lee Jones <lee.jones@linaro.org>
+> > Cc: Pavel Machek <pavel@ucw.cz>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Sebastian Reichel <sre@kernel.org>
+> > Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> >
+> > ---
+> >
+> > Dear Lee,
+> >
+> > Could you take care about this patch?
+>
+> Yes, but I'll be sending out my pull-request for v5.12 in the next
+> couple of days (maybe even today if I can find some time), so this
+> will have to wait until v5.13.
+>
+Would it make sense to keep the MAINTAINERS entries as "orphan"?
+Checking with linux-next, the drivers are still present in-tree.
 
-The LED subsystem has a predefined schema by which LED names should
-look like:
-  devicename:color:function
-(Not all fields are required, but the order must be preserved. The ':'
- character should be used only as separator of these fields, so not MAC
- addresses in these names, it will confuse userspace parsers.)
-See Documentation/leds/leds-class.rst
-
-The devicename part should not be "playstation". It should be something
-otherwise recognizable from userspace. For example an mmc indicator has
-devicename "mmc0", keyboard capslock LED can have devicename "input0"...
-
-In your case the name should be something like:
-  input3:rgb:indicator
-
-Different existing functions are defined in
-include/dt-bindings/leds/common.h.
-
-BTW there are extended versions of LED registering functions, suffixed
-by "_ext". These accept a struct led_init_data. If a fwnode of the LED
-is passed to the registering function via this struct, the LED core
-will compose a name for the LED itself. But since your LEDs don't have
-device-tree nodes because they are on USB/BlueTooth joysticks, you
-either have to compose the name itself like your code is doing now, or
-you can propose a patch to the LED core, so that LED core will be able
-to compose the LED name even without a device-tree node.
-
-JFI, the function part is (in the future) supposed to somehow define LED
-trigger which the system will assign to the LED on probe, but this is
-not implemented yet. Currently when the LED has a devicetree node,
-the trigger is assigned from the `linux,default-trigger` property, but
-the idea is to infer it from the `function` property.
-
-What is this RGB LED supposed to do on the joystick? Is it just for
-nice colors? Or should it blink somehow? Can the hardware in the
-joystick blink the LED itself? Or maybe fade between colors?
-
-There is for example the pattern LED trigger which changes the LED
-brightness by a defined pattern. I am planning to add multicolor
-support to this trigger, because our RGB LED controller can offload
-such thing to hardware.
-
-Marek
+HTH
+-Emil
