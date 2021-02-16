@@ -2,39 +2,39 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E887931CD3B
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Feb 2021 16:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5D9731CD46
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Feb 2021 16:54:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230218AbhBPPww (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Feb 2021 10:52:52 -0500
+        id S229916AbhBPPyR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Feb 2021 10:54:17 -0500
 Received: from mga03.intel.com ([134.134.136.65]:56586 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230017AbhBPPws (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 16 Feb 2021 10:52:48 -0500
-IronPort-SDR: 6MWFD37tK38RrYykBOiUdINivz2yvqqon9My7ZfdNL6QGue42SErsfvh64HyfgxIVezC/womLm
- E3JU93KeXnig==
-X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="182993765"
+        id S229585AbhBPPyL (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 16 Feb 2021 10:54:11 -0500
+IronPort-SDR: nczbWbgtJppHhkovBM4nEkuUlpQeV1BxXcFhqigf24p3BEgw3bS2/Qyha5vSBsa7Tw7jwN2IeY
+ JcxvTNxm539g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="182993768"
 X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="182993765"
+   d="scan'208";a="182993768"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 07:51:01 -0800
-IronPort-SDR: EJUMPQZh1iTHYX5ohBQCpyuT/xmVWXfkpS15FmSPjMV87gTye2hO9YiVye0gf6/dottRSKNEh5
- CwG0jeHRYUuw==
+IronPort-SDR: ibXDlAKLdROqB+hyM/gkpKKM650rV2hYphsAlXM26EhhXth16q5htTXHqmhc5McMLeh2zWI4sl
+ fa0Q4MZLnvTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="580539163"
+   d="scan'208";a="580539164"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga005.jf.intel.com with ESMTP; 16 Feb 2021 07:51:00 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 34508169; Tue, 16 Feb 2021 17:50:59 +0200 (EET)
+        id 3A0EF220; Tue, 16 Feb 2021 17:50:59 +0200 (EET)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Pavel Machek <pavel@ucw.cz>
-Subject: [PATCH v1 2/7] leds: lp50xx: Switch to new style i2c-driver probe function
-Date:   Tue, 16 Feb 2021 17:50:45 +0200
-Message-Id: <20210216155050.29322-2-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 3/7] leds: lp50xx: Reduce level of dereferences
+Date:   Tue, 16 Feb 2021 17:50:46 +0200
+Message-Id: <20210216155050.29322-3-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210216155050.29322-1-andriy.shevchenko@linux.intel.com>
 References: <20210216155050.29322-1-andriy.shevchenko@linux.intel.com>
@@ -44,85 +44,118 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Switch to the new style i2c-driver probe_new probe function.
-Note we do not have any old style board files using this but
-user still has a possibility to instantiate device from sysfs.
+The priv->dev is effectively the same as &priv->client->dev.
+So, drop the latter for the former.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/leds/leds-lp50xx.c | 33 ++++++++++++++++-----------------
- 1 file changed, 16 insertions(+), 17 deletions(-)
+ drivers/leds/leds-lp50xx.c | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-index a2d18ec8fd2b..19aec80e527a 100644
+index 19aec80e527a..0723b2688552 100644
 --- a/drivers/leds/leds-lp50xx.c
 +++ b/drivers/leds/leds-lp50xx.c
-@@ -526,8 +526,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
- 	return ret;
- }
+@@ -322,7 +322,7 @@ static int lp50xx_brightness_set(struct led_classdev *cdev,
  
--static int lp50xx_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int lp50xx_probe(struct i2c_client *client)
- {
- 	struct lp50xx *led;
- 	int count;
-@@ -547,7 +546,7 @@ static int lp50xx_probe(struct i2c_client *client,
- 	mutex_init(&led->lock);
- 	led->client = client;
- 	led->dev = &client->dev;
--	led->chip_info = &lp50xx_chip_info_tbl[id->driver_data];
-+	led->chip_info = device_get_match_data(&client->dev);
- 	i2c_set_clientdata(client, led);
- 	led->regmap = devm_regmap_init_i2c(client,
- 					led->chip_info->lp50xx_regmap_config);
-@@ -593,24 +592,24 @@ static int lp50xx_remove(struct i2c_client *client)
- }
+ 	ret = regmap_write(led->priv->regmap, reg_val, brightness);
+ 	if (ret) {
+-		dev_err(&led->priv->client->dev,
++		dev_err(led->priv->dev,
+ 			"Cannot write brightness value %d\n", ret);
+ 		goto out;
+ 	}
+@@ -338,7 +338,7 @@ static int lp50xx_brightness_set(struct led_classdev *cdev,
+ 		ret = regmap_write(led->priv->regmap, reg_val,
+ 				   mc_dev->subled_info[i].intensity);
+ 		if (ret) {
+-			dev_err(&led->priv->client->dev,
++			dev_err(led->priv->dev,
+ 				"Cannot write intensity value %d\n", ret);
+ 			goto out;
+ 		}
+@@ -404,7 +404,7 @@ static int lp50xx_probe_leds(struct fwnode_handle *child, struct lp50xx *priv,
  
- static const struct i2c_device_id lp50xx_id[] = {
--	{ "lp5009", LP5009 },
--	{ "lp5012", LP5012 },
--	{ "lp5018", LP5018 },
--	{ "lp5024", LP5024 },
--	{ "lp5030", LP5030 },
--	{ "lp5036", LP5036 },
-+	{ "lp5009", (kernel_ulong_t)&lp50xx_chip_info_tbl[LP5009] },
-+	{ "lp5012", (kernel_ulong_t)&lp50xx_chip_info_tbl[LP5012] },
-+	{ "lp5018", (kernel_ulong_t)&lp50xx_chip_info_tbl[LP5018] },
-+	{ "lp5024", (kernel_ulong_t)&lp50xx_chip_info_tbl[LP5024] },
-+	{ "lp5030", (kernel_ulong_t)&lp50xx_chip_info_tbl[LP5030] },
-+	{ "lp5036", (kernel_ulong_t)&lp50xx_chip_info_tbl[LP5036] },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, lp50xx_id);
+ 	if (num_leds > 1) {
+ 		if (num_leds > priv->chip_info->max_modules) {
+-			dev_err(&priv->client->dev, "reg property is invalid\n");
++			dev_err(priv->dev, "reg property is invalid\n");
+ 			return -EINVAL;
+ 		}
  
- static const struct of_device_id of_lp50xx_leds_match[] = {
--	{ .compatible = "ti,lp5009", .data = (void *)LP5009 },
--	{ .compatible = "ti,lp5012", .data = (void *)LP5012 },
--	{ .compatible = "ti,lp5018", .data = (void *)LP5018 },
--	{ .compatible = "ti,lp5024", .data = (void *)LP5024 },
--	{ .compatible = "ti,lp5030", .data = (void *)LP5030 },
--	{ .compatible = "ti,lp5036", .data = (void *)LP5036 },
--	{},
-+	{ .compatible = "ti,lp5009", .data = &lp50xx_chip_info_tbl[LP5009] },
-+	{ .compatible = "ti,lp5012", .data = &lp50xx_chip_info_tbl[LP5012] },
-+	{ .compatible = "ti,lp5018", .data = &lp50xx_chip_info_tbl[LP5018] },
-+	{ .compatible = "ti,lp5024", .data = &lp50xx_chip_info_tbl[LP5024] },
-+	{ .compatible = "ti,lp5030", .data = &lp50xx_chip_info_tbl[LP5030] },
-+	{ .compatible = "ti,lp5036", .data = &lp50xx_chip_info_tbl[LP5036] },
-+	{}
- };
- MODULE_DEVICE_TABLE(of, of_lp50xx_leds_match);
+@@ -412,13 +412,13 @@ static int lp50xx_probe_leds(struct fwnode_handle *child, struct lp50xx *priv,
  
-@@ -619,7 +618,7 @@ static struct i2c_driver lp50xx_driver = {
- 		.name	= "lp50xx",
- 		.of_match_table = of_lp50xx_leds_match,
- 	},
--	.probe		= lp50xx_probe,
-+	.probe_new	= lp50xx_probe,
- 	.remove		= lp50xx_remove,
- 	.id_table	= lp50xx_id,
- };
+ 		ret = fwnode_property_read_u32_array(child, "reg", led_banks, num_leds);
+ 		if (ret) {
+-			dev_err(&priv->client->dev, "reg property is missing\n");
++			dev_err(priv->dev, "reg property is missing\n");
+ 			return ret;
+ 		}
+ 
+ 		ret = lp50xx_set_banks(priv, led_banks);
+ 		if (ret) {
+-			dev_err(&priv->client->dev, "Cannot setup banked LEDs\n");
++			dev_err(priv->dev, "Cannot setup banked LEDs\n");
+ 			return ret;
+ 		}
+ 
+@@ -426,12 +426,12 @@ static int lp50xx_probe_leds(struct fwnode_handle *child, struct lp50xx *priv,
+ 	} else {
+ 		ret = fwnode_property_read_u32(child, "reg", &led_number);
+ 		if (ret) {
+-			dev_err(&priv->client->dev, "led reg property missing\n");
++			dev_err(priv->dev, "led reg property missing\n");
+ 			return ret;
+ 		}
+ 
+ 		if (led_number > priv->chip_info->num_leds) {
+-			dev_err(&priv->client->dev, "led-sources property is invalid\n");
++			dev_err(priv->dev, "led-sources property is invalid\n");
+ 			return -EINVAL;
+ 		}
+ 
+@@ -467,7 +467,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
+ 		led = &priv->leds[i];
+ 		ret = fwnode_property_count_u32(child, "reg");
+ 		if (ret < 0) {
+-			dev_err(&priv->client->dev, "reg property is invalid\n");
++			dev_err(priv->dev, "reg property is invalid\n");
+ 			goto child_out;
+ 		}
+ 
+@@ -507,12 +507,11 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
+ 		led_cdev = &led->mc_cdev.led_cdev;
+ 		led_cdev->brightness_set_blocking = lp50xx_brightness_set;
+ 
+-		ret = devm_led_classdev_multicolor_register_ext(&priv->client->dev,
++		ret = devm_led_classdev_multicolor_register_ext(priv->dev,
+ 						       &led->mc_cdev,
+ 						       &init_data);
+ 		if (ret) {
+-			dev_err(&priv->client->dev, "led register err: %d\n",
+-				ret);
++			dev_err(priv->dev, "led register err: %d\n", ret);
+ 			goto child_out;
+ 		}
+ 		i++;
+@@ -575,15 +574,14 @@ static int lp50xx_remove(struct i2c_client *client)
+ 
+ 	ret = lp50xx_enable_disable(led, 0);
+ 	if (ret) {
+-		dev_err(&led->client->dev, "Failed to disable chip\n");
++		dev_err(led->dev, "Failed to disable chip\n");
+ 		return ret;
+ 	}
+ 
+ 	if (led->regulator) {
+ 		ret = regulator_disable(led->regulator);
+ 		if (ret)
+-			dev_err(&led->client->dev,
+-				"Failed to disable regulator\n");
++			dev_err(led->dev, "Failed to disable regulator\n");
+ 	}
+ 
+ 	mutex_destroy(&led->lock);
 -- 
 2.30.0
 
