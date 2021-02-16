@@ -2,173 +2,87 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B68D431C76D
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Feb 2021 09:38:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CD1131CAC2
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Feb 2021 13:53:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229806AbhBPIge (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Feb 2021 03:36:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60202 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229913AbhBPIeQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Feb 2021 03:34:16 -0500
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48916C061756
-        for <linux-leds@vger.kernel.org>; Tue, 16 Feb 2021 00:33:36 -0800 (PST)
-Received: by mail-qt1-x832.google.com with SMTP id x3so848631qti.5
-        for <linux-leds@vger.kernel.org>; Tue, 16 Feb 2021 00:33:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YavOzcXtgQalNAaJbNfEc2Doyzxyb2hGxJXjz+HYLNU=;
-        b=p72WzAgMBA3Dx+rPJ29NXfrQ0EpkU3vLNy1trcAtTff+HnaSJEOPxQ16SyGYicFdXK
-         mQJJWyNE7oX/44RvYcPWVDzcqEunBuQ/dgGicBqnse+gLYV1KKjmXH4emhGRT71xuDwQ
-         KZPiNtDAy632Oia3LCmRh0OJbffgOVYkkbqFzZFPf4MCE8A8kpIUZnhtEStHVrG00rzK
-         qsSdjbHr7f/aq27VjOKWAUIvt212VGnDYEM6kmlFia9wOMmTZXALPlGW8XWHX2Q5k5Ms
-         HY6rdTIcB98N7amn5LZpDBGGzdr/uaIbFCOfoW7d6HYwwjIGEQJQ/weXN9zujraDluyr
-         Yj6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YavOzcXtgQalNAaJbNfEc2Doyzxyb2hGxJXjz+HYLNU=;
-        b=sdrzcby1Hvkr0zlSqRsQPSd31tQY46vXBbMitstYLEO7saaValZvZWeafkC55UW8W1
-         rp3028sM8iR+ViZFRORNSluE5TqQGaOsDQKre4KDsNLtbdEhylzVN/Qa6TTJqX6E5fEo
-         he1iNYQzsJZdEUzLk5eTWYB3FRCYV0aMg+p+si8L/0fHFrPIiO1CcBtPRazrRgYM+dpf
-         JwdvgxCOTPTcx1M/lcZDwe5ZmS2mSHQDHeNB7ef6iN7J1UL/4PPuEIoj+J4ji9xjSYsv
-         BgBb9QU1VGBGSmUywSJALeLF46tZWz8Z4w5oT4DB4HdiSjDADvDnN5KoBwIYd+IP/mCm
-         xF9g==
-X-Gm-Message-State: AOAM530mwcDhiu3U0zHcc9gfV038Bb/6d0C1oG3/FedKbNacuJdC4Opb
-        RdD0Jj/UkieahU72cLPrfpan9gCp+INxajQZ+uTMrg==
-X-Google-Smtp-Source: ABdhPJyl5XVyvc6B25a3OS1HTjonYTIgUjBMvk0fkSZYul2iZGCDG9J2wgN1LeAliJqFyLbhbemNGt8pDv6SE2l0wzM=
-X-Received: by 2002:ac8:764c:: with SMTP id i12mr17354128qtr.110.1613464415504;
- Tue, 16 Feb 2021 00:33:35 -0800 (PST)
+        id S229744AbhBPMxj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Feb 2021 07:53:39 -0500
+Received: from vm146.dmsolutionsonline.de ([84.19.161.165]:44452 "EHLO
+        vm146.dmsolutionsonline.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229713AbhBPMxi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 16 Feb 2021 07:53:38 -0500
+X-Greylist: delayed 525 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Feb 2021 07:53:37 EST
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by vm146.dmsolutionsonline.de (Postfix) with ESMTP id DED051C0833;
+        Tue, 16 Feb 2021 13:44:10 +0100 (CET)
+Received: from vm146.dmsolutionsonline.de ([127.0.0.1])
+        by localhost (vm146.dmsolutionsonline.de [127.0.0.1]) (amavisd-new, port 10025)
+        with ESMTP id 6qYD_Dt_pprj; Tue, 16 Feb 2021 13:44:09 +0100 (CET)
+Received: from lubuntu.aeberlein.local (p5b2a2dd1.dip0.t-ipconnect.de [91.42.45.209])
+        (Authenticated sender: andreas@eberlein.it)
+        by vm146.dmsolutionsonline.de (Postfix) with ESMTPSA;
+        Tue, 16 Feb 2021 13:44:09 +0100 (CET)
+From:   Andreas Eberlein <foodeas@aeberlein.de>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andreas Eberlein <foodeas@aeberlein.de>
+Subject: [PATCH] leds: apu: extend support for PC Engines APU1 with newer firmware
+Date:   Tue, 16 Feb 2021 13:42:58 +0100
+Message-Id: <20210216124258.3789-1-foodeas@aeberlein.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210215004549.135251-1-roderick@gaikai.com> <20210215004549.135251-3-roderick@gaikai.com>
- <20210215154045.4ac27ec0@nic.cz> <CANndSK=6TAzJJCvcgtRe_ASLbcqb73Y81gXPu3Qhg62Dxyvmuw@mail.gmail.com>
- <20210215191757.58992f44@nic.cz>
-In-Reply-To: <20210215191757.58992f44@nic.cz>
-From:   Roderick Colenbrander <roderick@gaikai.com>
-Date:   Tue, 16 Feb 2021 00:33:24 -0800
-Message-ID: <CANndSKmA4nh6FRv89vBwshUD7t0c7bBMcZcC7TbQOzU88j=+jA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/4] HID: playstation: add microphone mute support for DualSense.
-To:     Marek Behun <marek.behun@nic.cz>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        pobm@protonmail.com,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Feb 15, 2021 at 10:17 AM Marek Behun <marek.behun@nic.cz> wrote:
->
-> On Mon, 15 Feb 2021 10:07:29 -0800
-> Roderick Colenbrander <roderick@gaikai.com> wrote:
->
-> > On Mon, Feb 15, 2021 at 6:40 AM Marek Behun <marek.behun@nic.cz> wrote:
-> > >
-> > > On Sun, 14 Feb 2021 16:45:47 -0800
-> > > Roderick Colenbrander <roderick@gaikai.com> wrote:
-> > >
-> > > > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> > > >
-> > > > The DualSense controller has a built-in microphone exposed as an
-> > > > audio device over USB (or HID using Bluetooth). A dedicated
-> > > > button on the controller handles mute, but software has to configure
-> > > > the device to mute the audio stream.
-> > > >
-> > > > This patch captures the mute button and schedules an output report
-> > > > to mute/unmute the audio stream as well as toggle the mute LED.
-> > > >
-> > > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> > >
-> > > Is the microphone supported via Linux? I.e. is there an audio driver
-> > > for it?
-> >
-> > Yes and no. The microphone is supported using USB, not yet using
-> > Bluetooth (uses a custom protocol). Actually there are various other
-> > audio features in the DualSense (headphone jack, speaker, volume
-> > controls,..) and they all work using custom protocols. We were
-> > planning to defer this work through future patches as the features are
-> > very complicated and need a deep analysis on how to realize them. For
-> > example audio controls work through HID, but for USB the audio driver
-> > is a generic hda audio device I think. Bluetooth is a custom protocol
-> > and will be yet a different audio driver somewhere.
-> >
-> > > If it is, look at the audio-micmute LED trigger.
-> > >
-> >
-> > I'm not sure if the expected behavior for the DualSense is similar to
-> > the standard audio mute use cases. My understanding of these triggers
-> > (please correct me if I'm wrong) is for e.g. an audio driver or user
-> > space to send a signal to anything registering for a particular
-> > trigger. In this case a global micmute. Is that, right?
-> >
-> > In our case for PlayStation games, there are often multiple
-> > controllers connected and each user has their own microphone in their
-> > controller. All can function at the same time (different from a
-> > standard PC use case). That's why I'm wondering if this makes sense.I
-> > know we are on Linux, but for Sony we want to properly support such
-> > use cases.
->
-> If there aren't audio drivers yet for this, simply have this driver
-> also register a private LED trigger (with name "joystick-audiomute"
-> or something similar), and when registering the LED, set the
-> trigger_type member. Look at trigger_type in include/linux/leds.h, and
-> in LED Documentation.
+The DMI_PRODUCT_NAME entry on current firmware of PC Engines APU1 changed
+from "APU" to "apu1"
 
-Sorry for some more questions. I have been trying to understand
-triggers all night. The concept is just so strange and foreign to me.
-I understand it is in the end just a string and one use case is
-in-kernel IPC and you can configure them from user space as well, but
-I just don't get it. I understand you can use a trigger to in the end
-program your LED in a automatic manner. I just don't understand how
-the concepts fit together and how to implement it (maybe I will update
-the docs later on... they are a bit sparse for if you don't know this
-area).
+This modification adds the missing DMI data and thereby the LED support for
+the PC Engines APU1 with firmware versions >= 4.6.8.
 
-Regarding registering a private trigger. I see include/linux/leds.h
-have a comment about trigger_type and how it should be set for private
-triggers on led_classdev. I haven't been able to find any example
-usages of this within the kernel. It doesn't seem to be used in the
-kernel, maybe it is just around for future use? I also seem to need to
-implement my own activate/deactive callbacks for the trigger. These I
-would use to program the LED brightness I guess. Though I see various
-trigger drivers (drivers/leds/triggers), but not all of them have
-activate/deactivate callbacks. Mostly simple drivers, but not sure why
-they don't need them. What else is the point of a trigger?
+Signed-off-by: Andreas Eberlein <foodeas@aeberlein.de>
+---
+ drivers/leds/leds-apu.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-> When this trigger is enabled for your LED, have your code switch LED
-> state like it does now. When there is no trigger enabled, the userspace
-> will be able to set brightness of this LED via sysfs.
+diff --git a/drivers/leds/leds-apu.c b/drivers/leds/leds-apu.c
+index 7fd557ace..6d5dd06b4 100644
+--- a/drivers/leds/leds-apu.c
++++ b/drivers/leds/leds-apu.c
+@@ -83,6 +83,7 @@ static const struct apu_led_profile apu1_led_profile[] = {
+ };
+ 
+ static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
++	/* PC Engines APU with factory bios "SageBios_PCEngines_APU-45" */
+ 	{
+ 		.ident = "apu",
+ 		.matches = {
+@@ -90,6 +91,13 @@ static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "APU")
+ 		}
+ 	},
++	/* PC Engines APU with "Mainline" bios >= 4.6.8 */
++		.ident = "apu",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "apu1")
++		}
++	},
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(dmi, apu_led_dmi_table);
+@@ -173,7 +181,7 @@ static int __init apu_led_init(void)
+ 	int err;
+ 
+ 	if (!(dmi_match(DMI_SYS_VENDOR, "PC Engines") &&
+-	      dmi_match(DMI_PRODUCT_NAME, "APU"))) {
++	      (dmi_match(DMI_PRODUCT_NAME, "APU") || dmi_match(DMI_PRODUCT_NAME, "apu1")))) {
+ 		pr_err("No PC Engines APUv1 board detected. For APUv2,3 support, enable CONFIG_PCENGINES_APU2\n");
+ 		return -ENODEV;
+ 	}
+-- 
+2.25.1
 
-Right now I manage the button mute state directly from the input
-handler (dualsense_parse_report) when the button is pressed and then
-schedule an output report to toggle the LED and program the DualSense
-to mute its audio (the PlayStation works very similar). I would need
-to use led_trigger_event then here?
-
-If I then understand it right, I need to modify my "brightness_set"
-handler and check if there is a trigger (based on
-led_classdev->activated??). If there is none, then userspace can
-change the LED state. Internally when I change the LED state, I will
-also program the hardware to mute as well. (they are tied together)
-
-I am tempted to wait with the trigger code as I really don't understand it.
-
-> Before registering
-> the LED, assign default_trigger member so that this trigger is enabled
-> during registration.
->
-> This is why we have support for private LED triggers.
->
-> Marek
->
-
-Roderick
