@@ -2,90 +2,75 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 395E231CB20
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Feb 2021 14:34:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22DA731CD47
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Feb 2021 16:54:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229744AbhBPNeB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Feb 2021 08:34:01 -0500
-Received: from vm146.dmsolutionsonline.de ([84.19.161.165]:44514 "EHLO
-        vm146.dmsolutionsonline.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229713AbhBPNeA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 16 Feb 2021 08:34:00 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by vm146.dmsolutionsonline.de (Postfix) with ESMTP id 364CC1C0761;
-        Tue, 16 Feb 2021 14:33:16 +0100 (CET)
-Received: from vm146.dmsolutionsonline.de ([127.0.0.1])
-        by localhost (vm146.dmsolutionsonline.de [127.0.0.1]) (amavisd-new, port 10025)
-        with ESMTP id zMAp12TnuMdH; Tue, 16 Feb 2021 14:31:27 +0100 (CET)
-Received: from lubuntu.aeberlein.local (p5b2a2dd1.dip0.t-ipconnect.de [91.42.45.209])
-        (Authenticated sender: andreas@eberlein.it)
-        by vm146.dmsolutionsonline.de (Postfix) with ESMTPSA;
-        Tue, 16 Feb 2021 14:31:04 +0100 (CET)
-From:   Andreas Eberlein <foodeas@aeberlein.de>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andreas Eberlein <foodeas@aeberlein.de>
-Subject: [PATCH v2] leds: apu: extend support for PC Engines APU1 with newer firmware
-Date:   Tue, 16 Feb 2021 14:30:28 +0100
-Message-Id: <20210216133028.4025-1-foodeas@aeberlein.de>
-X-Mailer: git-send-email 2.25.1
+        id S230073AbhBPPyU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Feb 2021 10:54:20 -0500
+Received: from mga03.intel.com ([134.134.136.65]:56597 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229787AbhBPPyP (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 16 Feb 2021 10:54:15 -0500
+IronPort-SDR: uFxRYTFChpiJliSYlvD73+cDX1QnlP2q1EkWIKk5KFj7VpA2yBlGqBHPUiEl0c5kabWt4LfWFk
+ JdCh6aP6hTng==
+X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="182993763"
+X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
+   d="scan'208";a="182993763"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 07:51:01 -0800
+IronPort-SDR: iBvJFjhniTxxdNc4/RTkPjD0M2S0ohTwbRcN6KtHkNPp8clIvTB6KHKbArxCWrP3cHPJUxoinK
+ HoHO8nuqrO3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
+   d="scan'208";a="384458645"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga008.fm.intel.com with ESMTP; 16 Feb 2021 07:51:00 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 23B931F1; Tue, 16 Feb 2021 17:50:58 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>
+Subject: [PATCH v1 1/7] leds: lp50xx: Don't spam logs when probe is deferred
+Date:   Tue, 16 Feb 2021 17:50:44 +0200
+Message-Id: <20210216155050.29322-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The DMI_PRODUCT_NAME entry on current firmware of PC Engines APU1 changed
-from "APU" to "apu1"
+When requesting GPIO line the probe can be deferred.
+In such case don't spam logs with an error message.
+This can be achieved by switching to dev_err_probe().
 
-This modification adds the missing DMI data and thereby the LED support for
-the PC Engines APU1 with firmware versions >= 4.6.8.
-
-Signed-off-by: Andreas Eberlein <foodeas@aeberlein.de>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-Changes in v2:
-  - Add missing brace
----
- drivers/leds/leds-apu.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/leds/leds-lp50xx.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/leds/leds-apu.c b/drivers/leds/leds-apu.c
-index 7fd557ace..c409b80c2 100644
---- a/drivers/leds/leds-apu.c
-+++ b/drivers/leds/leds-apu.c
-@@ -83,6 +83,7 @@ static const struct apu_led_profile apu1_led_profile[] = {
- };
+diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+index f13117eed976..a2d18ec8fd2b 100644
+--- a/drivers/leds/leds-lp50xx.c
++++ b/drivers/leds/leds-lp50xx.c
+@@ -455,12 +455,9 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
+ 	int i = 0;
  
- static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
-+	/* PC Engines APU with factory bios "SageBios_PCEngines_APU-45" */
- 	{
- 		.ident = "apu",
- 		.matches = {
-@@ -90,6 +91,14 @@ static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "APU")
- 		}
- 	},
-+	/* PC Engines APU with "Mainline" bios >= 4.6.8 */
-+	{
-+		.ident = "apu",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "apu1")
-+		}
-+	},
- 	{}
- };
- MODULE_DEVICE_TABLE(dmi, apu_led_dmi_table);
-@@ -173,7 +182,7 @@ static int __init apu_led_init(void)
- 	int err;
+ 	priv->enable_gpio = devm_gpiod_get_optional(priv->dev, "enable", GPIOD_OUT_LOW);
+-	if (IS_ERR(priv->enable_gpio)) {
+-		ret = PTR_ERR(priv->enable_gpio);
+-		dev_err(&priv->client->dev, "Failed to get enable gpio: %d\n",
+-			ret);
+-		return ret;
+-	}
++	if (IS_ERR(priv->enable_gpio))
++		return dev_err_probe(priv->dev, PTR_ERR(priv->enable_gpio),
++				     "Failed to get enable GPIO\n");
  
- 	if (!(dmi_match(DMI_SYS_VENDOR, "PC Engines") &&
--	      dmi_match(DMI_PRODUCT_NAME, "APU"))) {
-+	      (dmi_match(DMI_PRODUCT_NAME, "APU") || dmi_match(DMI_PRODUCT_NAME, "apu1")))) {
- 		pr_err("No PC Engines APUv1 board detected. For APUv2,3 support, enable CONFIG_PCENGINES_APU2\n");
- 		return -ENODEV;
- 	}
+ 	priv->regulator = devm_regulator_get(priv->dev, "vled");
+ 	if (IS_ERR(priv->regulator))
 -- 
-2.25.1
+2.30.0
 
