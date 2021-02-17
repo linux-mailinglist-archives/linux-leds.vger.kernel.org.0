@@ -2,127 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EC7631D7E5
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Feb 2021 12:08:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B190931DE4B
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Feb 2021 18:35:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231325AbhBQLGK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 17 Feb 2021 06:06:10 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:50359 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231335AbhBQLFh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 17 Feb 2021 06:05:37 -0500
-Received: from [192.168.1.155] ([95.118.154.137]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N4A1h-1luMS91vX7-01091g; Wed, 17 Feb 2021 12:02:48 +0100
-Subject: Re: [PATCH v2] leds: apu: extend support for PC Engines APU1 with
- newer firmware
-To:     Andreas Eberlein <foodeas@aeberlein.de>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210216133028.4025-1-foodeas@aeberlein.de>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <c7eebbb6-df0c-51df-7701-ecb8f6543466@metux.net>
-Date:   Wed, 17 Feb 2021 12:02:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S231286AbhBQRek (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 17 Feb 2021 12:34:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31305 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234504AbhBQRdh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 17 Feb 2021 12:33:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613583129;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=I7iGIcqNfRI0azzlr/+gKDiz0a0keNB5d1rOzEe2O5U=;
+        b=UgM8uZ61EmwVl6XRW+UrXq94Xm8c0LOZs+4SKS2XuXDogQ8dpuASaPg5JhJcI2PNioJU9k
+        vpnIYMAO+a0ph7/UsO7P5AgKIizvQt2Rxa3GTy8rrHVy8U8tjyWYUxkvEIeMM/LCU7DBMI
+        m0xGb0hgR0e+/SV4hh9m0MALtBU7PD0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-YydEuUIKN_qQsNEF0iT7yQ-1; Wed, 17 Feb 2021 12:32:06 -0500
+X-MC-Unique: YydEuUIKN_qQsNEF0iT7yQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98FCC192CC40;
+        Wed, 17 Feb 2021 17:32:04 +0000 (UTC)
+Received: from plouf.redhat.com (ovpn-116-25.ams2.redhat.com [10.36.116.25])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C1D6060C61;
+        Wed, 17 Feb 2021 17:31:59 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH 00/11] HID: playstation: revert LED class exposure
+Date:   Wed, 17 Feb 2021 18:31:47 +0100
+Message-Id: <20210217173158.3122868-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210216133028.4025-1-foodeas@aeberlein.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: tl
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yAxNEpEFxBE7Ix0QnFkCYKxglhgHdHtGs6CuP/iEros+rhaun5S
- YVAWXGspnSbqMA3YQLsbBgNhbB3qtdq3GDCzWxa4fc1bvhVMglZ3Z24Xo428eaBZ4lBh2L/
- FvfZKfoNOvefI/M/HB+tbPLRES+mRevWcKy6WowjrX/N3cSK7b3YhAWUbtRxqJ91nfWSvZ8
- LSd+xcbVA2Y96f184TQ4g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AexSnRepnHw=:FoN8i7EG1uKLf49OyAj+R2
- mmreqh/jyPo77rm0WNt2kGQDulhlehZHfMs7m6UIZp33TVbW4BWwH/30IuprN8tctQPwofju4
- JbCmuXy9WFAkzmkf4VQmZ/QOz6QdVM9vTj7zSXvDmd1mJVY2SzY/we/imbHrY1oVjufh2t4ep
- b5FAtDpwScaftKpL8Fn+YSJP9Sp0VlcSrAG2NsO0PH49uQ5odjUmaaMzcq0nmiMD9C1SLxw2z
- uhrZO7nI7kqJ2IAsHmiJ5Xz5/sk+C1MSHSlj6K0nZLXrAwBpmAxtVi3tgWclTLKIA81MDoIKe
- HWaeMrBNL5BvZk5/X5/okXUeIJmtGpe6MYlVVOgWkwgLeoPYAqbBNfR3Q8Ksj7uL+NkR6/qCB
- W0wuuz1cEyfWjFsLI8wA9f5uZOqYNZooY1bBHKSrwRUcYxYUXsqar6fxUtIU3kjzdzqhIQS0k
- X6KSGYGMK6gyiFpiJTGydeURny5Y2LycL/vsuF3B0ImJk6v67ER4
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 16.02.21 14:30, Andreas Eberlein wrote:
+[sending those patches on behalf of Roderick]
 
-Hi,
+There is a current thread on LED LKML which basically means that
+we have to revert the LED class exposure until things are settled.
 
-> The DMI_PRODUCT_NAME entry on current firmware of PC Engines APU1 changed
-> from "APU" to "apu1"
-> 
-> This modification adds the missing DMI data and thereby the LED support for
-> the PC Engines APU1 with firmware versions >= 4.6.8.
+I am sending here the full series that will end up in linux-next.
+But with some git magic, the final PR to Linus will not have the
+reverts in it, just the plain patches.
 
-Do you have a device for more intensive testing ?
+I am queuing in for-5.12/playstation patches 1 to 6 immediately
+(the reverts).
 
-In that case I'd like to suggest splitting the driver into gpio and
-gpio-based LED (using leds-gpio) - just like already I did for apu2/3/4.
-Maybe this even could also be moveed into the apu2 driver. This probably
-just makes sense if there're more gpio-connected devices than just LED)
+I am also queuing in for-5.12/playstation-v2 patches 7 and 8 on
+top of 51151098d7ab8 immediately. Those 2 patches have already
+been reviewed the usual process.
 
-Personally, I don't have access to the old apu1 board (IIRC not even
-produced anymore for several years), so I didn't dare to touch anything
-here.
+I am waiting 1 day for others to chime in regarding patches 9 to
+11 before applying them to for-5.12/playstation-v2. They are
+basically the same patches that were already reviewed on the
+linux-input LKML, but without the LED class bits.
 
-Note that apu1 vs. apu2/3/4 have completely different SOC with different
-gpio logic - that was one of the reasons for writing a completely new
-driver for apu2+ from scrath, rather than extending the old one.
+With all that, we should have more room to discuss the exposure
+of the LEDs to userspace through the LED class.
 
-> --- a/drivers/leds/leds-apu.c
-> +++ b/drivers/leds/leds-apu.c
-> @@ -83,6 +83,7 @@ static const struct apu_led_profile apu1_led_profile[] = {
->   };
->   
->   static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
-> +	/* PC Engines APU with factory bios "SageBios_PCEngines_APU-45" */
->   	{
->   		.ident = "apu",
->   		.matches = {
-> @@ -90,6 +91,14 @@ static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
->   			DMI_MATCH(DMI_PRODUCT_NAME, "APU")
->   		}
->   	},
-> +	/* PC Engines APU with "Mainline" bios >= 4.6.8 */
-> +	{
-> +		.ident = "apu",
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "apu1")
-> +		}
-> +	},
->   	{}
->   };
->   MODULE_DEVICE_TABLE(dmi, apu_led_dmi_table);
-> @@ -173,7 +182,7 @@ static int __init apu_led_init(void)
->   	int err;
->   
->   	if (!(dmi_match(DMI_SYS_VENDOR, "PC Engines") &&
-> -	      dmi_match(DMI_PRODUCT_NAME, "APU"))) {
-> +	      (dmi_match(DMI_PRODUCT_NAME, "APU") || dmi_match(DMI_PRODUCT_NAME, "apu1")))) {
->   		pr_err("No PC Engines APUv1 board detected. For APUv2,3 support, enable CONFIG_PCENGINES_APU2\n");
->   		return -ENODEV;
->   	}
-> 
+Roderick, I made small adjustments compared to the series you sent
+me privately:
+- added the 2 missing reverts/re-add, so I can have clean merges
+  for our for-next branch,
+- re-ordered the `if (ds->update_rumble)` block in
+  `dualsense_output_worker()` to match was was in linux-next
+- removed an extra new line to match the current linux-next tree.
 
-Looks good to me. But don't dare giving official ack, since I don't
-have an apu1 board for testing.
+Cheers,
+Benjamin
 
-Is Alan Mizrahi (original author) still here ?
+Benjamin Tissoires (2):
+  Revert "HID: playstation: fix unused variable in
+    ps_battery_get_property."
+  Revert "HID: playstation: report DualSense hardware and firmware
+    version."
 
+Roderick Colenbrander (9):
+  Revert "HID: playstation: DualSense set LEDs to default player id."
+  Revert "HID: playstation: add DualSense player LEDs support."
+  Revert "HID: playstation: add microphone mute support for DualSense."
+  Revert "HID: playstation: add DualSense lightbar support"
+  HID: playstation: report DualSense hardware and firmware version.
+  HID: playstation: fix unused variable in ps_battery_get_property.
+  HID: playstation: add initial DualSense lightbar support.
+  HID: playstation: add microphone mute support for DualSense.
+  HID: playstation: add DualSense player LED support.
 
---mtx
-
+ drivers/hid/Kconfig           |   3 -
+ drivers/hid/hid-playstation.c | 177 +++-------------------------------
+ 2 files changed, 12 insertions(+), 168 deletions(-)
 
 -- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+2.29.2
+
