@@ -2,162 +2,127 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27D0A31D18B
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Feb 2021 21:29:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EC7631D7E5
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Feb 2021 12:08:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbhBPU2q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Feb 2021 15:28:46 -0500
-Received: from mail.nic.cz ([217.31.204.67]:49012 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229577AbhBPU2q (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 16 Feb 2021 15:28:46 -0500
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id 8C51E140BED;
-        Tue, 16 Feb 2021 21:28:03 +0100 (CET)
-Date:   Tue, 16 Feb 2021 21:28:03 +0100
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Roderick Colenbrander <roderick@gaikai.com>,
-        Jiri Kosina <jikos@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v6 1/4] HID: playstation: add DualSense lightbar support
-Message-ID: <20210216212803.123ce325@nic.cz>
-In-Reply-To: <CAO-hwJKS_jcuXP6fhYaOutDjGk=GF09Bni88xY1RprEFOCQ-Yg@mail.gmail.com>
-References: <20210215004549.135251-1-roderick@gaikai.com>
-        <20210215004549.135251-2-roderick@gaikai.com>
-        <20210215143144.060fdbe6@nic.cz>
-        <CANndSKmSP7rdsrMuwRapQkDru75TxN9zbDUbvOj_5hrQpskmJg@mail.gmail.com>
-        <20210215165518.16033bb6@nic.cz>
-        <CANndSKkVAFJzf58CNYw_j0QY7hd4umOMn5Cs6U3JnK6TozWdEQ@mail.gmail.com>
-        <20210215192124.7a6c8c9d@nic.cz>
-        <CAO-hwJ+=_fjHgenXvHv45sHgzwiG2z9vGeq7fmMqj2=BeYCF1Q@mail.gmail.com>
-        <20210216185602.48a980f6@nic.cz>
-        <CAO-hwJKS_jcuXP6fhYaOutDjGk=GF09Bni88xY1RprEFOCQ-Yg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S231325AbhBQLGK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 17 Feb 2021 06:06:10 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:50359 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231335AbhBQLFh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 17 Feb 2021 06:05:37 -0500
+Received: from [192.168.1.155] ([95.118.154.137]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N4A1h-1luMS91vX7-01091g; Wed, 17 Feb 2021 12:02:48 +0100
+Subject: Re: [PATCH v2] leds: apu: extend support for PC Engines APU1 with
+ newer firmware
+To:     Andreas Eberlein <foodeas@aeberlein.de>,
+        Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210216133028.4025-1-foodeas@aeberlein.de>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <c7eebbb6-df0c-51df-7701-ecb8f6543466@metux.net>
+Date:   Wed, 17 Feb 2021 12:02:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+In-Reply-To: <20210216133028.4025-1-foodeas@aeberlein.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:yAxNEpEFxBE7Ix0QnFkCYKxglhgHdHtGs6CuP/iEros+rhaun5S
+ YVAWXGspnSbqMA3YQLsbBgNhbB3qtdq3GDCzWxa4fc1bvhVMglZ3Z24Xo428eaBZ4lBh2L/
+ FvfZKfoNOvefI/M/HB+tbPLRES+mRevWcKy6WowjrX/N3cSK7b3YhAWUbtRxqJ91nfWSvZ8
+ LSd+xcbVA2Y96f184TQ4g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:AexSnRepnHw=:FoN8i7EG1uKLf49OyAj+R2
+ mmreqh/jyPo77rm0WNt2kGQDulhlehZHfMs7m6UIZp33TVbW4BWwH/30IuprN8tctQPwofju4
+ JbCmuXy9WFAkzmkf4VQmZ/QOz6QdVM9vTj7zSXvDmd1mJVY2SzY/we/imbHrY1oVjufh2t4ep
+ b5FAtDpwScaftKpL8Fn+YSJP9Sp0VlcSrAG2NsO0PH49uQ5odjUmaaMzcq0nmiMD9C1SLxw2z
+ uhrZO7nI7kqJ2IAsHmiJ5Xz5/sk+C1MSHSlj6K0nZLXrAwBpmAxtVi3tgWclTLKIA81MDoIKe
+ HWaeMrBNL5BvZk5/X5/okXUeIJmtGpe6MYlVVOgWkwgLeoPYAqbBNfR3Q8Ksj7uL+NkR6/qCB
+ W0wuuz1cEyfWjFsLI8wA9f5uZOqYNZooY1bBHKSrwRUcYxYUXsqar6fxUtIU3kjzdzqhIQS0k
+ X6KSGYGMK6gyiFpiJTGydeURny5Y2LycL/vsuF3B0ImJk6v67ER4
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 16 Feb 2021 19:14:48 +0100
-Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
+On 16.02.21 14:30, Andreas Eberlein wrote:
 
-> On Tue, Feb 16, 2021 at 6:56 PM Marek Behun <marek.behun@nic.cz> wrote:
-> >
-> > On Tue, 16 Feb 2021 18:29:46 +0100
-> > Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
-> >  
-> > > > So all HIDs can be uniqely determined via this atomic_inc_return(&id),
-> > > > but it is only stored in string form as part of device name.  
-> > >
-> > > Yes and no. This atomic_inc is only used to allow a sysfs tree,
-> > > because you can have several HID devices below the same USB, I2C or
-> > > UHID physical device. From the userspace, no-one cares about that ID,
-> > > because all HID devices are exported as input, IIO or hidraw nodes.
-> > >
-> > > So using this "id" would not allow for a direct mapping HID device ->
-> > > sysfs entry because users will still have to walk through the tree to
-> > > find out which is which.  
-> >
-> > So you are saying that the fact that userspace cannot take the number
-> > from "hidN" string and simply do a lookup /sys/bus/hid/devices/hidN is
-> > the problem here.
-> >
-> > This is not a problem in my opinion, because userspace can simply
-> > access the parent HID device via /sys/class/leds/hidN:color:func/parent.  
+Hi,
+
+> The DMI_PRODUCT_NAME entry on current firmware of PC Engines APU1 changed
+> from "APU" to "apu1"
 > 
-> So in that case, there is no real point at keeping this ID in sync
-> with anything else? I would be more willing to accept a patch in HID
-> core that keeps this ID just for HID LEDs, instead of adding just an
-> ID with no meaning to all HID devices.
+> This modification adds the missing DMI data and thereby the LED support for
+> the PC Engines APU1 with firmware versions >= 4.6.8.
 
-I think there was some misunderstanding.
+Do you have a device for more intensive testing ?
 
-If there are multiple LEDs on one joystick, all these LEDs should have
-the same devicename part of the LED name. Different joysticks should
-have different devicename parts of their LEDs names.
+In that case I'd like to suggest splitting the driver into gpio and
+gpio-based LED (using leds-gpio) - just like already I did for apu2/3/4.
+Maybe this even could also be moveed into the apu2 driver. This probably
+just makes sense if there're more gpio-connected devices than just LED)
 
-As another example think about keyboard LEDs if I have 2 keyboards
-  input3:green:numlock
-  input3:green:capslock
-  input3:green:scrolllock
-  input4:green:numlock
-  input4:green:capslock
-  input4:green:scrolllock
+Personally, I don't have access to the old apu1 board (IIRC not even
+produced anymore for several years), so I didn't dare to touch anything
+here.
 
-> Honestly, I think the whole LED class creation API should be
-> revisited. I guess this is not the first time this problem arises, and
-> you must be tired of having to chase down users.
+Note that apu1 vs. apu2/3/4 have completely different SOC with different
+gpio logic - that was one of the reasons for writing a completely new
+driver for apu2+ from scrath, rather than extending the old one.
 
-I will not argue with you about this since it is true. The work is
-slow though because lack of people and time. I too have some ideas for
-the LED subsystem but I also have many other priorities in work. Pavel
-has a TODO list in drivers/leds/TODO. The main thing probably is that
-it would be great to have more input from other kernel people when
-doing something in LEDs, but either not that many people subscribe to
-linux-leds mailing list or we should be informing them via different
-mechanisms...
-
-> If I had to deal with that situation once for all, I would deprecate
-> the current led class creation API, and add a new API that doesn't
-> take a free-form string as the name but constrain the name to be
-> formed by your requirements. This would also send a clear message to
-> all subsystems because the changes have to be propagated, and then,
-> all the maintainers would know about this problem. Bonus point, if you
-> need only "subsystem", "color" and "function", that means that the ID
-> can be stored internally to the led class and you'll get happy users.
-
-As I mentioned in the example above, there can be multiple LEDs for one
-devicename...
-
-> >
-> > In fact we did something similar for LEDs connected to ethernet PHYs.
-> > To summarize:
-> >   - ethernet PHYs are identified by long, sometimes crazy strings like
-> >       d0032004.mdio-mii:01
-> >     or even
-> >       /soc/internal-regs@d0000000/mdio@32004/switch0@10/mdio:08
-> >   - for the purposes of having a sane devicename part in LED names, I
-> >     sent this patch
-> >     https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2301470.html
-> >     which adds a simple incrementing integer ID to each PHY device.
-> >     (The code is not in upstream yet because there is other work needed
-> >      and because I decided that some functionality has to be available
-> >      via a different mechanism, but this part is complete and reviewed.)
-> >  
-> > > An actual one-to-one mapping would using 'hidrawX' because there is a
-> > > one-to-one mapping between /dev/hidrawX for HID devices. However, this
-> > > means that we consider the bus to be hidraw which is plain wrong too.
-> > >
-> > > The unique ID of HID devices (in /sys/bus/hid/devices) is in the form
-> > > `BUS:VID:PID.XXXX`. I understand the need to not have colons, so could
-> > > we standardize LEDs on the HID subsystem to be named
-> > > `hid-bus_vid_pid_xxxx:color:fun(-n)?`? That would allow a mapping
-> > > between the LED and the sysfs, and would also allow users to quickly
-> > > filter out the playstation ones.  
-> >
-> > As I wrote in other e-mail some minutes ago, this just means that we
-> > need to wait for other people's opinions. Please do not send this
-> > pull-request with the LED patches until this is resolved.
-> >  
+> --- a/drivers/leds/leds-apu.c
+> +++ b/drivers/leds/leds-apu.c
+> @@ -83,6 +83,7 @@ static const struct apu_led_profile apu1_led_profile[] = {
+>   };
+>   
+>   static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
+> +	/* PC Engines APU with factory bios "SageBios_PCEngines_APU-45" */
+>   	{
+>   		.ident = "apu",
+>   		.matches = {
+> @@ -90,6 +91,14 @@ static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
+>   			DMI_MATCH(DMI_PRODUCT_NAME, "APU")
+>   		}
+>   	},
+> +	/* PC Engines APU with "Mainline" bios >= 4.6.8 */
+> +	{
+> +		.ident = "apu",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "apu1")
+> +		}
+> +	},
+>   	{}
+>   };
+>   MODULE_DEVICE_TABLE(dmi, apu_led_dmi_table);
+> @@ -173,7 +182,7 @@ static int __init apu_led_init(void)
+>   	int err;
+>   
+>   	if (!(dmi_match(DMI_SYS_VENDOR, "PC Engines") &&
+> -	      dmi_match(DMI_PRODUCT_NAME, "APU"))) {
+> +	      (dmi_match(DMI_PRODUCT_NAME, "APU") || dmi_match(DMI_PRODUCT_NAME, "apu1")))) {
+>   		pr_err("No PC Engines APUv1 board detected. For APUv2,3 support, enable CONFIG_PCENGINES_APU2\n");
+>   		return -ENODEV;
+>   	}
 > 
-> Yeah, I just asked Roderick to see if he can revert those patches
-> while keeping the functionality behind those. I am more concerned
-> about the micmute button, because we should really offer that feature
-> to users. The associated LED class has no real benefits for now, so
-> that code needs a little bit of care instead of a plain revert.
 
-Thank you.
+Looks good to me. But don't dare giving official ack, since I don't
+have an apu1 board for testing.
 
-Marek
+Is Alan Mizrahi (original author) still here ?
+
+
+--mtx
+
+
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
