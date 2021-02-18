@@ -2,133 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DF8831ECA9
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Feb 2021 18:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAC7631F19A
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Feb 2021 22:20:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234105AbhBRQ5z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 Feb 2021 11:57:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59463 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233640AbhBRQs0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 18 Feb 2021 11:48:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613666820;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=c8kK7O2XFWT/eVjA2G4ZhQxAThbCihj5vo5giTyH6Us=;
-        b=SKpo8kUbcjwpxs2tyBZOmbMKZPHbvaNi5IpBUD0/FE+zzrHThLmBuyb1LGlbcSnhbY1MyG
-        Fxh454vil4msNeD0rvyY5Vs6E2gJ0JyhJw0qMcHvj0hACopXMAwjWdyIALjrmm9MghQMqH
-        wTl4lBpNKQithrAoMGGLLEKWgU44yb4=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-uAURK2CdPcOiAylPp2mQ7g-1; Thu, 18 Feb 2021 11:46:58 -0500
-X-MC-Unique: uAURK2CdPcOiAylPp2mQ7g-1
-Received: by mail-pg1-f198.google.com with SMTP id y14so1499627pgh.2
-        for <linux-leds@vger.kernel.org>; Thu, 18 Feb 2021 08:46:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c8kK7O2XFWT/eVjA2G4ZhQxAThbCihj5vo5giTyH6Us=;
-        b=nHW1BEsKQTQhhe6knjzYfQr3BFI+QOu9WR1RtzfojNbu3+td5WvDqrqxgExA6uwuXB
-         kp6AbS7jDLmU0SNice3W7G7bZsegRzyGZRSZzGyxM18w9reT7n2g4YLjyNOLVtrWe+l3
-         DJUMcWvrZjdr+rFLl/BFjd8BLEtm/2jVUdyazL1xqlprPcrEkh5ik+1Qeomkx4WLsAxk
-         yzkqbVxo1JxPDFGdsv3ZxWFLEbIVrvjKu1nZfA4ZC8CY9a6oT9bZNmHt3oESrUI2jhYs
-         NvqgZUeA3JTTIsTl0VwmB2M/mODBqH6sc8sUF/WYLvbidBQWOhlj3eIgeRgDnFX1Ad2N
-         LYDA==
-X-Gm-Message-State: AOAM533P4qFckWhm8lFOlNkb/y5AAP19bPeSErjCiTKBsHaCugttUuP3
-        0v4tCFtLongf/z/R7JON62upqcByFMBnsZ402nOzpF+4v8KYoc97yHzXXm/s6pjE9et+N6b4LTM
-        Zj7PlAxvXzscnfj0MwQ0LwDEpQfcMOlpiIwTg8A==
-X-Received: by 2002:a17:90a:990f:: with SMTP id b15mr4895034pjp.56.1613666817737;
-        Thu, 18 Feb 2021 08:46:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwdyu4WNLMmaqUjN4rAG9EzejD9obPkN/ruOJr8J3NxXuOJi2e6pn17dRuvLTo9jfwYc4G/lM1zpktGFjjSKH8=
-X-Received: by 2002:a17:90a:990f:: with SMTP id b15mr4895014pjp.56.1613666817519;
- Thu, 18 Feb 2021 08:46:57 -0800 (PST)
+        id S229874AbhBRVUj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 18 Feb 2021 16:20:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49654 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229840AbhBRVUi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 Feb 2021 16:20:38 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B1BC0613D6
+        for <linux-leds@vger.kernel.org>; Thu, 18 Feb 2021 13:19:58 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lCqiF-00064A-3x; Thu, 18 Feb 2021 22:19:51 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lCqiC-0000LA-C7; Thu, 18 Feb 2021 22:19:48 +0100
+Date:   Thu, 18 Feb 2021 22:19:48 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel@pengutronix.de, Johan Hovold <johan@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>,
+        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
+Subject: Re: [PATCH v11] leds: trigger: implement a tty trigger
+Message-ID: <20210218211948.4jwhtkhg72kaxx5n@pengutronix.de>
+References: <20201218104246.591315-1-u.kleine-koenig@pengutronix.de>
+ <20201218104246.591315-4-u.kleine-koenig@pengutronix.de>
+ <X/8cwD51DYhzRdDO@kroah.com>
+ <20210113173018.bq2fkea2o3yp6rf6@pengutronix.de>
+ <X/89NHn4oJFC7GjM@kroah.com>
+ <20210218133352.GA13628@duo.ucw.cz>
 MIME-Version: 1.0
-References: <20210217173158.3122868-1-benjamin.tissoires@redhat.com>
-In-Reply-To: <20210217173158.3122868-1-benjamin.tissoires@redhat.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 18 Feb 2021 17:46:46 +0100
-Message-ID: <CAO-hwJKEDEDvMcdvSBq3tx_tibEnhFzFm7wq2AQ3SZwgQyfm4Q@mail.gmail.com>
-Subject: Re: [PATCH 00/11] HID: playstation: revert LED class exposure
-To:     Jiri Kosina <jikos@kernel.org>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="pezhfulq2xqxpwpg"
+Content-Disposition: inline
+In-Reply-To: <20210218133352.GA13628@duo.ucw.cz>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Feb 17, 2021 at 6:32 PM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> [sending those patches on behalf of Roderick]
->
-> There is a current thread on LED LKML which basically means that
-> we have to revert the LED class exposure until things are settled.
->
-> I am sending here the full series that will end up in linux-next.
-> But with some git magic, the final PR to Linus will not have the
-> reverts in it, just the plain patches.
->
-> I am queuing in for-5.12/playstation patches 1 to 6 immediately
-> (the reverts).
->
-> I am also queuing in for-5.12/playstation-v2 patches 7 and 8 on
-> top of 51151098d7ab8 immediately. Those 2 patches have already
-> been reviewed the usual process.
->
-> I am waiting 1 day for others to chime in regarding patches 9 to
-> 11 before applying them to for-5.12/playstation-v2. They are
-> basically the same patches that were already reviewed on the
-> linux-input LKML, but without the LED class bits.
 
-And I just pushed those 3 patches to for-5.12/playstation-v2.
+--pezhfulq2xqxpwpg
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Benjamin
+Hello Pavel,
 
->
-> With all that, we should have more room to discuss the exposure
-> of the LEDs to userspace through the LED class.
->
-> Roderick, I made small adjustments compared to the series you sent
-> me privately:
-> - added the 2 missing reverts/re-add, so I can have clean merges
->   for our for-next branch,
-> - re-ordered the `if (ds->update_rumble)` block in
->   `dualsense_output_worker()` to match was was in linux-next
-> - removed an extra new line to match the current linux-next tree.
->
-> Cheers,
-> Benjamin
->
-> Benjamin Tissoires (2):
->   Revert "HID: playstation: fix unused variable in
->     ps_battery_get_property."
->   Revert "HID: playstation: report DualSense hardware and firmware
->     version."
->
-> Roderick Colenbrander (9):
->   Revert "HID: playstation: DualSense set LEDs to default player id."
->   Revert "HID: playstation: add DualSense player LEDs support."
->   Revert "HID: playstation: add microphone mute support for DualSense."
->   Revert "HID: playstation: add DualSense lightbar support"
->   HID: playstation: report DualSense hardware and firmware version.
->   HID: playstation: fix unused variable in ps_battery_get_property.
->   HID: playstation: add initial DualSense lightbar support.
->   HID: playstation: add microphone mute support for DualSense.
->   HID: playstation: add DualSense player LED support.
->
->  drivers/hid/Kconfig           |   3 -
->  drivers/hid/hid-playstation.c | 177 +++-------------------------------
->  2 files changed, 12 insertions(+), 168 deletions(-)
->
-> --
-> 2.29.2
->
+On Thu, Feb 18, 2021 at 02:33:52PM +0100, Pavel Machek wrote:
+> > > > so that I can queue it up?
+> > >=20
+> > > Oh, so you are LED maintainer now? My congratulations.
+> > > (Honestly, do you plan to apply this without their ack? Not that I'm
+> > > against you doing that, I'm happy if I can archive this patch series =
+as
+> > > done, but I'm a bit surprised.)
+> >=20
+> > It's drug on for so long now, the infrastructure that this driver needs
+> > has now bee merged, so I see no reason why this driver can't be taken
+> > now.  I offered up a "any objections?" in the past, and have gotten
+> > none, so I will take that for quiet acceptance :)
+>=20
+> Thanks for taking the infrastructure patches, but please drop this
+> one.
 
+Given it is already part of Greg's pull request I wonder if we need an
+incremental patch instead?
+
+> Its buggy, as were previous versions. I'll handle it.
+
+*sigh*, you're right. I will prepare a fixed version tomorrow.
+Maybe I know until then if I have to prepare a v12 or an incremental
+patch.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--pezhfulq2xqxpwpg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmAu2fAACgkQwfwUeK3K
+7AlVNQf9Fntr6+rWEXyxclcvC+5IAhyGh08RdpmV1oOlCfj6mVv4DiBq0zByDZsG
+2bI/ijYNUxbHAwnXmFxFIF7x0ueT34zR8Q0N5I09MpCc6mGdPGjEkdl41iOwAG7D
+A3uLJLpnQE1XABOGI9tPQ7iUFvqp62OYgteOMcZcbitaraMbqHKa90zQchO3uqXv
+17ud+JbuUuI35GHjh3U8pAlulU6l+odBXVnCFcpakNy8FcdOHSE6ISf7grWNCzoc
+/QacO/DS2OiQZ16S6IR77KH2QfZokeH2HtXR9cInVjLOWQ1yyxDrcOFHKOgXar1U
+NHgA0C7gMReuRRVzZqE3KfNUtTvFTg==
+=ca1N
+-----END PGP SIGNATURE-----
+
+--pezhfulq2xqxpwpg--
