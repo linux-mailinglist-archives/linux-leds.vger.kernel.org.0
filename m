@@ -2,81 +2,72 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3F4631F9F2
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Feb 2021 14:34:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AB1731FA0C
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Feb 2021 14:44:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbhBSNdw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 19 Feb 2021 08:33:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229799AbhBSNdv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 Feb 2021 08:33:51 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 771FBC061756
-        for <linux-leds@vger.kernel.org>; Fri, 19 Feb 2021 05:33:11 -0800 (PST)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lD5u9-0007P7-8B; Fri, 19 Feb 2021 14:33:09 +0100
-Received: from ukl by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lD5u8-0001aN-Q6; Fri, 19 Feb 2021 14:33:08 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     kernel@pengutronix.de, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: [PATCH v2 2/2] leds: trigger/tty: Use led_set_brightness_sync() from workqueue
-Date:   Fri, 19 Feb 2021 14:33:07 +0100
-Message-Id: <20210219133307.4840-3-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210219133307.4840-1-u.kleine-koenig@pengutronix.de>
-References: <20210219133307.4840-1-u.kleine-koenig@pengutronix.de>
+        id S230306AbhBSNoA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 19 Feb 2021 08:44:00 -0500
+Received: from mga01.intel.com ([192.55.52.88]:8794 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230299AbhBSNn7 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 19 Feb 2021 08:43:59 -0500
+IronPort-SDR: zFU465set7nEVqTudvGcSn+AvXkOd5/0sUGqhJ+JV2HUmSKVGgl5Q09Ux2IMTeovMiPHyDbyZo
+ SJCM/xxqRr6g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9899"; a="203127216"
+X-IronPort-AV: E=Sophos;i="5.81,189,1610438400"; 
+   d="scan'208";a="203127216"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 05:42:11 -0800
+IronPort-SDR: ClK7nKCC1NulLIONlpcICidg6Ynxo/EEYGHIufPxGJaaeBPafFG6nuKeA6I6Ai7mbltlmZCe6Q
+ YCRPUvHOeB+w==
+X-IronPort-AV: E=Sophos;i="5.81,189,1610438400"; 
+   d="scan'208";a="440260183"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 05:42:09 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lD62o-006Dr5-O8; Fri, 19 Feb 2021 15:42:06 +0200
+Date:   Fri, 19 Feb 2021 15:42:06 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 6/7] leds: lp50xx: Add missed bits.h and convert to
+ BIT()
+Message-ID: <YC/ALoRpoov/JaQN@smile.fi.intel.com>
+References: <20210216155050.29322-1-andriy.shevchenko@linux.intel.com>
+ <20210216155050.29322-6-andriy.shevchenko@linux.intel.com>
+ <20210219112755.GN19207@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210219112755.GN19207@duo.ucw.cz>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-led_set_brightness() involves scheduling a workqueue. As here the led's
-brightness setting is done in context of the trigger's workqueue this is
-unjustified overhead and it's more sensible to use
-led_set_brightness_sync().
+On Fri, Feb 19, 2021 at 12:27:55PM +0100, Pavel Machek wrote:
+> Hi!
+> 
+> > Add missed bits.h and convert to BIT() in lp50xx_set_banks().
+> > 
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> 
+> Thanks,
 
-Reported-by: Pavel Machek <pavel@ucw.cz>
-Fixes: fd4a641ac88f ("leds: trigger: implement a tty trigger")
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/leds/trigger/ledtrig-tty.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks!
 
-diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
-index af61281dc6a1..f62db7e520b5 100644
---- a/drivers/leds/trigger/ledtrig-tty.c
-+++ b/drivers/leds/trigger/ledtrig-tty.c
-@@ -122,12 +122,12 @@ static void ledtrig_tty_work(struct work_struct *work)
- 
- 	if (icount.rx != trigger_data->rx ||
- 	    icount.tx != trigger_data->tx) {
--		led_set_brightness(trigger_data->led_cdev, LED_ON);
-+		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
- 
- 		trigger_data->rx = icount.rx;
- 		trigger_data->tx = icount.tx;
- 	} else {
--		led_set_brightness(trigger_data->led_cdev, LED_OFF);
-+		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
- 	}
- 
- out:
+>	I applied whole series except this one...
+> 
+> << is well known C, it can stay.
+
+Shall we drop BIT() in the other place?
+Otherwise it is inconsistency.
+
+
 -- 
-2.29.2
+With Best Regards,
+Andy Shevchenko
+
 
