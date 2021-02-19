@@ -2,52 +2,52 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7CE332000D
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Feb 2021 22:00:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E7F232000E
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Feb 2021 22:00:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229607AbhBSVAG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 19 Feb 2021 16:00:06 -0500
-Received: from smtpx.feld.cvut.cz ([147.32.210.153]:34503 "EHLO
+        id S229684AbhBSVAV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 19 Feb 2021 16:00:21 -0500
+Received: from smtpx.feld.cvut.cz ([147.32.210.153]:44387 "EHLO
         smtpx.feld.cvut.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbhBSVAG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 Feb 2021 16:00:06 -0500
-X-Greylist: delayed 440 seconds by postgrey-1.27 at vger.kernel.org; Fri, 19 Feb 2021 16:00:04 EST
+        with ESMTP id S229553AbhBSVAU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 Feb 2021 16:00:20 -0500
 Received: from localhost (styx [192.168.200.7])
-        by smtpx.feld.cvut.cz (Postfix) with ESMTP id C8A8141700;
-        Fri, 19 Feb 2021 21:52:02 +0100 (CET)
+        by smtpx.feld.cvut.cz (Postfix) with ESMTP id 0C649413FC;
+        Fri, 19 Feb 2021 21:59:36 +0100 (CET)
 X-Virus-Scanned: IMAP STYX AMAVIS
 Received: from smtpx.feld.cvut.cz ([192.168.200.2])
         by localhost (styx.feld.cvut.cz [192.168.200.7]) (amavisd-new, port 10060)
-        with ESMTP id mPBEzbQL2z-M; Fri, 19 Feb 2021 21:52:00 +0100 (CET)
+        with ESMTP id KgRwp44m1Yl2; Fri, 19 Feb 2021 21:59:33 +0100 (CET)
 Received: from imap.feld.cvut.cz (imap.feld.cvut.cz [147.32.210.222])
-        by smtpx.feld.cvut.cz (Postfix) with ESMTP id 88EFE413F8;
-        Fri, 19 Feb 2021 21:52:00 +0100 (CET)
-From:   =?utf-8?Q?Zbyn=C4=9Bk_Kocur?= <zbynek.kocur@fel.cvut.cz>
-Message-Id: <1E2EF21D-A304-46C4-9370-4FEBFD4767D2@fel.cvut.cz>
+        by smtpx.feld.cvut.cz (Postfix) with ESMTP id C335441560;
+        Fri, 19 Feb 2021 21:59:33 +0100 (CET)
 Content-Type: multipart/signed;
-        boundary="Apple-Mail=_2E8DA451-B76B-4368-A7CA-EC6180EA1C5C";
+        boundary="Apple-Mail=_7E48C210-F6FE-4661-9274-0DC905538604";
         protocol="application/pkcs7-signature";
         micalg=sha-256
 Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.60.0.2.21\))
 Subject: Re: [PATCH v2] leds: apu: extend support for PC Engines APU1 with
  newer firmware
-Date:   Fri, 19 Feb 2021 21:51:58 +0100
+From:   =?utf-8?Q?Zbyn=C4=9Bk_Kocur?= <zbynek.kocur@fel.cvut.cz>
 In-Reply-To: <20210219143711.GA28202@meh.true.cz>
+Date:   Fri, 19 Feb 2021 21:59:32 +0100
 Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
         Andreas Eberlein <foodeas@aeberlein.de>,
         Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org
-To:     =?utf-8?Q?Petr_=C5=A0tetiar?= <ynezz@true.cz>
+Reply-To: 20210219143711.GA28202@meh.true.cz
+Message-Id: <D1DCAD12-CFD5-44F0-87B5-1534AFC975C1@fel.cvut.cz>
 References: <20210216133028.4025-1-foodeas@aeberlein.de>
  <c7eebbb6-df0c-51df-7701-ecb8f6543466@metux.net>
  <20210219143711.GA28202@meh.true.cz>
+To:     =?utf-8?Q?Petr_=C5=A0tetiar?= <ynezz@true.cz>
 X-Mailer: Apple Mail (2.3654.60.0.2.21)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---Apple-Mail=_2E8DA451-B76B-4368-A7CA-EC6180EA1C5C
+--Apple-Mail=_7E48C210-F6FE-4661-9274-0DC905538604
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=utf-8
@@ -61,15 +61,16 @@ Thanks for adding to the discussion. I tested the proposed modification =
 on APU1 with different versions of bios.=20
 The LED subsystem now behaves the same as the APU2 and higher. If it =
 needs more tests on various boards
- from PCengines, I'm available.
+from PCengines, I'm available.
 
 
 Tested-by: Zbyn=C4=9Bk Kocur <zbynek.kocur@fel.cvut.cz>
 
 
-Zbyn=C4=9Bk=
+Zbyn=C4=9Bk
 
---Apple-Mail=_2E8DA451-B76B-4368-A7CA-EC6180EA1C5C
+
+--Apple-Mail=_7E48C210-F6FE-4661-9274-0DC905538604
 Content-Disposition: attachment;
 	filename=smime.p7s
 Content-Type: application/pkcs7-signature;
@@ -140,15 +141,15 @@ Fo0JDIURjDPEgo5WTdti/MdGTmKFQNqxyZuT9uSI2Xvhz8p+4pCYkiZqpahZlHqMFxdw9XRZQgrP
 rBERjyM2C/HSIh84rfmAqBgklzIOqXhd+4RzadUxggLNMIICyQIBATBbMEYxCzAJBgNVBAYTAk5M
 MRkwFwYDVQQKExBHRUFOVCBWZXJlbmlnaW5nMRwwGgYDVQQDExNHRUFOVCBQZXJzb25hbCBDQSA0
 AhEAjccpAsDT9VGQNkn5saQIvjANBglghkgBZQMEAgEFAKCCAUMwGAYJKoZIhvcNAQkDMQsGCSqG
-SIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjEwMjE5MjA1MTU4WjAvBgkqhkiG9w0BCQQxIgQgNg1E
-X9PxS+x/aFCCEmVS+X9ZyTFc1m3mQlbS5EDu9XQwagYJKwYBBAGCNxAEMV0wWzBGMQswCQYDVQQG
+SIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjEwMjE5MjA1OTMyWjAvBgkqhkiG9w0BCQQxIgQg42AB
+EmYC9u6SY3Q+z+aGmQj1YkDoLF1A2PodycVKuLAwagYJKwYBBAGCNxAEMV0wWzBGMQswCQYDVQQG
 EwJOTDEZMBcGA1UEChMQR0VBTlQgVmVyZW5pZ2luZzEcMBoGA1UEAxMTR0VBTlQgUGVyc29uYWwg
 Q0EgNAIRAI3HKQLA0/VRkDZJ+bGkCL4wbAYLKoZIhvcNAQkQAgsxXaBbMEYxCzAJBgNVBAYTAk5M
 MRkwFwYDVQQKExBHRUFOVCBWZXJlbmlnaW5nMRwwGgYDVQQDExNHRUFOVCBQZXJzb25hbCBDQSA0
-AhEAjccpAsDT9VGQNkn5saQIvjANBgkqhkiG9w0BAQsFAASCAQBzM6RZM3sRXE5uF0zOaK6/VNGJ
-LMoC3W2Y+w8i41XfacV8T/AmcgBl8rJa26ArzeGuo75ivoSKFx62a8NGirUz+Hz4LlgRpQJQTKjJ
-S0XWI/1iKmMyJjaMZy954BfAUg7GbFMM9CYr6nDqVUvTRgXG2r6FLT8AX1h1joaoAaAomjSUYLf/
-1Z9iMlY2LwU5BNOhbhW+urzieWN8Qt4Fl37PgK0W6iraoHd0tF61ESp2yMtYIfpq58niDIBeV4ko
-KzfMRncZt17CQux6p1tqsC0v8HkFvRY/FzXaSdJ3s02kKxi4q/VPWZk7QkvnZ+DX4GXOuXcM88O/
-38bjcDk1AgFeAAAAAAAA
---Apple-Mail=_2E8DA451-B76B-4368-A7CA-EC6180EA1C5C--
+AhEAjccpAsDT9VGQNkn5saQIvjANBgkqhkiG9w0BAQsFAASCAQCEmx3jhCIaG9YwbAwX1nW5t1Uk
+C8WLDJ691h1KjYFxut4IUaSEJM31mhW8YeMvHyk9UtFTmx82n7FAVFbb0dUOPskOIfBtb8o+BbzJ
+DsoqAVcjrS6dBIUNIjw0Z3k2GtvT+hGh9B61yBHLg9fWTgbfetW57uBSzCFlIqf1ozKFAvRafWbT
+szkNb/VDJCqj1pD81Ier1w2WrcFyksJqem0z4juua9cKD4H2k+RGn9atRgU9PmIvreQZCD8wyrZZ
+XxWPiWDWXyiNvuIdc8RLby8tlmROw7cucpTvKVfe2P6ULJ5y41ax8u3jRKCjSV+s5WhiWIGQGSB8
+PiG4iPCumNS3AAAAAAAA
+--Apple-Mail=_7E48C210-F6FE-4661-9274-0DC905538604--
