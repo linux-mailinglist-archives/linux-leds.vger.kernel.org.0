@@ -2,154 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E7F232000E
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Feb 2021 22:00:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03658320338
+	for <lists+linux-leds@lfdr.de>; Sat, 20 Feb 2021 03:48:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229684AbhBSVAV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 19 Feb 2021 16:00:21 -0500
-Received: from smtpx.feld.cvut.cz ([147.32.210.153]:44387 "EHLO
-        smtpx.feld.cvut.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbhBSVAU (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 Feb 2021 16:00:20 -0500
-Received: from localhost (styx [192.168.200.7])
-        by smtpx.feld.cvut.cz (Postfix) with ESMTP id 0C649413FC;
-        Fri, 19 Feb 2021 21:59:36 +0100 (CET)
-X-Virus-Scanned: IMAP STYX AMAVIS
-Received: from smtpx.feld.cvut.cz ([192.168.200.2])
-        by localhost (styx.feld.cvut.cz [192.168.200.7]) (amavisd-new, port 10060)
-        with ESMTP id KgRwp44m1Yl2; Fri, 19 Feb 2021 21:59:33 +0100 (CET)
-Received: from imap.feld.cvut.cz (imap.feld.cvut.cz [147.32.210.222])
-        by smtpx.feld.cvut.cz (Postfix) with ESMTP id C335441560;
-        Fri, 19 Feb 2021 21:59:33 +0100 (CET)
-Content-Type: multipart/signed;
-        boundary="Apple-Mail=_7E48C210-F6FE-4661-9274-0DC905538604";
-        protocol="application/pkcs7-signature";
-        micalg=sha-256
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.60.0.2.21\))
-Subject: Re: [PATCH v2] leds: apu: extend support for PC Engines APU1 with
- newer firmware
-From:   =?utf-8?Q?Zbyn=C4=9Bk_Kocur?= <zbynek.kocur@fel.cvut.cz>
-In-Reply-To: <20210219143711.GA28202@meh.true.cz>
-Date:   Fri, 19 Feb 2021 21:59:32 +0100
-Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Andreas Eberlein <foodeas@aeberlein.de>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Reply-To: 20210219143711.GA28202@meh.true.cz
-Message-Id: <D1DCAD12-CFD5-44F0-87B5-1534AFC975C1@fel.cvut.cz>
-References: <20210216133028.4025-1-foodeas@aeberlein.de>
- <c7eebbb6-df0c-51df-7701-ecb8f6543466@metux.net>
- <20210219143711.GA28202@meh.true.cz>
-To:     =?utf-8?Q?Petr_=C5=A0tetiar?= <ynezz@true.cz>
-X-Mailer: Apple Mail (2.3654.60.0.2.21)
+        id S229903AbhBTCsj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 19 Feb 2021 21:48:39 -0500
+Received: from mail.mpcb.gov.in ([125.17.249.59]:50116 "EHLO
+        fortimail.email.mpcb.gov.in" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229796AbhBTCsi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 19 Feb 2021 21:48:38 -0500
+X-Greylist: delayed 69771 seconds by postgrey-1.27 at vger.kernel.org; Fri, 19 Feb 2021 21:48:31 EST
+Received: from User (rain-197-185-102-182.rain.network [197.185.102.182])
+        (user=feedback.consent@mpcb.gov.in mech=LOGIN bits=0)
+        by fortimail.email.mpcb.gov.in  with ESMTP id 11J7IVmK031284-11J7IVmM031284;
+        Fri, 19 Feb 2021 12:48:34 +0530
+Message-Id: <202102190718.11J7IVmK031284-11J7IVmM031284@fortimail.email.mpcb.gov.in>
+Reply-To: <brightwayfinanceloan01@protonmail.com>
+From:   "Brightway Finance Loan" <brightwayfinanceloan@gmail.com>
+Subject: Apply for loan at 5% interest rate per year
+Date:   Fri, 19 Feb 2021 09:18:30 +0200
+MIME-Version: 1.0
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+X-FEAS-Auth-User: feedback.consent@mpcb.gov.in
+X-FE-Policy-ID: 0:1:2:SYSTEM
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-
---Apple-Mail=_7E48C210-F6FE-4661-9274-0DC905538604
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
-
-Petr =C5=A0tetiar <ynezz@true.cz>
+BrightWay Finance offers Loans ranging from (R10, 000.00 - R60, 000,000.00). Loan duration is from 1 to 20 years (Maximum) No collateral,
+No ITC CHECK and Blacklisted are welcome. If you wish to apply kindly send your full names, ID number, 
+email address and cellphone number to brightwayfinanceloan01@protonmail.com
 
 
-Hi Peter,
+Yours in Service,
 
-Thanks for adding to the discussion. I tested the proposed modification =
-on APU1 with different versions of bios.=20
-The LED subsystem now behaves the same as the APU2 and higher. If it =
-needs more tests on various boards
-from PCengines, I'm available.
-
-
-Tested-by: Zbyn=C4=9Bk Kocur <zbynek.kocur@fel.cvut.cz>
-
-
-Zbyn=C4=9Bk
-
-
---Apple-Mail=_7E48C210-F6FE-4661-9274-0DC905538604
-Content-Disposition: attachment;
-	filename=smime.p7s
-Content-Type: application/pkcs7-signature;
-	name=smime.p7s
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCDXow
-ggaMMIIEdKADAgECAhEAjccpAsDT9VGQNkn5saQIvjANBgkqhkiG9w0BAQwFADBGMQswCQYDVQQG
-EwJOTDEZMBcGA1UEChMQR0VBTlQgVmVyZW5pZ2luZzEcMBoGA1UEAxMTR0VBTlQgUGVyc29uYWwg
-Q0EgNDAeFw0yMTAyMDEwMDAwMDBaFw0yNDAyMDEyMzU5NTlaMIH9MQ8wDQYDVQQREwYxNjAgMDAx
-MzAxBgNVBAoMKsSMZXNrw6kgdnlzb2vDqSB1xI1lbsOtIHRlY2huaWNrw6kgdiBQcmF6ZTErMCkG
-A1UECQwiSnVnb3Nsw6F2c2vDvWNoIHBhcnR5esOhbsWvIDE1ODAvMzEeMBwGA1UECAwVUHJhaGEs
-IEhsYXZuw60gbcSbc3RvMRowGAYDVQQHExFQcmFoYSA2IC0gRGVqdmljZTELMAkGA1UEBhMCQ1ox
-FjAUBgNVBAMMDVpieW7Em2sgS29jdXIxJzAlBgkqhkiG9w0BCQEWGHpieW5lay5rb2N1ckBmZWwu
-Y3Z1dC5jejCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAIdRN/oFd1DLnU4WMVitQMzz
-OciHSW3JqzYkby5eWv1pkFnlpeqnIjEtZIC2DKSLBw0MfLfCUpjnT5C73I5DECfK3EEN+7OsccpG
-Za6fhIUH8c1/l/QgqYnoa3gXotJ6eLg3E7DUc72Y7LeB0DKpow9Js8lXgbWzbKsOW95Qkd8bO+bS
-tQsekAbiyk5F73jFujOZ8eb2zc6vZMa+aPxnrAcrijC43Z9NTKydKqThUX9/vI9CqWL+U3ryxY2K
-zNr/TEkBP1S2g4xFuse5yj4cL9Hue+uIwj0EOJ6u4oaADBa6bm/BcfKrdJOWvm8/GVC/avVjv1M3
-9dIZ6WiVaqmPxFcCAwEAAaOCAbswggG3MB8GA1UdIwQYMBaAFGkAocchWPjgxRsgsArdp1G/E9nk
-MB0GA1UdDgQWBBQeADUgMaLLH0FsuNkwTK7lPPjEDzAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/
-BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwPwYDVR0gBDgwNjA0BgsrBgEEAbIx
-AQICTzAlMCMGCCsGAQUFBwIBFhdodHRwczovL3NlY3RpZ28uY29tL0NQUzBCBgNVHR8EOzA5MDeg
-NaAzhjFodHRwOi8vR0VBTlQuY3JsLnNlY3RpZ28uY29tL0dFQU5UUGVyc29uYWxDQTQuY3JsMHgG
-CCsGAQUFBwEBBGwwajA9BggrBgEFBQcwAoYxaHR0cDovL0dFQU5ULmNydC5zZWN0aWdvLmNvbS9H
-RUFOVFBlcnNvbmFsQ0E0LmNydDApBggrBgEFBQcwAYYdaHR0cDovL0dFQU5ULm9jc3Auc2VjdGln
-by5jb20wOQYDVR0RBDIwMIEUWmJ5bmVrLktvY3VyQGN2dXQuY3qBGHpieW5lay5rb2N1ckBmZWwu
-Y3Z1dC5jejANBgkqhkiG9w0BAQwFAAOCAgEAFQ/cuZ8vH8nfnkb+vZg3WOIYsEdHdXq5TS7ZKOvM
-5KHGL2YZ6VTTPMOMSDR8zKT7w0scWKMlPURv6tlehIjDQsJ+pdkkq5WjHUM7av5jap0lazd3bTiU
-gxQxQfQhsevs6Nq2tf5tQmwRrROezy+5Fvf3k3gv1csviLszVMVUCFx6tWkAdfIaxl1pXIG+Kl/S
-fLdWsxaJxhlh6lknaP+UHS/N0aCcQwBja1NSEt8emK/ehk+DfyqLr1hrXKSj44wm5xRuZ2FdYTo7
-32XW2IACEyGCufi95UVIzdCyXFiRKrfII+KhUFf3nCcnfIDPCLm4Xz5YMv2xQHxxoVk1OkTjeczx
-/OC6VlyTORc+q2JHGrTTEFKnb+9fzDQgtFcvzhmt9P1+Js5w6O51UnNN/cA2nJTFknLZlsBXBc0O
-ctx145dmLfw+hvVcWWuaiFhIX0MOD9KZ9Dc36NteaV8gyq7G8c1pHna8XBH873pWixZf0UiZ4IF7
-ajvxE97KBVzS+iVTF0JDA09F5KINBSS6HiUKyBamGAzkaM3xRyxcJSu4bzX2qG9gioLw671PSvVU
-2ebMT8a5LZnnqrkoHQnv0YKZ/4ijtQVc1iYaRgj1emq/sRe616159u0Y/lkmIo67MOTF4xcCjGjA
-DKGVeTh6mCIZPpTYqHSlWyQ5Mz0SKxKfjKgwggbmMIIEzqADAgECAhAxAnDUNb6bJJr4VtDh4oVJ
-MA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQGEwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIG
-A1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoTFVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UE
-AxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTAeFw0yMDAyMTgwMDAwMDBa
-Fw0zMzA1MDEyMzU5NTlaMEYxCzAJBgNVBAYTAk5MMRkwFwYDVQQKExBHRUFOVCBWZXJlbmlnaW5n
-MRwwGgYDVQQDExNHRUFOVCBQZXJzb25hbCBDQSA0MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIIC
-CgKCAgEAs0riIl4nW+kEWxQENTIgFK600jFAxs1QwB6hRMqvnkphfy2Q3mKbM2otpELKlgE8/3AQ
-PYBo7p7yeORuPMnAuA+oMGRb2wbeSaLcZbpwXgfCvnKxmq97/kQkOFX706F9O7/h0yehHhDjUdyM
-yT0zMs4AMBDRrAFn/b2vR3j0BSYgoQs16oSqadM3p+d0vvH/YrRMtOhkvGpLuzL8m+LTAQWvQJ92
-NwCyKiHspoP4mLPJvVpEpDMnpDbRUQdftSpZzVKTNORvPrGPRLnJ0EEVCHR82LL6oz915WkrgeCY
-9ImuulBn4uVsd9ZpubCgM/EXvVBlViKqusChSsZEn7juIsGIiDyaIhhLsd3amm8BS3bgK6AxdSMR
-OND6hiHT182Lmf8C+gRHxQG9McvG35uUvRu8v7bPZiJRaT7ZC2f50P4lTlnbLvWpXv5yv7hheO8b
-MXltiyLweLB+VNvg+GnfL6TW3Aq1yF1yrZAZzR4MbpjTWdEdSLKvz8+0wCwscQ81nbDOwDt9vyZ+
-0eJXbRkWZiqScnwAg5/B1NUD4TrYlrI4n6zFp2pyYUOiuzP+as/AZnz63GvjFK69WODR2W/TK4D7
-VikEMhg18vhuRf4hxnWZOy0vhfDR/g3aJbdsGac+diahjEwzyB+UKJOCyzvecG8bZ/u/U8PsEMZg
-07iIPi8CAwEAAaOCAYswggGHMB8GA1UdIwQYMBaAFFN5v1qqK0rPVIDh2JvAnfKyA2bLMB0GA1Ud
-DgQWBBRpAKHHIVj44MUbILAK3adRvxPZ5DAOBgNVHQ8BAf8EBAMCAYYwEgYDVR0TAQH/BAgwBgEB
-/wIBADAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwOAYDVR0gBDEwLzAtBgRVHSAAMCUw
-IwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFAGA1UdHwRJMEcwRaBDoEGGP2h0
-dHA6Ly9jcmwudXNlcnRydXN0LmNvbS9VU0VSVHJ1c3RSU0FDZXJ0aWZpY2F0aW9uQXV0aG9yaXR5
-LmNybDB2BggrBgEFBQcBAQRqMGgwPwYIKwYBBQUHMAKGM2h0dHA6Ly9jcnQudXNlcnRydXN0LmNv
-bS9VU0VSVHJ1c3RSU0FBZGRUcnVzdENBLmNydDAlBggrBgEFBQcwAYYZaHR0cDovL29jc3AudXNl
-cnRydXN0LmNvbTANBgkqhkiG9w0BAQwFAAOCAgEACgVOew2PHxM5AP1v7GLGw+3tF6rjAcx43D9H
-l110Q+BABABglkrPkES/VyMZsfuds8fcDGvGE3o5UfjSno4sij0xdKut8zMazv8/4VMKPCA3EUS0
-tDUoL01ugDdqwlyXuYizeXyH2ICAQfXMtS+raz7mf741CZvO50OxMUMxqljeRfVPDJQJNHOYi2px
-uxgjKDYx4hdZ9G2o+oLlHhu5+anMDkE8g0tffjRKn8I1D1BmrDdWR/IdbBOj6870abYvqys1qYlP
-otv5N5dm+XxQ8vlrvY7+kfQaAYeO3rP1DM8BGdpEqyFVa+I0rpJPhaZkeWW7cImDQFerHW9bKzBr
-CC815a3WrEhNpxh72ZJZNs1HYJ+29NTB6uu4NJjaMxpk+g2puNSm4b9uVjBbPO9V6sFSG+IBqE9c
-kX/1XjzJtY8Grqoo4SiRb6zcHhp3mxj3oqWi8SKNohAOKnUc7RIP6ss1hqIFyv0xXZor4N9tnzD0
-Fo0JDIURjDPEgo5WTdti/MdGTmKFQNqxyZuT9uSI2Xvhz8p+4pCYkiZqpahZlHqMFxdw9XRZQgrP
-+cgtOkWEaiNkRBbvtvLdp7MCL2OsQhQEdEbUvDM9slzZXdI7NjJokVBq3O4pls3VD2z3L/bHVBe0
-rBERjyM2C/HSIh84rfmAqBgklzIOqXhd+4RzadUxggLNMIICyQIBATBbMEYxCzAJBgNVBAYTAk5M
-MRkwFwYDVQQKExBHRUFOVCBWZXJlbmlnaW5nMRwwGgYDVQQDExNHRUFOVCBQZXJzb25hbCBDQSA0
-AhEAjccpAsDT9VGQNkn5saQIvjANBglghkgBZQMEAgEFAKCCAUMwGAYJKoZIhvcNAQkDMQsGCSqG
-SIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjEwMjE5MjA1OTMyWjAvBgkqhkiG9w0BCQQxIgQg42AB
-EmYC9u6SY3Q+z+aGmQj1YkDoLF1A2PodycVKuLAwagYJKwYBBAGCNxAEMV0wWzBGMQswCQYDVQQG
-EwJOTDEZMBcGA1UEChMQR0VBTlQgVmVyZW5pZ2luZzEcMBoGA1UEAxMTR0VBTlQgUGVyc29uYWwg
-Q0EgNAIRAI3HKQLA0/VRkDZJ+bGkCL4wbAYLKoZIhvcNAQkQAgsxXaBbMEYxCzAJBgNVBAYTAk5M
-MRkwFwYDVQQKExBHRUFOVCBWZXJlbmlnaW5nMRwwGgYDVQQDExNHRUFOVCBQZXJzb25hbCBDQSA0
-AhEAjccpAsDT9VGQNkn5saQIvjANBgkqhkiG9w0BAQsFAASCAQCEmx3jhCIaG9YwbAwX1nW5t1Uk
-C8WLDJ691h1KjYFxut4IUaSEJM31mhW8YeMvHyk9UtFTmx82n7FAVFbb0dUOPskOIfBtb8o+BbzJ
-DsoqAVcjrS6dBIUNIjw0Z3k2GtvT+hGh9B61yBHLg9fWTgbfetW57uBSzCFlIqf1ozKFAvRafWbT
-szkNb/VDJCqj1pD81Ier1w2WrcFyksJqem0z4juua9cKD4H2k+RGn9atRgU9PmIvreQZCD8wyrZZ
-XxWPiWDWXyiNvuIdc8RLby8tlmROw7cucpTvKVfe2P6ULJ5y41ax8u3jRKCjSV+s5WhiWIGQGSB8
-PiG4iPCumNS3AAAAAAAA
---Apple-Mail=_7E48C210-F6FE-4661-9274-0DC905538604--
+Jane Cooper
+MARKETING TEAM
+Tel No: +27(0)622541582
+BrightWay Finance Loan(PTY) LTD.
+brightwayfinanceloan01@protonmail.com
