@@ -2,63 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41B6F31F77E
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Feb 2021 11:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4280D31F792
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Feb 2021 11:48:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbhBSKmf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 19 Feb 2021 05:42:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55554 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229826AbhBSKmc (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 19 Feb 2021 05:42:32 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8CFAB64E43;
-        Fri, 19 Feb 2021 10:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1613731312;
-        bh=4KLb7O861o6oipBM32Ldo3c2DIISyocwqtvPmZ9YE9s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=z9TMITgG+ESKmS+y8iRyz9uMvA200PiLSvzCxH6DB3GThm9Rhb2I0rtjmIf1KQ8Bn
-         kKD2NkDAQMA8tZ9HZEIoOMUuyzrW1kdnW5OwFnn4pQ6SUrSK/fqTjQD8CJ0ooKXKuo
-         QWRX8dxKsRnO6vyL+WY8rJCr9ru91YTLMu48Pg9w=
-Date:   Fri, 19 Feb 2021 11:41:49 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Pavel Machek <pavel@ucw.cz>, kernel@pengutronix.de,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-serial@vger.kernel.org
-Subject: Re: [PATCH 2/2] leds: trigger/tty: Use led_set_brightness_sync()
- from workqueue
-Message-ID: <YC+V7bkdq1SAPYs9@kroah.com>
-References: <20210219082955.5007-1-u.kleine-koenig@pengutronix.de>
- <20210219082955.5007-2-u.kleine-koenig@pengutronix.de>
- <20210219094632.GB5641@duo.ucw.cz>
- <20210219095254.ky33qlb3cvy5btpe@pengutronix.de>
+        id S229985AbhBSKsH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 19 Feb 2021 05:48:07 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:46936 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229849AbhBSKsG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 Feb 2021 05:48:06 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 6BE091C0B8A; Fri, 19 Feb 2021 11:47:24 +0100 (CET)
+Date:   Fri, 19 Feb 2021 11:47:24 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Gene Chen <gene.chen.richtek@gmail.com>
+Cc:     jacek.anaszewski@gmail.com, robh+dt@kernel.org,
+        matthias.bgg@gmail.com, dmurphy@ti.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        gene_chen@richtek.com, Wilma.Wu@mediatek.com,
+        shufan_lee@richtek.com, cy_huang@richtek.com,
+        benjamin.chao@mediatek.com
+Subject: Re: [PATCH v13 3/5] dt-bindings: leds: Add LED_FUNCTION_MOONLIGHT
+ definitions
+Message-ID: <20210219104724.GC19207@duo.ucw.cz>
+References: <1608547554-6602-1-git-send-email-gene.chen.richtek@gmail.com>
+ <1608547554-6602-4-git-send-email-gene.chen.richtek@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="qjNfmADvan18RZcF"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210219095254.ky33qlb3cvy5btpe@pengutronix.de>
+In-Reply-To: <1608547554-6602-4-git-send-email-gene.chen.richtek@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Feb 19, 2021 at 10:52:54AM +0100, Uwe Kleine-König wrote:
-> On Fri, Feb 19, 2021 at 10:46:32AM +0100, Pavel Machek wrote:
-> > On Fri 2021-02-19 09:29:55, Uwe Kleine-König wrote:
-> > > led_set_brightness() involves scheduling a workqueue. As here the led's
-> > > brightness setting is done in context of the trigger's workqueue this is
-> > > unjustified overhead and it's more sensible to use
-> > > led_set_brightness_sync().
-> > 
-> > Acked-by: Pavel Machek <pavel@ucw.cz>
-> 
-> Who is expected to pick these two up? I assume Greg as the commit that
-> is fixed here is only in his try for now?
 
-I will do so once Linus takes my existing pull request, don't worry,
-they will make it into 5.12-final.
+--qjNfmADvan18RZcF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+Hi!
 
-greg k-h
+> From: Gene Chen <gene_chen@richtek.com>
+>=20
+> Add LED_FUNCTION_MOONLIGHT definitions
+>=20
+> Signed-off-by: Gene Chen <gene_chen@richtek.com>
+> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Acked-by: Rob Herring <robh@kernel.org>
+
+No, sorry, I don't believe we need another define for flash/torch.
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--qjNfmADvan18RZcF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYC+XPAAKCRAw5/Bqldv6
+8lIeAJ0bxWGiBnfkBbC4/RxlsGWR6QDCBACgutK9h/9LOXVqS/aDrfS/TD5Iyjc=
+=Qqoj
+-----END PGP SIGNATURE-----
+
+--qjNfmADvan18RZcF--
