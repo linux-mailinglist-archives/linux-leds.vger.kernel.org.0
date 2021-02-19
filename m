@@ -2,74 +2,144 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E478D31F19F
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Feb 2021 22:21:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AFF631F590
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Feb 2021 09:01:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229799AbhBRVVx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 Feb 2021 16:21:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54038 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229620AbhBRVVx (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 18 Feb 2021 16:21:53 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F87664E28;
-        Thu, 18 Feb 2021 21:21:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1613683272;
-        bh=F38hwkHyfKSDu2J+PLX7hPwqasvhF04vGCChBgLQGDc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WoskCoMRyncdDNKyKiJnbJFJnRxU+IPWTXvy8jcc6dJ5ckyjLGQYGR+stdl1Jib4n
-         Q+inxNsiXKWsA3/RgqUT69xJwoSghVJgQIqiXpL+zNu9sfLHcC3pmQWbOiAFsOqqdZ
-         l7nK5/KucCpvDMk27TlKkgak7YKeSR8bWSLXgYkw=
-Date:   Thu, 18 Feb 2021 22:21:07 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Pavel Machek <pavel@ucw.cz>, kernel@pengutronix.de,
-        Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org,
+        id S229708AbhBSIBb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 19 Feb 2021 03:01:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229681AbhBSIBa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 Feb 2021 03:01:30 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0DB7C061786
+        for <linux-leds@vger.kernel.org>; Fri, 19 Feb 2021 00:00:49 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lD0iP-00065p-7l; Fri, 19 Feb 2021 09:00:41 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lD0iN-0002Mb-Aj; Fri, 19 Feb 2021 09:00:39 +0100
+Date:   Fri, 19 Feb 2021 09:00:38 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     kernel@pengutronix.de,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>,
         linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
 Subject: Re: [PATCH v11] leds: trigger: implement a tty trigger
-Message-ID: <YC7aQ7LKjr+ZRo8w@kroah.com>
+Message-ID: <20210219080038.et46fcrha7ymw6b3@pengutronix.de>
 References: <20201218104246.591315-1-u.kleine-koenig@pengutronix.de>
  <20201218104246.591315-4-u.kleine-koenig@pengutronix.de>
  <X/8cwD51DYhzRdDO@kroah.com>
  <20210113173018.bq2fkea2o3yp6rf6@pengutronix.de>
- <X/89NHn4oJFC7GjM@kroah.com>
- <20210218133352.GA13628@duo.ucw.cz>
- <20210218211948.4jwhtkhg72kaxx5n@pengutronix.de>
+ <20210218133733.GB12948@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="q6kwadylrbth3xza"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210218211948.4jwhtkhg72kaxx5n@pengutronix.de>
+In-Reply-To: <20210218133733.GB12948@duo.ucw.cz>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Feb 18, 2021 at 10:19:48PM +0100, Uwe Kleine-König wrote:
-> Hello Pavel,
-> 
-> On Thu, Feb 18, 2021 at 02:33:52PM +0100, Pavel Machek wrote:
-> > > > > so that I can queue it up?
-> > > > 
-> > > > Oh, so you are LED maintainer now? My congratulations.
-> > > > (Honestly, do you plan to apply this without their ack? Not that I'm
-> > > > against you doing that, I'm happy if I can archive this patch series as
-> > > > done, but I'm a bit surprised.)
-> > > 
-> > > It's drug on for so long now, the infrastructure that this driver needs
-> > > has now bee merged, so I see no reason why this driver can't be taken
-> > > now.  I offered up a "any objections?" in the past, and have gotten
-> > > none, so I will take that for quiet acceptance :)
-> > 
-> > Thanks for taking the infrastructure patches, but please drop this
-> > one.
-> 
-> Given it is already part of Greg's pull request I wonder if we need an
-> incremental patch instead?
 
-An incremental patch is easier, thanks, I can't "drop" a patch already
-in my public tree.
+--q6kwadylrbth3xza
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-greg k-h
+Hi Pavel,
+
+On Thu, Feb 18, 2021 at 02:37:33PM +0100, Pavel Machek wrote:
+> Close, but see below:
+>=20
+> > +static ssize_t ttyname_store(struct device *dev,
+> > +			     struct device_attribute *attr, const char *buf,
+> > +			     size_t size)
+> > +{
+> > +	struct ledtrig_tty_data *trigger_data =3D led_trigger_get_drvdata(dev=
+);
+> > +	char *ttyname;
+> > +	ssize_t ret =3D size;
+> > +	bool running;
+> > +
+> > +	if (size > 0 && buf[size - 1] =3D=3D '\n')
+> > +		size -=3D 1;
+> > +
+> > +	if (size) {
+> > +		ttyname =3D kmemdup_nul(buf, size, GFP_KERNEL);
+> > +		if (!ttyname) {
+> > +			ret =3D -ENOMEM;
+> > +			goto out_unlock;
+>=20
+> Unlock without a lock:
+>=20
+> > +out_unlock:
+> > +	mutex_unlock(&trigger_data->mutex);
+
+Indeed, I prepare an incremental patch that does return -ENOMEM instead
+of goto out_unlock.
+
+> > +
+> > +	if (ttyname && !running)
+> > +		ledtrig_tty_restart(trigger_data);
+> > +
+> > +	return ret;
+> > +}
+>=20
+> > +
+> > +		tty =3D tty_kopen_shared(devno);
+> > +		if (IS_ERR(tty) || !tty)
+> > +			/* What to do? retry or abort */
+> > +			goto out;
+>=20
+> Abort would make sense to me.
+
+In this case it would IMHO be sensible to already try the
+tty_kopen_shared() in ttyname_store() and let that one fail if the tty
+doesn't exist. I'll have to go through the history of this patch set, if
+I remember correctly it was like that at one point.
+
+> > +	if (icount.rx !=3D trigger_data->rx ||
+> > +	    icount.tx !=3D trigger_data->tx) {
+> > +		led_set_brightness(trigger_data->led_cdev, LED_ON);
+>=20
+> Please use _sync version.
+
+OK, there are too many variants for me. I'll just believe you that
+led_set_brightness_sync is the right one. (Hmm, on the other hand I'll
+have to understand the difference for a good commit log. I'll dig into
+that. "Pavel said so" probably isn't good enough :-))
+
+Best regards and thanks for your review,
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--q6kwadylrbth3xza
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmAvcCMACgkQwfwUeK3K
+7Ak6kAf+ORfjH9Vt/IPGPAcl1T1fJrGcnokGruItFNxB3+WdEIPBZsw9iLkunAAO
+tTkxGrn2tJuwkfJMsaucERnbM9daBXoAqQmDBEjp0JBWris2SfparsDnDPcSIJMG
+RY9pN+1ChEPVm1hWiXd9S73jr8aMOjxJ1DppjtZeuzbwXDmujdnDCqcQ1dxZ+1TJ
+4b55YZtTe8CGTfpKcX4/LpaUXII8wF4Iy7F+vM5axNoTpJYxViJEJimgHLoXQwaH
+pj8R5oWMqzWN/9Cg+yGxDO4bDvGhQ5VNpNWTdiCh4reDo3rNzt7LjM7nbpgAYcgv
+bvq0/yAwrMeakYN7NTJL827JWDWEXg==
+=QeMs
+-----END PGP SIGNATURE-----
+
+--q6kwadylrbth3xza--
