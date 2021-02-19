@@ -2,94 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0D8131F84B
-	for <lists+linux-leds@lfdr.de>; Fri, 19 Feb 2021 12:21:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAD1A31F857
+	for <lists+linux-leds@lfdr.de>; Fri, 19 Feb 2021 12:24:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230463AbhBSLVj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 19 Feb 2021 06:21:39 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:49490 "EHLO
+        id S230455AbhBSLXv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 19 Feb 2021 06:23:51 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:49702 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230439AbhBSLUo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 Feb 2021 06:20:44 -0500
+        with ESMTP id S230453AbhBSLWh (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 19 Feb 2021 06:22:37 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 648001C0B80; Fri, 19 Feb 2021 12:20:00 +0100 (CET)
-Date:   Fri, 19 Feb 2021 12:20:00 +0100
+        id 19AEB1C0B8A; Fri, 19 Feb 2021 12:21:56 +0100 (CET)
+Date:   Fri, 19 Feb 2021 12:21:55 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>
-Subject: Re: [GIT PULL 5.11-rc8] LED fix
-Message-ID: <20210219112000.GJ19207@duo.ucw.cz>
-References: <20210214171328.GA5314@duo.ucw.cz>
- <CAHk-=wgCp5n3sB_hDmOLSPiJcwJm9RErBHN_6ABhRWyVEkY4Xw@mail.gmail.com>
- <20210214203138.GA22191@amd>
- <CAHk-=wgmB6qH7Ho433B066S0=B-CtDNFtaZWOM3PMGWB0ERKSw@mail.gmail.com>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Andreas Eberlein <foodeas@aeberlein.de>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] leds: apu: extend support for PC Engines APU1 with
+ newer firmware
+Message-ID: <20210219112155.GL19207@duo.ucw.cz>
+References: <20210216133028.4025-1-foodeas@aeberlein.de>
+ <c7eebbb6-df0c-51df-7701-ecb8f6543466@metux.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="DesjdUuHQDwS2t4N"
+        protocol="application/pgp-signature"; boundary="/ZYM6PqDyfNytx60"
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgmB6qH7Ho433B066S0=B-CtDNFtaZWOM3PMGWB0ERKSw@mail.gmail.com>
+In-Reply-To: <c7eebbb6-df0c-51df-7701-ecb8f6543466@metux.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---DesjdUuHQDwS2t4N
+--/ZYM6PqDyfNytx60
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
+> >   MODULE_DEVICE_TABLE(dmi, apu_led_dmi_table);
+> > @@ -173,7 +182,7 @@ static int __init apu_led_init(void)
+> >   	int err;
+> >   	if (!(dmi_match(DMI_SYS_VENDOR, "PC Engines") &&
+> > -	      dmi_match(DMI_PRODUCT_NAME, "APU"))) {
+> > +	      (dmi_match(DMI_PRODUCT_NAME, "APU") || dmi_match(DMI_PRODUCT_NA=
+ME, "apu1")))) {
+> >   		pr_err("No PC Engines APUv1 board detected. For APUv2,3 support, en=
+able CONFIG_PCENGINES_APU2\n");
+> >   		return -ENODEV;
+> >   	}
+> >=20
+>=20
+> Looks good to me. But don't dare giving official ack, since I don't
+> have an apu1 board for testing.
+>=20
+> Is Alan Mizrahi (original author) still here ?
 
-> On Sun, Feb 14, 2021 at 12:31 PM Pavel Machek <pavel@ucw.cz> wrote:
-> >
-> > 92bf22614b21 is my rc7, and it is parent of the commit I want you to
-> > apply.
->=20
-> Oh, right you are. I looked at your leds-cleanup-for-pavel branch for
-> some reason, which was much older.
->=20
-> Anyway, it does the remote lookup with git ls-remote, and doesn't find
-> any matching ref for that 92bf22614 commit you gave it as a base, so
-> that's why it complains. You _could_ fix that by just pushing all the
-> tags you have locally to your remote too.
->=20
-> Have you changed your behavior wrt git request-pull lately? Because
-> that whole model you use is broken.
+People are usually not that careful with thier acks.
 
-This was really one-off and I found the git messages quite confusing.
->=20
-> The "end" commit shouldn't be my tag (and it shouldn't be a SHA1). It
-> should be *your* branch name.
->=20
-> So what you *should* have used is something like
->=20
->     git request-pull master
-> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/
-> for-rc8-5.11
->=20
-> (assuming "master" is the upstream branch - which would be my
-> v5.11-rc7) without any odd SHA games or anything like that.
+Applied, thanks.
 
-Yes, pushing master should work. I tried to fall back to SHAs as I
-find them less confusing.
-
-Best regards,
+BR,
 								Pavel
-
 --=20
 http://www.livejournal.com/~pavelmachek
 
---DesjdUuHQDwS2t4N
+--/ZYM6PqDyfNytx60
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYC+e4AAKCRAw5/Bqldv6
-8hfCAKCSGEICjqzvoR7vNLOKfRDRQBlssQCeI77qs2TbTjC9buuP6WBTk1yprcY=
-=ougf
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYC+fUwAKCRAw5/Bqldv6
+8u3LAKCOlUj93I++Noi0Mq3LOAv0TNPwKACfTpPo0lUz8Lws0Tyni/w3+DoKVSQ=
+=nK2r
 -----END PGP SIGNATURE-----
 
---DesjdUuHQDwS2t4N--
+--/ZYM6PqDyfNytx60--
