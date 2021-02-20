@@ -2,90 +2,160 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 686C5320548
-	for <lists+linux-leds@lfdr.de>; Sat, 20 Feb 2021 13:26:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB54532056B
+	for <lists+linux-leds@lfdr.de>; Sat, 20 Feb 2021 13:46:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229763AbhBTM01 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 20 Feb 2021 07:26:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59511 "EHLO
+        id S229490AbhBTMpt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 20 Feb 2021 07:45:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55378 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229724AbhBTM00 (ORCPT
+        by vger.kernel.org with ESMTP id S229476AbhBTMpr (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 20 Feb 2021 07:26:26 -0500
+        Sat, 20 Feb 2021 07:45:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613823900;
+        s=mimecast20190719; t=1613825060;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JDHHg/+mJYAL8US7hGWMmr+P663UlNWXOOXuhRPKzAQ=;
-        b=URaoPanCaeDtxKgERsrBXBBxjw2kprwW+Ty+XTSkzYjNseiA30oKAS/rmlftAraUgHMQxS
-        4Qy+MfUk7c/n31dPw+/lg7g4AG+d8WyT8eLBO9TL9ngqz87I4Xs7Ig6JgWoFZyNBmFCS94
-        +ZlXwo7+miebeAtfijvw9LYONlHpFqI=
+         content-transfer-encoding:content-transfer-encoding;
+        bh=NGCoXmLsNypwd4eOy8IYMqT34aEwVcCuKoDWcemQv1E=;
+        b=CIcyN+KRNqlCRH8hJP97VmpFCP8+BVE+M4yyyUZpG+7JG1iTrkpWVFGCtLflxtfTeDysZp
+        vb3Aml67yUD0bz6xl3k372yFISkbDZf8pxeTdTThWirLxL9tZRqW5MvHzovWwsFRMQ5Pes
+        UEEhes/mwWzlp9biV1V0xuHVN2izjvc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-DJxpM2EhPkiv1-aOYay6rg-1; Sat, 20 Feb 2021 07:24:58 -0500
-X-MC-Unique: DJxpM2EhPkiv1-aOYay6rg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-525-M68dyUHHMomh3oUFMMHYaw-1; Sat, 20 Feb 2021 07:44:18 -0500
+X-MC-Unique: M68dyUHHMomh3oUFMMHYaw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E526803648;
-        Sat, 20 Feb 2021 12:24:57 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8357880364B;
+        Sat, 20 Feb 2021 12:44:16 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-112-29.ams2.redhat.com [10.36.112.29])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 72A41100164C;
-        Sat, 20 Feb 2021 12:24:56 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BB35319709;
+        Sat, 20 Feb 2021 12:44:14 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org
-Subject: [PATCH v2 7/7] HID: lenovo: Set default_trigger-s for the mute and micmute LEDs
-Date:   Sat, 20 Feb 2021 13:24:38 +0100
-Message-Id: <20210220122438.21857-8-hdegoede@redhat.com>
-In-Reply-To: <20210220122438.21857-1-hdegoede@redhat.com>
-References: <20210220122438.21857-1-hdegoede@redhat.com>
+To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-leds@vger.kernel.org,
+        alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] leds: trigger: audio: Add an activate callback to ensure the initial brightness is set
+Date:   Sat, 20 Feb 2021 13:44:13 +0100
+Message-Id: <20210220124413.23460-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The mute and mic-mute LEDs should be automatically turned on/off based
-on the audio-cards mixer settings.
+Some 2-in-1s with a detachable (USB) keyboard(dock) have mute-LEDs in
+the speaker- and/or mic-mute keys on the keyboard.
 
-Add the standardized default-trigger names for this, so that the alsa
-code can turn the LEDs on/off as appropriate (on supported audio cards).
+Examples of this are the Lenovo Thinkpad10 tablet (with its USB kbd-dock)
+and the HP x2 10 series.
 
-This brings the mute/mic-mute LED support inline with the thinkpad_acpi
-support for the same LEDs in keyboards directly connected to the
-laptop's embedded-controller.
+The detachable nature of these keyboards means that the keyboard and
+thus the mute LEDs may show up after the user (or userspace restoring
+old mixer settings) has muted the speaker and/or mic.
 
+Current LED-class devices with a default_trigger of "audio-mute" or
+"audio-micmute" initialize the brightness member of led_classdev with
+ledtrig_audio_get() before registering the LED.
+
+This makes the software state after attaching the keyboard match the
+actual audio mute state, e.g. cat /sys/class/leds/foo/brightness will
+show the right value.
+
+But before this commit nothing was actually calling the led_classdev's
+brightness_set[_blocking] callback so the value returned by
+ledtrig_audio_get() was never actually being send to the hw, leading
+to the mute LEDs staying in their default power-on state, after
+attaching the keyboard, even if ledtrig_audio_get() returns a different
+state.
+
+This could be fixed by having the individual LED drivers call
+brightness_set[_blocking] themselves after registering the LED,
+but this really is something which should be done by a led-trigger
+activate callback.
+
+Add an activate callback for this, fixing the issue of the
+mute LEDs being out of sync after (re)attaching the keyboard.
+
+Cc: Takashi Iwai <tiwai@suse.de>
+Fixes: faa2541f5b1a ("leds: trigger: Introduce audio mute LED trigger")
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/hid/hid-lenovo.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/leds/trigger/ledtrig-audio.c | 37 ++++++++++++++++++++++------
+ 1 file changed, 29 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index 041bfa1937a8..18e9ffcf2ace 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -818,6 +818,7 @@ static int lenovo_register_leds(struct hid_device *hdev)
- 	snprintf(name_micm, name_sz, "%s:amber:micmute", dev_name(&hdev->dev));
+diff --git a/drivers/leds/trigger/ledtrig-audio.c b/drivers/leds/trigger/ledtrig-audio.c
+index f76621e88482..c6b437e6369b 100644
+--- a/drivers/leds/trigger/ledtrig-audio.c
++++ b/drivers/leds/trigger/ledtrig-audio.c
+@@ -6,10 +6,33 @@
+ #include <linux/kernel.h>
+ #include <linux/leds.h>
+ #include <linux/module.h>
++#include "../leds.h"
  
- 	data->led_mute.name = name_mute;
-+	data->led_mute.default_trigger = "audio-mute";
- 	data->led_mute.brightness_set_blocking = lenovo_led_brightness_set;
- 	data->led_mute.max_brightness = LED_ON;
- 	data->led_mute.flags = LED_HW_PLUGGABLE;
-@@ -827,6 +828,7 @@ static int lenovo_register_leds(struct hid_device *hdev)
- 		return ret;
+-static struct led_trigger *ledtrig_audio[NUM_AUDIO_LEDS];
+ static enum led_brightness audio_state[NUM_AUDIO_LEDS];
  
- 	data->led_micmute.name = name_micm;
-+	data->led_micmute.default_trigger = "audio-micmute";
- 	data->led_micmute.brightness_set_blocking = lenovo_led_brightness_set;
- 	data->led_micmute.max_brightness = LED_ON;
- 	data->led_micmute.flags = LED_HW_PLUGGABLE;
++static int ledtrig_audio_mute_activate(struct led_classdev *led_cdev)
++{
++	led_set_brightness_nosleep(led_cdev, audio_state[LED_AUDIO_MUTE]);
++	return 0;
++}
++
++static int ledtrig_audio_micmute_activate(struct led_classdev *led_cdev)
++{
++	led_set_brightness_nosleep(led_cdev, audio_state[LED_AUDIO_MICMUTE]);
++	return 0;
++}
++
++static struct led_trigger ledtrig_audio[NUM_AUDIO_LEDS] = {
++	[LED_AUDIO_MUTE] = {
++		.name     = "audio-mute",
++		.activate = ledtrig_audio_mute_activate,
++	},
++	[LED_AUDIO_MICMUTE] = {
++		.name     = "audio-micmute",
++		.activate = ledtrig_audio_micmute_activate,
++	},
++};
++
+ enum led_brightness ledtrig_audio_get(enum led_audio type)
+ {
+ 	return audio_state[type];
+@@ -19,24 +42,22 @@ EXPORT_SYMBOL_GPL(ledtrig_audio_get);
+ void ledtrig_audio_set(enum led_audio type, enum led_brightness state)
+ {
+ 	audio_state[type] = state;
+-	led_trigger_event(ledtrig_audio[type], state);
++	led_trigger_event(&ledtrig_audio[type], state);
+ }
+ EXPORT_SYMBOL_GPL(ledtrig_audio_set);
+ 
+ static int __init ledtrig_audio_init(void)
+ {
+-	led_trigger_register_simple("audio-mute",
+-				    &ledtrig_audio[LED_AUDIO_MUTE]);
+-	led_trigger_register_simple("audio-micmute",
+-				    &ledtrig_audio[LED_AUDIO_MICMUTE]);
++	led_trigger_register(&ledtrig_audio[LED_AUDIO_MUTE]);
++	led_trigger_register(&ledtrig_audio[LED_AUDIO_MICMUTE]);
+ 	return 0;
+ }
+ module_init(ledtrig_audio_init);
+ 
+ static void __exit ledtrig_audio_exit(void)
+ {
+-	led_trigger_unregister_simple(ledtrig_audio[LED_AUDIO_MUTE]);
+-	led_trigger_unregister_simple(ledtrig_audio[LED_AUDIO_MICMUTE]);
++	led_trigger_unregister(&ledtrig_audio[LED_AUDIO_MUTE]);
++	led_trigger_unregister(&ledtrig_audio[LED_AUDIO_MICMUTE]);
+ }
+ module_exit(ledtrig_audio_exit);
+ 
 -- 
 2.30.1
 
