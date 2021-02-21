@@ -2,94 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A33BD3209E9
-	for <lists+linux-leds@lfdr.de>; Sun, 21 Feb 2021 12:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11CEF3209EF
+	for <lists+linux-leds@lfdr.de>; Sun, 21 Feb 2021 12:29:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229966AbhBULWC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 21 Feb 2021 06:22:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21896 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229937AbhBULWB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 21 Feb 2021 06:22:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613906435;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TrHSilLpHTGkQD/lwIjOp8nYxJSDcdy1iNLafz2rtxw=;
-        b=J6Dl4GT6dHFq4hh2WxkgTtrEpRRmpneYwBJ7/V/iB1XSf8EqNbHDB4zQnQrBQPlwtOvW0y
-        xEgizfG8E9k6SXRGdFw8Jm1v2HbHyhQvAv0qWecd8UC68xCRA9zowfFQslvOOT257CE9vc
-        QQEkgx78WRwWtkRHs6pRaWJ3xa31UEI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-J_Vw7hP6O1-Ys7kVYjEEDw-1; Sun, 21 Feb 2021 06:20:33 -0500
-X-MC-Unique: J_Vw7hP6O1-Ys7kVYjEEDw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3A251009615;
-        Sun, 21 Feb 2021 11:20:31 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-87.ams2.redhat.com [10.36.112.87])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 82EA262A24;
-        Sun, 21 Feb 2021 11:20:26 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: [PATCH v3 7/7] HID: lenovo: Set default_triggers for the mute and micmute LEDs
-Date:   Sun, 21 Feb 2021 12:20:05 +0100
-Message-Id: <20210221112005.102116-8-hdegoede@redhat.com>
-In-Reply-To: <20210221112005.102116-1-hdegoede@redhat.com>
-References: <20210221112005.102116-1-hdegoede@redhat.com>
+        id S229886AbhBUL3B (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 21 Feb 2021 06:29:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52404 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229540AbhBUL3A (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 21 Feb 2021 06:29:00 -0500
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23C99C061574;
+        Sun, 21 Feb 2021 03:28:20 -0800 (PST)
+Received: by mail-lj1-x22b.google.com with SMTP id u4so1178757lja.3;
+        Sun, 21 Feb 2021 03:28:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XailET+Iz0kS61iHBGbLnnT1v04j2RILsJcsZVq8qik=;
+        b=lh/3mdQ+xAZKSuK5gv22xNPa6GEkldcs0lgL5hVKw0TgzXphO7b2Fu6fUZrprxNk7H
+         H/zP2VmHVFQkLwyy3T30wksKBWug+vwowuGfAateyeM+RpoJrH6TjD7WNyDxLGip3bAc
+         lNvYfSR92evbcGDK3SiWwwsypGyU+7Dbk2gp60tJx5fUMJAAQoky26xlpq0YiiXLcseq
+         V/hBgDuxM5bih1GG6nyvhtdKSTXDgRuQw7QSJXi1AFQ7zNx1/SeySh19Ujz9rZg8Bqzb
+         brDdYuSEYnSZ90eeNZHWIA1IxWpc5SGuu0inRmdcj0k3WG3pIwX0Bj8nyt/hl5cPrp0L
+         /X3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XailET+Iz0kS61iHBGbLnnT1v04j2RILsJcsZVq8qik=;
+        b=JrH22rABg50wKykm2/aQOVthDsYAHKUev/1Fh5OseYx6QayOY02sfEs6NDfwkxC+S8
+         bLU9n98x//Idw4Lf3k67yA/oL5IJSe3TiBXAy2We/s/pMoMeL//nHR5zUSk/0iJo3W8o
+         kyUBycikllEFYc6Z8y609Ii//AUIqeMgGhsIQAkep3fC/r8r45qFrCtF05E46BZb+XBW
+         DjTiceZNJBM19jY/lcUNrKdc8y7BB8Mi7fMbJxyik5EK3Zb98OuGVDzm1yK262nekW1I
+         jhPDPnJ/njTI1mjR9/wnunmSXv8mFiDGSYESPZ3ddC8gru4waEKkeolNJX5ldInqjTWG
+         bk1Q==
+X-Gm-Message-State: AOAM530FtvJmV/98SluCuX0DJKvXKclHY6qe1QUKri5q2lQuGyFXzz3Q
+        E4Yi5iZy7sEIZeXQDveWz04=
+X-Google-Smtp-Source: ABdhPJwiJy5T8cZv/11xeat3V6sbW5pu72MNEX6NOIO6KFTr9udo0S9iL6GikugUnw2/EdfL7/ypQQ==
+X-Received: by 2002:a05:6512:11d1:: with SMTP id h17mr10792421lfr.116.1613906898546;
+        Sun, 21 Feb 2021 03:28:18 -0800 (PST)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id g24sm273950ljl.122.2021.02.21.03.28.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 21 Feb 2021 03:28:18 -0800 (PST)
+Subject: Re: [PATCH v2 2/4] leds: Add driver for QCOM SPMI Flash LEDs
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@protonmail.com>, Dan Murphy <dmurphy@ti.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        Brian Masney <masneyb@onstation.org>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        Russell King <linux@armlinux.org.uk>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+References: <20210126140240.1517044-1-nfraprado@protonmail.com>
+ <20210126140240.1517044-3-nfraprado@protonmail.com>
+ <a26a1d40-1c7c-b97c-2970-58a2fda8f1cf@gmail.com>
+ <20210219110227.GG19207@duo.ucw.cz>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <7bb757c7-55af-66a4-aa12-fe646a19fcf6@gmail.com>
+Date:   Sun, 21 Feb 2021 12:28:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210219110227.GG19207@duo.ucw.cz>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The mute and mic-mute LEDs should be automatically turned on/off based
-on the audio-card's mixer settings.
+On 2/19/21 12:02 PM, Pavel Machek wrote:
+> Hi!
+> 
+>>> + */
+>>> +
+>>> +#include <linux/kernel.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/spmi.h>
+>>> +#include <linux/of_device.h>
+>>> +#include <linux/device.h>
+>>> +#include <linux/types.h>
+>>> +#include <linux/string.h>
+>>> +#include <linux/mutex.h>
+>>> +#include <linux/sysfs.h>
+>>> +#include <linux/led-class-flash.h>
+>>> +#include <linux/regulator/consumer.h>
+>>> +#include <linux/delay.h>
+>>> +#include <linux/regmap.h>
+>>> +#include <dt-bindings/leds/leds-qcom-spmi-flash.h>
+>>
+>> Please sort includes alphabetically.
+> 
+> No need to do that.
 
-Add the standardized default-trigger names for this, so that the alsa
-code can turn the LEDs on/off as appropriate (on supported audio cards).
+Keeping the includes sorted eliminates the risk of introducing 
+duplicates and allows for faster lookup.
 
-This brings the mute/mic-mute LED support inline with the thinkpad_acpi
-support for the same LEDs in keyboards directly connected to the
-laptop's embedded-controller.
+What gain is in having them unsorted?
 
-Reviewed-by: Marek Behún <kabel@kernel.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/hid-lenovo.c | 2 ++
- 1 file changed, 2 insertions(+)
+>>> +#define FLASH_SAFETY_TIMER		0x40
+>>
+>> Namespacing prefix is needed for macros, e.g. QCOM_FLASH*.
+> 
+> No need for that in .c files.
 
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index 2cf89b880ac5..2287142116b9 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -824,6 +824,7 @@ static int lenovo_register_leds(struct hid_device *hdev)
- 	snprintf(name_micm, name_sz, "%s:amber:micmute", dev_name(&hdev->dev));
- 
- 	data->led_mute.name = name_mute;
-+	data->led_mute.default_trigger = "audio-mute";
- 	data->led_mute.brightness_set_blocking = lenovo_led_brightness_set;
- 	data->led_mute.max_brightness = 1;
- 	data->led_mute.flags = LED_HW_PLUGGABLE;
-@@ -833,6 +834,7 @@ static int lenovo_register_leds(struct hid_device *hdev)
- 		return ret;
- 
- 	data->led_micmute.name = name_micm;
-+	data->led_micmute.default_trigger = "audio-micmute";
- 	data->led_micmute.brightness_set_blocking = lenovo_led_brightness_set;
- 	data->led_micmute.max_brightness = 1;
- 	data->led_micmute.flags = LED_HW_PLUGGABLE;
+In general it eliminates the risk of name clash with other subsystems
+headers.
+
+And actually the prefix here should be QCOM_LED_FLASH to avoid ambiguity
+with flash memory. If you dropped the vendor prefix then you'd get
+possible name clash with led-class-flash.h namespace prefix.
+
 -- 
-2.30.1
-
+Best regards,
+Jacek Anaszewski
