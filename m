@@ -2,91 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84EFC32275A
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Feb 2021 10:01:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 792AE32275C
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Feb 2021 10:01:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230088AbhBWI7E (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 23 Feb 2021 03:59:04 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:51578 "EHLO
+        id S230223AbhBWJAo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 23 Feb 2021 04:00:44 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:51708 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230014AbhBWI7C (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 Feb 2021 03:59:02 -0500
+        with ESMTP id S231143AbhBWJAm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 Feb 2021 04:00:42 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 60A571C0B85; Tue, 23 Feb 2021 09:58:20 +0100 (CET)
-Date:   Tue, 23 Feb 2021 09:58:19 +0100
+        id 3208B1C0B85; Tue, 23 Feb 2021 10:00:00 +0100 (CET)
+Date:   Tue, 23 Feb 2021 09:59:59 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     =?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] leds: bcm6328: improve write and read functions
-Message-ID: <20210223085819.GB9750@amd>
-References: <20210223081732.9362-1-noltari@gmail.com>
- <20210223081732.9362-2-noltari@gmail.com>
- <20210223083449.GA9750@amd>
- <3826ACDE-EFF2-4CC5-82EE-2DBC991CF996@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] HID: lenovo: Use brightness_set_blocking callback
+ for setting LEDs brightness
+Message-ID: <20210223085959.GC9750@amd>
+References: <20210220122438.21857-1-hdegoede@redhat.com>
+ <20210220122438.21857-2-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="5I6of5zJg18YgZEa"
+        protocol="application/pgp-signature"; boundary="RIYY1s2vRbPFwWeW"
 Content-Disposition: inline
-In-Reply-To: <3826ACDE-EFF2-4CC5-82EE-2DBC991CF996@gmail.com>
+In-Reply-To: <20210220122438.21857-2-hdegoede@redhat.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---5I6of5zJg18YgZEa
-Content-Type: text/plain; charset=utf-8
+--RIYY1s2vRbPFwWeW
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
-
-> >> This is proven to work in BMIPS BE/LE and ARM BE/LE, as used in bcm283=
-5-rng
-> >> and bcmgenet drivers.
-> >> Both should also be inline functions.
-> >=20
-> >=20
-> >=20
-> >> -#ifdef CONFIG_CPU_BIG_ENDIAN
-> >> -	iowrite32be(data, reg);
-> >> -#else
-> >> -	writel(data, reg);
-> >> -#endif
-> >> +	/* MIPS chips strapped for BE will automagically configure the
-> >> +	 * peripheral registers for CPU-native byte order.
-> >> +	 */
-> >=20
-> > Bad comment style.
+On Sat 2021-02-20 13:24:32, Hans de Goede wrote:
+> The lenovo_led_brightness_set function may sleep, so we should have the
+> the led_class_dev's brightness_set_blocking callback point to it, rather
+> then the regular brightness_set callback.
 >=20
-> I just wanted to copy the same comment as the one in bcm2835-rng and bcmg=
-enet=E2=80=A6
-> https://github.com/torvalds/linux/blob/3b9cdafb5358eb9f3790de2f728f765fef=
-100731/drivers/char/hw_random/bcm2835-rng.c#L42-L60
-> https://github.com/torvalds/linux/blob/3b9cdafb5358eb9f3790de2f728f765fef=
-100731/drivers/net/ethernet/broadcom/genet/bcmgenet.c#L71-L88
->
+> When toggle through sysfs this is not a problem, but the brightness_set
+> callback may be called from atomic context when using LED-triggers.
+>=20
+> Fixes: bc04b37ea0ec ("HID: lenovo: Add ThinkPad 10 Ultrabook Keyboard sup=
+port")
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Yeah, but ideally you should not be copying comments; there should be
-one central place which does it and does it right.
-
-								Pavel
+Acked-by: Pavel Machek <pavel@ucw.cz>				Pavel
 
 --=20
 http://www.livejournal.com/~pavelmachek
 
---5I6of5zJg18YgZEa
+--RIYY1s2vRbPFwWeW
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAmA0w6sACgkQMOfwapXb+vLvMgCfYs6RiaK1D1v4cfgUOj82H3wH
-AlYAnihI3nqL+vgqkWS0dzv+hioqDBLx
-=wT7D
+iEYEARECAAYFAmA0xA8ACgkQMOfwapXb+vJh4QCguJNZSG9GaVKowh+jJjCtEDfQ
+04MAoK6hH6jZdSaulTwWF2RVp7Pz9Z2X
+=L+UJ
 -----END PGP SIGNATURE-----
 
---5I6of5zJg18YgZEa--
+--RIYY1s2vRbPFwWeW--
