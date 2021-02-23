@@ -2,71 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 792AE32275C
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Feb 2021 10:01:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 746CE322773
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Feb 2021 10:06:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbhBWJAo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 23 Feb 2021 04:00:44 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:51708 "EHLO
+        id S231991AbhBWJGO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 23 Feb 2021 04:06:14 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:51980 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231143AbhBWJAm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 Feb 2021 04:00:42 -0500
+        with ESMTP id S231403AbhBWJEV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 Feb 2021 04:04:21 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 3208B1C0B85; Tue, 23 Feb 2021 10:00:00 +0100 (CET)
-Date:   Tue, 23 Feb 2021 09:59:59 +0100
+        id 28C731C0B7F; Tue, 23 Feb 2021 10:03:39 +0100 (CET)
+Date:   Tue, 23 Feb 2021 10:03:38 +0100
 From:   Pavel Machek <pavel@ucw.cz>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] HID: lenovo: Use brightness_set_blocking callback
- for setting LEDs brightness
-Message-ID: <20210223085959.GC9750@amd>
-References: <20210220122438.21857-1-hdegoede@redhat.com>
- <20210220122438.21857-2-hdegoede@redhat.com>
+        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH v3 4/7] HID: lenovo: Remove lenovo_led_brightness_get()
+Message-ID: <20210223090338.GD9750@amd>
+References: <20210221112005.102116-1-hdegoede@redhat.com>
+ <20210221112005.102116-5-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="RIYY1s2vRbPFwWeW"
+        protocol="application/pgp-signature"; boundary="Qrgsu6vtpU/OV/zm"
 Content-Disposition: inline
-In-Reply-To: <20210220122438.21857-2-hdegoede@redhat.com>
+In-Reply-To: <20210221112005.102116-5-hdegoede@redhat.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---RIYY1s2vRbPFwWeW
-Content-Type: text/plain; charset=us-ascii
+--Qrgsu6vtpU/OV/zm
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat 2021-02-20 13:24:32, Hans de Goede wrote:
-> The lenovo_led_brightness_set function may sleep, so we should have the
-> the led_class_dev's brightness_set_blocking callback point to it, rather
-> then the regular brightness_set callback.
+On Sun 2021-02-21 12:20:02, Hans de Goede wrote:
+> The led_classdev already contains a cached value of the last set
+> brightness, the brightness_get callback is only meant for LED drivers
+> which can read back the actual / current brightness from the hardware.
 >=20
-> When toggle through sysfs this is not a problem, but the brightness_set
-> callback may be called from atomic context when using LED-triggers.
+> Since lenovo_led_brightness_get() just returns the last set value
+> it does not add any functionality, so we can just remove it.
 >=20
-> Fixes: bc04b37ea0ec ("HID: lenovo: Add ThinkPad 10 Ultrabook Keyboard sup=
-port")
+> Reviewed-by: Marek Beh=FAn <kabel@kernel.org>
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Acked-by: Pavel Machek <pavel@ucw.cz>				Pavel
+Acked-by: Pavel Machek <pavel@ucw.cz>
 
 --=20
 http://www.livejournal.com/~pavelmachek
 
---RIYY1s2vRbPFwWeW
+--Qrgsu6vtpU/OV/zm
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAmA0xA8ACgkQMOfwapXb+vJh4QCguJNZSG9GaVKowh+jJjCtEDfQ
-04MAoK6hH6jZdSaulTwWF2RVp7Pz9Z2X
-=L+UJ
+iEYEARECAAYFAmA0xOoACgkQMOfwapXb+vI2YQCffXWN1Q76lOUIi4u3BzFXtjsS
+ssIAoMIrCl+41jFRTKAuYJVV1dCnMTCS
+=LKiG
 -----END PGP SIGNATURE-----
 
---RIYY1s2vRbPFwWeW--
+--Qrgsu6vtpU/OV/zm--
