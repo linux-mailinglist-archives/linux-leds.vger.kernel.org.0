@@ -2,123 +2,169 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B907323A3E
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Feb 2021 11:13:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00955323B2E
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Feb 2021 12:18:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234330AbhBXKMD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 Feb 2021 05:12:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56620 "EHLO
+        id S235074AbhBXLR6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 Feb 2021 06:17:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234851AbhBXKL4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Feb 2021 05:11:56 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F0DC06174A;
-        Wed, 24 Feb 2021 02:11:16 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id w11so1283419wrr.10;
-        Wed, 24 Feb 2021 02:11:16 -0800 (PST)
+        with ESMTP id S234933AbhBXLP5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Feb 2021 06:15:57 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E65ACC061797
+        for <linux-leds@vger.kernel.org>; Wed, 24 Feb 2021 03:15:11 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id h98so1477250wrh.11
+        for <linux-leds@vger.kernel.org>; Wed, 24 Feb 2021 03:15:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Xio+fpATjQPBtlCF5IdCsyWm8QAS5cdYxc9ta78hmOY=;
-        b=jSV6iSSFXACjKaQ6XT4veg+fhoZLvyUwkcv+egAGAxXSZgTpD8vGu/ksgm2MQ0h04z
-         KHaVPwhnGjwnj3MBXi9PsuihHDKjH7xxaobIPFMU1vcG968mn7/aymmd+kRdJSIyoU+8
-         B+zeoTXFSz0hzTZR52z+90uzZZCJtCrOoVyzGBeiJSzLfRCnlPy9NIQ2uGy4Xvj5RriQ
-         fLAJzolN3HlUL84Qj7XCOTIQZzCm4q/Q5mJIYfhgn/uuReEmWTZxl1EI5FgJje6z2bZ3
-         4mUwcP4JTNDgWyfZZUCzx/1N/gQyo0AO/5zbOpSw5pt1SGLdJhmRjv9xDD8VMj8R1h4i
-         hn6A==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=1Sa2i3Pn6JxJlmatuBNKl5Y5BjCnyJIbLhbxIWmo9lc=;
+        b=zw/BWEU0xhJRMzGN2rcc+fgUFZsCzZoDNy6lsWAB9x7tAbPp8i0CRbRm+YVcISXG9/
+         MWonpJ6Lf/XtDZsIX13obTjg2Uk0bCmlS8XbphLCPO54verJ0hAzuybYSQXno+ILB0We
+         mM7WMClnWxAyBbqqvKsdhr89PBbGPVcQORbkfnVxqmera39IlDNWIQbe5BLajOPOrUyk
+         MWW7RR+Q0BUMtqK/kOEGTtzZhyRqv4LSP8EdfvdABqevYVTR1bisEZoYvUM5U5Qgn9Iv
+         rdi0vFChJ89xJW7xqj28o+kDArTNRk1q2NVKWlkVKLkoqNOuihqJ0xyaHM8wTsk9RzZm
+         1Pew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Xio+fpATjQPBtlCF5IdCsyWm8QAS5cdYxc9ta78hmOY=;
-        b=GWL4WLW4eiajJiiMNLlNAoDSLFSACjEUbna+C/4AG3Nk7BSTVY1ThdaplCBy2UFTVT
-         WHhVtnpAOEP7m+75dGRSFsYGCTTKC9/oFEZujuQIvjr7i3vUhAyAV9xZ0WqvaNkz3LUt
-         zFYuOBsImNPJDoeSTbskiLjrd8SinFsBar3UwjzKUBNeysTC2pCDD3/AhUx21z0to3OO
-         Mtuo1KAnVMFIT5rMzZqhqOfPNIqfvH5HI4UbFbNwQTOAwEH+XdAHTzHH716oKixCryih
-         Sx+fCTn1HRs+9u7ObIdi9OVqxUNVQcaAE7V8j48ukX68bsb2ZZmS5qUVWyHkSyvngk9m
-         XgJw==
-X-Gm-Message-State: AOAM532oQB148z2UHKo7zGXMGeRyE/jJLiSJyRq31DDJuFwa8YZmORjI
-        KrwH8eLRSJG2Gfi+8Q6Fwy8=
-X-Google-Smtp-Source: ABdhPJyevah7TqE1RxFVZP342lOb4KWaEPUF444YdhMGECQgMsv0J4n2Ocs7PFAAdly8tE67Zyt6nw==
-X-Received: by 2002:adf:8445:: with SMTP id 63mr31322644wrf.222.1614161474911;
-        Wed, 24 Feb 2021 02:11:14 -0800 (PST)
-Received: from skynet.lan (170.red-88-1-105.dynamicip.rima-tde.net. [88.1.105.170])
-        by smtp.gmail.com with ESMTPSA id a14sm2842573wrg.84.2021.02.24.02.11.14
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=1Sa2i3Pn6JxJlmatuBNKl5Y5BjCnyJIbLhbxIWmo9lc=;
+        b=gkhBBSuXda6ingG+b5RUvU25bUT1ZQP8rb7Y45AZjyIRVQH6hlqG7iell5Oo5Tkl+L
+         /4yZ+o3+HJtD1KJgx5kPx5ry7UcckzIGiGqegPQrvu/rZ0pEBIKR7jlTnB8Ug8qRqrB4
+         dSkQvgemqc+ntu3XWlNd3drd5+04P/PyJY0tWifMOcPGtx+z3GpAeRXq8fyi5njkgSSc
+         iMkskWf7b90BK9wfB1sTvU00MrNFZWdH5rZzcXU9B9CYlQpxtolV+0HRq/4TPy8w9W3P
+         JpGWut9J8JpMncDXeq9MOQWgdZYlvQtVdn5AZXHY9ArfnPn7uNU+8Mj2dL4t/ydcRgoB
+         4Qyw==
+X-Gm-Message-State: AOAM532A54XeJe+5vGJCpTmbSauUlA/I3estIIUKNRgCvCJzLEAq18Se
+        rbZ6das0hF5A/oXBsaE1e1CzsA==
+X-Google-Smtp-Source: ABdhPJy47KpFwjh6a9va/BqTgn6xTBovOwYIYWXdTXCSHwrc0OG6hfQ8/1Yjz2BCbty1uAxRn957OQ==
+X-Received: by 2002:adf:cc88:: with SMTP id p8mr14587033wrj.169.1614165310424;
+        Wed, 24 Feb 2021 03:15:10 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id o20sm2176733wmq.30.2021.02.24.03.15.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 02:11:14 -0800 (PST)
-From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-To:     f.fainelli@gmail.com, jonas.gorski@gmail.com,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-Subject: [PATCH v2 2/2] leds: bcm6358: improve write and read functions
-Date:   Wed, 24 Feb 2021 11:11:10 +0100
-Message-Id: <20210224101110.20179-3-noltari@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210224101110.20179-1-noltari@gmail.com>
-References: <20210224101110.20179-1-noltari@gmail.com>
+        Wed, 24 Feb 2021 03:15:09 -0800 (PST)
+Date:   Wed, 24 Feb 2021 11:15:05 +0000
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Kiran Gunda <kgunda@codeaurora.org>
+Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        lee.jones@linaro.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, jacek.anaszewski@gmail.com,
+        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        phone-devel@vger.kernel.org
+Subject: Re: [PATCH V1 1/2] backlight: qcom-wled: Fix FSC update issue for
+ WLED5
+Message-ID: <20210224111505.37t5aq25iszg23iv@maple.lan>
+References: <1614138648-2963-1-git-send-email-kgunda@codeaurora.org>
+ <1614138648-2963-2-git-send-email-kgunda@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1614138648-2963-2-git-send-email-kgunda@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This is proven to work in BMIPS BE/LE and ARM BE/LE, as used in bcm2835-rng
-and bcmgenet drivers.
-Both should also be inline functions.
+On Wed, Feb 24, 2021 at 09:20:47AM +0530, Kiran Gunda wrote:
+> Currently, for WLED5, after FSC register update MOD_SYNC_BIT
+> is toggled instead of SYNC_BIT. MOD_SYNC_BIT has to be toggled
+> after the brightness update and SYNC_BIT has to be toggled after
+> FSC update for WLED5. Fix it.
 
-Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
----
- v2: Fix comment style.
+Code looks fine but the description is a difficult to read (which makes
+mining the history difficult).
 
- drivers/leds/leds-bcm6358.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+Basically the descriptions here are very hard to read without the
+context in PATCH 0/2. Since PATCH 0/2 won't enter the version history
+that means these descriptions need to integrate some of the text from
+what is currently PATCH 0/2.
 
-diff --git a/drivers/leds/leds-bcm6358.c b/drivers/leds/leds-bcm6358.c
-index 9d2e487fa08a..37d27b7c58a8 100644
---- a/drivers/leds/leds-bcm6358.c
-+++ b/drivers/leds/leds-bcm6358.c
-@@ -43,22 +43,24 @@ struct bcm6358_led {
- 	bool active_low;
- };
- 
--static void bcm6358_led_write(void __iomem *reg, unsigned long data)
-+static inline void bcm6358_led_write(void __iomem *reg, unsigned long data)
- {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--	iowrite32be(data, reg);
--#else
--	writel(data, reg);
--#endif
-+	/*
-+	 * MIPS chips strapped for BE will automagically configure the
-+	 * peripheral registers for CPU-native byte order.
-+	 */
-+	if (IS_ENABLED(CONFIG_MIPS) && IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
-+		__raw_writel(data, reg);
-+	else
-+		writel_relaxed(data, reg);
- }
- 
--static unsigned long bcm6358_led_read(void __iomem *reg)
-+static inline unsigned long bcm6358_led_read(void __iomem *reg)
- {
--#ifdef CONFIG_CPU_BIG_ENDIAN
--	return ioread32be(reg);
--#else
--	return readl(reg);
--#endif
-+	if (IS_ENABLED(CONFIG_MIPS) && IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
-+		return __raw_readl(reg);
-+	else
-+		return readl_relaxed(reg);
- }
- 
- static unsigned long bcm6358_led_busy(void __iomem *mem)
--- 
-2.20.1
+I would expect this to be more like. It is basically joining together
+text from PATCH 0 and PATCH 1 (I also switched to plural form for SYNC
+bits... the code in the driver has mask generation based on the number
+of strings, is that right?):
 
+~~~
+Currently, for WLED5, the FSC (Full scale current) setting is not
+updated properly due to driver toggling the wrong register after an FSC
+update.
+
+On WLED5 we should only toggle the MOD_SYNC bit after a brightness
+update. For an FSC update we need to toggle the SYNC bits instead.
+
+Fix it by adopting the common wled3_sync_toggle() for WLED5 and
+introducing new code to the brightness update path to
+compensate.
+~~~
+
+
+Daniel.
+
+
+
+> 
+> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+> ---
+>  drivers/video/backlight/qcom-wled.c | 25 +++++++++++++++++++------
+>  1 file changed, 19 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+> index 3bc7800..aef52b9 100644
+> --- a/drivers/video/backlight/qcom-wled.c
+> +++ b/drivers/video/backlight/qcom-wled.c
+> @@ -348,7 +348,7 @@ static int wled3_sync_toggle(struct wled *wled)
+>  	return rc;
+>  }
+>  
+> -static int wled5_sync_toggle(struct wled *wled)
+> +static int wled5_mod_sync_toggle(struct wled *wled)
+>  {
+>  	int rc;
+>  	u8 val;
+> @@ -445,10 +445,23 @@ static int wled_update_status(struct backlight_device *bl)
+>  			goto unlock_mutex;
+>  		}
+>  
+> -		rc = wled->wled_sync_toggle(wled);
+> -		if (rc < 0) {
+> -			dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
+> -			goto unlock_mutex;
+> +		if (wled->version < 5) {
+> +			rc = wled->wled_sync_toggle(wled);
+> +			if (rc < 0) {
+> +				dev_err(wled->dev, "wled sync failed rc:%d\n", rc);
+> +				goto unlock_mutex;
+> +			}
+> +		} else {
+> +			/*
+> +			 * For WLED5 toggling the MOD_SYNC_BIT updates the
+> +			 * brightness
+> +			 */
+> +			rc = wled5_mod_sync_toggle(wled);
+> +			if (rc < 0) {
+> +				dev_err(wled->dev, "wled mod sync failed rc:%d\n",
+> +					rc);
+> +				goto unlock_mutex;
+> +			}
+>  		}
+>  	}
+>  
+> @@ -1459,7 +1472,7 @@ static int wled_configure(struct wled *wled)
+>  		size = ARRAY_SIZE(wled5_opts);
+>  		*cfg = wled5_config_defaults;
+>  		wled->wled_set_brightness = wled5_set_brightness;
+> -		wled->wled_sync_toggle = wled5_sync_toggle;
+> +		wled->wled_sync_toggle = wled3_sync_toggle;
+>  		wled->wled_cabc_config = wled5_cabc_config;
+>  		wled->wled_ovp_delay = wled5_ovp_delay;
+>  		wled->wled_auto_detection_required =
+> -- 
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>  a Linux Foundation Collaborative Project
+> 
