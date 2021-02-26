@@ -2,121 +2,144 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C134032626C
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Feb 2021 13:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E12333262A3
+	for <lists+linux-leds@lfdr.de>; Fri, 26 Feb 2021 13:22:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbhBZMN7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 26 Feb 2021 07:13:59 -0500
-Received: from m42-2.mailgun.net ([69.72.42.2]:31987 "EHLO m42-2.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230184AbhBZMNx (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 26 Feb 2021 07:13:53 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1614341615; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=eu6z2kcT31mkhRofy2D9EtXByOz0EiNCdl00jqY/V+I=; b=UFLk05xufBUad6THq5cZI8hpOBO4hkoMsEORqGQRE5Slhtx7l6m+/sdU5cQqRIz4tWvWtdDN
- bStb66cXQuK99Z175a+hzVpS4qFnV6/cV/f9q6DURn+dRZ06xFv3B7om8BrGXwOyvCSlPZ/+
- LKDmdx9dKPWe7fNv3HEte+Kxp7g=
-X-Mailgun-Sending-Ip: 69.72.42.2
-X-Mailgun-Sid: WyJkODczOCIsICJsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 6038e5d0cc1f7d7e95ed4656 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Feb 2021 12:13:04
- GMT
-Sender: kgunda=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 77F56C433ED; Fri, 26 Feb 2021 12:13:04 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from kgunda-linux.qualcomm.com (unknown [202.46.22.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: kgunda)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 08297C433CA;
-        Fri, 26 Feb 2021 12:12:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 08297C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=kgunda@codeaurora.org
-From:   Kiran Gunda <kgunda@codeaurora.org>
-To:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
-        lee.jones@linaro.org, b.zolnierkie@samsung.com,
-        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
-        mark.rutland@arm.com, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-fbdev@vger.kernel.org
-Cc:     phone-devel@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
-Subject: [PATCH V2 2/2] backlight: qcom-wled: Correct the sync_toggle sequence
-Date:   Fri, 26 Feb 2021 17:42:24 +0530
-Message-Id: <1614341544-5306-3-git-send-email-kgunda@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1614341544-5306-1-git-send-email-kgunda@codeaurora.org>
-References: <1614341544-5306-1-git-send-email-kgunda@codeaurora.org>
+        id S230318AbhBZMUh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 26 Feb 2021 07:20:37 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:51640 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230403AbhBZMTr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 Feb 2021 07:19:47 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 1FC541C0B7D; Fri, 26 Feb 2021 13:18:49 +0100 (CET)
+Date:   Fri, 26 Feb 2021 13:18:48 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+Subject: [GIT PULL] LEDs changes for 5.12-rc1
+Message-ID: <20210226121848.GA20159@duo.ucw.cz>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-As per the current implementation, after FSC (Full Scale Current)
-and brightness update the sync bits are transitioned from 1 to 0.
-But, the FSC and brightness sync takes place during a 0 to 1
-transition of the sync bits. So the hardware team recommends a
-clear-then-set approach in order to guarantee such a transition
-regardless of the previous register state.
 
-Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
----
- drivers/video/backlight/qcom-wled.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+--LZvS9be/3tNcYl/X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index aef52b9..19f83ac 100644
---- a/drivers/video/backlight/qcom-wled.c
-+++ b/drivers/video/backlight/qcom-wled.c
-@@ -337,13 +337,13 @@ static int wled3_sync_toggle(struct wled *wled)
- 
- 	rc = regmap_update_bits(wled->regmap,
- 				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
--				mask, mask);
-+				mask, WLED3_SINK_REG_SYNC_CLEAR);
- 	if (rc < 0)
- 		return rc;
- 
- 	rc = regmap_update_bits(wled->regmap,
- 				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
--				mask, WLED3_SINK_REG_SYNC_CLEAR);
-+				mask, mask);
- 
- 	return rc;
- }
-@@ -353,17 +353,17 @@ static int wled5_mod_sync_toggle(struct wled *wled)
- 	int rc;
- 	u8 val;
- 
--	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
--					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
- 	rc = regmap_update_bits(wled->regmap,
- 				wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
--				WLED5_SINK_REG_SYNC_MASK, val);
-+				WLED5_SINK_REG_SYNC_MASK, 0);
- 	if (rc < 0)
- 		return rc;
- 
-+	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
-+					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
- 	return regmap_update_bits(wled->regmap,
- 				  wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
--				  WLED5_SINK_REG_SYNC_MASK, 0);
-+				  WLED5_SINK_REG_SYNC_MASK, val);
- }
- 
- static int wled_ovp_fault_status(struct wled *wled, bool *fault_set)
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
- a Linux Foundation Collaborative Project
+The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
 
+  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
+leds-5.12-rc1
+
+for you to fetch changes up to b0a82efa51ad3ba1117817817cbabe9c9a37b893:
+
+  leds: lp50xx: Get rid of redundant explicit casting (2021-02-19 22:15:50 =
++0100)
+
+----------------------------------------------------------------
+Updates for 5.12-rc1. Besides usual fixes and new drivers, we are
+changing CLASS_FLASH to return success to make it easier to work with
+V4L2 stuff disabled, and we are getting rid of enum that should have
+been plain integer long time ago. I'm slightly nervous about potential
+warnings, but it needed to be fixed at some point.
+
+Sorry this is a bit late and a bit rushed. But its not a rocket
+science, so hopefully we'll be fine. I'll try better next time.
+
+Best regards,
+							Pavel
+
+----------------------------------------------------------------
+Abanoub Sameh (1):
+      leds: led-core: Get rid of enum led_brightness
+
+Amireddy Mallikarjuna reddy (2):
+      dt-bindings: leds: Add bindings for Intel LGM SoC
+      leds: lgm: Add LED controller driver for LGM SoC
+
+Andreas Eberlein (1):
+      leds: apu: extend support for PC Engines APU1 with newer firmware
+
+Andy Shevchenko (6):
+      leds: lp50xx: Don't spam logs when probe is deferred
+      leds: lp50xx: Switch to new style i2c-driver probe function
+      leds: lp50xx: Reduce level of dereferences
+      leds: lp50xx: Get rid of redundant check in lp50xx_enable_disable()
+      leds: lp50xx: Update headers block to reflect reality
+      leds: lp50xx: Get rid of redundant explicit casting
+
+Dwaipayan Ray (1):
+      leds: Use DEVICE_ATTR_{RW, RO, WO} macros
+
+Dylan Van Assche (1):
+      leds: gpio: Set max brightness to 1
+
+Gene Chen (2):
+      leds: flash: Add flash registration with undefined CONFIG_LEDS_CLASS_=
+FLASH
+      leds: flash: Fix multicolor no-ops registration by return 0
+
+Tian Tao (1):
+      leds: lm3533: Switch to using the new API kobj_to_dev()
+
+Zheng Yongjun (1):
+      leds: ss4200: simplify the return expression of register_nasgpio_led()
+
+ .../devicetree/bindings/leds/leds-lgm.yaml         | 113 +++
+ drivers/leds/Kconfig                               |   3 +
+ drivers/leds/Makefile                              |   3 +
+ drivers/leds/blink/Kconfig                         |  20 +
+ drivers/leds/blink/Makefile                        |   2 +
+ drivers/leds/blink/leds-lgm-sso.c                  | 888 +++++++++++++++++=
+++++
+ drivers/leds/led-class.c                           |   3 +-
+ drivers/leds/led-core.c                            |  20 +-
+ drivers/leds/leds-apu.c                            |  11 +-
+ drivers/leds/leds-blinkm.c                         |  24 +-
+ drivers/leds/leds-gpio.c                           |   3 +-
+ drivers/leds/leds-lm3530.c                         |  10 +-
+ drivers/leds/leds-lm3533.c                         |   2 +-
+ drivers/leds/leds-lm355x.c                         |   8 +-
+ drivers/leds/leds-lm3642.c                         |  16 +-
+ drivers/leds/leds-lp50xx.c                         |  83 +-
+ drivers/leds/leds-max8997.c                        |  12 +-
+ drivers/leds/leds-netxbig.c                        |  12 +-
+ drivers/leds/leds-ss4200.c                         |  18 +-
+ drivers/leds/leds-wm831x-status.c                  |  12 +-
+ drivers/leds/leds.h                                |   6 +-
+ include/linux/led-class-flash.h                    |  42 +-
+ include/linux/led-class-multicolor.h               |  42 +-
+ include/linux/leds.h                               |  12 +-
+ 24 files changed, 1196 insertions(+), 169 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-lgm.yaml
+ create mode 100644 drivers/leds/blink/Kconfig
+ create mode 100644 drivers/leds/blink/Makefile
+ create mode 100644 drivers/leds/blink/leds-lgm-sso.c
+
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--LZvS9be/3tNcYl/X
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYDjnKAAKCRAw5/Bqldv6
+8l31AKDAaXysClCLvjVoeboJU8vdkA2ZCQCfR5irhxiyXRe6LY9Gx1NNo4PrEQc=
+=cgCD
+-----END PGP SIGNATURE-----
+
+--LZvS9be/3tNcYl/X--
