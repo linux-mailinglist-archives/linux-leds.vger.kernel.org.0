@@ -2,60 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D5B33269F9
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Feb 2021 23:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FACE326F4E
+	for <lists+linux-leds@lfdr.de>; Sat, 27 Feb 2021 23:36:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230198AbhBZWYt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 26 Feb 2021 17:24:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56118 "EHLO mail.kernel.org"
+        id S230194AbhB0WfE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 27 Feb 2021 17:35:04 -0500
+Received: from mail.jvpinto.com ([65.49.11.60]:42077 "EHLO mail.JVPinto.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230079AbhBZWYp (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 26 Feb 2021 17:24:45 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5DD3A64F0D;
-        Fri, 26 Feb 2021 22:24:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614378245;
-        bh=VaogzizxXSQRtwJw1meIVXAgOY7lybDpeSU5HRgo6U8=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=G9MpJxxpbtod5UI+eVSV+yete0FxtwkGxehGeZ7Th8/9qBeEaKISGbwXfq8xeDLhg
-         P1NbKjDZn+U5EutgvkyqF9cS0BrMtsd3mq0/6hTGAgVhfQ6YLvZFJm4pjl+4d8ZbCL
-         4YGDDPV7i8Yq6Upg8ow8vqt+LohQIcc7q6nBSXUQfT7Q/QLkVkWEhKXoLwqZ+bqYG/
-         4Sn2cSVQjvkV10NoQpHQkUtvrBis847ePHKsWomxt0OZ0yYJjopxzoft0z4+rZCpuK
-         Djowc3AMR+YothBzi3BshkKD/2U14heJ2M9yGE5xW3/MyHjaggzwo8awyJczcetrd2
-         usNMvofZKa7Ww==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 5967660A0E;
-        Fri, 26 Feb 2021 22:24:05 +0000 (UTC)
-Subject: Re: [GIT PULL] LEDs changes for 5.12-rc1
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20210226121848.GA20159@duo.ucw.cz>
-References: <20210226121848.GA20159@duo.ucw.cz>
-X-PR-Tracked-List-Id: <linux-leds.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20210226121848.GA20159@duo.ucw.cz>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.12-rc1
-X-PR-Tracked-Commit-Id: b0a82efa51ad3ba1117817817cbabe9c9a37b893
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fecfd015394e9151f535d675e115fba967bddb3f
-Message-Id: <161437824536.23821.15349018126565499879.pr-tracker-bot@kernel.org>
-Date:   Fri, 26 Feb 2021 22:24:05 +0000
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+        id S230001AbhB0We7 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 27 Feb 2021 17:34:59 -0500
+Received: from RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) by
+ RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Sat, 27 Feb 2021 14:33:46 -0800
+Received: from User (52.231.198.195) by RW-EXC1.JVPinto.com (172.32.1.13) with
+ Microsoft SMTP Server id 15.0.1497.2 via Frontend Transport; Sat, 27 Feb 2021
+ 14:33:32 -0800
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <johnpinto@jvpinto.com>
+Subject: Hello okay
+Date:   Sat, 27 Feb 2021 22:33:46 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <837a988e66554c5d95b18ae85648d3d7@RW-EXC1.JVPinto.com>
+To:     Undisclosed recipients:;
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The pull request you sent on Fri, 26 Feb 2021 13:18:48 +0100:
+Hello,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.12-rc1
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/fecfd015394e9151f535d675e115fba967bddb3f
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
 
-Thank you!
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Regards,
+Ms. Reem.
