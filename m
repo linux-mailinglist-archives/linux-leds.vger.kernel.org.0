@@ -2,60 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FACE326F4E
-	for <lists+linux-leds@lfdr.de>; Sat, 27 Feb 2021 23:36:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 307E0327193
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Feb 2021 09:30:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbhB0WfE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 27 Feb 2021 17:35:04 -0500
-Received: from mail.jvpinto.com ([65.49.11.60]:42077 "EHLO mail.JVPinto.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230001AbhB0We7 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 27 Feb 2021 17:34:59 -0500
-Received: from RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) by
- RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Sat, 27 Feb 2021 14:33:46 -0800
-Received: from User (52.231.198.195) by RW-EXC1.JVPinto.com (172.32.1.13) with
- Microsoft SMTP Server id 15.0.1497.2 via Frontend Transport; Sat, 27 Feb 2021
- 14:33:32 -0800
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <johnpinto@jvpinto.com>
-Subject: Hello okay
-Date:   Sat, 27 Feb 2021 22:33:46 +0000
+        id S230075AbhB1IaA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 28 Feb 2021 03:30:00 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:55882 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230419AbhB1I37 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 28 Feb 2021 03:29:59 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 749D61C0B77; Sun, 28 Feb 2021 09:29:14 +0100 (CET)
+Date:   Sun, 28 Feb 2021 09:29:13 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     kernel test robot <lkp@intel.com>, linux-leds@vger.kernel.org
+Cc:     Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>,
+        kbuild-all@lists.01.org, clang-built-linux@googlegroups.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: drivers/leds/blink/leds-lgm-sso.c:123:19: error: field has
+ incomplete type 'struct gpio_chip'
+Message-ID: <20210228082913.GA27151@amd>
+References: <202102280329.hv7RoHLA-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <837a988e66554c5d95b18ae85648d3d7@RW-EXC1.JVPinto.com>
-To:     Undisclosed recipients:;
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
+Content-Disposition: inline
+In-Reply-To: <202102280329.hv7RoHLA-lkp@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello,
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+--C7zPtVaVf+AK4Oqc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+Hi!
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+> >> drivers/leds/blink/leds-lgm-sso.c:263:3: error: implicit declaration o=
+f function 'gpiod_set_value' [-Werror,-Wimplicit-function-declaration]
+>                    gpiod_set_value(led->gpiod, val);
+>                    ^
+>    drivers/leds/blink/leds-lgm-sso.c:263:3: note: did you mean
+>                    'gpio_set_value'?
 
-Regards,
-Ms. Reem.
+
+It looks like missing #include?
+
+While at it, can you do something with Kconfig help text? Move
+existing one into comment in the driver, add something useful for end-users.
+
+Thank you,
+									Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--C7zPtVaVf+AK4Oqc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmA7VFkACgkQMOfwapXb+vJIuACaAvjcK75ZHLtHKWccdkr+sTui
+BpgAn29Exf+50mxBYN/Et3japQPws1vE
+=Bxif
+-----END PGP SIGNATURE-----
+
+--C7zPtVaVf+AK4Oqc--
