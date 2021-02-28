@@ -2,73 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 307E0327193
-	for <lists+linux-leds@lfdr.de>; Sun, 28 Feb 2021 09:30:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3592032724B
+	for <lists+linux-leds@lfdr.de>; Sun, 28 Feb 2021 13:52:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbhB1IaA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 28 Feb 2021 03:30:00 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:55882 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230419AbhB1I37 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 28 Feb 2021 03:29:59 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 749D61C0B77; Sun, 28 Feb 2021 09:29:14 +0100 (CET)
-Date:   Sun, 28 Feb 2021 09:29:13 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     kernel test robot <lkp@intel.com>, linux-leds@vger.kernel.org
-Cc:     Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>,
-        kbuild-all@lists.01.org, clang-built-linux@googlegroups.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: drivers/leds/blink/leds-lgm-sso.c:123:19: error: field has
- incomplete type 'struct gpio_chip'
-Message-ID: <20210228082913.GA27151@amd>
-References: <202102280329.hv7RoHLA-lkp@intel.com>
+        id S230084AbhB1Mw1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 28 Feb 2021 07:52:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50120 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229982AbhB1Mw0 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 28 Feb 2021 07:52:26 -0500
+X-Greylist: delayed 558 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 28 Feb 2021 04:51:31 PST
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [IPv6:2001:4b7a:2000:18::169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FCABC06174A
+        for <linux-leds@vger.kernel.org>; Sun, 28 Feb 2021 04:51:31 -0800 (PST)
+Received: from localhost.localdomain (abab236.neoplus.adsl.tpnet.pl [83.6.165.236])
+        by m-r2.th.seeweb.it (Postfix) with ESMTPA id F39923E7B3;
+        Sun, 28 Feb 2021 13:42:07 +0100 (CET)
+From:   Konrad Dybcio <konrad.dybcio@somainline.org>
+To:     phone-devel@vger.kernel.org
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, martin.botka@somainline.org,
+        angelogioacchino.delregno@somainline.org,
+        marijn.suijten@somainline.org,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Kiran Gunda <kgunda@codeaurora.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: leds: backlight: qcom-wled: Add PMI8994 compatible
+Date:   Sun, 28 Feb 2021 13:41:04 +0100
+Message-Id: <20210228124106.135812-1-konrad.dybcio@somainline.org>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
-Content-Disposition: inline
-In-Reply-To: <202102280329.hv7RoHLA-lkp@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Document the newly added PMI8994 compatible.
 
---C7zPtVaVf+AK4Oqc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+---
+ Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Hi!
+diff --git a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+index 47938e372987..d839e75d9788 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml
+@@ -19,6 +19,7 @@ properties:
+   compatible:
+     enum:
+       - qcom,pm8941-wled
++      - qcom,pmi8994-wled
+       - qcom,pmi8998-wled
+       - qcom,pm660l-wled
+       - qcom,pm8150l-wled
+-- 
+2.30.1
 
-> >> drivers/leds/blink/leds-lgm-sso.c:263:3: error: implicit declaration o=
-f function 'gpiod_set_value' [-Werror,-Wimplicit-function-declaration]
->                    gpiod_set_value(led->gpiod, val);
->                    ^
->    drivers/leds/blink/leds-lgm-sso.c:263:3: note: did you mean
->                    'gpio_set_value'?
-
-
-It looks like missing #include?
-
-While at it, can you do something with Kconfig help text? Move
-existing one into comment in the driver, add something useful for end-users.
-
-Thank you,
-									Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---C7zPtVaVf+AK4Oqc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmA7VFkACgkQMOfwapXb+vJIuACaAvjcK75ZHLtHKWccdkr+sTui
-BpgAn29Exf+50mxBYN/Et3japQPws1vE
-=Bxif
------END PGP SIGNATURE-----
-
---C7zPtVaVf+AK4Oqc--
