@@ -2,169 +2,259 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37973327B77
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Mar 2021 11:04:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA3B7327C2B
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Mar 2021 11:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231821AbhCAKDp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 1 Mar 2021 05:03:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231545AbhCAKDZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 1 Mar 2021 05:03:25 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F82C061786
-        for <linux-leds@vger.kernel.org>; Mon,  1 Mar 2021 02:02:43 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id u14so15438992wri.3
-        for <linux-leds@vger.kernel.org>; Mon, 01 Mar 2021 02:02:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=XZipS0r+2O0ULBwm6Jk3yIYPHelEH46+P8E8sbBaM9U=;
-        b=GinUznSYZfF+VzEGo0tJV8PZ9XUk9HjQzr8yHcQVhrjWHd/iSlafH+RzuMh3ru33X/
-         h1wy69UaUYiGTeedXN7yuV0KfkItl42fsYmy3J09hA7jc6zLThAWPsZtDtlmfAYK92VB
-         85zhAumdUGFPzf89n5FCVN7YKcuIIQjY05rmYfVeCuzWPINd9RDF1Lf7PtN1DI9JLyHQ
-         k87xgm0W8J/l6/Vty7+AYRyuEY2xEcO2WLDttvmnn18toZi5rmx3VCB26rUUKMkzKb8u
-         H5Ed6gF96cS44epBs267nIRdnq8blQq9jbam/LnyDOksDi9w1L87zpEfBt0jtPYkNtHz
-         D5IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XZipS0r+2O0ULBwm6Jk3yIYPHelEH46+P8E8sbBaM9U=;
-        b=GHzzvlemj631XQnpSQgfoJI4x1n0ScLwuIvM41dP+eASbJBvpe3I8i0mBbApUtsuva
-         eYM3iSxbWlWlZagTmgyEgBS+PQWyoI2HRL86T5lnzt/IbWpC6ngMv5nJURIrRogj4N4A
-         TKpwVzy9KkUIJeXYVtvAQbho2QVuEVkg6WM91EOTpkrMkSG4TcKd6huadi9HyffoBx6h
-         Pp4G3VuSFxuHRCEV0eRQumZfuiYaU9tqZesk6ekcoPt/WvRlkNk5e+iVnjxO2/m4Bler
-         1liO1O03qxisA0UBxeMYYtNGci7iu12DwUOEJgw7TFN6VjcgLrh6W7RuEFSuSiehZFNU
-         NY2A==
-X-Gm-Message-State: AOAM531DTVgt34RLI4a5ExqpXZSxgPLDr7N7qGEl+9He8PnpCumWeo9U
-        Ibfoi4p+H2GiXcz6n0phD00S1g==
-X-Google-Smtp-Source: ABdhPJzcEOS66BToEGp2vmi7xT4nDMdmFn965xO54Gu11rFVHj40mQNIuRUKldTKzGK+jQljMZLWNA==
-X-Received: by 2002:a5d:4e0e:: with SMTP id p14mr15421982wrt.130.1614592962247;
-        Mon, 01 Mar 2021 02:02:42 -0800 (PST)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id m6sm24444120wrv.73.2021.03.01.02.02.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Mar 2021 02:02:41 -0800 (PST)
-Date:   Mon, 1 Mar 2021 10:02:39 +0000
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Kiran Gunda <kgunda@codeaurora.org>
-Cc:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
-        lee.jones@linaro.org, b.zolnierkie@samsung.com,
-        dri-devel@lists.freedesktop.org, jacek.anaszewski@gmail.com,
-        pavel@ucw.cz, robh+dt@kernel.org, mark.rutland@arm.com,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        phone-devel@vger.kernel.org
-Subject: Re: [PATCH V3 2/2] backlight: qcom-wled: Correct the sync_toggle
- sequence
-Message-ID: <20210301100239.orbt7km6lgjwvzii@maple.lan>
-References: <1614590916-27070-1-git-send-email-kgunda@codeaurora.org>
- <1614590916-27070-3-git-send-email-kgunda@codeaurora.org>
+        id S234436AbhCAKbJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 1 Mar 2021 05:31:09 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:55024 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234251AbhCAKbI (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 1 Mar 2021 05:31:08 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 637341C0B76; Mon,  1 Mar 2021 11:30:24 +0100 (CET)
+Date:   Mon, 1 Mar 2021 11:30:24 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc:     netdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        Dan Murphy <dmurphy@ti.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Ben Whitten <ben.whitten@gmail.com>
+Subject: Re: [PATCH RFC leds + net-next 2/7] leds: trigger: netdev: simplify
+ the driver by using bit field members
+Message-ID: <20210301103024.GA31897@duo.ucw.cz>
+References: <20201030114435.20169-1-kabel@kernel.org>
+ <20201030114435.20169-3-kabel@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
 Content-Disposition: inline
-In-Reply-To: <1614590916-27070-3-git-send-email-kgunda@codeaurora.org>
+In-Reply-To: <20201030114435.20169-3-kabel@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Mar 01, 2021 at 02:58:36PM +0530, Kiran Gunda wrote:
-> As per the current implementation, after FSC (Full Scale Current)
-> and brightness update the sync bits are transitioned from set-then-clear.
 
-This does not makes sense since there are too many verbs. Set and clear
-are both verbs so in this context: "the code will set the bit and then
-the code will clear the bit".
+--6c2NcOVqGQ03X4Wi
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Either:
+On Fri 2020-10-30 12:44:30, Marek Beh=FAn wrote:
+> Use bit fields members in struct led_netdev_data instead of one mode
+> member and set_bit/clear_bit/test_bit functions. These functions are
+> suitable for longer or variable length bit arrays.
 
-s/transitioned from set-then-clear/set-then-cleared/.
+They also provide atomicity guarantees. If you can explain why this is
+safe, we can do this, but it needs _way_ better changelog.
 
-Or:
+								Pavel
 
-s/transitioned from set-then-clear/using a set-then-clear approach/.
-
-> But, the FSC and brightness sync takes place during a clear-then-set
-> transition of the sync bits.
-
-Likewise this no longer makes sense and had also become misleading.
-Two changes of state, clear and then set, do not usually result in a
-single transition.
-
-Either:
-
-s/clear-then-set/0 to 1/
-
-Alternatively, if you want to stick exclusively to the set/clear
-terminology then replace the whole quoted section with:
-
-  But, the FSC and brightness sync takes place when the sync bits are
-  set (e.g. on a rising edge).
-
-
-> So the hardware team recommends a
-> clear-then-set approach in order to guarantee such a transition
-> regardless of the previous register state.
-> 
-> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
-
-With one of each of the changes proposed above:
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-
-Daniel.
-
-
+> Signed-off-by: Marek Beh=FAn <kabel@kernel.org>
 > ---
->  drivers/video/backlight/qcom-wled.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> index aef52b9..19f83ac 100644
-> --- a/drivers/video/backlight/qcom-wled.c
-> +++ b/drivers/video/backlight/qcom-wled.c
-> @@ -337,13 +337,13 @@ static int wled3_sync_toggle(struct wled *wled)
->  
->  	rc = regmap_update_bits(wled->regmap,
->  				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
-> -				mask, mask);
-> +				mask, WLED3_SINK_REG_SYNC_CLEAR);
->  	if (rc < 0)
->  		return rc;
->  
->  	rc = regmap_update_bits(wled->regmap,
->  				wled->ctrl_addr + WLED3_SINK_REG_SYNC,
-> -				mask, WLED3_SINK_REG_SYNC_CLEAR);
-> +				mask, mask);
->  
->  	return rc;
+>  drivers/leds/trigger/ledtrig-netdev.c | 69 ++++++++++++---------------
+>  1 file changed, 30 insertions(+), 39 deletions(-)
+>=20
+> diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger=
+/ledtrig-netdev.c
+> index 4f6b73e3b491..8f013b6df4fa 100644
+> --- a/drivers/leds/trigger/ledtrig-netdev.c
+> +++ b/drivers/leds/trigger/ledtrig-netdev.c
+> @@ -49,11 +49,11 @@ struct led_netdev_data {
+>  	atomic_t interval;
+>  	unsigned int last_activity;
+> =20
+> -	unsigned long mode;
+> -#define NETDEV_LED_LINK	0
+> -#define NETDEV_LED_TX	1
+> -#define NETDEV_LED_RX	2
+> -#define NETDEV_LED_MODE_LINKUP	3
+> +	unsigned link:1;
+> +	unsigned tx:1;
+> +	unsigned rx:1;
+> +
+> +	unsigned linkup:1;
+>  };
+> =20
+>  enum netdev_led_attr {
+> @@ -73,10 +73,10 @@ static void set_baseline_state(struct led_netdev_data=
+ *trigger_data)
+>  	if (!led_cdev->blink_brightness)
+>  		led_cdev->blink_brightness =3D led_cdev->max_brightness;
+> =20
+> -	if (!test_bit(NETDEV_LED_MODE_LINKUP, &trigger_data->mode))
+> +	if (!trigger_data->linkup)
+>  		led_set_brightness(led_cdev, LED_OFF);
+>  	else {
+> -		if (test_bit(NETDEV_LED_LINK, &trigger_data->mode))
+> +		if (trigger_data->link)
+>  			led_set_brightness(led_cdev,
+>  					   led_cdev->blink_brightness);
+>  		else
+> @@ -85,8 +85,7 @@ static void set_baseline_state(struct led_netdev_data *=
+trigger_data)
+>  		/* If we are looking for RX/TX start periodically
+>  		 * checking stats
+>  		 */
+> -		if (test_bit(NETDEV_LED_TX, &trigger_data->mode) ||
+> -		    test_bit(NETDEV_LED_RX, &trigger_data->mode))
+> +		if (trigger_data->tx || trigger_data->rx)
+>  			schedule_delayed_work(&trigger_data->work, 0);
+>  	}
 >  }
-> @@ -353,17 +353,17 @@ static int wled5_mod_sync_toggle(struct wled *wled)
->  	int rc;
->  	u8 val;
->  
-> -	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
-> -					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
->  	rc = regmap_update_bits(wled->regmap,
->  				wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
-> -				WLED5_SINK_REG_SYNC_MASK, val);
-> +				WLED5_SINK_REG_SYNC_MASK, 0);
->  	if (rc < 0)
->  		return rc;
->  
-> +	val = (wled->cfg.mod_sel == MOD_A) ? WLED5_SINK_REG_SYNC_MOD_A_BIT :
-> +					     WLED5_SINK_REG_SYNC_MOD_B_BIT;
->  	return regmap_update_bits(wled->regmap,
->  				  wled->sink_addr + WLED5_SINK_REG_MOD_SYNC_BIT,
-> -				  WLED5_SINK_REG_SYNC_MASK, 0);
-> +				  WLED5_SINK_REG_SYNC_MASK, val);
+> @@ -131,10 +130,10 @@ static ssize_t device_name_store(struct device *dev,
+>  		trigger_data->net_dev =3D
+>  		    dev_get_by_name(&init_net, trigger_data->device_name);
+> =20
+> -	clear_bit(NETDEV_LED_MODE_LINKUP, &trigger_data->mode);
+> +	trigger_data->linkup =3D 0;
+>  	if (trigger_data->net_dev !=3D NULL)
+>  		if (netif_carrier_ok(trigger_data->net_dev))
+> -			set_bit(NETDEV_LED_MODE_LINKUP, &trigger_data->mode);
+> +			trigger_data->linkup =3D 1;
+> =20
+>  	trigger_data->last_activity =3D 0;
+> =20
+> @@ -150,23 +149,24 @@ static ssize_t netdev_led_attr_show(struct device *=
+dev, char *buf,
+>  	enum netdev_led_attr attr)
+>  {
+>  	struct led_netdev_data *trigger_data =3D led_trigger_get_drvdata(dev);
+> -	int bit;
+> +	int val;
+> =20
+>  	switch (attr) {
+>  	case NETDEV_ATTR_LINK:
+> -		bit =3D NETDEV_LED_LINK;
+> +		val =3D trigger_data->link;
+>  		break;
+>  	case NETDEV_ATTR_TX:
+> -		bit =3D NETDEV_LED_TX;
+> +		val =3D trigger_data->tx;
+>  		break;
+>  	case NETDEV_ATTR_RX:
+> -		bit =3D NETDEV_LED_RX;
+> +		val =3D trigger_data->rx;
+>  		break;
+>  	default:
+> -		return -EINVAL;
+> +		/* unreachable */
+> +		break;
+>  	}
+> =20
+> -	return sprintf(buf, "%u\n", test_bit(bit, &trigger_data->mode));
+> +	return sprintf(buf, "%u\n", val);
 >  }
->  
->  static int wled_ovp_fault_status(struct wled *wled, bool *fault_set)
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->  a Linux Foundation Collaborative Project
-> 
+> =20
+>  static ssize_t netdev_led_attr_store(struct device *dev, const char *buf,
+> @@ -175,33 +175,28 @@ static ssize_t netdev_led_attr_store(struct device =
+*dev, const char *buf,
+>  	struct led_netdev_data *trigger_data =3D led_trigger_get_drvdata(dev);
+>  	unsigned long state;
+>  	int ret;
+> -	int bit;
+> =20
+>  	ret =3D kstrtoul(buf, 0, &state);
+>  	if (ret)
+>  		return ret;
+> =20
+> +	cancel_delayed_work_sync(&trigger_data->work);
+> +
+>  	switch (attr) {
+>  	case NETDEV_ATTR_LINK:
+> -		bit =3D NETDEV_LED_LINK;
+> +		trigger_data->link =3D state;
+>  		break;
+>  	case NETDEV_ATTR_TX:
+> -		bit =3D NETDEV_LED_TX;
+> +		trigger_data->tx =3D state;
+>  		break;
+>  	case NETDEV_ATTR_RX:
+> -		bit =3D NETDEV_LED_RX;
+> +		trigger_data->rx =3D state;
+>  		break;
+>  	default:
+> -		return -EINVAL;
+> +		/* unreachable */
+> +		break;
+>  	}
+> =20
+> -	cancel_delayed_work_sync(&trigger_data->work);
+> -
+> -	if (state)
+> -		set_bit(bit, &trigger_data->mode);
+> -	else
+> -		clear_bit(bit, &trigger_data->mode);
+> -
+>  	set_baseline_state(trigger_data);
+> =20
+>  	return size;
+> @@ -315,7 +310,7 @@ static int netdev_trig_notify(struct notifier_block *=
+nb,
+> =20
+>  	spin_lock_bh(&trigger_data->lock);
+> =20
+> -	clear_bit(NETDEV_LED_MODE_LINKUP, &trigger_data->mode);
+> +	trigger_data->linkup =3D 0;
+>  	switch (evt) {
+>  	case NETDEV_CHANGENAME:
+>  	case NETDEV_REGISTER:
+> @@ -331,7 +326,7 @@ static int netdev_trig_notify(struct notifier_block *=
+nb,
+>  	case NETDEV_UP:
+>  	case NETDEV_CHANGE:
+>  		if (netif_carrier_ok(dev))
+> -			set_bit(NETDEV_LED_MODE_LINKUP, &trigger_data->mode);
+> +			trigger_data->linkup =3D 1;
+>  		break;
+>  	}
+> =20
+> @@ -360,21 +355,17 @@ static void netdev_trig_work(struct work_struct *wo=
+rk)
+>  	}
+> =20
+>  	/* If we are not looking for RX/TX then return  */
+> -	if (!test_bit(NETDEV_LED_TX, &trigger_data->mode) &&
+> -	    !test_bit(NETDEV_LED_RX, &trigger_data->mode))
+> +	if (!trigger_data->tx && !trigger_data->rx)
+>  		return;
+> =20
+>  	dev_stats =3D dev_get_stats(trigger_data->net_dev, &temp);
+> -	new_activity =3D
+> -	    (test_bit(NETDEV_LED_TX, &trigger_data->mode) ?
+> -		dev_stats->tx_packets : 0) +
+> -	    (test_bit(NETDEV_LED_RX, &trigger_data->mode) ?
+> -		dev_stats->rx_packets : 0);
+> +	new_activity =3D (trigger_data->tx ? dev_stats->tx_packets : 0) +
+> +		       (trigger_data->rx ? dev_stats->rx_packets : 0);
+> =20
+>  	if (trigger_data->last_activity !=3D new_activity) {
+>  		led_stop_software_blink(trigger_data->led_cdev);
+> =20
+> -		invert =3D test_bit(NETDEV_LED_LINK, &trigger_data->mode);
+> +		invert =3D trigger_data->link;
+>  		interval =3D jiffies_to_msecs(
+>  				atomic_read(&trigger_data->interval));
+>  		/* base state is ON (link present) */
+> --=20
+> 2.26.2
+
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--6c2NcOVqGQ03X4Wi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYDzCQAAKCRAw5/Bqldv6
+8kHFAKCNwKKtKSy97DppcH5jmGLRM1bGGwCdHfW8OksJn+5c5lvwAukojPbEYic=
+=S5me
+-----END PGP SIGNATURE-----
+
+--6c2NcOVqGQ03X4Wi--
