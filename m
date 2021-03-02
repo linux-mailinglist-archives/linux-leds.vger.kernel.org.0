@@ -2,15 +2,15 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D089B32B24E
-	for <lists+linux-leds@lfdr.de>; Wed,  3 Mar 2021 04:48:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D36D232B262
+	for <lists+linux-leds@lfdr.de>; Wed,  3 Mar 2021 04:48:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234170AbhCCCmn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 2 Mar 2021 21:42:43 -0500
-Received: from mx4.wp.pl ([212.77.101.12]:10433 "EHLO mx4.wp.pl"
+        id S243124AbhCCCnx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 2 Mar 2021 21:43:53 -0500
+Received: from mx4.wp.pl ([212.77.101.12]:46258 "EHLO mx4.wp.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350306AbhCBSkG (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 2 Mar 2021 13:40:06 -0500
+        id S1446514AbhCBUAL (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 2 Mar 2021 15:00:11 -0500
 Received: (wp-smtpd smtp.wp.pl 11724 invoked from network); 2 Mar 2021 19:12:11 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=1024a;
           t=1614708731; bh=ciS88uVJy8OrbsbcD0pWozRcCU7AyCe4P5bhTsESSds=;
