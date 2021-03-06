@@ -2,241 +2,144 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0C5632FAC8
-	for <lists+linux-leds@lfdr.de>; Sat,  6 Mar 2021 14:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F36232FC17
+	for <lists+linux-leds@lfdr.de>; Sat,  6 Mar 2021 17:52:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230227AbhCFNMD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 6 Mar 2021 08:12:03 -0500
-Received: from gecko.sbs.de ([194.138.37.40]:46327 "EHLO gecko.sbs.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230213AbhCFNMD (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 6 Mar 2021 08:12:03 -0500
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-        by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 126DBZYo010323
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 6 Mar 2021 14:11:35 +0100
-Received: from md1za8fc.ad001.siemens.net ([139.22.40.205])
-        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 126D6XWf023339;
-        Sat, 6 Mar 2021 14:06:33 +0100
-Date:   Sat, 6 Mar 2021 14:06:33 +0100
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-watchdog@vger.kernel.org>,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        "Hans de Goede" <hdegoede@redhat.com>
-Subject: Re: [PATCH 2/4] leds: simatic-ipc-leds: add new driver for Siemens
- Industial PCs
-Message-ID: <20210306140633.57f28b05@md1za8fc.ad001.siemens.net>
-In-Reply-To: <20210306135453.6dc186d2@md1za8fc.ad001.siemens.net>
-References: <20210302163309.25528-1-henning.schild@siemens.com>
-        <20210302163309.25528-3-henning.schild@siemens.com>
-        <20210302205452.GA32573@duo.ucw.cz>
-        <20210303141052.30641e6b@md1za8fc.ad001.siemens.net>
-        <20210303193134.GB8720@amd>
-        <20210303214810.511ad65a@md1za8fc.ad001.siemens.net>
-        <20210303215615.64e45720@md1za8fc.ad001.siemens.net>
-        <20210305192555.34f7ea0f@md1za8fc.ad001.siemens.net>
-        <20210306135453.6dc186d2@md1za8fc.ad001.siemens.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S230216AbhCFQwI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 6 Mar 2021 11:52:08 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:53183 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230525AbhCFQvm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 6 Mar 2021 11:51:42 -0500
+Received: from methusalix.internal.home.lespocky.de ([92.117.59.83]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MKKd7-1l3XKv0ndP-00LjIf; Sat, 06 Mar 2021 17:51:14 +0100
+Received: from falbala.internal.home.lespocky.de ([192.168.243.94])
+        by methusalix.internal.home.lespocky.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <post@lespocky.de>)
+        id 1lIa8t-0001ow-5X; Sat, 06 Mar 2021 17:51:07 +0100
+Date:   Sat, 6 Mar 2021 17:51:01 +0100
+From:   Alexander Dahl <post@lespocky.de>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Andreas Eberlein <foodeas@aeberlein.de>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] leds: apu: extend support for PC Engines APU1 with
+ newer firmware
+Message-ID: <20210306165101.fnv6ytqofbolpf6s@falbala.internal.home.lespocky.de>
+Mail-Followup-To: "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Andreas Eberlein <foodeas@aeberlein.de>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210216133028.4025-1-foodeas@aeberlein.de>
+ <c7eebbb6-df0c-51df-7701-ecb8f6543466@metux.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="6lhq75cjctaqvjxe"
+Content-Disposition: inline
+In-Reply-To: <c7eebbb6-df0c-51df-7701-ecb8f6543466@metux.net>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Scan-Signature: 7aa91fdd43207b5d0c40576660a3e49e
+X-Spam-Score: -2.8 (--)
+X-Provags-ID: V03:K1:OrDeIhMLw1J0mLjQyvUhTerVIpVEHx/tuHmhnFLFvcUp4FyQNZ4
+ 7jL+CN565DY2GhaEPvRXqI9d8helZmP7QaPld0gBCrlOf8t0yh7zeD1pIa7vHCDAOZNqvin
+ t9wxGz2j6vbff7qebGCyCR4FR9INoG5FJ4ukqASnC7eFTaOiuuYgjteTOr3Tl2E9ysFqhW1
+ SNYV8ulzJGXobWDjAwMYA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tTqnd0Cf+Vk=:+fIFzaVUoltY2ftONGZhZe
+ mFx6E1yUXviZz127rxJhqge4EFaBvkj+M+yS0d7LOyViWvgCb2f2wqQoKDhKdjat9IpsMDpDp
+ GkYbDdAw+Al6rl/QCMQaaHAdJpg57dKoaueL53vAcPpP3k8Vb86l3q48PEF/b6PLFBld398Sk
+ IaUdRkvSxJStS6BN6MphjIRxunw39MnUC7zZBBUB9Po1ntZYD3qDCXQEW7DG0JDVyaND1QABh
+ ytgGTEZu13HoSXK4fnAUAmmVd5E54AnMhgwQSMT6YJeibp6VcE9Cqa6+56FCxx3NcJuKj4CS2
+ ozt5QHW8DVknUOcHFY/y/QyrNhEv2u4v0oMnmXJ9h5GKZ7G2YDtaVrrPRhpo+2CPTOAZ/aApr
+ gMrzoSe+rlQBHBh8kj1S0FU61D3/xHEY5Dw2BBQNqzi9mP+yx2+A8b4j5Lf8z
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am Sat, 6 Mar 2021 13:54:53 +0100
-schrieb Henning Schild <henning.schild@siemens.com>:
 
-> Am Fri, 5 Mar 2021 19:25:55 +0100
-> schrieb Henning Schild <henning.schild@siemens.com>:
-> 
-> > Am Wed, 3 Mar 2021 21:56:15 +0100
-> > schrieb Henning Schild <henning.schild@siemens.com>:
-> >   
-> > > Am Wed, 3 Mar 2021 21:48:21 +0100
-> > > schrieb Henning Schild <henning.schild@siemens.com>:
-> > >     
-> > > > Am Wed, 3 Mar 2021 20:31:34 +0100
-> > > > schrieb Pavel Machek <pavel@ucw.cz>:
-> > > >       
-> > > > > Hi!
-> > > > >         
-> > > > > > > > +static struct simatic_ipc_led simatic_ipc_leds_io[] = {
-> > > > > > > > +	{1 << 15, "simatic-ipc:green:run-stop"},
-> > > > > > > > +	{1 << 7,  "simatic-ipc:yellow:run-stop"},
-> > > > > > > > +	{1 << 14, "simatic-ipc:red:error"},
-> > > > > > > > +	{1 << 6,  "simatic-ipc:yellow:error"},
-> > > > > > > > +	{1 << 13, "simatic-ipc:red:maint"},
-> > > > > > > > +	{1 << 5,  "simatic-ipc:yellow:maint"},
-> > > > > > > > +	{0, ""},
-> > > > > > > > +};            
-> > > > > > > 
-> > > > > > > Please use names consistent with other systems, this is
-> > > > > > > user visible. If you have two-color power led, it should
-> > > > > > > be :green:power... See include/dt-bindings/leds/common.h .
-> > > > > > >      
-> > > > > > 
-> > > > > > Well we wanted to pick names that are printed on the devices
-> > > > > > and would like to stick to those. Has been a discussion ...
-> > > > > > Can we have symlinks to have multiple names per LED?
-> > > > > >   
-> > > > > 
-> > > > > No symlinks. We plan to have command line tool to manipulate
-> > > > > LEDs, aliases might be possible there.        
-> > > > 
-> > > > Sounds like a future plan. sysfs and "cat" "echo" are mighty
-> > > > tools and "everything is a file" is the best idea ever. So i
-> > > > would say any aliasing should live in the kernel, but that is
-> > > > just me. Tools will just get out of sync, be missing in busybox
-> > > > or a random yocto ... or whichever distro you like.
-> > > > On the other hand you have "complexity should be userland" ... i
-> > > > do not have the answer.      
-> > > 
-> > > My personal horror would be systemd-ledd or some dracut snipet for
-> > > initrd. But that would be a generic led class discussion ... that
-> > > tool.
-> > >     
-> > > > > > How strong would you feel about us using our names?
-> > > > > >  
-> > > > > 
-> > > > > Strongly. :-)        
-> > > > 
-> > > > OK, will try to find a match where possible.       
-> > > 
-> > > Do we happen to have a description of the existing names, to find
-> > > a fit for ours? In the header you pointed out i only found names
-> > > without "meaning"    
-> > 
-> > I had a closer look at the several LED_FUNCTION_ while i could
-> > probably find a match for the names we had in mind ...
-> > 
-> > -       {1 << 14, "simatic-ipc:red:error"},
-> > +       {1 << 14, "simatic-ipc:red:" LED_FUNCTION_FAULT },
-> > 
-> > I still do not understand what those mean. Going over the kernel
-> > sources many have only one single grep-hit in the tree.
-> > LED_FUNCTION_ not having a single one in drivers/leds
-> > Others are found in one dts and in that header ... 2 hits in the
-> > tree, maybe i should add my favorite strings ;)
-> > 
-> > LED_FUNCTION_FLASH vs LED_FUNCTION_TORCH ...? Sound like timing, not
-> > function.
-> > 
-> > Let us say i match the three "error", "run-stop", "maint" to
-> > LED_FUNCTION_*
-> > 
-> > I would have a really hard time finding matches for other LEDs i did
-> > not even propose. One example being disks ... many of them, would i
-> > be allowed to 
-> > 
-> > LED_FUNCTION_DISK "0"
-> > LED_FUNCTION_DISK "1"
-> > ...
-> > 
-> > they would all have the same colors.
-> > 
-> > Maybe you explain the idea behind choosing only from that namespace?
-> > My guess would be high-level software being able to toggle leds
-> > totally indep of the device it runs on. Such software would have to
-> > do some really nasty directory listing, name parsing, dealing with
-> > multiple hits. Does such generic software already exist, maybe that
-> > would help me understand my "mapping problems" ?
-> > 
-> > The current class encodes, color, function and name into "name".
-> > 
-> > Maybe i am all wrong and should go for
-> > 
-> > {1 << 14, "simatic-ipc-error:red:" LED_FUNCTION_STATUS }
-> > {1 << 15, "simatic-ipc-run-stop:green:" LED_FUNCTION_STATUS}
-> > {...    , "simatic-ipc-hdd0:red:" LED_FUNCTION_DISK }
-> > {...    , "simatic-ipc-hdd1:red:" LED_FUNCTION_DISK }
-> > 
-> > so appending my wanted name to the name before the first :, and use
-> > functions i "understand" after the second :  
-> 
-> Found the docs and the check script. It has been a while since i read
-> those docs.
-> 
-> But that script fails on bus=platform
-> 
-> quick workaround would be
-> 
->         fi
-> +elif [ "$bus" = "platform" ]; then
-> +       true
->  else
->         echo "Unknown device type."
->         exit 1
-> 
-> But i guess it would be nice to get some sort of platform information,
-> device vendor etc.
-> 
-> I see two options for pattern i could choose
-> 
-> "green:" LED_FUNCTION_STATUS "-0"
-> -> platform bus patch needed, no plaform information  
-> 
-> simatic-ipc:green:" LED_FUNCTION_STATUS "-0"
-> -> platform bus patch needed, will fail with "Unknown devicename"  
-> 
-> Without further advice i will choose the second for v2. That is also
-> what i.e. "tpacpi" on my laptop looks like.
-> 
-> I would also be happy to include a fix to that script. My suggestion
-> would be to allow bus=platform, in which case a "devicename" will be
-> required and is allowed to have any value.
+--6lhq75cjctaqvjxe
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Furthermore it might be good to catch that in the led core instead of
-that script. Maybe warn() on dev registration when function/color/name
-seem off. Could later become "return -EINVAL"
+Hello,
 
-Henning
+On Wed, Feb 17, 2021 at 12:02:47PM +0100, Enrico Weigelt, metux IT consult =
+wrote:
+> On 16.02.21 14:30, Andreas Eberlein wrote:
+> > The DMI_PRODUCT_NAME entry on current firmware of PC Engines APU1 chang=
+ed
+> > from "APU" to "apu1"
+> >=20
+> > This modification adds the missing DMI data and thereby the LED support=
+ for
+> > the PC Engines APU1 with firmware versions >=3D 4.6.8.
+>=20
+> Do you have a device for more intensive testing ?
 
-> regards,
-> Henning
-> 
-> > regards,
-> > Henning
-> > 
-> >   
-> > > regards,
-> > > Henning
-> > >     
-> > > >       
-> > > > > Do you have a picture how the leds look like?        
-> > > > 
-> > > > I could even find chassis photos in our internal review but that
-> > > > would be too much.
-> > > > 
-> > > > Our idea is probably the same as yours. We want the same names
-> > > > across all devices. But we struggle with colors because on some
-> > > > boxes we have red+green, while other offer yellow ...
-> > > > implemented in HW and messing with red+green in some cases.
-> > > > 
-> > > > But so far we only looked at Siemens devices and thought we
-> > > > could get our own "namespace".
-> > > > 
-> > > > To be honest i could not even tell how our names map on the
-> > > > known ones, but we will do our best to find a match. They all
-> > > > are "high-level" so "power" and other basic things are not
-> > > > exposed.
-> > > > 
-> > > > regards,
-> > > > Henning
-> > > >        
-> > > > > Best regards,
-> > > > > 							Pavel
-> > > > >      
-> > > >       
-> > >     
-> >   
-> 
+I have an apu1d4 on my desk, which is supposed to be used soon, but
+available for testing at the moment.  I put the latest coreboot bios
+version 4.13.0.3 on it yesterday.
 
+> In that case I'd like to suggest splitting the driver into gpio and
+> gpio-based LED (using leds-gpio) - just like already I did for apu2/3/4.
+> Maybe this even could also be moveed into the apu2 driver. This probably
+> just makes sense if there're more gpio-connected devices than just LED)
+>=20
+> Personally, I don't have access to the old apu1 board (IIRC not even
+> produced anymore for several years), so I didn't dare to touch anything
+> here.
+
+If you give me a hint, which tree or patchset should be tested, and
+some hints what should be tested, I can try.
+
+> Note that apu1 vs. apu2/3/4 have completely different SOC with different
+> gpio logic - that was one of the reasons for writing a completely new
+> driver for apu2+ from scrath, rather than extending the old one.
+
+Thanks for that work.  I have to admit someone from the fli4l linux
+router distribution team also wrote LED and button drivers for the APU
+boards, but never managed to upstream those. :-/
+
+If someone is interested, those are spread in our Subversion
+repository, but the apu drivers are here:
+
+https://repo.nettworks.org/svn/fli4l/branches/4.0/trunk/src/packages/src/sr=
+c/fli4l/hwsupp/pcengines-apu/
+
+Personally, I'd rather have mainline drivers for all that boards.
+Don't know if it still makes sense for the older wrap or alix boards,
+though.  I also have those lying around. ;-)
+
+Greets
+Alex
+
+--=20
+/"\ ASCII RIBBON | =BBWith the first link, the chain is forged. The first
+\ / CAMPAIGN     | speech censured, the first thought forbidden, the
+ X  AGAINST      | first freedom denied, chains us all irrevocably.=AB
+/ \ HTML MAIL    | (Jean-Luc Picard, quoting Judge Aaron Satie)
+
+--6lhq75cjctaqvjxe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEwo7muQJjlc+Prwj6NK3NAHIhXMYFAmBDsvEACgkQNK3NAHIh
+XMYigRAAvnANs8wbwf6kXyeaRxuKJkFdy81lLySnWxRtlJ9tokBUcrPwEKbwkOLV
+z43WI1lMSz2T/6xPc+pjbMJjdnV43WrN96xLs4DyFRt2FiH0kJM5qR78cVngnX4p
+bZ9fgOGPNEtohei9eXXCivmM+DpsgGb03Cu2m1nwNX1R2UM70E5BI3Oo/aVuL2dU
+FkkI2125kQbub+2I0gCExRPIuGblEZp8OTbvwPbumo+07KyN6Gy6OhqQnmbsWkXI
+j9FCRCe8aG2U1+WVjTAef9fSRgDIE10+vGzWGXUcHsaka8onbnDsfa+QgGFC7ojE
+rXkqk9xeT1GTqpzaXBZFXqSTIVmMI8mT4XBFpd403gb+IRT6I6PQwGq74WVVRnu2
+rLBXGolcE8GqyuXAAncEW/OUP6O1YWyOhIwDb6HJzJ0CyV6PdLENA/A25+iSfOr5
+0SP5JenpfArNG0FPveWAm8ixzrrnORh7VzV3UqC9LoKrGdY/pIXD8awHZTZOvDRQ
+bmEr/8xTZEJUVo3kOPzdvmoQN0e6UoqUexgP4zicanSw08tQSq4oKGDLIn/n8hdB
+K/IvBU4FeXw4veuvYP2btTY5U2IWUcaON2d1xkzBjOhln9jGJXABP068wmAg5R2I
+7GrIRIZwhJAL7UNU1G9OEOT5H7LN0dsQqYyEv2Tnh+3he0MtkBs=
+=NAJp
+-----END PGP SIGNATURE-----
+
+--6lhq75cjctaqvjxe--
