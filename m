@@ -2,31 +2,31 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE9493302DF
-	for <lists+linux-leds@lfdr.de>; Sun,  7 Mar 2021 17:14:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1352F3302E8
+	for <lists+linux-leds@lfdr.de>; Sun,  7 Mar 2021 17:26:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232406AbhCGQOP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 7 Mar 2021 11:14:15 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:39488 "EHLO
+        id S232412AbhCGQ0P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 7 Mar 2021 11:26:15 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:42202 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232377AbhCGQOA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 7 Mar 2021 11:14:00 -0500
+        with ESMTP id S231314AbhCGQ0O (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 7 Mar 2021 11:26:14 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id DA7101C0B76; Sun,  7 Mar 2021 17:13:57 +0100 (CET)
-Date:   Sun, 7 Mar 2021 17:13:57 +0100
+        id 5AA7A1C0B76; Sun,  7 Mar 2021 17:26:12 +0100 (CET)
+Date:   Sun, 7 Mar 2021 17:26:12 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Marc Kleine-Budde <mkl@pengutronix.de>, hdegoede@redhat.com
+To:     Marc Kleine-Budde <mkl@pengutronix.de>
 Cc:     Andrea Righi <andrea.righi@canonical.com>,
         Boqun Feng <boqun.feng@gmail.com>, Dan Murphy <dmurphy@ti.com>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
         kernel@pengutronix.de, schuchmann@schleissheimer.de
 Subject: Re: [PATCH] leds: trigger: fix potential deadlock with libata
-Message-ID: <20210307161357.GA2933@duo.ucw.cz>
+Message-ID: <20210307162612.GB2933@duo.ucw.cz>
 References: <20201102104152.GG9930@xps-13-7390>
  <20210306203954.ya5oqgkdalcw45c4@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="J/dobhs11T7y2rNN"
+        protocol="application/pgp-signature"; boundary="eAbsdosE1cNLO4uF"
 Content-Disposition: inline
 In-Reply-To: <20210306203954.ya5oqgkdalcw45c4@pengutronix.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -35,13 +35,19 @@ List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---J/dobhs11T7y2rNN
+--eAbsdosE1cNLO4uF
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
+> > ---
+> >  drivers/leds/led-triggers.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+> > index 91da90cfb11d..16d1a93a10a8 100644
 > > --- a/drivers/leds/led-triggers.c
 > > +++ b/drivers/leds/led-triggers.c
 > > @@ -378,14 +378,15 @@ void led_trigger_event(struct led_trigger *trig,
@@ -77,19 +83,26 @@ Hi!
 > in our use case? Is there a way we can get around the irqsave in
 > led_trigger_event()?
 
-Hans was pushing for this patch, perhaps he has some ideas...
+6ms is quite long. Are you actively using any triggers? Do you have
+LED blinking on CAN access?
+
+Can you verify if it is cli/sti taking too long, or if the
+led_set_brightness takes too long?
+
+Best regards,
 								Pavel
+
 --=20
 http://www.livejournal.com/~pavelmachek
 
---J/dobhs11T7y2rNN
+--eAbsdosE1cNLO4uF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYET7xQAKCRAw5/Bqldv6
-8vKIAKDCxR0yuLq5ex211qqLUpFiWAZK+ACfc2M1gGpIsYkKLbgDIDuOujybruM=
-=/uEM
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYET+pAAKCRAw5/Bqldv6
+8hqWAJsGTor4gK80/dmQh4yapYzLr0FfnwCeNL+N4oNpPPE33AxnJC0G1XAklVk=
+=QMR2
 -----END PGP SIGNATURE-----
 
---J/dobhs11T7y2rNN--
+--eAbsdosE1cNLO4uF--
