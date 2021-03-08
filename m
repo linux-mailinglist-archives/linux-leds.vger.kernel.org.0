@@ -2,116 +2,158 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 080C4330FC9
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Mar 2021 14:45:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2897733117A
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Mar 2021 15:57:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229697AbhCHNoq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Mar 2021 08:44:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47130 "EHLO
+        id S231405AbhCHO5P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Mar 2021 09:57:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229971AbhCHNoS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Mar 2021 08:44:18 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED5B9C061762;
-        Mon,  8 Mar 2021 05:44:14 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id c19so7798747ljn.12;
-        Mon, 08 Mar 2021 05:44:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WaQEYnGNWJ/OtyKV8I7R1ooNb9kpyo4mdpeJtr/93Ho=;
-        b=DD8/JlFZJ6G68i1cOe9PJRXvajjKX61MGCQGf7M4eDOeh41yUfDdx0qBLjoXidNvA/
-         4/Xu1j8hsRkwTCJYWX4UsBU1rff3ERHFxIQ55cAgANxFTshftvXWb4o7/+WQJVLkI3sH
-         ZBEm0b1VtpEHPsffNAtdASBiK0gvli/tMhQgwfVR6ieUs1MBAx1BIbngEjzdzzDrRLQa
-         3B5RrhZOj/VnksJ2q3pnbKI3jJmrXXO/Dy7CMTt7twZY7sEDkQpXJX5bNorSh4T1tmT2
-         czFMnhEnhSaubZprZi+4kR6IGF5ogE2kOA3/mispkJSdo9w1J5UzM9XL4plCoE42iLMK
-         MX5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WaQEYnGNWJ/OtyKV8I7R1ooNb9kpyo4mdpeJtr/93Ho=;
-        b=BhFceszcfFTrOzGwF5dpL1wTVn4fzTD0GhYkqMls0EFBrkHmH+ZOr3Oy7p212JeJf5
-         5nGs2IfC9aKQId2fCNi9Ewr7UmqZv2o2c0hvCkxmBt5xEt+LWiJbZCex1Kl16is7iJH+
-         CCfe4l29Pp1fz3Fan+geY8Bgn7h4Hprnrrzf++9kR5eQEhILSEkiKi2j0Wh7X5GM7JBG
-         /I1aRpLXH+6FK22y1YvlpHxR9lv2K0gwLFhwOPcEIchGP98lzp/gvashEI++jCcZ76EQ
-         NyhyblrgtKPugebLC5+rz+6n5/tFkfh/CcRlz0NaeDc7oG0ctMO7MzJxtBsUEFxnbkL8
-         rdYw==
-X-Gm-Message-State: AOAM530+hnsYmfWvmhntPeeeU83zazVbZSVqy4Hgw/IGHgXBeBVCUgSV
-        U2oPOQpBpF+q88KtenHj7Xmyc2OzFZADXo6V8GI=
-X-Google-Smtp-Source: ABdhPJwFXWe+FddoQETwle8prutSDIA3QZ3m+wdRbe3N8yyIcvGoPRpCDDpQ6hE2dDakU2Kq0eNoqoJa1NEKRSwXqr0=
-X-Received: by 2002:a2e:8196:: with SMTP id e22mr13941260ljg.398.1615211053458;
- Mon, 08 Mar 2021 05:44:13 -0800 (PST)
+        with ESMTP id S231423AbhCHO5C (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Mar 2021 09:57:02 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31255C06174A
+        for <linux-leds@vger.kernel.org>; Mon,  8 Mar 2021 06:57:02 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1lJHJZ-000549-3n; Mon, 08 Mar 2021 15:56:57 +0100
+Received: from pengutronix.de (unknown [IPv6:2a03:f580:87bc:d400:743f:a98a:1069:4286])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 3E2A55F0CBC;
+        Mon,  8 Mar 2021 14:56:54 +0000 (UTC)
+Date:   Mon, 8 Mar 2021 15:56:53 +0100
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     Andrea Righi <andrea.righi@canonical.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de, schuchmann@schleissheimer.de
+Subject: Re: [PATCH] leds: trigger: fix potential deadlock with libata
+Message-ID: <20210308145653.mechsganlrvpzyym@pengutronix.de>
+References: <20201102104152.GG9930@xps-13-7390>
+ <20210306203954.ya5oqgkdalcw45c4@pengutronix.de>
+ <YEQ0ONQCwVUd0wmc@boqun-archlinux>
 MIME-Version: 1.0
-References: <20210302163309.25528-1-henning.schild@siemens.com>
- <20210302163309.25528-2-henning.schild@siemens.com> <CAHp75VfDDGxdhP0-yKOCJyJ_+Y2Zu3TmOdvUJmEZ0AvQnceV6A@mail.gmail.com>
- <2fad304a-9e1e-c83d-7a9e-02b35ed22418@redhat.com> <CAHp75VfB8v1n3Hav_oMqG0k4C31NBEUe082i8NrrOGUbSgoESw@mail.gmail.com>
- <20210305174223.11537d42@md1za8fc.ad001.siemens.net> <CAHp75VdssrnvGn+Qs6Ua72MSFrTCHOCMBdPEAfmGFp1RrwdJ+g@mail.gmail.com>
- <CAHp75VdcBxo5emWpNy7jHLfSMfN0zWW_L_BW3Hs3_55zyn6WOA@mail.gmail.com> <20210308135714.3cc48c34@md1za8fc.ad001.siemens.net>
-In-Reply-To: <20210308135714.3cc48c34@md1za8fc.ad001.siemens.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 8 Mar 2021 15:43:56 +0200
-Message-ID: <CAHp75Vc8eYTDJv+8oEr6we71k9fhXhM9XfCDGsnmTDNJ_+0nGA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] platform/x86: simatic-ipc: add main driver for
- Siemens devices
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Pavel Machek <pavel@ucw.cz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="gp7ccw4en57i62vl"
+Content-Disposition: inline
+In-Reply-To: <YEQ0ONQCwVUd0wmc@boqun-archlinux>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Mar 8, 2021 at 3:02 PM Henning Schild
-<henning.schild@siemens.com> wrote:
-> Am Fri, 5 Mar 2021 19:44:57 +0200
-> schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:
-> > On Fri, Mar 5, 2021 at 7:17 PM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> > > On Fri, Mar 5, 2021 at 6:47 PM Henning Schild
-> > > <henning.schild@siemens.com> wrote:
-> > > > Am Fri, 5 Mar 2021 17:42:42 +0200
-> > > > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:
-> > > > > On Thu, Mar 4, 2021 at 3:47 PM Hans de Goede
-> > > > > <hdegoede@redhat.com> wrote:
 
-...
+--gp7ccw4en57i62vl
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > > > > [1]: https://gitlab.com/andy-shev/next/-/tree/p2sb
-> > > >
-> > > > That is a little weird, might be a good idea to RFC reply to the
-> > > > cover letter of this one. To allow review and discussion in a
-> > > > central place.
-> > >
-> > > I'm now rebasing it to be more presentable.
-> > > If you can test this approach and it works for you, I'll send a
-> > > formal RFC series.
-> >
-> > Okay, [1] now is in presentable shape, each patch with a proper commit
-> > message and authorship, also all patches are compiled without issues.
->
-> Thank you so much, i will base v2 on that and let you know how that
-> works.
+On 07.03.2021 10:02:32, Boqun Feng wrote:
+> On Sat, Mar 06, 2021 at 09:39:54PM +0100, Marc Kleine-Budde wrote:
+> > Hello *,
+> >=20
+> > On 02.11.2020 11:41:52, Andrea Righi wrote:
+> > > We have the following potential deadlock condition:
+> > >=20
+> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >  WARNING: possible irq lock inversion dependency detected
+> > >  5.10.0-rc2+ #25 Not tainted
+> > >  --------------------------------------------------------
+> > >  swapper/3/0 just changed the state of lock:
+> > >  ffff8880063bd618 (&host->lock){-...}-{2:2}, at: ata_bmdma_interrupt+=
+0x27/0x200
+> > >  but this lock took another, HARDIRQ-READ-unsafe lock in the past:
+> > >   (&trig->leddev_list_lock){.+.?}-{2:2}
+> > >=20
+> > >  and interrupts could create inverse lock ordering between them.
+> >=20
+> > [...]
+> >=20
+> > > ---
+> > >  drivers/leds/led-triggers.c | 5 +++--
+> > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+> > > index 91da90cfb11d..16d1a93a10a8 100644
+> > > --- a/drivers/leds/led-triggers.c
+> > > +++ b/drivers/leds/led-triggers.c
+> > > @@ -378,14 +378,15 @@ void led_trigger_event(struct led_trigger *trig,
+> > >  			enum led_brightness brightness)
+> > >  {
+> > >  	struct led_classdev *led_cdev;
+> > > +	unsigned long flags;
+> > > =20
+> > >  	if (!trig)
+> > >  		return;
+> > > =20
+> > > -	read_lock(&trig->leddev_list_lock);
+> > > +	read_lock_irqsave(&trig->leddev_list_lock, flags);
+> > >  	list_for_each_entry(led_cdev, &trig->led_cdevs, trig_list)
+> > >  		led_set_brightness(led_cdev, brightness);
+> > > -	read_unlock(&trig->leddev_list_lock);
+> > > +	read_unlock_irqrestore(&trig->leddev_list_lock, flags);
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(led_trigger_event);
+> >=20
+> > meanwhile this patch hit v5.10.x stable and caused a performance
+> > degradation on our use case:
+> >=20
+> > It's an embedded ARM system, 4x Cortex A53, with an SPI attached CAN
+> > controller. CAN stands for Controller Area Network and here used to
+> > connect to some automotive equipment. Over CAN an ISOTP (a CAN-specific
+> > Transport Protocol) transfer is running. With this patch, we see CAN
+> > frames delayed for ~6ms, the usual gap between CAN frames is 240=C2=B5s.
+> >=20
+> > Reverting this patch, restores the old performance.
+> >=20
+> > What is the best way to solve this dilemma? Identify the critical path
+> > in our use case? Is there a way we can get around the irqsave in
+> > led_trigger_event()?
+> >=20
+>=20
+> Probably, we can change from rwlock to rcu here, POC code as follow,
+> only compile tested. Marc, could you see whether this help the
+> performance on your platform? Please note that I haven't test it in a
+> running kernel and I'm not that familir with led subsystem, so use it
+> with caution ;-)
+>=20
+> (While at it, I think maybe we miss the leddev_list_lock in net/mac80211
+> in the patch)
 
-I went ahead and submitted the series [2]. Feel free either to use the
-last 7 patches from [1], or the series. In either case, if it works
-for you I would expect the Tested-by tag given against _series_.
-Thanks!
-(Or comment there what is not working / needed for your case)
+I can confirm, this patch basically restores the old performance.
 
-[2]: https://lore.kernel.org/linux-pci/20210308122020.57071-1-andriy.shevchenko@linux.intel.com/T/#t
+Marc
 
--- 
-With Best Regards,
-Andy Shevchenko
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--gp7ccw4en57i62vl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmBGOzIACgkQqclaivrt
+76nW3Qf/eyK3mOUT5t9BpkibwM2Ud0Kra3YZ+jvIg3UtRx4w2CmcSXpG2n77/EZv
+S7hHXDnAoqDdPtTRFl+WW6idddlzTA/psg1ODQgyug6UzlEUR0za2vWePVsCLv47
+vyIkJ5pe6SY/Ddi3/1eJgrZhjNNQa6fkOjKztGIYdzCY6gCMgZvUfb31qi2YOXZ5
+FNl9gLy4TvygC2NCV28YbUsRwPNDHA3Qw8E9IJJFoLAfqQG/YFWhM1uONk98hMqO
+kgqdMJIBGYLVcrCnnlMTECAE/DasLl9mIT8PbeiE6S+EMwymd+RDjXTg1ZBurKj1
+KlCuP3BhmQBLtsiqpVIOiQxSBPcZfg==
+=kDN4
+-----END PGP SIGNATURE-----
+
+--gp7ccw4en57i62vl--
