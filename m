@@ -2,108 +2,230 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5B72336F7C
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Mar 2021 11:02:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08F93337386
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Mar 2021 14:13:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232164AbhCKKBa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 11 Mar 2021 05:01:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56828 "EHLO mail.kernel.org"
+        id S233393AbhCKNNR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 11 Mar 2021 08:13:17 -0500
+Received: from smtp1.axis.com ([195.60.68.17]:15038 "EHLO smtp1.axis.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232050AbhCKKBQ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 11 Mar 2021 05:01:16 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6185D64E28;
-        Thu, 11 Mar 2021 10:01:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615456876;
-        bh=qab/eis9z/EVO4w5PPgq80weR20hVeyIMCDATGH6R50=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=jHp1f7PGES6nlvq5NMep8FPviCMAOmmTiHASGwKxs3Bzvb/s/72B58wkw0AoralmH
-         h5wmQTq9vF1wg4lypVJvWisgrIDN4SUSsTm89eyNvyib5r/NO5EgAEhOwvHorajwO0
-         /f5pY4xb/mSiZQSXjwiPA51FUknp+1aDYJ77/VtroHrEzgpNrbrInwOXeE3rPWIfZe
-         gzVTFgnOKJCpWzODRvNa6clxVuztDVZZto4FvbbdhIaI+rFqY8/zqhu+zWtUymFgeX
-         IdLJb1FroG/b+AmmrGd3hLeXvfLbv8Rt+VrCzWMxp1SaEmuMta2yl2ngR5WN+XBREp
-         L+YCVWCY3+nrg==
-Received: by mail-oi1-f178.google.com with SMTP id q130so3579113oif.13;
-        Thu, 11 Mar 2021 02:01:16 -0800 (PST)
-X-Gm-Message-State: AOAM530xTIsmItn9sbCfZGZh7iz4amk6S08EHo+vcdq+fGoZt8Q9WAKm
-        ZtT4tZVVRUX9ALa9/jEUygdHw01pZU6S5+ZmvLQ=
-X-Google-Smtp-Source: ABdhPJy4t7Rk74k7pxLvO4hdxCdt0tjcMRvrr/j1LoTbdX+LVuBhI//3iyrXTRT/KX70UWWohRZKUDvXjsRZ2C5zSzM=
-X-Received: by 2002:aca:5e85:: with SMTP id s127mr5479198oib.67.1615456875566;
- Thu, 11 Mar 2021 02:01:15 -0800 (PST)
+        id S233014AbhCKNMq (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 11 Mar 2021 08:12:46 -0500
+X-Greylist: delayed 430 seconds by postgrey-1.27 at vger.kernel.org; Thu, 11 Mar 2021 08:12:45 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1615468366;
+  x=1647004366;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=PKxcbrdtFXzVaXcDXMV5bGrOudDtSg/m6UMUlPopE4I=;
+  b=JZTk9isx+RbsuR82+vEkmjWfYsBYbfbrYI7B/gw2t8OCDQ1zMAJ/El6j
+   nCU+nuGESF3FJ+usQGRGVCHCJ3mZq+VtQ6XGMJvcaieyHZkuQ1ly9wubX
+   Ar1LiD5FWw8TNTGCE8TZ5ufkfWHUOBqCiIxFmJ2GEYVpK4wI8iDhhMEz4
+   iybGfLfOdg9Z8yakqASIbxZtA0ywTztNQ/Q+Y7Dk/Berq0z68DzbgHD3s
+   Y4WDrFYiOMV6pA2LbGv/6rYcRj4expTujcRFgGCXvEWh0XlrgH2269ERd
+   rAq0mLOy+cLUCFD4JOltc/Y51bSwSLiWz+jywEi6pQM6B5I2WTzAiVkjO
+   w==;
+From:   Hermes Zhang <chenhui.zhang@axis.com>
+To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+CC:     <kernel@axis.com>, Hermes Zhang <chenhuiz@axis.com>,
+        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
+Subject: [PATCH] leds: leds-dual-gpio: Add dual GPIO LEDs driver
+Date:   Thu, 11 Mar 2021 21:04:08 +0800
+Message-ID: <20210311130408.10820-1-chenhui.zhang@axis.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210308153052.2353885-1-arnd@kernel.org> <20210309180851.GA4669@duo.ucw.cz>
- <20210309193910.GA7507@amd> <YEgeoPqCCgTUEsSc@angband.pl> <20210310072831.GA29779@amd>
- <CAK8P3a2+o8N77A_OkP+QD7ntA+M4U26k15Hh1rNN16-afcTp9g@mail.gmail.com>
- <9a74ce79-b7cf-dec1-a64c-d928b5712645@hauke-m.de> <MN2PR19MB3486B88ADF5BE557BEE168AEAF909@MN2PR19MB3486.namprd19.prod.outlook.com>
- <MW2PR1901MB2187816296E1B03F91EB972BD0909@MW2PR1901MB2187.namprd19.prod.outlook.com>
- <MN2PR19MB3693B7620DABED199AA304B5B1909@MN2PR19MB3693.namprd19.prod.outlook.com>
-In-Reply-To: <MN2PR19MB3693B7620DABED199AA304B5B1909@MN2PR19MB3693.namprd19.prod.outlook.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Thu, 11 Mar 2021 11:00:58 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2t-C5_JOcTUcYq1UCiDUDzMibvT0ToHut6hEJCtoj-YA@mail.gmail.com>
-Message-ID: <CAK8P3a2t-C5_JOcTUcYq1UCiDUDzMibvT0ToHut6hEJCtoj-YA@mail.gmail.com>
-Subject: Re: MaxLinear, please maintain your drivers was Re: [PATCH] leds:
- lgm: fix gpiolib dependency
-To:     Rahul Tanwar <rtanwar@maxlinear.com>
-Cc:     Cheol Yong Kim <ckim@maxlinear.com>, Qiming Wu <qwu@maxlinear.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Adam Borowski <kilobyte@angband.pl>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        John Crispin <john@phrozen.org>,
-        Hauke Mehrtens <hmehrtens@maxlinear.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 6:48 AM Rahul Tanwar <rtanwar@maxlinear.com> wrote:
-> Hi Arnd, Pavel,
->
-> Sorry for the hiccup due to missing email address in the email chain duri=
-ng the ownership transition.
->
-> Henceforth, I will be the maintainer for all kernel drivers/code related =
-to =E2=80=9Cformerly Intel=E2=80=99s now MaxLinear=E2=80=99s=E2=80=9D Light=
-ning Mountain SoC.
->
-> Please send any Lightning Mountain SoC related issues email to Rahul Tanw=
-ar (rtanwar@maxlinear.com) and I will ensure that I address the issues in a=
- timely manner.
+From: Hermes Zhang <chenhuiz@axis.com>
 
-Thank you for the reply and for stepping up as maintainer.
+Introduce a new Dual GPIO LED driver. These two GPIOs LED will act as
+one LED as normal GPIO LED but give the possibility to change the
+intensity in four levels: OFF, LOW, MIDDLE and HIGH.
+---
+ drivers/leds/Kconfig          |   9 +++
+ drivers/leds/Makefile         |   1 +
+ drivers/leds/leds-dual-gpio.c | 136 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 146 insertions(+)
+ create mode 100644 drivers/leds/leds-dual-gpio.c
 
-I tend to merge updates to the MAINTAINERS file as bugfixes the file contai=
-ns
-the correct addresses at all times. If you sent an update for this to
-soc@kernel.org,
-I'll get that merged.
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index b6742b4231bf..bc374d3b40ef 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -370,6 +370,15 @@ config LEDS_GPIO
+ 	  defined as platform devices and/or OpenFirmware platform devices.
+ 	  The code to use these bindings can be selected below.
+ 
++config LEDS_DUAL_GPIO
++	tristate "LED Support for Dual GPIO connected LEDs"
++	depends on LEDS_CLASS
++	depends on GPIOLIB || COMPILE_TEST
++	help
++	  This option enables support for the two LEDs connected to GPIO
++	  outputs. These two GPIO LEDs act as one LED in the sysfs and
++	  perform different intensity by enable either one of them or both.
++
+ config LEDS_LP3944
+ 	tristate "LED Support for N.S. LP3944 (Fun Light) I2C chip"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index 2a698df9da57..10015cc81f79 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -30,6 +30,7 @@ obj-$(CONFIG_LEDS_DA903X)		+= leds-da903x.o
+ obj-$(CONFIG_LEDS_DA9052)		+= leds-da9052.o
+ obj-$(CONFIG_LEDS_FSG)			+= leds-fsg.o
+ obj-$(CONFIG_LEDS_GPIO)			+= leds-gpio.o
++obj-$(CONFIG_LEDS_DUAL_GPIO)		+= leds-dual-gpio.o
+ obj-$(CONFIG_LEDS_GPIO_REGISTER)	+= leds-gpio-register.o
+ obj-$(CONFIG_LEDS_HP6XX)		+= leds-hp6xx.o
+ obj-$(CONFIG_LEDS_INTEL_SS4200)		+= leds-ss4200.o
+diff --git a/drivers/leds/leds-dual-gpio.c b/drivers/leds/leds-dual-gpio.c
+new file mode 100644
+index 000000000000..5d3b9be46f4b
+--- /dev/null
++++ b/drivers/leds/leds-dual-gpio.c
+@@ -0,0 +1,136 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * LEDs driver for GPIOs
++ *
++ * Copyright (C) 2021 Axis Communications AB
++ * Hermes Zhang <chenhui.zhang@axis.com>
++ */
++
++#include <linux/err.h>
++#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
++#include <linux/kernel.h>
++#include <linux/leds.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/property.h>
++#include <linux/slab.h>
++
++#define GPIO_LOGICAL_ON   1
++#define GPIO_LOGICAL_OFF  0
++
++struct gpio_dual_leds_priv {
++	struct gpio_desc *low_gpio;
++	struct gpio_desc *high_gpio;
++	struct led_classdev cdev;
++};
++
++
++static void gpio_dual_led_set(struct led_classdev *led_cdev,
++	enum led_brightness value)
++{
++	struct gpio_dual_leds_priv *priv;
++
++	priv = container_of(led_cdev, struct gpio_dual_leds_priv, cdev);
++
++	if (value == LED_FULL) {
++		gpiod_set_value(priv->low_gpio, GPIO_LOGICAL_ON);
++		gpiod_set_value(priv->high_gpio, GPIO_LOGICAL_ON);
++	} else if (value < LED_FULL && value > LED_HALF) {
++		/* Enable high only */
++		gpiod_set_value(priv->low_gpio, GPIO_LOGICAL_OFF);
++		gpiod_set_value(priv->high_gpio, GPIO_LOGICAL_ON);
++	} else if (value <= LED_HALF && value > LED_OFF) {
++		/* Enable low only */
++		gpiod_set_value(priv->low_gpio, GPIO_LOGICAL_ON);
++		gpiod_set_value(priv->high_gpio, GPIO_LOGICAL_OFF);
++	} else {
++		gpiod_set_value(priv->low_gpio, GPIO_LOGICAL_OFF);
++		gpiod_set_value(priv->high_gpio, GPIO_LOGICAL_OFF);
++	}
++}
++
++static int gpio_dual_led_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct device_node *node = dev->of_node;
++	struct gpio_dual_leds_priv *priv = NULL;
++	int ret;
++	const char *state;
++
++	priv = devm_kzalloc(dev, sizeof(struct gpio_dual_leds_priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->low_gpio = devm_gpiod_get(dev, "low", GPIOD_OUT_LOW);
++	ret = PTR_ERR_OR_ZERO(priv->low_gpio);
++	if (ret) {
++		dev_err(dev, "cannot get low-gpios %d\n", ret);
++		return ret;
++	}
++
++	priv->high_gpio = devm_gpiod_get(dev, "high", GPIOD_OUT_LOW);
++	ret = PTR_ERR_OR_ZERO(priv->high_gpio);
++	if (ret) {
++		dev_err(dev, "cannot get high-gpios %d\n", ret);
++		return ret;
++	}
++
++	priv->cdev.name = of_get_property(node, "label", NULL);
++	priv->cdev.max_brightness = LED_FULL;
++	priv->cdev.default_trigger =
++	  of_get_property(node, "linux,default-trigger", NULL);
++	priv->cdev.brightness_set = gpio_dual_led_set;
++
++	ret = devm_led_classdev_register(dev, &priv->cdev);
++	if (ret < 0)
++		return ret;
++
++	if (!of_property_read_string(node, "default-state", &state)
++	    && !strcmp(state, "on"))
++		gpio_dual_led_set(&priv->cdev, LED_FULL);
++	else
++		gpio_dual_led_set(&priv->cdev, LED_OFF);
++
++	platform_set_drvdata(pdev, priv);
++
++	return 0;
++}
++
++static void gpio_dual_led_shutdown(struct platform_device *pdev)
++{
++	struct gpio_dual_leds_priv *priv = platform_get_drvdata(pdev);
++
++	gpio_dual_led_set(&priv->cdev, LED_OFF);
++}
++
++static int gpio_dual_led_remove(struct platform_device *pdev)
++{
++	gpio_dual_led_shutdown(pdev);
++
++	return 0;
++}
++
++static const struct of_device_id of_gpio_dual_leds_match[] = {
++	{ .compatible = "gpio-dual-leds", },
++	{},
++};
++
++MODULE_DEVICE_TABLE(of, of_gpio_dual_leds_match);
++
++static struct platform_driver gpio_dual_led_driver = {
++	.probe		= gpio_dual_led_probe,
++	.remove		= gpio_dual_led_remove,
++	.shutdown	= gpio_dual_led_shutdown,
++	.driver		= {
++		.name	= "leds-dual-gpio",
++		.of_match_table = of_gpio_dual_leds_match,
++	},
++};
++
++module_platform_driver(gpio_dual_led_driver);
++
++MODULE_DESCRIPTION("Dual GPIO LED driver");
++MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("platform:leds-dual-gpio");
+-- 
+2.20.1
 
-Since I think this is an x86 platform, you can alternatively send the same =
-patch
-to the x86 maintainers.
-
-Are you also planning to maintain or add drivers for some of the older SoC
-generations from Ti/Lantiq/Infineon/Intel that are now owned by MaxLinear?
-It would be good to be explicit about which ones of these you are working
-with. From what I can tell, the arch/mips/lantiq/ platform is only for fair=
-ly
-old designs (xrx200 and older), while support for the slightly later mips
-and x86 based chips was submitted a few years ago but never merged.
-
-> I will wait for more details on your fix request for LGM LED driver. Than=
-ks.
-
-From my side, only an Ack on the original bugfix I sent [1] is needed, but
-Pavel had other concerns about the driver. I expect he will follow up on th=
-ose
-with you.
-
-         Arnd
-
-[1] https://lore.kernel.org/lkml/20210308153052.2353885-1-arnd@kernel.org/
