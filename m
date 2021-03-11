@@ -2,62 +2,132 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A73B333780C
-	for <lists+linux-leds@lfdr.de>; Thu, 11 Mar 2021 16:40:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C729F337B71
+	for <lists+linux-leds@lfdr.de>; Thu, 11 Mar 2021 18:57:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234131AbhCKPkS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 11 Mar 2021 10:40:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46378 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234222AbhCKPjx (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 11 Mar 2021 10:39:53 -0500
-Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8335DC061574
-        for <linux-leds@vger.kernel.org>; Thu, 11 Mar 2021 07:39:53 -0800 (PST)
-Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id 56C061408BD;
-        Thu, 11 Mar 2021 16:39:51 +0100 (CET)
-Date:   Thu, 11 Mar 2021 16:39:51 +0100
-From:   Marek Behun <marek.behun@nic.cz>
+        id S229814AbhCKR5F (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 11 Mar 2021 12:57:05 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:54964 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229879AbhCKR4t (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 11 Mar 2021 12:56:49 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 143641C0B77; Thu, 11 Mar 2021 18:56:47 +0100 (CET)
+Date:   Thu, 11 Mar 2021 18:56:46 +0100
+From:   Pavel Machek <pavel@ucw.cz>
 To:     Hermes Zhang <chenhui.zhang@axis.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        <kernel@axis.com>, Hermes Zhang <chenhuiz@axis.com>,
-        <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
+Cc:     Dan Murphy <dmurphy@ti.com>, kernel@axis.com,
+        Hermes Zhang <chenhuiz@axis.com>, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
 Subject: Re: [PATCH] leds: leds-dual-gpio: Add dual GPIO LEDs driver
-Message-ID: <20210311163951.0046fb5c@nic.cz>
-In-Reply-To: <20210311163814.74c1885f@nic.cz>
+Message-ID: <20210311175646.GA11088@duo.ucw.cz>
 References: <20210311130408.10820-1-chenhui.zhang@axis.com>
-        <20210311163814.74c1885f@nic.cz>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="qMm9M+Fa2AknHoGS"
+Content-Disposition: inline
+In-Reply-To: <20210311130408.10820-1-chenhui.zhang@axis.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 11 Mar 2021 16:38:14 +0100
-Marek Behun <marek.behun@nic.cz> wrote:
 
-> LED_FULL, LED_HALF, LED_OFF are deprecated.
-> 
-> And this driver is redundant. This can be done with leds-regulator,
-> with a gpio-regulator.
-> 
-> Marek
+--qMm9M+Fa2AknHoGS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sorry, leds-regulator has only a binary state LED.
+Hi!
 
-Maybe you could extend leds-regulator to be able to use all regulator
-states?
 
-Or you can extend leds-gpio driver to support N states via log N
-gpios, instead of adding new driver.
+> From: Hermes Zhang <chenhuiz@axis.com>
+>=20
+> Introduce a new Dual GPIO LED driver. These two GPIOs LED will act as
+> one LED as normal GPIO LED but give the possibility to change the
+> intensity in four levels: OFF, LOW, MIDDLE and HIGH.
 
-Marek
+Do you have hardware that uses it?
+
+Seems reasonably sane, but:
+
+> +config LEDS_DUAL_GPIO
+> +	tristate "LED Support for Dual GPIO connected LEDs"
+> +	depends on LEDS_CLASS
+> +	depends on GPIOLIB || COMPILE_TEST
+
+This will break compile, right?
+
+Describe which hardware needs it in Kconfig.
+
+> index 2a698df9da57..10015cc81f79 100644
+> --- a/drivers/leds/Makefile
+> +++ b/drivers/leds/Makefile
+
+Put it into leds/simple . You may need to create it.
+
+No dts bindings etc?
+
+> +#define GPIO_LOGICAL_ON   1
+> +#define GPIO_LOGICAL_OFF  0
+
+Let's not do that.
+
+> +	priv =3D container_of(led_cdev, struct gpio_dual_leds_priv, cdev);
+> +
+> +	if (value =3D=3D LED_FULL) {
+> +		gpiod_set_value(priv->low_gpio, GPIO_LOGICAL_ON);
+> +		gpiod_set_value(priv->high_gpio, GPIO_LOGICAL_ON);
+> +	} else if (value < LED_FULL && value > LED_HALF) {
+> +		/* Enable high only */
+> +		gpiod_set_value(priv->low_gpio, GPIO_LOGICAL_OFF);
+> +		gpiod_set_value(priv->high_gpio, GPIO_LOGICAL_ON);
+> +	} else if (value <=3D LED_HALF && value > LED_OFF) {
+> +		/* Enable low only */
+> +		gpiod_set_value(priv->low_gpio, GPIO_LOGICAL_ON);
+> +		gpiod_set_value(priv->high_gpio, GPIO_LOGICAL_OFF);
+> +	} else {
+> +		gpiod_set_value(priv->low_gpio, GPIO_LOGICAL_OFF);
+> +		gpiod_set_value(priv->high_gpio, GPIO_LOGICAL_OFF);
+> +	}
+> +}
+
+Make max brightness 4 and use logical operations to set the right
+values.
+
+> +	priv->cdev.name =3D of_get_property(node, "label", NULL);
+> +	priv->cdev.max_brightness =3D LED_FULL;
+
+=3D 3.
+
+
+> +static const struct of_device_id of_gpio_dual_leds_match[] =3D {
+> +	{ .compatible =3D "gpio-dual-leds", },
+
+Need dts docs for this.
+
+
+> +MODULE_DESCRIPTION("Dual GPIO LED driver");
+> +MODULE_LICENSE("GPL v2");
+
+MODULE_AUTHOR?
+
+GPL v2+ if you can do that easily.
+
+Best regards,
+								Pavel
+
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--qMm9M+Fa2AknHoGS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYEpZ3gAKCRAw5/Bqldv6
+8mJ0AJ9f/8ma0HFtMfdwbHjo117qF//KggCfdOMBp2A2ug22BKkVZdL/UA6RD+M=
+=mBc4
+-----END PGP SIGNATURE-----
+
+--qMm9M+Fa2AknHoGS--
