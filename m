@@ -2,87 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2F4D3384C7
-	for <lists+linux-leds@lfdr.de>; Fri, 12 Mar 2021 05:49:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1C8C33859E
+	for <lists+linux-leds@lfdr.de>; Fri, 12 Mar 2021 07:00:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231816AbhCLEs5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 11 Mar 2021 23:48:57 -0500
-Received: from smtp2.axis.com ([195.60.68.18]:6934 "EHLO smtp2.axis.com"
+        id S229900AbhCLF7e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 12 Mar 2021 00:59:34 -0500
+Received: from lists.nic.cz ([217.31.204.67]:59370 "EHLO mail.nic.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231912AbhCLEsy (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 11 Mar 2021 23:48:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1615524534;
-  x=1647060534;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=rF0+CeiqNT/JL8EaOzph1Uz1foa3kNRnCcYH1amvbB8=;
-  b=JAmXyeQQk1/4h0tHzAMP4b53IcIudRNHw5VZTiDPEeBGlC69YOtOzgdf
-   9ZEMQsYtkIra6XlKCRS8OTSZ9ySKWs/UpiXPjRzVyXiOi1fcQGA+9QtVQ
-   3LlleO4Avzcs6USpWniEv4xQiFQAILgdlxSb1u9lgpdMSgkuiaAIXY2PN
-   utSuoa6Kr0cf5M4XVo/iVoreEbbyJDbCfsINYKP3p2GjPgSAvdxrqcFsC
-   JhpyMn9kN49Dl+IVKBL/+w4FzfDiT4WzntkwSYBoE0TDPQDWj1rOBofLE
-   dPGUusZr5KUO7FNe9A2hXju0Is1UcRg6OsCkyBCS7OkplJnW7+fI5ie7g
-   g==;
-From:   Hermes Zhang <Hermes.Zhang@axis.com>
-To:     Marek Behun <marek.behun@nic.cz>
-CC:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        id S229470AbhCLF70 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 12 Mar 2021 00:59:26 -0500
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id 4FBC21409D7;
+        Fri, 12 Mar 2021 06:59:24 +0100 (CET)
+Date:   Fri, 12 Mar 2021 06:59:22 +0100
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Hermes Zhang <Hermes.Zhang@axis.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
         kernel <kernel@axis.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: RE: [PATCH] leds: leds-dual-gpio: Add dual GPIO LEDs driver
-Thread-Topic: [PATCH] leds: leds-dual-gpio: Add dual GPIO LEDs driver
-Thread-Index: AQHXFnc53ECqmB4gek68ETSLZV586Kp+22cAgAAAc4CAANwtQA==
-Date:   Fri, 12 Mar 2021 04:48:52 +0000
-Message-ID: <161920e0746e4c0daff7f83163b71677@XBOX03.axis.com>
+Subject: Re: [PATCH] leds: leds-dual-gpio: Add dual GPIO LEDs driver
+Message-ID: <20210312065922.53468d07@nic.cz>
+In-Reply-To: <161920e0746e4c0daff7f83163b71677@XBOX03.axis.com>
 References: <20210311130408.10820-1-chenhui.zhang@axis.com>
-        <20210311163814.74c1885f@nic.cz> <20210311163951.0046fb5c@nic.cz>
-In-Reply-To: <20210311163951.0046fb5c@nic.cz>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        <20210311163814.74c1885f@nic.cz>
+        <20210311163951.0046fb5c@nic.cz>
+        <161920e0746e4c0daff7f83163b71677@XBOX03.axis.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
->=20
-> Sorry, leds-regulator has only a binary state LED.
->=20
-> Maybe you could extend leds-regulator to be able to use all regulator sta=
-tes?
->=20
-> Or you can extend leds-gpio driver to support N states via log N gpios,
-> instead of adding new driver.
+On Fri, 12 Mar 2021 04:48:52 +0000
+Hermes Zhang <Hermes.Zhang@axis.com> wrote:
 
-It seems a good idea to extend leds-gpio, so in my case, I should have such=
- dts:
+> > 
+> > Sorry, leds-regulator has only a binary state LED.
+> > 
+> > Maybe you could extend leds-regulator to be able to use all regulator states?
+> > 
+> > Or you can extend leds-gpio driver to support N states via log N gpios,
+> > instead of adding new driver.  
+> 
+> It seems a good idea to extend leds-gpio, so in my case, I should have such dts:
+> 
+>  63         leds {
+>  64                 compatible = "gpio-leds";
+>  65 
+>  66                 recording_front {
+>  67                         label = "recording_front:red";
+>  68                         gpios = <&gpio 130 GPIO_ACTIVE_HIGH>, <&gpio 129 GPIO_ACTIVE_HIGH>;
+>  69                         default-state = "off";
+>  70                 };
+>  71         };
+> 
+> For my case, two leds is enough, but it sill easy to extend the support number bigger than two. And the length of gpios array is not fixed, so it could compatible with exist "gpio-leds" dts, right? 
+> 
+> If this idea work, should I create a new commit or still in this track (V2)?
 
- 63         leds {
- 64                 compatible =3D "gpio-leds";
- 65=20
- 66                 recording_front {
- 67                         label =3D "recording_front:red";
- 68                         gpios =3D <&gpio 130 GPIO_ACTIVE_HIGH>, <&gpio =
-129 GPIO_ACTIVE_HIGH>;
- 69                         default-state =3D "off";
- 70                 };
- 71         };
+However you want :)
 
-For my case, two leds is enough, but it sill easy to extend the support num=
-ber bigger than two. And the length of gpios array is not fixed, so it coul=
-d compatible with exist "gpio-leds" dts, right?=20
+Look at the states property of gpio regulator:
+https://www.kernel.org/doc/Documentation/devicetree/bindings/regulator/gpio-regulator.yaml
 
-If this idea work, should I create a new commit or still in this track (V2)=
-?
+It is possible to have a multi-GPIO LED which brightness is set via N
+GPIOs and it has 2^N brightness states encoded by binary values of
+those GPIOs, but it is entirely possible to have less than 2^N states,
+or that the states are encoded in a different way.
 
-Best Regards,
-Hermes=20
+In the first version though imlpemenent just the simplest case: N GPIOs
+with 2^N states.
 
->=20
-> Marek
+Marek
