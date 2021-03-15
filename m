@@ -2,56 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 765ED33B006
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Mar 2021 11:32:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A800933B04F
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Mar 2021 11:49:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229932AbhCOKby (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 Mar 2021 06:31:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56138 "EHLO
+        id S230026AbhCOKso (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 15 Mar 2021 06:48:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229720AbhCOKb2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Mar 2021 06:31:28 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0E8C061574;
-        Mon, 15 Mar 2021 03:31:28 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id y67so6298025pfb.2;
-        Mon, 15 Mar 2021 03:31:28 -0700 (PDT)
+        with ESMTP id S229699AbhCOKsg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Mar 2021 06:48:36 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45547C061574;
+        Mon, 15 Mar 2021 03:48:36 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id q6-20020a17090a4306b02900c42a012202so14527517pjg.5;
+        Mon, 15 Mar 2021 03:48:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6PdMcbuBDVYu4pfnkkEXp7Zeyvz8D3r+uXiYvPZcDso=;
-        b=vDerLbS2szcXcEP6NFNqJJTkBnnr7RjyysW/E0XcGAGLEq0BpSXuB5ojeHGbDNck5P
-         oHvtKNAtnXrkDlbc1aVWKdCrA/FpNP+zClF58ftFJeTZjtjUQ+e8v1DChN3eM23+IMxp
-         Hc4Fyqy4MqaGwTXwy/r7XSiyqvyzWN6EdsQcXpwHrccSGftvjSPPXxUaqPVEUsjqptqf
-         mbPvXMeSSkqZpkYs9bzfbx+gHPEGdiQmKMtl7KViFPhSRWaMo2C6umAB23Gh0km/oUa4
-         aj96y8/66oMP8hUkYG9iVQixNcUJbzEmSH1GbBIW+QKEOzcfG+9Nspe42dSGSH4rZA9J
-         U9Jw==
+        bh=nGWke0czgNYyxSiHwwNFZAryWQ9+29nl3UKGpKstc10=;
+        b=RfTHxJOAs1v6q8YtYod9qtIBNKoLZqKB61qtqNhD1sTAPQLw2R/U2GLWvS3G5ZTDgx
+         taGpWoetfbN9R0Byff/i9kxyuEL0y1j7KDv2oaSuitEje9zXIKq9qVgivSEwdkGEDlam
+         g7KMtY+OBNprKp9J02cvoa/hXfSQJk0x9Wxpvu6vGsiYba3UNFOeAoEMKPHq3IYWZ72N
+         um/X5+wbVpIyWt50AJ6sWnhbhLp0oKDCJp4N+BfMlTOEjabx/LSH3KSMXvdW2U8aA4kE
+         AqWIgF18pyG3KWJrdDBFGVJRXRcs2Zb4+ooW3yNt9vcoyYndq2H1PULKn6Pnv1Sjc9ii
+         bS2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6PdMcbuBDVYu4pfnkkEXp7Zeyvz8D3r+uXiYvPZcDso=;
-        b=iL0yqJtqfVLrME6S14byDX/txCmZh0r3MLUdYd4FaeM3My9RZT7XAOAF7/XY/8GRYB
-         kIfG8GAjFKckhILdUQSOjmx5s9VfaRDfQMEyUJxU0Ifnin4P0/kCnMVRPU9RqOdWBwXY
-         VjPuxMPB1sDo4v9NjlmLC9eM/bV+PJh6xl2e5JktiaLN5naZi9BVpMccVMfc7W22+6xG
-         LFrr2P8wL33W853sa49QCzTmgzMCkxllLwIlvTklXH1JrJnesNX1lOE6RPpqdAfpfBCy
-         L8EqAw6XcElqqqz+MhmKS9d0zAooR6PWGgiAUY6bJQzh+9sJr8d8PInMijzzId6cvkk1
-         F7oA==
-X-Gm-Message-State: AOAM5315Inzg5j2V57rQxz6++0kTkySEASm75hpRenEEaev2huw5GUJh
-        10eEIy4IHOdlwltNwlBPKLPRZuGoILySi5tf2BM=
-X-Google-Smtp-Source: ABdhPJyHWGsmCNhd61PqCgK3SsbcfpQfxMOyuLLgU8rBG7ONOLaDWA6yK76yx3cFkaiCa5am1VGB0HU9WFDVffVL/dA=
-X-Received: by 2002:a62:7c43:0:b029:1ef:20ce:ba36 with SMTP id
- x64-20020a627c430000b02901ef20ceba36mr24341655pfc.40.1615804287645; Mon, 15
- Mar 2021 03:31:27 -0700 (PDT)
+        bh=nGWke0czgNYyxSiHwwNFZAryWQ9+29nl3UKGpKstc10=;
+        b=P9HLb0Mc21VD622AtCZDE9FHu7cW8N8EVZgiqNG01iSbGcYN1nwBC+4qqOL6LpTU1o
+         Espz1gr3KAeYq8BeuF/0cdn8WdgiwS+a95cpmoz2QFrPl9NN5AMEfD7uXpLqE/xIRMtX
+         PBxoQOVI5lVLWHqZDPBqezS55OlsSYyr1WGtXN8t6WDEuWdpmkU7x0MBndCnu8+qtfTh
+         JX/o/Yuh+Wc6tz2RWAGRM9hsqQxMSpNjoUScaFdGxiNAZ4pPm6XTwS/utmtkuxJ7w7V6
+         0cD2D4tdqkl+Xzmuo0jMwpLqO2x4kK6pwQauA7TVZ+XjMX5QYldyGoY6CJK9Kn5nOSew
+         7pBg==
+X-Gm-Message-State: AOAM531tY32jxg7KH1YbUaO6eIj6i87JPDN+8kwQlQQPM4945cX/AhCa
+        UFzr8KeCWs7qmtW4A9DtE9e2+dotigmJX4gD+00=
+X-Google-Smtp-Source: ABdhPJxUg6z9VHVuMXl4qieB7QkWMCiDWAxE1J+2udCfiXk0uOsZtWPXCiYNikuRNWvvKdnV4LyQ2+U5C+FaZQe8g5g=
+X-Received: by 2002:a17:902:c808:b029:e6:4204:f62f with SMTP id
+ u8-20020a170902c808b02900e64204f62fmr11467621plx.0.1615805315699; Mon, 15 Mar
+ 2021 03:48:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210315095710.7140-1-henning.schild@siemens.com> <20210315095710.7140-2-henning.schild@siemens.com>
-In-Reply-To: <20210315095710.7140-2-henning.schild@siemens.com>
+References: <20210315095710.7140-1-henning.schild@siemens.com> <20210315095710.7140-3-henning.schild@siemens.com>
+In-Reply-To: <20210315095710.7140-3-henning.schild@siemens.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 15 Mar 2021 12:31:11 +0200
-Message-ID: <CAHp75VdXDcTfNL9QRQ5XE-zVLHacfMKHUxhse3=dAfJbOJdObQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] platform/x86: simatic-ipc: add main driver for
- Siemens devices
+Date:   Mon, 15 Mar 2021 12:48:19 +0200
+Message-ID: <CAHp75VcBdR8xqfWqKe+DwGAUYByVL7SBK0p7tHcKPs7m4Ay1iw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] leds: simatic-ipc-leds: add new driver for Siemens
+ Industial PCs
 To:     Henning Schild <henning.schild@siemens.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
@@ -70,149 +70,184 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Mar 15, 2021 at 12:02 PM Henning Schild
+On Mon, Mar 15, 2021 at 11:57 AM Henning Schild
 <henning.schild@siemens.com> wrote:
 >
-> This mainly implements detection of these devices and will allow
-> secondary drivers to work on such machines.
->
-> The identification is DMI-based with a vendor specific way to tell them
-> apart in a reliable way.
->
-> Drivers for LEDs and Watchdogs will follow to make use of that platform
-> detection.
+> This driver adds initial support for several devices from Siemens. It is
+> based on a platform driver introduced in an earlier commit.
 
 ...
 
-> +static int register_platform_devices(u32 station_id)
+> +struct simatic_ipc_led {
+> +       unsigned int value; /* mask for io and offset for mem */
+
+> +       char name[32];
+
+Hmm... Dunno if LED framework defines its own constraints for the
+length of the name.
+
+> +       struct led_classdev cdev;
+> +};
+> +
+> +static struct simatic_ipc_led simatic_ipc_leds_io[] = {
+> +       {1 << 15, "simatic-ipc:green:" LED_FUNCTION_STATUS "-1" },
+> +       {1 << 7,  "simatic-ipc:yellow:" LED_FUNCTION_STATUS "-1" },
+> +       {1 << 14, "simatic-ipc:red:" LED_FUNCTION_STATUS "-2" },
+> +       {1 << 6,  "simatic-ipc:yellow:" LED_FUNCTION_STATUS "-2" },
+> +       {1 << 13, "simatic-ipc:red:" LED_FUNCTION_STATUS "-3" },
+> +       {1 << 5,  "simatic-ipc:yellow:" LED_FUNCTION_STATUS "-3" },
+
+Can you use BIT() macro here? And can it be sorted by the bit order?
+
+> +       {0, ""},
+
+{ } is enough (no comma for terminator lines in general, and no need
+to show structure member assignments separately in particular).
+
+> +};
+> +
+> +/* the actual start will be discovered with pci, 0 is a placeholder */
+
+PCI
+
+> +struct resource simatic_ipc_led_mem_res =
+> +       DEFINE_RES_MEM_NAMED(0, SZ_4K, KBUILD_MODNAME);
+
+One line?
+
+...
+
+> +static struct simatic_ipc_led simatic_ipc_leds_mem[] = {
+> +       {0x500 + 0x1A0, "simatic-ipc:red:" LED_FUNCTION_STATUS "-1"},
+> +       {0x500 + 0x1A8, "simatic-ipc:green:" LED_FUNCTION_STATUS "-1"},
+> +       {0x500 + 0x1C8, "simatic-ipc:red:" LED_FUNCTION_STATUS "-2"},
+> +       {0x500 + 0x1D0, "simatic-ipc:green:" LED_FUNCTION_STATUS "-2"},
+> +       {0x500 + 0x1E0, "simatic-ipc:red:" LED_FUNCTION_STATUS "-3"},
+> +       {0x500 + 0x198, "simatic-ipc:green:" LED_FUNCTION_STATUS "-3"},
+> +       {0, ""},
+
+As per above.
+
+> +};
+
+...
+
+> +       struct simatic_ipc_led *led =
+> +               container_of(led_cd, struct simatic_ipc_led, cdev);
+
+One line?
+
+...
+
+> +       struct simatic_ipc_led *led =
+> +               container_of(led_cd, struct simatic_ipc_led, cdev);
+
+One line?
+
+...
+
+> +       struct simatic_ipc_led *led =
+> +               container_of(led_cd, struct simatic_ipc_led, cdev);
+
+Ditto.
+
+
+Btw, usually for such cases we create an inline helper
+... to_simatic_ipc_led(...)
+{
+  return container_of(...);
+}
+
+...
+
+> +static int simatic_ipc_leds_probe(struct platform_device *pdev)
 > +{
-> +       u8 ledmode = SIMATIC_IPC_DEVICE_NONE;
-> +       u8 wdtmode = SIMATIC_IPC_DEVICE_NONE;
-> +       int i;
-> +
-> +       platform_data.devmode = SIMATIC_IPC_DEVICE_NONE;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(device_modes); i++) {
-> +               if (device_modes[i].station_id == station_id) {
-> +                       ledmode = device_modes[i].led_mode;
-> +                       wdtmode = device_modes[i].wdt_mode;
-> +                       break;
+> +       struct simatic_ipc_platform *plat;
+
+const?
+
+> +       struct device *dev = &pdev->dev;
+> +       struct simatic_ipc_led *ipcled;
+> +       struct led_classdev *cdev;
+> +       struct resource *res;
+> +       int err, type;
+> +       u32 *p;
+
+> +       plat = pdev->dev.platform_data;
+
+Can be done directly in the definition block.
+
+> +       switch (plat->devmode) {
+> +       case SIMATIC_IPC_DEVICE_227D:
+> +       case SIMATIC_IPC_DEVICE_427E:
+> +               res = &simatic_ipc_led_io_res;
+> +               ipcled = simatic_ipc_leds_io;
+> +               /* the 227D is high on while 427E is low on, invert the struct
+> +                * we have
+> +                */
+> +               if (plat->devmode == SIMATIC_IPC_DEVICE_227D) {
+
+> +                       while (ipcled->value) {
+> +                               ipcled->value = swab16(ipcled->value);
+> +                               ipcled++;
+> +                       }
+
+This seems fishy. If you have a BE CPU it won't work the same way.
+Better:
+ a) to use cpu_to_le16 / be16
+ b) create this as a helper that we may move to the generic header of byteorder.
+
+But looking at the use of it, perhaps you rather need to redefine IO
+accessors, i.e. ioread16()/iowrite16() vs. ioread16be()/iowrite16be().
+
+> +                       ipcled = simatic_ipc_leds_io;
 > +               }
+> +               type = IORESOURCE_IO;
+> +               if (!devm_request_region(dev, res->start,
+> +                                        resource_size(res),
+> +                                        KBUILD_MODNAME)) {
+> +                       dev_err(dev,
+> +                               "Unable to register IO resource at %pR\n",
+> +                               res);
+> +                       return -EBUSY;
+> +               }
+> +               break;
+> +       case SIMATIC_IPC_DEVICE_127E:
+> +               res = &simatic_ipc_led_mem_res;
+> +               ipcled = simatic_ipc_leds_mem;
+> +               type = IORESOURCE_MEM;
+> +
+> +               /* get GPIO base from PCI */
+> +               res->start = simatic_ipc_get_membase0(PCI_DEVFN(13, 0));
+> +               if (res->start == 0)
+> +                       return -ENODEV;
+> +
+> +               /* do the final address calculation */
+> +               res->start = res->start + (0xC5 << 16);
+
+Magic. As I told you this is an actual offseet in the P2SB's bar for
+GPIO registers.
+I have a question, why we can't provide a GPIO driver which is already
+in the kernel and, with use of the patch series I sent, to convert
+this all magic to GPIO LEDs as it's done for all normal cases?
+
+> +               res->end += res->start;
+> +
+> +               simatic_ipc_led_memory = devm_ioremap_resource(dev, res);
+> +               if (IS_ERR(simatic_ipc_led_memory))
+> +                       return PTR_ERR(simatic_ipc_led_memory);
+> +
+> +               /* initialize power/watchdog LED */
+> +               p = simatic_ipc_led_memory + 0x500 + 0x1D8; /* PM_WDT_OUT */
+> +               *p = (*p & ~1);
+> +               p = simatic_ipc_led_memory + 0x500 + 0x1C0; /* PM_BIOS_BOOT_N */
+> +               *p = (*p | 1);
+> +
+> +               break;
+> +       default:
+> +               return -ENODEV;
 > +       }
-> +
-> +       if (ledmode != SIMATIC_IPC_DEVICE_NONE) {
-> +               platform_data.devmode = ledmode;
-> +               ipc_led_platform_device =
-> +                       platform_device_register_data(NULL,
-> +                               KBUILD_MODNAME "_leds", PLATFORM_DEVID_NONE,
-> +                               &platform_data,
-> +                               sizeof(struct simatic_ipc_platform));
-> +               if (IS_ERR(ipc_led_platform_device))
-> +                       return PTR_ERR(ipc_led_platform_device);
-> +
-> +               pr_debug("device=%s created\n",
-> +                        ipc_led_platform_device->name);
-> +       }
-> +
-> +       if (wdtmode != SIMATIC_IPC_DEVICE_NONE) {
-> +               platform_data.devmode = wdtmode;
-> +               ipc_wdt_platform_device =
-> +                       platform_device_register_data(NULL,
-> +                               KBUILD_MODNAME "_wdt", PLATFORM_DEVID_NONE,
-> +                               &platform_data,
-> +                               sizeof(struct simatic_ipc_platform));
-> +               if (IS_ERR(ipc_wdt_platform_device))
-> +                       return PTR_ERR(ipc_wdt_platform_device);
-> +
-> +               pr_debug("device=%s created\n",
-> +                        ipc_wdt_platform_device->name);
-> +       }
-> +
-> +       if (ledmode == SIMATIC_IPC_DEVICE_NONE &&
-> +           wdtmode == SIMATIC_IPC_DEVICE_NONE) {
-> +               pr_warn("unsupported IPC detected, station id=%08x\n",
-> +                       station_id);
-> +               return -EINVAL;
-> +       }
-> +
-> +       return 0;
-> +}
 
-Why not use MFD here?
-
-...
-
-> +/*
-> + * Get membase address from PCI, used in leds and wdt modul. Here we read
-> + * the bar0. The final address calculation is done in the appropriate modules
-> + */
-
-No blank line here.
-
-I would add FIXME or REVISIT here to point out that this should be
-deduplicated in the future.
-
-> +u32 simatic_ipc_get_membase0(unsigned int p2sb)
-> +{
-> +       struct pci_bus *bus;
-> +       u32 bar0 = 0;
-> +
-> +       /*
-> +        * The GPIO memory is bar0 of the hidden P2SB device. Unhide the device
-
-No, it's not a GPIO's bar. It's P2SB's one. GPIO resides in that bar somewhere.
-
-> +        * to have a quick look at it, before we hide it again.
-> +        * Also grab the pci rescan lock so that device does not get discovered
-> +        * and remapped while it is visible.
-> +        * This code is inspired by drivers/mfd/lpc_ich.c
-> +        */
-> +       bus = pci_find_bus(0, 0);
-> +       pci_lock_rescan_remove();
-> +       pci_bus_write_config_byte(bus, p2sb, 0xE1, 0x0);
-> +       pci_bus_read_config_dword(bus, p2sb, PCI_BASE_ADDRESS_0, &bar0);
-> +
-> +       bar0 &= ~0xf;
-> +       pci_bus_write_config_byte(bus, p2sb, 0xE1, 0x1);
-> +       pci_unlock_rescan_remove();
-> +
-> +       return bar0;
-> +}
-> +EXPORT_SYMBOL(simatic_ipc_get_membase0);
-
-...
-
-> +static inline u32 simatic_ipc_get_station_id(u8 *data, int max_len)
-> +{
-> +       u32 station_id = SIMATIC_IPC_INVALID_STATION_ID;
-> +       int i;
-
-Reversed xmas tree order, please.
-
-> +       struct {
-> +               u8      type;           /* type (0xff = binary) */
-> +               u8      len;            /* len of data entry */
-> +               u8      reserved[3];
-> +               u32     station_id;     /* station id (LE) */
-
-> +       } __packed
-> +       *data_entry = (void *)data + sizeof(struct dmi_header);
-
-Can be one line.
-
-> +       /* find 4th entry in OEM data */
-> +       for (i = 0; i < 3; i++)
-
-3 is magic!
-
-> +               data_entry = (void *)((u8 *)(data_entry) + data_entry->len);
-> +
-> +       /* decode station id */
-> +       if (data_entry && (u8 *)data_entry < data + max_len &&
-> +           data_entry->type == 0xff && data_entry->len == 9)
-> +               station_id = le32_to_cpu(data_entry->station_id);
-> +
-> +       return station_id;
 > +}
 
 -- 
