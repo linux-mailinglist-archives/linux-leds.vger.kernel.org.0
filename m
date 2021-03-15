@@ -2,88 +2,196 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC13133C2A6
-	for <lists+linux-leds@lfdr.de>; Mon, 15 Mar 2021 17:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5F533C324
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Mar 2021 18:01:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231584AbhCOQ4e (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 15 Mar 2021 12:56:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234178AbhCOQ41 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 15 Mar 2021 12:56:27 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C641DC06175F
-        for <linux-leds@vger.kernel.org>; Mon, 15 Mar 2021 09:56:25 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id r3so49799716lfc.13
-        for <linux-leds@vger.kernel.org>; Mon, 15 Mar 2021 09:56:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=nn1W9Wc+k1CJYE8WxkSJGXK0N+qf/mcCb4Whw81sCBc=;
-        b=AVa2XIefE2YYL21kVeTHcb3FQjobiotsQTLl1E6YLA/sPxmnptoKHUUFg5rKJgTkLB
-         bAsUsM0Y5Ak94ra4r1w44W0hJFIYlsShTdp5F7Z5eM5g8rQowxUKMEGekVN3xnw7G+iU
-         noqfNv5DJuUQRyHJ7z7z+L/UuDP5PsfM9+y7Ix1QD+QklM3ReeYA2OVhYXEwC22MG86e
-         chpAcWTnpMddCyuOCANGHQ0+ZhNsI148zb25ZiNbl5q/oSxdffbQOjYyUatznlNOWrYn
-         e44mvBUTgCwzH/+zCt78IUkeSrXe7GlYJwhxynn6qd2lpdL5i3Lioh/xO9UdyaEE3h10
-         MU1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=nn1W9Wc+k1CJYE8WxkSJGXK0N+qf/mcCb4Whw81sCBc=;
-        b=jlpMMVj7XyC1+RDSqss98uX3LqMPmI5myrNiMrLK1kibiMfabFNQbdciEYPxaSDtvj
-         yocCzDQJMVkFfwEEiw2AtyFFyj0Die3IhGkhzPf2mL860dkF2U3K/bHcEKN5M602mVqd
-         IF7jpPZYHN4Bp/rSJUEEH60+bO2YBXkPmGwPoe3EppwNMDt4stluz1PYw2L8eYMKmfZi
-         ASbhz9Cc7RCFR+cVIJwOBvbZHpUlz7MneHRNOz0PqxBsil/EldT9VabrS1VSEx5ybaxv
-         S+Kqb/nuQARlMqEMKWqFpDchNRxvuE6ZztzqnN/k0WnSMqAs4AGehsQJvTkY2PAo3ikl
-         suuw==
-X-Gm-Message-State: AOAM532K1fis5NFe3QKgpK/BSibGRU5lh3C/Fguck7XhBJBqUmJi0JQg
-        sal8zHaP2RYMnM+o/3Uy1hY5a8zE7YJrq6RjEUk=
-X-Google-Smtp-Source: ABdhPJyHYVwfar24OBjivCWja6lr1jdEuNaApBmSrWhsteFBK4XVaayZqnWhr6HYgr7xgMh1yFBFq308gbQmVn7m5Q4=
-X-Received: by 2002:a19:ee0d:: with SMTP id g13mr8762732lfb.38.1615827384280;
- Mon, 15 Mar 2021 09:56:24 -0700 (PDT)
+        id S232381AbhCORAu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 15 Mar 2021 13:00:50 -0400
+Received: from lizzard.sbs.de ([194.138.37.39]:43061 "EHLO lizzard.sbs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235783AbhCORAl (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 15 Mar 2021 13:00:41 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 12FH0Elx009549
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 15 Mar 2021 18:00:14 +0100
+Received: from md1za8fc.ad001.siemens.net ([139.22.41.172])
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 12FH0DGA001450;
+        Mon, 15 Mar 2021 18:00:13 +0100
+Date:   Mon, 15 Mar 2021 18:00:11 +0100
+From:   Henning Schild <henning.schild@siemens.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-watchdog@vger.kernel.org,
+        Srikanth Krishnakar <skrishnakar@gmail.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH] platform/x86: pmc_atom: use callback for all dmi quirk
+ entries
+Message-ID: <20210315180011.6a3f60b0@md1za8fc.ad001.siemens.net>
+In-Reply-To: <8577f3a8-c5e4-3752-1bc1-5937ee164217@redhat.com>
+References: <ef5fe493-285d-145c-8d05-7f9bd0cb47c5@redhat.com>
+        <20210315145855.17174-1-henning.schild@siemens.com>
+        <8577f3a8-c5e4-3752-1bc1-5937ee164217@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:a05:651c:1382:0:0:0:0 with HTTP; Mon, 15 Mar 2021 09:56:23
- -0700 (PDT)
-Reply-To: ezbtg22@gmail.com
-From:   "Mrs.Glenn" <mrganuserge@gmail.com>
-Date:   Mon, 15 Mar 2021 09:56:23 -0700
-Message-ID: <CA+Wfa7YJ6_O3gxdmzSdh3QHBbKX4wr1TvkG-oZZycbAp8RppmA@mail.gmail.com>
-Subject: From Mrs.Glenn
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
--- 
-Dear Beloved,
+Am Mon, 15 Mar 2021 17:31:49 +0100
+schrieb Hans de Goede <hdegoede@redhat.com>:
 
-I am Mrs Elizabet Glenn from Israel. I am a missionary but right now
-in a hospital bed in Israel. I am 59 years and childless; my husband
-is dead. I was diagnosed with terminal cancer. And my doctor just
-predicted that I have but very limited time to live due to damages in
-my system and as a result of that I decided to dispose my 10.5 million
-US dollars to a God-fearing one for the continuation of charitable
-work. This is why I located you.My guess about you may not be accurate
-because I came across your contact at the humanitarian calendar event
-of the year but I believe in God who  divinely directed me to you for
-this solemn proposal of charitable work. I wholeheartedly wish to
-bequeath my fortune to you as a God-fearing person for the
-continuation of charitable work anywhere around the world.
+> Hi,
+> 
+> On 3/15/21 3:58 PM, Henning Schild wrote:
+> > Introduce a global variable to remember the matching entry for later
+> > printing. Also having a callback allows to stop matching after the
+> > first hit.
+> > 
+> > Signed-off-by: Henning Schild <henning.schild@siemens.com>
+> > ---
+> >  drivers/platform/x86/pmc_atom.c | 26 ++++++++++++++++++++------
+> >  1 file changed, 20 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/platform/x86/pmc_atom.c
+> > b/drivers/platform/x86/pmc_atom.c index 38542d547f29..d0f74856cd8b
+> > 100644 --- a/drivers/platform/x86/pmc_atom.c
+> > +++ b/drivers/platform/x86/pmc_atom.c
+> > @@ -364,8 +364,16 @@ static void pmc_dbgfs_register(struct pmc_dev
+> > *pmc) #endif /* CONFIG_DEBUG_FS */
+> >  
+> >  static bool pmc_clk_is_critical = true;
+> > +static const struct dmi_system_id *dmi_critical;
+> >  
+> > -static int siemens_clk_is_critical(const struct dmi_system_id *d)
+> > +static int dmi_callback(const struct dmi_system_id *d)
+> > +{
+> > +	dmi_critical = d;  
+> 
+> Don't introduce a global variable for this please. Instead just
+> directly print the ident of the matching dmi_system_id here.
 
-I shall be going in for a surgery operations soonest and desire this
-money to be transferred to you as I do not wish to leave this money in
-the bank because bankers might misuse it for their own interest after
-my death. As soon as I receive your quick reply assuring me that you
-will utilize the money as I instructed you for the benefit of the less
-privilege, I shall give you more details and also instruct my bank to
-release the money to you for the charity project. I hope you receive
-this mail in good health.
+Sorry, missed that part. Result looks nice and clean, thanks. I think i
+will squash it into 4/4 in v3 and not follow up here for now.
 
-Because I don t know what will be my situation in next minute,
+Henning
 
-I am waiting for your reply.
+> Regards,
+> 
+> Hans
+> 
+> 
+> > +
+> > +	return 1;
+> > +}
+> > +
+> > +static int dmi_callback_siemens(const struct dmi_system_id *d)
+> >  {
+> >  	u32 st_id;
+> >  
+> > @@ -373,7 +381,7 @@ static int siemens_clk_is_critical(const struct
+> > dmi_system_id *d) goto out;
+> >  
+> >  	if (st_id == SIMATIC_IPC_IPC227E || st_id ==
+> > SIMATIC_IPC_IPC277E)
+> > -		return 1;
+> > +		return dmi_callback(d);
+> >  
+> >  out:
+> >  	pmc_clk_is_critical = false;
+> > @@ -388,6 +396,7 @@ static const struct dmi_system_id
+> > critclk_systems[] = { {
+> >  		/* pmc_plt_clk0 is used for an external HSIC USB
+> > HUB */ .ident = "MPL CEC1x",
+> > +		.callback = dmi_callback,
+> >  		.matches = {
+> >  			DMI_MATCH(DMI_SYS_VENDOR, "MPL AG"),
+> >  			DMI_MATCH(DMI_PRODUCT_NAME, "CEC10
+> > Family"), @@ -396,6 +405,7 @@ static const struct dmi_system_id
+> > critclk_systems[] = { {
+> >  		/* pmc_plt_clk0 - 3 are used for the 4 ethernet
+> > controllers */ .ident = "Lex 3I380D",
+> > +		.callback = dmi_callback,
+> >  		.matches = {
+> >  			DMI_MATCH(DMI_SYS_VENDOR, "Lex BayTrail"),
+> >  			DMI_MATCH(DMI_PRODUCT_NAME, "3I380D"),
+> > @@ -404,6 +414,7 @@ static const struct dmi_system_id
+> > critclk_systems[] = { {
+> >  		/* pmc_plt_clk* - are used for ethernet
+> > controllers */ .ident = "Lex 2I385SW",
+> > +		.callback = dmi_callback,
+> >  		.matches = {
+> >  			DMI_MATCH(DMI_SYS_VENDOR, "Lex BayTrail"),
+> >  			DMI_MATCH(DMI_PRODUCT_NAME, "2I385SW"),
+> > @@ -412,6 +423,7 @@ static const struct dmi_system_id
+> > critclk_systems[] = { {
+> >  		/* pmc_plt_clk* - are used for ethernet
+> > controllers */ .ident = "Beckhoff CB3163",
+> > +		.callback = dmi_callback,
+> >  		.matches = {
+> >  			DMI_MATCH(DMI_SYS_VENDOR, "Beckhoff
+> > Automation"), DMI_MATCH(DMI_BOARD_NAME, "CB3163"),
+> > @@ -420,6 +432,7 @@ static const struct dmi_system_id
+> > critclk_systems[] = { {
+> >  		/* pmc_plt_clk* - are used for ethernet
+> > controllers */ .ident = "Beckhoff CB4063",
+> > +		.callback = dmi_callback,
+> >  		.matches = {
+> >  			DMI_MATCH(DMI_SYS_VENDOR, "Beckhoff
+> > Automation"), DMI_MATCH(DMI_BOARD_NAME, "CB4063"),
+> > @@ -428,6 +441,7 @@ static const struct dmi_system_id
+> > critclk_systems[] = { {
+> >  		/* pmc_plt_clk* - are used for ethernet
+> > controllers */ .ident = "Beckhoff CB6263",
+> > +		.callback = dmi_callback,
+> >  		.matches = {
+> >  			DMI_MATCH(DMI_SYS_VENDOR, "Beckhoff
+> > Automation"), DMI_MATCH(DMI_BOARD_NAME, "CB6263"),
+> > @@ -436,13 +450,14 @@ static const struct dmi_system_id
+> > critclk_systems[] = { {
+> >  		/* pmc_plt_clk* - are used for ethernet
+> > controllers */ .ident = "Beckhoff CB6363",
+> > +		.callback = dmi_callback,
+> >  		.matches = {
+> >  			DMI_MATCH(DMI_SYS_VENDOR, "Beckhoff
+> > Automation"), DMI_MATCH(DMI_BOARD_NAME, "CB6363"),
+> >  		},
+> >  	},
+> >  	{
+> > -		.callback = siemens_clk_is_critical,
+> > +		.callback = dmi_callback_siemens,
+> >  		.ident = "SIEMENS AG",
+> >  		.matches = {
+> >  			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
+> > @@ -457,7 +472,6 @@ static int pmc_setup_clks(struct pci_dev *pdev,
+> > void __iomem *pmc_regmap, {
+> >  	struct platform_device *clkdev;
+> >  	struct pmc_clk_data *clk_data;
+> > -	const struct dmi_system_id *d;
+> >  
+> >  	clk_data = kzalloc(sizeof(*clk_data), GFP_KERNEL);
+> >  	if (!clk_data)
+> > @@ -468,8 +482,8 @@ static int pmc_setup_clks(struct pci_dev *pdev,
+> > void __iomem *pmc_regmap, if (dmi_check_system(critclk_systems)) {
+> >  		clk_data->critical = pmc_clk_is_critical;
+> >  		if (clk_data->critical) {
+> > -			d = dmi_first_match(critclk_systems);
+> > -			pr_info("%s critclks quirk enabled\n",
+> > d->ident);
+> > +			pr_info("%s critclks quirk enabled\n",
+> > +				dmi_critical->ident);
+> >  		}
+> >  	}
+> >  
+> >   
+> 
 
-Yours sincerely,
-Mrs Elizabet Glenn.
