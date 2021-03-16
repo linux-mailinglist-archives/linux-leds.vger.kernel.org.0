@@ -2,148 +2,160 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 671BC33D030
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Mar 2021 09:57:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57A1D33D068
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Mar 2021 10:20:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231800AbhCPI5W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Mar 2021 04:57:22 -0400
-Received: from us-smtp-delivery-115.mimecast.com ([216.205.24.115]:29152 "EHLO
+        id S235936AbhCPJTq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Mar 2021 05:19:46 -0400
+Received: from us-smtp-delivery-115.mimecast.com ([170.10.133.115]:60602 "EHLO
         us-smtp-delivery-115.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235866AbhCPI5C (ORCPT
+        by vger.kernel.org with ESMTP id S233277AbhCPJT0 (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 16 Mar 2021 04:57:02 -0400
+        Tue, 16 Mar 2021 05:19:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxlinear.com;
-        s=selector; t=1615885022;
+        s=selector; t=1615886365;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=FvILtbiCxppFS63PA60LDPVQOEvg9MfOZMI+938mH7k=;
-        b=pP3jyPj3SxmYReYgvulXZLF9rca4Q9wIrpwkYnIs5Ji5D0k/FAxb3VXnS6/97CiXcEGYRy
-        FZsaTb1Nr2U3LHbw3R7ia9W4rioJG4/KuMcikNSwkIzQ/PNyuImXikyoKTzFgcXyxt79zz
-        KP0wwkQeZV6VGGPCK4jExYzZWJQpxtg=
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
- (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-4F2l5w7ROCqm89FgncxaTA-1; Tue, 16 Mar 2021 04:57:00 -0400
-X-MC-Unique: 4F2l5w7ROCqm89FgncxaTA-1
+        bh=5jWSfQgnqbfQo4A5J9LqB42cSOwgGC/UALdMhx8tGZA=;
+        b=TI3ROw5AyK3tbWVrowNnZrz8c6M+VuR/a3kEYqjnZAOwFMySgP8DgycJ7+lh9ztZ/7ssDn
+        HmzfIAnkm/I5fQ0e+ODgqEuej8qfsdpCDMuZKrpprtlednlnroppXkD84CIYbNBvOpqjnk
+        b6OD2dnhPRmtRJM8NtkrjxeHvDJ9MkQ=
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44]) (Using
+ TLS) by relay.mimecast.com with ESMTP id us-mta-8-aqQxWAyNMUmhptm5kN1diw-1;
+ Tue, 16 Mar 2021 05:19:22 -0400
+X-MC-Unique: aqQxWAyNMUmhptm5kN1diw-1
 Received: from MN2PR19MB3693.namprd19.prod.outlook.com (2603:10b6:208:18a::19)
- by MN2PR19MB3726.namprd19.prod.outlook.com (2603:10b6:208:18f::13) with
+ by MN2PR19MB3936.namprd19.prod.outlook.com (2603:10b6:208:1f1::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Tue, 16 Mar
- 2021 08:56:54 +0000
+ 2021 09:19:19 +0000
 Received: from MN2PR19MB3693.namprd19.prod.outlook.com
  ([fe80::1cd9:22:e5ef:6d10]) by MN2PR19MB3693.namprd19.prod.outlook.com
  ([fe80::1cd9:22:e5ef:6d10%7]) with mapi id 15.20.3933.032; Tue, 16 Mar 2021
- 08:56:54 +0000
+ 09:19:19 +0000
 From:   Rahul Tanwar <rtanwar@maxlinear.com>
-To:     Arnd Bergmann <arnd@kernel.org>, Pavel Machek <pavel@ucw.cz>
-CC:     Dan Murphy <dmurphy@ti.com>,
+To:     Arnd Bergmann <arnd@kernel.org>
+CC:     Cheol Yong Kim <ckim@maxlinear.com>, Qiming Wu <qwu@maxlinear.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Adam Borowski <kilobyte@angband.pl>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Dan Murphy <dmurphy@ti.com>,
         "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Cheol Yong Kim <ckim@maxlinear.com>,
-        Qiming Wu <qwu@maxlinear.com>
-Subject: Re: [PATCH] leds: lgm: fix gpiolib dependency
-Thread-Topic: [PATCH] leds: lgm: fix gpiolib dependency
-Thread-Index: AQHXGX/MNzC5XhZ7M0WJOlGvthYGUg==
-Date:   Tue, 16 Mar 2021 08:56:53 +0000
-Message-ID: <MN2PR19MB3693DDA96346488BF0A422D3B16B9@MN2PR19MB3693.namprd19.prod.outlook.com>
-References: <MN2PR19MB36933AFDC4531D0F7A984608B16C9@MN2PR19MB3693.namprd19.prod.outlook.com>
+        John Crispin <john@phrozen.org>,
+        Hauke Mehrtens <hmehrtens@maxlinear.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: MaxLinear, please maintain your drivers was Re: [PATCH] leds:
+ lgm: fix gpiolib dependency
+Thread-Topic: MaxLinear, please maintain your drivers was Re: [PATCH] leds:
+ lgm: fix gpiolib dependency
+Thread-Index: AQHXFeppRRIKdHAaEUOokFXZWnMOpQ==
+Date:   Tue, 16 Mar 2021 09:19:19 +0000
+Message-ID: <MN2PR19MB3693640C2022784FC3DB7BA6B16B9@MN2PR19MB3693.namprd19.prod.outlook.com>
+References: <20210308153052.2353885-1-arnd@kernel.org>
+ <20210309180851.GA4669@duo.ucw.cz> <20210309193910.GA7507@amd>
+ <YEgeoPqCCgTUEsSc@angband.pl> <20210310072831.GA29779@amd>
+ <CAK8P3a2+o8N77A_OkP+QD7ntA+M4U26k15Hh1rNN16-afcTp9g@mail.gmail.com>
+ <9a74ce79-b7cf-dec1-a64c-d928b5712645@hauke-m.de>
+ <MN2PR19MB3486B88ADF5BE557BEE168AEAF909@MN2PR19MB3486.namprd19.prod.outlook.com>
+ <MW2PR1901MB2187816296E1B03F91EB972BD0909@MW2PR1901MB2187.namprd19.prod.outlook.com>
+ <MN2PR19MB3693B7620DABED199AA304B5B1909@MN2PR19MB3693.namprd19.prod.outlook.com>
+ <CAK8P3a2t-C5_JOcTUcYq1UCiDUDzMibvT0ToHut6hEJCtoj-YA@mail.gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [222.164.90.248]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 44589e63-9e4e-4122-1bef-08d8e8597257
-x-ms-traffictypediagnostic: MN2PR19MB3726:
+x-ms-office365-filtering-correlation-id: 798c57df-ea38-4236-2a45-08d8e85c941e
+x-ms-traffictypediagnostic: MN2PR19MB3936:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR19MB37261C3094D58323054B746AB16B9@MN2PR19MB3726.namprd19.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1728
+x-microsoft-antispam-prvs: <MN2PR19MB393689C39362AB2707B17E84B16B9@MN2PR19MB3936.namprd19.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0
-x-microsoft-antispam-message-info: VWLpBecTu9XbuRp95NDrmoWxYe1hpyz/TsdWYuYUkxrdwRx/XESpoMZcMlf5ogYKuUOQkZQ8AlkGIbRXRF4gBLnAeXCaJab884vh4oIKDamesELeoHLc4OvACmfpkF7yl040sT60sLYx6uWzQzG/SCdBGerWv8gxzP4oB38qJysShRGEUu8fvxox4737Y6IzDJRqqUJ+9gqFGAk2BlQ6pHHCIVfr9cG7p7mUabnp9+C86bO8fEl+Dbqd1DtPV/QVmJ1RKRfqh/CbPSge7hgOogQ09oAFAIZwLrSkjyROsGCutVwkpe58y02OIz4lExubdLgmAzWg2de84t/WgafcZGnBiJ8mRz9wDyCRWEDeEg2q4L1qxpd7Z8R7wxYWcREvis/tLwaH5/eRSb1yAx+4O70vHUY27m1NHbz1EQFgKpCGIKF+gL2eKyyANUDPN2PeFphJJM5lIn+TvuFc8BSNF+5JXfJRwsncm2pLwalb78BqnGVm/sdIIfllEkcfftTk5Dj3zbywhHBdk+sfaLgSrK4B0IspvEP0RIKm+lCTE0+q0lNb3D7ZBVYPMQNOscrkGv+JZe84d0WzdwZo35VSQnWIIeQHaQ1qxagdaL3oitbhagGd5P+f97YH89lOtabnDepvgFFKCsQIJwDxrr+SCg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR19MB3693.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(346002)(376002)(396003)(39850400004)(4326008)(26005)(8936002)(66476007)(110136005)(316002)(6506007)(7696005)(478600001)(33656002)(186003)(54906003)(53546011)(55016002)(64756008)(5660300002)(52536014)(9686003)(2906002)(71200400001)(86362001)(8676002)(66946007)(83380400001)(107886003)(76116006)(91956017)(66556008)(66446008);DIR:OUT;SFP:1102
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?Hh/mZOQCKL5OMbzk9pk5B57pU17s4kMV0zhDTWs6ZEz8OeshYau8PPBfi/GR?=
- =?us-ascii?Q?CuSQ1KX87c5gNbOAm+vKf5A820ueCrQqXzY2KQvsI1DJiTKQWlicl1rB7WlV?=
- =?us-ascii?Q?8UFPqtRU1v3feP6NzO3eQ0ggeo5xUDZ+Tf1LSwsYDaXsLAhf0mwJ2B19wseB?=
- =?us-ascii?Q?ZAnHo63i1wGkQLqVqgdEwjDEfKS80mfTvpfY7CzvZ0c8dFuv8CQb0dQ5Jh2f?=
- =?us-ascii?Q?wMJwLOnBF1kdEXuPG+KAfpTfU4MVX1ljsR+MqPv+54W5Qno/bnqrVGX6iAiH?=
- =?us-ascii?Q?deiokO7ftDnaDzOsH9c/2qSoBNZSdQj80Jv6M7NdDI79OCEA/OCucqF/IG3z?=
- =?us-ascii?Q?A5n7EwMlP8bCN0vjjN/wh2E/ousQ32xRYkrxOg+r4RtUlL4xNKTxfFTj2oJ8?=
- =?us-ascii?Q?bCEHZKLJ5KuQ3HsWloSZ2FVJd88uqcoWe36c7n/HsmiBh4mLXaLm4f/bssyJ?=
- =?us-ascii?Q?vO8/VY3ZUP+oFzVBx+6LjiryQx7D1qDTTJ5P06iu7fwxAcGF99EWrct9nWE6?=
- =?us-ascii?Q?teG4FGeAfQUlfyDZ2lYdrQd7UP51N8O9Z83NFwTRdibpxLmrOmH869PkYz+4?=
- =?us-ascii?Q?vtsYSHcU76TmxAwpw8Lysi3KRKG2Q/P9Vnfznv1iqn36FGyHvwPf4GuC4Ks/?=
- =?us-ascii?Q?3y+10AeMnll7nCwQTnevahZQjeKar4Mrbj6bxsQlYWZ7dkUUKCCdeh2xm0Xw?=
- =?us-ascii?Q?0+XrxJlzV8uETvSsBuMWQCwIf4MWogmP6M8zPlxpNrI1bXW0giOlWuRd54bW?=
- =?us-ascii?Q?TlMLde4Nn13UsFqnbk8R7tn4BKJsY2FxjFok/sMj76z3EjGL4MaYINB06CA5?=
- =?us-ascii?Q?16HvxDxQ3rv9pNAk3Xu/cbDmOIj7bToO6OB7sq0mqVWp6xXsaPy4+3bz+oEw?=
- =?us-ascii?Q?2hJGyXEJpCeAYB2O78XW+2poWqC9d6PA5LRXuPoxCuNSafRII25kFKUX+aXK?=
- =?us-ascii?Q?Pmuy351oZhZqBSl4/fgLAOZS33WS0De5MVyEA/WSxDOd9/3oSzVOuCI+9X9S?=
- =?us-ascii?Q?u6tuK0nZKjc5+XtqcNJcXi2ovvP++auFHfH87QyCJZcauj4RfYAgIyiNf810?=
- =?us-ascii?Q?gXfL3tK35C3xyPXjDjd7wwntwjMt6vNJcA98dXTgEjOguccUE5ySVbPTH6v3?=
- =?us-ascii?Q?YZ2vJ9EDJHiYxJ5QZgCXDF8oEZm/UYb6nvi9G/RDB13QVPgDywpGLiunoGq9?=
- =?us-ascii?Q?PrOLZ8oDL6Vt3IDlChhS4lrte7gRbC6QKnh38dXceRF3A6+VwvJtiFC1Kw9Y?=
- =?us-ascii?Q?J7SEoSaBbXDzRqvm4PRW0nLJyz5VHeI4e3XZsftrw1wwGSbtkmHQULYtTKkC?=
- =?us-ascii?Q?ftOYScONBbQjgarg+1BTUuF6uPNz/PZGviwuYjbR8Zy5kA=3D=3D?=
+x-microsoft-antispam-message-info: c3WPKMh0oKACVPTm6yWGbgI3lVaFi1lc9DLaxKhzWe7NtqtnenNn9D2R6IxDvttLBguVlRrCYnJFd/zd0AyNluwoac01dn5LluV7xBdewYr7X60ckTqVEw+6b6h9vCMwHOHSEHO6gFwQFF0X10mEVGpNjSHp6BBV0vRi8ju9FW/juk8Z5Yxs8cfP5qCf55M15gIWGTgcLcLUizGnnGB0Qdk5fMIXPTtUo3Y3AljFkxSaDQu4ANp/IIKHE8wem+KentWxQQWYcRLCALS7xHSFble3rRWy5008gnoExVk81SQ/kAJnksp/1e+EyRiEAew+57t0wPqUJ+d1uGP320bKOO722KfvNjyVk6BP8RH0QpH+eSoOXGDWIZEWa/dNosLmwjhi9UX4DHN6abJRd9z1CpeeAXfecTUN0IWU6y5zN6lECtKdcnpw4jprwDpH4URXyftZWpjO7lpccF9A/Xh7T7UxGtg5RwHq+xOHfQuApFK7Ykk7ZgnNY/whDpO26ECX5ZXmRs4cnaCJB8FL5knObDsopLlyAXCKAnla6NAalfZoYgtYM4DFBqSesuP23jpjNFuUTaAWvIEYWmHX/HLJ9uMLyvfN6QtA+PtYvyOUsDQlWwqntcBhyLzDIzT2IZ+PL0eHPEMUiiNkLIRuT9Cs1Q==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR19MB3693.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(366004)(136003)(39850400004)(396003)(26005)(316002)(76116006)(66476007)(186003)(66946007)(91956017)(83380400001)(478600001)(6916009)(64756008)(6506007)(54906003)(53546011)(8676002)(966005)(7696005)(66556008)(8936002)(66446008)(33656002)(9686003)(5660300002)(2906002)(7416002)(86362001)(71200400001)(52536014)(4326008)(55016002);DIR:OUT;SFP:1102
+x-ms-exchange-antispam-messagedata: =?Windows-1252?Q?WsJZETen9V4hRe6teJcQotq+nDDZ9X4BK7Lx8+5Ua0DZuje7/ogU5GG+?=
+ =?Windows-1252?Q?2SNMNEXB7YBySp5u5XvY4gMV1OATSWX4qhjGIfvkR45jPdUZEWte1lOd?=
+ =?Windows-1252?Q?afppYBtY9cDtc6Nur3WFuBeWcwOL5fXyo4Ow+x/aiE+1lKPD9ourYeYM?=
+ =?Windows-1252?Q?IY9546yDQRTP+pUjuJc5WMaNhB4XOXyfuARPI4p8AvOo49D9koCR7GhK?=
+ =?Windows-1252?Q?w4jRxgzksg0o6Er9VdtrKcrWP+IzuEHfFBIn+JkHh7ZNTCPd9NhLPTLL?=
+ =?Windows-1252?Q?XpS2LY2VOccANwAkAL7zOdSc7/VVs29ZPe/NCcxMeGLM8aYQVtE0/3KO?=
+ =?Windows-1252?Q?XfFXOkNzyFXqzY4gARHLwS2Pzua5qnrEJ28nafHL3h+9w1KEj1QbtKzi?=
+ =?Windows-1252?Q?q+WDRaKKoJB4u3Sa7z9/ROHbodVEJL8y98sElbRYDKykR/ohi5fyIY1l?=
+ =?Windows-1252?Q?7AWURpRxXQt7ZYGofS+BVN7xg0Mj+lSq6SWAKdHOT1J5d1LCM6Lwr39b?=
+ =?Windows-1252?Q?wckh/D9eiSjeM+REBG04fpy/m4/DKOvxmsvL3N4iTNKLtchyzmuIgY0e?=
+ =?Windows-1252?Q?Wu09e9//ILdl0CNR8q5deIPNks/0Ng17/eATmcITDuhtIRpauPRoXuum?=
+ =?Windows-1252?Q?o7BUEBq+pNoEPQZBWauDVec2AbUcEA97KdYrNaMracNq1OcLxd3Hhg8M?=
+ =?Windows-1252?Q?yK8o0UxPNByPbWO26bcCjYA5nUOTJgfDWId6jfNs55KJF1N2FU7HUsUP?=
+ =?Windows-1252?Q?tDnq9quQ5vbvS2tt08pXbGLFvyU+7xYWjK4n6D/vIKMQ0ZQmKy+dUI72?=
+ =?Windows-1252?Q?nwqi/iZOE91iZl9f/zPuT1OO+tMHVHDb3i1DKC4bmfoGbHYzdmr6JcV7?=
+ =?Windows-1252?Q?MmWBYUqkUO6AzUgHkETrhRmRtp54kgfx2RGqn3ZxGHJpRrboj/DuiDm0?=
+ =?Windows-1252?Q?JkbomOcPEgXe0mKqAnkg1Wd3fja94CvKLsEoxE0SD16JFgTrApikraUF?=
+ =?Windows-1252?Q?XPzmR2kxTqcZI8h4RS3/dMR5uIFNeL8z4Qy2wk2CPlp1HacaCUrSk9B7?=
+ =?Windows-1252?Q?VO744gN88StIlSHH3YjyjfG+dvB8VxTdHaUUxZiyC0+ceR60JPdCD5aj?=
+ =?Windows-1252?Q?xPjkG5vkBreWjIswLZMeCTsNhq9kZaHMqI7qGYX5qhNi6MkK8rvWeDuX?=
+ =?Windows-1252?Q?MRCva1G9O2GT7SXu90jhSuFnKztvqV3/gbQzDYK/Mutfz0ppesMM0rES?=
+ =?Windows-1252?Q?uvIzBS+8/f0TIvy/0ryqWS0DmLFeHmjRqwaQ84YkrC7Nv+6GVg3h55Gz?=
+ =?Windows-1252?Q?ievskvzzQ74qM4jQ+oLxQp/dJvx+reBIatoEeMELIrzktfHNVzPCuoa8?=
+ =?Windows-1252?Q?CeUzkep8FTXFjTkIGwoBJqRtl8tNVQSMizYDOUu3QMnjt68FwavbNZNI?=
+ =?Windows-1252?Q?1QH1qiClD01A4efXu9r+Pg=3D=3D?=
 MIME-Version: 1.0
 X-OriginatorOrg: maxlinear.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR19MB3693.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44589e63-9e4e-4122-1bef-08d8e8597257
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2021 08:56:53.9510
+X-MS-Exchange-CrossTenant-Network-Message-Id: 798c57df-ea38-4236-2a45-08d8e85c941e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2021 09:19:19.2055
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: dac28005-13e0-41b8-8280-7663835f2b1d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: clRJZqQ/cO71mFAY44MbDo2FFvSOZrasvVvvg2vR+hkTj1Ero4afzLIazp//0Rri9vNEPdT5OBk9+R7YxjHbuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR19MB3726
+X-MS-Exchange-CrossTenant-userprincipalname: d7TLectNyO3+rHq/O1Rz5zSnJhjXBgn9hh7Gc2romd7msDdzNPKB5oi9xkwjiaOlQ4vWRPn8APme+GnQDnFDMg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR19MB3936
 Authentication-Results: relay.mimecast.com;
         auth=pass smtp.auth=CUSA115A51 smtp.mailfrom=rtanwar@maxlinear.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: maxlinear.com
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 15/3/2021 5:44 pm, Rahul Tanwar wrote:=0A> From: Arnd Bergmann<arnd@kern=
-el.org>=0A> To: Pavel Machek<pavel@ucw.cz>,=0A> =09Amireddy Mallikarjuna re=
-ddy=0A> =09<mallikarjunax.reddy@linux.intel.com>=0A> Cc: Arnd Bergmann<arnd=
-@arndb.de>, Dan Murphy<dmurphy@ti.com>,=0A> =09linux-leds@vger.kernel.org,l=
-inux-kernel@vger.kernel.org=0A> Subject:[PATCH] leds: lgm: fix gpiolib depe=
-ndency  <https://lore.kernel.org/lkml/20210308153052.2353885-1-arnd@kernel.=
-org/#r>=0A> Date: Mon,  8 Mar 2021 16:30:46 +0100=0A> Message-ID:<202103081=
-53052.2353885-1-arnd@kernel.org>  (raw  <https://lore.kernel.org/lkml/20210=
-308153052.2353885-1-arnd@kernel.org/raw>)=0A>=20=0A> From: Arnd Bergmann<ar=
-nd@arndb.de>=0A>=20=0A> Without gpiolib, the driver fails to build:=0A>=20=
-=0A>      drivers/leds/blink/leds-lgm-sso.c:123:19: error: field has incomp=
-lete type 'struct gpio_chip'=0A>              struct gpio_chip chip;=0A>   =
-                            ^=0A>      include/linux/gpio.h:107:8: note: fo=
-rward declaration of 'struct gpio_chip'=0A>      struct gpio_chip;=0A>     =
-        ^=0A>      drivers/leds/blink/leds-lgm-sso.c:263:3: error: implicit=
- declaration of function 'gpiod_set_value' [-Werror,-Wimplicit-function-dec=
-laration]=0A>                      gpiod_set_value(led->gpiod, val);=0A>   =
-                   ^=0A>      drivers/leds/blink/leds-lgm-sso.c:263:3: note=
-: did you mean 'gpio_set_value'?=0A>      include/linux/gpio.h:168:20: note=
-: 'gpio_set_value' declared here=0A>      static inline void gpio_set_value=
-(unsigned gpio, int value)=0A>                         ^=0A>      drivers/l=
-eds/blink/leds-lgm-sso.c:345:3: error: implicit declaration of function 'gp=
-iod_set_value' [-Werror,-Wimplicit-function-declaration]=0A>               =
-       gpiod_set_value(led->gpiod, 1);=0A>                      ^=0A>=20=0A=
-> Add the dependency in Kconfig.=0A>=20=0A> Fixes: c3987cd2bca3 ("leds: lgm=
-: Add LED controller driver for LGM SoC")=0A> Signed-off-by: Arnd Bergmann<=
-arnd@arndb.de>=0A> ---=0A>   drivers/leds/blink/Kconfig  <https://lore.kern=
-el.org/lkml/20210308153052.2353885-1-arnd@kernel.org/#Z30drivers:leds:blink=
-:Kconfig>  | 1 +=0A>   1 file changed, 1 insertion(+)=0A>=20=0A> diff=20=0A=
-> <https://lore.kernel.org/lkml/20210308153052.2353885-1-arnd@kernel.org/#i=
-Z30drivers:leds:blink:Kconfig>=20=0A> --git a/drivers/leds/blink/Kconfig b/=
-drivers/leds/blink/Kconfig index=20=0A> 265b53476a80..6dedc58c47b3 100644 -=
--- a/drivers/leds/blink/Kconfig +++=20=0A> b/drivers/leds/blink/Kconfig @@ =
--9,6 +9,7 @@ if LEDS_BLINK  =20=0A>   config LEDS_BLINK_LGM=0A>   =09trista=
-te "LED support for Intel LGM SoC series"=0A> + depends on GPIOLIB   =09dep=
-ends on LEDS_CLASS=0A>   =09depends on MFD_SYSCON=0A>   =09depends on OF=0A=
-> --=20=0A> 2.29.2=0A>=20=0A=0AAcked-by: Rahul Tanwar <rtanwar@maxlinear.co=
-m>=0A=0A=0A
+Hi Arnd,=0A=0AOn 11/3/2021 6:01 pm, Arnd Bergmann wrote:=0A> This email was=
+ sent from outside of MaxLinear.=0A>=20=0A> On Thu, Mar 11, 2021 at 6:48 AM=
+ Rahul Tanwar <rtanwar@maxlinear.com> wrote:=0A>  > Hi Arnd, Pavel,=0A>  >=
+=0A>  > Sorry for the hiccup due to missing email address in the email chai=
+n=20=0A> during the ownership transition.=0A>  >=0A>  > Henceforth, I will =
+be the maintainer for all kernel drivers/code=20=0A> related to =93formerly=
+ Intel=92s now MaxLinear=92s=94 Lightning Mountain SoC.=0A>  >=0A>  > Pleas=
+e send any Lightning Mountain SoC related issues email to Rahul=20=0A> Tanw=
+ar (rtanwar@maxlinear.com) and I will ensure that I address the=20=0A> issu=
+es in a timely manner.=0A>=20=0A> Thank you for the reply and for stepping =
+up as maintainer.=0A>=20=0A> I tend to merge updates to the MAINTAINERS fil=
+e as bugfixes the file=20=0A> contains=0A> the correct addresses at all tim=
+es. If you sent an update for this to=0A> soc@kernel.org,=0A> I'll get that=
+ merged.=0A>=20=0A> Since I think this is an x86 platform, you can alternat=
+ively send the=20=0A> same patch=0A> to the x86 maintainers.=0A>=0A=0A=0AHa=
+ven't sent any patch to update MAINTAINERS file yet. Thanks for your=20=0As=
+uggestion. I will take it up soon..=0A=0A=0A> Are you also planning to main=
+tain or add drivers for some of the older SoC=0A> generations from Ti/Lanti=
+q/Infineon/Intel that are now owned by MaxLinear?=0A> It would be good to b=
+e explicit about which ones of these you are working=0A> with. From what I =
+can tell, the arch/mips/lantiq/ platform is only for=20=0A> fairly=0A> old =
+designs (xrx200 and older), while support for the slightly later mips=0A> a=
+nd x86 based chips was submitted a few years ago but never merged.=0A>=20=
+=0A=0AThank you for asking. At this point of time, our focus for upstreamin=
+g=20=0Aand maintaining is on LGM(Lightning Mountain) SoC.=0A=0ARegards,=0AR=
+ahul=0A=0A>  > I will wait for more details on your fix request for LGM LED=
+ driver.=20=0A> Thanks.=0A>=20=0A>  From my side, only an Ack on the origin=
+al bugfix I sent [1] is needed, but=0A> Pavel had other concerns about the =
+driver. I expect he will follow up on=20=0A> those=0A> with you.=0A>=20=0A>=
+ Arnd=0A>=20=0A> [1]=20=0A> https://lore.kernel.org/lkml/20210308153052.235=
+3885-1-arnd@kernel.org/=20=0A> <https://lore.kernel.org/lkml/20210308153052=
+.2353885-1-arnd@kernel.org>=0A=0A
 
