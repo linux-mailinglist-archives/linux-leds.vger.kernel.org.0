@@ -2,86 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48A6533DF99
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Mar 2021 21:53:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B75F33E16E
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Mar 2021 23:32:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232388AbhCPUxM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Mar 2021 16:53:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36920 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232364AbhCPUww (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 16 Mar 2021 16:52:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1884A64E76;
-        Tue, 16 Mar 2021 20:52:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615927971;
-        bh=+dogfZ43isbezmZjR8u8oBMqRI6I4K4OVSRSSOGkf2s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YsWIEAjJBm0D4M77EqdYv/Leo+bMmaYAGUvI3VajtyYywcW/JFPzh9x57v3mfmwYf
-         YujlNJ+DBnuMusWrdfsN5gE1NlqpjUhmetkDfYik8DMM5yVHfoGGOJmNalRdHKTa6e
-         /0Ld2f5x1W77S1HfwxS33vLAcM4FgvAoeV/fKPZE+hHoZY6KURxMIPw+1a1PXp9y8g
-         eunsT2Tyv4+e/D2OgmBt2QBInqyEYuQpiF83O2YubdBBj+M54t5spPbxr0M0vWZo+5
-         fLJWcoGeXbyDgeobIKGeDLNj0hvA40Mb+Vpm01QLUawGk9fGKZxrebA+3ia2HFX5Jw
-         dkdqEWX2XCtww==
-Date:   Tue, 16 Mar 2021 20:52:49 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stephen Boyd <sboyd@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>, Vinod Koul <vkoul@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Clean-up undocumented compatible strings
-Message-ID: <20210316205249.GG4309@sirena.org.uk>
-References: <20210316194918.3528417-1-robh@kernel.org>
+        id S231308AbhCPWbn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Mar 2021 18:31:43 -0400
+Received: from mail-io1-f50.google.com ([209.85.166.50]:44850 "EHLO
+        mail-io1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231312AbhCPWbg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Mar 2021 18:31:36 -0400
+Received: by mail-io1-f50.google.com with SMTP id 81so38946169iou.11;
+        Tue, 16 Mar 2021 15:31:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=WJtR43SK9y60MrC+iBaP+BHM7QH0U5+Z7I60Fr5nGiY=;
+        b=lbrvb2fEj3y9S5SLhGV1O6UYsArV31TKRWOxRaHVxF8dhJExIfTQPbWXA9f5GdCc+y
+         kCBCr7Vim67UQvuD6tyzH6k9loXPFgDcV0ZadgrQBRp2iR8bpnAWkkIPGKbCnwBTyybC
+         lzZidAJRgFBJ8WhWw686zmDTviAQNEgtuv1Lc3QqEq6UJ3UE3aAQH5x2XhpCGZAyzHch
+         lQybt4VFBqSepCe0JL4dMdRQxMapwUns+9/Pu2ilt+1YLlFw3PzTQoNTi1qhETQndxtL
+         ssz7AYQLN45e4e1zirhG2AIcO3ujgdT4KOETR+v+h6WAzJqw41cUX4IJcEwcjFU9JaWD
+         SjOA==
+X-Gm-Message-State: AOAM530AyL8hTdB4cSJLIfHdlW+1Wk85FO7n1Lf0CRgBcDce02LNYWF5
+        wcKWblCPtpBA5b9oIaI9Tg==
+X-Google-Smtp-Source: ABdhPJwqr9lIBsQQqXGB/5M8cR/LbXNj5reci6RYP1hiUnw7QedPkqiHU4o1DmnBVFHru7RgPTsOVg==
+X-Received: by 2002:a02:c610:: with SMTP id i16mr711846jan.36.1615933885246;
+        Tue, 16 Mar 2021 15:31:25 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id l14sm10091179ilc.33.2021.03.16.15.31.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Mar 2021 15:31:24 -0700 (PDT)
+Received: (nullmailer pid 3803467 invoked by uid 1000);
+        Tue, 16 Mar 2021 22:31:22 -0000
+Date:   Tue, 16 Mar 2021 16:31:22 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH] dt-bindings: leds: leds-gpio: fix & extend node regex
+Message-ID: <20210316223122.GA3800914@robh.at.kernel.org>
+References: <20210310070025.9150-1-zajec5@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="lQSB8Tqijvu1+4Ba"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210316194918.3528417-1-robh@kernel.org>
-X-Cookie: Results vary by individual.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210310070025.9150-1-zajec5@gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Wed, Mar 10, 2021 at 08:00:25AM +0100, Rafał Miłecki wrote:
+> From: Rafał Miłecki <rafal@milecki.pl>
+> 
+> The old regex allowed only 1 character to follow the "led-" prefix which
+> was most likely just an overlook. 
 
---lQSB8Tqijvu1+4Ba
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Indeed.
 
-On Tue, Mar 16, 2021 at 01:49:18PM -0600, Rob Herring wrote:
-> Adding checks for undocumented compatible strings reveals a bunch of
-> warnings in the DT binding examples. Fix the cases which are typos, just
-> a mismatch between the schema and the example, or aren't documented at all.
-> In a couple of cases, fixing the compatible revealed some schema errors
-> which are fixed.
+> Fix it and while at it allow dashes in
+> node names. It allows more meaningful names and it helpful e.g. when
+> having the same function name with 2 different colors. For example:
+> 1. led-power-white
+> 2. led-power-blue
 
-Acked-by: Mark Brown <broonie@kernel.org>
+No, node names are supposed to be generic and reflect the class of 
+device.
 
---lQSB8Tqijvu1+4Ba
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmBRGqAACgkQJNaLcl1U
-h9AAYwf/QQEXJESFxZVZKApeC2ypxUDckOjIAXw+3ZZYA3a9Mx/MllGedYIfGyqx
-aONmpU5uRZxnWP50YGV5Y5oYS6er1ey2MwMikahPpMxhLoUfXVdEQgsocEJxquWg
-3L0Yf9+3IZPTx0uH5yeyhiFnlUCjHxhm1CE3h1sKgQJsytcX+pHiew/vRQSfU8xW
-JDEEuG1WfeQgOQ7VU3RthJ118ifcy+QeZaU2oSA6GsrpFdQk/qyVUyIF3FVGCeck
-TAASFFWk7hmMFicdUN2pxZ3aUYewYwlZAsp2DdrfEvf2vIKCPxeVuLP8qSQ4O68+
-/7rhwzcbiO5Nkq6aIxXzcZ19meepFg==
-=bmyZ
------END PGP SIGNATURE-----
-
---lQSB8Tqijvu1+4Ba--
+> 
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+> ---
+>  Documentation/devicetree/bindings/leds/leds-gpio.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-gpio.yaml b/Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> index 7ad2baeda0b0..ae46a43e480f 100644
+> --- a/Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/leds/leds-gpio.yaml
+> @@ -21,7 +21,7 @@ properties:
+>  patternProperties:
+>    # The first form is preferred, but fall back to just 'led' anywhere in the
+>    # node name to at least catch some child nodes.
+> -  "(^led-[0-9a-f]$|led)":
+> +  "(^led-[0-9a-f][0-9a-f-]*$|led)":
+>      type: object
+>  
+>      $ref: common.yaml#
+> -- 
+> 2.26.2
+> 
