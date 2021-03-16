@@ -2,219 +2,148 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3BFC33CD89
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Mar 2021 06:48:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 671BC33D030
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Mar 2021 09:57:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235611AbhCPFsZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Mar 2021 01:48:25 -0400
-Received: from gecko.sbs.de ([194.138.37.40]:36921 "EHLO gecko.sbs.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235605AbhCPFsN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 16 Mar 2021 01:48:13 -0400
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-        by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 12G5llg8020508
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 16 Mar 2021 06:47:48 +0100
-Received: from md1za8fc.ad001.siemens.net ([139.22.41.172])
-        by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id 12G5llIZ030837;
-        Tue, 16 Mar 2021 06:47:47 +0100
-Date:   Tue, 16 Mar 2021 06:47:43 +0100
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH] platform/x86: pmc_atom: use callback for all dmi quirk
- entries
-Message-ID: <20210316064743.0b5a47cf@md1za8fc.ad001.siemens.net>
-In-Reply-To: <43841119-4839-09d2-b606-7dd40cad4b89@redhat.com>
-References: <ef5fe493-285d-145c-8d05-7f9bd0cb47c5@redhat.com>
-        <20210315145855.17174-1-henning.schild@siemens.com>
-        <8577f3a8-c5e4-3752-1bc1-5937ee164217@redhat.com>
-        <20210315180011.6a3f60b0@md1za8fc.ad001.siemens.net>
-        <43841119-4839-09d2-b606-7dd40cad4b89@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S231800AbhCPI5W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Mar 2021 04:57:22 -0400
+Received: from us-smtp-delivery-115.mimecast.com ([216.205.24.115]:29152 "EHLO
+        us-smtp-delivery-115.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235866AbhCPI5C (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 16 Mar 2021 04:57:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxlinear.com;
+        s=selector; t=1615885022;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=FvILtbiCxppFS63PA60LDPVQOEvg9MfOZMI+938mH7k=;
+        b=pP3jyPj3SxmYReYgvulXZLF9rca4Q9wIrpwkYnIs5Ji5D0k/FAxb3VXnS6/97CiXcEGYRy
+        FZsaTb1Nr2U3LHbw3R7ia9W4rioJG4/KuMcikNSwkIzQ/PNyuImXikyoKTzFgcXyxt79zz
+        KP0wwkQeZV6VGGPCK4jExYzZWJQpxtg=
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
+ (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-4F2l5w7ROCqm89FgncxaTA-1; Tue, 16 Mar 2021 04:57:00 -0400
+X-MC-Unique: 4F2l5w7ROCqm89FgncxaTA-1
+Received: from MN2PR19MB3693.namprd19.prod.outlook.com (2603:10b6:208:18a::19)
+ by MN2PR19MB3726.namprd19.prod.outlook.com (2603:10b6:208:18f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Tue, 16 Mar
+ 2021 08:56:54 +0000
+Received: from MN2PR19MB3693.namprd19.prod.outlook.com
+ ([fe80::1cd9:22:e5ef:6d10]) by MN2PR19MB3693.namprd19.prod.outlook.com
+ ([fe80::1cd9:22:e5ef:6d10%7]) with mapi id 15.20.3933.032; Tue, 16 Mar 2021
+ 08:56:54 +0000
+From:   Rahul Tanwar <rtanwar@maxlinear.com>
+To:     Arnd Bergmann <arnd@kernel.org>, Pavel Machek <pavel@ucw.cz>
+CC:     Dan Murphy <dmurphy@ti.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Cheol Yong Kim <ckim@maxlinear.com>,
+        Qiming Wu <qwu@maxlinear.com>
+Subject: Re: [PATCH] leds: lgm: fix gpiolib dependency
+Thread-Topic: [PATCH] leds: lgm: fix gpiolib dependency
+Thread-Index: AQHXGX/MNzC5XhZ7M0WJOlGvthYGUg==
+Date:   Tue, 16 Mar 2021 08:56:53 +0000
+Message-ID: <MN2PR19MB3693DDA96346488BF0A422D3B16B9@MN2PR19MB3693.namprd19.prod.outlook.com>
+References: <MN2PR19MB36933AFDC4531D0F7A984608B16C9@MN2PR19MB3693.namprd19.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [222.164.90.248]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 44589e63-9e4e-4122-1bef-08d8e8597257
+x-ms-traffictypediagnostic: MN2PR19MB3726:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR19MB37261C3094D58323054B746AB16B9@MN2PR19MB3726.namprd19.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1728
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0
+x-microsoft-antispam-message-info: VWLpBecTu9XbuRp95NDrmoWxYe1hpyz/TsdWYuYUkxrdwRx/XESpoMZcMlf5ogYKuUOQkZQ8AlkGIbRXRF4gBLnAeXCaJab884vh4oIKDamesELeoHLc4OvACmfpkF7yl040sT60sLYx6uWzQzG/SCdBGerWv8gxzP4oB38qJysShRGEUu8fvxox4737Y6IzDJRqqUJ+9gqFGAk2BlQ6pHHCIVfr9cG7p7mUabnp9+C86bO8fEl+Dbqd1DtPV/QVmJ1RKRfqh/CbPSge7hgOogQ09oAFAIZwLrSkjyROsGCutVwkpe58y02OIz4lExubdLgmAzWg2de84t/WgafcZGnBiJ8mRz9wDyCRWEDeEg2q4L1qxpd7Z8R7wxYWcREvis/tLwaH5/eRSb1yAx+4O70vHUY27m1NHbz1EQFgKpCGIKF+gL2eKyyANUDPN2PeFphJJM5lIn+TvuFc8BSNF+5JXfJRwsncm2pLwalb78BqnGVm/sdIIfllEkcfftTk5Dj3zbywhHBdk+sfaLgSrK4B0IspvEP0RIKm+lCTE0+q0lNb3D7ZBVYPMQNOscrkGv+JZe84d0WzdwZo35VSQnWIIeQHaQ1qxagdaL3oitbhagGd5P+f97YH89lOtabnDepvgFFKCsQIJwDxrr+SCg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR19MB3693.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(346002)(376002)(396003)(39850400004)(4326008)(26005)(8936002)(66476007)(110136005)(316002)(6506007)(7696005)(478600001)(33656002)(186003)(54906003)(53546011)(55016002)(64756008)(5660300002)(52536014)(9686003)(2906002)(71200400001)(86362001)(8676002)(66946007)(83380400001)(107886003)(76116006)(91956017)(66556008)(66446008);DIR:OUT;SFP:1102
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?Hh/mZOQCKL5OMbzk9pk5B57pU17s4kMV0zhDTWs6ZEz8OeshYau8PPBfi/GR?=
+ =?us-ascii?Q?CuSQ1KX87c5gNbOAm+vKf5A820ueCrQqXzY2KQvsI1DJiTKQWlicl1rB7WlV?=
+ =?us-ascii?Q?8UFPqtRU1v3feP6NzO3eQ0ggeo5xUDZ+Tf1LSwsYDaXsLAhf0mwJ2B19wseB?=
+ =?us-ascii?Q?ZAnHo63i1wGkQLqVqgdEwjDEfKS80mfTvpfY7CzvZ0c8dFuv8CQb0dQ5Jh2f?=
+ =?us-ascii?Q?wMJwLOnBF1kdEXuPG+KAfpTfU4MVX1ljsR+MqPv+54W5Qno/bnqrVGX6iAiH?=
+ =?us-ascii?Q?deiokO7ftDnaDzOsH9c/2qSoBNZSdQj80Jv6M7NdDI79OCEA/OCucqF/IG3z?=
+ =?us-ascii?Q?A5n7EwMlP8bCN0vjjN/wh2E/ousQ32xRYkrxOg+r4RtUlL4xNKTxfFTj2oJ8?=
+ =?us-ascii?Q?bCEHZKLJ5KuQ3HsWloSZ2FVJd88uqcoWe36c7n/HsmiBh4mLXaLm4f/bssyJ?=
+ =?us-ascii?Q?vO8/VY3ZUP+oFzVBx+6LjiryQx7D1qDTTJ5P06iu7fwxAcGF99EWrct9nWE6?=
+ =?us-ascii?Q?teG4FGeAfQUlfyDZ2lYdrQd7UP51N8O9Z83NFwTRdibpxLmrOmH869PkYz+4?=
+ =?us-ascii?Q?vtsYSHcU76TmxAwpw8Lysi3KRKG2Q/P9Vnfznv1iqn36FGyHvwPf4GuC4Ks/?=
+ =?us-ascii?Q?3y+10AeMnll7nCwQTnevahZQjeKar4Mrbj6bxsQlYWZ7dkUUKCCdeh2xm0Xw?=
+ =?us-ascii?Q?0+XrxJlzV8uETvSsBuMWQCwIf4MWogmP6M8zPlxpNrI1bXW0giOlWuRd54bW?=
+ =?us-ascii?Q?TlMLde4Nn13UsFqnbk8R7tn4BKJsY2FxjFok/sMj76z3EjGL4MaYINB06CA5?=
+ =?us-ascii?Q?16HvxDxQ3rv9pNAk3Xu/cbDmOIj7bToO6OB7sq0mqVWp6xXsaPy4+3bz+oEw?=
+ =?us-ascii?Q?2hJGyXEJpCeAYB2O78XW+2poWqC9d6PA5LRXuPoxCuNSafRII25kFKUX+aXK?=
+ =?us-ascii?Q?Pmuy351oZhZqBSl4/fgLAOZS33WS0De5MVyEA/WSxDOd9/3oSzVOuCI+9X9S?=
+ =?us-ascii?Q?u6tuK0nZKjc5+XtqcNJcXi2ovvP++auFHfH87QyCJZcauj4RfYAgIyiNf810?=
+ =?us-ascii?Q?gXfL3tK35C3xyPXjDjd7wwntwjMt6vNJcA98dXTgEjOguccUE5ySVbPTH6v3?=
+ =?us-ascii?Q?YZ2vJ9EDJHiYxJ5QZgCXDF8oEZm/UYb6nvi9G/RDB13QVPgDywpGLiunoGq9?=
+ =?us-ascii?Q?PrOLZ8oDL6Vt3IDlChhS4lrte7gRbC6QKnh38dXceRF3A6+VwvJtiFC1Kw9Y?=
+ =?us-ascii?Q?J7SEoSaBbXDzRqvm4PRW0nLJyz5VHeI4e3XZsftrw1wwGSbtkmHQULYtTKkC?=
+ =?us-ascii?Q?ftOYScONBbQjgarg+1BTUuF6uPNz/PZGviwuYjbR8Zy5kA=3D=3D?=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: maxlinear.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR19MB3693.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44589e63-9e4e-4122-1bef-08d8e8597257
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2021 08:56:53.9510
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: dac28005-13e0-41b8-8280-7663835f2b1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: clRJZqQ/cO71mFAY44MbDo2FFvSOZrasvVvvg2vR+hkTj1Ero4afzLIazp//0Rri9vNEPdT5OBk9+R7YxjHbuA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR19MB3726
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=CUSA115A51 smtp.mailfrom=rtanwar@maxlinear.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: maxlinear.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hoi Hans,
-
-on a slighly different but also related topic. Did you ever come across
-SMSC SCH5347? Seems to be pretty similar to 56xx, only with spec non
-public ... and probably less often in use
-Maybe you happen to have code, or know the differences. We already have
-it working with a modified copy of sch56xx but that is still rough and
-i thought i ask before we potentially duplicate work.
-
-groetjes,
-Henning
-
-Am Mon, 15 Mar 2021 19:01:13 +0100
-schrieb Hans de Goede <hdegoede@redhat.com>:
-
-> Hi,
-> 
-> On 3/15/21 6:00 PM, Henning Schild wrote:
-> > Am Mon, 15 Mar 2021 17:31:49 +0100
-> > schrieb Hans de Goede <hdegoede@redhat.com>:
-> >   
-> >> Hi,
-> >>
-> >> On 3/15/21 3:58 PM, Henning Schild wrote:  
-> >>> Introduce a global variable to remember the matching entry for
-> >>> later printing. Also having a callback allows to stop matching
-> >>> after the first hit.
-> >>>
-> >>> Signed-off-by: Henning Schild <henning.schild@siemens.com>
-> >>> ---
-> >>>  drivers/platform/x86/pmc_atom.c | 26 ++++++++++++++++++++------
-> >>>  1 file changed, 20 insertions(+), 6 deletions(-)
-> >>>
-> >>> diff --git a/drivers/platform/x86/pmc_atom.c
-> >>> b/drivers/platform/x86/pmc_atom.c index 38542d547f29..d0f74856cd8b
-> >>> 100644 --- a/drivers/platform/x86/pmc_atom.c
-> >>> +++ b/drivers/platform/x86/pmc_atom.c
-> >>> @@ -364,8 +364,16 @@ static void pmc_dbgfs_register(struct pmc_dev
-> >>> *pmc) #endif /* CONFIG_DEBUG_FS */
-> >>>  
-> >>>  static bool pmc_clk_is_critical = true;
-> >>> +static const struct dmi_system_id *dmi_critical;
-> >>>  
-> >>> -static int siemens_clk_is_critical(const struct dmi_system_id *d)
-> >>> +static int dmi_callback(const struct dmi_system_id *d)
-> >>> +{
-> >>> +	dmi_critical = d;    
-> >>
-> >> Don't introduce a global variable for this please. Instead just
-> >> directly print the ident of the matching dmi_system_id here.  
-> > 
-> > Sorry, missed that part. Result looks nice and clean, thanks. I
-> > think i will squash it into 4/4 in v3 and not follow up here for
-> > now.  
-> 
-> Ack, that sounds good to me.
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> >>> +
-> >>> +	return 1;
-> >>> +}
-> >>> +
-> >>> +static int dmi_callback_siemens(const struct dmi_system_id *d)
-> >>>  {
-> >>>  	u32 st_id;
-> >>>  
-> >>> @@ -373,7 +381,7 @@ static int siemens_clk_is_critical(const
-> >>> struct dmi_system_id *d) goto out;
-> >>>  
-> >>>  	if (st_id == SIMATIC_IPC_IPC227E || st_id ==
-> >>> SIMATIC_IPC_IPC277E)
-> >>> -		return 1;
-> >>> +		return dmi_callback(d);
-> >>>  
-> >>>  out:
-> >>>  	pmc_clk_is_critical = false;
-> >>> @@ -388,6 +396,7 @@ static const struct dmi_system_id
-> >>> critclk_systems[] = { {
-> >>>  		/* pmc_plt_clk0 is used for an external HSIC USB
-> >>> HUB */ .ident = "MPL CEC1x",
-> >>> +		.callback = dmi_callback,
-> >>>  		.matches = {
-> >>>  			DMI_MATCH(DMI_SYS_VENDOR, "MPL AG"),
-> >>>  			DMI_MATCH(DMI_PRODUCT_NAME, "CEC10
-> >>> Family"), @@ -396,6 +405,7 @@ static const struct dmi_system_id
-> >>> critclk_systems[] = { {
-> >>>  		/* pmc_plt_clk0 - 3 are used for the 4 ethernet
-> >>> controllers */ .ident = "Lex 3I380D",
-> >>> +		.callback = dmi_callback,
-> >>>  		.matches = {
-> >>>  			DMI_MATCH(DMI_SYS_VENDOR, "Lex
-> >>> BayTrail"), DMI_MATCH(DMI_PRODUCT_NAME, "3I380D"),
-> >>> @@ -404,6 +414,7 @@ static const struct dmi_system_id
-> >>> critclk_systems[] = { {
-> >>>  		/* pmc_plt_clk* - are used for ethernet
-> >>> controllers */ .ident = "Lex 2I385SW",
-> >>> +		.callback = dmi_callback,
-> >>>  		.matches = {
-> >>>  			DMI_MATCH(DMI_SYS_VENDOR, "Lex
-> >>> BayTrail"), DMI_MATCH(DMI_PRODUCT_NAME, "2I385SW"),
-> >>> @@ -412,6 +423,7 @@ static const struct dmi_system_id
-> >>> critclk_systems[] = { {
-> >>>  		/* pmc_plt_clk* - are used for ethernet
-> >>> controllers */ .ident = "Beckhoff CB3163",
-> >>> +		.callback = dmi_callback,
-> >>>  		.matches = {
-> >>>  			DMI_MATCH(DMI_SYS_VENDOR, "Beckhoff
-> >>> Automation"), DMI_MATCH(DMI_BOARD_NAME, "CB3163"),
-> >>> @@ -420,6 +432,7 @@ static const struct dmi_system_id
-> >>> critclk_systems[] = { {
-> >>>  		/* pmc_plt_clk* - are used for ethernet
-> >>> controllers */ .ident = "Beckhoff CB4063",
-> >>> +		.callback = dmi_callback,
-> >>>  		.matches = {
-> >>>  			DMI_MATCH(DMI_SYS_VENDOR, "Beckhoff
-> >>> Automation"), DMI_MATCH(DMI_BOARD_NAME, "CB4063"),
-> >>> @@ -428,6 +441,7 @@ static const struct dmi_system_id
-> >>> critclk_systems[] = { {
-> >>>  		/* pmc_plt_clk* - are used for ethernet
-> >>> controllers */ .ident = "Beckhoff CB6263",
-> >>> +		.callback = dmi_callback,
-> >>>  		.matches = {
-> >>>  			DMI_MATCH(DMI_SYS_VENDOR, "Beckhoff
-> >>> Automation"), DMI_MATCH(DMI_BOARD_NAME, "CB6263"),
-> >>> @@ -436,13 +450,14 @@ static const struct dmi_system_id
-> >>> critclk_systems[] = { {
-> >>>  		/* pmc_plt_clk* - are used for ethernet
-> >>> controllers */ .ident = "Beckhoff CB6363",
-> >>> +		.callback = dmi_callback,
-> >>>  		.matches = {
-> >>>  			DMI_MATCH(DMI_SYS_VENDOR, "Beckhoff
-> >>> Automation"), DMI_MATCH(DMI_BOARD_NAME, "CB6363"),
-> >>>  		},
-> >>>  	},
-> >>>  	{
-> >>> -		.callback = siemens_clk_is_critical,
-> >>> +		.callback = dmi_callback_siemens,
-> >>>  		.ident = "SIEMENS AG",
-> >>>  		.matches = {
-> >>>  			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
-> >>> @@ -457,7 +472,6 @@ static int pmc_setup_clks(struct pci_dev
-> >>> *pdev, void __iomem *pmc_regmap, {
-> >>>  	struct platform_device *clkdev;
-> >>>  	struct pmc_clk_data *clk_data;
-> >>> -	const struct dmi_system_id *d;
-> >>>  
-> >>>  	clk_data = kzalloc(sizeof(*clk_data), GFP_KERNEL);
-> >>>  	if (!clk_data)
-> >>> @@ -468,8 +482,8 @@ static int pmc_setup_clks(struct pci_dev
-> >>> *pdev, void __iomem *pmc_regmap, if
-> >>> (dmi_check_system(critclk_systems)) { clk_data->critical =
-> >>> pmc_clk_is_critical; if (clk_data->critical) {
-> >>> -			d = dmi_first_match(critclk_systems);
-> >>> -			pr_info("%s critclks quirk enabled\n",
-> >>> d->ident);
-> >>> +			pr_info("%s critclks quirk enabled\n",
-> >>> +				dmi_critical->ident);
-> >>>  		}
-> >>>  	}
-> >>>  
-> >>>     
-> >>  
-> >   
-> 
+On 15/3/2021 5:44 pm, Rahul Tanwar wrote:=0A> From: Arnd Bergmann<arnd@kern=
+el.org>=0A> To: Pavel Machek<pavel@ucw.cz>,=0A> =09Amireddy Mallikarjuna re=
+ddy=0A> =09<mallikarjunax.reddy@linux.intel.com>=0A> Cc: Arnd Bergmann<arnd=
+@arndb.de>, Dan Murphy<dmurphy@ti.com>,=0A> =09linux-leds@vger.kernel.org,l=
+inux-kernel@vger.kernel.org=0A> Subject:[PATCH] leds: lgm: fix gpiolib depe=
+ndency  <https://lore.kernel.org/lkml/20210308153052.2353885-1-arnd@kernel.=
+org/#r>=0A> Date: Mon,  8 Mar 2021 16:30:46 +0100=0A> Message-ID:<202103081=
+53052.2353885-1-arnd@kernel.org>  (raw  <https://lore.kernel.org/lkml/20210=
+308153052.2353885-1-arnd@kernel.org/raw>)=0A>=20=0A> From: Arnd Bergmann<ar=
+nd@arndb.de>=0A>=20=0A> Without gpiolib, the driver fails to build:=0A>=20=
+=0A>      drivers/leds/blink/leds-lgm-sso.c:123:19: error: field has incomp=
+lete type 'struct gpio_chip'=0A>              struct gpio_chip chip;=0A>   =
+                            ^=0A>      include/linux/gpio.h:107:8: note: fo=
+rward declaration of 'struct gpio_chip'=0A>      struct gpio_chip;=0A>     =
+        ^=0A>      drivers/leds/blink/leds-lgm-sso.c:263:3: error: implicit=
+ declaration of function 'gpiod_set_value' [-Werror,-Wimplicit-function-dec=
+laration]=0A>                      gpiod_set_value(led->gpiod, val);=0A>   =
+                   ^=0A>      drivers/leds/blink/leds-lgm-sso.c:263:3: note=
+: did you mean 'gpio_set_value'?=0A>      include/linux/gpio.h:168:20: note=
+: 'gpio_set_value' declared here=0A>      static inline void gpio_set_value=
+(unsigned gpio, int value)=0A>                         ^=0A>      drivers/l=
+eds/blink/leds-lgm-sso.c:345:3: error: implicit declaration of function 'gp=
+iod_set_value' [-Werror,-Wimplicit-function-declaration]=0A>               =
+       gpiod_set_value(led->gpiod, 1);=0A>                      ^=0A>=20=0A=
+> Add the dependency in Kconfig.=0A>=20=0A> Fixes: c3987cd2bca3 ("leds: lgm=
+: Add LED controller driver for LGM SoC")=0A> Signed-off-by: Arnd Bergmann<=
+arnd@arndb.de>=0A> ---=0A>   drivers/leds/blink/Kconfig  <https://lore.kern=
+el.org/lkml/20210308153052.2353885-1-arnd@kernel.org/#Z30drivers:leds:blink=
+:Kconfig>  | 1 +=0A>   1 file changed, 1 insertion(+)=0A>=20=0A> diff=20=0A=
+> <https://lore.kernel.org/lkml/20210308153052.2353885-1-arnd@kernel.org/#i=
+Z30drivers:leds:blink:Kconfig>=20=0A> --git a/drivers/leds/blink/Kconfig b/=
+drivers/leds/blink/Kconfig index=20=0A> 265b53476a80..6dedc58c47b3 100644 -=
+-- a/drivers/leds/blink/Kconfig +++=20=0A> b/drivers/leds/blink/Kconfig @@ =
+-9,6 +9,7 @@ if LEDS_BLINK  =20=0A>   config LEDS_BLINK_LGM=0A>   =09trista=
+te "LED support for Intel LGM SoC series"=0A> + depends on GPIOLIB   =09dep=
+ends on LEDS_CLASS=0A>   =09depends on MFD_SYSCON=0A>   =09depends on OF=0A=
+> --=20=0A> 2.29.2=0A>=20=0A=0AAcked-by: Rahul Tanwar <rtanwar@maxlinear.co=
+m>=0A=0A=0A
 
