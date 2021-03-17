@@ -2,83 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B797533E1D3
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Mar 2021 00:01:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E43D233E637
+	for <lists+linux-leds@lfdr.de>; Wed, 17 Mar 2021 02:36:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbhCPXBW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Mar 2021 19:01:22 -0400
-Received: from 1.mo179.mail-out.ovh.net ([178.33.111.220]:46775 "EHLO
-        1.mo179.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229646AbhCPXA7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Mar 2021 19:00:59 -0400
-X-Greylist: delayed 964 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Mar 2021 19:00:58 EDT
-Received: from player762.ha.ovh.net (unknown [10.110.208.168])
-        by mo179.mail-out.ovh.net (Postfix) with ESMTP id CE848192FBE
-        for <linux-leds@vger.kernel.org>; Tue, 16 Mar 2021 23:44:52 +0100 (CET)
-Received: from milecki.pl (ip-194-187-74-233.konfederacka.maverick.com.pl [194.187.74.233])
-        (Authenticated sender: rafal@milecki.pl)
-        by player762.ha.ovh.net (Postfix) with ESMTPSA id B5C461C1A0637;
-        Tue, 16 Mar 2021 22:44:44 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-104R00590ba227f-f0e6-4995-86e5-396bb2d1189f,
-                    A1A54852ADC5FECC858E3B1428EFF252DD499A2B) smtp.auth=rafal@milecki.pl
-X-OVh-ClientIp: 194.187.74.233
-Subject: Re: [PATCH] dt-bindings: leds: leds-gpio: fix & extend node regex
-To:     Rob Herring <robh@kernel.org>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>
-References: <20210310070025.9150-1-zajec5@gmail.com>
- <20210316223122.GA3800914@robh.at.kernel.org>
-From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Message-ID: <37f56e82-f60a-2375-e809-2b12fde5311b@milecki.pl>
-Date:   Tue, 16 Mar 2021 23:44:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        id S230085AbhCQBfu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Mar 2021 21:35:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59450 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229490AbhCQBfs (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 16 Mar 2021 21:35:48 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F4F364E76;
+        Wed, 17 Mar 2021 01:35:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615944948;
+        bh=wfVsG34NpnkPgDNvkfeM6rHhymxXjOqDbCNsoIlma9s=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=YIqypZavA3LNYBIPc1EreM/QDPJFqyeB+Xdvbxq1wCfvXWZPydjiMAe93cDQh4+eP
+         gNfTj7D7paWO1O1uNQp5ZMkVeXR4tM+BdMTxVPf7ZHJgcbbQYFnHQUnkS0MbaK6aBI
+         1lYIEDicUaOY6H5SCN9STWjcGvWH9N6oQxERx16WPgjZ+GZOtcqa4v8Cv9dr0er7bD
+         zXQaQIScBIieUeVWBkI/izQUVGrDePmYFQnkIK9ggZdGQlXuXgCXkOD/lXjuMFUPAa
+         ElY2b6rfq+i9r07KPQ0xNtZvpLo2I2UF9Ks3/hgj/xLiUs+4v6dyI4uRkLJEViE+go
+         QGH6AH4BQz8Jg==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20210316223122.GA3800914@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 3811171185956523759
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudefvddgudeiiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeftrghfrghlucfoihhlvggtkhhiuceorhgrfhgrlhesmhhilhgvtghkihdrphhlqeenucggtffrrghtthgvrhhnpeekudehjeehffdufefhgffhgeejjeelteekveeuleevgeekhffhffeiheellefgveenucfkpheptddrtddrtddrtddpudelgedrudekjedrjeegrddvfeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeeivddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehrrghfrghlsehmihhlvggtkhhirdhplhdprhgtphhtthhopehlihhnuhigqdhlvggushesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210316194918.3528417-1-robh@kernel.org>
+References: <20210316194918.3528417-1-robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Clean-up undocumented compatible strings
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Vinod Koul <vkoul@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org
+To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Date:   Tue, 16 Mar 2021 18:35:46 -0700
+Message-ID: <161594494696.1478170.13888306623342465859@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 16.03.2021 23:31, Rob Herring wrote:
-> On Wed, Mar 10, 2021 at 08:00:25AM +0100, Rafał Miłecki wrote:
->> From: Rafał Miłecki <rafal@milecki.pl>
->>
->> The old regex allowed only 1 character to follow the "led-" prefix which
->> was most likely just an overlook.
-> 
-> Indeed.
-> 
->> Fix it and while at it allow dashes in
->> node names. It allows more meaningful names and it helpful e.g. when
->> having the same function name with 2 different colors. For example:
->> 1. led-power-white
->> 2. led-power-blue
-> 
-> No, node names are supposed to be generic and reflect the class of
-> device.
+Quoting Rob Herring (2021-03-16 12:49:18)
+> Adding checks for undocumented compatible strings reveals a bunch of
+> warnings in the DT binding examples. Fix the cases which are typos, just
+> a mismatch between the schema and the example, or aren't documented at al=
+l.
+> In a couple of cases, fixing the compatible revealed some schema errors
+> which are fixed.
+>=20
+> There's a bunch of others remaining after this which have bindings, but
+> those aren't converted to schema yet.
+>=20
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-clk@vger.kernel.org
+> Cc: dmaengine@vger.kernel.org
+> Cc: linux-i3c@lists.infradead.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-leds@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-serial@vger.kernel.org
+> Cc: linux-spi@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
 
-There was some extra discussion on this patch that has ended up with a question about numbering nodes.
-
-Current binding assumes that nodes should be numbered with independent suffix numbers like:
-led-0 { };
-led-1 { };
-led-2 { };
-
-Do you think this could / should be improved somehow?
-
-One option I was thinking about was using:
-led@0 { };
-led@5 { };
-where numbers ("0", "5") should match GPIO numbers.
-
-Is that a valid solution and does it improve things to make it worth it?
+Acked-by: Stephen Boyd <sboyd@kernel.org>
