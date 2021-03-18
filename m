@@ -2,166 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2E943404E8
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Mar 2021 12:45:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E73D3405B4
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Mar 2021 13:41:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229703AbhCRLpS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 Mar 2021 07:45:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20428 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229745AbhCRLpH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 18 Mar 2021 07:45:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616067906;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rj+MpIByvkcAPNgiHQIZYz7YACaH5mhuQYo9q5r2KR0=;
-        b=hy8A3Hd62mjlIYXgnIAj9nbr1M2Vs/Jhr8PUPSlquPf+K0rdnRq6+2D0K1tqfAmBUKNrP9
-        A7qi3wat9lva0Y+6kU8nOM8NKECUOVpgPQFo9VtxvAY8IzJvMGzL0PoyqWuZacbpvdwZNu
-        6uLm4Ke+O5NzIDoSVushzPmp6GPTfM0=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-Cxh6Rd0hNPe4fpzjgYcySg-1; Thu, 18 Mar 2021 07:45:04 -0400
-X-MC-Unique: Cxh6Rd0hNPe4fpzjgYcySg-1
-Received: by mail-ed1-f71.google.com with SMTP id i6so21144774edq.12
-        for <linux-leds@vger.kernel.org>; Thu, 18 Mar 2021 04:45:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rj+MpIByvkcAPNgiHQIZYz7YACaH5mhuQYo9q5r2KR0=;
-        b=kiWHSEFYKCBNx+Lyzq3qez4Gm9iJkAwgt1qhuikjswz9saEqZ6AvBGEFFNwyQk5Ij9
-         AeUuhyJVwXa7JmoTYBgwhj6sHBWkJwOK37uPEzBMwywnIRoFQZxLkDYHXWiIKHbUFHQM
-         Gw2OpYXpIWdpis54FBhYHqOEL+ZT5PQWRQQ1uFbfVvaa5FjXW9ma+wCtm4Qt3OhHQqwu
-         CKTba8zdveCBZ/NsoLvzqfodQTvQaRqLOI1PPT+aRIW5fZlyEfYy2doirR7Du8mgYjW7
-         nAx37TDITnLBauUbo40/Xe5tsFzHVLoeqiLdSqRuLVA7dlmUWqOzXMFr8bY6SQU5d2rY
-         +G/Q==
-X-Gm-Message-State: AOAM530zolVQE/4K/K5oEL6nnvL3DyoisagZRbicDVMGW0Za1fUkXXZT
-        LLtVFgX5OlKLJ1iA6rlOeEIBHkfpaYAO4E1LQS4rHd07jfG/3Zoguir/7p+882IDJIZxsFwt5BH
-        09zrdDLx1/p/YJDQf7JQazQ==
-X-Received: by 2002:a17:906:53d7:: with SMTP id p23mr40817617ejo.140.1616067903029;
-        Thu, 18 Mar 2021 04:45:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlfX++OyTquXtlP0GTkMhXPpXiwr/Qlrg8hU/5WIl+yQy4mn6b3yGnHV3Yqj/B2qETXfxHog==
-X-Received: by 2002:a17:906:53d7:: with SMTP id p23mr40817596ejo.140.1616067902848;
-        Thu, 18 Mar 2021 04:45:02 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id a12sm1830424edx.91.2021.03.18.04.45.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Mar 2021 04:45:02 -0700 (PDT)
-Subject: Re: [PATCH v2 1/4] platform/x86: simatic-ipc: add main driver for
- Siemens devices
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Henning Schild <henning.schild@siemens.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Pavel Machek <pavel@ucw.cz>
-References: <20210315095710.7140-1-henning.schild@siemens.com>
- <20210315095710.7140-2-henning.schild@siemens.com>
- <CAHp75VdXDcTfNL9QRQ5XE-zVLHacfMKHUxhse3=dAfJbOJdObQ@mail.gmail.com>
- <20210317201311.70528fd4@md1za8fc.ad001.siemens.net>
- <92080a68-9029-3103-9240-65c92d17bf16@redhat.com>
- <6c7d165d-1332-2039-0af3-9875b482894b@metux.net>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <420f0e08-bec8-f85a-d9af-b9900072df66@redhat.com>
-Date:   Thu, 18 Mar 2021 12:45:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <6c7d165d-1332-2039-0af3-9875b482894b@metux.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S230204AbhCRMkg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 18 Mar 2021 08:40:36 -0400
+Received: from a0.mail.mailgun.net ([198.61.254.59]:51031 "EHLO
+        a0.mail.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231278AbhCRMkY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 Mar 2021 08:40:24 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1616071224; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=s6VV7GTQncp21xvrXYojy8gPu45408PlPCy0aMnUmSc=; b=kYoE3XcxdN6UO4SKexKc7npnqykFB1crTNChe04OvrtM4cKPegM6vwogFEjRq8ZSqd004nrm
+ TqmCoaOCYPNcAouprZr4a514kI14GkuFZLBKg2mpbjCrP9QfdsPHtWxSFxjQcJ6V1Nkd9NEw
+ /VsC4tvKf9gWZ1eM8L9dpBR/VJw=
+X-Mailgun-Sending-Ip: 198.61.254.59
+X-Mailgun-Sid: WyJkODczOCIsICJsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 60534a2a3f267701a4e26bd3 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 18 Mar 2021 12:40:10
+ GMT
+Sender: kgunda=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 1A5ADC4346E; Thu, 18 Mar 2021 12:40:09 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
+        autolearn=no autolearn_force=no version=3.4.0
+Received: from kgunda-linux.qualcomm.com (unknown [202.46.22.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kgunda)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 508BCC433C6;
+        Thu, 18 Mar 2021 12:40:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 508BCC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=kgunda@codeaurora.org
+From:   Kiran Gunda <kgunda@codeaurora.org>
+To:     bjorn.andersson@linaro.org, jingoohan1@gmail.com,
+        lee.jones@linaro.org, b.zolnierkie@samsung.com,
+        dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
+        jacek.anaszewski@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+        mark.rutland@arm.com, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        phone-devel@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, Kiran Gunda <kgunda@codeaurora.org>
+Subject: [PATCH V5 0/2] Fix WLED FSC Sync and brightness Sync settings
+Date:   Thu, 18 Mar 2021 18:09:38 +0530
+Message-Id: <1616071180-24493-1-git-send-email-kgunda@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+This patch series has the following two WLED fixes
+ 1. As per the current implementation, for WLED5, after
+    the FSC (Full Scale Current) update the driver is incorrectly
+    toggling the MOD_SYNC register instead of toggling the SYNC register.
+    The patch 1/2 fixes this by toggling the SYNC register after
+    FSC update.
 
-On 3/18/21 12:30 PM, Enrico Weigelt, metux IT consult wrote:
-> On 17.03.21 21:03, Hans de Goede wrote:
-> 
-> Hi,
-> 
->>> It just identifies the box and tells subsequent drivers which one it
->>> is, which watchdog and LED path to take. Moving the knowledge of which
->>> box has which LED/watchdog into the respective drivers seems to be the
->>> better way to go.
->>>
->>> So we would end up with a LED and a watchdog driver both
->>> MODULE_ALIAS("dmi:*:svnSIEMENSAG:*");
-> 
-> Uh, isn't that a bit too broad ? This basically implies that Siemens
-> will never produce boards with different configurations.
+ 2. Currently, the sync bits are set-then-cleared after FSC and brightness
+    update. As per hardware team recommendation the FSC and brightness sync
+    takes place from clear-then-set transition of the sync bits.
+    The patch 2/2 fies this issue.
 
-There is a further check done in probe() based on some Siemens specific
-DMI table entries.
+changes from V4:
+  1. Rebased this patch series on the below patch.
+     "backlight-qcom-wled-Use-sink_addr-for-sync-toggle.patch".
 
->>> and doing the identification with the inline dmi from that header,
->>> doing p2sb with the support to come ... possibly a "//TODO\ninline" in
->>> the meantime.
->>>
->>> So no "main platform" driver anymore, but still central platform
->>> headers.
->>>
->>> Not sure how this sounds, but i think making that change should be
->>> possible. And that is what i will try and go for in v3.
->>
->> Dropping the main drivers/platform/x86 driver sounds good to me,
->> I was already wondering a bit about its function since it just
->> instantiates devs to which the other ones bind to then instantiate
->> more devs (in the LED case).
-> 
-> hmm, IMHO that depends on whether the individual sub-devices can be
-> more generic than just that specific machine. (@Hanning: could you
-> tell us more about that ?).
-> 
-> Another question is how they're actually probed .. only dmi or maybe
-> also pci dev ? (i've seen some refs to pci stuff in the led driver, but
-> missed the other code thats called here).
-> 
-> IMHO, if the whole thing lives on some PCI device (which can be probed
-> via pci ID), and that device has the knowledge, where the LED registers
-> actually are (eg. based on device ID, pci mmio mapping, ...) then there
-> should be some parent driver that instantiates the led devices (and
-> possibly other board specific stuff). That would be a clear separation,
-> modularization. In that case, maybe this LED driver could even be
-> replaced by some really generic "register-based-LED" driver, which just
-> needs to be fed with some parameters like register ranges, bitmasks, etc.
-> 
-> OTOH, if everything can be derived entirely from DMI match, w/o things
-> like pci mappings involved (IOW: behaves like directly wired to the
-> cpu's mem/io bus, no other "intelligent" bus involved), and it's all
-> really board specific logic (no generic led or gpio controllers
-> involved), then it might be better to have entirely separate drivers.
+Changes from V3:
+  1. Updated the patch description as per Daneil's suggestion.
+  2. Added Daniel's "Reviewed-by" tag for patch 2/2.
+  3. Updated the cover letter to use "set" and "clear" properly.
+ 
+Changes from V2:
+  1. Added Daniel's "Reviewed-by" tag for patch 1/2.
+  2. Updated the patch 2/2 description with "set" and "clear"
+     terminology instead of "1" and "0".
+  3. Updated the cover letter with "set" and "clear" terminology
+     instead of "1" and "0".
 
-FWIW I'm fine with either solution, and if we go the "parent driver"
-route I'm happy to have that driver sit in drivers/platform/x86
-(once all the discussions surrounding this are resolved).
+Changes from V1:
+  1. Updated the cover letter.
+  2. Updated the description of the patches as per Daniel's suggestion.
 
-My reply was because I noticed that the Led driver seemed to sort of
-also act as a parent driver (last time I looked) and instantiated a
-bunch of stuff, so then we have 2 parent(ish) drivers. If things stay
-that way then having 2 levels of parent drivers seems a bit too much
-to me, esp. if it can all be done cleanly in e.g. the LED driver.
+Kiran Gunda (2):
+  backlight: qcom-wled: Fix FSC update issue for WLED5
+  backlight: qcom-wled: Correct the sync_toggle sequence
 
-But as said I'm fine either way as long as the code is reasonably
-clean and dealing with this sort of platform specific warts happens
-a lot in drivers/platform/x86 .
+ drivers/video/backlight/qcom-wled.c | 37 +++++++++++++++++++++++++------------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
 
-Regards,
-
-Hans
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+ a Linux Foundation Collaborative Project
 
