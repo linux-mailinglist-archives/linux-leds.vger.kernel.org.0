@@ -2,125 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E13BE33FCE9
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Mar 2021 02:56:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2A9E33FD19
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Mar 2021 03:12:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbhCRB4B (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 17 Mar 2021 21:56:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33504 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbhCRBz3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 17 Mar 2021 21:55:29 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1234::107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF26DC06174A;
-        Wed, 17 Mar 2021 18:55:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=oMzWJkVczBjzFzxKEp2q/6qdsYB3/dcAkAMFScMmPws=; b=T4uHDSxbTJwEngklC0rXr16s7D
-        mcgrxFUr7QdYI5sOiBjMlgy+CCw1qjKF8ziworeae7TXPHnukO6YRdia6tA93S9jLnxYCoQf/PFx9
-        sJFe2HGfCaM8XaHtaeZP1FSWGi/5TigixQiyeMdz4KelmcXnHyswalaDfCdicpneshJbIUwAnB02+
-        mtBIb8+sEdlvFvTZMapz7Joqd8AzYHmqsxeQBh3c48M1Yw80MqFSG0YDpuQVBbJVptFnuL8dFpAfo
-        wSUx6/3ISGHAj9dVHUzLSurZSBP0p3f7csXNw4XuPowSXRNtNTu1Pt+CMMADQBLFQDGjCJnKuODWd
-        ZwwvlaEA==;
-Received: from [2601:1c0:6280:3f0::9757]
-        by merlin.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lMhrp-001hqj-4a; Thu, 18 Mar 2021 01:54:35 +0000
-Subject: Re: [PATCH 1/1] leds: lgm: Improve Kconfig help
-To:     Rahul Tanwar <rtanwar@maxlinear.com>, Pavel Machek <pavel@ucw.cz>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        id S230391AbhCRCLx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 17 Mar 2021 22:11:53 -0400
+Received: from smtp2.axis.com ([195.60.68.18]:39726 "EHLO smtp2.axis.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230486AbhCRCLn (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 17 Mar 2021 22:11:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1616033503;
+  x=1647569503;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=79JSNtFL9rJhQrhCSR7TSC+YDAGv+A8hVh/ky4qOLNI=;
+  b=fbXRvepNIABmiTus012nyXOPpYIP7EH48DTcKk1Tj2p6qO1VSGUts7K7
+   po0vFXBMeONjpNTmzkMvYEwXnnU78HfTeb/f7/5/pbXD835fbEgTOOPxM
+   6aJVbVmhil4/xAImSiaU0Bg1gvrcF7vEwWmBQx77/nlaRbMws5j4DT70+
+   fo+XcE4q0wN27DgMnU6oFs0sGCd57j67qO9gwjyViYBWtgJifEhm/7J7Q
+   9lLSTVcPRDPmKvSmux+B1Daywf3LvdQFuQH61VC9ESF2Zg4N7OxmtHtNz
+   v6ZQ5PVeXqonI2DXR1EDL0AvlDmaLayM7i5OkW8U6Qt/qtd6zO7zHpIye
+   A==;
+From:   Hermes Zhang <Hermes.Zhang@axis.com>
+To:     Pavel Machek <pavel@ucw.cz>, Marek Behun <marek.behun@nic.cz>
+CC:     Dan Murphy <dmurphy@ti.com>, kernel <kernel@axis.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Adam Borowski <kilobyte@angband.pl>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        John Crispin <john@phrozen.org>,
-        Hauke Mehrtens <hmehrtens@maxlinear.com>,
-        Cheol Yong Kim <ckim@maxlinear.com>,
-        Qiming Wu <qwu@maxlinear.com>
-References: <8ae0456a08ef1a2491fd382b273ff7259e6fcbd0.1615969806.git.rtanwar@maxlinear.com>
- <MN2PR19MB3693EEA37EA1FC18238FE45EB16A9@MN2PR19MB3693.namprd19.prod.outlook.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <42a0c810-4b6f-1853-60c9-e36a9dc6100a@infradead.org>
-Date:   Wed, 17 Mar 2021 18:54:24 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <MN2PR19MB3693EEA37EA1FC18238FE45EB16A9@MN2PR19MB3693.namprd19.prod.outlook.com>
-Content-Type: text/plain; charset=windows-1252
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Subject: RE: [PATCH] leds: leds-dual-gpio: Add dual GPIO LEDs driver
+Thread-Topic: [PATCH] leds: leds-dual-gpio: Add dual GPIO LEDs driver
+Thread-Index: AQHXFnc53ECqmB4gek68ETSLZV586Kp/A6+AgAoFnGA=
+Date:   Thu, 18 Mar 2021 02:11:42 +0000
+Message-ID: <fbeb1c97406c4ea8b6527ccbb25d5fe9@XBOX01.axis.com>
+References: <20210311130408.10820-1-chenhui.zhang@axis.com>
+ <20210311180225.GA11650@duo.ucw.cz>
+In-Reply-To: <20210311180225.GA11650@duo.ucw.cz>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+> > +	priv =3D devm_kzalloc(dev, sizeof(struct gpio_dual_leds_priv),
+> GFP_KERNEL);
+> > +	if (!priv)
+> > +		return -ENOMEM;
+> > +
+> > +	priv->low_gpio =3D devm_gpiod_get(dev, "low", GPIOD_OUT_LOW);
+> > +	ret =3D PTR_ERR_OR_ZERO(priv->low_gpio);
+> > +	if (ret) {
+> > +		dev_err(dev, "cannot get low-gpios %d\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	priv->high_gpio =3D devm_gpiod_get(dev, "high", GPIOD_OUT_LOW);
+> > +	ret =3D PTR_ERR_OR_ZERO(priv->high_gpio);
+> > +	if (ret) {
+> > +		dev_err(dev, "cannot get high-gpios %d\n", ret);
+> > +		return ret;
+> > +	}
+>=20
+> Actually... I'd call it led-0 and led-1 or something. Someone may/will co=
+me
+> with 4-bit GPIO LED one day, and it would be cool if this could be used w=
+ith
+> minimal effort.
+>=20
+> Calling it multi_led in the driver/bindings would bnot be bad, either.
+>=20
 
-For the leds/blink/Kconfig file at least, something has
-changed all of the tabs to spaces.
+Hi all,
 
-Keywords in Kconfig files should be indented with one tab,
-while help text should be indented with one tab + 2 spaces.
+I have try to use leds-regulator to implement my case, most works. But the =
+only thing doesn't work is the enable-gpio. In my case, we don't have a rea=
+l enable gpio, so when we set LED_OFF, it could not off the LED as we expec=
+ted.=20
 
+So I think I will back to the new multi LED driver, but make it more generi=
+c.=20
 
-On 3/17/21 3:04 AM, Rahul Tanwar wrote:
-> Remove unnecessary Kconfig symbol LEDS_BLINK
-> Improve Kconfig help text to make it more useful.
-> 
-> Signed-off-by: Rahul Tanwar <rtanwar@maxlinear.com>
-> ---
-> 
-> diff --git a/drivers/leds/blink/Kconfig b/drivers/leds/blink/Kconfig
-> index 6dedc58c47b3..2de2973fbc6b 100644
-> --- a/drivers/leds/blink/Kconfig
-> +++ b/drivers/leds/blink/Kconfig
-> @@ -1,21 +1,19 @@
-> -menuconfig LEDS_BLINK
-> -       bool "LED Blink support"
-> -       depends on LEDS_CLASS
-> -       help
-> -         This option enables blink support for the leds class.
-> -         If unsure, say Y.
-> -
-> -if LEDS_BLINK
-> -
-> -config LEDS_BLINK_LGM
-> -       tristate "LED support for Intel LGM SoC series"
-> +config LEDS_LGM
-> +       tristate "LED support for LGM SoC series"
->          depends on GPIOLIB
->          depends on LEDS_CLASS
->          depends on MFD_SYSCON
->          depends on OF
->          help
-> -         Parallel to serial conversion, which is also called SSO 
-> controller,
-> -         can drive external shift register for LED outputs.
-> -         This enables LED support for Serial Shift Output controller(SSO).
-> +         This option enables support for LEDs connected to GPIO lines on
-> +         Lightning Mountain(LGM) SoC. These LEDs are driven by a Serial
-
-                      Mountain (LGM)
-
-> +         Shift Output(SSO) controller. The driver supports hardware
-
-                  Output (SSO)
-
-> +         blinking with a configurable LED update/blink frequency in two
-> +         modes, 2/4/8/10 Hz in low speed mode and 50/100/200/250 KHz in
-> +         high speed mode. The LEDs can be configured to be triggered by
-> +         SW/CPU or by hardware. Say 'Y' here if you are working on LGM
-
-Please spell out "software".
-
-> +         SoC based platform.
-> +
-> +         To compile this driver as a module, choose M here: the
-> +         module will be called leds-lgm-sso.
-> 
-> -endif # LEDS_BLINK
-
-thanks.
--- 
-~Randy
-
+Best Regards,
+Hermes
