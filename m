@@ -2,82 +2,96 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E51183405BB
-	for <lists+linux-leds@lfdr.de>; Thu, 18 Mar 2021 13:41:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDDE3340E9C
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Mar 2021 20:53:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231250AbhCRMlK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 18 Mar 2021 08:41:10 -0400
-Received: from mail.thorsis.com ([92.198.35.195]:59046 "EHLO mail.thorsis.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231201AbhCRMlJ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 18 Mar 2021 08:41:09 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.thorsis.com (Postfix) with ESMTP id DD7991C61;
-        Thu, 18 Mar 2021 13:41:07 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
-Received: from mail.thorsis.com ([127.0.0.1])
-        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id WqZl_3cqu2bQ; Thu, 18 Mar 2021 13:41:07 +0100 (CET)
-Received: by mail.thorsis.com (Postfix, from userid 109)
-        id AFA98282A; Thu, 18 Mar 2021 13:41:07 +0100 (CET)
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RECEIVED,
-        NO_RELAYS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-        version=3.4.2
-Date:   Thu, 18 Mar 2021 13:40:58 +0100 (CET)
-From:   Alexander Dahl <ada@thorsis.com>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Henning Schild <henning.schild@siemens.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>
-Message-ID: <1819093001.11427.1616071258857@seven.thorsis.com>
-In-Reply-To: <e2c6bec5-1f8e-c69a-9219-5c0a9f63ba56@metux.net>
-References: <20210315095710.7140-1-henning.schild@siemens.com>
- <20210315095710.7140-3-henning.schild@siemens.com>
- <CAHp75VcBdR8xqfWqKe+DwGAUYByVL7SBK0p7tHcKPs7m4Ay1iw@mail.gmail.com>
- <e2c6bec5-1f8e-c69a-9219-5c0a9f63ba56@metux.net>
-Subject: Re: [PATCH v2 2/4] leds: simatic-ipc-leds: add new driver for
- Siemens Industial PCs
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Originating-Client: open-xchange-appsuite
+        id S232923AbhCRTwh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 18 Mar 2021 15:52:37 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:32771 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229958AbhCRTwH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 18 Mar 2021 15:52:07 -0400
+Received: from [192.168.1.155] ([77.4.36.33]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MgwBv-1lufP905V7-00hQZc; Thu, 18 Mar 2021 20:51:50 +0100
+Subject: Re: [PATCH v2] leds: apu: extend support for PC Engines APU1 with
+ newer firmware
+To:     Andreas Eberlein <foodeas@aeberlein.de>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, post@lespocky.de
+References: <20210216133028.4025-1-foodeas@aeberlein.de>
+ <c7eebbb6-df0c-51df-7701-ecb8f6543466@metux.net>
+ <20210306165101.fnv6ytqofbolpf6s@falbala.internal.home.lespocky.de>
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+Message-ID: <798a0265-7f06-4894-7f84-64db6f236bcd@metux.net>
+Date:   Thu, 18 Mar 2021 20:51:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <20210306165101.fnv6ytqofbolpf6s@falbala.internal.home.lespocky.de>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:+bxIoX9ov4yiSVwImzHj09VyZcNPfr/TN9tv/1ZJyuvm1sVy44m
+ LIxKaLhUnIidc2PMjXyP0/UY7ZVr29HjL5Y3Bn6k7SfQllsPDzPsQo27WU21mX6ltzy4LRV
+ rLllmhBoPJxNoJ0sIQ3bXAFScaGQcp3JikNdaAM5ulNoyvD16QbXC9rsha3wCmN1BRXhnE8
+ 3ifS2d9r/PlHNcHFJi5Og==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZWcJYdXul5c=:Uz3yFNBC/c23mmVRznUkSy
+ JHY7rslghyaUXjFaH0HmFezSUFOxLvNy5ACieLZyfsTx+3usCMYhcBiH7DgRkSWgdRj1j47B9
+ OtCuF4dW2rHwIJSCTs+qVIU2kT0QkBNGDRJVUH1UPlElsDgtHzJjf+s5fy8Ccu0vBt5OVxhin
+ Jcfp8BI3jcOqQEyNXc9yaI2MxpbMpEZgh3HYgUPDUCRik+WII8weuKiJbRSYuOeNnowntWhIl
+ gOX3BzcWN7c0n3rm/OJ2qWbRlnRLhWaLOE3HGs5+no82xLk7WY2eOzcE9Bn9ZKGLnlxWl1mNY
+ h/RtlzNP2BO6ssG3ijlphHRRVRYt28uLG4FraehgVouzZ3EadVPIFmKpgUi5dIG5DRBNh6Z3h
+ lRgcZyeIVfPP+A+6qgAqZe9cEulx1PeFnblYkKx3mZHE8bT8YdtN9AifOQDlj
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hei hei,
+On 06.03.21 17:51, Alexander Dahl wrote:
 
-> Enrico Weigelt, metux IT consult <lkml@metux.net> hat am 18.03.2021 11:27 geschrieben:
-> 
->  
-> On 15.03.21 11:48, Andy Shevchenko wrote:
-> 
-> Hi,
-> 
-> > I have a question, why we can't provide a GPIO driver which is already
-> > in the kernel and, with use of the patch series I sent, to convert
-> > this all magic to GPIO LEDs as it's done for all normal cases?
-> 
-> Do we alread have a generic led driver that for cases that just
-> set/clear bits in some mem/io location ? If not, that would be really
-> great to have.
+Hi,
 
-Yes, there is. Look out for compatible "register-bit-led" in device tree. That's from driver in drivers/leds/leds-syscon.c and you can use it inside a syscon node in dts.
+> If you give me a hint, which tree or patchset should be tested, and
+> some hints what should be tested, I can try.
 
-It assumes one bit per LED.
+haven't written anything for apu1 yet (as I dont have one), but I wrote
+the drivers for apu2/3/4.
 
-Greets
-Alex
+My idea (which I never actually started on) was writing a separate gpio
+driver (not LED) for the old Soc in apu1 and add instantiation w/ 
+leds-gpio, keys, etc, into the pcengines-apu2 driver.
+
+> Thanks for that work.  I have to admit someone from the fli4l linux
+> router distribution team also wrote LED and button drivers for the APU
+> boards, but never managed to upstream those. :-/
+> 
+> If someone is interested, those are spread in our Subversion
+> repository, but the apu drivers are here:
+> 
+> https://repo.nettworks.org/svn/fli4l/branches/4.0/trunk/src/packages/src/src/fli4l/hwsupp/pcengines-apu/
+
+hmm, maybe I could pick up pieces for the FCH functionality that's
+not supported yet (eg. wdt) ... not sure how much they differ between
+different SoC versions.
+
+> Personally, I'd rather have mainline drivers for all that boards.
+> Don't know if it still makes sense for the older wrap or alix boards,
+> though.  I also have those lying around. ;-)
+
+Well, somebody has to make his hands dirty, write those drivers, bring
+them to mainline, and maintain them.
+
+
+--mtx
+
+-- 
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
