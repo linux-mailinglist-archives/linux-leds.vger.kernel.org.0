@@ -2,83 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 549333460CB
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Mar 2021 15:01:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1AC93466A0
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Mar 2021 18:46:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231675AbhCWOA6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 23 Mar 2021 10:00:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56544 "EHLO mail.kernel.org"
+        id S230428AbhCWRpv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 23 Mar 2021 13:45:51 -0400
+Received: from lizzard.sbs.de ([194.138.37.39]:43918 "EHLO lizzard.sbs.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231897AbhCWOAf (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 23 Mar 2021 10:00:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 99F676199F;
-        Tue, 23 Mar 2021 14:00:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616508034;
-        bh=LDqJyr+BNEHK6b/R2MnFuHdxgjjufjcfn/gh4KM8v7E=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FaYnbj1qjsn0MJJ7DERAzrDRxqXerZ63xnjkeUvmsuubQkzuKfjfmk+lZCnElVAQR
-         Cu+kevoq0eLOC17Ew0h44V7b1r51Oa1nYOWpSSST1Y0Dsk+QWUUL1yfXH6PpuW9PTp
-         Dq+4zFM30jk76hspFv0kWDySzlJLzkBbjUcGA0cr1bDZ0zQkiPFt4C4AjZDPupf96d
-         FnJMdTrPVvc3qWwYcs2U77TEX1dDOh7jEK2T0B9FwfUqAvT4wV8xCzcxbzUWpn8WWc
-         U3e9SF+FAjtpjFiTNBGQ5hyZBaq67JPVFDbUUcGhda2ueuOd6Oab0VfVzQCPHPjldM
-         1dROv0AafWTow==
-Received: by mail-ed1-f50.google.com with SMTP id l18so15378651edc.9;
-        Tue, 23 Mar 2021 07:00:34 -0700 (PDT)
-X-Gm-Message-State: AOAM533x7AxN82o13b6Ug0UzW36QVe1E9j2IpAHYJvo5lEYdbcn4dk1B
-        ZcJZa2E62mE+us1uTpNwwC+qh6EkxnbSXjPN/Q==
-X-Google-Smtp-Source: ABdhPJzv1cazoF2VbWR8VojgQFPmbKkaJeEOIOWnpGO1bkZgjSKT4zN4b6EtsAHN0qWKTyxBq2qIS4NnZJ5Zod7UdQE=
-X-Received: by 2002:a05:6402:5252:: with SMTP id t18mr4877706edd.258.1616508033081;
- Tue, 23 Mar 2021 07:00:33 -0700 (PDT)
+        id S230510AbhCWRpi (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 23 Mar 2021 13:45:38 -0400
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 12NHj4K6020428
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 23 Mar 2021 18:45:04 +0100
+Received: from md1za8fc.ad001.siemens.net ([167.87.18.164])
+        by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id 12NHj2Dc032073;
+        Tue, 23 Mar 2021 18:45:03 +0100
+Date:   Tue, 23 Mar 2021 18:45:01 +0100
+From:   Henning Schild <henning.schild@siemens.com>
+To:     Alexander Dahl <ada@thorsis.com>
+Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Linux LED Subsystem" <linux-leds@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        <linux-watchdog@vger.kernel.org>,
+        Srikanth Krishnakar <skrishnakar@gmail.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v2 2/4] leds: simatic-ipc-leds: add new driver for
+ Siemens Industial PCs
+Message-ID: <20210323184501.39c81a97@md1za8fc.ad001.siemens.net>
+In-Reply-To: <1819093001.11427.1616071258857@seven.thorsis.com>
+References: <20210315095710.7140-1-henning.schild@siemens.com>
+        <20210315095710.7140-3-henning.schild@siemens.com>
+        <CAHp75VcBdR8xqfWqKe+DwGAUYByVL7SBK0p7tHcKPs7m4Ay1iw@mail.gmail.com>
+        <e2c6bec5-1f8e-c69a-9219-5c0a9f63ba56@metux.net>
+        <1819093001.11427.1616071258857@seven.thorsis.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210322091819.29119-1-chenhui.zhang@axis.com>
- <1616434698.344402.2887754.nullmailer@robh.at.kernel.org> <424d3de97a154c6a9580f27347882413@XBOX01.axis.com>
-In-Reply-To: <424d3de97a154c6a9580f27347882413@XBOX01.axis.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 23 Mar 2021 08:00:21 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJYSNBHqdZbWTn76tTna+u=1rjiebTPDQjZFQQdTEkp4w@mail.gmail.com>
-Message-ID: <CAL_JsqJYSNBHqdZbWTn76tTna+u=1rjiebTPDQjZFQQdTEkp4w@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-binding: leds: Document leds-multi-gpio bindings
-To:     Hermes Zhang <Hermes.Zhang@axis.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        kernel <kernel@axis.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 10:28 PM Hermes Zhang <Hermes.Zhang@axis.com> wrote=
-:
->
-> > -----Original Message-----
-> > From: Rob Herring <robh@kernel.org>
-> > Sent: 2021=E5=B9=B43=E6=9C=8823=E6=97=A5 1:38
-> > My bot found errors running 'make dt_binding_check' on your patch:
-> >
-> > yamllint warnings/errors:
-> >
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/linux-dt-
-> > review/Documentation/devicetree/bindings/leds/leds-multi-
-> > gpio.example.dt.yaml: gpios-led: led-states: 'oneOf' conditional failed=
-, one
-> > must be fixed:
-> >       [[0, 1, 2, 3]] is too short
-> >       [0, 1, 2, 3] is too long
-> >       From schema: /builds/robherring/linux-dt-
-> > review/Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml
-> >
->
-> Hi Rob,
->
-> Thanks. Yes, now I can see the warning, but I could not understand what w=
-as wrong? Could you give some hint?
+Am Thu, 18 Mar 2021 13:40:58 +0100
+schrieb Alexander Dahl <ada@thorsis.com>:
 
-I think you need 'maxItems' in addition to minItems.
+> Hei hei,
+> 
+> > Enrico Weigelt, metux IT consult <lkml@metux.net> hat am 18.03.2021
+> > 11:27 geschrieben:
+> > 
+> >  
+> > On 15.03.21 11:48, Andy Shevchenko wrote:
+> > 
+> > Hi,
+> >   
+> > > I have a question, why we can't provide a GPIO driver which is
+> > > already in the kernel and, with use of the patch series I sent,
+> > > to convert this all magic to GPIO LEDs as it's done for all
+> > > normal cases?  
+> > 
+> > Do we alread have a generic led driver that for cases that just
+> > set/clear bits in some mem/io location ? If not, that would be
+> > really great to have.  
+> 
+> Yes, there is. Look out for compatible "register-bit-led" in device
+> tree. That's from driver in drivers/leds/leds-syscon.c and you can
+> use it inside a syscon node in dts.
+> 
+> It assumes one bit per LED.
 
-Rob
+Sorry guys, i am lost here. Is there a driver i can base mine on, if so
+which one? Maybe you can point me to a good example that is
+conceptually similar.
+
+As i already wrote in the reviews of v1, the ACPI tables will not
+change on the machines in question. So there is a need for a driver.
+Either one like i did propose or maybe something that patches ACPI or
+loads device-tree snippets, again please point me to good examples.
+
+We are talking about x86-only here.
+
+Henning 
+
+> Greets
+> Alex
+
