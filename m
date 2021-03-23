@@ -2,68 +2,112 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D9DC3456BF
-	for <lists+linux-leds@lfdr.de>; Tue, 23 Mar 2021 05:29:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B156E3459F2
+	for <lists+linux-leds@lfdr.de>; Tue, 23 Mar 2021 09:40:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbhCWE2W (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 23 Mar 2021 00:28:22 -0400
-Received: from smtp2.axis.com ([195.60.68.18]:9581 "EHLO smtp2.axis.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229560AbhCWE2E (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 23 Mar 2021 00:28:04 -0400
+        id S229653AbhCWIj6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 23 Mar 2021 04:39:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229493AbhCWIjj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 23 Mar 2021 04:39:39 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA2DC061763
+        for <linux-leds@vger.kernel.org>; Tue, 23 Mar 2021 01:39:39 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id k10so25715597ejg.0
+        for <linux-leds@vger.kernel.org>; Tue, 23 Mar 2021 01:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1616473685;
-  x=1648009685;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=DoZBedXlsVXxp9TK78nJgsu4jYFzEXmWx4rX2mAkAxk=;
-  b=KLBhp4eC+TjuzGVwmoiWKklgg9HxuAJybNoqCjGnXcuwCZw4IKkIMxj4
-   VHrciekr66YmersEFHbQXakQqGP0XQ+Boqy36jc6zyhAQQ4uJFLQtPgQ4
-   b02Zqd5nQ7QHtyM+yXuqOSwOVGpLWpNW6fbbeU357CgJk1d6QXMBtssK2
-   1ajDWsAyLb8wRm9voR29Iygb3Qe6BQ+5x8AxNRj8JBOY4mh9hPlVVyTVo
-   0cuodEQU8x/iJkTj1RKp9QOIZgAjHkmQLhdX2QjfvkOM5L9o/zCD/SqDp
-   86VIV1XiXT9A2zUD9F6b+PEBhBkYkIJH8m+d1+xykvY8XS+ZL0b7gL3GQ
-   w==;
-From:   Hermes Zhang <Hermes.Zhang@axis.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        kernel <kernel@axis.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: RE: [PATCH v2] dt-binding: leds: Document leds-multi-gpio bindings
-Thread-Topic: [PATCH v2] dt-binding: leds: Document leds-multi-gpio bindings
-Thread-Index: AQHXHvxgm+r+aZrBek+AmH3Nb8cHlKqQNY0AgAC2GSA=
-Date:   Tue, 23 Mar 2021 04:27:57 +0000
-Message-ID: <424d3de97a154c6a9580f27347882413@XBOX01.axis.com>
-References: <20210322091819.29119-1-chenhui.zhang@axis.com>
- <1616434698.344402.2887754.nullmailer@robh.at.kernel.org>
-In-Reply-To: <1616434698.344402.2887754.nullmailer@robh.at.kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=vOdKWnp3rkpIGMt87ZNlf2cZf53/gDQXm8BtihNuwrY=;
+        b=awC7OJCja/vDjs8UM3Q2cV7cH4nuw99ReUsihpNF+0rbb/GYsXuZl+yoz8gQu8xn4B
+         hTALcZCKLmRhR6rGBx5oe19l9xnWJ31Ch53+rY2CpZSSvH55LYyJp+91113PSVJNIS00
+         yFWPcW99/D9lZFnQZlpOHcfmEI5dxY6BBarjNauuYBRpKnAvbIeobKullrS6/F+GabEX
+         RLIqR2rCthAonYJaBQByTJodXq+ZjqYwTvE5UiCKMUxKQmKPupfoBqFqkV0eDKW7SzPm
+         0+ul8XGZKTS40YtkXqZCXjiN7E6EnNaZwrf+8JXCI2s9pdm7CQckxordKve2k8LhNwLb
+         jcoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=vOdKWnp3rkpIGMt87ZNlf2cZf53/gDQXm8BtihNuwrY=;
+        b=o6z66RUDtOAD9PO7QcQgdmOFD3SwwI0nNCmAp9FfJJnY7MvghQVMbTkQdcyGJou8CZ
+         fSot3pGgqOuuMWFVi2E6Il0VJnQFdzQos6u29DYFljvjpmQP7UciStl8SSmjQEl7Ik/d
+         zHKJAa6RIu9XWtQii/DcyZNjuqSgvvFFAZGWAKtVqgFDW38fUMqeHu7tzGPmc6l5mfpE
+         r4/GEKUVzoX93HVbCcKPrrREWuMIpy9R6eit3gzTd40Ie5/EaFKXLUzQ6zGHFKR0Hiyl
+         yoLTT6NDIU/mPKpBgIt5UPPhvWTdxdMTYZxnHsGme27ip4XT/q5gGMLIFkzBd+kF4EE3
+         oARg==
+X-Gm-Message-State: AOAM532LYc9vnfH3xKH2GOwuXlqOLpmmIvJsLAL8UNfQ63WhUp2vHqzP
+        ZBuYnYhMmzkpIm3AxgE9LTIXLA==
+X-Google-Smtp-Source: ABdhPJztz2rpnHmS0vjtxAqb+sjwT+S9UIOX/8oNcIG+D+p3IjWse50o3nha+gQW7cNBnqWhjOEJGw==
+X-Received: by 2002:a17:906:d153:: with SMTP id br19mr3749846ejb.360.1616488777820;
+        Tue, 23 Mar 2021 01:39:37 -0700 (PDT)
+Received: from dell ([91.110.221.180])
+        by smtp.gmail.com with ESMTPSA id h13sm12649939edz.71.2021.03.23.01.39.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Mar 2021 01:39:37 -0700 (PDT)
+Date:   Tue, 23 Mar 2021 08:39:35 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+Cc:     Konrad Dybcio <konrad.dybcio@somainline.org>,
+        phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        martin.botka@somainline.org,
+        angelogioacchino.delregno@somainline.org,
+        marijn.suijten@somainline.org, Jingoo Han <jingoohan1@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Kiran Gunda <kgunda@codeaurora.org>,
+        dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH 2/2] video: backlight: qcom-wled: Add PMI8994 compatible
+Message-ID: <20210323083935.GF2916463@dell>
+References: <20210228124106.135812-1-konrad.dybcio@somainline.org>
+ <20210228124106.135812-2-konrad.dybcio@somainline.org>
+ <20210322161810.biagj2qro66rv4gt@maple.lan>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210322161810.biagj2qro66rv4gt@maple.lan>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSb2IgSGVycmluZyA8cm9iaEBr
-ZXJuZWwub3JnPg0KPiBTZW50OiAyMDIxxOoz1MIyM8jVIDE6MzgNCj4gTXkgYm90IGZvdW5kIGVy
-cm9ycyBydW5uaW5nICdtYWtlIGR0X2JpbmRpbmdfY2hlY2snIG9uIHlvdXIgcGF0Y2g6DQo+IA0K
-PiB5YW1sbGludCB3YXJuaW5ncy9lcnJvcnM6DQo+IA0KPiBkdHNjaGVtYS9kdGMgd2FybmluZ3Mv
-ZXJyb3JzOg0KPiAvYnVpbGRzL3JvYmhlcnJpbmcvbGludXgtZHQtDQo+IHJldmlldy9Eb2N1bWVu
-dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbGVkcy9sZWRzLW11bHRpLQ0KPiBncGlvLmV4YW1w
-bGUuZHQueWFtbDogZ3Bpb3MtbGVkOiBsZWQtc3RhdGVzOiAnb25lT2YnIGNvbmRpdGlvbmFsIGZh
-aWxlZCwgb25lDQo+IG11c3QgYmUgZml4ZWQ6DQo+IAlbWzAsIDEsIDIsIDNdXSBpcyB0b28gc2hv
-cnQNCj4gCVswLCAxLCAyLCAzXSBpcyB0b28gbG9uZw0KPiAJRnJvbSBzY2hlbWE6IC9idWlsZHMv
-cm9iaGVycmluZy9saW51eC1kdC0NCj4gcmV2aWV3L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy9sZWRzL2xlZHMtbXVsdGktZ3Bpby55YW1sDQo+IA0KDQpIaSBSb2IsDQoNClRoYW5r
-cy4gWWVzLCBub3cgSSBjYW4gc2VlIHRoZSB3YXJuaW5nLCBidXQgSSBjb3VsZCBub3QgdW5kZXJz
-dGFuZCB3aGF0IHdhcyB3cm9uZz8gQ291bGQgeW91IGdpdmUgc29tZSBoaW50PyANCg0KQmVzdCBS
-ZWdhcmRzLA0KSGVybWVzDQo=
+On Mon, 22 Mar 2021, Daniel Thompson wrote:
+
+> On Sun, Feb 28, 2021 at 01:41:05PM +0100, Konrad Dybcio wrote:
+> > Add a compatible for PMI8994 WLED. It uses the V4 of WLED IP.
+> > 
+> > Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> 
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+Why are you Reviewing/Acking a patch that was applied on the 10th?
+
+> > ---
+> >  drivers/video/backlight/qcom-wled.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+> > index 3bc7800eb0a9..497b9035a908 100644
+> > --- a/drivers/video/backlight/qcom-wled.c
+> > +++ b/drivers/video/backlight/qcom-wled.c
+> > @@ -1704,6 +1704,7 @@ static int wled_remove(struct platform_device *pdev)
+> >  
+> >  static const struct of_device_id wled_match_table[] = {
+> >  	{ .compatible = "qcom,pm8941-wled", .data = (void *)3 },
+> > +	{ .compatible = "qcom,pmi8994-wled", .data = (void *)4 },
+> >  	{ .compatible = "qcom,pmi8998-wled", .data = (void *)4 },
+> >  	{ .compatible = "qcom,pm660l-wled", .data = (void *)4 },
+> >  	{ .compatible = "qcom,pm8150l-wled", .data = (void *)5 },
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
