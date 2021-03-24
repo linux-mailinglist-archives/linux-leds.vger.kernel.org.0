@@ -2,115 +2,183 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD99B347449
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Mar 2021 10:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EA8C3474BE
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Mar 2021 10:35:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231709AbhCXJOk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 Mar 2021 05:14:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37820 "EHLO
+        id S236118AbhCXJeg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 Mar 2021 05:34:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234543AbhCXJOh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Mar 2021 05:14:37 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD7ADC0613E2
-        for <linux-leds@vger.kernel.org>; Wed, 24 Mar 2021 02:14:36 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id v4so23630224wrp.13
-        for <linux-leds@vger.kernel.org>; Wed, 24 Mar 2021 02:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=4rN1YksKNQ6jMnv83wrys0vsQCA6pM1XeLstkQR9zSk=;
-        b=aaEalBsXBstsM7Ugh18M+hl8k/wTbYlQwQ6ihztFCEL9SFffFl/IlB3eU6LSKJs1k4
-         GjK340N7lCr3K0iNQ2HLCSKfu9qwSSS5Mp8zQ/OAzufhpBV6bxJQJuLmIMW602QW0Z0i
-         CTqj7hTA4262C48pcQPTWxgvKGSQ1LQgks/73S/V10RAeBK5hHJhx7ZbxahrIHGsK5bU
-         crb2aPqZrt9ArMgFvNEf6/iL2Ia25u/EldQEsOKbOrKgyMUfulRjc6gCETsPm62Fki99
-         ayEXOIgKaYa4YohjIIoMQ+HavVGjkXvTiQCd0/ZohrHC0rsOqSu+B+oZ12+Csh5u+2CE
-         xVgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=4rN1YksKNQ6jMnv83wrys0vsQCA6pM1XeLstkQR9zSk=;
-        b=nROLsCT/xAyLIbKCTpV3aUpVW7ZSox6/bIP7O9JnO4nUPCZUIMG+43PhEpzSoXKvIF
-         7hvCaoC/ZXd7DfqMGAWwfnBpRm0/Q3ALVybzvxB0UsvlC8z71VMN4BfHKOXEplQ2TTPH
-         CCMkCTT4OQTlwBr96Y+WEDmCr/JppPwONR/rvNqlvpHy588qe+dSuR/++lSlHV5D5E22
-         A8uoKTEPwEQFLqEMcEhcWrDylUwWXc4CFbVMzzR3zIklpMrdpwGNw8zafBgEVOGj9tLc
-         ROuVQAylzr6onzweA31nmWZ5NsZnBG/0yF6YqyGKI9O2CuGSTL3IX1Xw8YN5V01+L/55
-         Puvw==
-X-Gm-Message-State: AOAM5334YXNtWKNihB9jQUMek1K1e5sp9n4DYExvuQ1TJuBK5NAxzf3X
-        QIGEIHuj9S/hoC1IWtXgkE6HuQ==
-X-Google-Smtp-Source: ABdhPJwiwVGAQSOrEM4tqzstTbRBmqfvaxH3KFKNSYNSQI1y++GJvlZicb7puOlrOD6JdzLf3utu9Q==
-X-Received: by 2002:adf:e8c9:: with SMTP id k9mr2327816wrn.315.1616577275230;
-        Wed, 24 Mar 2021 02:14:35 -0700 (PDT)
-Received: from dell ([91.110.221.180])
-        by smtp.gmail.com with ESMTPSA id n1sm2536565wro.36.2021.03.24.02.14.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 02:14:34 -0700 (PDT)
-Date:   Wed, 24 Mar 2021 09:14:32 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-        martin.botka@somainline.org,
-        angelogioacchino.delregno@somainline.org,
-        marijn.suijten@somainline.org, Jingoo Han <jingoohan1@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Kiran Gunda <kgunda@codeaurora.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-leds <linux-leds@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH 2/2] video: backlight: qcom-wled: Add PMI8994 compatible
-Message-ID: <20210324091432.GC2916463@dell>
-References: <20210228124106.135812-1-konrad.dybcio@somainline.org>
- <20210228124106.135812-2-konrad.dybcio@somainline.org>
- <20210322161810.biagj2qro66rv4gt@maple.lan>
- <20210323083935.GF2916463@dell>
- <CAMuHMdUamD4rAY1Sn-3Fb9Xf1B9g0FY0Pob8rAFsFR0ZcNZ0rw@mail.gmail.com>
+        with ESMTP id S232548AbhCXJef (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Mar 2021 05:34:35 -0400
+Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 486BFC061763;
+        Wed, 24 Mar 2021 02:34:35 -0700 (PDT)
+Received: from thinkpad (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id A0E62140A26;
+        Wed, 24 Mar 2021 10:34:32 +0100 (CET)
+Date:   Wed, 24 Mar 2021 10:34:31 +0000
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Hermes Zhang <chenhui.zhang@axis.com>
+Cc:     <pavel@ucw.cz>, <dmurphy@ti.com>, <robh+dt@kernel.org>,
+        <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <chenhuiz@axis.com>,
+        <lkml@axis.com>, <kernel@axis.com>
+Subject: Re: [PATCH 1/2] leds: leds-multi-gpio: Add multiple GPIOs LED
+ driver
+Message-ID: <20210324103431.4b945915@thinkpad>
+In-Reply-To: <20210324075631.5004-2-chenhui.zhang@axis.com>
+References: <20210324075631.5004-1-chenhui.zhang@axis.com>
+        <20210324075631.5004-2-chenhui.zhang@axis.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUamD4rAY1Sn-3Fb9Xf1B9g0FY0Pob8rAFsFR0ZcNZ0rw@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 24 Mar 2021, Geert Uytterhoeven wrote:
+On Wed, 24 Mar 2021 15:56:30 +0800
+Hermes Zhang <chenhui.zhang@axis.com> wrote:
 
-> Hi Lee,
+> From: Hermes Zhang <chenhuiz@axis.com>
 > 
-> On Tue, Mar 23, 2021 at 9:40 AM Lee Jones <lee.jones@linaro.org> wrote:
-> > On Mon, 22 Mar 2021, Daniel Thompson wrote:
-> > > On Sun, Feb 28, 2021 at 01:41:05PM +0100, Konrad Dybcio wrote:
-> > > > Add a compatible for PMI8994 WLED. It uses the V4 of WLED IP.
-> > > >
-> > > > Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> > >
-> > > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> >
-> > Why are you Reviewing/Acking a patch that was applied on the 10th?
-> 
-> Only 12 days later?!?
-> 
-> It's not uncommon to receive acks for patches after they have been
-> applied upstream. But it is if the patch was applied 10 years and 9
-> months ago!
-> https://lore.kernel.org/linux-m68k/F5513AE92A5A1047AC2F91AEBB9202680288CBBA3983@E2K7-MS2.ds.strath.ac.uk/
+> Introduce a new multiple GPIOs LED driver. This LED will made of
+> multiple GPIOs (up to 8) and will map different brightness to different
+> GPIOs states which defined in dts file.
 
-That truly is next level! :)
+I wonder how many boards have such LEDs.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Also if it wouldn't be better to expand the original leds-gpio driver.
+Probably depends on how much larger would such expansion make the
+leds-gpio driver.
+
+> +#include <linux/err.h>
+> +#include <linux/gpio.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/kernel.h>
+> +#include <linux/leds.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_gpio.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <linux/slab.h>
+
+Why do you include slab.h?
+
+> +
+> +#define MAX_GPIO_NUM  8
+> +
+> +struct multi_gpio_led_priv {
+> +	struct led_classdev cdev;
+> +
+> +	struct gpio_descs *gpios;
+> +
+> +	u8 *states;
+> +	int nr_states;
+> +};
+
+Use flexible array members. Allocate with
+  devm_kzalloc(dev, struct_size(priv, states, priv->nr_states),
+               GFP_KERNEL)
+
+> +
+> +
+> +static void multi_gpio_led_set(struct led_classdev *led_cdev,
+> +	enum led_brightness value)
+> +{
+> +	struct multi_gpio_led_priv *priv;
+> +	int idx;
+> +
+> +	DECLARE_BITMAP(values, MAX_GPIO_NUM);
+> +
+> +	priv = container_of(led_cdev, struct multi_gpio_led_priv, cdev);
+> +
+> +	idx = (value - LED_OFF) * priv->nr_states / (LED_FULL + 1);
+
+LED_FULL / LED_OFF are deprecated, don't use them.
+
+> +
+> +	values[0] = priv->states[idx];
+> +
+> +	gpiod_set_array_value(priv->gpios->ndescs, priv->gpios->desc,
+> +	    priv->gpios->info, values);
+> +}
+> +
+> +static int multi_gpio_led_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct device_node *node = dev->of_node;
+> +	struct multi_gpio_led_priv *priv = NULL;
+> +	int ret;
+> +	const char *state = NULL;
+> +	struct led_init_data init_data = {};
+> +
+> +	priv = devm_kzalloc(dev, sizeof(struct multi_gpio_led_priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->gpios = devm_gpiod_get_array(dev, "led", GPIOD_OUT_LOW);
+> +	if (IS_ERR(priv->gpios))
+> +		return PTR_ERR(priv->gpios);
+> +
+> +	if (priv->gpios->ndescs >= MAX_GPIO_NUM) {
+> +		dev_err(dev, "Too many GPIOs\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = of_property_count_u8_elems(node, "led-states");
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	priv->nr_states = ret;
+> +	priv->states = devm_kzalloc(dev, sizeof(*priv->states) * priv->nr_states, GFP_KERNEL);
+> +	if (!priv->states)
+> +		return -ENOMEM;
+> +
+> +	ret = of_property_read_u8_array(node, "led-states", priv->states, priv->nr_states);
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv->cdev.max_brightness = LED_FULL;
+
+???? max_brightness is not 255 (= LED_FULL). max_brightness must be
+derived from the led-states property.
+
+
+> +	priv->cdev.default_trigger = of_get_property(node, "linux,default-trigger", NULL);
+> +	priv->cdev.brightness_set = multi_gpio_led_set;
+> +
+> +	init_data.fwnode = of_fwnode_handle(node);
+> +
+> +	ret = devm_led_classdev_register_ext(dev, &priv->cdev, &init_data);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	of_property_read_string(node, "default-state", &state);
+> +	if (!strcmp(state, "on"))
+> +		multi_gpio_led_set(&priv->cdev, LED_FULL);
+> +	else
+> +		multi_gpio_led_set(&priv->cdev, LED_OFF);
+
+Again LED_FULL and LED_OFF...
+What about default-state = "keep" ?
+
+Hermes, do you actually have a device that controls LEDs this way? How
+many brightness options do they have?
+
+Also I think this functionality could be easily incorporated into the
+existing leds-gpio driver, instead of creating new driver.
+
+Moreover your driver can control only one LED, so it needs to be
+probed multiple times for multiple LEDs. Meanwhile the leds-gpio driver
+can register multiple LEDs in one probe...
+
+Marek
