@@ -2,113 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1186347317
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Mar 2021 08:58:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95781347398
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Mar 2021 09:26:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235959AbhCXH5v (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 Mar 2021 03:57:51 -0400
-Received: from smtp2.axis.com ([195.60.68.18]:32629 "EHLO smtp2.axis.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235974AbhCXH5d (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 24 Mar 2021 03:57:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1616572653;
-  x=1648108653;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=mFdWLTGtRF/mvjQCBNmal6km7ou+oaXMQ5r2PDBTfKI=;
-  b=GEbU7jKOWpjYTH7rx6T81Kf0xbZUjKBqrRvBfYkdj74Rr3oG42xWvEU1
-   KiIDtkMIbW7IG9d/yXCZEB1W08LdcxVMNJLQ0MR0JuXzMiY71nWQmJWlD
-   /ahWLGdvyU3RHb5BNzScJkn7C9JpbykCtHwU3HO2Ny8COVWoPDouzCLfh
-   uck0GAUa082TgNRIk2jNzhrYlVXlR+q8xKUC9E/+SuUYhOJypHclqL6KV
-   lAWe0HoJAvneMUdUb3zuKvqObGL7r5c+9ghg3DKAF4a1uZadpOoli8rOl
-   PGiZhI9cgKa1xyND3FTauK6QtQJXY2hQZPX6Q7HJC/90CScrEUwx2S6LB
-   Q==;
-From:   Hermes Zhang <chenhui.zhang@axis.com>
-To:     <pavel@ucw.cz>, <dmurphy@ti.com>, <robh+dt@kernel.org>
-CC:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <chenhuiz@axis.com>,
-        <lkml@axis.com>, <kernel@axis.com>
-Subject: [PATCH 2/2] dt-binding: leds: Document leds-multi-gpio bindings
-Date:   Wed, 24 Mar 2021 15:56:31 +0800
-Message-ID: <20210324075631.5004-3-chenhui.zhang@axis.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210324075631.5004-1-chenhui.zhang@axis.com>
-References: <20210324075631.5004-1-chenhui.zhang@axis.com>
+        id S233466AbhCXI0I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 Mar 2021 04:26:08 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:40830 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233509AbhCXIZ5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Mar 2021 04:25:57 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 435F61C0B82; Wed, 24 Mar 2021 09:25:55 +0100 (CET)
+Date:   Wed, 24 Mar 2021 09:25:52 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Alexander Dahl <ada@thorsis.com>
+Cc:     Hermes Zhang <chenhui.zhang@axis.com>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Hermes Zhang <chenhuiz@axis.com>, kernel@axis.com,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] dt-binding: leds: Document leds-multi-gpio bindings
+Message-ID: <20210324082551.GA15591@amd>
+References: <20210324024844.15796-1-chenhui.zhang@axis.com>
+ <558944059.12080.1616565502073@seven.thorsis.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
+Content-Disposition: inline
+In-Reply-To: <558944059.12080.1616565502073@seven.thorsis.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Hermes Zhang <chenhuiz@axis.com>
 
-Document the device tree bindings of the multiple GPIOs LED driver
-Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml.
+--6c2NcOVqGQ03X4Wi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Hermes Zhang <chenhuiz@axis.com>
----
- .../bindings/leds/leds-multi-gpio.yaml        | 50 +++++++++++++++++++
- 1 file changed, 50 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml
+On Wed 2021-03-24 06:58:21, Alexander Dahl wrote:
+> Hello Hermes,
+>=20
+> > Hermes Zhang <chenhui.zhang@axis.com> hat am 24.03.2021 03:48 geschrieb=
+en:
+> >=20
+> > =20
+> > From: Hermes Zhang <chenhuiz@axis.com>
+> >=20
+> > Document the device tree bindings of the multiple GPIOs LED driver
+> > Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml.
+> >=20
+> > Signed-off-by: Hermes Zhang <chenhuiz@axis.com>
+> > ---
+> >=20
+> > Notes:
+> >     Add maxItems
+>=20
+> What about the other part of the series? I think you should send both pat=
+ches together with an introduction message on both. If you only change one =
+patch for a new version spin of the series, just send the other one unchang=
+ed.
+>
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml b/Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml
-new file mode 100644
-index 000000000000..6f2b47487b90
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml
-@@ -0,0 +1,50 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/leds-multi-gpio.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Multiple GPIOs LED driver
-+
-+maintainers:
-+  - Hermes Zhang <chenhuiz@axis.com>
-+
-+description:
-+  This will support some LED made of multiple GPIOs and the brightness of the
-+  LED could map to different states of the GPIOs.
-+
-+properties:
-+  compatible:
-+    const: multi-gpio-led
-+
-+  led-gpios:
-+    description: Array of one or more GPIOs pins used to control the LED.
-+    minItems: 1
-+    maxItems: 8  # Should be enough
-+
-+  led-states:
-+    description: |
-+      The array list the supported states here which will map to brightness
-+      from 0 to maximum. Each item in the array will present all the GPIOs
-+      value by bit.
-+    $ref: /schemas/types.yaml#/definitions/uint8-array
-+    minItems: 1
-+    maxItems: 16 # Should be enough
-+
-+required:
-+  - compatible
-+  - led-gpios
-+  - led-states
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    gpios-led {
-+      compatible = "multi-gpio-led";
-+
-+      led-gpios = <&gpio0 23 0x1>,
-+                  <&gpio0 24 0x1>;
-+      led-states = /bits/ 8 <0x00 0x01 0x02 0x03>;
-+    };
-+...
--- 
-2.20.1
+Please wrap emails after 72 columns or so.
 
+> (It makes no sense to merge the binding as long as the driver is not merg=
+ed, otherwise you would end up with a binding without driver. So keeping th=
+em together should help reviewers and maintainers.)
+>
+
+This is actually okay to do if you expect discussion and not a patch
+merge. Series works, too.
+
+Best regads,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--6c2NcOVqGQ03X4Wi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmBa944ACgkQMOfwapXb+vLk8QCgtSvbyMuPzySVEpULrFzkLDJW
+h2sAoKfzvd80JBUMmw6/8FCq9G2wYetL
+=I59e
+-----END PGP SIGNATURE-----
+
+--6c2NcOVqGQ03X4Wi--
