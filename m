@@ -2,137 +2,227 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2FE434861E
-	for <lists+linux-leds@lfdr.de>; Thu, 25 Mar 2021 01:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7825834888D
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Mar 2021 06:28:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235318AbhCYAz1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 Mar 2021 20:55:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
+        id S229547AbhCYF1k (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 25 Mar 2021 01:27:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235313AbhCYAzJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Mar 2021 20:55:09 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55322C06174A
-        for <linux-leds@vger.kernel.org>; Wed, 24 Mar 2021 17:55:09 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id t18so334521pjs.3
-        for <linux-leds@vger.kernel.org>; Wed, 24 Mar 2021 17:55:09 -0700 (PDT)
+        with ESMTP id S229730AbhCYF1d (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 25 Mar 2021 01:27:33 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F989C06174A;
+        Wed, 24 Mar 2021 22:27:32 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id b14so689439lfv.8;
+        Wed, 24 Mar 2021 22:27:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=GBDH6T5ODC/wUmkG1l2ExHuO4vP2GpbUZsvbKohsot0=;
-        b=S1Pz2x8GeIZZAjTXC8GiE/j0b2qnHu5G61VcPsoIdLINCbP8oQ4ItES8X20NnggNmp
-         7Iw70sNr/MbLl4HdNN4NIIW0uhRzLQ8dsb/pFp4WEDPL7u1J0B0zt6wqDm1/H4oJzz9v
-         0btmaQGTKUPnlJ9iaiysWZIxGowpDWD3sw1G5kBVo+K8491bfhwfXvjaQK2OHDP/EDzo
-         Y+I6t7gAgN3SZhVTlGxDX547q9ZaxmQYep7nBLxZJrtOfaOmNsehMMi43WzCTlxqQvhz
-         ppa047MI+K9Zy6H8mTTr+G0ufFWy8/3dKNCKbgZCPqlazCmJGiNivT3BJgLjqyt0Gk0m
-         kWlQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZxHGrWsGgW6TprfvvINnFETzyCVg5VNycGG4rTWxoNQ=;
+        b=bVHd3TJE0aQYr1W2z0J8gP18eIX/35mjuD+fGxsdk4GaHOvt9ZOm2WAaftPUlxmGSU
+         Vx0RLY1ljrKuFdl4rp3Fog88g2sCSR6lhDUn8BOx4GFhpmumW334P69LJ4F4XGqT0iut
+         CLaO6TQwTFoKuzb4/r4Qbx8JbJi/VhsfaOO363ZnfwyGZUhXL5p5h5Rc1S3uEwWMxFkS
+         /y5d76oDV6rS2xuoLMTYF/aYD1Bz64ll8KLZ6Wp76Ll6TTixRGhM0bXaGPypFaA8hfZ7
+         FxCjjk8QO4pw0KRMNY7LSBg6OCSGPK6BZy1S0uaAVdGAWipcae4cMwPE243wGxgpgJ+1
+         vzvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=GBDH6T5ODC/wUmkG1l2ExHuO4vP2GpbUZsvbKohsot0=;
-        b=RQ45loqo4cGzaZAB7nqYBvQSzDMh0aeMN5mHJJsWVUFinWIscj547y6c9L9plB+Tdx
-         Ji1cQNIYLbkZwZ5zSGnr8mnVUPL0TB8fKoa12n6FibNwO0SOAKiB7blQ8fMIgzIEZYdE
-         0gQFcCKBugT74aQ/O/daS82ISIBjPe1RlytJIXfgPv+OoIxkX0HnyMvuyCBiP/r5h0hw
-         4oJLDZasyjMPe+Y0GoVy6tdKPvAyf3Z5KrXAu2F2CSLVx1tB5/HOens/gS/GpFa+CXGw
-         Ns43mhZeFy43ZpeX22blED/KKdZjfl6H2NR39ArwmR4cJB7I1WGUCMJsSq7zkIfreOS8
-         hzIw==
-X-Gm-Message-State: AOAM532iyQR/WHtBy8Ea2QzkFwkxuYG27gpubbkeVBz81NhScRWhdj27
-        Sk83HaQ2H4Qdp/VT2a6e54CTxNKuMg+/UA==
-X-Google-Smtp-Source: ABdhPJzo4hrylloA0ppnqgiuXn578DXAgGcV2KowCQ/BPCgKuD5BZGhUP/NeC+JoQv+yIbuNCxxJlQ==
-X-Received: by 2002:a17:90b:4d0f:: with SMTP id mw15mr6197194pjb.92.1616633708606;
-        Wed, 24 Mar 2021 17:55:08 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.14])
-        by smtp.gmail.com with ESMTPSA id w17sm3245460pfu.29.2021.03.24.17.55.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 17:55:07 -0700 (PDT)
-Sender: "joel.stan@gmail.com" <joel.stan@gmail.com>
-From:   Joel Stanley <joel@jms.id.au>
-To:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Cc:     =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>,
-        linux-leds@vger.kernel.org
-Subject: [PATCH] leds: pca955x: Allow full control over led name
-Date:   Thu, 25 Mar 2021 11:24:56 +1030
-Message-Id: <20210325005456.152469-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZxHGrWsGgW6TprfvvINnFETzyCVg5VNycGG4rTWxoNQ=;
+        b=SaxpYsN6rv8CahGT4kIGIxzi4TBUmBbQG5EN/YNciEOGJA2feuJldYWaaetlqPfjdZ
+         QjCP96XV+4Cn/NLjrWm3McU0C7DXRFJOMqyvkPmESIU5IJk0TIKYFX5porCKr2mPN7/N
+         k0+iKmpcPH/vzEP1xQEIgFugNkAcOGRb2SPvlEagyEDOmSs8kpq6nrTf0bDpWtVM8mZh
+         Gmc2l+deuDkiXoA6GbDqT105u1+psyKV2rOYig5S1xDjqlqo2vtNaKoZb8RMZxa5sUnv
+         mPsyvz3Ys3MivWMsyYJZ22AgBpX68Y7o9NEV6u3tMXDhpwRW4kNGt/QZc5nAOfwXHr3N
+         Mucw==
+X-Gm-Message-State: AOAM533zP1hzhreph6FNMB8sXZgpuCm2Auj5TG+XfCrwKggy/qxDBKDQ
+        zivc9w6BayUh91TkOeznkCI=
+X-Google-Smtp-Source: ABdhPJx9lhFLxGYM+AahSvAkF8cOfJkn8tZwFRFJBxg0JEMHz67z2DGN0eaXzeSnMbQPbyvDCNvu3w==
+X-Received: by 2002:ac2:48ab:: with SMTP id u11mr3913829lfg.79.1616650051160;
+        Wed, 24 Mar 2021 22:27:31 -0700 (PDT)
+Received: from [192.168.1.221] (87-92-162-34.rev.dnainternet.fi. [87.92.162.34])
+        by smtp.googlemail.com with ESMTPSA id l7sm578168lje.30.2021.03.24.22.27.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Mar 2021 22:27:30 -0700 (PDT)
+Subject: Re: [PATCH 2/2] dt-binding: leds: Document leds-multi-gpio bindings
+To:     Hermes Zhang <chenhui.zhang@axis.com>, pavel@ucw.cz,
+        dmurphy@ti.com, robh+dt@kernel.org
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, chenhuiz@axis.com, lkml@axis.com,
+        kernel@axis.com
+References: <20210324075631.5004-1-chenhui.zhang@axis.com>
+ <20210324075631.5004-3-chenhui.zhang@axis.com>
+From:   =?UTF-8?B?VmVzYSBKw6TDpHNrZWzDpGluZW4=?= <dachaac@gmail.com>
+Message-ID: <0648fff2-5b38-66da-7eb0-9969e517421f@gmail.com>
+Date:   Thu, 25 Mar 2021 07:27:33 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210324075631.5004-3-chenhui.zhang@axis.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The PCA955x driver since it was merged has added a "pca955x:" prefix to
-LED names. This meanas platform data (such as the device tree) cannot
-fully control the name. Here's what this produces using the example in
-the device tree bindings:
+Hi,
 
- # cat /sys/class/leds/
- pca955x:green:power/
- pca955x:pca9552:white/
- pca955x:pca9552:yellow/
- pca955x:red:power/
+See below.
 
-Some systems want the ability to configure the full string. To do this,
-introduce a build time option that adds the prefix that defaults to
-enabled in order to preserve existing behaviour.
+On 24.3.2021 9.56, Hermes Zhang wrote:
+> From: Hermes Zhang <chenhuiz@axis.com>
+> 
+> Document the device tree bindings of the multiple GPIOs LED driver
+> Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml.
+> 
+> Signed-off-by: Hermes Zhang <chenhuiz@axis.com>
+> ---
+>   .../bindings/leds/leds-multi-gpio.yaml        | 50 +++++++++++++++++++
+>   1 file changed, 50 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml b/Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml
+> new file mode 100644
+> index 000000000000..6f2b47487b90
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml
+> @@ -0,0 +1,50 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-multi-gpio.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Multiple GPIOs LED driver
+> +
+> +maintainers:
+> +  - Hermes Zhang <chenhuiz@axis.com>
+> +
+> +description:
+> +  This will support some LED made of multiple GPIOs and the brightness of the
+> +  LED could map to different states of the GPIOs.
+> +
+> +properties:
+> +  compatible:
+> +    const: multi-gpio-led
+> +
+> +  led-gpios:
+> +    description: Array of one or more GPIOs pins used to control the LED.
+> +    minItems: 1
+> +    maxItems: 8  # Should be enough
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- drivers/leds/Kconfig        | 11 +++++++++++
- drivers/leds/leds-pca955x.c |  8 +++++++-
- 2 files changed, 18 insertions(+), 1 deletion(-)
+We also have a case with multi color LEDs (which is probably a more 
+common than multi intensity LED. So I am wondering how these both could 
+co-exist.
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index b6742b4231bf..dcdb107e0967 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -519,6 +519,17 @@ config LEDS_PCA955X
- 	  LED driver chips accessed via the I2C bus.  Supported
- 	  devices include PCA9550, PCA9551, PCA9552, and PCA9553.
- 
-+config LEDS_PCA955X_SYSFS_PREFIX
-+	bool "PCA955x sysfs prefix"
-+	depends on LEDS_PCA955X
-+	default y
-+	help
-+	  This option adds the string "pca955x:" to the start of the name
-+	  presented in sysfs.
-+
-+	  If you wish to use the label provided by platform data without a
-+	  prefix, disable this option.
-+
- config LEDS_PCA955X_GPIO
- 	bool "Enable GPIO support for PCA955X"
- 	depends on LEDS_PCA955X
-diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-index 7087ca4592fc..b7742d6226b5 100644
---- a/drivers/leds/leds-pca955x.c
-+++ b/drivers/leds/leds-pca955x.c
-@@ -61,6 +61,12 @@
- #define PCA955X_GPIO_HIGH	LED_OFF
- #define PCA955X_GPIO_LOW	LED_FULL
- 
-+#ifdef CONFIG_LEDS_PCA955X_SYSFS_PREFIX
-+#define SYSFS_NAME "pca955x:%s"
-+#else
-+#define SYSFS_NAME "%s"
-+#endif
-+
- enum pca955x_type {
- 	pca9550,
- 	pca9551,
-@@ -504,7 +510,7 @@ static int pca955x_probe(struct i2c_client *client,
- 					sizeof(pdata->leds[i].name), "%d", i);
- 
- 			snprintf(pca955x_led->name,
--				sizeof(pca955x_led->name), "pca955x:%s",
-+				sizeof(pca955x_led->name), SYSFS_NAME,
- 				pdata->leds[i].name);
- 
- 			if (pdata->leds[i].default_trigger)
--- 
-2.30.2
+From: 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/leds/leds-gpio.yaml?h=v5.12-rc4#n58
 
+         led-0 {
+             gpios = <&mcu_pio 0 GPIO_ACTIVE_LOW>;
+             linux,default-trigger = "disk-activity";
+             function = LED_FUNCTION_DISK;
+         };
+
+Now 'gpios' (and in LED context) and 'led-gpios' is very close to each 
+other and could easily be confused.
+
+Perhaps this could be something like:
+
+intensity-gpios = ...
+
+or even simplified then just to gpios = <...>
+
+> +
+> +  led-states:
+> +    description: |
+> +      The array list the supported states here which will map to brightness
+> +      from 0 to maximum. Each item in the array will present all the GPIOs
+> +      value by bit.
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    minItems: 1
+> +    maxItems: 16 # Should be enough
+> +
+> +required:
+> +  - compatible
+> +  - led-gpios
+> +  - led-states
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    gpios-led {
+> +      compatible = "multi-gpio-led";
+> +
+> +      led-gpios = <&gpio0 23 0x1>,
+> +                  <&gpio0 24 0x1>;
+> +      led-states = /bits/ 8 <0x00 0x01 0x02 0x03>;
+> +    };
+> +...
+> 
+
+From: 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml?h=v5.12-rc4#n196
+
+There is example of multi color LED configuration. In example below I 
+used two-color LED with red and green as an example (which what we seem 
+to have most in use).
+
+Then if try to combine these into something like:
+
+# Multi color LED with single GPIO line per color
+multi-led@2 {
+   compatible = "gpio-leds";
+   color = <LED_COLOR_ID_MULTICOLOR>;
+   led@0 {
+     color = <LED_COLOR_ID_GREEN>;
+     gpios = <&mcu_pio 0 GPIO_ACTIVE_LOW>;
+   };
+
+   led@1 {
+     color = <LED_COLOR_ID_RED>;
+     gpios = <&mcu_pio 1 GPIO_ACTIVE_LOW>;
+   };
+};
+
+# And with intensity GPIOs:
+multi-led@2 {
+   compatible = "gpio-leds";
+   color = <LED_COLOR_ID_MULTICOLOR>;
+
+   led@0 {
+     color = <LED_COLOR_ID_GREEN>;
+     gpios = <&gpio0 23 0x1>,
+             <&gpio0 24 0x1>;
+     ... see below
+   };
+
+   led@1 {
+     color = <LED_COLOR_ID_RED>;
+     gpios = <&gpio0 25 0x1>,
+             <&gpio0 26 0x1>;
+     ... see below
+   };
+};
+
+# And then single GPIO with intensity GPIOs:
+led@2 {
+   compatible = "gpio-leds";
+   gpios = <&gpio0 23 0x1>,
+           <&gpio0 24 0x1>;
+   gpios-brightness-levels = <0 1 2 3>
+};
+
+I changed 'led-states' to 'gpios-brightness-levels' as it describe more 
+that this is about brightness and not some other state information.
+
+How would this sound?
+
+Thanks,
+Vesa Jääskeläinen
