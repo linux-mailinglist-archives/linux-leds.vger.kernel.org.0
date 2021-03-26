@@ -2,37 +2,39 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2731934A105
+	by mail.lfdr.de (Postfix) with ESMTP id 978F434A106
 	for <lists+linux-leds@lfdr.de>; Fri, 26 Mar 2021 06:29:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbhCZF25 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S229868AbhCZF25 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Fri, 26 Mar 2021 01:28:57 -0400
-Received: from smtp2.axis.com ([195.60.68.18]:6449 "EHLO smtp2.axis.com"
+Received: from smtp1.axis.com ([195.60.68.17]:33596 "EHLO smtp1.axis.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229761AbhCZF2t (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 26 Mar 2021 01:28:49 -0400
+        id S229768AbhCZF2u (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 26 Mar 2021 01:28:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1616736529;
-  x=1648272529;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8d3dIdNCbdJWcGJMvMj4HnBGxxDVIsB7BROmN+qX1tk=;
-  b=gbtSW/uw639nWQvx887Kg2gzjsGRbcKNMyfkjxkFaImtD1RnV3Sln2bC
-   nXm9O1SEEbwJiMu1nx6mKnpmumsAdqrXEpG3tj+K9qumHy039CaTvqkl5
-   4i2DHOr8DIqt3eUhKZyJKDvjihuSrIT6df/LyKde0KcuYwUs4IiSCOgG2
-   shI/GeGuc80s0B3J4imHmCLM+01U9bbvPPGgixGept2KGGGLETey0x81F
-   /Zf/BP2KNAdGn2szzvUW5KH6bzyGKo6t5aRYjNPU3YKd7h45yaWzba19o
-   IW1QwberW7BT3qLT+ftJG2fHHe0NIIA+lxibG4fKTJXfMPXL9OOVOv3PE
-   Q==;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1616736530;
+  x=1648272530;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=12+QAqTdS5qEp89208RDidsj2Q1eud0YTGtFQmVg0vo=;
+  b=JcZMiBPmA9/qy007eOFDfD0y9dirLnQh+es/BeUW4BSToRB23rHkjkFe
+   91AjoMBsaUBTTEOeQNvDZMC+mQxIKtI0rAbTv/QFlWZKEcPO7x5EOuGVX
+   QJxO35PRAaJ8R9fVfo33Om8ZAYdJuX/x8R1uWwVnYw/Zgo4OXGfOokBUI
+   gJVVGLv2Nu3pyMxI/cQY628mZmUL7JUrqtx4yv7WIQkNndvHzcJcNqLQC
+   VU4ruOsZJK67k+ojyBkk761mC4nizwnmFfUOJXfdorgYiFN4+GMISd9os
+   R40mw6upGfNAQr/fwmroVcHX2cV8fSqthEsFA2Q/WHKMx/OiIbZaYn+iK
+   g==;
 From:   Hermes Zhang <chenhui.zhang@axis.com>
 To:     <pavel@ucw.cz>, <dmurphy@ti.com>, <robh+dt@kernel.org>
 CC:     <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <chenhuiz@axis.com>,
         <lkml@axis.com>, <kernel@axis.com>
-Subject: [PATCH v2 0/2] New multiple GPIOs LED driver
-Date:   Fri, 26 Mar 2021 13:27:59 +0800
-Message-ID: <20210326052801.17666-1-chenhui.zhang@axis.com>
+Subject: [PATCH v2 1/2] dt-binding: leds: Document leds-multi-gpio bindings
+Date:   Fri, 26 Mar 2021 13:28:00 +0800
+Message-ID: <20210326052801.17666-2-chenhui.zhang@axis.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210326052801.17666-1-chenhui.zhang@axis.com>
+References: <20210326052801.17666-1-chenhui.zhang@axis.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -42,29 +44,72 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 From: Hermes Zhang <chenhuiz@axis.com>
 
-changes v2:
-- use max_brightness(=2^gpio number) instead of LED_FULL
-- alloc priv at once
-- move driver code to new simple folder
-- update commit message for dt-binding commit
-- move dt-binding commit before driver code
+This binding represents LED devices which are controller with
+multiple GPIO lines in order to achieve more than two brightness
+states.
 
-Hermes Zhang (2):
-  dt-binding: leds: Document leds-multi-gpio bindings
-  leds: leds-multi-gpio: Add multiple GPIOs LED driver
-
- .../bindings/leds/leds-multi-gpio.yaml        |  50 ++++++
- drivers/leds/Kconfig                          |   3 +
- drivers/leds/Makefile                         |   3 +
- drivers/leds/simple/Kconfig                   |  23 +++
- drivers/leds/simple/Makefile                  |   3 +
- drivers/leds/simple/leds-multi-gpio.c         | 144 ++++++++++++++++++
- 6 files changed, 226 insertions(+)
+Signed-off-by: Hermes Zhang <chenhuiz@axis.com>
+---
+ .../bindings/leds/leds-multi-gpio.yaml        | 50 +++++++++++++++++++
+ 1 file changed, 50 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml
- create mode 100644 drivers/leds/simple/Kconfig
- create mode 100644 drivers/leds/simple/Makefile
- create mode 100644 drivers/leds/simple/leds-multi-gpio.c
 
+diff --git a/Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml b/Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml
+new file mode 100644
+index 000000000000..1549f21e8d6e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-multi-gpio.yaml
+@@ -0,0 +1,50 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/leds-multi-gpio.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Multiple GPIOs LED driver
++
++maintainers:
++  - Hermes Zhang <chenhuiz@axis.com>
++
++description:
++  This will support some LED made of multiple GPIOs and the brightness of the
++  LED could map to different states of the GPIOs.
++
++properties:
++  compatible:
++    const: multi-gpio-led
++
++  led-gpios:
++    description: Array of one or more GPIOs pins used to control the LED.
++    minItems: 1
++    maxItems: 8  # Should be enough
++
++  led-states:
++    description: |
++      The array list the supported states here which will map to brightness
++      from 0 to maximum. Each item in the array will present all the GPIOs
++      value by bit.
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    minItems: 1
++    maxItems: 256 # Should be enough
++
++required:
++  - compatible
++  - led-gpios
++  - led-states
++
++additionalProperties: false
++
++examples:
++  - |
++    gpios-led {
++      compatible = "multi-gpio-led";
++
++      led-gpios = <&gpio0 23 0x1>,
++                  <&gpio0 24 0x1>;
++      led-states = /bits/ 8 <0x00 0x01 0x02 0x03>;
++    };
++...
 -- 
 2.20.1
 
