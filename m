@@ -2,109 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7E2434B16E
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Mar 2021 22:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2CCE34B5C1
+	for <lists+linux-leds@lfdr.de>; Sat, 27 Mar 2021 10:52:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229969AbhCZVlZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 26 Mar 2021 17:41:25 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29402 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230139AbhCZVlW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 26 Mar 2021 17:41:22 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12QLY9bW175064;
-        Fri, 26 Mar 2021 17:41:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=o3ApsbpnhFyVWmIh60cjgwBmlVuw5nAPAdbum6OWuuo=;
- b=bjorKQvjKds+BnXhPDlPj4fBrDMe1QTrvGcoqddKvRmuFiVGdImuvNyiID5G7TMRfrEy
- LVCJuT8V8ON2Mg7sNEx2amsW/YMzHmwLSeJuH0CuXmQmtZfdUuIcm7V3MGs2oayOoIdp
- 39qWTO/j4MpXKIg86dvGanMLxCxx+WiZoQCrWsv0sHke2oWXyQZ2cdfFhBzfw76ZtFUw
- b/+uRhhO8W8Rceq9D79/GXdtv9rXi7cu3PGLVjAqvJmfXwyYfny5CZS1H1UP8ycpwTfU
- b8mLbRzL0UpYZ3YbrLBfkgKG+pKOuY03DvArWno1pnFr/7sDAxUGml5SKP5XrhjCPHny Dg== 
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com [169.63.121.186])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 37h74w2jt5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 26 Mar 2021 17:41:04 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
-        by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12QLXUlw012720;
-        Fri, 26 Mar 2021 21:41:03 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
-        by ppma03wdc.us.ibm.com with ESMTP id 37h15e059r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 26 Mar 2021 21:41:03 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12QLf3MM25493806
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 26 Mar 2021 21:41:03 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0B3B778060;
-        Fri, 26 Mar 2021 21:41:03 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B3D6778066;
-        Fri, 26 Mar 2021 21:41:02 +0000 (GMT)
-Received: from [9.211.47.34] (unknown [9.211.47.34])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Fri, 26 Mar 2021 21:41:02 +0000 (GMT)
-Subject: Re: leds: pca955x: Allow full control over led name
-To:     Joel Stanley <joel@jms.id.au>, Pavel Machek <pavel@ucw.cz>,
-        Dan Murphy <dmurphy@ti.com>
-Cc:     =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>,
-        linux-leds@vger.kernel.org
-References: <20210325005456.152469-1-joel@jms.id.au>
-From:   Eddie James <eajames@linux.ibm.com>
-Message-ID: <55566731-1a4e-0e91-d5d7-7ded3739f42d@linux.ibm.com>
-Date:   Fri, 26 Mar 2021 16:41:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S231403AbhC0JwB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 27 Mar 2021 05:52:01 -0400
+Received: from lizzard.sbs.de ([194.138.37.39]:51302 "EHLO lizzard.sbs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230415AbhC0Jvl (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 27 Mar 2021 05:51:41 -0400
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 12R9pEHg007154
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 27 Mar 2021 10:51:14 +0100
+Received: from md1za8fc.ad001.siemens.net ([167.87.2.82])
+        by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id 12R9kDOA028553;
+        Sat, 27 Mar 2021 10:46:13 +0100
+Date:   Sat, 27 Mar 2021 10:46:10 +0100
+From:   Henning Schild <henning.schild@siemens.com>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        <linux-watchdog@vger.kernel.org>,
+        Srikanth Krishnakar <skrishnakar@gmail.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 2/4] leds: simatic-ipc-leds: add new driver for
+ Siemens Industial PCs
+Message-ID: <20210327104610.344afebc@md1za8fc.ad001.siemens.net>
+In-Reply-To: <50836593-d5c9-421f-9140-2c65ac6fabe4@metux.net>
+References: <20210315095710.7140-1-henning.schild@siemens.com>
+        <20210315095710.7140-3-henning.schild@siemens.com>
+        <CAHp75VcBdR8xqfWqKe+DwGAUYByVL7SBK0p7tHcKPs7m4Ay1iw@mail.gmail.com>
+        <20210315111915.GA14857@duo.ucw.cz>
+        <50836593-d5c9-421f-9140-2c65ac6fabe4@metux.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210325005456.152469-1-joel@jms.id.au>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 9YsGZwXRLSegblNDxWXzrAVwk47zBtQP
-X-Proofpoint-ORIG-GUID: 9YsGZwXRLSegblNDxWXzrAVwk47zBtQP
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-26_14:2021-03-26,2021-03-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
- bulkscore=0 impostorscore=0 priorityscore=1501 suspectscore=0 phishscore=0
- lowpriorityscore=0 spamscore=0 malwarescore=0 clxscore=1011 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103260159
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Am Thu, 18 Mar 2021 12:38:53 +0100
+schrieb "Enrico Weigelt, metux IT consult" <lkml@metux.net>:
 
-On 3/24/21 7:54 PM, Joel Stanley wrote:
-> The PCA955x driver since it was merged has added a "pca955x:" prefix to
-> LED names. This meanas platform data (such as the device tree) cannot
-> fully control the name. Here's what this produces using the example in
-> the device tree bindings:
->
->   # cat /sys/class/leds/
->   pca955x:green:power/
->   pca955x:pca9552:white/
->   pca955x:pca9552:yellow/
->   pca955x:red:power/
->
-> Some systems want the ability to configure the full string. To do this,
-> introduce a build time option that adds the prefix that defaults to
-> enabled in order to preserve existing behaviour.
+> On 15.03.21 12:19, Pavel Machek wrote:
+> 
+> > But I still don't like the naming. simantic-ipc: prefix is
+> > useless. Having 6 status leds is not good, either.  
+> 
+> Do we have some standard naming policy those kinds of LEDs ?
 
+There is include/dt-bindings/leds/common.h with LED_FUNCTION_*
 
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
+> In this case, they seem to be assigned to certain specific functions
+> (by physical labels on the box), so IMHO the LED names should reflect
+> that in some ways.
 
+The choice for "status" was because of
 
->
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
->   drivers/leds/Kconfig        | 11 +++++++++++
->   drivers/leds/leds-pca955x.c |  8 +++++++-
->   2 files changed, 18 insertions(+), 1 deletion(-)
->
+>> /* Miscelleaus functions. Use functions above if you can. */
+
+And those known names do not really come with an explanation of their
+meaning. Names like "bluetooth" seem obvious, but "activity" or
+"indicator" leave a lot of room for speculation.
+
+The choice in numbers was inspired by labels on the box, which i wanted
+to reflect in some way.
+
+Henning
+
+> There're other cases (eg. apu board familiy) that just have several
+> front panel leds w/o any dedication, so we can just count them up.
+> 
+> 
+> --mtx
+> 
+
