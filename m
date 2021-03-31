@@ -2,130 +2,46 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC20934EC8E
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Mar 2021 17:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6477134FA0A
+	for <lists+linux-leds@lfdr.de>; Wed, 31 Mar 2021 09:31:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbhC3Pdv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 Mar 2021 11:33:51 -0400
-Received: from gecko.sbs.de ([194.138.37.40]:57575 "EHLO gecko.sbs.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232335AbhC3Pde (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 30 Mar 2021 11:33:34 -0400
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-        by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 12UFX7GU024983
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 30 Mar 2021 17:33:07 +0200
-Received: from md1za8fc.ad001.siemens.net ([167.87.2.166])
-        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 12UFN6KW024700;
-        Tue, 30 Mar 2021 17:23:06 +0200
-Date:   Tue, 30 Mar 2021 17:23:05 +0200
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>, Enrico Weigelt <lkml@metux.net>
-Subject: Re: [PATCH v3 2/4] leds: simatic-ipc-leds: add new driver for
- Siemens Industial PCs
-Message-ID: <20210330172305.67b6e050@md1za8fc.ad001.siemens.net>
-In-Reply-To: <CAHp75VceCsuANZpib6HXJvxgMdJhmr8KPTZgThxKvXq6Yotymg@mail.gmail.com>
-References: <20210329174928.18816-1-henning.schild@siemens.com>
-        <20210329174928.18816-3-henning.schild@siemens.com>
-        <CAHp75Vdh_YAJLE4DWPhxhYY1g5Fc_7EFgr4FED3crpfpzwXeRg@mail.gmail.com>
-        <20210330135808.373c3308@md1za8fc.ad001.siemens.net>
-        <CAHp75Vc0f0HfAJx0KPyQMWjekkhB_T-1+vuR566qAcYGA2JLJA@mail.gmail.com>
-        <20210330143011.0e8ae4a0@md1za8fc.ad001.siemens.net>
-        <CAHp75VceCsuANZpib6HXJvxgMdJhmr8KPTZgThxKvXq6Yotymg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S234119AbhCaHar convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Wed, 31 Mar 2021 03:30:47 -0400
+Received: from bizcloud-power.sawafuji.co.jp ([128.199.220.203]:47845 "EHLO
+        mta0.sawafuji.co.jp" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234123AbhCaHa2 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 31 Mar 2021 03:30:28 -0400
+X-Greylist: delayed 672 seconds by postgrey-1.27 at vger.kernel.org; Wed, 31 Mar 2021 03:30:27 EDT
+From:   Albert Bourla <info@universalautomation.com.pk>
+To:     linux-leds@vger.kernel.org
+Subject: Bidding invitation
+Date:   31 Mar 2021 09:10:26 +0200
+Message-ID: <20210331091026.6EA557CF6A9C2636@universalautomation.com.pk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am Tue, 30 Mar 2021 15:41:53 +0300
-schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:
+Good Day Sir/Ms,
 
-> On Tue, Mar 30, 2021 at 3:35 PM Henning Schild
-> <henning.schild@siemens.com> wrote:
-> > Am Tue, 30 Mar 2021 15:15:16 +0300
-> > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:  
-> > > On Tue, Mar 30, 2021 at 2:58 PM Henning Schild
-> > > <henning.schild@siemens.com> wrote:  
-> > > > Am Tue, 30 Mar 2021 14:04:35 +0300
-> > > > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:  
-> > > > > On Mon, Mar 29, 2021 at 8:59 PM Henning Schild
-> > > > > <henning.schild@siemens.com> wrote:  
-> 
-> > > > > > +static struct simatic_ipc_led simatic_ipc_leds_mem[] = {
-> > > > > > +       {0x500 + 0x1A0, "red:" LED_FUNCTION_STATUS "-1"},
-> > > > > > +       {0x500 + 0x1A8, "green:" LED_FUNCTION_STATUS "-1"},
-> > > > > > +       {0x500 + 0x1C8, "red:" LED_FUNCTION_STATUS "-2"},
-> > > > > > +       {0x500 + 0x1D0, "green:" LED_FUNCTION_STATUS "-2"},
-> > > > > > +       {0x500 + 0x1E0, "red:" LED_FUNCTION_STATUS "-3"},
-> > > > > > +       {0x500 + 0x198, "green:" LED_FUNCTION_STATUS "-3"},
-> > > > > > +       { }
-> > > > > > +};  
-> > > > >
-> > > > > It seems to me like poking GPIO controller registers directly.
-> > > > > This is not good. The question still remains: Can we simply
-> > > > > register a GPIO (pin control) driver and use an LED GPIO
-> > > > > driver with an additional board file that instantiates it?  
-> > > >
-> > > > I wrote about that in reply to the cover letter. My view is
-> > > > still that it would be an abstraction with only one user, just
-> > > > causing work and likely not ending up as generic as it might
-> > > > eventually have to be.
-> > > >
-> > > > The region is reserved, not sure what the problem with the
-> > > > "poking" is.  
-> > >
-> > >  
-> > > > Maybe i do not understand all the benefits of such a split at
-> > > > this point in time. At the moment i only see work with hardly
-> > > > any benefit, not just work for me but also for maintainers. I
-> > > > sure do not mean to be ignorant. Maybe you go into details and
-> > > > convince me or we wait for other peoples opinions on how to
-> > > > proceed, maybe there is a second user that i am not aware of?
-> > > > Until i am convinced otherwise i will try to argue that a
-> > > > single-user-abstraction is needless work/code, and should be
-> > > > done only when actually needed.  
-> > >
-> > > I have just read your messages (there is a cover letter and
-> > > additional email which was sent lately).
-> > >
-> > > I would like to know what the CPU model number on that board is.
-> > > Than we can continue to see what possibilities we have here.  
-> >
-> > I guess we are talking about the one that uses memory mapped, that
-> > is called an "IPC127E" and seems to have either Intel Atom E3940 or
-> > E3930 which seems to be Apollo Lake.  
-> 
-> Yep. And now the question, in my patch series you should have got the
-> apollolake-pinctrl driver loaded (if not, we have to investigate why
-> it's not being instantiated). This will give you a read GPIO driver.
+We are please to invite you or your company to quote the 
+following item listed below:
+ 
+Product/Model No: A702TH FYNE PRESSURE REGULATOR
+Model Number: A702TH
+Qty. 30 units
 
-Ok, so there is the existing driver i asked about several times. Thanks
-for pointing it out.
 
-> So, you may use regular LED GPIO on top of it
-> (https://elixir.bootlin.com/linux/latest/source/drivers/leds/leds-gpio.c).
-> I would like to understand why it can't be achieved.
+Compulsory,Kindly send your quotation to: 
+quotation@pfizerbvsupply.com 
+for immediate approval.
 
-Will have a look. Unfortunately this one box is missing in my personal
-collection, but let us assume that one can be converted to that
-existing driver.
-I guess that will still mean the PIO-based part of the LED driver will
-have to stay as is.
-
-regards,
-Henning
+Kind Regards,
+Albert Bourla
+PFIZER B.V Supply Chain Manager
+Tel: +31(0)208080 880
+ADDRESS: Rivium Westlaan 142, 2909 LD
+Capelle aan den IJssel, Netherlands
