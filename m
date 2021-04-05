@@ -2,194 +2,166 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB58F35375D
-	for <lists+linux-leds@lfdr.de>; Sun,  4 Apr 2021 10:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11DAE3547C7
+	for <lists+linux-leds@lfdr.de>; Mon,  5 Apr 2021 22:49:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230220AbhDDIFG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 4 Apr 2021 04:05:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20899 "EHLO
+        id S235777AbhDEUtx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 5 Apr 2021 16:49:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30607 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230167AbhDDIFF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 4 Apr 2021 04:05:05 -0400
+        by vger.kernel.org with ESMTP id S235691AbhDEUtw (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 5 Apr 2021 16:49:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617523501;
+        s=mimecast20190719; t=1617655785;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Wkv7FhqeiNYxcKmmmhkQrO2YOK6Q2V4qzBP+WLnTyOE=;
-        b=Q1msXpgdjfWRbDemf8pQSePkg6RTfToksMiDoPa4jPunUQHHaOzRpyzkOS40YGbh7CUhMd
-        H28HGlzgTdg56nN+ckgIA406ZmXgAHwsqT4tJ6rfSCz9RulwNnCfOyDNYGRgs02nThMLQG
-        fWmmqrJ0xLKj9iNOeSX40QcUWYXPx+8=
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=qfIs7+6dfxIugIX9REIFvyunxAKjeV6YWpdXXx8v8zo=;
+        b=XFD7Py9bJuE7kmNGPUojEH2WEq/bC4O7Kn7Z8ni2xpvzNwe4MDEA1dU3oH6f8g9XQOUcHo
+        /pLGMx0yBiG0N/CODpQlGkzS02PKtfao5Ilqu+9qvx27YY36aIu8fvSagrxlCoSCaxGP5I
+        zpddMgf08baH6UPWC48R2+hqt+Gbw8c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-mmuK9dBMOUmpS8maU9DxQA-1; Sun, 04 Apr 2021 04:04:59 -0400
-X-MC-Unique: mmuK9dBMOUmpS8maU9DxQA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-63-YrefVkXZNoWfpyIkWc82GA-1; Mon, 05 Apr 2021 16:49:44 -0400
+X-MC-Unique: YrefVkXZNoWfpyIkWc82GA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F6955020A;
-        Sun,  4 Apr 2021 08:04:58 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-48.ams2.redhat.com [10.36.112.48])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8CAD3100E113;
-        Sun,  4 Apr 2021 08:04:53 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE4DC1009E25;
+        Mon,  5 Apr 2021 20:49:42 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-31.ams2.redhat.com [10.36.112.31])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C9D3460C17;
+        Mon,  5 Apr 2021 20:49:41 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Alexander Kobel <a-kobel@a-kobel.de>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: [PATCH v2 resend 9/9] HID: lenovo: Add support for Thinkpad X1 Tablet Thin keyboard
-Date:   Sun,  4 Apr 2021 10:04:32 +0200
-Message-Id: <20210404080432.4322-10-hdegoede@redhat.com>
-In-Reply-To: <20210404080432.4322-1-hdegoede@redhat.com>
-References: <20210404080432.4322-1-hdegoede@redhat.com>
+        linux-leds@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH resend] leds: trigger: audio: Add an activate callback to ensure the initial brightness is set
+Date:   Mon,  5 Apr 2021 22:49:40 +0200
+Message-Id: <20210405204940.19152-1-hdegoede@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The Thinkpad X1 Tablet Thin keyboard's HID interface for the media-keys
-and other special functions, is quite similar to the Thinkpad 10 ultrabook
-keyboard's mouse/media-keys HID interface.
+Some 2-in-1s with a detachable (USB) keyboard(dock) have mute-LEDs in
+the speaker- and/or mic-mute keys on the keyboard.
 
-The only difference is that it needs a bit different key mappings.
+Examples of this are the Lenovo Thinkpad10 tablet (with its USB kbd-dock)
+and the HP x2 10 series.
 
-Add support for the mute-LED and the non-standard media-keys on this
-keyboard by re-using the tp10_ultrabook_kbd code combined with a new
-lenovo_input_mapping_x1_tab_kbd() function.
+The detachable nature of these keyboards means that the keyboard and
+thus the mute LEDs may show up after the user (or userspace restoring
+old mixer settings) has muted the speaker and/or mic.
 
-Co-authored-by: Alexander Kobel <a-kobel@a-kobel.de>
-Tested-by: Alexander Kobel <a-kobel@a-kobel.de>
-Signed-off-by: Alexander Kobel <a-kobel@a-kobel.de>
+Current LED-class devices with a default_trigger of "audio-mute" or
+"audio-micmute" initialize the brightness member of led_classdev with
+ledtrig_audio_get() before registering the LED.
+
+This makes the software state after attaching the keyboard match the
+actual audio mute state, e.g. cat /sys/class/leds/foo/brightness will
+show the right value.
+
+But before this commit nothing was actually calling the led_classdev's
+brightness_set[_blocking] callback so the value returned by
+ledtrig_audio_get() was never actually being sent to the hw, leading
+to the mute LEDs staying in their default power-on state, after
+attaching the keyboard, even if ledtrig_audio_get() returned a different
+state.
+
+This could be fixed by having the individual LED drivers call
+brightness_set[_blocking] themselves after registering the LED,
+but this really is something which should be done by a led-trigger
+activate callback.
+
+Add an activate callback for this, fixing the issue of the
+mute LEDs being out of sync after (re)attaching the keyboard.
+
+Cc: Takashi Iwai <tiwai@suse.de>
+Fixes: faa2541f5b1a ("leds: trigger: Introduce audio mute LED trigger")
+Reviewed-by: Marek Behún <kabel@kernel.org>
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/hid/hid-lenovo.c | 61 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+Changes in v2:
+- Fix a couple of grammar errors in the commit-message
+- Add Marek's Reviewed-by (thank you)
+---
+ drivers/leds/trigger/ledtrig-audio.c | 37 ++++++++++++++++++++++------
+ 1 file changed, 29 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index a33de5022ec3..93b1f935e526 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -266,6 +266,54 @@ static int lenovo_input_mapping_tp10_ultrabook_kbd(struct hid_device *hdev,
- 	return 0;
- }
+diff --git a/drivers/leds/trigger/ledtrig-audio.c b/drivers/leds/trigger/ledtrig-audio.c
+index f76621e88482..c6b437e6369b 100644
+--- a/drivers/leds/trigger/ledtrig-audio.c
++++ b/drivers/leds/trigger/ledtrig-audio.c
+@@ -6,10 +6,33 @@
+ #include <linux/kernel.h>
+ #include <linux/leds.h>
+ #include <linux/module.h>
++#include "../leds.h"
  
-+static int lenovo_input_mapping_x1_tab_kbd(struct hid_device *hdev,
-+		struct hid_input *hi, struct hid_field *field,
-+		struct hid_usage *usage, unsigned long **bit, int *max)
+-static struct led_trigger *ledtrig_audio[NUM_AUDIO_LEDS];
+ static enum led_brightness audio_state[NUM_AUDIO_LEDS];
+ 
++static int ledtrig_audio_mute_activate(struct led_classdev *led_cdev)
 +{
-+	/*
-+	 * The ThinkPad X1 Tablet Thin Keyboard uses 0x000c0001 usage for
-+	 * a bunch of keys which have no standard consumer page code.
-+	 */
-+	if (usage->hid == 0x000c0001) {
-+		switch (usage->usage_index) {
-+		case 0: /* Fn-F10: Enable/disable bluetooth */
-+			map_key_clear(KEY_BLUETOOTH);
-+			return 1;
-+		case 1: /* Fn-F11: Keyboard settings */
-+			map_key_clear(KEY_KEYBOARD);
-+			return 1;
-+		case 2: /* Fn-F12: User function / Cortana */
-+			map_key_clear(KEY_MACRO1);
-+			return 1;
-+		case 3: /* Fn-PrtSc: Snipping tool */
-+			map_key_clear(KEY_SELECTIVE_SCREENSHOT);
-+			return 1;
-+		case 8: /* Fn-Esc: Fn-lock toggle */
-+			map_key_clear(KEY_FN_ESC);
-+			return 1;
-+		case 9: /* Fn-F4: Mute/unmute microphone */
-+			map_key_clear(KEY_MICMUTE);
-+			return 1;
-+		case 10: /* Fn-F9: Settings */
-+			map_key_clear(KEY_CONFIG);
-+			return 1;
-+		case 13: /* Fn-F7: Manage external displays */
-+			map_key_clear(KEY_SWITCHVIDEOMODE);
-+			return 1;
-+		case 14: /* Fn-F8: Enable/disable wifi */
-+			map_key_clear(KEY_WLAN);
-+			return 1;
-+		}
-+	}
-+
-+	if (usage->hid == (HID_UP_KEYBOARD | 0x009a)) {
-+		map_key_clear(KEY_SYSRQ);
-+		return 1;
-+	}
-+
++	led_set_brightness_nosleep(led_cdev, audio_state[LED_AUDIO_MUTE]);
 +	return 0;
 +}
 +
- static int lenovo_input_mapping(struct hid_device *hdev,
- 		struct hid_input *hi, struct hid_field *field,
- 		struct hid_usage *usage, unsigned long **bit, int *max)
-@@ -289,6 +337,8 @@ static int lenovo_input_mapping(struct hid_device *hdev,
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
- 		return lenovo_input_mapping_tp10_ultrabook_kbd(hdev, hi, field,
- 							       usage, bit, max);
-+	case USB_DEVICE_ID_LENOVO_X1_TAB:
-+		return lenovo_input_mapping_x1_tab_kbd(hdev, hi, field, usage, bit, max);
- 	default:
- 		return 0;
- 	}
-@@ -375,6 +425,7 @@ static ssize_t attr_fn_lock_store(struct device *dev,
- 		lenovo_features_set_cptkbd(hdev);
- 		break;
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
-+	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		ret = lenovo_led_set_tp10ubkbd(hdev, TP10UBKBD_FN_LOCK_LED, value);
- 		if (ret)
- 			return ret;
-@@ -519,6 +570,7 @@ static int lenovo_event(struct hid_device *hdev, struct hid_field *field,
- 	case USB_DEVICE_ID_LENOVO_CBTKBD:
- 		return lenovo_event_cptkbd(hdev, field, usage, value);
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
-+	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		return lenovo_event_tp10ubkbd(hdev, field, usage, value);
- 	default:
- 		return 0;
-@@ -800,6 +852,7 @@ static int lenovo_led_brightness_set(struct led_classdev *led_cdev,
- 		lenovo_led_set_tpkbd(hdev);
- 		break;
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
-+	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		ret = lenovo_led_set_tp10ubkbd(hdev, tp10ubkbd_led[led_nr], value);
- 		break;
- 	}
-@@ -1038,6 +1091,7 @@ static int lenovo_probe(struct hid_device *hdev,
- 		ret = lenovo_probe_cptkbd(hdev);
- 		break;
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
-+	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		ret = lenovo_probe_tp10ubkbd(hdev);
- 		break;
- 	default:
-@@ -1103,6 +1157,7 @@ static void lenovo_remove(struct hid_device *hdev)
- 		lenovo_remove_cptkbd(hdev);
- 		break;
- 	case USB_DEVICE_ID_LENOVO_TP10UBKBD:
-+	case USB_DEVICE_ID_LENOVO_X1_TAB:
- 		lenovo_remove_tp10ubkbd(hdev);
- 		break;
- 	}
-@@ -1142,6 +1197,12 @@ static const struct hid_device_id lenovo_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_IBM, USB_DEVICE_ID_IBM_SCROLLPOINT_800DPI_OPTICAL_PRO) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_SCROLLPOINT_OPTICAL) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_TP10UBKBD) },
-+	/*
-+	 * Note bind to the HID_GROUP_GENERIC group, so that we only bind to the keyboard
-+	 * part, while letting hid-multitouch.c handle the touchpad and trackpoint.
-+	 */
-+	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-+		     USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_X1_TAB) },
- 	{ }
- };
++static int ledtrig_audio_micmute_activate(struct led_classdev *led_cdev)
++{
++	led_set_brightness_nosleep(led_cdev, audio_state[LED_AUDIO_MICMUTE]);
++	return 0;
++}
++
++static struct led_trigger ledtrig_audio[NUM_AUDIO_LEDS] = {
++	[LED_AUDIO_MUTE] = {
++		.name     = "audio-mute",
++		.activate = ledtrig_audio_mute_activate,
++	},
++	[LED_AUDIO_MICMUTE] = {
++		.name     = "audio-micmute",
++		.activate = ledtrig_audio_micmute_activate,
++	},
++};
++
+ enum led_brightness ledtrig_audio_get(enum led_audio type)
+ {
+ 	return audio_state[type];
+@@ -19,24 +42,22 @@ EXPORT_SYMBOL_GPL(ledtrig_audio_get);
+ void ledtrig_audio_set(enum led_audio type, enum led_brightness state)
+ {
+ 	audio_state[type] = state;
+-	led_trigger_event(ledtrig_audio[type], state);
++	led_trigger_event(&ledtrig_audio[type], state);
+ }
+ EXPORT_SYMBOL_GPL(ledtrig_audio_set);
+ 
+ static int __init ledtrig_audio_init(void)
+ {
+-	led_trigger_register_simple("audio-mute",
+-				    &ledtrig_audio[LED_AUDIO_MUTE]);
+-	led_trigger_register_simple("audio-micmute",
+-				    &ledtrig_audio[LED_AUDIO_MICMUTE]);
++	led_trigger_register(&ledtrig_audio[LED_AUDIO_MUTE]);
++	led_trigger_register(&ledtrig_audio[LED_AUDIO_MICMUTE]);
+ 	return 0;
+ }
+ module_init(ledtrig_audio_init);
+ 
+ static void __exit ledtrig_audio_exit(void)
+ {
+-	led_trigger_unregister_simple(ledtrig_audio[LED_AUDIO_MUTE]);
+-	led_trigger_unregister_simple(ledtrig_audio[LED_AUDIO_MICMUTE]);
++	led_trigger_unregister(&ledtrig_audio[LED_AUDIO_MUTE]);
++	led_trigger_unregister(&ledtrig_audio[LED_AUDIO_MICMUTE]);
+ }
+ module_exit(ledtrig_audio_exit);
  
 -- 
 2.30.2
