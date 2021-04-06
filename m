@@ -2,73 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D159355492
-	for <lists+linux-leds@lfdr.de>; Tue,  6 Apr 2021 15:08:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DE88355715
+	for <lists+linux-leds@lfdr.de>; Tue,  6 Apr 2021 16:57:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233015AbhDFNIg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 6 Apr 2021 09:08:36 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:15924 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232492AbhDFNIf (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 6 Apr 2021 09:08:35 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FF78C61kMzkhsC;
-        Tue,  6 Apr 2021 21:06:35 +0800 (CST)
-Received: from huawei.com (10.175.103.91) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.498.0; Tue, 6 Apr 2021
- 21:08:17 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
-CC:     <pavel@ucw.cz>
-Subject: [PATCH -next] leds: tlc591xx: fix return value check in tlc591xx_probe()
-Date:   Tue, 6 Apr 2021 21:11:59 +0800
-Message-ID: <20210406131159.2136509-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        id S233301AbhDFO5P (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 6 Apr 2021 10:57:15 -0400
+Received: from lizzard.sbs.de ([194.138.37.39]:58764 "EHLO lizzard.sbs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233155AbhDFO5O (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 6 Apr 2021 10:57:14 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 136EuRp2022676
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 6 Apr 2021 16:56:27 +0200
+Received: from md1za8fc.ad001.siemens.net ([167.87.42.66])
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 136EqmdF003812;
+        Tue, 6 Apr 2021 16:52:48 +0200
+Date:   Tue, 6 Apr 2021 16:52:47 +0200
+From:   Henning Schild <henning.schild@siemens.com>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>,
+        <linux-watchdog@vger.kernel.org>,
+        Srikanth Krishnakar <skrishnakar@gmail.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v3 3/4] watchdog: simatic-ipc-wdt: add new driver for
+ Siemens Industrial PCs
+Message-ID: <20210406165247.78791bf7@md1za8fc.ad001.siemens.net>
+In-Reply-To: <ffdfe9a9-ab17-18af-300e-062b79d132f3@metux.net>
+References: <20210329174928.18816-1-henning.schild@siemens.com>
+        <20210329174928.18816-4-henning.schild@siemens.com>
+        <ffdfe9a9-ab17-18af-300e-062b79d132f3@metux.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-After device_get_match_data(), tlc591xx is not checked, add
-check for it and also check np after dev_of_node.
+Am Thu, 1 Apr 2021 18:15:41 +0200
+schrieb "Enrico Weigelt, metux IT consult" <lkml@metux.net>:
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/leds/leds-tlc591xx.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+> On 29.03.21 19:49, Henning Schild wrote:
+> 
+> Hi,
+> 
+> > This driver adds initial support for several devices from Siemens.
+> > It is based on a platform driver introduced in an earlier commit.  
+> 
+> Where does the wdt actually come from ?
+> 
+> Is it in the SoC ? (which SoC exactly). SoC-builtin wdt is a pretty 
+> usual case.
+>
+> Or some external chip ?
 
-diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index 5b9dfdf743ec..cb7bd1353f9f 100644
---- a/drivers/leds/leds-tlc591xx.c
-+++ b/drivers/leds/leds-tlc591xx.c
-@@ -148,16 +148,20 @@ static int
- tlc591xx_probe(struct i2c_client *client,
- 	       const struct i2c_device_id *id)
- {
--	struct device_node *np = dev_of_node(&client->dev), *child;
-+	struct device_node *np, *child;
- 	struct device *dev = &client->dev;
- 	const struct tlc591xx *tlc591xx;
- 	struct tlc591xx_priv *priv;
- 	int err, count, reg;
+I guess external chip, but again we are talking about multiple
+machines. And the manuals i read so far do not go into that sort of
+detail. In fact on some of the machines you will have two watchdogs,
+one from the SoC and that "special" one.
+That has several reasons, probably not too important here. The HW guys
+are adding another wd not just for fun, and it would be nice to have a
+driver.
  
--	tlc591xx = device_get_match_data(dev);
-+	np = dev_of_node(dev);
- 	if (!np)
- 		return -ENODEV;
- 
-+	tlc591xx = device_get_match_data(dev);
-+	if (!tlc591xx)
-+		return -ENODEV;
-+
- 	count = of_get_available_child_count(np);
- 	if (!count || count > tlc591xx->max_leds)
- 		return -EINVAL;
--- 
-2.25.1
+> The code smells a bit like two entirely different wdt's that just have
+> some similarities. If that's the case, I'd rather split it into two
+> separate drivers and let the parent driver (board file) instantiate
+> the correct one.
+
+Yes, it is two. Just like for the LEDs. One version PIO-based another
+version gpio/p2sb/mmio based.
+In fact the latter should very likely be based on that gpio pinctl,
+whether it really needs to be a separate driver will have to be seen.
+There are probably pros and cons for both options.
+
+regards,
+Henning
+
+> 
+> --mtx
+> 
 
