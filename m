@@ -2,65 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 049B335B239
-	for <lists+linux-leds@lfdr.de>; Sun, 11 Apr 2021 09:47:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EE8E35C477
+	for <lists+linux-leds@lfdr.de>; Mon, 12 Apr 2021 12:55:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235123AbhDKHp4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 11 Apr 2021 03:45:56 -0400
-Received: from smtp03.smtpout.orange.fr ([80.12.242.125]:47177 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235113AbhDKHpz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 11 Apr 2021 03:45:55 -0400
-Received: from localhost.localdomain ([90.126.11.170])
-        by mwinf5d26 with ME
-        id rKle2400B3g7mfN03KlfiZ; Sun, 11 Apr 2021 09:45:39 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 11 Apr 2021 09:45:39 +0200
-X-ME-IP: 90.126.11.170
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     pavel@ucw.cz, mallikarjunax.reddy@linux.intel.com
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH 2/2] leds: lgm: Fix an error handling path in '__sso_led_dt_parse()'
-Date:   Sun, 11 Apr 2021 09:45:38 +0200
-Message-Id: <1fd61230aa6e56abc02598768bf0dca10b49cc55.1618126878.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <22e1f8245251f0ec297881942abfa2b00eff48d2.1618126878.git.christophe.jaillet@wanadoo.fr>
-References: <22e1f8245251f0ec297881942abfa2b00eff48d2.1618126878.git.christophe.jaillet@wanadoo.fr>
+        id S239267AbhDLKzW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 12 Apr 2021 06:55:22 -0400
+Received: from fgw21-7.mail.saunalahti.fi ([62.142.5.82]:56233 "EHLO
+        fgw21-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239063AbhDLKzV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 12 Apr 2021 06:55:21 -0400
+X-Greylist: delayed 965 seconds by postgrey-1.27 at vger.kernel.org; Mon, 12 Apr 2021 06:55:21 EDT
+Received: from localhost (88-115-248-186.elisa-laajakaista.fi [88.115.248.186])
+        by fgw21.mail.saunalahti.fi (Halon) with ESMTP
+        id 4837d188-9b7b-11eb-9eb8-005056bdd08f;
+        Mon, 12 Apr 2021 13:38:56 +0300 (EEST)
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>
+Subject: [PATCH v1 1/1] leds: as3645a: Keep fwnode reference count balanced
+Date:   Mon, 12 Apr 2021 13:38:38 +0300
+Message-Id: <20210412103838.2055499-1-andy.shevchenko@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-If a memory allocation fails, we must free the already allocated resources
-before returning.
+The commit 88b7e9ffe594 ("leds: as3645a: Switch to fwnode property API")
+missed the point that loop counter should be put after use. Otherwise
+the reference count of it will become unbalanced.
 
-Fixes: c3987cd2bca3 ("leds: lgm: Add LED controller driver for LGM SoC")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Fixes: 88b7e9ffe594 ("leds: as3645a: Switch to fwnode property API")
+Fixes: 22cb0a76e005 ("leds-as3645a: Drop fwnode reference on ignored node")
+Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/leds/blink/leds-lgm-sso.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/leds/leds-as3645a.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/leds/blink/leds-lgm-sso.c b/drivers/leds/blink/leds-lgm-sso.c
-index 3da242d4ce7d..ef632ebabac9 100644
---- a/drivers/leds/blink/leds-lgm-sso.c
-+++ b/drivers/leds/blink/leds-lgm-sso.c
-@@ -631,8 +631,10 @@ __sso_led_dt_parse(struct sso_led_priv *priv, struct fwnode_handle *fw_ssoled)
+diff --git a/drivers/leds/leds-as3645a.c b/drivers/leds/leds-as3645a.c
+index e8922fa03379..50454d1c6090 100644
+--- a/drivers/leds/leds-as3645a.c
++++ b/drivers/leds/leds-as3645a.c
+@@ -505,6 +505,7 @@ static int as3645a_parse_node(struct as3645a *flash,
+ 			break;
+ 		}
+ 	}
++	fwnode_handle_put(fwnode);
  
- 	fwnode_for_each_child_node(fw_ssoled, fwnode_child) {
- 		led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
--		if (!led)
--			return -ENOMEM;
-+		if (!led) {
-+			ret = -ENOMEM;
-+			goto __dt_err;
-+		}
- 
- 		INIT_LIST_HEAD(&led->list);
- 		led->priv = priv;
+ 	if (!flash->flash_node) {
+ 		dev_err(&flash->client->dev, "can't find flash node\n");
 -- 
-2.27.0
+2.31.1
 
