@@ -2,26 +2,25 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FDE435C5CB
-	for <lists+linux-leds@lfdr.de>; Mon, 12 Apr 2021 13:57:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44F2A35C982
+	for <lists+linux-leds@lfdr.de>; Mon, 12 Apr 2021 17:16:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240467AbhDLL50 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 12 Apr 2021 07:57:26 -0400
-Received: from gecko.sbs.de ([194.138.37.40]:35090 "EHLO gecko.sbs.de"
+        id S239412AbhDLPQb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 12 Apr 2021 11:16:31 -0400
+Received: from gecko.sbs.de ([194.138.37.40]:43602 "EHLO gecko.sbs.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239202AbhDLL50 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 12 Apr 2021 07:57:26 -0400
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-        by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 13CBuhgY004539
+        id S238015AbhDLPQa (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 12 Apr 2021 11:16:30 -0400
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+        by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 13CFFgX1013409
         (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 12 Apr 2021 13:56:44 +0200
+        Mon, 12 Apr 2021 17:15:42 +0200
 Received: from md1za8fc.ad001.siemens.net ([139.22.41.180])
-        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 13CBugBC024375;
-        Mon, 12 Apr 2021 13:56:42 +0200
-Date:   Mon, 12 Apr 2021 13:56:41 +0200
+        by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id 13CFFfhh014981;
+        Mon, 12 Apr 2021 17:15:41 +0200
+Date:   Mon, 12 Apr 2021 17:15:40 +0200
 From:   Henning Schild <henning.schild@siemens.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Enrico Weigelt <lkml@metux.net>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
@@ -33,10 +32,10 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         Mark Gross <mgross@linux.intel.com>,
         Hans de Goede <hdegoede@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>
+        Pavel Machek <pavel@ucw.cz>, Enrico Weigelt <lkml@metux.net>
 Subject: Re: [PATCH v3 2/4] leds: simatic-ipc-leds: add new driver for
  Siemens Industial PCs
-Message-ID: <20210412135641.1173941b@md1za8fc.ad001.siemens.net>
+Message-ID: <20210412171540.19154dea@md1za8fc.ad001.siemens.net>
 In-Reply-To: <CAHp75VcU-7-BVum4xuuQcG7NZZc9xXOoXYpfSBUwwPr6iZLWGg@mail.gmail.com>
 References: <20210329174928.18816-1-henning.schild@siemens.com>
         <20210329174928.18816-3-henning.schild@siemens.com>
@@ -177,25 +176,20 @@ schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:
 > It depends on the role of P2SB in this case.
 > Shouldn't you drop that completely out from this series?
 
-We still have one such GPIO bit in one wdt, might be "sunrisepoint".
-Still have to clarify if that can maybe be dropped for a first step.
+Unfortunately the WDT uses one P2SB-GPIO pin as well (for 1 of the two
+machine types it supports). Dropping would mean loosing 1/5 machines in
+LED and 2/4 in WDT. So i rather let this series sit until the P2SB
+stuff is sorted out.
+But that would just be my personal "preference". We could go "divide
+and conquer", shrink the number of supported devices and drop all that
+needs P2SB ... also a valid way, we have the platform-abstraction to
+build upon ... and we would get p4 out of the way. 
+
+Henning
 
 > Otherwise we have to understand what to do with it.
 > It seems the best approach can be to expose the P2SB device to Linux,
 > but we have to answer to Bjorn's request about region reservations.
+> 
+> 
 
-I now have such an apollolake to play with. Having your series applied
-my LEDs driver fails to alloc that mmio memory, so far so correct.
-Still have to figure out how to use those GPIOs.
-
-I was hoping to find a gpiochip in sysfs and be able to export gpios to
-userland.
-
-Enrico, does "gpio_amd_fch" show up under /sys/class/gpio as a
-gpiochip? Or how to interact with that driver before basing another one
-on top?
-
-I am afraid that pinctrl-broxton might be loaded but not working as
-expected.
-
-Henning
