@@ -2,85 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6941A35F324
-	for <lists+linux-leds@lfdr.de>; Wed, 14 Apr 2021 14:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91F403607C5
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Apr 2021 12:53:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350666AbhDNMHF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 14 Apr 2021 08:07:05 -0400
-Received: from mickerik.phytec.de ([195.145.39.210]:48702 "EHLO
-        mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233651AbhDNMHE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 14 Apr 2021 08:07:04 -0400
-X-Greylist: delayed 901 seconds by postgrey-1.27 at vger.kernel.org; Wed, 14 Apr 2021 08:07:04 EDT
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1618401100; x=1620993100;
-        h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=JMwlqwUAz63cj+1rHJeDEtWZ7SyZOoO9BlhNY7PZl2o=;
-        b=hsU623hnvAXAFiQlZF0e+2Kk4a2UKGuCYBoIf7gInEEU7j64Fa3kFCiF1gASAt5E
-        yP0bl9Ftn6m2Zm2wTWsI8C9Ybouw9Lg1tR8qBOTNrbfqCxjLxcfDWRtNf11yRaLg
-        iI4ymTM6pr29T/GnbU+WAc3+a61YQ6tbx0kk27q17RI=;
-X-AuditID: c39127d2-324b870000001c53-a7-6076d74c0a07
-Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id EB.B3.07251.C47D6706; Wed, 14 Apr 2021 13:51:40 +0200 (CEST)
-Received: from lws-riedmueller.phytec.de ([172.16.23.108])
-          by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-          with ESMTP id 2021041413513958-114650 ;
-          Wed, 14 Apr 2021 13:51:39 +0200 
-From:   Stefan Riedmueller <s.riedmueller@phytec.de>
-To:     Riku Voipio <riku.voipio@iki.fi>, Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stefan Riedmueller <s.riedmueller@phytec.de>
-Subject: [PATCH] leds: pca9532: Assign gpio base dynamically
-Date:   Wed, 14 Apr 2021 13:51:24 +0200
-Message-Id: <20210414115124.91416-1-s.riedmueller@phytec.de>
-X-Mailer: git-send-email 2.25.1
+        id S232603AbhDOKxV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 15 Apr 2021 06:53:21 -0400
+Received: from mail-41104.protonmail.ch ([185.70.41.104]:26695 "EHLO
+        mail-41104.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232617AbhDOKxO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Apr 2021 06:53:14 -0400
+X-Greylist: delayed 345 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Apr 2021 06:53:13 EDT
+Received: from mail-02.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4FLbd504l7z4xn8w;
+        Thu, 15 Apr 2021 10:47:04 +0000 (UTC)
+Authentication-Results: mail-41104.protonmail.ch;
+        dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="VFX0DLTP"
+Date:   Thu, 15 Apr 2021 10:46:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1618483619;
+        bh=FqqoljThLpOkKq3HVnBx6falyOkeZosZYHA11X1CY4Q=;
+        h=Date:To:From:Cc:Reply-To:Subject:From;
+        b=VFX0DLTPJGS+E8PEcqknTVMEkNY7s7p4wpU5cvvYem3E8esQCFuXBkL+29Y0d6+JE
+         kihOVEXGKkBxFg+Jd+M949kBliz9opJXziMSQm/bmxJ3mQ8xUw5yQdC3RRIt9pkmV+
+         PFwQA241d7BNnb9o1b1tfpjYnhhooef105I4Lnvo=
+To:     bjorn.andersson@linaro.org
+From:   Yassine Oudjana <y.oudjana@protonmail.com>
+Cc:     agross@kernel.org, devicetree@vger.kernel.org, dmurphy@ti.com,
+        lee.jones@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-pwm@vger.kernel.org, martin.botka1@gmail.com, pavel@ucw.cz,
+        robh+dt@kernel.org, thierry.reding@gmail.com,
+        u.kleine-koenig@pengutronix.de,
+        Yassine Oudjana <y.oudjana@protonmail.com>
+Reply-To: Yassine Oudjana <y.oudjana@protonmail.com>
+Subject: Re: [PATCH v6 2/4] leds: Add driver for Qualcomm LPG
+Message-ID: <MhLF908GTTNiXzyq2bkuFfK30ETPKJrYqVSGyeT4rY@cp4-web-038.plabs.ch>
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 14.04.2021 13:51:39,
-        Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 14.04.2021 13:51:40
-X-TNEFEvaluated: 1
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplluLIzCtJLcpLzFFi42JZI8DApetzvSzBYMY0DovLu+awWWx9s47R
-        4u6po2wWJzdcYnNg8Tj8dSGLx4rV39k9Pm+SC2CO4rJJSc3JLEst0rdL4MrY07eYtWA6e8X3
-        jgusDYz9bF2MnBwSAiYSR49vZO1i5OIQEtjGKLFr9mJGCOcao8Sjp/2MIFVsAkYSC6Y1MoHY
-        IgKOEqufHwWLMwtkSWw4cYyli5GDQ1jARqLtchJImEVAVaLvUQsTSJgXKPy8OQ5il7zEzEvf
-        2UFsXgFBiZMzn7CArJIQuMIocXTzFGaIIiGJ04vPMkOM15ZYtvA18wRGvllIemYhSS1gZFrF
-        KJSbmZydWpSZrVeQUVmSmqyXkrqJERhkhyeqX9rB2DfH4xAjEwfjIUYJDmYlEV63KSUJQrwp
-        iZVVqUX58UWlOanFhxilOViUxHk38JaECQmkJ5akZqemFqQWwWSZODilGhjbP++rcZpQMz3J
-        /8uZFm3/V02G/03/9e87ZXBYtmOe/rbm8/cd91+Ms3v8/vUzBrGnKwsFErdeFZq9eMtD1YMp
-        pvN/Wb2SUb0+4W6TqIWellyFWWxkn7eu59Ee/ut5H0XdppjYRLI7rpv1PzeK5dg6HTPW7Vbb
-        gjWOxkVXnS2dqva/WfpApIwSS3FGoqEWc1FxIgDAvp2+IAIAAA==
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-When using devicetree, gpio=5Fbase holds its initial zero value which can
-lead to a rejection if another gpio controller already occupies this
-base. To prevent that collision let the gpio base be assigned dynamically.
+Hi,
 
-Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
----
- drivers/leds/leds-pca9532.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Wed, 21 Oct 2020 13:12:22 -0700 Bjorn Andersson wrote:
+> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
+> PMICs from Qualcomm. It can operate on fixed parameters or based on a
+> lookup-table, altering the duty cycle over time - which provides the
+> means for e.g. hardware assisted transitions of LED brightness.
+>=20
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+>=20
+> Changes since v5:
+> - Make sure to not used the state of the last channel in a group to
+> determine if the current sink should be active for all channels in the
+> group. - Replacement of unsigned -1 with UINT_MAX
+> - Work around potential overflow by using larger data types, instead of
+> separate code paths - Use cpu_to_l16() rather than hand rolling them
+> - Minor style cleanups
+>=20
+>  drivers/leds/Kconfig         |    9 +
+>  drivers/leds/Makefile        |    1 +
+>  drivers/leds/leds-qcom-lpg.c | 1190 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 1200 insertions(+)
+>  create mode 100644 drivers/leds/leds-qcom-lpg.c
 
-diff --git a/drivers/leds/leds-pca9532.c b/drivers/leds/leds-pca9532.c
-index 27d027165472..017794bb87ae 100644
---- a/drivers/leds/leds-pca9532.c
-+++ b/drivers/leds/leds-pca9532.c
-@@ -480,6 +480,8 @@ pca9532=5Fof=5Fpopulate=5Fpdata(struct device *dev, str=
-uct device=5Fnode *np)
- 	if (!pdata)
- 		return ERR=5FPTR(-ENOMEM);
-=20
-+	pdata->gpio=5Fbase =3D -1;
-+
- 	of=5Fproperty=5Fread=5Fu8=5Farray(np, "nxp,pwm", &pdata->pwm[0],
- 				  ARRAY=5FSIZE(pdata->pwm));
- 	of=5Fproperty=5Fread=5Fu8=5Farray(np, "nxp,psc", &pdata->psc[0],
---=20
-2.25.1
+Works well on the Xiaomi Mi Note 2 (msm8996pro/pmi8996).
+
+Tested-by: Yassine Oudjana <y.oudjana@protonmail.com>
+
+Regards,
+Yassine
 
