@@ -2,214 +2,203 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95C1D3637F0
-	for <lists+linux-leds@lfdr.de>; Sun, 18 Apr 2021 23:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC586367B61
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Apr 2021 09:48:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232511AbhDRVzG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 18 Apr 2021 17:55:06 -0400
-Received: from relay04.th.seeweb.it ([5.144.164.165]:41959 "EHLO
-        relay04.th.seeweb.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232491AbhDRVzD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 18 Apr 2021 17:55:03 -0400
-X-Greylist: delayed 1195 seconds by postgrey-1.27 at vger.kernel.org; Sun, 18 Apr 2021 17:55:03 EDT
-Received: from [10.0.20.3] (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 96E351F60D;
-        Sun, 18 Apr 2021 23:54:32 +0200 (CEST)
-From:   Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [PATCH v6 2/4] leds: Add driver for Qualcomm LPG
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Martin Botka <martin.botka1@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-References: <20201021201224.3430546-1-bjorn.andersson@linaro.org>
- <20201021201224.3430546-3-bjorn.andersson@linaro.org>
-Message-ID: <881fb5a3-fb51-3967-63de-a09950839855@somainline.org>
-Date:   Sun, 18 Apr 2021 23:54:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+        id S235146AbhDVHrm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 22 Apr 2021 03:47:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60198 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235058AbhDVHrm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Apr 2021 03:47:42 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC1FAC06174A
+        for <linux-leds@vger.kernel.org>; Thu, 22 Apr 2021 00:47:07 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jbe@pengutronix.de>)
+        id 1lZU3E-0004XQ-0f; Thu, 22 Apr 2021 09:47:04 +0200
+Received: from [2a0a:edc0:0:900:2e4d:54ff:fe67:bfa5] (helo=ginster)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <jbe@pengutronix.de>)
+        id 1lZU3C-0000Js-VA; Thu, 22 Apr 2021 09:47:02 +0200
+Received: from jbe by ginster with local (Exim 4.92)
+        (envelope-from <jbe@pengutronix.de>)
+        id 1lZU3C-0002JA-Tv; Thu, 22 Apr 2021 09:47:02 +0200
+From:   Juergen Borleis <jbe@pengutronix.de>
+To:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel@pengutronix.de
+Subject: [PATCH] leds: trigger/tty: feature data direction
+Date:   Thu, 22 Apr 2021 09:47:02 +0200
+Message-Id: <20210422074702.8831-1-jbe@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201021201224.3430546-3-bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: jbe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Bjorn,
+The current implementation just signals a visible feedback on all kind of
+activity on the corresponding TTY. But sometimes it is useful to see what
+kind of activity just happens. This change adds the capability to filter
+the direction of TTY's data flow. It enables a user to forward both
+directions to separate LEDs for tx and rx on demand. Default behavior is
+still both directions.
 
-On 10/21/20 10:12 PM, Bjorn Andersson wrote:
-> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
-> PMICs from Qualcomm. It can operate on fixed parameters or based on a
-> lookup-table, altering the duty cycle over time - which provides the
-> means for e.g. hardware assisted transitions of LED brightness.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Tested-by: Luca Weiss <luca@z3ntu.xyz>
+Signed-off-by: Juergen Borleis <jbe@pengutronix.de>
+---
+ Documentation/leds/ledtrig-tty.rst | 47 ++++++++++++++++++++++++++
+ drivers/leds/trigger/ledtrig-tty.c | 53 +++++++++++++++++++++++++++++-
+ 2 files changed, 99 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/leds/ledtrig-tty.rst
 
+diff --git a/Documentation/leds/ledtrig-tty.rst b/Documentation/leds/ledtrig-tty.rst
+new file mode 100644
+index 00000000..6fc765c
+--- /dev/null
++++ b/Documentation/leds/ledtrig-tty.rst
+@@ -0,0 +1,47 @@
++===============
++LED TTY Trigger
++===============
++
++This LED trigger flashes the LED whenever some data flows are happen on the
++corresponding TTY device. The TTY device can be freely selected, as well as the
++data flow direction.
++
++TTY trigger can be enabled and disabled from user space on led class devices,
++that support this trigger as shown below::
++
++	echo tty > trigger
++	echo none > trigger
++
++This trigger exports two properties, 'ttyname' and 'dirfilter'. When the
++tty trigger is activated both properties are set to default values, which means
++no related TTY device yet and the LED would flash on both directions.
++
++Selecting a corresponding trigger TTY::
++
++	echo ttyS0 > ttyname
++
++This LED will now flash on data flow in both directions of 'ttyS0'.
++
++Selecting a direction::
++
++	echo in > dirfilter
++	echo out > dirfilter
++	echo inout > dirfilter
++
++This selection will flash the LED on data flow in the selected direction.
++
++Example
++=======
++
++With the 'dirfilter' property one can use two LEDs to give a user a separate
++visual feedback about data flow.
++
++Flash on data send on one LED::
++
++	echo ttyS0 > ttyname
++	echo out > dirfilter
++
++Flash on data receive on a second LED::
++
++	echo ttyS0 > ttyname
++	echo in > dirfilter
+diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
+index f62db7e..d3bd231 100644
+--- a/drivers/leds/trigger/ledtrig-tty.c
++++ b/drivers/leds/trigger/ledtrig-tty.c
+@@ -14,6 +14,8 @@ struct ledtrig_tty_data {
+ 	const char *ttyname;
+ 	struct tty_struct *tty;
+ 	int rx, tx;
++	unsigned indirection:1;
++	unsigned outdirection:1;
+ };
+ 
+ static void ledtrig_tty_restart(struct ledtrig_tty_data *trigger_data)
+@@ -76,6 +78,47 @@ static ssize_t ttyname_store(struct device *dev,
+ }
+ static DEVICE_ATTR_RW(ttyname);
+ 
++static ssize_t dirfilter_show(struct device *dev,
++			      struct device_attribute *attr, char *buf)
++{
++	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
++
++	if (trigger_data->indirection)
++		return (ssize_t)sprintf(buf, "in\n");
++	if (trigger_data->outdirection)
++		return (ssize_t)sprintf(buf, "out\n");
++	return (ssize_t)sprintf(buf, "inout\n");
++}
++
++static ssize_t dirfilter_store(struct device *dev,
++			       struct device_attribute *attr, const char *buf,
++			       size_t size)
++{
++	struct ledtrig_tty_data *trigger_data = led_trigger_get_drvdata(dev);
++	ssize_t ret = size;
++
++	if (size > 0 && buf[size - 1] == '\n')
++		size -= 1;
++
++	if (size) {
++		if (!strncmp(buf, "in", size)) {
++			trigger_data->indirection = 1;
++			trigger_data->outdirection = 0;
++			return ret;
++		}
++		if (!strncmp(buf, "out", size)) {
++			trigger_data->indirection = 0;
++			trigger_data->outdirection = 1;
++			return ret;
++		}
++	}
++
++	trigger_data->indirection = 0;
++	trigger_data->outdirection = 0;
++	return ret;
++}
++static DEVICE_ATTR_RW(dirfilter);
++
+ static void ledtrig_tty_work(struct work_struct *work)
+ {
+ 	struct ledtrig_tty_data *trigger_data =
+@@ -122,7 +165,14 @@ static void ledtrig_tty_work(struct work_struct *work)
+ 
+ 	if (icount.rx != trigger_data->rx ||
+ 	    icount.tx != trigger_data->tx) {
+-		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
++		if (trigger_data->indirection) {
++			if (icount.rx != trigger_data->rx)
++				led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
++		} else if (trigger_data->outdirection) {
++			if (icount.tx != trigger_data->tx)
++				led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
++		} else
++			led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
+ 
+ 		trigger_data->rx = icount.rx;
+ 		trigger_data->tx = icount.tx;
+@@ -137,6 +187,7 @@ static void ledtrig_tty_work(struct work_struct *work)
+ 
+ static struct attribute *ledtrig_tty_attrs[] = {
+ 	&dev_attr_ttyname.attr,
++	&dev_attr_dirfilter.attr,
+ 	NULL
+ };
+ ATTRIBUTE_GROUPS(ledtrig_tty);
+-- 
+2.20.1
 
-Thanks for these patches.  I have tested them successfully on the Sony 
-Xperia XA2 (Discovery, Nile platform) with the leds on the PM660l - feel 
-free to add my Tested-by.  Should I send the configuration your way for 
-inclusion in this patch, or submit them separately (either applied 
-after, or included as separate patches in the next version of this series)?
-
-> +/**
-> + * struct lpg_data - initialization data
-> + * @lut_base:		base address of LUT block
-> + * @lut_size:		number of entries in LUT
-> + * @triled_base:	base address of TRILED
-> + * @pwm_9bit_mask:	bitmask for switching from 6bit to 9bit pwm
-
-
-Our downstream kernel derives this from the "LPG subtype" for each 
-distinct channel, read from register offset +0x5.  A value of 0xb is 
-subtype "PWM" with a shift of 2, a value of 0x11 is subtype "LPG_LITE" 
-with a shift of 4.  Can we do the same here instead of hardcoding it for 
-all channels in the LPG at once?  How should we determine if the mask is 
-one or two bits wide, for the 3<<4 case?
-
-> + * @num_channels:	number of channels in LPG
-> + * @channels:		list of channel initialization data
-> + */
-
-> +	if (ping_pong) {
-> +		if (len % 2)
-> +			hi_pause = 0;
-> +		else
-> +			hi_pause = pattern[len + 1 / 2].delta_t;
-
-
-len + 1 should be wrapped in parentheses just like the reassignment to 
-len= below, otherwise this is always an out of bounds read (at len + 0).
-
-> +		lo_pause = pattern[len - 1].delta_t;
-> +
-> +		len = (len + 1) / 2;
-> +	} else {
-> +		hi_pause = pattern[len - 1].delta_t;
-> +		lo_pause = 0;
-> +	}
-> +
-> +	ret = lpg_lut_store(lpg, pattern, len, &lo_idx, &hi_idx);
-> +	if (ret < 0)
-> +		goto out;
-> +
-> +	for (i = 0; i < led->num_channels; i++) {
-> +		chan = led->channels[i];
-> +
-> +		chan->ramp_duration_ms = pattern[0].delta_t * len;
-
-
-Perhaps this could store the duration of a single step instead, since 
-the only use in lpg_apply_lut_control divides it by pattern length again?
-
-> +		chan->ramp_ping_pong = ping_pong;
-> +		chan->ramp_oneshot = repeat != -1;
-> +
-> +		chan->ramp_lo_pause_ms = lo_pause;
-> +		chan->ramp_hi_pause_ms = hi_pause;
-> +
-> +		chan->pattern_lo_idx = lo_idx;
-> +		chan->pattern_hi_idx = hi_idx;
-> +	}
-> +
-> +out:
-> +	return ret;
-> +}
-
-> +static int lpg_init_lut(struct lpg *lpg)
-> +{
-> +	const struct lpg_data *data = lpg->data;
-> +	size_t bitmap_size;
-> +
-> +	if (!data->lut_base)
-> +		return 0;
-> +
-> +	lpg->lut_base = data->lut_base;
-> +	lpg->lut_size = data->lut_size;
-> +
-> +	bitmap_size = BITS_TO_LONGS(lpg->lut_size) * sizeof(unsigned long);
-> +	lpg->lut_bitmap = devm_kzalloc(lpg->dev, bitmap_size, GFP_KERNEL);
-
-
-Would it be nicer to use BITS_TO_BYTES here, or otherwise 
-devm_kcalloc(..., bitmap_size, sizeof(long), ...) without mutiplying 
-with sizeof(unsigned long)?
-
-> +
-> +	bitmap_clear(lpg->lut_bitmap, 0, lpg->lut_size);
-> +	return lpg->lut_bitmap ? 0 : -ENOMEM;
-> +}
-> +
-> +static int lpg_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *np;
-> +	struct lpg *lpg;
-> +	int ret;
-> +	int i;
-> +
-> +	lpg = devm_kzalloc(&pdev->dev, sizeof(*lpg), GFP_KERNEL);
-> +	if (!lpg)
-> +		return -ENOMEM;
-> +
-> +	lpg->data = of_device_get_match_data(&pdev->dev);
-> +	if (!lpg->data)
-> +		return -EINVAL;
-> +
-> +	lpg->dev = &pdev->dev;
-> +
-> +	lpg->map = dev_get_regmap(pdev->dev.parent, NULL);
-> +	if (!lpg->map) {
-> +		dev_err(&pdev->dev, "parent regmap unavailable\n");
-> +		return -ENXIO;
-> +	}
-> +
-> +	ret = lpg_init_channels(lpg);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = lpg_init_triled(lpg);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = lpg_init_lut(lpg);
-> +	if (ret < 0)
-> +		return ret;
-
-
-How about turning these returns into dev_err_probe?  I'm not sure if 
-that's the expected way to go nowadays, but having some form of logging 
-when a driver fails to probe is always good to have.
-
-Thanks!
-Marijn
-
-> +
-> +	for_each_available_child_of_node(pdev->dev.of_node, np) {
-> +		ret = lpg_add_led(lpg, np);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	for (i = 0; i < lpg->num_channels; i++)
-> +		lpg_apply_dtest(&lpg->channels[i]);
-> +
-> +	ret = lpg_add_pwm(lpg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	platform_set_drvdata(pdev, lpg);
-> +
-> +	return 0;
-> +}
