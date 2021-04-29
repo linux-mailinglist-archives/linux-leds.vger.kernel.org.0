@@ -2,164 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7078136F09E
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Apr 2021 22:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3119A36F14D
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Apr 2021 22:50:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229960AbhD2Tbz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Apr 2021 15:31:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50836 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbhD2Tby (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Apr 2021 15:31:54 -0400
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [IPv6:2001:4b7a:2000:18::164])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53C0EC06138C
-        for <linux-leds@vger.kernel.org>; Thu, 29 Apr 2021 12:31:06 -0700 (PDT)
-Received: from [10.0.20.3] (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by m-r1.th.seeweb.it (Postfix) with ESMTPSA id ACE66200F8;
-        Thu, 29 Apr 2021 21:31:01 +0200 (CEST)
-Subject: Re: [PATCH v6 2/4] leds: Add driver for Qualcomm LPG
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Martin Botka <martin.botka1@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-References: <20201021201224.3430546-1-bjorn.andersson@linaro.org>
- <20201021201224.3430546-3-bjorn.andersson@linaro.org>
- <881fb5a3-fb51-3967-63de-a09950839855@somainline.org>
- <20210428223939.GN1908499@yoga>
-From:   Marijn Suijten <marijn.suijten@somainline.org>
-Message-ID: <f7fa3d57-3541-130a-e5fc-0df31206598f@somainline.org>
-Date:   Thu, 29 Apr 2021 21:31:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S236882AbhD2Uu7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Apr 2021 16:50:59 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:12190 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229966AbhD2Uu7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 29 Apr 2021 16:50:59 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13TKX6H0109356;
+        Thu, 29 Apr 2021 16:50:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=+lJW8sqJwEI0hybZTWZ3M//scidWBU0FxTTtQxAz4OU=;
+ b=U8Cc+Mt2iQpf/jV5+VsC0La9aZpMB3f8VLdEtRF6XjATymTHvjctNoBPqdO52Zs1DyWK
+ w8B4wChWGDZMsQ6HezxYeXYvK022vrzrk+of8+LhOoqrIgwzv2R4B4UhulzaB1H1Rdtd
+ aasZvn7BL8d9fNKESzvh+tIQ9rVGPnGMFJbTANDaOVMmuR+OB9bDL/1JawXLUSuoESrT
+ spErf1ZlniYuyKVPo6PQkMuXE43ELPVMNS/kXaWtNuvU+qtz6WMhycJQWFlaNSV3K5HN
+ KiDQriS38qNpufe6nthorgGz1e6bu7LKSzV2XvUvd/smqxoz7Xw3TfuU7NPfJi1zth4P Sw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3883ech61j-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Apr 2021 16:50:08 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13TKXR0n113357;
+        Thu, 29 Apr 2021 16:50:08 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3883ech614-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Apr 2021 16:50:08 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+        by ppma04dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13TKfGuD020477;
+        Thu, 29 Apr 2021 20:50:07 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com [9.57.198.25])
+        by ppma04dal.us.ibm.com with ESMTP id 384aya8mwt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Apr 2021 20:50:07 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com [9.57.199.106])
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13TKo69B34537976
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 29 Apr 2021 20:50:06 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C1B2C2806A;
+        Thu, 29 Apr 2021 20:50:06 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D469F2805A;
+        Thu, 29 Apr 2021 20:50:05 +0000 (GMT)
+Received: from v0005c16.aus.stglabs.ibm.com (unknown [9.211.73.43])
+        by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+        Thu, 29 Apr 2021 20:50:05 +0000 (GMT)
+From:   Eddie James <eajames@linux.ibm.com>
+To:     linux-leds@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, pavel@ucw.cz,
+        jacek.anaszewski@gmail.com, robh+dt@kernel.or,
+        devicetree@vger.kernel.org, vishwa@linux.ibm.com,
+        Eddie James <eajames@linux.ibm.com>
+Subject: [PATCH 0/5] leds: Support retaining state for the PCA955x
+Date:   Thu, 29 Apr 2021 15:49:57 -0500
+Message-Id: <20210429205002.70245-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20210428223939.GN1908499@yoga>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Y81GTJAsVYS11NcwUa07wx8gz-D9_sV1
+X-Proofpoint-ORIG-GUID: P6gmtKGH4EmS0flePYnG7Vr8zbG4_9po
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-04-29_11:2021-04-28,2021-04-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ phishscore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0
+ impostorscore=0 malwarescore=0 adultscore=0 mlxlogscore=939 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104290133
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 4/29/21 12:39 AM, Bjorn Andersson wrote:
-> On Sun 18 Apr 16:54 CDT 2021, Marijn Suijten wrote:
-> 
->> Hi Bjorn,
->>
->> On 10/21/20 10:12 PM, Bjorn Andersson wrote:
->>> The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
->>> PMICs from Qualcomm. It can operate on fixed parameters or based on a
->>> lookup-table, altering the duty cycle over time - which provides the
->>> means for e.g. hardware assisted transitions of LED brightness.
->>>
->>> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
->>> Tested-by: Luca Weiss <luca@z3ntu.xyz>
->>
->>
->> Thanks for these patches.  I have tested them successfully on the Sony
->> Xperia XA2 (Discovery, Nile platform) with the leds on the PM660l - feel
->> free to add my Tested-by.  Should I send the configuration your way for
->> inclusion in this patch, or submit them separately (either applied after, or
->> included as separate patches in the next version of this series)?
->>
-> 
-> Thanks for testing, let's try to land this first iteration first and
-> then we can add PM660l and PM8150* definitions/support on top.
+This series implements the ability to retain the state of the LEDs
+controlled by the PCA955x across system reboots. This includes a
+change to the LED core driver to respect the retain-state-shutdown
+device tree property. It also cleans up the PCA955x driver and adds
+the ability to query the hardware LED brightness.
 
+Eddie James (5):
+  dt-bindings: leds: Add retain-state-shutdown boolean
+  leds: leds-core: Implement the retain-state-shutdown property
+  leds: pca955x: Clean up code formatting
+  leds: pca955x: Add brightness_get function
+  leds: pca955x: Implement the default-state property
 
-I'll keep an eye out for when these patches land and send them on top. 
-Feel free to add me to the CC list for future revisions.
+ .../devicetree/bindings/leds/common.yaml      |   6 +
+ drivers/leds/led-class.c                      |  10 +-
+ drivers/leds/leds-pca955x.c                   | 169 +++++++++++++-----
+ 3 files changed, 142 insertions(+), 43 deletions(-)
 
->>> +/**
->>> + * struct lpg_data - initialization data
->>> + * @lut_base:		base address of LUT block
->>> + * @lut_size:		number of entries in LUT
->>> + * @triled_base:	base address of TRILED
->>> + * @pwm_9bit_mask:	bitmask for switching from 6bit to 9bit pwm
->>
->>
->> Our downstream kernel derives this from the "LPG subtype" for each distinct
->> channel, read from register offset +0x5.  A value of 0xb is subtype "PWM"
->> with a shift of 2, a value of 0x11 is subtype "LPG_LITE" with a shift of 4.
->> Can we do the same here instead of hardcoding it for all channels in the LPG
->> at once?  How should we determine if the mask is one or two bits wide, for
->> the 3<<4 case?
->>
-> 
-> I don't see any obvious solution to the latter, so perhaps we should
-> just stick with defining this per compatible? Or am I reading your
-> suggestion wrong?
+-- 
+2.27.0
 
-
-Assuming these devices have a different "LPG subtype" you should be able 
-to read their value and add it to the list as third option. 
-Alternatively, can you point out the driver this `3<<4` mask was based 
-on?  With all the information available it should be possible to derive 
-this from hardware for every channel instead of hardcoding it.
-
->>> +
->>> +	bitmap_clear(lpg->lut_bitmap, 0, lpg->lut_size);
->>> +	return lpg->lut_bitmap ? 0 : -ENOMEM;
->>> +}
->>> +
->>> +static int lpg_probe(struct platform_device *pdev)
->>> +{
->>> +	struct device_node *np;
->>> +	struct lpg *lpg;
->>> +	int ret;
->>> +	int i;
->>> +
->>> +	lpg = devm_kzalloc(&pdev->dev, sizeof(*lpg), GFP_KERNEL);
->>> +	if (!lpg)
->>> +		return -ENOMEM;
->>> +
->>> +	lpg->data = of_device_get_match_data(&pdev->dev);
->>> +	if (!lpg->data)
->>> +		return -EINVAL;
->>> +
->>> +	lpg->dev = &pdev->dev;
->>> +
->>> +	lpg->map = dev_get_regmap(pdev->dev.parent, NULL);
->>> +	if (!lpg->map) {
->>> +		dev_err(&pdev->dev, "parent regmap unavailable\n");
->>> +		return -ENXIO;
->>> +	}
->>> +
->>> +	ret = lpg_init_channels(lpg);
->>> +	if (ret < 0)
->>> +		return ret;
->>> +
->>> +	ret = lpg_init_triled(lpg);
->>> +	if (ret < 0)
->>> +		return ret;
->>> +
->>> +	ret = lpg_init_lut(lpg);
->>> +	if (ret < 0)
->>> +		return ret;
->>
->>
->> How about turning these returns into dev_err_probe?  I'm not sure if that's
->> the expected way to go nowadays, but having some form of logging when a
->> driver fails to probe is always good to have.
->>
-> 
-> The intention is that each code path through these functions will either
-> pass or spit out an error in the log. I looked through them again and
-> think I cover all paths...
-
-
-That is true, all the errors not covered are extremely unlikely like 
--ENOMEM.  I vaguely recall having to insert extra logging to get through 
-initial probe, but that might have been something inside lpg_add_led as 
-well.  Fine to leave this as it is.
-
-- Marijn
