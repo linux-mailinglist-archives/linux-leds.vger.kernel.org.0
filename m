@@ -2,213 +2,81 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8245B36E261
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Apr 2021 02:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16C1536EB06
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Apr 2021 14:59:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231874AbhD2AMu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Apr 2021 20:12:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49724 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231628AbhD2AMt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Apr 2021 20:12:49 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29F7CC06138C
-        for <linux-leds@vger.kernel.org>; Wed, 28 Apr 2021 17:12:04 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id i26so9492536oii.3
-        for <linux-leds@vger.kernel.org>; Wed, 28 Apr 2021 17:12:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=SBQkZZ+AM0rdRiolN8pMUJvJaHdqRcP6uvGtBB7hbVU=;
-        b=ZoTQshL6LSUn3Lj4/ZAJK9Rw3XfU8aTAMNv0jvQ6LotAVOdLClfvB+3CeSpCEioye0
-         Xtopma3PqjaDfDfsQayOuP4TbqJWt9iSo+X07bTjJZrtqsrpD62HHGpNjKK8gv1NaNtS
-         j+jH6knXMDHPhdU/nGtL0OIOSn/aAekpdbSYjfJzWoxRqf7OTjh4v4eEpfubQ2W/pv6d
-         Z+RgHfkEWL9+um/+yz3n1MeBS04aaAlWZ1J852+CB8wQARNwCvxGxntYdB7vjtAt8hzm
-         umKD+6zJY4V0bBk45x5b0yvwel00U0JtsWLN76hqI9/nZIU2JQov5EqcHbyL4pPBuLAT
-         GL4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=SBQkZZ+AM0rdRiolN8pMUJvJaHdqRcP6uvGtBB7hbVU=;
-        b=EjBGmR8yrmzkoPH0oj8uE8FYpjLNO+libNORsQJARj0lREz760OAtdiCOL71zFoZTF
-         aYFHGgCW7GETBbieNjIoHQz6EFFxeL7S8AOFgWA8mnDaEhmClJaDYnJ4GjkU6Rao0kwS
-         4UaVvc6E8OvErhc8XQ5GYV1Algo4EVOc6z45lUu7JSFM5v8t8S1BHSv7GbwL8vFVrulJ
-         Qsw0bxgjZTmulahQnmae+nC3wqkdcKBPk9Y6/LZauKK5OEcOK+IPQnR8TUe9hGlBjcwR
-         9qyNC/Wn6NYqm7O72QSCdneeHFK2G+zYXZpoPY7gXcYP418mGT1UJ9eE0Go64gT03rrD
-         bnIA==
-X-Gm-Message-State: AOAM530LVfVLh8aOwy7SqPgSaA1Rrz0oHrqf97tmxZuz2hOC3MAmOoUU
-        tJow7mMprAUS7kaPU8xMFyUWDQ==
-X-Google-Smtp-Source: ABdhPJxVHBqD0ADdSUFDRMR3ZR31HODm2e3SR+lV5ybAgqah5lCuPwSWrEvzbrK39xY68/DgooIHzA==
-X-Received: by 2002:aca:5845:: with SMTP id m66mr5007370oib.0.1619655123470;
-        Wed, 28 Apr 2021 17:12:03 -0700 (PDT)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id r63sm305743oia.43.2021.04.28.17.12.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 17:12:03 -0700 (PDT)
-Date:   Wed, 28 Apr 2021 19:12:00 -0500
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Martin Botka <martin.botka1@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v6 2/4] leds: Add driver for Qualcomm LPG
-Message-ID: <YIn50NW+Pimqfsih@builder.lan>
-References: <20201021201224.3430546-1-bjorn.andersson@linaro.org>
- <20201021201224.3430546-3-bjorn.andersson@linaro.org>
- <20201029181357.GE26053@duo.ucw.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201029181357.GE26053@duo.ucw.cz>
+        id S237370AbhD2NAD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Apr 2021 09:00:03 -0400
+Received: from m12-12.163.com ([220.181.12.12]:36035 "EHLO m12-12.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237260AbhD2NAD (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 29 Apr 2021 09:00:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id; bh=CW2WZdQO7oOFo6AnWX
+        otU18lVscqNJYRIy2lAGldCKI=; b=f0999LoPkXSMgN4dJaThIpd4adi+/Y6j8y
+        f50nbNP7MFhWCPGglDS2Sb4eTO0hpfi1ZorqFDk14dVo+n55LUH0RLbmXq2hAk5K
+        NFgWqpnoFgt6rwswrJa3qoyaz3ZQtQS6nBydoR+Foq5dYXzu5Ylc+Ez78hEH5Itk
+        ASu8HjgkI=
+Received: from LiQingHua-01.ccdomain.com (unknown [218.17.89.92])
+        by smtp8 (Coremail) with SMTP id DMCowABnhFmVrYpgFntLBQ--.24667S2;
+        Thu, 29 Apr 2021 20:59:05 +0800 (CST)
+From:   lqhua06@163.com
+To:     pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "quanah.li_cp" <liqinghua@yulong.com>
+Subject: [PATCH] leds: led-core: The value of delay_on and delay_off remains when led off
+Date:   Thu, 29 Apr 2021 20:59:08 +0800
+Message-Id: <20210429125908.8308-1-lqhua06@163.com>
+X-Mailer: git-send-email 2.15.0.windows.1
+X-CM-TRANSID: DMCowABnhFmVrYpgFntLBQ--.24667S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZw1DJw1DZFW7XrWUWF4kJFb_yoWktwb_WF
+        1q9r9rKF9Yvan0yasFkr45ZFWY9r45XF17WF4vvrW7CryYvFWftr45tFyfCrWUW3WqkFyr
+        JrW3Wr1F9rn7GjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU5r3ktUUUUU==
+X-Originating-IP: [218.17.89.92]
+X-CM-SenderInfo: 5otk3tiqw6il2tof0z/1tbiJhmDAVv2hmbDbgAAsd
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu 29 Oct 13:13 CDT 2020, Pavel Machek wrote:
+From: "quanah.li_cp" <liqinghua@yulong.com>
 
-> Hi!
-> 
-> > The Light Pulse Generator (LPG) is a PWM-block found in a wide range of
-> > PMICs from Qualcomm. It can operate on fixed parameters or based on a
-> > lookup-table, altering the duty cycle over time - which provides the
-> > means for e.g. hardware assisted transitions of LED brightness.
-> > 
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > ---
-> > 
-> > Changes since v5:
-> > - Make sure to not used the state of the last channel in a group to determine
-> >   if the current sink should be active for all channels in the group.
-> > - Replacement of unsigned -1 with UINT_MAX
-> > - Work around potential overflow by using larger data types, instead of separate code paths
-> > - Use cpu_to_l16() rather than hand rolling them
-> > - Minor style cleanups
-> > 
-> >  drivers/leds/Kconfig         |    9 +
-> >  drivers/leds/Makefile        |    1 +
-> >  drivers/leds/leds-qcom-lpg.c | 1190 ++++++++++++++++++++++++++++++++++
-> >  3 files changed, 1200 insertions(+)
-> >  create mode 100644 drivers/leds/leds-qcom-lpg.c
-> 
-> Let's put this into drivers/leds/rgb/. You may need to create it.
-> 
+The LED connect to pmic gpio, and the LED can blinking during
+AP goto sleep.
 
-Will do so.
+When the LED is turned off and the hardware blinking will be disabled,
+but the value of delay_on and delay_off still remains.
 
-> 
-> > +static int lpg_lut_store(struct lpg *lpg, struct led_pattern *pattern,
-> > +			 size_t len, unsigned int *lo_idx, unsigned int *hi_idx)
-> > +{
-> > +	unsigned int idx;
-> > +	__le16 val;
-> 
-> No need for __XX variants outside of headers meant for userspace.
-> 
+Signed-off-by: quanah.li_cp <liqinghua@yulong.com>
+---
+ drivers/leds/led-core.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-__le16 is the in-kernel return type for cpu_to_le16(), but after further
-review I believe I don't need to do this.
+diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+index 8eb8054..5db251d 100644
+--- a/drivers/leds/led-core.c
++++ b/drivers/leds/led-core.c
+@@ -262,6 +262,19 @@ void led_set_brightness(struct led_classdev *led_cdev, unsigned int brightness)
+ 	}
+ 
+ 	led_set_brightness_nosleep(led_cdev, brightness);
++
++	/* When the LED is off and the hardware blinking will be disabled,
++	 * but the value of delay_on and delay_off still remains.
++	 */
++	if ((led_cdev->blink_delay_off > 0) &&
++		(led_cdev->blink_delay_on > 0) &&
++		(brightness == LED_OFF)) {
++		if (!test_bit(LED_BLINK_ONESHOT, &led_cdev->work_flags) &&
++			led_cdev->blink_set) {
++			led_cdev->blink_delay_on = 0;
++			led_cdev->blink_delay_off = 0;
++		}
++	}
+ }
+ EXPORT_SYMBOL_GPL(led_set_brightness);
+ 
+-- 
+1.9.1
 
-> > +#define LPG_ENABLE_GLITCH_REMOVAL	BIT(5)
-> > +
-> > +static void lpg_enable_glitch(struct lpg_channel *chan)
-> > +{
-> > +	struct lpg *lpg = chan->lpg;
-> > +
-> > +	regmap_update_bits(lpg->map, chan->base + PWM_TYPE_CONFIG_REG,
-> > +			   LPG_ENABLE_GLITCH_REMOVAL, 0);
-> > +}
-> > +
-> > +static void lpg_disable_glitch(struct lpg_channel *chan)
-> > +{
-> > +	struct lpg *lpg = chan->lpg;
-> > +
-> > +	regmap_update_bits(lpg->map, chan->base + PWM_TYPE_CONFIG_REG,
-> > +			   LPG_ENABLE_GLITCH_REMOVAL,
-> > +			   LPG_ENABLE_GLITCH_REMOVAL);
-> > +}
-> 
-> Helper functions for single register write is kind of overkill...
-> 
 
-Yes, it is, but it keep lpg_apply() tidy.
-
-> > +static int lpg_blink_set(struct lpg_led *led,
-> > +			 unsigned long delay_on, unsigned long delay_off)
-> > +{
-> > +	struct lpg_channel *chan;
-> > +	unsigned int period_us;
-> > +	unsigned int duty_us;
-> > +	int i;
-> > +
-> > +	if (!delay_on && !delay_off) {
-> > +		delay_on = 500;
-> > +		delay_off = 500;
-> > +	}
-> 
-> Aren't you supposed to modify the values passed to you, so that
-> userspace knows what the default rate is?
-> 
-
-I had missed this.
-
-> 
-> > +	ret = lpg_lut_store(lpg, pattern, len, &lo_idx, &hi_idx);
-> > +	if (ret < 0)
-> > +		goto out;
-> 
-> Just do direct return.
-> 
-
-Will do.
-
-> > +out:
-> > +	return ret;
-> > +}
-> 
-> > +static const struct pwm_ops lpg_pwm_ops = {
-> > +	.request = lpg_pwm_request,
-> > +	.apply = lpg_pwm_apply,
-> > +	.owner = THIS_MODULE,
-> > +};
-> > +
-> > +static int lpg_add_pwm(struct lpg *lpg)
-> > +{
-> > +	int ret;
-> > +
-> > +	lpg->pwm.base = -1;
-> > +	lpg->pwm.dev = lpg->dev;
-> > +	lpg->pwm.npwm = lpg->num_channels;
-> > +	lpg->pwm.ops = &lpg_pwm_ops;
-> > +
-> > +	ret = pwmchip_add(&lpg->pwm);
-> > +	if (ret)
-> > +		dev_err(lpg->dev, "failed to add PWM chip: ret %d\n", ret);
-> > +
-> > +	return ret;
-> > +}
-> 
-> Do we need to do this? I'd rather have LED driver, than LED+PWM
-> driver...
-> 
-
-Yes, I believe we need to do this.
-
-Because each piece of hardware has N channels, which can be wired to
-LEDs, grouped with other channels and wired to multicolor LEDs or be
-used as PWM signals. And this configuration is board specific.
-
-One such example is the laptop in front of me, which has 3 channels
-wired to an RGB LED and 1 channel wired as a backlight control signal
-(i.e. using pwm-backlight).  Another example is a devboard where the
-4 channels are wired to 4 LEDs.
-
-Regards,
-Bjorn
