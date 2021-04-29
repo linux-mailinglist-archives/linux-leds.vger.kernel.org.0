@@ -2,200 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69D8536F15D
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Apr 2021 22:50:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B12F36F173
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Apr 2021 22:54:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237210AbhD2UvM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Apr 2021 16:51:12 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31696 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237191AbhD2UvL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 29 Apr 2021 16:51:11 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13TKYBqq012950;
-        Thu, 29 Apr 2021 16:50:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=jX3q+vq0d+05week6S3F0/wSQMjJlxTuY2TLUEtG38c=;
- b=F+e06gUI11IsvRqzWc00aKt1OcTIxoO8fpCTN8Nb3X5QvHyUZJQQjidMCogdxNk8lpR8
- 3KCTEkY69hYDSY80MLWDqWTE3AVwNrN82CmtEhwLyZIo2zEAvnVAat5tx0on4dzJFdl/
- EeN75FtoaDkKk4bfPtMKFLrb+4dX3n+XTOkOF7vJF6zd5mwJaQqV9rY/aHOKV+jr1Wdx
- Gop2GR4gvaerPePqFKpWIaWIz9gStCw+eUQoDuEy76/bdEVieCZzE/Y1d56s5JGAHsuA
- ciRuCtiw0rLw8z3BPr+Bn0naaAZccL7PMnQcRsx2oVTZRIjeqemRs2u+7olONqAj2vcs wA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3883txrgnc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Apr 2021 16:50:22 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13TKYG3P013472;
-        Thu, 29 Apr 2021 16:50:21 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3883txrgn2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Apr 2021 16:50:21 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13TKfWu4027434;
-        Thu, 29 Apr 2021 20:50:21 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com [9.57.198.25])
-        by ppma01dal.us.ibm.com with ESMTP id 384ay9rq1r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 29 Apr 2021 20:50:21 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com [9.57.199.106])
-        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13TKoKGx38273418
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 29 Apr 2021 20:50:20 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 40D7B2805E;
-        Thu, 29 Apr 2021 20:50:20 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5E1252805A;
-        Thu, 29 Apr 2021 20:50:19 +0000 (GMT)
-Received: from v0005c16.aus.stglabs.ibm.com (unknown [9.211.73.43])
-        by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu, 29 Apr 2021 20:50:19 +0000 (GMT)
-From:   Eddie James <eajames@linux.ibm.com>
-To:     linux-leds@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, pavel@ucw.cz,
-        jacek.anaszewski@gmail.com, robh+dt@kernel.or,
-        devicetree@vger.kernel.org, vishwa@linux.ibm.com,
-        Eddie James <eajames@linux.ibm.com>
-Subject: [PATCH 5/5] leds: pca955x: Implement the default-state property
-Date:   Thu, 29 Apr 2021 15:50:02 -0500
-Message-Id: <20210429205002.70245-6-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210429205002.70245-1-eajames@linux.ibm.com>
-References: <20210429205002.70245-1-eajames@linux.ibm.com>
+        id S233770AbhD2Uz2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Apr 2021 16:55:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232246AbhD2Uz1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Apr 2021 16:55:27 -0400
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEAEAC06138B
+        for <linux-leds@vger.kernel.org>; Thu, 29 Apr 2021 13:54:40 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id c8-20020a9d78480000b0290289e9d1b7bcso48538689otm.4
+        for <linux-leds@vger.kernel.org>; Thu, 29 Apr 2021 13:54:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=cDEQYYCABMBKlLd20tFhLfZu2zu60qgD4qzCgh4a7Hs=;
+        b=DuAjdN32RcXze+taixHhxgfk+J8jEGyrIP07wW6CuRJlnkwYge0i/2pVD3UWE00LPu
+         2flBNq/HqM9PGCVOSQWWXLDOWL2LXZ+8OWH564Jz/f2/RuF7rOr3X+xmikVY9yjiXFHu
+         Uy5t2Ep3oGnuPCWrbpmv0BXDicBzrU7UYFgvFMEG6yYstAhpThE3oANFC9alPuOBjjN0
+         eOa4614uUoD7/6gx2klBruypLvTfZiCHOJx1aF1Fdz27XD8gyLUSkMpeT4o20YnIccPz
+         VdREWbe+js7q1E8RdxjeMb7FknGneURiYzQyhC6WXvxSVPdUNS3hPBZz4eRMuc0Jlsto
+         Bweg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cDEQYYCABMBKlLd20tFhLfZu2zu60qgD4qzCgh4a7Hs=;
+        b=JPlsYilqmiijp02Ltr9qzQiOVNKDN/b+Gc8FjREg3u9sPVnbPJXpYkRx9A/EBsXCQ/
+         7oeN3J98uhboG8alp9bKmSBPwRJOQyFi52x7lrrdSBIb7Ihd1eX2+3BZxTwwZvB9BiZk
+         h2MOVTQl5tEuecV6vhuPcHnlTwnTYXuc8Px9+RppeiGRxTFFfU/IeLWD8Mxm2KgJoJ8x
+         1I3yICkuYQPetotkClnSAtqEjdsfDHPd2Iyk1db+77OMbXhYXqb2w5m6FQCfDkuHoXZx
+         HX4xJd5DuMZNNA6lurOIr30uZ9BesSj4khe3+W3m4inWCYGqtyuk8dHe1II/XlVB6Lco
+         dVjA==
+X-Gm-Message-State: AOAM532vt+yU4ddoDoNI3UP2xzogOvHq2p45CPktI7AIZnLxDtkHOMGd
+        spOHYtK8TJ3GgSuS518bHlodyg==
+X-Google-Smtp-Source: ABdhPJwb1Us3vfLjZyNwGpHnKQtg+2ziIVzR4m/46fSQ3cNvwsZZhbPQrBPKVaThPYh2I7jxQRlUIA==
+X-Received: by 2002:a9d:17e9:: with SMTP id j96mr1019565otj.143.1619729679793;
+        Thu, 29 Apr 2021 13:54:39 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id i9sm200057otr.19.2021.04.29.13.54.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Apr 2021 13:54:39 -0700 (PDT)
+Date:   Thu, 29 Apr 2021 15:54:36 -0500
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Marijn Suijten <marijn.suijten@somainline.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Martin Botka <martin.botka1@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v6 2/4] leds: Add driver for Qualcomm LPG
+Message-ID: <20210429205436.GA2484@yoga>
+References: <20201021201224.3430546-1-bjorn.andersson@linaro.org>
+ <20201021201224.3430546-3-bjorn.andersson@linaro.org>
+ <881fb5a3-fb51-3967-63de-a09950839855@somainline.org>
+ <20210428223939.GN1908499@yoga>
+ <f7fa3d57-3541-130a-e5fc-0df31206598f@somainline.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Id5Bo-hsMpHB49g__r-smhUDbNluRc4e
-X-Proofpoint-ORIG-GUID: TwGnGyUqn-M7owWWsN5R_hHBDNSzaR6m
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-04-29_11:2021-04-28,2021-04-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- phishscore=0 adultscore=0 impostorscore=0 mlxlogscore=999 suspectscore=0
- bulkscore=0 priorityscore=1501 clxscore=1015 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104290133
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f7fa3d57-3541-130a-e5fc-0df31206598f@somainline.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-In order to retain the LED state after a system reboot, check the
-documented default-state device tree property during initialization.
-Modify the behavior of the probe according to the property.
+On Thu 29 Apr 14:31 CDT 2021, Marijn Suijten wrote:
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- drivers/leds/leds-pca955x.c | 54 +++++++++++++++++++++++++++++++------
- 1 file changed, 46 insertions(+), 8 deletions(-)
+> On 4/29/21 12:39 AM, Bjorn Andersson wrote:
+> > On Sun 18 Apr 16:54 CDT 2021, Marijn Suijten wrote:
+[..]
+> > > > +	ret = lpg_init_lut(lpg);
+> > > > +	if (ret < 0)
+> > > > +		return ret;
+> > > 
+> > > 
+> > > How about turning these returns into dev_err_probe?  I'm not sure if that's
+> > > the expected way to go nowadays, but having some form of logging when a
+> > > driver fails to probe is always good to have.
+> > > 
+> > 
+> > The intention is that each code path through these functions will either
+> > pass or spit out an error in the log. I looked through them again and
+> > think I cover all paths...
+> 
+> 
+> That is true, all the errors not covered are extremely unlikely like
+> -ENOMEM.  I vaguely recall having to insert extra logging to get through
+> initial probe, but that might have been something inside lpg_add_led as
+> well.  Fine to leave this as it is.
+> 
 
-diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-index e47ba7c3b7c7..fa1d77d86ef6 100644
---- a/drivers/leds/leds-pca955x.c
-+++ b/drivers/leds/leds-pca955x.c
-@@ -129,6 +129,7 @@ struct pca955x_led {
- 	int			led_num;	/* 0 .. 15 potentially */
- 	char			name[32];
- 	u32			type;
-+	int			default_state;
- 	const char		*default_trigger;
- };
- 
-@@ -439,6 +440,7 @@ pca955x_get_pdata(struct i2c_client *client, struct pca955x_chipdef *chip)
- 
- 	device_for_each_child_node(&client->dev, child) {
- 		const char *name;
-+		const char *state;
- 		u32 reg;
- 		int res;
- 
-@@ -457,6 +459,18 @@ pca955x_get_pdata(struct i2c_client *client, struct pca955x_chipdef *chip)
- 		fwnode_property_read_u32(child, "type", &led->type);
- 		fwnode_property_read_string(child, "linux,default-trigger",
- 					    &led->default_trigger);
-+
-+		if (!fwnode_property_read_string(child, "default-state",
-+						 &state)) {
-+			if (!strcmp(state, "keep"))
-+				led->default_state = LEDS_GPIO_DEFSTATE_KEEP;
-+			else if (!strcmp(state, "on"))
-+				led->default_state = LEDS_GPIO_DEFSTATE_ON;
-+			else
-+				led->default_state = LEDS_GPIO_DEFSTATE_OFF;
-+		} else {
-+			led->default_state = LEDS_GPIO_DEFSTATE_OFF;
-+		}
- 	}
- 
- 	pdata->num_leds = chip->bits;
-@@ -485,6 +499,7 @@ static int pca955x_probe(struct i2c_client *client,
- 	int i, err;
- 	struct pca955x_platform_data *pdata;
- 	int ngpios = 0;
-+	bool keep_pwm = false;
- 
- 	chip = &pca955x_chipdefs[id->driver_data];
- 	adapter = client->adapter;
-@@ -565,14 +580,35 @@ static int pca955x_probe(struct i2c_client *client,
- 			led->brightness_set_blocking = pca955x_led_set;
- 			led->brightness_get = pca955x_led_get;
- 
-+			if (pdata->leds[i].default_state ==
-+			    LEDS_GPIO_DEFSTATE_OFF) {
-+				err = pca955x_led_set(led, LED_OFF);
-+				if (err)
-+					return err;
-+			} else if (pdata->leds[i].default_state ==
-+				   LEDS_GPIO_DEFSTATE_ON) {
-+				err = pca955x_led_set(led, LED_FULL);
-+				if (err)
-+					return err;
-+			}
-+
- 			err = devm_led_classdev_register(&client->dev, led);
- 			if (err)
- 				return err;
- 
--			/* Turn off LED */
--			err = pca955x_led_set(led, LED_OFF);
--			if (err)
--				return err;
-+			/*
-+			 * For default-state == "keep", let the core update the
-+			 * brightness from the hardware, then check the
-+			 * brightness to see if it's using PWM1. If so, PWM1
-+			 * should not be written below.
-+			 */
-+			if (pdata->leds[i].default_state ==
-+			    LEDS_GPIO_DEFSTATE_KEEP) {
-+				if (led->brightness != LED_FULL &&
-+				    led->brightness != LED_OFF &&
-+				    led->brightness != LED_HALF)
-+					keep_pwm = true;
-+			}
- 		}
- 	}
- 
-@@ -581,10 +617,12 @@ static int pca955x_probe(struct i2c_client *client,
- 	if (err)
- 		return err;
- 
--	/* PWM1 is used for variable brightness, default to OFF */
--	err = pca955x_write_pwm(client, 1, 0);
--	if (err)
--		return err;
-+	if (!keep_pwm) {
-+		/* PWM1 is used for variable brightness, default to OFF */
-+		err = pca955x_write_pwm(client, 1, 0);
-+		if (err)
-+			return err;
-+	}
- 
- 	/* Set to fast frequency so we do not see flashing */
- 	err = pca955x_write_psc(client, 0, 0);
--- 
-2.27.0
+When kzalloc et al returns -ENOMEM it will be done with an error print,
+so that does not need an additional print. That said, another pass
+through lpg_add_led() made me spot that if you get a parse error on
+the "color" property we would silently return -EINVAL. I've corrected
+this.
 
+Thanks,
+Bjorn
