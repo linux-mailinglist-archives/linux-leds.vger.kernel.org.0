@@ -2,74 +2,61 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D5D73701D5
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Apr 2021 22:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 224853701DD
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Apr 2021 22:11:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235417AbhD3ULq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 30 Apr 2021 16:11:46 -0400
-Received: from mail-oi1-f178.google.com ([209.85.167.178]:40859 "EHLO
-        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235380AbhD3ULp (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Apr 2021 16:11:45 -0400
-Received: by mail-oi1-f178.google.com with SMTP id u16so53879207oiu.7;
-        Fri, 30 Apr 2021 13:10:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TQ39G9eWDsOl7sqJoYVutkae5eYvscnE8x+ZtLW1WuU=;
-        b=hgc8kfa2usNSOdnv/tcQiXWOoM7U7MnumyfIXv56cICiV9M0Tb7/a+JAi/6sQVmSEv
-         M2gnKOok8lqLFUJGe/iYFWiql+FTaH4MJRKIxZjd0J0ZdcT2nu+PChwWgTtGe6m7pUh8
-         2RrMQhw4+lsU3Ew9/K22mF0dKHASRd1nfR6Egk4ANprxb83DuK9UzeKSUqkYHfnHi7x5
-         aim1mA/0WPAfmOArfWowK/M6bPAJHyvf/4nqlA4A4Vykd1OhiS3737jiaoJsihYNjpx4
-         oIjwj+Q/vkYKt9rgP+vvdSSz4+tNX+hrx9FAZ5Mx130pfJ8MxrDv/6hyGeMDX0hwOfUw
-         VANQ==
-X-Gm-Message-State: AOAM530HjEIUFohP6GLk8TnLNy5QhXoIAAiLfnFru0mAzhOL71hDSYlY
-        1VHD8UoCeVGmMKQDIcS53A==
-X-Google-Smtp-Source: ABdhPJyUY7X2RUi39DJ7DAkgG1ZZWRwUThEejPKruSWn2yZoGsiWv4NM6qjHAXTs3lUPU1MrBlUdFw==
-X-Received: by 2002:aca:5a45:: with SMTP id o66mr12542922oib.121.1619813456838;
-        Fri, 30 Apr 2021 13:10:56 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id c7sm966221oot.42.2021.04.30.13.10.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 13:10:55 -0700 (PDT)
-Received: (nullmailer pid 3805175 invoked by uid 1000);
-        Fri, 30 Apr 2021 20:10:54 -0000
-Date:   Fri, 30 Apr 2021 15:10:54 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     cy_huang <u0084500@gmail.com>
-Cc:     b.zolnierkie@samsung.com, linux-kernel@vger.kernel.org,
-        daniel.thompson@linaro.org, lgirdwood@gmail.com,
-        linux-leds@vger.kernel.org, pavel@ucw.cz, lee.jones@linaro.org,
-        linux-fbdev@vger.kernel.org, cy_huang@richtek.com,
-        jingoohan1@gmail.com, devicetree@vger.kernel.org,
-        broonie@kernel.org, dri-devel@lists.freedesktop.org,
-        robh+dt@kernel.org
-Subject: Re: [RESEND PATCH v6 3/4] mfd: rt4831: Adds DT binding document for
- Richtek RT4831
-Message-ID: <20210430201054.GA3805118@robh.at.kernel.org>
-References: <1619421491-31494-1-git-send-email-u0084500@gmail.com>
- <1619421491-31494-3-git-send-email-u0084500@gmail.com>
+        id S235714AbhD3UMb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 30 Apr 2021 16:12:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38442 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235665AbhD3UMO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Apr 2021 16:12:14 -0400
+Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE38C06138C;
+        Fri, 30 Apr 2021 13:11:25 -0700 (PDT)
+Received: from thinkpad (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id BB7591409BE;
+        Fri, 30 Apr 2021 22:11:22 +0200 (CEST)
+Date:   Fri, 30 Apr 2021 22:11:21 +0200
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Enzo Matsumiya <ematsumiya@suse.de>
+Cc:     linux-leds@vger.kernel.org, linux-block@vger.kernel.org,
+        u.kleine-koenig@pengutronix.de, Jens Axboe <axboe@kernel.dk>,
+        Pavel Machek <pavel@ucw.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 2/2] leds: trigger: implement block trigger
+Message-ID: <20210430221121.46461c81@thinkpad>
+In-Reply-To: <20210430183216.27458-3-ematsumiya@suse.de>
+References: <20210430183216.27458-1-ematsumiya@suse.de>
+        <20210430183216.27458-3-ematsumiya@suse.de>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1619421491-31494-3-git-send-email-u0084500@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 26 Apr 2021 15:18:10 +0800, cy_huang wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Adds DT binding document for Richtek RT4831.
-> 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
-> Resend this v6 patch series to loop devicetree reviewers.
-> ---
->  .../devicetree/bindings/mfd/richtek,rt4831.yaml    | 90 ++++++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/richtek,rt4831.yaml
-> 
+On Fri, 30 Apr 2021 15:32:11 -0300
+Enzo Matsumiya <ematsumiya@suse.de> wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> Activity is then represented in an accumulated manner (part_read_stat_accum()),
+> with a fixed blinking interval of 50ms.
+
+part_stat_read_accum, not part_read_stat_accum
+
+Why only accum? With the netdev trigger, you can choose whether rx, tx,
+or both are blinking the LED.
+
+Also I think the trigger should be called "blockdev" instead of
+"block". This is consistent with "netdev", and avoids misinterpretation
+with the verb "to block".
+
+Marek
