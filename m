@@ -2,79 +2,256 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B8DF3700CC
-	for <lists+linux-leds@lfdr.de>; Fri, 30 Apr 2021 20:53:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 596313701C8
+	for <lists+linux-leds@lfdr.de>; Fri, 30 Apr 2021 22:10:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230462AbhD3SyF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 30 Apr 2021 14:54:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49406 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbhD3SyF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Apr 2021 14:54:05 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B980DC06174A;
-        Fri, 30 Apr 2021 11:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=5si/VPg3wezfEGfiD87VoJiPsYaH7np3TTHzup5A59I=; b=bmc9HsKHh9tg6XK8jU2azc4vSC
-        mcE4x1rGP93PHG//RURfU0dL+WfVnYCsdmifXDQWwfmzfjHQb4I73aK/Nk4baD7B2R9l6CngCZ697
-        ezNK5ukDKZ3RvJQY8zcHJrUXVp5ipOM9HPCxyu8ZB5mzkJxwVW9z1pmrA8ll9MQQY+zfqhjeDIop5
-        dP1iHCqbQVtmdeEWUFl/+xLdunCAy/FrLEp8OVBhrmy9/n/DhJKRn3d7XbCEf42qLNSNRlX6lt8g7
-        thJYR4Wj52iUoarJyOICZYKV7qoGubvhug3FppEYY19a8GsmBP5CTmfSNMeQX5Wq4NYKr/232MmJv
-        KJsiTuqQ==;
-Received: from [2601:1c0:6280:3f0::df68]
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lcYFr-00BPIw-Ra; Fri, 30 Apr 2021 18:52:56 +0000
-Subject: Re: [RFC PATCH 2/2] leds: trigger: implement block trigger
-To:     Enzo Matsumiya <ematsumiya@suse.de>, linux-leds@vger.kernel.org,
-        linux-block@vger.kernel.org
-Cc:     u.kleine-koenig@pengutronix.de, Jens Axboe <axboe@kernel.dk>,
-        Pavel Machek <pavel@ucw.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-References: <20210430183216.27458-1-ematsumiya@suse.de>
- <20210430183216.27458-3-ematsumiya@suse.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <d1e96245-6afa-0a67-2b56-de2dd2fda948@infradead.org>
-Date:   Fri, 30 Apr 2021 11:52:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+        id S233545AbhD3UGe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 30 Apr 2021 16:06:34 -0400
+Received: from mail-ot1-f49.google.com ([209.85.210.49]:36491 "EHLO
+        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232957AbhD3UGe (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 30 Apr 2021 16:06:34 -0400
+Received: by mail-ot1-f49.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso10485975otn.3;
+        Fri, 30 Apr 2021 13:05:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=T7ePI4bIX8CcnC5j3hUDE0qviNPb4HDFmqxhfLcKhzs=;
+        b=JYHPIFUIi4U/3CpgUtBQ7Rhnnyvk6THwNXM8+f97Y2NYapWSNgmEh+H63XzKdU6LI0
+         4ioATsTz4wZAxwb+dWpr83QvTcYE6iPvxWocro7exzBr2Grcn3p32XpFq1bSKNoAk2Om
+         zgy9gfL2BXDnUygWqBY40kJ+Ip2jzntedgak9by5c+rhdGOrkD339nrX5xw5mlgZ8ADx
+         kKabwfDeol4NC6ucynQvOX6/zxSISnxC4Rpp/c7N+TFhZ5qdvDUsf4egYmLGpgtf+h4X
+         1YBFHhAZAYRv8ubutJ1hoI5gWgcGuqdobsAVaXAbdhAuR+B72dwnBWH2E7fIIk0ehjDq
+         yNvA==
+X-Gm-Message-State: AOAM530bD32PuAi/SZyxZAHmOxndWRy+rrd+zFUciCyzOIM547r/moWJ
+        4BkFgi3ZP4NsQAy+fGsJVA==
+X-Google-Smtp-Source: ABdhPJzxQDEmXhTIvUDst9IPtWg/QKelSOh5zpecKai2g4sf9uXP5LZNFw8DZ3Kd7bh//H6TZ3gvQA==
+X-Received: by 2002:a05:6830:30ad:: with SMTP id g13mr4929721ots.272.1619813144488;
+        Fri, 30 Apr 2021 13:05:44 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id w3sm899112otg.78.2021.04.30.13.05.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Apr 2021 13:05:43 -0700 (PDT)
+Received: (nullmailer pid 3796857 invoked by uid 1000);
+        Fri, 30 Apr 2021 20:05:42 -0000
+Date:   Fri, 30 Apr 2021 15:05:42 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Andy Gross <agross@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Subject: Re: [PATCH v7 1/6] dt-bindings: leds: Add Qualcomm Light Pulse
+ Generator binding
+Message-ID: <20210430200542.GA3779966@robh.at.kernel.org>
+References: <20210429211517.312792-1-bjorn.andersson@linaro.org>
+ <20210429211517.312792-2-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210430183216.27458-3-ematsumiya@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210429211517.312792-2-bjorn.andersson@linaro.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 4/30/21 11:32 AM, Enzo Matsumiya wrote:
-> diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
-> index b77a01bd27f4..bead31a19148 100644
-> --- a/drivers/leds/trigger/Kconfig
-> +++ b/drivers/leds/trigger/Kconfig
-> @@ -153,4 +153,14 @@ config LEDS_TRIGGER_TTY
->  
->  	  When build as a module this driver will be called ledtrig-tty.
->  
-> +config LEDS_TRIGGER_BLOCK
-> +	tristate "LED Block Device Trigger"
-> +	depends on BLOCK
-> +	default m
-
-Drop the "default m". We don't enable drivers (even to build modules)
-unless they are necessary, e.g., for booting.
-
-> +	help
-> +	  This allows LEDs to be controlled by block device activity.
-> +	  This trigger doesn't require the lower level drivers to have any
-> +	  instrumentation. The activity is collected by polling the disk stats.
-> +	  If unsure, say Y.
+On Thu, Apr 29, 2021 at 02:15:12PM -0700, Bjorn Andersson wrote:
+> This adds the binding document describing the three hardware blocks
+> related to the Light Pulse Generator found in a wide range of Qualcomm
+> PMICs.
+> 
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+> 
+> Changes since v6:
+> - Backed qcom,dtest out of the child nodes again, as it's useful to be able to
+>   route pwm signals through dtest lines as well (and pwm channels aren't
+>   described as children).
+> - Added pm8150[bl] compatibles
+> - Dropped quotes around qcom,dtest
+> - Fixed indentation errors in subnode definition
+> 
+>  .../bindings/leds/leds-qcom-lpg.yaml          | 158 ++++++++++++++++++
+>  1 file changed, 158 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+> new file mode 100644
+> index 000000000000..2998598e8785
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+> @@ -0,0 +1,158 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  endif # LEDS_TRIGGERS
+> +title: Qualcomm Light Pulse Generator
+> +
+> +maintainers:
+> +  - Bjorn Andersson <bjorn.andersson@linaro.org>
+> +
+> +description: >
+> +  The Qualcomm Light Pulse Generator consists of three different hardware blocks;
+> +  a ramp generator with lookup table, the light pulse generator and a three
+> +  channel current sink. These blocks are found in a wide range of Qualcomm PMICs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,pm8150b-lpg
+> +      - qcom,pm8150l-lpg
+> +      - qcom,pm8916-pwm
+> +      - qcom,pm8941-lpg
+> +      - qcom,pm8994-lpg
+> +      - qcom,pmi8994-lpg
+> +      - qcom,pmi8998-lpg
+> +
+> +  "#pwm-cells":
+> +    const: 2
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  qcom,power-source:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      power-source used to drive the output, as defined in the datasheet.
+> +      Should be specified if the TRILED block is present
 
-thanks.
--- 
-~Randy
+constraints?
+
+> +
+> +  qcom,dtest:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: >
+> +      A list of integer pairs, where each pair represent the dtest line the
+> +      particular channel should be connected to and the flags denoting how the
+> +      value should be outputed, as defined in the datasheet. The number of
+> +      pairs should be the same as the number of channels.
+
+Sounds like a matrix rather than array. Constraints on the values?
+
+> +
+> +  multi-led:
+> +    type: object
+> +    $ref: leds-class-multicolor.yaml#
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      "^led@[0-9a-f]$":
+> +        type: object
+> +        $ref: common.yaml#
+> +
+> +patternProperties:
+> +  "^led@[0-9a-f]$":
+> +    type: object
+> +    $ref: common.yaml#
+> +
+> +    properties:
+> +      reg: true
+> +
+> +    required:
+> +      - reg
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    lpg {
+> +      compatible = "qcom,pmi8994-lpg";
+> +
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      qcom,power-source = <1>;
+> +
+> +      qcom,dtest = <0 0
+> +                    0 0
+> +                    0 0
+> +                    4 1>;
+> +
+> +      led@1 {
+> +        reg = <1>;
+> +        label = "green:user1";
+> +      };
+> +
+> +      led@2 {
+> +        reg = <2>;
+> +        label = "green:user0";
+> +        default-state = "on";
+> +      };
+> +
+> +      led@3 {
+> +        reg = <3>;
+> +        label = "green:user2";
+> +      };
+> +
+> +      led@4 {
+> +        reg = <4>;
+> +        label = "green:user3";
+> +      };
+> +    };
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    lpg {
+> +      compatible = "qcom,pmi8994-lpg";
+> +
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      qcom,power-source = <1>;
+> +
+> +      multi-led {
+> +        color = <LED_COLOR_ID_MULTI>;
+> +        label = "rgb:notification";
+> +
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        led@1 {
+> +          reg = <1>;
+> +          color = <LED_COLOR_ID_RED>;
+> +        };
+> +
+> +        led@2 {
+> +          reg = <2>;
+> +          color = <LED_COLOR_ID_GREEN>;
+> +        };
+> +
+> +        led@3 {
+> +          reg = <3>;
+> +          color = <LED_COLOR_ID_BLUE>;
+> +        };
+> +      };
+> +    };
+> +  - |
+> +    lpg {
+> +      compatible = "qcom,pm8916-pwm";
+> +      #pwm-cells = <2>;
+> +    };
+> +...
+> -- 
+> 2.29.2
+> 
