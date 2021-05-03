@@ -2,53 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54BD43711D6
-	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 09:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A0BF3712F3
+	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 11:25:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbhECHFt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 May 2021 03:05:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36172 "EHLO
+        id S233052AbhECJ0i (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 May 2021 05:26:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229817AbhECHFt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 03:05:49 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4801CC06174A;
-        Mon,  3 May 2021 00:04:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=wRCjCKxHpNInqPMfFUoxJStHDaHWfqQnS0cpIhupj4o=; b=LXItw8fbBGQw3nwnSjP6NaQbRD
-        2qonOhNEDdrs1ALLgc9YK1sVx9LvXe5DQtcO6W+njkmcYKY4LJP7AVNGpJVTP1Hxgagvr6GDlctVf
-        Jh4RUPWwcPEqlvQJ4HHf2bHRxTLHkvN8JB0hu+seWnSsn22/mtI1XCC3CZSKHWwYcgU2aGmAp85Pj
-        WDLK2INZtuxrB/c76uGFTJzLY12Z5p7euJQ+fc8bB2MEKI+IYoukJuDzdj1RH2Eft8R+5K4ugxpR5
-        NYdzLAmjRHn157pV+CpnoL9jOmXotJAZXyHfgJXn3OsvCSN+jbQEPZqv0cCw1ZdMMzd9gfbziATAL
-        hVUkmeHw==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1ldSd5-00Elo6-AC; Mon, 03 May 2021 07:04:36 +0000
-Date:   Mon, 3 May 2021 08:04:31 +0100
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Enzo Matsumiya <ematsumiya@suse.de>
-Cc:     linux-leds@vger.kernel.org, linux-block@vger.kernel.org,
-        u.kleine-koenig@pengutronix.de, Jens Axboe <axboe@kernel.dk>,
-        Pavel Machek <pavel@ucw.cz>,
+        with ESMTP id S231531AbhECJ0i (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 05:26:38 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90263C06174A
+        for <linux-leds@vger.kernel.org>; Mon,  3 May 2021 02:25:45 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jbe@pengutronix.de>)
+        id 1ldUpj-0007qu-Mh; Mon, 03 May 2021 11:25:43 +0200
+Received: from [2a0a:edc0:0:900:2e4d:54ff:fe67:bfa5] (helo=ginster)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <jbe@pengutronix.de>)
+        id 1ldUpi-0007dH-9i; Mon, 03 May 2021 11:25:42 +0200
+Received: from jbe by ginster with local (Exim 4.92)
+        (envelope-from <jbe@pengutronix.de>)
+        id 1ldUpi-0003mY-8r; Mon, 03 May 2021 11:25:42 +0200
+From:   Juergen Borleis <jbe@pengutronix.de>
+To:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
+Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-kernel@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/2] block: export block_class and disk_type symbols
-Message-ID: <20210503070431.GA3520077@infradead.org>
-References: <20210430183216.27458-1-ematsumiya@suse.de>
- <20210430183216.27458-2-ematsumiya@suse.de>
+        kernel@pengutronix.de
+Subject: [PATCH] leds: trigger/tty: Use led_set_brightness() to support all use cases
+Date:   Mon,  3 May 2021 11:25:42 +0200
+Message-Id: <20210503092542.14497-1-jbe@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210430183216.27458-2-ematsumiya@suse.de>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: jbe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Apr 30, 2021 at 03:32:10PM -0300, Enzo Matsumiya wrote:
-> Export symbols to be used by _for_each_blk() helper in LED block
-> trigger.
+Using led_set_brightness_sync() only works for LEDs which are connected
+via some kind of external bus like I²C or SPI. But it doesn't work for
+the simple use case of directly connected LEDs via GPIOs.
+Because this function only honors the led_classdev::brightness_set_blocking
+callback. But the LED-GPIO driver registers the
+led_classdev::brightness_set member if the GPIO can be modified directly
+and thus, TTY triggers fail silently with -ENOTSUPP.
 
-No way.
+With the previously used led_set_brightness() it works for both use cases.
+This function first checks for the simple case where the GPIO can be changed
+without additional overhead, and if it fails, does the modification via a
+workqueue.
+
+Signed-off-by: Juergen Borleis <jbe@pengutronix.de>
+---
+ drivers/leds/trigger/ledtrig-tty.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
+index f62db7e..af61281 100644
+--- a/drivers/leds/trigger/ledtrig-tty.c
++++ b/drivers/leds/trigger/ledtrig-tty.c
+@@ -122,12 +122,12 @@ static void ledtrig_tty_work(struct work_struct *work)
+ 
+ 	if (icount.rx != trigger_data->rx ||
+ 	    icount.tx != trigger_data->tx) {
+-		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
++		led_set_brightness(trigger_data->led_cdev, LED_ON);
+ 
+ 		trigger_data->rx = icount.rx;
+ 		trigger_data->tx = icount.tx;
+ 	} else {
+-		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
++		led_set_brightness(trigger_data->led_cdev, LED_OFF);
+ 	}
+ 
+ out:
+-- 
+2.20.1
+
