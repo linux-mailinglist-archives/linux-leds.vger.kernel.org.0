@@ -2,73 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8024371DAC
-	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 19:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8683D372060
+	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 21:27:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234364AbhECRCA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 May 2021 13:02:00 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44850 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234000AbhECQ5O (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 3 May 2021 12:57:14 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A80B6AF0F;
-        Mon,  3 May 2021 16:56:18 +0000 (UTC)
-Date:   Mon, 3 May 2021 13:56:15 -0300
-From:   Enzo Matsumiya <ematsumiya@suse.de>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Hannes Reinecke <hare@suse.de>, linux-leds@vger.kernel.org,
-        linux-block@vger.kernel.org, u.kleine-koenig@pengutronix.de,
-        Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] leds: trigger: implement block trigger
-Message-ID: <20210503165615.maqgm5e2gq554hcm@hyori>
-References: <20210430183216.27458-1-ematsumiya@suse.de>
- <20210430183216.27458-3-ematsumiya@suse.de>
- <7e8da9ec-b3e3-0329-d54c-bb44c4064f0d@suse.de>
- <20210503101134.GB6621@amd>
+        id S229560AbhECT2N (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 May 2021 15:28:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60500 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229472AbhECT2N (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 15:28:13 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA0EFC06174A
+        for <linux-leds@vger.kernel.org>; Mon,  3 May 2021 12:27:18 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id e12so5898733ljn.2
+        for <linux-leds@vger.kernel.org>; Mon, 03 May 2021 12:27:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=v5+rXtfYwt5hA3eVlBgy6ypO0la6kLZqFvjAuXbEY2Q=;
+        b=hvAa0s4YtClyTcUl4el7UKtwkSYEgd2BPYWxTetXd5cwBHCoJzJPMy/BfwQZ/dWe0D
+         b7l1Tb6pE6j39sbeSBwyIMRbNetK1cZonLR/5obZ+66wSodsu93ph915v4YpbICZJzFg
+         UGL3LjGbVaym+KekpEp35y5qPOkOddCwIBhJ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=v5+rXtfYwt5hA3eVlBgy6ypO0la6kLZqFvjAuXbEY2Q=;
+        b=HoD/kEkhcc8DzxGbhLHh4IAacwyEHAw5gU1RhJ2TdEXiRcL+gZLIPbHK/0kCsrKxsQ
+         kOngONUB9lBdOirmTW8roTAZUElud7RoG93C8CseTQ7dNCg/fWMJDa1I55t0MDxI+5Yc
+         Qyd7LRv5Jh+Btot9sKXWZxxfvVCGA99n7yR4dVcEXTL3AUlkB5yGywBIgdxJAj1Yio4n
+         30MMy+OQW4/NQ8WWtBXM26c4UvUNmmJ08kr6QgDxuYkY5SAKUZzgDOgmzd02nfJMA98X
+         02At8qxjkzcyRv5nvd6ponmJyngv5e0QoANWu26ubp1kV+M8gTrtjo3nky2+fs82a/k4
+         A4dg==
+X-Gm-Message-State: AOAM532DqyM1Ph4vJhgrxqacfENh8RZF//n+OnOI9xj5zWxo5dHVAwLO
+        y+YjztpDGk354VH/4Ay0JilRov2zLlz5dgMn4iY=
+X-Google-Smtp-Source: ABdhPJxFXISHu9se5GoaBEXvsGWZ0pffz8Tn/zGX/Ko2cInaQKPPF2FS0HrjoQP1J9ds/hSxUSj+rA==
+X-Received: by 2002:a05:651c:1314:: with SMTP id u20mr14850116lja.36.1620070037283;
+        Mon, 03 May 2021 12:27:17 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id o21sm46052lfl.297.2021.05.03.12.27.16
+        for <linux-leds@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 May 2021 12:27:16 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id h4so2103960lfv.0
+        for <linux-leds@vger.kernel.org>; Mon, 03 May 2021 12:27:16 -0700 (PDT)
+X-Received: by 2002:a05:6512:374b:: with SMTP id a11mr4581761lfs.377.1620070036091;
+ Mon, 03 May 2021 12:27:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20210503101134.GB6621@amd>
+References: <20210502220519.GA24775@duo.ucw.cz>
+In-Reply-To: <20210502220519.GA24775@duo.ucw.cz>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 3 May 2021 12:27:00 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg0Cvmxk58f0waakTKo8G5wPWarVw5b2=11f35vBAOYUw@mail.gmail.com>
+Message-ID: <CAHk-=wg0Cvmxk58f0waakTKo8G5wPWarVw5b2=11f35vBAOYUw@mail.gmail.com>
+Subject: Re: [GIT PULL] LEDs changes for v5.13-rc1
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 05/03, Pavel Machek wrote:
->> As already commented on, this for_each_blk() construct is not a good idea.
->> Infact, I guess it would be better if you could invert the logic:
->> Not having the block trigger enumerating all devices, but rather let the
->> devices register with the block trigger.
->> That would have the benefit that one could choose which block device should
->> be handled by the LED trigger subsystem, _and_ you would avoid the need for
->> a for_each_blk() construct.
->> Thing is, I don't think that all block devices should be handled by the LED
->> trigger; eg for things like 'loop' or 'ramdisk' it is very
->> >questionable.
+On Sun, May 2, 2021 at 3:05 PM Pavel Machek <pavel@ucw.cz> wrote:
 >
->> Downside is that you would need to modify the drivers, but realistically
->> there are only very few drivers which should be modified; I would go for
->> nvme-pci and the sd driver for starters. Maybe floppy, but arguably that can
->> omitted as one has a very good audio indicator for floppy accesses
->> :-)
->
->And we already have disk activity trigger. Maybe NVMe and SD needs to
->be modified to use it?
->
->Best regards,
->								Pavel
+> This modifies MAINTAINER's file to remove Dan Murphy's email that is
+> bouncing (and does it globally). I hope that does not conflict too badly.
 
-TBH I haven't thought of that. My initial idea was to actually offer
-maximum flexibility to the user, so exposing all block devices on the
-system [*], being able to set any LED available as an indicator for each
-of those.
+Well, it caused conflicts, but it's not like they were hard to resolve.
 
-But, indeed, just using ledtrig-disk in NVMe and SD might just be
-simpler.
+In fact, the resolution was to ignore your changes, because those
+email addresses had been removed by the other branches I already
+merged, so they were gone even before your merge (and the conflicts
+were just due to other changes around it)
 
-
-[*] - again, I see now this was a bad idea and will be changed in a
-possible next version
+                 Linus
