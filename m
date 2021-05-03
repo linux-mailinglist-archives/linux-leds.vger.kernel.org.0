@@ -2,84 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 888F537108A
-	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 04:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40FD537108E
+	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 04:38:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232401AbhECCic (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 2 May 2021 22:38:32 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47558 "EHLO mx2.suse.de"
+        id S232828AbhECCjm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 2 May 2021 22:39:42 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47880 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230368AbhECCib (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 2 May 2021 22:38:31 -0400
+        id S232797AbhECCjm (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 2 May 2021 22:39:42 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 32D87AD09;
-        Mon,  3 May 2021 02:37:38 +0000 (UTC)
-Date:   Sun, 2 May 2021 23:37:35 -0300
+        by mx2.suse.de (Postfix) with ESMTP id B9709B013;
+        Mon,  3 May 2021 02:38:48 +0000 (UTC)
+Date:   Sun, 2 May 2021 23:38:45 -0300
 From:   Enzo Matsumiya <ematsumiya@suse.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
 Cc:     linux-leds@vger.kernel.org, linux-block@vger.kernel.org,
         u.kleine-koenig@pengutronix.de, Jens Axboe <axboe@kernel.dk>,
-        Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/2] block: export block_class and disk_type symbols
-Message-ID: <20210503023649.a437epxpd7tkgkwx@hyori>
+        Pavel Machek <pavel@ucw.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 2/2] leds: trigger: implement block trigger
+Message-ID: <20210503023845.qkcq3pttfewdqflf@hyori>
 References: <20210430183216.27458-1-ematsumiya@suse.de>
- <20210430183216.27458-2-ematsumiya@suse.de>
- <YIz0EBqKTHhB+n8N@kroah.com>
+ <20210430183216.27458-3-ematsumiya@suse.de>
+ <d1e96245-6afa-0a67-2b56-de2dd2fda948@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <YIz0EBqKTHhB+n8N@kroah.com>
+In-Reply-To: <d1e96245-6afa-0a67-2b56-de2dd2fda948@infradead.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 05/01, Greg Kroah-Hartman wrote:
->On Fri, Apr 30, 2021 at 03:32:10PM -0300, Enzo Matsumiya wrote:
->> Export symbols to be used by _for_each_blk() helper in LED block
->> trigger.
+On 04/30, Randy Dunlap wrote:
+>On 4/30/21 11:32 AM, Enzo Matsumiya wrote:
+>> diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
+>> index b77a01bd27f4..bead31a19148 100644
+>> --- a/drivers/leds/trigger/Kconfig
+>> +++ b/drivers/leds/trigger/Kconfig
+>> @@ -153,4 +153,14 @@ config LEDS_TRIGGER_TTY
 >>
->> Signed-off-by: Enzo Matsumiya <ematsumiya@suse.de>
->> ---
->>  block/genhd.c | 2 ++
->>  1 file changed, 2 insertions(+)
+>>  	  When build as a module this driver will be called ledtrig-tty.
 >>
->> diff --git a/block/genhd.c b/block/genhd.c
->> index 8c8f543572e6..516495179230 100644
->> --- a/block/genhd.c
->> +++ b/block/genhd.c
->> @@ -1218,6 +1218,7 @@ static void disk_release(struct device *dev)
->>  struct class block_class = {
->>  	.name		= "block",
->>  };
->> +EXPORT_SYMBOL(block_class);
->>
->>  static char *block_devnode(struct device *dev, umode_t *mode,
->>  			   kuid_t *uid, kgid_t *gid)
->> @@ -1235,6 +1236,7 @@ const struct device_type disk_type = {
->>  	.release	= disk_release,
->>  	.devnode	= block_devnode,
->>  };
->> +EXPORT_SYMBOL(disk_type);
->>
->>  #ifdef CONFIG_PROC_FS
->>  /*
+>> +config LEDS_TRIGGER_BLOCK
+>> +	tristate "LED Block Device Trigger"
+>> +	depends on BLOCK
+>> +	default m
 >
->Please please no.  These should not be needed by anything.
+>Drop the "default m". We don't enable drivers (even to build modules)
+>unless they are necessary, e.g., for booting.
 >
->And if they really do, they must be EXPORT_SYMBOL_GPL().
+>> +	help
+>> +	  This allows LEDs to be controlled by block device activity.
+>> +	  This trigger doesn't require the lower level drivers to have any
+>> +	  instrumentation. The activity is collected by polling the disk stats.
+>> +	  If unsure, say Y.
+>> +
+>>  endif # LEDS_TRIGGERS
 >
->thanks,
->
->greg k-h
+>thanks.
+>-- 
+>~Randy
 
-Thanks. I was indeed skeptical about submitting this particular change.
-
-Do you think it's more acceptable if I implement a for_each_blk() helper
-(cf. patch 2 on this series) on block code?
-
-I couldn't find any other way to do this (get all block devices on the
-system), so please let me know if I missed something.
+Thanks, will do in v2.
 
 
 Cheers,
