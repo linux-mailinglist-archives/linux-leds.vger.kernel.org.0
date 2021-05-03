@@ -2,88 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A0BF3712F3
-	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 11:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48F9137136C
+	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 12:11:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233052AbhECJ0i (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 May 2021 05:26:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38682 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231531AbhECJ0i (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 05:26:38 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90263C06174A
-        for <linux-leds@vger.kernel.org>; Mon,  3 May 2021 02:25:45 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jbe@pengutronix.de>)
-        id 1ldUpj-0007qu-Mh; Mon, 03 May 2021 11:25:43 +0200
-Received: from [2a0a:edc0:0:900:2e4d:54ff:fe67:bfa5] (helo=ginster)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <jbe@pengutronix.de>)
-        id 1ldUpi-0007dH-9i; Mon, 03 May 2021 11:25:42 +0200
-Received: from jbe by ginster with local (Exim 4.92)
-        (envelope-from <jbe@pengutronix.de>)
-        id 1ldUpi-0003mY-8r; Mon, 03 May 2021 11:25:42 +0200
-From:   Juergen Borleis <jbe@pengutronix.de>
-To:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
-Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-kernel@vger.kernel.org,
+        id S233145AbhECKMa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 May 2021 06:12:30 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:37388 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232960AbhECKM3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 06:12:29 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 8CE631C0B79; Mon,  3 May 2021 12:11:35 +0200 (CEST)
+Date:   Mon, 3 May 2021 12:11:34 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Hannes Reinecke <hare@suse.de>
+Cc:     Enzo Matsumiya <ematsumiya@suse.de>, linux-leds@vger.kernel.org,
+        linux-block@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+        Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@pengutronix.de
-Subject: [PATCH] leds: trigger/tty: Use led_set_brightness() to support all use cases
-Date:   Mon,  3 May 2021 11:25:42 +0200
-Message-Id: <20210503092542.14497-1-jbe@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 2/2] leds: trigger: implement block trigger
+Message-ID: <20210503101134.GB6621@amd>
+References: <20210430183216.27458-1-ematsumiya@suse.de>
+ <20210430183216.27458-3-ematsumiya@suse.de>
+ <7e8da9ec-b3e3-0329-d54c-bb44c4064f0d@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: jbe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="aM3YZ0Iwxop3KEKx"
+Content-Disposition: inline
+In-Reply-To: <7e8da9ec-b3e3-0329-d54c-bb44c4064f0d@suse.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Using led_set_brightness_sync() only works for LEDs which are connected
-via some kind of external bus like I²C or SPI. But it doesn't work for
-the simple use case of directly connected LEDs via GPIOs.
-Because this function only honors the led_classdev::brightness_set_blocking
-callback. But the LED-GPIO driver registers the
-led_classdev::brightness_set member if the GPIO can be modified directly
-and thus, TTY triggers fail silently with -ENOTSUPP.
 
-With the previously used led_set_brightness() it works for both use cases.
-This function first checks for the simple case where the GPIO can be changed
-without additional overhead, and if it fails, does the modification via a
-workqueue.
+--aM3YZ0Iwxop3KEKx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Juergen Borleis <jbe@pengutronix.de>
----
- drivers/leds/trigger/ledtrig-tty.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi!
 
-diff --git a/drivers/leds/trigger/ledtrig-tty.c b/drivers/leds/trigger/ledtrig-tty.c
-index f62db7e..af61281 100644
---- a/drivers/leds/trigger/ledtrig-tty.c
-+++ b/drivers/leds/trigger/ledtrig-tty.c
-@@ -122,12 +122,12 @@ static void ledtrig_tty_work(struct work_struct *work)
- 
- 	if (icount.rx != trigger_data->rx ||
- 	    icount.tx != trigger_data->tx) {
--		led_set_brightness_sync(trigger_data->led_cdev, LED_ON);
-+		led_set_brightness(trigger_data->led_cdev, LED_ON);
- 
- 		trigger_data->rx = icount.rx;
- 		trigger_data->tx = icount.tx;
- 	} else {
--		led_set_brightness_sync(trigger_data->led_cdev, LED_OFF);
-+		led_set_brightness(trigger_data->led_cdev, LED_OFF);
- 	}
- 
- out:
--- 
-2.20.1
+Please trim the emails you are responding to.
 
+> >+MODULE_AUTHOR("Enzo Matsumiya <ematsumiya@suse.de>");
+> >+MODULE_DESCRIPTION("LED block trigger");
+> >+MODULE_LICENSE("GPL v2");
+> >+
+> >
+> As already commented on, this for_each_blk() construct is not a good idea.
+> Infact, I guess it would be better if you could invert the logic:
+> Not having the block trigger enumerating all devices, but rather let the
+> devices register with the block trigger.
+> That would have the benefit that one could choose which block device shou=
+ld
+> be handled by the LED trigger subsystem, _and_ you would avoid the need f=
+or
+> a for_each_blk() construct.
+> Thing is, I don't think that all block devices should be handled by the L=
+ED
+> trigger; eg for things like 'loop' or 'ramdisk' it is very
+> >questionable.
+
+> Downside is that you would need to modify the drivers, but realistically
+> there are only very few drivers which should be modified; I would go for
+> nvme-pci and the sd driver for starters. Maybe floppy, but arguably that =
+can
+> omitted as one has a very good audio indicator for floppy accesses
+> :-)
+
+And we already have disk activity trigger. Maybe NVMe and SD needs to
+be modified to use it?
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--aM3YZ0Iwxop3KEKx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmCPzFYACgkQMOfwapXb+vKPawCfdpv2CRk6cfP28YKt4NNUlih1
+NR0An0FymyfhKdJOnOcBYoWFhbxfIiFw
+=3zg8
+-----END PGP SIGNATURE-----
+
+--aM3YZ0Iwxop3KEKx--
