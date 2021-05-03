@@ -2,94 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48F9137136C
-	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 12:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A813371384
+	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 12:16:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233145AbhECKMa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 May 2021 06:12:30 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:37388 "EHLO
+        id S233195AbhECKRp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 May 2021 06:17:45 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:38042 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232960AbhECKM3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 06:12:29 -0400
+        with ESMTP id S233196AbhECKRo (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 06:17:44 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 8CE631C0B79; Mon,  3 May 2021 12:11:35 +0200 (CEST)
-Date:   Mon, 3 May 2021 12:11:34 +0200
+        id 2D8C61C0B79; Mon,  3 May 2021 12:16:51 +0200 (CEST)
+Date:   Mon, 3 May 2021 12:16:50 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Hannes Reinecke <hare@suse.de>
-Cc:     Enzo Matsumiya <ematsumiya@suse.de>, linux-leds@vger.kernel.org,
-        linux-block@vger.kernel.org, u.kleine-koenig@pengutronix.de,
-        Jens Axboe <axboe@kernel.dk>,
+To:     Juergen Borleis <jbe@pengutronix.de>
+Cc:     linux-leds@vger.kernel.org,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-kernel@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] leds: trigger: implement block trigger
-Message-ID: <20210503101134.GB6621@amd>
-References: <20210430183216.27458-1-ematsumiya@suse.de>
- <20210430183216.27458-3-ematsumiya@suse.de>
- <7e8da9ec-b3e3-0329-d54c-bb44c4064f0d@suse.de>
+        kernel@pengutronix.de
+Subject: Re: [PATCH] leds: trigger/tty: Use led_set_brightness() to support
+ all use cases
+Message-ID: <20210503101650.GC6621@amd>
+References: <20210503092542.14497-1-jbe@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="aM3YZ0Iwxop3KEKx"
+        protocol="application/pgp-signature"; boundary="Sr1nOIr3CvdE5hEN"
 Content-Disposition: inline
-In-Reply-To: <7e8da9ec-b3e3-0329-d54c-bb44c4064f0d@suse.de>
+In-Reply-To: <20210503092542.14497-1-jbe@pengutronix.de>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---aM3YZ0Iwxop3KEKx
-Content-Type: text/plain; charset=us-ascii
+--Sr1nOIr3CvdE5hEN
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
+On Mon 2021-05-03 11:25:42, Juergen Borleis wrote:
+> Using led_set_brightness_sync() only works for LEDs which are connected
+> via some kind of external bus like I=B2C or SPI. But it doesn't work for
+> the simple use case of directly connected LEDs via GPIOs.
 
-Please trim the emails you are responding to.
+Really? I'd need to check.
 
-> >+MODULE_AUTHOR("Enzo Matsumiya <ematsumiya@suse.de>");
-> >+MODULE_DESCRIPTION("LED block trigger");
-> >+MODULE_LICENSE("GPL v2");
-> >+
-> >
-> As already commented on, this for_each_blk() construct is not a good idea.
-> Infact, I guess it would be better if you could invert the logic:
-> Not having the block trigger enumerating all devices, but rather let the
-> devices register with the block trigger.
-> That would have the benefit that one could choose which block device shou=
-ld
-> be handled by the LED trigger subsystem, _and_ you would avoid the need f=
-or
-> a for_each_blk() construct.
-> Thing is, I don't think that all block devices should be handled by the L=
-ED
-> trigger; eg for things like 'loop' or 'ramdisk' it is very
-> >questionable.
+> Because this function only honors the led_classdev::brightness_set_blocki=
+ng
+> callback. But the LED-GPIO driver registers the
+> led_classdev::brightness_set member if the GPIO can be modified directly
+> and thus, TTY triggers fail silently with -ENOTSUPP.
+>=20
+> With the previously used led_set_brightness() it works for both use cases.
+> This function first checks for the simple case where the GPIO can be chan=
+ged
+> without additional overhead, and if it fails, does the modification via a
+> workqueue.
 
-> Downside is that you would need to modify the drivers, but realistically
-> there are only very few drivers which should be modified; I would go for
-> nvme-pci and the sd driver for starters. Maybe floppy, but arguably that =
-can
-> omitted as one has a very good audio indicator for floppy accesses
-> :-)
+Yeah, but that is not what we want. We are already running in the
+workqueue.
 
-And we already have disk activity trigger. Maybe NVMe and SD needs to
-be modified to use it?
+We really should have a API that can be called from process context,
+and just simply sets the brightness.
 
 Best regards,
 								Pavel
 --=20
 http://www.livejournal.com/~pavelmachek
 
---aM3YZ0Iwxop3KEKx
+--Sr1nOIr3CvdE5hEN
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAmCPzFYACgkQMOfwapXb+vKPawCfdpv2CRk6cfP28YKt4NNUlih1
-NR0An0FymyfhKdJOnOcBYoWFhbxfIiFw
-=3zg8
+iEYEARECAAYFAmCPzZIACgkQMOfwapXb+vJCHQCfVFzUNHnVvgKkn6lIfeIVYX9A
+hs4AoIQFeJ/ueUt6I3fML1HMZCssl6ei
+=BadJ
 -----END PGP SIGNATURE-----
 
---aM3YZ0Iwxop3KEKx--
+--Sr1nOIr3CvdE5hEN--
