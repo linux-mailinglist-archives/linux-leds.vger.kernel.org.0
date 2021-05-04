@@ -2,114 +2,267 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEF7D37208C
-	for <lists+linux-leds@lfdr.de>; Mon,  3 May 2021 21:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4880E37240D
+	for <lists+linux-leds@lfdr.de>; Tue,  4 May 2021 03:01:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229602AbhECThL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 May 2021 15:37:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34284 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbhECThK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 15:37:10 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAC68C06174A;
-        Mon,  3 May 2021 12:36:16 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id o16so8265969ljp.3;
-        Mon, 03 May 2021 12:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/15ZZgVs4HWwrQnoXkLDtTe4rR3G5xM3bzUg9TCb5gA=;
-        b=mhwZUQ+Wna2bTzVcsyO/hJn7zgi/eLCeH+k76NUpMWmcIUA0AeuMrubne0kmeVoBAP
-         x0sqhLptrE4+IzSI06xEanCrLQTTqczVfQlS7Q9xolDG2pmQPfd5z6fv6Jya5PkkspRh
-         6z/uSvyVUSPj7D+aY/+fKKXtAA020AeeowfW563Ug2mx6/86YL3z4eEvyKBT9MDw3Q+B
-         hV8kOzDUzE5j+U/9ehHMGl950IiBSrLrafBE5bl/N5NQSRaulUFmjW3uP6YtK939m1xD
-         UXXkk2fwH/gKS1QG7o4oJhycMOgAQoQO9++RGjCDrZmqUYg39rkSL9c73qPhZxtIhN69
-         Ayhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/15ZZgVs4HWwrQnoXkLDtTe4rR3G5xM3bzUg9TCb5gA=;
-        b=Fq7a3MF8X1ZS/PluFVbKozV/CahwTybIMgkvPQslJE/OfnzEW5VtXWpm5hP8hrlXVZ
-         e6CRW/ddBe8DXjppZbPVt7B/+0PcAeJDq2Gs8EXedK/nleOVPt8DMfvt55or9N04U4WL
-         PBV3yjo440yYPxiRiZtD0wmoXsJAcQDPqcGMzBHwqBtXUnwpRuxS0iK8O6K/3Wdwcwse
-         RGrNEjWdnC9O5pJxEvlGSB67FTRDjaUxl5N24cQGy2F+r5uogkZjada99N+0VSwFtuFp
-         5ZQkWSwskpiMbkHherRz3gBZ09tKNcAshmypxsysCcxGCSMH+2KmSTGYeB9AJHJv/C/r
-         6tlg==
-X-Gm-Message-State: AOAM532UYb9XRyWY5tHQfebEdtBVcN1BE7JV8tgAWdBUjnbmx+6U5vbM
-        QKBqFM/4qdPGNbkh20XP7P0=
-X-Google-Smtp-Source: ABdhPJzw1/XziLbg3TWRGUzEJJVGmqP7rmnq2JuXtgbEJAC/YSMWJ0prNTEqoTdphM31RidqYbhexw==
-X-Received: by 2002:a2e:97c3:: with SMTP id m3mr1029889ljj.231.1620070575377;
-        Mon, 03 May 2021 12:36:15 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id q27sm402397ljm.127.2021.05.03.12.36.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 May 2021 12:36:14 -0700 (PDT)
-Subject: Re: [PATCH 09/69] leds: lp5523: check return value of lp5xx_read and
- jump to cleanup code
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Phillip Potter <phil@philpotter.co.uk>,
-        stable <stable@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>
-References: <20210503115736.2104747-1-gregkh@linuxfoundation.org>
- <20210503115736.2104747-10-gregkh@linuxfoundation.org>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <f821d2a3-3801-66a6-3c5b-0e00a8289ec1@gmail.com>
-Date:   Mon, 3 May 2021 21:36:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S229619AbhEDBCM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 May 2021 21:02:12 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:64562 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229497AbhEDBCL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 21:02:11 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1620090077; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=Sf1IA5KGLxfu7/pbQAM+7HtpAgTzFf9dQ0YwIdLLSVU=; b=cHjd+vE5H5yTHOYDlE3nNN7fBYAdApL5Y0Gqf8qj4Q+fdUHk9TzS5qxB5xsb1Hx75xZS4pKg
+ KWlrMZRzu48ywK8SKdR0MxK1NkZuTz+HoBJVsYrUv5aBz61R53fUFoBgpm64dgycCl8BU8j9
+ oNXPfv3KtiYjZ5XFeMhegfktkTE=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkODczOCIsICJsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 60909cdd9a9ff96d95e7d383 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 04 May 2021 01:01:17
+ GMT
+Sender: subbaram=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 29064C43144; Tue,  4 May 2021 01:01:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        NICE_REPLY_A,SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from [10.46.162.93] (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: subbaram)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id C8C8BC433F1;
+        Tue,  4 May 2021 01:01:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C8C8BC433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=subbaram@codeaurora.org
+Subject: Re: [PATCH v7 1/6] dt-bindings: leds: Add Qualcomm Light Pulse
+ Generator binding
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        Luca Weiss <luca@z3ntu.xyz>
+References: <20210429211517.312792-1-bjorn.andersson@linaro.org>
+ <20210429211517.312792-2-bjorn.andersson@linaro.org>
+From:   Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Message-ID: <635d3f2c-d3a8-c0d6-7659-c22e44103901@codeaurora.org>
+Date:   Mon, 3 May 2021 18:01:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210503115736.2104747-10-gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <20210429211517.312792-2-bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 5/3/21 1:56 PM, Greg Kroah-Hartman wrote:
-> From: Phillip Potter <phil@philpotter.co.uk>
-> 
-> Check return value of lp5xx_read and if non-zero, jump to code at end of
-> the function, causing lp5523_stop_all_engines to be executed before
-> returning the error value up the call chain. This fixes the original
-> commit (248b57015f35) which was reverted due to the University of Minnesota
-> problems.
-> 
-> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> Cc: stable <stable@vger.kernel.org>
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On 4/29/21 2:15 PM, Bjorn Andersson wrote:
+> This adds the binding document describing the three hardware blocks
+> related to the Light Pulse Generator found in a wide range of Qualcomm
+> PMICs.
+>
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > ---
->   drivers/leds/leds-lp5523.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-> index 5036d7d5f3d4..b1590cb4a188 100644
-> --- a/drivers/leds/leds-lp5523.c
-> +++ b/drivers/leds/leds-lp5523.c
-> @@ -305,7 +305,9 @@ static int lp5523_init_program_engine(struct lp55xx_chip *chip)
->   
->   	/* Let the programs run for couple of ms and check the engine status */
->   	usleep_range(3000, 6000);
-> -	lp55xx_read(chip, LP5523_REG_STATUS, &status);
-> +	ret = lp55xx_read(chip, LP5523_REG_STATUS, &status);
-> +	if (ret)
-> +		goto out;
->   	status &= LP5523_ENG_STATUS_MASK;
->   
->   	if (status != LP5523_ENG_STATUS_MASK) {
-> 
+>
+> Changes since v6:
+> - Backed qcom,dtest out of the child nodes again, as it's useful to be able to
+>   route pwm signals through dtest lines as well (and pwm channels aren't
+>   described as children).
+> - Added pm8150[bl] compatibles
+> - Dropped quotes around qcom,dtest
+> - Fixed indentation errors in subnode definition
+>
+>  .../bindings/leds/leds-qcom-lpg.yaml          | 158 ++++++++++++++++++
+>  1 file changed, 158 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+> new file mode 100644
+> index 000000000000..2998598e8785
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
+> @@ -0,0 +1,158 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm Light Pulse Generator
+> +
+> +maintainers:
+> +  - Bjorn Andersson <bjorn.andersson@linaro.org>
+> +
+> +description: >
+> +  The Qualcomm Light Pulse Generator consists of three different hardware blocks;
+> +  a ramp generator with lookup table, the light pulse generator and a three
+> +  channel current sink. These blocks are found in a wide range of Qualcomm PMICs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,pm8150b-lpg
+> +      - qcom,pm8150l-lpg
+> +      - qcom,pm8916-pwm
+> +      - qcom,pm8941-lpg
+> +      - qcom,pm8994-lpg
+> +      - qcom,pmi8994-lpg
+> +      - qcom,pmi8998-lpg
+> +
+> +  "#pwm-cells":
+> +    const: 2
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  qcom,power-source:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      power-source used to drive the output, as defined in the datasheet.
+> +      Should be specified if the TRILED block is present
+> +
+> +  qcom,dtest:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: >
+> +      A list of integer pairs, where each pair represent the dtest line the
+> +      particular channel should be connected to and the flags denoting how the
+> +      value should be outputed, as defined in the datasheet. The number of
+> +      pairs should be the same as the number of channels.
+> +
+> +  multi-led:
+> +    type: object
+> +    $ref: leds-class-multicolor.yaml#
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      "^led@[0-9a-f]$":
+> +        type: object
+> +        $ref: common.yaml#
+> +
 
-Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 
-Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org
+Just a question more than a comment. From what I can see, when this device is specified as a multi-color device or an individual device (e.g. "red", "green" and "blue"), the user can only set "pattern" and "repeat" under the corresponding device after setting "pattern" to "trigger". Would you be planning to add a way (e.g. another set of DT properties) for the user to specify such patterns via the devicetree itself?
+
+
+> +patternProperties:
+> +  "^led@[0-9a-f]$":
+> +    type: object
+> +    $ref: common.yaml#
+> +
+> +    properties:
+> +      reg: true
+> +
+> +    required:
+> +      - reg
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    lpg {
+> +      compatible = "qcom,pmi8994-lpg";
+> +
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      qcom,power-source = <1>;
+> +
+> +      qcom,dtest = <0 0
+> +                    0 0
+> +                    0 0
+> +                    4 1>;
+> +
+> +      led@1 {
+> +        reg = <1>;
+> +        label = "green:user1";
+> +      };
+> +
+> +      led@2 {
+> +        reg = <2>;
+> +        label = "green:user0";
+> +        default-state = "on";
+> +      };
+> +
+> +      led@3 {
+> +        reg = <3>;
+> +        label = "green:user2";
+> +      };
+> +
+> +      led@4 {
+> +        reg = <4>;
+> +        label = "green:user3";
+> +      };
+> +    };
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    lpg {
+> +      compatible = "qcom,pmi8994-lpg";
+> +
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      qcom,power-source = <1>;
+> +
+> +      multi-led {
+> +        color = <LED_COLOR_ID_MULTI>;
+> +        label = "rgb:notification";
+> +
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        led@1 {
+> +          reg = <1>;
+> +          color = <LED_COLOR_ID_RED>;
+> +        };
+> +
+> +        led@2 {
+> +          reg = <2>;
+> +          color = <LED_COLOR_ID_GREEN>;
+> +        };
+> +
+> +        led@3 {
+> +          reg = <3>;
+> +          color = <LED_COLOR_ID_BLUE>;
+> +        };
+> +      };
+> +    };
+> +  - |
+> +    lpg {
+> +      compatible = "qcom,pm8916-pwm";
+> +      #pwm-cells = <2>;
+> +    };
+> +...
+
 
 -- 
-Best regards,
-Jacek Anaszewski
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project
+
