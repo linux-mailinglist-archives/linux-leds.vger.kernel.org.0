@@ -2,267 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4880E37240D
-	for <lists+linux-leds@lfdr.de>; Tue,  4 May 2021 03:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61CC3372419
+	for <lists+linux-leds@lfdr.de>; Tue,  4 May 2021 03:05:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbhEDBCM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 3 May 2021 21:02:12 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:64562 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbhEDBCL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 21:02:11 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620090077; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=Sf1IA5KGLxfu7/pbQAM+7HtpAgTzFf9dQ0YwIdLLSVU=; b=cHjd+vE5H5yTHOYDlE3nNN7fBYAdApL5Y0Gqf8qj4Q+fdUHk9TzS5qxB5xsb1Hx75xZS4pKg
- KWlrMZRzu48ywK8SKdR0MxK1NkZuTz+HoBJVsYrUv5aBz61R53fUFoBgpm64dgycCl8BU8j9
- oNXPfv3KtiYjZ5XFeMhegfktkTE=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkODczOCIsICJsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 60909cdd9a9ff96d95e7d383 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 04 May 2021 01:01:17
- GMT
-Sender: subbaram=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 29064C43144; Tue,  4 May 2021 01:01:12 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        NICE_REPLY_A,SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from [10.46.162.93] (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: subbaram)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id C8C8BC433F1;
-        Tue,  4 May 2021 01:01:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C8C8BC433F1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=subbaram@codeaurora.org
-Subject: Re: [PATCH v7 1/6] dt-bindings: leds: Add Qualcomm Light Pulse
- Generator binding
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pwm@vger.kernel.org,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Yassine Oudjana <y.oudjana@protonmail.com>,
-        Luca Weiss <luca@z3ntu.xyz>
-References: <20210429211517.312792-1-bjorn.andersson@linaro.org>
- <20210429211517.312792-2-bjorn.andersson@linaro.org>
-From:   Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Message-ID: <635d3f2c-d3a8-c0d6-7659-c22e44103901@codeaurora.org>
-Date:   Mon, 3 May 2021 18:01:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S229628AbhEDBF7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 3 May 2021 21:05:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49990 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229497AbhEDBF6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 3 May 2021 21:05:58 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64655C061574;
+        Mon,  3 May 2021 18:05:04 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id u25so9110039ljg.7;
+        Mon, 03 May 2021 18:05:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=r9D/Vv46NFUDS7eEuuQgoKUOv2tmGGOdBAwQyrDcRjQ=;
+        b=UxDctmF7VvjRqvdlfyHMqNtpKHFRKap27sX97KfPpVoeIPDxGsVw1OYBYVdm/L46RI
+         mA95gpLDg+C2PlFRKB3QTF9Tn0jMCV1C4GS2XiPGbANUTpFgeIHrTOQHP5aFycX5yzlw
+         ZtikYubAOE1fjVTnkFss3IopJFRP6Rztzg0aelsRrR8Nd4c9j0itS4xQJFjJ/xxZoJeg
+         G3an5vGGWDam5tgKt5NnI+GO4j7q4SprGw8beLUBt+6ejuOr2J8W3cjXabIye1x6NvyN
+         6yyjNr+DKoPLNjFfOUErDqRdQFmp+ZLM+ZzKrsO0g1lzT8KUgC0Zi0JNgXzHBZ0+Ioy0
+         ZvHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=r9D/Vv46NFUDS7eEuuQgoKUOv2tmGGOdBAwQyrDcRjQ=;
+        b=VGBJ+dXFvhjTTxc6SDt9rWmjPMLswq+U4OyDsxB/K5lS58MygAcRSBN1cGrJndxky1
+         8EMy26hJALt+F5YqLp1tl0NEfSQysdeuZGKsXiJJM0jhWQwRAirpXmgyhhBs1zPqgfqP
+         dbKl9D6wBLXPArxTJXP2P5CkVwRGsiaXj6vDZuF1bWAhngf6OGsauH4fIq8gsPWa2UX9
+         qNoEjmRyq8aooHZcTIfThqvYAB9sB3YR2emSyPJxySImIk4aRnrbWGyTd70TgpDeGg3J
+         hgbrWHR4iMQdaWtu0EwmT3ImR9qk1DgyQAayujQ1vgGJa/ezb9mVwJeXHouFMRCN4nUx
+         ZcOw==
+X-Gm-Message-State: AOAM531KtYYeIfqzJzRF+VCK87KARTfBYZ1xFNXQRJtv5BMesY11favN
+        9Tblh2qXPdpm9Uk9YfWyaL3SPg1fO+QnC9tNFZG8G+PfXWc=
+X-Google-Smtp-Source: ABdhPJzAZ3RjpbIHD2cbAWNsd/YGWoRRNdDV4/3/bb7xfoEpcaVivxBQIxquPZHLE0/2FfsQfCnw0959+31Ihtfub2Y=
+X-Received: by 2002:a2e:9656:: with SMTP id z22mr6658800ljh.168.1620090302762;
+ Mon, 03 May 2021 18:05:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210429211517.312792-2-bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <1619421491-31494-1-git-send-email-u0084500@gmail.com>
+ <1619421491-31494-3-git-send-email-u0084500@gmail.com> <20210430201054.GA3805118@robh.at.kernel.org>
+In-Reply-To: <20210430201054.GA3805118@robh.at.kernel.org>
+From:   ChiYuan Huang <u0084500@gmail.com>
+Date:   Tue, 4 May 2021 09:04:51 +0800
+Message-ID: <CADiBU3_Nvx99yhukNVgmyiZyAugiVF7OfMoqudUM5_gk8GpPRg@mail.gmail.com>
+Subject: Re: [RESEND PATCH v6 3/4] mfd: rt4831: Adds DT binding document for
+ Richtek RT4831
+To:     Rob Herring <robh@kernel.org>
+Cc:     b.zolnierkie@samsung.com, lkml <linux-kernel@vger.kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        lgirdwood@gmail.com,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+        linux-fbdev@vger.kernel.org, cy_huang <cy_huang@richtek.com>,
+        jingoohan1@gmail.com,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+        dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 4/29/21 2:15 PM, Bjorn Andersson wrote:
-> This adds the binding document describing the three hardware blocks
-> related to the Light Pulse Generator found in a wide range of Qualcomm
-> PMICs.
+HI,
+
+Rob Herring <robh@kernel.org> =E6=96=BC 2021=E5=B9=B45=E6=9C=881=E6=97=A5 =
+=E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=884:10=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
+> On Mon, 26 Apr 2021 15:18:10 +0800, cy_huang wrote:
+> > From: ChiYuan Huang <cy_huang@richtek.com>
+> >
+> > Adds DT binding document for Richtek RT4831.
+> >
+> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > ---
+> > Resend this v6 patch series to loop devicetree reviewers.
+> > ---
+> >  .../devicetree/bindings/mfd/richtek,rt4831.yaml    | 90 ++++++++++++++=
+++++++++
+> >  1 file changed, 90 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/richtek,rt483=
+1.yaml
+> >
 >
-> Changes since v6:
-> - Backed qcom,dtest out of the child nodes again, as it's useful to be able to
->   route pwm signals through dtest lines as well (and pwm channels aren't
->   described as children).
-> - Added pm8150[bl] compatibles
-> - Dropped quotes around qcom,dtest
-> - Fixed indentation errors in subnode definition
->
->  .../bindings/leds/leds-qcom-lpg.yaml          | 158 ++++++++++++++++++
->  1 file changed, 158 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
->
-> diff --git a/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> new file mode 100644
-> index 000000000000..2998598e8785
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> @@ -0,0 +1,158 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm Light Pulse Generator
-> +
-> +maintainers:
-> +  - Bjorn Andersson <bjorn.andersson@linaro.org>
-> +
-> +description: >
-> +  The Qualcomm Light Pulse Generator consists of three different hardware blocks;
-> +  a ramp generator with lookup table, the light pulse generator and a three
-> +  channel current sink. These blocks are found in a wide range of Qualcomm PMICs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qcom,pm8150b-lpg
-> +      - qcom,pm8150l-lpg
-> +      - qcom,pm8916-pwm
-> +      - qcom,pm8941-lpg
-> +      - qcom,pm8994-lpg
-> +      - qcom,pmi8994-lpg
-> +      - qcom,pmi8998-lpg
-> +
-> +  "#pwm-cells":
-> +    const: 2
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  qcom,power-source:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      power-source used to drive the output, as defined in the datasheet.
-> +      Should be specified if the TRILED block is present
-> +
-> +  qcom,dtest:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description: >
-> +      A list of integer pairs, where each pair represent the dtest line the
-> +      particular channel should be connected to and the flags denoting how the
-> +      value should be outputed, as defined in the datasheet. The number of
-> +      pairs should be the same as the number of channels.
-> +
-> +  multi-led:
-> +    type: object
-> +    $ref: leds-class-multicolor.yaml#
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +      "^led@[0-9a-f]$":
-> +        type: object
-> +        $ref: common.yaml#
-> +
-
-
-Just a question more than a comment. From what I can see, when this device is specified as a multi-color device or an individual device (e.g. "red", "green" and "blue"), the user can only set "pattern" and "repeat" under the corresponding device after setting "pattern" to "trigger". Would you be planning to add a way (e.g. another set of DT properties) for the user to specify such patterns via the devicetree itself?
-
-
-> +patternProperties:
-> +  "^led@[0-9a-f]$":
-> +    type: object
-> +    $ref: common.yaml#
-> +
-> +    properties:
-> +      reg: true
-> +
-> +    required:
-> +      - reg
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    lpg {
-> +      compatible = "qcom,pmi8994-lpg";
-> +
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      qcom,power-source = <1>;
-> +
-> +      qcom,dtest = <0 0
-> +                    0 0
-> +                    0 0
-> +                    4 1>;
-> +
-> +      led@1 {
-> +        reg = <1>;
-> +        label = "green:user1";
-> +      };
-> +
-> +      led@2 {
-> +        reg = <2>;
-> +        label = "green:user0";
-> +        default-state = "on";
-> +      };
-> +
-> +      led@3 {
-> +        reg = <3>;
-> +        label = "green:user2";
-> +      };
-> +
-> +      led@4 {
-> +        reg = <4>;
-> +        label = "green:user3";
-> +      };
-> +    };
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    lpg {
-> +      compatible = "qcom,pmi8994-lpg";
-> +
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      qcom,power-source = <1>;
-> +
-> +      multi-led {
-> +        color = <LED_COLOR_ID_MULTI>;
-> +        label = "rgb:notification";
-> +
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        led@1 {
-> +          reg = <1>;
-> +          color = <LED_COLOR_ID_RED>;
-> +        };
-> +
-> +        led@2 {
-> +          reg = <2>;
-> +          color = <LED_COLOR_ID_GREEN>;
-> +        };
-> +
-> +        led@3 {
-> +          reg = <3>;
-> +          color = <LED_COLOR_ID_BLUE>;
-> +        };
-> +      };
-> +    };
-> +  - |
-> +    lpg {
-> +      compatible = "qcom,pm8916-pwm";
-> +      #pwm-cells = <2>;
-> +    };
-> +...
-
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project
-
+> Reviewed-by: Rob Herring <robh@kernel.org>
+Will merge in next v7. Thanks.
