@@ -2,114 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FC1E3734A9
-	for <lists+linux-leds@lfdr.de>; Wed,  5 May 2021 07:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4AAA373E09
+	for <lists+linux-leds@lfdr.de>; Wed,  5 May 2021 16:59:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231602AbhEEFWz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 5 May 2021 01:22:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58036 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231265AbhEEFWy (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 5 May 2021 01:22:54 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AC17C061574
-        for <linux-leds@vger.kernel.org>; Tue,  4 May 2021 22:21:59 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1le9ys-0005HJ-1e; Wed, 05 May 2021 07:21:54 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1le9yr-00047w-6W; Wed, 05 May 2021 07:21:53 +0200
-Date:   Wed, 5 May 2021 07:21:53 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Martin Botka <martin.botka1@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v6 2/4] leds: Add driver for Qualcomm LPG
-Message-ID: <20210505052153.syhptme4pfrbw73v@pengutronix.de>
-References: <20201021201224.3430546-1-bjorn.andersson@linaro.org>
- <20201021201224.3430546-3-bjorn.andersson@linaro.org>
- <20201029181357.GE26053@duo.ucw.cz>
- <YIn50NW+Pimqfsih@builder.lan>
- <20210429211223.GA5480@amd>
- <20210429212920.GB2484@yoga>
- <YJFridMwwMV1K98m@mobian>
- <20210504161327.GF2484@yoga>
+        id S233426AbhEEPAB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 5 May 2021 11:00:01 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:50961 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233518AbhEEO77 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 5 May 2021 10:59:59 -0400
+Received: from [192.168.1.155] ([95.114.117.51]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MRn0U-1m6OWX2shu-00TBd0; Wed, 05 May 2021 16:58:35 +0200
+Subject: Re: [PATCH v3 2/4] leds: simatic-ipc-leds: add new driver for Siemens
+ Industial PCs
+To:     Henning Schild <henning.schild@siemens.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-watchdog@vger.kernel.org,
+        Srikanth Krishnakar <skrishnakar@gmail.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>
+References: <20210329174928.18816-1-henning.schild@siemens.com>
+ <20210329174928.18816-3-henning.schild@siemens.com>
+ <CAHp75Vdh_YAJLE4DWPhxhYY1g5Fc_7EFgr4FED3crpfpzwXeRg@mail.gmail.com>
+ <20210330135808.373c3308@md1za8fc.ad001.siemens.net>
+ <CAHp75Vc0f0HfAJx0KPyQMWjekkhB_T-1+vuR566qAcYGA2JLJA@mail.gmail.com>
+ <20210330143011.0e8ae4a0@md1za8fc.ad001.siemens.net>
+ <CAHp75VceCsuANZpib6HXJvxgMdJhmr8KPTZgThxKvXq6Yotymg@mail.gmail.com>
+ <20210330172305.67b6e050@md1za8fc.ad001.siemens.net>
+ <CAHp75VcSwW42_oQDpxn34gN7+aJNmB=HdJUbaWsYkBokYAHkSA@mail.gmail.com>
+ <20210401124415.3c9321c0@md1za8fc.ad001.siemens.net>
+ <CAHp75VcU-7-BVum4xuuQcG7NZZc9xXOoXYpfSBUwwPr6iZLWGg@mail.gmail.com>
+ <20210412135641.1173941b@md1za8fc.ad001.siemens.net>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <c268618b-27f5-5f1d-a3d2-d94e785df0cb@metux.net>
+Date:   Wed, 5 May 2021 16:58:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="twdyeagubu6upt4z"
-Content-Disposition: inline
-In-Reply-To: <20210504161327.GF2484@yoga>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+In-Reply-To: <20210412135641.1173941b@md1za8fc.ad001.siemens.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:m7rpyvRWbx2i21vXIFpgzQpQITT3X3V+SHOF8txJtU59XM3pxpJ
+ pAv41dUJE34otqkj+DaIFLTb2IbSSQNRGzHiJv28svPMx0i4FlG46wmv4Zi+NVEg6+ic7j/
+ DtW3eiRzTWK+OI3ymOCoePjHoXNKuQeQquGinc6YpMcjlkNfzPWxx+SWY8geUY2A5ce/BXJ
+ vqER+xcFxmhXhU0sCwgng==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Bef024urxdA=:0ttqYRbPJ/NP5Moi2UDHg7
+ UTAwfvxOP9iBWS+WfjrBSdpMyic7ujXaPxv46JH++uy3ngRtGI1rm51YwwskWFQfruNXzGkX6
+ q4U7CuMiuI9A9WJ0W5Fy+0ZPDrEoSLiNcIqB3gymFdcxmtVa/IXrDw0cFmk4yj/3AFo4WCzA9
+ 2gOM6kBlMLi0XMYkV3G0+a2v1JczAg0WA4CyIoVAjacojHPk0Xxu/H1q73yYv4JMZncZZ1XOK
+ 83Rzj0Ef9DtcyvjiDg7Hjx3qRzvTc/UrvgM+cSwCx2o2MeSG0MO7G4nvxWn9xLVcxsH94Ms22
+ mULJvV0OCH0ME0ZB5YLZwbP4WFJghVRLPi8g0e1oDFKR9Cg1vrB9YYCuFi0bZDqczy/dbdBFm
+ YFBdOdn5boh4x6P6yiYm5AJzEHK5zGbE79BxYIqMifNRbsLtMZCTROZFFdopRKpiOgS4PhpkX
+ 1lUAoOAVlJ5AOSdNbloyD10r5hE8LY06NMVHZX46i6e93QNwoDji0v/2ZtNSSdnH5ZnQdo53e
+ PfGhuJqbQE60I1vfCCQbHA=
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 12.04.21 13:56, Henning Schild wrote:
 
---twdyeagubu6upt4z
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Enrico, does "gpio_amd_fch" show up under /sys/class/gpio as a
+> gpiochip? Or how to interact with that driver before basing another one
+> on top?
 
-Hello,
+It's not probed on its own, but explicitly by a board specific driver,
+as it needs board specific data.
 
-On Tue, May 04, 2021 at 11:13:27AM -0500, Bjorn Andersson wrote:
-> On Tue 04 May 10:43 CDT 2021, Pavel Machek wrote:
-> > > So downstream they have (last time I looked at the code) an addition =
-in
-> > > the PWM API where the LED driver can inform the PWM driver part about
-> > > the indices to use. Naturally I don't think that's a good idea.
-> >=20
-> > Dunno. Is it bad idea?
-> >=20
-> > pattern support for other PWMs (vibration?) seems useful, too. Yes, it
-> > means more discussion and extending PWMs properly..
-> >=20
->=20
-> @Thierry, @Lee, @Uwe, are you interested in extending the PWM api with
-> some sort of support for specifying an array of "duty_cycle" and some
-> property for how fast the hardware should cycle through those duty
-> cycles? (And I need a bit/bool to indicate if the pattern should run
-> once of be repeated)
->=20
-> The (current) use case relates to being able to alter the duty cycle
-> over time to create "effects" such as pulsing an LED.
+See drivers/platform/x86/pcengines-apuv2.c
 
-My personal opinion here is that this is too special to be worth the
-generalisation.
 
-Best regards
-Uwe
+--mtx
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---twdyeagubu6upt4z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCSK20ACgkQwfwUeK3K
-7AnbuQf9FCB0PpgSA/lR/qkTwcyn5aszc/HWkQpesYZyNI/WCfvWF9/stR+usSRk
-+nGaH75A/vzYqc91kOyGIxxBdAXF/6nwuaVlf7bqAnv7ik7fsBDNxdB8TGRlxaMe
-BqEn9OGkicUoKce8jEdXnvtWHNEydIyIwnddviu9XXuuuzyeoW4rLqViWDRfTxSc
-3lpyxoTyylKO+giIoB3LIdfAu7N+zs61WBpwaUgH/hdDJ0ZAI5Nyluqkui4gcsht
-02x0bxWbl/wbpXPWTz/Sx3BW9zrZk3k/uKZSFPYNxm3rZmOF4I+HhbMA5/FrkSub
-LBDp5Vds0xUF2QtsuDfPv3JWexGoJQ==
-=v6gl
------END PGP SIGNATURE-----
-
---twdyeagubu6upt4z--
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
