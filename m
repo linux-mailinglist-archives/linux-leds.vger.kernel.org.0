@@ -2,65 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01BB3374BAF
-	for <lists+linux-leds@lfdr.de>; Thu,  6 May 2021 01:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 692E0374FE5
+	for <lists+linux-leds@lfdr.de>; Thu,  6 May 2021 09:17:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbhEEXGs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 5 May 2021 19:06:48 -0400
-Received: from mail-oi1-f177.google.com ([209.85.167.177]:43817 "EHLO
-        mail-oi1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbhEEXGs (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 5 May 2021 19:06:48 -0400
-Received: by mail-oi1-f177.google.com with SMTP id j75so3739807oih.10;
-        Wed, 05 May 2021 16:05:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MngNvYwOHxEk6uk+PqkoCOn4yX8WrY5NS/V34QIKjJw=;
-        b=VQYi1uyPN2BvCpUQpHpNYFlyCrPG36FhZdgDFn2Sc3pFNAsrIxH5fRjpr0zpSd9I1i
-         Kih1M3Q2ZI5om2J/tcwka+2wuYyeZ0ZEFWntuAs1tvzeNctKLThd9oVNZRJKNzIcwkJC
-         beNivbOWY8CiUO6jOfQlRZBueHqb/AmdQDg1hj4kEgfULxRpzhDKv7yhVLVP+t4ohTUZ
-         5kE4vH5ota9CKXCtLUi3lawKMnjrJtoz7VvQmaYoVPYELBe2VfyjWRpcDu0Uyi+lZ/co
-         xZNky0aJXX/4NGhQuWRA+T5cTGESUxng2mBmpePy83GNfGGL4EzHUS4DdNMTldk0w2Uv
-         evzg==
-X-Gm-Message-State: AOAM532AuJELgR79KthVrx/QMDZo7z1rH7uM6C2/gal64XxfoVPnaPWk
-        h3VN81FFsl+3LKd3Inpha5TjLTveSQ==
-X-Google-Smtp-Source: ABdhPJwBwpPBDjdYr7rrCEl5VZZEFfefkXKjkjiQIJKCVdQQjTO5+dLgXZpLVmSdhon+TRyd8WA4QA==
-X-Received: by 2002:aca:eb02:: with SMTP id j2mr8546575oih.92.1620255949934;
-        Wed, 05 May 2021 16:05:49 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id a4sm125046oib.17.2021.05.05.16.05.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 16:05:49 -0700 (PDT)
-Received: (nullmailer pid 3009072 invoked by uid 1000);
-        Wed, 05 May 2021 23:05:48 -0000
-Date:   Wed, 5 May 2021 18:05:48 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Eddie James <eajames@linux.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, robh+dt@kernel.or,
-        linux-leds@vger.kernel.org, jacek.anaszewski@gmail.com,
-        devicetree@vger.kernel.org, vishwa@linux.ibm.com, pavel@ucw.cz
-Subject: Re: [PATCH 1/5] dt-bindings: leds: Add retain-state-shutdown boolean
-Message-ID: <20210505230548.GA3009010@robh.at.kernel.org>
-References: <20210429205002.70245-1-eajames@linux.ibm.com>
- <20210429205002.70245-2-eajames@linux.ibm.com>
+        id S233127AbhEFHR6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 6 May 2021 03:17:58 -0400
+Received: from mail-m176216.qiye.163.com ([59.111.176.216]:65044 "EHLO
+        mail-m176216.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231254AbhEFHR6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 6 May 2021 03:17:58 -0400
+X-Greylist: delayed 502 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 May 2021 03:17:57 EDT
+Received: from wanjb-virtual-machine.localdomain (unknown [36.152.145.182])
+        by mail-m176216.qiye.163.com (Hmail) with ESMTPA id A73D1C20196;
+        Thu,  6 May 2021 15:08:35 +0800 (CST)
+From:   Wan Jiabing <wanjiabing@vivo.com>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kael_w@yeah.net, Wan Jiabing <wanjiabing@vivo.com>
+Subject: [PATCH] leds: Fix reference file name of documentation
+Date:   Thu,  6 May 2021 15:08:24 +0800
+Message-Id: <20210506070824.10965-1-wanjiabing@vivo.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210429205002.70245-2-eajames@linux.ibm.com>
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZQh4aTFYaHxkZGEodH0wfHU1VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+        hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mwg6STo5Gj8RHkMOQikQOTI2
+        KisKCx1VSlVKTUlLSUNPQkpNT0JOVTMWGhIXVQwaFRESGhkSFRw7DRINFFUYFBZFWVdZEgtZQVlI
+        TVVKTklVSk9OVUpDSVlXWQgBWUFISkNINwY+
+X-HM-Tid: 0a794081c13dd976kuwsa73d1c20196
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 29 Apr 2021 15:49:58 -0500, Eddie James wrote:
-> Document the retain-state-shutdown property that indicates that a LED
-> should not be turned off or changed during system shutdown.
-> 
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
+In commit 56b01acc1c79a ("dt-bindings: gpio: fairchild,74hc595:
+Convert to json-schema"), gpio-74x164.txt was deleted and replaced
+by fairchild,74hc595.yaml. Fix the reference file name.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+---
+ Documentation/devicetree/bindings/leds/leds-bcm6328.txt | 4 ++--
+ Documentation/devicetree/bindings/leds/leds-bcm6358.txt | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-bcm6328.txt b/Documentation/devicetree/bindings/leds/leds-bcm6328.txt
+index ccebce597f37..a555d94084b7 100644
+--- a/Documentation/devicetree/bindings/leds/leds-bcm6328.txt
++++ b/Documentation/devicetree/bindings/leds/leds-bcm6328.txt
+@@ -4,8 +4,8 @@ This controller is present on BCM6318, BCM6328, BCM6362 and BCM63268.
+ In these SoCs it's possible to control LEDs both as GPIOs or by hardware.
+ However, on some devices there are Serial LEDs (LEDs connected to a 74x164
+ controller), which can either be controlled by software (exporting the 74x164
+-as spi-gpio. See Documentation/devicetree/bindings/gpio/gpio-74x164.txt), or
+-by hardware using this driver.
++as spi-gpio. See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml),
++or by hardware using this driver.
+ Some of these Serial LEDs are hardware controlled (e.g. ethernet LEDs) and
+ exporting the 74x164 as spi-gpio prevents those LEDs to be hardware
+ controlled, so the only chance to keep them working is by using this driver.
+diff --git a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt b/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
+index da5708e7b43b..6e51c6b91ee5 100644
+--- a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
++++ b/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
+@@ -3,7 +3,7 @@ LEDs connected to Broadcom BCM6358 controller
+ This controller is present on BCM6358 and BCM6368.
+ In these SoCs there are Serial LEDs (LEDs connected to a 74x164 controller),
+ which can either be controlled by software (exporting the 74x164 as spi-gpio.
+-See Documentation/devicetree/bindings/gpio/gpio-74x164.txt), or
++See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
+ by hardware using this driver.
+ 
+ Required properties:
+-- 
+2.25.1
+
