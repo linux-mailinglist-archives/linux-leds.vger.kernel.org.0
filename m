@@ -2,127 +2,179 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2C1D376469
-	for <lists+linux-leds@lfdr.de>; Fri,  7 May 2021 13:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6CDA3767F0
+	for <lists+linux-leds@lfdr.de>; Fri,  7 May 2021 17:28:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230251AbhEGLZs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 May 2021 07:25:48 -0400
-Received: from mail-40141.protonmail.ch ([185.70.40.141]:57050 "EHLO
-        mail-40141.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbhEGLZr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 May 2021 07:25:47 -0400
-X-Greylist: delayed 4050 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 May 2021 07:25:47 EDT
-Date:   Fri, 07 May 2021 11:24:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1620386686;
-        bh=g85Ew8Tb/6FsZ0QOeoCjVklxgjsla32xguQNz8Jl6Y0=;
-        h=Date:To:From:Reply-To:Subject:From;
-        b=E1uWRpH6vezZsXE9yXchEq7xGzC8ALDRgdn1xyP/Vo8zbLaVKNhupBj4I3URcGIA4
-         7msV5qJ0Y0F2rmq/4rFD7mXhHdnKFABt/gtOXYM3Gq0MA5EyY6s2r2nmBECR1cLYdE
-         0YzijebMaO2Yk4/DqMX6JFpqlSn4DKgPJSuRoud4=
-To:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-From:   pgeiem <pgeiem@protonmail.com>
-Reply-To: pgeiem <pgeiem@protonmail.com>
-Subject: [BUG] leds-pca963x : scheduling while atomic
-Message-ID: <X9rjGDhu5AHcz9W4bDkYC6QsEplnJy1JBw-GAV9rw1-lZoTbPLma8Akqjk75DOdjybnLUFSWQcyL9HqyEvqlnqQ4ZwbsjyWzFdKpeooI5NY=@protonmail.com>
+        id S232997AbhEGP3y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 7 May 2021 11:29:54 -0400
+Received: from mail-bn8nam12on2061.outbound.protection.outlook.com ([40.107.237.61]:25728
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232314AbhEGP3x (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 7 May 2021 11:29:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V60S0wgOigfVxEKO27nYfZdj6Cl5EUgYtrTwoXJuLl+6und7VxPkVNMu+XAEnagWw8M5SSf+M6ubJcwiIhjBGFenVkxjr9Jtu8cGuIdxcx4sL8pBA7e9QRBD/NJxwBONJQjlPByCJbPis10ioRmmgGRLq/cIkF/0crktWD3mHbbmbw9NUWha6Bi8zee7fcm5jSEWkmD/YwPqqQvoSPr9nMwX5ZW/RvQqlva/7tOlwlEvSEirmuvTjogBaCiMT5vi1YU700hQNhl9ZOm/P8hz5SLvTLklgyRZ6yWBuRwVrTN+bCgIHvLP5DXg1PAB+qurBqdjqQwXsm5rix0qwmbKzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1N4VEwJyaI++rRJjz0F4n2xpD4q75zlFuMyE2ClkBRo=;
+ b=CnviWeSg0H8IDW0c5RbbywUn0fA0oSInNBMGqJD4mUUlzq76cOMLn8+PBylAeWYeZ/aI46CWNt0nfpMiqCQfz6jseCEYxCzVSWjOboSl6LiJA7FzDyZh58jNnBhc9A4JtPddNXnNzjlM6zfwafSjfZZMZSRbs602mFRTAJfqVmbYvhIyOu65G7jDy7NkIBjZ7BtTbSaPgr+MGwMFFGDSPMPwJ/H3QSAER4DjWDjhJsjfWVdjJpQi2eZ2QrsOOcKVy85a5fzguVVFSWxpWoKa+xgzlo710Up+HvTfHP6Hj8umWQAHtgqDRRMKaEPMKg7DyYOsyX3dfxeZZ4MMmIvhfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1N4VEwJyaI++rRJjz0F4n2xpD4q75zlFuMyE2ClkBRo=;
+ b=rkskRESWXWc5H+wMdcJTcbwU/7k4UlV3HFhShuhXhcBGNiQe+tjq8PcDFWTif4Zhbd6vmuDcpO4kdiA/yopExn/Dsya6KXCOhyfQo8OxtvWR49oyZuZNkTB6+TxbM6hyJhmgzTcalgMJ13bfQcRqXogoctiKIkSljnFK9F0xuiun6tGW9TDEpZ6aGyUjR6l+5ZqqJbVJh3BzVA/zNA73FiDGHSJyTjXwfZsplshUQGec/+BUOMILlIx4WWxuo/FxHOx4r1JFq1UdXolbeTGq2BHj6RGBCUt2EFTZfQ0m/Y3hSRt9+MKYC9fPIxn3D+GjjggZAehV8h3ezWWPpFaGsg==
+Received: from DM5PR19CA0071.namprd19.prod.outlook.com (2603:10b6:3:116::33)
+ by DM6PR12MB4250.namprd12.prod.outlook.com (2603:10b6:5:21a::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.27; Fri, 7 May
+ 2021 15:28:52 +0000
+Received: from DM6NAM11FT018.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:116:cafe::b5) by DM5PR19CA0071.outlook.office365.com
+ (2603:10b6:3:116::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend
+ Transport; Fri, 7 May 2021 15:28:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT018.mail.protection.outlook.com (10.13.172.110) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4108.25 via Frontend Transport; Fri, 7 May 2021 15:28:51 +0000
+Received: from dev-r-vrt-156.mtr.labs.mlnx (172.20.145.6) by
+ HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 7 May 2021 15:28:50 +0000
+From:   Vadim Pasternak <vadimp@nvidia.com>
+To:     <pavel@ucw.cz>
+CC:     <linux-leds@vger.kernel.org>, Vadim Pasternak <vadimp@nvidia.com>
+Subject: [PATCH led-next 1/1] leds: mlxreg: Provide conversion for hardware LED color code
+Date:   Fri, 7 May 2021 18:28:34 +0300
+Message-ID: <20210507152834.421981-1-vadimp@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2b24bc39-fa45-460c-2bc2-08d9116cd189
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4250:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB42503FDAFD3D746C9B129B7AAF579@DM6PR12MB4250.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3aLRZzl5CkZg81dirVtoRr7q7/7UlyGWZMZRWJdL3uWXH96hbh7lo6KhFXghI2raObCT6L8wAaSjxxYJ8sw0FSjnyo/2iEWINdt7/JStlJDnpP+CFpDttvkVGoulUcbEE70IgHZsqh/yJS00sFqwlsB4+FceHNHSHhRYkIRVHrIAvOoG4V2lyv7sx7YIzpWJ5kGJd71FimTjdPrLWLJZg1FJvxr0/RUE/nSEUqfhLE6IT1JeS/dhjaPsurt63+rv4rCoZTpa2U1avoBz4JVVeRNsgDgAKpXrMp9JMrUS8DZ1R09VvJDEcKSzGEhNJyN9zFw82teODaUcWPsml1JXuypZyIuJTVFDvmfSmSdc9cCAOTz4IfWicA/omrLAMdu3Jz6Z15tRCOn9FmJIDCckGvpXj0C4H3eQyjG739TZ53t4Li7IuAHUwN64rwQCd1zcBmLTdwu86A+1cDPQqaMQdXK4Taocl/Z1UUnFaYKAOSL7M1V9N2Q4czSxBN8wODKKJnA62DIiOQSzghAlxIbUH3eTCukIBBoUbt8SsVwO0HJtTgYHNT6bnoJbACFPQTjfz8INoBJj/TBNd1GLhxZaGnV19lUDHlmYSs18F9ytsc2zv0xk4hhdrdB1cFYCQZC7YTVtwwzjBOF9O435YE6Ssl0oB4sjIdnjJCoeIaj/QZI=
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(376002)(136003)(346002)(396003)(36840700001)(46966006)(1076003)(336012)(2616005)(70206006)(356005)(107886003)(70586007)(36756003)(86362001)(36906005)(7636003)(83380400001)(426003)(478600001)(36860700001)(4326008)(82310400003)(6666004)(2906002)(26005)(82740400003)(186003)(8676002)(5660300002)(54906003)(16526019)(316002)(8936002)(47076005)(6916009);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2021 15:28:51.8154
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b24bc39-fa45-460c-2bc2-08d9116cd189
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT018.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4250
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-I have a PCA9633 I2C leds controller with hardware blinking enabled connect=
-ed to a STM32MP1. I would like to blink one of the led connected on this co=
-ntroller when the system goes in standby (backlight for the wakeup button).
+In case register is set by hardware, convert hardware color code to
+expose correct color to "sysfs".
+For some LED color at initial state is set by hardware. Hardware
+controls LED color until the first software write access to any LED
+register - the first software access cancels hardware control.
+If LED is under hardware control - detect the color in brightness_get()
+function.
 
-I use a custom trigger which call led_trigger_blink function in pm_suspend.=
- When doing this I get a BUG: scheduling while atomic error message from th=
-e kernel. If I replace the call to led_trigger_blink by a call to led_trigg=
-er_event(trig, LED_FULL) I have no error and the led is turned ON.
+Signed-off-by: Vadim Pasternak <vadimp@nvidia.com>
+---
+ drivers/leds/leds-mlxreg.c | 27 ++++++++++++++++++++++-----
+ 1 file changed, 22 insertions(+), 5 deletions(-)
 
-The issue come from the pca963x_blink function when i2c_smbus_read_byte_dat=
-a(client, PCA963X_MODE2) function is called. What is really surprising to m=
-e is that i2c_smbus_read_byte_data is also called from pca963x_brightness w=
-ithout issue this time.
+diff --git a/drivers/leds/leds-mlxreg.c b/drivers/leds/leds-mlxreg.c
+index afc9070485da..9e665b2b9cb1 100644
+--- a/drivers/leds/leds-mlxreg.c
++++ b/drivers/leds/leds-mlxreg.c
+@@ -17,7 +17,9 @@
+ #define MLXREG_LED_OFFSET_BLINK_3HZ	0x01 /* Offset from solid: 3Hz blink */
+ #define MLXREG_LED_OFFSET_BLINK_6HZ	0x02 /* Offset from solid: 6Hz blink */
+ #define MLXREG_LED_IS_OFF		0x00 /* Off */
+-#define MLXREG_LED_RED_SOLID		0x05 /* Solid red */
++#define MLXREG_LED_RED_SOLID_HW		0x01 /* Solid red or orange by hardware */
++#define MLXREG_LED_RED_SOLID		0x05 /* Solid red or orange */
++#define MLXREG_LED_GREEN_SOLID_HW	0x09 /* Solid green by hardware */
+ #define MLXREG_LED_GREEN_SOLID		0x0D /* Solid green */
+ #define MLXREG_LED_AMBER_SOLID		0x09 /* Solid amber */
+ #define MLXREG_LED_BLINK_3HZ		167 /* ~167 msec off/on - HW support */
+@@ -30,6 +32,7 @@
+  * @data: led configuration data;
+  * @led_classdev: led class data;
+  * @base_color: base led color (other colors have constant offset from base);
++ * @base_color_hw: base led color set by hardware;
+  * @led_data: led data;
+  * @data_parent: pointer to private device control data of parent;
+  */
+@@ -37,6 +40,7 @@ struct mlxreg_led_data {
+ 	struct mlxreg_core_data *data;
+ 	struct led_classdev led_cdev;
+ 	u8 base_color;
++	u8 base_color_hw;
+ 	void *data_parent;
+ 	char led_cdev_name[MLXREG_CORE_LABEL_MAX_SIZE];
+ };
+@@ -124,8 +128,17 @@ mlxreg_led_get_hw(struct mlxreg_led_data *led_data)
+ 	regval = regval & ~data->mask;
+ 	regval = (ror32(data->mask, data->bit) == 0xf0) ? ror32(regval,
+ 		 data->bit) : ror32(regval, data->bit + 4);
+-	if (regval >= led_data->base_color &&
+-	    regval <= (led_data->base_color + MLXREG_LED_OFFSET_BLINK_6HZ))
++
++	/*
++	 * For some LED color at initial state is set by hardware. Hardware controls LED color
++	 * until the first write access to any LED register. If LED is under hardware control -
++	 * convert the value to the software mask to expose correct color. The first LED set by
++	 * software cancels hardware control.
++	 */
++	if ((regval >= led_data->base_color &&
++	     regval <= (led_data->base_color + MLXREG_LED_OFFSET_BLINK_6HZ)) ||
++	    (led_data->base_color_hw && regval >= led_data->base_color_hw &&
++	     regval <= (led_data->base_color_hw + MLXREG_LED_OFFSET_BLINK_6HZ)))
+ 		return LED_FULL;
+ 
+ 	return LED_OFF;
+@@ -217,16 +230,20 @@ static int mlxreg_led_config(struct mlxreg_led_priv_data *priv)
+ 
+ 		led_cdev = &led_data->led_cdev;
+ 		led_data->data_parent = priv;
+-		if (strstr(data->label, "red") ||
+-		    strstr(data->label, "orange")) {
++		if (strstr(data->label, "red")) {
++			brightness = LED_OFF;
++			led_data->base_color = MLXREG_LED_RED_SOLID;
++		} else if (strstr(data->label, "orange")) {
+ 			brightness = LED_OFF;
+ 			led_data->base_color = MLXREG_LED_RED_SOLID;
++			led_data->base_color_hw = MLXREG_LED_RED_SOLID_HW;
+ 		} else if (strstr(data->label, "amber")) {
+ 			brightness = LED_OFF;
+ 			led_data->base_color = MLXREG_LED_AMBER_SOLID;
+ 		} else {
+ 			brightness = LED_OFF;
+ 			led_data->base_color = MLXREG_LED_GREEN_SOLID;
++			led_data->base_color_hw = MLXREG_LED_GREEN_SOLID_HW;
+ 		}
+ 
+ 		/*
+-- 
+2.11.0
 
-Any idea what may cause such an error ?
-
-Thanks in advance for your help
-Patrick
-
-[  306.029144] PM: suspend entry (deep)
-[  306.034650] Filesystems sync: 0.001 seconds
-[  306.039948] Freezing user space processes ... (elapsed 0.001 seconds) do=
-ne.
-[  306.048293] OOM killer disabled.
-[  306.051469] Freezing remaining freezable tasks ... (elapsed 0.001 second=
-s) done.
-[  306.060167] printk: Suspending console(s) (use no_console_suspend to deb=
-ug)
-[  306.069415] BUG: scheduling while atomic: sh/104/0x00000002
-[  306.069420] Modules linked in:
-[  306.069445] CPU: 1 PID: 104 Comm: sh Tainted: G        W         5.10.10=
--00035-ge3756e37171c-dirty #108
-[  306.069450] Hardware name: STM32 (Device Tree Support)
-[  306.069490] [<c010d3a4>] (unwind_backtrace) from [<c0109d80>] (show_stac=
-k+0x10/0x14)
-[  306.069510] [<c0109d80>] (show_stack) from [<c0737424>] (dump_stack+0xc0=
-/0xd4)
-[  306.069529] [<c0737424>] (dump_stack) from [<c013e1e4>] (__schedule_bug+=
-0x70/0x84)
-[  306.069549] [<c013e1e4>] (__schedule_bug) from [<c073db30>] (__schedule+=
-0x40c/0x51c)
-[  306.069567] [<c073db30>] (__schedule) from [<c073dcd0>] (schedule+0x90/0=
-x118)
-[  306.069587] [<c073dcd0>] (schedule) from [<c0741ba4>] (schedule_timeout+=
-0x80/0xfc)
-[  306.069607] [<c0741ba4>] (schedule_timeout) from [<c073ea3c>] (wait_for_=
-completion_timeout+0x8c/0x104)
-[  306.069629] [<c073ea3c>] (wait_for_completion_timeout) from [<c05827b0>]=
- (stm32f7_i2c_smbus_xfer+0x1fc/0x618)
-[  306.069649] [<c05827b0>] (stm32f7_i2c_smbus_xfer) from [<c057de70>] (__i=
-2c_smbus_xfer+0x110/0x730)
-[  306.069666] [<c057de70>] (__i2c_smbus_xfer) from [<c057e508>] (i2c_smbus=
-_xfer+0x78/0x110)
-[  306.069682] [<c057e508>] (i2c_smbus_xfer) from [<c057e680>] (i2c_smbus_r=
-ead_byte_data+0x3c/0x6c)
-[  306.069699] [<c057e680>] (i2c_smbus_read_byte_data) from [<c073acf8>] (p=
-ca963x_blink_set+0x138/0x234)
-[  306.069718] [<c073acf8>] (pca963x_blink_set) from [<c05ae12c>] (led_blin=
-k_setup+0x2c/0xd4)
-[  306.069737] [<c05ae12c>] (led_blink_setup) from [<c05af49c>] (led_trigge=
-r_blink+0x40/0x5c)
-[  306.069758] [<c05af49c>] (led_trigger_blink) from [<c05651a4>] (touchkey=
-_suspend+0x38/0x64)
-[  306.069779] [<c05651a4>] (touchkey_suspend) from [<c0479a4c>] (__device_=
-suspend+0xf8/0x36c)
-[  306.069798] [<c0479a4c>] (__device_suspend) from [<c047ad64>] (dpm_suspe=
-nd+0x108/0x1c8)
-[  306.069815] [<c047ad64>] (dpm_suspend) from [<c047b110>] (dpm_suspend_st=
-art+0x64/0x6c)
-[  306.069834] [<c047b110>] (dpm_suspend_start) from [<c015d8d0>] (suspend_=
-devices_and_enter+0x148/0x524)
-[  306.069851] [<c015d8d0>] (suspend_devices_and_enter) from [<c015deb8>] (=
-pm_suspend+0x20c/0x27c)
-[  306.069865] [<c015deb8>] (pm_suspend) from [<c015cbe0>] (state_store+0x6=
-8/0xc8)
-[  306.069882] [<c015cbe0>] (state_store) from [<c02992a4>] (kernfs_fop_wri=
-te+0xf8/0x21c)
-[  306.069902] [<c02992a4>] (kernfs_fop_write) from [<c020addc>] (vfs_write=
-+0xec/0x44c)
-[  306.069919] [<c020addc>] (vfs_write) from [<c020b284>] (ksys_write+0x60/=
-0xe4)
-[  306.069935] [<c020b284>] (ksys_write) from [<c0100060>] (ret_fast_syscal=
-l+0x0/0x54)
-[  306.069943] Exception stack(0xc26d9fa8 to 0xc26d9ff0)
-[  306.069956] 9fa0:                   00000001 00000000 00000001 000db920 =
-00000004 00000000
-[  306.069970] 9fc0: 00000001 00000000 b6f04080 00000004 00000004 00000020 =
-000d7598 000d749c
-[  306.069979] 9fe0: 00000004 bed41810 b6e53087 b6dde766
