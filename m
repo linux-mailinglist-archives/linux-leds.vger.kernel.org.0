@@ -2,37 +2,29 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEAE6376365
-	for <lists+linux-leds@lfdr.de>; Fri,  7 May 2021 12:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2C1D376469
+	for <lists+linux-leds@lfdr.de>; Fri,  7 May 2021 13:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235929AbhEGKSX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 May 2021 06:18:23 -0400
-Received: from mail-41103.protonmail.ch ([185.70.41.103]:28117 "EHLO
-        mail-41103.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbhEGKSW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 May 2021 06:18:22 -0400
-Received: from mail-02.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4Fc5wd455Kz4x2wq
-        for <linux-leds@vger.kernel.org>; Fri,  7 May 2021 10:17:21 +0000 (UTC)
-Authentication-Results: mail-41103.protonmail.ch;
-        dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="D00nyvF6"
-Date:   Fri, 07 May 2021 10:17:09 +0000
+        id S230251AbhEGLZs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 7 May 2021 07:25:48 -0400
+Received: from mail-40141.protonmail.ch ([185.70.40.141]:57050 "EHLO
+        mail-40141.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229537AbhEGLZr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 May 2021 07:25:47 -0400
+X-Greylist: delayed 4050 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 May 2021 07:25:47 EDT
+Date:   Fri, 07 May 2021 11:24:37 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1620382636;
+        s=protonmail; t=1620386686;
         bh=g85Ew8Tb/6FsZ0QOeoCjVklxgjsla32xguQNz8Jl6Y0=;
         h=Date:To:From:Reply-To:Subject:From;
-        b=D00nyvF6+FDGM7maN7C/tRF0mo+TulnTu75yuaJNPZsUbd/RQNnI4ml7s174UPnMT
-         hZLRCPXIuIzB4ED+G862JnsiIAdb4w5FelM/cxn14hIUJAn5gElRqKMq0/UVWFL+wh
-         49KLCM+G8IM6do299acAZdIg5JfKpIPn6ZIEO+mE=
-To:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "p.meerwald@bct-electronic.com" <p.meerwald@bct-electronic.com>
+        b=E1uWRpH6vezZsXE9yXchEq7xGzC8ALDRgdn1xyP/Vo8zbLaVKNhupBj4I3URcGIA4
+         7msV5qJ0Y0F2rmq/4rFD7mXhHdnKFABt/gtOXYM3Gq0MA5EyY6s2r2nmBECR1cLYdE
+         0YzijebMaO2Yk4/DqMX6JFpqlSn4DKgPJSuRoud4=
+To:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 From:   pgeiem <pgeiem@protonmail.com>
 Reply-To: pgeiem <pgeiem@protonmail.com>
 Subject: [BUG] leds-pca963x : scheduling while atomic
-Message-ID: <hFh8klMnKSVtC2DlYi8BTbKFyR5YoDUyC3kCzi_RkDoEN4N65TkUfs6QRbVZlZWMB2j7FxKKd88dw1096a3quleV8B_p6PK2crazdmzciOI=@protonmail.com>
+Message-ID: <X9rjGDhu5AHcz9W4bDkYC6QsEplnJy1JBw-GAV9rw1-lZoTbPLma8Akqjk75DOdjybnLUFSWQcyL9HqyEvqlnqQ4ZwbsjyWzFdKpeooI5NY=@protonmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -134,8 +126,3 @@ l+0x0/0x54)
 [  306.069970] 9fc0: 00000001 00000000 b6f04080 00000004 00000004 00000020 =
 000d7598 000d749c
 [  306.069979] 9fe0: 00000004 bed41810 b6e53087 b6dde766
-
-
-
-
-
