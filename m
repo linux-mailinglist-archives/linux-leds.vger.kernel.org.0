@@ -2,81 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FC35376CAD
-	for <lists+linux-leds@lfdr.de>; Sat,  8 May 2021 00:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7573C3773D7
+	for <lists+linux-leds@lfdr.de>; Sat,  8 May 2021 21:38:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230063AbhEGW1j (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 7 May 2021 18:27:39 -0400
-Received: from bosmailout01.eigbox.net ([66.96.190.1]:36027 "EHLO
-        bosmailout01.eigbox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbhEGW1h (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 7 May 2021 18:27:37 -0400
-X-Greylist: delayed 1929 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 May 2021 18:27:30 EDT
-Received: from bosmailscan09.eigbox.net ([10.20.15.9])
-        by bosmailout01.eigbox.net with esmtp (Exim)
-        id 1lf8QO-00068o-JJ; Fri, 07 May 2021 17:54:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=godsofu4.com; s=dkim; h=Sender:Content-Transfer-Encoding:Content-Type:
-        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=aM9bUFGSTpfnep8zAVAJMnojqhcwpuHDFPgQnPqW4M4=; b=bjgKomV6NO5Eg5D3qsCBps1llx
-        tj4k2teSfIdfo/duBtOSoC/FW1+C1nXiYJbrvf2JDobx8fDCsgnxHFoPWOCb5eI+OJOIgvnnfKlpl
-        ZqidIuDnjEPTMao1vFwrg6M9FUKU/cz6TT5/KN4ccsk+aQli3Wgs3G1cQz5vdbC1Y2SXULFY8Mu2t
-        1PShwmiDRn71EPzgUHUVu0GG39z6uSTEuRgOXhiNl9ekuZ5QXUAEykoocvC5/DkORRmERAA91o1HY
-        Sl76pPWw9UBVGbuFbfdVPfVcFxJM5xZDrmgt6uCf9J+dn/n7LFOSOxBaL9svxxYdhOkJwdz4uh075
-        2gI+xJSw==;
-Received: from [10.115.3.32] (helo=bosimpout12)
-        by bosmailscan09.eigbox.net with esmtp (Exim)
-        id 1lf8QO-0003aD-AI; Fri, 07 May 2021 17:54:20 -0400
-Received: from boswebmail06.eigbox.net ([10.20.16.6])
-        by bosimpout12 with 
-        id 1xuH2500407qujN01xuLVi; Fri, 07 May 2021 17:54:20 -0400
-X-EN-SP-DIR: OUT
-X-EN-SP-SQ: 1
-Received: from [127.0.0.1] (helo=homestead)
-        by boswebmail06.eigbox.net with esmtp (Exim)
-        id 1lf8QL-0006fx-UG; Fri, 07 May 2021 17:54:17 -0400
-Received: from [197.239.81.229]
- by emailmg.homestead.com
- with HTTP (HTTP/1.1 POST); Fri, 07 May 2021 17:54:17 -0400
+        id S229546AbhEHTiG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 8 May 2021 15:38:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41684 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229667AbhEHTiG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 8 May 2021 15:38:06 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E54AAC061574
+        for <linux-leds@vger.kernel.org>; Sat,  8 May 2021 12:37:02 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id a4so12532455wrr.2
+        for <linux-leds@vger.kernel.org>; Sat, 08 May 2021 12:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LEo0WAuiIGyJ5CDvk1ac5Tqyo04Cf0hE7j39nrK35ys=;
+        b=fbzelkrk+0TTa3pkBv+dmQukTIsG34G6gIOgLD9fM16pJReJ5509oS/ze0+taLVGHg
+         sr3H6Vof07wXK6xREBCpXvkXzuJXYT5O2c04N6xyxnQemJZO/rWxemo2YMFBJpJemePp
+         dsUOYWCnsgb5Xq7J//kEVTpsZZEY3jUgMUPg7g8gaXoV/szcPMJt9/+70JtBY7hp5JB1
+         6kd62WwQbjnh5AUmaabRRNPNF0kMYFwQcu9sS+FUUmrOQTiZn0nH8Dpu+ICjOWaI7KD2
+         wQOoosqWFSWBe6ybTHL4TgxN7E1kD4mI0D91e7/OWXVM9U+30HXzp1KmsKt4zPTe0th6
+         DOog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LEo0WAuiIGyJ5CDvk1ac5Tqyo04Cf0hE7j39nrK35ys=;
+        b=FnaE04C2r5785rVxHIIhFEivdS7GDCduCn3M7PnyBgHW82jaAM23uRZuswirKoMPq1
+         ZCgj/zrS/+8fWpXigdxiuuBpe7En1xc008S6TiVhAjbBl8dvAXSimohG4GqFtcZcufOz
+         aoBMviZUR+tI8KHrmgxzIeT9HDcx7fhzk0kTiHUf42rg7jvT7D/Yb2ElIrum+1YY7uiu
+         H2BuE3CSb0+v6GlQuP805BLDuB8t/8FCqyhQPiYJaygSqdUzy2fJ0TN+5MZMmDmr739H
+         Rd7f0WWFr6XyGRZmDFc3I85PXhZ3x+WtVEWe61fEkiO7qZlQU6rjWzEcv/pEZgu0m0Hu
+         tT4Q==
+X-Gm-Message-State: AOAM530gVwtNtGImD4u80i21lWVxtfXz5aFVO4JToMiCh31+kl9lEKsE
+        n81HGzS9HIEpP7Xjpxi1zEPSPzxveyQtP/co
+X-Google-Smtp-Source: ABdhPJyAy4aO1WA2QMWfEWlZ/iqi7IGUZe4FseS4cZeOyWdfkoVWW1cwchcgObR4s+Jc3sTtDAWWFg==
+X-Received: by 2002:a5d:694c:: with SMTP id r12mr20747795wrw.224.1620502621566;
+        Sat, 08 May 2021 12:37:01 -0700 (PDT)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id k10sm45356028wmf.0.2021.05.08.12.36.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 May 2021 12:37:00 -0700 (PDT)
+From:   Corentin Labbe <clabbe@baylibre.com>
+To:     pavel@ucw.cz, robh+dt@kernel.org, jacek.anaszewski@gmail.com,
+        linus.walleij@linaro.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH] dt-bindings: leds: common: add disk write/read and usb-host
+Date:   Sat,  8 May 2021 19:36:54 +0000
+Message-Id: <20210508193654.2596119-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date:   Fri, 07 May 2021 21:54:17 +0000
-From:   Mrs Suzara Maling Wan <fast65@godsofu4.com>
-To:     undisclosed-recipients:;
-Subject: URGENT REPLY NEEDED
-Reply-To: suzara2017malingwan@gmail.com
-Mail-Reply-To: suzara2017malingwan@gmail.com
-Message-ID: <36acfe805efde59f3f399df1324ce6b9@godsofu4.com>
-X-Sender: fast65@godsofu4.com
-User-Agent: Roundcube Webmail/1.3.14
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-EN-AuthUser: fast65@godsofu4.com
-Sender:  Mrs Suzara Maling Wan <fast65@godsofu4.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+The triggers enum misses 3 cases used by gemini DT.
+usb-host was added via commit 0cfbd328d60f ("usb: Add LED triggers for USB activity")
+so we add also as valid trigger usb-gadget which was added along in this
+commit.
 
+disk-read/disk-write were added by commit d1ed7c558612 ("leds: Extends disk trigger for reads and writes")
 
-My names are Mrs Suzara Maling Wan, I am a Nationality of the Republic
-of the Philippine presently base in West Africa B/F, dealing with
-exportation of Gold, I was diagnose of blood Causal decease, and my
-doctor have announce to me that I have few days to leave due to the
-condition of my sickness.
+Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+---
+ Documentation/devicetree/bindings/leds/common.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I have a desire to build an orphanage home in your country of which i
-cannot execute the project myself due to my present health condition,
-I am willing to hand over the project under your care for you to help
-me fulfill my dreams and desire of building an orphanage home in your
-country.
+diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
+index b1f363747a62..a9b8c21779e3 100644
+--- a/Documentation/devicetree/bindings/leds/common.yaml
++++ b/Documentation/devicetree/bindings/leds/common.yaml
+@@ -89,6 +89,8 @@ properties:
+       - heartbeat
+         # LED indicates disk activity
+       - disk-activity
++      - disk-read
++      - disk-write
+         # LED indicates IDE disk activity (deprecated), in new implementations
+         # use "disk-activity"
+       - ide-disk
+@@ -97,6 +99,8 @@ properties:
+         # LED alters the brightness for the specified duration with one software
+         # timer (requires "led-pattern" property)
+       - pattern
++      - usb-gadget
++      - usb-host
+ 
+   led-pattern:
+     description: |
+-- 
+2.26.3
 
-Reply in you are will to help so that I can direct you to my bank for
-the urgent transfer of the fund/money require for the project to your
-account as I have already made the fund/money available.
-
-With kind regards
-Mrs Suzara Maling Wan
