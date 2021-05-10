@@ -2,79 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DADB37740E
-	for <lists+linux-leds@lfdr.de>; Sat,  8 May 2021 22:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC23E377FEB
+	for <lists+linux-leds@lfdr.de>; Mon, 10 May 2021 11:51:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbhEHUod (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 8 May 2021 16:44:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56044 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbhEHUod (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 8 May 2021 16:44:33 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF41C061574
-        for <linux-leds@vger.kernel.org>; Sat,  8 May 2021 13:43:31 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id t11so17637398lfl.11
-        for <linux-leds@vger.kernel.org>; Sat, 08 May 2021 13:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3aMRJw//SgbViPdOeA6h0zsJSuw6jNbbh0oon3PGvyY=;
-        b=xUz3VzAZXxiP9IJ122gdnyhWsC3/pyCOzi5CquMSC/KbBDhcZmTZbzklQ11/01yGYw
-         nlx/k54zYyMrI8R62MwuvJhpxEU0MelIXIGZMXCmSsD+PEb9f6WX1I23DAtjL1XXctD+
-         RAq9QlJBgBNzdM8PqpDYGFfgzX1zPVWB6VfZoSmR/m3JEfWU5ar2oxnW0MU+FF5jcZsO
-         NV0sKjJixoyW9BrerzZnb2Dn4atxiZIs4Gdz/h6RAJVWgaLcB/f+sfyE3MunHODAAnNL
-         X/ScyayHvY+FZ7A1iC/G2Di5EkIr0oYPZj2XA/JPIKAyhimtQaUREC5iHh31lUrEkbSa
-         94jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3aMRJw//SgbViPdOeA6h0zsJSuw6jNbbh0oon3PGvyY=;
-        b=qXplA26sFO57yDOSE6Ee3J90e8wC9JKkZVz8/tmIHL8s1bVyDqd5sTVFaHCqJB+HOx
-         lAYyO1GaASx5L8mI++wzUIUIAVlvs3NI18bhAyZyZgSKabiXjsus/ewcVd30jbnxFPrR
-         XEM40IHf2XqZx2hrASduVLBc8eCRzyGQvSPOapk1Io82OWjrkiX0VdmAKudd1et8R4Br
-         p23oOFGEGaR/y4CboyKNULJv9o+iyH7PPVzLfu5f+B/A90ebsD1/MZNjCw9TkH/VJboQ
-         /GwVeL50EufN4+Iaw5VHXLGBtq+HGbhaDADHmfmga07rSULVzy9R9RS0I9AG3a2Qqv+1
-         YS+g==
-X-Gm-Message-State: AOAM531T1Fd6DRvaXnEynbYjwvmg0bCrYski9J7CgJkIZFzN4vJJfhOB
-        hE5sCWceaXODMiNPtP7QU1iiVn87uchq6DFNNd7yDQ==
-X-Google-Smtp-Source: ABdhPJwZYa3bAx7J/5xfnit9RQ+FLyfuoiPGR8UdtS/99Kp/0oPeXA9F60gcFLgEVYDlOAnYt+vHVa132TrfTDWB+CE=
-X-Received: by 2002:a19:b0b:: with SMTP id 11mr10650964lfl.291.1620506610252;
- Sat, 08 May 2021 13:43:30 -0700 (PDT)
+        id S230503AbhEJJwL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 10 May 2021 05:52:11 -0400
+Received: from fgw22-7.mail.saunalahti.fi ([62.142.5.83]:16879 "EHLO
+        fgw22-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230449AbhEJJwF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 10 May 2021 05:52:05 -0400
+Received: from localhost (88-115-248-186.elisa-laajakaista.fi [88.115.248.186])
+        by fgw22.mail.saunalahti.fi (Halon) with ESMTP
+        id 37901f08-b175-11eb-88cb-005056bdf889;
+        Mon, 10 May 2021 12:50:57 +0300 (EEST)
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Amireddy Mallikarjuna reddy 
+        <mallikarjunax.reddy@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
+        Abanoub Sameh <abanoubsameh8@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [PATCH v1 00/28] leds: cleanups and fwnode refcounting bug fixes
+Date:   Mon, 10 May 2021 12:50:17 +0300
+Message-Id: <20210510095045.3299382-1-andy.shevchenko@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210508193654.2596119-1-clabbe@baylibre.com>
-In-Reply-To: <20210508193654.2596119-1-clabbe@baylibre.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 8 May 2021 22:43:18 +0200
-Message-ID: <CACRpkdYyD+MkDKd3L6CShJ_pnUSjriwnYvSRmjkTN2dZe0BWfA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: leds: common: add disk write/read and usb-host
-To:     Corentin Labbe <clabbe@baylibre.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, May 8, 2021 at 9:37 PM Corentin Labbe <clabbe@baylibre.com> wrote:
+When analyzing the current state of affairs with fwnode reference counting 
+I found that a lot of core doesn't take it right. Here is a bunch of
+corresponding fixes against LED drivers.
 
-> The triggers enum misses 3 cases used by gemini DT.
-> usb-host was added via commit 0cfbd328d60f ("usb: Add LED triggers for USB activity")
-> so we add also as valid trigger usb-gadget which was added along in this
-> commit.
->
-> disk-read/disk-write were added by commit d1ed7c558612 ("leds: Extends disk trigger for reads and writes")
->
-> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+The series includes some cleanups and a few other fixes grouped by a driver.
 
-Good catch!
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+First two patches are taking care of -ENOTSUPP error code too  prevent its
+appearance in the user space.
 
-Yours,
-Linus Walleij
+Andy Shevchenko (28):
+  leds: class: The -ENOTSUPP should never be seen by user space
+  leds: core: The -ENOTSUPP should never be seen by user space
+  leds: el15203000: Give better margin for usleep_range()
+  leds: el15203000: Make error handling more robust
+  leds: el15203000: Correct headers (of*.h -> mod_devicetable.h)
+  leds: el15203000: Introduce to_el15203000_led() helper
+  leds: lgm-sso: Fix clock handling
+  leds: lgm-sso: Put fwnode in any case during ->probe()
+  leds: lgm-sso: Don't spam logs when probe is deferred
+  leds: lgm-sso: Remove unneeded of_match_ptr()
+  leds: lgm-sso: Remove explicit managed resource cleanups
+  leds: lgm-sso: Drop duplicate NULL check for GPIO operations
+  leds: lgm-sso: Convert to use list_for_each_entry*() API
+  leds: lm3532: select regmap I2C API
+  leds: lm3532: Make error handling more robust
+  leds: lm36274: Put fwnode in error case during ->probe()
+  leds: lm36274: Correct headers (of*.h -> mod_devicetable.h)
+  leds: lm3692x: Put fwnode in any case during ->probe()
+  leds: lm3692x: Correct headers (of*.h -> mod_devicetable.h)
+  leds: lm3697: Update header block to reflect reality
+  leds: lm3697: Make error handling more robust
+  leds: lm3697: Don't spam logs when probe is deferred
+  leds: lp50xx: Put fwnode in error case during ->probe()
+  leds: lt3593: Put fwnode in any case during ->probe()
+  leds: lt3593: Make use of device properties
+  leds: pwm: Make error handling more robust
+  leds: rt8515: Put fwnode in any case during ->probe()
+  leds: sgm3140: Put fwnode in any case during ->probe()
+
+ drivers/leds/Kconfig              |  7 ++-
+ drivers/leds/blink/leds-lgm-sso.c | 86 +++++++++++++------------------
+ drivers/leds/flash/leds-rt8515.c  |  4 +-
+ drivers/leds/led-class.c          |  4 --
+ drivers/leds/led-core.c           |  7 ++-
+ drivers/leds/leds-el15203000.c    | 54 ++++++++-----------
+ drivers/leds/leds-lm3532.c        |  7 +--
+ drivers/leds/leds-lm36274.c       |  3 +-
+ drivers/leds/leds-lm3692x.c       | 11 ++--
+ drivers/leds/leds-lm3697.c        | 22 ++++----
+ drivers/leds/leds-lp50xx.c        |  2 +-
+ drivers/leds/leds-lt3593.c        | 13 ++---
+ drivers/leds/leds-pwm.c           | 16 +++---
+ drivers/leds/leds-sgm3140.c       |  8 +--
+ 14 files changed, 106 insertions(+), 138 deletions(-)
+
+-- 
+2.31.1
+
