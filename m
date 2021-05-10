@@ -2,20 +2,20 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C703A378005
-	for <lists+linux-leds@lfdr.de>; Mon, 10 May 2021 11:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62CEA378000
+	for <lists+linux-leds@lfdr.de>; Mon, 10 May 2021 11:51:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231127AbhEJJwS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 10 May 2021 05:52:18 -0400
-Received: from fgw21-7.mail.saunalahti.fi ([62.142.5.82]:42414 "EHLO
-        fgw21-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230492AbhEJJwP (ORCPT
+        id S230484AbhEJJwQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 10 May 2021 05:52:16 -0400
+Received: from fgw22-7.mail.saunalahti.fi ([62.142.5.83]:17159 "EHLO
+        fgw22-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230489AbhEJJwO (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 10 May 2021 05:52:15 -0400
+        Mon, 10 May 2021 05:52:14 -0400
 Received: from localhost (88-115-248-186.elisa-laajakaista.fi [88.115.248.186])
-        by fgw21.mail.saunalahti.fi (Halon) with ESMTP
-        id 3b98e3ef-b175-11eb-9eb8-005056bdd08f;
-        Mon, 10 May 2021 12:51:03 +0300 (EEST)
+        by fgw22.mail.saunalahti.fi (Halon) with ESMTP
+        id 3c2a7c16-b175-11eb-88cb-005056bdf889;
+        Mon, 10 May 2021 12:51:04 +0300 (EEST)
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
 To:     Pavel Machek <pavel@ucw.cz>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -28,9 +28,9 @@ To:     Pavel Machek <pavel@ucw.cz>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v1 06/28] leds: el15203000: Introduce to_el15203000_led() helper
-Date:   Mon, 10 May 2021 12:50:23 +0300
-Message-Id: <20210510095045.3299382-7-andy.shevchenko@gmail.com>
+Subject: [PATCH v1 07/28] leds: lgm-sso: Fix clock handling
+Date:   Mon, 10 May 2021 12:50:24 +0300
+Message-Id: <20210510095045.3299382-8-andy.shevchenko@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210510095045.3299382-1-andy.shevchenko@gmail.com>
 References: <20210510095045.3299382-1-andy.shevchenko@gmail.com>
@@ -40,83 +40,109 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Introduce a helper to replace open coded container_of() calls.
-At the same time move ldev member to be first in the struct el15203000_led,
-that makes container_of() effectivelly a no-op.
+The clock handling has a few issues:
+ - when getting second clock fails, the first one left prepared and enabled
+ - on ->remove() clocks are unprepared and disabled twice
 
+Fix all these by converting to use bulk clock operations since both clocks
+are mandatory.
+
+Fixes: c3987cd2bca3 ("leds: lgm: Add LED controller driver for LGM SoC")
+Cc: Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>
 Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- drivers/leds/leds-el15203000.c | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+ drivers/leds/blink/leds-lgm-sso.c | 44 ++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/leds/leds-el15203000.c b/drivers/leds/leds-el15203000.c
-index fcb90d7cd42f..e81a93d57210 100644
---- a/drivers/leds/leds-el15203000.c
-+++ b/drivers/leds/leds-el15203000.c
-@@ -69,8 +69,8 @@ enum el15203000_command {
- };
+diff --git a/drivers/leds/blink/leds-lgm-sso.c b/drivers/leds/blink/leds-lgm-sso.c
+index 484f6831e6e7..6a6d75f07af0 100644
+--- a/drivers/leds/blink/leds-lgm-sso.c
++++ b/drivers/leds/blink/leds-lgm-sso.c
+@@ -133,8 +133,7 @@ struct sso_led_priv {
+ 	struct regmap *mmap;
+ 	struct device *dev;
+ 	struct platform_device *pdev;
+-	struct clk *gclk;
+-	struct clk *fpid_clk;
++	struct clk_bulk_data clocks[2];
+ 	u32 fpid_clkrate;
+ 	u32 gptc_clkrate;
+ 	u32 freq[MAX_FREQ_RANK];
+@@ -766,12 +765,11 @@ static int sso_probe_gpios(struct sso_led_priv *priv)
+ 	return sso_gpio_gc_init(dev, priv);
+ }
  
- struct el15203000_led {
--	struct el15203000	*priv;
- 	struct led_classdev	ldev;
-+	struct el15203000	*priv;
- 	u32			reg;
- };
+-static void sso_clk_disable(void *data)
++static void sso_clock_disable_unprepare(void *data)
+ {
+ 	struct sso_led_priv *priv = data;
  
-@@ -83,6 +83,8 @@ struct el15203000 {
- 	struct el15203000_led	leds[];
- };
+-	clk_disable_unprepare(priv->fpid_clk);
+-	clk_disable_unprepare(priv->gclk);
++	clk_bulk_disable_unprepare(ARRAY_SIZE(priv->clocks), priv->clocks);
+ }
  
-+#define to_el15203000_led(d)	container_of(d, struct el15203000_led, ldev)
+ static int intel_sso_led_probe(struct platform_device *pdev)
+@@ -788,36 +786,30 @@ static int intel_sso_led_probe(struct platform_device *pdev)
+ 	priv->dev = dev;
+ 
+ 	/* gate clock */
+-	priv->gclk = devm_clk_get(dev, "sso");
+-	if (IS_ERR(priv->gclk)) {
+-		dev_err(dev, "get sso gate clock failed!\n");
+-		return PTR_ERR(priv->gclk);
+-	}
++	priv->clocks[0].id = "sso";
 +
- static int el15203000_cmd(struct el15203000_led *led, u8 brightness)
- {
- 	int		ret;
-@@ -124,9 +126,7 @@ static int el15203000_cmd(struct el15203000_led *led, u8 brightness)
- static int el15203000_set_blocking(struct led_classdev *ldev,
- 				   enum led_brightness brightness)
- {
--	struct el15203000_led *led = container_of(ldev,
--						  struct el15203000_led,
--						  ldev);
-+	struct el15203000_led *led = to_el15203000_led(ldev);
++	/* fpid clock */
++	priv->clocks[1].id = "fpid";
  
- 	return el15203000_cmd(led, brightness == LED_OFF ? EL_OFF : EL_ON);
- }
-@@ -135,9 +135,7 @@ static int el15203000_pattern_set_S(struct led_classdev *ldev,
- 				    struct led_pattern *pattern,
- 				    u32 len, int repeat)
- {
--	struct el15203000_led *led = container_of(ldev,
--						  struct el15203000_led,
--						  ldev);
-+	struct el15203000_led *led = to_el15203000_led(ldev);
+-	ret = clk_prepare_enable(priv->gclk);
++	ret = devm_clk_bulk_get(dev, ARRAY_SIZE(priv->clocks), priv->clocks);
+ 	if (ret) {
+-		dev_err(dev, "Failed to prepare/enable sso gate clock!\n");
++		dev_err(dev, "Getting clocks failed!\n");
+ 		return ret;
+ 	}
  
- 	if (repeat > 0 || len != 2 ||
- 	    pattern[0].delta_t != 4000 || pattern[0].brightness != 0 ||
-@@ -188,10 +186,8 @@ static int el15203000_pattern_set_P(struct led_classdev *ldev,
- 				    struct led_pattern *pattern,
- 				    u32 len, int repeat)
- {
-+	struct el15203000_led	*led = to_el15203000_led(ldev);
- 	u8			cmd;
--	struct el15203000_led	*led = container_of(ldev,
--						    struct el15203000_led,
--						    ldev);
+-	priv->fpid_clk = devm_clk_get(dev, "fpid");
+-	if (IS_ERR(priv->fpid_clk)) {
+-		dev_err(dev, "Failed to get fpid clock!\n");
+-		return PTR_ERR(priv->fpid_clk);
+-	}
+-
+-	ret = clk_prepare_enable(priv->fpid_clk);
++	ret = clk_bulk_prepare_enable(ARRAY_SIZE(priv->clocks), priv->clocks);
+ 	if (ret) {
+-		dev_err(dev, "Failed to prepare/enable fpid clock!\n");
++		dev_err(dev, "Failed to prepare and enable clocks!\n");
+ 		return ret;
+ 	}
+-	priv->fpid_clkrate = clk_get_rate(priv->fpid_clk);
  
- 	if (repeat > 0)
- 		return -EINVAL;
-@@ -228,9 +224,7 @@ static int el15203000_pattern_set_P(struct led_classdev *ldev,
+-	ret = devm_add_action_or_reset(dev, sso_clk_disable, priv);
+-	if (ret) {
+-		dev_err(dev, "Failed to devm_add_action_or_reset, %d\n", ret);
++	ret = devm_add_action_or_reset(dev, sso_clock_disable_unprepare, priv);
++	if (ret)
+ 		return ret;
+-	}
++
++	priv->fpid_clkrate = clk_get_rate(priv->clocks[1].clk);
++
++	priv->mmap = syscon_node_to_regmap(dev->of_node);
  
- static int el15203000_pattern_clear(struct led_classdev *ldev)
- {
--	struct el15203000_led	*led = container_of(ldev,
--						    struct el15203000_led,
--						    ldev);
-+	struct el15203000_led *led = to_el15203000_led(ldev);
+ 	priv->mmap = syscon_node_to_regmap(dev->of_node);
+ 	if (IS_ERR(priv->mmap)) {
+@@ -862,8 +854,6 @@ static int intel_sso_led_remove(struct platform_device *pdev)
+ 		sso_led_shutdown(led);
+ 	}
  
- 	return el15203000_cmd(led, EL_OFF);
- }
+-	clk_disable_unprepare(priv->fpid_clk);
+-	clk_disable_unprepare(priv->gclk);
+ 	regmap_exit(priv->mmap);
+ 
+ 	return 0;
 -- 
 2.31.1
 
