@@ -2,391 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C63337A691
-	for <lists+linux-leds@lfdr.de>; Tue, 11 May 2021 14:25:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9002637A875
+	for <lists+linux-leds@lfdr.de>; Tue, 11 May 2021 16:07:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231617AbhEKM0o (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 May 2021 08:26:44 -0400
-Received: from polaris.svanheule.net ([84.16.241.116]:35984 "EHLO
-        polaris.svanheule.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231548AbhEKM0k (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 May 2021 08:26:40 -0400
-Received: from terra.local.svanheule.net (unknown [IPv6:2a02:a03f:eafb:ee01:a5bf:613f:4f5:f348])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sander@svanheule.net)
-        by polaris.svanheule.net (Postfix) with ESMTPSA id 762711FCC23;
-        Tue, 11 May 2021 14:25:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-        s=mail1707; t=1620735932;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VSN9ihQDBGgg3PG9sg9c+JPnx1WVQVvooeQ9hc8V7Ho=;
-        b=kJ58sO8V3UfaZNhT8VDZlfNxPsrjVoJSruZU+sjv6VFan6yLfuuP7DXCt60vczohVrxqsY
-        65KrP58t2ND+I0QzvuwaycNwb0t9u/C7qyGrbSd41kiFjY6oy6NbtysDu1sCenJaSj5bai
-        1e24ACvsyavyrwXOzqrbwky47I60hgHU7+0VNeKqMGi3DlfE02cNu8JM1dLAboR3HMCklt
-        POkwBJLh6T31/D0o7QE9qydZrUURcZ7qbSk9QWKKh7HhMOlvU3IFHQiL0us3ZAGp7UUYe+
-        PtjONxLsBd1q7kpcuzhjbdutlzfAZaa1SoE7o+HaULTgmWxfaixNv2evDIUYXg==
-From:   Sander Vanheule <sander@svanheule.net>
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Sander Vanheule <sander@svanheule.net>
-Subject: [PATCH 5/5] leds: Add support for RTL8231 LED scan matrix
-Date:   Tue, 11 May 2021 14:25:23 +0200
-Message-Id: <d79fda0de1e999b93dea6dc5a1abcfb15f000e70.1620735871.git.sander@svanheule.net>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1620735871.git.sander@svanheule.net>
-References: <cover.1620735871.git.sander@svanheule.net>
+        id S231461AbhEKOIL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 May 2021 10:08:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43578 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231305AbhEKOIK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 May 2021 10:08:10 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AC23C061574;
+        Tue, 11 May 2021 07:07:03 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id 10so16298053pfl.1;
+        Tue, 11 May 2021 07:07:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=rzXwefmc1ZIhs0OCj+56gWFzzGTPcPcD20gXua1lobc=;
+        b=dNu7M0LLPm+SeTcspR3orrYl+jyYWCscPTpYdjAIsOfnJoe2pQGx6xVOwxFBNcYq3n
+         SLyKze5WH491Ke+DEU3G1hxnXZFgFCn6YMQTNyQkx3W2p6g2ruICICHlyvlkX7llTRRq
+         dhKBE2sJgfWV2MKzMQA9R8fpf+2BI4pfxkiXGB4ZVtR0o56Yh6eYZseHe7tGDmBd0IqZ
+         SGp+t+ADsdgQsmO/CMIQkLiWLNn8e7y/CppC3h67LVYvFxHBnJwK/6m/smcgrGeE1RH0
+         lIIKZ07y6ouJfRhtdBFT6WUjsLr6eRBp/aX6NSXkR/ZdRvNQ2iI1sqZA8lCPB1eatUw5
+         4h7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rzXwefmc1ZIhs0OCj+56gWFzzGTPcPcD20gXua1lobc=;
+        b=WooMvQda2AT25kNY7cP1vYmPBYViUjBpGnj4fu34ol6DBhOmFXo9tTEYhdKR+GvG2z
+         WtvHerFnEBcP5tP2KnzBgd67fNfh1ljxVxa1UCJI8AeHUd0gbPrd/dhVdN2mM3MUErHl
+         bUSvDC2jxdHKiBiCkGYtgBQ/lvxVc9SVDoMuZtfcokCUvs2fIVTXnlZpTqGdgwtgewYk
+         nfBm+FHewzqe2LKRCZmxAcw6ChTWeOLXzW5XyO/Ml2jkLO/lLQtKtvH24ew3YVvPVNXd
+         +xYMqQQkMt9KuspxWzInNhCwNL7tdtRJ31DyMCvQbQynpIwGeWu9X2pn4h3Paiq02GyC
+         CX3w==
+X-Gm-Message-State: AOAM533mcbUZF6NCtqLFn4OfiTrCJ42Z/nOTtCD1n9ThnCJlNQE82Bxi
+        NwL5xIXH1NQ4Z3qjWb9JwXCiVRope2uOqlyFup4=
+X-Google-Smtp-Source: ABdhPJw/R/yQBIH+1fof5HDOCKYXDxn9Cido3CVKZNHUHkje7gdVUJnfdK6+vAZcOT9gVvy9Y01zNrJA+X9rsWaAmJo=
+X-Received: by 2002:a63:cd11:: with SMTP id i17mr30564700pgg.74.1620742022626;
+ Tue, 11 May 2021 07:07:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAMW3L+1CN4ZNQZzF0w9ZziDEYHs4QaWrCzDb4ZCpRpTHu_A3PA@mail.gmail.com>
+In-Reply-To: <CAMW3L+1CN4ZNQZzF0w9ZziDEYHs4QaWrCzDb4ZCpRpTHu_A3PA@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 11 May 2021 17:06:46 +0300
+Message-ID: <CAHp75VdwHiVidBr9F+XGMUCUyACY-vRvvZj_hFRELwjk=GRUDQ@mail.gmail.com>
+Subject: Re: Linux kernel: updating acer-wmi
+To:     Jafar Akhondali <jafar.akhoondali@gmail.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        jesperjuhl76@gmail.com,
+        =?UTF-8?Q?Jo=C3=A3o_Paulo_Rechi_Vita?= <jprvita@gmail.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Both single and bi-color scanning modes are supported. The driver will
-verify that the addresses are valid for the current mode, before
-registering the LEDs.
+Thanks for your email.
 
-LEDs can be turned on, off, or toggled at one of six predefined rates
-from 40ms to 1280ms.
+Do not send personal emails on OSS related matters, please.
 
-Implements a platform device for use as child device with RTL8231 MFD,
-and uses the parent regmap to access the required registers.
++Cc: mailing list and certain maintainers
 
-Signed-off-by: Sander Vanheule <sander@svanheule.net>
----
- drivers/leds/Kconfig        |  10 ++
- drivers/leds/Makefile       |   1 +
- drivers/leds/leds-rtl8231.c | 281 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 292 insertions(+)
- create mode 100644 drivers/leds/leds-rtl8231.c
+On Tue, May 11, 2021 at 4:59 PM Jafar Akhondali
+<jafar.akhoondali@gmail.com> wrote:
+>
+> Hi,
+> The Acer predator helios 300 series features a RGB 4-zone backlight keybo=
+ard, that is currently controllable only in Windows. The manager uses a spe=
+cific WMI interface which currently is not yet implemented in the Linux ker=
+nel.
+> I've implemented the support for RGB WMI on acer-wmi.c file by reverse en=
+gineering the PredatorSense(the official application on Windows which contr=
+ols gaming functions for Acer Predator series), exploring WMI functions, an=
+d decompiling WQ buffers. But I still need your help as this is my first co=
+ntribution to the Linux kernel for the correct place for the user-space com=
+munication method.
+>
+> The RGB keyboard-backlight method accepts a 16bytes(u8[16]) array input f=
+or controlling different modes, colors, speed, light intensity, direction, =
+etc. What is the most suitable way and place for controlling these paramete=
+rs via using space?
+>
+> My first choice was the "leds.h" subsystem, but it does not support array=
+ inputs, thus if I want to use this, I'll need to use 16 different subsyste=
+ms which don't look right.
+>
+> Another choice is using ioctl operation, but I'm not sure where I should =
+place it. For example "/sys/kernel", "/sys/devices/", "/sys/module" or ... =
+?
+>
+> Any working examples are extremely appreciated and will help me alot.
+>
+> It is also worth mentioning that the mentioned WMI supports other gaming =
+functions such as fan control, CPU\GPU overclocking, etc. But they are curr=
+ently out of scope of my implementation.
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 49d99cb084db..e5ff6150800c 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -593,6 +593,16 @@ config LEDS_REGULATOR
- 	help
- 	  This option enables support for regulator driven LEDs.
- 
-+config LEDS_RTL8231
-+	tristate "RTL8231 LED matrix support"
-+	depends on LEDS_CLASS
-+	depends on MFD_RTL8231
-+	default MFD_RTL8231
-+	help
-+	  This options enables support for using the LED scanning matrix output
-+	  of the RTL8231 GPIO and LED expander chip.
-+	  When built as a module, this module will be named rtl8231_leds.
-+
- config LEDS_BD2802
- 	tristate "LED driver for BD2802 RGB LED"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 7e604d3028c8..ce0f44a87dee 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -80,6 +80,7 @@ obj-$(CONFIG_LEDS_PM8058)		+= leds-pm8058.o
- obj-$(CONFIG_LEDS_POWERNV)		+= leds-powernv.o
- obj-$(CONFIG_LEDS_PWM)			+= leds-pwm.o
- obj-$(CONFIG_LEDS_REGULATOR)		+= leds-regulator.o
-+obj-$(CONFIG_LEDS_RTL8231)		+= leds-rtl8231.o
- obj-$(CONFIG_LEDS_S3C24XX)		+= leds-s3c24xx.o
- obj-$(CONFIG_LEDS_SC27XX_BLTC)		+= leds-sc27xx-bltc.o
- obj-$(CONFIG_LEDS_SGM3140)		+= leds-sgm3140.o
-diff --git a/drivers/leds/leds-rtl8231.c b/drivers/leds/leds-rtl8231.c
-new file mode 100644
-index 000000000000..fc39eb0d950e
---- /dev/null
-+++ b/drivers/leds/leds-rtl8231.c
-@@ -0,0 +1,281 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <linux/device.h>
-+#include <linux/leds.h>
-+#include <linux/mfd/rtl8231.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_address.h>
-+#include <linux/property.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+struct led_toggle_rate {
-+	u16 interval; /* Toggle interval in ms */
-+	u8 mode; /* Register value */
-+};
-+
-+struct led_modes {
-+	/* Array of toggle rates, sorted by interval */
-+	const struct led_toggle_rate *toggle_rates;
-+	unsigned int num_toggle_rates;
-+	u8 off;
-+	u8 on;
-+};
-+
-+struct rtl8231_led {
-+	struct led_classdev led;
-+	const struct led_modes *modes;
-+	struct regmap_field *reg_field;
-+};
-+#define to_rtl8231_led(_cdev) container_of(_cdev, struct rtl8231_led, led)
-+
-+#define RTL8231_NUM_LEDS	3
-+#define RTL8231_LED_PER_REG	5
-+#define RTL8231_BITS_PER_LED	3
-+
-+static const unsigned int rtl8231_led_port_count_single[RTL8231_NUM_LEDS] = {32, 32, 24};
-+static const unsigned int rtl8231_led_port_count_bicolor[RTL8231_NUM_LEDS] = {24, 24, 24};
-+
-+static const unsigned int rtl8231_led_base[RTL8231_NUM_LEDS] = {
-+	RTL8231_REG_LED0_BASE,
-+	RTL8231_REG_LED1_BASE,
-+	RTL8231_REG_LED2_BASE,
-+};
-+
-+static const struct led_toggle_rate rtl8231_toggle_rates[] = {
-+	{  40, 1},
-+	{  80, 2},
-+	{ 160, 3},
-+	{ 320, 4},
-+	{ 640, 5},
-+	{1280, 6},
-+};
-+
-+static const struct led_modes rtl8231_led_modes = {
-+	.off = 0,
-+	.on = 7,
-+	.num_toggle_rates = ARRAY_SIZE(rtl8231_toggle_rates),
-+	.toggle_rates = rtl8231_toggle_rates,
-+};
-+
-+static void rtl8231_led_brightness_set(struct led_classdev *led_cdev,
-+	enum led_brightness brightness)
-+{
-+	struct rtl8231_led *pled = to_rtl8231_led(led_cdev);
-+
-+	if (brightness)
-+		regmap_field_write(pled->reg_field, pled->modes->on);
-+	else
-+		regmap_field_write(pled->reg_field, pled->modes->off);
-+}
-+
-+static enum led_brightness rtl8231_led_brightness_get(struct led_classdev *led_cdev)
-+{
-+	struct rtl8231_led *pled = to_rtl8231_led(led_cdev);
-+	u32 current_mode = pled->modes->off;
-+
-+	regmap_field_read(pled->reg_field, &current_mode);
-+
-+	if (current_mode == pled->modes->off)
-+		return LED_OFF;
-+	else
-+		return LED_ON;
-+}
-+
-+static unsigned int rtl8231_led_current_interval(struct rtl8231_led *pled)
-+{
-+	unsigned int mode;
-+	unsigned int i = 0;
-+
-+	if (regmap_field_read(pled->reg_field, &mode))
-+		return 0;
-+
-+	while (i < pled->modes->num_toggle_rates && mode != pled->modes->toggle_rates[i].mode)
-+		i++;
-+
-+	if (i < pled->modes->num_toggle_rates)
-+		return pled->modes->toggle_rates[i].interval;
-+	else
-+		return 0;
-+}
-+
-+static int rtl8231_led_blink_set(struct led_classdev *led_cdev, unsigned long *delay_on,
-+	unsigned long *delay_off)
-+{
-+	struct rtl8231_led *pled = to_rtl8231_led(led_cdev);
-+	const struct led_modes *modes = pled->modes;
-+	unsigned int interval;
-+	unsigned int i = 0;
-+	int err;
-+
-+	if (*delay_on == 0 && *delay_off == 0) {
-+		/* Choose 500ms as default interval */
-+		interval = 500;
-+	} else {
-+		/*
-+		 * If the current mode is blinking, choose the delay that (likely) changed.
-+		 * Otherwise, choose the interval that would have the same total delay.
-+		 */
-+		interval = rtl8231_led_current_interval(pled);
-+
-+		if (interval > 0 && interval == *delay_off)
-+			interval = *delay_on;
-+		else if (interval > 0 && interval == *delay_on)
-+			interval = *delay_off;
-+		else
-+			interval = (*delay_on + *delay_off) / 2;
-+	}
-+
-+	/* Find clamped toggle interval */
-+	while (i < (modes->num_toggle_rates - 1) && interval > modes->toggle_rates[i].interval)
-+		i++;
-+
-+	interval = modes->toggle_rates[i].interval;
-+
-+	err = regmap_field_write(pled->reg_field, modes->toggle_rates[i].mode);
-+	if (err)
-+		return err;
-+
-+	*delay_on = interval;
-+	*delay_off = interval;
-+
-+	return 0;
-+}
-+
-+static int rtl8231_led_read_address(struct device_node *np, unsigned int *addr_port,
-+	unsigned int *addr_led)
-+{
-+	const __be32 *addr;
-+
-+	if (of_n_addr_cells(np) != 2 || of_n_size_cells(np) != 0)
-+		return -ENODEV;
-+
-+	addr = of_get_address(np, 0, NULL, NULL);
-+	if (!addr)
-+		return -ENODEV;
-+
-+	*addr_port = of_read_number(addr, 1);
-+	*addr_led = of_read_number(addr + 1, 1);
-+
-+	return 0;
-+}
-+
-+static struct reg_field rtl8231_led_get_field(unsigned int port_index, unsigned int led_index)
-+{
-+	unsigned int offset, shift;
-+	struct reg_field field;
-+
-+	offset = port_index / RTL8231_LED_PER_REG;
-+	shift = (port_index % RTL8231_LED_PER_REG) * RTL8231_BITS_PER_LED;
-+
-+	field.reg = rtl8231_led_base[led_index] + offset;
-+	field.lsb = shift;
-+	field.msb = shift + RTL8231_BITS_PER_LED - 1;
-+
-+	return field;
-+}
-+
-+static int rtl8231_led_probe_single(struct device *dev, struct regmap *map,
-+	const unsigned int *port_count, struct device_node *np)
-+{
-+	struct rtl8231_led *pled;
-+	unsigned int port_index;
-+	unsigned int led_index;
-+	struct reg_field field;
-+	struct led_init_data init_data = {};
-+	int err;
-+
-+	pled = devm_kzalloc(dev, sizeof(*pled), GFP_KERNEL);
-+	if (IS_ERR(pled))
-+		return PTR_ERR(pled);
-+
-+	err = rtl8231_led_read_address(np, &port_index, &led_index);
-+
-+	if (err) {
-+		dev_err(dev, "LED address invalid\n");
-+		return err;
-+	} else if (led_index >= RTL8231_NUM_LEDS || port_index >= port_count[led_index]) {
-+		dev_err(dev, "LED address (%d.%d) invalid\n", port_index, led_index);
-+		return -ENODEV;
-+	}
-+
-+	field = rtl8231_led_get_field(port_index, led_index);
-+	pled->reg_field = devm_regmap_field_alloc(dev, map, field);
-+	if (IS_ERR(pled->reg_field))
-+		return PTR_ERR(pled->reg_field);
-+
-+	pled->modes = &rtl8231_led_modes;
-+
-+	pled->led.max_brightness = 1;
-+	pled->led.brightness_get = rtl8231_led_brightness_get;
-+	pled->led.brightness_set = rtl8231_led_brightness_set;
-+	pled->led.blink_set = rtl8231_led_blink_set;
-+
-+	init_data.fwnode = of_fwnode_handle(np);
-+
-+	return devm_led_classdev_register_ext(dev, &pled->led, &init_data);
-+}
-+
-+static int rtl8231_led_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	const unsigned int *port_count;
-+	struct device_node *child;
-+	struct regmap *map;
-+	int err;
-+
-+	map = dev_get_regmap(dev->parent, NULL);
-+	if (IS_ERR_OR_NULL(map)) {
-+		dev_err(dev, "failed to retrieve regmap\n");
-+		if (!map)
-+			return -ENODEV;
-+		else
-+			return PTR_ERR(map);
-+	}
-+
-+	if (!device_property_match_string(dev, "realtek,led-scan-mode", "single-color")) {
-+		port_count = rtl8231_led_port_count_single;
-+		regmap_update_bits(map, RTL8231_REG_FUNC0,
-+			RTL8231_FUNC0_SCAN_MODE, RTL8231_FUNC0_SCAN_SINGLE);
-+	} else if (!device_property_match_string(dev, "realtek,led-scan-mode", "bi-color")) {
-+		port_count = rtl8231_led_port_count_bicolor;
-+		regmap_update_bits(map, RTL8231_REG_FUNC0,
-+			RTL8231_FUNC0_SCAN_MODE, RTL8231_FUNC0_SCAN_BICOLOR);
-+	} else {
-+		dev_err(dev, "scan mode missing or invalid\n");
-+		return -EINVAL;
-+	}
-+
-+	for_each_child_of_node(dev->of_node, child) {
-+		if (of_node_name_prefix(child, "led")) {
-+			err = rtl8231_led_probe_single(dev, map, port_count, child);
-+			if (err)
-+				dev_warn(dev, "failed to register %pOF\n", child);
-+			continue;
-+		}
-+
-+		dev_dbg(dev, "skipping unsupported node %pOF\n", child);
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id of_rtl8231_led_match[] = {
-+	{ .compatible = "realtek,rtl8231-leds" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, of_rtl8231_led_match);
-+
-+static struct platform_driver rtl8231_led_driver = {
-+	.driver = {
-+		.name = "rtl8231-leds",
-+		.of_match_table = of_rtl8231_led_match,
-+	},
-+	.probe = rtl8231_led_probe,
-+};
-+module_platform_driver(rtl8231_led_driver);
-+
-+MODULE_AUTHOR("Sander Vanheule <sander@svanheule.net>");
-+MODULE_DESCRIPTION("Realtek RTL8231 LED support");
-+MODULE_LICENSE("GPL v2");
--- 
-2.31.1
-
+--=20
+With Best Regards,
+Andy Shevchenko
