@@ -2,111 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9002637A875
-	for <lists+linux-leds@lfdr.de>; Tue, 11 May 2021 16:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BF7937A980
+	for <lists+linux-leds@lfdr.de>; Tue, 11 May 2021 16:36:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231461AbhEKOIL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 11 May 2021 10:08:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43578 "EHLO
+        id S231953AbhEKOhI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 11 May 2021 10:37:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231305AbhEKOIK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 May 2021 10:08:10 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AC23C061574;
-        Tue, 11 May 2021 07:07:03 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id 10so16298053pfl.1;
-        Tue, 11 May 2021 07:07:03 -0700 (PDT)
+        with ESMTP id S231939AbhEKOhG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 11 May 2021 10:37:06 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54122C061344
+        for <linux-leds@vger.kernel.org>; Tue, 11 May 2021 07:35:58 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id x15so5441393oic.13
+        for <linux-leds@vger.kernel.org>; Tue, 11 May 2021 07:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=rzXwefmc1ZIhs0OCj+56gWFzzGTPcPcD20gXua1lobc=;
-        b=dNu7M0LLPm+SeTcspR3orrYl+jyYWCscPTpYdjAIsOfnJoe2pQGx6xVOwxFBNcYq3n
-         SLyKze5WH491Ke+DEU3G1hxnXZFgFCn6YMQTNyQkx3W2p6g2ruICICHlyvlkX7llTRRq
-         dhKBE2sJgfWV2MKzMQA9R8fpf+2BI4pfxkiXGB4ZVtR0o56Yh6eYZseHe7tGDmBd0IqZ
-         SGp+t+ADsdgQsmO/CMIQkLiWLNn8e7y/CppC3h67LVYvFxHBnJwK/6m/smcgrGeE1RH0
-         lIIKZ07y6ouJfRhtdBFT6WUjsLr6eRBp/aX6NSXkR/ZdRvNQ2iI1sqZA8lCPB1eatUw5
-         4h7w==
+        d=ieee.org; s=google;
+        h=subject:to:references:from:cc:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ETXAFKWQdH8/eG9YgJ2MyXQqUI4w0G+a8+7kidOetNw=;
+        b=D+8UcMkB2GUwjj2F27jdDoxAVAL9rdC9MdMoJFlDBNeHzfe67XWP/sw3xSweHhjvu0
+         L7zFyh43n9/fy4cUZSlUsyNvNqDkT2TqDuEFXFN77WQ7UwdcaxgaJydbt2h0Tqt9neqT
+         2ljICDLxSDdscBg19eDiJRfFGl65YBejwUIvU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rzXwefmc1ZIhs0OCj+56gWFzzGTPcPcD20gXua1lobc=;
-        b=WooMvQda2AT25kNY7cP1vYmPBYViUjBpGnj4fu34ol6DBhOmFXo9tTEYhdKR+GvG2z
-         WtvHerFnEBcP5tP2KnzBgd67fNfh1ljxVxa1UCJI8AeHUd0gbPrd/dhVdN2mM3MUErHl
-         bUSvDC2jxdHKiBiCkGYtgBQ/lvxVc9SVDoMuZtfcokCUvs2fIVTXnlZpTqGdgwtgewYk
-         nfBm+FHewzqe2LKRCZmxAcw6ChTWeOLXzW5XyO/Ml2jkLO/lLQtKtvH24ew3YVvPVNXd
-         +xYMqQQkMt9KuspxWzInNhCwNL7tdtRJ31DyMCvQbQynpIwGeWu9X2pn4h3Paiq02GyC
-         CX3w==
-X-Gm-Message-State: AOAM533mcbUZF6NCtqLFn4OfiTrCJ42Z/nOTtCD1n9ThnCJlNQE82Bxi
-        NwL5xIXH1NQ4Z3qjWb9JwXCiVRope2uOqlyFup4=
-X-Google-Smtp-Source: ABdhPJw/R/yQBIH+1fof5HDOCKYXDxn9Cido3CVKZNHUHkje7gdVUJnfdK6+vAZcOT9gVvy9Y01zNrJA+X9rsWaAmJo=
-X-Received: by 2002:a63:cd11:: with SMTP id i17mr30564700pgg.74.1620742022626;
- Tue, 11 May 2021 07:07:02 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:cc:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ETXAFKWQdH8/eG9YgJ2MyXQqUI4w0G+a8+7kidOetNw=;
+        b=cmiBxGWFSMi9D188h+AQJ7Ojq/WUxyAXmF8+L2f6sxvvH1xULll/PCNIwn4igPNjq+
+         Yns2/yYH4ahcbmnqvXN/7UR8IdYJwEU8a5B9ZXwTPI8R+LZCwHlIdWwijXtxw1zcgQzZ
+         u4OGwAe1J83ldPpIFiagU4RwH9ZShGPKlRlp2dfcTwyQysrpmMsjLsWkKu9YZ+61VhW8
+         TRbNKnXzR9ElRQeBwvVSpZ0R2GlojRpvM5y4n0/xy1aquZwh2uj0FHevUmNwQp/+9eG3
+         hAppVFMEDZifssbCD/DSci3gXnnyg0ag0xvyyu6ErpIPk4fzVPU+HAhKb9kbts0UoyeH
+         TUKQ==
+X-Gm-Message-State: AOAM532EeztqWqUsIJYp+5CoLx4ZLW4oGpeZYUnaqCqZwy0h35ehkaxU
+        KGgPmoybm6KxGX96IQlGT/2yQQ==
+X-Google-Smtp-Source: ABdhPJyvp7T0CdewBKkqMXtDA5ThSmqkKCGgPnZJ05uagz+Vq5z9FBuvh4nrA0ZkdxuooO6UIklVPg==
+X-Received: by 2002:aca:53d8:: with SMTP id h207mr3883260oib.177.1620743757147;
+        Tue, 11 May 2021 07:35:57 -0700 (PDT)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id 2sm3341540ota.67.2021.05.11.07.35.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 May 2021 07:35:56 -0700 (PDT)
+Subject: Re: [PATCH v3 1/1] kernel.h: Split out panic and oops helpers
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20210511074137.33666-1-andriy.shevchenko@linux.intel.com>
+From:   Alex Elder <elder@ieee.org>
+Cc:     linux-xtensa@linux-xtensa.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-clk@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-hyperv@vger.kernel.org,
+        coresight@lists.linaro.org, linux-leds@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, linux-arch@vger.kernel.org,
+        kexec@lists.infradead.org, rcu@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, xen-devel@lists.xenproject.org
+Message-ID: <c6fa5d2c-84e2-2046-19f0-66cf5dd72077@ieee.org>
+Date:   Tue, 11 May 2021 09:35:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <CAMW3L+1CN4ZNQZzF0w9ZziDEYHs4QaWrCzDb4ZCpRpTHu_A3PA@mail.gmail.com>
-In-Reply-To: <CAMW3L+1CN4ZNQZzF0w9ZziDEYHs4QaWrCzDb4ZCpRpTHu_A3PA@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 11 May 2021 17:06:46 +0300
-Message-ID: <CAHp75VdwHiVidBr9F+XGMUCUyACY-vRvvZj_hFRELwjk=GRUDQ@mail.gmail.com>
-Subject: Re: Linux kernel: updating acer-wmi
-To:     Jafar Akhondali <jafar.akhoondali@gmail.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        jesperjuhl76@gmail.com,
-        =?UTF-8?Q?Jo=C3=A3o_Paulo_Rechi_Vita?= <jprvita@gmail.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210511074137.33666-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Thanks for your email.
+On 5/11/21 2:41 AM, Andy Shevchenko wrote:
+> kernel.h is being used as a dump for all kinds of stuff for a long time.
+> Here is the attempt to start cleaning it up by splitting out panic and
+> oops helpers.
+> 
+> There are several purposes of doing this:
+> - dropping dependency in bug.h
+> - dropping a loop by moving out panic_notifier.h
+> - unload kernel.h from something which has its own domain
+> 
+> At the same time convert users tree-wide to use new headers, although
+> for the time being include new header back to kernel.h to avoid twisted
+> indirected includes for existing users.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+> Acked-by: Corey Minyard <cminyard@mvista.com>
+> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Acked-by: Kees Cook <keescook@chromium.org>
+> Acked-by: Wei Liu <wei.liu@kernel.org>
+> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Co-developed-by: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> Acked-by: Sebastian Reichel <sre@kernel.org>
+> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
+> Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Acked-by: Helge Deller <deller@gmx.de> # parisc
+> ---
+> v3: rebased on top of v5.13-rc1, collected a few more tags
+> 
+> Note WRT Andrew's SoB tag above: I have added it since part of the cases
+> I took from him. Andrew, feel free to amend or tell me how you want me
+> to do.
+> 
 
-Do not send personal emails on OSS related matters, please.
+Acked-by: Alex Elder <elder@kernel.org>
 
-+Cc: mailing list and certain maintainers
+. . .
 
-On Tue, May 11, 2021 at 4:59 PM Jafar Akhondali
-<jafar.akhoondali@gmail.com> wrote:
->
-> Hi,
-> The Acer predator helios 300 series features a RGB 4-zone backlight keybo=
-ard, that is currently controllable only in Windows. The manager uses a spe=
-cific WMI interface which currently is not yet implemented in the Linux ker=
-nel.
-> I've implemented the support for RGB WMI on acer-wmi.c file by reverse en=
-gineering the PredatorSense(the official application on Windows which contr=
-ols gaming functions for Acer Predator series), exploring WMI functions, an=
-d decompiling WQ buffers. But I still need your help as this is my first co=
-ntribution to the Linux kernel for the correct place for the user-space com=
-munication method.
->
-> The RGB keyboard-backlight method accepts a 16bytes(u8[16]) array input f=
-or controlling different modes, colors, speed, light intensity, direction, =
-etc. What is the most suitable way and place for controlling these paramete=
-rs via using space?
->
-> My first choice was the "leds.h" subsystem, but it does not support array=
- inputs, thus if I want to use this, I'll need to use 16 different subsyste=
-ms which don't look right.
->
-> Another choice is using ioctl operation, but I'm not sure where I should =
-place it. For example "/sys/kernel", "/sys/devices/", "/sys/module" or ... =
-?
->
-> Any working examples are extremely appreciated and will help me alot.
->
-> It is also worth mentioning that the mentioned WMI supports other gaming =
-functions such as fan control, CPU\GPU overclocking, etc. But they are curr=
-ently out of scope of my implementation.
+> diff --git a/drivers/net/ipa/ipa_smp2p.c b/drivers/net/ipa/ipa_smp2p.c
+> index a5f7a79a1923..34b68dc43886 100644
+> --- a/drivers/net/ipa/ipa_smp2p.c
+> +++ b/drivers/net/ipa/ipa_smp2p.c
+> @@ -8,6 +8,7 @@
+>   #include <linux/device.h>
+>   #include <linux/interrupt.h>
+>   #include <linux/notifier.h>
+> +#include <linux/panic_notifier.h>
+>   #include <linux/soc/qcom/smem.h>
+>   #include <linux/soc/qcom/smem_state.h>
+>   
 
---=20
-With Best Regards,
-Andy Shevchenko
+. . .
