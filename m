@@ -2,70 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5967B37EE6A
-	for <lists+linux-leds@lfdr.de>; Thu, 13 May 2021 00:58:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63E4E37EE6D
+	for <lists+linux-leds@lfdr.de>; Thu, 13 May 2021 00:58:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245520AbhELVnE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 May 2021 17:43:04 -0400
-Received: from mail-oo1-f54.google.com ([209.85.161.54]:39774 "EHLO
-        mail-oo1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385219AbhELUHR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 May 2021 16:07:17 -0400
-Received: by mail-oo1-f54.google.com with SMTP id t17-20020a4a3e110000b02901fab2f46a48so5218228oot.6;
-        Wed, 12 May 2021 13:06:09 -0700 (PDT)
+        id S239301AbhELVnM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 May 2021 17:43:12 -0400
+Received: from mail-ot1-f48.google.com ([209.85.210.48]:37654 "EHLO
+        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1385226AbhELUHc (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 May 2021 16:07:32 -0400
+Received: by mail-ot1-f48.google.com with SMTP id v19-20020a0568301413b0290304f00e3d88so520060otp.4;
+        Wed, 12 May 2021 13:06:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MuK2pfJEKg7cC7a1nR3QKyDJhlIbH4fW7RwxFFSYgU8=;
-        b=LOHds058w6k7wBvCM/L8jmGoXysm7NKOaznPu13D4LSqh56C6UEeeoYyhktxIErRN8
-         oRrNluNqsnRAaKMMtO+nX8Q7YSboAg/p/d7qU5svK1St/P698Mp1izogAPQjLZzRmz4f
-         rT64olAbgil0u1IEZRdrPaOttUbp7VQTl4VSPkptMMlmYyLj7znPDjjye0sp6/9QhHOk
-         dLt1vuhQZwZcQ7CpimjTjmGudIPJBLm/aL69n1+JR3FtMJR4aq1LtrtnjwN2pf93zOTp
-         my5+CNR8bYgNNcaClArLgLSCC5L6LKZCC6Xvd/4V+FKj9n48EljGC2sqA6VcXU72Qsvt
-         mhTA==
-X-Gm-Message-State: AOAM532pGhjRVEm/1Fz3/PUL8hJ1ucBG31fyIk7dUjdTkOE4H2xQebeP
-        bMPNegd0R2j1/Eym8kErt3D3pFiLOg==
-X-Google-Smtp-Source: ABdhPJwXh4NHU4WqFF5W6vBoLPROoPq8C6EQ+6qTKkvt7ZW0sJjVrC5tacdogvwb/IE7xDUqB8UF1Q==
-X-Received: by 2002:a4a:e512:: with SMTP id r18mr28916579oot.40.1620849968942;
-        Wed, 12 May 2021 13:06:08 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=hhnaSOD9rZUaH7zbR+h3t72aZb7UhhEovYqBhpogtio=;
+        b=Ssd0khHDrdt2dhdZ3Urq0aXdE8OfnJaohg+0BuqDWAPAngJbovL99aRdp/jXvcjdWx
+         CTgh3KaEtNe2jwhC5LBQfkPDHIgUlK34/J+0+3laeo5uS48GU8Mfs7pf4RbWvlBpvFD2
+         9mDpGKWJgfSQMaTfkk85p8PxWewwyleFUahNBa3dpIiM5Y9LV8mx9YlzGnDzmHpPvu7f
+         U4jBFJ5g7jyq52pA5hkHeKxjtAAp9LWCSpKFDT4qcF0h+6wNsZCznTNDSGiP7umoUpCH
+         tFXXSHdSUXDgMyYgJ44e9iRyb4rujXYUcG5MRRdlx9PtcF5XKIs0ycG6ii2/TRAaH3Ls
+         rVMw==
+X-Gm-Message-State: AOAM5337DdkSkmA8RGkwOEHXXEQe9qwrcz+DU7MCx+qfxehtB7qKcb+k
+        KCX8rIOnfZdr7HtXwY0l80hPod7FRA==
+X-Google-Smtp-Source: ABdhPJzyWvUr3Ry/8XTYUAydrxrHT/tsdf/bcwoWjSHkvNEpPyamIYQZ0sf4FRVUdyw+345Ug+z0Aw==
+X-Received: by 2002:a05:6830:208c:: with SMTP id y12mr30405131otq.129.1620849983154;
+        Wed, 12 May 2021 13:06:23 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id f71sm180558oig.29.2021.05.12.13.06.07
+        by smtp.gmail.com with ESMTPSA id h6sm223813oom.21.2021.05.12.13.06.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 13:06:07 -0700 (PDT)
-Received: (nullmailer pid 2495086 invoked by uid 1000);
-        Tue, 11 May 2021 19:49:40 -0000
-Date:   Tue, 11 May 2021 14:49:40 -0500
+        Wed, 12 May 2021 13:06:22 -0700 (PDT)
+Received: (nullmailer pid 204080 invoked by uid 1000);
+        Wed, 12 May 2021 18:35:16 -0000
 From:   Rob Herring <robh@kernel.org>
-To:     Corentin Labbe <clabbe@baylibre.com>
-Cc:     pavel@ucw.cz, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linus.walleij@linaro.org,
-        jacek.anaszewski@gmail.com, robh+dt@kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: common: add disk write/read and
- usb-host
-Message-ID: <20210511194940.GA2495057@robh.at.kernel.org>
-References: <20210508193654.2596119-1-clabbe@baylibre.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210508193654.2596119-1-clabbe@baylibre.com>
+To:     Doug Zobel <dougdev334@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>
+In-Reply-To: <20210511204834.2675271-3-dougdev334@gmail.com>
+References: <20210511204834.2675271-1-dougdev334@gmail.com> <20210511204834.2675271-3-dougdev334@gmail.com>
+Subject: Re: [PATCH 2/2] dt: bindings: lp55xx: Add predefined LED pattern
+Date:   Wed, 12 May 2021 13:35:16 -0500
+Message-Id: <1620844516.492214.204079.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 08 May 2021 19:36:54 +0000, Corentin Labbe wrote:
-> The triggers enum misses 3 cases used by gemini DT.
-> usb-host was added via commit 0cfbd328d60f ("usb: Add LED triggers for USB activity")
-> so we add also as valid trigger usb-gadget which was added along in this
-> commit.
+On Tue, 11 May 2021 15:48:34 -0500, Doug Zobel wrote:
+> Add a new device tree object for LP5562 predfined led patterns.
 > 
-> disk-read/disk-write were added by commit d1ed7c558612 ("leds: Extends disk trigger for reads and writes")
-> 
-> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> Signed-off-by: Doug Zobel <dougdev334@gmail.com>
 > ---
->  Documentation/devicetree/bindings/leds/common.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
+>  .../devicetree/bindings/leds/leds-lp55xx.yaml | 103 +++++++++++++++++-
+>  1 file changed, 102 insertions(+), 1 deletion(-)
 > 
 
-Acked-by: Rob Herring <robh@kernel.org>
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/leds/leds-lp55xx.example.dts:159.28-172.20: Warning (unit_address_vs_reg): /example-0/i2c/led-controller@30/pattern@1: node has a unit name, but no reg or ranges property
+Documentation/devicetree/bindings/leds/leds-lp55xx.example.dts:174.28-209.20: Warning (unit_address_vs_reg): /example-0/i2c/led-controller@30/pattern@2: node has a unit name, but no reg or ranges property
+Documentation/devicetree/bindings/leds/leds-lp55xx.example.dts:147.24-151.20: Warning (unique_unit_address): /example-0/i2c/led-controller@30/led@1: duplicate unit-address (also used in node /example-0/i2c/led-controller@30/pattern@1)
+Documentation/devicetree/bindings/leds/leds-lp55xx.example.dts:153.24-157.20: Warning (unique_unit_address): /example-0/i2c/led-controller@30/led@2: duplicate unit-address (also used in node /example-0/i2c/led-controller@30/pattern@2)
+
+See https://patchwork.ozlabs.org/patch/1477300
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
