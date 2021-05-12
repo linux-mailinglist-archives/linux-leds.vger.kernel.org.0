@@ -2,50 +2,50 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 773DF37C893
-	for <lists+linux-leds@lfdr.de>; Wed, 12 May 2021 18:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3761737C895
+	for <lists+linux-leds@lfdr.de>; Wed, 12 May 2021 18:43:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234035AbhELQKy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 May 2021 12:10:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51184 "EHLO
+        id S233691AbhELQK5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 May 2021 12:10:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235594AbhELPt3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 May 2021 11:49:29 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86849C08E9B5;
-        Wed, 12 May 2021 08:21:57 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id ep16-20020a17090ae650b029015d00f578a8so568434pjb.2;
-        Wed, 12 May 2021 08:21:57 -0700 (PDT)
+        with ESMTP id S235610AbhELPte (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 May 2021 11:49:34 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5796CC08EA46;
+        Wed, 12 May 2021 08:22:01 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id 10so18896257pfl.1;
+        Wed, 12 May 2021 08:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=tVgAkGBFVimZZBUracvErIwvpUEHqs66nyqdBflm5/U=;
-        b=FiOiW1/5F8Tv5RnGj+rHwDk1+p20TPFSFAehCRyPxI9/81bRBgMUBOmlvJxKZNRm6n
-         c9ID7I9wp7I/x6bwwBYIh/PT5Fcij5Zoue9Shqd1CfPzQWFtbXHvLla2LC05+p1EfSr1
-         10i24Isemv4n3WVD5h7YEqZ+NZIYTfjHImdp+BHFhG/rT3pCa6XV0e5KLO5BbUMnQbGd
-         k69CRcGIdn2hfpMcMBqUrqZJVzk/gvBi/CC6SsAtyPYX18AUj4lprOXN+vS3rEC+erRC
-         VRAO8V8/Cmbi8qRMzkJ1dtzap37PjezpXylVIFbx4rMD/cwcV9dEoA5G/5mzygJjVJVd
-         HpZA==
+        bh=4VfONO8iWnXjc4bLmF+kdWkzrEctN65wmhdy3hiN/bI=;
+        b=hUI+kuNQs2ujPVBmzBWQuVygOVs8rtpqKdUM4coqoU2PEpEgJ0Qlu8bLr4OZmGYKCg
+         db+7P4lb/eocQlGIKI1HN12DqXBaplF6DCK4wfxAWq7ZmRfRbzcp48F8Jx/F790Yu5AC
+         AseYFw9nqyZgVIsGQmkDRpLB8efu8wuQbWEn6WHtfyOl/TXTGIyxTNx2w29bnZ/4J1qK
+         38rarFwjOJNxlz6Dtw9C0VPJHMEzE4KvXziTYKdYTmn3v6Td7aJ7htuB6294f9wru0h5
+         EukPDmPFQNe0l83R45o3Py4pNvE2FWDezZhx1UETgRAMGspXIW6WDO9unXAPd51d66xi
+         oT0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=tVgAkGBFVimZZBUracvErIwvpUEHqs66nyqdBflm5/U=;
-        b=YeUiPH3JNEj0tJNLKIcDYgY5VpD+tm4iahP1KzUViGnB6i+3BSJsJRQoJTPYKKz4+k
-         c2xLrzaU0ZKVu+I5OprjbVjc82k//W36E6cyiNvF9H46IpRlo88XFKMSXHLUdMECsn80
-         gM6oAaFEc7yn+4PXjF7NWYqkPa7Lge6Anzvc3Z01IQCq3OvD443iK2DLfn1X6gIWLwZS
-         B9PsQbenlhC2Sc0vyzpxqQl9pgHc/XCDZqxGJJVh7JkMAtzb7qxMdul8hkZkIn4WIDBK
-         jtqsFiGFNbQu8SjA1HFY9vFrawUPIC42GsXcMKntYRPoCRnwHM+VRdEGQvCGEJ+CXIE3
-         DzEA==
-X-Gm-Message-State: AOAM531cO1iAbASqFvkG6MIPVSkduhBlkc8il/NIzyBoQhfwKvojSWcp
-        1XA71/0ARLeMXNys3LdliQI=
-X-Google-Smtp-Source: ABdhPJwQh6KTizOSzT5reuY78FXiWUzhLhyiRGLcw/LjHS0z/CiqoR9yKJ7MtEWrp7ToClkc+3TX3w==
-X-Received: by 2002:a17:90b:300e:: with SMTP id hg14mr39484848pjb.149.1620832917021;
-        Wed, 12 May 2021 08:21:57 -0700 (PDT)
+        bh=4VfONO8iWnXjc4bLmF+kdWkzrEctN65wmhdy3hiN/bI=;
+        b=Bc1sfSYUTuyB0a6CFsOPbMeNtYjR/7XawfxRUcZbwXvgtWJ+4z3ZGoiLFLk8SGCeEz
+         UcImfyscMs3mZSxeulW61WI1LiIzyvrQVFEg4IcnMU0iNQsokFazGVtS8vJvdQxpBvzw
+         zBDWIceALT3Q/eBUhmctWgIkdHam4hNocjgLeor8V/NoyqGCpnRkXrTdLJ4bJ7L3a489
+         ADMERuaFG5DiDW2cex56AD4o+Kus3fraMtrzAc1JbmdislBDGASjOMVKXhLeHAzSsdZy
+         5z7AnagnONYOIj1s+l1vCqY6RJ4IEV2w93KywQW4shhvR6QNV7wu/B8Mq5Y0ex1u3t2L
+         5kTw==
+X-Gm-Message-State: AOAM530LHBE5lDg3w7cUXSulZV5Nogv5iJ19s5I1U1u8vL3Agr+sP66m
+        KZl1zcMyZGzyOpIBIV6O3iU=
+X-Google-Smtp-Source: ABdhPJxwb16HfQdLUBd5Wg0WcTt+8A/CRBQa2fpPY7UqWgwbDvv4oFzQisHj3HXlU9Bb5Ql5ljofwA==
+X-Received: by 2002:a05:6a00:16c2:b029:228:964e:8b36 with SMTP id l2-20020a056a0016c2b0290228964e8b36mr36679868pfc.11.1620832920806;
+        Wed, 12 May 2021 08:22:00 -0700 (PDT)
 Received: from localhost.localdomain (1-171-3-209.dynamic-ip.hinet.net. [1.171.3.209])
-        by smtp.gmail.com with ESMTPSA id t133sm228633pgb.0.2021.05.12.08.21.53
+        by smtp.gmail.com with ESMTPSA id t133sm228633pgb.0.2021.05.12.08.21.57
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 12 May 2021 08:21:56 -0700 (PDT)
+        Wed, 12 May 2021 08:22:00 -0700 (PDT)
 From:   cy_huang <u0084500@gmail.com>
 To:     lee.jones@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
         daniel.thompson@linaro.org, jingoohan1@gmail.com,
@@ -53,9 +53,9 @@ To:     lee.jones@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
 Cc:     dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
         devicetree@vger.kernel.org, cy_huang@richtek.com
-Subject: [PATCH v7 3/4] mfd: rt4831: Adds DT binding document for Richtek RT4831
-Date:   Wed, 12 May 2021 23:21:39 +0800
-Message-Id: <1620832900-8347-3-git-send-email-u0084500@gmail.com>
+Subject: [PATCH v7 4/4] backlight: rt4831: Adds support for Richtek RT4831 backlight
+Date:   Wed, 12 May 2021 23:21:40 +0800
+Message-Id: <1620832900-8347-4-git-send-email-u0084500@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1620832900-8347-1-git-send-email-u0084500@gmail.com>
 References: <1620832900-8347-1-git-send-email-u0084500@gmail.com>
@@ -65,111 +65,260 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 From: ChiYuan Huang <cy_huang@richtek.com>
 
-Adds DT binding document for Richtek RT4831.
+Adds support for Richtek RT4831 backlight.
 
 Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
- .../devicetree/bindings/mfd/richtek,rt4831.yaml    | 90 ++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/mfd/richtek,rt4831.yaml
+since v7
+- Fix typo 'common' to 'commonly' in Kconfig description.
+---
+ drivers/video/backlight/Kconfig            |   8 ++
+ drivers/video/backlight/Makefile           |   1 +
+ drivers/video/backlight/rt4831-backlight.c | 203 +++++++++++++++++++++++++++++
+ 3 files changed, 212 insertions(+)
+ create mode 100644 drivers/video/backlight/rt4831-backlight.c
 
-diff --git a/Documentation/devicetree/bindings/mfd/richtek,rt4831.yaml b/Documentation/devicetree/bindings/mfd/richtek,rt4831.yaml
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index d83c87b..858f6df 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -289,6 +289,14 @@ config BACKLIGHT_QCOM_WLED
+ 	  If you have the Qualcomm PMIC, say Y to enable a driver for the
+ 	  WLED block. Currently it supports PM8941 and PMI8998.
+ 
++config BACKLIGHT_RT4831
++	tristate "Richtek RT4831 Backlight Driver"
++	depends on MFD_RT4831
++	help
++	  This enables support for Richtek RT4831 Backlight driver.
++	  It's commonly used to drive the display WLED. There're four channels
++	  inisde, and each channel can provide up to 30mA current.
++
+ config BACKLIGHT_SAHARA
+ 	tristate "Tabletkiosk Sahara Touch-iT Backlight Driver"
+ 	depends on X86
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index 685f3f1..cae2c83 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -49,6 +49,7 @@ obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
+ obj-$(CONFIG_BACKLIGHT_PCF50633)	+= pcf50633-backlight.o
+ obj-$(CONFIG_BACKLIGHT_PWM)		+= pwm_bl.o
+ obj-$(CONFIG_BACKLIGHT_QCOM_WLED)	+= qcom-wled.o
++obj-$(CONFIG_BACKLIGHT_RT4831)		+= rt4831-backlight.o
+ obj-$(CONFIG_BACKLIGHT_SAHARA)		+= kb3886_bl.o
+ obj-$(CONFIG_BACKLIGHT_SKY81452)	+= sky81452-backlight.o
+ obj-$(CONFIG_BACKLIGHT_TOSA)		+= tosa_bl.o
+diff --git a/drivers/video/backlight/rt4831-backlight.c b/drivers/video/backlight/rt4831-backlight.c
 new file mode 100644
-index 00000000..4762eb1
+index 00000000..42155c7
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/richtek,rt4831.yaml
-@@ -0,0 +1,90 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/richtek,rt4831.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/video/backlight/rt4831-backlight.c
+@@ -0,0 +1,203 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +
-+title: Richtek RT4831 DSV and Backlight Integrated IC
++#include <dt-bindings/leds/rt4831-backlight.h>
++#include <linux/backlight.h>
++#include <linux/bitops.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/property.h>
++#include <linux/regmap.h>
 +
-+maintainers:
-+  - ChiYuan Huang <cy_huang@richtek.com>
++#define RT4831_REG_BLCFG	0x02
++#define RT4831_REG_BLDIML	0x04
++#define RT4831_REG_ENABLE	0x08
 +
-+description: |
-+  RT4831 is a multifunctional device that can provide power to the LCD display
-+  and LCD backlight.
++#define RT4831_BLMAX_BRIGHTNESS	2048
 +
-+  For Display Bias Voltage DSVP and DSVN, the output range is about 4V to 6.5V.
-+  It's sufficient to meet the current LCD power requirement.
++#define RT4831_BLOVP_MASK	GENMASK(7, 5)
++#define RT4831_BLOVP_SHIFT	5
++#define RT4831_BLPWMEN_MASK	BIT(0)
++#define RT4831_BLEN_MASK	BIT(4)
++#define RT4831_BLCH_MASK	GENMASK(3, 0)
++#define RT4831_BLDIML_MASK	GENMASK(2, 0)
++#define RT4831_BLDIMH_MASK	GENMASK(10, 3)
++#define RT4831_BLDIMH_SHIFT	3
 +
-+  For the LCD backlight, it can provide four channel WLED driving capability.
-+  Each channel driving current is up to 30mA
++struct rt4831_priv {
++	struct device *dev;
++	struct regmap *regmap;
++	struct backlight_device *bl;
++};
 +
-+  Datasheet is available at
-+  https://www.richtek.com/assets/product_file/RT4831A/DS4831A-05.pdf
++static int rt4831_bl_update_status(struct backlight_device *bl_dev)
++{
++	struct rt4831_priv *priv = bl_get_data(bl_dev);
++	int brightness = backlight_get_brightness(bl_dev);
++	unsigned int enable = brightness ? RT4831_BLEN_MASK : 0;
++	u8 v[2];
++	int ret;
 +
-+properties:
-+  compatible:
-+    const: richtek,rt4831
++	if (brightness) {
++		v[0] = (brightness - 1) & RT4831_BLDIML_MASK;
++		v[1] = ((brightness - 1) & RT4831_BLDIMH_MASK) >> RT4831_BLDIMH_SHIFT;
 +
-+  reg:
-+    description: I2C device address.
-+    maxItems: 1
++		ret = regmap_raw_write(priv->regmap, RT4831_REG_BLDIML, v, sizeof(v));
++		if (ret)
++			return ret;
++	}
 +
-+  enable-gpios:
-+    description: |
-+      GPIO to enable/disable the chip. It is optional.
-+      Some usage directly tied this pin to follow VIO 1.8V power on sequence.
-+    maxItems: 1
++	return regmap_update_bits(priv->regmap, RT4831_REG_ENABLE, RT4831_BLEN_MASK, enable);
 +
-+  regulators:
-+    $ref: ../regulator/richtek,rt4831-regulator.yaml
++}
 +
-+  backlight:
-+    $ref: ../leds/backlight/richtek,rt4831-backlight.yaml
++static int rt4831_bl_get_brightness(struct backlight_device *bl_dev)
++{
++	struct rt4831_priv *priv = bl_get_data(bl_dev);
++	unsigned int val;
++	u8 v[2];
++	int ret;
 +
-+required:
-+  - compatible
-+  - reg
++	ret = regmap_read(priv->regmap, RT4831_REG_ENABLE, &val);
++	if (ret)
++		return ret;
 +
-+additionalProperties: false
++	if (!(val & RT4831_BLEN_MASK))
++		return 0;
 +
-+examples:
-+  - |
-+    #include <dt-bindings/leds/rt4831-backlight.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
++	ret = regmap_raw_read(priv->regmap, RT4831_REG_BLDIML, v, sizeof(v));
++	if (ret)
++		return ret;
 +
-+      rt4831@11 {
-+        compatible = "richtek,rt4831";
-+        reg = <0x11>;
++	ret = (v[1] << RT4831_BLDIMH_SHIFT) + (v[0] & RT4831_BLDIML_MASK) + 1;
 +
-+        regulators {
-+          DSVLCM {
-+            regulator-min-microvolt = <4000000>;
-+            regulator-max-microvolt = <7150000>;
-+            regulator-allow-bypass;
-+          };
-+          DSVP {
-+            regulator-name = "rt4831-dsvp";
-+            regulator-min-microvolt = <4000000>;
-+            regulator-max-microvolt = <6500000>;
-+            regulator-boot-on;
-+          };
-+          DSVN {
-+            regulator-name = "rt4831-dsvn";
-+            regulator-min-microvolt = <4000000>;
-+            regulator-max-microvolt = <6500000>;
-+            regulator-boot-on;
-+          };
-+        };
++	return ret;
++}
 +
-+        backlight {
-+          compatible = "richtek,rt4831-backlight";
-+          default-brightness = <1024>;
-+          max-brightness = <2048>;
-+          richtek,bled-ovp-sel = /bits/ 8 <RT4831_BLOVPLVL_21V>;
-+          richtek,channel-use = /bits/ 8 <RT4831_BLED_ALLCHEN>;
-+        };
-+      };
-+    };
++static const struct backlight_ops rt4831_bl_ops = {
++	.options = BL_CORE_SUSPENDRESUME,
++	.update_status = rt4831_bl_update_status,
++	.get_brightness = rt4831_bl_get_brightness,
++};
++
++static int rt4831_parse_backlight_properties(struct rt4831_priv *priv,
++					     struct backlight_properties *bl_props)
++{
++	struct device *dev = priv->dev;
++	u8 propval;
++	u32 brightness;
++	unsigned int val = 0;
++	int ret;
++
++	/* common properties */
++	ret = device_property_read_u32(dev, "max-brightness", &brightness);
++	if (ret)
++		brightness = RT4831_BLMAX_BRIGHTNESS;
++
++	bl_props->max_brightness = min_t(u32, brightness, RT4831_BLMAX_BRIGHTNESS);
++
++	ret = device_property_read_u32(dev, "default-brightness", &brightness);
++	if (ret)
++		brightness = bl_props->max_brightness;
++
++	bl_props->brightness = min_t(u32, brightness, bl_props->max_brightness);
++
++	/* vendor properties */
++	if (device_property_read_bool(dev, "richtek,pwm-enable"))
++		val = RT4831_BLPWMEN_MASK;
++
++	ret = regmap_update_bits(priv->regmap, RT4831_REG_BLCFG, RT4831_BLPWMEN_MASK, val);
++	if (ret)
++		return ret;
++
++	ret = device_property_read_u8(dev, "richtek,bled-ovp-sel", &propval);
++	if (ret)
++		propval = RT4831_BLOVPLVL_21V;
++
++	propval = min_t(u8, propval, RT4831_BLOVPLVL_29V);
++	ret = regmap_update_bits(priv->regmap, RT4831_REG_BLCFG, RT4831_BLOVP_MASK,
++				 propval << RT4831_BLOVP_SHIFT);
++	if (ret)
++		return ret;
++
++	ret = device_property_read_u8(dev, "richtek,channel-use", &propval);
++	if (ret) {
++		dev_err(dev, "richtek,channel-use DT property missing\n");
++		return ret;
++	}
++
++	if (!(propval & RT4831_BLCH_MASK)) {
++		dev_err(dev, "No channel specified\n");
++		return -EINVAL;
++	}
++
++	return regmap_update_bits(priv->regmap, RT4831_REG_ENABLE, RT4831_BLCH_MASK, propval);
++}
++
++static int rt4831_bl_probe(struct platform_device *pdev)
++{
++	struct rt4831_priv *priv;
++	struct backlight_properties bl_props = { .type = BACKLIGHT_RAW,
++						 .scale = BACKLIGHT_SCALE_LINEAR };
++	int ret;
++
++	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->dev = &pdev->dev;
++
++	priv->regmap = dev_get_regmap(pdev->dev.parent, NULL);
++	if (!priv->regmap) {
++		dev_err(&pdev->dev, "Failed to init regmap\n");
++		return -ENODEV;
++	}
++
++	ret = rt4831_parse_backlight_properties(priv, &bl_props);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to parse backlight properties\n");
++		return ret;
++	}
++
++	priv->bl = devm_backlight_device_register(&pdev->dev, pdev->name, &pdev->dev, priv,
++						  &rt4831_bl_ops, &bl_props);
++	if (IS_ERR(priv->bl)) {
++		dev_err(&pdev->dev, "Failed to register backlight\n");
++		return PTR_ERR(priv->bl);
++	}
++
++	backlight_update_status(priv->bl);
++	platform_set_drvdata(pdev, priv);
++
++	return 0;
++}
++
++static int rt4831_bl_remove(struct platform_device *pdev)
++{
++	struct rt4831_priv *priv = platform_get_drvdata(pdev);
++	struct backlight_device *bl_dev = priv->bl;
++
++	bl_dev->props.brightness = 0;
++	backlight_update_status(priv->bl);
++
++	return 0;
++}
++
++static const struct of_device_id __maybe_unused rt4831_bl_of_match[] = {
++	{ .compatible = "richtek,rt4831-backlight", },
++	{}
++};
++MODULE_DEVICE_TABLE(of, rt4831_bl_of_match);
++
++static struct platform_driver rt4831_bl_driver = {
++	.driver = {
++		.name = "rt4831-backlight",
++		.of_match_table = rt4831_bl_of_match,
++	},
++	.probe = rt4831_bl_probe,
++	.remove = rt4831_bl_remove,
++};
++module_platform_driver(rt4831_bl_driver);
++
++MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
++MODULE_LICENSE("GPL v2");
 -- 
 2.7.4
 
