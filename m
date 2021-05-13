@@ -2,84 +2,194 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63E4E37EE6D
-	for <lists+linux-leds@lfdr.de>; Thu, 13 May 2021 00:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDDFD37F13C
+	for <lists+linux-leds@lfdr.de>; Thu, 13 May 2021 04:20:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239301AbhELVnM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 12 May 2021 17:43:12 -0400
-Received: from mail-ot1-f48.google.com ([209.85.210.48]:37654 "EHLO
-        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385226AbhELUHc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 May 2021 16:07:32 -0400
-Received: by mail-ot1-f48.google.com with SMTP id v19-20020a0568301413b0290304f00e3d88so520060otp.4;
-        Wed, 12 May 2021 13:06:24 -0700 (PDT)
+        id S230228AbhEMCVs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 12 May 2021 22:21:48 -0400
+Received: from mail-ot1-f42.google.com ([209.85.210.42]:35346 "EHLO
+        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229630AbhEMCVs (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 12 May 2021 22:21:48 -0400
+Received: by mail-ot1-f42.google.com with SMTP id 69-20020a9d0a4b0000b02902ed42f141e1so12292748otg.2;
+        Wed, 12 May 2021 19:20:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=hhnaSOD9rZUaH7zbR+h3t72aZb7UhhEovYqBhpogtio=;
-        b=Ssd0khHDrdt2dhdZ3Urq0aXdE8OfnJaohg+0BuqDWAPAngJbovL99aRdp/jXvcjdWx
-         CTgh3KaEtNe2jwhC5LBQfkPDHIgUlK34/J+0+3laeo5uS48GU8Mfs7pf4RbWvlBpvFD2
-         9mDpGKWJgfSQMaTfkk85p8PxWewwyleFUahNBa3dpIiM5Y9LV8mx9YlzGnDzmHpPvu7f
-         U4jBFJ5g7jyq52pA5hkHeKxjtAAp9LWCSpKFDT4qcF0h+6wNsZCznTNDSGiP7umoUpCH
-         tFXXSHdSUXDgMyYgJ44e9iRyb4rujXYUcG5MRRdlx9PtcF5XKIs0ycG6ii2/TRAaH3Ls
-         rVMw==
-X-Gm-Message-State: AOAM5337DdkSkmA8RGkwOEHXXEQe9qwrcz+DU7MCx+qfxehtB7qKcb+k
-        KCX8rIOnfZdr7HtXwY0l80hPod7FRA==
-X-Google-Smtp-Source: ABdhPJzyWvUr3Ry/8XTYUAydrxrHT/tsdf/bcwoWjSHkvNEpPyamIYQZ0sf4FRVUdyw+345Ug+z0Aw==
-X-Received: by 2002:a05:6830:208c:: with SMTP id y12mr30405131otq.129.1620849983154;
-        Wed, 12 May 2021 13:06:23 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+Y42oGdrMd3tYCXJqJNfiv2RuuGSmqgHgvmQbIwOftY=;
+        b=isGY589LeHHHObSwpUkjwegCKsD/tTy7ExA4CNTtIVvoV3g2qS/MBJa0sAAlZ2k9CH
+         J2kUEm+b1c7LQL1DRcz9EKL9Ly7/ryDHju4zeX8qOGhOFqo4Uf11pGJWOWo4LsMH2FGS
+         WU/RtzbLjC3k8OgNe0eK87u+eyxsptqY22Jl6TiANYpDPKuQQByCvtXhcCITfTNNEAXG
+         eXH7b+dscPAm+dd4IzWFk8ibReREiuWiPOuFpvT4UgGAuKTrvtLcC9xw8bchVpNOnjgg
+         RhZDGszcntuXhY4rCxSxC8oBymtQxDki+RhYH8aKxM35DZPviV+x87dCfppKKuaZtlZK
+         FGdA==
+X-Gm-Message-State: AOAM532WfCOE8a6+C946mSPVs3zHptASbWqiS0nlI7iJyZtfANRajmj/
+        RkAy0JrWuys9kxo3XOHApA==
+X-Google-Smtp-Source: ABdhPJwVBpVOfEr7q0rdcf0ZPngrOnuRD90z52CKo7EbRrNLG0S+2I7V5oyhKUn9yx+KkP2UJtDLzQ==
+X-Received: by 2002:a9d:1922:: with SMTP id j34mr11022853ota.250.1620872437860;
+        Wed, 12 May 2021 19:20:37 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id h6sm223813oom.21.2021.05.12.13.06.21
+        by smtp.gmail.com with ESMTPSA id y205sm373425oie.58.2021.05.12.19.20.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 13:06:22 -0700 (PDT)
-Received: (nullmailer pid 204080 invoked by uid 1000);
-        Wed, 12 May 2021 18:35:16 -0000
+        Wed, 12 May 2021 19:20:37 -0700 (PDT)
+Received: (nullmailer pid 895629 invoked by uid 1000);
+        Thu, 13 May 2021 02:20:36 -0000
+Date:   Wed, 12 May 2021 21:20:36 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Doug Zobel <dougdev334@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+Cc:     Pavel Machek <pavel@ucw.cz>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>
-In-Reply-To: <20210511204834.2675271-3-dougdev334@gmail.com>
-References: <20210511204834.2675271-1-dougdev334@gmail.com> <20210511204834.2675271-3-dougdev334@gmail.com>
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 2/2] dt: bindings: lp55xx: Add predefined LED pattern
-Date:   Wed, 12 May 2021 13:35:16 -0500
-Message-Id: <1620844516.492214.204079.nullmailer@robh.at.kernel.org>
+Message-ID: <20210513022036.GA890569@robh.at.kernel.org>
+References: <20210511204834.2675271-1-dougdev334@gmail.com>
+ <20210511204834.2675271-3-dougdev334@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210511204834.2675271-3-dougdev334@gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 11 May 2021 15:48:34 -0500, Doug Zobel wrote:
+On Tue, May 11, 2021 at 03:48:34PM -0500, Doug Zobel wrote:
 > Add a new device tree object for LP5562 predfined led patterns.
+
+If you are going to define something generic looking, put it in a 
+generic binding.
+
+I don't know that this belongs in DT though. Won't a user want to create 
+their own patterns? That means there should be a sysfs interface (which 
+we either already have or has been attempted IIRC).
+
 > 
 > Signed-off-by: Doug Zobel <dougdev334@gmail.com>
 > ---
 >  .../devicetree/bindings/leds/leds-lp55xx.yaml | 103 +++++++++++++++++-
 >  1 file changed, 102 insertions(+), 1 deletion(-)
 > 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/leds/leds-lp55xx.example.dts:159.28-172.20: Warning (unit_address_vs_reg): /example-0/i2c/led-controller@30/pattern@1: node has a unit name, but no reg or ranges property
-Documentation/devicetree/bindings/leds/leds-lp55xx.example.dts:174.28-209.20: Warning (unit_address_vs_reg): /example-0/i2c/led-controller@30/pattern@2: node has a unit name, but no reg or ranges property
-Documentation/devicetree/bindings/leds/leds-lp55xx.example.dts:147.24-151.20: Warning (unique_unit_address): /example-0/i2c/led-controller@30/led@1: duplicate unit-address (also used in node /example-0/i2c/led-controller@30/pattern@1)
-Documentation/devicetree/bindings/leds/leds-lp55xx.example.dts:153.24-157.20: Warning (unique_unit_address): /example-0/i2c/led-controller@30/led@2: duplicate unit-address (also used in node /example-0/i2c/led-controller@30/pattern@2)
-
-See https://patchwork.ozlabs.org/patch/1477300
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+> diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+> index f552cd143d5b..2524a84fe688 100644
+> --- a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+> +++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+> @@ -100,6 +100,31 @@ patternProperties:
+>          $ref: /schemas/types.yaml#/definitions/string
+>          description: name of channel
+>  
+> +  "(^pattern@[0-9a-f]$|pattern)":
+> +    type: object
+> +    $ref: common.yaml#
+> +    description: |
+> +      LP5562 sepcific object.  LED pattern program saved to and run on LP5562.
+> +    properties:
+> +      pat-name:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        description: Name of pattern program
+> +
+> +      pat-r:
+> +        $ref: /schemas/types.yaml#/definitions/uint8-array
+> +        description: |
+> +          Program data for red channel.  See LP5562 datasheet for program format specification.
+> +
+> +      pat-g:
+> +        $ref: /schemas/types.yaml#/definitions/uint8-array
+> +        description: |
+> +          Program data for green channel.  See LP5562 datasheet for program format specification.
+> +
+> +      pat-b:
+> +        $ref: /schemas/types.yaml#/definitions/uint8-array
+> +        description: |
+> +          Program data for blue channel.  See LP5562 datasheet for program format specification.
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -223,6 +248,82 @@ examples:
+>                 };
+>              };
+>          };
+> -    };
+>  
+> +        led-controller@30 {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            compatible = "ti,lp5562";
+> +            reg = <0x30>;
+> +
+> +            led@0 {
+> +                reg = <0>;
+> +                chan-name = "red";
+> +                color = <LED_COLOR_ID_RED>;
+> +            };
+> +
+> +            led@1 {
+> +                reg = <1>;
+> +                chan-name = "green";
+> +                color = <LED_COLOR_ID_GREEN>;
+> +            };
+> +
+> +            led@2 {
+> +                reg = <2>;
+> +                chan-name = "blue";
+> +                color = <LED_COLOR_ID_BLUE>;
+> +            };
+> +
+> +            pattern@1 {
+> +                /* Pulsing blue pattern
+> +                 *   Blue:
+> +                 *     027F: Ramp up 50%
+> +                 *     027F: Ramp up 50%
+> +                 *     4600: Wait 100ms
+> +                 *     02FF: Ramp down 50%
+> +                 *     02FF: Ramp down 50%
+> +                 *     4600: Wait 100ms
+> +                 *     0000: Goto start
+> +                 */
+> +                pat-name = "Pulsing Blue";
+> +                pat-b = [02 7f 02 7f 46 00 02 ff 02 ff 46 00 00 00];
+> +            };
+> +
+> +            pattern@2 {
+> +                /*
+> +                 * HSV rainbow
+> +                 *   Red:
+> +                 *     40FF: Set PWM 255
+> +                 *     41FF: Ramp down 50%
+> +                 *     41FF: Ramp down 50%
+> +                 *     41FF: Wait 1/2 ramp time
+> +                 *     41FF: Wait 1/2 ramp time
+> +                 *     417F: Ramp up 50%
+> +                 *     417F: Ramp up 50%
+> +                 *     0000: Goto start
+> +                 *   Green:
+> +                 *     4000: Set PWM 0
+> +                 *     417F: Ramp up 50%
+> +                 *     417F: Ramp up 50%
+> +                 *     41FF: Ramp down 50%
+> +                 *     41FF: Ramp down 50%
+> +                 *     41FF: Wait 1/2 ramp time
+> +                 *     41FF: Wait 1/2 ramp time
+> +                 *     0000: Goto start
+> +                 *   Blue:
+> +                 *     4000: Set PWM 0
+> +                 *     41FF: Wait 1/2 ramp time
+> +                 *     41FF: Wait 1/2 ramp time
+> +                 *     417F: Ramp up 50%
+> +                 *     417F: Ramp up 50%
+> +                 *     41FF: Ramp down 50%
+> +                 *     41FF: Ramp down 50%
+> +                 *     0000: Goto start
+> +                 */
+> +                pat-name = "HSV Rainbow";
+> +                pat-r = [40 ff 41 FF 41 FF 41 FF 41 FF 41 7F 41 7F 00 00];
+> +                pat-g = [40 00 41 7F 41 7F 41 FF 41 FF 41 FF 41 FF 00 00];
+> +                pat-b = [40 00 41 FF 41 FF 41 7F 41 7F 41 FF 41 FF 00 00];
+> +            };
+> +        };
+> +    };
+>  ...
+> -- 
+> 2.20.1
+> 
