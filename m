@@ -2,79 +2,255 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F012137FAA7
-	for <lists+linux-leds@lfdr.de>; Thu, 13 May 2021 17:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCBD737FCA8
+	for <lists+linux-leds@lfdr.de>; Thu, 13 May 2021 19:43:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234839AbhEMP1B (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 13 May 2021 11:27:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40308 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234885AbhEMP0r (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 13 May 2021 11:26:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 28E59613BF;
-        Thu, 13 May 2021 15:25:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1620919537;
-        bh=foFE/3HGOiVwbmdkUBxDhc/bQzdfVzKQdZ5U+jRRBo8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zC2/654ihZIAJmLWlcLGHhhZ1b6DjiC8KyZKalOZoHGWeOHN1usLxRYd0FgnT6NFW
-         Bqeu9qM5BTIBTrnMs6O2Nr6bQE1DHG1chhKWnUrz2uXLjs/zvaaCB22q1zYAvpPgip
-         mCpf65HjypoCRbOdvInt/3AoLEznLv6cr0ebivb0=
-Date:   Thu, 13 May 2021 17:25:35 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Phillip Potter <phil@philpotter.co.uk>,
-        stable <stable@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH 09/69] leds: lp5523: check return value of lp5xx_read and
- jump to cleanup code
-Message-ID: <YJ1E7/2f0OXVHR2V@kroah.com>
-References: <20210503115736.2104747-1-gregkh@linuxfoundation.org>
- <20210503115736.2104747-10-gregkh@linuxfoundation.org>
- <f821d2a3-3801-66a6-3c5b-0e00a8289ec1@gmail.com>
+        id S231126AbhEMRod (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 13 May 2021 13:44:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58528 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230471AbhEMRoc (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 13 May 2021 13:44:32 -0400
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44023C061574
+        for <linux-leds@vger.kernel.org>; Thu, 13 May 2021 10:43:21 -0700 (PDT)
+Received: by mail-oi1-x232.google.com with SMTP id h9so2109782oih.4
+        for <linux-leds@vger.kernel.org>; Thu, 13 May 2021 10:43:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=rmirlcoRqiQkPgRG3x53Crex7jCaDOSES3PYSmlMKwM=;
+        b=O6u3p5AvPdivCUE35+1pKcX4yC/UonePeGPLCiwwtckCVhU4E6DI8zHcXOd1UCkjqB
+         ddgSB9M2q78ms+QYQMd7HdH5mxCpAhZy17+zayMNoVZY2wElACd396OLuoOxrfpslau9
+         aQ2UTSjvZL7Pq4oN3Ol3mytOpO4cc8L6giDzwqc/xzjD1ETzNMsVYZXP9+MpmriLoUOn
+         +mVQ/limknIY3VjtsoM7nWrpcUCoSDUpgBLG7IJOvskMBnrSXU1nlRzsTx19VjOjTVGP
+         KclVkU1c8IImyzBjXSJmU3zK1hFbw2nUUD2tEqnSdzgSrKOLkrVfqVgjK7x3XuS7Besc
+         QzkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=rmirlcoRqiQkPgRG3x53Crex7jCaDOSES3PYSmlMKwM=;
+        b=IaFjD7WofLNc9l8Xyt2GTHHQKgUFCHLSAzeHHMYhghaSLPDOvVEaa38PEuxo3WXjvf
+         V1IRJw9rB3rXHblPZy4Cb1PF6KQ5VUvwAKkBNe6/89puaCfZVnhPN2ExWUnH3yklC41C
+         omFQcolf7c8MBRuV8lwgaRddePnvIc6d3x40Ew/NKOOmR8JJF7V/x+op1A/yCh9NoaPX
+         UuwxE+W1ALe6O6NDrZoZZu55gqi1SF0ce1pUOz8c4Z7KDTZF9+UZNnKoA+dBzgFruaSz
+         ardyMEDqch0Tj1Rli6dwxoZ/sL80opQxU3+j3dYy6XeoUN0fSi1+J9PyJiqORR4Ewf/2
+         lGnw==
+X-Gm-Message-State: AOAM531/jylEu/E5kVdyHCiXGipO6XRTA2qCJsSF+eWfYeEVo0NBGMW+
+        1ofZeWpFqAaZncQmQlodCVJdDA==
+X-Google-Smtp-Source: ABdhPJy2yWVoN94XJYQGrENPiReo4mj33+y4Jyhc4dXw69CkJll+MePV5Gs1TpseS4y9OscTeLhr7A==
+X-Received: by 2002:a05:6808:2d2:: with SMTP id a18mr5353611oid.82.1620927800590;
+        Thu, 13 May 2021 10:43:20 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id c13sm759750oto.18.2021.05.13.10.43.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 May 2021 10:43:20 -0700 (PDT)
+Date:   Thu, 13 May 2021 12:43:17 -0500
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>
+Cc:     Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Martin Botka <martin.botka1@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v6 2/4] leds: Add driver for Qualcomm LPG
+Message-ID: <20210513174317.GM2484@yoga>
+References: <20201021201224.3430546-1-bjorn.andersson@linaro.org>
+ <20201021201224.3430546-3-bjorn.andersson@linaro.org>
+ <20210505051534.id36dvocqfqg3jqc@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <f821d2a3-3801-66a6-3c5b-0e00a8289ec1@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210505051534.id36dvocqfqg3jqc@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, May 03, 2021 at 09:36:14PM +0200, Jacek Anaszewski wrote:
-> On 5/3/21 1:56 PM, Greg Kroah-Hartman wrote:
-> > From: Phillip Potter <phil@philpotter.co.uk>
-> > 
-> > Check return value of lp5xx_read and if non-zero, jump to code at end of
-> > the function, causing lp5523_stop_all_engines to be executed before
-> > returning the error value up the call chain. This fixes the original
-> > commit (248b57015f35) which was reverted due to the University of Minnesota
-> > problems.
-> > 
-> > Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-> > Cc: stable <stable@vger.kernel.org>
-> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> >   drivers/leds/leds-lp5523.c | 4 +++-
-> >   1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-> > index 5036d7d5f3d4..b1590cb4a188 100644
-> > --- a/drivers/leds/leds-lp5523.c
-> > +++ b/drivers/leds/leds-lp5523.c
-> > @@ -305,7 +305,9 @@ static int lp5523_init_program_engine(struct lp55xx_chip *chip)
-> >   	/* Let the programs run for couple of ms and check the engine status */
-> >   	usleep_range(3000, 6000);
-> > -	lp55xx_read(chip, LP5523_REG_STATUS, &status);
-> > +	ret = lp55xx_read(chip, LP5523_REG_STATUS, &status);
-> > +	if (ret)
-> > +		goto out;
-> >   	status &= LP5523_ENG_STATUS_MASK;
-> >   	if (status != LP5523_ENG_STATUS_MASK) {
-> > 
-> 
-> Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+On Wed 05 May 00:15 CDT 2021, Uwe Kleine-K?nig wrote:
 
-Thanks for the review!
+> Hello Bjorn,
+> 
+
+Thanks for your feedback, and the input on extending the PWM api related
+to patterns. I'll revisit the calculations, and PWM_DEBUG accordingly.
+
+Regards,
+Bjorn
+
+> On Wed, Oct 21, 2020 at 01:12:22PM -0700, Bjorn Andersson wrote:
+> > +static const unsigned int lpg_clk_table[NUM_PWM_PREDIV][NUM_PWM_CLK] = {
+> > +	{
+> > +		1 * (NSEC_PER_SEC / 1024),
+> > +		1 * (NSEC_PER_SEC / 32768),
+> > +		1 * (NSEC_PER_SEC / 19200000),
+> > +	},
+> > +	{
+> > +		3 * (NSEC_PER_SEC / 1024),
+> > +		3 * (NSEC_PER_SEC / 32768),
+> 
+> 1000000000 / 32768 is 30517.578125. Because of the parenthesis this is
+> truncated to 30517. Multiplied by 3 this results in 91551. The exact
+> result is 91552.734375 however.
+> 
+> > +		3 * (NSEC_PER_SEC / 19200000),
+> > +	},
+> > +	{
+> > +		5 * (NSEC_PER_SEC / 1024),
+> > +		5 * (NSEC_PER_SEC / 32768),
+> > +		5 * (NSEC_PER_SEC / 19200000),
+> > +	},
+> > +	{
+> > +		6 * (NSEC_PER_SEC / 1024),
+> > +		6 * (NSEC_PER_SEC / 32768),
+> > +		6 * (NSEC_PER_SEC / 19200000),
+> > +	},
+> > +};
+> > +
+> > +/*
+> > + * PWM Frequency = Clock Frequency / (N * T)
+> > + *      or
+> > + * PWM Period = Clock Period * (N * T)
+> > + *      where
+> > + * N = 2^9 or 2^6 for 9-bit or 6-bit PWM size
+> > + * T = Pre-divide * 2^m, where m = 0..7 (exponent)
+> > + *
+> > + * This is the formula to figure out m for the best pre-divide and clock:
+> > + * (PWM Period / N) = (Pre-divide * Clock Period) * 2^m
+> > + */
+> > +static void lpg_calc_freq(struct lpg_channel *chan, unsigned int period_us)
+> > +{
+> > +	int             n, m, clk, div;
+> > +	int             best_m, best_div, best_clk;
+> > +	unsigned int    last_err, cur_err, min_err;
+> > +	unsigned int    tmp_p, period_n;
+> > +
+> > +	if (period_us == chan->period_us)
+> > +		return;
+> > +
+> > +	/* PWM Period / N */
+> > +	if (period_us < UINT_MAX / NSEC_PER_USEC)
+> > +		n = 6;
+> > +	else
+> > +		n = 9;
+> > +
+> > +	period_n = ((u64)period_us * NSEC_PER_USEC) >> n;
+> > +
+> > +	min_err = UINT_MAX;
+> > +	last_err = UINT_MAX;
+> > +	best_m = 0;
+> > +	best_clk = 0;
+> > +	best_div = 0;
+> > +	for (clk = 0; clk < NUM_PWM_CLK; clk++) {
+> > +		for (div = 0; div < NUM_PWM_PREDIV; div++) {
+> > +			/* period_n = (PWM Period / N) */
+> > +			/* tmp_p = (Pre-divide * Clock Period) * 2^m */
+> > +			tmp_p = lpg_clk_table[div][clk];
+> > +			for (m = 0; m <= NUM_EXP; m++) {
+> > +				cur_err = abs(period_n - tmp_p);
+> > +				if (cur_err < min_err) {
+> > +					min_err = cur_err;
+> > +					best_m = m;
+> > +					best_clk = clk;
+> > +					best_div = div;
+> > +				}
+> > +
+> > +				if (m && cur_err > last_err)
+> > +					/* Break for bigger cur_err */
+> > +					break;
+> > +
+> > +				last_err = cur_err;
+> > +				tmp_p <<= 1;
+> 
+> This is inexact. Consider again the case where tmp_p is
+> 3 * (NSEC_PER_SEC / 32768). The values you use and the exact values are:
+> 
+> 	m     |       0        |      1       |      2      |      3     | ... |        7 |
+> 	tmp_p |   91551        | 183102       | 366204      | 732408     |     | 11718528 |
+>         actual|   91552.734375 | 183105.46875 | 366210.9375 | 732421.875 | ... | 11718750 |
+> 
+> So while you save some cycles by precalculating the values in
+> lpg_clk_table, you trade that for lost precision.
+> 
+> > +			}
+> > +		}
+> > +	}
+> 
+> Please don't pick a period that is longer than the requested period (for
+> the PWM functionality that is).
+> 
+> This can be simplified, you can at least calculate the optimal m
+> directly.
+> 
+> > +	/* Use higher resolution */
+> > +	if (best_m >= 3 && n == 6) {
+> > +		n += 3;
+> > +		best_m -= 3;
+> > +	}
+> > +
+> > +	chan->clk = best_clk;
+> > +	chan->pre_div = best_div;
+> > +	chan->pre_div_exp = best_m;
+> > +	chan->pwm_size = n;
+> > +
+> > +	chan->period_us = period_us;
+> > +}
+> > +
+> > +static void lpg_calc_duty(struct lpg_channel *chan, unsigned int duty_us)
+> > +{
+> > +	unsigned int max = (1 << chan->pwm_size) - 1;
+> > +	unsigned int val = div_u64((u64)duty_us << chan->pwm_size, chan->period_us);
+> 
+> Please use the actually implemented period here instead of the
+> requested. This improves precision, see commit
+> 8035e6c66a5e98f098edf7441667de74affb4e78 for a similar case.
+> 
+> > +
+> > +	chan->pwm_value = min(val, max);
+> > +}
+> > +
+> > [...]
+> > +static const struct pwm_ops lpg_pwm_ops = {
+> > +	.request = lpg_pwm_request,
+> > +	.apply = lpg_pwm_apply,
+> 
+> Can you please test your driver with PWM_DEBUG enabled? The first thing
+> this will critizise is that there is no .get_state callback.
+> 
+> > +	.owner = THIS_MODULE,
+> > +};
+> > +
+> > +static int lpg_add_pwm(struct lpg *lpg)
+> > +{
+> > +	int ret;
+> > +
+> > +	lpg->pwm.base = -1;
+> 
+> Please drop this assignment.
+> 
+> > +	lpg->pwm.dev = lpg->dev;
+> > +	lpg->pwm.npwm = lpg->num_channels;
+> > +	lpg->pwm.ops = &lpg_pwm_ops;
+> > +
+> > +	ret = pwmchip_add(&lpg->pwm);
+> > +	if (ret)
+> > +		dev_err(lpg->dev, "failed to add PWM chip: ret %d\n", ret);
+> > +
+> > +	return ret;
+> > +}
+> 
+> Best regards
+> Uwe
+> 
+> -- 
+> Pengutronix e.K.                           | Uwe Kleine-König            |
+> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+
