@@ -2,25 +2,25 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CA6D380C22
+	by mail.lfdr.de (Postfix) with ESMTP id 6D6AE380C23
 	for <lists+linux-leds@lfdr.de>; Fri, 14 May 2021 16:45:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232904AbhENOqv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S234544AbhENOqv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Fri, 14 May 2021 10:46:51 -0400
-Received: from uho.ysoft.cz ([81.19.3.130]:33176 "EHLO uho.ysoft.cz"
+Received: from uho.ysoft.cz ([81.19.3.130]:33180 "EHLO uho.ysoft.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231473AbhENOqv (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        id S232802AbhENOqv (ORCPT <rfc822;linux-leds@vger.kernel.org>);
         Fri, 14 May 2021 10:46:51 -0400
 Received: from vokac-latitude.ysoft.local (unknown [10.0.28.99])
-        by uho.ysoft.cz (Postfix) with ESMTP id 6B570A097F;
+        by uho.ysoft.cz (Postfix) with ESMTP id BA8F8A2BEA;
         Fri, 14 May 2021 16:45:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
         s=20160406-ysoft-com; t=1621003537;
-        bh=7jN/7xr1/TMXqC50FnK2epExUM+7aIneSmkFsdDWCec=;
-        h=From:To:Cc:Subject:Date:From;
-        b=H4QW954ZFk5ecibfXruPNSiuBsXFNCaAC3MS55oRdWnQ5Vn964D4MRUBsKMmKg7j1
-         00wf5iZE3IiDwBtnJZxE7MvOfpQ/6M0k+KhqU7i3aH8IU+ztFRJgcOuOm1eeeLNUXL
-         iaJrpvdrqGkDkLcuWWVUPmGSB2XBGGmVKsBLr+O0=
+        bh=PoSH2N3Ldv+ChzNMytR7iI7bQZ2FK3UT4uRQllupPAA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=g/F8wUDUFoabtRaKyCwfxGFDK0mMwMJ/9zCIhLBj3oDhSyXSxIhOkT7dzvXHAsSOp
+         Yeraxck8Xjn7a+wpxfLDsGYVLvWM48i4/QAw5Rv6NjX84Pvw1rttuw4IQbYu6ZAEj2
+         B7+8+0zGk7seq7ZcXsakbllhvtLXe1L35DHezMH0=
 From:   =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
 To:     Pavel Machek <pavel@ucw.cz>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -31,11 +31,14 @@ Cc:     Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         NXP Linux Team <linux-imx@nxp.com>,
         linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
-Subject: [RFC 0/2] Regression in lp55xx driver since multicolor framework was added? 
-Date:   Fri, 14 May 2021 16:44:35 +0200
-Message-Id: <1621003477-11250-1-git-send-email-michal.vokac@ysoft.com>
+        =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>,
+        stable@vger.kernel.org
+Subject: [RFC 1/2] dt-bindings: leds: Add color as a required property for lp55xx controller
+Date:   Fri, 14 May 2021 16:44:36 +0200
+Message-Id: <1621003477-11250-2-git-send-email-michal.vokac@ysoft.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1621003477-11250-1-git-send-email-michal.vokac@ysoft.com>
+References: <1621003477-11250-1-git-send-email-michal.vokac@ysoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -43,39 +46,107 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+Since addition of the multicolor LED framework in commit 92a81562e695
+("leds: lp55xx: Add multicolor framework support to lp55xx") the color
+property becomes required even if the multicolor framework is not enabled
+and used.
 
-Linux v5.9 and newer fails on our platform that uses the lp5562 LED
-controller with the following error:
+Fix the binding documentation to reflect the real state.
 
-lp5562: probe of 1-0030 failed with error -22
-
-The problem exists since introduction of the multicolor framework to
-the lp55xx driver. It is caused by the lp55xx_parse_logical_led function
-here [1]. Even if the LED multicolor framework is not enabled the color
-property is required. But it did not used to be.
-
-There are at least two other in-tree platforms that use the same
-controller and could suffer from this problem.
-
-I wonder what is a proper fix here. Either fix the driver to not
-require the color property (do not know ho to do so) or update the binding
-and DTs to reflect the real state of the driver (in this series).
-
-Thank you in advance for any comments,
-Michal
-
-[1] https://elixir.bootlin.com/linux/v5.13-rc1/source/drivers/leds/leds-lp55xx-common.c#L639
-
-Michal Vokáč (2):
-  dt-bindings: leds: Add color as a required property for lp55xx
-    controller
-  ARM: dts: imx6dl-yapp4: Fix lp5562 driver probe
-
+Fixes: 92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
+Cc: <stable@vger.kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: linux-leds@vger.kernel.org
+Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+---
  Documentation/devicetree/bindings/leds/leds-lp55xx.yaml | 10 ++++++++++
- arch/arm/boot/dts/imx6dl-yapp4-common.dtsi              | 11 ++++-------
- 2 files changed, 14 insertions(+), 7 deletions(-)
+ 1 file changed, 10 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+index f552cd143d5b..e6bdd1cb615a 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+@@ -101,6 +101,7 @@ patternProperties:
+         description: name of channel
+ 
+ required:
++  - color
+   - compatible
+   - reg
+ 
+@@ -127,6 +128,7 @@ examples:
+                chan-name = "d1";
+                led-cur = /bits/ 8 <0x14>;
+                max-cur = /bits/ 8 <0x20>;
++               color = <LED_COLOR_ID_RED>;
+            };
+ 
+            led@1 {
+@@ -134,6 +136,7 @@ examples:
+                chan-name = "d2";
+                led-cur = /bits/ 8 <0x14>;
+                max-cur = /bits/ 8 <0x20>;
++               color = <LED_COLOR_ID_BLUE>;
+            };
+ 
+            led@2 {
+@@ -141,6 +144,7 @@ examples:
+                chan-name = "d3";
+                led-cur = /bits/ 8 <0x14>;
+                max-cur = /bits/ 8 <0x20>;
++               color = <LED_COLOR_ID_GREEN>;
+            };
+ 
+            led@3 {
+@@ -148,6 +152,7 @@ examples:
+                chan-name = "d4";
+                led-cur = /bits/ 8 <0x14>;
+                max-cur = /bits/ 8 <0x20>;
++               color = <LED_COLOR_ID_RED>;
+            };
+ 
+            led@4 {
+@@ -155,6 +160,7 @@ examples:
+                chan-name = "d5";
+                led-cur = /bits/ 8 <0x14>;
+                max-cur = /bits/ 8 <0x20>;
++               color = <LED_COLOR_ID_BLUE>;
+            };
+ 
+            led@5 {
+@@ -162,6 +168,7 @@ examples:
+                chan-name = "d6";
+                led-cur = /bits/ 8 <0x14>;
+                max-cur = /bits/ 8 <0x20>;
++               color = <LED_COLOR_ID_GREEN>;
+            };
+ 
+            led@6 {
+@@ -169,6 +176,7 @@ examples:
+                chan-name = "d7";
+                led-cur = /bits/ 8 <0x14>;
+                max-cur = /bits/ 8 <0x20>;
++               color = <LED_COLOR_ID_RED>;
+            };
+ 
+            led@7 {
+@@ -176,6 +184,7 @@ examples:
+                chan-name = "d8";
+                led-cur = /bits/ 8 <0x14>;
+                max-cur = /bits/ 8 <0x20>;
++               color = <LED_COLOR_ID_BLUE>;
+            };
+ 
+            led@8 {
+@@ -183,6 +192,7 @@ examples:
+                chan-name = "d9";
+                led-cur = /bits/ 8 <0x14>;
+                max-cur = /bits/ 8 <0x20>;
++               color = <LED_COLOR_ID_GREEN>;
+            };
+         };
+ 
 -- 
 2.7.4
 
