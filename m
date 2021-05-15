@@ -2,118 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4159A380C27
-	for <lists+linux-leds@lfdr.de>; Fri, 14 May 2021 16:45:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E050381560
+	for <lists+linux-leds@lfdr.de>; Sat, 15 May 2021 05:07:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234550AbhENOqw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 14 May 2021 10:46:52 -0400
-Received: from uho.ysoft.cz ([81.19.3.130]:49105 "EHLO uho.ysoft.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232759AbhENOqv (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 14 May 2021 10:46:51 -0400
-Received: from vokac-latitude.ysoft.local (unknown [10.0.28.99])
-        by uho.ysoft.cz (Postfix) with ESMTP id 0FF8AA2C5C;
-        Fri, 14 May 2021 16:45:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
-        s=20160406-ysoft-com; t=1621003538;
-        bh=6WPvib1+u/MMJIgAB5EE+Z8wqS5Q6D/ao0Rp9ErE8YA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eSy1gTqN3ciGBYEgRG6f1yTI2yMrEx8pCZBaWsgMuzE7ZeBIWS7bYLboNd2vBD2Pt
-         L1tZdFrFZ7me83LZA2b+6Z8JOaZlrl7YKuLaQE1ODuIwISBLwgOUQetz/yBCRD9WmQ
-         +c/nwRhJucJ8c4gxomv31ieBI4ga5pkOHZ2W0j9Q=
-From:   =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
-To:     Pavel Machek <pavel@ucw.cz>,
+        id S234182AbhEODIM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 14 May 2021 23:08:12 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3689 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230371AbhEODIM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 14 May 2021 23:08:12 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FhqxD0yxsz1BMMr;
+        Sat, 15 May 2021 11:04:16 +0800 (CST)
+Received: from thunder-town.china.huawei.com (10.174.177.72) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.498.0; Sat, 15 May 2021 11:06:52 +0800
+From:   Zhen Lei <thunder.leizhen@huawei.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>
-Cc:     Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>,
-        stable@vger.kernel.org
-Subject: [RFC 2/2] ARM: dts: imx6dl-yapp4: Fix lp5562 driver probe
-Date:   Fri, 14 May 2021 16:44:37 +0200
-Message-Id: <1621003477-11250-3-git-send-email-michal.vokac@ysoft.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1621003477-11250-1-git-send-email-michal.vokac@ysoft.com>
-References: <1621003477-11250-1-git-send-email-michal.vokac@ysoft.com>
+        linux-leds <linux-leds@vger.kernel.org>
+CC:     Zhen Lei <thunder.leizhen@huawei.com>
+Subject: [PATCH 1/1] leds: as3645a: Fix error return code in as3645a_parse_node()
+Date:   Sat, 15 May 2021 11:06:46 +0800
+Message-ID: <20210515030646.6877-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.177.72]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Since the LED multicolor framework support was added in commit
-92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
-LEDs on this platform stopped working.
+Return error code -ENODEV rather than '0' when the indicator node can not
+be found.
 
-Author of the framework attempted to accommodate this DT to the
-framework in commit b86d3d21cd4c ("ARM: dts: imx6dl-yapp4: Add reg property
-to the lp5562 channel node") but that is not sufficient. A color property
-is now required even if the multicolor framework is not used, otherwise
-the driver probe fails:
-
-  lp5562: probe of 1-0030 failed with error -22
-
-Add the color property to fix this and remove the actually unused white
-channel.
-
-Fixes: b86d3d21cd4c ("ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node")
-Cc: <stable@vger.kernel.org>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: linux-leds@vger.kernel.org
-Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+Fixes: a56ba8fbcb55 ("media: leds: as3645a: Add LED flash class driver")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- arch/arm/boot/dts/imx6dl-yapp4-common.dtsi | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/leds/leds-as3645a.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
-index 7d2c72562c73..3107bf7fbce5 100644
---- a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
-+++ b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
-@@ -5,6 +5,7 @@
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/input/input.h>
-+#include <dt-bindings/leds/common.h>
- #include <dt-bindings/pwm/pwm.h>
- 
- / {
-@@ -271,6 +272,7 @@
- 			led-cur = /bits/ 8 <0x20>;
- 			max-cur = /bits/ 8 <0x60>;
- 			reg = <0>;
-+			color = <LED_COLOR_ID_RED>;
- 		};
- 
- 		chan@1 {
-@@ -278,6 +280,7 @@
- 			led-cur = /bits/ 8 <0x20>;
- 			max-cur = /bits/ 8 <0x60>;
- 			reg = <1>;
-+			color = <LED_COLOR_ID_GREEN>;
- 		};
- 
- 		chan@2 {
-@@ -285,13 +288,7 @@
- 			led-cur = /bits/ 8 <0x20>;
- 			max-cur = /bits/ 8 <0x60>;
- 			reg = <2>;
--		};
--
--		chan@3 {
--			chan-name = "W";
--			led-cur = /bits/ 8 <0x0>;
--			max-cur = /bits/ 8 <0x0>;
--			reg = <3>;
-+			color = <LED_COLOR_ID_BLUE>;
- 		};
- 	};
+diff --git a/drivers/leds/leds-as3645a.c b/drivers/leds/leds-as3645a.c
+index e8922fa03379620..80411d41e802d46 100644
+--- a/drivers/leds/leds-as3645a.c
++++ b/drivers/leds/leds-as3645a.c
+@@ -545,6 +545,7 @@ static int as3645a_parse_node(struct as3645a *flash,
+ 	if (!flash->indicator_node) {
+ 		dev_warn(&flash->client->dev,
+ 			 "can't find indicator node\n");
++		rval = -ENODEV;
+ 		goto out_err;
+ 	}
  
 -- 
-2.7.4
+2.26.0.106.g9fadedd
+
 
