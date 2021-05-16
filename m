@@ -2,30 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACD11381E37
-	for <lists+linux-leds@lfdr.de>; Sun, 16 May 2021 12:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D24F381E3B
+	for <lists+linux-leds@lfdr.de>; Sun, 16 May 2021 12:54:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231387AbhEPKzP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 16 May 2021 06:55:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47712 "EHLO mail.kernel.org"
+        id S231455AbhEPKzQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 16 May 2021 06:55:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47724 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230152AbhEPKzI (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        id S230158AbhEPKzI (ORCPT <rfc822;linux-leds@vger.kernel.org>);
         Sun, 16 May 2021 06:55:08 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 29A046120D;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5CAC761352;
         Sun, 16 May 2021 10:53:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1621162433;
-        bh=6H8AU2caE1C+L+ZOJtRM+ecRO1FZ+rCeLy8Yj1PSqfM=;
+        bh=21CCoTvk0P2nJNZOW0CE5KdGJy4Om6wkSpbdQjM6tQE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SX9w7hkCLiPkTo+Zq04uxebLUUgPcjy9asbuJ1SwqL30ES+6+w9S8Z96n2DWP1Wn8
-         /uet8/6RVqsIbGKCgXj3PFQ2JPHyFnRYhvgDstT6Myg3Wfz2hrH/Jk/NanI5fgyC0X
-         DK3oeLJTMEw6Y48gllCSgKPxTwI93zyj97RtuVJ94TmMEccJWbH9PzkfQIXzKqp7PQ
-         8GOzrTvpos0dNn2jx61snHcBxEyk8ymnGEtEWmUJMuqGoD+Aln7SgA5z975r+44ici
-         QXlV5M5nfgLVqVEq3x/WmDxjFgZ12cGajm3VtJaz340VYfuz3uqa7oBqUNyxpwimNL
-         KjnybdX29qJXQ==
+        b=Jh0QJfnixOHk8arKkDDHxCVbP5npvVzJVxnUcpLmtf2vx5NPm3v2DwoJuA0iu+k0N
+         Ly/4kjcqVUm+0rrnWc/GpHIEzjoOXPGQOLtAoFinU1rJo54Bs6UJ/mEe/bLcx6iUrH
+         QhVk9XC+JJ9UDFHEBn2cB8T/VxaWoEnI1xydgmfixhnm/lcwgOhElhbGRmLFPfeNU9
+         0g0Yvc6yIWtkfBo2XRFouGgINFsDC9DmiooFNQ6lMlumoy+3iL5cFSwwcBwC0qR9T3
+         A7wBnpZA6Ncm7AW8Ll4cRB8Bn2sATVlPdvUDGIiryp6MsTATZ7nJgE4DB0nkq55zgl
+         GpvHyWEnTChOg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1liEP9-003s8y-Am; Sun, 16 May 2021 12:53:51 +0200
+        id 1liEP9-003s92-C4; Sun, 16 May 2021 12:53:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     gregkh@linuxfoundation.org
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
@@ -34,9 +34,9 @@ Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
         linux-leds@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 16/17] staging: nuc-wmi: add support for changing the power limit scheme
-Date:   Sun, 16 May 2021 12:53:44 +0200
-Message-Id: <10df69ed906079c400d3f262102c8f3f05423243.1621161037.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 17/17] staging: nuc-led: update the TODOs
+Date:   Sun, 16 May 2021 12:53:45 +0200
+Message-Id: <f23fed6a89f66564f5af52f241016a4b9823ce04.1621161037.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1621161037.git.mchehab+huawei@kernel.org>
 References: <cover.1621161037.git.mchehab+huawei@kernel.org>
@@ -47,140 +47,76 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The power limit indicator may have 2 behaviors:
+Now that most functionality were merged at the driver,
+update its TODO list, and add a "TODO" comment for the two
+WMI API commands that are currently not implemented.
 
-1. Its color gradually changes from green to red;
-2. It displays a single color
+In summary:
 
-Add support for it.
+-  on Rev 0.64, command 0x07 (LED_NOTIFICATION) is meant to store
+   all config settings at EEPROM. That doesn't seem to be needed
+   on Skull Canyon, but tests with different hardware would be
+   nice in order to double-check it. Also, maybe Rev 1.00 would
+   make it mandatory;
+-  Rev 1.00 added command 0x08 to switch the LED type
+   (LED_SWITCH_TYPE at the driver's nomenclature) between
+   single color LED and multi color LED). Not sure how this
+   should be properly implemented (if this is the case);
+-  The tests for NUC6 version were using a Skull Canyon NUC.
+   It allowed to check that the driver's logic runs, but
+   it is not enough to see if everything is really working.
+   Tests on NUC6 or NUC7 are required;
+-  On a suspend test, I noticed that some controls were reset
+   to the default at resume time. It is required to check
+   what's happening there and address it properly.
+-  Need to validate the uAPI and document it before moving
+   this driver out of staging.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/nuc-led/nuc-wmi.c | 93 +++++++++++++++++++++++++++++++
- 1 file changed, 93 insertions(+)
+ drivers/staging/nuc-led/TODO      | 12 +++++++-----
+ drivers/staging/nuc-led/nuc-wmi.c |  6 ++----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/staging/nuc-led/TODO b/drivers/staging/nuc-led/TODO
+index d5296d7186a7..df6f3f653eb0 100644
+--- a/drivers/staging/nuc-led/TODO
++++ b/drivers/staging/nuc-led/TODO
+@@ -1,6 +1,8 @@
+-- Add support for 6th gen NUCs, like Skull Canyon
+-- Improve LED core support to avoid it to try to manage the
+-  LED brightness directly;
+-- Test it with 8th gen NUCs;
+-- Add more functionality to the driver;
++- Test it with 6th gen and 10th NUCs;
++- Add support for LED_NOTIFICATION;
++- Add support for LED_SWITCH_TYPE;
++- Some LED parameters are changing after returning
++  from suspend. Need to check what's happening there
++  (hardware bug?) and ensure that the parameters will
++  be properly restored after resume.
+ - Stabilize and document its sysfs interface.
 diff --git a/drivers/staging/nuc-led/nuc-wmi.c b/drivers/staging/nuc-led/nuc-wmi.c
-index 9e8164cd77ec..2d9c49d72703 100644
+index 2d9c49d72703..e87e97d56364 100644
 --- a/drivers/staging/nuc-led/nuc-wmi.c
 +++ b/drivers/staging/nuc-led/nuc-wmi.c
-@@ -1764,6 +1764,8 @@ static ssize_t store_ethernet_type(struct device *dev,
- 	if (!nuc_wmi_test_control(dev, led, ctrl))
- 		return -ENODEV;
+@@ -42,16 +42,14 @@ enum led_cmds {
+ 	LED_OLD_SET_LED                 = 0x02,
  
-+	tmp = strsep((char **)&buf, "\n");
-+
- 	for (val = 0; val < ARRAY_SIZE(ethernet_type); val++)
- 		if (!strcasecmp(tmp, ethernet_type[val]))
- 			break;
-@@ -1783,12 +1785,102 @@ static ssize_t store_ethernet_type(struct device *dev,
- 	return len;
- }
+ 	/* Rev 0.64 and 1.0 cmds */
+-
+ 	LED_QUERY			= 0x03,
+ 	LED_NEW_GET_STATUS		= 0x04,
+ 	LED_SET_INDICATOR		= 0x05,
+ 	LED_SET_VALUE			= 0x06,
+-	LED_NOTIFICATION		= 0x07,
+-	LED_SWITCH_TYPE			= 0x08,
++	LED_NOTIFICATION		= 0x07, // TODO: add support for it
  
-+/* Power Limit Indication scheme  */
-+static const char * const power_limit_scheme[] = {
-+	"green to red",
-+	"single color"
-+};
-+
-+static ssize_t show_power_limit_scheme(struct device *dev,
-+				       struct device_attribute *attr,
-+				       char *buf)
-+{
-+	struct led_classdev *cdev = dev_get_drvdata(dev);
-+	struct nuc_nmi_led *led = container_of(cdev, struct nuc_nmi_led, cdev);
-+	u8 input[NUM_INPUT_ARGS] = { 0 };
-+	u8 output[NUM_OUTPUT_ARGS];
-+	int ctrl, ret, val, i, n;
-+	int size = PAGE_SIZE;
-+	char *p = buf;
-+
-+	if (led->indicator != LED_IND_POWER_LIMIT)
-+		return -EINVAL;
-+
-+	ctrl = led->reg_table[led->indicator][LED_FUNC_POWER_STATE_NUM_CTRLS];
-+
-+	if (!nuc_wmi_test_control(dev, led, ctrl))
-+		return -ENODEV;
-+
-+	input[0] = LED_NEW_GET_CONTROL_ITEM;
-+	input[1] = led->id;
-+	input[2] = led->indicator;
-+	input[3] = ctrl;
-+
-+	ret = nuc_nmi_cmd(dev, LED_NEW_GET_STATUS, input, output);
-+	if (ret)
-+		return ret;
-+
-+	val = output[0];
-+
-+	for (i = 0; i < ARRAY_SIZE(power_limit_scheme); i++) {
-+		if (i == val)
-+			n = scnprintf(p, size, "[%s]  ", power_limit_scheme[i]);
-+		else
-+			n = scnprintf(p, size, "%s  ", power_limit_scheme[i]);
-+		p += n;
-+		size -= n;
-+	}
-+	size -= scnprintf(p, size, "\n");
-+
-+	return PAGE_SIZE - size;
-+}
-+
-+static ssize_t store_power_limit_scheme(struct device *dev,
-+					struct device_attribute *attr,
-+					const char *buf, size_t len)
-+{
-+	struct led_classdev *cdev = dev_get_drvdata(dev);
-+	struct nuc_nmi_led *led = container_of(cdev, struct nuc_nmi_led, cdev);
-+	u8 input[NUM_INPUT_ARGS] = { 0 };
-+	int ctrl, val, ret;
-+	const char *tmp;
-+
-+	if (led->indicator != LED_IND_POWER_LIMIT)
-+		return -EINVAL;
-+
-+	ctrl = led->reg_table[led->indicator][LED_FUNC_POWER_STATE_NUM_CTRLS];
-+
-+	if (!nuc_wmi_test_control(dev, led, ctrl))
-+		return -ENODEV;
-+
-+	tmp = strsep((char **)&buf, "\n");
-+
-+	for (val = 0; val < ARRAY_SIZE(power_limit_scheme); val++)
-+		if (!strcasecmp(tmp, power_limit_scheme[val]))
-+			break;
-+
-+	if (val >= ARRAY_SIZE(power_limit_scheme))
-+		return -EINVAL;
-+
-+	input[0] = led->id;
-+	input[1] = led->indicator;
-+	input[2] = ctrl;
-+	input[3] = val;
-+
-+	ret = nuc_nmi_cmd(dev, LED_SET_VALUE, input, NULL);
-+	if (ret)
-+		return ret;
-+
-+	return len;
-+}
-+
- static LED_ATTR_RW(indicator);
- static LED_ATTR_RW(color);
- static LED_ATTR_RW(blink_behavior);
- static LED_ATTR_RW(blink_frequency);
- static LED_ATTR_RW(hdd_default);
- static LED_ATTR_RW(ethernet_type);
-+static LED_ATTR_RW(power_limit_scheme);
- 
- LED_ATTR_POWER_STATE_RW(s0_brightness, brightness, 0);
- LED_ATTR_POWER_STATE_RW(s0_blink_behavior, blink_behavior, 0);
-@@ -1818,6 +1910,7 @@ static struct attribute *nuc_wmi_led_attr[] = {
- 	&dev_attr_indicator.attr,
- 	&dev_attr_hdd_default.attr,
- 	&dev_attr_ethernet_type.attr,
-+	&dev_attr_power_limit_scheme.attr,
- 	NULL,
+ 	/* Rev 1.0 cmds */
+-
++	LED_SWITCH_TYPE			= 0x08, // TODO: add support for it
+ 	LED_VERSION_CONTROL             = 0x09,
  };
  
 -- 
