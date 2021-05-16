@@ -2,86 +2,133 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01C2938205E
-	for <lists+linux-leds@lfdr.de>; Sun, 16 May 2021 20:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2331382138
+	for <lists+linux-leds@lfdr.de>; Sun, 16 May 2021 23:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbhEPScw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 16 May 2021 14:32:52 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:45032 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbhEPScv (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 16 May 2021 14:32:51 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id E65E81C0B76; Sun, 16 May 2021 20:31:35 +0200 (CEST)
-Date:   Sun, 16 May 2021 20:31:35 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Doug Zobel <dougdev334@gmail.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt: bindings: lp55xx: Add predefined LED pattern
-Message-ID: <20210516183135.GA26985@duo.ucw.cz>
-References: <20210511204834.2675271-1-dougdev334@gmail.com>
- <20210511204834.2675271-3-dougdev334@gmail.com>
- <20210513022036.GA890569@robh.at.kernel.org>
- <CABa6EMYdY9WBN0+edgcEFc0uiBmWUDert7nXCN+FWeRMG=0S6A@mail.gmail.com>
+        id S233675AbhEPVmP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 16 May 2021 17:42:15 -0400
+Received: from polaris.svanheule.net ([84.16.241.116]:33590 "EHLO
+        polaris.svanheule.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234126AbhEPVmO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 16 May 2021 17:42:14 -0400
+Received: from [IPv6:2a02:a03f:eafb:ee01:186f:4d03:79dc:8c8e] (unknown [IPv6:2a02:a03f:eafb:ee01:186f:4d03:79dc:8c8e])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: sander@svanheule.net)
+        by polaris.svanheule.net (Postfix) with ESMTPSA id 59C1F1FF4B9;
+        Sun, 16 May 2021 23:40:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+        s=mail1707; t=1621201256;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zC492mPkBn9ingCoXgTAUaVrJcaY2gLfvNuMI2kNax8=;
+        b=Xrt4KLp5CcPBIjQTQMHw5uJPs+RqSgzwCnzF4VaO8tv/cWnJaA/X+zGtGrh9HLVYwObqOd
+        sFg4nDNG+4W/2ReMGDSnjUrOcyDvhbDBIAypqgXgJq3jJKYdfzBd2FdR7olgAJLTW2ZRz+
+        6HniZFSYnBP0NX80Y67zhPd5NtZ/9aZtovXjgzDo5ByHVitnsFeGfMPl8O9qrQ/ZkzDVMT
+        Ffu0zVnlLxz3eJVSZGcybpeNjeBdID/xbnio2loC+FZabTPcfzugIDQIIUo0bLZYNq4fsc
+        wBNpLMgehFEf4tBdH/EODkrAkSDWNwHbe0fjG10GzZW7pUFCFf/rxNuFwEAK6Q==
+Message-ID: <b7d39a26bc3a90de4d8e4fdbf8f944de43d12a56.camel@svanheule.net>
+Subject: Re: [PATCH 0/5] RTL8231 GPIO expander support
+From:   Sander Vanheule <sander@svanheule.net>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date:   Sun, 16 May 2021 23:40:51 +0200
+In-Reply-To: <CAHp75VffoKyyPJbdtKMLx575c9LT0S8+EHOk7Mw36j=aTL6Q4Q@mail.gmail.com>
+References: <cover.1620735871.git.sander@svanheule.net>
+         <CAHp75VffoKyyPJbdtKMLx575c9LT0S8+EHOk7Mw36j=aTL6Q4Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
-Content-Disposition: inline
-In-Reply-To: <CABa6EMYdY9WBN0+edgcEFc0uiBmWUDert7nXCN+FWeRMG=0S6A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Wed, 2021-05-12 at 18:29 +0300, Andy Shevchenko wrote:
+> 
+> 
+> On Tuesday, May 11, 2021, Sander Vanheule <sander@svanheule.net> wrote:
+> > The RTL8231 GPIO and LED expander can be configured for use as an MDIO or
+> > SMI
+> > bus device. Currently only the MDIO mode is supported, although SMI mode
+> > support should be fairly straightforward, once an SMI bus driver is
+> > available.
+> > 
+> > Provided features by the RTL8231:
+> >   - Up to 37 GPIOs
+> >     - Configurable drive strength: 8mA or 4mA (currently unsupported)
+> >     - Input debouncing on high GPIOs (currently unsupported)
+> >   - Up to 88 LEDs in multiple scan matrix groups
+> >     - On, off, or one of six toggling intervals
+> >     - "single-color mode": 2×36 single color LEDs + 8 bi-color LEDs
+> >     - "bi-color mode": (12 + 2×6) bi-color LEDs + 24 single color LEDs
+> >   - Up to one PWM output (currently unsupported)
+> >     - Fixed duty cycle, 8 selectable frequencies (1.2kHz - 4.8kHz)
+> > 
+> > There remain some log warnings when probing the device, possibly due to the
+> > way
+> > I'm using the MFD subsystem. Would it be possible to avoid these?
+> > [    2.602242] rtl8231-pinctrl: Failed to locate of_node [id: -2]
+> > [    2.609380] rtl8231-pinctrl rtl8231-pinctrl.0.auto: no of_node; not
+> > parsing pinctrl DT
+> > 
+> > When no 'leds' sub-node is specified:
+> > [    2.922262] rtl8231-leds: Failed to locate of_node [id: -2]
+> > [    2.967149] rtl8231-leds rtl8231-leds.1.auto: no of_node; not parsing
+> > pinctrl DT
+> > [    2.975673] rtl8231-leds rtl8231-leds.1.auto: scan mode missing or
+> > invalid
+> > [    2.983531] rtl8231-leds: probe of rtl8231-leds.1.auto failed with error
+> > -22
+> > 
+> > 
+> 
+> 
+> I have several comments to the series, but I may give them next week.
+> 
+> Just couple here:
+> 1. If subsystem provides a regmap API I would suggest to use it, I.o.w. try
+> again to understand what is wrong with MDIO case.
 
---EeQfGwPcQSOJBaQU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Are you referring to the MDIO regmap interface, or the GPIO regmap interface?
 
-Hi!
+For the MDIO regmap interface, I have been able to resolve the Kconfig
+dependency issue. So I can reintroduce that, if that's preferred over the
+solution in this v1.
 
-> > I don't know that this belongs in DT though. Won't a user want to create
-> > their own patterns? That means there should be a sysfs interface (which
-> > we either already have or has been attempted IIRC).
->=20
-> Yes, there is a sysfs interface for running patterns via the firmware
-> loading interface.  The firmware loading interface doesn't seem well
-> suited for constantly changing the pattern that the LED driver runs.
-> I found it to be slow and unreliable when quickly changing the LED
-> pattern.  The existing predef pattern functionality works much better.
-> Unfortunately the only way to define the patterns for it is via the
-> platform data structure.  Adding the predef patterns to the device
-> tree seemed like a good way to make use of the existing functionality
-> in the driver.
+With an extra patch, I was able to use the gpio-regmap interface, dropping most
+of the GPIO code. The current gpio-regmap implementation makes the assumption
+that an output value can be set while a pin is configured as an input. That
+assumption is invalid for this chip, so I had to provide an extra flag for
+gpio_regmap_config, similar to how this is handled in gpio-mmio.
 
-Take a look at the pattern trigger. That's the way to change patterns
-at runtime, no need for firmware loading.
 
-I may even have compiler from that interface to the bytecode lp55xx
-uses. Some assembly will be required. Doing so with the RGB LED will
-be even more fun.=20
+> 2. Please, switch to fwnode API in LED driver
 
-We'll want to deprecate the firmware loading interface at some point.
+Since you had the same comment on my previous patch set, I had already tried to
+this this into account as much as possible.
 
-Forget the device tree, that will not help you.
+There's a few things I couldn't find the fwnode-equivalent for:
+ * I use of_node_name_prefix to enforce the naming required by the binding. I
+   could just walk over all (available) child nodes, which would be mostly
+   equivalent.
+ * To get the address of an LED child node, I use of_get_address, since this
+   appeared to provide what I want to do: get the address of the node. I know
+   next to nothing about ACPI. Does the equivalent exist there? Or am I taking
+   the wrong approach?
 
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
 
---EeQfGwPcQSOJBaQU
-Content-Type: application/pgp-signature; name="signature.asc"
+I have updated patches ready, if you would rather just review a v2.
 
------BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYKFlBwAKCRAw5/Bqldv6
-8tFDAKC3YhzAdQ9LYeg4X9Jiyl0bNQ25JACfU6OnhTTZpWfegLboUmGSg30vnMc=
-=nF5x
------END PGP SIGNATURE-----
+Best,
+Sander
 
---EeQfGwPcQSOJBaQU--
