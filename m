@@ -2,133 +2,99 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2331382138
-	for <lists+linux-leds@lfdr.de>; Sun, 16 May 2021 23:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1B653822B5
+	for <lists+linux-leds@lfdr.de>; Mon, 17 May 2021 04:27:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233675AbhEPVmP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 16 May 2021 17:42:15 -0400
-Received: from polaris.svanheule.net ([84.16.241.116]:33590 "EHLO
-        polaris.svanheule.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234126AbhEPVmO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 16 May 2021 17:42:14 -0400
-Received: from [IPv6:2a02:a03f:eafb:ee01:186f:4d03:79dc:8c8e] (unknown [IPv6:2a02:a03f:eafb:ee01:186f:4d03:79dc:8c8e])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sander@svanheule.net)
-        by polaris.svanheule.net (Postfix) with ESMTPSA id 59C1F1FF4B9;
-        Sun, 16 May 2021 23:40:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-        s=mail1707; t=1621201256;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=zC492mPkBn9ingCoXgTAUaVrJcaY2gLfvNuMI2kNax8=;
-        b=Xrt4KLp5CcPBIjQTQMHw5uJPs+RqSgzwCnzF4VaO8tv/cWnJaA/X+zGtGrh9HLVYwObqOd
-        sFg4nDNG+4W/2ReMGDSnjUrOcyDvhbDBIAypqgXgJq3jJKYdfzBd2FdR7olgAJLTW2ZRz+
-        6HniZFSYnBP0NX80Y67zhPd5NtZ/9aZtovXjgzDo5ByHVitnsFeGfMPl8O9qrQ/ZkzDVMT
-        Ffu0zVnlLxz3eJVSZGcybpeNjeBdID/xbnio2loC+FZabTPcfzugIDQIIUo0bLZYNq4fsc
-        wBNpLMgehFEf4tBdH/EODkrAkSDWNwHbe0fjG10GzZW7pUFCFf/rxNuFwEAK6Q==
-Message-ID: <b7d39a26bc3a90de4d8e4fdbf8f944de43d12a56.camel@svanheule.net>
-Subject: Re: [PATCH 0/5] RTL8231 GPIO expander support
-From:   Sander Vanheule <sander@svanheule.net>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Date:   Sun, 16 May 2021 23:40:51 +0200
-In-Reply-To: <CAHp75VffoKyyPJbdtKMLx575c9LT0S8+EHOk7Mw36j=aTL6Q4Q@mail.gmail.com>
-References: <cover.1620735871.git.sander@svanheule.net>
-         <CAHp75VffoKyyPJbdtKMLx575c9LT0S8+EHOk7Mw36j=aTL6Q4Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S232218AbhEQC2X (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 16 May 2021 22:28:23 -0400
+Received: from mail-ot1-f54.google.com ([209.85.210.54]:47079 "EHLO
+        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231338AbhEQC2W (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 16 May 2021 22:28:22 -0400
+Received: by mail-ot1-f54.google.com with SMTP id d3-20020a9d29030000b029027e8019067fso4290310otb.13;
+        Sun, 16 May 2021 19:27:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=HRhSOtyoD2H3bChxJeYA1Zs7pI2B7TRFxhzN1OhDfh4=;
+        b=KoOZlUWmkII1GPyB4a+hwWnGpSnH0PBtYVVDkUWH1w6+HFM8RuYLxjVpAiRV61wlhF
+         fcJKoYKj8x+oAd1exoZrStvKehXEzUMe2ojfwk8GY+J+nI1zGQJG+1NBeetrkXUonz4M
+         bTd/MAk2A5pusIA/nzO1yvYzMrrmUpS+KHgo2kWz/vh3U6xuq6A1K92NTjwryC0nHSO5
+         WxAJ4G2KClUncvcC/Cv6E5ckUnjBfwHKxCFC0z0Bk2JCXrdd1zpjs582s8cbgusqaRIM
+         1cTH5G2CgOAKkL4aljfw4A9s3mOyEIrN2tpwu9tj1qDG6NF6ro3JLufmWcfgaOwfM+6V
+         QNsQ==
+X-Gm-Message-State: AOAM530Bb6QF2QuFfELQqwG5GuoHg94Xuy4ngmNHCj8qxcjNEE27L4ei
+        z4hxYV2xPtI6CKuZq+t2GA==
+X-Google-Smtp-Source: ABdhPJzhJHWi3K/TD/sTbfPKhPEBkUKNywRBCOlgjhmr72tuU/7ZTn/bwbLuP4Y5rhUd6NEwR6M8oQ==
+X-Received: by 2002:a9d:6d88:: with SMTP id x8mr32737152otp.35.1621218426415;
+        Sun, 16 May 2021 19:27:06 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id y13sm2799202oon.32.2021.05.16.19.27.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 May 2021 19:27:05 -0700 (PDT)
+Received: (nullmailer pid 1315831 invoked by uid 1000);
+        Mon, 17 May 2021 02:27:03 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     =?utf-8?b?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
+Cc:     NXP Linux Team <linux-imx@nxp.com>,
+        Shawn Guo <shawnguo@kernel.org>, linux-leds@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+In-Reply-To: <1621003477-11250-2-git-send-email-michal.vokac@ysoft.com>
+References: <1621003477-11250-1-git-send-email-michal.vokac@ysoft.com> <1621003477-11250-2-git-send-email-michal.vokac@ysoft.com>
+Subject: Re: [RFC 1/2] dt-bindings: leds: Add color as a required property for lp55xx controller
+Date:   Sun, 16 May 2021 21:27:03 -0500
+Message-Id: <1621218423.803658.1315830.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 2021-05-12 at 18:29 +0300, Andy Shevchenko wrote:
+On Fri, 14 May 2021 16:44:36 +0200, Michal Vokáč wrote:
+> Since addition of the multicolor LED framework in commit 92a81562e695
+> ("leds: lp55xx: Add multicolor framework support to lp55xx") the color
+> property becomes required even if the multicolor framework is not enabled
+> and used.
 > 
+> Fix the binding documentation to reflect the real state.
 > 
-> On Tuesday, May 11, 2021, Sander Vanheule <sander@svanheule.net> wrote:
-> > The RTL8231 GPIO and LED expander can be configured for use as an MDIO or
-> > SMI
-> > bus device. Currently only the MDIO mode is supported, although SMI mode
-> > support should be fairly straightforward, once an SMI bus driver is
-> > available.
-> > 
-> > Provided features by the RTL8231:
-> >   - Up to 37 GPIOs
-> >     - Configurable drive strength: 8mA or 4mA (currently unsupported)
-> >     - Input debouncing on high GPIOs (currently unsupported)
-> >   - Up to 88 LEDs in multiple scan matrix groups
-> >     - On, off, or one of six toggling intervals
-> >     - "single-color mode": 2×36 single color LEDs + 8 bi-color LEDs
-> >     - "bi-color mode": (12 + 2×6) bi-color LEDs + 24 single color LEDs
-> >   - Up to one PWM output (currently unsupported)
-> >     - Fixed duty cycle, 8 selectable frequencies (1.2kHz - 4.8kHz)
-> > 
-> > There remain some log warnings when probing the device, possibly due to the
-> > way
-> > I'm using the MFD subsystem. Would it be possible to avoid these?
-> > [    2.602242] rtl8231-pinctrl: Failed to locate of_node [id: -2]
-> > [    2.609380] rtl8231-pinctrl rtl8231-pinctrl.0.auto: no of_node; not
-> > parsing pinctrl DT
-> > 
-> > When no 'leds' sub-node is specified:
-> > [    2.922262] rtl8231-leds: Failed to locate of_node [id: -2]
-> > [    2.967149] rtl8231-leds rtl8231-leds.1.auto: no of_node; not parsing
-> > pinctrl DT
-> > [    2.975673] rtl8231-leds rtl8231-leds.1.auto: scan mode missing or
-> > invalid
-> > [    2.983531] rtl8231-leds: probe of rtl8231-leds.1.auto failed with error
-> > -22
-> > 
-> > 
+> Fixes: 92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
+> Cc: <stable@vger.kernel.org>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: linux-leds@vger.kernel.org
+> Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+> ---
+>  Documentation/devicetree/bindings/leds/leds-lp55xx.yaml | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> 
-> I have several comments to the series, but I may give them next week.
-> 
-> Just couple here:
-> 1. If subsystem provides a regmap API I would suggest to use it, I.o.w. try
-> again to understand what is wrong with MDIO case.
 
-Are you referring to the MDIO regmap interface, or the GPIO regmap interface?
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-For the MDIO regmap interface, I have been able to resolve the Kconfig
-dependency issue. So I can reintroduce that, if that's preferred over the
-solution in this v1.
+yamllint warnings/errors:
 
-With an extra patch, I was able to use the gpio-regmap interface, dropping most
-of the GPIO code. The current gpio-regmap implementation makes the assumption
-that an output value can be set while a pin is configured as an input. That
-assumption is invalid for this chip, so I had to provide an extra flag for
-gpio_regmap_config, similar to how this is handled in gpio-mmio.
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-lp55xx.example.dt.yaml: led-controller@32: 'color' is a required property
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-lp55xx.example.dt.yaml: led-controller@33: 'color' is a required property
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
 
+See https://patchwork.ozlabs.org/patch/1478502
 
-> 2. Please, switch to fwnode API in LED driver
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-Since you had the same comment on my previous patch set, I had already tried to
-this this into account as much as possible.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-There's a few things I couldn't find the fwnode-equivalent for:
- * I use of_node_name_prefix to enforce the naming required by the binding. I
-   could just walk over all (available) child nodes, which would be mostly
-   equivalent.
- * To get the address of an LED child node, I use of_get_address, since this
-   appeared to provide what I want to do: get the address of the node. I know
-   next to nothing about ACPI. Does the equivalent exist there? Or am I taking
-   the wrong approach?
+pip3 install dtschema --upgrade
 
-
-I have updated patches ready, if you would rather just review a v2.
-
-
-Best,
-Sander
+Please check and re-submit.
 
