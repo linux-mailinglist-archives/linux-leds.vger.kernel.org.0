@@ -2,81 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 303BC383D81
-	for <lists+linux-leds@lfdr.de>; Mon, 17 May 2021 21:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2779538656A
+	for <lists+linux-leds@lfdr.de>; Mon, 17 May 2021 22:08:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234409AbhEQTeF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 17 May 2021 15:34:05 -0400
-Received: from polaris.svanheule.net ([84.16.241.116]:57678 "EHLO
-        polaris.svanheule.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234394AbhEQTeD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 May 2021 15:34:03 -0400
-Received: from [IPv6:2a02:a03f:eafb:ee01:404a:340a:91cb:c07b] (unknown [IPv6:2a02:a03f:eafb:ee01:404a:340a:91cb:c07b])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sander@svanheule.net)
-        by polaris.svanheule.net (Postfix) with ESMTPSA id 18E871FFC02;
-        Mon, 17 May 2021 21:32:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-        s=mail1707; t=1621279965;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=st+Q1TTctqUoxIlgrLDaGZoZTbZ7PzpMgveVrps9ljc=;
-        b=nLP6b6oGufhmxBpGQxRsjukWfzXBhxL8zwdqca7Alswn8ITr6vh2fMJbf5uYtl+eatpuPy
-        tn9uCRc370VoZ7vNIXdMyQUEC1IH+yTKH4ZbjENtqfsSIB74OloYuWv9OsB2x/6Qa+lEJN
-        r7KpKwQkOLx9WvFzSSEbnjpdumOrk67leuwPqD/47RAevUz2ZL9GVfeuLRXmJHw/ie5uyZ
-        p+spOXZrCil4HbsEAvnBkGEgFjNZtvyhL4pExnzYbKR2yeyS+wFCk7Ol/2FqVK11doZw5F
-        CxQHhAdiScYX5CAXYT0o21saTdp5xTPZeQ/FQQpyipNPZThJ8lWk/rdHzTG6dQ==
-Message-ID: <dd1b390e9fe2824bf5df386b6ecc9b381fe18484.camel@svanheule.net>
-Subject: Re: [PATCH 0/5] RTL8231 GPIO expander support
-From:   Sander Vanheule <sander@svanheule.net>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Date:   Mon, 17 May 2021 21:32:43 +0200
-In-Reply-To: <b7d39a26bc3a90de4d8e4fdbf8f944de43d12a56.camel@svanheule.net>
-References: <cover.1620735871.git.sander@svanheule.net>
-         <CAHp75VffoKyyPJbdtKMLx575c9LT0S8+EHOk7Mw36j=aTL6Q4Q@mail.gmail.com>
-         <b7d39a26bc3a90de4d8e4fdbf8f944de43d12a56.camel@svanheule.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S240428AbhEQUJv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 17 May 2021 16:09:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238228AbhEQUJg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 17 May 2021 16:09:36 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7062AC06138E;
+        Mon, 17 May 2021 13:08:18 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id c20so11058451ejm.3;
+        Mon, 17 May 2021 13:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FPQpPkineiPmOw2bdcHutS4i1NfXxZpf/y7WCO0sLws=;
+        b=m30KpS05l2vCC41X/iSl7gdZ6Llls/0MRrXJp91bWT6xsFG1liRpHtVW6AMFQlpPVu
+         tIGyeKLISAL5LJCvy8gz1iJraKvU4HQbjF95dAUJafw6u3sxLQIoZulyn6S8PlnFFVv3
+         QevP8TSNBy1aZ5rXm1kEPB4i4LFj9YNl9+eJ9SnHF/VRP/oExxFnrvFvyj5wXsxITY61
+         WHN3lYZFx6D3OEYpsuZTYlKRXWUnAu4noKWgvoX928hvEB0fYLYi88oKNbxqgeizPrXN
+         GjknArAPPV4RNln3Nb/T4VUecfU6sWo3ICSUhKSblTQ1m1auKBwKBLcHiQcwtvX1WS4d
+         zG7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FPQpPkineiPmOw2bdcHutS4i1NfXxZpf/y7WCO0sLws=;
+        b=i8lQ7X/CbpBFFgiq739C3kP7iyzjgcpFR5gNvhNcmxLf2MTEMqBXdy9pM5l5K7sMDR
+         p9vBPpKGnnXcSmme2yplzLE/rfATSEsUzi05styIa81oI+fQTk8q0/WoLDXuS1KaIUDj
+         DMDy77MaSGao1/3IB6eV5x7d+kS1MpuqJTaaziLHNoGUwlVpA6cW5kRmv2CyP3uV0lhW
+         HR/Pprx+HgOTXwokz5bvy2zAJi3G2kREfLafAST8UQPyZZU6E1Wr2LAD2Q0/j1pHjkfE
+         Q+udxRI1+mgyDbz40GF3EGLKuaNdmZ9JQZtWPUZ2V9XSaevbrWhviMT7POLv2HqWQBP2
+         DzCQ==
+X-Gm-Message-State: AOAM531Zcl8jK15kHfcdUNHSVHdhxEuYw2JprkREpl3Zf1AVcWaJe99m
+        irBd3S7xWsx1wI7ZcKa2UiFkIRkdYZfl30BgPaI=
+X-Google-Smtp-Source: ABdhPJzjlQao+FlWA/u+k5w1aTOIgcJSpc4UjIQ+FK7vnybDLv6iqkd/6zSfKKUIOoyo3k9D8hIrLHCVAZPxcxHGFYM=
+X-Received: by 2002:a17:906:b853:: with SMTP id ga19mr1714092ejb.386.1621282097074;
+ Mon, 17 May 2021 13:08:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210511204834.2675271-1-dougdev334@gmail.com>
+ <20210511204834.2675271-3-dougdev334@gmail.com> <20210513022036.GA890569@robh.at.kernel.org>
+ <CABa6EMYdY9WBN0+edgcEFc0uiBmWUDert7nXCN+FWeRMG=0S6A@mail.gmail.com> <20210516183135.GA26985@duo.ucw.cz>
+In-Reply-To: <20210516183135.GA26985@duo.ucw.cz>
+From:   Doug Zobel <dougdev334@gmail.com>
+Date:   Mon, 17 May 2021 15:07:41 -0500
+Message-ID: <CABa6EMaEFLKrrhnH2+3wEEGJkWH7fQQpQrKRh=KHR6KfSgTsnA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt: bindings: lp55xx: Add predefined LED pattern
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Rob Herring <robh@kernel.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 2021-05-16 at 23:40 +0200, Sander Vanheule wrote:
-> > 2. Please, switch to fwnode API in LED driver
-> 
-> Since you had the same comment on my previous patch set, I had already tried to
-> this this into account as much as possible.
-> 
-> There's a few things I couldn't find the fwnode-equivalent for:
->  * I use of_node_name_prefix to enforce the naming required by the binding. I
->    could just walk over all (available) child nodes, which would be mostly
->    equivalent.
->  * To get the address of an LED child node, I use of_get_address, since this
->    appeared to provide what I want to do: get the address of the node. I know
->    next to nothing about ACPI. Does the equivalent exist there? Or am I taking
->    the wrong approach?
+> Take a look at the pattern trigger. That's the way to change patterns
+> at runtime, no need for firmware loading.
 
-Hi Andy,
+Thanks for the pointer.  That looks like it could work.  I would need
+to add support for the lp5562 to run the patterns in hardware.  The
+only problem I see is in synchronizing the 3 color channels.  Since
+the pattern triggers are associated with each individual channel, I
+don't see a clean way to run a multi-chanel (RGB) pattern and keep it
+in sync.  I was thinking I could restart all 3 channels' programs
+anytime a channel program is changed.  This would assure they start in
+sync.  However that would cause glitches in the patterns if they are
+being used as 3 independent (non-RGB) patterns.
 
-I found this:
-https://www.kernel.org/doc/html/latest/firmware-guide/acpi/dsd/leds.html
+> I may even have compiler from that interface to the bytecode lp55xx
+> uses. Some assembly will be required. Doing so with the RGB LED will
+> be even more fun.
 
-So instead of of_address, I now just read the "reg" property. The v2 I just sent
-should be fwnode-only.
+If you have some previous work on this, I could use it.  Otherwise
+I'll just write my own bytecode generator.  As far as I know the
+lp5562 is the only lp55xx controller which supports on chip
+programming.  So I would add the support in the lp5562 driver.
 
-Best,
-Sander
+> We'll want to deprecate the firmware loading interface at some point.
 
+If I add support for running the pattern triggers in lp5562 hardware,
+then this will now be the 3rd method (firmware &
+lp5562_run_predef_led_pattern() are the other two) for loading custom
+patterns onto the chip.  Will this be a problem?
 
+-Doug
