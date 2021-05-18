@@ -2,123 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FE383876B6
-	for <lists+linux-leds@lfdr.de>; Tue, 18 May 2021 12:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D38363877D5
+	for <lists+linux-leds@lfdr.de>; Tue, 18 May 2021 13:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242553AbhERKlC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 18 May 2021 06:41:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58748 "EHLO
+        id S244750AbhERLkf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 18 May 2021 07:40:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348567AbhERKk6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 18 May 2021 06:40:58 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF0B9C061573;
-        Tue, 18 May 2021 03:39:38 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so1315386pjv.1;
-        Tue, 18 May 2021 03:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=93ZCo4gwS7aFEVcH8ZnCKUdH+XCaNbCPSJVocK9d0RU=;
-        b=k4Nuh+EFxvlhaQCW21jHO5N0NEDQIR0P1BplDxOrcuF7IQwhtUYhGd54/5tldabvu3
-         3wIFtA8SGS2N1nbacetJ2HFgbqMBcRrER4npynFF15uBVyfw97KZ7u6oyzLznJXua9/y
-         C9eI6R2PVqq/m45Pc8adMTsxcZfo/lpWHAhYzahW/bTkrhDWHQ3Vbj1oZcRy2N+jCFhw
-         oKdkJM3rz3J5BAtjFtlT7cajO4ENBwPP39sXl6jgXC7ZnBU5sfHao4oC00Jk3eM7UCH+
-         vDo1F5Mtz0MGKbDQndMKEFa84cRwM4Wx9cNptUqB5iI6JGYgdfmiNS68uJTgDGTjGbqw
-         3YeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=93ZCo4gwS7aFEVcH8ZnCKUdH+XCaNbCPSJVocK9d0RU=;
-        b=F1kwCd7pgiO4wN95nJkEXP0cxnFwx1lVKRaFQbB9J/dmrfXuSi5+XAfplPOop5yyIF
-         hCXlKkLbltonmjP+yfmvALGTCSfj5xmMlfTr+H5DVrQRKO3Yq945NgiGukTsNzutwVMO
-         pOeyWuT7qszZE+OrlNE9E6+cm+jDkmeqQSv907GkA6DIpNsch6rE9ZMDPvcv/af3F0Kc
-         65u3H6KvO7LbHXhuk81emgecehVWs55BamAXI5fYiJMAPAT6eeZteoeFCCmV5rY4/+Om
-         op/n0tPoHYFvMn0gtZ0Pp6jEwuRRgY03rWMnXrhjynEl7eCZ0KwBhQ2+ICdQvp0+exR5
-         eP4g==
-X-Gm-Message-State: AOAM530leG6SYra0crdSdgEasNArXjh5IFCa3jkiGyDoVU/l3waTfuzZ
-        OugIhJw8gCvdwtsGGWjeTJXzttkRMdzAU+Q3MPA=
-X-Google-Smtp-Source: ABdhPJxXvj6vZtvTRQW71XBT8gOzShwnMHxAZ8bDXL11j7BINt/O0dAvUBxWn2wDW/ikyh8Wa4lt256txDncrvxHIZc=
-X-Received: by 2002:a17:90a:af8b:: with SMTP id w11mr740563pjq.228.1621334378382;
- Tue, 18 May 2021 03:39:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1621279162.git.sander@svanheule.net> <d5f294489d31a80b69169f358da89bb7f70d1328.1621279162.git.sander@svanheule.net>
- <675e36df5aaa1e1be3a1a77289a0a952@walle.cc>
-In-Reply-To: <675e36df5aaa1e1be3a1a77289a0a952@walle.cc>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 18 May 2021 13:39:22 +0300
-Message-ID: <CAHp75VdLwSoPpmDm1j=d9kLWzzfGsHCVvMSX-9wD+sgRzHC9oA@mail.gmail.com>
+        with ESMTP id S241908AbhERLkf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 18 May 2021 07:40:35 -0400
+Received: from polaris.svanheule.net (polaris.svanheule.net [IPv6:2a00:c98:2060:a004:1::200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8449AC061573
+        for <linux-leds@vger.kernel.org>; Tue, 18 May 2021 04:39:17 -0700 (PDT)
+Received: from [IPv6:2a02:a03f:eafb:ee01:6102:7bbd:c7da:85a4] (unknown [IPv6:2a02:a03f:eafb:ee01:6102:7bbd:c7da:85a4])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: sander@svanheule.net)
+        by polaris.svanheule.net (Postfix) with ESMTPSA id 075CB200155;
+        Tue, 18 May 2021 13:39:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+        s=mail1707; t=1621337955;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=uwmdW801vRB3PpGUwtnmy412PKt6fejTaQGhH97dxaI=;
+        b=imcG4dei6UyHr6SFf4F0c1hXxbKSIYueqDyCAEL6DmGi6QLXqliwyNb1JJNNfBl6mJSlfS
+        qVltN5tq7OFNwOi9jF4V1GE2FyHOldZzf+OzNxW8BWL1yOy2Hq4BOZjIVQ5j8k2BzFseRH
+        5aMb1AYhrH9qSJo2HGU+l/Pk3H4D7BMx23a2RnlfoOUGsiKEqahAQmLL7vGHZHPep59Ljs
+        43xZLHZwCK33fKKvAhVx5zRruPkqsGtbTMCtBKns6tk4Caahdb+z2OpElDa2b6V+qxp6Lk
+        Z7AWze8mtSLPjIyTCxnDiD7jvoTKovM20Dpz6RtFx8+/JISHB80d0LQBa6NBrg==
+Message-ID: <1fcbaf8029f3b9f79a138d423413f625886c8415.camel@svanheule.net>
 Subject: Re: [PATCH v2 2/7] gpio: regmap: Add configurable dir/value order
-To:     Michael Walle <michael@walle.cc>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     Sander Vanheule <sander@svanheule.net>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+From:   Sander Vanheule <sander@svanheule.net>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Lee Jones <lee.jones@linaro.org>,
         Mark Brown <broonie@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J . Wysocki" <rafael@kernel.org>,
+        Michael Walle <michael@walle.cc>,
         Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Date:   Tue, 18 May 2021 13:39:12 +0200
+In-Reply-To: <YKMbF3Ow8IrBBlXW@lunn.ch>
+References: <cover.1621279162.git.sander@svanheule.net>
+         <d5f294489d31a80b69169f358da89bb7f70d1328.1621279162.git.sander@svanheule.net>
+         <YKMbF3Ow8IrBBlXW@lunn.ch>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-+Matti
+Hi Andrew,
 
-On Tue, May 18, 2021 at 11:39 AM Michael Walle <michael@walle.cc> wrote:
-> Am 2021-05-17 21:28, schrieb Sander Vanheule:
+On Tue, 2021-05-18 at 03:40 +0200, Andrew Lunn wrote:
+> On Mon, May 17, 2021 at 09:28:04PM +0200, Sander Vanheule wrote:
+> > GPIO chips may not support setting the output value when a pin is
+> > configured as an input
+> 
+> Could you describe what happens with the hardware you are playing
+> with. Not being able to do this means you will get glitches when
+> enabling the output so you should not use these GPIOs with bit banging
+> busses like i2c.
 
-...
+As I was testing this driver, I noticed that output settings for GPIO LEDs,
+connected to the RTL8231, weren't being properly set. The actual LED brightness
+didn't correspond to the one reported by sysfs. Changing the operation order
+fixed this.
 
-> Instead of adding a new one, we can also just check no_set_on_input
-> in gpio_regmap_direction_output(), which I'd prefer.
+However, the vendor code uses I2C bitbanging quite extensively on these chips,
+so I decided to have another look.
 
-+! here.
+From u-boot on my device, I can manipulate the RTL8231 registeres relatively
+easily. I performed the following short tests:
+ * Set pin to input, pull pin high, write output low, change direction: pin
+   output changes to low value
+ * Set pin to input pull pin low, write output high, change direction: pin
+   output changes to high value
 
-> static int gpio_regmap_direction_output(struct gpio_chip *chip,
->                                         unsigned int offset, int value)
-> {
->         struct gpio_regmap *gpio = gpiochip_get_data(chip);
->         int ret;
->
->         if (gpio->no_set_on_input) {
->                 /* some smart comment here, also mention gliches */
->                 ret = gpio_regmap_set_direction(chip, offset, true);
->                 gpio_regmap_set(chip, offset, value);
->         } else {
->                 gpio_regmap_set(chip, offset, value);
->                 ret = gpio_regmap_set_direction(chip, offset, true);
->         }
->
->         return ret;
-> }
+Which seems to indicate that I _can_ set output values on input pins... I'll
+need to look into this in more detail when I have a bit more time, later this
+week.
 
-...
 
-> > + * @no_set_on_input: Set if output value can only be set when the
-> > direction
-> > + *                   is configured as output.
->
-> set_direction_first ?
+Best,
+Sander
 
-Perhaps we need to establish rather something like
-
-/* Broken hardware can't set value on input pin, we have to set it to
-output first */
-#define GPIO_REGMAP_QUIRK_...  BIT(0)
-
-unsigned int quirks;
-
-?
-
--- 
-With Best Regards,
-Andy Shevchenko
