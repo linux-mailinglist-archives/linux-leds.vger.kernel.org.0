@@ -2,185 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23F03387C11
-	for <lists+linux-leds@lfdr.de>; Tue, 18 May 2021 17:10:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4182C38828F
+	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 00:02:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350036AbhERPLN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 18 May 2021 11:11:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49496 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345055AbhERPKh (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 18 May 2021 11:10:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6F6C1613B5;
-        Tue, 18 May 2021 15:09:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621350550;
-        bh=3crpsUukJiwOrmYoQySDsb9Gg2iiXjFUvVuCwAECZfw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ND+HmJkIOBv/3v4uWcAy+U/+zYYO5wypLavi4OJxHUAZ2s3/xeTiO0JsKIT/UDA+U
-         fB9hHWo0t6gHMSld1Ex4kGFCBUUgXPtltHpl/cl1S/Bn1STNIIzW+DVinoBh7Q/17e
-         0N+gXzuqNgMVQQ+2/zUmf7TUQCTFYWlTtDNu/fMQUYATNj/WYPxlFo5hrfxgfqOqtu
-         yzbTWIPkA06V94opowwU1mHCKpvqBfWGzAW44Mbk4cd2gAPMneufvVvNP/o62ldynN
-         JcHmWDwpotSWEBv2D0QNXVXZ2i9WKjREYlmC3szXREJoLgso5n5flv4biKCc+jX6zg
-         0m55NBCfZNG7Q==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lj1LI-007HP0-Nd; Tue, 18 May 2021 17:09:08 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: [PATCH v2 17/17] leds: leds-nuc: add support for changing the power limit scheme
-Date:   Tue, 18 May 2021 17:09:06 +0200
-Message-Id: <c507ade9ecdd18c8604a8400ff25faa187364616.1621349814.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1621349813.git.mchehab+huawei@kernel.org>
-References: <cover.1621349813.git.mchehab+huawei@kernel.org>
+        id S1352707AbhERWEK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 18 May 2021 18:04:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45186 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1352690AbhERWEF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 18 May 2021 18:04:05 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3543C061761
+        for <linux-leds@vger.kernel.org>; Tue, 18 May 2021 15:02:46 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id c15so13214359ljr.7
+        for <linux-leds@vger.kernel.org>; Tue, 18 May 2021 15:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bukPxpyO56mweVhakoskO20BYG2cAKYu78fBs3CA71E=;
+        b=yJTscr3aj9kFIUy4Zjl6+3Fd+dckhYpCs6gKQHSOtSgoNsc2lQOz4bFUc8IfF8bRU1
+         Bvu2IOu0SyvS5J62SLHQ9HeY/ngUVUPQQeCxMwz/8wcbwzW8a2O5JJ5pNoYB8OYyDEmv
+         gJ8YKLcdf72R/aqFX87HL+ps+1mtoPSE7LgUMTBdxafxodG04mZLDmrUx163GJKl9yXu
+         IkwXaX7UUeAnb9xafjPWJiAHLdx6zUas2gvX4hlb4psjvucTF/KFK2jyWMe0b8JbB/o9
+         v2/4eCuZ86HXk6ACvpd08u/qcppk30sVmpcEX9tvoibZr/lLpbEp+D4UbHh4gMqnPbuR
+         7jog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bukPxpyO56mweVhakoskO20BYG2cAKYu78fBs3CA71E=;
+        b=h/L8Wc1uZ0UPkgjD6d1AdjJdc2nD/pRSP+C4Kj+mPe6OxUCjiVNP0CBRlYwwymcsMO
+         yLqYJ0+RcdI3wqNFaDorZH2qtfCSfZ3jRFsfqQj/ds9Y2YQ2Q+t1Wdwos6zeUpigMrT0
+         omZSBRsPjZ3q128BW7R+ZCq2el7aGqzh5MCnWy2yegKw6QQjov7AOekxWVjdztoxjUu9
+         tiDTcHDGv7sgFurwTKYgdfsr7Yve9nLhonF52rtRN978hjtb494VOYG+zQhVTu5cI4lU
+         KLVJXXdG5qhPPSPlATIR2DpiVNvNQeKUQoj7WS7G8ByBfhV0xzyhiwexHSLuDhHVsKfR
+         WXPA==
+X-Gm-Message-State: AOAM530u946LqSbW2kxO2p54JtacobFRP2EvbPagxpez724CqVjAtERT
+        nr6EFM6K0z2hNr/iZG2fZSZPPqAps/hxyzOqdYptHA==
+X-Google-Smtp-Source: ABdhPJw5/m1RAiO5lFNheJXLUQ7h0SvYJwtWFEYb5fj57ODelKj2ZFnVxABFpsjarMmkjGwLkzXCoTqZUJjhwlFpxHA=
+X-Received: by 2002:a2e:2e12:: with SMTP id u18mr5678438lju.200.1621375365055;
+ Tue, 18 May 2021 15:02:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+References: <cover.1621279162.git.sander@svanheule.net> <a4af3c5fac5680d2540c54c0171d0c44d0a9ae53.1621279162.git.sander@svanheule.net>
+In-Reply-To: <a4af3c5fac5680d2540c54c0171d0c44d0a9ae53.1621279162.git.sander@svanheule.net>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 19 May 2021 00:02:34 +0200
+Message-ID: <CACRpkdZ543o5Xwk6pH7_wzSYKrQKsbD4+x9=9uUzrsYK5wFu=w@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] dt-bindings: mfd: Binding for RTL8231
+To:     Sander Vanheule <sander@svanheule.net>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Michael Walle <michael@walle.cc>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The power limit indicator may have 2 behaviors:
+On Mon, May 17, 2021 at 9:28 PM Sander Vanheule <sander@svanheule.net> wrote:
 
-1. Its color gradually changes from green to red;
-2. It displays a single color
+> Add a binding description for the Realtek RTL8231, a GPIO and LED
+> expander chip commonly used in ethernet switches based on a Realtek
+> switch SoC. These chips can be addressed via an MDIO or SMI bus, or used
+> as a plain 36-bit shift register.
+>
+> This binding only describes the feature set provided by the MDIO/SMI
+> configuration, and covers the GPIO, PWM, and pin control properties. The
+> LED properties are defined in a separate binding.
+>
+> Signed-off-by: Sander Vanheule <sander@svanheule.net>
 
-Add support for it.
+This looks correct from the GPIO side of things:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/leds/leds-nuc.c | 93 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 93 insertions(+)
-
-diff --git a/drivers/leds/leds-nuc.c b/drivers/leds/leds-nuc.c
-index f84ec5662f5c..c320a7e4c796 100644
---- a/drivers/leds/leds-nuc.c
-+++ b/drivers/leds/leds-nuc.c
-@@ -1767,6 +1767,8 @@ static ssize_t store_ethernet_type(struct device *dev,
- 	if (!nuc_wmi_test_control(dev, led, ctrl))
- 		return -ENODEV;
- 
-+	tmp = strsep((char **)&buf, "\n");
-+
- 	for (val = 0; val < ARRAY_SIZE(ethernet_type); val++)
- 		if (!strcasecmp(tmp, ethernet_type[val]))
- 			break;
-@@ -1786,12 +1788,102 @@ static ssize_t store_ethernet_type(struct device *dev,
- 	return len;
- }
- 
-+/* Power Limit Indication scheme  */
-+static const char * const power_limit_scheme[] = {
-+	"green to red",
-+	"single color"
-+};
-+
-+static ssize_t show_power_limit_scheme(struct device *dev,
-+				       struct device_attribute *attr,
-+				       char *buf)
-+{
-+	struct led_classdev *cdev = dev_get_drvdata(dev);
-+	struct nuc_nmi_led *led = container_of(cdev, struct nuc_nmi_led, cdev);
-+	u8 input[NUM_INPUT_ARGS] = { 0 };
-+	u8 output[NUM_OUTPUT_ARGS];
-+	int ctrl, ret, val, i, n;
-+	int size = PAGE_SIZE;
-+	char *p = buf;
-+
-+	if (led->indicator != LED_IND_POWER_LIMIT)
-+		return -EINVAL;
-+
-+	ctrl = led->reg_table[led->indicator][LED_FUNC_POWER_STATE_NUM_CTRLS];
-+
-+	if (!nuc_wmi_test_control(dev, led, ctrl))
-+		return -ENODEV;
-+
-+	input[0] = LED_NEW_GET_CONTROL_ITEM;
-+	input[1] = led->id;
-+	input[2] = led->indicator;
-+	input[3] = ctrl;
-+
-+	ret = nuc_nmi_cmd(dev, LED_NEW_GET_STATUS, input, output);
-+	if (ret)
-+		return ret;
-+
-+	val = output[0];
-+
-+	for (i = 0; i < ARRAY_SIZE(power_limit_scheme); i++) {
-+		if (i == val)
-+			n = scnprintf(p, size, "[%s]  ", power_limit_scheme[i]);
-+		else
-+			n = scnprintf(p, size, "%s  ", power_limit_scheme[i]);
-+		p += n;
-+		size -= n;
-+	}
-+	size -= scnprintf(p, size, "\n");
-+
-+	return PAGE_SIZE - size;
-+}
-+
-+static ssize_t store_power_limit_scheme(struct device *dev,
-+					struct device_attribute *attr,
-+					const char *buf, size_t len)
-+{
-+	struct led_classdev *cdev = dev_get_drvdata(dev);
-+	struct nuc_nmi_led *led = container_of(cdev, struct nuc_nmi_led, cdev);
-+	u8 input[NUM_INPUT_ARGS] = { 0 };
-+	int ctrl, val, ret;
-+	const char *tmp;
-+
-+	if (led->indicator != LED_IND_POWER_LIMIT)
-+		return -EINVAL;
-+
-+	ctrl = led->reg_table[led->indicator][LED_FUNC_POWER_STATE_NUM_CTRLS];
-+
-+	if (!nuc_wmi_test_control(dev, led, ctrl))
-+		return -ENODEV;
-+
-+	tmp = strsep((char **)&buf, "\n");
-+
-+	for (val = 0; val < ARRAY_SIZE(power_limit_scheme); val++)
-+		if (!strcasecmp(tmp, power_limit_scheme[val]))
-+			break;
-+
-+	if (val >= ARRAY_SIZE(power_limit_scheme))
-+		return -EINVAL;
-+
-+	input[0] = led->id;
-+	input[1] = led->indicator;
-+	input[2] = ctrl;
-+	input[3] = val;
-+
-+	ret = nuc_nmi_cmd(dev, LED_SET_VALUE, input, NULL);
-+	if (ret)
-+		return ret;
-+
-+	return len;
-+}
-+
- static LED_ATTR_RW(indicator);
- static LED_ATTR_RW(color);
- static LED_ATTR_RW(blink_behavior);
- static LED_ATTR_RW(blink_frequency);
- static LED_ATTR_RW(hdd_default);
- static LED_ATTR_RW(ethernet_type);
-+static LED_ATTR_RW(power_limit_scheme);
- 
- LED_ATTR_POWER_STATE_RW(s0_brightness, brightness, 0);
- LED_ATTR_POWER_STATE_RW(s0_blink_behavior, blink_behavior, 0);
-@@ -1821,6 +1913,7 @@ static struct attribute *nuc_wmi_led_attr[] = {
- 	&dev_attr_indicator.attr,
- 	&dev_attr_hdd_default.attr,
- 	&dev_attr_ethernet_type.attr,
-+	&dev_attr_power_limit_scheme.attr,
- 	NULL,
- };
- 
--- 
-2.31.1
-
+Yours,
+Linus Walleij
