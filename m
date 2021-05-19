@@ -2,88 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 950BE388DCC
-	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 14:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0439388E4A
+	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 14:43:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346454AbhESMQf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 May 2021 08:16:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45636 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345668AbhESMQd (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 19 May 2021 08:16:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 15D9C6109F;
-        Wed, 19 May 2021 12:15:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621426514;
-        bh=9/QjJGAOOTAcd0pA3sEBi8ap8/hZmUlOZ4wMjlevqKQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tPUvNMSxHBiHocvutv5Hk88kt1vFcFGj1WwAKxAptKJhO01bh8kF9SPRYVHJ0M8Sh
-         M4iwElpnQiMbx259scuwE62ouRl50ktUmM4ahz3qrdpKctTg0JNDF15Vo9idgaccTI
-         GELZKuzEvx6KLOvcIuS/NDZGV436LBfISwmVIcVnFAO4IAZs6eEUIWEk1GYDQ/+9LA
-         pcYlkUBzoLgKrGxnMGZROAfPUQtmi5Mz2tqApTcuQQ6RK99wk8Zjk0hGEsHzNMh6Kw
-         Kh3nxN1n2k/t4F5lXiEhzYqYpr65eioTtpOSoYrosIagVSkGBzULpV9TjDONoscyFH
-         NbSJ8tfDvPhOg==
-Date:   Wed, 19 May 2021 14:15:08 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 00/17] Adding support for controlling the leds found
- on Intel NUC
-Message-ID: <20210519141508.6e7a4d56@coco.lan>
-In-Reply-To: <20210519111107.GC24621@duo.ucw.cz>
-References: <cover.1621349813.git.mchehab+huawei@kernel.org>
-        <20210519111107.GC24621@duo.ucw.cz>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S243022AbhESMol (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 May 2021 08:44:41 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4534 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238150AbhESMok (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 May 2021 08:44:40 -0400
+Received: from dggems701-chm.china.huawei.com (unknown [172.30.72.58])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FlXXK5SLgzsSYk
+        for <linux-leds@vger.kernel.org>; Wed, 19 May 2021 20:40:33 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggems701-chm.china.huawei.com (10.3.19.178) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 19 May 2021 20:43:19 +0800
+Received: from thunder-town.china.huawei.com (10.174.177.72) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 19 May 2021 20:43:19 +0800
+From:   Zhen Lei <thunder.leizhen@huawei.com>
+To:     Jan-Simon Moeller <jansimon.moeller@gmx.de>,
+        Pavel Machek <pavel@ucw.cz>,
+        linux-leds <linux-leds@vger.kernel.org>
+CC:     Zhen Lei <thunder.leizhen@huawei.com>
+Subject: [PATCH 1/1] leds: blinkm: remove unused variable 'ret' in blinkm_init_hw()
+Date:   Wed, 19 May 2021 20:41:36 +0800
+Message-ID: <20210519124136.7938-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.177.72]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Em Wed, 19 May 2021 13:11:07 +0200
-Pavel Machek <pavel@ucw.cz> escreveu:
+GCC reports the following warning with W=1:
 
-> Hi!
-> 
-> > Some models come with single colored or dual-colored LEDs, but high end models 
-> > have RGB LEDs.
-> > 
-> > Programming them can ether be done via BIOS or by the OS, however, BIOS settings
-> > are limited. So, the vendor offers a Windows application that allows to fully use the
-> > functionality provided by the firmware/hardware.  
-> 
-> I'm not sure why you are submitting v2 in the middle of interface
-> discussion.
+drivers/leds/leds-blinkm.c:483:6: warning:
+ variable 'ret' set but not used [-Wunused-but-set-variable]
+  483 |  int ret;
+      |      ^~~
 
-I'll refrain sending a new version while we're discussing the interface.
+This variable is not used, remove it to fix the warning.
 
-> Marek and I are saying the same thing -- this needs to use close to
-> existing APIs.
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ drivers/leds/leds-blinkm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Ok, but I'm not seeing an existing API that provides what those
-LEDs need.
+diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
+index b4e1fdff4186..e34879b4c275 100644
+--- a/drivers/leds/leds-blinkm.c
++++ b/drivers/leds/leds-blinkm.c
+@@ -480,9 +480,8 @@ static int blinkm_led_blue_set(struct led_classdev *led_cdev,
+ 
+ static void blinkm_init_hw(struct i2c_client *client)
+ {
+-	int ret;
+-	ret = blinkm_transfer_hw(client, BLM_STOP_SCRIPT);
+-	ret = blinkm_transfer_hw(client, BLM_GO_RGB);
++	(void)blinkm_transfer_hw(client, BLM_STOP_SCRIPT);
++	(void)blinkm_transfer_hw(client, BLM_GO_RGB);
+ }
+ 
+ static int blinkm_test_run(struct i2c_client *client)
+-- 
+2.25.1
 
-> If you want to get something merged quickly, please submit basic
-> functionality only (toggling the LED on/off) that completely fits
-> existing APIs. We can review that.
 
-If you prefer working this way, I can send an initial patch with
-just the very basic. Actually, if you apply just patch 2 of this
-series, it will provide support for for just setting the brightness
-on NUC8.
-
-However, the main reason why someone (including myself) want this
-driver is to allow to dynamically change what hardware event will
-be triggering the LED and how, and if suspend will blink or not[1].
-
-Being able to also change the LED color is a plus.
-
-[1] Disabling blink at suspend/hibernate is one of the things that
-I use here: as the machine is at my bedroom, I don't want it to be
-blinking all night long when the machine is sleeping :-)
-
-Thanks,
-Mauro
