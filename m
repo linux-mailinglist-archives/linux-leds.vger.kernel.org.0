@@ -2,104 +2,215 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23B6E38935A
-	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 18:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4A703893F5
+	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 18:39:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355144AbhESQOT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 May 2021 12:14:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55404 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241563AbhESQON (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 19 May 2021 12:14:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 94A756124C;
-        Wed, 19 May 2021 16:12:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621440773;
-        bh=8fQfEqfjHd5ROSfi7Ib1dYC3Bl8NkSkPnnM0Z3H+Q9c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sWsCgfdChN1RgmC/16u9YCH70nrcWUYnNuTKVwncmZ8kmNP4tUhKXygVugSa+goX6
-         UzDtv5/IwlGtnMvpIK6ZlzfnkoIDfr5k6vmp38drb9Nx2FL9ILnEWE+dbgFcdHAoVd
-         TYvzZP3td1oeh9LWG78niMOoFVdifnBl4xg0fe0oZebIvKdU7ZbADPEWENeayB6T/M
-         0IGcxIGNqAx4pBfXHGGn6QMa5opskkJZwU764muaTTfsx/8HJUOGBxAozBF5pTQ1Wp
-         9CGzN+396KN1AupmwLqnW1G+982PnU/1mAeucGMGCuPZHhMFehJbf/cw6n6RBvWu6i
-         QA6Yxq1yHg7Dw==
-Date:   Wed, 19 May 2021 17:12:07 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Sander Vanheule <sander@svanheule.net>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Michael Walle <michael@walle.cc>,
+        id S1347329AbhESQlO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 May 2021 12:41:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1355263AbhESQlM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 May 2021 12:41:12 -0400
+Received: from polaris.svanheule.net (polaris.svanheule.net [IPv6:2a00:c98:2060:a004:1::200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E21FC061763
+        for <linux-leds@vger.kernel.org>; Wed, 19 May 2021 09:39:51 -0700 (PDT)
+Received: from [IPv6:2a02:a03f:eafb:ee01:c82d:5b70:209e:672d] (unknown [IPv6:2a02:a03f:eafb:ee01:c82d:5b70:209e:672d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: sander@svanheule.net)
+        by polaris.svanheule.net (Postfix) with ESMTPSA id 79EB9200B37;
+        Wed, 19 May 2021 18:39:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+        s=mail1707; t=1621442389;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xdkHu+ohiZ0kc7GcvLVwlzXNI81lDspuucHz/tbwJ2Q=;
+        b=qUyTPcC/9KSPdw/8RB5J2hzib63PNFZyxILnWKUTneXZJmjXR57YpYnG1/kiSK1JxwLtIO
+        2k1gkNCxr16dfQ9OKn2F339JeHwlrcaDr88Yt3NvoU2fqG579scec/sSZawwRwYlLchgc3
+        zq8dHRbdi6+Nqj7UXWsikQxo4rpwmNUfvpd58ng1B3iJz8mZWr8ripBHUuFZTyaUmKdf0n
+        mWt87fYP3kZCPq+/q0ethM/DKJTl0KcX38IsLfGnxH6eorPMfkL+/1g/f+q8rRUat+ZcdN
+        hQ+hxEMbWOsLgyjwoQchfz1yoQESZeJzcFu7WYwGM11hdJqeTqi3e9000p3mGg==
+Message-ID: <0aef1d59f5676b5357a45463a5968f5e9b566aa7.camel@svanheule.net>
+Subject: Re: [PATCH 1/5] dt-bindings: leds: Binding for RTL8231 scan matrix
+From:   Sander Vanheule <sander@svanheule.net>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] regmap: Add MDIO bus support
-Message-ID: <20210519161207.GF4224@sirena.org.uk>
-References: <cover.1621279162.git.sander@svanheule.net>
- <63b99a2fec2c4ea3c461d59d451af8d675ecf312.1621279162.git.sander@svanheule.net>
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Wed, 19 May 2021 18:39:46 +0200
+In-Reply-To: <20210517223113.GA3302542@robh.at.kernel.org>
+References: <cover.1620735871.git.sander@svanheule.net>
+         <cb1910ab6ba0795666df1034b47221f8bac160f9.1620735871.git.sander@svanheule.net>
+         <20210517223113.GA3302542@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="fwqqG+mf3f7vyBCB"
-Content-Disposition: inline
-In-Reply-To: <63b99a2fec2c4ea3c461d59d451af8d675ecf312.1621279162.git.sander@svanheule.net>
-X-Cookie: There's no time like the pleasant.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Mon, 2021-05-17 at 17:31 -0500, Rob Herring wrote:
+> On Tue, May 11, 2021 at 02:25:19PM +0200, Sander Vanheule wrote:
+> > Add a binding description for the Realtek RTL8231's LED support, which
+> > consists of up to 88 LEDs arranged in a number of scanning matrices.
+> > 
+> > Signed-off-by: Sander Vanheule <sander@svanheule.net>
+> > ---
+> >  .../bindings/leds/realtek,rtl8231-leds.yaml   | 159 ++++++++++++++++++
+> >  1 file changed, 159 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/realtek,rtl8231-
+> > leds.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/leds/realtek,rtl8231-
+> > leds.yaml b/Documentation/devicetree/bindings/leds/realtek,rtl8231-leds.yaml
+> > new file mode 100644
+> > index 000000000000..aba2b55fb9c9
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/realtek,rtl8231-leds.yaml
+> > @@ -0,0 +1,159 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/realtek,rtl8231-leds.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Realtek RTL8231 LED scan matrix.
+> > +
+> > +maintainers:
+> > +  - Sander Vanheule <sander@svanheule.net>
+> > +
+> > +description: |
+> > +  The RTL8231 has support for driving a number of LED matrices, by scanning
+> > +  over the LEDs pins, alternatingly lighting different columns and/or rows.
+> > +
+> > +  In single color scan mode, 88 LEDs are supported. These are grouped into
+> > +  three output matrices:
+> > +    - Group A of 6×6 single color LEDs. Rows and columns are driven by GPIO
+> > +      pins 0-11.
+> > +               L0[n]    L1[n]    L2[n]    L0[n+6]  L1[n+6]  L2[n+6]
+> > +                |        |        |        |        |        |
+> > +       P0/P6  --<--------<--------<--------<--------<--------< (3)
+> > +                |        |        |        |        |        |
+> > +       P1/P7  --<--------<--------<--------<--------<--------< (4)
+> > +                |        |        |        |        |        |
+> > +       P2/P8  --<--------<--------<--------<--------<--------< (5)
+> > +                |        |        |        |        |        |
+> > +       P3/P9  --<--------<--------<--------<--------<--------< (6)
+> > +                |        |        |        |        |        |
+> > +       P4/P10 --<--------<--------<--------<--------<--------< (7)
+> > +                |        |        |        |        |        |
+> > +       P5/P11 --<--------<--------<--------<--------<--------< (8)
+> > +               (0)      (1)      (2)      (9)     (10)     (11)
+> > +    - Group B of 6×6 single color LEDs. Rows and columns are driven by GPIO
+> > +      pins 12-23.
+> > +               L0[n]    L1[n]    L2[n]    L0[n+6]  L1[n+6]  L2[n+6]
+> > +                |        |        |        |        |        |
+> > +      P12/P18 --<--------<--------<--------<--------<--------< (15)
+> > +                |        |        |        |        |        |
+> > +      P13/P19 --<--------<--------<--------<--------<--------< (16)
+> > +                |        |        |        |        |        |
+> > +      P14/P20 --<--------<--------<--------<--------<--------< (17)
+> > +                |        |        |        |        |        |
+> > +      P15/P21 --<--------<--------<--------<--------<--------< (18)
+> > +                |        |        |        |        |        |
+> > +      P16/P22 --<--------<--------<--------<--------<--------< (19)
+> > +                |        |        |        |        |        |
+> > +      P17/P23 --<--------<--------<--------<--------<--------< (20)
+> > +              (12)     (13)     (14)    (21)      (22)     (23)
+> > +    - Group C of 8 pairs of anti-parallel (or bi-color) LEDs. LED selection
+> > is
+> > +      provided by GPIO pins 24-27 and 29-32, polarity selection by GPIO 28.
+> > +               P24     P25  ...  P30     P31
+> > +                |       |         |       |
+> > +      LED POL --X-------X---/\/---X-------X (28)
+> > +              (24)    (25)  ... (31)    (32)
+> > +
+> > +  In bi-color scan mode, 72 LEDs are supported. These are grouped into four
+> > +  output matrices:
+> > +    - Group A of 12 pairs of anti-parallel LEDs. LED selection is provided
+> > +      by GPIO pins 0-11, polarity selection by GPIO 12.
+> > +    - Group B of 6 pairs of anti-parallel LEDs. LED selection is provided
+> > +      by GPIO pins 23-28, polarity selection by GPIO 21.
+> > +    - Group C of 6 pairs of anti-parallel LEDs. LED selection is provided
+> > +      by GPIO pins 29-34, polarity selection by GPIO 22.
+> > +    - Group of 4×6 single color LEDs. Rows are driven by GPIO pins 15-20,
+> > +      columns by GPIO pins 13-14 and 21-22 (shared with groups B and C).
+> > +          P[n]     P[n+6]   P[n+12]  P[n+18]
+> > +            |        |        |        |
+> > +       +0 --<--------<--------<--------< (15)
+> > +            |        |        |        |
+> > +       +1 --<--------<--------<--------< (16)
+> > +            |        |        |        |
+> > +       +2 --<--------<--------<--------< (17)
+> > +            |        |        |        |
+> > +       +3 --<--------<--------<--------< (18)
+> > +            |        |        |        |
+> > +       +4 --<--------<--------<--------< (19)
+> > +            |        |        |        |
+> > +       +6 --<--------<--------<--------< (20)
+> > +          (13)     (14)     (21)     (22)
+> > +
+> > +  This node must always be a child of a 'realtek,rtl8231' node.
+> > +
+> > +properties:
+> > +  $nodename:
+> > +    const: leds
+> 
+> led-controller
 
---fwqqG+mf3f7vyBCB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Will update.
 
-On Mon, May 17, 2021 at 09:28:03PM +0200, Sander Vanheule wrote:
-> Basic support for MDIO bus access. Support only includes clause-22
-> register access, with 5-bit addresses, and 16-bit wide registers.
+> > +
+> > +  compatible:
+> > +    const: realtek,rtl8231-leds
+> 
+> How is this device controlled?
+> 
 
-The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
+This device represents a part of the functionality of the RTL8231 GPIO/LED
+expander, which sits on an MDIO bus or Realtek SMI bus. I'll add this bit to the
+main description.
 
-  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
+Does this answer your question, or were you looking for other details?
 
-are available in the Git repository at:
+> > 
+> > +patternProperties:
+> > +  "^led@[0-9]+,[0-2]$":
+> > +    description: |
+> > +      LEDs are addressed by their port index and led index. Ports 0-23
+> > always
+> > +      support three LEDs. Additionally, but only when used in single color
+> > scan
+> > +      mode, ports 24-31 support two LEDs.
+> 
+> Normally unit-addresses are hex values.
+> > 
+> > +    type: object
+> > +
+> > +    properties:
+> > +      reg:
+> > +        maxItems: 1
+> 
+> This should have more constraints:
+> 
+> reg:
+>   items: 
+>     - items:
+>         - description: port index
+>           maximum: 31
+>         - description: led index
+>           maximum: 2
+> 
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git tags/regmap-mdio
+Thanks for the suggestion, I was wondering what the best approach was here. I
+will change the pattern to "^led@" as well, so the address restrictions are only
+defined by the reg property.
+> 
 
-for you to fetch changes up to 1f89d2fe16072a74b34bdb895160910091427891:
+Best,
+Sander
 
-  regmap: Add MDIO bus support (2021-05-19 14:19:10 +0100)
-
-----------------------------------------------------------------
-regmap: Add MDIO bus support
-
-----------------------------------------------------------------
-Sander Vanheule (1):
-      regmap: Add MDIO bus support
-
- drivers/base/regmap/Kconfig       |  6 ++++-
- drivers/base/regmap/Makefile      |  1 +
- drivers/base/regmap/regmap-mdio.c | 57 +++++++++++++++++++++++++++++++++++++++
- include/linux/regmap.h            | 36 +++++++++++++++++++++++++
- 4 files changed, 99 insertions(+), 1 deletion(-)
- create mode 100644 drivers/base/regmap/regmap-mdio.c
-
---fwqqG+mf3f7vyBCB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmClONYACgkQJNaLcl1U
-h9DEyAgAhLtOW2RwtejyDmNG0G2NxCwbumYlKtwRJ4USHi4YE890YMR1SJEkB/qa
-48NRiLSHSw0dF9RV5hbywYtsu5OJBNSLDQqQwKCRxPJiWqcJ5YDVewmuoslp8tmb
-ymwAjo4KYw1u6o49jbrIQVysanOTRborGn55KgPzynnZnsjfCIG1CdBHr9VdrJ57
-25K2R787VjniFzaN91llWsAYlXoHa+5EwwxJzThg/KJGuaLhCnFS+4eB35UkfQcr
-vMpFNF6jhqV6JX5nx0InhREUFmzo3l7yxfkWOADIXAj03HhZ7xKrbVG/pDtaNwvK
-uwSsLGcenwVz8XBzPRUwbGMrsW/h8g==
-=gp6K
------END PGP SIGNATURE-----
-
---fwqqG+mf3f7vyBCB--
