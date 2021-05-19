@@ -2,119 +2,134 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64017389248
-	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 17:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C740E3892D1
+	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 17:40:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230494AbhESPM4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 May 2021 11:12:56 -0400
-Received: from polaris.svanheule.net ([84.16.241.116]:48294 "EHLO
-        polaris.svanheule.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233194AbhESPMz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 May 2021 11:12:55 -0400
-Received: from [IPv6:2a02:a03f:eafb:ee01:c82d:5b70:209e:672d] (unknown [IPv6:2a02:a03f:eafb:ee01:c82d:5b70:209e:672d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sander@svanheule.net)
-        by polaris.svanheule.net (Postfix) with ESMTPSA id 84913200AD3;
-        Wed, 19 May 2021 17:11:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-        s=mail1707; t=1621437094;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=BD18HcFvy6yUf3IJScH+2XFqwpBjnjH9zx+MD2Vdm0Q=;
-        b=as9z3vwLUgwY2TRN7BhTBhYTm5lN8Gj1LWEpMcriPOsMClvz8VRoHd/AfLy7i9ws9V238X
-        GdsyzsMEnxjCNH6nsfINaHxxrIje1VS0QXjR9fjbdz/j9D0mZyd1b/kN/d6MIGXYS7nOXs
-        TjCnqBEHHVlUVRuJYMUh4RQRRs53Wdj+Gm5QMqJTk9wqgsVXEfhKADJ3C1qq46y+TtvXDY
-        WOS7e5k0x1W9YNaVi9yopSqWbnHYVEHlU/yzrZJ/9+GHm1UioRzFi3atuqpT9ZpN0icIcY
-        l4micdViM8xq8Db7sAn52RdaFu1BrNZy0koX9d6DSrVv3YviuvfC8+gakxa1PA==
-Message-ID: <19bf02ddf94ae37384331ccf3e614ac9cdb6cd1b.camel@svanheule.net>
-Subject: Re: [PATCH 3/5] mfd: Add RTL8231 core device
-From:   Sander Vanheule <sander@svanheule.net>
-To:     Lee Jones <lee.jones@linaro.org>, kernel test robot <lkp@intel.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-gpio@vger.kernel.org, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org
-Date:   Wed, 19 May 2021 17:11:32 +0200
-In-Reply-To: <20210519145809.GI2549456@dell>
-References: <f6fb81e62f5006a9e7772f5f2840d94b8d0d885d.1620735871.git.sander@svanheule.net>
-         <202105122140.ZFyj5hQy-lkp@intel.com> <20210519145809.GI2549456@dell>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S1354031AbhESPlw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 May 2021 11:41:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57728 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1354956AbhESPlq (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 19 May 2021 11:41:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 403C5611AB;
+        Wed, 19 May 2021 15:40:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621438826;
+        bh=B9Wi5vr77hBniV2pQ1WqogIZWptWfeFj78jtjRtVE3w=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=HSM2BtVsD55HD85d41Eay6q6uGWZP2R0DmQVJAz0t8yyuJC/HpjzyFMdONHB66qhw
+         4U13gvbBno2oUFxRarpwUcWo0ZxoyZXxbyj9OhvhqcYJUzJ3AKJkZgT8qxBre9mxIj
+         8cD8m9LWWDJKK33V+w0ReWBVl5RFQgkqweQJi+BHdp5jrRlxS4V5n/qbpYf+mkMEAg
+         FCMwyYDs+LaTP/P0KR+NmYG7Z3IKjFmi/yV2HJL56TsIxCfGjek53PHpWEuI5Crt4A
+         QIEUwZ6l3VsNSmPhu6hR4ZdJ0a4z3ZT7mO8kREO/ovRatNqsdfa9f+Ark3vglUABBe
+         QXYhUJtll78jg==
+Date:   Wed, 19 May 2021 17:40:17 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, linuxarm@huawei.com,
+        mauro.chehab@huawei.com, gregkh@linuxfoundation.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 06/17] leds: leds-nuc: allow changing the LED colors
+Message-ID: <20210519174017.2f8295e1@coco.lan>
+In-Reply-To: <20210519140451.0eae7d47@thinkpad>
+References: <cover.1621349813.git.mchehab+huawei@kernel.org>
+        <f1fb0d3b7404bab46ba22a670ab58eb0e8b2389e.1621349814.git.mchehab+huawei@kernel.org>
+        <20210519095713.07be987d@thinkpad>
+        <20210519120507.3ab8c6a4@coco.lan>
+        <20210519110725.GB24621@duo.ucw.cz>
+        <20210519140040.5c685336@coco.lan>
+        <20210519140451.0eae7d47@thinkpad>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 2021-05-19 at 15:58 +0100, Lee Jones wrote:
-> On Wed, 12 May 2021, kernel test robot wrote:
-> 
-> > Hi Sander,
-> > 
-> > Thank you for the patch! Yet something to improve:
-> > 
-> > [auto build test ERROR on pavel-linux-leds/for-next]
-> > [also build test ERROR on lee-mfd/for-mfd-next pinctrl/devel v5.13-rc1]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch]
-> > 
-> > url:   
-> > https://github.com/0day-ci/linux/commits/Sander-Vanheule/RTL8231-GPIO-expander-support/20210511-202618
-> > base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git
-> > for-next
-> > config: h8300-randconfig-r012-20210512 (attached as .config)
-> > compiler: h8300-linux-gcc (GCC) 9.3.0
-> > reproduce (this is a W=1 build):
-> >         wget
-> > https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O
-> > ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         #
-> > https://github.com/0day-ci/linux/commit/e031cc2da2c2948230bacd1ca56cfe9990e1aefd
-> >         git remote add linux-review https://github.com/0day-ci/linux
-> >         git fetch --no-tags linux-review Sander-Vanheule/RTL8231-GPIO-
-> > expander-support/20210511-202618
-> >         git checkout e031cc2da2c2948230bacd1ca56cfe9990e1aefd
-> >         # save the attached .config to linux build tree
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross W=1
-> > ARCH=h8300 
-> > 
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    h8300-linux-ld: drivers/mfd/rtl8231.o: in function
-> > `rtl8231_mdio_reg_write':
-> > > > rtl8231.c:(.text+0x4f): undefined reference to `mdiobus_write'
-> >    h8300-linux-ld: drivers/mfd/rtl8231.o: in function `rtl8231_mdio_reg_read':
-> > > > rtl8231.c:(.text+0x75): undefined reference to `mdiobus_read'
-> >    h8300-linux-ld: drivers/mfd/rtl8231.o: in function `mdio_module_init':
-> > > > rtl8231.c:(.init.text+0xd): undefined reference to `mdio_driver_register'
-> > 
-> > ---
-> > 0-DAY CI Kernel Test Service, Intel Corporation
-> > https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
-> 
-> Please could you take a look at these failures.
-> 
-> Either fix them up or report a false positive.
+Em Wed, 19 May 2021 14:04:51 +0200
+Marek Beh=C3=BAn <kabel@kernel.org> escreveu:
 
-Hi Lee,
+> On Wed, 19 May 2021 14:00:40 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+>=20
+> > Em Wed, 19 May 2021 13:07:25 +0200
+> > Pavel Machek <pavel@ucw.cz> escreveu:
+> >=20
+> > > Hi!
+> > >  =20
+> > > > > We have multicolor LED framerwork in Linux. This should be implem=
+ented
+> > > > > via that framework. Please do not implement your own way for RGB =
+leds.
+> > > > >=20
+> > > > > Marek   =20
+> > > >=20
+> > > > I saw the multicolor LED framework, but IMO it won't fit here.
+> > > >=20
+> > > > See, Linux doesn't have direct access to the LED. The access is
+> > > > provided via ACPI WMI.   =20
+> > >=20
+> > > So?
+> > >  =20
+> > > > The way BIOS reports the type of the led is via a bitmap flag.
+> > > > So, the same LED can be represented with either single-color
+> > > > or multi-color one. See:
+> > > > 	https://www.intel.com/content/dam/support/us/en/documents/intel-nu=
+c/WMI-Spec-Intel-NUC-NUC10ixFNx.pdf
+> > > >=20
+> > > > 	Table 2.2 LED Color Type
+> > > > 	Bit Number	Type
+> > > > 	0		Dual-color Blue / Amber
+> > > > 	1		Dual-color Blue / White
+> > > > 	2		RGB-color
+> > > > 	3		Single-color LED
+> > > >=20
+> > > > Also as each NUC can support up to 7, and they may have a mix of
+> > > > single color, dual color and RGB LEDs, if we would use the
+> > > > multicolor class for the colored ones, that would mean that the
+> > > > code will need to be duplicated, as, depending on what the BIOS
+> > > > reports, the LED would need to be exposed either as via
+> > > > led-multicolor-class or as leds-class.   =20
+> > >=20
+> > > So?
+> > >  =20
+> > > > Worse than that, there's even a WMI command that would allow
+> > > > to "switch LED type" (see page 8). On other words, the BIOS can
+> > > > expose a "virtual" single-color LED, but actually implemented
+> > > > in hardware using a RGB one, and this can be changed in real time. =
+  =20
+> > >=20
+> > > So you simply always use it as RGB one? =20
+> >=20
+> > Hmm... are you meaning that I should only use the multicolor led class,
+> > even when the BIOS is reporting the LEDs as single color?
+> >=20
+> > I can surely do that.
+>=20
+> No. If the BIOS reports that the LED is single color, register a
+> classic LED. If the BIOS reports a RGB LED, register a multi-color
+> LED...
 
-These were caused by a missing dependency on MDIO_BUS. This should be resolved
-in the v2 series.
+Ok. I'll try to change the code to work with both APIs. Let's hope
+it won't result on too much code duplication.
 
-https://lore.kernel.org/lkml/f1ca940216c0accfc804afee2dbe46d260d890ae.1621279162.git.sander@svanheule.net/
+-
 
-I wasn't sure how to attribute this to the test bot, since the depedency was
-partly resolved through another patch.
+I have one doubt about how to use this API. It is meant just
+for the RGB LEDs, right?
 
-Best,
-Sander
+NUC also have dual-color and multi-colored leds that don't
+allow specifying the intensity of each component. All it lets
+is to change the color (being, for instance, either blue or
+white).
 
+For those, the API should basically show the names of the
+supported colors for each LED, letting the user change it
+to some other color.
+
+How should I map such leds? via led-class or via=20
+led-class-multicolor?
+
+Thanks,
+Mauro
