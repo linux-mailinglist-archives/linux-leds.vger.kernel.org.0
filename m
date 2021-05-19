@@ -2,134 +2,122 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C740E3892D1
-	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 17:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F37B838930D
+	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 17:55:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354031AbhESPlw (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 May 2021 11:41:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57728 "EHLO mail.kernel.org"
+        id S1346919AbhESP4b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 May 2021 11:56:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47778 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1354956AbhESPlq (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 19 May 2021 11:41:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 403C5611AB;
-        Wed, 19 May 2021 15:40:24 +0000 (UTC)
+        id S1348078AbhESP42 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 19 May 2021 11:56:28 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BD32E611C2;
+        Wed, 19 May 2021 15:55:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621438826;
-        bh=B9Wi5vr77hBniV2pQ1WqogIZWptWfeFj78jtjRtVE3w=;
+        s=k20201202; t=1621439709;
+        bh=FNORY5DBoHv91GsAYUPkB7clBXbWQdgXxlJpMEVxCV4=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HSM2BtVsD55HD85d41Eay6q6uGWZP2R0DmQVJAz0t8yyuJC/HpjzyFMdONHB66qhw
-         4U13gvbBno2oUFxRarpwUcWo0ZxoyZXxbyj9OhvhqcYJUzJ3AKJkZgT8qxBre9mxIj
-         8cD8m9LWWDJKK33V+w0ReWBVl5RFQgkqweQJi+BHdp5jrRlxS4V5n/qbpYf+mkMEAg
-         FCMwyYDs+LaTP/P0KR+NmYG7Z3IKjFmi/yV2HJL56TsIxCfGjek53PHpWEuI5Crt4A
-         QIEUwZ6l3VsNSmPhu6hR4ZdJ0a4z3ZT7mO8kREO/ovRatNqsdfa9f+Ark3vglUABBe
-         QXYhUJtll78jg==
-Date:   Wed, 19 May 2021 17:40:17 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linuxarm@huawei.com,
-        mauro.chehab@huawei.com, gregkh@linuxfoundation.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 06/17] leds: leds-nuc: allow changing the LED colors
-Message-ID: <20210519174017.2f8295e1@coco.lan>
-In-Reply-To: <20210519140451.0eae7d47@thinkpad>
+        b=NyzdHH9l4zf8rZGW7ygTiV/En3ujZnBA6pRQrQSKLLMnJkk6E1LCvOgT3umzTfROO
+         v4LJ+YnYGH12lZLRFFwE5zCeKHZZ3A2xeTYGZ8ZUDp1tXLP4wuiNK8mfdW6k1lof0B
+         8+FGvQts1qm3MR/rzoJtZhgkJBDAzm0/H/S7DzgUCbhdO6nd3eI/kyrDZDS9k2FOI1
+         xLKfXyxpd5YtrF84qOYYNNRkqnK15C/KoycOUH//pNIqXehCAUJ4WvPWR5NJKSGOq2
+         Qm8bYXYYmLSQh5eX67ssSweHgmKckMmBhe56ESl/IeTPvG5IflhYqx9EMbqM39gQ8b
+         24SYD1SKthGyQ==
+Date:   Wed, 19 May 2021 17:55:03 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Pavel Machek <pavel@ucw.cz>, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 16/17] leds: leds-nuc: add support for changing the
+ ethernet type indicator
+Message-ID: <20210519175503.567e6ecc@thinkpad>
+In-Reply-To: <20210519162413.4feeab02@coco.lan>
 References: <cover.1621349813.git.mchehab+huawei@kernel.org>
-        <f1fb0d3b7404bab46ba22a670ab58eb0e8b2389e.1621349814.git.mchehab+huawei@kernel.org>
-        <20210519095713.07be987d@thinkpad>
-        <20210519120507.3ab8c6a4@coco.lan>
-        <20210519110725.GB24621@duo.ucw.cz>
-        <20210519140040.5c685336@coco.lan>
-        <20210519140451.0eae7d47@thinkpad>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        <792598f4a1a3219b6517057c92559b0f0a95b419.1621349814.git.mchehab+huawei@kernel.org>
+        <20210519100253.49b155e9@thinkpad>
+        <20210519121812.4285b3ea@coco.lan>
+        <20210519141102.0161a9d9@thinkpad>
+        <20210519162413.4feeab02@coco.lan>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Em Wed, 19 May 2021 14:04:51 +0200
-Marek Beh=C3=BAn <kabel@kernel.org> escreveu:
+On Wed, 19 May 2021 16:24:13 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> On Wed, 19 May 2021 14:00:40 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
->=20
-> > Em Wed, 19 May 2021 13:07:25 +0200
-> > Pavel Machek <pavel@ucw.cz> escreveu:
-> >=20
-> > > Hi!
-> > >  =20
-> > > > > We have multicolor LED framerwork in Linux. This should be implem=
-ented
-> > > > > via that framework. Please do not implement your own way for RGB =
-leds.
-> > > > >=20
-> > > > > Marek   =20
-> > > >=20
-> > > > I saw the multicolor LED framework, but IMO it won't fit here.
-> > > >=20
-> > > > See, Linux doesn't have direct access to the LED. The access is
-> > > > provided via ACPI WMI.   =20
-> > >=20
-> > > So?
-> > >  =20
-> > > > The way BIOS reports the type of the led is via a bitmap flag.
-> > > > So, the same LED can be represented with either single-color
-> > > > or multi-color one. See:
-> > > > 	https://www.intel.com/content/dam/support/us/en/documents/intel-nu=
-c/WMI-Spec-Intel-NUC-NUC10ixFNx.pdf
-> > > >=20
-> > > > 	Table 2.2 LED Color Type
-> > > > 	Bit Number	Type
-> > > > 	0		Dual-color Blue / Amber
-> > > > 	1		Dual-color Blue / White
-> > > > 	2		RGB-color
-> > > > 	3		Single-color LED
-> > > >=20
-> > > > Also as each NUC can support up to 7, and they may have a mix of
-> > > > single color, dual color and RGB LEDs, if we would use the
-> > > > multicolor class for the colored ones, that would mean that the
-> > > > code will need to be duplicated, as, depending on what the BIOS
-> > > > reports, the LED would need to be exposed either as via
-> > > > led-multicolor-class or as leds-class.   =20
-> > >=20
-> > > So?
-> > >  =20
-> > > > Worse than that, there's even a WMI command that would allow
-> > > > to "switch LED type" (see page 8). On other words, the BIOS can
-> > > > expose a "virtual" single-color LED, but actually implemented
-> > > > in hardware using a RGB one, and this can be changed in real time. =
-  =20
-> > >=20
-> > > So you simply always use it as RGB one? =20
-> >=20
-> > Hmm... are you meaning that I should only use the multicolor led class,
-> > even when the BIOS is reporting the LEDs as single color?
-> >=20
-> > I can surely do that.
->=20
-> No. If the BIOS reports that the LED is single color, register a
-> classic LED. If the BIOS reports a RGB LED, register a multi-color
-> LED...
+> On other words, if no extra care is taken, it could have bad side 
+> effects at the machine's performance and affect system's latency,
+> eventually resulting on things like audio clicks and pops, if some
+> audio is playing while such calls keep happening.
 
-Ok. I'll try to change the code to work with both APIs. Let's hope
-it won't result on too much code duplication.
+In general we want for every LED that is registered into kernel as a LED
+classdev to be possible to control the brightness by software. If the
+hardware supports it, it should be available. There is a _blocking
+.brightness_set_blocking callback for LEDs which may block when setting
+brightness.
+But even if we did not want to support software control, the transparent
+trigger offloading is still relevant. See below.
 
--
+> So, IMO, there's very little sense on trying to re-implement the
+> already existing hardware-controlled events via software emulation.
 
-I have one doubt about how to use this API. It is meant just
-for the RGB LEDs, right?
+We have a misunderstanding here, probably because of my bad
+explanation, I will try to clarify.
 
-NUC also have dual-color and multi-colored leds that don't
-allow specifying the intensity of each component. All it lets
-is to change the color (being, for instance, either blue or
-white).
+> Sorry, but I guess I missed something here. Are you meaning to use
+> the code under "ledtrig-netdev.c" or something else? 
+> 
+> The code at ledtrig-netdev.c allocates a trigger data, initializes a
+> spin lock, initializes a delayed work, registers a notifier, sets a 
+> trigger interval, etc. It is perfectly fine for software-controlled
+> LEDs, but none of those will ever be used by the NUC driver, 
+> if it only implements HW blinking for the Ethernet interfaces
+> (and, as said before, there's little sense emulating it via software
+> on such devices).
 
-For those, the API should basically show the names of the
-supported colors for each LED, letting the user change it
-to some other color.
+The idea of transparent offloading of LED triggers to HW (if HW
+supports it) is to have a consistent and unified interface.
 
-How should I map such leds? via led-class or via=20
-led-class-multicolor?
+Currently we have a driver (leds-ns2 I think) which allows putting the
+LED into HW controlled mode (to blink on SATA disk activity). This is
+done by writing 1 into /sys/class/leds/<LED>/sata.
 
-Thanks,
-Mauro
+In your proposal you are creating several sysfs files:
+  indicator
+  hdd_default (notice difference from "sata" sysfs file in leds-ns2
+               driver)
+  ethernet_type
+
+So the problem here is that this API is not unified. This is different
+from how leds-ns2 driver does this, and both of these solutions are
+wrong, because they are not extendable.
+
+The correct way to do this is via LED triggers, i.e. if I want a LED to
+blink on network activity, then I should use netdev trigger and nothing
+else. The netdev trigger should determine whether the underlying LED
+driver can set the LED to blink on network activity in HW. If HW
+supports it, netdev trigger should use this, otherwise netdev trigger
+should blink the LED in software.
+
+Currently the netdev trigger does the blinking in software only
+(code in "ledtrig-netdev.c" file). There is a WIP to add the necessary
+support for the netdev trigger to have the ability to offload blinking
+to HW. I will try to respin this WIP and send patches for review.
+
+Once netdev trigger supports this feature, you can implement your
+driver in this way. You can even make your driver depend on netdev
+trigger and set the specific LED into netdev triggering by default, and
+even forbidding anything else. But this is the corrent way to do this,
+instead of creating new sysfs API that is non-extendable.
+
+I am sorry that I did not explain this thoroughly in previous mails.
+Hopefully this explanation is better.
+
+Marek
+
+PS: This is relevant for disk activity as well.
