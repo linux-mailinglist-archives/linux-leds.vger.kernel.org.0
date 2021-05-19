@@ -2,321 +2,265 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AA21389429
-	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 18:53:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EC5E389569
+	for <lists+linux-leds@lfdr.de>; Wed, 19 May 2021 20:30:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355460AbhESQyo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 19 May 2021 12:54:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46538 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355450AbhESQyo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 19 May 2021 12:54:44 -0400
-Received: from polaris.svanheule.net (polaris.svanheule.net [IPv6:2a00:c98:2060:a004:1::200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A4B8C061760
-        for <linux-leds@vger.kernel.org>; Wed, 19 May 2021 09:53:24 -0700 (PDT)
-Received: from [IPv6:2a02:a03f:eafb:ee01:c82d:5b70:209e:672d] (unknown [IPv6:2a02:a03f:eafb:ee01:c82d:5b70:209e:672d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sander@svanheule.net)
-        by polaris.svanheule.net (Postfix) with ESMTPSA id 77A46200B47;
-        Wed, 19 May 2021 18:53:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-        s=mail1707; t=1621443202;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/gxwzPCxHsmhHK6fNPUl2sY2aR8FGxUoyuqvFjb3imQ=;
-        b=w5d0CJTDeuCzHEJolae+6AmVIuxJpO9vMfuS3QbQPnH2O4Ocg9ZlSdDMlLbQjRqkJIufkq
-        MG04Dp5fsb6WsAbs4kOLVs66GiIbOoOqOT4JIDmuESkW+y18408tjn/lQpYAsbptBcoYdB
-        NT3RLMIAky5TMgBHYK/BB7HupoCZ9bbSwzGFb2IoREINPp+1hUnGZIx982tBL/6s6sTUwp
-        1ELm7Idwm+axPTYoWk0onU+A9qV68txUvZrOcpAjei2V4P1y7m5IvYug08XTzbXX9BWynk
-        wszdHA/yECiqy0xs+3t4+BG6xEOqA1ciyhQB63s+zQJP2U79AM5imwXNkA+QkQ==
-Message-ID: <3fd64248fbea981e19ccf80b8484ac4f71755824.camel@svanheule.net>
-Subject: Re: [PATCH 2/5] dt-bindings: mfd: Binding for RTL8231
-From:   Sander Vanheule <sander@svanheule.net>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Wed, 19 May 2021 18:53:21 +0200
-In-Reply-To: <20210517223801.GA3327704@robh.at.kernel.org>
-References: <cover.1620735871.git.sander@svanheule.net>
-         <73e017d08117cee1290b9483c23f79f956f41a6d.1620735871.git.sander@svanheule.net>
-         <20210517223801.GA3327704@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S231381AbhESSbu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 19 May 2021 14:31:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38340 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230429AbhESSbt (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 19 May 2021 14:31:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F37A61073;
+        Wed, 19 May 2021 18:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621449029;
+        bh=Fnxqszf74YyzkFDZnfpLU0ldlXlO3H2Au0hOt4w+wls=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=SiBH1aSLOnNtafQoGQj/5d89ef3OxFO/tYTXZoVyOYmRMUIG93UCM1XeDM3ueHozQ
+         UT+OXAdQ10eGMFZ7M6v3nA2C32a8Aa032YlX+URkITpXdxmPCPT8hNAU2o8widiYDv
+         5fdlkU3RZUKcCNpNtcPNG0cZra6aGZXrRBaqFsfJxrKoT96bdbEyjYJ28tvu1lv88B
+         dtK6PYhcCYHbCvW8nUvNqq16pFNamacqqKj9XwBWJ5UdvwwLKhl+XpKDWJnnEhiwcC
+         M/3N2gzx3fY0unrQmAGytlWGJrlrOw0uXPc6oCn57EKVHVQ6J8MoECaTPsNTuO5vD1
+         J1lM8CmthaBRQ==
+Date:   Wed, 19 May 2021 20:30:14 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Pavel Machek <pavel@ucw.cz>, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 16/17] leds: leds-nuc: add support for changing the
+ ethernet type indicator
+Message-ID: <20210519203014.1838de3a@coco.lan>
+In-Reply-To: <20210519175503.567e6ecc@thinkpad>
+References: <cover.1621349813.git.mchehab+huawei@kernel.org>
+        <792598f4a1a3219b6517057c92559b0f0a95b419.1621349814.git.mchehab+huawei@kernel.org>
+        <20210519100253.49b155e9@thinkpad>
+        <20210519121812.4285b3ea@coco.lan>
+        <20210519141102.0161a9d9@thinkpad>
+        <20210519162413.4feeab02@coco.lan>
+        <20210519175503.567e6ecc@thinkpad>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 2021-05-17 at 17:38 -0500, Rob Herring wrote:
-> On Tue, May 11, 2021 at 02:25:20PM +0200, Sander Vanheule wrote:
-> > Add a binding description for the Realtek RTL8231, a GPIO and LED
-> > expander chip commonly used in ethernet switches based on a Realtek
-> > switch SoC. These chips can be addressed via an MDIO or SMI bus, or used
-> > as a plain 36-bit shift register.
-> > 
-> > This binding only describes the feature set provided by the MDIO/SMI
-> > configuration, and covers the GPIO, PWM, and pin control properties. The
-> > LED properties are defined in a separate binding.
-> > 
-> > Signed-off-by: Sander Vanheule <sander@svanheule.net>
-> > ---
-> >  .../bindings/mfd/realtek,rtl8231.yaml         | 202 ++++++++++++++++++
-> >  1 file changed, 202 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/mfd/realtek,rtl8231.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/mfd/realtek,rtl8231.yaml
-> > b/Documentation/devicetree/bindings/mfd/realtek,rtl8231.yaml
-> > new file mode 100644
-> > index 000000000000..2023cfa887a3
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/mfd/realtek,rtl8231.yaml
-> > @@ -0,0 +1,202 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/mfd/realtek,rtl8231.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Realtek RTL8231 GPIO and LED expander.
-> > +
-> > +maintainers:
-> > +  - Sander Vanheule <sander@svanheule.net>
-> > +
-> > +description: |
-> > +  The RTL8231 is a GPIO and LED expander chip, providing up to 37 GPIOs, up
-> > to
-> > +  88 LEDs, and up to one PWM output. This device is frequently used
-> > alongside
-> > +  Realtek switch SoCs, to provide additional I/O capabilities.
-> > +
-> > +  To manage the RTL8231's features, its strapping pins can be used to
-> > configure
-> > +  it in one of three modes: shift register, MDIO device, or SMI device. The
-> > +  shift register mode does not need special support. In MDIO or SMI mode,
-> > most
-> > +  pins can be configured as a GPIO output, LED matrix scan line/column, or
-> > as a
-> > +  PWM output.
-> > +
-> > +  The GPIO and pin control are part of the main node. PWM and LED support
-> > are
-> > +  configured as sub-nodes.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: realtek,rtl8231
-> > +
-> > +  reg:
-> > +    description: MDIO or SMI device address.
-> > +    maxItems: 1
-> > +
-> > +  # GPIO support
-> > +  gpio-controller: true
-> > +
-> > +  "#gpio-cells":
-> > +    const: 2
-> > +    description: |
-> > +      The first cell is the pin number and the second cell is used to
-> > specify
-> > +      the gpio active state.
-> > +
-> > +  gpio-ranges:
-> > +    description: |
-> > +      Must reference itself, and provide a zero-based mapping for 37 pins.
-> > +    maxItems: 1
-> > +
-> > +  # Pin muxing and configuration
-> > +  realtek,drive-strength:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> 
-> Use the standard 'drive-strength' property.
+Em Wed, 19 May 2021 17:55:03 +0200
+Marek Beh=C3=BAn <kabel@kernel.org> escreveu:
 
-Ok, I wasn't sure I could do this, since it's normally used in a pin config, not
-a pin controller config. I'll update this, as well as the suggested changes
-below.
+> On Wed, 19 May 2021 16:24:13 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+>=20
+> > On other words, if no extra care is taken, it could have bad side=20
+> > effects at the machine's performance and affect system's latency,
+> > eventually resulting on things like audio clicks and pops, if some
+> > audio is playing while such calls keep happening. =20
+>=20
+> In general we want for every LED that is registered into kernel as a LED
+> classdev to be possible to control the brightness by software. If the
+> hardware supports it, it should be available.=20
 
-Best,
-Sander
+This is supported, but maybe not the same way as on other drivers.
 
+There are two separate things: ON/OFF and LED brightness, when turned ON.
 
-> 
-> > +    description: |
-> > +      Common drive strength used for all GPIO output pins, must be 4mA or
-> > 8mA.
-> > +      On reset, this value will default to 8mA.
-> > +    enum: [4, 8]
-> > +
-> > +  # LED scanning matrix
-> > +  leds:
-> > +    $ref: ../leds/realtek,rtl8231-leds.yaml#
-> > +
-> > +  # PWM output
-> > +  pwm:
-> > +    type: object
-> > +    description: |
-> > +      Subnode describing the PWM peripheral. To use the PWM output, gpio35
-> > must
-> > +      be muxed to its 'pwm' function. Valid frequency values for consumers
-> > are
-> > +      1200, 1600, 2000, 2400, 2800, 3200, 4000, and 4800.
-> > +
-> > +    properties:
-> > +      "#pwm-cells":
-> > +        description: |
-> > +          Twos cells with PWM index (must be 0) and PWM frequency in Hz.
-> > +        const: 2
-> > +
-> > +    required:
-> > +      - "#pwm-cells"
-> 
-> Just move this to the parent node. No reason for a child node or that 1 
-> node can't be 2 providers.
-> 
-> > +
-> > +patternProperties:
-> > +  "-pins$":
-> > +    type: object
-> > +    $ref: ../pinctrl/pinmux-node.yaml#
-> > +
-> > +    properties:
-> > +      pins:
-> > +        items:
-> > +          oneOf:
-> 
-> No need for oneOf when there's only 1 entry.
-> 
-> > +            - enum: ["gpio0", "gpio1", "gpio2", "gpio3", "gpio4", "gpio5",
-> > "gpio6",
-> > +                     "gpio7", "gpio8", "gpio9", "gpio10", "gpio11",
-> > "gpio12", "gpio13",
-> > +                     "gpio14", "gpio15", "gpio16", "gpio17", "gpio18",
-> > "gpio19", "gpio20",
-> > +                     "gpio21", "gpio22", "gpio23", "gpio24", "gpio25",
-> > "gpio26", "gpio27",
-> > +                     "gpio28", "gpio29", "gpio30", "gpio31", "gpio32",
-> > "gpio33", "gpio34",
-> > +                     "gpio35", "gpio36"]
-> > +        minItems: 1
-> > +        maxItems: 37
-> > +      function:
-> > +        description: |
-> > +          Select which function to use. "gpio" is supported for all pins,
-> > "led" is supported
-> > +          for pins 0-34, "pwm" is supported for for pin 35.
-> > +        enum: ["gpio", "led", "pwm"]
-> > +
-> > +    required:
-> > +      - pins
-> > +      - function
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - gpio-controller
-> > +  - "#gpio-cells"
-> > +  - gpio-ranges
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    // Minimal example
-> > +    mdio {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        expander0: expander@0 {
-> > +            compatible = "realtek,rtl8231";
-> > +            reg = <0>;
-> > +
-> > +            gpio-controller;
-> > +            #gpio-cells = <2>;
-> > +            gpio-ranges = <&expander0 0 0 37>;
-> > +        };
-> > +    };
-> > +  - |
-> > +    // All bells and whistles included
-> > +    #include <dt-bindings/leds/common.h>
-> > +    mdio {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        expander1: expander@1 {
-> > +            compatible = "realtek,rtl8231";
-> > +            reg = <1>;
-> > +
-> > +            gpio-controller;
-> > +            #gpio-cells = <2>;
-> > +            gpio-ranges = <&expander1 0 0 37>;
-> > +
-> > +            realtek,drive-strength = <4>;
-> > +
-> > +            button-pins {
-> > +                pins = "gpio36";
-> > +                function = "gpio";
-> > +                input-debounce = "100000";
-> > +            };
-> > +
-> > +            pwm-pins {
-> > +                pins = "gpio35";
-> > +                function = "pwm";
-> > +            };
-> > +
-> > +            led-pins {
-> > +                pins = "gpio0", "gpio1", "gpio3", "gpio4";
-> > +                function = "led";
-> > +            };
-> > +
-> > +            pwm {
-> > +                #pwm-cells = <2>;
-> > +            };
-> > +
-> > +            leds {
-> > +                compatible = "realtek,rtl8231-leds";
-> > +                #address-cells = <2>;
-> > +                #size-cells = <0>;
-> > +
-> > +                realtek,led-scan-mode = "single-color";
-> > +
-> > +                led@0,0 {
-> > +                    reg = <0 0>;
-> > +                    color = <LED_COLOR_ID_GREEN>;
-> > +                    function = LED_FUNCTION_LAN;
-> > +                    function-enumerator = <0>;
-> > +                };
-> > +
-> > +                led@0,1 {
-> > +                    reg = <0 1>;
-> > +                    color = <LED_COLOR_ID_AMBER>;
-> > +                    function = LED_FUNCTION_LAN;
-> > +                    function-enumerator = <0>;
-> > +                };
-> > +
-> > +                led@1,0 {
-> > +                    reg = <1 0>;
-> > +                    color = <LED_COLOR_ID_GREEN>;
-> > +                    function = LED_FUNCTION_LAN;
-> > +                    function-enumerator = <1>;
-> > +                };
-> > +
-> > +                led@1,1 {
-> > +                    reg = <1 1>;
-> > +                    color = <LED_COLOR_ID_AMBER>;
-> > +                    function = LED_FUNCTION_LAN;
-> > +                    function-enumerator = <1>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > -- 
-> > 2.31.1
-> > 
+On other words, NUC leds allow to set the brightness ranging from 0 to 100,
+but if the brightness is, let's say 50%, it means that, when the LED
+is triggered by the hardware:
+
+	- ON would mean 50%; and=20
+	- OFF would mean 0%.
+
+On other words, it actually adjusts the maximum brightness level.
+
+Btw, this also applies to software control, as the hardware can still
+blink the LED, the available properties for software control indicator
+are:
+	- brightness.
+	- blink behavior and frequency;
+	- led color (available only if BIOS says that it is a=20
+	  multi-colored led);
+
+> There is a _blocking
+> .brightness_set_blocking callback for LEDs which may block when setting
+> brightness.
+> But even if we did not want to support software control, the transparent
+> trigger offloading is still relevant. See below.
+>=20
+> > So, IMO, there's very little sense on trying to re-implement the
+> > already existing hardware-controlled events via software emulation. =20
+>=20
+> We have a misunderstanding here, probably because of my bad
+> explanation, I will try to clarify.
+>=20
+> > Sorry, but I guess I missed something here. Are you meaning to use
+> > the code under "ledtrig-netdev.c" or something else?=20
+> >=20
+> > The code at ledtrig-netdev.c allocates a trigger data, initializes a
+> > spin lock, initializes a delayed work, registers a notifier, sets a=20
+> > trigger interval, etc. It is perfectly fine for software-controlled
+> > LEDs, but none of those will ever be used by the NUC driver,=20
+> > if it only implements HW blinking for the Ethernet interfaces
+> > (and, as said before, there's little sense emulating it via software
+> > on such devices). =20
+>=20
+> The idea of transparent offloading of LED triggers to HW (if HW
+> supports it) is to have a consistent and unified interface.
+
+Makes sense, but not sure if the current API will work.
+
+> Currently we have a driver (leds-ns2 I think) which allows putting the
+> LED into HW controlled mode (to blink on SATA disk activity). This is
+> done by writing 1 into /sys/class/leds/<LED>/sata.
+>=20
+> In your proposal you are creating several sysfs files:
+>   indicator
+>   hdd_default (notice difference from "sata" sysfs file in leds-ns2
+>                driver)
+>   ethernet_type
+>=20
+> So the problem here is that this API is not unified. This is different
+> from how leds-ns2 driver does this, and both of these solutions are
+> wrong, because they are not extendable.
+
+Partially agreed, but I'm not so sure if the reverse is not true ;-)
+
+I mean, the current LED API was designed and tested on drivers that
+allow direct control of the LED (and then extended to some cases
+where the hardware allows offloading).
+
+The NUC API is just the opposite: there, the BIOS has full control of
+the hardware, but it provides an interface that allows changing
+the LED behavior, up to some extend. It also allows controlling the
+LED hardware and make it blink while it is suspended/hibernating,=20
+which is something that a direct LED control wouldn't allow.
+
+So, for instance, if we stick with the current LED API, there's no
+way to tell that the power LED should:
+
+	- blink on every 5 seconds, using up to 20% of brightness
+	  when the system is suspended;
+	- strobe on every 10 seconds using up to 50% of brightness
+	  when the system is hibernated;
+	- use 100% of brigntness and don't blink when powered up.
+
+> The correct way to do this is via LED triggers, i.e. if I want a LED to
+> blink on network activity, then I should use netdev trigger and nothing
+> else. The netdev trigger should determine whether the underlying LED
+> driver can set the LED to blink on network activity in HW. If HW
+> supports it, netdev trigger should use this, otherwise netdev trigger
+> should blink the LED in software.
+
+I understand the desire of exposing the same API, but the current
+trigger code doesn't seem to be fit. I mean, the init sequence
+done at netdev_trig_activate():
+
+	trigger_data =3D kzalloc(sizeof(struct led_netdev_data), GFP_KERNEL);
+	if (!trigger_data)
+		return -ENOMEM;
+
+	spin_lock_init(&trigger_data->lock);
+
+	trigger_data->notifier.notifier_call =3D netdev_trig_notify;
+	trigger_data->notifier.priority =3D 10;
+
+	INIT_DELAYED_WORK(&trigger_data->work, netdev_trig_work);
+
+	trigger_data->led_cdev =3D led_cdev;
+	trigger_data->net_dev =3D NULL;
+	trigger_data->device_name[0] =3D 0;
+
+	trigger_data->mode =3D 0;
+	atomic_set(&trigger_data->interval, msecs_to_jiffies(50));
+	trigger_data->last_activity =3D 0;
+
+	led_set_trigger_data(led_cdev, trigger_data);
+
+	rc =3D register_netdevice_notifier(&trigger_data->notifier);
+	if (rc)
+		kfree(trigger_data);
+
+doesn't make sense when the LED will be trigged by the hardware,
+and registering a notifier for netdevice is overkill.
+
+The exported attributes:
+
+	static struct attribute *netdev_trig_attrs[] =3D {
+		&dev_attr_device_name.attr,
+		&dev_attr_link.attr,
+		&dev_attr_rx.attr,
+		&dev_attr_tx.attr,
+		&dev_attr_interval.attr,
+		NULL
+	};
+	ATTRIBUTE_GROUPS(netdev_trig);
+
+also won't apply, as the NUC API doesn't support setting device_name,=20
+RX, TX, link or interval.
+
+Instead, it allows to set:
+- the maximum brightness;
+- the color (if the LED is multi-colored);
+- the physical port(s) that will be monitored:
+	- LAN1
+	- LAN2
+	- LAN1+LAN2
+
+where LAN1 and LAN2 are two physical ports behind the NUC device.
+The netdev layer knows those as "eno1" and "enp5s0" (not=20
+necessarily at the same order).
+
+Also, while netdev trigger seems to use just one device name,
+the NUC allows to monitor both interfaces at the same time.
+
+See, unfortunately I can't see a common API that would fit
+nicely on both cases.
+
+> Currently the netdev trigger does the blinking in software only
+> (code in "ledtrig-netdev.c" file). There is a WIP to add the necessary
+> support for the netdev trigger to have the ability to offload blinking
+> to HW. I will try to respin this WIP and send patches for review.
+>=20
+> Once netdev trigger supports this feature, you can implement your
+> driver in this way. You can even make your driver depend on netdev
+> trigger=20
+
+> and set the specific LED into netdev triggering by default, and
+> even forbidding anything else.=20
+
+This is also probably one of the differences from other hardware:
+In principle, *any* led can monitor *any* hardware event[1].
+
+[1] There are some bitmaps at the interface that would allow the
+    BIOS to restrict it, but, at least on the device I have
+    (Hades Canyon), there's no such restriction: the same bitmap
+    masks are returned for all LEDs.
+
+> But this is the corrent way to do this,
+> instead of creating new sysfs API that is non-extendable.
+>=20
+> I am sorry that I did not explain this thoroughly in previous mails.
+> Hopefully this explanation is better.
+
+Yes, it is a lot better. Thanks for the explanation!
+
+Still, as I pointed above, I'm so far unable to see much in common=20
+with the way the existing LED drivers work and the way NUC LEDS are
+controlled.
+
+So, as much I would love to just reuse something that already exists,
+perhaps it would make more sense to create a separate class for such
+kind of usage.
+
+>=20
+> Marek
+>=20
+> PS: This is relevant for disk activity as well.
 
 
+
+Thanks,
+Mauro
