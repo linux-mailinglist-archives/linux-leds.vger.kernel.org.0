@@ -2,50 +2,46 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9771138C2D2
-	for <lists+linux-leds@lfdr.de>; Fri, 21 May 2021 11:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAD7138C43B
+	for <lists+linux-leds@lfdr.de>; Fri, 21 May 2021 11:59:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235858AbhEUJP2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 21 May 2021 05:15:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53196 "EHLO mail.kernel.org"
+        id S233360AbhEUKAh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 21 May 2021 06:00:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53096 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234287AbhEUJP2 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 21 May 2021 05:15:28 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AE8A3613AE;
-        Fri, 21 May 2021 09:14:03 +0000 (UTC)
+        id S236450AbhEUJ7U (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 21 May 2021 05:59:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BACE96135A;
+        Fri, 21 May 2021 09:57:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621588445;
-        bh=1qdT9S/SfkMROYxc6NjIRztiIRc7/iewyzNvhcacNNw=;
+        s=k20201202; t=1621591078;
+        bh=i4/KWLucX/hjgHaCwrMiynh+kfxBdskVyva3d5c9t7Q=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Xhd0IeiCplHjKW0D0INcPrbbUTaCoak0MA77qqrKcw1MrQG90StZQcb75PwG05fHt
-         F1Vw2clZRaW9cTjU7bvI9ZYd3Q+WW9x+Cx/sImgPh5adMx9M1cAA2yNyMk9ji0FZ5N
-         WFJcO/wf9dHvwlvOy0ZUWp2Y1BGxXF1vpBz6cPEoctpUROljF/cxrAIS/Pe/iZQO6p
-         sCLTpzrErgZYha91H8eiUYdZD++Ae3rarwiKxKwAzBOW1EMtiiiIItK3zLfgXu0lGp
-         Nji8bFA5N878xQry1XQp/Nnr0xMw4PahQF6qchc+Z2MMeJL/z/0075pCD6I2R33Z0S
-         vgLZJ6bCx6IbA==
-Date:   Fri, 21 May 2021 11:14:00 +0200
+        b=jt58pA8gUebfDrvf8VaIs9jNOmZdcHZVXBZu+j0balTLXBwqIxkuU8+pSogE0NjN5
+         0APDefdnLHE9x+YIw/3IRpwbLQc0I9PkO6SMg8ZB8IhX50fbmRCIImhrprQeE2wMg0
+         nZ0KXj2LG4SbiQ4BdHImK+2mKQqROjAF7DR2naJ1lxkkmat7lhlQVcJHJ0mb2BbkOb
+         XLRD4gmAWCUOE0LW42MDwAVG5VbZ+2KYkIu2CMhWdJY49nxKgeUhCvWAquDcgZlcN9
+         LeJrgkS5v5VtPURZHdGTFkpn760QlZzLFm/KQ9SXdk5Np8TAvyrvab6TVndKRxsLEx
+         MzwdvcrAV59Ow==
+Date:   Fri, 21 May 2021 11:57:52 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Pavel Machek <pavel@ucw.cz>, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 16/17] leds: leds-nuc: add support for changing the
- ethernet type indicator
-Message-ID: <20210521111400.127ffa10@coco.lan>
-In-Reply-To: <20210520220703.5a86b994@thinkpad>
+Cc:     Pavel Machek <pavel@ucw.cz>, linuxarm@huawei.com,
+        mauro.chehab@huawei.com, gregkh@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 00/17] Adding support for controlling the leds found
+ on Intel NUC
+Message-ID: <20210521115752.419f3ebf@coco.lan>
+In-Reply-To: <20210520214356.0392f374@thinkpad>
 References: <cover.1621349813.git.mchehab+huawei@kernel.org>
-        <792598f4a1a3219b6517057c92559b0f0a95b419.1621349814.git.mchehab+huawei@kernel.org>
-        <20210519100253.49b155e9@thinkpad>
-        <20210519121812.4285b3ea@coco.lan>
-        <20210519141102.0161a9d9@thinkpad>
-        <20210519162413.4feeab02@coco.lan>
-        <20210519175503.567e6ecc@thinkpad>
-        <20210519203014.1838de3a@coco.lan>
-        <20210520130014.7189a315@dellmb>
-        <20210520180028.495f94e4@coco.lan>
-        <20210520183633.084a8c3f@thinkpad>
-        <20210520205933.3cfc57a9@coco.lan>
-        <20210520220703.5a86b994@thinkpad>
+        <20210519111107.GC24621@duo.ucw.cz>
+        <20210519141508.6e7a4d56@coco.lan>
+        <20210519194115.GA31672@duo.ucw.cz>
+        <20210520010720.32265ad4@coco.lan>
+        <20210520181919.608568b2@thinkpad>
+        <20210520211615.437e22ee@coco.lan>
+        <20210520214356.0392f374@thinkpad>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -54,162 +50,123 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Em Thu, 20 May 2021 22:07:03 +0200
+Em Thu, 20 May 2021 21:43:56 +0200
 Marek Beh=C3=BAn <kabel@kernel.org> escreveu:
 
-> On Thu, 20 May 2021 20:59:33 +0200
+> On Thu, 20 May 2021 21:16:15 +0200
 > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 >=20
-> > > On the contrary, there is something the driver can do with these
-> > > attributes. If the specific combination is not supported, the driver
-> > > should return -EOPNOTSUPP in the trigger_offload method and let the
-> > > netdev trigger do the work in software.    =20
+> > So, assuming that we will have one trigger per each hardware
+> > state, it could have something like (names subject to change):
 > >=20
-> > Letting netdev to trigger is something we don't want to allow, as this
-> > can cause side effects, making it doing slow the system due to BIOS cal=
-ls
-> > for no good reason.
-> > =20
-> > > What exactly do the LEDs do
-> > > when configured to blink on activity on a network device? Do they just
-> > > blink on RX/TX, and otherwise are off?  Or are they on when a cable is
-> > > plugged, blink on rx/tx and otherwise off?   =20
+> > 	- hw:powerstate
+> > 	- hw:disk_activity
+> > 	- hw:ethernet_activity
+> > 	- hw:wifi_active
+> > 	- hw:power_limit
 > >=20
-> > They are on when a cable is plugged, blink on rx/tx and otherwise off.
-> >=20
-> > Worth mentioning that, besides the LEDs controlled by this driver, each
-> > RJ-45 port also a couple leds that behave just like normal RJ-45 ones:=
-=20
-> > a yellow led for Ethernet PHY detection and a green one for traffic. =20
+> > Right? =20
 >=20
-> So what the LED does when configured for ethernet is almost equivalent
-> to netdev setting [link=3D1, rx=3D1, activity=3D1]. Almost because we sti=
-ll have
-> the correct device setting and interval setting.
+> Yes, but we should really try to map ethernet_activity to netdev and
+> disk_activity to a potential blkdev trigger :-) That's my opinion.
 >=20
-> Theoretically what you can do is deny the netdev trigger for every
-> other netdev setting (since, according to you, it would use too much
-> CPU time in BIOS via software control). This could be done by the
-> offload method returning another error value, or maybe just returning 0
-> and printing info about this into kernel log. I wonder what others
-> think about this possible resolution.
-
-IMO, it would be preferred to have a different trigger here, as this
-is not a netdev-based trigger. So, its implementation should not call:
-
-	register_netdevice_notifier()
-
-nor set timers, etc.
-
-See, the hardware won't use any information provided by the netdev,
-trigger and the API is not the same, as the hardware trigger only
-wants to know if just one interface will trigger the led or both.
-
-> > > If even DSDT data is not enough to reliably find out which of the 2
-> > > network interfaces belongs to which LED setting, the worst case scena=
-rio
-> > > here is for your driver to need to have a list containing this
-> > > information for specific motherboards, and other people can then exte=
-nd
-> > > the driver to support their motherboards as well.   =20
+> > It still needs to indicate two other possible states:
 > >=20
-> > Needing something like that sucks and it is hard to maintain,
-> > and depends on people reporting issues. =20
->=20
-> I don't see much difference between this and various drivers having
-> different OF compatible strings for different chips all supported by
-> one driver.
-
-It is somewhat similar: on my experiences, the upstream OF compatibles
-are almost always outdated uptream: only OOT Kernels have the full
-OF stuff :-p
-
-The major difference is that hardware vendors usually develop and
-provide OF.
-
-In this case, you want users to fill bug reports that will ask a
-Kernel developer to add new entries for their machines to work
-properly. While we do this on other drivers, doing that is time
-consuming and may lead into errors. Believe me: this is needed
-on media drivers, as there are things like GPIOs that are
-device-specific. It is a pain to maintain those things.
-
-> > > > Then the API needs to change, in order to allow to abstract from
-> > > > netdev-centric view of Ethernet interfaces. Or, instead, some
-> > > > other trigger is needed for firmware-controlled events.     =20
-> > >=20
-> > > No. If the necessary information for determining which network
-> > > interface pairs to LED1 and which to LED2 cannot be reliably determin=
-ed
-> > > from ACPI tables, then IMO the driver should specify this information
-> > > for each motherboard that wants to use this feature.   =20
+> > 	- software controlled led;
+> > 	- led is disabled.
 > >=20
-> > What's the gain of adding such extra complexity to the driver? =20
->=20
-> Having a consistent API on different devices is a benefit in itself, I
-> would think.
-
-It wouldn't be consistent. Hardware sees the events on different
-ways than netdev, and associating netdev's view of the interface with
-the hardware's view will always be an issue, on any driver that would
-trigger such kind of events.
-
-See, let's assume someone would implement a hardware trigger for
-the LEDs on an 48-ports Ethernet switch, and different versions of
-such hub would use different Ethernet drivers.
-
-No matter how netdev sees the hardware, or if some of the ports
-can be replaced (some devices allow port hot-plugging), from userspace
-perspective, what it really matter is the port number as seen at
-the switch panel, no matter how netdev sees it.
-
-So, for hardware-triggered events, the hardware "label" is a lot
-more relevant than any linux-internal representation.
-
-> > All the user wants is to blink a led only for one of the LAN ports.
+> > Setting led's brightness to zero is different than disabling
+> > it.=20
+> >
+> > Disabling can be done via BIOS, but BIOS config doesn't allow
+> > setting the brightness. There are other difference on BIOS settings:
+> > it allow disabling each/all LED controls and/or to disable software=20
+> > control of each LED.
 > >=20
-> > Denying it and using a more complex API doesn't make much sense, IMO. =
-=20
+> > So, we need a way at the API to uniquely identify when the LED
+> > is software-controlled and when it is disabled.
+> > Would it be something like:
+> >=20
+> > 	- hw:disable
+> >=20
+> > trigger? or better to implement it on a different way? =20
 >=20
-> As I see it you are the one wanting to introduce more complexity into
-> the sysfs ABI. There is already a solution together with documentation
-> and everything for when the user wants to "blink a led only for one of
-> the LAN ports". It is the netdev trigger. And you want to complicate
-> that ABI.
+> What is the functional difference (visible to the user) between zero
+> brightness and disabled LED? IMO if user says
+>   echo 0 >brightness
+> you can just disable the LED. Or is this impossible?
 
-No. The existing in-kernel API is to blink a led based on software
-events originated from netdev from a single network port.=20
+echo 0 >brightness will turn off the LED, but it won't
+disable it. A trigger can still be enabled on it.
 
-It could monitor an interface that doesn't physically exist=20
-(a virtual network interface, like tun0). It could even monitor traffic
-on a single VLAN, if the interface is specified like eth0.100[1].
+With a disabled LED, depending on how it was disabled,=20
+it can't be enabled in runtime. One may need to boot the=20
+machine and use BIOS setup to enable it. Trying to change
+such LED in runtime will return an error.
 
-[1] As we're discussing API here, I didn't test/check if the current
-    implementation allows monitoring virtual and VLAN interfaces.
-    From API's perspective, it makes perfect sense to be able to
-    monitor any physical or logical interface supported by netdev.
+> =20
+> > > Is the speed of breathing/strobing also adjustable? Or only when
+> > > pulsing?   =20
+> >=20
+> > Yes, speed is also adjustable, from 0.1 to 1.0 HZ, in 0.1 Hz
+> > (NUC 8 and above).
+> >=20
+> > The NUC6 API is more limited than NUC8+: it has just two
+> > blink patterns (blink, fade), and only 3 frequencies are allowed
+> > (0.25 Hz, 0.50 Hz and 1.0 Hz).
+> >  =20
+> > > When this "hw:powerstate" trigger is enabled for this LED,
+> > > only then another sysfs files should appear in this LED's sysfs
+> > > directory.   =20
+> >=20
+> > OK, makes sense.=20
+> >=20
+> > Out of curiosity: is it reliable to make sysfs nodes appear and
+> > disappear dynamically? Does inotify (or something similar) can
+> > be used to identify when such nodes appear/disappear?
+> >=20
+> > I remember a long time ago I wanted to use something like that=20
+> > at the media (or edac?) subsystem, but someone (Greg, I think)
+> > recommended otherwise due to some potential racing issues. =20
+>=20
+> No idea, but I would guess yes.
+>=20
+> > > I'd rather use one file for frequencies and one for intervals, and map
+> > > in to an array, but that is just my preference...   =20
+> >=20
+> > By intervals are you meaning 1/frequency? So, basically exposing
+> > the frequency as two fields? If so, it sounds overkill to me to have bo=
+th.  =20
+>=20
+> Sorry, I meant one file for frequencies and one for patterns.
 
-The HW trigger is different: led blinks if the hardware detects Ethernet
-activity on one or more physical interfaces.
+Ah, makes sense. Yeah, that's how I mapped it.
 
-See, the netdev trigger monitors a netdev event with may or may not
-be due to an Ethernet port.
+> > Btw, maybe instead of "blink_behavior" it could use "blink_pattern".
+> >=20
+> > This would diverge from the datahseet name, but it probably describes
+> > better what will be controlled when blink is enabled:
+> >=20
+> > 	- frequency (or inverval)
+> > 	- pattern
+> >  =20
+> > > Regarding the enum with 8 colors: are these
+> > > colors red, yellow, green, cyan, blue, magenta? Because if so, then
+> > > this is RGB with each channel being binary :) So you can again use
+> > > multicolor framework.   =20
+> >=20
+> > The dual-colored ones aren't RGB. Two types are supported:
+> > 	- Blue/Amber
+> > 	- Blue/White =20
+>=20
+> These would need a new API, ignore these for now.
 
-An Ethernet HW trigger monitors activity on a set of physical
-Ethernet ports.
+This affects mainly NUC6 part of the API. I'll postpone it.
 
-In essence, the only thing in common is that both triggers are related to
-network, but they're actually monitoring two different types of events.
-
-Merging them into a single one sounds a conceptual mistake on my eyes.
-
-> You say that for this controller it would be bad to do in SW, because it
-> would take too much time in BIOS calls. (I wonder how much...)=20
-
-Yeah, it would be interesting to know how much. However, measuring BIOS
-latency and time spent on such calls can be tricky: one needs to use a
-high-res clock that it is not used anywhere else, in order to measure
-it.=20
+Yet, IMHO, the best here is to do exactly how I did: use the
+"normal" leds class and add a "color" attribute that can=20
+either be "blue" or "amber" written on it (for a  blue/amber=20
+kind of LED).
 
 Thanks,
 Mauro
