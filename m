@@ -2,207 +2,122 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1423338B813
-	for <lists+linux-leds@lfdr.de>; Thu, 20 May 2021 22:07:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7565938BDF6
+	for <lists+linux-leds@lfdr.de>; Fri, 21 May 2021 07:47:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235659AbhETUI3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 20 May 2021 16:08:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55594 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234708AbhETUI3 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 20 May 2021 16:08:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7DADC6121E;
-        Thu, 20 May 2021 20:07:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621541227;
-        bh=pFf9otXpGIOgWFDqx2eADeNTgOtcU5w03TbAb82o17s=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=kusykJbJM5cStbYzo5DKswJ2pXwb1ATZyf1LPFRnjDS88LCDH/KFA9R7DseZKqnJp
-         AJa12fhb2mHzQlNZnTof2uLku/QPXmB1FnVQliyLaXNXnhImLwzdMoVO5pSmpN5+tn
-         wpJ1XTqIJHHP+YnFIQfNM7cnp/4Eimq80Z5tlZtpgvaru6G/woNRVODv/ZOgMceU0+
-         OwTa1seIYtNUAPHlG/jXterBT0bJEmLmajvg0+Z2vUSpvMetnXY8cN3onSbamvL/xH
-         E8VLO63DkZhoTC8RqaGr/KKlNk0IUfPQZVC1qoUSebBM2G7XZjCVmboQerGlA/k8+q
-         kVYfCkSJIRbZQ==
-Date:   Thu, 20 May 2021 22:07:03 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Pavel Machek <pavel@ucw.cz>, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 16/17] leds: leds-nuc: add support for changing the
- ethernet type indicator
-Message-ID: <20210520220703.5a86b994@thinkpad>
-In-Reply-To: <20210520205933.3cfc57a9@coco.lan>
-References: <cover.1621349813.git.mchehab+huawei@kernel.org>
-        <792598f4a1a3219b6517057c92559b0f0a95b419.1621349814.git.mchehab+huawei@kernel.org>
-        <20210519100253.49b155e9@thinkpad>
-        <20210519121812.4285b3ea@coco.lan>
-        <20210519141102.0161a9d9@thinkpad>
-        <20210519162413.4feeab02@coco.lan>
-        <20210519175503.567e6ecc@thinkpad>
-        <20210519203014.1838de3a@coco.lan>
-        <20210520130014.7189a315@dellmb>
-        <20210520180028.495f94e4@coco.lan>
-        <20210520183633.084a8c3f@thinkpad>
-        <20210520205933.3cfc57a9@coco.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S233908AbhEUFsn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 21 May 2021 01:48:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36222 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233880AbhEUFsn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 May 2021 01:48:43 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F87EC061574;
+        Thu, 20 May 2021 22:47:20 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id b13so24561454ybk.4;
+        Thu, 20 May 2021 22:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=hFPiRDrNzp3HtDISlSQ0dvERMbGNvSvshrKNkxFFn1o=;
+        b=tHClaGvxxf62T3d8IpJTqLH5I1U2ohjoPLoyKMK45m1wVsWqz5NLDsDt3NkCbi1EqV
+         OWqwTHZcS3x0ApxHyuTxqUDJ1+ARHHDT4V1ZEbIaAqrqk/Hpcw7li+WReVgZCrC4LJlh
+         /FJOP/QEqBhCMLsd0BcIt5/PcYBbx7NHPeBlCzWEK0DYaKsNrs5QTfe+Nxa50t9+oLnW
+         IUyp671DIzXHbJoN/DIcugP98yROuGmIlC2aTN0e3677sN3ypB+a5wEws3s3BNA42ZF9
+         XKvnCbKvbOwr44qNqfgkPs+9IKpwMxLs0B/RmAL5XxmSkjpVLuQdNhsu6tH/0eeb1wmM
+         ccrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=hFPiRDrNzp3HtDISlSQ0dvERMbGNvSvshrKNkxFFn1o=;
+        b=WU1kXuwsndybccDIJNkyyXS4ZNn6fwJFBlKAL/5AiafRqbCQvwN+BqIK8aQSKPZEvu
+         j0dQjHQwvUTnAdDAIgDHMZVXG08GWIgf9PX+fmv+r3dVXnscQT69T0kv1L4qzuF+/ZZR
+         pxiMkzgBF0dv1B3BpM5Spk+Fg4PhzMsIawlMuq75b8W5jI3VcuM2aXWOXgWCdS/B0vEv
+         XJqTW2iliAiVW/B6dle5LfUydsQZbRkkilVHHldG/5DGk76/gRTMKTYYiDAssF1hzaWC
+         vu6TxQ8UUEUPIV/s+C0d44CHt7FWcCc0YvBv9olEylzzkPCNfjmpj7+bydyRNYPwMoy3
+         P9ww==
+X-Gm-Message-State: AOAM530BbvdRd+TdnUEET2SesYnzgEAnQi3xWdRX2c16joJkbhm5+ewl
+        exeu43ohZ8rEIFwwYJaXJiuCQElO4A1HZU33YoQ=
+X-Google-Smtp-Source: ABdhPJzf2lxxYZ2GQc+Z81M8QIzhHH4kA2d7YEP6cAjSx2X3T+sBjyKEFpdaAQvuhgG34knQ20kF7ugPTjxf4JXMA1c=
+X-Received: by 2002:a25:6f89:: with SMTP id k131mr12420474ybc.491.1621576039683;
+ Thu, 20 May 2021 22:47:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Thu, 20 May 2021 22:47:08 -0700
+Message-ID: <CAEc3jaCfS=DPQiSjh+_aVePbUXHe-M7WH1t+JtSLwqu0Vktnxw@mail.gmail.com>
+Subject: Naming of HID LED devices
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        marek.behun@nic.cz
+Cc:     linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
+        Jiri Kosina <jikos@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 20 May 2021 20:59:33 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Hi Benjamin and Marek,
 
-> > On the contrary, there is something the driver can do with these
-> > attributes. If the specific combination is not supported, the driver
-> > should return -EOPNOTSUPP in the trigger_offload method and let the
-> > netdev trigger do the work in software.   
-> 
-> Letting netdev to trigger is something we don't want to allow, as this
-> can cause side effects, making it doing slow the system due to BIOS calls
-> for no good reason.
+Earlier this year during review of the hid-playstation driver there
+was a discussion on the naming of LEDs exposed by HID drivers. Moving
+forward the preference from the LED maintainers was to follow the
+naming scheme "device:color:function" instead of the custom names used
+so far by HID drivers.
+
+I would like to get some guidance on the naming direction not just for
+hid-playstation, but Daniel's hid-nintendo driver for which he posted
+a new revision today has the same problem.
+
+The original discussion was on "why not use the input device name?"
+(e.g. input15). It was concluded that it wouldn't uniquely identify a
+HID device among reasons.
+
+One suggested approach by Benjamin was to use the sysfs unique name
+with the bus, vid, pid.. but without ":" or ".":
+> > > The unique ID of HID devices (in /sys/bus/hid/devices) is in the form
+> > > `BUS:VID:PID.XXXX`. I understand the need to not have colons, so could
+> > > we standardize LEDs on the HID subsystem to be named
+> > > `hid-bus_vid_pid_xxxx:color:fun(-n)?`? That would allow a mapping
+> > > between the LED and the sysfs, and would also allow users to quickly
+> > > filter out the playstation ones.
+
+Another approach mentioned was to invent some new ID and use a name like "hidN":
+> > So you are saying that the fact that userspace cannot take the number
+> > from "hidN" string and simply do a lookup /sys/bus/hid/devices/hidN is
+> > the problem here.
+> >
+> > This is not a problem in my opinion, because userspace can simply
+> > access the parent HID device via /sys/class/leds/hidN:color:func/parent.
 >
-> > What exactly do the LEDs do
-> > when configured to blink on activity on a network device? Do they just
-> > blink on RX/TX, and otherwise are off?  Or are they on when a cable is
-> > plugged, blink on rx/tx and otherwise off?  
-> 
-> They are on when a cable is plugged, blink on rx/tx and otherwise off.
-> 
-> Worth mentioning that, besides the LEDs controlled by this driver, each
-> RJ-45 port also a couple leds that behave just like normal RJ-45 ones: 
-> a yellow led for Ethernet PHY detection and a green one for traffic.
+> So in that case, there is no real point at keeping this ID in sync
+> with anything else? I would be more willing to accept a patch in HID
+> core that keeps this ID just for HID LEDs, instead of adding just an
+> ID with no meaning to all HID devices.
 
-So what the LED does when configured for ethernet is almost equivalent
-to netdev setting [link=1, rx=1, activity=1]. Almost because we still have
-the correct device setting and interval setting.
+I'm not sure which approach would be prefered. A "hidN" approach would
+have little meaning perhaps, but looks pretty. While the
+"hid-bus_vid_pid_xxxx" has a real meaning, but looks less nice. Unless
+there is another approach as well.
 
-Theoretically what you can do is deny the netdev trigger for every
-other netdev setting (since, according to you, it would use too much
-CPU time in BIOS via software control). This could be done by the
-offload method returning another error value, or maybe just returning 0
-and printing info about this into kernel log. I wonder what others
-think about this possible resolution.
+Then there is the question on how to best generate these names. The
+"hidN" approach could leverage the XXXX id an store it internally
+(though it doesn't have a real meaning). If we only want to allocate
+such an ID for devices with LEDs then some flag would need to be
+passed back to hid-core. Not sure what the best way would be (almost a
+call like hid_hw_start as part of connect_mask unless there is a
+better way).
 
-> > Have you looked into DSDT and SSDT tables?  
-> 
-> It doesn't help.
+A hid-bus string is easier to create. Though even there is a question
+on how to do it. It would be wasteful to store it for each hid_device.
+It could be generated using a helper function out of
+"dev_name(hdev->dev)", though personally I dislike any string
+manipulation kernel side if it can be avoided. I would probably
+suggest to store "XXXX" in each hid_device struct and have users (so
+far would only be hid-nintendo and hid-playstation) generate the
+strings themselves for now. Again also not nice unless a
+"hid_device_name()" helper is desired then...
 
-Pity :(
-
-> > If even DSDT data is not enough to reliably find out which of the 2
-> > network interfaces belongs to which LED setting, the worst case scenario
-> > here is for your driver to need to have a list containing this
-> > information for specific motherboards, and other people can then extend
-> > the driver to support their motherboards as well.  
-> 
-> Needing something like that sucks and it is hard to maintain,
-> and depends on people reporting issues.
-
-I don't see much difference between this and various drivers having
-different OF compatible strings for different chips all supported by
-one driver.
-
-> Ok, on some cases, there are no other options, but this is not
-> the case here, as the user of such API that wants to monitor
-> just a single interface (default is to monitor both) can easily 
-> ask the driver to monitor LAN1. If it doesn't work, switch to LAN2.
-> 
-> That's a way more elegant than adding some guessing code that
-> would be checking for the machine codes, eventually printing
-> a warning and disabling support for monitoring LAN when the
-> machine is not properly identified.
-> 
-> Also, implementing such table can be painful. I can't see an
-> easy way to implement it, specially without having any information
-> about how all other models that support the WMI API are shipped,
-> and how to map "LAN1", "LAN2" into something that matches netdev
-> detection. OK, if each one have a different BUS ID,
-> a mapping table could associate each one with a different BUS
-> ID, and then some logic at netdev would convert BUS ID into
-> the device name.
-> 
-> > > > > Also, while netdev trigger seems to use just one device name,
-> > > > > the NUC allows to monitor both interfaces at the same time.        
-> > > > 
-> > > > Yes. This can be solved in the future by extending netdev trigger to
-> > > > support blinking on activity on multiple netdevices. I also thought
-> > > > about this for use with another HW (mv88e6xxx switch).
-> > > >       
-> > > > > See, unfortunately I can't see a common API that would fit
-> > > > > nicely on both cases.        
-> > > > 
-> > > > Well I can.      
-> > > 
-> > > Then the API needs to change, in order to allow to abstract from
-> > > netdev-centric view of Ethernet interfaces. Or, instead, some
-> > > other trigger is needed for firmware-controlled events.    
-> > 
-> > No. If the necessary information for determining which network
-> > interface pairs to LED1 and which to LED2 cannot be reliably determined
-> > from ACPI tables, then IMO the driver should specify this information
-> > for each motherboard that wants to use this feature.  
-> 
-> What's the gain of adding such extra complexity to the driver?
-
-Having a consistent API on different devices is a benefit in itself, I
-would think.
-
-> All the user wants is to blink a led only for one of the LAN ports.
-> 
-> Denying it and using a more complex API doesn't make much sense, IMO.
-
-As I see it you are the one wanting to introduce more complexity into
-the sysfs ABI. There is already a solution together with documentation
-and everything for when the user wants to "blink a led only for one of
-the LAN ports". It is the netdev trigger. And you want to complicate
-that ABI.
-
-> > > -
-> > > 
-> > > One thing that it is not clear to me: let's say that the LED
-> > > called "front1" is currently handling Ethernet events, but
-> > > the user wants to use, instead, the "front2" LED, disabling
-> > > the "front1" one (or using for another event, like wifi, which
-> > > is not monitored on BIOS default).
-> > > 
-> > > How this can be done using the trigger's API?    
-> > 
-> > cd /sys/class/leds/front1
-> > echo none >trigger
-> > cd /sys/class/leds/front2
-> > echo netdev >trigger  
-> 
-> Clear enough to me.
-> 
-> > echo ifname >device_name
-> > echo 1 >rx
-> > echo 1 >tx  
-> 
-> And that's the part that it makes no sense for this hardware ;-)
-> 
-> It can't identify RX/TX in separate. It can only monitor both RX and TX at
-> the same time.
-> 
-> So, for this specific device, neither "rx", "tx" or "interval"
-> attributes should be shown.
-
-If a netdev setting is not supported by the HW, it should be done in SW.
-You say that for this controller it would be bad to do in SW, because it
-would take too much time in BIOS calls. (I wonder how much...) If this
-is really the case then I still think it is more preferable to do this
-via netdev trigger, and forbid settings not supported by HW. The result
-could be:
-
-     # I want the LED to blink on ethernet activity
-   $ echo netdev >trigger
-     # ok, but I only wan't it to blink on rx activity, not tx
-   $ echo 0 >tx
-   Operation not supported.
-
-Pavel, what is your opinion here?
-
-Marek
+Thanks,
+Roderick
