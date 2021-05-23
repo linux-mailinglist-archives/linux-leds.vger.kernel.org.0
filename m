@@ -2,156 +2,194 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0924F38CAAF
-	for <lists+linux-leds@lfdr.de>; Fri, 21 May 2021 18:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4DCF38DD39
+	for <lists+linux-leds@lfdr.de>; Sun, 23 May 2021 23:19:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237317AbhEUQN5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 21 May 2021 12:13:57 -0400
-Received: from mail1.protonmail.ch ([185.70.40.18]:21261 "EHLO
-        mail1.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237337AbhEUQN5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 21 May 2021 12:13:57 -0400
-Date:   Fri, 21 May 2021 16:12:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1621613550;
-        bh=5RILEZs7S0CGicPXDq3h3atByy5bwQUtfEAV0r3rkmY=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=k+TvfcskjzwV2gIDv07zVAyaEdsR0F+Ujgo4NrV4Q3YKaieW1QgCt/ZVYm573jyWQ
-         FHyM+gqJxR/XLFrt44gmouBrz9rEuIQE8ObwSd3+s9VxZWF0l0qTq8urMQADJDIlat
-         c3vHbJtEpguVyVUzlSQI5hjN2WyQdepOpN0CuT7w=
-To:     =?utf-8?Q?Marek_Beh=C3=BAn?= <marek.behun@nic.cz>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: Naming of HID LED devices
-Message-ID: <4B1i3b0Y36T-pcw4kf2a8nu0t1-JDIjIBvTbHRKCDkF9dLRnJeFUjQ3BN6nqkyHHdZlXqDLiGWlEdRaon9chcIG9oiHh4KJXavYVzazJPQY=@protonmail.com>
-In-Reply-To: <20210521175718.39d932ae@dellmb>
-References: <CAEc3jaCfS=DPQiSjh+_aVePbUXHe-M7WH1t+JtSLwqu0Vktnxw@mail.gmail.com> <20210521175718.39d932ae@dellmb>
+        id S232001AbhEWVUz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 23 May 2021 17:20:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231989AbhEWVUy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 23 May 2021 17:20:54 -0400
+Received: from polaris.svanheule.net (polaris.svanheule.net [IPv6:2a00:c98:2060:a004:1::200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1171C061574
+        for <linux-leds@vger.kernel.org>; Sun, 23 May 2021 14:19:27 -0700 (PDT)
+Received: from [IPv6:2a02:a03f:eafb:ee01:bd37:7535:eb00:6fa] (unknown [IPv6:2a02:a03f:eafb:ee01:bd37:7535:eb00:6fa])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: sander@svanheule.net)
+        by polaris.svanheule.net (Postfix) with ESMTPSA id C89E52029F7;
+        Sun, 23 May 2021 23:19:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+        s=mail1707; t=1621804765;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=opv3990mDSD1lvjaG3Y+p6pla5OsohJOXQgJ2GCpUCA=;
+        b=ZKp4mnX/nj5Var4/Fw7v+hTJF4PNdS3w9iamielGQ2EshBogJW26NaPEGr2M9S3ec3EJWd
+        r2aTHinbgON02oaaXkAAtI0XUirD+kgYEQ9Mjke03lOgSnucc1B0B4Y5YtU+tknvxUnvTE
+        tqu3LLqOtM7ADP2wZo2bu7bELO4EzCLbnKryMjiLFVo4upd2WCbzO4nbxnF1mNsx2ZOszf
+        RhED7RxOmEQPJ+sRY9bZVuZANBKCqK7j0SUc2b18yh2ydVingF9G+CLWS03ft7ICcmnWSI
+        kReF6OHo6SosgATIw3hIrTajNhOPtQKanXVK7mxRJ3KbKR8eqeNgRn/5iePL5Q==
+Message-ID: <2ad8d401c6c76f5233ba0bec43217b311e2a2f76.camel@svanheule.net>
+Subject: Re: [PATCH v2 2/7] gpio: regmap: Add configurable dir/value order
+From:   Sander Vanheule <sander@svanheule.net>
+To:     Michael Walle <michael@walle.cc>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-kernel@vger.kernel.org
+Date:   Sun, 23 May 2021 23:19:22 +0200
+In-Reply-To: <675e36df5aaa1e1be3a1a77289a0a952@walle.cc>
+References: <cover.1621279162.git.sander@svanheule.net>
+         <d5f294489d31a80b69169f358da89bb7f70d1328.1621279162.git.sander@svanheule.net>
+         <675e36df5aaa1e1be3a1a77289a0a952@walle.cc>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi
+Hi Michael,
+
+On Tue, 2021-05-18 at 10:39 +0200, Michael Walle wrote:
+> Hi,
+> 
+> Am 2021-05-17 21:28, schrieb Sander Vanheule:
+> > GPIO chips may not support setting the output value when a pin is
+> > configured as an input, although the current implementation assumes 
+> > this
+> > is always possible.
+> > 
+> > Add support for setting pin direction before value. The order defaults
+> > to setting the value first, but this can be reversed by setting the
+> > regmap_config.no_set_on_input flag, similar to the corresponding flag 
+> > in
+> > the gpio-mmio driver.
+> > 
+> > Signed-off-by: Sander Vanheule <sander@svanheule.net>
+> > ---
+> >  drivers/gpio/gpio-regmap.c  | 20 +++++++++++++++++---
+> >  include/linux/gpio/regmap.h |  3 +++
+> >  2 files changed, 20 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpio/gpio-regmap.c b/drivers/gpio/gpio-regmap.c
+> > index 134cedf151a7..1cdb20f8f8b4 100644
+> > --- a/drivers/gpio/gpio-regmap.c
+> > +++ b/drivers/gpio/gpio-regmap.c
+> > @@ -170,14 +170,25 @@ static int gpio_regmap_direction_input(struct
+> > gpio_chip *chip,
+> >         return gpio_regmap_set_direction(chip, offset, false);
+> >  }
+> > 
+> > -static int gpio_regmap_direction_output(struct gpio_chip *chip,
+> > -                                       unsigned int offset, int value)
+> > +static int gpio_regmap_dir_out_val_first(struct gpio_chip *chip,
+> > +                                        unsigned int offset, int value)
+> 
+> Can we leave the name as is? TBH I find these two similar names
+> super confusing. Maybe its just me, though.
+
+Sure. This is the implementation used in gpio-mmio.c to provide the same
+functionality, so I had used that for consistenty between the two drivers.
+
+> >  {
+> >         gpio_regmap_set(chip, offset, value);
+> > 
+> >         return gpio_regmap_set_direction(chip, offset, true);
+> >  }
+> > 
+> > +static int gpio_regmap_dir_out_dir_first(struct gpio_chip *chip,
+> > +                                        unsigned int offset, int value)
+> > +{
+> > +       int err;
+> 
+> use ret for consistency here
+> 
+> > +
+> > +       err = gpio_regmap_set_direction(chip, offset, true);
+> > +       gpio_regmap_set(chip, offset, value);
+> > +
+> > +       return err;
+> > +}
+> > +
+> 
+> Instead of adding a new one, we can also just check no_set_on_input
+> in gpio_regmap_direction_output(), which I'd prefer.
+> 
+> static int gpio_regmap_direction_output(struct gpio_chip *chip,
+>                                         unsigned int offset, int value)
+> {
+>         struct gpio_regmap *gpio = gpiochip_get_data(chip);
+>         int ret;
+> 
+>         if (gpio->no_set_on_input) {
+>                 /* some smart comment here, also mention gliches */
+>                 ret = gpio_regmap_set_direction(chip, offset, true);
+>                 gpio_regmap_set(chip, offset, value);
+>         } else {
+>                 gpio_regmap_set(chip, offset, value);
+>                 ret = gpio_regmap_set_direction(chip, offset, true);
+>         }
+> 
+>         return ret;
+> }
+> 
+
+This would certainly make the code a bit easier to follow when you're not
+familiar with it :-)
+I also see the other functions do checks on static values too, so I'll bring
+this function in line with that style.
 
 
-2021. m=C3=A1jus 21., p=C3=A9ntek 17:57 keltez=C3=A9ssel, Marek Beh=C3=
-=BAn =C3=ADrta:
+> >  void gpio_regmap_set_drvdata(struct gpio_regmap *gpio, void *data)
+> >  {
+> >         gpio->driver_data = data;
+> > @@ -277,7 +288,10 @@ struct gpio_regmap *gpio_regmap_register(const
+> > struct gpio_regmap_config *config
+> >         if (gpio->reg_dir_in_base || gpio->reg_dir_out_base) {
+> >                 chip->get_direction = gio_regmap_get_direction;
+> >                 chip->direction_input = gpio_regmap_direction_input;
+> > -               chip->direction_output = gpio_regmap_direction_output;
+> > +               if (config->no_set_on_input)
+> > +                       chip->direction_output =
+> > gpio_regmap_dir_out_dir_first;
+> > +               else
+> > +                       chip->direction_output =
+> > gpio_regmap_dir_out_val_first;
+> >         }
+> > 
+> >         ret = gpiochip_add_data(chip, gpio);
+> > diff --git a/include/linux/gpio/regmap.h b/include/linux/gpio/regmap.h
+> > index 334dd928042b..2a732f8f23be 100644
+> > --- a/include/linux/gpio/regmap.h
+> > +++ b/include/linux/gpio/regmap.h
+> > @@ -30,6 +30,8 @@ struct regmap;
+> >   * @reg_dir_out_base:  (Optional) out setting register base address
+> >   * @reg_stride:                (Optional) May be set if the registers (of
+> > the
+> >   *                     same type, dat, set, etc) are not consecutive.
+> > + * @no_set_on_input:   Set if output value can only be set when the 
+> > direction
+> > + *                     is configured as output.
+> 
+> set_direction_first ?
 
-> On Thu, 20 May 2021 22:47:08 -0700
-> Roderick Colenbrander <thunderbird2k@gmail.com> wrote:
->
-> > Hi Benjamin and Marek,
-> >
-> > Earlier this year during review of the hid-playstation driver there
-> > was a discussion on the naming of LEDs exposed by HID drivers. Moving
-> > forward the preference from the LED maintainers was to follow the
-> > naming scheme "device:color:function" instead of the custom names used
-> > so far by HID drivers.
-> >
-> > I would like to get some guidance on the naming direction not just for
-> > hid-playstation, but Daniel's hid-nintendo driver for which he posted
-> > a new revision today has the same problem.
-> >
-> > The original discussion was on "why not use the input device name?"
-> > (e.g. input15). It was concluded that it wouldn't uniquely identify a
-> > HID device among reasons.
-> >
-> > One suggested approach by Benjamin was to use the sysfs unique name
-> > with the bus, vid, pid.. but without ":" or ".":
-> > > > > The unique ID of HID devices (in /sys/bus/hid/devices) is in
-> > > > > the form `BUS:VID:PID.XXXX`. I understand the need to not have
-> > > > > colons, so could we standardize LEDs on the HID subsystem to be
-> > > > > named `hid-bus_vid_pid_xxxx:color:fun(-n)?`? That would allow a
-> > > > > mapping between the LED and the sysfs, and would also allow
-> > > > > users to quickly filter out the playstation ones.
-> >
-> > Another approach mentioned was to invent some new ID and use a name
-> > like "hidN":
-> > > > So you are saying that the fact that userspace cannot take the
-> > > > number from "hidN" string and simply do a lookup
-> > > > /sys/bus/hid/devices/hidN is the problem here.
-> > > >
-> > > > This is not a problem in my opinion, because userspace can simply
-> > > > access the parent HID device via
-> > > > /sys/class/leds/hidN:color:func/parent.
-> > >
-> > > So in that case, there is no real point at keeping this ID in sync
-> > > with anything else? I would be more willing to accept a patch in HID
-> > > core that keeps this ID just for HID LEDs, instead of adding just an
-> > > ID with no meaning to all HID devices.
-> >
-> > I'm not sure which approach would be prefered. A "hidN" approach would
-> > have little meaning perhaps, but looks pretty. While the
-> > "hid-bus_vid_pid_xxxx" has a real meaning, but looks less nice. Unless
-> > there is another approach as well.
-> >
-> > Then there is the question on how to best generate these names. The
-> > "hidN" approach could leverage the XXXX id an store it internally
-> > (though it doesn't have a real meaning). If we only want to allocate
-> > such an ID for devices with LEDs then some flag would need to be
-> > passed back to hid-core. Not sure what the best way would be (almost a
-> > call like hid_hw_start as part of connect_mask unless there is a
-> > better way).
-> >
-> > A hid-bus string is easier to create. Though even there is a question
-> > on how to do it. It would be wasteful to store it for each hid_device.
-> > It could be generated using a helper function out of
-> > "dev_name(hdev->dev)", though personally I dislike any string
-> > manipulation kernel side if it can be avoided. I would probably
-> > suggest to store "XXXX" in each hid_device struct and have users (so
-> > far would only be hid-nintendo and hid-playstation) generate the
-> > strings themselves for now. Again also not nice unless a
-> > "hid_device_name()" helper is desired then...
->
-> Since it was some time ago I don't quite remember what the exact
-> problem was with the suggestion I had about using the ID from the id
-> variable in hid_add_device() function in hid-core.c.
->
-> The code does:
->
->   int hid_add_device(struct hid_device *hdev)
->   {
->     static atomic_t id =3D ATOMIC_INIT(0);
->     ...
->     dev_set_name(&hdev->dev, "%04X:%04X:%04X.%04X", hdev->bus,
->                  hdev->vendor, hdev->product, atomic_inc_return(&id));
->     ...
->   }
->
-> The id variable is static and atomic, so it is unique for every
-> hid_device. Why cannot we use this?
->
-> Marek
+This negation can indeed be a bit confusing, I'll change this. As Andy
+suggested, I just went for a 'quirks' field, with currently only one defined
+flag.
+
+Best,
+Sander
 
 
-One point was put forward by Benjamin in the following email:
-
-https://lore.kernel.org/linux-input/CAO-hwJ+=3D_fjHgenXvHv45sHgzwiG2z9vGeq7=
-fmMqj2=3DBeYCF1Q@mail.gmail.com/
-
-
-> Yes and no. This atomic_inc is only used to allow a sysfs tree,
-> because you can have several HID devices below the same USB, I2C or
-> UHID physical device. From the userspace, no-one cares about that ID,
-> because all HID devices are exported as input, IIO or hidraw nodes.
->
-> So using this "id" would not allow for a direct mapping HID device ->
-> sysfs entry because users will still have to walk through the tree to
-> find out which is which.
-
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
