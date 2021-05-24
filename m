@@ -2,40 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F180E38E23C
-	for <lists+linux-leds@lfdr.de>; Mon, 24 May 2021 10:23:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4856838E3D0
+	for <lists+linux-leds@lfdr.de>; Mon, 24 May 2021 12:19:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232419AbhEXIZH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 24 May 2021 04:25:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34096 "EHLO
+        id S232426AbhEXKUf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 24 May 2021 06:20:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232415AbhEXIZH (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 May 2021 04:25:07 -0400
-Received: from polaris.svanheule.net (polaris.svanheule.net [IPv6:2a00:c98:2060:a004:1::200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8444FC061756
-        for <linux-leds@vger.kernel.org>; Mon, 24 May 2021 01:23:39 -0700 (PDT)
-Received: from [IPv6:2a02:a03f:eafb:ee01:cbcc:e481:3e58:4db1] (unknown [IPv6:2a02:a03f:eafb:ee01:cbcc:e481:3e58:4db1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sander@svanheule.net)
-        by polaris.svanheule.net (Postfix) with ESMTPSA id 9DDD6202DEE;
-        Mon, 24 May 2021 10:23:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-        s=mail1707; t=1621844617;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uOEL5PVKTSUVqkse2nPy0LK4tHDeHxRnITwOHkYlUW8=;
-        b=rqSTd/u4vzlzBctH2x2b+Ywq6+PBJXlKX09/61rlwGcukDMom3rzHQIF2HFoNf1RS4gzwH
-        kJsdq9Cm4gvMxI3rpEloPpZjl9Sn861VEXq3qmkK20JWnzVZMnoOmehF5paEaMoS9HKpfh
-        n3i/gRp+zCcIscFKFjUiZc4J1fJ5DVnUWZcNVOFBCy0aPEOGVTpUFEmoYjl4A+Yz5MXgnT
-        PSTIs9wPUen+mefNSF6Y83gSHEcvMJib7B2ftSh15c9Wnyr+rKG4uWUDo7vFbPmG3buL4A
-        MwEC2I5Ajz8DZWetaWNjvugtwJFh0O64eTdXKHLNH7O9O6tmOhUrt6RdbomGOQ==
-Message-ID: <cb8593ab7a70528528bae3de45e33fae68a9ec1c.camel@svanheule.net>
+        with ESMTP id S232546AbhEXKUf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 24 May 2021 06:20:35 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68900C061574;
+        Mon, 24 May 2021 03:19:07 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id q25so2418091pfn.1;
+        Mon, 24 May 2021 03:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7P3rbw20QtIx2EZ/I5Mr6iPXXPT7ZlUKHnawyS02Flo=;
+        b=RhqivdwEmZWNijDNmcq07SRQuMeVT/LKWaR1UdAItNS6PGGD2UOXMvh2CJNENYCqm9
+         40tIg2Et2nRMQnbILw8C3x/1RsvkQLBzOrmRHJ05N+nQccfgYYYZ9jHBh4A6C8jxbfAV
+         /vXPKq/QCuIlJLuZuXDkYBqLfI98RFls1t9ORJEY0WhkvF1GeBZIHA9EOs+nJciVlJQG
+         zRTpV4INuoo8BX7tXIyz/VbZKkhx5qtZLasI/Cc+TeDgje5EiEh+3F49eZ8LgMcUp/WY
+         aMIWBgFV0ZZLCg5yolEwJSvNvv4k5lfblV5eeQ7unFqkbtv6OBairw4D/9qdqScr+JfN
+         6nNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7P3rbw20QtIx2EZ/I5Mr6iPXXPT7ZlUKHnawyS02Flo=;
+        b=JTkgSnJbi/FpxX2ntVu7vXGsqadukyJzl8dIhb5BlSBVwKnC/7+7xPsIoOXJgcswEQ
+         YBnBhyLs13Ei2NpulRnmxWRsEozPOcinn/U4/EjPCj4E+DElIOzwIxim+2plq/U6+DGd
+         friGMCJxldbpxQ6JnyVTz293n/A8d7gd2iT0l25rBIwS82FaFHQyD2pljEQkbL07pxjS
+         O1zhy3xjrD8hT6xAtV6J8iQM1Jxu1H5dj6Cq1JSrOaSe4h0ojaV2oPYp6zY5b9ZWF7qn
+         4eDhWJsIAnhMLRCHXsYkh0FuX3en8klX9SzjlzGPo09LvlKgfJgVON/Cr7sR6FtK68ER
+         Ayeg==
+X-Gm-Message-State: AOAM5312AsC1DqHcWYa0A2Pu2GsDIR915rpD370jbIujJcawyP2xtjmO
+        RbV0Vfo/LJ/1QVwK71KCwswF4JJT2csLPMfpnE0=
+X-Google-Smtp-Source: ABdhPJxgBLi5YvLSVwx0GwgcoKPWvL1t+1Uyu/4O7lPdzNvjMHnfPdtr+B5VevOc7ChDFnyA0QNB/7ipxUN9pRxzPlE=
+X-Received: by 2002:a63:4145:: with SMTP id o66mr12921437pga.4.1621851546868;
+ Mon, 24 May 2021 03:19:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1621809029.git.sander@svanheule.net> <6d14b72bc545a818675d99c8e91e99c96cc3e286.1621809029.git.sander@svanheule.net>
+ <CAHp75VcbRKGYSJZK_Rg969-Uck=h+8byWt0B3MtQJDqwbdf2sw@mail.gmail.com> <cb8593ab7a70528528bae3de45e33fae68a9ec1c.camel@svanheule.net>
+In-Reply-To: <cb8593ab7a70528528bae3de45e33fae68a9ec1c.camel@svanheule.net>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 24 May 2021 13:18:50 +0300
+Message-ID: <CAHp75VfVNJSuiErRYNLvUrCytWXwzos5Uj87Hj+bSBee7p2YfQ@mail.gmail.com>
 Subject: Re: [PATCH v3 4/6] mfd: Add RTL8231 core device
-From:   Sander Vanheule <sander@svanheule.net>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Sander Vanheule <sander@svanheule.net>
 Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Lee Jones <lee.jones@linaro.org>,
         Mark Brown <broonie@kernel.org>,
@@ -50,92 +66,35 @@ Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
         Andrew Lunn <andrew@lunn.ch>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         kernel test robot <lkp@intel.com>
-Date:   Mon, 24 May 2021 10:23:35 +0200
-In-Reply-To: <CAHp75VcbRKGYSJZK_Rg969-Uck=h+8byWt0B3MtQJDqwbdf2sw@mail.gmail.com>
-References: <cover.1621809029.git.sander@svanheule.net>
-         <6d14b72bc545a818675d99c8e91e99c96cc3e286.1621809029.git.sander@svanheule.net>
-         <CAHp75VcbRKGYSJZK_Rg969-Uck=h+8byWt0B3MtQJDqwbdf2sw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Andy,
+On Mon, May 24, 2021 at 11:23 AM Sander Vanheule <sander@svanheule.net> wrote:
+> On Mon, 2021-05-24 at 11:02 +0300, Andy Shevchenko wrote:
+> > On Mon, May 24, 2021 at 1:34 AM Sander Vanheule <sander@svanheule.net> wrote:
 
-On Mon, 2021-05-24 at 11:02 +0300, Andy Shevchenko wrote:
-> On Mon, May 24, 2021 at 1:34 AM Sander Vanheule <sander@svanheule.net> wrote:
-> > 
-> > The RTL8231 is implemented as an MDIO device, and provides a regmap
-> > interface for register access by the core and child devices.
-> > 
-> > The chip can also be a device on an SMI bus, an I2C-like bus by Realtek.
-> > Since kernel support for SMI is limited, and no real-world SMI
-> > implementations have been encountered for this device, this is currently
-> > unimplemented. The use of the regmap interface should make any future
-> > support relatively straightforward.
-> > 
-> > After reset, all pins are muxed to GPIO inputs before the pin drivers
-> > are enabled. This is done to prevent accidental system resets, when a
-> > pin is connected to the parent SoC's reset line.
-> 
-> ...
-> 
-> > [missing MDIO_BUS dependency, provided via REGMAP_MDIO]
-> > Reported-by: kernel test robot <lkp@intel.com>
-> 
-> What does this fix? Shouldn't it have a Fixes tag? (Yes, I know that
-> you answered in the other email, but here is a hint: before settling
-> these kinds of things do not send a new version. Instead of speeding
-> up the review you are closer to the chance to have this been not
-> applied for v5.14 at all)
-> 
+...
 
-I'll drop this from the commit message, if this isn't appropriate without a
-Fixes-tag (which I can't provide anyway).
+> > > +       usleep_range(1000, 10000);
+> >
+> > It's strange to see this big range of minimum and maximum sleep.
+> > Usually the ratio should not be bigger than ~3-4 between the values.
+>
+> I could also change this from a usleep to a polling loop that checks (with a
+> loop limit) if the reset bit has self-cleared already.
+>
+> The datasheet that I have doesn't mention how fast it should self-clear. So I
+> checked, and it appears to be done after one loop iteration already. So,
+> certainly faster than the current usleep.
+>
+> Would a polling loop (with maybe like max. 10 iterations) be a good alternative
+> for you?
 
+I guess it's the right way to go. Just check the iopoll.h for helpers.
+Also regmap has regmap_read_poll_timeout().
 
-> ...
-> 
-> > +       /* SOFT_RESET bit self-clears when done */
-> > +       regmap_update_bits(map, RTL8231_REG_PIN_HI_CFG,
-> > +               RTL8231_PIN_HI_CFG_SOFT_RESET,
-> > RTL8231_PIN_HI_CFG_SOFT_RESET);
-> 
-> > +       usleep_range(1000, 10000);
-> 
-> It's strange to see this big range of minimum and maximum sleep.
-> Usually the ratio should not be bigger than ~3-4 between the values.
-
-I could also change this from a usleep to a polling loop that checks (with a
-loop limit) if the reset bit has self-cleared already. 
-
-The datasheet that I have doesn't mention how fast it should self-clear. So I
-checked, and it appears to be done after one loop iteration already. So,
-certainly faster than the current usleep.
-
-Would a polling loop (with maybe like max. 10 iterations) be a good alternative
-for you?
-
-> 
-> ...
-> 
-> > +       regmap_write(map, RTL8231_REG_PIN_MODE0, 0xffff);
-> > +       regmap_write(map, RTL8231_REG_GPIO_DIR0, 0xffff);
-> > +       regmap_write(map, RTL8231_REG_PIN_MODE1, 0xffff);
-> > +       regmap_write(map, RTL8231_REG_GPIO_DIR1, 0xffff);
-> 
-> GENMASK() ?
-> Actually it seems it deserves a special definition like
-> 
-> ..._ALL_PIN_MASK  GENMASK(15, 0)
-
-Ok, I'll add the extra macro to clarify the intent of the values.
-
-
-Best,
-Sander
-
-
+-- 
+With Best Regards,
+Andy Shevchenko
