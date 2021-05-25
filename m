@@ -2,87 +2,120 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45DEB38F31F
-	for <lists+linux-leds@lfdr.de>; Mon, 24 May 2021 20:39:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9134A38FA71
+	for <lists+linux-leds@lfdr.de>; Tue, 25 May 2021 07:56:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232636AbhEXSlN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 24 May 2021 14:41:13 -0400
-Received: from mga03.intel.com ([134.134.136.65]:7816 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232803AbhEXSlN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 24 May 2021 14:41:13 -0400
-IronPort-SDR: 63vuhk4eXcjvdqrSk1COAMtjvav+oT2CP444CfrAEhGzUCeb92p27mzzupybkSwLXTEherTKjV
- HqGUbTZzKayA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="202046324"
-X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
-   d="scan'208";a="202046324"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 11:39:42 -0700
-IronPort-SDR: vwNMvLdb3njbjNB+C58BOdqGKehkHbmLTL84wCKzCyq5NqJ1so83ODGF/KcVN+7ZeN+6h681Yj
- WgCuwaeoUXLg==
-X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
-   d="scan'208";a="546049393"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 11:39:40 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1llFUH-00EPEW-I8; Mon, 24 May 2021 21:39:37 +0300
-Date:   Mon, 24 May 2021 21:39:37 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
-        Abanoub Sameh <abanoubsameh8@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 00/28] leds: cleanups and fwnode refcounting bug fixes
-Message-ID: <YKvy6TCF7EsiUGQ2@smile.fi.intel.com>
-References: <20210510095045.3299382-1-andy.shevchenko@gmail.com>
- <YKIbgBd3q8c+Tgz0@smile.fi.intel.com>
- <YKu+jUHTjwf+3J5g@smile.fi.intel.com>
- <20210524174903.GA29340@duo.ucw.cz>
+        id S230388AbhEYF5Z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 May 2021 01:57:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43568 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229476AbhEYF5X (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 May 2021 01:57:23 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38EBC061574;
+        Mon, 24 May 2021 22:55:53 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id z38so11772517ybh.5;
+        Mon, 24 May 2021 22:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6pmVU3dpIgp8CIixqWB9X4Z4r3f+OzJWJVHDt4+uTLQ=;
+        b=RbX2t3LF7cCjSPU1TFYocJR54IHyaCKEYcJfG+rSZg9dUQo4opFJn4MVxLGO8J04VC
+         KvDHMxvnMZqhMUPX8xxtKiB8atlU+oP7VJMaZilXGpXzJD7v4r8UZ38+A9hsiXFd9HOJ
+         JNEgEFMJDFvg3Yn8vvKqrgLL2Av0KZfvbPQSN+NKz6KmGPoA2U/QP3ixx7SJnQcgMm3E
+         AgnI50QZ97oTmUJOInpAjfpa5wPLuprkVJDEskzgRvpTQXAwoIp3cqDal7IgNlJj+hLg
+         ES+KibybPbToa2VtSKmFAQUB6ppCs09O5YUCxet/Dg28LrLhN6BP13im0kvf3///r995
+         AUBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6pmVU3dpIgp8CIixqWB9X4Z4r3f+OzJWJVHDt4+uTLQ=;
+        b=dULPEAkEutyoP2n4E2l2WaKtBXmmoNWqkcGptFwSEg022hYd4DJNROJKeXGGjlVaj3
+         xnJrGLOvRk/sfGK7jt/FNU6unjJjLVLT1ip2/4YnfWgDJp3fse5Am6RwO/4eAQsvaacT
+         VkW58iA+BKeKcSuQksiDW2S0leytgc9xMeaevaHfpB2vXu/tMOcn6PrYCRaHsRgFGqC7
+         yHAhGOAcwHlK/xXBRH/asin9JsaqIIoHsarJKv1BRej3cp/8P94CHt4LnG/isjZRprWI
+         v+hM27+rc0/A82zzTU3ClvdrmAl9UnRJHvfP7gsA/N2CFZb0UlZvJhrolGKTNBaEqD8v
+         4Xbg==
+X-Gm-Message-State: AOAM533Y6EODVDZUxUfJCqVWLdWqM5wJOGFRcpJoIzl9I8dHO3l/5K4D
+        dTqqTWU/3d7VkkbWrtqobMOC+ykSUrukWOMxDkBc8fJG
+X-Google-Smtp-Source: ABdhPJzj1YxPTGxGT1aZh2Df9jczAAjWL5yvxRY1DMR9iC9tE9IqDTptyJd+LLC1Y+pTedzjQbp/y8uO8xJnL512TlY=
+X-Received: by 2002:a25:4409:: with SMTP id r9mr39054034yba.401.1621922152946;
+ Mon, 24 May 2021 22:55:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210524174903.GA29340@duo.ucw.cz>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CAEc3jaCfS=DPQiSjh+_aVePbUXHe-M7WH1t+JtSLwqu0Vktnxw@mail.gmail.com>
+ <20210521160455.GA10159@duo.ucw.cz>
+In-Reply-To: <20210521160455.GA10159@duo.ucw.cz>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Mon, 24 May 2021 22:55:41 -0700
+Message-ID: <CAEc3jaBdWwfbMdrdKOc9e19Mb5HD3DE4QUNu+5UseQ9WLt0THQ@mail.gmail.com>
+Subject: Re: Naming of HID LED devices
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        marek.behun@nic.cz, linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
+        Jiri Kosina <jikos@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, May 24, 2021 at 07:49:03PM +0200, Pavel Machek wrote:
-> On Mon 2021-05-24 17:56:13, Andy Shevchenko wrote:
-> > On Mon, May 17, 2021 at 10:30:08AM +0300, Andy Shevchenko wrote:
-> > > On Mon, May 10, 2021 at 12:50:17PM +0300, Andy Shevchenko wrote:
-> > > > When analyzing the current state of affairs with fwnode reference counting
-> > > > I found that a lot of core doesn't take it right. Here is a bunch of
-> > > > corresponding fixes against LED drivers.
-> > > > 
-> > > > The series includes some cleanups and a few other fixes grouped by a driver.
-> > > > 
-> > > > First two patches are taking care of -ENOTSUPP error code too  prevent its
-> > > > appearance in the user space.
-> > > 
-> > > Pavel, any comments on this bug fix series?
-> > 
-> > Pavel, we are at rc-3 already and this is kinda a big series that needs more
-> > time to be sit in Linux-next, unfortunately while I see your activities here
-> > and there, it is kept uncommented and unapplied. Can you shed a light what's
-> > going on here? Do I need something to be amended?
-> 
-> I'm busy, sorry.
+Hi
 
-Oh, I see. Good you eventually answered!
+On Fri, May 21, 2021 at 9:04 AM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> Hi!
+>
+> > Earlier this year during review of the hid-playstation driver there
+> > was a discussion on the naming of LEDs exposed by HID drivers. Moving
+> > forward the preference from the LED maintainers was to follow the
+> > naming scheme "device:color:function" instead of the custom names used
+> > so far by HID drivers.
+> >
+> > I would like to get some guidance on the naming direction not just for
+> > hid-playstation, but Daniel's hid-nintendo driver for which he posted
+> > a new revision today has the same problem.
+> >
+> > The original discussion was on "why not use the input device name?"
+> > (e.g. input15). It was concluded that it wouldn't uniquely identify a
+> > HID device among reasons.
+>
+> I understand that problem is that one controller is present as
+> multiple input devices to userspace.
+>
+> [That is something you might want to fix, BTW. IIRC input protocol is
+> flexible enough to do that.]
 
-> Series looks kind of okay on quick look.
+[That part is actually non-trivial to fix without an overhaul of the
+Linux evdev system. Essentially evdev is a bit limiting for some
+devices due to conflicts in use of axes or buttons. This is what
+prompted creation of multiple input devices I believe. Though various
+HID devices are now also receiving multiple input devices
+automatically now based on collections or something. Benjamin and Jiri
+are the experts there. Anway that's a major other conversation, people
+are trying to steer away from...]
 
-I'll look forward to see it applied at some point in the future, thanks!
+>
+> I suggest you simply select one input device (call it primary,
+> probably the one that contains the master joystick) and use its input
+> number....
 
+It is of course an option. Though I recall in the previous discussion,
+technically the LED is registered on the HID device and not on the
+input device, so it is not entirely correct. There are also cases I
+believe where LEDs are directly created for the HID device itself.
+Based on a quick search this includes the 'hid-led' driver. Though its
+naming is probably fixed as we may not want to break user space (not
+sure if anyone is relying on it). There might be other plain HID
+device use cases with LEDs.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> Best regards,
+>                                                                 Pavel
+> --
+> http://www.livejournal.com/~pavelmachek
 
-
+Thanks,
+Roderick
