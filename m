@@ -2,141 +2,79 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60ABD390854
-	for <lists+linux-leds@lfdr.de>; Tue, 25 May 2021 20:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBEBD390A49
+	for <lists+linux-leds@lfdr.de>; Tue, 25 May 2021 22:05:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234291AbhEYSBs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 May 2021 14:01:48 -0400
-Received: from polaris.svanheule.net ([84.16.241.116]:35760 "EHLO
-        polaris.svanheule.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234217AbhEYSBr (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 May 2021 14:01:47 -0400
-Received: from [IPv6:2a02:a03f:eafb:ee01:e40f:a8f4:56e2:dda8] (unknown [IPv6:2a02:a03f:eafb:ee01:e40f:a8f4:56e2:dda8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sander@svanheule.net)
-        by polaris.svanheule.net (Postfix) with ESMTPSA id 74262203868;
-        Tue, 25 May 2021 20:00:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-        s=mail1707; t=1621965615;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Hwbi2H2jt0YSq+/cauVswFTBMGr5BwFzNAwNO9ocxKU=;
-        b=oZqqU1fE67o8c4m9TX7dE1WHCeymUDm8ZSxngGb3ZnbcVTRcwB8JZmpcV+QfudafMap7CE
-        LgM1pjz8X6/MiCYxt5+4a/NnnxfqNoh6gZoi2BFwDdTbdp5P+I7Ce5092MymLf6BdbHwOP
-        wpF9TqfKq4S6CG2DLljSeE5yBNx7kArCCFI5cAsN0+oPqVeJEox9ULCqons0zivBmviGFo
-        RH93V6WAiaaBL4H751Qudbz4yUU3IMu8C4BBYCq8hpzXY+LyvixuvSP7VO//EKCRKkW1Rb
-        KjYSMB9YfaflEyvp+Vtk2O7MJulArOAxgUxWOMcSu7iptcNRR2HIFY0Flzd22w==
-Message-ID: <74c3ffeced38a3cde8437a60989bac3a99387ecf.camel@svanheule.net>
-Subject: Re: [PATCH v3 0/6] RTL8231 GPIO expander support
-From:   Sander Vanheule <sander@svanheule.net>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Michael Walle <michael@walle.cc>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Tue, 25 May 2021 20:00:13 +0200
-In-Reply-To: <CAHp75VfCBtcQX4rvmQnRMquM0k7ZBqOgZN15Z7TFNSO60SB9TA@mail.gmail.com>
-References: <cover.1620735871.git.sander@svanheule.net>
-         <cover.1621809029.git.sander@svanheule.net> <YKr9G3EfrM34gCsL@lunn.ch>
-         <CAHp75VewCw8ES_9S48qmeCtSXMkGWt0s4iub0Fu4ZuwWANHpaQ@mail.gmail.com>
-         <02bbf73ea8a14119247f07a677993aad2f45b088.camel@svanheule.net>
-         <CAHp75Vf_dAfoMmziVLkEQ2Yr-e7Cj5=61ua5Q05Cyz-pLwVjpw@mail.gmail.com>
-         <8f96b24d782e5bdeabf5370ccf3475794d0c2818.camel@svanheule.net>
-         <CAHp75VfzEwVGR7ttdcKzirPDN8oUFw1uTDXPFE=P=9+S3CAFYQ@mail.gmail.com>
-         <CAHp75VfCBtcQX4rvmQnRMquM0k7ZBqOgZN15Z7TFNSO60SB9TA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S232031AbhEYUGO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 25 May 2021 16:06:14 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:38498 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231846AbhEYUGO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 May 2021 16:06:14 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 7F3941C0B79; Tue, 25 May 2021 22:04:42 +0200 (CEST)
+Date:   Tue, 25 May 2021 22:04:42 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Roderick Colenbrander <thunderbird2k@gmail.com>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        marek.behun@nic.cz, linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Jiri Kosina <jikos@kernel.org>
+Subject: Re: Naming of HID LED devices
+Message-ID: <20210525200442.GA1106@duo.ucw.cz>
+References: <CAEc3jaCfS=DPQiSjh+_aVePbUXHe-M7WH1t+JtSLwqu0Vktnxw@mail.gmail.com>
+ <20210521160455.GA10159@duo.ucw.cz>
+ <CAEc3jaBdWwfbMdrdKOc9e19Mb5HD3DE4QUNu+5UseQ9WLt0THQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
+Content-Disposition: inline
+In-Reply-To: <CAEc3jaBdWwfbMdrdKOc9e19Mb5HD3DE4QUNu+5UseQ9WLt0THQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 2021-05-25 at 20:11 +0300, Andy Shevchenko wrote:
-> On Mon, May 24, 2021 at 7:30 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Mon, May 24, 2021 at 6:03 PM Sander Vanheule <sander@svanheule.net>
-> > wrote:
-> > > On Mon, 2021-05-24 at 15:54 +0300, Andy Shevchenko wrote:
-> 
-> ...
-> 
-> > > Sadly, I don't. Most of the info we have comes from code archives of
-> > > switch
-> > > vendors (Zyxel, Cisco etc). Boards need to be reverse engineered, and the
-> > > few
-> > > leaked datasheets that can be found on the internet aren't exactly thick
-> > > in
-> > > information.
-> > > 
-> > > The RTL8231 datasheet is actually quite useful, but makes no mention of
-> > > the
-> > > output value isse. Since this isn't an official resource, I don't think it
-> > > would
-> > > be appropriate to link it via a Datasheet: tag.
-> > > https://github.com/libc0607/Realtek_switch_hacking/blob/files/RTL8231_Datasheet_
-> > > 1.2.pdf
-> > > 
-> > > Looking at the datasheet again, I came up with a... terrible hack to work
-> > > around
-> > > the output value issue.
-> > > 
-> > > The chip also has GPIO_INVERT registers that I hadn't used until now,
-> > > because
-> > > the logical inversion is handled in the kernel. However, these inversion
-> > > registers only apply to the output values. So, I could implement glitch-
-> > > free
-> > > output behaviour in the following way:
-> > >  * After chip reset, and before enabling the output driver (MFD
-> > > initialisation):
-> > >     - Mux all pins as GPIO
-> > >     - Change all pins to outputs,
-> > 
-> > No. no, no. This is much worse than the glitches. You never know what
-> > the hardware is connected there and it's potential breakage (on hw
-> > level) possible.
-> > 
-> > >  so the data registers (0x1c-0x1e) become writable
-> > >     - Write value 0 to all pins
-> > >     - Change all pins to GPI to change them into high-Z
-> > >  * In the pinctrl/gpio driver:
-> > >     - Use data registers as input-only
-> > >     - Use inversion register to determine output value (can be written any
-> > > time)
-> > > 
-> > > The above gives glitch-free outputs, but the values that are read back
-> > > (when
-> > > configured as output), come from the data registers. They should now be
-> > > coming
-> > > from the inversion (reg_set_base) registers, but the code prefers to use
-> > > the
-> > > data registers (reg_dat_base).
-> > 
-> > Lemme read the datasheet and see if I find any clue for the hw behaviour.
-> 
-> Thank you for your patience!
-> 
-> Have you explored the possibility of using En_Sync_GPIO?
 
-I haven't (output latching doesn't really appear to be a thing in the gpio
-framework?), but I did notice that the main SoC's RTL8231 integration uses it.
+--gKMricLos+KVdGMg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Let me play around with it to see if it also latches the pin direction, or if
-that's always an immediate change.
+Hi!
 
+> > I suggest you simply select one input device (call it primary,
+> > probably the one that contains the master joystick) and use its input
+> > number....
+>=20
+> It is of course an option. Though I recall in the previous discussion,
+> technically the LED is registered on the HID device and not on the
+> input device, so it is not entirely correct. There are also cases I
+> believe where LEDs are directly created for the HID device itself.
+> Based on a quick search this includes the 'hid-led' driver. Though its
+> naming is probably fixed as we may not want to break user space (not
+> sure if anyone is relying on it). There might be other plain HID
+> device use cases with LEDs.
 
-Best,
-Sander
+I'm not that familiar with HID vs. input differences. We already use
+inputX naming for keyboard LEDs.
 
+I'd say lets do that.
+								Pavel
+
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--gKMricLos+KVdGMg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYK1YWgAKCRAw5/Bqldv6
+8n+xAJ9XGP6/9s9rUP1bnZj51+XkVHxBcACgl/TzQ1Ozo8ihtA95jZl42oIfze0=
+=juqZ
+-----END PGP SIGNATURE-----
+
+--gKMricLos+KVdGMg--
