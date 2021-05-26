@@ -2,84 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4931B391C03
-	for <lists+linux-leds@lfdr.de>; Wed, 26 May 2021 17:30:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 341C1391E91
+	for <lists+linux-leds@lfdr.de>; Wed, 26 May 2021 20:01:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234852AbhEZPcO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 26 May 2021 11:32:14 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:37188 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235193AbhEZPcO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 May 2021 11:32:14 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 9CED31C0B80; Wed, 26 May 2021 17:30:41 +0200 (CEST)
-Date:   Wed, 26 May 2021 17:30:41 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     kernel list <linux-kernel@vger.kernel.org>, hdegoede@redhat.com,
-        andy.shevchenko@gmail.com, mchehab+huawei@kernel.org,
-        mauro.chehab@huawei.com, linux-leds@vger.kernel.org
-Subject: LEDs with hardware-accelerated patterns, suspend indication
-Message-ID: <20210526153040.GA4537@amd>
+        id S234013AbhEZSDE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 May 2021 14:03:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58478 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233378AbhEZSDC (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 26 May 2021 14:03:02 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6FC15611C2;
+        Wed, 26 May 2021 18:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622052091;
+        bh=spI6wnpdljd5in/X7+N2RYCH//J+BMXhffbP7RA4Ijs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PVuXLDjra+WjF1t2uvohTK74BwG6t7WjTWT8mMXEDyDUIy3BH0eztPdRXn+/JFSti
+         Vz0CzUdzbNLuEzlwf8Fem0ANTod8ybtAz8H7iRDnBHCBVr/aTtLrERfEMeoRN8lh4s
+         Ettqa4bQOeU35MvjnyZlgB/RmuLC2G7spj20xQzZA/bGS/fwKTg4bvefypMPsOfbm9
+         xPlwXY4cM5I2EFHeBJZ2rdc7/Y47lE13ASpRaQcKfaz5CJK3U7d8B0KQPOokodK/p4
+         oi5Pfr5Ejq553HfxFQhi7o2w4nWOw8TaGZB1R+FFyOaSkCaS+uoRXzSv8cFJpQxmpC
+         exEl4NE9stwZw==
+From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+To:     linux-leds@vger.kernel.org
+Cc:     netdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Dan Murphy <dmurphy@ti.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [PATCH leds v1 0/5] Add support for offloading netdev trigger to HW
+Date:   Wed, 26 May 2021 20:00:15 +0200
+Message-Id: <20210526180020.13557-1-kabel@kernel.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="HcAYCG3uE/tztfnV"
-Content-Disposition: inline
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hello,
 
---HcAYCG3uE/tztfnV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am sending the first non-RFC version of the series adding support
+for offloading LED triggers to HW, with the netdev trigger being the
+first user.
 
-Hi!
+I have addressed the issues with the RFC version from October.
 
-We have hardware trigger for arbitrary patterns... but then we have
-common hardware that can do few simple patterns but not arbitrary
-ones.
+This version only implements the offloading API and adds support for
+offloading to the netdev trigger. In the RFC I also added one user of
+this API (Marvell ethernet PHY driver). I plan to continue the work on
+those patches once the offloading API is finally merged.
 
-Proposal:
+Also, there is now other possible user for this API: leds-nuc driver
+by Mauro.
 
-Have a new hardware trigger "lpattern" that will allow selection of
-patterns hardware can commonly provide. I guess that is "off", "on",
-"blinking", "breathing". Maybe with variations like "slow" and "fast".
+Changes since RFC:
+- split the patch adding HW offloading support to netdev trigger into
+  several separate patches (suggested by Pavel):
+  1. move trigger data structure to include/linux/ledtrig.h
+  2. support HW offloading
+  3. change spinlock to mutex
+- fixed bug where the .offloaded variable was not set to false when
+  offloading was disabled (suggested by Pavel)
+- removed the code saving one call to set_baseline_state() on the
+  NETDEV_CHANGE event. It is not needed, the trigger_offload() method
+  can handle this situation on its own (suggested by Pavel)
+- documentation now explicitly says that when offloading is being
+  disabled, the function must return 0 (no error) (suggested by Pavel)
 
-It should provide software fallbacks, so we have reference how the
-patterns should look like and behave.
+Marek Behún (5):
+  leds: trigger: netdev: don't explicitly zero kzalloced data
+  leds: trigger: add API for HW offloading of triggers
+  leds: trigger: netdev: move trigger data structure to global include
+    dir
+  leds: trigger: netdev: support HW offloading
+  leds: trigger: netdev: change spinlock to mutex
 
-It is quite common to provide LED with charging activity.
+ Documentation/leds/leds-class.rst     | 22 +++++++++++++
+ drivers/leds/led-triggers.c           |  1 +
+ drivers/leds/trigger/ledtrig-netdev.c | 47 ++++++++-------------------
+ include/linux/leds.h                  | 29 +++++++++++++++++
+ include/linux/ledtrig.h               | 40 +++++++++++++++++++++++
+ 5 files changed, 105 insertions(+), 34 deletions(-)
+ create mode 100644 include/linux/ledtrig.h
 
-Proposal:
+-- 
+2.26.3
 
-Have a trigger called "charging" which would provide three
-subdirectories "charged", "charging" and "discharging" with interface
-similar to the new "lpattern" trigger.
-
-It is very common to have combined LED for power and suspend.
-
-Proposal:
-
-Have a trigger called "sysstate" with three subdirectories "off", "on"
-and "suspended", with interfaces similar to the "lpattern" trigger.
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---HcAYCG3uE/tztfnV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmCuaaAACgkQMOfwapXb+vLWtgCgtVomMW9Jf5Jnuue4ih7YiM2m
-VpcAoLWMWP3YU1O/3kkkrjduM7IQbfxu
-=ruhN
------END PGP SIGNATURE-----
-
---HcAYCG3uE/tztfnV--
