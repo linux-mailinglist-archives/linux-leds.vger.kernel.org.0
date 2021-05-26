@@ -2,79 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBEBD390A49
-	for <lists+linux-leds@lfdr.de>; Tue, 25 May 2021 22:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F8DF391AA9
+	for <lists+linux-leds@lfdr.de>; Wed, 26 May 2021 16:47:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232031AbhEYUGO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 25 May 2021 16:06:14 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:38498 "EHLO
+        id S235050AbhEZOtY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 26 May 2021 10:49:24 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:33846 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231846AbhEYUGO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 25 May 2021 16:06:14 -0400
+        with ESMTP id S234893AbhEZOtY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 26 May 2021 10:49:24 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 7F3941C0B79; Tue, 25 May 2021 22:04:42 +0200 (CEST)
-Date:   Tue, 25 May 2021 22:04:42 +0200
+        id D64891C0B80; Wed, 26 May 2021 16:47:51 +0200 (CEST)
+Date:   Wed, 26 May 2021 16:47:51 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Roderick Colenbrander <thunderbird2k@gmail.com>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        marek.behun@nic.cz, linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: Re: Naming of HID LED devices
-Message-ID: <20210525200442.GA1106@duo.ucw.cz>
-References: <CAEc3jaCfS=DPQiSjh+_aVePbUXHe-M7WH1t+JtSLwqu0Vktnxw@mail.gmail.com>
- <20210521160455.GA10159@duo.ucw.cz>
- <CAEc3jaBdWwfbMdrdKOc9e19Mb5HD3DE4QUNu+5UseQ9WLt0THQ@mail.gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        gregkh@linuxfoundation.org
+Subject: Re: [PATCH v2 16/17] leds: leds-nuc: add support for changing the
+ ethernet type indicator
+Message-ID: <20210526144751.GA2141@amd>
+References: <20210519100253.49b155e9@thinkpad>
+ <20210519121812.4285b3ea@coco.lan>
+ <20210519141102.0161a9d9@thinkpad>
+ <20210519162413.4feeab02@coco.lan>
+ <20210519175503.567e6ecc@thinkpad>
+ <20210519203014.1838de3a@coco.lan>
+ <20210520130014.7189a315@dellmb>
+ <20210520180028.495f94e4@coco.lan>
+ <20210520183633.084a8c3f@thinkpad>
+ <20210520205933.3cfc57a9@coco.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
+        protocol="application/pgp-signature"; boundary="5mCyUwZo2JvN/JJP"
 Content-Disposition: inline
-In-Reply-To: <CAEc3jaBdWwfbMdrdKOc9e19Mb5HD3DE4QUNu+5UseQ9WLt0THQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210520205933.3cfc57a9@coco.lan>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---gKMricLos+KVdGMg
+--5mCyUwZo2JvN/JJP
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
-> > I suggest you simply select one input device (call it primary,
-> > probably the one that contains the master joystick) and use its input
-> > number....
+> > > See, there's nothing that the driver can possible do with
+> > > rx, tx, link, interval, device_name/device, as the the BIOS allows
+> > > to set to "LAN1", "LAN2" or "LAN1+LAN2". the WMI interface doesn't
+> > > provide *any* information about what LAN1 means. =20
+> >=20
+> > On the contrary, there is something the driver can do with these
+> > attributes. If the specific combination is not supported, the driver
+> > should return -EOPNOTSUPP in the trigger_offload method and let the
+> > netdev trigger do the work in software.=20
 >=20
-> It is of course an option. Though I recall in the previous discussion,
-> technically the LED is registered on the HID device and not on the
-> input device, so it is not entirely correct. There are also cases I
-> believe where LEDs are directly created for the HID device itself.
-> Based on a quick search this includes the 'hid-led' driver. Though its
-> naming is probably fixed as we may not want to break user space (not
-> sure if anyone is relying on it). There might be other plain HID
-> device use cases with LEDs.
+> Letting netdev to trigger is something we don't want to allow, as this
+> can cause side effects, making it doing slow the system due to BIOS calls
+> for no good reason.
 
-I'm not that familiar with HID vs. input differences. We already use
-inputX naming for keyboard LEDs.
+I'm with Marek here. Please listen to him.
 
-I'd say lets do that.
+Yes, operating LEDs can cost some CPU cycles. That's the case on most
+hardware. Yet we want to support most triggers on most hardware.
+
+Best regards,
+
 								Pavel
-
 --=20
 http://www.livejournal.com/~pavelmachek
 
---gKMricLos+KVdGMg
+--5mCyUwZo2JvN/JJP
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYK1YWgAKCRAw5/Bqldv6
-8n+xAJ9XGP6/9s9rUP1bnZj51+XkVHxBcACgl/TzQ1Ozo8ihtA95jZl42oIfze0=
-=juqZ
+iEYEARECAAYFAmCuX5cACgkQMOfwapXb+vLAcwCbBzgQIYwh4JUJsSgQSrO7xbUU
+IioAmwX8mKnpRmC1qRAlJIiv382x+Z1Z
+=5jjI
 -----END PGP SIGNATURE-----
 
---gKMricLos+KVdGMg--
+--5mCyUwZo2JvN/JJP--
