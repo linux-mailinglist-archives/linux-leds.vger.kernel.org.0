@@ -2,69 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F34F393469
-	for <lists+linux-leds@lfdr.de>; Thu, 27 May 2021 18:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B836393949
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 01:31:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236711AbhE0Q6y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 27 May 2021 12:58:54 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:60512 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229774AbhE0Q6x (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 27 May 2021 12:58:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-        In-Reply-To:References; bh=N3TYPpCOOX03ucB7DxVD89066n/4xIN2SwjxTuNf8YM=; b=aG
-        QNVrHlherCBtEM7KcOdGLuLlcwxrLlicY9zcsbp4nJzZ+itLWS5qk4RT3Q09LPPDBkwD87EqbayuN
-        ifu4VzDxT+DhLTeOsVhOcS/UstiIOc6V2Yu0NZQ6BvfeB7Agtkbj9fAHK9PKrZZOtHvHmsyvzuavA
-        IW3lxVzIrXPg/no=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1lmJJt-006Zzb-9g; Thu, 27 May 2021 18:57:17 +0200
-Date:   Thu, 27 May 2021 18:57:17 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc:     linux-leds@vger.kernel.org, netdev@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH leds v1 4/5] leds: trigger: netdev: support HW offloading
-Message-ID: <YK/PbY/a0plxvzh+@lunn.ch>
-References: <20210526180020.13557-1-kabel@kernel.org>
- <20210526180020.13557-5-kabel@kernel.org>
+        id S235643AbhE0XdU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 27 May 2021 19:33:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235259AbhE0XdU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 27 May 2021 19:33:20 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 888C8C061763
+        for <linux-leds@vger.kernel.org>; Thu, 27 May 2021 16:31:45 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id q1so2599017lfo.3
+        for <linux-leds@vger.kernel.org>; Thu, 27 May 2021 16:31:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zEQifLQbx7qMjLNpqdbbcwOi4tSxAnfnz+SiV7JkMHM=;
+        b=RjuZYS2Lzk+yFeTTveAHMZqaz8NRFV7AtDbckUD0/6Ya4ZV48Tmdi4ALUNHYLGHRSw
+         K0S1eM+XBmdWzfjcuDsVpAzA1hHTPFP9tA/V2RnjGtMepQWB5LAdPuD+NLxz+LoLRiVE
+         G0p1NFcKaIRJVmQmOCVCsulA3enIMaRDnxtdBQ8boRxF+ZVEe+/uH5zJJ1VIZA73DfeI
+         Ps2QBdtbao+wpoByqopEdTj3FHLU5Y1lMSH29HigfARM5QBfkR6qgNTxreAnnf6EfH93
+         JjSy2G8qy9kCJK0ANf4mAJLp7z/SPSsLy3hxwco8+kC1eZBcevsUgMCaDdV+rNWQGzhz
+         Drsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zEQifLQbx7qMjLNpqdbbcwOi4tSxAnfnz+SiV7JkMHM=;
+        b=F7YZO9B9aHYu9DEHGTCli060Ut1lDtZRodPND+/3IJBq/vWW9lSwOXpR1sRb8O1hYM
+         fcFOUhErS7xF/OLK7IE6hFv4uImYhC8tEbRggTvC5WYffOnY2T+EWWbml6E6DaNnAvEl
+         uFlG8iOanoRl2XasxWcclMbt7XcT7ciozm+Q9DwGwFKFdKGLK2EiTaiRfcdgjWo6C2MK
+         VqRWKmY4DLIigp09zeUipjA2axpxwIDSLQeyY/+uuGF4OieGDgywlVOHd+g6MJwL4Mxj
+         E8j1tY5IAzygIjre3sA6QXZ5h3Q2igt3DegO6kszE86KID3UyYSchdI85qt5CoLu6ntr
+         hJxA==
+X-Gm-Message-State: AOAM5322fJlcDNWXW+S/1UnNO1duTONxkoSaIxowRp6l2d5d/mOszjIL
+        6DLr4/sx09IhsMDYio2Nof63ph8bZYo15SxDVOAQ8w==
+X-Google-Smtp-Source: ABdhPJzLFvvQ+aJrZwMojq8FmCCIj9AXSsxEuVHW+WJfnUMnz2EU/9OuRPqjkFwIuybMyU2NlANPMyxjSzmN95s05vo=
+X-Received: by 2002:ac2:544f:: with SMTP id d15mr3874671lfn.465.1622158303739;
+ Thu, 27 May 2021 16:31:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210526180020.13557-5-kabel@kernel.org>
+References: <cover.1621809029.git.sander@svanheule.net> <ea03804a538ecf45287f8cc356b8d9536c91e688.1621809029.git.sander@svanheule.net>
+In-Reply-To: <ea03804a538ecf45287f8cc356b8d9536c91e688.1621809029.git.sander@svanheule.net>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 28 May 2021 01:31:32 +0200
+Message-ID: <CACRpkdaLdfe6mBTW61uL2ZifnkWDzPTqOaYqZwH1EVbQFpzSjA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] dt-bindings: mfd: Binding for RTL8231
+To:     Sander Vanheule <sander@svanheule.net>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Michael Walle <michael@walle.cc>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, May 26, 2021 at 08:00:19PM +0200, Marek Behún wrote:
-> Add support for HW offloading of the netdev trigger.
-> 
-> We need to export the netdev_led_trigger variable so that drivers may
-> check whether the LED is set to this trigger.
+On Mon, May 24, 2021 at 12:34 AM Sander Vanheule <sander@svanheule.net> wrote:
 
-Without seeing the driver side, it is not obvious to me why this is
-needed. Please add the driver changes to this patchset, so we can
-fully see how the API works.
+> Add a binding description for the Realtek RTL8231, a GPIO and LED
+> expander chip commonly used in ethernet switches based on a Realtek
+> switch SoC. These chips can be addressed via an MDIO or SMI bus, or used
+> as a plain 36-bit shift register.
+>
+> This binding only describes the feature set provided by the MDIO/SMI
+> configuration, and covers the GPIO, PWM, and pin control properties. The
+> LED properties are defined in a separate binding.
+>
+> Signed-off-by: Sander Vanheule <sander@svanheule.net>
 
-> -static struct led_trigger netdev_led_trigger = {
-> +struct led_trigger netdev_led_trigger = {
->  	.name = "netdev",
->  	.activate = netdev_trig_activate,
->  	.deactivate = netdev_trig_deactivate,
->  	.groups = netdev_trig_groups,
->  };
-> +EXPORT_SYMBOL_GPL(netdev_led_trigger);
+This looks good to me from a GPIO and pin control PoV:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-If these are going to be exported, maybe they should be made const to
-protect them a bit?
-
-	Andrew
+Yours,
+Linus Walleij
