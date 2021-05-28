@@ -2,71 +2,68 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4DCD394060
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 11:56:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 110FE394072
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 11:57:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235640AbhE1J5i (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 05:57:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56446 "EHLO
+        id S235292AbhE1J6b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 05:58:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235997AbhE1J5g (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 05:57:36 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92F65C06174A
-        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:56:00 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id n4so2696748wrw.3
-        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:56:00 -0700 (PDT)
+        with ESMTP id S236417AbhE1J61 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 05:58:27 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E2DDC06138B
+        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:56:50 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso6460649wmc.1
+        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:56:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=SKhaIkLqZtYFgXCRRaCO8bgrlTOnI3H4FDNq1vp7Ako=;
-        b=KEMhq2ywvjOHtCt75f3xdHZNjLGbPITPrcQ1SZ5H8DeqA9at3PkEmlebloBrgxmG9T
-         rPVCvTItVCgFrh9dW23pe9L4dmXIhv/iTNCjBryCuaQ5nQyXmMXngU9WH9sh47WArrCv
-         DnyMdd9D673iFAutUpOQVS+d2X0qd1mDCyRCDj5/iBlOl3smVR2HEwlfCs4WgeDEgYST
-         YivVO9PxQlutbGA/RcXOTsT8sEeVLRyrXVb8T44keZ+FANMIcZ7sVodaNvoZMNAIjFaE
-         B8EV+AwX+quK34v86CsMRR9lExXzKwE77vHtdiBkaBUEIrvjcX2oMfntFF6eSc064C+P
-         fbfQ==
+        bh=rLcRko7vTBkfD6ClMWD+JGFtnLvq9byhRpGvRT6Rq+w=;
+        b=kruQNAjVubk9/aUgFi76/NLAojKcKZ/shIV3CLQKM6y+J61pSioemXQLOpovxkZi4L
+         9eawNQPdEag6gfq/gzOLcrYHqGon4j9NWh9cGSL7HcW93pcMPoFyMnaTUte3/RJzUppv
+         dN1LmcGscVktw2Ym2dz9IYy5TwVJPZkqEiwwWe/9TaeWF93SzeKvmYVMJAAVXTEMe8Um
+         DuV65cAlnxlhuR+IayubUqsFnzcTLeAmtO26F5svOGRBGen2zsyj7IGIzH2wiH+wEzqw
+         Hm6idHQsC+BVpfWKRrREBKUQC1gJoVwz/9NeOGvNEjFKFcO32Qv2gyPWNw5ahwkoyvqf
+         vlLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=SKhaIkLqZtYFgXCRRaCO8bgrlTOnI3H4FDNq1vp7Ako=;
-        b=sC5GgDh7/cSRcHMLFbdE7qAGMnpP5nCA58mFq0d5neoyMMvANJ1g0gx9SK2BtZAKiS
-         XBHibjriLTz1uGtiL3OoC6o/8aaTUJuDaqgCq6gxNydK4MIXSlo3Uhcw+RoFLInIXCoG
-         3MmbuxlKQ+yD3YXE7DuBnn88JkqZy0THtDm/bufs0iXzB2zzBylQ4584OxvR1ZZZSf7u
-         GmlEec/3zhCliLQ/D+WQ3+GFD5Qp4wVEyiXn56q8/wku7CPPwgCTyNokyhHFn9kG1qxA
-         3JXP+e/j9LddtlGEWRCHyfvF8aKUtikIIUdRwXLwvtFPXgqyPrdsOsr1B1X64ByrV6nV
-         fKNQ==
-X-Gm-Message-State: AOAM532szhrjFbJDTXwwRR5X9Ci6swiVCRYQQKAwlwI/hYqvX2LdQz2I
-        sx8/1sh8JBqIJtKzPUxagysR3A==
-X-Google-Smtp-Source: ABdhPJzZ/XVsduDpftFgMw6hi0yzlNKkh/soPNLBIwrQSiuVSRDLkbc9dOS8YzxinrLtpsxFyYy2YQ==
-X-Received: by 2002:adf:bc07:: with SMTP id s7mr4963114wrg.301.1622195759186;
-        Fri, 28 May 2021 02:55:59 -0700 (PDT)
+        bh=rLcRko7vTBkfD6ClMWD+JGFtnLvq9byhRpGvRT6Rq+w=;
+        b=Y84MjDdZjY8hVa6KazSLepnIdiGVx2URJxK30wrLWqpAllqNZBlhxeZU2Gd0QPeG+d
+         dITYTgtnjFnzrC/QssITqXt7b43W/mEqmajoMNXrtowyOTSiePIzgqhzXUbMu8lDwDk9
+         MwManUNNrqD+lGiyBMXI9VTcl/uixyw91RYF6ZQTQVlJVNJDe/NSDwiGVcyFWSyxRwKe
+         KkSx66bFmO1N/wLbsjmJ5N/n8gADAHl0wUTBxFjhwe6tf3ov9q4vx2+NlxvCNEuPBQs1
+         DDSgBf6ZS8gRwBKdM6lFtJk4kS1ir4ofGk860WtMz+19NYeheTrT3fpjkVGf4Trt2lm8
+         gPdQ==
+X-Gm-Message-State: AOAM532Awx5l0P2/imkoPl+39GRsWK/Dt2UAMwTxFwuavgHMrVy0bS0v
+        xBFap5+5pIo19mP04xNHvE+wcpBXg+OAjA==
+X-Google-Smtp-Source: ABdhPJwSHeI8Oo/6vEqcqbmcNvvZPcF4bh+WP8RS5TIU8HG3/zLYhvuIpY9IHV3+jm0/TblgHavqwQ==
+X-Received: by 2002:a05:600c:3510:: with SMTP id h16mr7498380wmq.38.1622195809277;
+        Fri, 28 May 2021 02:56:49 -0700 (PDT)
 Received: from dell ([91.110.221.223])
-        by smtp.gmail.com with ESMTPSA id x65sm8721045wmg.20.2021.05.28.02.55.58
+        by smtp.gmail.com with ESMTPSA id x11sm6368061wru.87.2021.05.28.02.56.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 May 2021 02:55:58 -0700 (PDT)
-Date:   Fri, 28 May 2021 10:55:57 +0100
+        Fri, 28 May 2021 02:56:48 -0700 (PDT)
+Date:   Fri, 28 May 2021 10:56:47 +0100
 From:   Lee Jones <lee.jones@linaro.org>
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc:     linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Dan Murphy <dmurphy@ti.com>,
         linux-leds@vger.kernel.org
-Subject: Re: [PATCH 05/15] leds: leds-as3645a: Fix function name
- 'as3645a_set_current()'
-Message-ID: <20210528095557.GP543307@dell>
+Subject: Re: [PATCH 14/15] leds: leds-lm3692x: Demote non-complete kernel-doc
+Message-ID: <20210528095647.GQ543307@dell>
 References: <20210528090629.1800173-1-lee.jones@linaro.org>
- <20210528090629.1800173-6-lee.jones@linaro.org>
- <20210528093150.GN3@paasikivi.fi.intel.com>
- <20210528094000.GB2209@amd>
+ <20210528090629.1800173-15-lee.jones@linaro.org>
+ <20210528093921.GA2209@amd>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210528094000.GB2209@amd>
+In-Reply-To: <20210528093921.GA2209@amd>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
@@ -75,40 +72,27 @@ On Fri, 28 May 2021, Pavel Machek wrote:
 
 > Hi!
 > 
-> > >  drivers/leds/leds-as3645a.c:198: warning: expecting prototype for as3645a_set_config(). Prototype was for as3645a_set_current() instead
-> > > 
-> > > Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Cc: Pavel Machek <pavel@ucw.cz>
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: linux-leds@vger.kernel.org
-> > > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > > ---
-> > >  drivers/leds/leds-as3645a.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/leds/leds-as3645a.c b/drivers/leds/leds-as3645a.c
-> > > index e8922fa033796..c41937ff8fd33 100644
-> > > --- a/drivers/leds/leds-as3645a.c
-> > > +++ b/drivers/leds/leds-as3645a.c
-> > > @@ -185,7 +185,7 @@ static int as3645a_read(struct as3645a *flash, u8 addr)
-> > >   */
-> > >  
-> > >  /**
-> > > - * as3645a_set_config - Set flash configuration registers
-> > > + * as3645a_set_current - Set flash configuration registers
-> > >   * @flash: The flash
-> > >   *
-> > >   * Configure the hardware with flash, assist and indicator currents, as well as
+> > Needs updating by the author to re-promote.
 > > 
-> > Thanks for the patch.
+> > Fixes the following W=1 kernel build warning(s):
 > > 
-> > The entire comment could be removed. It's wrong and doesn't really tell
-> > more than what you can read in the two functions below (the two are result
-> > of splitting one the documentation was written for).
+> >  drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'boost_ctrl' not described in 'lm3692x_led'
+> >  drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'brightness_ctrl' not described in 'lm3692x_led'
+> >  drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'enabled' not described in 'lm3692x_led'
+> >
 > 
-> I just took the patch, I'll happily take a follow up.
+> I'm not taking this one.
 
-I'll follow-up.  No problem.
+You didn't say why.
+
+> I wanted to take the rest, but "leds:
+> tlc591xx: fix return value check in tlc591xx_probe()" did not apply.
+
+I will rebase on today's -next and resubmit.
+
+> I took the rest.
+
+Thank you.
 
 -- 
 Lee Jones [李琼斯]
