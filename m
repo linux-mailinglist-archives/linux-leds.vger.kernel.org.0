@@ -2,80 +2,103 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC165393D48
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 08:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EE2F393D53
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 08:47:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230264AbhE1Gpe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 02:45:34 -0400
-Received: from ssl.serverraum.org ([176.9.125.105]:42089 "EHLO
-        ssl.serverraum.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229816AbhE1Gpe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 02:45:34 -0400
-Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ssl.serverraum.org (Postfix) with ESMTPSA id 9031522239;
-        Fri, 28 May 2021 08:43:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
-        t=1622184238;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yXXSJzxAUmVNLhZeASW5jbLgZYp5eaEL/vUwOyOALjY=;
-        b=oVJbRpVc9xvCzFzNzKSWirQ6UBFhS4I5lJ73obWHxBNj14p/UOiAGiBO7nv5gBYsLZV0PK
-        qymLOpiLYCp4mYZ2lJZ0cO7Hh2fzNBkKbiKBSpRplZdq6DuRf8zDNz0EYlZ38jaMq2aAuc
-        sB+UxzYZGkHfK5tJMVpSNPjQOKyij6k=
+        id S230231AbhE1Gsj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 02:48:39 -0400
+Received: from lists.nic.cz ([217.31.204.67]:34456 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229574AbhE1Gsi (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 28 May 2021 02:48:38 -0400
+Received: from dellmb (unknown [IPv6:2001:1488:fffe:6:be02:5020:4be2:aff5])
+        by mail.nic.cz (Postfix) with ESMTPSA id 740C113FEA3;
+        Fri, 28 May 2021 08:47:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1622184423; bh=uT4QTV3+nhYnEZekJ7wQNVwjsem53ut6CKQx7WNS4AI=;
+        h=Date:From:To;
+        b=DCwHQzP0L+Zh4HOQSNWO9Q4mR6tk5oc1ZT8OQxcvH3zE1svFsOLmq4DDSAiSJmqCw
+         zk/xk4NNTBTdtgtPw8dgOeIEaOZ/YM1ZWe7CNEPpPeYEJMpgOPgFRlG/O9gfrktq7M
+         Tf50/t+FHO7zD0JuaMAov/8VbHJdBH9tq5b/BSMA=
+Date:   Fri, 28 May 2021 08:45:56 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <marek.behun@nic.cz>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>,
+        linux-leds@vger.kernel.org, netdev@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH leds v1 4/5] leds: trigger: netdev: support HW
+ offloading
+Message-ID: <20210528084556.69bbba1a@dellmb>
+In-Reply-To: <YK/PbY/a0plxvzh+@lunn.ch>
+References: <20210526180020.13557-1-kabel@kernel.org>
+        <20210526180020.13557-5-kabel@kernel.org>
+        <YK/PbY/a0plxvzh+@lunn.ch>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Fri, 28 May 2021 08:43:58 +0200
-From:   Michael Walle <michael@walle.cc>
-To:     Sander Vanheule <sander@svanheule.net>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] pinctrl: Add RTL8231 pin control and GPIO support
-In-Reply-To: <b7660b9deff694f7a00431b7e4706635fd4aa2be.camel@svanheule.net>
-References: <cover.1621809029.git.sander@svanheule.net>
- <185e8c61893502575c542750c8f27b09029e3078.1621809029.git.sander@svanheule.net>
- <452144b056cb474321481c011ac9ccfb@walle.cc>
- <b7660b9deff694f7a00431b7e4706635fd4aa2be.camel@svanheule.net>
-User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <2fc281bfdbb108a956913779577f5b99@walle.cc>
-X-Sender: michael@walle.cc
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am 2021-05-28 08:42, schrieb Sander Vanheule:
-> On Fri, 2021-05-28 at 08:29 +0200, Michael Walle wrote:
->> > +       gpio_cfg.reg_dat_base = GPIO_REGMAP_ADDR(RTL8231_REG_GPIO_DATA0);
->> > +       gpio_cfg.reg_set_base = GPIO_REGMAP_ADDR(RTL8231_REG_GPIO_DATA0);
->> > +       gpio_cfg.reg_dir_in_base = GPIO_REGMAP_ADDR(RTL8231_REG_GPIO_DIR0);
->> 
->> Btw. you'd only need GPIO_REGMAP_ADDR(x) if x might be 0. Because you
->> have
->> a constant != 0 there, you could save the GPIO_REGMAP_ADDR() call. You
->> could drop this if you like, but no need to respin the series for 
->> this.
-> 
-> I will need to respin this series anyway, so I can drop the 
-> GPIO_REGMAP_ADDR()
-> calls. I was aware they are no-ops in this case, as register address 0 
-> is not
-> used for the GPIO functions, so mainly included them as a form of 
-> documentation.
+On Thu, 27 May 2021 18:57:17 +0200
+Andrew Lunn <andrew@lunn.ch> wrote:
 
-It's up to you if you like to change it or keep it.
+> On Wed, May 26, 2021 at 08:00:19PM +0200, Marek Beh=C3=BAn wrote:
+> > Add support for HW offloading of the netdev trigger.
+> >=20
+> > We need to export the netdev_led_trigger variable so that drivers
+> > may check whether the LED is set to this trigger. =20
+>=20
+> Without seeing the driver side, it is not obvious to me why this is
+> needed. Please add the driver changes to this patchset, so we can
+> fully see how the API works.
 
--michael
+OK, I will send an implementation for leds-turris-omnia with v2.
+
+The idea is that the trigger_offload() method should check which
+trigger it should offload. A potential LED controller may be configured
+to link the LED on net activity, or on SATA activity. So the method
+should do something like this:
+
+  static int my_trigger_offload(struct led_classdev *cdev, bool enable)
+  {
+    if (!enable)
+      return my_disable_hw_triggering(cdev);
+=09
+    if (cdev->trigger =3D=3D &netdev_led_trigger)
+      return my_offload_netdev_triggering(cdev);
+    else if (cdev->trigger =3D=3D &blkdev_led_trigger)
+      return my_offload_blkdev_triggering(cdev);
+    else
+      return -EOPNOTSUPP;
+  }
+
+> > -static struct led_trigger netdev_led_trigger =3D {
+> > +struct led_trigger netdev_led_trigger =3D {
+> >  	.name =3D "netdev",
+> >  	.activate =3D netdev_trig_activate,
+> >  	.deactivate =3D netdev_trig_deactivate,
+> >  	.groups =3D netdev_trig_groups,
+> >  };
+> > +EXPORT_SYMBOL_GPL(netdev_led_trigger); =20
+>=20
+> If these are going to be exported, maybe they should be made const to
+> protect them a bit?
+
+The trigger structure must be defined writable, for the code holds
+a list of LEDs that have this trigger activated in the structure, among
+other data. I don't think if it can be declared as const and then
+defined non-const.
+
+Marek
