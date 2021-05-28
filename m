@@ -2,103 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EE2F393D53
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 08:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EEE6393F44
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 11:06:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbhE1Gsj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 02:48:39 -0400
-Received: from lists.nic.cz ([217.31.204.67]:34456 "EHLO mail.nic.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229574AbhE1Gsi (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 28 May 2021 02:48:38 -0400
-Received: from dellmb (unknown [IPv6:2001:1488:fffe:6:be02:5020:4be2:aff5])
-        by mail.nic.cz (Postfix) with ESMTPSA id 740C113FEA3;
-        Fri, 28 May 2021 08:47:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1622184423; bh=uT4QTV3+nhYnEZekJ7wQNVwjsem53ut6CKQx7WNS4AI=;
-        h=Date:From:To;
-        b=DCwHQzP0L+Zh4HOQSNWO9Q4mR6tk5oc1ZT8OQxcvH3zE1svFsOLmq4DDSAiSJmqCw
-         zk/xk4NNTBTdtgtPw8dgOeIEaOZ/YM1ZWe7CNEPpPeYEJMpgOPgFRlG/O9gfrktq7M
-         Tf50/t+FHO7zD0JuaMAov/8VbHJdBH9tq5b/BSMA=
-Date:   Fri, 28 May 2021 08:45:56 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <marek.behun@nic.cz>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>,
-        linux-leds@vger.kernel.org, netdev@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH leds v1 4/5] leds: trigger: netdev: support HW
- offloading
-Message-ID: <20210528084556.69bbba1a@dellmb>
-In-Reply-To: <YK/PbY/a0plxvzh+@lunn.ch>
-References: <20210526180020.13557-1-kabel@kernel.org>
-        <20210526180020.13557-5-kabel@kernel.org>
-        <YK/PbY/a0plxvzh+@lunn.ch>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S236528AbhE1JI2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 05:08:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45236 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236557AbhE1JIO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 05:08:14 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96FCFC0613ED
+        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:06:33 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id v12so2528001wrq.6
+        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:06:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tGA8vkDLt6dYLZnFFwRntWhzZURhB1wDtuAWGHGZ0NM=;
+        b=Orl9heiY0WR6vfa1sp2uKVJBULCCWQBHzPu5Lh3vGfSzdqHqVgcmj2maT6xL0ewPvm
+         fMESRMK80AVeCB7bPkKPxaLQwkjhx2hptthg/pDSwXvFzPPqIB98JwSRumkKsqNthFEA
+         OUrExMGN+RHSqcEbU083dTPh8OHyR/LIHGYObkpB8UbUbKQNeKHrhAwqlyvalDrpiHgL
+         q/GFZBmIQsp1u5yiVimytPxDEN2FCX36aXXl37ZSyc/oE/HPDaAZpiioccEiFaEyLqN3
+         T9XmUny5HMmHpvUiGqaUCN16/UtORgj58t8nS4JEHziOhuxCC4NxjLiqHZo4PtCOfNul
+         +TFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tGA8vkDLt6dYLZnFFwRntWhzZURhB1wDtuAWGHGZ0NM=;
+        b=dAv3hiLQxDXweBsT54GzwA3coBbfjeM1yt0hfyuU04yBRE6gEdj3fMq+qkMNFT8k2W
+         bGRPFaEU58orrqkh8XOf93kS7ftfdmQQGgfWQBKIHf60Z2XoEurNb/DJUhciI19UFdcX
+         qqobU+s4tql8j/BPKte89l26/GDuvFf85F/ToPjzksGYJMaJvKsgD5+And3RzdpI0e3P
+         UqShZo2N4XZcg6R1V8M+AhJSPqTDOr3qfXKCCmgVEdQSjZL2YNntlwlrAHRna5m2T6nr
+         HqzkInhtOP+4Wh56lL0ttmWAH0+sYBVVrJ6cCtRXYlspqHgrUSwh3zKPHn1JwssmFtzE
+         30Sg==
+X-Gm-Message-State: AOAM530mbXwFNo6/IHAf1ah5sIZt03v5rioxwuyKNlq6pNY7RfNC7QJA
+        srwkssSRvQa06zpwBjFPGTS4kA==
+X-Google-Smtp-Source: ABdhPJyxh6txemxNNSAzlGyU3fdAEk1CnxtSlJUlkkd7Uv3vvL2kNSG56ZoGAZBGGuTHu//WXep3zg==
+X-Received: by 2002:adf:8bc9:: with SMTP id w9mr6653902wra.378.1622192792246;
+        Fri, 28 May 2021 02:06:32 -0700 (PDT)
+Received: from dell.default ([91.110.221.223])
+        by smtp.gmail.com with ESMTPSA id m132sm6105911wmf.11.2021.05.28.02.06.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 May 2021 02:06:31 -0700 (PDT)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org,
+        Antonio Ospite <ospite@studenti.unina.it>,
+        Bryan Wu <bryan.wu@canonical.com>,
+        Dan Murphy <D.Murphy@motorola.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        David Rivshin <drivshin@allworx.com>,
+        =?UTF-8?q?Fern=C3=A1ndez=20Rojas?= <noltari@gmail.com>,
+        Jan-Simon Moeller <jansimon.moeller@gmx.de>,
+        =?UTF-8?q?Jan-Simon=20M=C3=B6ller?= <dl9pf@gmx.de>,
+        John Lenz <lenz@cs.wisc.edu>, Jonas Gorski <jogo@openwrt.org>,
+        Kumar SAHU <shreshthakumar.sahu@stericsson.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-leds@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Richard Purdie <rpurdie@openedhand.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
+        Vadim Pasternak <vadimp@nvidia.com>
+Subject: [PATCH 00/15] Rid W=1 warnings from LED
+Date:   Fri, 28 May 2021 10:06:14 +0100
+Message-Id: <20210528090629.1800173-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 27 May 2021 18:57:17 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-> On Wed, May 26, 2021 at 08:00:19PM +0200, Marek Beh=C3=BAn wrote:
-> > Add support for HW offloading of the netdev trigger.
-> >=20
-> > We need to export the netdev_led_trigger variable so that drivers
-> > may check whether the LED is set to this trigger. =20
->=20
-> Without seeing the driver side, it is not obvious to me why this is
-> needed. Please add the driver changes to this patchset, so we can
-> fully see how the API works.
+Lee Jones (15):
+  leds: trigger: ledtrig-cpu: Fix incorrectly documented param 'ledevt'
+  leds: leds-gpio-register: Supply description for param 'id'
+  leds: led-class: Fix incorrectly documented param 'dev'
+  leds: leds-bcm6328: Demote kernel-doc abuse
+  leds: leds-as3645a: Fix function name 'as3645a_set_current()'
+  leds: leds-blinkm: Remove unused variable 'ret'
+  leds: leds-is31fl32xx: Provide missing description for member
+    'sw_shutdown_func'
+  leds: leds-lp3944: Provide missing function names in documentation
+    headers
+  leds: leds-lm3530: Fix incorrect spelling of 'brightness'
+  leds: leds-lm3692x: Fix some kernel-doc formatting issues
+  leds: leds-lm3697: Provide some missing descriptions for struct
+    members
+  leds: leds-mlxreg: Fix incorrect documentation of struct member
+    'led_cdev' and 'led_cdev_name'
+  leds: leds-lp8860: Fix kernel-doc related formatting issues
+  leds: leds-lm3692x: Demote non-complete kernel-doc
+  leds: leds-mlxcpld: Fix a bunch of kernel-doc formatting issues
 
-OK, I will send an implementation for leds-turris-omnia with v2.
+ drivers/leds/led-class.c           |  2 +-
+ drivers/leds/leds-as3645a.c        |  2 +-
+ drivers/leds/leds-bcm6328.c        |  2 +-
+ drivers/leds/leds-blinkm.c         |  5 ++--
+ drivers/leds/leds-gpio-register.c  |  1 +
+ drivers/leds/leds-is31fl32xx.c     |  3 ++-
+ drivers/leds/leds-lm3530.c         |  2 +-
+ drivers/leds/leds-lm3692x.c        | 20 ++++++++--------
+ drivers/leds/leds-lm3697.c         |  4 ++++
+ drivers/leds/leds-lp3944.c         |  6 ++---
+ drivers/leds/leds-lp8860.c         | 16 ++++++-------
+ drivers/leds/leds-mlxcpld.c        | 38 +++++++++++++++---------------
+ drivers/leds/leds-mlxreg.c         |  3 ++-
+ drivers/leds/trigger/ledtrig-cpu.c |  2 +-
+ 14 files changed, 56 insertions(+), 50 deletions(-)
 
-The idea is that the trigger_offload() method should check which
-trigger it should offload. A potential LED controller may be configured
-to link the LED on net activity, or on SATA activity. So the method
-should do something like this:
+Cc: Antonio Ospite <ospite@studenti.unina.it>
+Cc: Bryan Wu <bryan.wu@canonical.com>
+Cc: Dan Murphy <D.Murphy@motorola.com>
+Cc: Dan Murphy <dmurphy@ti.com>
+Cc: David Rivshin <drivshin@allworx.com>
+Cc: "Fernández Rojas" <noltari@gmail.com>
+Cc: Jan-Simon Moeller <jansimon.moeller@gmx.de>
+Cc: "Jan-Simon Möller" <dl9pf@gmx.de>
+Cc: John Lenz <lenz@cs.wisc.edu>
+Cc: Jonas Gorski <jogo@openwrt.org>
+Cc: Kumar SAHU <shreshthakumar.sahu@stericsson.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-leds@vger.kernel.org
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Richard Purdie <rpurdie@openedhand.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>
+Cc: Vadim Pasternak <vadimp@nvidia.com>
+-- 
+2.31.1
 
-  static int my_trigger_offload(struct led_classdev *cdev, bool enable)
-  {
-    if (!enable)
-      return my_disable_hw_triggering(cdev);
-=09
-    if (cdev->trigger =3D=3D &netdev_led_trigger)
-      return my_offload_netdev_triggering(cdev);
-    else if (cdev->trigger =3D=3D &blkdev_led_trigger)
-      return my_offload_blkdev_triggering(cdev);
-    else
-      return -EOPNOTSUPP;
-  }
-
-> > -static struct led_trigger netdev_led_trigger =3D {
-> > +struct led_trigger netdev_led_trigger =3D {
-> >  	.name =3D "netdev",
-> >  	.activate =3D netdev_trig_activate,
-> >  	.deactivate =3D netdev_trig_deactivate,
-> >  	.groups =3D netdev_trig_groups,
-> >  };
-> > +EXPORT_SYMBOL_GPL(netdev_led_trigger); =20
->=20
-> If these are going to be exported, maybe they should be made const to
-> protect them a bit?
-
-The trigger structure must be defined writable, for the code holds
-a list of LEDs that have this trigger activated in the structure, among
-other data. I don't think if it can be declared as const and then
-defined non-const.
-
-Marek
