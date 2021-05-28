@@ -2,59 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE1D9393F4D
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 11:07:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32E5A393F4E
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 11:07:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236601AbhE1JIe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 05:08:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45202 "EHLO
+        id S236436AbhE1JIf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 05:08:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236436AbhE1JIY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 05:08:24 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A56ABC06134D
-        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:06:42 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id q5so2541612wrs.4
-        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:06:42 -0700 (PDT)
+        with ESMTP id S236441AbhE1JIZ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 05:08:25 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F787C06134E
+        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:06:43 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id m18so1728822wmq.0
+        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:06:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mLS0FB17HbpmmfumllhmqVSElRMK/rukxZufYJ+uM3w=;
-        b=IqJBFrZK3QQeSM0UFkIbJaJKRS77W9bionIX5fp+IQ43LnTYpvKqSz3wW/gKYQ/Ptt
-         SYcDqy0h4GTSLCN5CWR4LGpIYMRnyiXncFOG5yEdlJxur5zCrCIWMoOHUxMLnatYYYPH
-         NVXioJ6ubPbLKVn+ZWVQdoY/Qp3l0sPtH6K8hfYj/DA36+x7+CE1RbZByV5PgV9qcFV7
-         ZuXXmJap1RiDM57tpVQG7qJrfVUVcBRUuAGRhlGhOBytjp+XNSgV7XR9urEsr6RLxvsQ
-         0uXdWSKxiZcZZa4GGJD4N1FM9DM+9XnnkXvcsQHbxHmZhmnop8rUMVpoGVuz5mcnRXy1
-         wQmg==
+        bh=B561knCm3hMdwiY1zEm2fk2A2w3U3tZY38Y+WeeFnKA=;
+        b=ORxRl4HqzfacHOjojVZ6eUN7HB/IbfDkpH80yFSWIcdvebHO7mRzr668pDtgbjdwqt
+         zTgQNWdQbDjl0yT+DdsuWcVuvqXeNd2V8Il6g9nHU71IKaUOvnUUeDsbbt1UX4kx086O
+         OSUMcULAT3essaJkrtjJ5DIBF0xkkU9iwwYCyO7kSENJS8lv3NfewQNwR8DviaRrK1b7
+         aVHleD2WTGkv/vUTNrIaqZmt2r224o4AVxbmlAOTkGC623qoI5qKg4S1WPKmMxJNXak2
+         7TC0knhtAac7HgluAz0DrqQhC7T7/LT2wv/r51PrHeHlb/Q2jc4YOhqjNguTLJjOsoTv
+         M8bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mLS0FB17HbpmmfumllhmqVSElRMK/rukxZufYJ+uM3w=;
-        b=b4Jjw2tjdMXhLz3iC6i+t37UCfukgdykKf7fmWyj3Zi/kZbmRW8DUqEjPusLOarUbr
-         mReIcL2HOt8ezshVUtnDaOXvTE7IZYheQKGMHpQvPtl/vw0gfUSLkxDIFt7VsZqUmJC3
-         utgTmrMVY5oV2/Oihs4q3W0Ry2rBqzoRqG8DYxPGEAqvDbxedJrEHNiygo81a6bjTe2P
-         G9ID01GLhOp07L+fXmh5HjJVjLKKnqQXy7jw68SJHRDZ9Ar0ng5x7QMgNy6mVJWUXBBy
-         WlUIrEwrhm6suCEyc7PWxahHUM4KcXVVUnOdwEZO+PAnT8jYyWEwYmrtTPt8kKRH8Fzv
-         abyw==
-X-Gm-Message-State: AOAM5318ebMwkSz+rs//lX6LfOxYBnJeByU7Z7DiAKOIWoWAo01fI5DS
-        X01+ip+X4SvgKxsga4GEENpI4g==
-X-Google-Smtp-Source: ABdhPJxLcM/oNoc34IsXQ0iquIcL36RQ/+WSPhZqHCGx6ZwumAqrVyoOVKB0Eru+WZ9zKK2nJHs04g==
-X-Received: by 2002:adf:cd0e:: with SMTP id w14mr7561654wrm.46.1622192801276;
-        Fri, 28 May 2021 02:06:41 -0700 (PDT)
+        bh=B561knCm3hMdwiY1zEm2fk2A2w3U3tZY38Y+WeeFnKA=;
+        b=jwres88DZwH1UElGtA3OXP6nAA7fOuGXtRNBdCLZJwXQe3N5n9bdLuOjAoJKxlI5Eu
+         12aA3J2hfOsPyqIYwJO1eD0ugs9+RK255lSrftU6df8IupZ8WrzgAzKEL8A54si4Jo4b
+         QVIW49yhFP3BhNbF1/RIlmvUi4Rk7HrPogFf3RgptljujaAFcH6p66siU4bL53+Mvsx6
+         SSc5nxmFc64sJZoN7DEAgsgBvtOyFXimuhNc+csG2rs/a8XUaPqOqVwRH5N6pDFEztYu
+         pUmlYq8fO/N+S48TI6MbEf18/dYjGmMg48OhY4bPOpwd2TNvK2dRkhW39wdI+iaVyo2H
+         gLAA==
+X-Gm-Message-State: AOAM531mOrXrit5q678XEtozVMtK8/4XjoQ8udUYoDCvRnBddRbiezS0
+        c4kWxdMjHXdJONNx7hxZQP9qzg==
+X-Google-Smtp-Source: ABdhPJz7UMO2xLrq/Vja5cE9p63QATYwK9oVKC1Wi5gov6OPckDFHSvZGHUS7z+xTpN7Dly34oCtfw==
+X-Received: by 2002:a05:600c:3586:: with SMTP id p6mr12604476wmq.48.1622192802227;
+        Fri, 28 May 2021 02:06:42 -0700 (PDT)
 Received: from dell.default ([91.110.221.223])
-        by smtp.gmail.com with ESMTPSA id m132sm6105911wmf.11.2021.05.28.02.06.40
+        by smtp.gmail.com with ESMTPSA id m132sm6105911wmf.11.2021.05.28.02.06.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 May 2021 02:06:40 -0700 (PDT)
+        Fri, 28 May 2021 02:06:41 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Kumar SAHU <shreshthakumar.sahu@stericsson.com>,
-        Dan Murphy <D.Murphy@motorola.com>, linux-leds@vger.kernel.org
-Subject: [PATCH 09/15] leds: leds-lm3530: Fix incorrect spelling of 'brightness'
-Date:   Fri, 28 May 2021 10:06:23 +0100
-Message-Id: <20210528090629.1800173-10-lee.jones@linaro.org>
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Dan Murphy <dmurphy@ti.com>,
+        linux-leds@vger.kernel.org
+Subject: [PATCH 10/15] leds: leds-lm3692x: Fix some kernel-doc formatting issues
+Date:   Fri, 28 May 2021 10:06:24 +0100
+Message-Id: <20210528090629.1800173-11-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210528090629.1800173-1-lee.jones@linaro.org>
 References: <20210528090629.1800173-1-lee.jones@linaro.org>
@@ -66,30 +67,57 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/leds/leds-lm3530.c:113: warning: Function parameter or member 'brightness' not described in 'lm3530_data'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'lock' not described in 'lm3692x_led'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'client' not described in 'lm3692x_led'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'led_dev' not described in 'lm3692x_led'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'regmap' not described in 'lm3692x_led'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'enable_gpio' not described in 'lm3692x_led'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'regulator' not described in 'lm3692x_led'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'led_enable' not described in 'lm3692x_led'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'model_id' not described in 'lm3692x_led'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'boost_ctrl' not described in 'lm3692x_led'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'brightness_ctrl' not described in 'lm3692x_led'
+ drivers/leds/leds-lm3692x.c:121: warning: Function parameter or member 'enabled' not described in 'lm3692x_led'
 
 Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Kumar SAHU <shreshthakumar.sahu@stericsson.com>
-Cc: Dan Murphy <D.Murphy@motorola.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Dan Murphy <dmurphy@ti.com>
 Cc: linux-leds@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/leds/leds-lm3530.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/leds/leds-lm3692x.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/leds/leds-lm3530.c b/drivers/leds/leds-lm3530.c
-index 2db455efd4b17..e72393534b721 100644
---- a/drivers/leds/leds-lm3530.c
-+++ b/drivers/leds/leds-lm3530.c
-@@ -99,7 +99,7 @@ static struct lm3530_mode_map mode_map[] = {
-  * @pdata: LM3530 platform data
-  * @mode: mode of operation - manual, ALS, PWM
-  * @regulator: regulator
-- * @brighness: previous brightness value
-+ * @brightness: previous brightness value
-  * @enable: regulator is enabled
+diff --git a/drivers/leds/leds-lm3692x.c b/drivers/leds/leds-lm3692x.c
+index e945de45388ca..a2ab6bd5de111 100644
+--- a/drivers/leds/leds-lm3692x.c
++++ b/drivers/leds/leds-lm3692x.c
+@@ -96,15 +96,15 @@
+ #define LM3692X_FAULT_FLAG_OPEN BIT(4)
+ 
+ /**
+- * struct lm3692x_led -
+- * @lock - Lock for reading/writing the device
+- * @client - Pointer to the I2C client
+- * @led_dev - LED class device pointer
+- * @regmap - Devices register map
+- * @enable_gpio - VDDIO/EN gpio to enable communication interface
+- * @regulator - LED supply regulator pointer
+- * @led_enable - LED sync to be enabled
+- * @model_id - Current device model ID enumerated
++ * struct lm3692x_led
++ * @lock: Lock for reading/writing the device
++ * @client: Pointer to the I2C client
++ * @led_dev: LED class device pointer
++ * @regmap: Devices register map
++ * @enable_gpio: VDDIO/EN gpio to enable communication interface
++ * @regulator: LED supply regulator pointer
++ * @led_enable: LED sync to be enabled
++ * @model_id: Current device model ID enumerated
   */
- struct lm3530_data {
+ struct lm3692x_led {
+ 	struct mutex lock;
 -- 
 2.31.1
 
