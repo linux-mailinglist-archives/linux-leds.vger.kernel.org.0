@@ -2,153 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A24613947F0
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 22:26:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FA8B3947FB
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 22:34:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbhE1U2J (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 16:28:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbhE1U2H (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 16:28:07 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4367C06174A
-        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 13:26:31 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id e17so7087520lfb.2
-        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 13:26:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2nvFIf9K+8bSqa+V/uXhIo4b03jKOmYhREmjOr7Bhug=;
-        b=rsg8diga6/YM9VHRxOZ73FFsbYuIo8s7sDA6tups25GS0BeTQtiiWvAV6rDVQc2jH0
-         C9TPfXd6r6eVkNyuW92shbePESMNTBRXem/2BAxAn/fx7K+fJIhB4SycAkuAEdeNGv8e
-         Xtaj61/vrGkWpX7c9IOFfbLqorXRRwHz1/2xpsytUSE6UoEXn0V+ggXdrI90nrGRa5t3
-         VZaeOQVj9KeLLpQp1pVwcg3cUpwhzz/p7Mx06o0m213ykM3N9ahrCVsnBWXLnRmBn6j0
-         lATr6mfVfy1vy1yqCEMtlFoe7cYrFGVemjSztJ7n9OIWriLh7eiGdfaoos0F4zAwiPW1
-         RGhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2nvFIf9K+8bSqa+V/uXhIo4b03jKOmYhREmjOr7Bhug=;
-        b=r5I4t73HLAfJNwaUIQ8CFXNBylb5j2Kv82Eok69gg5dVD076uvJIajMtovqo3kvpTq
-         aR+n97CsOPBIRd3dakF4UHKq8oST9S3fBr+iPQs6ri5KMV9YjYQc0j9YneYsh9VC89+B
-         kDLctgkppx/IBI+TJst6v2S2o8t2DHkrwcihxfcNavh1gH3WeDQUEo5xKXvQfigBt15p
-         LrAs/jboHbzycKzhVPlaM6VXuUZyJDLF57mJfk0tY7xqjwOZM4ohj87dBG9ptoxUWaAC
-         OxE4I1zmQAHbTlPmwW5jKhlxDzJIbZdtKIK7e8NFm/ier8zRWaeqk/5wo1tzSaYCSGJR
-         EOOQ==
-X-Gm-Message-State: AOAM531hdmDrpTJl5O4Vl9nE2IrIC/VfHiTEJjuby1cQAjcJHOfOLNTr
-        85Ecgl5hkIKVas5W4AJ9MtVx/g==
-X-Google-Smtp-Source: ABdhPJw8kUO+uKtUYecNbsbVslZJwO2lAarfgMXA2uiwFaLrQgr4Oh7XDPjOWAd16BPEYKJqLPiSjQ==
-X-Received: by 2002:a05:6512:1288:: with SMTP id u8mr6960261lfs.657.1622233590019;
-        Fri, 28 May 2021 13:26:30 -0700 (PDT)
-Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
-        by smtp.gmail.com with ESMTPSA id q184sm709908ljb.54.2021.05.28.13.26.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 May 2021 13:26:29 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org,
+        id S229493AbhE1Ufr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 16:35:47 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:55400 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229482AbhE1Ufq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 16:35:46 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id A0DEC1C0B76; Fri, 28 May 2021 22:34:10 +0200 (CEST)
+Date:   Fri, 28 May 2021 22:34:10 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Ingi Kim <ingi2.kim@samsung.com>
-Subject: [PATCH 6/6] leds: ktd2692: Move driver to flash subdirectory
-Date:   Fri, 28 May 2021 22:24:04 +0200
-Message-Id: <20210528202404.431859-6-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210528202404.431859-1-linus.walleij@linaro.org>
-References: <20210528202404.431859-1-linus.walleij@linaro.org>
+        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
+        Abanoub Sameh <abanoubsameh8@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 00/28] leds: cleanups and fwnode refcounting bug fixes
+Message-ID: <20210528203410.GA26380@duo.ucw.cz>
+References: <20210510095045.3299382-1-andy.shevchenko@gmail.com>
+ <YKIbgBd3q8c+Tgz0@smile.fi.intel.com>
+ <20210528100254.GC2209@amd>
+ <YLDOfWuis5MvdxfJ@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="SLDf9lqlvOQaIe6s"
+Content-Disposition: inline
+In-Reply-To: <YLDOfWuis5MvdxfJ@smile.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-We created a subdirectory for LED drivers that depend on
-CONFIG_LEDS_CLASS_FLASH, and this driver does so let's
-move it there.
 
-Cc: Ingi Kim <ingi2.kim@samsung.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/leds/Kconfig                    | 10 ----------
- drivers/leds/Makefile                   |  1 -
- drivers/leds/flash/Kconfig              | 10 ++++++++++
- drivers/leds/flash/Makefile             |  1 +
- drivers/leds/{ => flash}/leds-ktd2692.c |  0
- 5 files changed, 11 insertions(+), 11 deletions(-)
- rename drivers/leds/{ => flash}/leds-ktd2692.c (100%)
+--SLDf9lqlvOQaIe6s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 1671aa2f90b5..da7773dc8670 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -702,16 +702,6 @@ config LEDS_MENF21BMC
- 	  This driver can also be built as a module. If so the module
- 	  will be called leds-menf21bmc.
- 
--config LEDS_KTD2692
--	tristate "LED support for KTD2692 flash LED controller"
--	depends on LEDS_CLASS_FLASH && OF
--	depends on GPIOLIB || COMPILE_TEST
--	help
--	  This option enables support for KTD2692 LED flash connected
--	  through ExpressWire interface.
--
--	  Say Y to enable this driver.
--
- config LEDS_IS31FL319X
- 	tristate "LED Support for ISSI IS31FL319x I2C LED controller family"
- 	depends on LEDS_CLASS && I2C && OF
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 6d5c23afaf98..c636ec069612 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -35,7 +35,6 @@ obj-$(CONFIG_LEDS_IP30)			+= leds-ip30.o
- obj-$(CONFIG_LEDS_IPAQ_MICRO)		+= leds-ipaq-micro.o
- obj-$(CONFIG_LEDS_IS31FL319X)		+= leds-is31fl319x.o
- obj-$(CONFIG_LEDS_IS31FL32XX)		+= leds-is31fl32xx.o
--obj-$(CONFIG_LEDS_KTD2692)		+= leds-ktd2692.o
- obj-$(CONFIG_LEDS_LM3530)		+= leds-lm3530.o
- obj-$(CONFIG_LEDS_LM3532)		+= leds-lm3532.o
- obj-$(CONFIG_LEDS_LM3533)		+= leds-lm3533.o
-diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
-index 6cb6600555f0..b230f3d65eb0 100644
---- a/drivers/leds/flash/Kconfig
-+++ b/drivers/leds/flash/Kconfig
-@@ -20,6 +20,16 @@ config LEDS_AS3645A
- 	  controller. V4L2 flash API is provided as well if
- 	  CONFIG_V4L2_FLASH_API is enabled.
- 
-+config LEDS_KTD2692
-+	tristate "LED support for Kinetic KTD2692 flash LED controller"
-+	depends on OF
-+	depends on GPIOLIB || COMPILE_TEST
-+	help
-+	  This option enables support for Kinetic KTD2692 LED flash connected
-+	  through ExpressWire interface.
-+
-+	  Say Y to enable this driver.
-+
- config LEDS_LM3601X
- 	tristate "LED support for LM3601x Chips"
- 	depends on LEDS_CLASS && I2C
-diff --git a/drivers/leds/flash/Makefile b/drivers/leds/flash/Makefile
-index 67556329441e..ebea42f9c37e 100644
---- a/drivers/leds/flash/Makefile
-+++ b/drivers/leds/flash/Makefile
-@@ -2,6 +2,7 @@
- 
- obj-$(CONFIG_LEDS_AAT1290)	+= leds-aat1290.o
- obj-$(CONFIG_LEDS_AS3645A)	+= leds-as3645a.o
-+obj-$(CONFIG_LEDS_KTD2692)	+= leds-ktd2692.o
- obj-$(CONFIG_LEDS_LM3601X)	+= leds-lm3601x.o
- obj-$(CONFIG_LEDS_MAX77693)	+= leds-max77693.o
- obj-$(CONFIG_LEDS_RT4505)	+= leds-rt4505.o
-diff --git a/drivers/leds/leds-ktd2692.c b/drivers/leds/flash/leds-ktd2692.c
-similarity index 100%
-rename from drivers/leds/leds-ktd2692.c
-rename to drivers/leds/flash/leds-ktd2692.c
--- 
-2.31.1
+Hi!
 
+> > > > First two patches are taking care of -ENOTSUPP error code too  prev=
+ent its
+> > > > appearance in the user space.
+> > >=20
+> > > Pavel, any comments on this bug fix series?
+> >=20
+> > I took these:
+>=20
+> Thanks!
+>=20
+> What branch/tree should I rebase the rest on?
+
+git@gitolite.kernel.org:pub/scm/linux/kernel/git/pavel/linux-leds.git
+for-next would do the trick.
+
+As would linux-next, I guess. This area should not be changing.
+
+> > For the "remove depends on OF"... I'd preffer not to take those. We
+> > don't need to ask the user for configurations that never happen.
+>=20
+> What do you mean by this? ACPI is quite a good configuration to make use
+> of it on the corresponding platforms. By default any discrete LED driver
+> (in hardware term here) IC should be considered independent from the type
+> of the platform description. Do you agree? If so, it means that
+
+The drivers are independend, I guess. But I'm also very sure you will
+not find some of the chips in a ACPI based machine. el15203000 is such
+example.
+
+I don't want people configuring for normal PCs to be asked if they
+want el15203000 support.
+
+If you know particular chip is present in ACPI-based machine, I'm okay
+with removing the dependency.
+
+(Maybe some of these chould depend on ARM || COMPILE_TEST instead?)
+
+> > dropping
+> OF dependency is a right thing to do to allow users of those ICs to be ha=
+ppy
+> even on ACPI based platforms.
+>=20
+> Note, entire IIO subsystem is a good example of this activity. All the se=
+nsors
+> can be used now in ACPI environment without explicit requirement to have =
+an
+> ACPI ID, although it's highly recommended to acquire for the real products
+> (not DIY ones).
+
+Well. I'm not sure that is good step forward. It will result in
+useless questions being asked.
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--SLDf9lqlvOQaIe6s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYLFTwgAKCRAw5/Bqldv6
+8qb/AJwK0UBop9hyWUWbFSYgRbrmkir5UACfdJMsSYMYKj0U/lXMkVXNgjiDraU=
+=6L+m
+-----END PGP SIGNATURE-----
+
+--SLDf9lqlvOQaIe6s--
