@@ -2,93 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56CBD394097
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 12:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AE8E394098
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 12:04:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236417AbhE1KFe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 06:05:34 -0400
-Received: from mail.thorsis.com ([92.198.35.195]:48926 "EHLO mail.thorsis.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236450AbhE1KFT (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 28 May 2021 06:05:19 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.thorsis.com (Postfix) with ESMTP id 80ABDF61;
-        Fri, 28 May 2021 12:03:40 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
-Received: from mail.thorsis.com ([127.0.0.1])
-        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id nB9bIc_u7vGD; Fri, 28 May 2021 12:03:40 +0200 (CEST)
-Received: by mail.thorsis.com (Postfix, from userid 109)
-        id 51DBD10A3; Fri, 28 May 2021 12:03:40 +0200 (CEST)
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RECEIVED,
-        NO_RELAYS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-        version=3.4.2
-X-Spam-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0000]
-        * -0.0 NO_RELAYS Informational: message was not relayed via SMTP
-        *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
-        *      blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [URIs: thorsis.com]
-        * -0.0 NO_RECEIVED Informational: message has no Received headers
-From:   Alexander Dahl <ada@thorsis.com>
-To:     linux-leds@vger.kernel.org
-Cc:     Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>,
+        id S236404AbhE1KFo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 06:05:44 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:33236 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236448AbhE1KFP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 06:05:15 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 4562B1C0B76; Fri, 28 May 2021 12:03:40 +0200 (CEST)
+Date:   Fri, 28 May 2021 12:03:39 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Amireddy Mallikarjuna reddy 
+        <mallikarjunax.reddy@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Bryan Wu <bryan.wu@canonical.com>
-Subject: Re: [PATCH 01/15] leds: trigger: ledtrig-cpu: Fix incorrectly documented param 'ledevt'
-Date:   Fri, 28 May 2021 12:03:34 +0200
-Message-ID: <7558795.jS9KYa1WI8@ada>
-In-Reply-To: <20210528090629.1800173-2-lee.jones@linaro.org>
-References: <20210528090629.1800173-1-lee.jones@linaro.org> <20210528090629.1800173-2-lee.jones@linaro.org>
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
+        Abanoub Sameh <abanoubsameh8@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <j.anaszewski@samsung.com>
+Subject: Re: [PATCH v1 02/28] leds: core: The -ENOTSUPP should never be seen
+ by user space
+Message-ID: <20210528100339.GD2209@amd>
+References: <20210510095045.3299382-1-andy.shevchenko@gmail.com>
+ <20210510095045.3299382-3-andy.shevchenko@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="llIrKcgUOe3dCx0c"
+Content-Disposition: inline
+In-Reply-To: <20210510095045.3299382-3-andy.shevchenko@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello,
 
-Am Freitag, 28. Mai 2021, 11:06:15 CEST schrieb Lee Jones:
-> Fixes the following W=1 kernel build warning(s):
-> 
->  drivers/leds/trigger/ledtrig-cpu.c:52: warning: Function parameter or
-> member 'ledevt' not described in 'ledtrig_cpu'
-> drivers/leds/trigger/ledtrig-cpu.c:52: warning: Excess function parameter
-> 'evt' description in 'ledtrig_cpu'
-> 
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bryan Wu <bryan.wu@canonical.com>
-> Cc: linux-leds@vger.kernel.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> ---
->  drivers/leds/trigger/ledtrig-cpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/trigger/ledtrig-cpu.c
-> b/drivers/leds/trigger/ledtrig-cpu.c index fca62d5035909..8af4f9bb9cde8
-> 100644
-> --- a/drivers/leds/trigger/ledtrig-cpu.c
-> +++ b/drivers/leds/trigger/ledtrig-cpu.c
-> @@ -43,7 +43,7 @@ static atomic_t num_active_cpus = ATOMIC_INIT(0);
-> 
->  /**
->   * ledtrig_cpu - emit a CPU event as a trigger
-> - * @evt: CPU event to be emitted
-> + * @ledevt: CPU event to be emitted
->   *
->   * Emit a CPU event on a CPU core, which will trigger a
->   * bound LED to turn on or turn off.
+--llIrKcgUOe3dCx0c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Alexander Dahl <ada@thorsis.com>
+On Mon 2021-05-10 12:50:19, Andy Shevchenko wrote:
+> Replace -ENOTSUPP by -EOPNOTSUPP when returning from exported function.
+>=20
+> Fixes: 13ae79bbe4c2 ("leds: core: Drivers shouldn't enforce SYNC/ASYNC br=
+ightness setting")
+> Cc: Jacek Anaszewski <j.anaszewski@samsung.com>
+> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Greets
-Alex
+Are you sure this is real problem? This does not sound like an error
+path that should happen.
 
+BR,
+								Pavel
 
+>  int led_set_brightness_sync(struct led_classdev *led_cdev, unsigned int =
+value)
+>  {
+> +	int ret;
+> +
+>  	if (led_cdev->blink_delay_on || led_cdev->blink_delay_off)
+>  		return -EBUSY;
+> =20
+> @@ -297,7 +299,10 @@ int led_set_brightness_sync(struct led_classdev *led=
+_cdev, unsigned int value)
+>  	if (led_cdev->flags & LED_SUSPENDED)
+>  		return 0;
+> =20
+> -	return __led_set_brightness_blocking(led_cdev, led_cdev->brightness);
+> +	ret =3D __led_set_brightness_blocking(led_cdev, led_cdev->brightness);
+> +	if (ret =3D=3D -ENOTSUPP)
+> +		return -EOPNOTSUPP;
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(led_set_brightness_sync);
+> =20
 
+--=20
+http://www.livejournal.com/~pavelmachek
 
+--llIrKcgUOe3dCx0c
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmCwv/sACgkQMOfwapXb+vLXLwCgqSYKq9Bs5thCqRDnD2mipWqc
+paMAoJpJMbJGh0zSFocqtFFyHDw/+Z6T
+=QR02
+-----END PGP SIGNATURE-----
+
+--llIrKcgUOe3dCx0c--
