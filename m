@@ -2,94 +2,122 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E69BC3940AB
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 12:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4116A3940AD
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 12:11:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235876AbhE1KMW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 06:12:22 -0400
-Received: from mail.thorsis.com ([92.198.35.195]:49155 "EHLO mail.thorsis.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235672AbhE1KMV (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 28 May 2021 06:12:21 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.thorsis.com (Postfix) with ESMTP id 578CBF61;
-        Fri, 28 May 2021 12:10:46 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
-Received: from mail.thorsis.com ([127.0.0.1])
-        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 4YyQp2lCo78k; Fri, 28 May 2021 12:10:46 +0200 (CEST)
-Received: by mail.thorsis.com (Postfix, from userid 109)
-        id 2637FE5C; Fri, 28 May 2021 12:10:45 +0200 (CEST)
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RECEIVED,
-        NO_RELAYS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-        version=3.4.2
-X-Spam-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0000]
-        * -0.0 NO_RELAYS Informational: message was not relayed via SMTP
-        *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
-        *      blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [URIs: ucw.cz]
-        * -0.0 NO_RECEIVED Informational: message has no Received headers
-Date:   Fri, 28 May 2021 12:10:36 +0200
-From:   Alexander Dahl <ada@thorsis.com>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        John Lenz <lenz@cs.wisc.edu>,
-        Richard Purdie <rpurdie@openedhand.com>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH 03/15] leds: led-class: Fix incorrectly documented param
- 'dev'
-Message-ID: <YLDBnIx/4L/O0oa0@ada.ifak-system.com>
-Mail-Followup-To: Lee Jones <lee.jones@linaro.org>,
-        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        John Lenz <lenz@cs.wisc.edu>,
-        Richard Purdie <rpurdie@openedhand.com>, linux-leds@vger.kernel.org
-References: <20210528090629.1800173-1-lee.jones@linaro.org>
- <20210528090629.1800173-4-lee.jones@linaro.org>
-Content-Type: text/plain; charset=us-ascii
+        id S236425AbhE1KMd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 06:12:33 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:34412 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235672AbhE1KMd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 06:12:33 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 12C441C0B76; Fri, 28 May 2021 12:10:58 +0200 (CEST)
+Date:   Fri, 28 May 2021 12:10:57 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Amireddy Mallikarjuna reddy 
+        <mallikarjunax.reddy@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
+        Abanoub Sameh <abanoubsameh8@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 21/28] leds: lm3697: Make error handling more robust
+Message-ID: <20210528101057.GH2209@amd>
+References: <20210510095045.3299382-1-andy.shevchenko@gmail.com>
+ <20210510095045.3299382-22-andy.shevchenko@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="ZPDwMsyfds7q4mrK"
 Content-Disposition: inline
-In-Reply-To: <20210528090629.1800173-4-lee.jones@linaro.org>
+In-Reply-To: <20210510095045.3299382-22-andy.shevchenko@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello,
 
-Am Fri, May 28, 2021 at 10:06:17AM +0100 schrieb Lee Jones:
-> Fixes the following W=1 kernel build warning(s):
-> 
->  drivers/leds/led-class.c:521: warning: Function parameter or member 'dev' not described in 'devm_led_classdev_unregister'
->  drivers/leds/led-class.c:521: warning: Excess function parameter 'parent' description in 'devm_led_classdev_unregister'
-> 
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: John Lenz <lenz@cs.wisc.edu>
-> Cc: Richard Purdie <rpurdie@openedhand.com>
-> Cc: linux-leds@vger.kernel.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+--ZPDwMsyfds7q4mrK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon 2021-05-10 12:50:38, Andy Shevchenko wrote:
+> It's easy to miss necessary clean up, e.g. firmware node reference counti=
+ng,
+> during error path in ->probe(). Make it more robust by moving to a single
+> point of return.
+>=20
+> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+You are now putting the handle even in the success case. Is that
+right?
+								Pavel
+
 > ---
->  drivers/leds/led-class.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 2e495ff678562..16271a1de12a7 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -513,7 +513,7 @@ static int devm_led_classdev_match(struct device *dev, void *res, void *data)
->  
->  /**
->   * devm_led_classdev_unregister() - resource managed led_classdev_unregister()
-> - * @parent: The device to unregister.
-> + * @dev: The device to unregister.
->   * @led_cdev: the led_classdev structure for this device.
->   */
->  void devm_led_classdev_unregister(struct device *dev,
+>  drivers/leds/leds-lm3697.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/leds/leds-lm3697.c b/drivers/leds/leds-lm3697.c
+> index 9d35dd2a9bf0..6262ae69591e 100644
+> --- a/drivers/leds/leds-lm3697.c
+> +++ b/drivers/leds/leds-lm3697.c
+> @@ -224,14 +224,12 @@ static int lm3697_probe_dt(struct lm3697 *priv)
+>  		ret =3D fwnode_property_read_u32(child, "reg", &control_bank);
+>  		if (ret) {
+>  			dev_err(dev, "reg property missing\n");
+> -			fwnode_handle_put(child);
+>  			goto child_out;
+>  		}
+> =20
+>  		if (control_bank > LM3697_CONTROL_B) {
+>  			dev_err(dev, "reg property is invalid\n");
+>  			ret =3D -EINVAL;
+> -			fwnode_handle_put(child);
+>  			goto child_out;
+>  		}
+> =20
+> @@ -262,7 +260,6 @@ static int lm3697_probe_dt(struct lm3697 *priv)
+>  						    led->num_leds);
+>  		if (ret) {
+>  			dev_err(dev, "led-sources property missing\n");
+> -			fwnode_handle_put(child);
+>  			goto child_out;
+>  		}
+> =20
+> @@ -287,7 +284,6 @@ static int lm3697_probe_dt(struct lm3697 *priv)
+>  						     &init_data);
+>  		if (ret) {
+>  			dev_err(dev, "led register err: %d\n", ret);
+> -			fwnode_handle_put(child);
+>  			goto child_out;
+>  		}
+> =20
+> @@ -295,6 +291,7 @@ static int lm3697_probe_dt(struct lm3697 *priv)
+>  	}
+> =20
+>  child_out:
+> +	fwnode_handle_put(child);
+>  	return ret;
+>  }
+> =20
 
-Fixes: ca1bb4ee4c3a ("leds: Introduce devres helper for led_classdev_register")
-Reviewed-by: Alexander Dahl <ada@thorsis.com>
+--=20
+http://www.livejournal.com/~pavelmachek
 
-Greets
-Alex
+--ZPDwMsyfds7q4mrK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmCwwbEACgkQMOfwapXb+vLAGgCfYJHx7B9rkKtDWSxAKk4A4L7W
+YxAAoJtkYxIhFPHHBvh+Hpy4kJoHy3+D
+=C3z8
+-----END PGP SIGNATURE-----
+
+--ZPDwMsyfds7q4mrK--
