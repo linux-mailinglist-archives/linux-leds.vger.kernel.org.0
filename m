@@ -2,116 +2,106 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FA8B3947FB
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 22:34:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F364B39481D
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 23:07:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbhE1Ufr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 16:35:47 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:55400 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbhE1Ufq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 16:35:46 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id A0DEC1C0B76; Fri, 28 May 2021 22:34:10 +0200 (CEST)
-Date:   Fri, 28 May 2021 22:34:10 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>,
+        id S229482AbhE1VIx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 17:08:53 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:53098 "EHLO smtp.220.in.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229481AbhE1VIw (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 28 May 2021 17:08:52 -0400
+X-Greylist: delayed 490 seconds by postgrey-1.27 at vger.kernel.org; Fri, 28 May 2021 17:08:52 EDT
+Received: from [192.168.202.100] (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 487401A200CD;
+        Fri, 28 May 2021 23:59:05 +0300 (EEST)
+Subject: Re: [PATCH v1 04/28] leds: el15203000: Make error handling more
+ robust
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Amireddy Mallikarjuna reddy 
+        <mallikarjunax.reddy@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
+        =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
         Abanoub Sameh <abanoubsameh8@gmail.com>,
         Dan Murphy <dmurphy@ti.com>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 00/28] leds: cleanups and fwnode refcounting bug fixes
-Message-ID: <20210528203410.GA26380@duo.ucw.cz>
 References: <20210510095045.3299382-1-andy.shevchenko@gmail.com>
- <YKIbgBd3q8c+Tgz0@smile.fi.intel.com>
- <20210528100254.GC2209@amd>
- <YLDOfWuis5MvdxfJ@smile.fi.intel.com>
+ <20210510095045.3299382-5-andy.shevchenko@gmail.com>
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+Message-ID: <6fe3dbb8-255d-35f7-076a-039ab032ac7f@kaa.org.ua>
+Date:   Fri, 28 May 2021 23:59:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="SLDf9lqlvOQaIe6s"
-Content-Disposition: inline
-In-Reply-To: <YLDOfWuis5MvdxfJ@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210510095045.3299382-5-andy.shevchenko@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: uk-UA
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---SLDf9lqlvOQaIe6s
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi!
+10.05.21 12:50, Andy Shevchenko пише:
+> It's easy to miss necessary clean up, e.g. firmware node reference counting,
+> during error path in ->probe(). Make it more robust by moving to a single
+> point of return.
+> 
+> Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> ---
+>  drivers/leds/leds-el15203000.c | 17 ++++++++---------
+>  1 file changed, 8 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-el15203000.c b/drivers/leds/leds-el15203000.c
+> index 912451db05e6..bcdbbbc9c187 100644
+> --- a/drivers/leds/leds-el15203000.c
+> +++ b/drivers/leds/leds-el15203000.c
+> @@ -246,16 +246,13 @@ static int el15203000_probe_dt(struct el15203000 *priv)
+>  		ret = fwnode_property_read_u32(child, "reg", &led->reg);
+>  		if (ret) {
+>  			dev_err(priv->dev, "LED without ID number");
+> -			fwnode_handle_put(child);
+> -
+> -			break;
+> +			goto err_child_out;
+>  		}
+>  
+>  		if (led->reg > U8_MAX) {
+>  			dev_err(priv->dev, "LED value %d is invalid", led->reg);
+> -			fwnode_handle_put(child);
+> -
+> -			return -EINVAL;
+> +			ret = -EINVAL;
+> +			goto err_child_out;
+>  		}
+>  
+>  		led->priv			  = priv;
+> @@ -277,14 +274,16 @@ static int el15203000_probe_dt(struct el15203000 *priv)
+>  			dev_err(priv->dev,
+>  				"failed to register LED device %s, err %d",
+>  				led->ldev.name, ret);
+> -			fwnode_handle_put(child);
+> -
+> -			break;
+> +			goto err_child_out;
+>  		}
+>  
+>  		led++;
+>  	}
+>  
+> +	return 0;
+> +
+> +err_child_out:
+> +	fwnode_handle_put(child);
+>  	return ret;
+>  }
+>  
+> 
 
-> > > > First two patches are taking care of -ENOTSUPP error code too  prev=
-ent its
-> > > > appearance in the user space.
-> > >=20
-> > > Pavel, any comments on this bug fix series?
-> >=20
-> > I took these:
->=20
-> Thanks!
->=20
-> What branch/tree should I rebase the rest on?
-
-git@gitolite.kernel.org:pub/scm/linux/kernel/git/pavel/linux-leds.git
-for-next would do the trick.
-
-As would linux-next, I guess. This area should not be changing.
-
-> > For the "remove depends on OF"... I'd preffer not to take those. We
-> > don't need to ask the user for configurations that never happen.
->=20
-> What do you mean by this? ACPI is quite a good configuration to make use
-> of it on the corresponding platforms. By default any discrete LED driver
-> (in hardware term here) IC should be considered independent from the type
-> of the platform description. Do you agree? If so, it means that
-
-The drivers are independend, I guess. But I'm also very sure you will
-not find some of the chips in a ACPI based machine. el15203000 is such
-example.
-
-I don't want people configuring for normal PCs to be asked if they
-want el15203000 support.
-
-If you know particular chip is present in ACPI-based machine, I'm okay
-with removing the dependency.
-
-(Maybe some of these chould depend on ARM || COMPILE_TEST instead?)
-
-> > dropping
-> OF dependency is a right thing to do to allow users of those ICs to be ha=
-ppy
-> even on ACPI based platforms.
->=20
-> Note, entire IIO subsystem is a good example of this activity. All the se=
-nsors
-> can be used now in ACPI environment without explicit requirement to have =
-an
-> ACPI ID, although it's highly recommended to acquire for the real products
-> (not DIY ones).
-
-Well. I'm not sure that is good step forward. It will result in
-useless questions being asked.
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---SLDf9lqlvOQaIe6s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYLFTwgAKCRAw5/Bqldv6
-8qb/AJwK0UBop9hyWUWbFSYgRbrmkir5UACfdJMsSYMYKj0U/lXMkVXNgjiDraU=
-=6L+m
------END PGP SIGNATURE-----
-
---SLDf9lqlvOQaIe6s--
+Reviewed-by: Oleh Kravchenko <oleg@kaa.org.ua>
