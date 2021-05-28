@@ -2,100 +2,94 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4EAF3940A7
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 12:09:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E69BC3940AB
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 12:10:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235876AbhE1KKn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 06:10:43 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:34056 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235361AbhE1KKm (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 06:10:42 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 96D1C1C0B76; Fri, 28 May 2021 12:09:07 +0200 (CEST)
-Date:   Fri, 28 May 2021 12:09:06 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Amireddy Mallikarjuna reddy 
-        <mallikarjunax.reddy@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
-        Abanoub Sameh <abanoubsameh8@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 11/28] leds: lgm-sso: Remove explicit managed resource
- cleanups
-Message-ID: <20210528100906.GG2209@amd>
-References: <20210510095045.3299382-1-andy.shevchenko@gmail.com>
- <20210510095045.3299382-12-andy.shevchenko@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="XRI2XbIfl/05pQwm"
+        id S235876AbhE1KMW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 06:12:22 -0400
+Received: from mail.thorsis.com ([92.198.35.195]:49155 "EHLO mail.thorsis.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235672AbhE1KMV (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 28 May 2021 06:12:21 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.thorsis.com (Postfix) with ESMTP id 578CBF61;
+        Fri, 28 May 2021 12:10:46 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
+Received: from mail.thorsis.com ([127.0.0.1])
+        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 4YyQp2lCo78k; Fri, 28 May 2021 12:10:46 +0200 (CEST)
+Received: by mail.thorsis.com (Postfix, from userid 109)
+        id 2637FE5C; Fri, 28 May 2021 12:10:45 +0200 (CEST)
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RECEIVED,
+        NO_RELAYS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+        version=3.4.2
+X-Spam-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+        *      [score: 0.0000]
+        * -0.0 NO_RELAYS Informational: message was not relayed via SMTP
+        *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
+        *      blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [URIs: ucw.cz]
+        * -0.0 NO_RECEIVED Informational: message has no Received headers
+Date:   Fri, 28 May 2021 12:10:36 +0200
+From:   Alexander Dahl <ada@thorsis.com>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        John Lenz <lenz@cs.wisc.edu>,
+        Richard Purdie <rpurdie@openedhand.com>,
+        linux-leds@vger.kernel.org
+Subject: Re: [PATCH 03/15] leds: led-class: Fix incorrectly documented param
+ 'dev'
+Message-ID: <YLDBnIx/4L/O0oa0@ada.ifak-system.com>
+Mail-Followup-To: Lee Jones <lee.jones@linaro.org>,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        John Lenz <lenz@cs.wisc.edu>,
+        Richard Purdie <rpurdie@openedhand.com>, linux-leds@vger.kernel.org
+References: <20210528090629.1800173-1-lee.jones@linaro.org>
+ <20210528090629.1800173-4-lee.jones@linaro.org>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210510095045.3299382-12-andy.shevchenko@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20210528090629.1800173-4-lee.jones@linaro.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hello,
 
---XRI2XbIfl/05pQwm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon 2021-05-10 12:50:28, Andy Shevchenko wrote:
-> The idea of managed resources that they will be cleaned up automatically
-> and in the proper order. Remove explicit cleanups.
-
-Are you really sure this is good idea with the regmap_update_bits in
-between?
-
-BR,
-								Pavel
-
+Am Fri, May 28, 2021 at 10:06:17AM +0100 schrieb Lee Jones:
+> Fixes the following W=1 kernel build warning(s):
+> 
+>  drivers/leds/led-class.c:521: warning: Function parameter or member 'dev' not described in 'devm_led_classdev_unregister'
+>  drivers/leds/led-class.c:521: warning: Excess function parameter 'parent' description in 'devm_led_classdev_unregister'
+> 
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: John Lenz <lenz@cs.wisc.edu>
+> Cc: Richard Purdie <rpurdie@openedhand.com>
+> Cc: linux-leds@vger.kernel.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/leds/blink/leds-lgm-sso.c | 6 ------
->  1 file changed, 6 deletions(-)
->=20
-> diff --git a/drivers/leds/blink/leds-lgm-sso.c b/drivers/leds/blink/leds-=
-lgm-sso.c
-> index e76be25480b4..a7f2e5436ba2 100644
-> --- a/drivers/leds/blink/leds-lgm-sso.c
-> +++ b/drivers/leds/blink/leds-lgm-sso.c
-> @@ -606,16 +606,10 @@ static void sso_led_shutdown(struct sso_led *led)
->  {
->  	struct sso_led_priv *priv =3D led->priv;
-> =20
-> -	/* unregister led */
-> -	devm_led_classdev_unregister(priv->dev, &led->cdev);
-> -
->  	/* clear HW control bit */
->  	if (led->desc.hw_trig)
->  		regmap_update_bits(priv->mmap, SSO_CON3, BIT(led->desc.pin), 0);
-> =20
-> -	if (led->gpiod)
-> -		devm_gpiod_put(priv->dev, led->gpiod);
-> -
->  	led->priv =3D NULL;
->  }
-> =20
+>  drivers/leds/led-class.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 2e495ff678562..16271a1de12a7 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -513,7 +513,7 @@ static int devm_led_classdev_match(struct device *dev, void *res, void *data)
+>  
+>  /**
+>   * devm_led_classdev_unregister() - resource managed led_classdev_unregister()
+> - * @parent: The device to unregister.
+> + * @dev: The device to unregister.
+>   * @led_cdev: the led_classdev structure for this device.
+>   */
+>  void devm_led_classdev_unregister(struct device *dev,
 
---=20
-http://www.livejournal.com/~pavelmachek
+Fixes: ca1bb4ee4c3a ("leds: Introduce devres helper for led_classdev_register")
+Reviewed-by: Alexander Dahl <ada@thorsis.com>
 
---XRI2XbIfl/05pQwm
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Greets
+Alex
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmCwwUIACgkQMOfwapXb+vKUqgCgiJK5z0DCUwmfQHqSIZ8esUk7
-fkYAoJ3fBhQzuSC2Y+Rwi+WNjChH4G8m
-=3hpP
------END PGP SIGNATURE-----
-
---XRI2XbIfl/05pQwm--
