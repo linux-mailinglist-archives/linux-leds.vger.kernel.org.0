@@ -2,98 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26C36394034
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 11:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16B7939403C
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 11:41:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235422AbhE1Jlk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 05:41:40 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:58648 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234456AbhE1Jlg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 05:41:36 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 555BE1C0B76; Fri, 28 May 2021 11:40:01 +0200 (CEST)
-Date:   Fri, 28 May 2021 11:40:00 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S234476AbhE1JnD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 05:43:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53198 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232012AbhE1JnC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 28 May 2021 05:43:02 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F07CBC06174A
+        for <linux-leds@vger.kernel.org>; Fri, 28 May 2021 02:41:24 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lmYza-0002Cr-7g; Fri, 28 May 2021 11:41:22 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lmYzZ-0006XL-M9; Fri, 28 May 2021 11:41:21 +0200
+Date:   Fri, 28 May 2021 11:41:18 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
         linux-leds@vger.kernel.org
-Subject: Re: [PATCH 05/15] leds: leds-as3645a: Fix function name
- 'as3645a_set_current()'
-Message-ID: <20210528094000.GB2209@amd>
+Subject: Re: [PATCH 02/15] leds: leds-gpio-register: Supply description for
+ param 'id'
+Message-ID: <20210528094118.xw53q46i676wx6gb@pengutronix.de>
 References: <20210528090629.1800173-1-lee.jones@linaro.org>
- <20210528090629.1800173-6-lee.jones@linaro.org>
- <20210528093150.GN3@paasikivi.fi.intel.com>
+ <20210528090629.1800173-3-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="NDin8bjvE/0mNLFQ"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="mdrebu3je54lqlzu"
 Content-Disposition: inline
-In-Reply-To: <20210528093150.GN3@paasikivi.fi.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20210528090629.1800173-3-lee.jones@linaro.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---NDin8bjvE/0mNLFQ
-Content-Type: text/plain; charset=us-ascii
+--mdrebu3je54lqlzu
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
+Hello Lee,
 
-> >  drivers/leds/leds-as3645a.c:198: warning: expecting prototype for as36=
-45a_set_config(). Prototype was for as3645a_set_current() instead
-> >=20
-> > Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Cc: Pavel Machek <pavel@ucw.cz>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: linux-leds@vger.kernel.org
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > ---
-> >  drivers/leds/leds-as3645a.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/leds/leds-as3645a.c b/drivers/leds/leds-as3645a.c
-> > index e8922fa033796..c41937ff8fd33 100644
-> > --- a/drivers/leds/leds-as3645a.c
-> > +++ b/drivers/leds/leds-as3645a.c
-> > @@ -185,7 +185,7 @@ static int as3645a_read(struct as3645a *flash, u8 a=
-ddr)
-> >   */
-> > =20
-> >  /**
-> > - * as3645a_set_config - Set flash configuration registers
-> > + * as3645a_set_current - Set flash configuration registers
-> >   * @flash: The flash
-> >   *
-> >   * Configure the hardware with flash, assist and indicator currents, a=
-s well as
->=20
-> Thanks for the patch.
->=20
-> The entire comment could be removed. It's wrong and doesn't really tell
-> more than what you can read in the two functions below (the two are result
-> of splitting one the documentation was written for).
+On Fri, May 28, 2021 at 10:06:16AM +0100, Lee Jones wrote:
+> diff --git a/drivers/leds/leds-gpio-register.c b/drivers/leds/leds-gpio-r=
+egister.c
+> index b9187e71e0cf2..de3f12c2b80d7 100644
+> --- a/drivers/leds/leds-gpio-register.c
+> +++ b/drivers/leds/leds-gpio-register.c
+> @@ -11,6 +11,7 @@
+>  /**
+>   * gpio_led_register_device - register a gpio-led device
+>   * @pdata: the platform data used for the new device
+> + * @id: platform ID
+>   *
 
-I just took the patch, I'll happily take a follow up.
+Given that id is the first parameter and pdata the second I suggest to
+swap the order here and describe id first.
 
-Best regards,
-								Pavel
+Best regards
+Uwe
+
 --=20
-http://www.livejournal.com/~pavelmachek
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---NDin8bjvE/0mNLFQ
+--mdrebu3je54lqlzu
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
 
-iEYEARECAAYFAmCwunAACgkQMOfwapXb+vIDIQCdHkA8F8khXqwhmjMMcWMpsTtP
-aSgAoJuoZZk12F07SAqprrX+0qPKegcj
-=kGEW
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCwursACgkQwfwUeK3K
+7An8FAf+MmHGbJmvOg7+qjoZXeOCznEP7N5ravdAFKRHYYDnrIDu3jD5RBWO6E7q
+BAJFxljUFKxN2RmiZ6V/719agpFH1cA9oACNIdn8ddIIeRDjBubNa/A54qWa7PwS
+nnvTSroK21YWYN9hfjAHIvuG+wA8x3T5FfEvW4mcHkaFru/sIPKzEyj3RnlBAUEa
+WBl6A10e7T0pzM69W4rOIKHqJ2BGC7WuvsRnSkO1Mwysw4/PiuYgNtWRpDCBtOxn
+109Mfb/TmhESORxWdl4EN7j4+aZ6i1JvTJSwBiqDxb0QlJhF/YNMknd6C0+162gh
+R1z5ewVjGADSYWPZZarPnw56E8u3DA==
+=TtFv
 -----END PGP SIGNATURE-----
 
---NDin8bjvE/0mNLFQ--
+--mdrebu3je54lqlzu--
