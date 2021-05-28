@@ -2,78 +2,103 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 280EB3941D7
-	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 13:33:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47BA239438E
+	for <lists+linux-leds@lfdr.de>; Fri, 28 May 2021 15:50:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230056AbhE1Lf2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 28 May 2021 07:35:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44374 "EHLO mail.kernel.org"
+        id S233887AbhE1Nvr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 28 May 2021 09:51:47 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:33930 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230047AbhE1Lf1 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 28 May 2021 07:35:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BB148613D1;
-        Fri, 28 May 2021 11:33:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622201633;
-        bh=l0M6J04UfHv6uie7fIhhs5YaSMy3FkfUd96P/oCu1os=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=MxgWKy/5pA7866NOldsAEENFhB6XYYQPjkjJDE2BHTeejLHDsJCPAxRd0rGg3mtMQ
-         GGhMzW/4c62C345pg9SU/DYAam9ieqHp4aS7W2iqleD8O64xrt+16EpRylQ5mlAEjk
-         cJSdPMQBTnpLSDGbuDcWD1pteUx6eakvgl0BP1VnYQ4jcKXnogf+6DO1xFOu2Wmweb
-         b4zZY0hGaVdmX4vKvvX4wElohGtEc26Y+jisqArRRutEAsVHdpHqrU1LygFbnhDRnA
-         IIZ6qrL2xtlU5dylrU2YEGLtVmjsqmNRXOhK+7GJYqDPqejczcj4n9907/aFFE1dAx
-         KAHxREGWzS7RQ==
-Date:   Fri, 28 May 2021 13:33:47 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 16/17] leds: leds-nuc: add support for changing the
- ethernet type indicator
-Message-ID: <20210528133347.46634db7@coco.lan>
-In-Reply-To: <20210526145112.GB2141@amd>
-References: <20210519141102.0161a9d9@thinkpad>
-        <20210519162413.4feeab02@coco.lan>
-        <20210519175503.567e6ecc@thinkpad>
-        <20210519203014.1838de3a@coco.lan>
-        <20210520130014.7189a315@dellmb>
-        <20210520180028.495f94e4@coco.lan>
-        <20210520183633.084a8c3f@thinkpad>
-        <20210520205933.3cfc57a9@coco.lan>
-        <20210520220703.5a86b994@thinkpad>
-        <20210521111400.127ffa10@coco.lan>
-        <20210526145112.GB2141@amd>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230127AbhE1Nvq (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 28 May 2021 09:51:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+        In-Reply-To:References; bh=Enj7fzG2s3mxlNczWZOqN/yxsGH0zcgsb4CsKkOLdU8=; b=P3
+        aaifHT9vpk8jlC0Hi1TO3dl68JJqnoiPnIdRRDE3CTB6h53KzLXkqNGNRIZL7ko0kohb1GsSE2sb3
+        t8vUCzhZBD0RVnOzAzM3Twa9JH+PNpxk84Ygxv4yiyQXDYtux5r63k7vFb4TsYGLW/o/WWMiAEMET
+        s/ZDBMAmUPDtmmE=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1lmcsK-006kNF-S8; Fri, 28 May 2021 15:50:08 +0200
+Date:   Fri, 28 May 2021 15:50:08 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>
+Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        linux-leds@vger.kernel.org, netdev@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH leds v1 4/5] leds: trigger: netdev: support HW offloading
+Message-ID: <YLD1ELr5csaat6Uk@lunn.ch>
+References: <20210526180020.13557-1-kabel@kernel.org>
+ <20210526180020.13557-5-kabel@kernel.org>
+ <YK/PbY/a0plxvzh+@lunn.ch>
+ <20210528084556.69bbba1a@dellmb>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210528084556.69bbba1a@dellmb>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Em Wed, 26 May 2021 16:51:12 +0200
-Pavel Machek <pavel@ucw.cz> escreveu:
-
-> Hi!
+On Fri, May 28, 2021 at 08:45:56AM +0200, Marek Behún wrote:
+> On Thu, 27 May 2021 18:57:17 +0200
+> Andrew Lunn <andrew@lunn.ch> wrote:
 > 
-> > > You say that for this controller it would be bad to do in SW, because it
-> > > would take too much time in BIOS calls. (I wonder how much...)   
+> > On Wed, May 26, 2021 at 08:00:19PM +0200, Marek Behún wrote:
+> > > Add support for HW offloading of the netdev trigger.
+> > > 
+> > > We need to export the netdev_led_trigger variable so that drivers
+> > > may check whether the LED is set to this trigger.  
 > > 
-> > Yeah, it would be interesting to know how much. However, measuring BIOS
-> > latency and time spent on such calls can be tricky: one needs to use a
-> > high-res clock that it is not used anywhere else, in order to measure
-> > it.   
+> > Without seeing the driver side, it is not obvious to me why this is
+> > needed. Please add the driver changes to this patchset, so we can
+> > fully see how the API works.
 > 
-> I'm sure you can time kernel compilation while LEDs are using software
-> netdev trigger, for example.
+> OK, I will send an implementation for leds-turris-omnia with v2.
+> 
+> The idea is that the trigger_offload() method should check which
+> trigger it should offload. A potential LED controller may be configured
+> to link the LED on net activity, or on SATA activity. So the method
+> should do something like this:
+> 
+>   static int my_trigger_offload(struct led_classdev *cdev, bool enable)
+>   {
+>     if (!enable)
+>       return my_disable_hw_triggering(cdev);
+> 	
+>     if (cdev->trigger == &netdev_led_trigger)
+>       return my_offload_netdev_triggering(cdev);
+>     else if (cdev->trigger == &blkdev_led_trigger)
+>       return my_offload_blkdev_triggering(cdev);
+>     else
+>       return -EOPNOTSUPP;
+>   }
 
-I can't see how. I mean, the problem is to monitor the impact of the
-BIOS call with may affect not only the application using the LED, but
-all other applications running at the same time on different CPUs,
-as the BIOS may want/need to lock other CPUs while its code is running, as
-it can't see the Linux CPU locks.
+So the hardware driver does not need the contents of the trigger? It
+never manipulates the trigger. Maybe to keep the abstraction cleaner,
+an enum can be added to the trigger to identify it. The code then
+becomes:
 
-Thanks,
-Mauro
+static int my_trigger_offload(struct led_classdev *cdev, bool enable)
+{
+	if (!enable)
+        	return my_disable_hw_triggering(cdev);
+ 	
+	switch(cdev->trigger->trigger) {
+	case TRIGGER_NETDEV:
+	       return my_offload_netdev_triggering(cdev);
+	case TRIGGER_BLKDEV:
+	       return my_offload_blkdev_triggering(cdev);
+	default:
+	       return -EOPNOTSUPP;
+}	
+
+	Andrew
