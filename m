@@ -2,20 +2,20 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5FF0394BF0
-	for <lists+linux-leds@lfdr.de>; Sat, 29 May 2021 13:19:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2E0A394BF5
+	for <lists+linux-leds@lfdr.de>; Sat, 29 May 2021 13:19:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229756AbhE2LVU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 29 May 2021 07:21:20 -0400
-Received: from fgw21-7.mail.saunalahti.fi ([62.142.5.82]:38858 "EHLO
-        fgw21-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229723AbhE2LVT (ORCPT
+        id S229719AbhE2LVW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 29 May 2021 07:21:22 -0400
+Received: from fgw23-7.mail.saunalahti.fi ([62.142.5.84]:13939 "EHLO
+        fgw23-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229737AbhE2LVU (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 29 May 2021 07:21:19 -0400
+        Sat, 29 May 2021 07:21:20 -0400
 Received: from localhost (88-115-248-186.elisa-laajakaista.fi [88.115.248.186])
-        by fgw21.mail.saunalahti.fi (Halon) with ESMTP
-        id c3473160-c06f-11eb-9eb8-005056bdd08f;
-        Sat, 29 May 2021 14:19:41 +0300 (EEST)
+        by fgw23.mail.saunalahti.fi (Halon) with ESMTP
+        id c3b53ab9-c06f-11eb-8ccd-005056bdfda7;
+        Sat, 29 May 2021 14:19:42 +0300 (EEST)
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
 To:     Pavel Machek <pavel@ucw.cz>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
@@ -26,9 +26,9 @@ To:     Pavel Machek <pavel@ucw.cz>,
         =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/13] leds: lgm-sso: Don't spam logs when probe is deferred
-Date:   Sat, 29 May 2021 14:19:27 +0300
-Message-Id: <20210529111935.3849707-5-andy.shevchenko@gmail.com>
+Subject: [PATCH v2 06/13] leds: lgm-sso: Remove explicit managed GPIO resource cleanup
+Date:   Sat, 29 May 2021 14:19:28 +0300
+Message-Id: <20210529111935.3849707-6-andy.shevchenko@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210529111935.3849707-1-andy.shevchenko@gmail.com>
 References: <20210529111935.3849707-1-andy.shevchenko@gmail.com>
@@ -38,30 +38,28 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-When requesting GPIO line the probe can be deferred.
-In such case don't spam logs with an error message.
-This can be achieved by switching to dev_err_probe().
+The idea of managed resources is that they will be cleaned up automatically
+and in the proper order. Remove explicit GPIO cleanup.
 
-Fixes: c3987cd2bca3 ("leds: lgm: Add LED controller driver for LGM SoC")
-Cc: Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>
 Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
-v2: fixed authorship / committer (Pavel)
- drivers/leds/blink/leds-lgm-sso.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2: dropped one part of the change, i.e. LED unregistration (Pavel)
+ drivers/leds/blink/leds-lgm-sso.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/leds/blink/leds-lgm-sso.c b/drivers/leds/blink/leds-lgm-sso.c
-index a27687e0fc04..877b44594b26 100644
+index 877b44594b26..24f4057d5a05 100644
 --- a/drivers/leds/blink/leds-lgm-sso.c
 +++ b/drivers/leds/blink/leds-lgm-sso.c
-@@ -646,7 +646,7 @@ __sso_led_dt_parse(struct sso_led_priv *priv, struct fwnode_handle *fw_ssoled)
- 							      fwnode_child,
- 							      GPIOD_ASIS, NULL);
- 		if (IS_ERR(led->gpiod)) {
--			dev_err(dev, "led: get gpio fail!\n");
-+			dev_err_probe(dev, PTR_ERR(led->gpiod), "led: get gpio fail!\n");
- 			goto __dt_err;
- 		}
+@@ -613,9 +613,6 @@ static void sso_led_shutdown(struct sso_led *led)
+ 	if (led->desc.hw_trig)
+ 		regmap_update_bits(priv->mmap, SSO_CON3, BIT(led->desc.pin), 0);
+ 
+-	if (led->gpiod)
+-		devm_gpiod_put(priv->dev, led->gpiod);
+-
+ 	led->priv = NULL;
+ }
  
 -- 
 2.31.1
