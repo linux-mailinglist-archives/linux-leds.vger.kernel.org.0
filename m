@@ -2,20 +2,20 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B559C394BFC
-	for <lists+linux-leds@lfdr.de>; Sat, 29 May 2021 13:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43934394BFD
+	for <lists+linux-leds@lfdr.de>; Sat, 29 May 2021 13:19:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbhE2LVa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S229789AbhE2LVa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Sat, 29 May 2021 07:21:30 -0400
-Received: from fgw20-7.mail.saunalahti.fi ([62.142.5.81]:27495 "EHLO
-        fgw20-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229810AbhE2LV1 (ORCPT
+Received: from fgw22-7.mail.saunalahti.fi ([62.142.5.83]:14270 "EHLO
+        fgw22-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229825AbhE2LV2 (ORCPT
         <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 29 May 2021 07:21:27 -0400
+        Sat, 29 May 2021 07:21:28 -0400
 Received: from localhost (88-115-248-186.elisa-laajakaista.fi [88.115.248.186])
-        by fgw20.mail.saunalahti.fi (Halon) with ESMTP
-        id c6954bdc-c06f-11eb-ba24-005056bd6ce9;
-        Sat, 29 May 2021 14:19:47 +0300 (EEST)
+        by fgw22.mail.saunalahti.fi (Halon) with ESMTP
+        id c7064bb3-c06f-11eb-88cb-005056bdf889;
+        Sat, 29 May 2021 14:19:48 +0300 (EEST)
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
 To:     Pavel Machek <pavel@ucw.cz>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
@@ -26,9 +26,10 @@ To:     Pavel Machek <pavel@ucw.cz>,
         =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/13] leds: rt8515: Put fwnode in any case during ->probe()
-Date:   Sat, 29 May 2021 14:19:34 +0300
-Message-Id: <20210529111935.3849707-12-andy.shevchenko@gmail.com>
+Cc:     Luca Weiss <luca@z3ntu.xyz>
+Subject: [PATCH v2 13/13] leds: sgm3140: Put fwnode in any case during ->probe()
+Date:   Sat, 29 May 2021 14:19:35 +0300
+Message-Id: <20210529111935.3849707-13-andy.shevchenko@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210529111935.3849707-1-andy.shevchenko@gmail.com>
 References: <20210529111935.3849707-1-andy.shevchenko@gmail.com>
@@ -38,41 +39,36 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-fwnode_get_next_available_child_node() bumps a reference counting of
-a returned variable. We have to balance it whenever we return to
-the caller.
+fwnode_get_next_child_node() bumps a reference counting of a returned variable.
+We have to balance it whenever we return to the caller.
 
-Fixes: e1c6edcbea13 ("leds: rt8515: Add Richtek RT8515 LED driver")
-Cc: Linus Walleij <linus.walleij@linaro.org>
+Fixes: cef8ec8cbd21 ("leds: add sgm3140 driver")
+Cc: Luca Weiss <luca@z3ntu.xyz>
 Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
 v2: no changes
- drivers/leds/flash/leds-rt8515.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/leds/leds-sgm3140.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/leds/flash/leds-rt8515.c b/drivers/leds/flash/leds-rt8515.c
-index 590bfa180d10..44904fdee3cc 100644
---- a/drivers/leds/flash/leds-rt8515.c
-+++ b/drivers/leds/flash/leds-rt8515.c
-@@ -343,8 +343,9 @@ static int rt8515_probe(struct platform_device *pdev)
+diff --git a/drivers/leds/leds-sgm3140.c b/drivers/leds/leds-sgm3140.c
+index f4f831570f11..df9402071695 100644
+--- a/drivers/leds/leds-sgm3140.c
++++ b/drivers/leds/leds-sgm3140.c
+@@ -266,12 +266,8 @@ static int sgm3140_probe(struct platform_device *pdev)
+ 					   child_node,
+ 					   fled_cdev, NULL,
+ 					   &v4l2_sd_cfg);
+-	if (IS_ERR(priv->v4l2_flash)) {
+-		ret = PTR_ERR(priv->v4l2_flash);
+-		goto err;
+-	}
+-
+-	return ret;
++	fwnode_handle_put(child_node);
++	return PTR_ERR_OR_ZERO(priv->v4l2_flash);
  
- 	ret = devm_led_classdev_flash_register_ext(dev, fled, &init_data);
- 	if (ret) {
--		dev_err(dev, "can't register LED %s\n", led->name);
-+		fwnode_handle_put(child);
- 		mutex_destroy(&rt->lock);
-+		dev_err(dev, "can't register LED %s\n", led->name);
- 		return ret;
- 	}
- 
-@@ -362,6 +363,7 @@ static int rt8515_probe(struct platform_device *pdev)
- 		 */
- 	}
- 
-+	fwnode_handle_put(child);
- 	return 0;
- }
- 
+ err:
+ 	fwnode_handle_put(child_node);
 -- 
 2.31.1
 
