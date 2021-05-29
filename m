@@ -2,98 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBC36394B64
-	for <lists+linux-leds@lfdr.de>; Sat, 29 May 2021 11:42:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26D9B394B66
+	for <lists+linux-leds@lfdr.de>; Sat, 29 May 2021 11:45:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229560AbhE2Jo0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 29 May 2021 05:44:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58870 "EHLO
+        id S229560AbhE2JrV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 29 May 2021 05:47:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbhE2Jo0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 29 May 2021 05:44:26 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52432C061574;
-        Sat, 29 May 2021 02:42:50 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d20so2764720pls.13;
-        Sat, 29 May 2021 02:42:50 -0700 (PDT)
+        with ESMTP id S229559AbhE2JrU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 29 May 2021 05:47:20 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054ADC061574;
+        Sat, 29 May 2021 02:45:44 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id pi6-20020a17090b1e46b029015cec51d7cdso3872081pjb.5;
+        Sat, 29 May 2021 02:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=7s8ZhyNQUw+UIP5eYDHwZKuA7eySANOZzZgL//iN93U=;
-        b=VwYJFr7B3wGCCnrHbrolmwb1NkoeuWV6S2GqKzfLFOlTDgyL8yC21ulMPmVoDFv32x
-         UrMzR0C/E4tdks8guFhXwwHThnwmSB3bXJIxCIIaw74sgOmS+XqSAWfdzQkdLdUP0oFM
-         1kCd8y8ygj4CMWGGVi38/+wdhYLhQnVgMFK3vCoxJYJ7nmN1TX4F/rf1py6LHucdDG1F
-         7PetRsV7LtO661+54pDf6x36b2TIHgeZVGiY2iGTHlQdu3IT39a6aPqnCq00uV4VfVmR
-         ttUmDvf513Vii+tsO8gA1TwTBOeQ9E+VyV5Hg1TTQnFwoDK67lA8HF8aE7Lu7L2jUDH0
-         X68Q==
+        bh=BDLTYYEAOQhatr0LdGoGVfqkbli40+8xddekenJeYkg=;
+        b=dvtjSdL/u9BbMkbGBbzMV0Z7C0SxhBpC8AINL+QbdJ8NSq79x4pez9t0BhCrDW8Oiv
+         3Q91kaP5KbXQ7VJDz74V1kI+B942/sVtyLsXlLjXI1+F97Ecd22kHYRDSKQ6tJrrh7Ho
+         EqrNN+bqkBKHjr1HiASnA5RSNTl11rKSQf7+U/yNsuoJ5VYe94ZiFTEaL6rDCOrQnD6V
+         DPykEuR4L8stS0uQs2ijQeB3Rj7gf4jzGgHTxqxWIvVUA28PBkfrl4SN3cRYpvF6BHu+
+         55qETYPnsBi1MuCyEuBXjFRyVVsXCfgTQA6bIuKs6839WZChDN4tLtcR45+w3RvAYF6p
+         3nuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7s8ZhyNQUw+UIP5eYDHwZKuA7eySANOZzZgL//iN93U=;
-        b=iY/CrVgid46B4Kb1dILnlcDHUMwa1NKWTRIqAPBeGddqx8s1j/pjM/0fP0f+yg/OAX
-         +dALbxNsHIi8fhORoeNiWEM2Vx6HVzYqvkMjtGc3x0H1dPXY3McaQBxSBB0IP/Dark48
-         vQPKRjNb0oNL2C6YKN4Blc0M9JChj1a6PBc3Y+c3fec6xMmsHIQCzdUg7jn9v5y4xLyV
-         SVl0viMq3w2SHKhGgLYxUBpxUVp92cpdgPo8l3TQ9Vj4KVC2QmOK0om9tH1wxLzhhxkf
-         8HJjszBTKhezxmEvYN2Lz+PeDkiYYJ/eegxDVF3Sj36TZVqbLS3ipmh1qLQPFXy7X1/R
-         JmQQ==
-X-Gm-Message-State: AOAM532nZVfC5/xUUDLiZZkU0f8RggB7K7meoNOGzEKiXG9QTelo8LEP
-        CVxwzumHYAMrAJopedyv+92MZB3BmdYv0/6DHRk=
-X-Google-Smtp-Source: ABdhPJwwGAMEU0zYOZjQ5L2QGZRW9vieb4sKCQED6DWY4fwepEeQELPI8U3dAD5d7eWhx8uWC9IHznCCS3NAj8lmJ0g=
-X-Received: by 2002:a17:90a:80c5:: with SMTP id k5mr1258939pjw.129.1622281369926;
- Sat, 29 May 2021 02:42:49 -0700 (PDT)
+        bh=BDLTYYEAOQhatr0LdGoGVfqkbli40+8xddekenJeYkg=;
+        b=EsMty4jcEjdwTYcOSg6ihqZ4xHBRFEK7GCvvIC9hMoeDTuzKru9rrn/Sk43vB9Fvc3
+         +VhqhyCVilDKTw6yq6zQfwRxfa/x7peZfGuDRuNb72RGdX81k7ipgh2PGMAzr3U+iWz2
+         nnbwvcaSNH0t1StDEdQU4JUCgjfnqLScKksrPjwOfAbnNN3pu1ZGpN1gW0jvAObwRuuV
+         HsOUatsBJQPtME6wRgDvxpclK/VeZ/20/mASHgP3+3FNqIVcnPH5pwkasIpuiT0CG94i
+         sIiZ5IZEv20Ou6m/DCJG+SGmnm7cnpjWmmYWER2VFtbnCQaKSKvJo4mgbsgkjR/6uIbg
+         GZag==
+X-Gm-Message-State: AOAM531TSdC6Tsl88gJ0QyyNRI4xHHEaLTabQSyfskOca9TflccD7Ke0
+        20z00HAkJrkVRfIEjV2BCOrkQMVysthNLMEXGrQ=
+X-Google-Smtp-Source: ABdhPJyJSxi2Of9APPOogdMaEFieJtmz9kXxSLNW1iP/wpmxSnC23o4GhTm+AkI10pmZ7jj4HveCGJx7nf3lFnMb8TA=
+X-Received: by 2002:a17:90a:17ad:: with SMTP id q42mr9178692pja.181.1622281544430;
+ Sat, 29 May 2021 02:45:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210510095045.3299382-1-andy.shevchenko@gmail.com>
- <20210510095045.3299382-3-andy.shevchenko@gmail.com> <20210528100339.GD2209@amd>
- <YLDJWV4HYvBJYcq0@smile.fi.intel.com>
-In-Reply-To: <YLDJWV4HYvBJYcq0@smile.fi.intel.com>
+ <20210510095045.3299382-6-andy.shevchenko@gmail.com> <f21ff98f-8728-eea1-f9ef-c14f64d31d0e@kaa.org.ua>
+In-Reply-To: <f21ff98f-8728-eea1-f9ef-c14f64d31d0e@kaa.org.ua>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 29 May 2021 12:42:33 +0300
-Message-ID: <CAHp75VfdLRq7YUVuy=gf+Q42jwmmYRt=G-cwXcLJ60DG2tuurA@mail.gmail.com>
-Subject: Re: [PATCH v1 02/28] leds: core: The -ENOTSUPP should never be seen
- by user space
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>,
+Date:   Sat, 29 May 2021 12:45:27 +0300
+Message-ID: <CAHp75VdVFHBCPqZonYZbk2iUMMKD7nP7+_8JkXqYFZK5zn2Lzw@mail.gmail.com>
+Subject: Re: [PATCH v1 05/28] leds: el15203000: Correct headers (of*.h -> mod_devicetable.h)
+To:     Oleh Kravchenko <oleg@kaa.org.ua>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Amireddy Mallikarjuna reddy 
+        <mallikarjunax.reddy@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
         Abanoub Sameh <abanoubsameh8@gmail.com>,
         Dan Murphy <dmurphy@ti.com>,
         Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jacek Anaszewski <j.anaszewski@samsung.com>
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, May 28, 2021 at 1:43 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Fri, May 28, 2021 at 12:03:39PM +0200, Pavel Machek wrote:
-> > On Mon 2021-05-10 12:50:19, Andy Shevchenko wrote:
-> > > Replace -ENOTSUPP by -EOPNOTSUPP when returning from exported functio=
-n.
-> > >
-> > > Fixes: 13ae79bbe4c2 ("leds: core: Drivers shouldn't enforce SYNC/ASYN=
-C brightness setting")
-> > > Cc: Jacek Anaszewski <j.anaszewski@samsung.com>
-> > > Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> >
-> > Are you sure this is real problem?
->
-> (Potential) real problem, yes.
->
-> =C2=BB This does not sound like an error
-> > path that should happen.
->
-> Before crafting this patch I have checked callers and _luckily_ they have=
-n't
-> tested the returned code. But if any of the user decides to check -> real
-> problem.
+On Sat, May 29, 2021 at 12:00 AM Oleh Kravchenko <oleg@kaa.org.ua> wrote:
+> 10.05.21 12:50, Andy Shevchenko =D0=BF=D0=B8=D1=88=D0=B5:
+> > There is no user of of*.h headers, but mod_devicetable.h.
+> > Update header block accordingly.
 
-I have rephrased the commit message to point out the above.
+> > While at it, drop unneeded dependency to OF.
+
+> >       depends on LEDS_CLASS
+> >       depends on SPI
+> > -     depends on OF
+
+> Reviewed-by: Oleh Kravchenko <oleg@kaa.org.ua>
+
+Thanks! I have dropped the OF dependency removal, while keeping your Rb.
+I think we may figure out later what is the best course of action regarding=
+ it.
 
 --=20
 With Best Regards,
