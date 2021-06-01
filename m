@@ -2,116 +2,114 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A72B5396FE5
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Jun 2021 11:06:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A6193970CD
+	for <lists+linux-leds@lfdr.de>; Tue,  1 Jun 2021 11:59:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233571AbhFAJHk (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 1 Jun 2021 05:07:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37100 "EHLO
+        id S230308AbhFAKBG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 1 Jun 2021 06:01:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233193AbhFAJHg (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Jun 2021 05:07:36 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A993C06174A
-        for <linux-leds@vger.kernel.org>; Tue,  1 Jun 2021 02:05:54 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso1037988wmh.4
-        for <linux-leds@vger.kernel.org>; Tue, 01 Jun 2021 02:05:54 -0700 (PDT)
+        with ESMTP id S232725AbhFAKBG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Jun 2021 06:01:06 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6DD9C061574
+        for <linux-leds@vger.kernel.org>; Tue,  1 Jun 2021 02:59:23 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id j10so20820313lfb.12
+        for <linux-leds@vger.kernel.org>; Tue, 01 Jun 2021 02:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=QUhFDerstAxyr6irnBl9NkzT4WPnjlKKvbshPAIqkEo=;
-        b=zp1SXtpN6hI4oCC7g2rQTyveZKKAmnfThCEFh62kVdPD/vOx9tT1bU11furJACA9jc
-         xKLyYaC359IN8CjRC+m/PYOJdzk6hInee+eHfgqmvdMXLcAIruekkKL/ef8393m2/EYq
-         Y1X2vCmx9MvxSDppHu6/HbGcacLSxpgrZXn7n3cwzdxAYw6VGpyavc0W/pPpy8XDL0Uw
-         W3kKW1NV2QWBqT2NO5CjZ9Dhp4yBQg9a2+5q7j+S5TJPYxTzbTz7gdXladf8FNTCcsBB
-         uFoT7Cix/te4xC+qNwSnCCr4t7xY8Vny/hAoXl65tbN2zt2HTvESyE+en7sLaI+N1Mvj
-         p6Rg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2W6uim/mGDin/FJYZH96yxsKQsl+UwiwSGvJzTSgiW4=;
+        b=P0mZDtgnoKk2E9LA8Xx97KeYoyyRE79OQ5TnUfPfYyFya3a6MKnLY0W1ZtUDFUU+11
+         RDDsk9f4VFPxuR/ZWjXuwkrCH8jMsT/11H82ifPUW/OU3IwhCQO/Z3Y/0uMvndX7Xu3o
+         2C+UFCcvza21W5YDotUFlzhq+ycUOT/pUMFnFT2llRw6wysgxeSqUcUHYIGaIxC3yPSj
+         0lTr07owbwPftwWM6loybaiLzRlxlfUKo6tW/GSrFtNfoxIjg+BCCvp+rO1PqeZPpdzU
+         JG20KMtedWg8MD2K76uWb0BQX0GnG7Wrj4N+RgUqXHt0YFM6gxWgEGLZzQ32tzb5Rk1e
+         w54Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=QUhFDerstAxyr6irnBl9NkzT4WPnjlKKvbshPAIqkEo=;
-        b=Y+2UloZmjtxMPRIFD9Slr3RuQDk8jDE9m1jcw//uOR4P3D2agBfeDLN+MN57yxVNTq
-         TwTZrLEx/f8dt54mXnqTmTWKJgREApdo393S9cMwtP0Vh596K2dwbnmM8iAqC6W4mPu8
-         Be9QYf2Mufv1kQzE9BqigtQYGs0qvizFzgRns2WLCjX9rY/mgCaTpCRc8k1AW9rJzE9u
-         2f4j+a00qxq3keh6kMFOkfRKojV5YxQ/ACLs+0twg4kDb4JgUU1jMljVb/cHFrQiSoi2
-         UcmjKgNZysoeEXCQ0QZQodgz935wfx2VHNXlX6xxBRGre7sWZTRY75tFdEdOXbftPKdc
-         rKOQ==
-X-Gm-Message-State: AOAM531v/Jvi0UNcDuUQpebUMNQqblk5BBVLKtfS5w8LqohrxAy2g6d5
-        N+rGPqDOhtbNa++OsQU/V5M0RSknd1ivhQ==
-X-Google-Smtp-Source: ABdhPJygUor20K3OIq567hnldrC5HmWzjLbOh8a7I75zpzh3M6JmIsAQRxyFjm/LT8Uahw5lSSJsuA==
-X-Received: by 2002:a1c:a484:: with SMTP id n126mr3623693wme.34.1622538352946;
-        Tue, 01 Jun 2021 02:05:52 -0700 (PDT)
-Received: from dell ([91.110.221.249])
-        by smtp.gmail.com with ESMTPSA id 92sm2668837wrp.88.2021.06.01.02.05.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 02:05:52 -0700 (PDT)
-Date:   Tue, 1 Jun 2021 10:05:50 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        John Lenz <lenz@cs.wisc.edu>,
-        Richard Purdie <rpurdie@openedhand.com>,
-        linux-leds@vger.kernel.org
-Subject: Re: [PATCH 03/15] leds: led-class: Fix incorrectly documented param
- 'dev'
-Message-ID: <20210601090550.GZ543307@dell>
-References: <20210528090629.1800173-1-lee.jones@linaro.org>
- <20210528090629.1800173-4-lee.jones@linaro.org>
- <YLDBnIx/4L/O0oa0@ada.ifak-system.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2W6uim/mGDin/FJYZH96yxsKQsl+UwiwSGvJzTSgiW4=;
+        b=qoeizj5xJXhoNnKkrxMt9oGPrqQ6sp4QYR+w083ernR2oTWB1Rqi/ycRApydDw6h4Z
+         hvFGwMm4Bmap7MGvPCTwh8yghxT/pligri8zlkzRbOHdrftmdhoeMcFN/5nMQ1tm4nfg
+         Komgd0ez3lHYI1VUlKsotrtgCwVgSMVb/nQqDrbXGmHqyGXmPrKLWxgUJzYW96Gb7z5y
+         MZmh3uRSMODlXm0Jsyys6WtanWg5InQcHV/R8Kgq/Vy2lbX9A/giX3yQ99wiCFN5IAf+
+         CErfp/BMRIENlk8q4pZlG0x/+8aFPlHAZPjVc/A/HLtNA4N2sLaWHXpDBiV1Am5wjYUj
+         wuLQ==
+X-Gm-Message-State: AOAM532aLqJ5sIash2ttPz6PI4HAYOIn9egwHXyGOrnpo/NU5Y6qooz6
+        3Q3mIm6O6jk4Et4i5H3iPKra65zrC6x+lH/hj6l58Q==
+X-Google-Smtp-Source: ABdhPJz7fj9TbUyHQCGTxDF+hC0s+lxk8kvTdqeTswE9X5ltix8EKC8tE/lVya1dFeSqalUK/XrhQ2tps4p5OgHu+oU=
+X-Received: by 2002:a05:6512:3241:: with SMTP id c1mr9699263lfr.29.1622541561986;
+ Tue, 01 Jun 2021 02:59:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YLDBnIx/4L/O0oa0@ada.ifak-system.com>
+References: <cover.1620735871.git.sander@svanheule.net> <cover.1621809029.git.sander@svanheule.net>
+ <YKr9G3EfrM34gCsL@lunn.ch> <CAHp75VewCw8ES_9S48qmeCtSXMkGWt0s4iub0Fu4ZuwWANHpaQ@mail.gmail.com>
+ <02bbf73ea8a14119247f07a677993aad2f45b088.camel@svanheule.net>
+ <f03d5cdc958110fc7d95cfc4258dac4e@walle.cc> <84352c93f27d7c8b7afea54f3932020e9cd97d02.camel@svanheule.net>
+ <a644b8fa-c90a-eab6-9cca-08344abec532@redhat.com> <CAHp75VcFmU4rJ6jL204xGFM=s2LV=KQmsV8E75BpuSAZMXBn0w@mail.gmail.com>
+In-Reply-To: <CAHp75VcFmU4rJ6jL204xGFM=s2LV=KQmsV8E75BpuSAZMXBn0w@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 1 Jun 2021 11:59:10 +0200
+Message-ID: <CACRpkda+m5mOzMJ8KcPmojFGWkUpCrbmY0ySPTVx72RtWwf89A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] RTL8231 GPIO expander support
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Sander Vanheule <sander@svanheule.net>,
+        Michael Walle <michael@walle.cc>, Andrew Lunn <andrew@lunn.ch>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 28 May 2021, Alexander Dahl wrote:
+On Sun, May 30, 2021 at 8:16 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Sun, May 30, 2021 at 7:51 PM Hans de Goede <hdegoede@redhat.com> wrote:
 
-> Hello,
-> 
-> Am Fri, May 28, 2021 at 10:06:17AM +0100 schrieb Lee Jones:
-> > Fixes the following W=1 kernel build warning(s):
-> > 
-> >  drivers/leds/led-class.c:521: warning: Function parameter or member 'dev' not described in 'devm_led_classdev_unregister'
-> >  drivers/leds/led-class.c:521: warning: Excess function parameter 'parent' description in 'devm_led_classdev_unregister'
-> > 
-> > Cc: Pavel Machek <pavel@ucw.cz>
-> > Cc: John Lenz <lenz@cs.wisc.edu>
-> > Cc: Richard Purdie <rpurdie@openedhand.com>
-> > Cc: linux-leds@vger.kernel.org
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > ---
-> >  drivers/leds/led-class.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> > index 2e495ff678562..16271a1de12a7 100644
-> > --- a/drivers/leds/led-class.c
-> > +++ b/drivers/leds/led-class.c
-> > @@ -513,7 +513,7 @@ static int devm_led_classdev_match(struct device *dev, void *res, void *data)
-> >  
-> >  /**
-> >   * devm_led_classdev_unregister() - resource managed led_classdev_unregister()
-> > - * @parent: The device to unregister.
-> > + * @dev: The device to unregister.
-> >   * @led_cdev: the led_classdev structure for this device.
-> >   */
-> >  void devm_led_classdev_unregister(struct device *dev,
-> 
-> Fixes: ca1bb4ee4c3a ("leds: Introduce devres helper for led_classdev_register")
+> > Regmap allows you to mark certain ranges as volatile, so that they will not
+> > be cached, these GPIO registers containing the current pin value seems like
+> > a good candidate for this. This is also necessary to make reading the GPIO
+> > work without getting back a stale, cached value.
+>
+> After all it seems a simple missed proper register configuration in
+> the driver for regmap.
+> Oh, as usual something easy-to-solve requires tons of time to find it. :-)
 
-Kernel-doc fix-ups do not qualify for Stable unfortunately.
+This is actually quite interesting.
 
-> Reviewed-by: Alexander Dahl <ada@thorsis.com>
+In the discussion around adding Rust support for the Linux kernel
+what I came to realize was that the memory safety that Rust adds is
+similar in application and ambition to what e.g. regmap-mmio provides.
 
-Thanks.
+One aspect of writing kernel drivers in Rust is to always have
+something like regmap between your code and the hardware to
+strictly control the memory access pattern.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+After all regmap is "memory safety implemented in C".
+
+What we see in cases like this is that not only does that make
+things more strict and controlled (after all we have regmap for
+a reason) but also makes it possible to generate a whole new
+set of bugs by doing an error in how you specify the memory
+semantics. As all other paradigms, memory safety thinking
+implies that never specify anything wrong.
+
+Just regarding all registers/memory cells in a register page
+as default volatile (which is what we do a lot of the time)
+has its upsides: bugs like this doesn't happen.
+
+(Just some sidetracking...)
+
+Yours,
+Linus Walleij
