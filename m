@@ -2,57 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB8B439721D
-	for <lists+linux-leds@lfdr.de>; Tue,  1 Jun 2021 13:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B7AC39729C
+	for <lists+linux-leds@lfdr.de>; Tue,  1 Jun 2021 13:42:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233509AbhFALKy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 1 Jun 2021 07:10:54 -0400
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:50046 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231219AbhFALKy (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Jun 2021 07:10:54 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UawU26r_1622545748;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UawU26r_1622545748)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 01 Jun 2021 19:09:11 +0800
-From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To:     pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: [PATCH] leds: is31fl32xx: Fix missing error code in is31fl32xx_parse_dt()
-Date:   Tue,  1 Jun 2021 19:09:03 +0800
-Message-Id: <1622545743-21240-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S233657AbhFALnl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 1 Jun 2021 07:43:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44398 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230288AbhFALnl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 1 Jun 2021 07:43:41 -0400
+Received: from ssl.serverraum.org (ssl.serverraum.org [IPv6:2a01:4f8:151:8464::1:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA9F0C061574;
+        Tue,  1 Jun 2021 04:41:59 -0700 (PDT)
+Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ssl.serverraum.org (Postfix) with ESMTPSA id 701912224A;
+        Tue,  1 Jun 2021 13:41:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
+        t=1622547718;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xC7P/bcFCV2ZCGkF8kjoqn5cfA8HZsmaWEnBxWUHEDM=;
+        b=eNiCyfvWaN/+vfSha991PXVg+RUbyHmmgR0PDUfcscbxStGXX847KmZdGfsRA49Z+JNIUK
+        a+xj7o/h3+JkiKyPGmGscPC5NINmziOPzrYVBqxKhgyB1fbvhYNsWTM+lOBq8RLWllzVKI
+        CrALRlMjL7Wd82QxbvzkulHMl7axo0g=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 01 Jun 2021 13:41:57 +0200
+From:   Michael Walle <michael@walle.cc>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sander Vanheule <sander@svanheule.net>,
+        Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 0/6] RTL8231 GPIO expander support
+In-Reply-To: <CACRpkdb4j6krXwdZGtth9b2W2bAdy9_StGbse_YbBY86-AWdLg@mail.gmail.com>
+References: <cover.1620735871.git.sander@svanheule.net>
+ <cover.1621809029.git.sander@svanheule.net> <YKr9G3EfrM34gCsL@lunn.ch>
+ <CAHp75VewCw8ES_9S48qmeCtSXMkGWt0s4iub0Fu4ZuwWANHpaQ@mail.gmail.com>
+ <02bbf73ea8a14119247f07a677993aad2f45b088.camel@svanheule.net>
+ <f03d5cdc958110fc7d95cfc4258dac4e@walle.cc>
+ <84352c93f27d7c8b7afea54f3932020e9cd97d02.camel@svanheule.net>
+ <a644b8fa-c90a-eab6-9cca-08344abec532@redhat.com>
+ <CAHp75VcFmU4rJ6jL204xGFM=s2LV=KQmsV8E75BpuSAZMXBn0w@mail.gmail.com>
+ <CACRpkda+m5mOzMJ8KcPmojFGWkUpCrbmY0ySPTVx72RtWwf89A@mail.gmail.com>
+ <e10c8ef7f758b4f7fa0fcbc992c84125@walle.cc>
+ <CACRpkdb4j6krXwdZGtth9b2W2bAdy9_StGbse_YbBY86-AWdLg@mail.gmail.com>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <401805ef27bb273d7aca4f3377b53b07@walle.cc>
+X-Sender: michael@walle.cc
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The error code is missing in this code scenario, add the error code
-'-EINVAL' to the return value 'ret'.
+Am 2021-06-01 12:51, schrieb Linus Walleij:
+> On Tue, Jun 1, 2021 at 12:18 PM Michael Walle <michael@walle.cc> wrote:
+>> Am 2021-06-01 11:59, schrieb Linus Walleij:
+> 
+>> > Just regarding all registers/memory cells in a register page
+>> > as default volatile (which is what we do a lot of the time)
+>> > has its upsides: bugs like this doesn't happen.
+>> 
+>> I don't think this is the bug here. If it is really a write-only
+>> register
+>> the problem is the read in RMW. Because reading the register will 
+>> return
+>> the input value instead of the (previously written) output value.
+> 
+> True that. Write and read semantics differ on the register.
+> 
+> Volatile is used for this and some other things,
+> like for example interrupts being cleared when a register
+> is read so it is strictly read-once.
 
-Eliminate the follow smatch warning:
+Isn't that what precious is for?
 
-drivers/leds/leds-is31fl32xx.c:388 is31fl32xx_parse_dt() warn: missing
-error code 'ret'.
+> So the regmap config is really important to get right.
+> 
+> IIUC one of the ambitions around Rust is to encode this
+> in how memory is specified in the language. (I am still
+> thinking about whether that is really a good idea or not.)
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/leds/leds-is31fl32xx.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-index 2180255..899ed94 100644
---- a/drivers/leds/leds-is31fl32xx.c
-+++ b/drivers/leds/leds-is31fl32xx.c
-@@ -385,6 +385,7 @@ static int is31fl32xx_parse_dt(struct device *dev,
- 			dev_err(dev,
- 				"Node %pOF 'reg' conflicts with another LED\n",
- 				child);
-+			ret = -EINVAL;
- 			goto err;
- 		}
- 
 -- 
-1.8.3.1
-
+-michael
