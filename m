@@ -2,93 +2,69 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61E1A3984D9
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Jun 2021 11:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EFB43989EE
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Jun 2021 14:44:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229975AbhFBJGt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Jun 2021 05:06:49 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:51318 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbhFBJGt (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Jun 2021 05:06:49 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 4AF621C0B77; Wed,  2 Jun 2021 11:05:05 +0200 (CEST)
-Date:   Wed, 2 Jun 2021 11:05:04 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     stuart hayes <stuart.w.hayes@gmail.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        Keith Busch <kbusch@kernel.org>, kw@linux.com,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH v2] Add support for PCIe SSD status LED management
-Message-ID: <20210602090504.GA10900@amd>
-References: <20210601203820.3647-1-stuart.w.hayes@gmail.com>
- <3d1272b8-4edc-f2b1-85ea-f5cea65b4871@infradead.org>
- <20210601223812.GA5128@amd>
- <6ee11975-fad7-1a82-f7f3-279ebd4f67cb@gmail.com>
+        id S229916AbhFBMqc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Jun 2021 08:46:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33784 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230097AbhFBMqb (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 2 Jun 2021 08:46:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ABB38613B8;
+        Wed,  2 Jun 2021 12:44:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622637888;
+        bh=mY9aru4I5jdUUWZCv3k0iPOk0GIOpJClPDnCv3XBDEQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Et463j64ps/dUobh8R14kaIEgDuQcOVfTqO8FXPiAYSWU2K8HszAmgi8yQFsSt423
+         fpP0wYjvOEXlMNuFb3iHXfvQqoFfTyZbYA6pv8P+u4Zhr6qP2+0iOwzQjNh9jUeHz6
+         F28XcMf/0RP1LnP56WO0bvaQYYpI2VaZECsDdzQTr842VTCMJ9TvVdyA2py+yVdbYl
+         4zrrKHV2LOb/eub7+mj4rPUdU80d0+hJVtuPYujbTVJePRpGXkcLsj3JD01u3DFL5O
+         xVMyZMFpFYKRGG2zavWHb3u1P5zJUcLCxEFobYygssZtiw/WoVMjGXM6TJCxkibIea
+         /G2L43TCfQYqA==
+Date:   Wed, 2 Jun 2021 14:44:39 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     linux-leds@vger.kernel.org, netdev@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH leds v2 06/10] leds: core: inform trigger that it's
+ deactivation is due to LED removal
+Message-ID: <20210602144439.4d20b295@dellmb>
+In-Reply-To: <YLai2aHKKKqwRysm@lunn.ch>
+References: <20210601005155.27997-1-kabel@kernel.org>
+        <20210601005155.27997-7-kabel@kernel.org>
+        <YLai2aHKKKqwRysm@lunn.ch>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="azLHFNyN32YCQGCU"
-Content-Disposition: inline
-In-Reply-To: <6ee11975-fad7-1a82-f7f3-279ebd4f67cb@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Tue, 1 Jun 2021 23:12:57 +0200
+Andrew Lunn <andrew@lunn.ch> wrote:
 
---azLHFNyN32YCQGCU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> >>>  [ok] [locate] failed rebuild pfa hotspare ica ifa invalid disabled
-> >
-> >So what does this do? Turns the LED on if driver is in "ok" or
-> >"locate" states?
-> >
+> On Tue, Jun 01, 2021 at 02:51:51AM +0200, Marek Beh=C3=BAn wrote:
+> > Move setting of the LED_UNREGISTERING before deactivating the
+> > trigger in led_classdev_unregister().
+> >=20
+> > It can be useful for a LED trigger to know whether it is being
+> > deactivated due to the LED being unregistered. This makes it
+> > possible for LED drivers which implement trigger offloading to
+> > leave the LED in HW triggering mode when the LED is unregistered,
+> > instead of disabling it. =20
 >=20
-> This would cause the system to somehow show the user that that this drive
-> (or drive slot) is the one that it wants a person to be able to physically
-> locate (possibly by flashing a blue LED on/near the drive), and also that
-> the drive is OK.  It would presumably do that by lighting the LEDs on/near
-> the drive with certain colors and/or flashing patterns, though it could, =
-in
-> theory, put "OK" in an LCD on the drive slot.  How the states are display=
-ed
-> to the user is beyond the scope of the specs.
->=20
-> (The _DSM and NPEM specs provide for a way to control status LEDs on a dr=
-ive
-> or drive slot.  Typically drives will have 2 or 3 LEDs that are illuminat=
-ed
-> in different colors or flashing patterns to indicate various states (like
-> those listed in IBPI / SFF-8489), though the _DSM / NPEM specs do not
-> specify how the states are displayed.)
+> Humm, i'm not sure that is a good idea. I don't expect my Ethernet
+> switch to keep forwarding frames when i unload the driver.
 
-Well, LED subsystem expects to know how many LEDs are there and what
-the LEDs are, and expects individual control over them.
+We want to make it so that when leds-turris-omnia driver is unloaded,
+the LEDs will start blinking in HW mode as they did before the driver
+was loaded. This is needed for that.
 
-"2 or 3 LEDs with unknown patterns", or LCD display is outside of scope
-of LED subsystem, so this should be independend.
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---azLHFNyN32YCQGCU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmC3Sb8ACgkQMOfwapXb+vLO/wCfXD0QnFJOu1pLpdrkK39BvJfO
-+ecAnA1cgKwSxSnTJB7nhaGBxQ8O4Ion
-=ZKpO
------END PGP SIGNATURE-----
-
---azLHFNyN32YCQGCU--
+Marek
