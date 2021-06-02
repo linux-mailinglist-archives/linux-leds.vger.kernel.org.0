@@ -2,136 +2,107 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49D6A399476
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Jun 2021 22:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0722399604
+	for <lists+linux-leds@lfdr.de>; Thu,  3 Jun 2021 00:41:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbhFBUWZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Jun 2021 16:22:25 -0400
-Received: from polaris.svanheule.net ([84.16.241.116]:46784 "EHLO
-        polaris.svanheule.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbhFBUWZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Jun 2021 16:22:25 -0400
-Received: from [IPv6:2a02:a03f:eafb:ee01:68a0:2d8c:2cf4:22fa] (unknown [IPv6:2a02:a03f:eafb:ee01:68a0:2d8c:2cf4:22fa])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sander@svanheule.net)
-        by polaris.svanheule.net (Postfix) with ESMTPSA id 313C1207BA9;
-        Wed,  2 Jun 2021 22:20:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-        s=mail1707; t=1622665240;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tjgQPo7D7vHxtzbIkH7YF4pVykSHzufmavp+/FcwEII=;
-        b=nvd6aqtAkg4TpRt+facH2rIhRRt8yF46Fa5K11EgCOqFAsocKQxIyseplf6vbpg9qWzxvB
-        bGp5ppiR2Yn6DDhldI7ufYe9PuxDoS92XgS7DNjdFG4C1vPbZHHUEMaCYDr5mtvkCYBO9y
-        gm46UnmTuz269jgGe16tBvlN3e5/NkTuGuoxUm35AlNnVFIVNUXDne4YOLplyJzudEZf65
-        /jPoUr/q73Z+hIRAXydqd6Tp5bgRo3XeqecnvlLXNj2ETJj5MLAh/DjrspDl5PoZPUBWmz
-        vHvEY13gqNrfFfHBpBotDVc+1nvGTOB7Jpa9rCfPA51tE7prZgWHSNikpcj8QA==
-Message-ID: <3d0c69e746fba43267fed0f32dd660ddb405782c.camel@svanheule.net>
-Subject: Re: [PATCH 0/5] RTL8231 GPIO expander support
-From:   Sander Vanheule <sander@svanheule.net>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Michael Walle <michael@walle.cc>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Wed, 02 Jun 2021 22:20:38 +0200
-In-Reply-To: <CAHp75VdaPS0YPvNHVgeDOuz=9ACn7okHxhyNEZuyQR8=kSdNdg@mail.gmail.com>
-References: <cover.1620735871.git.sander@svanheule.net>
-         <cover.1621809029.git.sander@svanheule.net> <YKr9G3EfrM34gCsL@lunn.ch>
-         <CAHp75VewCw8ES_9S48qmeCtSXMkGWt0s4iub0Fu4ZuwWANHpaQ@mail.gmail.com>
-         <02bbf73ea8a14119247f07a677993aad2f45b088.camel@svanheule.net>
-         <f03d5cdc958110fc7d95cfc4258dac4e@walle.cc>
-         <84352c93f27d7c8b7afea54f3932020e9cd97d02.camel@svanheule.net>
-         <a644b8fa-c90a-eab6-9cca-08344abec532@redhat.com>
-         <CAHp75VcFmU4rJ6jL204xGFM=s2LV=KQmsV8E75BpuSAZMXBn0w@mail.gmail.com>
-         <c7239e0cbbc9748925410937a914bd8a@walle.cc>
-         <7a9978881e9ec5d4b811fa6e5d355fb6bce6f6d8.camel@svanheule.net>
-         <0047200eecbd7ee480258cc904d6b7ee@walle.cc>
-         <CAHp75VfOrUBRQH1vrXEwHN4ZPojQfQju-_wp_3djZeozEaatug@mail.gmail.com>
-         <272ac6af4a5ba5df4bb085617c9267e5ece61c19.camel@svanheule.net>
-         <CAHp75Vcb95HiYxvEzYr0QXcQmA_A+2M9M0uv6PAhPHtgTges8g@mail.gmail.com>
-         <8df77f619730b9e7b5cdd7ddefb60a03@walle.cc>
-         <CAHp75VdaPS0YPvNHVgeDOuz=9ACn7okHxhyNEZuyQR8=kSdNdg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S229786AbhFBWmp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Jun 2021 18:42:45 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:45762 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229583AbhFBWmp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Jun 2021 18:42:45 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 1F91F1C0B76; Thu,  3 Jun 2021 00:41:00 +0200 (CEST)
+Date:   Thu, 3 Jun 2021 00:40:59 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     stuart hayes <stuart.w.hayes@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        Keith Busch <kbusch@kernel.org>, kw@linux.com,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH v2] Add support for PCIe SSD status LED management
+Message-ID: <20210602224059.GA19673@duo.ucw.cz>
+References: <20210601203820.3647-1-stuart.w.hayes@gmail.com>
+ <3d1272b8-4edc-f2b1-85ea-f5cea65b4871@infradead.org>
+ <20210601223812.GA5128@amd>
+ <6ee11975-fad7-1a82-f7f3-279ebd4f67cb@gmail.com>
+ <20210602090504.GA10900@amd>
+ <552ca26f-c7ab-3496-743f-f95e80eb578b@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="VS++wcV0S1rZb1Fb"
+Content-Disposition: inline
+In-Reply-To: <552ca26f-c7ab-3496-743f-f95e80eb578b@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Andy,
 
-On Tue, 2021-06-01 at 18:24 +0300, Andy Shevchenko wrote:
-> On Tue, Jun 1, 2021 at 2:49 PM Michael Walle <michael@walle.cc> wrote:
-> > Am 2021-05-31 17:48, schrieb Andy Shevchenko:
-> > > On Mon, May 31, 2021 at 6:33 PM Sander Vanheule <sander@svanheule.net>
-> > > wrote:
-> > > > On Mon, 2021-05-31 at 14:16 +0300, Andy Shevchenko wrote:
-> > > > > On Monday, May 31, 2021, Michael Walle <michael@walle.cc> wrote:
-> > > > > > Am 2021-05-31 10:36, schrieb Sander Vanheule:
-> > > 
-> > > > Am I missing something here? It seems to me like the regmap interface
-> > > > can't
-> > > > really accommodate what's required, unless maybe the rtl8231 regmap
-> > > > users
-> > > > perform some manual locking. This all seems terribly complicated
-> > > > compared to
-> > > > using an internal output-value cache inside regmap-gpio.
-> > > 
-> > > Have you had a chance to look into the PCA953x driver?
-> > > Sounds to me that you are missing the APIs that regmap provides.
-> > 
-> > What would that be? The register cache? We need to cache the
-> > value somehow, because (still assuming it is write only) we cannot
-> > read it back. Thus the read of the RMW, would need get the
-> > value from the cache. Thus the user of gpio-regmap would need
-> > to make sure, to (a) use a cache for the regmap supplied to
-> > gpio-regmap and (b) populate its initial values correctly. Is
-> > that what you are suggesting? And hopefully, no other user
-> > of the regmap will call regcache_mark_dirty() or something
-> > like that.
-> > 
-> > I had a quick look at the PCA953x driver but it all its
-> > registers are readable according to the comment on the top
-> > of the file.
-> 
-> Since regmap doesn't have a facility to support the registers _at the
-> same offset_ with different meaning (depending on data direction), the
-> only way to handle this (without redesign regmap internals) is to add
-> specific "pages" via additional bits in the address space. So, let's
-> say 0 = RW, 1 = RO, 2 = WO. In this case see the following offset
-> mapping of the hypothetical hardware registers:
-> 
-> REG1 (RW)   0x00 -> 0x000
-> REG2 (RW)   0x04 -> 0x004
-> REG3 (RO)   0x08 -> 0x108
-> REG3 (RW)   0x08 -> 0x208
-> 
-> Then these bits should be masked out. Something similar is done in the
-> PCA953x driver for extended addresses and autoincrement.
-> 
-> This is what I propose to look at as the starter.
+--VS++wcV0S1rZb1Fb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for clarifying. Essentialy this is then the same solution as an extra
-cache in gpio-regmap for the output values, except the cacheing is handled by
-the regmap layer.
+Hi!
 
-I think this was the last issue standing, so after I implement this, I'll spin a
-v4.
+> > > This would cause the system to somehow show the user that that this d=
+rive
+> > > (or drive slot) is the one that it wants a person to be able to physi=
+cally
+> > > locate (possibly by flashing a blue LED on/near the drive), and also =
+that
+> > > the drive is OK.  It would presumably do that by lighting the LEDs on=
+/near
+> > > the drive with certain colors and/or flashing patterns, though it cou=
+ld, in
+> > > theory, put "OK" in an LCD on the drive slot.  How the states are dis=
+played
+> > > to the user is beyond the scope of the specs.
+> > >=20
+> > > (The _DSM and NPEM specs provide for a way to control status LEDs on =
+a drive
+> > > or drive slot.  Typically drives will have 2 or 3 LEDs that are illum=
+inated
+> > > in different colors or flashing patterns to indicate various states (=
+like
+> > > those listed in IBPI / SFF-8489), though the _DSM / NPEM specs do not
+> > > specify how the states are displayed.)
+> >=20
+> > Well, LED subsystem expects to know how many LEDs are there and what
+> > the LEDs are, and expects individual control over them.
+> >=20
+> > "2 or 3 LEDs with unknown patterns", or LCD display is outside of scope
+> > of LED subsystem, so this should be independend.
 
-Best,
-Sander
+>=20
+> Yes... I had originally submitted this without using the LED subsystem, a=
+nd
+> Greg K-H said I had to (see
+> https://www.spinics.net/lists/linux-pci/msg102013.html).  Here's the
+> relevant bit.
 
+=2E..
+
+> So I'm not sure what to do.
+
+Explain to Greg that you don't know how particular system implements
+the indication. It can be small display, 2 LEDs, 3 LEDs, etc... LED
+subsystem expects direct LED control.
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--VS++wcV0S1rZb1Fb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYLgI+wAKCRAw5/Bqldv6
+8kykAJ9dyoWhTggfJ0iwRUlJlM9S4ODhugCfZFeHTIX7D/7Axs8FeMCfV7dnViU=
+=Xqva
+-----END PGP SIGNATURE-----
+
+--VS++wcV0S1rZb1Fb--
