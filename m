@@ -2,207 +2,137 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B83083980F7
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Jun 2021 08:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEFC2398407
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Jun 2021 10:24:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230502AbhFBGPb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Jun 2021 02:15:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38420 "EHLO
+        id S231506AbhFBI0Z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Jun 2021 04:26:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230498AbhFBGP3 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Jun 2021 02:15:29 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F9C3C061574
-        for <linux-leds@vger.kernel.org>; Tue,  1 Jun 2021 23:13:46 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id e1so542889pld.13
-        for <linux-leds@vger.kernel.org>; Tue, 01 Jun 2021 23:13:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=NphrMj5gDb0rmEpg9zfCKaIjhOM88O65yK/GryJXXag=;
-        b=v2KrMpbvl09EObzutxNcAOJS7JlsYctduYzF2VBrEu4P6DZSqM3vtD7cA49E3UYU40
-         pTaMh5I8maoWjK0br+jn70PFRw676dW6s5taJqCBS3qQScg3xVwrRaKS8U4brsXO3ce9
-         nzjLFt4HxBnrIOc0DJopOUtSgdeB8wCNBkfMqPwuPLKFNqZVK9l51gfa51ln53AThsFx
-         UyJD93LvVw+X9gXjp6QUWrIQwt8jOTk2MP5HPmIjcgt6DjEuT9jValMPQWSNRFIPMX85
-         kbOIaGpkQ7CO6xPYhw0dCE8uZoiP3k7oM1e7WtVkVdx0xxVh5s7SUDEo8yKlr7rD9orx
-         uk2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=NphrMj5gDb0rmEpg9zfCKaIjhOM88O65yK/GryJXXag=;
-        b=cj7DqpgLPmFJ2+eOHOeT3yH5ZnHbQWa7nE5zdQNCE9476HeJazzKKMOWXO3fIoaV8I
-         NOSZBkIsF0h+a+vZcfF0SRdCSNMielYY+anA9aQejHpalbmkHL4txHWRL2k8sD9MGAOt
-         0uss0NgQw88u1aNHL+PeoHIDU/znnuOIkD3knqwFCsfhTNRHYReY/BVnzdd5dGUr2we/
-         cWkygEf21ow8HXgY7SS04Jnrshd9HTogtrzw7pTST+Fg9qGqufBuCgJxd28ZawyNxoEQ
-         oKKz8xBpmcpvDYcB+XnYFdVQzqqul67wiRRFrXwuaJTyfko9ul0vSrHFelqQamgvLQcv
-         L2lQ==
-X-Gm-Message-State: AOAM530Z2fFlso+EQe4AT87Z4NwANT2Grz/A8QwUfWqdVnfi7IKGV0h3
-        hUhTo/JQMo0Cp4IgHvqEEjzBpA==
-X-Google-Smtp-Source: ABdhPJwB2/oweqEVGjQ6oBPjse8L5a8LZ0flBWjADjGefhEQ7MvqYg59VHn7l2TBHIJaIBM+kecfNg==
-X-Received: by 2002:a17:90a:e393:: with SMTP id b19mr3896297pjz.18.1622614425799;
-        Tue, 01 Jun 2021 23:13:45 -0700 (PDT)
-Received: from localhost.localdomain (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
-        by smtp.gmail.com with ESMTPSA id k20sm16535374pgl.72.2021.06.01.23.13.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 23:13:45 -0700 (PDT)
-From:   Roderick Colenbrander <roderick@gaikai.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: [PATCH 3/3] HID: playstation: expose DualSense player LEDs through LED class.
-Date:   Tue,  1 Jun 2021 23:12:53 -0700
-Message-Id: <20210602061253.5747-4-roderick@gaikai.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210602061253.5747-1-roderick@gaikai.com>
-References: <20210602061253.5747-1-roderick@gaikai.com>
+        with ESMTP id S230037AbhFBI0Y (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Jun 2021 04:26:24 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA569C06174A
+        for <linux-leds@vger.kernel.org>; Wed,  2 Jun 2021 01:24:40 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1loMB3-00044K-O8; Wed, 02 Jun 2021 10:24:37 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1loMB3-0006xc-1T; Wed, 02 Jun 2021 10:24:37 +0200
+Date:   Wed, 2 Jun 2021 10:24:36 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 02/15] leds: leds-gpio-register: Supply description for
+ param 'id'
+Message-ID: <20210602082436.hdi4olxekvvbtzef@pengutronix.de>
+References: <20210528090629.1800173-1-lee.jones@linaro.org>
+ <20210528090629.1800173-3-lee.jones@linaro.org>
+ <20210528094118.xw53q46i676wx6gb@pengutronix.de>
+ <20210528095531.GO543307@dell>
+ <20210528103532.5n6zzr26hqglvz2p@pengutronix.de>
+ <20210601090503.GY543307@dell>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="yly3m2bwxq5ptw5f"
+Content-Disposition: inline
+In-Reply-To: <20210601090503.GY543307@dell>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-The DualSense player LEDs were so far not adjustable from user-space.
-This patch exposes each LED individually through the LED class. Each
-LED uses the new 'player' function resulting in a name like:
-'inputX:white:player-1' for the first LED.
+--yly3m2bwxq5ptw5f
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
----
- drivers/hid/hid-playstation.c | 85 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 84 insertions(+), 1 deletion(-)
+Hello Lee,
 
-diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index ff2fc315a89d..9b96239bba5f 100644
---- a/drivers/hid/hid-playstation.c
-+++ b/drivers/hid/hid-playstation.c
-@@ -56,6 +56,13 @@ struct ps_calibration_data {
- 	int sens_denom;
- };
- 
-+struct ps_led_info {
-+	const char *name;
-+	const char *color;
-+	enum led_brightness (*brightness_get)(struct led_classdev *cdev);
-+	void (*brightness_set)(struct led_classdev *cdev, enum led_brightness);
-+};
-+
- /* Seed values for DualShock4 / DualSense CRC32 for different report types. */
- #define PS_INPUT_CRC32_SEED	0xA1
- #define PS_OUTPUT_CRC32_SEED	0xA2
-@@ -531,6 +538,32 @@ static int ps_get_report(struct hid_device *hdev, uint8_t report_id, uint8_t *bu
- 	return 0;
- }
- 
-+static int ps_led_register(struct ps_device *ps_dev, struct led_classdev *led,
-+		const struct ps_led_info *led_info)
-+{
-+	int ret;
-+
-+	led->name = devm_kasprintf(&ps_dev->hdev->dev, GFP_KERNEL,
-+			"%s:%s:%s", ps_dev->input_dev_name, led_info->color, led_info->name);
-+
-+	if (!led->name)
-+		return -ENOMEM;
-+
-+	led->brightness = 0;
-+	led->max_brightness = 1;
-+	led->flags = LED_CORE_SUSPENDRESUME;
-+	led->brightness_get = led_info->brightness_get;
-+	led->brightness_set = led_info->brightness_set;
-+
-+	ret = devm_led_classdev_register(&ps_dev->hdev->dev, led);
-+	if (ret) {
-+		hid_err(ps_dev->hdev, "Failed to register LED %s: %d\n", led_info->name, ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- /* Register a DualSense/DualShock4 RGB lightbar represented by a multicolor LED. */
- static int ps_lightbar_register(struct ps_device *ps_dev, struct led_classdev_mc *lightbar_mc_dev,
- 	int (*brightness_set)(struct led_classdev *, enum led_brightness))
-@@ -822,6 +855,35 @@ static int dualsense_lightbar_set_brightness(struct led_classdev *cdev,
- 	return 0;
- }
- 
-+static enum led_brightness dualsense_player_led_get_brightness(struct led_classdev *led)
-+{
-+	struct hid_device *hdev = to_hid_device(led->dev->parent);
-+	struct dualsense *ds = hid_get_drvdata(hdev);
-+
-+	return !!(ds->player_leds_state & BIT(led - ds->player_leds));
-+}
-+
-+static void dualsense_player_led_set_brightness(struct led_classdev *led, enum led_brightness value)
-+{
-+	struct hid_device *hdev = to_hid_device(led->dev->parent);
-+	struct dualsense *ds = hid_get_drvdata(hdev);
-+	unsigned long flags;
-+	unsigned int led_index;
-+
-+	spin_lock_irqsave(&ds->base.lock, flags);
-+
-+	led_index = led - ds->player_leds;
-+	if (value == LED_OFF)
-+		ds->player_leds_state &= ~BIT(led_index);
-+	else
-+		ds->player_leds_state |= BIT(led_index);
-+
-+	ds->update_player_leds = true;
-+	spin_unlock_irqrestore(&ds->base.lock, flags);
-+
-+	schedule_work(&ds->output_worker);
-+}
-+
- static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_output_report *rp,
- 		void *buf)
- {
-@@ -1207,7 +1269,20 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	struct dualsense *ds;
- 	struct ps_device *ps_dev;
- 	uint8_t max_output_report_size;
--	int ret;
-+	int i, ret;
-+
-+	static const struct ps_led_info player_leds_info[] = {
-+		{ LED_FUNCTION_PLAYER "-1", "white", dualsense_player_led_get_brightness,
-+				dualsense_player_led_set_brightness },
-+		{ LED_FUNCTION_PLAYER "-2", "white", dualsense_player_led_get_brightness,
-+				dualsense_player_led_set_brightness },
-+		{ LED_FUNCTION_PLAYER "-3", "white", dualsense_player_led_get_brightness,
-+				dualsense_player_led_set_brightness },
-+		{ LED_FUNCTION_PLAYER "-4", "white", dualsense_player_led_get_brightness,
-+				dualsense_player_led_set_brightness },
-+		{ LED_FUNCTION_PLAYER "-5", "white", dualsense_player_led_get_brightness,
-+				dualsense_player_led_set_brightness }
-+	};
- 
- 	ds = devm_kzalloc(&hdev->dev, sizeof(*ds), GFP_KERNEL);
- 	if (!ds)
-@@ -1297,6 +1372,14 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	/* Set default lightbar color. */
- 	dualsense_set_lightbar(ds, 0, 0, 128); /* blue */
- 
-+	for (i = 0; i < ARRAY_SIZE(player_leds_info); i++) {
-+		const struct ps_led_info *led_info = &player_leds_info[i];
-+
-+		ret = ps_led_register(ps_dev, &ds->player_leds[i], led_info);
-+		if (ret < 0)
-+			goto err;
-+	}
-+
- 	ret = ps_device_set_player_id(ps_dev);
- 	if (ret) {
- 		hid_err(hdev, "Failed to assign player id for DualSense: %d\n", ret);
--- 
-2.31.1
+On Tue, Jun 01, 2021 at 10:05:03AM +0100, Lee Jones wrote:
+> On Fri, 28 May 2021, Uwe Kleine-K=F6nig wrote:
+> > On Fri, May 28, 2021 at 10:55:31AM +0100, Lee Jones wrote:
+> > > On Fri, 28 May 2021, Uwe Kleine-K=F6nig wrote:
+> > > > On Fri, May 28, 2021 at 10:06:16AM +0100, Lee Jones wrote:
+> > > > > diff --git a/drivers/leds/leds-gpio-register.c b/drivers/leds/led=
+s-gpio-register.c
+> > > > > index b9187e71e0cf2..de3f12c2b80d7 100644
+> > > > > --- a/drivers/leds/leds-gpio-register.c
+> > > > > +++ b/drivers/leds/leds-gpio-register.c
+> > > > > @@ -11,6 +11,7 @@
+> > > > >  /**
+> > > > >   * gpio_led_register_device - register a gpio-led device
+> > > > >   * @pdata: the platform data used for the new device
+> > > > > + * @id: platform ID
+> > > > >   *
+> > > >=20
+> > > > Given that id is the first parameter and pdata the second I suggest=
+ to
+> > > > swap the order here and describe id first.
+> > >=20
+> > > That's super picky.
+> > >=20
+> > > I can do it as a follow-up patch if you *really* care about it.
+> >=20
+> > I'd say introducing the one-line description for id now in the "wrong"
+> > location and then reordering as a followup is ridiculus. But having said
+> > that: I don't care at all.
+>=20
+> It's only "wrong" according to you.
+>=20
+> I see these presented in a different order to their counterparts all
+> the time.
 
+This is a poor justification. In software bugs happen all the time, this
+doesn't mean you shouldn't make it better when you touch some code.
+
+> I do however appreciate that it does make more sense and
+> is easier on the eye, which is why I am more than happy to rectify.
+
+=2E.. still more if you agree that the feedback makes sense.
+
+> With regards to the follow-up scenario, it makes far less sense for an
+> already merged patch in a history tree to be reverted, or for history
+> to be unnecessarily re-written for something as trivial as this.
+
+Ah, that the patch is already merged is news to me. Indeed, then fixing
+this is not sensible. My initial feedback was less than an hour after
+you sent the patch and it appeared just yesterday in next, so this
+wasn't easily noticeable for me.
+
+Usually I'm annoyed about maintainers who don't react to patch series
+and don't apply it. Here I'm more annoyed that I was Cc:d---which I
+interpret as a request for feedback---and an hour later was already too
+late for my review reply and there was (up to today) no maintainer mail
+that the patch set was applied.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--yly3m2bwxq5ptw5f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmC3QEEACgkQwfwUeK3K
+7Akymgf+KkzImf56cp5Wnyk4i6OMmpzmFd0uYNlQmBjwYJi1hOjoR2YSACH2DF7E
+EaPBdT/Co8iquPeJEBR6QC8AJvs/AUGk5fcz6vxSOqt/9d/h5/f2QL7RFaWf8dVg
+GhdRgO4vTk2EratBzMpKR+igOe8iFn0O5Js2imNlGnfg5zT2WJJAU0e9NBwMBWCi
+cw5QRWN5f7KCEQWz8ytym26pioK1Ltcc2Lo5pAAOBAJuT3GVr24hdHYH7VGikblo
+8gpLXUwBxl3wM0c9EPCiOCt11tvln+/6gYzGqi5MA2Mt97fAVX/Pwa80RnINkpph
+I8sWmBqrd2rGxkSpMt+Vwseh2DPT5Q==
+=TGOZ
+-----END PGP SIGNATURE-----
+
+--yly3m2bwxq5ptw5f--
