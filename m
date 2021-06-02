@@ -2,82 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9DD839842F
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Jun 2021 10:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61E1A3984D9
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Jun 2021 11:05:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230021AbhFBIfF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Jun 2021 04:35:05 -0400
-Received: from mail.thorsis.com ([92.198.35.195]:48746 "EHLO mail.thorsis.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229571AbhFBIfF (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 2 Jun 2021 04:35:05 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.thorsis.com (Postfix) with ESMTP id 37D33F2F;
-        Wed,  2 Jun 2021 10:33:21 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
-Received: from mail.thorsis.com ([127.0.0.1])
-        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id k6LAhRHarBbO; Wed,  2 Jun 2021 10:33:21 +0200 (CEST)
-Received: by mail.thorsis.com (Postfix, from userid 109)
-        id 155164E6; Wed,  2 Jun 2021 10:33:21 +0200 (CEST)
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NO_RECEIVED,
-        NO_RELAYS autolearn=unavailable autolearn_force=no version=3.4.2
-X-Spam-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0000]
-        * -0.0 NO_RELAYS Informational: message was not relayed via SMTP
-        * -0.0 NO_RECEIVED Informational: message has no Received headers
-Date:   Wed, 2 Jun 2021 10:33:11 +0200
-From:   Alexander Dahl <ada@thorsis.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH 02/15] leds: leds-gpio-register: Supply description for
- param 'id'
-Message-ID: <YLdCR9VlDgVmwK7D@ada.ifak-system.com>
-Mail-Followup-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20210528090629.1800173-1-lee.jones@linaro.org>
- <20210528090629.1800173-3-lee.jones@linaro.org>
- <20210528094118.xw53q46i676wx6gb@pengutronix.de>
- <20210528095531.GO543307@dell>
- <20210528103532.5n6zzr26hqglvz2p@pengutronix.de>
- <20210601090503.GY543307@dell>
- <20210602082436.hdi4olxekvvbtzef@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
+        id S229975AbhFBJGt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Jun 2021 05:06:49 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:51318 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229754AbhFBJGt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Jun 2021 05:06:49 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 4AF621C0B77; Wed,  2 Jun 2021 11:05:05 +0200 (CEST)
+Date:   Wed, 2 Jun 2021 11:05:04 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     stuart hayes <stuart.w.hayes@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        Keith Busch <kbusch@kernel.org>, kw@linux.com,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH v2] Add support for PCIe SSD status LED management
+Message-ID: <20210602090504.GA10900@amd>
+References: <20210601203820.3647-1-stuart.w.hayes@gmail.com>
+ <3d1272b8-4edc-f2b1-85ea-f5cea65b4871@infradead.org>
+ <20210601223812.GA5128@amd>
+ <6ee11975-fad7-1a82-f7f3-279ebd4f67cb@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="azLHFNyN32YCQGCU"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210602082436.hdi4olxekvvbtzef@pengutronix.de>
+In-Reply-To: <6ee11975-fad7-1a82-f7f3-279ebd4f67cb@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Uwe,
 
-Am Wed, Jun 02, 2021 at 10:24:36AM +0200 schrieb Uwe Kleine-König:
-> Ah, that the patch is already merged is news to me. Indeed, then fixing
-> this is not sensible. My initial feedback was less than an hour after
-> you sent the patch and it appeared just yesterday in next, so this
-> wasn't easily noticeable for me.
-> 
-> Usually I'm annoyed about maintainers who don't react to patch series
-> and don't apply it. Here I'm more annoyed that I was Cc:d---which I
-> interpret as a request for feedback---and an hour later was already too
-> late for my review reply and there was (up to today) no maintainer mail
-> that the patch set was applied.
+--azLHFNyN32YCQGCU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Pavel applied (part of) the series quite quickly and stated in reply
-to patch 14/15:
+Hi!
 
-https://lore.kernel.org/linux-leds/20210528093921.GA2209@amd/
+> >>>  [ok] [locate] failed rebuild pfa hotspare ica ifa invalid disabled
+> >
+> >So what does this do? Turns the LED on if driver is in "ok" or
+> >"locate" states?
+> >
+>=20
+> This would cause the system to somehow show the user that that this drive
+> (or drive slot) is the one that it wants a person to be able to physically
+> locate (possibly by flashing a blue LED on/near the drive), and also that
+> the drive is OK.  It would presumably do that by lighting the LEDs on/near
+> the drive with certain colors and/or flashing patterns, though it could, =
+in
+> theory, put "OK" in an LCD on the drive slot.  How the states are display=
+ed
+> to the user is beyond the scope of the specs.
+>=20
+> (The _DSM and NPEM specs provide for a way to control status LEDs on a dr=
+ive
+> or drive slot.  Typically drives will have 2 or 3 LEDs that are illuminat=
+ed
+> in different colors or flashing patterns to indicate various states (like
+> those listed in IBPI / SFF-8489), though the _DSM / NPEM specs do not
+> specify how the states are displayed.)
 
-So I was also surprised my review of two patches, one hour after
-posting the series, was already too late.
+Well, LED subsystem expects to know how many LEDs are there and what
+the LEDs are, and expects individual control over them.
 
-This is not really motivating to review at all. ¯\_(ツ)_/¯
+"2 or 3 LEDs with unknown patterns", or LCD display is outside of scope
+of LED subsystem, so this should be independend.
 
-Greets
-Alex
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
 
+--azLHFNyN32YCQGCU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmC3Sb8ACgkQMOfwapXb+vLO/wCfXD0QnFJOu1pLpdrkK39BvJfO
++ecAnA1cgKwSxSnTJB7nhaGBxQ8O4Ion
+=ZKpO
+-----END PGP SIGNATURE-----
+
+--azLHFNyN32YCQGCU--
