@@ -2,102 +2,74 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF2E439900B
-	for <lists+linux-leds@lfdr.de>; Wed,  2 Jun 2021 18:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AAC9399305
+	for <lists+linux-leds@lfdr.de>; Wed,  2 Jun 2021 20:58:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbhFBQfR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 2 Jun 2021 12:35:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbhFBQfP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Jun 2021 12:35:15 -0400
-Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FE98C061574;
-        Wed,  2 Jun 2021 09:33:31 -0700 (PDT)
-Received: from dellmb (unknown [IPv6:2001:1488:fffe:6:8747:7254:5571:3010])
-        by mail.nic.cz (Postfix) with ESMTPSA id B1DE2140A37;
-        Wed,  2 Jun 2021 18:33:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1622651608; bh=bTg4ZWrVnYrtMbqxogxXsBiqmruzHvbu7w0ovkbBTGo=;
-        h=Date:From:To;
-        b=ShZNHjVdtmTDn/yUFZ7jH1VdEaaDlpKh53Be8Uof3R8TVl5ZnGB72e/0248kZES7t
-         +yY30ueSJkij+W/B0o+zbe6E/y5dGrGbQK16r5McJZN/n3qD6KnqprzmBnoloZS6tH
-         JoJA/teyI7oFP9tHcaOFuMVNaC9NywX/V4jp2Lg4=
-Date:   Wed, 2 Jun 2021 18:33:28 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <marek.behun@nic.cz>
-To:     stuart hayes <stuart.w.hayes@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        Keith Busch <kbusch@kernel.org>, kw@linux.com,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH v2] Add support for PCIe SSD status LED management
-Message-ID: <20210602183328.1e5885dc@dellmb>
-In-Reply-To: <6ee11975-fad7-1a82-f7f3-279ebd4f67cb@gmail.com>
-References: <20210601203820.3647-1-stuart.w.hayes@gmail.com>
-        <3d1272b8-4edc-f2b1-85ea-f5cea65b4871@infradead.org>
-        <20210601223812.GA5128@amd>
-        <6ee11975-fad7-1a82-f7f3-279ebd4f67cb@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S229654AbhFBTAL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 2 Jun 2021 15:00:11 -0400
+Received: from mail-ot1-f43.google.com ([209.85.210.43]:34514 "EHLO
+        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229650AbhFBTAK (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 2 Jun 2021 15:00:10 -0400
+Received: by mail-ot1-f43.google.com with SMTP id v27-20020a056830091bb02903cd67d40070so312137ott.1;
+        Wed, 02 Jun 2021 11:58:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=XxTgIILdcuRKgt2t103GTb8rzN2k3rWcVcHMsIEiZBI=;
+        b=JVigLwRxRO+f20PApScsfbFnPPi9lWpZKzZkkRKLrhBCMkfd/+dF9nioGbBpeo4e5m
+         fMPAzcV6XeDrtlN12NHXmTwE+yWsCMkbIimz6BCxTla/BtBtfJwiDan9Lr56vfXA4Qv3
+         yEqsi7R5Xpf0wMYZm6ZvsiLGuWszLzdLQ4NP84hmBYRCnjd1nZI4mcdskEP4O9d+7a8G
+         of0kGYZedCMDU+zQSHO1yRHsUVKiF7iHdT3Djw8V6XG44dw9Gu8qyJGB/WIwuicSXVJS
+         T2TdxK+rFXoL7ovmIc0ILcCp6j+f8S8hr2sP1OKhkcGGUfA2VnB1oYlHXcouBkP9anti
+         fICg==
+X-Gm-Message-State: AOAM530GWjGZStNZaWNvnAh8rfhsFx6FoaAHILf8jaWsbXX+qJzUA/S6
+        Lx6acy0tz9WxBH3dt3Vu4Q==
+X-Google-Smtp-Source: ABdhPJx6IAb1nq04AfhTZzJUGBqnvkBwEUrVVBoXVFE4RZRpp3lLMddFbDRO5gegZODRBzOO7Uas9A==
+X-Received: by 2002:a9d:289:: with SMTP id 9mr26361517otl.10.1622660305683;
+        Wed, 02 Jun 2021 11:58:25 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id t23sm153827oij.21.2021.06.02.11.58.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jun 2021 11:58:24 -0700 (PDT)
+Received: (nullmailer pid 3778567 invoked by uid 1000);
+        Wed, 02 Jun 2021 18:58:22 -0000
+Date:   Wed, 2 Jun 2021 13:58:22 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Sander Vanheule <sander@svanheule.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Andrew Lunn <andrew@lunn.ch>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-leds@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Mark Brown <broonie@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Michael Walle <michael@walle.cc>
+Subject: Re: [PATCH v3 2/6] dt-bindings: leds: Binding for RTL8231 scan matrix
+Message-ID: <20210602185822.GA3778506@robh.at.kernel.org>
+References: <cover.1621809029.git.sander@svanheule.net>
+ <dca103fe584c7c5a07ad521ad3d1c08ba2758c77.1621809029.git.sander@svanheule.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dca103fe584c7c5a07ad521ad3d1c08ba2758c77.1621809029.git.sander@svanheule.net>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 1 Jun 2021 22:18:16 -0500
-stuart hayes <stuart.w.hayes@gmail.com> wrote:
+On Mon, 24 May 2021 00:34:00 +0200, Sander Vanheule wrote:
+> Add a binding description for the Realtek RTL8231's LED support, which
+> consists of up to 88 LEDs arranged in a number of scanning matrices.
+> 
+> Signed-off-by: Sander Vanheule <sander@svanheule.net>
+> ---
+>  .../bindings/leds/realtek,rtl8231-leds.yaml   | 166 ++++++++++++++++++
+>  1 file changed, 166 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/realtek,rtl8231-leds.yaml
+> 
 
-> Both Bjorn Helgaas and Krzysztof Wilczy=C5=84ski had suggested the=20
-> scheduler-type interface, so I went with that.  In an earlier attempt
-> at this driver, when Bjorn suggested this, he asked if that would
-> violate the "one value per file" rule, and Greg K-H responded "That's
-> a valid way of displaying options for a sysfs file that can be
-> specific unique values."
-
-But you are not displaying unique values. Your example is
-
-# echo "ok locate" >/sys/class/leds/0000:88:00.0::drive_status/states
-# cat /sys/class/leds/0000:88:00.0::drive_status/states
-[ok] [locate] failed rebuild pfa hotspare ica ifa invalid disabled
-
-so there are 2 values set (ok and locate). Unique means that only one
-can be set.
-
-Question: can this LED be configured by userspace? I mean: can you
-configure whether the LED should be on/off, disregarding the SSD state?
-
-I ask because the LED subsystem currently officially does not
-support LEDs for which brightness cannot be set by userspace...
-
-If yes, you should implement the .brightness_set() function. (Could you
-please also send your patch to the linux-leds mailing list?)
-
-Then you should implement a LED-private trigger for this LED, which,
-when enabled, will make the LED follow the SSD state.
-
-The sysfs ABI should probably look like this:
-
-# cd /sys/class/leds/<SSD_LED>
-# echo 1 >brightness		# to light the LED on
-# echo 0 >brightness		# to light the LED off
-# echo ssd_state >trigger	# to make the LED follow SSD states
-# ls ssd_state			# list available SSD states
-ok  locate  failed  rebuild ...
-# cat ssd_state/ok		# check if "ok" state is enabled
-0
-# echo 1 >ssd_state/ok		# enable "ok" state so that the
-				# LED will be on when SSD is in "ok"
-				# state
-# echo none >trigger		# put the LED back into SW mode
-
-(The name of the trigger does not necessarily have to be "ssd_state".
- Other people should give their opinions about the name.)
-
-Marek
+Reviewed-by: Rob Herring <robh@kernel.org>
