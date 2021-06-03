@@ -2,110 +2,146 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04AAC399CA3
-	for <lists+linux-leds@lfdr.de>; Thu,  3 Jun 2021 10:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EF02399E47
+	for <lists+linux-leds@lfdr.de>; Thu,  3 Jun 2021 12:01:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229710AbhFCIgY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 3 Jun 2021 04:36:24 -0400
-Received: from mail-pg1-f176.google.com ([209.85.215.176]:42593 "EHLO
-        mail-pg1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbhFCIgX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 3 Jun 2021 04:36:23 -0400
-Received: by mail-pg1-f176.google.com with SMTP id t8so4554487pgb.9
-        for <linux-leds@vger.kernel.org>; Thu, 03 Jun 2021 01:34:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hKaeqqmeC6x4ArNtll0aowxdZXbhDlkl7A6kn7EE5rw=;
-        b=uJ/CowyScjXcrx6hoXTyrA2Ii4COrGphQ2zW7sqqf5uYrA3Xux1hkYxkHe795RvOTZ
-         q3U1fnTsnmpSVkR7yNcUI1Zhcfdth8uh7pvcdT8LJnGEYRrh0wJXC57HGTY4YJebxGXN
-         2ZJLXEmXbtg+hWV3qmm2exS6f7baUdmpHAQUJ59w0PcBOvmOJjqTKpvBqmXiCmtqXjXp
-         w2jcxivsXu3WGBiwIRpQ1tKCVHTZzhux0eFIOnk4Gz6UXbONoWZvaJfBoVlAqLZypJzO
-         S4mLABiVtkewSkwsZbLvyr7m7JQa0/bRqgnHnI5vCD7EOAsn1MYU9KHpWVJJ5v8ac08B
-         4RpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hKaeqqmeC6x4ArNtll0aowxdZXbhDlkl7A6kn7EE5rw=;
-        b=jyc+TfdEL3art4MhfV4q/rovKBhrI9bNp8ckUcjo/eXYIj8nq2TG9djerW1t5Wse9d
-         sZfrjRNMS47pZlxnr9/1Rj/SfFYzOIlP5+SCZmAmf4hEyBa9sgbXIk/WZbJxboq9gMc8
-         xcBBnxIKM4lnLdJ62KCEjaifDD9bhesFZsubKYxdQ7sI4kslfSULpypZC67JrHwWtIgd
-         Owps837jNA3hBeFVPW911EAPihmJfHTrqtjqxXOaTD+gfW83PcarX3jS7NNDCsdOr85z
-         FkUfcqaGEIwWlpbkfwu9wPiSVDxlux1OM4GHQ2n3mIfau4o5cW3fYD5KxAEGkeAQhSxe
-         XUGQ==
-X-Gm-Message-State: AOAM533P34vQMDSIh3KOeRZNG6dvnKJ3YFKJCMDZmVRLkDrBoNoO0jWJ
-        R8/5gBJktoK4jWJnanrldqy+w/IIqJNiYpC/Y0JlkdEIo6ti3LoE
-X-Google-Smtp-Source: ABdhPJxyhitnBYhhVL9DGU2ai4+oSM+jcqSPsihhPhCIJb+SjBDBipjiXktJE71Usw2ZaVVVaeJ02ApS2tA/7yWn9aQ=
-X-Received: by 2002:a63:b507:: with SMTP id y7mr38461274pge.74.1622709209955;
- Thu, 03 Jun 2021 01:33:29 -0700 (PDT)
+        id S229959AbhFCKDD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 3 Jun 2021 06:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229786AbhFCKDC (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 3 Jun 2021 06:03:02 -0400
+Received: from polaris.svanheule.net (polaris.svanheule.net [IPv6:2a00:c98:2060:a004:1::200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60F9CC06174A
+        for <linux-leds@vger.kernel.org>; Thu,  3 Jun 2021 03:01:18 -0700 (PDT)
+Received: from terra.local.svanheule.net (unknown [IPv6:2a02:a03f:eafb:ee01:398f:956e:2c86:f184])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: sander@svanheule.net)
+        by polaris.svanheule.net (Postfix) with ESMTPSA id 210C5208042;
+        Thu,  3 Jun 2021 12:01:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+        s=mail1707; t=1622714476;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IH3A9NYNMOqQYksVqwsvqHbo0clvcQccuKAwQC0l0YQ=;
+        b=42ix+bJT/DUZcBc7i2oMW5oWVELx0LW7wc64uj4bZgwkz+z/wtDxryWBUbX3vT5Jcackqt
+        0xeXg6804K+16UtzUGu2X0ocoS4ZNjrgiAQziFWasj/DmbTnlpBLAAQNhv2NzWkjcZHnML
+        l2DCYElWG0MY5FCTQww5c+EP1Q/OlC144CNPLILIc9MQz0sKG9jam5Nr2l/CUOoGgXezo6
+        s2nOlTB9UUCYO4bAgdgFpmkSKfSkDFDvG7LLA84VkrH2yZ3k9lK9Yi7qVgyrCUED4gEIV9
+        NVrEmYTw4wL1cgjj2r3Y58KEeQ5mcC8Lvb88b8cMQhV7IlGKu9e6dGUu2iqJfg==
+From:   Sander Vanheule <sander@svanheule.net>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Walle <michael@walle.cc>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
+        linux-kernel@vger.kernel.org,
+        Sander Vanheule <sander@svanheule.net>
+Subject: [PATCH v4 0/5] RTL8231 GPIO expander support
+Date:   Thu,  3 Jun 2021 12:00:39 +0200
+Message-Id: <cover.1622713678.git.sander@svanheule.net>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1620735871.git.sander@svanheule.net>
+References: <cover.1620735871.git.sander@svanheule.net>
 MIME-Version: 1.0
-References: <20210603081841.208639-1-joel@jms.id.au>
-In-Reply-To: <20210603081841.208639-1-joel@jms.id.au>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 3 Jun 2021 11:33:13 +0300
-Message-ID: <CAHp75VdiEFYnyn4Eqnkohzw1pwphA-qfwZtakOpuy+t-Q1sHJQ@mail.gmail.com>
-Subject: Re: [PATCH v2] leds: pca955x: Allow platform datato set full name
-To:     Joel Stanley <joel@jms.id.au>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>,
-        linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Jun 3, 2021 at 11:20 AM Joel Stanley <joel@jms.id.au> wrote:
->
-> The PCA955x driver since it was merged has added a "pca955x:" prefix to
-> LED names. This meanas platform data (such as the device tree) cannot
+The RTL8231 GPIO and LED expander can be configured for use as an MDIO or SMI
+bus device. Currently only the MDIO mode is supported, although SMI mode
+support should be fairly straightforward, once an SMI bus driver is available.
 
-means
+Provided features by the RTL8231:
+  - Up to 37 GPIOs
+    - Configurable drive strength: 8mA or 4mA (currently unsupported)
+    - Input debouncing on high GPIOs (currently unsupported)
+  - Up to 88 LEDs in multiple scan matrix groups
+    - On, off, or one of six toggling intervals
+    - "single-color mode": 2×36 single color LEDs + 8 bi-color LEDs
+    - "bi-color mode": (12 + 2×6) bi-color LEDs + 24 single color LEDs
+  - Up to one PWM output (currently unsupported)
+    - Fixed duty cycle, 8 selectable frequencies (1.2kHz - 4.8kHz)
 
-(Also missed space in the subject line)
+The GPIO controller uses gpio-regmap. The assumed read-modify-write behaviour
+of the data output is provided by using a cached virtual address range for the
+output values.
 
-> fully control the name.
+Register access is provided through a new MDIO regmap provider. The required
+MDIO regmap support was merged in Mark Brown's regmap repository, and can be
+found under the regmap-mdio tag:
+https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git/tag/?h=regmap-mdio
 
-So, it controls the main part of it.
+Changes since v3:
+  - Drop gpio-regmap direction-before-value quirk
+  - Use secondary virtual register range to enable proper read-modify-write
+    behaviour on GPIO output values
+  - Add pin debounce support
+  - Switch to generic pinmux functions
 
-> Here's what this produces using the example in
-> the device tree bindings:
->
->  # ls /sys/class/leds/
->  pca955x:green:power/
->  pca955x:pca9552:white/
->  pca955x:pca9552:yellow/
->  pca955x:red:power/
+Changes since v2:
+  - MDIO regmap support was merged, so patch is dropped here
+  - Implement feedback for DT bindings
+  - Use correct module names in Kconfigs
+  - Fix k*alloc return value checks
+  - Introduce GPIO regmap quirks to set output direction first
+  - pinctrl: Use static pin descriptions for pin controller
+  - pinctrl: Fix gpio consumer resource leak
+  - mfd: Replace CONFIG_PM-ifdef'ery
+  - leds: Rename interval to interval_ms
 
-So, it means that example is broken, right?
+Changes since v1:
+  - Reintroduce MDIO regmap, with fixed Kconfig dependencies
+  - Add configurable dir/value order for gpio-regmap direction_out call
+  - Drop allocations for regmap fields that are used only on init
+  - Move some definitions to MFD header
+  - Add PM ops to replace driver remove for MFD
+  - Change pinctrl driver to (modified) gpio-regmap
+  - Change leds driver to use fwnode
 
-> Instead use the platform data when provided to name the LED device.
->
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
-> v2: Drop kconfig option, per Pavel's review:
->
->  > No. Config option is not acceptable for this.
->  >
->  > Just delete the prefix and fix the breakage.
+Changes since RFC:
+  - Dropped MDIO regmap interface. I was unable to resolve the Kconfig
+    dependency issue, so have reverted to using regmap_config.reg_read/write.
+  - Added pinctrl support
+  - Added LED support
+  - Changed root device to MFD, with pinctrl and leds child devices. Root
+    device is now an mdio_device driver.
 
-I do not think we have a breakage here, rather a documentation issue.
+Sander Vanheule (5):
+  dt-bindings: leds: Binding for RTL8231 scan matrix
+  dt-bindings: mfd: Binding for RTL8231
+  mfd: Add RTL8231 core device
+  pinctrl: Add RTL8231 pin control and GPIO support
+  leds: Add support for RTL8231 LED scan matrix
 
-...
-
-> -                       snprintf(pca955x_led->name,
-> -                               sizeof(pca955x_led->name), "pca955x:%s",
-> -                               pdata->leds[i].name);
-> +                       strscpy(pca955x_led->name,
-> +                               pdata->leds[i].name,
-> +                               sizeof(pca955x_led->name));
-
-Changing to strspy() will become inconsistent with what's done in
-pca955x_get_pdata().
+ .../bindings/leds/realtek,rtl8231-leds.yaml   | 166 +++++++
+ .../bindings/mfd/realtek,rtl8231.yaml         | 190 ++++++++
+ drivers/leds/Kconfig                          |  10 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-rtl8231.c                   | 291 ++++++++++++
+ drivers/mfd/Kconfig                           |   9 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/rtl8231.c                         | 240 ++++++++++
+ drivers/pinctrl/Kconfig                       |  11 +
+ drivers/pinctrl/Makefile                      |   1 +
+ drivers/pinctrl/pinctrl-rtl8231.c             | 438 ++++++++++++++++++
+ include/linux/mfd/rtl8231.h                   |  78 ++++
+ 12 files changed, 1436 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/realtek,rtl8231-leds.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/realtek,rtl8231.yaml
+ create mode 100644 drivers/leds/leds-rtl8231.c
+ create mode 100644 drivers/mfd/rtl8231.c
+ create mode 100644 drivers/pinctrl/pinctrl-rtl8231.c
+ create mode 100644 include/linux/mfd/rtl8231.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.31.1
+
