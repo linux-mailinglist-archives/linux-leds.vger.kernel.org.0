@@ -2,99 +2,110 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2989C39B14A
-	for <lists+linux-leds@lfdr.de>; Fri,  4 Jun 2021 06:19:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B45A439B1CC
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Jun 2021 07:05:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229474AbhFDEVL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 4 Jun 2021 00:21:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55640 "EHLO
+        id S229989AbhFDFG4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 4 Jun 2021 01:06:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbhFDEVL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Jun 2021 00:21:11 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08162C06174A
-        for <linux-leds@vger.kernel.org>; Thu,  3 Jun 2021 21:19:26 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id h12-20020a17090aa88cb029016400fd8ad8so5138141pjq.3
-        for <linux-leds@vger.kernel.org>; Thu, 03 Jun 2021 21:19:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6NIcNIw0OVJvBwtgy0wjLvb3KiHAfCLN0V7S2OeoMU4=;
-        b=PLvZRZBtkOT3pUmi74jBu7hWC4jWRVKYTM4RZfz4ZRQ5Jl9WW7f2HIf7PKESbtIPjV
-         WCAVWJo6sJp6w+sJGqb0EHcSsaVbBrL4yUDIKd2+RhdFkZKQbt+pbiD2CxKWzWln14cy
-         f8i/s+EHSKOgPXb5zg4hydYVF1SCogyEpbtJC/sC3dflKO06aofruKbeVCRHvx6CoVKS
-         H4atfxTACORpTDRNoKVsHjeArV2tFMCRizE4GQ1T2iFJ/mloYi6GURUfa99DX6eHIKfS
-         +h+ReVpEDAvUW5zCAfer7hqQl+XR2UodVD3JnA0ifnMQ6WESVpNQiJtCaNNC34+9Ml8m
-         fVAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=6NIcNIw0OVJvBwtgy0wjLvb3KiHAfCLN0V7S2OeoMU4=;
-        b=mFZ09Prrp//9/LGtoOyIcgYpPrc6tO4bW5bmrAqKuGBHmO3sLSdQhXDKVe80IxcgKY
-         ljQn14D7ctfCnBxG+oL5CvBMgkzpNK/tFhSYY1LQmdrvWd+sn3kHRxGvmJgP/aQmrCgV
-         e1YzkvDJqwJ787chRyIDSFXNp//yBhmDU+InJOfTBTYEwS+ztSKX0ianTSYVUvyEn3Wf
-         mOH4PcU4F6Ys2SK3XEQN5k1iKHEH8e6XZoLlERCSRCD84XMk6S3rP1A4SCFeY2Ifj/9c
-         56KacSc5vDejs9eKeLjieULKHvWOHELoLZJ4mQKK/ikhskxIFujCQSebngkVBxJUiZ8j
-         0Rqw==
-X-Gm-Message-State: AOAM532pdBwSizpa1BzXEB/0FUA+TfaznqvtDen9ylUbWE4msTpf79V1
-        NkECY6OwpwsgKujv4HO3iW3Plns4hDA=
-X-Google-Smtp-Source: ABdhPJzWvpm6eFuEGPvvlZ25Djxs8LgF+aBtKm/V2KoxZbUuT0p+mcI2vO46oNRu/uGKO3UQySCTyQ==
-X-Received: by 2002:a17:90b:e8e:: with SMTP id fv14mr14831715pjb.29.1622780365477;
-        Thu, 03 Jun 2021 21:19:25 -0700 (PDT)
-Received: from voyager.lan ([45.124.203.14])
-        by smtp.gmail.com with ESMTPSA id z22sm528870pfa.157.2021.06.03.21.19.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jun 2021 21:19:24 -0700 (PDT)
-Sender: "joel.stan@gmail.com" <joel.stan@gmail.com>
-From:   Joel Stanley <joel@jms.id.au>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>,
-        linux-leds@vger.kernel.org
-Subject: [PATCH v3] leds: pca955x: Allow platform data to set full name
-Date:   Fri,  4 Jun 2021 13:48:30 +0930
-Message-Id: <20210604041830.221635-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229849AbhFDFGz (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Jun 2021 01:06:55 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E54AC061760
+        for <linux-leds@vger.kernel.org>; Thu,  3 Jun 2021 22:05:10 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lp214-000159-Lt; Fri, 04 Jun 2021 07:05:06 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lp213-00082A-HA; Fri, 04 Jun 2021 07:05:05 +0200
+Date:   Fri, 4 Jun 2021 07:05:06 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Lee Jones <lee.jones@linaro.org>, Pavel Machek <pavel@ucw.cz>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH 02/15] leds: leds-gpio-register: Supply description for
+ param 'id'
+Message-ID: <20210604050506.esoghbat3byaxes7@pengutronix.de>
+References: <20210528090629.1800173-1-lee.jones@linaro.org>
+ <20210528090629.1800173-3-lee.jones@linaro.org>
+ <20210528094118.xw53q46i676wx6gb@pengutronix.de>
+ <20210528095531.GO543307@dell>
+ <20210528103532.5n6zzr26hqglvz2p@pengutronix.de>
+ <20210601090503.GY543307@dell>
+ <20210602082436.hdi4olxekvvbtzef@pengutronix.de>
+ <YLdCR9VlDgVmwK7D@ada.ifak-system.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2vf6epzaduvlkwiy"
+Content-Disposition: inline
+In-Reply-To: <YLdCR9VlDgVmwK7D@ada.ifak-system.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The PCA955x driver since it was merged has added a "pca955x:" prefix to
-LED names. This means platform data (such as the device tree) cannot
-fully control the name. This patch drops the hardcoded prefix.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
-v3: Fix typos in commit message, remove confusing example, and use
-snprintf to be consistent with the rest of the driver.
+--2vf6epzaduvlkwiy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-v2: Drop kconfig option, per Pavel's review:
+Hello Alex,
 
- > No. Config option is not acceptable for this.
- >
- > Just delete the prefix and fix the breakage.
+On Wed, Jun 02, 2021 at 10:33:11AM +0200, Alexander Dahl wrote:
+> Am Wed, Jun 02, 2021 at 10:24:36AM +0200 schrieb Uwe Kleine-K=C3=B6nig:
+> > Ah, that the patch is already merged is news to me. Indeed, then fixing
+> > this is not sensible. My initial feedback was less than an hour after
+> > you sent the patch and it appeared just yesterday in next, so this
+> > wasn't easily noticeable for me.
+> >=20
+> > Usually I'm annoyed about maintainers who don't react to patch series
+> > and don't apply it. Here I'm more annoyed that I was Cc:d---which I
+> > interpret as a request for feedback---and an hour later was already too
+> > late for my review reply and there was (up to today) no maintainer mail
+> > that the patch set was applied.
+>=20
+> Pavel applied (part of) the series quite quickly and stated in reply
+> to patch 14/15:
+>=20
+> https://lore.kernel.org/linux-leds/20210528093921.GA2209@amd/
 
- drivers/leds/leds-pca955x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Just for the record: I only got the cover letter, patch 02 and the
+thread below the latter. So seeing the info there isn't straight
+forward either.
 
-diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
-index 7087ca4592fc..24f44fb6da93 100644
---- a/drivers/leds/leds-pca955x.c
-+++ b/drivers/leds/leds-pca955x.c
-@@ -504,7 +504,7 @@ static int pca955x_probe(struct i2c_client *client,
- 					sizeof(pdata->leds[i].name), "%d", i);
- 
- 			snprintf(pca955x_led->name,
--				sizeof(pca955x_led->name), "pca955x:%s",
-+				sizeof(pca955x_led->name), "%s",
- 				pdata->leds[i].name);
- 
- 			if (pdata->leds[i].default_trigger)
--- 
-2.30.2
+> This is not really motivating to review at all. =C2=AF\_(=E3=83=84)_/=C2=
+=AF
 
++1
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--2vf6epzaduvlkwiy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmC5tH8ACgkQwfwUeK3K
+7AmHRQf+JKybtqz0iOmit2xZz2pRILcpkoXyY5f9ShCNUkxgt04ZDg/Dj+xYs7ij
+Aoyazhx1I5hU71N3/iAipToIHm1pqfyZNmfSBN08C4KrmAjhMpqF1yFrNjDLssSJ
+4a5lVTFy5zbk6T8tAkQmm13oVA8yB+O3jde2NZpkLlg2YJLSaXiLtMiCDnjrN/gc
+3LShPqm7VPQuu1b3wstRs7C10+u3pxYvzPoS2+gUoOs1j7vsv8rjTrr6o2HckD8b
+J8SZ/Kbj5qh3POy+KbP4cnpTUfn/V2E5Ir3lvKEQWTyEuoKRzMXpSobusXPPYrPT
+8L787R+RO8Ka4fSxVOkaINAoMcPkMA==
+=uT2u
+-----END PGP SIGNATURE-----
+
+--2vf6epzaduvlkwiy--
