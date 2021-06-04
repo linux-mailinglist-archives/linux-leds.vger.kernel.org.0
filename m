@@ -2,114 +2,99 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C043139AC4F
-	for <lists+linux-leds@lfdr.de>; Thu,  3 Jun 2021 23:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2989C39B14A
+	for <lists+linux-leds@lfdr.de>; Fri,  4 Jun 2021 06:19:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229736AbhFCVLh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 3 Jun 2021 17:11:37 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:51825 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229576AbhFCVLh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 3 Jun 2021 17:11:37 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0B18F5C0217;
-        Thu,  3 Jun 2021 17:09:52 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 03 Jun 2021 17:09:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=awxrd.com; h=
-        date:from:to:cc:subject:message-id:in-reply-to:references
-        :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
-        GD6Sao3ch6RuLBjaYY+pAj0vpFphuyS8dclr0V44xwQ=; b=R18uZHerqSHeIJDt
-        ydKKtWoHg5vHNivu7/2eueymPbx6KaLrLxqL7IYTb4VpZ23cqOM/9+DlhjibxvAZ
-        VTX2BTuMAfGvIveGHL2+aI5RoBUd8HBUWYxa0xYh2gQPk+WrEN6a3IX6iFj1uP6Z
-        wbHn+jM9/3ySTajODpdz73Z26valtkdIQ3ZHyTDg0JUzkc6v/UDX2K5Yzj336TPw
-        mbrhVk6o3dYEj28QERcAg1Ea0p9TjdNSbeQ98Friz78VU9m1jQYf4cJ7ttJyVaoK
-        tX32JMWYuwdHZnjM9dCP2y5Gr4ZA+6BPdVlmrgs4AG8FytiDEvdnmAmqgnvBD79C
-        zZhyow==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=GD6Sao3ch6RuLBjaYY+pAj0vpFphuyS8dclr0V44x
-        wQ=; b=dGM4Rp1NVq4o4z3V//KR6T+BuPygBN8ZUtLozgU9Iup4RnvRYdgFwxMCp
-        YQyIWIdGu+DY+ujwtju9BysI0tfWn6eWXESGfJ+sjC2kK8uWYovDZGqE5iit5xlO
-        WZA7/vf3UWmyyQ9p+mnrA2TFtctq403PCqjM/1wUK77lYQ95FAO6J6T+JJ406fRC
-        5OatZXRWijtyWILBXmEfbXiLmTCY4LivJz28E8D3cjuLluwHrJ62FLAEb1H8r6Zs
-        PL68NHPR4AOKYA115quQgGshBTDNE4LNn9ZCfjPoj9bK6vjNOPkixSb7hQ1XNK3q
-        1+YLWPZ8iVe8uE2dabIOuR4+YHiIQ==
-X-ME-Sender: <xms:H0W5YKPF-dQfaRtpFDUTyaY6de7LvIFs1tGLHs2Y7_jcuO3qojYo2A>
-    <xme:H0W5YI-0I-pqqey2VAHfP2jwu3o0f9MHlotfHH0orrhq1jVu0WBH-ADrbMVNoFZvw
-    T8t2D9UBDaRwFfXPw>
-X-ME-Received: <xmr:H0W5YBSzoDKuu-z6au9gIMkNcwgkU0c66fuHmUIUxPh2lJVoSU3rb5AP-jpKqgsIYpx5K0NLjnxj0_b-fpsCoDvNLKkkbpTlpJFh3h5ddw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelledgudehjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepffgr
-    vhhiugcutfhivhhshhhinhcuoegurhhivhhshhhinhesrgifgihrugdrtghomheqnecugg
-    ftrfgrthhtvghrnhepgeevueeugefgfefhveefffelgeffleduheejvefhjeelfefffefh
-    hefgveejgedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepughrihhvshhhihhnsegrfiigrhgurdgtohhm
-X-ME-Proxy: <xmx:H0W5YKujo6Jj265uItUXVVmYq_KqrIhJ84rjYp9btyixm9updxcKTw>
-    <xmx:H0W5YCcWoKzxBrbQU_luZpgUIDff1nKUCC6szkw8YmVtELw3tKnyqA>
-    <xmx:H0W5YO0U6xIkp03Ox8cG71N0s5p1Loy74WmDO5ZAsXvKqjWiPEWgBg>
-    <xmx:IEW5YC5LNpGJR6DFqLvSBCvR8YAa2G5olREkaJ3sW-z5yAWeXnPQ4w>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Jun 2021 17:09:50 -0400 (EDT)
-Date:   Thu, 3 Jun 2021 17:10:10 -0400
-From:   David Rivshin <drivshin@awxrd.com>
-To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] leds: is31fl32xx: Fix missing error code in
- is31fl32xx_parse_dt()
-Message-ID: <20210603171010.37fbf545.drivshin@awxrd.com>
-In-Reply-To: <1622545743-21240-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-References: <1622545743-21240-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-Organization: Allworx
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S229474AbhFDEVL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 4 Jun 2021 00:21:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229452AbhFDEVL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 4 Jun 2021 00:21:11 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08162C06174A
+        for <linux-leds@vger.kernel.org>; Thu,  3 Jun 2021 21:19:26 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id h12-20020a17090aa88cb029016400fd8ad8so5138141pjq.3
+        for <linux-leds@vger.kernel.org>; Thu, 03 Jun 2021 21:19:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6NIcNIw0OVJvBwtgy0wjLvb3KiHAfCLN0V7S2OeoMU4=;
+        b=PLvZRZBtkOT3pUmi74jBu7hWC4jWRVKYTM4RZfz4ZRQ5Jl9WW7f2HIf7PKESbtIPjV
+         WCAVWJo6sJp6w+sJGqb0EHcSsaVbBrL4yUDIKd2+RhdFkZKQbt+pbiD2CxKWzWln14cy
+         f8i/s+EHSKOgPXb5zg4hydYVF1SCogyEpbtJC/sC3dflKO06aofruKbeVCRHvx6CoVKS
+         H4atfxTACORpTDRNoKVsHjeArV2tFMCRizE4GQ1T2iFJ/mloYi6GURUfa99DX6eHIKfS
+         +h+ReVpEDAvUW5zCAfer7hqQl+XR2UodVD3JnA0ifnMQ6WESVpNQiJtCaNNC34+9Ml8m
+         fVAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=6NIcNIw0OVJvBwtgy0wjLvb3KiHAfCLN0V7S2OeoMU4=;
+        b=mFZ09Prrp//9/LGtoOyIcgYpPrc6tO4bW5bmrAqKuGBHmO3sLSdQhXDKVe80IxcgKY
+         ljQn14D7ctfCnBxG+oL5CvBMgkzpNK/tFhSYY1LQmdrvWd+sn3kHRxGvmJgP/aQmrCgV
+         e1YzkvDJqwJ787chRyIDSFXNp//yBhmDU+InJOfTBTYEwS+ztSKX0ianTSYVUvyEn3Wf
+         mOH4PcU4F6Ys2SK3XEQN5k1iKHEH8e6XZoLlERCSRCD84XMk6S3rP1A4SCFeY2Ifj/9c
+         56KacSc5vDejs9eKeLjieULKHvWOHELoLZJ4mQKK/ikhskxIFujCQSebngkVBxJUiZ8j
+         0Rqw==
+X-Gm-Message-State: AOAM532pdBwSizpa1BzXEB/0FUA+TfaznqvtDen9ylUbWE4msTpf79V1
+        NkECY6OwpwsgKujv4HO3iW3Plns4hDA=
+X-Google-Smtp-Source: ABdhPJzWvpm6eFuEGPvvlZ25Djxs8LgF+aBtKm/V2KoxZbUuT0p+mcI2vO46oNRu/uGKO3UQySCTyQ==
+X-Received: by 2002:a17:90b:e8e:: with SMTP id fv14mr14831715pjb.29.1622780365477;
+        Thu, 03 Jun 2021 21:19:25 -0700 (PDT)
+Received: from voyager.lan ([45.124.203.14])
+        by smtp.gmail.com with ESMTPSA id z22sm528870pfa.157.2021.06.03.21.19.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jun 2021 21:19:24 -0700 (PDT)
+Sender: "joel.stan@gmail.com" <joel.stan@gmail.com>
+From:   Joel Stanley <joel@jms.id.au>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>,
+        linux-leds@vger.kernel.org
+Subject: [PATCH v3] leds: pca955x: Allow platform data to set full name
+Date:   Fri,  4 Jun 2021 13:48:30 +0930
+Message-Id: <20210604041830.221635-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue,  1 Jun 2021 19:09:03 +0800
-Jiapeng Chong <jiapeng.chong@linux.alibaba.com> wrote:
+The PCA955x driver since it was merged has added a "pca955x:" prefix to
+LED names. This means platform data (such as the device tree) cannot
+fully control the name. This patch drops the hardcoded prefix.
 
-> The error code is missing in this code scenario, add the error code
-> '-EINVAL' to the return value 'ret'.
-> 
-> Eliminate the follow smatch warning:
-> 
-> drivers/leds/leds-is31fl32xx.c:388 is31fl32xx_parse_dt() warn: missing
-> error code 'ret'.
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+v3: Fix typos in commit message, remove confusing example, and use
+snprintf to be consistent with the rest of the driver.
 
-Good catch!
+v2: Drop kconfig option, per Pavel's review:
 
-Acked-by: David Rivshin <drivshin@allworx.com>
+ > No. Config option is not acceptable for this.
+ >
+ > Just delete the prefix and fix the breakage.
 
-You might also want to add a:
+ drivers/leds/leds-pca955x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Fixes: 9d7cffaf99f5 ("leds: Add driver for the ISSI IS31FL32xx family of LED controllers")
+diff --git a/drivers/leds/leds-pca955x.c b/drivers/leds/leds-pca955x.c
+index 7087ca4592fc..24f44fb6da93 100644
+--- a/drivers/leds/leds-pca955x.c
++++ b/drivers/leds/leds-pca955x.c
+@@ -504,7 +504,7 @@ static int pca955x_probe(struct i2c_client *client,
+ 					sizeof(pdata->leds[i].name), "%d", i);
+ 
+ 			snprintf(pca955x_led->name,
+-				sizeof(pca955x_led->name), "pca955x:%s",
++				sizeof(pca955x_led->name), "%s",
+ 				pdata->leds[i].name);
+ 
+ 			if (pdata->leds[i].default_trigger)
+-- 
+2.30.2
 
-
-> ---
->  drivers/leds/leds-is31fl32xx.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-> index 2180255..899ed94 100644
-> --- a/drivers/leds/leds-is31fl32xx.c
-> +++ b/drivers/leds/leds-is31fl32xx.c
-> @@ -385,6 +385,7 @@ static int is31fl32xx_parse_dt(struct device *dev,
->  			dev_err(dev,
->  				"Node %pOF 'reg' conflicts with another LED\n",
->  				child);
-> +			ret = -EINVAL;
->  			goto err;
->  		}
->  
