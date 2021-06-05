@@ -2,67 +2,163 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECAA139C73A
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Jun 2021 12:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FD9439C7AC
+	for <lists+linux-leds@lfdr.de>; Sat,  5 Jun 2021 13:07:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229929AbhFEKEF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 5 Jun 2021 06:04:05 -0400
-Received: from fgw22-7.mail.saunalahti.fi ([62.142.5.83]:45747 "EHLO
-        fgw22-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229892AbhFEKEE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 5 Jun 2021 06:04:04 -0400
-X-Greylist: delayed 962 seconds by postgrey-1.27 at vger.kernel.org; Sat, 05 Jun 2021 06:04:03 EDT
-Received: from localhost (88-115-248-186.elisa-laajakaista.fi [88.115.248.186])
-        by fgw22.mail.saunalahti.fi (Halon) with ESMTP
-        id dc745646-c5e2-11eb-88cb-005056bdf889;
-        Sat, 05 Jun 2021 12:46:12 +0300 (EEST)
-Date:   Sat, 5 Jun 2021 12:46:11 +0300
-From:   andy@surfacebook.localdomain
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Amireddy Mallikarjuna reddy 
-        <mallikarjunax.reddy@linux.intel.com>,
-        Abanoub Sameh <abanoubsameh8@gmail.com>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        id S229978AbhFELJf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 5 Jun 2021 07:09:35 -0400
+Received: from polaris.svanheule.net ([84.16.241.116]:58064 "EHLO
+        polaris.svanheule.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229933AbhFELJf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 5 Jun 2021 07:09:35 -0400
+Received: from [IPv6:2a02:a03f:eafb:ee01:578f:7526:5a0:96d5] (unknown [IPv6:2a02:a03f:eafb:ee01:578f:7526:5a0:96d5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: sander@svanheule.net)
+        by polaris.svanheule.net (Postfix) with ESMTPSA id 4411A20907C;
+        Sat,  5 Jun 2021 13:07:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+        s=mail1707; t=1622891266;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UFmqQDr1GHxA/eAjSwi6GL9nIZuMpYiXeJXZ70OTXsk=;
+        b=55gawZN8Lm9MfXTMFG5Gc8TsY44sUdRvZ351PiFdgxZ/gs2TvofEsqFOHXLm7gt1sdD9+G
+        tnXtlKDpv5LiAvAB9p/m6HSJ+OeI7mHzYozRPSHastEb84xtvB8eu5Cq8hGZ329hkWYchN
+        MHOiGluIBMkzuU+J8mGh4Uj3QeIuP60N0KZi9LZ9duYsvQWuiSwo4L2WmMoGBnfsPH7CxN
+        QYwZF7e+kxigdWZAdrTkgqRPRcwMfuLsj3puSB3B674NtpDWdW9ufEyHUbNZu3aE/OpTcp
+        TE6xAJJmKGP95Wp0qe2Xd06UWMIE0HRllzfrzI1b4ioLWsOMCuORpSfJdMoQFw==
+Message-ID: <76c058318f5c5d984ade4f65bb359e686836b0b4.camel@svanheule.net>
+Subject: Re: [PATCH v4 3/5] mfd: Add RTL8231 core device
+From:   Sander Vanheule <sander@svanheule.net>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Walle <michael@walle.cc>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 12/13] leds: rt8515: Put fwnode in any case during
- ->probe()
-Message-ID: <YLtH45iTFAn9QcpQ@surfacebook.localdomain>
-References: <20210529111935.3849707-1-andy.shevchenko@gmail.com>
- <20210529111935.3849707-12-andy.shevchenko@gmail.com>
- <CACRpkdb21tMWyoxHuv8CwUB9fZeD332B_ui2jtMP7ocfbi6LSQ@mail.gmail.com>
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>
+Date:   Sat, 05 Jun 2021 13:07:44 +0200
+In-Reply-To: <CAHp75VeLUufwYagvQ2M+VKsivUzmnHHHQeH4E8-uN2avRWmBag@mail.gmail.com>
+References: <cover.1620735871.git.sander@svanheule.net>
+         <cover.1622713678.git.sander@svanheule.net>
+         <56fb027587fa067a249237ecaf40828cd508cdcc.1622713678.git.sander@svanheule.net>
+         <CAHp75VeLUufwYagvQ2M+VKsivUzmnHHHQeH4E8-uN2avRWmBag@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdb21tMWyoxHuv8CwUB9fZeD332B_ui2jtMP7ocfbi6LSQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Tue, Jun 01, 2021 at 12:06:05PM +0200, Linus Walleij kirjoitti:
-> On Sat, May 29, 2021 at 1:19 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
+On Thu, 2021-06-03 at 13:58 +0300, Andy Shevchenko wrote:
+> On Thu, Jun 3, 2021 at 1:01 PM Sander Vanheule <sander@svanheule.net> wrote:
+> > +static int rtl8231_reg_read(void *context, unsigned int reg, unsigned int
+> > *val)
+> > +{
+> > +       struct mdio_device *mdio_dev = context;
+> > +       int ret;
+> > +
+> > +       ret = mdiobus_read(mdio_dev->bus, mdio_dev->addr,
+> > RTL8231_REAL_REG(reg));
+> > +
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       *val = ret & 0xffff;
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int rtl8231_reg_write(void *context, unsigned int reg, unsigned int
+> > val)
+> > +{
+> > +       struct mdio_device *mdio_dev = context;
+> > +
+> > +       return mdiobus_write(mdio_dev->bus, mdio_dev->addr,
+> > RTL8231_REAL_REG(reg), val);
+> > +}
 > 
-> > fwnode_get_next_available_child_node() bumps a reference counting of
-> > a returned variable. We have to balance it whenever we return to
-> > the caller.
-> >
-> > Fixes: e1c6edcbea13 ("leds: rt8515: Add Richtek RT8515 LED driver")
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Hmm... Maybe we can amend regmap-mdio to avoid duplication of the
+> above? Something like xlate in gpio-regmap or so?
 
-Thanks!
+(+Cc Mark for the regmap discussion)
 
-Pavel, can you, please, review this batch? I think I addressed most of your
-comments if not all.
+It turns out that I can't use both devm_regmap_init_mdio and the overrides
+regmap_config.reg_read/write. This appears to be in contrast to what the
+documentation for these two overrides suggest. devm_regmap_init_mdio provides a
+bus for the regmap, which causes the overrides to be ignored in regmap.c
 
--- 
-With Best Regards,
-Andy Shevchenko
+Then I tried to use the paging support provided by regmap, by adding the
+following config:
+   
+      static struct regmap_range_cfg rtl8231_reg_ranges[] = {
+             {
+                     /* Specify an unused register with an empty mask */
+                     .selector_reg = 0x1f,
+                     .selector_mask = 0x00,
+                     .selector_shift = 0,
+                     .range_min = 0x00,
+                     .range_max = RTL8231_VREG(RTL8231_REG_COUNT - 1),
+                     .window_start = 0x00,
+                     .window_len = 0x20,
+             },
+      };
 
+
+This also doesn't work, because the used _regmap_bus_reg_read/write don't
+resolve register pages. The patch below fixes this, but maybe this missing
+functionality is intentional, and I should actually implement
+regmap_bus.read/write?
+
+----8<----
+diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
+index 0d185ec018a5..20b6a2e0d2e3 100644
+--- a/drivers/base/regmap/regmap.c
++++ b/drivers/base/regmap/regmap.c
+@@ -1881,6 +1881,15 @@ static int _regmap_bus_reg_write(void *context, unsigned
+int reg,
+                                 unsigned int val)
+ {
+        struct regmap *map = context;
++       struct regmap_range_node *range;
++       int ret;
++
++       range = _regmap_range_lookup(map, reg);
++       if (range) {
++               ret = _regmap_select_page(map, &reg, range, 1);
++               if (ret != 0)
++                       return ret;
++       }
+ 
+        return map->bus->reg_write(map->bus_context, reg, val);
+ }
+@@ -2651,6 +2660,15 @@ static int _regmap_bus_reg_read(void *context, unsigned
+int reg,
+                                unsigned int *val)
+ {
+        struct regmap *map = context;
++       struct regmap_range_node *range;
++       int ret;
++
++       range = _regmap_range_lookup(map, reg);
++       if (range) {
++               ret = _regmap_select_page(map, &reg, range, 1);
++               if (ret != 0)
++                       return ret;
++       }
+ 
+        return map->bus->reg_read(map->bus_context, reg, val);
+ }
+
+--
+Best,
+Sander
 
