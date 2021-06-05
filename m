@@ -2,93 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B64339C68A
-	for <lists+linux-leds@lfdr.de>; Sat,  5 Jun 2021 09:07:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECAA139C73A
+	for <lists+linux-leds@lfdr.de>; Sat,  5 Jun 2021 12:02:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229892AbhFEHJM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 5 Jun 2021 03:09:12 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3067 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229850AbhFEHJL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 5 Jun 2021 03:09:11 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FxrDW4hBJzWnxB;
-        Sat,  5 Jun 2021 15:02:35 +0800 (CST)
-Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sat, 5 Jun 2021 15:07:22 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpeml500017.china.huawei.com (7.185.36.243) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sat, 5 Jun 2021 15:07:21 +0800
-Subject: Re: [PATCH -next] leds: wm831x-status: use
- devm_led_classdev_register()
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>
-CC:     <pavel@ucw.cz>
-References: <20210605032212.698200-1-yangyingliang@huawei.com>
-Message-ID: <618a6c19-196f-79e7-cfc0-48551942bf53@huawei.com>
-Date:   Sat, 5 Jun 2021 15:07:21 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S229929AbhFEKEF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 5 Jun 2021 06:04:05 -0400
+Received: from fgw22-7.mail.saunalahti.fi ([62.142.5.83]:45747 "EHLO
+        fgw22-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229892AbhFEKEE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 5 Jun 2021 06:04:04 -0400
+X-Greylist: delayed 962 seconds by postgrey-1.27 at vger.kernel.org; Sat, 05 Jun 2021 06:04:03 EDT
+Received: from localhost (88-115-248-186.elisa-laajakaista.fi [88.115.248.186])
+        by fgw22.mail.saunalahti.fi (Halon) with ESMTP
+        id dc745646-c5e2-11eb-88cb-005056bdf889;
+        Sat, 05 Jun 2021 12:46:12 +0300 (EEST)
+Date:   Sat, 5 Jun 2021 12:46:11 +0300
+From:   andy@surfacebook.localdomain
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Amireddy Mallikarjuna reddy 
+        <mallikarjunax.reddy@linux.intel.com>,
+        Abanoub Sameh <abanoubsameh8@gmail.com>,
+        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 12/13] leds: rt8515: Put fwnode in any case during
+ ->probe()
+Message-ID: <YLtH45iTFAn9QcpQ@surfacebook.localdomain>
+References: <20210529111935.3849707-1-andy.shevchenko@gmail.com>
+ <20210529111935.3849707-12-andy.shevchenko@gmail.com>
+ <CACRpkdb21tMWyoxHuv8CwUB9fZeD332B_ui2jtMP7ocfbi6LSQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210605032212.698200-1-yangyingliang@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500017.china.huawei.com (7.185.36.243)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdb21tMWyoxHuv8CwUB9fZeD332B_ui2jtMP7ocfbi6LSQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-This patch is wrong, ignore it.
+Tue, Jun 01, 2021 at 12:06:05PM +0200, Linus Walleij kirjoitti:
+> On Sat, May 29, 2021 at 1:19 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> 
+> > fwnode_get_next_available_child_node() bumps a reference counting of
+> > a returned variable. We have to balance it whenever we return to
+> > the caller.
+> >
+> > Fixes: e1c6edcbea13 ("leds: rt8515: Add Richtek RT8515 LED driver")
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> 
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-On 2021/6/5 11:22, Yang Yingliang wrote:
-> Use devm_led_classdev_register() for led device registration and
-> get rid of .remove callback to remove led device. This is done by
-> managed device framework.
->
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->   drivers/leds/leds-wm831x-status.c | 12 +-----------
->   1 file changed, 1 insertion(+), 11 deletions(-)
->
-> diff --git a/drivers/leds/leds-wm831x-status.c b/drivers/leds/leds-wm831x-status.c
-> index c48b80574f02..8ccd8b472572 100644
-> --- a/drivers/leds/leds-wm831x-status.c
-> +++ b/drivers/leds/leds-wm831x-status.c
-> @@ -269,7 +269,7 @@ static int wm831x_status_probe(struct platform_device *pdev)
->   	drvdata->cdev.blink_set = wm831x_status_blink_set;
->   	drvdata->cdev.groups = wm831x_status_groups;
->   
-> -	ret = led_classdev_register(wm831x->dev, &drvdata->cdev);
-> +	ret = devm_led_classdev_register(wm831x->dev, &drvdata->cdev);
->   	if (ret < 0) {
->   		dev_err(&pdev->dev, "Failed to register LED: %d\n", ret);
->   		return ret;
-> @@ -280,21 +280,11 @@ static int wm831x_status_probe(struct platform_device *pdev)
->   	return 0;
->   }
->   
-> -static int wm831x_status_remove(struct platform_device *pdev)
-> -{
-> -	struct wm831x_status *drvdata = platform_get_drvdata(pdev);
-> -
-> -	led_classdev_unregister(&drvdata->cdev);
-> -
-> -	return 0;
-> -}
-> -
->   static struct platform_driver wm831x_status_driver = {
->   	.driver = {
->   		   .name = "wm831x-status",
->   		   },
->   	.probe = wm831x_status_probe,
-> -	.remove = wm831x_status_remove,
->   };
->   
->   module_platform_driver(wm831x_status_driver);
+Thanks!
+
+Pavel, can you, please, review this batch? I think I addressed most of your
+comments if not all.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
