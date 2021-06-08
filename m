@@ -2,59 +2,56 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1361639EECF
-	for <lists+linux-leds@lfdr.de>; Tue,  8 Jun 2021 08:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B805539EED2
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Jun 2021 08:37:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230287AbhFHGiS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 8 Jun 2021 02:38:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39176 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbhFHGiS (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Jun 2021 02:38:18 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FC57C061574;
-        Mon,  7 Jun 2021 23:36:12 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id k7so30660644ejv.12;
-        Mon, 07 Jun 2021 23:36:12 -0700 (PDT)
+        id S229512AbhFHGjS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 8 Jun 2021 02:39:18 -0400
+Received: from mail-ej1-f48.google.com ([209.85.218.48]:42878 "EHLO
+        mail-ej1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229507AbhFHGjQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Jun 2021 02:39:16 -0400
+Received: by mail-ej1-f48.google.com with SMTP id k25so25231325eja.9;
+        Mon, 07 Jun 2021 23:37:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IQ1reIr/EeLy5o44C9PRoDTkNRjsd05SHkFRgCdg5Zs=;
-        b=arCOl0+HaIsUiXCImZB9LT51Z7gOytLc8ScsiaDMF+7UZgwVRdl9dex2kFWJcquIGi
-         QykylGDQPS/un2094D3ubWY2bfhGMveY5BzmMko+t9IB572ore3IQ8mbSdD4QL8c+xi+
-         AA1wOwvvuKIJYsbcsLWRdAzqVL8UQExA/94/QirkaMpCtb+PvZrwk2EYdTAkxMUk2RWM
-         y8KwDf3xk4/5yK3CE3O1u84vdEJHd7BAK1bbWvubUpHEtOGl1rAaxFXkMU62IVpMFoKu
-         GSLV5Bsw20VqeiEsBFUXw1F9C2JQRme8lsyyZTmtcF5Wd9Inb+vrUvaAJhxc/mU7udCD
-         7thA==
+        bh=R4clZ8ZJRTuTc/QrguH4w64auSZ4LLlsG595KU1MPBM=;
+        b=gdFEISbh5wEAU9s+anA5iwBXogIhTX4ZjmljXpjfOvRt0if2VxgUvGo1a8U9UIvVsd
+         ahPBIJ7mK4CyJluB04DzVIabcOg7GKBJERR7Z0UrfE8ytwUN8uEJ4FVQXSXjKqR2KnmO
+         LbIb4vrloLIoBAzDWAxeTe/bZIzTqVmLLwCmtj+wclXko3z/yg0RIRAC0FaNAFovRPXo
+         cr2o0fQd5LojOm1Znk9VcP+YLHPFSxEVMCYH3Nbney8ljmNKHJ+8hn7tYErnLEZ3LcRy
+         RuDVvzmsiwwXI8cwu3GnoA13xjy79eHWGNPMc1/6hDuX94kzACTYCo6rp2Hv0ZPYcciI
+         iWfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IQ1reIr/EeLy5o44C9PRoDTkNRjsd05SHkFRgCdg5Zs=;
-        b=CnYspECiwKf74zMcssoCOJaUjKZA/vrPCK4lYXiFyDfSuIuNs1MF7apgh7R9zmSdlr
-         Q1P362ZFDPqyHX4P74YOn/msrEnBhvGq+6ETaicCNQftSmdKKtL4m1VtI9CxkeFXxVwG
-         0gv6kZIbgh8xMzbW0Qc41Q9FV+zALv7YybUuk2q/Szg6g1nue3k37JrTSbaxio0lyTvH
-         BHsjUNw+hpHBXGqcZR07Nn1MFUjXuLrMqgyXBVXEIYf8aOVQ1WAKS2HeO+8oQOhFqCNt
-         7NLbdtwq3a8oKZCrHDdDBCcuXpKwjAQgYpo9vdn69M3CUAGolQHiecKglL1yDvabV7C8
-         XzYg==
-X-Gm-Message-State: AOAM531Qoaw4w+jlM/yYEJl2yUNx32CO+TBSj5KA35GoWkfrbkqqfUAR
-        rCDKO7mxsZS9PeqhkFnWG+k=
-X-Google-Smtp-Source: ABdhPJysrdk7SHW4HBrMbnOEcTuf35rlqPzpl2WT2CSTS1YSRmy85MvdLcRlg7zmYDRIb1TR1BfUkQ==
-X-Received: by 2002:a17:906:724b:: with SMTP id n11mr22001443ejk.338.1623134171128;
+        bh=R4clZ8ZJRTuTc/QrguH4w64auSZ4LLlsG595KU1MPBM=;
+        b=EGnL16fb5A9yB2c6hi5MkRa9ggh9M+rHhmeHmO1MsclGimufqrTwH8/zn7Ov/bfG6g
+         1THKfEPX5h0hTERge+Lht7orWy2wIHb3t2RBl5kDbONNak6DyZ/8tiXU5yhse17aazh1
+         Y5Ad510bhggH52vzZGvUcHzzphQ/BLepSIPuXHjIIsYNV1BF9GAGmT+eyfjqxlpa+LkI
+         yENhqtbJb8XjoZJ+99VGokPlzsgzg4XimcguvBdM4hNl197fMgasm+Zx2TPFOmlhf/Bf
+         Cr8vGi6oFB3fVkHHbN+nB15ft1nP30G/O8GziWo7/hOcrRn2SyLUtAPL9tHfGxyckjhv
+         eQOA==
+X-Gm-Message-State: AOAM531QAZ9RY0kaEkTp+TSzvLuLb1chXCE5U6Nb6TBR2mUHifkCp8mC
+        oybf0bu3TQna7T6qNU3zRUc=
+X-Google-Smtp-Source: ABdhPJyp8tfR3YCL7Xz2xP/KTrRZqK8/X32bMlhjTbLfy7gYorXulA0FBaVLeo8X82MC6JEWNLnEQA==
+X-Received: by 2002:a17:907:f9b:: with SMTP id kb27mr11592971ejc.44.1623134171806;
         Mon, 07 Jun 2021 23:36:11 -0700 (PDT)
 Received: from fujitsu.fritz.box (p200300da6709910000b233666d22ecd9.dip0.t-ipconnect.de. [2003:da:6709:9100:b2:3366:6d22:ecd9])
-        by smtp.gmail.com with ESMTPSA id ot30sm6698168ejb.61.2021.06.07.23.36.10
+        by smtp.gmail.com with ESMTPSA id ot30sm6698168ejb.61.2021.06.07.23.36.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jun 2021 23:36:10 -0700 (PDT)
+        Mon, 07 Jun 2021 23:36:11 -0700 (PDT)
 From:   Denis Osterland-Heim <denis.osterland.heim@gmail.com>
 To:     Pavel Machek <pavel@ucw.cz>
 Cc:     denis.osterland@diehl.com, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Denis Osterland-Heim <Denis.Osterland@diehl.com>
-Subject: [PATCH v8 1/2] leds: move default_state read from fwnode to core
-Date:   Tue,  8 Jun 2021 08:35:53 +0200
-Message-Id: <20210608063554.6590-2-denis.osterland.heim@gmail.com>
+Subject: [PATCH v8 2/2] leds: pwm: add support for default-state device property
+Date:   Tue,  8 Jun 2021 08:35:54 +0200
+Message-Id: <20210608063554.6590-3-denis.osterland.heim@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210608063554.6590-1-denis.osterland.heim@gmail.com>
 References: <20210608063554.6590-1-denis.osterland.heim@gmail.com>
@@ -66,120 +63,102 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 From: Denis Osterland-Heim <Denis.Osterland@diehl.com>
 
-This patch introduces a new function to read initial
-default_state from fwnode.
+This patch adds support for "default-state" devicetree property, which
+allows to defer pwm init to first use of led.
 
-Suggested-by: Pavel Machek <pavel@ucw.cz>
+This allows to configure the PWM early in bootloader to let the LED
+blink until an application in Linux userspace sets something different.
+
 Signed-off-by: Denis Osterland-Heim <Denis.Osterland@diehl.com>
 ---
- drivers/leds/led-core.c  | 15 +++++++++++++++
- drivers/leds/leds-gpio.c | 12 ++----------
- drivers/leds/leds.h      |  1 +
- include/linux/leds.h     | 12 +++++++++---
- 4 files changed, 27 insertions(+), 13 deletions(-)
+ drivers/leds/leds-pwm.c | 49 ++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 43 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
-index 8eb8054ef9c6..4a97cb745788 100644
---- a/drivers/leds/led-core.c
-+++ b/drivers/leds/led-core.c
-@@ -477,3 +477,18 @@ int led_compose_name(struct device *dev, struct led_init_data *init_data,
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(led_compose_name);
-+
-+enum led_default_state led_init_default_state_get(struct fwnode_handle *fwnode)
-+{
-+	const char *state = NULL;
-+
-+	if (!fwnode_property_read_string(fwnode, "default-state", &state)) {
-+		if (!strcmp(state, "keep"))
-+			return LEDS_DEFSTATE_KEEP;
-+		if (!strcmp(state, "on"))
-+			return LEDS_DEFSTATE_ON;
-+	}
-+
-+	return LEDS_DEFSTATE_OFF;
-+}
-+EXPORT_SYMBOL_GPL(led_init_default_state_get);
-diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
-index b5d5e22d2d1e..092eb59a7d32 100644
---- a/drivers/leds/leds-gpio.c
-+++ b/drivers/leds/leds-gpio.c
-@@ -16,6 +16,7 @@
- #include <linux/platform_device.h>
- #include <linux/property.h>
+diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+index d71e9fa5c8de..6832180c1c54 100644
+--- a/drivers/leds/leds-pwm.c
++++ b/drivers/leds/leds-pwm.c
+@@ -17,10 +17,12 @@
+ #include <linux/err.h>
+ #include <linux/pwm.h>
  #include <linux/slab.h>
 +#include "leds.h"
  
- struct gpio_led_data {
- 	struct led_classdev cdev;
-@@ -144,7 +145,6 @@ static struct gpio_leds_priv *gpio_leds_create(struct platform_device *pdev)
- 	device_for_each_child_node(dev, child) {
- 		struct gpio_led_data *led_dat = &priv->leds[priv->num_leds];
- 		struct gpio_led led = {};
--		const char *state = NULL;
- 
- 		/*
- 		 * Acquire gpiod from DT with uninitialized label, which
-@@ -161,15 +161,7 @@ static struct gpio_leds_priv *gpio_leds_create(struct platform_device *pdev)
- 
- 		led_dat->gpiod = led.gpiod;
- 
--		if (!fwnode_property_read_string(child, "default-state",
--						 &state)) {
--			if (!strcmp(state, "keep"))
--				led.default_state = LEDS_GPIO_DEFSTATE_KEEP;
--			else if (!strcmp(state, "on"))
--				led.default_state = LEDS_GPIO_DEFSTATE_ON;
--			else
--				led.default_state = LEDS_GPIO_DEFSTATE_OFF;
--		}
-+		led.default_state = led_init_default_state_get(child);
- 
- 		if (fwnode_property_present(child, "retain-state-suspended"))
- 			led.retain_state_suspended = 1;
-diff --git a/drivers/leds/leds.h b/drivers/leds/leds.h
-index 345062ccabda..aa64757a4d89 100644
---- a/drivers/leds/leds.h
-+++ b/drivers/leds/leds.h
-@@ -27,6 +27,7 @@ ssize_t led_trigger_read(struct file *filp, struct kobject *kobj,
- ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
- 			struct bin_attribute *bin_attr, char *buf,
- 			loff_t pos, size_t count);
-+enum led_default_state led_init_default_state_get(struct fwnode_handle *fwnode);
- 
- extern struct rw_semaphore leds_list_lock;
- extern struct list_head leds_list;
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 329fd914cf24..a0b730be40ad 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -33,6 +33,12 @@ enum led_brightness {
- 	LED_FULL	= 255,
+ struct led_pwm {
+ 	const char	*name;
+ 	u8		active_low;
++	u8		default_state;
+ 	unsigned int	max_brightness;
  };
  
-+enum led_default_state {
-+	LEDS_DEFSTATE_OFF	= 0,
-+	LEDS_DEFSTATE_ON	= 1,
-+	LEDS_DEFSTATE_KEEP	= 2,
-+};
+@@ -77,7 +79,38 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+ 
+ 	led_data->cdev.brightness_set_blocking = led_pwm_set;
+ 
+-	pwm_init_state(led_data->pwm, &led_data->pwmstate);
++	/* init PWM state */
++	switch (led->default_state) {
++	case LEDS_DEFSTATE_KEEP:
++		pwm_get_state(led_data->pwm, &led_data->pwmstate);
++		if (led_data->pwmstate.period)
++			break;
++		led->default_state = LEDS_DEFSTATE_OFF;
++		dev_warn(dev,
++			"failed to read period for %s, default to off",
++			led->name);
++		fallthrough;
++	default:
++		pwm_init_state(led_data->pwm, &led_data->pwmstate);
++		break;
++	}
 +
- struct led_init_data {
- 	/* device fwnode handle */
- 	struct fwnode_handle *fwnode;
-@@ -520,9 +526,9 @@ struct gpio_led {
- 	/* default_state should be one of LEDS_GPIO_DEFSTATE_(ON|OFF|KEEP) */
- 	struct gpio_desc *gpiod;
- };
--#define LEDS_GPIO_DEFSTATE_OFF		0
--#define LEDS_GPIO_DEFSTATE_ON		1
--#define LEDS_GPIO_DEFSTATE_KEEP		2
-+#define LEDS_GPIO_DEFSTATE_OFF		LEDS_DEFSTATE_OFF
-+#define LEDS_GPIO_DEFSTATE_ON		LEDS_DEFSTATE_ON
-+#define LEDS_GPIO_DEFSTATE_KEEP		LEDS_DEFSTATE_KEEP
++	/* set brightness */
++	switch (led->default_state) {
++	case LEDS_DEFSTATE_ON:
++		led_data->cdev.brightness = led->max_brightness;
++		break;
++	case LEDS_DEFSTATE_KEEP:
++		{
++		uint64_t brightness;
++
++		brightness = led->max_brightness;
++		brightness *= led_data->pwmstate.duty_cycle;
++		do_div(brightness, led_data->pwmstate.period);
++		led_data->cdev.brightness = brightness;
++		}
++		break;
++	}
  
- struct gpio_led_platform_data {
- 	int 		num_leds;
+ 	ret = devm_led_classdev_register_ext(dev, &led_data->cdev, &init_data);
+ 	if (ret) {
+@@ -86,11 +119,13 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
+ 		return ret;
+ 	}
+ 
+-	ret = led_pwm_set(&led_data->cdev, led_data->cdev.brightness);
+-	if (ret) {
+-		dev_err(dev, "failed to set led PWM value for %s: %d",
+-			led->name, ret);
+-		return ret;
++	if (led->default_state != LEDS_DEFSTATE_KEEP) {
++		ret = led_pwm_set(&led_data->cdev, led_data->cdev.brightness);
++		if (ret) {
++			dev_err(dev, "failed to set led PWM value for %s: %d",
++				led->name, ret);
++			return ret;
++		}
+ 	}
+ 
+ 	priv->num_leds++;
+@@ -120,6 +155,8 @@ static int led_pwm_create_fwnode(struct device *dev, struct led_pwm_priv *priv)
+ 		fwnode_property_read_u32(fwnode, "max-brightness",
+ 					 &led.max_brightness);
+ 
++		led.default_state = led_init_default_state_get(fwnode);
++
+ 		ret = led_pwm_add(dev, priv, &led, fwnode);
+ 		if (ret)
+ 			goto err_child_out;
 -- 
 2.25.1
 
