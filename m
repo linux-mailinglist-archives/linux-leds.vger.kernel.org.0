@@ -2,128 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98E9439E639
-	for <lists+linux-leds@lfdr.de>; Mon,  7 Jun 2021 20:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A79939EECD
+	for <lists+linux-leds@lfdr.de>; Tue,  8 Jun 2021 08:36:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231200AbhFGSK1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 7 Jun 2021 14:10:27 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:36541 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230479AbhFGSK0 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 7 Jun 2021 14:10:26 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailout.nyi.internal (Postfix) with ESMTP id E0C625C02C3;
-        Mon,  7 Jun 2021 14:08:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 07 Jun 2021 14:08:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=awxrd.com; h=
-        date:from:to:cc:subject:message-id:in-reply-to:references
-        :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
-        lIBC8OXBc0UOBvvpVKG1lSuscKtvmgtSWseimQKjCfo=; b=h891jaTRSurzEDAW
-        LHcIOjMoEvng3nQ1ZdfO5sIzPV3sHexSyFPCH7+q66yAT4PWEQKkDSy9/S41SgN2
-        2AHD8koQ59p3xdVtVF3EuxG105Y+6fHmyZ9b2AvUumYIAxz0NbfmW7un62+EFa2j
-        9TEj3Wn4jR/n3a5pid/3GZTRSLWb+GHiUFko2VSuXKfI3C2Su39asyQHhKR6OkkE
-        VbPi7sVFjtrx2O84e0nBlgCKllDzdvhloZIwOoekJhuMVtWTyoFnWRfOIJ58+dIn
-        PrD/dAmeOhbn1/2DlpIDMOeydgsCDb9nFsAdOy6QtPRscVLyKKpQBPC7SpGJcszj
-        IG+Z3w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=lIBC8OXBc0UOBvvpVKG1lSuscKtvmgtSWseimQKjC
-        fo=; b=D1AVFrpMUXHbbF6kA++4FtJ9/0KRhh57WcFlLBF/+AdwwvRkzCGmkdhpM
-        OXG8r08CVbFfbMeOZ43AbGsddEhNfane+X/3cQT1NBD50fvhr1tzEnbeBokPkMpV
-        G7saBP4zppoSajT1JyQzDTWk9I/t0m4+0U3pJaJyjfYVU0dNL2Gpy3b82XlDMGWR
-        5+yKkh3bMmRnr2vgbeoomgnygVEOzuzhyuMQ5iNuWzQZQwLtbdVJultZfTPOYsxP
-        NNIY5B4kwtGQnoFKRKszl8VgYMDQdDsP0NQLAX9bq6xHPaAUtu7BmEHHqnGetET5
-        he80GW3lzkTAINW6yV7XMQALv7VfA==
-X-ME-Sender: <xms:omC-YPPntauLKj_uH53AYmprv16w7xM7k7NiwOfGM6YfNcqPslSZAQ>
-    <xme:omC-YJ8w0mBz4pPCK7Wsoo_GDh1mydv7QcbS_kvDAQJgV8fwe5q8OAsn86Shu811t
-    J0oldQJAsMccQF80w>
-X-ME-Received: <xmr:omC-YOTlIb0MeYsh-fHfAJQ3utNBAiIRQwO7CVVwK9W70-clX5D6oJjRbARms3779xlWrczgh7n3DeLIwwIyn3NiiQKPcw5T6pc-uqG6fw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtjedguddvudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepffgr
-    vhhiugcutfhivhhshhhinhcuoegurhhivhhshhhinhesrgifgihrugdrtghomheqnecugg
-    ftrfgrthhtvghrnhepgfevgeelkeffueevtddtffdthfelveffkeeuteevveeuudeltefh
-    feeiieetveehnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurhhivhhshhhinhesrgifgihr
-    ugdrtghomh
-X-ME-Proxy: <xmx:omC-YDsmDefW7sGK07OK1sLag_1Rn_ayfqsm5-SciHsQl4jT2WFiGg>
-    <xmx:omC-YHcNmtWoRB3ZtisQOGTS_4t065ThoEKkt7UTMhuZ0dAB9Ns_ow>
-    <xmx:omC-YP1BS3fV-I-gLjHY0qHSHW41Iyx0ILiJr8wm-_rejiNfb2N6sw>
-    <xmx:omC-YO6vKMApay17R_L3NoMyNtVOUs3lnKXPeMeIEtgU5CtI1AJSgA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Jun 2021 14:08:33 -0400 (EDT)
-Date:   Mon, 7 Jun 2021 14:08:55 -0400
-From:   David Rivshin <drivshin@awxrd.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, David Rivshin <drivshin@allworx.com>,
-        Jacek Anaszewski <j.anaszewski@samsung.com>,
-        linux-leds@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] leds: leds-is31fl32xx: fix an error in
- is31fl32xx_parse_dt()
-Message-ID: <20210607140855.0f6e82c9.drivshin@awxrd.com>
-In-Reply-To: <YLtyxq0Ty/7Uo4NS@mwanda>
-References: <YLtyxq0Ty/7Uo4NS@mwanda>
-Organization: Allworx
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S229937AbhFHGiH (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 8 Jun 2021 02:38:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39178 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229507AbhFHGiF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 8 Jun 2021 02:38:05 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC7E3C061787;
+        Mon,  7 Jun 2021 23:36:12 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id g20so30784285ejt.0;
+        Mon, 07 Jun 2021 23:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hyz3cZbCbRoVfJRUS8v4Ft8AG2jAgm+qZ3cfXbaej6U=;
+        b=dSfprYsR/BmZkNJ44n2lQw57EHFTwaRoGx+o0Q9KTQFhvdqXjBkfybT9G7Mtbmrqym
+         okWlzT0Lt8rrm/rcSGfONkfSuovyWLHhKRF/Pr4rzgPKWT9Mv2LmBC86QE6W4RPInUno
+         ThecGMIo6CKcNyfA28F59MCoQbRzwG3394+PgsE/V/cQGr/S0ucagif0LtCUaDGYDeaU
+         b0B6yARlXnGEYNPT7th+wgZl2AyIdwuRuBJiyl1YdabBPQUKASBcUNy3RTM15Ay9Mky+
+         RhkS6hUwsXIx1UejCb+NUP9vRVCk7TyWrg2yq9Xg2ukckTyM7xz+z4f+muMu7P2iMNXJ
+         V/ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hyz3cZbCbRoVfJRUS8v4Ft8AG2jAgm+qZ3cfXbaej6U=;
+        b=R2S4i4K81P57UReMls1cJ25JKMkILwcDqxxkM3NdfoJr1tOquV9F9BmUAADL/1gJB3
+         WFqgbiC7tHQKW8c7J+/7p0bDkaGmxK0i374mRQ2myEPqq3e6RZwgMpaAT7gw7Rpm6bMX
+         VbxEl4CaYVamq0qKLNaThg9M+v8XSIrNFb5ubkKe9KOrX1qdTQ774DAsUffKoyX6axTJ
+         5JdY302c4Flk+1ERiXf3LlGP9QuH1WzIPsrcz8cMExMwGuNDAt5xQ+j79d7sDy4IltTo
+         ztqAELIq9RbhuWeb5JT8yK79g/UWHmySuAtF88JbZIRF+BvNKP8tGkGwfYexhF1LeIXa
+         JA4Q==
+X-Gm-Message-State: AOAM531G/yJkWfaZ1rcmjKhj1Edwnb+hHFUUjQCGYWEEYGLGHxqTt6lf
+        rxmjDJmJWl2KCg33MJz+flU=
+X-Google-Smtp-Source: ABdhPJxCpLo3iDn84mcmVh1lTNzCw6jl40TzQIQpkwLR46Yppbigr0PAjsOZkJaG5m8GC1MUJeTa7w==
+X-Received: by 2002:a17:906:d1d1:: with SMTP id bs17mr21767836ejb.492.1623134170511;
+        Mon, 07 Jun 2021 23:36:10 -0700 (PDT)
+Received: from fujitsu.fritz.box (p200300da6709910000b233666d22ecd9.dip0.t-ipconnect.de. [2003:da:6709:9100:b2:3366:6d22:ecd9])
+        by smtp.gmail.com with ESMTPSA id ot30sm6698168ejb.61.2021.06.07.23.36.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Jun 2021 23:36:10 -0700 (PDT)
+From:   Denis Osterland-Heim <denis.osterland.heim@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     denis.osterland@diehl.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v8 0/2] leds: pwm: add support for default-state device
+Date:   Tue,  8 Jun 2021 08:35:52 +0200
+Message-Id: <20210608063554.6590-1-denis.osterland.heim@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 5 Jun 2021 15:49:10 +0300
-Dan Carpenter <dan.carpenter@oracle.com> wrote:
+v7 -> v8:
+ - apply and test on newest kernel
+ - drop docu patch, because it is already documented
 
-> Return -EBUSY if the data is already in use (instead of returning
-> success).
-> 
-> Fixes: 9d7cffaf99f5 ("leds: Add driver for the ISSI IS31FL32xx family of LED controllers")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
-> Not tested.  It prints an error so the intention seems clear, but
-> sometimes making stuff a failure instead of a success can lead to
-> unexpected problems in production.  On the other hand, if this is not
-> an error then shouldn't we do a continue instead of a goto err?
+Denis Osterland-Heim (2):
+      leds: move default_state read from fwnode to core
+      leds: pwm: add support for default-state device property
 
-I originally had it continue (and ignore that LED), but during review 
-Jacek commented [1] that he preferred it to be an error condition 
-instead. It should be noted that this condition involves an invalid 
-devicetree: two (or more) LED sub-nodes on the same controller that 
-specify the same controller channel number. FYI, the error message 
-originally had a bit more detail which might make that more obvious, 
-but it was simplified as part of another cleanup [2]. 
+ drivers/leds/led-core.c  | 15 +++++++++++++++
+ drivers/leds/leds-gpio.c | 12 ++----------
+ drivers/leds/leds.h      |  1 +
+ include/linux/leds.h     | 12 +++++++++---
+ 4 files changed, 27 insertions(+), 13 deletions(-)
 
-In any event, the end result is that the whole controller will fail to 
-probe, and none of it's LEDs will be available. Because it's not a 
-temporary condition, I don't think -EBUSY is the appropriate return 
-value. 
-There happened to be another patch recently that used -EINVAL [3],
-which I think is more appropriate.
-
-[1] https://lore.kernel.org/linux-leds/56CDD4AA.5030801@samsung.com/
-[2] https://lore.kernel.org/linux-leds/20200917223338.14164-25-marek.behun@nic.cz/
-[2] https://lore.kernel.org/linux-leds/1622545743-21240-1-git-send-email-jiapeng.chong@linux.alibaba.com/
-
-> 
->  drivers/leds/leds-is31fl32xx.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/leds/leds-is31fl32xx.c b/drivers/leds/leds-is31fl32xx.c
-> index 3b55af9a8c58..e6f34464914f 100644
-> --- a/drivers/leds/leds-is31fl32xx.c
-> +++ b/drivers/leds/leds-is31fl32xx.c
-> @@ -386,6 +386,7 @@ static int is31fl32xx_parse_dt(struct device *dev,
->  			dev_err(dev,
->  				"Node %pOF 'reg' conflicts with another LED\n",
->  				child);
-> +			ret = -EBUSY;
->  			goto err;
->  		}
->  
+Message-Id: <20200731164945.19515-1-Denis.Osterland@diehl.com>
+base-commit: e90abb95bc71566e2016964e98181557929f55f5
 
 
