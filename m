@@ -2,51 +2,54 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF8F3A5173
-	for <lists+linux-leds@lfdr.de>; Sun, 13 Jun 2021 02:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 436503A5171
+	for <lists+linux-leds@lfdr.de>; Sun, 13 Jun 2021 02:21:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229985AbhFMAXi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 12 Jun 2021 20:23:38 -0400
-Received: from mail-lf1-f52.google.com ([209.85.167.52]:44592 "EHLO
-        mail-lf1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbhFMAXh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 12 Jun 2021 20:23:37 -0400
-Received: by mail-lf1-f52.google.com with SMTP id r198so14547032lff.11
-        for <linux-leds@vger.kernel.org>; Sat, 12 Jun 2021 17:21:21 -0700 (PDT)
+        id S229777AbhFMAXX (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 12 Jun 2021 20:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43328 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229753AbhFMAXW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 12 Jun 2021 20:23:22 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 521CFC061574
+        for <linux-leds@vger.kernel.org>; Sat, 12 Jun 2021 17:21:03 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id p7so14593769lfg.4
+        for <linux-leds@vger.kernel.org>; Sat, 12 Jun 2021 17:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TofpLR5WbO4L4sqebkQj8lhl0paD+VPJ18+ddxHLW1Q=;
-        b=F8mOGbkO3sF4ZNvUJ+F5Fd51Yp0FDAxTQNfRkncVeBSN7FynNaDC4Q6RilZvGKCPxF
-         Q66KMM+/Zq/iDOOySGMFjZhrAllIXtdu52/XpDCqXMwuCud3XZPJa0d9sp20iWEVWUSn
-         TKV1lgUSIaCS3zEAaBJ+gWrWDJL3DyUTKvE7tRdu988fKwHgUcjiyv8DJ+fbeooGdVG5
-         51+27mcNV66C8XPpeY1BKaJ2+JNVs6YXg6Pafr/UcaBzvn+6hzfIGZQNkiVRj6/BXZnK
-         iIHEmRIHst5vMIzi/iS42ZLN0RnpkM5pGYRxJRXzi5zlf/Ycy63OogybW3td77kXZSS8
-         7S/Q==
+        bh=kLgm/naPKo94DUlmpKFkLYCsXS9yC5D9UG7AzupGIgM=;
+        b=M0aGyGIgYoEIYsdhgNFnmaYw4hq863WqbNdWfOq38fZZ3s0wLE5A4yDaq/7RYsf2/+
+         /GEXkluEd/hJRFSk/b/VqpoOHEh64m3ADtRgLBGoPjMDQ0NtU2EoAy0IKGpXUAw9680C
+         LKpUjVPBQxjrcIcH8CU0/g8B9Y4GM7Fqlfd+d96Ufht8PkdEQ0WTorHfiFpEUB49mZW5
+         vlsVDyq20E4LVVBjcgJXL7YXXsn0Qg8+X8QZ/yAnMHPglk6h7gnxBl2D9muzHUGSTrBB
+         g6Kjs5gMG9aOvi0WUHZCobnlHSmk4W7rgV7BrCX6hUqJ1ahCKYW7RTaOdN369khmUV9H
+         5Ddw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TofpLR5WbO4L4sqebkQj8lhl0paD+VPJ18+ddxHLW1Q=;
-        b=D0ui66Q0dpt+bDsPBidBDnU8WX/2ybPrs4TnXzPwtg9nN4dkQ2YOi2OE3qCm/phYS+
-         caKkrj0EBB6i+RhmaR9+3WIfPUitCoYp6Edc5NUeZxJrkvR2ykuhBbHRB/J7X9EOAglg
-         8bTJOo+gbgXjAKUrzNRJQZ3Dq3u4XI6ceL+RYGxhXPdPqMKMD2DasD+CAnedNQyDw2tN
-         cwa7C2DalgO4d5O8mz9Kx7Ftano7fS95OjhjlHQ9wvaf7kcKp/dGF3CbK7AzyigRzG+U
-         F9GzOuqgzMxDlCVOD5UKs5N1ufVyfFRBSaECY8bTy4VzCA6/CYRAAXc/yJzwHrjBmHpa
-         evFg==
-X-Gm-Message-State: AOAM530XEUHX8/2KW7pfMfHfGyfrfV0lcZVX9lcOl1Ya7iK7lMngCJMz
-        EZ7yO/8HVKCd6icg+7pk4IpUUMtVWwn43ZlPZzBf0Q==
-X-Google-Smtp-Source: ABdhPJxYZPQOCl2yJcmUXHfEEO1ZTmaIMG4LNuYIojVQXDP7Fne0jZOz1o7CQc9yPDnxKRVCiRnI+ZD0CTyykWewlRQ=
-X-Received: by 2002:a05:6512:2105:: with SMTP id q5mr6891124lfr.649.1623543620740;
- Sat, 12 Jun 2021 17:20:20 -0700 (PDT)
+        bh=kLgm/naPKo94DUlmpKFkLYCsXS9yC5D9UG7AzupGIgM=;
+        b=QpfI1qh5WSLtB6utsOw9bbQ2cvdfNqsvF4OZB5NrJCTNays5lCLFUqyeeiiBYyC5I+
+         KjX6SRRpuDtgbzi72qspOfCL4eX7AGo0PEO6WPFtVCcdD4fJhiZZW3jFi87gp4SpiBHz
+         xgOk2Kkorc+ahSifckeIWfbfemkT2bAWlKbXrE9qvWruDfuG2usjza6ZeaAAC0ef0f/D
+         qnBywEWxFoijGp2Xzk0CcUmqB9sUUOzhNqXeUhY+CNFbcPh0a2XZoQ2GG7QOfVe3MKTK
+         o2YlF00xcICCc8ivVX1E++y+zIxt5bpMbbIcMCYUAjN5r9hl75chtfLwSNasAoyRKwpJ
+         Eb1w==
+X-Gm-Message-State: AOAM533wweAIERVt93M9+CX4hFCALWD8oBdcl1jpX3LsRWJI6HmjOO8a
+        AKd2/19c74QOIufbhm6QG+1UNOBppazsXmjgXiSgeA==
+X-Google-Smtp-Source: ABdhPJw4xs5UzEAlSh6vTIJqAx964aQLL9ZfLtyiPfXI6Ws95BxtxWw5h3xTCVYJ/pzvZeyQRfFFi7asQL49qf4BIEM=
+X-Received: by 2002:a19:8157:: with SMTP id c84mr7326808lfd.529.1623543661424;
+ Sat, 12 Jun 2021 17:21:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210613000302.421268-1-linus.walleij@linaro.org>
-In-Reply-To: <20210613000302.421268-1-linus.walleij@linaro.org>
+References: <20210613000302.421268-1-linus.walleij@linaro.org> <20210613000302.421268-2-linus.walleij@linaro.org>
+In-Reply-To: <20210613000302.421268-2-linus.walleij@linaro.org>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 13 Jun 2021 02:20:09 +0200
-Message-ID: <CACRpkdZnCb50kuHDPe36YLZqKarPEak4OhHV18aAbe=SBZBe-w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ARM: davinci: dm644x: Convert LEDs to GPIO descriptor table
+Date:   Sun, 13 Jun 2021 02:20:50 +0200
+Message-ID: <CACRpkdbxSscUZpPvgo62jonBqK5t6givsu-oVUcZ35yKOOHOEQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: davinci: dm646x: Convert LEDs to GPIO descriptor table
 To:     Pavel Machek <pavel@ucw.cz>
 Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
         Sekhar Nori <nsekhar@ti.com>,
@@ -58,7 +61,7 @@ X-Mailing-List: linux-leds@vger.kernel.org
 
 On Sun, Jun 13, 2021 at 2:05 AM Linus Walleij <linus.walleij@linaro.org> wrote:
 
-> This converts the DaVinci DM644x LEDs to use GPIO
+> This converts the DaVinci DM646x LEDs to use GPIO
 > descriptor look-ups.
 >
 > Cc: Sekhar Nori <nsekhar@ti.com>
@@ -72,10 +75,8 @@ On Sun, Jun 13, 2021 at 2:05 AM Linus Walleij <linus.walleij@linaro.org> wrote:
 > - LED maintainers: please apply this patch, it is ACKed by a DaVinci
 >   maintainer
 
-Scratch that! I realized I have an old mail from Sekhar and there are
-some issues with the patch that I have to drill into and fix.
-
-Sorry for the confusion, do not apply this.
+Do not apply this either until I figured out what the problem is,
+thanks!
 
 Yours,
 Linus Walleij
