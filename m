@@ -2,181 +2,334 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 840A33A7DF9
-	for <lists+linux-leds@lfdr.de>; Tue, 15 Jun 2021 14:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DACE43A8C6E
+	for <lists+linux-leds@lfdr.de>; Wed, 16 Jun 2021 01:24:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229869AbhFOMTS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 15 Jun 2021 08:19:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33970 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229601AbhFOMTR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 15 Jun 2021 08:19:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623759433;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=W1LLGCnhy//F9DKEVml1BND+rCIJl0/vXdm/npAJVsI=;
-        b=KtVdVauZeosqYKb3AzfFVWnp+k8jdsSOF9wq5A36fPEn/b0D663qTho7MI4tgnh1VgcN8L
-        e4Oz3rjgUQOUSCI4ImCleY2q9J2k6IudLx9li4nLvIusR5HC6ut+xNcLnCBdXi/50qs2/j
-        U03RteSjNkXMKbg2fbW6CTrNCRSt1yo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-tt7t-9psO8GNmy7SHjSJBQ-1; Tue, 15 Jun 2021 08:17:12 -0400
-X-MC-Unique: tt7t-9psO8GNmy7SHjSJBQ-1
-Received: by mail-ed1-f69.google.com with SMTP id j3-20020aa7c3430000b0290393f7aad447so7984398edr.18
-        for <linux-leds@vger.kernel.org>; Tue, 15 Jun 2021 05:17:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=W1LLGCnhy//F9DKEVml1BND+rCIJl0/vXdm/npAJVsI=;
-        b=GyOBo3R86a4/XvUZz9X36M9YjMVaOP1RfX4R78y0HvW/xlQd+iA0ZxDQoKHzTFJJJk
-         xskMGspPcpjgBiqFDzyRvPOFu2GPJRasRXZQSYQ24sufGwYMc5seiwKnHouuW6yowI3y
-         rza9oJKQfzLsYGCdXVo9asWJ/BvQzPlzVWQOAq9h8oGIef2aTOqh4OXy4JaMGyNfDP7G
-         PoO/wzTPgsTTywvJxWsUTrNqf2Jwwwign6djTyTsLZww2tTGRmyBObIxpMtieUJYTWqK
-         aaP9YySaGdUsdMQsS11k8w0XBKqkyI8zkY6lZGPy5stFeuNZNTNbb30xGsfzz31celc5
-         MGHg==
-X-Gm-Message-State: AOAM532c0XMRhR3uwpEB28vvSzlwGh+VN4PToHvD05ROUuhJTZCFwmBf
-        0wfLwYVSrX5/CodIJsgxzM3lSv4AQURzZqWM30bZdWHEhUm7u76DK25uZpmmXrohgBriTSlIcW+
-        XXYiXnsqp76nycvbuvEQa3g==
-X-Received: by 2002:aa7:d5c6:: with SMTP id d6mr22543662eds.290.1623759429964;
-        Tue, 15 Jun 2021 05:17:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYQSCTko7OllcPFzyfWOPOykdYRrGw5E0zmq2G8csmiDGhdbS7+AVCvo1BWSR3YYjAKa44Zg==
-X-Received: by 2002:aa7:d5c6:: with SMTP id d6mr22543637eds.290.1623759429821;
-        Tue, 15 Jun 2021 05:17:09 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id p10sm12095691edy.86.2021.06.15.05.17.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Jun 2021 05:17:09 -0700 (PDT)
-Subject: Re: LEDs with hardware-accelerated patterns, suspend indication
-To:     Jafar Akhondali <gigelaknak@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        mauro.chehab@huawei.com,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210526153040.GA4537@amd>
- <5fbbab4f-3e22-5a4a-eea8-2531ee165cc4@redhat.com>
- <CAMW3L+19tP_9=+8j8LLjqCGDaaVZ86UMm9NwLbbpA77zOYnr1Q@mail.gmail.com>
- <79988fe2-7b3d-7485-131c-4f654ec6d8b8@redhat.com>
- <CAMW3L+13O4jXyp1LVtuxhpXP_fkfWXi9JoNS8FYUAMHaJBGKZg@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <17ec2040-24e9-4090-e64b-8048f0b4005b@redhat.com>
-Date:   Tue, 15 Jun 2021 14:17:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S231157AbhFOX0S (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 15 Jun 2021 19:26:18 -0400
+Received: from mail-40131.protonmail.ch ([185.70.40.131]:55282 "EHLO
+        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229811AbhFOX0S (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 15 Jun 2021 19:26:18 -0400
+Date:   Tue, 15 Jun 2021 23:24:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1623799451;
+        bh=gvTsVB0nyLOfdLU3GhlgiAI9bgPedRw8XuYS3OruJnA=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=DAS1kDmT2Pr/rsrCugalopBTp/KsEd5ZD3NRk5ZdrlQImkO8vwMCz9MasgWaHPClo
+         1yBPggIN+Mwd6uTz27MUc6vjDFbXdrImwZwjZanJkfrl0mnIrs9CCaMAT1jME0aesQ
+         F2qr99tAtTRnQZKrAB2wXYo4M11OTJMBcMBoFJB4=
+To:     leo60228 <leo@60228.dev>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     hdegoede@redhat.com, platform-driver-x86@vger.kernel.org,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        Pavel Machek <pavel@ucw.cz>
+Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH] platform/x86: add support for Acer Predator LEDs
+Message-ID: <YqTP_mhFNQj00M90V9BqAinqDdpQt3Wuu7i6OmgckNDSo0l7htySl7jVBDbA4pHJ5DEH_SGAEGCHgBN1ubghTAcc7ct9AOfD8Nd-KLZFeyc=@protonmail.com>
+In-Reply-To: <20210615221931.18148-1-leo@60228.dev>
+References: <20210615221931.18148-1-leo@60228.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAMW3L+13O4jXyp1LVtuxhpXP_fkfWXi9JoNS8FYUAMHaJBGKZg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-<I accidentally dropped the Cc list when mailing Jafar, I'm restoring it now>
+Hi
 
-Hi All,
+thanks for the patch. I have added a couple comments inline.
+I have also CCd the linux-leds mailing list so that you can
+hopefully receive some feedback from there as well.
 
-On 6/12/21 10:21 PM, Jafar Akhondali wrote:
-> Hi Hans,
-> Sorry for the late reply.
-> there are two categories of keyboard lighting modes:
-> 1. static
-> 2. dynamic
-> 
-> In static mode, any of 4 zones can be configured to show specific color,
-> independently.
-> 
-> In dynamic mode, there is no control over specific zones.
-> It's only possible to set some: color, speed, direction
-> and: [R]ed,[G]reen, [B]lue
-> 
-> so in dynamic mode, the user can't control zones,
-> the dynamic effects take care of that.
 
-So we have 4 zones, which are individual controllable, so which should
-probably be modeled as individual LED class devices. But when we enable
-the hardware effects, then the individual addressing goes away and we
-set one effect which applies to all zones.
+2021. j=C3=BAnius 16., szerda 0:19 keltez=C3=A9ssel, leo60228 =C3=ADrta:
 
-Jafar, do I understand this correctly?
+> The Acer Predator Helios 500's keyboard has four zones of RGB LEDs.
+>
+> This driver allows them to be controlled from Linux.
+>
+> Signed-off-by: leo60228 <leo@60228.dev>
+> ---
+>  MAINTAINERS                     |   6 ++
+>  drivers/platform/x86/Kconfig    |  13 +++
+>  drivers/platform/x86/Makefile   |   1 +
+>  drivers/platform/x86/acer-led.c | 156 ++++++++++++++++++++++++++++++++
+>  4 files changed, 176 insertions(+)
+>  create mode 100644 drivers/platform/x86/acer-led.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index bc0ceef87..f647ea81c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -327,6 +327,12 @@ S:=09Maintained
+>  W:=09http://piie.net/?section=3Dacerhdf
+>  F:=09drivers/platform/x86/acerhdf.c
+>
+> +ACER PREDATOR LAPTOP LEDS
+> +M:=09leo60228 <leo@60228.dev>
+> +L:=09platform-driver-x86@vger.kernel.org
+> +S:=09Maintained
+> +F:=09drivers/platform/x86/acer-led.c
+> +
+>  ACER WMI LAPTOP EXTRAS
+>  M:=09"Lee, Chun-Yi" <jlee@suse.com>
+>  L:=09platform-driver-x86@vger.kernel.org
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 60592fb88..7dc4fd1ef 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -190,6 +190,19 @@ config ACER_WMI
+>  =09  If you have an ACPI-WMI compatible Acer/ Wistron laptop, say Y or M
+>  =09  here.
+>
+> +config ACER_LED
+> +=09tristate "Acer Predator Laptop LEDs"
+> +=09depends on ACPI
+> +=09depends on ACPI_WMI
+> +=09depends on LEDS_CLASS
+> +=09depends on NEW_LEDS
+> +=09help
+> +=09  This is a driver for the RGB keyboard LEDs in Acer Predator laptops=
+.
+> +=09  It was designed for the Acer Predator Helios 500.
+> +
+> +=09  If you choose to compile this driver as a module the module will be
+> +=09  called acer-led.
+> +
+>  config AMD_PMC
+>  =09tristate "AMD SoC PMC driver"
+>  =09depends on ACPI && PCI
+> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefil=
+e
+> index dcc8cdb95..36722207b 100644
+> --- a/drivers/platform/x86/Makefile
+> +++ b/drivers/platform/x86/Makefile
+> @@ -21,6 +21,7 @@ obj-$(CONFIG_GIGABYTE_WMI)=09=09+=3D gigabyte-wmi.o
+>  obj-$(CONFIG_ACERHDF)=09=09+=3D acerhdf.o
+>  obj-$(CONFIG_ACER_WIRELESS)=09+=3D acer-wireless.o
+>  obj-$(CONFIG_ACER_WMI)=09=09+=3D acer-wmi.o
+> +obj-$(CONFIG_ACER_LED)=09=09+=3D acer-led.o
+>
+>  # AMD
+>  obj-$(CONFIG_AMD_PMC)=09=09+=3D amd-pmc.o
+> diff --git a/drivers/platform/x86/acer-led.c b/drivers/platform/x86/acer-=
+led.c
+> new file mode 100644
+> index 000000000..82a7b099a
+> --- /dev/null
+> +++ b/drivers/platform/x86/acer-led.c
+> @@ -0,0 +1,156 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Acer LED Driver
+> + *
+> + * Copyright (C) 2021 leo60228
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/types.h>
+> +#include <linux/leds.h>
+> +#include <linux/wmi.h>
+> +
+> +MODULE_AUTHOR("leo60228");
+> +MODULE_DESCRIPTION("Acer LED Driver");
+> +MODULE_LICENSE("GPL");
+> +
+> +#define ACER_LED_METHOD_GUID "7A4DDFE7-5B5D-40B4-8595-4408E0CC7F56"
+> +
+> +struct acer_led {
+> +=09char name[32];
+> +=09struct led_classdev cdev;
+> +=09struct acer_led_zone *zone;
+> +};
+> +
+> +struct acer_led_zone {
+> +=09int id;
+> +=09struct acer_led red;
+> +=09struct acer_led green;
+> +=09struct acer_led blue;
 
-Pavel, how should this be mapped to the led-class API?
+There are multicolor leds (see Documentation/leds/leds-class-multicolor),
+maybe that would be a better fit instead of creating 4x3 LED devices?
 
-Some ideas:
 
-a) Only add the new lpattern to the main zone?
-2) Add the new lpattern to all zones, but only make it
-writable in the main zone ?
+> +};
+> +
+> +struct acer_led_priv {
+> +=09struct acer_led_zone zones[4];
+> +};
+> +
+> +struct led_zone_set_param {
+> +=09u8 zone;
+> +=09u8 red;
+> +=09u8 green;
+> +=09u8 blue;
+> +} __packed;
+> +
+> +static int acer_led_update_zone(struct acer_led_zone *zone)
+> +{
+> +=09int status;
+
+Use `acpi_status` instead of `int`.
+
+
+> +
+> +=09struct led_zone_set_param set_params =3D {
+> +=09=09.zone =3D 1 << zone->id,
+
+You could potentially use `BIT(zone->id)` here.
+
+
+> +=09=09.red =3D zone->red.cdev.brightness,
+> +=09=09.green =3D zone->green.cdev.brightness,
+> +=09=09.blue =3D zone->blue.cdev.brightness,
+> +=09};
+> +=09struct acpi_buffer set_input =3D {
+> +=09=09sizeof(struct led_zone_set_param),
+
+I think `sizeof(set_params)` would be better here.
+
+
+> +=09=09&set_params
+> +=09};
+> +
+> +=09status =3D wmi_evaluate_method(
+> +=09=09ACER_LED_METHOD_GUID, 0, 0x6, &set_input, NULL);
+> +=09if (ACPI_FAILURE(status))
+> +=09=09return -EINVAL;
+
+I'm not sure if `EINVAL` is the most appropriate error code in this case.
+Maybe `EIO`? Or something similar?
+
+
+> +
+> +=09return 0;
+> +}
+> +
+> +static int acer_led_set(struct led_classdev *cdev,
+> +=09=09=09 enum led_brightness value)
+> +{
+> +=09struct acer_led *led =3D container_of(cdev, struct acer_led, cdev);
+> +
+> +=09return acer_led_update_zone(led->zone);
+> +}
+> +
+> +static int acer_led_setup_led(struct wmi_device *wdev,
+> +=09=09=09       struct acer_led *led,
+> +=09=09=09       struct acer_led_zone *zone,
+> +=09=09=09       const char *color)
+> +{
+> +=09snprintf(led->name, sizeof(led->name), "%s:kbd_backlight-%d",
+> +=09=09 color, zone->id + 1);
+
+This is not an appropriate LED class device name. Please see
+Documentation/leds/leds-class for details.
+
+
+> +=09led->cdev.name =3D led->name;
+> +=09led->cdev.max_brightness =3D 255;
+> +=09led->cdev.brightness_set_blocking =3D acer_led_set;
+> +=09led->zone =3D zone;
+> +
+> +=09return devm_led_classdev_register(&wdev->dev, &led->cdev);
+> +}
+> +
+> +static int acer_led_setup(struct wmi_device *wdev)
+> +{
+> +=09struct acer_led_priv *priv =3D dev_get_drvdata(&wdev->dev);
+> +=09int i, err =3D 0;
+> +
+> +=09for (i =3D 0; i < 4; i++) {
+
+I'd suggest `i < ARRAY_SIZE(priv->zones)` here.
+
+
+> +=09=09priv->zones[i].id =3D i;
+> +
+> +=09=09err =3D acer_led_setup_led(wdev, &priv->zones[i].red,
+> +=09=09=09=09=09 &priv->zones[i], "red");
+> +=09=09if (err)
+> +=09=09=09return err;
+> +
+> +=09=09err =3D acer_led_setup_led(wdev, &priv->zones[i].green,
+> +=09=09=09=09=09 &priv->zones[i], "green");
+> +=09=09if (err)
+> +=09=09=09return err;
+> +
+> +=09=09err =3D acer_led_setup_led(wdev, &priv->zones[i].blue,
+> +=09=09=09=09=09 &priv->zones[i], "blue");
+> +=09=09if (err)
+> +=09=09=09return err;
+> +=09}
+> +
+> +=09return 0;
+> +}
+> +
+> +static int acer_led_probe(struct wmi_device *wdev, const void *context)
+> +{
+> +=09struct acer_led_priv *priv;
+> +
+> +=09priv =3D devm_kzalloc(
+> +=09=09&wdev->dev, sizeof(struct acer_led_priv), GFP_KERNEL);
+
+`sizeof(*priv)` is preferred.
+
+
+> +=09if (!priv)
+> +=09=09return -ENOMEM;
+> +=09dev_set_drvdata(&wdev->dev, priv);
+> +
+> +=09return acer_led_setup(wdev);
+> +}
+> +
+> +static const struct wmi_device_id acer_led_id_table[] =3D {
+> +=09{ .guid_string =3D ACER_LED_METHOD_GUID },
+> +=09{ },
+> +};
+> +
+> +static struct wmi_driver acer_led_driver =3D {
+> +=09.driver =3D {
+> +=09=09.name =3D "acer-led",
+> +=09},
+> +=09.id_table =3D acer_led_id_table,
+> +=09.probe =3D acer_led_probe,
+> +};
+> +
+> +static int __init acer_led_init(void)
+> +{
+> +=09return wmi_driver_register(&acer_led_driver);
+> +}
+> +late_initcall(acer_led_init);
+> +
+> +static void __exit acer_led_exit(void)
+> +{
+> +=09wmi_driver_unregister(&acer_led_driver);
+> +}
+> +module_exit(acer_led_exit);
+
+You don't need to define init or exit methods explicitly.
+Just use
+
+  module_wmi_driver(acer_led_driver);
+
+that should take care of everything.
+
+
+> +
+> +MODULE_DEVICE_TABLE(wmi, acer_led_id_table);
+>
+> base-commit: 009c9aa5be652675a06d5211e1640e02bbb1c33d
+> --
+> 2.28.0
+
 
 Regards,
-
-Hans
-
-
-
-
-> On Mon, Jun 7, 2021 at 11:58 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 6/4/21 10:57 PM, Jafar Akhondali wrote:
->>> Hi Hans,
->>>
->>> On Sat, Jun 5, 2021 at 12:58 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>>>
->>>> Hi Pavel,
->>>>
->>>> Jafar can you explain how this works in a bit more detail. I get
->>>> the feeling that from a hardware-API pov there are no individual
->>>> addressable LEDs, yet some effects do program individual LEDs
->>>> differently then their neighbors ?  Or am I just misunderstanding
->>>> what some of the effects do ?
->>> Sure, Acer predator helios 300 got a 4-zone RGB keyboard.
->>> Some of the mentioned modes like "wave" accept less configurable
->>> parameters, such as color.
->>> This is because the effect itself changes the color. So yes, there is
->>> no per-key rgb at least in this model,
->>> and the lowest possible change is to change each zone.
->>> You can watch a video of keyboard demo here(check after 2:05):
->>> https://www.youtube.com/watch?v=eAfAwNiIWbA
->>> Above uses PredatorSense, which is Acer's official gaming control app.
->>> Also, my patch provides only support for effects, and not static coloring.
->>> As a workaround for static coloring, it's possible to use a effect
->>> with zero speed,
->>> so it looks like static coloring til I can figure how static coloring
->>> is implemented.
->>>
->>> The whole config for my patch accepts 16 bytes which configures different modes.
->>> I've also created a CLI interface for configuring this steps, so you
->>> can check required params
->>> from there too:
->>> https://github.com/JafarAkhondali/acer-helios-300-rgb-keyboard-linux-module/blob/main/facer_rgb.py
->>>
->>> Hope this helps, and thanks for adding me.
->>
->> Thank you for the extra info, looking at the video it seems that the
->> wave effect is cycling through the colors of the rainbow, but at the
->> same time it also seems that say starts in zone 1 and then moves to
->> zone 2 (while zone 1 becomes say purple) and then after that the red
->> moves to zone 3 and then zone 2 becomes purple. Did I see that
->> correct ? And is this just caused by the software not starting the
->> cycle effect in the different zones at the same time, or is this actual
->> the intended wave effect ?
->>
->> What I'm trying to ask here is if the 4 zones are fully independent,
->> e.g. one could be in wave effect while the other 3 zones do something
->> else, or are certain effects multi-zone effects?
->>
->> Regards,
->>
->> Hans
->>
-> 
-
+Barnab=C3=A1s P=C5=91cze
