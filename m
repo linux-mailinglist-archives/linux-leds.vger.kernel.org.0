@@ -2,74 +2,41 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF9C93B49D2
-	for <lists+linux-leds@lfdr.de>; Fri, 25 Jun 2021 22:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87FBF3B50C9
+	for <lists+linux-leds@lfdr.de>; Sun, 27 Jun 2021 04:48:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbhFYUmZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 25 Jun 2021 16:42:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55394 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbhFYUmZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 25 Jun 2021 16:42:25 -0400
-Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B128C061574;
-        Fri, 25 Jun 2021 13:40:04 -0700 (PDT)
-Received: from thinkpad (unknown [172.20.6.87])
-        by mail.nic.cz (Postfix) with ESMTPSA id CA0A2140BC1;
-        Fri, 25 Jun 2021 22:40:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
-        t=1624653601; bh=7qzL0OX4Gpt8h15fDizf86ZLAdjUeEyyZG8sbTqv9AE=;
-        h=Date:From:To;
-        b=VmHOr7sE0at2TEWZbQpSRpDKFEgJDru6nmA+jyeDNZ+hyBmmzgvIU/k3qS0VSwlFw
-         Sd7Cr+14ogs6k7HA5fGYvlI/FkzyjtMH7aIIiV72LwzZJOHNMaMoc0hYChL/hQbHHw
-         06g/FWRTirvK2tOOAfsZo2f59tKfAXL8kxPGBmhA=
-Date:   Fri, 25 Jun 2021 22:40:01 +0200
-From:   Marek Behun <marek.behun@nic.cz>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Robin van der Gracht <robin@protonic.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Paul Burton <paulburton@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>, devicetree@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 18/18] auxdisplay: ht16k33: Add segment display LED
- support
-Message-ID: <20210625224001.115c938a@thinkpad>
-In-Reply-To: <20210625223916.7e00e710@thinkpad>
-References: <20210625125902.1162428-1-geert@linux-m68k.org>
-        <20210625125902.1162428-19-geert@linux-m68k.org>
-        <20210625223916.7e00e710@thinkpad>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S230186AbhF0CvE convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Sat, 26 Jun 2021 22:51:04 -0400
+Received: from [210.180.118.67] ([210.180.118.67]:56900 "EHLO blank.cafe24.com"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230104AbhF0CvD (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 26 Jun 2021 22:51:03 -0400
+Received: from IP-130-143.dataclub.eu (ip-130-143.dataclub.info [84.38.130.143] (may be forged))
+        (authenticated bits=0)
+        by blank.cafe24.com (8.14.7/8.14.7) with ESMTP id 15H5YEJd002115
+        for <linux-leds@vger.kernel.org>; Thu, 17 Jun 2021 14:34:45 +0900
+Message-Id: <202106170534.15H5YEJd002115@blank.cafe24.com>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
-        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
-        autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: BUSINESS LOAN/PROJECT FUNDING...67
+To:     linux-leds@vger.kernel.org
+From:   "Smith Green" <ssbinvestmentsllc@citromail.hu>
+Date:   Thu, 17 Jun 2021 08:34:38 +0300
+Reply-To: ssbinvestmentsllc@citromail.hu
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 25 Jun 2021 22:39:16 +0200
-Marek Behun <marek.behun@nic.cz> wrote:
+Dear Sir/Madam,
 
-> On Fri, 25 Jun 2021 14:59:02 +0200
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> 
-> > Instantiate a single LED for a segment display.  This allows the user to
-> > control display brightness and blinking through the LED class API and
-> > triggers, and exposes the display color.
-> > The LED will be named "auxdisplay:<color>:backlight".  
-> 
-> What if there are multiple "auxdisplay"s ?
-> Doesn't this subsystem have IDs? So that you can use auxdisplayN for
-> device name, for example?
+Our Investors are based in the middle east with a profound track record. We invite you to take advantage of our investment loan program to fund your existing or intending projects. We offer a straight or convertible loan investment program for projects with high-returns and payback prospects without the usual rigid procedures of conventional lenders.
+ 
+Kindly forward a copy of your Executive business summary for our review: info@ssbinvestmentsllc.us
 
-Or if this driver creates a fbdev, maybe "fb<N>" for devicename?
-
-Marek
+ 
+Best Regards.
+Smith Green
+E:info@ssbinvestmentsllc.us
+International investment broker
