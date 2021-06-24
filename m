@@ -2,149 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B5323B29C4
-	for <lists+linux-leds@lfdr.de>; Thu, 24 Jun 2021 09:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 547713B2FF0
+	for <lists+linux-leds@lfdr.de>; Thu, 24 Jun 2021 15:25:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231712AbhFXH4x (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 24 Jun 2021 03:56:53 -0400
-Received: from uho.ysoft.cz ([81.19.3.130]:32101 "EHLO uho.ysoft.cz"
+        id S229995AbhFXN2M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 24 Jun 2021 09:28:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54522 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231630AbhFXH4x (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 24 Jun 2021 03:56:53 -0400
-Received: from [10.0.28.232] (unknown [10.0.28.232])
-        by uho.ysoft.cz (Postfix) with ESMTP id BC3ADA569F;
-        Thu, 24 Jun 2021 09:54:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
-        s=20160406-ysoft-com; t=1624521272;
-        bh=NLbC23T/7+8xoV0rmoXID7prCSKbvpa0QbG1PLnUIew=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=TEC7utTQy3A7Yr8msK6gXy1ad1IgOVo/x4eSaE4l954cF7MCxyH68lLTofBWWCOs+
-         e1rJa/UDIA2MB8wv1dFQcxuOJru11Y0gty+hTtT/UdQAv0OeA8Y+kfZpUHvB02lo6V
-         qFit4l2SxdKK51tolQ0c7V/fiCOVoqTqVphjSTuY=
-Subject: Re: [RFC 2/2] ARM: dts: imx6dl-yapp4: Fix lp5562 driver probe
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        stable@vger.kernel.org
-References: <1621003477-11250-1-git-send-email-michal.vokac@ysoft.com>
- <1621003477-11250-3-git-send-email-michal.vokac@ysoft.com>
- <20210623201347.GC8540@amd>
-From:   =?UTF-8?B?TWljaGFsIFZva8OhxI0=?= <michal.vokac@ysoft.com>
-Message-ID: <bca714c6-9bdd-ae20-9427-c2ea77a31f99@ysoft.com>
-Date:   Thu, 24 Jun 2021 09:54:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229881AbhFXN2L (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 24 Jun 2021 09:28:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4BD5D61074;
+        Thu, 24 Jun 2021 13:25:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624541152;
+        bh=tWunjCgimVyMEhbYavDkqwUe8wS7IKZbRXg1CpFPpm8=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=JtxnsM46RYCtgwr57yvp9cVyiQFm6XzvKswX7kXlDTqOEK39IorV0Q1OAcYDtFnBy
+         1XjUv8rygdMaykzsy4WicCG4ZIQme2T7g5Ta7tDKYIjAEzRfLDy8lVcv/K/wfSoofW
+         YkXLs8soKsmoo4RmRMWVA76BeQCAxn6M+gARtjkdBLQBsI/AH0XtfeTmGGSGLh9DY4
+         /eV5wj+5SnxQ41+4/gXXEY5TWjxFmFScLfxBWbZGmIE0cf5Mm8MX5EL4nJcLzbtV0+
+         vVEkVi1zXg4j38487J4KjejisspkRmLAN/7lbRyupfWoxuJWTFuLFSIpq1fYdJ0twq
+         vnRoyA6s5viDA==
+Date:   Thu, 24 Jun 2021 15:25:49 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Roderick Colenbrander <roderick@gaikai.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org,
+        =?ISO-8859-2?Q?Barnab=E1s_P=F5cze?= <pobrn@protonmail.com>,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
+ for game controllers.
+In-Reply-To: <20210602061253.5747-3-roderick@gaikai.com>
+Message-ID: <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm>
+References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20210623201347.GC8540@amd>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 23. 06. 21 22:13, Pavel Machek wrote:
-> On Fri 2021-05-14 16:44:37, Michal Vokáč wrote:
->> Since the LED multicolor framework support was added in commit
->> 92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
->> LEDs on this platform stopped working.
->>
->> Author of the framework attempted to accommodate this DT to the
->> framework in commit b86d3d21cd4c ("ARM: dts: imx6dl-yapp4: Add reg property
->> to the lp5562 channel node") but that is not sufficient. A color property
->> is now required even if the multicolor framework is not used, otherwise
->> the driver probe fails:
->>
->>    lp5562: probe of 1-0030 failed with error -22
->>
->> Add the color property to fix this and remove the actually unused white
->> channel.
->>
->> Fixes: b86d3d21cd4c ("ARM: dts: imx6dl-yapp4: Add reg property to the lp5562 channel node")
+On Tue, 1 Jun 2021, Roderick Colenbrander wrote:
+
+> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 > 
-> I believe this is for arm maintainers to take...
-
-Hi Pavel,
-
-Thank you for your reply.
-As described in the cover letter, my primary intention was to bring
-attention to the problem. Addition of the multicolor framework broke
-devicetree forward compatibility. The old devicetrees does not work
-with newer kernels. Addition of the multicolor framework caused the
-color property to become a required one even if the framework is
-not enabled in kernel config nor used in the dts. So the reality and
-the dt-bindings documentation do not match.
-
-IMO this could be fixed in two ways. First is adapt the dt-binding
-documentation to match the reality. State that the color property is
-always required. With this we need to fix all the examples and dts
-files by adding the color property. This is quite tricky because we
-do not always know the color and it also becomes required for the
-led-controller node. See the error reported by Rob's bot for patch 1/2:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-lp55xx.example.dt.yaml: led-controller@32: 'color' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/leds-lp55xx.yaml
-
-Second option is to fix this in the LED driver. The driver should not
-require the color property if the multicolor framework is not enabled.
-
-I would really like to know Rob's opinion here.
-  
->> diff --git a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
->> index 7d2c72562c73..3107bf7fbce5 100644
->> --- a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
->> +++ b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
->> @@ -5,6 +5,7 @@
->>   #include <dt-bindings/gpio/gpio.h>
->>   #include <dt-bindings/interrupt-controller/irq.h>
->>   #include <dt-bindings/input/input.h>
->> +#include <dt-bindings/leds/common.h>
->>   #include <dt-bindings/pwm/pwm.h>
->>   
->>   / {
->> @@ -271,6 +272,7 @@
->>   			led-cur = /bits/ 8 <0x20>;
->>   			max-cur = /bits/ 8 <0x60>;
->>   			reg = <0>;
->> +			color = <LED_COLOR_ID_RED>;
->>   		};
->>   
->>   		chan@1 {
->> @@ -278,6 +280,7 @@
->>   			led-cur = /bits/ 8 <0x20>;
->>   			max-cur = /bits/ 8 <0x60>;
->>   			reg = <1>;
->> +			color = <LED_COLOR_ID_GREEN>;
->>   		};
->>   
->>   		chan@2 {
->> @@ -285,13 +288,7 @@
->>   			led-cur = /bits/ 8 <0x20>;
->>   			max-cur = /bits/ 8 <0x60>;
->>   			reg = <2>;
->> -		};
->> -
->> -		chan@3 {
->> -			chan-name = "W";
->> -			led-cur = /bits/ 8 <0x0>;
->> -			max-cur = /bits/ 8 <0x0>;
->> -			reg = <3>;
->> +			color = <LED_COLOR_ID_BLUE>;
->>   		};
->>   	};
->>   
+> Player LEDs are commonly found on game controllers from Nintendo and Sony
+> to indicate a player ID across a number of LEDs. For example, "Player 2"
+> might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
 > 
-> What is going on here? "White" channel seems to have disappeared?
+> This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
+> player LEDs from the kernel. Until now there was no good standard, which
+> resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
+> other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
+> 
+> Note: management of Player IDs is left to user space, though a kernel
+> driver may pick a default value.
+> 
+> Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> ---
+>  include/dt-bindings/leds/common.h | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+> index 52b619d44ba2..94999c250e4d 100644
+> --- a/include/dt-bindings/leds/common.h
+> +++ b/include/dt-bindings/leds/common.h
+> @@ -60,6 +60,9 @@
+>  #define LED_FUNCTION_MICMUTE "micmute"
+>  #define LED_FUNCTION_MUTE "mute"
+>  
+> +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
+> +#define LED_FUNCTION_PLAYER "player"
+> +
+>  /* Miscelleaus functions. Use functions above if you can. */
+>  #define LED_FUNCTION_ACTIVITY "activity"
+>  #define LED_FUNCTION_ALARM "alarm"
 
-Yes, it is described in the commit message. I know this is not optimal.
-The white channel is actually not used on this platform. So the right
-approach would be to add the white color property in this fix commit
-and remove the whole chan@3 node in next commit. I can do it that way.
+Pavel, can I please get your Ack on this one, so that I can take it with 
+the rest of the series?
 
-Michal
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
