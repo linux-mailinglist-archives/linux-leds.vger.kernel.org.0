@@ -2,90 +2,62 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 547713B2FF0
-	for <lists+linux-leds@lfdr.de>; Thu, 24 Jun 2021 15:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 307293B3452
+	for <lists+linux-leds@lfdr.de>; Thu, 24 Jun 2021 19:09:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbhFXN2M (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 24 Jun 2021 09:28:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54522 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229881AbhFXN2L (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 24 Jun 2021 09:28:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4BD5D61074;
-        Thu, 24 Jun 2021 13:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624541152;
-        bh=tWunjCgimVyMEhbYavDkqwUe8wS7IKZbRXg1CpFPpm8=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=JtxnsM46RYCtgwr57yvp9cVyiQFm6XzvKswX7kXlDTqOEK39IorV0Q1OAcYDtFnBy
-         1XjUv8rygdMaykzsy4WicCG4ZIQme2T7g5Ta7tDKYIjAEzRfLDy8lVcv/K/wfSoofW
-         YkXLs8soKsmoo4RmRMWVA76BeQCAxn6M+gARtjkdBLQBsI/AH0XtfeTmGGSGLh9DY4
-         /eV5wj+5SnxQ41+4/gXXEY5TWjxFmFScLfxBWbZGmIE0cf5Mm8MX5EL4nJcLzbtV0+
-         vVEkVi1zXg4j38487J4KjejisspkRmLAN/7lbRyupfWoxuJWTFuLFSIpq1fYdJ0twq
-         vnRoyA6s5viDA==
-Date:   Thu, 24 Jun 2021 15:25:49 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Roderick Colenbrander <roderick@gaikai.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org,
-        =?ISO-8859-2?Q?Barnab=E1s_P=F5cze?= <pobrn@protonmail.com>,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-In-Reply-To: <20210602061253.5747-3-roderick@gaikai.com>
-Message-ID: <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm>
-References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S232266AbhFXRLo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 24 Jun 2021 13:11:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232005AbhFXRLl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 24 Jun 2021 13:11:41 -0400
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE4D1C0617A8
+        for <linux-leds@vger.kernel.org>; Thu, 24 Jun 2021 10:09:21 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id q9so7085292ilj.3
+        for <linux-leds@vger.kernel.org>; Thu, 24 Jun 2021 10:09:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
+         :subject:to;
+        bh=ANhbTggsY3NFhRZExKMwUmb3VzJqye8XLvWVXSvNBkQ=;
+        b=p95plxgcKdT8+TUJCmcKdAyJL6L8C+j3muAeTI6tbvEOMwKUFZvBH22Z3GEGxdnUZH
+         d9XkDasjcz/bUj2n1PkWxPPQL/Sxtf1a7ckN43IkWwU4a9v6DYeOi9Tg8DPYHl700hH/
+         xlmv54Ir2NUVB8zwaX1UsxTzP5GUW3mdywmszCeflzWKbXzDgkMNhx+qVsi3FklHnD5x
+         fSDWvxz3POXOJ/0yZM+F2G99rPMTFJK+bPA5TWYu0VJpvpEjmQwRSgXLB6dx+kXpC0Uz
+         JX+JhI0lSB7VkwJTdkbApCrUx6TGzp99N5mAm/d0lil4hmexz93RFAPSpMzmwkjNchKB
+         rXTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
+         :from:date:message-id:subject:to;
+        bh=ANhbTggsY3NFhRZExKMwUmb3VzJqye8XLvWVXSvNBkQ=;
+        b=cGHbfUB1Q9zQgGVgsKYpTu0JkwFad5hvC+Wv0LiSdHa8ma/3Sej3HLmxi85PKUcr5A
+         LgVWPiKuK/KQfxtN2in2O6aAx0pkRURhNXGGAsaWvyhjXFpOJXihqdt9+RuAozOqW9jG
+         uDwUok8YZOweU5G4tlJX2fYzbec0MM0Q7yclaihUVn0tvJMmKKcLvWWYxpGLqLr9Tl/1
+         fE4F3kgQmcN8ow85qH60Q0iFVTAYf+lF1DQbCxUlzpimrsYhfL5f8KqAzacPVoZOVpaC
+         jN/khzUpBNeY4SFz7Kv9h62j5c+K5pf7VgmvfRDZYYHTYgdvP2luccnh0rpjvF0l11bs
+         dDGg==
+X-Gm-Message-State: AOAM531y/LHhObi9t6iq0xaVXW49cTbvM07EpBOW15n+8FXehIbAVQLG
+        gYdn2SM3HUtsFZr4udoyWygbZCxYqvMNC/kEuTQ=
+X-Google-Smtp-Source: ABdhPJzkYUuO368jts0QgMQyJe9SHzg0U698qd8KdfojEfYsXnHtwMfPGxVHmw7fwQ64+IhHRhAEJH5nusdeW4BWzcA=
+X-Received: by 2002:a05:6e02:524:: with SMTP id h4mr4098121ils.255.1624554560853;
+ Thu, 24 Jun 2021 10:09:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Received: by 2002:a05:6638:3aa:0:0:0:0 with HTTP; Thu, 24 Jun 2021 10:09:20
+ -0700 (PDT)
+Reply-To: tutywoolgar021@gmail.com
+In-Reply-To: <CADB47+4Wa3T59Vq_==GTXEfHrX5x-2vQFxaTBO0dTdyAweCVpw@mail.gmail.com>
+References: <CADB47+4Wa3T59Vq_==GTXEfHrX5x-2vQFxaTBO0dTdyAweCVpw@mail.gmail.com>
+From:   tuty woolgar <faridaamadoubas@gmail.com>
+Date:   Thu, 24 Jun 2021 17:09:20 +0000
+Message-ID: <CADB47+607zNBfYFb4bj0nUhuuYgAdwT=G_wJ9-EeV0ESHe56Jg@mail.gmail.com>
+Subject: greetings,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 1 Jun 2021, Roderick Colenbrander wrote:
-
-> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> 
-> Player LEDs are commonly found on game controllers from Nintendo and Sony
-> to indicate a player ID across a number of LEDs. For example, "Player 2"
-> might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
-> 
-> This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
-> player LEDs from the kernel. Until now there was no good standard, which
-> resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
-> other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
-> 
-> Note: management of Player IDs is left to user space, though a kernel
-> driver may pick a default value.
-> 
-> Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> ---
->  include/dt-bindings/leds/common.h | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-> index 52b619d44ba2..94999c250e4d 100644
-> --- a/include/dt-bindings/leds/common.h
-> +++ b/include/dt-bindings/leds/common.h
-> @@ -60,6 +60,9 @@
->  #define LED_FUNCTION_MICMUTE "micmute"
->  #define LED_FUNCTION_MUTE "mute"
->  
-> +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
-> +#define LED_FUNCTION_PLAYER "player"
-> +
->  /* Miscelleaus functions. Use functions above if you can. */
->  #define LED_FUNCTION_ACTIVITY "activity"
->  #define LED_FUNCTION_ALARM "alarm"
-
-Pavel, can I please get your Ack on this one, so that I can take it with 
-the rest of the series?
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+My greetings to you my friend i hope you are fine and good please respond
+back to me thanks,
