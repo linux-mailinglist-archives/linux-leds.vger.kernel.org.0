@@ -2,47 +2,49 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8F113B5C5E
-	for <lists+linux-leds@lfdr.de>; Mon, 28 Jun 2021 12:17:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FCC33B65C7
+	for <lists+linux-leds@lfdr.de>; Mon, 28 Jun 2021 17:35:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232605AbhF1KUS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 28 Jun 2021 06:20:18 -0400
-Received: from mail-ua1-f43.google.com ([209.85.222.43]:45784 "EHLO
-        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232452AbhF1KUR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 28 Jun 2021 06:20:17 -0400
-Received: by mail-ua1-f43.google.com with SMTP id c20so6751598uar.12;
-        Mon, 28 Jun 2021 03:17:51 -0700 (PDT)
+        id S235087AbhF1Phv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 28 Jun 2021 11:37:51 -0400
+Received: from mail-vs1-f43.google.com ([209.85.217.43]:37624 "EHLO
+        mail-vs1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235341AbhF1PgW (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 28 Jun 2021 11:36:22 -0400
+Received: by mail-vs1-f43.google.com with SMTP id x12so10260325vsp.4;
+        Mon, 28 Jun 2021 08:33:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pr9HGl4FqzQBvqaKGGPpCfCz3bY0d+qLj1EnCPHyL5w=;
-        b=GG/8FZgTQ4sb8MR9WkCWQpfEyY88VrqJ5OijB8p0S/lcbLVLcMRKJEio4KhvQO692w
-         GVcWYJ+edxkHMM8bwRf8OFulFcCQCHn4BYyBafG6b7XfWP5JgBg6TyxtTYHYLmvR3F5n
-         ykE4+h5wXLqtt3AUEE9hoDSYKVdljWjqtmCN0t1zFKw0z0+JCo7f9SHbdZvVURuByQ8E
-         B71RqoSP5hyjAUWATBoZweiiY0PfyF4Qx1S2u4YEDIM4rybmQa0f+/JvLMwBI0xM/94S
-         /S/JPLo5ZOV6lJ0ZcnsT36ZCp/pDrXbydP8RBxbTpknYYEigOTHOYnO6AO8vzqztpmZn
-         PBTg==
-X-Gm-Message-State: AOAM5330ubTFLMlWSHlEYiE52DBi3ADM1nmwm0hlZv8uiUS69EN0MTgV
-        ZLwUe39pC4ipoAHJaUrUHSLMSeFPF36tCGNyzFI=
-X-Google-Smtp-Source: ABdhPJyqF1aSJLgvFbmkLMYCnsnTPHiPUAsGhIVM99tOcWI2ZbGEjju2EsKV4xbyE6jUD9q959uT/dX1hb0S6FovsPA=
-X-Received: by 2002:ab0:1e4c:: with SMTP id n12mr19573056uak.58.1624875470758;
- Mon, 28 Jun 2021 03:17:50 -0700 (PDT)
+        bh=UdLRXPs8N+vjyTcpdNWjfwTJ6bwSxsrt/ayJbQ8pWUQ=;
+        b=hmshMF02JCyDAC78Vr/QcFdPi0+DkMfbBRqCJcqlqHUKOKTuPLeDusXj7GEVF8onoR
+         zZvjgDRUwqm85hOidEuswLqiJr2kuMYFIOOlkI5JEA6JpBJPZSzaYwZLc84tBfMHSqi/
+         bz492X9DUvrexbC71ZV7BbDRczhAX8QUNrUUUyewW74hbtMtpOeKlJBD7Owgdsy/8udk
+         FrAKYrPUUa9LK8PRJCavekt8SCEVvTDb0JMlSUT+Bc1Y/sGjJIYUa0bI75a5OVurVg1e
+         RocFs2yBhm1AEF6PUql5VdCLHFWNPxOA9jtFZV1idga00FGuKZhAcndGnNqiBmG0eC92
+         ooSA==
+X-Gm-Message-State: AOAM533S+ZgQUHHg7Qmdqt8vAUNfm+UFmd8gKrMDNGgwaF7Pi/D8dU24
+        Vh06XeQJh4ueJjRk1Pj06p8LAs9K5xt607jZd/A=
+X-Google-Smtp-Source: ABdhPJwFoBJoPgZAWGd3kME/vgUlz573ZrtzS/NZWRieObafdUkejFkjnVCSEJpGJ51iZzkPkitBYVmSeXEAIlbE2u8=
+X-Received: by 2002:a67:ba0c:: with SMTP id l12mr19184092vsn.40.1624894434798;
+ Mon, 28 Jun 2021 08:33:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210625125902.1162428-7-geert@linux-m68k.org> <202106260719.fU3KdM6r-lkp@intel.com>
-In-Reply-To: <202106260719.fU3KdM6r-lkp@intel.com>
+References: <20210625125902.1162428-1-geert@linux-m68k.org>
+ <20210625125902.1162428-19-geert@linux-m68k.org> <20210625223916.7e00e710@thinkpad>
+ <CAMuHMdV5fywjF63MqE_SqfumwN3EY=jBTEiMfqbjFO12c_nj0Q@mail.gmail.com> <20210628121551.185ce0f4@thinkpad>
+In-Reply-To: <20210628121551.185ce0f4@thinkpad>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 28 Jun 2021 12:17:39 +0200
-Message-ID: <CAMuHMdVf=9XQ49BJ3VcpfJAS1SmEpopqUhkYGqp4fmP-XMBJwg@mail.gmail.com>
-Subject: Re: [PATCH v2 06/18] auxdisplay: Extract character line display core support
-To:     kernel test robot <lkp@intel.com>
+Date:   Mon, 28 Jun 2021 17:33:43 +0200
+Message-ID: <CAMuHMdW=cBxDSNW3DzN1HQyRC1DNtoWDhVA3M0fQhRq-txmb6A@mail.gmail.com>
+Subject: Re: [PATCH v2 18/18] auxdisplay: ht16k33: Add segment display LED support
+To:     Marek Behun <marek.behun@nic.cz>
 Cc:     Robin van der Gracht <robin@protonic.nl>,
         Rob Herring <robh+dt@kernel.org>,
         Miguel Ojeda <ojeda@kernel.org>,
         Paul Burton <paulburton@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>, kbuild-all@lists.01.org,
+        Pavel Machek <pavel@ucw.cz>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         linux-leds <linux-leds@vger.kernel.org>,
@@ -53,43 +55,80 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Kernel Test Robot,
+Hi Marek,
 
-On Sat, Jun 26, 2021 at 1:36 AM kernel test robot <lkp@intel.com> wrote:
-> I love your patch! Yet something to improve:
+On Mon, Jun 28, 2021 at 12:15 PM Marek Behun <marek.behun@nic.cz> wrote:
+> On Mon, 28 Jun 2021 11:21:04 +0200
+> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Fri, Jun 25, 2021 at 10:39 PM Marek Behun <marek.behun@nic.cz> wrote:
+> > > On Fri, 25 Jun 2021 14:59:02 +0200
+> > > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > >
+> > > > Instantiate a single LED for a segment display.  This allows the user to
+> > > > control display brightness and blinking through the LED class API and
+> > > > triggers, and exposes the display color.
+> > > > The LED will be named "auxdisplay:<color>:backlight".
+> > >
+> > > What if there are multiple "auxdisplay"s ?
+> >
+> > I understand the LED core will just add a suffix on a name collision.
+> >
+> > > Doesn't this subsystem have IDs? So that you can use auxdisplayN for
+> > > device name, for example?
+> >
+> > Auxdisplay does not have IDs, as there is no subsystem to register
+> > with.  It's just a collection of drivers for auxiliary displays with
+> > no common API.  Some drivers use fbdev, others use a chardev, or an
+> > attribute file in sysfs.
+> >
+> > BTW, I just followed Pavel's advice in naming.
 >
-> [auto build test ERROR on robh/for-next]
-> [also build test ERROR on staging/staging-testing linus/master v5.13-rc7 next-20210625]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
+> Very well.
 >
-> url:    https://github.com/0day-ci/linux/commits/Geert-Uytterhoeven/auxdisplay-ht16k33-Add-character-display-support/20210625-210014
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-> config: powerpc-allmodconfig (attached as .config)
-> compiler: powerpc64-linux-gcc (GCC) 9.3.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/0day-ci/linux/commit/5505aedee505055e2fe16a718203e24fd8519e2a
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Geert-Uytterhoeven/auxdisplay-ht16k33-Add-character-display-support/20210625-210014
->         git checkout 5505aedee505055e2fe16a718203e24fd8519e2a
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=powerpc
+> > > > +     of_property_read_u32(node, "color", &color);
+> > > > +     seg->led.name = devm_kasprintf(dev, GFP_KERNEL,
+> > > > +                     "auxdisplay:%s:" LED_FUNCTION_BACKLIGHT,
+> > > > +                     color < LED_COLOR_ID_MAX ? led_colors[color] : "");
+> > >
+> > > If you use devm_led_classdev_register_ext and pass struct
+> > > led_init_data, LED core will generate name of the LED itself.
+> >
+> > Will that make any difference, except for adding more code?
 >
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
+> You are hardcoding the backlight function. Using the _ext() registering
+> function will make it so that the function and color are parsed from
+> fwnode by LED core. I understand that the function will always be
+> "backlight" in this case, but this should be specified in the
+> device-tree anyway, so why not use it?
 >
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > Looking at the implementation, I still have to use devm_kasprintf()
+> > to combine color and function for led_init_data.default_label?
 >
-> >> ERROR: modpost: ".kernfs_create_link" [drivers/auxdisplay/img-ascii-lcd.ko] undefined!
+> AFAIK you don't have to fill in default_label. (If the needed OF
+> properties are not present so that default_label is tried, it means the
+> device-tree does not correctly specify the device. In that case I don't
+> think it is a problem if the default_label is not present and LED
+> core will use the OF node name as the LED name.)
+>
+> The code could look like this
+>
+>   struct led_init_data init_data = {};
+>
+>   init_data.fwnode = of_fwnode_handle(node);
+>   init_data.devicename = "auxdisplay";
+>   init_data.devname_mandatory = true;
+>
+>   ...register_ext();
+>
+> But if you still don't want to do this then ignore me :)
 
-Thanks a lot!
+No, thanks a lot!
 
-This helped me finding compat_only_sysfs_link_entry_to_kobj(), which
-I hadn't found before, and which does an even better job than my custom
-sysfs_create_file_link() implementation.
+Your comments made me realize I should put the LED properties in an
+"led" subnode, and defer all parsing to the LED core.
+This also allows the user to use the more powerful LED mode even in
+dot-matrix mode, while falling back to the existing backlight mode if
+no "led" subnode is found, and thus preserving backwards compatibility.
 
 Gr{oetje,eeting}s,
 
