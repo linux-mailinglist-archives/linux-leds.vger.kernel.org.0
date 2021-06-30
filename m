@@ -2,53 +2,197 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8A0F3B729A
-	for <lists+linux-leds@lfdr.de>; Tue, 29 Jun 2021 14:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B5823B899A
+	for <lists+linux-leds@lfdr.de>; Wed, 30 Jun 2021 22:14:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233213AbhF2Mzn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Tue, 29 Jun 2021 08:55:43 -0400
-Received: from [218.75.92.58] ([218.75.92.58]:65346 "EHLO WIN-VTPUBHNS72V"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232498AbhF2Mzn (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 29 Jun 2021 08:55:43 -0400
-Received: from [192.168.43.47] (Unknown [197.210.84.10])
-        by WIN-VTPUBHNS72V with ESMTPA
-        ; Thu, 24 Jun 2021 20:46:53 +0800
-Message-ID: <A4B03876-BD3A-4DC1-B0BC-E6097BCD2DAC@WIN-VTPUBHNS72V>
-Content-Type: text/plain; charset="iso-8859-1"
+        id S233899AbhF3UQy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 30 Jun 2021 16:16:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47396 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233847AbhF3UQx (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 30 Jun 2021 16:16:53 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60A4DC061756;
+        Wed, 30 Jun 2021 13:14:24 -0700 (PDT)
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.94.2)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1lygb9-00DuUv-Ok; Wed, 30 Jun 2021 22:14:15 +0200
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, Boqun Feng <boqun.feng@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrea Righi <andrea.righi@canonical.com>,
+        linux-kernel@vger.kernel.org,
+        Johannes Berg <johannes.berg@intel.com>
+Subject: [RFC PATCH] leds: trigger: use RCU to protect the led_cdevs list
+Date:   Wed, 30 Jun 2021 22:14:11 +0200
+Message-Id: <20210630221411.30af93c6dce6.I1a28b342d2d52cdeeeb81ecd6020c25cbf1dbfc0@changeid>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: URGENT ATTENTION
-To:     Recipients <wjjt@wjjt.cn>
-From:   "Andres Auchincloss" <wjjt@wjjt.cn>
-Date:   Thu, 24 Jun 2021 14:46:28 +0200
-Reply-To: andresauchincloss926@gmail.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+From: Johannes Berg <johannes.berg@intel.com>
 
-I will like to use this opportunity to wish you a productive time in 2021 and also confide in you to finalize this transaction of mutual benefits. It may seem strange to you, but it is real. This is a transaction that has no risk at all, due process shall be followed and it shall be carried out under the ambit of the financial laws. Being the Chief Financial Officer, BP Plc. I want to trust and put in your care Eighteen Million British Pounds Sterling, The funds were acquired from an over-invoiced payment from a past contract executed in one of my departments.
+Even with the previous commit 27af8e2c90fb
+("leds: trigger: fix potential deadlock with libata")
+to this file, we still get lockdep unhappy, and Boqun
+explained the report here:
+https://lore.kernel.org/r/YNA+d1X4UkoQ7g8a@boqun-archlinux
 
-I can't successfully achieve this transaction without presenting you as foreign contractor who will provide a bank account to receive the funds.
+Effectively, this means that the read_lock_irqsave() isn't
+enough here because another CPU might be trying to do a
+write lock, and thus block the readers.
 
-Documentation for the claim of the funds will be legally processed and documented, so I will need your full cooperation on this matter for our mutual benefits. We will discuss details if you are interested to work with me to secure this funds. I will appreciate your prompt response in every bit of our communication. Stay Blessed and Stay Safe.
+This is all pretty messy, but it doesn't seem right that
+the LEDs framework imposes some locking requirements on
+users, in particular we'd have to make the spinlock in the
+iwlwifi driver always disable IRQs, even if we don't need
+that for any other reason, just to avoid this deadlock.
 
+Since writes to the led_cdevs list are rare (and are done
+by userspace), just switch the list to RCU. This costs a
+synchronize_rcu() at removal time so we can ensure things
+are correct, but that seems like a small price to pay for
+getting lock-free iterations and no deadlocks (nor any
+locking requirements imposed on users.)
 
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+---
+RFC for now because I haven't actually tested it in the
+situation that caused the referenced lockdep report, but
+it seems fairly obvious that it'll prevent it since only
+the read-side was involved there.
+---
+ drivers/leds/led-triggers.c | 41 +++++++++++++++++++------------------
+ include/linux/leds.h        |  2 +-
+ 2 files changed, 22 insertions(+), 21 deletions(-)
 
-Best Regards
-
-
-
-
-Tel: +1 (587) 770-0485
-Andres .B. Auchincloss
-Chief financial officerBP Petroleum p.l.c.
-
-
-
-
-                                  Copyright ©? 1996-2021
+diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+index 4e7b78a84149..072491d3e17b 100644
+--- a/drivers/leds/led-triggers.c
++++ b/drivers/leds/led-triggers.c
+@@ -157,7 +157,6 @@ EXPORT_SYMBOL_GPL(led_trigger_read);
+ /* Caller must ensure led_cdev->trigger_lock held */
+ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
+ {
+-	unsigned long flags;
+ 	char *event = NULL;
+ 	char *envp[2];
+ 	const char *name;
+@@ -171,10 +170,13 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
+ 
+ 	/* Remove any existing trigger */
+ 	if (led_cdev->trigger) {
+-		write_lock_irqsave(&led_cdev->trigger->leddev_list_lock, flags);
+-		list_del(&led_cdev->trig_list);
+-		write_unlock_irqrestore(&led_cdev->trigger->leddev_list_lock,
+-			flags);
++		spin_lock(&led_cdev->trigger->leddev_list_lock);
++		list_del_rcu(&led_cdev->trig_list);
++		spin_unlock(&led_cdev->trigger->leddev_list_lock);
++
++		/* ensure it's no longer visible on the led_cdevs list */
++		synchronize_rcu();
++
+ 		cancel_work_sync(&led_cdev->set_brightness_work);
+ 		led_stop_software_blink(led_cdev);
+ 		if (led_cdev->trigger->deactivate)
+@@ -186,9 +188,9 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
+ 		led_set_brightness(led_cdev, LED_OFF);
+ 	}
+ 	if (trig) {
+-		write_lock_irqsave(&trig->leddev_list_lock, flags);
+-		list_add_tail(&led_cdev->trig_list, &trig->led_cdevs);
+-		write_unlock_irqrestore(&trig->leddev_list_lock, flags);
++		spin_lock(&trig->leddev_list_lock);
++		list_add_tail_rcu(&led_cdev->trig_list, &trig->led_cdevs);
++		spin_unlock(&trig->leddev_list_lock);
+ 		led_cdev->trigger = trig;
+ 
+ 		if (trig->activate)
+@@ -223,9 +225,10 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
+ 		trig->deactivate(led_cdev);
+ err_activate:
+ 
+-	write_lock_irqsave(&led_cdev->trigger->leddev_list_lock, flags);
+-	list_del(&led_cdev->trig_list);
+-	write_unlock_irqrestore(&led_cdev->trigger->leddev_list_lock, flags);
++	spin_lock(&led_cdev->trigger->leddev_list_lock);
++	list_del_rcu(&led_cdev->trig_list);
++	spin_unlock(&led_cdev->trigger->leddev_list_lock);
++	synchronize_rcu();
+ 	led_cdev->trigger = NULL;
+ 	led_cdev->trigger_data = NULL;
+ 	led_set_brightness(led_cdev, LED_OFF);
+@@ -285,7 +288,7 @@ int led_trigger_register(struct led_trigger *trig)
+ 	struct led_classdev *led_cdev;
+ 	struct led_trigger *_trig;
+ 
+-	rwlock_init(&trig->leddev_list_lock);
++	spin_lock_init(&trig->leddev_list_lock);
+ 	INIT_LIST_HEAD(&trig->led_cdevs);
+ 
+ 	down_write(&triggers_list_lock);
+@@ -378,15 +381,14 @@ void led_trigger_event(struct led_trigger *trig,
+ 			enum led_brightness brightness)
+ {
+ 	struct led_classdev *led_cdev;
+-	unsigned long flags;
+ 
+ 	if (!trig)
+ 		return;
+ 
+-	read_lock_irqsave(&trig->leddev_list_lock, flags);
+-	list_for_each_entry(led_cdev, &trig->led_cdevs, trig_list)
++	rcu_read_lock();
++	list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list)
+ 		led_set_brightness(led_cdev, brightness);
+-	read_unlock_irqrestore(&trig->leddev_list_lock, flags);
++	rcu_read_unlock();
+ }
+ EXPORT_SYMBOL_GPL(led_trigger_event);
+ 
+@@ -397,20 +399,19 @@ static void led_trigger_blink_setup(struct led_trigger *trig,
+ 			     int invert)
+ {
+ 	struct led_classdev *led_cdev;
+-	unsigned long flags;
+ 
+ 	if (!trig)
+ 		return;
+ 
+-	read_lock_irqsave(&trig->leddev_list_lock, flags);
+-	list_for_each_entry(led_cdev, &trig->led_cdevs, trig_list) {
++	rcu_read_lock();
++	list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
+ 		if (oneshot)
+ 			led_blink_set_oneshot(led_cdev, delay_on, delay_off,
+ 					      invert);
+ 		else
+ 			led_blink_set(led_cdev, delay_on, delay_off);
+ 	}
+-	read_unlock_irqrestore(&trig->leddev_list_lock, flags);
++	rcu_read_unlock();
+ }
+ 
+ void led_trigger_blink(struct led_trigger *trig,
+diff --git a/include/linux/leds.h b/include/linux/leds.h
+index 329fd914cf24..fa59326b0ad9 100644
+--- a/include/linux/leds.h
++++ b/include/linux/leds.h
+@@ -354,7 +354,7 @@ struct led_trigger {
+ 	struct led_hw_trigger_type *trigger_type;
+ 
+ 	/* LEDs under control by this trigger (for simple triggers) */
+-	rwlock_t	  leddev_list_lock;
++	spinlock_t	  leddev_list_lock;
+ 	struct list_head  led_cdevs;
+ 
+ 	/* Link to next registered trigger */
+-- 
+2.31.1
 
