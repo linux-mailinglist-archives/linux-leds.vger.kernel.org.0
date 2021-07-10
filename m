@@ -2,36 +2,38 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BA253C2EB2
-	for <lists+linux-leds@lfdr.de>; Sat, 10 Jul 2021 04:28:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB0493C2F70
+	for <lists+linux-leds@lfdr.de>; Sat, 10 Jul 2021 04:29:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232978AbhGJC2J (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 9 Jul 2021 22:28:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42926 "EHLO mail.kernel.org"
+        id S234398AbhGJCb0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 9 Jul 2021 22:31:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43326 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233826AbhGJC13 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 9 Jul 2021 22:27:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6D050613DF;
-        Sat, 10 Jul 2021 02:24:29 +0000 (UTC)
+        id S234676AbhGJC3k (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 9 Jul 2021 22:29:40 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D3C05613DC;
+        Sat, 10 Jul 2021 02:26:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625883870;
-        bh=YUEniXoGWoNOiBcC3NU1p9VwfWhDIBz0E7edYEnC7PY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=VWQ1TDSQMH5W1IMmOlftquUyXHnDcomL0MqmRgiCr6gj51lnzbLeL9ESGSVZIDukg
-         KNcKi9umLxTFtfF5pFK/VYjCF6K9DTxF0t/vlLMbthpwiUucoIT4mH4hcVQO6UrK76
-         XyInQEgkom5XpKcjTS0/GulOiVTeKRWfLRVMlmNYXW/iT8vTUhy3MvVIctBbEwKuAV
-         AyD5kjFou+JppeL5RzGjDjgfpMd6NGVe34f7jSjUEh/itsO+rFt2yVf4jm6Ye4//mA
-         F8ywNGDlhU013Cq62NOTUqwJtFP2dHYbACmHdUkaucj0h/5yej+3MX9NEE6hwuWCEr
-         YACWkqgA4v6kQ==
+        s=k20201202; t=1625884016;
+        bh=JgL551oFfxdmH9y/atJVWQ9IvGlZp0b9DjZZSGo8qz4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=e4c+qDCRau+izxok/F4tByOieO1ygOvosv/W+gHFboDqqzzsyNRMwJXIh/cnHcupc
+         ckm7Q0jprlogd1BX+8eOkIIaV+ew6ElboWKofAkCEoYxxPh+fgK/AikXNSF+t/UVhm
+         VbYz/mU90IRrgGG7eyGM7eJm5YXnxV0XCNElbi3wWgawg9jsyY9xiJjImXkGQXePuo
+         vCFxepZE+r+x/3oO37Ep9iQaRoHE70NY+VqqD8XZZiF7v1D9MepC27SlNOgczum7ek
+         Yt1Lxlr/LNcsPH21jKYaCPOEs9TPM3fN4vtKvZxMO8Am28gduo6/Gw3fvergL7o1yM
+         vb0YviROqD4kA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Yang Yingliang <yangyingliang@huawei.com>,
-        Hulk Robot <hulkci@huawei.com>, Pavel Machek <pavel@ucw.cz>,
-        Sasha Levin <sashal@kernel.org>, linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 01/93] leds: tlc591xx: fix return value check in tlc591xx_probe()
-Date:   Fri,  9 Jul 2021 22:22:55 -0400
-Message-Id: <20210710022428.3169839-1-sashal@kernel.org>
+Cc:     Zou Wei <zou_wei@huawei.com>, Hulk Robot <hulkci@huawei.com>,
+        Pavel Machek <pavel@ucw.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-leds@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 87/93] leds: turris-omnia: add missing MODULE_DEVICE_TABLE
+Date:   Fri,  9 Jul 2021 22:24:21 -0400
+Message-Id: <20210710022428.3169839-87-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210710022428.3169839-1-sashal@kernel.org>
+References: <20210710022428.3169839-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -40,48 +42,34 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Yang Yingliang <yangyingliang@huawei.com>
+From: Zou Wei <zou_wei@huawei.com>
 
-[ Upstream commit ee522bcf026ec82ada793979c3a906274430595a ]
+[ Upstream commit 9d0150db97583cfbb6b44cbe02241a1a48f90210 ]
 
-After device_get_match_data(), tlc591xx is not checked, add
-check for it and also check np after dev_of_node.
+This patch adds missing MODULE_DEVICE_TABLE definition which generates
+correct modalias for automatic loading of this driver when it is built
+as an external module.
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
 Signed-off-by: Pavel Machek <pavel@ucw.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/leds/leds-tlc591xx.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/leds/leds-turris-omnia.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index 5b9dfdf743ec..cb7bd1353f9f 100644
---- a/drivers/leds/leds-tlc591xx.c
-+++ b/drivers/leds/leds-tlc591xx.c
-@@ -148,16 +148,20 @@ static int
- tlc591xx_probe(struct i2c_client *client,
- 	       const struct i2c_device_id *id)
- {
--	struct device_node *np = dev_of_node(&client->dev), *child;
-+	struct device_node *np, *child;
- 	struct device *dev = &client->dev;
- 	const struct tlc591xx *tlc591xx;
- 	struct tlc591xx_priv *priv;
- 	int err, count, reg;
+diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
+index 880fc8def530..ec87a958f151 100644
+--- a/drivers/leds/leds-turris-omnia.c
++++ b/drivers/leds/leds-turris-omnia.c
+@@ -277,6 +277,7 @@ static const struct i2c_device_id omnia_id[] = {
+ 	{ "omnia", 0 },
+ 	{ }
+ };
++MODULE_DEVICE_TABLE(i2c, omnia_id);
  
--	tlc591xx = device_get_match_data(dev);
-+	np = dev_of_node(dev);
- 	if (!np)
- 		return -ENODEV;
- 
-+	tlc591xx = device_get_match_data(dev);
-+	if (!tlc591xx)
-+		return -ENODEV;
-+
- 	count = of_get_available_child_count(np);
- 	if (!count || count > tlc591xx->max_leds)
- 		return -EINVAL;
+ static struct i2c_driver omnia_leds_driver = {
+ 	.probe		= omnia_leds_probe,
 -- 
 2.30.2
 
