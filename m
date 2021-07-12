@@ -2,147 +2,169 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 813513C57C8
-	for <lists+linux-leds@lfdr.de>; Mon, 12 Jul 2021 12:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36E163C5C0D
+	for <lists+linux-leds@lfdr.de>; Mon, 12 Jul 2021 14:24:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352859AbhGLIhh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 12 Jul 2021 04:37:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377710AbhGLIgT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 12 Jul 2021 04:36:19 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF04C0613DD;
-        Mon, 12 Jul 2021 01:33:31 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id w8-20020a0568304108b02904b3da3d49e5so14104994ott.1;
-        Mon, 12 Jul 2021 01:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=SZxKyapcP95t3Qouqp7FF9LfmDjUWdzEBklTYWphkD4=;
-        b=AqgwP0m7QXx6dnrcT1SEtsn//U14Fy1BMa8c18UQ1dFsB/vG4uCfbpCHLWWrF6raoC
-         9+J7iqg++LqULNo1+GsN7Vpyamy1CZNzrAO5W9pJGpKWzA54QIZxkyGX4I3I2tzqnsIl
-         Ob5Ja4V5ILkmJIq6GFYHXMdDElBRZWYDPoZ549jwR2UA5+xd0VwBPiNx99Xm8+x+wrAB
-         Ckgv/8Ka/WiqFOLS2eMIMb9uIxwHXp78WhtQe6Zetr/v1Hyea1M0M8bzDvuYxhU2N7X9
-         6QD0laCm4smuNktELur4Ei1Df5YGLOnOnicGRiV7/1A7adPhAV6bdi+TvtvY4OnGSIFE
-         5eYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=SZxKyapcP95t3Qouqp7FF9LfmDjUWdzEBklTYWphkD4=;
-        b=seqv+4jX3VXwlpy8up0jNcaSaJLxb9Qk3kh3y8rc/Gkx8i2jGGkTyzmN33jt/zxFp2
-         FXTkTkd94eULcBTjSXSJl6RGdet1EeVpKfWu2ayjjf1npTKSXaj17/Q/qLbfptbi/QHC
-         29WYIRhR90UD6MNKxyG+Q8chiTpsJyOgmdGW1MiOK2s1Jc7CNKs93ltU6wLQMYqkrXkn
-         +S687WH+SPp0Up5ZwZUu/j+azUAAypZKhaA0o/M+Lk698+fFht+hmhbeH14T3jXdo6ig
-         Yt1q2Hw/++5pYoN+CFC4OQJR7kUFHgU4RkFWs2XMV0cY9+/eGE7XErvIT+U+6G4Vau+W
-         sIdw==
-X-Gm-Message-State: AOAM5328Hx6SaPdhG/puU2B/X+MC370v3RNRmEkoI96Q3cJ6KNnXe0hK
-        nA1Sor9HhsADe7TlwVryCiYl320VRH0101l4IkQ=
-X-Google-Smtp-Source: ABdhPJyivpVPZ8cdSEoA3/WXmOk0cdeaWr9nSTp1nse+5dNXooOzccEZM5/E78bvn5OIBE8WXXCRvZClpvQy7pBbQH4=
-X-Received: by 2002:a9d:7686:: with SMTP id j6mr39672095otl.232.1626078811219;
- Mon, 12 Jul 2021 01:33:31 -0700 (PDT)
+        id S230197AbhGLMZG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 12 Jul 2021 08:25:06 -0400
+Received: from david.siemens.de ([192.35.17.14]:36492 "EHLO david.siemens.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229746AbhGLMZF (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 12 Jul 2021 08:25:05 -0400
+X-Greylist: delayed 2766 seconds by postgrey-1.27 at vger.kernel.org; Mon, 12 Jul 2021 08:25:04 EDT
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by david.siemens.de (8.15.2/8.15.2) with ESMTPS id 16CBZkZ8021112
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 12 Jul 2021 13:35:46 +0200
+Received: from md1za8fc.ad001.siemens.net ([139.25.0.120])
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 16CBZjto003872;
+        Mon, 12 Jul 2021 13:35:45 +0200
+Date:   Mon, 12 Jul 2021 13:35:43 +0200
+From:   Henning Schild <henning.schild@siemens.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-watchdog@vger.kernel.org,
+        Srikanth Krishnakar <skrishnakar@gmail.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>, Enrico Weigelt <lkml@metux.net>
+Subject: Re: [PATCH v3 0/4] add device drivers for Siemens Industrial PCs
+Message-ID: <20210712133543.074aad80@md1za8fc.ad001.siemens.net>
+In-Reply-To: <857d6cd4-839d-c42a-0aa7-8d45243981ee@redhat.com>
+References: <20210329174928.18816-1-henning.schild@siemens.com>
+        <857d6cd4-839d-c42a-0aa7-8d45243981ee@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210524152427.123856-1-gene.chen.richtek@gmail.com>
-In-Reply-To: <20210524152427.123856-1-gene.chen.richtek@gmail.com>
-From:   Gene Chen <gene.chen.richtek@gmail.com>
-Date:   Mon, 12 Jul 2021 16:33:19 +0800
-Message-ID: <CAE+NS37kf1JAJ2Zt7UGsfsubp6O=xBNtnJgVEnz8-mm2rxFa+g@mail.gmail.com>
-Subject: Re: [PATCH v14 0/2] leds: mt6360: Add LED driver for MT6360
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Dan Murphy <dmurphy@ti.com>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
-        shufan_lee@richtek.com, ChiYuan Huang <cy_huang@richtek.com>,
-        benjamin.chao@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Gene Chen <gene.chen.richtek@gmail.com> =E6=96=BC 2021=E5=B9=B45=E6=9C=8824=
-=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=8811:24=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> This patch series add MT6360 LED support contains driver and binding docu=
-ment
->
-> Gene Chen (2)
->  dt-bindings: leds: Add bindings for MT6360 LED
->  leds: mt6360: Add LED driver for MT6360
->
->  Documentation/devicetree/bindings/leds/leds-mt6360.yaml |  159 ++
->  drivers/leds/flash/Kconfig                              |   13
->  drivers/leds/flash/Makefile                             |    1
->  drivers/leds/flash/leds-mt6360.c                        |  910 +++++++++=
-+++++++
->  4 files changed, 1083 insertions(+)
->
-> changelogs between v1 & v2
->  - add led driver with mfd
->
-> changelogs between v2 & v3
->  - independent add led driver
->  - add dt-binding document
->  - refactor macros definition for easy to debug
->  - parse device tree by fwnode
->  - use devm*ext to register led class device
->
-> changelogs between v3 & v4
->  - fix binding document description
->  - use GENMASK and add unit postfix to definition
->  - isink register led class device
->
-> changelogs between v4 & v5
->  - change rgb isink to multicolor control
->  - add binding reference to mfd yaml
->
-> changelogs between v5 & v6
->  - Use DT to decide RGB LED is multicolor device or indicator device only
->
-> changelogs between v6 & v7
->  - Add binding multicolor device sample code
->  - Add flash ops mutex lock
->  - Remove V4L2 init with indicator device
->
-> changelogs between v7 & v8
->  - Add mutex for led fault get ops
->  - Fix flash and multicolor no-ops return 0
->  - Add LED_FUNCTION_MOONLIGHT
->
-> changelogs between v8 & v9
->  - reuse api in flash and multicolor header
->
-> changelogs between v9 & v10
->  - add comment for reuse registration functions in flash and multicolor
->
-> changelogs between v10 & v11
->  - match dt-binding reg property comment to the functionality name
->  - remove exist patch in linux-next
->  - dicide multicolor channel by color definitiion
->
-> changelogs between v11 & v12
->  - Fix print size_t by %zu
->  - Fix dt-binding name regular experssion
->
-> changelogs between v12 & v13
->  - Fix kbuild test rebot build error
->
-> changelogs between v13 & v14
->  - Move driver to flash folder
->  - Remove LED FUNCTION MOONLIGHT
->  - Keep 80 char per line
->
->
+This series is basically stuck because people rightfully want me to use
+the GPIO subsystem for the LEDs and the watchdog bits that are
+connected to GPIO.
 
-Dear Reviewers,
+Problem is that the GPIO subsystem does not initialize on the machines
+in question. It is a combination of hidden P2SB and missing ACPI table
+entries. The GPIO subsystem (intel pinctrl) needs either P2SB or ACPI do
+come up ...
 
-Please let me know if any update.
+Andy proposed some patches for initializing the intel pinctrl stuff for
+one of the machines by falling back to SoC detection in case there is
+no ACPI or visible P2SB. While that works it would need to be done for
+any Intel SoC to be consistent and discussions seem to go nowhere.
+
+I would be willing to port over to "intel pintctl" and help with
+testing, but not so much with actual coding. Andy is that moving at all?
+
+Since my drivers do reserve the mmio regions properly and the intel
+pinctrl will never come up anyways, i do not see a conflict merging my
+proposed drivers in the current codebase. The wish to use the pinctrl
+infrastructure can not be fulfilled if that infra is not in place. Once
+intel pinctrl works, we can change those drivers to work with that.
+
+I do not want to take shortcuts ... but also do not want to get stuck
+here. So maybe one way to serialize the merge is to allow my changes
+like proposed and rebase on intel pinctrl once that subsystem actually
+initializes on these machines. We could even have two code paths ... if
+region can not be reserved, try gpio ... or the other way around.
+
+regards,
+Henning
+
+Am Wed, 7 Apr 2021 13:36:40 +0200
+schrieb Hans de Goede <hdegoede@redhat.com>:
+
+> Hi,
+> 
+> On 3/29/21 7:49 PM, Henning Schild wrote:
+> > changes since v2:
+> > 
+> > - remove "simatic-ipc" prefix from LED names
+> > - fix style issues found in v2, mainly LED driver
+> > - fix OEM specific dmi code, and remove magic numbers
+> > - more "simatic_ipc" name prefixing
+> > - improved pmc quirk code using callbacks
+> > 
+> > changes since v1:
+> > 
+> > - fixed lots of style issues found in v1
+> >   - (debug) printing
+> >   - header ordering
+> > - fixed license issues GPLv2 and SPDX in all files
+> > - module_platform_driver instead of __init __exit
+> > - wdt simplifications cleanup
+> > - lots of fixes in wdt driver, all that was found in v1
+> > - fixed dmi length in dmi helper
+> > - changed LED names to allowed ones
+> > - move led driver to simple/
+> > - switched pmc_atom to dmi callback with global variable
+> > 
+> > --
+> > 
+> > This series adds support for watchdogs and leds of several x86
+> > devices from Siemens.
+> > 
+> > It is structured with a platform driver that mainly does
+> > identification of the machines. It might trigger loading of the
+> > actual device drivers by attaching devices to the platform bus.
+> > 
+> > The identification is vendor specific, parsing a special binary DMI
+> > entry. The implementation of that platform identification is
+> > applied on pmc_atom clock quirks in the final patch.
+> > 
+> > It is all structured in a way that we can easily add more devices
+> > and more platform drivers later. Internally we have some more code
+> > for hardware monitoring, more leds, watchdogs etc. This will follow
+> > some day.  
+> 
+> IT seems there still is significant discussion surrounding the LED
+> and watchdog drivers which use patch 1/4 as parent-driver.
+> 
+> I'm going to hold of on merging 1/4 and 4/4 until there is more
+> consensus surrounding this series.
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> > 
+> > Henning Schild (4):
+> >   platform/x86: simatic-ipc: add main driver for Siemens devices
+> >   leds: simatic-ipc-leds: add new driver for Siemens Industial PCs
+> >   watchdog: simatic-ipc-wdt: add new driver for Siemens Industrial
+> > PCs platform/x86: pmc_atom: improve critclk_systems matching for
+> > Siemens PCs
+> > 
+> >  drivers/leds/Kconfig                          |   3 +
+> >  drivers/leds/Makefile                         |   3 +
+> >  drivers/leds/simple/Kconfig                   |  11 +
+> >  drivers/leds/simple/Makefile                  |   2 +
+> >  drivers/leds/simple/simatic-ipc-leds.c        | 202
+> > ++++++++++++++++ drivers/platform/x86/Kconfig                  |
+> > 12 + drivers/platform/x86/Makefile                 |   3 +
+> >  drivers/platform/x86/pmc_atom.c               |  57 +++--
+> >  drivers/platform/x86/simatic-ipc.c            | 169 ++++++++++++++
+> >  drivers/watchdog/Kconfig                      |  11 +
+> >  drivers/watchdog/Makefile                     |   1 +
+> >  drivers/watchdog/simatic-ipc-wdt.c            | 215
+> > ++++++++++++++++++ .../platform_data/x86/simatic-ipc-base.h      |
+> > 29 +++ include/linux/platform_data/x86/simatic-ipc.h |  72 ++++++
+> >  14 files changed, 769 insertions(+), 21 deletions(-)
+> >  create mode 100644 drivers/leds/simple/Kconfig
+> >  create mode 100644 drivers/leds/simple/Makefile
+> >  create mode 100644 drivers/leds/simple/simatic-ipc-leds.c
+> >  create mode 100644 drivers/platform/x86/simatic-ipc.c
+> >  create mode 100644 drivers/watchdog/simatic-ipc-wdt.c
+> >  create mode 100644
+> > include/linux/platform_data/x86/simatic-ipc-base.h create mode
+> > 100644 include/linux/platform_data/x86/simatic-ipc.h 
+> 
+
