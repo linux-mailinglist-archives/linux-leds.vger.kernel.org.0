@@ -2,91 +2,100 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3E413CAE71
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Jul 2021 23:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9249E3CAF68
+	for <lists+linux-leds@lfdr.de>; Fri, 16 Jul 2021 00:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229990AbhGOVWe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 15 Jul 2021 17:22:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230023AbhGOVWb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Jul 2021 17:22:31 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2013CC061765
-        for <linux-leds@vger.kernel.org>; Thu, 15 Jul 2021 14:19:37 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id g4-20020a17090ace84b029017554809f35so7318252pju.5
-        for <linux-leds@vger.kernel.org>; Thu, 15 Jul 2021 14:19:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=student-cerritos-edu.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=D/oa7ytReZ7VT9msXCUi1s8afmQOHTlsDnMU7xTspFQ=;
-        b=Tsc/3qGxyPXDJVwIcY/MFuc39MZRQ/yL+cifcIxUQrbCutxd+aTIDmDk2yaDApKoyL
-         uG0OaT9FXAU67sWQquKMwkhlQRH2dpxys9XoiI18skcwR7o23bLHgmpEw56AYjfGs8uY
-         UMIY0JqEqfO45Rug5xo7hZ+gR55/3ii1c2CFmstjwJ8kAyXbD7WYDD2MbpxsMDwkMdzc
-         hHJ0rvcZQnpmBrAX9sRjp0Q8tUaOpkhf+1fuibu5uQEqV3nq3q5O2OJr7PBR0DK+fD1P
-         KwHzT1Gcw9aiYqzb4JP29Iw9O69ONR/s61kAI8krSAeMyALq1844rPI+YmY0xgIgAJGv
-         k3Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=D/oa7ytReZ7VT9msXCUi1s8afmQOHTlsDnMU7xTspFQ=;
-        b=q040Tfl2JGhoHU0JK0aDJZlcPXwYTAM+bfAgTzCvobitYwaZ+aa4zMAQKbuzPk9zO/
-         x2zLOJfyEZP0Jn1BGvdndHVCSElQOpVB4vGbcar9IDEJnotISjlQBGAmHqV/eqPSix91
-         dxiVN3xQ9SVdOzfD6Da5C6HN9KaBONA1JZFciwddPqricXIs8mtDNywVEWga+V9qkmc6
-         9gZ7RdEcnF9l2fds/6YdWvAUtM8rd4kIeU+U6UEwNqWzqAXUMmzor5WGFBHOefeC92sN
-         C2iSzX8c96gG4dl9T2fsjefTGGQUJM262ZUvsl++UyB4ALxczF/8sdArPbJtOTLvERDe
-         eLWg==
-X-Gm-Message-State: AOAM531Z6z/dtmQ8UJCBCGTw0PHOv/GC1HcT5yFNcn92PWYFKS3qv5Fb
-        gMv7RR/i5xOGJMWOfnyKJoQ4Nw==
-X-Google-Smtp-Source: ABdhPJyXwrDuL9owj0pgU9mb9Di2Om1AdVvARUdtT5LpybVG35EeznfPk8MEu3RZO7cci27Kc5jayA==
-X-Received: by 2002:a17:90a:590d:: with SMTP id k13mr6308052pji.56.1626383976720;
-        Thu, 15 Jul 2021 14:19:36 -0700 (PDT)
-Received: from fedora.. (066-215-081-126.biz.spectrum.com. [66.215.81.126])
-        by smtp.gmail.com with ESMTPSA id gb10sm9811371pjb.43.2021.07.15.14.19.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jul 2021 14:19:36 -0700 (PDT)
-From:   Amy Parker <apark0006@student.cerritos.edu>
-To:     pavel@ucw.cz
-Cc:     Amy Parker <apark0006@student.cerritos.edu>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drivers/leds/TODO: update TODO to reflect changes
-Date:   Thu, 15 Jul 2021 14:18:57 -0700
-Message-Id: <fd4841b1fa09bfefb707563d85a2388d41c3b424.1626383424.git.apark0006@student.cerritos.edu>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1626383424.git.apark0006@student.cerritos.edu>
-References: <cover.1626383424.git.apark0006@student.cerritos.edu>
+        id S230383AbhGOWwB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 15 Jul 2021 18:52:01 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:54670 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229462AbhGOWwB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Jul 2021 18:52:01 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 0C4C81C0B82; Fri, 16 Jul 2021 00:49:06 +0200 (CEST)
+Date:   Fri, 16 Jul 2021 00:49:05 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Maxim Mikityanskiy <maxtram95@gmail.com>,
+        linux-leds@vger.kernel.org, Daniel Kurtz <djkurtz@chromium.org>,
+        Oliver Neukum <oneukum@suse.de>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/6] HID: hid-input: Add offhook and ring LEDs for
+ headsets
+Message-ID: <20210715224905.GA18180@duo.ucw.cz>
+References: <20210703220202.5637-1-maxtram95@gmail.com>
+ <20210703220202.5637-2-maxtram95@gmail.com>
+ <CAO-hwJJxJqgW6CGPmvL41teh6vgWfSg55qoXWL3TjQx+mvsbHg@mail.gmail.com>
+ <nycvar.YFH.7.76.2107152057230.8253@cbobk.fhfr.pm>
+ <YPCc/k89XNTmeKVo@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="AqsLC8rIMeq19msA"
+Content-Disposition: inline
+In-Reply-To: <YPCc/k89XNTmeKVo@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The previous commit in this chain (swap led_brightness from enum to
-typedef) fixed the removed issue in this TODO. This patch updates
-the TODO to indicate this.
 
-Signed-off-by: Amy Parker <apark0006@student.cerritos.edu>
----
- drivers/leds/TODO | 4 ----
- 1 file changed, 4 deletions(-)
+--AqsLC8rIMeq19msA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/leds/TODO b/drivers/leds/TODO
-index e1d771513b98..7b97bb733392 100644
---- a/drivers/leds/TODO
-+++ b/drivers/leds/TODO
-@@ -1,10 +1,6 @@
- -*- org -*-
- 
- * On/off LEDs should have max_brightness of 1
--* Get rid of led_brightness
--
--It is really an integer, as maximum is configurable. Get rid of it, or
--make it into typedef or something.
- 
- * Review atomicity requirements in LED subsystem
- 
--- 
-2.31.1
+On Thu 2021-07-15 13:39:26, Dmitry Torokhov wrote:
+> On Thu, Jul 15, 2021 at 08:57:44PM +0200, Jiri Kosina wrote:
+> > On Tue, 6 Jul 2021, Benjamin Tissoires wrote:
+> >=20
+> > > > A lot of USBHID headsets available on the market have LEDs that ind=
+icate
+> > > > ringing and off-hook states when used with VoIP applications. This
+> > > > commit exposes these LEDs via the standard sysfs interface.
 
+> > > > diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
+> > > > index 0b11990ade46..bc6e25b9af25 100644
+> > > > --- a/drivers/input/input-leds.c
+> > > > +++ b/drivers/input/input-leds.c
+> > > > @@ -33,6 +33,8 @@ static const struct {
+> > > >         [LED_MISC]      =3D { "misc" },
+> > > >         [LED_MAIL]      =3D { "mail" },
+> > > >         [LED_CHARGING]  =3D { "charging" },
+> > > > +       [LED_OFFHOOK]   =3D { "offhook" },
+> > >=20
+> > > I am pretty sure this also needs to be reviewed by the led folks.
+> > > Adding them in Cc.
+> >=20
+> > Can we please get Ack from the LED maintainers? Thanks.
+>=20
+> I do not think we should be adding more LED bits to the input
+> subsystem/events; this functionality should be routed purely though LED
+> subsystem. input-leds is a bridge for legacy input functionality
+> reflecting it onto the newer LED subsystem.
+
+If we do it purely through the LED subsystem, will it get trickier to
+associate the devices?
+
+Anyway, it is a headset. What does headset have to do with input
+subsystem? Sounds like sound device to me... And we already have a
+"micmute" LED which sounds quite similar to the "offhook" LED... no?
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--AqsLC8rIMeq19msA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYPC7YQAKCRAw5/Bqldv6
+8gcPAJoDbpsTmTdVpXp1Ml88kfL3fP+EawCeOSmtI7COjr20zwk8v32ccx3+yWw=
+=9Htt
+-----END PGP SIGNATURE-----
+
+--AqsLC8rIMeq19msA--
