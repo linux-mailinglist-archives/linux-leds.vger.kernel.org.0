@@ -2,126 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCCCC3CA123
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Jul 2021 17:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD9A43CA402
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Jul 2021 19:25:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237420AbhGOPJP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 15 Jul 2021 11:09:15 -0400
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:45660 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231771AbhGOPJP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Jul 2021 11:09:15 -0400
-Received: by mail-vs1-f49.google.com with SMTP id h5so3135091vsg.12;
-        Thu, 15 Jul 2021 08:06:21 -0700 (PDT)
+        id S234745AbhGOR1z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 15 Jul 2021 13:27:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37144 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234914AbhGOR1y (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Jul 2021 13:27:54 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F291FC0613E4
+        for <linux-leds@vger.kernel.org>; Thu, 15 Jul 2021 10:24:59 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id h8so9242488eds.4
+        for <linux-leds@vger.kernel.org>; Thu, 15 Jul 2021 10:24:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Ibb5KNEw1DKqJEg9n4gJy5KnzVasBofn6QaWYsu9UCQ=;
+        b=t9W6ZUbHNRJ0qNSUPxxJ7rwyS6/T47LB8+GEvcGcZS2vgBILYApln75Pntcxn5fpNm
+         CtF83dHhK1sI0unp5//UIaTiWHKSRWhdzbLUXmwOWE0siga3uT7o6KbbqJLCuXISRJEQ
+         al8pRwAY03/IaxE3qXnt42v0CTRaHD2tppbU0LS/FZIzL8IxPeIaPJ1YZkyHqWZX3beM
+         4+xYQxqDDYwD9dyjX1Mc60oWXcAcZdalOCke9n3oDr1w+I8lJlufH05RbTPxRhFGiMAD
+         BpEH+2hcDtItf0cKj4UhyaFm0jsA0qnOxoGC5g15c9fNdeV0dFm2Efrq/yuK05wZR73f
+         O6jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=spa2fSuHOZDVb4Y0JrFsA4UPYD9gWGf/Hi9IWPMD4tk=;
-        b=hBcQsUpqwfYeocR43lIxMlJRgjv6lwn7Iv8hna3S+Ht4sR+800y2QqG36zMI1LxuGP
-         QslVsVxixu1RAi4NgoFFUyIemfsGYKhCEI18Ky6SUVWtdLy7VNnMJ087gi+l7Z8c20tK
-         iAqqVFrDCpt3W712wMgJaNz1k5C7ErELBVHfaZwAQkYmbJVf3gOvySym1/f7EorWLFt6
-         6x4f0LwuYTUqZj0J0DmFMyt5i9uW4DRdiVhkd3gSFsDN6lZQIYZDU+ylMJPnYbYFvLQx
-         xRy/SRqw5IyVJTLa0an0Bdwb8r+TgbelfERIu1mpVqOk5/WQ3cjpxUgx5szpgB/svWt7
-         wXZQ==
-X-Gm-Message-State: AOAM531NrCTC5kxhod0uevch2UnryzF//VmdVlOHbheMGUivGs+UWg+5
-        6ZNKOSzCaTqyFCvjhod8AQegbmb3zYUK4gV1waI=
-X-Google-Smtp-Source: ABdhPJwze3CW9x6omBam+iWIlxtLg4VtbCu7QGTvnSyaZy1RtqC8SgJGYFhjgfWFrRzVi3MyWPub2E2al6aDXxxLQmw=
-X-Received: by 2002:a67:3c2:: with SMTP id 185mr7082017vsd.42.1626361581240;
- Thu, 15 Jul 2021 08:06:21 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Ibb5KNEw1DKqJEg9n4gJy5KnzVasBofn6QaWYsu9UCQ=;
+        b=m2S+56P+dc+m1OjC+8KfBh/eZsO510SLy1FDpY3Mx9iof+rFHHEZsxMXWVGF72J2JA
+         cDlgZMnIsk4iBgUKE4KXKHGcNPfh0WNJR9Es4FXXWqKnkeT2Ny68XZX1WijLBfVeiCj8
+         42wD6sLwrFBCKJN2Q/lKVdX6oBE11V14MrKBqeYB9LBmRetei47dKzM02BzOFjMpwfQd
+         b255mOsKDfDkLFPSgfT8pCtLsvhK9sR4Eirgkk65VzSCfpDoz5otlzWsSAVVcz3kfumh
+         U5NzSWoV+gN0EmsE65e7cpYKgraGSeOGQQQL0qNCIYIZVdncrrT89U5SiNLulygr9E5B
+         Yy2g==
+X-Gm-Message-State: AOAM531B4Gz4xj+jpUiO79gHJ4CVkrIR4bpaonMmIBDFMlUthOMI3Mxg
+        Uh0bKcTZLSbHD2dcCclMjacT7qyq+puPMSo+ZuA=
+X-Google-Smtp-Source: ABdhPJyxueRlfHltyUCESR67vWAXcLtdouVP7pOna84WJs+57H00WkQ1yY0EfL0teWyNwd8lnwpCvuhD/ZS2cFmHFwA=
+X-Received: by 2002:a50:9faf:: with SMTP id c44mr8582001edf.197.1626369898073;
+ Thu, 15 Jul 2021 10:24:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210625125902.1162428-1-geert@linux-m68k.org>
- <20210625125902.1162428-3-geert@linux-m68k.org> <20210714203624.GA3466861@robh.at.kernel.org>
- <CAMuHMdVso6wpX-u6oG+i1B3=4NFO4tyZgQmQW-nG5MQH27t9BA@mail.gmail.com> <CAL_JsqLbxkbyK0c0mUadxu0OQtQxezY4DNSLkBZWpETwuG_70w@mail.gmail.com>
-In-Reply-To: <CAL_JsqLbxkbyK0c0mUadxu0OQtQxezY4DNSLkBZWpETwuG_70w@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 15 Jul 2021 17:06:10 +0200
-Message-ID: <CAMuHMdWSLWspT==+f4Sm085u+3whuhq5_9jnLjG9kb0+pSWaZw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/18] dt-bindings: auxdisplay: ht16k33: Document
- Adafruit segment displays
-To:     Rob Herring <robh@kernel.org>
-Cc:     Robin van der Gracht <robin@protonic.nl>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Paul Burton <paulburton@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-leds <linux-leds@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Received: by 2002:a54:2dcd:0:0:0:0:0 with HTTP; Thu, 15 Jul 2021 10:24:57
+ -0700 (PDT)
+Reply-To: faty.muhamad@gmail.com
+From:   Fatima Muhammad <matinscott.chambers@gmail.com>
+Date:   Thu, 15 Jul 2021 17:24:57 +0000
+Message-ID: <CAG26VvVWiHB2u8iO1e8bETcuSekW3UnVoiXKLwNZ2yh0MOiBWw@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Rob,
+Hello Dear,
 
-On Thu, Jul 15, 2021 at 4:32 PM Rob Herring <robh@kernel.org> wrote:
-> On Thu, Jul 15, 2021 at 1:12 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Wed, Jul 14, 2021 at 10:36 PM Rob Herring <robh@kernel.org> wrote:
-> > > On Fri, Jun 25, 2021 at 02:58:46PM +0200, Geert Uytterhoeven wrote:
-> > > > The Holtek HT16K33 LED controller is not only used for driving
-> > > > dot-matrix displays, but also for driving segment displays.
-> > > >
-> > > > Document compatible values for the Adafruit 7-segment[1] and
-> > > > 14-segment[2] FeatherWing expansion boards with red displays.  According
-> > > > to the schematics, all other Adafruit 7-segment and 14-segment display
-> > > > backpack and FeatherWing expansion boards (including bare boards and
-> > > > boards fitted with displays) are compatible with these two boards.
-> > > > Add a "color" property to support the different color variants.
-> > > >
-> > > > [1] https://www.adafruit.com/product/3108
-> > > > [2] https://www.adafruit.com/product/3130
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> >
-> > > > --- a/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
-> > > > +++ b/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
-> > > > @@ -14,14 +14,23 @@ allOf:
-> > > >
-> > > >  properties:
-> > > >    compatible:
-> > > > -    const: holtek,ht16k33
-> > > > +    oneOf:
-> > > > +      - items:
-> > > > +          - const: adafruit,3108  # 0.56" 4-Digit 7-Segment FeatherWing Display (Red)
-> > > > +          - const: holtek,ht16k33
-> > > > +
-> > > > +      - items:
-> > > > +          - const: adafruit,3130  # 0.54" Quad Alphanumeric FeatherWing Display (Red)
-> > > > +          - const: holtek,ht16k33
-> > >
-> > > These 2 entries can be combined.
-> >
-> > Right.  This split dates back from when I considered adding all
-> > possible compatible values.  It can indeed be simplified to:
-> >
-> >           - enum:
-> >               - adafruit,3108  # 0.56" 4-Digit 7-Segment FeatherWing
-> > Display (Red)
-> >               - adafruit,3130  # 0.54" Quad Alphanumeric FeatherWing
-> > Display (Red)
-> >           - const: holtek,ht16k33
-> >
-> > > Or make the comment a 'description'.
-> >
-> > What do you mean?
->
-> Adding this:
->
-> description: '0.54" Quad Alphanumeric FeatherWing Display (Red)'
+My name is Ms.Fatima Muhammad., Please forgive me for stressing you
+with my predicaments and I sorry to approach you through this media
+because is serves the fastest means of  my communication right now,
 
-Sorry, I still don't get it.
-Note that there are two different adafruit,NNNN compatible values.
+I came across your Email from my personal search and I decided to
+contact you believing you will be honest to fulfill my business
+proposal which I believe that will be a very good opportunity for both
+of us. Please it is my pleasure to contact you today for a business
+partnership investments projects worth $4.6 million USD which I intend
+to establish in your country..
 
-Gr{oetje,eeting}s,
+Pls If this business proposal offends your moral and ethic values do
+accept my apology. therefore kindly contact me immediately if you are
+interested for more details.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thank you for your wiliness to help me
+Yours Sincerely Fatima Muhammad
