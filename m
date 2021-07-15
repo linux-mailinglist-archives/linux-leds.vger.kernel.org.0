@@ -2,76 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD9A43CA402
-	for <lists+linux-leds@lfdr.de>; Thu, 15 Jul 2021 19:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17DEF3CA89A
+	for <lists+linux-leds@lfdr.de>; Thu, 15 Jul 2021 21:00:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234745AbhGOR1z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 15 Jul 2021 13:27:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37144 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234914AbhGOR1y (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 15 Jul 2021 13:27:54 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F291FC0613E4
-        for <linux-leds@vger.kernel.org>; Thu, 15 Jul 2021 10:24:59 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id h8so9242488eds.4
-        for <linux-leds@vger.kernel.org>; Thu, 15 Jul 2021 10:24:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Ibb5KNEw1DKqJEg9n4gJy5KnzVasBofn6QaWYsu9UCQ=;
-        b=t9W6ZUbHNRJ0qNSUPxxJ7rwyS6/T47LB8+GEvcGcZS2vgBILYApln75Pntcxn5fpNm
-         CtF83dHhK1sI0unp5//UIaTiWHKSRWhdzbLUXmwOWE0siga3uT7o6KbbqJLCuXISRJEQ
-         al8pRwAY03/IaxE3qXnt42v0CTRaHD2tppbU0LS/FZIzL8IxPeIaPJ1YZkyHqWZX3beM
-         4+xYQxqDDYwD9dyjX1Mc60oWXcAcZdalOCke9n3oDr1w+I8lJlufH05RbTPxRhFGiMAD
-         BpEH+2hcDtItf0cKj4UhyaFm0jsA0qnOxoGC5g15c9fNdeV0dFm2Efrq/yuK05wZR73f
-         O6jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Ibb5KNEw1DKqJEg9n4gJy5KnzVasBofn6QaWYsu9UCQ=;
-        b=m2S+56P+dc+m1OjC+8KfBh/eZsO510SLy1FDpY3Mx9iof+rFHHEZsxMXWVGF72J2JA
-         cDlgZMnIsk4iBgUKE4KXKHGcNPfh0WNJR9Es4FXXWqKnkeT2Ny68XZX1WijLBfVeiCj8
-         42wD6sLwrFBCKJN2Q/lKVdX6oBE11V14MrKBqeYB9LBmRetei47dKzM02BzOFjMpwfQd
-         b255mOsKDfDkLFPSgfT8pCtLsvhK9sR4Eirgkk65VzSCfpDoz5otlzWsSAVVcz3kfumh
-         U5NzSWoV+gN0EmsE65e7cpYKgraGSeOGQQQL0qNCIYIZVdncrrT89U5SiNLulygr9E5B
-         Yy2g==
-X-Gm-Message-State: AOAM531B4Gz4xj+jpUiO79gHJ4CVkrIR4bpaonMmIBDFMlUthOMI3Mxg
-        Uh0bKcTZLSbHD2dcCclMjacT7qyq+puPMSo+ZuA=
-X-Google-Smtp-Source: ABdhPJyxueRlfHltyUCESR67vWAXcLtdouVP7pOna84WJs+57H00WkQ1yY0EfL0teWyNwd8lnwpCvuhD/ZS2cFmHFwA=
-X-Received: by 2002:a50:9faf:: with SMTP id c44mr8582001edf.197.1626369898073;
- Thu, 15 Jul 2021 10:24:58 -0700 (PDT)
+        id S243252AbhGOTBv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 15 Jul 2021 15:01:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38802 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241698AbhGOTBK (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 15 Jul 2021 15:01:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9CCD9601FE;
+        Thu, 15 Jul 2021 18:57:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1626375468;
+        bh=n4MF6jOHP2VdTsWK9s1BcSjD+lLbgvgytoGh4+vxdbY=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=T2O0bKwTVtoL/1jwGvtWtjH/wpowPLcZP2nLojPLSvFSmV1WT6qR001lXhrDXxyUV
+         xn7vKjwmdb94cNokWwmlxffXgJg2NBKReapvPpwOB4pYpMjldWxyCaZXNPmr5L9xOR
+         lPScqjApl1Ger8Z2VhARNBfcVQ5znjm50MKDJ71fc/eeZ+XkezcmtPoCJJpTrkpirN
+         RhOJgm4CJakm4v8LRhkaCSmx17mkgWJ7Y9E+kpf3hjs8q/LtSrx19MaP3XAfD+DCzM
+         1W+j+l9ib8uO6TESHbjgPkm0eozMZ5cqAdg0Z3R4EpNGCMhz6sg2VXuxxm8aGVtWQ8
+         w+STLMoD5wOiQ==
+Date:   Thu, 15 Jul 2021 20:57:44 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc:     Maxim Mikityanskiy <maxtram95@gmail.com>,
+        linux-leds@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Daniel Kurtz <djkurtz@chromium.org>,
+        Oliver Neukum <oneukum@suse.de>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/6] HID: hid-input: Add offhook and ring LEDs for
+ headsets
+In-Reply-To: <CAO-hwJJxJqgW6CGPmvL41teh6vgWfSg55qoXWL3TjQx+mvsbHg@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2107152057230.8253@cbobk.fhfr.pm>
+References: <20210703220202.5637-1-maxtram95@gmail.com> <20210703220202.5637-2-maxtram95@gmail.com> <CAO-hwJJxJqgW6CGPmvL41teh6vgWfSg55qoXWL3TjQx+mvsbHg@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Received: by 2002:a54:2dcd:0:0:0:0:0 with HTTP; Thu, 15 Jul 2021 10:24:57
- -0700 (PDT)
-Reply-To: faty.muhamad@gmail.com
-From:   Fatima Muhammad <matinscott.chambers@gmail.com>
-Date:   Thu, 15 Jul 2021 17:24:57 +0000
-Message-ID: <CAG26VvVWiHB2u8iO1e8bETcuSekW3UnVoiXKLwNZ2yh0MOiBWw@mail.gmail.com>
-Subject: Hello Dear
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Dear,
+On Tue, 6 Jul 2021, Benjamin Tissoires wrote:
 
-My name is Ms.Fatima Muhammad., Please forgive me for stressing you
-with my predicaments and I sorry to approach you through this media
-because is serves the fastest means of  my communication right now,
+> > A lot of USBHID headsets available on the market have LEDs that indicate
+> > ringing and off-hook states when used with VoIP applications. This
+> > commit exposes these LEDs via the standard sysfs interface.
+> >
+> > Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
+> > ---
+> >  drivers/hid/hid-input.c                | 2 ++
+> >  drivers/input/input-leds.c             | 2 ++
+> >  include/uapi/linux/input-event-codes.h | 2 ++
+> >  3 files changed, 6 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> > index 4286a51f7f16..44b8243f9924 100644
+> > --- a/drivers/hid/hid-input.c
+> > +++ b/drivers/hid/hid-input.c
+> > @@ -798,6 +798,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+> >                 case 0x4b:  map_led (LED_MISC);     break;    /*   "Generic Indicator"        */
+> >                 case 0x19:  map_led (LED_MAIL);     break;    /*   "Message Waiting"          */
+> >                 case 0x4d:  map_led (LED_CHARGING); break;    /*   "External Power Connected" */
+> > +               case 0x17:  map_led (LED_OFFHOOK);  break;    /*   "Off-Hook"                 */
+> > +               case 0x18:  map_led (LED_RING);     break;    /*   "Ring"                     */
+> >
+> >                 default: goto ignore;
+> >                 }
+> > diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
+> > index 0b11990ade46..bc6e25b9af25 100644
+> > --- a/drivers/input/input-leds.c
+> > +++ b/drivers/input/input-leds.c
+> > @@ -33,6 +33,8 @@ static const struct {
+> >         [LED_MISC]      = { "misc" },
+> >         [LED_MAIL]      = { "mail" },
+> >         [LED_CHARGING]  = { "charging" },
+> > +       [LED_OFFHOOK]   = { "offhook" },
+> 
+> I am pretty sure this also needs to be reviewed by the led folks.
+> Adding them in Cc.
 
-I came across your Email from my personal search and I decided to
-contact you believing you will be honest to fulfill my business
-proposal which I believe that will be a very good opportunity for both
-of us. Please it is my pleasure to contact you today for a business
-partnership investments projects worth $4.6 million USD which I intend
-to establish in your country..
+Can we please get Ack from the LED maintainers? Thanks.
 
-Pls If this business proposal offends your moral and ethic values do
-accept my apology. therefore kindly contact me immediately if you are
-interested for more details.
+> 
+> Cheers,
+> Benjamin
+> 
+> > +       [LED_RING]      = { "ring" },
+> >  };
+> >
+> >  struct input_led {
+> > diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> > index 225ec87d4f22..dd785a5b5076 100644
+> > --- a/include/uapi/linux/input-event-codes.h
+> > +++ b/include/uapi/linux/input-event-codes.h
+> > @@ -925,6 +925,8 @@
+> >  #define LED_MISC               0x08
+> >  #define LED_MAIL               0x09
+> >  #define LED_CHARGING           0x0a
+> > +#define LED_OFFHOOK            0x0b
+> > +#define LED_RING               0x0c
+> >  #define LED_MAX                        0x0f
+> >  #define LED_CNT                        (LED_MAX+1)
+> >
+> > --
+> > 2.32.0
+> >
+> 
 
-Thank you for your wiliness to help me
-Yours Sincerely Fatima Muhammad
+-- 
+Jiri Kosina
+SUSE Labs
+
