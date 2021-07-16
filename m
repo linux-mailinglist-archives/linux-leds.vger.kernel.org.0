@@ -2,152 +2,98 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FAA83CBEAF
-	for <lists+linux-leds@lfdr.de>; Fri, 16 Jul 2021 23:43:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 976063CBEE0
+	for <lists+linux-leds@lfdr.de>; Sat, 17 Jul 2021 00:03:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235815AbhGPVqb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 16 Jul 2021 17:46:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56608 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235173AbhGPVqb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 16 Jul 2021 17:46:31 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0913C06175F;
-        Fri, 16 Jul 2021 14:43:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=bEkj3X1w+yUCMlbBrYh2sHY0GGD8wsEyAKCDS+glIK8=; b=bKJM2HBygbaTm4VtXAsRzROIoW
-        bGPx90k2b1Hny6MEmDKC7O2E23wvdYBYsrQN4j2onMAgolNNu/IPB6c2de4eJPhD0s4Xar0keclnw
-        712+Ex3rSw2wUnWj1pSqyG3NDKVEETFi2zsJ+ySXTxCJL/qErBUWUtyMs9rLJHuqUmuxLAnWmi3li
-        v84jyIWCm8lxesL2mzSSkVQ/1da9t+ObC3ffLOdjxsPQGERfGiqy5IKLnd7qrY0aVSfm3Su9a5fI0
-        Q3lCSIjC3SD9qRv/tQ+EXbtm81+Khvz/LX04eUXI7LTm2Eh693SE7BHKSOspxNz4FM/o2tOd6LHXM
-        o8xIeDsQ==;
-Received: from [2601:1c0:6280:3f0::aefb]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m4VcM-005PIy-Iu; Fri, 16 Jul 2021 21:43:34 +0000
-Subject: Re: [PATCH 1/2] swap led_brightness from enum to typedef
-To:     Amy Parker <apark0006@student.cerritos.edu>,
-        kernel test robot <lkp@intel.com>
-Cc:     pavel@ucw.cz, kbuild-all@lists.01.org, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <9b5902665dcc4c0fca7546987303e348d8657f59.1626383424.git.apark0006@student.cerritos.edu>
- <202107161046.heIVRW8r-lkp@intel.com>
- <CAPOgqxHndN+3J-C7+38vLedhN2bhAasW9JRxf-rvt7gvVhD1rQ@mail.gmail.com>
- <CAPOgqxHzhLt91N902NmWaVRO2RkmewWj9rJCdCt5qOrAjai+OQ@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <e1a4685e-ceab-75f2-ee18-09a0a9c55a87@infradead.org>
-Date:   Fri, 16 Jul 2021 14:43:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S236958AbhGPWGh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 16 Jul 2021 18:06:37 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7570 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235209AbhGPWGg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 16 Jul 2021 18:06:36 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16GM3R9F119858;
+        Fri, 16 Jul 2021 18:03:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=H3hidmuB+bwpAqM9Mc7uCBPE8mUH+/cjmGvrD/nU7+g=;
+ b=c1v2uijRBakWGjq1lLUYBfd9z74iHnpLWFYEnkYJBZDUzGCmcNJzcrcVHNTMpkWpOZ1e
+ qCs1aUBgdfmkQXZOzXKCbPTiYKwVheSlZmCpLUTDWnorvPl/YdzZKl2yZNydMLPCmeAB
+ choBAfpI6NVO/LaFco0LBXk//+U471YJ1XgR/k8RzRwISM+bYykqCGTZ50skgD4cytAM
+ mGRN9kEEW0un3mKpkB3Pn1LadXqn0ZE9feT0b9DQ4rTBqPv5RsAjVlUm8eDKAPtW98IG
+ 2ZnB8Rx6FZvuQh2eOTvOJw8jVKRhKSJqR9qD5GkRGRwfA42Hf0kbMR4W6+7eVhmCmp+g /A== 
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 39twuxr984-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 16 Jul 2021 18:03:37 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+        by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16GLw2vH014412;
+        Fri, 16 Jul 2021 22:03:36 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+        by ppma03dal.us.ibm.com with ESMTP id 39rkgyca5w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 16 Jul 2021 22:03:36 +0000
+Received: from b03ledav006.gho.boulder.ibm.com (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 16GM3Ztr39321858
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 16 Jul 2021 22:03:35 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 05CCDC6063;
+        Fri, 16 Jul 2021 22:03:35 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A62DFC6062;
+        Fri, 16 Jul 2021 22:03:34 +0000 (GMT)
+Received: from v0005c16.aus.stglabs.ibm.com (unknown [9.211.92.96])
+        by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Fri, 16 Jul 2021 22:03:34 +0000 (GMT)
+From:   Eddie James <eajames@linux.ibm.com>
+To:     linux-leds@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        robh+dt@kernel.org, pavel@ucw.cz,
+        Eddie James <eajames@linux.ibm.com>
+Subject: [PATCH v2 0/7] leds: Support retaining state for the PCA955x
+Date:   Fri, 16 Jul 2021 17:03:24 -0500
+Message-Id: <20210716220331.49303-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <CAPOgqxHzhLt91N902NmWaVRO2RkmewWj9rJCdCt5qOrAjai+OQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 1uh0hzTdHlnYpRciX2ANJRDhowzRZnZS
+X-Proofpoint-GUID: 1uh0hzTdHlnYpRciX2ANJRDhowzRZnZS
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-07-16_10:2021-07-16,2021-07-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ lowpriorityscore=0 mlxlogscore=825 impostorscore=0 spamscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 adultscore=0 suspectscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107160140
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Amy,
+This series implements the ability to retain the state of the LEDs
+controlled by the PCA955x across system reboots. This includes a
+change to the LED core driver to respect the retain-state-shutdown
+device tree property. It also cleans up the PCA955x driver, adds the
+ability to query the hardware LED brightness, switches the I2C probe
+function to probe_new, and uses more core functionality for parsing
+the fwnode.
 
-Please see comments below.
+Eddie James (7):
+  dt-bindings: leds: Add retain-state-shutdown boolean
+  leds: leds-core: Implement the retain-state-shutdown property
+  leds: pca955x: Clean up code formatting
+  leds: pca955x: Add brightness_get function
+  leds: pca955x: Implement the default-state property
+  leds: pca955x: Let the core process the fwnode
+  leds: pca955x: Switch to i2c probe_new
 
-On 7/16/21 2:07 PM, Amy Parker wrote:
-> On Thu, Jul 15, 2021 at 8:11 PM Amy Parker
-> <apark0006@student.cerritos.edu> wrote:
->>
->> Ah - I see there was an issue with header files not being properly updated.
->>
->> Check back for another patch resolving this.
->>
->>
->> On Thu, Jul 15, 2021 at 7:15 PM kernel test robot <lkp@intel.com> wrote:
->>>
->>> Hi Amy,
->>>
->>> Thank you for the patch! Perhaps something to improve:
->>>
->>> [auto build test WARNING on linus/master]
->>> [also build test WARNING on v5.14-rc1 next-20210715]
->>> [cannot apply to pavel-linux-leds/for-next wireless-drivers-next/master wireless-drivers/master]
->>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>> And when submitting patch, we suggest to use '--base' as documented in
->>> https://git-scm.com/docs/git-format-patch]
->>>
->>> url:    https://github.com/0day-ci/linux/commits/Amy-Parker/leds-change-led_brightness-definition-from-enum-to-typedef/20210716-052140
->>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git dd9c7df94c1b23feacd54112f33ad95d93f64533
->>> config: m68k-buildonly-randconfig-r006-20210715 (attached as .config)
->>> compiler: m68k-linux-gcc (GCC) 10.3.0
->>> reproduce (this is a W=1 build):
->>>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>>         chmod +x ~/bin/make.cross
->>>         # https://github.com/0day-ci/linux/commit/b14a971f1045205d49d9d001f33d33afdd8208f9
->>>         git remote add linux-review https://github.com/0day-ci/linux
->>>         git fetch --no-tags linux-review Amy-Parker/leds-change-led_brightness-definition-from-enum-to-typedef/20210716-052140
->>>         git checkout b14a971f1045205d49d9d001f33d33afdd8208f9
->>>         # save the attached .config to linux build tree
->>>         mkdir build_dir
->>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-10.3.0 make.cross O=build_dir ARCH=m68k SHELL=/bin/bash drivers/md/bcache/ drivers/media/v4l2-core/
->>>
->>> If you fix the issue, kindly add following tag as appropriate
->>> Reported-by: kernel test robot <lkp@intel.com>
->>>
->>> All warnings (new ones prefixed by >>):
->>>
->>>    In file included from drivers/media/v4l2-core/v4l2-flash-led-class.c:15:
->>>>> include/media/v4l2-flash-led-class.h:18:1: warning: useless type name in empty declaration
->>>       18 | led_brightness;
->>>          | ^~~~~~~~~~~~~~
->>>
->>>
->>> vim +18 include/media/v4l2-flash-led-class.h
->>>
->>>     14
->>>     15  struct led_classdev_flash;
->>>     16  struct led_classdev;
->>>     17  struct v4l2_flash;
->>>   > 18  led_brightness;
->>>     19
->>>
->>> ---
+ .../devicetree/bindings/leds/common.yaml      |   6 +
+ drivers/leds/led-class.c                      |  10 +-
+ drivers/leds/leds-pca955x.c                   | 232 +++++++++++++-----
+ 3 files changed, 182 insertions(+), 66 deletions(-)
 
-> 
-> Another patch was sent into the list to correct this error.
-
-Hopefully Pavel (LED subsystem maintainer) will comment soon-ish.
-
-My comments:
-
-a. This patch would be the right thing to do if your large patch had already been
-applied (merged) somewhere, but AFAIK it hasn't been. So:
-
-b. IMO you should resend your entire patch set with this fix included.
-Send it as "v2" (version 2) and explain the changes in it since your
-original patch (which was v1). This v2 explanation should be below the
-"---" line in the patch. (See Documentation/process/submitting-patches.rst
-for more info -- or ask for more info/help.)
-
-c. For your follow-up patch to include/media/v4l2-flash-led-class.h, which was:
-
--led_brightness;
-+typedef u8 led_brightness;
-
-I would just add this to include/media/v4l2-flash-led-class.h:
-
-#include <linux/leds.h>
-
-That way, in a few years, when the type of led_brightness changes again,
-someone won't have to remember to search for other typedefs of it and
-update them also. Or maybe they will do that after a bug happens and
-someone notices it.
-
-(Note that I am just trying to help. Pavel has more of a final
-say-so about this.)
-
-
-HTH.
 -- 
-~Randy
+2.27.0
 
