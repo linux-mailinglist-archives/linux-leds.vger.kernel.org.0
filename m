@@ -2,112 +2,111 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A77293CD024
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Jul 2021 11:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 036EB3CD44E
+	for <lists+linux-leds@lfdr.de>; Mon, 19 Jul 2021 14:05:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234816AbhGSI3D (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 19 Jul 2021 04:29:03 -0400
-Received: from mail-qv1-f43.google.com ([209.85.219.43]:33340 "EHLO
-        mail-qv1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234991AbhGSI3D (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 19 Jul 2021 04:29:03 -0400
-Received: by mail-qv1-f43.google.com with SMTP id h9so8050137qvs.0;
-        Mon, 19 Jul 2021 02:09:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IvRFsTZWHUBtfjypkwrQKZFWUxIibSU0lyg1+VUtg3o=;
-        b=j0bGFns5Ac3BxtVOjHAryaoX9TzjRmVc+Bb8oyKZYmB+1rRqQ0Krb6wrQvnuE3Imnl
-         9HzSLDHurtZjAcRlzXENZJmpFZLQTW+36lqYLs0S0BYTFuCFKpeK/VJ2ZCeUBkygdqOQ
-         71ODkqrMjCihexkcceWyeaX+BxV221udNoPLFrPb5q29LbfVxqj+G5DZXzKG5J5cgEGE
-         Hf7Yy+xitn4bF49ZESiXseH0wsowhDRVyOc3aUWG2BCyfJDCUSuJrgodcbusWCMLQcHh
-         sZwSiyRB7LtvIaukE9sIsWaCVgFHu1BSuyMJYEmXeMB/vWWjhnINz9LVodL1uQfKpBe5
-         HDnQ==
-X-Gm-Message-State: AOAM5328SYVW6WmIyuh2evRGYJkn0yrLxhYgvXS3L+PzP7FRKm4Mnh2X
-        ADetPEmEDWUD9dyzd3fZ2JYn3teLOPLFWHKqssoqwCx6
-X-Google-Smtp-Source: ABdhPJwzsz6tgCn138Wv0TTHdZGLVQIes9AbYd5clSec/oNFY1H5H69RrugV3uvyOApiMcAqUtYYJvmBeEEACUg8xbI=
-X-Received: by 2002:ac5:cd9b:: with SMTP id i27mr20830596vka.1.1626684043244;
- Mon, 19 Jul 2021 01:40:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1626383424.git.apark0006@student.cerritos.edu>
- <9b5902665dcc4c0fca7546987303e348d8657f59.1626383424.git.apark0006@student.cerritos.edu>
- <alpine.DEB.2.22.394.2107190912320.178229@ramsan.of.borg>
-In-Reply-To: <alpine.DEB.2.22.394.2107190912320.178229@ramsan.of.borg>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 19 Jul 2021 10:40:32 +0200
-Message-ID: <CAMuHMdXZcaR28fUuiNWF8jv-NnOYkAXxR8z+vOQ2rY3BqQMWTQ@mail.gmail.com>
+        id S236705AbhGSLYq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 19 Jul 2021 07:24:46 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:33310 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236576AbhGSLYq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 19 Jul 2021 07:24:46 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 55EE11C0B77; Mon, 19 Jul 2021 14:05:25 +0200 (CEST)
+Date:   Mon, 19 Jul 2021 14:05:23 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Amy Parker <apark0006@student.cerritos.edu>,
+        kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org,
+        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/2] swap led_brightness from enum to typedef
-To:     Amy Parker <apark0006@student.cerritos.edu>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        linux-leds <linux-leds@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20210719120523.GA20484@duo.ucw.cz>
+References: <9b5902665dcc4c0fca7546987303e348d8657f59.1626383424.git.apark0006@student.cerritos.edu>
+ <202107161046.heIVRW8r-lkp@intel.com>
+ <CAPOgqxHndN+3J-C7+38vLedhN2bhAasW9JRxf-rvt7gvVhD1rQ@mail.gmail.com>
+ <CAPOgqxHzhLt91N902NmWaVRO2RkmewWj9rJCdCt5qOrAjai+OQ@mail.gmail.com>
+ <e1a4685e-ceab-75f2-ee18-09a0a9c55a87@infradead.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="4Ckj6UjgE2iN1+kY"
+Content-Disposition: inline
+In-Reply-To: <e1a4685e-ceab-75f2-ee18-09a0a9c55a87@infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Jul 19, 2021 at 9:18 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Thu, 15 Jul 2021, Amy Parker wrote:
-> > This commit changes how led_brightness, declared in header file
-> > include/linux/leds.h, works throughout the kernel, and updates other
-> > files in accordance.
-> >
-> > The TODO located at drivers/leds/TODO requests:
-> >
-> > * Get rid of led_brightness
-> >
-> > It is really an integer, as maximum is configurable. Get rid of it, or
-> > make it into typedef or something.
-> >
-> > This patch changes the declaration of led_brightness from an enum to a
-> > typedef. In order to hold the currently existing enum values, macro
-> > definitions are provided. Files which use led_brightness are updated to
-> > conform to the new types.
-> >
-> > Signed-off-by: Amy Parker <apark0006@student.cerritos.edu>
->
-> Thanks for your patch!
->
-> > 207 files changed, 437 insertions(+), 438 deletions(-)
->
-> This touches a lot of files, so we better get it right.
->
-> > --- a/include/linux/leds.h
-> > +++ b/include/linux/leds.h
-> > @@ -26,12 +26,11 @@ struct device_node;
-> >  */
-> >
-> > /* This is obsolete/useless. We now support variable maximum brightness. */
-> > -enum led_brightness {
-> > -     LED_OFF         = 0,
-> > -     LED_ON          = 1,
-> > -     LED_HALF        = 127,
-> > -     LED_FULL        = 255,
-> > -};
-> > +typedef u8 led_brightness;
->
-> In general, typedefs are frowned upon in the kernel, but there can be a
-> good reason to use one.
-> What if the maximum brightness is larger than 255?
-> Using "unsigned int" sounds better to me, but let's wait for Pavel...
 
-And as Dan just pointed out, "signed int" would be even better, as it
-would allow a function to return an error code.
+--4Ckj6UjgE2iN1+kY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > +#define LED_OFF 0
-> > +#define LED_ON 1
-> > +#define LED_HALF 127
-> > +#define LED_FULL 255
+Hi!
 
-Gr{oetje,eeting}s,
+> >>> vim +18 include/media/v4l2-flash-led-class.h
+> >>>
+> >>>     14
+> >>>     15  struct led_classdev_flash;
+> >>>     16  struct led_classdev;
+> >>>     17  struct v4l2_flash;
+> >>>   > 18  led_brightness;
+> >>>     19
+> >>>
+> >>> ---
+>=20
+> >=20
+> > Another patch was sent into the list to correct this error.
+>=20
+> Hopefully Pavel (LED subsystem maintainer) will comment soon-ish.
+>=20
+> My comments:
+>=20
+> a. This patch would be the right thing to do if your large patch had alre=
+ady been
+> applied (merged) somewhere, but AFAIK it hasn't been. So:
+>=20
+> b. IMO you should resend your entire patch set with this fix included.
+> Send it as "v2" (version 2) and explain the changes in it since your
+> original patch (which was v1). This v2 explanation should be below the
+> "---" line in the patch. (See Documentation/process/submitting-patches.rst
+> for more info -- or ask for more info/help.)
 
-                        Geert
+I still remember the old patch, so b. is not strictly neccessary here.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> c. For your follow-up patch to include/media/v4l2-flash-led-class.h, whic=
+h was:
+>=20
+> -led_brightness;
+> +typedef u8 led_brightness;
+>=20
+> I would just add this to include/media/v4l2-flash-led-class.h:
+>=20
+> #include <linux/leds.h>
+>=20
+> That way, in a few years, when the type of led_brightness changes again,
+> someone won't have to remember to search for other typedefs of it and
+> update them also. Or maybe they will do that after a bug happens and
+> someone notices it.
+>=20
+> (Note that I am just trying to help. Pavel has more of a final
+> say-so about this.)
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+And your comments are reasonable.
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--4Ckj6UjgE2iN1+kY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYPVqgwAKCRAw5/Bqldv6
+8sqcAJ0fEgANqqfVlKhtWakvUenLudcV5ACgn+3+BKVHIGKTxz+twWmvkg3w3eE=
+=vptw
+-----END PGP SIGNATURE-----
+
+--4Ckj6UjgE2iN1+kY--
