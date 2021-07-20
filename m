@@ -2,120 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A53193CD458
-	for <lists+linux-leds@lfdr.de>; Mon, 19 Jul 2021 14:08:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83AE63CFDF0
+	for <lists+linux-leds@lfdr.de>; Tue, 20 Jul 2021 17:45:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236571AbhGSL1z (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 19 Jul 2021 07:27:55 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:33574 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236505AbhGSL1y (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 19 Jul 2021 07:27:54 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id DE24B1C0B76; Mon, 19 Jul 2021 14:08:33 +0200 (CEST)
-Date:   Mon, 19 Jul 2021 14:08:32 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Amy Parker <apark0006@student.cerritos.edu>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] swap led_brightness from enum to typedef
-Message-ID: <20210719120832.GB20484@duo.ucw.cz>
-References: <cover.1626383424.git.apark0006@student.cerritos.edu>
- <9b5902665dcc4c0fca7546987303e348d8657f59.1626383424.git.apark0006@student.cerritos.edu>
+        id S238156AbhGTO64 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 20 Jul 2021 10:58:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240085AbhGTOXT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 20 Jul 2021 10:23:19 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E505C0610D2;
+        Tue, 20 Jul 2021 08:00:14 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id f190so10884509wmf.4;
+        Tue, 20 Jul 2021 08:00:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:references:from:subject:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=KvKWv3m+3/O+KfgXxGnf6Z7M6amfCLjyOgh1hPeDLe4=;
+        b=pzN7dtUWMsapJMCTh0j8ayvYfwR0gdPosmF1b6XWS0ub3tKqj0gNCQ+u+0FA2ztdCA
+         LUxSJijgQDFXnPeaTERcfqvGty6SrdgJYGvyiNSijPW44KteRGooTT60K7K7E+dr+fcd
+         QDWYDo4rSbnqFu75QjVUAGo+w8kdAoM4d3MirlQbsXLlrXSj38npjfMQMUkdzvobgpLU
+         n9qbPTxhQ6h/mIAIW8LfwbKsnESt/bxEGM8NOzFOFniDLNDWOF4zl0A49tzRG01y0Mnz
+         a7miP9K8/1SduEHCQYTQ0aGf8WCuoo5E3mQFbZ/Y3lhpDi3vzfgxRVk/sLNs62a8g3e9
+         0BIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KvKWv3m+3/O+KfgXxGnf6Z7M6amfCLjyOgh1hPeDLe4=;
+        b=f+KD5KIB4lH2HpK1xAMtVZ701mNWvrBWoSkQpQDs7dPi+2VqA49Oopt7hgFqLW3f14
+         +y/Y2sfmluy+ajPjYhzbTtA3ywtP9MbhkbVBA+kpVfTjrgoBGhw/Teznl1MB2R3qFCs1
+         3/g35Vw3eyLaJiI84846p15Khen/3jue4WazItNCiYLILwDzVZ4X+W0Zo4VtmJviNvgX
+         bcgiXb/EB4ab0XIhA+4WJUul85YV/PA6aMT3r0pH5WJDcBWACG0iOacbtBpLcnyhI2wh
+         j3wRpaRP2IpmyOIC7OOP3Vf2o/bOjXq1lEHBRzPr8i3pDIeHB4i2qOFisUfooqHPjp6U
+         E8eA==
+X-Gm-Message-State: AOAM530TUE8cSRZGxg3pmaQI7kh1gPnF6TnIpGYYL1BEdwvLqEPYpHto
+        X2qWAksqhYGpavFUjvFfTFCQKKcUK0gnMg==
+X-Google-Smtp-Source: ABdhPJwF2LktpUgEaW3OD9HP4J08A6T0a1VJOnN7/0q08ld+7RT3xfD/Q5OOlOOO5lriaWMlp6ZZIg==
+X-Received: by 2002:a1c:416:: with SMTP id 22mr38537277wme.59.1626793212645;
+        Tue, 20 Jul 2021 08:00:12 -0700 (PDT)
+Received: from ?IPv6:2003:ea:8f3f:3d00:a102:e8a2:ba65:fd0b? (p200300ea8f3f3d00a102e8a2ba65fd0b.dip0.t-ipconnect.de. [2003:ea:8f3f:3d00:a102:e8a2:ba65:fd0b])
+        by smtp.googlemail.com with ESMTPSA id j9sm1751020wms.47.2021.07.20.08.00.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Jul 2021 08:00:12 -0700 (PDT)
+To:     Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>
+Cc:     Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
+        kuba@kernel.org, Kurt Kanzenbach <kurt@linutronix.de>,
+        netdev@vger.kernel.org, sasha.neftin@intel.com,
+        vitaly.lifshits@intel.com, vinicius.gomes@intel.com,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Dvora Fuxbrumer <dvorax.fuxbrumer@linux.intel.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+References: <20210716212427.821834-1-anthony.l.nguyen@intel.com>
+ <20210716212427.821834-6-anthony.l.nguyen@intel.com>
+ <f705bcd6-c55c-0b07-612f-38348d85bbee@gmail.com> <YPTKB0HGEtsydf9/@lunn.ch>
+From:   Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
+Message-ID: <88d23db8-d2d2-5816-6ba1-3bd80738c398@gmail.com>
+Date:   Tue, 20 Jul 2021 17:00:06 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="NDin8bjvE/0mNLFQ"
-Content-Disposition: inline
-In-Reply-To: <9b5902665dcc4c0fca7546987303e348d8657f59.1626383424.git.apark0006@student.cerritos.edu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YPTKB0HGEtsydf9/@lunn.ch>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 19.07.2021 02:40, Andrew Lunn wrote:
+>> In general I'm not sure using the LED API provides a benefit here.
+>> The brightness attribute is simply misused. Maybe better add
+>> a sysfs attribute like led_mode under the netdev sysfs entry?
+> 
+> I _think_ you can put LED sys files other places than
+> /sys/class/led. It should be possible to put them into netdev sysfs
+> directory. However you need to consider what affect network name
+> spaces have on this and what happens when an interface changes
+> namespace.
+> 
 
---NDin8bjvE/0mNLFQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I checked the LED subsystem and didn't find a way to place the LED
+sysfs files in a place other than /sys/class/leds. Maybe Pavel can
+comment on whether I just missed something.
+To avoid the network namespace issues we could use the PCI device
+name in the LED name, but this would be quite unfriendly to the
+user.
 
-Hi!
+For r8169 I'm facing a similar challenge like Kurt. Most family
+members support three LED's:
+- Per LED a mode 0 .. 15 can be set that defines which link speed(s)
+  and/or activity is indicated.
+- Period and duty cycle for blinking can be controlled, but this
+  setting applies to all three LED's.
 
-> This commit changes how led_brightness, declared in header file
-> include/linux/leds.h, works throughout the kernel, and updates other
-> files in accordance.
->=20
-> The TODO located at drivers/leds/TODO requests:
->=20
-> * Get rid of led_brightness
->=20
-> It is really an integer, as maximum is configurable. Get rid of it, or
-> make it into typedef or something.
->=20
-> This patch changes the declaration of led_brightness from an enum to a
-> typedef. In order to hold the currently existing enum values, macro
-> definitions are provided. Files which use led_brightness are updated to
-> conform to the new types.
+For testing purposes I created sysfs attributes led0, led1, led2,
+period, duty and assigned the attribute group to netdev->sysfs_groups[0].
+This works fine and all attributes are under /sys/class/net/<ifname>.
+Only drawback is that you need to know which trigger mode is set by
+values 0..15. However this can be documented in sysfs attribute
+documentation under Documentation/ABI/testing.
 
-Hmm... thanks.
+For using the LED subsystem and triggers two things would have to be
+solved:
+- How to deal with network device name changes so that the user still
+  can identify that a LED belongs to a certain network device.
+- How to properly deal with attributes that are shared by a group of
+  LED's?
 
-But I can't really pull this through the LED tree as it touches other
-people's code.
-
-
-> index bfa60fa1d812..e1d771513b98 100644
-> --- a/drivers/leds/TODO
-> +++ b/drivers/leds/TODO
-> @@ -1,7 +1,7 @@
->  -*- org -*-
-> =20
->  * On/off LEDs should have max_brightness of 1
-> -* Get rid of enum led_brightness
-> +* Get rid of led_brightness
-> =20
->  It is really an integer, as maximum is configurable. Get rid of it, or
->  make it into typedef or something.
-
-You can delete this.
-
-Probably new type should be called led_brightness_t. And probably it
-should be typedef for the enum _for now_, so that we can switch users
-gradually.
-
-It should also be more than u8, I believe someone has more than 255
-levels at this point.
-
-> +++ b/include/linux/leds.h
-> @@ -26,12 +26,11 @@ struct device_node;
->   */
-> =20
->  /* This is obsolete/useless. We now support variable maximum brightness.=
- */
-> -enum led_brightness {
-> -	LED_OFF		=3D 0,
-> -	LED_ON		=3D 1,
-> -	LED_HALF	=3D 127,
-> -	LED_FULL	=3D 255,
-> -};
-> +typedef u8 led_brightness;
-> +#define LED_OFF 0
-> +#define LED_ON 1
-> +#define LED_HALF 127
-> +#define LED_FULL 255
->
-
-Best regards,
-									Pavel
-
---=20
-http://www.livejournal.com/~pavelmachek
-
---NDin8bjvE/0mNLFQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYPVrQAAKCRAw5/Bqldv6
-8oxQAJ4vpVLkMFtBxHpILlZoMm4jZWC72QCfSwt/mUMRhACR502Sg0mOnLGWDmg=
-=LRWf
------END PGP SIGNATURE-----
-
---NDin8bjvE/0mNLFQ--
+>      Andrew
+> .
+> 
+Heiner
