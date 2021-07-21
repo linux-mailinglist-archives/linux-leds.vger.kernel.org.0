@@ -2,75 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 681473D1174
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Jul 2021 16:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CF373D1271
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jul 2021 17:31:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238499AbhGUNzO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Jul 2021 09:55:14 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:38316 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232160AbhGUNzN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 21 Jul 2021 09:55:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=ajdrKYl+mdvVy6NRBRpq4GHIFDRVTvgDHU6NF9M0u9k=; b=r/KZlOIRI2I9emSi07nWzaiHGb
-        NmppCG/LWqWnUp3Ej5za69iuMnTNM2TREx+hcVhaAdYIQYHo86W8HDzo/oJuBxec4XbBrl4D+jo6n
-        rCX9vrPAr8gyMRkgOJyMzs17OsGJdRazsZzJqijiPA6aFqZlXin0HDKlEK2rDoaMn3qk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1m6DJn-00ECyH-GB; Wed, 21 Jul 2021 16:35:27 +0200
-Date:   Wed, 21 Jul 2021 16:35:27 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
-        kuba@kernel.org, Kurt Kanzenbach <kurt@linutronix.de>,
-        netdev@vger.kernel.org, sasha.neftin@intel.com,
-        vitaly.lifshits@intel.com, vinicius.gomes@intel.com,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Dvora Fuxbrumer <dvorax.fuxbrumer@linux.intel.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Message-ID: <YPgwr2MB5gQVgDff@lunn.ch>
-References: <20210716212427.821834-1-anthony.l.nguyen@intel.com>
- <20210716212427.821834-6-anthony.l.nguyen@intel.com>
- <f705bcd6-c55c-0b07-612f-38348d85bbee@gmail.com>
- <YPTKB0HGEtsydf9/@lunn.ch>
- <88d23db8-d2d2-5816-6ba1-3bd80738c398@gmail.com>
- <YPbu8xOFDRZWMTBe@lunn.ch>
- <3b7ad100-643e-c173-0d43-52e65d41c8c3@gmail.com>
+        id S238752AbhGUOup (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Jul 2021 10:50:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238585AbhGUOup (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jul 2021 10:50:45 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C070DC061757
+        for <linux-leds@vger.kernel.org>; Wed, 21 Jul 2021 08:31:21 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id qb4so3820660ejc.11
+        for <linux-leds@vger.kernel.org>; Wed, 21 Jul 2021 08:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=npBTNtth64784Swm+ecPNmUdwO9+AOQ0+inX3vZ7kvA=;
+        b=dSwx/4D7DraIZkK9jRugxs4mYM1BryTtv1wlMvQf4iExeZyNg9u7ojOxxYVPhNXt8k
+         xbGi+QWCJYrov0xwLBhrQaxMf3h8QYp9gOe7QjiOAzWv+S1cTwjzSfpCjIN86QxetJym
+         8DbhjzVN3vpL2FpRSQiF9srQeFwGDIWc3Xgc0QpyR+SrnCEGWhz43+UbB2tzeDbfoQjz
+         D04vWwkR5r34XVLMNqJTttbfDyJuvZLeqbM24n7EwZDhMlm+jMoaj5el4i+rrIvBY+Mr
+         yskETxK6wjpzc/srmYtsf/sCQ+C5eYqV7BEsfJBtpTXiRqTKenhOh6Ny7qI9ZjFmrBa4
+         YKyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=npBTNtth64784Swm+ecPNmUdwO9+AOQ0+inX3vZ7kvA=;
+        b=DUZUv/pwNIdolO38HjYoYW5sCMI+vx0fctlQy3mFNgKldhFP+7Z/Velca39N4JuDof
+         n7EYWbL4gLmMOWdsq+RVju6RALXmvAIAEgwazUTqF7OPLDk0uw+vQWKNuSbmYZapxoyg
+         wNU2zEIdVdbTLZ9SPg9ePfaU/8XEvXYVUjOS2wca4c/WHueJepw+W9U7DTZ5NGINCLK0
+         S51Ok86S2kvHKOWw2E4Tj8l3cLaNMz2B4C0yOxpLz9aPZOa0SFWmvAy6gCQ54+EFqe7l
+         CCmyGVthJaUo+gU8m2w/mNW5UZ8sOMoqh2BmDxNlfVNeqUQHgDI8v4JvSt/ikXDikuYY
+         MU0Q==
+X-Gm-Message-State: AOAM532Gba+O/nl1tlJgiM2hBZhR7luO21BdPM9/b6GrpFBz3VGRPJrZ
+        qylEIVTzCP2J3QzW0fcqM3FgT04BSgzmqz93hQg=
+X-Google-Smtp-Source: ABdhPJwBRIfAEE/lsfibIleDUjjVo9Ea3B1l3ZGGu/huP8QNC5XAxU2hRfsmPvSd/3DDx/f8Ogz3z0bPNEGHWITeLEM=
+X-Received: by 2002:a17:906:546:: with SMTP id k6mr38630111eja.53.1626881480186;
+ Wed, 21 Jul 2021 08:31:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3b7ad100-643e-c173-0d43-52e65d41c8c3@gmail.com>
+Received: by 2002:a54:2d0c:0:0:0:0:0 with HTTP; Wed, 21 Jul 2021 08:31:19
+ -0700 (PDT)
+Reply-To: ouedraogoahmed@outlook.com
+From:   mr ahmed <devoobrown@gmail.com>
+Date:   Wed, 21 Jul 2021 15:31:19 +0000
+Message-ID: <CALi_6kNv8URWMSCHR1gjihF5H3ux5dAdut30ZNBtW9mnkZ9syA@mail.gmail.com>
+Subject: Hello Dear.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> Thanks for the hint, Andrew. If I make &netdev->dev the parent,
-> then I get:
-> 
-> ll /sys/class/leds/
-> total 0
-> lrwxrwxrwx 1 root root 0 Jul 20 21:37 led0 -> ../../devices/pci0000:00/0000:00:1d.0/0000:03:00.0/net/enp3s0/led0
-> lrwxrwxrwx 1 root root 0 Jul 20 21:37 led1 -> ../../devices/pci0000:00/0000:00:1d.0/0000:03:00.0/net/enp3s0/led1
-> lrwxrwxrwx 1 root root 0 Jul 20 21:37 led2 -> ../../devices/pci0000:00/0000:00:1d.0/0000:03:00.0/net/enp3s0/led2
-> 
-> Now the (linked) LED devices are under /sys/class/net/<ifname>, but still
-> the primary LED devices are under /sys/class/leds and their names have
-> to be unique therefore. The LED subsystem takes care of unique names,
-> but in case of a second network interface the LED device name suddenly
-> would be led0_1 (IIRC). So the names wouldn't be predictable, and I think
-> that's not what we want.
+Greetings,
 
-We need input from the LED maintainers, but do we actually need the
-symbolic links in /sys/class/leds/? For this specific use case, not
-generally. Allow an LED to opt out of the /sys/class/leds symlink.
+With due respect to your person. I need your assistance in
+transferring the sum of $11.3million to your private account. The
+money has been here in our Bank lying dormant for years without
+anybody coming for the claim. I want to release the money to you as
+the relative to our deceased customer (the account owner) who died a
+long with his family since October 2005.
 
-If we could drop those, we can relax the naming requirements so that
-the names is unique to a parent device, not globally unique.
+The Banking law and guideline here stipulates that if such money
+remains unclaimed after 16 years, the money will be transferred into
+the bank treasury as an unclaimed fund. that is the reason why i want
+to release the money to you for our mutual benefit.
 
-    Andrew
+By indicating your interest I will send you the full details on how
+the business will be executed.
+
+Best Regards,
+Ahmed Ouedraogo.
