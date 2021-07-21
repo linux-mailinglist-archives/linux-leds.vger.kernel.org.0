@@ -2,30 +2,29 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08FF33D1780
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Jul 2021 22:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 852F23D1873
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jul 2021 22:54:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229630AbhGUT0p (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Jul 2021 15:26:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42422 "EHLO mail.kernel.org"
+        id S229771AbhGUUOS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Jul 2021 16:14:18 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:39102 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229463AbhGUT0p (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 21 Jul 2021 15:26:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 559FB610CC;
-        Wed, 21 Jul 2021 20:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626898041;
-        bh=ffYfEchzU/5yNnkWXgvy1x8g6Mc0EK8A6psI53btj9o=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PSpqoy+GmaETUUNIjkHRD/LyzqLrwKOhPAA72NQbQuvLlK5eLhAY0K3TW/mj6i1QM
-         YDpzQN6uJOERPpe3AsoWn1CYaK+7wvctNuNKu6zlw4S60dJVwLXHpKiWHwmxEC1HcO
-         ysuegjRkKL+H01vCxiXbNL0zqgMXqslxxBgRnKj2LIKY8DqWiBgluMBkWseogpbM2I
-         CR0sVhenRj1ClLZ2pvDT9rAFBnHHNoZd12ateiGlZcEbgFHivc3MUaiCnCYBLslFot
-         YEJrLnaaObFTTcbIrSTZG263DCBuzA7Hg71RAzx4G1qIDAb/CpJhQJJajLHeixVe2M
-         GFEWSq2XoLWfQ==
-Date:   Wed, 21 Jul 2021 22:07:16 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Andrew Lunn <andrew@lunn.ch>
+        id S229520AbhGUUOR (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 21 Jul 2021 16:14:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=fpusfhLNwWR4XZzzRKY6uqd8YsP1C+k/KaALJHdJWz4=; b=y/X0I0JkkoqvHEjjZ5YIS+kCvX
+        D37DUJnErBTjTomhchTMlj39n8fs9u15my9fw8rdemfGfg2pl+xiAtpVTx+tNCRaRRkWh0kV+bAH7
+        By0QnSsW0HVVRgvs+zvmJPpL22bzQXqsNP45olvZTQH5enzedS+O6RVeevxPFsECZr30=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1m6JEi-00EFeY-Vi; Wed, 21 Jul 2021 22:54:36 +0200
+Date:   Wed, 21 Jul 2021 22:54:36 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
 Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
         Pavel Machek <pavel@ucw.cz>,
         Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
@@ -36,75 +35,63 @@ Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
         Dvora Fuxbrumer <dvorax.fuxbrumer@linux.intel.com>,
         "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Message-ID: <20210721220716.539f780e@thinkpad>
-In-Reply-To: <YPh6b+dTZqQNX+Zk@lunn.ch>
+Message-ID: <YPiJjEBV1PZQu0S/@lunn.ch>
 References: <20210716212427.821834-1-anthony.l.nguyen@intel.com>
-        <20210716212427.821834-6-anthony.l.nguyen@intel.com>
-        <f705bcd6-c55c-0b07-612f-38348d85bbee@gmail.com>
-        <YPTKB0HGEtsydf9/@lunn.ch>
-        <88d23db8-d2d2-5816-6ba1-3bd80738c398@gmail.com>
-        <YPbu8xOFDRZWMTBe@lunn.ch>
-        <3b7ad100-643e-c173-0d43-52e65d41c8c3@gmail.com>
-        <20210721204543.08e79fac@thinkpad>
-        <YPh6b+dTZqQNX+Zk@lunn.ch>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20210716212427.821834-6-anthony.l.nguyen@intel.com>
+ <f705bcd6-c55c-0b07-612f-38348d85bbee@gmail.com>
+ <YPTKB0HGEtsydf9/@lunn.ch>
+ <88d23db8-d2d2-5816-6ba1-3bd80738c398@gmail.com>
+ <YPbu8xOFDRZWMTBe@lunn.ch>
+ <3b7ad100-643e-c173-0d43-52e65d41c8c3@gmail.com>
+ <20210721204543.08e79fac@thinkpad>
+ <YPh6b+dTZqQNX+Zk@lunn.ch>
+ <20210721220716.539f780e@thinkpad>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210721220716.539f780e@thinkpad>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 21 Jul 2021 21:50:07 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
+> > > Basically the LED name is of the format
+> > >   devicename:color:function  
 
-> > Hi Heiner,
-> > 
-> > in sysfs, all devices registered under LED class will have symlinks in
-> > /sys/class/leds. This is how device classes work in Linux.
-> > 
-> > There is a standardized format for LED device names, please look at
-> > Documentation/leds/leds-class.rst.
-> > 
-> > Basically the LED name is of the format
-> >   devicename:color:function  
+> Unfortunately there isn't consensus about what the devicename should
+> mean. There are two "schools of thought":
 > 
-> The interesting part here is, what does devicename mean, in this
-> context?
-> 
-> We cannot use the interface name, because it is not unique, and user
-> space can change it whenever it wants. So we probably need to build
-> something around the bus ID, e.g. pci_id. Which is not very friendly
-> :-(
+> 1. device name of the trigger source for the LED, i.e. if the LED
+>    blinks on activity on mmc0, the devicename should be mmc0. We have
+>    talked about this in the discussions about ethernet PHYs.
+>    In the case of the igc driver if the LEDs are controlled by the MAC,
+>    I guess some PCI identifier would be OK.
 
-Unfortunately there isn't consensus about what the devicename should
-mean. There are two "schools of thought":
+I guess this is most likely for Ethernet LEDs, some sort of bus
+identifier. But Ethernet makes use of all sorts of busses, so you will
+also see USB, memory mapped for SOCs, MDIO, SPI, etc.
 
-1. device name of the trigger source for the LED, i.e. if the LED
-   blinks on activity on mmc0, the devicename should be mmc0. We have
-   talked about this in the discussions about ethernet PHYs.
-   In the case of the igc driver if the LEDs are controlled by the MAC,
-   I guess some PCI identifier would be OK. Or maybe ethernet-mac
-   identifier, if we have something like that? (Since we can't use
-   interface names due to the possibility of renaming.)
+> 2. device name of the LED controller. For example LEDs controlled by
+>    the maxim,max77650-led controller (leds-max77650.c) define device
+>    name as "max77650"
 
-   Pavel and I are supporters of this scheme.
+And what happens when the controller is just a tiny bit of silicon in
+the corner of something else, not a standalone device? Would this be
+'igc', for LEDs controlled by the IGC Ethernet controller? 'mv88e6xxx'
+for Marvell Ethernet switches? 
 
-2. device name of the LED controller. For example LEDs controlled by
-   the maxim,max77650-led controller (leds-max77650.c) define device
-   name as "max77650"
+Also, function is totally unclear. The whole reason we want to use
+Linux LEDs is triggers, and it is the selected trigger which
+determines the function.
 
-   Jacek supports this scheme.
+Colour is also an issue. The IGC Ethernet controller has no idea what
+colour the LEDs are in the RG-45 socket. And this is generic to
+Ethernet MAC and PHY chips. The data sheets never mention colour.  You
+might know the colour in DT (and maybe ACPI) systems where you have
+specific information about the board. But in for PCIe card, USB
+dongles, etc, colour is unknown.
 
-The complication is that both these schemes are used already in
-upstream kernel, and we have to maintain backwards compatibility of
-sysfs ABI, so we can't change that.
+So very little of the naming scheme actually makes sense in this
+context.
 
-I have been thinking for some time that maybe we should poll Linux
-kernel developers about these two schemes, so that a consensus is
-reached. Afterwards we can deprecate the other scheme and add a Kconfig
-option (default n for backwards compatibility) to use the new scheme.
+	 Andrew
 
-What do you think?
-
-Marek
