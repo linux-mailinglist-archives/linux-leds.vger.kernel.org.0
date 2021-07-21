@@ -2,29 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 852F23D1873
-	for <lists+linux-leds@lfdr.de>; Wed, 21 Jul 2021 22:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BC303D1947
+	for <lists+linux-leds@lfdr.de>; Wed, 21 Jul 2021 23:38:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229771AbhGUUOS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Jul 2021 16:14:18 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:39102 "EHLO vps0.lunn.ch"
+        id S229613AbhGUUuh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 21 Jul 2021 16:50:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44066 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229520AbhGUUOR (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 21 Jul 2021 16:14:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=fpusfhLNwWR4XZzzRKY6uqd8YsP1C+k/KaALJHdJWz4=; b=y/X0I0JkkoqvHEjjZ5YIS+kCvX
-        D37DUJnErBTjTomhchTMlj39n8fs9u15my9fw8rdemfGfg2pl+xiAtpVTx+tNCRaRRkWh0kV+bAH7
-        By0QnSsW0HVVRgvs+zvmJPpL22bzQXqsNP45olvZTQH5enzedS+O6RVeevxPFsECZr30=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1m6JEi-00EFeY-Vi; Wed, 21 Jul 2021 22:54:36 +0200
-Date:   Wed, 21 Jul 2021 22:54:36 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+        id S229536AbhGUUue (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 21 Jul 2021 16:50:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AAA466120A;
+        Wed, 21 Jul 2021 21:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1626903071;
+        bh=kdg91hXD51FJVe4jRiptDDtiSgUu3ibBVXczOFFs+CM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=f30pJgdu3q4ZNxICc1ztiq5Ne7+V5qtCFP496bc4wnbnQDpbQdTPkqoL1QRYI9qg2
+         7FbpCzGeJV8kgz8hr9zoEL+FtiWRwkPzjl9LtRiZyl95en6Yboyd1YJfs+0qv85Dae
+         u/fQ6+F++EoO1lUMi0Qcgiy9zCQEen+/+JWQJyIdpUEkrzZNXCSM6V2B0wuQ4v7Qvh
+         pNCPfLtDI7wHeMph2KdWnobN0VPXwpRpmnKLKBgR39NB2pUMiKAvV/6FY1/hNjKy3t
+         V1FJk/jxoQwAld+/lRz7RRbOHCyXv5Sq8DRDFrsEy04+ytnQcCvncsjMalJ7Dst9iE
+         PRn5vkUod5e1g==
+Date:   Wed, 21 Jul 2021 23:31:05 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Andrew Lunn <andrew@lunn.ch>
 Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
         Pavel Machek <pavel@ucw.cz>,
         Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
@@ -35,63 +36,107 @@ Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
         Dvora Fuxbrumer <dvorax.fuxbrumer@linux.intel.com>,
         "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Message-ID: <YPiJjEBV1PZQu0S/@lunn.ch>
+Message-ID: <20210721233105.65468fd2@thinkpad>
+In-Reply-To: <YPiJjEBV1PZQu0S/@lunn.ch>
 References: <20210716212427.821834-1-anthony.l.nguyen@intel.com>
- <20210716212427.821834-6-anthony.l.nguyen@intel.com>
- <f705bcd6-c55c-0b07-612f-38348d85bbee@gmail.com>
- <YPTKB0HGEtsydf9/@lunn.ch>
- <88d23db8-d2d2-5816-6ba1-3bd80738c398@gmail.com>
- <YPbu8xOFDRZWMTBe@lunn.ch>
- <3b7ad100-643e-c173-0d43-52e65d41c8c3@gmail.com>
- <20210721204543.08e79fac@thinkpad>
- <YPh6b+dTZqQNX+Zk@lunn.ch>
- <20210721220716.539f780e@thinkpad>
+        <20210716212427.821834-6-anthony.l.nguyen@intel.com>
+        <f705bcd6-c55c-0b07-612f-38348d85bbee@gmail.com>
+        <YPTKB0HGEtsydf9/@lunn.ch>
+        <88d23db8-d2d2-5816-6ba1-3bd80738c398@gmail.com>
+        <YPbu8xOFDRZWMTBe@lunn.ch>
+        <3b7ad100-643e-c173-0d43-52e65d41c8c3@gmail.com>
+        <20210721204543.08e79fac@thinkpad>
+        <YPh6b+dTZqQNX+Zk@lunn.ch>
+        <20210721220716.539f780e@thinkpad>
+        <YPiJjEBV1PZQu0S/@lunn.ch>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210721220716.539f780e@thinkpad>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> > > Basically the LED name is of the format
-> > >   devicename:color:function  
+On Wed, 21 Jul 2021 22:54:36 +0200
+Andrew Lunn <andrew@lunn.ch> wrote:
 
-> Unfortunately there isn't consensus about what the devicename should
-> mean. There are two "schools of thought":
+> > > > Basically the LED name is of the format
+> > > >   devicename:color:function    
 > 
-> 1. device name of the trigger source for the LED, i.e. if the LED
->    blinks on activity on mmc0, the devicename should be mmc0. We have
->    talked about this in the discussions about ethernet PHYs.
->    In the case of the igc driver if the LEDs are controlled by the MAC,
->    I guess some PCI identifier would be OK.
+> > Unfortunately there isn't consensus about what the devicename should
+> > mean. There are two "schools of thought":
+> > 
+> > 1. device name of the trigger source for the LED, i.e. if the LED
+> >    blinks on activity on mmc0, the devicename should be mmc0. We have
+> >    talked about this in the discussions about ethernet PHYs.
+> >    In the case of the igc driver if the LEDs are controlled by the MAC,
+> >    I guess some PCI identifier would be OK.  
+> 
+> I guess this is most likely for Ethernet LEDs, some sort of bus
+> identifier. But Ethernet makes use of all sorts of busses, so you will
+> also see USB, memory mapped for SOCs, MDIO, SPI, etc.
 
-I guess this is most likely for Ethernet LEDs, some sort of bus
-identifier. But Ethernet makes use of all sorts of busses, so you will
-also see USB, memory mapped for SOCs, MDIO, SPI, etc.
+That's why I think we should group them all under a name like ethmac0,
+ethmac1, ... We want to do this for PHY controlled LEDs (ethphy0,
+ethphy1, ...)
 
-> 2. device name of the LED controller. For example LEDs controlled by
->    the maxim,max77650-led controller (leds-max77650.c) define device
->    name as "max77650"
+> > 2. device name of the LED controller. For example LEDs controlled by
+> >    the maxim,max77650-led controller (leds-max77650.c) define device
+> >    name as "max77650"  
+> 
+> And what happens when the controller is just a tiny bit of silicon in
+> the corner of something else, not a standalone device? Would this be
+> 'igc', for LEDs controlled by the IGC Ethernet controller? 'mv88e6xxx'
+> for Marvell Ethernet switches? 
 
-And what happens when the controller is just a tiny bit of silicon in
-the corner of something else, not a standalone device? Would this be
-'igc', for LEDs controlled by the IGC Ethernet controller? 'mv88e6xxx'
-for Marvell Ethernet switches? 
+This is one of the reasons why I prefer the first scheme.
 
-Also, function is totally unclear. The whole reason we want to use
-Linux LEDs is triggers, and it is the selected trigger which
-determines the function.
+> Also, function is totally unclear. The whole reason we want to use
+> Linux LEDs is triggers, and it is the selected trigger which
+> determines the function.
 
-Colour is also an issue. The IGC Ethernet controller has no idea what
-colour the LEDs are in the RG-45 socket. And this is generic to
-Ethernet MAC and PHY chips. The data sheets never mention colour.  You
-might know the colour in DT (and maybe ACPI) systems where you have
-specific information about the board. But in for PCIe card, USB
-dongles, etc, colour is unknown.
+As I said there are two "schools of thought" for this as well.
+Devicetree deprecated the `linux,default-trigger` DT property and
+`function` property should be used instead. Jacek's then defined some
+function definition constants in include/dt-bindings/leds/common.h and
+sent a proposal for function to trigger mappings
+  https://lore.kernel.org/linux-leds/20200920162625.14754-1-jacek.anaszewski@gmail.com/
+But this was not implemented, and I together with Pavel do not agree
+with this proposal, and I proposed something different:
+  https://lore.kernel.org/linux-leds/20200920184422.60c04194@nic.cz/
+Since function to trigger mappings is not yet implemented in the code,
+we can still decide.
 
-So very little of the naming scheme actually makes sense in this
-context.
+Do you think I should a poll more kernel developers about their
+opinions?
 
-	 Andrew
+> Colour is also an issue. The IGC Ethernet controller has no idea what
+> colour the LEDs are in the RG-45 socket. And this is generic to
+> Ethernet MAC and PHY chips. The data sheets never mention colour.  You
+> might know the colour in DT (and maybe ACPI) systems where you have
+> specific information about the board. But in for PCIe card, USB
+> dongles, etc, colour is unknown.
 
+The LED core (function led_compose_name in drivers/leds/led-core.c)
+skips color and function if they are not present in fwnode, i.e.
+  "mmc0::"
+
+I guess in the case of igc, if the color is not known, and if we can
+agree on the first scheme for choosing the devicename part, then the
+LED names could be, depending on the scheme for function, either
+  "ethmac0::lan-0"
+  "ethmac0::lan-1"
+  "ethmac0::lan-2"
+or
+  "ethmac0::link"
+  "ethmac0::activity"
+  "ethmac0::rx"
+
+(If there is color defined in ACPI / DTS though, it should be also
+ used.)
+
+So basically we need to decide on these two things:
+- scheme for device name
+- scheme for function to default trigger mappings
+
+Marek
