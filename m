@@ -2,147 +2,131 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E9F23D1C88
-	for <lists+linux-leds@lfdr.de>; Thu, 22 Jul 2021 05:52:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3CFD3D277A
+	for <lists+linux-leds@lfdr.de>; Thu, 22 Jul 2021 18:22:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230286AbhGVDMP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 21 Jul 2021 23:12:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41686 "EHLO
+        id S229681AbhGVPl6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 22 Jul 2021 11:41:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229900AbhGVDMP (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 21 Jul 2021 23:12:15 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2234C061575;
-        Wed, 21 Jul 2021 20:52:50 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id jx7-20020a17090b46c7b02901757deaf2c8so3681021pjb.0;
-        Wed, 21 Jul 2021 20:52:50 -0700 (PDT)
+        with ESMTP id S229530AbhGVPl5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 22 Jul 2021 11:41:57 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039F2C061575;
+        Thu, 22 Jul 2021 09:22:32 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id v189so5310511ybg.3;
+        Thu, 22 Jul 2021 09:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MsrIEXBG2MXpg2Ixffs8oOP+CXS/zrxslRWb7KTsb1I=;
-        b=u68b+fXkPvyfMOMMZ5ZPJBIzW6BCtJOOws+ctggEnJnUq6fvV9r27KiohANRGg22jQ
-         aiJ+TNNKIj04lUWZQjYtpfGx4UwfyZ+e6Yrt+oNvnObnZFuqx3kIbFaRZa3RrGrXH7oy
-         14Cru7B397kbglzS0rrdnndWzRzM38ZGCgYu9ZEkW7ABOwyL4+O/9eWwVqJUt+V5L627
-         1x1hIclihym6ud9oCs8jQekXZNXh+Jwyv+StBOAxjMADis81pi+sAGHG7KsJDS/Vfzgt
-         JeUUkPShGiED6Wa2sJYyzlkXRETobez6nhHRYSZ4zsNDfw/fby/uSYC6PLj/w2QUdSZi
-         9uIQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dMYf4pzancIK2Asihj8gU3R0yHPVZZfKrlyCz6qtoLE=;
+        b=FABhe+DnqSOco/bLTHXW6PTIafMY/Es/tNC1ptu60s7yibz/a6FWgDDDqlFiY4pcaz
+         B0iwXgrI6xHLYRM8u9pxwo1QjDAcuesBeWy5GB9z6AeBs/wScXaffJeEt+6A1gnkD9Ad
+         a4diqQfhbdlv6gkJy/aHR9DNYY/Ir9cRP7zqlVRAHMIv7MjVozRjeAA1h/eakoZmckS2
+         3qHUxBq24J5pzf6LEWfBrK1Dgrvws9ik5nthpiCRTJMhKosM6WXzbXERPxLDDP20fxrl
+         w60MR+xgoQo0Rf48i02iWtO9vkeLyXBAZ9a8gyJKJQbDu4wu0q/zRT2ZtIAy9AgAM5Vx
+         pFNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MsrIEXBG2MXpg2Ixffs8oOP+CXS/zrxslRWb7KTsb1I=;
-        b=CzNxUnExzID094MpGymXYKDTC/dZWfe5ZxmRwABPULpeOaRb8e08hexpA7wTbTyLyF
-         fIif7/OzR9b2kxONJ9u7qhoVxHC54zPh/0RebBOYR1KvbfmnTbF4ncb4deifnHJixA7X
-         WgH6uW/4i9cfSn7eoynDUFptnp5mroPmCI+tzHti3yLQBA4ooybvHnsPWtTwncIbsnHz
-         31QZKX8IpvS7ayjPSfHcMKIMtC4JJDy/pfBsZA6NIvKGRLefC5OPbFgzmfc9QwbfaY3V
-         NUaBpJkcCuwzkCWRYAgVWT9urar7yqNL8vUjvyDp7PMZp2fihhTKr5oLae/T/pYDUCBx
-         TLkg==
-X-Gm-Message-State: AOAM533VQldJMkNhwaMXQEDOicSbcaVNT6LwSVcl21G2A+4WpfStrSR3
-        5+RaTQ8LBZVH3KK1iDkdqGnnL8DIa9U=
-X-Google-Smtp-Source: ABdhPJwnSbg9tw7Op5Wd2FzeFqdoQPJshpinCJo+Gh0JaTNeg/HmUlg3t7y/u58TweDWh1dqBelVIQ==
-X-Received: by 2002:a65:62da:: with SMTP id m26mr39062373pgv.370.1626925968746;
-        Wed, 21 Jul 2021 20:52:48 -0700 (PDT)
-Received: from [10.230.31.46] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id il2sm11232373pjb.29.2021.07.21.20.52.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Jul 2021 20:52:48 -0700 (PDT)
-Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
-        kuba@kernel.org, Kurt Kanzenbach <kurt@linutronix.de>,
-        netdev@vger.kernel.org, sasha.neftin@intel.com,
-        vitaly.lifshits@intel.com, vinicius.gomes@intel.com,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Dvora Fuxbrumer <dvorax.fuxbrumer@linux.intel.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-References: <20210716212427.821834-1-anthony.l.nguyen@intel.com>
- <20210716212427.821834-6-anthony.l.nguyen@intel.com>
- <f705bcd6-c55c-0b07-612f-38348d85bbee@gmail.com> <YPTKB0HGEtsydf9/@lunn.ch>
- <88d23db8-d2d2-5816-6ba1-3bd80738c398@gmail.com> <YPbu8xOFDRZWMTBe@lunn.ch>
- <3b7ad100-643e-c173-0d43-52e65d41c8c3@gmail.com>
- <20210721204543.08e79fac@thinkpad> <YPh6b+dTZqQNX+Zk@lunn.ch>
- <20210721220716.539f780e@thinkpad>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <484e00c7-e76b-08a6-f247-b2f6e8302d9c@gmail.com>
-Date:   Wed, 21 Jul 2021 20:52:37 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dMYf4pzancIK2Asihj8gU3R0yHPVZZfKrlyCz6qtoLE=;
+        b=RCwjd+jGurSPS//EWZXBEeW8VTIr35knzR8AFYRumofd6Uzpoi37da2EiztRKDo9q0
+         PhPRZ6FoTGvDjXaVvMGkBS5OWdc9d05Le8qi3NXOoQJkH2U68LLecGzQd6hxJr7hX612
+         wVw2SC0TE7OdCEBa+nsbkrHUzkEtKeIMmc0S9w8jnvmoenA+8Q1sOWzaDD1pX6Mf83pR
+         06Uhj5aQ+jCZafJKrZ+D/HG6iHWeoqqbHURMvFsS0WW85ClfuNyjRd7PbbCWOihT3v+9
+         8g0o5HLHJrNpyqFrsfhbqpk2rwnVMuH29GcLL7g/LlQXpvnlqjjui3RtJuObS4wZEu6A
+         y2Hg==
+X-Gm-Message-State: AOAM533jozQJZe7ie3eAzpgI3AfXnBgXDsXy6OWiWBYluG7mF7221TE7
+        XVeZgJC5M7n6+IkIonlzcPYUvRmKX5QWBscAOBY=
+X-Google-Smtp-Source: ABdhPJxL54ILaZnBa+H9VZepcZE2c8UfQzbcK76bfjSGkgwgAI3Oy9V4ZqkyCTXNLowehv/1u7EDfmnfuGrFX8j09Qs=
+X-Received: by 2002:a25:ada1:: with SMTP id z33mr402873ybi.438.1626970951302;
+ Thu, 22 Jul 2021 09:22:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210721220716.539f780e@thinkpad>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
+ <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm> <CAEc3jaDN7iHDYD868LeMBSr-zrgGEu7s-_PQgh9ffzgL1BWBtg@mail.gmail.com>
+In-Reply-To: <CAEc3jaDN7iHDYD868LeMBSr-zrgGEu7s-_PQgh9ffzgL1BWBtg@mail.gmail.com>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Thu, 22 Jul 2021 09:22:20 -0700
+Message-ID: <CAEc3jaDsGGvExn_-p7ybZGwWmQx9cKXgb3cB+fx07AWM+aE5+A@mail.gmail.com>
+Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs for
+ game controllers.
+To:     Jiri Kosina <jikos@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi Pavel,
 
+Any update on this topic?
 
-On 7/21/2021 1:07 PM, Marek Behún wrote:
-> On Wed, 21 Jul 2021 21:50:07 +0200
-> Andrew Lunn <andrew@lunn.ch> wrote:
-> 
->>> Hi Heiner,
->>>
->>> in sysfs, all devices registered under LED class will have symlinks in
->>> /sys/class/leds. This is how device classes work in Linux.
->>>
->>> There is a standardized format for LED device names, please look at
->>> Documentation/leds/leds-class.rst.
->>>
->>> Basically the LED name is of the format
->>>    devicename:color:function
->>
->> The interesting part here is, what does devicename mean, in this
->> context?
->>
->> We cannot use the interface name, because it is not unique, and user
->> space can change it whenever it wants. So we probably need to build
->> something around the bus ID, e.g. pci_id. Which is not very friendly
->> :-(
-> 
-> Unfortunately there isn't consensus about what the devicename should
-> mean. There are two "schools of thought":
-> 
-> 1. device name of the trigger source for the LED, i.e. if the LED
->     blinks on activity on mmc0, the devicename should be mmc0. We have
->     talked about this in the discussions about ethernet PHYs.
->     In the case of the igc driver if the LEDs are controlled by the MAC,
->     I guess some PCI identifier would be OK. Or maybe ethernet-mac
->     identifier, if we have something like that? (Since we can't use
->     interface names due to the possibility of renaming.)
-> 
->     Pavel and I are supporters of this scheme.
-> 
-> 2. device name of the LED controller. For example LEDs controlled by
->     the maxim,max77650-led controller (leds-max77650.c) define device
->     name as "max77650"
-> 
->     Jacek supports this scheme.
-> 
-> The complication is that both these schemes are used already in
-> upstream kernel, and we have to maintain backwards compatibility of
-> sysfs ABI, so we can't change that.
-> 
-> I have been thinking for some time that maybe we should poll Linux
-> kernel developers about these two schemes, so that a consensus is
-> reached. Afterwards we can deprecate the other scheme and add a Kconfig
-> option (default n for backwards compatibility) to use the new scheme.
-> 
-> What do you think?
+Thanks,
+Roderick
 
-FWIW, dev_name() should be the "devicename" from what you described 
-above. This is foundational property for all devices that Linux 
-registers that is used for logging, name spacing within /sys/, uniqe, 
-ABI stable, etc. Anything different would be virtually impossible to 
-maintain and would lead to ABI breakage down the road, guaranteed.
-
-Yes it can be long (especially with PCI devices), and unfriendly, but 
-hey, udev to the rescue then, rename based on user preferences.
--- 
-Florian
+On Mon, Jul 5, 2021 at 9:51 PM Roderick Colenbrander
+<thunderbird2k@gmail.com> wrote:
+>
+> Hi Pavel,
+>
+> Any feedback on this patch, which introduces a new player led type,
+> which is common on game controllers?
+>
+> Thanks,
+> Roderick Colenbrander
+>
+> On Thu, Jun 24, 2021 at 6:26 AM Jiri Kosina <jikos@kernel.org> wrote:
+> >
+> > On Tue, 1 Jun 2021, Roderick Colenbrander wrote:
+> >
+> > > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > >
+> > > Player LEDs are commonly found on game controllers from Nintendo and Sony
+> > > to indicate a player ID across a number of LEDs. For example, "Player 2"
+> > > might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
+> > >
+> > > This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
+> > > player LEDs from the kernel. Until now there was no good standard, which
+> > > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
+> > > other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
+> > >
+> > > Note: management of Player IDs is left to user space, though a kernel
+> > > driver may pick a default value.
+> > >
+> > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > > ---
+> > >  include/dt-bindings/leds/common.h | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+> > > index 52b619d44ba2..94999c250e4d 100644
+> > > --- a/include/dt-bindings/leds/common.h
+> > > +++ b/include/dt-bindings/leds/common.h
+> > > @@ -60,6 +60,9 @@
+> > >  #define LED_FUNCTION_MICMUTE "micmute"
+> > >  #define LED_FUNCTION_MUTE "mute"
+> > >
+> > > +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
+> > > +#define LED_FUNCTION_PLAYER "player"
+> > > +
+> > >  /* Miscelleaus functions. Use functions above if you can. */
+> > >  #define LED_FUNCTION_ACTIVITY "activity"
+> > >  #define LED_FUNCTION_ALARM "alarm"
+> >
+> > Pavel, can I please get your Ack on this one, so that I can take it with
+> > the rest of the series?
+> >
+> > Thanks,
+> >
+> > --
+> > Jiri Kosina
+> > SUSE Labs
+> >
