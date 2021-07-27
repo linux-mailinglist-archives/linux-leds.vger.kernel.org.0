@@ -2,90 +2,171 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB59C3D7790
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Jul 2021 15:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE8093D780D
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Jul 2021 16:07:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230500AbhG0NzQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Jul 2021 09:55:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50768 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232314AbhG0NzQ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 27 Jul 2021 09:55:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C36161220;
-        Tue, 27 Jul 2021 13:55:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627394116;
-        bh=r9Ehp4FfQF7Ry5rGGdla1pRbvCkTzIIe34SMTERdObQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tLxD0EQCwjABQSMiNKxgRYy9KCkP95Ydc+VCMvnRhsVI8qF+H33MDE5QobYrwUDNa
-         +jjp2s8duvSDqLOnb/DwkJ8Qr3e0ocwqm/DiH3qXK8C2o+iii/xoYa/rb21WT6B7V8
-         cZga3W+WbfvW6zoM0erRpaQjs5egu9Trag8yMhY9KdCkIt31AKMqLFiNcASxE+Opva
-         qpchHVz1mBgXGIqypUAqXNhcmqMiaNyb5oGCVE3MMGyUvBLE1JPNbuJ1rPC+ScZZ34
-         UG3JaO+U+eQpZIYh9bSXC9enOFSDou4J2GRfLXRxIIk1FUAMVi++uPEfYhtCbc1MX2
-         g8iKJ5JI6UjJA==
-Date:   Tue, 27 Jul 2021 15:55:10 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
-        kuba@kernel.org, Kurt Kanzenbach <kurt@linutronix.de>,
-        netdev@vger.kernel.org, sasha.neftin@intel.com,
-        vitaly.lifshits@intel.com, vinicius.gomes@intel.com,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Dvora Fuxbrumer <dvorax.fuxbrumer@linux.intel.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Message-ID: <20210727155510.256e5fcc@thinkpad>
-In-Reply-To: <YP9n+VKcRDIvypes@lunn.ch>
-References: <YPTKB0HGEtsydf9/@lunn.ch>
-        <88d23db8-d2d2-5816-6ba1-3bd80738c398@gmail.com>
-        <YPbu8xOFDRZWMTBe@lunn.ch>
-        <3b7ad100-643e-c173-0d43-52e65d41c8c3@gmail.com>
-        <20210721204543.08e79fac@thinkpad>
-        <YPh6b+dTZqQNX+Zk@lunn.ch>
-        <20210721220716.539f780e@thinkpad>
-        <4d8db4ce-0413-1f41-544d-fe665d3e104c@gmail.com>
-        <6d2697b1-f0f6-aa9f-579c-48a7abb8559d@gmail.com>
-        <20210727020619.2ba78163@thinkpad>
-        <YP9n+VKcRDIvypes@lunn.ch>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S236622AbhG0OFO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Jul 2021 10:05:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42676 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232437AbhG0OFM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Jul 2021 10:05:12 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B08CC0613D5
+        for <linux-leds@vger.kernel.org>; Tue, 27 Jul 2021 07:05:11 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:b0a9:7e88:5ca4:551a])
+        by albert.telenet-ops.be with bizsmtp
+        id aE562500X1fSPfK06E56wa; Tue, 27 Jul 2021 16:05:09 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1m8Nhi-001PuI-1G; Tue, 27 Jul 2021 16:05:06 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1m8Nhh-00FoBr-AX; Tue, 27 Jul 2021 16:05:05 +0200
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Robin van der Gracht <robin@protonic.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Paul Burton <paulburton@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pavel Machek <pavel@ucw.cz>, Marek Behun <marek.behun@nic.cz>
+Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH v4 00/19] auxdisplay: ht16k33: Add character display support
+Date:   Tue, 27 Jul 2021 16:04:40 +0200
+Message-Id: <20210727140459.3767788-1-geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Andrew,
+	Hi all,
 
-On Tue, 27 Jul 2021 03:57:13 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
+The Holtek HT16K33 LED controller is not only used for driving
+dot-matrix displays, but also for driving segment displays.
+The current auxdisplay driver is limited to dot-matrix displays, which
+are exposed as a frame buffer device.
 
-> > The last time we discussed this (Andrew, Pavel and I), we've decided
-> > that for ethernet PHY controlled LEDs we want the devicename part
-> > should be something like
-> >    phyN  or  ethphyN  or  ethernet-phyN
-> > with N a number unique for every PHY (a simple atomically increased
-> > integer for every ethernet PHY).  
-> 
-> We might want to rethink this. PHYs typically have 2 or 3 LEDs. So we
-> want a way to indicate which LED of a PHY it is. So i suspect we will
-> want something like
-> 
-> ethphyN-led0, ethphyN-led1, ethphyN-led2.
+This patch series extends the driver to 4-digit 7-segment and quad
+14-segment alphanumeric displays, allowing the user to display and
+scroll text messages.
 
-But... there is still color and function and possibly function-numerator
-to differentiate them. I was talking only about the devicename part. So
-for three LEDs you can have, for example:
-  ethphyN:green:link
-  ethphyN:yellow:activity
-Even if you don't have information about color, the default function
-(on chip reset) should be different. And even if it is not, the
-function enumerator would fix this:
-  ethphyN::link-1
-  ethphyN::link-2
+List of patches:
+  - Patch 1 provides font data for displaying ASCII characters on
+    14-segment displays,
+  - Patch 2 updates the HT16K33 DT bindings for segment displays,
+  - Patches 3-5 contain a bug fix and small improvements for the
+    Imagination Technologies ASCII LCD Display driver,
+  - Patch 6 extracts the character line display core support from the
+    Imagination Technologies ASCII LCD Display driver, for reuse,
+  - Patches 7-8 contain cleanups and improvements for the character line
+    display core driver,
+  - Patches 9-16 contain a bug fix, cleanups and improvements for the
+    HT16K33 driver, to prepare for segment display support,
+  - Patch 17 adds support for 7/14-segment displays to the HT16K33
+    driver,
+  - Patch 18 updates the HT16K33 DT bindings to document an LED subnode,
+  - Patch 19 adds segment display LED support to the HT16K33 driver,
+    to make use of hardware blinking, and to expose display color.
 
-Marek
+Changes compared to v3[1]:
+  - Combine compatible values for 7/14 segment displays into an enum,
+  - Add Reviewed-by,
+  - Add missing select LEDS_CLASS.
+
+Changes compared to v2[2]:
+  - Drop color property from display node,
+  - Use compat_only_sysfs_link_entry_to_kobj() instead of cooking our
+    own helper on top of kernfs_create_link(),
+  - Use "err" instead of "error" to be consistent with existing driver
+    naming style,
+  - Pass "dev" instead of "client" to ht16k33_fbdev_probe() and
+    ht16k33_seg_probe(),
+  - Drop local variable "node",
+  - Remove unneeded inclusion of <linux/leds.h> and <linux/of_device.h>,
+  - Document LED subnode,
+  - Remove unneeded C++ comment,
+  - Make the creation of the LED device dependent on the presence of the
+    "led" subnode in DT, so it can be used in dot-matrix mode too.
+  - Use led_init_data() and devm_led_classdev_register_ext() to retrieve
+    all LED properties from DT, instead of manual LED name construction
+    based on just the "color" property.
+
+Changes compared to v1[3]:
+  - Fix type of color to uint32,
+  - "refresh-rate-hz" is still required for dot-matrix displays.
+  - Move "select LINEDISP" for HT16K33 symbol to correct patch,
+  - Add backwards compatibility "message" symlink to img-ascii-lcd,
+  - Connect backlight to fbdev in ht16k33 dot-matrix mode,
+  - Set "err = -EINVAL" in switch() case that cannot happen,
+  - Use "auxdisplay" instead of DRIVER_NAME in LED name.
+
+This series has been tested using an Adafruit 0.54" Quad Alphanumeric
+Red FeatherWing Display, connected to an OrangeCrab ECP5 FPGA board
+running a 64 MHz VexRiscv RISC-V softcore.
+7-segment display support is based purely on schematics, and has not
+been tested on actual hardware.  The changes to img-ascii-lcd.c are also
+untested, due to lack of hardware.
+
+Thanks!
+
+[1] "[PATCH v3 00/19] auxdisplay: ht16k33: Add character display support"
+    https://lore.kernel.org/r/20210714151130.2531831-1-geert@linux-m68k.org/
+[2] "[PATCH v2 00/18] auxdisplay: ht16k33: Add character display support"
+    https://lore.kernel.org/r/20210625125902.1162428-1-geert@linux-m68k.org/
+[3] "[PATCH 00/17] auxdisplay: ht16k33: Add character display support"
+    https://lore.kernel.org/r/20210322144848.1065067-1-geert@linux-m68k.org/
+
+
+Geert Uytterhoeven (19):
+  uapi: Add <linux/map_to_14segment.h>
+  dt-bindings: auxdisplay: ht16k33: Document Adafruit segment displays
+  auxdisplay: img-ascii-lcd: Fix lock-up when displaying empty string
+  auxdisplay: img-ascii-lcd: Add helper variable dev
+  auxdisplay: img-ascii-lcd: Convert device attribute to sysfs_emit()
+  auxdisplay: Extract character line display core support
+  auxdisplay: linedisp: Use kmemdup_nul() helper
+  auxdisplay: linedisp: Add support for changing scroll rate
+  auxdisplay: ht16k33: Connect backlight to fbdev
+  auxdisplay: ht16k33: Use HT16K33_FB_SIZE in ht16k33_initialize()
+  auxdisplay: ht16k33: Remove unneeded error check in keypad probe()
+  auxdisplay: ht16k33: Convert to simple i2c probe function
+  auxdisplay: ht16k33: Add helper variable dev
+  auxdisplay: ht16k33: Move delayed work
+  auxdisplay: ht16k33: Extract ht16k33_brightness_set()
+  auxdisplay: ht16k33: Extract frame buffer probing
+  auxdisplay: ht16k33: Add support for segment displays
+  dt-bindings: auxdisplay: ht16k33: Document LED subnode
+  auxdisplay: ht16k33: Add LED support
+
+ .../bindings/auxdisplay/holtek,ht16k33.yaml   |  31 +-
+ drivers/auxdisplay/Kconfig                    |   9 +
+ drivers/auxdisplay/Makefile                   |   1 +
+ drivers/auxdisplay/ht16k33.c                  | 473 ++++++++++++++----
+ drivers/auxdisplay/img-ascii-lcd.c            | 205 ++------
+ drivers/auxdisplay/line-display.c             | 261 ++++++++++
+ drivers/auxdisplay/line-display.h             |  43 ++
+ include/uapi/linux/map_to_14segment.h         | 239 +++++++++
+ 8 files changed, 995 insertions(+), 267 deletions(-)
+ create mode 100644 drivers/auxdisplay/line-display.c
+ create mode 100644 drivers/auxdisplay/line-display.h
+ create mode 100644 include/uapi/linux/map_to_14segment.h
+
+-- 
+2.25.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
