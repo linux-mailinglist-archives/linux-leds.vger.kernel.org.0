@@ -2,91 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71E733D70FE
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Jul 2021 10:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB59C3D7790
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Jul 2021 15:55:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235740AbhG0IPj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Jul 2021 04:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47250 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235940AbhG0IPi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Jul 2021 04:15:38 -0400
-Received: from ssl.serverraum.org (ssl.serverraum.org [IPv6:2a01:4f8:151:8464::1:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B15CC061757;
-        Tue, 27 Jul 2021 01:15:38 -0700 (PDT)
-Received: from mwalle01.kontron.local (unknown [213.135.10.150])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by ssl.serverraum.org (Postfix) with ESMTPSA id 090102224A;
-        Tue, 27 Jul 2021 10:15:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
-        t=1627373736;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7wzkpiE705hBjrRDTlxVySidFADOCKJFCAvrd4XNPjI=;
-        b=i29QLO2HcWu9ux3wGI/xPUh4OqP8xI0ljTCjO56X+lyDaxldxJg4KvzN0m3pMA5NUJw27X
-        uSDDzZFH+UqfrPswwSua7yRapfj9u1MkUhAUFjxPRX1sn1NyBR69VNYcoATrHJ4sE8bM/9
-        a+f8Pw210QeEK4f689UGzNMy9pa2oYM=
-From:   Michael Walle <michael@walle.cc>
-To:     andrew@lunn.ch
-Cc:     anthony.l.nguyen@intel.com, bigeasy@linutronix.de,
-        davem@davemloft.net, dvorax.fuxbrumer@linux.intel.com,
-        f.fainelli@gmail.com, hkallweit1@gmail.com,
-        jacek.anaszewski@gmail.com, kabel@kernel.org, kuba@kernel.org,
-        kurt@linutronix.de, linux-leds@vger.kernel.org,
-        netdev@vger.kernel.org, pavel@ucw.cz, sasha.neftin@intel.com,
-        vinicius.gomes@intel.com, vitaly.lifshits@intel.com,
-        Michael Walle <michael@walle.cc>
+        id S230500AbhG0NzQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Jul 2021 09:55:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50768 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232314AbhG0NzQ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 27 Jul 2021 09:55:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C36161220;
+        Tue, 27 Jul 2021 13:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627394116;
+        bh=r9Ehp4FfQF7Ry5rGGdla1pRbvCkTzIIe34SMTERdObQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=tLxD0EQCwjABQSMiNKxgRYy9KCkP95Ydc+VCMvnRhsVI8qF+H33MDE5QobYrwUDNa
+         +jjp2s8duvSDqLOnb/DwkJ8Qr3e0ocwqm/DiH3qXK8C2o+iii/xoYa/rb21WT6B7V8
+         cZga3W+WbfvW6zoM0erRpaQjs5egu9Trag8yMhY9KdCkIt31AKMqLFiNcASxE+Opva
+         qpchHVz1mBgXGIqypUAqXNhcmqMiaNyb5oGCVE3MMGyUvBLE1JPNbuJ1rPC+ScZZ34
+         UG3JaO+U+eQpZIYh9bSXC9enOFSDou4J2GRfLXRxIIk1FUAMVi++uPEfYhtCbc1MX2
+         g8iKJ5JI6UjJA==
+Date:   Tue, 27 Jul 2021 15:55:10 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
+        kuba@kernel.org, Kurt Kanzenbach <kurt@linutronix.de>,
+        netdev@vger.kernel.org, sasha.neftin@intel.com,
+        vitaly.lifshits@intel.com, vinicius.gomes@intel.com,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Dvora Fuxbrumer <dvorax.fuxbrumer@linux.intel.com>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Date:   Tue, 27 Jul 2021 10:15:28 +0200
-Message-Id: <20210727081528.9816-1-michael@walle.cc>
-X-Mailer: git-send-email 2.20.1
+Message-ID: <20210727155510.256e5fcc@thinkpad>
 In-Reply-To: <YP9n+VKcRDIvypes@lunn.ch>
-References: <YP9n+VKcRDIvypes@lunn.ch>
+References: <YPTKB0HGEtsydf9/@lunn.ch>
+        <88d23db8-d2d2-5816-6ba1-3bd80738c398@gmail.com>
+        <YPbu8xOFDRZWMTBe@lunn.ch>
+        <3b7ad100-643e-c173-0d43-52e65d41c8c3@gmail.com>
+        <20210721204543.08e79fac@thinkpad>
+        <YPh6b+dTZqQNX+Zk@lunn.ch>
+        <20210721220716.539f780e@thinkpad>
+        <4d8db4ce-0413-1f41-544d-fe665d3e104c@gmail.com>
+        <6d2697b1-f0f6-aa9f-579c-48a7abb8559d@gmail.com>
+        <20210727020619.2ba78163@thinkpad>
+        <YP9n+VKcRDIvypes@lunn.ch>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam: Yes
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
->> The last time we discussed this (Andrew, Pavel and I), we've decided
->> that for ethernet PHY controlled LEDs we want the devicename part
->> should be something like
->>    phyN  or  ethphyN  or  ethernet-phyN
->> with N a number unique for every PHY (a simple atomically increased
->> integer for every ethernet PHY).
->
+Hi Andrew,
+
+On Tue, 27 Jul 2021 03:57:13 +0200
+Andrew Lunn <andrew@lunn.ch> wrote:
+
+> > The last time we discussed this (Andrew, Pavel and I), we've decided
+> > that for ethernet PHY controlled LEDs we want the devicename part
+> > should be something like
+> >    phyN  or  ethphyN  or  ethernet-phyN
+> > with N a number unique for every PHY (a simple atomically increased
+> > integer for every ethernet PHY).  
+> 
 > We might want to rethink this. PHYs typically have 2 or 3 LEDs. So we
 > want a way to indicate which LED of a PHY it is. So i suspect we will
 > want something like
->
+> 
 > ethphyN-led0, ethphyN-led1, ethphyN-led2.
->
-> I would also suggest N starts at 42, in order to make it clear it is a
-> made up arbitrary number, it has no meaning other than it is
-> unique. What we don't want is people thinking ethphy0-led0 has
-> anything to do with eth0.
 
-Why do we have to distiguish between LEDs connected to the PHY and LEDs
-connected to the MAC at all? Why not just name it ethN either if its behind
-the PHY or the MAC? Does it really matter from the users POV?
+But... there is still color and function and possibly function-numerator
+to differentiate them. I was talking only about the devicename part. So
+for three LEDs you can have, for example:
+  ethphyN:green:link
+  ethphyN:yellow:activity
+Even if you don't have information about color, the default function
+(on chip reset) should be different. And even if it is not, the
+function enumerator would fix this:
+  ethphyN::link-1
+  ethphyN::link-2
 
->> I confess that I am growing a little frustrated here, because there
->> seems to be no optimal solution with given constraints and no official
->> consensus for a suboptimal yet acceptable solution.
->
-> I do think it is clear that the base name is mostly irrelevant and not
-> going to be used in any meaningful way. You are unlikely to access
-> these LEDs via /sys/class/leds. You are going to go into
-> /sys/class/net/<ifname> and then either follow the device symlink, or
-> the phydev symlink and look for LEDs there. And then only the -ledM
-> part of the name might be useful. Since the name is mostly
-> meaningless, we should just decide and move on.
-
-Even more if it is not relevant ;)
-
--michael
+Marek
