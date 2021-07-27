@@ -2,99 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 861503D7AF5
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Jul 2021 18:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CB6F3D7B44
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Jul 2021 18:42:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229630AbhG0QcT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Jul 2021 12:32:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35204 "EHLO mail.kernel.org"
+        id S230185AbhG0Qma (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Jul 2021 12:42:30 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:47882 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229506AbhG0QcS (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 27 Jul 2021 12:32:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BF3F661BA4;
-        Tue, 27 Jul 2021 16:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627403538;
-        bh=CLi6EI2WI1DTnGCmAcRonIwBtNybc5mWG9HCGhUUn3Y=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=QTHAjcnT788fxfvDrM+Dr2fRf01lquWWdxTpvuzzAaHffEX9ciWuvjtABmlwf1kLx
-         v3ZBzgGJ70NAT6jzJf6ymQlPznTSh0SqjCdoPISg62OKWSQjj4R1dvfrXQch+otzOD
-         19ZmrdACItwrisjpMvxjV9eQ3SFmRYtYwaTwuX+Yb5Htas9Pdx0bFRRaPqCIMIwhh4
-         G6V6yG5e7oBR9bkgaRoHFVduIeb+yrZje/ngpyI5eNY3SCw+ScZsGKWN/LGw4VFiSv
-         8K2H/8YtAiAdux+p35PErOWgehTm8Koz8jlWGadN8H/MdR9LqDFlaI0kJjhpKRxJtt
-         M23P3XgPdGVfQ==
-Date:   Tue, 27 Jul 2021 18:32:13 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Michael Walle <michael@walle.cc>
-Cc:     andrew@lunn.ch, anthony.l.nguyen@intel.com, bigeasy@linutronix.de,
-        davem@davemloft.net, dvorax.fuxbrumer@linux.intel.com,
-        f.fainelli@gmail.com, hkallweit1@gmail.com,
-        jacek.anaszewski@gmail.com, kuba@kernel.org, kurt@linutronix.de,
-        linux-leds@vger.kernel.org, netdev@vger.kernel.org, pavel@ucw.cz,
-        sasha.neftin@intel.com, vinicius.gomes@intel.com,
-        vitaly.lifshits@intel.com
+        id S229497AbhG0Qm2 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 27 Jul 2021 12:42:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=+0o8GfKZm1hLo/DI9On+9timairw+rR2J105HPVi7cc=; b=kElsFs/Dnu5lRpf+xXqY8/ZeZo
+        4gOiJguqyJcP1vp81G8xSe+6iYMiJXShmVdI/JogR25B5b+lH7pD626r+NKPAcaGpLAxgvEuMX1Ig
+        G9FB2Pw849OrTZJcQA9iE+h12nFyuQvmDnYHpGiGJBKi2H9/M4s+FwcoKjLVnvKRgnwI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1m8Q9q-00F2aL-5R; Tue, 27 Jul 2021 18:42:18 +0200
+Date:   Tue, 27 Jul 2021 18:42:18 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc:     Michael Walle <michael@walle.cc>, anthony.l.nguyen@intel.com,
+        bigeasy@linutronix.de, davem@davemloft.net,
+        dvorax.fuxbrumer@linux.intel.com, f.fainelli@gmail.com,
+        hkallweit1@gmail.com, jacek.anaszewski@gmail.com, kuba@kernel.org,
+        kurt@linutronix.de, linux-leds@vger.kernel.org,
+        netdev@vger.kernel.org, pavel@ucw.cz, sasha.neftin@intel.com,
+        vinicius.gomes@intel.com, vitaly.lifshits@intel.com
 Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Message-ID: <20210727183213.73f34141@thinkpad>
-In-Reply-To: <8edcc387025a6212d58fe01865725734@walle.cc>
+Message-ID: <YQA3ao+IGgqQ2vIR@lunn.ch>
 References: <YP9n+VKcRDIvypes@lunn.ch>
-        <20210727081528.9816-1-michael@walle.cc>
-        <20210727165605.5c8ddb68@thinkpad>
-        <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
-        <20210727172828.1529c764@thinkpad>
-        <8edcc387025a6212d58fe01865725734@walle.cc>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20210727081528.9816-1-michael@walle.cc>
+ <20210727165605.5c8ddb68@thinkpad>
+ <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
+ <20210727172828.1529c764@thinkpad>
+ <8edcc387025a6212d58fe01865725734@walle.cc>
+ <20210727183213.73f34141@thinkpad>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210727183213.73f34141@thinkpad>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+> Yes, this still persists. But we really do not want to start
+> introducing namespaces to the LED subsystem.
 
-On Tue, 27 Jul 2021 17:53:58 +0200
-Michael Walle <michael@walle.cc> wrote:
+Agreed. LED names need to be globally unique, so we don't need to
+worry about network name spaces.
 
-> > If we used the devicename as you are suggesting, then for the two LEDs
-> > the devicename part would be the same:
-> >   ledA -> macA -> ethernet0
-> >   ledB -> phyB -> ethernet0
-> > although they are clearly on different MACs.  
-> 
-> Why is that the case? Why can't both the MAC and the PHY request a 
-> unique name from the same namespace?
-
-So all the network related devices should request a unique network
-relate device ID? Should also wireless PHY devices do this? WWAN modems?
-And all these should have the same template for devicename part withing
-/sys/class/leds? What should be the template for the devicename, if
-wireless PHYs and WWAN modems could also be part of this? It cannot be
-"ethernet" anymore.
-
-It seems a better idea to me to just some nice identifier for the LED
-controller.
-
-> As Andrew pointed out, the names in
-> /sys/class/leds don't really matter. Ok, it will still depend on the
-> probe order which might not be the case if you split it between ethmac
-> and ethphy.
-
-Yes, the LED name does not matter. But the LED subsystem requires names
-in a specific format, this is already decided and documented, we are
-not going to be changing this. The only reasonable thing we can do now
-is to choose a sane devicename.
-
-> Sorry, if I may ask stupid questions here. I don't want to cause much
-> trouble, here. I was just wondering why we have to make up two different
-> (totally unrelated names to the network interface names) instead of just
-> one (again totally unrelated to the interface name and index).
-
-It seems more logical to me from kernel's point of view.
-
-> But I was actually referring to your "you see the leds in /sys/ of all
-> the network adapters". That problem still persists, right?
-
-Yes, this still persists. But we really do not want to start
-introducing namespaces to the LED subsystem.
-
-Marek
+      Andrew
