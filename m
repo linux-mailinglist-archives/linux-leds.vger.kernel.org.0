@@ -2,86 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F22E23D7E93
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Jul 2021 21:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80F7D3D8077
+	for <lists+linux-leds@lfdr.de>; Tue, 27 Jul 2021 23:05:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230380AbhG0TmL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Jul 2021 15:42:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36322 "EHLO
+        id S232460AbhG0VFJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 27 Jul 2021 17:05:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230307AbhG0TmK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Jul 2021 15:42:10 -0400
-Received: from ssl.serverraum.org (ssl.serverraum.org [IPv6:2a01:4f8:151:8464::1:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DD38C061757;
-        Tue, 27 Jul 2021 12:42:10 -0700 (PDT)
-Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ssl.serverraum.org (Postfix) with ESMTPSA id 5AC9122234;
-        Tue, 27 Jul 2021 21:42:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
-        t=1627414927;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FzFVsfZSO4uZtHb4fkNzOI7wDErPAVYJKpZ8MxrwgEE=;
-        b=jF/6aHoZ5pJ+6QvMFePgvW+Ai/eFSpj3+c97r2vySxnCjY0qv3IdU1X8C91/SGaAlTq4WL
-        3snQbhFgo8NNGOS8tAkKITBPVY5ugDNDLRl+y7mqDsYGuIBwAKSmP78nDtsviupvUV+7uC
-        p2ULgDvsfdyCskYYAYe72G9fVDA1QTQ=
+        with ESMTP id S231368AbhG0VFJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Jul 2021 17:05:09 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15C5C061757;
+        Tue, 27 Jul 2021 14:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=NO0RGVu+XndYKUq3uNCgF+Kta6CYfhtwRahspvD+83o=; b=LHPi7HOMmKXpl/JTivGeHL+Uc/
+        gubaL8xVK/zdLXCvONaAPiqG5U2sYv8n1bPlDYE/POrSnQYVhIscyxFVGD6H0COPC/fziMsUFIpy6
+        YqheJe1AcA8FtncDzpDzfKvjP5LmVPCsOAJktFaVYBi5pardy6QnQF8Y7A9ucqqfsEYbyX4GC1uM+
+        T9oKfls5/9bUIs7HSJJBJ+hQU814fh9DNJMxovTxGoGgsmSCzk8Ia+uUs/7Qn7CUJz3WGCb12FBt4
+        9kDgGiiaP45Yr75bFU/HFyCEt7ab0t6jWoolqzcgttG+Odq5YouAKuyPkkgAqtrPdy3SAzhRwFLbJ
+        9sc5tW7Q==;
+Received: from [2601:1c0:6280:3f0::aefb]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1m8UGA-00GMRO-TV; Tue, 27 Jul 2021 21:05:07 +0000
+Subject: Re: [PATCH v4 19/19] auxdisplay: ht16k33: Add LED support
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Robin van der Gracht <robin@protonic.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Paul Burton <paulburton@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pavel Machek <pavel@ucw.cz>, Marek Behun <marek.behun@nic.cz>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210727140459.3767788-1-geert@linux-m68k.org>
+ <20210727140459.3767788-20-geert@linux-m68k.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5b70f272-eec9-0ff7-1bd2-bf1659b10e9c@infradead.org>
+Date:   Tue, 27 Jul 2021 14:05:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Tue, 27 Jul 2021 21:42:05 +0200
-From:   Michael Walle <michael@walle.cc>
-To:     =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
-Cc:     andrew@lunn.ch, anthony.l.nguyen@intel.com, bigeasy@linutronix.de,
-        davem@davemloft.net, dvorax.fuxbrumer@linux.intel.com,
-        f.fainelli@gmail.com, hkallweit1@gmail.com,
-        jacek.anaszewski@gmail.com, kuba@kernel.org, kurt@linutronix.de,
-        linux-leds@vger.kernel.org, netdev@vger.kernel.org, pavel@ucw.cz,
-        sasha.neftin@intel.com, vinicius.gomes@intel.com,
-        vitaly.lifshits@intel.com
-Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-In-Reply-To: <20210727183213.73f34141@thinkpad>
-References: <YP9n+VKcRDIvypes@lunn.ch>
- <20210727081528.9816-1-michael@walle.cc> <20210727165605.5c8ddb68@thinkpad>
- <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
- <20210727172828.1529c764@thinkpad>
- <8edcc387025a6212d58fe01865725734@walle.cc>
- <20210727183213.73f34141@thinkpad>
-User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <3dbe3a7869dd7021f71467a53b6ac7f4@walle.cc>
-X-Sender: michael@walle.cc
+In-Reply-To: <20210727140459.3767788-20-geert@linux-m68k.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am 2021-07-27 18:32, schrieb Marek Behún:
-> On Tue, 27 Jul 2021 17:53:58 +0200
-> Michael Walle <michael@walle.cc> wrote:
+On 7/27/21 7:04 AM, Geert Uytterhoeven wrote:
+> Instantiate a single LED based on the "led" subnode in DT.
+> This allows the user to control display brightness and blinking (backed
+> by hardware support) through the LED class API and triggers, and exposes
+> the display color.  The LED will be named
+> "auxdisplay:<color>:<function>".
 > 
->> > If we used the devicename as you are suggesting, then for the two LEDs
->> > the devicename part would be the same:
->> >   ledA -> macA -> ethernet0
->> >   ledB -> phyB -> ethernet0
->> > although they are clearly on different MACs.
->> 
->> Why is that the case? Why can't both the MAC and the PHY request a
->> unique name from the same namespace?
+> When running in dot-matrix mode and if no "led" subnode is found, the
+> driver falls back to the traditional backlight mode, to preserve
+> backwards compatibility.
 > 
-> So all the network related devices should request a unique network
-> relate device ID?  Should also wireless PHY devices do this? WWAN 
-> modems?
-> And all these should have the same template for devicename part withing
-> /sys/class/leds? What should be the template for the devicename, if
-> wireless PHYs and WWAN modems could also be part of this? It cannot be
-> "ethernet" anymore.
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> ---
+> v4:
+>   - Add missing select LEDS_CLASS,
+> 
+> v3:
+>   - Remove unneeded C++ comment,
+>   - Use "err" instead of "error" to be consistent with existing driver
+>     naming style,
+>   - Make the creation of the LED device dependent on the presence of the
+>     "led" subnode in DT, so it can be used in dot-matrix mode too.
+>   - Use led_init_data() and devm_led_classdev_register_ext() to retrieve
+>     all LED properties from DT, instead of manual LED name construction
+>     based on just the "color" property,
+> 
+> v2:
+>   - Use "auxdisplay" instead of DRIVER_NAME in LED name.
 
-I don't suggest using ethernet for everything. I just questioned
-wether the distinction between ethmac and ethphy makes any sense from
-a (human) user point of view; if the devicename part is visible to an
-user at all.
+Hi Geert,
 
--michael
+Since LEDS_CLASS depends on NEW_LEDS, does this also need to
+select NEW_LEDS?
+
+and similar for INPUT_MATRIXKMAP: it depends on INPUT.
+
+However, selecting (enabling) an entire subsystem is not a
+preferable thing to do.
+
+> ---
+>  drivers/auxdisplay/Kconfig   |   1 +
+>  drivers/auxdisplay/ht16k33.c | 124 ++++++++++++++++++++++++++++++-----
+>  2 files changed, 108 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
+> index 42fc7b155de09dbc..7436b9a4edbe5450 100644
+> --- a/drivers/auxdisplay/Kconfig
+> +++ b/drivers/auxdisplay/Kconfig
+> @@ -176,6 +176,7 @@ config HT16K33
+>  	select FB_SYS_IMAGEBLIT
+>  	select INPUT_MATRIXKMAP
+>  	select FB_BACKLIGHT
+> +	select LEDS_CLASS
+>  	select LINEDISP
+>  	help
+>  	  Say yes here to add support for Holtek HT16K33, RAM mapping 16*8
+
+thanks.
+-- 
+~Randy
+
