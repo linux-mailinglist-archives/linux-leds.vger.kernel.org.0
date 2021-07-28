@@ -2,113 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 544D63D8C16
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Jul 2021 12:44:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78A733D8C76
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Jul 2021 13:08:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235880AbhG1Kog (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Jul 2021 06:44:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37732 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233125AbhG1Kod (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 28 Jul 2021 06:44:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1627469071;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wVPX76oa+ikEVer1UL4g4IfAB5UX3EuLtEsoXtArruM=;
-        b=CC6aYbCijMdrn5YCpKiVOY9ICYi2uvt/lUeXk0QJy6oxr/t5kZiWVJf/fMP0gKfi2weQgT
-        zvM6lWK0wEMYPytmw3myuB95jH9NRl49tvgrI0LT26LHjoAFXWsxLdW5j0AYRCp+6QlS13
-        /m4UcP8mXot5hU2D5mgoMPaPt+U20w0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-LdeL_quFNzKkOj85_6HLlA-1; Wed, 28 Jul 2021 06:44:30 -0400
-X-MC-Unique: LdeL_quFNzKkOj85_6HLlA-1
-Received: by mail-ed1-f70.google.com with SMTP id d12-20020a50fe8c0000b02903a4b519b413so1049548edt.9
-        for <linux-leds@vger.kernel.org>; Wed, 28 Jul 2021 03:44:30 -0700 (PDT)
+        id S234283AbhG1LIj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Jul 2021 07:08:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231994AbhG1LIj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Jul 2021 07:08:39 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C85CC061757;
+        Wed, 28 Jul 2021 04:08:38 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id u9-20020a17090a1f09b029017554809f35so9348661pja.5;
+        Wed, 28 Jul 2021 04:08:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RaGdX69TfOUF+PA+iG3LI1pAqLNvsYxS1NTTMaqEKBo=;
+        b=AKvjPRgIeM2YflVn6Kb+Snz34nSZTkgEHfQj9L6q+lPpNPI/M69KTdvhyXdsPgbU9a
+         j3ULwI8FueA8h3Uh+/MTn2lUcZ2rFjXSLZq++FWb0AoFwV2HtPCvSCEr1ioBRS44ZiXQ
+         yIjoJE0ZUXLJGgU6Gae4S3cDp65yA3R+ZPnQHbDRCRry3aar0jOHIXm976UOn/dC9/Md
+         9uMguwZ1VigioKOI9wt7ae/LlPnDZR9TT+lolMgs5m+YX67SHR08CIDo14tcGqbCPmGG
+         x2lrYi3xh2x8eo6Yc7LsKgNtqyZ0xZN/8ndAQHvpNfOz/oNdX0xE6Jg6xQIZmAEYwEFk
+         V50w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=wVPX76oa+ikEVer1UL4g4IfAB5UX3EuLtEsoXtArruM=;
-        b=ma+8W8hM12JCpB2osIhOWY8PrSJCz0PCQY/qRt5qZIYVxjT2mv7zaFDf2cEYPMTO4v
-         r5alcNLyqB3bvtd+tHjfUz14ZK1NVB3q5Pl0sbcbDv2WCVS/tjITmyC9vbSkL4Mb+t1+
-         WhikEOtsCpzeLNz6FtfsdShvfHdRI8tqaanU00rIbJB2hVwYDS2wB8Y7KyfRAKltfLeB
-         +E7UbzLq5RCbtYGCgHDGRrCRazcBvjkLfCf1tP+LtE+vdgPmoBy8n+6v/7V0W/YHRZ5d
-         AE4XyvaKjw/ReJrhl0Y9JbL/4Pejh9DHSzVgiv2Z7pvrQ9IFcXc0Mn/u6T9mtFW6dU6M
-         aMpw==
-X-Gm-Message-State: AOAM531nvKWLCU5tIaGthSiNwpuOyBEiEg4BTELlDjD3NzFO0FLfEiiA
-        +aKUVUUirNC4pcZcUPVTcC+dh/0pq+KToWCfrvS99oK0nxNF4jtTglXmHd00Y2rAHVnjk/xrZ6Y
-        c3PIUNREzVq5RpxS16+CIVA==
-X-Received: by 2002:a17:906:2817:: with SMTP id r23mr26205719ejc.285.1627469069097;
-        Wed, 28 Jul 2021 03:44:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzWcLtMBxOnIs64TlNoB0jmKwP4hUfZ5cywxkR9K10TtWPUd3iAhD3JxMJ1jDhe556eWIuu2A==
-X-Received: by 2002:a17:906:2817:: with SMTP id r23mr26205710ejc.285.1627469068919;
-        Wed, 28 Jul 2021 03:44:28 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id o14sm2472320eds.55.2021.07.28.03.44.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jul 2021 03:44:28 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RaGdX69TfOUF+PA+iG3LI1pAqLNvsYxS1NTTMaqEKBo=;
+        b=JHx7sipVV4Xu08eugmhX9nrdi4eXAcSdJVUvFCBTvC6Pab92EsQWYmRZKhvaYehOfs
+         Bya3i5aekfboCP6C9hP8tehtOjptmQKKar7JDxUHxJhPFxWX/+dwt8c+K7t0Bz3vYAVQ
+         ZlVnyQhUIuqn/gH8iurLzsIET7c2ra2VFUAbFiguSmmyyN++ZmfP9NIpGBilnrCfPlrO
+         9OUAC99LafZqtEvqBXnedFQE6/MYD8aIZ6ZYc0OliSyhFjeaM2NzScrwd8NAsvf7msQh
+         ZLtEDKZZ0XXo+q9HWRt+z0+jH+M86AJFBqeWAScNtaK1VTKMnG0+ZRlOsOmYcv5ghMZD
+         fZOQ==
+X-Gm-Message-State: AOAM5336o33fkfgiTJr2zPQcixY9QVJOLqBKo56PbtmTZ/l1aYKvra/D
+        dihIW8vc+h9etT9ulgu5RchXhV64aGgwd8duQZI=
+X-Google-Smtp-Source: ABdhPJwjjUD6gn//02i/musk032RNIg5zcsK5ykLCg6MxOtsxwc2zmGCleIuDO+JWdrLhVdIGbrkRjIn6INQwhjXVqE=
+X-Received: by 2002:a17:90a:7146:: with SMTP id g6mr1681484pjs.228.1627470517649;
+ Wed, 28 Jul 2021 04:08:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAHp75VeWKgyz32scczN0c+iJwGZXVP42g0NG0oXrdJ34GyHB8w@mail.gmail.com>
+ <20210728103551.GA31304@amd>
+In-Reply-To: <20210728103551.GA31304@amd>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 28 Jul 2021 14:07:58 +0300
+Message-ID: <CAHp75VcrYRkzGwe=K98Augy=jb2RtWjiF6P6kietN8Lz7f_okA@mail.gmail.com>
 Subject: Re: LED subsystem lagging maintenance
-To:     Pavel Machek <pavel@ucw.cz>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>
 Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
+        Hans de Goede <hdegoede@redhat.com>,
         Pavel Machek <pavel@denx.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <CAHp75VeWKgyz32scczN0c+iJwGZXVP42g0NG0oXrdJ34GyHB8w@mail.gmail.com>
- <20210728103551.GA31304@amd>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <179c4bce-ce9b-c9a8-4f24-cb4b3397e0f0@redhat.com>
-Date:   Wed, 28 Jul 2021 12:44:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210728103551.GA31304@amd>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+On Wed, Jul 28, 2021 at 1:35 PM Pavel Machek <pavel@ucw.cz> wrote:
 
-On 7/28/21 12:35 PM, Pavel Machek wrote:
-> Hi!
-> 
->> I have noticed that in the last couple of cycles the LED subsystem is
->> a bit laggish in terms of maintenance (*). I think it's time that
->> someone can help Pavel to sort things out.
->>
->> In any case, I wonder if we have any kind of procedure for what to do
->> in such cases. Do we need to assume that the subsystem is in a
->> (pre-)orphaned state? If so, who is the best to take care of patch
->> flow?
-> 
+Thanks for your _prompt_ response!
+
+> > I have noticed that in the last couple of cycles the LED subsystem is
+> > a bit laggish in terms of maintenance (*). I think it's time that
+> > someone can help Pavel to sort things out.
+> >
+> > In any case, I wonder if we have any kind of procedure for what to do
+> > in such cases. Do we need to assume that the subsystem is in a
+> > (pre-)orphaned state? If so, who is the best to take care of patch
+> > flow?
+
 > To be honest, patches were not applied because they were not that
-> important to begin with, because of lacking explanation, and because
+> important to begin with,
+
+Reference counting disbalance is not critical, but what is then?
+
+> because of lacking explanation,
+
+According to the thread
+https://lore.kernel.org/linux-leds/20210529111935.3849707-1-andy.shevchenko@gmail.com/T/#u
+you haven't commented a word on them. Can you, please, elaborate?
+
+> and because
 > you pushed a bit too hard.
-> 
+
+Huh?!
+It was two month and nothing from you. Good that this thread does
+something about it.
+
 > Yes, I'm quite busy in -rc1 to -rc3 timeframe with stable reviews. No,
 > LED subsystem is not orphaned.
 
-It is good to hear that you are still actively maintaining the LED
-subsystem, thank you.
+Thank you!
 
-This thread does remind me that I was planning on re-sending this
-LED patch which seems to have fallen through the cracks:
-
-https://lore.kernel.org/alsa-devel/20210221115208.105203-1-hdegoede@redhat.com/
-
-Can you pick this one up please? Or shall I resend it?
-
-Regards,
-
-Hans
-
+-- 
+With Best Regards,
+Andy Shevchenko
