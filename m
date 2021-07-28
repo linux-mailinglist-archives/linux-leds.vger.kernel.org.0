@@ -2,129 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 855E13D8A63
-	for <lists+linux-leds@lfdr.de>; Wed, 28 Jul 2021 11:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFE743D8BAC
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Jul 2021 12:27:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235529AbhG1JNp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Jul 2021 05:13:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50392 "EHLO
+        id S233513AbhG1K1D (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Jul 2021 06:27:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235520AbhG1JNo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Jul 2021 05:13:44 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F88BC0613CF;
-        Wed, 28 Jul 2021 02:13:43 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id f13so1923304plj.2;
-        Wed, 28 Jul 2021 02:13:43 -0700 (PDT)
+        with ESMTP id S232113AbhG1K1C (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Jul 2021 06:27:02 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BAB5C061757;
+        Wed, 28 Jul 2021 03:27:00 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id n10so2113115plf.4;
+        Wed, 28 Jul 2021 03:27:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6m4UZEx/kYzeDD67ywCPsN6+L14vcm0XjCn8vgnR0gs=;
-        b=iC6z8Qctytr3DWMW26XBlXyJXmcX9mHqtGYg7L6xD94wbl7ajzQi5zIilGaoIAsNBu
-         ZN7L0JWLQB0NsyAQiW+JqWlOT1mTbK4f+uOaBNUne3qrnSByPi9LK4eaUGHE6oXAo+tw
-         7gXczYP9K2NW9xgp4RU0Wn0tG7xRBm8dvpW/t/+zJk+V0r1Lb6GZzxN+922cNAK3aV+j
-         lKtMq4xZPZfiDze9gJjeELttGZiHW7K0jpIUX7aPHQVSLXgmQga/VBWMx7C7W9UDTxml
-         zt0rZuogVBn8QhRnDgl2my8YDzXxJUe2Cy1wtm27Z5pRU6koXTuaHQgUeJXb1z/uUgVX
-         Qrbg==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=BCXW7rimMR0GK6oVAu3Jqw5jfi+9WgPrGlYLOAnOXuk=;
+        b=NY6Oyz1rOc8R4xy0XKCuvPfbb9M9p4rP9C6xkq/g0KcR++sMqIofv+Gyga1taYpfhh
+         58hYyfd1h3a/6/ttb5Gh5IZ3kebtWGtUlWjG5S85TsEhSWpjOKzOMNM6yNA34+kGmXSU
+         BWbEt2JaAr/2hw7syFyAXH5o4za9iRfravoTzEuFa5ei8Aw3R5rjf+Bv5RNrzlGj6Yy8
+         hrYa9utubMVL5NLKrpJ0sDNg1/ZJOMAg3OjQXyVnNXWR/+A47NTFQoYa7MQrrEJ3oQ2U
+         RDHJnGc102j3X62BNd8pYOok4VW7mlsQk0NmYkLmG8OC+aafKnLlC1YT31rkE3drhd+o
+         J8tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6m4UZEx/kYzeDD67ywCPsN6+L14vcm0XjCn8vgnR0gs=;
-        b=PUjkq5B1sWa0E3dOPmT2GEukvgq/pSjuUldr3TjQu3lRiIwYQxuPURmRXaZ0DogowA
-         zrW/T0LEZRAi54f3kqG57fP+eDcFwOuBP1LbtbTKmD82awpzp+juGaD83SO8WnkoIRTo
-         zGl/kIjF8f8/6TghFUMa2+veeVAHguLPspshtfF9fRAor+3WX6Avu7CLof1XAhkzJ4XC
-         8dWcg8duXeBi4Sx2KvIEemb+fAHszFyIwWIy8/zjt/vKgKZTfw0aQc0OXuyNybN9qrcu
-         q4w9+p7ySHJpxDpQIRt6nDVmPDVzi1yqBaEWS8zD3oS4ZxtUyIhaZ0seXb1cVk1ql4ur
-         gRug==
-X-Gm-Message-State: AOAM532ZDkGtX55k0RKd7AfriGSxKt6icOHLQj4q/j4k6fyD2VPWq4au
-        TF5zKbF+0ENBPH7Huhv1sqMC/hrZQhsx4ksxs/8=
-X-Google-Smtp-Source: ABdhPJyyR2mCT0pEZEhhVsDOslGMUTe+AfTMeNLSOODQi5iwax+TD6tMAXsYw27Coe070sKnGki21opJt2OQkPeCxzA=
-X-Received: by 2002:a17:902:ac90:b029:12c:e7a:c183 with SMTP id
- h16-20020a170902ac90b029012c0e7ac183mr14859743plr.21.1627463622505; Wed, 28
- Jul 2021 02:13:42 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=BCXW7rimMR0GK6oVAu3Jqw5jfi+9WgPrGlYLOAnOXuk=;
+        b=luvVa7GrOp7JLIPcm2rGFWJqfB7a5hcdrHALLo9ZBmNupX5WBZvoNvC9xeBlkU2XAZ
+         k/oOKtR4StAQbs3cJrnT8lIP5ZFQTjf7Zw0rh8aKaSORnLdD/UG48GdowUBz+9zPvyMs
+         MaXZhTP7lL+K7LS6hi7n0t4jYRRnVYU1umi2FWujDFA0347aDYICWZ842dG5UBnvXwBi
+         10qh2RY1Eqao3yHwADarpsD1ByAx+gu01oGQZkYkP1gYwSBjeelDtnRi6dKjWNQrlYzJ
+         3vcm1EUvWViDzc1o5QVCN8cx+yYW/hbJKNWckHi+MgWIT2NR900y3O0c7/dGCXptvbny
+         8Qzw==
+X-Gm-Message-State: AOAM530wdILw0XoogL63URxlYwBliuYWJvk5VRSB0dVzD5+5W39xfTZv
+        CRhoMNlZBKsuGnjWugW134vHdVobDsni7Sr/4oCQraayW5E=
+X-Google-Smtp-Source: ABdhPJwHh76x/sYcHfqaNbckyTVS0PFSuyFKvqLRDQYXBOzPoFd1LxCCs7Wk7cwwA4QFCapV94Rb7RM46pRkU8ygHgE=
+X-Received: by 2002:a62:cd8b:0:b029:356:3484:b7f1 with SMTP id
+ o133-20020a62cd8b0000b02903563484b7f1mr27768281pfg.73.1627468019865; Wed, 28
+ Jul 2021 03:26:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210723075858.376378-1-andrew@aj.id.au> <CAHp75VeQML7njMZ6x8kC-ZJVexC1xJ6n1cB3JneVMAVfuOJgWw@mail.gmail.com>
- <d019990e-a725-4ef5-bb54-aadee9d18b86@www.fastmail.com>
-In-Reply-To: <d019990e-a725-4ef5-bb54-aadee9d18b86@www.fastmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 28 Jul 2021 12:13:06 +0300
-Message-ID: <CAHp75Vc2W+WmwNj1AvH6EiT_80c+5gADV9QzK+asHxpd1Ucppw@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/6] leds: Fix pca955x GPIO pin mappings
-To:     Andrew Jeffery <andrew@aj.id.au>
-Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Joel Stanley <joel@jms.id.au>, Pavel Machek <pavel@ucw.cz>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date:   Wed, 28 Jul 2021 13:26:20 +0300
+Message-ID: <CAHp75VeWKgyz32scczN0c+iJwGZXVP42g0NG0oXrdJ34GyHB8w@mail.gmail.com>
+Subject: LED subsystem lagging maintenance
+To:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>, Pavel Machek <pavel@denx.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 8:43 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> On Fri, 23 Jul 2021, at 17:45, Andy Shevchenko wrote:
-> > On Friday, July 23, 2021, Andrew Jeffery <andrew@aj.id.au> wrote:
+Hi!
 
-> > > This series does a bunch of crimes, so it's an RFC. I'm cross-posting to the
-> > > pinctrl/GPIO and LEDs lists because the PCA955x devices impact all of them. What
-> > > needs fixing is the leds-pca955x driver's failure to map the GPIO numberspace to
-> > > the pin numberspace of the PCA955x devices. The series solves that by
-> > > implementing pinctrl and pinmux in the leds-pca955x driver.
-> > >
-> > > Things I'm unsure about:
-> > >
-> > > 1. Patch 1: The pinctrl_gpio_as_pin() API feels a bit dirty, not sure what
-> > >    others thoughts are on that (Linus?).
-> > >
-> > > 2. Patch 2: I've added a new callback to hook the entirety of the pinctrl map
-> > >    parsing rather than supplying a subnode-specific callback. This was necessary
-> > >    to handle the PCA955x devicetree binding in a backwards compatible way.
-> > >
-> > > 3. Patch 4: The PCA955x devices don't actually have any pinmux hardware, but the
-> > >    properties of the pinctrl/pinmux subsystems in the kernel map nicely onto the
-> > >    problem we have. But it's quite a bit of code...
-> > >
-> > > 4. Patch 6: I also lost a bunch of time to overlooking the get_group_pins()
-> > >    callback for pinctrl, and it seems odd to me that it isn't required.
-> > >
-> > > Please review!
-> >
-> >
-> > Sounds like a hack.
->
-> Yes, possibly. Feedback like this is why I sent the series as an RFC.
->
-> > I was briefly looking into patches 1-4 and suddenly
-> > realized that the fix can be similar as in PCA9685 (PWM), I.e. we
-> > always have chips for the entire pin space and one may map them
-> > accordingly, requested in one realm (LED) in the other (GPIO)
-> > automatically is BUSY. Or I missed the point?
->
-> No, you haven't missed the point. I will look at the PCA9685 driver.
->
-> That said, my goal was to implement the behaviour intended by the
-> existing binding (i.e. fix a bug).
+I have noticed that in the last couple of cycles the LED subsystem is
+a bit laggish in terms of maintenance (*). I think it's time that
+someone can help Pavel to sort things out.
 
-Okay, so it implies that this used to work at some point. What has
-changed from that point? Why can't we simply fix the culprit commit?
+In any case, I wonder if we have any kind of procedure for what to do
+in such cases. Do we need to assume that the subsystem is in a
+(pre-)orphaned state? If so, who is the best to take care of patch
+flow?
 
-> However, userspace would never have
-> got the results it expected with the existing driver implementation, so
-> I guess you could argue that no such (useful) userspace exists. Given
-> that, we could adopt the strategy of always defining a gpiochip
-> covering the whole pin space, and parts of the devicetree binding just
-> become redundant.
+*) e.g. I have a series against a few drivers in LED with actual fixes
+and it is missed v5.13 (okay, that time Pavel had comments which I
+have addressed at ~rc7 time frame), missed v5.14 and seems on the
+curve to miss v5.15.
 
-I'm lost now. GPIO has its own userspace ABI, how does it work right
-now in application to this chip?
+P.S. I Cc'ed lately active, AFAICS, in that area people + Greg for his opinion.
 
 -- 
 With Best Regards,
