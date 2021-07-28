@@ -2,116 +2,136 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80F7D3D8077
-	for <lists+linux-leds@lfdr.de>; Tue, 27 Jul 2021 23:05:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24FB23D873B
+	for <lists+linux-leds@lfdr.de>; Wed, 28 Jul 2021 07:43:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232460AbhG0VFJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 27 Jul 2021 17:05:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231368AbhG0VFJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 27 Jul 2021 17:05:09 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15C5C061757;
-        Tue, 27 Jul 2021 14:05:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=NO0RGVu+XndYKUq3uNCgF+Kta6CYfhtwRahspvD+83o=; b=LHPi7HOMmKXpl/JTivGeHL+Uc/
-        gubaL8xVK/zdLXCvONaAPiqG5U2sYv8n1bPlDYE/POrSnQYVhIscyxFVGD6H0COPC/fziMsUFIpy6
-        YqheJe1AcA8FtncDzpDzfKvjP5LmVPCsOAJktFaVYBi5pardy6QnQF8Y7A9ucqqfsEYbyX4GC1uM+
-        T9oKfls5/9bUIs7HSJJBJ+hQU814fh9DNJMxovTxGoGgsmSCzk8Ia+uUs/7Qn7CUJz3WGCb12FBt4
-        9kDgGiiaP45Yr75bFU/HFyCEt7ab0t6jWoolqzcgttG+Odq5YouAKuyPkkgAqtrPdy3SAzhRwFLbJ
-        9sc5tW7Q==;
-Received: from [2601:1c0:6280:3f0::aefb]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m8UGA-00GMRO-TV; Tue, 27 Jul 2021 21:05:07 +0000
-Subject: Re: [PATCH v4 19/19] auxdisplay: ht16k33: Add LED support
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Robin van der Gracht <robin@protonic.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Paul Burton <paulburton@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>, Marek Behun <marek.behun@nic.cz>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210727140459.3767788-1-geert@linux-m68k.org>
- <20210727140459.3767788-20-geert@linux-m68k.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <5b70f272-eec9-0ff7-1bd2-bf1659b10e9c@infradead.org>
-Date:   Tue, 27 Jul 2021 14:05:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210727140459.3767788-20-geert@linux-m68k.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S231484AbhG1Fnu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Jul 2021 01:43:50 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:51021 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229814AbhG1Fnt (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 28 Jul 2021 01:43:49 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 110B858075E;
+        Wed, 28 Jul 2021 01:43:48 -0400 (EDT)
+Received: from imap43 ([10.202.2.93])
+  by compute2.internal (MEProxy); Wed, 28 Jul 2021 01:43:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type; s=fm3; bh=8mTsTAru489HGgVKdhQ8Pd5T2sBSOVb
+        +V3PjJK0kxrE=; b=Bql/f7NSgB8BpjW+EMx4py9cvlE5UW14bPWU/99jy2DAAHq
+        JhDXy/kIGxAQ4SD5IPJj/ctT4bjGtCSO9HfRoHUVK8qt4ryjshwcLHrR+kJi49J6
+        oNwqkoRQh9Qdl1Iozc0HLAVkfQR9Tec4+LvNEHwlvFkzuhKrwJwEZqXDLxZS9tcY
+        TK1BGtbzxSkKz71LDy/p7MoOBWVp4ooD3PbPzK5EbPLwKTFwbULELBNS1fB84gig
+        MXpmJMgdUcSSkbq597CZ+choHZvuFYwT3zMBt8XpndRX+VCLiwdvBhFPWK4ia9EP
+        H6WTnHNT4i1xj8msdRq9VkbtdYpneDraL46CZrQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=8mTsTA
+        ru489HGgVKdhQ8Pd5T2sBSOVb+V3PjJK0kxrE=; b=SDMIgFrZ3Ikjjmhf4nBd2K
+        efRFbPHc/AnxB0s23kJ3Lu8RhP2R48XcKGMedP8MxrdxPark4GX/OQG0nKnlRR1L
+        FklLr5tYPP5dyrYgKvClgVyC2xERuWqELsP2kBifOeY3uI8QtdCoG6VE5oIPvged
+        i4qKQpTYVycyZllvhDwhQg/O0gVzKEuc0UdRCO63Kq8ZnhPsegmrQMttER7Ub1Rv
+        B4VmRF4KVtXraJfKAdet0AgGvskylMqNiZABqu54mzekqfgojHXP83KwqFwot5T2
+        AOHbjDQ2a/6oaUGXPlsUlR8iODZzTnM7czIyLVoVyMXzYyBb27lTK0yX/SCKkmCw
+        ==
+X-ME-Sender: <xms:ke4AYfNn-XlVWvWxZMkukETnWRJQSjYLNvdhDStlxOOC__6TLVkZkQ>
+    <xme:ke4AYZ-wj9g1NdtglQrSD4gSsoRba-DpSo35aM3UM6tPJiSCenRJo4BZwaIaC6_z8
+    6A9baF55IvSaFIRfA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeekgdekhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+    htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
+    veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:ke4AYeRl0fmJ2MUX9vcWQ4MxoR7Uvf0AvK9p1msLXqzVHLXcuj-tyg>
+    <xmx:ke4AYTumxmpL-iNc5tAaRNzs-9HCY2yOgvaEEez24JQhlJql1j412Q>
+    <xmx:ke4AYXeNlZQS5pOqBGNdKgZ-a26Qf0whlVX0yC2RSPpkmC40U4ZJVQ>
+    <xmx:lO4AYb7LjTl9DtFs_Mcm45ridCpbFUsDyQSmJVrMEgnbrXb0hzXc9g>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 9CBAFAC0DD0; Wed, 28 Jul 2021 01:43:45 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-545-g7a4eea542e-fm-20210727.001-g7a4eea54
+Mime-Version: 1.0
+Message-Id: <d019990e-a725-4ef5-bb54-aadee9d18b86@www.fastmail.com>
+In-Reply-To: <CAHp75VeQML7njMZ6x8kC-ZJVexC1xJ6n1cB3JneVMAVfuOJgWw@mail.gmail.com>
+References: <20210723075858.376378-1-andrew@aj.id.au>
+ <CAHp75VeQML7njMZ6x8kC-ZJVexC1xJ6n1cB3JneVMAVfuOJgWw@mail.gmail.com>
+Date:   Wed, 28 Jul 2021 15:13:24 +0930
+From:   "Andrew Jeffery" <andrew@aj.id.au>
+To:     "Andy Shevchenko" <andy.shevchenko@gmail.com>
+Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Joel Stanley" <joel@jms.id.au>, "Pavel Machek" <pavel@ucw.cz>,
+        "Linus Walleij" <linus.walleij@linaro.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 0/6] leds: Fix pca955x GPIO pin mappings
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 7/27/21 7:04 AM, Geert Uytterhoeven wrote:
-> Instantiate a single LED based on the "led" subnode in DT.
-> This allows the user to control display brightness and blinking (backed
-> by hardware support) through the LED class API and triggers, and exposes
-> the display color.  The LED will be named
-> "auxdisplay:<color>:<function>".
+
+
+On Fri, 23 Jul 2021, at 17:45, Andy Shevchenko wrote:
 > 
-> When running in dot-matrix mode and if no "led" subnode is found, the
-> driver falls back to the traditional backlight mode, to preserve
-> backwards compatibility.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
-> v4:
->   - Add missing select LEDS_CLASS,
+> On Friday, July 23, 2021, Andrew Jeffery <andrew@aj.id.au> wrote:
+> > Hello,
+> > 
+> > This series does a bunch of crimes, so it's an RFC. I'm cross-posting to the
+> > pinctrl/GPIO and LEDs lists because the PCA955x devices impact all of them. What
+> > needs fixing is the leds-pca955x driver's failure to map the GPIO numberspace to
+> > the pin numberspace of the PCA955x devices. The series solves that by
+> > implementing pinctrl and pinmux in the leds-pca955x driver.
+> > 
+> > Things I'm unsure about:
+> > 
+> > 1. Patch 1: The pinctrl_gpio_as_pin() API feels a bit dirty, not sure what
+> >    others thoughts are on that (Linus?).
+> > 
+> > 2. Patch 2: I've added a new callback to hook the entirety of the pinctrl map
+> >    parsing rather than supplying a subnode-specific callback. This was necessary
+> >    to handle the PCA955x devicetree binding in a backwards compatible way.
+> > 
+> > 3. Patch 4: The PCA955x devices don't actually have any pinmux hardware, but the
+> >    properties of the pinctrl/pinmux subsystems in the kernel map nicely onto the
+> >    problem we have. But it's quite a bit of code...
+> > 
+> > 4. Patch 6: I also lost a bunch of time to overlooking the get_group_pins()
+> >    callback for pinctrl, and it seems odd to me that it isn't required.
+> > 
+> > Please review!
 > 
-> v3:
->   - Remove unneeded C++ comment,
->   - Use "err" instead of "error" to be consistent with existing driver
->     naming style,
->   - Make the creation of the LED device dependent on the presence of the
->     "led" subnode in DT, so it can be used in dot-matrix mode too.
->   - Use led_init_data() and devm_led_classdev_register_ext() to retrieve
->     all LED properties from DT, instead of manual LED name construction
->     based on just the "color" property,
 > 
-> v2:
->   - Use "auxdisplay" instead of DRIVER_NAME in LED name.
+> Sounds like a hack.
 
-Hi Geert,
+Yes, possibly. Feedback like this is why I sent the series as an RFC.
 
-Since LEDS_CLASS depends on NEW_LEDS, does this also need to
-select NEW_LEDS?
+> I was briefly looking into patches 1-4 and suddenly 
+> realized that the fix can be similar as in PCA9685 (PWM), I.e. we 
+> always have chips for the entire pin space and one may map them 
+> accordingly, requested in one realm (LED) in the other (GPIO) 
+> automatically is BUSY. Or I missed the point?
 
-and similar for INPUT_MATRIXKMAP: it depends on INPUT.
+No, you haven't missed the point. I will look at the PCA9685 driver.
 
-However, selecting (enabling) an entire subsystem is not a
-preferable thing to do.
+That said, my goal was to implement the behaviour intended by the 
+existing binding (i.e. fix a bug). However, userspace would never have 
+got the results it expected with the existing driver implementation, so 
+I guess you could argue that no such (useful) userspace exists. Given 
+that, we could adopt the strategy of always defining a gpiochip 
+covering the whole pin space, and parts of the devicetree binding just 
+become redundant.
 
-> ---
->  drivers/auxdisplay/Kconfig   |   1 +
->  drivers/auxdisplay/ht16k33.c | 124 ++++++++++++++++++++++++++++++-----
->  2 files changed, 108 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
-> index 42fc7b155de09dbc..7436b9a4edbe5450 100644
-> --- a/drivers/auxdisplay/Kconfig
-> +++ b/drivers/auxdisplay/Kconfig
-> @@ -176,6 +176,7 @@ config HT16K33
->  	select FB_SYS_IMAGEBLIT
->  	select INPUT_MATRIXKMAP
->  	select FB_BACKLIGHT
-> +	select LEDS_CLASS
->  	select LINEDISP
->  	help
->  	  Say yes here to add support for Holtek HT16K33, RAM mapping 16*8
-
-thanks.
--- 
-~Randy
-
+Andrew
