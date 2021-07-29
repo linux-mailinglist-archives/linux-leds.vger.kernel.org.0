@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C4773D9B41
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Jul 2021 03:54:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB6813D9B44
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Jul 2021 03:54:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233270AbhG2Byd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 28 Jul 2021 21:54:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53994 "EHLO
+        id S233286AbhG2Bye (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 28 Jul 2021 21:54:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233234AbhG2Byc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Jul 2021 21:54:32 -0400
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61418C061765;
-        Wed, 28 Jul 2021 18:54:29 -0700 (PDT)
-Received: by mail-ot1-x330.google.com with SMTP id c7-20020a9d27870000b02904d360fbc71bso4155969otb.10;
-        Wed, 28 Jul 2021 18:54:29 -0700 (PDT)
+        with ESMTP id S233153AbhG2Byd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 28 Jul 2021 21:54:33 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F17C061757;
+        Wed, 28 Jul 2021 18:54:30 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id h63-20020a9d14450000b02904ce97efee36so4189578oth.7;
+        Wed, 28 Jul 2021 18:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pVpQK3T6/YXyYNLRmSxyloWODC3EEBXIYjhI53mzXu8=;
-        b=JAstWXGl1hp6+T7Vbu6pjBo3duiubfGtoY6ipH+GiGphbKF8rBS6e+TmeviduQMTyA
-         hrdu7vFuTWTeAgS5mGWrCHpt55ixLcxp957LoB6BuQVAFYVzQ2BrvLCDzf9+DF0rY8Bx
-         Q1F2aw+5HpaaOX/MsbgmA/QoPpiLtenNeuZjkRh97ezHDeKNhRJ55H6QtY/Rlkzun39N
-         JPIXnFvzuqOFAJmP9Y3pDlY5EQhmWoTwyHdBaLKF6cMp5jT2JnqcViZ+ZGNCnAFdCVBG
-         PKflNnSjMupJsux6ZNKMQEm4qCNQ1GK2FThw3kPOClXH9JuaIzcMR9qfCLl1qb5jIMd+
-         Nttg==
+        bh=1f/SxtepgyjeAa5xFLbjbkeuNqISFy3PTrve9ir2rAc=;
+        b=fCOe4rqRxw6SqV9uk9MpxuiUC9149oYHi6rbVfcg+KgaE/qHn5mwswIDYJ0SwFY+b1
+         eK8FEBwMJCp5rFT1S7dp42jG+v+nFBG/Us+bUu6uDCHYePeRlFv6MhsMm69K5wjSKaDC
+         ZFolXFJka7u7RyUTzJgt34evLcRvH3aSOZ/PUVpT1k4QA9LSoH70nVLMg0m2N6lWAwYs
+         +3E/4wnPo07PBFMvFtFc9lfx7Z6EmXltY2bNbOd8bupO+Lu1dmzX67pNhZpUgs4dn6XM
+         tQWab73+IufvgU6kDVHJSx6kp62GyIKZf7re2lzyja5O1Z1Zny5etk2WtcAxU+7ohU3o
+         EopA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pVpQK3T6/YXyYNLRmSxyloWODC3EEBXIYjhI53mzXu8=;
-        b=aGFtZlX6FLW/vlpvv6ITnFopVUUVv8FykoDpR3BqFsjlSVNlcLIAaXa9TFIIf6t1ws
-         /Ug35d8rUyZQoxUP2d8ADlkbROnBeJvYN/g92mUMpvyTHk6NlzQrV9Oux+PPbOe76NyJ
-         bzQTK1i6FckXOkxN4PHBJPXjbcB+aSOyUD3X+hBnizp1xsR5qVX1PpBBeYWbJ7NGO72U
-         5XsdpzPOTCpNnQESFgcpt5krmGwqRUMC5eF1G+VFddnHIvZcSEbN7xXLvGyP6FSPycHF
-         buUPGAvcvrWuQG9HAEo0CHK/YNqeGJCZvanIOJqpQMU4ieqn7nrmooyvmdMKs4qOYpn/
-         V6kg==
-X-Gm-Message-State: AOAM531WBViNbFgFzUVY6FZinLB49agO2TrktR2WX0GbT/Mjuw3Omz0u
-        /E3W7e39UkgKZgjRTYf9l4COIwdvjeUYb3xH
-X-Google-Smtp-Source: ABdhPJyU7Kdy/yISBb3spl8mSsIIKSuRVPfLyVyjE5VHkSqr5SeTSE4a3kI9iVe4Peko4n9aSrIm5g==
-X-Received: by 2002:a9d:6e06:: with SMTP id e6mr1925225otr.350.1627523668769;
-        Wed, 28 Jul 2021 18:54:28 -0700 (PDT)
+        bh=1f/SxtepgyjeAa5xFLbjbkeuNqISFy3PTrve9ir2rAc=;
+        b=tXmEaB+dAjjvuBcSZU4Fo0tTmXRRDsl/qcdNXpfIZL7sk4wZ2FIXo8tQyp71Nw2u8Z
+         brZLLmnISDHlcv5UpIBypwWCWcGraS+7/ap4NWubzE3pUkHytRZG1CotkamGdRgUVnQx
+         C3YKbwMIgxqhBuaAIzx1Y2LZC/e8Uz/AJVzTyiaPm97OsfZq0Bzhdwb9OIhl4HJKAZ55
+         c6nfEIF76EL4tFL8j1F4+zMM2lEPEblmdELcTqpDqD/2d9IEGWFWukWr/P27eSkQQCoo
+         rW22M0r/FRiqjxNotiJPEbsR3TLP9rzpqjpRd7oIrrOKz3/nEtToBPsFyYwH63BZh38C
+         Qeww==
+X-Gm-Message-State: AOAM531BhPebQPm9bqjicBg8GB7byzS70dZrYIVwdGGok+13WchDssa6
+        kqXSxNcsMW2mN1pSX+/ma6GUxA0ZhEy1B/uD
+X-Google-Smtp-Source: ABdhPJw8oRvrTnkHJKTijlAFiacDHgpqLu1mz1oZfo3fN8XvtZva5yr2NFp9LnaHTjz3UQrKimxbSw==
+X-Received: by 2002:a05:6830:23a7:: with SMTP id m7mr1910820ots.17.1627523669477;
+        Wed, 28 Jul 2021 18:54:29 -0700 (PDT)
 Received: from ian.penurio.us ([47.184.51.90])
         by smtp.gmail.com with ESMTPSA id c11sm311424otm.37.2021.07.28.18.54.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 18:54:28 -0700 (PDT)
+        Wed, 28 Jul 2021 18:54:29 -0700 (PDT)
 From:   Ian Pilcher <arequipeno@gmail.com>
 To:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org
 Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-kernel@vger.kernel.org,
         kernelnewbies@kernelnewbies.org, Ian Pilcher <arequipeno@gmail.com>
-Subject: [RFC PATCH 1/8] docs: Add block device LED trigger documentation
-Date:   Wed, 28 Jul 2021 20:53:37 -0500
-Message-Id: <20210729015344.3366750-2-arequipeno@gmail.com>
+Subject: [RFC PATCH 2/8] block: Add block device LED trigger list
+Date:   Wed, 28 Jul 2021 20:53:38 -0500
+Message-Id: <20210729015344.3366750-3-arequipeno@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210729015344.3366750-1-arequipeno@gmail.com>
 References: <20210729015344.3366750-1-arequipeno@gmail.com>
@@ -63,160 +63,112 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-* Document the sysfs attributes (/sys/class/block/led_trigger_*
-  and /sys/class/block/${DEV}/led_trigger) that can be used to
-  create, list, and delete block device LED triggers and to
-  set and clear device/trigger associations.
+* New config option (CONFIG_BLK_LED_TRIGGERS) to enable/disable
+  block device LED triggers
 
-* Pull API documentation from block/blk-ledtrig.c (once it
-  exists).
+* New file - block/blk-ledtrig.c
+
+* Use a linked list of dynamically allocated triggers.  There
+  aren't likely to be that many of them, and the list is only
+  searched when creating/deleting a trigger or setting/clearing
+  a device/trigger association - none of which should occur very
+  often.
 
 Signed-off-by: Ian Pilcher <arequipeno@gmail.com>
 ---
- Documentation/block/index.rst        |   1 +
- Documentation/block/led-triggers.rst | 124 +++++++++++++++++++++++++++
- 2 files changed, 125 insertions(+)
- create mode 100644 Documentation/block/led-triggers.rst
+ block/Kconfig       | 10 +++++++++
+ block/Makefile      |  1 +
+ block/blk-ledtrig.c | 51 +++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 62 insertions(+)
+ create mode 100644 block/blk-ledtrig.c
 
-diff --git a/Documentation/block/index.rst b/Documentation/block/index.rst
-index 86dcf7159f99..a125ecdb4c7b 100644
---- a/Documentation/block/index.rst
-+++ b/Documentation/block/index.rst
-@@ -25,3 +25,4 @@ Block
-    stat
-    switching-sched
-    writeback_cache_control
-+   led-triggers
-diff --git a/Documentation/block/led-triggers.rst b/Documentation/block/led-triggers.rst
+diff --git a/block/Kconfig b/block/Kconfig
+index fd732aede922..051488413d6e 100644
+--- a/block/Kconfig
++++ b/block/Kconfig
+@@ -220,6 +220,16 @@ config BLK_INLINE_ENCRYPTION_FALLBACK
+ 	  by falling back to the kernel crypto API when inline
+ 	  encryption hardware is not present.
+ 
++config BLK_LED_TRIGGERS
++	bool "Enable block device LED triggers"
++	depends on LEDS_TRIGGERS
++	help
++	  Enabling this allows LED triggers to be created and
++	  associated with block devices via sysfs/udev (or an
++	  in-kernel API).  These trigers can be used to drive
++	  physical or user-space activity indicators.  See
++	  Documentation/block/led-triggers.rst.
++
+ menu "Partition Types"
+ 
+ source "block/partitions/Kconfig"
+diff --git a/block/Makefile b/block/Makefile
+index bfbe4e13ca1e..bcd97ee26462 100644
+--- a/block/Makefile
++++ b/block/Makefile
+@@ -42,3 +42,4 @@ obj-$(CONFIG_BLK_SED_OPAL)	+= sed-opal.o
+ obj-$(CONFIG_BLK_PM)		+= blk-pm.o
+ obj-$(CONFIG_BLK_INLINE_ENCRYPTION)	+= keyslot-manager.o blk-crypto.o
+ obj-$(CONFIG_BLK_INLINE_ENCRYPTION_FALLBACK)	+= blk-crypto-fallback.o
++obj-$(CONFIG_BLK_LED_TRIGGERS)	+= blk-ledtrig.o
+diff --git a/block/blk-ledtrig.c b/block/blk-ledtrig.c
 new file mode 100644
-index 000000000000..a67e06c68073
+index 000000000000..345a3b6bdbc6
 --- /dev/null
-+++ b/Documentation/block/led-triggers.rst
-@@ -0,0 +1,124 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/block/blk-ledtrig.c
+@@ -0,0 +1,51 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +
-+============
-+LED Triggers
-+============
++/*
++ *	Block device LED triggers
++ *
++ *	Copyright 2021 Ian Pilcher <arequipeno@gmail.com>
++ */
 +
-+Available when ``CONFIG_BLK_LED_TRIGGERS=y``.
++#include <linux/leds.h>
++#include <linux/list.h>
++#include <linux/mutex.h>
 +
-+sysfs interface
-+===============
 +
-+Create a new block device LED trigger::
++/*
++ *
++ *	The list of block device LED triggers
++ *
++ */
 +
-+	# echo foo > /sys/class/block/led_trigger_new
++struct blk_ledtrig {
++	struct led_trigger	trigger;
++	struct list_head	list_node;
++	struct mutex		refcount_mutex;
++	int			refcount;
++	char			name[];
++};
 +
-+The name must be unique among all LED triggers (not just block device LED
-+triggers).
++LIST_HEAD(blk_ledtrig_list);
++DEFINE_MUTEX(blk_ledtrig_list_mutex);
 +
-+Create two more::
++static inline
++struct blk_ledtrig *blk_ledtrig_from_node(struct list_head *const node)
++{
++	return container_of(node, struct blk_ledtrig, list_node);
++}
 +
-+	# echo bar baz > /sys/class/block/led_trigger_new
++// Caller must hold blk_ledtrig_list_mutex
++static struct blk_ledtrig *blk_ledtrig_find(const char *const name,
++					    const size_t len)
++{
++	struct blk_ledtrig *t;
++	struct list_head *n;
 +
-+List the triggers::
++	list_for_each(n, &blk_ledtrig_list) {
++		t = blk_ledtrig_from_node(n);
++		if (strlen(t->name) == len && memcmp(name, t->name, len) == 0)
++			return t;
++	}
 +
-+	# cat /sys/class/block/led_trigger_list
-+	baz: 0
-+	bar: 0
-+	foo: 0
-+
-+(The number after each trigger is its reference count.)
-+
-+Associate a trigger with a block device::
-+
-+	# cat /sys/class/block/sda/led_trigger
-+	(none)
-+
-+	# echo foo > /sys/class/block/sda/led_trigger
-+	# cat /sys/class/block/sda/led_trigger
-+	foo
-+
-+Note that ``foo``'s reference count has increased, and it cannot be deleted::
-+
-+	# cat /sys/class/block/led_trigger_list
-+	baz: 0
-+	bar: 0
-+	foo: 1
-+
-+	# echo foo > /sys/class/block/led_trigger_del
-+	-bash: echo: write error: Device or resource busy
-+
-+	# dmesg | tail -n 1
-+	[23176.475424] blockdev LED trigger foo still in use
-+
-+Associate the ``foo`` trigger with an LED::
-+
-+	# cat /sys/class/leds/input1::scrolllock/trigger
-+	none usb-gadget usb-host rc-feedback [kbd-scrolllock] kbd-numlock
-+	kbd-capslock kbd-kanalock kbd-shiftlock kbd-altgrlock kbd-ctrllock
-+	kbd-altlock kbd-shiftllock kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock
-+	disk-activity disk-read disk-write ide-disk mtd nand-disk panic
-+	audio-mute audio-micmute rfkill-any rfkill-none foo bar baz
-+
-+	# echo foo > /sys/class/leds/input1::scrolllock/trigger
-+
-+	# cat /sys/class/leds/input1::scrolllock/trigger
-+	none usb-gadget usb-host rc-feedback [kbd-scrolllock] kbd-numlock
-+	kbd-capslock kbd-kanalock kbd-shiftlock kbd-altgrlock kbd-ctrllock
-+	kbd-altlock kbd-shiftllock kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock
-+	disk-activity disk-read disk-write ide-disk mtd nand-disk panic
-+	audio-mute audio-micmute rfkill-any rfkill-none [foo] bar baz
-+
-+Reads and writes to ``sda`` should now cause the scroll lock LED on your
-+keyboard to blink (assuming that it has one).
-+
-+Multiple devices can be associated with a trigger::
-+
-+	# echo foo > /sys/class/block/sdb/led_trigger
-+
-+	# cat /sys/class/block/led_trigger_list
-+	baz: 0
-+	bar: 0
-+	foo: 2
-+
-+Activity on either ``sda`` or ``sdb`` should now be shown by your scroll lock
-+LED.
-+
-+Clear ``sda``'s LED trigger::
-+
-+	# echo > /sys/class/block/sda/led_trigger
-+
-+	# cat /sys/class/block/sda/led_trigger
-+	(none)
-+
-+	# cat /sys/class/block/led_trigger_list
-+	baz: 0
-+	bar: 0
-+	foo: 1
-+
-+And ``sdb``'s trigger::
-+
-+	# echo > /sys/class/block/sdb/led_trigger
-+
-+Delete the triggers::
-+
-+	# echo foo bar baz > /sys/class/block/led_trigger_del
-+
-+	# cat /sys/class/block/led_trigger_list
-+
-+	# cat /sys/class/leds/input1::scrolllock/trigger
-+	none usb-gadget usb-host rc-feedback [kbd-scrolllock] kbd-numlock
-+	kbd-capslock kbd-kanalock kbd-shiftlock kbd-altgrlock kbd-ctrllock
-+	kbd-altlock kbd-shiftllock kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock
-+	disk-activity disk-read disk-write ide-disk mtd nand-disk panic
-+	audio-mute audio-micmute rfkill-any rfkill-none
-+
-+Also see **Userspace LEDs** (``Documentation/leds/uleds.rst``).
-+
-+Kernel API
-+==========
-+
-+``#include <linux/blk-ledtrig.h>``
-+
-+.. kernel-doc:: block/blk-ledtrig.c
-+   :export:
++	return NULL;
++}
 -- 
 2.31.1
 
