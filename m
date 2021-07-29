@@ -2,66 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52D003DA99F
-	for <lists+linux-leds@lfdr.de>; Thu, 29 Jul 2021 19:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60CC83DAAA3
+	for <lists+linux-leds@lfdr.de>; Thu, 29 Jul 2021 20:03:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229620AbhG2RDK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 29 Jul 2021 13:03:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43242 "EHLO
+        id S229485AbhG2SDm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 29 Jul 2021 14:03:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbhG2RDK (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Jul 2021 13:03:10 -0400
+        with ESMTP id S229556AbhG2SDm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 29 Jul 2021 14:03:42 -0400
 Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4CD2C061765;
-        Thu, 29 Jul 2021 10:03:05 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id w6so9283763oiv.11;
-        Thu, 29 Jul 2021 10:03:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FDAC061765;
+        Thu, 29 Jul 2021 11:03:38 -0700 (PDT)
+Received: by mail-oi1-x234.google.com with SMTP id q6so9533600oiw.7;
+        Thu, 29 Jul 2021 11:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=48GpcyRTXY0iV0Yn24BwGNhhL7mTyBkdtTI5JRfp5Nc=;
-        b=c+Mm2sSrlJalV4WONcqQ73ypeaI1CHM4QAYBR98KYgFRIHa5/FzhOfhaaCI5TR7zrp
-         3+Q7k/9LlKQqKt8xV+XT8S2Yi0vA+B1JqFlkSZAyInycsp5w+YXnUSvcqbRYag69vGXo
-         8ZRjqzBgxmq1OidIiOd5BXV9vS8qBH79LW2jCdJfKZIbZuEBz7oEOJ55TwO4DgQkNv6N
-         o6cI/jUXdhUufV95+07SsoJfUs1NpiZl/DO9O2uLFJU+8nuFes+iOLUA5VdqOC17sbBx
-         p/5dT/eg+S2d2RYCG6CPPpXEW2ksJpMDyV+gdr7O69Qb8W9ODsPxTzXhyiRx71+rrm9Y
-         ZbhA==
+        bh=fuxy55vow1KuFQW+e5yb6EGMBOauB93N2LgKK+CL0WI=;
+        b=lqemvRFpqTzI7XRonm35qDC/47Br7jRmw5ZIeL7tPnv93kH67cCBJr/fPOx0tOyAzQ
+         6IfcJvP+MHZTUFYB4KH6Jk64YnqTyAjUwN31KI2nZxPUe82DeTL4/gnq56XlmATMB6VI
+         mLtoV7wS796JFGhZNZ61OJbinHuIuU7SKgYeYlSbLYlo5NTTtwV4D+LolFH7ymXpGuk1
+         qU+5JjACZqTol+3S8iQRAxZe0XK231tx62Yk25uiOmFUuf0p1+dAkix2N2gqFfQzUChP
+         +PWEwDahEdlToZaRN7o8QQ+6XjY4kYZunY5Oi67FJOqxc6f4FGqi0I6soKpdNh7+dnlR
+         BlaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=48GpcyRTXY0iV0Yn24BwGNhhL7mTyBkdtTI5JRfp5Nc=;
-        b=BkCggNo+aNGX9zuYeJHLIX+ojSAuFhuDhEMMlAAqZP4RlCGZwisUviTSqcqxyqHt7Q
-         KsOoqEpvqWpouOFPlGO1/Cf7JigU6NLko9nJ8E7WBvJXlWQtPd1pW4rG1g2x8Etrwmhr
-         E5CUo13w879cFLCLIIhr35eGGt5Qtm1weBKaGmvY4S89BfL8r3IEG9xj8KxSnjY+IRZC
-         v2Bkjw3jKlo4vt9JSCtTsOnxHPGQ77+xxzzFdFBQUCHqT48Zh16vqH9lyRuZs/QnxkyR
-         ULTqfg6HccL6DIFJRZyL5IUFlDoNQEk2oZoKi3B6YvLXxrY/uC4fTx/HaKthnULZeo0M
-         GWWQ==
-X-Gm-Message-State: AOAM532tXPIG0cXNe+9CqpkHnPl/i6UxZ4EaMEHprJqa2hEaSilV3rHP
-        ohwMTa78YJpRHdAjUhRQ5YGhoWjS8phYP5Pv
-X-Google-Smtp-Source: ABdhPJw7ocOYLDfL5dZaVR4MDFI8xCYr21lpH9j8rvUQmHcPSf4Avd82c6eds3Y6dtRmTNm44FvHWQ==
-X-Received: by 2002:aca:da02:: with SMTP id r2mr3612195oig.141.1627578185251;
-        Thu, 29 Jul 2021 10:03:05 -0700 (PDT)
+        bh=fuxy55vow1KuFQW+e5yb6EGMBOauB93N2LgKK+CL0WI=;
+        b=a5fHhOqw/jI3BrLorjX2uPGO85eDPXTBDRSsGz1cGirguD63dCp882U7rSIpJuQn2O
+         acEmg+ThSm83699EGw+PPkUVBu1Ft6D2gMAOxIgKF1VLobdAMQQ6fBdNTgcIl6SNKnj6
+         VPKsAzf9UMhIATbfsARTwBWqeinWpzS8IFZNtrglWs1AjnwPRg8r/LkZHb7dKJos9Ylp
+         ydx+nEnUsEUm+9gCF4xpSEefnR4zGyXH7z5N+MewIlWPsOMn9tJtVkbyTDfZi/3pnGbL
+         G+/DjrTijtBV6lTHJu1bkW8rSpYawiIwnHq6gT2Xs3H9tKsa7vqu/11yegqNlcycXeIV
+         3iOg==
+X-Gm-Message-State: AOAM533YOhbqaJBh4sAUHTT5x3/iE/KluNratGTAKg+AlClvBiOu6yZT
+        uIfSJOpJYUV+cxhpI29CrLQm+G1yl59ufvEf
+X-Google-Smtp-Source: ABdhPJyXmsbTqz9YWsoEDwcIymc9NYbh3+0BQLzPGgII3gFC3V5UIKDJp3lClz/q8gWq/3T9+FnrkA==
+X-Received: by 2002:aca:7589:: with SMTP id q131mr10222440oic.76.1627581818302;
+        Thu, 29 Jul 2021 11:03:38 -0700 (PDT)
 Received: from ian.penurio.us ([47.184.51.90])
-        by smtp.gmail.com with ESMTPSA id be15sm679082oib.18.2021.07.29.10.03.04
+        by smtp.gmail.com with ESMTPSA id n202sm732402oig.10.2021.07.29.11.03.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jul 2021 10:03:04 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/8] Add configurable block device LED triggers
-To:     Pavel Machek <pavel@ucw.cz>
+        Thu, 29 Jul 2021 11:03:37 -0700 (PDT)
+Subject: Re: [RFC PATCH 1/8] docs: Add block device LED trigger documentation
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
 Cc:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org,
-        axboe@kernel.dk, linux-kernel@vger.kernel.org,
+        axboe@kernel.dk, pavel@ucw.cz, linux-kernel@vger.kernel.org,
         kernelnewbies@kernelnewbies.org
 References: <20210729015344.3366750-1-arequipeno@gmail.com>
- <20210729085413.GA16945@amd>
+ <20210729015344.3366750-2-arequipeno@gmail.com>
+ <20210729135955.3e3f591c@thinkpad>
 From:   Ian Pilcher <arequipeno@gmail.com>
-Message-ID: <b108799e-24a2-d5ec-e18e-b7ae8bded085@gmail.com>
-Date:   Thu, 29 Jul 2021 12:03:04 -0500
+Message-ID: <9e75ce6e-0823-6701-4f1d-7e06fc4cddc1@gmail.com>
+Date:   Thu, 29 Jul 2021 13:03:36 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210729085413.GA16945@amd>
+In-Reply-To: <20210729135955.3e3f591c@thinkpad>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -69,49 +70,67 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 7/29/21 3:54 AM, Pavel Machek wrote:
-> We normally have a trigger ("block device activity") which can then
-> expose parameters ("I watch for read" and "I monitor sda1").
-> 
-> Is there a reason normal solution can not be used?
+On 7/29/21 6:59 AM, Marek Behún wrote:
+> I don't really see the purpose for having multiple different block
+> device LED triggers. 
 
-This big difference is that this allows different devices to drive
-different LEDs.  For example, my NAS has 5 drive bays, each of which
-has its own activity LED.  With these patches, I can create a
-separate trigger for each of those LEDs and associate the drive in each
-bay with the correct LED:
+Is there a different/better way to control per-device LEDs?  (I'm
+thinking of something like my NAS, which has 5 drive bays, each with
+its own activity LED.)
 
-   sdb --> trigger1 --> LED1
-    ⋮         ⋮         ⋮
-   sdf --> trigger5 --> LED5
+> Moreover we really do not want userspace to be
+> able to add LED triggers with arbitrary names, and as many as the
+> userspace wants.
 
-(sda is the SATA DOM boot drive.)
+To be slightly flippant, why not?  "Userspace" in this case is the
+system/device administrator.  They presumably know what LEDs they have
+and what they want to use them for, something which the kernel cannot
+know (assuming a "generic" disto kernel).
 
-Note that this also supports associating multiple devices with a single
-trigger, so it can be used for more complicated schemes.  For example,
-if my NAS had an additional LED and an optical drive, I could do this:
+> There is no sense in making userspace be able to
+> create 10000 triggers.
 
-   sr0 --+
-         |
-         +--> trigger0 --> LED0
-         |
-   sda --+
+It would certainly be possible to impose a limit on the number of
+triggers that could be created.  But then someone has to decide what
+that limit should be.  Personally, I lean very much toward giving the
+system administrator the freedom to configure their system as they see
+fit, even if that means that they can break it.  (Where "break"
+basically means that they need to reboot.)
 
-   sdb -----> trigger1 --> LED1
-    ⋮         ⋮         ⋮
-   sdf -----> trigger5 --> LED5
+> Also if userspace can create triggers with
+> arbitrary names, it could "steal" a name for a real trigger. For
+> example if netdev trigger is compiled as a module, and before loading
+> someone creates blockdev trigger with name "netdev", the loading of
+> netdev trigger will fail.
 
-As far as I know, the current triggers (disk-activity, disk-read,
-disk-write, and ide-disk) don't support this sort of arbitrary
-device-trigger association.
+Would adding a prefix to the LED trigger name address your concern
+about arbitrary names and potential conflicts?  I.e. the system
+administrator creates a block device LED trigger named "foo", and it
+shows up as an LED trigger named "blkdev:foo" (or something like that).
 
-This patch set also support triggering LEDs from pretty much any block
-device (virtual as well as physical), not just ATA devices, although
-that's just a matter of the place from which the trigger is "fired".
+> I would like the blkdev trigger to work in a similar way the netdev
+> trigger works:
+> - only one trigger, with name "blkdev"
+> - when activated on a LED, new sysfs files will be created:
+>    * device_name, where user can write sda1, vdb, ...
+>    * read (binary value, 1 means blink on read)
+>    * write (binary value, 1 means blink on write)
+>    * interval (blink interval)
+>    Note that device_name could allow multiple names, in theory...
+>    Also some other disk states may be included, like error, or something
 
-I hope this explains things.
+How would you support multiple, per-device LEDs (the NAS use case above)
+in this scheme?
 
-Thanks!
+> - also the blinking itself can be done as is done netdev trigger: every
+>    50ms the work function would look at blkdev stats, and if current
+>    stat (number of bytes read/written) is different from previous, then
+>    blink the LED
+
+Is there a reason that you prefer this approach to simply having the
+block layer "fire" the trigger?
+
+Thanks for the feedback!
 
 -- 
 ========================================================================
