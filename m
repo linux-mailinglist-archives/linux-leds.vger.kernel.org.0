@@ -2,116 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A0CA3DD31D
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Aug 2021 11:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 809503DD498
+	for <lists+linux-leds@lfdr.de>; Mon,  2 Aug 2021 13:23:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232973AbhHBJlo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Aug 2021 05:41:44 -0400
-Received: from lizzard.sbs.de ([194.138.37.39]:57572 "EHLO lizzard.sbs.de"
+        id S233255AbhHBLXq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Aug 2021 07:23:46 -0400
+Received: from mga02.intel.com ([134.134.136.20]:27260 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231625AbhHBJlo (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 2 Aug 2021 05:41:44 -0400
-X-Greylist: delayed 1155 seconds by postgrey-1.27 at vger.kernel.org; Mon, 02 Aug 2021 05:41:42 EDT
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 1729LkuU019819
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 2 Aug 2021 11:21:46 +0200
-Received: from md1za8fc.ad001.siemens.net ([139.25.0.59])
-        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 1729Ljod022415;
-        Mon, 2 Aug 2021 11:21:45 +0200
-Date:   Mon, 2 Aug 2021 11:21:42 +0200
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Farooq, Muhammad Hamza" <hamza.farooq@siemens.com>
-Subject: Re: [PATCH v2 0/4] add device drivers for Siemens Industrial PCs
-Message-ID: <20210802112142.065b46a5@md1za8fc.ad001.siemens.net>
-In-Reply-To: <CAHp75Vfu1PoN6bH4ew99Ct9JS=d9KSXtM0EXV_T7VF211TW-Yg@mail.gmail.com>
-References: <20210315095710.7140-1-henning.schild@siemens.com>
-        <CAHp75Vfu1PoN6bH4ew99Ct9JS=d9KSXtM0EXV_T7VF211TW-Yg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S233243AbhHBLXq (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 2 Aug 2021 07:23:46 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10063"; a="200608151"
+X-IronPort-AV: E=Sophos;i="5.84,288,1620716400"; 
+   d="scan'208";a="200608151"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 04:23:36 -0700
+X-IronPort-AV: E=Sophos;i="5.84,288,1620716400"; 
+   d="scan'208";a="583872479"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 04:23:34 -0700
+Received: from andy by smile with local (Exim 4.94.2)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1mAW2a-004IdY-AB; Mon, 02 Aug 2021 14:23:28 +0300
+Date:   Mon, 2 Aug 2021 14:23:28 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Jan =?iso-8859-1?Q?Kundr=E1t?= <jan.kundrat@cesnet.cz>
+Cc:     linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH 2/3] leds: lp50xx: KConfig: fix dependencies
+Message-ID: <YQfVsN04iGpU0v5D@smile.fi.intel.com>
+References: <10256dd4010034d6335139d587ebfe933343ee85.1627717572.git.jan.kundrat@cesnet.cz>
+ <e64ff175a1dc36cbae639aa8ccaba91188bd789c.1627717572.git.jan.kundrat@cesnet.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e64ff175a1dc36cbae639aa8ccaba91188bd789c.1627717572.git.jan.kundrat@cesnet.cz>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am Mon, 15 Mar 2021 12:55:13 +0200
-schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:
+On Sat, Jul 31, 2021 at 12:01:17AM +0200, Jan Kundrát wrote:
+> I just lost a few hours of debugging why the heck my sysfs nodes were
+> not created even though devm_led_classdev_multicolor_register_ext() was
+> returning 0. It turned out that I was missing support for the multicolor
+> LED device class. No errors were reported, neither during the build, nor
+> at runtime -- but the DTS configuration of the connected LEDs was
+> silently ignored.
 
-> On Mon, Mar 15, 2021 at 12:12 PM Henning Schild
-> <henning.schild@siemens.com> wrote:
-> >
-> > changes since v1:
-> >
-> > - fixed lots of style issues found in v1
-> >   - (debug) printing
-> >   - header ordering
-> > - fixed license issues GPLv2 and SPDX in all files
-> > - module_platform_driver instead of __init __exit
-> > - wdt simplifications cleanup
-> > - lots of fixes in wdt driver, all that was found in v1
-> > - fixed dmi length in dmi helper
-> > - changed LED names to allowed ones
-> > - move led driver to simple/
-> > - switched pmc_atom to dmi callback with global variable
-> >
-> > --
-> >
-> > This series adds support for watchdogs and leds of several x86
-> > devices from Siemens.
-> >
-> > It is structured with a platform driver that mainly does
-> > identification of the machines. It might trigger loading of the
-> > actual device drivers by attaching devices to the platform bus.
-> >
-> > The identification is vendor specific, parsing a special binary DMI
-> > entry. The implementation of that platform identification is
-> > applied on pmc_atom clock quirks in the final patch.
-> >
-> > It is all structured in a way that we can easily add more devices
-> > and more platform drivers later. Internally we have some more code
-> > for hardware monitoring, more leds, watchdogs etc. This will follow
-> > some day.  
-> 
-> Thanks for an update!
-> 
-> I did review more thoughtfully the series and realized that you can
-> avoid that P2SB thingy and may the approach be much cleaner if you
-> register the real GPIO driver and convert your LEDs to be a GPIO LEDs.
-> Then you won't need any custom code for it (except some board file, or
-> what would be better to file _DSD in your ACPI tables.
+Which is okay. The feature as far as I can see is optional.
 
-For the next generation of these machines i managed to involve the BIOS
-guys. Goal would be to describe as much as possible in a generic and
-standard way in ACPI, to reduce cost on driver dev and maint in the
-long run. Hopefully across OSs.
+> The driver also really needs DTS -- probe fails if there are no children
+> in the DT, so the direct binding from userspace probably doesn't work.
+> That's interesting because commit
+> ea1ff99c9d235b8a54571d4292c71fce60993117 suggests that a direct bind was
+> supposed to work.
 
-The first thing we wanted to look into is LEDs. The way they can be
-described for leds-gpio does not seem to be standard but at least seems
-generic. At the same time we contemplated whether to model the LEDs
-using the multicolor class.
+First of all, please use standard reference to the commit (it will give a bit
+more context here), i.e.
 
-One thing that seems to speak against using multicolor seems to be
-missing ACPI "support", while regular LEDs can be described in ACPI, it
-does not seem like multicolor can. Or did we miss something?
+ea1ff99c9d23 ("leds: lp50xx: Switch to new style i2c-driver probe function")
 
-regards,
-Henning
+Second, it suggests that in general. While this driver currently won't be
+instantiated via user space, it the future we potentially might have a way
+how to construct software node(s) from user space (perhaps using configfs)
+and it will make the above statement a complete truth.
 
-> --
-> With Best Regards,
-> Andy Shevchenko
+...
+
+> -	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
+> +	depends on LEDS_CLASS_MULTICOLOR
+
+No, until there is a justification why it should be non-optional.
+
+You may add a debug message in order to avoid others to waste time on
+understanding the issue in the cases same to yours.
+
+...
+
+> +	depends on OF
+
+No, this driver is not OF-dependent. This change will bring a regression to it
+on ACPI-based systems.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
