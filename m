@@ -2,154 +2,278 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73D6E3DE0CE
-	for <lists+linux-leds@lfdr.de>; Mon,  2 Aug 2021 22:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55FBF3DE25F
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Aug 2021 00:17:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231547AbhHBUkP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Aug 2021 16:40:15 -0400
-Received: from mail-io1-f54.google.com ([209.85.166.54]:34627 "EHLO
-        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231339AbhHBUkO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Aug 2021 16:40:14 -0400
-Received: by mail-io1-f54.google.com with SMTP id y200so21824565iof.1;
-        Mon, 02 Aug 2021 13:40:04 -0700 (PDT)
+        id S231827AbhHBWSA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 2 Aug 2021 18:18:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53004 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230156AbhHBWR7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Aug 2021 18:17:59 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8CDFC06175F
+        for <linux-leds@vger.kernel.org>; Mon,  2 Aug 2021 15:17:48 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id h11so25736000ljo.12
+        for <linux-leds@vger.kernel.org>; Mon, 02 Aug 2021 15:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=KFSn9bFWX5R3uMZYYsUrZO5gb0YcODIyOW1PTMw3DAg=;
+        b=Sq4K6+efh+FYoqUXrm/eKVt6SSp+TtIDycn5GEnsqVI9BmtBYu6Fy868zl5z1beSW5
+         GbQBmsU6oo0e4ZOtc1s0CT6NQdtQbsnPTnx+UC6JuLFQRiD1KeXix5bGFNeDbA9TFIho
+         LuHOiwje3UQr5AxUL/pfFXNgYtn9n4ld2aNwmfFhWwWKl8zuTB9+8hCwE5CBKpxUKcBh
+         0NECkR3KIUYSrk22+y7dW5OzCRzIBaJRG/JVgsimsJP2tu7bMEbDbCvrTAZeXkZkWL8p
+         jNWlVQLMrU1sU6AueLf3i8iGD5ceQLz1/W2kEegrBmA2Hd2NGNU6aghabPmRqfVeEpsi
+         u3Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nj6Jm9N6SVUKBd/sjnVXi/8OfxWj3GFkWTh+O+RuLAg=;
-        b=YJI0eENtXWG+wL0zYzxja5CumtdBnmGYrpcOzj6K9EGcxZew47bTQ6bX9ZDZnqR191
-         ZR188rhMTxvCJMX52AVl4SMfcpY5QfsMmlFWsseR/Ica7xopMl99F9UMn9WiFDMOB+E5
-         vHr93jmeIQQfiyUcjuH9hF+Mzqv7nmEYkD8TNqXOUj0Ut/4LTTd6LyQgWbeygYOzgNnF
-         TBIG0vxkClatbmvlehu0f9Xsw5ugIhLax69p9MVGyLFzNcVwq3QqXrs8/YUttFCXuIoF
-         fzBN1zzBaAY3zfLXqXnr+d3XC4A/pytOOKRwtByaVzq3Qh/4TxR6hnjn466AA+wPhPEm
-         Ic1A==
-X-Gm-Message-State: AOAM532y4F8uA6O3KZsgN+l72Usa73oZquGZhtv9UVILu2Dw4nHrSAie
-        6QQtoBuUgA/rnpl4at/ExQ==
-X-Google-Smtp-Source: ABdhPJzwH2S9/6SqsfceWmX4rU5weXCh/Hzp9snIS7UOKcPEZKfbTY53XDUZfTp2RMOz+N4Tqnys9w==
-X-Received: by 2002:a6b:e504:: with SMTP id y4mr92403ioc.102.1627936804271;
-        Mon, 02 Aug 2021 13:40:04 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id h15sm5938116ils.46.2021.08.02.13.40.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 13:40:03 -0700 (PDT)
-Received: (nullmailer pid 1569217 invoked by uid 1000);
-        Mon, 02 Aug 2021 20:40:01 -0000
-Date:   Mon, 2 Aug 2021 14:40:01 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Paul Burton <paulburton@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Marek Behun <marek.behun@nic.cz>, devicetree@vger.kernel.org,
-        Robin van der Gracht <robin@protonic.nl>
-Subject: Re: [PATCH v4 02/19] dt-bindings: auxdisplay: ht16k33: Document
- Adafruit segment displays
-Message-ID: <YQhYIZTlQ/LhjHht@robh.at.kernel.org>
-References: <20210727140459.3767788-1-geert@linux-m68k.org>
- <20210727140459.3767788-3-geert@linux-m68k.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KFSn9bFWX5R3uMZYYsUrZO5gb0YcODIyOW1PTMw3DAg=;
+        b=VwLqiLK7mS1hLIz9w3Xc7Ce5aUOx2tag6cpQ8d6JCWo1F84EfEd6iY31b9Qwz/e4R1
+         bKrOCLTFbJS0Fb94zG6RAGdMXkx3cTL1kUipNHDOr0JGiEw0smCDH32f0P6lzYiaWHqN
+         QPowwv9EbP7nZyXYk6zA23QFJUowODQA9bNDuOXxymTaj9Y1u0fsTosEBTfOh0c7a9Pp
+         7bL+IseWVUIj+/G3QKybMZm9s3GlYoMYOKb3k3I48PlJjeM/Nuwj1QqYuTw60/fY7zVs
+         4cU+RTifYaXfBzGYFxiCiPA2F3LfBn1ETx40TSYMdVQuWNI245C6CDT5TZmVBwjshucM
+         77MQ==
+X-Gm-Message-State: AOAM533iyH8OcLYDYkMYXpU2aVPideIX/Lgo7rVqnwMWqOPqsd2iqJvv
+        NZC2KobgOlj0WsycxUPM3Rk=
+X-Google-Smtp-Source: ABdhPJyScIig6zQk9OYn1ZF4i7mSP8wRq3dmFvWPEnf+sRHnODtpgjP1zUBVQryENPFeBrnF+hLakA==
+X-Received: by 2002:a2e:82cf:: with SMTP id n15mr12610013ljh.294.1627942666983;
+        Mon, 02 Aug 2021 15:17:46 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id z11sm1069449lfb.52.2021.08.02.15.17.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Aug 2021 15:17:46 -0700 (PDT)
+Subject: Re: lp50xx: LED banking appears to be broken
+To:     =?UTF-8?Q?Jan_Kundr=c3=a1t?= <jan.kundrat@cesnet.cz>,
+        linux-leds@vger.kernel.org
+Cc:     Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
+References: <d049e22d-5ff8-4a68-a46c-3a1d533afcd0@cesnet.cz>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <b3fc778d-c94e-c8a3-3f3b-84e146a08627@gmail.com>
+Date:   Tue, 3 Aug 2021 00:17:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210727140459.3767788-3-geert@linux-m68k.org>
+In-Reply-To: <d049e22d-5ff8-4a68-a46c-3a1d533afcd0@cesnet.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 27 Jul 2021 16:04:42 +0200, Geert Uytterhoeven wrote:
-> The Holtek HT16K33 LED controller is not only used for driving
-> dot-matrix displays, but also for driving segment displays.
-> 
-> Document compatible values for the Adafruit 7-segment[1] and
-> 14-segment[2] FeatherWing expansion boards with red displays.  According
-> to the schematics, all other Adafruit 7-segment and 14-segment display
-> backpack and FeatherWing expansion boards (including bare boards and
-> boards fitted with displays) are compatible with these two boards.
-> 
-> [1] https://www.adafruit.com/product/3108
-> [2] https://www.adafruit.com/product/3130
-> 
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
-> v4:
->   - Combine compatible values for 7/14 segment displays into an enum,
-> 
-> v3:
->   - Drop color property,
-> 
-> v2:
->   - Fix type of color to uint32,
->   - "refresh-rate-hz" is still required for dot-matrix displays.
-> 
-> Alternatives I considered:
->   1. Document the attached display type in a child node.
->      I.e. specify segment type, number of characters, and wiring.
->      Especially the latter would become really complex, due to the sheer
->      amount of possible wiring combinations.
->      Using this method, you also loose the ability to just connect a
->      display to an i2c bus, and instantiate the device from sysfs,
->      without using DT:
-> 
-> 	echo adafruit,3130 0x70 > /sys/class/i2c/i2c-adapter/.../new_device
-> 
->   2. Document all Adafruit 7-segment and 14-segment display backpack and
->      FeatherWing expansion boards.
->      This would lead to a myriad of compatible values:
-> 
->       - items:
-> 	  - enum:
-> 	      - adafruit,878      # 0.56" 4-Digit 7-Segment Display Backpack (Red)
-> 	      - adafruit,879      # 0.56" 4-Digit 7-Segment Display Backpack (Yellow)
-> 	      - adafruit,880      # 0.56" 4-Digit 7-Segment Display Backpack (Green)
-> 	      - adafruit,881      # 0.56" 4-Digit 7-Segment Display Backpack (Blue)
-> 	      - adafruit,1002     # 0.56" 4-Digit 7-Segment Display Backpack (White)
-> 	  - const: adafruit,877   # 0.56" 4-Digit 7-Segment Backpack
-> 	  - const: holtek,ht16k33
-> 
->       - items:
-> 	  - enum:
-> 	      - adafruit,1268     # 1.2" 4-Digit 7-Segment Display Backpack (Green)
-> 	      - adafruit,1269     # 1.2" 4-Digit 7-Segment Display Backpack (Yellow)
-> 	      - adafruit,1270     # 1.2" 4-Digit 7-Segment Display Backpack (Red)
-> 	  - const: adafruit,1271  # 1.2" 4-Digit 7-Segment Backpack
-> 	  - const: holtek,ht16k33
-> 
->       - items:
-> 	  - enum:
-> 	      - adafruit,1911     # 0.54" Quad Alphanumeric Display Backpack (Red)
-> 	      - adafruit,1912     # 0.54" Quad Alphanumeric Display Backpack (Blue)
-> 	      - adafruit,2157     # 0.54" Quad Alphanumeric Display Backpack (White)
-> 	      - adafruit,2158     # 0.54" Quad Alphanumeric Display Backpack (Yellow)
-> 	      - adafruit,2159     # 0.54" Quad Alphanumeric Display Backpack (Yellow-Green)
-> 	      - adafruit,2160     # 0.54" Quad Alphanumeric Display Backpack (Green)
-> 	  - const: adafruit,1910  # 0.54" Quad 14-segment Alphanumeric Backpack
-> 	  - const: holtek,ht16k33
-> 
->       - items:
-> 	  - enum:
-> 	      - adafruit,3106     # 0.56" 4-Digit 7-Segment FeatherWing Display (Blue)
-> 	      - adafruit,3107     # 0.56" 4-Digit 7-Segment FeatherWing Display (Green)
-> 	      - adafruit,3108     # 0.56" 4-Digit 7-Segment FeatherWing Display (Red)
-> 	      - adafruit,3109     # 0.56" 4-Digit 7-Segment FeatherWing Display (White)
-> 	      - adafruit,3110     # 0.56" 4-Digit 7-Segment FeatherWing Display (Yellow)
-> 	  - const: adafruit,3088  # 0.56" 4-Digit 7-Segment FeatherWing
-> 	  - const: holtek,ht16k33
-> 
->       - items:
-> 	  - enum:
-> 	      - adafruit,3127     # 0.54" Quad Alphanumeric FeatherWing Display (White)
-> 	      - adafruit,3128     # 0.54" Quad Alphanumeric FeatherWing Display (Blue)
-> 	      - adafruit,3129     # 0.54" Quad Alphanumeric FeatherWing Display (Green)
-> 	      - adafruit,3130     # 0.54" Quad Alphanumeric FeatherWing Display (Red)
-> 	      - adafruit,3131     # 0.54" Quad Alphanumeric FeatherWing Display (Yellow)
-> 	      - adafruit,3132     # 0.54" Quad Alphanumeric FeatherWing Display (Yellow-Green)
-> 	  - const: adafruit,3089  # 0.54" Quad 14-segment Alphanumeric FeatherWing
-> 	  - const: holtek,ht16k33
-> ---
->  .../bindings/auxdisplay/holtek,ht16k33.yaml   | 20 ++++++++++++++++---
->  1 file changed, 17 insertions(+), 3 deletions(-)
-> 
+Hi Jan,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On 7/31/21 10:14 AM, Jan Kundrát wrote:
+> Hi there,
+> I'm trying to use the LP5009 chip with the following HW setup:
+> 
+> - channels 1-6 drive a big, 20mm LED module which internally consists of 
+> six independent LEDs
+> - channels 7, 8 and 9 drive a RGB LED as usual.
+> 
+> I thought that a DT bindings like this will work:
+> 
+>      led-controller@0c {
+>          compatible = "ti,lp5009";
+>          reg = <0x0c>;
+>          #address-cells = <1>;
+>          #size-cells = <0>;
+>          status = "okay";
+> 
+>          multi-led@1 {
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+>              reg = <1>;
+>              label = "tally:1";
+>              led {
+>                  color = <LED_COLOR_ID_RED>;
+>              };
+>          };
+>          multi-led@2 {
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+>              reg = <2>;
+>              label = "tally:2";
+>              led {
+>                  color = <LED_COLOR_ID_RED>;
+>              };
+>          };
+>          multi-led@3 {
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+>              reg = <3>;
+>              label = "tally:3";
+>              led {
+>                  color = <LED_COLOR_ID_RED>;
+>              };
+>          };
+>          multi-led@4 {
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+>              reg = <4>;
+>              label = "tally:4";
+>              led {
+>                  color = <LED_COLOR_ID_RED>;
+>              };
+>          };
+>          multi-led@5 {
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+>              reg = <5>;
+>              label = "tally:5";
+>              led {
+>                  color = <LED_COLOR_ID_RED>;
+>              };
+>          };
+>          multi-led@6 {
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+>              reg = <6>;
+>              label = "tally:6";
+>              led {
+>                  color = <LED_COLOR_ID_RED>;
+>              };
+>          };
+> 
+>          multi-led@7 {
+>              #address-cells = <1>;
+>              #size-cells = <2>;
+>              reg = <7 8 9>;
+>              color = <LED_COLOR_ID_RGB>;
+>              label = "preview";
+> 
+>              led@7 {
+>                  color = <LED_COLOR_ID_RED>;
+>              };
+>              led@8 {
+>                  color = <LED_COLOR_ID_GREEN>;
+>              };
+>              led@9 {
+>                  color = <LED_COLOR_ID_BLUE>;
+>              };
+>          };
+>      };
+> 
+> This has drawbacks:
+> 
+> - I get a multicolor sysfs entry for each of the six red sub-LEDs, which 
+> probably doesn't make much sense.
+
+Feel free to add support for monochrome LED class to the driver,
+similarly like it was done for drivers/leds/leds-lp55xx-common.c.
+
+> I cannot do a one "multicolor" LED
+
+This is due to the limitation imposed by Pavel Machek in the LED core:
+
+BUG_ON(props.color == LED_COLOR_ID_MULTI);
+
+You'd have to convince him that having multi color LED other than RGB
+is reasonable :-)
+
+> with six channels because there appears to be a limit of 3 channels, and 
+> because the order of channels is documented to be non-deterministic, so 
+
+You can determine the order of LEDs via multi_index file.
+See Documentation/ABI/testing/sysfs-class-led-multicolor.
+
+> that would require me to come up with fake names or something. Also, 
+> driving this from userspace means two writes for each sub-LED.
+> 
+> - The sysfs entries do not appear to drive correct LEDs. For example, a 
+> write to tally:5 or tally:6 results in an error:
+> 
+> lp50xx 1-000c: Cannot write intensity value -5
+> leds tally:6: Setting an LED's brightness failed (-5)
+
+You mixed deprecated 'label' DT property with 'color' in your DT nodes.
+I haven't tracked down that in detail, but it may certainly have some
+negative impact on how LEDs are named and presented in sysfs.
+Please first sort it out, and let's see if something gets better
+afterwards.
+
+> I tried to simplify this, and kept just the one RGB LED (that is, the 
+> multi-led@7 and led@7, led@8 and led@9 stanzas). This resulted in the 
+> following regmap entries after init:
+> 
+> # cat /sys/kernel/debug/regmap/1-000c/registers 00: 40
+> 01: 3c
+> 02: 80
+> 03: ff
+> 04: 0f
+> 05: 0f
+> 06: 0f
+> 07: 0f
+> 08: ff
+> 09: ff
+> 0a: ff
+> 0b: 0f
+> 0c: 00
+> 0d: 00
+> 0e: 00
+> 0f: 00
+> 10: 00
+> 11: 00
+> 12: 00
+> 13: 00
+> 14: 00
+> 15: 00
+> 16: 00
+> 17: ff
+> 
+> Clearly, that's wrong because it sets register's 0x02 reserved bits to 
+> non-zero. It looks as if the LED's channel number gets translated to the 
+> bank number, which is wrong. There are nine LEDs on LP5009, but only 
+> three individual banks.
+> 
+> Also, I don't think that the concept of "banks" as defined in LP50xx 
+> chips should be used in the Linux driver. The datasheet is not terribly 
+> specific on details, but it looks to me that the "banks" are for a use 
+> case where multiple physical LEDs are to, e.g., "breathe together". The 
+> chip indeed imposes some limitations when banking is enabled:
+> 
+> - LED0 will always be on channels 1-3. That's incompatible with the 
+> current code which uses the `reg` DT property and allows arbitrary 
+> assigning of channels to a LED's color inputs. I can have a Linux RGB 
+> LED which uses channels 1, 5 and 9 just fine, but I cannot use banking 
+> for that.
+> 
+> - Bank A always drives the first color of all LEDs that have banking 
+> enabled. Bank B is always for the second color, and bank C always 
+> applies to the third color.
+> 
+> As far as I can tell, there's no support for cross-LED control in Linux, 
+
+That's for LED multicolor class was designed for.
+
+> so I think that we can just rip support for banking from this driver. 
+> The main motivation appears to be saving some I2C bandwidth and MCU 
+> cycles. If the driver was serious about this, it would use register 
+> auto-increment as a first step I suppose, but the regmap subsystem as-is 
+> updates all registers independently.
+
+The main motivation for having support for banking was taking
+advantage of hardware support for synchronous setting of intensity
+on multiple iouts.
+
+> Before I send a patch which implements all that, I wanted to ask if I 
+> understood everything right, and to check whether these suggestions make 
+> sense to the maintainer and to the original author of the driver (and, 
+> hopefully, to the users as well).
+
+As I mentioned above, adding a support for monochrome LEDs to the driver
+would be probably welcome, but you would need to hear the final word on
+that from Pavel.
+
+-- 
+Best regards,
+Jacek Anaszewski
