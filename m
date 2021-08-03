@@ -2,278 +2,128 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55FBF3DE25F
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Aug 2021 00:17:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B89453DE4E2
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Aug 2021 06:07:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231827AbhHBWSA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 2 Aug 2021 18:18:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53004 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230156AbhHBWR7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 2 Aug 2021 18:17:59 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8CDFC06175F
-        for <linux-leds@vger.kernel.org>; Mon,  2 Aug 2021 15:17:48 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id h11so25736000ljo.12
-        for <linux-leds@vger.kernel.org>; Mon, 02 Aug 2021 15:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KFSn9bFWX5R3uMZYYsUrZO5gb0YcODIyOW1PTMw3DAg=;
-        b=Sq4K6+efh+FYoqUXrm/eKVt6SSp+TtIDycn5GEnsqVI9BmtBYu6Fy868zl5z1beSW5
-         GbQBmsU6oo0e4ZOtc1s0CT6NQdtQbsnPTnx+UC6JuLFQRiD1KeXix5bGFNeDbA9TFIho
-         LuHOiwje3UQr5AxUL/pfFXNgYtn9n4ld2aNwmfFhWwWKl8zuTB9+8hCwE5CBKpxUKcBh
-         0NECkR3KIUYSrk22+y7dW5OzCRzIBaJRG/JVgsimsJP2tu7bMEbDbCvrTAZeXkZkWL8p
-         jNWlVQLMrU1sU6AueLf3i8iGD5ceQLz1/W2kEegrBmA2Hd2NGNU6aghabPmRqfVeEpsi
-         u3Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KFSn9bFWX5R3uMZYYsUrZO5gb0YcODIyOW1PTMw3DAg=;
-        b=VwLqiLK7mS1hLIz9w3Xc7Ce5aUOx2tag6cpQ8d6JCWo1F84EfEd6iY31b9Qwz/e4R1
-         bKrOCLTFbJS0Fb94zG6RAGdMXkx3cTL1kUipNHDOr0JGiEw0smCDH32f0P6lzYiaWHqN
-         QPowwv9EbP7nZyXYk6zA23QFJUowODQA9bNDuOXxymTaj9Y1u0fsTosEBTfOh0c7a9Pp
-         7bL+IseWVUIj+/G3QKybMZm9s3GlYoMYOKb3k3I48PlJjeM/Nuwj1QqYuTw60/fY7zVs
-         4cU+RTifYaXfBzGYFxiCiPA2F3LfBn1ETx40TSYMdVQuWNI245C6CDT5TZmVBwjshucM
-         77MQ==
-X-Gm-Message-State: AOAM533iyH8OcLYDYkMYXpU2aVPideIX/Lgo7rVqnwMWqOPqsd2iqJvv
-        NZC2KobgOlj0WsycxUPM3Rk=
-X-Google-Smtp-Source: ABdhPJyScIig6zQk9OYn1ZF4i7mSP8wRq3dmFvWPEnf+sRHnODtpgjP1zUBVQryENPFeBrnF+hLakA==
-X-Received: by 2002:a2e:82cf:: with SMTP id n15mr12610013ljh.294.1627942666983;
-        Mon, 02 Aug 2021 15:17:46 -0700 (PDT)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id z11sm1069449lfb.52.2021.08.02.15.17.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Aug 2021 15:17:46 -0700 (PDT)
-Subject: Re: lp50xx: LED banking appears to be broken
-To:     =?UTF-8?Q?Jan_Kundr=c3=a1t?= <jan.kundrat@cesnet.cz>,
-        linux-leds@vger.kernel.org
-Cc:     Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
-References: <d049e22d-5ff8-4a68-a46c-3a1d533afcd0@cesnet.cz>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <b3fc778d-c94e-c8a3-3f3b-84e146a08627@gmail.com>
-Date:   Tue, 3 Aug 2021 00:17:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <d049e22d-5ff8-4a68-a46c-3a1d533afcd0@cesnet.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S229753AbhHCEHl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 3 Aug 2021 00:07:41 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:50127 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229498AbhHCEHl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Aug 2021 00:07:41 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.west.internal (Postfix) with ESMTP id E90DD2B0114E;
+        Tue,  3 Aug 2021 00:07:29 -0400 (EDT)
+Received: from imap43 ([10.202.2.93])
+  by compute2.internal (MEProxy); Tue, 03 Aug 2021 00:07:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type; s=fm3; bh=Ppnjgn9uT3nmuKcO7tOFj+ln9O4wmRR
+        NvfgdBYB7dI8=; b=OKHYuR8QZZlGqTrvGubS+4e0MQo1R70rVcET9ytidu7sxph
+        yJt4i/gOXrrca9QRlpLIr4NrWiEI+dNx6aWV9jbF+t1pifDlnWZWYwFWzq08FP6W
+        JFnZJs+QcTR339vXltq9ATJN9WIS1nsQSOp+/2CVnsTDqxX14GwcVRVtjyw0y+7a
+        MUZyOiTBN6/MpcHwhtwT4T8D14ZU3McUGXMZWwvr9A929IDxtdoUcu5aFh3A/B9E
+        DD1EqRncPBaRp+nm9eevBS3dkRBzH2z0RcMm1rXrSaq7cEum+BYVbs2778qA9WWb
+        CxNXl+f2uix6CeRXubuWw6FoDVLukJAbSkw47Qg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Ppnjgn
+        9uT3nmuKcO7tOFj+ln9O4wmRRNvfgdBYB7dI8=; b=eaIYKV3Y5GoVbgReKh+RM2
+        JGBu+L4Afj8EUiBJI3cDyRe3Jryb23kYKJMZRIJGkEfYaGy1jhvCaSaJKdwRAjps
+        nC6lYM4h37UnmrhFIZJk67D1AtRO4xDJcmwbQcUZw98bbv6tSBap2Jhw9oZc3ndD
+        jG843fceNArsjNPKqsa89HzJ6gujxDdjLYPRP7AH1RDlGBjH5FqbWvyLl9PaK/qx
+        oa3tPvSvToJc/T+uj5LO+NKzgnvi22EKyGxMIKuhS+sA6OqGd/QtzXSIFYNbsNsY
+        DCri3zyPwqWOw26Nl434ybU6EeX3LB+PgEWBj4jgmryZugkwrhvglX3/VipwmYDA
+        ==
+X-ME-Sender: <xms:AMEIYVLjt93FybOWFgADOALilosXVsR4f5JrWUspOxDvlhUL35q_Sg>
+    <xme:AMEIYRKSFZGOCubEzXBIftEsnTEQZdSkUfiNTOilAhzQBjO-Exn9v9y4NFsArGkh7
+    k_TgDlCDDdsJe0tnQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrieefgdejtdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+    htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
+    veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:AMEIYdu1Y2NPjTkklOrZaN2uA00iHraj7UGZ4WR0bVrM8OC4tnoBcQ>
+    <xmx:AMEIYWacnrv6Yz8o-MtOdRkAnWaMIgzj13hQNDaMUWMlMoVahMIAWw>
+    <xmx:AMEIYcb_V0H3WIDP4K4Pb4F4YMTBu8uAWnxU6C2YZfijNAuGsp-Pfw>
+    <xmx:AcEIYamiyxvRIf1TCYYqtGn9mUAjzZhuewuQ_42ivabLuCy-wfVw_wXguRs>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id EEF55AC0DD0; Tue,  3 Aug 2021 00:07:27 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-548-g3a0b1fef7b-fm-20210802.001-g3a0b1fef
+Mime-Version: 1.0
+Message-Id: <50aaf381-8cda-4656-9222-f23fda75d3bc@www.fastmail.com>
+In-Reply-To: <CAHp75Vdx9QA7dmSWK8GHxBBxP0uYjrz=Gm=75yqaWbBX6k3v=w@mail.gmail.com>
+References: <20210723075858.376378-1-andrew@aj.id.au>
+ <CAHp75VeQML7njMZ6x8kC-ZJVexC1xJ6n1cB3JneVMAVfuOJgWw@mail.gmail.com>
+ <d019990e-a725-4ef5-bb54-aadee9d18b86@www.fastmail.com>
+ <CAHp75Vc2W+WmwNj1AvH6EiT_80c+5gADV9QzK+asHxpd1Ucppw@mail.gmail.com>
+ <6cc64039-f82a-4c1e-ad2c-16fad7aa3178@www.fastmail.com>
+ <CAHp75Vdx9QA7dmSWK8GHxBBxP0uYjrz=Gm=75yqaWbBX6k3v=w@mail.gmail.com>
+Date:   Tue, 03 Aug 2021 13:37:07 +0930
+From:   "Andrew Jeffery" <andrew@aj.id.au>
+To:     "Andy Shevchenko" <andy.shevchenko@gmail.com>
+Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Joel Stanley" <joel@jms.id.au>, "Pavel Machek" <pavel@ucw.cz>,
+        "Linus Walleij" <linus.walleij@linaro.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 0/6] leds: Fix pca955x GPIO pin mappings
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Jan,
 
-On 7/31/21 10:14 AM, Jan Kundrát wrote:
-> Hi there,
-> I'm trying to use the LP5009 chip with the following HW setup:
+
+On Thu, 29 Jul 2021, at 17:10, Andy Shevchenko wrote:
+> On Thu, Jul 29, 2021 at 3:39 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+> > On Wed, 28 Jul 2021, at 18:43, Andy Shevchenko wrote:
+> > > On Wed, Jul 28, 2021 at 8:43 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+> > > > However, userspace would never have
+> > > > got the results it expected with the existing driver implementation, so
+> > > > I guess you could argue that no such (useful) userspace exists. Given
+> > > > that, we could adopt the strategy of always defining a gpiochip
+> > > > covering the whole pin space, and parts of the devicetree binding just
+> > > > become redundant.
+> > >
+> > > I'm lost now. GPIO has its own userspace ABI, how does it work right
+> > > now in application to this chip?
+> >
+> > As above, it "works" if the GPIOs specified in the devicetree are
+> > contiguous from line 0. It's broken if they're not.
 > 
-> - channels 1-6 drive a big, 20mm LED module which internally consists of 
-> six independent LEDs
-> - channels 7, 8 and 9 drive a RGB LED as usual.
+> So, "it never works" means there is no bug. Now, what we need is to
+> keep the same enumeration scheme, but if you wish to be used half/half
+> (or any other ratio), the driver should do like the above mentioned
+> PWM, i.e. register entire space and depending on the requestor either
+> proceed with a line or mark it as BUSY.
 > 
-> I thought that a DT bindings like this will work:
-> 
->      led-controller@0c {
->          compatible = "ti,lp5009";
->          reg = <0x0c>;
->          #address-cells = <1>;
->          #size-cells = <0>;
->          status = "okay";
-> 
->          multi-led@1 {
->              #address-cells = <1>;
->              #size-cells = <0>;
->              reg = <1>;
->              label = "tally:1";
->              led {
->                  color = <LED_COLOR_ID_RED>;
->              };
->          };
->          multi-led@2 {
->              #address-cells = <1>;
->              #size-cells = <0>;
->              reg = <2>;
->              label = "tally:2";
->              led {
->                  color = <LED_COLOR_ID_RED>;
->              };
->          };
->          multi-led@3 {
->              #address-cells = <1>;
->              #size-cells = <0>;
->              reg = <3>;
->              label = "tally:3";
->              led {
->                  color = <LED_COLOR_ID_RED>;
->              };
->          };
->          multi-led@4 {
->              #address-cells = <1>;
->              #size-cells = <0>;
->              reg = <4>;
->              label = "tally:4";
->              led {
->                  color = <LED_COLOR_ID_RED>;
->              };
->          };
->          multi-led@5 {
->              #address-cells = <1>;
->              #size-cells = <0>;
->              reg = <5>;
->              label = "tally:5";
->              led {
->                  color = <LED_COLOR_ID_RED>;
->              };
->          };
->          multi-led@6 {
->              #address-cells = <1>;
->              #size-cells = <0>;
->              reg = <6>;
->              label = "tally:6";
->              led {
->                  color = <LED_COLOR_ID_RED>;
->              };
->          };
-> 
->          multi-led@7 {
->              #address-cells = <1>;
->              #size-cells = <2>;
->              reg = <7 8 9>;
->              color = <LED_COLOR_ID_RGB>;
->              label = "preview";
-> 
->              led@7 {
->                  color = <LED_COLOR_ID_RED>;
->              };
->              led@8 {
->                  color = <LED_COLOR_ID_GREEN>;
->              };
->              led@9 {
->                  color = <LED_COLOR_ID_BLUE>;
->              };
->          };
->      };
-> 
-> This has drawbacks:
-> 
-> - I get a multicolor sysfs entry for each of the six red sub-LEDs, which 
-> probably doesn't make much sense.
+> Ideally, looking into what the chip can do, this should be indeed
+> converted to some like pin control + PWM + LED + GPIO drivers. Then
+> the function in pin mux configuration can show what exactly is enabled
+> on the certain line(s).
 
-Feel free to add support for monochrome LED class to the driver,
-similarly like it was done for drivers/leds/leds-lp55xx-common.c.
+So just to clarify, you want both solutions here?
 
-> I cannot do a one "multicolor" LED
+1. A gpiochip that covers the entire pin space
+2. A pinmux implementation that manages pin allocation to the different drivers
 
-This is due to the limitation imposed by Pavel Machek in the LED core:
+In that case we can largely leave this series as is? We only need to 
+adjust how we configure the gpiochip by dropping the pin-mapping 
+implementation?
 
-BUG_ON(props.color == LED_COLOR_ID_MULTI);
+I don't have a need to implement a PWM driver for it right now but that 
+would make sense to do at some point.
 
-You'd have to convince him that having multi color LED other than RGB
-is reasonable :-)
-
-> with six channels because there appears to be a limit of 3 channels, and 
-> because the order of channels is documented to be non-deterministic, so 
-
-You can determine the order of LEDs via multi_index file.
-See Documentation/ABI/testing/sysfs-class-led-multicolor.
-
-> that would require me to come up with fake names or something. Also, 
-> driving this from userspace means two writes for each sub-LED.
-> 
-> - The sysfs entries do not appear to drive correct LEDs. For example, a 
-> write to tally:5 or tally:6 results in an error:
-> 
-> lp50xx 1-000c: Cannot write intensity value -5
-> leds tally:6: Setting an LED's brightness failed (-5)
-
-You mixed deprecated 'label' DT property with 'color' in your DT nodes.
-I haven't tracked down that in detail, but it may certainly have some
-negative impact on how LEDs are named and presented in sysfs.
-Please first sort it out, and let's see if something gets better
-afterwards.
-
-> I tried to simplify this, and kept just the one RGB LED (that is, the 
-> multi-led@7 and led@7, led@8 and led@9 stanzas). This resulted in the 
-> following regmap entries after init:
-> 
-> # cat /sys/kernel/debug/regmap/1-000c/registers 00: 40
-> 01: 3c
-> 02: 80
-> 03: ff
-> 04: 0f
-> 05: 0f
-> 06: 0f
-> 07: 0f
-> 08: ff
-> 09: ff
-> 0a: ff
-> 0b: 0f
-> 0c: 00
-> 0d: 00
-> 0e: 00
-> 0f: 00
-> 10: 00
-> 11: 00
-> 12: 00
-> 13: 00
-> 14: 00
-> 15: 00
-> 16: 00
-> 17: ff
-> 
-> Clearly, that's wrong because it sets register's 0x02 reserved bits to 
-> non-zero. It looks as if the LED's channel number gets translated to the 
-> bank number, which is wrong. There are nine LEDs on LP5009, but only 
-> three individual banks.
-> 
-> Also, I don't think that the concept of "banks" as defined in LP50xx 
-> chips should be used in the Linux driver. The datasheet is not terribly 
-> specific on details, but it looks to me that the "banks" are for a use 
-> case where multiple physical LEDs are to, e.g., "breathe together". The 
-> chip indeed imposes some limitations when banking is enabled:
-> 
-> - LED0 will always be on channels 1-3. That's incompatible with the 
-> current code which uses the `reg` DT property and allows arbitrary 
-> assigning of channels to a LED's color inputs. I can have a Linux RGB 
-> LED which uses channels 1, 5 and 9 just fine, but I cannot use banking 
-> for that.
-> 
-> - Bank A always drives the first color of all LEDs that have banking 
-> enabled. Bank B is always for the second color, and bank C always 
-> applies to the third color.
-> 
-> As far as I can tell, there's no support for cross-LED control in Linux, 
-
-That's for LED multicolor class was designed for.
-
-> so I think that we can just rip support for banking from this driver. 
-> The main motivation appears to be saving some I2C bandwidth and MCU 
-> cycles. If the driver was serious about this, it would use register 
-> auto-increment as a first step I suppose, but the regmap subsystem as-is 
-> updates all registers independently.
-
-The main motivation for having support for banking was taking
-advantage of hardware support for synchronous setting of intensity
-on multiple iouts.
-
-> Before I send a patch which implements all that, I wanted to ask if I 
-> understood everything right, and to check whether these suggestions make 
-> sense to the maintainer and to the original author of the driver (and, 
-> hopefully, to the users as well).
-
-As I mentioned above, adding a support for monochrome LEDs to the driver
-would be probably welcome, but you would need to hear the final word on
-that from Pavel.
-
--- 
-Best regards,
-Jacek Anaszewski
+Andrew
