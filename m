@@ -2,92 +2,93 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAFA63DF71C
-	for <lists+linux-leds@lfdr.de>; Tue,  3 Aug 2021 23:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58D843DF727
+	for <lists+linux-leds@lfdr.de>; Tue,  3 Aug 2021 23:58:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230076AbhHCVvj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 3 Aug 2021 17:51:39 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:40088 "EHLO
+        id S231351AbhHCV6m (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 3 Aug 2021 17:58:42 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:40764 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbhHCVvi (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Aug 2021 17:51:38 -0400
+        with ESMTP id S230124AbhHCV6l (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 3 Aug 2021 17:58:41 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 4F4001C0B76; Tue,  3 Aug 2021 23:51:26 +0200 (CEST)
-Date:   Tue, 3 Aug 2021 23:51:25 +0200
+        id 131681C0B76; Tue,  3 Aug 2021 23:58:22 +0200 (CEST)
+Date:   Tue, 3 Aug 2021 23:58:21 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     andy@surfacebook.localdomain
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Amireddy Mallikarjuna reddy 
-        <mallikarjunax.reddy@linux.intel.com>,
-        Abanoub Sameh <abanoubsameh8@gmail.com>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
         Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 12/13] leds: rt8515: Put fwnode in any case during
- ->probe()
-Message-ID: <20210803215125.GD30387@amd>
-References: <20210529111935.3849707-1-andy.shevchenko@gmail.com>
- <20210529111935.3849707-12-andy.shevchenko@gmail.com>
- <CACRpkdb21tMWyoxHuv8CwUB9fZeD332B_ui2jtMP7ocfbi6LSQ@mail.gmail.com>
- <YLtH45iTFAn9QcpQ@surfacebook.localdomain>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Pavel Machek <pavel@denx.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: LED subsystem lagging maintenance
+Message-ID: <20210803215821.GE30387@amd>
+References: <CAHp75VeWKgyz32scczN0c+iJwGZXVP42g0NG0oXrdJ34GyHB8w@mail.gmail.com>
+ <20210728103551.GA31304@amd>
+ <179c4bce-ce9b-c9a8-4f24-cb4b3397e0f0@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="wULyF7TL5taEdwHz"
+        protocol="application/pgp-signature"; boundary="ffoCPvUAPMgSXi6H"
 Content-Disposition: inline
-In-Reply-To: <YLtH45iTFAn9QcpQ@surfacebook.localdomain>
+In-Reply-To: <179c4bce-ce9b-c9a8-4f24-cb4b3397e0f0@redhat.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---wULyF7TL5taEdwHz
+--ffoCPvUAPMgSXi6H
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat 2021-06-05 12:46:11, andy@surfacebook.localdomain wrote:
-> Tue, Jun 01, 2021 at 12:06:05PM +0200, Linus Walleij kirjoitti:
-> > On Sat, May 29, 2021 at 1:19 PM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
+Hi!
+
+> >> I have noticed that in the last couple of cycles the LED subsystem is
+> >> a bit laggish in terms of maintenance (*). I think it's time that
+> >> someone can help Pavel to sort things out.
+> >>
+> >> In any case, I wonder if we have any kind of procedure for what to do
+> >> in such cases. Do we need to assume that the subsystem is in a
+> >> (pre-)orphaned state? If so, who is the best to take care of patch
+> >> flow?
 > >=20
-> > > fwnode_get_next_available_child_node() bumps a reference counting of
-> > > a returned variable. We have to balance it whenever we return to
-> > > the caller.
-> > >
-> > > Fixes: e1c6edcbea13 ("leds: rt8515: Add Richtek RT8515 LED driver")
-> > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > To be honest, patches were not applied because they were not that
+> > important to begin with, because of lacking explanation, and because
+> > you pushed a bit too hard.
 > >=20
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> > Yes, I'm quite busy in -rc1 to -rc3 timeframe with stable reviews. No,
+> > LED subsystem is not orphaned.
 >=20
-> Thanks!
+> It is good to hear that you are still actively maintaining the LED
+> subsystem, thank you.
 >=20
-> Pavel, can you, please, review this batch? I think I addressed most of yo=
-ur
-> comments if not all.
+> This thread does remind me that I was planning on re-sending this
+> LED patch which seems to have fallen through the cracks:
+>=20
+> https://lore.kernel.org/alsa-devel/20210221115208.105203-1-hdegoede@redha=
+t.com/
+>=20
+> Can you pick this one up please? Or shall I resend it?
 
-Your original email is: From: andy@surfacebook.localdomain . I don't
-believe that's right.
+Thanks, applied.
 
-Best regards,
-								Pavel
-
+							Pavel
 --=20
 http://www.livejournal.com/~pavelmachek
 
---wULyF7TL5taEdwHz
+--ffoCPvUAPMgSXi6H
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAmEJul0ACgkQMOfwapXb+vKkwQCgiKGNe5VZmqG5rkBTgkbNofob
-wLUAnA4PfBVNO2HjVetvu3Wifm4D9z7J
-=fEin
+iEYEARECAAYFAmEJu/0ACgkQMOfwapXb+vIm3gCdE4erM298XQat7Iyn4cBC+UZf
+h7EAnijY1Moszd5SPtdsjgfFXsfcD5TQ
+=0Lbc
 -----END PGP SIGNATURE-----
 
---wULyF7TL5taEdwHz--
+--ffoCPvUAPMgSXi6H--
