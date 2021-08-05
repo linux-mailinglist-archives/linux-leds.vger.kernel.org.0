@@ -2,70 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F10AD3E0598
-	for <lists+linux-leds@lfdr.de>; Wed,  4 Aug 2021 18:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AB863E120F
+	for <lists+linux-leds@lfdr.de>; Thu,  5 Aug 2021 12:07:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234549AbhHDQNf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 4 Aug 2021 12:13:35 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:40240 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234305AbhHDQNZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 4 Aug 2021 12:13:25 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 5416C1C0B7A; Wed,  4 Aug 2021 18:13:10 +0200 (CEST)
-Date:   Wed, 4 Aug 2021 18:13:09 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     lqhua06@163.com
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "quanah.li_cp" <liqinghua@yulong.com>
-Subject: Re: [PATCH] leds: led-core: The value of delay_on and delay_off
- remains when led off
-Message-ID: <20210804161309.GF25072@amd>
-References: <20210429125908.8308-1-lqhua06@163.com>
+        id S240201AbhHEKHb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 5 Aug 2021 06:07:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38136 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240076AbhHEKH3 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 5 Aug 2021 06:07:29 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6F7C061765
+        for <linux-leds@vger.kernel.org>; Thu,  5 Aug 2021 03:07:14 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id a201so8099580ybg.12
+        for <linux-leds@vger.kernel.org>; Thu, 05 Aug 2021 03:07:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=IXiF0cE8iLdsKXBHXuqgd6kWlwigyuOCyyGf/zSHAKo=;
+        b=N4JQzB/TQYMsOrVKOT8tU9KVRLB1ISAkwBJfAoilwERlu6Mr+9l6ZSzln2lp9j3BF8
+         HmjguZaIz+ywTXve7jnvisXPNElev5mGnjR5DS1CsDyeE9nJvEgRaSDXmX6r4cVYrxD/
+         FhbWjv+n+jsBEVBfu9QnPf/YQrfZ94TS3ZDuOXHgwpjNqbCE5jZ048/znIeRF84tZmzr
+         mS33sbNLpQ1HsWkr2TqjkIZcnnk8pxGHQCqLhjuDyfuV77PoZJ/D+GMPzRoG5m2nvavP
+         h2/TwM6nrHTpW24ba+ZokKKosPY1zhjKXUoBm1vhKzaeaV2Gl+A7KrdmpCvcU0c3GcWb
+         dC1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=IXiF0cE8iLdsKXBHXuqgd6kWlwigyuOCyyGf/zSHAKo=;
+        b=AeFOAR7uSm83J8Z/QYr8kwoKvhT8zKyfgwVhGYkC2a5et/yMtYeD1GAGZ0sT3EAxnM
+         qgb47tvDAUVj1VKusUT1WGK5mf/7W1atwPoEncSTfJmoRNLVBNjQEGDpFsFOm9u5wAs9
+         rI4PBvgmH+OgodGuYwagYB249wHn3ka0HK94k+gMdMaEPg+ZQE4o5W4bFN+R9059lqOW
+         Fze8cNT6qkwAlc9/yZFCvdwjkliIZj059DiwUi7CSaXda32S8/C+DD9bZhigs1oCA5qj
+         fQlBHTDqDE176+K9Pde5dzNt423fKXOSUvgBwmJQ89ZUZQFN8QscL0FLNVk4O9Ayk97k
+         Q2sw==
+X-Gm-Message-State: AOAM531PeYmWKXWjSKkVAAUbWxru2AEznRHJLEV00WQBrxQ/7rIfnXv8
+        kpV707zU/S6yNCOWzEHnuRBTw/SCTtOm53Synws=
+X-Google-Smtp-Source: ABdhPJy+jYVbQCLe3Y4ssJ1si9np9C81cec6pvZXWlg2nihOVOyoHV+uNqTPQq9AZX7/B9izO05U2uMGSf+QylzBMnM=
+X-Received: by 2002:a25:ed08:: with SMTP id k8mr5073538ybh.494.1628158034147;
+ Thu, 05 Aug 2021 03:07:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="pyE8wggRBhVBcj8z"
-Content-Disposition: inline
-In-Reply-To: <20210429125908.8308-1-lqhua06@163.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Received: by 2002:a05:7010:330b:b029:db:4f3a:6691 with HTTP; Thu, 5 Aug 2021
+ 03:07:13 -0700 (PDT)
+Reply-To: rihabmanyang07@yahoo.com
+From:   Rihab Manyang <diamakaire48@gmail.com>
+Date:   Thu, 5 Aug 2021 11:07:13 +0100
+Message-ID: <CAJq20Oka6zEQq8y=jPmfu8iwjbs0MqBMk6mdaW+UaS4ZPWwodQ@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+-- 
 
---pyE8wggRBhVBcj8z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Thu 2021-04-29 20:59:08, lqhua06@163.com wrote:
-> From: "quanah.li_cp" <liqinghua@yulong.com>
->=20
-> The LED connect to pmic gpio, and the LED can blinking during
-> AP goto sleep.
->=20
-> When the LED is turned off and the hardware blinking will be disabled,
-> but the value of delay_on and delay_off still remains.
-
-Is that a problem?
-
-It seems this is a feature, not a bug.
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---pyE8wggRBhVBcj8z
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmEKvJUACgkQMOfwapXb+vJ+nACfYBzw2nHQO6fhVJKdiVW0E6Ca
-gVwAn1vOfXku+O4+u7Q9LPO2EBFzvzs3
-=GSLC
------END PGP SIGNATURE-----
-
---pyE8wggRBhVBcj8z--
+i am trying to reach you hope this message get to
+you.from Rihab Manyang
