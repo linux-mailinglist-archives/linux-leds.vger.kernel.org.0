@@ -2,71 +2,178 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 236DE3E3FF9
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Aug 2021 08:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AEF13E459D
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Aug 2021 14:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233136AbhHIG3m (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 9 Aug 2021 02:29:42 -0400
-Received: from smtp1.axis.com ([195.60.68.17]:13135 "EHLO smtp1.axis.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233263AbhHIG3k (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 9 Aug 2021 02:29:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1628490560;
-  x=1660026560;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=J1LLnZoEZ4KpyReFWrEMVL4SnYNOOoX4DhDLRTmpSHM=;
-  b=GR9jhROT85GTUJpfQkbn8D3O0zJXNC4MnvzlmJ3leEuRd4zl2ei5HBX3
-   I8kgqoAwD9ucF1E4onHF+HyUyK0c7jW/Ax3cnDfNL+xg2wuciRYzLViIp
-   hcOx2RmEeyrUkrDXgcZYU0/IpA0b70Nqou7mNbvo8+qxeN4/K74QUe3Jd
-   BnnBTMb02AIuEPLVMdcJFPeadJB2xrUAVuPgDvR/EnqIAxkhqZARLYLsS
-   pgGnazz7xBB+LrURzyVCaXjgLIXFDgQHayfx+7Gbe74ein2wWpQwkvVtm
-   IXPu0J51M6ZEj2GGuqaqA4fRJPxLIAx2fdWp/9ans8tWWuJRWW3I/j/3c
-   w==;
-From:   Hermes Zhang <Hermes.Zhang@axis.com>
+        id S235133AbhHIM3i (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 9 Aug 2021 08:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45852 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234718AbhHIM3i (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 9 Aug 2021 08:29:38 -0400
+Received: from orbyte.nwl.cc (orbyte.nwl.cc [IPv6:2001:41d0:e:133a::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BF7EC0613D3
+        for <linux-leds@vger.kernel.org>; Mon,  9 Aug 2021 05:29:18 -0700 (PDT)
+Received: from localhost ([::1]:48242 helo=xic)
+        by orbyte.nwl.cc with esmtp (Exim 4.94.2)
+        (envelope-from <phil@nwl.cc>)
+        id 1mD4P4-0006Je-Q6; Mon, 09 Aug 2021 14:29:14 +0200
+From:   Phil Sutter <phil@nwl.cc>
 To:     Pavel Machek <pavel@ucw.cz>
-CC:     Dan Murphy <dmurphy@ti.com>, kernel <kernel@axis.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: RE: [PATCH v3] leds: leds-multi-gpio: Add multiple GPIOs LED driver
-Thread-Topic: [PATCH v3] leds: leds-multi-gpio: Add multiple GPIOs LED driver
-Thread-Index: AQHXJGCsIcnYe8/O3Ei7dpx0xCno/6tkJyOAgAdfVPA=
-Date:   Mon, 9 Aug 2021 06:29:18 +0000
-Message-ID: <69ae0b3fd44c4a5796d125a5b97b9d78@XBOX01.axis.com>
-References: <20210329055847.13293-1-chenhui.zhang@axis.com>
- <20210804155221.GB25072@amd>
-In-Reply-To: <20210804155221.GB25072@amd>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+Cc:     linux-leds@vger.kernel.org
+Subject: [PATCH] leds: trigger: Add invert attribute to ledtrig-audio
+Date:   Mon,  9 Aug 2021 14:29:10 +0200
+Message-Id: <20210809122910.11580-1-phil@nwl.cc>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-SGksDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGF2ZWwgTWFjaGVr
-IDxwYXZlbEB1Y3cuY3o+DQo+IFNlbnQ6IDIwMjHE6jjUwjTI1SAyMzo1Mg0KPiBUbzogSGVybWVz
-IFpoYW5nIDxIZXJtZXMuWmhhbmdAYXhpcy5jb20+DQo+IENjOiBEYW4gTXVycGh5IDxkbXVycGh5
-QHRpLmNvbT47IGtlcm5lbCA8a2VybmVsQGF4aXMuY29tPjsgSGVybWVzDQo+IFpoYW5nIDxIZXJt
-ZXMuWmhhbmdAYXhpcy5jb20+OyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBsaW51eC0N
-Cj4gbGVkc0B2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2M10gbGVkczog
-bGVkcy1tdWx0aS1ncGlvOiBBZGQgbXVsdGlwbGUgR1BJT3MgTEVEIGRyaXZlcg0KPiANCj4gSGkh
-DQo+IA0KPiA+IEZyb206IEhlcm1lcyBaaGFuZyA8Y2hlbmh1aXpAYXhpcy5jb20+DQo+ID4NCj4g
-PiBJbnRyb2R1Y2UgYSBuZXcgbXVsdGlwbGUgR1BJT3MgTEVEIGRyaXZlci4gVGhpcyBMRUQgd2ls
-bCBtYWRlIG9mDQo+ID4gbXVsdGlwbGUgR1BJT3MgKHVwIHRvIDgpIGFuZCB3aWxsIG1hcCBkaWZm
-ZXJlbnQgYnJpZ2h0bmVzcyB0bw0KPiA+IGRpZmZlcmVudCBHUElPcyBzdGF0ZXMgd2hpY2ggZGVm
-aW5lZCBpbiBkdHMgZmlsZS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEhlcm1lcyBaaGFuZyA8
-Y2hlbmh1aXpAYXhpcy5jb20+DQo+IA0KPiBUaGFuayB5b3UsIGl0IGxvb2tzIHNpbXBsZSBhbmQg
-bW9zdGx5IG9rLg0KPiANCj4gQWNrZWQtYnk6IFBhdmVsIE1hY2hlayA8cGF2ZWxAdWN3LmN6Pg0K
-PiANCj4gQnV0IGl0IHJlYWxseSBuZWVkcyB0byBnbyBpbiB3aXRoIGRldmljZXRyZWUgZG9jdW1l
-bnRhdGlvbiBjaGFuZ2VzLCBhbmQgdGhleQ0KPiBuZWVkIHRvIGJlIGFja2VkIGJ5IGRldmljZXRy
-ZWUgbWFpbnRhaW5lcnMuIElmIHlvdSBoYXZlIHRoYXQsIHBsZWFzZSBzZW5kIGl0DQo+IGluIHNl
-cmllcy4NCj4gDQoNCkRvIHlvdSBtZWFuIHRoaXMgb25lOiBodHRwczovL2xvcmUua2VybmVsLm9y
-Zy9wYXRjaHdvcmsvcGF0Y2gvMTQwMjQ3MS8sIGl0J3MgYWxyZWFkeSBpbiBzZXJpZXMuIA0KDQpC
-ZXN0IFJlZ2FyZHMsDQpIZXJtZXMNCg==
+Inverting micmute LED used to be possible via a mixer setting, but
+conversion to LEDs class (probably) killed it. Re-establish the old
+functionality via sysfs attribute in audio LED triggers.
+
+Signed-off-by: Phil Sutter <phil@nwl.cc>
+---
+ drivers/leds/trigger/ledtrig-audio.c | 106 ++++++++++++++++++++++++++-
+ 1 file changed, 102 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/leds/trigger/ledtrig-audio.c b/drivers/leds/trigger/ledtrig-audio.c
+index f76621e88482d..319ac4f514dfd 100644
+--- a/drivers/leds/trigger/ledtrig-audio.c
++++ b/drivers/leds/trigger/ledtrig-audio.c
+@@ -6,9 +6,12 @@
+ #include <linux/kernel.h>
+ #include <linux/leds.h>
+ #include <linux/module.h>
++#include <linux/slab.h>
++#include <linux/sysfs.h>
+ 
+ static struct led_trigger *ledtrig_audio[NUM_AUDIO_LEDS];
+ static enum led_brightness audio_state[NUM_AUDIO_LEDS];
++static bool led_invert[NUM_AUDIO_LEDS];
+ 
+ enum led_brightness ledtrig_audio_get(enum led_audio type)
+ {
+@@ -18,17 +21,112 @@ EXPORT_SYMBOL_GPL(ledtrig_audio_get);
+ 
+ void ledtrig_audio_set(enum led_audio type, enum led_brightness state)
+ {
++	if (led_invert[type])
++		state = !state;
++
+ 	audio_state[type] = state;
+ 	led_trigger_event(ledtrig_audio[type], state);
+ }
+ EXPORT_SYMBOL_GPL(ledtrig_audio_set);
+ 
++static ssize_t do_invert_show(enum led_audio type, char *buf)
++{
++	return sprintf(buf, "%u\n", led_invert[type]);
++}
++
++static ssize_t mute_invert_show(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	return do_invert_show(LED_AUDIO_MUTE, buf);
++}
++
++static ssize_t micmute_invert_show(struct device *dev,
++			       struct device_attribute *attr, char *buf)
++{
++	return do_invert_show(LED_AUDIO_MICMUTE, buf);
++}
++
++static ssize_t do_invert_store(enum led_audio type,
++			       const char *buf, size_t size)
++{
++	unsigned long state;
++	int ret;
++
++	ret = kstrtoul(buf, 0, &state);
++	if (ret)
++		return ret;
++
++	led_invert[type] = !!state;
++	ledtrig_audio_set(type, audio_state[type]);
++
++	return size;
++}
++
++static ssize_t mute_invert_store(struct device *dev,
++				 struct device_attribute *attr,
++				 const char *buf, size_t size)
++{
++	return do_invert_store(LED_AUDIO_MUTE, buf, size);
++}
++
++static ssize_t micmute_invert_store(struct device *dev,
++				    struct device_attribute *attr,
++				    const char *buf, size_t size)
++{
++	return do_invert_store(LED_AUDIO_MICMUTE, buf, size);
++}
++
++static struct device_attribute dev_attr_mute_invert =
++		__ATTR(invert, 0644, mute_invert_show, mute_invert_store);
++
++static struct attribute *audio_mute_trig_attrs[] = {
++	&dev_attr_mute_invert.attr,
++	NULL
++};
++ATTRIBUTE_GROUPS(audio_mute_trig);
++
++static struct device_attribute dev_attr_micmute_invert =
++		__ATTR(invert, 0644, micmute_invert_show, micmute_invert_store);
++
++static struct attribute *audio_micmute_trig_attrs[] = {
++	&dev_attr_micmute_invert.attr,
++	NULL
++};
++ATTRIBUTE_GROUPS(audio_micmute_trig);
++
++static void __init do_ledtrig_audio_init(const char *name,
++					 enum led_audio type,
++					 const struct attribute_group **groups)
++{
++	struct led_trigger *trigger;
++	int err;
++
++	trigger = kzalloc(sizeof(struct led_trigger), GFP_KERNEL);
++	if (!trigger) {
++		pr_warn("LED trigger %s failed to register (no memory)\n",
++			name);
++		goto out;
++	}
++
++	trigger->name = name;
++	trigger->groups = groups;
++
++	err = led_trigger_register(trigger);
++	if (err < 0) {
++		kfree(trigger);
++		trigger = NULL;
++		pr_warn("LED trigger %s failed to register (%d)\n", name, err);
++	}
++out:
++	ledtrig_audio[type] = trigger;
++}
++
+ static int __init ledtrig_audio_init(void)
+ {
+-	led_trigger_register_simple("audio-mute",
+-				    &ledtrig_audio[LED_AUDIO_MUTE]);
+-	led_trigger_register_simple("audio-micmute",
+-				    &ledtrig_audio[LED_AUDIO_MICMUTE]);
++	do_ledtrig_audio_init("audio-mute", LED_AUDIO_MUTE,
++			      audio_mute_trig_groups);
++	do_ledtrig_audio_init("audio-micmute", LED_AUDIO_MICMUTE,
++			      audio_micmute_trig_groups);
+ 	return 0;
+ }
+ module_init(ledtrig_audio_init);
+-- 
+2.32.0
+
