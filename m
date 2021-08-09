@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D4F43E3E59
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Aug 2021 05:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA063E3E5D
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Aug 2021 05:33:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232971AbhHIDdV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 8 Aug 2021 23:33:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37112 "EHLO
+        id S233009AbhHIDd2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 8 Aug 2021 23:33:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232895AbhHIDdO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Aug 2021 23:33:14 -0400
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81462C061757;
-        Sun,  8 Aug 2021 20:32:53 -0700 (PDT)
-Received: by mail-ot1-x336.google.com with SMTP id z6-20020a0568302906b02904f268d34f86so16182632otu.2;
-        Sun, 08 Aug 2021 20:32:53 -0700 (PDT)
+        with ESMTP id S232912AbhHIDdQ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Aug 2021 23:33:16 -0400
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2886CC061799;
+        Sun,  8 Aug 2021 20:32:56 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id x15so21690881oic.9;
+        Sun, 08 Aug 2021 20:32:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sIAnA5vosh2k60KabPnPPb10AS/W866dQZt7HVdCEmk=;
-        b=tXZq1L2UVs+m3REWTqKVAZ3lqTY9tg6dPpuzB8R/WeFbcGsr9bPfyyIY8J2/4zYcyg
-         Hyu11aflIYW2zmaxgqQD4KR5LNFV1114sUl/qQIg4xF367jGzQBWZbrG4FLl+C4xMAB5
-         S48NRK0IUHza1KxbWpbRyoen58MKtwco6odZ9/5TEzLP8v9iJ3tCLm1c8/Tz7dpMOlln
-         syZGJr67PBLWAuJmcGwy0KBLBDSuUFWTogtSSopNtwzdfetnrHfo0yJnE9e/n2Mf+WRv
-         nCS4u8yFqm1tAl6rBkO5rvSpEg/zguxXl1TsMNitI57eY5ve+enVNduOzXXdfxlULiN9
-         GzLQ==
+        bh=6Z9rErwEGMPwtnMf+3tIIodscSEF7PbZLxINPsDN2pY=;
+        b=IXXn0yae9+6114TDZPAO0JeAF6zuOlZMoTq8VpXENUmAQNQ7J2EPFPNQ1MVrjnoFFz
+         hNIsg3Mz9dhGm/RzwzxruxNoHxZzgWUlx19wJxgtnFjNerMYuLqhUK3XGXsxuBvwbadd
+         RYgG4+gNYwTOzNbjrYL36s8kU+HEvPubnywgq+2mStie6v17xHJXnVEZjbH1JKYo2m+Q
+         ILUxBRClj7WKlpWioSxVcF9ggIcvHDTzmdko9uNmv18JFtfTp5sm4jj3ZAfswiSDUIXV
+         sNCpMddoKvR/GemueDFaL4624RRz9Bq3pJAVoUqXeqY9vK5Vn3SfMM6J8SmHgepj1JET
+         eg5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sIAnA5vosh2k60KabPnPPb10AS/W866dQZt7HVdCEmk=;
-        b=VT8lGtpAYriIG49/XmJcBACJp6/CmHCWLx1HopAuMqrf9KgoMTyJqKFYJZlY/U20M4
-         TP9wZNcwCJ2F/Z2ZoeMIGo6t5JAVHNEmn6eLP1ipzVhHRXcQ1JRViLtD0uvWM/3uBan5
-         fmxECaih9MRY1Z5VpIzG/q1QQdIi5A5dIiC2RRHZRWM2mUdKCqujnS7j00D6hov5X74d
-         /ZvDV24+hXz24gE5f/ZnkfYnrKWcIwAifT5RglfnY5iwffb3AdErj6fKh+HbHPCPAVZA
-         3XqFiIpBFK2jfqid71wSemSS5CE8bvVqAdSGiHQKEyJwBbbSdT0u4fKUgCJg8YKVBKdX
-         GT0Q==
-X-Gm-Message-State: AOAM533C6+N+GRAH4mdgOSr5ppwQ1ctT+7TSVvtiNKa4W0Ii1E6kSWJ4
-        29IcO2g0h0/V5SnRsKsCDrNj3UTbpXsTv0yw
-X-Google-Smtp-Source: ABdhPJzZ5kn7aTWi1x675wRiIsayhrUWdERSWqZCPUcYy5+LBYxj3/ENLc23Rie9UTG15kigouyauw==
-X-Received: by 2002:a05:6830:2377:: with SMTP id r23mr15886288oth.125.1628479972909;
-        Sun, 08 Aug 2021 20:32:52 -0700 (PDT)
+        bh=6Z9rErwEGMPwtnMf+3tIIodscSEF7PbZLxINPsDN2pY=;
+        b=iuwYWC4olbOwjJWXosBNLS98aopxFv1hmlOXTVksI9NQYnWZLcZLkD05YHwIdjajgv
+         DF15x53OVyMtH3d+KjL+tk/sxwRvt8PB7ji/fHmEt0tnGsApDpNbil51CgZ6Dbq/Hvna
+         mCvhdw/ZLOM5rCNDcQFq+f7kvmeNMfjvTv51iLu2X4dGhRv+tAWtllyivrOQrs7Y16n0
+         kmJXRPzDQyrN3E/G64/O5h238D5XAs4oBFktxBX0yD4O2yQtaRYjNYIysHyT4oEKhrlu
+         AzIG7fMwngXyggLb4VWMQ/h74xcif9GHk63FjwWjCDhHJ2296mPf0FqujTxDDZ8eQhK1
+         vzOw==
+X-Gm-Message-State: AOAM530fWX7LrGVnos/5gcPXdzxrMxVY2hWSUVNFUX3Tyqe1bIS3Ai5f
+        aBFnUXSqyLp1muo76hKDCn8OZgqsstRFCNHE
+X-Google-Smtp-Source: ABdhPJw6WuVvMNMovP224EhottNlKQH77w4NGsl9QyH4Cca4nRDS2xno/r4Q9LNL1jTtzb/qY2vupA==
+X-Received: by 2002:a05:6808:194:: with SMTP id w20mr13809607oic.142.1628479975581;
+        Sun, 08 Aug 2021 20:32:55 -0700 (PDT)
 Received: from ian.penurio.us ([47.184.51.90])
-        by smtp.gmail.com with ESMTPSA id r7sm1463646oij.14.2021.08.08.20.32.52
+        by smtp.gmail.com with ESMTPSA id r7sm1463646oij.14.2021.08.08.20.32.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Aug 2021 20:32:52 -0700 (PDT)
+        Sun, 08 Aug 2021 20:32:55 -0700 (PDT)
 From:   Ian Pilcher <arequipeno@gmail.com>
 To:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org
 Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-kernel@vger.kernel.org,
         kernelnewbies@kernelnewbies.org
-Subject: [RFC PATCH v2 07/10] block: Add sysfs attributes to LEDs associated with blkdev trigger
-Date:   Sun,  8 Aug 2021 22:32:14 -0500
-Message-Id: <20210809033217.1113444-8-arequipeno@gmail.com>
+Subject: [RFC PATCH v2 08/10] block: Add init function for block device LED trigger
+Date:   Sun,  8 Aug 2021 22:32:15 -0500
+Message-Id: <20210809033217.1113444-9-arequipeno@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210809033217.1113444-1-arequipeno@gmail.com>
 References: <20210809033217.1113444-1-arequipeno@gmail.com>
@@ -63,85 +63,56 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add blink_on & blink_off attributes to control the duration of each LED blink
-(blink_on) and the minimum time between blinks (blink_off) in milliseconds
+Register the blkdev LED trigger
 
 Signed-off-by: Ian Pilcher <arequipeno@gmail.com>
 ---
- block/blk-ledtrig.c | 63 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ block/blk-ledtrig.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/block/blk-ledtrig.c b/block/blk-ledtrig.c
-index f8cb6de203f8..d02f32205985 100644
+index d02f32205985..14b1d33a2953 100644
 --- a/block/blk-ledtrig.c
 +++ b/block/blk-ledtrig.c
-@@ -343,3 +343,66 @@ static void blk_ledtrig_deactivate(struct led_classdev *const led)
- 	synchronize_rcu();
- 	kfree(bd_led);
+@@ -406,3 +406,38 @@ static ssize_t blk_ledtrig_blink_store(struct device *const dev,
+ 
+ 	return count;
  }
 +
 +
 +/*
 + *
-+ *	Per-LED blink_on & blink_off device attributes
++ *	Initialization - register the trigger
 + *
 + */
 +
-+static ssize_t blk_ledtrig_blink_show(struct device *const dev,
-+				      struct device_attribute *const attr,
-+				      char *const buf);
++static struct attribute *blk_ledtrig_attrs[] = {
++	&blk_ledtrig_attr_blink_on.attr,
++	&blk_ledtrig_attr_blink_off.attr,
++	NULL
++};
 +
-+static ssize_t blk_ledtrig_blink_store(struct device *const dev,
-+				       struct device_attribute *const attr,
-+				       const char *const buf,
-+				       const size_t count);
++static const struct attribute_group blk_ledtrig_attr_group = {
++	.attrs	= blk_ledtrig_attrs,
++};
 +
-+static struct device_attribute blk_ledtrig_attr_blink_on =
-+	__ATTR(blink_on, 0644,
-+	       blk_ledtrig_blink_show, blk_ledtrig_blink_store);
++static const struct attribute_group *blk_ledtrig_attr_groups[] = {
++	&blk_ledtrig_attr_group,
++	NULL
++};
 +
-+static struct device_attribute blk_ledtrig_attr_blink_off =
-+	__ATTR(blink_off, 0644,
-+	       blk_ledtrig_blink_show, blk_ledtrig_blink_store);
++static struct led_trigger blk_ledtrig_trigger = {
++	.name		= "blkdev",
++	.activate	= blk_ledtrig_activate,
++	.deactivate	= blk_ledtrig_deactivate,
++	.groups		= blk_ledtrig_attr_groups,
++};
 +
-+static ssize_t blk_ledtrig_blink_show(struct device *const dev,
-+				      struct device_attribute *const attr,
-+				      char *const buf)
++static int __init blk_ledtrig_init(void)
 +{
-+	struct blk_ledtrig_led *const bd_led = led_trigger_get_drvdata(dev);
-+	unsigned int value;
-+
-+	if (attr == &blk_ledtrig_attr_blink_on)
-+		value = READ_ONCE(bd_led->blink_on);
-+	else	// attr == &blk_ledtrig_attr_blink_off
-+		value = READ_ONCE(bd_led->blink_off);
-+
-+	return sprintf(buf, "%u\n", value);
++	return led_trigger_register(&blk_ledtrig_trigger);
 +}
-+
-+static ssize_t blk_ledtrig_blink_store(struct device *const dev,
-+				       struct device_attribute *const attr,
-+				       const char *const buf,
-+				       const size_t count)
-+{
-+	struct blk_ledtrig_led *const bd_led = led_trigger_get_drvdata(dev);
-+	unsigned int value;
-+	int ret;
-+
-+	ret = kstrtouint(buf, 0, &value);
-+	if (ret != 0)
-+		return ret;
-+
-+	if (value > BLK_LEDTRIG_BLINK_MAX)
-+		return -ERANGE;
-+
-+	if (attr == &blk_ledtrig_attr_blink_on)
-+		WRITE_ONCE(bd_led->blink_on, value);
-+	else	// attr == &blk_ledtrig_attr_blink_off
-+		WRITE_ONCE(bd_led->blink_off, value);
-+
-+	return count;
-+}
++device_initcall(blk_ledtrig_init);
 -- 
 2.31.1
 
