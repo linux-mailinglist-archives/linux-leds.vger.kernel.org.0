@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A83C3E3E54
-	for <lists+linux-leds@lfdr.de>; Mon,  9 Aug 2021 05:33:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E95F33E3E58
+	for <lists+linux-leds@lfdr.de>; Mon,  9 Aug 2021 05:33:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232894AbhHIDdO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 8 Aug 2021 23:33:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37098 "EHLO
+        id S232963AbhHIDdV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 8 Aug 2021 23:33:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232861AbhHIDdL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Aug 2021 23:33:11 -0400
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6890FC061757;
-        Sun,  8 Aug 2021 20:32:51 -0700 (PDT)
-Received: by mail-oi1-x22e.google.com with SMTP id w6so21734420oiv.11;
-        Sun, 08 Aug 2021 20:32:51 -0700 (PDT)
+        with ESMTP id S232747AbhHIDdO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 8 Aug 2021 23:33:14 -0400
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A98DC061760;
+        Sun,  8 Aug 2021 20:32:53 -0700 (PDT)
+Received: by mail-oi1-x232.google.com with SMTP id x15so21690669oic.9;
+        Sun, 08 Aug 2021 20:32:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OX+fGhBFKu5FC8W1LaNx83ZClAd+GqNacmx+NCQZpPI=;
-        b=WCC40AOnAGPJCaly+0XFVIQEEX64WmZgZhhQF5zRUV4r4HOd8anG3DBtybTrc7soJe
-         tGoCQUJTuST/3+LB8ERWMX41+GufyjY5NIgQAhP/BZqvyzELNQ098BPqituW4QSQq/FH
-         ba+s+ygjJ/OfjWLGzE86crAdG56hD6CDqqFMRYOLLnVKmQWSTJbRJx9OWaZFv0QYNTQd
-         qTssijziug4kor5ryPvtorh5aLHZnjZCON27lHp7zHcHhxsyDYsOPjsXoMD8eDQGoWmU
-         GhmFz3/wN1XECvJTvjkp+D7xG0614KsXnhfui935r7yY3ksjGn2+I98ZG+Pf11Dg9qLu
-         n1jQ==
+        bh=zh5iqmi8rXG0JubuHldvmAB6oQlwzvKCz/SepLGCqCY=;
+        b=MWP4T7dvrNbWzrDu4gDcDA+OElHp70VV+FLDPlBN0W02PhOVW5mmEpRlTuysz8buwR
+         GwrUXd8+M+VNjs8sZW7xetR/Byrvxc5UCulyyE6NwJCVBvK+91RmqiWkGIBdgLjCEBow
+         O/hk/HB6JfJDrwaWEDiK6wfOOF5T3kBD7ZMGt6oiq2BZMK/yhqgYOZiV3CO3J+LZX2S1
+         dAH03iYeYj/9K3pLn2u2Gw4p8EScWcbuueuy5XRZiXa5/Lv9dBWBIZghBnYoJSZ85Xyv
+         /LNVdz9hqiIOHjThlrYrmPwl4ic/abelIkUjgJvVqNkOhQ6hqhphGEuq8TPj0IkpyTRZ
+         wInw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OX+fGhBFKu5FC8W1LaNx83ZClAd+GqNacmx+NCQZpPI=;
-        b=LrW+cH5Eeopi0Cx75GDz7JRyWltCGl2F263kA/CmmF0CdQg3Z/rYXXycXSiooiRcJl
-         2SgAJTH2C8mT6HZhr/jeQ/+kCQ6FerFFqq4/MhPCSVymf2OcY48TnidNzMTZaKF/uqob
-         5NfxlE12BMTIK3kE75ukqgs6f8EOE2FpOq+VSYfUWIQPfAqvu2zFjxboYkZGKILeKqSc
-         G3Zg6NtMsXY38mqizOvEp4CbLEe7hCEvDMT5+prtsV5cglomcY7QdHswrXAKTCiqP89f
-         QiRQek+Y61kYGJG2jvP5n4tcENJAhrNWwCCvtIzVS9DRYC1H39MgHhjTQyi5zM8HZbXo
-         RyGQ==
-X-Gm-Message-State: AOAM530fW/AlCX3nKVy2S6NjL1gLulgRRN6PirlT1Wu6eacX+Xw79lIR
-        NcbYrEc08yp9Qc+jLube5lCPyiosDjL6SPew
-X-Google-Smtp-Source: ABdhPJxsUg7gwG7M3FvrqmDHa42XuVGQE62q8ZQUKn9I3VhNuZ7da2cDoNa5fykXMIwI1js9pyQSsQ==
-X-Received: by 2002:aca:b757:: with SMTP id h84mr4870760oif.77.1628479970869;
-        Sun, 08 Aug 2021 20:32:50 -0700 (PDT)
+        bh=zh5iqmi8rXG0JubuHldvmAB6oQlwzvKCz/SepLGCqCY=;
+        b=TUAYlVxf6I38Dd60EoWRfaW9Hrfmm2dzEEhmjbq/2n99nnyZq8LlNHMYVLPBbq5ACe
+         B0yX1UGsK1uwYtJDeaQRGrT9+/ISi8Av+PMIhh6tXy/1ea1BXE5QzWvPw8SfDk4fnX3P
+         qMlLP2/EqpT8cL9M96Qqh8e/CGlFbEF1pdoN0+XYt/0T9/T7Nn7tRl7uqSU8of1wh0Wu
+         yRnyRBtY52+vHeKj9AMeMJ8xIpB8M1jbE68Tc2RWW1dEE+0j+wPkg0qDusO1Tm7Rwutg
+         W7PdEN5TJ6f3sGdGjBmgLrcCPtgJd52pWIRpjojtEA40nvzE+9z3Ny3Bz7OPn0w+BcYD
+         mgCA==
+X-Gm-Message-State: AOAM533yfegthzDO19v47CEod5ruyYE1YWA48cI1JZBJfNZ6wHfGTk+2
+        k+sqZb/FxphlpGDJL51S2wWQRDg26Tgi49Nu
+X-Google-Smtp-Source: ABdhPJzcy2hUnuR1AeGcvvqNHAkGkL2djYqnSo5AfgjJ1obRFD6jvrsxDLVAycTewHNHcuRTchzN2g==
+X-Received: by 2002:a05:6808:1d7:: with SMTP id x23mr8317031oic.126.1628479971524;
+        Sun, 08 Aug 2021 20:32:51 -0700 (PDT)
 Received: from ian.penurio.us ([47.184.51.90])
         by smtp.gmail.com with ESMTPSA id r7sm1463646oij.14.2021.08.08.20.32.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Aug 2021 20:32:50 -0700 (PDT)
+        Sun, 08 Aug 2021 20:32:51 -0700 (PDT)
 From:   Ian Pilcher <arequipeno@gmail.com>
 To:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org
 Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-kernel@vger.kernel.org,
         kernelnewbies@kernelnewbies.org
-Subject: [RFC PATCH v2 04/10] block: Add functions to set & clear block device LEDs
-Date:   Sun,  8 Aug 2021 22:32:11 -0500
-Message-Id: <20210809033217.1113444-5-arequipeno@gmail.com>
+Subject: [RFC PATCH v2 05/10] block: Add block device sysfs attribute to set/clear/show LED
+Date:   Sun,  8 Aug 2021 22:32:12 -0500
+Message-Id: <20210809033217.1113444-6-arequipeno@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210809033217.1113444-1-arequipeno@gmail.com>
 References: <20210809033217.1113444-1-arequipeno@gmail.com>
@@ -63,158 +63,189 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Create a symlink from /sys/class/leds/<LED>/block_devices to each block
-device that is associated with that LED
+Add show & store functions in blk-ledtrig.c (attributes defined in genhd.c)
 
-Ensure device LED is cleared when device is removed
+Show function shows all available LEDs (LEDs associated with blkdev trigger);
+currently associated LED is shown in square brackets ([])
+
+Store function accepts either all whitespace or "none" to clear LED
 
 Signed-off-by: Ian Pilcher <arequipeno@gmail.com>
 ---
- block/blk-ledtrig.c | 93 +++++++++++++++++++++++++++++++++++++++++++++
- block/blk-ledtrig.h |  3 ++
- block/genhd.c       |  1 +
- 3 files changed, 97 insertions(+)
+ block/blk-ledtrig.c | 109 ++++++++++++++++++++++++++++++++++++++++++++
+ block/blk-ledtrig.h |   8 ++++
+ block/genhd.c       |   8 ++++
+ 3 files changed, 125 insertions(+)
 
 diff --git a/block/blk-ledtrig.c b/block/blk-ledtrig.c
-index c5ad57ed9c3b..280fa9edc2dd 100644
+index 280fa9edc2dd..1af94dc7ea51 100644
 --- a/block/blk-ledtrig.c
 +++ b/block/blk-ledtrig.c
-@@ -6,9 +6,13 @@
+@@ -6,6 +6,7 @@
   *	Copyright 2021 Ian Pilcher <arequipeno@gmail.com>
   */
  
-+#include <linux/genhd.h>
++#include <linux/ctype.h>
+ #include <linux/genhd.h>
  #include <linux/leds.h>
  #include <linux/mutex.h>
- 
-+#include "blk-ledtrig.h"
-+
-+
- /*
-  *
-  *	Trigger mutex and LED list
-@@ -46,3 +50,92 @@ static struct blk_ledtrig_led *blk_ledtrig_find(const char *const led_name,
- 
- 	return NULL;
+@@ -139,3 +140,111 @@ static int blk_ledtrig_dev_set(struct gendisk *const disk,
+ led_set_exit_return:
+ 	return ret;
  }
 +
 +
 +/*
 + *
-+ *	Clear a block device's LED
++ *	sysfs attribute store function to set or clear device LED
 + *
 + */
 +
-+// Also called from blk_ledtrig_dev_set()
-+static void blk_ledtrig_dev_cleanup(struct gendisk *const disk,
-+				    struct blk_ledtrig_led *const old_led)
++// Returns a pointer to the first non-whitespace character in s (or a pointer
++// to the terminating null).
++static const char *blk_ledtrig_skip_whitespace(const char *s)
 +{
-+	sysfs_remove_link(old_led->dir, disk->disk_name);
-+	list_del(&disk->led_dev_list_node);
++	while (*s != 0 && isspace(*s))
++		++s;
++
++	return s;
 +}
 +
-+// Also called from blk_ledtrig_deactivate()
-+static void blk_ledtrig_dev_clear_locked(struct gendisk *const disk,
-+					 struct blk_ledtrig_led *const old_led)
++// Returns a pointer to the first whitespace character in s (or a pointer to
++// the terminating null), which is effectively a pointer to the position *after*
++// the last character in the non-whitespace token at the beginning of s.  (s is
++// expected to be the result of a previous call to blk_ledtrig_skip_whitespace.)
++static const char *blk_ledtrig_find_whitespace(const char *s)
 +{
-+	RCU_INIT_POINTER(disk->led, NULL);
-+	if (old_led != NULL)
-+		blk_ledtrig_dev_cleanup(disk, old_led);
++	while (*s != 0 && !isspace(*s))
++		++s;
++
++	return s;
 +}
 +
-+// Also called from genhd.c:del_gendisk()
-+void blk_ledtrig_dev_clear(struct gendisk *const disk)
++static bool blk_ledtrig_name_is_none(const char *const name, const size_t len)
 +{
-+	struct blk_ledtrig_led *old_led;
++	static const char none[4] = "none";	// no terminating null
 +
-+	mutex_lock(&blk_ledtrig_mutex);
-+	old_led = rcu_dereference_protected(disk->led,
-+					lockdep_is_held(&blk_ledtrig_mutex));
-+	blk_ledtrig_dev_clear_locked(disk, old_led);
-+	mutex_unlock(&blk_ledtrig_mutex);
++	return len == sizeof(none) && memcmp(name, none, sizeof(none)) == 0;
++}
++
++ssize_t blk_ledtrig_dev_led_store(struct device *const dev,
++				  struct device_attribute *const attr,
++				  const char *const buf, const size_t count)
++{
++	struct gendisk *const disk = dev_to_disk(dev);
++	const char *const led_name = blk_ledtrig_skip_whitespace(buf);
++	const char *const endp = blk_ledtrig_find_whitespace(led_name);
++	const ptrdiff_t name_len = endp - led_name;	// always >= 0
++	int ret;
++
++	if (name_len == 0 || blk_ledtrig_name_is_none(led_name, name_len)) {
++		blk_ledtrig_dev_clear(disk);
++		ret = 0;
++	} else {
++		ret = blk_ledtrig_dev_set(disk, led_name, name_len);
++	}
++
++	if (ret < 0)
++		return ret;
++
++	return count;
 +}
 +
 +
 +/*
 + *
-+ *	Set a block device's LED
++ *	sysfs attribute show function for device LED
 + *
 + */
 +
-+static int blk_ledtrig_dev_set(struct gendisk *const disk,
-+			       const char *const led_name,
-+			       const size_t name_len)
++ssize_t blk_ledtrig_dev_led_show(struct device *const dev,
++				 struct device_attribute *const attr,
++				 char *const buf)
 +{
-+	struct blk_ledtrig_led *new_led, *old_led;
-+	int ret;
++	struct gendisk *const disk = dev_to_disk(dev);
++	struct blk_ledtrig_led *bd_led, *disk_led;
++	int ret, c = 0;
 +
 +	ret = mutex_lock_interruptible(&blk_ledtrig_mutex);
 +	if (ret != 0)
-+		goto led_set_exit_return;
++		goto led_show_exit_return;
 +
-+	new_led = blk_ledtrig_find(led_name, name_len);
-+	if (new_led == NULL) {
-+		pr_info("no LED named %.*s associated with blkdev trigger\n",
-+			(int)name_len, led_name);
-+		ret = -ENODEV;
-+		goto led_set_exit_unlock;
-+	}
-+
-+	old_led = rcu_dereference_protected(disk->led,
++	disk_led = rcu_dereference_protected(disk->led,
 +					lockdep_is_held(&blk_ledtrig_mutex));
 +
-+	if (old_led == new_led) {
-+		ret = 0;
-+		goto led_set_exit_unlock;
++	if (disk_led == NULL)
++		c += sprintf(buf, "[none]");
++	else
++		c += sprintf(buf, "none");
++
++	list_for_each_entry(bd_led, &blk_ledtrig_leds, leds_list_node) {
++
++		ret = snprintf(buf + c, PAGE_SIZE - c - 1,
++			       bd_led == disk_led ? " [%s]" : " %s",
++			       bd_led->led->name);
++		if (ret >= PAGE_SIZE - c - 1) {
++			ret = -EOVERFLOW;
++			goto led_show_exit_unlock;
++		}
++
++		c += ret;
 +	}
 +
-+	ret = sysfs_create_link(new_led->dir, &disk_to_dev(disk)->kobj,
-+				disk->disk_name);
-+	if (ret != 0)
-+		goto led_set_exit_unlock;
++	buf[c] = '\n';
++	ret = c + 1;
 +
-+	if (old_led != NULL)
-+		blk_ledtrig_dev_cleanup(disk, old_led);
-+
-+	rcu_assign_pointer(disk->led, new_led);
-+	list_add(&disk->led_dev_list_node, &new_led->dev_list);
-+
-+	ret = 0;
-+
-+led_set_exit_unlock:
++led_show_exit_unlock:
 +	mutex_unlock(&blk_ledtrig_mutex);
-+led_set_exit_return:
++led_show_exit_return:
 +	return ret;
 +}
 diff --git a/block/blk-ledtrig.h b/block/blk-ledtrig.h
-index 95a79d2fe447..66a1302a4174 100644
+index 66a1302a4174..771000d43647 100644
 --- a/block/blk-ledtrig.h
 +++ b/block/blk-ledtrig.h
-@@ -16,9 +16,12 @@ static inline void blk_ledtrig_disk_init(struct gendisk *const disk)
- 	RCU_INIT_POINTER(disk->led, NULL);
- }
+@@ -18,6 +18,14 @@ static inline void blk_ledtrig_disk_init(struct gendisk *const disk)
  
-+void blk_ledtrig_dev_clear(struct gendisk *const disk);
+ void blk_ledtrig_dev_clear(struct gendisk *const disk);
+ 
++ssize_t blk_ledtrig_dev_led_store(struct device *const dev,
++				  struct device_attribute *const attr,
++				  const char *const buf, const size_t count);
++
++ssize_t blk_ledtrig_dev_led_show(struct device *const dev,
++				 struct device_attribute *const attr,
++				 char *const buf);
 +
  #else	// CONFIG_BLK_LED_TRIGGERS
  
  static inline void blk_ledtrig_disk_init(const struct gendisk *disk) {}
-+static inline void blk_ledtrig_dev_clear(const struct gendisk *disk) {}
- 
- #endif	// CONFIG_BLK_LED_TRIGGERS
- 
 diff --git a/block/genhd.c b/block/genhd.c
-index b168172e664b..9fa734aeab0f 100644
+index 9fa734aeab0f..d5413a633410 100644
 --- a/block/genhd.c
 +++ b/block/genhd.c
-@@ -583,6 +583,7 @@ void del_gendisk(struct gendisk *disk)
- 	if (WARN_ON_ONCE(!disk->queue))
- 		return;
+@@ -1012,6 +1012,11 @@ static struct device_attribute dev_attr_fail_timeout =
+ 	__ATTR(io-timeout-fail, 0644, part_timeout_show, part_timeout_store);
+ #endif
  
-+	blk_ledtrig_dev_clear(disk);
- 	blk_integrity_del(disk);
- 	disk_del_events(disk);
- 
++#ifdef CONFIG_BLK_LED_TRIGGERS
++static struct device_attribute dev_attr_led =
++	__ATTR(led, 0644, blk_ledtrig_dev_led_show, blk_ledtrig_dev_led_store);
++#endif
++
+ static struct attribute *disk_attrs[] = {
+ 	&dev_attr_range.attr,
+ 	&dev_attr_ext_range.attr,
+@@ -1033,6 +1038,9 @@ static struct attribute *disk_attrs[] = {
+ #endif
+ #ifdef CONFIG_FAIL_IO_TIMEOUT
+ 	&dev_attr_fail_timeout.attr,
++#endif
++#ifdef CONFIG_BLK_LED_TRIGGERS
++	&dev_attr_led.attr,
+ #endif
+ 	NULL
+ };
 -- 
 2.31.1
 
