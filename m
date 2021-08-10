@@ -2,69 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 816233E7F41
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 19:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1FB13E825A
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 20:07:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234114AbhHJRjK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Aug 2021 13:39:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50620 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234205AbhHJRhF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Aug 2021 13:37:05 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA5D2C0619DE
-        for <linux-leds@vger.kernel.org>; Tue, 10 Aug 2021 10:33:36 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id n7so5354977ljq.0
-        for <linux-leds@vger.kernel.org>; Tue, 10 Aug 2021 10:33:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
-        b=BggyEzSIpVznrhWTl8MIRAYEe15KlTxcMGseAQSFa7RDeDzVHxU4eSoETbmExnaLIE
-         zuq8OYsbcAC4TRTZpDVHuqOpZQ9IWzoDnFG9KE9Hgoh5GHNRpLrX7GaTa2Rlpi17Sa+7
-         wynv7o5vGtXcABH0YLjEMHBgYbVN4gwCCmMbmqM96vylTsH+XuSJQxB2T0aZ0px1WpyQ
-         RfAqEbEJWHwau3sZBSpHTPqcKq0lEWF+TZfP6Hoo/gEZtnmpQsbvRYpoOVsYPdrPzr7x
-         t3j+1ErMjanfyKX6UgQnU/AAqtfTm/Qksyzzn7HfgMwEBK6s4oZtKRsuVtciK72GKLQ3
-         6YUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
-        b=ahIsiWhXqx9kYXl1faq8DdmorsJDFRfvCAJIMVcBuWPdvRKTPHOHKVVS8HRovzcJXa
-         NqhNBdPs670krf+xzPBgtA5hFxR2d3BYeHVwuJf+WnSWjfoKsTShpDmjUBqn2LMe6K6b
-         ND4lbG9oKjmd8ZLslceCMskqSBjbWxq7OvE1xFZMPK2qJXC2WfaI4lRL/Xy2gOYSGM1u
-         wWVbmddU3W+Eyht8y+5wvhKSf/XUF+1oQUGvzeVvSmsBAxmVBf0vdCdyAtQRe8C1dIeb
-         uLeI7uI9hic3Fdd/WX9oVRK5luOUNO/N6TmoyZq35sc5uAIj6F600MyF9fm44s7JSmsG
-         QfYQ==
-X-Gm-Message-State: AOAM533MFoXWmYUCGeR8HQA65JMh+hgImOATN8a9wAMXD67mjA3b7uRt
-        q5+lOiRuSx6GtYs0JB0/qQWjtnugD4g1xkEeNUY=
-X-Google-Smtp-Source: ABdhPJxJzT1Kb5atT5yD66iaERNxaunOV6XJPdXL1z2OXUo9BKjwXZsRFKaZJQfJZWzQJ7vPYlv2A2MhcLNWOaJIEsQ=
-X-Received: by 2002:a2e:b61c:: with SMTP id r28mr13615658ljn.274.1628616814996;
- Tue, 10 Aug 2021 10:33:34 -0700 (PDT)
+        id S237257AbhHJSHK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Aug 2021 14:07:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37564 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239319AbhHJSFI (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 10 Aug 2021 14:05:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A07860C3F;
+        Tue, 10 Aug 2021 17:55:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628618167;
+        bh=hTphWofcwmhv4y/QPpL80leJAprSLTNgUO0Meevwp1o=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dcYVwzswX3e/hXHRTOnSU/F+s2Bd68cqknKcsPoh8p55uMJGMcItNIHBcTHosXaSa
+         YNwlWYFIOKxdS7Zg4p/iR7/36IQmJiBSPad5oawJycY4E9tQLQgrwsIFNOPFUPgOWF
+         3OXJ35rXVoftRxPNjIEa0Jx1ziqBXxyuXrpRS4sutSGNmh6I+tnMTNbn6SQqt4NBfq
+         ojZF9lkTddGTcCG1R679M6ifkVpONX3Wgj5NMaP53/nSJP36M1UL6R2+RhEU18tAco
+         ctfmkgpOIBBtboANW2sUW6l6MbX7IsDJZ/v7ejSvkM8j8yh/IaizdZopPWCedMiYQ1
+         uh9/eYexRGDBQ==
+Date:   Tue, 10 Aug 2021 19:55:50 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        Michael Walle <michael@walle.cc>, andrew@lunn.ch,
+        anthony.l.nguyen@intel.com, bigeasy@linutronix.de,
+        davem@davemloft.net, dvorax.fuxbrumer@linux.intel.com,
+        f.fainelli@gmail.com, jacek.anaszewski@gmail.com, kuba@kernel.org,
+        kurt@linutronix.de, linux-leds@vger.kernel.org,
+        netdev@vger.kernel.org, sasha.neftin@intel.com,
+        vinicius.gomes@intel.com, vitaly.lifshits@intel.com
+Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
+Message-ID: <20210810195550.261189b3@thinkpad>
+In-Reply-To: <20210810172927.GB3302@amd>
+References: <YP9n+VKcRDIvypes@lunn.ch>
+        <20210727081528.9816-1-michael@walle.cc>
+        <20210727165605.5c8ddb68@thinkpad>
+        <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
+        <20210727172828.1529c764@thinkpad>
+        <8edcc387025a6212d58fe01865725734@walle.cc>
+        <20210727183213.73f34141@thinkpad>
+        <25d3e798-09f5-56b5-5764-c60435109dd2@gmail.com>
+        <20210810172927.GB3302@amd>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:ac2:5d2e:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 10:33:33
- -0700 (PDT)
-Reply-To: majidmuzaffar8@gmail.com
-From:   Majid Muzaffar <ing.abdullabin.rishid.me@gmail.com>
-Date:   Tue, 10 Aug 2021 20:33:33 +0300
-Message-ID: <CAFsu49W_3bbJbgEKV5RQo3TBRgLduTA-4EwS7hHkwcfSHSRrcg@mail.gmail.com>
-Subject: Proposal
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Salam alaikum,
+On Tue, 10 Aug 2021 19:29:27 +0200
+Pavel Machek <pavel@ucw.cz> wrote:
 
-I am the investment officer of UAE based investment company who are
-ready to fund projects outside UAE, in the form of debt finance. We
-grant loan to both Corporate and private entities at a low interest
-rate of 3% ROI per annum. The terms are very flexible and interesting.
-Kindly revert back if you have projects that needs funding for further
-discussion and negotiation.
+> So "r8159-0300:green:activity" would be closer to the naming we want,
+> but lets not do that, we really want this to be similar to what others
+> are doing, and that probably means "ethphy3:green:activity" AFAICT.
 
-Thanks
+Pavel, one point of the discussion is that in this case the LED is
+controlled by MAC, not PHY. So the question is whether we want to do
+"ethmacN" (in addition to "ethphyN").
 
-investment officer
+Marek
