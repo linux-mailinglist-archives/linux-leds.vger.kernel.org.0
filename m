@@ -2,86 +2,69 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57FFA3E7E35
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 19:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 816233E7F41
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 19:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbhHJR3v (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Aug 2021 13:29:51 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:54662 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbhHJR3v (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Aug 2021 13:29:51 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 3FB451C0B76; Tue, 10 Aug 2021 19:29:28 +0200 (CEST)
-Date:   Tue, 10 Aug 2021 19:29:27 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-        Michael Walle <michael@walle.cc>, andrew@lunn.ch,
-        anthony.l.nguyen@intel.com, bigeasy@linutronix.de,
-        davem@davemloft.net, dvorax.fuxbrumer@linux.intel.com,
-        f.fainelli@gmail.com, jacek.anaszewski@gmail.com, kuba@kernel.org,
-        kurt@linutronix.de, linux-leds@vger.kernel.org,
-        netdev@vger.kernel.org, sasha.neftin@intel.com,
-        vinicius.gomes@intel.com, vitaly.lifshits@intel.com
-Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Message-ID: <20210810172927.GB3302@amd>
-References: <YP9n+VKcRDIvypes@lunn.ch>
- <20210727081528.9816-1-michael@walle.cc>
- <20210727165605.5c8ddb68@thinkpad>
- <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
- <20210727172828.1529c764@thinkpad>
- <8edcc387025a6212d58fe01865725734@walle.cc>
- <20210727183213.73f34141@thinkpad>
- <25d3e798-09f5-56b5-5764-c60435109dd2@gmail.com>
+        id S234114AbhHJRjK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Aug 2021 13:39:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50620 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234205AbhHJRhF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Aug 2021 13:37:05 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA5D2C0619DE
+        for <linux-leds@vger.kernel.org>; Tue, 10 Aug 2021 10:33:36 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id n7so5354977ljq.0
+        for <linux-leds@vger.kernel.org>; Tue, 10 Aug 2021 10:33:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
+        b=BggyEzSIpVznrhWTl8MIRAYEe15KlTxcMGseAQSFa7RDeDzVHxU4eSoETbmExnaLIE
+         zuq8OYsbcAC4TRTZpDVHuqOpZQ9IWzoDnFG9KE9Hgoh5GHNRpLrX7GaTa2Rlpi17Sa+7
+         wynv7o5vGtXcABH0YLjEMHBgYbVN4gwCCmMbmqM96vylTsH+XuSJQxB2T0aZ0px1WpyQ
+         RfAqEbEJWHwau3sZBSpHTPqcKq0lEWF+TZfP6Hoo/gEZtnmpQsbvRYpoOVsYPdrPzr7x
+         t3j+1ErMjanfyKX6UgQnU/AAqtfTm/Qksyzzn7HfgMwEBK6s4oZtKRsuVtciK72GKLQ3
+         6YUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
+        b=ahIsiWhXqx9kYXl1faq8DdmorsJDFRfvCAJIMVcBuWPdvRKTPHOHKVVS8HRovzcJXa
+         NqhNBdPs670krf+xzPBgtA5hFxR2d3BYeHVwuJf+WnSWjfoKsTShpDmjUBqn2LMe6K6b
+         ND4lbG9oKjmd8ZLslceCMskqSBjbWxq7OvE1xFZMPK2qJXC2WfaI4lRL/Xy2gOYSGM1u
+         wWVbmddU3W+Eyht8y+5wvhKSf/XUF+1oQUGvzeVvSmsBAxmVBf0vdCdyAtQRe8C1dIeb
+         uLeI7uI9hic3Fdd/WX9oVRK5luOUNO/N6TmoyZq35sc5uAIj6F600MyF9fm44s7JSmsG
+         QfYQ==
+X-Gm-Message-State: AOAM533MFoXWmYUCGeR8HQA65JMh+hgImOATN8a9wAMXD67mjA3b7uRt
+        q5+lOiRuSx6GtYs0JB0/qQWjtnugD4g1xkEeNUY=
+X-Google-Smtp-Source: ABdhPJxJzT1Kb5atT5yD66iaERNxaunOV6XJPdXL1z2OXUo9BKjwXZsRFKaZJQfJZWzQJ7vPYlv2A2MhcLNWOaJIEsQ=
+X-Received: by 2002:a2e:b61c:: with SMTP id r28mr13615658ljn.274.1628616814996;
+ Tue, 10 Aug 2021 10:33:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="eAbsdosE1cNLO4uF"
-Content-Disposition: inline
-In-Reply-To: <25d3e798-09f5-56b5-5764-c60435109dd2@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Received: by 2002:ac2:5d2e:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 10:33:33
+ -0700 (PDT)
+Reply-To: majidmuzaffar8@gmail.com
+From:   Majid Muzaffar <ing.abdullabin.rishid.me@gmail.com>
+Date:   Tue, 10 Aug 2021 20:33:33 +0300
+Message-ID: <CAFsu49W_3bbJbgEKV5RQo3TBRgLduTA-4EwS7hHkwcfSHSRrcg@mail.gmail.com>
+Subject: Proposal
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Salam alaikum,
 
---eAbsdosE1cNLO4uF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am the investment officer of UAE based investment company who are
+ready to fund projects outside UAE, in the form of debt finance. We
+grant loan to both Corporate and private entities at a low interest
+rate of 3% ROI per annum. The terms are very flexible and interesting.
+Kindly revert back if you have projects that needs funding for further
+discussion and negotiation.
 
-Hi!
+Thanks
 
-> > Yes, this still persists. But we really do not want to start
-> > introducing namespaces to the LED subsystem.
->=20
-> Did we come to any conclusion?
->=20
-> My preliminary r8169 implementation now creates the following LED names:
->=20
-> lrwxrwxrwx 1 root root 0 Jul 26 22:50 r8169-led0-0300 ->
-> > ../../devices/pci0000:00/0000:00:1d.0/0000:03:00.0/net/enp3s0/r8169-led=
-0-0300
-
-So "r8159-0300:green:activity" would be closer to the naming we want,
-but lets not do that, we really want this to be similar to what others
-are doing, and that probably means "ethphy3:green:activity" AFAICT.
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---eAbsdosE1cNLO4uF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmESt3cACgkQMOfwapXb+vKYpwCgpEoYBuVyi5Ip8gI6t6ZnVsq9
-onoAn0ZyFRyXBRj63c0SZWqdfuKzXrWM
-=fwhc
------END PGP SIGNATURE-----
-
---eAbsdosE1cNLO4uF--
+investment officer
