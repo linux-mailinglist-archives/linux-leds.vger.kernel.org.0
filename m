@@ -2,92 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B8343E5BF1
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 15:40:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E5CF3E5C24
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 15:49:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241650AbhHJNkO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Aug 2021 09:40:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49392 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241877AbhHJNji (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 10 Aug 2021 09:39:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD75E60EE7;
-        Tue, 10 Aug 2021 13:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628602749;
-        bh=fObxAgs+ulfRDwt7g5xTa8zsugCY1+6fJfkNM/IsNlA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=rL/ZttqfxsO2dZRUHtzy9nzwGGoLFagpqaqSVFKyYkmwEk8jLLj+VGms3FbxODWOE
-         /axtGd5S9x+7lkyR5olgKW/uQ6xIG4FAyY22EBUvi0ygIQI/V8oqo0AztKG0xH8P+D
-         i2BUBtwAKuoo5FiwRcNTvRRH5OPAvTRFsERhYmH3cPbkdyodLTyF6MqRFOB3VOotNS
-         EgJsbqMLwqFLTVqbYkoNJRWhI2ATN7S7OajsyTWegqHLoNNk3q1brbNti/WGlP5hLq
-         Dtva7zVz02U1F7tX/hFspZj7RsQEplXREoFsMoN28qsjq+2ZvBsJ6Dl4XjCpPfWmew
-         qK1BAfDETIcpw==
-Date:   Tue, 10 Aug 2021 15:38:40 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Ian Pilcher <arequipeno@gmail.com>, hch@lst.de, axboe@kernel.dk,
-        kernelnewbies@kernelnewbies.org, linux-kernel@vger.kernel.org,
-        linux-block@vger.kernel.org, pavel@ucw.cz, pali@kernel.org,
-        linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH v2 00/10] Add configurable block device LED triggers
-Message-ID: <20210810153840.42419d06@thinkpad>
-In-Reply-To: <YRIeHH1SLl6tYCeY@kroah.com>
+        id S241885AbhHJNtb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Aug 2021 09:49:31 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:59218 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240232AbhHJNtb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Aug 2021 09:49:31 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id D67F31C0B77; Tue, 10 Aug 2021 15:49:04 +0200 (CEST)
+Date:   Tue, 10 Aug 2021 15:49:04 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Ian Pilcher <arequipeno@gmail.com>
+Cc:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org,
+        axboe@kernel.dk, linux-kernel@vger.kernel.org,
+        kernelnewbies@kernelnewbies.org
+Subject: Re: [RFC PATCH v2 01/10] docs: Add block device LED trigger
+ documentation
+Message-ID: <20210810134904.GA28089@amd>
 References: <20210809033217.1113444-1-arequipeno@gmail.com>
-        <20210809205633.4300bbea@thinkpad>
-        <81c128a1-c1b8-0f1e-a77b-6704bade26c0@gmail.com>
-        <20210810004331.0f0094a5@thinkpad>
-        <7b5f3509-5bcd-388b-8d3b-4ea95a9483ad@gmail.com>
-        <YRIeHH1SLl6tYCeY@kroah.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20210809033217.1113444-2-arequipeno@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
+Content-Disposition: inline
+In-Reply-To: <20210809033217.1113444-2-arequipeno@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 10 Aug 2021 08:35:08 +0200
-Greg KH <gregkh@linuxfoundation.org> wrote:
 
-> On Mon, Aug 09, 2021 at 06:50:44PM -0500, Ian Pilcher wrote:
-> > On 8/9/21 5:43 PM, Marek Beh=C3=BAn wrote: =20
-> > > I confess that I am not very familiar with internal blkdev API. =20
-> >=20
-> > It's mainly a matter of symbol visibility.  See this thread from a few
-> > months ago:
-> >=20
-> >   https://www.spinics.net/lists/linux-leds/msg18244.html
-> >=20
-> > Now ... my code currently lives in block/, so there isn't actually
-> > anything technically preventing it from iterating through the block
-> > devices.
-> >=20
-> > The reactions to Enzo's patch (which you can see in that thread) make me
-> > think that anything that iterates through all block devices is likely to
-> > be rejected, but maybe I'm reading too much into it.
-> >=20
-> >=20
-> > Greg / Christoph -
-> >=20
-> > (As you were the people who expressed disapproval of Enzo's patch to
-> > export block_class and disk_type ...)
-> >=20
-> > Can you weigh in on the acceptability of iterating through the block
-> > devices (searching by name) from LED trigger code within the block
-> > subsystem (i.e. no new symbols would need to be exported)?
-> >=20
-> > This would allow the trigger to implement the sysfs API that Marek and
-> > Pavel want. =20
->=20
-> No idea, let's see the change first, we can never promise anything :)
+--k+w/mQv8wyuph6w0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Greg,
+Hi!
 
-Can't we use blkdev_get_by_path() (or blk_lookup_devt() with
-blkdev_get_by_dev())?
-This would open the block device and return a struct block_device *.
-When the LED trigger is disabled, it would also have to release the
-device.
+> +++ b/Documentation/ABI/testing/sysfs-block
+> @@ -316,3 +316,19 @@ Description:
+>  		does not complete in this time then the block driver timeout
+>  		handler is invoked. That timeout handler can decide to retry
+>  		the request, to fail it or to start a device recovery strategy.
+> +
+> +What:		/sys/block/<disk>/led
+> +Date:		August 2021
+> +Contact:	Ian Pilcher <arequipeno@gmail.com>
+> +Description:
+> +		Set the LED associated with this block device (or show available
+> +		LEDs and the currently selected LED, if any).
+> +
+> +		Reading the attribute will display the available LEDs (LEDs that
+> +		are associated with the blkdev LED trigger).  The currently
+> +		selected LED is enclosed in square brackets.  To clear the
+> +		device's LED association write 'none' (without the quotes) or
+> +		an empty string/line to the attribute.
+> +
+> +		See Documentation/ABI/testing/sysfs-class-led-trigger-blkdev and
+> +		Documentation/block/blk-ledtrig.rst.)
 
-Marek
+I have to agree with Marek / Pali -- this is very strange interface.
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--k+w/mQv8wyuph6w0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmESg88ACgkQMOfwapXb+vJV0gCdGqeHkXkz9qAl+6lcbIQnxYAJ
+liUAoIIpKKVWZ9SEjYxGWwA0VjQRZqWk
+=I/wx
+-----END PGP SIGNATURE-----
+
+--k+w/mQv8wyuph6w0--
