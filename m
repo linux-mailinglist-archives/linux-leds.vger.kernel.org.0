@@ -2,76 +2,69 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 535FB3E84CF
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 22:54:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F84D3E8532
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 23:22:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234840AbhHJUy6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Aug 2021 16:54:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47706 "EHLO mail.kernel.org"
+        id S234366AbhHJVW2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Aug 2021 17:22:28 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:43622 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234621AbhHJUyq (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 10 Aug 2021 16:54:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C45A610A8;
-        Tue, 10 Aug 2021 20:54:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628628864;
-        bh=a1hcVlS9ayKmC6aKiH2nkpr0LIYgxms5D2y06po5R0A=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=phjnfFekaQQX+VlAmdZF4C+UVy5Wr5JLi+7xyexn8z1X+uGITMJXmZYaHKkiphV6t
-         3+fi4/2u187sOgSG3CYvfiiQ70Ccip3eumpca39RfX28zXJvFdA7w9+0Cmppr4WxLY
-         cfH7dVGWlp2wbUBpE+twn0xwLwMJbCAMTcu9BfR0TsKTSBSNoGsl+ajfEKYDO2W8mE
-         Tl6nUUffbdf9IZE+EnkPBTGJ8j6h6LwYV3Ykdu1zNslHwiyg1x+w/P0yd6h8HYn7hz
-         pH982QqZrMy9/FkH2K9YQw1tgH9AmA88WIeIfkb5JV1CAyv6c+EQifBID010rH1N1x
-         v9tchQ73PBBdg==
-Date:   Tue, 10 Aug 2021 22:53:53 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Michael Walle <michael@walle.cc>, andrew@lunn.ch,
-        anthony.l.nguyen@intel.com, bigeasy@linutronix.de,
-        davem@davemloft.net, dvorax.fuxbrumer@linux.intel.com,
-        f.fainelli@gmail.com, jacek.anaszewski@gmail.com, kuba@kernel.org,
-        kurt@linutronix.de, linux-leds@vger.kernel.org,
-        netdev@vger.kernel.org, sasha.neftin@intel.com,
-        vinicius.gomes@intel.com, vitaly.lifshits@intel.com
+        id S229582AbhHJVW1 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 10 Aug 2021 17:22:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=W6o+a88KX8S17yLaD9qwMRTThGtlPc7M3bg2X4oO3Cg=; b=qfuMHkn2fMD7Bk7Lqa3qlfzaxe
+        rLfnzvo12k/fiARMtydRsyilNEcYrlofgKQYlVOxDDSfjT2ewZpQv9V2n8g/iRWYYjU29jR/3NN9g
+        c3JjasFXfmvclz6mpKwfT7db008Mdo0kmKSYqUyfMwXeTFuYhNrvA2ojg0x8piqBSw9g=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mDZC6-00GygC-9A; Tue, 10 Aug 2021 23:21:54 +0200
+Date:   Tue, 10 Aug 2021 23:21:54 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Heiner Kallweit <hkallweit1@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        Michael Walle <michael@walle.cc>, anthony.l.nguyen@intel.com,
+        bigeasy@linutronix.de, davem@davemloft.net,
+        dvorax.fuxbrumer@linux.intel.com, f.fainelli@gmail.com,
+        jacek.anaszewski@gmail.com, kuba@kernel.org, kurt@linutronix.de,
+        linux-leds@vger.kernel.org, netdev@vger.kernel.org,
+        sasha.neftin@intel.com, vinicius.gomes@intel.com,
+        vitaly.lifshits@intel.com
 Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Message-ID: <20210810225353.6a19f772@thinkpad>
-In-Reply-To: <20210810195335.GA7659@duo.ucw.cz>
+Message-ID: <YRLt8p3UI5IC0Nm5@lunn.ch>
 References: <YP9n+VKcRDIvypes@lunn.ch>
-        <20210727081528.9816-1-michael@walle.cc>
-        <20210727165605.5c8ddb68@thinkpad>
-        <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
-        <20210727172828.1529c764@thinkpad>
-        <8edcc387025a6212d58fe01865725734@walle.cc>
-        <20210727183213.73f34141@thinkpad>
-        <25d3e798-09f5-56b5-5764-c60435109dd2@gmail.com>
-        <20210810172927.GB3302@amd>
-        <20210810195550.261189b3@thinkpad>
-        <20210810195335.GA7659@duo.ucw.cz>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20210727081528.9816-1-michael@walle.cc>
+ <20210727165605.5c8ddb68@thinkpad>
+ <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
+ <20210727172828.1529c764@thinkpad>
+ <8edcc387025a6212d58fe01865725734@walle.cc>
+ <20210727183213.73f34141@thinkpad>
+ <25d3e798-09f5-56b5-5764-c60435109dd2@gmail.com>
+ <20210810172927.GB3302@amd>
+ <25800302-9c02-ffb2-2887-f0cb23ad1893@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <25800302-9c02-ffb2-2887-f0cb23ad1893@gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 10 Aug 2021 21:53:35 +0200
-Pavel Machek <pavel@ucw.cz> wrote:
+> A challenge here would be unique numbering if there are multiple
+> network interfaces with LED support (especially if the interfaces
+> use different drivers). So the numbering service would have to be
+> in LED subsystem core or network subsystem core.
 
-> > Pavel, one point of the discussion is that in this case the LED is
-> > controlled by MAC, not PHY. So the question is whether we want to do
-> > "ethmacN" (in addition to "ethphyN").  
-> 
-> Sorry, I missed that. I guess that yes, ethmacX is okay, too.
-> 
-> Even better would be to find common term that could be used for both
-> ethmacN and ethphyN and just use that. (Except that we want to avoid
-> ethX). Maybe "ethportX" would be suitable?
+Yes, it needs to be somewhere common.
 
-See
-  https://lore.kernel.org/linux-leds/YQAlPrF2uu3Gr+0d@lunn.ch/
-and
-  https://lore.kernel.org/linux-leds/20210727172828.1529c764@thinkpad/
+We also need to document that the number is meaningless and
+arbitrary. It can change from boot to boot. Also, LEDs from the same
+PHY or MAC are not guaranteed to be contiguous, since multiple
+PHYs/MACs can be enumerating their LEDs at the same time.
 
-Marek
+     Andrew
+
