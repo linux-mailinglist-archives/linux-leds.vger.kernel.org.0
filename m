@@ -2,30 +2,20 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1FB13E825A
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 20:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35BC13E83F8
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 21:53:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237257AbhHJSHK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Aug 2021 14:07:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37564 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239319AbhHJSFI (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 10 Aug 2021 14:05:08 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A07860C3F;
-        Tue, 10 Aug 2021 17:55:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628618167;
-        bh=hTphWofcwmhv4y/QPpL80leJAprSLTNgUO0Meevwp1o=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=dcYVwzswX3e/hXHRTOnSU/F+s2Bd68cqknKcsPoh8p55uMJGMcItNIHBcTHosXaSa
-         YNwlWYFIOKxdS7Zg4p/iR7/36IQmJiBSPad5oawJycY4E9tQLQgrwsIFNOPFUPgOWF
-         3OXJ35rXVoftRxPNjIEa0Jx1ziqBXxyuXrpRS4sutSGNmh6I+tnMTNbn6SQqt4NBfq
-         ojZF9lkTddGTcCG1R679M6ifkVpONX3Wgj5NMaP53/nSJP36M1UL6R2+RhEU18tAco
-         ctfmkgpOIBBtboANW2sUW6l6MbX7IsDJZ/v7ejSvkM8j8yh/IaizdZopPWCedMiYQ1
-         uh9/eYexRGDBQ==
-Date:   Tue, 10 Aug 2021 19:55:50 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
+        id S231143AbhHJTyA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Aug 2021 15:54:00 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:38190 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230077AbhHJTyA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Aug 2021 15:54:00 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 086F41C0B77; Tue, 10 Aug 2021 21:53:36 +0200 (CEST)
+Date:   Tue, 10 Aug 2021 21:53:35 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
 Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
         Michael Walle <michael@walle.cc>, andrew@lunn.ch,
         anthony.l.nguyen@intel.com, bigeasy@linutronix.de,
@@ -35,34 +25,62 @@ Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
         netdev@vger.kernel.org, sasha.neftin@intel.com,
         vinicius.gomes@intel.com, vitaly.lifshits@intel.com
 Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Message-ID: <20210810195550.261189b3@thinkpad>
-In-Reply-To: <20210810172927.GB3302@amd>
+Message-ID: <20210810195335.GA7659@duo.ucw.cz>
 References: <YP9n+VKcRDIvypes@lunn.ch>
-        <20210727081528.9816-1-michael@walle.cc>
-        <20210727165605.5c8ddb68@thinkpad>
-        <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
-        <20210727172828.1529c764@thinkpad>
-        <8edcc387025a6212d58fe01865725734@walle.cc>
-        <20210727183213.73f34141@thinkpad>
-        <25d3e798-09f5-56b5-5764-c60435109dd2@gmail.com>
-        <20210810172927.GB3302@amd>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20210727081528.9816-1-michael@walle.cc>
+ <20210727165605.5c8ddb68@thinkpad>
+ <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
+ <20210727172828.1529c764@thinkpad>
+ <8edcc387025a6212d58fe01865725734@walle.cc>
+ <20210727183213.73f34141@thinkpad>
+ <25d3e798-09f5-56b5-5764-c60435109dd2@gmail.com>
+ <20210810172927.GB3302@amd>
+ <20210810195550.261189b3@thinkpad>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
+Content-Disposition: inline
+In-Reply-To: <20210810195550.261189b3@thinkpad>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 10 Aug 2021 19:29:27 +0200
-Pavel Machek <pavel@ucw.cz> wrote:
 
-> So "r8159-0300:green:activity" would be closer to the naming we want,
-> but lets not do that, we really want this to be similar to what others
-> are doing, and that probably means "ethphy3:green:activity" AFAICT.
+--h31gzZEtNLTqOjlF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Pavel, one point of the discussion is that in this case the LED is
-controlled by MAC, not PHY. So the question is whether we want to do
-"ethmacN" (in addition to "ethphyN").
+Hi!
 
-Marek
+> > So "r8159-0300:green:activity" would be closer to the naming we want,
+> > but lets not do that, we really want this to be similar to what others
+> > are doing, and that probably means "ethphy3:green:activity" AFAICT.
+>=20
+> Pavel, one point of the discussion is that in this case the LED is
+> controlled by MAC, not PHY. So the question is whether we want to do
+> "ethmacN" (in addition to "ethphyN").
+
+Sorry, I missed that. I guess that yes, ethmacX is okay, too.
+
+Even better would be to find common term that could be used for both
+ethmacN and ethphyN and just use that. (Except that we want to avoid
+ethX). Maybe "ethportX" would be suitable?
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--h31gzZEtNLTqOjlF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYRLZPwAKCRAw5/Bqldv6
+8sdjAKCkAKuAMaqBPjpUyAOgAZjoOmL/oACgocl7dFzICwE5ufhlQTgqYj76Mco=
+=HcHL
+-----END PGP SIGNATURE-----
+
+--h31gzZEtNLTqOjlF--
