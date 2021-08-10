@@ -2,97 +2,92 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3A033E5BCB
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 15:35:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B8343E5BF1
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 15:40:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241539AbhHJNf1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Aug 2021 09:35:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51356 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241538AbhHJNfZ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Aug 2021 09:35:25 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A14EC06179B
-        for <linux-leds@vger.kernel.org>; Tue, 10 Aug 2021 06:34:52 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id h9so29128377ljq.8
-        for <linux-leds@vger.kernel.org>; Tue, 10 Aug 2021 06:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=weC7sDSz7PzZbDSqoiKFHyafe+0MyeXAiBAfK1qKcS4=;
-        b=ZkMvWvxM4pvYUqy5fI/4E/yYTR8XZ9e8pydJ6+ayXV+l/hEgGcg9Ypw9CVe+FUTQ2v
-         /houmtJqyVgq02TKQ6a746nHq4/i+0VpeDz9l/1d2CpGOlFO38Q1vpU6i7sO+p2s3tMI
-         DUlynGX/7LZqhwkoGdQ1I52fAp7G+fpqh10/pb1NMYjXvJSVuesWsHOSGtrvkuPxriNc
-         jvVf677JQLZxYssZpEuMQaobwk4MEkUKrGAGiABlPkeOE1bm7qE+ceiIrkU9NvaF3v3R
-         LaSTJbXjQcT785+AN9Ak3xvACeT3zp4mEp3Lyn0uUHq+VwXoC16GbDvi0V6XITOL18RG
-         FEBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=weC7sDSz7PzZbDSqoiKFHyafe+0MyeXAiBAfK1qKcS4=;
-        b=hz6c7JeHM3VWwNRjQ/x4TyjcSvVkjHacU9AIWzkWhG1sPX/rz+tsAyvSX8hbcQ4y76
-         rQho7DSVpCGmvwbUcI6hv7Gov7VOInjtyE9f8OnJ/JbOjwitD2P1LWKMwvwH4spmIRCg
-         /rpwNGxamMFOueec2hdIV/e5wEiHgA/w+2DDYIAYXj0S0tR4KfrFCkjMufgfkxO99vb7
-         gR+cjSF7M51ET6V1BVJrpJ5C+jRWXlQvOXDgHA1afr5IrnEHfw736aTGiOEUGQBNIUiO
-         G/g0IF3UtyFAm4r2OJYHbaglUKOgGjJxlE3HuDeYli9k6KSrnbXosfJXVzU0qumpaO1b
-         8srw==
-X-Gm-Message-State: AOAM531PUePDybHT8UnrzR9g8ecTsXdoWTbKjcq+kgkgQ9B9sCaWNRde
-        hElrEVF+dJklGjGxVDKkcNT+urss2PJAeMza4amp6g==
-X-Google-Smtp-Source: ABdhPJxTxTJieZbnaNjRPZUIvrVUDFyycbbX1QvFSIH1cQRHK81GI3c7N6EJyS6zlrZ5d2BhxV7i2qX73NcqQoP17mQ=
-X-Received: by 2002:a2e:888f:: with SMTP id k15mr19671128lji.326.1628602490522;
- Tue, 10 Aug 2021 06:34:50 -0700 (PDT)
+        id S241650AbhHJNkO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Aug 2021 09:40:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49392 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241877AbhHJNji (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 10 Aug 2021 09:39:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DD75E60EE7;
+        Tue, 10 Aug 2021 13:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628602749;
+        bh=fObxAgs+ulfRDwt7g5xTa8zsugCY1+6fJfkNM/IsNlA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=rL/ZttqfxsO2dZRUHtzy9nzwGGoLFagpqaqSVFKyYkmwEk8jLLj+VGms3FbxODWOE
+         /axtGd5S9x+7lkyR5olgKW/uQ6xIG4FAyY22EBUvi0ygIQI/V8oqo0AztKG0xH8P+D
+         i2BUBtwAKuoo5FiwRcNTvRRH5OPAvTRFsERhYmH3cPbkdyodLTyF6MqRFOB3VOotNS
+         EgJsbqMLwqFLTVqbYkoNJRWhI2ATN7S7OajsyTWegqHLoNNk3q1brbNti/WGlP5hLq
+         Dtva7zVz02U1F7tX/hFspZj7RsQEplXREoFsMoN28qsjq+2ZvBsJ6Dl4XjCpPfWmew
+         qK1BAfDETIcpw==
+Date:   Tue, 10 Aug 2021 15:38:40 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Ian Pilcher <arequipeno@gmail.com>, hch@lst.de, axboe@kernel.dk,
+        kernelnewbies@kernelnewbies.org, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, pavel@ucw.cz, pali@kernel.org,
+        linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH v2 00/10] Add configurable block device LED triggers
+Message-ID: <20210810153840.42419d06@thinkpad>
+In-Reply-To: <YRIeHH1SLl6tYCeY@kroah.com>
+References: <20210809033217.1113444-1-arequipeno@gmail.com>
+        <20210809205633.4300bbea@thinkpad>
+        <81c128a1-c1b8-0f1e-a77b-6704bade26c0@gmail.com>
+        <20210810004331.0f0094a5@thinkpad>
+        <7b5f3509-5bcd-388b-8d3b-4ea95a9483ad@gmail.com>
+        <YRIeHH1SLl6tYCeY@kroah.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210723075858.376378-1-andrew@aj.id.au> <20210723075858.376378-2-andrew@aj.id.au>
-In-Reply-To: <20210723075858.376378-2-andrew@aj.id.au>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 10 Aug 2021 15:34:39 +0200
-Message-ID: <CACRpkdZ4A3Lw2U+_jXfbuXJFhpesi3SzNN1Codqxi4sLNu5zPw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/6] pinctrl: Add pinctrl_gpio_as_pin()
-To:     Andrew Jeffery <andrew@aj.id.au>
-Cc:     Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Joel Stanley <joel@jms.id.au>, Pavel Machek <pavel@ucw.cz>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Jul 23, 2021 at 9:59 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+On Tue, 10 Aug 2021 08:35:08 +0200
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
-> Allow gpiochips to map the GPIO numberspace onto a pin numberspace when
-> the register layout for GPIO control is implemented in terms of the
-> pin numberspace.
->
-> This requirement sounds kind of strange, but the patch is driven by
-> trying to resolve a bug in the leds-pca955x driver where this mapping is
-> not correctly performed.
->
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> On Mon, Aug 09, 2021 at 06:50:44PM -0500, Ian Pilcher wrote:
+> > On 8/9/21 5:43 PM, Marek Beh=C3=BAn wrote: =20
+> > > I confess that I am not very familiar with internal blkdev API. =20
+> >=20
+> > It's mainly a matter of symbol visibility.  See this thread from a few
+> > months ago:
+> >=20
+> >   https://www.spinics.net/lists/linux-leds/msg18244.html
+> >=20
+> > Now ... my code currently lives in block/, so there isn't actually
+> > anything technically preventing it from iterating through the block
+> > devices.
+> >=20
+> > The reactions to Enzo's patch (which you can see in that thread) make me
+> > think that anything that iterates through all block devices is likely to
+> > be rejected, but maybe I'm reading too much into it.
+> >=20
+> >=20
+> > Greg / Christoph -
+> >=20
+> > (As you were the people who expressed disapproval of Enzo's patch to
+> > export block_class and disk_type ...)
+> >=20
+> > Can you weigh in on the acceptability of iterating through the block
+> > devices (searching by name) from LED trigger code within the block
+> > subsystem (i.e. no new symbols would need to be exported)?
+> >=20
+> > This would allow the trigger to implement the sysfs API that Marek and
+> > Pavel want. =20
+>=20
+> No idea, let's see the change first, we can never promise anything :)
 
-(...)
+Hi Greg,
 
-Hm  this looks a bit strange...
+Can't we use blkdev_get_by_path() (or blk_lookup_devt() with
+blkdev_get_by_dev())?
+This would open the block device and return a struct block_device *.
+When the LED trigger is disabled, it would also have to release the
+device.
 
-> +int pinctrl_gpio_as_pin(struct pinctrl_dev *pctldev, unsigned int gpio)
-
-This is not a good name for this function. Try to come up with
-a name that says exactly what the function does.
-
-E.g. "apple pear as apple slice" isn't very helpful, the use case for
-this is really hard to understand.
-
-> +EXPORT_SYMBOL_GPL(pinctrl_find_gpio_range_from_pin);
-
-This looks completely wrong.
-
-Yours,
-Linus Walleij
+Marek
