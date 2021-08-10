@@ -2,79 +2,88 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EC013E5393
-	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 08:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AA6C3E56B6
+	for <lists+linux-leds@lfdr.de>; Tue, 10 Aug 2021 11:22:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbhHJGfd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Aug 2021 02:35:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41574 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229527AbhHJGfc (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 10 Aug 2021 02:35:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C56D60E9B;
-        Tue, 10 Aug 2021 06:35:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1628577311;
-        bh=0MlOsZpdt27CjZT8u0hLWNXRbC0r9HoIooJxLpXDo1A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=113n+ktMggo1IETMY0vsNHitek+/+TYudU02iK5w/C0huVvKWgBCRyKlvjrhR1zsB
-         ajT/vNC4ZJdnjQJG9Pdc+r7VnSHcR19ZKVM3+IYtn+uby0c266j8kcYOcrYUewTDqU
-         05b4BrPq1nL6X4ZFSXQRYWifSbZAHUXbVFiB8erc=
-Date:   Tue, 10 Aug 2021 08:35:08 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ian Pilcher <arequipeno@gmail.com>
-Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>, hch@lst.de,
-        axboe@kernel.dk, kernelnewbies@kernelnewbies.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        pavel@ucw.cz, pali@kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH v2 00/10] Add configurable block device LED triggers
-Message-ID: <YRIeHH1SLl6tYCeY@kroah.com>
-References: <20210809033217.1113444-1-arequipeno@gmail.com>
- <20210809205633.4300bbea@thinkpad>
- <81c128a1-c1b8-0f1e-a77b-6704bade26c0@gmail.com>
- <20210810004331.0f0094a5@thinkpad>
- <7b5f3509-5bcd-388b-8d3b-4ea95a9483ad@gmail.com>
+        id S238898AbhHJJXU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 10 Aug 2021 05:23:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48344 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238854AbhHJJXL (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 10 Aug 2021 05:23:11 -0400
+Received: from orbyte.nwl.cc (orbyte.nwl.cc [IPv6:2001:41d0:e:133a::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDEF0C0613D3
+        for <linux-leds@vger.kernel.org>; Tue, 10 Aug 2021 02:22:48 -0700 (PDT)
+Received: from n0-1 by orbyte.nwl.cc with local (Exim 4.94.2)
+        (envelope-from <n0-1@orbyte.nwl.cc>)
+        id 1mDNyA-0000x1-3U; Tue, 10 Aug 2021 11:22:46 +0200
+Date:   Tue, 10 Aug 2021 11:22:46 +0200
+From:   Phil Sutter <phil@nwl.cc>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org
+Subject: Re: [PATCH] leds: trigger: Add invert attribute to ledtrig-audio
+Message-ID: <20210810092246.GB3673@orbyte.nwl.cc>
+References: <20210809122910.11580-1-phil@nwl.cc>
+ <20210809181118.GA16184@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7b5f3509-5bcd-388b-8d3b-4ea95a9483ad@gmail.com>
+In-Reply-To: <20210809181118.GA16184@duo.ucw.cz>
+Sender:  <n0-1@orbyte.nwl.cc>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Aug 09, 2021 at 06:50:44PM -0500, Ian Pilcher wrote:
-> On 8/9/21 5:43 PM, Marek Behún wrote:
-> > I confess that I am not very familiar with internal blkdev API.
-> 
-> It's mainly a matter of symbol visibility.  See this thread from a few
-> months ago:
-> 
->   https://www.spinics.net/lists/linux-leds/msg18244.html
-> 
-> Now ... my code currently lives in block/, so there isn't actually
-> anything technically preventing it from iterating through the block
-> devices.
-> 
-> The reactions to Enzo's patch (which you can see in that thread) make me
-> think that anything that iterates through all block devices is likely to
-> be rejected, but maybe I'm reading too much into it.
-> 
-> 
-> Greg / Christoph -
-> 
-> (As you were the people who expressed disapproval of Enzo's patch to
-> export block_class and disk_type ...)
-> 
-> Can you weigh in on the acceptability of iterating through the block
-> devices (searching by name) from LED trigger code within the block
-> subsystem (i.e. no new symbols would need to be exported)?
-> 
-> This would allow the trigger to implement the sysfs API that Marek and
-> Pavel want.
+Hi Pavel,
 
-No idea, let's see the change first, we can never promise anything :)
+On Mon, Aug 09, 2021 at 08:11:18PM +0200, Pavel Machek wrote:
+> > Inverting micmute LED used to be possible via a mixer setting, but
+> > conversion to LEDs class (probably) killed it. Re-establish the old
+> > functionality via sysfs attribute in audio LED triggers.
+> 
+> So we have both invert and inverted attributes. Fun :-).
 
-thanks,
+Hmm! :)
 
-greg k-h
+Are you talking about LED_BLINK_INVERT flag? I see a few triggers allow
+inversion but didn't find LED drivers exporting such a property.
+
+> See sysfs-class-led and sysfs-class-led-trigger-oneshot.
+
+I think I "copied" from oneshot trigger when writing this patch.
+
+> We definitely want this documented. We probably want this for most
+> triggers, maybe it should get one implementation in library somewhere?
+
+Should this be an implicit attribute of simple triggers only or all? In
+the latter case (which could simplify some triggers) I guess the value
+inversion has to take place in led_set_brightness_nopm(), the lowest
+level function triggers may use.
+
+How does inversion work, actually? LED_OFF <-> LED_ON is trivial, but
+what about LED_HALF and LED_FULL? Leaving LED_HALF as-is seems logical,
+but the opposite of LED_OFF might be LED_ON or LED_FULL. Does
+max_brightness determine that?
+
+> 
+> Otherwise it makes sense.
+> 
+> > +static ssize_t do_invert_store(enum led_audio type,
+> > +			       const char *buf, size_t size)
+> > +{
+> > +	unsigned long state;
+> > +	int ret;
+> > +
+> > +	ret = kstrtoul(buf, 0, &state);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	led_invert[type] = !!state;
+> > +	ledtrig_audio_set(type, audio_state[type]);
+> 
+> Accepting 42 as valid value sounds wrong. Anyway, this should do what
+> oneshot trigger does.
+
+Similarities to oneshot are not a coincidence. :)
+
+Cheers, Phil
