@@ -2,121 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C10593E8737
-	for <lists+linux-leds@lfdr.de>; Wed, 11 Aug 2021 02:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EBD43E8A30
+	for <lists+linux-leds@lfdr.de>; Wed, 11 Aug 2021 08:26:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235698AbhHKAZj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 10 Aug 2021 20:25:39 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:57119 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235680AbhHKAZj (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 10 Aug 2021 20:25:39 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 1EDB6580490;
-        Tue, 10 Aug 2021 20:25:16 -0400 (EDT)
-Received: from imap43 ([10.202.2.93])
-  by compute2.internal (MEProxy); Tue, 10 Aug 2021 20:25:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
-        mime-version:message-id:in-reply-to:references:date:from:to:cc
-        :subject:content-type; s=fm3; bh=CQaGtiKaZFJhddHZEvf2v4rU+OaDWp+
-        Ss2kMo6IVZCs=; b=SA00P7GxQHrtfFqvW+m7kFvoPx2MD+CjTx3gTQusAuPi1v+
-        o+V9MLiL882MpaRZWdcyha7hCJ8dLU3uNxyzSOi96axjvJ/KTyVJ1rAoV/2izbrF
-        UzG8w84Yj6vJKOcmEVQjlv6Of1pJtShlVn3TkIcr549T7r6xUL+ZxDMmAXaqyAiO
-        ku2F7YICI75WyG6HzmFm0YhEySCiR6n7t8WsRFILj7Yldr4rI9d9woJQLF/Q6UYr
-        b9Fg3dr4iXcDutqn4qvbo2wo7kN9xgAdtFm5cJat5+6K2GahJU4G4VsSHrY7NuyG
-        TO7Ic/jHqZrVuJOzOdqk/w57ejrF/jiFkuWiYnw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=CQaGti
-        KaZFJhddHZEvf2v4rU+OaDWp+Ss2kMo6IVZCs=; b=IQWeXBM2nZNQ1O/QfqKFn9
-        nI+k+eO/smlIBlv/78gmPvuOU9V+6Ov3zo/uMvaDnBsXI3kAAGqcVnjm8VYPLEox
-        arlFnFKnpq8P/7syouSurBE4kXV8GMsdH1N5zCBPXtgIpSI3GioKBxMfypDIZokB
-        HeQAm7D5PeiwPo0wUpwsu/xeR8osuH5icucJmHIge8bDIpqKXgJHIogbqkQG7fWC
-        TRAscnGnG1dkZgkzWI6slAxBZSrH611lafOLtBvtCbDOlGxjjw/MKj69wsebkLE4
-        4IgZowGnM0Sh260+tW0K0kgKEPIpK7pNM+2uP3G+AOWtBKipKvPTdzm72OENEzMg
-        ==
-X-ME-Sender: <xms:6RgTYVdkVTqMHNwXpKnSAv-Rz5MsYiT9_op0s_XwFeylYSdGwRVSwg>
-    <xme:6RgTYTP_q8htCYVBa7Lgr_JKBiEq8Z8IU3toB8k-VFm0F1m8UajSdGLAGEd3_UECO
-    Xtk4bM5ju3BCLZJug>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrkedtgdefvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
-    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
-    htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
-    veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:6hgTYejS52ymUKsEMDRMPh-Nexewh4uRsXv-pnMAzMXRzvm95gQTAg>
-    <xmx:6hgTYe-o9IinhgoWJrGolDqiZ4-FjpW5FTU1QO-fcGbF9e915MEjlw>
-    <xmx:6hgTYRtsilqCIaAOICu1a6mUL-NBYWtNQQ2hAMQY36eMHG52UxUfqQ>
-    <xmx:7BgTYXBFUT-gH886vkzM6ViX413GUYkbmN4pcAweN2MsEJpo_H1AJg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id EF05DAC0DD0; Tue, 10 Aug 2021 20:25:13 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-554-g53a5f93b7d-fm-20210809.002-g53a5f93b
-Mime-Version: 1.0
-Message-Id: <53199b3e-a711-4071-96a3-7836d3323906@www.fastmail.com>
-In-Reply-To: <CACRpkdZ4A3Lw2U+_jXfbuXJFhpesi3SzNN1Codqxi4sLNu5zPw@mail.gmail.com>
-References: <20210723075858.376378-1-andrew@aj.id.au>
- <20210723075858.376378-2-andrew@aj.id.au>
- <CACRpkdZ4A3Lw2U+_jXfbuXJFhpesi3SzNN1Codqxi4sLNu5zPw@mail.gmail.com>
-Date:   Wed, 11 Aug 2021 09:54:53 +0930
-From:   "Andrew Jeffery" <andrew@aj.id.au>
-To:     "Linus Walleij" <linus.walleij@linaro.org>
-Cc:     "Linux LED Subsystem" <linux-leds@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Joel Stanley" <joel@jms.id.au>, "Pavel Machek" <pavel@ucw.cz>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH 1/6] pinctrl: Add pinctrl_gpio_as_pin()
-Content-Type: text/plain
+        id S234674AbhHKG1J (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 11 Aug 2021 02:27:09 -0400
+Received: from verein.lst.de ([213.95.11.211]:39257 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234575AbhHKG1J (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 11 Aug 2021 02:27:09 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id AE39F6736F; Wed, 11 Aug 2021 08:26:42 +0200 (CEST)
+Date:   Wed, 11 Aug 2021 08:26:42 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Ian Pilcher <arequipeno@gmail.com>
+Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>, hch@lst.de,
+        pali@kernel.org, linux-block@vger.kernel.org,
+        linux-leds@vger.kernel.org, axboe@kernel.dk, pavel@ucw.cz,
+        linux-kernel@vger.kernel.org, kernelnewbies@kernelnewbies.org
+Subject: Re: [RFC PATCH v2 00/10] Add configurable block device LED triggers
+Message-ID: <20210811062642.GA3119@lst.de>
+References: <20210809033217.1113444-1-arequipeno@gmail.com> <20210809205633.4300bbea@thinkpad> <81c128a1-c1b8-0f1e-a77b-6704bade26c0@gmail.com> <20210810004331.0f0094a5@thinkpad> <7b5f3509-5bcd-388b-8d3b-4ea95a9483ad@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7b5f3509-5bcd-388b-8d3b-4ea95a9483ad@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Mon, Aug 09, 2021 at 06:50:44PM -0500, Ian Pilcher wrote:
+> On 8/9/21 5:43 PM, Marek Behún wrote:
+>> I confess that I am not very familiar with internal blkdev API.
+>
+> It's mainly a matter of symbol visibility.  See this thread from a few
+> months ago:
+>
+>   https://www.spinics.net/lists/linux-leds/msg18244.html
+>
+> Now ... my code currently lives in block/, so there isn't actually
+> anything technically preventing it from iterating through the block
+> devices.
+>
+> The reactions to Enzo's patch (which you can see in that thread) make me
+> think that anything that iterates through all block devices is likely to
+> be rejected, but maybe I'm reading too much into it.
 
-
-On Tue, 10 Aug 2021, at 23:04, Linus Walleij wrote:
-> On Fri, Jul 23, 2021 at 9:59 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> 
-> > Allow gpiochips to map the GPIO numberspace onto a pin numberspace when
-> > the register layout for GPIO control is implemented in terms of the
-> > pin numberspace.
-> >
-> > This requirement sounds kind of strange, but the patch is driven by
-> > trying to resolve a bug in the leds-pca955x driver where this mapping is
-> > not correctly performed.
-> >
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> 
-> (...)
-> 
-> Hm  this looks a bit strange...
-> 
-> > +int pinctrl_gpio_as_pin(struct pinctrl_dev *pctldev, unsigned int gpio)
-> 
-> This is not a good name for this function. Try to come up with
-> a name that says exactly what the function does.
-> 
-> E.g. "apple pear as apple slice" isn't very helpful, the use case for
-> this is really hard to understand.
-
-That's probably because I shouldn't be trying to do what I'm doing :)
-
-I'll stop doing that (i.e. rework patch 4/6) and this will go away entirely.
-
-> 
-> > +EXPORT_SYMBOL_GPL(pinctrl_find_gpio_range_from_pin);
-> 
-> This looks completely wrong.
-
-Yeah, whoops. That was an oversight while iterating on the patch.
-
-Andrew
+I think the main issue with this series is that it adds a shitload of
+code and a hook in the absolute I/O fastpath for fricking blinkenlights.
+I don't think it is even worth wasting time on something this ridiculous.
