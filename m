@@ -2,223 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BA223EAFD3
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Aug 2021 08:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BF193EB5C4
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Aug 2021 14:53:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238772AbhHMGBO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 13 Aug 2021 02:01:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60974 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238766AbhHMGBN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Aug 2021 02:01:13 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A053C061756;
-        Thu, 12 Aug 2021 23:00:47 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id z128so16750092ybc.10;
-        Thu, 12 Aug 2021 23:00:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gZZX1SNwCRBnn0U8Sid0RbkcxFib76QfV6XCZITDmnY=;
-        b=om4mEgwIV25ngYdR6U9NqzIcVjXBL1duBcEy+NFwUedW4/5IQ/StArjOpVlqjZ684Z
-         I2EGKq6ZspEq15DPR1qnmRKGrcggRrj4lZUMwKj4FhI1suruJ5WLZI8b9VjTZmbF2wXP
-         Fej46wrc/t4wWAbFM3uvVVlfwIK9uE6PNLCugpYVNzUUdOoYJ3PrIKHLcx7H0yjY3f7m
-         uHxpR6XcfnmBS5sVUxIbAtSVJY08KU+XO8RenMbTxSMXaCYB2gtWkdWQGPDE58tQQcSv
-         trt9P+/8eDuN5Yhy7LDokZ3NHJvEoQD6R0yf78u4fYieyO3qyEefPkuxm8plyE0G1tg4
-         e8Yg==
+        id S240266AbhHMMxb convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-leds@lfdr.de>); Fri, 13 Aug 2021 08:53:31 -0400
+Received: from mail-vs1-f50.google.com ([209.85.217.50]:34646 "EHLO
+        mail-vs1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233416AbhHMMxb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Aug 2021 08:53:31 -0400
+Received: by mail-vs1-f50.google.com with SMTP id l22so5928953vsi.1;
+        Fri, 13 Aug 2021 05:53:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gZZX1SNwCRBnn0U8Sid0RbkcxFib76QfV6XCZITDmnY=;
-        b=WfYoXZ5erNy/1asROjxraNb8kbbqaq64YQk2vnXaFaLS206M/eSZBPWoxX0bpdiacq
-         0fOpJ4TqkK0NHfYuQBd4i5v2JbIt7PFeI3jdJViTxJezOpKRXWrTqVnherPqeMdMr2Gz
-         G0CfBEbILbSR0+QJgKFb60OFnxnIceaLdRimkW5JLQiE+C6tMk4g0zktCyhodJm/C0T4
-         8pHm+0EkJ+VwQlACBm1CxFel9dd1aM09hxPE06rwAQXezCGjVx5cd77/z0KUXDO70x65
-         inI7T+XANgAqF2Z2YKsK4syKetoSgpP947YN9aeSMpvfQ7xtOWG9IdpW1oKEArpJ5nxS
-         /oMw==
-X-Gm-Message-State: AOAM530hUmYu6kuOb/j/nwERjZau3nKMqREt4CYxHDDnj+vIif/PkOZC
-        TN6qTkrJM26qUnK+5rzhOX5Uco5MGgv0xfwttPI=
-X-Google-Smtp-Source: ABdhPJwIv3gKu0b6gimf0i6fuzjyyNpCjIHJtjlErgwrcyE7I29Ro5o6YZFDUmafGwak+DdTcS/UAAMaEuzVttX4nVA=
-X-Received: by 2002:a25:1056:: with SMTP id 83mr958088ybq.52.1628834446559;
- Thu, 12 Aug 2021 23:00:46 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=GUkLMwD2j+LMs+Mhg8retAXqFr+2fCyVciaZId7XXMA=;
+        b=A+DzMKh4SaI8IKueMe35NE6ASnRVifB/NBYZX/KGnlJTV2kWkfMtpUDCQzWd3qjVJO
+         Wy1VM4v21eEHWU1DfNhtEeV7Fy6cqj2zE6FVwmMBX4WtnbaechVx9fBRbSi2KkBHtUDM
+         ja7sx7g8zMX0g4zN5vAaOLt0JchtWm4Tznc7buTYRItM/C+WTGrmJ7Rv4zD+w6Kbzm95
+         IFOUpwTj1MhzlQF6RWNFRVHnsktUvnoxDOw0IC6BJOHcxUXWf3d2K9QbxK9fz7NWoATu
+         7wOZEe15THA+ykF6m2QwCsZqtJJjHJkamhPFTVVu/U4vcKqVcXY2nfD94t9iLynowXRj
+         LFyw==
+X-Gm-Message-State: AOAM533CYkLOQ078pKB3UPE6RzN1mGLSSWnt8FkimyOtbv2I/a6HFngl
+        uRAcMx2mYV8id8UPumpqQLfqhJXRHEMbImvt+To=
+X-Google-Smtp-Source: ABdhPJzjK6cDtV6QbCobPoCPv+kseDVbo2qNoxZBSAFh+8+1qixu6jaaer/OLjhFttaw7VgR0TV8HigL8Np+ZSkG7+k=
+X-Received: by 2002:a05:6102:e59:: with SMTP id p25mr1482758vst.26.1628859183649;
+ Fri, 13 Aug 2021 05:53:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
- <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm> <20210803221055.GA32527@amd>
- <CAEc3jaAoDfJD92q9q_HoFq3nsjkDqfZHu-VO+Ei8xSP8QrE8rg@mail.gmail.com>
-In-Reply-To: <CAEc3jaAoDfJD92q9q_HoFq3nsjkDqfZHu-VO+Ei8xSP8QrE8rg@mail.gmail.com>
-From:   Daniel Ogorchock <djogorchock@gmail.com>
-Date:   Fri, 13 Aug 2021 02:00:35 -0400
-Message-ID: <CAEVj2tkfLjWKOaecY7t-idGaqjZ45wXhmjbUR87AoC2Dkm45vQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs for
- game controllers.
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Roderick Colenbrander <thunderbird2k@gmail.com>
+References: <20210811095759.1281480-1-geert@linux-m68k.org>
+ <20210811095759.1281480-20-geert@linux-m68k.org> <20210811124755.37b0a0a9@thinkpad>
+ <CAMuHMdUFPvJBuFByiN6pb539REYtcsNJMKML+M2NQw=GJxTYJg@mail.gmail.com> <CAHp75VeNyHUmcU7GPnP8woRcDErDNQ5M3FHQGpLnhUoL5qTnLQ@mail.gmail.com>
+In-Reply-To: <CAHp75VeNyHUmcU7GPnP8woRcDErDNQ5M3FHQGpLnhUoL5qTnLQ@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 13 Aug 2021 14:52:52 +0200
+Message-ID: <CAMuHMdVFOu6EXKqkiLgBp3n8Oujm+uSpFn-ximtp+37TOZSp9A@mail.gmail.com>
+Subject: Re: [PATCH v5 19/19] auxdisplay: ht16k33: Add LED support
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+        Robin van der Gracht <robin@protonic.nl>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Paul Burton <paulburton@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-leds <linux-leds@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Pavel,
+Hi Andy,
 
-Do you have any recommendations on what would be an appropriate
-function string for player indicator LEDs? Would some variant such as:
-  "status-x"
-  "player-status-x"
-  "indicator-x"
-  "player-indicator-x"
-be more suitable? It looks like the string "status" has been used for
-other existing LED names.
+On Thu, Aug 12, 2021 at 2:33 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Wednesday, August 11, 2021, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>> On Wed, Aug 11, 2021 at 12:48 PM Marek Behún <kabel@kernel.org> wrote:
+>> > On Wed, 11 Aug 2021 11:57:59 +0200
+>> > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>> > > Instantiate a single LED based on the "led" subnode in DT.
+>> > > This allows the user to control display brightness and blinking (backed
+>> > > by hardware support) through the LED class API and triggers, and exposes
+>> > > the display color.  The LED will be named
+>> > > "auxdisplay:<color>:<function>".
+>> > >
+>> > > When running in dot-matrix mode and if no "led" subnode is found, the
+>> > > driver falls back to the traditional backlight mode, to preserve
+>> > > backwards compatibility.
+>> > >
+>> > > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>> >
+>> > Reviewed-by: Marek Behún <kabel@kernel.org>
+>>
+>> Thanks!
+>>
+>> > BTW, this driver does not need to depend on OF, methinks.
+>> > The few instances of properties reading can be
+>> > easily rewritten to device_* functions (from include/linux/property.h).
+>> > The of_get_child_by_name() can become device_get_named_child_node().
+>> >
+>> > Geert, what do you think?
+>>
+>> Sure, that can be done later, when an ACPI user appears?
+>
+> Actually with PRP0001 approach any of compatible driver may be used onACPI platform. So, what you are saying can be interpreted the way “we don’t care about users on ACPI based platforms”. If it is the case, then it should be told explicitly.
 
-I think we are pretty happy to use whatever naming scheme fits the
-standards of the led subsystem's userspace api for the Nintendo/Sony
-HID drivers, and any future game controller drivers featuring player
-LEDs could conform to that going forward.
+I think you're interpreting too much ;-)
+My point is simply:
 
-Thanks,
-Daniel
+>> The dependency on OF was pre-existing, and this series is already
+>> at v5.
 
-On Tue, Aug 3, 2021 at 7:30 PM Roderick Colenbrander
-<thunderbird2k@gmail.com> wrote:
->
-> Hi Pavel,
->
-> See some quick comments inline.
->
-> On Tue, Aug 3, 2021 at 3:39 PM Pavel Machek <pavel@ucw.cz> wrote:
-> >
-> > Hi!
-> >
-> > > > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> > > >
-> > > > Player LEDs are commonly found on game controllers from Nintendo and Sony
-> > > > to indicate a player ID across a number of LEDs. For example, "Player 2"
-> > > > might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
-> > > >
-> > > > This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
-> > > > player LEDs from the kernel. Until now there was no good standard, which
-> > > > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
-> > > > other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
-> > > >
-> > > > Note: management of Player IDs is left to user space, though a kernel
-> > > > driver may pick a default value.
-> > > >
-> > > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> > > > ---
-> > > >  include/dt-bindings/leds/common.h | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-> > > > index 52b619d44ba2..94999c250e4d 100644
-> > > > --- a/include/dt-bindings/leds/common.h
-> > > > +++ b/include/dt-bindings/leds/common.h
-> > > > @@ -60,6 +60,9 @@
-> > > >  #define LED_FUNCTION_MICMUTE "micmute"
-> > > >  #define LED_FUNCTION_MUTE "mute"
-> > > >
-> > > > +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
-> > > > +#define LED_FUNCTION_PLAYER "player"
-> > > > +
-> > > >  /* Miscelleaus functions. Use functions above if you can. */
-> > > >  #define LED_FUNCTION_ACTIVITY "activity"
-> > > >  #define LED_FUNCTION_ALARM "alarm"
-> > >
-> > > Pavel, can I please get your Ack on this one, so that I can take it with
-> > > the rest of the series?
-> >
-> > I'm sorry for delays.
-> >
-> > But no, player is not suitable function. Function would be "player1"
-> > AFAICT, right?
->
-> A given gaming device such as Sony or Nintendo controllers have a
-> multiple of these LEDs, which are meant to be configured with a player
-> number. A typical device has like 4 of these LEDs, so a single
-> controller would have: "player-1", "player-2", "player-3" and
-> "player-4". It is up to userspace to configure the player number (a
-> driver may set a default number across a number of LEDs).
->
-> If player is not the right term (many people know it), what would it be?
->
-> >
-> > I'm not sure "function" is suitable here, and we may want to create
-> > documentation like this... where it would be explained which functions
-> > apply to which devices and what they actually mean.
-> >
-> > Best regards,
-> >                                                                 Pavel
-> >
-> > -*- org -*-
-> >
-> > It is somehow important to provide consistent interface to the
-> > userland. LED devices have one problem there, and that is naming of
-> > directories in /sys/class/leds. It would be nice if userland would
-> > just know right "name" for given LED function, but situation got more
-> > complex.
-> >
-> > Anyway, if backwards compatibility is not an issue, new code should
-> > use one of the "good" names from this list, and you should extend the
-> > list where applicable.
-> >
-> > Bad names are listed, too; in case you are writing application that
-> > wants to use particular feature, you should probe for good name, first,
-> > but then try the bad ones, too.
-> >
-> > * Keyboards
-> >
-> > Good: "input*:*:capslock"
-> > Good: "input*:*:scrolllock"
-> > Good: "input*:*:numlock"
-> > Bad: "shift-key-light" (Motorola Droid 4, capslock)
-> >
-> > Set of common keyboard LEDs, going back to PC AT or so.
-> >
-> > Good: "platform::kbd_backlight"
-> > Bad: "tpacpi::thinklight" (IBM/Lenovo Thinkpads)
-> > Bad: "lp5523:kb{1,2,3,4,5,6}" (Nokia N900)
-> >
-> > Frontlight/backlight of main keyboard.
-> >
-> > Bad: "button-backlight" (Motorola Droid 4)
-> >
-> > Some phones have touch buttons below screen; it is different from main
-> > keyboard. And this is their backlight.
-> >
-> > * Sound subsystem
-> >
-> > Good: "platform:*:mute"
-> > Good: "platform:*:micmute"
-> >
-> > LEDs on notebook body, indicating that sound input / output is muted.
-> >
-> > * System notification
-> >
-> > Good: "status-led:{red,green,blue}" (Motorola Droid 4)
-> > Bad: "lp5523:{r,g,b}" (Nokia N900)
-> >
-> > Phones usually have multi-color status LED.
-> >
-> > * Power management
-> >
-> > Good: "platform:*:charging" (allwinner sun50i)
-> >
-> > * Screen
-> >
-> > Good: ":backlight" (Motorola Droid 4)
-> >
-> >
-> > --
-> > http://www.livejournal.com/~pavelmachek
+If any OF compatible driver can now be used on ACPI platforms, perhaps
+this should be handled at the API level? I.e. the distinction between
+OF and device properties should be dropped completely, and all drivers
+be converted mechanically in one shot, instead of a gradual ad-hoc
+conversion being sneaked in through other series like this one?
 
+Gr{oetje,eeting}s,
 
+                        Geert
 
 -- 
-Daniel Ogorchock
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
