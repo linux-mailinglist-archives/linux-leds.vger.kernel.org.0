@@ -2,43 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BF193EB5C4
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Aug 2021 14:53:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5491D3EB668
+	for <lists+linux-leds@lfdr.de>; Fri, 13 Aug 2021 15:59:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240266AbhHMMxb convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-leds@lfdr.de>); Fri, 13 Aug 2021 08:53:31 -0400
-Received: from mail-vs1-f50.google.com ([209.85.217.50]:34646 "EHLO
-        mail-vs1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233416AbhHMMxb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Aug 2021 08:53:31 -0400
-Received: by mail-vs1-f50.google.com with SMTP id l22so5928953vsi.1;
-        Fri, 13 Aug 2021 05:53:04 -0700 (PDT)
+        id S235838AbhHMOAU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 13 Aug 2021 10:00:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233514AbhHMOAT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Aug 2021 10:00:19 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009F9C061756;
+        Fri, 13 Aug 2021 06:59:53 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id oa17so15387490pjb.1;
+        Fri, 13 Aug 2021 06:59:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=LSu8sFAFrhC/odFtHfJqDJdYJpzj9L5nziSDMXR8vEM=;
+        b=TGPQkbTs2i8gpw+d00MDmoYy23labhuVlc9grBKN7y7s+IXbxe31PZ9JEbzgL7HzEz
+         tPEJz0ch5WB3x/Tz9RqOU4uJ4fkgLRguXjyPaLM7lFD+ANJCIpA/XgtJot2H8/acXx+p
+         CYxiUkwJIsKAxsB15IcU7Q9jCgzZ2Djbl24Ea8UvKxQJXPN5rQkGMwIwo4I0jQOjYmRq
+         t6WK9ltK2ROdWHJCFIr/qL5iednM+RuTsMIMET9i1uT1RNaZECZKuwqTfGj6lSuPu4r3
+         LMS9CV64svF2Kt4rdtIDT/mL78QXVMc1F2CaZho6cOKo9HpZdmaGNssTn8S1w0RVkE/c
+         1fUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GUkLMwD2j+LMs+Mhg8retAXqFr+2fCyVciaZId7XXMA=;
-        b=A+DzMKh4SaI8IKueMe35NE6ASnRVifB/NBYZX/KGnlJTV2kWkfMtpUDCQzWd3qjVJO
-         Wy1VM4v21eEHWU1DfNhtEeV7Fy6cqj2zE6FVwmMBX4WtnbaechVx9fBRbSi2KkBHtUDM
-         ja7sx7g8zMX0g4zN5vAaOLt0JchtWm4Tznc7buTYRItM/C+WTGrmJ7Rv4zD+w6Kbzm95
-         IFOUpwTj1MhzlQF6RWNFRVHnsktUvnoxDOw0IC6BJOHcxUXWf3d2K9QbxK9fz7NWoATu
-         7wOZEe15THA+ykF6m2QwCsZqtJJjHJkamhPFTVVu/U4vcKqVcXY2nfD94t9iLynowXRj
-         LFyw==
-X-Gm-Message-State: AOAM533CYkLOQ078pKB3UPE6RzN1mGLSSWnt8FkimyOtbv2I/a6HFngl
-        uRAcMx2mYV8id8UPumpqQLfqhJXRHEMbImvt+To=
-X-Google-Smtp-Source: ABdhPJzjK6cDtV6QbCobPoCPv+kseDVbo2qNoxZBSAFh+8+1qixu6jaaer/OLjhFttaw7VgR0TV8HigL8Np+ZSkG7+k=
-X-Received: by 2002:a05:6102:e59:: with SMTP id p25mr1482758vst.26.1628859183649;
- Fri, 13 Aug 2021 05:53:03 -0700 (PDT)
+        bh=LSu8sFAFrhC/odFtHfJqDJdYJpzj9L5nziSDMXR8vEM=;
+        b=Jssf8q6A6croBuqo4bZew1sx7bUyQs1HJrIRDylvS0deBreJME0V58dSWvOKP9tOax
+         OHrlnjtnbQ2WRzLiIZX+wlY870pnHeIRqLiuY+1zPbeVJr/yzr/PGqJWdf1uBUOgmWdI
+         LesnJXLa3IuoJg9cYheGFSJgmYoqpjx4QmeFjm3TEQbNZpApK6/MzS74M7vwKX+K5eO0
+         52uyLEQDF7bQqzoW/3p/7gT7plY+6s+S9Ru9QK+iCR+aAd3X6obflLJtgoCPe+pu780O
+         KPB/rVqUdHTdJMd8wtDS/bJRsUBzeJ8CjCZh3mauqoZP9oc6cwnDwuzR6T+AMbZmiV+J
+         PEug==
+X-Gm-Message-State: AOAM530k7T2ikqS/5O27dACwpREAHuBGgSsdjy29LUlKyvIdPszdK3zW
+        i2vs/EwvucN/DHcgO5+MZ0+oK+YdRGhY4Nfj9+Y=
+X-Google-Smtp-Source: ABdhPJzQbeYqFgjmUZ7qRC5aFHx8LQJMXfquo7iK9Xh0oX2OxNFjiTy5sHnPApz+D8JrixNPFriP2nkZUsivzsv59Rk=
+X-Received: by 2002:a17:90a:cf18:: with SMTP id h24mr2737483pju.228.1628863192516;
+ Fri, 13 Aug 2021 06:59:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210811095759.1281480-1-geert@linux-m68k.org>
  <20210811095759.1281480-20-geert@linux-m68k.org> <20210811124755.37b0a0a9@thinkpad>
- <CAMuHMdUFPvJBuFByiN6pb539REYtcsNJMKML+M2NQw=GJxTYJg@mail.gmail.com> <CAHp75VeNyHUmcU7GPnP8woRcDErDNQ5M3FHQGpLnhUoL5qTnLQ@mail.gmail.com>
-In-Reply-To: <CAHp75VeNyHUmcU7GPnP8woRcDErDNQ5M3FHQGpLnhUoL5qTnLQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 13 Aug 2021 14:52:52 +0200
-Message-ID: <CAMuHMdVFOu6EXKqkiLgBp3n8Oujm+uSpFn-ximtp+37TOZSp9A@mail.gmail.com>
+ <CAMuHMdUFPvJBuFByiN6pb539REYtcsNJMKML+M2NQw=GJxTYJg@mail.gmail.com>
+ <CAHp75VeNyHUmcU7GPnP8woRcDErDNQ5M3FHQGpLnhUoL5qTnLQ@mail.gmail.com> <CAMuHMdVFOu6EXKqkiLgBp3n8Oujm+uSpFn-ximtp+37TOZSp9A@mail.gmail.com>
+In-Reply-To: <CAMuHMdVFOu6EXKqkiLgBp3n8Oujm+uSpFn-ximtp+37TOZSp9A@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 13 Aug 2021 16:59:13 +0300
+Message-ID: <CAHp75VfsOFdgQP3-XStFieBQ9o4P=FVY43N4WXg6yOe+2O0bwg@mail.gmail.com>
 Subject: Re: [PATCH v5 19/19] auxdisplay: ht16k33: Add LED support
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
         Robin van der Gracht <robin@protonic.nl>,
         Miguel Ojeda <ojeda@kernel.org>,
@@ -54,65 +69,56 @@ Cc:     =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Andy,
+On Fri, Aug 13, 2021 at 3:53 PM Geert Uytterhoeven <geert@linux-m68k.org> w=
+rote:
+> On Thu, Aug 12, 2021 at 2:33 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Wednesday, August 11, 2021, Geert Uytterhoeven <geert@linux-m68k.org=
+> wrote:
+> >> On Wed, Aug 11, 2021 at 12:48 PM Marek Beh=C3=BAn <kabel@kernel.org> w=
+rote:
+> >> > On Wed, 11 Aug 2021 11:57:59 +0200
 
-On Thu, Aug 12, 2021 at 2:33 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Wednesday, August 11, 2021, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->> On Wed, Aug 11, 2021 at 12:48 PM Marek Behún <kabel@kernel.org> wrote:
->> > On Wed, 11 Aug 2021 11:57:59 +0200
->> > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->> > > Instantiate a single LED based on the "led" subnode in DT.
->> > > This allows the user to control display brightness and blinking (backed
->> > > by hardware support) through the LED class API and triggers, and exposes
->> > > the display color.  The LED will be named
->> > > "auxdisplay:<color>:<function>".
->> > >
->> > > When running in dot-matrix mode and if no "led" subnode is found, the
->> > > driver falls back to the traditional backlight mode, to preserve
->> > > backwards compatibility.
->> > >
->> > > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
->> >
->> > Reviewed-by: Marek Behún <kabel@kernel.org>
->>
->> Thanks!
->>
->> > BTW, this driver does not need to depend on OF, methinks.
->> > The few instances of properties reading can be
->> > easily rewritten to device_* functions (from include/linux/property.h).
->> > The of_get_child_by_name() can become device_get_named_child_node().
->> >
->> > Geert, what do you think?
->>
->> Sure, that can be done later, when an ACPI user appears?
+...
+
+> >> Sure, that can be done later, when an ACPI user appears?
+> >
+> > Actually with PRP0001 approach any of compatible driver may be used onA=
+CPI platform. So, what you are saying can be interpreted the way =E2=80=9Cw=
+e don=E2=80=99t care about users on ACPI based platforms=E2=80=9D. If it is=
+ the case, then it should be told explicitly.
 >
-> Actually with PRP0001 approach any of compatible driver may be used onACPI platform. So, what you are saying can be interpreted the way “we don’t care about users on ACPI based platforms”. If it is the case, then it should be told explicitly.
+> I think you're interpreting too much ;-)
+> My point is simply:
+>
+> >> The dependency on OF was pre-existing, and this series is already
+> >> at v5.
 
-I think you're interpreting too much ;-)
-My point is simply:
+Okay, but we can get rid of it. Why not make it more generic at the
+same time? Does it make sense?
+(I believe this is what Marek is asking initially)
 
->> The dependency on OF was pre-existing, and this series is already
->> at v5.
+> If any OF compatible driver can now be used on ACPI platforms, perhaps
+> this should be handled at the API level? I.e. the distinction between
+> OF and device properties should be dropped completely,
 
-If any OF compatible driver can now be used on ACPI platforms, perhaps
-this should be handled at the API level? I.e. the distinction between
-OF and device properties should be dropped completely, and all drivers
-be converted mechanically in one shot, instead of a gradual ad-hoc
-conversion being sneaked in through other series like this one?
+And this is done by device_*() / fwnode_*() APIs. And that's what can
+be easily done here.
 
-Gr{oetje,eeting}s,
+>  and all drivers
+> be converted mechanically in one shot, instead of a gradual ad-hoc
+> conversion being sneaked in through other series like this one?
 
-                        Geert
+Do you realize that you are asking for something impossible?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Moreover, an ad-hoc approach is what we do for plenty of things in the
+kernel (WRT new APIs, that don't replace old ones immediately).
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=20
+With Best Regards,
+Andy Shevchenko
