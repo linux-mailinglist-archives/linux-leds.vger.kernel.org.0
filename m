@@ -2,123 +2,136 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5491D3EB668
-	for <lists+linux-leds@lfdr.de>; Fri, 13 Aug 2021 15:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E5613EC47E
+	for <lists+linux-leds@lfdr.de>; Sat, 14 Aug 2021 20:34:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235838AbhHMOAU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 13 Aug 2021 10:00:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
+        id S238961AbhHNSer (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 14 Aug 2021 14:34:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233514AbhHMOAT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 13 Aug 2021 10:00:19 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009F9C061756;
-        Fri, 13 Aug 2021 06:59:53 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id oa17so15387490pjb.1;
-        Fri, 13 Aug 2021 06:59:52 -0700 (PDT)
+        with ESMTP id S233713AbhHNSee (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 14 Aug 2021 14:34:34 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16A06C061764;
+        Sat, 14 Aug 2021 11:34:06 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id c129-20020a1c35870000b02902e6b6135279so7512644wma.0;
+        Sat, 14 Aug 2021 11:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=LSu8sFAFrhC/odFtHfJqDJdYJpzj9L5nziSDMXR8vEM=;
-        b=TGPQkbTs2i8gpw+d00MDmoYy23labhuVlc9grBKN7y7s+IXbxe31PZ9JEbzgL7HzEz
-         tPEJz0ch5WB3x/Tz9RqOU4uJ4fkgLRguXjyPaLM7lFD+ANJCIpA/XgtJot2H8/acXx+p
-         CYxiUkwJIsKAxsB15IcU7Q9jCgzZ2Djbl24Ea8UvKxQJXPN5rQkGMwIwo4I0jQOjYmRq
-         t6WK9ltK2ROdWHJCFIr/qL5iednM+RuTsMIMET9i1uT1RNaZECZKuwqTfGj6lSuPu4r3
-         LMS9CV64svF2Kt4rdtIDT/mL78QXVMc1F2CaZho6cOKo9HpZdmaGNssTn8S1w0RVkE/c
-         1fUw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oh5k3TeZDUDMQyzUKvwvw8ptjU1lF4vaMeqPRWoFOrc=;
+        b=MHmxtB5NJpyvKDrIJP4hv86RIlrpznKzrFa8RphCfvRg1TOS1VirbAaYk9VZ3931xI
+         FVaJ9Q35gEiMmEDiD0ELYXswoivrcUZKZ6Rc5OnKh8zDqwJMOZLG0vESd0GQAXzlht//
+         zE/a+EA+QxgkaBJrX6sSjd/SwEK2XQochkYfUgvU4EBfFJuSVsjPS7mfQFC/No0vmVlz
+         Mtx9sNlIutlBmEKI2v/GGoDoxSYNjxiY9KkuwF7mhzqg2xFlqXRuUMvfaEl+JYxEEm+o
+         8NYJJOhbp3QZj8lc3aXRZsXH9vGM3TJHR15X7Q1aLUqjryN93UxyxQXNINmJvQnf5eP4
+         Zk6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LSu8sFAFrhC/odFtHfJqDJdYJpzj9L5nziSDMXR8vEM=;
-        b=Jssf8q6A6croBuqo4bZew1sx7bUyQs1HJrIRDylvS0deBreJME0V58dSWvOKP9tOax
-         OHrlnjtnbQ2WRzLiIZX+wlY870pnHeIRqLiuY+1zPbeVJr/yzr/PGqJWdf1uBUOgmWdI
-         LesnJXLa3IuoJg9cYheGFSJgmYoqpjx4QmeFjm3TEQbNZpApK6/MzS74M7vwKX+K5eO0
-         52uyLEQDF7bQqzoW/3p/7gT7plY+6s+S9Ru9QK+iCR+aAd3X6obflLJtgoCPe+pu780O
-         KPB/rVqUdHTdJMd8wtDS/bJRsUBzeJ8CjCZh3mauqoZP9oc6cwnDwuzR6T+AMbZmiV+J
-         PEug==
-X-Gm-Message-State: AOAM530k7T2ikqS/5O27dACwpREAHuBGgSsdjy29LUlKyvIdPszdK3zW
-        i2vs/EwvucN/DHcgO5+MZ0+oK+YdRGhY4Nfj9+Y=
-X-Google-Smtp-Source: ABdhPJzQbeYqFgjmUZ7qRC5aFHx8LQJMXfquo7iK9Xh0oX2OxNFjiTy5sHnPApz+D8JrixNPFriP2nkZUsivzsv59Rk=
-X-Received: by 2002:a17:90a:cf18:: with SMTP id h24mr2737483pju.228.1628863192516;
- Fri, 13 Aug 2021 06:59:52 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oh5k3TeZDUDMQyzUKvwvw8ptjU1lF4vaMeqPRWoFOrc=;
+        b=THc9n8gl5u1vC29kzoFSOYmjuOjeu01QWNZJwzv+PZRGebPlZCLosV/ACgER+Jah8Y
+         BnCljCmr0hQyNLJTl33nkT1O66y3C5sqSc3k3TxIS2U/SBSMuDtJJ0BXoOjoRuu9eBV2
+         v66ucKdu7q+8SNiWc7zdLtCzvPQZU1dfsDXw6X+qt+aWHNAZNcKRDmqSbzUOAAAuv5N0
+         npzpzJgDICzbncXlXNFP+eNtk737Da3D+M0LchJtHWRO89tzsSt/NXQw58KNQa/SJ0st
+         OIl/F6uYBH1hNB8jBLRVyTwtUbufKKEIlEF43I0c1ZlLEczvLW49KdnkGdQkKmktTa/2
+         ZFTg==
+X-Gm-Message-State: AOAM530VPWI4t0EKVOl7WJ0nzm1pdpwqpcbQ+QVJsm/vLTa3lUY5EJQl
+        SGj9+393Ys0jnWIt0IrULQeY6kv+9Ddgjg==
+X-Google-Smtp-Source: ABdhPJxEhl2748Ll34w+fl5VBaoWnlj+TonnKI5PorFMYm3e6DCUnKj4S0yyQAEMpO1Pbs/jKQazaw==
+X-Received: by 2002:a05:600c:154d:: with SMTP id f13mr8168877wmg.0.1628966044359;
+        Sat, 14 Aug 2021 11:34:04 -0700 (PDT)
+Received: from ?IPv6:2003:ea:8f10:c200:1df:469f:59ab:ca40? (p200300ea8f10c20001df469f59abca40.dip0.t-ipconnect.de. [2003:ea:8f10:c200:1df:469f:59ab:ca40])
+        by smtp.googlemail.com with ESMTPSA id p6sm5338395wrw.50.2021.08.14.11.34.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Aug 2021 11:34:03 -0700 (PDT)
+Subject: Re: [PATCH 1/2] dt-bindings: net: add RTL8152 binding documentation
+To:     David Bauer <mail@david-bauer.net>, davem@davemloft.net,
+        kuba@kernel.org, robh+dt@kernel.org, Pavel Machek <pavel@ucw.cz>
+Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+References: <20210814181107.138992-1-mail@david-bauer.net>
+From:   Heiner Kallweit <hkallweit1@gmail.com>
+Message-ID: <74795336-e3fa-422f-0004-a8cb180d84bc@gmail.com>
+Date:   Sat, 14 Aug 2021 20:33:56 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210811095759.1281480-1-geert@linux-m68k.org>
- <20210811095759.1281480-20-geert@linux-m68k.org> <20210811124755.37b0a0a9@thinkpad>
- <CAMuHMdUFPvJBuFByiN6pb539REYtcsNJMKML+M2NQw=GJxTYJg@mail.gmail.com>
- <CAHp75VeNyHUmcU7GPnP8woRcDErDNQ5M3FHQGpLnhUoL5qTnLQ@mail.gmail.com> <CAMuHMdVFOu6EXKqkiLgBp3n8Oujm+uSpFn-ximtp+37TOZSp9A@mail.gmail.com>
-In-Reply-To: <CAMuHMdVFOu6EXKqkiLgBp3n8Oujm+uSpFn-ximtp+37TOZSp9A@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 13 Aug 2021 16:59:13 +0300
-Message-ID: <CAHp75VfsOFdgQP3-XStFieBQ9o4P=FVY43N4WXg6yOe+2O0bwg@mail.gmail.com>
-Subject: Re: [PATCH v5 19/19] auxdisplay: ht16k33: Add LED support
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        Robin van der Gracht <robin@protonic.nl>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Paul Burton <paulburton@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-leds <linux-leds@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210814181107.138992-1-mail@david-bauer.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Aug 13, 2021 at 3:53 PM Geert Uytterhoeven <geert@linux-m68k.org> w=
-rote:
-> On Thu, Aug 12, 2021 at 2:33 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Wednesday, August 11, 2021, Geert Uytterhoeven <geert@linux-m68k.org=
-> wrote:
-> >> On Wed, Aug 11, 2021 at 12:48 PM Marek Beh=C3=BAn <kabel@kernel.org> w=
-rote:
-> >> > On Wed, 11 Aug 2021 11:57:59 +0200
+On 14.08.2021 20:11, David Bauer wrote:
+> Add binding documentation for the Realtek RTL8152 / RTL8153 USB ethernet
+> adapters.
+> 
+> Signed-off-by: David Bauer <mail@david-bauer.net>
+> ---
+>  .../bindings/net/realtek,rtl8152.yaml         | 43 +++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/realtek,rtl8152.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/net/realtek,rtl8152.yaml b/Documentation/devicetree/bindings/net/realtek,rtl8152.yaml
+> new file mode 100644
+> index 000000000000..ab760000b3a6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/realtek,rtl8152.yaml
+> @@ -0,0 +1,43 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/realtek,rtl8152.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Realtek RTL8152/RTL8153 series USB ethernet
+> +
+> +maintainers:
+> +  - David Bauer <mail@david-bauer.net>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - realtek,rtl8152
+> +              - realtek,rtl8153
+> +
+> +  reg:
+> +    description: The device number on the USB bus
+> +
+> +  realtek,led-data:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: Value to be written to the LED configuration register.
+> +
 
-...
++Pavel as LED subsystem maintainer
 
-> >> Sure, that can be done later, when an ACPI user appears?
-> >
-> > Actually with PRP0001 approach any of compatible driver may be used onA=
-CPI platform. So, what you are saying can be interpreted the way =E2=80=9Cw=
-e don=E2=80=99t care about users on ACPI based platforms=E2=80=9D. If it is=
- the case, then it should be told explicitly.
->
-> I think you're interpreting too much ;-)
-> My point is simply:
->
-> >> The dependency on OF was pre-existing, and this series is already
-> >> at v5.
+There's an ongoing discussion (with certain decisions taken already) about
+how to configure network device LEDs.
 
-Okay, but we can get rid of it. Why not make it more generic at the
-same time? Does it make sense?
-(I believe this is what Marek is asking initially)
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +examples:
+> +  - |
+> +    usb@100 {
+> +      reg = <0x100 0x100>;
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      usb-eth@2 {
+> +        compatible = "realtek,rtl8153";
+> +        reg = <0x2>;
+> +        realtek,led-data = <0x87>;
+> +      };
+> +    };
+> 
 
-> If any OF compatible driver can now be used on ACPI platforms, perhaps
-> this should be handled at the API level? I.e. the distinction between
-> OF and device properties should be dropped completely,
-
-And this is done by device_*() / fwnode_*() APIs. And that's what can
-be easily done here.
-
->  and all drivers
-> be converted mechanically in one shot, instead of a gradual ad-hoc
-> conversion being sneaked in through other series like this one?
-
-Do you realize that you are asking for something impossible?
-
-Moreover, an ad-hoc approach is what we do for plenty of things in the
-kernel (WRT new APIs, that don't replace old ones immediately).
-
---=20
-With Best Regards,
-Andy Shevchenko
