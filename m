@@ -2,66 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 208F43EFD3C
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Aug 2021 08:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EBE13EFD43
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Aug 2021 09:02:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238081AbhHRG7p (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 Aug 2021 02:59:45 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:46920 "EHLO
+        id S238094AbhHRHCf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Aug 2021 03:02:35 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:47634 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238080AbhHRG7p (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Aug 2021 02:59:45 -0400
+        with ESMTP id S237636AbhHRHCe (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Aug 2021 03:02:34 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 880BF1C0B77; Wed, 18 Aug 2021 08:59:10 +0200 (CEST)
-Date:   Wed, 18 Aug 2021 08:59:10 +0200
+        id CEDD01C0B7A; Wed, 18 Aug 2021 09:01:59 +0200 (CEST)
+Date:   Wed, 18 Aug 2021 09:01:59 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Jan =?iso-8859-1?Q?Kundr=E1t?= <jan.kundrat@cesnet.cz>,
-        linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [PATCH 1/3] leds: lp50xx: Fix chip name in KConfig
-Message-ID: <20210818065909.GC22282@amd>
-References: <10256dd4010034d6335139d587ebfe933343ee85.1627717572.git.jan.kundrat@cesnet.cz>
- <YQfVwopPpxtRSjJE@smile.fi.intel.com>
+To:     Hermes Zhang <Hermes.Zhang@axis.com>
+Cc:     Dan Murphy <dmurphy@ti.com>, kernel <kernel@axis.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH v3] leds: leds-multi-gpio: Add multiple GPIOs LED driver
+Message-ID: <20210818070159.GE22282@amd>
+References: <20210329055847.13293-1-chenhui.zhang@axis.com>
+ <20210804155221.GB25072@amd>
+ <69ae0b3fd44c4a5796d125a5b97b9d78@XBOX01.axis.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ABTtc+pdwF7KHXCz"
+        protocol="application/pgp-signature"; boundary="PPYy/fEw/8QCHSq3"
 Content-Disposition: inline
-In-Reply-To: <YQfVwopPpxtRSjJE@smile.fi.intel.com>
+In-Reply-To: <69ae0b3fd44c4a5796d125a5b97b9d78@XBOX01.axis.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---ABTtc+pdwF7KHXCz
-Content-Type: text/plain; charset=iso-8859-1
+--PPYy/fEw/8QCHSq3
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon 2021-08-02 14:23:46, Andy Shevchenko wrote:
-> On Fri, Jul 30, 2021 at 11:59:11PM +0200, Jan Kundr=E1t wrote:
-> > The 9-channel one is called LP5009, not LP509.
->=20
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Hi!
 
-Applied, thanks.
-							Pavel
-						=09
+> > > From: Hermes Zhang <chenhuiz@axis.com>
+> > >
+> > > Introduce a new multiple GPIOs LED driver. This LED will made of
+> > > multiple GPIOs (up to 8) and will map different brightness to
+> > > different GPIOs states which defined in dts file.
+> > >
+> > > Signed-off-by: Hermes Zhang <chenhuiz@axis.com>
+> >=20
+> > Thank you, it looks simple and mostly ok.
+> >=20
+> > Acked-by: Pavel Machek <pavel@ucw.cz>
+> >=20
+> > But it really needs to go in with devicetree documentation changes, and=
+ they
+> > need to be acked by devicetree maintainers. If you have that, please se=
+nd it
+> > in series.
+> >=20
+>=20
+> Do you mean this one: https://lore.kernel.org/patchwork/patch/1402471/, i=
+t's already in series.=20
+
+I don't see Rob Herring's ack there.
+
+Best regards,
+						Pavel
 --=20
 http://www.livejournal.com/~pavelmachek
 
---ABTtc+pdwF7KHXCz
+--PPYy/fEw/8QCHSq3
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAmEcr70ACgkQMOfwapXb+vJD/wCdERMSAr7KEEVcijlhcnPp1fI2
-6E0An1kZI7CbrNdRAaprAlOj53KoboSA
-=oSam
+iEYEARECAAYFAmEcsGcACgkQMOfwapXb+vLbgwCghkKagE1YQyWqaVfKcHCt/YG9
+voQAoJtFadjtZAffGpuIvAI4vClNJHm6
+=16pI
 -----END PGP SIGNATURE-----
 
---ABTtc+pdwF7KHXCz--
+--PPYy/fEw/8QCHSq3--
