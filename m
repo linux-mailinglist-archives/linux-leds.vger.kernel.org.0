@@ -2,85 +2,114 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EBE13EFD43
-	for <lists+linux-leds@lfdr.de>; Wed, 18 Aug 2021 09:02:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C73353EFD75
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Aug 2021 09:11:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238094AbhHRHCf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 Aug 2021 03:02:35 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:47634 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237636AbhHRHCe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Aug 2021 03:02:34 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id CEDD01C0B7A; Wed, 18 Aug 2021 09:01:59 +0200 (CEST)
-Date:   Wed, 18 Aug 2021 09:01:59 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Hermes Zhang <Hermes.Zhang@axis.com>
-Cc:     Dan Murphy <dmurphy@ti.com>, kernel <kernel@axis.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
-Subject: Re: [PATCH v3] leds: leds-multi-gpio: Add multiple GPIOs LED driver
-Message-ID: <20210818070159.GE22282@amd>
-References: <20210329055847.13293-1-chenhui.zhang@axis.com>
- <20210804155221.GB25072@amd>
- <69ae0b3fd44c4a5796d125a5b97b9d78@XBOX01.axis.com>
+        id S238791AbhHRHMD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Aug 2021 03:12:03 -0400
+Received: from uho.ysoft.cz ([81.19.3.130]:58283 "EHLO uho.ysoft.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237805AbhHRHMC (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 18 Aug 2021 03:12:02 -0400
+Received: from vokac-Latitude-7410.ysoft.local (unknown [10.1.22.96])
+        by uho.ysoft.cz (Postfix) with ESMTP id A51DAA01BF;
+        Wed, 18 Aug 2021 09:02:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ysoft.com;
+        s=20160406-ysoft-com; t=1629270155;
+        bh=D3SoYq7cCf8X685kicAhxBhPpnT4tcM0Cnios45ggv8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=D7nvxhBK4BVqR08HV+1wdjdazYuFbHJ1Z0xNzGRf0iWmt3yJCOUzQrgGGCJ/NKaGb
+         JCo43iq0l7tp4z4w37qyEbuivD2ytuqa2KsBxBxLDyRto2ts4f6CJhe3/saOcTudNN
+         /UTCQPD4ZETFImvdHD/dEkv4/4beEnAlbFQsPV2g=
+From:   =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>
+To:     Shawn Guo <shawnguo@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>,
+        stable@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: [PATCH 1/2] ARM: dts: imx6dl-yapp4: Fix lp5562 LED driver probe
+Date:   Wed, 18 Aug 2021 09:02:08 +0200
+Message-Id: <20210818070209.1540451-1-michal.vokac@ysoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="PPYy/fEw/8QCHSq3"
-Content-Disposition: inline
-In-Reply-To: <69ae0b3fd44c4a5796d125a5b97b9d78@XBOX01.axis.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Since the LED multicolor framework support was added in commit
+92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
+LEDs on this platform stopped working.
 
---PPYy/fEw/8QCHSq3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Author of the framework attempted to accommodate this DT to the
+framework in commit b86d3d21cd4c ("ARM: dts: imx6dl-yapp4: Add reg property
+to the lp5562 channel node") but that is not sufficient. A color property
+is now required even if the multicolor framework is not used, otherwise
+the driver probe fails:
 
-Hi!
+  lp5562: probe of 1-0030 failed with error -22
 
-> > > From: Hermes Zhang <chenhuiz@axis.com>
-> > >
-> > > Introduce a new multiple GPIOs LED driver. This LED will made of
-> > > multiple GPIOs (up to 8) and will map different brightness to
-> > > different GPIOs states which defined in dts file.
-> > >
-> > > Signed-off-by: Hermes Zhang <chenhuiz@axis.com>
-> >=20
-> > Thank you, it looks simple and mostly ok.
-> >=20
-> > Acked-by: Pavel Machek <pavel@ucw.cz>
-> >=20
-> > But it really needs to go in with devicetree documentation changes, and=
- they
-> > need to be acked by devicetree maintainers. If you have that, please se=
-nd it
-> > in series.
-> >=20
->=20
-> Do you mean this one: https://lore.kernel.org/patchwork/patch/1402471/, i=
-t's already in series.=20
+Add the color property to fix this.
 
-I don't see Rob Herring's ack there.
+Fixes: 92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
+Cc: <stable@vger.kernel.org>
+Cc: linux-leds@vger.kernel.org
+Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+---
+ arch/arm/boot/dts/imx6dl-yapp4-common.dtsi | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Best regards,
-						Pavel
---=20
-http://www.livejournal.com/~pavelmachek
+diff --git a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
+index 7d2c72562c73..8c796551352b 100644
+--- a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
++++ b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
+@@ -5,6 +5,7 @@
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
+ #include <dt-bindings/input/input.h>
++#include <dt-bindings/leds/common.h>
+ #include <dt-bindings/pwm/pwm.h>
+ 
+ / {
+@@ -271,6 +272,7 @@ chan@0 {
+ 			led-cur = /bits/ 8 <0x20>;
+ 			max-cur = /bits/ 8 <0x60>;
+ 			reg = <0>;
++			color = <LED_COLOR_ID_RED>;
+ 		};
+ 
+ 		chan@1 {
+@@ -278,6 +280,7 @@ chan@1 {
+ 			led-cur = /bits/ 8 <0x20>;
+ 			max-cur = /bits/ 8 <0x60>;
+ 			reg = <1>;
++			color = <LED_COLOR_ID_GREEN>;
+ 		};
+ 
+ 		chan@2 {
+@@ -285,6 +288,7 @@ chan@2 {
+ 			led-cur = /bits/ 8 <0x20>;
+ 			max-cur = /bits/ 8 <0x60>;
+ 			reg = <2>;
++			color = <LED_COLOR_ID_BLUE>;
+ 		};
+ 
+ 		chan@3 {
+@@ -292,6 +296,7 @@ chan@3 {
+ 			led-cur = /bits/ 8 <0x0>;
+ 			max-cur = /bits/ 8 <0x0>;
+ 			reg = <3>;
++			color = <LED_COLOR_ID_WHITE>;
+ 		};
+ 	};
+ 
+-- 
+2.25.1
 
---PPYy/fEw/8QCHSq3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmEcsGcACgkQMOfwapXb+vLbgwCghkKagE1YQyWqaVfKcHCt/YG9
-voQAoJtFadjtZAffGpuIvAI4vClNJHm6
-=16pI
------END PGP SIGNATURE-----
-
---PPYy/fEw/8QCHSq3--
