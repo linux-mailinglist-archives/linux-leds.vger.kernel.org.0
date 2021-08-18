@@ -2,93 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0457C3EF267
-	for <lists+linux-leds@lfdr.de>; Tue, 17 Aug 2021 21:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A93613EFCBA
+	for <lists+linux-leds@lfdr.de>; Wed, 18 Aug 2021 08:28:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230373AbhHQTDR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 17 Aug 2021 15:03:17 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:45988 "EHLO
+        id S238277AbhHRG2j (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Aug 2021 02:28:39 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:44264 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229821AbhHQTDQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 17 Aug 2021 15:03:16 -0400
+        with ESMTP id S238043AbhHRG2i (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Aug 2021 02:28:38 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 646AE1C0B77; Tue, 17 Aug 2021 21:02:42 +0200 (CEST)
-Date:   Tue, 17 Aug 2021 21:02:42 +0200
+        id 9D50C1C0B77; Wed, 18 Aug 2021 08:28:02 +0200 (CEST)
+Date:   Wed, 18 Aug 2021 08:28:02 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Michael Walle <michael@walle.cc>, andrew@lunn.ch,
-        anthony.l.nguyen@intel.com, bigeasy@linutronix.de,
-        davem@davemloft.net, dvorax.fuxbrumer@linux.intel.com,
-        f.fainelli@gmail.com, jacek.anaszewski@gmail.com, kuba@kernel.org,
-        kurt@linutronix.de, linux-leds@vger.kernel.org,
-        netdev@vger.kernel.org, sasha.neftin@intel.com,
-        vinicius.gomes@intel.com, vitaly.lifshits@intel.com
-Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Message-ID: <20210817190241.GA15389@amd>
-References: <20210727165605.5c8ddb68@thinkpad>
- <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
- <20210727172828.1529c764@thinkpad>
- <8edcc387025a6212d58fe01865725734@walle.cc>
- <20210727183213.73f34141@thinkpad>
- <25d3e798-09f5-56b5-5764-c60435109dd2@gmail.com>
- <20210810172927.GB3302@amd>
- <20210810195550.261189b3@thinkpad>
- <20210810195335.GA7659@duo.ucw.cz>
- <20210810225353.6a19f772@thinkpad>
+To:     Denis Osterland-Heim <denis.osterland.heim@gmail.com>
+Cc:     denis.osterland@diehl.com, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 0/2] leds: pwm: add support for default-state device
+Message-ID: <20210818062801.GA22282@amd>
+References: <20210608063554.6590-1-denis.osterland.heim@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+        protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
 Content-Disposition: inline
-In-Reply-To: <20210810225353.6a19f772@thinkpad>
+In-Reply-To: <20210608063554.6590-1-denis.osterland.heim@gmail.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---LZvS9be/3tNcYl/X
-Content-Type: text/plain; charset=iso-8859-1
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue 2021-08-10 22:53:53, Marek Beh=FAn wrote:
-> On Tue, 10 Aug 2021 21:53:35 +0200
-> Pavel Machek <pavel@ucw.cz> wrote:
+On Tue 2021-06-08 08:35:52, Denis Osterland-Heim wrote:
+> v7 -> v8:
+>  - apply and test on newest kernel
+>  - drop docu patch, because it is already documented
 >=20
-> > > Pavel, one point of the discussion is that in this case the LED is
-> > > controlled by MAC, not PHY. So the question is whether we want to do
-> > > "ethmacN" (in addition to "ethphyN"). =20
-> >=20
-> > Sorry, I missed that. I guess that yes, ethmacX is okay, too.
-> >=20
-> > Even better would be to find common term that could be used for both
-> > ethmacN and ethphyN and just use that. (Except that we want to avoid
-> > ethX). Maybe "ethportX" would be suitable?
->=20
-> See
->   https://lore.kernel.org/linux-leds/YQAlPrF2uu3Gr+0d@lunn.ch/
-> and
->   https://lore.kernel.org/linux-leds/20210727172828.1529c764@thinkpad/
+> Denis Osterland-Heim (2):
+>       leds: move default_state read from fwnode to core
+>       leds: pwm: add support for default-state device property
 
-Ok, I guess I'd preffer all LEDs corresponding to one port to be
-grouped, but that may be hard to do.
+Thanks, applied, sorry for the delay.
 
 Best regards,
 							Pavel
 --=20
 http://www.livejournal.com/~pavelmachek
 
---LZvS9be/3tNcYl/X
+--zhXaljGHf11kAtnf
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAmEcB9EACgkQMOfwapXb+vJaPQCfVl2WcOkhvfOj2sNF/w3cYLSz
-TYMAoK3gL0TuDbwC/Rrz7JRoPSziZeSa
-=Fd5E
+iEYEARECAAYFAmEcqHEACgkQMOfwapXb+vKWeQCgwtxldO61fuEW1/rfcVbloFb9
+WtAAoMI5B+hZMFgK1yjriHWkcoNF7jx/
+=H+Js
 -----END PGP SIGNATURE-----
 
---LZvS9be/3tNcYl/X--
+--zhXaljGHf11kAtnf--
