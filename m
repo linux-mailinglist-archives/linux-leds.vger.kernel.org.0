@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38B983F10A7
-	for <lists+linux-leds@lfdr.de>; Thu, 19 Aug 2021 04:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55E353F10A9
+	for <lists+linux-leds@lfdr.de>; Thu, 19 Aug 2021 04:51:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235959AbhHSCvy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 18 Aug 2021 22:51:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51378 "EHLO
+        id S235977AbhHSCv4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 18 Aug 2021 22:51:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235922AbhHSCvq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Aug 2021 22:51:46 -0400
+        with ESMTP id S235957AbhHSCvr (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 18 Aug 2021 22:51:47 -0400
 Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFA1AC061764;
-        Wed, 18 Aug 2021 19:51:10 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id w22-20020a056830411600b0048bcf4c6bd9so6844474ott.8;
-        Wed, 18 Aug 2021 19:51:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C457C061796;
+        Wed, 18 Aug 2021 19:51:11 -0700 (PDT)
+Received: by mail-ot1-x32e.google.com with SMTP id l36-20020a0568302b24b0290517526ce5e3so6808943otv.11;
+        Wed, 18 Aug 2021 19:51:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=M/NUaTEslE7hYgIeaV8Kn3/oBWy9c6O39iYX3Cnl+Lo=;
-        b=FqT2S8VM3TK55vvDvRvBBb+HuJWK6vQOYFPfdnhPDrr0IykKsGbNrPAvPhTXgfIIcP
-         FuzaZjlxskiilziBJgyAjUWa1YZkiBBela1eK/vlmyJH164vkghksiPpQ1e63JA0yXQ7
-         y5MRszITcbmp1Ig4BUr8lNXMlXtmzPNiAfepGDOlzvQW0ZDIGBSszXYn/wivjhGg1BlM
-         DHjZo6FRR2PllWqFxd4F8nwLQTR7PvUMiaMHzcEJUYX/yyHfN9Ru5mbm+hKE07OF1wZ4
-         ii+bQThK1RQYAJ9TqHjBx/ooAll1VSk9sPhOqXY2alkf/3zX26LI4IOJcLxwaNulpbEw
-         M9wQ==
+        bh=gLq26oGhJkSVR5HWnDcMPok9R/cYfBLnVyDwU8dlv5w=;
+        b=suB3ljiNGnGxG6Bp3moMcQsr25VLohaoWgkBBn6zRRbfsz7DTrraZ9YDFmz8dLR7Eq
+         7APEqWaAg2p4NgF0jwLhL4Ix/ZxcQoKYky7OacWw5PLP6bqRczjFV2tdrZ/JRF/XM6DB
+         66XwukMKDx5tRBJ4nQw2jvkm6yMjamsgdna14nwWTfomG3Zyy/S2BbKy/yWGzQYQJzOV
+         OTqsj/UZQwhOgr8YrhyEzJcqCLHYhLCUZuTzhzoCB+9wRPvB+mIeRR61D+TI1OWSSKcr
+         c1oYu/bGS78EHatKwKrsshufA34PvQan4ri1e4v2d437zE6dLrXdMjMpqEyreasBwcOJ
+         CGfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=M/NUaTEslE7hYgIeaV8Kn3/oBWy9c6O39iYX3Cnl+Lo=;
-        b=gl6tQxt5AUQL2YgqKurMv1v33slsvX2LHAvlU3gD+mySLItxQhRbbsJaVu68YnS0Xc
-         /z9kZG9uwgAlAyB441Ar4O1KAweVUKLfn4lmeGmEGhIqHLTtN17G9WvaIWcImvIZhXhW
-         Gseqsg9OYnYRZR3jFaPkhjc35SanYMhDZaC0c7t0ZGnD2k3MYLOpST4veuH4eihL/p89
-         OxmjYGsAMG3SD6CjsBvX7h5TQwwNoZm9pedWBPI3gpOKMyfwy8FyvXuAX2AXZMcVDzpt
-         ca8LH6nvsLTQ3IEKxOL0z1+16gKDUwVcud6+czjLn/SmiJuFZznuBekYBDA6ZI6EPHVs
-         6hDw==
-X-Gm-Message-State: AOAM5318CenAQGURMgpv9fh9y6r6csSddlA2wuiKpq5wgXJ6cSDh01v3
-        QdtvWbwrVUHlFlGsA268xNqiAbrTsytwnM4n
-X-Google-Smtp-Source: ABdhPJy6HDMBN4qeDBPKHvTHqMK0xe6cVxyZEXGaXvEpfIv1mQoQcMcUv/7BZC+N+gf63ph0Id2SAw==
-X-Received: by 2002:a9d:6505:: with SMTP id i5mr4501523otl.284.1629341470011;
+        bh=gLq26oGhJkSVR5HWnDcMPok9R/cYfBLnVyDwU8dlv5w=;
+        b=KO2wKZUhB2eEQky6jE2DQfFL3rO7Q2JDD1RIBSAFww2Z/FpKLcaf8hdZMYHzqsjHva
+         Ux2KOMhJ7z4LpyflgFG00x3CJTBHLNyYQ+f9nMWXtg0uKs1W3Ebzfl6vJOGAyvNCxjvv
+         qRBMq5oIsfkEGtqQAAYJK6SM179jlqET8+/xZSr/dQjHMV7o5Yj8+uTIsIrNalYOyNpW
+         MCnJvLIKgQvOlYmrUjqJy61Nh24sl9BxuCkvBhmusGZdGCbH45UU41AQjwU9+bE4vfPq
+         8428+C7IUEJJQ2j3G1elMbr+zmf20hExH1sMtN9LU0FVonfeN75AXSNKfVk/+C7hdCn5
+         viFw==
+X-Gm-Message-State: AOAM531TKxKneu97zGIJ4Q/z2lFdXua54+P8dtNuGUPK83JAalQ0tb1n
+        GDr3zzZxU/wxTrtcoGZogwVC2UmbGr8Ta3Gu
+X-Google-Smtp-Source: ABdhPJzlam1Dquw74l0eyIrxHOMvo3DoH1h7lrZKoDXGbh79W+Ks0D1jZowdb36CXuthHv0/38p/zA==
+X-Received: by 2002:a9d:6f0a:: with SMTP id n10mr9825670otq.190.1629341470771;
         Wed, 18 Aug 2021 19:51:10 -0700 (PDT)
 Received: from ian.penurio.us ([47.184.51.90])
-        by smtp.gmail.com with ESMTPSA id w15sm156792oiw.19.2021.08.18.19.51.09
+        by smtp.gmail.com with ESMTPSA id w15sm156792oiw.19.2021.08.18.19.51.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 19:51:09 -0700 (PDT)
+        Wed, 18 Aug 2021 19:51:10 -0700 (PDT)
 From:   Ian Pilcher <arequipeno@gmail.com>
 To:     linux-block@vger.kernel.org, linux-leds@vger.kernel.org
 Cc:     axboe@kernel.dk, pavel@ucw.cz, kabel@kernel.org,
         linux-kernel@vger.kernel.org, kernelnewbies@kernelnewbies.org
-Subject: [RFC PATCH v3 08/18] ledtrig-blkdev: Add function to remove LED/device association
-Date:   Wed, 18 Aug 2021 21:50:43 -0500
-Message-Id: <20210819025053.222710-9-arequipeno@gmail.com>
+Subject: [RFC PATCH v3 09/18] ledtrig-blkdev: Add function to disassociate a device from all LEDs
+Date:   Wed, 18 Aug 2021 21:50:44 -0500
+Message-Id: <20210819025053.222710-10-arequipeno@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210819025053.222710-1-arequipeno@gmail.com>
 References: <20210819025053.222710-1-arequipeno@gmail.com>
@@ -63,83 +63,72 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Remove symlinks in /sys/class/leds/<led>/block_devices and
-/sys/block/<disk>/blkdev_leds
-
-Decrement reference count on /sys/block/<disk>/blkdev_leds
-directory (removes directory when empty)
-
-Cancel delayed work when disassociating last device
+Called when block device is being removed
 
 Signed-off-by: Ian Pilcher <arequipeno@gmail.com>
 ---
- drivers/leds/trigger/ledtrig-blkdev.c | 56 +++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ drivers/leds/trigger/ledtrig-blkdev.c | 31 +++++++++++++++++++++++++++
+ include/linux/leds.h                  |  4 ++++
+ 2 files changed, 35 insertions(+)
 
 diff --git a/drivers/leds/trigger/ledtrig-blkdev.c b/drivers/leds/trigger/ledtrig-blkdev.c
-index e9c23824c33c..447fc81ae0c5 100644
+index 447fc81ae0c5..2072cc904616 100644
 --- a/drivers/leds/trigger/ledtrig-blkdev.c
 +++ b/drivers/leds/trigger/ledtrig-blkdev.c
-@@ -225,3 +225,59 @@ static void blkdev_process(struct work_struct *const work)
- 	delay = READ_ONCE(ledtrig_blkdev_interval);
- 	WARN_ON_ONCE(!schedule_delayed_work(&ledtrig_blkdev_work, delay));
+@@ -281,3 +281,34 @@ static void blkdev_disk_delete(struct ledtrig_blkdev_led *const led,
+ exit_unlock:
+ 	mutex_unlock(&ledtrig_blkdev_mutex);
  }
 +
 +
 +/*
 + *
-+ *	Disassociate a block device from an LED
++ *	Disassociate all LEDs from a block device (because it's going away)
 + *
 + */
 +
-+static void blkdev_disk_del_locked(struct ledtrig_blkdev_led *const led,
-+				   struct ledtrig_blkdev_link *const link,
-+				   struct ledtrig_blkdev_disk *const disk)
-+{
-+	--ledtrig_blkdev_count;
-+
-+	if (ledtrig_blkdev_count == 0)
-+		WARN_ON(!cancel_delayed_work_sync(&ledtrig_blkdev_work));
-+
-+	sysfs_remove_link(led->dir, disk->gd->disk_name);
-+	sysfs_remove_link(disk->dir, led->led_dev->name);
-+	kobject_put(disk->dir);
-+
-+	hlist_del(&link->led_disks_node);
-+	hlist_del(&link->disk_leds_node);
-+	kfree(link);
-+
-+	if (hlist_empty(&disk->leds)) {
-+		disk->gd->ledtrig = NULL;
-+		kfree(disk);
-+	}
-+
-+	put_device(disk_to_dev(disk->gd));
-+}
-+
-+static void blkdev_disk_delete(struct ledtrig_blkdev_led *const led,
-+			       const char *const disk_name,
-+			       const size_t name_len)
++/**
++ * ledtrig_blkdev_disk_cleanup - remove a block device from the blkdev LED
++ * trigger
++ * @disk:	the disk to be removed
++ */
++void ledtrig_blkdev_disk_cleanup(struct gendisk *const gd)
 +{
 +	struct ledtrig_blkdev_link *link;
++	struct hlist_node *next;
 +
 +	mutex_lock(&ledtrig_blkdev_mutex);
 +
-+	hlist_for_each_entry(link, &led->disks, led_disks_node) {
++	if (gd->ledtrig != NULL) {
 +
-+		if (blkdev_streq(link->disk->gd->disk_name,
-+						disk_name, name_len)) {
-+			blkdev_disk_del_locked(led, link, link->disk);
-+			goto exit_unlock;
++		hlist_for_each_entry_safe(link, next,
++					  &gd->ledtrig->leds, disk_leds_node) {
++			blkdev_disk_del_locked(link->led, link, gd->ledtrig);
 +		}
 +	}
 +
-+	pr_info("blkdev LED: %.*s not associated with LED %s\n",
-+		(int)name_len, disk_name, led->led_dev->name);
-+
-+exit_unlock:
 +	mutex_unlock(&ledtrig_blkdev_mutex);
 +}
++EXPORT_SYMBOL_GPL(ledtrig_blkdev_disk_cleanup);
+diff --git a/include/linux/leds.h b/include/linux/leds.h
+index 6b67650d8797..98c479814988 100644
+--- a/include/linux/leds.h
++++ b/include/linux/leds.h
+@@ -609,10 +609,14 @@ static inline void ledtrig_blkdev_disk_init(struct gendisk *const gd)
+ {
+ 	gd->ledtrig = NULL;
+ }
++void ledtrig_blkdev_disk_cleanup(struct gendisk *const gd);
+ #else	/* CONFIG_LEDS_TRIGGER_BLKDEV */
+ static inline void ledtrig_blkdev_disk_init(const struct gendisk *gd)
+ {
+ }
++static inline void ledtrig_blkdev_disk_cleanup(const struct gendisk *gd)
++{
++}
+ #endif	/* CONFIG_LEDS_TRIGGER_BLKDEV */
+ 
+ #endif		/* __LINUX_LEDS_H_INCLUDED */
 -- 
 2.31.1
 
