@@ -2,31 +2,21 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF3FE3F783A
-	for <lists+linux-leds@lfdr.de>; Wed, 25 Aug 2021 17:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 538F43F87D8
+	for <lists+linux-leds@lfdr.de>; Thu, 26 Aug 2021 14:45:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240859AbhHYP1I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 25 Aug 2021 11:27:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60912 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240741AbhHYP1H (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 25 Aug 2021 11:27:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 18E2E61052;
-        Wed, 25 Aug 2021 15:26:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629905180;
-        bh=sTxwrPsGsJErgKqE0ljBSfzQNjKMYgAnyDG+b7Oc4c4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=AAfTbxTRyg1uJXamrEu8JFGe6inO1d1UFzuD6Vp1WvHS4yr5c8vGTvcy4/6Ozha9B
-         mZWPH5BsZi5KjsFTMYNWW3sjUP4EZvhmZSn64F+uMOtmg1C2EiEgHIkRbg2vIRpqZV
-         ntXMx1LWKCeaxEL52veZyTXngkmammNkYmw367iz3SZ9OLY0Y+w8pKY52P0Kcf9pTf
-         GqzV1acbE8ebrrgT4UNRnJYvLZNrgE6Qx3M2a/tgfCC9N54Fmy5FwqTO8NHtNokOV7
-         AeVnE/Jwsao724aoHVJtndWY3V9JAe1e7bIQptyYOXVS71XW5mkD6L+M5Sd+weB91W
-         FBo4hlqoJITQw==
-Date:   Wed, 25 Aug 2021 17:26:13 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>, andrew@lunn.ch
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        id S234420AbhHZMqA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 26 Aug 2021 08:46:00 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:36404 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233687AbhHZMp7 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 26 Aug 2021 08:45:59 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 573BA1C0B7A; Thu, 26 Aug 2021 14:45:11 +0200 (CEST)
+Date:   Thu, 26 Aug 2021 14:45:11 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc:     andrew@lunn.ch, Heiner Kallweit <hkallweit1@gmail.com>,
         Michael Walle <michael@walle.cc>, anthony.l.nguyen@intel.com,
         bigeasy@linutronix.de, davem@davemloft.net,
         dvorax.fuxbrumer@linux.intel.com, f.fainelli@gmail.com,
@@ -35,76 +25,85 @@ Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
         sasha.neftin@intel.com, vinicius.gomes@intel.com,
         vitaly.lifshits@intel.com
 Subject: Re: [PATCH net-next 5/5] igc: Export LEDs
-Message-ID: <20210825172613.71b62113@dellmb>
-In-Reply-To: <20210817190241.GA15389@amd>
-References: <20210727165605.5c8ddb68@thinkpad>
-        <c56fd3dbe1037a5c2697b311f256b3d8@walle.cc>
-        <20210727172828.1529c764@thinkpad>
-        <8edcc387025a6212d58fe01865725734@walle.cc>
-        <20210727183213.73f34141@thinkpad>
-        <25d3e798-09f5-56b5-5764-c60435109dd2@gmail.com>
-        <20210810172927.GB3302@amd>
-        <20210810195550.261189b3@thinkpad>
-        <20210810195335.GA7659@duo.ucw.cz>
-        <20210810225353.6a19f772@thinkpad>
-        <20210817190241.GA15389@amd>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Message-ID: <20210826124511.GA20480@duo.ucw.cz>
+References: <20210727172828.1529c764@thinkpad>
+ <8edcc387025a6212d58fe01865725734@walle.cc>
+ <20210727183213.73f34141@thinkpad>
+ <25d3e798-09f5-56b5-5764-c60435109dd2@gmail.com>
+ <20210810172927.GB3302@amd>
+ <20210810195550.261189b3@thinkpad>
+ <20210810195335.GA7659@duo.ucw.cz>
+ <20210810225353.6a19f772@thinkpad>
+ <20210817190241.GA15389@amd>
+ <20210825172613.71b62113@dellmb>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="azLHFNyN32YCQGCU"
+Content-Disposition: inline
+In-Reply-To: <20210825172613.71b62113@dellmb>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 17 Aug 2021 21:02:42 +0200
-Pavel Machek <pavel@ucw.cz> wrote:
 
-> On Tue 2021-08-10 22:53:53, Marek Beh=C3=BAn wrote:
-> > On Tue, 10 Aug 2021 21:53:35 +0200
-> > Pavel Machek <pavel@ucw.cz> wrote:
-> >  =20
-> > > > Pavel, one point of the discussion is that in this case the LED
-> > > > is controlled by MAC, not PHY. So the question is whether we
-> > > > want to do "ethmacN" (in addition to "ethphyN").   =20
+--azLHFNyN32YCQGCU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> > > > > Pavel, one point of the discussion is that in this case the LED
+> > > > > is controlled by MAC, not PHY. So the question is whether we
+> > > > > want to do "ethmacN" (in addition to "ethphyN").   =20
+> > > >=20
+> > > > Sorry, I missed that. I guess that yes, ethmacX is okay, too.
+> > > >=20
+> > > > Even better would be to find common term that could be used for
+> > > > both ethmacN and ethphyN and just use that. (Except that we want
+> > > > to avoid ethX). Maybe "ethportX" would be suitable? =20
 > > >=20
-> > > Sorry, I missed that. I guess that yes, ethmacX is okay, too.
-> > >=20
-> > > Even better would be to find common term that could be used for
-> > > both ethmacN and ethphyN and just use that. (Except that we want
-> > > to avoid ethX). Maybe "ethportX" would be suitable? =20
+> > > See
+> > >   https://lore.kernel.org/linux-leds/YQAlPrF2uu3Gr+0d@lunn.ch/
+> > > and
+> > >   https://lore.kernel.org/linux-leds/20210727172828.1529c764@thinkpad/
+> > > =20
 > >=20
-> > See
-> >   https://lore.kernel.org/linux-leds/YQAlPrF2uu3Gr+0d@lunn.ch/
-> > and
-> >   https://lore.kernel.org/linux-leds/20210727172828.1529c764@thinkpad/
-> > =20
+> > Ok, I guess I'd preffer all LEDs corresponding to one port to be
+> > grouped, but that may be hard to do.
 >=20
-> Ok, I guess I'd preffer all LEDs corresponding to one port to be
-> grouped, but that may be hard to do.
+> Hi Pavel (and Andrew),
+>=20
+> The thing is that normally we are creating LED classdevs when the
+> parent device is probed. In this case when the PHY is probed. But we
+> will know the corresponding MAC only once the PHY is attached to it's
+> network interface.
+>=20
+> Also, a PHY may be theoretically attached to multiple different
+> interfaces during it's lifetime. I guess there isn't many boards
+> currently that have such a configuration wired (maybe none), but
+> kernel's API is prepared for this.
+>=20
+> So we really can't group them under one parent device, unless:
 
-Hi Pavel (and Andrew),
+Ok, I guess my proposal is just too complex to implement. Let's go
+with "ethmacN" + "ethphyN".
 
-The thing is that normally we are creating LED classdevs when the
-parent device is probed. In this case when the PHY is probed. But we
-will know the corresponding MAC only once the PHY is attached to it's
-network interface.
+Best regards,
 
-Also, a PHY may be theoretically attached to multiple different
-interfaces during it's lifetime. I guess there isn't many boards
-currently that have such a configuration wired (maybe none), but
-kernel's API is prepared for this.
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
 
-So we really can't group them under one parent device, unless:
+--azLHFNyN32YCQGCU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-- we create LED classdevs only after PHY is attached (which will make
-  us unable to blink the LEDs when the PHY is not attached yet) and
-  destroy them when PHY is detached. I find this solution wrong - the
-  LEDs will be unavailable for example if the MAC driver fails to probe
-  for some reason
+-----BEGIN PGP SIGNATURE-----
 
-- or we add a mechanism to reprobe LEDs upon request (which also seems
-  a rather unsatisfactory solution to me...)
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYSeM1wAKCRAw5/Bqldv6
+8m3NAJ0SaXSb1eLxRSoS70fUthbhXQWgZwCffU3LxqEOW5OkapVMWOvbKWr4JRM=
+=kpK9
+-----END PGP SIGNATURE-----
 
-- maybe some other solution?
-
-Marek
+--azLHFNyN32YCQGCU--
