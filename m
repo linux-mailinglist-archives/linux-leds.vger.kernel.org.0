@@ -2,178 +2,159 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A03C43FAD97
-	for <lists+linux-leds@lfdr.de>; Sun, 29 Aug 2021 20:00:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AA893FCCC3
+	for <lists+linux-leds@lfdr.de>; Tue, 31 Aug 2021 20:08:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231461AbhH2SAB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 29 Aug 2021 14:00:01 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:51626 "EHLO
+        id S235580AbhHaSJ2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 31 Aug 2021 14:09:28 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:39136 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229904AbhH2SAB (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 29 Aug 2021 14:00:01 -0400
+        with ESMTP id S230145AbhHaSJ1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 31 Aug 2021 14:09:27 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 06DA41C0B76; Sun, 29 Aug 2021 19:59:07 +0200 (CEST)
-Date:   Sun, 29 Aug 2021 19:59:07 +0200
+        id 2F6BB1C0B76; Tue, 31 Aug 2021 20:08:31 +0200 (CEST)
+Date:   Tue, 31 Aug 2021 20:08:30 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc:     =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado 
-        <nfraprado@collabora.com>, Dan Murphy <dmurphy@ti.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-leds@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        Brian Masney <masneyb@onstation.org>,
-        Luca Weiss <luca@z3ntu.xyz>,
-        Russell King <linux@armlinux.org.uk>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, ~lkcamp/patches@lists.sr.ht,
-        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
-        kernel@collabora.com
-Subject: Re: [PATCH v3 2/5] leds: Add driver for QCOM SPMI Flash LEDs
-Message-ID: <20210829175906.GA663@amd>
-References: <20210803162641.1525980-1-nfraprado@collabora.com>
- <20210803162641.1525980-3-nfraprado@collabora.com>
- <b1060e9a-f78e-fbe9-bde3-2b4d89cbc73e@gmail.com>
- <20210824214515.ekjpvaymkgxltlzp@notapiano>
- <278ea1e8-8b21-457d-78d7-fbb32544fe0a@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+Subject: [GIT PULL] LEDs changes for v5.15-rc1
+Message-ID: <20210831180830.GA13989@duo.ucw.cz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="/9DWx/yDrRhgMJTb"
+        protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
 Content-Disposition: inline
-In-Reply-To: <278ea1e8-8b21-457d-78d7-fbb32544fe0a@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---/9DWx/yDrRhgMJTb
-Content-Type: text/plain; charset=us-ascii
+--sm4nu43k4a2Rpi4c
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi both!
+The following changes since commit e73f0f0ee7541171d89f2e2491130c7771ba58d3:
 
-Please trim your replies (removing code you are not commenting
-on). Scolling 600 lines to find where discussion is is not fun.
+  Linux 5.14-rc1 (2021-07-11 15:07:40 -0700)
 
-Best regards,
-								Pavel
+are available in the Git repository at:
 
-> >>>+static int qcom_flash_torch_on(struct qcom_flash_led *led)
-> >>>+{
-> >>>+	int rc, error;
-> >>>+	struct qcom_flash_device *leds_dev =3D led_to_leds_dev(led);
-> >>>+	struct device *dev =3D leds_dev->dev;
-> >>>+
-> >>>+	if (leds_dev->peripheral_subtype =3D=3D QCOM_FLASH_SUBTYPE_DUAL) {
-> >>>+		rc =3D qcom_flash_torch_regulator_on(leds_dev);
-> >>>+		if (rc)
-> >>>+			goto error_reg_write;
-> >>>+	} else if (leds_dev->peripheral_subtype =3D=3D QCOM_FLASH_SUBTYPE_SI=
-NGLE) {
-> >>>+		rc =3D qcom_flash_fled_regulator_on(leds_dev);
-> >>
-> >>Why for torch mode you need to enable fled regulator?
-> >
-> >Based on [1], apparently the hardware present in the Single variant of t=
-he PMIC
-> >has some limitation that requires the use of the flash regulator and the=
- value
-> >QCOM_FLASH_ENABLE_ALL to enable the LEDs for the torch mode. The Dual va=
-riant on
-> >the other hand can just use the torch regulator and enables the LEDs with
-> >QCOM_FLASH_ENABLE_MODULE.
-> >
-> >[1] https://github.com/AICP/kernel_lge_hammerhead/commit/0f47c747c074993=
-655d0bfebd045e8ddd228fe4c
-> >
-> >I'm honestly not sure what the impact is on using the different regulato=
-rs and
-> >enable values. I have tested enabling the Dual PMIC with different enabl=
-e values
-> >and all seemed to work the same, so must be some hardware detail.
-> >
-> >I left that Single codepath in the hope that it is useful for devices th=
-at have
-> >that variant of the hardware, but I have only actually tested the Dual P=
-MIC,
-> >which is the one present on the Nexus 5.
->=20
-> Thanks for the explanation. Just wanted to confirm that it was not
-> a mistake.
->=20
-> >>
-> >>>+		if (rc)
-> >>>+			goto error_flash_set;
-> >>>+
-> >>>+		/*
-> >>>+		 * Write 0x80 to MODULE_ENABLE before writing
-> >>>+		 * 0xE0 in order to avoid a hardware bug caused
-> >>>+		 * by register value going from 0x00 to 0xE0.
-> >>>+		 */
-> >>>+		rc =3D qcom_flash_masked_write(leds_dev,
-> >>>+					     QCOM_FLASH_ADDR_ENABLE_CONTROL,
-> >>>+					     QCOM_FLASH_ENABLE_MODULE_MASK,
-> >>>+					     QCOM_FLASH_ENABLE_MODULE);
-> >>>+		if (rc) {
-> >>>+			dev_err(dev, "Enable reg write failed(%d)\n", rc);
-> >>>+			goto error_flash_set;
-> >>>+		}
-> >>>+	}
-> >>>+
-> >>>+	rc =3D qcom_flash_torch_reg_enable(leds_dev, true);
-> >>>+	if (rc)
-> >>>+		goto error_reg_write;
-> >>>+
-> >>>+	rc =3D qcom_flash_masked_write(leds_dev, QCOM_FLASH_ADDR_ENABLE_CONT=
-ROL,
-> >>>+				     QCOM_FLASH_ENABLE_MASK,
-> >>>+				     leds_dev->torch_enable_cmd);
-> >>>+	if (rc) {
-> >>>+		dev_err(dev, "Enable reg write failed(%d)\n", rc);
-> >>>+		goto error_reg_write;
-> >>>+	}
-> >>>+
-> >>>+	rc =3D qcom_flash_masked_write(leds_dev, QCOM_FLASH_ADDR_LED_STROBE_=
-CTRL,
-> >>>+				     led->flash_strobe_cmd,
-> >>>+				     led->flash_strobe_cmd);
-> >>
-> >>Just to make sure - the hardware requires strobe cmd to enable torch?
-> >
-> >Yes. The strobe value is the one that actually turns each of the LEDs on,
-> >doesn't matter if it's on flash or torch mode. The difference in torch m=
-ode is
-> >actually just that the timeout on the LEDs is disabled (done by writing =
-0x00
-> >into the TORCH, 0xE4, register).
-> >So for both modes, the LEDs are turned on by writing to the STROBE_CTRL,=
- 0x47,
-> >register. If torch is on they'll stay on indefinitely, while on flash mo=
-de
-> >they'll turn off after the timeout.
-> >
-> >Perhaps it's just a naming issue?
->=20
-> I propose to add these comments next to the calls in question.
+  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
+leds-5.15-rc1
 
+for you to fetch changes up to 239f32b4f161c1584cd4b386d6ab8766432a6ede:
+
+  leds: pca955x: Switch to i2c probe_new (2021-08-20 11:00:08 +0200)
+
+----------------------------------------------------------------
+LED updates for 5.15-rc1. Usual driver changes, piece of documentation
+that should hopefully get LED names standartized, and many fixes.
+
+----------------------------------------------------------------
+Andy Shevchenko (11):
+      leds: el15203000: Correct headers (of*.h -> mod_devicetable.h)
+      leds: lgm-sso: Put fwnode in any case during ->probe()
+      leds: lgm-sso: Don't spam logs when probe is deferred
+      leds: lgm-sso: Remove explicit managed GPIO resource cleanup
+      leds: lgm-sso: Convert to use list_for_each_entry*() API
+      leds: lm3692x: Correct headers (of*.h -> mod_devicetable.h)
+      leds: lm3697: Update header block to reflect reality
+      leds: lm3697: Make error handling more robust
+      leds: lt3593: Put fwnode in any case during ->probe()
+      leds: rt8515: Put fwnode in any case during ->probe()
+      leds: lgm-sso: Propagate error codes from callee to caller
+
+Denis Osterland-Heim (2):
+      leds: move default_state read from fwnode to core
+      leds: pwm: add support for default-state device property
+
+Eddie James (7):
+      dt-bindings: leds: Add retain-state-shutdown boolean
+      leds: leds-core: Implement the retain-state-shutdown property
+      leds: pca955x: Clean up code formatting
+      leds: pca955x: Add brightness_get function
+      leds: pca955x: Implement the default-state property
+      leds: pca955x: Let the core process the fwnode
+      leds: pca955x: Switch to i2c probe_new
+
+Hans de Goede (1):
+      leds: trigger: audio: Add an activate callback to ensure the initial =
+brightness is set
+
+Jan Kundr=E1t (1):
+      leds: lp50xx: Fix chip name in KConfig
+
+Jiapeng Chong (1):
+      leds: is31fl32xx: Fix missing error code in is31fl32xx_parse_dt()
+
+Linus Walleij (6):
+      leds: aat1290: Move driver to flash subdirectory
+      leds: as3645a: Move driver to flash subdirectory
+      leds: max77693: Move driver to flash subdirectory
+      leds: sgm3140: Move driver to flash subdirectory
+      leds: lm3601x: Move driver to flash subdirectory
+      leds: ktd2692: Move driver to flash subdirectory
+
+Lukas Bulwahn (1):
+      leds: trigger: remove reference to obsolete CONFIG_IDE_GD_ATA
+
+Pavel Machek (2):
+      leds: flash: Remove redundant initialization of variable ret
+      Documentation: leds: standartizing LED names
+
+ Documentation/devicetree/bindings/leds/common.yaml |   6 +
+ Documentation/leds/well-known-leds.txt             |  58 ++++++
+ MAINTAINERS                                        |   2 +-
+ drivers/leds/Kconfig                               |  59 +-----
+ drivers/leds/Makefile                              |   6 -
+ drivers/leds/blink/leds-lgm-sso.c                  |  39 ++--
+ drivers/leds/flash/Kconfig                         |  53 +++++
+ drivers/leds/flash/Makefile                        |   6 +
+ drivers/leds/{ =3D> flash}/leds-aat1290.c            |   0
+ drivers/leds/{ =3D> flash}/leds-as3645a.c            |   0
+ drivers/leds/{ =3D> flash}/leds-ktd2692.c            |   0
+ drivers/leds/{ =3D> flash}/leds-lm3601x.c            |   0
+ drivers/leds/{ =3D> flash}/leds-max77693.c           |   0
+ drivers/leds/flash/leds-rt8515.c                   |   4 +-
+ drivers/leds/{ =3D> flash}/leds-sgm3140.c            |   0
+ drivers/leds/led-class-flash.c                     |   6 +-
+ drivers/leds/led-class.c                           |  10 +-
+ drivers/leds/led-core.c                            |  15 ++
+ drivers/leds/leds-el15203000.c                     |   3 +-
+ drivers/leds/leds-gpio.c                           |  12 +-
+ drivers/leds/leds-is31fl32xx.c                     |   1 +
+ drivers/leds/leds-lm3692x.c                        |   3 +-
+ drivers/leds/leds-lm3697.c                         |  16 +-
+ drivers/leds/leds-lt3593.c                         |   5 +-
+ drivers/leds/leds-pca955x.c                        | 232 +++++++++++++++--=
+----
+ drivers/leds/leds-pwm.c                            |  49 ++++-
+ drivers/leds/leds.h                                |   1 +
+ drivers/leds/trigger/Kconfig                       |   2 +-
+ drivers/leds/trigger/ledtrig-audio.c               |  37 +++-
+ include/linux/leds.h                               |  12 +-
+ 30 files changed, 441 insertions(+), 196 deletions(-)
+ create mode 100644 Documentation/leds/well-known-leds.txt
+ rename drivers/leds/{ =3D> flash}/leds-aat1290.c (100%)
+ rename drivers/leds/{ =3D> flash}/leds-as3645a.c (100%)
+ rename drivers/leds/{ =3D> flash}/leds-ktd2692.c (100%)
+ rename drivers/leds/{ =3D> flash}/leds-lm3601x.c (100%)
+ rename drivers/leds/{ =3D> flash}/leds-max77693.c (100%)
+ rename drivers/leds/{ =3D> flash}/leds-sgm3140.c (100%)
 
 --=20
 http://www.livejournal.com/~pavelmachek
 
---/9DWx/yDrRhgMJTb
+--sm4nu43k4a2Rpi4c
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
 
-iEYEARECAAYFAmEryuoACgkQMOfwapXb+vITYACfTzmB/yQMp8pEyspMSXKVmTXc
-00kAoIV7dtVg8PxzAHH9lUhUZiImRPmJ
-=8kYL
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYS5wHgAKCRAw5/Bqldv6
+8orsAJ9fmdPsppl4uOIe8VrUKS+dqLyVxgCeNqN3gecIsDBZY90ep0XOGdcAhkI=
+=xW4C
 -----END PGP SIGNATURE-----
 
---/9DWx/yDrRhgMJTb--
+--sm4nu43k4a2Rpi4c--
