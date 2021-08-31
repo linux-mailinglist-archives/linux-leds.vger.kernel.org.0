@@ -2,59 +2,60 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75CC43FCD91
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Aug 2021 21:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DA363FCF46
+	for <lists+linux-leds@lfdr.de>; Tue, 31 Aug 2021 23:48:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239407AbhHaTMQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 31 Aug 2021 15:12:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36424 "EHLO mail.kernel.org"
+        id S241369AbhHaVtf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 31 Aug 2021 17:49:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52634 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232759AbhHaTMQ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 31 Aug 2021 15:12:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CA79460ED4;
-        Tue, 31 Aug 2021 19:11:18 +0000 (UTC)
+        id S240961AbhHaVte (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 31 Aug 2021 17:49:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9BC0461056;
+        Tue, 31 Aug 2021 21:48:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630437080;
-        bh=jcJh1pux0sYJ/R82rcU7mVAgJZt9e1VXs9fQKtGVw+I=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=B1k7mEedYt+XKchqGLp6Qb5WQP6donhkrKsncrOGJEnMg5DfhXgx9kzg2oGhrHFmn
-         Aia5dULUUdOgpp5yUgsAGmcONS6uD3bH/cjtxMGoAutcs62R46MR16aPlQf+VMsRHY
-         RFs7W89fT2kRZsGtefgis0eqLKoxBtM1e1w45h32l+tTIx5uGGfCww6qMvfR8qBESp
-         2Tc0oJ3c6wdOIZD/8Npv5wEStEnBsOvIVHLzTH7JkxzvG1xMwz1/bmvgaRXfZRBFSD
-         9AoHIzg9ckjCNDiqLzwV78YacKiFsVONzbRXD1BKN+U2GqR7aZA+AxixZawz85uCUb
-         ADoMjsevJU6LQ==
-Date:   Tue, 31 Aug 2021 21:11:16 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Maxim Mikityanskiy <maxtram95@gmail.com>
-cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-leds@vger.kernel.org, Daniel Kurtz <djkurtz@chromium.org>,
-        Oliver Neukum <oneukum@suse.de>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/6] HID: hid-input: Add offhook and ring LEDs for
- headsets
-In-Reply-To: <CAKErNvokonsQr=j8cSXGRkVUTopBqq3k5NeiqTUWPKmefmOaJw@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2108312110580.15313@cbobk.fhfr.pm>
-References: <20210703220202.5637-1-maxtram95@gmail.com> <20210703220202.5637-2-maxtram95@gmail.com> <CAO-hwJJxJqgW6CGPmvL41teh6vgWfSg55qoXWL3TjQx+mvsbHg@mail.gmail.com> <nycvar.YFH.7.76.2107152057230.8253@cbobk.fhfr.pm> <YPCc/k89XNTmeKVo@google.com>
- <20210715224905.GA18180@duo.ucw.cz> <CAKErNvrc0NjVwpXiGVED0c2PatVh9ObUBjqem9mi8hq_TZcyWw@mail.gmail.com> <CAKErNvokonsQr=j8cSXGRkVUTopBqq3k5NeiqTUWPKmefmOaJw@mail.gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        s=k20201202; t=1630446518;
+        bh=jHcyLjtGwj/yrm1bNFOdm6UFJ+i3n0ZvAXflFin9yX0=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=ZgRQ8TUo9Hx1HfogzU4oH622/0BxvaZsTeQt0YMDTNvrX45Ii/Id79wb9V5DltoUv
+         /TXdmDBs2vGRQDzgrshZwhul4qsEJfb25fMCrCvNRyf5WGw4x58fmw9T7ndvnkpdpi
+         6eIHvEXMsZNv4NKbZoAalk+B17F31ZOdbUp4Ki0v6Jaah6YsUc88GZucGu3o+0TZRQ
+         Z5hxjtBZspMN5go6Iy54QFlWFT0H5XOE9AQORa4RxoOejFSNIfSyKHUZ85Rbs4AqFF
+         lXI5NkGliolixwkjWgY7veIyT6ki+BBmk70OuJqreDK13uvCUVFUhHTIrw+No0M3yK
+         IgP7toKhb3OUA==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 9754060A6C;
+        Tue, 31 Aug 2021 21:48:38 +0000 (UTC)
+Subject: Re: [GIT PULL] LEDs changes for v5.15-rc1
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20210831180830.GA13989@duo.ucw.cz>
+References: <20210831180830.GA13989@duo.ucw.cz>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20210831180830.GA13989@duo.ucw.cz>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.15-rc1
+X-PR-Tracked-Commit-Id: 239f32b4f161c1584cd4b386d6ab8766432a6ede
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: a998a62be9cdb509491731ffe81575aa09943a32
+Message-Id: <163044651861.1462.129439761225469593.pr-tracker-bot@kernel.org>
+Date:   Tue, 31 Aug 2021 21:48:38 +0000
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 9 Aug 2021, Maxim Mikityanskiy wrote:
+The pull request you sent on Tue, 31 Aug 2021 20:08:30 +0200:
 
-> Dmitry, what's your opinion on the points that I raised? I would like
-> to progress with this patch set, let's discuss the direction and sum
-> up the requirements.
+> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.15-rc1
 
-Friendly ping on this one :) Thanks.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/a998a62be9cdb509491731ffe81575aa09943a32
+
+Thank you!
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
