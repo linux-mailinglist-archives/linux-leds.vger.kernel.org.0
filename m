@@ -2,91 +2,115 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68DA83FE1EA
-	for <lists+linux-leds@lfdr.de>; Wed,  1 Sep 2021 20:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C2DF3FE3F2
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Sep 2021 22:24:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346848AbhIASMZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 1 Sep 2021 14:12:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53704 "EHLO
+        id S229862AbhIAUZp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Sep 2021 16:25:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346741AbhIASMV (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Sep 2021 14:12:21 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00EA5C06129E
-        for <linux-leds@vger.kernel.org>; Wed,  1 Sep 2021 11:11:23 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id g13-20020a17090a3c8d00b00196286963b9so303321pjc.3
-        for <linux-leds@vger.kernel.org>; Wed, 01 Sep 2021 11:11:22 -0700 (PDT)
+        with ESMTP id S229653AbhIAUZp (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Sep 2021 16:25:45 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C2B0C061575;
+        Wed,  1 Sep 2021 13:24:48 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id f15so1116398ybg.3;
+        Wed, 01 Sep 2021 13:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
-        b=LD3mpzy1s09M3e/Eheelu/QMtbN6lrYJQ+S1BsYhmG4zP9OQuKOeD1zHV2lZaK7Hdt
-         vXoBMumPRACuZhnwd8TYAFIvdImPe0Zn4DA41GnzHGsnpDZPE0wUFWVFNzgpxF6bh6D8
-         CVxTiiIN7w8BVpPirFLytZKK2cFqqV6q9qR8cw4XmdYYgGZs+MdnDeP+neEr/SbnLI2h
-         mwT6gqJ8+HvNCQei5Zu6b3U+/YcUOepEDfVn6t0IkNG5YzxTV8mH8IqZ4zEsqBchdgxI
-         E/zGH3KCiuS7UdfEMBVKPbpzhhPyh4quLRALvE4iCHtswqSZDgWUuzksodIw8OWwGR1Z
-         0RlA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vYOiNPUtqV6gWrwDxZ1hlnrsiI6uPgU2OjLHJTwlE3U=;
+        b=lf5Cmj3o8ckBPOz8vQB+RDSCM2fJA0K+UkPPqTB94lBjIr/O9OUqHyMgjfb3M5Avvp
+         edqJuAVDsw9aIw6TJrwttH/GVMglizZ0G4FqUfFKewBUE5TMKdqx9iNpt5jcnic2yQcw
+         ByfklQz7JpACmVJXmnnoe8Xy6JCC+Ujv5EZlbWeUidVq4kQFaop9llWGNY4XxgZlTTBj
+         RBWwvjyorCZLK7Ryw+6x9iMB4ncjfb4ey6NYOsqBkWSrythF4SZDxmZXqz/zVmxFGVoT
+         CjNPS36GfInR+aXVTYrslbQlCB+2472IGz7G9FJneFdhA+r1xl7qrz+qSTFEw229jOZr
+         BukA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
-        b=UjPRTUMY1l6eZ4AWCXrGwxvISA/eihlA4YVOxzlP9fai2xoT/AZRlGZSMwIKg/WG6R
-         kzoe6hvEsDq4cXuRd6ln6tQfmpotQrmNGRzlgIXJAsSBJgl3RRl88J6YLDrOzjVR0JWU
-         8LxkjJEL0F7slU5EbEF4dskLi4uKP1cS5pNNDmzOUwttofTFaWDzuKF0yE0e1xXleXnX
-         JBolWKgBpnvx7ARNiK+PabzOlYfl2jNtHcvd7pJEZa4eVgXTL3sXyw4hV+UazJ8rMy8Q
-         FSCdjRbN6wWGAq+FAGhLQfP2gbdZCpM5JgOPm6geleKPtpYWA0DtRps32uDrKE8+X/qi
-         1Jpw==
-X-Gm-Message-State: AOAM5320DIukAtSb34YLP4OaJySxierMxZ40s1Ng1SwLbSyduPXLjPcC
-        8AlPOVgMXjqHyLP/f1rhpHUQh42CwMopRY9EK2pLnD2JHfZJ0w==
-X-Google-Smtp-Source: ABdhPJwbbBYGjUEQSS3Bb7EfYk34O3AVuG22pVIF78fkATQG8c+PQmeHgcc35+YrriS74Wl5STB8JbzOasp+8kCVBlk=
-X-Received: by 2002:a67:8c5:: with SMTP id 188mr1017695vsi.4.1630519870726;
- Wed, 01 Sep 2021 11:11:10 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vYOiNPUtqV6gWrwDxZ1hlnrsiI6uPgU2OjLHJTwlE3U=;
+        b=i+G/TMXPwxMicslJQXkdvbYr2hM1hRdQm3IXrhJGk0VBCwghqk4G/6UV1ih2DGMu7G
+         kWbtVTT3Np6zs/hchiWDGrqFRwac+aLlvc88ZU/ULAkQznAYImCXArxdOorbdWcZ1CU4
+         AJsq4kOQQzVyEzZdf4jUEBzS2v9oeksCDMnQvMSAEm90hUtFyK6ZTAWnusbCNbNwL4SQ
+         IOLivuh3oNrhwcUejnI+eC/4+AX72cweNDN6puIeNS/A7E1KRJ7PjdVhlXq9QFC9jdky
+         6W+GUeYyHRg5zDVcMXNZxil7igiFmH87naLeO+Lh4xeNnNDQhuB+8vksmCwSbLf8KCky
+         9Phw==
+X-Gm-Message-State: AOAM5301419Ds5YiCxOO+O0X653uSa/dVMn/WXFr+YkSbLrzdV1VwGbL
+        kD3nV8g2Oy7EdOq8PH5lOQX7xNZzUoyIVHjoAps=
+X-Google-Smtp-Source: ABdhPJy+t5mga7ti8MlVsTjeXZuU8WCsKqDeQxi4jxTQb07eNjfDIOXGRKQ+hUiY5t1iHuNkNbHm+qEbFg0jByGi4us=
+X-Received: by 2002:a25:c2c3:: with SMTP id s186mr1648024ybf.401.1630527887357;
+ Wed, 01 Sep 2021 13:24:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:740d:0:0:0:0:0 with HTTP; Wed, 1 Sep 2021 11:11:10 -0700 (PDT)
-From:   CorisBank International <corisbankintlbf@gmail.com>
-Date:   Wed, 1 Sep 2021 11:11:10 -0700
-Message-ID: <CA+25hwzjLgVdtDXYWeuqFBTvAbpc4oxK0dW54s7tjGNyU_m0ow@mail.gmail.com>
-Subject: CORISBANK INTERNATIONAL OFFICIAL NOTIFICATION
-To:     undisclosed-recipients:;
+References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
+ <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm> <20210803221055.GA32527@amd>
+ <CAEc3jaAoDfJD92q9q_HoFq3nsjkDqfZHu-VO+Ei8xSP8QrE8rg@mail.gmail.com>
+ <CAEVj2tkfLjWKOaecY7t-idGaqjZ45wXhmjbUR87AoC2Dkm45vQ@mail.gmail.com>
+ <nycvar.YFH.7.76.2108312109340.15313@cbobk.fhfr.pm> <20210901051938.GA6870@amd>
+In-Reply-To: <20210901051938.GA6870@amd>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Wed, 1 Sep 2021 13:24:34 -0700
+Message-ID: <CAEc3jaCFVpq=0t2CFY049ey+gniAQyZQ6f-mAXCwDT2dvhoBJw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs for
+ game controllers.
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Daniel Ogorchock <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Att: Client
+Hi Pavel,
 
+On Tue, Aug 31, 2021 at 10:19 PM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> Hi!
+>
+> > > Do you have any recommendations on what would be an appropriate
+> > > function string for player indicator LEDs? Would some variant such as:
+> > >   "status-x"
+> > >   "player-status-x"
+> > >   "indicator-x"
+> > >   "player-indicator-x"
+> > > be more suitable? It looks like the string "status" has been used for
+> > > other existing LED names.
+>
+> I guess "player-x" would be suitable.
+>
+> > > I think we are pretty happy to use whatever naming scheme fits the
+> > > standards of the led subsystem's userspace api for the Nintendo/Sony
+> > > HID drivers, and any future game controller drivers featuring player
+> > > LEDs could conform to that going forward.
+> >
+> > Pavel, could you please take a look here, so that we can proceed with the
+> > patchset?
+>
+> So... leds tree has just been merged:
+>
+> > git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/
+> tags/leds-5.15-rc1
+>
+> has been merged into torvalds/linux.git:
+> https://git.kernel.org/torvalds/c/a998a62be9cdb509491731ffe81575aa09943a32
+>
+> It includes Documentation/leds/well-known-leds.txt file. Could a
+> section describing proposed naming be added there (both device and
+> function), with explanations what the LEDs do?
+>
 
-CORISBANK INTERNATIONAL URGENT NOTIFICATION
+Sure let me write add a few lines for that file and resubmit. I guess
+I should rebase based on Linus his tree then.. let me quickly start on
+that. (I'm technically on vacation and far from home, but luckily
+caught this and happen to have a break)
 
-Notification / Notification/ Notification
-
-Note, We are writing to inform you officially that Finally the Central
-Bank Financial Authority have approved to transfer your $8.2Million
-which was signed by late Mrs Rose Banneth the COVID.19 victim to
-transfer to you, Late Mrs Rose Banneth the France Lady contacted us to
-transfer her fund in our bank to you for Orphanage work before she
-died by the COVID.19
-and as it is now, you will receive your fund through our corresponding
-bank in Dubai [Emirate Investment Bank ] for security reason. Please
-you should reconfirm your details to receive the $8.2Million.
-
-Name, Country, Address, occupations, Age, Telephone number, account
-Details so that we can immediately forward to the World Bank to
-transfer the fund.
-You are advised to comply on timely manner to permit this esteem bank
-transfer your fund as scheduled.
-
-We look forward to serving you better
-Your Financial Comfort Is A Priority
-Thank you for choosing Corisbank International.
-
-Sincerely,
-
-----
-
-Mr Diakarya Ouattara
-Managing Director
-Bank Coris
-Burkina Faso
-+226 556 163 37
-financial_bf_info@accountant.com
+Thanks,
+Roderick
