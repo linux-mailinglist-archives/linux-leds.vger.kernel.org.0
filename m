@@ -2,60 +2,103 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DA363FCF46
-	for <lists+linux-leds@lfdr.de>; Tue, 31 Aug 2021 23:48:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C0893FD2D2
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Sep 2021 07:19:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241369AbhHaVtf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 31 Aug 2021 17:49:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52634 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240961AbhHaVte (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 31 Aug 2021 17:49:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 9BC0461056;
-        Tue, 31 Aug 2021 21:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630446518;
-        bh=jHcyLjtGwj/yrm1bNFOdm6UFJ+i3n0ZvAXflFin9yX0=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=ZgRQ8TUo9Hx1HfogzU4oH622/0BxvaZsTeQt0YMDTNvrX45Ii/Id79wb9V5DltoUv
-         /TXdmDBs2vGRQDzgrshZwhul4qsEJfb25fMCrCvNRyf5WGw4x58fmw9T7ndvnkpdpi
-         6eIHvEXMsZNv4NKbZoAalk+B17F31ZOdbUp4Ki0v6Jaah6YsUc88GZucGu3o+0TZRQ
-         Z5hxjtBZspMN5go6Iy54QFlWFT0H5XOE9AQORa4RxoOejFSNIfSyKHUZ85Rbs4AqFF
-         lXI5NkGliolixwkjWgY7veIyT6ki+BBmk70OuJqreDK13uvCUVFUhHTIrw+No0M3yK
-         IgP7toKhb3OUA==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 9754060A6C;
-        Tue, 31 Aug 2021 21:48:38 +0000 (UTC)
-Subject: Re: [GIT PULL] LEDs changes for v5.15-rc1
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20210831180830.GA13989@duo.ucw.cz>
-References: <20210831180830.GA13989@duo.ucw.cz>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20210831180830.GA13989@duo.ucw.cz>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.15-rc1
-X-PR-Tracked-Commit-Id: 239f32b4f161c1584cd4b386d6ab8766432a6ede
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: a998a62be9cdb509491731ffe81575aa09943a32
-Message-Id: <163044651861.1462.129439761225469593.pr-tracker-bot@kernel.org>
-Date:   Tue, 31 Aug 2021 21:48:38 +0000
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+        id S241980AbhIAFUi (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Sep 2021 01:20:38 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:42114 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229731AbhIAFUg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Sep 2021 01:20:36 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 1D7AC1C0B76; Wed,  1 Sep 2021 07:19:39 +0200 (CEST)
+Date:   Wed, 1 Sep 2021 07:19:38 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Daniel Ogorchock <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Roderick Colenbrander <thunderbird2k@gmail.com>
+Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
+ for game controllers.
+Message-ID: <20210901051938.GA6870@amd>
+References: <20210602061253.5747-1-roderick@gaikai.com>
+ <20210602061253.5747-3-roderick@gaikai.com>
+ <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm>
+ <20210803221055.GA32527@amd>
+ <CAEc3jaAoDfJD92q9q_HoFq3nsjkDqfZHu-VO+Ei8xSP8QrE8rg@mail.gmail.com>
+ <CAEVj2tkfLjWKOaecY7t-idGaqjZ45wXhmjbUR87AoC2Dkm45vQ@mail.gmail.com>
+ <nycvar.YFH.7.76.2108312109340.15313@cbobk.fhfr.pm>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
+Content-Disposition: inline
+In-Reply-To: <nycvar.YFH.7.76.2108312109340.15313@cbobk.fhfr.pm>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The pull request you sent on Tue, 31 Aug 2021 20:08:30 +0200:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.15-rc1
+--h31gzZEtNLTqOjlF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> > Do you have any recommendations on what would be an appropriate
+> > function string for player indicator LEDs? Would some variant such as:
+> >   "status-x"
+> >   "player-status-x"
+> >   "indicator-x"
+> >   "player-indicator-x"
+> > be more suitable? It looks like the string "status" has been used for
+> > other existing LED names.
+
+I guess "player-x" would be suitable.
+
+> > I think we are pretty happy to use whatever naming scheme fits the
+> > standards of the led subsystem's userspace api for the Nintendo/Sony
+> > HID drivers, and any future game controller drivers featuring player
+> > LEDs could conform to that going forward.
+>=20
+> Pavel, could you please take a look here, so that we can proceed with the=
+=20
+> patchset?
+
+So... leds tree has just been merged:
+
+> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/
+tags/leds-5.15-rc1
 
 has been merged into torvalds/linux.git:
 https://git.kernel.org/torvalds/c/a998a62be9cdb509491731ffe81575aa09943a32
 
-Thank you!
+It includes Documentation/leds/well-known-leds.txt file. Could a
+section describing proposed naming be added there (both device and
+function), with explanations what the LEDs do?
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--h31gzZEtNLTqOjlF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmEvDWoACgkQMOfwapXb+vJCJwCgtftWVFxB6XA3HFSKDV8GL9eF
+YnEAni4lhulmeFBaX7M7hp0TlQvA94Dg
+=xdp8
+-----END PGP SIGNATURE-----
+
+--h31gzZEtNLTqOjlF--
