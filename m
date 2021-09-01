@@ -2,96 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F6DE3FDDDC
-	for <lists+linux-leds@lfdr.de>; Wed,  1 Sep 2021 16:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68DA83FE1EA
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Sep 2021 20:11:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235018AbhIAOgb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 1 Sep 2021 10:36:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59134 "EHLO
+        id S1346848AbhIASMZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Sep 2021 14:12:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233814AbhIAOgb (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Sep 2021 10:36:31 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C69C061575
-        for <linux-leds@vger.kernel.org>; Wed,  1 Sep 2021 07:35:34 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id j10-20020a17090a94ca00b00181f17b7ef7so4828421pjw.2
-        for <linux-leds@vger.kernel.org>; Wed, 01 Sep 2021 07:35:34 -0700 (PDT)
+        with ESMTP id S1346741AbhIASMV (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Sep 2021 14:12:21 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00EA5C06129E
+        for <linux-leds@vger.kernel.org>; Wed,  1 Sep 2021 11:11:23 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id g13-20020a17090a3c8d00b00196286963b9so303321pjc.3
+        for <linux-leds@vger.kernel.org>; Wed, 01 Sep 2021 11:11:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:from:date:message-id:subject:to;
-        bh=NWKMZ//AyFWFbpFk6FF66OtPadVuan7a1ybZS8hGNR8=;
-        b=HfzzEPeLl7GsZ1hK/rZ2RTdRRd/8cHAcF4YqWDpVLw+P+IZMjRk28LpdAqKelOhiB1
-         5hWkpULMVJpec3du19W/pHH4JmfTGxFrIuWM4JM+sSsJX3bqyR5OfSXDUkjQy35n5GAF
-         YqiAB+A3FwzqGuWOOgIA1zSa2h9xTxVJHL+6KBP7oH3vMDCVdOHcPax17b1Eo0twT62Q
-         ekC3qfqt3XC/f2a8fDaIyeVUq9Y+5sPj230zhH99WLENtBT5gWG3f/ElOHDcFmpWxc35
-         QHnkEjeOL7XCAmEXBDI09193fg2hCfLan/lk3oVIeLq0GfuSdp30b07I64XRSJvsC1K+
-         qwcQ==
+        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
+        b=LD3mpzy1s09M3e/Eheelu/QMtbN6lrYJQ+S1BsYhmG4zP9OQuKOeD1zHV2lZaK7Hdt
+         vXoBMumPRACuZhnwd8TYAFIvdImPe0Zn4DA41GnzHGsnpDZPE0wUFWVFNzgpxF6bh6D8
+         CVxTiiIN7w8BVpPirFLytZKK2cFqqV6q9qR8cw4XmdYYgGZs+MdnDeP+neEr/SbnLI2h
+         mwT6gqJ8+HvNCQei5Zu6b3U+/YcUOepEDfVn6t0IkNG5YzxTV8mH8IqZ4zEsqBchdgxI
+         E/zGH3KCiuS7UdfEMBVKPbpzhhPyh4quLRALvE4iCHtswqSZDgWUuzksodIw8OWwGR1Z
+         0RlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=NWKMZ//AyFWFbpFk6FF66OtPadVuan7a1ybZS8hGNR8=;
-        b=sl2tvHR1hg+Kg2WYTEF8rHRcP7DkCmhPXH9lUn5ftPdCH27Kxdlk8AgqKl2OYUuzb+
-         0Lx9yXcofj5v1DoNMwa+92szLhvgd/W++5bB758H8sTIwdOcIlzXURWjH1FvEC6q+k75
-         qYizHxIwSWahHqsnB6A7MkignWo/NA7+6inSWS7HKtM2LcLlvdNWKmK1GrIxasMJbk1p
-         gxf84uZslQU+7/Ydjz/mzUDnRvDBjul56md/vlQ0MTMevRJdy2VTKyojpA97Cc71NZou
-         FpTriYTFCQsg+lBHbx7qzqbh43AHGdy3dzvXaXDYoAVjZTn3qz2V4AyP5+Shnvq644v6
-         PHPA==
-X-Gm-Message-State: AOAM533v6x9wTcWg52HfzczRwJ694wrcI/wHPMe+oXqnyv1iczF94PUb
-        VPbsqMx7qTTkuKHKvrysfGmkMCsKd5ZQMnoy4Cc=
-X-Google-Smtp-Source: ABdhPJwrd8ZxnLZEhwtRJ4x+pNkbm0WwqvnmDW4Leugd4W/E4NFDuwHinv4nuVDHEjYrAXDzJqc8xdJWPSw/g5P7CXU=
-X-Received: by 2002:a17:902:c40e:b0:138:a4d4:cf46 with SMTP id
- k14-20020a170902c40e00b00138a4d4cf46mr9862176plk.48.1630506933602; Wed, 01
- Sep 2021 07:35:33 -0700 (PDT)
+        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
+        b=UjPRTUMY1l6eZ4AWCXrGwxvISA/eihlA4YVOxzlP9fai2xoT/AZRlGZSMwIKg/WG6R
+         kzoe6hvEsDq4cXuRd6ln6tQfmpotQrmNGRzlgIXJAsSBJgl3RRl88J6YLDrOzjVR0JWU
+         8LxkjJEL0F7slU5EbEF4dskLi4uKP1cS5pNNDmzOUwttofTFaWDzuKF0yE0e1xXleXnX
+         JBolWKgBpnvx7ARNiK+PabzOlYfl2jNtHcvd7pJEZa4eVgXTL3sXyw4hV+UazJ8rMy8Q
+         FSCdjRbN6wWGAq+FAGhLQfP2gbdZCpM5JgOPm6geleKPtpYWA0DtRps32uDrKE8+X/qi
+         1Jpw==
+X-Gm-Message-State: AOAM5320DIukAtSb34YLP4OaJySxierMxZ40s1Ng1SwLbSyduPXLjPcC
+        8AlPOVgMXjqHyLP/f1rhpHUQh42CwMopRY9EK2pLnD2JHfZJ0w==
+X-Google-Smtp-Source: ABdhPJwbbBYGjUEQSS3Bb7EfYk34O3AVuG22pVIF78fkATQG8c+PQmeHgcc35+YrriS74Wl5STB8JbzOasp+8kCVBlk=
+X-Received: by 2002:a67:8c5:: with SMTP id 188mr1017695vsi.4.1630519870726;
+ Wed, 01 Sep 2021 11:11:10 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:ce9c:0:0:0:0 with HTTP; Wed, 1 Sep 2021 07:35:32
- -0700 (PDT)
-From:   ekesine ugwu <ekesineugwu@gmail.com>
-Date:   Wed, 1 Sep 2021 07:35:32 -0700
-Message-ID: <CALCrinRxo_zgdB5sgfCEPY7sSRcXR6jtAjAfbnUfrj3gSvh-Eg@mail.gmail.com>
-Subject: 
+Received: by 2002:ab0:740d:0:0:0:0:0 with HTTP; Wed, 1 Sep 2021 11:11:10 -0700 (PDT)
+From:   CorisBank International <corisbankintlbf@gmail.com>
+Date:   Wed, 1 Sep 2021 11:11:10 -0700
+Message-ID: <CA+25hwzjLgVdtDXYWeuqFBTvAbpc4oxK0dW54s7tjGNyU_m0ow@mail.gmail.com>
+Subject: CORISBANK INTERNATIONAL OFFICIAL NOTIFICATION
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Attention Please,
+Att: Client
 
-I am Bar. uchenna ilobi ,  How are you, I hope you are fine and
-healthy? This is to inform you that i have concluded the transaction
-successfully with the help of a new partner from Venezuela and now the
-fund has been transferred to Venezuela into the bank account of the
-new partner.
 
-Meanwhile, I have decided to compensate you with the sum of
-US$350,000.00 (thiree Hundred and Fifty Thousand United States
-Dollars) due to your past effort, though you disappointed me along the
-line. But nevertheless I am very happy for the successful ending of
-the transaction without any problem and that is the reason why i have
-decided to compensate you with the sum of US$350,000.00 so that you
-will share the joy with me.
+CORISBANK INTERNATIONAL URGENT NOTIFICATION
 
-I advise you to contact my secretary for Atm Card of US$350.000.00,
-which I kept for you. Contact him now without any delay.
+Notification / Notification/ Notification
 
-Name: solomon brandy
+Note, We are writing to inform you officially that Finally the Central
+Bank Financial Authority have approved to transfer your $8.2Million
+which was signed by late Mrs Rose Banneth the COVID.19 victim to
+transfer to you, Late Mrs Rose Banneth the France Lady contacted us to
+transfer her fund in our bank to you for Orphanage work before she
+died by the COVID.19
+and as it is now, you will receive your fund through our corresponding
+bank in Dubai [Emirate Investment Bank ] for security reason. Please
+you should reconfirm your details to receive the $8.2Million.
 
-Email:solomonbrandyfiveone@gmail.com
+Name, Country, Address, occupations, Age, Telephone number, account
+Details so that we can immediately forward to the World Bank to
+transfer the fund.
+You are advised to comply on timely manner to permit this esteem bank
+transfer your fund as scheduled.
 
-Kindly reconfirm to him the following below information:
+We look forward to serving you better
+Your Financial Comfort Is A Priority
+Thank you for choosing Corisbank International.
 
-Your full name_________________________
-Your address__________________________
-Your country___________________________
-Your age______________________________
-Your occupation________________________
-Your cell Phone number______________________
+Sincerely,
 
-Note that if you did not send him the above information complete, he
-will not release the Atm card to you because he has to be sure that it
-is you. Ask him to send you the total sum of ($350.000.00 ) Atm card,
-which I kept for you.
+----
 
-Best regards,
-
-Mr. uchenna ilobi
+Mr Diakarya Ouattara
+Managing Director
+Bank Coris
+Burkina Faso
++226 556 163 37
+financial_bf_info@accountant.com
