@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C8BC4006EB
+	by mail.lfdr.de (Postfix) with ESMTP id DFFFC4006ED
 	for <lists+linux-leds@lfdr.de>; Fri,  3 Sep 2021 22:46:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350987AbhICUrB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S1350991AbhICUrB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Fri, 3 Sep 2021 16:47:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41424 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350971AbhICUrA (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Sep 2021 16:47:00 -0400
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51706C061757;
-        Fri,  3 Sep 2021 13:46:00 -0700 (PDT)
-Received: by mail-oo1-xc2c.google.com with SMTP id m14-20020a4ad50e000000b002912a944a47so53421oos.12;
-        Fri, 03 Sep 2021 13:46:00 -0700 (PDT)
+        with ESMTP id S235953AbhICUrB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Sep 2021 16:47:01 -0400
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13400C0613C1;
+        Fri,  3 Sep 2021 13:46:01 -0700 (PDT)
+Received: by mail-oi1-x234.google.com with SMTP id r26so694867oij.2;
+        Fri, 03 Sep 2021 13:46:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9NNm8UV+NJ/s6uGLWClpSwEu83DssbVn3I+chz3NRB0=;
-        b=nYR8Pw5XZyQayzbXEwey3+oMRPG0fTFlrZRaPJYu4DJfpIFbSajDBvltlKpxu0ifge
-         qCHpfzCsZPtWfJRXTAC5v80TEK6cMiYxH1a0gE3C/IIGb10E8wdelo0XCHO085OqoetT
-         5xNiwe22fqdSM8TJl7zip79oy1jgbzYUDDpXzoZ3sARgRZPUAId7UY03j81lIFXXSNrx
-         vEtr+RpJsphBGmeBkpdsWL4oHaTUHzQX5q1UuBkr5zmL3pb+neTre+I/WYCNpU+8z4Lg
-         qlsqPbBo5UOITfjNJ81xcShFRrmS8+dNmaxLKh48w+zpyEmXR3/Z3xzg+J7+ItqWfS+z
-         cpog==
+        bh=5IvB2ie/eR/p0ZXjKpNOoLs51YY8X2DxXyaLyjEGU5s=;
+        b=YCZigrz5HRASifSFQmQ+iyFnfxeRbHvnj0TYLkOUsnLAgDERauNK3mRpQShZPB1WRv
+         u9aAgchJLl8OR2iKIKE7OH723cVvMZDcmpkyISJOq/+zQ6Qf91Bl3PZYI34ddeJsc0y2
+         guZanR9DWcpSUb7UIeavVf/KTZL3Hvejxi3GNkG9ePUUM7kjEvraaK6e4AWXVEBaijD/
+         Gr1/xdDCJulIGhuUXCqOI2rwrFjNr0uQQqowhO8CaI3orm6Nh5IjG2GPm2n6HgUvJTgX
+         c2VxrtOtW34F1P0TpLdwaH4diZNTASpcKudNh5je80YIFwLl2EiskxJahNFxVooUkAyR
+         Ve5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9NNm8UV+NJ/s6uGLWClpSwEu83DssbVn3I+chz3NRB0=;
-        b=WmOLCNTDljEaliRQ0DXyiq8SwrgPdPhD5fuNYI1lAjJRsOUuYP9Xc+SXY+VW0au3GS
-         pF4R8dMhUc6o8LuMVs4JyxdKa3BwqU2VpCSF+9jg3wRn1zNUB+MGaDZWra0BY+LgPlfQ
-         wBQDD5yYuecV6f8+wT0MiSwe66rwzV4Z4l5g859sXeMEn1VHETUfu7S2BsbEioE4AgAw
-         yYILFxBmb8Hqnjj9fSRhNraS5C7MqgM4Ga5EPcnVw63O/xNGmnYxAudOP7XqZwqMcl54
-         JjESmV4m9TnVRtAP+mD+UCVKwEnsHUnnOpOBnJhw99qbaY9uyNeUypgHiYR4/ExvNBDl
-         G+mQ==
-X-Gm-Message-State: AOAM533Y77Z3t1LHhX8ujNxUwzr+2FPkbax6r7xWBuhkMgXkcXadvBJt
-        izPWgUeYQiJVca5LkQm87v8=
-X-Google-Smtp-Source: ABdhPJyabuCrCZz4NiJWv65TjdVZndPyUien4ErM5hTT3ZFxyA64avQnRkULN5TWfcv1zePVbhpjCg==
-X-Received: by 2002:a05:6820:16a8:: with SMTP id bc40mr4556576oob.63.1630701959730;
-        Fri, 03 Sep 2021 13:45:59 -0700 (PDT)
+        bh=5IvB2ie/eR/p0ZXjKpNOoLs51YY8X2DxXyaLyjEGU5s=;
+        b=c4lFiXNH1ag0Mth+HBtiLTikYwH01HUjR33/cgBKdG0JjcCjT98C/Hm2PRu8r06OSL
+         SkwqPmwumpPx6sV6UejkouYSIdOgObCLSxbvmQsLH64VkDgVoifJbctkcLpQyO6gjtgo
+         bwSqTnSOFyMOkwNbU8reiagt6ZJXyZIHoOynchQ2NbHbFj8PNVAKr6k6LMzNmBEdnqn4
+         gO5uLXsSPoAyl7dkoDVKqJhlZJjB2VXJZa3iuRQTAAOhAGE1NHVUkh9Fx9ei9JGFH7Rh
+         bGha+NV9LScsEDyTbFGjF/dBshYMhNV7C8i5B+DJy7SFccbeBmbyYwzMkfaRkpobn7MY
+         xhog==
+X-Gm-Message-State: AOAM533fEOF7Jy2DJsVNFHLMuEPGt7CM/dTv71njE7dLexHyy1rWJhRm
+        hLZ0QvF37eoKC4GRdVvf/jw=
+X-Google-Smtp-Source: ABdhPJyJAaZc/kL+e5qS7AY/S/FKJ4jwSG2ea+uz4iv66JyQAH/tmA+Tr1Nu31C9f2usbgrQhFtmFw==
+X-Received: by 2002:aca:f143:: with SMTP id p64mr485284oih.161.1630701960452;
+        Fri, 03 Sep 2021 13:46:00 -0700 (PDT)
 Received: from ian.penurio.us ([47.184.51.90])
         by smtp.gmail.com with ESMTPSA id be5sm90023oib.10.2021.09.03.13.45.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 13:45:59 -0700 (PDT)
+        Fri, 03 Sep 2021 13:46:00 -0700 (PDT)
 From:   Ian Pilcher <arequipeno@gmail.com>
 To:     axboe@kernel.dk, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-block@vger.kernel.org,
         linux@vger.kernel.org, gregkh@linuxfoundation.org, kabel@kernel.org
-Subject: [PATCH 03/18] ledtrig-blkdev: Add function placeholders needed by block changes
-Date:   Fri,  3 Sep 2021 15:45:33 -0500
-Message-Id: <20210903204548.2745354-4-arequipeno@gmail.com>
+Subject: [PATCH 04/18] block: Add block device LED trigger integrations
+Date:   Fri,  3 Sep 2021 15:45:34 -0500
+Message-Id: <20210903204548.2745354-5-arequipeno@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903204548.2745354-1-arequipeno@gmail.com>
 References: <20210903204548.2745354-1-arequipeno@gmail.com>
@@ -63,71 +63,64 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add ledtrig_blkdev_disk_init() and ledtrig_blkdev_disk_cleanup()
-placeholders.  (Implementations depend on block subsystem changes in
-next commit.)
+Add LED trigger disk info pointer to gendisk structure
+
+Call ledtrig_blkdev_disk_init() from device_add_disk() to ensure that
+ledtrig is initialized to NULL, in case a driver allocates the structure
+itself and doesn't use kzalloc()
+
+Call ledtrig_blkdev_disk_cleanup() from del_gendisk() to ensure that the
+LED trigger stops trying to check the disk for activity
 
 Signed-off-by: Ian Pilcher <arequipeno@gmail.com>
 ---
- drivers/leds/trigger/ledtrig-blkdev-core.c | 11 +++++++++++
- include/linux/leds.h                       | 19 +++++++++++++++++++
- 2 files changed, 30 insertions(+)
+ block/genhd.c         | 4 ++++
+ include/linux/genhd.h | 3 +++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/leds/trigger/ledtrig-blkdev-core.c b/drivers/leds/trigger/ledtrig-blkdev-core.c
-index a126c7fc0f9f..f5b92d37f0df 100644
---- a/drivers/leds/trigger/ledtrig-blkdev-core.c
-+++ b/drivers/leds/trigger/ledtrig-blkdev-core.c
-@@ -6,4 +6,15 @@
-  *	Copyright 2021 Ian Pilcher <arequipeno@gmail.com>
-  */
- 
+diff --git a/block/genhd.c b/block/genhd.c
+index 567549a011d1..6f340a717099 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -24,6 +24,7 @@
+ #include <linux/log2.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/badblocks.h>
 +#include <linux/leds.h>
-+
- #include "ledtrig-blkdev.h"
-+
-+/**
-+ * ledtrig_blkdev_disk_cleanup - remove a block device from the blkdev LED
-+ * trigger
-+ * @gd:	the disk to be removed
-+ */
-+void ledtrig_blkdev_disk_cleanup(struct gendisk *const gd)
-+{
-+}
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index a0b730be40ad..5d53921e4229 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -10,6 +10,7 @@
  
- #include <dt-bindings/leds/common.h>
- #include <linux/device.h>
-+#include <linux/genhd.h>
- #include <linux/kernfs.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-@@ -605,4 +606,22 @@ static inline void ledtrig_audio_set(enum led_audio type,
- }
- #endif
+ #include "blk.h"
  
+@@ -390,6 +391,8 @@ int device_add_disk(struct device *parent, struct gendisk *disk,
+ 	struct device *ddev = disk_to_dev(disk);
+ 	int ret;
+ 
++	ledtrig_blkdev_disk_init(disk);
++
+ 	/*
+ 	 * The disk queue should now be all set with enough information about
+ 	 * the device for the elevator code to pick an adequate default
+@@ -559,6 +562,7 @@ void del_gendisk(struct gendisk *disk)
+ 	if (WARN_ON_ONCE(!disk_live(disk) && !(disk->flags & GENHD_FL_HIDDEN)))
+ 		return;
+ 
++	ledtrig_blkdev_disk_cleanup(disk);
+ 	blk_integrity_del(disk);
+ 	disk_del_events(disk);
+ 
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index c68d83c87f83..29039367ccad 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -166,6 +166,9 @@ struct gendisk {
+ #endif	/* CONFIG_BLK_DEV_INTEGRITY */
+ #if IS_ENABLED(CONFIG_CDROM)
+ 	struct cdrom_device_info *cdi;
++#endif
 +#if IS_ENABLED(CONFIG_LEDS_TRIGGER_BLKDEV)
-+/**
-+ * ledtrig_blkdev_disk_init - initialize the ledtrig field of a new gendisk
-+ * @gd:	the gendisk to be initialized
-+ */
-+static inline void ledtrig_blkdev_disk_init(struct gendisk *const gd)
-+{
-+}
-+void ledtrig_blkdev_disk_cleanup(struct gendisk *const gd);
-+#else	/* CONFIG_LEDS_TRIGGER_BLKDEV */
-+static inline void ledtrig_blkdev_disk_init(const struct gendisk *gd)
-+{
-+}
-+static inline void ledtrig_blkdev_disk_cleanup(const struct gendisk *gd)
-+{
-+}
-+#endif	/* CONFIG_LEDS_TRIGGER_BLKDEV */
-+
- #endif		/* __LINUX_LEDS_H_INCLUDED */
++	struct ledtrig_blkdev_disk *ledtrig;
+ #endif
+ 	int node_id;
+ 	struct badblocks *bb;
 -- 
 2.31.1
 
