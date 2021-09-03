@@ -2,58 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53AF44006FA
+	by mail.lfdr.de (Postfix) with ESMTP id E6D5E4006FC
 	for <lists+linux-leds@lfdr.de>; Fri,  3 Sep 2021 22:46:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351029AbhICUrN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 3 Sep 2021 16:47:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41486 "EHLO
+        id S1351053AbhICUrO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 3 Sep 2021 16:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351023AbhICUrF (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Sep 2021 16:47:05 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ED32C061757;
-        Fri,  3 Sep 2021 13:46:05 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id l7-20020a0568302b0700b0051c0181deebso502614otv.12;
-        Fri, 03 Sep 2021 13:46:05 -0700 (PDT)
+        with ESMTP id S1351041AbhICUrM (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 3 Sep 2021 16:47:12 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 349C6C0617A8;
+        Fri,  3 Sep 2021 13:46:06 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id s20so695702oiw.3;
+        Fri, 03 Sep 2021 13:46:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xcnelpo7t5BlhbZmew1I72TlJ5Ge0X8Iqq9vAi6Pzo4=;
-        b=pZPFRWZefwAIyVDAlJgBJj0edi/nyKfqgqOGA8LifzzU9+m9fm6UC2Zr9QsrH548Qu
-         U+EedOsbJhyCpHN35BdNgongKEHZzl2nw0JJe1ukjSa4thw9Sjd56J5J6tfVYyWSwhd1
-         /CKuKL8xVzwSu96+fFAc2htovPaRDQImRvPbXyAHNFpFbq2cp6gZhw4AM+5XPKqElMNY
-         lQHIeB9UvVPferfZMgMaS33223pJT6CFtYh1DPBepdUOEOvREzkXJy+jlTliHRLc8eqy
-         9UZSMny8tZyp/AXG+64wszduEy0gvrlReYrkcfSp2pLVwdi672GoSkRTfBuIaL2jT94q
-         kRrg==
+        bh=Z3IpWY6hC6vHRC5+LJLa1BK+7bWdECMM9FiUHKFu/VA=;
+        b=oqSzxLsNghPexCOOhno0g6Lv//8JbqpywNeCIiF8cuseSEpzr0W9szJr+630j/2fYR
+         9zqIrXOnlO6RdDm4UZ8WS/WasTNlesC2ei//QCBBmim00iC/uYS6cMsXm2fb86N5SEgR
+         HP1otL7KshsSzgFSyZzi4zVfJZEJUuuZZh5sbtVl+AQA2GUW2wPmU4qFmMo96csesr+F
+         ZD6eyglZsOLN1I53gKx6mPYSqHsomL0YYAF1Vwsg1n/Iv2v0yOe/HOvQc/bIasGQbvT4
+         z0hsl9q1WgNy2RLNrIWKWfwsNtlsDiM2Vi9Rh3lzrTNo8VanjloF0JLQ+Juw3D2AYdo9
+         zRQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xcnelpo7t5BlhbZmew1I72TlJ5Ge0X8Iqq9vAi6Pzo4=;
-        b=krCNPiHHFiXuEkZyj7CiV365bVlrUAuoukNQUaSORCM4A1LpiIatKaJaJFUbEErfCt
-         5NdFi2BxFos5qVMaK852Gr07yMColuB5MBnC/poCLYgkM3KFXbUgxyZ6AE6sdQzQWL0T
-         qL+Eo0eG9tgs1f91ljpYnH3nMrxinR+Xt+52OSAqp5he74zS5ZKu/DQWEGDgWpQCO+hG
-         L7vr7ZxUYjZZOReDXU8ZI56YW/TAOxyNKFjtMVbXjyc04MQRqcBqe/qO8/39qbUPlza9
-         oPfHiiOPPKiITmMuacHP7xF7ySD6mbfruXvaW0qa1yaul/y96bN3o6BICteazcERnpuR
-         J6eQ==
-X-Gm-Message-State: AOAM530i9ptT/AG6A1S28zyEi9svXQ4g+HffPKukg7QWOyUgxKFCqCfE
-        ZonJp1Xjeimk7VaD+C2ds6h6tXZaXpveEw==
-X-Google-Smtp-Source: ABdhPJz7GD2OEruboJ46wpX9yD1maLSpMRkh6Q1RNpsuGOOiED+UojxftWPR0MAyWI8KIHT1pEqL2w==
-X-Received: by 2002:a05:6830:3145:: with SMTP id c5mr826729ots.211.1630701964497;
-        Fri, 03 Sep 2021 13:46:04 -0700 (PDT)
+        bh=Z3IpWY6hC6vHRC5+LJLa1BK+7bWdECMM9FiUHKFu/VA=;
+        b=rgb5Zn+3Q8P90f77tS6bP/sH/1NvIMVegsyvhl0wQwprgoQegtP/6jyOZo+HkERA5V
+         08WcRLriPpnzILLt7NCf8/R/EtCiy5FUPHyzNrmXcsdcNiRIZGYYfGvq7u0hRmrSo8zt
+         a/0U4gBOVkf6K0uvx1SOfSSRUys6WhbdkoiUbpX89wBgSy6Dgq6J4Jpcyy9BMsoY3KiQ
+         +Aziupt96tUby0T0+i04NYnPK2p2sAJEp3dz007E8hYO52LUk3pV+e11Esdbd7eLoHzh
+         jtUXctxzko33bczG8HOl0ggBarbkz6I3GkoebdRydLn0wwDjPHiULBRqM02pE4ExLCaA
+         /N8w==
+X-Gm-Message-State: AOAM532BpKoZm5rAwu1cPZtc00OaRr9dt3V3BQxTwFG6zUtEljgx/oTo
+        6ioPePqu0SSmWIYeXbFRwo6lRDEXBFr0Nw==
+X-Google-Smtp-Source: ABdhPJzLcOQXa3N/OD1cL1ho5sT+kfch84I/CVG+3Ubt8gmtcXkolDXBVTkHKmVWaRUQqQwbUp9Sng==
+X-Received: by 2002:a05:6808:5c7:: with SMTP id d7mr525910oij.147.1630701965608;
+        Fri, 03 Sep 2021 13:46:05 -0700 (PDT)
 Received: from ian.penurio.us ([47.184.51.90])
-        by smtp.gmail.com with ESMTPSA id be5sm90023oib.10.2021.09.03.13.46.03
+        by smtp.gmail.com with ESMTPSA id be5sm90023oib.10.2021.09.03.13.46.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 13:46:04 -0700 (PDT)
+        Fri, 03 Sep 2021 13:46:05 -0700 (PDT)
 From:   Ian Pilcher <arequipeno@gmail.com>
 To:     axboe@kernel.dk, pavel@ucw.cz
 Cc:     linux-leds@vger.kernel.org, linux-block@vger.kernel.org,
         linux@vger.kernel.org, gregkh@linuxfoundation.org, kabel@kernel.org
-Subject: [PATCH 09/18] ledtrig-blkdev: Periodically check devices for activity & blink LEDs
-Date:   Fri,  3 Sep 2021 15:45:39 -0500
-Message-Id: <20210903204548.2745354-10-arequipeno@gmail.com>
+Subject: [PATCH 10/18] ledtrig-blkdev: Add function to associate the trigger with an LED
+Date:   Fri,  3 Sep 2021 15:45:40 -0500
+Message-Id: <20210903204548.2745354-11-arequipeno@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903204548.2745354-1-arequipeno@gmail.com>
 References: <20210903204548.2745354-1-arequipeno@gmail.com>
@@ -63,125 +63,79 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Use a delayed workqueue to periodically check configured block devices for
-activity since the last check.  Blink LEDs associated with devices on which
-the configured type of activity (read/write) has occurred.
+Allocate per-LED data structure and initialize with default values
+
+Create /sys/class/leds/<led>/block_devices directory
+
+Increment module reference count.  Module can only be removed when no LEDs
+are associated with the trigger.
 
 Signed-off-by: Ian Pilcher <arequipeno@gmail.com>
 ---
- drivers/leds/trigger/ledtrig-blkdev.c | 88 +++++++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
+ drivers/leds/trigger/ledtrig-blkdev.c | 54 +++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
 diff --git a/drivers/leds/trigger/ledtrig-blkdev.c b/drivers/leds/trigger/ledtrig-blkdev.c
-index 1f319529c3be..37ba9bb3542e 100644
+index 37ba9bb3542e..bbf71ff18057 100644
 --- a/drivers/leds/trigger/ledtrig-blkdev.c
 +++ b/drivers/leds/trigger/ledtrig-blkdev.c
-@@ -7,7 +7,9 @@
-  */
- 
- #include <linux/ctype.h>
-+#include <linux/leds.h>
- #include <linux/module.h>
-+#include <linux/part_stat.h>
- 
- #include "ledtrig-blkdev.h"
- 
-@@ -68,6 +70,10 @@ static unsigned int ledtrig_blkdev_count;
- /* How often to check for drive activity - in jiffies */
- static unsigned int ledtrig_blkdev_interval;
- 
-+/* Delayed work used to periodically check for activity & blink LEDs */
-+static void blkdev_process(struct work_struct *const work);
-+static DECLARE_DELAYED_WORK(ledtrig_blkdev_work, blkdev_process);
-+
- 
- /*
-  *
-@@ -110,3 +116,85 @@ static bool blkdev_write_mode(const enum ledtrig_blkdev_mode mode)
- {
- 	return mode != LEDTRIG_BLKDEV_MODE_RO;
+@@ -198,3 +198,57 @@ static void blkdev_process(struct work_struct *const work)
+ 	delay = READ_ONCE(ledtrig_blkdev_interval);
+ 	WARN_ON_ONCE(!schedule_delayed_work(&ledtrig_blkdev_work, delay));
  }
 +
 +
 +/*
 + *
-+ *	Periodically check for device acitivity and blink LEDs
++ *	Associate an LED with the blkdev trigger
 + *
 + */
 +
-+static void blkdev_blink(const struct ledtrig_blkdev_led *const led)
++static int blkdev_activate(struct led_classdev *const led_dev)
 +{
-+	unsigned long delay_on = READ_ONCE(led->blink_msec);
-+	unsigned long delay_off = 1;	/* 0 leaves LED turned on */
-+
-+	led_blink_set_oneshot(led->led_dev, &delay_on, &delay_off, 0);
-+}
-+
-+static void blkdev_update_disk(struct ledtrig_blkdev_disk *const disk,
-+			       const unsigned int generation)
-+{
-+	const struct block_device *const part0 = disk->gd->part0;
-+	const unsigned long read_ios = part_stat_read(part0, ios[STAT_READ]);
-+	const unsigned long write_ios = part_stat_read(part0, ios[STAT_WRITE])
-+				+ part_stat_read(part0, ios[STAT_DISCARD])
-+				+ part_stat_read(part0, ios[STAT_FLUSH]);
-+
-+	if (disk->read_ios != read_ios) {
-+		disk->read_act = true;
-+		disk->read_ios = read_ios;
-+	} else {
-+		disk->read_act = false;
-+	}
-+
-+	if (disk->write_ios != write_ios) {
-+		disk->write_act = true;
-+		disk->write_ios = write_ios;
-+	} else {
-+		disk->write_act = false;
-+	}
-+
-+	disk->generation = generation;
-+}
-+
-+static void blkdev_process(struct work_struct *const work)
-+{
-+	static unsigned int generation;
-+
 +	struct ledtrig_blkdev_led *led;
-+	struct ledtrig_blkdev_link *link;
-+	unsigned long delay;
++	int ret;
 +
-+	if (!mutex_trylock(&ledtrig_blkdev_mutex))
-+		goto exit_reschedule;
-+
-+	hlist_for_each_entry(led, &ledtrig_blkdev_leds, leds_node) {
-+
-+		hlist_for_each_entry(link, &led->disks, led_disks_node) {
-+
-+			struct ledtrig_blkdev_disk *const disk = link->disk;
-+
-+			if (disk->generation != generation)
-+				blkdev_update_disk(disk, generation);
-+
-+			if (disk->read_act && blkdev_read_mode(led->mode)) {
-+				blkdev_blink(led);
-+				break;
-+			}
-+
-+			if (disk->write_act && blkdev_write_mode(led->mode)) {
-+				blkdev_blink(led);
-+				break;
-+			}
-+		}
++	if (WARN_ON(!try_module_get(THIS_MODULE))) {
++		ret = -ENODEV;		/* -ESHOULDNEVERHAPPEN */
++		goto exit_return;
 +	}
 +
-+	++generation;
++	led = kmalloc(sizeof(*led), GFP_KERNEL);
++	if (led == NULL) {
++		ret = -ENOMEM;
++		goto exit_put_module;
++	}
 +
++	led->led_dev = led_dev;
++	led->blink_msec = LEDTRIG_BLKDEV_BLINK_MSEC;
++	led->mode = LEDTRIG_BLKDEV_MODE_RW;
++	INIT_HLIST_HEAD(&led->disks);
++
++	ret = mutex_lock_interruptible(&ledtrig_blkdev_mutex);
++	if (ret != 0)
++		goto exit_free;
++
++	led->dir = kobject_create_and_add("block_devices", &led_dev->dev->kobj);
++	if (led->dir == NULL) {
++		ret = -ENOMEM;
++		goto exit_unlock;
++	}
++
++	hlist_add_head(&led->leds_node, &ledtrig_blkdev_leds);
++	led_set_trigger_data(led_dev, led);
++	ret = 0;
++
++exit_unlock:
 +	mutex_unlock(&ledtrig_blkdev_mutex);
-+
-+exit_reschedule:
-+	delay = READ_ONCE(ledtrig_blkdev_interval);
-+	WARN_ON_ONCE(!schedule_delayed_work(&ledtrig_blkdev_work, delay));
++exit_free:
++	if (ret != 0)
++		kfree(led);
++exit_put_module:
++	if (ret != 0)
++		module_put(THIS_MODULE);
++exit_return:
++	return ret;
 +}
 -- 
 2.31.1
