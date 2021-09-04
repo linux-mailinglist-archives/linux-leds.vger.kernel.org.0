@@ -2,169 +2,103 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 406954009F6
-	for <lists+linux-leds@lfdr.de>; Sat,  4 Sep 2021 08:01:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5114400A14
+	for <lists+linux-leds@lfdr.de>; Sat,  4 Sep 2021 08:39:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232570AbhIDGCp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 4 Sep 2021 02:02:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58642 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229741AbhIDGCo (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sat, 4 Sep 2021 02:02:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F21260F56;
-        Sat,  4 Sep 2021 06:01:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1630735303;
-        bh=SrDxuptF3EM7MY1cjNB3mCBrnNxv5wMFsvQMgUyB3bY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VS/BplqC9kTTm4G7UKDbbRH0vIGFT/8bBxMwQBkFiAYIV0Nqsl62HTzCvkFLuoGOy
-         JbVlIu/AIA+B21B4nJnWRFDC+JIjhL9Emt22A8Ww/IlcLYIKj56L9S8ITk3dbOEYld
-         rQr/1yDNwzXeKpT2W8le+SqzPUA+sImHb3jJKAeA=
-Date:   Sat, 4 Sep 2021 08:01:41 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
+        id S234922AbhIDGal (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 4 Sep 2021 02:30:41 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:37372 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229994AbhIDGal (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 4 Sep 2021 02:30:41 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id D629E1C0BA6; Sat,  4 Sep 2021 08:29:38 +0200 (CEST)
+Date:   Sat, 4 Sep 2021 08:29:38 +0200
+From:   Pavel Machek <pavel@ucw.cz>
 To:     Ian Pilcher <arequipeno@gmail.com>
-Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-leds@vger.kernel.org,
+Cc:     axboe@kernel.dk, linux-leds@vger.kernel.org,
         linux-block@vger.kernel.org, linux@vger.kernel.org,
-        kabel@kernel.org
-Subject: Re: [PATCH 09/18] ledtrig-blkdev: Periodically check devices for
- activity & blink LEDs
-Message-ID: <YTMLxdQ3TFKPN+WH@kroah.com>
+        gregkh@linuxfoundation.org, kabel@kernel.org
+Subject: Re: [PATCH 01/18] docs: Add block device (blkdev) LED trigger
+ documentation
+Message-ID: <20210904062938.GA25286@amd>
 References: <20210903204548.2745354-1-arequipeno@gmail.com>
- <20210903204548.2745354-10-arequipeno@gmail.com>
+ <20210903204548.2745354-2-arequipeno@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="9amGYk9869ThD9tj"
 Content-Disposition: inline
-In-Reply-To: <20210903204548.2745354-10-arequipeno@gmail.com>
+In-Reply-To: <20210903204548.2745354-2-arequipeno@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Sep 03, 2021 at 03:45:39PM -0500, Ian Pilcher wrote:
-> Use a delayed workqueue to periodically check configured block devices for
-> activity since the last check.  Blink LEDs associated with devices on which
-> the configured type of activity (read/write) has occurred.
-> 
-> Signed-off-by: Ian Pilcher <arequipeno@gmail.com>
-> ---
->  drivers/leds/trigger/ledtrig-blkdev.c | 88 +++++++++++++++++++++++++++
->  1 file changed, 88 insertions(+)
-> 
-> diff --git a/drivers/leds/trigger/ledtrig-blkdev.c b/drivers/leds/trigger/ledtrig-blkdev.c
-> index 1f319529c3be..37ba9bb3542e 100644
-> --- a/drivers/leds/trigger/ledtrig-blkdev.c
-> +++ b/drivers/leds/trigger/ledtrig-blkdev.c
-> @@ -7,7 +7,9 @@
->   */
->  
->  #include <linux/ctype.h>
-> +#include <linux/leds.h>
->  #include <linux/module.h>
-> +#include <linux/part_stat.h>
->  
->  #include "ledtrig-blkdev.h"
->  
-> @@ -68,6 +70,10 @@ static unsigned int ledtrig_blkdev_count;
->  /* How often to check for drive activity - in jiffies */
->  static unsigned int ledtrig_blkdev_interval;
->  
-> +/* Delayed work used to periodically check for activity & blink LEDs */
-> +static void blkdev_process(struct work_struct *const work);
-> +static DECLARE_DELAYED_WORK(ledtrig_blkdev_work, blkdev_process);
-> +
->  
->  /*
->   *
-> @@ -110,3 +116,85 @@ static bool blkdev_write_mode(const enum ledtrig_blkdev_mode mode)
->  {
->  	return mode != LEDTRIG_BLKDEV_MODE_RO;
->  }
-> +
-> +
-> +/*
-> + *
-> + *	Periodically check for device acitivity and blink LEDs
-> + *
-> + */
-> +
-> +static void blkdev_blink(const struct ledtrig_blkdev_led *const led)
-> +{
-> +	unsigned long delay_on = READ_ONCE(led->blink_msec);
-> +	unsigned long delay_off = 1;	/* 0 leaves LED turned on */
-> +
-> +	led_blink_set_oneshot(led->led_dev, &delay_on, &delay_off, 0);
-> +}
-> +
-> +static void blkdev_update_disk(struct ledtrig_blkdev_disk *const disk,
-> +			       const unsigned int generation)
-> +{
-> +	const struct block_device *const part0 = disk->gd->part0;
-> +	const unsigned long read_ios = part_stat_read(part0, ios[STAT_READ]);
-> +	const unsigned long write_ios = part_stat_read(part0, ios[STAT_WRITE])
-> +				+ part_stat_read(part0, ios[STAT_DISCARD])
-> +				+ part_stat_read(part0, ios[STAT_FLUSH]);
-> +
-> +	if (disk->read_ios != read_ios) {
-> +		disk->read_act = true;
-> +		disk->read_ios = read_ios;
-> +	} else {
-> +		disk->read_act = false;
-> +	}
-> +
-> +	if (disk->write_ios != write_ios) {
-> +		disk->write_act = true;
-> +		disk->write_ios = write_ios;
-> +	} else {
-> +		disk->write_act = false;
-> +	}
-> +
-> +	disk->generation = generation;
-> +}
-> +
-> +static void blkdev_process(struct work_struct *const work)
-> +{
-> +	static unsigned int generation;
-> +
-> +	struct ledtrig_blkdev_led *led;
-> +	struct ledtrig_blkdev_link *link;
-> +	unsigned long delay;
-> +
-> +	if (!mutex_trylock(&ledtrig_blkdev_mutex))
-> +		goto exit_reschedule;
-> +
-> +	hlist_for_each_entry(led, &ledtrig_blkdev_leds, leds_node) {
-> +
-> +		hlist_for_each_entry(link, &led->disks, led_disks_node) {
-> +
-> +			struct ledtrig_blkdev_disk *const disk = link->disk;
-> +
-> +			if (disk->generation != generation)
-> +				blkdev_update_disk(disk, generation);
-> +
-> +			if (disk->read_act && blkdev_read_mode(led->mode)) {
-> +				blkdev_blink(led);
-> +				break;
-> +			}
-> +
-> +			if (disk->write_act && blkdev_write_mode(led->mode)) {
-> +				blkdev_blink(led);
-> +				break;
-> +			}
-> +		}
-> +	}
-> +
-> +	++generation;
-> +
-> +	mutex_unlock(&ledtrig_blkdev_mutex);
-> +
-> +exit_reschedule:
-> +	delay = READ_ONCE(ledtrig_blkdev_interval);
-> +	WARN_ON_ONCE(!schedule_delayed_work(&ledtrig_blkdev_work, delay));
 
-You just rebooted a machine if it hit this :(
+--9amGYk9869ThD9tj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please never use WARN_ON() in new code unless the machine is really
-broken and you can not do anything else here.
+Hi!
 
-thanks,
+> Add Documentation/ABI/testing/sysfs-class-led-trigger-blkdev to
+> document:
+>=20
+>   * /sys/class/leds/<led>/blink_time
+>   * /sys/class/leds/<led>/interval
+>   * /sys/class/leds/<led>/mode
+>   * /sys/class/leds/<led>/add_blkdev
+>   * /sys/class/leds/<led>/delete_blkdev
+>   * /sys/class/leds/<led>/block_devices
+>=20
+> Add /sys/block/<disk>/blkdev_leds to Documentation/ABI/testing/sysfs-block
+>=20
+> Add overview in Documentation/leds/ledtrig-blkdev.rst
 
-greg k-h
+> +What:		/sys/class/leds/<led>/add_blkdev
+> +Date:		September 2021
+> +Contact:	Ian Pilcher <arequipeno@gmail.com>
+> +Description:
+> +		Associate a block device with this LED by writing its kernel
+> +		name (as shown in /sys/block) to this attribute.  Multiple
+> +		device names may be written at once, separated by whitespace.
+
+This is seriously strange interface.
+
+> +What:		/sys/class/leds/<led>/delete_blkdev
+> +Date:		September 2021
+> +Contact:	Ian Pilcher <arequipeno@gmail.com>
+> +Description:
+> +		Remove the association between this LED and a block device by
+> +		writing the device's kernel name to this attribute.  Multiple
+> +		device names may be written at once, separated by whitespace.
+> +
+> +What:		/sys/class/leds/<led>/block_devices
+> +Date:		September 2021
+> +Contact:	Ian Pilcher <arequipeno@gmail.com>
+> +Description:
+> +		Directory containing links to all block devices that are
+> +		associated with this LED.
+
+If you have directory with symlinks, why not use symlink() syscall
+instead of add_blkdev, and unlink() syscall instead of delete_blkdev?
+
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--9amGYk9869ThD9tj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmEzElIACgkQMOfwapXb+vI1CgCbBSYKK/iUvPdu5qHN04iQlYoy
+n0UAn1ObM4N5zYbBl8CcHYs76h7Yq9XS
+=YFp+
+-----END PGP SIGNATURE-----
+
+--9amGYk9869ThD9tj--
