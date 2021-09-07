@@ -2,95 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 367F1402E41
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Sep 2021 20:16:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E73AC402F5A
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Sep 2021 22:04:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345782AbhIGSR7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Sep 2021 14:17:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39506 "EHLO
+        id S1345921AbhIGUFJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Sep 2021 16:05:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343833AbhIGSR7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Sep 2021 14:17:59 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6163DC061757
-        for <linux-leds@vger.kernel.org>; Tue,  7 Sep 2021 11:16:52 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id s29so8815881pfw.5
-        for <linux-leds@vger.kernel.org>; Tue, 07 Sep 2021 11:16:52 -0700 (PDT)
+        with ESMTP id S1345768AbhIGUFH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Sep 2021 16:05:07 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD63FC0613C1
+        for <linux-leds@vger.kernel.org>; Tue,  7 Sep 2021 13:04:00 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id i8-20020a056830402800b0051afc3e373aso591773ots.5
+        for <linux-leds@vger.kernel.org>; Tue, 07 Sep 2021 13:04:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=MTKC20tO9zMCWTI8piOtIK2h9ol7uIIjMhJrYZXtkYg=;
-        b=JP54FaieVXwvNpDq0XuDG07BQCdr2Dtael/Sn0U3W4F72gblOSgWKOsVQPfglUQAaR
-         StOI2FGY99ADuiwTdcirDT+f0z6RhL7DTRVC6isDQEcfoj3yj9RU/kovpZIum8a+La0t
-         Pz7XbBeLrdLb73e0g/FBjw0cAHp/L5prC+VWE=
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=TENBxfXEJrx+qep0klzFIcnjVwFP7TPiqnVMsNGOBug=;
+        b=luEnDOJzvHQwGgL5oD/itSmHJe7C1R8V4a5IViGtADCVgsKgv2TIz5DcHiy+iE4r6u
+         bWh+QkKk+u6tXj1AWln+ED05+Rwx/rmFH/+1Sjo3DIoYMNbGAFlSsH+57UAU2rRcpJOX
+         Epw4H7JiE9KFLKbohz7Mi5DLhuFL0WmF4H0QA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MTKC20tO9zMCWTI8piOtIK2h9ol7uIIjMhJrYZXtkYg=;
-        b=fVbQIEH7oA8ixQk3czqgHqq9e5w2lYb99TW+3sBGFcAhX4HQXtyPr8fjn9GLzqhFeA
-         7HCtAuhxJA4V0gTuF/iAzfaVghxf0JQ2ZlBsdQvqN68my01s1mCLV65bPSvAeXYipe+r
-         IvzyKwa7YW+GQ4OU4k1T1OrJkePL+DXtruSouUYGxF6nVEXjL+ERvbBPt0qFosti1a4o
-         /c0cCMB0MPXrlEDvbdnIM0w4M4AX1tsbRw/S2yqYB0QareTW4VNpBTcF+YKwhEM76Ise
-         URNOgxDzDSTlOPr1qvlu9MLlIzffQ3yACpH1OkpfWI/43B6WUNNbwdE6pBpUrQsIx8gP
-         N9lg==
-X-Gm-Message-State: AOAM533Iy0sXa9o63ynX0zuM6FeMBLwMex+CHYFwdcMNEoP/PLNvrVMA
-        A8fCWvQv2KQ//ytIdyAa90bBEQ==
-X-Google-Smtp-Source: ABdhPJx9jtF/JxyCIZPs2rLwflSaCsmFbpbllqX2GRRW80zYBwd0FSUQ8BPYOPQvDaCV2DUIfScgUA==
-X-Received: by 2002:a65:6a4b:: with SMTP id o11mr17543541pgu.278.1631038611904;
-        Tue, 07 Sep 2021 11:16:51 -0700 (PDT)
-Received: from localhost ([2620:15c:202:201:c6b2:7ae:474d:36f6])
-        by smtp.gmail.com with UTF8SMTPSA id h4sm3704143pjc.28.2021.09.07.11.16.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Sep 2021 11:16:51 -0700 (PDT)
-Date:   Tue, 7 Sep 2021 11:16:49 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     satya priya <skakit@codeaurora.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=TENBxfXEJrx+qep0klzFIcnjVwFP7TPiqnVMsNGOBug=;
+        b=YXhg41QT2SDz5HXfdw0/tCL0IagfX8aTr4k5y2e652OtWLPaOepMLPDp59VoXrBBAy
+         fLyyfBz81jWkx/j0JNiYB8shPweJm/nQupJ5lLS3AJeHQfIElvVFoT7YDoVmexcGCJ9K
+         /3kFIz6M6ymqyyivr3uogT60JumXc79ghjFzSAL8zhxSMTFDYiZfVkEvmXGA+vQMTRfF
+         2PEPoex/lNL4+AU7zn1XqEMQ8eP4znGmwjEj34qJ3/srRVYZNUqrwEvKciPrzogpvS5a
+         U8RC2Gr6cymwfj0DeGKqrCghPuzXFLSDanZXIPdQFBJKhHjjNBlhlI3WM9HiIg/T7GMN
+         wd8A==
+X-Gm-Message-State: AOAM530VMuQu6GDbhIMOx/KMGsoGXdtw9/ubTKB/tyibqZugTIlzorIZ
+        i8T6Bk6sRWP3N9wpWAF4uQGZTx3srE9JX6nLxOQcdg==
+X-Google-Smtp-Source: ABdhPJy9i/DlZKOQrkekswUoYCNt7EYgkeC4BfnnDRyCvPE/fNG4JvccpBXSKKrzKRlyeS0taETaIPWq8jLCedHjcCA=
+X-Received: by 2002:a05:6830:1212:: with SMTP id r18mr102390otp.159.1631045040100;
+ Tue, 07 Sep 2021 13:04:00 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 7 Sep 2021 20:03:59 +0000
+MIME-Version: 1.0
+In-Reply-To: <1630924867-4663-2-git-send-email-skakit@codeaurora.org>
+References: <1630924867-4663-1-git-send-email-skakit@codeaurora.org> <1630924867-4663-2-git-send-email-skakit@codeaurora.org>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Tue, 7 Sep 2021 20:03:59 +0000
+Message-ID: <CAE-0n53RNDAykhFuDN_Qgwv6ktR8cRQOQxXWmDX9+yXeu4aECw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: leds: Add pm8350c pmic support
+To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
-        swboyd@chromium.org, kgunda@codeaurora.org,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        satya priya <skakit@codeaurora.org>
+Cc:     mka@chromium.org, kgunda@codeaurora.org,
         linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: pm8350c: Add pwm support
-Message-ID: <YTeskY7kXsdmvGPp@google.com>
-References: <1630924867-4663-1-git-send-email-skakit@codeaurora.org>
- <1630924867-4663-4-git-send-email-skakit@codeaurora.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1630924867-4663-4-git-send-email-skakit@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Sep 06, 2021 at 04:11:07PM +0530, satya priya wrote:
-> Add pwm support for PM8350C pmic.
-> 
+Quoting satya priya (2021-09-06 03:41:05)
+> Add pm8350c pmic pwm support.
+>
 > Signed-off-by: satya priya <skakit@codeaurora.org>
 > ---
->  arch/arm64/boot/dts/qcom/pm8350c.dtsi | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/pm8350c.dtsi b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
-> index e1b75ae..ecdae55 100644
-> --- a/arch/arm64/boot/dts/qcom/pm8350c.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
-> @@ -29,6 +29,12 @@
->  			interrupt-controller;
->  			#interrupt-cells = <2>;
->  		};
-> +
-> +		pm8350c_pwm4: pwm {
 
-What does the '4' represent, an internal channel number? It should
-probably be omitted if the PM8350 only has a single output PWM
-port.
-
-> +			compatible = "qcom,pm8350c-pwm";
-> +			#pwm-cells = <2>;
-> +			status = "okay";
-
-I don't think it should be enabled by default, there may be boards with
-the PM8350C that don't use the PWM.
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
