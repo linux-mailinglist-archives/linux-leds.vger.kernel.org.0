@@ -2,99 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BF1A402F87
-	for <lists+linux-leds@lfdr.de>; Tue,  7 Sep 2021 22:20:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 438FA40308D
+	for <lists+linux-leds@lfdr.de>; Tue,  7 Sep 2021 23:58:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242646AbhIGUVa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 7 Sep 2021 16:21:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39640 "EHLO
+        id S1347021AbhIGV7Y (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 7 Sep 2021 17:59:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234414AbhIGUVa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Sep 2021 16:21:30 -0400
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C57C0613C1
-        for <linux-leds@vger.kernel.org>; Tue,  7 Sep 2021 13:20:23 -0700 (PDT)
-Received: by mail-ot1-x333.google.com with SMTP id q11-20020a9d4b0b000000b0051acbdb2869so671675otf.2
-        for <linux-leds@vger.kernel.org>; Tue, 07 Sep 2021 13:20:23 -0700 (PDT)
+        with ESMTP id S1347037AbhIGV7V (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 7 Sep 2021 17:59:21 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93D2BC0613A3
+        for <linux-leds@vger.kernel.org>; Tue,  7 Sep 2021 14:58:14 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id h1so12948ljl.9
+        for <linux-leds@vger.kernel.org>; Tue, 07 Sep 2021 14:58:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=ukPiPPE2rZ88vZN1HP1lB0rTF2OeXPBUpUGvxMb6w7A=;
-        b=kyqoGXnxMsNL5PFmmBaRpA3fUSFzACYYEJxAgrqLqfisBC7GAJWkod8Uqn55/K35Mi
-         yM23x2n0ovoqTTeaQJXg169ZYYouKU+wFJaCdxnSrs/TVE2An7bwq6vDk8vFjK/cjlL6
-         zFC7Yj++kgWDa/LOxFnG3zcLCHHyZSJ8anrw8=
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=4ZeMqFoWSo+tWRP8ze+5Nkj/uqSjpLi4OjSOBk1BCRM=;
+        b=HAij1yLle8cXKrvle5OJIaTSLfPM1NQcWlHsPb/LObcWf3XueeSbdJZbYIHyZHaxFz
+         mQgebaL8oGh1f7q5WeeVQv9iQRNOCZ15n4ZSIoFEQT4iLVFBxaTvKKfu7hd2TjaoDWOq
+         K7SOBsyLDpNBRoEnDjSLaXydp1PA0Ms+bIvCpAaSMzy16hkLf4ItV7dESsVNtkVRZ9r+
+         8ts+dr0qPZfC3FRrhlFqEmsP3hlfoeDHuSH/nx5Z488qtNl/44hbfRf3ebPWb1Edm49z
+         +XqSh6Pv5yY4TnqBlju60JpEwv8A3T0j55S/djm8e9FrFKF8Ej0owL8UKdj8n1nSJ5zG
+         Np0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=ukPiPPE2rZ88vZN1HP1lB0rTF2OeXPBUpUGvxMb6w7A=;
-        b=CGD8pxc9w3iwlWQ3++zFyEdbxj/6/G/7taNIsN9A80mOOAWkBJQqo2FXtHwEkH6bA+
-         FNYW3nk2txG1QU95wV5IJVlbikLjkr7J+XVdaOx0X+vqacgtfBy2Whg8K01GRLo4sRKo
-         idK1Dg1135oaGFW5In8dhNukTFo6CyUL0kcTY5PYjbcFxuQYx5PGTAQ+/ALa94js00/9
-         PAOl+fB7Yj37lx0Bz3ifzaRalfcFzZT1YXrg8enNZMmjSODtC9fjssUMHAEYPR/vII11
-         oSyR9ZwIOGHzdfnwfMVOlHvx6e6nTR/vZLSODPIwnUirT+bYO3zKu7G9E8R85X4npKtz
-         ClVw==
-X-Gm-Message-State: AOAM530mcVlP9d+cGfRZKCUT/oRLSlTeAg2p2WLYhZcQbSBG3y6WwPOO
-        +4k/+B2KhcxwBrf98QwIT4zXB/eeRX71htRCAeOLoA==
-X-Google-Smtp-Source: ABdhPJwYa1VNZ8SWZ957Teoa4i0325fu9DZgnTn3d3Vrdn657RvBqUeJFE1e8/tQPlx1wh3Bf/tNEWc0pG6yKORbGsk=
-X-Received: by 2002:a05:6830:719:: with SMTP id y25mr174735ots.77.1631046023013;
- Tue, 07 Sep 2021 13:20:23 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 7 Sep 2021 20:20:22 +0000
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=4ZeMqFoWSo+tWRP8ze+5Nkj/uqSjpLi4OjSOBk1BCRM=;
+        b=UciXmzVxkklqirZNsHNW4lLpbbYE5QS4FmUOwiXgK3WbCbMYJd1rjTvDxbuDqEeBiM
+         5xeLkt+AX4rR3XWER80bxZNelGOdVFRnN/Cgn5/AKEe/gP5uAYUD3JWJfgIrz7wItguC
+         yjcFTOpYSPR5pOLJrQ64VhBVER0muXlKfI68IqThDBSpXOa14uWd89c4WTdVSBVSYWfG
+         dnsq+Cab7giS1M+FJRqDSURn4Pv9zAnY3VxsW2gHRztxaXtEyWFkihO3u4GjhK+qXKc0
+         hpneMGGg4LS6w2iKPe40BdvcFh8XCi91ALO+xncaNpdzEVjCTpKEyVy8DpiLb16Pnya6
+         l3rw==
+X-Gm-Message-State: AOAM531OmB+M5hc65985EppwQ3y28f8CoyBL4vgQ5vVtvzIneGP+yNsH
+        30yoASsnFvH2+mzIIMA4yBZaAtyl4bAruASlgQ==
+X-Google-Smtp-Source: ABdhPJwZTUumxONE23bH5V3rEkU1vuSCoCeGW6NUXGyc5hPmOT+1cjs0UyLq7LGTgN2PhF5YpPEbI6AEgC6GPPvwMgM=
+X-Received: by 2002:a2e:9b0b:: with SMTP id u11mr268458lji.463.1631051892754;
+ Tue, 07 Sep 2021 14:58:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1630924867-4663-3-git-send-email-skakit@codeaurora.org>
-References: <1630924867-4663-1-git-send-email-skakit@codeaurora.org> <1630924867-4663-3-git-send-email-skakit@codeaurora.org>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date:   Tue, 7 Sep 2021 20:20:22 +0000
-Message-ID: <CAE-0n52Jb9nw9rbbQJrKNDQ_O2iCahDr8WLGkWORcNks9ptH-g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] leds: Add pm8350c support to Qualcomm LPG driver
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        satya priya <skakit@codeaurora.org>
-Cc:     mka@chromium.org, kgunda@codeaurora.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Received: by 2002:a2e:95d5:0:0:0:0:0 with HTTP; Tue, 7 Sep 2021 14:58:12 -0700 (PDT)
+Reply-To: hameedsaedi01@gmail.com
+From:   Hameed Saedi <hameedsaedi8@gmail.com>
+Date:   Tue, 7 Sep 2021 22:58:12 +0100
+Message-ID: <CABg9ctOhmmjpyLjqwp7VB7_RJZwMcfY9nGicE+pyNobnDLgqYQ@mail.gmail.com>
+Subject: Partnership Proposal
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Quoting satya priya (2021-09-06 03:41:06)
-> Add pm8350c compatible and lpg_data to the driver.
->
-> Signed-off-by: satya priya <skakit@codeaurora.org>
-> ---
->  drivers/leds/rgb/leds-qcom-lpg.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
-> index 327e81a..6ee80d6 100644
-> --- a/drivers/leds/rgb/leds-qcom-lpg.c
-> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
-> @@ -1275,9 +1275,19 @@ static const struct lpg_data pm8150l_lpg_data = {
->         },
->  };
->
-> +static const struct lpg_data pm8350c_pwm_data = {
-> +       .pwm_9bit_mask = BIT(2),
-> +
-> +       .num_channels = 1,
-> +       .channels = (struct lpg_channel_data[]) {
+Hello,
+.
+I want to use this medium to propose a lucrative crude oil proposal
+and will need your partnership.Let me know if interested so as to
+provide further briefing on the project.
 
-Can this be const struct lpg_channel_data? I think that will move it to
-rodata which is only a good thing.
-
-> +               { .base = 0xeb00 },
-> +       },
-> +};
-> +
->  static const struct of_device_id lpg_of_table[] = {
->         { .compatible = "qcom,pm8150b-lpg", .data = &pm8150b_lpg_data },
->         { .compatible = "qcom,pm8150l-lpg", .data = &pm8150l_lpg_data },
-> +       { .compatible = "qcom,pm8350c-pwm", .data = &pm8350c_pwm_data },
->         { .compatible = "qcom,pm8916-pwm", .data = &pm8916_pwm_data },
->         { .compatible = "qcom,pm8941-lpg", .data = &pm8941_lpg_data },
->         { .compatible = "qcom,pm8994-lpg", .data = &pm8994_lpg_data },
+Respectfully,
+Hameed Saedi
