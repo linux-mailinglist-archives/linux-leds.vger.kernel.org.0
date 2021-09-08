@@ -2,112 +2,116 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C51C54036BF
-	for <lists+linux-leds@lfdr.de>; Wed,  8 Sep 2021 11:18:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 433684037CA
+	for <lists+linux-leds@lfdr.de>; Wed,  8 Sep 2021 12:24:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351357AbhIHJSr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 8 Sep 2021 05:18:47 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:58471 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351352AbhIHJSq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 8 Sep 2021 05:18:46 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1631092659; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=D4m1HZX4XxglmANFvhM+U619loFcf8JXgc2VJMqoQP8=;
- b=b/XsxfZQTL1VEi/9eC28ikc6Ks23BrvZshZQTV+sNXzHEZvL/nk7leSCSZEznvNq1vNOB3wF
- 0jBKpMSXsBwcc3w1dvgLZmoL6HICAmTtlFxVTUicwt914y5KpzNFrqTVgyEt/JTgpImwiwPP
- jE6rKvMcyEMSCdH8eEm9fqpi1vg=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkODczOCIsICJsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 61387fb2096d475c7c75650f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 08 Sep 2021 09:17:38
- GMT
-Sender: skakit=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 76D98C43617; Wed,  8 Sep 2021 09:17:38 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: skakit)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id D77DCC4338F;
-        Wed,  8 Sep 2021 09:17:37 +0000 (UTC)
+        id S1345299AbhIHKY6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 8 Sep 2021 06:24:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49404 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1348780AbhIHKY4 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 8 Sep 2021 06:24:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A85436113D;
+        Wed,  8 Sep 2021 10:23:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631096629;
+        bh=dzN66emlAcx4o31GR92sRPvBYyec2ouhaGkXtWNBEKk=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=pq6VmDyzF3uY3Ffll5YKJ34FjSJ4QdzDb37i0gpHzo1+t2zPyXpSJAjkKwsiNdTzh
+         KyhJAyDuxFCxkgcZD51r+Lh9KWsURVBmz1alf7aBOTgAaZcfqHCSKc8nXXs6hZE3P9
+         TELxnxh4J7BOui8xwpdUNZE89m3QiVafh1nyRT5E85AiMF++OeiggU7vAdwoGPZo/P
+         ABqHq6SjQagkGhsxVizLIFB232IW99ccVF1emjIByaXZgnxYP/fKbskyAgIH4GARt5
+         kds2CUTvcVqMIhDQSXF3xLKVr1333FP59vl8kOcqp4O7kwEyGq6oOmFz9mjejW5d6z
+         eK++LGCj3qHyQ==
+Date:   Wed, 8 Sep 2021 12:23:45 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>
+cc:     Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH v2 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
+ for game controllers.
+In-Reply-To: <20210903161711.GB2209@bug>
+Message-ID: <nycvar.YFH.7.76.2109081223210.15944@cbobk.fhfr.pm>
+References: <20210901223037.2964665-1-roderick.colenbrander@sony.com> <20210901223037.2964665-3-roderick.colenbrander@sony.com> <20210903161711.GB2209@bug>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 08 Sep 2021 14:47:37 +0530
-From:   skakit@codeaurora.org
-To:     Stephen Boyd <swboyd@chromium.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Andy Gross <agross@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Rob Herring <robh+dt@kernel.org>, mka@chromium.org,
-        kgunda@codeaurora.org, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 2/3] leds: Add pm8350c support to Qualcomm LPG driver
-In-Reply-To: <CAE-0n52Jb9nw9rbbQJrKNDQ_O2iCahDr8WLGkWORcNks9ptH-g@mail.gmail.com>
-References: <1630924867-4663-1-git-send-email-skakit@codeaurora.org>
- <1630924867-4663-3-git-send-email-skakit@codeaurora.org>
- <CAE-0n52Jb9nw9rbbQJrKNDQ_O2iCahDr8WLGkWORcNks9ptH-g@mail.gmail.com>
-Message-ID: <f35822d036988a1a6b6e4dcaa46373e7@codeaurora.org>
-X-Sender: skakit@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 2021-09-08 01:50, Stephen Boyd wrote:
-> Quoting satya priya (2021-09-06 03:41:06)
->> Add pm8350c compatible and lpg_data to the driver.
->> 
->> Signed-off-by: satya priya <skakit@codeaurora.org>
->> ---
->>  drivers/leds/rgb/leds-qcom-lpg.c | 10 ++++++++++
->>  1 file changed, 10 insertions(+)
->> 
->> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c 
->> b/drivers/leds/rgb/leds-qcom-lpg.c
->> index 327e81a..6ee80d6 100644
->> --- a/drivers/leds/rgb/leds-qcom-lpg.c
->> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
->> @@ -1275,9 +1275,19 @@ static const struct lpg_data pm8150l_lpg_data = 
->> {
->>         },
->>  };
->> 
->> +static const struct lpg_data pm8350c_pwm_data = {
->> +       .pwm_9bit_mask = BIT(2),
->> +
->> +       .num_channels = 1,
->> +       .channels = (struct lpg_channel_data[]) {
-> 
-> Can this be const struct lpg_channel_data? I think that will move it to
-> rodata which is only a good thing.
-> 
+On Fri, 3 Sep 2021, Pavel Machek wrote:
 
-I agree.
-@Bjorn, can we make it const struct?
+> > Player LEDs are commonly found on game controllers from Nintendo and Sony
+> > to indicate a player ID across a number of LEDs. For example, "Player 2"
+> > might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
+> > 
+> > This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
+> > player LEDs from the kernel. Until now there was no good standard, which
+> > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
+> > other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
+> > 
+> > Note: management of Player IDs is left to user space, though a kernel
+> > driver may pick a default value.
+> > 
+> > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > ---
+> >  Documentation/leds/well-known-leds.txt | 14 ++++++++++++++
+> >  include/dt-bindings/leds/common.h      |  3 +++
+> >  2 files changed, 17 insertions(+)
+> > 
+> > diff --git a/Documentation/leds/well-known-leds.txt b/Documentation/leds/well-known-leds.txt
+> > index 4a8b9dc4bf52..2160382c86be 100644
+> > --- a/Documentation/leds/well-known-leds.txt
+> > +++ b/Documentation/leds/well-known-leds.txt
+> > @@ -16,6 +16,20 @@ but then try the legacy ones, too.
+> >  
+> >  Notice there's a list of functions in include/dt-bindings/leds/common.h .
+> >  
+> > +* Gamepads and joysticks
+> > +
+> > +Game controllers may feature LEDs to indicate a player number. This is commonly
+> > +used on game consoles in which multiple controllers can be connected to a system.
+> > +The "player LEDs" are then programmed with a pattern to indicate a particular
+> > +player. For example, a game controller with 4 LEDs, may be programmed with "x---"
+> > +to indicate player 1, "-x--" to indicate player 2 etcetera where "x" means on.
+> > +Input drivers can utilize the LED class to expose the individual player LEDs
+> > +of a game controller using the function "player".
+> 
+> Thank you.
+> 
+> > +Note: tracking and management of Player IDs is the responsibility of user space,
+> > +though drivers may pick a default value.
+> 
+> I'm not sure we want kernel to do that.
+> 
+> > +Good: "input*:*:player-{1,2,3,4,5}
+> 
+> This goes to the top.
+> 
+> > +++ b/include/dt-bindings/leds/common.h
+> > @@ -60,6 +60,9 @@
+> >  #define LED_FUNCTION_MICMUTE "micmute"
+> >  #define LED_FUNCTION_MUTE "mute"
+> >  
+> > +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
+> > +#define LED_FUNCTION_PLAYER "player"
+> > +
+> 
+> Let's not add this. For consistency we'd need defines player-1, player-2, ... We don't
+> need the define at all.
+> 
+> I guess this should go through my tree?
 
->> +               { .base = 0xeb00 },
->> +       },
->> +};
->> +
->>  static const struct of_device_id lpg_of_table[] = {
->>         { .compatible = "qcom,pm8150b-lpg", .data = &pm8150b_lpg_data 
->> },
->>         { .compatible = "qcom,pm8150l-lpg", .data = &pm8150l_lpg_data 
->> },
->> +       { .compatible = "qcom,pm8350c-pwm", .data = &pm8350c_pwm_data 
->> },
->>         { .compatible = "qcom,pm8916-pwm", .data = &pm8916_pwm_data },
->>         { .compatible = "qcom,pm8941-lpg", .data = &pm8941_lpg_data },
->>         { .compatible = "qcom,pm8994-lpg", .data = &pm8994_lpg_data },
+Once you provide your Reviewed/Acked-by, I can take it through my tree 
+with the rest of the series.
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
