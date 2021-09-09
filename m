@@ -2,37 +2,37 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E944405ED2
+	by mail.lfdr.de (Postfix) with ESMTP id 31809405ED1
 	for <lists+linux-leds@lfdr.de>; Thu,  9 Sep 2021 23:31:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347339AbhIIVch (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        id S1347476AbhIIVch (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
         Thu, 9 Sep 2021 17:32:37 -0400
-Received: from mail-ot1-f46.google.com ([209.85.210.46]:36574 "EHLO
-        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346995AbhIIVcc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Sep 2021 17:32:32 -0400
-Received: by mail-ot1-f46.google.com with SMTP id a20-20020a0568300b9400b0051b8ca82dfcso4398402otv.3;
-        Thu, 09 Sep 2021 14:31:22 -0700 (PDT)
+Received: from mail-oi1-f174.google.com ([209.85.167.174]:45019 "EHLO
+        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347151AbhIIVcd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Sep 2021 17:32:33 -0400
+Received: by mail-oi1-f174.google.com with SMTP id c79so4429229oib.11;
+        Thu, 09 Sep 2021 14:31:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XZ7pdNiqOgozs4sIa1Fm09lGvg3v6sjnT+5ukMfxlmQ=;
-        b=CcBD0kyOADMz0Y7cyFUfzjQS7IAj+9cEdfbAq6Mbyk8r/Nc+L2BOxyaKskl288gC86
-         T22VYzL42xXXomN8DFUI3B0uPB1ZNCYP+SDTOPK+DEhF3x424/efqN0+SV/VITrhlI1t
-         BMvEL1JT3NDh/h7DVxuwMIQNFzkR8YbwgSVsH2etjXYJufnOf13+vmtLzFMIfkasP2tb
-         caJWlCfJNH5IZ3H6+8Nr9+kQhzmmwAZ1u/6pKy7M6Lh7ANm77O8xU8Ui3Q07pj1RX+9j
-         S5BD96bCsWDbIJLKBZZphBAguiLGvjO0P0gSCJtxtuM0zGkTrW2uDoWk2FrRbj2OsvDl
-         Ma7w==
-X-Gm-Message-State: AOAM533jicQ4KJ4XpRoOEbypvrxbvfHNUUTyxaqAgqw29T/28bEAnGqD
-        qpckJPRVz9BliWs3hAfsqw==
-X-Google-Smtp-Source: ABdhPJybD1D9OM/tLF2GBbZE8zvDhyBAWvzthH5DVTf3Vh/yMrKXoogcmmsb3MuL9HQzdf/EgoDHMQ==
-X-Received: by 2002:a9d:724a:: with SMTP id a10mr1698337otk.323.1631223081797;
-        Thu, 09 Sep 2021 14:31:21 -0700 (PDT)
+        bh=/YrpsPCLlUobR5Vg4TFvLJZn3V31ghZUaEW+qKvudbE=;
+        b=gKHefDGBECq0oxTBlr+7a+pMvrvh7Bcnv/t36e0tZEE547LLNDZc8hQuK+GPqs/Kj9
+         LrIxzt50DhjiowgIxBz2lvIvxvL7I8q1S1hGf3bZJIps4vTUPa5FMFGX+j6LMbBXxrIr
+         kP85I61ypl0i9vsvU+9uKkaIbnS5x7uAY8eYmYoWFnB3VyC0wdVi7kdpFhnI+x5vRU7c
+         GBeFDZG6JBdAjffDfIlG8je4XeA04p0BTNKFTMzIDO6L11aw3Nd/rmpoZFLfArS5JJF5
+         1rLhy2WEbjF6YxbustfUA+kSrglVHGw0SUiw7o9N9pYzVhjVEIU6YHTCc1ucZfX1kwej
+         liKQ==
+X-Gm-Message-State: AOAM531K9LmeFCMpMAmcgw0LIOEBHC6zrGBzeoIWvJcF7UMFXFBO5GRe
+        C/2taI284Gkh5rSKoQiW7w==
+X-Google-Smtp-Source: ABdhPJxs4WnPvBISl3yv6RGbeu0AN7FaWzvQ4PcGv0nbW9GSXm9saN/F9l+4QQv47HxR7/cWBm2LSg==
+X-Received: by 2002:aca:d68c:: with SMTP id n134mr1621875oig.34.1631223083178;
+        Thu, 09 Sep 2021 14:31:23 -0700 (PDT)
 Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.googlemail.com with ESMTPSA id m24sm694929oie.50.2021.09.09.14.31.20
+        by smtp.googlemail.com with ESMTPSA id m24sm694929oie.50.2021.09.09.14.31.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 14:31:21 -0700 (PDT)
+        Thu, 09 Sep 2021 14:31:22 -0700 (PDT)
 From:   Rob Herring <robh@kernel.org>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>
@@ -42,9 +42,9 @@ Cc:     Liviu Dudau <liviu.dudau@arm.com>,
         linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-leds@vger.kernel.org
-Subject: [PATCH 1/8] dt-bindings: leds: Convert register-bit-led binding to DT schema
-Date:   Thu,  9 Sep 2021 16:31:11 -0500
-Message-Id: <20210909213118.1087083-2-robh@kernel.org>
+Subject: [PATCH 2/8] dt-bindings: leds: register-bit-led: Use 'reg' instead of 'offset'
+Date:   Thu,  9 Sep 2021 16:31:12 -0500
+Message-Id: <20210909213118.1087083-3-robh@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909213118.1087083-1-robh@kernel.org>
 References: <20210909213118.1087083-1-robh@kernel.org>
@@ -54,208 +54,96 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Convert the register-bit-led binding to DT schema format.
+'reg' is the standard property for defining register banks/addresses. Add
+it to use for the register address and deprecate 'offset'. This also
+allows for using standard node names with unit-addresses. However, since
+it is quite possible to have multiple nodes at the same register
+address, allow for the unit-address to optionally have the bit
+offset. The unit-address format is '@<reg address>[,<bit offset>]'. This
+matches the format recently added for nvmem binding which has the same
+issue.
 
-As the example just repeats nearly identical nodes, trim it down to a
-few nodes and use some documented values for 'linux,default-trigger'.
-
-Cc: Linus Walleij <linus.walleij@linaro.org>
 Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Linus Walleij <linus.walleij@linaro.org>
 Cc: linux-leds@vger.kernel.org
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- .../bindings/leds/register-bit-led.txt        | 94 -------------------
- .../bindings/leds/register-bit-led.yaml       | 80 ++++++++++++++++
- 2 files changed, 80 insertions(+), 94 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/register-bit-led.txt
- create mode 100644 Documentation/devicetree/bindings/leds/register-bit-led.yaml
+ .../bindings/leds/register-bit-led.yaml       | 25 ++++++++++++++++---
+ 1 file changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/register-bit-led.txt b/Documentation/devicetree/bindings/leds/register-bit-led.txt
-deleted file mode 100644
-index c7af6f70a97b..000000000000
---- a/Documentation/devicetree/bindings/leds/register-bit-led.txt
-+++ /dev/null
-@@ -1,94 +0,0 @@
--Device Tree Bindings for Register Bit LEDs
--
--Register bit leds are used with syscon multifunctional devices
--where single bits in a certain register can turn on/off a
--single LED. The register bit LEDs appear as children to the
--syscon device, with the proper compatible string. For the
--syscon bindings see:
--Documentation/devicetree/bindings/mfd/syscon.yaml
--
--Each LED is represented as a sub-node of the syscon device. Each
--node's name represents the name of the corresponding LED.
--
--LED sub-node properties:
--
--Required properties:
--- compatible : must be "register-bit-led"
--- offset : register offset to the register controlling this LED
--- mask : bit mask for the bit controlling this LED in the register
--  typically 0x01, 0x02, 0x04 ...
--
--Optional properties:
--- label : (optional)
--  see Documentation/devicetree/bindings/leds/common.txt
--- linux,default-trigger : (optional)
--  see Documentation/devicetree/bindings/leds/common.txt
--- default-state: (optional) The initial state of the LED
--  see Documentation/devicetree/bindings/leds/common.txt
--
--Example:
--
--syscon: syscon@10000000 {
--	compatible = "arm,realview-pb1176-syscon", "syscon";
--	reg = <0x10000000 0x1000>;
--
--	led@8.0 {
--		compatible = "register-bit-led";
--		offset = <0x08>;
--		mask = <0x01>;
--		label = "versatile:0";
--		linux,default-trigger = "heartbeat";
--		default-state = "on";
--	};
--	led@8.1 {
--		compatible = "register-bit-led";
--		offset = <0x08>;
--		mask = <0x02>;
--		label = "versatile:1";
--		linux,default-trigger = "mmc0";
--		default-state = "off";
--	};
--	led@8.2 {
--		compatible = "register-bit-led";
--		offset = <0x08>;
--		mask = <0x04>;
--		label = "versatile:2";
--		linux,default-trigger = "cpu0";
--		default-state = "off";
--	};
--	led@8.3 {
--		compatible = "register-bit-led";
--		offset = <0x08>;
--		mask = <0x08>;
--		label = "versatile:3";
--		default-state = "off";
--	};
--	led@8.4 {
--		compatible = "register-bit-led";
--		offset = <0x08>;
--		mask = <0x10>;
--		label = "versatile:4";
--		default-state = "off";
--	};
--	led@8.5 {
--		compatible = "register-bit-led";
--		offset = <0x08>;
--		mask = <0x20>;
--		label = "versatile:5";
--		default-state = "off";
--	};
--	led@8.6 {
--		compatible = "register-bit-led";
--		offset = <0x08>;
--		mask = <0x40>;
--		label = "versatile:6";
--		default-state = "off";
--	};
--	led@8.7 {
--		compatible = "register-bit-led";
--		offset = <0x08>;
--		mask = <0x80>;
--		label = "versatile:7";
--		default-state = "off";
--	};
--};
 diff --git a/Documentation/devicetree/bindings/leds/register-bit-led.yaml b/Documentation/devicetree/bindings/leds/register-bit-led.yaml
-new file mode 100644
-index 000000000000..4a5bb0aa5f27
---- /dev/null
+index 4a5bb0aa5f27..404ac75e1dc4 100644
+--- a/Documentation/devicetree/bindings/leds/register-bit-led.yaml
 +++ b/Documentation/devicetree/bindings/leds/register-bit-led.yaml
-@@ -0,0 +1,80 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/register-bit-led.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Device Tree Bindings for Register Bit LEDs
-+
-+maintainers:
-+  - Linus Walleij <linus.walleij@linaro.org>
-+
-+description: |+
-+  Register bit leds are used with syscon multifunctional devices where single
-+  bits in a certain register can turn on/off a single LED. The register bit LEDs
-+  appear as children to the syscon device, with the proper compatible string.
-+  For the syscon bindings see:
-+  Documentation/devicetree/bindings/mfd/syscon.yaml
-+
-+allOf:
-+  - $ref: /schemas/leds/common.yaml#
-+
-+properties:
-+  compatible:
-+    const: register-bit-led
-+
-+  mask:
+@@ -20,9 +20,19 @@ allOf:
+   - $ref: /schemas/leds/common.yaml#
+ 
+ properties:
++  $nodename:
 +    description:
-+      bit mask for the bit controlling this LED in the register
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      [ 0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800,
-+        0x1000, 0x2000, 0x4000, 0x8000, 0x10000, 0x20000, 0x40000, 0x80000,
-+        0x100000, 0x200000, 0x400000, 0x800000, 0x1000000, 0x2000000, 0x4000000,
-+        0x8000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000 ]
++      The unit-address is in the form of @<reg addr>,<bit offset>
++    pattern: '^led@[0-9a-f]+,[0-9a-f]{1,2}$'
 +
-+  offset:
+   compatible:
+     const: register-bit-led
+ 
++  reg:
 +    description:
-+      register offset to the register controlling this LED
-+    $ref: /schemas/types.yaml#/definitions/uint32
++      The register address and size
++    maxItems: 1
 +
-+required:
-+  - compatible
-+  - mask
-+  - offset
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+
-+    syscon@10000000 {
-+        compatible = "arm,realview-pb1176-syscon", "syscon";
-+        reg = <0x10000000 0x1000>;
-+
-+        led@8.0 {
-+            compatible = "register-bit-led";
-+            offset = <0x08>;
-+            mask = <0x01>;
-+            label = "versatile:0";
-+            linux,default-trigger = "heartbeat";
-+            default-state = "on";
-+        };
-+        led@8.1 {
-+            compatible = "register-bit-led";
-+            offset = <0x08>;
-+            mask = <0x02>;
-+            label = "versatile:1";
-+            linux,default-trigger = "mmc0";
-+            default-state = "off";
-+        };
-+        led@8.2 {
-+            compatible = "register-bit-led";
-+            offset = <0x08>;
-+            mask = <0x04>;
-+            label = "versatile:2";
-+            linux,default-trigger = "cpu0";
-+            default-state = "off";
-+        };
-+    };
-+...
+   mask:
+     description:
+       bit mask for the bit controlling this LED in the register
+@@ -37,11 +47,12 @@ properties:
+     description:
+       register offset to the register controlling this LED
+     $ref: /schemas/types.yaml#/definitions/uint32
++    deprecated: true
+ 
+ required:
+   - compatible
+   - mask
+-  - offset
++  - reg
+ 
+ unevaluatedProperties: false
+ 
+@@ -51,25 +62,31 @@ examples:
+     syscon@10000000 {
+         compatible = "arm,realview-pb1176-syscon", "syscon";
+         reg = <0x10000000 0x1000>;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges = <0x0 0x10000000 0x1000>;
+ 
+-        led@8.0 {
++        led@8,0 {
+             compatible = "register-bit-led";
++            reg = <0x08 0x04>;
+             offset = <0x08>;
+             mask = <0x01>;
+             label = "versatile:0";
+             linux,default-trigger = "heartbeat";
+             default-state = "on";
+         };
+-        led@8.1 {
++        led@8,1 {
+             compatible = "register-bit-led";
++            reg = <0x08 0x04>;
+             offset = <0x08>;
+             mask = <0x02>;
+             label = "versatile:1";
+             linux,default-trigger = "mmc0";
+             default-state = "off";
+         };
+-        led@8.2 {
++        led@8,2 {
+             compatible = "register-bit-led";
++            reg = <0x08 0x04>;
+             offset = <0x08>;
+             mask = <0x04>;
+             label = "versatile:2";
 -- 
 2.30.2
 
