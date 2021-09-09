@@ -2,178 +2,139 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7B7405F82
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 00:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1BC040600A
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 01:27:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348828AbhIIW07 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Sep 2021 18:26:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346823AbhIIW0p (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Sep 2021 18:26:45 -0400
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65C0CC061764;
-        Thu,  9 Sep 2021 15:25:33 -0700 (PDT)
-Received: by mail-oi1-x231.google.com with SMTP id s20so101082oiw.3;
-        Thu, 09 Sep 2021 15:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=57sH7rbHDCtndpXrjoz5ALAT6TMzRAfWHgGMDK00Q1w=;
-        b=aTD33AfBhDhGMQGAKEWJQxoV7Q0RxdGwq0rs8Wb4nnoNuzoRNFJvHo9LaAVotzMr+s
-         CfRVHTtFj0KhONHMLOc2+hTQXBvYqENmxJjNpMD5sEL6n8tc1C7DLmBwmXqAH5axuGa8
-         UftJlAleHCa2DldkBhLNGN+o1L35bZXV/MG4i6BGoVhmZ2aTecnqxeI9tvxAWhSJcYVA
-         WY4E/nnti/KsRAL0WnWlXxVYEbp6IzPx+f3YRWOB52BEqy8pY9UJ1f98wI0ONyb29f2y
-         6r+rp28BtmUKIbsdQleaUh6FDn4bgFkVFxlk7F3Bmfc532VyeGQzd1/HilEkr4rgGgMU
-         j6Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=57sH7rbHDCtndpXrjoz5ALAT6TMzRAfWHgGMDK00Q1w=;
-        b=SPiQaz+K0Evfdn6Ymxf84W38eSq1ixk67r6KfkPOU5OaKvAegZgnSmW5sMniPiFLiJ
-         FXK+XBFsGavJYQ4mnX+PwY0swL+g4BwryS/WXwM7KDJs0R6/LU9HIz1KEQaJRjkSoAhj
-         d4HCJA3znfboJBodu+i5k5OmOjnVPu6Sq01ueWeCoLux/FEjn/rDphk5lNwL81h+3Mmg
-         N5qLndG5qiForc5AO5HpiJpBNLF5Ku5X5ogtfoBzCP9zojgeFaBURsCRi2KYajWlFut8
-         4bQGwmhM4KsiRC5Z/n1eQ0LKYgUcjuzeYYs4A+v3tnwYJDPJhfZ0nujKHSbQZCNgzmub
-         WMww==
-X-Gm-Message-State: AOAM532DojwqRRI7YIKQIhDAIYi8hm5rMYR/eCft+jHTZ8gpMD4qJeE1
-        lLH2rBagV/hniBua9kUJ+1IOAR+O2V0=
-X-Google-Smtp-Source: ABdhPJzwsGy9wITJK6/Ou5BOUSLzjFkl9yxn495BEF84qNPHzcNg5IKrMTtgWf5WIIFu7EOFJ1EyUA==
-X-Received: by 2002:a05:6808:10ce:: with SMTP id s14mr1824088ois.157.1631226332821;
-        Thu, 09 Sep 2021 15:25:32 -0700 (PDT)
-Received: from ian.penurio.us ([47.184.51.90])
-        by smtp.gmail.com with ESMTPSA id 4sm747293oil.38.2021.09.09.15.25.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 15:25:32 -0700 (PDT)
-From:   Ian Pilcher <arequipeno@gmail.com>
-To:     axboe@kernel.dk, pavel@ucw.cz
-Cc:     linux-leds@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        kabel@kernel.org
-Subject: [PATCH v2 15/15] leds: trigger: blkdev: Add disk cleanup and init/exit functions
-Date:   Thu,  9 Sep 2021 17:25:13 -0500
-Message-Id: <20210909222513.2184795-16-arequipeno@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210909222513.2184795-1-arequipeno@gmail.com>
+        id S235071AbhIIX2O (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Sep 2021 19:28:14 -0400
+Received: from mail-dm6nam10on2074.outbound.protection.outlook.com ([40.107.93.74]:14340
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230367AbhIIX2O (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 9 Sep 2021 19:28:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MoElh9hkAOc3Dl8U/xKUZe3Q4CAig9RrYgAO+xchE6SCkewLKqeli/+OkaQ+RnH7LisxaNgZbVWEhTGO5qWgfHNNGjAau0cOhcnyHnhQFhyTdv1emnZAxo/Nld7ko6IVbzSH2Jlu7iY4d5z4asjNAp3OfveK59IE/yYHGivkSNDHSK0khmoacjEGVvBhQldSNFXghtSNUZQr1nGeD3XJzHK4iD9QKIMqwLaLt+e/c7KRYNR/ivsR/BeptgUyeweTRpg3LhtrNir0Ol1UYBKu9+s7edA0ZlChClwsGhwQz+XcJfukU0ozUQ5cQP3JENltEXf0IpXfcgEjtobZkx9sfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=UfOPaE8usFH0wzOj35eUdvG5C9R5m1warMBI4Ke0PgA=;
+ b=MDJU1xglj3Xq1fmPkcH9mzHbmDa4maO39xbkp0YW++Ddlv5L9fPQJ+gm2GnnlB7sbd/4vpWrhTr+gincZ11AvL1R3uTFQ6PUT6YPyu+PmofBYeM9E15AlZQBs99Zj6m7fyEOKdEciRR1seLh9DgZjhdbXxr02jFkrFMwHN8jeZAuNoXfkzx5uUcDCKq7OnQAkmnGNiysqg/m0bVOUzeaYHyk11inVTPbG3LQxzLr94SzfMAZD7xrQ7iplrualIWaCBB9x4ZciAGCfZmLKfvVBR5jWZtoXXQznGJiac8tZy/UPuTn8nScY1TKxQtsEgMJ4Bttv56TIPvGgEcUzv4baw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UfOPaE8usFH0wzOj35eUdvG5C9R5m1warMBI4Ke0PgA=;
+ b=KltzLWy1qN98MWyRqLoeKp66K8T3njR7o20v6mSf74HKwkeuVuWL+noi411WWsfQhoNQz3o86lmxoNtLp/qbKv1u8fu8kKYeqkuXaB4i9/hQB3oShtaXjElKAxBFqe5LybNTuXvhVPjqNq3tlTPSnHeMt8BaBPoq/cfDxGLBvUXxme0r7Cp3KLOP/2OhNrLXcUh8xsaV+65IEb/l3Om2jFFzarQkvJ4qaN1mJZz4IuxxoJwP1FFgGSbcEO4OAVtd15OHUx1U+96fp9XRMpCV5Xj3JsSo5GowqqtAgxNikHZBhPROMBPezGgySc6bCW3CgwVG+fTgXidfXrO7ewil1w==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by MWHPR1201MB0272.namprd12.prod.outlook.com (2603:10b6:301:52::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.21; Thu, 9 Sep
+ 2021 23:27:02 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::498a:4620:df52:2e9f]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::498a:4620:df52:2e9f%5]) with mapi id 15.20.4500.017; Thu, 9 Sep 2021
+ 23:27:02 +0000
+From:   Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To:     Ian Pilcher <arequipeno@gmail.com>,
+        "axboe@kernel.dk" <axboe@kernel.dk>, "pavel@ucw.cz" <pavel@ucw.cz>
+CC:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "kabel@kernel.org" <kabel@kernel.org>
+Subject: Re: [PATCH v2 04/15] block: Add block device LED trigger integrations
+Thread-Topic: [PATCH v2 04/15] block: Add block device LED trigger
+ integrations
+Thread-Index: AQHXpcmdRWmEn10dDEyHAKSv79Y3yaucWM6A
+Date:   Thu, 9 Sep 2021 23:27:02 +0000
+Message-ID: <a176ecec-2f94-1a93-f29d-5b0e70466c34@nvidia.com>
 References: <20210909222513.2184795-1-arequipeno@gmail.com>
+ <20210909222513.2184795-5-arequipeno@gmail.com>
+In-Reply-To: <20210909222513.2184795-5-arequipeno@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 881b7faf-adf0-41c0-90fd-08d973e95431
+x-ms-traffictypediagnostic: MWHPR1201MB0272:
+x-microsoft-antispam-prvs: <MWHPR1201MB027207550417628CCFA7B6A5A3D59@MWHPR1201MB0272.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:381;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rzPqf/jmEx8cgkZH5HfhHw2Ecu9ktIjJfOvCgfQ0m4Hg3/Qq54ItMS1RtWrROG7gCNRPuPkvce5J7/+OR6EbeypG2r8sFcWKVWiwAnDqfZ7s8Qt5CtD1u7G3qZ4BoJpat9baZP/n9xK9YUeuDOuW4wOAG/EO4tXpr3ppU6oDe4i+yJOYym38TiDFmmCB7Rf+LKoTOmBOA740O0dvgQ90MgyEsf3vjiKnpFrGJBTwEsWR6EEvmIuVwwwpY7xHVoICn+kzZ4K9mSLqRtjZ8jPMFAok3OUqSVBMUZRP3qHhmSPkG4jqc4pH40tVkXRxYaKfCpUw7mw2jr2LDqAJZXwG3UPxeTMMbZjvLoJ1nWrdpl7PrMMiIiMVZJo6BoQ+TpKqJbaxlAgKpx7pYVt7X+GBNoXdDkspwUwr11DFeDcBuSoiVM2ArIaxSzvYpBiiMc8Z2A6JYNtASKcb+la5mPgmnqSmh+uGR3etONUGaqbYHNJXEothsCqLH3XO1C0cNioq1kxaJQ54tprZJ0etC2eDZm0zNpuRvTA2qatm3P8xx+v+DDgK53WCG+DRNrVupZyh4orGWDQwH6lnuJ/TlbJ0UJ01ktIjPswxGZ+6VZJPCAXHYMHW3Oqlgex1D87VRQiQ7mEbumLytclySp9V8bDwbnk3ylpjnYOE7bVa21F8e7EPXYMmDJFLUsnS1k5BWH5OL+hWQGDWq+TwrICrXW2cxwG+CsxXzBLhmAJfc9+oglkgJOuv66Yxn/t/vsZvKjI/aeePNBBZB6J7Okat8QWhEA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(376002)(39860400002)(136003)(366004)(38100700002)(6486002)(4326008)(66556008)(8936002)(91956017)(122000001)(64756008)(76116006)(186003)(31686004)(66946007)(36756003)(5660300002)(66446008)(110136005)(316002)(83380400001)(6506007)(478600001)(53546011)(2906002)(31696002)(54906003)(4744005)(71200400001)(6512007)(86362001)(8676002)(38070700005)(66476007)(2616005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?alVaYnBrNFJxZVJSbTR0bFVTdjdUZ2tySmozWGl2elEwZTNoeS9DVk1mSUcx?=
+ =?utf-8?B?eTM0eTAwNndKQ1NoWkNzaUhzTVFja1d2UjVmUlVGSVZLMHlnZnZBenF2Z0ZC?=
+ =?utf-8?B?aXN2TDBhT2FVVGx3VmlRL1NEVVJlbmthS0lNWFFkMnF1U1ZiWlNmSGtlM25J?=
+ =?utf-8?B?RjZQaHVTMGlNM0FnbzE1b0pmemprSHVUM0FNbUVSM3VRV1M0cXRzTnBnOUtN?=
+ =?utf-8?B?OHltZVBTajdGaEt1bSswU2pkbEN0c1RMNExSeDNxVG5zdGNMWVRiUnY1ZXh2?=
+ =?utf-8?B?cWVNcm5DOGh1aVBJN0d4YTRkMmc5M2IrdDN6MUF1Ym1zMUpHMmQzZXN0Zm1o?=
+ =?utf-8?B?aEIzdEViK1VWWDBjN3VRRzFieGl2VmJHWnNLWHNIUytmV2VaS0RpbFR3MGVl?=
+ =?utf-8?B?YmhhKzAwTXBLRnRLN0hmcHBNTE5qNTB3WlJNWHF4amRObGFXQWxOZ3VkNXBR?=
+ =?utf-8?B?TzdSbEIyeU1Nb0Z6WjFqcFM0WjA5ZHpWL0VZOFNXT0xNNnluZ2FuV1JCOEcz?=
+ =?utf-8?B?ODUwRys4ZzJnRlNpZ1ZQT1BKN1VXalFnQ3dtSitXVTczRno1MEJYcmtHWGFv?=
+ =?utf-8?B?dzd5QUlEWFNOMGJvdlNid1B4c3BmbnNhemVSMFBjMUlVbjVYSW1pTmJmT2F6?=
+ =?utf-8?B?eEU0U2V4Yy92SGlTY2R0UU40anNsSmJjWFBBTDUzQUVSbmJhNW1oSEdyUnh6?=
+ =?utf-8?B?OHp3UXk1S2xTTWxVQWZzYW9HK1hNUXlIWGdqSjFwNWx4eDUxamMxVFAxOXZ1?=
+ =?utf-8?B?aHpBRzMrWDVjS3FjVnFhaTUxSGV6ODNCNHk2cUV1ZS95UXlNVlAxYm56S2ZE?=
+ =?utf-8?B?Y2pHb0oyZlc3djUvbkF3dEJzS1hTV2hoUGdHcUtNcDVCa1VhelNYMHY1aFps?=
+ =?utf-8?B?M0lhWkNmSVNnck9XZ3hDRVB4eFlpaVE4VFEyR1ZPYmg0dVpyLzkwM0F0K2pE?=
+ =?utf-8?B?ME83YWRQRVV6c0pkUDlOS01RVjQvbkE2MTB6T1Z5LytEemFiWWtxYlBoRE9W?=
+ =?utf-8?B?b0N2VW81OXh2NWsydXhhUFFMdzJUNEozVUU1cHNwZHNkN2ZXZmtkQWcxd3J6?=
+ =?utf-8?B?MVFOM21YeFd5bXZRMWdlY2E1RCtoNklibzgwOW54UzFVdGplcDAxUytscHhV?=
+ =?utf-8?B?Y0l5b2RQWDFoRjRuUkJibnBTcVozalZJOFNPSzZIS1U0VUdHZWkrR3ZXNlBa?=
+ =?utf-8?B?MHVQNmgzek5PUG1uRzAzV3BEcGZHN2xWN2ZMb1RQdFVmcFVIdjNzMUdrajE4?=
+ =?utf-8?B?Z1lxRUZLNEdpRnM0S1dveUdmRzVuSmpTc3F2UlI0T0ZKK3ZwcWc1Sm9mZjU3?=
+ =?utf-8?B?ZVVmcjBKOTNlNG5mMjM0czFKT0xsbmVYaC92NmNDMCtCL1lxK1hacjZGNzd1?=
+ =?utf-8?B?Nks4aXpTNkpOa3E0NTVvMXl3aWo2eXRKZmN4ZFVSTU51UWVxMUFaRGIxd1lH?=
+ =?utf-8?B?b0krRGd4bmM3M2V3ai84eUllOENoRjFBOUd2NTRJYktUZjgvR1dXNnJ3SGhG?=
+ =?utf-8?B?a3JLUGs4WTExbi81c2pYSDBTb3NoZGs2T2w2L1NWYmtKTDhsSGlJZEcyVjdo?=
+ =?utf-8?B?QUg0cWZjMXBydEwxMlJTbVFaM3V6T1UrTDFyR1JhU3hDeVlvRndXNHV0REpU?=
+ =?utf-8?B?bk9oNlZaWCtmYlFkL250bGNTbGtqcjh5Y01ISE43QU1TY1JRY01raXNUQlNP?=
+ =?utf-8?B?cWVmdHZHVHRyM3ZDaDNIZWFiRU41ckhiTU84WmwyVjErM2tzZHRlUEh6RFFQ?=
+ =?utf-8?B?aHVMLzJBNEZLYTh0UHIxWnd2Tk1raEJydklGQUpSOWUzM3lOVE13aG1PNlJa?=
+ =?utf-8?Q?2PuwIVyirF1PqZLK1lrk6PvV+FdaTUDHWvFaU=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7132D0F972B97C478104CF5FC80DBCAD@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 881b7faf-adf0-41c0-90fd-08d973e95431
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2021 23:27:02.4136
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tItSiK5eN77DWFwMXshSJ+k7jpRjXDrzWlNxB5L0t9u70p4QwknW3F8Dr7LELJsKP6iHFYEOiXz8pfoe3SpmdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0272
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Disk cleanup function - blkdev_disk_cleanup():
-
-  * Called when block device is being removed
-  * Called via __ledtrig_blkdev_disk_cleanup function pointer from
-    ledtrig_blkdev_disk_cleanup() in ledtrig-blkdev-core.c
-
-Init function - blkdev_init():
-
-  * Initialize interval (convert default value to jiffies)
-  * Initialize __ledtrig_blkdev_disk_cleanup function pointer
-  * Register the block device LED trigger
-
-Exit function - blkdev_exit():
-
-  * Unregister the LED trigger
-  * Set __ledtrig_blkdev_disk_cleanup back to NULL
-
-Make LED trigger struct (ledtrig_blkdev_trigger) static (as it's now
-referenced in blkdev_init()).
-
-Signed-off-by: Ian Pilcher <arequipeno@gmail.com>
----
- drivers/leds/trigger/ledtrig-blkdev.c | 65 ++++++++++++++++++++++++++-
- 1 file changed, 64 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/leds/trigger/ledtrig-blkdev.c b/drivers/leds/trigger/ledtrig-blkdev.c
-index 4b88f877ee81..96ea694ce29f 100644
---- a/drivers/leds/trigger/ledtrig-blkdev.c
-+++ b/drivers/leds/trigger/ledtrig-blkdev.c
-@@ -435,6 +435,23 @@ static ssize_t unlink_device_store(struct device *const dev,
- static DEVICE_ATTR_WO(unlink_device);
- 
- 
-+/*
-+ *
-+ *	Disassociate all LEDs from a block device (because it's going away)
-+ *
-+ */
-+
-+static void blkdev_disk_cleanup(struct gendisk *const gd)
-+{
-+	struct ledtrig_blkdev_link *link;
-+	struct hlist_node *next;
-+
-+	hlist_for_each_entry_safe(link, next,
-+					&gd->ledtrig->leds, disk_leds_node)
-+		blkdev_disk_unlink_locked(link->led, link, gd->ledtrig);
-+}
-+
-+
- /*
-  *
-  *	Disassociate an LED from the trigger
-@@ -615,9 +632,55 @@ static const struct attribute_group *ledtrig_blkdev_attr_groups[] = {
- 	NULL
- };
- 
--struct led_trigger ledtrig_blkdev_trigger = {
-+static struct led_trigger ledtrig_blkdev_trigger = {
- 	.name		= "blkdev",
- 	.activate	= blkdev_activate,
- 	.deactivate	= blkdev_deactivate,
- 	.groups		= ledtrig_blkdev_attr_groups,
- };
-+
-+static int __init blkdev_init(void)
-+{
-+	int ret;
-+
-+	ret = mutex_lock_interruptible(&ledtrig_blkdev_mutex);
-+	if (ret != 0)
-+		return ret;
-+
-+	ledtrig_blkdev_interval = msecs_to_jiffies(LEDTRIG_BLKDEV_INTERVAL);
-+	__ledtrig_blkdev_disk_cleanup = blkdev_disk_cleanup;
-+
-+	/*
-+	 * Can't call led_trigger_register() with ledtrig_blkdev_mutex locked.
-+	 * If an LED has blkdev as its default_trigger, blkdev_activate() will
-+	 * be called for that LED, and it will try to lock the mutex, which will
-+	 * hang.
-+	 */
-+	mutex_unlock(&ledtrig_blkdev_mutex);
-+
-+	ret = led_trigger_register(&ledtrig_blkdev_trigger);
-+	if (ret != 0) {
-+		mutex_lock(&ledtrig_blkdev_mutex);
-+		__ledtrig_blkdev_disk_cleanup = NULL;
-+		mutex_unlock(&ledtrig_blkdev_mutex);
-+	}
-+
-+	return ret;
-+}
-+module_init(blkdev_init);
-+
-+static void __exit blkdev_exit(void)
-+{
-+	mutex_lock(&ledtrig_blkdev_mutex);
-+
-+	/*
-+	 * It's OK to call led_trigger_unregister() with the mutex locked,
-+	 * because the module can only be unloaded when no LEDs are using
-+	 * the blkdev trigger, so blkdev_deactivate() won't be called.
-+	 */
-+	led_trigger_unregister(&ledtrig_blkdev_trigger);
-+	__ledtrig_blkdev_disk_cleanup = NULL;
-+
-+	mutex_unlock(&ledtrig_blkdev_mutex);
-+}
-+module_exit(blkdev_exit);
--- 
-2.31.1
-
+T24gOS85LzIxIDM6MjUgUE0sIElhbiBQaWxjaGVyIHdyb3RlOg0KPiBFeHRlcm5hbCBlbWFpbDog
+VXNlIGNhdXRpb24gb3BlbmluZyBsaW5rcyBvciBhdHRhY2htZW50cw0KPiANCj4gDQo+IEFkZCBM
+RUQgdHJpZ2dlciBkaXNrIGluZm8gcG9pbnRlciB0byBnZW5kaXNrIHN0cnVjdHVyZQ0KPiANCj4g
+Q2FsbCBsZWR0cmlnX2Jsa2Rldl9kaXNrX2luaXQoKSBmcm9tIGRldmljZV9hZGRfZGlzaygpIHRv
+IGVuc3VyZSB0aGF0DQo+IGxlZHRyaWcgaXMgaW5pdGlhbGl6ZWQgdG8gTlVMTCwgaW4gY2FzZSBh
+IGRyaXZlciBhbGxvY2F0ZXMgdGhlIHN0cnVjdHVyZQ0KPiBpdHNlbGYgYW5kIGRvZXNuJ3QgdXNl
+IGt6YWxsb2MoKQ0KPiANCj4gQ2FsbCBsZWR0cmlnX2Jsa2Rldl9kaXNrX2NsZWFudXAoKSBmcm9t
+IGRlbF9nZW5kaXNrKCkgdG8gZW5zdXJlIHRoYXQgdGhlDQo+IExFRCB0cmlnZ2VyIHN0b3BzIHRy
+eWluZyB0byBjaGVjayB0aGUgZGlzayBmb3IgYWN0aXZpdHkNCj4gDQo+IFNpZ25lZC1vZmYtYnk6
+IElhbiBQaWxjaGVyIDxhcmVxdWlwZW5vQGdtYWlsLmNvbT4NCg0KVGhlIGNvbW1pdCBsb2cgZG9l
+c24ndCBleHBsYWluIHRoYXQgd2h5IHlvdSBuZWVkIG1vZGlmeSB0aGUgY29yZSBibG9jaw0KbGF5
+ZXIgQVBJIHdoaWNoIGlzIGhpZ2hseSBkaXNjb3VyYWdlZC4NCg0KV2h5IGNhbid0IGxlZHRyaWdf
+YmxrZGV2X2Rpc2tfaW5pdCgpIGJlIGNhbGxlZCBiZWZvcmUgeW91DQpjYWxsIGFkZF9kaXNrKCkg
+aW4geW91ciBkcml2ZXI/IHNhbWUgZ29lcyBmb3IgdGhlIA0KbGVkdHJpZ19ibGtkZXZfZGlza19j
+bGVhbnVwKCkuIElmIHRoZXJlIGlzIGxlZ2l0IHJlYXNvbiB5b3UgbmVlZCB0bw0KZG9jdW1lbnQg
+dGhhdC4NCg0KDQoNCg0K
