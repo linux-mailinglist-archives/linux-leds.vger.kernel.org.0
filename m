@@ -2,99 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADF55406DFA
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 17:09:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85AAA406E01
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 17:12:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234154AbhIJPKW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 10 Sep 2021 11:10:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38012 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234141AbhIJPKW (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Sep 2021 11:10:22 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12D45C061574;
-        Fri, 10 Sep 2021 08:09:11 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id w19so3294849oik.10;
-        Fri, 10 Sep 2021 08:09:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hL1zCwUiJ6hoIGlHwhgGP4f+imH+ev7xCevX0zajur0=;
-        b=aJWH063vakKMa/mWbAQvIPrxcWojIL00+4tEJylPGRzokbZNmQvDYbby+E+63mi8Si
-         3rvZFYky++YjRWuzixJNhA3WuTh/ette7OK6GE9NRJ01uZiZKYz60ijCfJrPEOa/PlyM
-         8aXL8IUdctEvfsJOUBPZzYBscnKWesO+dPTAQvFs36Ab0403Qap0ZIWAjmSPZ6u/kQQh
-         etGaHNzZaePtMjemDrzfkCd8Unzy/NM7t/ful/GCVwqTsB1yxqyOiLsSD/HKwMkkRB8F
-         73XN5RPWSIyp4IVXEBI6aXl8sBohpTg5GzPDF7vRevuU0yCmjz01NwNn19vasRWo7pPZ
-         qFAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hL1zCwUiJ6hoIGlHwhgGP4f+imH+ev7xCevX0zajur0=;
-        b=R0xFBFNYFN0R8USXbvba9il66sXDftNuHp/w/0TpV27aO0Of29gki/Dc1/h1bnNzu8
-         1lJGAycwNtOxikWkradE1IS9uBxNyH9xLAR2UUskJbZVAfRz8COPhpbwF8c7cPG1erK8
-         GI0YhDuE/3r2edEvIeVUMIBuG06Co7hHR0E83fPxqKS5tYgwD5bFOWFdmdYvSgOwRKrz
-         gd5MKXoDnWCHLGXeNgqpEspm9N9tm/g52EjJ5PqxMMgWzPiMcoL6N6d+povS34us4jgN
-         lMobld6wkpz4X6kE7sDPaJUAuj8jpx0/VLbok2vbPnXHb+/73X4p63BIinXHmFgntdqN
-         SnhQ==
-X-Gm-Message-State: AOAM532/dELsj0WXtvtqvwZ23/0ATXsNhxIZFSoWsHqssWEpqIF16KGu
-        4asmHG0LP0IJJ1bnsTT3p6A=
-X-Google-Smtp-Source: ABdhPJzvBmE+4S7BdRw082cXwBi53czb+PLL/ElPThwO/9okMEjivrPpTvLPARkX7Aq8ZIS78njrSg==
-X-Received: by 2002:aca:5344:: with SMTP id h65mr4587386oib.117.1631286550365;
-        Fri, 10 Sep 2021 08:09:10 -0700 (PDT)
-Received: from ian.penurio.us ([47.184.51.90])
-        by smtp.gmail.com with ESMTPSA id w23sm1327423oih.4.2021.09.10.08.09.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Sep 2021 08:09:10 -0700 (PDT)
-Subject: Re: [PATCH v2 09/15] leds: trigger: blkdev: Check devices for
- activity and blink LEDs
-To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
+        id S234247AbhIJPN0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 10 Sep 2021 11:13:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46326 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234173AbhIJPN0 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 10 Sep 2021 11:13:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CC73260C40;
+        Fri, 10 Sep 2021 15:12:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631286735;
+        bh=LSRQz6T2RqWRHMnOsj1xIbun3ED++BM0Nh4W9dbINpw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=PdFWexZRH1uFhUR7IZFejc/blWACrb+TkCGfyPwr6t/71LapGRstvVhnjHndIQ6Ft
+         rtGi/23EBiGwpvk648rxz/WeAqV7P7GQd2kTJvXcX25br3Sq1moF2MeuXoTZXY0X2b
+         E48V8G+ZCywNMEdYCggTLC7WryIB+tIuKZ9fNuebfsy5FvnGciNDtgENCsBJxaJJHu
+         hAs6tTA5e01TcqLlwzaq1J6qk9XDqfA7/YS4FzIW1w1GdLbQLtBQPHWi9pyyazEbav
+         jovLoB9gREnFSCS2Hf2vtCDU2bKtXrraou6pMjSnyjyVXoI/DvrwAiJLq0cmZuyOCD
+         8k22JKWArwmDA==
+Date:   Fri, 10 Sep 2021 17:12:11 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Ian Pilcher <arequipeno@gmail.com>
 Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-leds@vger.kernel.org,
         linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         gregkh@linuxfoundation.org
+Subject: Re: [PATCH v2 09/15] leds: trigger: blkdev: Check devices for
+ activity and blink LEDs
+Message-ID: <20210910171211.3c2236c3@thinkpad>
+In-Reply-To: <77111c57-dfb5-44c6-c4e9-e18afb468b6e@gmail.com>
 References: <20210909222513.2184795-1-arequipeno@gmail.com>
- <20210909222513.2184795-10-arequipeno@gmail.com>
- <20210910041713.4722760a@thinkpad>
-From:   Ian Pilcher <arequipeno@gmail.com>
-Message-ID: <77111c57-dfb5-44c6-c4e9-e18afb468b6e@gmail.com>
-Date:   Fri, 10 Sep 2021 10:09:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        <20210909222513.2184795-10-arequipeno@gmail.com>
+        <20210910041713.4722760a@thinkpad>
+        <77111c57-dfb5-44c6-c4e9-e18afb468b6e@gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210910041713.4722760a@thinkpad>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/9/21 9:17 PM, Marek Behún wrote:
-> So your code allows me to use a partition block device (like sda2) to
-> register with the blkdev LED trigger, but when I do this, the code will
-> disregard that I just want the LED to blink on activity on that one
-> partition. Instead you will blink for whole sda, since you are looking
-> at stats of only part0.
-> 
-> Am I right?
+On Fri, 10 Sep 2021 10:09:09 -0500
+Ian Pilcher <arequipeno@gmail.com> wrote:
 
-You can't add partitions, only whole devices.
+> On 9/9/21 9:17 PM, Marek Beh=C3=BAn wrote:
+> > So your code allows me to use a partition block device (like sda2) to
+> > register with the blkdev LED trigger, but when I do this, the code will
+> > disregard that I just want the LED to blink on activity on that one
+> > partition. Instead you will blink for whole sda, since you are looking
+> > at stats of only part0.
+> >=20
+> > Am I right? =20
+>=20
+> You can't add partitions, only whole devices.
 
-# echo vda2 > link_device
--bash: echo: write error: No such device
+But I should be able to, since partition is a block device in /dev.
+Any block device from /sys/class/block should be possible to add.
 
-static int blkdev_match_name(struct device *const dev, const void *const 
-name)
-{
-	return dev->type == &disk_type
-			&& sysfs_streq(dev_to_disk(dev)->disk_name, name);
-}
-
-Partitions fail the dev->type == &disk_type check.
-
--- 
-========================================================================
-                  In Soviet Russia, Google searches you!
-========================================================================
+Marek
