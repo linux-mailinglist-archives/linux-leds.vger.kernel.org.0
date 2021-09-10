@@ -2,67 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30EBE406F4B
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 18:13:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82CA9406F95
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 18:25:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230259AbhIJQPE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 10 Sep 2021 12:15:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51990 "EHLO
+        id S229486AbhIJQ02 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 10 Sep 2021 12:26:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231386AbhIJQOz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Sep 2021 12:14:55 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDEFEC06175F;
-        Fri, 10 Sep 2021 09:10:30 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id q11-20020a9d4b0b000000b0051acbdb2869so2912833otf.2;
-        Fri, 10 Sep 2021 09:10:30 -0700 (PDT)
+        with ESMTP id S229481AbhIJQ01 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Sep 2021 12:26:27 -0400
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F4E8C061574;
+        Fri, 10 Sep 2021 09:25:16 -0700 (PDT)
+Received: by mail-ot1-x32e.google.com with SMTP id o16-20020a9d2210000000b0051b1e56c98fso2954531ota.8;
+        Fri, 10 Sep 2021 09:25:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZpN0iIGii/dNNt/92JOfuMuOZnTWraO3oqP936hLCa0=;
-        b=C37HAF5Kpldyo9cgCEo5cokWpShbQuujvpcAiv3xZgJrttVoAKbXjP06UxSTwledVS
-         JCBHZv5N/NqKEFFNQ3Qoxn+UHe+zf26//N9vqqIRvvJwev8RzN9D1BM+JTJzfu1r58eZ
-         p9EVw13W8NbT0AkLcqNgYKJcCT85lc7xmWNYzTnixx8vhJrE4D823KVyrBQaEX+pahKI
-         ulR7ZIpwIkPXqNAnHgnAhIDhbxlgWHm4OCIn9TcWJPxXT+01/SGJmQAGUcmYgmMtJsSu
-         BKM0eI7gZjLvNFrXDBxu8SZ/h4Oo3zR9f68RPP79zeUpQ5gXvsMhFE5NL4jWD8CDSlKi
-         DF2w==
+        bh=gTRko9+9hzxovpHC1NjogMeJSbh/DrCYskpnk56wVhg=;
+        b=hIrZD5d9y72Du03LbBrq0ZlBzX1TMFmYA7DfMsrVsbKax+DgY+JqWzaZwHd55XDzmQ
+         AvbkoSVr0EuAIFBOClSULLX18uEYfCmPGGBKcedzvSBT3loQmDO7qLNHGnhr2F1oalbK
+         vfq3dS2b/YCOnm4TkTSfHuvexGQFKZvFQJ0GmQrgr8SJyIxvGS2JvCMtFUi7M5drp8Oh
+         UiZ0Ep/++EV5wcuAyyIITdeQzRzHWqtncyobetT9/LZIs2GNwjnlY7OnDq3+2yqI2oXi
+         XfyLMq+DB5kiiBzK74meH+eoLxBC9uGmIyO55uw42uHR6nuonSgZf+LOSK6Qdp1MKYqi
+         6f3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ZpN0iIGii/dNNt/92JOfuMuOZnTWraO3oqP936hLCa0=;
-        b=fo20tVKVXdxcHkw3NvaGepPKixmtjruucXPT1nK7M6T2WB50L2rzwXssOsg95stu7b
-         Glgfe/0fXnpfJUzNuT9HFtlceBARy/GSP3QXyZmKEw7tv4l23id2gInklkrZvOsSZami
-         uPPTQ+QHedlfnAat6gyEEOqymLaYuWyAUP0mcNfZdEYb3qLrA1DvHb+f6A/Mm4YPwz48
-         /hfdQKRvTq/3DcQS+We1CUHjFgHV6lD89IxRMay9Xy4nCidR7hd8cE1+fQWwET1/ACaj
-         S4ca2MQD7ZdhmEL/4SHX+BxKIzLJdF78x7UR234MN1/cWPjr99Ll78kzz9nJZO2C6BQE
-         z0lQ==
-X-Gm-Message-State: AOAM531U2Sy8EDSqdNBFBNInrQDF8+0H1kCV6j+5voUBx7oaFv31bXzG
-        FsEWR/XZSHL9wEmuzzsKrtE=
-X-Google-Smtp-Source: ABdhPJw9KPrwtW1zzQhTKpK1nmI/rC3Q+YmmOB5kCS15jG/aMfTrpDHjUJkOxzdV9OwDAtWUjiwqvg==
-X-Received: by 2002:a9d:7f90:: with SMTP id t16mr5149490otp.269.1631290229750;
-        Fri, 10 Sep 2021 09:10:29 -0700 (PDT)
+        bh=gTRko9+9hzxovpHC1NjogMeJSbh/DrCYskpnk56wVhg=;
+        b=6UfZbiuknaze+764x2hpc6pr/jZPVsJ8lZcA5JvT2/sPahEW3/tBoxQBHO5Yc5cJoq
+         TycZ9PgBx91s8uAuDkvlqNag8Ff6uC5M9+l52mnF+DEpGa5MnIe1VhaLw30Ld8Bl8YTL
+         lm5A1VVEtMFSb/G1OcZqO0xIzWY4hJ6Usj3GESMzt2Np1lPmZLJxKiM1cEpqETOdO5z8
+         lPeepM56C8KkdkGdDEAyHCzwESb4aloU9PanLISoFY24gaRv/OihJnh3rQbs/hDeWa+u
+         4bR2INNH5605FgeIDblJiYTV3BVEKwSI3cFca9tQeeDTyJBTyCZVwLYL2BhkYfPwQnmN
+         RorA==
+X-Gm-Message-State: AOAM533pFf8qHfns3MZ26ifMLnyUYYWALqiC9r6O5/gljkwaaptI3tev
+        puROTiOVl1N55zb1rYToiZc=
+X-Google-Smtp-Source: ABdhPJwvzKxMjXRqzZPoqLUloRhQbL1Ihl+UFN62hj4nXhJwvwc5o+Ki76Et2WjaBndE0jd4cP+mqg==
+X-Received: by 2002:a9d:6e0d:: with SMTP id e13mr5316104otr.304.1631291115499;
+        Fri, 10 Sep 2021 09:25:15 -0700 (PDT)
 Received: from ian.penurio.us ([47.184.51.90])
-        by smtp.gmail.com with ESMTPSA id c14sm1323480otd.62.2021.09.10.09.10.29
+        by smtp.gmail.com with ESMTPSA id a13sm1264748ooi.3.2021.09.10.09.25.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Sep 2021 09:10:29 -0700 (PDT)
-Subject: Re: [PATCH v2 10/15] leds: trigger: blkdev: Add LED trigger activate
- function
+        Fri, 10 Sep 2021 09:25:15 -0700 (PDT)
+Subject: Re: [PATCH v2 11/15] leds: trigger: blkdev: Enable linking block
+ devices to LEDs
 To:     Greg KH <gregkh@linuxfoundation.org>
 Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-leds@vger.kernel.org,
         linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         kabel@kernel.org
 References: <20210909222513.2184795-1-arequipeno@gmail.com>
- <20210909222513.2184795-11-arequipeno@gmail.com> <YTr/iQBYclqjFri2@kroah.com>
+ <20210909222513.2184795-12-arequipeno@gmail.com> <YTr/2bflThomjHqL@kroah.com>
 From:   Ian Pilcher <arequipeno@gmail.com>
-Message-ID: <8ef9f5c7-ce5c-26ce-b076-35716a15fed8@gmail.com>
-Date:   Fri, 10 Sep 2021 11:10:28 -0500
+Message-ID: <9ba618c6-20aa-c9fd-dfef-1cef57168742@gmail.com>
+Date:   Fri, 10 Sep 2021 11:25:14 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YTr/iQBYclqjFri2@kroah.com>
+In-Reply-To: <YTr/2bflThomjHqL@kroah.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -70,23 +70,43 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/10/21 1:47 AM, Greg KH wrote:
->> +	/* Don't allow module to be removed while any LEDs are linked */
->> +	if (WARN_ON(!try_module_get(THIS_MODULE))) {
+On 9/10/21 1:48 AM, Greg KH wrote:
+>> +/* Gets or allocs & initializes the blkdev disk for a gendisk */
+>> +static int blkdev_get_disk(struct gendisk *const gd)
+>> +{
+>> +	struct ledtrig_blkdev_disk *disk;
+>> +	struct kobject *dir;
+>> +
+>> +	if (gd->ledtrig != NULL) {
+>> +		kobject_get(gd->ledtrig->dir);
 > 
-> That pattern is racy and broken and never ever ever add it to the kernel
-> again please.  All existing in-kernel users of it are also wrong, we
-> have been removing them for decades now.
+> When do you decrement this kobject?
 
-OK.  (I was misled by the instances that you haven't gotten to yet.)
+That happens in blkdev_disk_unlink_locked() at line 399.  (Also in the
+error path in blkdev_put_disk(), called at line 321.)
 
-> You have created a "raw" kobject in the device tree now, which means
-> that userspace will not be notified of it and will have a "hole" in it's
-> knowledge.  Why not just create a named attribute group to this device
-> instead?
+Looking at this now, blkdev_disk_unlink_locked() should be calling
+blkdev_put_disk(), rather than calling kobject_put() directly.  I'll fix
+that.
 
-What would I pass as the first argument to sysfs_create_link() in that
-case?
+>> +static void blkdev_put_disk(struct ledtrig_blkdev_disk *const disk)
+>> +{
+>> +	kobject_put(disk->dir);
+>> +
+>> +	if (hlist_empty(&disk->leds)) {
+>> +		disk->gd->ledtrig = NULL;
+>> +		kfree(disk);
+> 
+> This should happen in the kobject release function, not here, right?
+
+If you're referring to the kfree() call, it's freeing the
+ledtrig_blkdev_disk structure, not the gendisk.  I use "gd" for gendisk
+pointers and "disk" for ledtrig_blkdev_disk pointers.
+
+> Did you try this out with removable block devices yet?
+
+Absolutely.  I've tested removing both block devices and (user space)
+LEDs.
 
 -- 
 ========================================================================
