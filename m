@@ -2,70 +2,82 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B7454065A0
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 04:17:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81E2940675A
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 08:45:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229576AbhIJCS1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Sep 2021 22:18:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33054 "EHLO mail.kernel.org"
+        id S231259AbhIJGqT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 10 Sep 2021 02:46:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34178 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229628AbhIJCS1 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 9 Sep 2021 22:18:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DDD0860F94;
-        Fri, 10 Sep 2021 02:17:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631240237;
-        bh=c3RRvTlhhK0ZHI/AL1jQEm27c30eexogLcOnN7PKsdQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GBh6KPY8KGsZnBUrLVJHkfpVmFJ0F4wvxUnXwaYUFlQwgGBnE58WfIAK5LKN2YDsi
-         fGQaSHOQ1JQ1h7p1adt94UKUhxZ19qspyTFSvPONf4tcXdU2/i9eA6p4eAZ388URaC
-         llA+6EFoLWaZBJTDthsn1k8aPV26ttdcCr0TsyGl/trS8Aot8N3Gx2ZPvOAby8t5E/
-         0a16f9bEhHYnfFWof9HCf1+jIjgHu2/Cs6dqa4kyS3hQVSd7KcMekF9cGfx+t0qJG0
-         9GIPIXL94/NPSueE5rvI+ld+Fx8HCm4mjh4K3bl9Uy5evyBJSonCmbfi+XMI8nq1x3
-         u25n6NTZhihAg==
-Date:   Fri, 10 Sep 2021 04:17:13 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+        id S231223AbhIJGqT (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 10 Sep 2021 02:46:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 71E3E6109F;
+        Fri, 10 Sep 2021 06:45:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1631256308;
+        bh=zs4kHzRc2dEOg/Ypc3inBLRklRqv/MDp+aMdgAMUJvo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=arZpI6Vbkd1Q4i3uXv3VOMwXkAB9fZUzJYRhC8canCV48cmeaid4vVaHL6S35gBYk
+         1r2JfmDm9NFy+1X6JVvhICj3bQFHl/EVf52LImze8YXwP8PGLdAUmQV84ndyDMvxTv
+         NXCgtswiAFDW6aYrzFAElN/he9LdzZHmHPxjjlG0=
+Date:   Fri, 10 Sep 2021 08:45:06 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Ian Pilcher <arequipeno@gmail.com>
 Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-leds@vger.kernel.org,
         linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 09/15] leds: trigger: blkdev: Check devices for
- activity and blink LEDs
-Message-ID: <20210910041713.4722760a@thinkpad>
-In-Reply-To: <20210909222513.2184795-10-arequipeno@gmail.com>
+        kabel@kernel.org
+Subject: Re: [PATCH v2 06/15] leds: trigger: blkdev: Add function to get
+ gendisk by name
+Message-ID: <YTr+8h12z7kMLlV/@kroah.com>
 References: <20210909222513.2184795-1-arequipeno@gmail.com>
-        <20210909222513.2184795-10-arequipeno@gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20210909222513.2184795-7-arequipeno@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210909222513.2184795-7-arequipeno@gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu,  9 Sep 2021 17:25:07 -0500
-Ian Pilcher <arequipeno@gmail.com> wrote:
-
-> +static void blkdev_update_disk(struct ledtrig_blkdev_disk *const disk,
-> +			       const unsigned int generation)
+On Thu, Sep 09, 2021 at 05:25:04PM -0500, Ian Pilcher wrote:
+> Add ledtrig_blkdev_get_disk() to find block device by name and increment
+> its reference count.  (Caller must call put_disk().)  Must be built-in to
+> access block_class and disk_type symbols.
+> 
+> Signed-off-by: Ian Pilcher <arequipeno@gmail.com>
+> ---
+>  drivers/leds/trigger/ledtrig-blkdev-core.c | 20 ++++++++++++++++++++
+>  drivers/leds/trigger/ledtrig-blkdev.h      |  3 +++
+>  2 files changed, 23 insertions(+)
+> 
+> diff --git a/drivers/leds/trigger/ledtrig-blkdev-core.c b/drivers/leds/trigger/ledtrig-blkdev-core.c
+> index d7b02e760b06..5fd741aa14a6 100644
+> --- a/drivers/leds/trigger/ledtrig-blkdev-core.c
+> +++ b/drivers/leds/trigger/ledtrig-blkdev-core.c
+> @@ -33,3 +33,23 @@ void ledtrig_blkdev_disk_cleanup(struct gendisk *const gd)
+>  
+>  	mutex_unlock(&ledtrig_blkdev_mutex);
+>  }
+> +
+> +/* class_find_device() callback.  Must be built-in to access disk_type. */
+> +static int blkdev_match_name(struct device *const dev, const void *const name)
 > +{
-> +	const struct block_device *const part0 = disk->gd->part0;
-> +	const unsigned long read_ios = part_stat_read(part0, ios[STAT_READ]);
-> +	const unsigned long write_ios = part_stat_read(part0, ios[STAT_WRITE])
-> +				+ part_stat_read(part0, ios[STAT_DISCARD])
-> +				+ part_stat_read(part0, ios[STAT_FLUSH]);
+> +	return dev->type == &disk_type
+> +			&& sysfs_streq(dev_to_disk(dev)->disk_name, name);
+> +}
+> +
+> +/* Must be built-in to access block_class */
+> +struct gendisk *ledtrig_blkdev_get_disk(const char *const name)
+> +{
+> +	struct device *dev;
+> +
+> +	dev = class_find_device(&block_class, NULL, name, blkdev_match_name);
+> +	if (dev == NULL)
+> +		return NULL;
 
-So your code allows me to use a partition block device (like sda2) to
-register with the blkdev LED trigger, but when I do this, the code will
-disregard that I just want the LED to blink on activity on that one
-partition. Instead you will blink for whole sda, since you are looking
-at stats of only part0.
+You now have bumped the reference count on this structure.  Where do you
+decrement it when you are finished with it?
 
-Am I right?
+thanks,
 
-If so, this in unacceptable. The whole point of blkdev trigger is that
-you can reliably use it for any block device, and then it will blink
-the LED for that device, be it partition or whole disk.
-
-Marek
-
+greg k-h
