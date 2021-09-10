@@ -2,96 +2,124 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 515B2406CBA
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 15:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06997406D44
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 16:04:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233317AbhIJNNU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 10 Sep 2021 09:13:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52742 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231266AbhIJNNT (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 10 Sep 2021 09:13:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5663461074;
-        Fri, 10 Sep 2021 13:12:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631279528;
-        bh=xHga66dm4Y9qq0uRqhXsaAzyDsRHpSACVQyB1egW9K0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=eJsE8Ta6uMCzj83BNAPi3TWJsU/ek87eyc1cyWmWRbEY6LSIylTILxeLBPcCh3VqM
-         +UuMDdXOzL2lQa3ZO+22QXyIvPaBNRxbm5bJPOijU2PIlnw+VUUwwBk6Qq944OmjEt
-         RxLXy/en9uHOqzUYaD2jNDahx9TyJep9QujaFP2GGBjlD9gAgAVV2LhCdNWEnasLZG
-         uI2891BkzeNzXWtWsobyVrHnvL4wBnpSFLqWoM3EZBy8CtrltF35zKoWtE82xJZSl7
-         6dcRlyMvMJZE9sfRGf2NFUywvBlJ731VryKu7qmG6o8My6JZQ8tLbZ1xLv9HzTGXXY
-         qhT9n3wq0f8MQ==
-Received: by mail-ej1-f44.google.com with SMTP id a25so4173451ejv.6;
-        Fri, 10 Sep 2021 06:12:08 -0700 (PDT)
-X-Gm-Message-State: AOAM53075Aojjeephn1s2w1j0GtYcE22Gg43TIcWRirB/poj0IGt0NjH
-        SONdVDODKY6Z+zLolJxGxSLNE/tCzwEND1LHOA==
-X-Google-Smtp-Source: ABdhPJwxGWq0xviAjQ1uqiQ6zFb2APY00BFbtVFZJIy9PKNY22PNbijurhvlFBUTtPgsvxhftkZqTIJ49BSdm3GEVUw=
-X-Received: by 2002:a17:906:7217:: with SMTP id m23mr9323698ejk.466.1631279526962;
- Fri, 10 Sep 2021 06:12:06 -0700 (PDT)
+        id S233753AbhIJOFc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 10 Sep 2021 10:05:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51632 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233658AbhIJOFc (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Sep 2021 10:05:32 -0400
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F80DC061574;
+        Fri, 10 Sep 2021 07:04:21 -0700 (PDT)
+Received: by mail-oi1-x236.google.com with SMTP id c79so3029432oib.11;
+        Fri, 10 Sep 2021 07:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=vJjeudOkWUoFMSYNX0QtgVnYF0e2Ukp7ANPKWtsKcPo=;
+        b=XzXUNAqK+4M64tKFY0hbT/X2Z36aB3SvtQ2iXS+xf40NT2o/MUn7/Y/L4apOgEC3+H
+         ImL/YY0+6QKRUz1gKzvbRMr5yjWo9eQN2FHV3wbmsGmNgAL/fGtaFOqJRdEDqg0XwiJE
+         eZvavNm93obhHRDnFkUnCQGGiIygHnzuwvpYSHeiTJMxzwfPBjv/kA7RbzetOUkA8qnO
+         pqwWKYeO3fjWUfu8+xyCrAzLYYebydHuBcWtNvLqwTy3O/rfsiDxa/maD0u1ngjotPIO
+         nxkFh1/lrjMM5xiQXTfgYLHuOP4aPH6DDuF8ZINu6dIrhB+WdaO+CqfCykB+aJ02wRlX
+         TXBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vJjeudOkWUoFMSYNX0QtgVnYF0e2Ukp7ANPKWtsKcPo=;
+        b=Yn9Es5u76qDu5CndU6+KI0MjqvaGVhaADd2xDIKOGSYl5eH6i2zjwPzfEqjyGWoEnJ
+         yF47srlPU6dJ9XlLGDmvu4gNNjsW+HRNvPpUTJEJJiinip95ZGiVmS82bTb3U8aLOWjz
+         zyMDGvd1RmuU7BdIkVlxXsA7508VGclEr5n5jwM+BRFRMpjlEr+VwxRPj5AG/HJPpgTv
+         6kddDv5cm/LR0jLH+YruHpGv1Hrqf4Af00FJTZAX3GxCpDVp7wp+TLVG2dAUR+elA93y
+         d3aOTlpk6dRI4wVzsKQgvQ29LhZKoEe+8Ldo0+kc5m7hfaiepUYcqko7dALzo9ArTv7H
+         3G/g==
+X-Gm-Message-State: AOAM530weKuEi3MHwJZxzH1tovCgMM0DI60nVyrG6DQhoGEsf+gltoQE
+        LVTYAv8pK31V5rZb0OG+kaI=
+X-Google-Smtp-Source: ABdhPJzhnP8E1dPJ7nnLfS0dCdEpiHopVOlubF63RgNWlNbCTmR+QU2i8f/qhLi0XfDy9Mfo/ixqVw==
+X-Received: by 2002:aca:eb97:: with SMTP id j145mr4277157oih.33.1631282660571;
+        Fri, 10 Sep 2021 07:04:20 -0700 (PDT)
+Received: from ian.penurio.us ([47.184.51.90])
+        by smtp.gmail.com with ESMTPSA id x12sm1245856oie.56.2021.09.10.07.04.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Sep 2021 07:04:20 -0700 (PDT)
+Subject: Re: [PATCH v2 00/15] Introduce block device LED trigger
+To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
+Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gregkh@linuxfoundation.org
+References: <20210909222513.2184795-1-arequipeno@gmail.com>
+ <20210910040959.5ae4a6a1@thinkpad>
+From:   Ian Pilcher <arequipeno@gmail.com>
+Message-ID: <06581fe9-f9b2-5bee-07d6-e5b276a5e7f8@gmail.com>
+Date:   Fri, 10 Sep 2021 09:04:19 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210909213118.1087083-1-robh@kernel.org> <20210909213118.1087083-5-robh@kernel.org>
-In-Reply-To: <20210909213118.1087083-5-robh@kernel.org>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 10 Sep 2021 08:11:55 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJS2V959cbybBDHnj_X4OXiSeHocpknDN97u6r2y17PyA@mail.gmail.com>
-Message-ID: <CAL_JsqJS2V959cbybBDHnj_X4OXiSeHocpknDN97u6r2y17PyA@mail.gmail.com>
-Subject: Re: [PATCH 4/8] dt-bindings: clock: arm,syscon-icst: Use 'reg'
- instead of 'vco-offset' for VCO register address
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>
-Cc:     Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210910040959.5ae4a6a1@thinkpad>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Sep 9, 2021 at 4:31 PM Rob Herring <robh@kernel.org> wrote:
->
-> 'reg' is the standard property for defining register banks/addresses. Add
-> it to use for the VCO register address and deprecate 'vco-offset'. This
-> will also allow for using standard node names with unit-addresses.
->
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-clk@vger.kernel.org
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml b/Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
-> index 118c5543e037..c346287ca15d 100644
-> --- a/Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
-> +++ b/Documentation/devicetree/bindings/clock/arm,syscon-icst.yaml
-> @@ -69,6 +69,10 @@ properties:
->        - arm,impd1-vco1
->        - arm,impd1-vco2
->
-> +  reg:
-> +    maxItems: 1
-> +    description: The VCO register
-> +
->    clocks:
->      description: Parent clock for the ICST VCO
->      maxItems: 1
-> @@ -83,6 +87,7 @@ properties:
->    vco-offset:
->      $ref: '/schemas/types.yaml#/definitions/uint32'
->      description: Offset to the VCO register for the oscillator
-> +    deprecated
+On 9/9/21 9:09 PM, Marek Behún wrote:
+> I have tried to look into this and replied to some of your patches.
+> 
+> There are still many things to do, and I think the reviewing would be
+> much easier to review if you sent all the code changes as one patch
+> (since the changes are doing an atomic change: adding support for blkdev
+> LED trigger). Keep only the sysfs doc change in a separate patch.
 
-Sigh, that should be 'deprecated: true'.
+Marek -
 
-Rob
+I'll try to get a simplified version out as soon as I can.  It will
+probably be 3 patches, because I do think that the block subsystem
+changes should be in a separate patch.
+
+(I agree that it will be simpler to review - not to mention easier for
+me to create.  Past experience does tell me that there are likely some
+folks who will object to that format, however.)
+
+> You are unnecessary using the const keyword in places where it is not
+> needed and not customary for Linux kernel codebase. See in another of
+> my replies.
+
+I did see that.  I'm a believer in declaring anything that should not
+change as const (to the extent that C allows).  It documents the
+fact that the value is expected to remain unchanged throughout the
+function call, and it enlists the compiler to enforce it.
+
+So while it's true that they aren't necessary, they do result in code
+that is at least slightly less likely to be broken by future changes.
+
+> You are using a weird comment style, i.e.
+>    /*
+>     *
+>     *	Disassociate an LED from the trigger
+>     *
+>     */
+> 
+>    static void blkdev_deactivate(struct led_classdev *const led_dev)
+> 
+> Please look at how functions are documented in led-class.c, for example.
+
+Well ... that comment isn't documenting that function.  It's intended to
+identify a section of the file whose contents are related.  If there's a
+different comment style that I should be using for that purpose, please
+let me know.
+
+I'll respond to your other feedback separately.
+
+Thanks for taking your time on this.  I really do appreciate it!
+
+-- 
+========================================================================
+                  In Soviet Russia, Google searches you!
+========================================================================
