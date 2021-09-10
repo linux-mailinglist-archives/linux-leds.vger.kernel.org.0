@@ -2,128 +2,131 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1423240675F
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 08:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5FD6406762
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 08:49:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231232AbhIJGsv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 10 Sep 2021 02:48:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36600 "EHLO mail.kernel.org"
+        id S231253AbhIJGuL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 10 Sep 2021 02:50:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38756 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231223AbhIJGsu (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 10 Sep 2021 02:48:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9181B60F9C;
-        Fri, 10 Sep 2021 06:47:39 +0000 (UTC)
+        id S231223AbhIJGuK (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 10 Sep 2021 02:50:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9FA6960F9C;
+        Fri, 10 Sep 2021 06:48:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1631256460;
-        bh=crSpq5ICLhrGcyCk8g/i2I+2A4dAPEqJQN8kWgi2sMo=;
+        s=korg; t=1631256540;
+        bh=vXJAXbhhRVXEIInC57PKl2Etg+1VL0ZTnPPtyJWXfQE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=yn2VgPqTNQ6U+hj4FE74WjU/2QCYrnc3z1Yilzm4P9ConEQNAsVcYiqdX1Q7+44zC
-         ICuC+UWf0SlEZy+1O+jITagBVz4DLwexYMqXSyagv75cV388SDW6NHIaJaXZFAoj8m
-         vlf2xOE/md3LGhxfwdp+F+pspxnBbLWCIHwpUVk8=
-Date:   Fri, 10 Sep 2021 08:47:37 +0200
+        b=g3/0iqK+l0/n6VvnkF0pXW7nCoy+Qy8uqoRX55nHBcMT0rP5IStNe5aBlGnE1+QwB
+         kLAu3CKJ2LXdPiiA5s3jmDP6SeIBhDT57NHkAj562QrzcJhJlra+qy7kSITaDZ16MC
+         ITYahQcfTmvsQqQ49FxBdevomUXLMuf14NIXAujo=
+Date:   Fri, 10 Sep 2021 08:48:57 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Ian Pilcher <arequipeno@gmail.com>
 Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-leds@vger.kernel.org,
         linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         kabel@kernel.org
-Subject: Re: [PATCH v2 10/15] leds: trigger: blkdev: Add LED trigger activate
- function
-Message-ID: <YTr/iQBYclqjFri2@kroah.com>
+Subject: Re: [PATCH v2 11/15] leds: trigger: blkdev: Enable linking block
+ devices to LEDs
+Message-ID: <YTr/2bflThomjHqL@kroah.com>
 References: <20210909222513.2184795-1-arequipeno@gmail.com>
- <20210909222513.2184795-11-arequipeno@gmail.com>
+ <20210909222513.2184795-12-arequipeno@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210909222513.2184795-11-arequipeno@gmail.com>
+In-Reply-To: <20210909222513.2184795-12-arequipeno@gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Sep 09, 2021 at 05:25:08PM -0500, Ian Pilcher wrote:
-> Allocate per-LED data structure and initialize with default values
+On Thu, Sep 09, 2021 at 05:25:09PM -0500, Ian Pilcher wrote:
+> Add /sys/class/leds/<led>/link_device sysfs attribute
 > 
-> Create /sys/class/leds/<led>/block_devices directory
+> If this is the first LED associated with the device, create the
+> /sys/block/<disk>/blkdev_leds directory.  Otherwise, increment its
+> reference count.
 > 
-> Increment module reference count.  Module can only be removed when no LEDs
-> are associated with the trigger.
+> Create symlinks in /sys/class/leds/<led>/block_devices and
+> /sys/block/<disk>/blkdev_leds
+> 
+> If this the first device associated with *any* LED, schedule delayed work
+> to periodically check associated devices and blink LEDs
 > 
 > Signed-off-by: Ian Pilcher <arequipeno@gmail.com>
 > ---
->  drivers/leds/trigger/ledtrig-blkdev.c | 57 +++++++++++++++++++++++++++
->  1 file changed, 57 insertions(+)
+>  drivers/leds/trigger/ledtrig-blkdev.c | 160 ++++++++++++++++++++++++++
+>  1 file changed, 160 insertions(+)
 > 
 > diff --git a/drivers/leds/trigger/ledtrig-blkdev.c b/drivers/leds/trigger/ledtrig-blkdev.c
-> index 40dc55e5d4f3..6f78a9515976 100644
+> index 6f78a9515976..26509837f037 100644
 > --- a/drivers/leds/trigger/ledtrig-blkdev.c
 > +++ b/drivers/leds/trigger/ledtrig-blkdev.c
-> @@ -164,6 +164,62 @@ static void blkdev_process(struct work_struct *const work)
+> @@ -71,6 +71,9 @@ static unsigned int ledtrig_blkdev_interval;
+>  static void blkdev_process(struct work_struct *const work);
+>  static DECLARE_DELAYED_WORK(ledtrig_blkdev_work, blkdev_process);
+>  
+> +/* Total number of device-to-LED associations */
+> +static unsigned int ledtrig_blkdev_count;
+> +
+>  
+>  /*
+>   *
+> @@ -220,6 +223,162 @@ static int blkdev_activate(struct led_classdev *const led_dev)
 >  }
 >  
 >  
 > +/*
 > + *
-> + *	Associate an LED with the blkdev trigger
+> + *	link_device sysfs attribute - assocate a block device with this LED
 > + *
 > + */
 > +
-> +static int blkdev_activate(struct led_classdev *const led_dev)
+> +/* Gets or allocs & initializes the blkdev disk for a gendisk */
+> +static int blkdev_get_disk(struct gendisk *const gd)
 > +{
-> +	struct ledtrig_blkdev_led *led;
-> +	int ret;
+> +	struct ledtrig_blkdev_disk *disk;
+> +	struct kobject *dir;
 > +
-> +	/* Don't allow module to be removed while any LEDs are linked */
-> +	if (WARN_ON(!try_module_get(THIS_MODULE))) {
+> +	if (gd->ledtrig != NULL) {
+> +		kobject_get(gd->ledtrig->dir);
 
-That pattern is racy and broken and never ever ever add it to the kernel
-again please.  All existing in-kernel users of it are also wrong, we
-have been removing them for decades now.
+When do you decrement this kobject?
 
-> +		ret = -ENODEV;		/* Shouldn't ever happen */
-> +		goto exit_return;
+> +		return 0;
 > +	}
 > +
-> +	led = kmalloc(sizeof(*led), GFP_KERNEL);
-> +	if (led == NULL) {
-> +		ret = -ENOMEM;
-> +		goto exit_put_module;
+> +	disk = kmalloc(sizeof(*disk), GFP_KERNEL);
+> +	if (disk == NULL)
+> +		return -ENOMEM;
+> +
+> +	dir = kobject_create_and_add("linked_leds", &disk_to_dev(gd)->kobj);
+> +	if (dir == NULL) {
+> +		kfree(disk);
+> +		return -ENOMEM;
 > +	}
 > +
-> +	led->led_dev = led_dev;
-> +	led->blink_msec = LEDTRIG_BLKDEV_BLINK_MSEC;
-> +	led->mode = LEDTRIG_BLKDEV_MODE_RW;
-> +	INIT_HLIST_HEAD(&led->disks);
+> +	INIT_HLIST_HEAD(&disk->leds);
+> +	disk->gd = gd;
+> +	disk->dir = dir;
+> +	disk->read_ios = 0;
+> +	disk->write_ios = 0;
 > +
-> +	ret = mutex_lock_interruptible(&ledtrig_blkdev_mutex);
-> +	if (ret != 0)
-> +		goto exit_free;
+> +	gd->ledtrig = disk;
 > +
-> +	led->dir = kobject_create_and_add("linked_devices",
-> +					  &led_dev->dev->kobj);
+> +	return 0;
+> +}
+> +
+> +static void blkdev_put_disk(struct ledtrig_blkdev_disk *const disk)
+> +{
+> +	kobject_put(disk->dir);
+> +
+> +	if (hlist_empty(&disk->leds)) {
+> +		disk->gd->ledtrig = NULL;
+> +		kfree(disk);
 
-You have created a "raw" kobject in the device tree now, which means
-that userspace will not be notified of it and will have a "hole" in it's
-knowledge.  Why not just create a named attribute group to this device
-instead?
+This should happen in the kobject release function, not here, right?
 
-> +	if (led->dir == NULL) {
-> +		ret = -ENOMEM;
-> +		goto exit_unlock;
-> +	}
-> +
-> +	hlist_add_head(&led->leds_node, &ledtrig_blkdev_leds);
-> +	led_set_trigger_data(led_dev, led);
-> +	ret = 0;
-> +
-> +exit_unlock:
-> +	mutex_unlock(&ledtrig_blkdev_mutex);
-> +exit_free:
-> +	if (ret != 0)
-> +		kfree(led);
-> +exit_put_module:
-> +	if (ret != 0)
-> +		module_put(THIS_MODULE);
-
-Again, racy and broken, please do not do this.
+Did you try this out with removable block devices yet?
 
 thanks,
 
