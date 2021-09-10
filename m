@@ -2,66 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06997406D44
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 16:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00F0A406DD7
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 17:00:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233753AbhIJOFc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 10 Sep 2021 10:05:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51632 "EHLO
+        id S233907AbhIJPBg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 10 Sep 2021 11:01:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233658AbhIJOFc (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Sep 2021 10:05:32 -0400
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F80DC061574;
-        Fri, 10 Sep 2021 07:04:21 -0700 (PDT)
-Received: by mail-oi1-x236.google.com with SMTP id c79so3029432oib.11;
-        Fri, 10 Sep 2021 07:04:21 -0700 (PDT)
+        with ESMTP id S233539AbhIJPBf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Sep 2021 11:01:35 -0400
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B17CC061574;
+        Fri, 10 Sep 2021 08:00:24 -0700 (PDT)
+Received: by mail-oi1-x234.google.com with SMTP id y128so3280106oie.4;
+        Fri, 10 Sep 2021 08:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vJjeudOkWUoFMSYNX0QtgVnYF0e2Ukp7ANPKWtsKcPo=;
-        b=XzXUNAqK+4M64tKFY0hbT/X2Z36aB3SvtQ2iXS+xf40NT2o/MUn7/Y/L4apOgEC3+H
-         ImL/YY0+6QKRUz1gKzvbRMr5yjWo9eQN2FHV3wbmsGmNgAL/fGtaFOqJRdEDqg0XwiJE
-         eZvavNm93obhHRDnFkUnCQGGiIygHnzuwvpYSHeiTJMxzwfPBjv/kA7RbzetOUkA8qnO
-         pqwWKYeO3fjWUfu8+xyCrAzLYYebydHuBcWtNvLqwTy3O/rfsiDxa/maD0u1ngjotPIO
-         nxkFh1/lrjMM5xiQXTfgYLHuOP4aPH6DDuF8ZINu6dIrhB+WdaO+CqfCykB+aJ02wRlX
-         TXBg==
+        bh=wQtNDxK+stHmlXk66BKubuUVLuPTzjYg0fIt3ivIQek=;
+        b=SYDaDPYgbgJN3VcKQZKoEAgtrCd84+T7uR+OJyE6WcjV+VguQxkSsdXPtKNkx4nQha
+         JNFYscRaBlTDzffUmBCUUppIVYfajHkSlWSWzyXpqmC767U+6R/9A5ogSRbVsK3OO0o/
+         qEwlnHPEfZQ5+N5YI8TEvgWpvCS2PxWqTFn46pLYj6WYNl3lzchHoT4kW/XnVr9uoi5W
+         77DfL0xS9jrlYpgFgMQnGxYqF+OhX5t6BXuvAbdbt2OHhvsyFAeLitmz2eEJGoMrdBcM
+         DUyHiJtGWQ60NQ+8t+eSTrG1/H8I5wB/kjfR46LhMG04SBECU40Df7WWLAqHlzOwCIpk
+         TyTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=vJjeudOkWUoFMSYNX0QtgVnYF0e2Ukp7ANPKWtsKcPo=;
-        b=Yn9Es5u76qDu5CndU6+KI0MjqvaGVhaADd2xDIKOGSYl5eH6i2zjwPzfEqjyGWoEnJ
-         yF47srlPU6dJ9XlLGDmvu4gNNjsW+HRNvPpUTJEJJiinip95ZGiVmS82bTb3U8aLOWjz
-         zyMDGvd1RmuU7BdIkVlxXsA7508VGclEr5n5jwM+BRFRMpjlEr+VwxRPj5AG/HJPpgTv
-         6kddDv5cm/LR0jLH+YruHpGv1Hrqf4Af00FJTZAX3GxCpDVp7wp+TLVG2dAUR+elA93y
-         d3aOTlpk6dRI4wVzsKQgvQ29LhZKoEe+8Ldo0+kc5m7hfaiepUYcqko7dALzo9ArTv7H
-         3G/g==
-X-Gm-Message-State: AOAM530weKuEi3MHwJZxzH1tovCgMM0DI60nVyrG6DQhoGEsf+gltoQE
-        LVTYAv8pK31V5rZb0OG+kaI=
-X-Google-Smtp-Source: ABdhPJzhnP8E1dPJ7nnLfS0dCdEpiHopVOlubF63RgNWlNbCTmR+QU2i8f/qhLi0XfDy9Mfo/ixqVw==
-X-Received: by 2002:aca:eb97:: with SMTP id j145mr4277157oih.33.1631282660571;
-        Fri, 10 Sep 2021 07:04:20 -0700 (PDT)
+        bh=wQtNDxK+stHmlXk66BKubuUVLuPTzjYg0fIt3ivIQek=;
+        b=nXHWRAjSHgrTI5XDLZOwHdMZu7PqjIyMezvJrTf8Gd3lyROkDy9r3X5Jt1dUDxOga9
+         e/nXteHP+ie1eR0YoWaSy3YPlnyQAwQ3xX6tHCqAcouW9z6wfGsjBOpolk3w3Vdp0D2H
+         IygWQtk/HIzkHcfJv5ocBxVw/tYHUb0NRDXySbcEucmXwHYrPH+2IcXn/mnGPjk68V7j
+         lzJt5EWZ7B5x2orvTjF/113q35UNwD7a38g5aYhalgGRS0vic+ONp+SrBsecIt1yivIv
+         IfGeL6Wk3jGXq/Cvw+7S14yvjwSZfVSGwQiU2DQn6lnSrx03HzqdWHJg7TgDSG45lqUE
+         zHUA==
+X-Gm-Message-State: AOAM530xIrAwVk2LLR9zuDIBpmty+Omz3ZeKtJzOBpDud6RNDRUIVO68
+        QpzqFes3stV+T+SxTf8qkX8=
+X-Google-Smtp-Source: ABdhPJzdUeZHCJK7gVOaL66L4g1Zgwg1Z0bGxP/5YNQqApki9OrQhrZPKoyKGL3damp5l3xmW1pi4g==
+X-Received: by 2002:aca:5f04:: with SMTP id t4mr4493370oib.53.1631286023877;
+        Fri, 10 Sep 2021 08:00:23 -0700 (PDT)
 Received: from ian.penurio.us ([47.184.51.90])
-        by smtp.gmail.com with ESMTPSA id x12sm1245856oie.56.2021.09.10.07.04.19
+        by smtp.gmail.com with ESMTPSA id s8sm1247577otd.76.2021.09.10.08.00.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Sep 2021 07:04:20 -0700 (PDT)
-Subject: Re: [PATCH v2 00/15] Introduce block device LED trigger
+        Fri, 10 Sep 2021 08:00:23 -0700 (PDT)
+Subject: Re: [PATCH v2 04/15] block: Add block device LED trigger integrations
 To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
 Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-leds@vger.kernel.org,
         linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         gregkh@linuxfoundation.org
 References: <20210909222513.2184795-1-arequipeno@gmail.com>
- <20210910040959.5ae4a6a1@thinkpad>
+ <20210909222513.2184795-5-arequipeno@gmail.com>
+ <20210910032319.71b843d7@thinkpad>
 From:   Ian Pilcher <arequipeno@gmail.com>
-Message-ID: <06581fe9-f9b2-5bee-07d6-e5b276a5e7f8@gmail.com>
-Date:   Fri, 10 Sep 2021 09:04:19 -0500
+Message-ID: <4b40f4fc-4baf-c75f-e61f-310fe6d15e0c@gmail.com>
+Date:   Fri, 10 Sep 2021 10:00:23 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210910040959.5ae4a6a1@thinkpad>
+In-Reply-To: <20210910032319.71b843d7@thinkpad>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -69,55 +70,40 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/9/21 9:09 PM, Marek Behún wrote:
-> I have tried to look into this and replied to some of your patches.
+On 9/9/21 8:23 PM, Marek Behún wrote:
+> On Thu,  9 Sep 2021 17:25:02 -0500
+> Ian Pilcher <arequipeno@gmail.com> wrote:
+>> Call ledtrig_blkdev_disk_init() from device_add_disk() to ensure that
+>> ledtrig is initialized to NULL, in case a driver allocates the structure
+>> itself and doesn't use kzalloc()
 > 
-> There are still many things to do, and I think the reviewing would be
-> much easier to review if you sent all the code changes as one patch
-> (since the changes are doing an atomic change: adding support for blkdev
-> LED trigger). Keep only the sysfs doc change in a separate patch.
+> No, this is not needed. If someone does not use kzalloc(), they should
+> use it. No need to fix other code here.
 
-Marek -
+Yeah.  I'm honestly not sure if this is necessary or not, as I don't
+know if there are any drivers that actually have this problem.  I
+decided to include this for now, because an uninitialized pointer can
+cause memory corruption, etc., when the disk cleanup function follows a
+garbage pointer.
 
-I'll try to get a simplified version out as soon as I can.  It will
-probably be 3 patches, because I do think that the block subsystem
-changes should be in a separate patch.
+This recent commit seems to indicate that until recently drivers were
+responsible for doing gendisk allocation.
 
-(I agree that it will be simpler to review - not to mention easier for
-me to create.  Past experience does tell me that there are likely some
-folks who will object to that format, however.)
-
-> You are unnecessary using the const keyword in places where it is not
-> needed and not customary for Linux kernel codebase. See in another of
-> my replies.
-
-I did see that.  I'm a believer in declaring anything that should not
-change as const (to the extent that C allows).  It documents the
-fact that the value is expected to remain unchanged throughout the
-function call, and it enlists the compiler to enforce it.
-
-So while it's true that they aren't necessary, they do result in code
-that is at least slightly less likely to be broken by future changes.
-
-> You are using a weird comment style, i.e.
->    /*
->     *
->     *	Disassociate an LED from the trigger
->     *
->     */
+> commit f525464a8000f092c20b00eead3eaa9d849c599e
+> Author: Christoph Hellwig <hch@lst.de>
+> Date:   Fri May 21 07:50:55 2021 +0200
 > 
->    static void blkdev_deactivate(struct led_classdev *const led_dev)
-> 
-> Please look at how functions are documented in led-class.c, for example.
+>     block: add blk_alloc_disk and blk_cleanup_disk APIs
+>     
+>     Add two new APIs to allocate and free a gendisk including the
+>     request_queue for use with BIO based drivers.  This is to avoid
+>     boilerplate code in drivers.
 
-Well ... that comment isn't documenting that function.  It's intended to
-identify a section of the file whose contents are related.  If there's a
-different comment style that I should be using for that purpose, please
-let me know.
+Were those drivers expected to use kzalloc() or otherwise zero out the
+entire structure?  I really don't know.
 
-I'll respond to your other feedback separately.
-
-Thanks for taking your time on this.  I really do appreciate it!
+I think that it makes sense to defer to the block subsystem maintainers
+on this question.
 
 -- 
 ========================================================================
