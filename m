@@ -2,100 +2,57 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 211C740632F
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 02:46:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F3CD40651C
+	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 03:23:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239214AbhIJArA (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 9 Sep 2021 20:47:00 -0400
-Received: from condef-10.nifty.com ([202.248.20.75]:42615 "EHLO
-        condef-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239551AbhIJAjX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Sep 2021 20:39:23 -0400
-X-Greylist: delayed 365 seconds by postgrey-1.27 at vger.kernel.org; Thu, 09 Sep 2021 20:39:01 EDT
-Received: from conssluserg-02.nifty.com ([10.126.8.81])by condef-10.nifty.com with ESMTP id 18A0ShsV021526;
-        Fri, 10 Sep 2021 09:28:43 +0900
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 18A0SMaI003027;
-        Fri, 10 Sep 2021 09:28:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 18A0SMaI003027
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1631233703;
-        bh=3BKQgzHIpldXuMHUJ6SaQQUNOmT0VJRr0GBhL34/P2c=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SmQ8gJjUW5qCQBoxvKCfTgv+uQUgADXrxiSO193JbR71wEGJyRpeybxD2r0j1cPrk
-         zVX9Fffjuuo7MIRpkPN83vlH2Q6gKuT9nAzta5B4BMvbx2xFEOOqFhg2oMjLcvjqTJ
-         z6kDeJv+HUvKDXTVjkCDSAHsmvfZZ3piODTPpDaLPMwpM6+FNq71m7ItsS58WVagp9
-         Au8s99s9lYkVD08kEo1Z+wis3O/T2OIBOFUux3Ip3Cdk3loqUJhDz6YAZIqu4bGMew
-         /y8qfTMLvcSbizAjb3M2laEliIJ65HyyLIJZLCl6NiZEZOBQtxIXbePMFOh9TpA3mS
-         PEDccKuURGdmg==
-X-Nifty-SrcIP: [209.85.216.50]
-Received: by mail-pj1-f50.google.com with SMTP id gp20-20020a17090adf1400b00196b761920aso243508pjb.3;
-        Thu, 09 Sep 2021 17:28:22 -0700 (PDT)
-X-Gm-Message-State: AOAM531jWlcz5xXyH4LGxcSAgloLjkFMF3E7tV2CYi2ZwWQN4w0a1LIP
-        mKcezbH7CXL9GfMCx4eaTgmgFdV9wnJ17WUC4bU=
-X-Google-Smtp-Source: ABdhPJzD06aFs0p/r4Q9yVgjNgi9sLrgBCBxV2NQtWqdP6NM/aEatdL0eTrM0VaY63R0ni0GHq0J+dlHnIb5BVBDpwI=
-X-Received: by 2002:a17:90a:192:: with SMTP id 18mr6573730pjc.119.1631233702032;
- Thu, 09 Sep 2021 17:28:22 -0700 (PDT)
+        id S235663AbhIJBYm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Sep 2021 21:24:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50292 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235891AbhIJBYe (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 9 Sep 2021 21:24:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 83B0661132;
+        Fri, 10 Sep 2021 01:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631237004;
+        bh=bjv0+sDIcnJr3f5g4ivAnJlrxprFxDeF0YUsUjc9uPA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=DtsqBhaT2vXKmR/ISV6bH08y38BrFh4PQUOIC3c+i9nVtPOM489gwLPmGJxuIrlVm
+         8w+pQu4y6opyuY5dUSewKH2uIu84B+2bX04+yz9RC/b8I1hErGgPKWSv/nmhr2KIy+
+         FIhjF/nS9lPrJr0Pe0grMaXfSiOwT2SM7KgePu5e95bilX+sLWnbJrze4l7t2H9DOY
+         Tv44EpZgyC6KZZ48OqgTfZzCxwbZeLPDOUp5rcpE4lfKw2RP7V+DyGJ6CHOA/ATC51
+         7msxyoToe812/36TLklOneO6UyS9yrlcKGgJgX9iNYby5hlDwSF0qa16Z9mRzQXQv3
+         Za1vNwYjvYN6A==
+Date:   Fri, 10 Sep 2021 03:23:19 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Ian Pilcher <arequipeno@gmail.com>
+Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gregkh@linuxfoundation.org
+Subject: Re: [PATCH v2 04/15] block: Add block device LED trigger
+ integrations
+Message-ID: <20210910032319.71b843d7@thinkpad>
+In-Reply-To: <20210909222513.2184795-5-arequipeno@gmail.com>
+References: <20210909222513.2184795-1-arequipeno@gmail.com>
+        <20210909222513.2184795-5-arequipeno@gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210909213118.1087083-1-robh@kernel.org> <20210909213118.1087083-9-robh@kernel.org>
-In-Reply-To: <20210909213118.1087083-9-robh@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 10 Sep 2021 09:27:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQx8yqUdEWOmYqq2Mqk5BVuqc1w3rOcVm2Bb5wDSFRXaA@mail.gmail.com>
-Message-ID: <CAK7LNAQx8yqUdEWOmYqq2Mqk5BVuqc1w3rOcVm2Bb5wDSFRXaA@mail.gmail.com>
-Subject: Re: [PATCH 8/8] kbuild: Enable dtc 'unit_address_format' warning by default
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-leds@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Sep 10, 2021 at 6:31 AM Rob Herring <robh@kernel.org> wrote:
->
-> With all the 'unit_address_format' warnings fixed, enable the warning by
-> default.
->
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
+On Thu,  9 Sep 2021 17:25:02 -0500
+Ian Pilcher <arequipeno@gmail.com> wrote:
 
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+> Add LED trigger disk info pointer to gendisk structure
+> 
+> Call ledtrig_blkdev_disk_init() from device_add_disk() to ensure that
+> ledtrig is initialized to NULL, in case a driver allocates the structure
+> itself and doesn't use kzalloc()
 
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: linux-kbuild@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  scripts/Makefile.lib | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 54582673fc1a..56d50eb0cd80 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -310,7 +310,6 @@ DTC_FLAGS += -Wno-interrupt_provider
->  # Disable noisy checks by default
->  ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
->  DTC_FLAGS += -Wno-unit_address_vs_reg \
-> -       -Wno-unit_address_format \
->         -Wno-avoid_unnecessary_addr_size \
->         -Wno-alias_paths \
->         -Wno-graph_child_address \
-> --
-> 2.30.2
->
+No, this is not needed. If someone does not use kzalloc(), they should
+use it. No need to fix other code here.
 
-
--- 
-Best Regards
-Masahiro Yamada
+Marek
