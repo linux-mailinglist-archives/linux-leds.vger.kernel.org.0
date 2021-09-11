@@ -2,96 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D4BF4072E0
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Sep 2021 23:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3586B40791A
+	for <lists+linux-leds@lfdr.de>; Sat, 11 Sep 2021 17:36:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234458AbhIJVYT (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 10 Sep 2021 17:24:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38096 "EHLO
+        id S231894AbhIKPhf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 11 Sep 2021 11:37:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234331AbhIJVYR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 10 Sep 2021 17:24:17 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B1E8C061574;
-        Fri, 10 Sep 2021 14:23:04 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id l7-20020a0568302b0700b0051c0181deebso4055266otv.12;
-        Fri, 10 Sep 2021 14:23:04 -0700 (PDT)
+        with ESMTP id S230265AbhIKPhe (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 11 Sep 2021 11:37:34 -0400
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208AAC061574
+        for <linux-leds@vger.kernel.org>; Sat, 11 Sep 2021 08:36:22 -0700 (PDT)
+Received: by mail-vk1-xa41.google.com with SMTP id g18so1741312vkq.8
+        for <linux-leds@vger.kernel.org>; Sat, 11 Sep 2021 08:36:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kiPr0VA4llBq0cLdvqK4IheV72+wX8xwDjal038cGwk=;
-        b=NAJiZg1Qp+Vzk6wNyzdhAxYX9E3T4PYTAEka2KCcCEyt6TC0a/oOB2jIvCpI9rbJCj
-         e2iRyCxbizmDW+pwNJyEDuDIfz86ClTHu8BlOJ6bRqaJObcUNiv9/GPggiw4dh0WE2DB
-         mbpvbFB74ArOke8Dg2J4vn1/1ZH9IezJ/EYBbgGsGFArLplzg/cMSSPd2xIs0+g4LPaO
-         Ho40TAiIpUHQgVeONJu/ybII5riuk2r/A51SdAo8y7LXUYjFSnRul77zTdTEmnosMcGF
-         Osg0vYlYAiNKOlf72jGsKqKL8cMfG2WGWhFwYX6h2hY1/9ArgwyhgCrSg1gn6V0R8lY/
-         RQxQ==
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=Qdp0SHs3xmfRjgLIyqNwEa9EGz3sQom2u8TOqtBT/Zc=;
+        b=UqPewXOPUvFFgWsR24MCata9riBj0j6wQHsuOPBAFPapxzfU/YxikXzBaore03iHP1
+         0L+0qj2NmQGpAWT9Pp23tnk0he2rx5Q4/LGvNcEPDh4/9hm31b3yMp/CFrtpFT7Ouf3t
+         HpxgSJ1/9mdQNCXk50O2ehtI/arf9p5ibhO8XZ3tfjrxQhUPX8qdPd/DpsDo8Zv4SePh
+         TK5w6NZbr26pOHidSt4LHDd8HbpSYL8cl1VB7Vz8bgdl6XsQ8F4dOYSzqIgxaHg3BcFo
+         OEHxAfo2CxP3T5qt+WKjoZH0lErlDLfk7tZmTGc+zILR+rjXGBlYK9tH3ic+AkvB2dYC
+         ih0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kiPr0VA4llBq0cLdvqK4IheV72+wX8xwDjal038cGwk=;
-        b=OEIkTGiPgb/R+CiltY1pvOie6ZjMohvgiUmttzfeNo9z3PQp06es3PHrZdYhD0pHjI
-         EOAbEHnrrZONMjgJbvuzSy1vLKOYoJIq3cEYMkkkq6tESyDdFMTApNtgSoSckTdxG2Ka
-         O2cMrY9YbkbEhVeDdCALMMmd9Gu6H89iOhKuDvGow6imRRk9N1Bwy2ulX9dUv0yp7i4D
-         R0KbhGiKVHijKB/pwh4aJQQ/aT8l0lUkLnzopHPPVbjGDt8t7JIBaQfoxzz9u5wOzB4A
-         AxHCzY+V6I8Dgsw6wHjYU6E7qs+w6Tu+o/5UsK+E1ciWmdH6PcPcg2n6MjIeLrYgzJRv
-         hPxQ==
-X-Gm-Message-State: AOAM531sOMD9baI1xIrkiUeV9wTiLlcyjtNvzXyVttCuamZHbLAlgPQa
-        eBM+Z0IqzEPvfKAUCwjyVEU=
-X-Google-Smtp-Source: ABdhPJyZdrUeixHbtvWTBYk8MjtJJAy8X0S9xfPjQWwd/cuNQHBdNtqJ0YEiugNUDd8GKqud10c+SA==
-X-Received: by 2002:a9d:4a88:: with SMTP id i8mr6198525otf.290.1631308983739;
-        Fri, 10 Sep 2021 14:23:03 -0700 (PDT)
-Received: from ian.penurio.us ([47.184.51.90])
-        by smtp.gmail.com with ESMTPSA id k8sm1397988oom.20.2021.09.10.14.23.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Sep 2021 14:23:03 -0700 (PDT)
-Subject: Re: [PATCH v2 09/15] leds: trigger: blkdev: Check devices for
- activity and blink LEDs
-To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
-Cc:     axboe@kernel.dk, pavel@ucw.cz, linux-leds@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org
-References: <20210909222513.2184795-1-arequipeno@gmail.com>
- <20210909222513.2184795-10-arequipeno@gmail.com>
- <20210910041713.4722760a@thinkpad>
- <77111c57-dfb5-44c6-c4e9-e18afb468b6e@gmail.com>
- <20210910171211.3c2236c3@thinkpad>
-From:   Ian Pilcher <arequipeno@gmail.com>
-Message-ID: <1e4986e2-53ba-9a0f-06d1-7cfb25d9f0e6@gmail.com>
-Date:   Fri, 10 Sep 2021 16:23:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=Qdp0SHs3xmfRjgLIyqNwEa9EGz3sQom2u8TOqtBT/Zc=;
+        b=C3Dl+uTsVn9t0MDf9reDSW5pwYVpnyJhGjTonfKLMxRB2RvlucSpIgZYSHY5o6JY/+
+         f3e9A0N+PunR7gywt/AGgp0v78juW2qkNeRP2ZMrSDIEe98qglnV1qp088kiZBdIEwzD
+         PQoS9EAAgZ7byilNU/P91a7UZ72TE7O/cJgdtphkgD5AFykIc7pcU0Cyt2zx1vfTAPxZ
+         jaN4p1aglgh4ve7EwABFZfBuoKHq4UWuW15Fu9pwGj3MA0nmM1/ZwubOi9C6+Yiyr4bi
+         dnJ3aTXM2SxBOTIh7XAO3nCjMV2PNhnJ1P3gN3JFqbm5crd3b1SrjCGdlvtfSghdUWYL
+         wlIQ==
+X-Gm-Message-State: AOAM532It6N+mfNmGx5sdsrvI1fdQrMX0Xa7vxRWqR+z7VyYSSp9wYib
+        UgJHAOAr77qUo/kQKBYccW8glfBXD5bR8k0Gcw0=
+X-Google-Smtp-Source: ABdhPJwkoMaESnZWpZP2dT21X2IXdpxeU0FI8bjChgeUtyHiznXYOkbT2LPhTtycQKa3cAQbnnSNai8ceiD4fW3Mwd0=
+X-Received: by 2002:a1f:9195:: with SMTP id t143mr1139523vkd.3.1631374580854;
+ Sat, 11 Sep 2021 08:36:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210910171211.3c2236c3@thinkpad>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Sender: mrsnicolemarois1@gmail.com
+Received: by 2002:a59:a429:0:b0:228:4918:1040 with HTTP; Sat, 11 Sep 2021
+ 08:36:20 -0700 (PDT)
+From:   "Mrs.Nicole  Marois" <nicole1563marois@gmail.com>
+Date:   Sat, 11 Sep 2021 15:36:20 +0000
+X-Google-Sender-Auth: dcWlXvNP0jZI_xbirN3V0X0VU_E
+Message-ID: <CAGPkz-OAnB-s6vfNnaxbj+mROM=d=fjC7rfWzfajo7LzM7L4vw@mail.gmail.com>
+Subject: Hello Dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 9/10/21 10:12 AM, Marek Behún wrote:
-> On Fri, 10 Sep 2021 10:09:09 -0500
-> Ian Pilcher <arequipeno@gmail.com> wrote:
->> You can't add partitions, only whole devices.
-> 
-> But I should be able to, since partition is a block device in /dev.
-> Any block device from /sys/class/block should be possible to add.
+Hello Dear,
 
-I wasn't aware that was something that you were interested in doing.
-This will require working with the block_device structure rather than
-the gendisk.
+Please do not feel disturbed for contacting you, based on the critical
+condition I find mine self though, it's not financial problem, but my
+health you might have know that cancer is not what to talk home about,
+I am married to Mr.Duclos Marois who worked with Tunisia embassy in
+Burkina Faso for nine years before he died in the year 2012.We were
+married for eleven years without a child. He died after a brief
+illness that lasted for five days.
 
-One possible benefit of this change ... Assuming that block_device
-structures are always allocated by bdev_alloc() *and* I'm correct in
-thinking that this means that they are always allocated from the inode
-cache, then they are always zeroed out when allocated, so there won't
-be any need to explicitly initialize the pointer.
+Since his death I decided not to remarry, When my late husband was
+alive he deposited the sum of US$ 9.2m (Nine million two hundred
+thousand dollars) in a bank in Burkina Faso, Presently this money is
+still in bank. And My Doctor told me that I don't have much time to
+live because of the cancer problem, Having known my condition I
+decided to hand you over this fond to take care of the less-privileged
+people, you will utilize this money the way I am going to instruct
+herein. I want you to take 30 Percent of the total money for your
+personal use While 70% of the money will go to charity" people and
+helping the orphanage.
 
--- 
-========================================================================
-                  In Soviet Russia, Google searches you!
-========================================================================
+I don't want my husband's efforts to be used by the Government. I grew
+up as an Orphan and I don't have anybody as my family member,
+
+Regards,
+
+Mrs.Nicole Marois.
+written from Hospital.
