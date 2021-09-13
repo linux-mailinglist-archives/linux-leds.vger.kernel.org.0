@@ -2,37 +2,37 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A720A409D0B
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Sep 2021 21:28:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F381409D12
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Sep 2021 21:28:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347397AbhIMT3p (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 13 Sep 2021 15:29:45 -0400
-Received: from mail-oi1-f174.google.com ([209.85.167.174]:40524 "EHLO
-        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345862AbhIMT3o (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Sep 2021 15:29:44 -0400
-Received: by mail-oi1-f174.google.com with SMTP id h133so15525110oib.7;
-        Mon, 13 Sep 2021 12:28:28 -0700 (PDT)
+        id S1347540AbhIMT3u (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 13 Sep 2021 15:29:50 -0400
+Received: from mail-ot1-f45.google.com ([209.85.210.45]:44660 "EHLO
+        mail-ot1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347356AbhIMT3p (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 13 Sep 2021 15:29:45 -0400
+Received: by mail-ot1-f45.google.com with SMTP id g66-20020a9d12c8000000b0051aeba607f1so14896290otg.11;
+        Mon, 13 Sep 2021 12:28:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cqIeqU65iovt1/KVYn/OKZzsq19Zz/ArZBTPcmVHg2A=;
-        b=Zhs6mODZRKpOiZ8ixXFybJdLt24iQRFDZZgWd63FoX7yjpps5QI3UJ1b4UnWFQHK8m
-         c39rR/in5S+hLFb4xEf29neXf2FkPrfTA4W74a7fg12b3zMS1hdxodwvKsFwmKDFA3W2
-         1a6uHMJ9/ctf77minD7pa1CUyt/CNRP0zj/EvdxCoR82Ydru31duPx1fU6W2AvGgYO0L
-         tIJicx0VUGjbCLGKe1eRsRYpWInI9YHoe+D2L239euZwwrJc19MinHg8Qqjsgz/GUdpH
-         iedDN3mB5tQSRbN7V55Rn5/Z/udAH4JcheK/7Cy3Nw4yZ7cybMLGZ9yj9gIAe0XGUlwo
-         B0Gw==
-X-Gm-Message-State: AOAM533/6O6zZVN6hESIR78nYp8oYWmWD1EFm3SS6nzDYzrFprlHun+s
-        EoNqKPFo+upML2QeQHU3Vg==
-X-Google-Smtp-Source: ABdhPJxxMUFZr8rTTazRvS3urBG1WavS0XnJcYlP4pL7Z7c0ieM/UZs96dJlrUtLSwb6c5AANKAQZw==
-X-Received: by 2002:aca:3bc2:: with SMTP id i185mr8636420oia.67.1631561307489;
-        Mon, 13 Sep 2021 12:28:27 -0700 (PDT)
+        bh=MHpaa4YRiyoKZcNCSnJddNfjbYkMIenyPPEeWchVkSo=;
+        b=WmF3rR+Q8GM4IdfiVQhKWfOtMVPFSZssyOawXUTCQoiBKGD+sdA6+YG5RZbs1fQpms
+         AHzZ0sEa2A10RAyM6XeePirBpNx6Shyh/3Jmj7WsJpH1nDXOJV1pSo3HJ3ZZbinh+CWb
+         /MCO+Fsm3T09oBu2aL2FYauO2AP5cs4haudolgS6q2pA2zkmMRv0uc14Y3ZCz5bqxEwe
+         wn6xHfAyibaxJPlPNDInyht0cJAeFfVpPEdz11kJ15tzqnJVXsR77VEGs14/6Y1Pp72a
+         BzQR3sPTR2fxKqpXRw3Cl4ZYzyLs+28LHN88xun8dubmninI0BlVfNNZo1lSS8S2swzI
+         2SNw==
+X-Gm-Message-State: AOAM533rLY+v9bQgEGWoy5j6b2Zs+d4qORpCTTqcwdcLGFI050AnaEG7
+        aoH+JF+b7/SYDvTijuxS0mX3W2Ghgg==
+X-Google-Smtp-Source: ABdhPJzQLlWnj6YMKe81DufzYKnKe3PxqaekAcR1KnQzPQZlNn1Md3zgAjQj1lcrIzrC7g1dNa6mVg==
+X-Received: by 2002:a9d:72dc:: with SMTP id d28mr11211442otk.230.1631561308812;
+        Mon, 13 Sep 2021 12:28:28 -0700 (PDT)
 Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.googlemail.com with ESMTPSA id m24sm1907838oie.50.2021.09.13.12.28.26
+        by smtp.googlemail.com with ESMTPSA id m24sm1907838oie.50.2021.09.13.12.28.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 12:28:26 -0700 (PDT)
+        Mon, 13 Sep 2021 12:28:28 -0700 (PDT)
 From:   Rob Herring <robh@kernel.org>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>
@@ -42,9 +42,9 @@ Cc:     Liviu Dudau <liviu.dudau@arm.com>,
         linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-leds@vger.kernel.org
-Subject: [PATCH v2 6/8] ARM: dts: arm: Update register-bit-led nodes 'reg' and node names
-Date:   Mon, 13 Sep 2021 14:28:14 -0500
-Message-Id: <20210913192816.1225025-7-robh@kernel.org>
+Subject: [PATCH v2 7/8] ARM: dts: arm: Update ICST clock nodes 'reg' and node names
+Date:   Mon, 13 Sep 2021 14:28:15 -0500
+Message-Id: <20210913192816.1225025-8-robh@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210913192816.1225025-1-robh@kernel.org>
 References: <20210913192816.1225025-1-robh@kernel.org>
@@ -54,662 +54,368 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add a 'reg' entry for register-bit-led nodes on the Arm Ltd platforms.
-The 'reg' entry is the LED control register address. With this, the node
-name can be updated to use a generic node name, 'led', and a
-unit-address.
+Add a 'reg' entry for ICST clock nodes on the Arm Ltd platforms. The 'reg'
+entry is the VCO register address. With this, the node name can be updated
+to use a generic node name, 'clock-controller', and a unit-address.
 
 Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/boot/dts/arm-realview-eb.dtsi        | 27 +++++++++++++------
- arch/arm/boot/dts/arm-realview-pb1176.dts     | 27 +++++++++++++------
- arch/arm/boot/dts/arm-realview-pb11mp.dts     | 27 +++++++++++++------
- arch/arm/boot/dts/arm-realview-pbx.dtsi       | 27 +++++++++++++------
- arch/arm/boot/dts/integrator.dtsi             | 23 +++++++++++-----
- arch/arm/boot/dts/mps2.dtsi                   | 10 +++++--
- arch/arm/boot/dts/versatile-ab-ib2.dts        |  6 ++++-
- arch/arm/boot/dts/versatile-ab.dts            | 27 +++++++++++++------
- arch/arm64/boot/dts/arm/juno-motherboard.dtsi | 27 +++++++++++++------
- 9 files changed, 144 insertions(+), 57 deletions(-)
+ arch/arm/boot/dts/arm-realview-eb.dtsi    | 15 ++++++++++-----
+ arch/arm/boot/dts/arm-realview-pb1176.dts | 15 ++++++++++-----
+ arch/arm/boot/dts/arm-realview-pb11mp.dts | 21 ++++++++++++++-------
+ arch/arm/boot/dts/arm-realview-pbx.dtsi   | 15 ++++++++++-----
+ arch/arm/boot/dts/integratorap-im-pd1.dts |  9 +++++++--
+ arch/arm/boot/dts/integratorap.dts        | 15 +++++++++++----
+ arch/arm/boot/dts/integratorcp.dts        |  9 ++++++---
+ 7 files changed, 68 insertions(+), 31 deletions(-)
 
 diff --git a/arch/arm/boot/dts/arm-realview-eb.dtsi b/arch/arm/boot/dts/arm-realview-eb.dtsi
-index 04e8a27ba1eb..56441ef08a55 100644
+index 56441ef08a55..2dfb32bf9d48 100644
 --- a/arch/arm/boot/dts/arm-realview-eb.dtsi
 +++ b/arch/arm/boot/dts/arm-realview-eb.dtsi
-@@ -198,61 +198,72 @@ fpga {
- 		syscon: syscon@10000000 {
- 			compatible = "arm,realview-eb-syscon", "syscon", "simple-mfd";
- 			reg = <0x10000000 0x1000>;
-+			ranges = <0x0 0x10000000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
- 
--			led@08.0 {
-+			led@8,0 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x01>;
- 				label = "versatile:0";
- 				linux,default-trigger = "heartbeat";
- 				default-state = "on";
- 			};
--			led@08.1 {
-+			led@8,1 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x02>;
- 				label = "versatile:1";
- 				linux,default-trigger = "mmc0";
- 				default-state = "off";
- 			};
--			led@08.2 {
-+			led@8,2 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x04>;
- 				label = "versatile:2";
- 				linux,default-trigger = "cpu0";
- 				default-state = "off";
- 			};
--			led@08.3 {
-+			led@8,3 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x08>;
- 				label = "versatile:3";
- 				default-state = "off";
- 			};
--			led@08.4 {
-+			led@8,4 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x10>;
- 				label = "versatile:4";
- 				default-state = "off";
- 			};
--			led@08.5 {
-+			led@8,5 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x20>;
- 				label = "versatile:5";
- 				default-state = "off";
- 			};
--			led@08.6 {
-+			led@8,6 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x40>;
- 				label = "versatile:6";
- 				default-state = "off";
- 			};
--			led@08.7 {
-+			led@8,7 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x80>;
+@@ -269,36 +269,41 @@ led@8,7 {
  				label = "versatile:7";
+ 				default-state = "off";
+ 			};
+-			oscclk0: osc0@0c {
++			oscclk0: clock-controller@c {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x0c 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x0C>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk1: osc1@10 {
++			oscclk1: clock-controller@10 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x10 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x10>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk2: osc2@14 {
++			oscclk2: clock-controller@14 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x14 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x14>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk3: osc3@18 {
++			oscclk3: clock-controller@18 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x18 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x18>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk4: osc4@1c {
++			oscclk4: clock-controller@1c {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x1c 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x1c>;
 diff --git a/arch/arm/boot/dts/arm-realview-pb1176.dts b/arch/arm/boot/dts/arm-realview-pb1176.dts
-index 366687fb1ee3..df71ee27294d 100644
+index df71ee27294d..06b8723b09eb 100644
 --- a/arch/arm/boot/dts/arm-realview-pb1176.dts
 +++ b/arch/arm/boot/dts/arm-realview-pb1176.dts
-@@ -216,61 +216,72 @@ soc {
- 		syscon: syscon@10000000 {
- 			compatible = "arm,realview-pb1176-syscon", "syscon", "simple-mfd";
- 			reg = <0x10000000 0x1000>;
-+			ranges = <0x0 0x10000000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
- 
--			led@08.0 {
-+			led@8,0 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x01>;
- 				label = "versatile:0";
- 				linux,default-trigger = "heartbeat";
- 				default-state = "on";
- 			};
--			led@08.1 {
-+			led@8,1 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x02>;
- 				label = "versatile:1";
- 				linux,default-trigger = "mmc0";
- 				default-state = "off";
- 			};
--			led@08.2 {
-+			led@8,2 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x04>;
- 				label = "versatile:2";
- 				linux,default-trigger = "cpu0";
- 				default-state = "off";
- 			};
--			led@08.3 {
-+			led@8,3 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x08>;
- 				label = "versatile:3";
- 				default-state = "off";
- 			};
--			led@08.4 {
-+			led@8,4 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x10>;
- 				label = "versatile:4";
- 				default-state = "off";
- 			};
--			led@08.5 {
-+			led@8,5 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x20>;
- 				label = "versatile:5";
- 				default-state = "off";
- 			};
--			led@08.6 {
-+			led@8,6 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x40>;
- 				label = "versatile:6";
- 				default-state = "off";
- 			};
--			led@08.7 {
-+			led@8,7 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x80>;
+@@ -287,36 +287,41 @@ led@8,7 {
  				label = "versatile:7";
+ 				default-state = "off";
+ 			};
+-			oscclk0: osc0@0c {
++			oscclk0: clock-controller@c {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x0c 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x0C>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk1: osc1@10 {
++			oscclk1: clock-controller@10 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x10 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x10>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk2: osc2@14 {
++			oscclk2: clock-controller@14 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x14 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x14>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk3: osc3@18 {
++			oscclk3: clock-controller@18 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x18 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x18>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk4: osc4@1c {
++			oscclk4: clock-controller@1c {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x1c 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x1c>;
 diff --git a/arch/arm/boot/dts/arm-realview-pb11mp.dts b/arch/arm/boot/dts/arm-realview-pb11mp.dts
-index 228a51a38f95..54d4cbd10bdf 100644
+index 54d4cbd10bdf..295aef448123 100644
 --- a/arch/arm/boot/dts/arm-realview-pb11mp.dts
 +++ b/arch/arm/boot/dts/arm-realview-pb11mp.dts
-@@ -303,64 +303,75 @@ soc {
- 		pb11mp_syscon: syscon@10000000 {
- 			compatible = "arm,realview-pb11mp-syscon", "syscon", "simple-mfd";
- 			reg = <0x10000000 0x1000>;
-+			ranges = <0x0 0x10000000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
+@@ -378,50 +378,57 @@ led@8,7 {
+ 				default-state = "off";
+ 			};
  
--			led@08.0 {
-+			led@8,0 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x01>;
- 				label = "versatile:0";
- 				linux,default-trigger = "heartbeat";
- 				default-state = "on";
+-			oscclk0: osc0@0c {
++			oscclk0: clock-controller@c {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x0c 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x0C>;
+ 				clocks = <&xtal24mhz>;
  			};
--			led@08.1 {
-+			led@8,1 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x02>;
- 				label = "versatile:1";
- 				linux,default-trigger = "mmc0";
- 				default-state = "off";
+-			oscclk1: osc1@10 {
++			oscclk1: clock-controller@10 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x10 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x10>;
+ 				clocks = <&xtal24mhz>;
  			};
--			led@08.2 {
-+			led@8,2 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x04>;
- 				label = "versatile:2";
- 				linux,default-trigger = "cpu0";
- 				default-state = "off";
+-			oscclk2: osc2@14 {
++			oscclk2: clock-controller@14 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x14 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x14>;
+ 				clocks = <&xtal24mhz>;
  			};
--			led@08.3 {
-+			led@8,3 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x08>;
- 				label = "versatile:3";
- 				linux,default-trigger = "cpu1";
- 				default-state = "off";
+-			oscclk3: osc3@18 {
++			oscclk3: clock-controller@18 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x18 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x18>;
+ 				clocks = <&xtal24mhz>;
  			};
--			led@08.4 {
-+			led@8,4 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x10>;
- 				label = "versatile:4";
- 				linux,default-trigger = "cpu2";
- 				default-state = "off";
+-			oscclk4: osc4@1c {
++			oscclk4: clock-controller@1c {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x1c 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x1c>;
+ 				clocks = <&xtal24mhz>;
  			};
--			led@08.5 {
-+			led@8,5 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x20>;
- 				label = "versatile:5";
- 				linux,default-trigger = "cpu3";
- 				default-state = "off";
+-			oscclk5: osc5@d4 {
++			oscclk5: clock-controller@d4 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0xd4 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0xd4>;
+ 				clocks = <&xtal24mhz>;
  			};
--			led@08.6 {
-+			led@8,6 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x40>;
- 				label = "versatile:6";
- 				default-state = "off";
- 			};
--			led@08.7 {
-+			led@8,7 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x80>;
- 				label = "versatile:7";
+-			oscclk6: osc6@d8 {
++			oscclk6: clock-controller@d8 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0xd8 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0xd8>;
 diff --git a/arch/arm/boot/dts/arm-realview-pbx.dtsi b/arch/arm/boot/dts/arm-realview-pbx.dtsi
-index ccf6f756b6ed..9366fecc699b 100644
+index 9366fecc699b..6f61f968d689 100644
 --- a/arch/arm/boot/dts/arm-realview-pbx.dtsi
 +++ b/arch/arm/boot/dts/arm-realview-pbx.dtsi
-@@ -220,61 +220,72 @@ soc: soc {
- 		syscon: syscon@10000000 {
- 			compatible = "arm,realview-pbx-syscon", "syscon", "simple-mfd";
- 			reg = <0x10000000 0x1000>;
-+			ranges = <0x0 0x10000000 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
- 
--			led@08.0 {
-+			led@8,0 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x01>;
- 				label = "versatile:0";
- 				linux,default-trigger = "heartbeat";
- 				default-state = "on";
- 			};
--			led@08.1 {
-+			led@8,1 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x02>;
- 				label = "versatile:1";
- 				linux,default-trigger = "mmc0";
- 				default-state = "off";
- 			};
--			led@08.2 {
-+			led@8,2 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x04>;
- 				label = "versatile:2";
- 				linux,default-trigger = "cpu0";
- 				default-state = "off";
- 			};
--			led@08.3 {
-+			led@8,3 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x08>;
- 				label = "versatile:3";
- 				default-state = "off";
- 			};
--			led@08.4 {
-+			led@8,4 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x10>;
- 				label = "versatile:4";
- 				default-state = "off";
- 			};
--			led@08.5 {
-+			led@8,5 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x20>;
- 				label = "versatile:5";
- 				default-state = "off";
- 			};
--			led@08.6 {
-+			led@8,6 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x40>;
- 				label = "versatile:6";
- 				default-state = "off";
- 			};
--			led@08.7 {
-+			led@8,7 {
- 				compatible = "register-bit-led";
-+				reg = <0x08 0x04>;
- 				offset = <0x08>;
- 				mask = <0x80>;
+@@ -291,36 +291,41 @@ led@8,7 {
  				label = "versatile:7";
-diff --git a/arch/arm/boot/dts/integrator.dtsi b/arch/arm/boot/dts/integrator.dtsi
-index 602f74d2c758..ad868cfebc94 100644
---- a/arch/arm/boot/dts/integrator.dtsi
-+++ b/arch/arm/boot/dts/integrator.dtsi
-@@ -15,10 +15,14 @@ memory {
- 	core-module@10000000 {
- 		compatible = "arm,core-module-integrator", "syscon", "simple-mfd";
- 		reg = <0x10000000 0x200>;
-+		ranges = <0x0 0x10000000 0x200>;
+ 				default-state = "off";
+ 			};
+-			oscclk0: osc0@0c {
++			oscclk0: clock-controller@c {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x0c 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x0C>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk1: osc1@10 {
++			oscclk1: clock-controller@10 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x10 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x10>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk2: osc2@14 {
++			oscclk2: clock-controller@14 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x14 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x14>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk3: osc3@18 {
++			oscclk3: clock-controller@18 {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x18 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x18>;
+ 				clocks = <&xtal24mhz>;
+ 			};
+-			oscclk4: osc4@1c {
++			oscclk4: clock-controller@1c {
+ 				compatible = "arm,syscon-icst307";
++				reg = <0x1c 0x04>;
+ 				#clock-cells = <0>;
+ 				lock-offset = <0x20>;
+ 				vco-offset = <0x1c>;
+diff --git a/arch/arm/boot/dts/integratorap-im-pd1.dts b/arch/arm/boot/dts/integratorap-im-pd1.dts
+index 0614f82b808e..d47bfb66d069 100644
+--- a/arch/arm/boot/dts/integratorap-im-pd1.dts
++++ b/arch/arm/boot/dts/integratorap-im-pd1.dts
+@@ -28,9 +28,13 @@ &lm0 {
+ 	syscon@0 {
+ 		compatible = "arm,im-pd1-syscon", "syscon";
+ 		reg = <0x00000000 0x1000>;
++		ranges;
 +		#address-cells = <1>;
 +		#size-cells = <1>;
  
- 		/* Use core module LED to indicate CPU load */
--		led@c.0 {
-+		led@c,0 {
- 			compatible = "register-bit-led";
-+			reg = <0x0c 0x04>;
- 			offset = <0x0c>;
- 			mask = <0x01>;
- 			label = "integrator:core_module";
-@@ -104,35 +108,42 @@ kmi@19000000 {
- 			interrupts = <4>;
- 		};
- 
--		syscon {
-+		syscon@1a000000 {
- 			/* Debug registers mapped as syscon */
- 			compatible = "syscon", "simple-mfd";
- 			reg = <0x1a000000 0x10>;
-+			ranges = <0x0 0x1a000000 0x10>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
- 
--			led@4.0 {
-+			led@4,0 {
- 				compatible = "register-bit-led";
-+				reg = <0x04 0x04>;
- 				offset = <0x04>;
- 				mask = <0x01>;
- 				label = "integrator:green0";
- 				linux,default-trigger = "heartbeat";
- 				default-state = "on";
- 			};
--			led@4.1 {
-+			led@4,1 {
- 				compatible = "register-bit-led";
-+				reg = <0x04 0x04>;
- 				offset = <0x04>;
- 				mask = <0x02>;
- 				label = "integrator:yellow";
- 				default-state = "off";
- 			};
--			led@4.2 {
-+			led@4,2 {
- 				compatible = "register-bit-led";
-+				reg = <0x04 0x04>;
- 				offset = <0x04>;
- 				mask = <0x04>;
- 				label = "integrator:red";
- 				default-state = "off";
- 			};
--			led@4.3 {
-+			led@4,3 {
- 				compatible = "register-bit-led";
-+				reg = <0x04 0x04>;
- 				offset = <0x04>;
- 				mask = <0x08>;
- 				label = "integrator:green1";
-diff --git a/arch/arm/boot/dts/mps2.dtsi b/arch/arm/boot/dts/mps2.dtsi
-index 37f5023f529c..b99577d411b1 100644
---- a/arch/arm/boot/dts/mps2.dtsi
-+++ b/arch/arm/boot/dts/mps2.dtsi
-@@ -216,8 +216,13 @@ fpgaio@8000 {
- 			compatible = "syscon", "simple-mfd";
- 			reg = <0x8000 0x10>;
- 
--			led0 {
-+			ranges = <0x0 0x8000 0x10>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			led@0,0 {
- 				compatible = "register-bit-led";
-+				reg = <0x00 0x04>;
- 				offset = <0x0>;
- 				mask = <0x01>;
- 				label = "userled:0";
-@@ -225,8 +230,9 @@ led0 {
- 				default-state = "on";
- 			};
- 
--			led1 {
-+			led@0,1 {
- 				compatible = "register-bit-led";
-+				reg = <0x00 0x04>;
- 				offset = <0x0>;
- 				mask = <0x02>;
- 				label = "userled:1";
-diff --git a/arch/arm/boot/dts/versatile-ab-ib2.dts b/arch/arm/boot/dts/versatile-ab-ib2.dts
-index c577ff4bb4be..7ebb0dfd0467 100644
---- a/arch/arm/boot/dts/versatile-ab-ib2.dts
-+++ b/arch/arm/boot/dts/versatile-ab-ib2.dts
-@@ -13,9 +13,13 @@ / {
- 	syscon@27000000 {
- 		compatible = "arm,versatile-ib2-syscon", "syscon", "simple-mfd";
- 		reg = <0x27000000 0x4>;
-+		ranges = <0x0 0x27000000 0x4>;
-+		#address-cells = <1>;
-+		#size-cells = <1>;
- 
--		led@00.4 {
-+		led@0,4 {
- 			compatible = "register-bit-led";
+-		vco1: vco1-clock {
++		vco1: clock-controller@0 {
+ 			compatible = "arm,impd1-vco1";
 +			reg = <0x00 0x04>;
- 			offset = <0x00>;
- 			mask = <0x10>;
- 			label = "versatile-ib2:0";
-diff --git a/arch/arm/boot/dts/versatile-ab.dts b/arch/arm/boot/dts/versatile-ab.dts
-index 151c0220047d..79f7cc241282 100644
---- a/arch/arm/boot/dts/versatile-ab.dts
-+++ b/arch/arm/boot/dts/versatile-ab.dts
-@@ -70,61 +70,72 @@ vga_con_in: endpoint {
- 	core-module@10000000 {
- 		compatible = "arm,core-module-versatile", "syscon", "simple-mfd";
- 		reg = <0x10000000 0x200>;
-+		ranges = <0x0 0x10000000 0x200>;
-+		#address-cells = <1>;
+ 			#clock-cells = <0>;
+ 			lock-offset = <0x08>;
+ 			vco-offset = <0x00>;
+@@ -38,8 +42,9 @@ vco1: vco1-clock {
+ 			clock-output-names = "IM-PD1-VCO1";
+ 		};
+ 
+-		vco2: vco2-clock {
++		vco2: clock-controller@4 {
+ 			compatible = "arm,impd1-vco2";
++			reg = <0x04 0x04>;
+ 			#clock-cells = <0>;
+ 			lock-offset = <0x08>;
+ 			vco-offset = <0x04>;
+diff --git a/arch/arm/boot/dts/integratorap.dts b/arch/arm/boot/dts/integratorap.dts
+index 67d1f9b24a52..9b652cc27b14 100644
+--- a/arch/arm/boot/dts/integratorap.dts
++++ b/arch/arm/boot/dts/integratorap.dts
+@@ -88,8 +88,9 @@ cm24mhz: cm24mhz@24M {
+ 		};
+ 
+ 		/* Oscillator on the core module, clocks the CPU core */
+-		cmosc: cmosc@24M {
++		cmosc: clock-controller@8 {
+ 			compatible = "arm,syscon-icst525-integratorap-cm";
++			reg = <0x08 0x04>;
+ 			#clock-cells = <0>;
+ 			lock-offset = <0x14>;
+ 			vco-offset = <0x08>;
+@@ -97,8 +98,9 @@ cmosc: cmosc@24M {
+ 		};
+ 
+ 		/* Auxilary oscillator on the core module, 32.369MHz at boot */
+-		auxosc: auxosc@24M {
++		auxosc: clock-controller@1c {
+ 			compatible = "arm,syscon-icst525";
++			reg = <0x1c 0x04>;
+ 			#clock-cells = <0>;
+ 			lock-offset = <0x14>;
+ 			vco-offset = <0x1c>;
+@@ -109,13 +111,17 @@ auxosc: auxosc@24M {
+ 	syscon {
+ 		compatible = "arm,integrator-ap-syscon", "syscon";
+ 		reg = <0x11000000 0x100>;
++		ranges = <0x0 0x11000000 0x100>;
 +		#size-cells = <1>;
++		#address-cells = <1>;
  
--		led@08.0 {
-+		led@8,0 {
- 			compatible = "register-bit-led";
-+			reg = <0x08 0x04>;
- 			offset = <0x08>;
- 			mask = <0x01>;
- 			label = "versatile:0";
- 			linux,default-trigger = "heartbeat";
- 			default-state = "on";
+ 		/*
+ 		 * SYSCLK clocks PCIv3 bridge, system controller and the
+ 		 * logic modules.
+ 		 */
+-		sysclk: apsys@24M {
++		sysclk: clock-controller@4 {
+ 			compatible = "arm,syscon-icst525-integratorap-sys";
++			reg = <0x04 0x04>;
+ 			#clock-cells = <0>;
+ 			lock-offset = <0x1c>;
+ 			vco-offset = <0x04>;
+@@ -123,8 +129,9 @@ sysclk: apsys@24M {
  		};
--		led@08.1 {
-+		led@8,1 {
- 			compatible = "register-bit-led";
-+			reg = <0x08 0x04>;
- 			offset = <0x08>;
- 			mask = <0x02>;
- 			label = "versatile:1";
- 			linux,default-trigger = "mmc0";
- 			default-state = "off";
- 		};
--		led@08.2 {
-+		led@8,2 {
- 			compatible = "register-bit-led";
-+			reg = <0x08 0x04>;
- 			offset = <0x08>;
- 			mask = <0x04>;
- 			label = "versatile:2";
- 			linux,default-trigger = "cpu0";
- 			default-state = "off";
- 		};
--		led@08.3 {
-+		led@8,3 {
- 			compatible = "register-bit-led";
-+			reg = <0x08 0x04>;
- 			offset = <0x08>;
- 			mask = <0x08>;
- 			label = "versatile:3";
- 			default-state = "off";
- 		};
--		led@08.4 {
-+		led@8,4 {
- 			compatible = "register-bit-led";
-+			reg = <0x08 0x04>;
- 			offset = <0x08>;
- 			mask = <0x10>;
- 			label = "versatile:4";
- 			default-state = "off";
- 		};
--		led@08.5 {
-+		led@8,5 {
- 			compatible = "register-bit-led";
-+			reg = <0x08 0x04>;
- 			offset = <0x08>;
- 			mask = <0x20>;
- 			label = "versatile:5";
- 			default-state = "off";
- 		};
--		led@08.6 {
-+		led@8,6 {
- 			compatible = "register-bit-led";
-+			reg = <0x08 0x04>;
- 			offset = <0x08>;
- 			mask = <0x40>;
- 			label = "versatile:6";
- 			default-state = "off";
- 		};
--		led@08.7 {
-+		led@8,7 {
- 			compatible = "register-bit-led";
-+			reg = <0x08 0x04>;
- 			offset = <0x08>;
- 			mask = <0x80>;
- 			label = "versatile:7";
-diff --git a/arch/arm64/boot/dts/arm/juno-motherboard.dtsi b/arch/arm64/boot/dts/arm/juno-motherboard.dtsi
-index 40d95c58b55e..f7afb8faf5de 100644
---- a/arch/arm64/boot/dts/arm/juno-motherboard.dtsi
-+++ b/arch/arm64/boot/dts/arm/juno-motherboard.dtsi
-@@ -153,64 +153,75 @@ v2m_sysctl: sysctl@20000 {
- 				apbregs@10000 {
- 					compatible = "syscon", "simple-mfd";
- 					reg = <0x010000 0x1000>;
-+					ranges = <0x0 0x10000 0x1000>;
-+					#address-cells = <1>;
-+					#size-cells = <1>;
  
--					led0 {
-+					led@8,0 {
- 						compatible = "register-bit-led";
-+						reg = <0x08 0x04>;
- 						offset = <0x08>;
- 						mask = <0x01>;
- 						label = "vexpress:0";
- 						linux,default-trigger = "heartbeat";
- 						default-state = "on";
- 					};
--					led1 {
-+					led@8,1 {
- 						compatible = "register-bit-led";
-+						reg = <0x08 0x04>;
- 						offset = <0x08>;
- 						mask = <0x02>;
- 						label = "vexpress:1";
- 						linux,default-trigger = "mmc0";
- 						default-state = "off";
- 					};
--					led2 {
-+					led@8,2 {
- 						compatible = "register-bit-led";
-+						reg = <0x08 0x04>;
- 						offset = <0x08>;
- 						mask = <0x04>;
- 						label = "vexpress:2";
- 						linux,default-trigger = "cpu0";
- 						default-state = "off";
- 					};
--					led3 {
-+					led@8,3 {
- 						compatible = "register-bit-led";
-+						reg = <0x08 0x04>;
- 						offset = <0x08>;
- 						mask = <0x08>;
- 						label = "vexpress:3";
- 						linux,default-trigger = "cpu1";
- 						default-state = "off";
- 					};
--					led4 {
-+					led@8,4 {
- 						compatible = "register-bit-led";
-+						reg = <0x08 0x04>;
- 						offset = <0x08>;
- 						mask = <0x10>;
- 						label = "vexpress:4";
- 						linux,default-trigger = "cpu2";
- 						default-state = "off";
- 					};
--					led5 {
-+					led@8,5 {
- 						compatible = "register-bit-led";
-+						reg = <0x08 0x04>;
- 						offset = <0x08>;
- 						mask = <0x20>;
- 						label = "vexpress:5";
- 						linux,default-trigger = "cpu3";
- 						default-state = "off";
- 					};
--					led6 {
-+					led@8,6 {
- 						compatible = "register-bit-led";
-+						reg = <0x08 0x04>;
- 						offset = <0x08>;
- 						mask = <0x40>;
- 						label = "vexpress:6";
- 						default-state = "off";
- 					};
--					led7 {
-+					led@8,7 {
- 						compatible = "register-bit-led";
-+						reg = <0x08 0x04>;
- 						offset = <0x08>;
- 						mask = <0x80>;
- 						label = "vexpress:7";
+ 		/* One-bit control for the PCI bus clock (33 or 25 MHz) */
+-		pciclk: pciclk@24M {
++		pciclk: clock-controller@4,8 {
+ 			compatible = "arm,syscon-icst525-integratorap-pci";
++			reg = <0x04 0x04>;
+ 			#clock-cells = <0>;
+ 			lock-offset = <0x1c>;
+ 			vco-offset = <0x04>;
+diff --git a/arch/arm/boot/dts/integratorcp.dts b/arch/arm/boot/dts/integratorcp.dts
+index 01fa229e1bd0..38fc7e81bdb6 100644
+--- a/arch/arm/boot/dts/integratorcp.dts
++++ b/arch/arm/boot/dts/integratorcp.dts
+@@ -92,8 +92,9 @@ cm24mhz: cm24mhz@24M {
+ 		};
+ 
+ 		/* Oscillator on the core module, clocks the CPU core */
+-		cmcore: cmosc@24M {
++		cmcore: clock-controller@8 {
+ 			compatible = "arm,syscon-icst525-integratorcp-cm-core";
++			reg = <0x08 0x04>;
+ 			#clock-cells = <0>;
+ 			lock-offset = <0x14>;
+ 			vco-offset = <0x08>;
+@@ -101,8 +102,9 @@ cmcore: cmosc@24M {
+ 		};
+ 
+ 		/* Oscillator on the core module, clocks the memory bus */
+-		cmmem: cmosc@24M {
++		cmmem: clock-controller@8,12 {
+ 			compatible = "arm,syscon-icst525-integratorcp-cm-mem";
++			reg = <0x08 0x04>;
+ 			#clock-cells = <0>;
+ 			lock-offset = <0x14>;
+ 			vco-offset = <0x08>;
+@@ -110,8 +112,9 @@ cmmem: cmosc@24M {
+ 		};
+ 
+ 		/* Auxilary oscillator on the core module, clocks the CLCD */
+-		auxosc: auxosc@24M {
++		auxosc: clock-controller@1c {
+ 			compatible = "arm,syscon-icst525";
++			reg = <0x1c 0x04>;
+ 			#clock-cells = <0>;
+ 			lock-offset = <0x14>;
+ 			vco-offset = <0x1c>;
 -- 
 2.30.2
 
