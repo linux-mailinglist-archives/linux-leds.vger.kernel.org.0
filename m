@@ -2,81 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7822F40BADE
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Sep 2021 00:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5805D40BB00
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Sep 2021 00:14:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234192AbhINWB2 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Sep 2021 18:01:28 -0400
-Received: from mail-ot1-f47.google.com ([209.85.210.47]:39664 "EHLO
-        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232351AbhINWB2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Sep 2021 18:01:28 -0400
-Received: by mail-ot1-f47.google.com with SMTP id m7-20020a9d4c87000000b0051875f56b95so677713otf.6;
-        Tue, 14 Sep 2021 15:00:10 -0700 (PDT)
+        id S235348AbhINWPS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Sep 2021 18:15:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35250 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234956AbhINWPR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Sep 2021 18:15:17 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB09FC061764
+        for <linux-leds@vger.kernel.org>; Tue, 14 Sep 2021 15:13:59 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id h16so1585643lfk.10
+        for <linux-leds@vger.kernel.org>; Tue, 14 Sep 2021 15:13:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JWsTCdHYGd/aJ+PxtTnWChkbPZ5sbeK96OrviSNN3s8=;
+        b=JwI9vP436C/kVkfUnMuUGF+nI4pwVjPPhEoYpHVyjC6EGPiJv+o1dTFRN2BzmBU3V4
+         EFFigSIycU81Epm9FYDl8VXTUYBK94Abt6JH3NzRFHzQjqNB8+Xc85rqKExn/7wtwZ9S
+         1pepJ65JI72LsWybw/vCvgtEqajrodwo4swId+LSjCBPfV1GdO9k2HaDOnW2jPNMJgYb
+         CJLrmqwxBt/mVUwJmbdjcNK5WmsCwEyziri5Oa5TsCtutle5iOXW3uaRUMpZOOxPGC3y
+         sFFYKLqsPpl8TFxyjNMvtL+5wHWLOECkG5cAa8mC4zVs9IHEMzq2SVXrkN3AX4PUeZvP
+         oXVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1+WLR65qTBoUub6/pKXyNbktbZPgOslN8+Xmkk6CTLc=;
-        b=gMkWFAvg+xfgzjR8+jNqi9dOrIDkdO7DIbrN+3/Ciqrf2rz1AraSCeqnecO8mhk3zd
-         LJMSecY4h/4r1waRd5VVxCTj/L0VyqvNdbAtASKVFRLFHADhHapHyOcxaE0SNVzJxFM7
-         8/yvac59177znNpEun7teaoM62vZaozJsW2qTuBpDBIvys55dZSRePtW8AIgnivg3lDz
-         /pq6qM+O62EB5sjNHNMOvZq0qT8ZuE8aZM/Fq/L1eB3eJh1FUbfyG7v67fehuG4vXJLb
-         1yk0C4T1tfL7UoggCoDz2Pw6xyhXklzbGk307InjVw7v97B5W5+iGWTOXMtdbD44GR7t
-         9BOw==
-X-Gm-Message-State: AOAM533uMD9a34XGNHBi0AjPVPCwN1B5ArDl31/mDxfdbGp/fa9eVFoK
-        k3C0NDsFkPmSvsHyxoVH1g==
-X-Google-Smtp-Source: ABdhPJz1pOO1WsaRumXrQshfHtdpfhL6MTWP4mSSbUpKyygYT9dlE16+Hwncpuov78gSO5mXYexJIQ==
-X-Received: by 2002:a05:6830:78c:: with SMTP id w12mr16229945ots.196.1631656810214;
-        Tue, 14 Sep 2021 15:00:10 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id k23sm2943388ood.12.2021.09.14.15.00.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Sep 2021 15:00:09 -0700 (PDT)
-Received: (nullmailer pid 4040654 invoked by uid 1000);
-        Tue, 14 Sep 2021 22:00:08 -0000
-Date:   Tue, 14 Sep 2021 17:00:08 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JWsTCdHYGd/aJ+PxtTnWChkbPZ5sbeK96OrviSNN3s8=;
+        b=37mzUDrJ/sKBEhq7QQvvdauQnIvLgoCniZRX//hwu9UvO9ruj3WaAFQuupdgadQV7W
+         qz8vqr06WWhMtGXpESdzrJqwAyAo8y2l8Qjym2q4pFz8NJShq0mrJQTaweuSe0k3wqEQ
+         jXAT+yH61vxHY7dqPSd7DnrfVAY27TCNCoBf56V5BVi/Q7B2orL/gsUczw0M6ChO3yie
+         SG1htwnCwag42OP+1iqzoN1t+MjiPs7Eg3tdzF97Xvftc4wTMpRknneRpUsxEbJNBeAs
+         e2y5ja8oGX2nLDNvRSsBdnNiA8oI1WhH3onDIFrlpe86gNqwPAoBAomV3yG4ESK1BINg
+         4ODw==
+X-Gm-Message-State: AOAM5310+p9VbhgdYJOmqyvMiPHiTCmt5a5CiWQaG1o+om6BilhX6uYa
+        /EyVUEwYcEv0tN3xtjkL7simRNgUwcOhu+i5ff0Jyw==
+X-Google-Smtp-Source: ABdhPJw++97HufaRBpmc24LoXmsRYCQ4n4TAIcOI/0662lI81pQdxcBwCQcnx6Q2PmqquC39Np2lofu+7pCvVqvvHVE=
+X-Received: by 2002:a05:6512:3096:: with SMTP id z22mr14628711lfd.584.1631657638198;
+ Tue, 14 Sep 2021 15:13:58 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210913192816.1225025-1-robh@kernel.org> <20210913192816.1225025-6-robh@kernel.org>
+In-Reply-To: <20210913192816.1225025-6-robh@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 15 Sep 2021 00:13:46 +0200
+Message-ID: <CACRpkdaykxaECTH6nY4Z-k0qwxq+-o28O=OUqNR4fDRxD0P0zg@mail.gmail.com>
 Subject: Re: [PATCH v2 5/8] clk: versatile: clk-icst: Support 'reg' in
  addition to 'vco-offset' for register address
-Message-ID: <YUEbaEzKT+cCYk9z@robh.at.kernel.org>
-References: <20210913192816.1225025-1-robh@kernel.org>
- <20210913192816.1225025-6-robh@kernel.org>
- <163164958886.763609.7483570624844319215@swboyd.mtv.corp.google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163164958886.763609.7483570624844319215@swboyd.mtv.corp.google.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Sep 14, 2021 at 12:59:48PM -0700, Stephen Boyd wrote:
-> Quoting Rob Herring (2021-09-13 12:28:13)
-> > The ICST binding now also supports 'reg' in addition to 'vco-offset' for
-> > the VCO register address. Add support to the driver to get the VCO
-> > address from 'reg'.
-> > 
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Stephen Boyd <sboyd@kernel.org>
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-clk@vger.kernel.org
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> 
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
-> 
-> I don't think this driver is changing much so you can take it through DT
-> tree if you prefer.
+On Mon, Sep 13, 2021 at 9:28 PM Rob Herring <robh@kernel.org> wrote:
 
-clk tree is fine. :)
+> The ICST binding now also supports 'reg' in addition to 'vco-offset' for
+> the VCO register address. Add support to the driver to get the VCO
+> address from 'reg'.
+>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-clk@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Rob
+This is nice.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
