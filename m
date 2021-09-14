@@ -2,105 +2,104 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA76F40B2BD
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Sep 2021 17:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9778D40B42D
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Sep 2021 18:06:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234308AbhINPPL (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Sep 2021 11:15:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48754 "EHLO
+        id S235348AbhINQII (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Sep 2021 12:08:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234810AbhINPPG (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Sep 2021 11:15:06 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CCFC0613DF
-        for <linux-leds@vger.kernel.org>; Tue, 14 Sep 2021 08:13:48 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id k4so29569510lfj.7
-        for <linux-leds@vger.kernel.org>; Tue, 14 Sep 2021 08:13:48 -0700 (PDT)
+        with ESMTP id S234603AbhINQIH (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Sep 2021 12:08:07 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C0ECC061574;
+        Tue, 14 Sep 2021 09:06:50 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id b64so15466572qkg.0;
+        Tue, 14 Sep 2021 09:06:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vs4JzNzYOIkiMNCXl/BXAxJoRkCBxorofWXnQlKIKTc=;
-        b=pRPWsNXgrIohQph/8NpbL+8CQcifHOg3AtasJUc6ewrlqivFf7tNOnOev6xbHNeScy
-         5lUw0JKVS2bKoFDpADjDZDubGnxK5+M9NWO2BpPX9q2R9b58vLMbE5CMjgmeiW2mNU8s
-         o7ThsamuF+OksBlmKnCdC/Nw0BTW4A0/yGHr6VSMZWFPhdhurnzjm6uYfu9gnLkkCbv0
-         lpdeXMq9bL2t29SyoDO11ImlthHn7AXkSS4a0zy/pQiHkSYi566+PTsS85skBEHoByF1
-         ZgvNHr/rm3TIdw1ErNJ7E4dDZUpJCDskQV8oxzwthUO37ZBKKoQhbdM/zIrykMAFIsCq
-         Kl9Q==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=TqrdcKpbBibte7IvBMJ+zO8G/JHJWLDdIHFJtogMMNk=;
+        b=X1X5CVT8V2b3vlKs5EINTvaCl41rFSMn4uYtByAK1gNJDIabfTJy7I1XF5AVgA+3BE
+         XK0y7skplhAdw3NjKczh5GenSOgmZ1tYfpQR5nVG0yUEmSMTv7tRDGWGsTyaGqywlqOe
+         zveynzqYWt7OF/urAxMX3yWCW1aIjJIw4+eMHeQpSrknEnvQCOQduKzuu5EtG9vWbsLY
+         1LNOdqTHL8FJYSpzh0c/x6yg2NVwMp3JHru8em3v6Wb6tHXAdGsxIi5B3veNnTc1vGNl
+         3QnW1QcU9vhsMhoyUV0pLOVprPbzyyB/hBN2UeiBssOaFqJ9FU/MJf2yJoBbgXC7rwKg
+         C/pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vs4JzNzYOIkiMNCXl/BXAxJoRkCBxorofWXnQlKIKTc=;
-        b=b6ujtN1O1IoliuQdj9n0ULGtZMpZfs4JpZi8c32OSKCPPJ5bubcGZw/0T0ga8hDijr
-         OFl+vBMXt/2KRcb8cE1y50UDfCT2t2NPj5yV8cJFgO8KVqa6fNGo9BRVX3M2RPM6yW2n
-         H4lHB+tP1+Jpue3tHys/+O/IPlJ/lGUvj5rQv+xFqscp8NJM6tyOkHZgbLymhhj8uAUY
-         2bRcD5Pj5Lhx5PKs2Mnefo8DBxl4KK2LuSVeofd+u0CSnU6bz8gqWiQbbQXofZ6BarzT
-         ymrE2pIxzG0Enw4nJGnaICOXjM/NHTEqvH67UN85nVKMDosvLrZR3vs8wzfLxe3fYDD+
-         48Sg==
-X-Gm-Message-State: AOAM530/KXDfpTDs9rXg0K4yMqrvYCiiOgyKothZDVZ3PtGSBWahT4Nh
-        swwSPf5qOiUjjunoxbJzcClLnhMm+jyNQdC8vCQ1ww==
-X-Google-Smtp-Source: ABdhPJz/nB2X7ZhjAGNpGQ+wUMu55D7srT5Jv3DFOroslyMj15lcS2R9RnxlnBnfcSTTFydrMt0Pg3Xb7m3aCBq9Pto=
-X-Received: by 2002:a05:6512:318a:: with SMTP id i10mr14107059lfe.444.1631632426763;
- Tue, 14 Sep 2021 08:13:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210913192816.1225025-1-robh@kernel.org> <20210913192816.1225025-9-robh@kernel.org>
-In-Reply-To: <20210913192816.1225025-9-robh@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 14 Sep 2021 08:13:35 -0700
-Message-ID: <CAKwvOdnNOMDWar2jpEw_yt8-dzW6KX-NVWh=UHc2FeYzux4tVw@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] kbuild: Enable dtc 'unit_address_format' warning
- by default
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=TqrdcKpbBibte7IvBMJ+zO8G/JHJWLDdIHFJtogMMNk=;
+        b=WKMHeUEAHsH00aNWoAu0OdYtnxztXJBnC6qUnopb4MTvFF/twvIh/6PBoNw1x8mrTS
+         mxYUJr5jD4/axdXIJQujJRGS9FpI/ws00K96jNzAiOHxW0g5nw1wnSYSGKc7cNLDXdZl
+         2WNVayjvzYSeiwADAVHP/JlYIX1c6Qb8Q6WzSLAbme+1ZIFWhWO7/nGYzv255dYwz3XZ
+         sn0mkMbJ4ke2+aLLoyk/QBL4VO7qPqBKLLnxR6EdnvDIw6nSgS/P8lhrFH6NqSiWxYPU
+         liCrPmTqBPjSq6BrLPRh4y2Qygln5xVAvKpVYL4aSoVwVNZKGWlAUmWyPgsVYmd0YgYT
+         DZJA==
+X-Gm-Message-State: AOAM532STPlZPKr0ZeovQOVeKOXy3GdLxLsrBdP1vMB28UpH7QoxIQR9
+        QU4FYzIZzRjKDk1m+bNa5CA=
+X-Google-Smtp-Source: ABdhPJwVh5OSF+Oo9TNmN5ue8vSh0oWm8vw1qCgTvgXonvdlr7z8FTbYhG9/hhD4QPP7AcVmhHQ5NA==
+X-Received: by 2002:a37:758:: with SMTP id 85mr5738239qkh.85.1631635609466;
+        Tue, 14 Sep 2021 09:06:49 -0700 (PDT)
+Received: from donovan-FR.attlocal.net ([2600:1700:3ec0:6ec0:95a8:c42c:53f7:972e])
+        by smtp.googlemail.com with ESMTPSA id t188sm7978207qkf.22.2021.09.14.09.06.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Sep 2021 09:06:48 -0700 (PDT)
+From:   DonDrews <donovancarldrews@gmail.com>
+Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, donovancarldrews@gmail.com
+Subject: [PATCH] Fixes: leds: lp50xx: Fix bank enable mask
+Date:   Tue, 14 Sep 2021 09:06:31 -0700
+Message-Id: <20210914160631.3204-1-donovancarldrews@gmail.com>
+X-Mailer: git-send-email 2.17.1
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Sep 13, 2021 at 12:28 PM Rob Herring <robh@kernel.org> wrote:
->
-> With all the 'unit_address_format' warnings fixed, enable the warning by
-> default.
->
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: linux-kbuild@vger.kernel.org
-> Acked-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Fixes an issue where previously 0 is used as a sentinel when
+moving device tree configuration into the bank enable mask. This
+prevented the first LED from being added to bank control.
 
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Donovan Drews <donovancarldrews@gmail.com>
+---
+ drivers/leds/leds-lp50xx.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-> ---
->  scripts/Makefile.lib | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 54582673fc1a..56d50eb0cd80 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -310,7 +310,6 @@ DTC_FLAGS += -Wno-interrupt_provider
->  # Disable noisy checks by default
->  ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
->  DTC_FLAGS += -Wno-unit_address_vs_reg \
-> -       -Wno-unit_address_format \
->         -Wno-avoid_unnecessary_addr_size \
->         -Wno-alias_paths \
->         -Wno-graph_child_address \
-> --
-> 2.30.2
->
-
-
+diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+index 401df1e2e05d..45f56caea182 100644
+--- a/drivers/leds/leds-lp50xx.c
++++ b/drivers/leds/leds-lp50xx.c
+@@ -347,17 +347,15 @@ static int lp50xx_brightness_set(struct led_classdev *cdev,
+ 	return ret;
+ }
+ 
+-static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[])
++static int lp50xx_set_banks(struct lp50xx *priv, u32 led_banks[], int num_leds)
+ {
+ 	u8 led_config_lo, led_config_hi;
+ 	u32 bank_enable_mask = 0;
+ 	int ret;
+ 	int i;
+ 
+-	for (i = 0; i < priv->chip_info->max_modules; i++) {
+-		if (led_banks[i])
+-			bank_enable_mask |= (1 << led_banks[i]);
+-	}
++	for (i = 0; i < num_leds; i++)
++		bank_enable_mask |= (1 << led_banks[i]);
+ 
+ 	led_config_lo = bank_enable_mask;
+ 	led_config_hi = bank_enable_mask >> 8;
+@@ -413,7 +411,7 @@ static int lp50xx_probe_leds(struct fwnode_handle *child, struct lp50xx *priv,
+ 			return ret;
+ 		}
+ 
+-		ret = lp50xx_set_banks(priv, led_banks);
++		ret = lp50xx_set_banks(priv, led_banks, num_leds);
+ 		if (ret) {
+ 			dev_err(priv->dev, "Cannot setup banked LEDs\n");
+ 			return ret;
 -- 
-Thanks,
-~Nick Desaulniers
+2.17.1
+
