@@ -2,41 +2,58 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C47F740C9E1
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Sep 2021 18:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19BB340EB92
+	for <lists+linux-leds@lfdr.de>; Thu, 16 Sep 2021 22:21:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229479AbhIOQR1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 15 Sep 2021 12:17:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56548 "EHLO
+        id S234671AbhIPUW6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 16 Sep 2021 16:22:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229465AbhIOQR1 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Sep 2021 12:17:27 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F41BC061574;
-        Wed, 15 Sep 2021 09:16:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Content-Type:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-To:Resent-Cc:
-        Resent-Message-ID:In-Reply-To:References;
-        bh=G27UyJsrbVf8KCKuRCpUnOXbTvnevOaVQgdb3XtruZU=; t=1631722568; x=1632932168; 
-        b=F5n/cFfOzaCNU6dOxZWyo1MP0YHU4n17FoZmW/m1an/UxDWNeADfVw9spcomH+OVMWQgkgBMWeO
-        xd1OBVZIL6hXKlq6IFkGUs32mN8UhIGC4jIbosmLojbrSnDiZrr0IDdbT6L20wIRbUKZ7Y2PSrgVh
-        NN7Ct8tctbOwAFRlbdzOVEWq0QLw9UHQDpCEXi97MxDUBCiiIfbrLmZxlVylXT8qH7iXpmkeeqbqV
-        vRiek87mrQ3hax8+Jjd/89EAfj9JcsZPytFtRexvrt1JpR6bWAAmKmQXp6xt7e8g3vjWWsF9cocwJ
-        WTnr0Bnh4Oi4tog4fC81euqbt//Rv1srhvIg==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.95-RC2)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1mQXZs-007Nae-RW;
-        Wed, 15 Sep 2021 18:16:04 +0200
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     linux-leds@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org,
-        Johannes Berg <johannes.berg@intel.com>, stable@vger.kernel.org
-Subject: [PATCH] leds: trigger: use RCU to protect the led_cdevs list
-Date:   Wed, 15 Sep 2021 18:16:01 +0200
-Message-Id: <20210915181601.99a68f5718be.I1a28b342d2d52cdeeeb81ecd6020c25cbf1dbfc0@changeid>
+        with ESMTP id S229461AbhIPUW5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 16 Sep 2021 16:22:57 -0400
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C39C061574;
+        Thu, 16 Sep 2021 13:21:36 -0700 (PDT)
+Received: by mail-ot1-x32b.google.com with SMTP id y63-20020a9d22c5000000b005453f95356cso2986801ota.11;
+        Thu, 16 Sep 2021 13:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FWQAgi2DTFntuG9fLsIkG2sc2vmskeszd2p9/D3c0x0=;
+        b=fsP8/CtIt6ukygEu66+n6vSB7D4KmCrsNRJWK6PxBlvyn46WVzPgdvw8vfHP3X2bF6
+         FA4P1BC+D0vIeSWqJ6tCTjYX70AudNdB3xBzsWld8cKp0hELcm7p5M7GvKxbJxaOG5mm
+         iphKgYFCblRL/n0AuxUGB99+qjqjk1j93oOsELBsDZvvVtOPageOpN6QSUlbwNXv60t/
+         trP8vW1SJrX08WhAYk/atZP3AfNJNXprBzXP37GPGEMJxMuTMH0VjCnIyc4ZNvsgguFT
+         Ws9ll51FvWLp+7yrPDJnbeMsBAU7X4Fv/LAYvbNK6HtM855tKxokrZ5piUwahU6WRYtP
+         9XkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FWQAgi2DTFntuG9fLsIkG2sc2vmskeszd2p9/D3c0x0=;
+        b=erxAoaqClE4pgucv9NUMUzBV5p0BJLtAgrGcjabtWsfWBKj4t8fudDYLfFvZb5gFoY
+         KmfZxbDmRu99f/oUJpFx8yOz6cPOMseOJl46iCVULxkVyv9PZBEwAi7JaCRWqnwhGZtx
+         Wb+w7Ouu5HXJEEYqV27tcX8AZeV2nlpZdOilA7wCIXUhk9mJUltvR3gUe0IJjNNS/V0B
+         JdUMX8qpuxS01ZX/1QHLHl1ERXWAbPiyUL1MQkhYlfWAuM7gpddkYex6ojoO0x31Fptp
+         N/+E6KZxRYZ3ddtlddf4lGxkMZGK2dZeFAobzS6jAtx8V5eibVOy0qPGApMp6Wr4pZ0w
+         gnhw==
+X-Gm-Message-State: AOAM531wbDj5oiQl4htRBDa7nOFLhrzE+LNbG4qku1ltHgrTU9jHW7T6
+        0/kL6SdY5TUULF7t3IZ9ClM=
+X-Google-Smtp-Source: ABdhPJwWE0rGQGwfImDDW385PRaUdh0VB7gqYb89ir5qDS225VDGHl5/CznSLi1dkZ8hePoV78WJkg==
+X-Received: by 2002:a05:6830:1009:: with SMTP id a9mr6400737otp.220.1631823696033;
+        Thu, 16 Sep 2021 13:21:36 -0700 (PDT)
+Received: from ian.penurio.us ([47.184.51.90])
+        by smtp.gmail.com with ESMTPSA id o24sm948057oie.17.2021.09.16.13.21.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 13:21:35 -0700 (PDT)
+From:   Ian Pilcher <arequipeno@gmail.com>
+To:     pavel@ucw.cz
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gregkh@linuxfoundation.org, kabel@kernel.org
+Subject: [PATCH v4 0/2] Introduce block device LED trigger
+Date:   Thu, 16 Sep 2021 15:21:25 -0500
+Message-Id: <20210916202127.1216994-1-arequipeno@gmail.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,160 +61,167 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Johannes Berg <johannes.berg@intel.com>
+Changes from v3:
+================
 
-Even with the previous commit 27af8e2c90fb
-("leds: trigger: fix potential deadlock with libata")
-to this file, we still get lockdep unhappy, and Boqun
-explained the report here:
-https://lore.kernel.org/r/YNA+d1X4UkoQ7g8a@boqun-archlinux
+* Use blkdev_get_by_path() to "resolve" block devices
+  (struct block_device).  With this change, there are now no changes
+  required to the block subsystem, so there are only 2 patches in this
+  series.
 
-Effectively, this means that the read_lock_irqsave() isn't
-enough here because another CPU might be trying to do a
-write lock, and thus block the readers.
+* link_device and unlink_device attributes now take paths to block device
+  special files (e.g. /dev/sda), rather than kernel names.  Symbolic
+  links also work.
 
-This is all pretty messy, but it doesn't seem right that
-the LEDs framework imposes some locking requirements on
-users, in particular we'd have to make the spinlock in the
-iwlwifi driver always disable IRQs, even if we don't need
-that for any other reason, just to avoid this deadlock.
+  If the path written to the attribute doesn't exist (-ENOENT), we re-try
+  with /dev/ prepended, so "simple" names like sda will still work as long
+  as the corresponding special file exists in /dev.
 
-Since writes to the led_cdevs list are rare (and are done
-by userspace), just switch the list to RCU. This costs a
-synchronize_rcu() at removal time so we can ensure things
-are correct, but that seems like a small price to pay for
-getting lock-free iterations and no deadlocks (nor any
-locking requirements imposed on users.)
+* Fixed a bug that could cause "phantom" blinks because of old device
+  activity that was not recognized at the correct time.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Johannes Berg <johannes.berg@intel.com>
----
- drivers/leds/led-triggers.c | 41 +++++++++++++++++++------------------
- include/linux/leds.h        |  2 +-
- 2 files changed, 22 insertions(+), 21 deletions(-)
+* (Slightly) more detailed commit message for the patch that adds the
+  trigger code.  As with v3, the real details are found in the comments
+  in the source file.
 
-diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index 4e7b78a84149..072491d3e17b 100644
---- a/drivers/leds/led-triggers.c
-+++ b/drivers/leds/led-triggers.c
-@@ -157,7 +157,6 @@ EXPORT_SYMBOL_GPL(led_trigger_read);
- /* Caller must ensure led_cdev->trigger_lock held */
- int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
- {
--	unsigned long flags;
- 	char *event = NULL;
- 	char *envp[2];
- 	const char *name;
-@@ -171,10 +170,13 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
- 
- 	/* Remove any existing trigger */
- 	if (led_cdev->trigger) {
--		write_lock_irqsave(&led_cdev->trigger->leddev_list_lock, flags);
--		list_del(&led_cdev->trig_list);
--		write_unlock_irqrestore(&led_cdev->trigger->leddev_list_lock,
--			flags);
-+		spin_lock(&led_cdev->trigger->leddev_list_lock);
-+		list_del_rcu(&led_cdev->trig_list);
-+		spin_unlock(&led_cdev->trigger->leddev_list_lock);
-+
-+		/* ensure it's no longer visible on the led_cdevs list */
-+		synchronize_rcu();
-+
- 		cancel_work_sync(&led_cdev->set_brightness_work);
- 		led_stop_software_blink(led_cdev);
- 		if (led_cdev->trigger->deactivate)
-@@ -186,9 +188,9 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
- 		led_set_brightness(led_cdev, LED_OFF);
- 	}
- 	if (trig) {
--		write_lock_irqsave(&trig->leddev_list_lock, flags);
--		list_add_tail(&led_cdev->trig_list, &trig->led_cdevs);
--		write_unlock_irqrestore(&trig->leddev_list_lock, flags);
-+		spin_lock(&trig->leddev_list_lock);
-+		list_add_tail_rcu(&led_cdev->trig_list, &trig->led_cdevs);
-+		spin_unlock(&trig->leddev_list_lock);
- 		led_cdev->trigger = trig;
- 
- 		if (trig->activate)
-@@ -223,9 +225,10 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
- 		trig->deactivate(led_cdev);
- err_activate:
- 
--	write_lock_irqsave(&led_cdev->trigger->leddev_list_lock, flags);
--	list_del(&led_cdev->trig_list);
--	write_unlock_irqrestore(&led_cdev->trigger->leddev_list_lock, flags);
-+	spin_lock(&led_cdev->trigger->leddev_list_lock);
-+	list_del_rcu(&led_cdev->trig_list);
-+	spin_unlock(&led_cdev->trigger->leddev_list_lock);
-+	synchronize_rcu();
- 	led_cdev->trigger = NULL;
- 	led_cdev->trigger_data = NULL;
- 	led_set_brightness(led_cdev, LED_OFF);
-@@ -285,7 +288,7 @@ int led_trigger_register(struct led_trigger *trig)
- 	struct led_classdev *led_cdev;
- 	struct led_trigger *_trig;
- 
--	rwlock_init(&trig->leddev_list_lock);
-+	spin_lock_init(&trig->leddev_list_lock);
- 	INIT_LIST_HEAD(&trig->led_cdevs);
- 
- 	down_write(&triggers_list_lock);
-@@ -378,15 +381,14 @@ void led_trigger_event(struct led_trigger *trig,
- 			enum led_brightness brightness)
- {
- 	struct led_classdev *led_cdev;
--	unsigned long flags;
- 
- 	if (!trig)
- 		return;
- 
--	read_lock_irqsave(&trig->leddev_list_lock, flags);
--	list_for_each_entry(led_cdev, &trig->led_cdevs, trig_list)
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list)
- 		led_set_brightness(led_cdev, brightness);
--	read_unlock_irqrestore(&trig->leddev_list_lock, flags);
-+	rcu_read_unlock();
- }
- EXPORT_SYMBOL_GPL(led_trigger_event);
- 
-@@ -397,20 +399,19 @@ static void led_trigger_blink_setup(struct led_trigger *trig,
- 			     int invert)
- {
- 	struct led_classdev *led_cdev;
--	unsigned long flags;
- 
- 	if (!trig)
- 		return;
- 
--	read_lock_irqsave(&trig->leddev_list_lock, flags);
--	list_for_each_entry(led_cdev, &trig->led_cdevs, trig_list) {
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
- 		if (oneshot)
- 			led_blink_set_oneshot(led_cdev, delay_on, delay_off,
- 					      invert);
- 		else
- 			led_blink_set(led_cdev, delay_on, delay_off);
- 	}
--	read_unlock_irqrestore(&trig->leddev_list_lock, flags);
-+	rcu_read_unlock();
- }
- 
- void led_trigger_blink(struct led_trigger *trig,
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index a0b730be40ad..ba4861ec73d3 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -360,7 +360,7 @@ struct led_trigger {
- 	struct led_hw_trigger_type *trigger_type;
- 
- 	/* LEDs under control by this trigger (for simple triggers) */
--	rwlock_t	  leddev_list_lock;
-+	spinlock_t	  leddev_list_lock;
- 	struct list_head  led_cdevs;
- 
- 	/* Link to next registered trigger */
+Changes from v2:
+================
+
+* Allow LEDs to be "linked" to partitions, as well as whole devices.
+  Internally, the trigger now works with block_device structs, rather
+  than gendisk structs.
+
+  (Investigating the lifecycle of block_device structs led me to
+  discover the device resource API, so ...)
+
+* Use the device resource API to manage the trigger's per-block device
+  data structure (struct led_bdev_bdi).  The trigger now uses a release
+  function to remove references to block devices that have been removed.
+
+  Because the release function is automatically called by the driver core,
+  there is no longer any need for the block layer to explictly call the
+  trigger's cleanup function.
+
+* Since there is no need to provide a built-in "stub" cleanup function
+  when the trigger is built as a module, I have removed the always
+  built-in "core" portion of the trigger.
+
+* Without a built-in component, the module does need access to the
+  block_class symbol.  The second patch in this series exports the symbol
+  to the LEDTRIG_BLKDEV namespace and explains the reason for doing so.
+
+* Changed the interval sysfs attribute from a device attribute to a class
+  attribute.  It's single value that applies to all LEDs, so it didn't
+  make sense as a device atribute.
+
+* As requested, I am posting the trigger code (ledtrig-blkdev.c) as a
+  single patch.  This eliminates the commit messages that would otherwise
+  describe sections of the code, so I have added fairly extensive comments
+  to each function.
+
+Changes from v1:
+================
+
+* Use correct address for LKML.
+
+* Renamed the sysfs attributes used to manage and view the set of block
+  devices associated ("linked") with an LED.
+
+  - /sys/class/leds/<LED>/link_device to create associations
+
+  - /sys/class/leds/<LED>/unlink_device to remove associations
+
+  - /sys/class/leds/<LED>/linked_devices/ contains symlinks to all block
+    devices associated with the LED
+
+  - /sys/block/<DEVICE>/linked_leds (which only exists when the device is
+    associated with at least one LED) contains symlinks to all LEDs with
+    which the device is associated
+
+  link_device and unlink_device are write-only attributes, each of which
+  represents a single action, rather than any state.  (The current state
+  is shown by the symbolic links in the <LED>/linked_devices/ and
+  <DEVICE>/linked_leds/ directories.)
+
+* Simplified sysfs attribute store functions.  link_device and
+  unlink_device no longer accept multiple devices at once, but this was
+  really just an artifact of the way that sysfs repeatedly calls the
+  store function when it doesn't "consume" all of its input, and it
+  seemed to be confusing and unpopular anyway.
+
+* Use DEVICE_ATTR_* macros (rather than __ATTR) for the sysfs attributes.
+
+* Removed all pr_info() "system administrator error" messages.
+
+* Different minimum values for LED blink time (10 ms) and activity check
+  interval (25 ms).
+
+v1 summary:
+===========
+
+This patch series adds a new "blkdev" LED trigger for disk (or other block
+device) activity LEDs.
+
+It has the following functionality.
+
+* Supports all types of block devices, including virtual devices
+  (unlike the existing disk trigger which only works with ATA devices).
+
+* LEDs can be configured to show read activity, write activity, or both.
+
+* Supports multiple devices and multiple LEDs in arbitrary many-to-many
+  configurations.  For example, it is possible to configure multiple
+  devices with device-specific read activity LEDs and a shared write
+  activity LED.  (See Documentation/leds/ledtrig-blkdev.rst in the first
+  patch.)
+
+* Doesn't add any overhead in the I/O path.  Like the netdev LED trigger,
+  it periodically checks the configured devices for activity and blinks
+  its LEDs as appropriate.
+
+* Blink duration (per LED) and interval between activity checks (global)
+  are configurable.
+
+* Requires minimal changes to the block subsystem.
+
+  - Adds 1 pointer to struct gendisk,
+
+  - Adds (inline function) call in device_add_disk() to ensure that the
+    pointer is initialized to NULL (as protection against any drivers
+    that allocate a gendisk themselves and don't use kzalloc()), and
+
+  - Adds call in del_gendisk() to remove a device from the trigger when
+    that device is being removed.
+
+  These changes are all in patch #4, "block: Add block device LED trigger
+  integrations."
+
+* The trigger can be mostly built as a module.
+
+  When the trigger is modular, a small portion is built in to provide a
+  "stub" function which can be called from del_gendisk().  The stub calls
+  into the modular code via a function pointer when needed.  The trigger
+  also needs the ability to find gendisk's by name, which requires access
+  to the un-exported block_class and disk_type symbols.
+
+Ian Pilcher (2):
+  docs: Add block device (blkdev) LED trigger documentation
+  leds: trigger: Add block device LED trigger
+
+ Documentation/ABI/testing/sysfs-block         |   9 +
+ .../testing/sysfs-class-led-trigger-blkdev    |  50 +
+ Documentation/leds/index.rst                  |   1 +
+ Documentation/leds/ledtrig-blkdev.rst         | 149 +++
+ drivers/leds/trigger/Kconfig                  |   9 +
+ drivers/leds/trigger/Makefile                 |   1 +
+ drivers/leds/trigger/ledtrig-blkdev.c         | 981 ++++++++++++++++++
+ 7 files changed, 1200 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-led-trigger-blkdev
+ create mode 100644 Documentation/leds/ledtrig-blkdev.rst
+ create mode 100644 drivers/leds/trigger/ledtrig-blkdev.c
+
+
+base-commit: ff1ffd71d5f0612cf194f5705c671d6b64bf5f91
 -- 
 2.31.1
 
