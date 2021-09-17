@@ -2,87 +2,115 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46D7F40F1B1
-	for <lists+linux-leds@lfdr.de>; Fri, 17 Sep 2021 07:40:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 291A940F1C8
+	for <lists+linux-leds@lfdr.de>; Fri, 17 Sep 2021 07:55:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244901AbhIQFle (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Sep 2021 01:41:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56304 "EHLO
+        id S232338AbhIQF40 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 17 Sep 2021 01:56:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237123AbhIQFle (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Sep 2021 01:41:34 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE996C061764
-        for <linux-leds@vger.kernel.org>; Thu, 16 Sep 2021 22:40:12 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id x2so9069211ila.11
-        for <linux-leds@vger.kernel.org>; Thu, 16 Sep 2021 22:40:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=RzIkdEm5aJl66a3p0t6hmEQ+Qv+8MFJLxj5JlLxnEbs=;
-        b=ljzsnxajinYiqm5f+V46C275QJ33e4sBZHo7jKO+UL0v8Ey9tnTRD0nd2SWjO2iaMk
-         dkqMgkTIwYI8QIY//eE0SWBGo13U1D7G/nZFaxeMHgEThWE3JEpWGlinHM+Z7zwfwuPU
-         vhQOxEwwTpkmgdSY4Yw5W/avN6DDDNOpA2ZMgJh8qNZXwgX7zlYDoekJ3a1LI9l+/nJ/
-         v1dAE+xEDQKbVvOamIFWaJuorTIZGRLCDwG7XXyAwM0neVVklJjo37W1nSzUm0CZWYiu
-         guHOyJFtJvrJ9hDMsv8XbsMGXfNO3F1aB5EUstxSvkZGLzeCi5FLaSAOy16YlSqOENNr
-         6y0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=RzIkdEm5aJl66a3p0t6hmEQ+Qv+8MFJLxj5JlLxnEbs=;
-        b=F3Batn90yY58l5/eGConT9QHH2E6gJuxu6zLC7lMuHhQb+m4Alexi6R4UPfM9gODHK
-         SglPCdYorHUtA04HEgrsoefsaOue5uLq3TkP47HzpZdWBpf+P9zkRdeTRZFxlISK/nX+
-         WdxqYUatyHomnfAwoniRf8WWoLFkFqhsk3mAF7ffXaAgaQXUGH2p0A0zOEUAt3BSJ1ne
-         C3NDwTcHqLHFqMcAFUxevBrgCsLGaFexzus0XmtggnIWMUCvy+oULRt76d540U+V/uRx
-         2EahPCYfXB8Vys/ojyXFCcDC1U4/PVjTBP+t0ZEohqwUrTAm5nJpjvQgAvXPAdCjKUMd
-         VXAg==
-X-Gm-Message-State: AOAM532KZqDgGzZZi+NS8R9j7V8Yl+jbXySr3vq4grsG0ZLr+LMc1hGI
-        NKda8NADt94e6eT667j5Ec0vW4vdGTo9n6FzVBo=
-X-Google-Smtp-Source: ABdhPJyk6d7cpUAVqjRwTvuYMfiA6eZ0PtTpx84I2KQGb6c7blkC+wWDxvBZjFO7VFAHnEKkWCrbOawJbhR1Hg0bqS4=
-X-Received: by 2002:a05:6e02:eb2:: with SMTP id u18mr6737716ilj.138.1631857212022;
- Thu, 16 Sep 2021 22:40:12 -0700 (PDT)
+        with ESMTP id S230133AbhIQF4Z (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Sep 2021 01:56:25 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AB9CC061574;
+        Thu, 16 Sep 2021 22:55:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=ab85TIIe0iBKOWYSJmOx3jaBctrqZvrBuf/T7hyXLu0=; b=mqDjf2b+NHvZUV+L6fFWQfqEhr
+        yRCenYEBfbiYkWEgB/eqFt5BEAydJSrEFbNZUflFz/kJVu9g7HN9UUZPG+fha9nWBu97HD/qIMARP
+        YjYOYzZa+SNrqnAoHeIlC6wFIcPyUIuL0Zc4Q1OBSjfz28yIAqg2VnxSJzUG9eFbObtqFvdwbiGAd
+        j4K6wTkyNYR0xHbvPm3eP266a4WCwVOEo6t/TUmJ1ZS5NxfaRc4vI4TZm4/dVWw3KehpZxgq+C6w2
+        Nhy9EOTnFsYqJGsRld0ubUugGR3IzCzXIuiLNFATEkJHflMNKfmMgNJW9VhM4OQq1v4FsQglQZMwB
+        fICYqKMg==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mR6oQ-00HY9S-Oq; Fri, 17 Sep 2021 05:53:47 +0000
+Date:   Fri, 17 Sep 2021 06:53:26 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Ian Pilcher <arequipeno@gmail.com>
+Cc:     pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+        kabel@kernel.org
+Subject: Re: [PATCH v4 2/2] leds: trigger: Add block device LED trigger
+Message-ID: <YUQtVmwV90uab4/V@infradead.org>
+References: <20210916202127.1216994-1-arequipeno@gmail.com>
+ <20210916202127.1216994-3-arequipeno@gmail.com>
 MIME-Version: 1.0
-Reply-To: godwinppter@gmail.com
-Sender: mrs.raissaomar11@gmail.com
-Received: by 2002:a05:6e02:1032:0:0:0:0 with HTTP; Thu, 16 Sep 2021 22:40:11
- -0700 (PDT)
-From:   Godwin Pete <godwinnpeter@gmail.com>
-Date:   Fri, 17 Sep 2021 07:40:11 +0200
-X-Google-Sender-Auth: ilRaJNUgvjH9MKIk7uVwFPb6xVU
-Message-ID: <CAONac3FoRZ6pednT=U2fG-ob-w2KxNA2S0ysJeL0Hc=HQW_p4g@mail.gmail.com>
-Subject: I want to use this opportunity to inform you
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210916202127.1216994-3-arequipeno@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi,
+On Thu, Sep 16, 2021 at 03:21:27PM -0500, Ian Pilcher wrote:
+> +/* Block device information (BDI) - 1 per blkdev linked to at least 1 LED */
+> +struct led_bdev_bdi {
 
-I just want to use this little opportunity to inform you about my
-success towards the transfer. I'm currently out of the country for an
-investment with part of my share, after completing the transfer with
-an Indian business man. But i will visit your country, next year.
-After the completion of my project. Please, contact my secretary to
-send you the (ATM) card which I've already credited with the sum of
-($500,000.00). Just contact her to help you in receiving the (ATM)
-card. I've explained everything to her before my trip. This is what I
-can do for you because, you couldn't help in the transfer, but for the
-fact that you're the person whom I've contacted initially, for the
-transfer. I decided to give this ($500,000.00) as a compensation for
-being contacted initially for the transfer. I always try to make the
-difference, in dealing with people any time I come in contact with
-them. I'm also trying to show that I'm quite a different person from
-others whose may have a different purpose within them. I believe that
-you will render some help to me when I, will visit your country, for
-another investment there. So contact my secretary for the card, Her
-contact are as follows,
+It might be a good idea to pick a differene name.  BDI is a commonly
+used shortcut for the backing device information used all over the block
+layer and writeback code.
 
-Full name: Mrs, Jovita Dumuije,
-Country: Burkina Faso
-Email: jovitadumuije@gmail.com
+> +/* For many-to-many relationships between block devices and LEDs */
+> +struct led_bdev_link {
+> +	struct hlist_node	bdi_leds_node;
+> +	struct hlist_node	led_bdis_node;
+> +	struct led_bdev_bdi	*bdi;
+> +	struct led_bdev_led	*led;
+> +};
 
-Thanks, and hope for a good corporation with you in future.
 
-Godwin Peter,
+Why not just use a xarray to link them which due to the non-invasive
+nature gets you n:m links "for free".
+
+> +/* Forward declarations to make this file compile in a reasonable order */
+> +static void led_bdev_process(struct work_struct *work);
+> +static struct led_bdev_bdi *led_bdev_get_bdi(const char *buf, size_t size);
+> +static struct block_device *led_bdev_get(const char *buf, size_t size,
+> +					 fmode_t mode);
+> +static int led_bdev_link(struct led_bdev_led *led, struct led_bdev_bdi *bdi);
+> +static void led_bdev_put_bdi(struct led_bdev_bdi *bdi);
+> +static void led_bdev_bdi_release(struct device *dev, void *res);
+> +static void led_bdev_unlink(struct led_bdev_led *led,
+> +			    struct led_bdev_link *link,
+> +			    struct led_bdev_bdi *bdi, bool releasing);
+> +static void led_bdev_update_bdi(struct led_bdev_bdi *bdi);
+> +static bool led_bdev_blink(const struct led_bdev_led *led,
+> +			   const struct led_bdev_bdi *bdi);
+
+I seriously question the "reasonable" above if you need that many
+forward declarations in brand new code.
+
+> +static struct block_device *led_bdev_get(const char *const buf,
+> +					 const size_t count, fmode_t mode)
+> +{
+> +	static const char dev[] = "/dev/";
+> +	struct block_device *bdev;
+> +	char *dev_path, *path;
+> +
+> +	/* sizeof(dev) includes terminating null */
+> +	dev_path = kmalloc(sizeof(dev) + count, GFP_KERNEL);
+> +	if (dev_path == NULL)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	/* sizeof(dev) - 1 is compile-time equivalent of strlen(dev) */
+> +	memcpy(dev_path, dev, sizeof(dev) - 1);
+> +	path = dev_path + sizeof(dev) - 1;
+> +	memcpy(path, buf, count + 1);  /* include terminating null */
+> +	strim(path);
+> +
+> +try_blkdev_get:
+> +	bdev = blkdev_get_by_path(path, mode, THIS_MODULE);
+> +	if (IS_ERR(bdev) && PTR_ERR(bdev) == -ENOENT && path != dev_path) {
+> +		path = dev_path;
+> +		goto try_blkdev_get;
+> +	}
+> +
+> +	kfree(dev_path);
+> +	return bdev;
+
+Please just required the user to put in the whole path and remove all
+this garbage.  There is no need to build your own broken wrappers around
+the VFS path resolution.
