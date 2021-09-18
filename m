@@ -2,88 +2,135 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F39AB4101DF
-	for <lists+linux-leds@lfdr.de>; Sat, 18 Sep 2021 01:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADCF0410497
+	for <lists+linux-leds@lfdr.de>; Sat, 18 Sep 2021 09:08:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbhIQXqq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 17 Sep 2021 19:46:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49524 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230435AbhIQXqo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 17 Sep 2021 19:46:44 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94904C061764
-        for <linux-leds@vger.kernel.org>; Fri, 17 Sep 2021 16:45:21 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id m3so37123920lfu.2
-        for <linux-leds@vger.kernel.org>; Fri, 17 Sep 2021 16:45:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Adpjj8eb9qPefLqJjlRRH4Z+UTglNnbz6imJOtpowtE=;
-        b=Stu4Yvcx+jZlQ6bo4SsaVgSClupIVtykd85F8zGJwqrRts+FNZKGCFRHGGl/XECWkG
-         F9ceDrRBFlGqgZoQ6Ro8gV1Ip44OxLU7jAJ8prtT6k4BUAx+NwH/Xp81ioV+o3QUYC52
-         LPzi4M8ehhgEOcyl4/4wqcrQZjedLbviqQKZ6MNPcNbSLRaetIZMhcsL9Zvh/JyttAtG
-         gcfm4hdIKFBeRTjVl6zUTB8mzTG55FQ+hsNogyDh7ZK9ME8jFvqcND6CLG1i7ZEDogID
-         xrxJQhuQvKImxHbaGmUJWoahxq6WwUdESY32n6tpsr7dznrHmSaWcdXRxdNh+oRIo2kq
-         L02A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Adpjj8eb9qPefLqJjlRRH4Z+UTglNnbz6imJOtpowtE=;
-        b=bAi6FwJ2ohVU0ajW5tcNbEoB74ikgHMr2b5iocR5p7eQO9lYGqByBRX2Y7AoFWFd4r
-         OWu/vvk3v3YENmS5oi0JAhatLK3/3mJxgO5LdIR1ewPD9Tk+CvoWf/uPqlwcf8ehhRP7
-         2OiRwiuEgRfRjJffcPr5J+uY7XPXlJirtyBz7nKBNzmmZ/sWXI0IDTrpqfelM0IHPD8S
-         WzTj8+6ms4kY58H1zpq0p3z8H1Q/KrWY2mK7fvCGnVeJmsZvJ+TeFeO5XHs4EELtIVNr
-         NDbEoGnagUG3vFfoIntjGIWEyyrEAfZYnKLumoer+ITlx+emp1sUu93lGSDMDd9D0Vai
-         h3UA==
-X-Gm-Message-State: AOAM531iB2GHaSu57UmnZIGYNiZm9HgjBZ9TEGFaz1uHlFVEfS8+gzgv
-        9n5T4qeaPdMILzTX3hKH4igCMvr2nyyqfgYREOww7Q==
-X-Google-Smtp-Source: ABdhPJySPdlC4kFGb/uPqpNRVO7RsaaNmYQ7Dsfc4dTO/WXhWAE1PedasJyvgTCKrCA5g+mA2q9H0CQsy0ibTumhe7A=
-X-Received: by 2002:ac2:4651:: with SMTP id s17mr5137396lfo.584.1631922319876;
- Fri, 17 Sep 2021 16:45:19 -0700 (PDT)
+        id S242036AbhIRHJh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 18 Sep 2021 03:09:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242021AbhIRHJh (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sat, 18 Sep 2021 03:09:37 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1FE7460EE5;
+        Sat, 18 Sep 2021 07:08:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1631948894;
+        bh=RTpQEuMUGhtUQ5EDOaFVd573uXaXVHf0F7g2WhiYtHY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hwQ4voZbimVrkNN7QHW7Yge+rRO5yBJ3tohgELoNfhuJzVqKU9B/WsmBjF8pPNfkc
+         BcMo0XzV9sThPgiqbFflhX3HksGnqIbSZ0Ekv3BRCNh5vrllfEHLaNSFUZIgpXEQBl
+         rXDWAdLqb6AqmhRjk+4HRgUcVuxmIIEF29a4bH5Y=
+Date:   Sat, 18 Sep 2021 09:07:54 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Ian Pilcher <arequipeno@gmail.com>
+Cc:     hch@infradead.org, pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kabel@kernel.org
+Subject: Re: [PATCH v4 1/2] docs: Add block device (blkdev) LED trigger
+ documentation
+Message-ID: <YUWQSlXjIb58eCJZ@kroah.com>
+References: <20210916202127.1216994-1-arequipeno@gmail.com>
+ <20210916202127.1216994-2-arequipeno@gmail.com>
+ <YUQzdyG+WWoiJ2I9@kroah.com>
+ <e09257e0-ce95-623c-3a04-cc033aa9fec2@gmail.com>
 MIME-Version: 1.0
-References: <20210913192816.1225025-1-robh@kernel.org> <20210913192816.1225025-5-robh@kernel.org>
-In-Reply-To: <20210913192816.1225025-5-robh@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 18 Sep 2021 01:45:09 +0200
-Message-ID: <CACRpkdb5ZOyaoVg74ByFDqv9Da-=zaBwD_4uTnd7ZTe875dY3Q@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] dt-bindings: clock: arm,syscon-icst: Use 'reg'
- instead of 'vco-offset' for VCO register address
-To:     Rob Herring <robh@kernel.org>
-Cc:     Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e09257e0-ce95-623c-3a04-cc033aa9fec2@gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Sep 13, 2021 at 9:28 PM Rob Herring <robh@kernel.org> wrote:
+On Fri, Sep 17, 2021 at 03:46:55PM -0500, Ian Pilcher wrote:
+> Combining 2 related threads ...
+> 
+> On 9/17/21 01:19, Greg KH wrote:
+> > On Thu, Sep 16, 2021 at 03:21:26PM -0500, Ian Pilcher wrote:
+> > > +What:		/sys/class/leds/<led>/link_device
+> > > +Date:		September 2021
+> > > +Contact:	Ian Pilcher <arequipeno@gmail.com>
+> > > +Description:
+> > > +		Associate a block device with this LED by writing the path to
+> > > +		the device special file (e.g. /dev/sda) to this attribute.
+> > > +		Symbolic links are followed.  Optionally, the leading "/dev/"
+> > > +		may be omitted.
+> > 
+> > No, please don't follow symlinks, stick with kernel names here,
+> > otherwise you have a mismatch between that and the list of devices in
+> > this file:
+> > 
+> > > +What:		/sys/class/leds/<led>/linked_devices
+> 
+> I did update the documentation to mention that fact.
+> 
+> Following symlinks is the behavior of blkdev_get_by_path(), not some-
+> thing that my code is doing.
+> 
+> As far as using kernel names, that would be my preference, but I simply
+> don't know of any way to do so with the existing block API.  To my
+> knowledge, there simply isn't anything like a blkdev_get_by_name() API.
+> 
+> This the reason that I added the "retry" logic to led_bdev_get().  It
+> doesn't prevent the system administrator from using a symbolic link (or
+> an oddly named special file), but it does make an unqualified name like
+> "sda" work if the expected special file exists in /dev.
+> 
+> However ...
+> 
+> On 9/17/21 00:53, Christoph Hellwig wrote:
+> > On Thu, Sep 16, 2021 at 03:21:27PM -0500, Ian Pilcher wrote:
+> > > +static struct block_device *led_bdev_get(const char *const buf,
+> > > +					 const size_t count, fmode_t mode)
+> > > +{
+> > > +	static const char dev[] = "/dev/";
+> > > +	struct block_device *bdev;
+> > > +	char *dev_path, *path;
+> > > +
+> > > +	/* sizeof(dev) includes terminating null */
+> > > +	dev_path = kmalloc(sizeof(dev) + count, GFP_KERNEL);
+> > > +	if (dev_path == NULL)
+> > > +		return ERR_PTR(-ENOMEM);
+> > > +
+> > > +	/* sizeof(dev) - 1 is compile-time equivalent of strlen(dev) */
+> > > +	memcpy(dev_path, dev, sizeof(dev) - 1);
+> > > +	path = dev_path + sizeof(dev) - 1;
+> > > +	memcpy(path, buf, count + 1);  /* include terminating null */
+> > > +	strim(path);
+> > > +
+> > > +try_blkdev_get:
+> > > +	bdev = blkdev_get_by_path(path, mode, THIS_MODULE);
+> > > +	if (IS_ERR(bdev) && PTR_ERR(bdev) == -ENOENT && path != dev_path) {
+> > > +		path = dev_path;
+> > > +		goto try_blkdev_get;
+> > > +	}
+> > > +
+> > > +	kfree(dev_path);
+> > > +	return bdev;
+> > 
+> > Please just required the user to put in the whole path and remove all
+> > this garbage.  There is no need to build your own broken wrappers around
+> > the VFS path resolution.
+> 
+> Please be specific about what is broken.
+> 
+> If you see an actual bug in the code, please tell me what it is.
+> 
+> If (as I suspect) you disagree with the basic idea of retrying with
+> "/dev/" prepended to the supplied path, please say that.
+> 
+> Honestly, I wasn't particularly enthusiastic about it in the first
+> place; it feels like something that should be done in user space.  I
+> wouldn't have included it if I didn't have to make a writable copy of
+> the buffer anyway, in order to trim a trailing newline.
+> 
+> I can certainly remove the re-check logic.  The end result will be an
+> API that is slightly less "user friendly" in return for saving a bit of
+> pointer arithmetic and a 5-byte memcpy().
 
-> 'reg' is the standard property for defining register banks/addresses. Add
-> it to use for the VCO register address and deprecate 'vco-offset'. This
-> will also allow for using standard node names with unit-addresses.
->
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-clk@vger.kernel.org
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Just use the kernel block device name and that way you do not have to
+parse anything as it is unique and no paths are having to be followed.
 
-Yeah this is better, dunno why I did it like that. I guess
-it was the Wild West of DT bindings back then.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+That's the way that other LED apis are working, right?
 
-Yours,
-Linus Walleij
+thanks,
+
+greg k-h
