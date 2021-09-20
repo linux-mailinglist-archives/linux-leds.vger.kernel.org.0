@@ -2,58 +2,70 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DA2A410D61
-	for <lists+linux-leds@lfdr.de>; Sun, 19 Sep 2021 22:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA82C410F9A
+	for <lists+linux-leds@lfdr.de>; Mon, 20 Sep 2021 08:45:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232772AbhISUkN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 19 Sep 2021 16:40:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55454 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232657AbhISUkK (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 19 Sep 2021 16:40:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AEC4660F9D;
-        Sun, 19 Sep 2021 20:38:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632083925;
-        bh=JqfnPX2tDV9NuGYYYzCaVzm9En0ofFWMqBpRoJlSagM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PjjFMOUzixJPnMPQaYIX1DoD6CwR7SBSjxktyKad4eDFCAJfeYFpDhUDhvRpS7r8M
-         NoqfwBy0rum9Q1sllsQtrfR34OT9Tpzco4pq7sMjXr4YaopVSpHj9uYsaIXqSGlb0c
-         ebQSMfYv2ufb6ftSoivFCa5g41w4YkYuDDdMCY+dQWGDqZweHfzB2LS9cGCCQv1Zb1
-         kuCitmf0yJM6A8RafT3s01GKnVeIi1egH9nX6kM6BjXtcF59q9BxxRKvwzk9ceBlR5
-         aFA9Vg/vYc/kjLiRnJocr/I2nBQ8g45VRle8fJZjNmR6Q2mKY8PlUwFfqEDiK8GcED
-         S8El7EwPxxGuQ==
-Date:   Sun, 19 Sep 2021 22:38:40 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     David Heidelberg <david@ixit.cz>
-Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: leds: document rfkill default action
-Message-ID: <20210919223840.55b6c8f2@thinkpad>
-In-Reply-To: <20210919151444.68845-1-david@ixit.cz>
-References: <20210919151444.68845-1-david@ixit.cz>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S232986AbhITGqh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 20 Sep 2021 02:46:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57950 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232938AbhITGqg (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 20 Sep 2021 02:46:36 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF3AC061574;
+        Sun, 19 Sep 2021 23:45:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=3Sy/rEGgIqKcMWpTMiQbwNJaSJE3pv4762nDAuPaBrI=; b=he667LqfnFO1EieNx8AAe5GaTQ
+        GTPR4ubHrX5lNhUEp/E/QwW26YOAALFn2E9HOICZVh+gkZARqQNV+4RU3syr3jWcqJaalUZP37egP
+        TUr/VyO7Ry/7JKLYRbsyfqf3qTlhYfLK3dcR5r1ddyUVSGbbJOfuSSZTjhg2pSKaO29JrPmZdMqEc
+        mNFuQmlEDZ8Q65nqa61Nq2PHp/e/ZTJv3iy14rWAtMRuxa4FJfR3A0Q1413SBwcCf+P6Ba5Fv33NH
+        K2+PsJ51fFyWRGHDAnwtPKny07xHp90Tn4zBD7qR4Ar38b+Q3xpj4j5ror7MPSGemq0C6eN/sM+gi
+        3iHhGLag==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mSD1s-002QwW-Gw; Mon, 20 Sep 2021 06:44:15 +0000
+Date:   Mon, 20 Sep 2021 07:43:52 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Ian Pilcher <arequipeno@gmail.com>, hch@infradead.org,
+        pavel@ucw.cz, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kabel@kernel.org
+Subject: Re: [PATCH v4 1/2] docs: Add block device (blkdev) LED trigger
+ documentation
+Message-ID: <YUgtqL4zUEV2YPnQ@infradead.org>
+References: <20210916202127.1216994-1-arequipeno@gmail.com>
+ <20210916202127.1216994-2-arequipeno@gmail.com>
+ <YUQzdyG+WWoiJ2I9@kroah.com>
+ <e09257e0-ce95-623c-3a04-cc033aa9fec2@gmail.com>
+ <YUWQSlXjIb58eCJZ@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YUWQSlXjIb58eCJZ@kroah.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 19 Sep 2021 17:14:44 +0200
-David Heidelberg <david@ixit.cz> wrote:
+On Sat, Sep 18, 2021 at 09:07:54AM +0200, Greg KH wrote:
+> > Honestly, I wasn't particularly enthusiastic about it in the first
+> > place; it feels like something that should be done in user space.  I
+> > wouldn't have included it if I didn't have to make a writable copy of
+> > the buffer anyway, in order to trim a trailing newline.
+> > 
+> > I can certainly remove the re-check logic.  The end result will be an
+> > API that is slightly less "user friendly" in return for saving a bit of
+> > pointer arithmetic and a 5-byte memcpy().
+> 
+> Just use the kernel block device name and that way you do not have to
+> parse anything as it is unique and no paths are having to be followed.
+> 
+> That's the way that other LED apis are working, right?
 
-> +      - rfkill0
-
-And why does Toshiba AC100 / Dynabook AZ driver need the zero at the
-end??
-
-Is this a private trigger? There is no such trigger driver in
-drivers/leds/triggrer.
-
-Anyway `linux,default-trigger` property is deprecated. Can't Toshiba
-AC100 / Dynabook AZ be merged to the `function` property?
-
-Marek
+The "kernel block device name" is the a block device special path
+that a normal VFS path lookup is done on.  This is the preferred block
+device API used by everyone.  And yes, this includes resolving symlinks.
+The only other API is by dev_t, but it is highly discouraged and should
+really not grow any new users.
