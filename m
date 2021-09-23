@@ -2,48 +2,48 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B6E4415881
-	for <lists+linux-leds@lfdr.de>; Thu, 23 Sep 2021 08:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39EF4415886
+	for <lists+linux-leds@lfdr.de>; Thu, 23 Sep 2021 08:55:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239470AbhIWG5O (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 23 Sep 2021 02:57:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55382 "EHLO
+        id S239513AbhIWG5R (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 23 Sep 2021 02:57:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239459AbhIWG5M (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Sep 2021 02:57:12 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5257DC061756
-        for <linux-leds@vger.kernel.org>; Wed, 22 Sep 2021 23:55:41 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id w19so4819841pfn.12
-        for <linux-leds@vger.kernel.org>; Wed, 22 Sep 2021 23:55:41 -0700 (PDT)
+        with ESMTP id S239456AbhIWG5P (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 23 Sep 2021 02:57:15 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32746C061762
+        for <linux-leds@vger.kernel.org>; Wed, 22 Sep 2021 23:55:44 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id r7so3228120pjo.3
+        for <linux-leds@vger.kernel.org>; Wed, 22 Sep 2021 23:55:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=0x0f.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vusVt5eH6z53FEnYJC51hYVGMazKlgJXSbb2j/UFtkU=;
-        b=FcYoAZO6Y/DrfPEgmsrPxBrUEp3lvN+OFH7xFE8E7cs9Jkx7XLUqSJ/eJCRv5E/Q4q
-         hhiNbzZoI3yTeKKoTKXi5+8CI9zlnnBmCGn99jZzNA6eVwK0GfOPqabguPMiPo1Sr//6
-         erUwU9WZA5FZAReuxSpdd7FIbarTMBxGygwMM=
+        bh=N4fLW3GjiZK81aHwIFNX6SQcQ6QOSmBTc6L0mWZHJks=;
+        b=S5u2ACy7xH+pz5i0ZeHgjEotrZPmDkrGrAsAZFIPjV4ZlTD4gJpQ6kZmvRjo8x76xW
+         4JxKTTlc75Hgz4+6DKm1f++dR5tw6xyZ4zIEmQrMC++Z+TeL69hM+IfKGwDbaUAlqzuM
+         W/+sVMobbMSJ7a+otzLN05ITrSX/uvrq/6voM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vusVt5eH6z53FEnYJC51hYVGMazKlgJXSbb2j/UFtkU=;
-        b=EAvOFMCUi6kYcDodGDBJcIm64V0I5JZQ08YCzs7shgA5b8lNWiAQdqesU3hpIzOFdS
-         chsnclBNMPMdN9dc5T5TJX7QEOD6gv+CjPLP0FY9O7FlTyjkuHad3zG7FFvMy1ahIj8f
-         gbIMUHNzbYoKH2fAs8BcRSehomly691Te7TW6y5oY4zOxvogzLFrcjL9grP/FwCq6EMA
-         nL2an1hu4ih4U+0n+03DmuBuEpmDjE1NlX6O/21mFHi3JYQtaITr4d39poMl3VLU6Y0K
-         ul9eBMghNuLKV+d/qraGuo64KsxSjtRXQ09M4XKzTQ3duK/ALGKpkG0Jfewy0x4A0Fu1
-         nncA==
-X-Gm-Message-State: AOAM531bUKIx9vY/uuToNY8lrpFpx2nKgLTqvidnkAyfV1dc8esU9W8O
-        Z6fD1bpjO/AT2Aj5/GStEpixAg==
-X-Google-Smtp-Source: ABdhPJzV+U2u92yiyjXbz259a8HfYeoGopZ9o51Jyfvl4A/opKbnvyGVQoQXhGr0L2LhrK01GFGBeA==
-X-Received: by 2002:a63:7d01:: with SMTP id y1mr2805422pgc.343.1632380140902;
-        Wed, 22 Sep 2021 23:55:40 -0700 (PDT)
+        bh=N4fLW3GjiZK81aHwIFNX6SQcQ6QOSmBTc6L0mWZHJks=;
+        b=NgkdhL9YG6DVuAur68A9Zz8KaN8lm/mcWMEN7TRMMS+JpIe6ZUlsuNKRPR0okzHYca
+         e8Za0bisKgAoQAxthWM+RwJfRMPlXr2GyJQvJPD+1cqy/B8eJ7ND9I5Y8TlIK5QiPRWH
+         /gPOq4reTcYjL/Yv7pxBXXq0oRDve3kwrnrOvdlyO4XLiKBvmZQmZFD2NW21qtYMmSiw
+         K8a1kGgsBcInmvYOR876m/NFzqBjRt1VxKM/sJa/OomnOABME1XEUEiFGfJrOeuFeaDv
+         DYp7Hzw/MY8fk4scSNvDRbSNoqn4s0qQszcIKEHgvwWF91uazvIKqI6ithqJOn8gyUxr
+         iqUA==
+X-Gm-Message-State: AOAM531v6biqMCMXgkFz/UcsV8Qhctxo57kbBqxszglDxNjSxk3G99g5
+        91Jl8cmZkX57K/HKEJcNQ/y9Ow==
+X-Google-Smtp-Source: ABdhPJxGltxscSn5525SfZ7R0hnNTnhy8yrqpFCCM58LUt+TEW2MYfTyRHlSpyaRwWjldNRSRVNR7A==
+X-Received: by 2002:a17:902:e793:b0:13b:9cae:5dcd with SMTP id cp19-20020a170902e79300b0013b9cae5dcdmr2587777plb.53.1632380143745;
+        Wed, 22 Sep 2021 23:55:43 -0700 (PDT)
 Received: from shiro.work ([2400:4162:2428:2f01:7285:c2ff:fe8e:66d7])
-        by smtp.googlemail.com with ESMTPSA id e12sm1581888pgv.82.2021.09.22.23.55.38
+        by smtp.googlemail.com with ESMTPSA id e12sm1581888pgv.82.2021.09.22.23.55.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 23:55:40 -0700 (PDT)
+        Wed, 22 Sep 2021 23:55:43 -0700 (PDT)
 From:   Daniel Palmer <daniel@0x0f.com>
 To:     devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-leds@vger.kernel.org
@@ -51,9 +51,9 @@ Cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
         robh+dt@kernel.org, pavel@ucw.cz,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Daniel Palmer <daniel@0x0f.com>, Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 01/11] dt-bindings: gpio: msc313: Add compatible for ssd20xd
-Date:   Thu, 23 Sep 2021 15:54:50 +0900
-Message-Id: <20210923065500.2284347-2-daniel@0x0f.com>
+Subject: [PATCH v2 02/11] dt-bindings: gpio: msc313: Add offsets for ssd20xd
+Date:   Thu, 23 Sep 2021 15:54:51 +0900
+Message-Id: <20210923065500.2284347-3-daniel@0x0f.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210923065500.2284347-1-daniel@0x0f.com>
 References: <20210923065500.2284347-1-daniel@0x0f.com>
@@ -63,32 +63,95 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add a compatible string for "ssd20xd" for the SigmaStar SSD201
-and SSD202D chips. These chips are the same die with different
-memory bonded so they don't need their own strings.
+Add the gpio offsets for the SSD201 and SSD202D chips.
 
 Signed-off-by: Daniel Palmer <daniel@0x0f.com>
 Acked-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- Documentation/devicetree/bindings/gpio/mstar,msc313-gpio.yaml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/dt-bindings/gpio/msc313-gpio.h | 71 ++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpio/mstar,msc313-gpio.yaml b/Documentation/devicetree/bindings/gpio/mstar,msc313-gpio.yaml
-index fe1e1c63ffe3..18fe90387b87 100644
---- a/Documentation/devicetree/bindings/gpio/mstar,msc313-gpio.yaml
-+++ b/Documentation/devicetree/bindings/gpio/mstar,msc313-gpio.yaml
-@@ -14,7 +14,9 @@ properties:
-     pattern: "^gpio@[0-9a-f]+$"
+diff --git a/include/dt-bindings/gpio/msc313-gpio.h b/include/dt-bindings/gpio/msc313-gpio.h
+index 2dd56683d3c1..5458c6580a02 100644
+--- a/include/dt-bindings/gpio/msc313-gpio.h
++++ b/include/dt-bindings/gpio/msc313-gpio.h
+@@ -50,4 +50,75 @@
+ #define MSC313_GPIO_SPI0_DI	(MSC313_GPIO_SPI0 + 2)
+ #define MSC313_GPIO_SPI0_DO	(MSC313_GPIO_SPI0 + 3)
  
-   compatible:
--    const: mstar,msc313-gpio
-+    enum:
-+      - mstar,msc313-gpio
-+      - sstar,ssd20xd-gpio
- 
-   reg:
-     maxItems: 1
++/* SSD20x */
++#define SSD20XD_GPIO_FUART	0
++#define SSD20XD_GPIO_FUART_RX	(SSD20XD_GPIO_FUART + 0)
++#define SSD20XD_GPIO_FUART_TX	(SSD20XD_GPIO_FUART + 1)
++#define SSD20XD_GPIO_FUART_CTS	(SSD20XD_GPIO_FUART + 2)
++#define SSD20XD_GPIO_FUART_RTS	(SSD20XD_GPIO_FUART + 3)
++
++#define SSD20XD_GPIO_SD		(SSD20XD_GPIO_FUART_RTS + 1)
++#define SSD20XD_GPIO_SD_CLK	(SSD20XD_GPIO_SD + 0)
++#define SSD20XD_GPIO_SD_CMD	(SSD20XD_GPIO_SD + 1)
++#define SSD20XD_GPIO_SD_D0	(SSD20XD_GPIO_SD + 2)
++#define SSD20XD_GPIO_SD_D1	(SSD20XD_GPIO_SD + 3)
++#define SSD20XD_GPIO_SD_D2	(SSD20XD_GPIO_SD + 4)
++#define SSD20XD_GPIO_SD_D3	(SSD20XD_GPIO_SD + 5)
++
++#define SSD20XD_GPIO_UART0	(SSD20XD_GPIO_SD_D3 + 1)
++#define SSD20XD_GPIO_UART0_RX	(SSD20XD_GPIO_UART0 + 0)
++#define SSD20XD_GPIO_UART0_TX	(SSD20XD_GPIO_UART0 + 1)
++
++#define SSD20XD_GPIO_UART1	(SSD20XD_GPIO_UART0_TX + 1)
++#define SSD20XD_GPIO_UART1_RX	(SSD20XD_GPIO_UART1 + 0)
++#define SSD20XD_GPIO_UART1_TX	(SSD20XD_GPIO_UART1 + 1)
++
++#define SSD20XD_GPIO_TTL	(SSD20XD_GPIO_UART1_TX + 1)
++#define SSD20XD_GPIO_TTL0	(SSD20XD_GPIO_TTL + 0)
++#define SSD20XD_GPIO_TTL1	(SSD20XD_GPIO_TTL + 1)
++#define SSD20XD_GPIO_TTL2	(SSD20XD_GPIO_TTL + 2)
++#define SSD20XD_GPIO_TTL3	(SSD20XD_GPIO_TTL + 3)
++#define SSD20XD_GPIO_TTL4	(SSD20XD_GPIO_TTL + 4)
++#define SSD20XD_GPIO_TTL5	(SSD20XD_GPIO_TTL + 5)
++#define SSD20XD_GPIO_TTL6	(SSD20XD_GPIO_TTL + 6)
++#define SSD20XD_GPIO_TTL7	(SSD20XD_GPIO_TTL + 7)
++#define SSD20XD_GPIO_TTL8	(SSD20XD_GPIO_TTL + 8)
++#define SSD20XD_GPIO_TTL9	(SSD20XD_GPIO_TTL + 9)
++#define SSD20XD_GPIO_TTL10	(SSD20XD_GPIO_TTL + 10)
++#define SSD20XD_GPIO_TTL11	(SSD20XD_GPIO_TTL + 11)
++#define SSD20XD_GPIO_TTL12	(SSD20XD_GPIO_TTL + 12)
++#define SSD20XD_GPIO_TTL13	(SSD20XD_GPIO_TTL + 13)
++#define SSD20XD_GPIO_TTL14	(SSD20XD_GPIO_TTL + 14)
++#define SSD20XD_GPIO_TTL15	(SSD20XD_GPIO_TTL + 15)
++#define SSD20XD_GPIO_TTL16	(SSD20XD_GPIO_TTL + 16)
++#define SSD20XD_GPIO_TTL17	(SSD20XD_GPIO_TTL + 17)
++#define SSD20XD_GPIO_TTL18	(SSD20XD_GPIO_TTL + 18)
++#define SSD20XD_GPIO_TTL19	(SSD20XD_GPIO_TTL + 19)
++#define SSD20XD_GPIO_TTL20	(SSD20XD_GPIO_TTL + 20)
++#define SSD20XD_GPIO_TTL21	(SSD20XD_GPIO_TTL + 21)
++#define SSD20XD_GPIO_TTL22	(SSD20XD_GPIO_TTL + 22)
++#define SSD20XD_GPIO_TTL23	(SSD20XD_GPIO_TTL + 23)
++#define SSD20XD_GPIO_TTL24	(SSD20XD_GPIO_TTL + 24)
++#define SSD20XD_GPIO_TTL25	(SSD20XD_GPIO_TTL + 25)
++#define SSD20XD_GPIO_TTL26	(SSD20XD_GPIO_TTL + 26)
++#define SSD20XD_GPIO_TTL27	(SSD20XD_GPIO_TTL + 27)
++
++#define SSD20XD_GPIO_GPIO	(SSD20XD_GPIO_TTL27 + 1)
++#define SSD20XD_GPIO_GPIO0	(SSD20XD_GPIO_GPIO + 0)
++#define SSD20XD_GPIO_GPIO1	(SSD20XD_GPIO_GPIO + 1)
++#define SSD20XD_GPIO_GPIO2	(SSD20XD_GPIO_GPIO + 2)
++#define SSD20XD_GPIO_GPIO3	(SSD20XD_GPIO_GPIO + 3)
++#define SSD20XD_GPIO_GPIO4	(SSD20XD_GPIO_GPIO + 4)
++#define SSD20XD_GPIO_GPIO5	(SSD20XD_GPIO_GPIO + 5)
++#define SSD20XD_GPIO_GPIO6	(SSD20XD_GPIO_GPIO + 6)
++#define SSD20XD_GPIO_GPIO7	(SSD20XD_GPIO_GPIO + 7)
++#define SSD20XD_GPIO_GPIO10	(SSD20XD_GPIO_GPIO + 8)
++#define SSD20XD_GPIO_GPIO11	(SSD20XD_GPIO_GPIO + 9)
++#define SSD20XD_GPIO_GPIO12	(SSD20XD_GPIO_GPIO + 10)
++#define SSD20XD_GPIO_GPIO13	(SSD20XD_GPIO_GPIO + 11)
++#define SSD20XD_GPIO_GPIO14	(SSD20XD_GPIO_GPIO + 12)
++#define SSD20XD_GPIO_GPIO85	(SSD20XD_GPIO_GPIO + 13)
++#define SSD20XD_GPIO_GPIO86	(SSD20XD_GPIO_GPIO + 14)
++#define SSD20XD_GPIO_GPIO90	(SSD20XD_GPIO_GPIO + 15)
++
+ #endif /* _DT_BINDINGS_MSC313_GPIO_H */
 -- 
 2.33.0
 
