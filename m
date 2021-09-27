@@ -2,85 +2,81 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09605419F85
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Sep 2021 21:52:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A65C41A34E
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Sep 2021 00:49:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236402AbhI0Ty3 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Sep 2021 15:54:29 -0400
-Received: from mail-oi1-f170.google.com ([209.85.167.170]:38429 "EHLO
-        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236243AbhI0Ty2 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Sep 2021 15:54:28 -0400
-Received: by mail-oi1-f170.google.com with SMTP id u22so27092000oie.5;
-        Mon, 27 Sep 2021 12:52:50 -0700 (PDT)
+        id S237983AbhI0WvR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Sep 2021 18:51:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238008AbhI0WvR (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Sep 2021 18:51:17 -0400
+Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2187C061575
+        for <linux-leds@vger.kernel.org>; Mon, 27 Sep 2021 15:49:38 -0700 (PDT)
+Received: by mail-ua1-x934.google.com with SMTP id b15so7726841uaj.5
+        for <linux-leds@vger.kernel.org>; Mon, 27 Sep 2021 15:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=0x0f.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=l3Govj1Ggv6fnK3dXfFXh4R4w4mAAKZUo/5Lt6qGfhI=;
+        b=Iq5vAXCv2EMz7F+Lo3dTfVrteNUNq7v81PHVhbhOsX5XpUjjgXfRLR72Oozo+4Rd28
+         avv9yUHE6tuOtdTZvzc9WXaYi+m9yRhkz0esk2t4hBvj2j9/iNMEYnDKiLQv27KlzGnU
+         KNtCEtConX/KW5Z8fpL4XbTssq9e8C35PemeE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=biErCQNPkAKC5ZTCkLHRuKZ1r/THoPwtQJm3whdV33g=;
-        b=BVKURIanvFgocOHp6qz7o8FJmrMTowm+KHdyv+Q5OzHHGu3q2nfusJ1p5KSdpi0ouP
-         /Bt9ZOJ7zy/XNStuoxOmpNrctuP6aAqNAnp2/JTv25jt6oVTslWzLfqlkym8He4BVm1z
-         JyXgYV1snjvgYWkdjUL8cV/rvxWVNG7gUUKluQCAP2pZd488IKaOJif2qhI9oJ0fT6Qw
-         CF4S3TvcjNFDGc+kGdhFEz0XQrECg+7ZdEphnKV9dv6vnsEdVV931uXklkGX34y0iCQZ
-         UlOazdsq1Sy8/z9vjcpchZLbTSVZfFK3e+QJwKCNSHH1YKwjNr3ww4a61THUycmbHJC0
-         N8qg==
-X-Gm-Message-State: AOAM532vITqtK8mMTBq9xs7qUpYSG7sK+w+AJdjkFNXtd6tZuE4/B9My
-        T3DtTnGBoqt0/k/alQ4Kcg==
-X-Google-Smtp-Source: ABdhPJywsXAwHM+R0vJEEZv7DQC2Rwww8RJ68BLfWh86zHSifNNXa3mUHRHnzw1IVZpYUJHx/WmeEg==
-X-Received: by 2002:aca:3e45:: with SMTP id l66mr643683oia.107.1632772370259;
-        Mon, 27 Sep 2021 12:52:50 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id o62sm311010ota.14.2021.09.27.12.52.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 12:52:49 -0700 (PDT)
-Received: (nullmailer pid 3772749 invoked by uid 1000);
-        Mon, 27 Sep 2021 19:52:48 -0000
-Date:   Mon, 27 Sep 2021 14:52:48 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Daniel Palmer <daniel@0x0f.com>
-Cc:     devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-leds@vger.kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, pavel@ucw.cz,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/11] dt-bindings: leds: Document "activity" trigger
-Message-ID: <YVIhEJCJ9lr3ZKzM@robh.at.kernel.org>
-References: <20210923065500.2284347-1-daniel@0x0f.com>
- <20210923065500.2284347-4-daniel@0x0f.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l3Govj1Ggv6fnK3dXfFXh4R4w4mAAKZUo/5Lt6qGfhI=;
+        b=B2gMFyVJ4LvHU7QyUy77f+Age9L0ckF0KMvB3EfsEfu1mZl3f2qxIU+FgTE/b5xrNo
+         f1tDsr8C1Dp+K5/B8wTkk7SjXKkQedxPNE/u5P9KC2fPo/UyGz4kEl89yFXId481bqGc
+         Z4EzFmv5KbyBQhEEcYI3insDufrNVmGXFi2GEiTqgt10obKCyFvZN5EF4NUw8KWlemRB
+         FG+6eTMKnvkedO4QJttcuEnOHw3rvBHuyTs77/L4ojNvZtkoYm11h5m1lkU3LlKrB6ux
+         kOIwZZQPUMaYOVJ08+5jyVU0mJdirq7t50Fv56LF+IINdrUHoxGP0SJ8hpGxc1i+wPXk
+         xk1g==
+X-Gm-Message-State: AOAM532mT0S8o2ZlQ0a3t5PmAVQ8UXlJOkQMLx35pckzc9g7xZklUrMs
+        rOyyBGLtFFV4I49Gs0alaPSb7gj0KwsUKrWvnF2/Ng==
+X-Google-Smtp-Source: ABdhPJw93xHWEfPQbedVUspaJQ+Kpz4lDjxMsiLCz9VQF0pLxWLXngzwY9I3WjVpCLk0lSx8d9/HMX6++hBMj4ge2eY=
+X-Received: by 2002:ab0:8c1:: with SMTP id o1mr2454160uaf.113.1632782977502;
+ Mon, 27 Sep 2021 15:49:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210923065500.2284347-4-daniel@0x0f.com>
+References: <20210923065500.2284347-1-daniel@0x0f.com> <20210923065500.2284347-4-daniel@0x0f.com>
+ <YVIhEJCJ9lr3ZKzM@robh.at.kernel.org>
+In-Reply-To: <YVIhEJCJ9lr3ZKzM@robh.at.kernel.org>
+From:   Daniel Palmer <daniel@0x0f.com>
+Date:   Tue, 28 Sep 2021 07:51:40 +0900
+Message-ID: <CAFr9PXnowBM-jAh4cnnngR00eJtB+dXArpircntEth0TU0UnjQ@mail.gmail.com>
+Subject: Re: [PATCH v2 03/11] dt-bindings: leds: Document "activity" trigger
+To:     Rob Herring <robh@kernel.org>
+Cc:     DTML <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>, pavel@ucw.cz,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, Sep 23, 2021 at 03:54:52PM +0900, Daniel Palmer wrote:
-> The "activity" trigger can be used as the default but it's currently
-> undocumented so validating a devicetree that uses it causes a warning.
+Hi Rob,
 
-It is preferred to use 'function' and LED_FUNCTION_CPU. Is there some 
-reason that can't be used?
+On Tue, 28 Sept 2021 at 04:52, Rob Herring <robh@kernel.org> wrote:
+>
+> On Thu, Sep 23, 2021 at 03:54:52PM +0900, Daniel Palmer wrote:
+> > The "activity" trigger can be used as the default but it's currently
+> > undocumented so validating a devicetree that uses it causes a warning.
+>
+> It is preferred to use 'function' and LED_FUNCTION_CPU. Is there some
+> reason that can't be used?
 
-> 
-> Signed-off-by: Daniel Palmer <daniel@0x0f.com>
-> ---
->  Documentation/devicetree/bindings/leds/common.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-> index 697102707703..8160a5073728 100644
-> --- a/Documentation/devicetree/bindings/leds/common.yaml
-> +++ b/Documentation/devicetree/bindings/leds/common.yaml
-> @@ -80,6 +80,8 @@ properties:
->      $ref: /schemas/types.yaml#/definitions/string
->  
->      enum:
-> +        # LED will flashing will represent current CPU usage
-> +      - activity
->          # LED will act as a back-light, controlled by the framebuffer system
->        - backlight
->          # LED will turn on (but for leds-gpio see "default-state" property in
-> -- 
-> 2.33.0
-> 
-> 
+LED_FUNCTION_CPU seems to be tied to
+drivers/leds/trigger/ledtrig-cpu.c which I think serves the same
+purpose but does it a slightly different way.
+Would adding LED_FUNCTION_ACTIVITY work?
+
+Thanks,
+
+Daniel
