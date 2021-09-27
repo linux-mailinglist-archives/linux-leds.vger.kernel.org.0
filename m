@@ -2,80 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7DE8419801
-	for <lists+linux-leds@lfdr.de>; Mon, 27 Sep 2021 17:35:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF0BD419823
+	for <lists+linux-leds@lfdr.de>; Mon, 27 Sep 2021 17:44:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235095AbhI0Pgp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Sep 2021 11:36:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234622AbhI0Pgo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Sep 2021 11:36:44 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F8EC061575
-        for <linux-leds@vger.kernel.org>; Mon, 27 Sep 2021 08:35:06 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1632756903;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=6IXMVVZjYssDHaMNRuUCueM7YZo/VuTyaLcpyKcm864=;
-        b=cctEed4bwD0DvyHKIRQrfHVTm8I6SnJ/RCtf/JU6n5zV07MMFHdUZwY9eTC7GJOnvSiaDO
-        3d/XWwDZmoTyFv2bI7YkRMbs7D30KFhHyDOe7Ba6mCT7rwcAe29mwl0CNTpwnqsLD+3ZEh
-        MDr2O87WZwdCidAvWrr73kgeG1cuakOkN0LkM85BAwPiRusWKCDPO+zZoGrOJJ7Ut459DF
-        LeeeXehw9slskAZMCivwL/EnHSjAAKSg2t3vxGhNhuawBCBAhzPGf//ThmAdGnNklzBpGm
-        uo9foIDowEBarXRb24Cm5O7cDTQkim1n431wv+YqL4EK3CQ5QYqQzbzNSPr/fw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1632756903;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=6IXMVVZjYssDHaMNRuUCueM7YZo/VuTyaLcpyKcm864=;
-        b=PDQcfKmOMVGSAde9bTSNdru0PuZW/6BWelr5ZCA1jMQarlwh1kaUJDizHoKRwEJ4eLXJHh
-        0NeMf7jgbT6wVYBA==
-To:     Pavel Machek <pavel@ucw.cz>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        johannes.berg@intel.com
-Cc:     linux-leds@vger.kernel.org
+        id S235132AbhI0Pqa (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Sep 2021 11:46:30 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:35636 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234500AbhI0Pqa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Sep 2021 11:46:30 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 6E5D21C0B7A; Mon, 27 Sep 2021 17:44:51 +0200 (CEST)
+Date:   Mon, 27 Sep 2021 17:44:51 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        johannes.berg@intel.com, linux-leds@vger.kernel.org
 Subject: Re: [PATCH] leds: trigger: Disable CPU trigger on PREEMPT_RT
-In-Reply-To: <20210927142345.GB18276@duo.ucw.cz>
+Message-ID: <20210927154451.GA17112@duo.ucw.cz>
 References: <20210924111501.m57cwwn7ahiyxxdd@linutronix.de>
  <20210927142345.GB18276@duo.ucw.cz>
-Date:   Mon, 27 Sep 2021 17:35:02 +0200
-Message-ID: <87wnn2av6h.ffs@tglx>
+ <87wnn2av6h.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="LQksG6bCIzRHxTLp"
+Content-Disposition: inline
+In-Reply-To: <87wnn2av6h.ffs@tglx>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel,
 
-On Mon, Sep 27 2021 at 16:23, Pavel Machek wrote:
->
->> The CPU trigger is invoked on ARM from CPU-idle. That trigger later
->> invokes led_trigger_event() which acquires a read lock in an IRQ-off
->> section. The problematic part on PREEMPT_RT is that this lock is turned
->> into a sleeping lock and must not be acquired with disabled interrupts.
->> 
->> The problem continues as that the LED driver underneath must not acquire
->> any sleeping locks itself.
->> 
->> Disable the CPU trigger on PREEMPT_RT.
->
-> I know locking with leds is problematic, but I believe you'll hit
-> similar problem elsewhere... Disabling triggers is not solution.
+--LQksG6bCIzRHxTLp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Disabling stuff which is not working well with RT is very much a
-solution in order to make progress.
+On Mon 2021-09-27 17:35:02, Thomas Gleixner wrote:
+> Pavel,
+>=20
+> On Mon, Sep 27 2021 at 16:23, Pavel Machek wrote:
+> >
+> >> The CPU trigger is invoked on ARM from CPU-idle. That trigger later
+> >> invokes led_trigger_event() which acquires a read lock in an IRQ-off
+> >> section. The problematic part on PREEMPT_RT is that this lock is turned
+> >> into a sleeping lock and must not be acquired with disabled interrupts.
+> >>=20
+> >> The problem continues as that the LED driver underneath must not acqui=
+re
+> >> any sleeping locks itself.
+> >>=20
+> >> Disable the CPU trigger on PREEMPT_RT.
+> >
+> > I know locking with leds is problematic, but I believe you'll hit
+> > similar problem elsewhere... Disabling triggers is not solution.
+>=20
+> Disabling stuff which is not working well with RT is very much a
+> solution in order to make progress.
+>=20
+> We have surely more essential problems to solve than making leds blink
+> and if anyone cares enough about them, then this can be worked on in
+> parallel. That has been disabled on RT for ever and so far nobody
+> complained or cared enough about it.
 
-We have surely more essential problems to solve than making leds blink
-and if anyone cares enough about them, then this can be worked on in
-parallel. That has been disabled on RT for ever and so far nobody
-complained or cared enough about it.
+Would you mind reading and responding to the rest of the email?
 
-Thanks,
+I'm not applying this.
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
 
-        tglx
+--LQksG6bCIzRHxTLp
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYVHm8wAKCRAw5/Bqldv6
+8mh9AJ4isoGzeo9/2ZlppxWei3SDG7SsjACggn5kQQUjHouzpkDO1QsNq8pH3g4=
+=SoI1
+-----END PGP SIGNATURE-----
+
+--LQksG6bCIzRHxTLp--
