@@ -2,81 +2,119 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A65C41A34E
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Sep 2021 00:49:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01E2641A411
+	for <lists+linux-leds@lfdr.de>; Tue, 28 Sep 2021 02:14:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237983AbhI0WvR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Sep 2021 18:51:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33828 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238008AbhI0WvR (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Sep 2021 18:51:17 -0400
-Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2187C061575
-        for <linux-leds@vger.kernel.org>; Mon, 27 Sep 2021 15:49:38 -0700 (PDT)
-Received: by mail-ua1-x934.google.com with SMTP id b15so7726841uaj.5
-        for <linux-leds@vger.kernel.org>; Mon, 27 Sep 2021 15:49:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0x0f.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=l3Govj1Ggv6fnK3dXfFXh4R4w4mAAKZUo/5Lt6qGfhI=;
-        b=Iq5vAXCv2EMz7F+Lo3dTfVrteNUNq7v81PHVhbhOsX5XpUjjgXfRLR72Oozo+4Rd28
-         avv9yUHE6tuOtdTZvzc9WXaYi+m9yRhkz0esk2t4hBvj2j9/iNMEYnDKiLQv27KlzGnU
-         KNtCEtConX/KW5Z8fpL4XbTssq9e8C35PemeE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l3Govj1Ggv6fnK3dXfFXh4R4w4mAAKZUo/5Lt6qGfhI=;
-        b=B2gMFyVJ4LvHU7QyUy77f+Age9L0ckF0KMvB3EfsEfu1mZl3f2qxIU+FgTE/b5xrNo
-         f1tDsr8C1Dp+K5/B8wTkk7SjXKkQedxPNE/u5P9KC2fPo/UyGz4kEl89yFXId481bqGc
-         Z4EzFmv5KbyBQhEEcYI3insDufrNVmGXFi2GEiTqgt10obKCyFvZN5EF4NUw8KWlemRB
-         FG+6eTMKnvkedO4QJttcuEnOHw3rvBHuyTs77/L4ojNvZtkoYm11h5m1lkU3LlKrB6ux
-         kOIwZZQPUMaYOVJ08+5jyVU0mJdirq7t50Fv56LF+IINdrUHoxGP0SJ8hpGxc1i+wPXk
-         xk1g==
-X-Gm-Message-State: AOAM532mT0S8o2ZlQ0a3t5PmAVQ8UXlJOkQMLx35pckzc9g7xZklUrMs
-        rOyyBGLtFFV4I49Gs0alaPSb7gj0KwsUKrWvnF2/Ng==
-X-Google-Smtp-Source: ABdhPJw93xHWEfPQbedVUspaJQ+Kpz4lDjxMsiLCz9VQF0pLxWLXngzwY9I3WjVpCLk0lSx8d9/HMX6++hBMj4ge2eY=
-X-Received: by 2002:ab0:8c1:: with SMTP id o1mr2454160uaf.113.1632782977502;
- Mon, 27 Sep 2021 15:49:37 -0700 (PDT)
+        id S238259AbhI1APl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 27 Sep 2021 20:15:41 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:60122 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238253AbhI1APl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Sep 2021 20:15:41 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1632788041;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tB5syXgutrMkuUuhsmDzWKkd9Rv9oG3kKMus4IhY/9A=;
+        b=kmetPHuV4FoMdjGP4Qqa0/2D0KkDrr5c4zK99ZtrvSc2t4zzG2PxqUGSPCmeWE6bGNBb8w
+        HBTSnX4KEn66nv3zbDAGvcwO3P9LXavcmxu+NTg1VIJnkQg3n2nLdfeu9y4djG0aSHrYeL
+        sbs5nIY5rQCRoApwE1QoAPtOTyqqgBrzwTSP1aEH8j8XrkMM6RGURDZN/logBDA9uG4Zc7
+        eSwsWpChWVk5oquckyFz8YqJEJGPNbg17QpIhrFQTS7lCmzzj5zk0EebDSMLVFfCMh+jov
+        PBbigAY4FgKwKzPZi+cfEQQNq2ndXYs7V+G5iFuIm/01rAl3hNLFlGXiSE9SYw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1632788041;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tB5syXgutrMkuUuhsmDzWKkd9Rv9oG3kKMus4IhY/9A=;
+        b=xNOSKSzAxSuQdFlhuqrys+ISfc4sEAoOM94ZWDjWNkBQ0Rm/NH3yd+hvWxRZdXGHjEzstN
+        3UZghIn+VsobRLBw==
+To:     Pavel Machek <pavel@ucw.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     johannes.berg@intel.com, linux-leds@vger.kernel.org
+Subject: Re: [PATCH] leds: trigger: Disable CPU trigger on PREEMPT_RT
+In-Reply-To: <20210927190650.GA13992@duo.ucw.cz>
+References: <20210924111501.m57cwwn7ahiyxxdd@linutronix.de>
+ <20210927142345.GB18276@duo.ucw.cz> <87wnn2av6h.ffs@tglx>
+ <20210927154451.GA17112@duo.ucw.cz>
+ <20210927171802.uak3tbpqaig3mm7m@linutronix.de>
+ <20210927190650.GA13992@duo.ucw.cz>
+Date:   Tue, 28 Sep 2021 02:14:00 +0200
+Message-ID: <87bl4dblpz.ffs@tglx>
 MIME-Version: 1.0
-References: <20210923065500.2284347-1-daniel@0x0f.com> <20210923065500.2284347-4-daniel@0x0f.com>
- <YVIhEJCJ9lr3ZKzM@robh.at.kernel.org>
-In-Reply-To: <YVIhEJCJ9lr3ZKzM@robh.at.kernel.org>
-From:   Daniel Palmer <daniel@0x0f.com>
-Date:   Tue, 28 Sep 2021 07:51:40 +0900
-Message-ID: <CAFr9PXnowBM-jAh4cnnngR00eJtB+dXArpircntEth0TU0UnjQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] dt-bindings: leds: Document "activity" trigger
-To:     Rob Herring <robh@kernel.org>
-Cc:     DTML <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>, pavel@ucw.cz,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Rob,
+Pavel,
 
-On Tue, 28 Sept 2021 at 04:52, Rob Herring <robh@kernel.org> wrote:
+On Mon, Sep 27 2021 at 21:06, Pavel Machek wrote:
+>> I hope you reconsider. It is not all LED usage, just the CPU
+>> trigger.
 >
-> On Thu, Sep 23, 2021 at 03:54:52PM +0900, Daniel Palmer wrote:
-> > The "activity" trigger can be used as the default but it's currently
-> > undocumented so validating a devicetree that uses it causes a warning.
->
-> It is preferred to use 'function' and LED_FUNCTION_CPU. Is there some
-> reason that can't be used?
+> What makes the CPU trigger special with RT?
 
-LED_FUNCTION_CPU seems to be tied to
-drivers/leds/trigger/ledtrig-cpu.c which I think serves the same
-purpose but does it a slightly different way.
-Would adding LED_FUNCTION_ACTIVITY work?
+Care to look at the call sites?
+
+> Other triggers will be called from interesting places, too...
+
+Can you please define "called from interesting places" in terms of RT
+related semantics?
+
+Once you've done that you might have the courtesy to explain which RT
+related problem is "too...".
+
+May I also recommend to think about the fact that RT explicitely
+disables a particular LED trigger and not ALL of them. There might be a
+reason. Hint: See the first question above.
+
+> Johanes pointed out other problems with that rwlock, and we are
+> getting rid of the rwlock.
+
+That solves the problem in which way?
+
+May I recommend to read:
+
+  https://www.kernel.org/doc/html/latest/locking/locktypes.html
+
+which clearly explains the constraints of RT vs. locking.
+
+Now if you just look at the callsites of ledtrig_cpu() in arch/arm/ then
+you might notice that these are in code sections which are not
+preemtible even on RT enabled kernels for obvious reasons.
+
+Of course the primary offender on RT is the rwlock but even if you get
+rid of it, how is any of the regular spinlocks which are taken in the
+deeper call chain via the set_brightness() callbacks not going to cause
+the same problem?
+
+IOW, you can point us at Johannes' patch as much as you want, it won't
+solve the problems in the subsequently invoked callbacks.
+
+Sorry for not having provided enough context for you in the first place,
+but I was under the impression that the CIP's SLT-RT maintainer [1]
+understands at least the basic principles of RT.
+
+And of course the stable RT kernels you maintain there contain the very
+same patch, but obviously it's not a problem for those kernels because
+otherwise you or someone else would have complained before.
+
+But of course for integrating RT into mainline it's essential to support
+this, right?
+
+We're definitely going to pay more attention next time when submitting
+that patch unless it becomes obsolete because someone who cares deeply
+about ledtrigg_cpu() working correctly with RT enabled kernels on
+obsolete hardware has fixed all underlying isues.
+
+That hasn't happened in the past 15+ years and I'm happy to postpone any
+attempt of supporting RT on arch/arm/ for another 15+ years.
 
 Thanks,
 
-Daniel
+        tglx
+
+[1] https://wiki.linuxfoundation.org/civilinfrastructureplatform/start
