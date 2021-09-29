@@ -2,119 +2,151 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01E2641A411
-	for <lists+linux-leds@lfdr.de>; Tue, 28 Sep 2021 02:14:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8B9C41C6A8
+	for <lists+linux-leds@lfdr.de>; Wed, 29 Sep 2021 16:29:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238259AbhI1APl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 27 Sep 2021 20:15:41 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:60122 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238253AbhI1APl (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 27 Sep 2021 20:15:41 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1632788041;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=tB5syXgutrMkuUuhsmDzWKkd9Rv9oG3kKMus4IhY/9A=;
-        b=kmetPHuV4FoMdjGP4Qqa0/2D0KkDrr5c4zK99ZtrvSc2t4zzG2PxqUGSPCmeWE6bGNBb8w
-        HBTSnX4KEn66nv3zbDAGvcwO3P9LXavcmxu+NTg1VIJnkQg3n2nLdfeu9y4djG0aSHrYeL
-        sbs5nIY5rQCRoApwE1QoAPtOTyqqgBrzwTSP1aEH8j8XrkMM6RGURDZN/logBDA9uG4Zc7
-        eSwsWpChWVk5oquckyFz8YqJEJGPNbg17QpIhrFQTS7lCmzzj5zk0EebDSMLVFfCMh+jov
-        PBbigAY4FgKwKzPZi+cfEQQNq2ndXYs7V+G5iFuIm/01rAl3hNLFlGXiSE9SYw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1632788041;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=tB5syXgutrMkuUuhsmDzWKkd9Rv9oG3kKMus4IhY/9A=;
-        b=xNOSKSzAxSuQdFlhuqrys+ISfc4sEAoOM94ZWDjWNkBQ0Rm/NH3yd+hvWxRZdXGHjEzstN
-        3UZghIn+VsobRLBw==
-To:     Pavel Machek <pavel@ucw.cz>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc:     johannes.berg@intel.com, linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: trigger: Disable CPU trigger on PREEMPT_RT
-In-Reply-To: <20210927190650.GA13992@duo.ucw.cz>
-References: <20210924111501.m57cwwn7ahiyxxdd@linutronix.de>
- <20210927142345.GB18276@duo.ucw.cz> <87wnn2av6h.ffs@tglx>
- <20210927154451.GA17112@duo.ucw.cz>
- <20210927171802.uak3tbpqaig3mm7m@linutronix.de>
- <20210927190650.GA13992@duo.ucw.cz>
-Date:   Tue, 28 Sep 2021 02:14:00 +0200
-Message-ID: <87bl4dblpz.ffs@tglx>
+        id S1344458AbhI2Oas (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 29 Sep 2021 10:30:48 -0400
+Received: from protonic.xs4all.nl ([83.163.252.89]:33620 "EHLO
+        protonic.xs4all.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245127AbhI2Oan (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 29 Sep 2021 10:30:43 -0400
+X-Greylist: delayed 473 seconds by postgrey-1.27 at vger.kernel.org; Wed, 29 Sep 2021 10:30:41 EDT
+Received: from fiber.protonic.nl (edge2.prtnl [192.168.1.170])
+        by sparta.prtnl (Postfix) with ESMTP id 0ED0144A024E;
+        Wed, 29 Sep 2021 16:21:07 +0200 (CEST)
 MIME-Version: 1.0
-Content-Type: text/plain
+Date:   Wed, 29 Sep 2021 16:21:07 +0200
+From:   Robin van der Gracht <robin@protonic.nl>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Paul Burton <paulburton@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pavel Machek <pavel@ucw.cz>, Marek Behun <marek.behun@nic.cz>,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 09/19] auxdisplay: ht16k33: Connect backlight to fbdev
+Reply-To: robin@protonic.nl
+In-Reply-To: <20210914143835.511051-10-geert@linux-m68k.org>
+References: <20210914143835.511051-1-geert@linux-m68k.org>
+ <20210914143835.511051-10-geert@linux-m68k.org>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <50740100a1062b981948e1773574928a@protonic.nl>
+X-Sender: robin@protonic.nl
+Organization: Protonic Holland
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Pavel,
+Reviewed-by: Robin van der Gracht <robin@protonic.nl>
 
-On Mon, Sep 27 2021 at 21:06, Pavel Machek wrote:
->> I hope you reconsider. It is not all LED usage, just the CPU
->> trigger.
->
-> What makes the CPU trigger special with RT?
-
-Care to look at the call sites?
-
-> Other triggers will be called from interesting places, too...
-
-Can you please define "called from interesting places" in terms of RT
-related semantics?
-
-Once you've done that you might have the courtesy to explain which RT
-related problem is "too...".
-
-May I also recommend to think about the fact that RT explicitely
-disables a particular LED trigger and not ALL of them. There might be a
-reason. Hint: See the first question above.
-
-> Johanes pointed out other problems with that rwlock, and we are
-> getting rid of the rwlock.
-
-That solves the problem in which way?
-
-May I recommend to read:
-
-  https://www.kernel.org/doc/html/latest/locking/locktypes.html
-
-which clearly explains the constraints of RT vs. locking.
-
-Now if you just look at the callsites of ledtrig_cpu() in arch/arm/ then
-you might notice that these are in code sections which are not
-preemtible even on RT enabled kernels for obvious reasons.
-
-Of course the primary offender on RT is the rwlock but even if you get
-rid of it, how is any of the regular spinlocks which are taken in the
-deeper call chain via the set_brightness() callbacks not going to cause
-the same problem?
-
-IOW, you can point us at Johannes' patch as much as you want, it won't
-solve the problems in the subsequently invoked callbacks.
-
-Sorry for not having provided enough context for you in the first place,
-but I was under the impression that the CIP's SLT-RT maintainer [1]
-understands at least the basic principles of RT.
-
-And of course the stable RT kernels you maintain there contain the very
-same patch, but obviously it's not a problem for those kernels because
-otherwise you or someone else would have complained before.
-
-But of course for integrating RT into mainline it's essential to support
-this, right?
-
-We're definitely going to pay more attention next time when submitting
-that patch unless it becomes obsolete because someone who cares deeply
-about ledtrigg_cpu() working correctly with RT enabled kernels on
-obsolete hardware has fixed all underlying isues.
-
-That hasn't happened in the past 15+ years and I'm happy to postpone any
-attempt of supporting RT on arch/arm/ for another 15+ years.
-
-Thanks,
-
-        tglx
-
-[1] https://wiki.linuxfoundation.org/civilinfrastructureplatform/start
+On 2021-09-14 16:38, Geert Uytterhoeven wrote:
+> Currently /sys/class/graphics/fb0/bl_curve is not accessible (-ENODEV),
+> as the driver does not connect the backlight to the frame buffer device.
+> Fix this moving backlight initialization up, and filling in
+> fb_info.bl_dev.
+> 
+> Fixes: 8992da44c6805d53 ("auxdisplay: ht16k33: Driver for LED controller")
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> ---
+> v6:
+>   - No changes,
+> 
+> v5:
+>   - No changes,
+> 
+> v4:
+>   - No changes,
+> 
+> v3:
+>   - No changes,
+> 
+> v2:
+>   - New.
+> ---
+>  drivers/auxdisplay/ht16k33.c | 56 ++++++++++++++++++------------------
+>  1 file changed, 28 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/auxdisplay/ht16k33.c b/drivers/auxdisplay/ht16k33.c
+> index 1e69cc6d21a0dca2..2b630e194570f6e5 100644
+> --- a/drivers/auxdisplay/ht16k33.c
+> +++ b/drivers/auxdisplay/ht16k33.c
+> @@ -413,6 +413,33 @@ static int ht16k33_probe(struct i2c_client *client,
+>  	if (err)
+>  		return err;
+> 
+> +	/* Backlight */
+> +	memset(&bl_props, 0, sizeof(struct backlight_properties));
+> +	bl_props.type = BACKLIGHT_RAW;
+> +	bl_props.max_brightness = MAX_BRIGHTNESS;
+> +
+> +	bl = devm_backlight_device_register(&client->dev, DRIVER_NAME"-bl",
+> +					    &client->dev, priv,
+> +					    &ht16k33_bl_ops, &bl_props);
+> +	if (IS_ERR(bl)) {
+> +		dev_err(&client->dev, "failed to register backlight\n");
+> +		return PTR_ERR(bl);
+> +	}
+> +
+> +	err = of_property_read_u32(node, "default-brightness-level",
+> +				   &dft_brightness);
+> +	if (err) {
+> +		dft_brightness = MAX_BRIGHTNESS;
+> +	} else if (dft_brightness > MAX_BRIGHTNESS) {
+> +		dev_warn(&client->dev,
+> +			 "invalid default brightness level: %u, using %u\n",
+> +			 dft_brightness, MAX_BRIGHTNESS);
+> +		dft_brightness = MAX_BRIGHTNESS;
+> +	}
+> +
+> +	bl->props.brightness = dft_brightness;
+> +	ht16k33_bl_update_status(bl);
+> +
+>  	/* Framebuffer (2 bytes per column) */
+>  	BUILD_BUG_ON(PAGE_SIZE < HT16K33_FB_SIZE);
+>  	fbdev->buffer = (unsigned char *) get_zeroed_page(GFP_KERNEL);
+> @@ -445,6 +472,7 @@ static int ht16k33_probe(struct i2c_client *client,
+>  	fbdev->info->screen_size = HT16K33_FB_SIZE;
+>  	fbdev->info->fix = ht16k33_fb_fix;
+>  	fbdev->info->var = ht16k33_fb_var;
+> +	fbdev->info->bl_dev = bl;
+>  	fbdev->info->pseudo_palette = NULL;
+>  	fbdev->info->flags = FBINFO_FLAG_DEFAULT;
+>  	fbdev->info->par = priv;
+> @@ -460,34 +488,6 @@ static int ht16k33_probe(struct i2c_client *client,
+>  			goto err_fbdev_unregister;
+>  	}
+> 
+> -	/* Backlight */
+> -	memset(&bl_props, 0, sizeof(struct backlight_properties));
+> -	bl_props.type = BACKLIGHT_RAW;
+> -	bl_props.max_brightness = MAX_BRIGHTNESS;
+> -
+> -	bl = devm_backlight_device_register(&client->dev, DRIVER_NAME"-bl",
+> -					    &client->dev, priv,
+> -					    &ht16k33_bl_ops, &bl_props);
+> -	if (IS_ERR(bl)) {
+> -		dev_err(&client->dev, "failed to register backlight\n");
+> -		err = PTR_ERR(bl);
+> -		goto err_fbdev_unregister;
+> -	}
+> -
+> -	err = of_property_read_u32(node, "default-brightness-level",
+> -				   &dft_brightness);
+> -	if (err) {
+> -		dft_brightness = MAX_BRIGHTNESS;
+> -	} else if (dft_brightness > MAX_BRIGHTNESS) {
+> -		dev_warn(&client->dev,
+> -			 "invalid default brightness level: %u, using %u\n",
+> -			 dft_brightness, MAX_BRIGHTNESS);
+> -		dft_brightness = MAX_BRIGHTNESS;
+> -	}
+> -
+> -	bl->props.brightness = dft_brightness;
+> -	ht16k33_bl_update_status(bl);
+> -
+>  	ht16k33_fb_queue(priv);
+>  	return 0;
