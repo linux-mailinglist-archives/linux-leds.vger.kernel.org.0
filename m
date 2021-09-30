@@ -2,390 +2,150 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A06841D835
-	for <lists+linux-leds@lfdr.de>; Thu, 30 Sep 2021 12:58:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D040B41DF67
+	for <lists+linux-leds@lfdr.de>; Thu, 30 Sep 2021 18:42:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350229AbhI3K65 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 Sep 2021 06:58:57 -0400
-Received: from protonic.xs4all.nl ([83.163.252.89]:43930 "EHLO
-        protonic.xs4all.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350206AbhI3K6y (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Sep 2021 06:58:54 -0400
-Received: from fiber.protonic.nl (edge2.prtnl [192.168.1.170])
-        by sparta.prtnl (Postfix) with ESMTP id 70F2944A024E;
-        Thu, 30 Sep 2021 12:57:09 +0200 (CEST)
+        id S1352244AbhI3Qoj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 30 Sep 2021 12:44:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39870 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1352254AbhI3Qoi (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Sep 2021 12:44:38 -0400
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18272C061772
+        for <linux-leds@vger.kernel.org>; Thu, 30 Sep 2021 09:42:55 -0700 (PDT)
+Received: by mail-vs1-xe43.google.com with SMTP id z22so6474150vsp.1
+        for <linux-leds@vger.kernel.org>; Thu, 30 Sep 2021 09:42:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
+        b=e/UXzsfuMGIOVlEbRTLr+LyiVLu+rk+C86Y8q3wW3py4w/E1lywchmha62s+vfDZU/
+         lDQlChCZPR0Za0O6XXqtSxHBkfDknZqHefn4JFrkJFXhtuUvXTNIb7ZXsWI1pIEy9aKF
+         J+djW1pExW+Vz85wenMcmdbvW0bRnZDuP+wBc22G8Whb+0otHmzIHD67VnaqAJJUyu2N
+         hp4Za3TRZCMM+8F1AYe4GrnZp3bXTXub14cfh+ybnoNZRNie6weSCM9l03xMOWyM6gUq
+         cOWLOgcQaxZV3c17cAG9jP+Q1Y80xOUJKYUrvTJKkS/GdFi05lMHEwckwq/k9WX3uZHS
+         4nOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
+        b=Ma7OD6fwWvgIrt0vdjrw6psMFbsUsNvpNngs70YrsQEsuxWmDqspATl39fl5SfCDx8
+         0x0QLletqUUJUzvV0voCZn0lvO8Py+/WApFbZP4FtsR0CVqHYKo3FaZvAf80WPhJVIfp
+         z+Sb0mC3BW4Qixehcineusa1FVEyqk0pYH0ajUafBeUdn3aOlAPJjz/ZH/tg6bjTauKp
+         8NpxB3MUN7zGcU8eTWHi3ITrpkcfx0a6kEVm0FhHjNtNv2FVKKv60DtF1gHJ2YFpbUUD
+         weD7wFABpn2Bp0IXY+0//G8unH9kiUBixDfGUhjxwlW6AVmODmDBaUdpMgu4uKr+BP8C
+         rIEg==
+X-Gm-Message-State: AOAM530knflu2rOQTnspdYOjUCXsX7y1h23aT/yDCtu5dyPkZsD88imb
+        WPqSR9yb3vM5ZAUgrUkZPid9hmcsoL6sjcAoc+g=
+X-Google-Smtp-Source: ABdhPJy7YLP+m8kssI0cTAGZRObkTi7kloVEv0tm4oNDkoblCKkCMeQNyi2yuMCtLxU0suy9Uh8HC/qWBrEk3sGZi/s=
+X-Received: by 2002:a67:ce14:: with SMTP id s20mr160974vsl.34.1633020174218;
+ Thu, 30 Sep 2021 09:42:54 -0700 (PDT)
 MIME-Version: 1.0
-Date:   Thu, 30 Sep 2021 12:57:09 +0200
-From:   Robin van der Gracht <robin@protonic.nl>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Paul Burton <paulburton@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>, Marek Behun <marek.behun@nic.cz>,
-        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
-Subject: Re: [PATCH v6 19/19] auxdisplay: ht16k33: Add LED support
-Reply-To: robin@protonic.nl
-In-Reply-To: <20210914143835.511051-20-geert@linux-m68k.org>
-References: <20210914143835.511051-1-geert@linux-m68k.org>
- <20210914143835.511051-20-geert@linux-m68k.org>
-User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <4602a8e681db4d0ebc43e4dafee8c28e@protonic.nl>
-X-Sender: robin@protonic.nl
-Organization: Protonic Holland
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a59:ab2e:0:b0:22d:7f44:603a with HTTP; Thu, 30 Sep 2021
+ 09:42:53 -0700 (PDT)
+Reply-To: irenezakari24@gmail.com
+From:   Irene zakari <irenezakari88@gmail.com>
+Date:   Thu, 30 Sep 2021 09:42:53 -0700
+Message-ID: <CAFT8PFEiwji_tfJHzDxnx3mKwhExLN5n90A8Y-61JNL4AkCEFw@mail.gmail.com>
+Subject: PLEASE I NEED YOUR HELP
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Geert,
+Hello   ..
 
-On 2021-09-14 16:38, Geert Uytterhoeven wrote:
-> Instantiate a single LED based on the "led" subnode in DT.
-> This allows the user to control display brightness and blinking (backed
-> by hardware support) through the LED class API and triggers, and exposes
-> the display color.  The LED will be named
-> "auxdisplay:<color>:<function>".
-> 
-> When running in dot-matrix mode and if no "led" subnode is found, the
-> driver falls back to the traditional backlight mode, to preserve
-> backwards compatibility.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Reviewed-by: Marek Behún <kabel@kernel.org>
-> ---
-> v6:
->   - Add Reviewed-by,
->   - Reorder operations in ht16k33_led_probe() to ease future conversion
->     to device properties,
-> 
-> v5:
->   - Add missing select NEW_LEDS,
-> 
-> v4:
->   - Add missing select LEDS_CLASS,
-> 
-> v3:
->   - Remove unneeded C++ comment,
->   - Use "err" instead of "error" to be consistent with existing driver
->     naming style,
->   - Make the creation of the LED device dependent on the presence of the
->     "led" subnode in DT, so it can be used in dot-matrix mode too.
->   - Use led_init_data() and devm_led_classdev_register_ext() to retrieve
->     all LED properties from DT, instead of manual LED name construction
->     based on just the "color" property,
-> 
-> v2:
->   - Use "auxdisplay" instead of DRIVER_NAME in LED name.
-> ---
->  drivers/auxdisplay/Kconfig   |   2 +
->  drivers/auxdisplay/ht16k33.c | 124 ++++++++++++++++++++++++++++++-----
->  2 files changed, 109 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
-> index 42fc7b155de09dbc..e32ef7f9945d49b2 100644
-> --- a/drivers/auxdisplay/Kconfig
-> +++ b/drivers/auxdisplay/Kconfig
-> @@ -176,6 +176,8 @@ config HT16K33
->  	select FB_SYS_IMAGEBLIT
->  	select INPUT_MATRIXKMAP
->  	select FB_BACKLIGHT
-> +	select NEW_LEDS
-> +	select LEDS_CLASS
->  	select LINEDISP
->  	help
->  	  Say yes here to add support for Holtek HT16K33, RAM mapping 16*8
-> diff --git a/drivers/auxdisplay/ht16k33.c b/drivers/auxdisplay/ht16k33.c
-> index 3b555e119e326cec..89ee5b4b3dfccb68 100644
-> --- a/drivers/auxdisplay/ht16k33.c
-> +++ b/drivers/auxdisplay/ht16k33.c
-> @@ -18,6 +18,7 @@
->  #include <linux/backlight.h>
->  #include <linux/input.h>
->  #include <linux/input/matrix_keypad.h>
-> +#include <linux/leds.h>
->  #include <linux/workqueue.h>
->  #include <linux/mm.h>
-> 
-> @@ -34,6 +35,10 @@
-> 
->  #define REG_DISPLAY_SETUP		0x80
->  #define REG_DISPLAY_SETUP_ON		BIT(0)
-> +#define REG_DISPLAY_SETUP_BLINK_OFF	(0 << 1)
-> +#define REG_DISPLAY_SETUP_BLINK_2HZ	(1 << 1)
-> +#define REG_DISPLAY_SETUP_BLINK_1HZ	(2 << 1)
-> +#define REG_DISPLAY_SETUP_BLINK_0HZ5	(3 << 1)
-> 
->  #define REG_ROWINT_SET			0xA0
->  #define REG_ROWINT_SET_INT_EN		BIT(0)
-> @@ -94,12 +99,14 @@ struct ht16k33_seg {
->  struct ht16k33_priv {
->  	struct i2c_client *client;
->  	struct delayed_work work;
-> +	struct led_classdev led;
->  	struct ht16k33_keypad keypad;
->  	union {
->  		struct ht16k33_fbdev fbdev;
->  		struct ht16k33_seg seg;
->  	};
->  	enum display_type type;
-> +	uint8_t blink;
->  };
-> 
->  static const struct fb_fix_screeninfo ht16k33_fb_fix = {
-> @@ -158,7 +165,7 @@ static DEVICE_ATTR(map_seg14, 0644, map_seg_show, 
-> map_seg_store);
-> 
->  static int ht16k33_display_on(struct ht16k33_priv *priv)
->  {
-> -	uint8_t data = REG_DISPLAY_SETUP | REG_DISPLAY_SETUP_ON;
-> +	uint8_t data = REG_DISPLAY_SETUP | REG_DISPLAY_SETUP_ON | priv->blink;
-> 
->  	return i2c_smbus_write_byte(priv->client, data);
->  }
-> @@ -173,8 +180,10 @@ static int ht16k33_brightness_set(struct ht16k33_priv 
-> *priv,
->  {
->  	int err;
-> 
-> -	if (brightness == 0)
-> +	if (brightness == 0) {
-> +		priv->blink = REG_DISPLAY_SETUP_BLINK_OFF;
->  		return ht16k33_display_off(priv);
-> +	}
-> 
->  	err = ht16k33_display_on(priv);
->  	if (err)
-> @@ -184,6 +193,49 @@ static int ht16k33_brightness_set(struct ht16k33_priv 
-> *priv,
->  				    REG_BRIGHTNESS | (brightness - 1));
->  }
-> 
-> +static int ht16k33_brightness_set_blocking(struct led_classdev *led_cdev,
-> +					   enum led_brightness brightness)
-> +{
-> +	struct ht16k33_priv *priv = container_of(led_cdev, struct ht16k33_priv,
-> +						 led);
-> +
-> +	return ht16k33_brightness_set(priv, brightness);
-> +}
-> +
-> +static int ht16k33_blink_set(struct led_classdev *led_cdev,
-> +			     unsigned long *delay_on, unsigned long *delay_off)
-> +{
-> +	struct ht16k33_priv *priv = container_of(led_cdev, struct ht16k33_priv,
-> +						 led);
-> +	unsigned int delay;
-> +	uint8_t blink;
-> +	int err;
-> +
-> +	if (!*delay_on && !*delay_off) {
-> +		blink = REG_DISPLAY_SETUP_BLINK_1HZ;
-> +		delay = 1000;
-> +	} else if (*delay_on <= 750) {
-> +		blink = REG_DISPLAY_SETUP_BLINK_2HZ;
-> +		delay = 500;
-> +	} else if (*delay_on <= 1500) {
-> +		blink = REG_DISPLAY_SETUP_BLINK_1HZ;
-> +		delay = 1000;
-> +	} else {
-> +		blink = REG_DISPLAY_SETUP_BLINK_0HZ5;
-> +		delay = 2000;
-> +	}
-> +
-> +	err = i2c_smbus_write_byte(priv->client,
-> +				   REG_DISPLAY_SETUP | REG_DISPLAY_SETUP_ON |
-> +				   blink);
-> +	if (err)
-> +		return err;
-> +
-> +	priv->blink = blink;
-> +	*delay_on = *delay_off = delay;
-> +	return 0;
-> +}
-> +
->  static void ht16k33_fb_queue(struct ht16k33_priv *priv)
->  {
->  	struct ht16k33_fbdev *fbdev = &priv->fbdev;
-> @@ -425,6 +477,35 @@ static void ht16k33_seg14_update(struct work_struct 
-> *work)
->  	i2c_smbus_write_i2c_block_data(priv->client, 0, ARRAY_SIZE(buf), buf);
->  }
-> 
-> +static int ht16k33_led_probe(struct device *dev, struct led_classdev *led,
-> +			     unsigned int brightness)
-> +{
-> +	struct led_init_data init_data = {};
-> +	struct device_node *node;
-> +	int err;
-> +
-> +	/* The LED is optional */
-> +	node = of_get_child_by_name(dev->of_node, "led");
-> +	if (!node)
-> +		return 0;
-> +
-> +	init_data.fwnode = of_fwnode_handle(node);
-> +	init_data.devicename = "auxdisplay";
-> +	init_data.devname_mandatory = true;
-> +
-> +	led->brightness_set_blocking = ht16k33_brightness_set_blocking;
-> +	led->blink_set = ht16k33_blink_set;
-> +	led->flags = LED_CORE_SUSPENDRESUME;
-> +	led->brightness = brightness;
-> +	led->max_brightness = MAX_BRIGHTNESS;
+How do you do over there? I hope you are doing well?
 
-What do you think about adding a default trigger and making it 'backlight'?
+My name is Irene. (24 years), i am single, from Gambia, the only child
+of late Eng. Bernard Bakary Zakaria. the Director of Bajam Enterprise
+(Building Construction Company in The Gambia) also the CEO of Bernard
+Import and Export (GAMBIA).
 
-led->default_trigger = "blacklight";
+As a matter of fact my mother died when i was barely 4 years old
+according to my late father and because of the type of love he had for
+my mother made him to remain UN-married till he left the ghost..
 
-Or as an alternative, suggesting linux,default-trigger = "backlight" in the
-docs? Since the led class won't respond to blank events by just making it's
-function LED_FUNCTION_BACKLIGHT.
+So after the death of my father as a result of assassinate, his brother (My
+Uncle) who is the purchasing and marketing sale manager of my late
+fathers company named (Mr. James Tokunbo Oriade Zakaria) wanted to
+convert all the properties and resources of my late father into his
+which i quarreled with him and it made him to lay his anger on me to
+the extent of hiring an assassins to kill me but to God be the glory i
+succeeded by making a way to Burkina faso for my dear life.
+Honestly i do live a fearful life even here in Burkina faso because of
+those Assassins coming after me .
 
-led {
-	function = LED_FUNCTION_BACKLIGHT;
-	color = <LED_COLOR_ID_GREEN>;
-	linux,default-trigger = "backlight";
-};
+I would want to live and study in your country for my better future.
+because my father same blood brother wanted to force me into undecided
+marriage, just for me to leave my father home and went and live with
+another man I never know as he want to occupied all my father home
+and maybe to sold it as my father no longer alive, I'm the only child
+daughter my father born, '' but he don't know that i am not
+interesting in any of my father properties or early marriage for now,
+because i still have future to think about and to focus on my studies
+first as i was doing my first year in the University before the death
+of my father.
 
-I noticed blanking is broken. The backlight device (or LED device with
-backlight trigger) doens't get notified when the framebuffer is blanked since
-the driver doesn't implement fb_blank.
+Actually what I want to discuss with you is about my personal issue
+concern funds my late father deposited in a bank outside my country,
+worth $4.5 million united state dollars. i need your assistance to
+receive and invest this funds in your country.
 
-Right now:
+Please help me, I am sincere to you and I want to be member of your
+family as well if you wouldn't mind to accept me and lead me to better
+future in your country.
 
-echo 1 > /sys/class/graphics/fb0/blank                                        
-                                                             |
-sh: write error: Invalid argument
+All the documents the bank issue to my father during time of deposit
+is with me now.
+I already notify the bank on phone about the death of my father and
+they are surprise for the news and accept that my father is their good
+customer.
+I will be happy if this money can be invested in any business of your
+choice and it will be under your control till i finished my education,
+also I'm assuring you good relationship and I am ready to discuss the
+amount of money to give you from this money for your help.
 
-Due to: 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/video/fbdev/core/fbmem.c?h=v5.15-rc3#n1078
+Therefore, I shall give you the bank contact and other necessary
+information in my next email if you will only promise me that you will
+not/never betray and disclosed this matter to anybody, because, this
+money is the only hope i have for survival on earth since I have lost
+my parents.
 
-Something like this fixes it.
+Moreover I have the FUND PLACEMENT CERTIFICATE and the DEATH
+CERTIFICATE here with me, but before I give you further information, i
+will like to know your full data
 
-diff --git a/drivers/auxdisplay/ht16k33.c b/drivers/auxdisplay/ht16k33.c
-index 89ee5b4b3dfc..0883d5252c81 100644
---- a/drivers/auxdisplay/ht16k33.c
-+++ b/drivers/auxdisplay/ht16k33.c
-@@ -346,6 +346,15 @@ static int ht16k33_mmap(struct fb_info *info, struct 
-vm_area_struct *vma)
-         return vm_map_pages_zero(vma, &pages, 1);
-  }
+1. Full Name: ........................
+2. Address: ..................
+3. Nationality: ........... Sex................
+4. Age:........... Date of Birth:................
+5. Occupation:...................
+.....
+6. Phone: ........... Fax:.........................
+7. State of Origin: .......Country:..............
+8. Occupation:...................
+................
+9. Marital status........... E-mail address's: ............
+10. Scan copy of your ID card or Driving License/Photo:............
+DECLARATION:
 
-+/*
-+ * Blank events will be passed to the backlight device (or the LED device if
-+ * it's trigger is 'backlight') when we return 0 here.
-+ */
-+static int ht16k33_blank(int blank, struct fb_info *info)
-+{
-+       return 0;
-+}
-+
-  static const struct fb_ops ht16k33_fb_ops = {
-         .owner = THIS_MODULE,
-         .fb_read = fb_sys_read,
-@@ -354,6 +363,7 @@ static const struct fb_ops ht16k33_fb_ops = {
-         .fb_copyarea = sys_copyarea,
-         .fb_imageblit = sys_imageblit,
-         .fb_mmap = ht16k33_mmap,
-+       .fb_blank = ht16k33_blank,
-  };
+so that i will be fully sure that i am not trusting the wrong person.
+and it will also give me the mind to send you the bank contact for you
+to communicate with them for more verification about this money. and
+to know you more better.
 
-  /*
+Meanwhile, you can reach me through my pastor,his name is Pastor Paul
+any time you call, tell him that you want to speak with me because
+right now i am living in the church here in Burkina faso and i don't
+want to stay here any longer,
+send for me to speak with you his phone number is this(+226 75213646)
 
-Feel free to include (something like) this in the patch stack.
-
-
-> +
-> +	err = devm_led_classdev_register_ext(dev, led, &init_data);
-> +	if (err)
-> +		dev_err(dev, "Failed to register LED\n");
-
-You might want to call ht16k33_brightness_set(priv, brightness) here to get a
-know value into the display setup register (0x80).
-
-Right now if I enable hardware blinking and (soft)reboot my board it keeps on
-blinking even after a re-probe.
-
-> +
-> +	return err;
-> +}
-> +
->  static int ht16k33_keypad_probe(struct i2c_client *client,
->  				struct ht16k33_keypad *keypad)
->  {
-> @@ -498,24 +579,28 @@ static int ht16k33_fbdev_probe(struct device *dev,
-> struct ht16k33_priv *priv,
->  			       uint32_t brightness)
->  {
->  	struct ht16k33_fbdev *fbdev = &priv->fbdev;
-> -	struct backlight_properties bl_props;
-> -	struct backlight_device *bl;
-> +	struct backlight_device *bl = NULL;
->  	int err;
-> 
-> -	/* Backlight */
-> -	memset(&bl_props, 0, sizeof(struct backlight_properties));
-> -	bl_props.type = BACKLIGHT_RAW;
-> -	bl_props.max_brightness = MAX_BRIGHTNESS;
-> +	if (!priv->led.dev) {
-> +		/* backwards compatibility with DT lacking an led subnode */
-> +		struct backlight_properties bl_props;
-> 
-> -	bl = devm_backlight_device_register(dev, DRIVER_NAME"-bl", dev, priv,
-> -					    &ht16k33_bl_ops, &bl_props);
-> -	if (IS_ERR(bl)) {
-> -		dev_err(dev, "failed to register backlight\n");
-> -		return PTR_ERR(bl);
-> -	}
-> +		memset(&bl_props, 0, sizeof(struct backlight_properties));
-> +		bl_props.type = BACKLIGHT_RAW;
-> +		bl_props.max_brightness = MAX_BRIGHTNESS;
-> +
-> +		bl = devm_backlight_device_register(dev, DRIVER_NAME"-bl", dev,
-> +						    priv, &ht16k33_bl_ops,
-> +						    &bl_props);
-> +		if (IS_ERR(bl)) {
-> +			dev_err(dev, "failed to register backlight\n");
-> +			return PTR_ERR(bl);
-> +		}
-> 
-> -	bl->props.brightness = brightness;
-> -	ht16k33_bl_update_status(bl);
-> +		bl->props.brightness = brightness;
-> +		ht16k33_bl_update_status(bl);
-> +	}
-> 
->  	/* Framebuffer (2 bytes per column) */
->  	BUILD_BUG_ON(PAGE_SIZE < HT16K33_FB_SIZE);
-> @@ -575,7 +660,7 @@ static int ht16k33_seg_probe(struct device *dev, struct
-> ht16k33_priv *priv,
->  	struct ht16k33_seg *seg = &priv->seg;
->  	int err;
-> 
-> -	err = ht16k33_brightness_set(priv, MAX_BRIGHTNESS);
-> +	err = ht16k33_brightness_set(priv, brightness);
-
-This looks like a bugfix for patch 17, maybe move this change there?
-
->  	if (err)
->  		return err;
-> 
-> @@ -653,6 +738,11 @@ static int ht16k33_probe(struct i2c_client *client)
->  		dft_brightness = MAX_BRIGHTNESS;
->  	}
-> 
-> +	/* LED */
-> +	err = ht16k33_led_probe(dev, &priv->led, dft_brightness);
-> +	if (err)
-> +		return err;
-> +
->  	/* Keypad */
->  	if (client->irq > 0) {
->  		err = ht16k33_keypad_probe(client, &priv->keypad);
-
-Gr{oetje,eeting}s,
-Robin
+I will stop here and i will be waiting for your reply and feel free
+ask any thing you want to know about me.
+Please help me, I would be highly appreciated
+Have nice day.
+From Irene
