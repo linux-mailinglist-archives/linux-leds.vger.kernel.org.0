@@ -2,76 +2,130 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B50E41E45B
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Oct 2021 00:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8CE741EAB0
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Oct 2021 12:09:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349277AbhI3XAG (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 30 Sep 2021 19:00:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40808 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349407AbhI3XAD (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 30 Sep 2021 19:00:03 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BBCCC06176F
-        for <linux-leds@vger.kernel.org>; Thu, 30 Sep 2021 15:58:20 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id z24so31559368lfu.13
-        for <linux-leds@vger.kernel.org>; Thu, 30 Sep 2021 15:58:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=AnIUtRQtDgk3YDJAatwz+LXUKRWPbctJNdAprjwvZ5o=;
-        b=R1PvQpCeIannjSb6Yh+ydpk75/C6o8mEtPAzmgaEHIE8+GwbHjyaz9wpB+8x12xrLC
-         5QzliCelgl2NI0J6eAvviXY6NAb0fddKOwm8F0zluWIgQVcCljaROD5vrmiDeSlDLGsK
-         xJB49pSfVQy8S3Pu4kCVcQeq6ZMoa/xhFaIxFdweO35gr4XDAjaXA+zoW+1iWxDz8mxI
-         TYIETMUD6inxlylZ2+5HXNoU+Ej3Yy1phQDEHgefTc6SLcco5OC3x4iNwsBqiDMPoP+P
-         pOk7Fq1FEKBsQAGNBYAce970oQL9Ja1ScWCdUauoISN5YYshWUwov1jp5zGqcxSOFPv4
-         8viw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=AnIUtRQtDgk3YDJAatwz+LXUKRWPbctJNdAprjwvZ5o=;
-        b=k4WMTuwC4IMWH7W0hznMDczdV6vjNVvrTj3jgWXKLHKuMd7EFrqDtpHGnP7QH+ujBu
-         B4kaGIhJErqH5bb+FFq/x4OGJ336Ti7x7TtFkgl2ywo7j8OsKSJCLaNPMXTaS19SI9G4
-         Pt/35x0r8YLjglZ+LhuurIS8Jn1Zwob7MPBqd4da0pmm4wylLXwy97H0Hhw5LP0Zds+s
-         Kt8OBBg6WGLxTAZFwegThbNObtd7AqMnAjc7qA2G4VE4EitmuNPVKGsfdtlqCNWiW508
-         fCh/in1hZwH7mT7256OfG0EMsK72su9UmOX+NnCxagA050DT74iZYuWFDmNzAIdF0eZo
-         2A2w==
-X-Gm-Message-State: AOAM531by0nsEq3OE4IPWoI4QNxCLDyjdDnRMw/LpX5gSuC8xzD/YSfH
-        8g9jDHl0VJYgvzQS7YhQL4I2KhsQV+bZH80W2+k=
-X-Google-Smtp-Source: ABdhPJyp0GckkyoQimIbcF3/K7wY5JuxQheNi1bdL6NpxgoMO9RxiMuiJeEbVByK85pFkO1bkngH1qS9zgmfyJF8Wlc=
-X-Received: by 2002:ac2:4d91:: with SMTP id g17mr1289553lfe.597.1633042698767;
- Thu, 30 Sep 2021 15:58:18 -0700 (PDT)
+        id S1353393AbhJAKLm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 1 Oct 2021 06:11:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39320 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230073AbhJAKLm (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 1 Oct 2021 06:11:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 038A061A71;
+        Fri,  1 Oct 2021 10:09:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633082998;
+        bh=yGcc2/IH57GL8/dGeCk7gJu5M47+x3PqFv2lP+zivkM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dnWdZ29jm8d83BjZYRBo+9sBMR0C5HVnqcfgBHpWDxNCfovNNXImE85uV/uSaOPWy
+         +aRma9NA3iC8jXwF4rkuWrHnKU03jow/7QB7r41B7kGt5YLYulWQdHFuC9koXvGUBF
+         2gUBNDU0vNVaswBU/2ZKbj4OgtzahHeOp5Ct+Yqm2kdkLJMKs9TxBRulGFoHSw3M2P
+         tC5g7XLezFqLFYGWCC8VAkO2p8wQXtWldKUS2uGJfh225quUeknBogL7xhFgEHgprD
+         AGrxVEBjvHy90anYKNZiTBAociTEBvNQQproS/D8GlLtx/LpgspbtKfWI62XTiwZqZ
+         IdA+77qv781Mw==
+Date:   Fri, 1 Oct 2021 12:09:52 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Frieder Schrempf <frieder.schrempf@kontron.de>,
+        linux-leds@vger.kernel.org
+Cc:     Andrew Lunn <andrew@lunn.ch>, Frieder Schrempf <frieder@fris.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org,
+        Bjarni Jonasson <bjarni.jonasson@microchip.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Steen Hegelund <steen.hegelund@microchip.com>
+Subject: Re: [PATCH 1/3] net: phy: mscc: Add possibilty to disable combined
+ LED mode
+Message-ID: <20211001120952.6be6bb36@thinkpad>
+In-Reply-To: <18de5e10-f41f-0790-89c8-3a70d48539be@kontron.de>
+References: <20210930125747.2511954-1-frieder@fris.de>
+        <YVZQuIr2poOfWvcO@lunn.ch>
+        <18de5e10-f41f-0790-89c8-3a70d48539be@kontron.de>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:a05:6512:5d8:0:0:0:0 with HTTP; Thu, 30 Sep 2021 15:58:17
- -0700 (PDT)
-Reply-To: southwestloanco59@gmail.com
-From:   SOUTHWESTLOANCO <saniabdullahinng2020@gmail.com>
-Date:   Thu, 30 Sep 2021 15:58:17 -0700
-Message-ID: <CA+3X9TxOgUnr17iBEDQumHTT-4sD=94e7Kczm3G2MdEDopz6kQ@mail.gmail.com>
-Subject: Dear owner,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
--- 
-Good day,
-          Do you need a loan ? We offer any kind of loan to repay in
-6months with just 2% interest
+On Fri, 1 Oct 2021 11:20:36 +0200
+Frieder Schrempf <frieder.schrempf@kontron.de> wrote:
 
-Kindly Reply with below information
+> On 01.10.21 02:05, Andrew Lunn wrote:
+> > On Thu, Sep 30, 2021 at 02:57:43PM +0200, Frieder Schrempf wrote:  
+> >> From: Frieder Schrempf <frieder.schrempf@kontron.de>
+> >>
+> >> By default the LED modes offer to combine two indicators like speed/link
+> >> and activity in one LED. In order to use a LED only for the first of the
+> >> two modes, the combined feature needs to be disabled.
+> >>
+> >> In order to do this we introduce a boolean devicetree property
+> >> 'vsc8531,led-[N]-combine-disable' and wire it up to the matching
+> >> bits in the LED behavior register.  
+> > 
+> > Sorry, but no DT property. Each PHY has its own magic combination of
+> > DT properties, nothing shared, nothing common. This does not scale.
+> > 
+> > Please look at the work being done to control PHY LEDs using the Linux
+> > LED infrastructure. That should give us one uniform interface for all
+> > PHY LEDs.  
+> 
+> +Cc: Marek
+> 
+> I guess you are referring to this: [1]?
+> 
+> If so, the last version I could find is a year old now. Is anyone still
+> working on this?
 
-NAME...............
-ADDRESS..........
-OCCUPATION....
-AGE...................
-PHONE..............
-AMOUNT NEEDED......
+Yes, I am still working on this.
 
-Regards
+Anyway the last version is not one year old, the last version to add
+this support is 4 months old:
+https://lore.kernel.org/netdev/20210602144439.4d20b295@dellmb/T/
 
-Contact  Mr Gary Edward +13182955380
+This version does not add the code for ethernet PHYs, instead it just
+tries to touch only the LED subsystem by adding the API for offloading
+LED triggers and an example implementation for Turris Omnia LED
+controller.
 
-Remittance Department southwestloanco59@gmail.com
+I will probably send another version this weekend. Sorry this takes
+this long.
+
+
+> I understand, that the generic approach is the one we want to have, but
+> does this really mean adding PHY led configuration via DT to existing
+> drivers (that already use DT properties for LED modes) is not accepted
+> anymore, even if the new API is not yet in place?
+
+I don't know about Rob, but I would be against it.
+
+But if you need to have your PHY LED configured with via devicetree
+ASAP, instead of proposing the vendor specific property, you can
+propose LED subnodes and properties that will be generic and compatible
+with the LED subsystem API, i.e. something like:
+
+  ethernet-phy@1 {
+    .... eth phy properties;
+
+    leds {
+      led@0 {
+        reg = <0>;
+        color = <LED_COLOR_ID_GREEN>;
+        /* this LED should indicate link/speed */
+        function = LED_FUNCTION_LINK; 
+      };
+    };
+  }
+
+Then make your PHY driver parse this, and make it so that if
+function is LED_FUNCTION_LINK or LED_FUNCTION_ACTIVITY, the driver will
+disable combined mode.
+
+Afterwards, when LED subsystem has support for trigger offloading, you
+can update mscc driver so that instead of just disabling combined mode,
+it will register the LEDs via LED subsystem...
+
+Marek
