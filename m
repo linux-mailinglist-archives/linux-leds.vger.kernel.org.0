@@ -2,100 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8062741ED70
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Oct 2021 14:29:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F40BD41ED99
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Oct 2021 14:36:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231356AbhJAMbK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 1 Oct 2021 08:31:10 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:42990 "EHLO vps0.lunn.ch"
+        id S1353760AbhJAMhv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 1 Oct 2021 08:37:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55388 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230162AbhJAMbK (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 1 Oct 2021 08:31:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=YmZHWM7bd2SH/9CTsa4b9Iv+r11wfWkL+jXp2O0WySU=; b=uViTAoNSqKihuM8ET+58X2CQSl
-        Y8MEqX49vcARfQfQzHgDsZpaFf+dJ1Auvn+7iSL/6V3QgH4rIidiNxURn3O/fZK5e5gO0EaJXLiCo
-        f/UB3uk5HRLB3KXLBialbD7ym38upcxD3saTfKMctrqgKZC4aIm9QCJzPRxECE6ZDIRQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1mWHfB-0095vl-AT; Fri, 01 Oct 2021 14:29:17 +0200
-Date:   Fri, 1 Oct 2021 14:29:17 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
+        id S231352AbhJAMhv (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 1 Oct 2021 08:37:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DED5A61A8B;
+        Fri,  1 Oct 2021 12:36:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633091767;
+        bh=4n6FROUAmxcbTg/roy1p496VFp3nU8QQo8Jp8WUJ5wI=;
+        h=Date:From:To:Cc:Subject:From;
+        b=eb8bfBHSSpETWEgA3oa8OPg39Wub9Pzm1NGQCLsK5bF/dPh+U1Rz0FFJ68RZzQEsj
+         h2+BdSP6ZlqxTxVS5Vp4qn80NYrjkyR1q6flWN1fm9XjT9mkRI33ydQthJf2J5bWDb
+         22Jdus8dmGGnRyU1s3Mr/V3cy97aX1xpYxqYz5HQFfEqhvMDkewWetsGGSYgtHknPu
+         DBLeJL4HiUztPdrD4sCe2ScUOyiYudxc3yZLOnfDKTooBNtoMTyrLB+Y6GYbw49xLd
+         jyKkoYdb20XhFhCb23K6cqcWonUocx9Uh9oAJodLDZ70SCNpsHaaeTdj9NsjTrdpjq
+         L+jreN3PPTXeA==
+Date:   Fri, 1 Oct 2021 14:36:01 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
         "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        netdev@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: devicename part of LEDs under ethernet MAC / PHY
-Message-ID: <YVb/HSLqcOM6drr1@lunn.ch>
-References: <20211001133057.5287f150@thinkpad>
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: lets settle the LED `function` property regarding the netdev
+ trigger
+Message-ID: <20211001143601.5f57eb1a@thinkpad>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211001133057.5287f150@thinkpad>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> - Andrew proposed that the numbering should start at non-zero number,
->   for example at 42, to prevent people from thinking that the numbers
->   are related to numbers in network interface names (ethN).
->   A system with interfaces
->     eth0
->     eth1
->   and LEDs
->     ethphy0:green:link
->     ethphy1:green:link
->   may make user think that the ethphy0 LED does correspond to eth0
->   interface, which is not necessarily true.
->   Instead if LEDs are
->     ethphy42:green:link
->     ethphy43:green:link 
->   the probability of confusing the user into relating them to network
->   interfaces by these numbers is lower.
-> 
-> Anyway, the issue with these naming is that it is not stable. Upgrading
-> the kernel, enabling drivers and so on can change these names between
-> reboots.
+Hello Pavel, Jacek, Rob and others,
 
-Sure, eth0 can become eth1, eth1 can become eth0. That is why we have
-udev rules, systemd interface names etc. Interface names have never
-been guaranteed to be stable. Also, you can have multiple interfaces
-named eth0, so long as they are in different network name spaces.
+I'd like to settle DT binding for the LED function property regarding
+the netdev LED trigger.
 
-> Also for LEDs on USB ethernet adapters, removing the USB and
-> plugging it again would change the name, although the device path does
-> not change if the adapter is re-plugged into the same port.
-> 
-> To finally settle this then, I would like to ask your opinion on
-> whether this naming of LEDs should be stable.
+Currently we have, in include/dt-bindings/leds/common.h, the following
+functions defined that could be interpreted as request to enable netdev
+trigger on given LEDs:
+  activity
+  lan
+  rx tx
+  wan
+  wlan
 
-No. They should be unstable like everything else.
+The "activity" function was originally meant to imply the CPU
+activity trigger, while "rx" and "tx" are AFAIK meant as UART indicators
+(tty LED trigger), see
+https://lore.kernel.org/linux-leds/20190609190803.14815-27-jacek.anaszewski@gmail.com/
 
-> Note that this names are visible to userspace as symlinks
-> /sys/class/leds directory. If they are unstable, it is not that big an
-> issue, because mostly these LEDs should be accessed via
-> /sys/class/net/<interface>/device/leds for eth MAC LEDs and via
-> /sys/class/net/<interface>/phydev/leds for eth PHY LEDs.
+The netdev trigger supports different settings:
+- indicate link
+- blink on rx, blink on tx, blink on both
 
-Yes, this also handles network name space nicely.
+The current scheme does not allow for implying these.
 
-> If we wanted to make these names stable, we would need to do something
-> like
->   ethphy-BUS-ID
-> for example
->   ethphy-usb3,2
->   ethmac-pci0,19,0
->   ethphy-mdio0,1
-> or
->   ethmac-DEVICE_PATH (with '/'s and ':'s replaced with ',' or something)
-> for example
->   ethphy-platform,soc,soc,internal-regs,f10f0000.usb3,usb3,3-0,1:0
+I therefore propose that when a LED has a network device handle in the
+trigger-sources property, the "rx", "tx" and "activity" functions
+should also imply netdev trigger (with the corresponding setting).
+A "link" function should be added, also implying netdev trigger.
 
-I guess Systemd can be extended to do this, maybe, rename the LEDs
-when it renames the interface? This is not really a kernel problem.
+What about if a LED is meant by the device vendor to indicate both link
+(on) and activity (blink)?
+The function property is currently a string. This could be changed to
+array of strings, and then we can have
+  function = "link", "activity";
+Since the function property is also used for composing LED classdev
+names, I think only the first member should be used for that.
 
-     Andrew
+This would allow for ethernet LEDs with names
+  ethphy-0:green:link
+  ethphy-0:yellow:activity
+to be controlled by netdev trigger in a specific setting without the
+need to set the trigger in /sys/class/leds.
+
+Opinions?
+
+Marek
