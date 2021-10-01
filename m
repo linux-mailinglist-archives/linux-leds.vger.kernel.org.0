@@ -2,153 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49C6741EB4B
-	for <lists+linux-leds@lfdr.de>; Fri,  1 Oct 2021 13:01:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D96641EBF2
+	for <lists+linux-leds@lfdr.de>; Fri,  1 Oct 2021 13:31:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353693AbhJALCq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 1 Oct 2021 07:02:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32914 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353710AbhJALCa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 1 Oct 2021 07:02:30 -0400
-X-Greylist: delayed 448 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 01 Oct 2021 04:00:40 PDT
-Received: from mail.fris.de (mail.fris.de [IPv6:2a01:4f8:c2c:390b::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CD57C06177B
-        for <linux-leds@vger.kernel.org>; Fri,  1 Oct 2021 04:00:39 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 363A0BFC32;
-        Fri,  1 Oct 2021 12:52:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=dkim;
-        t=1633085567; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-         content-transfer-encoding:in-reply-to:references;
-        bh=6pYBgI+8NKm6cyLCUDJZUxM0MC4KtCLVKARxH3IY6YI=;
-        b=M34EetMd2A5fYceHKi9nBMFj8eGcgra/MGvCQfMERj4Z5QnBX0dWDT389Qm7xjJ+Vmp9tM
-        znCbQlnNxfBuGI0x1pQlGe/3fhFEIOx9XuiOAwkepLrrQG6Sg/iaLfi8AFLExiFqiNJzwM
-        9Q7DoZcGcKo8cd2vjAsSlvdPcUO6EJz3KlxeenB7DBeSFdJz+0qDCyH/vY9UU/+x77Rvni
-        zgCNzrFe2zYnGB7PEysknu/M7lmdCJIx6lk63DgSwiq/P2NX2IpC+0Vms9DAMHKdz85j00
-        FA35Gdq532c7H4X7nJTjoyElqcSbDYNTHjqvO0Y+XIB5p4POk+dY/5VmVWabhQ==
-Message-ID: <25f24602-e3b4-197f-338b-167b67308f2c@fris.de>
-Date:   Fri, 1 Oct 2021 12:52:45 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.1
-Subject: Re: [PATCH 1/3] net: phy: mscc: Add possibilty to disable combined
- LED mode
-Content-Language: en-GB
-To:     =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        linux-leds@vger.kernel.org
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
+        id S230471AbhJALcp (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 1 Oct 2021 07:32:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34550 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230345AbhJALco (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 1 Oct 2021 07:32:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D430361A8B;
+        Fri,  1 Oct 2021 11:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633087860;
+        bh=UUfgjmNnIaOorGRnXAAQNArA0PVP/iZMbNdl/f8qZ1U=;
+        h=Date:From:To:Cc:Subject:From;
+        b=j0ixoeRiZyjLgnDCCU4qEp5S1hRrE5KipwyTE9UaOedn6JNzooA4SZ84I0Iy04WRd
+         8wpCW8vnIuodqxbpjlvnjMLT6DxTc3gpMy7YlyfIpaRkGbkKqiuMoaG0S9WWE0ypm6
+         Sj5nh4wupTP/kZrTzeen1dCznz0rJg5TuZUoplabaByqVeJBnMMQhpJ+do0VkMvmOJ
+         TRS2y57WaHpqa3rMRDuvV/CL5w+hhPlA3kxkdWS3batrWm0878Q2MvxQR+2C8JVmHC
+         zPAF8Lh6jvyXJMbmKXV91+T2+RMLiaE2JMNoHjyFsU9lcDvftub7s8gRUWqMnODn0e
+         EyydpvoFEwGQQ==
+Date:   Fri, 1 Oct 2021 13:30:57 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>, Andrew Lunn <andrew@lunn.ch>
+Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
         netdev@vger.kernel.org,
-        Bjarni Jonasson <bjarni.jonasson@microchip.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Steen Hegelund <steen.hegelund@microchip.com>
-References: <20210930125747.2511954-1-frieder@fris.de>
- <YVZQuIr2poOfWvcO@lunn.ch> <18de5e10-f41f-0790-89c8-3a70d48539be@kontron.de>
- <20211001120952.6be6bb36@thinkpad>
-From:   Frieder Schrempf <frieder@fris.de>
-In-Reply-To: <20211001120952.6be6bb36@thinkpad>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Subject: devicename part of LEDs under ethernet MAC / PHY
+Message-ID: <20211001133057.5287f150@thinkpad>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Marek,
+Hello Pavel, Andrew,
 
-On 01.10.21 12:09, Marek Behún wrote:
-> On Fri, 1 Oct 2021 11:20:36 +0200
-> Frieder Schrempf <frieder.schrempf@kontron.de> wrote:
-> 
->> On 01.10.21 02:05, Andrew Lunn wrote:
->>> On Thu, Sep 30, 2021 at 02:57:43PM +0200, Frieder Schrempf wrote:
->>>> From: Frieder Schrempf <frieder.schrempf@kontron.de>
->>>>
->>>> By default the LED modes offer to combine two indicators like speed/link
->>>> and activity in one LED. In order to use a LED only for the first of the
->>>> two modes, the combined feature needs to be disabled.
->>>>
->>>> In order to do this we introduce a boolean devicetree property
->>>> 'vsc8531,led-[N]-combine-disable' and wire it up to the matching
->>>> bits in the LED behavior register.
->>>
->>> Sorry, but no DT property. Each PHY has its own magic combination of
->>> DT properties, nothing shared, nothing common. This does not scale.
->>>
->>> Please look at the work being done to control PHY LEDs using the Linux
->>> LED infrastructure. That should give us one uniform interface for all
->>> PHY LEDs.
->>
->> +Cc: Marek
->>
->> I guess you are referring to this: [1]?
->>
->> If so, the last version I could find is a year old now. Is anyone still
->> working on this?
-> 
-> Yes, I am still working on this.
-> 
-> Anyway the last version is not one year old, the last version to add
-> this support is 4 months old:
-> https://lore.kernel.org/netdev/20210602144439.4d20b295@dellmb/T/
+previously we discussed devicename part of LEDs connected under
+ethernet MACs and/or ethrenet PHYs.
 
-Thanks for pointing out the latest patches. Good to know that you are 
-still working on this.
+I would like to finally settle this, but there is one more thing that
+may be problematic.
 
-> 
-> This version does not add the code for ethernet PHYs, instead it just
-> tries to touch only the LED subsystem by adding the API for offloading
-> LED triggers and an example implementation for Turris Omnia LED
-> controller.
-> 
-> I will probably send another version this weekend. Sorry this takes
-> this long.
+To remind the current proposal, discussed in previous e-mails:
 
-No worries, and thanks for the work!
+- for LEDs under an ethernet PHY, the devicename part of the LED should
+  be "ethphyN", with N an auto-incrementing number for each struct
+  phy_device
+- for LEDs under an ethernet MAC, it should be similar: "ethmacN"
 
-> 
-> 
->> I understand, that the generic approach is the one we want to have, but
->> does this really mean adding PHY led configuration via DT to existing
->> drivers (that already use DT properties for LED modes) is not accepted
->> anymore, even if the new API is not yet in place?
-> 
-> I don't know about Rob, but I would be against it.
-> 
-> But if you need to have your PHY LED configured with via devicetree
-> ASAP, instead of proposing the vendor specific property, you can
-> propose LED subnodes and properties that will be generic and compatible
-> with the LED subsystem API, i.e. something like:
-> 
->    ethernet-phy@1 {
->      .... eth phy properties;
-> 
->      leds {
->        led@0 {
->          reg = <0>;
->          color = <LED_COLOR_ID_GREEN>;
->          /* this LED should indicate link/speed */
->          function = LED_FUNCTION_LINK;
->        };
->      };
->    }
-> 
-> Then make your PHY driver parse this, and make it so that if
-> function is LED_FUNCTION_LINK or LED_FUNCTION_ACTIVITY, the driver will
-> disable combined mode.
-> 
-> Afterwards, when LED subsystem has support for trigger offloading, you
-> can update mscc driver so that instead of just disabling combined mode,
-> it will register the LEDs via LED subsystem...
+- the numbers in ethmac and ethphy are unrelated and cannot be related
 
-Good idea, but I'm not really in a hurry. Now knowing that work on the 
-trigger offloading is still active, I guess I will just wait a bit until 
-the dust has settled and maybe the bindings have been defined. Then I 
-can try to implement this in the PHY driver.
+- Andrew proposed that the numbering should start at non-zero number,
+  for example at 42, to prevent people from thinking that the numbers
+  are related to numbers in network interface names (ethN).
+  A system with interfaces
+    eth0
+    eth1
+  and LEDs
+    ethphy0:green:link
+    ethphy1:green:link
+  may make user think that the ethphy0 LED does correspond to eth0
+  interface, which is not necessarily true.
+  Instead if LEDs are
+    ethphy42:green:link
+    ethphy43:green:link 
+  the probability of confusing the user into relating them to network
+  interfaces by these numbers is lower.
 
-Thanks
-Frieder
+Anyway, the issue with these naming is that it is not stable. Upgrading
+the kernel, enabling drivers and so on can change these names between
+reboots. Also for LEDs on USB ethernet adapters, removing the USB and
+plugging it again would change the name, although the device path does
+not change if the adapter is re-plugged into the same port.
+
+To finally settle this then, I would like to ask your opinion on
+whether this naming of LEDs should be stable.
+
+Note that this names are visible to userspace as symlinks
+/sys/class/leds directory. If they are unstable, it is not that big an
+issue, because mostly these LEDs should be accessed via
+/sys/class/net/<interface>/device/leds for eth MAC LEDs and via
+/sys/class/net/<interface>/phydev/leds for eth PHY LEDs.
+
+If we wanted to make these names stable, we would need to do something
+like
+  ethphy-BUS-ID
+for example
+  ethphy-usb3,2
+  ethmac-pci0,19,0
+  ethphy-mdio0,1
+or
+  ethmac-DEVICE_PATH (with '/'s and ':'s replaced with ',' or something)
+for example
+  ethphy-platform,soc,soc,internal-regs,f10f0000.usb3,usb3,3-0,1:0
+
+The first scheme is nicer but would need some additional code for each
+bus.
+The second scheme is simpler to implement, but the naming is hideous -
+the whole point of devicename part of LEDs was (in my understanding) to
+be a nice name, like "mmc0".
+
+Marek
