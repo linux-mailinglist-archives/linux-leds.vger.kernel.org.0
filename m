@@ -2,83 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64F0B41FB41
-	for <lists+linux-leds@lfdr.de>; Sat,  2 Oct 2021 13:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BDB141FD58
+	for <lists+linux-leds@lfdr.de>; Sat,  2 Oct 2021 19:16:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232903AbhJBMAK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 2 Oct 2021 08:00:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59624 "EHLO
+        id S233595AbhJBRR6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 2 Oct 2021 13:17:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232910AbhJBMAJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 2 Oct 2021 08:00:09 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 354A2C061781
-        for <linux-leds@vger.kernel.org>; Sat,  2 Oct 2021 04:58:24 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id h129so14740083iof.1
-        for <linux-leds@vger.kernel.org>; Sat, 02 Oct 2021 04:58:24 -0700 (PDT)
+        with ESMTP id S233451AbhJBRR6 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 2 Oct 2021 13:17:58 -0400
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A87C0613EC
+        for <linux-leds@vger.kernel.org>; Sat,  2 Oct 2021 10:16:12 -0700 (PDT)
+Received: by mail-vs1-xe2f.google.com with SMTP id f18so14993496vsp.2
+        for <linux-leds@vger.kernel.org>; Sat, 02 Oct 2021 10:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=oMt26RfyXbR9pgfuLKRqyu6vPIO2a0Cpr7gu1XCFmmrvufA+KrwZfC9DBWMejYD8Hy
-         1fwsRuhw4jz8LdTQaU+momyqgY/PdCAU9o6wYltzPQ+cKgGq9zFeRmPTHWzc0m/uWFKX
-         IxjXwbdNyXQcNIahu2pHwZx1i/Rp8HsNEyUNaipWjk/UHDTD2bIUW+UmTPr9IUbMYHZ5
-         urDpr98pYz80z5qSIfW0O/0+m/WjSROniGxICZisT2HhyF65TuV1Uv3MrxCX7qLvrpyC
-         Ca1gnQTM2zHR30DRHHcCUmpRI0zawnot25I+kYw0BLkn/VvLWzkA2fSPDqG8FFrT3Pe2
-         3UZg==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=SaQJaLQJV1tXeTErb3iEo2Jt85n+Ln12ULE3k7m2zSU=;
+        b=EZhNkrQtXSbGgONzl8BWYD+Ro6k9tggfb6Jm7bTowuYXhVCVo4Qi/+eWbnP4LDvMfa
+         5aQwO+31UAi+kOCc/m5nEsWtZcfa/uIyHAVeGXhMB04oLArcxcp7yySAWKid8WYvZrpy
+         XqjuDILLV17bVftftXLn1bFUnAmcDKFPgOlpOIFrceAkUx833vsYi0IxCXGqgyb6N5lG
+         B1E+SOIdkbKxazOZdQs8sgZT+o9IwoCulOzVLLIBUwvFZ9v4AsQUqjRTN1sJh63rp2Pw
+         mVVnvmGqVNtrMH8uXS12kXHe6v3J+ZahyU2Zywe7n9TvGazRltLmcRAF3eAleKMch3O0
+         aLog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=RpwLtrUCuvCtrq/BNBLGl6YsMugJs6JuobxHn7Tr/Ft85qCIhxwiyfYhmGme1fyV8K
-         YgHXmhJ08PSl8F01sPjwHz4OQ0g6cHNrzmJ8zjGS3h0PKwpmjPmBH0wKrfeu5+YBILfj
-         f+swAmTIW2+tSZesVJGmLn/jyQcdjPulmPpVMDO7U1oe2nOyK4dSpykJvfBJTiXGTOUz
-         C/cPC+SJopzrsXlBcWwdKZ0uqRwt/eAuiFXZdmDruPpxgGUwsM/Joc+jAlXLvNZ4Cbme
-         5ioL+XoLLFEBVqe02qs51uFDM7DRZFlc2jvmiqM+GtuE5zkIKXIjFm6b+j7QEX/GWNSV
-         UNkQ==
-X-Gm-Message-State: AOAM533P4Hs0kSOl4Tux3+NW96YHCEIKQBe+a3FHshlwBtQvx4y/762r
-        l+bLufWbjjOtTvHWwilL2tEf7Ag3UViM4HrH3Cw=
-X-Google-Smtp-Source: ABdhPJyMKQWJqUB1jRF2jgBqbljrpjRrHsLsqUBpVxuJ10sdXHW0ClFeFomb1slWB5W6DD0TQJmx1Y9t7AXTq2eWIE4=
-X-Received: by 2002:a02:23c3:: with SMTP id u186mr2547706jau.34.1633175903391;
- Sat, 02 Oct 2021 04:58:23 -0700 (PDT)
+         :subject:to;
+        bh=SaQJaLQJV1tXeTErb3iEo2Jt85n+Ln12ULE3k7m2zSU=;
+        b=IAuGic7x8Kw+orFcu/Skb1B7n+GYwj74t88dgRYBLsXHOkApUNPgQiPCza19O31iEx
+         A+0CRUEtevItFu/HucsNGK1nAp22c4vNcWG7GODyPX4EB6syWm9aJrmZ56sHCkJSzfTV
+         fEhWkL7emujfauE/n6hxoTv1vg0U/jXcHr4/JOgbO+GdTFxLkH4GuslvknHOTF7ufjkr
+         WeiMjD1lpXvB/PDkmcK/oLheDwgBcrLC5k11Yp/RGBZVRQIj7fN2HFOzmdNOMDSwjWjS
+         WhyD8sO3LTBa3Pya00E5mRcexgx6ipxhsrinaPzP/euiZIHrtDkBNKEVejWFNtsDJaWu
+         W8Vg==
+X-Gm-Message-State: AOAM5329w2SkxkYRvPc1nfYERE1er7YH0BYTt0RGptU7qTtKsHKs6fkZ
+        iOurAgKQZQt7tMJqTSoP4L2k/2E5EU1bs5famS0=
+X-Google-Smtp-Source: ABdhPJyt6mNtfDBrJ+D/xNuhD7G9ISSHrmVku1e4QQFb25MQGS2opXXFc5MJt5XdhxeVNKL/ifcgKWCByPAejhVp8bM=
+X-Received: by 2002:a67:e004:: with SMTP id c4mr8946649vsl.40.1633194970712;
+ Sat, 02 Oct 2021 10:16:10 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4f:f90d:0:0:0:0:0 with HTTP; Sat, 2 Oct 2021 04:58:22 -0700 (PDT)
-Reply-To: unitednnation0@gmail.com
-From:   "U.n" <wadebaye33@gmail.com>
-Date:   Fri, 1 Oct 2021 23:58:22 -1200
-Message-ID: <CACE0T5Ud5DSmptCjW-S_Z-vi1KsOxz2PQZ4C2x1e6L84JxoNDQ@mail.gmail.com>
-Subject: Attention
-To:     unitednnation0@gmail.com
+Received: by 2002:a59:9ed2:0:b0:22c:741c:2932 with HTTP; Sat, 2 Oct 2021
+ 10:16:10 -0700 (PDT)
+Reply-To: mrschantelhermans@gmail.com
+From:   Mrs Chantel Hermans <mathewadeyinka20@gmail.com>
+Date:   Sat, 2 Oct 2021 10:16:10 -0700
+Message-ID: <CADwB1=UZpnXD8nO4gwjXhNtngKxqvzLrYKK56voNFzPAP1d6oQ@mail.gmail.com>
+Subject: ATTENTION
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
---=20
+-- 
+ATTENTION
 
 
-Attention Sir/Madam
-This is the United Nation (UN). We the United Nations (UN) Globally
-has approved (US$2.500,000)( two Million Five hundred thousand
-dollars) compensation as part of our responsibilities for humanitarian
-Aid for fighting against CoronaVirus and you are among the lucky ones.
+You have been compensated with the sum of 6.9 million dollars in this
+United Nation the payment will be issue into ATM Visa Card,
 
 
-This compensation is for the most affected countries, communities and
-families across the global. Your funds were deposited with Bank in USA
-to transfer your funds to you via Internet Banking. You have to send
-your full details as state below:with this email Address
-  ( unitednnation0@gmail.com )
-Your full names:
-Address:
-Telephone:
-Occupation:
+and send to you from the Santander Bank of Spain we need your
+Address,Passport and your whatsapp number.
 
 
-
-Yours Sincerely
-Mr. Ant=C3=B3nio Guterres
-United Nations (UN).
+THANKS
+Mrs Chantel Hermans
