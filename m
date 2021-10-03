@@ -2,71 +2,139 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BDB141FD58
-	for <lists+linux-leds@lfdr.de>; Sat,  2 Oct 2021 19:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76B7842037F
+	for <lists+linux-leds@lfdr.de>; Sun,  3 Oct 2021 20:56:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233595AbhJBRR6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 2 Oct 2021 13:17:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44956 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233451AbhJBRR6 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 2 Oct 2021 13:17:58 -0400
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A87C0613EC
-        for <linux-leds@vger.kernel.org>; Sat,  2 Oct 2021 10:16:12 -0700 (PDT)
-Received: by mail-vs1-xe2f.google.com with SMTP id f18so14993496vsp.2
-        for <linux-leds@vger.kernel.org>; Sat, 02 Oct 2021 10:16:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=SaQJaLQJV1tXeTErb3iEo2Jt85n+Ln12ULE3k7m2zSU=;
-        b=EZhNkrQtXSbGgONzl8BWYD+Ro6k9tggfb6Jm7bTowuYXhVCVo4Qi/+eWbnP4LDvMfa
-         5aQwO+31UAi+kOCc/m5nEsWtZcfa/uIyHAVeGXhMB04oLArcxcp7yySAWKid8WYvZrpy
-         XqjuDILLV17bVftftXLn1bFUnAmcDKFPgOlpOIFrceAkUx833vsYi0IxCXGqgyb6N5lG
-         B1E+SOIdkbKxazOZdQs8sgZT+o9IwoCulOzVLLIBUwvFZ9v4AsQUqjRTN1sJh63rp2Pw
-         mVVnvmGqVNtrMH8uXS12kXHe6v3J+ZahyU2Zywe7n9TvGazRltLmcRAF3eAleKMch3O0
-         aLog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=SaQJaLQJV1tXeTErb3iEo2Jt85n+Ln12ULE3k7m2zSU=;
-        b=IAuGic7x8Kw+orFcu/Skb1B7n+GYwj74t88dgRYBLsXHOkApUNPgQiPCza19O31iEx
-         A+0CRUEtevItFu/HucsNGK1nAp22c4vNcWG7GODyPX4EB6syWm9aJrmZ56sHCkJSzfTV
-         fEhWkL7emujfauE/n6hxoTv1vg0U/jXcHr4/JOgbO+GdTFxLkH4GuslvknHOTF7ufjkr
-         WeiMjD1lpXvB/PDkmcK/oLheDwgBcrLC5k11Yp/RGBZVRQIj7fN2HFOzmdNOMDSwjWjS
-         WhyD8sO3LTBa3Pya00E5mRcexgx6ipxhsrinaPzP/euiZIHrtDkBNKEVejWFNtsDJaWu
-         W8Vg==
-X-Gm-Message-State: AOAM5329w2SkxkYRvPc1nfYERE1er7YH0BYTt0RGptU7qTtKsHKs6fkZ
-        iOurAgKQZQt7tMJqTSoP4L2k/2E5EU1bs5famS0=
-X-Google-Smtp-Source: ABdhPJyt6mNtfDBrJ+D/xNuhD7G9ISSHrmVku1e4QQFb25MQGS2opXXFc5MJt5XdhxeVNKL/ifcgKWCByPAejhVp8bM=
-X-Received: by 2002:a67:e004:: with SMTP id c4mr8946649vsl.40.1633194970712;
- Sat, 02 Oct 2021 10:16:10 -0700 (PDT)
+        id S231312AbhJCS6S (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 3 Oct 2021 14:58:18 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:46368 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231239AbhJCS6R (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 3 Oct 2021 14:58:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+        In-Reply-To:References; bh=nWD2iY3wGzp1ITvaMwjDQ1EeA8ClBEIaE0kzTWhx2To=; b=qf
+        YO//2rH86hkBwOO73judt2e77GFbNoS0oAeC6pFHjAGVQhLq1TszTSl2gFjR1in7A8Njhh8kQOZQg
+        1xbMSZR99gOaTZ3xUWPRfJLAXeEAzJ2NIRlhrSMOLQ2V3sKJ3SM+sMvQgYbcnn0Uu+tVr6kPzhlJP
+        dz/HOtlN3pG/Buc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mX6et-009Q7z-9C; Sun, 03 Oct 2021 20:56:23 +0200
+Date:   Sun, 3 Oct 2021 20:56:23 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: lets settle the LED `function` property regarding the netdev
+ trigger
+Message-ID: <YVn815h7JBtVSfwZ@lunn.ch>
+References: <20211001143601.5f57eb1a@thinkpad>
 MIME-Version: 1.0
-Received: by 2002:a59:9ed2:0:b0:22c:741c:2932 with HTTP; Sat, 2 Oct 2021
- 10:16:10 -0700 (PDT)
-Reply-To: mrschantelhermans@gmail.com
-From:   Mrs Chantel Hermans <mathewadeyinka20@gmail.com>
-Date:   Sat, 2 Oct 2021 10:16:10 -0700
-Message-ID: <CADwB1=UZpnXD8nO4gwjXhNtngKxqvzLrYKK56voNFzPAP1d6oQ@mail.gmail.com>
-Subject: ATTENTION
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211001143601.5f57eb1a@thinkpad>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
--- 
-ATTENTION
+On Fri, Oct 01, 2021 at 02:36:01PM +0200, Marek Behún wrote:
+> Hello Pavel, Jacek, Rob and others,
+> 
+> I'd like to settle DT binding for the LED function property regarding
+> the netdev LED trigger.
+> 
+> Currently we have, in include/dt-bindings/leds/common.h, the following
+> functions defined that could be interpreted as request to enable netdev
+> trigger on given LEDs:
+>   activity
+>   lan
+>   rx tx
+>   wan
+>   wlan
+> 
+> The "activity" function was originally meant to imply the CPU
+> activity trigger, while "rx" and "tx" are AFAIK meant as UART indicators
+> (tty LED trigger), see
+> https://lore.kernel.org/linux-leds/20190609190803.14815-27-jacek.anaszewski@gmail.com/
+> 
+> The netdev trigger supports different settings:
+> - indicate link
+> - blink on rx, blink on tx, blink on both
+> 
+> The current scheme does not allow for implying these.
+> 
+> I therefore propose that when a LED has a network device handle in the
+> trigger-sources property, the "rx", "tx" and "activity" functions
+> should also imply netdev trigger (with the corresponding setting).
+> A "link" function should be added, also implying netdev trigger.
+> 
+> What about if a LED is meant by the device vendor to indicate both link
+> (on) and activity (blink)?
+> The function property is currently a string. This could be changed to
+> array of strings, and then we can have
+>   function = "link", "activity";
+> Since the function property is also used for composing LED classdev
+> names, I think only the first member should be used for that.
+> 
+> This would allow for ethernet LEDs with names
+>   ethphy-0:green:link
+>   ethphy-0:yellow:activity
+> to be controlled by netdev trigger in a specific setting without the
+> need to set the trigger in /sys/class/leds.
 
+Hi Marek
 
-You have been compensated with the sum of 6.9 million dollars in this
-United Nation the payment will be issue into ATM Visa Card,
+There is no real standardization here. Which means PHYs differ a lot
+in what they can do. We need to strike a balance between over
+simplifying and only supporting a very small set of PHY LED features,
+and allowing great flexibility and having each PHY implement its own
+specific features and having little in common.
 
+I think your current proposal is currently on the too simple side.
 
-and send to you from the Santander Bank of Spain we need your
-Address,Passport and your whatsapp number.
+One common feature is that there are multiple modes for indicating
+link, which take into account the link speed. Look at for example
+include/dt-bindings/net/microchip-lan78xx.h
 
+#define LAN78XX_LINK_ACTIVITY           0
+#define LAN78XX_LINK_1000_ACTIVITY      1
+#define LAN78XX_LINK_100_ACTIVITY       2
+#define LAN78XX_LINK_10_ACTIVITY        3
+#define LAN78XX_LINK_100_1000_ACTIVITY  4
+#define LAN78XX_LINK_10_1000_ACTIVITY   5
+#define LAN78XX_LINK_10_100_ACTIVITY    6
 
-THANKS
-Mrs Chantel Hermans
+And:
+
+intel-xway.c:#define  XWAY_MMD_LEDxL_BLINKS_LINK10	0x0010
+intel-xway.c:#define  XWAY_MMD_LEDxL_BLINKS_LINK100	0x0020
+intel-xway.c:#define  XWAY_MMD_LEDxL_BLINKS_LINK10X	0x0030
+intel-xway.c:#define  XWAY_MMD_LEDxL_BLINKS_LINK1000	0x0040
+intel-xway.c:#define  XWAY_MMD_LEDxL_BLINKS_LINK10_0	0x0050
+intel-xway.c:#define  XWAY_MMD_LEDxL_BLINKS_LINK100X	0x0060
+intel-xway.c:#define  XWAY_MMD_LEDxL_BLINKS_LINK10XX	0x0070
+
+Marvell PHYs have similar LINK modes which can either be one specific
+speed, or a combination of speeds.
+
+This is a common enough feature, and a frequently used feature, we
+need to support it. We also need to forward looking. We should not
+limit ourselves to 10/100/1G. We have 3 PHY drivers which support
+2.5G, 5G and 10G. 25G and 40G are standardized so are likely to come
+along at some point.
+
+One way we could support this is:
+
+function = "link100", "link1G", "activity";
+
+for LAN78XX_LINK_100_1000_ACTIVITY, etc.
+
+    Andrew
