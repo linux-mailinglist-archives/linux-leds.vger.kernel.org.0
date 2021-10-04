@@ -2,104 +2,238 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF3664203F7
-	for <lists+linux-leds@lfdr.de>; Sun,  3 Oct 2021 22:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36EFA4204EA
+	for <lists+linux-leds@lfdr.de>; Mon,  4 Oct 2021 04:26:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231506AbhJCUzb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 3 Oct 2021 16:55:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35630 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231389AbhJCUza (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 3 Oct 2021 16:55:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 869B861351;
-        Sun,  3 Oct 2021 20:53:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633294422;
-        bh=LVnGsdHgFry4gvPG4cX/v4LbZx//84vGhu9+mdAQeOw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=IAgx+8gJyb5LuLcgsNfPG+xZ3FsPs1DbzC09MK2+6cLN8q2VvQRAlek6m2rscKBx6
-         gyPJktkzDzTw1QnRrAZ35p1niNJeex/pUuHoJy3zrU5N9ScA/aSC1olJLpoZkW9nVA
-         kCoragpFTdlGR7vvW/fVLuEUSoaimMd9Hhs0UrQiKPW/s2Hco0p6A2Mj1pkv/vsNyN
-         BAMZuR8H43AMbA7iRZrG50nVcWdrYUOoAMD/cUyP5ZIynYfADF9H2VCY865D2sGSIe
-         d/3xeutrDn40QrA9jW5vQ17hmCBn9ll1Gzwy5lmw+1svhK4z23htme8FWuCmuy5K/h
-         lokKinLe0xGUA==
-Date:   Sun, 3 Oct 2021 22:53:38 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Pavel Machek <pavel@ucw.cz>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        netdev@vger.kernel.org,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: are device names part of sysfs ABI? (was Re: devicename part of
- LEDs under ethernet MAC / PHY)
-Message-ID: <20211003225338.76092ec3@thinkpad>
-In-Reply-To: <20211001144053.3952474a@thinkpad>
-References: <20211001133057.5287f150@thinkpad>
-        <YVb/HSLqcOM6drr1@lunn.ch>
-        <20211001144053.3952474a@thinkpad>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S232255AbhJDC1w (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 3 Oct 2021 22:27:52 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:55183 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232250AbhJDC1v (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 3 Oct 2021 22:27:51 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.west.internal (Postfix) with ESMTP id DB2372B01324;
+        Sun,  3 Oct 2021 22:26:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Sun, 03 Oct 2021 22:26:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm3; bh=P8qLSV2GqDj3YgUO4voN7NGbNN
+        WZHdeebQQ0qJmOTLc=; b=S2rmlSxkBEum+u5YcAVpfs381l/XKeGvPuzGuviRkP
+        fchYpYn3YnrRdJRW0qLXBIQLAWCMplSvw11O4sPRKDLq2B5Dhy2wYsregIWVDdIs
+        0QjHh2B/RpReomcWWxokMv0USMU7m3KqXZk/ffi2Qp0CGtH8gRP0yWfusrMvwy1T
+        t8io3BpFthgxyN8JyAMVlHrmacMO1Z4oQOs6c+7P1+WsB5ovXHemurDEfaQa48rb
+        NPN+9BAWeGJ238VzBl2DDG7O5dTFTd1F056Ba90vMCOv0j9JRgw5Ywdj83ac3ZTF
+        Fzz0u62izp8hWhCWWnAwaUPk4YzQkTqc42W7EbN2/ThQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=P8qLSV2GqDj3YgUO4
+        voN7NGbNNWZHdeebQQ0qJmOTLc=; b=oKOfFF3Ma/VCMkXqyr1IuroQ+g0C3tNkP
+        vBku8GUUv31ZuUEEDS8nQ6X1IsOAWfFt7JgP+bHrdjyHLs2NiMv9LYhP1Ap/kpQm
+        DBXdxWBh0IuKvrU2voyL3ceZTyoqRdvZSnf+I93h9pYcDyWmHWBhwOPVjmKxDFr2
+        hs2jVzF+Dok8pAgBUqwcqPNbFPRrNkfKFTnT2sotjN5lpyq5T+jnhEBa71saSVQg
+        oyg6wXTs2sXHM6X84/2/cRyjpSxGOzgD0NmW+jYE4NCKVuY9fgGDO66yhGOhCUSR
+        g1kkqZJ+LqEf/S9B5ty/+WW9TLcDGKuhmcig6mdid+NH/jxybgeuQ==
+X-ME-Sender: <xms:OmZaYdyhI8xKhMMhC54xv77p230TlRTdJpsTvEfV7SyJi_jlgZrfTQ>
+    <xme:OmZaYdSuXTUOtRAZXO0A799EVTviR0bVVB1JU1kTxLlYx4GHYakJi2StACvJiuSvx
+    8CoNrIaeG_LsP3u1A>
+X-ME-Received: <xmr:OmZaYXVAxt75JccfkpDneMN5BgLVagtHbcUhFGoXJvnVm6E5sPPlkFe8vFXVwCP3tegoerFKABdHRSRi2oTcXHxzWJJi4B7jtrwEwqa0UCd7tYd2XWwcKAaeT8e85j8q0IbBKA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeluddgheejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeegffdtvdevgfeljeduveefgfefffejhfdtudeiudejueehtdelgefgjeeu
+    ffduueenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
+    rghnugdrohhrgh
+X-ME-Proxy: <xmx:OmZaYfj7ER-PxuXqLw4TZC6-7Tq5f8lPiLmtIdDhYIUO0VbRtWUcoQ>
+    <xmx:OmZaYfDc7Pdsnr653yuNMc-ER0io54kRN0jOMdvqOjgKXXmzgQz18w>
+    <xmx:OmZaYYJOgKzrrOtDAjZiUNxG_plTpuHAQcvpJvxBn3Y5_CxbZApZKQ>
+    <xmx:OmZaYbsK_lC9qj3HN4CkuX5E5rKn_gCw34svr4iQEwOFFzdOcG_SGgs9v3s>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 3 Oct 2021 22:26:01 -0400 (EDT)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc:     Icenowy Zheng <icenowy@aosc.io>, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v2 1/2] dt-bindings: leds: Add Allwinner R329/D1 LED controller
+Date:   Sun,  3 Oct 2021 21:26:00 -0500
+Message-Id: <20211004022601.10653-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello Greg,
+The Allwinner R329 and D1 SoCs contain an LED controller designed to
+drive a series of RGB LED pixels. It supports PIO and DMA transfers, and
+has configurable timing and pixel format.
 
-could you give your opinion on this discussion?
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-Are device names (as returned by dev_name() function) also part of
-sysfs ABI? Should these names be stable across reboots / kernel
-upgrades?
+Changes from v1:
+ - Fixed typo leading to duplicate t1h-ns property
+ - Removed "items" layer in definition of dmas/dma-names
+ - Replaced uint32 type reference with maxItems in timing properties
 
-Marek
+ .../leds/allwinner,sun50i-r329-ledc.yaml      | 140 ++++++++++++++++++
+ 1 file changed, 140 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
 
-On Fri, 1 Oct 2021 14:40:53 +0200
-Marek Beh=C3=BAn <kabel@kernel.org> wrote:
+diff --git a/Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml b/Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
+new file mode 100644
+index 000000000000..d70cb2393a2e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
+@@ -0,0 +1,140 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/allwinner,sun50i-r329-ledc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Allwinner R329 LED Controller Bindings
++
++maintainers:
++  - Samuel Holland <samuel@sholland.org>
++
++description:
++  The LED controller found in Allwinner sunxi SoCs uses a one-wire serial
++  interface to drive up to 1024 RGB LEDs.
++
++properties:
++  compatible:
++    oneOf:
++      - const: allwinner,sun50i-r329-ledc
++      - items:
++          - enum:
++              - allwinner,sun20i-d1-ledc
++          - const: allwinner,sun50i-r329-ledc
++
++  reg:
++    maxItems: 1
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  clocks:
++    items:
++      - description: Bus clock
++      - description: Module clock
++
++  clock-names:
++    items:
++      - const: bus
++      - const: mod
++
++  resets:
++    maxItems: 1
++
++  dmas:
++    maxItems: 1
++    description: TX DMA channel
++
++  dma-names:
++    const: tx
++
++  interrupts:
++    maxItems: 1
++
++  vled-supply:
++    description: Regulator supplying power to external LEDs
++
++  format:
++    description: Pixel format (subpixel transmission order), default is "grb"
++    enum:
++      - "bgr"
++      - "brg"
++      - "gbr"
++      - "grb"
++      - "rbg"
++      - "rgb"
++
++  t0h-ns:
++    maxItems: 1
++    description: Length of high pulse when transmitting a "0" bit
++
++  t0l-ns:
++    maxItems: 1
++    description: Length of low pulse when transmitting a "0" bit
++
++  t1h-ns:
++    maxItems: 1
++    description: Length of high pulse when transmitting a "1" bit
++
++  t1l-ns:
++    maxItems: 1
++    description: Length of low pulse when transmitting a "1" bit
++
++  treset-ns:
++    maxItems: 1
++    description: Minimum delay between transmission frames
++
++patternProperties:
++  "^multi-led@[0-9a-f]+$":
++    type: object
++    $ref: leds-class-multicolor.yaml#
++    properties:
++      reg:
++        minimum: 0
++        maximum: 1023
++        description: Index of the LED in the series (must be contiguous)
++
++    required:
++      - reg
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - resets
++  - dmas
++  - dma-names
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/leds/common.h>
++
++    ledc: led-controller@2008000 {
++      compatible = "allwinner,sun20i-d1-ledc",
++                   "allwinner,sun50i-r329-ledc";
++      reg = <0x2008000 0x400>;
++      #address-cells = <1>;
++      #size-cells = <0>;
++      clocks = <&ccu 12>, <&ccu 34>;
++      clock-names = "bus", "mod";
++      resets = <&ccu 12>;
++      dmas = <&dma 42>;
++      dma-names = "tx";
++      interrupts = <36 IRQ_TYPE_LEVEL_HIGH>;
++
++      multi-led@0 {
++        reg = <0x0>;
++        color = <LED_COLOR_ID_RGB>;
++        function = LED_FUNCTION_INDICATOR;
++      };
++    };
++
++...
+-- 
+2.32.0
 
-> On Fri, 1 Oct 2021 14:29:17 +0200
-> Andrew Lunn <andrew@lunn.ch> wrote:
->=20
-> > > - Andrew proposed that the numbering should start at non-zero number,
-> > >   for example at 42, to prevent people from thinking that the numbers
-> > >   are related to numbers in network interface names (ethN).
-> > >   A system with interfaces
-> > >     eth0
-> > >     eth1
-> > >   and LEDs
-> > >     ethphy0:green:link
-> > >     ethphy1:green:link
-> > >   may make user think that the ethphy0 LED does correspond to eth0
-> > >   interface, which is not necessarily true.
-> > >   Instead if LEDs are
-> > >     ethphy42:green:link
-> > >     ethphy43:green:link=20
-> > >   the probability of confusing the user into relating them to network
-> > >   interfaces by these numbers is lower.
-> > >=20
-> > > Anyway, the issue with these naming is that it is not stable. Upgradi=
-ng
-> > > the kernel, enabling drivers and so on can change these names between
-> > > reboots.   =20
-> >=20
-> > Sure, eth0 can become eth1, eth1 can become eth0. That is why we have
-> > udev rules, systemd interface names etc. Interface names have never
-> > been guaranteed to be stable. Also, you can have multiple interfaces
-> > named eth0, so long as they are in different network name spaces.
-> >  =20
-> > > Also for LEDs on USB ethernet adapters, removing the USB and
-> > > plugging it again would change the name, although the device path does
-> > > not change if the adapter is re-plugged into the same port.
-> > >=20
-> > > To finally settle this then, I would like to ask your opinion on
-> > > whether this naming of LEDs should be stable.   =20
-> >=20
-> > No. They should be unstable like everything else. =20
->=20
-> LED classdev names are something different.
-> For etherent interfaces, the interface name is different from name of
-> the underlying struct device. But LED classdev names are also
-> corresponding struct device names, and thus part of sysfs ABI, which,
-> as far as I understand, should be stable.
