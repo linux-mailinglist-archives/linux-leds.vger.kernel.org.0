@@ -2,90 +2,73 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C75DC42152A
-	for <lists+linux-leds@lfdr.de>; Mon,  4 Oct 2021 19:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E8DF421A85
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Oct 2021 01:20:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234662AbhJDRaP (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 4 Oct 2021 13:30:15 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:47952 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234612AbhJDRaN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 4 Oct 2021 13:30:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=fBQQnjUYlNCeKO7JTfO5K7VB/ceVUGDzh7Do/3hwY1U=; b=UXjBkkLhygo6vRs86pDAFxoBnT
-        MWBRl5HHutT+Y0Xf0M+fXE6txx5VEoHBeLlB2kkxsh7bjLzuhwsrmmamOcNlJPftzsp4nteffr0hl
-        KcaoSa3Go05EBsopcZCPlgvWdNYtwkUz20SYpT8A/edEmYGb3BsK6eEV+E3B0TxzIEzE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1mXRlD-009ZrX-PL; Mon, 04 Oct 2021 19:28:19 +0200
-Date:   Mon, 4 Oct 2021 19:28:19 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        id S234035AbhJDXWr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 4 Oct 2021 19:22:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33290 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233517AbhJDXWq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 Oct 2021 19:22:46 -0400
+Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FE0FC061745;
+        Mon,  4 Oct 2021 16:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=udlZ2LI6YhWfdeiPC0VHFH087x2QjntE+6m4CSM8KV4=; b=R2wNux4aOX/kY83UreaAwXM6XE
+        WtSBFNQZn1H0JEl5983gEuL5qBdjBjhrSeqrqrfD1uV4zMq3dB2TaUYucFUyWToTtnTCu1DyMZw6A
+        +OvdMWdoumabwi+bQy8m6ksS4hiel1KIwTqgIceMvKmrXqUYWqbeBmybnqBsbgkv+XFBVgz5YiKVp
+        I35M/4sRYSYSOvLjg1ZqSmSQ2Jslg85aOucVFr+anO4b044Jtyjl0LYBqJVanmm8epylsD/dF6SJa
+        NORo+4q+YcamqHMy/Pgjz9zKIc5NUYkvHGzYp6hk+Lz/f8BhEhe79+5/mKMhuJ3escVvyTIrTURRH
+        2n6QtAKw==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mXXGS-008O6b-Jl; Mon, 04 Oct 2021 23:20:56 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: lets settle the LED `function` property regarding the netdev
- trigger
-Message-ID: <YVs5sxd/dEBwBShm@lunn.ch>
-References: <20211001143601.5f57eb1a@thinkpad>
- <YVn815h7JBtVSfwZ@lunn.ch>
- <20211003212654.30fa43f5@thinkpad>
- <YVsUodiPoiIESrEE@lunn.ch>
- <20211004170847.3f92ef48@thinkpad>
+        Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
+        linux-leds@vger.kernel.org
+Subject: [PATCH] leds: LP50XX should select REGMAP_I2C
+Date:   Mon,  4 Oct 2021 16:20:55 -0700
+Message-Id: <20211004232055.23452-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211004170847.3f92ef48@thinkpad>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> > There are two different ways this can be implemented. There can be two
-> > independent LEDs within the same package. So you can generate three
-> > colours. Or there can be two cross connected LEDs within the
-> > package. Apply +ve you get one colour, apply -ve you get a different
-> > colour. Since you cannot apply both -ve and +ve at the same time, you
-> > cannot get both colours at once.
-> > 
-> > If you have two independent LEDs, I would define two LEDs in DT.
-> 
-> No, we have multicolor LED API which is meant for exactly this
-> situation: a multicolor LED.
-> (I am talking about something like the KJ2518D-262 from
->  http://www.rego.com.tw/product_detail.php?prdt_id=258
->  which has Green/Orange on left and Yellow on right side.
->  The left Green/Orange LED has 3 pins, and so it can mix the colors into
->  yellow.)
+REGMAP_I2C is not a user visible kconfig symbol so driver configs
+should not "depend on" it. They should depend on I2C and then
+select REGMAP_I2C.
 
-But here you are talking about the LED, not the controller in the
-PHY. The controller might control it as two independent LEDs. It has
-no idea it can get a third colour by enabling two LEDs at the same
-time. Or maybe the controller does know it can combine colours.
+If this worked, it was only because some other driver had set/enabled
+REGMAP_I2C.
 
-So you need to know about both the controller and the LED. And the
-same controller can be used either way. Plus you need to think about
-the non DT case, when you have no idea about the LED connected to the
-controller.
+Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB LED driver")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Dan Murphy <dmurphy@ti.com>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: linux-leds@vger.kernel.org
+---
+ drivers/leds/Kconfig |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> I think the best solution here would be a subclass "enumcolor" (or
-> different name), where you can choose between several pre-defined colors.
-> In sysfs you could then do
->   echo 1 >brightness
->   echo green >color
->   echo yellow >color
-
-I'm not sure it is as simple as that. In the general case, you have no
-idea what the colours actually are. You only know the colours if you
-have DT and DT lists the colours. And you only know if LEDs are
-combined if you have DT. You need a basic sysfs API based on knowing
-the PHY can control X LEDs. You can then extend that API if you have
-additional information via DT, like colour and if LEDs are combined,
-that only LEDs numbered 2 and 3 are used, etc.
-
-	   Andrew
+--- lnx-515-rc4.orig/drivers/leds/Kconfig
++++ lnx-515-rc4/drivers/leds/Kconfig
+@@ -370,7 +370,8 @@ config LEDS_LP3952
+ 
+ config LEDS_LP50XX
+ 	tristate "LED Support for TI LP5036/30/24/18/12/09 LED driver chip"
+-	depends on LEDS_CLASS && REGMAP_I2C
++	depends on LEDS_CLASS && I2C
++	select REGMAP_I2C
+ 	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
+ 	help
+ 	  If you say yes here you get support for the Texas Instruments
