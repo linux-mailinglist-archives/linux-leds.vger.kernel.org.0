@@ -2,120 +2,86 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 932D84232F8
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Oct 2021 23:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D9BF42330D
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Oct 2021 23:52:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235088AbhJEVph (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Oct 2021 17:45:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55970 "EHLO mail.kernel.org"
+        id S233469AbhJEVy0 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Oct 2021 17:54:26 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:50874 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231167AbhJEVph (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 5 Oct 2021 17:45:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CA53B6115B;
-        Tue,  5 Oct 2021 21:43:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633470226;
-        bh=WSHqCxwflqcKiT4irCE8NVjFBqw/353tC8L3Y9Ud/TI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ScmUt3fswhW0wl194TQi6oZyg8Vnh1ZvtfHQ9IWUNX/pReP6oohtj8AgjDUSbtZEz
-         zVL/iYigoegiTcipiIhaJICnIckaUQZGL8vie8YySTZe+r+texQfzMQU5Hp+8xUH9I
-         Uu5t/397vlJONtqayAAqVrNpkes3cGbJuBTYiG8lTh5n0vuSFqVJdRvgxRVx+8JvVl
-         36Q1zw+SmY5BjYBQJOU2nOMzjOY/gpQ7T0Bo/vU3h2cWPv+D2I/BZHh9n2QGHEVEEz
-         LSYUCFNH3+oIg5AvyTFfaGZKb7Vnp9fg/YJh8Io6+P3W4hbaP2cq4rINjyxNijkKOi
-         yYcOO1wb3E9Tw==
-Date:   Tue, 5 Oct 2021 23:43:42 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        id S229974AbhJEVyY (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 5 Oct 2021 17:54:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=W4yT+b65bPv7vYT9mcTeeaiNF0+rs+97F+OpDRA+k/A=; b=dXUXB6dzavKbocZFMhwV2yslLq
+        NkSeyWUW3YN61BQRSA0hMc24LA2ulbDvqG4Oh8VmhUcePE8btegHq66oE0OjUiNAiBRd8MpGSe0Xh
+        dRC61innIrLKAE0bnjdNs3oyGil6U6oKrqLaqsfIOybmBqt2sLPj2TK/CyYQh9mFUW4k=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mXsMP-009kfY-HF; Tue, 05 Oct 2021 23:52:29 +0200
+Date:   Tue, 5 Oct 2021 23:52:29 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org
 Subject: Re: lets settle the LED `function` property regarding the netdev
  trigger
-Message-ID: <20211005234342.7334061b@thinkpad>
-In-Reply-To: <YVy9Ho47XeVON+lB@lunn.ch>
+Message-ID: <YVzJHZXjQ04T2hmk@lunn.ch>
 References: <20211001143601.5f57eb1a@thinkpad>
-        <YVn815h7JBtVSfwZ@lunn.ch>
-        <20211003212654.30fa43f5@thinkpad>
-        <YVsUodiPoiIESrEE@lunn.ch>
-        <20211004170847.3f92ef48@thinkpad>
-        <0b1bc2d7-6e62-5adb-5aed-48b99770d80d@gmail.com>
-        <20211005222657.7d1b2a19@thinkpad>
-        <YVy9Ho47XeVON+lB@lunn.ch>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <YVn815h7JBtVSfwZ@lunn.ch>
+ <20211003212654.30fa43f5@thinkpad>
+ <YVsUodiPoiIESrEE@lunn.ch>
+ <20211004170847.3f92ef48@thinkpad>
+ <YVs5sxd/dEBwBShm@lunn.ch>
+ <20211005223014.3891f041@thinkpad>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211005223014.3891f041@thinkpad>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, 5 Oct 2021 23:01:18 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
-
-> > In the discussed case (ethernet PHY LEDs) - it is sometimes possible to
-> > have multiple brightness levels per color channel. For example some
-> > Marvell PHYs allow to set 8 levels of brightness for Dual Mode LEDs.
-> > Dual Mode is what Marvell calls when the PHY allows to pair two
-> > LED pins to control one dual-color LED (green-red, for example) into
-> > one.
-> > 
-> > Moreover for this Dual Mode case they also allow for HW control of
-> > this dual LED, which, when enabled, does something like this, in HW:
-> >   1g link	green
-> >   100m link	yellow
-> >   10m link	red
-> >   no link	off
-> > 
-> > Note that actual colors depend on the LEDs themselves. The PHY
-> > documentation does not talk about the color, only about which pin is
-> > on/off. The thing is that if we want to somehow set this mode for the
-> > LED, it should be represented as one LED class device.
-> > 
-> > I want to extend the netdev trigger to support such configuration,
-> > so that when you have multicolor LED, you will be able to say which
-> > color should be set for which link mode.  
+> I really don't think we should be registering any LEDs in the PHY driver
+> if the driver does not know whether there are LEDs connected to the PHY.
 > 
-> This is getting into the exotic level i don't think we need to
-> support. How many PHYs have you seen that support something like this?
+> If this information is not available (via device-tree or some other
+> method, for example USB vendor/device table), then we can't register a
+> LED and let user control it.
+> 
+> What if the pin is used for something different on a board?
 
-This isn't about whether there are PHYs which support this in HW.
-The extension to netdev trigger will be able to do this in SW.
+There is some danger here. Some hardware misuse LED outputs for WoL
+interrupts. There is even m88e1318_set_wol() which sets up LED2 for
+WoL. So i will need to review the PHY drivers to look out for this,
+and maybe add some restrictions.
 
-For example the Turris Omnia has 12 RGB LEDs on the front panel, of
-which 6 are dedicated to ethernet ports (and there are no LEDs on
-ethernet ports themselves). It would make sense to be able to have
-netdev trigger (or it's extension) show link mode by color (for example
-green on 1g, yellow on 100g, orange on 10g).
+But i think we have little choice but to export all the LEDs a PHY
+supports. USB vendor/product, PCI vendor/product does not give us
+anything useful. How many OEMs take a lan78xx chip, created a USB
+dongle and shipped it using USB enumeration data:
+LAN78XX_USB_VENDOR_ID:LAN7800_USB_PRODUCT_ID. How many motherboards
+have a r8169 PCIe device using realteks PCI enumeration data? There is
+no useful source of information in devices like this. But what we do
+know is that the PHY can control X LED output pins, and we know what
+patterns it can blink those LED pins. So we export them, and let the
+user figure it out. This is the general case.
 
-Anyway when you have a green-yellow LED on an ethernet port wired in
-such a way than it can only be off, green or yellow, but not both green
-and yellow, I don't think we should register these as 2 LED class
-devices.
+If we have DT, or ACPI, or some other source, we can then refine this
+representation. If we have LED information, but a specific LED is
+missing from DT, don't export it. If the colour is available, use that
+in the name. If the default mode information is available, configure
+it that way, etc.
 
-> I suggest we start with simple independent LEDs. That gives enough to
-> support the majority of use cases people actually need. And is enough
-> to unblock people who i keep NACKing patches and tell them to wait for
-> this work to get merged.
+Now, it could be we don't start with this, we just export those that
+do have DT. But i will want to ensure that the API/ABI we define is
+generic enough to support this. We need to start somewhere, get some
+basic support merged, and then do incremental improvements.
 
-Of course, and I plan to do so. Those netdev trigger extensions and
-multi-color function definitions are for later :)
-
-We got side tracked in this discussion, sorry about that.
-
-In this thread I just wanted to settle the LED function property for
-LEDs indicating network ports.
-
-So would you, Andrew, agree with:
-- extending function property to be array of strings instead of only
-  one string, so that we can do
-    function = "link", "activity";
-- having separate functions for different link modes
-    function = "link1000", "link100";
-  or should this insted be in another property
-    function = "link";
-    link-modes = <1000 100>;
-  ?
-
-Marek
+	  Andrew
