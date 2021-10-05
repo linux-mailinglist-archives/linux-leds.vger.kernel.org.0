@@ -2,29 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD050423333
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Oct 2021 00:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2585423418
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Oct 2021 01:06:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236817AbhJEWIy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Oct 2021 18:08:54 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:50894 "EHLO vps0.lunn.ch"
+        id S236963AbhJEXIE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Oct 2021 19:08:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49308 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236816AbhJEWIx (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 5 Oct 2021 18:08:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=Lluhp1JzYl1MdgCun+Ng6rRe2JKMoYgDlOFY52JZHkI=; b=A9JRMZYv+g00Zd38Un+SBqSPMW
-        WRoUi7KZcYTflWhKIy9rp3/T+85FFyO2Q8hmcAU6pe8YXa7hP3Ot3lM4+Zcy515RTSJQZ2yaoY7Y8
-        tY2k/5Owv1IJbAtwbmdZzCV29K0VRoM6elseDsj54xkO1rRNJPiKHhw4Hvx0G6rAM8Z8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1mXsaQ-009kjn-UP; Wed, 06 Oct 2021 00:06:58 +0200
-Date:   Wed, 6 Oct 2021 00:06:58 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+        id S236898AbhJEXIC (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 5 Oct 2021 19:08:02 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 72965611C3;
+        Tue,  5 Oct 2021 23:06:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633475171;
+        bh=pImpjV3oik1V6m7jNP8D4xHxOdiqpF8Fz8EVHZ83rjM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=OBit6HWictHggCKxYMEgvW8AB6ltmiU6y09bgCzPzu/e9leUnlJ3Qjahs4rPWiNKW
+         gwNC1m9UOvXpXnuKgVhA9lIyDqBLTYT9zxtDmJu61whI9e6uAmzGeou2CpbF0C3Ow4
+         fPnFM9Z9PcJCDUys6+V4vr61HYpL5F2sX7bpgTNsIwEqdT9rSzAVIn8b6TE53XPznE
+         V1xGyF//jXrcOJT7PQoey7zcMjfT8aKaFCKsBWmCx1sRFqmwgBHAlFW8RdlceWooEl
+         Q+oAEHzOjDTYld9duW9sfjr856rKVtQRPd0j3qofYLg7a2rt567FZkcqMUJ8ZFwGFZ
+         zjtIie5kdPbfw==
+Date:   Wed, 6 Oct 2021 01:06:06 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Andrew Lunn <andrew@lunn.ch>
 Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
         "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
@@ -32,79 +33,117 @@ Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         devicetree@vger.kernel.org
 Subject: Re: lets settle the LED `function` property regarding the netdev
  trigger
-Message-ID: <YVzMghbt1+ZSILpQ@lunn.ch>
+Message-ID: <20211006010606.15d7370b@thinkpad>
+In-Reply-To: <YVzMghbt1+ZSILpQ@lunn.ch>
 References: <20211001143601.5f57eb1a@thinkpad>
- <YVn815h7JBtVSfwZ@lunn.ch>
- <20211003212654.30fa43f5@thinkpad>
- <YVsUodiPoiIESrEE@lunn.ch>
- <20211004170847.3f92ef48@thinkpad>
- <0b1bc2d7-6e62-5adb-5aed-48b99770d80d@gmail.com>
- <20211005222657.7d1b2a19@thinkpad>
- <YVy9Ho47XeVON+lB@lunn.ch>
- <20211005234342.7334061b@thinkpad>
+        <YVn815h7JBtVSfwZ@lunn.ch>
+        <20211003212654.30fa43f5@thinkpad>
+        <YVsUodiPoiIESrEE@lunn.ch>
+        <20211004170847.3f92ef48@thinkpad>
+        <0b1bc2d7-6e62-5adb-5aed-48b99770d80d@gmail.com>
+        <20211005222657.7d1b2a19@thinkpad>
+        <YVy9Ho47XeVON+lB@lunn.ch>
+        <20211005234342.7334061b@thinkpad>
+        <YVzMghbt1+ZSILpQ@lunn.ch>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211005234342.7334061b@thinkpad>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> > I suggest we start with simple independent LEDs. That gives enough to
-> > support the majority of use cases people actually need. And is enough
-> > to unblock people who i keep NACKing patches and tell them to wait for
-> > this work to get merged.
+On Wed, 6 Oct 2021 00:06:58 +0200
+Andrew Lunn <andrew@lunn.ch> wrote:
+
+> > > I suggest we start with simple independent LEDs. That gives enough to
+> > > support the majority of use cases people actually need. And is enough
+> > > to unblock people who i keep NACKing patches and tell them to wait for
+> > > this work to get merged.  
+> > 
+> > Of course, and I plan to do so. Those netdev trigger extensions and
+> > multi-color function definitions are for later :)  
 > 
-> Of course, and I plan to do so. Those netdev trigger extensions and
-> multi-color function definitions are for later :)
-
-Great.
- 
-> We got side tracked in this discussion, sorry about that.
+> Great.
+>  
+> > We got side tracked in this discussion, sorry about that.
+> > 
+> > In this thread I just wanted to settle the LED function property for
+> > LEDs indicating network ports.
+> > 
+> > So would you, Andrew, agree with:
+> > - extending function property to be array of strings instead of only
+> >   one string, so that we can do
+> >     function = "link", "activity";  
 > 
-> In this thread I just wanted to settle the LED function property for
-> LEDs indicating network ports.
+> I agree with having a list, and we use the combination. If the
+> combination is not possible by the hardware, then -EINVAL, or
+> -EOPNOTSUPP.
 > 
-> So would you, Andrew, agree with:
-> - extending function property to be array of strings instead of only
->   one string, so that we can do
->     function = "link", "activity";
+> > - having separate functions for different link modes
+> >     function = "link1000", "link100";  
+> 
+> I would suggest this, so you can use 
+> 
+> function = "link1000", "link100", "activity"
 
-I agree with having a list, and we use the combination. If the
-combination is not possible by the hardware, then -EINVAL, or
--EOPNOTSUPP.
+The problem here is that LED core uses function to compose LED name:
+  devicename:color:function
+Should we use the first function? Then this LED will be named:
+  ethphy42:green:link1000
+but it also indicates link100...
 
-> - having separate functions for different link modes
->     function = "link1000", "link100";
+> What could be interesting is how you do this in sysfs?  How do you
+> enumerate what the hardware can do? How do you select what you want?
 
-I would suggest this, so you can use 
+This is again sidetrack from the original discussion, which was only
+meant to discuss DT, but okay :)
 
-function = "link1000", "link100", "activity"
+> Do you need to do
+> 
+> echo "link1000 link100 activity" > /sys/class/net/eth0/phy/led/function
+> 
+> And we can have something like
+> 
+> cat /sys/class/net/eth0/phy/led/function
+> activity
+> link10 activity
+> link100 activity
+> link1000 activity
+> [link100 link1000 activity]
+> link10
+> link100
+> link1000
 
-What could be interesting is how you do this in sysfs?  How do you
-enumerate what the hardware can do? How do you select what you want?
+No, my current ideas about the netdev trigger extension are as follows
+(not yet complete):
 
-Do you need to do
+$ cd /sys/.../<LED>
+$ echo netdev >trigger	# To enable netdev trigger
+$ echo eth0 >device_name
+$ echo 1 >ext		# To enable extended netdev trigger.
+			# This will create directory modes if there is
+			# a PHY attached to the interface  
+$ ls modes/		
+1000baseT_Full 100BaseT_Full 100BaseT_Half 10BaseT_Full 10BaseT_Half
 
-echo "link1000 link100 activity" > /sys/class/net/eth0/phy/led/function
+$ cd modes/1000baseT_Full
+$ ls
+brightness link rx tx interval
 
-And we can have something like
+So basically if you enable the extended netdev trigger, you will get
+all the standard netdev settings for each PHY mode. (With a little
+change to support blinking on link.)
 
-cat /sys/class/net/eth0/phy/led/function
-activity
-link10 activity
-link100 activity
-link1000 activity
-[link100 link1000 activity]
-link10
-link100
-link1000
+With this you can set the LED:
+  ON when linked and speed=1000m or 100m, blink on activity
+or
+  blink with 50ms interval when speed=1000m
+  blink with 100ms interval when speed=100m
+  blink with 200ms interval when speed=10m
 
-each line being a combination the hardware supports, and the line in
-[] is the currently select function.
+(Note that these don't need to be supported by PHY. We are talking
+ about SW control. If the PHY supports some of these in HW, then the
+ trigger can be offloaded.)
 
-   Andrew
-
-
-
-
+Marek
