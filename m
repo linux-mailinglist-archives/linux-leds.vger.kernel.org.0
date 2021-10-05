@@ -2,73 +2,152 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E8DF421A85
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Oct 2021 01:20:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D322B42222F
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Oct 2021 11:22:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234035AbhJDXWr (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 4 Oct 2021 19:22:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33290 "EHLO
+        id S232478AbhJEJX4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Oct 2021 05:23:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233517AbhJDXWq (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 4 Oct 2021 19:22:46 -0400
-Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FE0FC061745;
-        Mon,  4 Oct 2021 16:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=udlZ2LI6YhWfdeiPC0VHFH087x2QjntE+6m4CSM8KV4=; b=R2wNux4aOX/kY83UreaAwXM6XE
-        WtSBFNQZn1H0JEl5983gEuL5qBdjBjhrSeqrqrfD1uV4zMq3dB2TaUYucFUyWToTtnTCu1DyMZw6A
-        +OvdMWdoumabwi+bQy8m6ksS4hiel1KIwTqgIceMvKmrXqUYWqbeBmybnqBsbgkv+XFBVgz5YiKVp
-        I35M/4sRYSYSOvLjg1ZqSmSQ2Jslg85aOucVFr+anO4b044Jtyjl0LYBqJVanmm8epylsD/dF6SJa
-        NORo+4q+YcamqHMy/Pgjz9zKIc5NUYkvHGzYp6hk+Lz/f8BhEhe79+5/mKMhuJ3escVvyTIrTURRH
-        2n6QtAKw==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mXXGS-008O6b-Jl; Mon, 04 Oct 2021 23:20:56 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org
-Subject: [PATCH] leds: LP50XX should select REGMAP_I2C
-Date:   Mon,  4 Oct 2021 16:20:55 -0700
-Message-Id: <20211004232055.23452-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S233372AbhJEJXy (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Oct 2021 05:23:54 -0400
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF16FC061745;
+        Tue,  5 Oct 2021 02:22:04 -0700 (PDT)
+Received: by mail-ot1-x331.google.com with SMTP id u20-20020a9d7214000000b0054e170300adso8073otj.13;
+        Tue, 05 Oct 2021 02:22:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=tWCZQD/n7Y/MgcB3b8Xhms8A/Xp3yZnIB33cQunaJpA=;
+        b=DMLjnX/74Mmwlgz+PWs9+YyvNesESpEOSL+UBtJ0nZCNA/+sRYXzUC4cz6+mQ7s2jM
+         3hZZRmijiO2DNDEyqWJ3DIpB7r76CI2puzWl3GsDSWwqmI1XeoM9ACCPmHxCOtW07uTP
+         Q2Yalt8sxWh1miz6aAZzGoKPilA9BY3s+utTWi6CrZ/VVsOGX6idB0qO653py/zPiV4E
+         utyqxxCFRTx15JcGNGES0NdhqX7rd1PfXiF3WpU3Piiq9rPLhIYEBaTmGFjn+j8G9t8Y
+         3FY1M8kmD6g26Ur95pbCft9lDW5cwG4EKjZwEciUstcmoQhW2yMfXimNj/mXVDgYi2SR
+         H7zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=tWCZQD/n7Y/MgcB3b8Xhms8A/Xp3yZnIB33cQunaJpA=;
+        b=l5yLvqzYbxmMCD4XwyF4GJOrWj+tNEFy8iqqoYOvMXLc2ocuzYChsvElw3kjPSmgQ3
+         wfI23oBMWCk19gv+nlky31AIrpzn4LHDFE2ZR/6Ej4tbOxn1+1/IpkUUwlne7qi5cXCc
+         TVQYYk7zB/nMnAxX2/ihytcW7j+w8wbPz1xto2DzxnBEA9U1YAf6HNccFKZRRpu7TjXQ
+         gmGHzRaLTbVKYyREUIEmOmWMMmlAh3d2vD2R0EwCN6fuLihUETDaJQKSHGpWUTxbtzp2
+         QrzvanWpFPTyo7Avr17MJ/MG2lL3Afn1b0qsaJ2Ea5wGF1RKnm/sLgITUPYpZs23zZ0Z
+         KcWg==
+X-Gm-Message-State: AOAM532xgaJylh2pnfDzCYcsUsoeqn9ChfDyJnRrazf49RaX5AzXrY4L
+        aB8Zz9uG8QQ1cNs1bHDUTzMiLtG3tI/XytSG8y4=
+X-Google-Smtp-Source: ABdhPJySkyUchFhBsS+LhyiT2FdEMBCSVCBcLM6/3/d6uMy6yPQXdSF507crN5NiDrG5e5EaH1qzyZ3n9T4+pCLI2SA=
+X-Received: by 2002:a9d:3e15:: with SMTP id a21mr13699450otd.60.1633425724166;
+ Tue, 05 Oct 2021 02:22:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210716081731.80118-1-gene.chen.richtek@gmail.com>
+In-Reply-To: <20210716081731.80118-1-gene.chen.richtek@gmail.com>
+From:   Gene Chen <gene.chen.richtek@gmail.com>
+Date:   Tue, 5 Oct 2021 17:21:55 +0800
+Message-ID: <CAE+NS34qtKgQYiCLQDupLK8L84SVS9EsztOpQFtS_CoOPzNwzQ@mail.gmail.com>
+Subject: Re: [PATCH v15 0/2] leds: mt6360: Add LED driver for MT6360
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
+        ChiYuan Huang <cy_huang@richtek.com>,
+        benjamin.chao@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-REGMAP_I2C is not a user visible kconfig symbol so driver configs
-should not "depend on" it. They should depend on I2C and then
-select REGMAP_I2C.
+Gene Chen <gene.chen.richtek@gmail.com> =E6=96=BC 2021=E5=B9=B47=E6=9C=8816=
+=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=884:33=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
+>
+> This patch series add MT6360 LED support contains driver and binding docu=
+ment
+>
+> Gene Chen (2)
+>  dt-bindings: leds: Add bindings for MT6360 LED
+>  leds: mt6360: Add LED driver for MT6360
+>
+>  Documentation/devicetree/bindings/leds/leds-mt6360.yaml |  159 ++
+>  drivers/leds/flash/Kconfig                              |   13
+>  drivers/leds/flash/Makefile                             |    1
+>  drivers/leds/flash/leds-mt6360.c                        |  910 +++++++++=
++++++++
+>  4 files changed, 1083 insertions(+)
+>
+> changelogs between v1 & v2
+>  - add led driver with mfd
+>
+> changelogs between v2 & v3
+>  - independent add led driver
+>  - add dt-binding document
+>  - refactor macros definition for easy to debug
+>  - parse device tree by fwnode
+>  - use devm*ext to register led class device
+>
+> changelogs between v3 & v4
+>  - fix binding document description
+>  - use GENMASK and add unit postfix to definition
+>  - isink register led class device
+>
+> changelogs between v4 & v5
+>  - change rgb isink to multicolor control
+>  - add binding reference to mfd yaml
+>
+> changelogs between v5 & v6
+>  - Use DT to decide RGB LED is multicolor device or indicator device only
+>
+> changelogs between v6 & v7
+>  - Add binding multicolor device sample code
+>  - Add flash ops mutex lock
+>  - Remove V4L2 init with indicator device
+>
+> changelogs between v7 & v8
+>  - Add mutex for led fault get ops
+>  - Fix flash and multicolor no-ops return 0
+>  - Add LED_FUNCTION_MOONLIGHT
+>
+> changelogs between v8 & v9
+>  - reuse api in flash and multicolor header
+>
+> changelogs between v9 & v10
+>  - add comment for reuse registration functions in flash and multicolor
+>
+> changelogs between v10 & v11
+>  - match dt-binding reg property comment to the functionality name
+>  - remove exist patch in linux-next
+>  - dicide multicolor channel by color definitiion
+>
+> changelogs between v11 & v12
+>  - Fix print size_t by %zu
+>  - Fix dt-binding name regular experssion
+>
+> changelogs between v12 & v13
+>  - Fix kbuild test rebot build error
+>
+> changelogs between v13 & v14
+>  - Move driver to flash folder
+>  - Remove LED FUNCTION MOONLIGHT
+>  - Keep 80 char per line
+>
+> changelogs between v14 & v15
+>  - Add ack in commit message
+>
 
-If this worked, it was only because some other driver had set/enabled
-REGMAP_I2C.
+Dear Reviewers,
 
-Fixes: 242b81170fb8 ("leds: lp50xx: Add the LP50XX family of the RGB LED driver")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: Dan Murphy <dmurphy@ti.com>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: linux-leds@vger.kernel.org
----
- drivers/leds/Kconfig |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Please let me know if any concern.
 
---- lnx-515-rc4.orig/drivers/leds/Kconfig
-+++ lnx-515-rc4/drivers/leds/Kconfig
-@@ -370,7 +370,8 @@ config LEDS_LP3952
- 
- config LEDS_LP50XX
- 	tristate "LED Support for TI LP5036/30/24/18/12/09 LED driver chip"
--	depends on LEDS_CLASS && REGMAP_I2C
-+	depends on LEDS_CLASS && I2C
-+	select REGMAP_I2C
- 	depends on LEDS_CLASS_MULTICOLOR || !LEDS_CLASS_MULTICOLOR
- 	help
- 	  If you say yes here you get support for the Texas Instruments
+Thanks.
