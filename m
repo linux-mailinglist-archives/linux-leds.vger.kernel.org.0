@@ -2,94 +2,102 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D158422657
-	for <lists+linux-leds@lfdr.de>; Tue,  5 Oct 2021 14:24:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B3AD4230D1
+	for <lists+linux-leds@lfdr.de>; Tue,  5 Oct 2021 21:33:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230500AbhJEM01 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Oct 2021 08:26:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44400 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233784AbhJEM0W (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 5 Oct 2021 08:26:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C3CB861425;
-        Tue,  5 Oct 2021 12:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633436671;
-        bh=PMEu3vu3IEOanN6r5ndzxe4q8fSyh9+dWvBFRR9BaU4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tXpWRCmizUMIdKoGi+34DQpQ8yjB8VZfZuGBYKwEsVJE95rErXQd16rtLbaK8T4tL
-         FMz3pnUPtz8MTPuOiojzK7LfrTdjUDhKSza7M2k2I9srzqT5+AJnm7vhLiFNqU9nMO
-         OxPnpGQkoaDqcr1FJXVlgQVINMf3yEBsH4zpf9ZSXebLbpNXSMHLqnv/UumJWC/gPu
-         yeFuVTA2iyfTHZ25he/VIvCeoTltppl/LmBHUbl5OCqDH4Otg7/yC2CNGtbYc9Ucrl
-         MIAmhlIPqeCeUBwrD13yzyS29FGn1vKlushOQ5+RVpC8ZlYAQZ4krIxEaC96hdzUNN
-         7rgt0rfSTp+dQ==
-Date:   Tue, 5 Oct 2021 14:24:28 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Ian Pilcher <arequipeno@gmail.com>, pavel@ucw.cz,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] docs: Add block device (blkdev) LED trigger
- documentation
-Message-ID: <20211005142428.6c6c83c8@dellmb>
-In-Reply-To: <YUgtqL4zUEV2YPnQ@infradead.org>
-References: <20210916202127.1216994-1-arequipeno@gmail.com>
-        <20210916202127.1216994-2-arequipeno@gmail.com>
-        <YUQzdyG+WWoiJ2I9@kroah.com>
-        <e09257e0-ce95-623c-3a04-cc033aa9fec2@gmail.com>
-        <YUWQSlXjIb58eCJZ@kroah.com>
-        <YUgtqL4zUEV2YPnQ@infradead.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S229684AbhJETe6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 5 Oct 2021 15:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229671AbhJETe5 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 5 Oct 2021 15:34:57 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BCB0C061749;
+        Tue,  5 Oct 2021 12:33:06 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id r19so349464lfe.10;
+        Tue, 05 Oct 2021 12:33:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Mnw929F+QI2LJCOMHvncA5yXLsxHMMtEgXZ8YjCURP0=;
+        b=LOkaoCOgIJr/xRS71R/aGAl16ufAufpmQ6LQa9PSMe1IkxPWbhUMT9y9KVDXPnlAlb
+         g8cm0s0TzWU7cp28BV8qCiKosF0KefkIHWSLiL/YRITiXRg4ueMabBFHLdtstcelVLoV
+         FfdUDXpDfSl2222FxMvvQdg3Tz84BHANry18dE/7fE+RTWh7BNFTnlAduXayKgmzL+/Q
+         h/qEIgr0iMl6h5WAuiH67Vj1Hqnr8mNGo+GBi62+EU+LMhRk+hpF8l0NsHRrHmIakOSo
+         WG1aRsWrdbdutuGftaTAyENWv4X6ZMn3EVcPU1IdyrZT8ClZOGUc/DF6vTVEbC+7F8AY
+         BswA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Mnw929F+QI2LJCOMHvncA5yXLsxHMMtEgXZ8YjCURP0=;
+        b=qsCo4X9xj5LlHxpnro53MsBQbbNvAaRMn26zRcxsYnHgt/2KXBkp7iDQ85XSrd2rcJ
+         SfA5ESMRxGK3q3Old27rwWZGrgdCirwNTYTbTeBZliowrTK4WPEdWHuqClfr8eG4g3Mm
+         h0aC/dhxhuk2E+p4oaHR4Na1vp4GCyOr0YceleA/Q30/DTjFnqTMSlO/ym0S+JvlVnjY
+         7IjeJa6i0YfSNvKgOYB6qy4DP913JOVsM9a+u0WCWyNvZnDyi9edfNdE+dSzmAFA+WHd
+         mi3gOklrXECY4slj41HTmAVRdlITQhoGuNc8SVzNPUf7AbVMWx2shWicT1sSYgT4o8IW
+         lakA==
+X-Gm-Message-State: AOAM530+CeqNCe18h2yIyeWLgm7ddSRcJFUGBZ59Bo7M0TvLPt+/ty4R
+        ykGst1fuuyjA8b+1wfF6Dd0=
+X-Google-Smtp-Source: ABdhPJw6jz+UwRuXxIZNsejqH598H90/HYL7Ur7sw+6Sq7kBCBP9Q3ncqHKUUiZEMVYXyLv2v5Cp+w==
+X-Received: by 2002:a19:c70b:: with SMTP id x11mr5373363lff.57.1633462384164;
+        Tue, 05 Oct 2021 12:33:04 -0700 (PDT)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id e30sm122581lfc.112.2021.10.05.12.33.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Oct 2021 12:33:03 -0700 (PDT)
+Subject: Re: [PATCH v15 0/2] leds: mt6360: Add LED driver for MT6360
+To:     Gene Chen <gene.chen.richtek@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Gene Chen <gene_chen@richtek.com>, Wilma.Wu@mediatek.com,
+        ChiYuan Huang <cy_huang@richtek.com>,
+        benjamin.chao@mediatek.com
+References: <20210716081731.80118-1-gene.chen.richtek@gmail.com>
+ <CAE+NS34qtKgQYiCLQDupLK8L84SVS9EsztOpQFtS_CoOPzNwzQ@mail.gmail.com>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <417ee2ca-daf3-3559-5ea5-7f08c655f16b@gmail.com>
+Date:   Tue, 5 Oct 2021 21:33:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAE+NS34qtKgQYiCLQDupLK8L84SVS9EsztOpQFtS_CoOPzNwzQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 20 Sep 2021 07:43:52 +0100
-Christoph Hellwig <hch@infradead.org> wrote:
+Pavel,
 
-> On Sat, Sep 18, 2021 at 09:07:54AM +0200, Greg KH wrote:
-> > > Honestly, I wasn't particularly enthusiastic about it in the first
-> > > place; it feels like something that should be done in user space.
-> > >  I wouldn't have included it if I didn't have to make a writable
-> > > copy of the buffer anyway, in order to trim a trailing newline.
-> > > 
-> > > I can certainly remove the re-check logic.  The end result will
-> > > be an API that is slightly less "user friendly" in return for
-> > > saving a bit of pointer arithmetic and a 5-byte memcpy().  
-> > 
-> > Just use the kernel block device name and that way you do not have
-> > to parse anything as it is unique and no paths are having to be
-> > followed.
-> > 
-> > That's the way that other LED apis are working, right?  
-> 
-> The "kernel block device name" is the a block device special path
-> that a normal VFS path lookup is done on.  This is the preferred block
-> device API used by everyone.  And yes, this includes resolving
-> symlinks. The only other API is by dev_t, but it is highly
-> discouraged and should really not grow any new users.
+On 10/5/21 11:21 AM, Gene Chen wrote:
+> Gene Chen <gene.chen.richtek@gmail.com> 於 2021年7月16日 週五 下午4:33寫道：
+>>
+>>
+>> This patch series add MT6360 LED support contains driver and binding document
+>>
+>> Gene Chen (2)
+>>   dt-bindings: leds: Add bindings for MT6360 LED
+>>   leds: mt6360: Add LED driver for MT6360
+>>
+>>   Documentation/devicetree/bindings/leds/leds-mt6360.yaml |  159 ++
+>>   drivers/leds/flash/Kconfig                              |   13
+>>   drivers/leds/flash/Makefile                             |    1
+>>   drivers/leds/flash/leds-mt6360.c                        |  910 ++++++++++++++++
+>>   4 files changed, 1083 insertions(+)
 
-Christoph,
+Do you see Gene's emails or maybe they land somehow in your spam folder?
+It's been four months since last version addressing your remarks.
 
-/sys/class/block lists block devices' kernel object names.
-I don't understand why can't blk API provide a function returns a block
-device given such name as seen in /sys/class/block directory.
-
-Can you elaborate on this?
-
-It seems really strange to me to not be able to do
-  cd /sys/class/leds/<LED>
-  echo blkdev >trigger
-  echo sda1 >block_device
-and instead having to do (as the last command)
-  echo /dev/sda1 >block_device
-
-And whas should we show when /dev/sda1 is paried to the trigger, and
-userspace reads the block_device sysfs file? Should we show the full
-path which was given when pairing, even if it may not be valid anymore?
-(Such as when the device file is removed from /dev.)
-
-Marek
+-- 
+Best regards,
+Jacek Anaszewski
