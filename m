@@ -2,148 +2,139 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2585423418
-	for <lists+linux-leds@lfdr.de>; Wed,  6 Oct 2021 01:06:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 420604236E2
+	for <lists+linux-leds@lfdr.de>; Wed,  6 Oct 2021 06:12:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236963AbhJEXIE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 5 Oct 2021 19:08:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49308 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236898AbhJEXIC (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 5 Oct 2021 19:08:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 72965611C3;
-        Tue,  5 Oct 2021 23:06:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633475171;
-        bh=pImpjV3oik1V6m7jNP8D4xHxOdiqpF8Fz8EVHZ83rjM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=OBit6HWictHggCKxYMEgvW8AB6ltmiU6y09bgCzPzu/e9leUnlJ3Qjahs4rPWiNKW
-         gwNC1m9UOvXpXnuKgVhA9lIyDqBLTYT9zxtDmJu61whI9e6uAmzGeou2CpbF0C3Ow4
-         fPnFM9Z9PcJCDUys6+V4vr61HYpL5F2sX7bpgTNsIwEqdT9rSzAVIn8b6TE53XPznE
-         V1xGyF//jXrcOJT7PQoey7zcMjfT8aKaFCKsBWmCx1sRFqmwgBHAlFW8RdlceWooEl
-         Q+oAEHzOjDTYld9duW9sfjr856rKVtQRPd0j3qofYLg7a2rt567FZkcqMUJ8ZFwGFZ
-         zjtIie5kdPbfw==
-Date:   Wed, 6 Oct 2021 01:06:06 +0200
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: lets settle the LED `function` property regarding the netdev
- trigger
-Message-ID: <20211006010606.15d7370b@thinkpad>
-In-Reply-To: <YVzMghbt1+ZSILpQ@lunn.ch>
-References: <20211001143601.5f57eb1a@thinkpad>
-        <YVn815h7JBtVSfwZ@lunn.ch>
-        <20211003212654.30fa43f5@thinkpad>
-        <YVsUodiPoiIESrEE@lunn.ch>
-        <20211004170847.3f92ef48@thinkpad>
-        <0b1bc2d7-6e62-5adb-5aed-48b99770d80d@gmail.com>
-        <20211005222657.7d1b2a19@thinkpad>
-        <YVy9Ho47XeVON+lB@lunn.ch>
-        <20211005234342.7334061b@thinkpad>
-        <YVzMghbt1+ZSILpQ@lunn.ch>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S230429AbhJFEOR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 6 Oct 2021 00:14:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36954 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230330AbhJFEON (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 6 Oct 2021 00:14:13 -0400
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0B4AC061753
+        for <linux-leds@vger.kernel.org>; Tue,  5 Oct 2021 21:12:21 -0700 (PDT)
+Received: by mail-ot1-x335.google.com with SMTP id j11-20020a9d190b000000b00546fac94456so1525306ota.6
+        for <linux-leds@vger.kernel.org>; Tue, 05 Oct 2021 21:12:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JeqQPQlkPMyybH7Ylv9LL4C+2+30wYTv9mWLfCOyW68=;
+        b=XEjeIZfNuBmJTMi6wtAtetYggf2aHs3GPhHg1KwJz1egGXL5njhCRw3DDPgbsH7cJv
+         OUWOA1oOvi2LLIVGnWT3wGH+TmJA95TyM0M6gC2kao6MWJu+bZzC5cnO84s06z3CI1AA
+         XVvMCCFyDHcpCO8U8QelLmZi7fD9CRI8OYcPo6qSRxfBbT/AxB2YjYAxUJ6hV57S0w7A
+         tv9MugLiCri9LD2ijJPmIfSvtHSZYv6q8bsMiyIMxl6jokP6DoYrt1m4hdtVohghtVTl
+         EEr+bbftzq4eN6V4Bov3juUBbxPCEkxk4V/sQTSbb+6ENfzMeMK65PcTxz1DE8SImzIX
+         +iKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JeqQPQlkPMyybH7Ylv9LL4C+2+30wYTv9mWLfCOyW68=;
+        b=0FFfREidn8lg1/lBcKJhKhPzohdP7hHANn2w/rbmFM0b8U03sAJl7UOgkYjAUyfsnj
+         mcT6+qjgp9W8IDnxL9vgP5VtCdJciieYdEbH41uPVH6B+HAhoTY6gmtrGTlCv+1dgVBB
+         JEstiYqc7qq8iUFCorXNbJJX49wFOLUw/pTuPcWAc9SUvowWn53iiliFz9v+bMoCoeLm
+         tm9aHYB4DL7IMa57jOWoYfsvElCTTbeCtIn8DENP/JZqI5gA9rTeRQ4ynfQ7p5e+r0b7
+         IoWkIDjduP0g7qbCPBdGw9VIW/yi2hHsNgpchV/RcfpjL2ILLyEjc7ExqU4WqfeIh3UZ
+         RyoA==
+X-Gm-Message-State: AOAM530upPUDNTZ+CUxou9yaqGBP/ImEjO7FV/QmjAFBvFT4sg6W3Eue
+        v/IKEkrMMDNl2Dop0RCOAbcAQA==
+X-Google-Smtp-Source: ABdhPJx/5egmLBcK43fNwucfO1oEx4RaFxVzQH0A8+50zHcH+LenRxckCdmVbnSpKpPJhWTVbKHZbA==
+X-Received: by 2002:a9d:12c8:: with SMTP id g66mr276609otg.7.1633493541062;
+        Tue, 05 Oct 2021 21:12:21 -0700 (PDT)
+Received: from yoga ([2600:1700:a0:3dc8:c84c:8eff:fe1e:256f])
+        by smtp.gmail.com with ESMTPSA id u12sm4009329otq.20.2021.10.05.21.12.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 21:12:20 -0700 (PDT)
+Date:   Tue, 5 Oct 2021 23:12:18 -0500
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Matthias Kaehlcke <mka@chromium.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe Kleine-K?nig <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Subject: Re: [PATCH v9 1/2] dt-bindings: leds: Add Qualcomm Light Pulse
+ Generator binding
+Message-ID: <YV0iIlTra++r9dL0@yoga>
+References: <20210623035039.772660-1-bjorn.andersson@linaro.org>
+ <YToluIBXlNJEFhcb@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YToluIBXlNJEFhcb@google.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 6 Oct 2021 00:06:58 +0200
-Andrew Lunn <andrew@lunn.ch> wrote:
+On Thu 09 Sep 10:18 CDT 2021, Matthias Kaehlcke wrote:
 
-> > > I suggest we start with simple independent LEDs. That gives enough to
-> > > support the majority of use cases people actually need. And is enough
-> > > to unblock people who i keep NACKing patches and tell them to wait for
-> > > this work to get merged.  
-> > 
-> > Of course, and I plan to do so. Those netdev trigger extensions and
-> > multi-color function definitions are for later :)  
+> On Tue, Jun 22, 2021 at 08:50:38PM -0700, Bjorn Andersson wrote:
+[..]
+> > +  - |
+> > +    #include <dt-bindings/leds/common.h>
+> > +
+> > +    lpg {
+> > +      compatible = "qcom,pmi8994-lpg";
+> > +
+> > +      #address-cells = <1>;
+> > +      #size-cells = <0>;
+> > +
+> > +      qcom,power-source = <1>;
+> > +
+> > +      multi-led {
+> > +        color = <LED_COLOR_ID_RGB>;
+> > +        function = LED_FUNCTION_STATUS;
+> > +
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        led@1 {
+> > +          reg = <1>;
+> > +          color = <LED_COLOR_ID_RED>;
+> > +        };
+> > +
+> > +        led@2 {
+> > +          reg = <2>;
+> > +          color = <LED_COLOR_ID_GREEN>;
+> > +        };
+> > +
+> > +        led@3 {
+> > +          reg = <3>;
+> > +          color = <LED_COLOR_ID_BLUE>;
+> > +        };
+> > +      };
+> > +    };
+> > +  - |
+> > +    lpg {
 > 
-> Great.
->  
-> > We got side tracked in this discussion, sorry about that.
-> > 
-> > In this thread I just wanted to settle the LED function property for
-> > LEDs indicating network ports.
-> > 
-> > So would you, Andrew, agree with:
-> > - extending function property to be array of strings instead of only
-> >   one string, so that we can do
-> >     function = "link", "activity";  
+> nit: should the node be named 'lpg-pwm'?
 > 
-> I agree with having a list, and we use the combination. If the
-> combination is not possible by the hardware, then -EINVAL, or
-> -EOPNOTSUPP.
+> IIUC a PMIC .dtsi could have both a 'lpg' and a 'lpg-pwm' node, even though
+> only one of them can be enabled at any time.
 > 
-> > - having separate functions for different link modes
-> >     function = "link1000", "link100";  
-> 
-> I would suggest this, so you can use 
-> 
-> function = "link1000", "link100", "activity"
 
-The problem here is that LED core uses function to compose LED name:
-  devicename:color:function
-Should we use the first function? Then this LED will be named:
-  ethphy42:green:link1000
-but it also indicates link100...
+No, there's only the one "LPG", with N channels. The lpg exposes a pwm
+chip and the child nodes may describe LEDs connected to the channels.
+So this example is the configuration where there's no LEDs attached.
 
-> What could be interesting is how you do this in sysfs?  How do you
-> enumerate what the hardware can do? How do you select what you want?
+The compatible is "pwm", because the PM8916 lacks the pattern and RGB
+blocks that makes up the LPG - and is hence named "PWM" in the datasheet
+instead. So perhaps the example should be generically named "pwm"
+instead.
 
-This is again sidetrack from the original discussion, which was only
-meant to discuss DT, but okay :)
+In all other PMICs I know of the hardware block is named "lpg".
 
-> Do you need to do
-> 
-> echo "link1000 link100 activity" > /sys/class/net/eth0/phy/led/function
-> 
-> And we can have something like
-> 
-> cat /sys/class/net/eth0/phy/led/function
-> activity
-> link10 activity
-> link100 activity
-> link1000 activity
-> [link100 link1000 activity]
-> link10
-> link100
-> link1000
+Regards,
+Bjorn
 
-No, my current ideas about the netdev trigger extension are as follows
-(not yet complete):
-
-$ cd /sys/.../<LED>
-$ echo netdev >trigger	# To enable netdev trigger
-$ echo eth0 >device_name
-$ echo 1 >ext		# To enable extended netdev trigger.
-			# This will create directory modes if there is
-			# a PHY attached to the interface  
-$ ls modes/		
-1000baseT_Full 100BaseT_Full 100BaseT_Half 10BaseT_Full 10BaseT_Half
-
-$ cd modes/1000baseT_Full
-$ ls
-brightness link rx tx interval
-
-So basically if you enable the extended netdev trigger, you will get
-all the standard netdev settings for each PHY mode. (With a little
-change to support blinking on link.)
-
-With this you can set the LED:
-  ON when linked and speed=1000m or 100m, blink on activity
-or
-  blink with 50ms interval when speed=1000m
-  blink with 100ms interval when speed=100m
-  blink with 200ms interval when speed=10m
-
-(Note that these don't need to be supported by PHY. We are talking
- about SW control. If the PHY supports some of these in HW, then the
- trigger can be offloaded.)
-
-Marek
+> > +      compatible = "qcom,pm8916-pwm";
+> > +      #pwm-cells = <2>;
+> > +    };
