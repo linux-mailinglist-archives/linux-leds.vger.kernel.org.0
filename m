@@ -2,80 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFA70428B7E
-	for <lists+linux-leds@lfdr.de>; Mon, 11 Oct 2021 12:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 679F0428F1B
+	for <lists+linux-leds@lfdr.de>; Mon, 11 Oct 2021 15:54:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236183AbhJKK61 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 11 Oct 2021 06:58:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51538 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236125AbhJKK6W (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 11 Oct 2021 06:58:22 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86835C0613E8
-        for <linux-leds@vger.kernel.org>; Mon, 11 Oct 2021 03:56:13 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id t2so54817903wrb.8
-        for <linux-leds@vger.kernel.org>; Mon, 11 Oct 2021 03:56:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=km/+rwE10MGCG3K0BNjxD+A2l394aMlSCDFqBEiDyrs45mObKwVEkOccUp5BPFftJU
-         5cB06txNzUPVxcrxQnkqMq9zaxAqQeR9eoa3+7DqnAg3rX7wMze/dloERdrhczopiGET
-         PvxtLks7kWCMKTs5Q8Mmq12LwUKUT5cPH1x1mszpEwl0kuXWAYNTl0kX4+cL3oWAj8+a
-         6an2wLimFEmscCT9jtQf7FGYav0q/UTa6GRCeFihab7mYp8KZTVzyAi9ONxHllw1wfay
-         OSS3CoE7RnQ2PFKTnc/5Yya8gHnSshWvMzermo1msudbBS7MTk09iY8fA6ci8A/KmFSk
-         +E4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=IDtP/g7t609Kr7l1ITBpimFNcegU+6eYPwl9RE4jc26h6AScIsBdSQCxv8SiuxyF37
-         nZXwcpuVLiBTcAAH3gbrdI4OBUGNtLhlgSXh0B+CDJUZaefCrNsrSzZx6CKKTUVzHsME
-         wFjtOfPn4MdqajmfRP+TiHvOmteVEUGNdFgfF7psicTE9ZUbdtoqKyvqS7667b07Mbif
-         um1fFc3Q5yxGw7/CHMxitUtBalQVJ/lE47Cv8RwsHcxD3qCtvZg6tjpTCRgjq4dgWMRi
-         xVAmN+v9mbUc1yqOERA7mixRsaZb0OOALo6OxoVy2+AW/9qq1kttJSBPljGaAoRh3oqE
-         EGYQ==
-X-Gm-Message-State: AOAM530wXRtZpp1eAPxM5Ge11TDRT9dxCkl9DcBYN8p6zLQ6ku5iWqET
-        pek9fsa72/gRcl0DuCbY4U4DkBhBiA0mQLGTdgfR7G5l18EuJg==
-X-Google-Smtp-Source: ABdhPJxWYMUVxuj7Tly9azrkWxEMXzTPZAklmoVIH4V2ykknMMiBN9imOFz2zTqxux/zk/7pzvFSRlX+C6mfjc7ADy4=
-X-Received: by 2002:adf:8b9a:: with SMTP id o26mr24377548wra.109.1633949760323;
- Mon, 11 Oct 2021 03:56:00 -0700 (PDT)
+        id S237974AbhJKNzE (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 11 Oct 2021 09:55:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39696 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237891AbhJKNxX (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 11 Oct 2021 09:53:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D830960F21;
+        Mon, 11 Oct 2021 13:51:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1633960278;
+        bh=wyS+FdSL05tcVAmQFHo07rVuRq0L3J5Plorok3M0swE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=wnbXYYHRONWrjclA8c5BG7m7aOFmPYT0gJBJzlp9T85FsczEP2ectgyInx2A3Ad92
+         LOV6pdcDAHnnoFddj/TBNYvB8YQ21HYIUO+cDt35NEyRI+6ft9R+vlic1Gn8rqjOQR
+         xyz68RnTYSHDgY7POI12FkFjRNasYTkZ67wUDiKA=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, linux-leds@vger.kernel.org,
+        =?UTF-8?q?Michal=20Vok=C3=A1=C4=8D?= <michal.vokac@ysoft.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: [PATCH 5.10 18/83] ARM: dts: imx6dl-yapp4: Fix lp5562 LED driver probe
+Date:   Mon, 11 Oct 2021 15:45:38 +0200
+Message-Id: <20211011134508.981609489@linuxfoundation.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211011134508.362906295@linuxfoundation.org>
+References: <20211011134508.362906295@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Received: by 2002:adf:dd8c:0:0:0:0:0 with HTTP; Mon, 11 Oct 2021 03:55:59
- -0700 (PDT)
-Reply-To: ramcharan9910@outlook.com
-From:   "Cr.David Ramcharan" <convy0101@gmail.com>
-Date:   Mon, 11 Oct 2021 03:55:59 -0700
-Message-ID: <CADDRs95718H=K3tUjphEHH_C96xYhoJw7jeCMpt_FfZZjhEXrA@mail.gmail.com>
-Subject: Thank You
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Please I am writing to notify you again on my intention to list your
-name as a beneficiary to the total sum of GBP6.350 million (Six
-million, Three hundred and fifty thousand British Pounds Sterlings) in
-the intent of the deceased (name now withheld since this is my second
-letter to you).
+From: Michal Vokáč <michal.vokac@ysoft.com>
 
-I contacted you because you bear the surname identity and therefore
-can present you as the beneficiary to inherit the account proceeds of
-the deceased since there is no written "WILL" or trace to the deceased
-family relatives. My aim is to present you to my Bank Authorities as
-the Next of Kin to our deceased client. I will guide you all through
-the Claim procedure by providing all relevant Information and guiding
-you in your decisions and response to the Bank Management. All the
-papers will be processed after your acceptance.
+commit 9b663b34c94a78f39fa2c7a8271b1f828b546e16 upstream.
 
-In your acceptance of this deal, I request that you kindly forward to
-me your letter of acceptance; your current telephone and fax numbers
-,age, occupational status and a forwarding address to enable me submit
-to the Bank Management the details as the Next of Kin to their
-deceased customer. Reply strictly through: ramcharancrdavid@gmail.com
+Since the LED multicolor framework support was added in commit
+92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
+LEDs on this platform stopped working.
 
-Yours faithfully,
-Cr.David Ramcharan
+Author of the framework attempted to accommodate this DT to the
+framework in commit b86d3d21cd4c ("ARM: dts: imx6dl-yapp4: Add reg property
+to the lp5562 channel node") but that is not sufficient. A color property
+is now required even if the multicolor framework is not used, otherwise
+the driver probe fails:
+
+  lp5562: probe of 1-0030 failed with error -22
+
+Add the color property to fix this.
+
+Fixes: 92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
+Cc: <stable@vger.kernel.org>
+Cc: linux-leds@vger.kernel.org
+Signed-off-by: Michal Vokáč <michal.vokac@ysoft.com>
+Acked-by: Pavel Machek <pavel@ucw.cz>
+Reviewed-by: Fabio Estevam <festevam@gmail.com>
+Signed-off-by: Shawn Guo <shawnguo@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ arch/arm/boot/dts/imx6dl-yapp4-common.dtsi |    5 +++++
+ 1 file changed, 5 insertions(+)
+
+--- a/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
++++ b/arch/arm/boot/dts/imx6dl-yapp4-common.dtsi
+@@ -5,6 +5,7 @@
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
+ #include <dt-bindings/input/input.h>
++#include <dt-bindings/leds/common.h>
+ #include <dt-bindings/pwm/pwm.h>
+ 
+ / {
+@@ -275,6 +276,7 @@
+ 			led-cur = /bits/ 8 <0x20>;
+ 			max-cur = /bits/ 8 <0x60>;
+ 			reg = <0>;
++			color = <LED_COLOR_ID_RED>;
+ 		};
+ 
+ 		chan@1 {
+@@ -282,6 +284,7 @@
+ 			led-cur = /bits/ 8 <0x20>;
+ 			max-cur = /bits/ 8 <0x60>;
+ 			reg = <1>;
++			color = <LED_COLOR_ID_GREEN>;
+ 		};
+ 
+ 		chan@2 {
+@@ -289,6 +292,7 @@
+ 			led-cur = /bits/ 8 <0x20>;
+ 			max-cur = /bits/ 8 <0x60>;
+ 			reg = <2>;
++			color = <LED_COLOR_ID_BLUE>;
+ 		};
+ 
+ 		chan@3 {
+@@ -296,6 +300,7 @@
+ 			led-cur = /bits/ 8 <0x0>;
+ 			max-cur = /bits/ 8 <0x0>;
+ 			reg = <3>;
++			color = <LED_COLOR_ID_WHITE>;
+ 		};
+ 	};
+ 
+
+
