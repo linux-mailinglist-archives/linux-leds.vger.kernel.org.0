@@ -2,119 +2,199 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9980B42A7EC
-	for <lists+linux-leds@lfdr.de>; Tue, 12 Oct 2021 17:08:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A5BA42AC12
+	for <lists+linux-leds@lfdr.de>; Tue, 12 Oct 2021 20:48:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232667AbhJLPKh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 12 Oct 2021 11:10:37 -0400
-Received: from mail-ua1-f52.google.com ([209.85.222.52]:34553 "EHLO
-        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbhJLPKh (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 12 Oct 2021 11:10:37 -0400
-Received: by mail-ua1-f52.google.com with SMTP id h4so19148134uaw.1;
-        Tue, 12 Oct 2021 08:08:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/XLXN3xuVJOPHw5HRsxgIv5QkrLOCu749y9xpxhKV0I=;
-        b=vhwsS8t3myfqtctpmEr/kYoGwR9fXtd4/EeW662Zm8QuRRx/KpifzFbmMPIU9Dqoga
-         8GJ4W6uE+cx3EGruvWA3gT1pII1ZJOiOmtFpaqBtZR/nLpCU5VMVzrQQkt088m1fsCzA
-         c2mNoPC6+vufjPZp1CkA6MFAPNKjDcPmCxVNYxg/E2/mqaYDysPI/d3BOXI/a6w4UFsp
-         oA4YJGHmTqSWt5TAPZ/c7Qx7gmgG33J8UOEXBXfackVxyO13Ihg/dMCVYmNBeVLsOwop
-         E8C0o1wXNYQC3QXNDDfXvOR/DEPpclMSgLICHzc2A/20BIt8I/HdmGwyjZ2Hxdr9ivKu
-         lzrQ==
-X-Gm-Message-State: AOAM5338ryK7zpD3fCwBT3pYf0o0Wi9V9z/2p2oksBFw1wON4ewCug/Q
-        HW3xVZI5UCGgusLznFBX5eWeNaSIGhxJOG7h0yw=
-X-Google-Smtp-Source: ABdhPJx2RXQoSzE3pVGjeyVKDiENolt+HF3oWRJaUKqTdpAr/yDbBfb7YrzLDlKtQtHEEvyxafjPhHIcAcktEVDfYpE=
-X-Received: by 2002:a67:cb0a:: with SMTP id b10mr31833215vsl.9.1634051314899;
- Tue, 12 Oct 2021 08:08:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210914143835.511051-1-geert@linux-m68k.org> <20210914143835.511051-20-geert@linux-m68k.org>
- <4602a8e681db4d0ebc43e4dafee8c28e@protonic.nl> <CAMuHMdVOa8DAGJQpJ8AotARxfh9PvpskJJa6k48jE92-P+GLRA@mail.gmail.com>
- <bc1632943ecbb7e244b87c285501f706@protonic.nl>
-In-Reply-To: <bc1632943ecbb7e244b87c285501f706@protonic.nl>
+        id S234276AbhJLShf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 12 Oct 2021 14:37:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60394 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234226AbhJLShf (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 12 Oct 2021 14:37:35 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F4115C061746
+        for <linux-leds@vger.kernel.org>; Tue, 12 Oct 2021 11:34:16 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:9c93:91ff:d58:ecfb])
+        by andre.telenet-ops.be with bizsmtp
+        id 56ZW2600f0KW32a016ZWBo; Tue, 12 Oct 2021 20:33:33 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1maMag-004RTk-HA; Tue, 12 Oct 2021 20:33:30 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1maMaf-002j54-Jt; Tue, 12 Oct 2021 20:33:29 +0200
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 12 Oct 2021 17:08:23 +0200
-Message-ID: <CAMuHMdUrSpvVKPmi3EXvyKnDrq48Z5jvRY-a1kEoGSt2kS8J_Q@mail.gmail.com>
-Subject: Re: [PATCH v6 19/19] auxdisplay: ht16k33: Add LED support
-To:     Robin van der Gracht <robin@protonic.nl>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Robin van der Gracht <robin@protonic.nl>,
+        Rob Herring <robh+dt@kernel.org>,
         Paul Burton <paulburton@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Pavel Machek <pavel@ucw.cz>, Marek Behun <marek.behun@nic.cz>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-leds <linux-leds@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH v7 00/21] auxdisplay: ht16k33: Add character display support
+Date:   Tue, 12 Oct 2021 20:33:06 +0200
+Message-Id: <20211012183327.649865-1-geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hoi Robin,
+	Hi Miguel et al,
 
-On Mon, Oct 4, 2021 at 10:26 AM Robin van der Gracht <robin@protonic.nl> wrote:
-> On 2021-10-01 17:51, Geert Uytterhoeven wrote:
-> > On Thu, Sep 30, 2021 at 12:57 PM Robin van der Gracht <robin@protonic.nl>
-> > wrote:
-> >> On 2021-09-14 16:38, Geert Uytterhoeven wrote:
-> >> > Instantiate a single LED based on the "led" subnode in DT.
-> >> > This allows the user to control display brightness and blinking (backed
-> >> > by hardware support) through the LED class API and triggers, and exposes
-> >> > the display color.  The LED will be named
-> >> > "auxdisplay:<color>:<function>".
-> >> >
-> >> > When running in dot-matrix mode and if no "led" subnode is found, the
-> >> > driver falls back to the traditional backlight mode, to preserve
-> >> > backwards compatibility.
-> >> >
-> >> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+The Holtek HT16K33 LED controller is not only used for driving
+dot-matrix displays, but also for driving segment displays.
+The current auxdisplay driver is limited to dot-matrix displays, which
+are exposed as a frame buffer device.
 
-> >> > +
-> >> > +     err = devm_led_classdev_register_ext(dev, led, &init_data);
-> >> > +     if (err)
-> >> > +             dev_err(dev, "Failed to register LED\n");
-> >>
-> >> You might want to call ht16k33_brightness_set(priv, brightness) here to get
-> >> a
-> >> know value into the display setup register (0x80).
-> >>
-> >> Right now if I enable hardware blinking and (soft)reboot my board it keeps
-> >> on
-> >> blinking even after a re-probe.
-> >
-> > I don't have that issue.
-> > Aha, ht16k33_seg_probe() calls ht16k33_brightness_set(), but
-> > ht16k33_fbdev_probe() doesn't.  The latter should do that, too,
-> > when not using backwards compatibility mode.
->
-> Ack. I have hardware which uses the ht16k33 in dot matrix mode and I tested
-> both the backlight and led setup. I ran into this with the fbdev + led setup.
->
-> I noticed ht16k33_bl_update_status() is called in ht16k33_fbdev_probe()
-> before the fbdev device is registered. Which is fine right now, but in theory
-> the fbdev blank state can influence the backlight setting (nitpick since
-> the fbdev device is unblanked by default).
->
-> The point: Maybe ht16k33_brightness_set() (or ht16k33_bl_update_status() for
-> backlight device) should be called in one central place (i.e at the end of
-> the
-> main probe function).
+This patch series extends the driver to 4-digit 7-segment and quad
+14-segment alphanumeric displays, allowing the user to display and
+scroll text messages.
 
-That would mean the main function need to know more about which mode
-is being used, so I think it's better to leave it to the individual display
-sub-drivers.
+List of patches:
+  - Patch 1 provides font data for displaying ASCII characters on
+    14-segment displays,
+  - Patch 2 updates the HT16K33 DT bindings for segment displays,
+  - Patches 3-5 contain a bug fix and small improvements for the
+    Imagination Technologies ASCII LCD Display driver,
+  - Patch 6 extracts the character line display core support from the
+    Imagination Technologies ASCII LCD Display driver, for reuse,
+  - Patches 7-8 contain cleanups and improvements for the character line
+    display core driver,
+  - Patches 9-17 contain a bug fixes, cleanups and improvements for the
+    HT16K33 driver, to prepare for segment display support,
+  - Patch 18 adds support for 7/14-segment displays to the HT16K33
+    driver,
+  - Patch 19 updates the HT16K33 DT bindings to document an LED subnode,
+  - Patch 20 adds segment display LED support to the HT16K33 driver,
+    to make use of hardware blinking, and to expose display color,
+  - Patch 21 converts the HT16K33 driver to use device properties.
+
+Changes compared to v6[1]:
+  - Add Acked-by, Reviewed-by,
+  - New patch "auxdisplay: ht16k33: Fix frame buffer device blanking",
+  - Add linux,default-trigger to example,
+  - Add missing call to ht16k33_brightness_set() in
+    ht16k33_fbdev_probe(), to make sure brightness and blinking are set
+    to a sane state,
+  - Integrate "auxdisplay: ht16k33: Make use of device properties" into
+    this series.
+
+Changes compared to v5[2]:
+  - Add Reviewed-by,
+  - Reorder operations in ht16k33_led_probe() to ease future conversion
+    to device properties.
+
+Changes compared to v4[3]:
+  - Add Reviewed-by,
+  - Add missing select NEW_LEDS.
+
+Changes compared to v3[4]:
+  - Combine compatible values for 7/14 segment displays into an enum,
+  - Add Reviewed-by,
+  - Add missing select LEDS_CLASS.
+
+Changes compared to v2[5]:
+  - Drop color property from display node,
+  - Use compat_only_sysfs_link_entry_to_kobj() instead of cooking our
+    own helper on top of kernfs_create_link(),
+  - Use "err" instead of "error" to be consistent with existing driver
+    naming style,
+  - Pass "dev" instead of "client" to ht16k33_fbdev_probe() and
+    ht16k33_seg_probe(),
+  - Drop local variable "node",
+  - Remove unneeded inclusion of <linux/leds.h> and <linux/of_device.h>,
+  - Document LED subnode,
+  - Remove unneeded C++ comment,
+  - Make the creation of the LED device dependent on the presence of the
+    "led" subnode in DT, so it can be used in dot-matrix mode too.
+  - Use led_init_data() and devm_led_classdev_register_ext() to retrieve
+    all LED properties from DT, instead of manual LED name construction
+    based on just the "color" property.
+
+Changes compared to v1[6]:
+  - Fix type of color to uint32,
+  - "refresh-rate-hz" is still required for dot-matrix displays.
+  - Move "select LINEDISP" for HT16K33 symbol to correct patch,
+  - Add backwards compatibility "message" symlink to img-ascii-lcd,
+  - Connect backlight to fbdev in ht16k33 dot-matrix mode,
+  - Set "err = -EINVAL" in switch() case that cannot happen,
+  - Use "auxdisplay" instead of DRIVER_NAME in LED name.
+
+This series has been tested using an Adafruit 0.54" Quad Alphanumeric
+Red FeatherWing Display, connected to an OrangeCrab ECP5 FPGA board
+running a 64 MHz VexRiscv RISC-V softcore.
+7-segment display support is based purely on schematics, and has not
+been tested on actual hardware.  The changes to img-ascii-lcd.c are also
+untested, due to lack of hardware.
+
+Thanks for applying!
+
+[1] "[PATCH v6 00/19] auxdisplay: ht16k33: Add character display support"
+    https://lore.kernel.org/r/20210914143835.511051-1-geert@linux-m68k.org/
+[2] "[PATCH v5 00/19] auxdisplay: ht16k33: Add character display support"
+    https://lore.kernel.org/r/20210811095759.1281480-1-geert@linux-m68k.org
+[2] "[PATCH v4 00/19] auxdisplay: ht16k33: Add character display support"
+    https://lore.kernel.org/r/20210727140459.3767788-1-geert@linux-m68k.org/
+[3] "[PATCH v3 00/19] auxdisplay: ht16k33: Add character display support"
+    https://lore.kernel.org/r/20210714151130.2531831-1-geert@linux-m68k.org/
+[4] "[PATCH v2 00/18] auxdisplay: ht16k33: Add character display support"
+    https://lore.kernel.org/r/20210625125902.1162428-1-geert@linux-m68k.org/
+[5] "[PATCH 00/17] auxdisplay: ht16k33: Add character display support"
+    https://lore.kernel.org/r/20210322144848.1065067-1-geert@linux-m68k.org/
+
+Geert Uytterhoeven (21):
+  uapi: Add <linux/map_to_14segment.h>
+  dt-bindings: auxdisplay: ht16k33: Document Adafruit segment displays
+  auxdisplay: img-ascii-lcd: Fix lock-up when displaying empty string
+  auxdisplay: img-ascii-lcd: Add helper variable dev
+  auxdisplay: img-ascii-lcd: Convert device attribute to sysfs_emit()
+  auxdisplay: Extract character line display core support
+  auxdisplay: linedisp: Use kmemdup_nul() helper
+  auxdisplay: linedisp: Add support for changing scroll rate
+  auxdisplay: ht16k33: Connect backlight to fbdev
+  auxdisplay: ht16k33: Fix frame buffer device blanking
+  auxdisplay: ht16k33: Use HT16K33_FB_SIZE in ht16k33_initialize()
+  auxdisplay: ht16k33: Remove unneeded error check in keypad probe()
+  auxdisplay: ht16k33: Convert to simple i2c probe function
+  auxdisplay: ht16k33: Add helper variable dev
+  auxdisplay: ht16k33: Move delayed work
+  auxdisplay: ht16k33: Extract ht16k33_brightness_set()
+  auxdisplay: ht16k33: Extract frame buffer probing
+  auxdisplay: ht16k33: Add support for segment displays
+  dt-bindings: auxdisplay: ht16k33: Document LED subnode
+  auxdisplay: ht16k33: Add LED support
+  auxdisplay: ht16k33: Make use of device properties
+
+ .../bindings/auxdisplay/holtek,ht16k33.yaml   |  32 +-
+ drivers/auxdisplay/Kconfig                    |  12 +-
+ drivers/auxdisplay/Makefile                   |   1 +
+ drivers/auxdisplay/ht16k33.c                  | 500 ++++++++++++++----
+ drivers/auxdisplay/img-ascii-lcd.c            | 205 ++-----
+ drivers/auxdisplay/line-display.c             | 261 +++++++++
+ drivers/auxdisplay/line-display.h             |  43 ++
+ include/uapi/linux/map_to_14segment.h         | 239 +++++++++
+ 8 files changed, 1017 insertions(+), 276 deletions(-)
+ create mode 100644 drivers/auxdisplay/line-display.c
+ create mode 100644 drivers/auxdisplay/line-display.h
+ create mode 100644 include/uapi/linux/map_to_14segment.h
+
+-- 
+2.25.1
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
