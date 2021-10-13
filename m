@@ -2,44 +2,43 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A800142BB26
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Oct 2021 11:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E143D42BBC4
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Oct 2021 11:37:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234702AbhJMJKv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 13 Oct 2021 05:10:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59990 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233922AbhJMJKu (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 13 Oct 2021 05:10:50 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA365C061570
-        for <linux-leds@vger.kernel.org>; Wed, 13 Oct 2021 02:08:47 -0700 (PDT)
-Date:   Wed, 13 Oct 2021 11:08:45 +0200
+        id S237064AbhJMJjZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 13 Oct 2021 05:39:25 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:33636 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238229AbhJMJjY (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 13 Oct 2021 05:39:24 -0400
+Date:   Wed, 13 Oct 2021 11:37:19 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1634116126;
+        s=2020; t=1634117840;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ShTorPJrw0PjHlriodv1a+TSPJx9P0NEEJdp7eAgWzA=;
-        b=N8ciaCgIKTK60o50O5tuRl91tXRSO6AytFMwE4hOF4wJWsbkhao0HWSVLS9IqAaoy8kwa7
-        JOQnlYDQlsAH9NylfxHvIIkrSY8mpH+U0nlEIgxrTKpb9qHHT70vZxLYVrXPKWCKlbVndb
-        z/Yu7AdCxdHbbSum/eZJbxVEf9zbf8JpSkM8nfBR2EQ8qr9UEpDqDFmQTT/UXaT+4qr+2v
-        5mcXDsZYUvJGGGG4m44vR36HSzUz+aFDAE3BqKc3vor7tB3/xuPwjOMpoUKzZ53a/T6nPV
-        N1O0MqfH8MGCURQPtVDNdnm9ABRy8LdWQ+Ic+AhlGWHE5ciNYRczpG24ub6lrQ==
+        bh=c6t1294zW40uTsgxhF7VflF36oGN1GJDjpJ6UZNbMv8=;
+        b=k2cB4NifrEAxdkAvWlikOkg/0PYbHrdGigI6YSwC/M9BYdUKxC3pURtJ156FIx/UNJD0di
+        pKfdK414dtMw659ycLGXRuQ5mshBMFKV46vEChCCEtDfwSM4e79yQdVdNjnEScMdY7QZAC
+        WAphHINskHwJlU2quUGyZeUMyvHo62WWc06fqX/iDs/4rfEmsxknkPBs4wMu6l/ZlnYODj
+        P7IZ7R8C4NQhrbDZghfVHrnvpvLkcQ374Gy6f3cu4K9eLf/x0nG2uY+AGZli7a0RrAg7bX
+        IYQbG8yLPDMPDK/zw1k/gu3HfycEw/HIfA0fXu345SRgrgLCUxsoeX1ED0W4SA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1634116126;
+        s=2020e; t=1634117840;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ShTorPJrw0PjHlriodv1a+TSPJx9P0NEEJdp7eAgWzA=;
-        b=HPqx/wxtk2bM0j3AS6yLFgbw7f0mM9gnfJM9c9fzlkG7yP8hZFDk2ncSediuFWwxPsWenV
-        bvZAgjs9M4475IAQ==
+        bh=c6t1294zW40uTsgxhF7VflF36oGN1GJDjpJ6UZNbMv8=;
+        b=IX07gSlIFEOW8Pmrb1EjaLXwrZUQXJtNGFIP+vJXV54hQ5vRSu3po38vWsjkgrRsy1czN3
+        pGMwJtDM1ObAgMDw==
 From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To:     Pavel Machek <pavel@ucw.cz>
 Cc:     Thomas Gleixner <tglx@linutronix.de>, johannes.berg@intel.com,
         linux-leds@vger.kernel.org
-Subject: Re: [PATCH] leds: trigger: Disable CPU trigger on PREEMPT_RT
-Message-ID: <20211013090845.bpfjjfi42wxu6hji@linutronix.de>
+Subject: [PATCH v2] leds: trigger: Disable CPU trigger on PREEMPT_RT
+Message-ID: <20211013093719.tur5427notjy6rbq@linutronix.de>
 References: <20210924111501.m57cwwn7ahiyxxdd@linutronix.de>
  <20210927142345.GB18276@duo.ucw.cz>
  <87wnn2av6h.ffs@tglx>
@@ -53,19 +52,37 @@ References: <20210924111501.m57cwwn7ahiyxxdd@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 In-Reply-To: <20211013084237.GA13150@amd>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 2021-10-13 10:42:37 [+0200], Pavel Machek wrote:
-Hi,
+The CPU trigger is invoked on ARM from CPU-idle. That trigger later
+invokes led_trigger_event() which may invoke the callback of the actual dri=
+ver.
+That driver can acquire a spinlock_t which is okay on kernel without
+PREEMPT_RT. On a PREEMPT_RT enabled kernel this lock is turned into a
+sleeping lock and must not be acquired with disabled interrupts.
 
-> The read lock is gone in linux-next now (it was problematic for other
-> reasons and it was not the main problem).
+Disable the CPU trigger on PREEMPT_RT.
 
-Okay, thanks for the update.
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Link: https://lkml.kernel.org/r/20210924111501.m57cwwn7ahiyxxdd@linutronix.=
+de
+---
+v1=E2=80=A6v2: Reword commit message now that read lock has been removed.
 
-> 								Pavel
+ drivers/leds/trigger/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
 
-Sebastian
+--- a/drivers/leds/trigger/Kconfig
++++ b/drivers/leds/trigger/Kconfig
+@@ -64,6 +64,7 @@ config LEDS_TRIGGER_BACKLIGHT
+=20
+ config LEDS_TRIGGER_CPU
+ 	bool "LED CPU Trigger"
++	depends on !PREEMPT_RT
+ 	help
+ 	  This allows LEDs to be controlled by active CPUs. This shows
+ 	  the active CPUs across an array of LEDs so you can see which
