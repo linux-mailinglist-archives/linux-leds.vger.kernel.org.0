@@ -2,114 +2,131 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1484142CB3E
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Oct 2021 22:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DE9342CDB9
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Oct 2021 00:20:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbhJMUqh (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 13 Oct 2021 16:46:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56022 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229462AbhJMUqh (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Wed, 13 Oct 2021 16:46:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ABB416113E;
-        Wed, 13 Oct 2021 20:44:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634157873;
-        bh=Z3DQ+Z4nxCDiFf5YjNS+6ibcgkKch/WFjfU7mmSJe5o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UOou6/xVP9Bbq6KxlSMJ7usDWiCY1lhmNehP5uc/EbFKYKvSXwMP3lryuFLNGZHb6
-         x0ST6J8TBqrWBdleHeL9p2EjzjeHu6DR4MN8xutFJnCxmrSQAAwQj0B6E6bSTIS+Ah
-         0sbEeW+SKL9x89E4EslKn7xla7ZXa3Q4q/YAq0j9t52A0Bi28jHqKO6XRhYVi3qMaf
-         LmDA7KhRsYPAhjcjEPetk4V7y24X7jVaErMkVJ0MCqvwfxSW3vGZ0hCv2bJTKOCuZV
-         uTmZCFQY5vtPOZdVBSP1sUaE8uDl5rWQERMQ63FQUWwEzsMg1PL1kcNZklKjumnBmX
-         P3TqZetfsQoGA==
-From:   =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-To:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
-        pavel@ucw.cz, Andrew Lunn <andrew@lunn.ch>
-Cc:     robh+dt@kernel.org, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Subject: [PATCH 3/3] dt-bindings: leds: Allow for multiple colors in the `color` property
-Date:   Wed, 13 Oct 2021 22:44:24 +0200
-Message-Id: <20211013204424.10961-3-kabel@kernel.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211013204424.10961-1-kabel@kernel.org>
-References: <20211013204424.10961-1-kabel@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        id S230284AbhJMWWV (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 13 Oct 2021 18:22:21 -0400
+Received: from mail-ot1-f47.google.com ([209.85.210.47]:46635 "EHLO
+        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229883AbhJMWWU (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 13 Oct 2021 18:22:20 -0400
+Received: by mail-ot1-f47.google.com with SMTP id 62-20020a9d0a44000000b00552a6f8b804so5074538otg.13;
+        Wed, 13 Oct 2021 15:20:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=FhOXFtc8ZlYBnjWzOjYeyQHYqTu5IoCFpXCxZaQspmE=;
+        b=dtRZ1R7Ysu0fuCIJXP0TH+Ez7j8rSfmewmoroiDkdx4xV4c0HoBmhrZ4KzuKq/oyi5
+         7KP2+IjA8Zi7Q4yXt2HuULJ7y3oygC1cUvxwDcVK8+9fdn5Mx+kfXQzFGojJY9BENajq
+         /cmLEPD+AY6JSN/QSyEEdWs/aLvqySNauyHNMvPU/ecJ1JWSJT//JwH1OUsmV03AjmYx
+         4utuMVuYXRpTLYOwhkqL4oAnql8TSF+up8fsWKB1/YzmQDzaoRq3FZ+svA5Az5vKwRX/
+         3bDJYzztfgELq5Fd6dUWFsQfU/T9HUeqlK/XgdeSBWvhUwr3RO8lWsElr61PeCAXMKjD
+         +bYA==
+X-Gm-Message-State: AOAM533liy4jByb3u+OMLf1WudOxMhxPZHO+/ZGJJBD7QbiN1M50sq4p
+        SO1YN31zwk4V6scwPTy7hQ==
+X-Google-Smtp-Source: ABdhPJydOw1YpxZRK6382pJlZRPlydDrOZwi+9GWPDjDtOgrhoqlDG7enEBSQP1NRNAeC4kgpWuuAQ==
+X-Received: by 2002:a05:6830:2329:: with SMTP id q9mr1639740otg.229.1634163616339;
+        Wed, 13 Oct 2021 15:20:16 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id j8sm165915ooc.21.2021.10.13.15.20.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Oct 2021 15:20:15 -0700 (PDT)
+Received: (nullmailer pid 1686439 invoked by uid 1000);
+        Wed, 13 Oct 2021 22:20:14 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
+Cc:     netdev@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>, pavel@ucw.cz,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        robh+dt@kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20211013204424.10961-2-kabel@kernel.org>
+References: <20211013204424.10961-1-kabel@kernel.org> <20211013204424.10961-2-kabel@kernel.org>
+Subject: Re: [PATCH 2/3] dt-bindings: leds: Add `excludes` property
+Date:   Wed, 13 Oct 2021 17:20:14 -0500
+Message-Id: <1634163614.994090.1686438.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Some RJ-45 connectors have one green/yellow LED wired in the following
-way:
+On Wed, 13 Oct 2021 22:44:23 +0200, Marek Behún wrote:
+> Some RJ-45 connectors have LEDs wired in the following way:
+> 
+>          LED1
+>       +--|>|--+
+>       |       |
+>   A---+--|<|--+---B
+>          LED2
+> 
+> With + on A and - on B, LED1 is ON and LED2 is OFF. Inverting the
+> polarity turns LED1 OFF and LED2 ON.
+> 
+> So these LEDs exclude each other.
+> 
+> Add new `excludes` property to the LED binding. The property is a
+> phandle-array to all the other LEDs that are excluded by this LED.
+> 
+> Signed-off-by: Marek Behún <kabel@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
 
-        green
-      +--|>|--+
-      |       |
-  A---+--|<|--+---B
-        yellow
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-But semantically this is still just one (multi-color) LED (for example
-it can be controlled by HW as one dual-LED).
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/leds/common.yaml:66:7: [error] syntax error: could not find expected ':' (syntax)
 
-This is a case that we do not support in device tree bindings; setting
-  color = <LED_COLOR_ID_MULTI>;
-or
-  color = <LED_COLOR_ID_RGB>;
-is wrong, because those are meant for when the controller can mix the
-"channels", while for our case only one "channel" can be active at a
-time.
+dtschema/dtc warnings/errors:
+make[1]: *** Deleting file 'Documentation/devicetree/bindings/leds/common.example.dts'
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-extract-example", line 45, in <module>
+    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 120, in get_single_data
+    node = self.composer.get_single_node()
+  File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
+  File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 891, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
+ruamel.yaml.scanner.ScannerError: while scanning a simple key
+  in "<unicode string>", line 65, column 7
+could not find expected ':'
+  in "<unicode string>", line 66, column 7
+make[1]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/leds/common.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+schemas/leds/common.yaml: ignoring, error parsing file
+schemas/leds/common.yaml: ignoring, error parsing file
+./Documentation/devicetree/bindings/leds/common.yaml:  while scanning a simple key
+  in "<unicode string>", line 65, column 7
+could not find expected ':'
+  in "<unicode string>", line 66, column 7
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/common.yaml: ignoring, error parsing file
+warning: no schema found in file: ./Documentation/devicetree/bindings/leds/common.yaml
+make: *** [Makefile:1441: dt_binding_check] Error 2
 
-Change the `color` property to accept an (non-empty) array of colors to
-indicate this case.
+doc reference errors (make refcheckdocs):
 
-Example:
-  ethernet-phy {
-    led@0 {
-      reg = <0>;
-      color = <LED_COLOR_ID_GREEN LED_COLOR_ID_YELLOW>;
-      function = LED_FUNCTION_ID_LAN;
-      trigger-sources = <&eth0>;
-    };
-  };
+See https://patchwork.ozlabs.org/patch/1540615
 
-Signed-off-by: Marek Behún <kabel@kernel.org>
----
- .../devicetree/bindings/leds/common.yaml         | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-diff --git a/Documentation/devicetree/bindings/leds/common.yaml b/Documentation/devicetree/bindings/leds/common.yaml
-index 03759d2e125a..492dd3e7f9ac 100644
---- a/Documentation/devicetree/bindings/leds/common.yaml
-+++ b/Documentation/devicetree/bindings/leds/common.yaml
-@@ -37,13 +37,21 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/string
- 
-   color:
--    description:
-+    description: |
-       Color of the LED. Use one of the LED_COLOR_ID_* prefixed definitions from
-       the header include/dt-bindings/leds/common.h. If there is no matching
-       LED_COLOR_ID available, add a new one.
--    $ref: /schemas/types.yaml#/definitions/uint32
--    minimum: 0
--    maximum: 9
-+
-+      For multi color LEDs there are two cases:
-+        - the LED can mix the channels (i.e. RGB LED); in this case use
-+          LED_COLOR_ID_MULTI or LED_COLOR_ID_RGB
-+        - the LED cannot mix the channels, only one can be active; in this case
-+          enumerate all the possible colors
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    minItems: 1
-+    items:
-+      minimum: 0
-+      maximum: 9
- 
-   function-enumerator:
-     description:
--- 
-2.32.0
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
