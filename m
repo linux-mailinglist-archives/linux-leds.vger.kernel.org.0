@@ -2,115 +2,90 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0819F42B978
-	for <lists+linux-leds@lfdr.de>; Wed, 13 Oct 2021 09:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F168342B98E
+	for <lists+linux-leds@lfdr.de>; Wed, 13 Oct 2021 09:50:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229820AbhJMHu5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 13 Oct 2021 03:50:57 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:39312 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238591AbhJMHu4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 13 Oct 2021 03:50:56 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 4299C1C0B80; Wed, 13 Oct 2021 09:48:50 +0200 (CEST)
-Date:   Wed, 13 Oct 2021 09:48:49 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Roderick Colenbrander <thunderbird2k@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-Message-ID: <20211013074849.GA10172@amd>
-References: <20210908165539.3102929-1-roderick.colenbrander@sony.com>
- <20210908165539.3102929-3-roderick.colenbrander@sony.com>
- <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm>
- <20210927141109.GB5809@duo.ucw.cz>
- <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
+        id S238668AbhJMHwj (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 13 Oct 2021 03:52:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41856 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238634AbhJMHwj (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 13 Oct 2021 03:52:39 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51E67C061749
+        for <linux-leds@vger.kernel.org>; Wed, 13 Oct 2021 00:50:36 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id w14so6329005edv.11
+        for <linux-leds@vger.kernel.org>; Wed, 13 Oct 2021 00:50:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=bD6JltQzavvEQBBsxASccgK7wI3ebJkHfckIvdfJjIs=;
+        b=KWIJKIDvPnes3hvzIw0Fi3z00xxt33SFNrKvnpH+GAWuV9R5eoERpthnp+WFe8dpL6
+         dQEOPdirsMe7OmQj9fg8EpC/lm6QyiQpJGA6fkGvVJJ5cyP6nLgCYIDi24ODlF9kfKT/
+         cf65CbuLvdFudCx856QIQYyJR8Bw/rNn9B1TxGUrxiqbmFgzsqP5RVridxV2gLVCXhyA
+         VTBR35U4ZO70ziN2jmq77WxCsYENV85Ym35Yca/oX4QvLiU8toGl1u25cZyWSMuM19sn
+         tQC8m1Fh2fi0ggq7WDs0mhFj7y8+X3nlt/GMn5diyW1+/Bk7icdOfrAQf6nCtZ0IpqBO
+         MPMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=bD6JltQzavvEQBBsxASccgK7wI3ebJkHfckIvdfJjIs=;
+        b=UY3Y8U5ApUiMr77ZreHl9iKbG7ydCZKwTS/XBZNyWJkLDQ18fTFG8QFa39RTFb1Ucp
+         hDVNTpVRqYYEqlRdyT1g95ZYfhV+fU7icN7jT+eZ9KrpFJQ3KfBbkqh5621BymdUqlQf
+         +6dGDOfrhKaRHJJ+GKLEwlu9fuLkS7tKOJNPwvIh03gy6DUe3ePCIZt4O3Nm3MZjHomB
+         XlVzL0SmUJi1qCqzxpcOsDIKz9KF55InKaRYE7yEXn/yPxPlDuqbeWqb7zGtEjEPbBss
+         ABVOxOhIjdeeIPCcwoZ4zU3Oad0oVegO0y00SNdtSzzkcuukDyjG+LVkENST/F7K+MBL
+         cGMQ==
+X-Gm-Message-State: AOAM531vCgVqoGa5/sfcXgxuAwZMoFNt/AwzHMNiD93g27Cnn7EcJIkB
+        ht9CR1xfuEMeRxYODbGMPPRjgk2HpbY/Ns/1kTw=
+X-Google-Smtp-Source: ABdhPJxfwnpO4UXf0ZL4wSIOr2w8z/Kid+tcVGisz/qlduam+/2EHuz6XDk6JWF8+qWdDApFfwqE6OCGorcG34oyJbQ=
+X-Received: by 2002:a50:e1c4:: with SMTP id m4mr7277219edl.307.1634111434733;
+ Wed, 13 Oct 2021 00:50:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
-Content-Disposition: inline
-In-Reply-To: <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Sender: lillianmark24@gmail.com
+Received: by 2002:a50:bb45:0:0:0:0:0 with HTTP; Wed, 13 Oct 2021 00:50:33
+ -0700 (PDT)
+From:   Alice Johnson <alicemrsjohnson@gmail.com>
+Date:   Wed, 13 Oct 2021 07:50:33 +0000
+X-Google-Sender-Auth: c0T0X8qTWcYUvGPkIpnZlfuTX2A
+Message-ID: <CACQwUGjJNThLbTzkrrVLV+kQZDGSxpb5J7h0WzgLAHKROYMCaQ@mail.gmail.com>
+Subject: Dearest beloved in the Lord,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Dearest beloved in the Lord,
 
---a8Wt8u1KmwUX3Y2C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am Ms. Alice Johnson, a 75 year old British woman. I was born an orphan
+and GOD blessed me abundantly with riches but no children nor husband which
+makes me an unhappy woman. Now I am affected with cancer of the lung and
+breast with a partial stroke which has affected my speech. I can no longer
+talk well and half of my body is paralyzed, I sent this email to you with
+the help of my private female nurse.
 
-Hi!
+My condition is really deteriorating day by day and it is really giving me
+lots to think about.  This has prompted my decision to donate all I have
+for charity; I have made numerous donations all over the world. After going
+through your profile, I decided to make my last donation of Ten Million
+Five Hundred Thousand United Kingdom Pounds  (UK=C2=A310.500, 000, 00) to y=
+ou as
+my investment manager. I want you to build an Orphanage home with my name (
+Alice Johnson ) in your country.
 
-> > > > Player LEDs are commonly found on game controllers from Nintendo an=
-d Sony
-> > > > to indicate a player ID across a number of LEDs. For example, "Play=
-er 2"
-> > > > might be indicated as "-x--" on a device with 4 LEDs where "x" mean=
-s on.
-> > > >
-> > > > This patch introduces LED_FUNCTION_PLAYER1-5 defines to properly in=
-dicate
-> > > > player LEDs from the kernel. Until now there was no good standard, =
-which
-> > > > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimot=
-e and
-> > > > other drivers. Moving forward new drivers should use LED_FUNCTION_P=
-LAYERx.
-> > > >
-> > > > Note: management of Player IDs is left to user space, though a kern=
-el
-> > > > driver may pick a default value.
-> > > >
-> > > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.co=
-m>
-> > > > ---
-> > > >  Documentation/leds/well-known-leds.txt | 14 ++++++++++++++
-> > > >  include/dt-bindings/leds/common.h      |  7 +++++++
-> > > >  2 files changed, 21 insertions(+)
-> > >
-> > > Pavel, could you please eventually Ack this, so that I can take it
-> > > together with the rest?
-> >
-> > I'm willing to take Documentation/leds/well-known-leds.txt part
-> > through LED tree.
-> >
-> > I don't like the common.h change; either avoid the define or put it
-> > into your local header.
->=20
-> If the LED_FUNCTION_PLAYER* defines don't belong in common with the
-> other LED_FUNCTION* ones, where should it go? The hid-nintendo driver
-> intends to use the same defines, so defining it local to each driver
-> isn't right. Not sure if there is a great place in the input system
-> either (you would then have to move scrolllock and all those other LED
-> definitions too.)
+If you are willing and able to do this task for the sake of humanity then
+send me below information for more details to receive the funds.
 
-Ok, so let's put it in the common place. I'll take this patch through
-LED tree if you resubmit it. You still may want to use local defines
-so you can apply the other patches without waiting.
+1. Name...................................................
 
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
+2. Phone number...............................
 
---a8Wt8u1KmwUX3Y2C
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+3. Address.............................................
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+4. Country of Origin and residence
 
-iEYEARECAAYFAmFmj2AACgkQMOfwapXb+vIcKgCfUv2brRAUoAlLcPZ9dIOeK9C+
-9DYAoK5HG3al5OUAkU7XD32dwuZqTRP4
-=w/it
------END PGP SIGNATURE-----
-
---a8Wt8u1KmwUX3Y2C--
+Ms.  Alice Johnson .
