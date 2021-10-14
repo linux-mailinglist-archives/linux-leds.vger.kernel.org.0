@@ -2,81 +2,80 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41CA642D722
-	for <lists+linux-leds@lfdr.de>; Thu, 14 Oct 2021 12:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A2FE42D743
+	for <lists+linux-leds@lfdr.de>; Thu, 14 Oct 2021 12:43:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbhJNKbZ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 14 Oct 2021 06:31:25 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:50828 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230017AbhJNKbY (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 14 Oct 2021 06:31:24 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 15E591C0B79; Thu, 14 Oct 2021 12:29:19 +0200 (CEST)
-Date:   Thu, 14 Oct 2021 12:29:18 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+        id S229997AbhJNKpS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 14 Oct 2021 06:45:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42942 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229468AbhJNKpR (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 14 Oct 2021 06:45:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A50A561029;
+        Thu, 14 Oct 2021 10:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634208193;
+        bh=aWMglBh9pGCOmiZ88eOVpvJvmJl3/pOcN/7VDiuqDNU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=SgFxRO+6xvvs5vx4lximIeqbNre80UgWO61jBHG29uq9+hp3FdKUOtf3hnfj8t3vN
+         3fMS2d15RPSusAQrIolmMnc084ndG+ddTGle9/JPozqJkpZrBw34XcGzXuBPBsGd9N
+         yeKiij+uvhRAGUngk2tQYS9UHUOvQrnjvmd2jQmwH012Dy5u6mL0g/j0hzGPw4oQFO
+         uaecRUm+jRy5ZfklXzFJG//cU3xo1U8hbSnZbLIORBw3BMlqRiSgiJ1ngVcq012ahW
+         eCGa/teKbGSsAI40NV3AMCMB0Me/W9JN/znRwWNjv/HVAJ+248zKhJkkQSjddpy1ZS
+         kQCH9WBIoO9JA==
+Date:   Thu, 14 Oct 2021 12:43:09 +0200
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>
 Cc:     devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
         Andrew Lunn <andrew@lunn.ch>, robh+dt@kernel.org,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 2/3] dt-bindings: leds: Add `excludes` property
-Message-ID: <20211014102918.GA21116@duo.ucw.cz>
+Message-ID: <20211014124309.10b42043@dellmb>
+In-Reply-To: <20211014102918.GA21116@duo.ucw.cz>
 References: <20211013204424.10961-1-kabel@kernel.org>
- <20211013204424.10961-2-kabel@kernel.org>
+        <20211013204424.10961-2-kabel@kernel.org>
+        <20211014102918.GA21116@duo.ucw.cz>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
-Content-Disposition: inline
-In-Reply-To: <20211013204424.10961-2-kabel@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Thu, 14 Oct 2021 12:29:18 +0200
+Pavel Machek <pavel@ucw.cz> wrote:
 
---IJpNTDwzlM2Ie8A6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Hi!
+> 
+> > Some RJ-45 connectors have LEDs wired in the following way:
+> > 
+> >          LED1
+> >       +--|>|--+
+> >       |       |
+> >   A---+--|<|--+---B
+> >          LED2
+> > 
+> > With + on A and - on B, LED1 is ON and LED2 is OFF. Inverting the
+> > polarity turns LED1 OFF and LED2 ON.
+> > 
+> > So these LEDs exclude each other.
+> > 
+> > Add new `excludes` property to the LED binding. The property is a
+> > phandle-array to all the other LEDs that are excluded by this LED.  
+> 
+> I don't think this belongs to the LED binding.
+> 
+> This is controller limitation, and the driver handling the controller
+> needs to know about it... so it does not need to learn that from the
+> LED binding.
 
-Hi!
+It's not necessarily a controller limitation, rather a limitation of
+the board (or ethernet connector, in the case of LEDs on an ethernet
+connector).
 
-> Some RJ-45 connectors have LEDs wired in the following way:
->=20
->          LED1
->       +--|>|--+
->       |       |
->   A---+--|<|--+---B
->          LED2
->=20
-> With + on A and - on B, LED1 is ON and LED2 is OFF. Inverting the
-> polarity turns LED1 OFF and LED2 ON.
->=20
-> So these LEDs exclude each other.
->=20
-> Add new `excludes` property to the LED binding. The property is a
-> phandle-array to all the other LEDs that are excluded by this LED.
+But I guess we could instead document this property in the ethernet PHY
+controller binding for a given PHY.
 
-I don't think this belongs to the LED binding.
-
-This is controller limitation, and the driver handling the controller
-needs to know about it... so it does not need to learn that from the
-LED binding.
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---IJpNTDwzlM2Ie8A6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYWgGfgAKCRAw5/Bqldv6
-8tjGAKDEHgctZRD6mG5vf+QZs7ZcN+C3dQCbBqfqtZ5W+LSbVcGqw2RcIVq9FPk=
-=HXa9
------END PGP SIGNATURE-----
-
---IJpNTDwzlM2Ie8A6--
+Marek
