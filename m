@@ -2,81 +2,66 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4793E43030E
-	for <lists+linux-leds@lfdr.de>; Sat, 16 Oct 2021 16:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8151143231F
+	for <lists+linux-leds@lfdr.de>; Mon, 18 Oct 2021 17:40:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235160AbhJPOiY (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 16 Oct 2021 10:38:24 -0400
-Received: from mail-oi1-f170.google.com ([209.85.167.170]:45676 "EHLO
-        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234477AbhJPOiX (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 16 Oct 2021 10:38:23 -0400
-Received: by mail-oi1-f170.google.com with SMTP id z126so17532076oiz.12;
-        Sat, 16 Oct 2021 07:36:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pUN/soe8xSqu2oYqVJjty1O05ssnZDWQhxdQWf+Tt2E=;
-        b=pfA2GSHD6vtH0et05GGMKETNljOjcONa42sII7Ta5PIqciIOuJO8dN3QrrBvRK4sq6
-         aKG+5zg44ePAJkUGt5v79SVRSs/wHUlVWiZqtJA8HwQJ1fm6ZEYh68y9/yQtTFX9JnMr
-         d6MZvl8B0kxyoQhd9s2Ev/ziMGT1u9JChTPkWt/OOj1RMbPjt4XitQqw1zd2xXeHD9DF
-         sx4wXIvqykcYJy2dmafh6sv4Sc2r5r3iqtWsjYWxgZFSKaCqus/2lRi+FOYO8qrjCE23
-         MF+cykGQDKTwwdzU8Sltf+ZZ+tipJSvBNZGA0q1J7GzJextOxtPbsHHKXV7g0E+o0Cn1
-         KB9w==
-X-Gm-Message-State: AOAM533yTVP44dN8rXMVIHCOSmTp4GKf7iOYE65srVyh68B1oVtUwJ/+
-        FIvESJuoVXcz8A5n2vmUYCIaaAIsJg==
-X-Google-Smtp-Source: ABdhPJwinL1aGnefiRLjvQIakN5SSu385KEOtMYIcvNVMSg3tHZlJwHzZ9/E1yzoAiD+m/OwbGu++w==
-X-Received: by 2002:aca:6082:: with SMTP id u124mr18564654oib.153.1634394975117;
-        Sat, 16 Oct 2021 07:36:15 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id d10sm1576926ooj.24.2021.10.16.07.36.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Oct 2021 07:36:14 -0700 (PDT)
-Received: (nullmailer pid 3906826 invoked by uid 1000);
-        Sat, 16 Oct 2021 14:36:13 -0000
-Date:   Sat, 16 Oct 2021 09:36:13 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Yassine Oudjana <y.oudjana@protonmail.com>,
-        Luca Weiss <luca@z3ntu.xyz>, Pavel Machek <pavel@ucw.cz>,
-        Lee Jones <lee.jones@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Andy Gross <agross@kernel.org>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-arm-msm@vger.kernel.org,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v10 1/2] dt-bindings: leds: Add Qualcomm Light Pulse
- Generator binding
-Message-ID: <YWrjXSAvJimq1UcZ@robh.at.kernel.org>
-References: <20211010043912.136640-1-bjorn.andersson@linaro.org>
+        id S232408AbhJRPmv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 18 Oct 2021 11:42:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50506 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232164AbhJRPmr (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 18 Oct 2021 11:42:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 20AEE60F44;
+        Mon, 18 Oct 2021 15:40:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634571631;
+        bh=HUd0g/z/EO0D4YBzcpbH+S+qKvPv6M+AkEmBASmlmcE=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=PknwlF4t/mWb06wqPPCkmgczIasP8nxPClxmEW+bU8FIddaQdupLVPhZZX3IKOEm3
+         wnHtNgk/LcaLNhr68EiQniEUlfQM4u7+nsZgHdLDUuP+KunH4l7nfyMDPt5VLWfVA7
+         303HGSn34ig/KtX5NlO0015YLVbZqOlIOG70Kb2Y1HF9Gtqga4dpSk40vd3AoRguW2
+         BSt0t0h7vP5L1uOCXrBR7hG26e1UU4WTqqR4IHfQS8wF5codmCWe8SBzaZlXQb2nmh
+         2cWdZL73zT9Nfc+ADOEt0PjHNBVETawx7HmEaZd5G7NMTDQae4OvbACw0Y4+qLd/Mj
+         wa5/OG2xYqL7A==
+Date:   Mon, 18 Oct 2021 17:40:27 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>
+cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
+        Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
+ for game controllers.
+In-Reply-To: <20211013074849.GA10172@amd>
+Message-ID: <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm>
+References: <20210908165539.3102929-1-roderick.colenbrander@sony.com> <20210908165539.3102929-3-roderick.colenbrander@sony.com> <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm> <20210927141109.GB5809@duo.ucw.cz> <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
+ <20211013074849.GA10172@amd>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211010043912.136640-1-bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sat, 09 Oct 2021 21:39:11 -0700, Bjorn Andersson wrote:
-> This adds the binding document describing the three hardware blocks
-> related to the Light Pulse Generator found in a wide range of Qualcomm
-> PMICs.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
-> 
-> Changes since v9:
-> - "led" child of "multi-led" now needed a patternProperties
-> - use generic "led-controller" and "pwm-controller" in example
-> 
->  .../bindings/leds/leds-qcom-lpg.yaml          | 173 ++++++++++++++++++
->  1 file changed, 173 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-qcom-lpg.yaml
-> 
+On Wed, 13 Oct 2021, Pavel Machek wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> Ok, so let's put it in the common place. I'll take this patch through
+> LED tree if you resubmit it. You still may want to use local defines
+> so you can apply the other patches without waiting.
+
+Pavel, why complicate it so much? Given how trivial the patch is, the 
+easiest way is what's usually done in such cases (where substantial patch 
+depends on a tiny trivial change elsewhere) -- take it through HID tree 
+with your Reviewed-by / Acked-by:.
+
+Do you see any issue with that?
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
