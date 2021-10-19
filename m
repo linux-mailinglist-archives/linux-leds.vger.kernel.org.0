@@ -2,66 +2,97 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8151143231F
-	for <lists+linux-leds@lfdr.de>; Mon, 18 Oct 2021 17:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90FF9433288
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Oct 2021 11:38:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232408AbhJRPmv (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 18 Oct 2021 11:42:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50506 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232164AbhJRPmr (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 18 Oct 2021 11:42:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 20AEE60F44;
-        Mon, 18 Oct 2021 15:40:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634571631;
-        bh=HUd0g/z/EO0D4YBzcpbH+S+qKvPv6M+AkEmBASmlmcE=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=PknwlF4t/mWb06wqPPCkmgczIasP8nxPClxmEW+bU8FIddaQdupLVPhZZX3IKOEm3
-         wnHtNgk/LcaLNhr68EiQniEUlfQM4u7+nsZgHdLDUuP+KunH4l7nfyMDPt5VLWfVA7
-         303HGSn34ig/KtX5NlO0015YLVbZqOlIOG70Kb2Y1HF9Gtqga4dpSk40vd3AoRguW2
-         BSt0t0h7vP5L1uOCXrBR7hG26e1UU4WTqqR4IHfQS8wF5codmCWe8SBzaZlXQb2nmh
-         2cWdZL73zT9Nfc+ADOEt0PjHNBVETawx7HmEaZd5G7NMTDQae4OvbACw0Y4+qLd/Mj
-         wa5/OG2xYqL7A==
-Date:   Mon, 18 Oct 2021 17:40:27 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-In-Reply-To: <20211013074849.GA10172@amd>
-Message-ID: <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm>
-References: <20210908165539.3102929-1-roderick.colenbrander@sony.com> <20210908165539.3102929-3-roderick.colenbrander@sony.com> <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm> <20210927141109.GB5809@duo.ucw.cz> <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
- <20211013074849.GA10172@amd>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S235087AbhJSJlI (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 19 Oct 2021 05:41:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54128 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235114AbhJSJlG (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Oct 2021 05:41:06 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 049B8C061774
+        for <linux-leds@vger.kernel.org>; Tue, 19 Oct 2021 02:38:51 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id m20so19514018iol.4
+        for <linux-leds@vger.kernel.org>; Tue, 19 Oct 2021 02:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
+        b=TOvN/3L74NxJ8jkZLAwc1HWcAigE5PqgL50bgmFqgfF5N3Ni/F/hFF6HKKLKTN31yN
+         HevaAXYbPfypt8hhKvSPyehT5ALdXqczNk+5xUwtC+i5sgHXh2uIQwAecZjfCaWU8ix6
+         IP3iNNDeKzM9Rarn67S7Y6Q5meavaw7Mpk+sez5Jm9gTXVkS2K7rH0HxN0wGBD1vTEZW
+         SlZ7Ohjm5TDffwxVe9psHKkZrw9F8ewS3UJdvRp48BugnVC9N6o6tGt7kOuD9dBL9WOI
+         l1dbXlU20FuuDCR1G9eGV6dpPzPq/obtSd+vSUmjw4dvgQ3M4KndmuUgzevCd5/KLP2j
+         AvJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
+        b=qFbWILUFWmVK8YLYBsgX8t2TZaWLW9ATYd2AzQE2npE7RKajUTyMaBJF7OBGwmQLis
+         iUMdUIYyobtFxR4fh6pVf7HAjjU4sY55G+J6wiJWx0heKrR4goy9zGe4W40c1tkrkkD9
+         wDiL9YVe4CaL8171dp0BnibNkixPreWdxfRcaFkuqQBUcyClMYhKpdDsnK+rVZ5tl2V2
+         aF3HtywPcJWnztCzxlOwpaYwiiE5A91PQpKLco51EPH6ZfAzrNbpLmg7CtpWnWTc9GcI
+         Tbm+uWtUA6NzIrm1NxeCDyq0Js/WxY88xy9J+Iw+70xf8Q1GArjh1iWxFJ4Wr/G976+n
+         9QGg==
+X-Gm-Message-State: AOAM5325Lr6y+eU2JNciV6sbWJE5T1AQGtD8sBF/tRs89t6VCliU2CeX
+        qklAu5HCj68oXKUZnetYcgCJiw/lN6YSxrNWSvY=
+X-Google-Smtp-Source: ABdhPJzMH7/Viv+gmOFi/wRxRbcc549EbhNxq1WBmFuuCl5Y1sIaNw3hPc5P9A8SHm6QnP1HNGNAvecvirmJS/oiL6w=
+X-Received: by 2002:a02:6f5d:: with SMTP id b29mr3319085jae.113.1634636331013;
+ Tue, 19 Oct 2021 02:38:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Received: by 2002:a92:c7c6:0:0:0:0:0 with HTTP; Tue, 19 Oct 2021 02:38:50
+ -0700 (PDT)
+Reply-To: megaritalouisdrayfu199@yahoo.com
+From:   "Mrs. Margarita Louis-Dreyfus." <anniewei112@gmail.com>
+Date:   Mon, 18 Oct 2021 21:38:50 -1200
+Message-ID: <CAGT4pMkzKn8mfeY05OAG04CCAxodKEVDUk46D=O7cfK8+n1=tA@mail.gmail.com>
+Subject: Charitable funds to help the less privilege!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 13 Oct 2021, Pavel Machek wrote:
+--=20
+Hello,
 
-> Ok, so let's put it in the common place. I'll take this patch through
-> LED tree if you resubmit it. You still may want to use local defines
-> so you can apply the other patches without waiting.
+I am sorry to encroach into your privacy in this manner, my name
+Margarita Louis-Dreyfus , I find it pleasurable to offer you my
+partnership in business, i only pray at this time that your email
+address is still valid. I want to solicit your attention to receive
+money on my behalf for humanitarian project to help the less
+priviledge.
 
-Pavel, why complicate it so much? Given how trivial the patch is, the 
-easiest way is what's usually done in such cases (where substantial patch 
-depends on a tiny trivial change elsewhere) -- take it through HID tree 
-with your Reviewed-by / Acked-by:.
+The purpose of my contacting you is because my status would not permit
+me to do this alone. Given my current state of health, I have decided
+to donate Ninety -Eight Million United State Dollars to establish a
+foundation with your help to reach out to the less privilege, orphans,
+sick and homeless people in your country who will receive their
+blessings as i promised my God before i leave this earth.
 
-Do you see any issue with that?
+I got your contact through my personal search, you were revealed as
+being quite astute in private entrepreneurship, and i have no doubt
+that you can handle this huge financial transaction. Please contact my
+executor for more information:
 
-Thanks,
+Mr. Ford Spencer(Attorney at Law).
+For: Mrs. Margarita Louis-Dreyfus
+LEGAL DEPARTMENT LAWSON & ASSOCIATES
+(JUSTICE, FAIRPLAY & EQUITY)
+Email: fordspencer828@yahoo.com, fordspencereqs828@gmail.com
+Office: +1-970-414-1400
++1-702-714-3422
+Mobile: +1 916 269 2733
+Fax: +1-970-414-1433
+=C2=AE Property of Steven C Spence PA.
 
--- 
-Jiri Kosina
-SUSE Labs
+Your earliest response to this letter will be appreciated.
 
+Kind Regards,
+
+Mrs. Margarita Louis-Dreyfus.
