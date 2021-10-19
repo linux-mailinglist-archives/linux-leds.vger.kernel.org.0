@@ -2,54 +2,55 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F4B7433CA0
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Oct 2021 18:44:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28D66433FF6
+	for <lists+linux-leds@lfdr.de>; Tue, 19 Oct 2021 22:50:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233642AbhJSQrK (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 19 Oct 2021 12:47:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40370 "EHLO
+        id S231696AbhJSUwb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 19 Oct 2021 16:52:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229991AbhJSQrJ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Oct 2021 12:47:09 -0400
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC2DFC06161C;
-        Tue, 19 Oct 2021 09:44:56 -0700 (PDT)
-Received: by mail-io1-xd2e.google.com with SMTP id b188so16221203iof.8;
-        Tue, 19 Oct 2021 09:44:56 -0700 (PDT)
+        with ESMTP id S231314AbhJSUwa (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Oct 2021 16:52:30 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 728D1C06161C;
+        Tue, 19 Oct 2021 13:50:17 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id r134so21961324iod.11;
+        Tue, 19 Oct 2021 13:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=m9fn5L6c5k5bZQVkLpvPb3DcbU31aZHyPs/0zFNYnKw=;
-        b=Qmc8AKuvYSGTXy1UfB1lkKw1L+FWpdGg2Hfm0XmOQHqKbWb+Uw/ybPukwBAYFg59In
-         drTwnh7LC3GXfBPHcoBfUjXF7MYNqy00J/EgwNMMtWvVQoo8RKI3SNpGBaRivhtFz3FE
-         X9xd/aly8rPbbPk7C4czUV7nZCQMFkVmn47+fO/kFtQ7L416n4FVdqK/Z4Yb53JkcOt9
-         gA2DxHPB5v9h+Vx/59Cc5Bm5aTiyAJZ2uuSbxbGVekbbT1LDOH5WzXkrnVhHvRIr9rC7
-         mGXm8AaihAP2VlfpgpH7nYiTRMCFXjnZQ3QeelO/cmZ+y6cgK1VTndw01/pPSCO14sDo
-         qymA==
+        bh=9vqaYPJTseMPHZqZJ05hvv6wCPKInTtA3VDUdp0xR2U=;
+        b=fx32n+sSi8AkWwRIAigmx9mp67eG857PjM9zzxL6ZiuP/vkQgrb/Xg38qMRIvqu9Db
+         EI70VP6p3CwfgCKxyWRGC7D+Z2P5h9R5W7kN5Qd4FfKVpy4eDzNUZ2qWOCvFdVvVNkud
+         kvnmkBEQvKvUIEbslSxG3dMZ6h5lH7KEuywxFtAXj7ntJgafHV+e9ziNQwGHCHyrGL7X
+         mZ9AvxGkaywuZ71ROmvwnQb6Ah+Eif9iuzhWHm2NOSeuy865QdlVJpaBA3m+c5XRgfek
+         uJefi1HZ7nJvMKHdH6xJQSF1So9vR7VNK0EbAUkrpel9cqrK181shBL1fkhkgX1TtUi6
+         jOUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=m9fn5L6c5k5bZQVkLpvPb3DcbU31aZHyPs/0zFNYnKw=;
-        b=jGD90NOisi306wwNsZbtOBh7EwKm4saXRW9ONY9rc4vspEJWsmPQ5jaNXcp/idNODy
-         p0l4TSWnUaAm/41dxfx/koVFStTtRsRCzXZiUCZZd9288F4tEwQZl3GMRKcBgBUNQufQ
-         zOqQ1jgO5fmujoTtmLW8D7Bg7v1T5hY8d7XDj/ZBDWEJ/sFjKnLE93ozOthNALIaaLOy
-         VXeIhUoF05QkzzTZ6ixd2nz4rNeyag39bAwD1lYYv65JK6nwfLanTtKHwALkq3pnM+Ou
-         xdGoXMN6+v4BQIvLiQfNBHi7CEKWryz+yjY9lJ/grdaymkDgJsFiKoi6OWvUHjB4AXYL
-         ONCQ==
-X-Gm-Message-State: AOAM533bJMKrePhDbxYZcGBCdUoyH0o/RSoEUwKFezYwCdUn0smDy0RS
-        PhE6uaUV5Cktrp81F3BBNmaewdvpH6bLKMtl0AM=
-X-Google-Smtp-Source: ABdhPJwZgjBGY3VH8kD4PIFTbQ7BW6MwBzb9/uTGndsGv78ts4EkogRu9XIq17it5wCIg9iUyhd6DkWedo6YwdQ/8ws=
-X-Received: by 2002:a05:6602:2d4e:: with SMTP id d14mr20346152iow.172.1634661896156;
- Tue, 19 Oct 2021 09:44:56 -0700 (PDT)
+        bh=9vqaYPJTseMPHZqZJ05hvv6wCPKInTtA3VDUdp0xR2U=;
+        b=LVg6hz4cVSilUgfc+ym4VUP/vY+OXZE+Q3HF4FZ6WVIecDKtdAML5CUAEKI1ZOJqKW
+         cP6BNDqmT3GXLvv9yICIT2JPnVrHVybVpb6mkEoU89yr5lDNiPEGpN+6yjEKCTblktQW
+         Y253PCdhFABQ2ESGuiXlfTAoSuk2CRXD2fqdjluh954SRH2f3qlGcgRmEoeKHkuzTvDu
+         iGyL2LZ2MOSqEaC5dS1FIVVuNVXskuGBEz+Nx5hojlD5NqYhexIZo1yFqdVX4HRZBCCg
+         f9WQAlNMxxmnjXVeTy+r8VdayTFUh2hfwUR3vJRV/9Ij6dmGZvh9EFkzkpKLQ+/yULSg
+         v0NQ==
+X-Gm-Message-State: AOAM533I4fVzK3Zx/jRMcgMRIAjxzwxSp/BWiaQw+laoqQrhL4hrGorN
+        /Te9+RsgK/K4OsLK34byz2gOqbv9GaiHSdrULso=
+X-Google-Smtp-Source: ABdhPJx3Mzrw6dFvnsflFCQyUYi5Fa3FPp5lTiKKE15jhmvleJ3cb1J4Askbc/O330XlH0ME4eBrTq3lwg56KrjrgXQ=
+X-Received: by 2002:a05:6602:2d4e:: with SMTP id d14mr21238434iow.172.1634676616752;
+ Tue, 19 Oct 2021 13:50:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211019144520.3613926-1-geert@linux-m68k.org>
-In-Reply-To: <20211019144520.3613926-1-geert@linux-m68k.org>
+References: <20211019144520.3613926-1-geert@linux-m68k.org> <20211019144520.3613926-4-geert@linux-m68k.org>
+In-Reply-To: <20211019144520.3613926-4-geert@linux-m68k.org>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 19 Oct 2021 18:44:45 +0200
-Message-ID: <CANiq72=wnrwGbWygt2R_rsyKf3hq6vJUad4NDJwR4FeNFHZ55Q@mail.gmail.com>
-Subject: Re: [PATCH v8 00/21] auxdisplay: ht16k33: Add character display support
+Date:   Tue, 19 Oct 2021 22:50:05 +0200
+Message-ID: <CANiq72nJS_rxwB7BQJ30iEeFcX8_7VznkF0DvueM_Ym+Wqd94A@mail.gmail.com>
+Subject: Re: [PATCH v8 03/21] auxdisplay: img-ascii-lcd: Fix lock-up when
+ displaying empty string
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Robin van der Gracht <robin@protonic.nl>,
@@ -66,21 +67,13 @@ Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Geert,
-
 On Tue, Oct 19, 2021 at 4:45 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> The Holtek HT16K33 LED controller is not only used for driving
-> dot-matrix displays, but also for driving segment displays.
-> The current auxdisplay driver is limited to dot-matrix displays, which
-> are exposed as a frame buffer device.
->
-> This patch series extends the driver to 4-digit 7-segment and quad
-> 14-segment alphanumeric displays, allowing the user to display and
-> scroll text messages.
+> +               devm_kfree(&ctx->pdev->dev, ctx->message);
 
-Thanks for all your work on this. Unless somebody is against this, I
-will pick it up.
+Unrelated to this patch (and no need to change it), but we could
+remove the conditional guarding the devm_kfree below to match this
+one.
 
 Cheers,
 Miguel
