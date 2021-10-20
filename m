@@ -2,82 +2,95 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44E4E43402D
-	for <lists+linux-leds@lfdr.de>; Tue, 19 Oct 2021 23:09:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1DE5434457
+	for <lists+linux-leds@lfdr.de>; Wed, 20 Oct 2021 06:27:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234995AbhJSVLs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 19 Oct 2021 17:11:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43440 "EHLO
+        id S229458AbhJTE31 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 20 Oct 2021 00:29:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235091AbhJSVLo (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 19 Oct 2021 17:11:44 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02B2CC06161C;
-        Tue, 19 Oct 2021 14:09:31 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id r134so22017263iod.11;
-        Tue, 19 Oct 2021 14:09:30 -0700 (PDT)
+        with ESMTP id S229555AbhJTE30 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 20 Oct 2021 00:29:26 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE06FC06174E
+        for <linux-leds@vger.kernel.org>; Tue, 19 Oct 2021 21:27:12 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id r64so8091160oih.8
+        for <linux-leds@vger.kernel.org>; Tue, 19 Oct 2021 21:27:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gSgmLlZesXp0UPK7EJc5fRtKiiMGTySocpMsl7A7n7Q=;
-        b=HAxMmitDGLKWbQjqS4FDAiW85pmatSMd5L7L4Pxet8v2HGIRLnugWRFX+RSqlbqn7H
-         2uoF/TwW75mJx2Ae/QRIoL4BYEMDEBVQDYqNAdmknQgJi1hNyWHYm9UK1Fb9AsNGVGJv
-         8KrXCFHrnW1nbcNzfrDdUpjrt0TBfQa2iMKD1mH8mGWP6c4gMLPCEYdf2znJRsHgF4dv
-         yLCa/Po410JXUpQqzRP9RPv9yXTLVonh/T/K3HNioxV1Ctt2VZ+oBIF40Bym5+YeJ+Zv
-         76iow0Ntqigt/k88WXjV8mpFuLjuMbVfzDS1aRtwkHro7/WMP9xWYbj/lMrDcBtGbKJw
-         oLVQ==
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=KVKplhRxILI8I/oy0FMY8RP+d5gKK/Wsa1r6nqQ6o3U=;
+        b=bAjp6vkLKBf5OVZt33zDaaAdJgfXccJSKnoVSKOf6Y2zM89m+ddRnlIcBfnBeiMAGB
+         pqyZOh/VkiJZjeZ8VO/Fa1ov9vrCSBE3WgJhaWUCkWLwh4RGqEwlHjCuVN9N0SaTYwW+
+         /KtiISyCJV5UScjlpTp4wCAKBOI3ddhOe0T2g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gSgmLlZesXp0UPK7EJc5fRtKiiMGTySocpMsl7A7n7Q=;
-        b=3DEysfJHKijYhY8B9Tfk3UOCMU8e56G5AS9H539cVpAbkUeeXcU/q1WPN1YqTpxWNF
-         du6vvGNuF4DWWobJyjnvlXIgd0S+cTdK9D6Y86t3f2FwstDF7e8kmotiLSXn4bq2r9J2
-         9wCnICnAfMrgusma4DN4PsBZqcBk9fXtwYdk/ktUpHjGhxuGdWAFsd/Muhx/rz6zGBIs
-         XpquTtXdbHdufTT1ieEKZOuWU7IpidWQxgYgpsZk/plo5LBwpHDHpjDeT4kT4XivsgTr
-         aTo3SHW1PqsILpuqf1hZog/THpyhaEzyEyT1gUQJWYdVjgw3wpK+nElloKQ9pLMswUfi
-         bB7g==
-X-Gm-Message-State: AOAM532s10G33o/G0K/jLgBeU/PR2ihdgsFbV7IxdSR2H1g7SLmHpHUI
-        Q//F03+dO3N7DWS/rzwbmWlZJLD9u6b+IYiVj/4=
-X-Google-Smtp-Source: ABdhPJz+PExeukRcxH0tc75AJjRxjzJphT/Ebaz3zbzs5+L8nbOuox/h1IspP25GGXhXdlINfWQE9L4CatIp5Cyet78=
-X-Received: by 2002:a05:6638:1924:: with SMTP id p36mr5920361jal.142.1634677770420;
- Tue, 19 Oct 2021 14:09:30 -0700 (PDT)
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=KVKplhRxILI8I/oy0FMY8RP+d5gKK/Wsa1r6nqQ6o3U=;
+        b=zIJjhxA70AJuN5TSg0iG6LKnQ0sQoh4VUBUNCHilTXSe/2rh1Mwaz90P6QZ9inTpkl
+         d3DPXHKAQh/M52Cpy/09/7wNEL/U+8xyXgmnItbBn18CEgteKUZ7e8OpZcPUb85Q4MhU
+         9Xkk2rY5ud0kaH2kDWO3YK6nLLv1LmhVnmkc7ERj525q01pyGyy5sE2/yDuVEgxuY7ni
+         8EgiCnEmcewBlGTxnsPit8JYWGZiN59XghdJ3kNXcKoqI/EtmIWtZ29RykkM2SaIG/M6
+         AzcnUt1D3+kvzDtGFcHfo2NypArKSsKN44BGGw54j3r1VeXIsGOjZtRbIQQ96hzhFH3w
+         wnmw==
+X-Gm-Message-State: AOAM533ITUpGBrO6BMKgJrcTBgdqr+FxxrAo9L3w3mVAKvOGGPuFJdjX
+        bKRbSz6i4D39AVEYxY6I4ubk09B4nmIffK7JUY1DYQ==
+X-Google-Smtp-Source: ABdhPJzh3ZOGe96IecK1OqqtQSExKI9kebMcVSUhZrUrhR6WDYqRhGnx1+pIa+JBaJw/ZtCtcC9iBYQ8L33OtBMjwMs=
+X-Received: by 2002:a05:6808:23c2:: with SMTP id bq2mr7418740oib.32.1634704032132;
+ Tue, 19 Oct 2021 21:27:12 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 19 Oct 2021 23:27:11 -0500
 MIME-Version: 1.0
-References: <20211019144520.3613926-1-geert@linux-m68k.org>
- <20211019144520.3613926-4-geert@linux-m68k.org> <CANiq72nJS_rxwB7BQJ30iEeFcX8_7VznkF0DvueM_Ym+Wqd94A@mail.gmail.com>
-In-Reply-To: <CANiq72nJS_rxwB7BQJ30iEeFcX8_7VznkF0DvueM_Ym+Wqd94A@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 19 Oct 2021 23:09:19 +0200
-Message-ID: <CANiq72nGPzDEeiQccTQ6QCeionfkfp01EDjp4btBfYKabXzGrg@mail.gmail.com>
-Subject: Re: [PATCH v8 03/21] auxdisplay: img-ascii-lcd: Fix lock-up when
- displaying empty string
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Robin van der Gracht <robin@protonic.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Paul Burton <paulburton@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>, Marek Behun <marek.behun@nic.cz>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-leds@vger.kernel.org,
-        linux-mips@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
+In-Reply-To: <1634640531-15813-4-git-send-email-skakit@codeaurora.org>
+References: <1634640531-15813-1-git-send-email-skakit@codeaurora.org> <1634640531-15813-4-git-send-email-skakit@codeaurora.org>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Tue, 19 Oct 2021 23:27:11 -0500
+Message-ID: <CAE-0n509=RqfzqBjzVDRphk3umbmZEuN8=A91FY8DPWyn0BH1g@mail.gmail.com>
+Subject: Re: [PATCH V2 3/3] arm64: dts: qcom: pm8350c: Add pwm support
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Satya Priya <skakit@codeaurora.org>
+Cc:     Matthias Kaehlcke <mka@chromium.org>, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Tue, Oct 19, 2021 at 10:50 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+Quoting Satya Priya (2021-10-19 03:48:51)
+> From: satya priya <skakit@codeaurora.org>
 >
-> Unrelated to this patch (and no need to change it), but we could
-> remove the conditional guarding the devm_kfree below to match this
-> one.
+> Add pwm support for PM8350C pmic.
+>
+> Signed-off-by: satya priya <skakit@codeaurora.org>
+> ---
+> Changes in V2:
+>  - Dropped suffix '4' from pwm phandle and removed "status=ok".
+>
+>  arch/arm64/boot/dts/qcom/pm8350c.dtsi | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/qcom/pm8350c.dtsi b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> index e1b75ae..08fc0a8 100644
+> --- a/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/pm8350c.dtsi
+> @@ -29,6 +29,12 @@
+>                         interrupt-controller;
+>                         #interrupt-cells = <2>;
+>                 };
+> +
+> +               pm8350c_pwm: pwm {
+> +                       compatible = "qcom,pm8350c-pwm";
 
-Yeah, you did it when moving the code later on -- I guess we could
-have done it before too, to match, like the sysfs_emit change does it
-before, but it is not that important.
+It should have a reg property. Every node should have a single cell for
+the reg property because the parent has #address-cells = <1>
 
-Cheers,
-Miguel
+> +                       #pwm-cells = <2>;
+> +                       status = "disabled";
+> +               };
+>         };
