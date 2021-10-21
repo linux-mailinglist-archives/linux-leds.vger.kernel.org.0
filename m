@@ -2,88 +2,719 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A847436132
-	for <lists+linux-leds@lfdr.de>; Thu, 21 Oct 2021 14:16:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AEC3436C88
+	for <lists+linux-leds@lfdr.de>; Thu, 21 Oct 2021 23:16:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231560AbhJUMTJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 21 Oct 2021 08:19:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231598AbhJUMTC (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Thu, 21 Oct 2021 08:19:02 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78BA9C061760
-        for <linux-leds@vger.kernel.org>; Thu, 21 Oct 2021 05:16:46 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mdWzz-0000Xm-Ks; Thu, 21 Oct 2021 14:16:43 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mdWzz-0008My-3o; Thu, 21 Oct 2021 14:16:43 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mdWzz-0001jZ-2x; Thu, 21 Oct 2021 14:16:43 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Riku Voipio <riku.voipio@iki.fi>, Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH v2] leds: pca9532: Make pca9532_destroy_devices() return void
-Date:   Thu, 21 Oct 2021 14:16:39 +0200
-Message-Id: <20211021121639.79179-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211021121147.77774-1-u.kleine-koenig@pengutronix.de>
-References: <20211021121147.77774-1-u.kleine-koenig@pengutronix.de>
+        id S232080AbhJUVST (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 21 Oct 2021 17:18:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53322 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230272AbhJUVSS (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 21 Oct 2021 17:18:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4353261213;
+        Thu, 21 Oct 2021 21:16:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634850962;
+        bh=q/j7spVuzLeVYsGTa3phXin6HdxXoRWHcbbR+XRxjMg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ipTRWOcz392CIxbaNgbGNDyac9duJvHQRi7ajw0PkARbToIjfyrP6fwaxLloUh+1i
+         LqIQ1qTApArdN1IUlEa0lixHA3H7vap5HywBrXpxNGa6wdXs9wAIazi4Nuq814ma8B
+         LhMCitRvaJw/sAgd8hqQwID4Ol9IgqtwBSLDp89A2SPojvFBeC6B7cYbdHX/aNGZKx
+         VPJz0NUAW787pe2Pxcw+jr1EqpVnhDP2huRdfOeSeX/HbUkwpdOXof07cpIrSiR7jP
+         CXtUvnjWysYFynIYV1QioFi1ZGKWL8m32zow4JdIzjFVuqDbI4/fZHfzhPt466l6id
+         gk7LcJWLcgtwg==
+Received: by mail-ed1-f51.google.com with SMTP id g8so5986995edb.12;
+        Thu, 21 Oct 2021 14:16:02 -0700 (PDT)
+X-Gm-Message-State: AOAM533qM92Z3QxBhJQuekzhi5KQex21MIegAFBuyaciiUCaiqxCPaAt
+        z7DGrICspOQU1IY7CBAvqDIPOMdY8EpAZ1+Bxg==
+X-Google-Smtp-Source: ABdhPJyp73EpwM/Y8XMnqeuzDDEbLWO6fO99SQ8vZgZBu+BbsPcNypm6z6LSvn1R8odWevsPSeBotNMqqE2N1jB+xK0=
+X-Received: by 2002:a17:906:5a47:: with SMTP id my7mr9805285ejc.128.1634850960686;
+ Thu, 21 Oct 2021 14:16:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Patch-Hashes: v=1; h=sha256; i=wteD60WHq2yuUQat+xq4gnGGLoUEF/GMIKNrrYOrulk=; m=fDoW2rGKeu4Cy2vtRiYQMdewsLY6HlTaygCrBnmumGo=; p=GjT/fuIsaEQQ8QKX6ta1+Qlq9ZdAONqcDdciAvcSjKM=; g=05173cdc0522f55da1841aa84fc2d38a754605e1
-X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de; s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6; b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFxWhwACgkQwfwUeK3K7AkmPQgAg3M LtTTxdQK1Byu0+JoaNnVENaVFe6ibPW5oBOCszme6P08+x0hnHFz7td74ltWWzivX8kKQ2qi/VfQ4 nMHSvwUHaDa0LLTFhm7wZnG0x0gpeKAjTnFkyKSWMRcd2WodVA2I1SKKJ4Yh8u7GMptg+OpZ0DoKm HOAQxuL2sN77n1kPE8kDWqSLx5/blpHBECxCN9SE/o7SWUfuSk81piO3khAQ5Cx0Rs2c/9jIC4vFn gIUdEB/uB3zS0rJb0LbC1gJPX7OjBLPnwkWv7MKaurgFoQ4G+Qm1f/UjJcrJ3uAG9LSr7yMCcg5uU CNW74rqIY3+x6zPYsM5AVGppoSISTLg==
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+References: <20210913192816.1225025-1-robh@kernel.org> <20210913192816.1225025-7-robh@kernel.org>
+In-Reply-To: <20210913192816.1225025-7-robh@kernel.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 21 Oct 2021 16:15:49 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJiH5ZDpFEC+A+S=EQ5Tp4T_YhFK4A44YEGUY_NW+88qw@mail.gmail.com>
+Message-ID: <CAL_JsqJiH5ZDpFEC+A+S=EQ5Tp4T_YhFK4A44YEGUY_NW+88qw@mail.gmail.com>
+Subject: Re: [PATCH v2 6/8] ARM: dts: arm: Update register-bit-led nodes 'reg'
+ and node names
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Up to now pca9532_destroy_devices() returns always zero. Remove the
-never-taken error path and make it return void which makes it easier to
-see in the callers that there is no error to handle.
+On Mon, Sep 13, 2021 at 2:28 PM Rob Herring <robh@kernel.org> wrote:
+>
+> Add a 'reg' entry for register-bit-led nodes on the Arm Ltd platforms.
+> The 'reg' entry is the LED control register address. With this, the node
+> name can be updated to use a generic node name, 'led', and a
+> unit-address.
+>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Sudeep Holla <sudeep.holla@arm.com>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  arch/arm/boot/dts/arm-realview-eb.dtsi        | 27 +++++++++++++------
+>  arch/arm/boot/dts/arm-realview-pb1176.dts     | 27 +++++++++++++------
+>  arch/arm/boot/dts/arm-realview-pb11mp.dts     | 27 +++++++++++++------
+>  arch/arm/boot/dts/arm-realview-pbx.dtsi       | 27 +++++++++++++------
+>  arch/arm/boot/dts/integrator.dtsi             | 23 +++++++++++-----
+>  arch/arm/boot/dts/mps2.dtsi                   | 10 +++++--
+>  arch/arm/boot/dts/versatile-ab-ib2.dts        |  6 ++++-
+>  arch/arm/boot/dts/versatile-ab.dts            | 27 +++++++++++++------
+>  arch/arm64/boot/dts/arm/juno-motherboard.dtsi | 27 +++++++++++++------
+>  9 files changed, 144 insertions(+), 57 deletions(-)
 
-Also the return value of i2c remove callbacks is ignored anyway.
+Linus, Can you apply this and patch 7?
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/leds/leds-pca9532.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/leds/leds-pca9532.c b/drivers/leds/leds-pca9532.c
-index 017794bb87ae..674590576b0a 100644
---- a/drivers/leds/leds-pca9532.c
-+++ b/drivers/leds/leds-pca9532.c
-@@ -318,7 +318,7 @@ static int pca9532_gpio_direction_output(struct gpio_chip *gc, unsigned offset,
- }
- #endif /* CONFIG_LEDS_PCA9532_GPIO */
- 
--static int pca9532_destroy_devices(struct pca9532_data *data, int n_devs)
-+static void pca9532_destroy_devices(struct pca9532_data *data, int n_devs)
- {
- 	int i = n_devs;
- 
-@@ -555,7 +555,9 @@ static int pca9532_remove(struct i2c_client *client)
- {
- 	struct pca9532_data *data = i2c_get_clientdata(client);
- 
--	return pca9532_destroy_devices(data, data->chip_info->num_leds);
-+	pca9532_destroy_devices(data, data->chip_info->num_leds);
-+
-+	return 0;
- }
- 
- module_i2c_driver(pca9532_driver);
--- 
-2.30.2
-
+>
+> diff --git a/arch/arm/boot/dts/arm-realview-eb.dtsi b/arch/arm/boot/dts/arm-realview-eb.dtsi
+> index 04e8a27ba1eb..56441ef08a55 100644
+> --- a/arch/arm/boot/dts/arm-realview-eb.dtsi
+> +++ b/arch/arm/boot/dts/arm-realview-eb.dtsi
+> @@ -198,61 +198,72 @@ fpga {
+>                 syscon: syscon@10000000 {
+>                         compatible = "arm,realview-eb-syscon", "syscon", "simple-mfd";
+>                         reg = <0x10000000 0x1000>;
+> +                       ranges = <0x0 0x10000000 0x1000>;
+> +                       #address-cells = <1>;
+> +                       #size-cells = <1>;
+>
+> -                       led@08.0 {
+> +                       led@8,0 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x01>;
+>                                 label = "versatile:0";
+>                                 linux,default-trigger = "heartbeat";
+>                                 default-state = "on";
+>                         };
+> -                       led@08.1 {
+> +                       led@8,1 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x02>;
+>                                 label = "versatile:1";
+>                                 linux,default-trigger = "mmc0";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.2 {
+> +                       led@8,2 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x04>;
+>                                 label = "versatile:2";
+>                                 linux,default-trigger = "cpu0";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.3 {
+> +                       led@8,3 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x08>;
+>                                 label = "versatile:3";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.4 {
+> +                       led@8,4 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x10>;
+>                                 label = "versatile:4";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.5 {
+> +                       led@8,5 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x20>;
+>                                 label = "versatile:5";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.6 {
+> +                       led@8,6 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x40>;
+>                                 label = "versatile:6";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.7 {
+> +                       led@8,7 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x80>;
+>                                 label = "versatile:7";
+> diff --git a/arch/arm/boot/dts/arm-realview-pb1176.dts b/arch/arm/boot/dts/arm-realview-pb1176.dts
+> index 366687fb1ee3..df71ee27294d 100644
+> --- a/arch/arm/boot/dts/arm-realview-pb1176.dts
+> +++ b/arch/arm/boot/dts/arm-realview-pb1176.dts
+> @@ -216,61 +216,72 @@ soc {
+>                 syscon: syscon@10000000 {
+>                         compatible = "arm,realview-pb1176-syscon", "syscon", "simple-mfd";
+>                         reg = <0x10000000 0x1000>;
+> +                       ranges = <0x0 0x10000000 0x1000>;
+> +                       #address-cells = <1>;
+> +                       #size-cells = <1>;
+>
+> -                       led@08.0 {
+> +                       led@8,0 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x01>;
+>                                 label = "versatile:0";
+>                                 linux,default-trigger = "heartbeat";
+>                                 default-state = "on";
+>                         };
+> -                       led@08.1 {
+> +                       led@8,1 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x02>;
+>                                 label = "versatile:1";
+>                                 linux,default-trigger = "mmc0";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.2 {
+> +                       led@8,2 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x04>;
+>                                 label = "versatile:2";
+>                                 linux,default-trigger = "cpu0";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.3 {
+> +                       led@8,3 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x08>;
+>                                 label = "versatile:3";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.4 {
+> +                       led@8,4 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x10>;
+>                                 label = "versatile:4";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.5 {
+> +                       led@8,5 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x20>;
+>                                 label = "versatile:5";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.6 {
+> +                       led@8,6 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x40>;
+>                                 label = "versatile:6";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.7 {
+> +                       led@8,7 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x80>;
+>                                 label = "versatile:7";
+> diff --git a/arch/arm/boot/dts/arm-realview-pb11mp.dts b/arch/arm/boot/dts/arm-realview-pb11mp.dts
+> index 228a51a38f95..54d4cbd10bdf 100644
+> --- a/arch/arm/boot/dts/arm-realview-pb11mp.dts
+> +++ b/arch/arm/boot/dts/arm-realview-pb11mp.dts
+> @@ -303,64 +303,75 @@ soc {
+>                 pb11mp_syscon: syscon@10000000 {
+>                         compatible = "arm,realview-pb11mp-syscon", "syscon", "simple-mfd";
+>                         reg = <0x10000000 0x1000>;
+> +                       ranges = <0x0 0x10000000 0x1000>;
+> +                       #address-cells = <1>;
+> +                       #size-cells = <1>;
+>
+> -                       led@08.0 {
+> +                       led@8,0 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x01>;
+>                                 label = "versatile:0";
+>                                 linux,default-trigger = "heartbeat";
+>                                 default-state = "on";
+>                         };
+> -                       led@08.1 {
+> +                       led@8,1 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x02>;
+>                                 label = "versatile:1";
+>                                 linux,default-trigger = "mmc0";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.2 {
+> +                       led@8,2 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x04>;
+>                                 label = "versatile:2";
+>                                 linux,default-trigger = "cpu0";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.3 {
+> +                       led@8,3 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x08>;
+>                                 label = "versatile:3";
+>                                 linux,default-trigger = "cpu1";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.4 {
+> +                       led@8,4 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x10>;
+>                                 label = "versatile:4";
+>                                 linux,default-trigger = "cpu2";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.5 {
+> +                       led@8,5 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x20>;
+>                                 label = "versatile:5";
+>                                 linux,default-trigger = "cpu3";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.6 {
+> +                       led@8,6 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x40>;
+>                                 label = "versatile:6";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.7 {
+> +                       led@8,7 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x80>;
+>                                 label = "versatile:7";
+> diff --git a/arch/arm/boot/dts/arm-realview-pbx.dtsi b/arch/arm/boot/dts/arm-realview-pbx.dtsi
+> index ccf6f756b6ed..9366fecc699b 100644
+> --- a/arch/arm/boot/dts/arm-realview-pbx.dtsi
+> +++ b/arch/arm/boot/dts/arm-realview-pbx.dtsi
+> @@ -220,61 +220,72 @@ soc: soc {
+>                 syscon: syscon@10000000 {
+>                         compatible = "arm,realview-pbx-syscon", "syscon", "simple-mfd";
+>                         reg = <0x10000000 0x1000>;
+> +                       ranges = <0x0 0x10000000 0x1000>;
+> +                       #address-cells = <1>;
+> +                       #size-cells = <1>;
+>
+> -                       led@08.0 {
+> +                       led@8,0 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x01>;
+>                                 label = "versatile:0";
+>                                 linux,default-trigger = "heartbeat";
+>                                 default-state = "on";
+>                         };
+> -                       led@08.1 {
+> +                       led@8,1 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x02>;
+>                                 label = "versatile:1";
+>                                 linux,default-trigger = "mmc0";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.2 {
+> +                       led@8,2 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x04>;
+>                                 label = "versatile:2";
+>                                 linux,default-trigger = "cpu0";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.3 {
+> +                       led@8,3 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x08>;
+>                                 label = "versatile:3";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.4 {
+> +                       led@8,4 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x10>;
+>                                 label = "versatile:4";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.5 {
+> +                       led@8,5 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x20>;
+>                                 label = "versatile:5";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.6 {
+> +                       led@8,6 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x40>;
+>                                 label = "versatile:6";
+>                                 default-state = "off";
+>                         };
+> -                       led@08.7 {
+> +                       led@8,7 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x08 0x04>;
+>                                 offset = <0x08>;
+>                                 mask = <0x80>;
+>                                 label = "versatile:7";
+> diff --git a/arch/arm/boot/dts/integrator.dtsi b/arch/arm/boot/dts/integrator.dtsi
+> index 602f74d2c758..ad868cfebc94 100644
+> --- a/arch/arm/boot/dts/integrator.dtsi
+> +++ b/arch/arm/boot/dts/integrator.dtsi
+> @@ -15,10 +15,14 @@ memory {
+>         core-module@10000000 {
+>                 compatible = "arm,core-module-integrator", "syscon", "simple-mfd";
+>                 reg = <0x10000000 0x200>;
+> +               ranges = <0x0 0x10000000 0x200>;
+> +               #address-cells = <1>;
+> +               #size-cells = <1>;
+>
+>                 /* Use core module LED to indicate CPU load */
+> -               led@c.0 {
+> +               led@c,0 {
+>                         compatible = "register-bit-led";
+> +                       reg = <0x0c 0x04>;
+>                         offset = <0x0c>;
+>                         mask = <0x01>;
+>                         label = "integrator:core_module";
+> @@ -104,35 +108,42 @@ kmi@19000000 {
+>                         interrupts = <4>;
+>                 };
+>
+> -               syscon {
+> +               syscon@1a000000 {
+>                         /* Debug registers mapped as syscon */
+>                         compatible = "syscon", "simple-mfd";
+>                         reg = <0x1a000000 0x10>;
+> +                       ranges = <0x0 0x1a000000 0x10>;
+> +                       #address-cells = <1>;
+> +                       #size-cells = <1>;
+>
+> -                       led@4.0 {
+> +                       led@4,0 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x04 0x04>;
+>                                 offset = <0x04>;
+>                                 mask = <0x01>;
+>                                 label = "integrator:green0";
+>                                 linux,default-trigger = "heartbeat";
+>                                 default-state = "on";
+>                         };
+> -                       led@4.1 {
+> +                       led@4,1 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x04 0x04>;
+>                                 offset = <0x04>;
+>                                 mask = <0x02>;
+>                                 label = "integrator:yellow";
+>                                 default-state = "off";
+>                         };
+> -                       led@4.2 {
+> +                       led@4,2 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x04 0x04>;
+>                                 offset = <0x04>;
+>                                 mask = <0x04>;
+>                                 label = "integrator:red";
+>                                 default-state = "off";
+>                         };
+> -                       led@4.3 {
+> +                       led@4,3 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x04 0x04>;
+>                                 offset = <0x04>;
+>                                 mask = <0x08>;
+>                                 label = "integrator:green1";
+> diff --git a/arch/arm/boot/dts/mps2.dtsi b/arch/arm/boot/dts/mps2.dtsi
+> index 37f5023f529c..b99577d411b1 100644
+> --- a/arch/arm/boot/dts/mps2.dtsi
+> +++ b/arch/arm/boot/dts/mps2.dtsi
+> @@ -216,8 +216,13 @@ fpgaio@8000 {
+>                         compatible = "syscon", "simple-mfd";
+>                         reg = <0x8000 0x10>;
+>
+> -                       led0 {
+> +                       ranges = <0x0 0x8000 0x10>;
+> +                       #address-cells = <1>;
+> +                       #size-cells = <1>;
+> +
+> +                       led@0,0 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x00 0x04>;
+>                                 offset = <0x0>;
+>                                 mask = <0x01>;
+>                                 label = "userled:0";
+> @@ -225,8 +230,9 @@ led0 {
+>                                 default-state = "on";
+>                         };
+>
+> -                       led1 {
+> +                       led@0,1 {
+>                                 compatible = "register-bit-led";
+> +                               reg = <0x00 0x04>;
+>                                 offset = <0x0>;
+>                                 mask = <0x02>;
+>                                 label = "userled:1";
+> diff --git a/arch/arm/boot/dts/versatile-ab-ib2.dts b/arch/arm/boot/dts/versatile-ab-ib2.dts
+> index c577ff4bb4be..7ebb0dfd0467 100644
+> --- a/arch/arm/boot/dts/versatile-ab-ib2.dts
+> +++ b/arch/arm/boot/dts/versatile-ab-ib2.dts
+> @@ -13,9 +13,13 @@ / {
+>         syscon@27000000 {
+>                 compatible = "arm,versatile-ib2-syscon", "syscon", "simple-mfd";
+>                 reg = <0x27000000 0x4>;
+> +               ranges = <0x0 0x27000000 0x4>;
+> +               #address-cells = <1>;
+> +               #size-cells = <1>;
+>
+> -               led@00.4 {
+> +               led@0,4 {
+>                         compatible = "register-bit-led";
+> +                       reg = <0x00 0x04>;
+>                         offset = <0x00>;
+>                         mask = <0x10>;
+>                         label = "versatile-ib2:0";
+> diff --git a/arch/arm/boot/dts/versatile-ab.dts b/arch/arm/boot/dts/versatile-ab.dts
+> index 151c0220047d..79f7cc241282 100644
+> --- a/arch/arm/boot/dts/versatile-ab.dts
+> +++ b/arch/arm/boot/dts/versatile-ab.dts
+> @@ -70,61 +70,72 @@ vga_con_in: endpoint {
+>         core-module@10000000 {
+>                 compatible = "arm,core-module-versatile", "syscon", "simple-mfd";
+>                 reg = <0x10000000 0x200>;
+> +               ranges = <0x0 0x10000000 0x200>;
+> +               #address-cells = <1>;
+> +               #size-cells = <1>;
+>
+> -               led@08.0 {
+> +               led@8,0 {
+>                         compatible = "register-bit-led";
+> +                       reg = <0x08 0x04>;
+>                         offset = <0x08>;
+>                         mask = <0x01>;
+>                         label = "versatile:0";
+>                         linux,default-trigger = "heartbeat";
+>                         default-state = "on";
+>                 };
+> -               led@08.1 {
+> +               led@8,1 {
+>                         compatible = "register-bit-led";
+> +                       reg = <0x08 0x04>;
+>                         offset = <0x08>;
+>                         mask = <0x02>;
+>                         label = "versatile:1";
+>                         linux,default-trigger = "mmc0";
+>                         default-state = "off";
+>                 };
+> -               led@08.2 {
+> +               led@8,2 {
+>                         compatible = "register-bit-led";
+> +                       reg = <0x08 0x04>;
+>                         offset = <0x08>;
+>                         mask = <0x04>;
+>                         label = "versatile:2";
+>                         linux,default-trigger = "cpu0";
+>                         default-state = "off";
+>                 };
+> -               led@08.3 {
+> +               led@8,3 {
+>                         compatible = "register-bit-led";
+> +                       reg = <0x08 0x04>;
+>                         offset = <0x08>;
+>                         mask = <0x08>;
+>                         label = "versatile:3";
+>                         default-state = "off";
+>                 };
+> -               led@08.4 {
+> +               led@8,4 {
+>                         compatible = "register-bit-led";
+> +                       reg = <0x08 0x04>;
+>                         offset = <0x08>;
+>                         mask = <0x10>;
+>                         label = "versatile:4";
+>                         default-state = "off";
+>                 };
+> -               led@08.5 {
+> +               led@8,5 {
+>                         compatible = "register-bit-led";
+> +                       reg = <0x08 0x04>;
+>                         offset = <0x08>;
+>                         mask = <0x20>;
+>                         label = "versatile:5";
+>                         default-state = "off";
+>                 };
+> -               led@08.6 {
+> +               led@8,6 {
+>                         compatible = "register-bit-led";
+> +                       reg = <0x08 0x04>;
+>                         offset = <0x08>;
+>                         mask = <0x40>;
+>                         label = "versatile:6";
+>                         default-state = "off";
+>                 };
+> -               led@08.7 {
+> +               led@8,7 {
+>                         compatible = "register-bit-led";
+> +                       reg = <0x08 0x04>;
+>                         offset = <0x08>;
+>                         mask = <0x80>;
+>                         label = "versatile:7";
+> diff --git a/arch/arm64/boot/dts/arm/juno-motherboard.dtsi b/arch/arm64/boot/dts/arm/juno-motherboard.dtsi
+> index 40d95c58b55e..f7afb8faf5de 100644
+> --- a/arch/arm64/boot/dts/arm/juno-motherboard.dtsi
+> +++ b/arch/arm64/boot/dts/arm/juno-motherboard.dtsi
+> @@ -153,64 +153,75 @@ v2m_sysctl: sysctl@20000 {
+>                                 apbregs@10000 {
+>                                         compatible = "syscon", "simple-mfd";
+>                                         reg = <0x010000 0x1000>;
+> +                                       ranges = <0x0 0x10000 0x1000>;
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <1>;
+>
+> -                                       led0 {
+> +                                       led@8,0 {
+>                                                 compatible = "register-bit-led";
+> +                                               reg = <0x08 0x04>;
+>                                                 offset = <0x08>;
+>                                                 mask = <0x01>;
+>                                                 label = "vexpress:0";
+>                                                 linux,default-trigger = "heartbeat";
+>                                                 default-state = "on";
+>                                         };
+> -                                       led1 {
+> +                                       led@8,1 {
+>                                                 compatible = "register-bit-led";
+> +                                               reg = <0x08 0x04>;
+>                                                 offset = <0x08>;
+>                                                 mask = <0x02>;
+>                                                 label = "vexpress:1";
+>                                                 linux,default-trigger = "mmc0";
+>                                                 default-state = "off";
+>                                         };
+> -                                       led2 {
+> +                                       led@8,2 {
+>                                                 compatible = "register-bit-led";
+> +                                               reg = <0x08 0x04>;
+>                                                 offset = <0x08>;
+>                                                 mask = <0x04>;
+>                                                 label = "vexpress:2";
+>                                                 linux,default-trigger = "cpu0";
+>                                                 default-state = "off";
+>                                         };
+> -                                       led3 {
+> +                                       led@8,3 {
+>                                                 compatible = "register-bit-led";
+> +                                               reg = <0x08 0x04>;
+>                                                 offset = <0x08>;
+>                                                 mask = <0x08>;
+>                                                 label = "vexpress:3";
+>                                                 linux,default-trigger = "cpu1";
+>                                                 default-state = "off";
+>                                         };
+> -                                       led4 {
+> +                                       led@8,4 {
+>                                                 compatible = "register-bit-led";
+> +                                               reg = <0x08 0x04>;
+>                                                 offset = <0x08>;
+>                                                 mask = <0x10>;
+>                                                 label = "vexpress:4";
+>                                                 linux,default-trigger = "cpu2";
+>                                                 default-state = "off";
+>                                         };
+> -                                       led5 {
+> +                                       led@8,5 {
+>                                                 compatible = "register-bit-led";
+> +                                               reg = <0x08 0x04>;
+>                                                 offset = <0x08>;
+>                                                 mask = <0x20>;
+>                                                 label = "vexpress:5";
+>                                                 linux,default-trigger = "cpu3";
+>                                                 default-state = "off";
+>                                         };
+> -                                       led6 {
+> +                                       led@8,6 {
+>                                                 compatible = "register-bit-led";
+> +                                               reg = <0x08 0x04>;
+>                                                 offset = <0x08>;
+>                                                 mask = <0x40>;
+>                                                 label = "vexpress:6";
+>                                                 default-state = "off";
+>                                         };
+> -                                       led7 {
+> +                                       led@8,7 {
+>                                                 compatible = "register-bit-led";
+> +                                               reg = <0x08 0x04>;
+>                                                 offset = <0x08>;
+>                                                 mask = <0x80>;
+>                                                 label = "vexpress:7";
+> --
+> 2.30.2
+>
