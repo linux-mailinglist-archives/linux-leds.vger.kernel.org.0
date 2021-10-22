@@ -2,113 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0093437559
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Oct 2021 12:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E047A4376F5
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Oct 2021 14:22:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232521AbhJVKTb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Oct 2021 06:19:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54120 "EHLO
+        id S232724AbhJVMYc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 22 Oct 2021 08:24:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232518AbhJVKTa (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Oct 2021 06:19:30 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 466BDC061764
-        for <linux-leds@vger.kernel.org>; Fri, 22 Oct 2021 03:17:13 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mdrbq-0004Pr-Np; Fri, 22 Oct 2021 12:17:10 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mdrbo-00030F-Sc; Fri, 22 Oct 2021 12:17:08 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1mdrbo-0007op-Rj; Fri, 22 Oct 2021 12:17:08 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Riku Voipio <riku.voipio@iki.fi>, Pavel Machek <pavel@ucw.cz>
-Cc:     kernel@pengutronix.de, linux-leds@vger.kernel.org
-Subject: [PATCH v3] leds: pca9532: Make pca9532_destroy_devices() return void
-Date:   Fri, 22 Oct 2021 12:17:07 +0200
-Message-Id: <20211022101707.1194979-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211021121639.79179-1-u.kleine-koenig@pengutronix.de>
-References: <20211021121639.79179-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S232377AbhJVMY1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Oct 2021 08:24:27 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F854C079787
+        for <linux-leds@vger.kernel.org>; Fri, 22 Oct 2021 05:22:03 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id 5so1703145edw.7
+        for <linux-leds@vger.kernel.org>; Fri, 22 Oct 2021 05:22:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=EabbjzyBCsHP1Pqryzjhoy0dM3xlyxLmmpO8ACgMTo8=;
+        b=opUIgqVWyZcHOIldu+LgQVfQLu2JLSm4eq0yRYoR8X3EkJ0jJdtgK1LJrEC4fAYG/u
+         x5QndCavFk6KrgrLKL2M04eWhmo9Ht5gsCUOTzm6BFmYlOhPKCnfQmAWRcGWJ3Kgd+Po
+         dxnzE1GzD0Fe/zdoRYGanqsnNZ7HZwcDd5jvb2P53Z7ySB2eUUW5eKcCwJjvHcLwQW3D
+         hmZMQ0WQ67mADARNZlQPTMDFACAa1pT2f55C5E+z5xU/0SGGI05AA1ys/nk/8Z7QRecx
+         rbFLK51ODld/urTp+hjZ3tCNNEiv03NL8R5n8H4ZVv1sIR3Pcfr4FSd/aUugOrtvCJBK
+         4QUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=EabbjzyBCsHP1Pqryzjhoy0dM3xlyxLmmpO8ACgMTo8=;
+        b=NDo0WyMusmkDB6sfCmlc0jnUDi/50URQjrCdsEzLow55No7zHlfxIe13TlkqDTIvR1
+         No2prwCumvX234jEX2Gi3UI9dVJJl8yfCz9OhZgCCot+7Wsx95pOnNhviyMHQ209LL51
+         Qg9SGgQeKGhHb8gWI6p5gFuIuDBpeHw8237otldMx20baHslkqu/YA40ZB6t1eN8/Ese
+         LAdm0fP2zFHZ0Wb1HWVorWewooUTSZWCr2btxAHBeNPPGeDCVjjbByxlaNn4OGNfr3sD
+         33WvuDEFLDv/Klf1tHqAfV4eSZal9fF3ESKDHHC8iacFEaubP3KNK5gPb/5kf9+IkVRw
+         bwHg==
+X-Gm-Message-State: AOAM531H5lA7d0S/SEueCpJtS0N2prmgSZXyNYabj8A43NBaiyehPfMo
+        FTUsBkYAaJ6Xfuj9FeKN9cBnJr1Rg5Nrg1nYaKz7WSEs6wLdhqDn
+X-Google-Smtp-Source: ABdhPJy2Z+mCK6UsBedDHfuHLqHjOelryE6bx9xZ/OavTEghlxY+bPID2uQBe/oD5nVNF4jHf9BZTkpf3h9vpVXzB08=
+X-Received: by 2002:a17:907:1b0a:: with SMTP id mp10mr15488909ejc.29.1634905309828;
+ Fri, 22 Oct 2021 05:21:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Patch-Hashes: v=1; h=sha256; i=wteD60WHq2yuUQat+xq4gnGGLoUEF/GMIKNrrYOrulk=; m=UQEVRNw4l0E2ujy/6ePpDY2Hu0CQbSO7UBGtr08376U=; p=gwsFCJJzYkxiv34//mJxHzO6Z77GiRoQ8OL3lVrmlKI=; g=2c41a6011ef1f05c65ac007f5712860cb0dce653
-X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de; s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6; b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFyj58ACgkQwfwUeK3K7AnChAgAl6c pDejAylyt0U44F4gcDOYsMZd08WVT8ySVkXF9UeQfN2EsTqavCyn++7HX8nAG2EFHQfVBUb94z/mM dOtegCuxDLbLZ2FTTqhLSQkrgvJQgFQkLT3Y7/VaD0NksS5jInO1qoNF3tbXBpVVH3COskUAYnG8J qb05QDJ1yxRt7qWBq4H2aoxVuJgVJU2JWoU0Y6Dp5JVSbQYfv3z9xAN0/ymU16+wrBywPvVhp2ICm b9EYvPLpMPnEbxeSot1ReVj2cNEMWz5bQ05mGnY+cT4qmGUTH6eSwF2A12FneZOofq9JT1wRn+G1+ wT86lNQtYcHS9k6/P85dabId8Wmmggg==
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-leds@vger.kernel.org
+Received: by 2002:a17:907:7fa7:0:0:0:0 with HTTP; Fri, 22 Oct 2021 05:21:48
+ -0700 (PDT)
+Reply-To: bahadur.rayanby@gmail.com
+From:   Ryan Bahadur <dr.philposman7@gmail.com>
+Date:   Fri, 22 Oct 2021 05:21:48 -0700
+Message-ID: <CAMOT=VQ19xGMh1Soq8rNHNKaBCqZh03d0u+Nrf_Ou9bAtd-seQ@mail.gmail.com>
+Subject: CAN I TRUST YOU
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Up to now pca9532_destroy_devices() returns always zero because it's
-always called with data != NULL. Remove the never-taken error path and
-make it return void which makes it easier to see in the callers that
-there is no error to handle.
-
-Also the return value of i2c remove callbacks is ignored anyway.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-How embarrassing, I fatfingered v2 that was supposed to fix compilation
-issues. I forgot to actuall add the needed changes and only adapted the
-commit log :-\
-
-This one is good now (I hope!)
-
-Sorry for the inconvenience,
-Uwe
-
- drivers/leds/leds-pca9532.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/leds/leds-pca9532.c b/drivers/leds/leds-pca9532.c
-index 017794bb87ae..f72b5d1be3a6 100644
---- a/drivers/leds/leds-pca9532.c
-+++ b/drivers/leds/leds-pca9532.c
-@@ -318,13 +318,10 @@ static int pca9532_gpio_direction_output(struct gpio_chip *gc, unsigned offset,
- }
- #endif /* CONFIG_LEDS_PCA9532_GPIO */
- 
--static int pca9532_destroy_devices(struct pca9532_data *data, int n_devs)
-+static void pca9532_destroy_devices(struct pca9532_data *data, int n_devs)
- {
- 	int i = n_devs;
- 
--	if (!data)
--		return -EINVAL;
--
- 	while (--i >= 0) {
- 		switch (data->leds[i].type) {
- 		case PCA9532_TYPE_NONE:
-@@ -346,8 +343,6 @@ static int pca9532_destroy_devices(struct pca9532_data *data, int n_devs)
- 	if (data->gpio.parent)
- 		gpiochip_remove(&data->gpio);
- #endif
--
--	return 0;
- }
- 
- static int pca9532_configure(struct i2c_client *client,
-@@ -555,7 +550,9 @@ static int pca9532_remove(struct i2c_client *client)
- {
- 	struct pca9532_data *data = i2c_get_clientdata(client);
- 
--	return pca9532_destroy_devices(data, data->chip_info->num_leds);
-+	pca9532_destroy_devices(data, data->chip_info->num_leds);
-+
-+	return 0;
- }
- 
- module_i2c_driver(pca9532_driver);
 -- 
-2.30.2
+Greetings,
 
+Firstly, I apologize for encroaching into your privacy in this manner
+as it may seem unethical though it is a matter of great importance.
+
+I am Mr.Ryan Bahadur, I work with Cayman National Bank (Cayman Islands).
+
+I am contacting you because my status would not permit me to do this
+alone as it is concerning our customer and an investment placed under
+our bank's management over 5 years ago.
+
+I have a proposal I would love to discuss with you which will be very
+beneficial to both of us. It's regarding my late client who has a huge
+deposit with my bank.
+
+He is from your country and shares the same last name with you.
+
+I want to seek your consent to present you as the next of kin to my
+late client who died and left a huge deposit with my bank.
+
+I would respectfully request that you keep the contents of this mail
+confidential and respect the integrity of the information you come by
+as a result of this mail.
+
+Please kindly get back to me for more details if I can TRUST YOU.{
+bahadur.rayanby@gmail.com}
+
+Regards
+Mr.Ryan Bahadur
+Treasury and Deposit Management,
+Cayman National Bank Cayman Islands.
