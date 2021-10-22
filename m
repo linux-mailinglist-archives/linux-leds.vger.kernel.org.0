@@ -2,21 +2,31 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF16743729B
-	for <lists+linux-leds@lfdr.de>; Fri, 22 Oct 2021 09:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46D7C4372BB
+	for <lists+linux-leds@lfdr.de>; Fri, 22 Oct 2021 09:27:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231518AbhJVHXe (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 22 Oct 2021 03:23:34 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:49312 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231334AbhJVHXe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 22 Oct 2021 03:23:34 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 29FAE1C0B76; Fri, 22 Oct 2021 09:21:16 +0200 (CEST)
-Date:   Fri, 22 Oct 2021 09:21:15 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
+        id S231898AbhJVH3a (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 22 Oct 2021 03:29:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47086 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231334AbhJVH33 (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Fri, 22 Oct 2021 03:29:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F0A2060F46;
+        Fri, 22 Oct 2021 07:27:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634887632;
+        bh=dzqi7vFMuKP+qh6hHtsilh+1qXu9+uZu4RceOFaDhPs=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=m3ZqrcYmmw8AP/B8mqIGND2ZFwuU+/JnDkYfwjDS6AdpCcWt6dlBjOTe3qeEOIS5s
+         1pMKZEW+nHzlXshawJp+D1uFRH0cZZWr5fG6gRGsSGtbMmaDNO7SDkG8WJ4bOXrI3C
+         BUEnDRPxWMZlM0u9OYjMu0NbDnySb5oFz40lZRmsT0t9jWfPPPIeEYHrBNoCrcNkOc
+         mW0QqBwWgw8W7sgzTTxYdaWt0QdAU+Y8yMm6FtVzUnH0bP7pp18Vq3X9bulzGy4FJ/
+         iaRI/21fsVKDukBKeMVdEBNtw/+KaiU78QEi7NJO5EnnYiQdqAECkOT2KbRM4gyejP
+         +0sB3qSiD0dSg==
+Date:   Fri, 22 Oct 2021 09:27:08 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>
+cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
         Roderick Colenbrander <roderick@gaikai.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input <linux-input@vger.kernel.org>,
@@ -25,72 +35,57 @@ Cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
         Roderick Colenbrander <roderick.colenbrander@sony.com>
 Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
  for game controllers.
-Message-ID: <20211022072115.GA25215@amd>
-References: <20210908165539.3102929-1-roderick.colenbrander@sony.com>
- <20210908165539.3102929-3-roderick.colenbrander@sony.com>
- <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm>
- <20210927141109.GB5809@duo.ucw.cz>
- <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
- <20211013074849.GA10172@amd>
- <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2110220840340.12554@cbobk.fhfr.pm>
+In-Reply-To: <20211022072115.GA25215@amd>
+Message-ID: <nycvar.YFH.7.76.2110220924340.12554@cbobk.fhfr.pm>
+References: <20210908165539.3102929-1-roderick.colenbrander@sony.com> <20210908165539.3102929-3-roderick.colenbrander@sony.com> <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm> <20210927141109.GB5809@duo.ucw.cz> <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
+ <20211013074849.GA10172@amd> <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm> <nycvar.YFH.7.76.2110220840340.12554@cbobk.fhfr.pm> <20211022072115.GA25215@amd>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="VbJkn9YxBvnuCH5J"
-Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.2110220840340.12554@cbobk.fhfr.pm>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Fri, 22 Oct 2021, Pavel Machek wrote:
 
---VbJkn9YxBvnuCH5J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > > > Ok, so let's put it in the common place. I'll take this patch through
+> > > > LED tree if you resubmit it. You still may want to use local defines
+> > > > so you can apply the other patches without waiting.
+> > > 
+> > > Pavel, why complicate it so much? Given how trivial the patch is, the 
+> > > easiest way is what's usually done in such cases (where substantial patch 
+> > > depends on a tiny trivial change elsewhere) -- take it through HID tree 
+> > > with your Reviewed-by / Acked-by:.
+> > > 
+> > > Do you see any issue with that?
+> > 
+> > Pavel, another week has passed. I am considering just including the 
+> > trivial LED #define additions and take them through hid.git unless I hear 
+> > from you today.
+> 
+> I'd prefer not to deal with rejects / common immutable branches / etc.
 
-On Fri 2021-10-22 08:42:06, Jiri Kosina wrote:
-> On Mon, 18 Oct 2021, Jiri Kosina wrote:
->=20
-> > > Ok, so let's put it in the common place. I'll take this patch through
-> > > LED tree if you resubmit it. You still may want to use local defines
-> > > so you can apply the other patches without waiting.
-> >=20
-> > Pavel, why complicate it so much? Given how trivial the patch is, the=
-=20
-> > easiest way is what's usually done in such cases (where substantial pat=
-ch=20
-> > depends on a tiny trivial change elsewhere) -- take it through HID tree=
-=20
-> > with your Reviewed-by / Acked-by:.
-> >=20
-> > Do you see any issue with that?
->=20
-> Pavel, another week has passed. I am considering just including the=20
-> trivial LED #define additions and take them through hid.git unless I hear=
-=20
-> from you today.
+I am not proposing common immutable branch; and if there are going to be 
+trivial cotext conflicts because of that, those will be sorted out by 
+Linus without you even noticing.
 
-I'd prefer not to deal with rejects / common immutable branches / etc.
+> You don't _need_ the defines at all
 
-You don't _need_ the defines at all, and you don't need them in the
-common place. Just merge the patch without the defines. I'll merge the
-defines. That seems like least complex solution to me.
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
+As I've already pointed to you in several threads, we have quite a lot of 
+code queued that does depend on the defines.
 
---VbJkn9YxBvnuCH5J
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> and you don't need them in the common place.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+I compltely fail to see the point of having them teporarily local before 
+you manage to finally do something about the trivial addition to proper 
+shared header.
 
-iEYEARECAAYFAmFyZmsACgkQMOfwapXb+vIPbwCbBfwvELNVz959mosLHAHzUJQd
-M00An0WlBb7SytHb7gC+HdwX4YbXd5VG
-=G2Dv
------END PGP SIGNATURE-----
+> Just merge the patch without the defines. I'll merge the defines. That 
+> seems like least complex solution to me.
 
---VbJkn9YxBvnuCH5J--
+That would cause my tree not to build.
+
+-- 
+Jiri Kosina
+SUSE Labs
+
