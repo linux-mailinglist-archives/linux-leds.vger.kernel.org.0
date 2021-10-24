@@ -2,63 +2,89 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C247B4387AC
-	for <lists+linux-leds@lfdr.de>; Sun, 24 Oct 2021 10:41:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D324438983
+	for <lists+linux-leds@lfdr.de>; Sun, 24 Oct 2021 16:27:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbhJXIn5 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 24 Oct 2021 04:43:57 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:54646 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbhJXIn4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 24 Oct 2021 04:43:56 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id BFCE61C0B76; Sun, 24 Oct 2021 10:41:35 +0200 (CEST)
-Date:   Sun, 24 Oct 2021 10:41:35 +0200
-From:   Pavel Machek <pavel@ucw.cz>
+        id S230355AbhJXO3w (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 24 Oct 2021 10:29:52 -0400
+Received: from mail-ot1-f53.google.com ([209.85.210.53]:41969 "EHLO
+        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230419AbhJXO3w (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 24 Oct 2021 10:29:52 -0400
+Received: by mail-ot1-f53.google.com with SMTP id v2-20020a05683018c200b0054e3acddd91so8673309ote.8;
+        Sun, 24 Oct 2021 07:27:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=7ZnluDYvIgn2mPeO7loKd8KQYLBp7x1GGBhouOxlg4w=;
+        b=DR0HEtqCTveRi8JBpLrgz4bqDJfe3hNbbnlULzgp2Qr/8aMAnEaxe3Urk152jhvYYq
+         hBrZAg+MerATQFRWwnzdTJjbiHOsRqhMTDMVB4TGAwkBzqKVDs1yfDpCJUKC5IIUJ7rd
+         Z5mehhOOOBAj/yIRYqkMX6bNs4yYCI5yaVHAQ7Yniij25Bu/ze5oVIWVATBa0oj6WNyV
+         HExwpmnejAKQofDeFZfrwWk2Log9p+wwVDTFmdXHNTEbg75gURqSBPd7ugwExI+deTDm
+         JbVZ3i9VaYIXTLWYAGEPVrxbMsDGIVZJOeamAMtHbuN/VcIUFNpSA9MpeNrH2QCozdag
+         mKiA==
+X-Gm-Message-State: AOAM531TK4Ozk6fvFT+g9pyt+Pq98R7RdLDR5Vo8chjEmNJXYsYx+fVC
+        qBTRYcG7O5xp5EHwE7Q2Iedal/irZg==
+X-Google-Smtp-Source: ABdhPJzIdapdWUsQJXaelWm9F2lq5jCsqUjlY2p/XyudCyuf3LflJ+X47JVL0jqvz90FaOMU2KTXEg==
+X-Received: by 2002:a05:6830:3155:: with SMTP id c21mr9524673ots.104.1635085651160;
+        Sun, 24 Oct 2021 07:27:31 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id be2sm3189972oib.1.2021.10.24.07.27.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Oct 2021 07:27:30 -0700 (PDT)
+Received: (nullmailer pid 2015046 invoked by uid 1000);
+        Sun, 24 Oct 2021 14:27:27 -0000
+From:   Rob Herring <robh@kernel.org>
 To:     Marek Vasut <marex@denx.de>
-Cc:     linux-leds@vger.kernel.org,
+Cc:     Pavel Machek <pavel@ucw.cz>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: leds: Document none trigger
-Message-ID: <20211024084135.GB32488@duo.ucw.cz>
-References: <20211024002358.225750-1-marex@denx.de>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="7iMSBzlTiPOCCT2k"
-Content-Disposition: inline
-In-Reply-To: <20211024002358.225750-1-marex@denx.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+In-Reply-To: <20211024002358.225750-2-marex@denx.de>
+References: <20211024002358.225750-1-marex@denx.de> <20211024002358.225750-2-marex@denx.de>
+Subject: Re: [PATCH 2/2] dt-bindings: leds: Document mmc trigger
+Date:   Sun, 24 Oct 2021 09:27:27 -0500
+Message-Id: <1635085647.956792.2015042.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Sun, 24 Oct 2021 02:23:58 +0200, Marek Vasut wrote:
+> The mmc subsystem supports triggering leds on card activity, document
+> the trigger value here. The value is a pattern in this case.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> To: linux-leds@vger.kernel.org
+> ---
+>  .../devicetree/bindings/leds/common.yaml      | 43 ++++++++++---------
+>  1 file changed, 23 insertions(+), 20 deletions(-)
+> 
 
---7iMSBzlTiPOCCT2k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Hi!
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/leds/common.yaml:85:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
 
-> There is a trigger called "none" which triggers never, add it to the
-> list of valid trigger values.
+dtschema/dtc warnings/errors:
 
-We can do this, but is it useful? If you avoid putting trigger
-property, it will do the same thing.
+doc reference errors (make refcheckdocs):
 
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
+See https://patchwork.ozlabs.org/patch/1545330
 
---7iMSBzlTiPOCCT2k
-Content-Type: application/pgp-signature; name="signature.asc"
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
------BEGIN PGP SIGNATURE-----
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYXUcPwAKCRAw5/Bqldv6
-8gmGAJ0R+LRrN9FlKd1d3oT7lDFxXNL15wCfas0Mm1O0eEwde0hu9MNm2Wa6B8s=
-=o7G0
------END PGP SIGNATURE-----
+pip3 install dtschema --upgrade
 
---7iMSBzlTiPOCCT2k--
+Please check and re-submit.
+
