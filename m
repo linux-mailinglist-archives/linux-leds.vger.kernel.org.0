@@ -2,92 +2,152 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D967439291
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Oct 2021 11:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 121D8439646
+	for <lists+linux-leds@lfdr.de>; Mon, 25 Oct 2021 14:24:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232683AbhJYJjM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 25 Oct 2021 05:39:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53062 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232654AbhJYJjJ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 25 Oct 2021 05:39:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 853B860EFF;
-        Mon, 25 Oct 2021 09:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635154607;
-        bh=g8bY25dLS02+QAC7q/CdfhPVLD4w2MgXvkpSEHqQ4b0=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=pPrMRfiPCS89uEbQhCP0gBs2mxM46TubEb+inOFGhmaaVq5BOp2ol5cvXQrEOMyd9
-         KzSaaJU87mkgpaLr7nW8D8rZTgv2H1yHUaLJZ2pYGg6V2vwerB/cH9Qk6p+HvDfvp6
-         CX555o5kpwYC9Thu5zC2wk6uEQtwdMX46n4rpuvVQYbyaECt+5C8A8naO9OzQUb5To
-         qQULqs7/WT2X4FKLcaM71cudq6BK4AbVdyU84NeSTOJyMJiOK/KssP0+gXLNaOEuPE
-         sVzfy3LgsRQWK/16RH7aj0rJJEtbjc/wGhaUY+ktPyJmOqjTn8LGNrv3x3G9w8tVnj
-         4X4O8SngUUvAg==
-Date:   Mon, 25 Oct 2021 11:36:43 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-In-Reply-To: <20211025091929.GA5878@amd>
-Message-ID: <nycvar.YFH.7.76.2110251127380.12554@cbobk.fhfr.pm>
-References: <20210908165539.3102929-3-roderick.colenbrander@sony.com> <nycvar.YFH.7.76.2109221150110.15944@cbobk.fhfr.pm> <20210927141109.GB5809@duo.ucw.cz> <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com> <20211013074849.GA10172@amd>
- <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm> <nycvar.YFH.7.76.2110220840340.12554@cbobk.fhfr.pm> <20211022072115.GA25215@amd> <nycvar.YFH.7.76.2110220924340.12554@cbobk.fhfr.pm> <nycvar.YFH.7.76.2110220931190.12554@cbobk.fhfr.pm>
- <20211025091929.GA5878@amd>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S233087AbhJYM0l (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 25 Oct 2021 08:26:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39430 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232644AbhJYM0k (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 25 Oct 2021 08:26:40 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC160C061745
+        for <linux-leds@vger.kernel.org>; Mon, 25 Oct 2021 05:24:18 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id s1so16633840edd.3
+        for <linux-leds@vger.kernel.org>; Mon, 25 Oct 2021 05:24:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mind.be; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=n1UvCQXDX7rgwI8PGUePzOMzJWSDc9bmHCOv1+MdQ3Y=;
+        b=OHI1m6vKznaOm8uE1MZUnM3p7/VhykiWZ0fvDgNTIjsQfD/cMifP4jOnA04jMa1T4n
+         +mrD9OV4YLttojVbsjpgJTF9gfQWy4GJx1YRzEB+jtEm8BmPh7rKSX9UT9apv4caEwOw
+         c8VrqtVe4CZpv6Rrxv6gNLI/y/64fRVYBYJhHgxOiVp3l4mhuHKZ6mFhnmPpSIcUCXFm
+         0q6mufeEEEcoarcZcBckU6+nnsz+fFUDc4+0c6Oe36XxJ+FEo2K1oveQMG7BzMzAUKKl
+         YuvNgiEgieHbAR0nlXbxIzwi8os0IBpxY+CMSAaupV6AYjUAKRJGMstfm9jyb5udoQG3
+         7stw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=n1UvCQXDX7rgwI8PGUePzOMzJWSDc9bmHCOv1+MdQ3Y=;
+        b=2OngHWMeQmPRf62kZEsLN+d8fZhvuWPJiZugXPFAeoRZoBJqfSLWhfPWmAYhqv0M4P
+         ApbxUA0fKmgBF6gi/l7tti2lGqEWI6NSFsvS60siFeuUbfe2WlkUy/TXabL5JLT3sa5g
+         s8sKLH9bx5sdonc3DS0BK3WP82pW/61k7zGO1PJ5JeYoIX6O+Sv9oRCHDTe96dpxz1d+
+         c8SqM7exPTmxxQ5CVA7UaSjdDy9EuoDDXDHlJHTJ/bDCD1+JdJiWGqqDSqJnraKLE3k2
+         6nx2kTxHoi1vNk1o+HVrKf1DVANpJjrOuaOCz9FJp0MLdc25TYImGRviwnW4+MEpjWA2
+         yO6g==
+X-Gm-Message-State: AOAM530Vpo5V4vu8fAWg7+N5UoA7XL5v144aXN4PjHT0YMBEjosc/OH0
+        mfmx38pNZGdH4xeyvGhWvaOGZQ==
+X-Google-Smtp-Source: ABdhPJwx3DMwWMuGxjGI8TiKxoRcBnM5NM2+gRz1ooD3RRZREaNssvHfEYLs0LacvYd5FmXjVbx5Bw==
+X-Received: by 2002:a05:6402:35c5:: with SMTP id z5mr26392137edc.388.1635164655996;
+        Mon, 25 Oct 2021 05:24:15 -0700 (PDT)
+Received: from dtpc.zanders.be (78-22-137-109.access.telenet.be. [78.22.137.109])
+        by smtp.gmail.com with ESMTPSA id ga1sm699941ejc.100.2021.10.25.05.24.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 05:24:15 -0700 (PDT)
+From:   Maarten Zanders <maarten.zanders@mind.be>
+Cc:     Maarten Zanders <maarten.zanders@mind.be>, stable@vger.kernel.org,
+        dmurphy@ti.com, milo.kim@ti.com,
+        Arne Staessen <a.staessen@televic.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] leds: lp5523: fix out-of-bounds bug in lp5523_selftest()
+Date:   Mon, 25 Oct 2021 14:23:46 +0200
+Message-Id: <20211025122346.28771-1-maarten.zanders@mind.be>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, 25 Oct 2021, Pavel Machek wrote:
+When not all LED channels of the device are configured in OF, the
+array size of pdata->led_config is smaller than the max number of
+channels on the device. Subsequent accesses to pdata->led_config[i]
+are going beyond the bounds of the allocated array. The check on
+the configured led_current is also invalid, resulting in erroneous
+test results for this function.
 
-> > In other words: could you please elaborate what exact issue are you trying 
-> > to avoid by not providing your Acked-by: and letting it go through hid.git 
-> > with all the rest of the code depending on it?
-> 
-> I'm trying to avoid merge conflict.
+There is a potential for LED overcurrent conditions since the
+test current will be set to values from these out-of-bound regions.
+For the test, the PWM is set to 100%, although for a short amount
+of time.
 
-What's wrong with this kind of conflict?
+Instead of iterating over all the physical channels of the device,
+loop over the available LED configurations and use led->chan_nr to
+access the correct i2c registers. Keep the zero-check for the LED
+current as existing configurations might depend on this to disable
+a channel.
 
-That's what linux-next is for; if there is a conflict, we'll be notified 
-and if needed and we could indicate this to Linus during merge window. The 
-trivial ones he resolves without any issues. And we'll know exactly what 
-kind of conflict (if any at all) is there beforehand from linux-next.
+Cc: <stable@vger.kernel.org>
+Cc: <dmurphy@ti.com>
+Cc: <milo.kim@ti.com>
+Reported-by: Arne Staessen <a.staessen@televic.com>
+Signed-off-by: Maarten Zanders <maarten.zanders@mind.be>
+---
+ drivers/leds/leds-lp5523.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-> I believe open-coding string for a while is acceptable price to pay for 
-> that, and I'd prefer that solution.
-
-I don't. It's a mess. If you'd then for some reason change your mind on 
-the last minute and did the numbering differently in your tree, it will go 
-by unnoticed, while when the real conflict happens, it'll be a clear sign 
-that there is a thing to resolve.
-
-Conflict is not a bad thing per se that needs to be avoided at all costs.
-
-Conflict clearly shows the dependency between the trees and is trivially 
-resolved.
-
-> If you can promise that no conflicts or other problems will happen for 
-> either me or Linus... 
-
-Linus doesn't care about this kind of hypothetical conflict if there is a 
-reason for it, and he resolves them on a daily basis, just check the git 
-history.
-
-> go ahead and merge the patch.
-
-Can I take this as your Acked-by: then, so that I can finally apply it and 
-get the needed linux-next coverage before merge window opens?
-
+diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
+index b1590cb4a188..f3782759c8d8 100644
+--- a/drivers/leds/leds-lp5523.c
++++ b/drivers/leds/leds-lp5523.c
+@@ -581,8 +581,8 @@ static ssize_t lp5523_selftest(struct device *dev,
+ 	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
+ 	struct lp55xx_chip *chip = led->chip;
+ 	struct lp55xx_platform_data *pdata = chip->pdata;
+-	int i, ret, pos = 0;
+-	u8 status, adc, vdd;
++	int ret, pos = 0;
++	u8 status, adc, vdd, i;
+ 
+ 	mutex_lock(&chip->lock);
+ 
+@@ -612,20 +612,20 @@ static ssize_t lp5523_selftest(struct device *dev,
+ 
+ 	vdd--;	/* There may be some fluctuation in measurement */
+ 
+-	for (i = 0; i < LP5523_MAX_LEDS; i++) {
+-		/* Skip non-existing channels */
++	for (i = 0; i < pdata->num_channels; i++) {
++		/* Skip disabled channels */
+ 		if (pdata->led_config[i].led_current == 0)
+ 			continue;
+ 
+ 		/* Set default current */
+-		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + i,
++		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + led->chan_nr,
+ 			pdata->led_config[i].led_current);
+ 
+-		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + i, 0xff);
++		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + led->chan_nr, 0xff);
+ 		/* let current stabilize 2 - 4ms before measurements start */
+ 		usleep_range(2000, 4000);
+ 		lp55xx_write(chip, LP5523_REG_LED_TEST_CTRL,
+-			     LP5523_EN_LEDTEST | i);
++			     LP5523_EN_LEDTEST | led->chan_nr);
+ 		/* ADC conversion time is 2.7 ms typically */
+ 		usleep_range(3000, 6000);
+ 		ret = lp55xx_read(chip, LP5523_REG_STATUS, &status);
+@@ -640,12 +640,12 @@ static ssize_t lp5523_selftest(struct device *dev,
+ 			goto fail;
+ 
+ 		if (adc >= vdd || adc < LP5523_ADC_SHORTCIRC_LIM)
+-			pos += sprintf(buf + pos, "LED %d FAIL\n", i);
++			pos += sprintf(buf + pos, "LED %d FAIL\n", led->chan_nr);
+ 
+-		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + i, 0x00);
++		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + led->chan_nr, 0x00);
+ 
+ 		/* Restore current */
+-		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + i,
++		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + led->chan_nr,
+ 			led->led_current);
+ 		led++;
+ 	}
 -- 
-Jiri Kosina
-SUSE Labs
+2.31.1
 
