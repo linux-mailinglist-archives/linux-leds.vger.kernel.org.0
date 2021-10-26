@@ -2,79 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC24743B9EE
-	for <lists+linux-leds@lfdr.de>; Tue, 26 Oct 2021 20:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E29ED43BBB4
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Oct 2021 22:39:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232606AbhJZSvO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 26 Oct 2021 14:51:14 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:47990 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230308AbhJZSvO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 Oct 2021 14:51:14 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 403351C0B7F; Tue, 26 Oct 2021 20:48:48 +0200 (CEST)
-Date:   Tue, 26 Oct 2021 20:48:47 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v3 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-Message-ID: <20211026184847.GA25683@duo.ucw.cz>
-References: <20210927141109.GB5809@duo.ucw.cz>
- <CAEc3jaCxBn=2UU5bDva0mnjhwJpQBwKqmWnyAwFDNjBAV7MBng@mail.gmail.com>
- <20211013074849.GA10172@amd>
- <nycvar.YFH.7.76.2110181739310.12554@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2110220840340.12554@cbobk.fhfr.pm>
- <20211022072115.GA25215@amd>
- <nycvar.YFH.7.76.2110220924340.12554@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2110220931190.12554@cbobk.fhfr.pm>
- <20211025091929.GA5878@amd>
- <nycvar.YFH.7.76.2110251127380.12554@cbobk.fhfr.pm>
+        id S233946AbhJZUlg (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 26 Oct 2021 16:41:36 -0400
+Received: from mail-oi1-f175.google.com ([209.85.167.175]:43813 "EHLO
+        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239231AbhJZUlb (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 26 Oct 2021 16:41:31 -0400
+Received: by mail-oi1-f175.google.com with SMTP id o4so343631oia.10;
+        Tue, 26 Oct 2021 13:39:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=nlTgUp5qItfNiEj5SUL7gvzHOZ7DO4OwjbwHdix/bLs=;
+        b=in29vQQIFRR+BtESS8faUPzm05Wq10FvUDjhcAgSKczrVmFsN69Lizkjr8lsPsA+lm
+         qFRiJrssAuQHCuD63b+0oFUxbwaDUMEa5V4a2UO8N+0ASZ0e0yD05yVVq6cK+dIlvnmH
+         p5WwvwNXLCXwgSRGmF2JRmlYRMJM1ys2oRm2Et3xiQcNPYkzt/FpPPa/rS+1Kic3AC6h
+         paRhKEitbGlkooDxZcdhGbBH0wgw3EKrHtQroc4aKzqlTiPUUO+9jx0GjUftQBSVz2Zv
+         zSpaupkShlgHNhudlKe7z0w6VRqtYh3ePo2f6TWdrTP/cJpxesHnfF/U1DAbsCYXtpfX
+         U+ag==
+X-Gm-Message-State: AOAM530RxFkjKq8IU9mxyUy7ccXc8B4BbjBxr3jZzPeAHWb5rqxrTvUL
+        b6EZNaGvUat2qq2db94nC8SriDEObQ==
+X-Google-Smtp-Source: ABdhPJwulVD4Ce+LCyYWNUj7ujCjfERRm8f5MOIE9nIJV7cBxZ8EIdSw358FwPXw2GI2S2Jdn4rzJA==
+X-Received: by 2002:a05:6808:8f6:: with SMTP id d22mr806869oic.88.1635280746721;
+        Tue, 26 Oct 2021 13:39:06 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id d10sm4170935ooj.24.2021.10.26.13.39.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Oct 2021 13:39:06 -0700 (PDT)
+Received: (nullmailer pid 3204673 invoked by uid 1000);
+        Tue, 26 Oct 2021 20:39:05 -0000
+Date:   Tue, 26 Oct 2021 15:39:05 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>, pavel@ucw.cz,
+        netdev@vger.kernel.org, linux-leds@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrew Lunn <andrew@lunn.ch>, robh+dt@kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: leds: Deprecate `linux,default-trigger`
+ property
+Message-ID: <YXhnaUOrNm7jcp9l@robh.at.kernel.org>
+References: <20211013204424.10961-1-kabel@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.2110251127380.12554@cbobk.fhfr.pm>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211013204424.10961-1-kabel@kernel.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On Wed, 13 Oct 2021 22:44:22 +0200, Marek Behún wrote:
+> This property is deprecated in favor of the `function` property.
+> 
+> Signed-off-by: Marek Behún <kabel@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/leds/common.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
---sdtB3X0nJg68CQEu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> > go ahead and merge the patch.
->=20
-> Can I take this as your Acked-by: then, so that I can finally apply it an=
-d=20
-> get the needed linux-next coverage before merge window opens?
-
-Yes.
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---sdtB3X0nJg68CQEu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYXhNjwAKCRAw5/Bqldv6
-8oMuAJ9rzLeZ39gWhTzx4oOPK84VLVucHACeIv7K/4FR9VljSYvnjRMtT8ANeg0=
-=LhiS
------END PGP SIGNATURE-----
-
---sdtB3X0nJg68CQEu--
+Acked-by: Rob Herring <robh@kernel.org>
