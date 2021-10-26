@@ -2,152 +2,117 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 121D8439646
-	for <lists+linux-leds@lfdr.de>; Mon, 25 Oct 2021 14:24:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57D9C43A952
+	for <lists+linux-leds@lfdr.de>; Tue, 26 Oct 2021 02:38:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233087AbhJYM0l (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 25 Oct 2021 08:26:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39430 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232644AbhJYM0k (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 25 Oct 2021 08:26:40 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC160C061745
-        for <linux-leds@vger.kernel.org>; Mon, 25 Oct 2021 05:24:18 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id s1so16633840edd.3
-        for <linux-leds@vger.kernel.org>; Mon, 25 Oct 2021 05:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mind.be; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=n1UvCQXDX7rgwI8PGUePzOMzJWSDc9bmHCOv1+MdQ3Y=;
-        b=OHI1m6vKznaOm8uE1MZUnM3p7/VhykiWZ0fvDgNTIjsQfD/cMifP4jOnA04jMa1T4n
-         +mrD9OV4YLttojVbsjpgJTF9gfQWy4GJx1YRzEB+jtEm8BmPh7rKSX9UT9apv4caEwOw
-         c8VrqtVe4CZpv6Rrxv6gNLI/y/64fRVYBYJhHgxOiVp3l4mhuHKZ6mFhnmPpSIcUCXFm
-         0q6mufeEEEcoarcZcBckU6+nnsz+fFUDc4+0c6Oe36XxJ+FEo2K1oveQMG7BzMzAUKKl
-         YuvNgiEgieHbAR0nlXbxIzwi8os0IBpxY+CMSAaupV6AYjUAKRJGMstfm9jyb5udoQG3
-         7stw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=n1UvCQXDX7rgwI8PGUePzOMzJWSDc9bmHCOv1+MdQ3Y=;
-        b=2OngHWMeQmPRf62kZEsLN+d8fZhvuWPJiZugXPFAeoRZoBJqfSLWhfPWmAYhqv0M4P
-         ApbxUA0fKmgBF6gi/l7tti2lGqEWI6NSFsvS60siFeuUbfe2WlkUy/TXabL5JLT3sa5g
-         s8sKLH9bx5sdonc3DS0BK3WP82pW/61k7zGO1PJ5JeYoIX6O+Sv9oRCHDTe96dpxz1d+
-         c8SqM7exPTmxxQ5CVA7UaSjdDy9EuoDDXDHlJHTJ/bDCD1+JdJiWGqqDSqJnraKLE3k2
-         6nx2kTxHoi1vNk1o+HVrKf1DVANpJjrOuaOCz9FJp0MLdc25TYImGRviwnW4+MEpjWA2
-         yO6g==
-X-Gm-Message-State: AOAM530Vpo5V4vu8fAWg7+N5UoA7XL5v144aXN4PjHT0YMBEjosc/OH0
-        mfmx38pNZGdH4xeyvGhWvaOGZQ==
-X-Google-Smtp-Source: ABdhPJwx3DMwWMuGxjGI8TiKxoRcBnM5NM2+gRz1ooD3RRZREaNssvHfEYLs0LacvYd5FmXjVbx5Bw==
-X-Received: by 2002:a05:6402:35c5:: with SMTP id z5mr26392137edc.388.1635164655996;
-        Mon, 25 Oct 2021 05:24:15 -0700 (PDT)
-Received: from dtpc.zanders.be (78-22-137-109.access.telenet.be. [78.22.137.109])
-        by smtp.gmail.com with ESMTPSA id ga1sm699941ejc.100.2021.10.25.05.24.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Oct 2021 05:24:15 -0700 (PDT)
-From:   Maarten Zanders <maarten.zanders@mind.be>
-Cc:     Maarten Zanders <maarten.zanders@mind.be>, stable@vger.kernel.org,
-        dmurphy@ti.com, milo.kim@ti.com,
-        Arne Staessen <a.staessen@televic.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] leds: lp5523: fix out-of-bounds bug in lp5523_selftest()
-Date:   Mon, 25 Oct 2021 14:23:46 +0200
-Message-Id: <20211025122346.28771-1-maarten.zanders@mind.be>
-X-Mailer: git-send-email 2.31.1
+        id S235637AbhJZAk1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 25 Oct 2021 20:40:27 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:60863 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235604AbhJZAk1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 25 Oct 2021 20:40:27 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1635208684; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=8mByl3gAGfKf4AoJcCSTiFOyD0EhGvwG2hEw0n8Woe8=; b=ShOHMazzG6zWMmN7tjzpA+or3ydxPng2QOimkIWAN3X5jMm5gA2tACKSoq5ejAnHMiNGTYW8
+ NHBZWUzZ4m8RLXp1Yara7ZF27ILB4TOiwhpX0mkeOZICt6XFteKBbD5/BTIo0t1kHJGBH4R2
+ MbsVDcHNl8JyQdo45l9e34ntDEI=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkODczOCIsICJsaW51eC1sZWRzQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 61774de9fd91319f0f256d17 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 26 Oct 2021 00:38:01
+ GMT
+Sender: subbaram=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id AE8B2C4361A; Tue, 26 Oct 2021 00:38:00 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-5.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        NICE_REPLY_A,SPF_FAIL autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [10.47.233.232] (Global_NAT1.qualcomm.com [129.46.96.20])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: subbaram)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2CA92C4338F;
+        Tue, 26 Oct 2021 00:37:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 2CA92C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+Subject: Re: [PATCH v10 2/2] leds: Add driver for Qualcomm LPG
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>
+Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        Luca Weiss <luca@z3ntu.xyz>
+References: <20211010043912.136640-1-bjorn.andersson@linaro.org>
+ <20211010043912.136640-2-bjorn.andersson@linaro.org>
+From:   Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+Message-ID: <1ad508af-f7cb-a88f-07d8-5731c5a45403@codeaurora.org>
+Date:   Mon, 25 Oct 2021 17:37:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20211010043912.136640-2-bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-When not all LED channels of the device are configured in OF, the
-array size of pdata->led_config is smaller than the max number of
-channels on the device. Subsequent accesses to pdata->led_config[i]
-are going beyond the bounds of the allocated array. The check on
-the configured led_current is also invalid, resulting in erroneous
-test results for this function.
+Hi Bjorn,
 
-There is a potential for LED overcurrent conditions since the
-test current will be set to values from these out-of-bound regions.
-For the test, the PWM is set to 100%, although for a short amount
-of time.
+> +#define LPG_RESOLUTION		512
 
-Instead of iterating over all the physical channels of the device,
-loop over the available LED configurations and use led->chan_nr to
-access the correct i2c registers. Keep the zero-check for the LED
-current as existing configurations might depend on this to disable
-a channel.
+Just a thought. Having this fixed to 9-bit resolution would require a lot of code churn if this driver ends up supporting higher resolution PWM later. Would it be possible to have this as a parameter in "struct lpg_channel" ?
 
-Cc: <stable@vger.kernel.org>
-Cc: <dmurphy@ti.com>
-Cc: <milo.kim@ti.com>
-Reported-by: Arne Staessen <a.staessen@televic.com>
-Signed-off-by: Maarten Zanders <maarten.zanders@mind.be>
----
- drivers/leds/leds-lp5523.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+> +static const unsigned int lpg_clk_rates[] = {1024, 32768, 19200000};
+> +static const unsigned int lpg_pre_divs[] = {1, 3, 5, 6};
+> +
+> +static int lpg_calc_freq(struct lpg_channel *chan, uint64_t period)
+> +{
+> +	unsigned int clk, best_clk = 0;
+> +	unsigned int div, best_div = 0;
+> +	unsigned int m, best_m = 0;
+> +	unsigned int error;
+> +	unsigned int best_err = UINT_MAX;
+> +	u64 best_period = 0;
+> +
+> +	/*
+> +	 * The PWM period is determined by:
+> +	 *
+> +	 *          resolution * pre_div * 2^M
+> +	 * period = --------------------------
+> +	 *                   refclk
+> +	 *
+> +	 * With resolution fixed at 2^9 bits, pre_div = {1, 3, 5, 6} and
+> +	 * M = [0..7].
+> +	 *
+> +	 * This allows for periods between 27uS and 384s, as the PWM framework
+> +	 * wants a period of equal or lower length than requested, reject
+> +	 * anything below 27uS.
+> +	 */
+> +	if (period <= (u64)NSEC_PER_SEC * LPG_RESOLUTION / 19200000)
+> +		return -EINVAL;
+> +
+> +	/* Limit period to largest possible value, to avoid overflows */
+> +	if (period > (u64)NSEC_PER_SEC * LPG_RESOLUTION * 6 * (1 << LPG_MAX_M) / 1024)
+> +		period = (u64)NSEC_PER_SEC * LPG_RESOLUTION * 6 * (1 << LPG_MAX_M) / 2014;
 
-diff --git a/drivers/leds/leds-lp5523.c b/drivers/leds/leds-lp5523.c
-index b1590cb4a188..f3782759c8d8 100644
---- a/drivers/leds/leds-lp5523.c
-+++ b/drivers/leds/leds-lp5523.c
-@@ -581,8 +581,8 @@ static ssize_t lp5523_selftest(struct device *dev,
- 	struct lp55xx_led *led = i2c_get_clientdata(to_i2c_client(dev));
- 	struct lp55xx_chip *chip = led->chip;
- 	struct lp55xx_platform_data *pdata = chip->pdata;
--	int i, ret, pos = 0;
--	u8 status, adc, vdd;
-+	int ret, pos = 0;
-+	u8 status, adc, vdd, i;
- 
- 	mutex_lock(&chip->lock);
- 
-@@ -612,20 +612,20 @@ static ssize_t lp5523_selftest(struct device *dev,
- 
- 	vdd--;	/* There may be some fluctuation in measurement */
- 
--	for (i = 0; i < LP5523_MAX_LEDS; i++) {
--		/* Skip non-existing channels */
-+	for (i = 0; i < pdata->num_channels; i++) {
-+		/* Skip disabled channels */
- 		if (pdata->led_config[i].led_current == 0)
- 			continue;
- 
- 		/* Set default current */
--		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + i,
-+		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + led->chan_nr,
- 			pdata->led_config[i].led_current);
- 
--		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + i, 0xff);
-+		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + led->chan_nr, 0xff);
- 		/* let current stabilize 2 - 4ms before measurements start */
- 		usleep_range(2000, 4000);
- 		lp55xx_write(chip, LP5523_REG_LED_TEST_CTRL,
--			     LP5523_EN_LEDTEST | i);
-+			     LP5523_EN_LEDTEST | led->chan_nr);
- 		/* ADC conversion time is 2.7 ms typically */
- 		usleep_range(3000, 6000);
- 		ret = lp55xx_read(chip, LP5523_REG_STATUS, &status);
-@@ -640,12 +640,12 @@ static ssize_t lp5523_selftest(struct device *dev,
- 			goto fail;
- 
- 		if (adc >= vdd || adc < LP5523_ADC_SHORTCIRC_LIM)
--			pos += sprintf(buf + pos, "LED %d FAIL\n", i);
-+			pos += sprintf(buf + pos, "LED %d FAIL\n", led->chan_nr);
- 
--		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + i, 0x00);
-+		lp55xx_write(chip, LP5523_REG_LED_PWM_BASE + led->chan_nr, 0x00);
- 
- 		/* Restore current */
--		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + i,
-+		lp55xx_write(chip, LP5523_REG_LED_CURRENT_BASE + led->chan_nr,
- 			led->led_current);
- 		led++;
- 	}
--- 
-2.31.1
+s/2014/1024 ?
+
+Thanks,
+Subbaraman
+
 
