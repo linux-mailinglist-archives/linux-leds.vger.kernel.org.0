@@ -2,85 +2,69 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F153441A85
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Nov 2021 12:14:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA399441AF6
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Nov 2021 12:59:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231560AbhKALQd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 1 Nov 2021 07:16:33 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:49698 "EHLO
+        id S232334AbhKAMCB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 1 Nov 2021 08:02:01 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:53900 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230520AbhKALQd (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 1 Nov 2021 07:16:33 -0400
+        with ESMTP id S231693AbhKAMCA (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 1 Nov 2021 08:02:00 -0400
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 029C31C0B87; Mon,  1 Nov 2021 12:13:59 +0100 (CET)
-Date:   Mon, 1 Nov 2021 12:13:54 +0100
+        id 86DEE1C0B76; Mon,  1 Nov 2021 12:59:14 +0100 (CET)
+Date:   Mon, 1 Nov 2021 12:59:10 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
-Subject: [GIT PULL] LEDs changes for v5.16-rc1
-Message-ID: <20211101111354.GA29161@duo.ucw.cz>
+To:     Heiner Kallweit <hkallweit1@gmail.com>
+Cc:     "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
+Subject: Re: [PATCH] leds: Don't emit brightness set error message if LED
+ supports hw triggers only
+Message-ID: <20211101115910.GA2571@duo.ucw.cz>
+References: <f80b57aa-a542-1d6b-50d9-6de0520f2871@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
+        protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
 Content-Disposition: inline
+In-Reply-To: <f80b57aa-a542-1d6b-50d9-6de0520f2871@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---h31gzZEtNLTqOjlF
+--LZvS9be/3tNcYl/X
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
+Hi!
 
-  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
 
-are available in the Git repository at:
+> Working on a driver for specific network LEDs that support HW triggers
+> only I got error "Setting an LED's brightness failed" when switching
+> to a different trigger. This is caused by call
+> led_set_brightness(led_cdev, LED_OFF) in led_trigger_set() because
+> both brigthness_set callbacks are not implemented. Let's suppress
+> the error message in that case.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
-leds-5.16-rc1
+Hmm... do we have such LEDs in tree? LED supporting only hardware
+triggers is kind of unusual/interesting/and I'm not really sure if we
+should have them in LED subsystem.
 
-for you to fetch changes up to 97b31c1f8eb865bc3aa5f4a08286a6406d782ea8:
-
-  leds: trigger: Disable CPU trigger on PREEMPT_RT (2021-10-13 20:07:57 +02=
-00)
-
-----------------------------------------------------------------
-Johannes pointed out that locking is still problematic with triggers
-list, attempt to solve that by using RCU.
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      led-class-flash: fix -Wrestrict warning
-
-Johannes Berg (1):
-      leds: trigger: use RCU to protect the led_cdevs list
-
-Sebastian Andrzej Siewior (1):
-      leds: trigger: Disable CPU trigger on PREEMPT_RT
-
- drivers/leds/led-class-flash.c |  2 +-
- drivers/leds/led-triggers.c    | 41 +++++++++++++++++++++-----------------=
----
- drivers/leds/trigger/Kconfig   |  1 +
- include/linux/leds.h           |  2 +-
- 4 files changed, 24 insertions(+), 22 deletions(-)
+Best regards,
+								Pavel
 
 --=20
 http://www.livejournal.com/~pavelmachek
 
---h31gzZEtNLTqOjlF
+--LZvS9be/3tNcYl/X
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYX/L8gAKCRAw5/Bqldv6
-8g8VAJ4vn7jrW2sw1nmFXw/+Y/c05pI1rACfX5LlBlnk9zm9DCLrg5pXY2Fszg4=
-=C8Y1
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYX/WjgAKCRAw5/Bqldv6
+8mllAJ94E7Nxw3EnWZcmH8pYpXJnZbLnlwCcCQ33jw6Y9Csb07oUHAoCOHPDfug=
+=fbcp
 -----END PGP SIGNATURE-----
 
---h31gzZEtNLTqOjlF--
+--LZvS9be/3tNcYl/X--
