@@ -2,80 +2,85 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A511D4414AD
-	for <lists+linux-leds@lfdr.de>; Mon,  1 Nov 2021 09:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F153441A85
+	for <lists+linux-leds@lfdr.de>; Mon,  1 Nov 2021 12:14:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231448AbhKAIFo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 1 Nov 2021 04:05:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231455AbhKAIFn (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 1 Nov 2021 04:05:43 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE282C06120C
-        for <linux-leds@vger.kernel.org>; Mon,  1 Nov 2021 01:03:09 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id l13so34780880lfg.6
-        for <linux-leds@vger.kernel.org>; Mon, 01 Nov 2021 01:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=kTlPYaJ3qmdiuwil3bN4/5BGELxQxYaH2mDV2D/+NOc=;
-        b=noIunhl9PvoPcUkMO1aIA1oVXnNEN4KUMnLzX81u41bUYmm654/d+8Zmtlo6rVUfiP
-         URKnr6K8ehg0Wh7FRqSI9k6fPv2DsXoeQF5RyVvvBWL5iE17ii0Hwy7DEGCxBrabSyNn
-         EOknVx9TADL+GR6CwdZv5iwiQkA+SgU+2TIIuYRY7UtEIvS3tf+3AOfWSGAHDegfCUDW
-         KFTXPeEWCeZvS9OsO77XW5FzLhbHNg24miTgIfpxgxdtWSxpsMgcVp1ovVt1nV8bPABY
-         Nt9t0GENejSl8bnKdYk9qzpsZJoEh4QUKHq3To1LyThtQ/UNoUZiShWGV9dnp4emntud
-         6TAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=kTlPYaJ3qmdiuwil3bN4/5BGELxQxYaH2mDV2D/+NOc=;
-        b=vODwOxQEIJZ7rFERA/xQhrip/oZN6TJCv41YSMSX0WrVp+eX62j+Oaz0VN9RBronhe
-         OkYnW5oXxKIIajbRbFLz98wkty6/G2mr2WYI+Jab4rNEkfOAKrd9r478BLuJlbH6GP7K
-         nHtPNBv2gEIjxxOF5SapLMZKd3gVMx5JprpYr7E5U3blCYeTMxPiI8QORk+m5rmigtiW
-         ToVFtjM77yG9rZEIZ+d0ETqdbYLPjZoLHsLPqTRH8NsDBnCTstew3vypG16qcHnPKKnA
-         n94xSoRNGebOFsg3goDKCbtLpHmycIWJON0J0bZhvg1u9xezOUCKNcLEYYLsA7dBM4MZ
-         Vv7A==
-X-Gm-Message-State: AOAM532zAYRZ87bsYHfVjrpJMU3yIpvm1kOGpWX3/Xwrq1AH1t4PgShT
-        oqO9IKg3PRYywZISXieFklYZzNpsXMhz1Xz2ucs=
-X-Google-Smtp-Source: ABdhPJxXtE0G1whIGXe2hxI/YsBwuQCFdtv4O25KgKEw0cNYTytiUo7Vy8b5pLqj8uf6S/Zvq7lb35uF1vpbXYsY0v0=
-X-Received: by 2002:a05:6512:a8e:: with SMTP id m14mr26458494lfu.575.1635753787779;
- Mon, 01 Nov 2021 01:03:07 -0700 (PDT)
+        id S231560AbhKALQd (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 1 Nov 2021 07:16:33 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:49698 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230520AbhKALQd (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 1 Nov 2021 07:16:33 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 029C31C0B87; Mon,  1 Nov 2021 12:13:59 +0100 (CET)
+Date:   Mon, 1 Nov 2021 12:13:54 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+Subject: [GIT PULL] LEDs changes for v5.16-rc1
+Message-ID: <20211101111354.GA29161@duo.ucw.cz>
 MIME-Version: 1.0
-Received: by 2002:a05:6512:304b:0:0:0:0 with HTTP; Mon, 1 Nov 2021 01:03:07
- -0700 (PDT)
-Reply-To: aisha.7d@yahoo.com
-From:   Aisha AG <rbx17058@gmail.com>
-Date:   Mon, 1 Nov 2021 00:03:07 -0800
-Message-ID: <CA+KbyyeEn+hP9T75RRy6+snGWxpAx+xn43MKdB30KYFYZNAV2Q@mail.gmail.com>
-Subject: Hello Dear,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
--- 
-Hello Dear,
 
-I came across your e-mail contact prior to a private search while in
-need of your assistance. I am Aisha Al-Qaddafi, the only biological
-Daughter of Former President of Libya Col.Muammar Al-Qaddafi.
-Am a Widow and a single Mother with three Children.
+--h31gzZEtNLTqOjlF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have investment funds worth Twenty Seven Million Five Hundred
-Thousand United State Dollar $27.500.000.00, and i need a trusted
-investment Manager/Partner because of my current refugee status,
-however, I am interested in you for investment project assistance in
-your country, may be from there, we can build business relationship
-in the nearest future.
+The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
 
-I am willing to negotiate an investment/business profit sharing ratio
-with you based on the future investment earning profits.
+  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
 
-If you are willing to handle this project on my behalf kindly reply
-urgently to enable me to provide you more information about the
-investment funds.
-Best Regards
-Mrs Aisha Al-Qaddafi.
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/=
+leds-5.16-rc1
+
+for you to fetch changes up to 97b31c1f8eb865bc3aa5f4a08286a6406d782ea8:
+
+  leds: trigger: Disable CPU trigger on PREEMPT_RT (2021-10-13 20:07:57 +02=
+00)
+
+----------------------------------------------------------------
+Johannes pointed out that locking is still problematic with triggers
+list, attempt to solve that by using RCU.
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      led-class-flash: fix -Wrestrict warning
+
+Johannes Berg (1):
+      leds: trigger: use RCU to protect the led_cdevs list
+
+Sebastian Andrzej Siewior (1):
+      leds: trigger: Disable CPU trigger on PREEMPT_RT
+
+ drivers/leds/led-class-flash.c |  2 +-
+ drivers/leds/led-triggers.c    | 41 +++++++++++++++++++++-----------------=
+---
+ drivers/leds/trigger/Kconfig   |  1 +
+ include/linux/leds.h           |  2 +-
+ 4 files changed, 24 insertions(+), 22 deletions(-)
+
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--h31gzZEtNLTqOjlF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYX/L8gAKCRAw5/Bqldv6
+8g8VAJ4vn7jrW2sw1nmFXw/+Y/c05pI1rACfX5LlBlnk9zm9DCLrg5pXY2Fszg4=
+=C8Y1
+-----END PGP SIGNATURE-----
+
+--h31gzZEtNLTqOjlF--
