@@ -2,60 +2,91 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E36A442591
-	for <lists+linux-leds@lfdr.de>; Tue,  2 Nov 2021 03:20:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E97B244538F
+	for <lists+linux-leds@lfdr.de>; Thu,  4 Nov 2021 14:09:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbhKBCWm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 1 Nov 2021 22:22:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37814 "EHLO mail.kernel.org"
+        id S231601AbhKDNMD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 4 Nov 2021 09:12:03 -0400
+Received: from phobos.denx.de ([85.214.62.61]:41500 "EHLO phobos.denx.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229948AbhKBCWj (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 1 Nov 2021 22:22:39 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 2F1BD60F0F;
-        Tue,  2 Nov 2021 02:20:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635819605;
-        bh=dj7sEltdqY2u0fwXET2AARtOVatj/yHTRTq1TKtMbVk=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=RhCMQB4KaOlgM8/r0WOa1koocXQFMR96OJd5820YAk+nQUk2X8ujB8BhlQtZ88n3g
-         Mu5rjs5N32LcrWyhjaCQLgtQp9zuwWCSLOb+LIXirmhKhumj+rq8WEJ0HyJIUTP5uY
-         akt2E7H/f93YcrekNqbnTTakfucLtTL+RA1le7zqR/hIwXT0dCBI7kwHe0DCPlT7oq
-         7Rzks702yvazTVIJprt6m4gGzlXdhIBj6w2oGdqsBIvlQ22bk7IbfzP5uxeyrvgVoa
-         Uz2NHF1HJAvDDfGGr04GenQhZIuyCbooBt139kb20tveEMZU/bQdlAeWv0avpHPWZ2
-         xCjOOJi5SwpdA==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 2430260A3C;
-        Tue,  2 Nov 2021 02:20:05 +0000 (UTC)
-Subject: Re: [GIT PULL] LEDs changes for v5.16-rc1
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20211101111354.GA29161@duo.ucw.cz>
-References: <20211101111354.GA29161@duo.ucw.cz>
-X-PR-Tracked-List-Id: <linux-leds.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20211101111354.GA29161@duo.ucw.cz>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.16-rc1
-X-PR-Tracked-Commit-Id: 97b31c1f8eb865bc3aa5f4a08286a6406d782ea8
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4dee060625e1095c7065fead542e96ba9504c7eb
-Message-Id: <163581960513.22980.7310812582024098705.pr-tracker-bot@kernel.org>
-Date:   Tue, 02 Nov 2021 02:20:05 +0000
+        id S231210AbhKDNMA (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 4 Nov 2021 09:12:00 -0400
+Received: from maia.denx.de (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: hws@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 6DBBE836A7;
+        Thu,  4 Nov 2021 14:09:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1636031361;
+        bh=YVW1gzpF3RR5awNQMuSHVPGPJkaahpVca7CxadlYKWA=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=JN1vVd1NZ/EnoLwaY9WjZadN/d28IlHyM4Y0/pVceKSRtBVNFH4E7nEfSbY1tAHay
+         aSfLytelWChXaTukm6C1vUgS0Uy12WoValUqMi0sTUnAh/XHaBjcJzXQBNvfyLLdPb
+         IGavmmxnGH6XF7TkfsD+YIaeY63owD0g5h7Pff4pv1kMne2jnWaY5zf7R7jrecUGIT
+         SVfYg64czmh/QB+E9aoIUNuJ58JSH+vVkgYGLihq/1ZuFHHGtb9m7nZtf1igN/zYI5
+         7v7Zp6P432VkM9xT/qLDHOZzud7rwG3cop2VhmHo1JnMR3ExEPWfsR1BtQWix+Pm/h
+         zm39nZITQUSTA==
+Message-ID: <f03bf00b8d0e8f640379016f3bf6ba5a8b1af456.camel@denx.de>
+Subject: Re: [PATCH] leds: gpio: Always provide
+ cdev->brightness_set_blocking()
+From:   Harald Seiler <hws@denx.de>
 To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        jacek.anaszewski@gmail.com, linux-leds@vger.kernel.org
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jacek Anaszewski <j.anaszewski@samsung.com>
+Date:   Thu, 04 Nov 2021 14:09:21 +0100
+In-Reply-To: <20210922172133.2257467-1-hws@denx.de>
+References: <20210922172133.2257467-1-hws@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The pull request you sent on Mon, 1 Nov 2021 12:13:54 +0100:
+Hi Pavel,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git/ tags/leds-5.16-rc1
+On Wed, 2021-09-22 at 19:21 +0200, Harald Seiler wrote:
+> Even if the GPIO driver will never sleep, setting
+> cdev->brightness_set_blocking() makes sense so
+> led_set_brightness_sync() can be used with such LEDs.
+> 
+> Internally, both gpio_led_set_blocking() and gpio_led_set() call
+> the same implementation anyway.
+> 
+> Cc: Jacek Anaszewski <j.anaszewski@samsung.com>
+> Signed-off-by: Harald Seiler <hws@denx.de>
+> ---
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4dee060625e1095c7065fead542e96ba9504c7eb
-
-Thank you!
+Any chance you can pick this up?  This fix is needed to use gpio leds
+with, for example, the tty trigger.
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Harald
+
+>  drivers/leds/leds-gpio.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
+> index b5d5e22d2d1e..bbe582e47607 100644
+> --- a/drivers/leds/leds-gpio.c
+> +++ b/drivers/leds/leds-gpio.c
+> @@ -79,11 +79,12 @@ static int create_gpio_led(const struct gpio_led *template,
+>  	int ret, state;
+>  
+>  	led_dat->cdev.default_trigger = template->default_trigger;
+> +	led_dat->cdev.brightness_set_blocking = gpio_led_set_blocking;
+> +
+>  	led_dat->can_sleep = gpiod_cansleep(led_dat->gpiod);
+>  	if (!led_dat->can_sleep)
+>  		led_dat->cdev.brightness_set = gpio_led_set;
+> -	else
+> -		led_dat->cdev.brightness_set_blocking = gpio_led_set_blocking;
+> +
+>  	led_dat->blinking = 0;
+>  	if (blink_set) {
+>  		led_dat->platform_gpio_blink_set = blink_set;
+
