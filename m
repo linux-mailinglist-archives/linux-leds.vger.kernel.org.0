@@ -2,91 +2,71 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E97B244538F
-	for <lists+linux-leds@lfdr.de>; Thu,  4 Nov 2021 14:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3E4E447406
+	for <lists+linux-leds@lfdr.de>; Sun,  7 Nov 2021 17:49:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231601AbhKDNMD (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Thu, 4 Nov 2021 09:12:03 -0400
-Received: from phobos.denx.de ([85.214.62.61]:41500 "EHLO phobos.denx.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231210AbhKDNMA (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Thu, 4 Nov 2021 09:12:00 -0400
-Received: from maia.denx.de (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: hws@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 6DBBE836A7;
-        Thu,  4 Nov 2021 14:09:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1636031361;
-        bh=YVW1gzpF3RR5awNQMuSHVPGPJkaahpVca7CxadlYKWA=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=JN1vVd1NZ/EnoLwaY9WjZadN/d28IlHyM4Y0/pVceKSRtBVNFH4E7nEfSbY1tAHay
-         aSfLytelWChXaTukm6C1vUgS0Uy12WoValUqMi0sTUnAh/XHaBjcJzXQBNvfyLLdPb
-         IGavmmxnGH6XF7TkfsD+YIaeY63owD0g5h7Pff4pv1kMne2jnWaY5zf7R7jrecUGIT
-         SVfYg64czmh/QB+E9aoIUNuJ58JSH+vVkgYGLihq/1ZuFHHGtb9m7nZtf1igN/zYI5
-         7v7Zp6P432VkM9xT/qLDHOZzud7rwG3cop2VhmHo1JnMR3ExEPWfsR1BtQWix+Pm/h
-         zm39nZITQUSTA==
-Message-ID: <f03bf00b8d0e8f640379016f3bf6ba5a8b1af456.camel@denx.de>
-Subject: Re: [PATCH] leds: gpio: Always provide
- cdev->brightness_set_blocking()
-From:   Harald Seiler <hws@denx.de>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jacek Anaszewski <j.anaszewski@samsung.com>
-Date:   Thu, 04 Nov 2021 14:09:21 +0100
-In-Reply-To: <20210922172133.2257467-1-hws@denx.de>
-References: <20210922172133.2257467-1-hws@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+        id S235837AbhKGQvl (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 7 Nov 2021 11:51:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35250 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235847AbhKGQvl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 7 Nov 2021 11:51:41 -0500
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B4F1C061570
+        for <linux-leds@vger.kernel.org>; Sun,  7 Nov 2021 08:48:58 -0800 (PST)
+Received: by mail-ua1-x936.google.com with SMTP id e10so27085153uab.3
+        for <linux-leds@vger.kernel.org>; Sun, 07 Nov 2021 08:48:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=3KhLtwCKP93j3EcWq+BGTsAWsp8Oi4eBuXX0Ov40ah8=;
+        b=TNg4tHoQw5kKoLZkiGTAZIxJzUBBq4ejYt4ncgOecgNOvSUwtqqwittPPI+7pJVjX+
+         GpTp2M0KfhRYRUpBRXEYVXnxqP/7lqMWjwkVgxSXQTHg4r801CGBH3Cxkr2xCA8iHpDQ
+         PkNioeCtNa8D4FxZOybE5F6kFZNCXIj5SS/5dluRY9kmgQGkqsgb/0EL9qYgh0jdJYEk
+         mgqrImAxVO9xLB3ph2REOdqPQUk3eSUgj070IZGlv2zYI0h97xHGiGSssFFZrlwEHWTd
+         7gJa3FlCIyQYHI4/knwR34TShiwqFLlPcy+ypePmUlRAZLKNrHzuj6T1hpUgZdGxUgLr
+         tNtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=3KhLtwCKP93j3EcWq+BGTsAWsp8Oi4eBuXX0Ov40ah8=;
+        b=yyeESUhtyD0oB5e4YHuh0nQwIdbgVWqxB2e5o9Mj964UxmhTjsoUh0xZU1vZOJjJyy
+         PhFXq64/kjcGx+B2MkB95wbp1LX2M3w3Us8RbGz58QiMxG09aKUyh7f5rk1uj+0V2+m5
+         RSl2W3MjtYmRuWDvpaeQHQdGIUIAeUJHn00P9op/lS0HUaWiENoWOK9cv9qw6v1OrCGR
+         KJHjAomNmPVKdrVTI3szlOD4fCmb3PmeYy2F+Kn4amZ9zCtsWp6OEycnnny4bTNEugZ7
+         i37W1ng8Zn3Kuu02jkCx7sox27o/M9+wnK7LYro+tQmuPuIeV8c6AuysWy/PbTUB+M2q
+         fltw==
+X-Gm-Message-State: AOAM53204BNbsWbWnUdb70rNuaIRpAuPwRINy1CFCfqzBL/LuA3MrZj8
+        oViwlYcqlfe+cLyL/TOvCgfTzeE8xBUUudXxtOX4LHZQntNogw==
+X-Google-Smtp-Source: ABdhPJxAeCOxzzTO2bC1ebInPX7TK42gu5RWx2Xb9R/R8imfArbHNs+vmtD0xqJ/WYY5NVOuLREd2E+dZSLVoRt6leo=
+X-Received: by 2002:a17:902:a60b:b0:142:7621:be0b with SMTP id
+ u11-20020a170902a60b00b001427621be0bmr4070721plq.58.1636303726736; Sun, 07
+ Nov 2021 08:48:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Received: by 2002:a05:6a10:4a14:0:0:0:0 with HTTP; Sun, 7 Nov 2021 08:48:46
+ -0800 (PST)
+Reply-To: amabenchambers00@gmail.com
+From:   Amadou Benjamin <ousmanekarim54@gmail.com>
+Date:   Sun, 7 Nov 2021 08:48:46 -0800
+Message-ID: <CAJFAt4Zwu2DZNzEx2mhTp73fqWvHNwMrUMgOFZ==TBGW8S=HkA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi Pavel,
-
-On Wed, 2021-09-22 at 19:21 +0200, Harald Seiler wrote:
-> Even if the GPIO driver will never sleep, setting
-> cdev->brightness_set_blocking() makes sense so
-> led_set_brightness_sync() can be used with such LEDs.
-> 
-> Internally, both gpio_led_set_blocking() and gpio_led_set() call
-> the same implementation anyway.
-> 
-> Cc: Jacek Anaszewski <j.anaszewski@samsung.com>
-> Signed-off-by: Harald Seiler <hws@denx.de>
-> ---
-
-Any chance you can pick this up?  This fix is needed to use gpio leds
-with, for example, the tty trigger.
-
 -- 
-Harald
+Hello good day.
 
->  drivers/leds/leds-gpio.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-gpio.c b/drivers/leds/leds-gpio.c
-> index b5d5e22d2d1e..bbe582e47607 100644
-> --- a/drivers/leds/leds-gpio.c
-> +++ b/drivers/leds/leds-gpio.c
-> @@ -79,11 +79,12 @@ static int create_gpio_led(const struct gpio_led *template,
->  	int ret, state;
->  
->  	led_dat->cdev.default_trigger = template->default_trigger;
-> +	led_dat->cdev.brightness_set_blocking = gpio_led_set_blocking;
-> +
->  	led_dat->can_sleep = gpiod_cansleep(led_dat->gpiod);
->  	if (!led_dat->can_sleep)
->  		led_dat->cdev.brightness_set = gpio_led_set;
-> -	else
-> -		led_dat->cdev.brightness_set_blocking = gpio_led_set_blocking;
-> +
->  	led_dat->blinking = 0;
->  	if (blink_set) {
->  		led_dat->platform_gpio_blink_set = blink_set;
+I am Barrister Amadou Benjamin by name, with due respect, I am
+contacting you to help get the deposit 10.5 million Dollars, my late
+client Engineer Vasiliy left in his Bank before his sudden death on
+April 21, 2007, to avoid confiscation by Lloyds bank. Please write me
+back through this email (amabenchambers00@gmail.com)for more
+information about this transaction or send me your private email to
+Contact you myself.
 
+Sincerely,
+Barrister Amadou Benjamin Esq
