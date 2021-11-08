@@ -2,38 +2,38 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44D6044A08F
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Nov 2021 02:02:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3092D44A131
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Nov 2021 02:06:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241567AbhKIBED (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Nov 2021 20:04:03 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60366 "EHLO mail.kernel.org"
+        id S239022AbhKIBIB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Nov 2021 20:08:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33466 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241577AbhKIBDl (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 8 Nov 2021 20:03:41 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2FE3961353;
-        Tue,  9 Nov 2021 01:00:55 +0000 (UTC)
+        id S239365AbhKIBGI (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 8 Nov 2021 20:06:08 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 11DC261A35;
+        Tue,  9 Nov 2021 01:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636419655;
-        bh=tqaYu+ZOXiguDccTgC0P3pE9gIoZopGu3GFz9aE0Ru0=;
+        s=k20201202; t=1636419763;
+        bh=zSOUPnA9u5KD4ziO3B+5rsvYl7bkkjKW7GH8wgdaNUo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jw4Plt6dG9Ha7Pxf37vwL8g9MdS8jGwyvFBdCMv75E1ohNh5Ta0paZaEPPHCd+Z1H
-         cX19/+CW87Cdz8/kT+K5gG6Uwa3oR4MInlA0Q2N7lOfjCUPch3sIv/wqrGL9OrzzLd
-         BA0u0rdVSToiS1UKtkXQXg/MOPHQTXMcUQMsQRTbu/U272b4BaR5gki3WZW87f4Djq
-         21NWpuKzf7EdpnJKQdz0TEQB74ve6j8VDy0mHNcOm7c6frOJsOHxe2+gVHiCxFgHk5
-         1kMhJECEJruSEEtZEGJ90ZG1YoVOkPr9R3O8+WleLU0ddpVPpwx9DEEMOQDt+eEkCl
-         hsrUb39PSsbkw==
+        b=fgqhO2rBkvoINEA4wyeXaChroJxay6x4EO5YeHhBlljn3GVWw1CSODzkKTHlb/Gi1
+         AkOq1/CTK0ZCRbhCfJpxOhcf5AXwl3fS48qSQ6TdbA1bI92kJ83rgRF1MQ957CzEd4
+         0nPSY9L+tWu5M8iVic22DWRnOLOX2eKfNZJRtHNDIIBdU6gJ3agOriUE3iDy2gnWTg
+         nxAovNHbFeySnjwIK5yetinjJlbpo+XAZQr/wVR7EbG8+WCXfaB8fBiQJg7I7QMdau
+         fr8LOmUJOZbPNJb9hndxjQmX2kImi/SX81AkAaVsl9ef4ei9Mauc1pq0wPoU3WRtil
+         Ij8nnjSvUM4Pw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Johannes Berg <johannes.berg@intel.com>,
         Pavel Machek <pavel@ucw.cz>, Sasha Levin <sashal@kernel.org>,
         linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 032/146] leds: trigger: use RCU to protect the led_cdevs list
-Date:   Mon,  8 Nov 2021 12:42:59 -0500
-Message-Id: <20211108174453.1187052-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.14 029/138] leds: trigger: use RCU to protect the led_cdevs list
+Date:   Mon,  8 Nov 2021 12:44:55 -0500
+Message-Id: <20211108174644.1187889-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211108174453.1187052-1-sashal@kernel.org>
-References: <20211108174453.1187052-1-sashal@kernel.org>
+In-Reply-To: <20211108174644.1187889-1-sashal@kernel.org>
+References: <20211108174644.1187889-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -187,10 +187,10 @@ index 4e7b78a84149b..072491d3e17b0 100644
  
  void led_trigger_blink(struct led_trigger *trig,
 diff --git a/include/linux/leds.h b/include/linux/leds.h
-index a0b730be40ad2..ba4861ec73d30 100644
+index 329fd914cf243..fa59326b0ad9f 100644
 --- a/include/linux/leds.h
 +++ b/include/linux/leds.h
-@@ -360,7 +360,7 @@ struct led_trigger {
+@@ -354,7 +354,7 @@ struct led_trigger {
  	struct led_hw_trigger_type *trigger_type;
  
  	/* LEDs under control by this trigger (for simple triggers) */
