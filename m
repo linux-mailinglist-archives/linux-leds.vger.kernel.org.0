@@ -2,133 +2,61 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D5C9447898
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Nov 2021 03:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED1F2447B24
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Nov 2021 08:31:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235533AbhKHCb7 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 7 Nov 2021 21:31:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48884 "EHLO
+        id S237890AbhKHHbJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Nov 2021 02:31:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229878AbhKHCb7 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 7 Nov 2021 21:31:59 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1234::107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABEC3C061570;
-        Sun,  7 Nov 2021 18:29:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=DaO7a1BViMKHX1NBRkvWDUjB1rua4ERcqws+CFgZJiE=; b=IPS9aghJaG07vU6gMyuOjYmc0N
-        MsjYZ1meQwVV/2oSA1o2VqcPfvBzhYQHD9VMurv521P02d2HqyiVLNEvrhqyehQVq9M03IIm5eRg4
-        j845ufpFjC/iYS/Ku6avPOeeIG8YIXFzJy47Aa53ePhdpaH8kKeRvtdu7jTaEcGHO/E7J/H5JMrdv
-        id6Qw54k2wCtGRtsZ/sJNin+sKsAoIQh8eewN56y3He2AHlU39OEhwuB6Heon52rCvCfD5sVYVpKE
-        Xxo+LVlcDzO7AdUqOq//vOUIwhIf5ndeyAOm70aqc+qylCgpaqMje4UT8D1na/XuqMcOuFfjyghik
-        4W0hHefw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by merlin.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mjuPI-008fRs-WC; Mon, 08 Nov 2021 02:29:13 +0000
-Subject: Re: [RFC PATCH v2 1/5] leds: trigger: add API for HW offloading of
- triggers
-To:     Ansuel Smith <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Cc:     =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
-References: <20211108002500.19115-1-ansuelsmth@gmail.com>
- <20211108002500.19115-2-ansuelsmth@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <7e73d616-9326-ff03-639f-b3b264e64a26@infradead.org>
-Date:   Sun, 7 Nov 2021 18:29:05 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        with ESMTP id S237911AbhKHHan (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Nov 2021 02:30:43 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E78FC061193
+        for <linux-leds@vger.kernel.org>; Sun,  7 Nov 2021 23:27:34 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id v11so56039286edc.9
+        for <linux-leds@vger.kernel.org>; Sun, 07 Nov 2021 23:27:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=gS+G2bXPLTc8QV9oSOsVFPfildfSifO+gabOlUjPn+8=;
+        b=lohGAXI96njXpZ5r6vgYlUkp2V68iRMzDV25uaLpmT1WmpX2h0YNNnPekuKOrJR7Hh
+         rCcmOUgGjsAkeHEvvQCkM6ux+TyqL0CqGbf0IPfL8V+eIKLF7r3X9QWFup/xVl2xV9qZ
+         NGc0LQ7JpvXhk+YTEHFaFd2QnuENE8mCWi0drmIQkANv1zf9DM6Bfjx/yF/A/b9RtJFU
+         CT2DuJeqJ7evq+rJKQgmUSCIg2GjkqvLZlnb0ekZ1/3u7apFf2k73Uqo2u8YZ8hKmOIw
+         ZGA3M8LZJFGSmW3P+nQyYMCLCtL13s+WCsnPOmCuuFd5xieMsN0vbLhindKIE3OfrP6U
+         BcYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=gS+G2bXPLTc8QV9oSOsVFPfildfSifO+gabOlUjPn+8=;
+        b=1csDJKJ2dG0l0AzJ7dRU+5qM5h4KOJtuYJ0NqmOeJLiy9x58EDs+xCihSgOe47rVlL
+         B2Y7GA/gIS3VGgh9OEanBiu1mILUPB6oTzGdysJRe1AQ/NEKs4cRiMjmID7FbvXUjdMJ
+         DIvhTi8iFGgZnKyj9Lhf5T0XIOZYVQXllV738SJVltSOZEXzIpy8h9vvL3T3fA3b5343
+         mvw+0UKo06iLaSef797aIrwVPcQ/LFiVBFhg/JnNFvQO3dTFHh0PDUWF4augfRlgxsBd
+         6ZogBfLpnaSoRDcYbvVX2dE2HIy862XOxfwUennvny0V0SW9F1w7sxjHVRcdhOI1RD9Z
+         YtCQ==
+X-Gm-Message-State: AOAM532klAZ+gM5mmSbc5ZPqpys85ZTZWE2ScjZ2T3ucDZ3MTXAlK69J
+        8INv7wqt8FK+4YAhKqxRcxuADLm/AOlBxL3q/oiEFkLST6Q=
+X-Google-Smtp-Source: ABdhPJwiROS9SRRNMvDLES4YHo6uT5d60ZUwIiFmBNAm9OxEfLgMU9cee9PqVQWim0XNVifN/Rk5vWcyMQ7rvBndYNE=
+X-Received: by 2002:a05:6402:557:: with SMTP id i23mr66769092edx.176.1636356441798;
+ Sun, 07 Nov 2021 23:27:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211108002500.19115-2-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a50:2501:0:0:0:0:0 with HTTP; Sun, 7 Nov 2021 23:27:21 -0800 (PST)
+Reply-To: mariaschaefler@gmx.com
+From:   Maria Schaefler <ziskoraa@gmail.com>
+Date:   Mon, 8 Nov 2021 07:27:21 +0000
+Message-ID: <CAJh0FjiFL7uihMBL6ckYO8FJ6tnzM+tBivU2c60yDbG14LZLeA@mail.gmail.com>
+Subject: MY HEART CHOOSE YOU.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 11/7/21 4:24 PM, Ansuel Smith wrote:
-> From: Marek Behún <kabel@kernel.org>
-> 
-
-> ---
->   Documentation/leds/leds-class.rst | 20 +++++++++++++++++++
->   drivers/leds/led-triggers.c       |  1 +
->   drivers/leds/trigger/Kconfig      | 10 ++++++++++
->   include/linux/leds.h              | 33 +++++++++++++++++++++++++++++++
->   4 files changed, 64 insertions(+)
-> 
-> diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
-> index cd155ead8703..5bf6e5d471ce 100644
-> --- a/Documentation/leds/leds-class.rst
-> +++ b/Documentation/leds/leds-class.rst
-> @@ -169,6 +169,26 @@ Setting the brightness to zero with brightness_set() callback function
->   should completely turn off the LED and cancel the previously programmed
->   hardware blinking function, if any.
->   
-> +Hardware offloading of LED triggers
-> +===================================
-> +
-> +Some LEDs can be driven by hardware triggers (for example a LED connected to
-> +an ethernet PHY or an ethernet switch can be configured to blink on activity on
-> +the network, which in software is done by the netdev trigger).
-> +
-> +To do such offloading, LED driver must support this and a deficated offload
-
-                                                              dedicated
-
-> +trigger must be used. The LED must implement the trigger_offload() method and
-> +the trigger code must try to call this method (via led_trigger_offload()
-> +function) to set the LED to this particular mode. (and disable any software
-> +blinking)
-> +
-> +The implementation of the trigger_offload() method by the LED driver must return
-> +0 if the offload is successful and -EOPNOTSUPP if the requested trigger
-> +configuration is not supported.
-> +
-> +If the second argument (enable) to the trigger_offload() method is false, any
-> +active HW offloading must be deactivated. In this case errors are not permitted
-
-Preferably s/HW/hardware/ and s/SW/software/ throughout documentation and Kconfig
-files.
-
-> +in the trigger_offload() method and the driver will be set to the new trigger.
->   
->   Known Issues
->   ============
-
-
-> diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
-> index dc6816d36d06..33aba8defeab 100644
-> --- a/drivers/leds/trigger/Kconfig
-> +++ b/drivers/leds/trigger/Kconfig
-> @@ -9,6 +9,16 @@ menuconfig LEDS_TRIGGERS
->   
->   if LEDS_TRIGGERS
->   
-> +config LEDS_OFFLOAD_TRIGGERS
-> +	bool "LED Offload Trigger support"
-> +	help
-> +	  This option enabled offload triggers support used by leds that
-
-	              enables                                  LEDs
-
-> +	  can be driven in hardware by declaring some specific triggers.
-> +	  A offload trigger will expose a sysfs dir to configure the
-> +	  different blinking trigger and the available hardware triggers.
-> +
-> +	  If unsure, say Y.
-
-
--- 
-~Randy
+Given my current state of health, I have decided to donate what I
+inherited from my late husband to you to help the poor and needy. I am
+Mrs Maria Schaefler,a 57years old dying woman. I was diagnosed for
+cancer about 2 years ago and I have few months to live according to
+medical experts. Email me for my directives
