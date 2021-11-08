@@ -2,53 +2,33 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EF504476E9
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Nov 2021 01:25:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31C00447882
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Nov 2021 03:22:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236849AbhKHA15 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 7 Nov 2021 19:27:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50172 "EHLO
+        id S236448AbhKHCZO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 7 Nov 2021 21:25:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236824AbhKHA1z (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 7 Nov 2021 19:27:55 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62597C061764;
-        Sun,  7 Nov 2021 16:25:11 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id o8so55585911edc.3;
-        Sun, 07 Nov 2021 16:25:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=mrT39HXhsvQIv884aQ7FKStKCV5fQEcK++rSuH4MPzo=;
-        b=PQf9IkCgbUfkwfSkTQ9cmvFGRVVwsMNE9Xg5lUXJGKHZtPH67mRBDLS80XrMBqdxW3
-         VQ0m0So5rQ3oTOp21xjT6FUfC8kf37o9bkiULvgQHagAAmZPIHPPbCSrWbFBEjlkaCu4
-         1AmzM6roYjsdsRj0Q9U+i2gUrbX/OfjksuYY3Fv607tgGSiNSJGFnKR+asNl/nKw4G3i
-         ShGwK2HWodDj3FFLY54MmubjB8j+T5QYekye2MiGl5Gihj/UFwlbpq4mkj/MTeLfx0q6
-         IAvx2YwYOpPKsOJSqXo2r3glSov8XT7esWwobddnEFRHzVkHI2hNOpJBiChli+UdLZZr
-         APyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mrT39HXhsvQIv884aQ7FKStKCV5fQEcK++rSuH4MPzo=;
-        b=WBGD2ifqIIMycS3bgFs7nBM5UXtJZgsWvSse7ygvIwXUU2wmX0ZQxlD/pLAuIrdWxZ
-         FDwnXIguYSkKXpXhHpMDSExNJ6Mf/z7DwUxZtkzjklDXCZnShZH4K6PCoLa489GEHYcn
-         50m5suFTc7+L46in0BF+vvLTyDSZNTH5XJ7Z6LfSY9FPCdXE8P4XGQPSBhvyrBJGFKf3
-         HzvSgJOY+CiDyTfDYMkdOyOLpJsb3q19cWqLRH/s62Jm2IilMbISynF2npHPvu2nDtuy
-         oIBNd1ovW4XNg32aUXWB15EOusUwe4rnP7wKUfclQnJ3CPcPkSTBy7j07sRj7dcspFNu
-         hXCg==
-X-Gm-Message-State: AOAM533yQId/z8iRqdxIbbno9wN0CA0433zl8FkkYZk4U6bHYHnDQxpx
-        cB/H0tHPCBNEuqdMOLtxYtM=
-X-Google-Smtp-Source: ABdhPJwNybOt935XNXrK3BecGp84QdcxIsF+iF0L8sukR/fp69tFDEPHghei89fatWJ7oUP4r6SRUQ==
-X-Received: by 2002:aa7:c041:: with SMTP id k1mr101332405edo.330.1636331109888;
-        Sun, 07 Nov 2021 16:25:09 -0800 (PST)
-Received: from Ansuel-xps.localdomain (93-42-71-246.ip85.fastwebnet.it. [93.42.71.246])
-        by smtp.googlemail.com with ESMTPSA id bf8sm8537878edb.46.2021.11.07.16.25.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Nov 2021 16:25:09 -0800 (PST)
-From:   Ansuel Smith <ansuelsmth@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
+        with ESMTP id S229757AbhKHCZO (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 7 Nov 2021 21:25:14 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1234::107])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C188AC061570;
+        Sun,  7 Nov 2021 18:22:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=Kmu1o3d56x2PHpP0lDg/mYidF1A/EmIUpA6P+e8dkwE=; b=wAknlF+ydZevj70eq0j8ZFkyVz
+        0lClZbALmoyuNN2Xuk4+RZNhe06866teuO8O90/BcUMJ0rH1dDJhKd3C5UxiIokL9HsYwH4Jv6AVI
+        HESTbJrNgKjgOZCRr/zenRz590Mm+BFpWf2aZI1k7itxTJM8E8Bv+xxDYX5Rw5RO72uclGmsUm8WX
+        GL1GwaBoaZbM3p70SCqosj2OhgDMNp39jwPbcHWqA7z3kpcy3Y+ZbCiv+k4g9lRYdcnLmbPJH0Te7
+        RJ0tJvJKQ4gM7yhJau+SRBXElgZxU7HXiO53d0AH/KHkht3JbF+fmG6MWQzc4/ZP0lIogmZ40+Y4Y
+        LYjU5GkQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by merlin.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mjuIj-008fPf-EB; Mon, 08 Nov 2021 02:22:26 +0000
+Subject: Re: [RFC PATCH v2 2/5] leds: add function to configure offload leds
+To:     Ansuel Smith <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
@@ -56,69 +36,64 @@ To:     Andrew Lunn <andrew@lunn.ch>,
         Jakub Kicinski <kuba@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        Ansuel Smith <ansuelsmth@gmail.com>,
         John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: [RFC PATCH v2 5/5] dt-bindings: net: dsa: qca8k: add LEDs definition example
-Date:   Mon,  8 Nov 2021 01:25:00 +0100
-Message-Id: <20211108002500.19115-6-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211108002500.19115-1-ansuelsmth@gmail.com>
 References: <20211108002500.19115-1-ansuelsmth@gmail.com>
+ <20211108002500.19115-3-ansuelsmth@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f28d4f1b-66e7-808c-ae69-c1734d60fdc1@infradead.org>
+Date:   Sun, 7 Nov 2021 18:22:19 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211108002500.19115-3-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Add LEDs definition example for qca8k using the offload trigger as the
-default trigger and add all the supported offload triggers by the
-switch.
+On 11/7/21 4:24 PM, Ansuel Smith wrote:
+> diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
+> index 5bf6e5d471ce..0a3bbe71dac7 100644
+> --- a/Documentation/leds/leds-class.rst
+> +++ b/Documentation/leds/leds-class.rst
+> @@ -190,6 +190,30 @@ If the second argument (enable) to the trigger_offload() method is false, any
+>   active HW offloading must be deactivated. In this case errors are not permitted
+>   in the trigger_offload() method and the driver will be set to the new trigger.
+>   
+> +The offload trigger will use the function configure_offload() provided by the driver
+> +that will configure the offloaded mode for the LED.
+> +This function passes as the first argument (offload_flags) a u32 flag.
+> +The second argument (cmd) of the configure_offload() method can be used to do various
+> +operations for the specific trigger. We currently support ENABLE, DISABLE, READ and
+> +SUPPORTED to enable, disable, read the state of the offload trigger and ask the LED
+> +driver supports the specific offload trigger.
+> +
+> +In ENABLE/DISABLE configure_offload() should configure the LED to enable/disable the
+> +requested trigger (flags).
+> +In READ configure_offload() should return 0 or 1 based on the status of the requested
+> +trigger (flags).
+> +In SUPPORTED configure_offload() should return 0 or 1 if the LED driver supports the
+> +requested trigger (flags) or not.
+> +
+> +The u32 flag is specific to the trigger and change across them. It's in the LED
 
-Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
----
- .../devicetree/bindings/net/dsa/qca8k.yaml    | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+                                                changes
 
-diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-index 48de0ace265d..106d95adc1e8 100644
---- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-+++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-@@ -64,6 +64,8 @@ properties:
-                  internal mdio access is used.
-                  With the legacy mapping the reg corresponding to the internal
-                  mdio is the switch reg with an offset of -1.
-+                 Each phy have at least 3 LEDs connected and can be declared
-+                 using the standard LEDs structure.
- 
-     properties:
-       '#address-cells':
-@@ -340,6 +342,24 @@ examples:
- 
-                 internal_phy_port1: ethernet-phy@0 {
-                     reg = <0>;
-+
-+                    leds {
-+                        led@0 {
-+                            reg = <0>;
-+                            color = <LED_COLOR_ID_WHITE>;
-+                            function = LED_FUNCTION_LAN;
-+                            function-enumerator = <1>;
-+                            linux,default-trigger = "offload-phy-activity";
-+                        };
-+
-+                        led@1 {
-+                            reg = <1>;
-+                            color = <LED_COLOR_ID_AMBER>;
-+                            function = LED_FUNCTION_LAN;
-+                            function-enumerator = <1>;
-+                            linux,default-trigger = "offload-phy-activity";
-+                        };
-+                    };
-                 };
- 
-                 internal_phy_port2: ethernet-phy@1 {
+> +driver interest know how to elaborate this flag and to declare support for a
+
+    driver's
+
+> +particular offload trigger. For this exact reason explicit support for the specific
+> +trigger is mandatory or the driver returns -EOPNOTSUPP if asked to enter offload mode
+> +with a not supported trigger.
+> +If the driver returns -EOPNOTSUPP on configure_offload(), the trigger activation will
+> +fail as the driver doesn't support that specific offload trigger or doesn't know
+> +how to handle the provided flags.
+
+
 -- 
-2.32.0
-
+~Randy
