@@ -2,32 +2,30 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF678448082
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Nov 2021 14:48:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E04B4480C6
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Nov 2021 15:04:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238921AbhKHNvW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Nov 2021 08:51:22 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:50612 "EHLO vps0.lunn.ch"
+        id S240193AbhKHOHO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Nov 2021 09:07:14 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:50640 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238013AbhKHNvV (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 8 Nov 2021 08:51:21 -0500
+        id S233956AbhKHOHM (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 8 Nov 2021 09:07:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-        In-Reply-To:References; bh=wJ+KFiLWXSd9Yn9CEeNsZPzYPyPhxqpWIbv+1zHqmxk=; b=rj
-        G4BV9DFGE0jD9Fw+5Lc4bnd7zyJ2u1yBCjc7borAofsYd7g31Dv3BYCOw5MVBPQYf7UhQxnl5II06
-        ZFEKA8imfILSvCXPiLTS+U00pUlqDxkh/l9dSStH2iEEXLLOtRDgq4rCb7jeSsPpL0nyViV2kxAyQ
-        E+JgYaeHSpAJENc=;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=wJJrpppjSgRDTFrW+F5oEMLPyVDlFIclMKsDYZzd0Pc=; b=XjSYLHlaXLwsdK23MobXnt8pMN
+        t0m5+/o+1rvO+cz2IGsLVcTgPk0r6tz6yYzO+nwBQf3IDj7rMP9Jt3P9evizyaO35gyysrqEDy03N
+        P+aJxsoL4Gc9ib08ig32pw/ddxjlv1W/TtYfkNbqJYJ7o26jij/mZqvz+rLlA8BeUxaM=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1mk50f-00Ctqr-DH; Mon, 08 Nov 2021 14:48:29 +0100
-Date:   Mon, 8 Nov 2021 14:48:29 +0100
+        id 1mk5G3-00CtvX-4e; Mon, 08 Nov 2021 15:04:23 +0100
+Date:   Mon, 8 Nov 2021 15:04:23 +0100
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Ansuel Smith <ansuelsmth@gmail.com>
-Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
+Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -36,46 +34,56 @@ Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
         John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH 2/6] leds: permit to declare supported offload
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Subject: Re: [RFC PATCH v2 1/5] leds: trigger: add API for HW offloading of
  triggers
-Message-ID: <YYkqrbenDPpck2yO@lunn.ch>
-References: <20211107175718.9151-1-ansuelsmth@gmail.com>
- <20211107175718.9151-3-ansuelsmth@gmail.com>
- <20211107230624.5251eccb@thinkpad>
- <YYhUGNs1I0RWriln@Ansuel-xps.localdomain>
+Message-ID: <YYkuZwQi66slgfTZ@lunn.ch>
+References: <20211108002500.19115-1-ansuelsmth@gmail.com>
+ <20211108002500.19115-2-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YYhUGNs1I0RWriln@Ansuel-xps.localdomain>
+In-Reply-To: <20211108002500.19115-2-ansuelsmth@gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, Nov 07, 2021 at 11:32:56PM +0100, Ansuel Smith wrote:
-> On Sun, Nov 07, 2021 at 11:06:24PM +0100, Marek Behún wrote:
-> > On Sun,  7 Nov 2021 18:57:14 +0100
-> > Ansuel Smith <ansuelsmth@gmail.com> wrote:
-> > 
-> > > With LEDs that can be offload driven, permit to declare supported triggers
-> > > in the dts and add them to the cled struct to be used by the related
-> > > offload trigger. This is particurally useful for phy that have support
-> > > for HW blinking on tx/rx traffic or based on the speed link.
-> > > 
-> > > Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
-> > 
-> > NAK. The device-tree shouldn't define this, only the LED's function as
-> > designated by the manufacturer of the device.
-> > 
-> > Marek
-> 
-> Sure I will add a way to ask the led driver if the trigger is supported
-> and report it.
+> +static inline int led_trigger_offload(struct led_classdev *led_cdev)
+> +{
+> +	int ret;
+> +
+> +	if (!led_cdev->trigger_offload)
+> +		return -EOPNOTSUPP;
+> +
+> +	ret = led_cdev->trigger_offload(led_cdev, true);
+> +	led_cdev->offloaded = !ret;
+> +
+> +	return ret;
+> +}
+> +
+> +static inline void led_trigger_offload_stop(struct led_classdev *led_cdev)
+> +{
+> +	if (!led_cdev->trigger_offload)
+> +		return;
+> +
+> +	if (led_cdev->offloaded) {
+> +		led_cdev->trigger_offload(led_cdev, false);
+> +		led_cdev->offloaded = false;
+> +	}
+> +}
+> +#endif
 
-Yes, you need some way for the PHY/MAC driver to enumerate what it can
-do.
+I think there should be two calls into the cdev driver, not this
+true/false parameter. trigger_offload_start() and
+trigger_offload_stop().
 
-I've not looked at v2 yet...
+There are also a number of PHYs which don't allow software blinking of
+the LED. So for them, trigger_offload_stop() is going to return
+-EOPNOTSUPP. And you need to handle that correctly.
 
-	Andrew
+It would be go to also document the expectations of
+trigger_offload_stop(). Should it leave the LED in whatever state it
+was, or force it off? 
+
+     Andrew
