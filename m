@@ -2,132 +2,129 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6202C4481E5
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Nov 2021 15:36:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5A464497F5
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Nov 2021 16:16:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240527AbhKHOin (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Nov 2021 09:38:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42784 "EHLO
+        id S237148AbhKHPTF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Nov 2021 10:19:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239345AbhKHOim (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Nov 2021 09:38:42 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0AEAC061570;
-        Mon,  8 Nov 2021 06:35:57 -0800 (PST)
-Received: from zn.tnic (p200300ec2f331100b486bab6e60d7aaf.dip0.t-ipconnect.de [IPv6:2003:ec:2f33:1100:b486:bab6:e60d:7aaf])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1A75E1EC01FC;
-        Mon,  8 Nov 2021 15:35:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1636382156;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=B6oOQ1q4gjLTOu5usgfET43xDRmf4tLazw1TZ6CRXFw=;
-        b=Upd25HzfEqhrG5TAXmV4X7VLTXjG+2mbIZvAcNaA5XdFGwWxC22cjGdH367SqKuC2YI35V
-        XePkT+plNO8Rcdx9qRLbflORPHDjzc4q/HfinrM2oVoUmKJ3f3FbXqZbeiIVI7zzNRafCc
-        NDGlsVX5pxz7i7hCYlNzvvCrAxbHbAs=
-Date:   Mon, 8 Nov 2021 15:35:50 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Ayush Sawal <ayush.sawal@chelsio.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rohit Maheshwari <rohitm@chelsio.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
-        alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-remoteproc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
-        sparclinux@vger.kernel.org, x86@kernel.org,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v0 00/42] notifiers: Return an error when callback is
- already registered
-Message-ID: <YYk1xi3eJdMJdjHC@zn.tnic>
-References: <20211108101157.15189-1-bp@alien8.de>
- <20211108101924.15759-1-bp@alien8.de>
- <20211108141703.GB1666297@rowland.harvard.edu>
- <YYkzJ3+faVga2Tl3@zn.tnic>
+        with ESMTP id S231127AbhKHPTE (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Nov 2021 10:19:04 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD4BBC061570;
+        Mon,  8 Nov 2021 07:16:19 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id o8so63794735edc.3;
+        Mon, 08 Nov 2021 07:16:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=c1o8VuFV0ex5mfdL4xyBALnF6n9F6qHpOK09h+9rf8g=;
+        b=H27fZX1z/J39dmx5ZvhB+Zjd/Ahz3nOLNMPA8vLb8Xm2jJ5NNDOIMTtHe090eOtOFU
+         DD/UFLFvddxNItBc/qNVrzgLM6s1d5nsbc2ES0evNQ/4s+72n9mcaXT8RZv4BAF1RY7b
+         szvrS6jfzexdx1T0N3WH4x2FaM6GOZHKStAmaO5A0sC6qsgJTzq/XVKQsAug0VRcYzII
+         pbrCWxDiWV2Z6iJos5t6YZ3i3NRnMBhkA9iIjCLQtZl6xCLBChO26K5O3b/CAydNqhOg
+         IHtuS/bODnqA6Ck7F1ffSd98H9bH6xwC4SPb+E4MDBdZBYGszCkHQaKIMFM1Xu9qxZX/
+         DhTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=c1o8VuFV0ex5mfdL4xyBALnF6n9F6qHpOK09h+9rf8g=;
+        b=3bswvzK28r6EXMOtC4iJzId/TQ4tii5U+EAu8MIHH8Im0ghIUxKzEtLxHTWcQh/jPi
+         UZO85VgRzH3G+mWxmd59VoMawiJG07RH4cOujp7YwPrKD9A0mJY2XxEibqSexDoaButD
+         tJWSX2SiZFAxpLpGz0Arv4XOLz18YG9cefk/PVXhj8hwgvXmgQ5411pVbR3wsxFVkZk4
+         +uV8gvAUo+EEE0b58d9NXrnpbeudCq44lB8cXzaxQhPysVHNTkfGL0PngV1dIcxjloaS
+         bmeDtk6jhfYsQST/zYz+NVlUMV/Er+f3X2Emh+H8mf9GJlE1WEgOuKyc6ws5YM3ePCl9
+         q/9Q==
+X-Gm-Message-State: AOAM531xxhCvjChCJR0P82yOyCz3MHmCyK3R7Ppi1TKnDjxci+jV/BKl
+        +XS6ZE1nyFdtAYDHLOZkg/M=
+X-Google-Smtp-Source: ABdhPJwjEyIFnc/Rjx2b9L48SpZXLmyPNORFLclvTaJrHwA6uQV6fc9x3apU8YExeVxFBkzNqYyUVw==
+X-Received: by 2002:a17:906:c156:: with SMTP id dp22mr103436ejc.168.1636384578278;
+        Mon, 08 Nov 2021 07:16:18 -0800 (PST)
+Received: from Ansuel-xps.localdomain (93-42-71-246.ip85.fastwebnet.it. [93.42.71.246])
+        by smtp.gmail.com with ESMTPSA id n1sm9216809edf.45.2021.11.08.07.16.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Nov 2021 07:16:18 -0800 (PST)
+Date:   Mon, 8 Nov 2021 16:16:13 +0100
+From:   Ansuel Smith <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Subject: Re: [RFC PATCH v2 1/5] leds: trigger: add API for HW offloading of
+ triggers
+Message-ID: <YYk/Pbm9ZZ/Ikckg@Ansuel-xps.localdomain>
+References: <20211108002500.19115-1-ansuelsmth@gmail.com>
+ <20211108002500.19115-2-ansuelsmth@gmail.com>
+ <YYkuZwQi66slgfTZ@lunn.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YYkzJ3+faVga2Tl3@zn.tnic>
+In-Reply-To: <YYkuZwQi66slgfTZ@lunn.ch>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Mon, Nov 08, 2021 at 03:24:39PM +0100, Borislav Petkov wrote:
-> I guess I can add another indirection to notifier_chain_register() and
-> avoid touching all the call sites.
+On Mon, Nov 08, 2021 at 03:04:23PM +0100, Andrew Lunn wrote:
+> > +static inline int led_trigger_offload(struct led_classdev *led_cdev)
+> > +{
+> > +	int ret;
+> > +
+> > +	if (!led_cdev->trigger_offload)
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	ret = led_cdev->trigger_offload(led_cdev, true);
+> > +	led_cdev->offloaded = !ret;
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static inline void led_trigger_offload_stop(struct led_classdev *led_cdev)
+> > +{
+> > +	if (!led_cdev->trigger_offload)
+> > +		return;
+> > +
+> > +	if (led_cdev->offloaded) {
+> > +		led_cdev->trigger_offload(led_cdev, false);
+> > +		led_cdev->offloaded = false;
+> > +	}
+> > +}
+> > +#endif
+> 
+> I think there should be two calls into the cdev driver, not this
+> true/false parameter. trigger_offload_start() and
+> trigger_offload_stop().
+> 
 
-IOW, something like this below.
+To not add too much function to the struct, can we introduce one
+function that both enable and disable the hw mode?
 
-This way I won't have to touch all the callsites and the registration
-routines would still return a proper value instead of returning 0
-unconditionally.
+> There are also a number of PHYs which don't allow software blinking of
+> the LED. So for them, trigger_offload_stop() is going to return
+> -EOPNOTSUPP. And you need to handle that correctly.
+> 
 
----
-diff --git a/kernel/notifier.c b/kernel/notifier.c
-index b8251dc0bc0f..04f08b2ef17f 100644
---- a/kernel/notifier.c
-+++ b/kernel/notifier.c
-@@ -19,14 +19,12 @@ BLOCKING_NOTIFIER_HEAD(reboot_notifier_list);
-  *	are layered on top of these, with appropriate locking added.
-  */
- 
--static int notifier_chain_register(struct notifier_block **nl,
--		struct notifier_block *n)
-+static int __notifier_chain_register(struct notifier_block **nl,
-+				     struct notifier_block *n)
- {
- 	while ((*nl) != NULL) {
--		if (unlikely((*nl) == n)) {
--			WARN(1, "double register detected");
--			return 0;
--		}
-+		if (unlikely((*nl) == n))
-+			return -EEXIST;
- 		if (n->priority > (*nl)->priority)
- 			break;
- 		nl = &((*nl)->next);
-@@ -36,6 +34,18 @@ static int notifier_chain_register(struct notifier_block **nl,
- 	return 0;
- }
- 
-+static int notifier_chain_register(struct notifier_block **nl,
-+				   struct notifier_block *n)
-+{
-+	int ret = __notifier_chain_register(nl, n);
-+
-+	if (ret == -EEXIST)
-+		WARN(1, "double register of notifier callback %ps detected",
-+			n->notifier_call);
-+
-+	return ret;
-+}
-+
- static int notifier_chain_unregister(struct notifier_block **nl,
- 		struct notifier_block *n)
- {
+So we have PHYs that can only work in offload or off. Correct?
 
+> It would be go to also document the expectations of
+> trigger_offload_stop(). Should it leave the LED in whatever state it
+> was, or force it off? 
+>
+
+I think it should be put off. Do you agree? (also the brightness should
+be set to 0 in this case)
+
+>      Andrew
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+	Ansuel
