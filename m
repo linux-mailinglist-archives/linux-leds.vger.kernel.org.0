@@ -2,173 +2,108 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23B9F447D2E
-	for <lists+linux-leds@lfdr.de>; Mon,  8 Nov 2021 11:01:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31F0B447D5A
+	for <lists+linux-leds@lfdr.de>; Mon,  8 Nov 2021 11:12:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238524AbhKHKDy (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Nov 2021 05:03:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40268 "EHLO mail.kernel.org"
+        id S237837AbhKHKPC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Nov 2021 05:15:02 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:38270 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238529AbhKHKDt (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 8 Nov 2021 05:03:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 817BA61177;
-        Mon,  8 Nov 2021 10:01:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636365664;
-        bh=XUGBCXsXy2u2IR53nZTiHERHgai0JhCJ0AWCFOaHIPw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HDGhMR0XcunUZTM1phfgnPAOBZJI0tnixSeUbIOH7dLH6laOQ2l+EdQVmEw5YU9V4
-         6i3Yb3rZRU4ibvZ2ra4O2HpPD8prk+ouoUDiicGUkeKf/k8Ahh5tbVGDiKE/b1PFsC
-         LeuV7ENMYxbE4zddquNv/Ez92rFQvC+T0bbmTqwW9wxa5Qfqm+XrEykL1Bqey9FJ0s
-         0IssKk1v4PK+/ffhTNK2qozH8rCrlTFFUAHkRTyLwo+z5QycUOdcs+a/7dTKLEZk0V
-         HQX6g2fN8JvzttoXHd3cuX0iVqr9bv4T4nf5unSHtn/ZY+k+C+SbzDhJpkcb5WiQwr
-         2ogrfpauvoWRA==
-Date:   Mon, 8 Nov 2021 11:00:58 +0100
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Ansuel Smith <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH 4/6] leds: trigger: add offload-phy-activity trigger
-Message-ID: <20211108110058.2f4c1304@thinkpad>
-In-Reply-To: <YYhWmUd5FdTYwPvn@Ansuel-xps.localdomain>
-References: <20211107175718.9151-1-ansuelsmth@gmail.com>
-        <20211107175718.9151-5-ansuelsmth@gmail.com>
-        <20211107231009.7674734b@thinkpad>
-        <YYhWmUd5FdTYwPvn@Ansuel-xps.localdomain>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S237768AbhKHKPB (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Mon, 8 Nov 2021 05:15:01 -0500
+Received: from zn.tnic (p200300ec2f33110088892b77bd117736.dip0.t-ipconnect.de [IPv6:2003:ec:2f33:1100:8889:2b77:bd11:7736])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 29D311EC04F9;
+        Mon,  8 Nov 2021 11:12:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1636366336;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ok6efC5SIYiZoq3Clku/LtEsHTmqVaorOG6QGXtd3dk=;
+        b=SQUhFEWQBwPq/6BEKGcT0itOj4YwUwG+OmoGrgl5k/aVhd2Vty8rgPP38HcEQgA8flQb3V
+        RF9JVB1aURvtcSN6s2kikYUaWQbitlJ7mA94sUFIwqlPrtUGonfiONJ8m/orMP4ON8Z9+S
+        tqig2lU6KlIEZL01HiAqnuc9i/fp8G8=
+From:   Borislav Petkov <bp@alien8.de>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     linux-leds@vger.kernel.org
+Subject: [PATCH v0 10/42] leds: trigger: Check notifier registration return value
+Date:   Mon,  8 Nov 2021 11:11:25 +0100
+Message-Id: <20211108101157.15189-11-bp@alien8.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20211108101157.15189-1-bp@alien8.de>
+References: <20211108101157.15189-1-bp@alien8.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Sun, 7 Nov 2021 23:43:37 +0100
-Ansuel Smith <ansuelsmth@gmail.com> wrote:
+From: Borislav Petkov <bp@suse.de>
 
-> On Sun, Nov 07, 2021 at 11:10:09PM +0100, Marek Beh=C3=BAn wrote:
-> > On Sun,  7 Nov 2021 18:57:16 +0100
-> > Ansuel Smith <ansuelsmth@gmail.com> wrote:
-> >  =20
-> > > Add Offload Trigger for PHY Activity. This special trigger is used to
-> > > configure and expose the different HW trigger that are provided by the
-> > > PHY. Each offload trigger can be configured by sysfs and on trigger
-> > > activation the offload mode is enabled.
-> > >=20
-> > > This currently implement these hw triggers:
-> > >   - blink_tx: Blink LED on tx packet receive
-> > >   - blink_rx: Blink LED on rx packet receive
-> > >   - blink_collision: Blink LED on collision detection
-> > >   - link_10m: Keep LED on with 10m link speed
-> > >   - link_100m: Keep LED on with 100m link speed
-> > >   - link_1000m: Keep LED on with 1000m link speed
-> > >   - half_duplex: Keep LED on with half duplex link
-> > >   - full_duplex: Keep LED on with full duplex link
-> > >   - linkup_over: Keep LED on with link speed and blink on rx/tx traff=
-ic
-> > >   - power_on_reset: Keep LED on with switch reset
-> > >   - blink_2hz: Set blink speed at 2hz for every blink event
-> > >   - blink_4hz: Set blink speed at 4hz for every blink event
-> > >   - blink_8hz: Set blink speed at 8hz for every blink event
-> > >   - blink_auto: Set blink speed at 2hz for 10m link speed,
-> > >       4hz for 100m and 8hz for 1000m
-> > >=20
-> > > The trigger will read the supported offload trigger in the led cdev a=
-nd
-> > > will expose the offload triggers in sysfs and then activate the offlo=
-ad
-> > > mode for the led in offload mode has it configured by default. A flag=
- is
-> > > passed to configure_offload with the related rule from this trigger to
-> > > active or disable.
-> > > It's in the led driver interest the detection and knowing how to
-> > > elaborate the passed flags.
-> > >=20
-> > > The different hw triggers are exposed in the led sysfs dir under the
-> > > offload-phy-activity subdir. =20
-> >=20
-> > NAK. The current plan is to use netdev trigger, and if it can
-> > transparently offload the settings to HW, it will.
-> >=20
-> > Yes, netdev trigger currently does not support all these settings.
-> > But it supports indicating link and blinking on activity.
-> >=20
-> > So the plan is to start with offloading the blinking on activity, i.e.
-> > I the user does
-> >   $ cd /sys/class/leds/<LED>
-> >   $ echo netdev >trigger
-> >   $ echo 1 >rx
-> >   $ echo eth0 >device_name
-> >=20
-> > this would, instead of doing blinking in software, do it in HW instead.
-> >=20
-> > After this is implemented, we can start working on extending netdev
-> > trigger to support more complicated features.
-> >=20
-> > Marek =20
->=20
-> Using the netdev trigger would cause some problem. Most of the switch
-> can run in SW mode (with blink controlled by software of always on) or
-> be put in HW mode and they will autonomously control blinking and how
-> the LED will operate. So we just need to provide a way to trigger this
-> mode and configure it. Why having something that gets triggered and then
-> does nothing as it's offloaded?
+Avoid homegrown notifier registration checks.
 
-Nothing gets triggered. In my last proposal, when the netdev trigger
-gets activated, it will first try to offload() itself to the LED
-controller. If the controller supports offloading, then netdev trigger
-won't be blinking the LEDs.
+No functional changes.
 
-See my last proposal at
-https://lore.kernel.org/linux-leds/20210601005155.27997-1-kabel@kernel.org/
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: linux-leds@vger.kernel.org
+---
+ drivers/leds/trigger/ledtrig-activity.c  | 6 ++++--
+ drivers/leds/trigger/ledtrig-heartbeat.c | 6 ++++--
+ drivers/leds/trigger/ledtrig-panic.c     | 4 ++--
+ 3 files changed, 10 insertions(+), 6 deletions(-)
 
-> The current way to configure this is very similar... Set the offload
-> trigger and use the deidcated subdir to set how the led will
-> blink/behave based on the supported trigger reported by the driver.
->=20
-> There is no reason to set a device_name as that would be hardcoded to
-> the phy (and it should not change... again in HW we can't control that
-> part, we can just tell the switch to blink on packet tx on that port)
->=20
-> So really the command is:
->   $ cd /sys/class/leds/<LED>
->   $ echo netdev > offload-phy-activity
->   $ cd offload-phy-activity
->   $ echo 1 > tx-blink
->=20
-> And the PHY will blink on tx packet.
+diff --git a/drivers/leds/trigger/ledtrig-activity.c b/drivers/leds/trigger/ledtrig-activity.c
+index 30bc9df03636..c2b7a3d322f3 100644
+--- a/drivers/leds/trigger/ledtrig-activity.c
++++ b/drivers/leds/trigger/ledtrig-activity.c
+@@ -247,8 +247,10 @@ static int __init activity_init(void)
+ 	int rc = led_trigger_register(&activity_led_trigger);
+ 
+ 	if (!rc) {
+-		atomic_notifier_chain_register(&panic_notifier_list,
+-					       &activity_panic_nb);
++		if (atomic_notifier_chain_register(&panic_notifier_list,
++						   &activity_panic_nb))
++			pr_warn("Activity LED trigger notifier already registered\n");
++
+ 		register_reboot_notifier(&activity_reboot_nb);
+ 	}
+ 	return rc;
+diff --git a/drivers/leds/trigger/ledtrig-heartbeat.c b/drivers/leds/trigger/ledtrig-heartbeat.c
+index 7fe0a05574d2..747c5113d528 100644
+--- a/drivers/leds/trigger/ledtrig-heartbeat.c
++++ b/drivers/leds/trigger/ledtrig-heartbeat.c
+@@ -190,8 +190,10 @@ static int __init heartbeat_trig_init(void)
+ 	int rc = led_trigger_register(&heartbeat_led_trigger);
+ 
+ 	if (!rc) {
+-		atomic_notifier_chain_register(&panic_notifier_list,
+-					       &heartbeat_panic_nb);
++		if (atomic_notifier_chain_register(&panic_notifier_list,
++						   &heartbeat_panic_nb))
++			pr_warn("Heartbeat LED Trigger notifier already registered\n");
++
+ 		register_reboot_notifier(&heartbeat_reboot_nb);
+ 	}
+ 	return rc;
+diff --git a/drivers/leds/trigger/ledtrig-panic.c b/drivers/leds/trigger/ledtrig-panic.c
+index 64abf2e91608..c5103f51c3de 100644
+--- a/drivers/leds/trigger/ledtrig-panic.c
++++ b/drivers/leds/trigger/ledtrig-panic.c
+@@ -64,8 +64,8 @@ static long led_panic_blink(int state)
+ 
+ static int __init ledtrig_panic_init(void)
+ {
+-	atomic_notifier_chain_register(&panic_notifier_list,
+-				       &led_trigger_panic_nb);
++	if (atomic_notifier_chain_register(&panic_notifier_list, &led_trigger_panic_nb))
++		pr_warn("LED trigger panic notifier already registered\n");
+ 
+ 	led_trigger_register_simple("panic", &trigger);
+ 	panic_blink = led_panic_blink;
+-- 
+2.29.2
 
-So there are now 2 different ways to set a LED to blink on tx activity:
-the first one is via standard netdev trigger, the second one is this.
-That is wrong.
-
-> I understand this should be an extension of netdev as they would do
-> similar task but honestly polluting the netdev trigger of if and else to
-> disable part of it if an offload mode can be supported seems bad and
-> confusionary. At this point introduce a dedicated trigger so an user can
-> switch between them. That way we can keep the flexibility of netdev
-> trigger that will always work but also permit to support the HW mode
-> with no load on the system.
-
-The rationale behind offloading netdev trigger is that it can use
-standard, existing sysfs ABI. If the driver finds out that it can
-offload the blinking to HW, it will.
-
-This is similar to how other kernel APIs do this.
-
-For example for an ethernet switch, we have DSA. So that we don't need
-a specific way to say to the switch which ports it should bridge. All
-ports are exported by the switch driver as standard network devices,
-and if we bridge them via standard API, the kernel, upon finding out
-that the bridging can be offloading to the switch chip, does that.
-
-Marek
