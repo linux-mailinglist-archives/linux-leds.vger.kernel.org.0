@@ -2,27 +2,27 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADED044B495
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Nov 2021 22:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5DA544B4BE
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Nov 2021 22:29:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245049AbhKIVZs (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 9 Nov 2021 16:25:48 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:53450 "EHLO vps0.lunn.ch"
+        id S245138AbhKIVbb (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 9 Nov 2021 16:31:31 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:53468 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239453AbhKIVZs (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 9 Nov 2021 16:25:48 -0500
+        id S245187AbhKIVbZ (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 9 Nov 2021 16:31:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=ISdBaAAZxQUmmew+eT+xWQieHGeAsJuSmIgOUah8Lms=; b=4IFwaa3MVWpYnj01oTr2Wgr/jm
-        IBgAQezGpVubUMmjUSGBPbVJd8QA/VRAfOnOWe9+nnL4Ohr15dF0fIah4JL1msufZx8DZzfDx4nme
-        wkia3A2ZLrz3ErWyCk39BCKqOF1KYPpBfttHHgaYvHCFGt1J6Sg4gvmCm5DpYpHh/oPM=;
+        bh=UQf8COTFsagdrfbDjGeAFUwNVRG2xJ6sgcNzxAbi2GQ=; b=3vR5thXo5U0rqtVzvGah4Lsl/d
+        /b2EEtsaZdO8VlZNYC7oCbh+PbezQOcZoRwCGBddHevqFI03oDQ3v6nOm49kzzNAlayYHgA/NCoQi
+        E79jOZ/M8dMmqP7kugNMj1GgfhQghMImI3J6+ZwpMaJ0zkx0zcvQ+7yPUBJ8B7ZuUkBQ=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1mkYa1-00D1ZM-1r; Tue, 09 Nov 2021 22:22:57 +0100
-Date:   Tue, 9 Nov 2021 22:22:57 +0100
+        id 1mkYfS-00D1aM-7h; Tue, 09 Nov 2021 22:28:34 +0100
+Date:   Tue, 9 Nov 2021 22:28:34 +0100
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Ansuel Smith <ansuelsmth@gmail.com>
 Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
@@ -36,23 +36,24 @@ Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
         Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [RFC PATCH v3 7/8] net: dsa: qca8k: add LEDs support
-Message-ID: <YYrmselghIy+qtn8@lunn.ch>
+Subject: Re: [RFC PATCH v3 6/8] leds: trigger: add hardware-phy-activity
+ trigger
+Message-ID: <YYroAse2JQjLTK4J@lunn.ch>
 References: <20211109022608.11109-1-ansuelsmth@gmail.com>
- <20211109022608.11109-8-ansuelsmth@gmail.com>
+ <20211109022608.11109-7-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211109022608.11109-8-ansuelsmth@gmail.com>
+In-Reply-To: <20211109022608.11109-7-ansuelsmth@gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-> +static int
-> +qca8k_parse_netdev(unsigned long rules, u32 *offload_trigger, u32 *mask)
+> +/* The attrs will be placed dynamically based on the supported triggers */
+> +static struct attribute *phy_activity_attrs[PHY_ACTIVITY_MAX_TRIGGERS + 1];
 
-This is a rather oddly named function, given that it is not actually
-passed a netdev. netdev has a very well defined meaning in the network
-stack, struct net_device.
+This cannot be global. I have boards with a mixture of different PHYs
+and switches. Each will have their own collection of supported
+modes. And some PHYs have different modes per LED. 
 
        Andrew
