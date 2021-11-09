@@ -2,203 +2,168 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3092D44A131
-	for <lists+linux-leds@lfdr.de>; Tue,  9 Nov 2021 02:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04F3F44A497
+	for <lists+linux-leds@lfdr.de>; Tue,  9 Nov 2021 03:26:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239022AbhKIBIB (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 8 Nov 2021 20:08:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33466 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239365AbhKIBGI (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Mon, 8 Nov 2021 20:06:08 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 11DC261A35;
-        Tue,  9 Nov 2021 01:02:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636419763;
-        bh=zSOUPnA9u5KD4ziO3B+5rsvYl7bkkjKW7GH8wgdaNUo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fgqhO2rBkvoINEA4wyeXaChroJxay6x4EO5YeHhBlljn3GVWw1CSODzkKTHlb/Gi1
-         AkOq1/CTK0ZCRbhCfJpxOhcf5AXwl3fS48qSQ6TdbA1bI92kJ83rgRF1MQ957CzEd4
-         0nPSY9L+tWu5M8iVic22DWRnOLOX2eKfNZJRtHNDIIBdU6gJ3agOriUE3iDy2gnWTg
-         nxAovNHbFeySnjwIK5yetinjJlbpo+XAZQr/wVR7EbG8+WCXfaB8fBiQJg7I7QMdau
-         fr8LOmUJOZbPNJb9hndxjQmX2kImi/SX81AkAaVsl9ef4ei9Mauc1pq0wPoU3WRtil
-         Ij8nnjSvUM4Pw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Johannes Berg <johannes.berg@intel.com>,
-        Pavel Machek <pavel@ucw.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-leds@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 029/138] leds: trigger: use RCU to protect the led_cdevs list
-Date:   Mon,  8 Nov 2021 12:44:55 -0500
-Message-Id: <20211108174644.1187889-29-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211108174644.1187889-1-sashal@kernel.org>
-References: <20211108174644.1187889-1-sashal@kernel.org>
+        id S240793AbhKIC3F (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Mon, 8 Nov 2021 21:29:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34942 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239826AbhKIC3A (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Mon, 8 Nov 2021 21:29:00 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28879C061767;
+        Mon,  8 Nov 2021 18:26:15 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id ee33so70828260edb.8;
+        Mon, 08 Nov 2021 18:26:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5ATv7QJLJGWA/jVTvZ8jIOs6JMQffIGJpisb3naCydY=;
+        b=iLnnzMkMKOaSW8WZAkRUis6pzefQrk+lQOUsZjWFouEisWyeoxFBtRFVEqDcwnL/3j
+         QOQDwwfDPxTE+QZxOMEwfKJQcIbzP1iHKx/8q3OJekP0lvJXIUPWeMb4eiwLdfyOFnv0
+         z2uDOkHCsBnjCuyPatya69mzMQvxWbk3jU9iKz+rxMdbvhA39wS2g1Xo1NPBIumcrnSq
+         z5iUhcJOgWLbP5mL1hIbENC1xBnoLTgH0CgXCsppRZlIqVLGd8m+Tnyb/2OobcyB3VmB
+         4SF5NRY63fQGeVYZvMHV6OfwTOfJLfMiJtwGg/GTGycUINsII10GfZfy4KntXpHcWxfQ
+         /c0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5ATv7QJLJGWA/jVTvZ8jIOs6JMQffIGJpisb3naCydY=;
+        b=VFRpRdPAzjbSS99WVu7R51W5US1iDZiFc/CEiiClG4hU1WPrLfkm6CzXrZlifTwfnk
+         cH58N+oghEFPsJg297vze6Y69iRwe1tSu0UGGBsSN/c1i8mRoTXtROOMillmf17Jbyzh
+         wyR5F8gDfZea3ocCV65hpTTKOtoIs23Xi3yChzdDJOxV2sbqGtNTMCMp5fZO9SyhRgCd
+         vvbd9dP2vCQQ0Q/zI08w73OwSsIFpKlMPDiDQf5IlidvrIIdZXDMJXODxLdeD21JSiVn
+         HmOBjAU9Kx+/PqNQfEWDlBVQJCmoerHida3paCIo1fne4MdnJ1McyB4cWNStDNs2hD+i
+         rlew==
+X-Gm-Message-State: AOAM5313g5PtqjojqOouP/xSkZlpXjsone7b6LjyJsJ4dCzO8eXdtAoS
+        HnS7NG8YRR2QPCRILspqzF4=
+X-Google-Smtp-Source: ABdhPJxP4iaB7NvDrtN/dYQ0n5j+BUHoxDaa8LdU0ILc0h9s4G4rn8jXN3afAKr/k+hO4ieqScKW3Q==
+X-Received: by 2002:a17:907:6d10:: with SMTP id sa16mr5122537ejc.532.1636424773605;
+        Mon, 08 Nov 2021 18:26:13 -0800 (PST)
+Received: from Ansuel-xps.localdomain (93-42-71-246.ip85.fastwebnet.it. [93.42.71.246])
+        by smtp.googlemail.com with ESMTPSA id m5sm8760900ejc.62.2021.11.08.18.26.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Nov 2021 18:26:13 -0800 (PST)
+From:   Ansuel Smith <ansuelsmth@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        Ansuel Smith <ansuelsmth@gmail.com>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Subject: [RFC PATCH v3 0/8] Adds support for PHY LEDs with offload triggers
+Date:   Tue,  9 Nov 2021 03:26:00 +0100
+Message-Id: <20211109022608.11109-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Johannes Berg <johannes.berg@intel.com>
+This is another attempt in adding support for PHY LEDs. Most of the
+times Switch/PHY have connected multiple LEDs that are controlled by HW
+based on some rules/event. Currently we lack any support for a generic
+way to control the HW part and normally we either never implement the
+feature or only add control for brightness or hw blink.
 
-[ Upstream commit 2a5a8fa8b23144d14567d6f8293dd6fbeecee393 ]
+This is based on Marek idea of providing some API to cled but use a
+different implementation that in theory should be more generilized.
 
-Even with the previous commit 27af8e2c90fb
-("leds: trigger: fix potential deadlock with libata")
-to this file, we still get lockdep unhappy, and Boqun
-explained the report here:
-https://lore.kernel.org/r/YNA+d1X4UkoQ7g8a@boqun-archlinux
+The current idea is:
+- LED driver implement 5 API (hw_control_status/start/stop/configure).
+  They are used to put the LED in offload mode and to configure the
+  various trigger.
+- We have hardware triggers that are used to expose to userspace the
+  supported offload triggers and set the offload mode on trigger
+  activation.
+- We can also have triggers that both support hardware and software mode.
+- The LED driver will declare each supported hardware trigger and
+  communicate with the trigger all the supported blink modes that will
+  be available by sysfs.
+- The LED driver will set how the hardware mode is activated/disabled and
+  will set a configure function to set each supported triggers.
+  This function provide 5 different mode enable/disable/read/supported/zero
+  that will enable or disable the offload trigger, read the current status,
+  check if supported or reset any active blink mode.
+- On hardware trigger activation, only the hardware mode is enabled but
+  the blink modes are not configured. This means that the LED will
+  run in hardware mode but will have the default rules/event set by the
+  device by default. To change this the user will have to operate via
+  userspace (or we can consider adding another binding in the dts to
+  declare also a default trigger configuration)
 
-Effectively, this means that the read_lock_irqsave() isn't
-enough here because another CPU might be trying to do a
-write lock, and thus block the readers.
+Each LED driver will have to declare explicit support for the offload
+trigger (or return not supported error code) as we pass a flag that
+the LED driver will elaborate and understand what is referring to (based
+on the current active trigger).
 
-This is all pretty messy, but it doesn't seem right that
-the LEDs framework imposes some locking requirements on
-users, in particular we'd have to make the spinlock in the
-iwlwifi driver always disable IRQs, even if we don't need
-that for any other reason, just to avoid this deadlock.
+I posted a user for this new implementation that will benefit from this
+and will add a big feature to it. Currently qca8k can have up to 3 LEDs
+connected to each PHY port and we have some device that have only one of
+them connected and the default configuration won't work for that.
 
-Since writes to the led_cdevs list are rare (and are done
-by userspace), just switch the list to RCU. This costs a
-synchronize_rcu() at removal time so we can ensure things
-are correct, but that seems like a small price to pay for
-getting lock-free iterations and no deadlocks (nor any
-locking requirements imposed on users.)
+I also posted the netdev trigger expanded with the hardware support.
 
-Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-Signed-off-by: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/leds/led-triggers.c | 41 +++++++++++++++++++------------------
- include/linux/leds.h        |  2 +-
- 2 files changed, 22 insertions(+), 21 deletions(-)
+More polish is required but this is just to understand if I'm taking
+the correct path with this implementation.
 
-diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
-index 4e7b78a84149b..072491d3e17b0 100644
---- a/drivers/leds/led-triggers.c
-+++ b/drivers/leds/led-triggers.c
-@@ -157,7 +157,6 @@ EXPORT_SYMBOL_GPL(led_trigger_read);
- /* Caller must ensure led_cdev->trigger_lock held */
- int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
- {
--	unsigned long flags;
- 	char *event = NULL;
- 	char *envp[2];
- 	const char *name;
-@@ -171,10 +170,13 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
- 
- 	/* Remove any existing trigger */
- 	if (led_cdev->trigger) {
--		write_lock_irqsave(&led_cdev->trigger->leddev_list_lock, flags);
--		list_del(&led_cdev->trig_list);
--		write_unlock_irqrestore(&led_cdev->trigger->leddev_list_lock,
--			flags);
-+		spin_lock(&led_cdev->trigger->leddev_list_lock);
-+		list_del_rcu(&led_cdev->trig_list);
-+		spin_unlock(&led_cdev->trigger->leddev_list_lock);
-+
-+		/* ensure it's no longer visible on the led_cdevs list */
-+		synchronize_rcu();
-+
- 		cancel_work_sync(&led_cdev->set_brightness_work);
- 		led_stop_software_blink(led_cdev);
- 		if (led_cdev->trigger->deactivate)
-@@ -186,9 +188,9 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
- 		led_set_brightness(led_cdev, LED_OFF);
- 	}
- 	if (trig) {
--		write_lock_irqsave(&trig->leddev_list_lock, flags);
--		list_add_tail(&led_cdev->trig_list, &trig->led_cdevs);
--		write_unlock_irqrestore(&trig->leddev_list_lock, flags);
-+		spin_lock(&trig->leddev_list_lock);
-+		list_add_tail_rcu(&led_cdev->trig_list, &trig->led_cdevs);
-+		spin_unlock(&trig->leddev_list_lock);
- 		led_cdev->trigger = trig;
- 
- 		if (trig->activate)
-@@ -223,9 +225,10 @@ int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trig)
- 		trig->deactivate(led_cdev);
- err_activate:
- 
--	write_lock_irqsave(&led_cdev->trigger->leddev_list_lock, flags);
--	list_del(&led_cdev->trig_list);
--	write_unlock_irqrestore(&led_cdev->trigger->leddev_list_lock, flags);
-+	spin_lock(&led_cdev->trigger->leddev_list_lock);
-+	list_del_rcu(&led_cdev->trig_list);
-+	spin_unlock(&led_cdev->trigger->leddev_list_lock);
-+	synchronize_rcu();
- 	led_cdev->trigger = NULL;
- 	led_cdev->trigger_data = NULL;
- 	led_set_brightness(led_cdev, LED_OFF);
-@@ -285,7 +288,7 @@ int led_trigger_register(struct led_trigger *trig)
- 	struct led_classdev *led_cdev;
- 	struct led_trigger *_trig;
- 
--	rwlock_init(&trig->leddev_list_lock);
-+	spin_lock_init(&trig->leddev_list_lock);
- 	INIT_LIST_HEAD(&trig->led_cdevs);
- 
- 	down_write(&triggers_list_lock);
-@@ -378,15 +381,14 @@ void led_trigger_event(struct led_trigger *trig,
- 			enum led_brightness brightness)
- {
- 	struct led_classdev *led_cdev;
--	unsigned long flags;
- 
- 	if (!trig)
- 		return;
- 
--	read_lock_irqsave(&trig->leddev_list_lock, flags);
--	list_for_each_entry(led_cdev, &trig->led_cdevs, trig_list)
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list)
- 		led_set_brightness(led_cdev, brightness);
--	read_unlock_irqrestore(&trig->leddev_list_lock, flags);
-+	rcu_read_unlock();
- }
- EXPORT_SYMBOL_GPL(led_trigger_event);
- 
-@@ -397,20 +399,19 @@ static void led_trigger_blink_setup(struct led_trigger *trig,
- 			     int invert)
- {
- 	struct led_classdev *led_cdev;
--	unsigned long flags;
- 
- 	if (!trig)
- 		return;
- 
--	read_lock_irqsave(&trig->leddev_list_lock, flags);
--	list_for_each_entry(led_cdev, &trig->led_cdevs, trig_list) {
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(led_cdev, &trig->led_cdevs, trig_list) {
- 		if (oneshot)
- 			led_blink_set_oneshot(led_cdev, delay_on, delay_off,
- 					      invert);
- 		else
- 			led_blink_set(led_cdev, delay_on, delay_off);
- 	}
--	read_unlock_irqrestore(&trig->leddev_list_lock, flags);
-+	rcu_read_unlock();
- }
- 
- void led_trigger_blink(struct led_trigger *trig,
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index 329fd914cf243..fa59326b0ad9f 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -354,7 +354,7 @@ struct led_trigger {
- 	struct led_hw_trigger_type *trigger_type;
- 
- 	/* LEDs under control by this trigger (for simple triggers) */
--	rwlock_t	  leddev_list_lock;
-+	spinlock_t	  leddev_list_lock;
- 	struct list_head  led_cdevs;
- 
- 	/* Link to next registered trigger */
+v3:
+- Rework start/stop as Andrew asked.
+- Introduce more logic to permit a trigger to run in hardware mode.
+- Add additional patch with netdev hardware support.
+- Use test_bit API to check flag passed to hw_control_configure.
+- Added a new cmd to hw_control_configure to reset any active blink_mode.
+- Refactor all the patches to follow this new implementation.
+v2:
+- Fix spelling mistake (sorry)
+- Drop patch 02 "permit to declare supported offload triggers".
+  Change the logic, now the LED driver declare support for them
+  using the configure_offload with the cmd TRIGGER_SUPPORTED.
+- Rework code to follow this new implementation.
+- Update Documentation to better describe how this offload
+  implementation work.
+
+Ansuel Smith (8):
+  leds: add support for hardware driven LEDs
+  leds: add function to configure hardware controlled LED
+  leds: trigger: netdev: drop NETDEV_LED_MODE_LINKUP from mode
+  leds: trigger: netdev: rename and expose NETDEV trigger enum modes
+  leds: trigger: netdev: add hardware control support
+  leds: trigger: add hardware-phy-activity trigger
+  net: dsa: qca8k: add LEDs support
+  dt-bindings: net: dsa: qca8k: add LEDs definition example
+
+ .../devicetree/bindings/net/dsa/qca8k.yaml    |  20 +
+ Documentation/leds/leds-class.rst             |  53 +++
+ drivers/leds/Kconfig                          |  11 +
+ drivers/leds/led-class.c                      |  27 ++
+ drivers/leds/led-triggers.c                   |  29 ++
+ drivers/leds/trigger/Kconfig                  |  28 ++
+ drivers/leds/trigger/Makefile                 |   1 +
+ .../trigger/ledtrig-hardware-phy-activity.c   | 171 +++++++
+ drivers/leds/trigger/ledtrig-netdev.c         | 108 +++--
+ drivers/net/dsa/Kconfig                       |   9 +
+ drivers/net/dsa/Makefile                      |   1 +
+ drivers/net/dsa/qca8k-leds.c                  | 429 ++++++++++++++++++
+ drivers/net/dsa/qca8k.c                       |   8 +-
+ drivers/net/dsa/qca8k.h                       |  65 +++
+ include/linux/leds.h                          | 115 ++++-
+ 15 files changed, 1045 insertions(+), 30 deletions(-)
+ create mode 100644 drivers/leds/trigger/ledtrig-hardware-phy-activity.c
+ create mode 100644 drivers/net/dsa/qca8k-leds.c
+
 -- 
-2.33.0
+2.32.0
 
