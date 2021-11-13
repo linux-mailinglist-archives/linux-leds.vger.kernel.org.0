@@ -2,31 +2,33 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA6D744ECA0
-	for <lists+linux-leds@lfdr.de>; Fri, 12 Nov 2021 19:30:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B92B844F048
+	for <lists+linux-leds@lfdr.de>; Sat, 13 Nov 2021 01:52:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235305AbhKLSdo (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 12 Nov 2021 13:33:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57708 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235122AbhKLSdo (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 12 Nov 2021 13:33:44 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BBF1E6103A;
-        Fri, 12 Nov 2021 18:30:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636741853;
-        bh=TnsJsZ5u6wSAfEYYk+ohxEusQvP6rbCeRilD0+Tc4ZI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GW+Tel5aZWbeuKMUdv+ysaVVKstiw7b1WmjiL1L1R3eazdxj9ejLMnQ/EN3sbaUDm
-         SUcTdr2z56OYioReK4I18dm9DIJQndUgYeImwcvE7bgNU57Dmv3HSr+k3LOqvnca/G
-         u0EO57/32P7kWgJcHjkDh0ryIjlzK5AOV8osz01XaSJL90FUQdeprwCuKPWUsE9uXD
-         XYAFE5VoNp6Km1+a0TGys3fw6nJtycqP1059cOC9HrUrjuwGC3fuLkyV2XDXok5D2d
-         5Sp3+WptnLY8cCjRKBL9SD8I2O3XAa0nDCbyCDDkRG0phjZNqNunPWr/EAhDw34mkD
-         gsiiUQxVPqjuQ==
-Date:   Fri, 12 Nov 2021 19:30:47 +0100
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Ansuel Smith <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
+        id S234641AbhKMAzn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 12 Nov 2021 19:55:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41082 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232571AbhKMAzn (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 12 Nov 2021 19:55:43 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEFCFC061766;
+        Fri, 12 Nov 2021 16:52:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
+        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
+        bh=vS9RsdabAwyFhYcmzcLUuXES/pza4Xr5axksmwSiF6U=; b=T7nGPd0G8rl6ro46O1ayFEK+tW
+        NbNlQcq5WSrmJbVbdLxvT3phpR5Ki+44FESmqsUg+U1V+BUDzkYB74am5DVXKYEOPbllF3AAzPo7m
+        ZoJcwxXoXXnBAftFWtEjO1+ec45lHO00j344+7CAlfYjuu40vzIsjpyK+4mdWw88WIujOW38hBw5C
+        2ghFbARJbKdDl2S13o2b8AVn7l/1k2MeZ94IT/WPVe8upFNLPke1wz/k2wMa4E36zeNj3XjU4hS+1
+        G/soOP9El5CzCLH9ufIsZtgFbzgBQ+2nv5/1DGTr7TzCbBRzE5m3jvp29Rn6IbYKt/3G8lg/zf2Vu
+        VBY5Ecng==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mlhHn-00Bx7U-Ck; Sat, 13 Nov 2021 00:52:51 +0000
+Subject: Re: [PATCH v5 6/8] leds: trigger: add hardware-phy-activity trigger
+To:     Ansuel Smith <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
         Vivien Didelot <vivien.didelot@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
@@ -36,144 +38,51 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
         John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH v4 0/8] Adds support for PHY LEDs with offload
- triggers
-Message-ID: <20211112193047.0e867ed5@thinkpad>
-In-Reply-To: <YY6JufxwvXpZp6yT@Ansuel-xps.localdomain>
-References: <20211111013500.13882-1-ansuelsmth@gmail.com>
-        <20211111031608.11267828@thinkpad>
-        <YY6JufxwvXpZp6yT@Ansuel-xps.localdomain>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
+References: <20211112153557.26941-1-ansuelsmth@gmail.com>
+ <20211112153557.26941-7-ansuelsmth@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ec0620e4-becd-c3c9-9006-6e04009a7b99@infradead.org>
+Date:   Fri, 12 Nov 2021 16:52:50 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211112153557.26941-7-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, 12 Nov 2021 16:35:21 +0100
-Ansuel Smith <ansuelsmth@gmail.com> wrote:
+On 11/12/21 7:35 AM, Ansuel Smith wrote:
+> diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
+> index 18a8970bfae6..ea7b33995e8d 100644
+> --- a/drivers/leds/trigger/Kconfig
+> +++ b/drivers/leds/trigger/Kconfig
+> @@ -162,4 +162,31 @@ config LEDS_TRIGGER_TTY
+>   
+>   	  When build as a module this driver will be called ledtrig-tty.
+>   
+> +config LEDS_TRIGGER_HARDWARE_PHY_ACTIVITY
+> +	tristate "LED Trigger for PHY Activity for Hardware Controlled LED"
 
-> On Thu, Nov 11, 2021 at 03:16:08AM +0100, Marek Beh=C3=BAn wrote:
-> > On Thu, 11 Nov 2021 02:34:52 +0100
-> > Ansuel Smith <ansuelsmth@gmail.com> wrote:
-> >  =20
-> > > This is another attempt in adding support for PHY LEDs. Most of the
-> > > times Switch/PHY have connected multiple LEDs that are controlled by =
-HW
-> > > based on some rules/event. Currently we lack any support for a generic
-> > > way to control the HW part and normally we either never implement the
-> > > feature or only add control for brightness or hw blink.
-> > >=20
-> > > This is based on Marek idea of providing some API to cled but use a
-> > > different implementation that in theory should be more generilized.
-> > >=20
-> > > The current idea is:
-> > > - LED driver implement 3 API (hw_control_status/start/stop).
-> > >   They are used to put the LED in hardware mode and to configure the
-> > >   various trigger.
-> > > - We have hardware triggers that are used to expose to userspace the
-> > >   supported hardware mode and set the hardware mode on trigger
-> > >   activation.
-> > > - We can also have triggers that both support hardware and software m=
-ode.
-> > > - The LED driver will declare each supported hardware blink mode and
-> > >   communicate with the trigger all the supported blink modes that will
-> > >   be available by sysfs.
-> > > - A trigger will use blink_set to configure the blink mode to active
-> > >   in hardware mode.
-> > > - On hardware trigger activation, only the hardware mode is enabled b=
-ut
-> > >   the blink modes are not configured. The LED driver should reset any
-> > >   link mode active by default.
-> > >=20
-> > > Each LED driver will have to declare explicit support for the offload
-> > > trigger (or return not supported error code) as we the trigger_data t=
-hat
-> > > the LED driver will elaborate and understand what is referring to (ba=
-sed
-> > > on the current active trigger).
-> > >=20
-> > > I posted a user for this new implementation that will benefit from th=
-is
-> > > and will add a big feature to it. Currently qca8k can have up to 3 LE=
-Ds
-> > > connected to each PHY port and we have some device that have only one=
- of
-> > > them connected and the default configuration won't work for that.
-> > >=20
-> > > I also posted the netdev trigger expanded with the hardware support.
-> > >=20
-> > > More polish is required but this is just to understand if I'm taking
-> > > the correct path with this implementation hoping we find a correct
-> > > implementation and we start working on the ""small details"" =20
-> >=20
-> > Hello Ansuel,
-> >=20
-> > besides other things, I am still against the idea of the
-> > `hardware-phy-activity` trigger: I think that if the user wants the LED
-> > to indicate network device's link status or activity, it should always
-> > be done via the existing netdev trigger, and with that trigger only.
-> >=20
-> > Yes, I know that netdev trigger does not currently support indicating
-> > different link modes, only whether the link is up (in any mode). That
-> > should be solved by extending the netdev trigger.
-> >=20
-> > I am going to try to revive my last attempt and send my proposal again.
-> > Hope you don't mind.
-> >=20
-> > Marek =20
->=20
-> Honestly... It's a bit sad.
-> The netdev trigger have its limitation and I see introducing an
-> additional trigger a practical way to correctly support some
-> strange/specific PHY.
-> I implemented both idea: expand netdev and introduce a dedicated
-> trigger and still this is problematic.
-> Is having an additional trigger for the specific task that bad?
->=20
-> I don't care as long as the feature is implemented but again
-> pretty sad how this LEDs proposal went.
+	                                           Hardware-controlled
 
-Dear Ansuel,
+> +	help
+> +	  This allows LEDs to run by hardware and offloaded based on some
 
-  Is having an additional trigger for the specific task that bad?
+	                   to be run by hardware and be offloaded based on some
 
-No, for a very specific thing it is not bad. By specific I mean
-something that an existing trigger does not support and can't support
-in a reasonable way. But netdev trigger already supports blinking on rx
-and tx, and even setting blinking frequency, and indicating link. And
-it can be reasonably extended to support indicating different link
-modes and even more complex things. For example what I would like to
-see is having support for indicating different links by different
-colors with RGB LEDs. I have ideas about how it can be implemented.
+> +	  rules. The LED will blink or be on based on the PHY
 
-But a very specific thing can be implemented by a separate trigger.
-For an ethernet PHY chip this can be something like ethernet collision
-indication, or Energy Efficient Ethernet indication. But link and
-activity should be done via netdev.
+	                            or be "on"
+or:	                            or be ON
+[for about the third time]
 
-Note that we even have an API for such specific triggers that can only
-work with some LEDs: the LED private triggers. Look at the member
-  struct led_hw_trigger_type *trigger_type;
-of struct led_classdev and struct led_trigger.
-With this member you can make a trigger to be only visible for some
-LEDs, so that when the user does
-  cd /sys/class/leds/<LED_WITH_PRIVATE_TRIGGER>
-  cat trigger
-it will output
-  [none] netdev something something ... my-private-trigger
-but for other LEDs (all those with different trigger_type) it will omit
-the my-private-trigger.
+> +	  activity for example on packet receive or based on the link speed.
 
-Your hardware-phy trigger should in fact use this private trigger API
-so that the user only sees the trigger for the LEDs that actually
-support it.
 
-Anyway, Ansuel, if you are willing, we can have a call about this where
-I can explain my ideas to you and you to me and we can discuss it more
-and maybe come to an understanding? I am not opposed to working on this
-together.
-
-Marek
+-- 
+~Randy
