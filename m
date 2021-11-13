@@ -2,119 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8421444F05B
-	for <lists+linux-leds@lfdr.de>; Sat, 13 Nov 2021 02:04:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E42CD44F56B
+	for <lists+linux-leds@lfdr.de>; Sat, 13 Nov 2021 22:16:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231576AbhKMBHN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 12 Nov 2021 20:07:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43604 "EHLO
+        id S236006AbhKMVTu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sat, 13 Nov 2021 16:19:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbhKMBHN (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Fri, 12 Nov 2021 20:07:13 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FFDCC061766;
-        Fri, 12 Nov 2021 17:04:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=W3pYbR+KVmnwM9kipI6oWi9/VlOqRdBW9731D/Unbls=; b=SirK07t7fUZav/KZHpehdWm2dg
-        smFKrI3HxOycN0XM7e5Z3I3VjABmpRwkJ9ojak4flvNLdePbVfQnhJu2CBAVGyJZIhjxgM/B1vjeQ
-        a2m66ITzael0Za5s9QT1rtT1CNiPhRa1ETLIofTfB/97h2Bi8wY1LfQuey1dIlJjBv7b3Ar3F+nlO
-        ZRKXc6Fb8CxrGsCMX+FEgPWoWmXwNMHah01n1yPtBDfDKb1jTvwM8ycck2w0dvtVYkixVQNdp5nAK
-        FndQ6j8iOUsGxN0821G9gIRw37/hr13KRusgBWRh4wQtcRZcQFEidlFbrdgxYXMN0XJKLb+fFCksU
-        DDu7SfhQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mlhSv-00BxSy-9a; Sat, 13 Nov 2021 01:04:21 +0000
-Subject: Re: [PATCH v5 1/8] leds: add support for hardware driven LEDs
-To:     Ansuel Smith <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
-References: <20211112153557.26941-1-ansuelsmth@gmail.com>
- <20211112153557.26941-2-ansuelsmth@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <523edf1d-ec7d-5915-0212-d7ab0b1ce1d6@infradead.org>
-Date:   Fri, 12 Nov 2021 17:04:20 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        with ESMTP id S230189AbhKMVTu (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sat, 13 Nov 2021 16:19:50 -0500
+X-Greylist: delayed 334 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 13 Nov 2021 13:16:57 PST
+Received: from polaris.svanheule.net (polaris.svanheule.net [IPv6:2a00:c98:2060:a004:1::200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C51C061766
+        for <linux-leds@vger.kernel.org>; Sat, 13 Nov 2021 13:16:57 -0800 (PST)
+Received: from terra.local.svanheule.net (unknown [IPv6:2a02:a03f:eafe:c901:832c:ae4a:977:a26b])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sander@svanheule.net)
+        by polaris.svanheule.net (Postfix) with ESMTPSA id 613562710DC;
+        Sat, 13 Nov 2021 22:11:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+        s=mail1707; t=1636837880;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=le08IpFd3ZglkCjIGDjfGar6L4YTnP3KvBK1MnKIUgA=;
+        b=RCGcTDYQuR01VQF59SS+F335EPPw2EqmfdTX7WckYdqp6GqHmuC4Ay49tXxQ+Bqj7yYxjJ
+        tSAFxdTWB9i6/q57dSEL95d3k9Df4XQoplWSrmZTWWu7fALVW4g5mDVGJfpO30yXtV7gGe
+        uTS8V1Nq1gsQCZwwyltbKegAlnXPdHWlD8DNsNAhvhHuIDPlLKSuUS+EbDbh5wD/NQ9SOM
+        nmDpIthI9nrPvkujZyqhS1MbfLVa2XONS6nu/fOXqh9oLGeHYx1Cyq4X7YRPp+1K4TJjF3
+        R6gKXAtxrB6B2Kz0A3Isz6UYltTYaqHbTaDh5n/xfA/+f2hdbe79xxVf7s8hDw==
+From:   Sander Vanheule <sander@svanheule.net>
+To:     linux-leds@vger.kernel.org
+Cc:     Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org,
+        Sander Vanheule <sander@svanheule.net>
+Subject: [PATCH] leds: led-core: Update fwnode with device_set_node
+Date:   Sat, 13 Nov 2021 22:11:13 +0100
+Message-Id: <20211113211113.573881-1-sander@svanheule.net>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <20211112153557.26941-2-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 11/12/21 7:35 AM, Ansuel Smith wrote:
-> diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
-> index cd155ead8703..e5d266919a19 100644
-> --- a/Documentation/leds/leds-class.rst
-> +++ b/Documentation/leds/leds-class.rst
-> @@ -169,6 +169,38 @@ Setting the brightness to zero with brightness_set() callback function
->   should completely turn off the LED and cancel the previously programmed
->   hardware blinking function, if any.
->   
-> +Hardware driven LEDs
-> +===================================
-> +
-> +Some LEDs can be driven by hardware (for example an LED connected to
-> +an ethernet PHY or an ethernet switch can be configured to blink on activity on
-> +the network, which in software is done by the netdev trigger).
-> +
-> +To do such offloading, LED driver must support this and a supported trigger must
-> +be used.
-> +
-> +LED driver should declare the correct control mode supported and should set
-> +the LED_SOFTWARE_CONTROLLED or LED_HARDWARE_CONTROLLED bit in the flags
-> +parameter.
-> +The trigger will check these bits and fail to activate if the control mode
-> +is not supported. By default if a LED driver doesn't declare a control mode,
+Update a newly created device's fwnode and of_node pointers using the
+recently added device_set_node helper. This keeps some firmware node
+specifics out of led-class and should help tracking future changes
+regarding device firmware node updates.
 
-                                 if an LED driver
+Signed-off-by: Sander Vanheule <sander@svanheule.net>
+---
+ drivers/leds/led-class.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-> +bit LED_SOFTWARE_CONTROLLED is assumed and set.
-> +
-> +The LED must implement 3 main APIs:
-> +- hw_control_status(): This asks the LED driver if hardware mode is enabled
-> +    or not.
-> +- hw_control_start(): This will simply enable the hardware mode for the LED
-> +    and the LED driver should reset any active blink_mode.
-> +- hw_control_stop(): This will simply disable the hardware mode for the LED.
-> +    It's advised to the driver to put the LED in the old state but this is not
-> +    enforced and putting the LED off is also accepted.
-> +
-> +If LED_HARDWARE_CONTROLLED bit is the only control mode set (LED_SOFTWARE_CONTROLLED
-> +not set) set hw_control_status/start/stop is optional as the LED supports only
-
-             ^^^ is that an extra "set"?  I can't quite read this sentence.
-
-And it would be better with a comma added, like so:
-
-   not set),
-
-
-> +hardware mode and any software only trigger will reject activation.
-
-                          software-only
-
-> +
-> +On init an LED driver that support a hardware mode should reset every blink mode
-
-                               supports
-
-> +set by default.
-
-
+diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+index f4bb02f6e042..6a8ea94834fa 100644
+--- a/drivers/leds/led-class.c
++++ b/drivers/leds/led-class.c
+@@ -375,10 +375,8 @@ int led_classdev_register_ext(struct device *parent,
+ 		mutex_unlock(&led_cdev->led_access);
+ 		return PTR_ERR(led_cdev->dev);
+ 	}
+-	if (init_data && init_data->fwnode) {
+-		led_cdev->dev->fwnode = init_data->fwnode;
+-		led_cdev->dev->of_node = to_of_node(init_data->fwnode);
+-	}
++	if (init_data && init_data->fwnode)
++		device_set_node(led_cdev->dev, init_data->fwnode);
+ 
+ 	if (ret)
+ 		dev_warn(parent, "Led %s renamed to %s due to name collision",
 -- 
-~Randy
+2.33.1
+
