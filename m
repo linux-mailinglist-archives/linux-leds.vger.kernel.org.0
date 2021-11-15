@@ -2,816 +2,133 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5AF44FC5A
-	for <lists+linux-leds@lfdr.de>; Sun, 14 Nov 2021 23:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8613A44FD72
+	for <lists+linux-leds@lfdr.de>; Mon, 15 Nov 2021 04:24:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231652AbhKNW53 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 14 Nov 2021 17:57:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44692 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231496AbhKNW5Y (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 14 Nov 2021 17:57:24 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561F7C061746;
-        Sun, 14 Nov 2021 14:54:29 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id i63so31403200lji.3;
-        Sun, 14 Nov 2021 14:54:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4s7bw72a+4Qe+ggB/EasoDTMUz0gQ/J9xbfgWy5bBUw=;
-        b=NKB7rrJVW8qY9W2ONJLBlXIS3mtOCPNfGwx4Ehw+b5REbhR+76eUptQSAP+tTNYNru
-         qB513LLV5Jzffzfmv7mxa9+mmIAxiEYJtsxAz8SDKgLQwY1cmNdDBMB1aRTyF30DJrVr
-         8jvCU17dAt+pPGFYNEnZv1NEmx+Oylles5ea5xGE7fI0mgLotp85f0R8XXB1rq/uYH0l
-         uLBhnthXx81tpFsynLZWbuT5OLXpFZQ+wYH9YDr0rTfe4HudvbwLjC9Jg59cDx/+r3v0
-         cDlkOZdY5IgOkf7BM/ENnarDa/oXJDZ/0MIDfKfkHSMW4woc8cjhzUgxKzqClcTXv5J5
-         nP2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4s7bw72a+4Qe+ggB/EasoDTMUz0gQ/J9xbfgWy5bBUw=;
-        b=itTYayfFTTxj2zMYpyrD9F3Xtezz9DRyzqTdkuEGaAZv4uDjtt8NUJh+QYGGbOxT2l
-         wbGVug1jy3xSc4LP0mesR7POHwfMyB1kMgW1Xj9I/xtpfVbQ72Bk78t4VGMKL1YVKjfL
-         6ewt2oOQu4/nJdWyEbWQDau2Fl+gKFN26S+fzbJfTkCf0DqHbB/4DDhFYP/ND2YbqTqz
-         LzN7LAINstJ4Odw9ezazsHdIVl45XujHNjIt1j4ErhVhaC/Qtf3t63X9H4aYk8pDxPpJ
-         U0tZ6NffmpTKH9oFVtbZGlVFP8+0h77gYH79T4/XnrjYzses5h9tx/jaMYlKRNJe2/3N
-         m+Zg==
-X-Gm-Message-State: AOAM533h0KmFbIKzEe47yHjuz4PObciZw13maOm6Ngikucti2RHtVfm5
-        CzAPIUQczpoSAPoNEPdng2wfJzfWhxk=
-X-Google-Smtp-Source: ABdhPJy7FOCcUvozb3PvROxlJ7nmzrezYuINym9BgMyz/9Y/ewuleGhAUQ5HdfkLTxsVLntdb0JGcQ==
-X-Received: by 2002:a05:651c:907:: with SMTP id e7mr36378263ljq.300.1636930467490;
-        Sun, 14 Nov 2021 14:54:27 -0800 (PST)
-Received: from localhost.lan (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
-        by smtp.gmail.com with ESMTPSA id n9sm1336890lji.131.2021.11.14.14.54.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Nov 2021 14:54:27 -0800 (PST)
-From:   =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>
-Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>, linux-leds@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
-Subject: [PATCH] dt-bindings: leds: convert BCM6328 controller to the json-schema
-Date:   Sun, 14 Nov 2021 23:54:16 +0100
-Message-Id: <20211114225416.3174-1-zajec5@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        id S236560AbhKOD1q (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 14 Nov 2021 22:27:46 -0500
+Received: from mail-eopbgr1300111.outbound.protection.outlook.com ([40.107.130.111]:47017
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S236556AbhKOD1m (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 14 Nov 2021 22:27:42 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eMuyPiJ7K6Ir8xMJphgkGjG2hqNHcLt5d6Y0Wwz+1t+zEf9ISFXgyu0q+Ei2Hx3Mhojqchf6bRnskDWHFMQlcfNsaupMh/Xpdg9OfrH+PZxJBGmuEDGKOpcyVeg4A11Qczx/+H0eK4oJMeyW4ESL9kh9tGrO2D1/sXYV13pN2cI1BZo1VPwEZayEJaLp/yvg73Tw+4C+YoCI7nZuZvYvjTWeAru2XDL4QfuvJbEb1pXxhsCJzc05BLTj+cOCW6Nx9dp4mvaP8nhvbkWmuK4oGcdrqkBn+B2r3gtWi26cfnkpV4bfmLJLiIkpxv0WUEyBw+LR+HYGU1nAimWBBfgjTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TY9FAXAEq9PFcRD3sRCvxdJhL/A6IxDjKVTo8iy+Ojk=;
+ b=Mm3lWqTsdaiXk3Go3uliKG+jRkv3AkM6TPDnMg/Eh8MO9CU3+KC93ZLFFGLFPJB8gmawawmUo873TRtUEGHTjfzauHK+nObB5PcI6yEv4PyJzeg9P+esDlGH8n0xlj2tyTGeMbG+na8lTyY8J9dX+uFtdpvtpMQPdXnze5Ckq+1vDpXgr1eJfi+kzXVce44MA00lAv/pYIbkdVO5gXTqaTMvDTOPtQ9pxwjm2KHXOk88T/ChTdGpdSafloxyQp+krefktnqntGQRrmsjLhKiIBG/A5Xn2YC5JT3S1Jge9jZzySkrjJx0sDSD70TZhKJ1h6TrzknBpfouicJZxeWdrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TY9FAXAEq9PFcRD3sRCvxdJhL/A6IxDjKVTo8iy+Ojk=;
+ b=joyXy7u3HEUeG5K1tUDY+agQrOvtNMG4yxpfDx9Qo4LG7zFaCjUrHEiVFCCyTayR6LsRjEfX2ptnzJb2x8SEm4adfyBPuF11DrnXEVMB6cuu5ITkBaIe8Ya69jUCpF7jDgRwGklEJBpKy0gx/IBTT+mtVkGKESxeNn0ikzPgdYg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from TYZPR06MB4173.apcprd06.prod.outlook.com (2603:1096:400:26::14)
+ by TYZPR06MB3902.apcprd06.prod.outlook.com (2603:1096:400:21::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.19; Mon, 15 Nov
+ 2021 03:24:45 +0000
+Received: from TYZPR06MB4173.apcprd06.prod.outlook.com
+ ([fe80::5e:78e1:eba3:7d0e]) by TYZPR06MB4173.apcprd06.prod.outlook.com
+ ([fe80::5e:78e1:eba3:7d0e%8]) with mapi id 15.20.4669.016; Mon, 15 Nov 2021
+ 03:24:45 +0000
+From:   Yihao Han <hanyihao@vivo.com>
+To:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     kernel@vivo.com, Yihao Han <hanyihao@vivo.com>
+Subject: [PATCH] leds: tca6507: use swap() to make code cleaner
+Date:   Sun, 14 Nov 2021 19:24:28 -0800
+Message-Id: <20211115032428.4379-1-hanyihao@vivo.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR02CA0181.apcprd02.prod.outlook.com
+ (2603:1096:201:21::17) To TYZPR06MB4173.apcprd06.prod.outlook.com
+ (2603:1096:400:26::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from ubuntu.localdomain (103.220.76.181) by HK2PR02CA0181.apcprd02.prod.outlook.com (2603:1096:201:21::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.19 via Frontend Transport; Mon, 15 Nov 2021 03:24:44 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c84856f3-6320-49a4-d4d7-08d9a7e7788a
+X-MS-TrafficTypeDiagnostic: TYZPR06MB3902:
+X-Microsoft-Antispam-PRVS: <TYZPR06MB3902BAD05B254B102A82CBD3A2989@TYZPR06MB3902.apcprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nMCSjeflFKRsv1B645zb/BeNq8Ti/n108LrWMjVTqV/Y4Ak8QuvbAjYE+qLuYkhLPF6ef6zRUIckm9ngiqL6o9lZ1SMgx7EjB6wMc/hhk6YkQxsSOxXD4hgDtz0XZLaO41PAG21MdaVi72rWvCSAAzem6HqMW5cOkuQrxVyNlCifCmZ0I2w2iemfI/e8fI5fgL6SafX/cpNBFh5KgTaw3TRE1nB7JWtd8UvmOHdkBeeUhGLhyUM8rmpVVqXlcA5fyVU1z0bIwrN0REi6zEck82dDmziICV2s+bXILMy/iMFCXm39wCNUt7t97CwKJ6j3Ua6r01ewkUoqZeehEEnwt9/1tazFujaXlSEHtvK1qBZNx8CFtL9avDqse6eU6yxaU7rF8Sj7JtIx18yxTeb5fKYhjTVe4D/OjwFSKsbv0FREe+0qWGf3PX+lWoMvuvZPiQB60CRcRp8ey4A81b+ZtHPBYCxHHAbwQ1M4HGkciGUrdQwoLfCKblGkhYNmfE1PKPKADDZlcEyjg7YU1w5HcgK+cmzll72aFOxvLRcxqWd0WJJHmIkyWVUoXebP2tFCvnWlQ3bXUe/c9RmafJK7VuSuqCMijzCSnux5QPyEGHpHk2vnkt8VTOp6ZpC8YYN8cBgYLmssjtOBmsobnUpi9dcJTLBQKlVci6GnXVOMBAYIyH3ipkOOx432goc/vEM3dMFEF3DtBJ98M8V3uNwsoQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4173.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6506007)(66946007)(186003)(36756003)(508600001)(38350700002)(8676002)(66476007)(6512007)(38100700002)(6486002)(5660300002)(52116002)(2616005)(956004)(107886003)(8936002)(4744005)(26005)(66556008)(86362001)(6666004)(1076003)(4326008)(316002)(83380400001)(2906002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?scZGJu6Q6MSNHDdP17KCA4DnYwulRgB4EAglpQI1yK3GEEUfHfogLcFjuhAs?=
+ =?us-ascii?Q?YT8e7uBoQ07f8R748KKfHmVvCBtQd55UQ9cUP6LRf2d/3LP9QqDXNIO4cCPH?=
+ =?us-ascii?Q?/RUn5lk3+8AuVKuS4wxoz/Hd6ITDpYeuSNrlD56B/EvXktnEUajStE3NFN1k?=
+ =?us-ascii?Q?iPh2LaX9jEOB+USnKa8kCjJa/38IZXvajrQCqVXDzo6i/SWD9OIQnfd1/jtM?=
+ =?us-ascii?Q?bonOzK+s5/Tne9DJeS8zVr/SKpJ/e1DS333ovcIQpPkcTqBdOcPB2AIDjOJU?=
+ =?us-ascii?Q?ii2+Un6uwVtRQxK9rgV1wOuRysQuME/ySAsY8IzteQptgisiVa7C5bHkcYFF?=
+ =?us-ascii?Q?YgepJ7xsdOy6ijsEwr3sufYpP4yT2V49Fj+e1OZ/yvn7N3gkwlojOhdcFaSd?=
+ =?us-ascii?Q?IT/NgJKeKYmmdSf0A9ny3UH+gqeSDCA598RV4kzENicawa3vgz3fz0pFwYx9?=
+ =?us-ascii?Q?yV0kqLC+gK6blFHc7TCdWYKHbS30zcUfy5r0x0wcHLCOjJEUBOZKSD06Pwyq?=
+ =?us-ascii?Q?NMjIpYk0eDASJMqjfXM/EhnJeehsbBonZzdtbhJJC2i0whFHlRKBYFOcrmLk?=
+ =?us-ascii?Q?x7oPht76DOG7qJY+j+Qp2jYjzt5to5GMn7MV/A+xtxGevHhnWPd/DNGGELC/?=
+ =?us-ascii?Q?kDN711tSjchL4H2vodJyw5iZZ/fhJ8pGYgbLznGmdYgiW5xO2meOZG1ggeis?=
+ =?us-ascii?Q?+lSJALUmdu+90Y5UOWXY2UWZit6LIvl9+VahnsstxYM9hLKmC1Lxglv0AbxF?=
+ =?us-ascii?Q?M2y/mOjmi/UxWpFeQ2/bFHw10WBRYJH4YTWe3ok95zy+aA1xj5FieIBK1BFH?=
+ =?us-ascii?Q?8VuVVgskQS0Qyg5GtiA/ndJ/GB/4SPgudzYzz4fr48HeckHj/AAQLzqoVFLs?=
+ =?us-ascii?Q?dpom1X0WrPZZmXmHa0LqN7xCFdl/0Mkr/3UD6KxdYyF06M2BvDjGyb/Nmhtj?=
+ =?us-ascii?Q?w++CPYtczP1ti2Zq9vjZRpy3VY9dZHIf9ZfxwCzGP5em6m4c2Bfdykv1XLIw?=
+ =?us-ascii?Q?jEeXXFI8Gd8K3UsP4pDNRGEgSUtM7kz8UvAkNreQsJfSqQWX3pT6LvgbWJj2?=
+ =?us-ascii?Q?hcQibrSKJ6q2uvKxnMIU+dZ49hkfsKc/q3bbi1K+kUpSvzN9FBwE5RlbKlYY?=
+ =?us-ascii?Q?RDZlkvtS4Q2u8a0ieWq6OM5xzFKfojlze5pS3MdfDVzJhqS4X3Mmt/NYh9pj?=
+ =?us-ascii?Q?9g52LU0Gy/XhCsCcjBYP+boD2/fKBSHD7PsOYJV0L2o0H8WnOyL1uKANC4l/?=
+ =?us-ascii?Q?t/S+BbqRFpHCuQDHhxDhWxWlOrVjFCHHIvo94ML8oFIGb3+MwkP/dAC9lKGN?=
+ =?us-ascii?Q?gpRCjZIHlC2odEKxOrAZBhH6eu23rnsJovENyqaTJdTPHCuTKS74TiYJmWxb?=
+ =?us-ascii?Q?t3pRfjGsHvhUmcOKIuqOflCuV20BDVuLK+MyGbNMAY8G8+HOuEtfgD2o2Wn4?=
+ =?us-ascii?Q?PhLRvIxf9luQOMH+ygk0lrcm+WDZ/y2CcPSGYbrFrIEgQegJcrRFM+pLAAhM?=
+ =?us-ascii?Q?aL04XshkmNuCiz2cfLzolNSxfMdL7fo+EPveTV1rzcUqmM/BIVtfsQy/pC87?=
+ =?us-ascii?Q?QwYohxleNj4ZkbUJFvbTe5gOwAe1xr+Z7KPD1vpwkaEA94enA3znOSpSywMm?=
+ =?us-ascii?Q?8ezwcH9Ok/Ft6KlUH9VAjbY=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c84856f3-6320-49a4-d4d7-08d9a7e7788a
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4173.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2021 03:24:45.2668
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: d5PO8x7a+ZgsR+HrP02Atcaw7axjrqSsu3j0+X81VYZ7TWd4dm9KYltpeyQwuuZUz8cxeYpvxZo8g/OF0XFqkw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB3902
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Rafał Miłecki <rafal@milecki.pl>
+Use the macro 'swap()' defined in 'include/linux/minmax.h' to avoid
+opencoding it.
 
-This helps validating DTS files.
-
-Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+Signed-off-by: Yihao Han <hanyihao@vivo.com>
 ---
- .../devicetree/bindings/leds/leds-bcm6328.txt | 319 --------------
- .../bindings/leds/leds-bcm6328.yaml           | 403 ++++++++++++++++++
- 2 files changed, 403 insertions(+), 319 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-bcm6328.txt
- create mode 100644 Documentation/devicetree/bindings/leds/leds-bcm6328.yaml
+ drivers/leds/leds-tca6507.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-bcm6328.txt b/Documentation/devicetree/bindings/leds/leds-bcm6328.txt
-deleted file mode 100644
-index a555d94084b7..000000000000
---- a/Documentation/devicetree/bindings/leds/leds-bcm6328.txt
-+++ /dev/null
-@@ -1,319 +0,0 @@
--LEDs connected to Broadcom BCM6328 controller
--
--This controller is present on BCM6318, BCM6328, BCM6362 and BCM63268.
--In these SoCs it's possible to control LEDs both as GPIOs or by hardware.
--However, on some devices there are Serial LEDs (LEDs connected to a 74x164
--controller), which can either be controlled by software (exporting the 74x164
--as spi-gpio. See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml),
--or by hardware using this driver.
--Some of these Serial LEDs are hardware controlled (e.g. ethernet LEDs) and
--exporting the 74x164 as spi-gpio prevents those LEDs to be hardware
--controlled, so the only chance to keep them working is by using this driver.
--
--BCM6328 LED controller has a HWDIS register, which controls whether a LED
--should be controlled by a hardware signal instead of the MODE register value,
--with 0 meaning hardware control enabled and 1 hardware control disabled. This
--is usually 1:1 for hardware to LED signals, but through the activity/link
--registers you have some limited control over rerouting the LEDs (as
--explained later in brcm,link-signal-sources). Even if a LED is hardware
--controlled you are still able to make it blink or light it up if it isn't,
--but you can't turn it off if the hardware decides to light it up. For this
--reason, hardware controlled LEDs aren't registered as LED class devices.
--
--Required properties:
--  - compatible : should be "brcm,bcm6328-leds".
--  - #address-cells : must be 1.
--  - #size-cells : must be 0.
--  - reg : BCM6328 LED controller address and size.
--
--Optional properties:
--  - brcm,serial-leds : Boolean, enables Serial LEDs.
--    Default : false
--  - brcm,serial-mux : Boolean, enables Serial LEDs multiplexing.
--    Default : false
--  - brcm,serial-clk-low : Boolean, makes clock signal active low.
--    Default : false
--  - brcm,serial-dat-low : Boolean, makes data signal active low.
--    Default : false
--  - brcm,serial-shift-inv : Boolean, inverts Serial LEDs shift direction.
--    Default : false
--
--Each LED is represented as a sub-node of the brcm,bcm6328-leds device.
--
--LED sub-node required properties:
--  - reg : LED pin number (only LEDs 0 to 23 are valid).
--
--LED sub-node optional properties:
--  a) Optional properties for sub-nodes related to software controlled LEDs:
--    - label : see Documentation/devicetree/bindings/leds/common.txt
--    - active-low : Boolean, makes LED active low.
--      Default : false
--    - default-state : see
--      Documentation/devicetree/bindings/leds/common.txt
--    - linux,default-trigger : see
--      Documentation/devicetree/bindings/leds/common.txt
--
--  b) Optional properties for sub-nodes related to hardware controlled LEDs:
--    - brcm,hardware-controlled : Boolean, makes this LED hardware controlled.
--      Default : false
--    - brcm,link-signal-sources : An array of hardware link
--      signal sources. Up to four link hardware signals can get muxed into
--      these LEDs. Only valid for LEDs 0 to 7, where LED signals 0 to 3 may
--      be muxed to LEDs 0 to 3, and signals 4 to 7 may be muxed to LEDs
--      4 to 7. A signal can be muxed to more than one LED, and one LED can
--      have more than one source signal.
--    - brcm,activity-signal-sources : An array of hardware activity
--      signal sources. Up to four activity hardware signals can get muxed into
--      these LEDs. Only valid for LEDs 0 to 7, where LED signals 0 to 3 may
--      be muxed to LEDs 0 to 3, and signals 4 to 7 may be muxed to LEDs
--      4 to 7. A signal can be muxed to more than one LED, and one LED can
--      have more than one source signal.
--
--Examples:
--Scenario 1 : BCM6328 with 4 EPHY LEDs
--	leds0: led-controller@10000800 {
--		compatible = "brcm,bcm6328-leds";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x10000800 0x24>;
--
--		alarm_red@2 {
--			reg = <2>;
--			active-low;
--			label = "red:alarm";
--		};
--		inet_green@3 {
--			reg = <3>;
--			active-low;
--			label = "green:inet";
--		};
--		power_green@4 {
--			reg = <4>;
--			active-low;
--			label = "green:power";
--			default-state = "on";
--		};
--		ephy0_spd@17 {
--			reg = <17>;
--			brcm,hardware-controlled;
--		};
--		ephy1_spd@18 {
--			reg = <18>;
--			brcm,hardware-controlled;
--		};
--		ephy2_spd@19 {
--			reg = <19>;
--			brcm,hardware-controlled;
--		};
--		ephy3_spd@20 {
--			reg = <20>;
--			brcm,hardware-controlled;
--		};
--	};
--
--Scenario 2 : BCM63268 with Serial/GPHY0 LEDs
--	leds0: led-controller@10001900 {
--		compatible = "brcm,bcm6328-leds";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x10001900 0x24>;
--		brcm,serial-leds;
--		brcm,serial-dat-low;
--		brcm,serial-shift-inv;
--
--		gphy0_spd0@0 {
--			reg = <0>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <0>;
--		};
--		gphy0_spd1@1 {
--			reg = <1>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <1>;
--		};
--		inet_red@2 {
--			reg = <2>;
--			active-low;
--			label = "red:inet";
--		};
--		dsl_green@3 {
--			reg = <3>;
--			active-low;
--			label = "green:dsl";
--		};
--		usb_green@4 {
--			reg = <4>;
--			active-low;
--			label = "green:usb";
--		};
--		wps_green@7 {
--			reg = <7>;
--			active-low;
--			label = "green:wps";
--		};
--		inet_green@8 {
--			reg = <8>;
--			active-low;
--			label = "green:inet";
--		};
--		ephy0_act@9 {
--			reg = <9>;
--			brcm,hardware-controlled;
--		};
--		ephy1_act@10 {
--			reg = <10>;
--			brcm,hardware-controlled;
--		};
--		ephy2_act@11 {
--			reg = <11>;
--			brcm,hardware-controlled;
--		};
--		gphy0_act@12 {
--			reg = <12>;
--			brcm,hardware-controlled;
--		};
--		ephy0_spd@13 {
--			reg = <13>;
--			brcm,hardware-controlled;
--		};
--		ephy1_spd@14 {
--			reg = <14>;
--			brcm,hardware-controlled;
--		};
--		ephy2_spd@15 {
--			reg = <15>;
--			brcm,hardware-controlled;
--		};
--		power_green@20 {
--			reg = <20>;
--			active-low;
--			label = "green:power";
--			default-state = "on";
--		};
--	};
--
--Scenario 3 : BCM6362 with 1 LED for each EPHY
--	leds0: led-controller@10001900 {
--		compatible = "brcm,bcm6328-leds";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x10001900 0x24>;
--
--		usb@0 {
--			reg = <0>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <0>;
--			brcm,activity-signal-sources = <0>;
--			/* USB link/activity routed to USB LED */
--		};
--		inet@1 {
--			reg = <1>;
--			brcm,hardware-controlled;
--			brcm,activity-signal-sources = <1>;
--			/* INET activity routed to INET LED */
--		};
--		ephy0@4 {
--			reg = <4>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <4>;
--			/* EPHY0 link routed to EPHY0 LED */
--		};
--		ephy1@5 {
--			reg = <5>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <5>;
--			/* EPHY1 link routed to EPHY1 LED */
--		};
--		ephy2@6 {
--			reg = <6>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <6>;
--			/* EPHY2 link routed to EPHY2 LED */
--		};
--		ephy3@7 {
--			reg = <7>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <7>;
--			/* EPHY3 link routed to EPHY3 LED */
--		};
--		power_green@20 {
--			reg = <20>;
--			active-low;
--			label = "green:power";
--			default-state = "on";
--		};
--	};
--
--Scenario 4 : BCM6362 with 1 LED for all EPHYs
--	leds0: led-controller@10001900 {
--		compatible = "brcm,bcm6328-leds";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x10001900 0x24>;
--
--		usb@0 {
--			reg = <0>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <0 1>;
--			brcm,activity-signal-sources = <0 1>;
--			/* USB/INET link/activity routed to USB LED */
--		};
--		ephy@4 {
--			reg = <4>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <4 5 6 7>;
--			/* EPHY0/1/2/3 link routed to EPHY0 LED */
--		};
--		power_green@20 {
--			reg = <20>;
--			active-low;
--			label = "green:power";
--			default-state = "on";
--		};
--	};
--
--Scenario 5 : BCM6362 with EPHY LEDs swapped
--	leds0: led-controller@10001900 {
--		compatible = "brcm,bcm6328-leds";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x10001900 0x24>;
--
--		usb@0 {
--			reg = <0>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <0>;
--			brcm,activity-signal-sources = <0 1>;
--			/* USB link/act and INET act routed to USB LED */
--		};
--		ephy0@4 {
--			reg = <4>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <7>;
--			/* EPHY3 link routed to EPHY0 LED */
--		};
--		ephy1@5 {
--			reg = <5>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <6>;
--			/* EPHY2 link routed to EPHY1 LED */
--		};
--		ephy2@6 {
--			reg = <6>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <5>;
--			/* EPHY1 link routed to EPHY2 LED */
--		};
--		ephy3@7 {
--			reg = <7>;
--			brcm,hardware-controlled;
--			brcm,link-signal-sources = <4>;
--			/* EPHY0 link routed to EPHY3 LED */
--		};
--		power_green@20 {
--			reg = <20>;
--			active-low;
--			label = "green:power";
--			default-state = "on";
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/leds/leds-bcm6328.yaml b/Documentation/devicetree/bindings/leds/leds-bcm6328.yaml
-new file mode 100644
-index 000000000000..b7e72feb7a07
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/leds-bcm6328.yaml
-@@ -0,0 +1,403 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/leds-bcm6328.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: LEDs connected to Broadcom BCM6328 controller
-+
-+maintainers:
-+  - Álvaro Fernández Rojas <noltari@gmail.com>
-+
-+description: |
-+  This controller is present on BCM6318, BCM6328, BCM6362 and BCM63268.
-+  In these SoCs it's possible to control LEDs both as GPIOs or by hardware.
-+  However, on some devices there are Serial LEDs (LEDs connected to a 74x164
-+  controller), which can either be controlled by software (exporting the 74x164
-+  as spi-gpio. See
-+  Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or by hardware
-+  using this driver.
-+  Some of these Serial LEDs are hardware controlled (e.g. ethernet LEDs) and
-+  exporting the 74x164 as spi-gpio prevents those LEDs to be hardware
-+  controlled, so the only chance to keep them working is by using this driver.
-+
-+  BCM6328 LED controller has a HWDIS register, which controls whether a LED
-+  should be controlled by a hardware signal instead of the MODE register value,
-+  with 0 meaning hardware control enabled and 1 hardware control disabled. This
-+  is usually 1:1 for hardware to LED signals, but through the activity/link
-+  registers you have some limited control over rerouting the LEDs (as
-+  explained later in brcm,link-signal-sources). Even if a LED is hardware
-+  controlled you are still able to make it blink or light it up if it isn't,
-+  but you can't turn it off if the hardware decides to light it up. For this
-+  reason, hardware controlled LEDs aren't registered as LED class devices.
-+
-+  Each LED is represented as a sub-node of the brcm,bcm6328-leds device.
-+
-+properties:
-+  compatible:
-+    const: brcm,bcm6328-leds
-+
-+  reg:
-+    maxItems: 1
-+
-+  brcm,serial-leds:
-+    type: boolean
-+    description: Enables Serial LEDs.
-+
-+  brcm,serial-mux:
-+    type: boolean
-+    description: Enables Serial LEDs multiplexing.
-+
-+  brcm,serial-clk-low:
-+    type: boolean
-+    description: Makes clock signal active low.
-+
-+  brcm,serial-dat-low:
-+    type: boolean
-+    description: Makes data signal active low.
-+
-+  brcm,serial-shift-inv:
-+    type: boolean
-+    description: Inverts Serial LEDs shift direction.
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+patternProperties:
-+  "@[a-f0-9]+$":
-+    type: object
-+
-+    $ref: common.yaml#
-+
-+    properties:
-+      reg:
-+        maxItems: 1
-+        description: LED pin number (only LEDs 0 to 23 are valid).
-+
-+      active-low:
-+        type: boolean
-+        description: Makes LED active low.
-+
-+      brcm,hardware-controlled:
-+        type: boolean
-+        description: Makes this LED hardware controlled.
-+
-+      brcm,link-signal-sources:
-+        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        minItems: 1
-+        maxItems: 4
-+        description: >
-+          An array of hardware link signal sources. Up to four link hardware
-+          signals can get muxed into these LEDs. Only valid for LEDs 0 to 7,
-+          where LED signals 0 to 3 may be muxed to LEDs 0 to 3, and signals 4 to
-+          7 may be muxed to LEDs 4 to 7. A signal can be muxed to more than one
-+          LED, and one LED can have more than one source signal.
-+
-+      brcm,activity-signal-sources:
-+        $ref: /schemas/types.yaml#/definitions/uint32-array
-+        minItems: 1
-+        maxItems: 4
-+        description: >
-+          An array of hardware activity signal sources. Up to four activity
-+          hardware signals can get muxed into these LEDs. Only valid for LEDs 0
-+          to 7, where LED signals 0 to 3 may be muxed to LEDs 0 to 3, and
-+          signals 4 to 7 may be muxed to LEDs 4 to 7. A signal can be muxed to
-+          more than one LED, and one LED can have more than one source signal.
-+
-+    required:
-+      - reg
-+
-+    unevaluatedProperties: false
-+
-+required:
-+  - reg
-+  - "#address-cells"
-+  - "#size-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    /* BCM6328 with 4 EPHY LEDs */
-+    led-controller@10000800 {
-+        compatible = "brcm,bcm6328-leds";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        reg = <0x10000800 0x24>;
-+
-+        alarm_red@2 {
-+            reg = <2>;
-+            active-low;
-+            label = "red:alarm";
-+        };
-+
-+        inet_green@3 {
-+            reg = <3>;
-+            active-low;
-+            label = "green:inet";
-+        };
-+
-+        power_green@4 {
-+            reg = <4>;
-+            active-low;
-+            label = "green:power";
-+            default-state = "on";
-+        };
-+
-+        ephy0_spd@17 {
-+            reg = <17>;
-+            brcm,hardware-controlled;
-+        };
-+
-+        ephy1_spd@18 {
-+            reg = <18>;
-+            brcm,hardware-controlled;
-+        };
-+
-+        ephy2_spd@19 {
-+            reg = <19>;
-+            brcm,hardware-controlled;
-+        };
-+
-+        ephy3_spd@20 {
-+            reg = <20>;
-+            brcm,hardware-controlled;
-+        };
-+    };
-+  - |
-+    /* BCM63268 with Serial/GPHY0 LEDs */
-+    led-controller@10001900 {
-+        compatible = "brcm,bcm6328-leds";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        reg = <0x10001900 0x24>;
-+        brcm,serial-leds;
-+        brcm,serial-dat-low;
-+        brcm,serial-shift-inv;
-+
-+        gphy0_spd0@0 {
-+            reg = <0>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <0>;
-+        };
-+
-+        gphy0_spd1@1 {
-+            reg = <1>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <1>;
-+        };
-+
-+        inet_red@2 {
-+            reg = <2>;
-+            active-low;
-+            label = "red:inet";
-+        };
-+
-+        dsl_green@3 {
-+            reg = <3>;
-+            active-low;
-+            label = "green:dsl";
-+        };
-+
-+        usb_green@4 {
-+            reg = <4>;
-+            active-low;
-+            label = "green:usb";
-+        };
-+
-+        wps_green@7 {
-+            reg = <7>;
-+            active-low;
-+            label = "green:wps";
-+        };
-+
-+        inet_green@8 {
-+            reg = <8>;
-+            active-low;
-+            label = "green:inet";
-+        };
-+
-+        ephy0_act@9 {
-+            reg = <9>;
-+            brcm,hardware-controlled;
-+        };
-+
-+        ephy1_act@10 {
-+            reg = <10>;
-+            brcm,hardware-controlled;
-+        };
-+
-+        ephy2_act@11 {
-+            reg = <11>;
-+            brcm,hardware-controlled;
-+        };
-+
-+        gphy0_act@12 {
-+            reg = <12>;
-+            brcm,hardware-controlled;
-+        };
-+
-+        ephy0_spd@13 {
-+            reg = <13>;
-+            brcm,hardware-controlled;
-+        };
-+
-+        ephy1_spd@14 {
-+            reg = <14>;
-+            brcm,hardware-controlled;
-+        };
-+
-+        ephy2_spd@15 {
-+            reg = <15>;
-+            brcm,hardware-controlled;
-+        };
-+
-+        power_green@20 {
-+            reg = <20>;
-+            active-low;
-+            label = "green:power";
-+            default-state = "on";
-+        };
-+    };
-+  - |
-+    /* BCM6362 with 1 LED for each EPHY */
-+    led-controller@10001900 {
-+        compatible = "brcm,bcm6328-leds";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        reg = <0x10001900 0x24>;
-+
-+        usb@0 {
-+            reg = <0>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <0>;
-+            brcm,activity-signal-sources = <0>;
-+            /* USB link/activity routed to USB LED */
-+        };
-+
-+        inet@1 {
-+            reg = <1>;
-+            brcm,hardware-controlled;
-+            brcm,activity-signal-sources = <1>;
-+            /* INET activity routed to INET LED */
-+        };
-+
-+        ephy0@4 {
-+            reg = <4>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <4>;
-+            /* EPHY0 link routed to EPHY0 LED */
-+        };
-+
-+        ephy1@5 {
-+            reg = <5>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <5>;
-+            /* EPHY1 link routed to EPHY1 LED */
-+        };
-+
-+        ephy2@6 {
-+            reg = <6>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <6>;
-+            /* EPHY2 link routed to EPHY2 LED */
-+        };
-+
-+        ephy3@7 {
-+            reg = <7>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <7>;
-+            /* EPHY3 link routed to EPHY3 LED */
-+        };
-+
-+        power_green@20 {
-+            reg = <20>;
-+            active-low;
-+            label = "green:power";
-+            default-state = "on";
-+        };
-+    };
-+  - |
-+    /* BCM6362 with 1 LED for all EPHYs */
-+    led-controller@10001900 {
-+        compatible = "brcm,bcm6328-leds";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        reg = <0x10001900 0x24>;
-+
-+        usb@0 {
-+            reg = <0>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <0 1>;
-+            brcm,activity-signal-sources = <0 1>;
-+            /* USB/INET link/activity routed to USB LED */
-+        };
-+
-+        ephy@4 {
-+            reg = <4>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <4 5 6 7>;
-+            /* EPHY0/1/2/3 link routed to EPHY0 LED */
-+        };
-+
-+        power_green@20 {
-+            reg = <20>;
-+            active-low;
-+            label = "green:power";
-+            default-state = "on";
-+        };
-+    };
-+  - |
-+    /* BCM6362 with EPHY LEDs swapped */
-+    led-controller@10001900 {
-+        compatible = "brcm,bcm6328-leds";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        reg = <0x10001900 0x24>;
-+
-+        usb@0 {
-+            reg = <0>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <0>;
-+            brcm,activity-signal-sources = <0 1>;
-+            /* USB link/act and INET act routed to USB LED */
-+        };
-+
-+        ephy0@4 {
-+            reg = <4>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <7>;
-+            /* EPHY3 link routed to EPHY0 LED */
-+        };
-+
-+        ephy1@5 {
-+            reg = <5>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <6>;
-+            /* EPHY2 link routed to EPHY1 LED */
-+        };
-+
-+        ephy2@6 {
-+            reg = <6>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <5>;
-+            /* EPHY1 link routed to EPHY2 LED */
-+        };
-+
-+        ephy3@7 {
-+            reg = <7>;
-+            brcm,hardware-controlled;
-+            brcm,link-signal-sources = <4>;
-+            /* EPHY0 link routed to EPHY3 LED */
-+        };
-+
-+        power_green@20 {
-+            reg = <20>;
-+            active-low;
-+            label = "green:power";
-+            default-state = "on";
-+        };
-+    };
+diff --git a/drivers/leds/leds-tca6507.c b/drivers/leds/leds-tca6507.c
+index 225b765830bd..de8eed9b667d 100644
+--- a/drivers/leds/leds-tca6507.c
++++ b/drivers/leds/leds-tca6507.c
+@@ -242,9 +242,7 @@ static int choose_times(int msec, int *c1p, int *c2p)
+ 	if (diff < 65536) {
+ 		int actual;
+ 		if (msec & 1) {
+-			c1 = *c2p;
+-			*c2p = *c1p;
+-			*c1p = c1;
++			swap(*c2p, *c1p);
+ 		}
+ 		actual = time_codes[*c1p] + time_codes[*c2p];
+ 		if (*c1p < *c2p)
 -- 
-2.31.1
+2.17.1
 
