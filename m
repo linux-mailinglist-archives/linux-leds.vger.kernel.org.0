@@ -2,54 +2,67 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E86A5452D6D
-	for <lists+linux-leds@lfdr.de>; Tue, 16 Nov 2021 10:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5E6C453083
+	for <lists+linux-leds@lfdr.de>; Tue, 16 Nov 2021 12:28:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232486AbhKPJEW (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 16 Nov 2021 04:04:22 -0500
-Received: from mail.bizjoindeal.pl ([80.211.97.164]:56636 "EHLO
-        mail.bizjoindeal.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232694AbhKPJEQ (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Nov 2021 04:04:16 -0500
-X-Greylist: delayed 579 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Nov 2021 04:04:16 EST
-Received: by mail.bizjoindeal.pl (Postfix, from userid 1001)
-        id 81993A299C; Tue, 16 Nov 2021 08:51:33 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bizjoindeal.pl;
-        s=mail; t=1637052696;
-        bh=JZuQ1fK7zFtz2oeUB7Xfid9vb7kUywdmDd2OluR8ywA=;
-        h=Date:From:To:Subject:From;
-        b=sf7j2Z3P4vifTwzULPkJnO9G7reQw/oGZPl6dvfA5lmmMixe8DO8NDjeXI2PBSDeX
-         E2x0Jv17VJFkKbBfwIXyvJ/oG+BGNesgaHV+khfphy10hIj8eoqfmDf8FJ5MY4LH5q
-         d81hg5zwssrxE/FV0XXQg7NRANuxW49n1h0jYUJ8aeYFxvc78BcrFjGMRw37VQZ8id
-         d9pY5PuH2kkP6AzK/6slJok5mxa9TIwun9GwfpJwnKRvPtE9L67VkNpgzqt7MSF6Pc
-         QNKq3Pm2dtYI673EYBe7VKIUdnI35/9q1GQg9nDsWSEiylEMvH1eNmoYRPjKHEVLlC
-         S+F5QJ1gFtwbg==
-Received: by mail.bizjoindeal.pl for <linux-leds@vger.kernel.org>; Tue, 16 Nov 2021 08:51:12 GMT
-Message-ID: <20211116074500-0.1.60.f149.0.gm96bp1rg6@bizjoindeal.pl>
-Date:   Tue, 16 Nov 2021 08:51:12 GMT
-From:   "Dorian Kwiatkowski" <dorian.kwiatkowski@bizjoindeal.pl>
-To:     <linux-leds@vger.kernel.org>
-Subject: Fotowoltaika dla firm
-X-Mailer: mail.bizjoindeal.pl
+        id S234994AbhKPLbJ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 16 Nov 2021 06:31:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54286 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234902AbhKPLac (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 16 Nov 2021 06:30:32 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3DF3C061227
+        for <linux-leds@vger.kernel.org>; Tue, 16 Nov 2021 03:26:59 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id d27so36914488wrb.6
+        for <linux-leds@vger.kernel.org>; Tue, 16 Nov 2021 03:26:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=49VN2EPgYHrEXK97OpQX0CxGM5w7EiGtxSfN5GFh/XE=;
+        b=VPSdTQPJ5hxea0d4B/OGzopTdVjRnbFmJz+O0tAMBIW+kVpQPKiYwfvCdPxAiu9RO7
+         oe9kEcogTcLI4iYVrS1eOtN05ZsYHexXSFFQpbbx9c1Ayow9QIMNNWeK3yqQOqbV6uta
+         lYm4w6zcQWO4dqR/GNjN0aurI02r6lW3XO4xQxM/13UYVUY6ET4f0O8Iq4IG8IZUtkwp
+         NHbrha8XPUVMG3Xu1I5WAylPedohg9BtJHXmX/E5I/oVcL5vEd+kv9L+n5IA0SK5OUNr
+         Wzfz9JBOv9okjRvaOWABxHrvDpiLS87CruKZfKxQJvud8svtNp7BgBXzyICxaDFUC026
+         9ZZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=49VN2EPgYHrEXK97OpQX0CxGM5w7EiGtxSfN5GFh/XE=;
+        b=JQW1GdcxuRBeC67iw+Etxu2LI/pum12Tgg3QTl3yXovOv0b2nHNMskSHtFuUHpBAEo
+         U3ZAVXK9dTW3C6R4Q3E+GH54SwuSrAQey+/HHHfefzQhXzMoAS3gfyDm8cg953gAVOgJ
+         9RYfDm6PQmJDUTilqOwtng3B6Y9EXqdXfvvc4k99sANpujCFMUNNHUnGF+ilVvMpO7N0
+         svhzB4cpU7NeuY8P4JsjWQjQw8o31d4X7rW2yhtgqH9aVWmJZnP6vhaXo27J6ZCS+0Jx
+         ogF3nnc/6h1BYMZujzCrph9SlnQK3RHN3C7jmECE/Gb+A82qStQDhsItWCdTAPSEJpat
+         hZFQ==
+X-Gm-Message-State: AOAM5315w5BieeszO10Df9bQIsUnT2qQCbA6GufR4D2LLJtK55GpqREe
+        uyC8ZgemUkUnaNLxDNh6h4EKNsdzntqBjmk8at0=
+X-Google-Smtp-Source: ABdhPJx7V7Pzab1iLpC1tLfl5XTeFedl5ZB5PcVwW8xnRDThhRI1kD0wWb7jxJL13vcYZKWR942PRdG0Y0xdZFQs61A=
+X-Received: by 2002:a5d:4107:: with SMTP id l7mr8132229wrp.209.1637062018294;
+ Tue, 16 Nov 2021 03:26:58 -0800 (PST)
 MIME-Version: 1.0
+Received: by 2002:a05:600c:3b97:0:0:0:0 with HTTP; Tue, 16 Nov 2021 03:26:57
+ -0800 (PST)
+Reply-To: ebodrdickson1020@gmail.com
+From:   "Dr.Dickson Ebo" <drdicksonelo1023@gmail.com>
+Date:   Tue, 16 Nov 2021 03:26:57 -0800
+Message-ID: <CABq-xD7ZFmUMjZ9aWbbAm9nEKVBK1nOq1MtQg6NNJHmUXBtxzg@mail.gmail.com>
+Subject: hi
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Finance and Audit Department, Zenith Bank Plc.
 
-kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC dostrzegam mo=C5=BC=
-liwo=C5=9B=C4=87 redukcji op=C5=82at za pr=C4=85d.
+The President of the Federal Republic of Nigeria through the Zenith
+International Bank Nigeria PLC has released your
+Contract/Inheritance/Compensation Fund.
 
-Odpowiednio dobrana instalacja fotowoltaiczna to rozwi=C4=85zanie, kt=C3=B3=
-re pozwala wygenerowa=C4=87 spore oszcz=C4=99dno=C5=9Bci w skali roku.
+Kindly get back to us as soon as possible.
 
-Chcia=C5=82bym porozmawia=C4=87 z Pa=C5=84stwem o tego typu rozwi=C4=85za=
-niu, a tak=C5=BCe przedstawi=C4=87 wst=C4=99pne kalkulacje.
-
-Czy s=C4=85 Pa=C5=84stwo zainteresowani?
-
-Pozdrawiam,
-Dorian Kwiatkowski
+Yours faithfully,
+Dr. Dickson Ebo.
