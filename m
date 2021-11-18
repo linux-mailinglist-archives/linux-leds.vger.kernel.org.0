@@ -2,49 +2,84 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E60B455025
-	for <lists+linux-leds@lfdr.de>; Wed, 17 Nov 2021 23:05:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87FD0455E5B
+	for <lists+linux-leds@lfdr.de>; Thu, 18 Nov 2021 15:38:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241024AbhKQWIf (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 17 Nov 2021 17:08:35 -0500
-Received: from smtprelay02.ispgateway.de ([80.67.18.14]:36368 "EHLO
-        smtprelay02.ispgateway.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241062AbhKQWIe (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 17 Nov 2021 17:08:34 -0500
-Received: from [92.206.166.137] (helo=note-book.lan)
-        by smtprelay02.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <git@apitzsch.eu>)
-        id 1mnH2a-0002o1-KT; Wed, 17 Nov 2021 10:15:40 +0100
-From:   =?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>
-To:     linux-leds@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
-Cc:     =?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>
-Subject: [PATCH 0/3] Add support for ocp8110 flash
-Date:   Wed, 17 Nov 2021 10:14:02 +0100
-Message-Id: <20211117091405.7412-1-git@apitzsch.eu>
-X-Mailer: git-send-email 2.34.0
+        id S229814AbhKROlm (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 18 Nov 2021 09:41:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50264 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229514AbhKROlm (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 18 Nov 2021 09:41:42 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 138BC61A40;
+        Thu, 18 Nov 2021 14:38:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637246322;
+        bh=pD4G7qW+x2KbwwtQMCGnHfxLMGX7bM3IVbUSdTzZuoo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Nl335lEOgtonooJ1AmxqZ7gbLg2ZK4bE1yqe+Bu2OfQt/0hU8hVoTN7cuODAvARuO
+         /oTUvMQkWowi6fH6yh9lHnIKSDCIil0ugwkY1nKPp9tputgevhuG9+NqSYl1aXhiSJ
+         eQKaQBfJxIwS8B2MFxnArZ44v0RpQ4wyC+JouWZa0TBsMLZjfEpP/uOjbCiPYpA0o7
+         lAQVbWU1Yy1s2clw9ojoKaRgdzPruZLN1CVtZ4epWel8RbNvBr18nUk/MG2Wpqqcmy
+         aCpNn/12I977252NzAYDYn0rZnUssFZlk5lUdaU4yEmWSrKqCqV6uEd7OaZZ0Ny0Ad
+         vGTBcLtck74+w==
+Received: by mail-ed1-f44.google.com with SMTP id g14so27962026edb.8;
+        Thu, 18 Nov 2021 06:38:42 -0800 (PST)
+X-Gm-Message-State: AOAM533fb/4vrldDq6ZYK9CaTHRYaw8VZwlMMjfV+fvLEWEg3j9k2nlf
+        /VPfbohi5R42NiSzZMgCEi41ETVYwcHlrXXuWQ==
+X-Google-Smtp-Source: ABdhPJyOhXQHvTcURpMYCd+ExjovfdgFB53E0/G+tY3NoX68Ljj4B0aI15Jv0BevTj64Nx8D/hi2bSWPp2mlCQoC7kc=
+X-Received: by 2002:a17:907:7f25:: with SMTP id qf37mr34307372ejc.147.1637246320480;
+ Thu, 18 Nov 2021 06:38:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+References: <1637133726-6581-1-git-send-email-u0084500@gmail.com>
+In-Reply-To: <1637133726-6581-1-git-send-email-u0084500@gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 18 Nov 2021 08:38:29 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJim5emHCnP4JLbxuuPcaLYiW5e6g9GCq1iEUg4vvr+nw@mail.gmail.com>
+Message-ID: <CAL_JsqJim5emHCnP4JLbxuuPcaLYiW5e6g9GCq1iEUg4vvr+nw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: leds: Replace moonlight with indicator in
+ mt6360 example
+To:     cy_huang <u0084500@gmail.com>, Pavel Machek <pavel@ucw.cz>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Gene Chen <gene.chen.richtek@gmail.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Gene Chen <gene_chen@richtek.com>, wilma.wu@mediatek.com,
+        benjamin.chao@mediatek.com, ChiYuan Huang <cy_huang@richtek.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-The led is used as front flash of BQ Aquaris M5.
+On Wed, Nov 17, 2021 at 1:22 AM cy_huang <u0084500@gmail.com> wrote:
+>
+> From: ChiYuan Huang <cy_huang@richtek.com>
+>
+> Replace moonlight with indicator in mt6360 example to prevent the below
+> build error:
+>
+> Error: Documentation/devicetree/bindings/leds/leds-mt6360.example.dts:114.24-25
+> syntax error
+> FATAL ERROR: Unable to parse input tree
+> make[1]: *** [scripts/Makefile.lib:385:
+> Documentation/devicetree/bindings/leds/leds-mt6360.example.dt.yaml]
+> Error 1
+>
+> Link: https://lore.kernel.org/lkml/CAL_JsqJRMVE163LaHTbtFARc4f_qg33bfQx+sD3ukce_xQF+gA@mail.gmail.com/
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+> Hi, Gene:
+>
+> I saw you have removed LED_FUNCTION_MOONLIGHT in v14.
+> But you may forget to remove it from the binding example.
+>
+> Please help to review this change.
+> ---
+>  Documentation/devicetree/bindings/leds/leds-mt6360.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://github.com/bq/aquaris-M5/blob/901d0b2ca05c0b0af49786fb548eb0fc289867ff/arch/arm/boot/dts/qcom/piccolo-msm8939-camera-sensor-qrd.dtsi#L16
-
-André Apitzsch (3):
-  leds: sgm3140: Add ocs,ocp8110 compatible
-  dt-bindings: vendor-prefixes: Add ocs prefix
-  dt-bindings: leds: sgm3140: Document ocp8110 compatible
-
- Documentation/devicetree/bindings/leds/leds-sgm3140.yaml | 4 +++-
- Documentation/devicetree/bindings/vendor-prefixes.yaml   | 2 ++
- drivers/leds/flash/leds-sgm3140.c                        | 1 +
- 3 files changed, 6 insertions(+), 1 deletion(-)
-
--- 
-2.34.0
-
+Acked-by: Rob Herring <robh@kernel.org>
