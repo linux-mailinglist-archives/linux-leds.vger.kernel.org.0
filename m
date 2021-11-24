@@ -2,95 +2,190 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2364C45B64F
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Nov 2021 09:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0A8245B8FF
+	for <lists+linux-leds@lfdr.de>; Wed, 24 Nov 2021 12:20:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241261AbhKXIO4 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 Nov 2021 03:14:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49338 "EHLO
+        id S241281AbhKXLXM (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 24 Nov 2021 06:23:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238955AbhKXIO4 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Nov 2021 03:14:56 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD2F5C061574;
-        Wed, 24 Nov 2021 00:11:46 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id r26so5004977lfn.8;
-        Wed, 24 Nov 2021 00:11:46 -0800 (PST)
+        with ESMTP id S241062AbhKXLXJ (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Nov 2021 06:23:09 -0500
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C40A0C061574;
+        Wed, 24 Nov 2021 03:19:59 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id 207so4630639ljf.10;
+        Wed, 24 Nov 2021 03:19:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:to:cc:references
-         :from:in-reply-to:content-transfer-encoding;
-        bh=0wpb/GmH3krp5sd4d3dj9SMvHwi+ieQieDd5ivPYH/c=;
-        b=nCRSGFOTxQUhtUNVAKOi+r1MlRYyq+DxICasN+JM8obb/++PjEn6jp0yPo/IQKTur1
-         tOWGnSGZcKAiq2l+LBQOyTAR/P2MyjRBIzNHM5073dKBAfdbr7tAY7KBYkfZ+5PyaMwT
-         hwvkpcsBpaukvOB7Gqmudufq1ttjMyFaR9h4ZrmoKCxS0GwHD0H8T95SZcAYT26yD4xO
-         6KjnMSi5SObol2zJhtAFAyFNg+lZX0f9WCx3kJrI+j+1PURVNwGRLNeNXbP36gyzVFXo
-         DPt/zRmM5N3GJ8ZpWDnP1tUUov18L0YiPIzuy0qO9bA4a4Zml7/RuUmDvkcT0fcMiK4l
-         5GXg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IZsEpOVVfiGIRoNJT482zVDXMB2Izb1XOnZ3syryS50=;
+        b=hhi9jLeUBLMgFy2tjcZO9NXe6AGglXyYOhpOgywPfPDDM0V6bGlINYJOYQHWQoMRMO
+         23CyipaNgeFDeOKJ93B7BuTrvKwyA9/gjTherwYbUaWnbtZ348Nh8rGG1g97vUWF2KQM
+         ffzAks9znHEi7RkMK5CZoFssvTAA0UkuTxzS/EIsUBRYumZfVmoHKJ8FQlvicUSB2ygI
+         O54NG4n31rTXpcMWhbcoCX9wPvc4ogZcc/iTskRhz513Rs4I0BM4WEM2o8hTwq3Phy6H
+         DZmtEeicBqMwOMaQjQ2o4+bV0AymsTpJi8w1g9kHxOascGdj+zm5JyMWta9KXRbkCeK2
+         cgRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :to:cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=0wpb/GmH3krp5sd4d3dj9SMvHwi+ieQieDd5ivPYH/c=;
-        b=xn305BC/WnhXRt36Nc4T6kSCZ5UsoLyMeIRIjK4QHV1pb3xDmeVCVtClraeyknLDmO
-         gsSYj9QxvFpq9XLUrvcS3YYktRPBoYav7W9FLdQGUx1RDEJodvXQbPZAkqlZIk1pEO90
-         8QbuRlsqTpqhS+hmF8kIh2PVztQ3J5acaktAz1fUXiB+DE4T9kD512WQ6JUsTbt8v+Mi
-         KQ2pOC7haI7sns0JBf6GLQkcn/eb+E+5Sf7ItgHwmcV1+bk9CzTdsT6MWVeNYg1HDx57
-         IQkAXtc62cOmIadEVEA8ecJlLXgxyW+s/HhisE17c8dMOkYQyRE+SvKNvWbXX2h0JviM
-         5/Dg==
-X-Gm-Message-State: AOAM5323gqYFbE0pO2K2h+6rjnXjFmnXKHtTnHY+OCb12ctYe7i9d6lD
-        SvGCfUuDiRtEd7cZvyn+eFQ=
-X-Google-Smtp-Source: ABdhPJzrSiY5FuPH6L2pJlHCcT2wG30CJelePlSrJrZGFmCR9xDsWMmp95oxVrl25MYud45WzhHivw==
-X-Received: by 2002:ac2:55b2:: with SMTP id y18mr11918177lfg.63.1637741505024;
-        Wed, 24 Nov 2021 00:11:45 -0800 (PST)
-Received: from [192.168.26.149] (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
-        by smtp.googlemail.com with ESMTPSA id j22sm1535571lfu.155.2021.11.24.00.11.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Nov 2021 00:11:44 -0800 (PST)
-Message-ID: <7ef000b2-2247-2d38-2973-10e017a3dfb3@gmail.com>
-Date:   Wed, 24 Nov 2021 09:11:43 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101
- Thunderbird/95.0
-Subject: Re: [PATCH 2/2] leds: bcm63xxx: add support for BCM63xxx controller
-To:     Florian Fainelli <florian.fainelli@broadcom.com>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IZsEpOVVfiGIRoNJT482zVDXMB2Izb1XOnZ3syryS50=;
+        b=7tdlQtumMGebQ6SlpFS+zuMyED8Wle5fjmmdsHyk6HMsGvq5HDCcHnSR8Xa0ZQ/V+T
+         iWKnbaiG8NhI9YBreXABA4Rxykj3AvBggRvqZbqosUdVt/g57t6YJpXOY/o9x78OzRqa
+         ElmxIN0QwOrX+CUZFv6eDMGlgdzheGVdZXv+Lrt71WzldebZoAxShxAkYhVH0ynPoh3L
+         3W0ZmkvMZl5eGwBPLtdtgOMFcaHuvH7MeCohtc5A4Dc6x7kIzf+XpdHWzFSvXt0vID2F
+         Kc0s3n/JNhoDye36o12x+Q3FJPhYxIkXRuApJWhjKPxGoGaRsshCYPWk1RG4UGcgBcSf
+         hDLw==
+X-Gm-Message-State: AOAM5329VDLEy1B3NqeJe5+tZNLfqAaD4Hc2wLNCWwA54lXEhvVg/+pm
+        dF273Z4L1o4WuYEDsn554CE=
+X-Google-Smtp-Source: ABdhPJwuzjxSIEvogfqLN5ftOQT8Fc55nvgdAlaEsRJ6wHjl/CBTrWPcP9mSY2pWWvUC59i1VDE/YQ==
+X-Received: by 2002:a2e:7319:: with SMTP id o25mr14570678ljc.320.1637752798034;
+        Wed, 24 Nov 2021 03:19:58 -0800 (PST)
+Received: from localhost.lan (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
+        by smtp.gmail.com with ESMTPSA id f15sm1578512lfq.236.2021.11.24.03.19.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Nov 2021 03:19:57 -0800 (PST)
+From:   =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>
 Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
         Florian Fainelli <f.fainelli@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         bcm-kernel-feedback-list@broadcom.com,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-References: <20211115091107.11737-1-zajec5@gmail.com>
- <20211115091107.11737-2-zajec5@gmail.com>
- <02a2dbb7-6ae0-af28-e852-ee66bb3d66f1@broadcom.com>
-From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-In-Reply-To: <02a2dbb7-6ae0-af28-e852-ee66bb3d66f1@broadcom.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
+Subject: [PATCH V2 1/2] dt-bindings: leds: add Broadcom's BCM63138 controller
+Date:   Wed, 24 Nov 2021 12:19:51 +0100
+Message-Id: <20211124111952.22419-1-zajec5@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On 22.11.2021 23:04, Florian Fainelli wrote:
-> On 11/15/21 1:11 AM, Rafał Miłecki wrote:
->> From: Rafał Miłecki <rafal@milecki.pl>
->>
->> It's a new controller used on BCM4908, some BCM68xx and some BCM63xxx
->> SoCs.
->>
->> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
-> 
-> Same comment as the binding, please s/bcm63xxx/bcm63xx/ for matchign
-> existing drivers/patterns.
-> 
-> [snip]
-> 
->> +
->> +#define BCM63XXX_MAX_LEDS			32> +
->> +#define BCM63XXX_GLB_CTRL			0x00
->> +#define BCM63XXX_MASK				0x04
-> 
-> This define appears unused.
+From: Rafał Miłecki <rafal@milecki.pl>
 
-Just like few other registers. I think it's still worth to define all hw
-registers.
+Broadcom used 2 LEDs hardware blocks for their BCM63xx SoCs:
+1. Older one (BCM6318, BCM6328, BCM6362, BCM63268, BCM6838)
+2. Newer one (BCM6848, BCM6858, BCM63138, BCM63148, BCM63381, BCM68360)
+
+The newer one was also later also used on BCM4908 SoC.
+
+Old block is already documented in the leds-bcm6328.yaml. This binding
+documents the new one which uses different registers & programming. It's
+first used in BCM63138 thus the binding name.
+
+Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+---
+V2: Rename to bcm63138 & make "brcm,bcm63138-leds" the main compatible
+---
+ .../bindings/leds/leds-bcm63138.yaml          | 95 +++++++++++++++++++
+ 1 file changed, 95 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/leds-bcm63138.yaml
+
+diff --git a/Documentation/devicetree/bindings/leds/leds-bcm63138.yaml b/Documentation/devicetree/bindings/leds/leds-bcm63138.yaml
+new file mode 100644
+index 000000000000..99cd4ba9b0ca
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/leds-bcm63138.yaml
+@@ -0,0 +1,95 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/leds-bcm63138.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Broadcom's BCM63138 LEDs controller
++
++maintainers:
++  - Rafał Miłecki <rafal@milecki.pl>
++
++description: |
++  This LEDs controller was first used on BCM63138 and later reused on BCM4908,
++  BCM6848, BCM6858, BCM63138, BCM63148, BCM63381 and BCM68360 SoCs.
++
++  It supports up to 32 LEDs that can be connected parallelly or serially. It
++  also includes limited support for hardware blinking.
++
++  Binding serially connected LEDs isn't documented yet.
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - brcm,bcm4908-leds
++              - brcm,bcm6848-leds
++              - brcm,bcm6858-leds
++              - brcm,bcm63148-leds
++              - brcm,bcm63381-leds
++              - brcm,bcm68360-leds
++          - const: brcm,bcm63138-leds
++      - const: brcm,bcm63138-leds
++
++  reg:
++    maxItems: 1
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++patternProperties:
++  "^led@[a-f0-9]+$":
++    type: object
++
++    $ref: common.yaml#
++
++    properties:
++      reg:
++        maxItems: 1
++        description: LED pin number
++
++      active-low:
++        type: boolean
++        description: Makes LED active low.
++
++    required:
++      - reg
++
++    unevaluatedProperties: false
++
++required:
++  - reg
++  - "#address-cells"
++  - "#size-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    leds@ff800800 {
++        compatible = "brcm,bcm4908-leds", "brcm,bcm63138-leds";
++        reg = <0xff800800 0xdc>;
++
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led@0 {
++            reg = <0x0>;
++            function = LED_FUNCTION_POWER;
++            color = <LED_COLOR_ID_GREEN>;
++            default-state = "on";
++        };
++
++        led@3 {
++            reg = <0x3>;
++            function = LED_FUNCTION_STATUS;
++            color = <LED_COLOR_ID_GREEN>;
++            active-low;
++        };
++    };
+-- 
+2.31.1
+
