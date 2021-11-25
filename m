@@ -2,211 +2,78 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AC5245F590
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Nov 2021 20:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1529B45FBAE
+	for <lists+linux-leds@lfdr.de>; Sat, 27 Nov 2021 03:12:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238400AbhKZUAR (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 26 Nov 2021 15:00:17 -0500
-Received: from lizzard.sbs.de ([194.138.37.39]:60158 "EHLO lizzard.sbs.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232373AbhKZT6R (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 26 Nov 2021 14:58:17 -0500
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 1AQJsVYj009484
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 26 Nov 2021 20:54:32 +0100
-Received: from md1za8fc.ad001.siemens.net ([139.22.47.90])
-        by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id 1AQJsVcj029083;
-        Fri, 26 Nov 2021 20:54:31 +0100
-Date:   Fri, 26 Nov 2021 20:54:30 +0100
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>, Enrico Weigelt <lkml@metux.net>
-Subject: Re: [PATCH v3 2/4] leds: simatic-ipc-leds: add new driver for
- Siemens Industial PCs
-Message-ID: <20211126205430.066df521@md1za8fc.ad001.siemens.net>
-In-Reply-To: <CAHp75Ve+2HXNP0R-45a9Zkspf4TLTdr2xApHr8ww=BOtp=P4HQ@mail.gmail.com>
-References: <20210329174928.18816-1-henning.schild@siemens.com>
-        <20210329174928.18816-3-henning.schild@siemens.com>
-        <CAHp75Vdh_YAJLE4DWPhxhYY1g5Fc_7EFgr4FED3crpfpzwXeRg@mail.gmail.com>
-        <20211126142827.78d2348d@md1za8fc.ad001.siemens.net>
-        <CAHp75VeX89T7t=Q7-q56sndbfRyuPDEUjSMsMFo4sS8cb9AAmw@mail.gmail.com>
-        <20211126154427.41bf024e@md1za8fc.ad001.siemens.net>
-        <CAHp75Ve+2HXNP0R-45a9Zkspf4TLTdr2xApHr8ww=BOtp=P4HQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S1348519AbhK0CPq (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 26 Nov 2021 21:15:46 -0500
+Received: from mail.daesangagung.co.id ([117.54.218.101]:44800 "EHLO
+        mail.daesangagung.co.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241891AbhK0CNq (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 Nov 2021 21:13:46 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.daesangagung.co.id (Postfix) with ESMTP id B11F180BC8355;
+        Fri, 26 Nov 2021 00:25:04 +0700 (WIB)
+Received: from mail.daesangagung.co.id ([127.0.0.1])
+        by localhost (mail.daesangagung.co.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id KP-98jJa8OIL; Fri, 26 Nov 2021 00:25:04 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.daesangagung.co.id (Postfix) with ESMTP id 9CAE7809F6432;
+        Thu, 25 Nov 2021 20:16:56 +0700 (WIB)
+X-Virus-Scanned: amavisd-new at daesangagung.co.id
+Received: from mail.daesangagung.co.id ([127.0.0.1])
+        by localhost (mail.daesangagung.co.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id wLAkd3Q9MCXI; Thu, 25 Nov 2021 20:16:56 +0700 (WIB)
+Received: from User (_gateway [10.0.22.111])
+        by mail.daesangagung.co.id (Postfix) with SMTP id 335C4809F6434;
+        Thu, 25 Nov 2021 11:25:13 +0700 (WIB)
+Reply-To: <sarb_bnk086@meta.ua>
+From:   "Hsbc Bank London" <info@daesangagung.co.id>
+Subject: Your Approved Payment !
+Date:   Wed, 24 Nov 2021 20:25:30 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain;
+        charset="Windows-1251"
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20211125042513.335C4809F6434@mail.daesangagung.co.id>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Am Fri, 26 Nov 2021 16:59:54 +0200
-schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:
+THE WORLDS LOCAL BANK
+International Banking
+FOREIGN EXCHANGE UNIT
 
-> On Fri, Nov 26, 2021 at 4:44 PM Henning Schild
-> <henning.schild@siemens.com> wrote:
-> > Am Fri, 26 Nov 2021 16:02:48 +0200
-> > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:  
-> > > On Fri, Nov 26, 2021 at 3:28 PM Henning Schild
-> > > <henning.schild@siemens.com> wrote:  
-> > > > Am Tue, 30 Mar 2021 14:04:35 +0300
-> > > > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:  
-> > > > > On Mon, Mar 29, 2021 at 8:59 PM Henning Schild
-> > > > > <henning.schild@siemens.com> wrote:  
-> 
-> ...
-> 
-> > > > > > +static struct simatic_ipc_led simatic_ipc_leds_mem[] = {
-> > > > > > +       {0x500 + 0x1A0, "red:" LED_FUNCTION_STATUS "-1"},
-> > > > > > +       {0x500 + 0x1A8, "green:" LED_FUNCTION_STATUS "-1"},
-> > > > > > +       {0x500 + 0x1C8, "red:" LED_FUNCTION_STATUS "-2"},
-> > > > > > +       {0x500 + 0x1D0, "green:" LED_FUNCTION_STATUS "-2"},
-> > > > > > +       {0x500 + 0x1E0, "red:" LED_FUNCTION_STATUS "-3"},
-> > > > > > +       {0x500 + 0x198, "green:" LED_FUNCTION_STATUS "-3"},
-> > > > > > +       { }
-> > > > > > +};  
-> > > > >
-> > > > > It seems to me like poking GPIO controller registers directly.
-> > > > > This is not good. The question still remains: Can we simply
-> > > > > register a GPIO (pin control) driver and use an LED GPIO
-> > > > > driver with an additional board file that instantiates it?  
-> > > >
-> > > > The short answer for v4 will be "No we can not!". The pinctrl
-> > > > drivers do not currently probe on any of the devices and
-> > > > attempts to fix that have failed or gut stuck. I tried to help
-> > > > out where i could and waited for a long time.  
-> > >
-> > > I see, unfortunately I have stuck with some other (more important
-> > > tasks) and can't fulfil this, but I still consider it's no go for
-> > > driver poking pin control registers directly. Lemme see if I can
-> > > prioritize this for next week.  
-> >
-> > I just sent v4. And am sick of waiting on you. Sorry to be that
-> > clear here. I want that order changed! If you still end up being
-> > fast, perfect. But i want to be faster!  
-> 
-> It's good that you are honest, honesty is what we missed a lot!
+RE: MANDATORY RELEASE ORDER OF YOUR OVERDUE FUND
 
-I was always honest, hope that was not missed from my side ... let
-alone a lot.
+Dear Valued Beneficiary:
 
-> > > > Now my take is to turn the order around. We go in like that and
-> > > > will happily switch to pinctrl if that ever comes up on the
-> > > > machines. Meaning P2SB series on top of this, no more delays
-> > > > please.  
-> > >
-> > > I don't want to slip bad code into the kernel where we can avoid
-> > > that.  
-> >
-> > It is not bad code! That is unfair to say. It can be improved on and
-> > that is what we have a FIXME line for. The worst code is code that
-> > is not there ... devices without drivers!  
-> 
-> Okay, that's how you interpret the term "bad". Probably I had to use
-> something else to explain that it's racy with the very same case if
-> one adds an ACPI support to it.
+We are pleased to inform you that we have finally concluded arrangement towards your refund/lottery pay out which has been delayed for a Long Period of time because of your Cooperation and Dealings with Wrong Officials and importers of banks as your fund returned back to us on the 4th of Jan 2021 when we confirmed the rate of delays and questionable activities that has been related by the previous administrative banks alongside with others that collaborated in delaying the release of your fund after all charges and payments demanded were paid.
 
-It is only racy when the firmware would change (which i am
-unfortunately pretty sure it will not), or if pinctrl would probe
-without P2SB or ACPI. (where you say "Not gonna happen.")
+Recently, the Ministry of Finance of United Kingdom, Bank of England, HSBC Bank Plc UK and United Kingdom Inland Revenue Services held a meeting on how this fund will be released to the beneficiaries to their designated bank accounts in their country without further delay since we are in the first half of the economic year 2021 and it is now overdue to be released as the said funds belongs to them.
 
-Or i could say "fortunately pretty sure" because that means pinctrl
-will never probe, hence no race!
+We apologize for the delay of the payment and all the inconveniences that this might have caused you during this period of time. However we have instructed all the banks in the globe which we previously asked to help us pay out this fund to the general public to STOP the process of the release of the fund due to their incompetence and negligence of duty towards the release of this fund. After our findings, some were arrested and charged for theft according to Section 1 of the Theft Act 1978, as amended by the Theft (Amendment) Act 1996 law of the United Kingdom.
 
-> > That is bad, not i minor poke of parts of a resource no other driver
-> > claimed!
-> >  
-> > > > We do use request_region so have a mutex in place. Meaning we
-> > > > really only touch GPIO while pinctrl does not!  
-> > >
-> > > I haven't got this. On Intel SoCs GPIO is a part of pin control
-> > > registers. You can't touch GPIO without touching pin control.  
-> >
-> > i meant pin control, if it ever did probe it would reserve the
-> > region and push our hack out, or the other way around ... no
-> > conflict! To get both we just need a simple patch and switch to
-> > pinctrl, just notify me once your stuff is ready and i will write
-> > that patch.  
-> 
-> While thinking more on it, the quickest solution here is to do a P2SB
-> game based on DMI strings in the board code for the platform
-> (somewhere under PDx86).
+The Bank of England Governor (Mr Andrew Bailey) has given serious warning and Instructions and ordered the Inland Revenue Services Department of England to quickly release all on hold funds which are in their escrow account to the sole beneficiaries which you are among those who will receive their Inheritance funds.
 
-Not sure what you suggest here. p1 does pretty fancy DMI to be really
-sure to only match specific devices, and only then we do our own P2SB
-base address discover and region reservation.
+Please contact ONLY the Executive member of the Monetary Policy Committee of South African Reserve Bank (Dr Rashad Cassim) on his email: sarb_bnk086@meta.ua to advise you on how to procure the certificate of claim as the law of South Africa demands that without it there will not be any payment whether pending loan amount, lottery fund, inheritance funds or whatsoever fund locally or internationally perhaps you have not yet received it.
 
-> > > > I see no issue here, waited for a long time and now expect to be
-> > > > allowed to get merged first.  
-> > >
-> > > Okay, I have these questions / asks so far:
-> > > 1) Can firmware be fixed in order to provide an ACPI table for
-> > > the pin control devices?  
-> >
-> > No. The firmware will only receive security but no feature updates
-> > ... 
-> > > 2) Can you share firmware (BIOS ROM file I suppose) that I may
-> > > flash on an Apollo Lake machine and see if I can reproduce the
-> > > issue?  
-> >
-> > I do not have access. But all you need is a firware with no ACPI
-> > entry and P2SB hidden. Or simply patch out the two probe paths ;).  
-> 
-> Yes, probably that will work.
+Provide below details to Dr Rashad Cassim for his clarification:
 
-I wonder how you would probe without the two with your "Not gonna
-happen.". But maybe your patches will open my eyes and i have been
-blind all the time.
+Full Name....... Tel.................
 
-> > > 3) As may be a last resort, can you share (remotely) or even send
-> > > to us the device in question to try?  
-> >
-> > We are talking about multiple devices. Not just that one apollo
-> > lake on which your patches kind of worked.
-> >
-> > But showed some weirdness which could really become a problem if
-> > someone decided to add an ACPI entry ..  
-> 
-> Then it should have different DMI strings or so, it won't be the
-> _same_ platform anymore.
+Address......... Amount..............
 
-There is different DMI in place. p1 introduces
-"enum simatic_ipc_station_ids" with currently 7 different devices
-matched with not a string but a "binary" behind
-SIMATIC_IPC_DMI_ENTRY_OEM. The struct can be found in
-simatic_ipc_get_station_id
+City............ Country.............
 
-Our strings could be custom, but that binary allows for real DMI
-identifaction of those currently proposed 7 "platforms".
+Copies of documents pertaining to the fund.
 
-See p4 where i revert string-based DMI matching with
-SIMATIC_IPC_DMI_ENTRY_OEM-based. Make sure to look at my answer to a
-question in v4 p4 on that DMI topic.
-
-regards,
-Henning
-
-> > It pin 42 name could be
-> > GPIO_LOOKUP_IDX("apollolake-pinctrl.0", 42
-> > or
-> > GPIO_LOOKUP_IDX("INT3452:01", 42  
-> 
-> > I guess that conflict will have to be dealt with before your can
-> > switch to probing pinctrl drivers based on cpu model and not only
-> > ACPI/P2SB any longer.  
-> 
-> Not gonna happen.
-> 
-
+Best Regards,
+Mr.James Emmett.
+Chief Executive Officer, HSBC Bank plc.
+United Kingdom
