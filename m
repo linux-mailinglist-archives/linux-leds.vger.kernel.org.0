@@ -2,445 +2,718 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16E0745B901
-	for <lists+linux-leds@lfdr.de>; Wed, 24 Nov 2021 12:20:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E5A645DB72
+	for <lists+linux-leds@lfdr.de>; Thu, 25 Nov 2021 14:45:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241058AbhKXLXN (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 24 Nov 2021 06:23:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34836 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241228AbhKXLXL (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 24 Nov 2021 06:23:11 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0758AC061574;
-        Wed, 24 Nov 2021 03:20:02 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id l22so6270579lfg.7;
-        Wed, 24 Nov 2021 03:20:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/Re1e9/ibSKRYAR2fDXLaok6Rt2+gi7gRYVNAjMCySI=;
-        b=BSWJsG24HdUt8DvNDvuKVAZCDtqVxFmjT0LUZXHh89oI8CflL/jaXHpdqrbfHF8Qqn
-         WMQ7GkL7pkXOL1R9z2sIfRMYcij4XusjVDjdHeCuLCIlcdZrxF73X2G7zs9r5fAbuyDg
-         SqfIUT/jUSu3bd9ym1jVUK/23rds3PEtX8QXKJ62FpQi83eDGh9VeiVzWOuLL4MzDygO
-         c6J2/1Aj87knRPyTLFFXSDjgX4k7skpEfUZJw5hiuj4f9ZfBYtAfZqI795nbKKO8I0Ln
-         wFMs1ZsoIztYwiKufL0syduV9V/LuTPBFjwI52iq5SV/IdCV3l93n3/H7zky+67SKsCU
-         4fqA==
+        id S1351852AbhKYNs1 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 25 Nov 2021 08:48:27 -0500
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:36244
+        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1344320AbhKYNq1 (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Thu, 25 Nov 2021 08:46:27 -0500
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 801B240017
+        for <linux-leds@vger.kernel.org>; Thu, 25 Nov 2021 13:43:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1637847792;
+        bh=y1mqT2kchlmk6MxBQF3XUUMHtd/DifURnFnfCmfwF8g=;
+        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+         In-Reply-To:Content-Type;
+        b=k4zy9efUt/62yBiCc30MbdKzvkGBNOvcLQdo4pKfTf57my1euWMz1F26KbHdoa2xy
+         jNhxhXnN/E5v6Bi6Jdi40mjwUgmb5hM09br3qXfvnAGssBXvfk8ac9SFQnhzfXKofG
+         MGBU7YXunu1s7Hz4suDzmLjxpe5JgUMBm3LqXxLbJ959KCD/L8R8W5itLb1pby/Suk
+         MvJ3uhNt0gz3I6s+TmSD+fPtZKrjo7w8YCXj/IFQHvhxgEHLTnvXVXZ42zBsHQ+qQm
+         ltKT6lTB1vdTZgR78yjZhfRlDliZxfms170QN1+4zV4x4JbFXVk1ZuUGN4ZqWlFJfx
+         pzWUJY/vCZuVw==
+Received: by mail-wm1-f69.google.com with SMTP id 145-20020a1c0197000000b0032efc3eb9bcso5024129wmb.0
+        for <linux-leds@vger.kernel.org>; Thu, 25 Nov 2021 05:43:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/Re1e9/ibSKRYAR2fDXLaok6Rt2+gi7gRYVNAjMCySI=;
-        b=OO1zVHu0NZR5lLCz7cy6N1xi1YMht4ufj3qTY00Xk6Cws+GcBmxIrbwxE5ncwj56Xh
-         VC0yLMca5mKxOpYEG8RXZrT2iOOKMIFYacw1Ks8KSvirbZNgyu5JQ9FbOfQmJFU47rRd
-         rtMNW2nVDwGL/cwsqmHvYNALBwkEMBhE56EX1hfCoMYyKOFetQRKYrkRg0/6SUm3b328
-         Dvan9k4tPVO57NOOTYs70DM9tj+514HXQg8/5i/60/X3ZMhL8TC15hXq3mdOo/mZpENn
-         HEOi1GPyLD/D2ogn31hqMF5Ki1n2oby7OY4i7IETGXncnAyb4mGeoJRYSb9296TzuZss
-         ossg==
-X-Gm-Message-State: AOAM5326/cqHBqYPp0RO47Muen8eartoO/mEzOV+sgmPVfc3LrIuJBYQ
-        ztyKELSxQWkVwmkITV0o5UWz15DrP3s=
-X-Google-Smtp-Source: ABdhPJxvU2TDrLYTbwtnBCEm2SDiTveVUPXXK9bPqThtL9ZhIds8i9PPByzMJiFxwfSH7rWGZ6gEWw==
-X-Received: by 2002:a05:6512:b15:: with SMTP id w21mr13486779lfu.11.1637752800284;
-        Wed, 24 Nov 2021 03:20:00 -0800 (PST)
-Received: from localhost.lan (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
-        by smtp.gmail.com with ESMTPSA id f15sm1578512lfq.236.2021.11.24.03.19.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 03:20:00 -0800 (PST)
-From:   =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>
-Cc:     linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
-Subject: [PATCH V2 2/2] leds: bcm63xxx: add support for BCM63138 controller
-Date:   Wed, 24 Nov 2021 12:19:52 +0100
-Message-Id: <20211124111952.22419-2-zajec5@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211124111952.22419-1-zajec5@gmail.com>
-References: <20211124111952.22419-1-zajec5@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=y1mqT2kchlmk6MxBQF3XUUMHtd/DifURnFnfCmfwF8g=;
+        b=tVCUOhgERvKhDYQL/zglDIx76L0TCVX0YCjDxWnARKobaurPwQqo01xP0lWooFCwxz
+         tUdSV2c2DKiN+TxfCWf8EO2yBczjQvkBb4upuvWwZkuXGPzfLtYWGqGI25PpIhcx21BC
+         bvgCTkbMQF8/uTuEdnJz05iI9a6s7WSlUwsLFN8N0PX5bgnJBgE1DpfBVNgswcI/rlXb
+         L0Si5hDbGXxtceayqHxf+y9t8UVdQ+Mm89SxOM23m3Z4Gg6NHkEvZWxKxFDe3+5tZM38
+         go/oLyLcdqcfmCWKWy5PjAlEn06SFwNBDJR7SW/2VJKvpL78sz45utpJTACCJMNGfryC
+         X94Q==
+X-Gm-Message-State: AOAM532fMCBlAR0e7lhqNdJh7eYUf+Yxydko450+90L36zwi/1AuF/lG
+        7AUULqz+VN5dVWmKKJtTm5ZDpwlDAMqCReAjXkeuaULrELIXnExHFDgeqKVlwbn/p8e/KApBxI0
+        adZ8E64UvE5AAUpvXUXUipJxGeRTufZP7l55Ceug=
+X-Received: by 2002:a5d:584c:: with SMTP id i12mr6580553wrf.95.1637847791830;
+        Thu, 25 Nov 2021 05:43:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyvWuYYtAwNsdyuMB/DQSinFe7li4PbEQsfAlQabsVQFldpduZOoSKlxwxAC/4QtEzBxGjJ1w==
+X-Received: by 2002:a5d:584c:: with SMTP id i12mr6580511wrf.95.1637847791516;
+        Thu, 25 Nov 2021 05:43:11 -0800 (PST)
+Received: from [192.168.123.55] (ip-88-152-144-157.hsi03.unitymediagroup.de. [88.152.144.157])
+        by smtp.gmail.com with ESMTPSA id az15sm2921667wmb.0.2021.11.25.05.43.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Nov 2021 05:43:11 -0800 (PST)
+Message-ID: <ab49cc92-fc11-d750-f817-f599f0448ce3@canonical.com>
+Date:   Thu, 25 Nov 2021 14:43:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v2 2/2] leds: sunxi: New driver for the R329/D1 LED
+ controller
+Content-Language: en-US
+To:     Samuel Holland <samuel@sholland.org>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc:     Icenowy Zheng <icenowy@aosc.io>, devicetree@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>,
+        Fu Wei <tekkamanninja@gmail.com>
+References: <20211004022601.10653-1-samuel@sholland.org>
+ <20211004022601.10653-2-samuel@sholland.org>
+From:   Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+In-Reply-To: <20211004022601.10653-2-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-From: Rafał Miłecki <rafal@milecki.pl>
+On 10/4/21 04:26, Samuel Holland wrote:
+> Some Allwinner sunxi SoCs, starting with the R329, contain an LED
+> controller designed to drive RGB LED pixels. Add a driver for it using
+> the multicolor LED framework, and with LEDs defined in the device tree.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+> Changes from v1:
+>   - Renamed from sunxi-ledc to sun50i-r329-ledc
+>   - Added missing "static" to functions/globals as reported by 0day bot
+> 
+>   drivers/leds/Kconfig            |   8 +
+>   drivers/leds/Makefile           |   1 +
+>   drivers/leds/leds-sun50i-r329.c | 566 ++++++++++++++++++++++++++++++++
+>   3 files changed, 575 insertions(+)
+>   create mode 100644 drivers/leds/leds-sun50i-r329.c
+> 
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index ed800f5da7d8..d5c1396788fe 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -297,6 +297,14 @@ config LEDS_SUNFIRE
+>   	  This option enables support for the Left, Middle, and Right
+>   	  LEDs on the I/O and CPU boards of SunFire UltraSPARC servers.
+>   
+> +config LEDS_SUN50I_R329
+> +	tristate "LED support for Allwinner R329 LED controller"
+> +	depends on LEDS_CLASS
 
-It's a new controller first introduced in BCM63138 SoC. Later it was
-also used in BCM4908, some BCM68xx and some BCM63xxx SoCs.
+This should be
 
-Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
----
-V2: Rename to bcm63138
-    Improve Kconfig help
-    Add defines for magic values
-    Support setting brightness
-    Make bcm63xxx_leds_create_led() void function
----
- drivers/leds/Kconfig         |  12 ++
- drivers/leds/Makefile        |   1 +
- drivers/leds/leds-bcm63138.c | 314 +++++++++++++++++++++++++++++++++++
- 3 files changed, 327 insertions(+)
- create mode 100644 drivers/leds/leds-bcm63138.c
+     depends on LEDS_CLASS_MULTICOLOR
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index ed800f5da7d8..3bde795f0951 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -122,6 +122,18 @@ config LEDS_BCM6358
- 	  This option enables support for LEDs connected to the BCM6358
- 	  LED HW controller accessed via MMIO registers.
- 
-+config LEDS_BCM63138
-+	tristate "LED Support for Broadcom BCM63138 SoC"
-+	depends on LEDS_CLASS
-+	depends on ARCH_BCM4908 || BCM63XX || COMPILE_TEST
-+	depends on HAS_IOMEM
-+	depends on OF
-+	default ARCH_BCM4908
-+	help
-+	  This option enables support for LED controller that is part of
-+	  BCM63138 SoC. The same hardware block is known to be also used
-+	  in BCM4908, BCM6848, BCM6858, BCM63148, BCM63381 and BCM68360.
-+
- config LEDS_CPCAP
- 	tristate "LED Support for Motorola CPCAP"
- 	depends on LEDS_CLASS
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index c636ec069612..c986630ce782 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -18,6 +18,7 @@ obj-$(CONFIG_LEDS_ASIC3)		+= leds-asic3.o
- obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
- obj-$(CONFIG_LEDS_BCM6328)		+= leds-bcm6328.o
- obj-$(CONFIG_LEDS_BCM6358)		+= leds-bcm6358.o
-+obj-$(CONFIG_LEDS_BCM63138)		+= leds-bcm63138.o
- obj-$(CONFIG_LEDS_BD2802)		+= leds-bd2802.o
- obj-$(CONFIG_LEDS_BLINKM)		+= leds-blinkm.o
- obj-$(CONFIG_LEDS_CLEVO_MAIL)		+= leds-clevo-mail.o
-diff --git a/drivers/leds/leds-bcm63138.c b/drivers/leds/leds-bcm63138.c
-new file mode 100644
-index 000000000000..160c9282deda
---- /dev/null
-+++ b/drivers/leds/leds-bcm63138.c
-@@ -0,0 +1,314 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2021 Rafał Miłecki <rafal@milecki.pl>
-+ */
-+#include <linux/delay.h>
-+#include <linux/io.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/pinctrl/consumer.h>
-+#include <linux/platform_device.h>
-+#include <linux/spinlock.h>
-+
-+#define BCM63138_MAX_LEDS				32
-+
-+#define BCM63138_LED_BITS				4				/* how many bits control a single LED */
-+#define BCM63138_LED_MASK				((1 << BCM63138_LED_BITS) - 1)	/* 0xf */
-+#define BCM63138_LEDS_PER_REG				(32 / BCM63138_LED_BITS)	/* 8 */
-+
-+#define BCM63138_GLB_CTRL				0x00
-+#define  BCM63138_GLB_CTRL_SERIAL_LED_DATA_PPOL		0x00000002
-+#define  BCM63138_GLB_CTRL_SERIAL_LED_EN_POL		0x00000008
-+#define BCM63138_MASK					0x04
-+#define BCM63138_HW_LED_EN				0x08
-+#define BCM63138_SERIAL_LED_SHIFT_SEL			0x0c
-+#define BCM63138_FLASH_RATE_CTRL1			0x10
-+#define BCM63138_FLASH_RATE_CTRL2			0x14
-+#define BCM63138_FLASH_RATE_CTRL3			0x18
-+#define BCM63138_FLASH_RATE_CTRL4			0x1c
-+#define BCM63138_BRIGHT_CTRL1				0x20
-+#define BCM63138_BRIGHT_CTRL2				0x24
-+#define BCM63138_BRIGHT_CTRL3				0x28
-+#define BCM63138_BRIGHT_CTRL4				0x2c
-+#define BCM63138_POWER_LED_CFG				0x30
-+#define BCM63138_HW_POLARITY				0xb4
-+#define BCM63138_SW_DATA				0xb8
-+#define BCM63138_SW_POLARITY				0xbc
-+#define BCM63138_PARALLEL_LED_POLARITY			0xc0
-+#define BCM63138_SERIAL_LED_POLARITY			0xc4
-+#define BCM63138_HW_LED_STATUS				0xc8
-+#define BCM63138_FLASH_CTRL_STATUS			0xcc
-+#define BCM63138_FLASH_BRT_CTRL				0xd0
-+#define BCM63138_FLASH_P_LED_OUT_STATUS			0xd4
-+#define BCM63138_FLASH_S_LED_OUT_STATUS			0xd8
-+
-+struct bcm63138_leds {
-+	struct device *dev;
-+	void __iomem *base;
-+	spinlock_t lock;
-+};
-+
-+struct bcm63138_led {
-+	struct bcm63138_leds *leds;
-+	struct led_classdev cdev;
-+	u32 pin;
-+	bool active_low;
-+};
-+
-+/*
-+ * I/O access
-+ */
-+
-+static void bcm63138_leds_write(struct bcm63138_leds *leds, unsigned int reg,
-+				u32 data)
-+{
-+	writel(data, leds->base + reg);
-+}
-+
-+static unsigned long bcm63138_leds_read(struct bcm63138_leds *leds,
-+					unsigned int reg)
-+{
-+	return readl(leds->base + reg);
-+}
-+
-+static void bcm63138_leds_update_bits(struct bcm63138_leds *leds,
-+				      unsigned int reg, u32 mask, u32 val)
-+{
-+	WARN_ON(val & ~mask);
-+
-+	bcm63138_leds_write(leds, reg, (bcm63138_leds_read(leds, reg) & ~mask) | (val & mask));
-+}
-+
-+/*
-+ * Helpers
-+ */
-+
-+static void bcm63138_leds_set_flash_rate(struct bcm63138_leds *leds,
-+					 struct bcm63138_led *led,
-+					 u8 value)
-+{
-+	int reg_offset = (led->pin >> fls((BCM63138_LEDS_PER_REG - 1))) * 4;
-+	int shift = (led->pin & (BCM63138_LEDS_PER_REG - 1)) * BCM63138_LED_BITS;
-+
-+	bcm63138_leds_update_bits(leds, BCM63138_FLASH_RATE_CTRL1 + reg_offset,
-+				  BCM63138_LED_MASK << shift, value << shift);
-+}
-+
-+static void bcm63138_leds_set_bright(struct bcm63138_leds *leds,
-+				     struct bcm63138_led *led,
-+				     u8 value)
-+{
-+	int reg_offset = (led->pin >> fls((BCM63138_LEDS_PER_REG - 1))) * 4;
-+	int shift = (led->pin & (BCM63138_LEDS_PER_REG - 1)) * BCM63138_LED_BITS;
-+
-+	bcm63138_leds_update_bits(leds, BCM63138_BRIGHT_CTRL1 + reg_offset,
-+				  BCM63138_LED_MASK << shift, value << shift);
-+}
-+
-+static void bcm63138_leds_enable_led(struct bcm63138_leds *leds,
-+				     struct bcm63138_led *led,
-+				     enum led_brightness value)
-+{
-+	u32 bit = BIT(led->pin);
-+
-+	bcm63138_leds_update_bits(leds, BCM63138_SW_DATA, bit,
-+				  value == LED_OFF ? 0 : bit);
-+}
-+
-+/*
-+ * API callbacks
-+ */
-+
-+static void bcm63138_leds_brightness_set(struct led_classdev *led_cdev,
-+					 enum led_brightness value)
-+{
-+	struct bcm63138_led *led = container_of(led_cdev, struct bcm63138_led, cdev);
-+	struct bcm63138_leds *leds = led->leds;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&leds->lock, flags);
-+
-+	bcm63138_leds_enable_led(leds, led, value);
-+	if (value == LED_OFF)
-+		bcm63138_leds_set_flash_rate(leds, led, 0);
-+	else
-+		bcm63138_leds_set_bright(leds, led, (value >> 5) + 1);
-+
-+	spin_unlock_irqrestore(&leds->lock, flags);
-+}
-+
-+static int bcm63138_leds_blink_set(struct led_classdev *led_cdev,
-+				   unsigned long *delay_on,
-+				   unsigned long *delay_off)
-+{
-+	struct bcm63138_led *led = container_of(led_cdev, struct bcm63138_led, cdev);
-+	struct bcm63138_leds *leds = led->leds;
-+	unsigned long flags;
-+	u8 value;
-+
-+	if (!*delay_on && !*delay_off) {
-+		*delay_on = 640;
-+		*delay_off = 640;
-+	}
-+
-+	if (*delay_on != *delay_off) {
-+		dev_dbg(led_cdev->dev, "Blinking at unequal delays is not supported\n");
-+		return -EINVAL;
-+	}
-+
-+	switch (*delay_on) {
-+	case 1152 ... 1408: /* 1280 ms ± 10% */
-+		value = 0x7;
-+		break;
-+	case 576 ... 704: /* 640 ms ± 10% */
-+		value = 0x6;
-+		break;
-+	case 288 ... 352: /* 320 ms ± 10% */
-+		value = 0x5;
-+		break;
-+	case 126 ... 154: /* 140 ms ± 10% */
-+		value = 0x4;
-+		break;
-+	case 59 ... 72: /* 65 ms ± 10% */
-+		value = 0x3;
-+		break;
-+	default:
-+		dev_dbg(led_cdev->dev, "Blinking delay value %lu is unsupported\n",
-+			*delay_on);
-+		return -EINVAL;
-+	}
-+
-+	spin_lock_irqsave(&leds->lock, flags);
-+
-+	bcm63138_leds_enable_led(leds, led, LED_FULL);
-+	bcm63138_leds_set_flash_rate(leds, led, value);
-+
-+	spin_unlock_irqrestore(&leds->lock, flags);
-+
-+	return 0;
-+}
-+
-+/*
-+ * LED driver
-+ */
-+
-+static void bcm63138_leds_create_led(struct bcm63138_leds *leds,
-+				     struct device_node *np)
-+{
-+	struct led_init_data init_data = {
-+		.fwnode = of_fwnode_handle(np),
-+	};
-+	struct device *dev = leds->dev;
-+	struct bcm63138_led *led;
-+	struct pinctrl *pinctrl;
-+	const char *state;
-+	u32 bit;
-+	int err;
-+
-+	led = devm_kzalloc(dev, sizeof(*led), GFP_KERNEL);
-+	if (!led)
-+		return;
-+
-+	led->leds = leds;
-+
-+	if (of_property_read_u32(np, "reg", &led->pin)) {
-+		dev_err(dev, "Missing \"reg\" property in %pOF\n", np);
-+		goto err_free;
-+	}
-+
-+	if (led->pin >= BCM63138_MAX_LEDS) {
-+		dev_err(dev, "Invalid \"reg\" value %d\n", led->pin);
-+		goto err_free;
-+	}
-+
-+	led->active_low = of_property_read_bool(np, "active-low");
-+
-+	if (!of_property_read_string(np, "default-state", &state)) {
-+		if (!strcmp(state, "on"))
-+			led->cdev.brightness = LED_FULL;
-+		else
-+			led->cdev.brightness = LED_OFF;
-+	} else {
-+		led->cdev.brightness = LED_OFF;
-+	}
-+
-+	led->cdev.brightness_set = bcm63138_leds_brightness_set;
-+	led->cdev.blink_set = bcm63138_leds_blink_set;
-+
-+	err = devm_led_classdev_register_ext(dev, &led->cdev, &init_data);
-+	if (err) {
-+		dev_err(dev, "Failed to register LED %pOF: %d\n", np, err);
-+		goto err_free;
-+	}
-+
-+	pinctrl = devm_pinctrl_get_select_default(led->cdev.dev);
-+	if (IS_ERR(pinctrl) && PTR_ERR(pinctrl) != -ENODEV) {
-+		dev_warn(led->cdev.dev, "Failed to select %pOF pinctrl: %ld\n",
-+			 np, PTR_ERR(pinctrl));
-+	}
-+
-+	bit = BIT(led->pin);
-+	bcm63138_leds_update_bits(leds, BCM63138_PARALLEL_LED_POLARITY, bit,
-+				  led->active_low ? 0 : bit);
-+	bcm63138_leds_update_bits(leds, BCM63138_HW_LED_EN, bit, 0);
-+	bcm63138_leds_set_flash_rate(leds, led, 0);
-+	bcm63138_leds_enable_led(leds, led, led->cdev.brightness);
-+
-+	return;
-+
-+err_free:
-+	devm_kfree(dev, led);
-+}
-+
-+static int bcm63138_leds_probe(struct platform_device *pdev)
-+{
-+	struct device_node *np = dev_of_node(&pdev->dev);
-+	struct device *dev = &pdev->dev;
-+	struct bcm63138_leds *leds;
-+	struct device_node *child;
-+
-+	leds = devm_kzalloc(dev, sizeof(*leds), GFP_KERNEL);
-+	if (!leds)
-+		return -ENOMEM;
-+
-+	leds->dev = dev;
-+
-+	leds->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(leds->base))
-+		return PTR_ERR(leds->base);
-+
-+	spin_lock_init(&leds->lock);
-+
-+	bcm63138_leds_write(leds, BCM63138_GLB_CTRL,
-+			    BCM63138_GLB_CTRL_SERIAL_LED_DATA_PPOL |
-+			    BCM63138_GLB_CTRL_SERIAL_LED_EN_POL);
-+	bcm63138_leds_write(leds, BCM63138_HW_LED_EN, 0);
-+	bcm63138_leds_write(leds, BCM63138_SERIAL_LED_POLARITY, 0);
-+	bcm63138_leds_write(leds, BCM63138_PARALLEL_LED_POLARITY, 0);
-+
-+	for_each_available_child_of_node(np, child) {
-+		bcm63138_leds_create_led(leds, child);
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id bcm63138_leds_of_match_table[] = {
-+	{ .compatible = "brcm,bcm63138-leds", },
-+	{ },
-+};
-+
-+static struct platform_driver bcm63138_leds_driver = {
-+	.probe = bcm63138_leds_probe,
-+	.driver = {
-+		.name = "leds-bcm63xxx",
-+		.of_match_table = bcm63138_leds_of_match_table,
-+	},
-+};
-+
-+module_platform_driver(bcm63138_leds_driver);
-+
-+MODULE_AUTHOR("Rafał Miłecki");
-+MODULE_LICENSE("GPL");
-+MODULE_DEVICE_TABLE(of, bcm63138_leds_of_match_table);
--- 
-2.31.1
+as you are using the multicolor LED framework, e.g. function 
+devm_led_classdev_multicolor_register_ext().
+
+Best regards
+
+Heinrich
+
+> +	depends on ARCH_SUNXI || COMPILE_TEST
+> +	help
+> +	  This option enables support for the RGB LED controller
+> +	  provided in some Allwinner sunxi SoCs, like the R329.
+> +
+>   config LEDS_IPAQ_MICRO
+>   	tristate "LED Support for the Compaq iPAQ h3xxx"
+>   	depends on LEDS_CLASS
+> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> index c636ec069612..506b2617099d 100644
+> --- a/drivers/leds/Makefile
+> +++ b/drivers/leds/Makefile
+> @@ -77,6 +77,7 @@ obj-$(CONFIG_LEDS_PWM)			+= leds-pwm.o
+>   obj-$(CONFIG_LEDS_REGULATOR)		+= leds-regulator.o
+>   obj-$(CONFIG_LEDS_S3C24XX)		+= leds-s3c24xx.o
+>   obj-$(CONFIG_LEDS_SC27XX_BLTC)		+= leds-sc27xx-bltc.o
+> +obj-$(CONFIG_LEDS_SUN50I_R329)		+= leds-sun50i-r329.o
+>   obj-$(CONFIG_LEDS_SUNFIRE)		+= leds-sunfire.o
+>   obj-$(CONFIG_LEDS_SYSCON)		+= leds-syscon.o
+>   obj-$(CONFIG_LEDS_TCA6507)		+= leds-tca6507.o
+> diff --git a/drivers/leds/leds-sun50i-r329.c b/drivers/leds/leds-sun50i-r329.c
+> new file mode 100644
+> index 000000000000..3dfa1840a745
+> --- /dev/null
+> +++ b/drivers/leds/leds-sun50i-r329.c
+> @@ -0,0 +1,566 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// Copyright (c) 2021 Samuel Holland <samuel@sholland.org>
+> +//
+> +// Partly based on drivers/leds/leds-turris-omnia.c, which is:
+> +//     Copyright (c) 2020 by Marek Behún <kabel@kernel.org>
+> +//
+> +
+> +#include <linux/clk.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/dmaengine.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/led-class-multicolor.h>
+> +#include <linux/leds.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/reset.h>
+> +#include <linux/spinlock.h>
+> +
+> +#define LEDC_CTRL_REG			0x0000
+> +#define LEDC_CTRL_REG_DATA_LENGTH		(0x1fff << 16)
+> +#define LEDC_CTRL_REG_RGB_MODE			(0x7 << 6)
+> +#define LEDC_CTRL_REG_LEDC_EN			BIT(0)
+> +#define LEDC_T01_TIMING_CTRL_REG	0x0004
+> +#define LEDC_T01_TIMING_CTRL_REG_T1H		(0x3f << 21)
+> +#define LEDC_T01_TIMING_CTRL_REG_T1L		(0x1f << 16)
+> +#define LEDC_T01_TIMING_CTRL_REG_T0H		(0x1f << 6)
+> +#define LEDC_T01_TIMING_CTRL_REG_T0L		(0x3f << 0)
+> +#define LEDC_RESET_TIMING_CTRL_REG	0x000c
+> +#define LEDC_RESET_TIMING_CTRL_REG_LED_NUM	(0x3ff << 0)
+> +#define LEDC_DATA_REG			0x0014
+> +#define LEDC_DMA_CTRL_REG		0x0018
+> +#define LEDC_DMA_CTRL_REG_FIFO_TRIG_LEVEL	(0x1f << 0)
+> +#define LEDC_INT_CTRL_REG		0x001c
+> +#define LEDC_INT_CTRL_REG_GLOBAL_INT_EN		BIT(5)
+> +#define LEDC_INT_CTRL_REG_FIFO_CPUREQ_INT_EN	BIT(1)
+> +#define LEDC_INT_CTRL_REG_TRANS_FINISH_INT_EN	BIT(0)
+> +#define LEDC_INT_STS_REG		0x0020
+> +#define LEDC_INT_STS_REG_FIFO_CPUREQ_INT	BIT(1)
+> +#define LEDC_INT_STS_REG_TRANS_FINISH_INT	BIT(0)
+> +
+> +#define LEDC_FIFO_DEPTH			32
+> +#define LEDC_MAX_LEDS			1024
+> +
+> +#define LEDS_TO_BYTES(n)		((n) * sizeof(u32))
+> +
+> +struct sun50i_r329_ledc_led {
+> +	struct led_classdev_mc mc_cdev;
+> +	struct mc_subled subled_info[3];
+> +};
+> +#define to_ledc_led(mc) container_of(mc, struct sun50i_r329_ledc_led, mc_cdev)
+> +
+> +struct sun50i_r329_ledc_timing {
+> +	u32 t0h_ns;
+> +	u32 t0l_ns;
+> +	u32 t1h_ns;
+> +	u32 t1l_ns;
+> +	u32 treset_ns;
+> +};
+> +
+> +struct sun50i_r329_ledc {
+> +	struct device *dev;
+> +	void __iomem *base;
+> +	struct clk *bus_clk;
+> +	struct clk *mod_clk;
+> +	struct reset_control *reset;
+> +	struct regulator *vled;
+> +
+> +	u32 *buffer;
+> +	struct dma_chan *dma_chan;
+> +	dma_addr_t dma_handle;
+> +	int pio_length;
+> +	int pio_offset;
+> +
+> +	spinlock_t lock;
+> +	int next_length;
+> +	bool xfer_active;
+> +
+> +	u32 format;
+> +	struct sun50i_r329_ledc_timing timing;
+> +
+> +	int num_leds;
+> +	struct sun50i_r329_ledc_led leds[];
+> +};
+> +
+> +static int sun50i_r329_ledc_dma_xfer(struct sun50i_r329_ledc *priv, int length)
+> +{
+> +	struct dma_async_tx_descriptor *desc;
+> +	dma_cookie_t cookie;
+> +
+> +	desc = dmaengine_prep_slave_single(priv->dma_chan, priv->dma_handle,
+> +					   LEDS_TO_BYTES(length),
+> +					   DMA_MEM_TO_DEV, 0);
+> +	if (!desc)
+> +		return -ENOMEM;
+> +
+> +	cookie = dmaengine_submit(desc);
+> +	if (dma_submit_error(cookie))
+> +		return -EIO;
+> +
+> +	dma_async_issue_pending(priv->dma_chan);
+> +
+> +	return 0;
+> +}
+> +
+> +static void sun50i_r329_ledc_pio_xfer(struct sun50i_r329_ledc *priv, int length)
+> +{
+> +	u32 burst, offset, val;
+> +
+> +	if (length) {
+> +		/* New transfer (FIFO is empty). */
+> +		offset = 0;
+> +		burst  = min(length, LEDC_FIFO_DEPTH);
+> +	} else {
+> +		/* Existing transfer (FIFO is half-full). */
+> +		length = priv->pio_length;
+> +		offset = priv->pio_offset;
+> +		burst  = min(length, LEDC_FIFO_DEPTH / 2);
+> +	}
+> +
+> +	writesl(priv->base + LEDC_DATA_REG, priv->buffer + offset, burst);
+> +
+> +	if (burst < length) {
+> +		priv->pio_length = length - burst;
+> +		priv->pio_offset = offset + burst;
+> +
+> +		if (!offset) {
+> +			val = readl(priv->base + LEDC_INT_CTRL_REG);
+> +			val |= LEDC_INT_CTRL_REG_FIFO_CPUREQ_INT_EN;
+> +			writel(val, priv->base + LEDC_INT_CTRL_REG);
+> +		}
+> +	} else {
+> +		/* Disable the request IRQ once all data is written. */
+> +		val = readl(priv->base + LEDC_INT_CTRL_REG);
+> +		val &= ~LEDC_INT_CTRL_REG_FIFO_CPUREQ_INT_EN;
+> +		writel(val, priv->base + LEDC_INT_CTRL_REG);
+> +	}
+> +}
+> +
+> +static void sun50i_r329_ledc_start_xfer(struct sun50i_r329_ledc *priv,
+> +					int length)
+> +{
+> +	u32 val;
+> +
+> +	dev_dbg(priv->dev, "Updating %d LEDs\n", length);
+> +
+> +	val = readl(priv->base + LEDC_CTRL_REG);
+> +	val &= ~LEDC_CTRL_REG_DATA_LENGTH;
+> +	val |= length << 16 | LEDC_CTRL_REG_LEDC_EN;
+> +	writel(val, priv->base + LEDC_CTRL_REG);
+> +
+> +	if (length > LEDC_FIFO_DEPTH) {
+> +		int ret = sun50i_r329_ledc_dma_xfer(priv, length);
+> +
+> +		if (!ret)
+> +			return;
+> +
+> +		dev_warn(priv->dev, "Failed to set up DMA: %d\n", ret);
+> +	}
+> +
+> +	sun50i_r329_ledc_pio_xfer(priv, length);
+> +}
+> +
+> +static irqreturn_t sun50i_r329_ledc_irq(int irq, void *dev_id)
+> +{
+> +	struct sun50i_r329_ledc *priv = dev_id;
+> +	u32 val;
+> +
+> +	val = readl(priv->base + LEDC_INT_STS_REG);
+> +
+> +	if (val & LEDC_INT_STS_REG_TRANS_FINISH_INT) {
+> +		int next_length;
+> +
+> +		/* Start the next transfer if needed. */
+> +		spin_lock(&priv->lock);
+> +		next_length = priv->next_length;
+> +		if (next_length)
+> +			priv->next_length = 0;
+> +		else
+> +			priv->xfer_active = false;
+> +		spin_unlock(&priv->lock);
+> +
+> +		if (next_length)
+> +			sun50i_r329_ledc_start_xfer(priv, next_length);
+> +	} else if (val & LEDC_INT_STS_REG_FIFO_CPUREQ_INT) {
+> +		/* Continue the current transfer. */
+> +		sun50i_r329_ledc_pio_xfer(priv, 0);
+> +	}
+> +
+> +	writel(val, priv->base + LEDC_INT_STS_REG);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static void sun50i_r329_ledc_brightness_set(struct led_classdev *cdev,
+> +					    enum led_brightness brightness)
+> +{
+> +	struct sun50i_r329_ledc *priv = dev_get_drvdata(cdev->dev->parent);
+> +	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
+> +	struct sun50i_r329_ledc_led *led = to_ledc_led(mc_cdev);
+> +	int addr = led - priv->leds;
+> +	unsigned long flags;
+> +	bool xfer_active;
+> +	int next_length;
+> +
+> +	led_mc_calc_color_components(mc_cdev, brightness);
+> +
+> +	priv->buffer[addr] = led->subled_info[0].brightness << 16 |
+> +			     led->subled_info[1].brightness <<  8 |
+> +			     led->subled_info[2].brightness;
+> +
+> +	dev_dbg(priv->dev, "LED %d -> #%06x\n", addr, priv->buffer[addr]);
+> +
+> +	spin_lock_irqsave(&priv->lock, flags);
+> +	next_length = max(priv->next_length, addr + 1);
+> +	xfer_active = priv->xfer_active;
+> +	if (xfer_active)
+> +		priv->next_length = next_length;
+> +	else
+> +		priv->xfer_active = true;
+> +	spin_unlock_irqrestore(&priv->lock, flags);
+> +
+> +	if (!xfer_active)
+> +		sun50i_r329_ledc_start_xfer(priv, next_length);
+> +}
+> +
+> +static const char *const sun50i_r329_ledc_formats[] = {
+> +	"rgb",
+> +	"rbg",
+> +	"grb",
+> +	"gbr",
+> +	"brg",
+> +	"bgr",
+> +};
+> +
+> +static int sun50i_r329_ledc_parse_format(const struct device_node *np,
+> +					 struct sun50i_r329_ledc *priv)
+> +{
+> +	const char *format = "grb";
+> +	u32 i;
+> +
+> +	of_property_read_string(np, "format", &format);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(sun50i_r329_ledc_formats); ++i) {
+> +		if (!strcmp(format, sun50i_r329_ledc_formats[i])) {
+> +			priv->format = i;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	dev_err(priv->dev, "Bad pixel format '%s'\n", format);
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static void sun50i_r329_ledc_set_format(struct sun50i_r329_ledc *priv)
+> +{
+> +	u32 val;
+> +
+> +	val = readl(priv->base + LEDC_CTRL_REG);
+> +	val &= ~LEDC_CTRL_REG_RGB_MODE;
+> +	val |= priv->format << 6;
+> +	writel(val, priv->base + LEDC_CTRL_REG);
+> +}
+> +
+> +static const struct sun50i_r329_ledc_timing sun50i_r329_ledc_default_timing = {
+> +	.t0h_ns = 336,
+> +	.t0l_ns = 840,
+> +	.t1h_ns = 882,
+> +	.t1l_ns = 294,
+> +	.treset_ns = 300000,
+> +};
+> +
+> +static int sun50i_r329_ledc_parse_timing(const struct device_node *np,
+> +					 struct sun50i_r329_ledc *priv)
+> +{
+> +	struct sun50i_r329_ledc_timing *timing = &priv->timing;
+> +
+> +	*timing = sun50i_r329_ledc_default_timing;
+> +
+> +	of_property_read_u32(np, "t0h-ns", &timing->t0h_ns);
+> +	of_property_read_u32(np, "t0l-ns", &timing->t0l_ns);
+> +	of_property_read_u32(np, "t1h-ns", &timing->t1h_ns);
+> +	of_property_read_u32(np, "t1l-ns", &timing->t1l_ns);
+> +	of_property_read_u32(np, "treset-ns", &timing->treset_ns);
+> +
+> +	return 0;
+> +}
+> +
+> +static void sun50i_r329_ledc_set_timing(struct sun50i_r329_ledc *priv)
+> +{
+> +	const struct sun50i_r329_ledc_timing *timing = &priv->timing;
+> +	unsigned long mod_freq = clk_get_rate(priv->mod_clk);
+> +	u32 cycle_ns = NSEC_PER_SEC / mod_freq;
+> +	u32 val;
+> +
+> +	val = (timing->t1h_ns / cycle_ns) << 21 |
+> +	      (timing->t1l_ns / cycle_ns) << 16 |
+> +	      (timing->t0h_ns / cycle_ns) <<  6 |
+> +	      (timing->t0l_ns / cycle_ns);
+> +	writel(val, priv->base + LEDC_T01_TIMING_CTRL_REG);
+> +
+> +	val = (timing->treset_ns / cycle_ns) << 16 |
+> +	      (priv->num_leds - 1);
+> +	writel(val, priv->base + LEDC_RESET_TIMING_CTRL_REG);
+> +}
+> +
+> +static int sun50i_r329_ledc_resume(struct device *dev)
+> +{
+> +	struct sun50i_r329_ledc *priv = dev_get_drvdata(dev);
+> +	u32 val;
+> +	int ret;
+> +
+> +	ret = regulator_enable(priv->vled);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = reset_control_deassert(priv->reset);
+> +	if (ret)
+> +		goto err_disable_regulator;
+> +
+> +	ret = clk_prepare_enable(priv->bus_clk);
+> +	if (ret)
+> +		goto err_assert_reset;
+> +
+> +	ret = clk_prepare_enable(priv->mod_clk);
+> +	if (ret)
+> +		goto err_disable_bus_clk;
+> +
+> +	sun50i_r329_ledc_set_format(priv);
+> +	sun50i_r329_ledc_set_timing(priv);
+> +
+> +	/* The trigger level must be at least the burst length. */
+> +	val = readl(priv->base + LEDC_DMA_CTRL_REG);
+> +	val &= ~LEDC_DMA_CTRL_REG_FIFO_TRIG_LEVEL;
+> +	val |= LEDC_FIFO_DEPTH / 2;
+> +	writel(val, priv->base + LEDC_DMA_CTRL_REG);
+> +
+> +	val = LEDC_INT_CTRL_REG_GLOBAL_INT_EN |
+> +	      LEDC_INT_CTRL_REG_TRANS_FINISH_INT_EN;
+> +	writel(val, priv->base + LEDC_INT_CTRL_REG);
+> +
+> +	return 0;
+> +
+> +err_disable_bus_clk:
+> +	clk_disable_unprepare(priv->bus_clk);
+> +err_assert_reset:
+> +	reset_control_assert(priv->reset);
+> +err_disable_regulator:
+> +	regulator_disable(priv->vled);
+> +
+> +	return ret;
+> +}
+> +
+> +static int sun50i_r329_ledc_suspend(struct device *dev)
+> +{
+> +	struct sun50i_r329_ledc *priv = dev_get_drvdata(dev);
+> +
+> +	clk_disable_unprepare(priv->mod_clk);
+> +	clk_disable_unprepare(priv->bus_clk);
+> +	reset_control_assert(priv->reset);
+> +	regulator_disable(priv->vled);
+> +
+> +	return 0;
+> +}
+> +
+> +static void sun50i_r329_ledc_dma_cleanup(void *data)
+> +{
+> +	struct sun50i_r329_ledc *priv = data;
+> +	struct device *dma_dev = dmaengine_get_dma_device(priv->dma_chan);
+> +
+> +	if (priv->buffer)
+> +		dma_free_wc(dma_dev, LEDS_TO_BYTES(priv->num_leds),
+> +			    priv->buffer, priv->dma_handle);
+> +	dma_release_channel(priv->dma_chan);
+> +}
+> +
+> +static int sun50i_r329_ledc_probe(struct platform_device *pdev)
+> +{
+> +	const struct device_node *np = pdev->dev.of_node;
+> +	struct dma_slave_config dma_cfg = {};
+> +	struct led_init_data init_data = {};
+> +	struct device *dev = &pdev->dev;
+> +	struct device_node *child;
+> +	struct sun50i_r329_ledc *priv;
+> +	struct resource *mem;
+> +	int count, irq, ret;
+> +
+> +	count = of_get_available_child_count(np);
+> +	if (!count)
+> +		return -ENODEV;
+> +	if (count > LEDC_MAX_LEDS) {
+> +		dev_err(dev, "Too many LEDs! (max is %d)\n", LEDC_MAX_LEDS);
+> +		return -EINVAL;
+> +	}
+> +
+> +	priv = devm_kzalloc(dev, struct_size(priv, leds, count), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->dev = dev;
+> +	priv->num_leds = count;
+> +	spin_lock_init(&priv->lock);
+> +	dev_set_drvdata(dev, priv);
+> +
+> +	ret = sun50i_r329_ledc_parse_format(np, priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = sun50i_r329_ledc_parse_timing(np, priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv->base = devm_platform_get_and_ioremap_resource(pdev, 0, &mem);
+> +	if (IS_ERR(priv->base))
+> +		return PTR_ERR(priv->base);
+> +
+> +	priv->bus_clk = devm_clk_get(dev, "bus");
+> +	if (IS_ERR(priv->bus_clk))
+> +		return PTR_ERR(priv->bus_clk);
+> +
+> +	priv->mod_clk = devm_clk_get(dev, "mod");
+> +	if (IS_ERR(priv->mod_clk))
+> +		return PTR_ERR(priv->mod_clk);
+> +
+> +	priv->reset = devm_reset_control_get_exclusive(dev, NULL);
+> +	if (IS_ERR(priv->reset))
+> +		return PTR_ERR(priv->reset);
+> +
+> +	priv->vled = devm_regulator_get(dev, "vled");
+> +	if (IS_ERR(priv->vled))
+> +		return PTR_ERR(priv->vled);
+> +
+> +	priv->dma_chan = dma_request_chan(dev, "tx");
+> +	if (IS_ERR(priv->dma_chan))
+> +		return PTR_ERR(priv->dma_chan);
+> +
+> +	ret = devm_add_action_or_reset(dev, sun50i_r329_ledc_dma_cleanup, priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	dma_cfg.dst_addr	= mem->start + LEDC_DATA_REG;
+> +	dma_cfg.dst_addr_width	= DMA_SLAVE_BUSWIDTH_4_BYTES;
+> +	dma_cfg.dst_maxburst	= LEDC_FIFO_DEPTH / 2;
+> +	ret = dmaengine_slave_config(priv->dma_chan, &dma_cfg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv->buffer = dma_alloc_wc(dmaengine_get_dma_device(priv->dma_chan),
+> +				    LEDS_TO_BYTES(priv->num_leds),
+> +				    &priv->dma_handle, GFP_KERNEL);
+> +	if (!priv->buffer)
+> +		return -ENOMEM;
+> +
+> +	irq = platform_get_irq(pdev, 0);
+> +	if (irq < 0)
+> +		return irq;
+> +
+> +	ret = devm_request_irq(dev, irq, sun50i_r329_ledc_irq,
+> +			       0, dev_name(dev), priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = sun50i_r329_ledc_resume(dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for_each_available_child_of_node(np, child) {
+> +		struct sun50i_r329_ledc_led *led;
+> +		struct led_classdev *cdev;
+> +		u32 addr, color;
+> +
+> +		ret = of_property_read_u32(child, "reg", &addr);
+> +		if (ret || addr >= count) {
+> +			dev_err(dev, "LED 'reg' values must be from 0 to %d\n",
+> +				priv->num_leds - 1);
+> +			ret = -EINVAL;
+> +			goto err_put_child;
+> +		}
+> +
+> +		ret = of_property_read_u32(child, "color", &color);
+> +		if (ret || color != LED_COLOR_ID_RGB) {
+> +			dev_err(dev, "LED 'color' must be LED_COLOR_ID_RGB\n");
+> +			ret = -EINVAL;
+> +			goto err_put_child;
+> +		}
+> +
+> +		led = &priv->leds[addr];
+> +
+> +		led->subled_info[0].color_index = LED_COLOR_ID_RED;
+> +		led->subled_info[0].channel = 0;
+> +		led->subled_info[1].color_index = LED_COLOR_ID_GREEN;
+> +		led->subled_info[1].channel = 1;
+> +		led->subled_info[2].color_index = LED_COLOR_ID_BLUE;
+> +		led->subled_info[2].channel = 2;
+> +
+> +		led->mc_cdev.num_colors = ARRAY_SIZE(led->subled_info);
+> +		led->mc_cdev.subled_info = led->subled_info;
+> +
+> +		cdev = &led->mc_cdev.led_cdev;
+> +		cdev->max_brightness = U8_MAX;
+> +		cdev->brightness_set = sun50i_r329_ledc_brightness_set;
+> +
+> +		init_data.fwnode = of_fwnode_handle(child);
+> +
+> +		ret = devm_led_classdev_multicolor_register_ext(dev,
+> +								&led->mc_cdev,
+> +								&init_data);
+> +		if (ret) {
+> +			dev_err(dev, "Failed to register LED %u: %d\n",
+> +				addr, ret);
+> +			goto err_put_child;
+> +		}
+> +	}
+> +
+> +	dev_info(dev, "Registered %d LEDs\n", priv->num_leds);
+> +
+> +	return 0;
+> +
+> +err_put_child:
+> +	of_node_put(child);
+> +	sun50i_r329_ledc_suspend(&pdev->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static int sun50i_r329_ledc_remove(struct platform_device *pdev)
+> +{
+> +	sun50i_r329_ledc_suspend(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static void sun50i_r329_ledc_shutdown(struct platform_device *pdev)
+> +{
+> +	sun50i_r329_ledc_suspend(&pdev->dev);
+> +}
+> +
+> +static const struct of_device_id sun50i_r329_ledc_of_match[] = {
+> +	{ .compatible = "allwinner,sun50i-r329-ledc" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, sun50i_r329_ledc_of_match);
+> +
+> +static SIMPLE_DEV_PM_OPS(sun50i_r329_ledc_pm,
+> +			 sun50i_r329_ledc_suspend, sun50i_r329_ledc_resume);
+> +
+> +static struct platform_driver sun50i_r329_ledc_driver = {
+> +	.probe		= sun50i_r329_ledc_probe,
+> +	.remove		= sun50i_r329_ledc_remove,
+> +	.shutdown	= sun50i_r329_ledc_shutdown,
+> +	.driver		= {
+> +		.name		= "sun50i-r329-ledc",
+> +		.of_match_table	= sun50i_r329_ledc_of_match,
+> +		.pm		= pm_ptr(&sun50i_r329_ledc_pm),
+> +	},
+> +};
+> +module_platform_driver(sun50i_r329_ledc_driver);
+> +
+> +MODULE_AUTHOR("Samuel Holland <samuel@sholland.org>");
+> +MODULE_DESCRIPTION("Allwinner R329 LED controller driver");
+> +MODULE_LICENSE("GPL");
+> 
 
