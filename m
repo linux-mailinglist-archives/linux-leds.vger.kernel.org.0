@@ -2,128 +2,101 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EB5245F136
-	for <lists+linux-leds@lfdr.de>; Fri, 26 Nov 2021 17:01:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DCF045F15A
+	for <lists+linux-leds@lfdr.de>; Fri, 26 Nov 2021 17:12:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351390AbhKZQEz (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 26 Nov 2021 11:04:55 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:60261 "EHLO
-        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1344571AbhKZQCz (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 26 Nov 2021 11:02:55 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 7C1B33201C28;
-        Fri, 26 Nov 2021 10:59:39 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 26 Nov 2021 10:59:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=dmgaTP58NH4ePLiMzG6Qj5sblT+
-        /q5Jgks1Y7IsxJ78=; b=lmXs7FQqFmEbxO4q8ojSaE+MkGKchooj7FD+9YAJenI
-        cBvdhtXOIlid4c4USb4QSldF6nIIheabMZR4jOXoFoX0JiXPiJ/wHDx7Lv4Y7dvX
-        oHW3KIq+4JBhCBnlJYBZUisllOMC2AgnTvlpVxc7fohBDnm8pKW7C9Td05+26XoM
-        Y5Ws1IK1O+177LTj+Wqgus6YrNSoekUhBk/qd5IfXTgu4BkHcM4QSgfw3ntLQkfF
-        Kn3uGGYRhBM7DDrpQ45/ysVMRvxeZa2J3qKjoNL3bqswu/tDO95MyMg+WCjFgBW4
-        OAxDyPUdJNS+MgJU6oIEknZ4UPiUr3fmdOQrdJVtVPQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dmgaTP
-        58NH4ePLiMzG6Qj5sblT+/q5Jgks1Y7IsxJ78=; b=kF3ABcUMu12eLzyYnO7l+a
-        D0Igwxzy5bB4Cq+QwbP16bPPgKw0cdPH5maJPKcNAq3yEY2/mHgHgrIghT156SQn
-        zgUYJHCrdjmvIOhkfDgZbkv+DDXv/BgD7/cViXcPt0r3lrkt9WKHSpVxn16LSwLA
-        GabdZiYxo92KnT4MypRKbQRGPGN3muO6fxXiLNmu8BZI9RCE8kg/KTSZCiMYreaS
-        E+ISpsqJGTupc+E1I71q7QzsSdzUnC0XifTL6AAeMzK8C8IsPSyCCWdLG/6aKegB
-        9OPqhljg0kwpejWpYGtztkUv4DYqhh8K1S1QeBfkQ4aP7Ttg5UzkT6WZyL3d8iKQ
-        ==
-X-ME-Sender: <xms:agShYYS69Y-YjA4CnQBLdwsmGl6J3ZVM0beT_DjtC--IQFz8bx3CPw>
-    <xme:agShYVwe2cJxBHOikUagDSyKmxOr5yMC6SfKL8lIjiNaVXNez9e6QaOgeKwhFkCPW
-    jV3LUPSDNPdAt0kuZk>
-X-ME-Received: <xmr:agShYV3t6MMgzNimVdsaHWC_T07bLfJDzYVAZWFRtlpeeFj8rJMopA9ZuwWpz7rRSvdUHtLJ33mlxnD5lEAz7VvgoB6IRc2QJw4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdekudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
-    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:agShYcAKDmz8_16VpNidQG_JQ-YxPST4YXo8VKIQNcAPRsOaaVMXhw>
-    <xmx:agShYRjY5kTYQ7v0sht9mlkf-8buJ1vqGH3zM8ZzElCu_1oGp6iREw>
-    <xmx:agShYYoudkPAGFAa5FxrV5lRH-gype9Os8Y89D5jiMqAJhfkRD85HA>
-    <xmx:agShYSXn0TWmxg1aPemRas7vbQG6qaqGtSVZJcmklBfOzv27o3LB4Q>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 Nov 2021 10:59:37 -0500 (EST)
-Date:   Fri, 26 Nov 2021 16:59:35 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] leds: sun50i-r329: New driver for the R329/D1 LED
- controller
-Message-ID: <20211126155935.2zagoe6gfkh5pi22@houat>
-References: <20211119054044.16286-1-samuel@sholland.org>
- <20211119054044.16286-2-samuel@sholland.org>
- <20211119082850.lrfq2wuyzhyvczdi@gilmour>
- <fd4d08ee-3048-a54a-58d2-9510413c166f@sholland.org>
- <20211123163945.xj2xmqymj3dkba55@gilmour>
- <e753c12a-d586-18fc-7f4a-01a9f6df1750@sholland.org>
+        id S1378320AbhKZQPn (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Fri, 26 Nov 2021 11:15:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57212 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1378343AbhKZQNm (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Fri, 26 Nov 2021 11:13:42 -0500
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA353C061396;
+        Fri, 26 Nov 2021 08:02:15 -0800 (PST)
+Received: by mail-ot1-x32b.google.com with SMTP id h16-20020a9d7990000000b0055c7ae44dd2so14521079otm.10;
+        Fri, 26 Nov 2021 08:02:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=PbeEnRWON9pb9nGRnrDkYtKRKVz+bBqeqfOhcC0/LMY=;
+        b=QlJ9BT79vV+UgbBLPVB9SHqwpuKF958qe/4Mo/aARVO9cwjFiv/Uw2PK81fwi8831u
+         Kip3tKmilWiTExI1OXx7XUqnowj7MjbDU8c22FkUt5c4bOr2jJtcjkKaYB3w7oBuwHPP
+         G7tS/FN5o7g8VZ4NO4BPxVFPv5Yv8SYiAX4yDHAdYoZgaG1h6KsW8PC+ritaYArqGSzm
+         hXjEbnx2+wi117uh94SJkoqMIZOFZ3UaHFzldYRjpbkAm4bg4cY5HTDh5zEs2pOjLzkG
+         uGTntQHgts3Y2ky15w5GgWss37Lqggj8cl8c5y60WWmXoI4upgPFMjHam7LRlTgKoNje
+         cF/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=PbeEnRWON9pb9nGRnrDkYtKRKVz+bBqeqfOhcC0/LMY=;
+        b=s0+eRKuz3H2AtRX5dGGrCJq8JeiAhS0Nysm+6NSwx8IGqVwW9mcarcQpMB0MPn/9ew
+         IV73+M1PHH+VEGlLEWCWV+PL9YJmuzqqyEbFW8fDFP60hzhpA6sWeLAqpzd4rvKVNd7K
+         bTvf8GUwFdZyuBu/9OVowFUv91o433yNHA06FGatxsFT/3EKlyjvFpDHcbR8rM2Z4BOX
+         EJq+cM+zjr6NefMbzVJAtxk/5OXawZMTu/CSuR/PixphG/xvhXwQLDV40Ly2K7dqumnd
+         cDnknCZmVbUuNv2Ue6+ZyDDQ749WAY0wj7Eh3xKovFd25yoUH2ZSUV0IClbl/hTcquOV
+         O6Cg==
+X-Gm-Message-State: AOAM531dn5RrnmFCA+SjHjQ66flrOes92adY1oCUcaiemsWL2DsfZZC9
+        6Oh8unatM5CRmoHc/4fN660=
+X-Google-Smtp-Source: ABdhPJwV1CDUTlflKha7g6Adxid3NIOO8qLf9lChHNmx1HWiM56hDEuK98fgA+qincEt48HzMVN2XQ==
+X-Received: by 2002:a05:6830:169a:: with SMTP id k26mr29165571otr.64.1637942535128;
+        Fri, 26 Nov 2021 08:02:15 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id r11sm1132492oth.48.2021.11.26.08.02.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Nov 2021 08:02:14 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH v4 0/4] add device drivers for Siemens Industrial PCs
+To:     Henning Schild <henning.schild@siemens.com>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-watchdog@vger.kernel.org
+Cc:     Srikanth Krishnakar <skrishnakar@gmail.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Enrico Weigelt <lkml@metux.net>
+References: <20211126141027.16161-1-henning.schild@siemens.com>
+ <20211126163410.2806de5f@md1za8fc.ad001.siemens.net>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <a1a6c43d-401c-19f1-9773-696402974f6b@roeck-us.net>
+Date:   Fri, 26 Nov 2021 08:02:11 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ff7kew5vgfu2vnrs"
-Content-Disposition: inline
-In-Reply-To: <e753c12a-d586-18fc-7f4a-01a9f6df1750@sholland.org>
+In-Reply-To: <20211126163410.2806de5f@md1za8fc.ad001.siemens.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+On 11/26/21 7:34 AM, Henning Schild wrote:
+> Hi all,
+> 
+> in p3 not too much was left open so i hope this might be the last and
+> might be quick.
+> 
+> The two points that have been open where:
+>   1 wish to split wdt driver into two
+>   2 wish to use pinctrl for LEDs/WDT
+> 
+> 1 was ignored for now. We can split later when we add more devices. It
+> remains unclear if splitting is the way to go when more devices come.
 
---ff7kew5vgfu2vnrs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The code is already quite messy, in part because memory regions are
+declared locally and not passed through the parent device as they should.
+I don't see how splitting the driver into multiple drivers would improve
+the situation. The platform code claims to be inspired by the lpc_ich
+driver. Maybe it should take a real example from that and pass version
+or variant specific details through platform data instead of maintaining
+it in the watchdog driver.
 
-On Thu, Nov 25, 2021 at 09:26:15AM -0600, Samuel Holland wrote:
-> >>>> +	ret =3D sun50i_r329_ledc_resume(dev);
-> >>>> +	if (ret)
-> >>>> +		return ret;
-> >>>
-> >>> You seem to fill the runtime_pm hooks, but only call them directly and
-> >>> never enable runtime_pm on that device, is that intentional?
-> >>
-> >> Yes. I did not want to delay the initial version by adding runtime PM
-> >> (and debugging the refcounts) when the driver already works now.
-> >> However, I had runtime/system PM in mind while writing the driver.
-> >>
-> >> If you think it is too confusing, I could rename the functions to
-> >> something like sun50i_r329_ledc_hw_init / sun50i_r329_ledc_hw_exit.
-> >=20
-> > It's not really the functions themselves that are confusing but rather
-> > that you set them as runtime_pm hooks.
->=20
-> I do not set these functions as runtime PM hooks. SIMPLE_DEV_PM_OPS only =
-sets
-> the system PM hooks, for "suspend to RAM and hibernation." Maybe you are
-> thinking of SET_RUNTIME_PM_OPS, which I do not use?
-
-Ah, right, it's all good then, sorry for the noise
-
-Maxime
-
---ff7kew5vgfu2vnrs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaEEZwAKCRDj7w1vZxhR
-xfsMAP4rc4xw/hAxBA7YrYauzpDFwW6NfMfLg7G896MyXDz7TAEAiMcCp2cjEa9O
-WDUvlMV0RLyF7t54wrMybSVPFw/73gk=
-=OiNf
------END PGP SIGNATURE-----
-
---ff7kew5vgfu2vnrs--
+Guenter
