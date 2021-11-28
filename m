@@ -2,82 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD8C9460B99
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Nov 2021 01:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F662460D3B
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Nov 2021 04:25:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232478AbhK2AaO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 28 Nov 2021 19:30:14 -0500
-Received: from mail-ot1-f50.google.com ([209.85.210.50]:33695 "EHLO
-        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241060AbhK2A2O (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 28 Nov 2021 19:28:14 -0500
-Received: by mail-ot1-f50.google.com with SMTP id 35-20020a9d08a6000000b00579cd5e605eso23235731otf.0;
-        Sun, 28 Nov 2021 16:24:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=gpxsLU6o1Yq28IvHM8hocQq391YFp9KWdpHzvMtrL3c=;
-        b=6We+qih5AkdQClLdmr/xE0djAE6Ul5ZtMpL0Kmo9A0EpOFUDlkl8dzOMSyZt2n+LN9
-         V0xM+Qq+y05pMppCMTKEoSf3K/BJV3RQWaYDpyiWrMdlwq63qMGIYXw/P5WviOe62XEY
-         QKAnKGrZ2xZ78PXioK1eHh6Fn3aNIgiPX5N8pINx80JBEUM3GcSW2z2bfAo2TYQ/wKTr
-         +Maf+DwddE57qg1R26f4M8Tj9aE/SUK6fDEuOmLivnSxhCfiDXFdK1b2pPcqVDMz5stS
-         xoP9cPDAkqp+G5X/P88YXgh0Cvb0adsb+0gnNiGFq6rK/zTM9p7/jVq3fNmhwYqI0wSO
-         GZOA==
-X-Gm-Message-State: AOAM531gPD8OFqwiTpQG9VxyPlbaHxERpvHTibpufJ1W9WAPlv0ad4bP
-        PHTcjLU8jDkj5LjJ5sxyMg==
-X-Google-Smtp-Source: ABdhPJyEZsw2qHoboCT4LrMarGV5mtt2ZYCTg2tcgA7wYu841PQ1G8u9xoP52/RDscxcu1bC2U3Lxg==
-X-Received: by 2002:a05:6830:12c3:: with SMTP id a3mr42299961otq.24.1638145497026;
-        Sun, 28 Nov 2021 16:24:57 -0800 (PST)
-Received: from robh.at.kernel.org ([172.58.99.242])
-        by smtp.gmail.com with ESMTPSA id bn41sm2638724oib.18.2021.11.28.16.24.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 16:24:56 -0800 (PST)
-Received: (nullmailer pid 2883129 invoked by uid 1000);
-        Mon, 29 Nov 2021 00:24:53 -0000
-Date:   Sun, 28 Nov 2021 18:24:53 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, Pavel Machek <pavel@ucw.cz>,
-        Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add Allwinner R329/D1 LED
- controller
-Message-ID: <YaQd1bSS3VCvvj5l@robh.at.kernel.org>
-References: <20211119054044.16286-1-samuel@sholland.org>
+        id S1346422AbhK2D2o (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 28 Nov 2021 22:28:44 -0500
+Received: from mail.vallenar.cl ([200.54.241.89]:37218 "EHLO mail.vallenar.cl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234003AbhK2D0n (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 28 Nov 2021 22:26:43 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.vallenar.cl (Postfix) with ESMTP id 6C1981CEF901;
+        Sun, 28 Nov 2021 14:08:09 -0300 (-03)
+Received: from mail.vallenar.cl ([127.0.0.1])
+        by localhost (mail.vallenar.cl [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id RtAYX5tl0OlW; Sun, 28 Nov 2021 14:08:08 -0300 (-03)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.vallenar.cl (Postfix) with ESMTP id 004261CC9CBC;
+        Sun, 28 Nov 2021 11:47:09 -0300 (-03)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.vallenar.cl 004261CC9CBC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vallenar.cl;
+        s=EC098874-C7DE-11E7-B3B1-1A9A6030413E; t=1638110830;
+        bh=IQxUcKgLaEia+DMrVj9OEHbWOH8TffrzQMeZgAxYubI=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=Tpl3BVIMUmmPfc8fq3bYoC1ABeAPFc115owg4IRN6pWD4eCbJ4Se3+LCo0KKT4B1J
+         OFXow2oy2kB2Idn29d1lueusIpDiBgdNCzY1isKrZLcWBDN0NS6hdcfGy2hCcznIHc
+         DtDnTHrd1pdUrLDD/yFioCNH4BEJEZL0eofWuZlp26sQE7Oq+6z4RbSzDucoLEzSgz
+         AN5T3R0y8ywiqp5ACoS7VTrXuypavJjneGpY8i7icPbpY57T4Ae1hD0srTmol9MJtO
+         7/9AgMcDEUSv5eUR3ge7GrAByqU25PKQRLcBaSWlv+Udjb0SZzE/4+MDX4sYkV1PsO
+         Ga5v0oNBYVSeg==
+X-Virus-Scanned: amavisd-new at vallenar.cl
+Received: from mail.vallenar.cl ([127.0.0.1])
+        by localhost (mail.vallenar.cl [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id Gifa6x87h-zr; Sun, 28 Nov 2021 11:47:09 -0300 (-03)
+Received: from [192.168.8.101] (unknown [105.0.3.102])
+        by mail.vallenar.cl (Postfix) with ESMTPSA id 34B4A1D08CA5;
+        Sun, 28 Nov 2021 11:21:38 -0300 (-03)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211119054044.16286-1-samuel@sholland.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: 2.000.000,00. Euro
+To:     Recipients <yperez@vallenar.cl>
+From:   "manuel franco" <yperez@vallenar.cl>
+Date:   Sun, 28 Nov 2021 16:29:08 +0200
+Reply-To: manuelfrancospende00@gmail.com
+Message-Id: <20211128142140.34B4A1D08CA5@mail.vallenar.cl>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Thu, 18 Nov 2021 23:40:42 -0600, Samuel Holland wrote:
-> The Allwinner R329 and D1 SoCs contain an LED controller designed to
-> drive a series of RGB LED pixels. It supports PIO and DMA transfers, and
-> has configurable timing and pixel format.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
-> Changes in v3:
->  - Removed quotes from enumeration values
->  - Added vendor prefix to timing/format properties
->  - Renamed "format" property to "pixel-format" for clarity
->  - Dropped "vled-supply" as it is unrelated to the controller hardware
-> 
-> Changes in v2:
->  - Fixed typo leading to duplicate t1h-ns property
->  - Removed "items" layer in definition of dmas/dma-names
->  - Replaced uint32 type reference with maxItems in timing properties
-> 
->  .../leds/allwinner,sun50i-r329-ledc.yaml      | 137 ++++++++++++++++++
->  1 file changed, 137 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
-> 
+Sie haben eine Spende von 2.000.000,00. Euro
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Mein Name ist Manuel Franco aus den Vereinigten Staaten.
+Ich habe die Amerika-Lotterie im Wert von 768 Millionen US-Dollar gewonnen =
+und spende einen Teil davon an nur 5 gl=FCckliche Menschen und ein paar Wai=
+senh=E4user als Wohlwollen f=FCr die Menschheit.
