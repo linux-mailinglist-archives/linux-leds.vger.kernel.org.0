@@ -2,89 +2,124 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6529145FED9
-	for <lists+linux-leds@lfdr.de>; Sat, 27 Nov 2021 14:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8F79460AFD
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Nov 2021 00:14:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232259AbhK0N3v (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sat, 27 Nov 2021 08:29:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235750AbhK0N1u (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sat, 27 Nov 2021 08:27:50 -0500
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA3AC06173E
-        for <linux-leds@vger.kernel.org>; Sat, 27 Nov 2021 05:24:36 -0800 (PST)
-Received: by mail-pg1-x542.google.com with SMTP id s37so1043184pga.9
-        for <linux-leds@vger.kernel.org>; Sat, 27 Nov 2021 05:24:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=1mWmKyg34vlNfOejQ4Q/r+QB+22yx7RmVHSk6pM+Glg=;
-        b=A0NrMqCiQ/wG+b2nJNhKLSAqjpEW0si/Mt6DJ0YgyS57T+b6IDnq4rukTLbxc7hlku
-         6myxLQU/mc4AbyXYjFQqvI+FwNQ1shoQ0os9eATDwduRqLVPrybB+rNUnKG7S5G/a1hO
-         Hb23j/pAv/ztDUwWdoqRNX2QNvkhhiuFTvo9t7SR1aEU/H0FldjqU87A+RJ1gB/EKLog
-         5ApXHUJUI2goT7iR+c/QDSCedMWL14MSLz3Eb7fbF3YxUourTf6DmbLYgaHozUKEC+Ac
-         EaVCMpW7zb3PmkGglw3VbyQuNVhsUtBhJ2nzEFcOKniYPmODMA7mjH0O0I6A4I0yLGrX
-         VRlg==
+        id S1359437AbhK1XRU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 28 Nov 2021 18:17:20 -0500
+Received: from mail-ot1-f54.google.com ([209.85.210.54]:45008 "EHLO
+        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235189AbhK1XPT (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 28 Nov 2021 18:15:19 -0500
+Received: by mail-ot1-f54.google.com with SMTP id u18-20020a9d7212000000b00560cb1dc10bso22910749otj.11;
+        Sun, 28 Nov 2021 15:12:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=1mWmKyg34vlNfOejQ4Q/r+QB+22yx7RmVHSk6pM+Glg=;
-        b=heMGS/6aS4V2DelmjWUeCyi1iT8MvT4J9x7PJBPyCWoKf/j7ydjkSNxhtYRYNmie1W
-         B+XbCih5LkNQRLk2X7Bd2ZKfJSzAUzxdv6y+JdzTkr4W2OpI84Tq/8SYsZ7XduIfpVGd
-         BEStb6TZPu376pVGy3FetmY62G/iJKk6nBZgf8Khajcnolg8EQnrmpAkp7lhMqVLX6IJ
-         G4lzHu5QsmuxgjCHl80oOOwHLbw2BZh7Nud5J8c+BN79QdB+T2/K+PRSUYQNKryaRKlY
-         9uLJUabROlMqmqyBRLNEHG00z96LlzGPttBdmPXNDnzyZFDU37RVfUvewPnjSQhXE95W
-         wi8Q==
-X-Gm-Message-State: AOAM5333C7PoJ6trcxfvgHtZNLX4iHqv27jJ+/rML6Q+bp2QjsGQI73U
-        Ny/AxkH3YiGej29oJM0vk0XGMPgOCa/aTCdCtZxOXPHjxPqfYg==
-X-Google-Smtp-Source: ABdhPJy4AEy11C0Lr36o4UC5QTUxLlRQw61e+ZSD7gXZjomc1cEv6qXeBmVM/pn37zL5UXvJ8SBovRTbe1TngrIy7sk=
-X-Received: by 2002:a05:6602:13d3:: with SMTP id o19mr43430375iov.4.1638019465760;
- Sat, 27 Nov 2021 05:24:25 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JLhPhE/vqeyhzLIFVNAra68Ko84ibz16Pik9DMMX/dw=;
+        b=bdWWSWIJsDZLuaU2J1kSGM/iD7Ik6e81jU38OOHq1GIr+OZEV6qBqhJLURFlpuUHED
+         jDP/+1CqlLzhvFQEjcLrCbosD5/5TnHIwPTfZUbL0G99IheTZOCEyxhtnKjqYkuZehmg
+         YwXSuyM4/JhTN7UYjlz+tFqTtzX9eCIvz94sGsDb3fgjrtobnIjo/KupfQaK+DRaM/mB
+         BvWiGY30W36Dysty8T3OeBteyn/H8V2QqS4CSae+GhURRPWthDWpS1VPeJbAAbJzizgr
+         AoE/wHsmg56TCJSWLP08on7GWcfSf3Ni8DkfRlTNJNpCdOmG3QHUp4y1hxNl/NsUAVz6
+         MfDA==
+X-Gm-Message-State: AOAM5332NYKK9mVhgSKK/5O8zwzzhMnVKpH2UyEWE8UY7H7Ha2o9pZzg
+        sa/pfkPpnMsveunCXLvjUQ==
+X-Google-Smtp-Source: ABdhPJxnoaCUiUDnWSQD8mFyahvMWj6jz9E+kBryiWl4VWlE+blEDR0rRJf4SpaDjOSW8IgqQXVboA==
+X-Received: by 2002:a9d:6b87:: with SMTP id b7mr42246123otq.204.1638141122497;
+        Sun, 28 Nov 2021 15:12:02 -0800 (PST)
+Received: from robh.at.kernel.org ([2607:fb90:5fe7:4487:4f99:dbc0:75d1:3e27])
+        by smtp.gmail.com with ESMTPSA id t18sm2346542ott.2.2021.11.28.15.11.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Nov 2021 15:12:01 -0800 (PST)
+Received: (nullmailer pid 2790419 invoked by uid 1000);
+        Sun, 28 Nov 2021 23:11:57 -0000
+Date:   Sun, 28 Nov 2021 17:11:57 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Subject: Re: [PATCH v5 8/8] dt-bindings: net: dsa: qca8k: add LEDs definition
+ example
+Message-ID: <YaQMvSEEFu2AW1Pk@robh.at.kernel.org>
+References: <20211112153557.26941-1-ansuelsmth@gmail.com>
+ <20211112153557.26941-9-ansuelsmth@gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6e04:1709:0:0:0:0 with HTTP; Sat, 27 Nov 2021 05:24:25
- -0800 (PST)
-From:   robert anderson <robertandersongood2@gmail.com>
-Date:   Sat, 27 Nov 2021 05:24:25 -0800
-Message-ID: <CAPOVD_iJu-MdW0GnigVSun7GEoPdRA=UKeW-Q4EVvbDrz8JaMQ@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211112153557.26941-9-ansuelsmth@gmail.com>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-May the Almighty Lord be with you....
-Am A WIDOW TO LATE MR David Lunner,  I AM 59 .YEARS OLD. My name is
-Josephine HOLLAND.  I am married to Late Mr. David HOLLAND, who worked
-in the France Embassy a here in Lome -Togo West Africa for nine years
-before he died in the
-year 2019.
+On Fri, Nov 12, 2021 at 04:35:57PM +0100, Ansuel Smith wrote:
+> Add LEDs definition example for qca8k using the offload trigger as the
+> default trigger and add all the supported offload triggers by the
+> switch.
+> 
+> Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
+> ---
+>  .../devicetree/bindings/net/dsa/qca8k.yaml    | 20 +++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> index 48de0ace265d..106d95adc1e8 100644
+> --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> @@ -64,6 +64,8 @@ properties:
+>                   internal mdio access is used.
+>                   With the legacy mapping the reg corresponding to the internal
+>                   mdio is the switch reg with an offset of -1.
+> +                 Each phy have at least 3 LEDs connected and can be declared
+> +                 using the standard LEDs structure.
 
-You are chosen to Receive A Donation Cash Grant of my late husband
-that funds $5.7,000,  000,00 (Five Million Seven Hundred Thousand
-United States Dollars) to help the poor and orphanages through your
-sincere help before my death. I am suffering from long time cancer of
-the Breast, from all indication my conditions is really deteriorating
-and it is quite obvious that I wouldn't live any more longer according
-to my doctor because the cancer has gotten to a very bad stage that no
-hope for me to be a living person again, All i need from you is your
-sincerity to use this funds to do this project as i desired and I need
-your information as where My Bank will be sending the funds,
+at most 3? As the example only has 2...
 
-such as:
-Receiver's name:_ Address:_ Phone
-number:_ Country:_
+>  
+>      properties:
+>        '#address-cells':
+> @@ -340,6 +342,24 @@ examples:
+>  
+>                  internal_phy_port1: ethernet-phy@0 {
+>                      reg = <0>;
+> +
+> +                    leds {
+> +                        led@0 {
+> +                            reg = <0>;
+> +                            color = <LED_COLOR_ID_WHITE>;
+> +                            function = LED_FUNCTION_LAN;
+> +                            function-enumerator = <1>;
+> +                            linux,default-trigger = "offload-phy-activity";
 
-Please do not be offended by the way or manner I came to you as a
-stranger to do this, it is about the only way I could get to you after
-going through your contacts Id. I shall give you the contacts of the
-bank. For legitimacy with  a letter of authority that will establish
-you as my appointed beneficiary of this money.
+function is intended to replace 'linux,default-trigger'.
 
-I am waiting for your reply.
-From Sister Josephine HOLLAND.
+> +                        };
+> +
+> +                        led@1 {
+> +                            reg = <1>;
+> +                            color = <LED_COLOR_ID_AMBER>;
+> +                            function = LED_FUNCTION_LAN;
+> +                            function-enumerator = <1>;
 
-You should contact me through my private email address:
+Should be a different value than led@0?
 
-mrsjosephineoneholland@gmail.com
+> +                            linux,default-trigger = "offload-phy-activity";
+> +                        };
+> +                    };
+>                  };
+>  
+>                  internal_phy_port2: ethernet-phy@1 {
+> -- 
+> 2.32.0
+> 
+> 
