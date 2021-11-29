@@ -2,124 +2,82 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8F79460AFD
-	for <lists+linux-leds@lfdr.de>; Mon, 29 Nov 2021 00:14:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD8C9460B99
+	for <lists+linux-leds@lfdr.de>; Mon, 29 Nov 2021 01:26:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359437AbhK1XRU (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 28 Nov 2021 18:17:20 -0500
-Received: from mail-ot1-f54.google.com ([209.85.210.54]:45008 "EHLO
-        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235189AbhK1XPT (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Sun, 28 Nov 2021 18:15:19 -0500
-Received: by mail-ot1-f54.google.com with SMTP id u18-20020a9d7212000000b00560cb1dc10bso22910749otj.11;
-        Sun, 28 Nov 2021 15:12:03 -0800 (PST)
+        id S232478AbhK2AaO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 28 Nov 2021 19:30:14 -0500
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:33695 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241060AbhK2A2O (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 28 Nov 2021 19:28:14 -0500
+Received: by mail-ot1-f50.google.com with SMTP id 35-20020a9d08a6000000b00579cd5e605eso23235731otf.0;
+        Sun, 28 Nov 2021 16:24:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=JLhPhE/vqeyhzLIFVNAra68Ko84ibz16Pik9DMMX/dw=;
-        b=bdWWSWIJsDZLuaU2J1kSGM/iD7Ik6e81jU38OOHq1GIr+OZEV6qBqhJLURFlpuUHED
-         jDP/+1CqlLzhvFQEjcLrCbosD5/5TnHIwPTfZUbL0G99IheTZOCEyxhtnKjqYkuZehmg
-         YwXSuyM4/JhTN7UYjlz+tFqTtzX9eCIvz94sGsDb3fgjrtobnIjo/KupfQaK+DRaM/mB
-         BvWiGY30W36Dysty8T3OeBteyn/H8V2QqS4CSae+GhURRPWthDWpS1VPeJbAAbJzizgr
-         AoE/wHsmg56TCJSWLP08on7GWcfSf3Ni8DkfRlTNJNpCdOmG3QHUp4y1hxNl/NsUAVz6
-         MfDA==
-X-Gm-Message-State: AOAM5332NYKK9mVhgSKK/5O8zwzzhMnVKpH2UyEWE8UY7H7Ha2o9pZzg
-        sa/pfkPpnMsveunCXLvjUQ==
-X-Google-Smtp-Source: ABdhPJxnoaCUiUDnWSQD8mFyahvMWj6jz9E+kBryiWl4VWlE+blEDR0rRJf4SpaDjOSW8IgqQXVboA==
-X-Received: by 2002:a9d:6b87:: with SMTP id b7mr42246123otq.204.1638141122497;
-        Sun, 28 Nov 2021 15:12:02 -0800 (PST)
-Received: from robh.at.kernel.org ([2607:fb90:5fe7:4487:4f99:dbc0:75d1:3e27])
-        by smtp.gmail.com with ESMTPSA id t18sm2346542ott.2.2021.11.28.15.11.59
+        bh=gpxsLU6o1Yq28IvHM8hocQq391YFp9KWdpHzvMtrL3c=;
+        b=6We+qih5AkdQClLdmr/xE0djAE6Ul5ZtMpL0Kmo9A0EpOFUDlkl8dzOMSyZt2n+LN9
+         V0xM+Qq+y05pMppCMTKEoSf3K/BJV3RQWaYDpyiWrMdlwq63qMGIYXw/P5WviOe62XEY
+         QKAnKGrZ2xZ78PXioK1eHh6Fn3aNIgiPX5N8pINx80JBEUM3GcSW2z2bfAo2TYQ/wKTr
+         +Maf+DwddE57qg1R26f4M8Tj9aE/SUK6fDEuOmLivnSxhCfiDXFdK1b2pPcqVDMz5stS
+         xoP9cPDAkqp+G5X/P88YXgh0Cvb0adsb+0gnNiGFq6rK/zTM9p7/jVq3fNmhwYqI0wSO
+         GZOA==
+X-Gm-Message-State: AOAM531gPD8OFqwiTpQG9VxyPlbaHxERpvHTibpufJ1W9WAPlv0ad4bP
+        PHTcjLU8jDkj5LjJ5sxyMg==
+X-Google-Smtp-Source: ABdhPJyEZsw2qHoboCT4LrMarGV5mtt2ZYCTg2tcgA7wYu841PQ1G8u9xoP52/RDscxcu1bC2U3Lxg==
+X-Received: by 2002:a05:6830:12c3:: with SMTP id a3mr42299961otq.24.1638145497026;
+        Sun, 28 Nov 2021 16:24:57 -0800 (PST)
+Received: from robh.at.kernel.org ([172.58.99.242])
+        by smtp.gmail.com with ESMTPSA id bn41sm2638724oib.18.2021.11.28.16.24.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 15:12:01 -0800 (PST)
-Received: (nullmailer pid 2790419 invoked by uid 1000);
-        Sun, 28 Nov 2021 23:11:57 -0000
-Date:   Sun, 28 Nov 2021 17:11:57 -0600
+        Sun, 28 Nov 2021 16:24:56 -0800 (PST)
+Received: (nullmailer pid 2883129 invoked by uid 1000);
+        Mon, 29 Nov 2021 00:24:53 -0000
+Date:   Sun, 28 Nov 2021 18:24:53 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Ansuel Smith <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [PATCH v5 8/8] dt-bindings: net: dsa: qca8k: add LEDs definition
- example
-Message-ID: <YaQMvSEEFu2AW1Pk@robh.at.kernel.org>
-References: <20211112153557.26941-1-ansuelsmth@gmail.com>
- <20211112153557.26941-9-ansuelsmth@gmail.com>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, Pavel Machek <pavel@ucw.cz>,
+        Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: leds: Add Allwinner R329/D1 LED
+ controller
+Message-ID: <YaQd1bSS3VCvvj5l@robh.at.kernel.org>
+References: <20211119054044.16286-1-samuel@sholland.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211112153557.26941-9-ansuelsmth@gmail.com>
+In-Reply-To: <20211119054044.16286-1-samuel@sholland.org>
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Nov 12, 2021 at 04:35:57PM +0100, Ansuel Smith wrote:
-> Add LEDs definition example for qca8k using the offload trigger as the
-> default trigger and add all the supported offload triggers by the
-> switch.
+On Thu, 18 Nov 2021 23:40:42 -0600, Samuel Holland wrote:
+> The Allwinner R329 and D1 SoCs contain an LED controller designed to
+> drive a series of RGB LED pixels. It supports PIO and DMA transfers, and
+> has configurable timing and pixel format.
 > 
-> Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
->  .../devicetree/bindings/net/dsa/qca8k.yaml    | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> index 48de0ace265d..106d95adc1e8 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-> @@ -64,6 +64,8 @@ properties:
->                   internal mdio access is used.
->                   With the legacy mapping the reg corresponding to the internal
->                   mdio is the switch reg with an offset of -1.
-> +                 Each phy have at least 3 LEDs connected and can be declared
-> +                 using the standard LEDs structure.
-
-at most 3? As the example only has 2...
-
->  
->      properties:
->        '#address-cells':
-> @@ -340,6 +342,24 @@ examples:
->  
->                  internal_phy_port1: ethernet-phy@0 {
->                      reg = <0>;
-> +
-> +                    leds {
-> +                        led@0 {
-> +                            reg = <0>;
-> +                            color = <LED_COLOR_ID_WHITE>;
-> +                            function = LED_FUNCTION_LAN;
-> +                            function-enumerator = <1>;
-> +                            linux,default-trigger = "offload-phy-activity";
-
-function is intended to replace 'linux,default-trigger'.
-
-> +                        };
-> +
-> +                        led@1 {
-> +                            reg = <1>;
-> +                            color = <LED_COLOR_ID_AMBER>;
-> +                            function = LED_FUNCTION_LAN;
-> +                            function-enumerator = <1>;
-
-Should be a different value than led@0?
-
-> +                            linux,default-trigger = "offload-phy-activity";
-> +                        };
-> +                    };
->                  };
->  
->                  internal_phy_port2: ethernet-phy@1 {
-> -- 
-> 2.32.0
+> Changes in v3:
+>  - Removed quotes from enumeration values
+>  - Added vendor prefix to timing/format properties
+>  - Renamed "format" property to "pixel-format" for clarity
+>  - Dropped "vled-supply" as it is unrelated to the controller hardware
 > 
+> Changes in v2:
+>  - Fixed typo leading to duplicate t1h-ns property
+>  - Removed "items" layer in definition of dmas/dma-names
+>  - Replaced uint32 type reference with maxItems in timing properties
 > 
+>  .../leds/allwinner,sun50i-r329-ledc.yaml      | 137 ++++++++++++++++++
+>  1 file changed, 137 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
+> 
+
+Reviewed-by: Rob Herring <robh@kernel.org>
