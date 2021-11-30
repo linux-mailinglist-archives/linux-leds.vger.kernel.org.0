@@ -2,97 +2,59 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 550534639F4
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Nov 2021 16:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 280D5463DE2
+	for <lists+linux-leds@lfdr.de>; Tue, 30 Nov 2021 19:35:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239667AbhK3P1I (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 Nov 2021 10:27:08 -0500
-Received: from mga04.intel.com ([192.55.52.120]:24582 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244310AbhK3PYl (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Tue, 30 Nov 2021 10:24:41 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="234958803"
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; 
-   d="scan'208";a="234958803"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2021 07:16:22 -0800
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; 
-   d="scan'208";a="540441666"
-Received: from smile.fi.intel.com ([10.237.72.184])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2021 07:16:19 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andy.shevchenko@gmail.com>)
-        id 1ms4qg-000aHE-IN;
-        Tue, 30 Nov 2021 17:15:14 +0200
-Date:   Tue, 30 Nov 2021 17:15:14 +0200
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-To:     Henning Schild <henning.schild@siemens.com>, kai.svahn@intel.com
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>, Enrico Weigelt <lkml@metux.net>
-Subject: Re: [PATCH v4 2/4] leds: simatic-ipc-leds: add new driver for
- Siemens Industial PCs
-Message-ID: <YaZAAgDPquDMpvIn@smile.fi.intel.com>
-References: <20211126141027.16161-1-henning.schild@siemens.com>
- <20211126141027.16161-3-henning.schild@siemens.com>
- <CAHp75VcD0FQuG_AToNkVHHD9e6WV6=18P4U0cSi0qzD3FL=ssw@mail.gmail.com>
- <20211126191203.663e0d90@md1za8fc.ad001.siemens.net>
+        id S245453AbhK3SjF (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 30 Nov 2021 13:39:05 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:46474 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244668AbhK3SjF (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 Nov 2021 13:39:05 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id AE0C51C0B7C; Tue, 30 Nov 2021 19:35:42 +0100 (CET)
+Date:   Tue, 30 Nov 2021 19:35:41 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Sven Schuchmann <schuchmann@schleissheimer.de>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] leds: lp50xx: remove unused variable
+Message-ID: <20211130183541.GB30113@duo.ucw.cz>
+References: <20211126152847.11740-1-schuchmann@schleissheimer.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="MfFXiAuoTsnnDAfZ"
 Content-Disposition: inline
-In-Reply-To: <20211126191203.663e0d90@md1za8fc.ad001.siemens.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20211126152847.11740-1-schuchmann@schleissheimer.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Fri, Nov 26, 2021 at 07:12:03PM +0100, Henning Schild wrote:
-> Am Fri, 26 Nov 2021 17:02:00 +0200
-> schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:
-> > On Fri, Nov 26, 2021 at 4:10 PM Henning Schild
-> > <henning.schild@siemens.com> wrote:
-> > >
-> > > This driver adds initial support for several devices from Siemens.
-> > > It is based on a platform driver introduced in an earlier commit.  
-> > 
-> > ...
-> > 
-> > > +static struct simatic_ipc_led simatic_ipc_leds_mem[] = {
-> > > +       {0x500 + 0x1A0, "red:" LED_FUNCTION_STATUS "-1"},
-> > > +       {0x500 + 0x1A8, "green:" LED_FUNCTION_STATUS "-1"},
-> > > +       {0x500 + 0x1C8, "red:" LED_FUNCTION_STATUS "-2"},
-> > > +       {0x500 + 0x1D0, "green:" LED_FUNCTION_STATUS "-2"},
-> > > +       {0x500 + 0x1E0, "red:" LED_FUNCTION_STATUS "-3"},
-> > > +       {0x500 + 0x198, "green:" LED_FUNCTION_STATUS "-3"},
-> > > +       { }
-> > > +};  
-> > 
-> > Like I said, this is not okay.
-> > 
-> > Why can't you simply enable the pinctrl driver and use it?
 
-I have talked to my boss today and I have got an approval to prioritize
-the task, so I'm all yours starting from tomorrow.
+--MfFXiAuoTsnnDAfZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Let's finish it once for all!
+On Fri 2021-11-26 16:28:46, Sven Schuchmann wrote:
+> During code review this unused variable was found. Remove it.
+>=20
+> Signed-off-by: Sven Schuchmann <schuchmann@schleissheimer.de>
 
-> I propose we set up a call, that might help clearing up the situation.
-> If you agree please send me an email and possibly propose a time-slot.
-> I would take it from there and send you a meeting link.
+Thanks, applied.
+								Pavel
 
-Sure!
+--=20
+http://www.livejournal.com/~pavelmachek
 
--- 
-With Best Regards,
-Andy Shevchenko
+--MfFXiAuoTsnnDAfZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYaZu/QAKCRAw5/Bqldv6
+8jZjAKCvMx6rCXuZNdzeOLWhj6khbkU3twCfYF42bOExWODPgtapA/Q7Lf0jxXY=
+=rWcM
+-----END PGP SIGNATURE-----
+
+--MfFXiAuoTsnnDAfZ--
