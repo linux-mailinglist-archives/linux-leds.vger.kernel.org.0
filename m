@@ -2,82 +2,77 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77F4C4641A3
-	for <lists+linux-leds@lfdr.de>; Tue, 30 Nov 2021 23:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89D23464CF4
+	for <lists+linux-leds@lfdr.de>; Wed,  1 Dec 2021 12:34:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345037AbhK3Wok (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 30 Nov 2021 17:44:40 -0500
-Received: from mail-ot1-f42.google.com ([209.85.210.42]:39661 "EHLO
-        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236654AbhK3WoE (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 30 Nov 2021 17:44:04 -0500
-Received: by mail-ot1-f42.google.com with SMTP id r10-20020a056830080a00b0055c8fd2cebdso32323136ots.6;
-        Tue, 30 Nov 2021 14:40:44 -0800 (PST)
+        id S1349011AbhLALhu (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 1 Dec 2021 06:37:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33534 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349029AbhLALhl (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 1 Dec 2021 06:37:41 -0500
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86991C0613A1
+        for <linux-leds@vger.kernel.org>; Wed,  1 Dec 2021 03:34:11 -0800 (PST)
+Received: by mail-ua1-x92c.google.com with SMTP id p37so48167713uae.8
+        for <linux-leds@vger.kernel.org>; Wed, 01 Dec 2021 03:34:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=nKE9e+4jEQRb21OhoYPSbxPLfJ2IuSmNXU0U6wmcP4ykCacrWpdbtE0jjuz/hSLLGi
+         3CHjeG+lFmWzoULwCsmlhVFgDEk5dLFaYb51pw7bXGjZ9H8t0j91dP9aL17MRQYkMPZK
+         Snvty/Yp8/ZrWZr2EuFXHqBxUdbU8X39ik45viERJ1Dn7qW8BPCFp2vlafV2okU0kn5j
+         QPTIDY8QJSy8zAVbK10d6+AY0lky+mrQRAAg0uS1DacQStzD/dQtt/uBz/RlGIdZCai/
+         BHep24kmiLdl1nvBvHYMFonu8NoJvJlErv7lbZlg2+2c277BpkzmDA4WwPZoxzlIf0Mh
+         Af5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=2neI0tSUgaH4gBDXgfQXS8SaEeaSPmkM7rMYMUj4LwI=;
-        b=6U/8biUGQa6jH1XmxYSdlITr/TzvRNEG8SauTvpSI053T4Pr67O3F+jun8o2G3HG46
-         EmpQo8KzqCSoBkKHygdif8FuWcBGA0csBJcVv0PY8dBxYElDO501yUgmCx51u1uVvOYn
-         QMF56qOQMH0IvfYfQ+JPr9X7MOe32CL9dtrxI6puHzaiVn4RSg952JHFmVBlZL4qi/g4
-         UkDc36vB9v8OPTQbTarjF84h+VEEBveqWdBYQKA3qQ9pBHx74Fye4Ueqeghc0XZAimW/
-         BFe/enfZ2+eW6v3SXsnTkNIeAXVr7Gm3/f7/n+Im1rTcP4Gp9XY3gfDe2TUbnrESJ1wq
-         PE+g==
-X-Gm-Message-State: AOAM531sf9wYU3oCSZgo65KbfxCRo7Z5Yl6Lo71qdskqHE5XgnTUEtQ/
-        Sbjmj1KdGrjk0AS8J1PTjazbowxS6Q==
-X-Google-Smtp-Source: ABdhPJxFEQXA8WQceL+bGLgO2h89ED+skOXRZd+IRcPvheFczsOk+DcEMiy0XHkvEC23oppTn0GPqw==
-X-Received: by 2002:a05:6830:2683:: with SMTP id l3mr2100482otu.258.1638312044412;
-        Tue, 30 Nov 2021 14:40:44 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id e26sm175589oog.46.2021.11.30.14.40.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 14:40:43 -0800 (PST)
-Received: (nullmailer pid 3142512 invoked by uid 1000);
-        Tue, 30 Nov 2021 22:40:42 -0000
-Date:   Tue, 30 Nov 2021 16:40:42 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc:     devicetree@vger.kernel.org,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
-        linux-leds@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>
-Subject: Re: [PATCH V2 1/2] dt-bindings: leds: add Broadcom's BCM63138
- controller
-Message-ID: <Yaaoan2BnAh6ayak@robh.at.kernel.org>
-References: <20211124111952.22419-1-zajec5@gmail.com>
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=KvAdsEyIYJMriGfBy78qOMKFvY9skUxLB7xCi9kxx8QD/j/Yf+4jaWz9j8ON6a5IsS
+         Mfam4ZeyOzvCsetWgZMDw277aPKnAFY281vGpidhRDIPotM1nWmkYx4Da1eIPlk5Sxfm
+         GXS57lGhf+sw3FeJzrDyFjTEBuKzOsA0f/pF7sm9TnvMGTUOMKuQfojkEKDXZw7OGqZ+
+         h1NHuuiWR+ZR8Wk54+nVniltEFTFnmJuimSj69szu/EsuBm1li8NMBfEHT7OgLI3CAOs
+         iMi6v8WnsVrFiDvFPV27fN76wvjINuv1lYB4OP30MpQ2rlL5VoTmxTZsZfOfgzN3f6J3
+         PtdQ==
+X-Gm-Message-State: AOAM530DwKt5yN01lzsy/GsfqY4IYsCS678Cmv6A6WUIYGAr/zU7hRYl
+        csTquD4p44PU7QMndN1DaLmFwpC5orXz+iqYTVVhaw4aPKQ=
+X-Google-Smtp-Source: ABdhPJwK+H50pzFgfv5CJPfAwBzUdMqIKHh+Ckkuju2lG2knVlJrzqINPiiwPjc/Uz6xuSJez7Fkn5YZPcfa5CPpvro=
+X-Received: by 2002:a67:ef4d:: with SMTP id k13mr6266305vsr.4.1638358439020;
+ Wed, 01 Dec 2021 03:33:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211124111952.22419-1-zajec5@gmail.com>
+Sender: unitednationawardwinner@gmail.com
+Received: by 2002:ab0:6c55:0:0:0:0:0 with HTTP; Wed, 1 Dec 2021 03:33:58 -0800 (PST)
+From:   "Mrs. Orgil Baatar" <mrs.orgilbaatar21@gmail.com>
+Date:   Wed, 1 Dec 2021 03:33:58 -0800
+X-Google-Sender-Auth: uTQ_nfkzXaWGWaTWp1BSFqK3Ucs
+Message-ID: <CAJ4dHaSrD-X=xpfKNZV-hXSiMV6mNYrgy5vWCNkKm6iu5RQStg@mail.gmail.com>
+Subject: Your long awaited part payment of $2.5.000.00Usd
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-On Wed, 24 Nov 2021 12:19:51 +0100, Rafał Miłecki wrote:
-> From: Rafał Miłecki <rafal@milecki.pl>
-> 
-> Broadcom used 2 LEDs hardware blocks for their BCM63xx SoCs:
-> 1. Older one (BCM6318, BCM6328, BCM6362, BCM63268, BCM6838)
-> 2. Newer one (BCM6848, BCM6858, BCM63138, BCM63148, BCM63381, BCM68360)
-> 
-> The newer one was also later also used on BCM4908 SoC.
-> 
-> Old block is already documented in the leds-bcm6328.yaml. This binding
-> documents the new one which uses different registers & programming. It's
-> first used in BCM63138 thus the binding name.
-> 
-> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
-> ---
-> V2: Rename to bcm63138 & make "brcm,bcm63138-leds" the main compatible
-> ---
->  .../bindings/leds/leds-bcm63138.yaml          | 95 +++++++++++++++++++
->  1 file changed, 95 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/leds-bcm63138.yaml
-> 
+Attention: Beneficiary, Your long awaited part payment of
+$2.5.000.00Usd (TWO MILLION FIVE Hundred Thousand United State
+Dollars) is ready for immediate release to you, and it was
+electronically credited into an ATM Visa Card for easy delivery.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Your new Payment Reference No.- 6363836,
+Pin Code No: 1787
+Your Certificate of Merit Payment No: 05872,
+
+Your Names: |
+Address: |
+
+Person to Contact:MR KELLY HALL the Director of the International
+Audit unit ATM Payment Center,
+
+Email: uba-bf@e-ubabf.com
+TELEPHONE: +226 64865611 You can whatsApp the bank
+
+Regards.
+Mrs ORGIL BAATAR
