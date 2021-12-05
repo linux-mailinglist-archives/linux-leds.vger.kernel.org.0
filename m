@@ -2,198 +2,197 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70814467E6B
-	for <lists+linux-leds@lfdr.de>; Fri,  3 Dec 2021 20:44:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C63C6468D64
+	for <lists+linux-leds@lfdr.de>; Sun,  5 Dec 2021 22:01:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245065AbhLCTsO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 3 Dec 2021 14:48:14 -0500
-Received: from mail-eopbgr10083.outbound.protection.outlook.com ([40.107.1.83]:47927
-        "EHLO EUR02-HE1-obe.outbound.protection.outlook.com"
+        id S239107AbhLEVEc (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 5 Dec 2021 16:04:32 -0500
+Received: from mail-mw2nam10olkn2095.outbound.protection.outlook.com ([40.92.42.95]:30305
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240365AbhLCTsN (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 3 Dec 2021 14:48:13 -0500
+        id S238875AbhLEVEc (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Sun, 5 Dec 2021 16:04:32 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c7ScbS20REGnR4VuVbe6Lm3LADnQq3LX4aht+cyo6gilowWbbp0DA7bDoxAwDhhfaBKpqZuBtp+4pAyyyqbiDXAJ+JVz40VfofzQZkykdMN2pOM/GyYoPj+3IleqgZxeFjlS6AjyCbAPIiPzuJ98nqKqiSG92PTKK8tg5FeZ0mBZoJTuqm+5JAHCq/hyjq0yNgREtzSV/+YkBxpx/qANkregTloMjBRAEzGOPyeDkvzzapx7EMKftnmnrSAbb6uzHCDtyzvBtMWeqpYnqcQQXme4aBnhAJmvTeOA/KTAFvwC4R9zYfSiQgUXZ16VdQbQICcPOAt13wy0B0tDOPNvdA==
+ b=CrAPvx1AuZQ8hYgKH6fy3tub66GYh1jHJGp3rGq9r/mnq+2wIQXS4lbkhq9ht2Ohz1YDAr2rd16+Z4JRACOB8QKAp8+o4tTJczaST5SvpfIegH3kjJ3jvwjivHtp0PAgrnjihmOMXG+aceRAuk66B0h/HhYRBhVfgVuOHAMEKumSpmFO0VXJS4NCvM4xlfdyiS/JuMVcnw+rbVnpWUsjheHsksiDNqMO+4VnIakmJKK4MZzM/pkHFg9NazmfQ+IeZvsbqgYQzYyz+vK8TkpckcI24Efzs85DNhw1Hl2dzxf4T+cFHBuBIvRnY4GabTvpLoLSJnYIY/BLXrbPEMqd+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G/DtsEQo+tAVkXc90kPNq2NW9xCT/shdmhfjIK4k59o=;
- b=A44B2K6QIKyNaX4TXCaovr4ftV5SLjU/2u14F/oc6SxXlsMyGsdr7IwTvIeq9shlta2u8tZtcINzOlD8kfYW6pVidwUxAdCK84fRZNTrdyhLrpEg6tHrHSz6KLnwt0LHPS2HnQBC/BOw7yVBmtJYQ9H5WywnVWQ3uMu5PoxbdClFKPyspxe4Z6vU80Agzo83IUhw0EYgi6fdY9mEwSzuy89dodbflk124NIzcyiG9hL4kiWwcgyn9EuXtp0Nf9LL8fG52/hjHBLe0X54czo3VyAYIIo/6dMPAckVTk03HU8jps8a6wREFQO1GXCg5KleX+Df8ptvKASbgi5q9+oJRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 194.138.21.70) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=siemens.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=siemens.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
+ bh=NiAZz8vji255FILfjGARXmt9N8f6E/SmoiUH482dX8g=;
+ b=l8rcz0DM+n5UvNY+Wb6KrkL0Cxm28DxNrd4gOvfW7OjDNAwztsP8YIwXNJTUiriVQn3tayz4m3mB3yUV/yJ30o7Zp82RGQLhcWJkyFELwEkFazjYufVRupp5u1D0zjgp6ep1nY4TM1xvkbt5hHkyiZEAmWK/IHw1HvdzEzRVRcZHy7q8IC9gG0mpgyUGkmYVgfHDq95o1G2nBKSgXtevawj+Gu64yEx2GiYD9BgYJK78+kHLah91eDnAdtpIJtV5+xUszeJ02Z2cPtpTgTLbHZ0IObagwqxFGrl9oO8lrZlh1hhw/7sqjs60EPZY2ZYKKsOS2voBRu4X6DL7PvqibQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G/DtsEQo+tAVkXc90kPNq2NW9xCT/shdmhfjIK4k59o=;
- b=hssbCM1rpEAfe3RrNGw0egaAkguSdzLP766R8MjAvyIj2Wy6H8Wn7BAVlWbMsvKpotW/cjxNEv845YPBScUwq4uj7z6MKzZFvCJ3Mlyj9zGlDUl9+wWmCmyYMdOOVx+br2Xi0MhdR6jnm7zHFPvQITfq/CJS312bkIbVikTWxxv4YKEiXvPEI6AE2C22S7LQiVUjQbS7p3SS7B3lVgPl8G+RYSct23JO3F47MlYsm3VRI1xLk/6ejP25xx9kAo1tVd+eDkJaK0ZhB6T8JCnR5yzRDwekV84kKZVplTS/OGBsswl5B7qXn+LsuLVr96PpqtSZkjBzj0w6eJw5OPGSyQ==
-Received: from OL1P279CA0017.NORP279.PROD.OUTLOOK.COM (2603:10a6:e10:12::22)
- by PAXPR10MB4814.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:155::5) with
+ bh=NiAZz8vji255FILfjGARXmt9N8f6E/SmoiUH482dX8g=;
+ b=roNj++KZSRDhwhM58Gf8hJzGhmQBeyvG8nFpaF/qDBZ5XBgGw+1so/oVKsEQUBy3cXtaMmGEc4NPX2fGCUF+oyRTtNRDTmaNPROljwiRXcLDMNf9pQLF6gXi1apaeWVSPZD9yGTg9Qw+vdvQi9KubXvR4DbIJ64VFMVGYSBe2vl4/mgWpsAtOprtV4QqoCHAiC8D+Hg1IidNsuZjdvqm0JL6RJNUMs82pwFhyXNVd0hB3CulcqbstlQoVio3skoPtXZLTKyekDCvMY3yvnPBBkZ/UagHbVS9fBhdY0iJWNwKfnyQC/Tk6zsTgMSJFReqiGxWnsxjUH7tdvWkjPZxjA==
+Received: from BY5PR04MB6327.namprd04.prod.outlook.com (2603:10b6:a03:1e8::20)
+ by BY5PR04MB6851.namprd04.prod.outlook.com (2603:10b6:a03:220::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16; Fri, 3 Dec
- 2021 19:44:46 +0000
-Received: from HE1EUR01FT041.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:e10:12::4) by OL1P279CA0017.outlook.office365.com
- (2603:10a6:e10:12::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11 via Frontend
- Transport; Fri, 3 Dec 2021 19:44:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.70)
- smtp.mailfrom=siemens.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=siemens.com;
-Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
- 194.138.21.70 as permitted sender) receiver=protection.outlook.com;
- client-ip=194.138.21.70; helo=hybrid.siemens.com;
-Received: from hybrid.siemens.com (194.138.21.70) by
- HE1EUR01FT041.mail.protection.outlook.com (10.152.1.3) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4755.13 via Frontend Transport; Fri, 3 Dec 2021 19:44:46 +0000
-Received: from DEMCHDC8A0A.ad011.siemens.net (139.25.226.106) by
- DEMCHDC9SJA.ad011.siemens.net (194.138.21.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Fri, 3 Dec 2021 20:44:45 +0100
-Received: from md1za8fc.ad001.siemens.net (139.22.45.74) by
- DEMCHDC8A0A.ad011.siemens.net (139.25.226.106) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Fri, 3 Dec 2021 20:44:45 +0100
-Date:   Fri, 3 Dec 2021 20:44:43 +0100
-From:   Henning Schild <henning.schild@siemens.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-watchdog@vger.kernel.org>
-CC:     Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Enrico Weigelt <lkml@metux.net>
-Subject: Re: [PATCH v4 0/4] add device drivers for Siemens Industrial PCs
-Message-ID: <20211203204443.01a92b3f@md1za8fc.ad001.siemens.net>
-In-Reply-To: <20211126141027.16161-1-henning.schild@siemens.com>
-References: <20211126141027.16161-1-henning.schild@siemens.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Sun, 5 Dec
+ 2021 21:01:03 +0000
+Received: from BY5PR04MB6327.namprd04.prod.outlook.com
+ ([fe80::2929:5741:e81e:1d4]) by BY5PR04MB6327.namprd04.prod.outlook.com
+ ([fe80::2929:5741:e81e:1d4%5]) with mapi id 15.20.4755.021; Sun, 5 Dec 2021
+ 21:01:01 +0000
+From:   bernardocrodrigues@live.com
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org,
+        Bernardo Rodrigues <bernardocrodrigues@live.com>
+Subject: [PATCH] leds: pca963x: fix blink with hw acceleration
+Date:   Sun,  5 Dec 2021 18:00:49 -0300
+Message-ID: <BY5PR04MB6327FCAC33A75918EA3B65B9A56C9@BY5PR04MB6327.namprd04.prod.outlook.com>
+X-Mailer: git-send-email 2.32.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN:  [dWff0CuzRu7iW9Nm3/IvyuHZ1VbAP51vIgog9BTDEVZ3pXHDcUeWeBeOat9y4/57]
+X-ClientProxiedBy: CP2PR80CA0179.lamprd80.prod.outlook.com
+ (2603:10d6:102:15::21) To BY5PR04MB6327.namprd04.prod.outlook.com
+ (2603:10b6:a03:1e8::20)
+X-Microsoft-Original-Message-ID: <20211205210049.131209-1-bernardocrodrigues@live.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [139.22.45.74]
-X-ClientProxiedBy: DEMCHDC89YA.ad011.siemens.net (139.25.226.104) To
- DEMCHDC8A0A.ad011.siemens.net (139.25.226.106)
-X-EOPAttributedMessage: 0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from bcr-XPS-15-9560 (2804:431:cfcc:8f94:739:b913:5c4c:85ba) by CP2PR80CA0179.lamprd80.prod.outlook.com (2603:10d6:102:15::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.17 via Frontend Transport; Sun, 5 Dec 2021 21:01:00 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2505fd99-9aeb-4093-568d-08d9b6955c57
-X-MS-TrafficTypeDiagnostic: PAXPR10MB4814:
-X-Microsoft-Antispam-PRVS: <PAXPR10MB48143AD7A3BAA80479848EE8856A9@PAXPR10MB4814.EURPRD10.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-Office365-Filtering-Correlation-Id: 0ba5291d-05be-4cd4-1807-08d9b8325817
+X-MS-Exchange-SLBlob-MailProps: DJLbvgWm8MYAJWQYOsfUse+p/t3b4blxiTdpy8SCxMeymZsNFDwnghy3fIV45j9qJ+6qvRrgjZU5Mj1xQX3flrQO8e6ZyJcCa6FT78YFiAEm5w2vhnpiQfYgSMRiPSizi5EMsKiWNehnvtsq1gYVRQ6CQlhT5aIg+riviUKqaFfJ4saHMoAh/JBb7McskI1xw/M4m57SkPxaLkwoZkj0R2EEQv2SWeYLk9txxoNyQEp+7DIY0P7/S7Kkh/jFMZp6KT910VshsKRgponpTaXKeSsac6ukW6Kxm6a5E+AEJp38DKhCs87J8kDRLNE7vhLQQfTtEYwxhQSxDhIm5rqMSV/++PCpoA2Rq1RVbu3mXkLTNfgtBGJf0529WxrIF9isLQ3VG2YIhVX0hyLknJDlwGeTgsbJh/Q4B7AJrY/FgcC/OtuL8hUOi4cqrJ3uV6gPz4k5B/RZ/LCouDvYiRQ2YCUvjnSOwIuEXmX0IfYbs+vvM5cO+AhDAv8CbXakl4lMoIAACx1vAny0SYk58YK2nGYPa5kEFnUAvppB7guIi3/+rIu/e42xo77RYsvR8ZUE58V0wre1JiXx/lLt+GOzXIkiQq1r0b/bHCwxsBg4M/VkorrIJZeFKv4IVvq40plYTvpux11q9A+NM0gGlAmoFuxcpZ5uD5tG4o/CF5sFIC9mfqyBDOwXwsCCcCzWHpRGef+U8xpTJ6OUeQQ8GDQ0wQ==
+X-MS-TrafficTypeDiagnostic: BY5PR04MB6851:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QWIN3pFQtuMMcvnExOvFrqLdFPzSPx/e8EPOvKNbC/KhAL5I5hRsk29S4mQwcjAvV4bDgDjtsJAoPADhmuhno9qkwo6jHPYO2FPZOCtu3yHNvZSFJ2iKFD8Lds+tKFScsPDRQ61JdilkoEr8xeLzXhXTYnyoR+XIss/FkrLboblaqA1jiUN/elkES5+yKkSo60igLeltdgqwtM7ti4jHuBCIL8dJNuCQVg3PpsdOVqwGUUW6fABfhCDfvyQ4XKDX6gPzzec4Lv8M0OfKLPjXCNSp8mvGT6542qEG6QoKDl/JHkIRgcHHzBlsU+epZ0w3TZPbnJS+woazwMPA5hbesUqtB6+xFP4WKSZ5wVGo8IsGl8LTFg9ENFvuAIszuoXZ9YCFWjv/8d7XZOeK6HRHnhOK1oWUxGE6MXzOTISy7665jvXF1CD3xkjtZp9Jn4QxI5rl95iu7n6iebX7Fz49f06DNzDBZU9AF7TW6sk5kIpg8zcaADua4pJAT9Bl+HsP8joG7+OPXlkrn6Hr4ZjOSR2XJY0X5Qkc4m7CniRhAghu7G/LdD173esyHRgGVAv6VgeNaRRL0ykyRhUsp8sOMwYadkYYas+A9vyXYdTyk1xvzHr4dH8cJ/wB45OVyvXHJ1VF92X3euHTR9r7DD1aJZjQK2EarHryRtHmLhefegOZhcUw05X/CGoBVx1OWzIorftaW7s0/OLyzsIZj9SrT/CoKTDEZPI5x98OfFG5KbvuncVK3im+7tTfq76WhLMp3CW8GnkUYXpyOpJcVOGkiiU7xxSNSmCKOUOs8/NmjCEUd3wkEO8yXtss+aJCkHng
-X-Forefront-Antispam-Report: CIP:194.138.21.70;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(40470700001)(7696005)(956004)(508600001)(55016003)(36860700001)(70586007)(16526019)(316002)(44832011)(4326008)(5660300002)(40460700001)(1076003)(82310400004)(7416002)(9686003)(54906003)(110136005)(7636003)(7596003)(356005)(8936002)(8676002)(186003)(83380400001)(70206006)(47076005)(26005)(2906002)(86362001)(82960400001)(336012);DIR:OUT;SFP:1101;
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 19:44:46.4308
+X-Microsoft-Antispam-Message-Info: EKsMbYbU1euHS2+iLvySSlhbOBr6qz5B6BtQEcBl67Usfx2Q2YwT+FyS/qDfffM6qveYcTfVAHg6l4SkXnz/M4esc6/e+z8hkKvl2oddXY8IwsKmLn1gS3C4aYo/x2mrseDYlvqRhLIuWKYH9FT/FUqYUJroTl8Qt72lSTwztJE7rBykmbThwJVbP4r4wnoGW8Dbc6DQBECSssFtJMkqc068yyY29LOBKKUK0y97JV2fWCIXL9OarMojDQ4nDG26DzFBrOf4G0iFGvqtHqkxtNPSqF4aF9nI4DJ4xfv03tuMGGo6rztQ+Aj5yyDVknzUNWxXhQE/6J6aQ6zLyCMCVOLvQ3ZA+YZfvb0rU3dtPyEn4O9k6pJzxo2peZmdM4DhJKT+91uh+HuBBWLhLWOkPFv71c4VszQBraU2oiPhZiJ7fZd5eWCFJ9PlngFv5XR7Kvp3v+0l+wNEAfov+n2l2XuYwvM8b27dkH4fEqYi8x4MjP5L0HmuvJofUKYhvNEEMngM2HlCB4sd7OSwpedJg2vii8ILlEa8bze1VDuI7BL6Jf+vnwMb2uVwUvQlvqMZp3ScOt+hEsGFGGpFBHsTeA==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M1HVVNFu5Vy3C51J0lBLcGSdjZyXeEHwPNcnTcF97Iq2aIYMRhSAJqSgbZv+?=
+ =?us-ascii?Q?7pMYts9wpZ2C2BrwNAAWO65C0Ge+CocK2pnC7hX14Y2EIFwUf5R568R+Thbw?=
+ =?us-ascii?Q?NO4gZYkhEtPXORYx08QUnTmWxuXLdmu+ZpwmHNI2O5jrU8u4/fhreDR4zKLf?=
+ =?us-ascii?Q?/lKQypX1gE26Wo//NU9jf8R+kC85MavnlnCeTnBgCkyF9t+qMzA1FD3u5lQ3?=
+ =?us-ascii?Q?tzk/KAWvZXBddbtivRXDKwjuX5D6A1E8Bw5XAXutyCO1Y8lee9aO+w2L8GVO?=
+ =?us-ascii?Q?7H6jfQ6c1pKKyLJmCPX/XZqIdsNSHHGjEVy1Y3Xydvw5Sszqz343rx3HR8L9?=
+ =?us-ascii?Q?EYYnVrmSAzrAfmQwYcVryEyONcdfPxt+xtBgkfO3Ys8ToEP22QgGg1j+G3E8?=
+ =?us-ascii?Q?uE59S/PsC7kHAMOr2VBICkYlujaqqzpccfbbedZkpyCSKSTZ8gM4lNJrlhcf?=
+ =?us-ascii?Q?yxEeW546y2MItraH46D2fxhHit+A7yA5P6YMHZ2pnZaNf99SsUeGd+xEgl6r?=
+ =?us-ascii?Q?doE2PYoodiTcpNGXQVAT+FchUWdL8/J/2CQc8jwP8WXTreEEEgvAmLzYLvEI?=
+ =?us-ascii?Q?8+2ajriNMt3iG8driKXxtW5yykJGS4Ah4FTLKKr4Yb0row/xUauXSaZiAfHr?=
+ =?us-ascii?Q?PjA9ONThxxvi32Q01oOKIBAGPNDZ8NpylprQXHuyKQ35I1fbQQOLYuY/CCAb?=
+ =?us-ascii?Q?XveeBQUtnyYDrKVB71Xt0av4nh7vwk4W/kfFHrBUcxdTOhCAwNziKmlo4OjK?=
+ =?us-ascii?Q?/kIZstTbSWs5S8R5Sa55ZmsY012FWDLsB7svztGInckntoHSRv4bXk0R5WuS?=
+ =?us-ascii?Q?Q/ChG9JVrx+ZGzhxyRUPX230WHXCsEpRAhWSG5we7PWuMNX/MVyOZ3OrDyHx?=
+ =?us-ascii?Q?KaoXVV4KpvAo0SEgCKzC2Dq/KteUthbysfnN8pXfxDsa22tkuhjn1R5zIV5e?=
+ =?us-ascii?Q?6nJGnWjj4AYU2tGNajoHl2PW82sbDO9oaWjQO3SyRhFbUgrdWbmVBrBxV25h?=
+ =?us-ascii?Q?rtXYV7aogJKuDzvbuCviyM3DxA=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-edb50.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ba5291d-05be-4cd4-1807-08d9b8325817
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6327.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2021 21:01:01.9342
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2505fd99-9aeb-4093-568d-08d9b6955c57
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.70];Helo=[hybrid.siemens.com]
-X-MS-Exchange-CrossTenant-AuthSource: HE1EUR01FT041.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR10MB4814
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6851
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hi all,
+From: Bernardo Rodrigues <bernardocrodrigues@live.com>
 
-to me it currently looks like a v5 will only differ in terms of
-documentation and could be acceptable to all people who have raised
-concerns on v4.
+LEDs would behave differently depending on the blink hardware
+acceleration configuration. This commit will make LEDs respond exactly
+the same independently of the hardware acceleration status.
 
-Will send that v5 soon. And invite anyone to please raise further
-concerns, or review again.
+In other words, if you had two pca963x, side by side, one with blink
+hardware acceleration "ON" and the other "OFF; and performed some
+arbitrary sequence of API calls (e.g. turn on/off, change brightness,
+change blink mode, etc.) you probably would end with not matching LED
+states.
 
-regards,
-Henning
+'pca963x software blink' and 'leds-gpio' behavior were used as
+reference.
 
-Am Fri, 26 Nov 2021 15:10:23 +0100
-schrieb Henning Schild <henning.schild@siemens.com>:
+Actual chip used to validate this change: pca9634
 
-> changes since v3:
-> 
-> - fix io access width and region reservations
-> - fix style in p1
-> 
-> changes since v2:
-> 
-> - remove "simatic-ipc" prefix from LED names
-> - fix style issues found in v2, mainly LED driver
-> - fix OEM specific dmi code, and remove magic numbers
-> - more "simatic_ipc" name prefixing
-> - improved pmc quirk code using callbacks
-> 
-> changes since v1:
-> 
-> - fixed lots of style issues found in v1
->   - (debug) printing
->   - header ordering
-> - fixed license issues GPLv2 and SPDX in all files
-> - module_platform_driver instead of __init __exit
-> - wdt simplifications cleanup
-> - lots of fixes in wdt driver, all that was found in v1
-> - fixed dmi length in dmi helper
-> - changed LED names to allowed ones
-> - move led driver to simple/
-> - switched pmc_atom to dmi callback with global variable
-> 
-> 
-> This series adds support for watchdogs and leds of several x86 devices
-> from Siemens.
-> 
-> It is structured with a platform driver that mainly does
-> identification of the machines. It might trigger loading of the
-> actual device drivers by attaching devices to the platform bus.
-> 
-> The identification is vendor specific, parsing a special binary DMI
-> entry. The implementation of that platform identification is applied
-> on pmc_atom clock quirks in the final patch.
-> 
-> It is all structured in a way that we can easily add more devices and
-> more platform drivers later. Internally we have some more code for
-> hardware monitoring, more leds, watchdogs etc. This will follow some
-> day.
-> 
-> Henning Schild (4):
->   platform/x86: simatic-ipc: add main driver for Siemens devices
->   leds: simatic-ipc-leds: add new driver for Siemens Industial PCs
->   watchdog: simatic-ipc-wdt: add new driver for Siemens Industrial PCs
->   platform/x86: pmc_atom: improve critclk_systems matching for Siemens
->     PCs
-> 
->  drivers/leds/Kconfig                          |   3 +
->  drivers/leds/Makefile                         |   3 +
->  drivers/leds/simple/Kconfig                   |  11 +
->  drivers/leds/simple/Makefile                  |   2 +
->  drivers/leds/simple/simatic-ipc-leds.c        | 202 ++++++++++++++++
->  drivers/platform/x86/Kconfig                  |  12 +
->  drivers/platform/x86/Makefile                 |   3 +
->  drivers/platform/x86/pmc_atom.c               |  54 +++--
->  drivers/platform/x86/simatic-ipc.c            | 168 +++++++++++++
->  drivers/watchdog/Kconfig                      |  11 +
->  drivers/watchdog/Makefile                     |   1 +
->  drivers/watchdog/simatic-ipc-wdt.c            | 228
-> ++++++++++++++++++ .../platform_data/x86/simatic-ipc-base.h      |
-> 29 +++ include/linux/platform_data/x86/simatic-ipc.h |  72 ++++++
->  14 files changed, 778 insertions(+), 21 deletions(-)
->  create mode 100644 drivers/leds/simple/Kconfig
->  create mode 100644 drivers/leds/simple/Makefile
->  create mode 100644 drivers/leds/simple/simatic-ipc-leds.c
->  create mode 100644 drivers/platform/x86/simatic-ipc.c
->  create mode 100644 drivers/watchdog/simatic-ipc-wdt.c
->  create mode 100644 include/linux/platform_data/x86/simatic-ipc-base.h
->  create mode 100644 include/linux/platform_data/x86/simatic-ipc.h
-> 
+Some of the unmatched behaviors being fixed are (when hw blink was "ON")
+    - Leds would stop blinking when the brightness was changed.
+    - Leds would persist their blinking mode even after being
+      turned off (brightness = 0).
+    - Leds would only blink if another led was solid (pca963x will be
+      forced out of low power)
+
+Signed-off-by: Bernardo Rodrigues <bernardocrodrigues@live.com>
+---
+ drivers/leds/leds-pca963x.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/leds/leds-pca963x.c b/drivers/leds/leds-pca963x.c
+index 00aecd67e348..d8d866bcda19 100644
+--- a/drivers/leds/leds-pca963x.c
++++ b/drivers/leds/leds-pca963x.c
+@@ -101,6 +101,7 @@ struct pca963x_led {
+ 	struct pca963x *chip;
+ 	struct led_classdev led_cdev;
+ 	int led_num; /* 0 .. 15 potentially */
++	bool blinking;
+ 	u8 gdc;
+ 	u8 gfrq;
+ };
+@@ -129,12 +130,21 @@ static int pca963x_brightness(struct pca963x_led *led,
+ 
+ 	switch (brightness) {
+ 	case LED_FULL:
+-		val = (ledout & ~mask) | (PCA963X_LED_ON << shift);
++		if (led->blinking) {
++			val = (ledout & ~mask) | (PCA963X_LED_GRP_PWM << shift);
++			ret = i2c_smbus_write_byte_data(client,
++						PCA963X_PWM_BASE +
++						led->led_num,
++						LED_FULL);
++		} else {
++			val = (ledout & ~mask) | (PCA963X_LED_ON << shift);
++		}
+ 		ret = i2c_smbus_write_byte_data(client, ledout_addr, val);
+ 		break;
+ 	case LED_OFF:
+ 		val = ledout & ~mask;
+ 		ret = i2c_smbus_write_byte_data(client, ledout_addr, val);
++		led->blinking = false;
+ 		break;
+ 	default:
+ 		ret = i2c_smbus_write_byte_data(client,
+@@ -144,7 +154,11 @@ static int pca963x_brightness(struct pca963x_led *led,
+ 		if (ret < 0)
+ 			return ret;
+ 
+-		val = (ledout & ~mask) | (PCA963X_LED_PWM << shift);
++		if (led->blinking)
++			val = (ledout & ~mask) | (PCA963X_LED_GRP_PWM << shift);
++		else
++			val = (ledout & ~mask) | (PCA963X_LED_PWM << shift);
++
+ 		ret = i2c_smbus_write_byte_data(client, ledout_addr, val);
+ 		break;
+ 	}
+@@ -181,6 +195,7 @@ static void pca963x_blink(struct pca963x_led *led)
+ 	}
+ 
+ 	mutex_unlock(&led->chip->mutex);
++	led->blinking = true;
+ }
+ 
+ static int pca963x_power_state(struct pca963x_led *led)
+@@ -275,6 +290,8 @@ static int pca963x_blink_set(struct led_classdev *led_cdev,
+ 	led->gfrq = gfrq;
+ 
+ 	pca963x_blink(led);
++	led->led_cdev.brightness = LED_FULL;
++	pca963x_led_set(led_cdev, LED_FULL);
+ 
+ 	*delay_on = time_on;
+ 	*delay_off = time_off;
+@@ -337,6 +354,7 @@ static int pca963x_register_leds(struct i2c_client *client,
+ 		led->led_cdev.brightness_set_blocking = pca963x_led_set;
+ 		if (hw_blink)
+ 			led->led_cdev.blink_set = pca963x_blink_set;
++			led->blinking = false;
+ 
+ 		init_data.fwnode = child;
+ 		/* for backwards compatibility */
+-- 
+2.32.0
 
