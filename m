@@ -2,69 +2,63 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE83046AAFF
-	for <lists+linux-leds@lfdr.de>; Mon,  6 Dec 2021 22:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA65346EAE6
+	for <lists+linux-leds@lfdr.de>; Thu,  9 Dec 2021 16:12:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352871AbhLFVz6 (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Mon, 6 Dec 2021 16:55:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40308 "EHLO
+        id S234933AbhLIPQQ (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Thu, 9 Dec 2021 10:16:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355557AbhLFVz5 (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Mon, 6 Dec 2021 16:55:57 -0500
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35BF8C061D5E
-        for <linux-leds@vger.kernel.org>; Mon,  6 Dec 2021 13:52:28 -0800 (PST)
-Received: by mail-yb1-xb32.google.com with SMTP id x32so35132281ybi.12
-        for <linux-leds@vger.kernel.org>; Mon, 06 Dec 2021 13:52:28 -0800 (PST)
+        with ESMTP id S229930AbhLIPQP (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Thu, 9 Dec 2021 10:16:15 -0500
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6383C061B38
+        for <linux-leds@vger.kernel.org>; Thu,  9 Dec 2021 07:12:41 -0800 (PST)
+Received: by mail-lj1-x244.google.com with SMTP id i63so9481490lji.3
+        for <linux-leds@vger.kernel.org>; Thu, 09 Dec 2021 07:12:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=U+wvXPwvhucTVlxnfZp7fdTxV1dqI6RrlYLlpej7n+A=;
-        b=A1drCu8/2EbCOqmoAFbJDuTr6v9X1LmPHk/OZr8jE5hpKtRWwd08YftifjBdbkXJUg
-         dmrMD5WSKv18qutIqdGjNuPq33qR9tmxMr9qPeukt9J7LC69eKS2z+NZ4jJJz9Xtr7VM
-         jC33eODMlgpvkNPoFT/fkcQ5Ake3Jxog6ZGc+wYd8KVA/hwp9vT00V5vDhH8f8XpX511
-         CA37p7jeqg1wSNk8BIPAwxzAjlidFTEmA5f+i1k6RS9O1Y3GhbXkQcI2oJ0W64HiQtwM
-         GlnIl/ToQ7+vQb78XcGhn3MvkzRXguXM0naRpVrVrb/310ivxeU424UB6QtcXPlhpNhp
-         WgQw==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=QCG68ObPoGQ126FjMJ8YjZpzkjBTmbsGv489REpxv3o=;
+        b=qMLi6lU8sqxt2XEJ+IYaWiblebdJduy944IO/8F5E2TYFpubDcq+tU37BC/qgyBK+F
+         ZCJnJhDhtQFE1HbRySkP+GUnFY9dlWYucIr0FGOY+ueset1TsPpeJ5o9ROFhzjtPZri+
+         A73m7fmdPjxaV2N7yVGOnOe10hiV2yqguY6xB00OFTnniJImuJl7/hCP/wIVxtugRewK
+         LnQLxxzi/Nk3wiauj3C80qIixPxoZuqve+DkeJDmEOqlxboWq7HPfR71I4YPStGsNM6t
+         ytgQ/fXY70XGDl9Q+yob93CNeFUjy2k4n9vijd+TpvwmASWkKwAnVtGN3TZEFqkWrAUX
+         QjSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=U+wvXPwvhucTVlxnfZp7fdTxV1dqI6RrlYLlpej7n+A=;
-        b=BthOi9AWf9gR1yRQc22ujzoRHOTS/rB0yaDUOivkZi0lqJcrlk0sd0z24GpkWrucN3
-         VxsmnuD7fvYi3IW9q4y/+aV8NcJaanaUpJDKd/c/31nZvDILipAyshBqlQGX4rS/YxZ5
-         h2pH8UJX0GUXbAZKKI2Nx18K6J3kZ9Lk9GBoe0rVJou1Xq5sASOQnKrbvheNSZto+kAa
-         XXaAooxBjX/0hH3wuOyI6/V0ZlumcNgNmq0+dd6Y5ASF+FEP1TosVzuk/HY7yqCERtQ0
-         ePSEA2Hi4JCzQHNTEqzaoYXVuNhAuplo6aqdmRoUbJNdEmTNoJqBdNXlO7spIH0f77Bo
-         VLdA==
-X-Gm-Message-State: AOAM532Fzwo3UCcam1g7uH52vtDC2qxoHAZXylzb9K/us71zUU7iEGwv
-        48ECgFJnqPd3OgIGbIvqaEtqW/J13FJbhQpE6Ss=
-X-Google-Smtp-Source: ABdhPJwGP4XOziDvK97TQZ20UXdtswrtdpCxtQSBPll8g3OW2CZQ6HzzHIFnus1Qmz6FEozwBECx4TP8w+380fssLDk=
-X-Received: by 2002:a25:ad06:: with SMTP id y6mr43839851ybi.278.1638827547324;
- Mon, 06 Dec 2021 13:52:27 -0800 (PST)
+         :subject:to;
+        bh=QCG68ObPoGQ126FjMJ8YjZpzkjBTmbsGv489REpxv3o=;
+        b=2ktNcoHel92hDZL6x0VqtquZIQXhdzrrKj7mdEL1FPiLkrcNpM2uQPziEzywNTgVVU
+         NdADtJ9AYrRkXN4FnklrvmAMKPSnZIG+ApnZLtwUAQ0nNtLtepODNOOuFONwHjZHRQoh
+         YxnHWV/VGeydtGZbK73dEaD8LhWxRwr/JTPm99j54qWWfh99SgAty97YBlJaRjZKhXp4
+         ce4WG/Au+55vePlC0lAz4MlGllHQ2mwDrmytCpMmC8MPQJOQCsHHVuVtTXhU0I2OXoRG
+         cKC0BS/Ky4X5cqchUTCgJQDN8DkXnKTZi/jTajgV2U+m2IxZegyY5NeBsaU8inpQbGZC
+         wVQQ==
+X-Gm-Message-State: AOAM530pATYZZbhFbhr2RTZu2vQ6D9OS6H1e1kdfLfagRvNJQpeDuznQ
+        HoqPxgOiT+t3ecFpTOGx292FP+mxMXF9FegW5l8=
+X-Google-Smtp-Source: ABdhPJyULCC5sw24g2Cj2bLDQ6N5Am3KKGeKiDnLKiSXDO24MVqBskY7O/DyH2ULVEvvs5XbVHnotgl/3cH/usecS9o=
+X-Received: by 2002:a2e:9753:: with SMTP id f19mr6849375ljj.41.1639062759841;
+ Thu, 09 Dec 2021 07:12:39 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:7110:91a4:b0:fe:6c12:9189 with HTTP; Mon, 6 Dec 2021
- 13:52:26 -0800 (PST)
-Reply-To: mauhin13@gmail.com
-From:   Maureen Hinckley <bonfacemuchoki111@gmail.com>
-Date:   Tue, 7 Dec 2021 00:52:26 +0300
-Message-ID: <CAGdddHJh=8bNKeNqihaaKsrWmz89kWsSk7ZPf1twu3_Ru7LkMg@mail.gmail.com>
-Subject: 
+Received: by 2002:a05:6504:10cd:0:0:0:0 with HTTP; Thu, 9 Dec 2021 07:12:39
+ -0800 (PST)
+Reply-To: deborahkouassi011@gmail.com
+From:   Deborah Kouassi <dk3300220@gmail.com>
+Date:   Thu, 9 Dec 2021 15:12:39 +0000
+Message-ID: <CAG=MyZ1daGs8LVQNxfmww1Nemf04ZAw-uFnzhfSuN2o4vd4xww@mail.gmail.com>
+Subject: Hello Dear
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
---=20
-Hello,
+.
+I will like to disclose something very important to you,
+get back to me for more details please.
 
-I am Maureen Hinckley and my foundation is donating ($2.2 Million.
-Dollars) to you. Contact us via my email at (mauhin13@gmail.com) for
-further details.
-
-Best Regards,
-Mrs. Maureen Hinckley,
-Copyright =C2=A92021 The Maureen Hinckley Foundation All Rights Reserved.
+Regards.
+Mrs Deborah Kouassi.
