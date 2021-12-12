@@ -2,91 +2,83 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 985D5471E8A
-	for <lists+linux-leds@lfdr.de>; Mon, 13 Dec 2021 00:03:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3953E471EE4
+	for <lists+linux-leds@lfdr.de>; Mon, 13 Dec 2021 00:59:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230128AbhLLXDx (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Sun, 12 Dec 2021 18:03:53 -0500
-Received: from mail.wizzup.org ([95.217.97.174]:44030 "EHLO wizzup.org"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230237AbhLLXDx (ORCPT <rfc822;linux-leds@vger.kernel.org>);
-        Sun, 12 Dec 2021 18:03:53 -0500
-X-Greylist: delayed 1753 seconds by postgrey-1.27 at vger.kernel.org; Sun, 12 Dec 2021 18:03:53 EST
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizzup.org;
-        s=mail; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=HjeuObHTxT5SBm5noxlsZ0/REB/4irXmfOfjaJve7Wg=; b=VQ7jL4+uH6pIGb9SPySu3HP1eT
-        fsX2I1R5z6YlAJqgPr5+sLvvtMYDvz8mA6EeehfWlUd0ljB10mPTu2IEWh4mi/JDRPbilYu1vRdet
-        bTe2MItfSKb8Wt3tf5QpmtEcH3WnsAB4WLrw2GJmw/lfefWSNwb4/+CDNuk57GFScuWFRrONBg1cy
-        LooAFXH/AyAvnNyfwsb1gn676yW/r5LO4/iqbz+C4X1ZK6Stpd6ZXFgmugVNzs5xfP/LWQsa7SBIO
-        wQPGcb+HauQX7zEEe0OOEqw8y3P3jRIdLT8Ci6Uqh9cjLPomyiKYkePe9Pl2m3sDduxshtTnVvwyG
-        33ZcrYIA==;
-Received: from [45.83.235.159] (helo=gentoo-x13.fritz.box)
-        by wizzup.org with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <merlijn@wizzup.org>)
-        id 1mwXQS-0001do-Kw; Sun, 12 Dec 2021 22:34:36 +0000
-From:   Merlijn Wajer <merlijn@wizzup.org>
-To:     merlijn@wizzup.org
+        id S230170AbhLLX7b (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Dec 2021 18:59:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39432 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230124AbhLLX7a (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 12 Dec 2021 18:59:30 -0500
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF4CC061751
+        for <linux-leds@vger.kernel.org>; Sun, 12 Dec 2021 15:59:30 -0800 (PST)
+Received: by mail-oo1-xc2f.google.com with SMTP id w15-20020a4a9d0f000000b002c5cfa80e84so3810051ooj.5
+        for <linux-leds@vger.kernel.org>; Sun, 12 Dec 2021 15:59:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1nCJQZ4NdoPnJRrp+7v/Zp7eju3OzQc0nFNi60lhO5c=;
+        b=cL7SRyzhmk8iIkOs+czrmLXPxz/aKd9A7Z3+BlSHdyHG99IebbqlJ5/KIxVyOJ4XeD
+         0hOMcWOj/1+DE1BU4AzSEnIVdSgxF5rXEFNAn7yaf2X0mDJUrxEW0OisiBXmv49r1IkJ
+         yhQLkcTymGKi9cTuPeu8yc/9LnBhvSC8jKcQxKIaPxzZoBDC0CeYS3W1aJv6/B9tX240
+         iYhstsyJ2m0Hme857VLQTEpkdLex3FdudgL23bVivUvhHYECBdE3zVb+jlnCWYjHzddn
+         wZs+LGJP0XCzznZrHwhcnl7hiNNazrdYrX/kK3mqDDvGayoJCBIHbCGqCRhg++Lm8yky
+         qznQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1nCJQZ4NdoPnJRrp+7v/Zp7eju3OzQc0nFNi60lhO5c=;
+        b=Gaz2Lwd2JO+CBkYLkzqPm8CjJyeLzY8fLgbqavRh9+zHIJHjEcBzq+Pyf2J5RCM0qO
+         I/mADi6+8yomqCik1SC93HZ023LPvQTxj0iUTGLkC/TMXfJ1AMvPK5u9udGZWb4FYPV+
+         foXjQqtoleXYZvcxquRJR97BQSfl3uQ7nk7p/2Z1Orpf4pYxrmmJQC9pENP4oBXyqxE6
+         WjO8iSxfuTv7dKOUyFbdpmcy1oleCXgCxF32g2uXURr5rMjWe/Hra7n+oKoASwuo6HEH
+         +JtDXnGXue4Y7FLUTkCSNDM2Z8y0KN+Qxt3YPVW7Ttiy1h3HZ+ED539cs2OELc78xj8M
+         1jMQ==
+X-Gm-Message-State: AOAM532NnbDw5tREWTd4dhbWL8yAbeSmV5dobimxtB1nBaV5Ay2SFd9p
+        hkztTYa7nz//YJZbwpEXbud4vgwbZBJIkK3qG9ApFA==
+X-Google-Smtp-Source: ABdhPJwYWqluWVTTnBrGK9rIXlAPt3HKcHPBjAM7BNrQO/myWssBRRNiaRxHJajk4CqKxUagt8pdNsLLjnUfXEMD1bU=
+X-Received: by 2002:a4a:aa8f:: with SMTP id d15mr17503855oon.86.1639353570052;
+ Sun, 12 Dec 2021 15:59:30 -0800 (PST)
+MIME-Version: 1.0
+References: <20211212224007.10293-1-merlijn@wizzup.org> <20211212224007.10293-3-merlijn@wizzup.org>
+In-Reply-To: <20211212224007.10293-3-merlijn@wizzup.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 13 Dec 2021 00:59:18 +0100
+Message-ID: <CACRpkdaW6UeEo7SWac9ibWKSb6w_2KDcoJGGi5qztyPjD1y2xg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] leds: lp55xx: initialise output direction from dts
+To:     Merlijn Wajer <merlijn@wizzup.org>
 Cc:     Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
         Dev Null <devnull@uvos.xyz>, Tony Lindgren <tony@atomide.com>,
         Sebastian Reichel <sre@kernel.org>,
         Pavel Machek <pavel@ucw.cz>, Doug Zobel <dougdev334@gmail.com>,
         Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] leds: lp55xx: initialise output direction from dts
-Date:   Sun, 12 Dec 2021 23:40:07 +0100
-Message-Id: <20211212224007.10293-3-merlijn@wizzup.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211212224007.10293-1-merlijn@wizzup.org>
-References: <20211212224007.10293-1-merlijn@wizzup.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Commit a5d3d1adc95f ("leds: lp55xx: Initialize enable GPIO direction to
-output") attempts to fix this, but the fix did not work since at least
-for the Nokia N900 the value needs to be set to HIGH, per the device
-tree. So rather than hardcoding the value to a potentially invalid value
-for some devices, let's set direction in lp55xx_init_device.
+On Sun, Dec 12, 2021 at 11:34 PM Merlijn Wajer <merlijn@wizzup.org> wrote:
 
-Fixes: a5d3d1adc95f ("leds: lp55xx: Initialize enable GPIO direction to output")
-Fixes: 92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
-Fixes: ac219bf3c9bd ("leds: lp55xx: Convert to use GPIO descriptors")
-Signed-off-by: Merlijn Wajer <merlijn@wizzup.org>
----
- drivers/leds/leds-lp55xx-common.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> Commit a5d3d1adc95f ("leds: lp55xx: Initialize enable GPIO direction to
+> output") attempts to fix this, but the fix did not work since at least
+> for the Nokia N900 the value needs to be set to HIGH, per the device
+> tree. So rather than hardcoding the value to a potentially invalid value
+> for some devices, let's set direction in lp55xx_init_device.
+>
+> Fixes: a5d3d1adc95f ("leds: lp55xx: Initialize enable GPIO direction to output")
+> Fixes: 92a81562e695 ("leds: lp55xx: Add multicolor framework support to lp55xx")
+> Fixes: ac219bf3c9bd ("leds: lp55xx: Convert to use GPIO descriptors")
+> Signed-off-by: Merlijn Wajer <merlijn@wizzup.org>
 
-diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
-index d1657c46ee2f..9fdfc1b9a1a0 100644
---- a/drivers/leds/leds-lp55xx-common.c
-+++ b/drivers/leds/leds-lp55xx-common.c
-@@ -439,6 +439,8 @@ int lp55xx_init_device(struct lp55xx_chip *chip)
- 		return -EINVAL;
- 
- 	if (pdata->enable_gpiod) {
-+		gpiod_direction_output(pdata->enable_gpiod, 0);
-+
- 		gpiod_set_consumer_name(pdata->enable_gpiod, "LP55xx enable");
- 		gpiod_set_value(pdata->enable_gpiod, 0);
- 		usleep_range(1000, 2000); /* Keep enable down at least 1ms */
-@@ -694,7 +696,7 @@ struct lp55xx_platform_data *lp55xx_of_populate_pdata(struct device *dev,
- 	of_property_read_u8(np, "clock-mode", &pdata->clock_mode);
- 
- 	pdata->enable_gpiod = devm_gpiod_get_optional(dev, "enable",
--						      GPIOD_OUT_LOW);
-+						      GPIOD_ASIS);
- 	if (IS_ERR(pdata->enable_gpiod))
- 		return ERR_CAST(pdata->enable_gpiod);
- 
--- 
-2.32.0
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
+Thanks for fixing my mistakes!
+
+Yours,
+Linus Walleij
