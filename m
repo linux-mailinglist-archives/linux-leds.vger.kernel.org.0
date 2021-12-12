@@ -2,184 +2,565 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3560347021F
-	for <lists+linux-leds@lfdr.de>; Fri, 10 Dec 2021 14:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B71D4718CF
+	for <lists+linux-leds@lfdr.de>; Sun, 12 Dec 2021 06:47:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232317AbhLJN4k (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Fri, 10 Dec 2021 08:56:40 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:29228 "EHLO
-        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230296AbhLJN4j (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>);
-        Fri, 10 Dec 2021 08:56:39 -0500
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BACxLk0007054;
-        Fri, 10 Dec 2021 13:53:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=FBYC8bhIZBKZl0CxUIuBz7Dq+WXyZnu0RnSo48kPcZg=;
- b=nihX9LZJ7ooWKDzhzHeed8uO/7qEOCV17TxFAjz7mRb3p7O0ZOFg92pq/PexIRsjbXFv
- Qdy+a4+F2Rz+7O8PVpJwy0PO6t/l3rCG6oLyZr70WPqzTi43SedqWAGQ4c8k76g2v+yg
- zgCD/qpNm79MJIXs7elNZCPZpr7mbHkpon6N3p/KET6mZpZMbrhVuMDw66HCoUdyqF+E
- O5byfa4v6+JMispGdAMge0tSFxNepHvpvvtogEh0vMj2KncFuZxmFdK/o+SiXl7NLsl4
- BhYyj2ScT2i8K+5XjMVhkW586NprcI8X7D3XW5/coZu5ORhEHgqKhIBcB3sZyEfJTPMO oA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3ctua7nr1e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 10 Dec 2021 13:53:02 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BADkGWo175940;
-        Fri, 10 Dec 2021 13:53:01 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2172.outbound.protection.outlook.com [104.47.57.172])
-        by aserp3020.oracle.com with ESMTP id 3cr059anb3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 10 Dec 2021 13:53:01 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z5jqIZGHMlJbbC1AHkfVR9dpgGOV94C4ep1X8C9+rnd9eu/s9rJjcupmJLSFPoTqm0MA/gD9ri5Vq45g6JWZ6sj6GIAbplYiP/NaojtBHSF/YBatXprRmpFNdcaHyLhTRPa4msserMZ6bXI05e4dpewMbf5PTLxp8/J3l6mLaaQy9k8c3FXRXBZcgtZnTXYSqIIRPbYwJkxW75Tj9rlSi7BIO21cFMkB0tyDO/qFToKrRV0X0UhsQS6c38Ln1NtBbpRa5n8c2mDrtIjxD85V0MNEpaOT0olI9DbGjZbRBY2u1Br+nt1SQkE/RaNAmXNv+2tPoErSYleiQv+K18QDpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FBYC8bhIZBKZl0CxUIuBz7Dq+WXyZnu0RnSo48kPcZg=;
- b=F+v0+0nxq1fU5leO+lsesQG8TExgecrBKlSgkPJVbLYjiWv0Kdys15O0hU6VlC80Dwhp4EkzR18p5S9OgrEzQv12x97q7S1INxXhqZD7VJaRXhvA3whjbtfIiXtaHtSD2w2J5IuyOKekjXDgm7l23+CW9hrO2taAZAEIgcC6m5PCUaGgoESlMM+VuGczjZHrUadEadWzsT5TGH7pXICXbIuqiAHybiHvOGsn9oAGxbwRsVQlohFUrugYETu8h1CsQFFJQiX9t1d0SJYBVF6eUMP3TqNG/q5PbMGWj8ZoKd4CT7ovI1gRoaHNTuKDLSlimaAy8j8rVeBbtcAmtXHlTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        id S231886AbhLLFrS (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Sun, 12 Dec 2021 00:47:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229511AbhLLFrS (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Sun, 12 Dec 2021 00:47:18 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A639C061714;
+        Sat, 11 Dec 2021 21:47:18 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id f125so11686347pgc.0;
+        Sat, 11 Dec 2021 21:47:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FBYC8bhIZBKZl0CxUIuBz7Dq+WXyZnu0RnSo48kPcZg=;
- b=KeRCmrs9I/YrOUWGhZkSz7mLstgQ/R4FUgy3qUz41XnVuQ+E27GUzPcd0X+EQWcWtwTkKq0rVfdEUqO/mwxalks1jGcC0RP2TcDtyuUrtbvE/sMmFMn5KtGAvqRKebyFertADsZbPZPqOPTYYzXKtt0DwDmXHboX/GrXfYp8vJ8=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR1001MB2159.namprd10.prod.outlook.com
- (2603:10b6:301:2c::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Fri, 10 Dec
- 2021 13:52:59 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::7194:c377:36cc:d9f0]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::7194:c377:36cc:d9f0%6]) with mapi id 15.20.4755.026; Fri, 10 Dec 2021
- 13:52:59 +0000
-Date:   Fri, 10 Dec 2021 16:52:49 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     linux-leds@vger.kernel.org
-Cc:     j.anaszewski@samsung.com
-Subject: [bug report] leds: ns2: Remove work queue
-Message-ID: <20211210135249.GA16777@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0033.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::20) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=d+rggzyvi3DwAvf8oSmS5ZStja2a78TAPOf7mrQDqDQ=;
+        b=hAlQEvaa5/LpUx3+RzRUbdp5rwtBlgtqxSJK5jrGHeSG+Xr3GgwnqdeJnB7p/6HNsD
+         A0LFPJw7PjFib0Pdmy//A4Oib/IJU7OBVeQfwEXNwkg7Nv2rka1InbTVpCXR3nckjwxF
+         2aXPd8UrQ0vjeyrjd/J3Ueqtz4uZ18Nwl3gz0GoHOupQZsLQNL38aE5PIezIqCZjfycE
+         lCL89F3YAZUp7iDyGVNDej6qP6D0lRVZgLgYONmcAa3y7SDZyZxtcK4sVdLgKhZF+2Cu
+         mLXyF84FPdd+esy5rCsuIkFj1tYIFzr7EqEAG2EUtxaa8UGv6P8Vs+0hehOLErvnx0X+
+         EbEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=d+rggzyvi3DwAvf8oSmS5ZStja2a78TAPOf7mrQDqDQ=;
+        b=Cm66zYvZVZF66Wb0RBE5sPMxLxpXzDZxEPwpEniGDS/3qA3btmWLPSpM7Ms8nhTkCc
+         kxC862nQeOM+TNzhrDtvkip/zSdniajTFbODvkTp2r+Z3sRJlOsvJCNmrCGB2CUdMzO5
+         nlbZ7UaeR2+nsdcCCR6IzcHMCX8opgVQZH6yeUgH8hKphrk/QVZ3Wj92HDvHf3hvideb
+         E15RIdX3+c203b5lHYI43Tje7RD06KHcIuI9lNfeoYtUnxSQnXGowtEhlOFjf44c8NVu
+         /M6cAWslMD0FtPaLlmU7+ZuhCSKV73+rFeWD95tAcHPEgDfk2NK0R12l/CEZmjaaqwe4
+         OBJw==
+X-Gm-Message-State: AOAM5334zvUajMEYB5mFg8gwZ482E5+Wmte+1O86S+L1Yp90Pcu5711B
+        dW75Pae2oAcu8H9D9XF4VcY=
+X-Google-Smtp-Source: ABdhPJxd59g9y3s/kXnaL6qTvRFTin2NZX+Vk/3FcWsG5Qk3WVxll2sytlFPN3KmRZ6+DufIkfUufQ==
+X-Received: by 2002:a05:6a00:1a16:b0:49f:ed6d:c48e with SMTP id g22-20020a056a001a1600b0049fed6dc48emr26611251pfv.14.1639288036733;
+        Sat, 11 Dec 2021 21:47:16 -0800 (PST)
+Received: from localhost.localdomain ([240d:1a:8f0:6c00:89cb:88d1:b6b2:3345])
+        by smtp.gmail.com with ESMTPSA id u22sm8741791pfk.148.2021.12.11.21.47.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Dec 2021 21:47:15 -0800 (PST)
+From:   Alexandre Courbot <gnurou@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        Alexandre Courbot <gnurou@gmail.com>
+Subject: [PATCH v2] leds: add NCT6795D driver
+Date:   Sun, 12 Dec 2021 14:47:06 +0900
+Message-Id: <20211212054706.80343-1-gnurou@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: from kili (102.222.70.114) by ZR0P278CA0033.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1c::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.17 via Frontend Transport; Fri, 10 Dec 2021 13:52:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 108e7c60-584a-4cc9-7424-08d9bbe4605f
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2159:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR1001MB21591A3AE5E4009AAD66EF558E719@MWHPR1001MB2159.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UfXxKcMay7fxLMa/FagvJyU/Db52WYun7CR9zORhCWlKvEN8/jKQ4HrXlX3ZBhtK6qCrsXvzjzrdkGy/kSRgM3wx7fVjZ750lsVk0ADL328J3ax/omD3AA46rELWenCQJVYgcPtUEXeEUYEAOFGJMA+4bjoBiD7f/CNk5lJy6EtFPlFKRs0GAve4hbswcDt9pMpLHBUAj6Sn3K4v6abAqqhXA5/a7GX4Ob+DKTKVoK6indJJEbFJ6c9X1VpITqmyl0e3MMedx2V+CZytqiQoejKslpmvIRMx5jdwbcHf279tbDFYyO5c4qE9Fc/czjZc3ExVi85xAnZMmEM3wTU4LCR4aVOKaFJaF5yEFGSrtQ9aR3EuyP4m9ORgguhn97cnuqv1czF0f83XZcXGD/1jKsn64jlEJwJVUFfQts1CPMqxP335YUzCVh+FaHPJFwz0sfX5itjVBAGTUWp5+iajLnAuwY96HAMircY2bCA6V8N5jMRLvigBKDBOAktmqXeZAhbsURS4m3/1HEaX+4YfGzS8rKuTM/lFp5zVwBYpNAHK4Xc+aWRx6wtKtpKej0RoS/AjQz3dguFTKUwYzDsXiyIafgaVvzvZiagXF3l+6oGVeEzDWj+0fVo6JeSytXuNOBMJfWG9xy8h0/+224RoonUt/ENoM9k83a5VvffkbIx4/pLDjq2resiTRbTqTH8MWKr9+94R01kVwTKO3hVK6A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(508600001)(6916009)(316002)(5660300002)(1076003)(83380400001)(6666004)(33716001)(66556008)(6496006)(33656002)(186003)(38100700002)(2906002)(66946007)(4326008)(26005)(8936002)(86362001)(8676002)(9686003)(52116002)(956004)(38350700002)(66476007)(44832011)(9576002)(55016003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PiKmt0WmkNmPuqypP5bpRl6W7nX4h/i3JJz03+4jgmmT75ZrpsxQ+bTFzum8?=
- =?us-ascii?Q?EGU+uwUfmk6oeWjuRbL15ZWe7tf7MBeEyNAQm+fwdaZ4EgvUYSAqw/BHDTCm?=
- =?us-ascii?Q?PXLmff26Po8/B5PB+npZyDUE3/uUquzG6eph+QSSo8Yl8AU8xW7RpSWDoR/h?=
- =?us-ascii?Q?JbKj+bItFCDpwW9ReuFbaw5WkpM05btQ4g4oY5Kp56Px0kGdxSwcwaKRCZpO?=
- =?us-ascii?Q?STEiTSurwoYU0dMl+Ra9EsO0JIGrWRX3Frtxjkrze4mvorR/h2NcChqkcqvo?=
- =?us-ascii?Q?R64oK9biNSStfX93UuX3QTWuL3EO99Qmkba1xiFy2yfzt6l38zEqFLqAXwfr?=
- =?us-ascii?Q?VrGW+2oroyv5YmaMms5uxkv+N95srOZYkIcGj7UNfQMgtkCyhS17+JzUFi3a?=
- =?us-ascii?Q?sVyaDp13QlCeCkEiqnMGKMw9UvUauQsrPWvGRVr8XGVS98S5CQ9pqNGgtFj6?=
- =?us-ascii?Q?tlXJA1KWUFVQhaFCX5i8aJPd2oewthFxRHSlwalzbxMIpbFJR/MVYIPyf11q?=
- =?us-ascii?Q?5elXuh390jPrBTP4TlO754Vph0Oxj3lWo2ObAGPgZ+1rwvZs7OwORHSIYYlP?=
- =?us-ascii?Q?qLh8wUNJResQ+2i2scbQZKskDZ9dVG+dX9EhSRtbWSyLYSxFB3g2cgJ7J/yU?=
- =?us-ascii?Q?vtd8VJBt1Eipt3fnOA1RGBrnkJBrt+ItC8SG2mILNbnZh5LotWIy+ZWZNYXU?=
- =?us-ascii?Q?cUjcYzZ647k3aLOhcswAEuDAx0vheeJhWRlcLjvzNSZ89+R+g9yh9ux/arvK?=
- =?us-ascii?Q?Yyz6punCQ4YnuMJhZMLH/7cFIpFDcPP4fTJvIZA8p6JFIxW12NVbnNeAfd5I?=
- =?us-ascii?Q?L14+TYWbrbWhHNtZ61ZPgia7i2Uv88r+4ayJLu5NNaG1ro3AJ2FPVXj0YtWJ?=
- =?us-ascii?Q?V71U6VPY3COnC09NOGHEzOEcKUrZNU7B9EIVPdkp15V4wittJ9ike+cKhvl/?=
- =?us-ascii?Q?bw03qbQ2UeNX8cJgnyzByO/j6IJmTlw7jWif/gFfbVE9Qpn46Kt70aLg0XBG?=
- =?us-ascii?Q?e5FoNUr6T7ixa9XTq3vpL57wR2TJ/2SvfuBhNw7BNAeO5uLEfhfT3LGTZNmM?=
- =?us-ascii?Q?dyW0ktLhYSmI/EYNEWQXfjMavcPisTpxV/gW472xrYYU6B5goXd5YUV+Zvhp?=
- =?us-ascii?Q?wElFlTx2TkMpQBOoLrW24Xg2i5cOw+8p1ppJUIPeLa7JzJjV+OBcHZdXS3Wc?=
- =?us-ascii?Q?88MZYYJX3oMYoWD2GHADQyIbufBV6cwioBH9bZcSY6YZtbTVdfsK0nDUKYbN?=
- =?us-ascii?Q?ZdjEzZj9L0mYr0Yv3IF3SlHzovOiYBeRhxOEoPrhjy5vzzRw5zwZkz5PMNnm?=
- =?us-ascii?Q?MvFBivVowTVOvlnlWv8pMpVZFGLVyVaCp1Y53mS+CYYYNUtyB56Zl7adtOFU?=
- =?us-ascii?Q?L9Rxa7v0PHHwJRM2RJwhWvR3xRzmAMipfMVz4fj6HhydtM5x8gsSTY5dU0+c?=
- =?us-ascii?Q?i/FM2DnbLxGFPetgMd8bbfsamIkow8ukvL1Z7Qbcg16h2OStRDyrFDErTvhH?=
- =?us-ascii?Q?fmnJZynfFtBhrWPJdYoqISB7DUPkgjcaczjjlh5navT3coLIXe+FggLHyFmv?=
- =?us-ascii?Q?fC8ECocOrs9J9u0nwy7HFI8ggJ/jxcNmUiyM3x9OTsw3Fgfo1plvksu5x81w?=
- =?us-ascii?Q?R3RPdnI8q06GfJgLWgMASl/Zge20trJ/HftsJKCjzrnDhSOq1umn+Vt27y3Z?=
- =?us-ascii?Q?7Tw3rVEAgKpgAoBC5Mb3T/gkNVI=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 108e7c60-584a-4cc9-7424-08d9bbe4605f
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 13:52:59.4581
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p1Z0Eg+2BYK+4OIASR4LQztPPBAJ7goxctzcWY7wxPVUooDvKfWGaNjSLiUD7wXeQM3kep8xR27Gr6GCZqBoSVsDtRjDKsOpwGMSUYG4IrA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2159
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10193 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 phishscore=0
- malwarescore=0 spamscore=0 mlxlogscore=548 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112100079
-X-Proofpoint-ORIG-GUID: JWxzh65bM7I63JItGfvvHDUphbaa6cN7
-X-Proofpoint-GUID: JWxzh65bM7I63JItGfvvHDUphbaa6cN7
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Hello LED devs,
+Add support for the LED feature of the NCT6795D chip found on some
+motherboards, notably MSI ones. The LEDs are typically used using a
+RGB connector so this driver takes advantage of the multicolor
+framework.
 
-The patch c29e650b3af2: "leds: ns2: Remove work queue" from Nov 20,
-2015, leads to the following Smatch static checker warning:
+Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
+---
+Changes since v1 [1]:
+- Use the multicolor framework
 
-	drivers/leds/leds-ns2.c:96 ns2_led_set_mode()
-	warn: sleeping in atomic context
+[1] https://lkml.org/lkml/2020/7/13/674 (sorry, took me some time to
+    come back to this patch)
 
-drivers/leds/leds-ns2.c
-    76 static void ns2_led_set_mode(struct ns2_led *led, enum ns2_led_modes mode)
-    77 {
-    78         int i;
-    79         unsigned long flags;
-    80 
-    81         for (i = 0; i < led->num_modes; i++)
-    82                 if (mode == led->modval[i].mode)
-    83                         break;
-    84 
-    85         if (i == led->num_modes)
-    86                 return;
-    87 
-    88         write_lock_irqsave(&led->rw_lock, flags);
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Holding a write lock (spin lock).
+ drivers/leds/Kconfig         |  10 +
+ drivers/leds/Makefile        |   1 +
+ drivers/leds/leds-nct6795d.c | 442 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 453 insertions(+)
+ create mode 100644 drivers/leds/leds-nct6795d.c
 
-    89 
-    90         if (!led->can_sleep) {
-                    ^^^^^^^^^^^^^^^
-Even if the led->can_sleep flag is set, we are not actually allowed to
-sleep when the preempt count is non-zero.  Presumably we should make
-this unconditional.
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index ed800f5da7d8..0db5986ca967 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -871,6 +871,16 @@ config LEDS_ACER_A500
+ 	  This option enables support for the Power Button LED of
+ 	  Acer Iconia Tab A500.
+ 
++config LEDS_NCT6795D
++	tristate "LED support for NCT6795D chipsets"
++	depends on LEDS_CLASS_MULTICOLOR
++	help
++	  Enables support for the RGB LED feature of the NCT6795D chips found
++	  on some MSI motherboards.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called leds-nct6795d.
++
+ source "drivers/leds/blink/Kconfig"
+ 
+ comment "Flash and Torch LED drivers"
+diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+index c636ec069612..c04fdbc2a727 100644
+--- a/drivers/leds/Makefile
++++ b/drivers/leds/Makefile
+@@ -63,6 +63,7 @@ obj-$(CONFIG_LEDS_MIKROTIK_RB532)	+= leds-rb532.o
+ obj-$(CONFIG_LEDS_MLXCPLD)		+= leds-mlxcpld.o
+ obj-$(CONFIG_LEDS_MLXREG)		+= leds-mlxreg.o
+ obj-$(CONFIG_LEDS_MT6323)		+= leds-mt6323.o
++obj-$(CONFIG_LEDS_NCT6795D)		+= leds-nct6795d.o
+ obj-$(CONFIG_LEDS_NET48XX)		+= leds-net48xx.o
+ obj-$(CONFIG_LEDS_NETXBIG)		+= leds-netxbig.o
+ obj-$(CONFIG_LEDS_NIC78BX)		+= leds-nic78bx.o
+diff --git a/drivers/leds/leds-nct6795d.c b/drivers/leds/leds-nct6795d.c
+new file mode 100644
+index 000000000000..90d5d2a67cfa
+--- /dev/null
++++ b/drivers/leds/leds-nct6795d.c
+@@ -0,0 +1,442 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * NCT6795D/NCT6797D LED driver
++ *
++ * Copyright (c) 2021 Alexandre Courbot <gnurou@gmail.com>
++ *
++ * Driver to control the RGB interfaces found on some MSI motherboards.
++ * This is for the most part a port of the MSI-RGB user-space program
++ * by Simonas Kazlauskas (https://github.com/nagisa/msi-rgb.git) to the Linux
++ * kernel LED interface.
++ *
++ * It is more limited than the original program due to limitations in the LED
++ * interface. For now, only static colors are supported.
++ *
++ * Supported motherboards (a per MSI-RGB's README):
++ * B350 MORTAR ARCTIC
++ * B350 PC MATE
++ * B350 TOMAHAWK
++ * B360M GAMING PLUS
++ * B450 GAMING PLUS AC
++ * B450 MORTAR
++ * B450 TOMAHAWK
++ * B450M GAMING PLUS
++ * H270 MORTAR ARCTIC
++ * H270 TOMAHAWK ARCTIC
++ * X470 GAMING PLUS
++ * X470 GAMING PRO
++ * Z270 GAMING M7
++ * Z270 SLI PLUS
++ * Z370 MORTAR
++ * Z370 PC PRO
++ *
++ */
++
++#include <linux/io.h>
++#include <linux/init.h>
++#include <linux/io.h>
++#include <linux/ioport.h>
++#include <linux/kernel.h>
++#include <linux/leds.h>
++#include <linux/led-class-multicolor.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++
++/* Adapted from drivers/hwmon/nct6775.c */
++
++#define SIO_REG_LDSEL 0x07 /* Logical device select */
++#define SIO_REG_DEVID 0x20 /* Device ID (2 bytes) */
++
++static inline void superio_outb(int ioreg, int reg, int val)
++{
++	outb(reg, ioreg);
++	outb(val, ioreg + 1);
++}
++
++static inline int superio_inb(int ioreg, int reg)
++{
++	outb(reg, ioreg);
++	return inb(ioreg + 1);
++}
++
++static inline void superio_select(int ioreg, int ld)
++{
++	outb(SIO_REG_LDSEL, ioreg);
++	outb(ld, ioreg + 1);
++}
++
++static inline int superio_enter(int ioreg)
++{
++	if (!request_muxed_region(ioreg, 2, "NCT6795D LED"))
++		return -EBUSY;
++
++	outb(0x87, ioreg);
++	outb(0x87, ioreg);
++
++	return 0;
++}
++
++static inline void superio_exit(int ioreg)
++{
++	outb(0xaa, ioreg);
++	outb(0x02, ioreg);
++	outb(0x02, ioreg + 1);
++	release_region(ioreg, 2);
++}
++
++/* End adapted from drivers/hwmon/nct6775.c */
++
++#define NCT6795D_DEVICE_NAME "nct6795d"
++#define DEFAULT_STEP_DURATION 25
++
++#define NCT6795D_RGB_BANK 0x12
++
++/* Color registers */
++#define NCT6795D_RED_CELL 0xf0
++#define NCT6795D_GREEN_CELL 0xf4
++#define NCT6795D_BLUE_CELL 0xf8
++
++#define NCT6795D_PARAMS_0 0xe4
++/* Enable/disable LED overall */
++#define PARAMS_0_LED_ENABLE(e) ((e) ? 0x0 : 0x1)
++/* Enable/disable smooth pulsing */
++#define PARAMS_0_LED_PULSE_ENABLE(e) ((e) ? 0x08 : 0x0)
++/* Duration between blinks (0 means always on) */
++#define PARAMS_0_BLINK_DURATION(x) ((x) & 0x07)
++
++#define NCT6795D_PARAMS_1 0xfe
++/* Lower part of step duration (8 out of 9 bits) */
++#define PARAMS_1_STEP_DURATION_LOW(s) ((s) & 0xff)
++
++#define NCT6795D_PARAMS_2 0xff
++/* Enable fade-in effect for specified primitive */
++#define PARAMS_2_FADE_COLOR(r, g, b)                                           \
++	(0xe0 ^ (((r) ? 0x80 : 0x0) | ((g) ? 0x40 : 0x0) | ((b) ? 0x20 : 0x0)))
++/* Whether the specified colors should be inverted */
++#define PARAMS_2_INVERT_COLOR(r, g, b)                                         \
++	(((r) ? 0x10 : 0x0) | ((g) ? 0x08 : 0x0) | ((b) ? 0x04 : 0x0))
++/* Disable board leds if the LED_DISABLE bit is set */
++#define PARAMS_2_DISABLE_BOARD_LED 0x02
++/* MSB (9th bit) of step duration */
++#define PARAMS_2_STEP_DURATION_HIGH(s) (((s) >> 8) & 0x01)
++
++enum { RED = 0, GREEN, BLUE, NUM_COLORS };
++
++static u8 init_vals[NUM_COLORS];
++module_param_named(r, init_vals[RED], byte, 0);
++MODULE_PARM_DESC(r, "Initial red intensity (default 0)");
++module_param_named(g, init_vals[GREEN], byte, 0);
++MODULE_PARM_DESC(g, "Initial green intensity (default 0)");
++module_param_named(b, init_vals[BLUE], byte, 0);
++MODULE_PARM_DESC(b, "Initial blue intensity (default 0)");
++
++struct nct6795d_led {
++	struct device *dev;
++	u16 base_port;
++	struct led_classdev_mc mc_cdev;
++	struct mc_subled subled[NUM_COLORS];
++};
++
++enum nct679x_chip {
++	NCT6795D = 0,
++	NCT6797D,
++};
++
++static const char * const chip_names[] = {
++	"NCT6795D",
++	"NCT6797D",
++};
++
++/*
++ * Return the detected chip or an error code. If no chip was detected, -ENXIO
++ * is returned.
++ */
++static enum nct679x_chip nct6795d_led_detect(u16 base_port)
++{
++	int ret;
++	u16 val;
++
++	ret = superio_enter(base_port);
++	if (ret)
++		return ret;
++
++	val = (superio_inb(base_port, SIO_REG_DEVID) << 8) |
++	      superio_inb(base_port, SIO_REG_DEVID + 1);
++
++	switch (val & 0xfff0) {
++	case 0xd350:
++		ret = NCT6795D;
++		break;
++	case 0xd450:
++		ret = NCT6797D;
++		break;
++	default:
++		ret = -ENXIO;
++		break;
++	}
++
++	superio_exit(base_port);
++	return ret;
++}
++
++/*
++ * Setup the LEDs for use with the LED interface. I.e, no pulsing or other fancy
++ * features, only static colors.
++ */
++static int nct6795d_led_setup(const struct nct6795d_led *led)
++{
++	int ret;
++	u16 val;
++
++	ret = superio_enter(led->base_port);
++	if (ret)
++		return ret;
++
++	/* Without this pulsing does not work? */
++	superio_select(led->base_port, 0x09);
++	val = superio_inb(led->base_port, 0x2c);
++	if ((val & 0x10) != 0x10)
++		superio_outb(led->base_port, 0x2c, val | 0x10);
++
++	superio_select(led->base_port, NCT6795D_RGB_BANK);
++
++	/* Check if RGB control enabled */
++	val = superio_inb(led->base_port, 0xe0);
++	if ((val & 0xe0) != 0xe0)
++		superio_outb(led->base_port, 0xe0, val | 0xe0);
++
++	/*
++	 * Set some static parameters: led enabled, no pulse, no blink,
++	 * default step duration, no fading, no inversion. These fancy features
++	 * are not supported by the LED API at the moment.
++	 */
++	superio_outb(led->base_port, NCT6795D_PARAMS_0,
++		     PARAMS_0_LED_ENABLE(true) |
++			     PARAMS_0_LED_PULSE_ENABLE(false) |
++			     PARAMS_0_BLINK_DURATION(0));
++
++	superio_outb(led->base_port, NCT6795D_PARAMS_1,
++		     PARAMS_1_STEP_DURATION_LOW(DEFAULT_STEP_DURATION));
++
++	superio_outb(led->base_port, NCT6795D_PARAMS_2,
++		     PARAMS_2_FADE_COLOR(false, false, false) |
++			PARAMS_2_INVERT_COLOR(false, false, false) |
++			PARAMS_2_DISABLE_BOARD_LED |
++			PARAMS_2_STEP_DURATION_HIGH(DEFAULT_STEP_DURATION));
++
++	superio_exit(led->base_port);
++	return 0;
++}
++
++/*
++ * Commit one color to the hardware.
++ */
++static void nct6795d_led_commit_color(const struct nct6795d_led *led,
++				      size_t color_cell,
++				      enum led_brightness brightness)
++{
++	int i;
++	/*
++	 * These 8 4-bit nibbles represent brightness intensity for each time
++	 * frame. We set them all to the same value to get a constant color.
++	 */
++	const u8 b = (brightness << 4) | brightness;
++
++	for (i = 0; i < 4; i++)
++		superio_outb(led->base_port, color_cell + i, b);
++}
++
++/*
++ * Commit all colors to the hardware.
++ */
++static int nct6795d_led_commit(const struct nct6795d_led *led)
++{
++	const struct mc_subled *subled = led->subled;
++	int ret;
++
++	dev_dbg(led->dev, "setting values: R=%d G=%d B=%d\n",
++		subled[RED].brightness, subled[GREEN].brightness,
++		subled[BLUE].brightness);
++
++	ret = superio_enter(led->base_port);
++	if (ret)
++		return ret;
++
++	superio_select(led->base_port, NCT6795D_RGB_BANK);
++
++	nct6795d_led_commit_color(led, NCT6795D_RED_CELL,
++				  subled[RED].brightness);
++	nct6795d_led_commit_color(led, NCT6795D_GREEN_CELL,
++				  subled[GREEN].brightness);
++	nct6795d_led_commit_color(led, NCT6795D_BLUE_CELL,
++				  subled[BLUE].brightness);
++
++	superio_exit(led->base_port);
++	return 0;
++}
++
++/*
++ * led_classdev's brightness_set hook.
++ */
++static void nct6795d_led_brightness_set(struct led_classdev *cdev,
++					enum led_brightness brightness)
++{
++	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
++	struct nct6795d_led *led =
++		container_of(mc_cdev, struct nct6795d_led, mc_cdev);
++
++	led_mc_calc_color_components(mc_cdev, brightness);
++
++	nct6795d_led_commit(led);
++}
++
++static int nct6795d_led_probe(struct platform_device *pdev)
++{
++	struct nct6795d_led *led;
++	const struct resource *res;
++	int ret;
++
++	led = devm_kzalloc(&pdev->dev, sizeof(*led), GFP_KERNEL);
++	if (!led)
++		return -ENOMEM;
++
++	led->dev = &pdev->dev;
++
++	res = platform_get_resource_byname(pdev, IORESOURCE_REG, "io_base");
++	if (IS_ERR(res))
++		return PTR_ERR(res);
++
++	led->base_port = res->start;
++
++	led->subled[RED].color_index = LED_COLOR_ID_RED;
++	led->subled[RED].channel = 0;
++	led->subled[RED].intensity = init_vals[RED];
++	led->subled[GREEN].color_index = LED_COLOR_ID_GREEN;
++	led->subled[GREEN].channel = 1;
++	led->subled[GREEN].intensity = init_vals[GREEN];
++	led->subled[BLUE].color_index = LED_COLOR_ID_BLUE;
++	led->subled[BLUE].channel = 2;
++	led->subled[BLUE].intensity = init_vals[BLUE];
++
++	led->mc_cdev.subled_info = led->subled;
++	led->mc_cdev.num_colors = NUM_COLORS;
++	led->mc_cdev.led_cdev.name = NCT6795D_DEVICE_NAME;
++	led->mc_cdev.led_cdev.max_brightness = 0xf;
++	led->mc_cdev.led_cdev.brightness = led->mc_cdev.led_cdev.max_brightness;
++	led->mc_cdev.led_cdev.brightness_set = nct6795d_led_brightness_set;
++
++	ret = devm_led_classdev_multicolor_register_ext(&pdev->dev,
++							&led->mc_cdev, NULL);
++	if (ret)
++		return ret;
++
++	dev_set_drvdata(&pdev->dev, led);
++
++	ret = nct6795d_led_setup(led);
++	if (ret)
++		return ret;
++
++	nct6795d_led_brightness_set(&led->mc_cdev.led_cdev,
++				    led->mc_cdev.led_cdev.brightness);
++
++	return 0;
++}
++
++#ifdef CONFIG_PM_SLEEP
++static int nct6795d_led_suspend(struct device *dev)
++{
++	return 0;
++}
++
++static int nct6795d_led_resume(struct device *dev)
++{
++	struct nct6795d_led *led = dev_get_drvdata(dev);
++	int ret;
++
++	ret = nct6795d_led_setup(led);
++	if (ret)
++		return ret;
++
++	return nct6795d_led_commit(led);
++}
++#endif
++
++static SIMPLE_DEV_PM_OPS(nct_6795d_led_pm_ops, nct6795d_led_suspend,
++			 nct6795d_led_resume);
++
++static struct platform_driver nct6795d_led_driver = {
++	.driver = {
++		.name = "nct6795d_led",
++		.pm = &nct_6795d_led_pm_ops,
++	},
++	.probe = nct6795d_led_probe,
++};
++
++static struct platform_device *nct6795d_led_pdev;
++
++static int __init nct6795d_led_init(void)
++{
++	static const u16 io_bases[] = { 0x4e, 0x2e };
++	struct resource io_res = {
++		.name = "io_base",
++		.flags = IORESOURCE_REG,
++	};
++	enum nct679x_chip detected_chip;
++	int ret;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(io_bases); i++) {
++		detected_chip = nct6795d_led_detect(io_bases[i]);
++		if (detected_chip >= 0)
++			break;
++	}
++	if (i == ARRAY_SIZE(io_bases)) {
++		pr_err(KBUILD_MODNAME ": no supported chip detected\n");
++		return -ENXIO;
++	}
++
++	pr_info(KBUILD_MODNAME ": found %s chip at address 0x%x\n",
++		chip_names[detected_chip], io_bases[i]);
++
++	ret = platform_driver_register(&nct6795d_led_driver);
++	if (ret)
++		return ret;
++
++	nct6795d_led_pdev =
++		platform_device_alloc(NCT6795D_DEVICE_NAME "_led", 0);
++	if (!nct6795d_led_pdev) {
++		ret = -ENOMEM;
++		goto error_pdev_alloc;
++	}
++
++	io_res.start = io_bases[i];
++	io_res.end = io_res.start;
++	ret = platform_device_add_resources(nct6795d_led_pdev, &io_res, 1);
++	if (ret)
++		goto error_pdev_resource;
++
++	ret = platform_device_add(nct6795d_led_pdev);
++	if (ret)
++		goto error_pdev_resource;
++
++	return 0;
++
++error_pdev_resource:
++	platform_device_del(nct6795d_led_pdev);
++error_pdev_alloc:
++	platform_driver_unregister(&nct6795d_led_driver);
++	return ret;
++}
++
++static void __exit nct6795d_led_exit(void)
++{
++	platform_device_unregister(nct6795d_led_pdev);
++	platform_driver_unregister(&nct6795d_led_driver);
++}
++
++module_init(nct6795d_led_init);
++module_exit(nct6795d_led_exit);
++
++MODULE_AUTHOR("Alexandre Courbot <gnurou@gmail.com>");
++MODULE_DESCRIPTION("LED driver for NCT6795D");
++MODULE_LICENSE("GPL");
+-- 
+2.34.1
 
-    91                 gpiod_set_value(led->cmd, led->modval[i].cmd_level);
-    92                 gpiod_set_value(led->slow, led->modval[i].slow_level);
-    93                 goto exit_unlock;
-    94         }
-    95 
---> 96         gpiod_set_value_cansleep(led->cmd, led->modval[i].cmd_level);
-    97         gpiod_set_value_cansleep(led->slow, led->modval[i].slow_level);
-               ^^^^^^^^^^^^^^^^^^^^^^^^^
-These functions can sleep.
-
-    98 
-    99 exit_unlock:
-    100         write_unlock_irqrestore(&led->rw_lock, flags);
-    101 }
-
-regards,
-dan carpenter
