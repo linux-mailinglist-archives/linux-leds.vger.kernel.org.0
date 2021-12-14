@@ -2,52 +2,76 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00EBB473E6A
-	for <lists+linux-leds@lfdr.de>; Tue, 14 Dec 2021 09:40:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE10A4744E8
+	for <lists+linux-leds@lfdr.de>; Tue, 14 Dec 2021 15:27:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231909AbhLNIkt (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Tue, 14 Dec 2021 03:40:49 -0500
-Received: from mail.thebizzie.pl ([192.236.147.111]:41866 "EHLO
-        mail.thebizzie.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229846AbhLNIks (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Tue, 14 Dec 2021 03:40:48 -0500
-X-Greylist: delayed 466 seconds by postgrey-1.27 at vger.kernel.org; Tue, 14 Dec 2021 03:40:48 EST
-Received: by mail.thebizzie.pl (Postfix, from userid 1002)
-        id 61CE3181518; Tue, 14 Dec 2021 08:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=thebizzie.pl; s=mail;
-        t=1639470780; bh=kU+//Lu71IqgcFfjayWXuIc0mZtoyrYJc2YuqyU8eS8=;
-        h=Date:From:To:Subject:From;
-        b=i0DizTmxv5TCPJovd26q8gxFMiMwRAg4Up5mAJZklPcjV4OdEnYus9W920vBg6ZMh
-         P/Mz03De28lBUcgEICWqAUcLcVCi4K6ghYRtsX17t2pMOkMk30rBSIEYq4jX47hqYF
-         65h2cTmY9s9nlaF3eK1mpHQRWxg34QUEF09vrPvpogj/1D8mJGtlsP/jkGj3yUc9vl
-         XxI+nTYwjd8qyuYfjzrl9XEWWy31f49FYr+iLWJ3MEGREmCuWpkAHhLCeWpQVMGehT
-         6V7tHSjMvBfdrc4ALiuCVoGMNqYOmrDn1Sbq1XmXzTDDK4F/p9MSGqux+s5Q0tmn91
-         ZXseTzBh1um9g==
-Received: by mail.thebizzie.pl for <linux-leds@vger.kernel.org>; Tue, 14 Dec 2021 08:31:44 GMT
-Message-ID: <20211214074500-0.1.7.298.0.6bb2dfdi8a@thebizzie.pl>
-Date:   Tue, 14 Dec 2021 08:31:44 GMT
-From:   "Mateusz Adamczyk" <mateusz.adamczyk@thebizzie.pl>
-To:     <linux-leds@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.thebizzie.pl
+        id S232577AbhLNO1l (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Tue, 14 Dec 2021 09:27:41 -0500
+Received: from mga11.intel.com ([192.55.52.93]:28000 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231845AbhLNO1l (ORCPT <rfc822;linux-leds@vger.kernel.org>);
+        Tue, 14 Dec 2021 09:27:41 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="236519594"
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
+   d="scan'208";a="236519594"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 06:27:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; 
+   d="scan'208";a="754828313"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga005.fm.intel.com with ESMTP; 14 Dec 2021 06:27:34 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 5C0FF15C; Tue, 14 Dec 2021 16:27:41 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Amireddy Mallikarjuna reddy 
+        <mallikarjunax.reddy@linux.intel.com>,
+        Yihao Han <hanyihao@vivo.com>, linux-leds@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] leds: tca6507: Get rid of duplicate of_node assignment
+Date:   Tue, 14 Dec 2021 16:27:38 +0200
+Message-Id: <20211214142739.60071-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
-Dzie=C5=84 dobry,
+GPIO library does copy the of_node from the parent device of
+the GPIO chip, there is no need to repeat this in the individual
+drivers. Remove assignment here.
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+For the details one may look into the of_gpio_dev_init() implementation.
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+Call graph:
+   --> tca6507_probe_gpios()
+     --> gpiochip_add_data()
+       --> gpiochip_add_data_with_key()
+         --> of_gpio_dev_init()
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v2: added call graph to the commit message (Pavel)
+ drivers/leds/leds-tca6507.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
+diff --git a/drivers/leds/leds-tca6507.c b/drivers/leds/leds-tca6507.c
+index de8eed9b667d..1473ced8664c 100644
+--- a/drivers/leds/leds-tca6507.c
++++ b/drivers/leds/leds-tca6507.c
+@@ -641,9 +641,6 @@ static int tca6507_probe_gpios(struct device *dev,
+ 	tca->gpio.direction_output = tca6507_gpio_direction_output;
+ 	tca->gpio.set = tca6507_gpio_set_value;
+ 	tca->gpio.parent = dev;
+-#ifdef CONFIG_OF_GPIO
+-	tca->gpio.of_node = of_node_get(dev_of_node(dev));
+-#endif
+ 	err = gpiochip_add_data(&tca->gpio, tca);
+ 	if (err) {
+ 		tca->gpio.ngpio = 0;
+-- 
+2.33.0
 
-Pozdrawiam,
-Mateusz Adamczyk
