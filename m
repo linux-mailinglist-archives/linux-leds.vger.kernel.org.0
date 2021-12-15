@@ -2,105 +2,216 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5FDE4763AA
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Dec 2021 21:46:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 938014763CA
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Dec 2021 21:55:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232236AbhLOUqO (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 15 Dec 2021 15:46:14 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:47788 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231790AbhLOUqO (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Dec 2021 15:46:14 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 1458D1C0B9C; Wed, 15 Dec 2021 21:46:13 +0100 (CET)
-Date:   Wed, 15 Dec 2021 21:46:06 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Florian Eckert <fe@dev.tdt.de>
-Cc:     robh+dt@kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] leds: ktd20xx: Add the KTD20xx family of the RGB
- LEDs driver from Kinetic
-Message-ID: <20211215204606.GH28336@duo.ucw.cz>
-References: <20211123101826.9069-1-fe@dev.tdt.de>
- <20211123101826.9069-2-fe@dev.tdt.de>
+        id S231266AbhLOUyC (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 15 Dec 2021 15:54:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27918 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229668AbhLOUyB (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>);
+        Wed, 15 Dec 2021 15:54:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639601640;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2XuSuTXhhLMWW5MExMvY+07UDK63es7OPWddsx5/ve8=;
+        b=Ej+u8djnSggvEImiabJGQ9lL4a/XUQUihIdkVQCTzqNCBFM1C/mgG+6D/N7z0hE8KEusLd
+        dW6KDiEdHmL5pV/xCZNLtUf6/RGQYDHkKdRRl/VyrOsI3nbidAP+ciPJSEu9P5fs/1InFU
+        LtaDBdGjAlHoCgjZl44U9nzruKVl74U=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-591-ZYf1UYEsPW6SRsI0r_d5eQ-1; Wed, 15 Dec 2021 15:53:59 -0500
+X-MC-Unique: ZYf1UYEsPW6SRsI0r_d5eQ-1
+Received: by mail-ed1-f72.google.com with SMTP id z14-20020a05640235ce00b003f7e90c32b6so2799588edc.4
+        for <linux-leds@vger.kernel.org>; Wed, 15 Dec 2021 12:53:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=2XuSuTXhhLMWW5MExMvY+07UDK63es7OPWddsx5/ve8=;
+        b=WlM0uYF0/GQxV7mgJ0RgMDEgusCA0CVx0gdOQtARNxJdUiBpo4fKUoupdi3o8u/ktA
+         8vf6qoJSSvgaavNVYBgT/c0HhQgfh+jdpqepN66FYbFZ3PZC/lwm+Bu6kidSqMO8vGkC
+         vun+i8dZhknk4mcTDLLzTT05dnMV3jw3QIVqnPIbk+AdX3QpNpOP24qU4SmrFb9KDy06
+         C+DmwuPb6LMJXGAG/dgjinPRR2EWuszitfv0hDP83kPTLk4bM4qtmjjP9/jIb9C6Rqxm
+         y8VTTQzWzzGxBE0YFD7IMfB/CUT7Egh8QboPfVDsxUCZgJYbCG+txo6x7zwP5j9DyMPX
+         I8rA==
+X-Gm-Message-State: AOAM533foo0EIGzBs9f70x4DysTjs2A9Xn+NFqiBvZa3mokCJX1C9jsD
+        5T2TlOe5IP88tpW0UWBL1P0uqfQyvMj4GXiRotrbn14RiiI2u/hgEqnepqEBA1T3raFURSf408b
+        XWUxILronXErOhjiQe47QTA==
+X-Received: by 2002:a17:906:5050:: with SMTP id e16mr12363107ejk.719.1639601637645;
+        Wed, 15 Dec 2021 12:53:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyL9AhACA2rSqUmiIL+ycw9yP6XEnblkXQBYJ/ZG7niVxhYPfIU/201q0vA+UGCp/JUf6WTqQ==
+X-Received: by 2002:a17:906:5050:: with SMTP id e16mr12363097ejk.719.1639601637450;
+        Wed, 15 Dec 2021 12:53:57 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+        by smtp.gmail.com with ESMTPSA id y15sm1584826eda.13.2021.12.15.12.53.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Dec 2021 12:53:57 -0800 (PST)
+Message-ID: <61983e62-bc3d-a711-c197-7436a2e33531@redhat.com>
+Date:   Wed, 15 Dec 2021 21:53:56 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="AzNpbZlgThVzWita"
-Content-Disposition: inline
-In-Reply-To: <20211123101826.9069-2-fe@dev.tdt.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 2/4] leds: simatic-ipc-leds: add new driver for Siemens
+ Industial PCs
+Content-Language: en-US
+To:     Pavel Machek <pavel@ucw.cz>,
+        Henning Schild <henning.schild@siemens.com>
+Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-watchdog@vger.kernel.org,
+        Srikanth Krishnakar <skrishnakar@gmail.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Enrico Weigelt <lkml@metux.net>
+References: <20211213120502.20661-1-henning.schild@siemens.com>
+ <20211213120502.20661-3-henning.schild@siemens.com>
+ <20211215201800.GA28336@duo.ucw.cz>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20211215201800.GA28336@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
+Hi,
 
---AzNpbZlgThVzWita
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/15/21 21:18, Pavel Machek wrote:
+> On Mon 2021-12-13 13:05:00, Henning Schild wrote:
+>> This driver adds initial support for several devices from Siemens. It is
+>> based on a platform driver introduced in an earlier commit.
+>>
+>> One of the supported machines has GPIO connected LEDs, here we poke GPIO
+>> memory directly because pinctrl does not come up.
+>>
+>> Signed-off-by: Henning Schild <henning.schild@siemens.com>
+> 
+> Acked-by: Pavel Machek <pavel@ucw.cz>
 
-Hi!
+I see that this patch #includes linux/platform_data/x86/simatic-ipc-base.h
+which gets added by patch 1/4.
 
-> Introduce the KTD2061/58/59/60 RGB LEDs driver. The difference in these
-> parts are the address number on the I2C bus the device is listen on.
->=20
-> All KT20xx device could control up to 12 LEDs. The chip can be operated
-> in two variants.
->=20
-> Variant 1:
-> The device has the ability to group LED outputs into two banks so that
-> the two LED banks can be controlled with the same color. This could not
-> be done via the LEDs 'sysfs' entry because of the limitation on the color
-> register count. The color of the two banks can be configured via device
-> 'sysfs' entry for all LEDs at once [current_color0|current_color1].
-> Which color the LED is to be used can be set via the 'sysfs' of the
-> individual LEDs via the 'multi_intensity' file. Valid values for the
-> colors (RGB) are 0 | 1. The value 0 selects the color register 0 and the
-> value 1 selects the color register 1.
->=20
-> Variant 2:
-> The device can also set the LED color independently. Since the chip only
-> has two color registers, but we want to control the 12 LEDs
-> independently via the 'led-class-multicolour' sysfs entry,
-> the full RGB color depth cannot be used. Due to this limitation, only 7
-> colors and the color black (off) can be set. To use this mode the color
-> registers must be preset via the device tree or the device 'sysfs'. The
-> color registers 0 must be preset with 0x00 (Red=3D0x00 Green=3D0x00 Blue=
-=3D0x00).
-> The color register1 should be preset all with the same value. This value
-> depends on which light intensity is to be used in the setup.
+Pavel, can I take this patch upstream through the pdx86 tree (with you Ack
+added)? Or shall I prepare an immutable branch with patch 1 for you to
+merge ?
 
-Summary: some crazy hardware.
+Regards,
 
-> +static ssize_t current_color0_store(struct device *dev,
-> +		struct device_attribute *a,
-> +		const char *buf, size_t size)
-> +{
+Hans
 
-And now we have custom interface. Undocumented.
 
-That is not acceptable, sorry.
+> 
+>> index c636ec069612..1a719caf14c0 100644
+>> --- a/drivers/leds/Makefile
+>> +++ b/drivers/leds/Makefile
+>> @@ -105,3 +105,6 @@ obj-$(CONFIG_LEDS_TRIGGERS)		+= trigger/
+>>  
+>>  # LED Blink
+>>  obj-y					+= blink/
+>> +
+>> +# Simple LED drivers
+>> +obj-y					+= simple/
+>> diff --git a/drivers/leds/simple/Kconfig b/drivers/leds/simple/Kconfig
+>> new file mode 100644
+>> index 000000000000..9f6a68336659
+>> --- /dev/null
+>> +++ b/drivers/leds/simple/Kconfig
+>> @@ -0,0 +1,11 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +config LEDS_SIEMENS_SIMATIC_IPC
+>> +	tristate "LED driver for Siemens Simatic IPCs"
+>> +	depends on LEDS_CLASS
+>> +	depends on SIEMENS_SIMATIC_IPC
+>> +	help
+>> +	  This option enables support for the LEDs of several Industrial PCs
+>> +	  from Siemens.
+>> +
+>> +	  To compile this driver as a module, choose M here: the module
+>> +	  will be called simatic-ipc-leds.
+>> diff --git a/drivers/leds/simple/Makefile b/drivers/leds/simple/Makefile
+>> new file mode 100644
+>> index 000000000000..8481f1e9e360
+>> --- /dev/null
+>> +++ b/drivers/leds/simple/Makefile
+>> @@ -0,0 +1,2 @@
+>> +# SPDX-License-Identifier: GPL-2.0
+>> +obj-$(CONFIG_LEDS_SIEMENS_SIMATIC_IPC)	+= simatic-ipc-leds.o
+>> diff --git a/drivers/leds/simple/simatic-ipc-leds.c b/drivers/leds/simple/simatic-ipc-leds.c
+>> new file mode 100644
+>> index 000000000000..ff2c96e73241
+>> --- /dev/null
+>> +++ b/drivers/leds/simple/simatic-ipc-leds.c
+>> @@ -0,0 +1,202 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Siemens SIMATIC IPC driver for LEDs
+>> + *
+>> + * Copyright (c) Siemens AG, 2018-2021
+>> + *
+>> + * Authors:
+>> + *  Henning Schild <henning.schild@siemens.com>
+>> + *  Jan Kiszka <jan.kiszka@siemens.com>
+>> + *  Gerd Haeussler <gerd.haeussler.ext@siemens.com>
+>> + */
+>> +
+>> +#include <linux/ioport.h>
+>> +#include <linux/kernel.h>
+>> +#include <linux/leds.h>
+>> +#include <linux/module.h>
+>> +#include <linux/pci.h>
+>> +#include <linux/platform_data/x86/simatic-ipc-base.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/sizes.h>
+>> +#include <linux/spinlock.h>
+>> +
+>> +#define SIMATIC_IPC_LED_PORT_BASE	0x404E
+>> +
+>> +struct simatic_ipc_led {
+>> +	unsigned int value; /* mask for io and offset for mem */
+>> +	char *name;
+>> +	struct led_classdev cdev;
+>> +};
+>> +
+>> +static struct simatic_ipc_led simatic_ipc_leds_io[] = {
+>> +	{1 << 15, "green:" LED_FUNCTION_STATUS "-1" },
+>> +	{1 << 7,  "yellow:" LED_FUNCTION_STATUS "-1" },
+>> +	{1 << 14, "red:" LED_FUNCTION_STATUS "-2" },
+>> +	{1 << 6,  "yellow:" LED_FUNCTION_STATUS "-2" },
+>> +	{1 << 13, "red:" LED_FUNCTION_STATUS "-3" },
+>> +	{1 << 5,  "yellow:" LED_FUNCTION_STATUS "-3" },
+>> +	{ }
+>> +};
+>> +
+>> +/* the actual start will be discovered with PCI, 0 is a placeholder */
+>> +struct resource simatic_ipc_led_mem_res = DEFINE_RES_MEM_NAMED(0, SZ_4K, KBUILD_MODNAME);
+>> +
+>> +static void *simatic_ipc_led_memory;
+>> +
+>> +static struct simatic_ipc_led simatic_ipc_leds_mem[] = {
+>> +	{0x500 + 0x1A0, "red:" LED_FUNCTION_STATUS "-1"},
+>> +	{0x500 + 0x1A8, "green:" LED_FUNCTION_STATUS "-1"},
+>> +	{0x500 + 0x1C8, "red:" LED_FUNCTION_STATUS "-2"},
+>> +	{0x500 + 0x1D0, "green:" LED_FUNCTION_STATUS "-2"},
+>> +	{0x500 + 0x1E0, "red:" LED_FUNCTION_STATUS "-3"},
+>> +	{0x500 + 0x198, "green:" LED_FUNCTION_STATUS "-3"},
+>> +	{ }
+>> +};
+> 
+> Would it be possible to get some better naming for leds? status-1 to
+> status-3 is not quite useful.
+> 
+> Best regards,
+> 								Pavel
+> 
 
-Find a way to squeeze it into current RGB framework, perhaps with
-reduced feature set.
-
-AFAICT you could either pretend it is 2-LED driver with full 8bit RGB
-on each, or you could pretend it is 12-LED driver with 1bit
-RGB. Select one and implement that.
-
-Best regards,
-									Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---AzNpbZlgThVzWita
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYbpUDgAKCRAw5/Bqldv6
-8jAIAJwLayuGsDv/gbU954WbGOG7AW6VYACeMjuav6P+tpCZAO1qh4oKNblyJck=
-=DU/B
------END PGP SIGNATURE-----
-
---AzNpbZlgThVzWita--
