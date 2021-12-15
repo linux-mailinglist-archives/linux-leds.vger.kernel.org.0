@@ -2,66 +2,64 @@ Return-Path: <linux-leds-owner@vger.kernel.org>
 X-Original-To: lists+linux-leds@lfdr.de
 Delivered-To: lists+linux-leds@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33DA0476345
-	for <lists+linux-leds@lfdr.de>; Wed, 15 Dec 2021 21:27:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C552747634C
+	for <lists+linux-leds@lfdr.de>; Wed, 15 Dec 2021 21:29:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231725AbhLOU1p (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
-        Wed, 15 Dec 2021 15:27:45 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:45902 "EHLO
+        id S234535AbhLOU3F (ORCPT <rfc822;lists+linux-leds@lfdr.de>);
+        Wed, 15 Dec 2021 15:29:05 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:46028 "EHLO
         jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235970AbhLOU1p (ORCPT
-        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Dec 2021 15:27:45 -0500
+        with ESMTP id S235868AbhLOU3F (ORCPT
+        <rfc822;linux-leds@vger.kernel.org>); Wed, 15 Dec 2021 15:29:05 -0500
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 49C8D1C0B98; Wed, 15 Dec 2021 21:27:44 +0100 (CET)
-Date:   Wed, 15 Dec 2021 21:27:36 +0100
+        id 438731C0B98; Wed, 15 Dec 2021 21:29:04 +0100 (CET)
+Date:   Wed, 15 Dec 2021 21:29:00 +0100
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>,
-        Yihao Han <hanyihao@vivo.com>, linux-leds@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] leds: lgm-sso: Get rid of duplicate of_node
- assignment
-Message-ID: <20211215202736.GC28336@duo.ucw.cz>
-References: <20211214142739.60071-1-andriy.shevchenko@linux.intel.com>
- <20211214142739.60071-2-andriy.shevchenko@linux.intel.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH] leds: ktd2692: Drop calling dev_of_node() in
+ ktd2692_parse_dt
+Message-ID: <20211215202900.GD28336@duo.ucw.cz>
+References: <20211213190331.5531-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="MnLPg7ZWsaic7Fhd"
+        protocol="application/pgp-signature"; boundary="LKTjZJSUETSlgu2t"
 Content-Disposition: inline
-In-Reply-To: <20211214142739.60071-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20211213190331.5531-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-leds.vger.kernel.org>
 X-Mailing-List: linux-leds@vger.kernel.org
 
 
---MnLPg7ZWsaic7Fhd
+--LKTjZJSUETSlgu2t
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue 2021-12-14 16:27:39, Andy Shevchenko wrote:
-> GPIO library does copy the of_node from the parent device of
-> the GPIO chip, there is no need to repeat this in the individual
-> drivers. Remove assignment here.
+On Mon 2021-12-13 19:03:31, Lad Prabhakar wrote:
+> output of dev_of_node() is already assigned to "np" variable in
+> ktd2692_parse_dt(). Use "np" variable to check if OF node is NULL
+> instead of calling dev_of_node() again.
 >=20
-> For the details one may look into the of_gpio_dev_init()
-implementation.
+> Signed-off-by: Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you, applied the series.
+Thank you, applied.
 								Pavel
-							=09
+
 --=20
 http://www.livejournal.com/~pavelmachek
 
---MnLPg7ZWsaic7Fhd
+--LKTjZJSUETSlgu2t
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYbpPuAAKCRAw5/Bqldv6
-8oy2AJ4ys8RDCqR/ZAocUmHs0AQS46CQCQCfQ2r17x/rM+igACR13gte02fxrCU=
-=vAae
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYbpQDAAKCRAw5/Bqldv6
+8gUUAJ4/V1LxUnQ1beWiP7tdh1xcnkhCjwCeLWBZWvn0mPD8vM4KYc9f4IW8dvI=
+=aAmM
 -----END PGP SIGNATURE-----
 
---MnLPg7ZWsaic7Fhd--
+--LKTjZJSUETSlgu2t--
